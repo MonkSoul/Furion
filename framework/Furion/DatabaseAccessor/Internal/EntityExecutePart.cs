@@ -32,6 +32,6 @@ namespace Furion.DatabaseAccessor
         /// <summary>
         /// 数据库上下文执行作用域
         /// </summary>
-        public IServiceProvider ContextScoped { get; private set; }
+        public IServiceProvider ContextScoped { get; private set; } = App.HttpContext?.RequestServices;
     }
 }

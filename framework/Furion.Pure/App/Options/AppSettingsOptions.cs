@@ -8,6 +8,7 @@
 
 using Furion.ConfigurableOptions;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
 using System;
 
 namespace Furion
@@ -74,8 +75,9 @@ namespace Furion
         /// <param name="configuration"></param>
         public void PostConfigure(AppSettingsOptions options, IConfiguration configuration)
         {
-            // 非 Web 环境总是 false
-            if (App.WebHostEnvironment == default) options.InjectMiniProfiler = false;
+            // 非 Web 环境总是 false，如果是生产环境且不配置 InjectMiniProfiler，默认总是false，MiniProfiler 生产环境耗内存
+            if (App.WebHostEnvironment == default
+                || (App.HostEnvironment.IsProduction() && options.InjectMiniProfiler == null)) options.InjectMiniProfiler = false;
             else options.InjectMiniProfiler ??= true;
 
             options.EnabledDistributedMemoryCache ??= true;
