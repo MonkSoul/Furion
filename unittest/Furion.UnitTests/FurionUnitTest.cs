@@ -1,17 +1,9 @@
-using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 
 namespace Furion.UnitTests
 {
     public class FurionUnitTest
     {
-        public FurionUnitTest()
-        {
-            // 单元测试依赖注入初始化
-            var services = Inject.Create();
-            services.Build();
-        }
-
         [Fact]
         public void TestRootService()
         {
