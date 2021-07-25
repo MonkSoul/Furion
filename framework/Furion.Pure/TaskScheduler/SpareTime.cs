@@ -208,7 +208,7 @@ namespace Furion.TaskScheduler
                 currentRecord.Timer.Tally = timer.Tally = currentRecord.CronActualTally;
 
                 // 只有时间相等才触发
-                var interval = (nextLocalTime.Value - DateTimeOffset.UtcNow).TotalSeconds;
+                var interval = (nextLocalTime.Value - DateTimeOffset.UtcNow.ToLocalTime()).TotalSeconds;
                 if (Math.Floor(interval) != 0)
                 {
                     UpdateWorkerRecord(workerName, currentRecord);
@@ -484,7 +484,7 @@ namespace Furion.TaskScheduler
             if (nextLocalTime == null) return;
 
             // 只有时间相等才触发
-            var interval = (nextLocalTime.Value - DateTimeOffset.UtcNow).TotalSeconds;
+            var interval = (nextLocalTime.Value - DateTimeOffset.UtcNow.ToLocalTime()).TotalSeconds;
             if (Math.Floor(interval) != 0) return;
 
             // 开启不阻塞执行
@@ -618,7 +618,7 @@ namespace Furion.TaskScheduler
             var cronExpression = CronExpression.Parse(realExpression, cronFormat.Value);
 
             // 获取下一个执行时间
-            var nextTime = cronExpression.GetNextOccurrence(DateTimeOffset.UtcNow, TimeZoneInfo.Utc);
+            var nextTime = cronExpression.GetNextOccurrence(DateTimeOffset.UtcNow, TimeZoneInfo.Local);
             return nextTime;
         }
 
