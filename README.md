@@ -27,10 +27,11 @@
 - 极易维护：采用独特的架构思想，只为长久维护设计
 - 完整文档：提供完善的开发文档
 
-## 文档手册
+## 视频文档
 
-- 国内文档：[https://dotnetchina.gitee.io/furion](https://dotnetchina.gitee.io/furion)
+- **国内文档**：[https://dotnetchina.gitee.io/furion](https://dotnetchina.gitee.io/furion)
 - 国外文档：[https://furion.pro](https://furion.pro)
+- 视频教程：[https://space.bilibili.com/695987967](https://space.bilibili.com/695987967)
 
 ## 开源地址
 
