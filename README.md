@@ -27,7 +27,7 @@
 - 极易维护：采用独特的架构思想，只为长久维护设计
 - 完整文档：提供完善的开发文档
 
-## 视频文档
+## 文档视频
 
 - **国内文档**：[https://dotnetchina.gitee.io/furion](https://dotnetchina.gitee.io/furion)
 - 国外文档：[https://furion.pro](https://furion.pro)
