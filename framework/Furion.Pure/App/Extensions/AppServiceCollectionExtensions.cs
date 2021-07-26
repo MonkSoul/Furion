@@ -222,7 +222,7 @@ namespace Microsoft.Extensions.DependencyInjection
                     services.AddMiniProfiler(options =>
                     {
                         options.RouteBasePath = MiniProfilerRouteBasePath;
-                        (options.Storage as MemoryCacheStorage).CacheDuration = TimeSpan.FromSeconds(1);
+                        (options.Storage as MemoryCacheStorage).CacheDuration = TimeSpan.FromSeconds(3);
                         options.EnableMvcFilterProfiling = false;
                         options.EnableMvcViewProfiling = false;
                     });
