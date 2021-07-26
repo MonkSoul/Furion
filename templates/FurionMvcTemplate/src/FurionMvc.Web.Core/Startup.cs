@@ -11,7 +11,7 @@ namespace FurionMvc.Web.Core
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews()
-                        .AddInjectBase(false);
+                        .AddInjectBase();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
