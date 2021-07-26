@@ -828,6 +828,8 @@ services.AddRemoteRequest(options=>
     })
     .ConfigurePrimaryHttpMessageHandler(u => new HttpClientHandler
     {
+        // 忽略 SSL 不安全检查，或 https 不安全或 https 证书有误
+        ServerCertificateCustomValidationCallback = (_, _, _, _) => true,
         ClientCertificateOptions = ClientCertificateOption.Manual,
         ClientCertificates = {
             new X509Certificate2("...","..."),
