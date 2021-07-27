@@ -84,13 +84,12 @@ namespace Furion.DataValidation
             // 解析验证消息
             var validationMetadata = ValidatorContext.GetValidationMetadata(modelState);
 
-            // 判断是否跳过规范化结果
-            if (UnifyContext.CheckFailedNonUnify(actionDescriptor.MethodInfo, out var unifyResult))
+            // 判断是否跳过规范化结果，如果跳过，返回 400 BadRequestResult
+            if (UnifyContext.CheckFailedNonUnify(actionDescriptor.MethodInfo, out var unifyResult)) context.Result = new BadRequestResult();
+            else
             {
-                // 返回 400 状态码
-                context.Result = new BadRequestObjectResult(modelState);
+                context.Result = unifyResult.OnValidateFailed(context, validationMetadata);
             }
-            else context.Result = unifyResult.OnValidateFailed(context, validationMetadata);
 
             // 打印验证失败信息
             App.PrintToMiniProfiler(MiniProfilerCategory, "Failed", $"Validation Failed:\r\n{validationMetadata.Message}", true);

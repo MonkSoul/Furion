@@ -32,9 +32,6 @@ namespace Microsoft.AspNetCore.Mvc.Filters
         /// <returns></returns>
         public async Task OnExceptionAsync(ExceptionContext context)
         {
-            // 如果异常在其他地方被标记了处理，那么这里不再处理
-            if (context.ExceptionHandled) return;
-
             // 解析异常处理服务，实现自定义异常额外操作，如记录日志等
             var globalExceptionHandler = App.RootServices.GetService<IGlobalExceptionHandler>();
             if (globalExceptionHandler != null)
@@ -42,21 +39,20 @@ namespace Microsoft.AspNetCore.Mvc.Filters
                 await globalExceptionHandler.OnExceptionAsync(context);
             }
 
+            // 如果异常在其他地方被标记了处理，那么这里不再处理
+            if (context.ExceptionHandled) return;
+
             // 获取控制器信息
             var actionDescriptor = context.ActionDescriptor as ControllerActionDescriptor;
 
-            // 解析异常信息
-            var exceptionMetadata = UnifyContext.GetExceptionMetadata(context);
-
-            // 判断是否跳过规范化结果
-            if (UnifyContext.CheckFailedNonUnify(actionDescriptor.MethodInfo, out var unifyResult))
+            // 判断是否跳过规范化结果，如果跳过，返回 400 BadRequestResult
+            if (UnifyContext.CheckFailedNonUnify(actionDescriptor.MethodInfo, out var unifyResult)) context.Result = new BadRequestResult();
+            else
             {
-                context.Result = new BadRequestObjectResult(exceptionMetadata.Errors)
-                {
-                    StatusCode = exceptionMetadata.StatusCode
-                };
+                // 解析异常信息
+                var exceptionMetadata = UnifyContext.GetExceptionMetadata(context);
+                context.Result = unifyResult.OnException(context, exceptionMetadata);
             }
-            else context.Result = unifyResult.OnException(context, exceptionMetadata);
 
             // 判断异常消息是否是验证异常（比如数据验证异常，业务抛出异常）
             if (context.Exception is AppFriendlyException friendlyException && friendlyException.ValidationException)
