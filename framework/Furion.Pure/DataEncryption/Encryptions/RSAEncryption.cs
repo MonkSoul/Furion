@@ -47,10 +47,7 @@ namespace Furion.DataEncryption
             rsa.FromXmlString(publicKey);
 
             var encryptedData = rsa.Encrypt(Encoding.Default.GetBytes(text), false);
-            string encryptedContent;
-            encryptedContent = Convert.ToBase64String(encryptedData);
-
-            return encryptedContent;
+            return Convert.ToBase64String(encryptedData);
         }
 
         /// <summary>
@@ -68,10 +65,7 @@ namespace Furion.DataEncryption
             rsa.FromXmlString(privateKey);
 
             var decryptedData = rsa.Decrypt(Convert.FromBase64String(text), false);
-
-            string decryptedContent;
-            decryptedContent = Encoding.Default.GetString(decryptedData);
-            return decryptedContent;
+            return Encoding.Default.GetString(decryptedData);
         }
 
         /// <summary>
