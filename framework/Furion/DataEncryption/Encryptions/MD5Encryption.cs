@@ -8,7 +8,6 @@
 
 using Furion.DependencyInjection;
 using System;
-using System.Reflection;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -20,28 +19,6 @@ namespace Furion.DataEncryption
     [SuppressSniffer]
     public static unsafe class MD5Encryption
     {
-        private const uint LOWERCASING = 0x2020U;
-
-        private const uint UPPERCASING = 0;
-
-        private static readonly delegate* managed<ReadOnlySpan<byte>, Span<char>, uint, void> _EncodeToUtf16Ptr;
-
-        [ThreadStatic]
-        private static MD5 instance;
-
-        /// <summary>
-        /// MD5实例
-        /// </summary>
-        public static MD5 Instance => instance ??= MD5.Create();
-
-        /// <summary>
-        /// 静态构造函数
-        /// </summary>
-        static MD5Encryption()
-        {
-            _EncodeToUtf16Ptr = (delegate* managed<ReadOnlySpan<byte>, Span<char>, uint, void>)typeof(uint).Assembly.GetType("System.HexConverter").GetMethod("EncodeToUtf16", BindingFlags.Static | BindingFlags.Public).MethodHandle.GetFunctionPointer();
-        }
-
         /// <summary>
         /// 字符串 MD5 比较
         /// </summary>
@@ -63,13 +40,17 @@ namespace Furion.DataEncryption
         /// <returns></returns>
         public static string Encrypt(string text, bool uppercase = false)
         {
-            return string.Create(32, text, (p, q) =>
-           {
-               var buffer = Encoding.UTF8.GetBytes(q);
-               Span<byte> signed = stackalloc byte[16];
-               Instance.TryComputeHash(buffer, signed, out _);
-               _EncodeToUtf16Ptr(signed, p, !uppercase ? LOWERCASING : UPPERCASING);
-           });
+            using var md5Hash = MD5.Create();
+            var data = md5Hash.ComputeHash(Encoding.UTF8.GetBytes(text));
+
+            var stringBuilder = new StringBuilder();
+            for (var i = 0; i < data.Length; i++)
+            {
+                stringBuilder.Append(data[i].ToString("x2"));
+            }
+
+            var hash = stringBuilder.ToString();
+            return !uppercase ? hash : hash.ToUpper();
         }
     }
 }
