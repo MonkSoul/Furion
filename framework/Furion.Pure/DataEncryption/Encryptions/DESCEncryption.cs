@@ -8,6 +8,7 @@
 
 using Furion.DependencyInjection;
 using System;
+using System.IO;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -35,7 +36,7 @@ namespace Furion.DataEncryption
             des.Key = Encoding.ASCII.GetBytes(MD5Encryption.Encrypt(skey, uppercase).Substring(0, 8));
             des.IV = Encoding.ASCII.GetBytes(MD5Encryption.Encrypt(skey, uppercase).Substring(0, 8));
 
-            using var ms = new System.IO.MemoryStream();
+            using var ms = new MemoryStream();
             using var cs = new CryptoStream(ms, des.CreateEncryptor(), CryptoStreamMode.Write);
 
             cs.Write(inputByteArray, 0, inputByteArray.Length);
@@ -74,7 +75,7 @@ namespace Furion.DataEncryption
             des.Key = Encoding.ASCII.GetBytes(MD5Encryption.Encrypt(skey, uppercase).Substring(0, 8));
             des.IV = Encoding.ASCII.GetBytes(MD5Encryption.Encrypt(skey, uppercase).Substring(0, 8));
 
-            using var ms = new System.IO.MemoryStream();
+            using var ms = new MemoryStream();
             using var cs = new CryptoStream(ms, des.CreateDecryptor(), CryptoStreamMode.Write);
 
             cs.Write(inputByteArray, 0, inputByteArray.Length);
