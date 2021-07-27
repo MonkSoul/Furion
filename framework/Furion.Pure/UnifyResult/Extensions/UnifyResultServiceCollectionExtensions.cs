@@ -65,8 +65,11 @@ namespace Microsoft.Extensions.DependencyInjection
         public static IServiceCollection AddUnifyResult<TUnifyResultProvider>(this IServiceCollection services)
             where TUnifyResultProvider : class, IUnifyResultProvider
         {
+            // 添加配置
+            services.AddConfigurableOptions<UnifyResultSettingsOptions>();
+
             // 是否启用规范化结果
-            UnifyContext.IsEnabledUnifyHandle = true;
+            UnifyContext.EnabledUnifyHandler = true;
 
             // 获取规范化提供器模型
             UnifyContext.RESTfulResultType = typeof(TUnifyResultProvider).GetCustomAttribute<UnifyModelAttribute>().ModelType;

@@ -169,7 +169,7 @@ namespace Furion.DynamicApiController
             ConfigureActionRouteAttribute(action, apiDescriptionSettings, controllerApiDescriptionSettings, isLowercaseRoute, isKeepName, hasApiControllerAttribute);
 
             // 配置动作方法规范化特性
-            if (UnifyContext.IsEnabledUnifyHandle) ConfigureActionUnifyResultAttribute(action);
+            if (UnifyContext.EnabledUnifyHandler) ConfigureActionUnifyResultAttribute(action);
         }
 
         /// <summary>

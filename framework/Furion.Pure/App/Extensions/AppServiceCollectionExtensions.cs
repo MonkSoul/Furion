@@ -215,18 +215,7 @@ namespace Microsoft.Extensions.DependencyInjection
             {
                 // 添加 HttContext 访问器
                 services.AddHttpContextAccessor();
-
-                // 注册MiniProfiler 组件
-                if (appSettings.InjectMiniProfiler == true)
-                {
-                    services.AddMiniProfiler(options =>
-                    {
-                        options.RouteBasePath = MiniProfilerRouteBasePath;
-                        (options.Storage as MemoryCacheStorage).CacheDuration = TimeSpan.FromSeconds(3);
-                        options.EnableMvcFilterProfiling = false;
-                        options.EnableMvcViewProfiling = false;
-                    });
-                }
+                AddMiniProfiler(services, appSettings);
             }
 
             // 自定义服务
@@ -279,6 +268,33 @@ namespace Microsoft.Extensions.DependencyInjection
         private static int GetStartupOrder(Type type)
         {
             return !type.IsDefined(typeof(AppStartupAttribute), true) ? 0 : type.GetCustomAttribute<AppStartupAttribute>(true).Order;
+        }
+
+        /// <summary>
+        /// 添加 MiniProfiler 配置
+        /// </summary>
+        /// <param name="services"></param>
+        /// <param name="appSettings"></param>
+        private static void AddMiniProfiler(IServiceCollection services, AppSettingsOptions appSettings)
+        {
+            // 注册MiniProfiler 组件
+            if (appSettings.InjectMiniProfiler == true)
+            {
+                services.AddMiniProfiler(options =>
+                {
+                    options.RouteBasePath = MiniProfilerRouteBasePath;
+                    (options.Storage as MemoryCacheStorage).CacheDuration = TimeSpan.FromSeconds(3);
+                    options.EnableMvcFilterProfiling = false;
+                    options.EnableMvcViewProfiling = false;
+
+                    // 配置只有从 swagger 请求才启用
+                    options.ShouldProfile = request =>
+                    {
+                        if (request.Headers["request-from"] == "swagger") return true;
+                        return false;
+                    };
+                });
+            }
         }
     }
 }

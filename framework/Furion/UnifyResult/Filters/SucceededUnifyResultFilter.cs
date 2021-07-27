@@ -45,34 +45,38 @@ namespace Furion.UnifyResult
             // 获取控制器信息
             var actionDescriptor = context.ActionDescriptor as ControllerActionDescriptor;
 
-            // 如果没有异常再执行
-            if (actionExecutedContext.Exception == null && !UnifyContext.CheckSucceededNonUnify(actionDescriptor.MethodInfo, out var unifyResult))
+            // 判断是否支持 MVC 规范化处理
+            if (!UnifyContext.CheckSupportMvcController(context.HttpContext, actionDescriptor, out _)) return;
+
+            // 判断是否跳过规范化处理
+            if (UnifyContext.CheckSucceededNonUnify(actionDescriptor.MethodInfo, out var unifyResult)) return;
+
+            // 处理 BadRequestObjectResult 类型规范化处理
+            if (actionExecutedContext.Result is BadRequestObjectResult badRequestObjectResult)
             {
-                if (unifyResult == null) return;
+                // 解析验证消息
+                var validationMetadata = ValidatorContext.GetValidationMetadata(badRequestObjectResult.Value);
 
-                // 处理 BadRequestObjectResult 验证结果
-                if (actionExecutedContext.Result is BadRequestObjectResult badRequestObjectResult)
+                var result = unifyResult.OnValidateFailed(context, validationMetadata);
+                if (result != null) actionExecutedContext.Result = result;
+
+                // 打印验证失败信息
+                App.PrintToMiniProfiler("validation", "Failed", $"Validation Failed:\r\n{validationMetadata.Message}", true);
+            }
+            else
+            {
+                IActionResult result = default;
+
+                // 检查是否是有效的结果（可进行规范化的结果）
+                if (UnifyContext.CheckVaildResult(actionExecutedContext.Result, out var data))
                 {
-                    // 解析验证消息
-                    var validationMetadata = ValidatorContext.GetValidationMetadata(badRequestObjectResult.Value);
-
-                    var result = unifyResult.OnValidateFailed(context, validationMetadata);
-                    if (result != null) actionExecutedContext.Result = result;
-
-                    // 打印验证失败信息
-                    App.PrintToMiniProfiler("validation", "Failed", $"Validation Failed:\r\n{validationMetadata.Message}", true);
+                    result = unifyResult.OnSucceeded(actionExecutedContext, data);
                 }
-                else
-                {
-                    IActionResult result = default;
 
-                    // 检查是否是有效的结果（可进行规范化的结果）
-                    if (UnifyContext.CheckVaildResult(actionExecutedContext.Result, out var data))
-                    {
-                        result = unifyResult.OnSucceeded(actionExecutedContext, data);
-                    }
-                    if (result != null) actionExecutedContext.Result = result;
-                }
+                // 如果是不能规范化的结果类型，则跳过
+                if (result == null) return;
+
+                actionExecutedContext.Result = result;
             }
         }
     }

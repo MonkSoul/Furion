@@ -11,7 +11,6 @@ using Furion.UnifyResult;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.Filters;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace Furion.DataValidation
 {
@@ -49,10 +48,10 @@ namespace Furion.DataValidation
         {
             // 获取控制器/方法信息
             var actionDescriptor = context.ActionDescriptor as ControllerActionDescriptor;
-            var method = actionDescriptor.MethodInfo;
 
             // 跳过验证类型
             var nonValidationAttributeType = typeof(NonValidationAttribute);
+            var method = actionDescriptor.MethodInfo;
 
             // 如果参数为 0或贴了 [NonValidation] 特性 或所在类型贴了 [NonValidation] 特性，则跳过验证
             if (actionDescriptor.Parameters.Count == 0 ||
@@ -65,22 +64,9 @@ namespace Furion.DataValidation
             // 判断是否验证成功
             if (modelState.IsValid) return;
 
-            // 返回验证失败结果
-            if (context.Result == null && !modelState.IsValid)
-            {
-                // 设置验证失败结果
-                SetValidateFailedResult(context, modelState, actionDescriptor);
-            }
-        }
+            // 如果其他过滤器已经设置了结果，那么跳过
+            if (context.Result != null) return;
 
-        /// <summary>
-        /// 设置验证失败结果
-        /// </summary>
-        /// <param name="context">动作方法执行上下文</param>
-        /// <param name="modelState">模型验证状态</param>
-        /// <param name="actionDescriptor"></param>
-        private static void SetValidateFailedResult(ActionExecutingContext context, ModelStateDictionary modelState, ControllerActionDescriptor actionDescriptor)
-        {
             // 解析验证消息
             var validationMetadata = ValidatorContext.GetValidationMetadata(modelState);
 
@@ -88,6 +74,9 @@ namespace Furion.DataValidation
             if (UnifyContext.CheckFailedNonUnify(actionDescriptor.MethodInfo, out var unifyResult)) context.Result = new BadRequestResult();
             else
             {
+                // 判断是否支持 MVC 规范化处理
+                if (!UnifyContext.CheckSupportMvcController(context.HttpContext, actionDescriptor, out _)) return;
+
                 context.Result = unifyResult.OnValidateFailed(context, validationMetadata);
             }
 

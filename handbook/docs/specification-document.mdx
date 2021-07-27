@@ -863,6 +863,16 @@ services.AddInject(options =>
         });
 ```
 
+### 6.5.27 配置 `MVC` 控制器支持规范化处理
+
+```json
+{
+  "UnifyResultSettings": {
+    "SupportMvcController": true
+  }
+}
+```
+
 ## 6.6 `SpecificationDocumentSettings` 配置
 
 除了上述例子外，`Furion` 提供了一些配置选项，如：
@@ -983,12 +993,12 @@ namespace Furion.UnifyResult
         /// </summary>
         /// <param name="context"></param>
         /// <param name="statusCode"></param>
-        /// <param name="options"></param>
+        /// <param name="unifyResultSettings"></param>
         /// <returns></returns>
-        public async Task OnResponseStatusCodes(HttpContext context, int statusCode, UnifyResultStatusCodesOptions options)
+        public async Task OnResponseStatusCodes(HttpContext context, int statusCode, UnifyResultSettingsOptions unifyResultSettings)
         {
             // 设置响应状态码
-            UnifyContext.SetResponseStatusCodes(context, statusCode, options);
+            UnifyContext.SetResponseStatusCodes(context, statusCode, unifyResultSettings);
 
             switch (statusCode)
             {
@@ -1050,11 +1060,6 @@ public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
     }
     // 添加规范化结果状态码，需要在这里注册
     app.UseUnifyResultStatusCodes();
-    // 或者更多配置
-    // app.UseUnifyResultStatusCodes(options => {
-    //    options.Return200StatusCodes = new [] { 401, 403, 404 }; // 配置返回 200 的状态码
-    //    options.AdaptStatusCodes = new Dictionary() { { 403, 401, 404 } }; // 配置状态码转换自定义状态码（只支持短路状态码）
-    // }, true);
     // 其他注册...
 }
 ```

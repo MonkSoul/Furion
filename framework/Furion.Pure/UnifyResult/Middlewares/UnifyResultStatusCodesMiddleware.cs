@@ -8,6 +8,8 @@
 
 using Furion.DependencyInjection;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using System.Threading.Tasks;
 
 namespace Furion.UnifyResult
@@ -24,19 +26,12 @@ namespace Furion.UnifyResult
         private readonly RequestDelegate _next;
 
         /// <summary>
-        /// 配置选项
-        /// </summary>
-        private readonly UnifyResultStatusCodesOptions _options;
-
-        /// <summary>
         /// 构造函数
         /// </summary>
         /// <param name="next"></param>
-        /// <param name="options"></param>
-        public UnifyResultStatusCodesMiddleware(RequestDelegate next, UnifyResultStatusCodesOptions options)
+        public UnifyResultStatusCodesMiddleware(RequestDelegate next)
         {
             _next = next;
-            _options = options;
         }
 
         /// <summary>
@@ -54,7 +49,7 @@ namespace Furion.UnifyResult
             // 处理规范化结果
             if (!UnifyContext.CheckStatusCodeNonUnify(context, out var unifyResult))
             {
-                await unifyResult.OnResponseStatusCodes(context, context.Response.StatusCode, _options);
+                await unifyResult.OnResponseStatusCodes(context, context.Response.StatusCode, context.RequestServices.GetService<IOptions<UnifyResultSettingsOptions>>()?.Value);
             }
         }
     }

@@ -19,6 +19,7 @@ using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using System;
 using System.Linq;
 using System.Reflection;
@@ -34,7 +35,7 @@ namespace Furion.UnifyResult
         /// <summary>
         /// 是否启用规范化结果
         /// </summary>
-        internal static bool IsEnabledUnifyHandle = false;
+        internal static bool EnabledUnifyHandler = false;
 
         /// <summary>
         /// 规范化结果类型
@@ -130,24 +131,24 @@ namespace Furion.UnifyResult
         /// </summary>
         /// <param name="context"></param>
         /// <param name="statusCode"></param>
-        /// <param name="options"></param>
-        public static void SetResponseStatusCodes(HttpContext context, int statusCode, UnifyResultStatusCodesOptions options)
+        /// <param name="unifyResultSettings"></param>
+        public static void SetResponseStatusCodes(HttpContext context, int statusCode, UnifyResultSettingsOptions unifyResultSettings)
         {
             // 篡改响应状态码
-            if (options.AdaptStatusCodes != null && options.AdaptStatusCodes.Count > 0)
+            if (unifyResultSettings.AdaptStatusCodes != null && unifyResultSettings.AdaptStatusCodes.Length > 0)
             {
-                var adaptStatusCode = options.AdaptStatusCodes.FirstOrDefault(u => u.Key == statusCode);
-                if (adaptStatusCode.Key > 0)
+                var adaptStatusCode = unifyResultSettings.AdaptStatusCodes.FirstOrDefault(u => u[0] == statusCode);
+                if (adaptStatusCode[0] > 0)
                 {
-                    context.Response.StatusCode = adaptStatusCode.Value;
+                    context.Response.StatusCode = adaptStatusCode[1];
                     return;
                 }
             }
 
             // 如果为 null，则所有请求错误的状态码设置为 200
-            if (options.Return200StatusCodes == null) context.Response.StatusCode = 200;
+            if (unifyResultSettings.Return200StatusCodes == null) context.Response.StatusCode = 200;
             // 否则只有里面的才设置为 200
-            else if (options.Return200StatusCodes.Contains(statusCode)) context.Response.StatusCode = 200;
+            else if (unifyResultSettings.Return200StatusCodes.Contains(statusCode)) context.Response.StatusCode = 200;
             else { }
         }
 
@@ -161,7 +162,7 @@ namespace Furion.UnifyResult
         internal static bool CheckSucceededNonUnify(MethodInfo method, out IUnifyResultProvider unifyResult, bool isWebRequest = true)
         {
             // 判断是否跳过规范化处理
-            var isSkip = !IsEnabledUnifyHandle
+            var isSkip = !EnabledUnifyHandler
                   || method.GetRealReturnType().HasImplementedRawGeneric(RESTfulResultType)
                   || method.CustomAttributes.Any(x => typeof(NonUnifyAttribute).IsAssignableFrom(x.AttributeType) || typeof(ProducesResponseTypeAttribute).IsAssignableFrom(x.AttributeType) || typeof(IApiResponseMetadataProvider).IsAssignableFrom(x.AttributeType))
                   || method.ReflectedType.IsDefined(typeof(NonUnifyAttribute), true);
@@ -185,7 +186,7 @@ namespace Furion.UnifyResult
         internal static bool CheckFailedNonUnify(MethodInfo method, out IUnifyResultProvider unifyResult)
         {
             // 判断是否跳过规范化处理
-            var isSkip = !IsEnabledUnifyHandle
+            var isSkip = !EnabledUnifyHandler
                     || method.CustomAttributes.Any(x => typeof(NonUnifyAttribute).IsAssignableFrom(x.AttributeType))
                     || (
                             !method.CustomAttributes.Any(x => typeof(ProducesResponseTypeAttribute).IsAssignableFrom(x.AttributeType) || typeof(IApiResponseMetadataProvider).IsAssignableFrom(x.AttributeType))
@@ -209,12 +210,30 @@ namespace Furion.UnifyResult
             if (endpointFeature == null) return (unifyResult = null) == null;
 
             // 判断是否跳过规范化处理
-            var isSkip = !IsEnabledUnifyHandle
+            var isSkip = !EnabledUnifyHandler
                     || context.GetMetadata<NonUnifyAttribute>() != null
                     || endpointFeature?.Endpoint?.Metadata?.GetMetadata<NonUnifyAttribute>() != null;
 
             unifyResult = isSkip ? null : context.RequestServices.GetService<IUnifyResultProvider>();
             return unifyResult == null || isSkip;
+        }
+
+        /// <summary>
+        /// 判断是否支持 Mvc 控制器规范化处理
+        /// </summary>
+        /// <param name="httpContext"></param>
+        /// <param name="actionDescriptor"></param>
+        /// <param name="unifyResultSettings"></param>
+        /// <returns></returns>
+        internal static bool CheckSupportMvcController(HttpContext httpContext, ControllerActionDescriptor actionDescriptor, out UnifyResultSettingsOptions unifyResultSettings)
+        {
+            // 获取规范化配置选项
+            unifyResultSettings = httpContext.RequestServices.GetService<IOptions<UnifyResultSettingsOptions>>()?.Value;
+
+            // 如果未启用 MVC 规范化处理，则跳过
+            if (unifyResultSettings?.SupportMvcController == false && typeof(Controller).IsAssignableFrom(actionDescriptor.ControllerTypeInfo)) return false;
+
+            return true;
         }
 
         /// <summary>

@@ -233,6 +233,10 @@ module.exports = {
       type: "doc",
       id: "settings/jwtsettings",
     },
+    {
+      type: "doc",
+      id: "settings/unifyresultsettings",
+    },
   ],
   global: [
     {

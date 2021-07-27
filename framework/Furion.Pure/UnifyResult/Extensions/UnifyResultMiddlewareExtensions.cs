@@ -8,7 +8,6 @@
 
 using Furion.DependencyInjection;
 using Furion.UnifyResult;
-using System;
 
 namespace Microsoft.AspNetCore.Builder
 {
@@ -22,16 +21,11 @@ namespace Microsoft.AspNetCore.Builder
         /// 添加状态码拦截中间件
         /// </summary>
         /// <param name="builder"></param>
-        /// <param name="optionsBuilder"></param>
         /// <returns></returns>
-        public static IApplicationBuilder UseUnifyResultStatusCodes(this IApplicationBuilder builder, Action<UnifyResultStatusCodesOptions> optionsBuilder = default)
+        public static IApplicationBuilder UseUnifyResultStatusCodes(this IApplicationBuilder builder)
         {
-            // 获取配置
-            var unifyResultStatusCodesOptions = new UnifyResultStatusCodesOptions();
-            optionsBuilder?.Invoke(unifyResultStatusCodesOptions);
-
             // 注册中间件
-            builder.UseMiddleware<UnifyResultStatusCodesMiddleware>(unifyResultStatusCodesOptions);
+            builder.UseMiddleware<UnifyResultStatusCodesMiddleware>();
 
             return builder;
         }

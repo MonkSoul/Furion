@@ -45,20 +45,41 @@ namespace Microsoft.AspNetCore.Mvc.Filters
             // 获取控制器信息
             var actionDescriptor = context.ActionDescriptor as ControllerActionDescriptor;
 
-            // 判断是否跳过规范化结果，如果跳过，返回 400 BadRequestResult
-            if (UnifyContext.CheckFailedNonUnify(actionDescriptor.MethodInfo, out var unifyResult)) context.Result = new BadRequestResult();
+            // 解析异常信息
+            var exceptionMetadata = UnifyContext.GetExceptionMetadata(context);
+
+            // 判断是否是验证异常
+            var isValidationException = context.Exception is AppFriendlyException friendlyException && friendlyException.ValidationException;
+
+            // 判断是否跳过规范化结果，如果是，则只处理为友好异常消息
+            if (UnifyContext.CheckFailedNonUnify(actionDescriptor.MethodInfo, out var unifyResult))
+            {
+                // 如果是验证异常，返回 400
+                if (isValidationException) context.Result = new BadRequestResult();
+                else
+                {
+                    // 返回友好异常
+                    context.Result = new ContentResult()
+                    {
+                        Content = exceptionMetadata.Errors.ToString(),
+                        StatusCode = exceptionMetadata.StatusCode
+                    };
+                }
+            }
             else
             {
-                // 解析异常信息
-                var exceptionMetadata = UnifyContext.GetExceptionMetadata(context);
+                // 判断是否支持 MVC 规范化处理
+                if (!UnifyContext.CheckSupportMvcController(context.HttpContext, actionDescriptor, out _)) return;
+
+                // 执行规范化异常处理
                 context.Result = unifyResult.OnException(context, exceptionMetadata);
             }
 
             // 判断异常消息是否是验证异常（比如数据验证异常，业务抛出异常）
-            if (context.Exception is AppFriendlyException friendlyException && friendlyException.ValidationException)
+            if (isValidationException)
             {
                 // 解析验证消息
-                var validationMetadata = ValidatorContext.GetValidationMetadata(friendlyException.ErrorMessage);
+                var validationMetadata = ValidatorContext.GetValidationMetadata((context.Exception as AppFriendlyException).ErrorMessage);
 
                 App.PrintToMiniProfiler("Validation", "Failed", $"Validation Failed:\r\n{validationMetadata.Message}", true);
             }

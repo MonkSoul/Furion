@@ -588,12 +588,12 @@ namespace Furion.UnifyResult
         /// </summary>
         /// <param name="context"></param>
         /// <param name="statusCode"></param>
-        /// <param name="options"></param>
+        /// <param name="unifyResultSettings"></param>
         /// <returns></returns>
-        public async Task OnResponseStatusCodes(HttpContext context, int statusCode, UnifyResultStatusCodesOptions options)
+        public async Task OnResponseStatusCodes(HttpContext context, int statusCode, UnifyResultSettingsOptions unifyResultSettings)
         {
             // 设置响应状态码
-            UnifyContext.SetResponseStatusCodes(context, statusCode, options);
+            UnifyContext.SetResponseStatusCodes(context, statusCode, unifyResultSettings);
 
             switch (statusCode)
             {

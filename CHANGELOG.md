@@ -4,8 +4,9 @@
 
   - [新增] `Db.GetDbRepository<定位器>()` 静态方法 [#I41MZP](https://gitee.com/dotnetchina/Furion/issues/I41MZP)
   - [新增] 远程请求缺省序列化配置选项 [#I41PBW](https://gitee.com/dotnetchina/Furion/issues/I41PBW)
-  - [新增] `MVC` 控制器支持规范化处理 [#I427Z2](https://gitee.com/dotnetchina/Furion/issues/I427Z2)
+  - [新增] **`MVC` 控制器支持规范化处理 [#I427Z2](https://gitee.com/dotnetchina/Furion/issues/I427Z2)**
   - [新增] `throw Oops.Bah()` 抛出业务异常（状态码 400）
+  - [新增] `UnifyResultSettings` 规范化 `json` 配置选项 [#I42NY7](https://gitee.com/dotnetchina/Furion/issues/I42NY7)
 
 - **突破性变化**
 
@@ -69,12 +70,12 @@ namespace Furion.UnifyResult
         /// </summary>
         /// <param name="context"></param>
         /// <param name="statusCode"></param>
-        /// <param name="options"></param>
+        /// <param name="unifyResultSettings"></param>
         /// <returns></returns>
-        public async Task OnResponseStatusCodes(HttpContext context, int statusCode, UnifyResultStatusCodesOptions options)
+        public async Task OnResponseStatusCodes(HttpContext context, int statusCode, UnifyResultSettingsOptions unifyResultSettings)
         {
             // 设置响应状态码
-            UnifyContext.SetResponseStatusCodes(context, statusCode, options);
+            UnifyContext.SetResponseStatusCodes(context, statusCode, unifyResultSettings);
 
             switch (statusCode)
             {
@@ -129,6 +130,7 @@ namespace Furion.UnifyResult
 
   - [优化] **系统启动性能，从 106M 减少到 84M**
   - [优化] **大量底层代码，包大小从 391Kb 减少到 350Kb（不带注释版本仅 64Kb）**
+  - [优化] `MiniProfiler` 性能
 
 ---
 
