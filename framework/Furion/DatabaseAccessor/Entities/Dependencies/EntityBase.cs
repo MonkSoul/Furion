@@ -10,7 +10,6 @@ using Furion.DependencyInjection;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Text.Json.Serialization;
 
 namespace Furion.DatabaseAccessor
 {
@@ -192,7 +191,8 @@ namespace Furion.DatabaseAccessor
         /// <summary>
         /// 租户Id
         /// </summary>
-        [JsonIgnore]
+        [Newtonsoft.Json.JsonIgnore]
+        [System.Text.Json.Serialization.JsonIgnore]
         public virtual Guid? TenantId { get; set; }
     }
 }
