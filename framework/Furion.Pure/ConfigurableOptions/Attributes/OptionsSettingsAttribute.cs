@@ -27,10 +27,10 @@ namespace Furion.ConfigurableOptions
         /// <summary>
         /// 构造函数
         /// </summary>
-        /// <param name="jsonKey">appsetting.json 对应键</param>
-        public OptionsSettingsAttribute(string jsonKey)
+        /// <param name="path">appsetting.json 对应键</param>
+        public OptionsSettingsAttribute(string path)
         {
-            Path = jsonKey;
+            Path = path;
         }
 
         /// <summary>

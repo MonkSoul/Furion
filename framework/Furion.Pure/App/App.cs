@@ -7,7 +7,6 @@
 // See the Mulan PSL v2 for more details.
 
 using Furion.DependencyInjection;
-using Furion.Extensions;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
@@ -24,6 +23,7 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.Loader;
 using System.Security.Claims;
+using System.Threading;
 
 namespace Furion
 {
@@ -240,7 +240,8 @@ namespace Furion
             if (Settings.InjectMiniProfiler != true) return;
 
             // 打印消息
-            var customTiming = MiniProfiler.Current?.CustomTiming(category, string.IsNullOrWhiteSpace(message) ? $"{category.ToTitleCase()} {state}" : message, state);
+            var titleCaseCategory = Thread.CurrentThread.CurrentCulture.TextInfo.ToTitleCase(category);
+            var customTiming = MiniProfiler.Current?.CustomTiming(category, string.IsNullOrWhiteSpace(message) ? $"{titleCaseCategory} {state}" : message, state);
             if (customTiming == null) return;
 
             // 判断是否是警告消息

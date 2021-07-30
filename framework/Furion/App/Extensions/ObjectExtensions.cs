@@ -8,14 +8,12 @@
 
 using Furion.DependencyInjection;
 using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text.Json;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace Furion.Extensions
@@ -194,16 +192,6 @@ namespace Furion.Extensions
         }
 
         /// <summary>
-        /// 首字母大写
-        /// </summary>
-        /// <param name="str"></param>
-        /// <returns></returns>
-        internal static string ToTitleCase(this string str)
-        {
-            return Thread.CurrentThread.CurrentCulture.TextInfo.ToTitleCase(str);
-        }
-
-        /// <summary>
         /// 将一个对象转换为指定类型
         /// </summary>
         /// <typeparam name="T"></typeparam>
@@ -307,19 +295,6 @@ namespace Furion.Extensions
             }
 
             return objType;
-        }
-
-        /// <summary>
-        /// 清空线程安全集合
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="list"></param>
-        internal static void Clear<T>(this ConcurrentBag<T> list)
-        {
-            while (!list.IsEmpty)
-            {
-                list.TryTake(out var _);
-            }
         }
 
         /// <summary>

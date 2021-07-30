@@ -24,11 +24,6 @@ namespace Microsoft.Extensions.DependencyInjection
     public static class AppServiceCollectionExtensions
     {
         /// <summary>
-        /// MiniProfiler 插件路径
-        /// </summary>
-        private const string MiniProfilerRouteBasePath = "/index-mini-profiler";
-
-        /// <summary>
         /// Mvc 注入基础配置（带Swagger）
         /// </summary>
         /// <param name="mvcBuilder">Mvc构建器</param>
@@ -282,7 +277,7 @@ namespace Microsoft.Extensions.DependencyInjection
             {
                 services.AddMiniProfiler(options =>
                 {
-                    options.RouteBasePath = MiniProfilerRouteBasePath;
+                    options.RouteBasePath = "/index-mini-profiler";
                     (options.Storage as MemoryCacheStorage).CacheDuration = TimeSpan.FromSeconds(3);
                     options.EnableMvcFilterProfiling = false;
                     options.EnableMvcViewProfiling = false;
