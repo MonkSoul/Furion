@@ -21,12 +21,10 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 :::
 
-## v2.15（当前版本）
+## v2.16（当前版本）
 
 - **新特性**
 
-  - [新增] `Db.GetDbRepository<定位器>()` 静态方法 [#I41MZP](https://gitee.com/dotnetchina/Furion/issues/I41MZP)
-  - [新增] 远程请求缺省序列化配置选项 [#I41PBW](https://gitee.com/dotnetchina/Furion/issues/I41PBW)
   - [新增] **`MVC` 控制器支持规范化处理 [#I427Z2](https://gitee.com/dotnetchina/Furion/issues/I427Z2)**
   - [新增] `throw Oops.Bah()` 抛出业务异常（状态码 400）
   - [新增] `UnifyResultSettings` 规范化 `json` 配置选项 [#I42NY7](https://gitee.com/dotnetchina/Furion/issues/I42NY7)
@@ -34,7 +32,7 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 - **突破性变化**
 
-  - [调整] 规范化结果 `IUnifyResultProvider` 参数 **（破坏性更改）** [#I427Z2](https://gitee.com/dotnetchina/Furion/issues/I427Z2)
+- [调整] 规范化结果 `IUnifyResultProvider` 参数 **（破坏性更改）** [#I427Z2](https://gitee.com/dotnetchina/Furion/issues/I427Z2)
 
 :::important 新版本自定义规范化结果
 
@@ -145,20 +143,35 @@ namespace Furion.UnifyResult
 
 - **问题修复**
 
+  - [修复] `MVC` 控制器启用规范化处理后返回 `new Json({})` 对象为 `null` 问题 [#I4354S](https://gitee.com/dotnetchina/Furion/issues/I4354S)
+
+- **其他更改**
+
+  - [优化] 多语言底层设计，取消需要创建 `Lang.cs` 空类的要求 [#I434YJ](https://gitee.com/dotnetchina/Furion/issues/I434YJ)
+  - [优化] `MiniProfiler` 性能，减少不必要的监听
+
+---
+
+## v2.15（已发布）
+
+- **新特性**
+
+  - [新增] `Db.GetDbRepository<定位器>()` 静态方法 [#I41MZP](https://gitee.com/dotnetchina/Furion/issues/I41MZP)
+  - [新增] 远程请求缺省序列化配置选项 [#I41PBW](https://gitee.com/dotnetchina/Furion/issues/I41PBW)
+
+- **问题修复**
+
   - [修复] 自动扫描接口进行依赖注入获取首个接口错误 bug [#I41D1M](https://gitee.com/dotnetchina/Furion/issues/I41D1M)
   - [修复] `IRepository<TEntity>` 没有实现 `IRepository<TEntity, TDbContextLocator>` 问题 [#I41MZP](https://gitee.com/dotnetchina/Furion/issues/I41MZP)
   - [修复] 远程请求缺省序列化 bug [#I41PBW](https://gitee.com/dotnetchina/Furion/issues/I41PBW)
   - [修复] 修复 `AppDbContext.Tenant` 多租户空异常问题 [#I421DA](https://gitee.com/dotnetchina/Furion/issues/I421DA)
   - [修复] `Worker Service` 多个 `Worker` 定时任务阻塞问题 [82a79cc](https://gitee.com/dotnetchina/Furion/commit/82a79cce0a3d9b09f4090b7363c3b78327c76846)
   - [修复] `Jwt` 自动刷新机制时区处理问题，主要针对国外用户 [#I41UB1](https://gitee.com/dotnetchina/Furion/issues/I41UB1) [82a79cc](https://gitee.com/dotnetchina/Furion/commit/82a79cce0a3d9b09f4090b7363c3b78327c76846)
-  - [修复] `MVC` 控制器启用规范化处理后返回 `new Json({})` 对象为 `null` 问题 [#I4354S](https://gitee.com/dotnetchina/Furion/issues/I4354S)
 
 - **其他更改**
 
-  - [优化] 多语言底层设计，取消需要创建 `Lang.cs` 空类的要求 [#I434YJ](https://gitee.com/dotnetchina/Furion/issues/I434YJ)
   - [优化] **系统启动性能，从 106M 减少到 84M**
   - [优化] **大量底层代码，包大小从 391Kb 减少到 350Kb（不带注释版本仅 64Kb）**
-  - [优化] `MiniProfiler` 性能
 
 ---
 
