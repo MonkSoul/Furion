@@ -30,7 +30,7 @@ namespace Furion.Localization
         /// <summary>
         /// 默认语言文件名，如：Lang.zh-CN.resx
         /// </summary>
-        internal static string LanguageFileName = "Lang";
+        internal static string LanguageFileName;
 
         /// <summary>
         /// 启动程序集名称
@@ -42,6 +42,7 @@ namespace Furion.Localization
         /// </summary>
         static L()
         {
+            LanguageFileName = "Lang";
             EntryAssemblyName = Assembly.GetEntryAssembly().GetName().Name;
         }
 
