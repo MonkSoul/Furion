@@ -213,7 +213,7 @@ L.SetCulture("en-US");  // en-US 也可以通过前端传递过来，这样就�
 
      public TestController(IStringLocalizerFactory factory)
      {
-         _localizer = factory.Create(L.LangType);
+         _localizer = factory.Create("Lang", L.EntryAssemblyName);  // Lang 就是资源文件名
      }
 
      public IActionResult About()
