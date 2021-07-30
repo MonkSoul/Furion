@@ -273,7 +273,9 @@ namespace Furion.UnifyResult
                 ContentResult content => content.Content,
                 // 处理对象结果
                 ObjectResult obj => obj.Value,
-                _ => null
+                // 处理 JSON 对象
+                JsonResult json => json.Value,
+                _ => null,
             };
 
             return isDataResult;
