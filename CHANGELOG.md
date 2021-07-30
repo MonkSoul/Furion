@@ -18,7 +18,7 @@
 
 - **突破性变化**
 
-- [调整] 规范化结果 `IUnifyResultProvider` 参数 **（破坏性更改）** [#I427Z2](https://gitee.com/dotnetchina/Furion/issues/I427Z2)
+  - [调整] 规范化结果 `IUnifyResultProvider` 参数 **（破坏性更改）** [#I427Z2](https://gitee.com/dotnetchina/Furion/issues/I427Z2)
 
 ```cs
 using Furion.DataValidation;
