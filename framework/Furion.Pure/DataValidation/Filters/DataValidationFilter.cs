@@ -21,11 +21,6 @@ namespace Furion.DataValidation
     public sealed class DataValidationFilter : IActionFilter, IOrderedFilter
     {
         /// <summary>
-        /// MiniProfiler 分类名
-        /// </summary>
-        private const string MiniProfilerCategory = "validation";
-
-        /// <summary>
         /// 过滤器排序
         /// </summary>
         internal const int FilterOrder = -1000;
@@ -81,7 +76,7 @@ namespace Furion.DataValidation
             }
 
             // 打印验证失败信息
-            App.PrintToMiniProfiler(MiniProfilerCategory, "Failed", $"Validation Failed:\r\n{validationMetadata.Message}", true);
+            App.PrintToMiniProfiler("validation", "Failed", $"Validation Failed:\r\n{validationMetadata.Message}", true);
         }
 
         /// <summary>
