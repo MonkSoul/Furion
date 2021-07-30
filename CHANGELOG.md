@@ -135,6 +135,7 @@ namespace Furion.UnifyResult
   - [修复] 修复 `AppDbContext.Tenant` 多租户空异常问题 [#I421DA](https://gitee.com/dotnetchina/Furion/issues/I421DA)
   - [修复] `Worker Service` 多个 `Worker` 定时任务阻塞问题 [82a79cc](https://gitee.com/dotnetchina/Furion/commit/82a79cce0a3d9b09f4090b7363c3b78327c76846)
   - [修复] `Jwt` 自动刷新机制时区处理问题，主要针对国外用户 [#I41UB1](https://gitee.com/dotnetchina/Furion/issues/I41UB1) [82a79cc](https://gitee.com/dotnetchina/Furion/commit/82a79cce0a3d9b09f4090b7363c3b78327c76846)
+  - [修复] `MVC` 控制器启用规范化处理后返回 `new Json({})` 对象为 `null` 问题 [#I4354S](https://gitee.com/dotnetchina/Furion/issues/I4354S)
 
 - **其他更改**
 
