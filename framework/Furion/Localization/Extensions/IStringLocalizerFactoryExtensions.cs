@@ -6,6 +6,7 @@
 // THIS SOFTWARE IS PROVIDED ON AN "AS IS" BASIS, WITHOUT WARRANTIES OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO NON-INFRINGEMENT, MERCHANTABILITY OR FIT FOR A PARTICULAR PURPOSE.  
 // See the Mulan PSL v2 for more details.
 
+using Furion;
 using Furion.DependencyInjection;
 using Furion.Localization;
 
@@ -24,7 +25,8 @@ namespace Microsoft.Extensions.Localization
         /// <returns></returns>
         public static IStringLocalizer Create(this IStringLocalizerFactory stringLocalizerFactory)
         {
-            return stringLocalizerFactory.Create(L.LanguageFileName, L.EntryAssemblyName);
+            var localizationSettings = App.GetOptions<LocalizationSettingsOptions>();
+            return stringLocalizerFactory.Create(localizationSettings.LanguageFilePrefix, localizationSettings.AssemblyName);
         }
     }
 }

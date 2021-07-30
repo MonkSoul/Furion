@@ -161,13 +161,17 @@ L.Text["没找到"];   // => 如果设置为英文，但是没有文件，则直
 
 接下来，只需要把对应语言版本的键值对填写即可。
 
-:::tip 自定义资源文件名
+:::tip 自定义资源文件名或存放程序集
 
-默认情况下，资源文件名必须以 `Lang` 开头，如果需要自定义，可在注册时指定即可，如：
+默认情况下，资源文件名必须以 `Lang` 开头，且只能放在启动层，如果需要自定义，添加配置文件即可
 
-```cs
-services.AddControllersWithViews()
-        .AddAppLocalization("MyLang");  // 指定文件名
+```json
+{
+  "LocalizationSettings": {
+    "LanguageFilePrefix": "MyLang"
+    // "AssemblyName": "你的其他层程序集名称"
+  }
+}
 ```
 
 之后，就可以：`MyLang.区域码.resx`。
@@ -213,7 +217,7 @@ L.SetCulture("en-US");  // en-US 也可以通过前端传递过来，这样就�
 
      public TestController(IStringLocalizerFactory factory)
      {
-         _localizer = factory.Create("Lang", L.EntryAssemblyName);  // Lang 就是资源文件名
+         _localizer = factory.Create();
      }
 
      public IActionResult About()
@@ -229,6 +233,8 @@ L.SetCulture("en-US");  // en-US 也可以通过前端传递过来，这样就�
   - `ResourcesPath`：资源目录，`string` 类型，默认 `Resources`
   - `SupportedCultures`：支持的语言区域码类别，`string[]` 类型
   - `DefaultCulture`：默认语言区域码，如果为空，则取 `SupportedCultures` 第一项
+  - `LanguageFilePrefix`：配置资源文件前缀，`string` 类型，默认 `Lang`
+  - `AssemblyName`：配置资源文件存放程序集名，`string` 类型，默认 `启动层` 名称
 
 ## 21.10 区域码列表
 

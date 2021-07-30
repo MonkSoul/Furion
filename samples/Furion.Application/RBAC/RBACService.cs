@@ -67,7 +67,7 @@ namespace Furion.Application
             });
 
             // 设置 Swagger 刷新自动授权
-            _httpContextAccessor.SigninToSwagger(output.AccessToken);
+            _httpContextAccessor.HttpContext.SigninToSwagger(output.AccessToken);
 
             return output;
         }

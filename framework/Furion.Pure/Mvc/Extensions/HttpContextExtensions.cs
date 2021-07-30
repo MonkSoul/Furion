@@ -53,31 +53,12 @@ namespace Microsoft.AspNetCore.Http
         }
 
         /// <summary>
-        /// 设置规范化文档自动登录
-        /// </summary>
-        /// <param name="httpContextAccessor"></param>
-        /// <param name="accessToken"></param>
-        public static void SigninToSwagger(this IHttpContextAccessor httpContextAccessor, string accessToken)
-        {
-            httpContextAccessor.HttpContext.SigninToSwagger(accessToken);
-        }
-
-        /// <summary>
         /// 设置规范化文档退出登录
         /// </summary>
         /// <param name="httpContext"></param>
         public static void SignoutToSwagger(this HttpContext httpContext)
         {
             httpContext.Response.Headers["access-token"] = "invalid_token";
-        }
-
-        /// <summary>
-        /// 设置规范化文档退出登录
-        /// </summary>
-        /// <param name="httpContextAccessor"></param>
-        public static void SignoutToSwagger(this IHttpContextAccessor httpContextAccessor)
-        {
-            httpContextAccessor.HttpContext.SignoutToSwagger();
         }
 
         /// <summary>

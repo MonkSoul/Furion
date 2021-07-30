@@ -17,7 +17,6 @@ using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 
 namespace Furion.Localization
 {
@@ -28,33 +27,14 @@ namespace Furion.Localization
     public static class L
     {
         /// <summary>
-        /// 默认语言文件名，如：Lang.zh-CN.resx
-        /// </summary>
-        internal static string LanguageFileName;
-
-        /// <summary>
-        /// 启动程序集名称
-        /// </summary>
-        public static readonly string EntryAssemblyName;
-
-        /// <summary>
-        /// 静态构造函数
-        /// </summary>
-        static L()
-        {
-            LanguageFileName = "Lang";
-            EntryAssemblyName = Assembly.GetEntryAssembly().GetName().Name;
-        }
-
-        /// <summary>
         /// String 多语言
         /// </summary>
-        public static IStringLocalizer @Text => App.GetService<IStringLocalizerFactory>(App.RootServices)?.Create(LanguageFileName, EntryAssemblyName);
+        public static IStringLocalizer @Text => App.GetService<IStringLocalizerFactory>(App.RootServices)?.Create();
 
         /// <summary>
         /// Html 多语言
         /// </summary>
-        public static IHtmlLocalizer @Html => App.GetService<IHtmlLocalizerFactory>(App.RootServices)?.Create(LanguageFileName, EntryAssemblyName);
+        public static IHtmlLocalizer @Html => App.GetService<IHtmlLocalizerFactory>(App.RootServices)?.Create();
 
         /// <summary>
         /// 设置多语言区域

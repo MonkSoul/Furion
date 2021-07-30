@@ -27,13 +27,9 @@ namespace Microsoft.Extensions.DependencyInjection
         /// 配置多语言服务
         /// </summary>
         /// <param name="mvcBuilde"></param>
-        /// <param name="languageFileName">默认资源文件名，如 Lang.zh-CN.resx </param>
         /// <returns></returns>
-        public static IMvcBuilder AddAppLocalization(this IMvcBuilder mvcBuilde, string languageFileName = default)
+        public static IMvcBuilder AddAppLocalization(this IMvcBuilder mvcBuilde)
         {
-            // 配置默认资源文件名
-            if (!string.IsNullOrWhiteSpace(languageFileName)) L.LanguageFileName = languageFileName;
-
             var services = mvcBuilde.Services;
 
             // 添加多语言配置选项
@@ -58,7 +54,7 @@ namespace Microsoft.Extensions.DependencyInjection
                      .AddDataAnnotationsLocalization(options =>
                      {
                          options.DataAnnotationLocalizerProvider = (type, factory) =>
-                             factory.Create(L.LanguageFileName, L.EntryAssemblyName);
+                             factory.Create(localizationSettings.LanguageFilePrefix, localizationSettings.AssemblyName);
                      });
 
             // 注册请求多语言配置选项

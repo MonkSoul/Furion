@@ -19,6 +19,7 @@
 - **突破性变化**
 
   - [调整] 规范化结果 `IUnifyResultProvider` 参数 **（破坏性更改）** [#I427Z2](https://gitee.com/dotnetchina/Furion/issues/I427Z2)
+  - [移除] `IHttpContextAccessor.SigninToSwagger()` 拓展，请使用 `IHttpContextAccessor.HttpContext.SigninToSwagger()`，退出也一样
 
 ```cs
 using Furion.DataValidation;
