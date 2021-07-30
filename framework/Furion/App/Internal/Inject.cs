@@ -12,12 +12,12 @@ using Microsoft.Extensions.DependencyInjection;
 namespace Furion
 {
     /// <summary>
-    /// 供控制台初始化类
+    /// 供非 Web 初始化
     /// </summary>
     public static class Inject
     {
         /// <summary>
-        /// 创建一个服务集合
+        /// 创建初始服务集合
         /// </summary>
         /// <returns></returns>
         public static IServiceCollection Create()
