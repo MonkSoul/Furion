@@ -837,6 +837,12 @@ const contributors = [
     photo:
       "https://portrait.gitee.com/uploads/avatars/user/458/1374721_yqyx_1602561388.png!avatar200",
   },
+  {
+    author: "nodyang",
+    link: "https://gitee.com/nodyang",
+    photo:
+      "https://portrait.gitee.com/uploads/avatars/user/24/73305_nodyang_1615357247.png!avatar200",
+  },
 ];
 
 export default contributors;
