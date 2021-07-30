@@ -28,28 +28,32 @@ namespace Furion.Localization
     public static class L
     {
         /// <summary>
-        /// 语言类型
+        /// 默认语言文件名，如：Lang.zh-CN.resx
         /// </summary>
-        public static readonly Type LangType;
+        internal static string LanguageFileName = "Lang";
+
+        /// <summary>
+        /// 启动程序集名称
+        /// </summary>
+        public static readonly string EntryAssemblyName;
 
         /// <summary>
         /// 静态构造函数
         /// </summary>
         static L()
         {
-            var entryAssembly = Assembly.GetEntryAssembly();
-            LangType = entryAssembly.GetType($"{entryAssembly.GetName().Name}.Lang");
+            EntryAssemblyName = Assembly.GetEntryAssembly().GetName().Name;
         }
 
         /// <summary>
         /// String 多语言
         /// </summary>
-        public static IStringLocalizer @Text => LangType == null ? null : App.GetService<IStringLocalizerFactory>(App.RootServices)?.Create(LangType);
+        public static IStringLocalizer @Text => App.GetService<IStringLocalizerFactory>(App.RootServices)?.Create(LanguageFileName, EntryAssemblyName);
 
         /// <summary>
         /// Html 多语言
         /// </summary>
-        public static IHtmlLocalizer @Html => LangType == null ? null : App.GetService<IHtmlLocalizerFactory>(App.RootServices)?.Create(LangType);
+        public static IHtmlLocalizer @Html => App.GetService<IHtmlLocalizerFactory>(App.RootServices)?.Create(LanguageFileName, EntryAssemblyName);
 
         /// <summary>
         /// 设置多语言区域

@@ -16,6 +16,7 @@
   - [新增] **`MVC` 控制器支持规范化处理 [#I427Z2](https://gitee.com/dotnetchina/Furion/issues/I427Z2)**
   - [新增] `throw Oops.Bah()` 抛出业务异常（状态码 400）
   - [新增] `UnifyResultSettings` 规范化 `json` 配置选项 [#I42NY7](https://gitee.com/dotnetchina/Furion/issues/I42NY7)
+  - [新增] 多语言自定义配置资源文件名 [#I434YJ](https://gitee.com/dotnetchina/Furion/issues/I434YJ)
 
 - **突破性变化**
 
@@ -137,6 +138,7 @@ namespace Furion.UnifyResult
 
 - **其他更改**
 
+  - [优化] 多语言底层设计，取消需要创建 `Lang.cs` 空类的要求 [#I434YJ](https://gitee.com/dotnetchina/Furion/issues/I434YJ)
   - [优化] **系统启动性能，从 106M 减少到 84M**
   - [优化] **大量底层代码，包大小从 391Kb 减少到 350Kb（不带注释版本仅 64Kb）**
   - [优化] `MiniProfiler` 性能
