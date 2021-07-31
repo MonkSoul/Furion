@@ -183,11 +183,11 @@ namespace Furion
         /// 获取配置
         /// </summary>
         /// <typeparam name="TOptions">强类型选项类</typeparam>
-        /// <param name="jsonKey">配置中对应的Key</param>
+        /// <param name="path">配置中对应的Key</param>
         /// <returns>TOptions</returns>
-        public static TOptions GetConfig<TOptions>(string jsonKey)
+        public static TOptions GetConfig<TOptions>(string path)
         {
-            return Configuration.GetSection(jsonKey).Get<TOptions>();
+            return Configuration.GetSection(path).Get<TOptions>();
         }
 
         /// <summary>

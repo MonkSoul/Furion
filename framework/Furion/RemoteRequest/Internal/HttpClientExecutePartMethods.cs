@@ -547,6 +547,11 @@ namespace Furion.RemoteRequest
                     httpContent = new FormUrlEncodedContent(keyValues);
                     break;
 
+                case "application/xml":
+                case "text/xml":
+                    if (Body != null) httpContent = new StringContent(Body.ToString(), ContentEncoding, ContentType);
+                    break;
+
                 default:
                     // 其他类型可通过 `HttpRequestMessage` 拦截器设置
                     break;

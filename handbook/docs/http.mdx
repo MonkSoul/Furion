@@ -253,6 +253,9 @@ await "https://www.furion.pro/api/user/add".SetBody(new Dictionary<string , obje
     { "Id", 1 },
     { "Name", "Furion"}
 }, "application/x-www-form-urlencoded");
+
+// 处理 application/xml、text/xml
+await "https://www.furion.pro/api/user/add".SetBody("<SomeDto><SomeTag>somevalue</SomeTag></SomeDto>", "application/xml");
 ```
 
 :::important 特别注意
