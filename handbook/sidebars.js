@@ -189,7 +189,7 @@ module.exports = {
     {
       type: "category",
       label: "36. 测试指南",
-      items: ["unittest", "performance", "benchmark"],
+      items: ["unittest", "performance", "benchmark", "bingfa"],
     },
     {
       type: "doc",
