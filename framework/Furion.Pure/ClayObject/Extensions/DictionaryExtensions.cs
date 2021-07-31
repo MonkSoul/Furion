@@ -27,8 +27,7 @@ namespace Furion.ClayObject.Extensions
         /// <returns></returns>
         public static IDictionary<string, object> ToDictionary(this object input)
         {
-            if (input == null)
-                throw new ArgumentNullException(nameof(input));
+            if (input == null) return default;
 
             if (input is IDictionary<string, object> dictionary)
                 return dictionary;
@@ -57,8 +56,7 @@ namespace Furion.ClayObject.Extensions
         /// <returns></returns>
         public static IDictionary<string, Tuple<Type, object>> ToDictionaryWithType(this object input)
         {
-            if (input == null)
-                throw new ArgumentNullException(nameof(input));
+            if (input == null) return default;
 
             if (input is IDictionary<string, object> dictionary)
                 return dictionary.ToDictionary(

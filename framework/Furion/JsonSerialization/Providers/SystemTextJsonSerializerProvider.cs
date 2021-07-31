@@ -38,11 +38,10 @@ namespace Furion.JsonSerialization
         /// </summary>
         /// <param name="value"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <param name="inherit">是否继承全局配置，默认 true</param>
         /// <returns></returns>
-        public string Serialize(object value, object jsonSerializerOptions = null, bool inherit = true)
+        public string Serialize(object value, object jsonSerializerOptions = null)
         {
-            return JsonSerializer.Serialize(value, (jsonSerializerOptions ?? (inherit ? GetSerializerOptions() : default)) as JsonSerializerOptions);
+            return JsonSerializer.Serialize(value, (jsonSerializerOptions ?? GetSerializerOptions()) as JsonSerializerOptions);
         }
 
         /// <summary>
@@ -51,11 +50,10 @@ namespace Furion.JsonSerialization
         /// <typeparam name="T"></typeparam>
         /// <param name="json"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <param name="inherit">是否继承全局配置，默认 true</param>
         /// <returns></returns>
-        public T Deserialize<T>(string json, object jsonSerializerOptions = null, bool inherit = true)
+        public T Deserialize<T>(string json, object jsonSerializerOptions = null)
         {
-            return JsonSerializer.Deserialize<T>(json, (jsonSerializerOptions ?? (inherit ? GetSerializerOptions() : default)) as JsonSerializerOptions);
+            return JsonSerializer.Deserialize<T>(json, (jsonSerializerOptions ?? GetSerializerOptions()) as JsonSerializerOptions);
         }
 
         /// <summary>

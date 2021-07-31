@@ -69,26 +69,28 @@ namespace Furion.Logging
         /// <returns></returns>
         public void Log()
         {
+            if (Message == null) return;
+
             var logger = !string.IsNullOrWhiteSpace(CategoryName)
                 ? App.GetService<ILoggerFactory>(LoggerScoped)?.CreateLogger(CategoryName)
                 : App.GetService(typeof(ILogger<>).MakeGenericType(CategoryType), LoggerScoped) as ILogger;
 
-            // 如果没有异常且事件Id为空
+            // 如果没有异常且事件 Id 为空
             if (Exception == null && EventId == null)
             {
                 logger.Log(Level, Message, Args);
             }
-            // 如果存在异常且事件Id为空
+            // 如果存在异常且事件 Id 为空
             else if (Exception != null && EventId == null)
             {
                 logger.Log(Level, Exception, Message, Args);
             }
-            // 如果异常为空且事件Id不为空
+            // 如果异常为空且事件 Id 不为空
             else if (Exception == null && EventId != null)
             {
                 logger.Log(Level, EventId.Value, Message, Args);
             }
-            // 如果存在异常且事件Id不为空
+            // 如果存在异常且事件 Id 不为空
             else if (Exception != null && EventId != null)
             {
                 logger.Log(Level, EventId.Value, Exception, Message, Args);

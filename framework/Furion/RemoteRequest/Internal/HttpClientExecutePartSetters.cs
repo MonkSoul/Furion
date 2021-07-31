@@ -28,10 +28,10 @@ namespace Furion.RemoteRequest
         /// <returns></returns>
         public HttpClientExecutePart SetRequestUrl(string requestUrl)
         {
-            if (!string.IsNullOrWhiteSpace(requestUrl) && requestUrl.StartsWith("/"))
-            {
-                requestUrl = requestUrl[1..];
-            }
+            if (string.IsNullOrWhiteSpace(requestUrl)) return this;
+
+            // 解决配置 BaseAddress 客户端后，地址首位斜杆问题
+            requestUrl = requestUrl.StartsWith("/") ? requestUrl[1..] : requestUrl;
 
             // 支持读取配置渲染
             RequestUrl = requestUrl.Render();
@@ -45,7 +45,7 @@ namespace Furion.RemoteRequest
         /// <returns></returns>
         public HttpClientExecutePart SetTemplates(IDictionary<string, object> templates)
         {
-            Templates = templates;
+            if (templates != null) Templates = templates;
             return this;
         }
 
@@ -56,10 +56,7 @@ namespace Furion.RemoteRequest
         /// <returns></returns>
         public HttpClientExecutePart SetTemplates(object templates)
         {
-            if (templates == null) return this;
-
-            Templates = templates.ToDictionary();
-            return this;
+            return SetTemplates(templates.ToDictionary());
         }
 
         /// <summary>
@@ -69,7 +66,7 @@ namespace Furion.RemoteRequest
         /// <returns></returns>
         public HttpClientExecutePart SetHttpMethod(HttpMethod httpMethod)
         {
-            Method = httpMethod;
+            if (httpMethod != null) Method = httpMethod;
             return this;
         }
 
@@ -80,7 +77,7 @@ namespace Furion.RemoteRequest
         /// <returns></returns>
         public HttpClientExecutePart SetHeaders(IDictionary<string, object> headers)
         {
-            Headers = headers;
+            if (headers != null) Headers = headers;
             return this;
         }
 
@@ -91,10 +88,7 @@ namespace Furion.RemoteRequest
         /// <returns></returns>
         public HttpClientExecutePart SetHeaders(object headers)
         {
-            if (headers == null) return this;
-
-            Headers = headers.ToDictionary();
-            return this;
+            return SetHeaders(headers.ToDictionary());
         }
 
         /// <summary>
@@ -104,7 +98,7 @@ namespace Furion.RemoteRequest
         /// <returns></returns>
         public HttpClientExecutePart SetQueries(IDictionary<string, object> queries)
         {
-            Queries = queries;
+            if (queries != null) Queries = queries;
             return this;
         }
 
@@ -115,10 +109,7 @@ namespace Furion.RemoteRequest
         /// <returns></returns>
         public HttpClientExecutePart SetQueries(object queries)
         {
-            if (queries == null) return this;
-
-            Queries = queries.ToDictionary();
-            return this;
+            return SetQueries(queries.ToDictionary());
         }
 
         /// <summary>
@@ -128,7 +119,29 @@ namespace Furion.RemoteRequest
         /// <returns></returns>
         public HttpClientExecutePart SetClient(string name)
         {
-            ClientName = name;
+            if (!string.IsNullOrWhiteSpace(name)) ClientName = name;
+            return this;
+        }
+
+        /// <summary>
+        /// 设置内容类型
+        /// </summary>
+        /// <param name="contentType"></param>
+        /// <returns></returns>
+        public HttpClientExecutePart SetContentType(string contentType)
+        {
+            if (!string.IsNullOrWhiteSpace(contentType)) ContentType = contentType;
+            return this;
+        }
+
+        /// <summary>
+        /// 设置内容编码
+        /// </summary>
+        /// <param name="encoding"></param>
+        /// <returns></returns>
+        public HttpClientExecutePart SetContentEncoding(Encoding encoding)
+        {
+            if (encoding != null) ContentEncoding = encoding;
             return this;
         }
 
@@ -141,50 +154,9 @@ namespace Furion.RemoteRequest
         /// <returns></returns>
         public HttpClientExecutePart SetBody(object body, string contentType = default, Encoding encoding = default)
         {
-            Body = body;
+            if (body != null) Body = body;
+            SetContentType(contentType).SetContentEncoding(encoding);
 
-            if (!string.IsNullOrWhiteSpace(contentType)) ContentType = contentType;
-            if (encoding != null) ContentEncoding = encoding;
-
-            return this;
-        }
-
-        /// <summary>
-        /// 设置 Body 内容
-        /// </summary>
-        /// <param name="body"></param>
-        /// <param name="contentType"></param>
-        /// <param name="encoding"></param>
-        /// <returns></returns>
-        public HttpClientExecutePart SetBody(IDictionary<string, object> body, string contentType = default, Encoding encoding = default)
-        {
-            Body = body;
-
-            if (!string.IsNullOrWhiteSpace(contentType)) ContentType = contentType;
-            if (encoding != null) ContentEncoding = encoding;
-
-            return this;
-        }
-
-        /// <summary>
-        /// 设置内容类型
-        /// </summary>
-        /// <param name="contentType"></param>
-        /// <returns></returns>
-        public HttpClientExecutePart SetContentType(string contentType)
-        {
-            ContentType = contentType;
-            return this;
-        }
-
-        /// <summary>
-        /// 设置内容编码
-        /// </summary>
-        /// <param name="encoding"></param>
-        /// <returns></returns>
-        public HttpClientExecutePart SetContentEncoding(Encoding encoding)
-        {
-            ContentEncoding = encoding;
             return this;
         }
 
@@ -202,23 +174,27 @@ namespace Furion.RemoteRequest
         }
 
         /// <summary>
-        /// 设置 Body  Bytes
-        /// </summary>
-        /// <param name="bytesData"></param>
-        /// <returns></returns>
-        public HttpClientExecutePart SetBodyBytes(List<(string Name, byte[] Bytes, string FileName)> bytesData)
-        {
-            return SetBodyBytes(bytesData?.ToArray());
-        }
-
-        /// <summary>
         /// 设置超时时间（秒）
         /// </summary>
         /// <param name="timeout"></param>
         /// <returns></returns>
         public HttpClientExecutePart SetClientTimeout(long timeout)
         {
-            Timeout = timeout;
+            if (timeout > 0) Timeout = timeout;
+            return this;
+        }
+
+        /// <summary>
+        /// 设置 JSON 序列化提供器
+        /// </summary>
+        /// <param name="providerType"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <returns></returns>
+        public HttpClientExecutePart SetJsonSerialization(Type providerType, object jsonSerializerOptions = default)
+        {
+            if (providerType != null) JsonSerializerProvider = providerType;
+            if (jsonSerializerOptions != null) JsonSerializerOptions = jsonSerializerOptions;
+
             return this;
         }
 
@@ -231,20 +207,7 @@ namespace Furion.RemoteRequest
         public HttpClientExecutePart SetJsonSerialization<TJsonSerializationProvider>(object jsonSerializerOptions = default)
             where TJsonSerializationProvider : IJsonSerializerProvider
         {
-            JsonSerialization = (typeof(TJsonSerializationProvider), jsonSerializerOptions);
-            return this;
-        }
-
-        /// <summary>
-        /// 设置 JSON 序列化提供器
-        /// </summary>
-        /// <param name="providerType"></param>
-        /// <param name="jsonSerializerOptions"></param>
-        /// <returns></returns>
-        public HttpClientExecutePart SetJsonSerialization(Type providerType, object jsonSerializerOptions = default)
-        {
-            JsonSerialization = (providerType, jsonSerializerOptions);
-            return this;
+            return SetJsonSerialization(typeof(TJsonSerializationProvider), jsonSerializerOptions);
         }
 
         /// <summary>
@@ -266,8 +229,9 @@ namespace Furion.RemoteRequest
         /// <returns></returns>
         public HttpClientExecutePart OnRequesting(Action<HttpRequestMessage> action)
         {
-            RequestInterceptors ??= new List<Action<HttpRequestMessage>>();
-            if (action != null && !RequestInterceptors.Contains(action)) RequestInterceptors.Add(action);
+            if (action == null) return this;
+            if (!RequestInterceptors.Contains(action)) RequestInterceptors.Add(action);
+
             return this;
         }
 
@@ -278,8 +242,9 @@ namespace Furion.RemoteRequest
         /// <returns></returns>
         public HttpClientExecutePart OnClientCreating(Action<HttpClient> action)
         {
-            HttpClientInterceptors ??= new List<Action<HttpClient>>();
-            if (action != null && !HttpClientInterceptors.Contains(action)) HttpClientInterceptors.Add(action);
+            if (action == null) return this;
+            if (!HttpClientInterceptors.Contains(action)) HttpClientInterceptors.Add(action);
+
             return this;
         }
 
@@ -290,8 +255,9 @@ namespace Furion.RemoteRequest
         /// <returns></returns>
         public HttpClientExecutePart OnResponsing(Action<HttpResponseMessage> action)
         {
-            ResponseInterceptors ??= new List<Action<HttpResponseMessage>>();
-            if (action != null && !ResponseInterceptors.Contains(action)) ResponseInterceptors.Add(action);
+            if (action == null) return this;
+            if (!ResponseInterceptors.Contains(action)) ResponseInterceptors.Add(action);
+
             return this;
         }
 
@@ -302,8 +268,9 @@ namespace Furion.RemoteRequest
         /// <returns></returns>
         public HttpClientExecutePart OnException(Action<HttpResponseMessage, string> action)
         {
-            ExceptionInterceptors ??= new List<Action<HttpResponseMessage, string>>();
-            if (action != null && !ExceptionInterceptors.Contains(action)) ExceptionInterceptors.Add(action);
+            if (action == null) return this;
+            if (!ExceptionInterceptors.Contains(action)) ExceptionInterceptors.Add(action);
+
             return this;
         }
 
@@ -314,7 +281,7 @@ namespace Furion.RemoteRequest
         /// <returns></returns>
         public HttpClientExecutePart SetRequestScoped(IServiceProvider serviceProvider)
         {
-            RequestScoped = serviceProvider ?? App.RootServices;
+            if (serviceProvider != null) RequestScoped = serviceProvider;
             return this;
         }
     }

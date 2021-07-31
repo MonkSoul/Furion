@@ -70,11 +70,8 @@ namespace Furion.DatabaseAccessor
         /// <returns>(DbConnection dbConnection, DbCommand dbCommand)</returns>
         public static (DbConnection dbConnection, DbCommand dbCommand) PrepareDbCommand(this DatabaseFacade databaseFacade, string sql, DbParameter[] parameters = null, CommandType commandType = CommandType.Text)
         {
-            // 支持读取配置渲染
-            var realSql = sql.Render();
-
             // 创建数据库连接对象及数据库命令对象
-            var (dbConnection, dbCommand) = databaseFacade.CreateDbCommand(realSql, commandType);
+            var (dbConnection, dbCommand) = databaseFacade.CreateDbCommand(sql, commandType);
             SetDbParameters(databaseFacade.ProviderName, ref dbCommand, parameters);
 
             // 打开数据库连接
@@ -94,11 +91,8 @@ namespace Furion.DatabaseAccessor
         /// <returns>(DbConnection dbConnection, DbCommand dbCommand, DbParameter[] dbParameters)</returns>
         public static (DbConnection dbConnection, DbCommand dbCommand, DbParameter[] dbParameters) PrepareDbCommand(this DatabaseFacade databaseFacade, string sql, object model, CommandType commandType = CommandType.Text)
         {
-            // 支持读取配置渲染
-            var realSql = sql.Render();
-
             // 创建数据库连接对象及数据库命令对象
-            var (dbConnection, dbCommand) = databaseFacade.CreateDbCommand(realSql, commandType);
+            var (dbConnection, dbCommand) = databaseFacade.CreateDbCommand(sql, commandType);
             SetDbParameters(databaseFacade.ProviderName, ref dbCommand, model, out var dbParameters);
 
             // 打开数据库连接
@@ -119,11 +113,8 @@ namespace Furion.DatabaseAccessor
         /// <returns>(DbConnection dbConnection, DbCommand dbCommand)</returns>
         public static async Task<(DbConnection dbConnection, DbCommand dbCommand)> PrepareDbCommandAsync(this DatabaseFacade databaseFacade, string sql, DbParameter[] parameters = null, CommandType commandType = CommandType.Text, CancellationToken cancellationToken = default)
         {
-            // 支持读取配置渲染
-            var realSql = sql.Render();
-
             // 创建数据库连接对象及数据库命令对象
-            var (dbConnection, dbCommand) = databaseFacade.CreateDbCommand(realSql, commandType);
+            var (dbConnection, dbCommand) = databaseFacade.CreateDbCommand(sql, commandType);
             SetDbParameters(databaseFacade.ProviderName, ref dbCommand, parameters);
 
             // 打开数据库连接
@@ -144,11 +135,8 @@ namespace Furion.DatabaseAccessor
         /// <returns>(DbConnection dbConnection, DbCommand dbCommand, DbParameter[] dbParameters)</returns>
         public static async Task<(DbConnection dbConnection, DbCommand dbCommand, DbParameter[] dbParameters)> PrepareDbCommandAsync(this DatabaseFacade databaseFacade, string sql, object model, CommandType commandType = CommandType.Text, CancellationToken cancellationToken = default)
         {
-            // 支持读取配置渲染
-            var realSql = sql.Render();
-
             // 创建数据库连接对象及数据库命令对象
-            var (dbConnection, dbCommand) = databaseFacade.CreateDbCommand(realSql, commandType);
+            var (dbConnection, dbCommand) = databaseFacade.CreateDbCommand(sql, commandType);
             SetDbParameters(databaseFacade.ProviderName, ref dbCommand, model, out var dbParameters);
 
             // 打开数据库连接
@@ -167,6 +155,11 @@ namespace Furion.DatabaseAccessor
         /// <returns>(DbConnection dbConnection, DbCommand dbCommand)</returns>
         private static (DbConnection dbConnection, DbCommand dbCommand) CreateDbCommand(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.Text)
         {
+            if (string.IsNullOrWhiteSpace(sql)) throw new ArgumentNullException(nameof(sql));
+
+            // 支持读取配置渲染
+            var realSql = sql.Render();
+
             // 检查是否支持存储过程
             DbProvider.CheckStoredProcedureSupported(databaseFacade.ProviderName, commandType);
 
@@ -179,7 +172,7 @@ namespace Furion.DatabaseAccessor
             // 设置基本参数
             dbCommand.Transaction = databaseFacade.CurrentTransaction?.GetDbTransaction();
             dbCommand.CommandType = commandType;
-            dbCommand.CommandText = sql;
+            dbCommand.CommandText = realSql;
 
             // 设置超时
             var commandTimeout = databaseFacade.GetCommandTimeout();

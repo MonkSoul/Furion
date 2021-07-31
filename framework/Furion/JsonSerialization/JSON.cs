@@ -32,12 +32,11 @@ namespace Furion.JsonSerialization
         /// </summary>
         /// <param name="value"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <param name="inherit">是否继承全局配置，默认 true</param>
         /// <param name="serviceProvider"></param>
         /// <returns></returns>
-        public static string Serialize(object value, object jsonSerializerOptions = default, bool inherit = true, IServiceProvider serviceProvider = default)
+        public static string Serialize(object value, object jsonSerializerOptions = default, IServiceProvider serviceProvider = default)
         {
-            return GetJsonSerializer(serviceProvider).Serialize(value, jsonSerializerOptions, inherit);
+            return GetJsonSerializer(serviceProvider).Serialize(value, jsonSerializerOptions);
         }
 
         /// <summary>
@@ -46,12 +45,11 @@ namespace Furion.JsonSerialization
         /// <typeparam name="T"></typeparam>
         /// <param name="json"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <param name="inherit">是否继承全局配置，默认 true</param>
         /// <param name="serviceProvider"></param>
         /// <returns></returns>
-        public static T Deserialize<T>(string json, object jsonSerializerOptions = default, bool inherit = true, IServiceProvider serviceProvider = default)
+        public static T Deserialize<T>(string json, object jsonSerializerOptions = default, IServiceProvider serviceProvider = default)
         {
-            return GetJsonSerializer(serviceProvider).Deserialize<T>(json, jsonSerializerOptions, inherit);
+            return GetJsonSerializer(serviceProvider).Deserialize<T>(json, jsonSerializerOptions);
         }
 
         /// <summary>

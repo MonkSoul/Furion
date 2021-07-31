@@ -24,7 +24,7 @@ namespace Furion.Logging
         public StringLoggerPart SetMessage(string message)
         {
             // 支持读取配置渲染
-            Message = message.Render();
+            if (message != null) Message = message.Render();
             return this;
         }
 
@@ -44,7 +44,7 @@ namespace Furion.Logging
         /// <param name="args"></param>
         public StringLoggerPart SetArgs(params object[] args)
         {
-            Args = args;
+            if (args != null && args.Length > 0) Args = args;
             return this;
         }
 
@@ -74,7 +74,7 @@ namespace Furion.Logging
         /// <param name="categoryName"></param>
         public StringLoggerPart SetCategory(string categoryName)
         {
-            CategoryName = categoryName;
+            if (!string.IsNullOrWhiteSpace(categoryName)) CategoryName = categoryName;
             return this;
         }
 
@@ -83,7 +83,7 @@ namespace Furion.Logging
         /// </summary>
         public StringLoggerPart SetException(Exception exception)
         {
-            Exception = exception;
+            if (exception != null) Exception = exception;
             return this;
         }
 
@@ -94,7 +94,7 @@ namespace Furion.Logging
         /// <returns></returns>
         public StringLoggerPart SetLoggerScoped(IServiceProvider serviceProvider)
         {
-            LoggerScoped = serviceProvider ?? App.RootServices;
+            if (serviceProvider != null) LoggerScoped = serviceProvider;
             return this;
         }
     }

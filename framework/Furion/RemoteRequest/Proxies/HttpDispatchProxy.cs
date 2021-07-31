@@ -9,7 +9,6 @@
 using Furion.DataValidation;
 using Furion.DependencyInjection;
 using Furion.Extensions;
-using Furion.JsonSerialization;
 using Furion.Reflection;
 using System;
 using System.Collections.Generic;
@@ -166,8 +165,7 @@ namespace Furion.RemoteRequest
             if (bodyParameter != null)
             {
                 var bodyAttribute = bodyParameter.Parameter.GetCustomAttribute<BodyAttribute>(true);
-                httpClientPart.SetBody(bodyParameter.Value, bodyAttribute.ContentType, Encoding.GetEncoding(bodyAttribute.Encoding))
-                              .SetValidationState(true, true);   // 开启验证
+                httpClientPart.SetBody(bodyParameter.Value, bodyAttribute.ContentType, Encoding.GetEncoding(bodyAttribute.Encoding));
             }
 
             // 查找所有贴了 [BodyBytes] 特性的参数
@@ -181,7 +179,7 @@ namespace Furion.RemoteRequest
                     if (item.Value != null && item.Value.GetType() == typeof(byte[])) bodyBytes.Add((bodyBytesAttribute.Alias ?? item.Name, (byte[])item.Value, bodyBytesAttribute.FileName));
                 }
 
-                httpClientPart.SetBodyBytes(bodyBytes);
+                httpClientPart.SetBodyBytes(bodyBytes.ToArray());
             }
         }
 
@@ -225,7 +223,7 @@ namespace Furion.RemoteRequest
                                                                                ?.Invoke(null, null);
 
             // 查询自定义序列化提供器，如果没找到，默认 SystemTextJsonSerializerProvider
-            var jsonSerializerProvider = method.GetFoundAttribute<JsonSerializationAttribute>(true)?.ProviderType ?? typeof(SystemTextJsonSerializerProvider);
+            var jsonSerializerProvider = method.GetFoundAttribute<JsonSerializationAttribute>(true)?.ProviderType;
             httpClientPart.SetJsonSerialization(jsonSerializerProvider, jsonSerializerOptions);
         }
 
@@ -351,7 +349,8 @@ namespace Furion.RemoteRequest
             }
 
             // 合并所有请求报文头
-            var headers = declaringTypeHeaders.AddOrUpdate(methodHeaders).AddOrUpdate(parameterHeaders);
+            var headers = declaringTypeHeaders.AddOrUpdate(methodHeaders)
+                                                                  .AddOrUpdate(parameterHeaders);
             httpClientPart.SetHeaders(headers);
         }
     }

@@ -22,7 +22,7 @@ namespace Furion.ViewEngine
         /// <returns></returns>
         public StringTemplateExecutePart SetTemplate(string template)
         {
-            Template = template;
+            if (!string.IsNullOrWhiteSpace(template)) Template = template;
             return this;
         }
 
@@ -46,8 +46,7 @@ namespace Furion.ViewEngine
         /// <returns></returns>
         public StringTemplateExecutePart SetTemplateModel(object model)
         {
-            TemplateModel = (typeof(object), model);
-            return this;
+            return SetTemplateModel<object>(model);
         }
 
         /// <summary>
@@ -57,7 +56,7 @@ namespace Furion.ViewEngine
         /// <returns></returns>
         public StringTemplateExecutePart SetTemplateOptionsBuilder(Action<IViewEngineOptionsBuilder> optionsBuilder = default)
         {
-            TemplateOptionsBuilder = optionsBuilder;
+            if (optionsBuilder != null) TemplateOptionsBuilder = optionsBuilder;
             return this;
         }
 
@@ -68,7 +67,7 @@ namespace Furion.ViewEngine
         /// <returns></returns>
         public StringTemplateExecutePart SetTemplateCachedFileName(string cachedFileName)
         {
-            TemplateCachedFileName = cachedFileName;
+            if (!string.IsNullOrWhiteSpace(cachedFileName)) TemplateCachedFileName = cachedFileName;
             return this;
         }
 
@@ -79,7 +78,7 @@ namespace Furion.ViewEngine
         /// <returns></returns>
         public StringTemplateExecutePart SetViewEngineScoped(IServiceProvider serviceProvider)
         {
-            ViewEngineScoped = serviceProvider;
+            if (serviceProvider != null) ViewEngineScoped = serviceProvider;
             return this;
         }
     }

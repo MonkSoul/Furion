@@ -51,16 +51,6 @@ namespace Furion.ViewEngine
         }
 
         /// <summary>
-        /// 获取视图引擎对象
-        /// </summary>
-        /// <returns></returns>
-        private IViewEngine GetViewEngine()
-        {
-            return App.GetService<IViewEngine>(ViewEngineScoped ?? App.RootServices)
-                ?? throw new InvalidOperationException("Please confirm whether the view engine is registered successfully.");
-        }
-
-        /// <summary>
         /// 执行模板方法
         /// </summary>
         /// <param name="methodName"></param>
@@ -86,6 +76,16 @@ namespace Furion.ViewEngine
                 : runCompileMethod.Invoke(viewEngine, new object[] {
                     Template,TemplateModel.Model,TemplateCachedFileName, TemplateOptionsBuilder
                 });
+        }
+
+        /// <summary>
+        /// 获取视图引擎对象
+        /// </summary>
+        /// <returns></returns>
+        private IViewEngine GetViewEngine()
+        {
+            return App.GetService<IViewEngine>(ViewEngineScoped)
+                ?? throw new InvalidOperationException("Please confirm whether the view engine is registered successfully.");
         }
     }
 }

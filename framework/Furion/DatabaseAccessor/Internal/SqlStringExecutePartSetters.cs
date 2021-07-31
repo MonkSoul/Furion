@@ -22,7 +22,7 @@ namespace Furion.DatabaseAccessor
         /// <returns></returns>
         public SqlStringExecutePart SetSqlString(string sql)
         {
-            SqlString = sql;
+            if (!string.IsNullOrWhiteSpace(sql)) SqlString = sql;
             return this;
         }
 
@@ -33,7 +33,7 @@ namespace Furion.DatabaseAccessor
         /// <returns></returns>
         public SqlStringExecutePart SetCommandTimeout(int timeout)
         {
-            Timeout = timeout;
+            if (timeout > 0) Timeout = timeout;
             return this;
         }
 
@@ -44,7 +44,7 @@ namespace Furion.DatabaseAccessor
         /// <returns></returns>
         public SqlStringExecutePart SetContextScoped(IServiceProvider serviceProvider)
         {
-            ContextScoped = serviceProvider;
+            if (serviceProvider != null) ContextScoped = serviceProvider;
             return this;
         }
 
@@ -56,8 +56,7 @@ namespace Furion.DatabaseAccessor
         public SqlStringExecutePart Change<TDbContextLocator>()
             where TDbContextLocator : class, IDbContextLocator
         {
-            DbContextLocator = typeof(TDbContextLocator) ?? typeof(MasterDbContextLocator);
-            return this;
+            return Change(typeof(TDbContextLocator));
         }
 
         /// <summary>
@@ -66,7 +65,7 @@ namespace Furion.DatabaseAccessor
         /// <returns></returns>
         public SqlStringExecutePart Change(Type dbContextLocator)
         {
-            DbContextLocator = dbContextLocator ?? typeof(MasterDbContextLocator);
+            if (dbContextLocator != null) DbContextLocator = dbContextLocator;
             return this;
         }
     }

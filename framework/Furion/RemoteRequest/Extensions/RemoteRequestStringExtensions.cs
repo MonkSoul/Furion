@@ -126,19 +126,6 @@ namespace Furion.RemoteRequest.Extensions
         }
 
         /// <summary>
-        /// 设置 Body 内容
-        /// </summary>
-        /// <param name="requestUrl"></param>
-        /// <param name="body"></param>
-        /// <param name="contentType"></param>
-        /// <param name="encoding"></param>
-        /// <returns></returns>
-        public static HttpClientExecutePart SetBody(this string requestUrl, IDictionary<string, object> body, string contentType = default, Encoding encoding = default)
-        {
-            return new HttpClientExecutePart().SetRequestUrl(requestUrl).SetBody(body, contentType, encoding);
-        }
-
-        /// <summary>
         /// 设置内容类型
         /// </summary>
         /// <param name="requestUrl"></param>
@@ -167,17 +154,6 @@ namespace Furion.RemoteRequest.Extensions
         /// <param name="bytesData"></param>
         /// <returns></returns>
         public static HttpClientExecutePart SetBodyBytes(this string requestUrl, params (string Name, byte[] Bytes, string FileName)[] bytesData)
-        {
-            return new HttpClientExecutePart().SetRequestUrl(requestUrl).SetBodyBytes(bytesData);
-        }
-
-        /// <summary>
-        /// 设置 Body  Bytes
-        /// </summary>
-        /// <param name="requestUrl"></param>
-        /// <param name="bytesData"></param>
-        /// <returns></returns>
-        public static HttpClientExecutePart SetBodyBytes(this string requestUrl, List<(string Name, byte[] Bytes, string FileName)> bytesData)
         {
             return new HttpClientExecutePart().SetRequestUrl(requestUrl).SetBodyBytes(bytesData);
         }
@@ -223,10 +199,11 @@ namespace Furion.RemoteRequest.Extensions
         /// </summary>
         /// <param name="requestUrl"></param>
         /// <param name="enabled"></param>
+        /// <param name="includeNull"></param>
         /// <returns></returns>
-        public static HttpClientExecutePart SetValidationState(this string requestUrl, bool enabled)
+        public static HttpClientExecutePart SetValidationState(this string requestUrl, bool enabled, bool includeNull = true)
         {
-            return new HttpClientExecutePart().SetRequestUrl(requestUrl).SetValidationState(enabled);
+            return new HttpClientExecutePart().SetRequestUrl(requestUrl).SetValidationState(enabled, includeNull);
         }
 
         /// <summary>

@@ -34,7 +34,7 @@ namespace Furion.DatabaseAccessor
         /// <returns></returns>
         public EntityExecutePart<TEntity> SetContextScoped(IServiceProvider serviceProvider)
         {
-            ContextScoped = serviceProvider;
+            if (serviceProvider != null) ContextScoped = serviceProvider;
             return this;
         }
 
@@ -46,8 +46,7 @@ namespace Furion.DatabaseAccessor
         public EntityExecutePart<TEntity> Change<TDbContextLocator>()
             where TDbContextLocator : class, IDbContextLocator
         {
-            DbContextLocator = typeof(TDbContextLocator) ?? typeof(MasterDbContextLocator);
-            return this;
+            return Change(typeof(TDbContextLocator));
         }
 
         /// <summary>
@@ -56,7 +55,7 @@ namespace Furion.DatabaseAccessor
         /// <returns></returns>
         public EntityExecutePart<TEntity> Change(Type dbContextLocator)
         {
-            DbContextLocator = dbContextLocator ?? typeof(MasterDbContextLocator);
+            if (dbContextLocator != null) DbContextLocator = dbContextLocator;
             return this;
         }
     }

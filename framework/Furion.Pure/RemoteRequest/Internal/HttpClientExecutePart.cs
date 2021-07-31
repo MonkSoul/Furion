@@ -72,12 +72,17 @@ namespace Furion.RemoteRequest
         /// <summary>
         /// 超时时间（秒）
         /// </summary>
-        public long Timeout { get; private set; } = 0;
+        public long Timeout { get; private set; }
 
         /// <summary>
-        /// Json 序列化提供器
+        /// JSON 序列化提供器
         /// </summary>
-        public (Type ProviderType, object JsonSerializerOptions) JsonSerialization { get; private set; } = (typeof(SystemTextJsonSerializerProvider), default);
+        public Type JsonSerializerProvider { get; private set; } = typeof(SystemTextJsonSerializerProvider);
+
+        /// <summary>
+        /// JSON 序列化配置选项
+        /// </summary>
+        public object JsonSerializerOptions { get; private set; }
 
         /// <summary>
         /// 是否启用模型验证

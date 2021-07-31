@@ -40,6 +40,6 @@ namespace Furion.ViewEngine
         /// <summary>
         /// 视图模板服务作用域
         /// </summary>
-        public IServiceProvider ViewEngineScoped { get; private set; }
+        public IServiceProvider ViewEngineScoped { get; private set; } = App.RootServices;
     }
 }

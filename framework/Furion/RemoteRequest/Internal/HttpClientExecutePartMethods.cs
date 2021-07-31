@@ -313,10 +313,10 @@ namespace Furion.RemoteRequest
             if (string.IsNullOrWhiteSpace(text)) return default;
 
             // 解析 Json 序列化提供器
-            var jsonSerializer = App.GetService(JsonSerialization.ProviderType ?? typeof(SystemTextJsonSerializerProvider), RequestScoped) as IJsonSerializerProvider;
+            var jsonSerializer = App.GetService(JsonSerializerProvider, RequestScoped) as IJsonSerializerProvider;
 
             // 反序列化流
-            var result = jsonSerializer.Deserialize<T>(text, JsonSerialization.JsonSerializerOptions, false);
+            var result = jsonSerializer.Deserialize<T>(text, JsonSerializerOptions);
             return result;
         }
 
@@ -587,8 +587,8 @@ namespace Furion.RemoteRequest
             if (body != null && body is string) return body.ToString();
 
             // 解析序列化工具
-            var jsonSerializer = App.GetService(JsonSerialization.ProviderType, RequestScoped) as IJsonSerializerProvider;
-            return jsonSerializer.Serialize(body, JsonSerialization.JsonSerializerOptions, false);
+            var jsonSerializer = App.GetService(JsonSerializerProvider, RequestScoped) as IJsonSerializerProvider;
+            return jsonSerializer.Serialize(body, JsonSerializerOptions);
         }
     }
 }
