@@ -128,6 +128,8 @@ namespace Furion.UnifyResult
 - **问题修复**
 
   - [修复] `MVC` 控制器启用规范化处理后返回 `new Json({})` 对象为 `null` 问题 [#I4354S](https://gitee.com/dotnetchina/Furion/issues/I4354S)
+  - [修复] 非关系型数据库（内存数据库）注册及操作异常 [e167651](https://gitee.com/dotnetchina/Furion/commit/e1676512a54374427bedbde17cd8cb59d7852557)
+  - [修复] 远程请求默认序列化问题 [a55603b](https://gitee.com/dotnetchina/Furion/commit/a55603bf7ed109296375dbeffc31591a6f8f8e49)
 
 - **其他更改**
 
