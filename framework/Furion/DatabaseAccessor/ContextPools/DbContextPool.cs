@@ -91,6 +91,9 @@ namespace Furion.DatabaseAccessor
         /// <param name="dbContext"></param>
         public void AddToPool(DbContext dbContext)
         {
+            // 跳过非关系型数据库
+            if (!dbContext.Database.IsRelational()) return;
+
             var instanceId = dbContext.ContextId.InstanceId;
 
             var canAdd = dbContexts.TryAdd(instanceId, dbContext);

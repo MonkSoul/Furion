@@ -32,18 +32,18 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <param name="services">服务</param>
         /// <param name="providerName">数据库提供器</param>
         /// <param name="optionBuilder"></param>
-        /// <param name="connectionString">连接字符串</param>
+        /// <param name="connectionMetadata">支持数据库连接字符串，配置文件的 ConnectionStrings 中的Key或 配置文件的完整的配置路径，如果是内存数据库，则为数据库名称</param>
         /// <param name="poolSize">池大小</param>
         /// <param name="interceptors">拦截器</param>
         /// <returns>服务集合</returns>
-        public static IServiceCollection AddDbPool<TDbContext>(this IServiceCollection services, string providerName = default, Action<DbContextOptionsBuilder> optionBuilder = null, string connectionString = default, int poolSize = 100, params IInterceptor[] interceptors)
+        public static IServiceCollection AddDbPool<TDbContext>(this IServiceCollection services, string providerName = default, Action<DbContextOptionsBuilder> optionBuilder = null, string connectionMetadata = default, int poolSize = 100, params IInterceptor[] interceptors)
             where TDbContext : DbContext
         {
             // 检查是否重复注册默认数据库上下文
             CheckMasterDbContextLocator();
 
             // 注册数据库上下文
-            return services.AddDbPool<TDbContext, MasterDbContextLocator>(providerName, optionBuilder, connectionString, poolSize, interceptors);
+            return services.AddDbPool<TDbContext, MasterDbContextLocator>(providerName, optionBuilder, connectionMetadata, poolSize, interceptors);
         }
 
         /// <summary>
@@ -73,11 +73,11 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <param name="services">服务</param>
         /// <param name="providerName">数据库提供器</param>
         /// <param name="optionBuilder"></param>
-        /// <param name="connectionString">连接字符串</param>
+        /// <param name="connectionMetadata">支持数据库连接字符串，配置文件的 ConnectionStrings 中的Key或 配置文件的完整的配置路径，如果是内存数据库，则为数据库名称</param>
         /// <param name="poolSize">池大小</param>
         /// <param name="interceptors">拦截器</param>
         /// <returns>服务集合</returns>
-        public static IServiceCollection AddDbPool<TDbContext, TDbContextLocator>(this IServiceCollection services, string providerName = default, Action<DbContextOptionsBuilder> optionBuilder = null, string connectionString = default, int poolSize = 100, params IInterceptor[] interceptors)
+        public static IServiceCollection AddDbPool<TDbContext, TDbContextLocator>(this IServiceCollection services, string providerName = default, Action<DbContextOptionsBuilder> optionBuilder = null, string connectionMetadata = default, int poolSize = 100, params IInterceptor[] interceptors)
             where TDbContext : DbContext
             where TDbContextLocator : class, IDbContextLocator
         {
@@ -85,7 +85,7 @@ namespace Microsoft.Extensions.DependencyInjection
             services.RegisterDbContext<TDbContext, TDbContextLocator>();
 
             // 配置数据库上下文
-            var connStr = DbProvider.GetConnectionString<TDbContext>(connectionString);
+            var connStr = DbProvider.GetConnectionString<TDbContext>(connectionMetadata);
             services.AddDbContextPool<TDbContext>(Penetrates.ConfigureDbContext(options =>
             {
                 var _options = ConfigureDatabase<TDbContext>(providerName, connStr, options);
@@ -125,17 +125,17 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <param name="services">服务</param>
         /// <param name="providerName">数据库提供器</param>
         /// <param name="optionBuilder"></param>
-        /// <param name="connectionString">连接字符串</param>
+        /// <param name="connectionMetadata">支持数据库连接字符串，配置文件的 ConnectionStrings 中的Key或 配置文件的完整的配置路径，如果是内存数据库，则为数据库名称</param>
         /// <param name="interceptors">拦截器</param>
         /// <returns>服务集合</returns>
-        public static IServiceCollection AddDb<TDbContext>(this IServiceCollection services, string providerName = default, Action<DbContextOptionsBuilder> optionBuilder = null, string connectionString = default, params IInterceptor[] interceptors)
+        public static IServiceCollection AddDb<TDbContext>(this IServiceCollection services, string providerName = default, Action<DbContextOptionsBuilder> optionBuilder = null, string connectionMetadata = default, params IInterceptor[] interceptors)
             where TDbContext : DbContext
         {
             // 检查是否重复注册默认数据库上下文
             CheckMasterDbContextLocator();
 
             // 注册数据库上下文
-            return services.AddDb<TDbContext, MasterDbContextLocator>(providerName, optionBuilder, connectionString, interceptors);
+            return services.AddDb<TDbContext, MasterDbContextLocator>(providerName, optionBuilder, connectionMetadata, interceptors);
         }
 
         /// <summary>
@@ -164,10 +164,10 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <param name="services">服务</param>
         /// <param name="providerName">数据库提供器</param>
         /// <param name="optionBuilder"></param>
-        /// <param name="connectionString">连接字符串</param>
+        /// <param name="connectionMetadata">支持数据库连接字符串，配置文件的 ConnectionStrings 中的Key或 配置文件的完整的配置路径，如果是内存数据库，则为数据库名称</param>
         /// <param name="interceptors">拦截器</param>
         /// <returns>服务集合</returns>
-        public static IServiceCollection AddDb<TDbContext, TDbContextLocator>(this IServiceCollection services, string providerName = default, Action<DbContextOptionsBuilder> optionBuilder = null, string connectionString = default, params IInterceptor[] interceptors)
+        public static IServiceCollection AddDb<TDbContext, TDbContextLocator>(this IServiceCollection services, string providerName = default, Action<DbContextOptionsBuilder> optionBuilder = null, string connectionMetadata = default, params IInterceptor[] interceptors)
             where TDbContext : DbContext
             where TDbContextLocator : class, IDbContextLocator
         {
@@ -175,7 +175,7 @@ namespace Microsoft.Extensions.DependencyInjection
             services.RegisterDbContext<TDbContext, TDbContextLocator>();
 
             // 配置数据库上下文
-            var connStr = DbProvider.GetConnectionString<TDbContext>(connectionString);
+            var connStr = DbProvider.GetConnectionString<TDbContext>(connectionMetadata);
             services.AddDbContext<TDbContext>(Penetrates.ConfigureDbContext(options =>
             {
                 var _options = ConfigureDatabase<TDbContext>(providerName, connStr, options);
@@ -212,16 +212,16 @@ namespace Microsoft.Extensions.DependencyInjection
         /// </summary>
         /// <typeparam name="TDbContext"></typeparam>
         /// <param name="providerName">数据库提供器</param>
-        /// <param name="connectionString">数据库连接字符串</param>
+        /// <param name="connectionMetadata">支持数据库连接字符串，配置文件的 ConnectionStrings 中的Key或 配置文件的完整的配置路径，如果是内存数据库，则为数据库名称</param>
         /// <param name="options">数据库上下文选项构建器</param>
-        private static DbContextOptionsBuilder ConfigureDatabase<TDbContext>(string providerName, string connectionString, DbContextOptionsBuilder options)
+        private static DbContextOptionsBuilder ConfigureDatabase<TDbContext>(string providerName, string connectionMetadata, DbContextOptionsBuilder options)
              where TDbContext : DbContext
         {
             var dbContextOptionsBuilder = options;
 
             // 获取数据库上下文特性
             var dbContextAttribute = DbProvider.GetAppDbContextAttribute(typeof(TDbContext));
-            if (!string.IsNullOrWhiteSpace(connectionString))
+            if (!string.IsNullOrWhiteSpace(connectionMetadata))
             {
                 providerName ??= dbContextAttribute?.ProviderName;
 
@@ -237,7 +237,7 @@ namespace Microsoft.Extensions.DependencyInjection
                 if (DbProvider.IsDatabaseFor(providerName, DbProvider.MySql))
                 {
                     dbContextOptionsBuilder = UseMethod
-                        .Invoke(null, new object[] { options, connectionString, MySqlVersion, MigrationsAssemblyAction }) as DbContextOptionsBuilder;
+                        .Invoke(null, new object[] { options, connectionMetadata, MySqlVersion, MigrationsAssemblyAction }) as DbContextOptionsBuilder;
                 }
                 // 处理 SqlServer 2005-2008 兼容问题
                 else if (DbProvider.IsDatabaseFor(providerName, DbProvider.SqlServer) && (version == "2008" || version == "2005"))
@@ -246,7 +246,7 @@ namespace Microsoft.Extensions.DependencyInjection
                     dbContextOptionsBuilder.ReplaceService<IQueryTranslationPostprocessorFactory, SqlServer2008QueryTranslationPostprocessorFactory>();
 
                     dbContextOptionsBuilder = UseMethod
-                        .Invoke(null, new object[] { options, connectionString, MigrationsAssemblyAction }) as DbContextOptionsBuilder;
+                        .Invoke(null, new object[] { options, connectionMetadata, MigrationsAssemblyAction }) as DbContextOptionsBuilder;
                 }
                 // 处理 Oracle 11 兼容问题
                 else if (DbProvider.IsDatabaseFor(providerName, DbProvider.Oracle) && !string.IsNullOrWhiteSpace(version))
@@ -265,12 +265,18 @@ namespace Microsoft.Extensions.DependencyInjection
                     };
 
                     dbContextOptionsBuilder = UseMethod
-                        .Invoke(null, new object[] { options, connectionString, oracleOptionsAction }) as DbContextOptionsBuilder;
+                        .Invoke(null, new object[] { options, connectionMetadata, oracleOptionsAction }) as DbContextOptionsBuilder;
+                }
+                // 处理内存数据库
+                else if (DbProvider.IsDatabaseFor(providerName, DbProvider.InMemoryDatabase))
+                {
+                    dbContextOptionsBuilder = UseMethod
+                        .Invoke(null, new object[] { options, connectionMetadata, null }) as DbContextOptionsBuilder;
                 }
                 else
                 {
                     dbContextOptionsBuilder = UseMethod
-                        .Invoke(null, new object[] { options, connectionString, MigrationsAssemblyAction }) as DbContextOptionsBuilder;
+                        .Invoke(null, new object[] { options, connectionMetadata, MigrationsAssemblyAction }) as DbContextOptionsBuilder;
                 }
             }
 

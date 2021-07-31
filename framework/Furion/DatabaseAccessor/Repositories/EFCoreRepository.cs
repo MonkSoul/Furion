@@ -210,15 +210,16 @@ namespace Furion.DatabaseAccessor
             // 初始化服务提供器
             ServiceProvider = serviceProvider;
 
-            DbConnection = Database.GetDbConnection();
+            // 设置提供器名称
+            ProviderName = Database.ProviderName;
+
+            // 只有关系型数据库才有连接信息
+            if (Database.IsRelational()) DbConnection = Database.GetDbConnection();
             ChangeTracker = Context.ChangeTracker;
             Model = Context.Model;
 
             // 内置多租户
             Tenant = DynamicContext.Tenant;
-
-            // 设置提供器名称
-            ProviderName = Database.ProviderName;
 
             //初始化实体
             Entities = Context.Set<TEntity>();

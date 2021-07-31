@@ -138,13 +138,13 @@ namespace Furion.DatabaseAccessor
         /// 获取数据库上下文连接字符串
         /// </summary>
         /// <typeparam name="TDbContext"></typeparam>
-        /// <param name="connectionString"></param>
+        /// <param name="connectionMetadata">支持数据库连接字符串，配置文件的 ConnectionStrings 中的Key或 配置文件的完整的配置路径，如果是内存数据库，则为数据库名称</param>
         /// <returns></returns>
-        public static string GetConnectionString<TDbContext>(string connectionString = default)
+        public static string GetConnectionString<TDbContext>(string connectionMetadata = default)
             where TDbContext : DbContext
         {
             // 支持读取配置渲染
-            var realConnectionString = connectionString.Render();
+            var realConnectionString = connectionMetadata.Render();
 
             if (!string.IsNullOrWhiteSpace(realConnectionString)) return realConnectionString;
 
@@ -153,7 +153,7 @@ namespace Furion.DatabaseAccessor
             if (dbContextAttribute == null) return default;
 
             // 获取特性连接字符串（渲染配置模板）
-            var connStr = dbContextAttribute.ConnectionString.Render();
+            var connStr = dbContextAttribute.ConnectionMetadata.Render();
 
             if (string.IsNullOrWhiteSpace(connStr)) return default;
             // 如果包含 = 符号，那么认为是连接字符串
@@ -168,7 +168,7 @@ namespace Furion.DatabaseAccessor
                 {
                     // 首先查找 DbConnectionString 键，如果没有找到，则当成 Key 去查找
                     var connStrValue = configuration.GetConnectionString(connStr);
-                    return !string.IsNullOrWhiteSpace(connStrValue) ? connStrValue : configuration[connStr];
+                    return (!string.IsNullOrWhiteSpace(connStrValue) ? connStrValue : configuration[connStr]) ?? connStr;
                 }
             }
         }

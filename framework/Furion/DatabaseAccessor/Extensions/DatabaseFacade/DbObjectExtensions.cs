@@ -155,6 +155,9 @@ namespace Furion.DatabaseAccessor
         /// <returns>(DbConnection dbConnection, DbCommand dbCommand)</returns>
         private static (DbConnection dbConnection, DbCommand dbCommand) CreateDbCommand(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.Text)
         {
+            // 判断是否是关系型数据库
+            if (!databaseFacade.IsRelational()) throw new InvalidOperationException("Only relational databases support ADO.NET operations.");
+
             if (string.IsNullOrWhiteSpace(sql)) throw new ArgumentNullException(nameof(sql));
 
             // 支持读取配置渲染
