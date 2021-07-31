@@ -123,10 +123,10 @@ namespace Furion.EntityFramework.Core
             services.AddDatabaseAccessor(options =>
             {
                 // 配置默认数据库
-                options.AddDbPool<FurionDbContext>(DbProvider.SqlServer, connectionString:"连接字符串");
+                options.AddDbPool<FurionDbContext>(DbProvider.SqlServer, connectionMetadata:"连接字符串");
 
                 // 配置多个数据库，多个数据库必须指定数据库上下文定位器
-                options.AddDbPool<SqliteDbContext, SqliteDbContextLocaotr>(DbProvider.Sqlite, connectionString:"连接字符串");
+                options.AddDbPool<SqliteDbContext, SqliteDbContextLocaotr>(DbProvider.Sqlite, connectionMetadata:"连接字符串");
             });
         }
     }
@@ -176,7 +176,7 @@ namespace Furion.EntityFramework.Core
 
 **`[AppDbContext]`** 内置属性：
 
-- `ConnectionString`：数据库连接字符串，或配置文件中的路径（支持自定义配置查找），或 `appsetting.json` 的 `ConnectionStrings` 配置字符串
+- `ConnectionMetadata`：支持数据库连接字符串，配置文件的 `ConnectionStrings` 中的 `Key` 或配置文件的完整的配置路径，如果是内存数据库，则为数据库名称。
 - `TablePrefix`：当前数据库上下文表统一前缀
 - `TableSuffix`：当前数据库上下文表统一后缀
 - `ProviderName`：配置数据库提供器类型，传入 `DbProvider.Xxx`

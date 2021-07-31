@@ -104,8 +104,8 @@ public class DefaultDbContext : AppDbContext<DefaultDbContext>
 ```cs {3-4}
 services.AddDatabaseAccessor(options =>
 {
-    // options.AddDb<DefaultDbContext>(connectionString: "配置Key或连接字符串");
-    options.AddDbPool<DefaultDbContext>(connectionString: "配置Key或连接字符串");
+    // options.AddDb<DefaultDbContext>(connectionMetadata: "配置Key或连接字符串");
+    options.AddDbPool<DefaultDbContext>(connectionMetadata: "配置Key或连接字符串");
 });
 ```
 
