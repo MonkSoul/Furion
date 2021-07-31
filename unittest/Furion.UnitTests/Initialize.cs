@@ -5,6 +5,7 @@ using Xunit.Sdk;
 
 // 配置启动类类型
 [assembly: TestFramework("Furion.UnitTests.Initialize", "Furion.UnitTests")]
+
 namespace Furion.UnitTests
 {
     /// <summary>
