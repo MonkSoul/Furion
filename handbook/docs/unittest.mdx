@@ -269,6 +269,22 @@ namespace TestProject1
 
 <img src={useBaseUrl("img/ut9.png")} />
 
+### 36.5.3 关于非托管服务
+
+有时候我们需要对 `非托管资源` 或需要手动释放的对象进行服务解析并测试，这时候需要构建作用域进行测试，如：
+
+```cs
+[Fact]
+public async Task 测试数据库()
+{
+    Scoped.Create((f,s) => {
+        var repository = Db.GetRepository<Person>(s.ServiceProvider);
+        var isTrue = repository.Any(u => u.Id > 10);
+        Assert.True(isTrue);
+    });
+}
+```
+
 ## 36.6 `Assert` 断言
 
 `Assert` 是单元测试判定成功的依据，通常第一个参数为 `期盼值`，第二个参数为 `实际值`，详细的 `Assert` 静态方法可查阅官方库 [Assert 方法](https://github.com/xunit/assert.xunit)
