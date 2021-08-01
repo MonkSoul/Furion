@@ -19,7 +19,7 @@ namespace Furion.Application
         /// <returns></returns>
         public string InitJob(string jobName = "jobName")
         {
-            Console.WriteLine("简单任务初始化");
+            Console.WriteLine($"简单任务初始化 - {DateTime.Now:yyyy-MM-dd HH:mm:ss fff}");
 
             SpareTime.Do(1000, (t, i) =>
             {
@@ -37,11 +37,11 @@ namespace Furion.Application
         /// <returns></returns>
         public string InitCronJob([FromBody] string cron = "*/5 * * * * *", string jobName = "cronName")
         {
-            Console.WriteLine("Cron 任务初始化");
+            Console.WriteLine($"Cron 任务初始化 - {DateTime.Now:yyyy-MM-dd HH:mm:ss fff}");
 
             SpareTime.Do(cron, (t, i) =>
             {
-                Console.WriteLine($"{t.WorkerName} -{t.Description} - {DateTime.Now:yyyy-MM-dd HH:mm:ss} - {i}");
+                Console.WriteLine($"{t.WorkerName} -{t.Description} - {DateTime.Now:yyyy-MM-dd HH:mm:ss fff} - {i}");
             }, jobName, "模拟测试任务");
 
             return jobName;
@@ -109,7 +109,7 @@ namespace Furion.Application
         /// <returns></returns>
         public string InitSerialJob(string jobName = "serialJob")
         {
-            Console.WriteLine("串行执行任务");
+            Console.WriteLine($"串行执行任务 - {DateTime.Now:yyyy-MM-dd HH:mm:ss fff}");
 
             SpareTime.Do(1000, (t, i) =>
             {
@@ -154,6 +154,16 @@ namespace Furion.Application
             {
                 Console.WriteLine("测试执行一次");
             });
+        }
+
+        /// <summary>
+        /// 测试下一次执行时间
+        /// </summary>
+        /// <param name="cron"></param>
+        /// <returns></returns>
+        public DateTimeOffset TestNextTime(string cron)
+        {
+            return SpareTime.GetCronNextOccurrence(cron).Value;
         }
     }
 }

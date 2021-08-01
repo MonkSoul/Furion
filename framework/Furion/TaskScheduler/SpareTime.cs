@@ -216,6 +216,9 @@ namespace Furion.TaskScheduler
                     return;
                 }
 
+                // 延迟 100ms 后执行，解决零点问题
+                await Task.Delay(100);
+
                 // 更新实际执行次数
                 currentRecord.Timer.Tally = timer.Tally = currentRecord.CronActualTally += 1;
                 UpdateWorkerRecord(workerName, currentRecord);
@@ -488,6 +491,9 @@ namespace Furion.TaskScheduler
             var interval = (nextLocalTime.Value - DateTimeOffset.UtcNow.ToLocalTime()).TotalMilliseconds;
             var x = Math.Round(Math.Round(interval, 3, MidpointRounding.ToEven));
             if (x > 30) return;
+
+            // 延迟 100ms 后执行，解决零点问题
+            await Task.Delay(100, stoppingToken);
 
             // 开启不阻塞执行
             DoIt(doWhat);
