@@ -62,7 +62,7 @@ namespace Furion.TaskScheduler
         /// <param name="interval"></param>
         /// <param name="cancelInNoneNextTime"></param>
         /// <param name="executeType"></param>
-        public static void DoIt(Action doWhat = default, double interval = 10, bool cancelInNoneNextTime = true, SpareTimeExecuteTypes executeType = SpareTimeExecuteTypes.Parallel)
+        public static void DoIt(Action doWhat = default, double interval = 30, bool cancelInNoneNextTime = true, SpareTimeExecuteTypes executeType = SpareTimeExecuteTypes.Parallel)
         {
             if (doWhat == null) return;
 
@@ -77,7 +77,7 @@ namespace Furion.TaskScheduler
         /// <param name="interval"></param>
         /// <param name="cancelInNoneNextTime"></param>
         /// <param name="executeType"></param>
-        public static void DoIt(Func<Task> doWhat = default, double interval = 10, bool cancelInNoneNextTime = true, SpareTimeExecuteTypes executeType = SpareTimeExecuteTypes.Parallel)
+        public static void DoIt(Func<Task> doWhat = default, double interval = 30, bool cancelInNoneNextTime = true, SpareTimeExecuteTypes executeType = SpareTimeExecuteTypes.Parallel)
         {
             if (doWhat == null) return;
 
@@ -179,8 +179,8 @@ namespace Furion.TaskScheduler
         {
             if (doWhat == null) return;
 
-            // 每 1s 秒检查一次
-            Do(1000, async (timer, tally) =>
+            // 每 30ms 检查一次
+            Do(30, async (timer, tally) =>
             {
                 // 获取下一个执行的时间
                 var nextLocalTime = nextTimeHandler();
@@ -208,8 +208,9 @@ namespace Furion.TaskScheduler
                 currentRecord.Timer.Tally = timer.Tally = currentRecord.CronActualTally;
 
                 // 只有时间相等才触发
-                var interval = (nextLocalTime.Value - DateTimeOffset.UtcNow.ToLocalTime()).TotalSeconds;
-                if (Math.Floor(interval) != 0)
+                var interval = (nextLocalTime.Value - DateTimeOffset.UtcNow.ToLocalTime()).TotalMilliseconds;
+                var x = Math.Round(Math.Round(interval, 3, MidpointRounding.ToEven));
+                if (x > 30)
                 {
                     UpdateWorkerRecord(workerName, currentRecord);
                     return;
@@ -484,14 +485,15 @@ namespace Furion.TaskScheduler
             if (nextLocalTime == null) return;
 
             // 只有时间相等才触发
-            var interval = (nextLocalTime.Value - DateTimeOffset.UtcNow.ToLocalTime()).TotalSeconds;
-            if (Math.Floor(interval) != 0) return;
+            var interval = (nextLocalTime.Value - DateTimeOffset.UtcNow.ToLocalTime()).TotalMilliseconds;
+            var x = Math.Round(Math.Round(interval, 3, MidpointRounding.ToEven));
+            if (x > 30) return;
 
             // 开启不阻塞执行
             DoIt(doWhat);
 
-            // 每 1s 秒检查一次
-            await Task.Delay(1000, stoppingToken);
+            // 每 30ms 检查一次
+            await Task.Delay(30, stoppingToken);
         }
 
         /// <summary>
