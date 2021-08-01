@@ -843,6 +843,12 @@ const contributors = [
     photo:
       "https://portrait.gitee.com/uploads/avatars/user/24/73305_nodyang_1615357247.png!avatar200",
   },
+  {
+    author: "PublicUser",
+    link: "https://gitee.com/publiczsy",
+    photo:
+      "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFoAAABaCAYAAAA4qEECAAAAAXNSR0IArs4c6QAAA2BJREFUeF7t209IFFEABvBvdt11JVCKSPIQRP8oEDqIhJSdhAKhYx2iS9AhvJTULejQqUPloU4dutghqAjSQDpUZF6CLIL+kJgUEiGYZu3O7MxOzIJ/Ug/PnZ1vp+mb83vv2/nNt29ndtX6eXODDx2RC1iCjty4HCBojrOgSc6CFjRLgJSjPVrQJAFSjBotaJIAKUaNFjRJgBSjRguaJECKUaMFTRIgxajRgiYJkGLUaEGTBEgxarSgSQKkGDVa0CQBUowaLWiSAClGjRY0SYAUo0b/T9ANh+8j3dJZ2Sn7Hny3ADgzKP34AHdiEO6nO/CLc5WtF9GsWDQ6FPQqMH5+CsW3N+C86YuIbe3LJhK6zOB75Xbbz3pi0e54Qpdc+F7BqDaWlQbqcsEfxq4c73sovrsFe+S80VpRDooldLDX/r7bYXze1roWZHYeR2b3SVgNG/+aF2wj9vBZuBMDxutFMTAR0PMw6U1tqN9/Fan1e5ZY+XDH7qHw5FQUfsZrJgo6OOvMrhPItl+ElW1aQCjNjqMwdBSlmTFjmGoPTBx0ANTQ/Qjp5vYFK9+ehj3cC3f8QbX9jNdLJHSu8zrqdhxbhC7OwX5xrnx/XasjkdD1B/rKH47zR/DwIujgrb7syXCtdx3LW5rr6kfdlkOCXg5TTehU0zbkum4j1bR9EfrXZPmuw/s2UqudIx7/LFRN6GzbBWRbTwOp7AJqAJwf6K4ZchCcqD06u7cXmdYeWNnGRVTPhvPqMpzX1wRdaaODJ8J08z6kN3cg3XIQqcatKx7FS1OjyA8eqfn3HbFsdLWq5wd78/Mz8L4+rtaSFa+TWGg//x3Oy0sofuyvGKeaExMH7Tuz8L4MwRm9Uv4hIC5HPKHX8DUpnFn4hSmUpt/DnXwK7/PDmu/Hq13cWEKHfWCJS4uXvg5Bk66KoAVt/gsLySpUjBodis98sqDNrUKNFHQoPvPJgja3CjVS0KH4zCcL2twq1EhBh+Iznyxoc6tQIwUdis98ciygzV/uvztS0KRrJ2hBkwRIMWq0oEkCpBg1WtAkAVKMGi1okgApRo0WNEmAFKNGC5okQIpRowVNEiDFqNGCJgmQYtRoQZMESDFqtKBJAqQYNVrQJAFSjBotaJIAKUaNFjRJgBSjRpOg/wCZ8kG5zPIi+gAAAABJRU5ErkJggg==",
+  },
 ];
 
 export default contributors;
