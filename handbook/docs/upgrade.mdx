@@ -31,6 +31,9 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
   - [新增] 多语言自定义配置资源文件名及自定义程序集 [#I434YJ](https://gitee.com/dotnetchina/Furion/issues/I434YJ)
   - [新增] 远程请求 `application/xml` 和 `text/xml` 默认支持 [4753a1a](https://gitee.com/dotnetchina/Furion/commit/4753a1aed527a6282fe6c05036de9d50bd3b3dd8)
   - [新增] 控制台全局异常拦截 [4a4fe1f](https://gitee.com/dotnetchina/Furion/commit/4a4fe1f40e1856ea36a0c0d19ca625d3f7bf95b7)
+  - [新增] 支持自定义 `.json` 配置文件扫描目录 [3e2910a](https://gitee.com/dotnetchina/Furion/commit/3e2910a8b775fb6323e293b020bbe7cdfb4c6436)
+  - [新增] 支持数据库实体接口显式实现接口配置 [9610a0a](https://gitee.com/dotnetchina/Furion/commit/9610a0a481f4f78770bc2fc3ed4cabbef2a8f937)
+  - [新增] 控制台应用程序全局拦截 `[IfException]` 支持 [4a4fe1f](https://gitee.com/dotnetchina/Furion/commit/4a4fe1f40e1856ea36a0c0d19ca625d3f7bf95b7)
 
 - **突破性变化**
 
@@ -158,6 +161,7 @@ namespace Furion.UnifyResult
 
   - [优化] 多语言底层设计，取消需要创建 `Lang.cs` 空类的要求 [#I434YJ](https://gitee.com/dotnetchina/Furion/issues/I434YJ)
   - [优化] `MiniProfiler` 性能，减少不必要的监听
+  - [调整] Swagger 生成泛型 SchemaIds 默认连接符，由 `Of` 改为 `_` [81946b6](https://gitee.com/dotnetchina/Furion/commit/81946b64e81d9e290f80cd5bcebdb69c99001153)
 
 ---
 
