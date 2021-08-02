@@ -39,9 +39,6 @@ namespace Microsoft.Extensions.DependencyInjection
         public static IServiceCollection AddDbPool<TDbContext>(this IServiceCollection services, string providerName = default, Action<DbContextOptionsBuilder> optionBuilder = null, string connectionMetadata = default, int poolSize = 100, params IInterceptor[] interceptors)
             where TDbContext : DbContext
         {
-            // 检查是否重复注册默认数据库上下文
-            CheckMasterDbContextLocator();
-
             // 注册数据库上下文
             return services.AddDbPool<TDbContext, MasterDbContextLocator>(providerName, optionBuilder, connectionMetadata, poolSize, interceptors);
         }
@@ -58,9 +55,6 @@ namespace Microsoft.Extensions.DependencyInjection
         public static IServiceCollection AddDbPool<TDbContext>(this IServiceCollection services, Action<DbContextOptionsBuilder> optionBuilder, int poolSize = 100, params IInterceptor[] interceptors)
             where TDbContext : DbContext
         {
-            // 检查是否重复注册默认数据库上下文
-            CheckMasterDbContextLocator();
-
             // 注册数据库上下文
             return services.AddDbPool<TDbContext, MasterDbContextLocator>(optionBuilder, poolSize, interceptors);
         }
@@ -131,9 +125,6 @@ namespace Microsoft.Extensions.DependencyInjection
         public static IServiceCollection AddDb<TDbContext>(this IServiceCollection services, string providerName = default, Action<DbContextOptionsBuilder> optionBuilder = null, string connectionMetadata = default, params IInterceptor[] interceptors)
             where TDbContext : DbContext
         {
-            // 检查是否重复注册默认数据库上下文
-            CheckMasterDbContextLocator();
-
             // 注册数据库上下文
             return services.AddDb<TDbContext, MasterDbContextLocator>(providerName, optionBuilder, connectionMetadata, interceptors);
         }
@@ -149,9 +140,6 @@ namespace Microsoft.Extensions.DependencyInjection
         public static IServiceCollection AddDb<TDbContext>(this IServiceCollection services, Action<DbContextOptionsBuilder> optionBuilder, params IInterceptor[] interceptors)
             where TDbContext : DbContext
         {
-            // 检查是否重复注册默认数据库上下文
-            CheckMasterDbContextLocator();
-
             // 注册数据库上下文
             return services.AddDb<TDbContext, MasterDbContextLocator>(optionBuilder, interceptors);
         }
@@ -402,15 +390,6 @@ namespace Microsoft.Extensions.DependencyInjection
 
             var providerVersion = providerNameAndVersion.Length > 1 ? providerNameAndVersion[1] : default;
             return (providerName, providerVersion);
-        }
-
-        /// <summary>
-        /// 检查是否重复注册默认数据库上下文
-        /// </summary>
-        private static void CheckMasterDbContextLocator()
-        {
-            // 避免重复注册默认数据库上下文
-            if (Penetrates.DbContextWithLocatorCached.ContainsKey(typeof(MasterDbContextLocator))) throw new InvalidOperationException("Prevent duplicate registration of default DbContext.");
         }
     }
 }
