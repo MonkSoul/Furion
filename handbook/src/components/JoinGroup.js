@@ -10,7 +10,7 @@ export default function JoinGroup() {
       {/* {show && <img src={useBaseUrl("img/dotnetchina2.jpg")} />} */}
       <a href={useBaseUrl("blog/net6-preview6")}>
         {/* {show ? "QQ 群号：592844340" : "加入 dotNET China 交流群"} */} ✨
-        尝鲜 .NET 6 Preview 6 版本 ✨
+        尝鲜 Furion For .NET6 版本 ✨
       </a>
     </div>
   );
