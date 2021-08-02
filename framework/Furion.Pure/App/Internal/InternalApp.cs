@@ -73,7 +73,7 @@ namespace Furion
             // 如果没有配置文件，中止执行
             if (!jsonFiles.Any()) return;
 
-            // 获取环境变量名
+            // 获取环境变量名，如果没找到，则读取 NETCORE_ENVIRONMENT 环境变量信息识别（用于非 Web 环境）
             var envName = hostEnvironment?.EnvironmentName ?? Environment.GetEnvironmentVariable("NETCORE_ENVIRONMENT") ?? "Unknown";
 
             // 读取忽略的配置文件
