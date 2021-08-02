@@ -2,12 +2,12 @@
 
 namespace Furion.Core
 {
-    public class V_Person : EntityNotKey
+    public class VPerson : EntityNotKey
     {
         /// <summary>
         /// 配置视图名
         /// </summary>
-        public V_Person() : base("V_Person")
+        public VPerson() : base("V_Person")
         {
         }
 

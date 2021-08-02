@@ -14,7 +14,7 @@ namespace Furion.Application.Persons
     /// </summary>
     public class PersonRelationshipService : IDynamicApiController
     {
-        private readonly IReadableRepository<V_Person> _readableRepository;
+        private readonly IReadableRepository<VPerson> _readableRepository;
         private readonly IRepository<Person> _personRepository;
 
         /// <summary>
@@ -23,12 +23,12 @@ namespace Furion.Application.Persons
         /// <param name="personRepository"></param>
         /// <param name="repository"></param>
         public PersonRelationshipService(IRepository<Person> personRepository
-            , IRepository<V_Person> repository)
+            , IRepository<VPerson> repository)
         {
             _personRepository = personRepository;
 
             // 初始化只读仓储
-            _readableRepository = repository.Constraint<IReadableRepository<V_Person>>();
+            _readableRepository = repository.Constraint<IReadableRepository<VPerson>>();
         }
 
         /// <summary>
@@ -154,7 +154,7 @@ namespace Furion.Application.Persons
         /// 读取视图
         /// </summary>
         /// <returns></returns>
-        public async Task<List<V_Person>> GetVPerson()
+        public async Task<List<VPerson>> GetVPerson()
         {
             var list = await _readableRepository.AsQueryable(false).ToListAsync();
             return list;

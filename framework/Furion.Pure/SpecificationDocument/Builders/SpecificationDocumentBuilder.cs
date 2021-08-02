@@ -262,8 +262,8 @@ namespace Furion.SpecificationDocument
                     .Select(genericArg => DefaultSchemaIdSelector(genericArg))
                     .Aggregate((previous, current) => previous + current);
 
-                // 通过 Of 拼接多个泛型
-                return modelType.Name.Split('`').First() + "Of" + prefix;
+                // 通过 _ 拼接多个泛型
+                return modelType.Name.Split('`').First() + "_" + prefix;
             }
 
             // 调用本地函数

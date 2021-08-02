@@ -160,27 +160,27 @@
             Person 集合
             </summary>
         </member>
-        <member name="M:Furion.Core.V_Person.#ctor">
+        <member name="M:Furion.Core.VPerson.#ctor">
             <summary>
             配置视图名
             </summary>
         </member>
-        <member name="P:Furion.Core.V_Person.Id">
+        <member name="P:Furion.Core.VPerson.Id">
             <summary>
             主键Id
             </summary>
         </member>
-        <member name="P:Furion.Core.V_Person.Name">
+        <member name="P:Furion.Core.VPerson.Name">
             <summary>
             姓名
             </summary>
         </member>
-        <member name="P:Furion.Core.V_Person.Age">
+        <member name="P:Furion.Core.VPerson.Age">
             <summary>
             年龄
             </summary>
         </member>
-        <member name="P:Furion.Core.V_Person.Address">
+        <member name="P:Furion.Core.VPerson.Address">
             <summary>
             住址
             </summary>

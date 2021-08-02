@@ -225,7 +225,7 @@
             关联数据演示
             </summary>
         </member>
-        <member name="M:Furion.Application.Persons.PersonRelationshipService.#ctor(Furion.DatabaseAccessor.IRepository{Furion.Core.Person},Furion.DatabaseAccessor.IRepository{Furion.Core.V_Person})">
+        <member name="M:Furion.Application.Persons.PersonRelationshipService.#ctor(Furion.DatabaseAccessor.IRepository{Furion.Core.Person},Furion.DatabaseAccessor.IRepository{Furion.Core.VPerson})">
             <summary>
             构造函数
             </summary>
