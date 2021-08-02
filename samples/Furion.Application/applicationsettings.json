@@ -32,6 +32,7 @@
   },
   "LocalizationSettings": {
     "SupportedCultures": [ "zh-CN", "en-US" ],
-    "DefaultCulture": "zh-CN"
+    "DefaultCulture": "zh-CN",
+    "AssemblyName": "Furion.Web.Core"
   }
 }
