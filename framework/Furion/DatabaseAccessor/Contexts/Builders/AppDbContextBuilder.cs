@@ -164,7 +164,9 @@ namespace Furion.DatabaseAccessor
             // 判断是否是启用了多租户模式，如果是，则获取 Schema
             var dynamicSchema = !typeof(IMultiTenantOnSchema).IsAssignableFrom(dbContextType)
                 ? default
-                : dbContextType.GetMethod(nameof(IMultiTenantOnSchema.GetSchemaName))?.Invoke(dbContext, null)?.ToString();
+                : (dbContextType.GetMethod(nameof(IMultiTenantOnSchema.GetSchemaName))  // 支持显式和隐式
+                        ?? typeof(IMultiTenantOnSchema).GetMethod(nameof(IMultiTenantOnSchema.GetSchemaName))
+                    )?.Invoke(dbContext, null)?.ToString();
 
             // 获取类型前缀 [TablePrefix] 特性
             var tablePrefixAttribute = !type.IsDefined(typeof(TablePrefixAttribute), true)
@@ -223,9 +225,11 @@ namespace Furion.DatabaseAccessor
             // 只应用于扫描的最后配置
             var lastEntityMutableTableType = entityMutableTableTypes.Last();
 
-            var instance = Activator.CreateInstance(lastEntityMutableTableType);
-            var getTableNameMethod = lastEntityMutableTableType.GetMethod("GetTableName");
-            var tableName = getTableNameMethod?.Invoke(instance, new object[] { dbContext, dbContextLocator });
+            // 支持显式和隐式查找
+            var getTableNameMethod = lastEntityMutableTableType.GetMethod("GetTableName")
+                ?? typeof(IPrivateEntityMutableTable<>).MakeGenericType(lastEntityMutableTableType).GetMethod("GetTableName");
+
+            var tableName = getTableNameMethod?.Invoke(Activator.CreateInstance(lastEntityMutableTableType), new object[] { dbContext, dbContextLocator });
             if (tableName != null)
             {
                 // 设置动态表名
@@ -311,7 +315,9 @@ namespace Furion.DatabaseAccessor
             // 调用数据库实体自定义配置
             foreach (var entityTypeBuilderType in entityTypeBuilderTypes)
             {
-                var configureMethod = entityTypeBuilderType.GetMethods(BindingFlags.Public | BindingFlags.Instance)
+                // 支持显式和隐式接口查找
+                var configureMethod = (entityTypeBuilderType.GetMethods(BindingFlags.Public | BindingFlags.Instance)
+                                                    .Concat(typeof(IPrivateEntityTypeBuilder<>).MakeGenericType(entityTypeBuilderType).GetMethods()))
                                                                    .Where(u => u.Name == "Configure"
                                                                         && u.GetParameters().Length > 0
                                                                         && u.GetParameters().First().ParameterType == typeof(EntityTypeBuilder<>).MakeGenericType(entityType))
@@ -346,7 +352,9 @@ namespace Furion.DatabaseAccessor
             // 加载种子配置数据
             foreach (var entitySeedDataType in entitySeedDataTypes)
             {
-                var hasDataMethod = entitySeedDataType.GetMethod("HasData");
+                // 支持显式和隐式接口查找
+                var hasDataMethod = entitySeedDataType.GetMethod("HasData")
+                    ?? typeof(IPrivateEntitySeedData<>).MakeGenericType(entitySeedDataType).GetMethod("HasData");
                 if (hasDataMethod == null) continue;
 
                 var instance = Activator.CreateInstance(entitySeedDataType);
