@@ -210,7 +210,10 @@ namespace Furion.FriendlyException
                 : ifExceptionAttribute.ErrorMessage;
 
             // 如果所有错误码都获取不到，则找全局 [IfException] 错误
-            errorCodeMessage = methodIfException.IfExceptionAttributes.FirstOrDefault(u => u.ErrorCode == null && !string.IsNullOrWhiteSpace(u.ErrorMessage))?.ErrorMessage;
+            if (string.IsNullOrWhiteSpace(errorCodeMessage))
+            {
+                errorCodeMessage = methodIfException.IfExceptionAttributes.FirstOrDefault(u => u.ErrorCode == null && !string.IsNullOrWhiteSpace(u.ErrorMessage))?.ErrorMessage;
+            }
 
             // 字符串格式化
             return MontageErrorMessage(errorCodeMessage, errorCode.ToString()
