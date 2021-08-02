@@ -28,7 +28,7 @@ namespace Furion.DatabaseAccessor
         /// <summary>
         /// 构造函数
         /// </summary>
-        /// <param name="connectionMetadata">支持数据库连接字符串，配置文件的 ConnectionStrings 中的Key或 配置文件的完整的配置路径，如果是内存数据库，则为数据库名称</param>
+        /// <param name="connectionMetadata">支持数据库连接字符串，配置文件的 ConnectionStrings 中的Key或配置文件的完整的配置路径，如果是内存数据库，则为数据库名称</param>
         /// <param name="slaveDbContextLocators"></param>
         public AppDbContextAttribute(string connectionMetadata, params Type[] slaveDbContextLocators)
         {
@@ -39,7 +39,7 @@ namespace Furion.DatabaseAccessor
         /// <summary>
         /// 构造函数
         /// </summary>
-        /// <param name="connectionMetadata">支持数据库连接字符串，配置文件的 ConnectionStrings 中的Key或 配置文件的完整的配置路径，如果是内存数据库，则为数据库名称</param>
+        /// <param name="connectionMetadata">支持数据库连接字符串，配置文件的 ConnectionStrings 中的Key或配置文件的完整的配置路径，如果是内存数据库，则为数据库名称</param>
         /// <param name="providerName"></param>
         /// <param name="slaveDbContextLocators"></param>
         public AppDbContextAttribute(string connectionMetadata, string providerName, params Type[] slaveDbContextLocators)
@@ -52,7 +52,7 @@ namespace Furion.DatabaseAccessor
         /// <summary>
         /// 数据库连接元数据
         /// </summary>
-        /// <remarks>支持数据库连接字符串，配置文件的 ConnectionStrings 中的Key或 配置文件的完整的配置路径，如果是内存数据库，则为数据库名称</remarks>
+        /// <remarks>支持数据库连接字符串，配置文件的 ConnectionStrings 中的Key或配置文件的完整的配置路径，如果是内存数据库，则为数据库名称</remarks>
         public string ConnectionMetadata { get; set; }
 
         /// <summary>
