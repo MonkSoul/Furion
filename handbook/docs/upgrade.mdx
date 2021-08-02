@@ -30,6 +30,7 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
   - [新增] `UnifyResultSettings` 规范化 `json` 配置选项 [#I42NY7](https://gitee.com/dotnetchina/Furion/issues/I42NY7)
   - [新增] 多语言自定义配置资源文件名及自定义程序集 [#I434YJ](https://gitee.com/dotnetchina/Furion/issues/I434YJ)
   - [新增] 远程请求 `application/xml` 和 `text/xml` 默认支持 [4753a1a](https://gitee.com/dotnetchina/Furion/commit/4753a1aed527a6282fe6c05036de9d50bd3b3dd8)
+  - [新增] 控制台全局异常拦截 [4a4fe1f](https://gitee.com/dotnetchina/Furion/commit/4a4fe1f40e1856ea36a0c0d19ca625d3f7bf95b7)
 
 - **突破性变化**
 
@@ -150,6 +151,8 @@ namespace Furion.UnifyResult
   - [修复] 非关系型数据库（内存数据库）注册及操作异常 [e167651](https://gitee.com/dotnetchina/Furion/commit/e1676512a54374427bedbde17cd8cb59d7852557)
   - [修复] 远程请求默认序列化问题 [a55603b](https://gitee.com/dotnetchina/Furion/commit/a55603bf7ed109296375dbeffc31591a6f8f8e49)
   - [修复] 定时任务零点/整点提前一秒触发问题 [#I4321L](https://gitee.com/dotnetchina/Furion/issues/I4321L)
+  - [修复] 友好异常在子类重写抽象类方法内部抛异常无法获取的问题 [4a4fe1f](https://gitee.com/dotnetchina/Furion/commit/4a4fe1f40e1856ea36a0c0d19ca625d3f7bf95b7)
+  - [修复] 修复非 Web 项目抛异常问题 [4a4fe1f](https://gitee.com/dotnetchina/Furion/commit/4a4fe1f40e1856ea36a0c0d19ca625d3f7bf95b7)
 
 - **其他更改**
 
