@@ -54,11 +54,21 @@ namespace Furion
         /// <param name="hostEnvironment"></param>
         internal static void AddJsonFiles(IConfigurationBuilder configurationBuilder, IHostEnvironment hostEnvironment)
         {
-            // 获取程序目录下的所有配置文件（只限顶级目标，不递归查找）
-            var jsonFiles = Directory.GetFiles(AppContext.BaseDirectory, "*.json", SearchOption.TopDirectoryOnly)
-                .Union(
-                    Directory.GetFiles(Directory.GetCurrentDirectory(), "*.json", SearchOption.TopDirectoryOnly)
-                );
+            // 获取根配置
+            var configuration = configurationBuilder.Build();
+
+            // 获取程序执行目录
+            var executeDirectory = AppContext.BaseDirectory;
+
+            // 获取自定义配置扫描目录
+            var configurationScanDirectories = (configuration.GetSection("ConfigurationScanDirectories")
+                    .Get<string[]>()
+                ?? Array.Empty<string>()).Select(u => Path.Combine(executeDirectory, u));
+
+            // 扫描执行目录及自定义配置目录下的 *.json 文件
+            var jsonFiles = new[] { executeDirectory }.Concat(configurationScanDirectories)
+                               .SelectMany(u =>
+                                    Directory.GetFiles(u, "*.json", SearchOption.TopDirectoryOnly));
 
             // 如果没有配置文件，中止执行
             if (!jsonFiles.Any()) return;
@@ -67,8 +77,7 @@ namespace Furion
             var envName = hostEnvironment?.EnvironmentName ?? Environment.GetEnvironmentVariable("NETCORE_ENVIRONMENT") ?? "Unknown";
 
             // 读取忽略的配置文件
-            var ignoreConfigurationFiles = configurationBuilder.Build()
-                    .GetSection("IgnoreConfigurationFiles")
+            var ignoreConfigurationFiles = configuration.GetSection("IgnoreConfigurationFiles")
                     .Get<string[]>()
                 ?? Array.Empty<string>();
 

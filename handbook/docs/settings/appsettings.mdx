@@ -34,7 +34,7 @@ sidebar_label: 1. 应用配置
 
 ## 1.4 特别注意
 
-默认情况下，`Furion` 框架会自动扫描 `*.json` 和 `*.config.xml` 文件载入配置中，如需忽略个别文件，需在 `appsettings.json` 配置文件根节点下配置 `IgnoreConfigurationFiles` 节点即可，`string[]` 类型，如：
+默认情况下，`Furion` 框架会自动扫描根目录下的 `*.json` 和 `*.config.xml` 文件载入配置中，如需忽略个别文件，需在 `appsettings.json` 配置文件根节点下配置 `IgnoreConfigurationFiles` 节点即可，`string[]` 类型，如：
 
 ```json
 {
@@ -42,11 +42,17 @@ sidebar_label: 1. 应用配置
 }
 ```
 
-如果还涉及到自定义 `环境`，则需要添加自定义环境配置：
+如果需要自定义扫描目录（非根目录），需在 `appsettings.json` 中添加下面配置：
+
+:::important 支持版本
+
+在 `v2.16.7+` 版本有效
+
+:::
 
 ```json
 {
-  "Environments": ["Test", "Dev"]
+  "ConfigurationScanDirectories": ["目录1名称", "目录1名称/子目录名称"]
 }
 ```
 
