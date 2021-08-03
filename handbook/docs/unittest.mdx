@@ -194,9 +194,9 @@ public async Task 测试请求百度()
 
 ## 36.4 带参数的测试方法
 
-上面例子中，我们的测试方法都是没有参数的，有时候我们需要同一个方法输入多个不同的值进行测试，这时候就需要用到 `[Theory]` 和 `[InlineData]` 特性了。
+上面例子中，测试方法都是没有参数的，有时候需要同一个方法输入多个不同的值进行测试，这时候就需要用到 `[Theory]` 和 `[InlineData]` 特性了。
 
-如，下面我们测试两个数的和是 `奇数`，测试代码如下：
+如，下面测试两个数的和是 `奇数`，测试代码如下：
 
 ```cs {1-4}
 [Theory]
@@ -278,6 +278,7 @@ namespace TestProject1
 public async Task 测试数据库()
 {
     Scoped.Create((f,s) => {
+        var otherService = s.ServiceProvider.GetService<IOtherService>();
         var repository = Db.GetRepository<Person>(s.ServiceProvider);
         var isTrue = repository.Any(u => u.Id > 10);
         Assert.True(isTrue);
@@ -287,7 +288,7 @@ public async Task 测试数据库()
 
 ## 36.6 `Assert` 断言
 
-`Assert` 是单元测试判定成功的依据，通常第一个参数为 `期盼值`，第二个参数为 `实际值`，详细的 `Assert` 静态方法可查阅官方库 [Assert 方法](https://github.com/xunit/assert.xunit)
+`Assert` 是单元测试判定成功的依据，通常第一个参数为 `期盼值`，第二个参数为 `实际值`，对比这两个值是否一致即可判断成功与否。详细的 `Assert` 静态方法可查阅官方库 [Assert 方法](https://github.com/xunit/assert.xunit)
 
 ## 36.7 反馈与建议
 
