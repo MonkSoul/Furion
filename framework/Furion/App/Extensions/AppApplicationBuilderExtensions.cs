@@ -33,12 +33,6 @@ namespace Microsoft.AspNetCore.Builder
 
             app.UseSpecificationDocuments(routePrefix, configureOptions?.SpecificationDocumentConfigure);
 
-            // 启用 MiniProfiler组件
-            if (App.Settings.InjectMiniProfiler == true)
-            {
-                app.UseMiniProfiler();
-            }
-
             return app;
         }
 

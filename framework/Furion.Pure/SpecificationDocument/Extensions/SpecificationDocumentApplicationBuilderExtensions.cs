@@ -41,6 +41,9 @@ namespace Microsoft.AspNetCore.Builder
             // 配置 Swagger UI 参数
             app.UseSwaggerUI(options => SpecificationDocumentBuilder.BuildUI(options, routePrefix, configureOptions?.SwaggerUIConfigure));
 
+            // 启用 MiniProfiler组件
+            if (App.Settings.InjectMiniProfiler == true) app.UseMiniProfiler();
+
             return app;
         }
     }
