@@ -53,7 +53,27 @@ namespace Microsoft.Extensions.DependencyInjection
             // 添加Swagger生成器服务
             services.AddSwaggerGen(options => SpecificationDocumentBuilder.BuildGen(options, configureOptions?.SwaggerGenConfigure));
 
+            // 添加 MiniProfiler 服务
+            AddMiniProfiler(services);
+
             return services;
+        }
+
+        /// <summary>
+        /// 添加 MiniProfiler 配置
+        /// </summary>
+        /// <param name="services"></param>
+        private static void AddMiniProfiler(IServiceCollection services)
+        {
+            // 注册MiniProfiler 组件
+            if (App.Settings.InjectMiniProfiler != true) return;
+
+            services.AddMiniProfiler(options =>
+            {
+                options.RouteBasePath = "/index-mini-profiler";
+                options.EnableMvcFilterProfiling = false;
+                options.EnableMvcViewProfiling = false;
+            }).AddRelationalDiagnosticListener();
         }
     }
 }

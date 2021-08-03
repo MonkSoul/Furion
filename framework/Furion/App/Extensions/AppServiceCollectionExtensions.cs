@@ -10,7 +10,6 @@ using Furion;
 using Furion.DependencyInjection;
 using Furion.UnifyResult;
 using Microsoft.Extensions.Hosting;
-using StackExchange.Profiling.Storage;
 using System;
 using System.Linq;
 using System.Reflection;
@@ -190,8 +189,8 @@ namespace Microsoft.Extensions.DependencyInjection
             var appSettings = App.Settings;
 
             // 注册内存和分布式内存
-            services.AddMemoryCache();  // .NET 5.0.3+ 需要手动注册了
-            if (appSettings.EnabledDistributedMemoryCache == true) services.AddDistributedMemoryCache();
+            services.AddMemoryCache();
+            services.AddDistributedMemoryCache();
 
             // 注册全局依赖注入
             services.AddDependencyInjection();
@@ -202,16 +201,8 @@ namespace Microsoft.Extensions.DependencyInjection
             // 添加对象映射
             services.AddObjectMapper();
 
-            // 添加虚拟文件服务
-            if (appSettings.EnabledVirtualFileServer == true) services.AddVirtualFileServer();
-
-            // 只有 Web 环境才注册
-            if (App.WebHostEnvironment != null)
-            {
-                // 添加 HttContext 访问器
-                services.AddHttpContextAccessor();
-                AddMiniProfiler(services, appSettings);
-            }
+            // 注册 HttpContextAccessor 服务，仅限 Web 环境
+            if (App.WebHostEnvironment != null) services.AddHttpContextAccessor();
 
             // 自定义服务
             configure?.Invoke(services);
@@ -263,33 +254,6 @@ namespace Microsoft.Extensions.DependencyInjection
         private static int GetStartupOrder(Type type)
         {
             return !type.IsDefined(typeof(AppStartupAttribute), true) ? 0 : type.GetCustomAttribute<AppStartupAttribute>(true).Order;
-        }
-
-        /// <summary>
-        /// 添加 MiniProfiler 配置
-        /// </summary>
-        /// <param name="services"></param>
-        /// <param name="appSettings"></param>
-        private static void AddMiniProfiler(IServiceCollection services, AppSettingsOptions appSettings)
-        {
-            // 注册MiniProfiler 组件
-            if (appSettings.InjectMiniProfiler == true)
-            {
-                services.AddMiniProfiler(options =>
-                {
-                    options.RouteBasePath = "/index-mini-profiler";
-                    (options.Storage as MemoryCacheStorage).CacheDuration = TimeSpan.FromSeconds(3);
-                    options.EnableMvcFilterProfiling = false;
-                    options.EnableMvcViewProfiling = false;
-
-                    // 配置只有从 swagger 请求才启用
-                    options.ShouldProfile = request =>
-                    {
-                        if (request.Headers["request-from"] == "swagger") return true;
-                        return false;
-                    };
-                }).AddRelationalDiagnosticListener();
-            }
         }
     }
 }

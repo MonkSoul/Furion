@@ -156,7 +156,7 @@ namespace Furion.SpecificationDocument
             // 配置授权
             ConfigureSecurities(swaggerGenOptions);
 
-            //使得Swagger能够正确地显示Enum的对应关系
+            //使得 Swagger 能够正确地显示 Enum 的对应关系
             swaggerGenOptions.SchemaFilter<EnumSchemaFilter>();
 
             // 支持控制器排序操作

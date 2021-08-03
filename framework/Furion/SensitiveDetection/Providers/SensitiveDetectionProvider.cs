@@ -7,11 +7,8 @@
 // See the Mulan PSL v2 for more details.
 
 using Furion.DependencyInjection;
-using Furion.JsonSerialization;
 using Furion.Templates.Extensions;
-using Furion.VirtualFileServer;
 using Microsoft.Extensions.Caching.Distributed;
-using Microsoft.Extensions.FileProviders;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
@@ -27,33 +24,17 @@ namespace Furion.SensitiveDetection
     public class SensitiveDetectionProvider : ISensitiveDetectionProvider
     {
         /// <summary>
-        /// 序列化提供器
-        /// </summary>
-        private readonly IJsonSerializerProvider _jsonSerializerProvider;
-
-        /// <summary>
         /// 分布式缓存
         /// </summary>
         private readonly IDistributedCache _distributedCache;
 
         /// <summary>
-        /// 文件提供器（支持物理路径和嵌入资源）
-        /// </summary>
-        private readonly IFileProvider _fileProvider;
-
-        /// <summary>
         /// 构造函数
         /// </summary>
         /// <param name="distributedCache"></param>
-        /// <param name="jsonSerializerProvider"></param>
-        /// <param name="fileProviderResolve"></param>
-        public SensitiveDetectionProvider(IDistributedCache distributedCache
-            , IJsonSerializerProvider jsonSerializerProvider
-            , Func<FileProviderTypes, object, IFileProvider> fileProviderResolve)
+        public SensitiveDetectionProvider(IDistributedCache distributedCache)
         {
             _distributedCache = distributedCache;
-            _jsonSerializerProvider = jsonSerializerProvider;
-            _fileProvider = fileProviderResolve(FileProviderTypes.Embedded, Assembly.GetEntryAssembly());
         }
 
         /// <summary>
@@ -69,11 +50,13 @@ namespace Furion.SensitiveDetection
         {
             // 读取缓存数据
             var wordsCached = await _distributedCache.GetStringAsync(DISTRIBUTED_KEY);
-            if (wordsCached != null) return _jsonSerializerProvider.Deserialize<IEnumerable<string>>(wordsCached);
+            if (wordsCached != null) return wordsCached.Split(new[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
 
-            // 读取文件内容
+            var entryAssembly = Assembly.GetEntryAssembly();
+
+            // 解析嵌入式文件流
             byte[] buffer;
-            using (var readStream = _fileProvider.GetFileInfo("sensitive-words.txt").CreateReadStream()) // 暂时不提供配置文件名称
+            using (var readStream = entryAssembly.GetManifestResourceStream($"{entryAssembly.GetName().Name}.sensitive-words.txt"))
             {
                 buffer = new byte[readStream.Length];
                 await readStream.ReadAsync(buffer.AsMemory(0, buffer.Length));
@@ -81,11 +64,11 @@ namespace Furion.SensitiveDetection
 
             var content = Encoding.UTF8.GetString(buffer);
 
+            // 缓存数据
+            await _distributedCache.SetStringAsync(DISTRIBUTED_KEY, content);
+
             // 取换行符分割字符串
             var words = content.Split(new[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
-
-            // 缓存数据
-            await _distributedCache.SetStringAsync(DISTRIBUTED_KEY, _jsonSerializerProvider.Serialize(words));
 
             return words;
         }

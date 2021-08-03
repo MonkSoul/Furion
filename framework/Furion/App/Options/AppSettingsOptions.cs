@@ -29,11 +29,6 @@ namespace Furion
         public bool? InjectSpecificationDocument { get; set; }
 
         /// <summary>
-        /// 是否启用分布式内存缓存
-        /// </summary>
-        public bool? EnabledDistributedMemoryCache { get; set; }
-
-        /// <summary>
         /// 是否启用引用程序集扫描
         /// </summary>
         public bool? EnabledReferenceAssemblyScan { get; set; }
@@ -59,11 +54,6 @@ namespace Furion
         public string[] SupportPackageNamePrefixs { get; set; }
 
         /// <summary>
-        /// 是否启用虚拟文件服务
-        /// </summary>
-        public bool? EnabledVirtualFileServer { get; set; }
-
-        /// <summary>
         /// 【部署】二级虚拟目录
         /// </summary>
         public string VirtualPath { get; set; }
@@ -80,14 +70,12 @@ namespace Furion
                 || (App.HostEnvironment.IsProduction() && options.InjectMiniProfiler == null)) options.InjectMiniProfiler = false;
             else options.InjectMiniProfiler ??= true;
 
-            options.EnabledDistributedMemoryCache ??= true;
             options.InjectSpecificationDocument ??= true;
             options.EnabledReferenceAssemblyScan ??= false;
             options.ExternalAssemblies ??= Array.Empty<string>();
             options.PrintDbConnectionInfo ??= true;
             options.OutputOriginalSqlExecuteLog ??= true;
             options.SupportPackageNamePrefixs ??= Array.Empty<string>();
-            options.EnabledVirtualFileServer ??= true;
             options.VirtualPath ??= string.Empty;
         }
     }

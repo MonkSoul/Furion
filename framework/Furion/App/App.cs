@@ -236,8 +236,7 @@ namespace Furion
         /// <param name="isError">是否为警告消息</param>
         public static void PrintToMiniProfiler(string category, string state, string message = null, bool isError = false)
         {
-            // 判断是否注入 MiniProfiler 组件
-            if (Settings.InjectMiniProfiler != true) return;
+            if (!CanBeMiniProfiler()) return;
 
             // 打印消息
             var titleCaseCategory = Thread.CurrentThread.CurrentCulture.TextInfo.ToTitleCase(category);
@@ -326,6 +325,20 @@ namespace Furion
             }
 
             return (scanAssemblies, externalAssemblies);
+        }
+
+        /// <summary>
+        /// 判断是否启用 MiniProfiler
+        /// </summary>
+        /// <returns></returns>
+        internal static bool CanBeMiniProfiler()
+        {
+            // 减少不必要的监听
+            if (Settings.InjectMiniProfiler != true
+                || HttpContext == null
+                || !(HttpContext.Request.Headers.TryGetValue("request-from", out var value) && value == "swagger")) return false;
+
+            return true;
         }
 
         /// <summary>

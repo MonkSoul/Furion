@@ -6,7 +6,6 @@
 // THIS SOFTWARE IS PROVIDED ON AN "AS IS" BASIS, WITHOUT WARRANTIES OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO NON-INFRINGEMENT, MERCHANTABILITY OR FIT FOR A PARTICULAR PURPOSE.
 // See the Mulan PSL v2 for more details.
 
-using Furion.DependencyInjection;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.EntityFrameworkCore.Storage;
 using StackExchange.Profiling;
@@ -21,8 +20,7 @@ namespace Furion.DatabaseAccessor
     /// <summary>
     /// 监听 EFCore 操作进程
     /// </summary>
-    [SuppressSniffer]
-    public class RelationalDiagnosticListener : IMiniProfilerDiagnosticListener
+    internal class RelationalDiagnosticListener : IMiniProfilerDiagnosticListener
     {
         /// <summary>
         /// 监听进程名
@@ -60,6 +58,8 @@ namespace Furion.DatabaseAccessor
         /// <param name="kv"></param>
         public void OnNext(KeyValuePair<string, object> kv)
         {
+            if (!App.CanBeMiniProfiler()) return;
+
             var key = kv.Key;
             var val = kv.Value;
 

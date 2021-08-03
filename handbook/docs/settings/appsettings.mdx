@@ -12,13 +12,11 @@ sidebar_label: 1. 应用配置
 
 - `AppSettings`：配置根节点
   - `InjectMiniProfiler`：是否注入 `MiniProfiler`，`bool` 类型，默认 `true`，**关闭 Swagger 左上角监听**
-  - `EnabledDistributedMemoryCache`：是否启用分布式内存缓存，`bool` 类型，默认 `true`，**如果启用了 Redis 建议关闭**
   - `InjectSpecificationDocument`：是否启用 `Swagger` 文档，`bool` 类型，默认 `true`，**生产环境可关闭**
   - `EnabledReferenceAssemblyScan`：是否启用通过 `dll` 方式添加的引用程序集扫描，`bool` 类型，默认 `false`
   - `ExternalAssemblies`：配置外部程序集完整路径，支持动态加载，`string[]` 类型，默认 `[]`
   - `PrintDbConnectionInfo`：是否打印数据库连接信息到 `MiniProfiler` 中，`bool` 类型，默认 `true`
   - `SupportPackageNamePrefixs`：配置支持的包前缀名，`string[]` 类型，默认 `[]`
-  - `EnabledVirtualFileServer`：是否启用虚拟文件服务，`bool` 类型，默认 `true`，**默认脱敏处理依赖此配置**
   - `OutputOriginalSqlExecuteLog`：是否输出原始 Sql 执行日志（ADO.NET），默认 `true`
   - `VirtualPath`：配置虚拟目录，必须以 `/` 开头
 

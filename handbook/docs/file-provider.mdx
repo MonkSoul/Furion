@@ -25,24 +25,6 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 ## 31.2 注册虚拟文件系统服务
 
-**`Furion` 框架默认注册了 `services.AddVirtualFileServer()` 服务**，该服务主要提供 `虚拟文件系统`。
-
-:::note 关闭默认注册
-
-如需关闭默认注册行为，可通过 `AppSettings` 关闭，如：
-
-```json {3}
-{
-  "AppSettings": {
-    "EnabledVirtualFileServer": false
-  }
-}
-```
-
-:::
-
-另外也可以采用手动注册方式（**正常情况下无需以下代码**），如：
-
 ```cs
 services.AddVirtualFileServer();
 ```
