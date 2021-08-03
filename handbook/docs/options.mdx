@@ -223,52 +223,6 @@ namespace Furion.Web.Entry.Controllers
   </TabItem>
 </Tabs>
 
-:::caution 特别注意
-
-`App.GetOptions<TOptions>(path)` 静态方法 区别于没有参数的 `App.GetOptions<TOptions>()` 静态方法，前者实际上还是 **配置**，只不过做了强类型解析，后者则通过 `IOptions<TOptions>` 解析。
-
-两者源码如下：
-
-```cs {18-20,27-29} title="Furion/App/App.cs"
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
-
-namespace Furion
-{
-    /// <summary>
-    /// 全局应用类
-    /// </summary>
-    public static class App
-    {
-        /// <summary>
-        /// 获取选项
-        /// </summary>
-        /// <typeparam name="TOptions">强类型选项类</typeparam>
-        /// <param name="path">配置中对应的Key</param>
-        /// <returns></returns>
-        public static TOptions GetOptions<TOptions>(string path)
-            where TOptions : class
-            => Configuration.GetSection(path).Get<TOptions>();
-
-        /// <summary>
-        /// 获取选项
-        /// </summary>
-        /// <typeparam name="TOptions">强类型选项类</typeparam>
-        /// <returns></returns>
-        public static TOptions GetOptions<TOptions>()
-            where TOptions : class
-            => ServiceProvider.GetService<IOptions<TOptions>>().Value;
-
-        // Other Codes...
-    }
-}
-```
-
-通过上述代码得知，为什么不推荐使用 `App.GetOptions<TOptions>(path)` 读取，因为这种方式无法应用选项验证、默认配置、更改通知等功能。
-
-:::
-
 ### 4.2.3.5 如何选择读取方式
 
 - 如果选项需要在多个地方使用，则无论任何时候都不推荐使用 `App.GetOptions<TOptions>(path)`

@@ -11,6 +11,8 @@ module.exports = {
   themeConfig: {
     prism: {
       additionalLanguages: ["powershell", "csharp", "sql"],
+      // theme: require("prism-react-renderer/themes/github"),
+      // darkTheme: require("prism-react-renderer/themes/dracula"),
     },
     algolia: {
       apiKey: "97723a21d903df7ca5ea618b160f03c6",

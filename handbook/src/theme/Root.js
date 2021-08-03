@@ -8,8 +8,8 @@ function Root({ children }) {
     <>
       <GiveMeStar />
       {children}
-      <JoinGroup />
-      <StarProject />
+      {/* <JoinGroup /> */}
+      {/* <StarProject /> */}
     </>
   );
 }
