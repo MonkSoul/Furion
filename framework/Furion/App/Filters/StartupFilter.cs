@@ -9,7 +9,6 @@
 using Furion.DependencyInjection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -41,11 +40,9 @@ namespace Furion
                 // 环境名
                 var envName = App.HostEnvironment?.EnvironmentName ?? "Unknown";
 
-                // 设置响应报文头信息，标记框架类型
+                // 设置响应报文头信息
                 app.Use(async (context, next) =>
                 {
-                    context.Request.EnableBuffering();  // 启动 Request Body 重复读，解决微信问题
-
                     // 输出当前环境标识
                     context.Response.Headers["environment"] = envName;
 
@@ -62,7 +59,7 @@ namespace Furion
                 // 配置所有 Starup Configure
                 UseStartups(app);
 
-                // 调用 Furion.Web.Entry 中的 Startup
+                // 调用启动层的 Startup
                 next(app);
             };
         }
