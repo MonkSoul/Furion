@@ -35,7 +35,7 @@ namespace Microsoft.Extensions.DependencyInjection
             // 添加外部程序集配置
             services.AddConfigurableOptions<DependencyInjectionSettingsOptions>();
 
-            services.AddInnerDependencyInjection(App.EffectiveTypes);
+            services.AddInnerDependencyInjection();
             return services;
         }
 
@@ -74,16 +74,16 @@ namespace Microsoft.Extensions.DependencyInjection
         /// 添加扫描注入
         /// </summary>
         /// <param name="services">服务集合</param>
-        /// <param name="effectiveTypes"></param>
         /// <returns>服务集合</returns>
-        private static IServiceCollection AddInnerDependencyInjection(this IServiceCollection services, IEnumerable<Type> effectiveTypes)
+        private static IServiceCollection AddInnerDependencyInjection(this IServiceCollection services)
         {
             // 查找所有需要依赖注入的类型
-            var injectTypes = effectiveTypes
+            var injectTypes = App.EffectiveTypes
                 .Where(u => typeof(IPrivateDependency).IsAssignableFrom(u) && u.IsClass && !u.IsInterface && !u.IsAbstract)
                 .OrderBy(u => GetOrder(u));
 
             var projectAssemblies = App.Assemblies;
+            var lifetimeInterfaces = new[] { typeof(ITransient), typeof(IScoped), typeof(ISingleton) };
 
             // 执行依赖注入
             foreach (var type in injectTypes)
@@ -96,9 +96,8 @@ namespace Microsoft.Extensions.DependencyInjection
                 // 获取所有能注册的接口
                 var canInjectInterfaces = interfaces.Where(u => !injectionAttribute.ExpectInterfaces.Contains(u)
                                 && u != typeof(IPrivateDependency)
-                                && !typeof(IPrivateDependency).IsAssignableFrom(u)
                                 && u != typeof(IDynamicApiController)
-                                && !typeof(IDynamicApiController).IsAssignableFrom(u)
+                                && !lifetimeInterfaces.Contains(u)
                                 && projectAssemblies.Contains(u.Assembly)
                                 && (
                                     (!type.IsGenericType && !u.IsGenericType)
@@ -106,7 +105,7 @@ namespace Microsoft.Extensions.DependencyInjection
                                 );
 
                 // 获取生存周期类型
-                var dependencyType = interfaces.First(u => typeof(IPrivateDependency).IsAssignableFrom(u));
+                var dependencyType = interfaces.First(u => lifetimeInterfaces.Contains(u));
 
                 // 注册服务
                 RegisterService(services, dependencyType, type, injectionAttribute, canInjectInterfaces);
