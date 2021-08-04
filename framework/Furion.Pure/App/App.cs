@@ -121,12 +121,19 @@ namespace Furion
             // 第一选择，判断是否是单例注册，如果是直接返回根服务提供器
             if (isSingletonLifetime && InternalApp.RootServices != null) return InternalApp.RootServices;
 
-            // 第二选择是反射获取 HttpContext 对象
+            // 第二选择是获取 HttpContext 对象的 RequestServices
             var httpContext = HttpContext;
             if (httpContext?.RequestServices != null) return httpContext.RequestServices;
+            // 第三选择，如果根服务存在，那么创建新的作用域并提交
+            else if (InternalApp.RootServices != null)
+            {
+                var scoped = InternalApp.RootServices.CreateScope();
+                UnmanagedObjects.Add(scoped);
+                return scoped.ServiceProvider;
+            }
+            // 第四选择才是动态构建服务提供器
             else
             {
-                // 第三选择才是动态构建服务提供器
                 var undisposeServiceProvider = InternalApp.InternalServices.BuildServiceProvider();
                 UnmanagedObjects.Add(undisposeServiceProvider);
                 return undisposeServiceProvider;

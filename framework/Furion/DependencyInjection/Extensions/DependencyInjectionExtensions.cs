@@ -8,7 +8,6 @@
 
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using System;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection;
 
@@ -25,7 +24,7 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <param name="dependencyType"></param>
         /// <param name="collection"></param>
         /// <param name="service"></param>
-        internal static IServiceCollection InnerAdd(this IServiceCollection collection, Type dependencyType, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] Type service)
+        internal static IServiceCollection InnerAdd(this IServiceCollection collection, Type dependencyType, Type service)
         {
             Call(dependencyType, MethodBase.GetCurrentMethod()
                 , new object[] { collection, service });
@@ -55,7 +54,7 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <param name="collection"></param>
         /// <param name="service"></param>
         /// <param name="implementationType"></param>
-        internal static IServiceCollection InnerAdd(this IServiceCollection collection, Type dependencyType, Type service, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] Type implementationType)
+        internal static IServiceCollection InnerAdd(this IServiceCollection collection, Type dependencyType, Type service, Type implementationType)
         {
             Call(dependencyType, MethodBase.GetCurrentMethod()
                 , new object[] { collection, service, implementationType });
@@ -86,7 +85,7 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <param name="dependencyType"></param>
         /// <param name="collection"></param>
         /// <param name="service"></param>
-        internal static void InnerTryAdd(this IServiceCollection collection, Type dependencyType, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] Type service)
+        internal static void InnerTryAdd(this IServiceCollection collection, Type dependencyType, Type service)
         {
             Call(dependencyType, MethodBase.GetCurrentMethod()
                 , new object[] { collection, service });
@@ -99,7 +98,7 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <param name="collection"></param>
         /// <param name="service"></param>
         /// <param name="implementationType"></param>
-        internal static void InnerTryAdd(this IServiceCollection collection, Type dependencyType, Type service, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] Type implementationType)
+        internal static void InnerTryAdd(this IServiceCollection collection, Type dependencyType, Type service, Type implementationType)
         {
             Call(dependencyType, MethodBase.GetCurrentMethod()
                 , new object[] { collection, service, implementationType });
