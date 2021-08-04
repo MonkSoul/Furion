@@ -124,7 +124,7 @@ namespace Furion
             // 第二选择是获取 HttpContext 对象的 RequestServices
             var httpContext = HttpContext;
             if (httpContext?.RequestServices != null) return httpContext.RequestServices;
-            // 第三选择，如果根服务存在，那么创建新的作用域并提交
+            // 第三选择，如果根服务存在，那么创建新的作用域并返回服务提供器
             else if (InternalApp.RootServices != null)
             {
                 var scoped = InternalApp.RootServices.CreateScope();
