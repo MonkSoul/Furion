@@ -17,7 +17,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Furion.Extras.Logging.Seril
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Furion.Extras.DatabaseAccessor.Dapper", "Furion.Extras.DatabaseAccessor.Dapper\Furion.Extras.DatabaseAccessor.Dapper.csproj", "{70C2FD6B-5494-41CD-992D-AA7653499D19}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Furion.UnitTests", "Furion.UnitTests", "{193E87DF-D561-4E56-9CE5-BBFB1A7EB827}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Unit Tests", "Unit Tests", "{193E87DF-D561-4E56-9CE5-BBFB1A7EB827}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Furion.Extras.DatabaseAccessor.MongoDB", "Furion.Extras.DatabaseAccessor.MongoDB\Furion.Extras.DatabaseAccessor.MongoDB.csproj", "{0D9E1608-D869-4262-9822-B1264A0248E4}"
 EndProject
@@ -30,7 +30,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Furion.Pure", "Furion.Pure\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Furion.Pure.Extras.DependencyModel.CodeAnalysis", "Furion.Pure.Extras.DependencyModel.CodeAnalysis\Furion.Pure.Extras.DependencyModel.CodeAnalysis.csproj", "{24D5D6B1-EA5B-47DF-9915-6BF36196D9B7}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Furion.UnitTests", "..\test\Furion.UnitTests\Furion.UnitTests.csproj", "{DDD09DD1-D2EA-48A7-AC00-F1ABF4C312D6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Furion.UnitTests", "..\tests\Furion.UnitTests\Furion.UnitTests.csproj", "{BE9F6374-929F-4541-811A-08D9B971CAC7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -78,16 +78,16 @@ Global
 		{24D5D6B1-EA5B-47DF-9915-6BF36196D9B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{24D5D6B1-EA5B-47DF-9915-6BF36196D9B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{24D5D6B1-EA5B-47DF-9915-6BF36196D9B7}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DDD09DD1-D2EA-48A7-AC00-F1ABF4C312D6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DDD09DD1-D2EA-48A7-AC00-F1ABF4C312D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DDD09DD1-D2EA-48A7-AC00-F1ABF4C312D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DDD09DD1-D2EA-48A7-AC00-F1ABF4C312D6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BE9F6374-929F-4541-811A-08D9B971CAC7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BE9F6374-929F-4541-811A-08D9B971CAC7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BE9F6374-929F-4541-811A-08D9B971CAC7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BE9F6374-929F-4541-811A-08D9B971CAC7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{DDD09DD1-D2EA-48A7-AC00-F1ABF4C312D6} = {193E87DF-D561-4E56-9CE5-BBFB1A7EB827}
+		{BE9F6374-929F-4541-811A-08D9B971CAC7} = {193E87DF-D561-4E56-9CE5-BBFB1A7EB827}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B2073C2C-0FD3-452B-8047-8134D68E12CE}
