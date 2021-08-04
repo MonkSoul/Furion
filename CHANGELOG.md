@@ -20,6 +20,7 @@
   - [新增] 支持自定义 `.json` 配置文件扫描目录 [3e2910a](https://gitee.com/dotnetchina/Furion/commit/3e2910a8b775fb6323e293b020bbe7cdfb4c6436)
   - [新增] 支持数据库实体接口显式实现接口配置 [9610a0a](https://gitee.com/dotnetchina/Furion/commit/9610a0a481f4f78770bc2fc3ed4cabbef2a8f937)
   - [新增] 控制台应用程序全局拦截 `[IfException]` 支持 [4a4fe1f](https://gitee.com/dotnetchina/Furion/commit/4a4fe1f40e1856ea36a0c0d19ca625d3f7bf95b7)
+  - [新增] 依赖注入模块接口可以限制实现类生存周期，实现类也支持复写生存周期 [d2ce089](https://gitee.com/dotnetchina/Furion/commit/d2ce089130300cdd8b1bc6792f325c5d38ee9404)
 
 - **突破性变化**
 
