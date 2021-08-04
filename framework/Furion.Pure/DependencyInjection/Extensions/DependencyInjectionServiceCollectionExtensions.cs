@@ -105,7 +105,7 @@ namespace Microsoft.Extensions.DependencyInjection
                                 );
 
                 // 获取生存周期类型
-                var dependencyType = interfaces.First(u => lifetimeInterfaces.Contains(u));
+                var dependencyType = interfaces.Last(u => lifetimeInterfaces.Contains(u));
 
                 // 注册服务
                 RegisterService(services, dependencyType, type, injectionAttribute, canInjectInterfaces);
