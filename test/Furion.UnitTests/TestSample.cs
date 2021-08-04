@@ -2,7 +2,7 @@ using Xunit;
 
 namespace Furion.UnitTests
 {
-    public class FurionUnitTest
+    public class TestSample
     {
         [Fact]
         public void TestRootService()
