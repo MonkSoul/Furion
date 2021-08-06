@@ -309,20 +309,20 @@ services.AddDatabaseAccessor(options =>
 
 `Furion` 为了解决这个问题，提供了两种方式处理：
 
-- `respository.Context` ：当前数据库上下文对象，返回是 `DbContext` 抽象类型
-- `respository.DynamicContext`：当前数据库上下文对象，返回的是 `dynamic` 类型
+- `repository.Context` ：当前数据库上下文对象，返回是 `DbContext` 抽象类型
+- `repository.DynamicContext`：当前数据库上下文对象，返回的是 `dynamic` 类型
 
-如果你只是想使用 `DbContext` 的功能，直接使用 `respository.Context` 即可，如：
+如果你只是想使用 `DbContext` 的功能，直接使用 `repository.Context` 即可，如：
 
 ```cs
-respository.Context.SaveChanges();
+repository.Context.SaveChanges();
 ```
 
-如果你想能够获取具体的数据库上下文类型，如 `MyDbContext`，那么使用 `respository.DynamicContext` 就可以获取到具体的 `MyDbContext` 类型。如：
+如果你想能够获取具体的数据库上下文类型，如 `MyDbContext`，那么使用 `repository.DynamicContext` 就可以获取到具体的 `MyDbContext` 类型。如：
 
 ```cs
-var persons = respository.DynamicContext.Persons.Find(1);
-var users = respository.DynamicContext.Users;
+var persons = repository.DynamicContext.Persons.Find(1);
+var users = repository.DynamicContext.Users;
 ```
 
 这样就可以直接操作 `MyDbContext` 定义的属性和方法了。
@@ -358,7 +358,7 @@ public class JobService : BackgroundService
             var dbContext = Db.GetDbContext(services);
 
             // 获取仓储
-            var respository = Db.GetRepository<Person>(services);
+            var repository = Db.GetRepository<Person>(services);
 
             // 解析其他服务
             var otherService = services.GetService<XXX>();
