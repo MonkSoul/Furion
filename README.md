@@ -1,9 +1,13 @@
 <p></p>
 <p></p>
 
-<p align="center">
+<div align="center">
+
 <img src="./handbook/static/img/furionlogo.png" height="80"/>
-</p>
+
+</div>
+
+<p></p>
 
 <div align="center">
 
