@@ -8,7 +8,7 @@
 
 using System.Threading.Tasks;
 
-namespace Furion.IPCBus
+namespace Furion.IPCChannel
 {
     /// <summary>
     /// 管道模型

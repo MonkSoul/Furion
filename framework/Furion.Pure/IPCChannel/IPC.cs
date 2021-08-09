@@ -11,7 +11,7 @@ using System;
 using System.Threading.Channels;
 using System.Threading.Tasks;
 
-namespace Furion.IPCBus
+namespace Furion.IPCChannel
 {
     /// <summary>
     /// 进程通信管道单例类
