@@ -7,19 +7,20 @@
 // See the Mulan PSL v2 for more details.
 
 using Furion.DependencyInjection;
+using Furion.FriendlyException;
 using System;
 using System.Threading.Channels;
 using System.Threading.Tasks;
 
-namespace Furion.IPCChannel
+namespace Furion.ChannelCommunication
 {
     /// <summary>
-    /// 进程通信管道单例类
+    /// 进程管道内通信总线
     /// </summary>
     /// <typeparam name="TMessage"></typeparam>
     /// <typeparam name="THandler"></typeparam>
     [SuppressSniffer]
-    public sealed class IPC<TMessage, THandler>
+    public sealed class ChannelBus<TMessage, THandler>
         where THandler : ChannelHandler<TMessage>
     {
         /// <summary>
@@ -67,7 +68,7 @@ namespace Furion.IPCChannel
         /// <summary>
         /// 私有构造函数
         /// </summary>
-        private IPC()
+        private ChannelBus()
         {
         }
 
@@ -85,10 +86,10 @@ namespace Furion.IPCChannel
               {
                   while (await reader.WaitToReadAsync())
                   {
-                      if (reader.TryRead(out var message))
-                      {
-                          await handler.Invoke(message);
-                      }
+                      if (!reader.TryRead(out var message)) continue;
+
+                      // 默认重试 10 次（每次延迟 500）毫秒
+                      await Retry.Invoke(async () => await handler.InvokeAsync(message), 10, 500, finalThrow: false);
                   }
               }, TaskCreationOptions.LongRunning);
         }

@@ -9,6 +9,7 @@
 using System;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace Furion.FriendlyException
 {
@@ -23,41 +24,46 @@ namespace Furion.FriendlyException
         /// <param name="action"></param>
         /// <param name="numRetries">重试次数</param>
         /// <param name="retryTimeout">重试间隔时间</param>
+        /// <param name="finalThrow">是否最终抛异常</param>
         /// <param name="exceptionTypes">异常类型,可多个</param>
-        public static void Invoke(Action action, int numRetries, int retryTimeout, params Type[] exceptionTypes)
+        public static void Invoke(Action action, int numRetries, int retryTimeout = 100, bool finalThrow = true, Type[] exceptionTypes = default)
         {
             if (action == null) throw new ArgumentNullException(nameof(action));
 
-            _ = Invoke(() =>
+            Invoke(async () =>
             {
                 action();
-                return 0;
-            }, numRetries, retryTimeout, exceptionTypes);
+                await Task.CompletedTask;
+            }, numRetries, retryTimeout, finalThrow, exceptionTypes).GetAwaiter().GetResult();
         }
 
         /// <summary>
         /// 重试有异常的方法，还可以指定特定异常
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="func"></param>
+        /// <param name="action"></param>
         /// <param name="numRetries">重试次数</param>
         /// <param name="retryTimeout">重试间隔时间</param>
+        /// <param name="finalThrow">是否最终抛异常</param>
         /// <param name="exceptionTypes">异常类型,可多个</param>
-        public static T Invoke<T>(Func<T> func, int numRetries, int retryTimeout, params Type[] exceptionTypes)
+        public static async Task Invoke(Func<Task> action, int numRetries, int retryTimeout = 100, bool finalThrow = true, Type[] exceptionTypes = default)
         {
-            if (func == null) throw new ArgumentNullException(nameof(func));
+            if (action == null) throw new ArgumentNullException(nameof(action));
 
             // 不断重试
             while (true)
             {
                 try
                 {
-                    return func();
+                    await action();
                 }
                 catch (Exception ex)
                 {
                     // 如果可重试次数小于或等于0，则终止重试
-                    if (--numRetries <= 0) throw;
+                    if (--numRetries <= 0)
+                    {
+                        if (finalThrow) throw;
+                        else return;
+                    }
 
                     // 如果填写了 exceptionTypes 且异常类型不在 exceptionTypes 之内，则终止重试
                     if (exceptionTypes != null && exceptionTypes.Length > 0 && !exceptionTypes.Any(u => u.IsAssignableFrom(ex.GetType()))) throw;

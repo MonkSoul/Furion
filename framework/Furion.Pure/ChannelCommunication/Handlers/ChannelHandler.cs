@@ -8,10 +8,10 @@
 
 using System.Threading.Tasks;
 
-namespace Furion.IPCChannel
+namespace Furion.ChannelCommunication
 {
     /// <summary>
-    /// 管道模型
+    /// 进程管道内通信处理程序
     /// </summary>
     /// <typeparam name="TMessage"></typeparam>
     public abstract class ChannelHandler<TMessage>
@@ -21,6 +21,6 @@ namespace Furion.IPCChannel
         /// </summary>
         /// <param name="message"></param>
         /// <returns></returns>
-        public abstract Task Invoke(TMessage message);
+        public abstract Task InvokeAsync(TMessage message);
     }
 }
