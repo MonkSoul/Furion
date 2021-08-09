@@ -34,6 +34,12 @@ throw Oops.Oh(1000, typeof(ArgumentNullException), "出错了");
 
 ## 4.5 异常方法重试
 
+:::important 调整说明
+
+`v2.17.0+` 版本下面方法请使用 `Retry.Invoke()` 替代。
+
+:::
+
 ```cs
 Oops.Retry(() => {
     // Do.....

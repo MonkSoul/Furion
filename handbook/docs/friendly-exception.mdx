@@ -271,6 +271,12 @@ namespace Furion.Application
 
 ### 7.6.4 异常方法重试
 
+:::important 调整说明
+
+`v2.17.0+` 版本下面方法请使用 `Retry.Invoke()` 替代。
+
+:::
+
 ```cs
 Oops.Retry(() => {
     // Do.....

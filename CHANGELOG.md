@@ -7,14 +7,11 @@
 > - 如果涉及到代码重构，则当天发版，次版本号 `加 1`，修订版本号 `清 0`。
 > - 如果 `.NET SDK` 主版本号升级，则当天发版，主版本号 `加 1`。
 
-## v2.16（当前版本）
+## v2.17（已发布）
 
 - **新特性**
 
-  - [新增] **`MVC` 控制器支持规范化处理 [#I427Z2](https://gitee.com/dotnetchina/Furion/issues/I427Z2)**
-  - [新增] `throw Oops.Bah()` 抛出业务异常（状态码 `400`）
-  - [新增] `UnifyResultSettings` 规范化 `json` 配置选项 [#I42NY7](https://gitee.com/dotnetchina/Furion/issues/I42NY7)
-  - [新增] 多语言自定义配置资源文件名及自定义程序集 [#I434YJ](https://gitee.com/dotnetchina/Furion/issues/I434YJ)
+  - [新增] `IPC（Inter-Process Communication，进程间通信）` 模块功能，目前提供进程内通信和共享内存进程外通讯 [ProcessChannel](https://gitee.com/dotnetchina/Furion/tree/master/framework/Furion/ProcessChannel)
   - [新增] 远程请求 `application/xml` 和 `text/xml` 默认支持 [4753a1a](https://gitee.com/dotnetchina/Furion/commit/4753a1aed527a6282fe6c05036de9d50bd3b3dd8)
   - [新增] 控制台全局异常拦截 [4a4fe1f](https://gitee.com/dotnetchina/Furion/commit/4a4fe1f40e1856ea36a0c0d19ca625d3f7bf95b7)
   - [新增] 支持自定义 `.json` 配置文件扫描目录 [3e2910a](https://gitee.com/dotnetchina/Furion/commit/3e2910a8b775fb6323e293b020bbe7cdfb4c6436)
@@ -24,8 +21,37 @@
 
 - **突破性变化**
 
-  - [调整] 规范化结果 `IUnifyResultProvider` 参数 **（破坏性更改）** [#I427Z2](https://gitee.com/dotnetchina/Furion/issues/I427Z2)
+  - [抽离] `Oops.Retry()` 重试策略功能至新类：`Retry.Invoke()` [6a7bbd0](https://gitee.com/dotnetchina/Furion/commit/6a7bbd0b30a653b9a42d340a63520485aa6bbfa4)
   - [移除] `IHttpContextAccessor.SigninToSwagger()` 拓展，请使用 `IHttpContextAccessor.HttpContext.SigninToSwagger()`，退出也一样
+  - [移除] 全局处理 `Request Body` 重复读处理 `Request.EnableBuffering()` [d92c24b](https://gitee.com/dotnetchina/Furion/commit/d92c24bdb43bfb01643007ebb6a4ee42a5c738e9)
+
+- **问题修复**
+
+  - [修复] 规范化状态码过滤逻辑错误问题 [#I44JYS](https://gitee.com/dotnetchina/Furion/issues/I44JYS)
+  - [修复] 非关系型数据库（内存数据库）注册及操作异常 [e167651](https://gitee.com/dotnetchina/Furion/commit/e1676512a54374427bedbde17cd8cb59d7852557)
+  - [修复] 远程请求默认序列化问题 [a55603b](https://gitee.com/dotnetchina/Furion/commit/a55603bf7ed109296375dbeffc31591a6f8f8e49)
+  - [修复] 定时任务零点/整点提前一秒触发问题 [#I4321L](https://gitee.com/dotnetchina/Furion/issues/I4321L)
+  - [修复] 友好异常在子类重写抽象类方法内部抛异常无法获取的问题 [4a4fe1f](https://gitee.com/dotnetchina/Furion/commit/4a4fe1f40e1856ea36a0c0d19ca625d3f7bf95b7)
+  - [修复] 修复非 Web 项目抛异常问题 [4a4fe1f](https://gitee.com/dotnetchina/Furion/commit/4a4fe1f40e1856ea36a0c0d19ca625d3f7bf95b7)
+
+- **其他更改**
+
+  - [调整] Swagger 生成泛型 SchemaIds 默认连接符，由 `Of` 改为 `_` [81946b6](https://gitee.com/dotnetchina/Furion/commit/81946b64e81d9e290f80cd5bcebdb69c99001153)
+
+---
+
+## v2.16（已发布）
+
+- **新特性**
+
+  - [新增] **`MVC` 控制器支持规范化处理 [#I427Z2](https://gitee.com/dotnetchina/Furion/issues/I427Z2)**
+  - [新增] `throw Oops.Bah()` 抛出业务异常（状态码 `400`）
+  - [新增] `UnifyResultSettings` 规范化 `json` 配置选项 [#I42NY7](https://gitee.com/dotnetchina/Furion/issues/I42NY7)
+  - [新增] 多语言自定义配置资源文件名及自定义程序集 [#I434YJ](https://gitee.com/dotnetchina/Furion/issues/I434YJ)
+
+- **突破性变化**
+
+  - [调整] 规范化结果 `IUnifyResultProvider` 参数 **（破坏性更改）** [#I427Z2](https://gitee.com/dotnetchina/Furion/issues/I427Z2)
   - [调整] `IJsonSerializerProvider` 接口参数，去掉 `inherit` 参数 [a55603b](https://gitee.com/dotnetchina/Furion/commit/a55603bf7ed109296375dbeffc31591a6f8f8e49)
 
 ```cs
@@ -134,17 +160,11 @@ namespace Furion.UnifyResult
 - **问题修复**
 
   - [修复] `MVC` 控制器启用规范化处理后返回 `new Json({})` 对象为 `null` 问题 [#I4354S](https://gitee.com/dotnetchina/Furion/issues/I4354S)
-  - [修复] 非关系型数据库（内存数据库）注册及操作异常 [e167651](https://gitee.com/dotnetchina/Furion/commit/e1676512a54374427bedbde17cd8cb59d7852557)
-  - [修复] 远程请求默认序列化问题 [a55603b](https://gitee.com/dotnetchina/Furion/commit/a55603bf7ed109296375dbeffc31591a6f8f8e49)
-  - [修复] 定时任务零点/整点提前一秒触发问题 [#I4321L](https://gitee.com/dotnetchina/Furion/issues/I4321L)
-  - [修复] 友好异常在子类重写抽象类方法内部抛异常无法获取的问题 [4a4fe1f](https://gitee.com/dotnetchina/Furion/commit/4a4fe1f40e1856ea36a0c0d19ca625d3f7bf95b7)
-  - [修复] 修复非 Web 项目抛异常问题 [4a4fe1f](https://gitee.com/dotnetchina/Furion/commit/4a4fe1f40e1856ea36a0c0d19ca625d3f7bf95b7)
 
 - **其他更改**
 
   - [优化] 多语言底层设计，取消需要创建 `Lang.cs` 空类的要求 [#I434YJ](https://gitee.com/dotnetchina/Furion/issues/I434YJ)
   - [优化] `MiniProfiler` 性能，减少不必要的监听
-  - [调整] Swagger 生成泛型 SchemaIds 默认连接符，由 `Of` 改为 `_` [81946b6](https://gitee.com/dotnetchina/Furion/commit/81946b64e81d9e290f80cd5bcebdb69c99001153)
 
 ---
 
