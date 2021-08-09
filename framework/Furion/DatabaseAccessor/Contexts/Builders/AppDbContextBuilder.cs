@@ -454,8 +454,8 @@ namespace Furion.DatabaseAccessor
                 // 组装对象
                 foreach (var entityCorrelationType in dbContextEntityCorrelationTypes)
                 {
-                    // 只要继承 IEntityDependency 接口，都是实体
-                    if (typeof(IPrivateEntity).IsAssignableFrom(entityCorrelationType))
+                    // 只要继承 IEntityDependency 接口，都是实体，且不贴 [NotMapper] 特性
+                    if (typeof(IPrivateEntity).IsAssignableFrom(entityCorrelationType) && !entityCorrelationType.IsDefined(typeof(NotMappedAttribute), false))
                     {
                         // 添加实体
                         result.EntityTypes.Add(entityCorrelationType);
