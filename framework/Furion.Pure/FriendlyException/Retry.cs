@@ -27,7 +27,7 @@ namespace Furion.FriendlyException
         /// <param name="retryTimeout">重试间隔时间</param>
         /// <param name="finalThrow">是否最终抛异常</param>
         /// <param name="exceptionTypes">异常类型,可多个</param>
-        public static void Invoke(Action action, int numRetries, int retryTimeout = 100, bool finalThrow = true, Type[] exceptionTypes = default)
+        public static void Invoke(Action action, int numRetries, int retryTimeout = 1000, bool finalThrow = true, Type[] exceptionTypes = default)
         {
             if (action == null) throw new ArgumentNullException(nameof(action));
 
@@ -46,7 +46,7 @@ namespace Furion.FriendlyException
         /// <param name="retryTimeout">重试间隔时间</param>
         /// <param name="finalThrow">是否最终抛异常</param>
         /// <param name="exceptionTypes">异常类型,可多个</param>
-        public static async Task Invoke(Func<Task> action, int numRetries, int retryTimeout = 100, bool finalThrow = true, Type[] exceptionTypes = default)
+        public static async Task Invoke(Func<Task> action, int numRetries, int retryTimeout = 1000, bool finalThrow = true, Type[] exceptionTypes = default)
         {
             if (action == null) throw new ArgumentNullException(nameof(action));
 
@@ -60,7 +60,7 @@ namespace Furion.FriendlyException
                 catch (Exception ex)
                 {
                     // 如果可重试次数小于或等于0，则终止重试
-                    if (--numRetries <= 0)
+                    if (--numRetries < 0)
                     {
                         if (finalThrow) throw;
                         else return;
@@ -73,7 +73,10 @@ namespace Furion.FriendlyException
                         else return;
                     }
 
-                    Trace.WriteLine($"`{action}` Retry times: {numRetries}.");
+                    if (Debugger.IsAttached)
+                    {
+                        Console.WriteLine($"You can retry {numRetries} more times.");
+                    }
 
                     // 如果可重试异常数大于 0，则间隔指定时间后继续执行
                     if (retryTimeout > 0) Thread.Sleep(retryTimeout);

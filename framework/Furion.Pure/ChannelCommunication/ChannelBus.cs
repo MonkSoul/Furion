@@ -88,8 +88,8 @@ namespace Furion.ChannelCommunication
                   {
                       if (!reader.TryRead(out var message)) continue;
 
-                      // 默认重试 10 次（每次延迟 500）毫秒
-                      await Retry.Invoke(async () => await handler.InvokeAsync(message), 10, 500, finalThrow: false);
+                      // 默认重试 3 次（每次间隔 1s）
+                      await Retry.Invoke(async () => await handler.InvokeAsync(message), 3, 1000, finalThrow: false);
                   }
               }, TaskCreationOptions.LongRunning);
         }
