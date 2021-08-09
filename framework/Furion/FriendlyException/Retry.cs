@@ -39,20 +39,20 @@ namespace Furion.FriendlyException
         /// 重试有异常的方法，还可以指定特定异常
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        /// <param name="action"></param>
+        /// <param name="func"></param>
         /// <param name="numRetries">重试次数</param>
         /// <param name="retryTimeout">重试间隔时间</param>
         /// <param name="exceptionTypes">异常类型,可多个</param>
-        public static T Invoke<T>(Func<T> action, int numRetries, int retryTimeout, params Type[] exceptionTypes)
+        public static T Invoke<T>(Func<T> func, int numRetries, int retryTimeout, params Type[] exceptionTypes)
         {
-            if (action == null) throw new ArgumentNullException(nameof(action));
+            if (func == null) throw new ArgumentNullException(nameof(func));
 
             // 不断重试
             while (true)
             {
                 try
                 {
-                    return action();
+                    return func();
                 }
                 catch (Exception ex)
                 {
