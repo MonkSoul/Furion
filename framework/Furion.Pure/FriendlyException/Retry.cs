@@ -9,7 +9,6 @@
 using System;
 using System.Diagnostics;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace Furion.FriendlyException
@@ -79,7 +78,7 @@ namespace Furion.FriendlyException
                     }
 
                     // 如果可重试异常数大于 0，则间隔指定时间后继续执行
-                    if (retryTimeout > 0) Thread.Sleep(retryTimeout);
+                    if (retryTimeout > 0) await Task.Delay(retryTimeout);
                 }
             }
         }

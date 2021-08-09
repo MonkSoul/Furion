@@ -19,6 +19,7 @@ namespace Furion.ProcessChannel
     /// </summary>
     /// <typeparam name="TMessage"></typeparam>
     /// <typeparam name="THandler"></typeparam>
+    /// <remarks>后续将通过 MemoryMapperFile 共享内存实现 IPC 通信：https://docs.microsoft.com/zh-cn/dotnet/api/system.io.memorymappedfiles.memorymappedfile?view=net-5.0 </remarks>
     [SuppressSniffer]
     public sealed class ChannelBus<TMessage, THandler>
         where THandler : ChannelHandler<TMessage>
@@ -73,7 +74,7 @@ namespace Furion.ProcessChannel
         }
 
         /// <summary>
-        /// 创建一个读写器
+        /// 创建一个读取器
         /// </summary>
         /// <param name="channel"></param>
         private static void StartReader(Channel<TMessage> channel)
