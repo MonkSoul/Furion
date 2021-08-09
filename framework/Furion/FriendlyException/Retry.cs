@@ -7,6 +7,7 @@
 // See the Mulan PSL v2 for more details.
 
 using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -71,6 +72,8 @@ namespace Furion.FriendlyException
                         if (finalThrow) throw;
                         else return;
                     }
+
+                    Trace.WriteLine($"`{action}` Retry times: {numRetries}.");
 
                     // 如果可重试异常数大于 0，则间隔指定时间后继续执行
                     if (retryTimeout > 0) Thread.Sleep(retryTimeout);
