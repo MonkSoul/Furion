@@ -66,7 +66,11 @@ namespace Furion.FriendlyException
                     }
 
                     // 如果填写了 exceptionTypes 且异常类型不在 exceptionTypes 之内，则终止重试
-                    if (exceptionTypes != null && exceptionTypes.Length > 0 && !exceptionTypes.Any(u => u.IsAssignableFrom(ex.GetType()))) throw;
+                    if (exceptionTypes != null && exceptionTypes.Length > 0 && !exceptionTypes.Any(u => u.IsAssignableFrom(ex.GetType())))
+                    {
+                        if (finalThrow) throw;
+                        else return;
+                    }
 
                     // 如果可重试异常数大于 0，则间隔指定时间后继续执行
                     if (retryTimeout > 0) Thread.Sleep(retryTimeout);
