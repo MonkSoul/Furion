@@ -33,6 +33,7 @@
   - [修复] 定时任务零点/整点提前一秒触发问题 [#I4321L](https://gitee.com/dotnetchina/Furion/issues/I4321L)
   - [修复] 友好异常在子类重写抽象类方法内部抛异常无法获取的问题 [4a4fe1f](https://gitee.com/dotnetchina/Furion/commit/4a4fe1f40e1856ea36a0c0d19ca625d3f7bf95b7)
   - [修复] 修复非 Web 项目抛异常问题 [4a4fe1f](https://gitee.com/dotnetchina/Furion/commit/4a4fe1f40e1856ea36a0c0d19ca625d3f7bf95b7)
+  - [修复] 数据库实体模型贴 `[NotMapper]` 特性无效 [#I44MNO](https://gitee.com/dotnetchina/Furion/issues/I44MNO)
 
 - **其他更改**
 
