@@ -8,7 +8,7 @@
 
 using System.Threading.Tasks;
 
-namespace Furion.ChannelCommunication
+namespace Furion.ProcessChannel
 {
     /// <summary>
     /// 进程管道内通信处理程序
