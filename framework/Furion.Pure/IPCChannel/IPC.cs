@@ -19,7 +19,7 @@ namespace Furion.IPCBus
     /// <typeparam name="TMessage"></typeparam>
     /// <typeparam name="THandler"></typeparam>
     [SuppressSniffer]
-    public sealed class IPCChannel<TMessage, THandler>
+    public sealed class IPC<TMessage, THandler>
         where THandler : ChannelHandler<TMessage>
     {
         /// <summary>
@@ -67,7 +67,7 @@ namespace Furion.IPCBus
         /// <summary>
         /// 私有构造函数
         /// </summary>
-        private IPCChannel()
+        private IPC()
         {
         }
 
