@@ -174,7 +174,7 @@ module.exports = {
     },
     {
       type: "doc",
-      id: "microservice",
+      id: "ipc",
     },
     {
       type: "category",
