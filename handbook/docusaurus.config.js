@@ -49,7 +49,7 @@ module.exports = {
           label: "配置",
           position: "left",
         },
-        { to: "blog", label: "博客", position: "left" },
+        { to: "blog", label: "博客✨", position: "left" },
         {
           to: "docs/upgrade",
           activeBasePath: "docs/upgrade",
@@ -98,7 +98,7 @@ module.exports = {
           activeBasePath: "docs/case",
         },
         {
-          label: "支持✨",
+          label: "支持",
           position: "right",
           to: "docs/donate",
           activeBasePath: "docs/donate",

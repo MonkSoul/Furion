@@ -4,9 +4,16 @@
         <title>Furion Blog</title>
         <link>https://furion.pro/furion/blog</link>
         <description>Furion Blog</description>
-        <lastBuildDate>Sat, 24 Jul 2021 00:00:00 GMT</lastBuildDate>
+        <lastBuildDate>Wed, 11 Aug 2021 00:00:00 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
+        <item>
+            <title><![CDATA[5. .NET 6 Preview 7 尝鲜]]></title>
+            <link>https://furion.pro/furion/blog/net6-preview7</link>
+            <guid>net6-preview7</guid>
+            <pubDate>Wed, 11 Aug 2021 00:00:00 GMT</pubDate>
+            <description><![CDATA[2021 年 08 月 11 日，微软发布了 .NET 6 Preview 7 版本，Furion 在当天第一时间适配了该版本，并发布 Furion v3.0.0-rc.2 版本。]]></description>
+        </item>
         <item>
             <title><![CDATA[5. 在控制台中使用]]></title>
             <link>https://furion.pro/furion/blog/console</link>

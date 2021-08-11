@@ -1,0 +1,61 @@
+---
+slug: net6-preview7
+title: 5. .NET 6 Preview 7 尝鲜
+author: dotNET China
+author_title: 让 .NET 开发更简单，更通用，更流行。
+author_url: https://www.chinadot.net
+author_image_url: https://i.loli.net/2021/01/19/M8q5a3OTZWUKicl.png
+tags: [furion, furos, .net, .netcore, .net5, .net6]
+---
+
+import useBaseUrl from "@docusaurus/useBaseUrl";
+
+**2021 年 08 月 11 日，微软发布了 `.NET 6 Preview 7` 版本，`Furion` 在当天第一时间适配了该版本，并发布 `Furion v3.0.0-rc.2` 版本。**
+
+[Furion .NET 6 Preview 7 源码地址](https://gitee.com/dotnetchina/Furion/tree/3.0.0-rc.2/)
+
+## 安装 `.NET 6 Preview 6 SDK`
+
+尝鲜之前，首先先安装 `.NET 6 Preview 7 SDK`，下载地址：[https://dotnet.microsoft.com/download/dotnet/6.0](https://dotnet.microsoft.com/download/dotnet/6.0)
+
+下载对应系统和处理器版本即可。
+
+## 旧项目升级
+
+编辑所有 `.csproj` 项目，修改 `<TargetFramework>net5.0</TargetFramework>` 为 `<TargetFramework>net6.0</TargetFramework>`。
+
+同时升级所有 `Microsoft` 和 `Furion` 包为最新版本，`Furion` 最新版本为：`v3.0.0-rc.1`。
+
+## 新项目使用
+
+### 升级 `Visual Studio 2019`
+
+目前 `.NET 6 Preview 7` 支持使用 `Visual Studio 2019 Preview 16.11.0 Preview 4.0` 版本，**注意是 `Preview` 最新版本**。下载地址：[https://visualstudio.microsoft.com/zh-hans/thank-you-downloading-visual-studio/?sku=enterprise&ch=pre&rel=16](https://visualstudio.microsoft.com/zh-hans/thank-you-downloading-visual-studio/?sku=enterprise&ch=pre&rel=16)
+
+已经安装了 `Visual Studio 2019 Preview` 版本的朋友直接升级到最新版即可。
+
+:::note 特别说明
+
+如果使用 `Visual Studio Code` 开发，可忽略此选项。
+
+:::
+
+### 第一个例子
+
+`Furion v3.0.0-rc.2` 目前提供了所有类型的脚手架，版本号统一 `3.0.0-rc.2`。
+
+安装脚手架，打开 `CMD/Powershell` 执行以下命令：
+
+```bash
+dotnet new --install Furion.Template.Api::3.0.0-rc.2
+```
+
+创建项目
+
+```bash
+dotnet new furionapi -n FurionNET6
+```
+
+### 打开并启动项目
+
+打开浏览器查看效果即可。
