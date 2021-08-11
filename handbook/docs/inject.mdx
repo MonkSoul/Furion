@@ -14,18 +14,18 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 ## 2.4.2 `Inject` 方法有哪些
 
-- `Inject()`：在 `Progame.cs` 中注册
+- `Inject()`：在 `Program.cs` 中注册
 - `AddInject()`：在 `Startup.cs` 的 `ConfigureServices` 中注册
 - `AddInjectBase()`：在 `Startup.cs` 的 `ConfigureServices` 中注册
 - `AddInjectWithUnifyResult()/ AddInjectWithUnifyResult<T>()`：在 `Startup.cs` 的 `ConfigureServices` 中注册
 - `UseInject()`：在 `Startup.cs` 的 `Configure` 中注册
 - `UseInjectBase()`：在 `Startup.cs` 的 `Configure` 中注册
 
-## 2.4.3 在 `Progame.cs` 中使用
+## 2.4.3 在 `Program.cs` 中使用
 
 ### 2.4.3.1 `Inject()` 方法
 
-`Inject()` 是在启动程序 `Progame.cs` 中使用的，集成 `Furion` 框架唯一方法，如：
+`Inject()` 是在启动程序 `Program.cs` 中使用的，集成 `Furion` 框架唯一方法，如：
 
 ```cs {6,18} title="Furion.Web.Entry\Program.cs"
 using Microsoft.AspNetCore.Hosting;
