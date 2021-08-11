@@ -3169,8 +3169,8 @@ cssnano-utils@^2.0.1:
   integrity sha1-hmCqKzfthp0uLyKRgZapqLZJjOI=
 
 cssnano@^5.0.4, cssnano@^5.0.6:
-  version "5.0.7"
-  resolved "https://registry.nlark.com/cssnano/download/cssnano-5.0.7.tgz#e81894bdf31aa01a0ca3d1d0eee47be18f7f3012"
+  version "5.0.9"
+  resolved "https://registry.nlark.com/cssnano/download/cssnano-5.0.9.tgz#e81894bdf31aa01a0ca3d1d0eee47be18f7f3012"
   integrity sha1-6BiUvfMaoBoMo9HQ7uR74Y9/MBI=
   dependencies:
     cssnano-preset-default "^5.1.3"
