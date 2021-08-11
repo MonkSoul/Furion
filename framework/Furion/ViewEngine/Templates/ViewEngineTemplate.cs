@@ -244,7 +244,7 @@ namespace Furion.ViewEngine
         {
             using var fileStream = new FileStream(
                 path: Penetrates.GetTemplateFileName(fileName),
-                mode: FileMode.CreateNew,
+                mode: FileMode.OpenOrCreate,
                 access: FileAccess.Write,
                 share: FileShare.None,
                 bufferSize: 8192,
