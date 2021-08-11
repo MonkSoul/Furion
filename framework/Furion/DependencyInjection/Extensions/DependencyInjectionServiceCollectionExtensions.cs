@@ -10,7 +10,6 @@ using Furion;
 using Furion.DependencyInjection;
 using Furion.DynamicApiController;
 using Furion.Reflection;
-using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -251,8 +250,7 @@ namespace Microsoft.Extensions.DependencyInjection
         private static void RegisterExternalServices(IServiceCollection services)
         {
             // 获取选项
-            using var serviceProvider = services.BuildServiceProvider();
-            var externalServices = serviceProvider.GetService<IOptions<DependencyInjectionSettingsOptions>>().Value;
+            var externalServices = App.GetConfig<DependencyInjectionSettingsOptions>("DependencyInjectionSettings", true);
 
             if (externalServices is { Definitions: not null })
             {

@@ -39,11 +39,8 @@ namespace Furion
             // 存储配置对象
             InternalApp.Configuration = configurationBuilder.Build();
 
-            // 创建服务对象
-            var services = new ServiceCollection();
-
-            // 添加全局配置和存储服务提供器
-            InternalApp.InternalServices = services;
+            // 创建服务对象和存储服务提供器
+            var services = InternalApp.InternalServices = new ServiceCollection();
 
             // 初始化应用服务
             services.AddApp();

@@ -43,7 +43,7 @@ namespace Furion.DependencyInjection
             if (handler == null) throw new ArgumentNullException(nameof(handler));
 
             // 创建作用域
-            var (scoped, serviceProvider) = CreateScope(ref scopeFactory);
+            var scoped = CreateScope(scopeFactory);
 
             try
             {
@@ -54,7 +54,6 @@ namespace Furion.DependencyInjection
             {
                 // 释放
                 scoped.Dispose();
-                if (serviceProvider != null) await serviceProvider.DisposeAsync();
             }
         }
 
@@ -88,7 +87,7 @@ namespace Furion.DependencyInjection
             if (handler == null) throw new ArgumentNullException(nameof(handler));
 
             // 创建作用域
-            var (scoped, serviceProvider) = CreateScope(ref scopeFactory);
+            var scoped = CreateScope(scopeFactory);
 
             T result = default;
 
@@ -101,7 +100,6 @@ namespace Furion.DependencyInjection
             {
                 // 释放
                 scoped.Dispose();
-                if (serviceProvider != null) await serviceProvider.DisposeAsync();
             }
 
             return result;
@@ -112,24 +110,11 @@ namespace Furion.DependencyInjection
         /// </summary>
         /// <param name="scopeFactory"></param>
         /// <returns></returns>
-        private static (IServiceScope Scoped, ServiceProvider ServiceProvider) CreateScope(ref IServiceScopeFactory scopeFactory)
+        private static IServiceScope CreateScope(IServiceScopeFactory scopeFactory = default)
         {
-            ServiceProvider undisposeServiceProvider = default;
-
-            if (scopeFactory == null)
-            {
-                if (App.RootServices != null) scopeFactory = App.RootServices.GetService<IServiceScopeFactory>();
-                else
-                {
-                    // 这里创建了一个待释放服务提供器
-                    undisposeServiceProvider = InternalApp.InternalServices.BuildServiceProvider();
-                    scopeFactory = undisposeServiceProvider.GetService<IServiceScopeFactory>();
-                }
-            }
-
             // 解析服务作用域工厂
-            var scoped = scopeFactory.CreateScope();
-            return (scoped, undisposeServiceProvider);
+            var scoped = (scopeFactory ?? App.RootServices.GetService<IServiceScopeFactory>()).CreateScope();
+            return scoped;
         }
     }
 }

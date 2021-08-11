@@ -6,11 +6,11 @@
 // THIS SOFTWARE IS PROVIDED ON AN "AS IS" BASIS, WITHOUT WARRANTIES OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO NON-INFRINGEMENT, MERCHANTABILITY OR FIT FOR A PARTICULAR PURPOSE.
 // See the Mulan PSL v2 for more details.
 
+using Furion;
 using Furion.DependencyInjection;
 using Furion.Localization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc.Razor;
-using Microsoft.Extensions.Options;
 using System;
 using System.Text.Encodings.Web;
 using System.Text.Unicode;
@@ -36,8 +36,7 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddConfigurableOptions<LocalizationSettingsOptions>();
 
             // 获取多语言配置选项
-            using var serviceProvider = services.BuildServiceProvider();
-            var localizationSettings = serviceProvider.GetService<IOptions<LocalizationSettingsOptions>>().Value;
+            var localizationSettings = App.GetConfig<LocalizationSettingsOptions>("LocalizationSettings", true);
 
             // 如果没有配置多语言选项，则不注册服务
             if (localizationSettings.SupportedCultures == null || localizationSettings.SupportedCultures.Length == 0) return mvcBuilde;

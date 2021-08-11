@@ -42,11 +42,11 @@ namespace Furion
                 // 存储配置对象
                 InternalApp.Configuration = hostContext.Configuration;
 
+                // 存储服务提供器
+                InternalApp.InternalServices = services;
+
                 // 注册 Startup 过滤器
                 services.AddTransient<IStartupFilter, StartupFilter>();
-
-                // 添加全局配置和存储服务提供器
-                InternalApp.InternalServices = services;
 
                 // 初始化应用服务
                 services.AddApp();

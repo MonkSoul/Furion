@@ -6,10 +6,10 @@
 // THIS SOFTWARE IS PROVIDED ON AN "AS IS" BASIS, WITHOUT WARRANTIES OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO NON-INFRINGEMENT, MERCHANTABILITY OR FIT FOR A PARTICULAR PURPOSE.
 // See the Mulan PSL v2 for more details.
 
+using Furion;
 using Furion.CorsAccessor;
 using Furion.DependencyInjection;
 using Microsoft.AspNetCore.Cors.Infrastructure;
-using Microsoft.Extensions.Options;
 using System;
 
 namespace Microsoft.Extensions.DependencyInjection
@@ -33,8 +33,7 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddConfigurableOptions<CorsAccessorSettingsOptions>();
 
             // 获取选项
-            using var serviceProvider = services.BuildServiceProvider();
-            var corsAccessorSettings = serviceProvider.GetService<IOptions<CorsAccessorSettingsOptions>>().Value;
+            var corsAccessorSettings = App.GetConfig<CorsAccessorSettingsOptions>("CorsAccessorSettings", true);
 
             // 添加跨域服务
             services.AddCors(options =>

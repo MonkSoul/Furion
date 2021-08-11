@@ -6,6 +6,7 @@
 // THIS SOFTWARE IS PROVIDED ON AN "AS IS" BASIS, WITHOUT WARRANTIES OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO NON-INFRINGEMENT, MERCHANTABILITY OR FIT FOR A PARTICULAR PURPOSE.
 // See the Mulan PSL v2 for more details.
 
+using Furion.ConfigurableOptions;
 using Furion.DependencyInjection;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -41,20 +42,7 @@ namespace Furion
         /// <summary>
         /// 应用全局配置
         /// </summary>
-        public static AppSettingsOptions Settings
-        {
-            get
-            {
-                if (_settings == null)
-                {
-                    // 由于该配置在任何时候都可用，包括 Startup.cs 中，所以采用首次构建服务方式
-                    using var serviceProvider = InternalApp.InternalServices.BuildServiceProvider();
-                    _settings = serviceProvider.GetService<IOptions<AppSettingsOptions>>().Value;
-                }
-
-                return _settings;
-            }
-        }
+        public static AppSettingsOptions Settings => _settings ??= GetConfig<AppSettingsOptions>("AppSettings", true);
 
         /// <summary>
         /// 全局配置选项
@@ -89,7 +77,7 @@ namespace Furion
         /// <summary>
         /// 获取请求上下文
         /// </summary>
-        public static HttpContext HttpContext => InternalApp.RootServices?.GetService<IHttpContextAccessor>()?.HttpContext;
+        public static HttpContext HttpContext => RootServices.GetService<IHttpContextAccessor>()?.HttpContext;
 
         /// <summary>
         /// 获取请求上下文用户
@@ -119,24 +107,17 @@ namespace Furion
             var isSingletonLifetime = serviceDescriptors.Any(u => u.Lifetime == ServiceLifetime.Singleton);
 
             // 第一选择，判断是否是单例注册，如果是直接返回根服务提供器
-            if (isSingletonLifetime && InternalApp.RootServices != null) return InternalApp.RootServices;
+            if (isSingletonLifetime) return RootServices;
 
             // 第二选择是获取 HttpContext 对象的 RequestServices
             var httpContext = HttpContext;
             if (httpContext?.RequestServices != null) return httpContext.RequestServices;
-            // 第三选择，如果根服务存在，那么创建新的作用域并返回服务提供器
-            else if (InternalApp.RootServices != null)
-            {
-                var scoped = InternalApp.RootServices.CreateScope();
-                UnmanagedObjects.Add(scoped);
-                return scoped.ServiceProvider;
-            }
-            // 第四选择才是动态构建服务提供器
+            // 第三选择，创建新的作用域并返回服务提供器
             else
             {
-                var undisposeServiceProvider = InternalApp.InternalServices.BuildServiceProvider();
-                UnmanagedObjects.Add(undisposeServiceProvider);
-                return undisposeServiceProvider;
+                var scoped = RootServices.CreateScope();
+                UnmanagedObjects.Add(scoped);
+                return scoped.ServiceProvider;
             }
         }
 
@@ -191,10 +172,24 @@ namespace Furion
         /// </summary>
         /// <typeparam name="TOptions">强类型选项类</typeparam>
         /// <param name="path">配置中对应的Key</param>
+        /// <param name="loadPostConfigure"></param>
         /// <returns>TOptions</returns>
-        public static TOptions GetConfig<TOptions>(string path)
+        public static TOptions GetConfig<TOptions>(string path, bool loadPostConfigure = false)
         {
-            return Configuration.GetSection(path).Get<TOptions>();
+            var options = Configuration.GetSection(path).Get<TOptions>();
+
+            // 加载默认选项配置
+            if (loadPostConfigure && typeof(IConfigurableOptions).IsAssignableFrom(typeof(TOptions)))
+            {
+                var postConfigure = typeof(TOptions).GetMethod("PostConfigure");
+                if (postConfigure != null)
+                {
+                    options ??= Activator.CreateInstance<TOptions>();
+                    postConfigure.Invoke(options, new object[] { options, Configuration });
+                }
+            }
+
+            return options;
         }
 
         /// <summary>
@@ -296,8 +291,7 @@ namespace Furion
             };
 
             // 读取应用配置
-            var settings = GetConfig<AppSettingsOptions>("AppSettings") ?? new AppSettingsOptions { };
-            var supportPackageNamePrefixs = settings.SupportPackageNamePrefixs ?? Array.Empty<string>();
+            var supportPackageNamePrefixs = Settings.SupportPackageNamePrefixs ?? Array.Empty<string>();
 
             var dependencyContext = DependencyContext.Default;
 
@@ -306,15 +300,15 @@ namespace Furion
                 .Where(u =>
                        (u.Type == "project" && !excludeAssemblyNames.Any(j => u.Name.EndsWith(j))) ||
                        (u.Type == "package" && (u.Name.StartsWith(nameof(Furion)) || supportPackageNamePrefixs.Any(p => u.Name.StartsWith(p)))) ||
-                       (settings.EnabledReferenceAssemblyScan == true && u.Type == "reference"))    // 判断是否启用引用程序集扫描
+                       (Settings.EnabledReferenceAssemblyScan == true && u.Type == "reference"))    // 判断是否启用引用程序集扫描
                 .Select(u => AssemblyLoadContext.Default.LoadFromAssemblyName(new AssemblyName(u.Name)));
 
             IEnumerable<Assembly> externalAssemblies = Array.Empty<Assembly>();
 
             // 加载 `appsetting.json` 配置的外部程序集
-            if (settings.ExternalAssemblies != null && settings.ExternalAssemblies.Any())
+            if (Settings.ExternalAssemblies != null && Settings.ExternalAssemblies.Any())
             {
-                foreach (var externalAssembly in settings.ExternalAssemblies)
+                foreach (var externalAssembly in Settings.ExternalAssemblies)
                 {
                     // 加载外部程序集
                     var assemblyFileFullPath = Path.Combine(AppContext.BaseDirectory
