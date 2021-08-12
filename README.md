@@ -25,7 +25,7 @@ var services = Inject.Create();
 services.AddRemoteRequest();
 services.Build();
 
-var content = await "https://www.baidu.com".GetAsStringAsync();
+var content = await "https://dotnet.microsoft.com/".GetAsStringAsync();
 Console.WriteLine(content);
 ```
 
