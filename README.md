@@ -39,6 +39,6 @@
 
 ## 贡献代码
 
-`Furion` 遵循 [MulanPSL-2.0](https://gitee.com/dotnetchina/Furion/blob/master/LICENSE) 开源协议，欢迎大家提交 `Pull Request` 或 `Issue`。 了解 [贡献指南](https://dotnetchina.gitee.io/furion/docs/contribute)。
+`Furion` 遵循 [MulanPSL-2.0](https://gitee.com/dotnetchina/Furion/blob/master/LICENSE) 开源协议，欢迎大家提交 `Pull Request` 或 `Issue`。 感谢每一位为 `Furion` 贡献代码的朋友。
 
 [![Furion 贡献者画像](https://chart.giteye.net/gitee/dotnetchina/Furion/ZS49EPL6.png)](https://giteye.net/chart/ZS49EPL6)
