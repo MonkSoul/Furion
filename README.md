@@ -21,7 +21,7 @@
 
 </div>
 
-## 框架特点
+## 框架特性
 
 - 全新面貌：基于 `.NET5/6` 平台，没有历史包袱
 - 极少依赖：框架只依赖两个第三方包
@@ -32,20 +32,13 @@
 - 完整文档：提供完善的开发文档
 - **跨全平台：支持所有主流操作系统及 .NET 全部项目类型**
 
-## 文档视频
+## 文档手册
 
-- **国内文档**：[https://dotnetchina.gitee.io/furion](https://dotnetchina.gitee.io/furion)
-- 国外文档：[https://furion.pro](https://furion.pro)
-- 视频教程：[https://space.bilibili.com/695987967](https://space.bilibili.com/695987967)
-
-## 开源地址
-
-- Gitee：[https://gitee.com/dotnetchina/Furion](https://gitee.com/dotnetchina/Furion)
-- GitHub：[https://github.com/monksoul/Furion](https://github.com/monksoul/Furion)
-- Nuget：[https://www.nuget.org/packages/Furion](https://www.nuget.org/packages/Furion)
+- 正式文档：[https://furion.pro](https://furion.pro)
+- 备份文档：[https://dotnetchina.gitee.io/furion](https://dotnetchina.gitee.io/furion)
 
 ## 贡献代码
 
-`Furion` 遵循 [MulanPSL-2.0](https://gitee.com/dotnetchina/Furion/blob/master/LICENSE) 开源协议，欢迎大家提交 `Pull Request` 或 `Issue`。如果要为项目做出贡献，请查看 [贡献指南](https://dotnetchina.gitee.io/furion/docs/contribute)。感谢每一位为 `Furion` 贡献代码的朋友。
+`Furion` 遵循 [MulanPSL-2.0](https://gitee.com/dotnetchina/Furion/blob/master/LICENSE) 开源协议，欢迎大家提交 `Pull Request` 或 `Issue`。 了解 [贡献指南](https://dotnetchina.gitee.io/furion/docs/contribute)。
 
 [![Furion 贡献者画像](https://chart.giteye.net/gitee/dotnetchina/Furion/ZS49EPL6.png)](https://giteye.net/chart/ZS49EPL6)
