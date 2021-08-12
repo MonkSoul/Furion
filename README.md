@@ -7,13 +7,13 @@
 - Package Manager
 
 ```cs
-Install-Package Furion -Version 2.17.5
+Install-Package Furion
 ```
 
 - .NET CLI
 
 ```cs
-dotnet add package Furion --version 2.17.5
+dotnet add package Furion
 ```
 
 ## 例子
