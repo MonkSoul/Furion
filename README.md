@@ -1,6 +1,6 @@
 ## Furion 
 
-[![license](https://img.shields.io/badge/license-MulanPSL--2.0-orange)](https://gitee.com/dotnetchina/Furion/blob/master/LICENSE) [![nuget](https://img.shields.io/nuget/v/Furion.svg?cacheSeconds=10800)](https://www.nuget.org/packages/Furion) [![nuget downloads](https://img.shields.io/badge/downloads-970k+-blue)](https://www.nuget.org/profiles/monk.soul) 
+[![license](https://img.shields.io/badge/license-MulanPSL--2.0-orange)](https://gitee.com/dotnetchina/Furion/blob/master/LICENSE) [![nuget](https://img.shields.io/nuget/v/Furion.svg?cacheSeconds=10800)](https://www.nuget.org/packages/Furion) [![nuget downloads](https://img.shields.io/badge/downloads-974k+-blue)](https://www.nuget.org/profiles/monk.soul) 
 
 一个没有历史包袱的 .NET/C# 应用程序框架，您可以使用它构建任何 .NET/C# 应用程序。
 
