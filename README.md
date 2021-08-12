@@ -1,44 +1,42 @@
-<p></p>
-<p></p>
+![Furion logo](./handbook/static/img/furionlogo_min.png)
 
-<div align="center">
+[![nuget](https://img.shields.io/nuget/v/Furion.svg?cacheSeconds=10800)](https://www.nuget.org/packages/Furion) [![nuget downloads](https://img.shields.io/badge/downloads-971k+-blue)](https://www.nuget.org/packages/Furion) [![contributes](https://img.shields.io/badge/contributes-159-green)](https://www.nuget.org/packages/Furion) [![license](https://img.shields.io/badge/license-MulanPSL--2.0-orange)](https://gitee.com/dotnetchina/Furion/blob/master/LICENSE)
 
-<img src="./handbook/static/img/furionlogo.png" height="80"/>
+## 项目介绍
 
-</div>
+一个没有历史包袱的 .NET/C# 应用程序框架，你可以用它构建任何 .NET/C# 应用程序。
 
-<p></p>
+## 安装使用
 
-<div align="center">
+- Package Manager
 
-[![star](https://gitee.com/dotnetchina/Furion/badge/star.svg?theme=gvp)](https://gitee.com/dotnetchina/Furion/stargazers) [![fork](https://gitee.com/dotnetchina/Furion/badge/fork.svg?theme=gvp)](https://gitee.com/dotnetchina/Furion/members) [![GitHub stars](https://img.shields.io/github/stars/MonkSoul/Furion?logo=github)](https://github.com/MonkSoul/Furion/stargazers) [![GitHub forks](https://img.shields.io/github/forks/MonkSoul/Furion?logo=github)](https://github.com/MonkSoul/Furion/network) [![GitHub license](https://img.shields.io/badge/license-MulanPSL--2.0-orange)](https://gitee.com/dotnetchina/Furion/blob/master/LICENSE) [![nuget](https://img.shields.io/nuget/v/Furion.svg?cacheSeconds=10800)](https://www.nuget.org/packages/Furion)
+```cs
+Install-Package Furion -Version 2.17.5
+```
 
-</div>
+- .NET CLI
 
-<div align="center">
+```cs
+dotnet add package Furion --version 2.17.5
+```
 
-让 .NET 开发更简单，更通用，更流行。
+## 简单例子
 
-</div>
+我们在 [主页](https://dotnetchina.gitee.io/furion) 上有不少例子，这是让您入门的第一个：
 
-## 框架特性
+```cs
+var services = Inject.Create();
+services.AddRemoteRequest();
+services.Build();
 
-- 全新面貌：基于 `.NET5/6` 平台，没有历史包袱
-- 极少依赖：框架只依赖两个第三方包
-- 极易入门：只需要一个 `Inject()` 即可完成配置
-- 极速开发：内置丰富的企业应用开发功能
-- 极其灵活：轻松面对多变复杂的需求
-- 极易维护：采用独特的架构思想，只为长久维护设计
-- 完整文档：提供完善的开发文档
-- **跨全平台：支持所有主流操作系统及 .NET 全部项目类型**
+var content = await "https://www.baidu.com".GetAsStringAsync();
+Console.WriteLine(content);
+```
 
 ## 文档手册
 
-- 正式文档：[https://furion.pro](https://furion.pro)
-- 备份文档：[https://dotnetchina.gitee.io/furion](https://dotnetchina.gitee.io/furion)
+你可以在 [主页](https://furion.pro) 或 [备份主页](https://dotnetchina.gitee.io/furion) 找到 Furion 文档。
 
-## 贡献代码
+## 参与贡献
 
-`Furion` 遵循 [MulanPSL-2.0](https://gitee.com/dotnetchina/Furion/blob/master/LICENSE) 开源协议，欢迎大家提交 `Pull Request` 或 `Issue`。 感谢每一位为 `Furion` 贡献代码的朋友。
-
-[![Furion 贡献者画像](https://chart.giteye.net/gitee/dotnetchina/Furion/ZS49EPL6.png)](https://giteye.net/chart/ZS49EPL6)
+该存储库的主要目的是继续发展 Furion 核心，使其更快、更易于使用。 Furion 的开发在 [Gitee](https://gitee.com/dotnetchina/Furion) 上公开进行，我们感谢社区贡献错误修复和改进。Furion 遵循 [MulanPSL-2.0](https://gitee.com/dotnetchina/Furion/blob/master/LICENSE) 开源协议，阅读 [贡献指南](https://dotnetchina.gitee.io/furion/docs/contribute) 内容，了解如何参与改进 Furion。
