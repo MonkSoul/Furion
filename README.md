@@ -4,13 +4,13 @@
 
 ## 安装
 
-- Package Manager
+- [Package Manager](https://www.nuget.org/packages/Furion)
 
 ```cs
 Install-Package Furion
 ```
 
-- .NET CLI
+- [.NET CLI](https://www.nuget.org/packages/Furion)
 
 ```cs
 dotnet add package Furion
