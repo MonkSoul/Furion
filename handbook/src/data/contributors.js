@@ -867,6 +867,12 @@ const contributors = [
     photo:
       "https://portrait.gitee.com/uploads/avatars/user/1631/4893177_baiyanzhao_1578976572.png!avatar200",
   },
+  {
+    author: "helloLuo",
+    link: "https://gitee.com/lhw516678532",
+    photo:
+      "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEsAAABLCAYAAAA4TnrqAAAAAXNSR0IArs4c6QAAAXNJREFUeF7t2KFqglEchvG/ipcgBothIGoyL5lsFu9gWHcPAy/BajJ6B0smwfCxKxAUNMv62Bx8W5mgnMcgOB+T4VEOP1+E7xSaL6+H8JUkUBArySmPxEq3EgtYiSUWEQCt/1liAQGQuiyxgABIXZZYQACkLkssIABSlyUWEACpyxILCIDUZYkFBEDqssQCAiB1WWIBAZBebVnP3YcYPtajXCrmx1uu9/E0zcBRf9JRvx2DTi1///H5FZPFJsbzFf6eSz4gFlATSywgAFKXJRYQAKnLEgsIgNRliQUEQOqybgELnPFkejePO2KdETh+kBYLYL1t32OW7bBZt1GJXqvqrUOKnFc0KUq/jVhi/RXwphQsQiyxgABIXZZYQACkLkssIABSlyUWELiz9Go3pf/BVSzwK4olFhAAqcsSCwiA1GWJBQRA6rLEAgIgdVliAQGQuiyxgABIXZZYQACkLkssIABSlyUWEACpyxILCIDUZQGsb3CINdUf5BOHAAAAAElFTkSuQmCC",
+  },
 ];
 
 export default contributors;
