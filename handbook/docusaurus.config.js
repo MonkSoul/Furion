@@ -177,4 +177,5 @@ module.exports = {
       },
     ],
   ],
+  clientModules: [require.resolve("./baidutongji.js")],
 };
