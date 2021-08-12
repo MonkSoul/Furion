@@ -1,7 +1,11 @@
+using Furion.Core;
+using Furion.DatabaseAccessor;
+using Furion.DependencyInjection;
 using Furion.DynamicApiController;
 using Furion.FriendlyException;
 using Furion.TaskScheduler;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -161,9 +165,26 @@ namespace Furion.Application
         /// </summary>
         /// <param name="cron"></param>
         /// <returns></returns>
-        public DateTimeOffset TestNextTime(string cron)
+        public DateTimeOffset TestNextOccurrence(string cron)
         {
             return SpareTime.GetCronNextOccurrence(cron).Value;
+        }
+
+        /// <summary>
+        /// 测试数据库操作和释放
+        /// </summary>
+        public void TestDbOperate()
+        {
+            SpareTime.Do(1000, (t, i) =>
+            {
+                Scoped.Create((f, s) =>
+                {
+                    var rep = s.ServiceProvider.GetService<IRepository<Person>>();
+                    var entities = rep.DetachedEntities.Where(u => u.Id > 0);
+                });
+
+                Console.WriteLine($"{t.WorkerName} -{t.Description} - {DateTime.Now:yyyy-MM-dd HH:mm:ss} - {i}");
+            }, "dbJob", "测试数据库操作");
         }
     }
 }

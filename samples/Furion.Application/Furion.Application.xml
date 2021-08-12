@@ -63,12 +63,17 @@
             测试只执行一次
             </summary>
         </member>
-        <member name="M:Furion.Application.JobServices.TestNextTime(System.String)">
+        <member name="M:Furion.Application.JobServices.TestNextOccurrence(System.String)">
             <summary>
             测试下一次执行时间
             </summary>
             <param name="cron"></param>
             <returns></returns>
+        </member>
+        <member name="M:Furion.Application.JobServices.TestDbOperate">
+            <summary>
+            测试数据库操作和释放
+            </summary>
         </member>
         <member name="P:Furion.Application.Persons.ChildrenDto.Id">
             <summary>
