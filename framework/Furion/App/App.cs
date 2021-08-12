@@ -77,7 +77,7 @@ namespace Furion
         /// <summary>
         /// 获取请求上下文
         /// </summary>
-        public static HttpContext HttpContext => RootServices.GetService<IHttpContextAccessor>()?.HttpContext;
+        public static HttpContext HttpContext => RootServices?.GetService<IHttpContextAccessor>()?.HttpContext;
 
         /// <summary>
         /// 获取请求上下文用户
