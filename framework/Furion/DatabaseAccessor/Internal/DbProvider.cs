@@ -157,13 +157,13 @@ namespace Furion.DatabaseAccessor
 
             if (string.IsNullOrWhiteSpace(connStr)) return default;
             // 如果包含 = 符号，那么认为是连接字符串
-            if (connStr.Contains("=")) return connStr;
+            if (connStr.Contains('=')) return connStr;
             else
             {
                 var configuration = App.Configuration;
 
                 // 如果包含 : 符号，那么认为是一个 Key 路径
-                if (connStr.Contains(":")) return configuration[connStr];
+                if (connStr.Contains(':')) return configuration[connStr];
                 else
                 {
                     // 首先查找 DbConnectionString 键，如果没有找到，则当成 Key 去查找

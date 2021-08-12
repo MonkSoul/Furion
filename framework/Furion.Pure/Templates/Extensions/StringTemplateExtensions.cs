@@ -116,7 +116,7 @@ namespace Furion.Templates.Extensions
         private static object MatchTemplateValue(string template, IDictionary<string, object> templateData)
         {
             string tmpl;
-            if (!template.Contains(".", StringComparison.CurrentCulture)) tmpl = template;
+            if (!template.Contains('.', StringComparison.CurrentCulture)) tmpl = template;
             else tmpl = template.Split('.', StringSplitOptions.RemoveEmptyEntries).First();
 
             var templateValue = templateData.ContainsKey(tmpl) ? templateData[tmpl] : default;

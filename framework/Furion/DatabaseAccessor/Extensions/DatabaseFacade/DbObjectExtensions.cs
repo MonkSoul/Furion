@@ -292,9 +292,6 @@ namespace Furion.DatabaseAccessor
             // 判断是否启用
             if (!IsLogEntityFrameworkCoreSqlExecuteCommand) return;
 
-            // 获取日志对象
-            var logger = databaseFacade.GetService<ILogger<Microsoft.EntityFrameworkCore.Database.SqlExecuteCommand>>();
-
             // 构建日志内容
             var sqlLogBuilder = new StringBuilder();
             sqlLogBuilder.Append(@"Executed DbCommand (NaN) ");
@@ -320,6 +317,7 @@ namespace Furion.DatabaseAccessor
             sqlLogBuilder.Append(dbCommand.CommandType == CommandType.StoredProcedure ? "EXEC " + dbCommand.CommandText : dbCommand.CommandText);
 
             // 打印日志
+            var logger = databaseFacade.GetService<ILogger<Microsoft.EntityFrameworkCore.Database.SqlExecuteCommand>>();
             logger.LogInformation(sqlLogBuilder.ToString());
         }
     }
