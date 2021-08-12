@@ -10,9 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Text.RegularExpressions;
 
 namespace Furion.DynamicApiController
 {
@@ -141,21 +139,6 @@ namespace Furion.DynamicApiController
             }
 
             return !string.IsNullOrWhiteSpace(tempStr) ? tempStr : str;
-        }
-
-        /// <summary>
-        /// 切割骆驼命名式字符串
-        /// </summary>
-        /// <param name="str"></param>
-        /// <returns></returns>
-        internal static string[] SplitCamelCase(string str)
-        {
-            if (string.IsNullOrWhiteSpace(str)) return new string[] { str };
-            if (str.Length == 1) return new string[] { str };
-
-            return Regex.Split(str, @"(?=\p{Lu}\p{Ll})|(?<=\p{Ll})(?=\p{Lu})")
-                .Where(u => u.Length > 0)
-                .ToArray();
         }
     }
 }

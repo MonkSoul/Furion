@@ -195,7 +195,7 @@ namespace Furion.DynamicApiController
                   // 处理动作方法名称谓词
                   if (!CheckIsKeepVerb(apiDescriptionSettings, controllerApiDescriptionSettings))
                   {
-                      var words = Penetrates.SplitCamelCase(tempName);
+                      var words = tempName.SplitCamelCase();
                       var verbKey = words.First().ToLower();
                       // 处理类似 getlist,getall 多个单词
                       if (words.Length > 1 && _verbToHttpMethods.ContainsKey((words[0] + words[1]).ToLower()))
@@ -223,7 +223,7 @@ namespace Furion.DynamicApiController
             if (selectorModel.ActionConstraints.Count > 0) return;
 
             // 解析请求谓词
-            var words = Penetrates.SplitCamelCase(action.ActionMethod.Name);
+            var words = action.ActionMethod.Name.SplitCamelCase();
             var verbKey = words.First().ToLower();
 
             // 处理类似 getlist,getall 多个单词
@@ -518,7 +518,7 @@ namespace Furion.DynamicApiController
                     // 处理骆驼命名
                     if (CheckIsSplitCamelCase(controllerApiDescriptionSettings == null ? null : apiDescriptionSettings, controllerApiDescriptionSettings ?? apiDescriptionSettings))
                     {
-                        tempName = string.Join(_dynamicApiControllerSettings.CamelCaseSeparator, Penetrates.SplitCamelCase(tempName));
+                        tempName = string.Join(_dynamicApiControllerSettings.CamelCaseSeparator, tempName.SplitCamelCase());
                     }
                 }
             }

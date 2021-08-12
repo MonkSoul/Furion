@@ -14,6 +14,7 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text.Json;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace Furion.Extensions
@@ -333,6 +334,23 @@ namespace Furion.Extensions
         internal static string Format(this string str, params object[] args)
         {
             return args == null || args.Length == 0 ? str : string.Format(str, args);
+        }
+
+        /// <summary>
+        /// 切割骆驼命名式字符串
+        /// </summary>
+        /// <param name="str"></param>
+        /// <returns></returns>
+        internal static string[] SplitCamelCase(this string str)
+        {
+            if (str == null) return Array.Empty<string>();
+
+            if (string.IsNullOrWhiteSpace(str)) return new string[] { str };
+            if (str.Length == 1) return new string[] { str };
+
+            return Regex.Split(str, @"(?=\p{Lu}\p{Ll})|(?<=\p{Ll})(?=\p{Lu})")
+                .Where(u => u.Length > 0)
+                .ToArray();
         }
     }
 }

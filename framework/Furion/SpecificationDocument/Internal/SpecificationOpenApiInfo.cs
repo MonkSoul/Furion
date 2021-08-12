@@ -7,7 +7,7 @@
 // See the Mulan PSL v2 for more details.
 
 using Furion.DependencyInjection;
-using Furion.DynamicApiController;
+using Furion.Extensions;
 using Microsoft.OpenApi.Models;
 
 namespace Furion.SpecificationDocument
@@ -40,7 +40,7 @@ namespace Furion.SpecificationDocument
             set
             {
                 _group = value;
-                Title ??= string.Join(' ', Penetrates.SplitCamelCase(_group));
+                Title ??= string.Join(' ', _group.SplitCamelCase());
             }
         }
 

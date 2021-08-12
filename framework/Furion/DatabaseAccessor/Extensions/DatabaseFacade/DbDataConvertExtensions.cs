@@ -374,7 +374,12 @@ namespace Furion.DatabaseAccessor
                         }
 
                         // 如果 DataTable 不包含该列名，则跳过
-                        if (!dataColumns.Contains(columnName)) continue;
+                        if (!dataColumns.Contains(columnName))
+                        {
+                            var splitColumnName = string.Join('_', property.Name.SplitCamelCase());
+                            if (dataColumns.Contains(splitColumnName)) columnName = splitColumnName;
+                            else continue;
+                        }
 
                         // 获取列值
                         var columnValue = dataRow[columnName];
