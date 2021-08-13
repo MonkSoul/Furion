@@ -8,13 +8,13 @@
 
 - [Package Manager](https://www.nuget.org/packages/Furion)
 
-```cs
+```powershell
 Install-Package Furion
 ```
 
 - [.NET CLI](https://www.nuget.org/packages/Furion)
 
-```cs
+```powershell
 dotnet add package Furion
 ```
 
