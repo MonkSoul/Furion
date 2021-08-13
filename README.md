@@ -1,8 +1,8 @@
 # Furion
 
-[![dotNET China](https://img.shields.io/badge/member%20project%20of-dotNET%20China-blue?cacheSeconds=10800)](https://gitee.com/dotnetchina) [![license](https://img.shields.io/badge/license-MulanPSL--2.0-orange?cacheSeconds=10800)](https://gitee.com/dotnetchina/Furion/blob/master/LICENSE) [![nuget](https://img.shields.io/nuget/v/Furion.svg?cacheSeconds=10800)](https://www.nuget.org/packages/Furion) [![nuget downloads](https://img.shields.io/badge/downloads-974k+-green?cacheSeconds=10800)](https://www.nuget.org/profiles/monk.soul)
+[![license](https://img.shields.io/badge/license-MulanPSL--2.0-orange?cacheSeconds=10800)](https://gitee.com/dotnetchina/Furion/blob/master/LICENSE) [![nuget](https://img.shields.io/nuget/v/Furion.svg?cacheSeconds=10800)](https://www.nuget.org/packages/Furion) [![nuget downloads](https://img.shields.io/badge/downloads-974k+-green?cacheSeconds=10800)](https://www.nuget.org/profiles/monk.soul) [![dotNET China](https://img.shields.io/badge/organization-dotNET%20China-yellow?cacheSeconds=10800)](https://gitee.com/dotnetchina)
 
-一个没有历史包袱的 .NET/C# 应用程序框架，您可以使用它构建任何 .NET/C# 应用程序。
+.NET/C# 应用程序框架，您可以使用它构建任何 .NET/C# 应用程序。
 
 ## 安装
 
@@ -27,8 +27,8 @@ var services = Inject.Create();
 services.AddRemoteRequest();
 services.Build();
 
-var content = await "https://dotnet.microsoft.com/".GetAsStringAsync();
-content.LogInformation();
+var responseString = await "https://dotnet.microsoft.com/".GetAsStringAsync();
+responseString.LogInformation();
 ```
 
 ## 文档
@@ -37,4 +37,18 @@ content.LogInformation();
 
 ## 贡献
 
-该存储库的主要目的是继续发展 Furion 核心，使其更快、更易于使用。 Furion 的开发在 [Gitee](https://gitee.com/dotnetchina/Furion) 上公开进行，我们感谢社区贡献错误修复和改进。Furion 遵循 [MulanPSL-2.0](https://gitee.com/dotnetchina/Furion/blob/master/LICENSE) 开源协议，阅读 [贡献指南](https://dotnetchina.gitee.io/furion/docs/contribute) 内容，了解如何参与改进 Furion。
+该存储库的主要目的是继续发展 Furion 核心，使其更快、更易于使用。 Furion 的开发在 [Gitee](https://gitee.com/dotnetchina/Furion) 上公开进行，我们感谢社区贡献错误修复和改进。阅读 [贡献指南](https://dotnetchina.gitee.io/furion/docs/contribute) 内容，了解如何参与改进 Furion。
+
+## 协议
+
+Furion 遵循 [MulanPSL-2.0](https://gitee.com/dotnetchina/Furion/blob/master/LICENSE) 开源协议。
+
+```
+Copyright (c) 2020-2021 百小僧, Baiqian Co.,Ltd.
+Furion is licensed under Mulan PSL v2.
+You can use this software according to the terms andconditions of the Mulan PSL v2.
+You may obtain a copy of Mulan PSL v2 at:
+            http://license.coscl.org.cn/MulanPSL2
+THIS SOFTWARE IS PROVIDED ON AN "AS IS" BASIS, WITHOUTWARRANTIES OF ANY KIND, EITHER EXPRESS OR IMPLIED,INCLUDING BUT NOT LIMITED TO NON-INFRINGEMENT,MERCHANTABILITY OR FIT FOR A PARTICULAR PURPOSE.
+See the Mulan PSL v2 for more details.
+```
