@@ -572,8 +572,8 @@ namespace Furion.RemoteRequest
 
             // 处理各种情况
             if (Body is IDictionary<string, string> dic) keyValues = dic;
-            else if (Body is IDictionary<string, object> dicObj) keyValues = dicObj.ToDictionary(u => u.Key, u => SerializerObject(u.Value));
-            else keyValues = Body.ToDictionary().ToDictionary(u => u.Key, u => SerializerObject(u.Value));
+            else if (Body is IDictionary<string, object> dicObj) keyValues = dicObj.ToDictionary(u => u.Key, u => u.Value?.ToString());
+            else keyValues = Body.ToDictionary().ToDictionary(u => u.Key, u => u.Value?.ToString());
             return keyValues;
         }
 
@@ -584,7 +584,8 @@ namespace Furion.RemoteRequest
         /// <returns></returns>
         private string SerializerObject(object body)
         {
-            if (body != null && body is string) return body.ToString();
+            if (body == null) return default;
+            if (body is string) return body as string;
 
             // 解析序列化工具
             var jsonSerializer = App.GetService(JsonSerializerProvider, RequestScoped) as IJsonSerializerProvider;
