@@ -227,7 +227,7 @@ namespace Furion.DatabaseAccessor
 
             // 支持显式和隐式查找
             var getTableNameMethod = lastEntityMutableTableType.GetMethod("GetTableName")
-                ?? typeof(IPrivateEntityMutableTable<>).MakeGenericType(lastEntityMutableTableType).GetMethod("GetTableName");
+                ?? typeof(IPrivateEntityMutableTable<>).MakeGenericType(entityType).GetMethod("GetTableName");
 
             var tableName = getTableNameMethod?.Invoke(Activator.CreateInstance(lastEntityMutableTableType), new object[] { dbContext, dbContextLocator });
             if (tableName != null)
@@ -317,7 +317,7 @@ namespace Furion.DatabaseAccessor
             {
                 // 支持显式和隐式接口查找
                 var configureMethod = (entityTypeBuilderType.GetMethods(BindingFlags.Public | BindingFlags.Instance)
-                                                    .Concat(typeof(IPrivateEntityTypeBuilder<>).MakeGenericType(entityTypeBuilderType).GetMethods()))
+                                                    .Concat(typeof(IPrivateEntityTypeBuilder<>).MakeGenericType(entityType).GetMethods()))
                                                                    .Where(u => u.Name == "Configure"
                                                                         && u.GetParameters().Length > 0
                                                                         && u.GetParameters().First().ParameterType == typeof(EntityTypeBuilder<>).MakeGenericType(entityType))
@@ -354,7 +354,7 @@ namespace Furion.DatabaseAccessor
             {
                 // 支持显式和隐式接口查找
                 var hasDataMethod = entitySeedDataType.GetMethod("HasData")
-                    ?? typeof(IPrivateEntitySeedData<>).MakeGenericType(entitySeedDataType).GetMethod("HasData");
+                    ?? typeof(IPrivateEntitySeedData<>).MakeGenericType(entityType).GetMethod("HasData");
                 if (hasDataMethod == null) continue;
 
                 var instance = Activator.CreateInstance(entitySeedDataType);
