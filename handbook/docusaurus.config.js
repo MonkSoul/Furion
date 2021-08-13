@@ -8,10 +8,6 @@ module.exports = {
   favicon: "img/favicon.ico",
   organizationName: "Baiqian Co.,Ltd",
   projectName: "Furion",
-  i18n: {
-    defaultLocale: "zh-cn",
-    locales: ["zh-cn"],
-  },
   themeConfig: {
     prism: {
       additionalLanguages: ["powershell", "csharp", "sql"],
@@ -31,12 +27,10 @@ module.exports = {
       },
       hideOnScroll: true,
       items: [
-        {
-          type: "docsVersionDropdown",
-          position: "right",
-          // dropdownItemsAfter: [{ to: "/versions", label: "所有版本" }],
-          dropdownActiveClassDisabled: true,
-        },
+        // {
+        //   type: "docsVersionDropdown",
+        //   position: "left",
+        // },
         {
           to: "docs",
           activeBasePath: "docs",
@@ -148,7 +142,7 @@ module.exports = {
               to: "blog",
             },
             {
-              label: "存储库",
+              label: "仓库",
               href: "https://gitee.com/dotnetchina/Furion",
             },
           ],
