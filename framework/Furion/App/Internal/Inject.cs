@@ -9,6 +9,7 @@
 using Furion.FriendlyException;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Diagnostics;
 using System.Linq;
@@ -17,15 +18,16 @@ using System.Reflection;
 namespace Furion
 {
     /// <summary>
-    /// 供非 Web 初始化
+    /// 跨平台 Inject
     /// </summary>
     public static class Inject
     {
         /// <summary>
         /// 创建初始服务集合
         /// </summary>
+        /// <param name="configureLogging">配置日志</param>
         /// <returns></returns>
-        public static IServiceCollection Create()
+        public static IServiceCollection Create(Action<ILoggingBuilder> configureLogging = default)
         {
             // 监听全局异常
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
@@ -37,10 +39,18 @@ namespace Furion
             InternalApp.AddJsonFiles(configurationBuilder, default);
 
             // 存储配置对象
-            InternalApp.Configuration = configurationBuilder.Build();
+            var configuration = InternalApp.Configuration = configurationBuilder.Build();
 
             // 创建服务对象和存储服务提供器
             var services = InternalApp.InternalServices = new ServiceCollection();
+
+            // 添加默认控制台日志处理程序
+            services.AddLogging(loggingBuilder =>
+            {
+                loggingBuilder.AddConfiguration(configuration.GetSection("Logging"));
+                loggingBuilder.AddConsole(); // 将日志输出到控制台
+                configureLogging?.Invoke(loggingBuilder);
+            });
 
             // 初始化应用服务
             services.AddApp();
