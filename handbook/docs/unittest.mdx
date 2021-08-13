@@ -269,14 +269,45 @@ namespace TestProject1
 
 <img src={useBaseUrl("img/ut9.png")} />
 
-### 36.5.3 关于非托管服务
+### 36.5.3 输出日志
+
+如果在单元测试中想输出日志，只需要在构造函数注入 `ITestOutputHelper` 即可，如：
+
+```cs {2,10,12,18}
+using Xunit;
+using Xunit.Abstractions;
+
+namespace TestProject1
+{
+    public class UnitTest1
+    {
+        private readonly ITestOutputHelper Output;
+
+        public SampleTests(ITestOutputHelper tempOutput)
+        {
+            Output = tempOutput;
+        }
+
+        [Fact]
+        public void Test_String_Equal()
+        {
+            Output.WriteLine("哈哈哈哈，我是 Furion");
+            Assert.NotEqual("Furion", "Fur");
+        }
+    }
+}
+```
+
+<img src={useBaseUrl("img/un3.png")} />
+
+### 36.5.4 关于依赖注入作用域释放问题
 
 有时候我们需要对 `非托管资源` 或需要手动释放的对象进行服务解析并测试，这时候需要构建作用域进行测试，如：
 
 ```cs
 // 支持异步方法测试
 [Fact]
-public async Task 测试数据库()
+public void 测试数据库()
 {
     Scoped.Create((f,s) => {
         var otherService = s.ServiceProvider.GetService<IOtherService>();
@@ -285,6 +316,32 @@ public async Task 测试数据库()
         var isTrue = repository.Any(u => u.Id > 10);
         Assert.True(isTrue);
     });
+}
+```
+
+### 36.5.5 测试释放资源
+
+有时候，我们需要测试成功后释放一些不能及时释放的对象，这时，只需要实现 `IDisposable` 接口即可：
+
+```cs {6,14-17}
+using System;
+using Xunit;
+
+namespace TestProject1
+{
+    public class UnitTest1 : IDisposable
+    {
+        [Fact]
+        public void Test_String_Equal()
+        {
+            Assert.NotEqual("Furion", "Fur");
+        }
+
+        public void Dispose()
+        {
+            // 释放你的对象
+        }
+    }
 }
 ```
 

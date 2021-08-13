@@ -1,9 +1,20 @@
 using Xunit;
+using Xunit.Abstractions;
 
 namespace Furion.UnitTests
 {
     public class SampleTests
     {
+        /// <summary>
+        /// 输出日志
+        /// </summary>
+        private readonly ITestOutputHelper Output;
+
+        public SampleTests(ITestOutputHelper tempOutput)
+        {
+            Output = tempOutput;
+        }
+
         [Fact]
         public void TestRootService()
         {
@@ -13,6 +24,7 @@ namespace Furion.UnitTests
         [Fact]
         public void Test_String_Equal()
         {
+            Output.WriteLine("输出一条日志");
             Assert.NotEqual("Furion", "Fur");
         }
 
