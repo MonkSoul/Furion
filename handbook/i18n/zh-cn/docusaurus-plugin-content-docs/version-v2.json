@@ -1,0 +1,38 @@
+{
+  "version.label": {
+    "message": "v2",
+    "description": "The label for version v2"
+  },
+  "sidebar.docs.category.1. 序言": {
+    "message": "1. 序言",
+    "description": "The label for category 1. 序言 in sidebar docs"
+  },
+  "sidebar.docs.category.2. 入门指南": {
+    "message": "2. 入门指南",
+    "description": "The label for category 2. 入门指南 in sidebar docs"
+  },
+  "sidebar.docs.category.4. 配置与选项": {
+    "message": "4. 配置与选项",
+    "description": "The label for category 4. 配置与选项 in sidebar docs"
+  },
+  "sidebar.docs.category.9. 数据库操作指南（EFCore）": {
+    "message": "9. 数据库操作指南（EFCore）",
+    "description": "The label for category 9. 数据库操作指南（EFCore） in sidebar docs"
+  },
+  "sidebar.docs.category.10. SqlSugar 或其他 ORM": {
+    "message": "10. SqlSugar 或其他 ORM",
+    "description": "The label for category 10. SqlSugar 或其他 ORM in sidebar docs"
+  },
+  "sidebar.docs.category.34. 托管部署": {
+    "message": "34. 托管部署",
+    "description": "The label for category 34. 托管部署 in sidebar docs"
+  },
+  "sidebar.docs.category.35. 持续部署集成": {
+    "message": "35. 持续部署集成",
+    "description": "The label for category 35. 持续部署集成 in sidebar docs"
+  },
+  "sidebar.docs.category.36. 测试指南": {
+    "message": "36. 测试指南",
+    "description": "The label for category 36. 测试指南 in sidebar docs"
+  }
+}

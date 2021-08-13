@@ -1,0 +1,95 @@
+---
+id: template
+title: 2.2 官方脚手架
+sidebar_label: 2.2 官方脚手架
+---
+
+import useBaseUrl from "@docusaurus/useBaseUrl";
+
+:::important 特别说明
+
+**脚手架不是安装在项目中的！** 而是通过 `CMD` 或 `PowerShell` 安装到操作系统中的。
+
+:::
+
+## 2.2.1 脚手架
+
+`Furion` 官方提供了多种 `Web` 应用类型的脚手架，方便大家快速创建多层架构项目。目前支持以下应用脚手架：
+
+|                                                                 模板类型                                                                 | 名称                             | 版本                                                                                                                                                                 | 关键词                 | 描述                   |
+| :--------------------------------------------------------------------------------------------------------------------------------------: | -------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------- | ---------------------- |
+|       [![nuget](https://shields.io/badge/-Nuget-yellow?cacheSeconds=604800)](https://www.nuget.org/packages/Furion.Template.Mvc/)        | Furion.Template.Mvc              | [![nuget](https://img.shields.io/nuget/v/Furion.Template.Mvc.svg?cacheSeconds=10800)](https://www.nuget.org/packages/Furion.Template.Mvc/)                           | 👉 **furionmvc**       | Mvc 模板               |
+|       [![nuget](https://shields.io/badge/-Nuget-yellow?cacheSeconds=604800)](https://www.nuget.org/packages/Furion.Template.Api/)        | Furion.Template.Api              | [![nuget](https://img.shields.io/nuget/v/Furion.Template.Api.svg?cacheSeconds=10800)](https://www.nuget.org/packages/Furion.Template.Api/)                           | 👉 **furionapi**       | WebApi 模板            |
+|       [![nuget](https://shields.io/badge/-Nuget-yellow?cacheSeconds=604800)](https://www.nuget.org/packages/Furion.Template.App/)        | Furion.Template.App              | [![nuget](https://img.shields.io/nuget/v/Furion.Template.App.svg?cacheSeconds=10800)](https://www.nuget.org/packages/Furion.Template.App/)                           | 👉 **furionapp**       | Mvc/WebApi 模板        |
+|      [![nuget](https://shields.io/badge/-Nuget-yellow?cacheSeconds=604800)](https://www.nuget.org/packages/Furion.Template.Razor/)       | Furion.Template.Razor            | [![nuget](https://img.shields.io/nuget/v/Furion.Template.Razor.svg?cacheSeconds=10800)](https://www.nuget.org/packages/Furion.Template.Razor/)                       | 👉 **furionrazor**     | RazorPages 模板        |
+| [![nuget](https://shields.io/badge/-Nuget-yellow?cacheSeconds=604800)](https://www.nuget.org/packages/Furion.Template.RazorWithWebApi/)  | Furion.Template.RazorWithWebApi  | [![nuget](https://img.shields.io/nuget/v/Furion.Template.RazorWithWebApi.svg?cacheSeconds=10800)](https://www.nuget.org/packages/Furion.Template.RazorWithWebApi/)   | 👉 **furionrazorapi**  | RazorPages/WebApi 模板 |
+|      [![nuget](https://shields.io/badge/-Nuget-yellow?cacheSeconds=604800)](https://www.nuget.org/packages/Furion.Template.Blazor/)      | Furion.Template.Blazor           | [![nuget](https://img.shields.io/nuget/v/Furion.Template.Blazor.svg?cacheSeconds=10800)](https://www.nuget.org/packages/Furion.Template.Blazor/)                     | 👉 **furionblazor**    | Blazor 模板            |
+| [![nuget](https://shields.io/badge/-Nuget-yellow?cacheSeconds=604800)](https://www.nuget.org/packages/Furion.Template.BlazorWithWebApi/) | Furion.Template.BlazorWithWebApi | [![nuget](https://img.shields.io/nuget/v/Furion.Template.BlazorWithWebApi.svg?cacheSeconds=10800)](https://www.nuget.org/packages/Furion.Template.BlazorWithWebApi/) | 👉 **furionblazorapi** | Blazor/WebApi 模板     |
+
+## 2.2.2 安装脚手架
+
+打开 `CMD` 或 `Powershell` 执行模板安装命令：
+
+```bash
+dotnet new --install Furion.Template.Mvc::2.17.6
+```
+
+## 2.2.3 使用脚手架
+
+```bash
+dotnet new furionmvc -n 项目名称
+```
+
+这样就可以生成项目代码了，**生成之后推荐将所有的 `nuget` 包更新到最新版本。**
+
+:::important 特别提醒
+
+`furionmvc` 对应的是上面列表的 `关键字`，我们也可以通过 `dotnet new --list` 查看。
+
+想了解更多可以使用 `dotnet new 关键字 --help` 查看更多参数。
+
+:::
+
+## 2.2.4 脚手架更新
+
+只需要重新安装最新版替换即可，如：
+
+```bash
+dotnet new --install Furion.Template.Mvc::2.x.x
+```
+
+不带版本号总是安装最新的版本。
+
+## 2.2.5 `Visual Studio` 集成
+
+通过命令安装脚手架后，升级 `Visual Studio` 到最新版可使用可视化方式创建哦。
+
+<img src={useBaseUrl("img/ksh.png")} />
+
+## 2.2.6 搭建脚手架
+
+脚手架可以极大的提高我们搭建新项目的速度，推荐两篇文章给大家学习：
+
+[https://www.cnblogs.com/laozhang-is-phi/p/10205495.html](https://www.cnblogs.com/laozhang-is-phi/p/10205495.html)
+
+[https://www.cnblogs.com/catcher1994/p/10061470.html](https://www.cnblogs.com/catcher1994/p/10061470.html)
+
+**推荐直接拷贝 `Furion` 脚手架文件夹进行修改，可避免很多问题。**
+
+[Furion 脚手架源码](https://gitee.com/dotnetchina/Furion/tree/master/templates)
+
+## 2.2.7 反馈与建议
+
+:::note 与我们交流
+
+给 Furion 提 [Issue](https://gitee.com/dotnetchina/Furion/issues/new?issue)。
+
+:::
+
+---
+
+:::note 了解更多
+
+想了解更多 `模板知识` 知识可查阅 [dotnet-new 模板](https://docs.microsoft.com/zh-cn/dotnet/core/tools/dotnet-new) 章节。
+
+:::

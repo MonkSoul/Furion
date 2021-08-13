@@ -1,0 +1,50 @@
+{
+  "title": {
+    "message": "Furion",
+    "description": "The title in the navbar"
+  },
+  "item.label.文档": {
+    "message": "文档",
+    "description": "Navbar item with label 文档"
+  },
+  "item.label.静态类": {
+    "message": "静态类",
+    "description": "Navbar item with label 静态类"
+  },
+  "item.label.配置": {
+    "message": "配置",
+    "description": "Navbar item with label 配置"
+  },
+  "item.label.博客✨": {
+    "message": "博客✨",
+    "description": "Navbar item with label 博客✨"
+  },
+  "item.label.更新日志": {
+    "message": "更新日志",
+    "description": "Navbar item with label 更新日志"
+  },
+  "item.label.源码": {
+    "message": "源码",
+    "description": "Navbar item with label 源码"
+  },
+  "item.label.社区": {
+    "message": "社区",
+    "description": "Navbar item with label 社区"
+  },
+  "item.label.案例": {
+    "message": "案例",
+    "description": "Navbar item with label 案例"
+  },
+  "item.label.支持": {
+    "message": "支持",
+    "description": "Navbar item with label 支持"
+  },
+  "item.label.Gitee": {
+    "message": "Gitee",
+    "description": "Navbar item with label Gitee"
+  },
+  "item.label.GitHub": {
+    "message": "GitHub",
+    "description": "Navbar item with label GitHub"
+  }
+}

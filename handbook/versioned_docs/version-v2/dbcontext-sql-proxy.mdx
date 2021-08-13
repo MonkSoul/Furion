@@ -1,0 +1,591 @@
+---
+id: dbcontext-sql-proxy
+title: 9.17 Sql 高级代理
+sidebar_label: 9.17 Sql 高级代理
+---
+
+## 9.17.1 关于 `Sql` 代理
+
+`Sql` 代理是 `Furion` 框架中对 `Sql` 操作一个非常重要的概念，通过这种方式可以大大提高 `Sql` 书写效率，而且后期极易维护。
+
+`Sql` 代理属于 `Furion` 框架中一个高级功能。
+
+## 9.17.2 了解 `ISqlDispatchProxy`
+
+`ISqlDispatchProxy` 接口是 `Furion` 实现**被代理接口**的唯一依赖，任何公开的接口一旦集成了 `ISqlDispatchProxy` 接口，那么这个接口就是**被托管拦截**的 `Sql` 操作接口。
+
+简单定义一个 **Sql 代理接口**
+
+```cs {1,5}
+using Furion.DatabaseAccessor;
+
+namespace Furion.Application
+{
+    public interface ISql : ISqlDispatchProxy
+    {
+    }
+}
+```
+
+一旦这个接口继承了 `ISqlDispatchProxy`，那么它就会**动态创建接口实例，而且支持依赖注入/控制反转获取实例**。
+
+## 9.17.3 开始领略 `Sql` 代理
+
+下面我将通过多个例子来演示 `Sql` 代理的用法，为什么推荐这种方式操作 `Sql`。
+
+支持各种方式获取实例：
+
+### 9.17.3.1 构造函数方式
+
+```cs {1-2}
+private readonly Isql _sql;
+public FurionService(Isql sql)
+{
+    _sql = sql;
+}
+```
+
+### 9.17.3.2 方法参数注入
+
+```cs {1}
+public async Task<List<PersonDto>> GetAll([FromServices] Isql, string keyword)
+{
+}
+```
+
+### 9.17.3.3 `Db.GetSqlDispatchProxy<ISql>()`
+
+```cs
+var sql = Db.GetSqlDispatchProxy<ISql>();
+```
+
+## 9.17.4 `Sql` 操作
+
+### 9.17.4.1 返回 `DataTable`
+
+```cs {8,12,16,20}
+using Furion.DatabaseAccessor;
+
+namespace Furion.Application
+{
+    public interface ISql : ISqlDispatchProxy
+    {
+        // 执行sql并传入参数，基元类型
+        [SqlExecute("select * from person where id >@id and name like @name")]
+        DataTable GetPerson(int id, string name);
+
+        // 执行sql并传入参数，对象类型
+        [SqlExecute("select * from person where id >@id and name like @name")]
+        DataTable GetPerson(MyParam paras);
+
+        // 执行存储过程 sql，支持设置参数类型
+        [SqlExecute("exec PROP_NAME @id", CommandType = CommandType.StoredProcedure)]
+        DataTable GetPerson(int id);
+
+        // 支持多数据库操作
+        [SqlExecute("select * from person"), SqlDbContextLocator(typeof(MySqlDbContextLocator))]
+        DataTable GetPerson();
+
+        // 异步方式
+        [SqlExecute("select * from person"), SqlDbContextLocator(typeof(MySqlDbContextLocator))]
+        Task<DataTable> GetPersonAsync();
+    }
+}
+```
+
+:::important 关于参数
+
+`Sql` 代理参数查找规则：
+
+如果方法的参数是 `基元类型`（或 `string`、`值类型`），则自动将这些类型组合成 `Dictionary<string, object>` 作为 `Sql` 参数。命令参数可使用方法同名参数加 `@` 符号。
+
+如果方法的参数是 `类类型`，那么自动遍历该类公开实例属性生成 `DbParameter[]` 数组，每一个属性名都将是命令参数，不区分大小写，如：
+
+```cs
+public class MyModel
+{
+    public int Id {get;set;}
+    public string Name {get; set;}
+}
+```
+
+那么 `sql` 语句可以直接使用属性名作为参数：
+
+```sql
+select * from person where id > @id and name = @name;
+```
+
+:::
+
+### 9.17.4.2 返回 `List<T>`
+
+```cs {8,12,16,20}
+using Furion.DatabaseAccessor;
+
+namespace Furion.Application
+{
+    public interface ISql : ISqlDispatchProxy
+    {
+        // 执行sql并传入参数，基元类型
+        [SqlExecute("select * from person where id >@id and name like @name")]
+        List<Person> GetPerson(int id, string name);
+
+        // 执行sql并传入参数，对象类型
+        [SqlExecute("select * from person where id >@id and name like @name")]
+        List<Person> GetPerson(MyParam paras);
+
+        // 执行存储过程 sql，支持设置参数类型
+        [SqlExecute("exec PROP_NAME @id", CommandType = CommandType.StoredProcedure)]
+        List<Person> GetPerson(int id);
+
+        // 支持多数据库操作
+        [SqlExecute("select * from person"), SqlDbContextLocator(typeof(MySqlDbContextLocator)]
+        List<Person> GetPerson();
+
+        // 异步方式
+        [SqlExecute("select * from person"), SqlDbContextLocator(typeof(MySqlDbContextLocator)]
+        Task<List<Person>> GetPersonAsync();
+    }
+}
+```
+
+### 9.17.4.3 返回 `DataSet`
+
+```cs {8-10,14-16,20-22,26-28,32-35}
+using Furion.DatabaseAccessor;
+
+namespace Furion.Application
+{
+    public interface ISql : ISqlDispatchProxy
+    {
+        // 执行sql并传入参数，基元类型
+        [SqlExecute(@"
+            select * from person where id >@id and name like @name;
+            select top 10 * from student where Id >@id;")]
+        DataSet GetData(int id, string name);
+
+        // 执行sql并传入参数，对象类型
+        [SqlExecute(@"
+            select * from person where id >@id and name like @name;
+            select top 10 * from student where Id >@id;")]
+        DataSet GetData(MyParam paras);
+
+        // 执行存储过程 sql，支持设置参数类型
+        [SqlExecute(@"
+            exec PROP_NAME @id;
+            select * from person;", CommandType = CommandType.StoredProcedure)]
+        DataSet GetData(int id);
+
+        // 支持多数据库操作
+        [SqlExecute(@"
+            select * from person;
+            select * from student;"), SqlDbContextLocator(typeof(MySqlDbContextLocator)]
+        DataSet GetData();
+
+        // 异步方式
+        [SqlExecute(@"
+            select * from person;
+            select * from student;
+            select 1;"), SqlDbContextLocator(typeof(MySqlDbContextLocator)]
+        Task<DataSet> GetDataAsync());
+    }
+}
+```
+
+### 9.17.4.4 返回 `Tuple<T1,...T8>`
+
+```cs {8-10,14-16,20-22,26-28,32-35}
+using Furion.DatabaseAccessor;
+
+namespace Furion.Application
+{
+    public interface ISql : ISqlDispatchProxy
+    {
+        // 执行sql并传入参数，基元类型
+        [SqlExecute(@"
+            select * from person where id >@id and name like @name;
+            select top 10 * from student where Id >@id;")]
+        (List<Person>,List<Student>) GetData(int id, string name);
+
+        // 执行sql并传入参数，对象类型
+        [SqlExecute(@"
+            select * from person where id >@id and name like @name;
+            select top 10 * from student where Id >@id;")]
+        (List<Person>,List<Student>) GetData(MyParam paras);
+
+        // 执行存储过程 sql，支持设置参数类型
+        [SqlExecute(@"
+            exec PROP_NAME @id;
+            select * from person;", CommandType = CommandType.StoredProcedure)]
+        (List<Person>,List<Student>) GetData(int id;
+
+        // 支持多数据库操作
+        [SqlExecute(@"
+            select * from person;
+            select * from student;"), SqlDbContextLocator(typeof(MySqlDbContextLocator)]
+        (List<Person>,List<Student>) GetData();
+
+        // 异步方式
+        [SqlExecute(@"
+            select * from person;
+            select * from student;
+            select 1;"), SqlDbContextLocator(typeof(MySqlDbContextLocator)]
+        Task<(List<Person>,List<Student>,int)> GetDataAsync();
+    }
+}
+```
+
+### 9.17.4.5 返回 `单行单列`
+
+```cs {7,10,13}
+using Furion.DatabaseAccessor;
+
+namespace Furion.Application
+{
+    public interface ISql : ISqlDispatchProxy
+    {
+        [SqlExecute("select Name from person where id = @id")]
+        string GetValue(int id);
+
+        [SqlExecute("select age from person where id = @id")]
+        int GetValue(int id);
+
+        [SqlExecute("select Name from person where id = @id")]
+        Task<string> GetValueAsync(int id);
+    }
+}
+```
+
+### 9.17.4.6 无返回值
+
+```cs {7,10,13}
+using Furion.DatabaseAccessor;
+
+namespace Furion.Application
+{
+    public interface ISql : ISqlDispatchProxy
+    {
+        [SqlExecute("insert into person(Name,Age) values(@name,@age)")]
+        void Insert(MyParam dto);
+
+        [SqlExecute("delete from person where id = @id")]
+        void Delete(int id);
+
+        [SqlExecute("update person set name=@name where id=@id")]
+        void Update(int id, string name);
+    }
+}
+```
+
+## 9.17.5 `存储过程` 操作
+
+### 9.17.5.1 返回 `DataTable`
+
+```cs {7,10,13}
+using Furion.DatabaseAccessor;
+
+namespace Furion.Application
+{
+    public interface ISql : ISqlDispatchProxy
+    {
+        [SqlProcedure("PROC_Name")]
+        DataTable GetPersons(MyParam dto);
+
+        [SqlProcedure("PROC_Name")]
+        DataTable GetPersons(int id);
+
+        [SqlProcedure("PROC_Name")]
+        DataTable GetPersons(int id, string name);
+    }
+}
+```
+
+### 9.17.5.2 返回 `List<T>`
+
+```cs {7,10,13}
+using Furion.DatabaseAccessor;
+
+namespace Furion.Application
+{
+    public interface ISql : ISqlDispatchProxy
+    {
+        [SqlProcedure("PROC_Name")]
+        List<Person> GetPersons(MyParam dto);
+
+        [SqlProcedure("PROC_Name")]
+        List<Person> GetPersons(int id);
+
+        [SqlProcedure("PROC_Name")]
+        List<Person> GetPersons(int id, string name);
+    }
+}
+```
+
+### 9.17.5.3 返回 `DataSet`
+
+```cs {7,10,13}
+using Furion.DatabaseAccessor;
+
+namespace Furion.Application
+{
+    public interface ISql : ISqlDispatchProxy
+    {
+        [SqlProcedure("PROC_Name")]
+        DataSet GetData(MyParam dto);
+
+        [SqlProcedure("PROC_Name")]
+        DataSet GetData(int id);
+
+        [SqlProcedure("PROC_Name")]
+        DataSet GetData(int id, string name);
+    }
+}
+```
+
+### 9.17.5.4 返回 `Tuple(T1,...T8)`
+
+```cs {7,10,13}
+using Furion.DatabaseAccessor;
+
+namespace Furion.Application
+{
+    public interface ISql : ISqlDispatchProxy
+    {
+        [SqlProcedure("PROC_Name")]
+        (List<Person>, List<Student>) GetData(MyParam dto);
+
+        [SqlProcedure("PROC_Name")]
+        (List<Person>, List<Student>) GetData(int id);
+
+        [SqlProcedure("PROC_Name")]
+        (List<Person>, List<Student>, Person, int) GetData(int id, string name);
+    }
+}
+```
+
+### 9.17.5.5 返回 `单行单列`
+
+```cs {7,10,13}
+using Furion.DatabaseAccessor;
+
+namespace Furion.Application
+{
+    public interface ISql : ISqlDispatchProxy
+    {
+        [SqlProcedure("PROC_Name")]
+        object GetValue(MyParam dto);
+
+        [SqlProcedure("PROC_Name")]
+        string GetValue(int id);
+
+        [SqlProcedure("PROC_Name")]
+        int GetValue(int id, string name);
+    }
+}
+```
+
+### 9.17.5.6 无返回值
+
+```cs {7,10,13}
+using Furion.DatabaseAccessor;
+
+namespace Furion.Application
+{
+    public interface ISql : ISqlDispatchProxy
+    {
+        [SqlProcedure("PROC_Name")]
+        void GetValue(MyParam dto);
+
+        [SqlProcedure("PROC_Name")]
+        void GetValue(int id);
+
+        [SqlProcedure("PROC_Name")]
+        void GetValue(int id, string name);
+    }
+}
+```
+
+### 9.17.5.7 带 `OUTPUT/RETURN` 返回
+
+```cs {7,10,13}
+using Furion.DatabaseAccessor;
+
+namespace Furion.Application
+{
+    public interface ISql : ISqlDispatchProxy
+    {
+        [SqlProcedure("PROC_Name")]
+        ProcedureOutputResult GetOutput(ProcOutputModel pams);
+
+        [SqlProcedure("PROC_Name")]
+        ProcedureOutputResult GetOutput(ProcOutputModel pams);
+
+        [SqlProcedure("PROC_Name")]
+        ProcedureOutputResult<(List<Person>, List<Student>)> GetOutput(ProcOutputModel pams);
+    }
+}
+```
+
+## 9.17.6 `函数` 操作
+
+```cs {7,10}
+using Furion.DatabaseAccessor;
+
+namespace Furion.Application
+{
+    public interface ISql : ISqlDispatchProxy
+    {
+        [SqlFunction("FN_Name")]    // 标量函数
+        string GetValue(MyParam dto);
+
+        [SqlProcedure("FN_Name")]   // 表值函数
+        List<Person> GetPersons(int id);
+    }
+}
+```
+
+:::important 补充说明
+
+`Sql` 代理会自动判断返回值然后自动执行特定函数类型。
+
+:::
+
+## 9.17.7 `Sql` 模板替换
+
+在最新的 `1.18.3` 版本中提供了模板替换功能，如：
+
+```cs
+[SqlExecute("select * from person where id > {id} and name like {name} and age > {user.Age}")]
+List<Person> GetPerson(int id, string name, User user);
+```
+
+:::important 两者区别
+
+模板字符串有别于命令参数替换，模板字符串采用 `{ }` 方式，运行时直接替换为实际的内容， `@` 而是转换成 `DbParameter` 参数。
+
+:::
+
+## 9.17.8 切换数据库
+
+`Sql` 代理方式的支持三种切换数据库的方式：
+
+### 9.17.8.1 单个方法方式
+
+主要通过在方法上贴 `[SqlDbContextLocator]` 特性
+
+```cs {1}
+[SqlExecute("select * from person"), SqlDbContextLocator(typeof(MySqlDbContextLocator)]
+List<Person> GetPerson();
+```
+
+### 9.17.8.2 接口方式
+
+在接口中贴 `[SqlDbContextLocator]` 特性，此方式下，接口所有方法将采用指定的数据库执行。
+
+```cs {1}
+[SqlDbContextLocator(typeof(MySqlDbContextLocator)]
+public interface ISql : ISqlDispatchProxy
+{
+    [SqlFunction("FN_Name")]    // 标量函数
+    string GetValue(MyParam dto);
+
+    [SqlProcedure("FN_Name")]   // 表值函数
+    List<Person> GetPersons(int id);
+}
+```
+
+### 9.17.8.3 运行时 `.Change` 方法切换
+
+除了以上两种 `静态` 配置方式，`Furion` 框架还提供 `动态` 方式，如：
+
+```cs {2,6}
+// 将 sql 代理数据库切换成特定数据库
+_sql.Change<MySqlDbContextLocator>();
+_sql.GetPerson();
+
+// 多次切换
+_sql.Change<OracleDbContextLocator>();
+_sql.GetPerson();
+
+// 还支持重置数据库上下文定位器为初始状态
+_sql.ResetIt();
+_sql.GetPerson();
+```
+
+:::important 关于优先级问题
+
+`.Change<>` 优先级大于 `方法贴 [SqlDbContextLocator]` 大于 `接口贴 [SqlDbContextLocator]`。
+
+默认情况下，不指定 `DbContextLocator` 属性，则为 `MasterDbContextLocator`。
+
+:::
+
+## 9.17.9 `Sql` 代理拦截
+
+在 `Furion v2.13 +` 版本新增了 `Sql` 代理拦截功能，可以篡改特定方法或所有代理方法实际执行的参数，如 `sql语句、参数、执行对象等等`。
+
+**若在 `Sql` 代理中实现拦截功能，必须满足两个条件**：
+
+- 方法必须是 `static` 静态方法且返回值为 `void` 且只有一个 `SqlProxyMethod` 参数
+- 方法必须贴 `[Interceptor]` 特性
+
+如：
+
+```cs {9,13-17,20-24,26-30,32-36}
+public interface ISql : ISqlDispatchProxy
+{
+    [SqlFunction("FN_Name")]
+    string GetValue(MyParam dto);
+
+    [SqlProcedure("FN_Name")]
+    List<Person> GetPersons(int id);
+
+    [SqlExecute("select name from person", InterceptorId = "GetPersonsByName")] // 通过 InterceptorId 解决方法名重载问题
+    Task<List<string>> GetPersons();
+
+    // 只拦截 GetValue 方法
+    [Interceptor(nameof(GetValue))]
+    static void 拦截1(SqlProxyMethod method)
+    {
+        method.FinalSql += " where id > 1"; // 篡改最终执行 sql
+    }
+
+    // 拦截 GetValue 和 GetPersons 方法
+    [Interceptor(nameof(GetValue), nameof(GetPersons))]
+    static void 拦截2(SqlProxyMethod method)
+    {
+        method.FinalSql += " where id > 1"; // 篡改最终执行 sql
+    }
+
+    [Interceptor("GetPersonsByName")]   // 对应上面的 InterceptorId 配置
+    static void 解决方法名重载拦截(SqlProxyMethod method)
+    {
+        // 。。。
+    }
+
+    [Interceptor]
+    static void 全局拦截(SqlProxyMethod method)
+    {
+        // 这里会拦截所有的方法
+    }
+}
+```
+
+## 9.17.10 设置超时时间
+
+```cs
+[Timeout(1000)]
+public interface ISql : ISqlDispatchProxy
+{
+    [SqlFunction("FN_Name"), Timeout(500)]   // 单位秒
+    string GetValue(MyParam dto);
+}
+```
+
+## 9.17.11 反馈与建议
+
+:::note 与我们交流
+
+给 Furion 提 [Issue](https://gitee.com/dotnetchina/Furion/issues/new?issue)。
+
+:::

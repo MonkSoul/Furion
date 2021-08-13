@@ -1,0 +1,198 @@
+{
+  "theme.NotFound.title": {
+    "message": "页面没找到",
+    "description": "The title of the 404 page"
+  },
+  "theme.NotFound.p1": {
+    "message": "我们找不到您要找的东西。",
+    "description": "The first paragraph of the 404 page"
+  },
+  "theme.NotFound.p2": {
+    "message": "请联系将您链接到原始 URL 的站点的所有者，并让他们知道他们的链接已损坏。",
+    "description": "The 2nd paragraph of the 404 page"
+  },
+  "theme.AnnouncementBar.closeButtonAriaLabel": {
+    "message": "关闭",
+    "description": "The ARIA label for close button of announcement bar"
+  },
+  "theme.blog.paginator.navAriaLabel": {
+    "message": "Blog list page navigation",
+    "description": "The ARIA label for the blog pagination"
+  },
+  "theme.blog.paginator.newerEntries": {
+    "message": "Newer Entries",
+    "description": "The label used to navigate to the newer blog posts page (previous page)"
+  },
+  "theme.blog.paginator.olderEntries": {
+    "message": "Older Entries",
+    "description": "The label used to navigate to the older blog posts page (next page)"
+  },
+  "theme.blog.post.readingTime.plurals": {
+    "message": "One min read|{readingTime} min read",
+    "description": "Pluralized label for \"{readingTime} min read\". Use as much plural forms (separated by \"|\") as your language support (see https://www.unicode.org/cldr/cldr-aux/charts/34/supplemental/language_plural_rules.html)"
+  },
+  "theme.tags.tagsListLabel": {
+    "message": "标签:",
+    "description": "The label alongside a tag list"
+  },
+  "theme.blog.post.readMore": {
+    "message": "了解更多",
+    "description": "The label used in blog post item excerpts to link to full blog posts"
+  },
+  "theme.blog.post.paginator.navAriaLabel": {
+    "message": "Blog post page navigation",
+    "description": "The ARIA label for the blog posts pagination"
+  },
+  "theme.blog.post.paginator.newerPost": {
+    "message": "最新一篇",
+    "description": "The blog post button label to navigate to the newer/previous post"
+  },
+  "theme.blog.post.paginator.olderPost": {
+    "message": "过去一篇",
+    "description": "The blog post button label to navigate to the older/next post"
+  },
+  "theme.blog.sidebar.navAriaLabel": {
+    "message": "Blog recent posts navigation",
+    "description": "The ARIA label for recent posts in the blog sidebar"
+  },
+  "theme.tags.tagsPageTitle": {
+    "message": "标签",
+    "description": "The title of the tag list page"
+  },
+  "theme.blog.post.plurals": {
+    "message": "One post|{count} posts",
+    "description": "Pluralized label for \"{count} posts\". Use as much plural forms (separated by \"|\") as your language support (see https://www.unicode.org/cldr/cldr-aux/charts/34/supplemental/language_plural_rules.html)"
+  },
+  "theme.blog.tagTitle": {
+    "message": "{nPosts} tagged with \"{tagName}\"",
+    "description": "The title of the page for a blog tag"
+  },
+  "theme.tags.tagsPageLink": {
+    "message": "查看所有标签",
+    "description": "The label of the link targeting the tag list page"
+  },
+  "theme.CodeBlock.copyButtonAriaLabel": {
+    "message": "复制代码",
+    "description": "The ARIA label for copy code blocks button"
+  },
+  "theme.CodeBlock.copied": {
+    "message": "已复制",
+    "description": "The copied button label on code blocks"
+  },
+  "theme.CodeBlock.copy": {
+    "message": "复制",
+    "description": "The copy button label on code blocks"
+  },
+  "theme.docs.sidebar.expandButtonTitle": {
+    "message": "Expand sidebar",
+    "description": "The ARIA label and title attribute for expand button of doc sidebar"
+  },
+  "theme.docs.sidebar.expandButtonAriaLabel": {
+    "message": "Expand sidebar",
+    "description": "The ARIA label and title attribute for expand button of doc sidebar"
+  },
+  "theme.docs.paginator.navAriaLabel": {
+    "message": "Docs pages navigation",
+    "description": "The ARIA label for the docs pagination"
+  },
+  "theme.docs.paginator.previous": {
+    "message": "上一章节",
+    "description": "The label used to navigate to the previous doc"
+  },
+  "theme.docs.paginator.next": {
+    "message": "下一章节",
+    "description": "The label used to navigate to the next doc"
+  },
+  "theme.docs.sidebar.collapseButtonTitle": {
+    "message": "Collapse sidebar",
+    "description": "The title attribute for collapse button of doc sidebar"
+  },
+  "theme.docs.sidebar.collapseButtonAriaLabel": {
+    "message": "Collapse sidebar",
+    "description": "The title attribute for collapse button of doc sidebar"
+  },
+  "theme.docs.versions.unreleasedVersionLabel": {
+    "message": "这是尚未发布的 {siteTitle} {versionLabel} 版本文档.",
+    "description": "The label used to tell the user that he's browsing an unreleased doc version"
+  },
+  "theme.docs.versions.unmaintainedVersionLabel": {
+    "message": "This is documentation for {siteTitle} {versionLabel}, which is no longer actively maintained.",
+    "description": "The label used to tell the user that he's browsing an unmaintained doc version"
+  },
+  "theme.docs.versions.latestVersionSuggestionLabel": {
+    "message": "要查看最新版本，请参阅 {latestVersionLink} ({versionLabel}).",
+    "description": "The label used to tell the user to check the latest version"
+  },
+  "theme.docs.versions.latestVersionLinkLabel": {
+    "message": "最新文档",
+    "description": "The label used for the latest version suggestion link label"
+  },
+  "theme.common.editThisPage": {
+    "message": "编辑当前文档",
+    "description": "The link label to edit the current page"
+  },
+  "theme.common.headingLinkTitle": {
+    "message": "Direct link to heading",
+    "description": "Title for link to heading"
+  },
+  "theme.lastUpdated.atDate": {
+    "message": " 于 {date}",
+    "description": "The words used to describe on which date a page has been last updated"
+  },
+  "theme.lastUpdated.byUser": {
+    "message": " 通过 {user}",
+    "description": "The words used to describe by who the page has been last updated"
+  },
+  "theme.lastUpdated.lastUpdatedAtBy": {
+    "message": "最近更新{atDate}{byUser}",
+    "description": "The sentence used to display when a page has been last updated, and by who"
+  },
+  "theme.navbar.mobileSidebarSecondaryMenu.backButtonLabel": {
+    "message": "← 回到顶部菜单",
+    "description": "The label of the back button to return to main menu, inside the mobile navbar sidebar secondary menu (notably used to display the docs sidebar)"
+  },
+  "theme.common.skipToMainContent": {
+    "message": "Skip to main content",
+    "description": "The skip to content label used for accessibility, allowing to rapidly navigate to main content with keyboard tab/enter navigation"
+  },
+  "theme.TOCCollapsible.toggleButtonLabel": {
+    "message": "页面导航",
+    "description": "The label used by the button on the collapsible TOC component"
+  },
+  "theme.SearchPage.documentsFound.plurals": {
+    "message": "One document found|{count} documents found",
+    "description": "Pluralized label for \"{count} documents found\". Use as much plural forms (separated by \"|\") as your language support (see https://www.unicode.org/cldr/cldr-aux/charts/34/supplemental/language_plural_rules.html)"
+  },
+  "theme.SearchPage.existingResultsTitle": {
+    "message": "当前搜索关键字 \"{query}\"",
+    "description": "The search page title for non-empty query"
+  },
+  "theme.SearchPage.emptyResultsTitle": {
+    "message": "搜索文档",
+    "description": "The search page title for empty query"
+  },
+  "theme.SearchPage.inputPlaceholder": {
+    "message": "输入您要搜索的信息",
+    "description": "The placeholder for search page input"
+  },
+  "theme.SearchPage.inputLabel": {
+    "message": "搜索文档",
+    "description": "The ARIA label for search page input"
+  },
+  "theme.SearchPage.algoliaLabel": {
+    "message": "通过 Algolia 组件搜索",
+    "description": "The ARIA label for Algolia mention"
+  },
+  "theme.SearchPage.noResultsText": {
+    "message": "没有找到搜索结果",
+    "description": "The paragraph for empty search result"
+  },
+  "theme.SearchPage.fetchingNewResults": {
+    "message": "正在搜索数据...",
+    "description": "The paragraph for fetching new search results"
+  },
+  "theme.SearchBar.label": {
+    "message": "搜索文档",
+    "description": "The ARIA label and placeholder for search button"
+  }
+}

@@ -1,0 +1,163 @@
+---
+id: encryption
+title: 20. 数据加解密
+sidebar_label: 20. 数据加解密
+---
+
+## 20.1 数据加解密
+
+由于现在的互联网越具发达，数据成为了我们生活的一部分，当然也带来了很多数据安全性的问题，比如用户密码明文存储，用户信息明文存在在浏览器 `cookies` 中等等不安全操作。
+
+所以，对数据的加解密是系统开发必要的环节。
+
+## 20.2 内置加密算法
+
+- `MD5` 加密
+- `DESC` 加解密
+- `AES` 加解密
+- `JWT` 加解密
+- `PBKDF2` 加密（`Furion v2.12 +` 版本已移除）
+- `RSA` 加解密
+
+## 20.3 加解密使用
+
+### 20.3.1 `MD5` 加密
+
+```cs
+// 测试 MD5 加密，比较
+var md5Hash = MD5Encryption.Encrypt("百小僧");  // 加密
+var isEqual = MD5Encryption.Compare("百小僧", md5Hash); // 比较
+return (md5Hash, isEqual);
+
+// 输出大写 MD5 加密
+var md5Hash = MD5Encryption.Encrypt("百小僧", true);
+```
+
+### 20.3.2 `DESC` 加解密
+
+```cs
+// 测试 DESC 加解密
+var descHash = DESCEncryption.Encrypt("百小僧", "Furion"); // 加密
+var str = DESCEncryption.Decrypt(descHash, "Furion");  // 解密
+return (descHash, str);
+```
+
+### 20.3.3 `AES` 加解密
+
+```cs
+// 测试 AES 加解密
+var key = Guid.NewGuid().ToString("N"); // 密钥，长度必须为24位或32位
+
+var aesHash = AESEncryption.Encrypt("百小僧", key); // 加密
+var str2 = AESEncryption.Decrypt(aesHash, key); // 解密
+return (aesHash, str2);
+```
+
+### 20.3.4 `JWT` 加解密
+
+```cs
+var token = JWTEncryption.Encrypt(new Dictionary<string, object>()  // 加密
+            {
+                { "UserId", user.Id },
+                { "Account",user.Account }
+            });
+
+var tokenData = JWTEncryption.ReadJwtToken("你的token");  // 解密
+
+var (isValid, tokenData) = JWTEncryption.Validate("你的token"); // 验证token有效期
+```
+
+:::important 特别注意
+
+`JWTEncryption` 加解密并未包含在 `Furion` 框架中，需要安装 `Furion` 框架提供的 `Furion.Extras.Authentication.JwtBearer` 拓展包。
+
+:::
+
+### 20.3.5 `PBKDF2` 加密
+
+**`Furion v2.12 +` 版本已移除。**
+
+```cs
+// 测试 PBKDF2 加密，比较
+var basestring = PBKDF2Encryption.Encrypt("百小僧");  // 加密
+var isEqual = PBKDF2Encryption.Compare("百小僧", basestring); // 比较
+```
+
+:::important 支持选择更多参数
+
+`PBKDF2` 还可以配置更多参数：
+
+- `Startup.cs` 中注册服务
+
+```cs
+services.AddPBKDF2EncryptionOptions();
+```
+
+- `appsettings.json` 配置：
+
+```json
+{
+  "PBKDF2EncryptionSettings": {
+    "InitialIterationCount": 110, // 初始迭代次数累加值
+    "KeyDerivation": "HMACSHA256", // 加密算法规则  KeyDerivationPrf.HMACSHA256
+    "NumBytesRequested": 64 // 派生密钥的长度 (以字节为单位) 512 / 8
+  }
+}
+```
+
+- `KeyDerivation` 可选值有：`HMACSHA1`，`HMACSHA256`，`HMACSHA512`
+
+:::
+
+### 20.3.6 `RSA` 加密
+
+```cs
+// 测试 RSA 加密
+var (publicKey, privateKey) = RSAEncryption.GenerateSecretKey(2048);  //生成 RSA 秘钥 秘钥大小必须为 2048 到 16384，并且是 8 的倍数
+var basestring = RSAEncryption.Encrypt("百小僧", publicKey);  // 加密
+var str2 = RSAEncryption.Decrypt(basestring, privateKey); // 解密
+return (basestring, str2);
+```
+
+:::important 关于 `RSA` 签名和校验
+
+`Furion` 框架底层不内置 `RSA` 前面和检验功能，如需添加该功能可查阅开发者提交的代码：[查看 RSA 签名和校验](https://gitee.com/dotnetchina/Furion/pulls/349)
+
+:::
+
+## 20.4 字符串拓展方式
+
+`Furion` 框架也提供了字符串拓展方式进行 `MD5加密、AES/DESC加解密、RSA加解密`。
+
+```cs
+using Furion.DataEncryption.Extensions;
+
+// MD5 加密
+var s = "Furion".ToMD5Encrypt();
+var b = "Furion".ToMD5Compare(s);   // 比较
+
+// AES加解密
+var s = "Furion".ToAESEncrypt("sfdsfdsfdsfdsfdsfdsfdsfdsfdfdsfdsfdfdfdfd");
+var str = s.ToAESDecrypt("sfdsfdsfdsfdsfdsfdsfdsfdsfdfdsfdsfdfdfdfd");
+
+// DESC 加解密
+var s = "Furion".ToDESCEncrypt("sfdsfdsfdsfdsfdsfdsfdsfdsfdfdsfdsfdfdfdfd");
+var str = s.ToDESCDecrypt("sfdsfdsfdsfdsfdsfdsfdsfdsfdfdsfdsfdfdfdfd");
+
+// PBKDF2 加密（`Furion v2.12 +` 版本已移除！！！！！！！！）
+var s = "Furion".ToPBKDF2Encrypt();
+var b = "Furion".ToPBKDF2Compare(s);   // 比较
+
+// RSA 加解密
+var (publicKey, privateKey) = RSAEncryption.GenerateSecretKey(2048);  //生成 RSA 秘钥 秘钥大小必须为 2048 到 16384，并且是 8 的倍数
+var s= "Furion".ToRSAEncrpyt(publicKey);  // 加密
+var str=s.ToRSADecrypt(privateKey);  // 解密
+```
+
+## 20.5 反馈与建议
+
+:::note 与我们交流
+
+给 Furion 提 [Issue](https://gitee.com/dotnetchina/Furion/issues/new?issue)。
+
+:::

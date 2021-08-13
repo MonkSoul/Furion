@@ -1,0 +1,47 @@
+---
+id: scoped
+title: 11. Scoped 静态类
+sidebar_label: 11. Scoped 静态类
+---
+
+## 11.1 创建一个依赖注入作用域范围
+
+```cs {1}
+Scoped.Create((factory, scope) => {
+     var services = scope.ServiceProvider;
+});
+```
+
+:::important 数据库操作注意
+
+如果作用域中对**数据库有任何变更操作**，需手动调用 `SaveChanges` 或带 `Now` 结尾的方法。也可以使用 `Scoped.CreateUow(handler)` 代替。
+
+:::
+
+## 11.2 创建一个带工作单元的作用域
+
+```cs
+Scoped.CreateUow((factory, scope) => {
+     var services = scope.ServiceProvider;
+});
+```
+
+此方法将在执行完毕之后自动调用 `SaveChanges()`
+
+## 11.3 创建一个依赖注入作用域范围（带返回值）
+
+```cs {1}
+var obj = Scoped.CreateRef<string>((factory, scope) => {
+     var services = scope.ServiceProvider;
+     return "返回值";
+});
+```
+
+## 11.4 创建一个带工作单元的作用域（带返回值）
+
+```cs
+var obj = Scoped.CreateUowRef<string>((factory, scope) => {
+     var services = scope.ServiceProvider;
+     return "返回值";
+});
+```

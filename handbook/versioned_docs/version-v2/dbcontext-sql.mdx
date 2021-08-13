@@ -1,0 +1,764 @@
+---
+id: dbcontext-sql
+title: 9.15 Sql 操作
+sidebar_label: 9.15 Sql 操作
+---
+
+:::important 温馨提示
+
+推荐使用 《[9.17 Sql 高级代理](dbcontext-sql-proxy.mdx)》代替本章节功能。`Sql 高级代理` 能够提供更容易且更易维护的方式。
+
+:::
+
+:::note 例子说明
+
+本章节例子均以 `sql server` 数据库写的例子，命令参数统一用 `@` 符号，但不同数据库的参数前缀有所不同，如：`sql server` 采用 `@`，oracle 采用 `:`，my sql 采用 `?`。
+
+:::
+
+## 9.15.1 关于 `Sql`
+
+`Furion` 框架提供非常多且灵活的 `sql` 操作方法，且性能不输于 `dapper`，同时逼近 `ADO.NET` 原生操作。
+
+## 9.15.2 懒人无敌 `Sql` 🐮
+
+### 9.15.2.1 返回 `DataTable`
+
+```cs
+// ==== 同步操作 ====
+
+// 示例一
+var dataTable = "select * from person".SqlQuery();
+
+// 示例二
+var dataTable = "select top 10 * from person where id > @id".SqlQuery(new {id = 10});
+
+// 示例三
+var dataTable = "select Id, Name, Age from person where name like @name".SqlQuery(new Dictionary<string,object>{ {"name", "%Furion%"} });
+
+// 示例四
+var dataTable = "select * from person where name=@name limit 1,10".SqlQuery(new []{ new MySqlParameter("name","Furion") });
+
+// 示例五
+var dataTable = "select * from person where id>@id and name like @name".SqlQuery(new YourModel { Id = 1, Name = "%Furion%" });
+
+// 示例六
+var dataTable = "exec PROC_GetPerson @id".SqlQuery(new {id = 10});
+
+// 示例七
+var dataTable = "select * from FN_GetPersons(@id)".SqlQuery(new {id = 10});
+
+// 示例八
+var dataTable = @"
+select * from person p
+left join personDetail pd on p.Id == pd.pid
+where p.Id > @id;".SqlQuery(new {id = 10});
+
+// ==== 异步操作 ====
+
+// 示例一
+var dataTable = await "select * from person".SqlQueryAsync();
+
+// 示例二
+var dataTable = await "select top 10 * from person where id > @id".SqlQueryAsync(new {id = 10});
+
+// 示例三
+var dataTable = await "select Id, Name, Age from person where name like @name".SqlQueryAsync(new Dictionary<string,object>{ {"name", "%Furion%"} });
+
+// 示例四
+var dataTable = await "select * from person where name=@name limit 1,10".SqlQueryAsync(new []{ new MySqlParameter("name","Furion") });
+
+// 示例五
+var dataTable = await "select * from person where id>@id and name like @name".SqlQueryAsync(new YourModel { Id = 1, Name = "%Furion%" });
+
+// 示例六
+var dataTable = await "exec PROC_GetPerson @id".SqlQueryAsync(new {id = 10});
+
+// 示例七
+var dataTable = await "select * from FN_GetPersons(@id)".SqlQueryAsync(new {id = 10});
+
+// 示例八
+var dataTable = await @"
+select * from person p
+left join personDetail pd on p.Id == pd.pid
+where p.Id > @id;".SqlQueryAsync(new {id = 10});
+```
+
+### 9.15.2.2 返回 `List<T>`
+
+```cs
+// ==== 同步操作 ====
+
+// 示例一
+var persons = "select * from person".SqlQuery<Person>();
+
+// 示例二
+var persons = "select top 10 * from person where id > @id".SqlQuery<Person>(new {id = 10});
+
+// 示例三
+var persons = "select Id, Name, Age from person where name like @name".SqlQuery<Person>(new Dictionary<string,object>{ {"name", "%Furion%"} });
+
+// 示例四
+var persons = "select * from person where name=@name limit 1,10".SqlQuery<Person>(new []{ new MySqlParameter("name","Furion") });
+
+// 示例五
+var persons = "select * from person where id>@id and name like @name".SqlQuery<Person>(new YourModel { Id = 1, Name = "%Furion%" });
+
+// 示例六
+var persons = "exec PROC_GetPerson @id".SqlQuery<Person>(new {id = 10});
+
+// 示例七
+var persons = "select * from FN_GetPersons(@id)".SqlQuery<Person>(new {id = 10});
+
+// 示例八
+var persons = @"
+select * from person p
+left join personDetail pd on p.Id == pd.pid
+where p.Id > @id;".SqlQuery<Person>(new {id = 10});
+
+// ==== 异步操作 ====
+
+// 示例一
+var persons = await "select * from person".SqlQueryAsync<Person>();
+
+// 示例二
+var persons = await "select top 10 * from person where id > @id".SqlQueryAsync<Person>(new {id = 10});
+
+// 示例三
+var persons = await "select Id, Name, Age from person where name like @name".SqlQueryAsync<Person>(new Dictionary<string,object>{ {"name", "%Furion%"} });
+
+// 示例四
+var persons = await "select * from person where name=@name limit 1,10".SqlQueryAsync<Person>(new []{ new MySqlParameter("name","Furion") });
+
+// 示例五
+var persons = await "select * from person where id>@id and name like @name".SqlQueryAsync<Person>(new YourModel { Id = 1, Name = "%Furion%" });
+
+// 示例六
+var persons = await "exec PROC_GetPerson @id".SqlQueryAsync<Person>(new {id = 10});
+
+// 示例七
+var persons = await "select * from FN_GetPersons(@id)".SqlQueryAsync<Person>(new {id = 10});
+
+// 示例八
+var persons = await @"
+select * from person p
+left join personDetail pd on p.Id == pd.pid
+where p.Id > @id;".SqlQueryAsync<Person>(new {id = 10});
+```
+
+### 9.15.2.3 返回 `DataSet`
+
+```cs
+// ==== 同步操作 ====
+
+// 示例一
+var dataSet = @"
+select * from person;
+select * from student;".SqlQueries();
+
+// 示例二
+var dataSet = @"
+select * from person where Id > @id;
+select * from student where Name like @name;".SqlQueries(new {id = 1, name = "%furion%"});
+
+// 示例三
+var dataSet = @"
+select * from person;
+exec PROC_GetStudents(@id);
+select 'Furion';
+select * from FN_GetPerson(@id);".SqlQueries(new {id = 1});
+
+// ==== 异步操作 ====
+
+// 示例一
+var dataSet = await @"
+select * from person;
+select * from student;".SqlQueriesAsync();
+
+// 示例二
+var dataSet = await @"
+select * from person where Id > @id;
+select * from student where Name like @name;".SqlQueriesAsync(new {id = 1, name = "%furion%"});
+
+// 示例三
+var dataSet = await @"
+select * from person;
+exec PROC_GetStudents(@id);
+select 'Furion';
+select * from FN_GetPerson(@id);".SqlQueriesAsync(new {id = 1});
+```
+
+### 9.15.2.4 返回 `Tuple<T1,...T8>`
+
+```cs
+// ==== 同步操作 ====
+
+// 示例一
+var (persons, students) = @"
+select * from person;
+select * from student;".SqlQueries<Person,Student>();
+
+// 示例二
+var (persons, students) = @"
+select * from person where Id > @id;
+select * from student where Name like @name;".SqlQueries<Person,Student>(new {id = 1, name = "%furion%"});
+
+// 示例三
+var (persons, students, string, PersonDto) = @"
+select * from person;
+exec PROC_GetStudents(@id);
+select 'Furion';
+select * from FN_GetPerson(@id);".SqlQueries<Person, Student, string, PersonDto>(new {id = 1});
+
+// ==== 异步操作 ====
+
+// 示例一
+var (persons, students) = await @"
+select * from person;
+select * from student;".SqlQueriesAsync<Person,Student>();
+
+// 示例二
+var (persons, students) = await @"
+select * from person where Id > @id;
+select * from student where Name like @name;".SqlQueriesAsync<Person,Student>(new {id = 1, name = "%furion%"});
+
+// 示例三
+var (persons, students, string, PersonDto) = await @"
+select * from person;
+exec PROC_GetStudents(@id);
+select 'Furion';
+select * from FN_GetPerson(@id);".SqlQueriesAsync<Person, Student, string, PersonDto>(new {id = 1});
+```
+
+### 9.15.2.5 返回 单行单列
+
+```cs
+// ==== 同步操作 ====
+
+// 示例一
+var value = "select Name from person where id = @id".SqlScalar(new {id = 1});
+
+// 示例二
+var value = "select Name from person where id = @id".SqlScalar<string>(new {id = 1});
+
+// 示例三
+var value = "select Age from person where id = @id".SqlScalar<int>(new {id = 1});
+
+// ==== 异步操作 ====
+
+// 示例一
+var value = await "select Name from person where id = @id".SqlScalarAsync(new {id = 1});
+
+// 示例二
+var value = await "select Name from person where id = @id".SqlScalarAsync<string>(new {id = 1});
+
+// 示例三
+var value = await "select Age from person where id = @id".SqlScalarAsync<int>(new {id = 1});
+```
+
+### 9.15.2.6 返回 受影响行数
+
+```cs
+// ==== 同步操作 ====
+
+// 示例一
+var rowEffects = "insert into person(Name,Age,Address) values(@name,@age,@address)".SqlNonQuery(person);
+
+// 示例二
+var rowEffects = @"
+insert into person(Name,Age,Address) values(@name,@age,@address);
+insert into person(Name,Age,Address) values(@name,@age,@address);".SqlNonQuery(persons);
+
+// 示例三
+var rowEffects = "update person set name=@name where id=@id".SqlNonQuery(new {id=1, name="百小僧"});
+
+// 示例四
+var rowEffects = "delete from person where @id > 10".SqlNonQuery(new {id=1});
+
+// ==== 异步操作 ====
+
+// 示例一
+var rowEffects = await "insert into person(Name,Age,Address) values(@name,@age,@address)".SqlNonQueryAsync(person);
+
+// 示例二
+var rowEffects = @"
+insert into person(Name,Age,Address) values(@name,@age,@address);
+insert into person(Name,Age,Address) values(@name,@age,@address);".SqlNonQueryAsync(persons);
+
+// 示例三
+var rowEffects = await "update person set name=@name where id=@id".SqlNonQueryAsync(new {id=1, name="百小僧"});
+
+// 示例四
+var rowEffects = await "delete from person where @id > 10".SqlNonQueryAsync(new {id=1});
+```
+
+## 9.15.3 懒人无敌 `存储过程` 🐮
+
+### 9.15.3.1 返回 `DataTable`
+
+```cs
+// ==== 同步操作 ====
+
+// 示例一
+var dataTable = "PROC_Name".SqlProcedureQuery();
+
+// 示例二
+var dataTable = "PROC_Name".SqlProcedureQuery(new {id = 1});
+
+// 示例三
+var dataTable = "PROC_Name".SqlProcedureQuery(new {id = 1, age = 27});
+
+// ==== 异步操作 ====
+
+// 示例一
+var dataTable = await "PROC_Name".SqlProcedureQueryAsync();
+
+// 示例二
+var dataTable = await "PROC_Name".SqlProcedureQueryAsync(new {id = 1});
+
+// 示例三
+var dataTable = await "PROC_Name".SqlProcedureQueryAsync(new {id = 1, age = 27});
+```
+
+### 9.15.3.2 返回 `List<T>`
+
+```cs
+// ==== 同步操作 ====
+
+// 示例一
+var persons = "PROC_Name".SqlProcedureQuery<Person>();
+
+// 示例二
+var persons = "PROC_Name".SqlProcedureQuery<Person>(new {id = 1});
+
+// 示例三
+var persons = "PROC_Name".SqlProcedureQuery<Person>(new {id = 1, age = 27});
+
+// ==== 异步操作 ====
+
+// 示例一
+var persons = await "PROC_Name".SqlProcedureQueryAsync<Person>();
+
+// 示例二
+var persons = await "PROC_Name".SqlProcedureQueryAsync<Person>(new {id = 1});
+
+// 示例三
+var persons = await "PROC_Name".SqlProcedureQueryAsync<Person>(new {id = 1, age = 27});
+```
+
+### 9.15.3.3 返回 `DataSet`
+
+```cs
+// ==== 同步操作 ====
+
+// 示例一
+var dataSet = "PROC_Name".SqlProcedureQueries();
+
+// 示例二
+var dataSet = "PROC_Name".SqlProcedureQueries(new {id = 1});
+
+// 示例三
+var dataSet = "PROC_Name".SqlProcedureQueries(new {id = 1, age = 27});
+
+// ==== 异步操作 ====
+
+// 示例一
+var dataSet = await "PROC_Name".SqlProcedureQueriesAsync();
+
+// 示例二
+var dataSet = await "PROC_Name".SqlProcedureQueriesAsync(new {id = 1});
+
+// 示例三
+var dataSet = await "PROC_Name".SqlProcedureQueriesAsync(new {id = 1, age = 27});
+```
+
+### 9.15.3.4 返回 `Tuple<T1,...T8>`
+
+```cs
+// ==== 同步操作 ====
+
+// 示例一
+var persons = "PROC_Name".SqlProcedureQueries<Person>();
+
+// 示例二
+var (persons,students) = "PROC_Name".SqlProcedureQueries<Person,Student>(new {id = 1});
+
+// 示例三
+var (persons,students,string) = "PROC_Name".SqlProcedureQueries<Person,Student,string>(new {id = 1, age = 27});
+
+// 示例四
+var (persons,students,personDetail,string) = "PROC_Name".SqlProcedureQueries<Person,Student,PersonDetail,string>(new {id = 1, age = 27});
+
+// ==== 异步操作 ====
+
+// 示例一
+var persons = await "PROC_Name".SqlProcedureQueriesAsync<Person>();
+
+// 示例二
+var (persons,students) = await "PROC_Name".SqlProcedureQueriesAsync<Person,Student>(new {id = 1});
+
+// 示例三
+var (persons,students,string) = await "PROC_Name".SqlProcedureQueriesAsync<Person,Student,string>(new {id = 1, age = 27});
+
+// 示例四
+var (persons,students,personDetail,string) = await "PROC_Name".SqlProcedureQueriesAsync<Person,Student,PersonDetail,string>(new {id = 1, age = 27});
+```
+
+### 9.15.3.5 返回 单行单列
+
+```cs
+// ==== 同步操作 ====
+
+// 示例一
+var value = "PROC_Name".SqlProcedureScalar(new {id = 1});
+
+// 示例二
+var value = "PROC_Name".SqlProcedureScalar<string>(new {id = 1, name = "新生帝", address ="广东省中山市"});
+
+// 示例三
+var value = "PROC_Name".SqlProcedureScalar<int>(new {id = 1,  address ="广东省中山市"});
+
+// ==== 异步操作 ====
+
+// 示例一
+var value = await "PROC_Name".SqlProcedureScalarAsync(new {id = 1});
+
+// 示例二
+var value = await "PROC_Name".SqlProcedureScalarAsync<string>(new {id = 1, name = "新生帝", address ="广东省中山市"});
+
+// 示例三
+var value = await "PROC_Name".SqlProcedureScalarAsync<int>(new {id = 1,  address ="广东省中山市"});
+```
+
+### 9.15.3.6 返回 受影响行数
+
+```cs
+// ==== 同步操作 ====
+
+// 示例一
+var rowEffects = "PROC_Name".SqlProcedureNonQuery(person);
+
+// 示例二
+var rowEffects = "PROC_Name".SqlProcedureNonQuery(new {id = 1, name = "新生帝", address ="广东省中山市"});
+
+// 示例三
+var rowEffects = "PROC_Name".SqlProcedureNonQuery(new {id=1, name="百小僧"});
+
+// 示例四
+var rowEffects = "PROC_Name".SqlProcedureNonQuery(new {id=1});
+
+// ==== 异步操作 ====
+
+// 示例一
+var rowEffects = await "PROC_Name".SqlProcedureNonQueryAsync(person);
+
+// 示例二
+var rowEffects = await "PROC_Name".SqlProcedureNonQueryAsync(new {id = 1, name = "新生帝", address ="广东省中山市"});
+
+// 示例三
+var rowEffects = await "PROC_Name".SqlProcedureNonQueryAsync(new {id=1, name="百小僧"});
+
+// 示例四
+var rowEffects = await "PROC_Name".SqlProcedureNonQueryAsync(new {id=1});
+```
+
+### 9.15.3.7 带 `OUTPUT/RETURN` 返回
+
+```sql {3,4,10-12,15-17,22}
+CREATE PROC PROC_Output
+    @Id INT,    // 输入参数
+    @Name NVARCHAR(32) OUTPUT,  // 输出参数，还带长度
+    @Age INT OUTPUT // 输出参数
+AS
+BEGIN
+    SET @Name = 'Furion Output';
+
+    // 输出结果集
+    SELECT *
+    FROM dbo.Test
+    WHERE Id > @Id;
+
+    // 输出结果集
+    SELECT TOP 10
+           *
+    FROM dbo.Test;
+
+    SET @Age = 27;
+
+    // 带 RETURN 返回
+    RETURN 10;
+END;
+```
+
+```cs {1,10,13,16}
+using Furion.DatabaseAccessor;
+using System.Data;
+
+namespace Furion.Application
+{
+    public class ProcOutputModel
+    {
+        public int Id { get; set; } // 输入参数
+
+        [DbParameter(ParameterDirection.Output, Size = 32)]
+        public string Name { get; set; }    // 输出参数
+
+        [DbParameter(ParameterDirection.Output)]
+        public int Age { get; set; }    // 输出参数
+
+        [DbParameter(ParameterDirection.ReturnValue)]
+        public int ReturnValue { get; set; }    // 返回值
+    }
+}
+```
+
+```cs
+// ==== 同步操作 ====
+
+// 示例一
+ProcedureOutputResult result = "PROC_Name".SqlProcedureOutput(new ProcOutputModel{ Id=1});
+
+// 示例二
+ProcedureOutputResult result = "PROC_Name".SqlProcedureOutput(new ProcOutputModel{ Id=1});
+
+// 示例三
+ProcedureOutputResult<(List<Person>, List<Student>)> result = "PROC_Name".SqlProcedureOutput<(List<Person>, List<Student>)>(new ProcOutputModel{ Id=1});
+
+// ==== 异步操作 ====
+// 示例一
+ProcedureOutputResult result = await "PROC_Name".SqlProcedureOutputAsync(new ProcOutputModel{ Id=1});
+
+// 示例二
+ProcedureOutputResult result = await "PROC_Name".SqlProcedureOutputAsync(new ProcOutputModel{ Id=1});
+
+// 示例三
+ProcedureOutputResult<(List<Person>, List<Student>)> result = await "PROC_Name".SqlProcedureOutputAsync<(List<Person>, List<Student>)>(new ProcOutputModel{ Id=1});
+```
+
+## 9.15.4 懒人无敌 `函数` 🐮
+
+### 9.15.4.1 `标量函数`
+
+```cs
+// ==== 同步操作 ====
+
+// 示例一
+var value = "FN_Name".SqlFunctionScalar();
+
+// 示例二
+var value = "FN_Name".SqlFunctionScalar(new {id = 1});
+
+// 示例三
+var value = "FN_Name".SqlFunctionScalar<string>();
+
+// 示例四
+var value = "FN_Name".SqlFunctionScalar<int>(new {id = 1});
+
+// ==== 异步操作 ====
+
+// 示例一
+var value = await "FN_Name".SqlFunctionScalarAsync();
+
+// 示例二
+var value = await "FN_Name".SqlFunctionScalarAsync(new {id = 1});
+
+// 示例三
+var value = await "FN_Name".SqlFunctionScalarAsync<string>();
+
+// 示例四
+var value = await "FN_Name".SqlFunctionScalarAsync<int>(new {id = 1});
+```
+
+### 9.15.4.2 `表值函数`
+
+```cs
+// ==== 同步操作 ====
+
+// 示例一
+var dataTable = "FN_Name".SqlFunctionQuery();
+
+// 示例二
+var dataTable = "FN_Name".SqlFunctionQuery(new {id = 1});
+
+// 示例三
+var persons = "FN_Name".SqlFunctionQuery<Person>();
+
+// 示例四
+var persons = "FN_Name".SqlFunctionQuery<Person>(new {id = 1});
+
+// ==== 异步操作 ====
+
+// 示例一
+var dataTable = await "FN_Name".SqlFunctionQueryAsync();
+
+// 示例二
+var dataTable = await "FN_Name".SqlFunctionQueryAsync(new {id = 1});
+
+// 示例三
+var persons = await "FN_Name".SqlFunctionQueryAsync<Person>();
+
+// 示例四
+var persons = await "FN_Name".SqlFunctionQueryAsync<Person>(new {id = 1});
+```
+
+## 9.15.5 设置超时时间
+
+```cs
+var data = "select * from table".SetCommandTimeout(100).SqlQuery(); // 单位秒
+```
+
+## 9.15.6 `ISqlRepository` 操作
+
+`ISqlRepository` 仓储是专门处理 `Sql` 操作的，无需实体方式，所有接口和 `懒人无敌` 方式一样：
+
+```cs
+// 示例一
+var dataTable = sqlRepository.SqlQuery("select * from person");
+
+// 示例二
+var dataTable = sqlRepository.SqlQuery("select * from person where id > @id", new { id = 10});
+
+// 示例四
+var persons = sqlRepository.SqlQuery<Person>("select * from person");
+
+// 示例五
+var persons = sqlRepository.SqlQuery<Person>("select * from person where id > @id", new { id = 10});
+
+// 不再举例子。。。
+```
+
+:::note 补充说明
+
+不管是哪种方式操作 `Sql` ，方法名参数都是一致的，如：
+
+- `SqlQuery`
+- `SqlQueryAsync`
+- `SqlQueries`
+- `SqlQueriesAsync`
+- `SqlNonQuery`
+- `SqlNonQueryAsync`
+- `SqlScalar`
+- `SqlScalarAsync`
+- `SqlProcedureQuery`
+- `SqlProcedureQueryAsync`
+- `SqlProcedureQueries`
+- `SqlProcedureQueriesAsync`
+- `SqlProcedureScalar`
+- `SqlProcedureScalarAsync`
+- `SqlProcedureNonQuery`
+- `SqlProcedureNonQueryAsync`
+- `SqlProcedureOutput`
+- `SqlProcedureOutputAsync`
+- `SqlFunctionScalar`
+- `SqlFunctionScalarAsync`
+- `SqlFunctionQuery`
+- `SqlFunctionQuery`
+
+:::
+
+## 9.15.7 `IRepository` 操作
+
+`IRepository` 也能操作 `sql`，调用方法也是和上面一致的，如：
+
+```cs
+var dataTable = repository.Sql().SqlQuery("select * from person");
+```
+
+:::note 特别说明
+
+由于篇幅有限，不再列举所有例子。
+
+:::
+
+## 9.15.8 `IRepository<TEntity>` 操作
+
+`IRepository<TEntity>` 也能操作 `sql`，调用方法也是和上面一致的，如：
+
+```cs
+var dataTable = personRepository.SqlQuery("select * from person");
+```
+
+:::note 特别说明
+
+由于篇幅有限，不再列举所有例子。
+
+:::
+
+## 9.15.9 关于 `Sql` 参数
+
+所有 `sql`、`存储过程`，`函数` 参数都支持四种方式：
+
+- `DbParameter[]`：数组类型
+- `new {}`：匿名类型
+- `new Class{}`：强类型类型（支持复杂存储过程参数）
+- `Dictionary<string,object>` 类型
+
+:::tip 小知识
+
+建议除了复杂的存储过程（带 `OUTPUT/RETURN`）的以外，所有参数建议使用 `new {}` 匿名类型，如果需要动态参数，则可以使用 `Dictionary<string,object>` 类型。
+
+:::
+
+## 9.15.10 多数据库 `Sql` 操作 💯 💛
+
+`Furion` 框架拥有非常灵活的多数据库操作方式，只需通过多**数据库上下文定位器**即可动态切换数据库。
+
+### 9.15.10.1 懒人无敌 🐮 方式
+
+```cs
+var dataTable = "select * from person".Change<MySqlDbContextLocator>().SqlQuery();
+
+var persons = "select * from person whre id > @id".Change<SqliteDbContextLocator>().SqlQuery<Person>();
+```
+
+:::important 补充说明
+
+懒人方式 只需要通过 `Change<TDbContextLocator>` 方式即可动态切换数据库。
+
+:::
+
+### 9.15.10.2 `ISqlRepository` 方式
+
+只需要通过 `ISqlRepository<TDbContextLocator>` 注入或通过 `sqlRepository.Change<TDbContextLocator>()` 切换。
+
+### 9.15.10.3 `IRepository` 方式
+
+只需要通过 `repository.Change<TDbContextLocator>()` 获取即可。
+
+### 9.15.10.4 `IRepository<TEntity>` 方式
+
+只需要通过 `IRepository<TEntity, TDbContextLocator>` 注入或通过 `personRepository.Change<TEntity, TDbContextLocator>()` 切换。
+
+## 9.15.11 切换数据库
+
+在 `Furion` 框架中，不管是懒人模式还是仓储模式都是通过 `.Change<TDbContextLocator>` 方式切换数据库，如：
+
+```cs
+// 懒人模式
+var data = "select * from table".Change<MySqlDbContextLocator>().SqlQuery<Data>();
+
+// 仓储方式
+var data = req.Change<MySqlDbContextLocator>().SqlQuery<Data>("select * from table");
+```
+
+## 9.15.12 多线程共享作用域
+
+默认情况下，所有的 `字符串` 和 `实体` 拓展都有自己独立维护的 `ServiceProvider` 作用域。
+
+在 `Web` 请求中，默认是 `HttpContext.RequestServices`，但在 `非 Web`，如多线程操作，后台任务，事件总线等场景下会自动创建新的作用域，实际上这是非常不必要的内存开销。
+
+这时，我们只需要通过 `.SetXXXScoped(service)` 共享当前服务提供器作用域即可，如：
+
+```cs
+Scoped.Create((fac, scope) => {
+    "select * from table".SetContextScoped(scope.ServiceProvider).SqlQuery();
+});
+```
+
+## 9.15.13 反馈与建议
+
+:::note 与我们交流
+
+给 Furion 提 [Issue](https://gitee.com/dotnetchina/Furion/issues/new?issue)。
+
+:::

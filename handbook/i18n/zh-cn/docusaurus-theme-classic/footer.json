@@ -1,0 +1,42 @@
+{
+  "link.title.文档": {
+    "message": "文档",
+    "description": "The title of the footer links column with title=文档 in the footer"
+  },
+  "link.title.社区": {
+    "message": "社区",
+    "description": "The title of the footer links column with title=社区 in the footer"
+  },
+  "link.title.更多": {
+    "message": "更多",
+    "description": "The title of the footer links column with title=更多 in the footer"
+  },
+  "link.item.label.入门": {
+    "message": "入门",
+    "description": "The label of footer link with label=入门 linking to docs/get-start"
+  },
+  "link.item.label.指南": {
+    "message": "指南",
+    "description": "The label of footer link with label=指南 linking to docs"
+  },
+  "link.item.label.讨论": {
+    "message": "讨论",
+    "description": "The label of footer link with label=讨论 linking to https://gitee.com/dotnetchina/Furion/issues"
+  },
+  "link.item.label.看板": {
+    "message": "看板",
+    "description": "The label of footer link with label=看板 linking to https://gitee.com/dotnetchina/Furion/board"
+  },
+  "link.item.label.博客": {
+    "message": "博客",
+    "description": "The label of footer link with label=博客 linking to blog"
+  },
+  "link.item.label.仓库": {
+    "message": "仓库",
+    "description": "The label of footer link with label=仓库 linking to https://gitee.com/dotnetchina/Furion"
+  },
+  "copyright": {
+    "message": "Copyright © 2020-2021 百小僧, Baiqian Co.,Ltd.",
+    "description": "The footer copyright"
+  }
+}

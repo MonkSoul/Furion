@@ -1,0 +1,1099 @@
+---
+id: specification-document
+title: 6. 规范化接口文档
+sidebar_label: 6. 规范化接口文档 (Swagger)
+---
+
+import useBaseUrl from "@docusaurus/useBaseUrl";
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+## 6.1 什么是接口文档
+
+在现在移动为王、多端互辅、前端百花齐放的开放时代，不再是一人包揽式开发，大家各司其职，后端工程师负责接口开发，前端负责接口联调，也就是互联网现在流行的前后端分离架构。
+
+所以就需要由前后端工程师共同定义接口，编写接口文档，之后大家按照这个接口文档进行开发、维护及开放给第三方。
+
+## 6.2 为什么要写接口文档
+
+- 能够让前端开发与后台开发人员更好的配合，提高工作效率
+- 项目迭代或者项目人员更迭时，方便后期人员查看和维护
+- 方便测试人员进行接口测试
+
+## 6.3 为什么需要规范化文档
+
+由于每个公司后端人员技术参差不齐，技术文档能力也不例外，导致接口定义及文档五花八门，不同项目或不同公司对接极其困难，而且体验糟糕。所以，无规矩不成方圆，为了开发人员间更好的配合，迫切需要整理出一套规范。
+
+通常接口规范分为六个部分：
+
+### 6.3.1 协议规范
+
+为了确保不同系统/模块间的数据交互，需要事先约定好通讯协议，如：TCP、HTTP、HTTPS 协议。为了确保数据交互安全，建议使用 HTTPS 协议
+
+### 6.3.2 接口路径规范
+
+作为接口路径，为了方便清晰的区分来自不同的系统，可以采用不同系统/模块名作为接口路径前缀，如：支付模块：`/pay/xxx`，订单模块：`/order/xxx`
+
+### 6.3.3 版本控制规范
+
+为了便于后期接口的升级和维护，建议在接口路径中加入版本号，便于管理，实现接口多版本的可维护性。如：接口路径中添加类似"`v1`"、"`v2`"等版本号
+
+### 6.3.4 接口命名规范
+
+和 C# 命名规范一样，好的、统一的接口命名规范，不仅可以增强其可读性，而且还会减少很多不必要的口头/书面上的解释。可使用"驼峰命名法"按照实现接口的**业务类型、业务场景**等命名，有必要时可采取多级目录命名，但目录不宜过长，两级目录较为适宜
+
+- `常见命名方式`:
+  - `接口名称动词前/后缀化`： 接口名称以接口数据操作的动词为前/后缀，常见动词有：`Add、Delete、Update、Query、Get、Send、Save、Detail、List`等，如：新建用户 `AddUser`、查询订单详情 `QueryOrderDetail`。
+  - `接口名称动词 + 请求方式`：接口路径中包含具体接口名称的名词，接口数据操作动作以 HTTP 请求方式来区分。常用的 HTTP 请求方式有：
+    - `GET`：从服务器取出资源（一项或多项）
+    - `POST`：在服务器新建一个资源
+    - `PUT`：在服务器更新资源（客户端提供改变后的完整资源）
+    - `PATCH`：在服务器更新资源（客户端提供改变的属性）
+    - `DELETE`：从服务器删除资源
+
+### 6.3.5 请求参数规范
+
+- `请求方式`：按照 `GET、POST、PUT` 等含义定义，避免出现不一致现象，对人造成误解、歧义
+  - `请求头`：请求头根据项目需求添加配置参数。如：请求数据格式，`accept=application/json` 等。如有需要，请求头可根据项目需求要求传入用户 token、唯一验签码等加密数据
+  - `请求参数/请求体`： 请求参数字段，尽可能与数据库表字段、对象属性名等保持一致，因为保持一致是最省事，最舒服的一件事
+
+### 6.3.6 返回数据规范
+
+统一规范返回数据的格式，对己对彼都有好处，此处以 json 格式为例。返回数据应包含：**返回状态码、返回状态信息、具体数据**。**返回数据中的状态码、状态信息，常指具体的业务状态，不建议和 HTTP 状态码混在一起**。HTTP 状态，是用来体现 HTTP 链路状态情况，如：404-Not Found。HTTP 状态码和 json 结果中的状态码，并存尚可，用于体现不同维度的状态。
+
+## 6.4 什么是 Swagger
+
+相信无论是前端还是后端开发，都或多或少地被接口文档折磨过。前端经常抱怨后端给的接口文档与实际情况不一致。后端又觉得编写及维护接口文档会耗费不少精力，经常来不及更新。
+
+其实无论是前端调用后端，还是后端调用后端，都期望有一个好的接口文档。但是这个接口文档对于程序员来说，就跟注释一样，经常会抱怨别人写的代码没有写注释，然而自己写起代码起来，最讨厌的，也是写注释。所以仅仅只通过强制来规范大家是不够的，随着时间推移，版本迭代，接口文档往往很容易就跟不上代码了。
+
+**发现了痛点就要去找解决方案。解决方案用的人多了，就成了标准的规范，这就是 `Swagger` 的由来**。
+
+通过这套规范，你只需要按照它的规范去定义接口及接口相关的信息。再通过 `Swagger` 衍生出来的一系列项目和工具，就可以做到生成各种格式的接口文档，生成多种语言的客户端和服务端的代码，以及在线接口调试页面等等。
+
+这样，如果按照新的开发模式，在开发新版本或者迭代版本的时候，只需要更新 `Swagger` 描述文件，就可以自动生成接口文档和客户端服务端代码，做到调用端代码、服务端代码以及接口文档的一致性。
+
+所以，Swagger 是一个规范和完整的框架，用于生成、描述、调用和可视化`RESTful` 风格的 `Web` 服务。
+
+总体目标是使客户端和文件系统作为服务器以同样的速度来更新。文件的方法、参数和模型紧密集成到服务器端的代码，允许 API 来始终保持同步。`Swagger` 让部署管理和使用功能强大的 `API` 从未如此简单。
+
+## 6.5 Swagger 使用
+
+`Furion` 框架提供了非常方便且灵活的 `Swagger` 配置，无需增加额外学习成本。
+
+### 6.5.1 注册服务
+
+:::important 备注
+
+`.UseInject()` 已经包含了 `.UseSpecificationDocuments()` 注册，无需再次注册。
+
+:::
+
+```cs {11,21} title="Furion.Web.Core\FurWebCoreStartup.cs"
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+
+namespace Furion.Web.Core
+{
+    [AppStartup(800)]
+    public sealed class FurWebCoreStartup : AppStartup
+    {
+        public void ConfigureServices(IServiceCollection services)
+        {
+            services.AddSpecificationDocuments();
+            services.AddControllers();
+        }
+
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        {
+            // Other Codes
+
+            app.UseSpecificationDocuments();
+
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+            });
+        }
+    }
+}
+```
+
+:::tip 小知识
+
+`services.AddSpecificationDocuments()` 通常和 `.AddDynamicApiControllers()` 成对出现。
+
+:::
+
+### 6.5.2 默认地址
+
+在 `Furion` 框架中，默认 `规范化文档` 地址为 `/api` 目录，**支持自定义配置**。
+
+如下图所示：
+
+<img src={useBaseUrl("img/swagger1.png")} />
+
+可以通过两种方式配置：
+
+- `app.UseInject("路由")` 方式，如
+
+```cs
+app.UseInject("testapi"); // 那么  /testapi 就是规范化地址
+```
+
+- `配置文件配置`：
+
+```cs {3}
+{
+  "SpecificationDocumentSettings": {
+    "RoutePrefix": "testapi"
+  }
+}
+```
+
+**配置文件优先级大于 `UseInject()` 方式**
+
+### 6.5.3 默认分组
+
+`Furion` 框架中默认分组名为 `Default`，**支持自定义配置**。
+
+```cs {3}
+{
+  "SpecificationDocumentSettings": {
+    "DefaultGroupName": "MyGroup"
+  }
+}
+```
+
+### 6.5.4 文档注释
+
+规范化文档默认扫描 `Furion.Application`，`Furion.Web.Core`，`Furion.Web.Entry` 三个程序集`.xml` 注释文件，**支持自定义配置**。
+
+只支持 `///` 标识的注释语法，如：**类、方法、属性、参数、返回值、验证特性**。
+
+```cs {5-7,10-13,19-23}
+using Furion.DynamicApiController;
+
+namespace Furion.Application
+{
+    /// <summary>
+    /// 类注释
+    /// </summary>
+    public class FurionAppService : IDynamicApiController
+    {
+        /// <summary>
+        /// 方法注释
+        /// </summary>
+        /// <returns></returns>
+        public string Get()
+        {
+            return nameof(Furion);
+        }
+
+        /// <summary>
+        /// 带 ID 参数的方法注释
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public int Get(int id)
+        {
+            return id;
+        }
+    }
+}
+```
+
+如下图所示：
+
+<img src={useBaseUrl("img/swagger2.png")} />
+
+:::note 小提示
+
+如果文档注释没有显示，请检查项目 `属性->生成->输出` 中 XML 文档是否配置输出路径。**注意：只有不带路径的 【项目名称.xml】 才会自动加载。**
+
+:::
+
+:::info 特别说明
+
+`Debug` 模式下和 `Release` 模式下的注释文件是不通用的，所以导致很多开发者发布到服务器上发现没有显示注释。我们只需要在 `Visual Studio` 中切换 `Debug` 模式为 `Release`，然后重新配置一次即可。
+
+这样不管是 `Debug` 还是 `Release` 模式都会显示注释了。
+
+:::
+
+### 6.5.5 多分组支持
+
+多分组是一个系统中必备功能，我们可以将系统划分为多个模块，每个模块都独立的 `api` 配置。在 `Furion` 框架中，实现多分组非常简单。如：
+
+```cs {5,21,32}
+using Furion.DynamicApiController;
+
+namespace Furion.Application
+{
+    [ApiDescriptionSettings("Group1")]
+    public class FurionAppService : IDynamicApiController
+    {
+        /// <summary>
+        /// 随父类 Group1 分组
+        /// </summary>
+        /// <returns></returns>
+        public string Post()
+        {
+            return nameof(Furion);
+        }
+
+        /// <summary>
+        /// 在 Group1、Group3 都有我
+        /// </summary>
+        /// <returns></returns>
+        [ApiDescriptionSettings("Group1", "Group3")]
+        public string Get()
+        {
+            return nameof(Furion);
+        }
+
+        /// <summary>
+        /// 我只在 Group2 出现
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [ApiDescriptionSettings("Group2")]
+        public int Get(int id)
+        {
+            return id;
+        }
+    }
+}
+```
+
+如下图所示：
+
+<img src={useBaseUrl("img/swagger3.gif")} />
+
+### 6.5.6 多分组排序
+
+<Tabs
+  defaultValue="fz1"
+  values={[
+    { label: "方式一", value: "fz1" },
+    { label: "方式二", value: "fz2" },
+  ]}
+>
+  <TabItem value="fz1">
+
+**通过分组名称添加 `@整数` 进行排序**
+
+```cs {5,19}
+using Furion.DynamicApiController;
+
+namespace Furion.Application
+{
+    [ApiDescriptionSettings("Group1@1")]
+    public class FurionAppService : IDynamicApiController
+    {
+        public string Post()
+        {
+            return nameof(Furion);
+        }
+
+        [ApiDescriptionSettings("Group1", "Group3")]
+        public string Get()
+        {
+            return nameof(Furion);
+        }
+
+        [ApiDescriptionSettings("Group@2")]
+        public int Get(int id)
+        {
+            return id;
+        }
+    }
+}
+```
+
+可以通过在分组名后面添加 `@整数` 进行排序，`整数` 越大排前面。如果分组名称多次指定且多次指定了 `@整数` ，则自动**取该分组最大的整数**进行排序。
+
+  </TabItem>
+  <TabItem value="fz2">
+
+**通过配置文件配置排序**
+
+```json {2-17} title="Furion.Web.Entry/appsettings.json"
+{
+  "SpecificationDocumentSettings": {
+    "GroupOpenApiInfos": [
+      {
+        "Group": "Group1",
+        "Order": 1
+      },
+      {
+        "Group": "Group2",
+        "Order": 2
+      },
+      {
+        "Group": "Group3",
+        "Order": 0
+      }
+    ]
+  }
+}
+```
+
+  </TabItem>
+</Tabs>
+
+如下图所示：
+
+<img src={useBaseUrl("img/swagger4.png")} />
+
+:::tip 排序说明
+
+分组默认排序 `Order` 为 `0`。如果同时配置了 `@整数` 和 `appsettings.json` 配置文件，那么优先采用 `appsettings.json` 中的 `Order`
+
+:::
+
+### 6.5.7 多分组信息配置
+
+`Furion` 框架提供了可通过 `appsetting.json` 配置分组信息：
+
+```json {3-20} title="Furion.Web.Entry/appsettings.json"
+{
+  "SpecificationDocumentSettings": {
+    "GroupOpenApiInfos": [
+      {
+        "Group": "Group1",
+        "Title": "分组标题",
+        "Description": "这里是分组描述",
+        "Version": "版本号",
+        "TermsOfService": "https://furion.pro",
+        "Contact": {
+          "Name": "百小僧",
+          "Url": "https://gitee.com/monksoul",
+          "Email": "monksoul@outlook.com"
+        },
+        "License": {
+          "Name": "MulanPSL-2.0",
+          "Url": "https://gitee.com/dotnetchina/Furion/blob/alpha/LICENSE"
+        }
+      }
+    ]
+  }
+}
+```
+
+如下图所示：
+
+<img src={useBaseUrl("img/swagger5.png")} />
+
+### 6.5.8 组中组（标签）
+
+`Tag` 配置主要用于配置 `Swagger` 标签分组信息及合并标签。也就是 `组中组`:
+
+<Tabs
+  defaultValue="tag1"
+  values={[
+    { label: "标签命名", value: "tag1" },
+    { label: "合并标签", value: "tag2" },
+  ]}
+>
+  <TabItem value="tag1">
+
+#### 未贴标签之前
+
+```cs
+using Furion.DynamicApiController;
+
+namespace Furion.Application
+{
+    public class FurionAppService : IDynamicApiController
+    {
+        public string Get()
+        {
+            return nameof(Furion);
+        }
+
+        public int Get(int id)
+        {
+            return id;
+        }
+    }
+
+    public class TestAppService : IDynamicApiController
+    {
+        public string Get()
+        {
+            return nameof(Furion);
+        }
+
+        public int Get(int id)
+        {
+            return id;
+        }
+    }
+}
+```
+
+#### 贴标签之后
+
+```cs {5,19}
+using Furion.DynamicApiController;
+
+namespace Furion.Application
+{
+    [ApiDescriptionSettings(Tag = "分组一")]
+    public class FurionAppService : IDynamicApiController
+    {
+        public string Get()
+        {
+            return nameof(Furion);
+        }
+
+        public int Get(int id)
+        {
+            return id;
+        }
+    }
+
+    [ApiDescriptionSettings(Tag = "分组二")]
+    public class TestAppService : IDynamicApiController
+    {
+        public string Get()
+        {
+            return nameof(Furion);
+        }
+
+        public int Get(int id)
+        {
+            return id;
+        }
+    }
+}
+```
+
+如下图所示：
+
+<img src={useBaseUrl("img/tag1.png")} />
+
+  </TabItem>
+  <TabItem value="tag2">
+
+```cs {5,19}
+using Furion.DynamicApiController;
+
+namespace Furion.Application
+{
+    [ApiDescriptionSettings(Tag = "合并所有标签")]
+    public class FurionAppService : IDynamicApiController
+    {
+        public string Get()
+        {
+            return nameof(Furion);
+        }
+
+        public int Get(int id)
+        {
+            return id;
+        }
+    }
+
+    [ApiDescriptionSettings(Tag = "合并所有标签")]
+    public class TestAppService : IDynamicApiController
+    {
+        public string Get()
+        {
+            return nameof(Furion);
+        }
+
+        public int Get(int id)
+        {
+            return id;
+        }
+    }
+}
+```
+
+如下图所示：
+
+<img src={useBaseUrl("img/tag2.png")} />
+
+  </TabItem>
+</Tabs>
+
+:::tip 小知识
+
+如果 `Tag` 名字一样，则会自动合并，否则只是命名。
+
+:::
+
+### 6.5.9 默认展开所有文档
+
+```json {2-4} title="Furion.Web.Entry/appsettings.json"
+{
+  "SpecificationDocumentSettings": {
+    "DocExpansionState": "Full"
+  }
+}
+```
+
+如下图所示：
+
+<img src={useBaseUrl("img/swagger6.gif")} />
+
+`DocExpansionState` 配置说明：
+
+- `List`：列表式（展开子类），**默认值**
+- `Full`：完全展开
+- `None`：列表式（不展开子类）
+
+### 6.5.10 配置文档标题
+
+```json {2-4} title="Furion.Web.Entry/appsettings.json"
+{
+  "SpecificationDocumentSettings": {
+    "DocumentTitle": "我是自定义标题"
+  }
+}
+```
+
+如下图所示：
+
+<img src={useBaseUrl("img/swagger7.png")} />
+
+### 6.5.11 授权控制
+
+**新版本 `Furion` 已经默认启用了 Bearer Token 授权配置，无需手动配置**，如需手动配置，可手动添加以下类似配置：
+
+```json title="Furion.Web.Entry/appsettings.json"
+{
+  "SpecificationDocumentSettings": {
+    "EnableAuthorized": true,
+
+    "SecurityDefinitions": [
+      {
+        "Id": "Bearer",
+        "Type": "Http",
+        "Name": "Authorization",
+        "Description": "JWT Authorization header using the Bearer scheme.",
+        "BearerFormat": "JWT",
+        "Scheme": "bearer",
+        "In": "Header",
+
+        "Requirement": {
+          "Scheme": {
+            "Reference": {
+              "Id": "Bearer",
+              "Type": "SecurityScheme"
+            },
+            "Accesses": []
+          }
+        }
+      }
+    ]
+  }
+}
+```
+
+### 6.5.12 在线测试
+
+如下图所示：
+
+<img src={useBaseUrl("img/swagger8.gif")} />
+
+### 6.5.13 性能监视 `MiniProfiler`
+
+规范化文档默认集成了 `MiniProfiler` 第三方性能组件，通过该组件可以方便查看请求性能、异常堆栈、数据库操作等信息。默认在 `Swagger` 首页左上角显示。
+
+如下图所示：
+
+<img src={useBaseUrl("img/mipr.png")} />
+
+:::note 小提示
+
+也可以通过 **`appsetting.json`** 中 **`AppSettings:InjectMiniProfiler`** 设为 **`false`** 关闭。
+
+:::
+
+### 6.5.14 定义接口输出类型
+
+```cs {2,8-9}
+using Furion.DynamicApiController;
+using Microsoft.AspNetCore.Mvc;
+
+namespace Furion.Application
+{
+    public class FurionAppService : IDynamicApiController
+    {
+        [ProducesResponseType(201, Type = typeof(TestDto))]
+        [ProducesResponseType(400)]
+        public string Get()
+        {
+            return nameof(Furion);
+        }
+    }
+}
+```
+
+如下图所示：
+
+<img src={useBaseUrl("img/fhzlx.png")} />
+
+### 6.5.15 隐藏特定分组
+
+`Furion` 新版本提供了隐藏分组的 `Visible` 配置，设置为 `false` 之后该分组将不显示在规范化文档中，如：
+
+```json title="appsetting.json"
+{
+  "SpecificationDocumentSettings": {
+    "GroupOpenApiInfos": [
+      {
+        "Group": "Group1",
+        "Visible": false
+      }
+    ]
+  }
+}
+```
+
+### 6.5.16 中文乱码问题
+
+默认情况下,`.json` 文件并未采用 `utf-8` 编码，所以如果配置中文分组信息就会出现乱码情况，这时候，只需要修改 `.json` 文件编码为 `utf-8` 即可。
+
+### 6.5.17 生产环境中关闭 `Swagger`
+
+如果不需要线上环境开启 `Swagger` 功能，只需要在 `appsetting.json` 配置即可：
+
+```json {3}
+{
+  "AppSettings": {
+    "InjectSpecificationDocument": false
+  }
+}
+```
+
+### 6.5.18 设置 `Example Value` 默认值
+
+`Swagger` 会自动根据对象类型输入参数添加 `Example Value` 默认值，但是该默认值通常是对象属性的类型字符串或缺省值，如果我们需要自定义这些默认值，只需要添加 `/// <example>默认值</example>` 注释即可。
+
+如：
+
+```cs {4}
+/// <summary>
+/// 年龄
+/// </summary>
+/// <example>13</example>
+[Required, Range(10, 110)]
+public int Age { get; set; }
+```
+
+如下图所示：
+
+<img src={useBaseUrl("img/sd20.png")} />
+
+更多类型默认值设置示例：
+
+- `bool` 类型：`/// <example>true</example>`
+- `string` 类型：`/// <example>"foobar"</example>`
+- `number` 类型：`/// <example>123</example>`
+- `null` 类型： `/// <example>null</example>`
+- `array` 类型：`/// <example>[ 1, 2, 3 ]</example>`
+
+:::important 关于 `object` 类型输入参数
+
+默认情况下，`Example Value` 不会显示 `object` 类型的对象属性，因为 `Swagger` 认为这是不合理的定义。如果需要强制显示，只需要添加 `/// <example>"object"</example>` 注释即可。
+
+:::
+
+### 6.5.19 自定义 `Swagger` 配置
+
+`Furion` 框架除了内置了不少配置以外，还提供了直接配置 `Swagger` Api 的参数，如：
+
+```cs
+public void ConfigureServices(IServiceCollection services)
+{
+    services.AddInject(options =>
+            {
+                options.SpecificationDocumentConfigure = spt =>
+                {
+                    spt.SwaggerGenConfigure = gen =>
+                    {
+                        // 配置 Swagger Gen
+                    };
+                };
+            });
+}
+```
+
+```cs
+ public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+ {
+      app.UseInject(configure: options =>
+        {
+            options.SpecificationDocumentConfigure = spt =>
+            {
+                spt.SwaggerConfigure = swg =>
+                {
+                    // 配置 Swagger Options
+                };
+                spt.SwaggerUIConfigure = ui =>
+                {
+                    // 配置 Swagger UI
+                };
+            };
+        });
+}
+
+```
+
+### 6.5.20 配置 `Swagger`的 `Schemes`
+
+`Furion` 框架默认只显示名称，如果需要自定义显示规则，只需要添加配置即可。
+
+```cs
+services.AddControllersWithViews()
+        .AddInject(options =>
+        {
+            options.SpecificationDocumentConfigure = spt =>
+            {
+                spt.SwaggerGenConfigure = gen =>
+                {
+                    gen.CustomSchemaIds(x => x.FullName);
+                };
+            };
+        });
+```
+
+### 6.5.21 自定义 `swagger.json` 路由模板
+
+默认情况下，`Furion` 框架会生成统一的分组模板，如：`swagger/{documentName}/swagger.json`，`{documentName}` 会在运行时替换为分组名，如需自定义，配置 `RouteTemplate` 即可：
+
+```json title="appsetting.json"
+{
+  "SpecificationDocumentSettings": {
+    "RouteTemplate": "myapp/{documentName}/xxxx.json"
+  }
+}
+```
+
+### 6.5.22 关于 `application/x-www-form-urlencoded` 请求
+
+默认情况下，`Swagger` 并未添加 `application/x-www-form-urlencoded` 支持，如需启用该配置，只需在方法顶部贴 `[Consumes]` 特性即可，如：
+
+```cs {1,2}
+[Consumes("application/x-www-form-urlencoded")]
+public async Task<IActionResult> Test([FromForm] TestRequest testRequest)
+{
+  // ....
+}
+
+public class TestRequest
+{
+   public string TestValue { get; set; }
+}
+```
+
+:::important 特别注意
+
+参数必须贴 `[FromForm]` 特性。另外请求时将参数按 `URL` 地址拼接并放在 `Body` 中请求。
+
+:::
+
+### 6.5.23 `Swagger` 出现 `CORS` 问题解决
+
+如果 `Swagger` 出现以下错误，如图：
+
+<img src={useBaseUrl("img/swerror.png")} />
+
+则需要添加以下配置：
+
+```json {2,3}
+{
+  "SpecificationDocumentSettings": {
+    "HideServers": true
+  }
+}
+```
+
+### 6.5.24 `Swagger` 出现默认 `xml` 参数问题解决
+
+**产生此原因有两个必要条件：**
+
+1. 使用了 `Microsoft.AspNetCore.Mvc.NewtonsoftJson` 包并添加了 `AddNewtonsoftJson()` 注册。
+2. `.AddNewtonsoftJson()` 写在了 `.AddInjectWithUnifyResult()` 后面。
+
+所以解决方法是，先注册 `.AddNewtonsoftJson()` 再注册规范化结果，如：
+
+```cs {2}
+services.AddControllers()
+        .AddNewtonsoftJson()
+        .AddInjectWithUnifyResult();
+```
+
+### 6.5.25 `Swagger` 多语言支持
+
+在 `Furion 2.9.0 + ` 版本已经支持了 `Swagger` 文档地址 `?culture=en-US` 参数多语言转发功能了，也就是 `Swagger` 地址带 `?culture=` 参数将自动添加到每一个请求的 `api` 地址中。
+
+### 6.5.26 自定义逻辑控制 `Swagger` 每一个 `api` 可见性
+
+有时候我们需要自定义 `Swagger` 接口可见性，比如根据权限，不同用户类型，各种逻辑控制，如：
+
+```cs
+// 也可以用 .AddInjectWithUnifyResult
+services.AddInject(options =>
+        {
+            options.SpecificationDocumentConfigure = spt =>
+            {
+                spt.SwaggerGenConfigure = gen =>
+                {
+                    gen.DocInclusionPredicate((currentGroup, apiDescription) =>
+                    {
+                        // Furion 内部检查，必须放第一行
+                        var isShow = SpecificationDocumentBuilder.CheckApiDescriptionInCurrentGroup(currentGroup, apiDescription);
+
+                        // 获取当前方法
+                        _ = apiDescription.TryGetMethodInfo(out var method);
+
+                        // 有了方法，这里做你想做的事情，isShow 设置 true 可见，设置 false 不可见
+
+                        return isShow;
+                    });
+                };
+            };
+        });
+```
+
+### 6.5.27 配置 `MVC` 控制器支持规范化处理
+
+```json
+{
+  "UnifyResultSettings": {
+    "SupportMvcController": true
+  }
+}
+```
+
+## 6.6 `SpecificationDocumentSettings` 配置
+
+除了上述例子外，`Furion` 提供了一些配置选项，如：
+
+- `DocumentTitle`：文档标题，`string`，默认 `Specification Api Document`
+- `DefaultGroupName`：默认分组名，`string`，默认 `Default`
+- `EnableAuthorized`：是否启用权限控制，`bool`，默认 `true`
+- `FormatAsV2`：采用 `Swagger 2.0` 版本，`bool`，默认 `false` **[已弃用](https://github.com/domaindrivendev/Swashbuckle.WebApi/issues/1393)**
+- `RoutePrefix`：规范化文档地址，`string`，默认 `api`，**如果希望在首页，改为空字符串即可**。
+- `DocExpansionState`：文档显示方式，`DocExpansion`，默认 `List`，取值：
+  - `List`：列表式（展开子类），**默认值**
+  - `Full`：完全展开
+  - `None`：列表式（不展开子类）
+- `XmlComments`：程序集注释描述文件名（可带 `.xml`，`string`，默认 `Furion.Application, Furion.Web.Entry, Furion.Web.Core`
+- `GroupOpenApiInfos`：分组信息配置，`SpecificationOpenApiInfo[]`，默认 `{ 'Group': 'Default'}`
+- `SecurityDefinitions`：安全策略定义配置，`SpecificationOpenApiSecurityScheme[]`，默认 `[]`
+- `Servers`：配置 Server 下拉列表，`OpenApiServer[]` 类型，默认 `[]`，如：`{Servers:[ { Url:"地址", Description:"描述"} ]}`
+- `HideServers`：是否隐藏 Server 下拉列表，`bool` 类型，默认 `true`
+- `RouteTemplate`：配置文档 `swagger.json` 路由模板，默认模板：`swagger/{documentName}/swagger.json`, `{documentName}` 代表分组名，**必须保留原样**
+- `PackagesGroups`：配置模块化内置分组名称，`string[]` 类型，默认 `[]`
+
+另外 `SpecificationOpenApiInfo` 内置配置如下：
+
+- `Group`：分组唯一标识，`string` 类型，必填
+- `Order`：分组排序，`int` 类型，数字越大排前面，默认 `0`
+- `Visible`：配置分组是否可见，`bool` 类型，默认 `true`
+- `Title`：配置分组标题，`string` 类型
+- `Description`：配置分组描述，`string` 类型
+- `Version`：配置分组版本，默认 `1.0`
+- `TermsOfService`：配置相关链接地址，`Uri` 类型
+- `Contact`：配置联系方式，`OpenApiContact` 类型
+- `License`：配置协议，`OpenApiLicense` 类型
+
+配置示例：
+
+```json
+{
+  "SpecificationDocumentSettings": {
+    "GroupOpenApiInfos": [
+      {
+        "Group": "Group1",
+        "Title": "分组标题",
+        "Description": "这里是分组描述",
+        "Version": "版本号",
+        "TermsOfService": "https://furion.pro",
+        "Contact": {
+          "Name": "百小僧",
+          "Url": "https://gitee.com/monksoul",
+          "Email": "monksoul@outlook.com"
+        },
+        "License": {
+          "Name": "MulanPSL-2.0",
+          "Url": "https://gitee.com/dotnetchina/Furion/blob/alpha/LICENSE"
+        }
+      }
+    ]
+  }
+}
+```
+
+## 6.7 统一返回值模型/规范化结果/API 返回值
+
+`Furion` 框架提供 `规范化结果` 功能，可以通过实现 `IUnifyResultProvider` 提供器实现统一规范化返回值定制，如：`RESTfulResultProvider`：
+
+```cs {15-16}
+using Furion.DataValidation;
+using Furion.DependencyInjection;
+using Furion.UnifyResult.Internal;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
+using System;
+using System.Threading.Tasks;
+
+namespace Furion.UnifyResult
+{
+    /// <summary>
+    /// RESTful 风格返回值
+    /// </summary>
+    [SuppressSniffer, UnifyModel(typeof(RESTfulResult<>))]
+    public class RESTfulResultProvider : IUnifyResultProvider
+    {
+        /// <summary>
+        /// 异常返回值
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="metadata"></param>
+        /// <returns></returns>
+        public IActionResult OnException(ExceptionContext context, ExceptionMetadata metadata)
+        {
+            return new JsonResult(RESTfulResult(metadata.StatusCode, errors: metadata.Errors));
+        }
+
+        /// <summary>
+        /// 成功返回值
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        public IActionResult OnSucceeded(ActionExecutedContext context, object data)
+        {
+            return new JsonResult(RESTfulResult(StatusCodes.Status200OK, true, data));
+        }
+
+        /// <summary>
+        /// 验证失败返回值
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="metadata"></param>
+        /// <returns></returns>
+        public IActionResult OnValidateFailed(ActionExecutingContext context, ValidationMetadata metadata)
+        {
+            return new JsonResult(RESTfulResult(StatusCodes.Status400BadRequest, errors: metadata.ValidationResult));
+        }
+
+        /// <summary>
+        /// 特定状态码返回值
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="statusCode"></param>
+        /// <param name="unifyResultSettings"></param>
+        /// <returns></returns>
+        public async Task OnResponseStatusCodes(HttpContext context, int statusCode, UnifyResultSettingsOptions unifyResultSettings)
+        {
+            // 设置响应状态码
+            UnifyContext.SetResponseStatusCodes(context, statusCode, unifyResultSettings);
+
+            switch (statusCode)
+            {
+                // 处理 401 状态码
+                case StatusCodes.Status401Unauthorized:
+                    await context.Response.WriteAsJsonAsync(RESTfulResult(statusCode, errors: "401 Unauthorized")
+                        , App.GetOptions<JsonOptions>()?.JsonSerializerOptions);
+                    break;
+                // 处理 403 状态码
+                case StatusCodes.Status403Forbidden:
+                    await context.Response.WriteAsJsonAsync(RESTfulResult(statusCode, errors: "403 Forbidden")
+                        , App.GetOptions<JsonOptions>()?.JsonSerializerOptions);
+                    break;
+                default: break;
+            }
+        }
+
+        /// <summary>
+        /// 返回 RESTful 风格结果集
+        /// </summary>
+        /// <param name="statusCode"></param>
+        /// <param name="succeeded"></param>
+        /// <param name="data"></param>
+        /// <param name="errors"></param>
+        /// <returns></returns>
+        private static RESTfulResult<object> RESTfulResult(int statusCode, bool succeeded = default, object data = default, object errors = default)
+        {
+            return new RESTfulResult<object>
+            {
+                StatusCode = statusCode,
+                Succeeded = succeeded,
+                Data = data,
+                Errors = errors,
+                Extras = UnifyContext.Take(),
+                Timestamp = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds()
+            };
+        }
+    }
+}
+```
+
+之后在 `Startup.cs` 中注册即可：
+
+```cs
+services.AddControllers()
+        .AddInjectWithUnifyResult<RESTfulResultProvider>();
+```
+
+:::important 特别注意
+
+默认情况下，规范化结果不会对 `401` 和 `403`、`404` 状态码进行规范化处理，如需启动该状态码处理，只需在 `Startup.cs` 中的 `Configure` 中启用接口：
+
+```cs
+public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+{
+    if (env.IsDevelopment())
+    {
+        app.UseDeveloperExceptionPage();
+    }
+    // 添加规范化结果状态码，需要在这里注册
+    app.UseUnifyResultStatusCodes();
+    // 其他注册...
+}
+```
+
+:::
+
+### 6.7.1 排除规范化处理
+
+有些时候，我们某些接口不需要进行规范化处理，这时，我们只需要帖 `[NonUnify]` 特性即可。
+
+### 6.7.2 规范化结果添加额外数据
+
+默认的规范化结果中包含 `extras` 属性，可以配置额外数据返回到客户端：
+
+```cs
+UnifyContext.Fill(new { Message = "操作成功" });
+```
+
+### 6.7.3 自定义特别接口规范化结果
+
+有些时候，我们特定接口需返回特定的接口类型，无需规范化处理，这时候我们只需要贴 `[UnifyResult(typeof(结果类))]` 或 `[ProducesResponseType(typeof(结果类),200)]`，如：
+
+```cs
+[UnifyResult(typeof(Person))]
+public Person GetPerson(int id)
+{
+  // ...
+}
+```
+
+## 6.8 反馈与建议
+
+:::note 与我们交流
+
+给 Furion 提 [Issue](https://gitee.com/dotnetchina/Furion/issues/new?issue)。
+
+:::
