@@ -186,7 +186,6 @@ namespace Microsoft.Extensions.DependencyInjection
         {
             // 注册全局配置选项
             services.AddConfigurableOptions<AppSettingsOptions>();
-            var appSettings = App.Settings;
 
             // 注册内存和分布式内存
             services.AddMemoryCache();
@@ -204,8 +203,8 @@ namespace Microsoft.Extensions.DependencyInjection
             // 注册 HttpContextAccessor 服务，仅限 Web 环境
             if (App.WebHostEnvironment != null) services.AddHttpContextAccessor();
 
-            // 添加主机启动服务
-            services.AddHostedService<LifetimeEventsHostedService>();
+            // 添加主机启动服务（只支持泛型主机或 Web 主机）
+            if (App.HostEnvironment != default) services.AddHostedService<LifetimeEventsHostedService>();
 
             // 自定义服务
             configure?.Invoke(services);
