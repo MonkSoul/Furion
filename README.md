@@ -41,7 +41,7 @@ responseString.LogInformation();
 
 ## 协议
 
-Furion 遵循 [MulanPSL-2.0](https://gitee.com/dotnetchina/Furion/blob/master/LICENSE) 开源协议。
+Furion 遵循 [MulanPSL-2.0](https://license.coscl.org.cn/MulanPubL-2.0/) 开源协议。
 
 ```
 Copyright (c) 2020-2021 百小僧, Baiqian Co.,Ltd.
