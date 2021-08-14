@@ -28,14 +28,14 @@ namespace Furion.Tools.CommandLine
         }
 
         /// <summary>
-        /// 判断是否空参数
+        /// 检查未匹配字符
         /// </summary>
         /// <param name="handler"></param>
         /// <returns></returns>
-        public static void CheckEmpty(Action handler)
+        public static void CheckNoMatch(Action<Dictionary<string, object>> handler)
         {
             if (handler == null) throw new ArgumentNullException(nameof(handler));
-            if (Arguments == null || Arguments.ArgumentDictionary.Count == 0) handler();
+            if (Arguments == null || Arguments.ArgumentDictionary.Count == 0) handler(Arguments.ArgumentDictionary);
         }
     }
 }

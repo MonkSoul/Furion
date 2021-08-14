@@ -15,7 +15,7 @@ namespace Furion.Tools
         private static void Main(string[] args)
         {
             // 查看版本
-            Cli.Check(nameof(Version), u => Cli.Success("0.0.4"));
+            Cli.Check(nameof(Version), u => Cli.Success("0.0.5"));
 
             // 查看帮助
             Cli.Check(nameof(Help), u => Cli.GetHelpText("furion"));
@@ -24,10 +24,10 @@ namespace Furion.Tools
             Cli.Check(nameof(Framework), u => Cli.WriteLine(Cli.ReadOptions("请选择您最喜欢的框架：", new[] { "Furion", "Abp Next", "ASP.NET Core" })));
 
             // 没有命令的时候输出
-            Cli.CheckEmpty(() =>
+            Cli.CheckNoMatch(dic =>
             {
-                if (Operands == null || Operands.Length == 0) Console.WriteLine("欢迎使用 Furion.Tools 工具。");
-                else Cli.Error($"未找到该参数：{Operands.First()}");
+                if (dic == null || dic.Count == 0) Console.WriteLine("欢迎使用 Furion.Tools 工具。");
+                else Cli.Error($"未找到该参数：{dic.First().Key}");
             });
         }
 
