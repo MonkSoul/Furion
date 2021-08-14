@@ -10,6 +10,11 @@ namespace Furion.Tools.CommandLine
     public static partial class Cli
     {
         /// <summary>
+        /// 输入参数信息
+        /// </summary>
+        internal static Arguments Arguments { get; set; }
+
+        /// <summary>
         /// 静态构造函数
         /// </summary>
         static Cli()
@@ -33,11 +38,11 @@ namespace Furion.Tools.CommandLine
             Arguments.Populate(entryType);
 
             // 获取传递参数字典
-            var arguments = Arguments.Parse(u =>
+            Arguments = Arguments.Parse(u =>
             {
                 u.TargetType = entryType;
             });
-            var argumentDictionary = arguments.ArgumentDictionary;
+            var argumentDictionary = Arguments.ArgumentDictionary;
 
             // 解析定义参数集合
             ArgumentMetadatas = Arguments.GetArgumentInfo(entryType)

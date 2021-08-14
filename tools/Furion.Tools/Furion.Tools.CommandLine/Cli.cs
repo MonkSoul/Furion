@@ -35,7 +35,7 @@ namespace Furion.Tools.CommandLine
         public static void CheckEmpty(Action handler)
         {
             if (handler == null) throw new ArgumentNullException(nameof(handler));
-            if (ArgumentMetadatas == null || !ArgumentMetadatas.Any(u => u.IsTransmission)) handler();
+            if (Arguments == null || Arguments.ArgumentDictionary.Count == 0) handler();
         }
     }
 }
