@@ -4,64 +4,26 @@ using System;
 namespace Furion.Tools
 {
     /// <summary>
+    /// 本地安装必须找到 .nupkg 所在目录
     /// dotnet tool install -g Furion.Tools --add-source ./
-    /// dotnet tool install -g furion
+    /// dotnet tool install -g Furion.Tools --version 0.0.1
+    /// dotnet tool uninstall -g Furion.Tools
     /// </summary>
     internal class Program
     {
         private static void Main(string[] args)
         {
-            // 填充变量
-            Arguments.Populate();
-
-            // 监听 Ctrl + C 退出
-            Console.CancelKeyPress += (o, e) =>
-            {
-                Environment.Exit(1);
-            };
-
-            // 解析命令（返回命令字典）
-            var argumentDictionary = Arguments.Parse().ArgumentDictionary;
-
-            foreach (string key in argumentDictionary.Keys)
-            {
-                Console.WriteLine(key + "\t\t" + argumentDictionary[key]);
-            }
-
-            // 输出版本
-            if (argumentDictionary.ContainsKey("v") || argumentDictionary.ContainsKey("version"))
-            {
-                Console.WriteLine("v0.0.1" + Version);
-            }
+            // 查看版本
+            Cli.Check(nameof(Version), u => Cli.Success("0.0.3"));
 
             // 查看帮助
-            if (argumentDictionary.ContainsKey("h") || argumentDictionary.ContainsKey("help"))
-            {
-                ShowHelps();
-            }
+            Cli.Check(nameof(Help), u => Cli.GetHelpText("furion"));
+
+            // 选择框架
+            Cli.Check(nameof(Framework), u => Cli.WriteLine(Cli.ReadOptions("请选择您最喜欢的框架：", new[] { "Furion", "Abp Next", "ASP.NET Core" })));
 
             // 没有命令的时候输出
-            if (argumentDictionary.Count == 0)
-            {
-                Console.WriteLine("欢迎使用 Furion.Tools 工具。");
-            }
-        }
-
-        /// <summary>
-        /// 显示帮助文档
-        /// </summary>
-        private static void ShowHelps()
-        {
-            var helpAttributes = Arguments.GetArgumentInfo(typeof(Program));
-
-            Console.WriteLine("短参数\t长参数\t描述");
-            Console.WriteLine("-----\t----\t--------");
-
-            foreach (var item in helpAttributes)
-            {
-                var result = item.ShortName + "\t" + item.LongName + "\t" + item.HelpText;
-                Console.WriteLine(result);
-            }
+            Cli.CheckEmpty(() => Console.WriteLine("欢迎使用 Furion.Tools 工具。"));
         }
 
         /// <summary>
@@ -74,7 +36,13 @@ namespace Furion.Tools
         /// 查看帮助
         /// </summary>
         [Argument('h', "help", "使用帮助")]
-        private static string Help { get; set; }
+        private static bool Help { get; set; }
+
+        /// <summary>
+        /// 选择框架
+        /// </summary>
+        [Argument('f', "framework", "选择喜欢的框架")]
+        public static bool Framework { get; set; }
 
         /// <summary>
         /// 未匹配的操作符

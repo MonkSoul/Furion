@@ -1,21 +1,50 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Globalization;
-using System.Linq;
-using System.Reflection;
-using System.Runtime.CompilerServices;
-using System.Text.RegularExpressions;
+﻿/*
+  █▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀ ▀▀▀  ▀  ▀      ▀▀
+  █  The MIT License (MIT)
+  █
+  █  Copyright (c) 2017 JP Dillingham (jp@dillingham.ws)
+  █
+  █  Permission is hereby granted, free of charge, to any person obtaining a copy
+  █  of this software and associated documentation files (the "Software"), to deal
+  █  in the Software without restriction, including without limitation the rights
+  █  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  █  copies of the Software, and to permit persons to whom the Software is
+  █  furnished to do so, subject to the following conditions:
+  █
+  █  The above copyright notice and this permission notice shall be included in all
+  █  copies or substantial portions of the Software.
+  █
+  █  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  █  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  █  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  █  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  █  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  █  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+  █  SOFTWARE.
+  █
+  ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀  ▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀██
+                                                                                               ██
+                                                                                           ▀█▄ ██ ▄█▀
+                                                                                             ▀████▀
+                                                                                               ▀▀                            */
 
 namespace Furion.Tools.CommandLine
 {
+    using System;
+    using System.Collections;
+    using System.Collections.Concurrent;
+    using System.Collections.Generic;
+    using System.Diagnostics;
+    using System.Globalization;
+    using System.Linq;
+    using System.Reflection;
+    using System.Runtime.CompilerServices;
+    using System.Text.RegularExpressions;
+
     /// <summary>
     ///     Provides extension method(s) for the Argument namespace.
     /// </summary>
-    /// <remarks>Copy by https://github.com/jpdillingham/Utility.CommandLine.Arguments </remarks>
-    public static class ArgumentsExtensions
+    internal static class ArgumentsExtensions
     {
         /// <summary>
         ///     Gets the DeclaringType of the first method on the stack whose name matches the specified <paramref name="caller"/>.
@@ -57,18 +86,17 @@ namespace Furion.Tools.CommandLine
     }
 
     /// <summary>
-    ///     Indicates that the property is to be used as a target for automatic population of values from command line arguments
-    ///     when invoking the <see cref="Arguments.Populate(string, bool, string)"/> method.
+    /// 参数定义特性
     /// </summary>
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = false)]
     public class ArgumentAttribute : Attribute
     {
         /// <summary>
-        ///     Initializes a new instance of the <see cref="ArgumentAttribute"/> class.
+        /// 构造函数
         /// </summary>
-        /// <param name="shortName">The short name of the argument, represented as a single character.</param>
-        /// <param name="longName">The long name of the argument.</param>
-        /// <param name="helpText">The help text of the argument.</param>
+        /// <param name="shortName">短参数名</param>
+        /// <param name="longName">长参数名</param>
+        /// <param name="helpText">帮助文本</param>
         public ArgumentAttribute(char shortName, string longName, string helpText = null)
         {
             ShortName = shortName;
@@ -77,17 +105,17 @@ namespace Furion.Tools.CommandLine
         }
 
         /// <summary>
-        ///     Gets or sets the help text of the argument.
+        /// 帮助文本
         /// </summary>
         public string HelpText { get; set; }
 
         /// <summary>
-        ///     Gets or sets the long name of the argument.
+        /// 长参数名
         /// </summary>
         public string LongName { get; set; }
 
         /// <summary>
-        ///     Gets or sets the short name of the argument.
+        /// 短参数名
         /// </summary>
         public char ShortName { get; set; }
     }
@@ -95,7 +123,7 @@ namespace Furion.Tools.CommandLine
     /// <summary>
     ///     Encapsulates argument names and help text.
     /// </summary>
-    public class ArgumentInfo
+    internal class ArgumentInfo
     {
         /// <summary>
         ///     Initializes a new instance of the <see cref="ArgumentInfo"/> class.
@@ -139,10 +167,40 @@ namespace Furion.Tools.CommandLine
     }
 
     /// <summary>
+    ///     Parsing options.
+    /// </summary>
+    internal class ArgumentParseOptions
+    {
+        /// <summary>
+        ///     Gets or sets the <see cref="Type"/> for which the command line string is to be parsed.
+        /// </summary>
+        /// <remarks>
+        ///     Supersedes combination options; arguments backed by properties of a collection type are combined, while those that aren't are not.
+        /// </remarks>
+        public Type TargetType { get; set; }
+
+        /// <summary>
+        ///     Gets or sets a value indicating whether duplicate argument values should be combined into a list.
+        /// </summary>
+        /// <remarks>
+        ///     Only applicable if <see cref="TargetType"/> is not specified.
+        /// </remarks>
+        public bool CombineAllMultiples { get; set; }
+
+        /// <summary>
+        ///     Gets or sets a value indicating whether duplicate argument values for arguments in the array should be combined into a list.
+        /// </summary>
+        /// <remarks>
+        ///     Only applicable if <see cref="TargetType"/> is not specified.
+        /// </remarks>
+        public string[] CombinableArguments { get; set; } = Array.Empty<string>();
+    }
+
+    /// <summary>
     ///     Provides static methods used to retrieve the command line arguments and operands with which the application was
     ///     started, as well as a Type to contain them.
     /// </summary>
-    public class Arguments
+    internal class Arguments
     {
         /// <summary>
         ///     The regular expression with which to parse the command line string.
@@ -285,16 +343,49 @@ namespace Furion.Tools.CommandLine
         ///     Returns a dictionary containing the values specified in the command line arguments with which the application was
         ///     started, keyed by argument name.
         /// </summary>
-        /// <param name="commandLineString">The command line arguments with which the application was started.</param>
-        /// <param name="type">The <see cref="Type"/> for which the command line string is to be parsed.</param>
-        /// <param name="caller">Internal parameter used to identify the calling method.</param>
+        /// <param name="configure">An action to configure the provided <see cref="ArgumentParseOptions"/> instance.</param>
         /// <returns>
         ///     The dictionary containing the arguments and values specified in the command line arguments with which the
         ///     application was started.
         /// </returns>
-        public static Arguments Parse(string commandLineString = default, Type type = null, [CallerMemberName] string caller = default)
+        public static Arguments Parse(Action<ArgumentParseOptions> configure = null)
         {
-            _ = caller;
+            return Parse(null, configure);
+        }
+
+        /// <summary>
+        ///     Returns a dictionary containing the values specified in the command line arguments with which the application was
+        ///     started, keyed by argument name.
+        /// </summary>
+        /// <param name="commandLineString">The command line arguments with which the application was started.</param>
+        /// <param name="configure">An action to configure the provided <see cref="ArgumentParseOptions"/> instance.</param>
+        /// <returns>
+        ///     The dictionary containing the arguments and values specified in the command line arguments with which the
+        ///     application was started.
+        /// </returns>
+        public static Arguments Parse(string commandLineString, Action<ArgumentParseOptions> configure = null)
+        {
+            configure ??= new Action<ArgumentParseOptions>((_) => { });
+            var options = new ArgumentParseOptions();
+            configure(options);
+
+            return Parse(commandLineString, options);
+        }
+
+        /// <summary>
+        ///     Returns a dictionary containing the values specified in the command line arguments with which the application was
+        ///     started, keyed by argument name.
+        /// </summary>
+        /// <param name="commandLineString">The command line arguments with which the application was started.</param>
+        /// <param name="options">Parser options.</param>
+        /// <returns>
+        ///     The dictionary containing the arguments and values specified in the command line arguments with which the
+        ///     application was started.
+        /// </returns>
+        public static Arguments Parse(string commandLineString, ArgumentParseOptions options)
+        {
+            options ??= new ArgumentParseOptions();
+
             commandLineString = commandLineString == default || string.IsNullOrEmpty(commandLineString) ? Environment.CommandLine : commandLineString;
 
             List<KeyValuePair<string, string>> argumentList;
@@ -325,8 +416,8 @@ namespace Furion.Tools.CommandLine
                 operandList = GetOperandList(commandLineString);
             }
 
-            var argumentDictionary = GetArgumentDictionary(argumentList, type);
-            return new Arguments(commandLineString, argumentList, argumentDictionary, operandList, type);
+            var argumentDictionary = GetArgumentDictionary(argumentList, options);
+            return new Arguments(commandLineString, argumentList, argumentDictionary, operandList, options.TargetType);
         }
 
         /// <summary>
@@ -340,7 +431,7 @@ namespace Furion.Tools.CommandLine
         public static void Populate(string commandLineString = default, bool clearExistingValues = true, [CallerMemberName] string caller = default)
         {
             var type = ArgumentsExtensions.GetCallingType(caller);
-            Populate(type, Parse(commandLineString, type), clearExistingValues);
+            Populate(type, Parse(commandLineString, options => options.TargetType = type), clearExistingValues);
         }
 
         /// <summary>
@@ -355,7 +446,7 @@ namespace Furion.Tools.CommandLine
         /// <param name="clearExistingValues">Whether to clear the properties before populating them. Defaults to true.</param>
         public static void Populate(Type type, string commandLineString = default, bool clearExistingValues = true)
         {
-            Populate(type, Parse(commandLineString, type), clearExistingValues);
+            Populate(type, Parse(commandLineString, options => options.TargetType = type), clearExistingValues);
         }
 
         /// <summary>
@@ -509,10 +600,10 @@ namespace Furion.Tools.CommandLine
             }
         }
 
-        private static Dictionary<string, object> GetArgumentDictionary(List<KeyValuePair<string, string>> argumentList, Type targetType = null)
+        private static Dictionary<string, object> GetArgumentDictionary(List<KeyValuePair<string, string>> argumentList, ArgumentParseOptions options)
         {
             var dict = new ConcurrentDictionary<string, object>();
-            var argumentInfo = targetType == null ? new List<ArgumentInfo>() : GetArgumentInfo(targetType);
+            var argumentInfo = options.TargetType == null ? new List<ArgumentInfo>() : GetArgumentInfo(options.TargetType);
 
             foreach (var arg in argumentList)
             {
@@ -539,7 +630,22 @@ namespace Furion.Tools.CommandLine
                 }
                 else
                 {
-                    dict.AddOrUpdate(arg.Key, arg.Value, (key, existingValue) => arg.Value);
+                    if (dict.ContainsKey(arg.Key) && (options.CombineAllMultiples || options.CombinableArguments.Contains(arg.Key)))
+                    {
+                        dict.AddOrUpdate(arg.Key, arg.Value, (key, existingValue) =>
+                        {
+                            if (existingValue.GetType() == typeof(List<object>))
+                            {
+                                return ((List<object>)existingValue).Concat(new[] { arg.Value }).ToList();
+                            }
+
+                            return new List<object>() { existingValue, arg.Value };
+                        });
+                    }
+                    else
+                    {
+                        dict.AddOrUpdate(arg.Key, arg.Value, (key, existingValue) => arg.Value);
+                    }
                 }
             }
 
@@ -659,8 +765,7 @@ namespace Furion.Tools.CommandLine
     }
 
     /// <summary>
-    ///     Indicates that the property is to be used as the target for automatic population of command line operands when invoking
-    ///     the <see cref="Arguments.Populate(string, bool, string)"/> method.
+    /// 未分配的字符特性
     /// </summary>
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = false)]
     public class OperandsAttribute : Attribute
