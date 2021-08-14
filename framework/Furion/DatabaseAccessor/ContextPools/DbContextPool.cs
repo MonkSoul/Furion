@@ -331,7 +331,8 @@ namespace Furion.DatabaseAccessor
             // 跳过第一个数据库上下文并设置共享事务
             _ = dbContexts
                    .Where(u => u.Value != null && u.Value.Database.CurrentTransaction == null)
-                   .Select(u => u.Value.Database.UseTransaction(transaction));
+                   .Select(u => u.Value.Database.UseTransaction(transaction))
+                   .ToList();
         }
     }
 }

@@ -7,6 +7,7 @@
 // See the Mulan PSL v2 for more details.
 
 using Furion;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -20,11 +21,11 @@ namespace Microsoft.Extensions.Hosting
         /// <summary>
         /// 构造函数
         /// </summary>
-        /// <param name="host"></param>
-        public LifetimeEventsHostedService(IHost host)
+        /// <param name="serviceProvider"></param>
+        public LifetimeEventsHostedService(IServiceProvider serviceProvider)
         {
             // 存储根服务
-            InternalApp.RootServices = host.Services;
+            InternalApp.RootServices = serviceProvider;
         }
 
         /// <summary>

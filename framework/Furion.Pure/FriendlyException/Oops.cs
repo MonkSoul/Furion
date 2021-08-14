@@ -55,7 +55,7 @@ namespace Furion.FriendlyException
         static Oops()
         {
             ErrorMethods = new ConcurrentDictionary<MethodBase, MethodIfException>();
-            _friendlyExceptionSettings = App.GetOptions<FriendlyExceptionSettingsOptions>();
+            _friendlyExceptionSettings = App.GetConfig<FriendlyExceptionSettingsOptions>("FriendlyExceptionSettings", true);
             ErrorCodeTypes = GetErrorCodeTypes();
             ErrorCodeMessages = GetErrorCodeMessages();
         }
@@ -220,7 +220,7 @@ namespace Furion.FriendlyException
                .ToDictionary(u => u.Key.ToString(), u => u.Value);
 
             // 加载配置文件状态码
-            var errorCodeMessageSettings = App.GetOptions<ErrorCodeMessageSettingsOptions>();
+            var errorCodeMessageSettings = App.GetConfig<ErrorCodeMessageSettingsOptions>("ErrorCodeMessageSettings", true);
             if (errorCodeMessageSettings is { Definitions: not null })
             {
                 // 获取所有参数大于1的配置

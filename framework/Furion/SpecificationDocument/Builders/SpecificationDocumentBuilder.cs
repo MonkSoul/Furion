@@ -64,7 +64,7 @@ namespace Furion.SpecificationDocument
         static SpecificationDocumentBuilder()
         {
             // 载入配置
-            _specificationDocumentSettings = App.GetOptions<SpecificationDocumentSettingsOptions>();
+            _specificationDocumentSettings = App.GetConfig<SpecificationDocumentSettingsOptions>("SpecificationDocumentSettings", true);
             _appSettings = App.Settings;
 
             // 初始化常量

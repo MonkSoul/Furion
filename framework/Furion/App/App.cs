@@ -100,24 +100,26 @@ namespace Furion
             // 处理控制台应用程序
             if (HostEnvironment == default) return RootServices;
 
-            // 通过注册集合中查找服务类型
-            var serviceDescriptors = InternalApp.InternalServices.Where(u => u.ServiceType == (serviceType.IsGenericType ? serviceType.GetGenericTypeDefinition() : serviceType));
-
-            // 由于很多人的不正确使用，所以这里改为单例才从根服务解析，瞬时作用域不再从根服务解析
-            var isSingletonLifetime = serviceDescriptors.Any(u => u.Lifetime == ServiceLifetime.Singleton);
-
-            // 第一选择，判断是否是单例注册，如果是直接返回根服务提供器
-            if (isSingletonLifetime) return RootServices;
+            // 第一选择，判断是否是单例注册且单例服务不为空，如果是直接返回根服务提供器
+            if (RootServices != null && InternalApp.InternalServices.Where(u => u.ServiceType == (serviceType.IsGenericType ? serviceType.GetGenericTypeDefinition() : serviceType))
+                                                                    .Any(u => u.Lifetime == ServiceLifetime.Singleton)) return RootServices;
 
             // 第二选择是获取 HttpContext 对象的 RequestServices
             var httpContext = HttpContext;
             if (httpContext?.RequestServices != null) return httpContext.RequestServices;
             // 第三选择，创建新的作用域并返回服务提供器
-            else
+            else if (RootServices != null)
             {
                 var scoped = RootServices.CreateScope();
                 UnmanagedObjects.Add(scoped);
                 return scoped.ServiceProvider;
+            }
+            // 第四选择，构建新的服务对象（性能最差）
+            else
+            {
+                var serviceProvider = InternalApp.InternalServices.BuildServiceProvider();
+                UnmanagedObjects.Add(serviceProvider);
+                return serviceProvider;
             }
         }
 
