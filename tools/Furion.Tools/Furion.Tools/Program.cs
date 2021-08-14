@@ -6,7 +6,7 @@ namespace Furion.Tools
     /// <summary>
     /// 本地安装必须找到 .nupkg 所在目录
     /// dotnet tool install -g Furion.Tools --add-source ./
-    /// dotnet tool install -g Furion.Tools --version 0.0.1
+    /// dotnet tool install -g Furion.Tools --version 0.0.3
     /// dotnet tool uninstall -g Furion.Tools
     /// </summary>
     internal class Program
