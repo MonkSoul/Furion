@@ -9,7 +9,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\Furion.Tools.CommandLine\Furion.Tools.CommandLine.csproj" />
+	  <PackageReference Include="Furion.Tools.CommandLine" Version="2.0.3" />
 	</ItemGroup>
 
 </Project>
