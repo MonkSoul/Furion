@@ -345,11 +345,56 @@ namespace TestProject1
 }
 ```
 
-## 36.6 `Assert` 断言
+## 36.6 `Web` 集成测试
+
+有时候，我们需要在没有 `IIS` 服务器或任何外部事物的情况下测试完整的 `Web` 应用程序，这时候，我们只需要执行以下步骤即可：
+
+- **单元测试添加 `Web` 启动层引用**
+- **单元测试层安装 `Microsoft.AspNetCore.TestHost` 包**
+- 编写测试代码
+
+```cs {15-18,20-21}
+using Microsoft.AspNetCore;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.TestHost;
+using Microsoft.Extensions.Hosting;
+using WebApplication1;
+using Xunit;
+
+namespace TestProject1
+{
+    public class UnitTest1
+    {
+        [Fact]
+        public async Task Test_Web()
+        {
+            // 创建一个测试服务
+            using var testServer = new TestServer(WebHost.CreateDefaultBuilder()
+                                               .Inject()
+                                               .UseStartup<Startup>()); // 这里的 Startup 就是你 Web 层的 Startup
+
+            // 创建一个 HttpClient 客户端
+            using var httpClient = testServer.CreateClient();
+
+            // 测试 Api
+            var result = await client.GetStringAsync("/api/user/1");
+            Assert.AreEqual("Furion", result.Name);
+        }
+    }
+}
+```
+
+:::tip 小知识
+
+这种方式的好处就是无需在启动中调用 `Inject.Create()` 初始化，每一个测试方法都有独立的生命周期，不会污染全局。
+
+:::
+
+## 36.7 `Assert` 断言
 
 `Assert` 是单元测试判定成功的依据，通常第一个参数为 `期望值`，第二个参数为 `实际值`，对比这两个值是否一致即可判断成功与否。详细的 `Assert` 静态方法可查阅官方库 [Assert 方法](https://github.com/xunit/assert.xunit)
 
-## 36.7 反馈与建议
+## 36.8 反馈与建议
 
 :::note 与我们交流
 

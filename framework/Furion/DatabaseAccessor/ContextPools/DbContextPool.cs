@@ -332,7 +332,7 @@ namespace Furion.DatabaseAccessor
             _ = dbContexts
                    .Where(u => u.Value != null && u.Value.Database.CurrentTransaction == null)
                    .Select(u => u.Value.Database.UseTransaction(transaction))
-                   .ToList();
+                   .Count();
         }
     }
 }
