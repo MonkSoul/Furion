@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 
 namespace Furion.Tools.CommandLine
@@ -12,6 +14,11 @@ namespace Furion.Tools.CommandLine
         /// 输入参数信息
         /// </summary>
         internal static Arguments Arguments { get; set; }
+
+        /// <summary>
+        /// 参数处理程序
+        /// </summary>
+        internal static Dictionary<string, Action<ArgumentMetadata>> ArgumentHandlers { get; set; }
 
         /// <summary>
         /// 静态构造函数
@@ -30,8 +37,8 @@ namespace Furion.Tools.CommandLine
             // 如果已经填充过，不再重新解析
             if (ArgumentMetadatas != null) return;
 
-            // 获取入口方法声明类型
-            var entryType = Assembly.GetEntryAssembly().DefinedTypes.First(u => u.Name == "Program");
+            // 获取入口类型
+            TypeInfo entryType = GetEntryType();
 
             // 填充当前属性值
             Arguments.Populate(entryType);
@@ -59,6 +66,40 @@ namespace Furion.Tools.CommandLine
                                                                                 ? argumentDictionary[u.LongName]
                                                                                 : default)
                                                                  });
+
+            ArgumentHandlers = ScanArgumentHandlers();
+        }
+
+        /// <summary>
+        /// 扫描所有静态定义处理方法
+        /// </summary>
+        private static Dictionary<string, Action<ArgumentMetadata>> ScanArgumentHandlers()
+        {
+            var arugmentHandlers = new Dictionary<string, Action<ArgumentMetadata>>();
+
+            // 查找所有 static 静态方法且带 Handler 结尾的方法且没有返回值
+            var methodHandlers = GetEntryType().DeclaredMethods
+                                                              .Where(u => u.IsStatic
+                                                                       && u.Name.EndsWith("Handler")
+                                                                       && u.ReturnType == typeof(void)
+                                                                       && u.GetParameters().Length == 1
+                                                                       && u.GetParameters()[0].ParameterType == typeof(ArgumentMetadata));
+            foreach (var method in methodHandlers)
+            {
+                var propertyName = method.Name[0..^7];
+                arugmentHandlers.Add(propertyName, (Action<ArgumentMetadata>)Delegate.CreateDelegate(typeof(Action<ArgumentMetadata>), method));
+            }
+
+            return arugmentHandlers;
+        }
+
+        /// <summary>
+        /// 获取入口类型
+        /// </summary>
+        /// <returns></returns>
+        private static TypeInfo GetEntryType()
+        {
+            return Assembly.GetEntryAssembly().DefinedTypes.First(u => u.Name == "Program");
         }
     }
 }

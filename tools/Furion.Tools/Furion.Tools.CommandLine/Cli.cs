@@ -16,6 +16,31 @@ namespace Furion.Tools.CommandLine
         public static IEnumerable<ArgumentMetadata> ArgumentMetadatas { get; internal set; }
 
         /// <summary>
+        /// 最小侵入初始化
+        /// </summary>
+        public static void Inject()
+        {
+            foreach (var (propertyName, handler) in ArgumentHandlers)
+            {
+                Check(propertyName, handler);
+            }
+
+            // 没有匹配的 Handler
+            var noMatchHandler = GetEntryType().DeclaredMethods.FirstOrDefault(u => u.IsStatic
+                                                                       && u.Name == "NoMatchHandler"
+                                                                       && u.ReturnType == typeof(void)
+                                                                       && u.GetParameters().Length == 3
+                                                                       && u.GetParameters()[0].ParameterType == typeof(bool)
+                                                                       && u.GetParameters()[1].ParameterType == typeof(string[])
+                                                                       && u.GetParameters()[2].ParameterType == typeof(Dictionary<string, object>));
+
+            if (noMatchHandler != null)
+            {
+                CheckNoMatch((Action<bool, string[], Dictionary<string, object>>)Delegate.CreateDelegate(typeof(Action<bool, string[], Dictionary<string, object>>), noMatchHandler));
+            }
+        }
+
+        /// <summary>
         /// 判断参数是否定义
         /// </summary>
         /// <param name="argumentName"></param>
