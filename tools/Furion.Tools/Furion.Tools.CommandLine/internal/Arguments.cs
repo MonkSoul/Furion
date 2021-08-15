@@ -765,7 +765,7 @@ namespace Furion.Tools.CommandLine
     }
 
     /// <summary>
-    /// 未分配的字符特性
+    /// 操作符
     /// </summary>
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = false)]
     public class OperandsAttribute : Attribute

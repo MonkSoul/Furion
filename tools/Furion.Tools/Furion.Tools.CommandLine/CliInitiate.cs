@@ -1,6 +1,5 @@
-﻿using System;
-using System.Diagnostics;
-using System.Linq;
+﻿using System.Linq;
+using System.Reflection;
 
 namespace Furion.Tools.CommandLine
 {
@@ -32,7 +31,7 @@ namespace Furion.Tools.CommandLine
             if (ArgumentMetadatas != null) return;
 
             // 获取入口方法声明类型
-            Type entryType = GetCallingMethodDeclaringType();
+            var entryType = Assembly.GetEntryAssembly().DefinedTypes.First(u => u.Name == "Program");
 
             // 填充当前属性值
             Arguments.Populate(entryType);
@@ -60,22 +59,6 @@ namespace Furion.Tools.CommandLine
                                                                                 ? argumentDictionary[u.LongName]
                                                                                 : default)
                                                                  });
-        }
-
-        /// <summary>
-        /// 获取入口方法声明类型
-        /// </summary>
-        /// <returns></returns>
-        private static System.Type GetCallingMethodDeclaringType()
-        {
-            // 获取堆栈中入口方法
-            var callingMethod = new StackTrace().GetFrames()
-                                                         .Select(f => f.GetMethod())
-                                                         .LastOrDefault(u => u.Name == "Main");
-
-            // 获取入口方法声明类型
-            var entryType = callingMethod.DeclaringType;
-            return entryType;
         }
     }
 }

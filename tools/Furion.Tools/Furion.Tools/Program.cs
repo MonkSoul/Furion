@@ -1,6 +1,4 @@
 ﻿using Furion.Tools.CommandLine;
-using System;
-using System.Linq;
 
 namespace Furion.Tools
 {
@@ -15,7 +13,7 @@ namespace Furion.Tools
         private static void Main(string[] args)
         {
             // 查看版本
-            Cli.Check(nameof(Version), u => Cli.Success("0.0.5"));
+            Cli.Check(nameof(Version), u => Cli.Success(Cli.GetVersion()));
 
             // 查看帮助
             Cli.Check(nameof(Help), u => Cli.GetHelpText("furion"));
@@ -23,11 +21,12 @@ namespace Furion.Tools
             // 选择框架
             Cli.Check(nameof(Framework), u => Cli.WriteLine(Cli.ReadOptions("请选择您最喜欢的框架：", new[] { "Furion", "Abp Next", "ASP.NET Core" })));
 
-            // 没有命令的时候输出
-            Cli.CheckNoMatch(dic =>
+            // 没有匹配输出
+            Cli.CheckNoMatch((empty, operands, noMatches) =>
             {
-                if (dic == null || dic.Count == 0) Console.WriteLine("欢迎使用 Furion.Tools 工具。");
-                else Cli.Error($"未找到该参数：{dic.First().Key}");
+                if (empty) Cli.WriteLine($"欢迎使用 {Cli.GetDescription()}");
+                if (operands.Length > 0) Cli.Error($"未找到该操作符：{string.Join(",", operands)}");
+                if (noMatches.Count > 0) Cli.Error($"未找到该参数：{string.Join(",", noMatches.Keys)}");
             });
         }
 
@@ -50,7 +49,7 @@ namespace Furion.Tools
         public static bool Framework { get; set; }
 
         /// <summary>
-        /// 未匹配的操作符
+        /// 操作符
         /// </summary>
         [Operands]
         private static string[] Operands { get; set; }

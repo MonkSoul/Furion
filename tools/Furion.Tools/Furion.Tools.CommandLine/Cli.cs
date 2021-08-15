@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 
 namespace Furion.Tools.CommandLine
 {
@@ -30,12 +31,47 @@ namespace Furion.Tools.CommandLine
         /// <summary>
         /// 检查未匹配字符
         /// </summary>
-        /// <param name="handler"></param>
+        /// <param name="handler">arg1: 是否传递空参数，arg2：操作符列表，args3：未匹配的参数列表</param>
         /// <returns></returns>
-        public static void CheckNoMatch(Action<Dictionary<string, object>> handler)
+        public static void CheckNoMatch(Action<bool, string[], Dictionary<string, object>> handler)
         {
             if (handler == null) throw new ArgumentNullException(nameof(handler));
-            if (Arguments == null || Arguments.ArgumentDictionary.Count == 0) handler(Arguments.ArgumentDictionary);
+
+            // 所有匹配的字符
+            var matches = ArgumentMetadatas.Select(u => u.ShortName.ToString())
+                                                            .Concat(ArgumentMetadatas.Select(u => u.LongName));
+
+            // 未匹配字符
+            var noMatches = Arguments.ArgumentDictionary.Where(u => !matches.Contains(u.Key)).ToDictionary(u => u.Key, u => u.Value);
+
+            // 操作符
+            var operands = Arguments.OperandList.Where(u => !u.Contains(Assembly.GetEntryAssembly().GetName().Name)).ToArray();
+
+            handler(Arguments.ArgumentDictionary.Count == 0 && operands.Length == 0, operands, noMatches);
+        }
+
+        /// <summary>
+        /// 获取当前工具版本
+        /// </summary>
+        /// <returns></returns>
+        public static string GetVersion()
+        {
+            return Assembly.GetEntryAssembly()
+                                .GetCustomAttribute<AssemblyInformationalVersionAttribute>()
+                                .InformationalVersion
+                                .ToString();
+        }
+
+        /// <summary>
+        /// 获取当前工具描述
+        /// </summary>
+        /// <returns></returns>
+        public static string GetDescription()
+        {
+            return Assembly.GetEntryAssembly()
+                               .GetCustomAttribute<AssemblyDescriptionAttribute>()
+                               .Description
+                               .ToString();
         }
     }
 }
