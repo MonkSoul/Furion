@@ -98,5 +98,57 @@ namespace Furion.Tools.CommandLine
                                .Description
                                .ToString();
         }
+
+        /// <summary>
+        /// 解析命令行参数
+        /// </summary>
+        /// <param name="commandLineString"></param>
+        /// <param name="configure"></param>
+        /// <returns></returns>
+        public static ArgumentModel Parse()
+        {
+            return MapperTo(Arguments.Parse(u =>
+             {
+                 u.TargetType = GetEntryType();
+             }));
+        }
+
+        /// <summary>
+        /// 解析命令行参数
+        /// </summary>
+        /// <param name="commandLineString"></param>
+        /// <param name="configure"></param>
+        /// <returns></returns>
+        public static ArgumentModel Parse(string commandLineString, Action<ArgumentParseOptions> configure = null)
+        {
+            return MapperTo(Arguments.Parse(commandLineString, configure));
+        }
+
+        /// <summary>
+        /// 解析命令行参数
+        /// </summary>
+        /// <param name="commandLineString"></param>
+        /// <param name="configure"></param>
+        /// <returns></returns>
+        public static ArgumentModel Parse(string commandLineString, ArgumentParseOptions options)
+        {
+            return MapperTo(Arguments.Parse(commandLineString, options));
+        }
+
+        /// <summary>
+        /// 映射
+        /// </summary>
+        /// <param name="arguments"></param>
+        /// <returns></returns>
+        private static ArgumentModel MapperTo(Arguments arguments)
+        {
+            return new ArgumentModel
+            {
+                ArgumentDictionary = arguments.ArgumentDictionary,
+                ArgumentList = arguments.ArgumentList,
+                CommandLineString = arguments.CommandLineString,
+                OperandList = arguments.OperandList
+            };
+        }
     }
 }

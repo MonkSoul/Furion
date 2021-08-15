@@ -167,32 +167,23 @@ namespace Furion.Tools.CommandLine
     }
 
     /// <summary>
-    ///     Parsing options.
+    /// 参数转换选项
     /// </summary>
-    internal class ArgumentParseOptions
+    public class ArgumentParseOptions
     {
         /// <summary>
-        ///     Gets or sets the <see cref="Type"/> for which the command line string is to be parsed.
+        /// 目标类型
         /// </summary>
-        /// <remarks>
-        ///     Supersedes combination options; arguments backed by properties of a collection type are combined, while those that aren't are not.
-        /// </remarks>
         public Type TargetType { get; set; }
 
         /// <summary>
-        ///     Gets or sets a value indicating whether duplicate argument values should be combined into a list.
+        /// 合并多行
         /// </summary>
-        /// <remarks>
-        ///     Only applicable if <see cref="TargetType"/> is not specified.
-        /// </remarks>
         public bool CombineAllMultiples { get; set; }
 
         /// <summary>
-        ///     Gets or sets a value indicating whether duplicate argument values for arguments in the array should be combined into a list.
+        /// 合并参数
         /// </summary>
-        /// <remarks>
-        ///     Only applicable if <see cref="TargetType"/> is not specified.
-        /// </remarks>
         public string[] CombinableArguments { get; set; } = Array.Empty<string>();
     }
 
