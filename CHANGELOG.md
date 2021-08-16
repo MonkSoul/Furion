@@ -11,6 +11,7 @@
 
 - **新特性**
 
+  - [新增] `Furion.Tools.CommandLine` 拓展库 [查看源码](https://gitee.com/dotnetchina/Furion/tree/master/tools/Furion.Tools/Furion.Tools.CommandLine)
   - [新增] `IPC（Inter-Process Communication，进程间通信）` 模块功能，目前提供进程内通信和共享内存进程外通讯 [ProcessChannel](https://gitee.com/dotnetchina/Furion/tree/master/framework/Furion/ProcessChannel)
   - [新增] 远程请求 `application/xml` 和 `text/xml` 默认支持 [4753a1a](https://gitee.com/dotnetchina/Furion/commit/4753a1aed527a6282fe6c05036de9d50bd3b3dd8)
   - [新增] 控制台全局异常拦截 [4a4fe1f](https://gitee.com/dotnetchina/Furion/commit/4a4fe1f40e1856ea36a0c0d19ca625d3f7bf95b7)
@@ -42,6 +43,7 @@
   - [修复] 远程请求单个值序列化错误处理方式 [3282eba](https://gitee.com/dotnetchina/Furion/commit/3282eba2cecb505e339ef3f9c8e823f84dcb43f0)
   - [修复] v2.17.3+ 单元测试创建 `TestServer` bug [#I45JR3](https://gitee.com/dotnetchina/Furion/issues/I45JR3)
   - [修复] `Retry.Invoke` 正常方法死循环 bug [!392](https://gitee.com/dotnetchina/Furion/pulls/392)
+  - [修复] 刷新 `Token` 生成新 `Token` 存在数组/集合类型导致 `Key` 重复异常问题 [aeea2b1](https://gitee.com/dotnetchina/Furion/commit/aeea2b1b19434f3171bd1c77be057ca36ecf9be2)
 
 - **其他更改**
 

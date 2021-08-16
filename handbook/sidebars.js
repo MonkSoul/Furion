@@ -193,6 +193,10 @@ module.exports = {
     },
     {
       type: "doc",
+      id: "dotnet-tools",
+    },
+    {
+      type: "doc",
       id: "contribute",
     },
   ],
