@@ -7,6 +7,7 @@
 // See the Mulan PSL v2 for more details.
 
 using Furion.Authorization;
+using Furion.Extras.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -146,7 +147,7 @@ namespace Furion.DataEncryption
             // 获取过期 Token 的存储信息
             var oldToken = ReadJwtToken(expiredToken);
             var payload = oldToken.Claims.Where(u => !StationaryClaimTypes.Contains(u.Type))
-                                         .ToDictionary(u => u.Type, u => (object)u.Value);
+                                         .ToDictionary(u => u.Type, u => (object)u.Value, new ClaimsDictionaryComparer());
 
             // 交换成功后登记刷新Token，标记失效
             if (!isRefresh)
