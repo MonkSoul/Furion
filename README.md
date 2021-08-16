@@ -53,4 +53,4 @@ THIS SOFTWARE IS PROVIDED ON AN "AS IS" BASIS, WITHOUTWARRANTIES OF ANY KIND, EI
 See the Mulan PSL v2 for more details.
 ```
 
-更多协议细节：[https://gitee.com/dotnetchina/Furion/blob/master/LICENSE](https://gitee.com/dotnetchina/Furion/blob/master/LICENSE)
+协议链接：[https://gitee.com/dotnetchina/Furion/blob/master/LICENSE](https://gitee.com/dotnetchina/Furion/blob/master/LICENSE)
