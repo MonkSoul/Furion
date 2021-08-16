@@ -8,7 +8,7 @@
 
 using System.Collections.Generic;
 
-namespace Furion.Extras.Authentication.JwtBearer
+namespace Furion.DataEncryption
 {
     /// <summary>
     /// 解决 Claims 身份重复键问题

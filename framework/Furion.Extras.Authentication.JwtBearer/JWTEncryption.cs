@@ -7,7 +7,6 @@
 // See the Mulan PSL v2 for more details.
 
 using Furion.Authorization;
-using Furion.Extras.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
