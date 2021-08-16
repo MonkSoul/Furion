@@ -11,6 +11,7 @@
 
 - **新特性**
 
+  - [新增] 远程请求可配置请求移除重试策略 [656da87](https://gitee.com/dotnetchina/Furion/commit/656da87a667c2da7d82425cdcd47146e99602d65)
   - [新增] `Furion.Tools.CommandLine` 拓展库 [查看源码](https://gitee.com/dotnetchina/Furion/tree/master/tools/Furion.Tools/Furion.Tools.CommandLine)
   - [新增] `IPC（Inter-Process Communication，进程间通信）` 模块功能，目前提供进程内通信和共享内存进程外通讯 [ProcessChannel](https://gitee.com/dotnetchina/Furion/tree/master/framework/Furion/ProcessChannel)
   - [新增] 远程请求 `application/xml` 和 `text/xml` 默认支持 [4753a1a](https://gitee.com/dotnetchina/Furion/commit/4753a1aed527a6282fe6c05036de9d50bd3b3dd8)
@@ -25,6 +26,7 @@
   - [抽离] `Oops.Retry()` 重试策略功能至新类：`Retry.Invoke()` [6a7bbd0](https://gitee.com/dotnetchina/Furion/commit/6a7bbd0b30a653b9a42d340a63520485aa6bbfa4)
   - [移除] `IHttpContextAccessor.SigninToSwagger()` 拓展，请使用 `IHttpContextAccessor.HttpContext.SigninToSwagger()`，退出也一样
   - [移除] 全局处理 `Request Body` 重复读处理 `Request.EnableBuffering()` [d92c24b](https://gitee.com/dotnetchina/Furion/commit/d92c24bdb43bfb01643007ebb6a4ee42a5c738e9)
+  - [移除] `Scoped` 所有带返回值方法 [656da87](https://gitee.com/dotnetchina/Furion/commit/656da87a667c2da7d82425cdcd47146e99602d65)
   - [调整] **在 `ConfigureService` 中调用 `App.GetOptions<>()` 获取配置逻辑** [afa4ac3](https://gitee.com/dotnetchina/Furion/commit/afa4ac347152ccac37bd1d0f9af1e8ffb665a662)
 
 > 在过去，很多开发者总是喜欢在 `Startup.cs` 配置服务的 `ConfigureService` 方法中解析服务，这样导致内存存在溢出风险，GC 无法回收。
