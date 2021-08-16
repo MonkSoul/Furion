@@ -56,7 +56,7 @@ namespace Furion.RemoteRequest
         /// <returns></returns>
         public async override Task InvokeAsync(MethodInfo method, object[] args)
         {
-            var httpRequestPart = BuildhttpRequestPart(method, args);
+            var httpRequestPart = BuildHttpRequestPart(method, args);
             _ = await httpRequestPart.SendAsync();
         }
 
@@ -69,7 +69,7 @@ namespace Furion.RemoteRequest
         /// <returns></returns>
         public override Task<T> InvokeAsyncT<T>(MethodInfo method, object[] args)
         {
-            var httpRequestPart = BuildhttpRequestPart(method, args);
+            var httpRequestPart = BuildHttpRequestPart(method, args);
             var result = httpRequestPart.SendAsAsync<T>();
             return result;
         }
@@ -80,7 +80,7 @@ namespace Furion.RemoteRequest
         /// <param name="method"></param>
         /// <param name="args"></param>
         /// <returns></returns>
-        private HttpRequestPart BuildhttpRequestPart(MethodInfo method, object[] args)
+        private HttpRequestPart BuildHttpRequestPart(MethodInfo method, object[] args)
         {
             // 判断方法是否是远程代理请求方法
             if (!method.IsDefined(typeof(HttpMethodBaseAttribute), true)) throw new InvalidOperationException($"{method.Name} is not a valid request proxy method.");
