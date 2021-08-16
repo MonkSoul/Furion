@@ -377,7 +377,7 @@ namespace TestProject1
             using var httpClient = testServer.CreateClient();
 
             // 测试 Api
-            var result = await client.GetStringAsync("/api/user/1");
+            var result = await httpClient.GetStringAsync("/api/user/1");
             Assert.AreEqual("Furion", result.Name);
         }
     }
