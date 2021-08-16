@@ -33,8 +33,9 @@ namespace Microsoft.Extensions.DependencyInjection
         {
             // 添加外部程序集配置
             services.AddConfigurableOptions<DependencyInjectionSettingsOptions>();
-
+            // 添加内部依赖注入扫描拓展
             services.AddInnerDependencyInjection();
+
             return services;
         }
 

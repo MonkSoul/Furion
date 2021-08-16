@@ -146,7 +146,7 @@ namespace Furion.DataEncryption
             // 获取过期 Token 的存储信息
             var oldToken = ReadJwtToken(expiredToken);
             var payload = oldToken.Claims.Where(u => !StationaryClaimTypes.Contains(u.Type))
-                                         .ToDictionary(u => u.Type, u => (object)u.Value, new ClaimsDictionaryComparer());
+                                         .ToDictionary(u => u.Type, u => (object)u.Value, new MultiClaimsDictionaryComparer());
 
             // 交换成功后登记刷新Token，标记失效
             if (!isRefresh)

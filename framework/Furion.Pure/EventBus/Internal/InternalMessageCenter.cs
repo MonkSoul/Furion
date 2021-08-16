@@ -153,17 +153,13 @@ namespace Furion.EventBus
 
             // 判断当前类型是否已经注册过
             var uniqueMessageId = $"{t.FullName}_{realMessageId}";
-            if (!MessageIdRegisterTable.Contains(uniqueMessageId))
-            {
-                MessageIdRegisterTable.Add(uniqueMessageId);
-            }
+            if (!MessageIdRegisterTable.Contains(uniqueMessageId)) MessageIdRegisterTable.Add(uniqueMessageId);
 
             // 如果没有包含事件Id，则添加
             var isAdded = MessageHandlerQueues.TryAdd(realMessageId, messageHandlers);
-            if (!isAdded)
-            {
-                MessageHandlerQueues[realMessageId] = MessageHandlerQueues[realMessageId].Concat(messageHandlers).ToArray();
-            }
+            if (isAdded) return;
+
+            MessageHandlerQueues[realMessageId] = MessageHandlerQueues[realMessageId].Concat(messageHandlers).ToArray();
         }
     }
 }

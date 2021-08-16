@@ -23,9 +23,9 @@ namespace Furion.Logging.Extensions
         /// </summary>
         /// <param name="message"></param>
         /// <param name="args"></param>
-        public static StringLoggerPart SetArgs(this string message, params object[] args)
+        public static StringLoggingPart SetArgs(this string message, params object[] args)
         {
-            return new StringLoggerPart().SetMessage(message).SetArgs(args);
+            return new StringLoggingPart().SetMessage(message).SetArgs(args);
         }
 
         /// <summary>
@@ -33,9 +33,9 @@ namespace Furion.Logging.Extensions
         /// </summary>
         /// <param name="message"></param>
         /// <param name="level"></param>
-        public static StringLoggerPart SetLevel(this string message, LogLevel level)
+        public static StringLoggingPart SetLevel(this string message, LogLevel level)
         {
-            return new StringLoggerPart().SetMessage(message).SetLevel(level);
+            return new StringLoggingPart().SetMessage(message).SetLevel(level);
         }
 
         /// <summary>
@@ -43,9 +43,9 @@ namespace Furion.Logging.Extensions
         /// </summary>
         /// <param name="message"></param>
         /// <param name="eventId"></param>
-        public static StringLoggerPart SetEventId(this string message, EventId eventId)
+        public static StringLoggingPart SetEventId(this string message, EventId eventId)
         {
-            return new StringLoggerPart().SetMessage(message).SetEventId(eventId);
+            return new StringLoggingPart().SetMessage(message).SetEventId(eventId);
         }
 
         /// <summary>
@@ -53,9 +53,9 @@ namespace Furion.Logging.Extensions
         /// </summary>
         /// <param name="message"></param>
         /// <typeparam name="TClass"></typeparam>
-        public static StringLoggerPart SetCategory<TClass>(this string message)
+        public static StringLoggingPart SetCategory<TClass>(this string message)
         {
-            return new StringLoggerPart().SetMessage(message).SetCategory<TClass>();
+            return new StringLoggingPart().SetMessage(message).SetCategory<TClass>();
         }
 
         /// <summary>
@@ -63,17 +63,17 @@ namespace Furion.Logging.Extensions
         /// </summary>
         /// <param name="message"></param>
         /// <param name="categoryName"></param>
-        public static StringLoggerPart SetCategory(this string message, string categoryName)
+        public static StringLoggingPart SetCategory(this string message, string categoryName)
         {
-            return new StringLoggerPart().SetMessage(message).SetCategory(categoryName);
+            return new StringLoggingPart().SetMessage(message).SetCategory(categoryName);
         }
 
         /// <summary>
         /// 设置异常对象
         /// </summary>
-        public static StringLoggerPart SetException(this string message, Exception exception)
+        public static StringLoggingPart SetException(this string message, Exception exception)
         {
-            return new StringLoggerPart().SetMessage(message).SetException(exception);
+            return new StringLoggingPart().SetMessage(message).SetException(exception);
         }
 
         /// <summary>
@@ -82,9 +82,9 @@ namespace Furion.Logging.Extensions
         /// <param name="message"></param>
         /// <param name="serviceProvider"></param>
         /// <returns></returns>
-        public static StringLoggerPart SetLoggerScoped(this string message, IServiceProvider serviceProvider)
+        public static StringLoggingPart SetLoggerScoped(this string message, IServiceProvider serviceProvider)
         {
-            return new StringLoggerPart().SetMessage(message).SetLoggerScoped(serviceProvider);
+            return new StringLoggingPart().SetMessage(message).SetLoggerScoped(serviceProvider);
         }
 
         /// <summary>
@@ -94,7 +94,7 @@ namespace Furion.Logging.Extensions
         /// <param name="args"></param>
         public static void LogInformation(this string message, params object[] args)
         {
-            new StringLoggerPart().SetMessage(message).SetArgs(args).LogInformation();
+            new StringLoggingPart().SetMessage(message).SetArgs(args).LogInformation();
         }
 
         /// <summary>
@@ -105,7 +105,7 @@ namespace Furion.Logging.Extensions
         /// <param name="args"></param>
         public static void LogInformation(this string message, EventId eventId, params object[] args)
         {
-            new StringLoggerPart().SetMessage(message).SetArgs(args).SetEventId(eventId).LogInformation();
+            new StringLoggingPart().SetMessage(message).SetArgs(args).SetEventId(eventId).LogInformation();
         }
 
         /// <summary>
@@ -116,7 +116,7 @@ namespace Furion.Logging.Extensions
         /// <param name="args"></param>
         public static void LogInformation(this string message, Exception exception, params object[] args)
         {
-            new StringLoggerPart().SetMessage(message).SetArgs(args).SetException(exception).LogInformation();
+            new StringLoggingPart().SetMessage(message).SetArgs(args).SetException(exception).LogInformation();
         }
 
         /// <summary>
@@ -128,7 +128,7 @@ namespace Furion.Logging.Extensions
         /// <param name="args"></param>
         public static void LogInformation(this string message, EventId eventId, Exception exception, params object[] args)
         {
-            new StringLoggerPart().SetMessage(message).SetArgs(args).SetEventId(eventId).SetException(exception).LogInformation();
+            new StringLoggingPart().SetMessage(message).SetArgs(args).SetEventId(eventId).SetException(exception).LogInformation();
         }
 
         /// <summary>
@@ -139,7 +139,7 @@ namespace Furion.Logging.Extensions
         /// <param name="args"></param>
         public static void LogInformation<TClass>(this string message, params object[] args)
         {
-            new StringLoggerPart().SetCategory<TClass>().SetMessage(message).SetArgs(args).LogInformation();
+            new StringLoggingPart().SetCategory<TClass>().SetMessage(message).SetArgs(args).LogInformation();
         }
 
         /// <summary>
@@ -151,7 +151,7 @@ namespace Furion.Logging.Extensions
         /// <param name="args"></param>
         public static void LogInformation<TClass>(this string message, EventId eventId, params object[] args)
         {
-            new StringLoggerPart().SetCategory<TClass>().SetMessage(message).SetArgs(args).SetEventId(eventId).LogInformation();
+            new StringLoggingPart().SetCategory<TClass>().SetMessage(message).SetArgs(args).SetEventId(eventId).LogInformation();
         }
 
         /// <summary>
@@ -163,7 +163,7 @@ namespace Furion.Logging.Extensions
         /// <param name="args"></param>
         public static void LogInformation<TClass>(this string message, Exception exception, params object[] args)
         {
-            new StringLoggerPart().SetCategory<TClass>().SetMessage(message).SetArgs(args).SetException(exception).LogInformation();
+            new StringLoggingPart().SetCategory<TClass>().SetMessage(message).SetArgs(args).SetException(exception).LogInformation();
         }
 
         /// <summary>
@@ -176,7 +176,7 @@ namespace Furion.Logging.Extensions
         /// <param name="args"></param>
         public static void LogInformation<TClass>(this string message, EventId eventId, Exception exception, params object[] args)
         {
-            new StringLoggerPart().SetCategory<TClass>().SetMessage(message).SetArgs(args).SetEventId(eventId).SetException(exception).LogInformation();
+            new StringLoggingPart().SetCategory<TClass>().SetMessage(message).SetArgs(args).SetEventId(eventId).SetException(exception).LogInformation();
         }
 
         /// <summary>
@@ -186,7 +186,7 @@ namespace Furion.Logging.Extensions
         /// <param name="args"></param>
         public static void LogWarning(this string message, params object[] args)
         {
-            new StringLoggerPart().SetMessage(message).SetArgs(args).LogWarning();
+            new StringLoggingPart().SetMessage(message).SetArgs(args).LogWarning();
         }
 
         /// <summary>
@@ -197,7 +197,7 @@ namespace Furion.Logging.Extensions
         /// <param name="args"></param>
         public static void LogWarning(this string message, EventId eventId, params object[] args)
         {
-            new StringLoggerPart().SetMessage(message).SetArgs(args).SetEventId(eventId).LogWarning();
+            new StringLoggingPart().SetMessage(message).SetArgs(args).SetEventId(eventId).LogWarning();
         }
 
         /// <summary>
@@ -208,7 +208,7 @@ namespace Furion.Logging.Extensions
         /// <param name="args"></param>
         public static void LogWarning(this string message, Exception exception, params object[] args)
         {
-            new StringLoggerPart().SetMessage(message).SetArgs(args).SetException(exception).LogWarning();
+            new StringLoggingPart().SetMessage(message).SetArgs(args).SetException(exception).LogWarning();
         }
 
         /// <summary>
@@ -220,7 +220,7 @@ namespace Furion.Logging.Extensions
         /// <param name="args"></param>
         public static void LogWarning(this string message, EventId eventId, Exception exception, params object[] args)
         {
-            new StringLoggerPart().SetMessage(message).SetArgs(args).SetEventId(eventId).SetException(exception).LogWarning();
+            new StringLoggingPart().SetMessage(message).SetArgs(args).SetEventId(eventId).SetException(exception).LogWarning();
         }
 
         /// <summary>
@@ -231,7 +231,7 @@ namespace Furion.Logging.Extensions
         /// <param name="args"></param>
         public static void LogWarning<TClass>(this string message, params object[] args)
         {
-            new StringLoggerPart().SetCategory<TClass>().SetMessage(message).SetArgs(args).LogWarning();
+            new StringLoggingPart().SetCategory<TClass>().SetMessage(message).SetArgs(args).LogWarning();
         }
 
         /// <summary>
@@ -243,7 +243,7 @@ namespace Furion.Logging.Extensions
         /// <param name="args"></param>
         public static void LogWarning<TClass>(this string message, EventId eventId, params object[] args)
         {
-            new StringLoggerPart().SetCategory<TClass>().SetMessage(message).SetArgs(args).SetEventId(eventId).LogWarning();
+            new StringLoggingPart().SetCategory<TClass>().SetMessage(message).SetArgs(args).SetEventId(eventId).LogWarning();
         }
 
         /// <summary>
@@ -255,7 +255,7 @@ namespace Furion.Logging.Extensions
         /// <param name="args"></param>
         public static void LogWarning<TClass>(this string message, Exception exception, params object[] args)
         {
-            new StringLoggerPart().SetCategory<TClass>().SetMessage(message).SetArgs(args).SetException(exception).LogWarning();
+            new StringLoggingPart().SetCategory<TClass>().SetMessage(message).SetArgs(args).SetException(exception).LogWarning();
         }
 
         /// <summary>
@@ -268,7 +268,7 @@ namespace Furion.Logging.Extensions
         /// <param name="args"></param>
         public static void LogWarning<TClass>(this string message, EventId eventId, Exception exception, params object[] args)
         {
-            new StringLoggerPart().SetCategory<TClass>().SetMessage(message).SetArgs(args).SetEventId(eventId).SetException(exception).LogWarning();
+            new StringLoggingPart().SetCategory<TClass>().SetMessage(message).SetArgs(args).SetEventId(eventId).SetException(exception).LogWarning();
         }
 
         /// <summary>
@@ -278,7 +278,7 @@ namespace Furion.Logging.Extensions
         /// <param name="args"></param>
         public static void LogError(this string message, params object[] args)
         {
-            new StringLoggerPart().SetMessage(message).SetArgs(args).LogError();
+            new StringLoggingPart().SetMessage(message).SetArgs(args).LogError();
         }
 
         /// <summary>
@@ -289,7 +289,7 @@ namespace Furion.Logging.Extensions
         /// <param name="args"></param>
         public static void LogError(this string message, EventId eventId, params object[] args)
         {
-            new StringLoggerPart().SetMessage(message).SetArgs(args).SetEventId(eventId).LogError();
+            new StringLoggingPart().SetMessage(message).SetArgs(args).SetEventId(eventId).LogError();
         }
 
         /// <summary>
@@ -300,7 +300,7 @@ namespace Furion.Logging.Extensions
         /// <param name="args"></param>
         public static void LogError(this string message, Exception exception, params object[] args)
         {
-            new StringLoggerPart().SetMessage(message).SetArgs(args).SetException(exception).LogError();
+            new StringLoggingPart().SetMessage(message).SetArgs(args).SetException(exception).LogError();
         }
 
         /// <summary>
@@ -312,7 +312,7 @@ namespace Furion.Logging.Extensions
         /// <param name="args"></param>
         public static void LogError(this string message, EventId eventId, Exception exception, params object[] args)
         {
-            new StringLoggerPart().SetMessage(message).SetArgs(args).SetEventId(eventId).SetException(exception).LogError();
+            new StringLoggingPart().SetMessage(message).SetArgs(args).SetEventId(eventId).SetException(exception).LogError();
         }
 
         /// <summary>
@@ -323,7 +323,7 @@ namespace Furion.Logging.Extensions
         /// <param name="args"></param>
         public static void LogError<TClass>(this string message, params object[] args)
         {
-            new StringLoggerPart().SetCategory<TClass>().SetMessage(message).SetArgs(args).LogError();
+            new StringLoggingPart().SetCategory<TClass>().SetMessage(message).SetArgs(args).LogError();
         }
 
         /// <summary>
@@ -335,7 +335,7 @@ namespace Furion.Logging.Extensions
         /// <param name="args"></param>
         public static void LogError<TClass>(this string message, EventId eventId, params object[] args)
         {
-            new StringLoggerPart().SetCategory<TClass>().SetMessage(message).SetArgs(args).SetEventId(eventId).LogError();
+            new StringLoggingPart().SetCategory<TClass>().SetMessage(message).SetArgs(args).SetEventId(eventId).LogError();
         }
 
         /// <summary>
@@ -347,7 +347,7 @@ namespace Furion.Logging.Extensions
         /// <param name="args"></param>
         public static void LogError<TClass>(this string message, Exception exception, params object[] args)
         {
-            new StringLoggerPart().SetCategory<TClass>().SetMessage(message).SetArgs(args).SetException(exception).LogError();
+            new StringLoggingPart().SetCategory<TClass>().SetMessage(message).SetArgs(args).SetException(exception).LogError();
         }
 
         /// <summary>
@@ -360,7 +360,7 @@ namespace Furion.Logging.Extensions
         /// <param name="args"></param>
         public static void LogError<TClass>(this string message, EventId eventId, Exception exception, params object[] args)
         {
-            new StringLoggerPart().SetCategory<TClass>().SetMessage(message).SetArgs(args).SetEventId(eventId).SetException(exception).LogError();
+            new StringLoggingPart().SetCategory<TClass>().SetMessage(message).SetArgs(args).SetEventId(eventId).SetException(exception).LogError();
         }
 
         /// <summary>
@@ -370,7 +370,7 @@ namespace Furion.Logging.Extensions
         /// <param name="args"></param>
         public static void LogDebug(this string message, params object[] args)
         {
-            new StringLoggerPart().SetMessage(message).SetArgs(args).LogDebug();
+            new StringLoggingPart().SetMessage(message).SetArgs(args).LogDebug();
         }
 
         /// <summary>
@@ -381,7 +381,7 @@ namespace Furion.Logging.Extensions
         /// <param name="args"></param>
         public static void LogDebug(this string message, EventId eventId, params object[] args)
         {
-            new StringLoggerPart().SetMessage(message).SetArgs(args).SetEventId(eventId).LogDebug();
+            new StringLoggingPart().SetMessage(message).SetArgs(args).SetEventId(eventId).LogDebug();
         }
 
         /// <summary>
@@ -392,7 +392,7 @@ namespace Furion.Logging.Extensions
         /// <param name="args"></param>
         public static void LogDebug(this string message, Exception exception, params object[] args)
         {
-            new StringLoggerPart().SetMessage(message).SetArgs(args).SetException(exception).LogDebug();
+            new StringLoggingPart().SetMessage(message).SetArgs(args).SetException(exception).LogDebug();
         }
 
         /// <summary>
@@ -404,7 +404,7 @@ namespace Furion.Logging.Extensions
         /// <param name="args"></param>
         public static void LogDebug(this string message, EventId eventId, Exception exception, params object[] args)
         {
-            new StringLoggerPart().SetMessage(message).SetArgs(args).SetEventId(eventId).SetException(exception).LogDebug();
+            new StringLoggingPart().SetMessage(message).SetArgs(args).SetEventId(eventId).SetException(exception).LogDebug();
         }
 
         /// <summary>
@@ -415,7 +415,7 @@ namespace Furion.Logging.Extensions
         /// <param name="args"></param>
         public static void LogDebug<TClass>(this string message, params object[] args)
         {
-            new StringLoggerPart().SetCategory<TClass>().SetMessage(message).SetArgs(args).LogDebug();
+            new StringLoggingPart().SetCategory<TClass>().SetMessage(message).SetArgs(args).LogDebug();
         }
 
         /// <summary>
@@ -427,7 +427,7 @@ namespace Furion.Logging.Extensions
         /// <param name="args"></param>
         public static void LogDebug<TClass>(this string message, EventId eventId, params object[] args)
         {
-            new StringLoggerPart().SetCategory<TClass>().SetMessage(message).SetArgs(args).SetEventId(eventId).LogDebug();
+            new StringLoggingPart().SetCategory<TClass>().SetMessage(message).SetArgs(args).SetEventId(eventId).LogDebug();
         }
 
         /// <summary>
@@ -439,7 +439,7 @@ namespace Furion.Logging.Extensions
         /// <param name="args"></param>
         public static void LogDebug<TClass>(this string message, Exception exception, params object[] args)
         {
-            new StringLoggerPart().SetCategory<TClass>().SetMessage(message).SetArgs(args).SetException(exception).LogDebug();
+            new StringLoggingPart().SetCategory<TClass>().SetMessage(message).SetArgs(args).SetException(exception).LogDebug();
         }
 
         /// <summary>
@@ -452,7 +452,7 @@ namespace Furion.Logging.Extensions
         /// <param name="args"></param>
         public static void LogDebug<TClass>(this string message, EventId eventId, Exception exception, params object[] args)
         {
-            new StringLoggerPart().SetCategory<TClass>().SetMessage(message).SetArgs(args).SetEventId(eventId).SetException(exception).LogDebug();
+            new StringLoggingPart().SetCategory<TClass>().SetMessage(message).SetArgs(args).SetEventId(eventId).SetException(exception).LogDebug();
         }
 
         /// <summary>
@@ -462,7 +462,7 @@ namespace Furion.Logging.Extensions
         /// <param name="args"></param>
         public static void LogTrace(this string message, params object[] args)
         {
-            new StringLoggerPart().SetMessage(message).SetArgs(args).LogTrace();
+            new StringLoggingPart().SetMessage(message).SetArgs(args).LogTrace();
         }
 
         /// <summary>
@@ -473,7 +473,7 @@ namespace Furion.Logging.Extensions
         /// <param name="args"></param>
         public static void LogTrace(this string message, EventId eventId, params object[] args)
         {
-            new StringLoggerPart().SetMessage(message).SetArgs(args).SetEventId(eventId).LogTrace();
+            new StringLoggingPart().SetMessage(message).SetArgs(args).SetEventId(eventId).LogTrace();
         }
 
         /// <summary>
@@ -484,7 +484,7 @@ namespace Furion.Logging.Extensions
         /// <param name="args"></param>
         public static void LogTrace(this string message, Exception exception, params object[] args)
         {
-            new StringLoggerPart().SetMessage(message).SetArgs(args).SetException(exception).LogTrace();
+            new StringLoggingPart().SetMessage(message).SetArgs(args).SetException(exception).LogTrace();
         }
 
         /// <summary>
@@ -496,7 +496,7 @@ namespace Furion.Logging.Extensions
         /// <param name="args"></param>
         public static void LogTrace(this string message, EventId eventId, Exception exception, params object[] args)
         {
-            new StringLoggerPart().SetMessage(message).SetArgs(args).SetEventId(eventId).SetException(exception).LogTrace();
+            new StringLoggingPart().SetMessage(message).SetArgs(args).SetEventId(eventId).SetException(exception).LogTrace();
         }
 
         /// <summary>
@@ -507,7 +507,7 @@ namespace Furion.Logging.Extensions
         /// <param name="args"></param>
         public static void LogTrace<TClass>(this string message, params object[] args)
         {
-            new StringLoggerPart().SetCategory<TClass>().SetMessage(message).SetArgs(args).LogTrace();
+            new StringLoggingPart().SetCategory<TClass>().SetMessage(message).SetArgs(args).LogTrace();
         }
 
         /// <summary>
@@ -519,7 +519,7 @@ namespace Furion.Logging.Extensions
         /// <param name="args"></param>
         public static void LogTrace<TClass>(this string message, EventId eventId, params object[] args)
         {
-            new StringLoggerPart().SetCategory<TClass>().SetMessage(message).SetArgs(args).SetEventId(eventId).LogTrace();
+            new StringLoggingPart().SetCategory<TClass>().SetMessage(message).SetArgs(args).SetEventId(eventId).LogTrace();
         }
 
         /// <summary>
@@ -531,7 +531,7 @@ namespace Furion.Logging.Extensions
         /// <param name="args"></param>
         public static void LogTrace<TClass>(this string message, Exception exception, params object[] args)
         {
-            new StringLoggerPart().SetCategory<TClass>().SetMessage(message).SetArgs(args).SetException(exception).LogTrace();
+            new StringLoggingPart().SetCategory<TClass>().SetMessage(message).SetArgs(args).SetException(exception).LogTrace();
         }
 
         /// <summary>
@@ -544,7 +544,7 @@ namespace Furion.Logging.Extensions
         /// <param name="args"></param>
         public static void LogTrace<TClass>(this string message, EventId eventId, Exception exception, params object[] args)
         {
-            new StringLoggerPart().SetCategory<TClass>().SetMessage(message).SetArgs(args).SetEventId(eventId).SetException(exception).LogTrace();
+            new StringLoggingPart().SetCategory<TClass>().SetMessage(message).SetArgs(args).SetEventId(eventId).SetException(exception).LogTrace();
         }
 
         /// <summary>
@@ -554,7 +554,7 @@ namespace Furion.Logging.Extensions
         /// <param name="args"></param>
         public static void LogCritical(this string message, params object[] args)
         {
-            new StringLoggerPart().SetMessage(message).SetArgs(args).LogCritical();
+            new StringLoggingPart().SetMessage(message).SetArgs(args).LogCritical();
         }
 
         /// <summary>
@@ -565,7 +565,7 @@ namespace Furion.Logging.Extensions
         /// <param name="args"></param>
         public static void LogCritical(this string message, EventId eventId, params object[] args)
         {
-            new StringLoggerPart().SetMessage(message).SetArgs(args).SetEventId(eventId).LogCritical();
+            new StringLoggingPart().SetMessage(message).SetArgs(args).SetEventId(eventId).LogCritical();
         }
 
         /// <summary>
@@ -576,7 +576,7 @@ namespace Furion.Logging.Extensions
         /// <param name="args"></param>
         public static void LogCritical(this string message, Exception exception, params object[] args)
         {
-            new StringLoggerPart().SetMessage(message).SetArgs(args).SetException(exception).LogCritical();
+            new StringLoggingPart().SetMessage(message).SetArgs(args).SetException(exception).LogCritical();
         }
 
         /// <summary>
@@ -588,7 +588,7 @@ namespace Furion.Logging.Extensions
         /// <param name="args"></param>
         public static void LogCritical(this string message, EventId eventId, Exception exception, params object[] args)
         {
-            new StringLoggerPart().SetMessage(message).SetArgs(args).SetEventId(eventId).SetException(exception).LogCritical();
+            new StringLoggingPart().SetMessage(message).SetArgs(args).SetEventId(eventId).SetException(exception).LogCritical();
         }
 
         /// <summary>
@@ -599,7 +599,7 @@ namespace Furion.Logging.Extensions
         /// <param name="args"></param>
         public static void LogCritical<TClass>(this string message, params object[] args)
         {
-            new StringLoggerPart().SetCategory<TClass>().SetMessage(message).SetArgs(args).LogCritical();
+            new StringLoggingPart().SetCategory<TClass>().SetMessage(message).SetArgs(args).LogCritical();
         }
 
         /// <summary>
@@ -611,7 +611,7 @@ namespace Furion.Logging.Extensions
         /// <param name="args"></param>
         public static void LogCritical<TClass>(this string message, EventId eventId, params object[] args)
         {
-            new StringLoggerPart().SetCategory<TClass>().SetMessage(message).SetArgs(args).SetEventId(eventId).LogCritical();
+            new StringLoggingPart().SetCategory<TClass>().SetMessage(message).SetArgs(args).SetEventId(eventId).LogCritical();
         }
 
         /// <summary>
@@ -623,7 +623,7 @@ namespace Furion.Logging.Extensions
         /// <param name="args"></param>
         public static void LogCritical<TClass>(this string message, Exception exception, params object[] args)
         {
-            new StringLoggerPart().SetCategory<TClass>().SetMessage(message).SetArgs(args).SetException(exception).LogCritical();
+            new StringLoggingPart().SetCategory<TClass>().SetMessage(message).SetArgs(args).SetException(exception).LogCritical();
         }
 
         /// <summary>
@@ -636,7 +636,7 @@ namespace Furion.Logging.Extensions
         /// <param name="args"></param>
         public static void LogCritical<TClass>(this string message, EventId eventId, Exception exception, params object[] args)
         {
-            new StringLoggerPart().SetCategory<TClass>().SetMessage(message).SetArgs(args).SetEventId(eventId).SetException(exception).LogCritical();
+            new StringLoggingPart().SetCategory<TClass>().SetMessage(message).SetArgs(args).SetEventId(eventId).SetException(exception).LogCritical();
         }
     }
 }

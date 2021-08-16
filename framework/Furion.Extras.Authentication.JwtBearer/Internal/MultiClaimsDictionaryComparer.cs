@@ -13,7 +13,7 @@ namespace Furion.Authorization
     /// <summary>
     /// 解决 Claims 身份重复键问题
     /// </summary>
-    internal sealed class ClaimsDictionaryComparer : IEqualityComparer<string>
+    internal sealed class MultiClaimsDictionaryComparer : IEqualityComparer<string>
     {
         /// <summary>
         /// 设置字符串永不相等

@@ -16,12 +16,12 @@ namespace Furion.Logging
     /// 构建字符串日志部分类
     /// </summary>
     [SuppressSniffer]
-    public sealed partial class StringLoggerPart
+    public sealed partial class StringLoggingPart
     {
         /// <summary>
         /// 静态缺省日志部件
         /// </summary>
-        public static StringLoggerPart Default => new();
+        public static StringLoggingPart Default => new();
 
         /// <summary>
         /// 日志内容

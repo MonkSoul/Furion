@@ -17,10 +17,10 @@ using System.Text.RegularExpressions;
 namespace Furion.Templates.Extensions
 {
     /// <summary>
-    /// 模板操作静态类
+    /// 字符串渲染模板拓展类
     /// </summary>
     [SuppressSniffer]
-    public static class StringTemplateExtensions
+    public static class StringRenderExtensions
     {
         /// <summary>
         /// 模板正则表达式

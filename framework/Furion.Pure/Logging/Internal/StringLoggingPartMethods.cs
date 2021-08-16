@@ -13,7 +13,7 @@ namespace Furion.Logging
     /// <summary>
     /// 构建字符串日志部分类
     /// </summary>
-    public sealed partial class StringLoggerPart
+    public sealed partial class StringLoggingPart
     {
         /// <summary>
         /// Information
