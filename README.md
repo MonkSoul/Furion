@@ -41,7 +41,7 @@ responseString.LogInformation();
 
 ## 协议
 
-Furion 遵循 [MulanPSL-2.0](http://license.coscl.org.cn/MulanPSL2) 开源协议。
+Furion 采用 [MulanPSL-2.0](http://license.coscl.org.cn/MulanPSL2) 开源协议。
 
 ```
 Copyright (c) 2020-2021 百小僧, Baiqian Co.,Ltd.
@@ -52,3 +52,5 @@ You may obtain a copy of Mulan PSL v2 at:
 THIS SOFTWARE IS PROVIDED ON AN "AS IS" BASIS, WITHOUTWARRANTIES OF ANY KIND, EITHER EXPRESS OR IMPLIED,INCLUDING BUT NOT LIMITED TO NON-INFRINGEMENT,MERCHANTABILITY OR FIT FOR A PARTICULAR PURPOSE.
 See the Mulan PSL v2 for more details.
 ```
+
+更多协议细节：[https://gitee.com/dotnetchina/Furion/blob/master/LICENSE](https://gitee.com/dotnetchina/Furion/blob/master/LICENSE)
