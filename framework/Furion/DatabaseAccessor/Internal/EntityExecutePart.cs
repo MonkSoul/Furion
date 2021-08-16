@@ -20,6 +20,11 @@ namespace Furion.DatabaseAccessor
         where TEntity : class, IPrivateEntity, new()
     {
         /// <summary>
+        /// 静态缺省 Entity 部件
+        /// </summary>
+        public static EntityExecutePart<TEntity> Default => new();
+
+        /// <summary>
         /// 实体
         /// </summary>
         public TEntity Entity { get; private set; }

@@ -15,8 +15,13 @@ namespace Furion.DatabaseAccessor
     /// 构建 Sql 字符串执行部件
     /// </summary>
     [SuppressSniffer]
-    public sealed partial class SqlStringExecutePart
+    public sealed partial class SqlExecutePart
     {
+        /// <summary>
+        /// 静态缺省 Sql 部件
+        /// </summary>
+        public static SqlExecutePart Default => new();
+
         /// <summary>
         /// Sql 字符串
         /// </summary>

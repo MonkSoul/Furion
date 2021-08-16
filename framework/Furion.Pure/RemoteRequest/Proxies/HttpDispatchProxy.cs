@@ -56,8 +56,8 @@ namespace Furion.RemoteRequest
         /// <returns></returns>
         public async override Task InvokeAsync(MethodInfo method, object[] args)
         {
-            var httpclientPart = BuildHttpClientPart(method, args);
-            _ = await httpclientPart.SendAsync();
+            var httpRequestPart = BuildhttpRequestPart(method, args);
+            _ = await httpRequestPart.SendAsync();
         }
 
         /// <summary>
@@ -69,8 +69,8 @@ namespace Furion.RemoteRequest
         /// <returns></returns>
         public override Task<T> InvokeAsyncT<T>(MethodInfo method, object[] args)
         {
-            var httpclientPart = BuildHttpClientPart(method, args);
-            var result = httpclientPart.SendAsAsync<T>();
+            var httpRequestPart = BuildhttpRequestPart(method, args);
+            var result = httpRequestPart.SendAsAsync<T>();
             return result;
         }
 
@@ -80,7 +80,7 @@ namespace Furion.RemoteRequest
         /// <param name="method"></param>
         /// <param name="args"></param>
         /// <returns></returns>
-        private HttpClientExecutePart BuildHttpClientPart(MethodInfo method, object[] args)
+        private HttpRequestPart BuildhttpRequestPart(MethodInfo method, object[] args)
         {
             // 判断方法是否是远程代理请求方法
             if (!method.IsDefined(typeof(HttpMethodBaseAttribute), true)) throw new InvalidOperationException($"{method.Name} is not a valid request proxy method.");
@@ -97,54 +97,54 @@ namespace Furion.RemoteRequest
             var httpMethodBase = method.GetCustomAttribute<HttpMethodBaseAttribute>(true);
 
             // 创建请求配置对象
-            var httpClientPart = new HttpClientExecutePart();
-            httpClientPart.SetRequestUrl(httpMethodBase.RequestUrl)
+            var httpRequestPart = new HttpRequestPart();
+            httpRequestPart.SetRequestUrl(httpMethodBase.RequestUrl)
                           .SetHttpMethod(httpMethodBase.Method)
                           .SetTemplates(parameters.ToDictionary(u => u.Name, u => u.Value))
                           .SetRequestScoped(Services);
 
             // 设置请求客户端
             var clientAttribute = method.GetFoundAttribute<ClientAttribute>(true);
-            if (clientAttribute != null) httpClientPart.SetClient(clientAttribute.Name);
+            if (clientAttribute != null) httpRequestPart.SetClient(clientAttribute.Name);
 
             // 设置请求超时时间
             var timeout = method.GetFoundAttribute<TimeoutAttribute>(true)?.Seconds;
-            if (timeout != null && timeout.Value > 0) httpClientPart.SetClientTimeout(timeout.Value);
+            if (timeout != null && timeout.Value > 0) httpRequestPart.SetClientTimeout(timeout.Value);
 
             // 设置请求报文头
-            SetHeaders(method, parameters, httpClientPart);
+            SetHeaders(method, parameters, httpRequestPart);
 
             // 设置 Url 地址参数
-            SetQueries(parameters, httpClientPart);
+            SetQueries(parameters, httpRequestPart);
 
             // 设置 Body 信息
-            SetBody(parameters, httpClientPart);
+            SetBody(parameters, httpRequestPart);
 
             // 设置验证
             SetValidation(parameters);
 
             // 设置序列化提供器
-            SetJsonSerialization(method, parameters, httpClientPart);
+            SetJsonSerialization(method, parameters, httpRequestPart);
 
             // 配置全局拦截
-            CallGlobalInterceptors(httpClientPart, method.DeclaringType);
+            CallGlobalInterceptors(httpRequestPart, method.DeclaringType);
 
             // 设置请求拦截
-            SetInterceptors(parameters, httpClientPart);
+            SetInterceptors(parameters, httpRequestPart);
 
             // 设置重试
             var retryPolicyAttribute = method.GetFoundAttribute<RetryPolicyAttribute>(true);
-            if (retryPolicyAttribute != null) httpClientPart.SetRetryPolicy(retryPolicyAttribute.NumRetries, retryPolicyAttribute.RetryTimeout);
+            if (retryPolicyAttribute != null) httpRequestPart.SetRetryPolicy(retryPolicyAttribute.NumRetries, retryPolicyAttribute.RetryTimeout);
 
-            return httpClientPart;
+            return httpRequestPart;
         }
 
         /// <summary>
         /// 设置 Url 地址参数
         /// </summary>
         /// <param name="parameters"></param>
-        /// <param name="httpClientPart"></param>
-        private static void SetQueries(IEnumerable<MethodParameterInfo> parameters, HttpClientExecutePart httpClientPart)
+        /// <param name="httpRequestPart"></param>
+        private static void SetQueries(IEnumerable<MethodParameterInfo> parameters, HttpRequestPart httpRequestPart)
         {
             // 配置 Url 地址参数
             var queryParameters = parameters.Where(u => u.Parameter.IsDefined(typeof(QueryStringAttribute), true));
@@ -154,22 +154,22 @@ namespace Furion.RemoteRequest
                 var queryStringAttribute = item.Parameter.GetCustomAttribute<QueryStringAttribute>();
                 if (item.Value != null) parameterQueries.Add(queryStringAttribute.Alias ?? item.Name, item.Value);
             }
-            httpClientPart.SetQueries(parameterQueries);
+            httpRequestPart.SetQueries(parameterQueries);
         }
 
         /// <summary>
         /// 设置 Body 参数
         /// </summary>
         /// <param name="parameters"></param>
-        /// <param name="httpClientPart"></param>
-        private static void SetBody(IEnumerable<MethodParameterInfo> parameters, HttpClientExecutePart httpClientPart)
+        /// <param name="httpRequestPart"></param>
+        private static void SetBody(IEnumerable<MethodParameterInfo> parameters, HttpRequestPart httpRequestPart)
         {
             // 配置 Body 参数，只取第一个
             var bodyParameter = parameters.FirstOrDefault(u => u.Parameter.IsDefined(typeof(BodyAttribute), true));
             if (bodyParameter != null)
             {
                 var bodyAttribute = bodyParameter.Parameter.GetCustomAttribute<BodyAttribute>(true);
-                httpClientPart.SetBody(bodyParameter.Value, bodyAttribute.ContentType, Encoding.GetEncoding(bodyAttribute.Encoding));
+                httpRequestPart.SetBody(bodyParameter.Value, bodyAttribute.ContentType, Encoding.GetEncoding(bodyAttribute.Encoding));
             }
 
             // 查找所有贴了 [BodyBytes] 特性的参数
@@ -183,7 +183,7 @@ namespace Furion.RemoteRequest
                     if (item.Value != null && item.Value.GetType() == typeof(byte[])) bodyBytes.Add((bodyBytesAttribute.Alias ?? item.Name, (byte[])item.Value, bodyBytesAttribute.FileName));
                 }
 
-                httpClientPart.SetBodyBytes(bodyBytes.ToArray());
+                httpRequestPart.SetBodyBytes(bodyBytes.ToArray());
             }
         }
 
@@ -216,8 +216,8 @@ namespace Furion.RemoteRequest
         /// </summary>
         /// <param name="method"></param>
         /// <param name="parameters"></param>
-        /// <param name="httpClientPart"></param>
-        private static void SetJsonSerialization(MethodInfo method, IEnumerable<MethodParameterInfo> parameters, HttpClientExecutePart httpClientPart)
+        /// <param name="httpRequestPart"></param>
+        private static void SetJsonSerialization(MethodInfo method, IEnumerable<MethodParameterInfo> parameters, HttpRequestPart httpRequestPart)
         {
             // 判断方法是否自定义序列化选项
             var jsonSerializerOptions = parameters.FirstOrDefault(u => u.Parameter.IsDefined(typeof(JsonSerializerOptionsAttribute), true))?.Value
@@ -228,15 +228,15 @@ namespace Furion.RemoteRequest
 
             // 查询自定义序列化提供器，如果没找到，默认 SystemTextJsonSerializerProvider
             var jsonSerializerProvider = method.GetFoundAttribute<JsonSerializationAttribute>(true)?.ProviderType;
-            httpClientPart.SetJsonSerialization(jsonSerializerProvider, jsonSerializerOptions);
+            httpRequestPart.SetJsonSerialization(jsonSerializerProvider, jsonSerializerOptions);
         }
 
         /// <summary>
         /// 调用全局拦截
         /// </summary>
-        /// <param name="httpClientPart"></param>
+        /// <param name="httpRequestPart"></param>
         /// <param name="declaringType"></param>
-        private static void CallGlobalInterceptors(HttpClientExecutePart httpClientPart, Type declaringType)
+        private static void CallGlobalInterceptors(HttpRequestPart httpRequestPart, Type declaringType)
         {
             // 获取所有静态方法且贴有 [Interceptor] 特性
             var interceptorMethods = declaringType.GetMethods()
@@ -251,22 +251,22 @@ namespace Furion.RemoteRequest
                     // 加载请求拦截
                     case InterceptorTypes.Request:
                         var onRequesting = (Action<HttpRequestMessage>)Delegate.CreateDelegate(typeof(Action<HttpRequestMessage>), method);
-                        httpClientPart.OnRequesting(onRequesting);
+                        httpRequestPart.OnRequesting(onRequesting);
                         break;
                     // 加载响应拦截
                     case InterceptorTypes.Response:
                         var onResponsing = (Action<HttpResponseMessage>)Delegate.CreateDelegate(typeof(Action<HttpResponseMessage>), method);
-                        httpClientPart.OnResponsing(onResponsing);
+                        httpRequestPart.OnResponsing(onResponsing);
                         break;
                     // 加载 Client 配置拦截
                     case InterceptorTypes.Client:
                         var onClientCreating = (Action<HttpClient>)Delegate.CreateDelegate(typeof(Action<HttpClient>), method);
-                        httpClientPart.OnClientCreating(onClientCreating);
+                        httpRequestPart.OnClientCreating(onClientCreating);
                         break;
                     // 加载异常拦截
                     case InterceptorTypes.Exception:
                         var onException = (Action<HttpResponseMessage, string>)Delegate.CreateDelegate(typeof(Action<HttpResponseMessage, string>), method);
-                        httpClientPart.OnException(onException);
+                        httpRequestPart.OnException(onException);
                         break;
 
                     default: break;
@@ -278,8 +278,8 @@ namespace Furion.RemoteRequest
         /// 设置请求拦截
         /// </summary>
         /// <param name="parameters"></param>
-        /// <param name="httpClientPart"></param>
-        private static void SetInterceptors(IEnumerable<MethodParameterInfo> parameters, HttpClientExecutePart httpClientPart)
+        /// <param name="httpRequestPart"></param>
+        private static void SetInterceptors(IEnumerable<MethodParameterInfo> parameters, HttpRequestPart httpRequestPart)
         {
             // 添加方法拦截器
             var Interceptors = parameters.Where(u => u.Parameter.IsDefined(typeof(InterceptorAttribute), true));
@@ -293,28 +293,28 @@ namespace Furion.RemoteRequest
                     case InterceptorTypes.Request:
                         if (item.Value is Action<HttpRequestMessage> onRequesting)
                         {
-                            httpClientPart.OnRequesting(onRequesting);
+                            httpRequestPart.OnRequesting(onRequesting);
                         }
                         break;
                     // 加载响应拦截
                     case InterceptorTypes.Response:
                         if (item.Value is Action<HttpResponseMessage> onResponsing)
                         {
-                            httpClientPart.OnResponsing(onResponsing);
+                            httpRequestPart.OnResponsing(onResponsing);
                         }
                         break;
                     // 加载 Client 配置拦截
                     case InterceptorTypes.Client:
                         if (item.Value is Action<HttpClient> onClientCreating)
                         {
-                            httpClientPart.OnClientCreating(onClientCreating);
+                            httpRequestPart.OnClientCreating(onClientCreating);
                         }
                         break;
                     // 加载异常拦截
                     case InterceptorTypes.Exception:
                         if (item.Value is Action<HttpResponseMessage, string> onException)
                         {
-                            httpClientPart.OnException(onException);
+                            httpRequestPart.OnException(onException);
                         }
                         break;
 
@@ -328,8 +328,8 @@ namespace Furion.RemoteRequest
         /// </summary>
         /// <param name="method"></param>
         /// <param name="parameters"></param>
-        /// <param name="httpClientPart"></param>
-        private static void SetHeaders(MethodInfo method, IEnumerable<MethodParameterInfo> parameters, HttpClientExecutePart httpClientPart)
+        /// <param name="httpRequestPart"></param>
+        private static void SetHeaders(MethodInfo method, IEnumerable<MethodParameterInfo> parameters, HttpRequestPart httpRequestPart)
         {
             var declaringType = method.DeclaringType;
 
@@ -355,7 +355,7 @@ namespace Furion.RemoteRequest
             // 合并所有请求报文头
             var headers = declaringTypeHeaders.AddOrUpdate(methodHeaders)
                                                                   .AddOrUpdate(parameterHeaders);
-            httpClientPart.SetHeaders(headers);
+            httpRequestPart.SetHeaders(headers);
         }
     }
 }

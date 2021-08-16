@@ -13,14 +13,14 @@ namespace Furion.DatabaseAccessor
     /// <summary>
     /// 构建 Sql 字符串执行部件
     /// </summary>
-    public sealed partial class SqlStringExecutePart
+    public sealed partial class SqlExecutePart
     {
         /// <summary>
         /// 设置 Sql 字符串
         /// </summary>
         /// <param name="sql"></param>
         /// <returns></returns>
-        public SqlStringExecutePart SetSqlString(string sql)
+        public SqlExecutePart SetSqlString(string sql)
         {
             if (!string.IsNullOrWhiteSpace(sql)) SqlString = sql;
             return this;
@@ -31,7 +31,7 @@ namespace Furion.DatabaseAccessor
         /// </summary>
         /// <param name="timeout">单位秒</param>
         /// <returns></returns>
-        public SqlStringExecutePart SetCommandTimeout(int timeout)
+        public SqlExecutePart SetCommandTimeout(int timeout)
         {
             if (timeout > 0) Timeout = timeout;
             return this;
@@ -42,7 +42,7 @@ namespace Furion.DatabaseAccessor
         /// </summary>
         /// <param name="serviceProvider"></param>
         /// <returns></returns>
-        public SqlStringExecutePart SetContextScoped(IServiceProvider serviceProvider)
+        public SqlExecutePart SetContextScoped(IServiceProvider serviceProvider)
         {
             if (serviceProvider != null) ContextScoped = serviceProvider;
             return this;
@@ -53,7 +53,7 @@ namespace Furion.DatabaseAccessor
         /// </summary>
         /// <typeparam name="TDbContextLocator"></typeparam>
         /// <returns></returns>
-        public SqlStringExecutePart Change<TDbContextLocator>()
+        public SqlExecutePart Change<TDbContextLocator>()
             where TDbContextLocator : class, IDbContextLocator
         {
             return Change(typeof(TDbContextLocator));
@@ -63,7 +63,7 @@ namespace Furion.DatabaseAccessor
         /// 设置数据库上下文定位器
         /// </summary>
         /// <returns></returns>
-        public SqlStringExecutePart Change(Type dbContextLocator)
+        public SqlExecutePart Change(Type dbContextLocator)
         {
             if (dbContextLocator != null) DbContextLocator = dbContextLocator;
             return this;

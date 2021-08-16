@@ -15,8 +15,13 @@ namespace Furion.ViewEngine
     /// 字符串模板执行部件
     /// </summary>
     [SuppressSniffer]
-    public sealed partial class StringTemplateExecutePart
+    public sealed partial class ViewEnginePart
     {
+        /// <summary>
+        /// 静态缺省 视图 部件
+        /// </summary>
+        public static ViewEnginePart Default => new();
+
         /// <summary>
         /// 字符串模板
         /// </summary>

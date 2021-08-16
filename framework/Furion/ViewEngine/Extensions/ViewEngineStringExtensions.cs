@@ -25,10 +25,10 @@ namespace Furion.ViewEngine.Extensions
         /// <param name="template"></param>
         /// <param name="model"></param>
         /// <returns></returns>
-        public static StringTemplateExecutePart SetTemplateModel<T>(this string template, T model)
+        public static ViewEnginePart SetTemplateModel<T>(this string template, T model)
             where T : class, new()
         {
-            return new StringTemplateExecutePart().SetTemplate(template).SetTemplateModel<T>(model);
+            return new ViewEnginePart().SetTemplate(template).SetTemplateModel<T>(model);
         }
 
         /// <summary>
@@ -37,9 +37,9 @@ namespace Furion.ViewEngine.Extensions
         /// <param name="template"></param>
         /// <param name="model"></param>
         /// <returns></returns>
-        public static StringTemplateExecutePart SetTemplateModel(this string template, object model)
+        public static ViewEnginePart SetTemplateModel(this string template, object model)
         {
-            return new StringTemplateExecutePart().SetTemplate(template).SetTemplateModel(model);
+            return new ViewEnginePart().SetTemplate(template).SetTemplateModel(model);
         }
 
         /// <summary>
@@ -48,9 +48,9 @@ namespace Furion.ViewEngine.Extensions
         /// <param name="template"></param>
         /// <param name="optionsBuilder"></param>
         /// <returns></returns>
-        public static StringTemplateExecutePart SetTemplateOptionsBuilder(this string template, Action<IViewEngineOptionsBuilder> optionsBuilder = default)
+        public static ViewEnginePart SetTemplateOptionsBuilder(this string template, Action<IViewEngineOptionsBuilder> optionsBuilder = default)
         {
-            return new StringTemplateExecutePart().SetTemplate(template).SetTemplateOptionsBuilder(optionsBuilder);
+            return new ViewEnginePart().SetTemplate(template).SetTemplateOptionsBuilder(optionsBuilder);
         }
 
         /// <summary>
@@ -59,9 +59,9 @@ namespace Furion.ViewEngine.Extensions
         /// <param name="template"></param>
         /// <param name="cachedFileName"></param>
         /// <returns></returns>
-        public static StringTemplateExecutePart SetTemplateCachedFileName(this string template, string cachedFileName)
+        public static ViewEnginePart SetTemplateCachedFileName(this string template, string cachedFileName)
         {
-            return new StringTemplateExecutePart().SetTemplate(template).SetTemplateCachedFileName(cachedFileName);
+            return new ViewEnginePart().SetTemplate(template).SetTemplateCachedFileName(cachedFileName);
         }
 
         /// <summary>
@@ -70,9 +70,9 @@ namespace Furion.ViewEngine.Extensions
         /// <param name="template"></param>
         /// <param name="serviceProvider"></param>
         /// <returns></returns>
-        public static StringTemplateExecutePart SetViewEngineScoped(this string template, IServiceProvider serviceProvider)
+        public static ViewEnginePart SetViewEngineScoped(this string template, IServiceProvider serviceProvider)
         {
-            return new StringTemplateExecutePart().SetTemplate(template).SetViewEngineScoped(serviceProvider);
+            return new ViewEnginePart().SetTemplate(template).SetViewEngineScoped(serviceProvider);
         }
 
         /// <summary>
@@ -84,7 +84,7 @@ namespace Furion.ViewEngine.Extensions
         /// <returns></returns>
         public static string RunCompile(this string template, object model = null, Action<IViewEngineOptionsBuilder> builderAction = null)
         {
-            return new StringTemplateExecutePart().SetTemplate(template).SetTemplateModel(model).SetTemplateOptionsBuilder(builderAction).RunCompile();
+            return new ViewEnginePart().SetTemplate(template).SetTemplateModel(model).SetTemplateOptionsBuilder(builderAction).RunCompile();
         }
 
         /// <summary>
@@ -96,7 +96,7 @@ namespace Furion.ViewEngine.Extensions
         /// <returns></returns>
         public static Task<string> RunCompileAsync(this string template, object model = null, Action<IViewEngineOptionsBuilder> builderAction = null)
         {
-            return new StringTemplateExecutePart().SetTemplate(template).SetTemplateModel(model).SetTemplateOptionsBuilder(builderAction).RunCompileAsync();
+            return new ViewEnginePart().SetTemplate(template).SetTemplateModel(model).SetTemplateOptionsBuilder(builderAction).RunCompileAsync();
         }
 
         /// <summary>
@@ -110,7 +110,7 @@ namespace Furion.ViewEngine.Extensions
         public static string RunCompile<T>(this string template, T model, Action<IViewEngineOptionsBuilder> builderAction = null)
             where T : class, new()
         {
-            return new StringTemplateExecutePart().SetTemplate(template).SetTemplateModel(model).SetTemplateOptionsBuilder(builderAction).RunCompile();
+            return new ViewEnginePart().SetTemplate(template).SetTemplateModel(model).SetTemplateOptionsBuilder(builderAction).RunCompile();
         }
 
         /// <summary>
@@ -124,7 +124,7 @@ namespace Furion.ViewEngine.Extensions
         public static Task<string> RunCompileAsync<T>(this string template, T model, Action<IViewEngineOptionsBuilder> builderAction = null)
             where T : class, new()
         {
-            return new StringTemplateExecutePart().SetTemplate(template).SetTemplateModel(model).SetTemplateOptionsBuilder(builderAction).RunCompileAsync();
+            return new ViewEnginePart().SetTemplate(template).SetTemplateModel(model).SetTemplateOptionsBuilder(builderAction).RunCompileAsync();
         }
 
         /// <summary>
@@ -137,7 +137,7 @@ namespace Furion.ViewEngine.Extensions
         /// <returns></returns>
         public static string RunCompileFromCached(this string template, object model = null, string cachedFileName = default, Action<IViewEngineOptionsBuilder> builderAction = null)
         {
-            return new StringTemplateExecutePart().SetTemplate(template).SetTemplateModel(model).SetTemplateCachedFileName(cachedFileName).SetTemplateOptionsBuilder(builderAction).RunCompileFromCached();
+            return new ViewEnginePart().SetTemplate(template).SetTemplateModel(model).SetTemplateCachedFileName(cachedFileName).SetTemplateOptionsBuilder(builderAction).RunCompileFromCached();
         }
 
         /// <summary>
@@ -150,7 +150,7 @@ namespace Furion.ViewEngine.Extensions
         /// <returns></returns>
         public static Task<string> RunCompileFromCachedAsync(this string template, object model = null, string cachedFileName = default, Action<IViewEngineOptionsBuilder> builderAction = null)
         {
-            return new StringTemplateExecutePart().SetTemplate(template).SetTemplateModel(model).SetTemplateCachedFileName(cachedFileName).SetTemplateOptionsBuilder(builderAction).RunCompileFromCachedAsync();
+            return new ViewEnginePart().SetTemplate(template).SetTemplateModel(model).SetTemplateCachedFileName(cachedFileName).SetTemplateOptionsBuilder(builderAction).RunCompileFromCachedAsync();
         }
 
         /// <summary>
@@ -165,7 +165,7 @@ namespace Furion.ViewEngine.Extensions
         public static string RunCompileFromCached<T>(this string template, T model, string cachedFileName = default, Action<IViewEngineOptionsBuilder> builderAction = null)
             where T : class, new()
         {
-            return new StringTemplateExecutePart().SetTemplate(template).SetTemplateModel(model).SetTemplateCachedFileName(cachedFileName).SetTemplateOptionsBuilder(builderAction).RunCompileFromCached();
+            return new ViewEnginePart().SetTemplate(template).SetTemplateModel(model).SetTemplateCachedFileName(cachedFileName).SetTemplateOptionsBuilder(builderAction).RunCompileFromCached();
         }
 
         /// <summary>
@@ -179,7 +179,7 @@ namespace Furion.ViewEngine.Extensions
         public static Task<string> RunCompileFromCachedAsync<T>(this string template, T model, string cachedFileName = default, Action<IViewEngineOptionsBuilder> builderAction = null)
             where T : class, new()
         {
-            return new StringTemplateExecutePart().SetTemplate(template).SetTemplateModel(model).SetTemplateCachedFileName(cachedFileName).SetTemplateOptionsBuilder(builderAction).RunCompileFromCachedAsync();
+            return new ViewEnginePart().SetTemplate(template).SetTemplateModel(model).SetTemplateCachedFileName(cachedFileName).SetTemplateOptionsBuilder(builderAction).RunCompileFromCachedAsync();
         }
     }
 }

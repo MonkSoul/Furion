@@ -14,7 +14,7 @@ namespace Furion.DataEncryption.Extensions
     /// DataEncryption 字符串加密拓展
     /// </summary>
     [SuppressSniffer]
-    public static class DataEncryptionStringExtensions
+    public static class StringEncryptionExtensions
     {
         /// <summary>
         /// 字符串的 MD5

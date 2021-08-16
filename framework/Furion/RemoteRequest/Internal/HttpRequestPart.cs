@@ -15,10 +15,15 @@ using System.Text;
 namespace Furion.RemoteRequest
 {
     /// <summary>
-    /// HttpClient 对象组装部件
+    /// Http 请求对象组装部件
     /// </summary>
-    public sealed partial class HttpClientExecutePart
+    public sealed partial class HttpRequestPart
     {
+        /// <summary>
+        /// 静态缺省请求部件
+        /// </summary>
+        public static HttpRequestPart Default => new();
+
         /// <summary>
         /// 请求地址
         /// </summary>

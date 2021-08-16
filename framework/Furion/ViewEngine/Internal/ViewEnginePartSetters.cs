@@ -13,14 +13,14 @@ namespace Furion.ViewEngine
     /// <summary>
     /// 字符串模板执行部件
     /// </summary>
-    public sealed partial class StringTemplateExecutePart
+    public sealed partial class ViewEnginePart
     {
         /// <summary>
         /// 设置模板
         /// </summary>
         /// <param name="template"></param>
         /// <returns></returns>
-        public StringTemplateExecutePart SetTemplate(string template)
+        public ViewEnginePart SetTemplate(string template)
         {
             if (!string.IsNullOrWhiteSpace(template)) Template = template;
             return this;
@@ -32,7 +32,7 @@ namespace Furion.ViewEngine
         /// <typeparam name="T"></typeparam>
         /// <param name="model"></param>
         /// <returns></returns>
-        public StringTemplateExecutePart SetTemplateModel<T>(T model)
+        public ViewEnginePart SetTemplateModel<T>(T model)
             where T : class, new()
         {
             TemplateModel = (typeof(T), model);
@@ -44,7 +44,7 @@ namespace Furion.ViewEngine
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        public StringTemplateExecutePart SetTemplateModel(object model)
+        public ViewEnginePart SetTemplateModel(object model)
         {
             return SetTemplateModel<object>(model);
         }
@@ -54,7 +54,7 @@ namespace Furion.ViewEngine
         /// </summary>
         /// <param name="optionsBuilder"></param>
         /// <returns></returns>
-        public StringTemplateExecutePart SetTemplateOptionsBuilder(Action<IViewEngineOptionsBuilder> optionsBuilder = default)
+        public ViewEnginePart SetTemplateOptionsBuilder(Action<IViewEngineOptionsBuilder> optionsBuilder = default)
         {
             if (optionsBuilder != null) TemplateOptionsBuilder = optionsBuilder;
             return this;
@@ -65,7 +65,7 @@ namespace Furion.ViewEngine
         /// </summary>
         /// <param name="cachedFileName"></param>
         /// <returns></returns>
-        public StringTemplateExecutePart SetTemplateCachedFileName(string cachedFileName)
+        public ViewEnginePart SetTemplateCachedFileName(string cachedFileName)
         {
             if (!string.IsNullOrWhiteSpace(cachedFileName)) TemplateCachedFileName = cachedFileName;
             return this;
@@ -76,7 +76,7 @@ namespace Furion.ViewEngine
         /// </summary>
         /// <param name="serviceProvider"></param>
         /// <returns></returns>
-        public StringTemplateExecutePart SetViewEngineScoped(IServiceProvider serviceProvider)
+        public ViewEnginePart SetViewEngineScoped(IServiceProvider serviceProvider)
         {
             if (serviceProvider != null) ViewEngineScoped = serviceProvider;
             return this;

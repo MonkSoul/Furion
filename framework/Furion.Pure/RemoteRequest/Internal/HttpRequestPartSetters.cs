@@ -19,14 +19,14 @@ namespace Furion.RemoteRequest
     /// <summary>
     /// HttpClient 对象组装部件
     /// </summary>
-    public sealed partial class HttpClientExecutePart
+    public sealed partial class HttpRequestPart
     {
         /// <summary>
         /// 设置请求地址
         /// </summary>
         /// <param name="requestUrl"></param>
         /// <returns></returns>
-        public HttpClientExecutePart SetRequestUrl(string requestUrl)
+        public HttpRequestPart SetRequestUrl(string requestUrl)
         {
             if (string.IsNullOrWhiteSpace(requestUrl)) return this;
 
@@ -43,7 +43,7 @@ namespace Furion.RemoteRequest
         /// </summary>
         /// <param name="templates"></param>
         /// <returns></returns>
-        public HttpClientExecutePart SetTemplates(IDictionary<string, object> templates)
+        public HttpRequestPart SetTemplates(IDictionary<string, object> templates)
         {
             if (templates != null) Templates = templates;
             return this;
@@ -54,7 +54,7 @@ namespace Furion.RemoteRequest
         /// </summary>
         /// <param name="templates"></param>
         /// <returns></returns>
-        public HttpClientExecutePart SetTemplates(object templates)
+        public HttpRequestPart SetTemplates(object templates)
         {
             return SetTemplates(templates.ToDictionary());
         }
@@ -64,7 +64,7 @@ namespace Furion.RemoteRequest
         /// </summary>
         /// <param name="httpMethod"></param>
         /// <returns></returns>
-        public HttpClientExecutePart SetHttpMethod(HttpMethod httpMethod)
+        public HttpRequestPart SetHttpMethod(HttpMethod httpMethod)
         {
             if (httpMethod != null) Method = httpMethod;
             return this;
@@ -75,7 +75,7 @@ namespace Furion.RemoteRequest
         /// </summary>
         /// <param name="headers"></param>
         /// <returns></returns>
-        public HttpClientExecutePart SetHeaders(IDictionary<string, object> headers)
+        public HttpRequestPart SetHeaders(IDictionary<string, object> headers)
         {
             if (headers != null) Headers = headers;
             return this;
@@ -86,7 +86,7 @@ namespace Furion.RemoteRequest
         /// </summary>
         /// <param name="headers"></param>
         /// <returns></returns>
-        public HttpClientExecutePart SetHeaders(object headers)
+        public HttpRequestPart SetHeaders(object headers)
         {
             return SetHeaders(headers.ToDictionary());
         }
@@ -96,7 +96,7 @@ namespace Furion.RemoteRequest
         /// </summary>
         /// <param name="queries"></param>
         /// <returns></returns>
-        public HttpClientExecutePart SetQueries(IDictionary<string, object> queries)
+        public HttpRequestPart SetQueries(IDictionary<string, object> queries)
         {
             if (queries != null) Queries = queries;
             return this;
@@ -107,7 +107,7 @@ namespace Furion.RemoteRequest
         /// </summary>
         /// <param name="queries"></param>
         /// <returns></returns>
-        public HttpClientExecutePart SetQueries(object queries)
+        public HttpRequestPart SetQueries(object queries)
         {
             return SetQueries(queries.ToDictionary());
         }
@@ -117,7 +117,7 @@ namespace Furion.RemoteRequest
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
-        public HttpClientExecutePart SetClient(string name)
+        public HttpRequestPart SetClient(string name)
         {
             if (!string.IsNullOrWhiteSpace(name)) ClientName = name;
             return this;
@@ -128,7 +128,7 @@ namespace Furion.RemoteRequest
         /// </summary>
         /// <param name="contentType"></param>
         /// <returns></returns>
-        public HttpClientExecutePart SetContentType(string contentType)
+        public HttpRequestPart SetContentType(string contentType)
         {
             if (!string.IsNullOrWhiteSpace(contentType)) ContentType = contentType;
             return this;
@@ -139,7 +139,7 @@ namespace Furion.RemoteRequest
         /// </summary>
         /// <param name="encoding"></param>
         /// <returns></returns>
-        public HttpClientExecutePart SetContentEncoding(Encoding encoding)
+        public HttpRequestPart SetContentEncoding(Encoding encoding)
         {
             if (encoding != null) ContentEncoding = encoding;
             return this;
@@ -152,7 +152,7 @@ namespace Furion.RemoteRequest
         /// <param name="contentType"></param>
         /// <param name="encoding"></param>
         /// <returns></returns>
-        public HttpClientExecutePart SetBody(object body, string contentType = default, Encoding encoding = default)
+        public HttpRequestPart SetBody(object body, string contentType = default, Encoding encoding = default)
         {
             if (body != null) Body = body;
             SetContentType(contentType).SetContentEncoding(encoding);
@@ -165,7 +165,7 @@ namespace Furion.RemoteRequest
         /// </summary>
         /// <param name="bytesData"></param>
         /// <returns></returns>
-        public HttpClientExecutePart SetBodyBytes(params (string Name, byte[] Bytes, string FileName)[] bytesData)
+        public HttpRequestPart SetBodyBytes(params (string Name, byte[] Bytes, string FileName)[] bytesData)
         {
             BodyBytes ??= new List<(string Name, byte[] Bytes, string FileName)>();
             if (bytesData != null && bytesData.Length > 0) BodyBytes.AddRange(bytesData);
@@ -178,7 +178,7 @@ namespace Furion.RemoteRequest
         /// </summary>
         /// <param name="timeout"></param>
         /// <returns></returns>
-        public HttpClientExecutePart SetClientTimeout(long timeout)
+        public HttpRequestPart SetClientTimeout(long timeout)
         {
             if (timeout > 0) Timeout = timeout;
             return this;
@@ -190,7 +190,7 @@ namespace Furion.RemoteRequest
         /// <param name="providerType"></param>
         /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
-        public HttpClientExecutePart SetJsonSerialization(Type providerType, object jsonSerializerOptions = default)
+        public HttpRequestPart SetJsonSerialization(Type providerType, object jsonSerializerOptions = default)
         {
             if (providerType != null) JsonSerializerProvider = providerType;
             if (jsonSerializerOptions != null) JsonSerializerOptions = jsonSerializerOptions;
@@ -204,7 +204,7 @@ namespace Furion.RemoteRequest
         /// <typeparam name="TJsonSerializationProvider"></typeparam>
         /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
-        public HttpClientExecutePart SetJsonSerialization<TJsonSerializationProvider>(object jsonSerializerOptions = default)
+        public HttpRequestPart SetJsonSerialization<TJsonSerializationProvider>(object jsonSerializerOptions = default)
             where TJsonSerializationProvider : IJsonSerializerProvider
         {
             return SetJsonSerialization(typeof(TJsonSerializationProvider), jsonSerializerOptions);
@@ -216,7 +216,7 @@ namespace Furion.RemoteRequest
         /// <param name="enabled"></param>
         /// <param name="includeNull"></param>
         /// <returns></returns>
-        public HttpClientExecutePart SetValidationState(bool enabled = true, bool includeNull = true)
+        public HttpRequestPart SetValidationState(bool enabled = true, bool includeNull = true)
         {
             ValidationState = (enabled, includeNull);
             return this;
@@ -227,7 +227,7 @@ namespace Furion.RemoteRequest
         /// </summary>
         /// <param name="action"></param>
         /// <returns></returns>
-        public HttpClientExecutePart OnRequesting(Action<HttpRequestMessage> action)
+        public HttpRequestPart OnRequesting(Action<HttpRequestMessage> action)
         {
             if (action == null) return this;
             if (!RequestInterceptors.Contains(action)) RequestInterceptors.Add(action);
@@ -240,7 +240,7 @@ namespace Furion.RemoteRequest
         /// </summary>
         /// <param name="action"></param>
         /// <returns></returns>
-        public HttpClientExecutePart OnClientCreating(Action<HttpClient> action)
+        public HttpRequestPart OnClientCreating(Action<HttpClient> action)
         {
             if (action == null) return this;
             if (!HttpClientInterceptors.Contains(action)) HttpClientInterceptors.Add(action);
@@ -253,7 +253,7 @@ namespace Furion.RemoteRequest
         /// </summary>
         /// <param name="action"></param>
         /// <returns></returns>
-        public HttpClientExecutePart OnResponsing(Action<HttpResponseMessage> action)
+        public HttpRequestPart OnResponsing(Action<HttpResponseMessage> action)
         {
             if (action == null) return this;
             if (!ResponseInterceptors.Contains(action)) ResponseInterceptors.Add(action);
@@ -266,7 +266,7 @@ namespace Furion.RemoteRequest
         /// </summary>
         /// <param name="action"></param>
         /// <returns></returns>
-        public HttpClientExecutePart OnException(Action<HttpResponseMessage, string> action)
+        public HttpRequestPart OnException(Action<HttpResponseMessage, string> action)
         {
             if (action == null) return this;
             if (!ExceptionInterceptors.Contains(action)) ExceptionInterceptors.Add(action);
@@ -279,7 +279,7 @@ namespace Furion.RemoteRequest
         /// </summary>
         /// <param name="serviceProvider"></param>
         /// <returns></returns>
-        public HttpClientExecutePart SetRequestScoped(IServiceProvider serviceProvider)
+        public HttpRequestPart SetRequestScoped(IServiceProvider serviceProvider)
         {
             if (serviceProvider != null) RequestScoped = serviceProvider;
             return this;
@@ -291,7 +291,7 @@ namespace Furion.RemoteRequest
         /// <param name="numRetries"></param>
         /// <param name="retryTimeout">每次延迟时间（毫秒）</param>
         /// <returns></returns>
-        public HttpClientExecutePart SetRetryPolicy(int numRetries, int retryTimeout = 1000)
+        public HttpRequestPart SetRetryPolicy(int numRetries, int retryTimeout = 1000)
         {
             RetryPolicy = (numRetries, retryTimeout);
             return this;

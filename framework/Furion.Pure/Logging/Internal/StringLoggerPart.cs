@@ -19,6 +19,11 @@ namespace Furion.Logging
     public sealed partial class StringLoggerPart
     {
         /// <summary>
+        /// 静态缺省日志部件
+        /// </summary>
+        public static StringLoggerPart Default => new();
+
+        /// <summary>
         /// 日志内容
         /// </summary>
         public string Message { get; private set; }

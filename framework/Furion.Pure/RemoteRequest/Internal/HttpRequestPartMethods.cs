@@ -25,7 +25,7 @@ namespace Furion.RemoteRequest
     /// <summary>
     /// HttpClient 对象组装部件
     /// </summary>
-    public sealed partial class HttpClientExecutePart
+    public sealed partial class HttpRequestPart
     {
         /// <summary>
         /// MiniProfiler 分类名

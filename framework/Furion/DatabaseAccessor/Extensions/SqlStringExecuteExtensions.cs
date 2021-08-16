@@ -28,10 +28,10 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <typeparam name="TDbContextLocator"></typeparam>
         /// <param name="sql"></param>
         /// <returns></returns>
-        public static SqlStringExecutePart Change<TDbContextLocator>(this string sql)
+        public static SqlExecutePart Change<TDbContextLocator>(this string sql)
             where TDbContextLocator : class, IDbContextLocator
         {
-            return new SqlStringExecutePart().SetSqlString(sql).Change<TDbContextLocator>();
+            return new SqlExecutePart().SetSqlString(sql).Change<TDbContextLocator>();
         }
 
         /// <summary>
@@ -40,9 +40,9 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <param name="sql"></param>
         /// <param name="dbContextLocator"></param>
         /// <returns></returns>
-        public static SqlStringExecutePart Change(this string sql, Type dbContextLocator)
+        public static SqlExecutePart Change(this string sql, Type dbContextLocator)
         {
-            return new SqlStringExecutePart().SetSqlString(sql).Change(dbContextLocator);
+            return new SqlExecutePart().SetSqlString(sql).Change(dbContextLocator);
         }
 
         /// <summary>
@@ -51,9 +51,9 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <param name="sql"></param>
         /// <param name="serviceProvider"></param>
         /// <returns></returns>
-        public static SqlStringExecutePart SetContextScoped(this string sql, IServiceProvider serviceProvider)
+        public static SqlExecutePart SetContextScoped(this string sql, IServiceProvider serviceProvider)
         {
-            return new SqlStringExecutePart().SetSqlString(sql).SetContextScoped(serviceProvider);
+            return new SqlExecutePart().SetSqlString(sql).SetContextScoped(serviceProvider);
         }
 
         /// <summary>
@@ -62,9 +62,9 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <param name="sql"></param>
         /// <param name="timeout">单位秒</param>
         /// <returns></returns>
-        public static SqlStringExecutePart SetCommandTimeout(this string sql, int timeout)
+        public static SqlExecutePart SetCommandTimeout(this string sql, int timeout)
         {
-            return new SqlStringExecutePart().SetSqlString(sql).SetCommandTimeout(timeout);
+            return new SqlExecutePart().SetSqlString(sql).SetCommandTimeout(timeout);
         }
 
         /// <summary>
@@ -75,7 +75,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>DataTable</returns>
         public static DataTable SqlQuery(this string sql, params DbParameter[] parameters)
         {
-            return new SqlStringExecutePart().SetSqlString(sql).SqlQuery(parameters);
+            return new SqlExecutePart().SetSqlString(sql).SqlQuery(parameters);
         }
 
         /// <summary>
@@ -86,7 +86,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>DataTable</returns>
         public static DataTable SqlQuery(this string sql, object model)
         {
-            return new SqlStringExecutePart().SetSqlString(sql).SqlQuery(model);
+            return new SqlExecutePart().SetSqlString(sql).SqlQuery(model);
         }
 
         /// <summary>
@@ -97,7 +97,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>Task{DataTable}</returns>
         public static Task<DataTable> SqlQueryAsync(this string sql, params DbParameter[] parameters)
         {
-            return new SqlStringExecutePart().SetSqlString(sql).SqlQueryAsync(parameters);
+            return new SqlExecutePart().SetSqlString(sql).SqlQueryAsync(parameters);
         }
 
         /// <summary>
@@ -109,7 +109,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>Task{DataTable}</returns>
         public static Task<DataTable> SqlQueryAsync(this string sql, DbParameter[] parameters, CancellationToken cancellationToken = default)
         {
-            return new SqlStringExecutePart().SetSqlString(sql).SqlQueryAsync(parameters, cancellationToken);
+            return new SqlExecutePart().SetSqlString(sql).SqlQueryAsync(parameters, cancellationToken);
         }
 
         /// <summary>
@@ -121,7 +121,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>Task{DataTable}</returns>
         public static Task<DataTable> SqlQueryAsync(this string sql, object model, CancellationToken cancellationToken = default)
         {
-            return new SqlStringExecutePart().SetSqlString(sql).SqlQueryAsync(model, cancellationToken);
+            return new SqlExecutePart().SetSqlString(sql).SqlQueryAsync(model, cancellationToken);
         }
 
         /// <summary>
@@ -133,7 +133,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>List{T}</returns>
         public static List<T> SqlQuery<T>(this string sql, params DbParameter[] parameters)
         {
-            return new SqlStringExecutePart().SetSqlString(sql).SqlQuery<T>(parameters);
+            return new SqlExecutePart().SetSqlString(sql).SqlQuery<T>(parameters);
         }
 
         /// <summary>
@@ -145,7 +145,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>List{T}</returns>
         public static List<T> SqlQuery<T>(this string sql, object model)
         {
-            return new SqlStringExecutePart().SetSqlString(sql).SqlQuery<T>(model);
+            return new SqlExecutePart().SetSqlString(sql).SqlQuery<T>(model);
         }
 
         /// <summary>
@@ -157,7 +157,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>Task{List{T}}</returns>
         public static Task<List<T>> SqlQueryAsync<T>(this string sql, params DbParameter[] parameters)
         {
-            return new SqlStringExecutePart().SetSqlString(sql).SqlQueryAsync<T>(parameters);
+            return new SqlExecutePart().SetSqlString(sql).SqlQueryAsync<T>(parameters);
         }
 
         /// <summary>
@@ -170,7 +170,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>Task{List{T}}</returns>
         public static Task<List<T>> SqlQueryAsync<T>(this string sql, DbParameter[] parameters, CancellationToken cancellationToken = default)
         {
-            return new SqlStringExecutePart().SetSqlString(sql).SqlQueryAsync<T>(parameters, cancellationToken);
+            return new SqlExecutePart().SetSqlString(sql).SqlQueryAsync<T>(parameters, cancellationToken);
         }
 
         /// <summary>
@@ -183,7 +183,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>Task{List{T}}</returns>
         public static Task<List<T>> SqlQueryAsync<T>(this string sql, object model, CancellationToken cancellationToken = default)
         {
-            return new SqlStringExecutePart().SetSqlString(sql).SqlQueryAsync<T>(model, cancellationToken);
+            return new SqlExecutePart().SetSqlString(sql).SqlQueryAsync<T>(model, cancellationToken);
         }
 
         /// <summary>
@@ -194,7 +194,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>DataSet</returns>
         public static DataSet SqlQueries(this string sql, params DbParameter[] parameters)
         {
-            return new SqlStringExecutePart().SetSqlString(sql).SqlQueries(parameters);
+            return new SqlExecutePart().SetSqlString(sql).SqlQueries(parameters);
         }
 
         /// <summary>
@@ -205,7 +205,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>DataSet</returns>
         public static DataSet SqlQueries(this string sql, object model)
         {
-            return new SqlStringExecutePart().SetSqlString(sql).SqlQueries(model);
+            return new SqlExecutePart().SetSqlString(sql).SqlQueries(model);
         }
 
         /// <summary>
@@ -216,7 +216,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>Task{DataSet}</returns>
         public static Task<DataSet> SqlQueriesAsync(this string sql, params DbParameter[] parameters)
         {
-            return new SqlStringExecutePart().SetSqlString(sql).SqlQueriesAsync(parameters);
+            return new SqlExecutePart().SetSqlString(sql).SqlQueriesAsync(parameters);
         }
 
         /// <summary>
@@ -228,7 +228,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>Task{DataSet}</returns>
         public static Task<DataSet> SqlQueriesAsync(this string sql, DbParameter[] parameters, CancellationToken cancellationToken = default)
         {
-            return new SqlStringExecutePart().SetSqlString(sql).SqlQueriesAsync(parameters, cancellationToken);
+            return new SqlExecutePart().SetSqlString(sql).SqlQueriesAsync(parameters, cancellationToken);
         }
 
         /// <summary>
@@ -240,7 +240,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>Task{DataSet}</returns>
         public static Task<DataSet> SqlQueriesAsync(this string sql, object model, CancellationToken cancellationToken = default)
         {
-            return new SqlStringExecutePart().SetSqlString(sql).SqlQueriesAsync(model, cancellationToken);
+            return new SqlExecutePart().SetSqlString(sql).SqlQueriesAsync(model, cancellationToken);
         }
 
         /// <summary>
@@ -252,7 +252,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>List{T1}</returns>
         public static List<T1> SqlQueries<T1>(this string sql, params DbParameter[] parameters)
         {
-            return new SqlStringExecutePart().SetSqlString(sql).SqlQueries<T1>(parameters);
+            return new SqlExecutePart().SetSqlString(sql).SqlQueries<T1>(parameters);
         }
 
         /// <summary>
@@ -265,7 +265,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>元组类型</returns>
         public static (List<T1> list1, List<T2> list2) SqlQueries<T1, T2>(this string sql, params DbParameter[] parameters)
         {
-            return new SqlStringExecutePart().SetSqlString(sql).SqlQueries<T1, T2>(parameters);
+            return new SqlExecutePart().SetSqlString(sql).SqlQueries<T1, T2>(parameters);
         }
 
         /// <summary>
@@ -279,7 +279,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>元组类型</returns>
         public static (List<T1> list1, List<T2> list2, List<T3> list3) SqlQueries<T1, T2, T3>(this string sql, params DbParameter[] parameters)
         {
-            return new SqlStringExecutePart().SetSqlString(sql).SqlQueries<T1, T2, T3>(parameters);
+            return new SqlExecutePart().SetSqlString(sql).SqlQueries<T1, T2, T3>(parameters);
         }
 
         /// <summary>
@@ -294,7 +294,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>元组类型</returns>
         public static (List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4) SqlQueries<T1, T2, T3, T4>(this string sql, params DbParameter[] parameters)
         {
-            return new SqlStringExecutePart().SetSqlString(sql).SqlQueries<T1, T2, T3, T4>(parameters);
+            return new SqlExecutePart().SetSqlString(sql).SqlQueries<T1, T2, T3, T4>(parameters);
         }
 
         /// <summary>
@@ -310,7 +310,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>元组类型</returns>
         public static (List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5) SqlQueries<T1, T2, T3, T4, T5>(this string sql, params DbParameter[] parameters)
         {
-            return new SqlStringExecutePart().SetSqlString(sql).SqlQueries<T1, T2, T3, T4, T5>(parameters);
+            return new SqlExecutePart().SetSqlString(sql).SqlQueries<T1, T2, T3, T4, T5>(parameters);
         }
 
         /// <summary>
@@ -327,7 +327,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>元组类型</returns>
         public static (List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6) SqlQueries<T1, T2, T3, T4, T5, T6>(this string sql, params DbParameter[] parameters)
         {
-            return new SqlStringExecutePart().SetSqlString(sql).SqlQueries<T1, T2, T3, T4, T5, T6>(parameters);
+            return new SqlExecutePart().SetSqlString(sql).SqlQueries<T1, T2, T3, T4, T5, T6>(parameters);
         }
 
         /// <summary>
@@ -345,7 +345,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>元组类型</returns>
         public static (List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6, List<T7> list7) SqlQueries<T1, T2, T3, T4, T5, T6, T7>(this string sql, params DbParameter[] parameters)
         {
-            return new SqlStringExecutePart().SetSqlString(sql).SqlQueries<T1, T2, T3, T4, T5, T6, T7>(parameters);
+            return new SqlExecutePart().SetSqlString(sql).SqlQueries<T1, T2, T3, T4, T5, T6, T7>(parameters);
         }
 
         /// <summary>
@@ -364,7 +364,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>元组类型</returns>
         public static (List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6, List<T7> list7, List<T8> list8) SqlQueries<T1, T2, T3, T4, T5, T6, T7, T8>(this string sql, params DbParameter[] parameters)
         {
-            return new SqlStringExecutePart().SetSqlString(sql).SqlQueries<T1, T2, T3, T4, T5, T6, T7, T8>(parameters);
+            return new SqlExecutePart().SetSqlString(sql).SqlQueries<T1, T2, T3, T4, T5, T6, T7, T8>(parameters);
         }
 
         /// <summary>
@@ -376,7 +376,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>List{T1}</returns>
         public static List<T1> SqlQueries<T1>(this string sql, object model)
         {
-            return new SqlStringExecutePart().SetSqlString(sql).SqlQueries<T1>(model);
+            return new SqlExecutePart().SetSqlString(sql).SqlQueries<T1>(model);
         }
 
         /// <summary>
@@ -389,7 +389,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>元组类型</returns>
         public static (List<T1> list1, List<T2> list2) SqlQueries<T1, T2>(this string sql, object model)
         {
-            return new SqlStringExecutePart().SetSqlString(sql).SqlQueries<T1, T2>(model);
+            return new SqlExecutePart().SetSqlString(sql).SqlQueries<T1, T2>(model);
         }
 
         /// <summary>
@@ -403,7 +403,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>元组类型</returns>
         public static (List<T1> list1, List<T2> list2, List<T3> list3) SqlQueries<T1, T2, T3>(this string sql, object model)
         {
-            return new SqlStringExecutePart().SetSqlString(sql).SqlQueries<T1, T2, T3>(model);
+            return new SqlExecutePart().SetSqlString(sql).SqlQueries<T1, T2, T3>(model);
         }
 
         /// <summary>
@@ -418,7 +418,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>元组类型</returns>
         public static (List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4) SqlQueries<T1, T2, T3, T4>(this string sql, object model)
         {
-            return new SqlStringExecutePart().SetSqlString(sql).SqlQueries<T1, T2, T3, T4>(model);
+            return new SqlExecutePart().SetSqlString(sql).SqlQueries<T1, T2, T3, T4>(model);
         }
 
         /// <summary>
@@ -434,7 +434,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>元组类型</returns>
         public static (List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5) SqlQueries<T1, T2, T3, T4, T5>(this string sql, object model)
         {
-            return new SqlStringExecutePart().SetSqlString(sql).SqlQueries<T1, T2, T3, T4, T5>(model);
+            return new SqlExecutePart().SetSqlString(sql).SqlQueries<T1, T2, T3, T4, T5>(model);
         }
 
         /// <summary>
@@ -451,7 +451,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>元组类型</returns>
         public static (List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6) SqlQueries<T1, T2, T3, T4, T5, T6>(this string sql, object model)
         {
-            return new SqlStringExecutePart().SetSqlString(sql).SqlQueries<T1, T2, T3, T4, T5, T6>(model);
+            return new SqlExecutePart().SetSqlString(sql).SqlQueries<T1, T2, T3, T4, T5, T6>(model);
         }
 
         /// <summary>
@@ -469,7 +469,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>元组类型</returns>
         public static (List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6, List<T7> list7) SqlQueries<T1, T2, T3, T4, T5, T6, T7>(this string sql, object model)
         {
-            return new SqlStringExecutePart().SetSqlString(sql).SqlQueries<T1, T2, T3, T4, T5, T6, T7>(model);
+            return new SqlExecutePart().SetSqlString(sql).SqlQueries<T1, T2, T3, T4, T5, T6, T7>(model);
         }
 
         /// <summary>
@@ -488,7 +488,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>元组类型</returns>
         public static (List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6, List<T7> list7, List<T8> list8) SqlQueries<T1, T2, T3, T4, T5, T6, T7, T8>(this string sql, object model)
         {
-            return new SqlStringExecutePart().SetSqlString(sql).SqlQueries<T1, T2, T3, T4, T5, T6, T7, T8>(model);
+            return new SqlExecutePart().SetSqlString(sql).SqlQueries<T1, T2, T3, T4, T5, T6, T7, T8>(model);
         }
 
         /// <summary>
@@ -500,7 +500,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>Task{List{T1}}</returns>
         public static Task<List<T1>> SqlQueriesAsync<T1>(this string sql, params DbParameter[] parameters)
         {
-            return new SqlStringExecutePart().SetSqlString(sql).SqlQueriesAsync<T1>(parameters);
+            return new SqlExecutePart().SetSqlString(sql).SqlQueriesAsync<T1>(parameters);
         }
 
         /// <summary>
@@ -513,7 +513,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>Task{List{T1}}</returns>
         public static Task<List<T1>> SqlQueriesAsync<T1>(this string sql, DbParameter[] parameters, CancellationToken cancellationToken = default)
         {
-            return new SqlStringExecutePart().SetSqlString(sql).SqlQueriesAsync<T1>(parameters, cancellationToken);
+            return new SqlExecutePart().SetSqlString(sql).SqlQueriesAsync<T1>(parameters, cancellationToken);
         }
 
         /// <summary>
@@ -526,7 +526,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>元组类型</returns>
         public static Task<(List<T1> list1, List<T2> list2)> SqlQueriesAsync<T1, T2>(this string sql, params DbParameter[] parameters)
         {
-            return new SqlStringExecutePart().SetSqlString(sql).SqlQueriesAsync<T1, T2>(parameters);
+            return new SqlExecutePart().SetSqlString(sql).SqlQueriesAsync<T1, T2>(parameters);
         }
 
         /// <summary>
@@ -540,7 +540,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>元组类型</returns>
         public static Task<(List<T1> list1, List<T2> list2)> SqlQueriesAsync<T1, T2>(this string sql, DbParameter[] parameters, CancellationToken cancellationToken = default)
         {
-            return new SqlStringExecutePart().SetSqlString(sql).SqlQueriesAsync<T1, T2>(parameters, cancellationToken);
+            return new SqlExecutePart().SetSqlString(sql).SqlQueriesAsync<T1, T2>(parameters, cancellationToken);
         }
 
         /// <summary>
@@ -554,7 +554,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>元组类型</returns>
         public static Task<(List<T1> list1, List<T2> list2, List<T3> list3)> SqlQueriesAsync<T1, T2, T3>(this string sql, params DbParameter[] parameters)
         {
-            return new SqlStringExecutePart().SetSqlString(sql).SqlQueriesAsync<T1, T2, T3>(parameters);
+            return new SqlExecutePart().SetSqlString(sql).SqlQueriesAsync<T1, T2, T3>(parameters);
         }
 
         /// <summary>
@@ -569,7 +569,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>元组类型</returns>
         public static Task<(List<T1> list1, List<T2> list2, List<T3> list3)> SqlQueriesAsync<T1, T2, T3>(this string sql, DbParameter[] parameters, CancellationToken cancellationToken = default)
         {
-            return new SqlStringExecutePart().SetSqlString(sql).SqlQueriesAsync<T1, T2, T3>(parameters, cancellationToken);
+            return new SqlExecutePart().SetSqlString(sql).SqlQueriesAsync<T1, T2, T3>(parameters, cancellationToken);
         }
 
         /// <summary>
@@ -584,7 +584,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>元组类型</returns>
         public static Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4)> SqlQueriesAsync<T1, T2, T3, T4>(this string sql, params DbParameter[] parameters)
         {
-            return new SqlStringExecutePart().SetSqlString(sql).SqlQueriesAsync<T1, T2, T3, T4>(parameters);
+            return new SqlExecutePart().SetSqlString(sql).SqlQueriesAsync<T1, T2, T3, T4>(parameters);
         }
 
         /// <summary>
@@ -600,7 +600,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>元组类型</returns>
         public static Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4)> SqlQueriesAsync<T1, T2, T3, T4>(this string sql, DbParameter[] parameters, CancellationToken cancellationToken = default)
         {
-            return new SqlStringExecutePart().SetSqlString(sql).SqlQueriesAsync<T1, T2, T3, T4>(parameters, cancellationToken);
+            return new SqlExecutePart().SetSqlString(sql).SqlQueriesAsync<T1, T2, T3, T4>(parameters, cancellationToken);
         }
 
         /// <summary>
@@ -616,7 +616,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>元组类型</returns>
         public static Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5)> SqlQueriesAsync<T1, T2, T3, T4, T5>(this string sql, params DbParameter[] parameters)
         {
-            return new SqlStringExecutePart().SetSqlString(sql).SqlQueriesAsync<T1, T2, T3, T4, T5>(parameters);
+            return new SqlExecutePart().SetSqlString(sql).SqlQueriesAsync<T1, T2, T3, T4, T5>(parameters);
         }
 
         /// <summary>
@@ -633,7 +633,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>元组类型</returns>
         public static Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5)> SqlQueriesAsync<T1, T2, T3, T4, T5>(this string sql, DbParameter[] parameters, CancellationToken cancellationToken = default)
         {
-            return new SqlStringExecutePart().SetSqlString(sql).SqlQueriesAsync<T1, T2, T3, T4, T5>(parameters, cancellationToken);
+            return new SqlExecutePart().SetSqlString(sql).SqlQueriesAsync<T1, T2, T3, T4, T5>(parameters, cancellationToken);
         }
 
         /// <summary>
@@ -650,7 +650,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>元组类型</returns>
         public static Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6)> SqlQueriesAsync<T1, T2, T3, T4, T5, T6>(this string sql, params DbParameter[] parameters)
         {
-            return new SqlStringExecutePart().SetSqlString(sql).SqlQueriesAsync<T1, T2, T3, T4, T5, T6>(parameters);
+            return new SqlExecutePart().SetSqlString(sql).SqlQueriesAsync<T1, T2, T3, T4, T5, T6>(parameters);
         }
 
         /// <summary>
@@ -668,7 +668,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>元组类型</returns>
         public static Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6)> SqlQueriesAsync<T1, T2, T3, T4, T5, T6>(this string sql, DbParameter[] parameters, CancellationToken cancellationToken = default)
         {
-            return new SqlStringExecutePart().SetSqlString(sql).SqlQueriesAsync<T1, T2, T3, T4, T5, T6>(parameters, cancellationToken);
+            return new SqlExecutePart().SetSqlString(sql).SqlQueriesAsync<T1, T2, T3, T4, T5, T6>(parameters, cancellationToken);
         }
 
         /// <summary>
@@ -686,7 +686,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>元组类型</returns>
         public static Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6, List<T7> list7)> SqlQueriesAsync<T1, T2, T3, T4, T5, T6, T7>(this string sql, params DbParameter[] parameters)
         {
-            return new SqlStringExecutePart().SetSqlString(sql).SqlQueriesAsync<T1, T2, T3, T4, T5, T6, T7>(parameters);
+            return new SqlExecutePart().SetSqlString(sql).SqlQueriesAsync<T1, T2, T3, T4, T5, T6, T7>(parameters);
         }
 
         /// <summary>
@@ -705,7 +705,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>元组类型</returns>
         public static Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6, List<T7> list7)> SqlQueriesAsync<T1, T2, T3, T4, T5, T6, T7>(this string sql, DbParameter[] parameters, CancellationToken cancellationToken = default)
         {
-            return new SqlStringExecutePart().SetSqlString(sql).SqlQueriesAsync<T1, T2, T3, T4, T5, T6, T7>(parameters, cancellationToken);
+            return new SqlExecutePart().SetSqlString(sql).SqlQueriesAsync<T1, T2, T3, T4, T5, T6, T7>(parameters, cancellationToken);
         }
 
         /// <summary>
@@ -724,7 +724,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>元组类型</returns>
         public static Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6, List<T7> list7, List<T8> list8)> SqlQueriesAsync<T1, T2, T3, T4, T5, T6, T7, T8>(this string sql, params DbParameter[] parameters)
         {
-            return new SqlStringExecutePart().SetSqlString(sql).SqlQueriesAsync<T1, T2, T3, T4, T5, T6, T7, T8>(parameters);
+            return new SqlExecutePart().SetSqlString(sql).SqlQueriesAsync<T1, T2, T3, T4, T5, T6, T7, T8>(parameters);
         }
 
         /// <summary>
@@ -744,7 +744,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>元组类型</returns>
         public static Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6, List<T7> list7, List<T8> list8)> SqlQueriesAsync<T1, T2, T3, T4, T5, T6, T7, T8>(this string sql, DbParameter[] parameters, CancellationToken cancellationToken = default)
         {
-            return new SqlStringExecutePart().SetSqlString(sql).SqlQueriesAsync<T1, T2, T3, T4, T5, T6, T7, T8>(parameters, cancellationToken);
+            return new SqlExecutePart().SetSqlString(sql).SqlQueriesAsync<T1, T2, T3, T4, T5, T6, T7, T8>(parameters, cancellationToken);
         }
 
         /// <summary>
@@ -757,7 +757,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>List{T1}</returns>
         public static Task<List<T1>> SqlQueriesAsync<T1>(this string sql, object model, CancellationToken cancellationToken = default)
         {
-            return new SqlStringExecutePart().SetSqlString(sql).SqlQueriesAsync<T1>(model, cancellationToken);
+            return new SqlExecutePart().SetSqlString(sql).SqlQueriesAsync<T1>(model, cancellationToken);
         }
 
         /// <summary>
@@ -771,7 +771,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>元组类型</returns>
         public static Task<(List<T1> list1, List<T2> list2)> SqlQueriesAsync<T1, T2>(this string sql, object model, CancellationToken cancellationToken = default)
         {
-            return new SqlStringExecutePart().SetSqlString(sql).SqlQueriesAsync<T1, T2>(model, cancellationToken);
+            return new SqlExecutePart().SetSqlString(sql).SqlQueriesAsync<T1, T2>(model, cancellationToken);
         }
 
         /// <summary>
@@ -786,7 +786,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>元组类型</returns>
         public static Task<(List<T1> list1, List<T2> list2, List<T3> list3)> SqlQueriesAsync<T1, T2, T3>(this string sql, object model, CancellationToken cancellationToken = default)
         {
-            return new SqlStringExecutePart().SetSqlString(sql).SqlQueriesAsync<T1, T2, T3>(model, cancellationToken);
+            return new SqlExecutePart().SetSqlString(sql).SqlQueriesAsync<T1, T2, T3>(model, cancellationToken);
         }
 
         /// <summary>
@@ -802,7 +802,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>元组类型</returns>
         public static Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4)> SqlQueriesAsync<T1, T2, T3, T4>(this string sql, object model, CancellationToken cancellationToken = default)
         {
-            return new SqlStringExecutePart().SetSqlString(sql).SqlQueriesAsync<T1, T2, T3, T4>(model, cancellationToken);
+            return new SqlExecutePart().SetSqlString(sql).SqlQueriesAsync<T1, T2, T3, T4>(model, cancellationToken);
         }
 
         /// <summary>
@@ -819,7 +819,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>元组类型</returns>
         public static Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5)> SqlQueriesAsync<T1, T2, T3, T4, T5>(this string sql, object model, CancellationToken cancellationToken = default)
         {
-            return new SqlStringExecutePart().SetSqlString(sql).SqlQueriesAsync<T1, T2, T3, T4, T5>(model, cancellationToken);
+            return new SqlExecutePart().SetSqlString(sql).SqlQueriesAsync<T1, T2, T3, T4, T5>(model, cancellationToken);
         }
 
         /// <summary>
@@ -837,7 +837,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>元组类型</returns>
         public static Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6)> SqlQueriesAsync<T1, T2, T3, T4, T5, T6>(this string sql, object model, CancellationToken cancellationToken = default)
         {
-            return new SqlStringExecutePart().SetSqlString(sql).SqlQueriesAsync<T1, T2, T3, T4, T5, T6>(model, cancellationToken);
+            return new SqlExecutePart().SetSqlString(sql).SqlQueriesAsync<T1, T2, T3, T4, T5, T6>(model, cancellationToken);
         }
 
         /// <summary>
@@ -856,7 +856,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>元组类型</returns>
         public static Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6, List<T7> list7)> SqlQueriesAsync<T1, T2, T3, T4, T5, T6, T7>(this string sql, object model, CancellationToken cancellationToken = default)
         {
-            return new SqlStringExecutePart().SetSqlString(sql).SqlQueriesAsync<T1, T2, T3, T4, T5, T6, T7>(model, cancellationToken);
+            return new SqlExecutePart().SetSqlString(sql).SqlQueriesAsync<T1, T2, T3, T4, T5, T6, T7>(model, cancellationToken);
         }
 
         /// <summary>
@@ -876,7 +876,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>元组类型</returns>
         public static Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6, List<T7> list7, List<T8> list8)> SqlQueriesAsync<T1, T2, T3, T4, T5, T6, T7, T8>(this string sql, object model, CancellationToken cancellationToken = default)
         {
-            return new SqlStringExecutePart().SetSqlString(sql).SqlQueriesAsync<T1, T2, T3, T4, T5, T6, T7, T8>(model, cancellationToken);
+            return new SqlExecutePart().SetSqlString(sql).SqlQueriesAsync<T1, T2, T3, T4, T5, T6, T7, T8>(model, cancellationToken);
         }
 
         /// <summary>
@@ -887,7 +887,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>int</returns>
         public static int SqlNonQuery(this string sql, params DbParameter[] parameters)
         {
-            return new SqlStringExecutePart().SetSqlString(sql).SqlNonQuery(parameters);
+            return new SqlExecutePart().SetSqlString(sql).SqlNonQuery(parameters);
         }
 
         /// <summary>
@@ -898,7 +898,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>int</returns>
         public static int SqlNonQuery(this string sql, object model)
         {
-            return new SqlStringExecutePart().SetSqlString(sql).SqlNonQuery(model);
+            return new SqlExecutePart().SetSqlString(sql).SqlNonQuery(model);
         }
 
         /// <summary>
@@ -909,7 +909,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>int</returns>
         public static Task<int> SqlNonQueryAsync(this string sql, params DbParameter[] parameters)
         {
-            return new SqlStringExecutePart().SetSqlString(sql).SqlNonQueryAsync(parameters);
+            return new SqlExecutePart().SetSqlString(sql).SqlNonQueryAsync(parameters);
         }
 
         /// <summary>
@@ -921,7 +921,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>int</returns>
         public static Task<int> SqlNonQueryAsync(this string sql, DbParameter[] parameters, CancellationToken cancellationToken = default)
         {
-            return new SqlStringExecutePart().SetSqlString(sql).SqlNonQueryAsync(parameters, cancellationToken);
+            return new SqlExecutePart().SetSqlString(sql).SqlNonQueryAsync(parameters, cancellationToken);
         }
 
         /// <summary>
@@ -933,7 +933,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>int</returns>
         public static Task<int> SqlNonQueryAsync(this string sql, object model, CancellationToken cancellationToken = default)
         {
-            return new SqlStringExecutePart().SetSqlString(sql).SqlNonQueryAsync(model, cancellationToken);
+            return new SqlExecutePart().SetSqlString(sql).SqlNonQueryAsync(model, cancellationToken);
         }
 
         /// <summary>
@@ -944,7 +944,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>object</returns>
         public static object SqlScalar(this string sql, params DbParameter[] parameters)
         {
-            return new SqlStringExecutePart().SetSqlString(sql).SqlScalar(parameters);
+            return new SqlExecutePart().SetSqlString(sql).SqlScalar(parameters);
         }
 
         /// <summary>
@@ -955,7 +955,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>object</returns>
         public static object SqlScalar(this string sql, object model)
         {
-            return new SqlStringExecutePart().SetSqlString(sql).SqlScalar(model);
+            return new SqlExecutePart().SetSqlString(sql).SqlScalar(model);
         }
 
         /// <summary>
@@ -966,7 +966,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>object</returns>
         public static Task<object> SqlScalarAsync(this string sql, params DbParameter[] parameters)
         {
-            return new SqlStringExecutePart().SetSqlString(sql).SqlScalarAsync(parameters);
+            return new SqlExecutePart().SetSqlString(sql).SqlScalarAsync(parameters);
         }
 
         /// <summary>
@@ -978,7 +978,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>object</returns>
         public static Task<object> SqlScalarAsync(this string sql, DbParameter[] parameters, CancellationToken cancellationToken = default)
         {
-            return new SqlStringExecutePart().SetSqlString(sql).SqlScalarAsync(parameters, cancellationToken);
+            return new SqlExecutePart().SetSqlString(sql).SqlScalarAsync(parameters, cancellationToken);
         }
 
         /// <summary>
@@ -990,7 +990,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>object</returns>
         public static Task<object> SqlScalarAsync(this string sql, object model, CancellationToken cancellationToken = default)
         {
-            return new SqlStringExecutePart().SetSqlString(sql).SqlScalarAsync(model, cancellationToken);
+            return new SqlExecutePart().SetSqlString(sql).SqlScalarAsync(model, cancellationToken);
         }
 
         /// <summary>
@@ -1001,7 +1001,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>TResult</returns>
         public static TResult SqlScalar<TResult>(this string sql, params DbParameter[] parameters)
         {
-            return new SqlStringExecutePart().SetSqlString(sql).SqlScalar<TResult>(parameters);
+            return new SqlExecutePart().SetSqlString(sql).SqlScalar<TResult>(parameters);
         }
 
         /// <summary>
@@ -1012,7 +1012,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>TResult</returns>
         public static TResult SqlScalar<TResult>(this string sql, object model)
         {
-            return new SqlStringExecutePart().SetSqlString(sql).SqlScalar<TResult>(model);
+            return new SqlExecutePart().SetSqlString(sql).SqlScalar<TResult>(model);
         }
 
         /// <summary>
@@ -1023,7 +1023,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>TResult</returns>
         public static Task<TResult> SqlScalarAsync<TResult>(this string sql, params DbParameter[] parameters)
         {
-            return new SqlStringExecutePart().SetSqlString(sql).SqlScalarAsync<TResult>(parameters);
+            return new SqlExecutePart().SetSqlString(sql).SqlScalarAsync<TResult>(parameters);
         }
 
         /// <summary>
@@ -1035,7 +1035,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>TResult</returns>
         public static Task<TResult> SqlScalarAsync<TResult>(this string sql, DbParameter[] parameters, CancellationToken cancellationToken = default)
         {
-            return new SqlStringExecutePart().SetSqlString(sql).SqlScalarAsync<TResult>(parameters, cancellationToken);
+            return new SqlExecutePart().SetSqlString(sql).SqlScalarAsync<TResult>(parameters, cancellationToken);
         }
 
         /// <summary>
@@ -1047,7 +1047,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>TResult</returns>
         public static Task<TResult> SqlScalarAsync<TResult>(this string sql, object model, CancellationToken cancellationToken = default)
         {
-            return new SqlStringExecutePart().SetSqlString(sql).SqlScalarAsync<TResult>(model, cancellationToken);
+            return new SqlExecutePart().SetSqlString(sql).SqlScalarAsync<TResult>(model, cancellationToken);
         }
 
         /// <summary>
@@ -1058,7 +1058,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>DataTable</returns>
         public static DataTable SqlProcedureQuery(this string procName, params DbParameter[] parameters)
         {
-            return new SqlStringExecutePart().SetSqlString(procName).SqlProcedureQuery(parameters);
+            return new SqlExecutePart().SetSqlString(procName).SqlProcedureQuery(parameters);
         }
 
         /// <summary>
@@ -1069,7 +1069,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>DataTable</returns>
         public static DataTable SqlProcedureQuery(this string procName, object model)
         {
-            return new SqlStringExecutePart().SetSqlString(procName).SqlProcedureQuery(model);
+            return new SqlExecutePart().SetSqlString(procName).SqlProcedureQuery(model);
         }
 
         /// <summary>
@@ -1080,7 +1080,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>DataTable</returns>
         public static Task<DataTable> SqlProcedureQueryAsync(this string procName, params DbParameter[] parameters)
         {
-            return new SqlStringExecutePart().SetSqlString(procName).SqlProcedureQueryAsync(parameters);
+            return new SqlExecutePart().SetSqlString(procName).SqlProcedureQueryAsync(parameters);
         }
 
         /// <summary>
@@ -1092,7 +1092,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>DataTable</returns>
         public static Task<DataTable> SqlProcedureQueryAsync(this string procName, DbParameter[] parameters, CancellationToken cancellationToken = default)
         {
-            return new SqlStringExecutePart().SetSqlString(procName).SqlProcedureQueryAsync(parameters, cancellationToken);
+            return new SqlExecutePart().SetSqlString(procName).SqlProcedureQueryAsync(parameters, cancellationToken);
         }
 
         /// <summary>
@@ -1104,7 +1104,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>DataTable</returns>
         public static Task<DataTable> SqlProcedureQueryAsync(this string procName, object model, CancellationToken cancellationToken = default)
         {
-            return new SqlStringExecutePart().SetSqlString(procName).SqlProcedureQueryAsync(model, cancellationToken);
+            return new SqlExecutePart().SetSqlString(procName).SqlProcedureQueryAsync(model, cancellationToken);
         }
 
         /// <summary>
@@ -1115,7 +1115,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>List{T}</returns>
         public static List<T> SqlProcedureQuery<T>(this string procName, params DbParameter[] parameters)
         {
-            return new SqlStringExecutePart().SetSqlString(procName).SqlProcedureQuery<T>(parameters);
+            return new SqlExecutePart().SetSqlString(procName).SqlProcedureQuery<T>(parameters);
         }
 
         /// <summary>
@@ -1126,7 +1126,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>List{T}</returns>
         public static List<T> SqlProcedureQuery<T>(this string procName, object model)
         {
-            return new SqlStringExecutePart().SetSqlString(procName).SqlProcedureQuery<T>(model);
+            return new SqlExecutePart().SetSqlString(procName).SqlProcedureQuery<T>(model);
         }
 
         /// <summary>
@@ -1137,7 +1137,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>List{T}</returns>
         public static Task<List<T>> SqlProcedureQueryAsync<T>(this string procName, params DbParameter[] parameters)
         {
-            return new SqlStringExecutePart().SetSqlString(procName).SqlProcedureQueryAsync<T>(parameters);
+            return new SqlExecutePart().SetSqlString(procName).SqlProcedureQueryAsync<T>(parameters);
         }
 
         /// <summary>
@@ -1149,7 +1149,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>List{T}</returns>
         public static Task<List<T>> SqlProcedureQueryAsync<T>(this string procName, DbParameter[] parameters, CancellationToken cancellationToken = default)
         {
-            return new SqlStringExecutePart().SetSqlString(procName).SqlProcedureQueryAsync<T>(parameters, cancellationToken);
+            return new SqlExecutePart().SetSqlString(procName).SqlProcedureQueryAsync<T>(parameters, cancellationToken);
         }
 
         /// <summary>
@@ -1161,7 +1161,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>List{T}</returns>
         public static Task<List<T>> SqlProcedureQueryAsync<T>(this string procName, object model, CancellationToken cancellationToken = default)
         {
-            return new SqlStringExecutePart().SetSqlString(procName).SqlProcedureQueryAsync<T>(model, cancellationToken);
+            return new SqlExecutePart().SetSqlString(procName).SqlProcedureQueryAsync<T>(model, cancellationToken);
         }
 
         /// <summary>
@@ -1172,7 +1172,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>DataSet</returns>
         public static DataSet SqlProcedureQueries(this string procName, params DbParameter[] parameters)
         {
-            return new SqlStringExecutePart().SetSqlString(procName).SqlProcedureQueries(parameters);
+            return new SqlExecutePart().SetSqlString(procName).SqlProcedureQueries(parameters);
         }
 
         /// <summary>
@@ -1183,7 +1183,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>DataSet</returns>
         public static DataSet SqlProcedureQueries(this string procName, object model)
         {
-            return new SqlStringExecutePart().SetSqlString(procName).SqlProcedureQueries(model);
+            return new SqlExecutePart().SetSqlString(procName).SqlProcedureQueries(model);
         }
 
         /// <summary>
@@ -1194,7 +1194,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>DataSet</returns>
         public static Task<DataSet> SqlProcedureQueriesAsync(this string procName, params DbParameter[] parameters)
         {
-            return new SqlStringExecutePart().SetSqlString(procName).SqlProcedureQueriesAsync(parameters);
+            return new SqlExecutePart().SetSqlString(procName).SqlProcedureQueriesAsync(parameters);
         }
 
         /// <summary>
@@ -1206,7 +1206,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>DataSet</returns>
         public static Task<DataSet> SqlProcedureQueriesAsync(this string procName, DbParameter[] parameters, CancellationToken cancellationToken = default)
         {
-            return new SqlStringExecutePart().SetSqlString(procName).SqlProcedureQueriesAsync(parameters, cancellationToken);
+            return new SqlExecutePart().SetSqlString(procName).SqlProcedureQueriesAsync(parameters, cancellationToken);
         }
 
         /// <summary>
@@ -1218,7 +1218,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>DataSet</returns>
         public static Task<DataSet> SqlProcedureQueriesAsync(this string procName, object model, CancellationToken cancellationToken = default)
         {
-            return new SqlStringExecutePart().SetSqlString(procName).SqlProcedureQueriesAsync(model, cancellationToken);
+            return new SqlExecutePart().SetSqlString(procName).SqlProcedureQueriesAsync(model, cancellationToken);
         }
 
         /// <summary>
@@ -1230,7 +1230,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>List{T1}</returns>
         public static List<T1> SqlProcedureQueries<T1>(this string procName, params DbParameter[] parameters)
         {
-            return new SqlStringExecutePart().SetSqlString(procName).SqlProcedureQueries<T1>(parameters);
+            return new SqlExecutePart().SetSqlString(procName).SqlProcedureQueries<T1>(parameters);
         }
 
         /// <summary>
@@ -1243,7 +1243,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>元组类型</returns>
         public static (List<T1> list1, List<T2> list2) SqlProcedureQueries<T1, T2>(this string procName, params DbParameter[] parameters)
         {
-            return new SqlStringExecutePart().SetSqlString(procName).SqlProcedureQueries<T1, T2>(parameters);
+            return new SqlExecutePart().SetSqlString(procName).SqlProcedureQueries<T1, T2>(parameters);
         }
 
         /// <summary>
@@ -1257,7 +1257,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>元组类型</returns>
         public static (List<T1> list1, List<T2> list2, List<T3> list3) SqlProcedureQueries<T1, T2, T3>(this string procName, params DbParameter[] parameters)
         {
-            return new SqlStringExecutePart().SetSqlString(procName).SqlProcedureQueries<T1, T2, T3>(parameters);
+            return new SqlExecutePart().SetSqlString(procName).SqlProcedureQueries<T1, T2, T3>(parameters);
         }
 
         /// <summary>
@@ -1272,7 +1272,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>元组类型</returns>
         public static (List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4) SqlProcedureQueries<T1, T2, T3, T4>(this string procName, params DbParameter[] parameters)
         {
-            return new SqlStringExecutePart().SetSqlString(procName).SqlProcedureQueries<T1, T2, T3, T4>(parameters);
+            return new SqlExecutePart().SetSqlString(procName).SqlProcedureQueries<T1, T2, T3, T4>(parameters);
         }
 
         /// <summary>
@@ -1288,7 +1288,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>元组类型</returns>
         public static (List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5) SqlProcedureQueries<T1, T2, T3, T4, T5>(this string procName, params DbParameter[] parameters)
         {
-            return new SqlStringExecutePart().SetSqlString(procName).SqlProcedureQueries<T1, T2, T3, T4, T5>(parameters);
+            return new SqlExecutePart().SetSqlString(procName).SqlProcedureQueries<T1, T2, T3, T4, T5>(parameters);
         }
 
         /// <summary>
@@ -1305,7 +1305,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>元组类型</returns>
         public static (List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6) SqlProcedureQueries<T1, T2, T3, T4, T5, T6>(this string procName, params DbParameter[] parameters)
         {
-            return new SqlStringExecutePart().SetSqlString(procName).SqlProcedureQueries<T1, T2, T3, T4, T5, T6>(parameters);
+            return new SqlExecutePart().SetSqlString(procName).SqlProcedureQueries<T1, T2, T3, T4, T5, T6>(parameters);
         }
 
         /// <summary>
@@ -1323,7 +1323,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>元组类型</returns>
         public static (List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6, List<T7> list7) SqlProcedureQueries<T1, T2, T3, T4, T5, T6, T7>(this string procName, params DbParameter[] parameters)
         {
-            return new SqlStringExecutePart().SetSqlString(procName).SqlProcedureQueries<T1, T2, T3, T4, T5, T6, T7>(parameters);
+            return new SqlExecutePart().SetSqlString(procName).SqlProcedureQueries<T1, T2, T3, T4, T5, T6, T7>(parameters);
         }
 
         /// <summary>
@@ -1342,7 +1342,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>元组类型</returns>
         public static (List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6, List<T7> list7, List<T8> list8) SqlProcedureQueries<T1, T2, T3, T4, T5, T6, T7, T8>(this string procName, params DbParameter[] parameters)
         {
-            return new SqlStringExecutePart().SetSqlString(procName).SqlProcedureQueries<T1, T2, T3, T4, T5, T6, T7, T8>(parameters);
+            return new SqlExecutePart().SetSqlString(procName).SqlProcedureQueries<T1, T2, T3, T4, T5, T6, T7, T8>(parameters);
         }
 
         /// <summary>
@@ -1354,7 +1354,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>List{T1}</returns>
         public static List<T1> SqlProcedureQueries<T1>(this string procName, object model)
         {
-            return new SqlStringExecutePart().SetSqlString(procName).SqlProcedureQueries<T1>(model);
+            return new SqlExecutePart().SetSqlString(procName).SqlProcedureQueries<T1>(model);
         }
 
         /// <summary>
@@ -1367,7 +1367,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>元组类型</returns>
         public static (List<T1> list1, List<T2> list2) SqlProcedureQueries<T1, T2>(this string procName, object model)
         {
-            return new SqlStringExecutePart().SetSqlString(procName).SqlProcedureQueries<T1, T2>(model);
+            return new SqlExecutePart().SetSqlString(procName).SqlProcedureQueries<T1, T2>(model);
         }
 
         /// <summary>
@@ -1381,7 +1381,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>元组类型</returns>
         public static (List<T1> list1, List<T2> list2, List<T3> list3) SqlProcedureQueries<T1, T2, T3>(this string procName, object model)
         {
-            return new SqlStringExecutePart().SetSqlString(procName).SqlProcedureQueries<T1, T2, T3>(model);
+            return new SqlExecutePart().SetSqlString(procName).SqlProcedureQueries<T1, T2, T3>(model);
         }
 
         /// <summary>
@@ -1396,7 +1396,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>元组类型</returns>
         public static (List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4) SqlProcedureQueries<T1, T2, T3, T4>(this string procName, object model)
         {
-            return new SqlStringExecutePart().SetSqlString(procName).SqlProcedureQueries<T1, T2, T3, T4>(model);
+            return new SqlExecutePart().SetSqlString(procName).SqlProcedureQueries<T1, T2, T3, T4>(model);
         }
 
         /// <summary>
@@ -1412,7 +1412,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>元组类型</returns>
         public static (List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5) SqlProcedureQueries<T1, T2, T3, T4, T5>(this string procName, object model)
         {
-            return new SqlStringExecutePart().SetSqlString(procName).SqlProcedureQueries<T1, T2, T3, T4, T5>(model);
+            return new SqlExecutePart().SetSqlString(procName).SqlProcedureQueries<T1, T2, T3, T4, T5>(model);
         }
 
         /// <summary>
@@ -1429,7 +1429,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>元组类型</returns>
         public static (List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6) SqlProcedureQueries<T1, T2, T3, T4, T5, T6>(this string procName, object model)
         {
-            return new SqlStringExecutePart().SetSqlString(procName).SqlProcedureQueries<T1, T2, T3, T4, T5, T6>(model);
+            return new SqlExecutePart().SetSqlString(procName).SqlProcedureQueries<T1, T2, T3, T4, T5, T6>(model);
         }
 
         /// <summary>
@@ -1447,7 +1447,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>元组类型</returns>
         public static (List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6, List<T7> list7) SqlProcedureQueries<T1, T2, T3, T4, T5, T6, T7>(this string procName, object model)
         {
-            return new SqlStringExecutePart().SetSqlString(procName).SqlProcedureQueries<T1, T2, T3, T4, T5, T6, T7>(model);
+            return new SqlExecutePart().SetSqlString(procName).SqlProcedureQueries<T1, T2, T3, T4, T5, T6, T7>(model);
         }
 
         /// <summary>
@@ -1466,7 +1466,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>元组类型</returns>
         public static (List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6, List<T7> list7, List<T8> list8) SqlProcedureQueries<T1, T2, T3, T4, T5, T6, T7, T8>(this string procName, object model)
         {
-            return new SqlStringExecutePart().SetSqlString(procName).SqlProcedureQueries<T1, T2, T3, T4, T5, T6, T7, T8>(model);
+            return new SqlExecutePart().SetSqlString(procName).SqlProcedureQueries<T1, T2, T3, T4, T5, T6, T7, T8>(model);
         }
 
         /// <summary>
@@ -1478,7 +1478,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>Task{List{T1}}</returns>
         public static Task<List<T1>> SqlProcedureQueriesAsync<T1>(this string procName, params DbParameter[] parameters)
         {
-            return new SqlStringExecutePart().SetSqlString(procName).SqlProcedureQueriesAsync<T1>(parameters);
+            return new SqlExecutePart().SetSqlString(procName).SqlProcedureQueriesAsync<T1>(parameters);
         }
 
         /// <summary>
@@ -1491,7 +1491,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>Task{List{T1}}</returns>
         public static Task<List<T1>> SqlProcedureQueriesAsync<T1>(this string procName, DbParameter[] parameters, CancellationToken cancellationToken = default)
         {
-            return new SqlStringExecutePart().SetSqlString(procName).SqlProcedureQueriesAsync<T1>(parameters, cancellationToken);
+            return new SqlExecutePart().SetSqlString(procName).SqlProcedureQueriesAsync<T1>(parameters, cancellationToken);
         }
 
         /// <summary>
@@ -1504,7 +1504,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>元组类型</returns>
         public static Task<(List<T1> list1, List<T2> list2)> SqlProcedureQueriesAsync<T1, T2>(this string procName, params DbParameter[] parameters)
         {
-            return new SqlStringExecutePart().SetSqlString(procName).SqlProcedureQueriesAsync<T1, T2>(parameters);
+            return new SqlExecutePart().SetSqlString(procName).SqlProcedureQueriesAsync<T1, T2>(parameters);
         }
 
         /// <summary>
@@ -1518,7 +1518,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>元组类型</returns>
         public static Task<(List<T1> list1, List<T2> list2)> SqlProcedureQueriesAsync<T1, T2>(this string procName, DbParameter[] parameters, CancellationToken cancellationToken = default)
         {
-            return new SqlStringExecutePart().SetSqlString(procName).SqlProcedureQueriesAsync<T1, T2>(parameters, cancellationToken);
+            return new SqlExecutePart().SetSqlString(procName).SqlProcedureQueriesAsync<T1, T2>(parameters, cancellationToken);
         }
 
         /// <summary>
@@ -1532,7 +1532,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>元组类型</returns>
         public static Task<(List<T1> list1, List<T2> list2, List<T3> list3)> SqlProcedureQueriesAsync<T1, T2, T3>(this string procName, params DbParameter[] parameters)
         {
-            return new SqlStringExecutePart().SetSqlString(procName).SqlProcedureQueriesAsync<T1, T2, T3>(parameters);
+            return new SqlExecutePart().SetSqlString(procName).SqlProcedureQueriesAsync<T1, T2, T3>(parameters);
         }
 
         /// <summary>
@@ -1547,7 +1547,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>元组类型</returns>
         public static Task<(List<T1> list1, List<T2> list2, List<T3> list3)> SqlProcedureQueriesAsync<T1, T2, T3>(this string procName, DbParameter[] parameters, CancellationToken cancellationToken = default)
         {
-            return new SqlStringExecutePart().SetSqlString(procName).SqlProcedureQueriesAsync<T1, T2, T3>(parameters, cancellationToken);
+            return new SqlExecutePart().SetSqlString(procName).SqlProcedureQueriesAsync<T1, T2, T3>(parameters, cancellationToken);
         }
 
         /// <summary>
@@ -1562,7 +1562,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>元组类型</returns>
         public static Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4)> SqlProcedureQueriesAsync<T1, T2, T3, T4>(this string procName, params DbParameter[] parameters)
         {
-            return new SqlStringExecutePart().SetSqlString(procName).SqlProcedureQueriesAsync<T1, T2, T3, T4>(parameters);
+            return new SqlExecutePart().SetSqlString(procName).SqlProcedureQueriesAsync<T1, T2, T3, T4>(parameters);
         }
 
         /// <summary>
@@ -1578,7 +1578,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>元组类型</returns>
         public static Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4)> SqlProcedureQueriesAsync<T1, T2, T3, T4>(this string procName, DbParameter[] parameters, CancellationToken cancellationToken = default)
         {
-            return new SqlStringExecutePart().SetSqlString(procName).SqlProcedureQueriesAsync<T1, T2, T3, T4>(parameters, cancellationToken);
+            return new SqlExecutePart().SetSqlString(procName).SqlProcedureQueriesAsync<T1, T2, T3, T4>(parameters, cancellationToken);
         }
 
         /// <summary>
@@ -1594,7 +1594,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>元组类型</returns>
         public static Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5)> SqlProcedureQueriesAsync<T1, T2, T3, T4, T5>(this string procName, params DbParameter[] parameters)
         {
-            return new SqlStringExecutePart().SetSqlString(procName).SqlProcedureQueriesAsync<T1, T2, T3, T4, T5>(parameters);
+            return new SqlExecutePart().SetSqlString(procName).SqlProcedureQueriesAsync<T1, T2, T3, T4, T5>(parameters);
         }
 
         /// <summary>
@@ -1611,7 +1611,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>元组类型</returns>
         public static Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5)> SqlProcedureQueriesAsync<T1, T2, T3, T4, T5>(this string procName, DbParameter[] parameters, CancellationToken cancellationToken = default)
         {
-            return new SqlStringExecutePart().SetSqlString(procName).SqlProcedureQueriesAsync<T1, T2, T3, T4, T5>(parameters, cancellationToken);
+            return new SqlExecutePart().SetSqlString(procName).SqlProcedureQueriesAsync<T1, T2, T3, T4, T5>(parameters, cancellationToken);
         }
 
         /// <summary>
@@ -1628,7 +1628,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>元组类型</returns>
         public static Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6)> SqlProcedureQueriesAsync<T1, T2, T3, T4, T5, T6>(this string procName, params DbParameter[] parameters)
         {
-            return new SqlStringExecutePart().SetSqlString(procName).SqlProcedureQueriesAsync<T1, T2, T3, T4, T5, T6>(parameters);
+            return new SqlExecutePart().SetSqlString(procName).SqlProcedureQueriesAsync<T1, T2, T3, T4, T5, T6>(parameters);
         }
 
         /// <summary>
@@ -1646,7 +1646,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>元组类型</returns>
         public static Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6)> SqlProcedureQueriesAsync<T1, T2, T3, T4, T5, T6>(this string procName, DbParameter[] parameters, CancellationToken cancellationToken = default)
         {
-            return new SqlStringExecutePart().SetSqlString(procName).SqlProcedureQueriesAsync<T1, T2, T3, T4, T5, T6>(parameters, cancellationToken);
+            return new SqlExecutePart().SetSqlString(procName).SqlProcedureQueriesAsync<T1, T2, T3, T4, T5, T6>(parameters, cancellationToken);
         }
 
         /// <summary>
@@ -1664,7 +1664,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>元组类型</returns>
         public static Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6, List<T7> list7)> SqlProcedureQueriesAsync<T1, T2, T3, T4, T5, T6, T7>(this string procName, params DbParameter[] parameters)
         {
-            return new SqlStringExecutePart().SetSqlString(procName).SqlProcedureQueriesAsync<T1, T2, T3, T4, T5, T6, T7>(parameters);
+            return new SqlExecutePart().SetSqlString(procName).SqlProcedureQueriesAsync<T1, T2, T3, T4, T5, T6, T7>(parameters);
         }
 
         /// <summary>
@@ -1683,7 +1683,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>元组类型</returns>
         public static Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6, List<T7> list7)> SqlProcedureQueriesAsync<T1, T2, T3, T4, T5, T6, T7>(this string procName, DbParameter[] parameters, CancellationToken cancellationToken = default)
         {
-            return new SqlStringExecutePart().SetSqlString(procName).SqlProcedureQueriesAsync<T1, T2, T3, T4, T5, T6, T7>(parameters, cancellationToken);
+            return new SqlExecutePart().SetSqlString(procName).SqlProcedureQueriesAsync<T1, T2, T3, T4, T5, T6, T7>(parameters, cancellationToken);
         }
 
         /// <summary>
@@ -1702,7 +1702,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>元组类型</returns>
         public static Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6, List<T7> list7, List<T8> list8)> SqlProcedureQueriesAsync<T1, T2, T3, T4, T5, T6, T7, T8>(this string procName, params DbParameter[] parameters)
         {
-            return new SqlStringExecutePart().SetSqlString(procName).SqlProcedureQueriesAsync<T1, T2, T3, T4, T5, T6, T7, T8>(parameters);
+            return new SqlExecutePart().SetSqlString(procName).SqlProcedureQueriesAsync<T1, T2, T3, T4, T5, T6, T7, T8>(parameters);
         }
 
         /// <summary>
@@ -1722,7 +1722,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>元组类型</returns>
         public static Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6, List<T7> list7, List<T8> list8)> SqlProcedureQueriesAsync<T1, T2, T3, T4, T5, T6, T7, T8>(this string procName, DbParameter[] parameters, CancellationToken cancellationToken = default)
         {
-            return new SqlStringExecutePart().SetSqlString(procName).SqlProcedureQueriesAsync<T1, T2, T3, T4, T5, T6, T7, T8>(parameters, cancellationToken);
+            return new SqlExecutePart().SetSqlString(procName).SqlProcedureQueriesAsync<T1, T2, T3, T4, T5, T6, T7, T8>(parameters, cancellationToken);
         }
 
         /// <summary>
@@ -1735,7 +1735,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>List{T1}</returns>
         public static Task<List<T1>> SqlProcedureQueriesAsync<T1>(this string procName, object model, CancellationToken cancellationToken = default)
         {
-            return new SqlStringExecutePart().SetSqlString(procName).SqlProcedureQueriesAsync<T1>(model, cancellationToken);
+            return new SqlExecutePart().SetSqlString(procName).SqlProcedureQueriesAsync<T1>(model, cancellationToken);
         }
 
         /// <summary>
@@ -1749,7 +1749,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>元组类型</returns>
         public static Task<(List<T1> list1, List<T2> list2)> SqlProcedureQueriesAsync<T1, T2>(this string procName, object model, CancellationToken cancellationToken = default)
         {
-            return new SqlStringExecutePart().SetSqlString(procName).SqlProcedureQueriesAsync<T1, T2>(model, cancellationToken);
+            return new SqlExecutePart().SetSqlString(procName).SqlProcedureQueriesAsync<T1, T2>(model, cancellationToken);
         }
 
         /// <summary>
@@ -1764,7 +1764,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>元组类型</returns>
         public static Task<(List<T1> list1, List<T2> list2, List<T3> list3)> SqlProcedureQueriesAsync<T1, T2, T3>(this string procName, object model, CancellationToken cancellationToken = default)
         {
-            return new SqlStringExecutePart().SetSqlString(procName).SqlProcedureQueriesAsync<T1, T2, T3>(model, cancellationToken);
+            return new SqlExecutePart().SetSqlString(procName).SqlProcedureQueriesAsync<T1, T2, T3>(model, cancellationToken);
         }
 
         /// <summary>
@@ -1780,7 +1780,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>元组类型</returns>
         public static Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4)> SqlProcedureQueriesAsync<T1, T2, T3, T4>(this string procName, object model, CancellationToken cancellationToken = default)
         {
-            return new SqlStringExecutePart().SetSqlString(procName).SqlProcedureQueriesAsync<T1, T2, T3, T4>(model, cancellationToken);
+            return new SqlExecutePart().SetSqlString(procName).SqlProcedureQueriesAsync<T1, T2, T3, T4>(model, cancellationToken);
         }
 
         /// <summary>
@@ -1797,7 +1797,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>元组类型</returns>
         public static Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5)> SqlProcedureQueriesAsync<T1, T2, T3, T4, T5>(this string procName, object model, CancellationToken cancellationToken = default)
         {
-            return new SqlStringExecutePart().SetSqlString(procName).SqlProcedureQueriesAsync<T1, T2, T3, T4, T5>(model, cancellationToken);
+            return new SqlExecutePart().SetSqlString(procName).SqlProcedureQueriesAsync<T1, T2, T3, T4, T5>(model, cancellationToken);
         }
 
         /// <summary>
@@ -1815,7 +1815,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>元组类型</returns>
         public static Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6)> SqlProcedureQueriesAsync<T1, T2, T3, T4, T5, T6>(this string procName, object model, CancellationToken cancellationToken = default)
         {
-            return new SqlStringExecutePart().SetSqlString(procName).SqlProcedureQueriesAsync<T1, T2, T3, T4, T5, T6>(model, cancellationToken);
+            return new SqlExecutePart().SetSqlString(procName).SqlProcedureQueriesAsync<T1, T2, T3, T4, T5, T6>(model, cancellationToken);
         }
 
         /// <summary>
@@ -1834,7 +1834,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>元组类型</returns>
         public static Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6, List<T7> list7)> SqlProcedureQueriesAsync<T1, T2, T3, T4, T5, T6, T7>(this string procName, object model, CancellationToken cancellationToken = default)
         {
-            return new SqlStringExecutePart().SetSqlString(procName).SqlProcedureQueriesAsync<T1, T2, T3, T4, T5, T6, T7>(model, cancellationToken);
+            return new SqlExecutePart().SetSqlString(procName).SqlProcedureQueriesAsync<T1, T2, T3, T4, T5, T6, T7>(model, cancellationToken);
         }
 
         /// <summary>
@@ -1854,7 +1854,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>元组类型</returns>
         public static Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6, List<T7> list7, List<T8> list8)> SqlProcedureQueriesAsync<T1, T2, T3, T4, T5, T6, T7, T8>(this string procName, object model, CancellationToken cancellationToken = default)
         {
-            return new SqlStringExecutePart().SetSqlString(procName).SqlProcedureQueriesAsync<T1, T2, T3, T4, T5, T6, T7, T8>(model, cancellationToken);
+            return new SqlExecutePart().SetSqlString(procName).SqlProcedureQueriesAsync<T1, T2, T3, T4, T5, T6, T7, T8>(model, cancellationToken);
         }
 
         /// <summary>
@@ -1865,7 +1865,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>object</returns>
         public static object SqlProcedureScalar(this string procName, params DbParameter[] parameters)
         {
-            return new SqlStringExecutePart().SetSqlString(procName).SqlProcedureScalar(parameters);
+            return new SqlExecutePart().SetSqlString(procName).SqlProcedureScalar(parameters);
         }
 
         /// <summary>
@@ -1876,7 +1876,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>object</returns>
         public static object SqlProcedureScalar(this string procName, object model)
         {
-            return new SqlStringExecutePart().SetSqlString(procName).SqlProcedureScalar(model);
+            return new SqlExecutePart().SetSqlString(procName).SqlProcedureScalar(model);
         }
 
         /// <summary>
@@ -1887,7 +1887,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>object</returns>
         public static Task<object> SqlProcedureScalarAsync(this string procName, params DbParameter[] parameters)
         {
-            return new SqlStringExecutePart().SetSqlString(procName).SqlProcedureScalarAsync(parameters);
+            return new SqlExecutePart().SetSqlString(procName).SqlProcedureScalarAsync(parameters);
         }
 
         /// <summary>
@@ -1899,7 +1899,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>object</returns>
         public static Task<object> SqlProcedureScalarAsync(this string procName, DbParameter[] parameters, CancellationToken cancellationToken = default)
         {
-            return new SqlStringExecutePart().SetSqlString(procName).SqlProcedureScalarAsync(parameters, cancellationToken);
+            return new SqlExecutePart().SetSqlString(procName).SqlProcedureScalarAsync(parameters, cancellationToken);
         }
 
         /// <summary>
@@ -1911,7 +1911,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>object</returns>
         public static Task<object> SqlProcedureScalarAsync(this string procName, object model, CancellationToken cancellationToken = default)
         {
-            return new SqlStringExecutePart().SetSqlString(procName).SqlProcedureScalarAsync(model, cancellationToken);
+            return new SqlExecutePart().SetSqlString(procName).SqlProcedureScalarAsync(model, cancellationToken);
         }
 
         /// <summary>
@@ -1922,7 +1922,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>TResult</returns>
         public static TResult SqlProcedureScalar<TResult>(this string procName, params DbParameter[] parameters)
         {
-            return new SqlStringExecutePart().SetSqlString(procName).SqlProcedureScalar<TResult>(parameters);
+            return new SqlExecutePart().SetSqlString(procName).SqlProcedureScalar<TResult>(parameters);
         }
 
         /// <summary>
@@ -1933,7 +1933,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>TResult</returns>
         public static TResult SqlProcedureScalar<TResult>(this string procName, object model)
         {
-            return new SqlStringExecutePart().SetSqlString(procName).SqlProcedureScalar<TResult>(model);
+            return new SqlExecutePart().SetSqlString(procName).SqlProcedureScalar<TResult>(model);
         }
 
         /// <summary>
@@ -1944,7 +1944,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>TResult</returns>
         public static Task<TResult> SqlProcedureScalarAsync<TResult>(this string procName, params DbParameter[] parameters)
         {
-            return new SqlStringExecutePart().SetSqlString(procName).SqlProcedureScalarAsync<TResult>(parameters);
+            return new SqlExecutePart().SetSqlString(procName).SqlProcedureScalarAsync<TResult>(parameters);
         }
 
         /// <summary>
@@ -1956,7 +1956,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>TResult</returns>
         public static Task<TResult> SqlProcedureScalarAsync<TResult>(this string procName, DbParameter[] parameters, CancellationToken cancellationToken = default)
         {
-            return new SqlStringExecutePart().SetSqlString(procName).SqlProcedureScalarAsync<TResult>(parameters, cancellationToken);
+            return new SqlExecutePart().SetSqlString(procName).SqlProcedureScalarAsync<TResult>(parameters, cancellationToken);
         }
 
         /// <summary>
@@ -1968,7 +1968,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>TResult</returns>
         public static Task<TResult> SqlProcedureScalarAsync<TResult>(this string procName, object model, CancellationToken cancellationToken = default)
         {
-            return new SqlStringExecutePart().SetSqlString(procName).SqlProcedureScalarAsync<TResult>(model, cancellationToken);
+            return new SqlExecutePart().SetSqlString(procName).SqlProcedureScalarAsync<TResult>(model, cancellationToken);
         }
 
         /// <summary>
@@ -1979,7 +1979,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>int</returns>
         public static int SqlProcedureNonQuery(this string procName, params DbParameter[] parameters)
         {
-            return new SqlStringExecutePart().SetSqlString(procName).SqlProcedureNonQuery(parameters);
+            return new SqlExecutePart().SetSqlString(procName).SqlProcedureNonQuery(parameters);
         }
 
         /// <summary>
@@ -1990,7 +1990,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>int</returns>
         public static int SqlProcedureNonQuery(this string procName, object model)
         {
-            return new SqlStringExecutePart().SetSqlString(procName).SqlProcedureNonQuery(model);
+            return new SqlExecutePart().SetSqlString(procName).SqlProcedureNonQuery(model);
         }
 
         /// <summary>
@@ -2001,7 +2001,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>int</returns>
         public static Task<int> SqlProcedureNonQueryAsync(this string procName, params DbParameter[] parameters)
         {
-            return new SqlStringExecutePart().SetSqlString(procName).SqlProcedureNonQueryAsync(parameters);
+            return new SqlExecutePart().SetSqlString(procName).SqlProcedureNonQueryAsync(parameters);
         }
 
         /// <summary>
@@ -2013,7 +2013,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>int</returns>
         public static Task<int> SqlProcedureNonQueryAsync(this string procName, DbParameter[] parameters, CancellationToken cancellationToken = default)
         {
-            return new SqlStringExecutePart().SetSqlString(procName).SqlProcedureNonQueryAsync(parameters, cancellationToken);
+            return new SqlExecutePart().SetSqlString(procName).SqlProcedureNonQueryAsync(parameters, cancellationToken);
         }
 
         /// <summary>
@@ -2025,7 +2025,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>int</returns>
         public static Task<int> SqlProcedureNonQueryAsync(this string procName, object model, CancellationToken cancellationToken = default)
         {
-            return new SqlStringExecutePart().SetSqlString(procName).SqlProcedureNonQueryAsync(model, cancellationToken);
+            return new SqlExecutePart().SetSqlString(procName).SqlProcedureNonQueryAsync(model, cancellationToken);
         }
 
         /// <summary>
@@ -2036,7 +2036,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>ProcedureOutput</returns>
         public static ProcedureOutputResult SqlProcedureOutput(this string procName, DbParameter[] parameters)
         {
-            return new SqlStringExecutePart().SetSqlString(procName).SqlProcedureOutput(parameters);
+            return new SqlExecutePart().SetSqlString(procName).SqlProcedureOutput(parameters);
         }
 
         /// <summary>
@@ -2048,7 +2048,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>ProcedureOutput</returns>
         public static Task<ProcedureOutputResult> SqlProcedureOutputAsync(this string procName, DbParameter[] parameters, CancellationToken cancellationToken = default)
         {
-            return new SqlStringExecutePart().SetSqlString(procName).SqlProcedureOutputAsync(parameters, cancellationToken);
+            return new SqlExecutePart().SetSqlString(procName).SqlProcedureOutputAsync(parameters, cancellationToken);
         }
 
         /// <summary>
@@ -2059,7 +2059,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>ProcedureOutput</returns>
         public static ProcedureOutputResult SqlProcedureOutput(this string procName, object model)
         {
-            return new SqlStringExecutePart().SetSqlString(procName).SqlProcedureOutput(model);
+            return new SqlExecutePart().SetSqlString(procName).SqlProcedureOutput(model);
         }
 
         /// <summary>
@@ -2071,7 +2071,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>ProcedureOutput</returns>
         public static Task<ProcedureOutputResult> SqlProcedureOutputAsync(this string procName, object model, CancellationToken cancellationToken = default)
         {
-            return new SqlStringExecutePart().SetSqlString(procName).SqlProcedureOutputAsync(model, cancellationToken);
+            return new SqlExecutePart().SetSqlString(procName).SqlProcedureOutputAsync(model, cancellationToken);
         }
 
         /// <summary>
@@ -2083,7 +2083,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>ProcedureOutput</returns>
         public static ProcedureOutputResult<TResult> SqlProcedureOutput<TResult>(this string procName, DbParameter[] parameters)
         {
-            return new SqlStringExecutePart().SetSqlString(procName).SqlProcedureOutput<TResult>(parameters);
+            return new SqlExecutePart().SetSqlString(procName).SqlProcedureOutput<TResult>(parameters);
         }
 
         /// <summary>
@@ -2096,7 +2096,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>ProcedureOutput</returns>
         public static Task<ProcedureOutputResult<TResult>> SqlProcedureOutputAsync<TResult>(this string procName, DbParameter[] parameters, CancellationToken cancellationToken = default)
         {
-            return new SqlStringExecutePart().SetSqlString(procName).SqlProcedureOutputAsync<TResult>(parameters, cancellationToken);
+            return new SqlExecutePart().SetSqlString(procName).SqlProcedureOutputAsync<TResult>(parameters, cancellationToken);
         }
 
         /// <summary>
@@ -2108,7 +2108,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>ProcedureOutput</returns>
         public static ProcedureOutputResult<TResult> SqlProcedureOutput<TResult>(this string procName, object model)
         {
-            return new SqlStringExecutePart().SetSqlString(procName).SqlProcedureOutput<TResult>(model);
+            return new SqlExecutePart().SetSqlString(procName).SqlProcedureOutput<TResult>(model);
         }
 
         /// <summary>
@@ -2121,7 +2121,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>ProcedureOutput</returns>
         public static Task<ProcedureOutputResult<TResult>> SqlProcedureOutputAsync<TResult>(this string procName, object model, CancellationToken cancellationToken = default)
         {
-            return new SqlStringExecutePart().SetSqlString(procName).SqlProcedureOutputAsync<TResult>(model, cancellationToken);
+            return new SqlExecutePart().SetSqlString(procName).SqlProcedureOutputAsync<TResult>(model, cancellationToken);
         }
 
         /// <summary>
@@ -2132,7 +2132,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>object</returns>
         public static object SqlFunctionScalar(this string funcName, params DbParameter[] parameters)
         {
-            return new SqlStringExecutePart().SetSqlString(funcName).SqlFunctionScalar(parameters);
+            return new SqlExecutePart().SetSqlString(funcName).SqlFunctionScalar(parameters);
         }
 
         /// <summary>
@@ -2143,7 +2143,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>object</returns>
         public static object SqlFunctionScalar(this string funcName, object model)
         {
-            return new SqlStringExecutePart().SetSqlString(funcName).SqlFunctionScalar(model);
+            return new SqlExecutePart().SetSqlString(funcName).SqlFunctionScalar(model);
         }
 
         /// <summary>
@@ -2154,7 +2154,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>object</returns>
         public static Task<object> SqlFunctionScalarAsync(this string funcName, params DbParameter[] parameters)
         {
-            return new SqlStringExecutePart().SetSqlString(funcName).SqlFunctionScalarAsync(parameters);
+            return new SqlExecutePart().SetSqlString(funcName).SqlFunctionScalarAsync(parameters);
         }
 
         /// <summary>
@@ -2166,7 +2166,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>object</returns>
         public static Task<object> SqlFunctionScalarAsync(this string funcName, DbParameter[] parameters, CancellationToken cancellationToken = default)
         {
-            return new SqlStringExecutePart().SetSqlString(funcName).SqlFunctionScalarAsync(parameters, cancellationToken);
+            return new SqlExecutePart().SetSqlString(funcName).SqlFunctionScalarAsync(parameters, cancellationToken);
         }
 
         /// <summary>
@@ -2178,7 +2178,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>object</returns>
         public static Task<object> SqlFunctionScalarAsync(this string funcName, object model, CancellationToken cancellationToken = default)
         {
-            return new SqlStringExecutePart().SetSqlString(funcName).SqlFunctionScalarAsync(model, cancellationToken);
+            return new SqlExecutePart().SetSqlString(funcName).SqlFunctionScalarAsync(model, cancellationToken);
         }
 
         /// <summary>
@@ -2190,7 +2190,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>TResult</returns>
         public static TResult SqlFunctionScalar<TResult>(this string funcName, params DbParameter[] parameters)
         {
-            return new SqlStringExecutePart().SetSqlString(funcName).SqlFunctionScalar<TResult>(parameters);
+            return new SqlExecutePart().SetSqlString(funcName).SqlFunctionScalar<TResult>(parameters);
         }
 
         /// <summary>
@@ -2202,7 +2202,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>TResult</returns>
         public static TResult SqlFunctionScalar<TResult>(this string funcName, object model)
         {
-            return new SqlStringExecutePart().SetSqlString(funcName).SqlFunctionScalar<TResult>(model);
+            return new SqlExecutePart().SetSqlString(funcName).SqlFunctionScalar<TResult>(model);
         }
 
         /// <summary>
@@ -2214,7 +2214,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>TResult</returns>
         public static Task<TResult> SqlFunctionScalarAsync<TResult>(this string funcName, params DbParameter[] parameters)
         {
-            return new SqlStringExecutePart().SetSqlString(funcName).SqlFunctionScalarAsync<TResult>(parameters);
+            return new SqlExecutePart().SetSqlString(funcName).SqlFunctionScalarAsync<TResult>(parameters);
         }
 
         /// <summary>
@@ -2227,7 +2227,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>TResult</returns>
         public static Task<TResult> SqlFunctionScalarAsync<TResult>(this string funcName, DbParameter[] parameters, CancellationToken cancellationToken = default)
         {
-            return new SqlStringExecutePart().SetSqlString(funcName).SqlFunctionScalarAsync<TResult>(parameters, cancellationToken);
+            return new SqlExecutePart().SetSqlString(funcName).SqlFunctionScalarAsync<TResult>(parameters, cancellationToken);
         }
 
         /// <summary>
@@ -2240,7 +2240,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>object</returns>
         public static Task<TResult> SqlFunctionScalarAsync<TResult>(this string funcName, object model, CancellationToken cancellationToken = default)
         {
-            return new SqlStringExecutePart().SetSqlString(funcName).SqlFunctionScalarAsync<TResult>(model, cancellationToken);
+            return new SqlExecutePart().SetSqlString(funcName).SqlFunctionScalarAsync<TResult>(model, cancellationToken);
         }
 
         /// <summary>
@@ -2251,7 +2251,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>DataTable</returns>
         public static DataTable SqlFunctionQuery(this string funcName, params DbParameter[] parameters)
         {
-            return new SqlStringExecutePart().SetSqlString(funcName).SqlFunctionQuery(parameters);
+            return new SqlExecutePart().SetSqlString(funcName).SqlFunctionQuery(parameters);
         }
 
         /// <summary>
@@ -2262,7 +2262,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>DataTable</returns>
         public static DataTable SqlFunctionQuery(this string funcName, object model)
         {
-            return new SqlStringExecutePart().SetSqlString(funcName).SqlFunctionQuery(model);
+            return new SqlExecutePart().SetSqlString(funcName).SqlFunctionQuery(model);
         }
 
         /// <summary>
@@ -2273,7 +2273,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>Task{DataTable}</returns>
         public static Task<DataTable> SqlFunctionQueryAsync(this string funcName, params DbParameter[] parameters)
         {
-            return new SqlStringExecutePart().SetSqlString(funcName).SqlFunctionQueryAsync(parameters);
+            return new SqlExecutePart().SetSqlString(funcName).SqlFunctionQueryAsync(parameters);
         }
 
         /// <summary>
@@ -2285,7 +2285,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>Task{DataTable}</returns>
         public static Task<DataTable> SqlFunctionQueryAsync(this string funcName, DbParameter[] parameters, CancellationToken cancellationToken = default)
         {
-            return new SqlStringExecutePart().SetSqlString(funcName).SqlFunctionQueryAsync(parameters, cancellationToken);
+            return new SqlExecutePart().SetSqlString(funcName).SqlFunctionQueryAsync(parameters, cancellationToken);
         }
 
         /// <summary>
@@ -2297,7 +2297,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>Task{DataTable}</returns>
         public static Task<DataTable> SqlFunctionQueryAsync(this string funcName, object model, CancellationToken cancellationToken = default)
         {
-            return new SqlStringExecutePart().SetSqlString(funcName).SqlFunctionQueryAsync(model, cancellationToken);
+            return new SqlExecutePart().SetSqlString(funcName).SqlFunctionQueryAsync(model, cancellationToken);
         }
 
         /// <summary>
@@ -2309,7 +2309,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>List{T}</returns>
         public static List<T> SqlFunctionQuery<T>(this string funcName, params DbParameter[] parameters)
         {
-            return new SqlStringExecutePart().SetSqlString(funcName).SqlFunctionQuery<T>(parameters);
+            return new SqlExecutePart().SetSqlString(funcName).SqlFunctionQuery<T>(parameters);
         }
 
         /// <summary>
@@ -2321,7 +2321,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>List{T}</returns>
         public static List<T> SqlFunctionQuery<T>(this string funcName, object model)
         {
-            return new SqlStringExecutePart().SetSqlString(funcName).SqlFunctionQuery<T>(model);
+            return new SqlExecutePart().SetSqlString(funcName).SqlFunctionQuery<T>(model);
         }
 
         /// <summary>
@@ -2333,7 +2333,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>Task{List{T}}</returns>
         public static Task<List<T>> SqlFunctionQueryAsync<T>(this string funcName, params DbParameter[] parameters)
         {
-            return new SqlStringExecutePart().SetSqlString(funcName).SqlFunctionQueryAsync<T>(parameters);
+            return new SqlExecutePart().SetSqlString(funcName).SqlFunctionQueryAsync<T>(parameters);
         }
 
         /// <summary>
@@ -2346,7 +2346,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>Task{List{T}}</returns>
         public static Task<List<T>> SqlFunctionQueryAsync<T>(this string funcName, DbParameter[] parameters, CancellationToken cancellationToken = default)
         {
-            return new SqlStringExecutePart().SetSqlString(funcName).SqlFunctionQueryAsync<T>(parameters, cancellationToken);
+            return new SqlExecutePart().SetSqlString(funcName).SqlFunctionQueryAsync<T>(parameters, cancellationToken);
         }
 
         /// <summary>
@@ -2359,7 +2359,7 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <returns>Task{List{T}}</returns>
         public static Task<List<T>> SqlFunctionQueryAsync<T>(this string funcName, object model, CancellationToken cancellationToken = default)
         {
-            return new SqlStringExecutePart().SetSqlString(funcName).SqlFunctionQueryAsync<T>(model, cancellationToken);
+            return new SqlExecutePart().SetSqlString(funcName).SqlFunctionQueryAsync<T>(model, cancellationToken);
         }
     }
 }

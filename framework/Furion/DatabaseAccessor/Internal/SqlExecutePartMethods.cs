@@ -19,7 +19,7 @@ namespace Furion.DatabaseAccessor
     /// <summary>
     /// 构建 Sql 字符串执行部件
     /// </summary>
-    public sealed partial class SqlStringExecutePart
+    public sealed partial class SqlExecutePart
     {
         /// <summary>
         /// Sql 查询返回 DataTable

@@ -16,7 +16,7 @@ namespace Furion.ViewEngine
     /// <summary>
     /// 字符串模板执行部件
     /// </summary>
-    public sealed partial class StringTemplateExecutePart
+    public sealed partial class ViewEnginePart
     {
         /// <summary>
         /// 编译并运行
