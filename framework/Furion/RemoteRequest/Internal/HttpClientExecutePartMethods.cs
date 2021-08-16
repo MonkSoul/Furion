@@ -8,6 +8,7 @@
 
 using Furion.ClayObject.Extensions;
 using Furion.DataValidation;
+using Furion.FriendlyException;
 using Furion.JsonSerialization;
 using Furion.Templates.Extensions;
 using System;
@@ -441,8 +442,16 @@ namespace Furion.RemoteRequest
 
             try
             {
-                // 发送请求
-                response = await httpClient.SendAsync(request, cancellationToken);
+                if (RetryPolicy == null) response = await httpClient.SendAsync(request, cancellationToken);
+                else
+                {
+                    // 失败重试
+                    await Retry.Invoke(async () =>
+                    {
+                        // 发送请求
+                        response = await httpClient.SendAsync(request, cancellationToken);
+                    }, RetryPolicy.Value.NumRetries, RetryPolicy.Value.RetryTimeout);
+                }
             }
             catch (Exception ex)
             {

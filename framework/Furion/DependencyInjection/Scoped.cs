@@ -58,54 +58,6 @@ namespace Furion.DependencyInjection
         }
 
         /// <summary>
-        /// 创建一个作用域范围
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="handler"></param>
-        /// <param name="scopeFactory"></param>
-        /// <returns></returns>
-        public static T CreateRef<T>(Func<IServiceScopeFactory, IServiceScope, T> handler, IServiceScopeFactory scopeFactory = default)
-        {
-            return CreateRef(async (fac, scope) =>
-             {
-                 var result = handler(fac, scope);
-                 await Task.CompletedTask;
-                 return result;
-             }, scopeFactory).GetAwaiter().GetResult();
-        }
-
-        /// <summary>
-        /// 创建一个作用域范围
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="handler"></param>
-        /// <param name="scopeFactory"></param>
-        /// <returns></returns>
-        public static async Task<T> CreateRef<T>(Func<IServiceScopeFactory, IServiceScope, Task<T>> handler, IServiceScopeFactory scopeFactory = default)
-        {
-            // 禁止空调用
-            if (handler == null) throw new ArgumentNullException(nameof(handler));
-
-            // 创建作用域
-            var scoped = CreateScope(scopeFactory);
-
-            T result = default;
-
-            try
-            {
-                // 执行方法
-                result = await handler(scopeFactory, scoped);
-            }
-            finally
-            {
-                // 释放
-                scoped.Dispose();
-            }
-
-            return result;
-        }
-
-        /// <summary>
         /// 创建一个作用域
         /// </summary>
         /// <param name="scopeFactory"></param>

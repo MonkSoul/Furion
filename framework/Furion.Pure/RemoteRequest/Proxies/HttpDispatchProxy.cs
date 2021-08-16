@@ -132,6 +132,10 @@ namespace Furion.RemoteRequest
             // 设置请求拦截
             SetInterceptors(parameters, httpClientPart);
 
+            // 设置重试
+            var retryPolicyAttribute = method.GetFoundAttribute<RetryPolicyAttribute>(true);
+            if (retryPolicyAttribute != null) httpClientPart.SetRetryPolicy(retryPolicyAttribute.NumRetries, retryPolicyAttribute.RetryTimeout);
+
             return httpClientPart;
         }
 

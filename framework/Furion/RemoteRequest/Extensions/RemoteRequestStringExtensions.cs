@@ -262,6 +262,18 @@ namespace Furion.RemoteRequest.Extensions
         }
 
         /// <summary>
+        /// 配置重试策略
+        /// </summary>
+        /// <param name="requestUrl"></param>
+        /// <param name="numRetries"></param>
+        /// <param name="retryTimeout">每次延迟时间（毫秒）</param>
+        /// <returns></returns>
+        public static HttpClientExecutePart SetRetryPolicy(this string requestUrl, int numRetries, int retryTimeout = 1000)
+        {
+            return new HttpClientExecutePart().SetRequestUrl(requestUrl).SetRetryPolicy(numRetries, retryTimeout);
+        }
+
+        /// <summary>
         /// 发送 GET 请求返回 T 对象
         /// </summary>
         /// <typeparam name="T"></typeparam>

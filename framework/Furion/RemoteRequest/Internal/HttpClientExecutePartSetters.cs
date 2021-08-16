@@ -284,5 +284,17 @@ namespace Furion.RemoteRequest
             if (serviceProvider != null) RequestScoped = serviceProvider;
             return this;
         }
+
+        /// <summary>
+        /// 配置重试策略
+        /// </summary>
+        /// <param name="numRetries"></param>
+        /// <param name="retryTimeout">每次延迟时间（毫秒）</param>
+        /// <returns></returns>
+        public HttpClientExecutePart SetRetryPolicy(int numRetries, int retryTimeout = 1000)
+        {
+            RetryPolicy = (numRetries, retryTimeout);
+            return this;
+        }
     }
 }

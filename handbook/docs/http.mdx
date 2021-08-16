@@ -419,6 +419,16 @@ var res = await "#(Furion:Address)/upload".GetAsync();
 }
 ```
 
+### 19.4.22 重试策略
+
+在 `Furion v2.18+` 版本支持配置重试策略，如：
+
+```cs
+var res = await "#(Furion:Address)/upload".SetRetryPolicy(3, 1000).GetAsync();
+```
+
+以上代码表示请求失败重试 `3` 次，每次延迟 `1000ms` 。
+
 ## 19.5 `IHttpDispatchProxy` 代理方式
 
 ### 19.5.1 支持多种代理方式
@@ -801,6 +811,21 @@ public interface IHttp : IHttpDispatchProxy
 ```
 
 方法的优先级高于接口定义的优先级。
+
+### 19.5.17 重试策略
+
+在 `Furion v2.18+` 版本支持配置重试策略，如：
+
+```cs
+[RetryPolicy(3, 1000)] // 支持全局
+public interface IHttp : IHttpDispatchProxy
+{
+    [Post("#(Furion:Address)/upload"), RetryPolicy(3, 1000)]    // 支持局部
+    Task<HttpRequestMessage> PostXXXAsync([Body]User user);
+}
+```
+
+以上代码表示请求失败重试 `3` 次，每次延迟 `1000ms` 。
 
 ## 19.6 多个请求客户端配置
 

@@ -30,6 +30,12 @@ Scoped.CreateUow((factory, scope) => {
 
 ## 11.3 创建一个依赖注入作用域范围（带返回值）
 
+:::warning 移除声明
+
+在 `Furion v2.18+` 版本移除带返回值的作用域（该方法属于多余操作）
+
+:::
+
 ```cs {1}
 var obj = Scoped.CreateRef<string>((factory, scope) => {
      var services = scope.ServiceProvider;
@@ -38,6 +44,12 @@ var obj = Scoped.CreateRef<string>((factory, scope) => {
 ```
 
 ## 11.4 创建一个带工作单元的作用域（带返回值）
+
+:::warning 移除声明
+
+在 `Furion v2.18+` 版本移除带返回值的作用域（该方法属于多余操作）
+
+:::
 
 ```cs
 var obj = Scoped.CreateUowRef<string>((factory, scope) => {

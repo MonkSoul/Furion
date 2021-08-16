@@ -62,59 +62,5 @@ namespace Furion.DependencyInjection
                 scoped.Dispose();
             }
         }
-
-        /// <summary>
-        /// 创建一个工作单元作用域
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="handler"></param>
-        /// <param name="scopeFactory"></param>
-        /// <returns></returns>
-        public static T CreateUowRef<T>(Func<IServiceScopeFactory, IServiceScope, T> handler, IServiceScopeFactory scopeFactory = default)
-        {
-            return CreateUowRef(async (fac, scope) =>
-            {
-                var result = handler(fac, scope);
-                await Task.CompletedTask;
-                return result;
-            }, scopeFactory).GetAwaiter().GetResult();
-        }
-
-        /// <summary>
-        /// 创建一个工作单元作用域
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="handler"></param>
-        /// <param name="scopeFactory"></param>
-        /// <returns></returns>
-        public static async Task<T> CreateUowRef<T>(Func<IServiceScopeFactory, IServiceScope, Task<T>> handler, IServiceScopeFactory scopeFactory = default)
-        {
-            // 禁止空调用
-            if (handler == null) throw new ArgumentNullException(nameof(handler));
-
-            // 创建作用域
-            var scoped = CreateScope(scopeFactory);
-
-            T result = default;
-
-            try
-            {
-                // 创建一个数据库上下文池
-                var dbContextPool = scoped.ServiceProvider.GetService<IDbContextPool>();
-
-                // 执行方法
-                result = await handler(scopeFactory, scoped);
-
-                // 提交工作单元
-                dbContextPool.SavePoolNow();
-            }
-            finally
-            {
-                // 释放
-                scoped.Dispose();
-            }
-
-            return result;
-        }
     }
 }

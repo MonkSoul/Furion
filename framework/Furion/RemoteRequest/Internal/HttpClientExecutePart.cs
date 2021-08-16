@@ -113,5 +113,10 @@ namespace Furion.RemoteRequest
         /// 设置请求作用域
         /// </summary>
         public IServiceProvider RequestScoped { get; private set; } = App.RootServices;
+
+        /// <summary>
+        /// 设置重试策略
+        /// </summary>
+        public (int NumRetries, int RetryTimeout)? RetryPolicy { get; private set; }
     }
 }
