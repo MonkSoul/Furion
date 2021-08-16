@@ -1,49 +1,28 @@
-﻿/*
-  █▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀ ▀▀▀  ▀  ▀      ▀▀
-  █  The MIT License (MIT)
-  █
-  █  Copyright (c) 2017 JP Dillingham (jp@dillingham.ws)
-  █
-  █  Permission is hereby granted, free of charge, to any person obtaining a copy
-  █  of this software and associated documentation files (the "Software"), to deal
-  █  in the Software without restriction, including without limitation the rights
-  █  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-  █  copies of the Software, and to permit persons to whom the Software is
-  █  furnished to do so, subject to the following conditions:
-  █
-  █  The above copyright notice and this permission notice shall be included in all
-  █  copies or substantial portions of the Software.
-  █
-  █  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-  █  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-  █  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-  █  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-  █  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-  █  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-  █  SOFTWARE.
-  █
-  ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀  ▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀██
-                                                                                               ██
-                                                                                           ▀█▄ ██ ▄█▀
-                                                                                             ▀████▀
-                                                                                               ▀▀                            */
+﻿// Copyright (c) 2020-2021 百小僧, Baiqian Co.,Ltd.
+// Furion is licensed under Mulan PSL v2.
+// You can use this software according to the terms and conditions of the Mulan PSL v2.
+// You may obtain a copy of Mulan PSL v2 at:
+//             http://license.coscl.org.cn/MulanPSL2
+// THIS SOFTWARE IS PROVIDED ON AN "AS IS" BASIS, WITHOUT WARRANTIES OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO NON-INFRINGEMENT, MERCHANTABILITY OR FIT FOR A PARTICULAR PURPOSE.
+// See the Mulan PSL v2 for more details.
+
+using System;
+using System.Collections;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Globalization;
+using System.Linq;
+using System.Reflection;
+using System.Runtime.CompilerServices;
+using System.Text.RegularExpressions;
 
 namespace Furion.Tools.CommandLine
 {
-    using System;
-    using System.Collections;
-    using System.Collections.Concurrent;
-    using System.Collections.Generic;
-    using System.Diagnostics;
-    using System.Globalization;
-    using System.Linq;
-    using System.Reflection;
-    using System.Runtime.CompilerServices;
-    using System.Text.RegularExpressions;
-
     /// <summary>
     ///     Provides extension method(s) for the Argument namespace.
     /// </summary>
+    /// <remarks>代码参考自：https://github.com/jpdillingham/Utility.CommandLine.Arguments </remarks>
     internal static class ArgumentsExtensions
     {
         /// <summary>
@@ -83,41 +62,6 @@ namespace Furion.Tools.CommandLine
 
             return value;
         }
-    }
-
-    /// <summary>
-    /// 参数定义特性
-    /// </summary>
-    [AttributeUsage(AttributeTargets.Property, AllowMultiple = false)]
-    public class ArgumentAttribute : Attribute
-    {
-        /// <summary>
-        /// 构造函数
-        /// </summary>
-        /// <param name="shortName">短参数名</param>
-        /// <param name="longName">长参数名</param>
-        /// <param name="helpText">帮助文本</param>
-        public ArgumentAttribute(char shortName, string longName, string helpText = null)
-        {
-            ShortName = shortName;
-            LongName = longName;
-            HelpText = helpText;
-        }
-
-        /// <summary>
-        /// 帮助文本
-        /// </summary>
-        public string HelpText { get; set; }
-
-        /// <summary>
-        /// 长参数名
-        /// </summary>
-        public string LongName { get; set; }
-
-        /// <summary>
-        /// 短参数名
-        /// </summary>
-        public char ShortName { get; set; }
     }
 
     /// <summary>
@@ -164,27 +108,6 @@ namespace Furion.Tools.CommandLine
         ///     Gets the short name of the argument.
         /// </summary>
         public char ShortName { get; }
-    }
-
-    /// <summary>
-    /// 参数转换选项
-    /// </summary>
-    public class ArgumentParseOptions
-    {
-        /// <summary>
-        /// 目标类型
-        /// </summary>
-        public Type TargetType { get; set; }
-
-        /// <summary>
-        /// 合并多行
-        /// </summary>
-        public bool CombineAllMultiples { get; set; }
-
-        /// <summary>
-        /// 合并参数
-        /// </summary>
-        public string[] CombinableArguments { get; set; } = Array.Empty<string>();
     }
 
     /// <summary>
@@ -279,10 +202,8 @@ namespace Furion.Tools.CommandLine
         /// </summary>
         /// <param name="index">The index for which the value is to be retrieved.</param>
         /// <returns>The argument value corresponding to the specified index.</returns>
-        public object this[int index]
-        {
-            get
-            {
+        public object this[int index] {
+            get {
                 return ArgumentList[index].Value;
             }
         }
@@ -293,10 +214,8 @@ namespace Furion.Tools.CommandLine
         /// </summary>
         /// <param name="key">The key for which the value is to be retrieved.</param>
         /// <returns>The argument value corresponding to the specified key.</returns>
-        public object this[string key]
-        {
-            get
-            {
+        public object this[string key] {
+            get {
                 return ArgumentDictionary[key];
             }
         }
@@ -753,13 +672,5 @@ namespace Furion.Tools.CommandLine
 
             return property;
         }
-    }
-
-    /// <summary>
-    /// 操作符
-    /// </summary>
-    [AttributeUsage(AttributeTargets.Property, AllowMultiple = false)]
-    public class OperandsAttribute : Attribute
-    {
     }
 }

@@ -2,14 +2,14 @@
 
 	<PropertyGroup>
 		<OutputType>Exe</OutputType>
-		<version>0.1.0</version>
+		<version>0.2.0</version>
 		<ToolCommandName>furion</ToolCommandName>
 		<TargetFramework>net5.0</TargetFramework>
 		<Description>Furion 工具链</Description>
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <PackageReference Include="Furion.Tools.CommandLine" Version="2.3.0" />
+	  <PackageReference Include="Furion.Tools.CommandLine" Version="2.4.0" />
 	</ItemGroup>
 
 </Project>

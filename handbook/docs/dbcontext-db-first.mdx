@@ -59,8 +59,20 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 ### 9.19.2.3 输入 `cli.ps1` 命令
 
 ```shell
+PM> Show-Command ../tools/cli.ps1
+```
+
+<img src={useBaseUrl("img/df10.png")} />
+
+:::important 其他方式
+
+除了采用 `Show-Command` 方式以为，还可以直接执行命令：
+
+```shell
  &"../tools/cli.ps1" -DbProvider "EFCore数据库程序集名" -CoreProject "你的Core层" -EntryProject "你的启动层" -ConnectionName "连接字符串的 [key]"
 ```
+
+:::
 
 :::note 小提示
 
