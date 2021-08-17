@@ -164,6 +164,16 @@ const urls = [
     text: "CoreShop",
     title: "",
   },
+  {
+    url: "https://gitee.com/dromara/TLog",
+    text: "TLog",
+    title: "",
+  },
+  {
+    url: "https://gitee.com/dromara/liteFlow",
+    text: "LiteFlow",
+    title: "",
+  }
 ];
 
 export default urls;
