@@ -127,6 +127,11 @@ namespace Furion.DatabaseAccessor
         public virtual bool FailedAutoRollback { get; protected set; } = true;
 
         /// <summary>
+        /// 支持工作单元共享事务
+        /// </summary>
+        public virtual bool UseUnitOfWork { get; protected set; } = true;
+
+        /// <summary>
         /// 获取租户信息
         /// </summary>
         public virtual Tenant Tenant
@@ -165,6 +170,8 @@ namespace Furion.DatabaseAccessor
                     if (dbContextResolve == null) return default;
 
                     var tenantDbContext = dbContextResolve(typeof(MultiTenantDbContextLocator), default);
+                    ((dynamic)tenantDbContext).UseUnitOfWork = false;   // 无需载入事务
+
                     currentTenant = tenantDbContext.Set<Tenant>().AsNoTracking().FirstOrDefault(u => u.Host == host);
                     if (currentTenant != null)
                     {
