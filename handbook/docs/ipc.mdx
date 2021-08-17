@@ -36,7 +36,7 @@ sidebar_label: 33. IPC 进程通信
 
 `Channel` 是在 `.NET Core 2.1+` 版本之后加入。`Channel` 底层实现是一个高效的、线程安全的队列，可以在线程之间传递数据。
 
-`Channel` 的主要应用场景是 `发布/订阅、观察者模式` 中使用，如：`事件总线` 就是最好的实现方式。通过 `Channel` 实现 `生产-订阅` 机制可以减少项目间的耦合，提高应用吞吐量。
+`Channel` 的主要应用场景是 `发布/订阅、观察者模式` 中使用，如：`事件总线` 就是最好的实现方式。通过 `Channel` 实现 `生产-消费` 机制可以减少项目间的耦合，提高应用吞吐量。
 
 `Furion` 框架提供了 `ChannelBus<TMessage, THandler>` 密封类，提供 `UnBoundedChannel` 和 `BoundedChannel` 两种管道通信模式。
 
