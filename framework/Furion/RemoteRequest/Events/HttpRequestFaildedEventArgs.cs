@@ -34,16 +34,16 @@ namespace Furion.RemoteRequest
         /// <summary>
         /// 请求对象
         /// </summary>
-        public HttpRequestMessage Request { get; set; }
+        public HttpRequestMessage Request { get; internal set; }
 
         /// <summary>
         /// 响应对象
         /// </summary>
-        public HttpResponseMessage Response { get; set; }
+        public HttpResponseMessage Response { get; internal set; }
 
         /// <summary>
         /// 异常对象
         /// </summary>
-        public Exception Exception { get; set; }
+        public Exception Exception { get; internal set; }
     }
 }
