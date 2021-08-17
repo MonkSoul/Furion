@@ -49,7 +49,7 @@ namespace Furion.TaskScheduler
                 Interlocked = 0,
                 Tally = 0,
                 Timer = this
-            })) throw new InvalidOperationException($"The worker name `{WorkerName}` is exist."); ;
+            })) throw new InvalidOperationException($"The worker name `{WorkerName}` is exist.");
         }
 
         /// <summary>
