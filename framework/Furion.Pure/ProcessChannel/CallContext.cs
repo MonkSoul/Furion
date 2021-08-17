@@ -6,6 +6,7 @@
 // THIS SOFTWARE IS PROVIDED ON AN "AS IS" BASIS, WITHOUT WARRANTIES OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO NON-INFRINGEMENT, MERCHANTABILITY OR FIT FOR A PARTICULAR PURPOSE.  
 // See the Mulan PSL v2 for more details.
 
+using Furion.DependencyInjection;
 using System.Collections.Concurrent;
 using System.Threading;
 
@@ -22,6 +23,7 @@ namespace Furion.ProcessChannel
     ///   在设置新的值之前完成复制操作
     /// 获取当前线程 Id：Thread.CurrentThread.ManagedThreadId 
     /// </remarks>
+    [SuppressSniffer]
     public static class CallContext<T>
     {
         /// <summary>
@@ -66,6 +68,7 @@ namespace Furion.ProcessChannel
     ///   在设置新的值之前完成复制操作
     /// 获取当前线程 Id：Thread.CurrentThread.ManagedThreadId 
     /// </remarks>
+    [SuppressSniffer]
     public static class CallContext
     {
         /// <summary>

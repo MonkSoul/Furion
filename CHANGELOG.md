@@ -11,8 +11,9 @@
 
 - **新特性**
 
-  - [新增] 远程请求可配置请求移除重试策略 [656da87](https://gitee.com/dotnetchina/Furion/commit/656da87a667c2da7d82425cdcd47146e99602d65)
   - [新增] `Furion.Tools.CommandLine` 拓展库 [查看源码](https://gitee.com/dotnetchina/Furion/tree/master/tools/Furion.Tools/Furion.Tools.CommandLine)
+  - [新增] 基于 `AsyncLocal<T>` 的 `CallContext` 实现 [9057a21](https://gitee.com/dotnetchina/Furion/commit/9057a212aab8057b668086bd14369fa68ce120df)
+  - [新增] 远程请求可配置请求移除重试策略 [656da87](https://gitee.com/dotnetchina/Furion/commit/656da87a667c2da7d82425cdcd47146e99602d65)
   - [新增] `IPC（Inter-Process Communication，进程间通信）` 模块功能，目前提供进程内通信和共享内存进程外通讯 [ProcessChannel](https://gitee.com/dotnetchina/Furion/tree/master/framework/Furion/ProcessChannel)
   - [新增] 远程请求 `application/xml` 和 `text/xml` 默认支持 [4753a1a](https://gitee.com/dotnetchina/Furion/commit/4753a1aed527a6282fe6c05036de9d50bd3b3dd8)
   - [新增] 控制台全局异常拦截 [4a4fe1f](https://gitee.com/dotnetchina/Furion/commit/4a4fe1f40e1856ea36a0c0d19ca625d3f7bf95b7)
