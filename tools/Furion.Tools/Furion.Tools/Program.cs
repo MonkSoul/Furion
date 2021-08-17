@@ -25,6 +25,15 @@ namespace Furion.Tools
     ///     更新全局工具：dotnet tool update --global --add-source ../nupkgs Furion.Tools
     ///     卸载全局工具：dotnet tool uninstall --global Furion.Tools
     /// </summary>
+    /// <remarks>
+    /// <para>工具项目配置项</para>
+    /// <code>
+    ///     <ToolCommandName>furion</ToolCommandName>
+    ///     <PackAsTool>true</PackAsTool>
+    ///     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    ///     <PackageOutputPath>./nupkg</PackageOutputPath>
+    /// </code>
+    /// </remarks>
     internal class Program
     {
         // 初始化并自动填充命令参数
