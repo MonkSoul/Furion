@@ -39,9 +39,9 @@ responseString.LogInformation();
 
 该存储库的主要目的是继续发展 Furion 核心，使其更快、更易于使用。 Furion 的开发在 [Gitee](https://gitee.com/dotnetchina/Furion) 上公开进行，我们感谢社区贡献错误修复和改进。阅读[贡献指南](https://dotnetchina.gitee.io/furion/docs/contribute)内容，了解如何参与改进 Furion。
 
-## 协议
+## 许可证
 
-Furion 采用 [MulanPSL-2.0](http://license.coscl.org.cn/MulanPSL2) 开源协议，了解[项目协议](https://gitee.com/dotnetchina/Furion/blob/master/LICENSE)。
+Furion 采用 [MulanPSL-2.0](http://license.coscl.org.cn/MulanPSL2) 开源许可证，了解[项目许可证](https://gitee.com/dotnetchina/Furion/blob/master/LICENSE)。
 
 ```
 Copyright (c) 2020-2021 百小僧, Baiqian Co.,Ltd.
