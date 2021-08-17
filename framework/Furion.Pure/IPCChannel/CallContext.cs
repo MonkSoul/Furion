@@ -10,7 +10,7 @@ using Furion.DependencyInjection;
 using System.Collections.Concurrent;
 using System.Threading;
 
-namespace Furion.ProcessChannel
+namespace Furion.IPCChannel
 {
     /// <summary>
     /// 提供线程异步流共享数据上下文（尽量在项目需要该操作的类中使用 AsyncLocal 方式使用，而不是调用 CallContext
@@ -37,7 +37,7 @@ namespace Furion.ProcessChannel
         /// </summary>
         /// <param name="key"></param>
         /// <param name="value"></param>
-        public static void SetValue(string key, T value)
+        public static void SetLocalValue(string key, T value)
         {
             localValues.GetOrAdd(key, _ => new AsyncLocal<T>(args =>
             {
@@ -52,7 +52,7 @@ namespace Furion.ProcessChannel
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>
-        public static T GetValue(string key)
+        public static T GetLocalValue(string key)
         {
             return localValues.TryGetValue(key, out var value) ? value.Value : default;
         }

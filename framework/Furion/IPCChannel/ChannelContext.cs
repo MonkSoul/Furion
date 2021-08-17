@@ -12,7 +12,7 @@ using System;
 using System.Threading.Channels;
 using System.Threading.Tasks;
 
-namespace Furion.ProcessChannel
+namespace Furion.IPCChannel
 {
     /// <summary>
     /// 进程管道内通信上下文
