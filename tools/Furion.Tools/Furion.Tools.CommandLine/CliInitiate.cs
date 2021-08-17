@@ -8,6 +8,8 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 
@@ -46,7 +48,7 @@ namespace Furion.Tools.CommandLine
             if (ArgumentMetadatas != null) return;
 
             // 获取入口类型
-            TypeInfo entryType = GetEntryType();
+            var entryType = GetEntryType();
 
             // 填充当前属性值
             Arguments.Populate(entryType);
@@ -72,10 +74,48 @@ namespace Furion.Tools.CommandLine
                                                                         ? argumentDictionary[u.ShortName.ToString()]
                                                                         : (argumentDictionary.ContainsKey(u.LongName)
                                                                                 ? argumentDictionary[u.LongName]
-                                                                                : default)
+                                                                                : default),
+                                                                     IsShortName = argumentDictionary.ContainsKey(u.ShortName.ToString()),
+                                                                     IsLongName = argumentDictionary.ContainsKey(u.LongName)
                                                                  });
 
+            // 数据校验
+            if (!ValidateParameters()) Exit();
+
+            // 扫描所有参数处理程序
             ArgumentHandlers = ScanArgumentHandlers();
+        }
+
+        /// <summary>
+        /// 数据校验
+        /// </summary>
+        private static bool ValidateParameters()
+        {
+            var isVaild = true;
+
+            // 进行数据校验
+            foreach (var argumentMetadata in ArgumentMetadatas)
+            {
+                if (!argumentMetadata.Property.IsDefined(typeof(ValidationAttribute))) continue;
+
+                // 获取所有验证特性
+                var validationAttributes = argumentMetadata.Property.GetCustomAttributes<ValidationAttribute>();
+
+                // 验证必填
+                if (argumentMetadata.Value == null && !argumentMetadata.Property.IsDefined(typeof(RequiredAttribute))) continue;
+
+                // 校验单个值
+                ICollection<ValidationResult> results = new List<ValidationResult>();
+                var isValid = Validator.TryValidateValue(argumentMetadata.Value, new ValidationContext(argumentMetadata.Value), results, validationAttributes);
+                if (isValid) continue;
+
+                Error("Validate Failed: " + (argumentMetadata.IsShortName ? argumentMetadata.ShortName : argumentMetadata.LongName));
+                Error(" " + string.Join(',', results.Select(x => x.ErrorMessage)));
+
+                if (isVaild) isVaild = false;
+            }
+
+            return isVaild;
         }
 
         /// <summary>

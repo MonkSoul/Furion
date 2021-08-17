@@ -345,3 +345,4 @@ handbook/node_modules
 
 # .NET Comments
 framework/**/*.xml
+/framework/nupkgs

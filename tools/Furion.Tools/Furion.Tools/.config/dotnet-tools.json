@@ -1,0 +1,12 @@
+{
+  "version": 1,
+  "isRoot": true,
+  "tools": {
+    "furion.tools": {
+      "version": "0.10.0",
+      "commands": [
+        "furion"
+      ]
+    }
+  }
+}

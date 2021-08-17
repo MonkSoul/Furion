@@ -49,5 +49,15 @@ namespace Furion.Tools.CommandLine
         /// 属性对象
         /// </summary>
         public PropertyInfo Property { get; internal set; }
+
+        /// <summary>
+        /// 是否传入短参数
+        /// </summary>
+        public bool IsShortName { get; set; }
+
+        /// <summary>
+        /// 是否传入长参数
+        /// </summary>
+        public bool IsLongName { get; set; }
     }
 }

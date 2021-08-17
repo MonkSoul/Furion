@@ -30,12 +30,12 @@ namespace Furion.Tools.CommandLine
         {
             foreach (var (propertyName, handler) in ArgumentHandlers)
             {
-                Check(propertyName, handler);
+                CheckMatch(propertyName, handler);
             }
 
             // 没有匹配的 Handler
             var noMatchHandler = GetEntryType().DeclaredMethods.FirstOrDefault(u => u.IsStatic
-                                                                       && u.Name == "NoMatchHandler"
+                                                                       && u.Name == "NoMatchesHandler"
                                                                        && u.ReturnType == typeof(void)
                                                                        && u.GetParameters().Length == 3
                                                                        && u.GetParameters()[0].ParameterType == typeof(bool)
@@ -44,13 +44,14 @@ namespace Furion.Tools.CommandLine
 
             if (noMatchHandler != null)
             {
-                CheckNoMatch((Action<bool, string[], Dictionary<string, object>>)Delegate.CreateDelegate(typeof(Action<bool, string[], Dictionary<string, object>>), noMatchHandler));
+                CheckNoMatches((Action<bool, string[], Dictionary<string, object>>)Delegate.CreateDelegate(typeof(Action<bool, string[], Dictionary<string, object>>), noMatchHandler));
             }
         }
 
         /// <summary>
         /// 判断参数是否定义
         /// </summary>
+        /// <remarks>可通过?.IsTransmission == true 判断是否定义</remarks>
         /// <param name="argumentName"></param>
         /// <param name="handler"></param>
         public static void Check(string argumentName, Action<ArgumentMetadata> handler)
@@ -58,15 +59,30 @@ namespace Furion.Tools.CommandLine
             if (handler == null) throw new ArgumentNullException(nameof(handler));
 
             var argumentMetadata = ArgumentMetadatas.FirstOrDefault(u => u.ShortName.ToString() == argumentName || u.LongName == argumentName || u.Property.Name == argumentName);
-            if (argumentMetadata != null && argumentMetadata.IsTransmission) handler(argumentMetadata);
+            handler(argumentMetadata);
         }
 
         /// <summary>
-        /// 检查未匹配字符
+        /// 检查单个匹配
+        /// </summary>
+        /// <param name="argumentName"></param>
+        /// <param name="handler"></param>
+        public static void CheckMatch(string argumentName, Action<ArgumentMetadata> handler)
+        {
+            if (handler == null) throw new ArgumentNullException(nameof(handler));
+
+            Check(argumentName, argument =>
+            {
+                if (argument?.IsTransmission == true) handler(argument);
+            });
+        }
+
+        /// <summary>
+        /// 检查所有未匹配参数、操作符
         /// </summary>
         /// <param name="handler">arg1: 是否传递空参数，arg2：操作符列表，args3：未匹配的参数列表</param>
         /// <returns></returns>
-        public static void CheckNoMatch(Action<bool, string[], Dictionary<string, object>> handler)
+        public static void CheckNoMatches(Action<bool, string[], Dictionary<string, object>> handler)
         {
             if (handler == null) throw new ArgumentNullException(nameof(handler));
 
@@ -141,6 +157,14 @@ namespace Furion.Tools.CommandLine
         public static ArgumentModel Parse(string commandLineString, ArgumentParseOptions options)
         {
             return MapperTo(Arguments.Parse(commandLineString, options));
+        }
+
+        /// <summary>
+        /// 强制退出控制台（终止执行）
+        /// </summary>
+        public static void Exit()
+        {
+            Environment.Exit(Environment.ExitCode);
         }
 
         /// <summary>

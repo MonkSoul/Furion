@@ -4,14 +4,14 @@
 		<Company>Baiqian Co.,Ltd.</Company>
 		<Product>Furion</Product>
 		<Copyright>© 2020-2021 百小僧, Baiqian Co.,Ltd.</Copyright>
-		<PackageLicenseExpression>MulanPSL-2.0</PackageLicenseExpression>
-		<PackageProjectUrl>https://furion.pro</PackageProjectUrl>
 		<RepositoryUrl>https://gitee.com/dotnetchina/Furion</RepositoryUrl>
 		<RepositoryType>Gitee</RepositoryType>
-		<PackageLicenseExpression>MulanPSL-2.0</PackageLicenseExpression>
-		<PackAsTool>true</PackAsTool>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<PackageLicenseExpression>MulanPSL-2.0</PackageLicenseExpression>
+		<PackageProjectUrl>https://furion.pro</PackageProjectUrl>
+		<PackAsTool>true</PackAsTool>
 		<PackageIcon>icon.png</PackageIcon>
+		<PackageOutputPath>../nupkgs</PackageOutputPath>
 	</PropertyGroup>
 
 	<PropertyGroup>
