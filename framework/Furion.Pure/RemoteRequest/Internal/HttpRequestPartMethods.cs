@@ -28,6 +28,11 @@ namespace Furion.RemoteRequest
     public sealed partial class HttpRequestPart
     {
         /// <summary>
+        /// 请求失败事件
+        /// </summary>
+        public event EventHandler<HttpRequestFaildedEventArgs> OnRequestFailded;
+
+        /// <summary>
         /// MiniProfiler 分类名
         /// </summary>
         private const string MiniProfilerCategory = "httpclient";
@@ -455,6 +460,9 @@ namespace Furion.RemoteRequest
             }
             catch (Exception ex)
             {
+                // 触发自定义事件
+                OnRequestFailded(this, new HttpRequestFaildedEventArgs(request, response, ex));
+
                 exception = ex;
             }
 
