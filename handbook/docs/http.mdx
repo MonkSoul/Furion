@@ -947,7 +947,13 @@ Scoped.Create(async (fac, scope) => {
 });
 ```
 
-## 19.10 反馈与建议
+## 19.10 静态 `Default` 方式构建
+
+```cs
+await HttpRequestPart.Default.SetRequestUrl("https://www.baidu.com").GetAsStringAsync();
+```
+
+## 19.11 反馈与建议
 
 :::note 与我们交流
 

@@ -15,13 +15,13 @@ using System.Threading.Tasks;
 namespace Furion.ProcessChannel
 {
     /// <summary>
-    /// 进程管道内通信总线
+    /// 进程管道内通信上下文
     /// </summary>
     /// <typeparam name="TMessage"></typeparam>
     /// <typeparam name="THandler"></typeparam>
     /// <remarks>后续将通过 MemoryMapperFile 共享内存实现 IPC 通信：https://docs.microsoft.com/zh-cn/dotnet/api/system.io.memorymappedfiles.memorymappedfile?view=net-5.0 </remarks>
     [SuppressSniffer]
-    public sealed class ChannelBus<TMessage, THandler>
+    public sealed class ChannelContext<TMessage, THandler>
         where THandler : ChannelHandler<TMessage>
     {
         /// <summary>
@@ -69,7 +69,7 @@ namespace Furion.ProcessChannel
         /// <summary>
         /// 私有构造函数
         /// </summary>
-        private ChannelBus()
+        private ChannelContext()
         {
         }
 

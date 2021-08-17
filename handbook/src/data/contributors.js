@@ -879,6 +879,12 @@ const contributors = [
     photo:
       "https://portrait.gitee.com/uploads/avatars/user/3146/9440009_Penkar_1626239976.png!avatar200",
   },
+  {
+    author: "NL",
+    link: "https://gitee.com/Cxq513975",
+    photo:
+      "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEsAAABLCAYAAAA4TnrqAAAAAXNSR0IArs4c6QAAArZJREFUeF7t2m1r01AcBfCTNmmSdg58QJCJoCgKvhNFFEEEwa/p9xAUBOc7Uab7AqIDH5DZrmlsHuRmXdPabN5jYSve09dnIfnt/HOT23rfnu6W0MdKwBOWlVMVEpa9lbAIK2EJixEgsrpnCYsQIKJqlrAIASKqZgmLECCiapawCAEiqmYJixAgomqWsAgBIqpmCYsQIKJqlrAIASKqZgmLECCix9astfsxwmvB9NSKQYH+ywTZ15w4XWDuOAWQbKUYvk2pY/xr+MSwzAn/+pih/3xInbuzWGUOJO/Sqh22H2exDFCxV2DwaoTxTmbl5TSWERp/zvDzmd04uollfo7i7ZfJjOPovd2N2j2sAsi+5/DPtadgtuPoJFaynaKz4aN9uj29V9mMo5tYWymKpET3Vgivsz+P1Thupxi+OXx1dBbLPEyuPYgRXgnqcRwWGGyOMP7UvDo6jdVeb2HtYQz/zMw47mTov0hQjhd/lOg0lhk/8xrUux1ZjaPzWAasQrj693EUFgDbcRTW5OEhvBygdzeCF06eVs2uwof51VFYM2+FBiu63plZHUsMNpPp6iisGSwv8LD+pAv/bPPqKKw/9huOGkdhNWzOLIzjqMTe6wSdi0G94+rETqnFRVbj+LgL/3w9jtmXHPluIaymnb/OJR+9ezFaUb06Zj/y+n5mgW61o2gZOpk9eOIie3ciRDc6QKvhiojjWHocGVt5rKZxrL8icuHbHbIRwYZfvQ61upNxPNAij7Nsu1a+WQcXaPa94pvh/DgKq/n/b8bx1KMYwQW/Dgjr8GFZGMf/FWvZ+8Uq/P2x3bNW4WKXPQdhEYLCEhYhQETVLGERAkRUzRIWIUBE1SxhEQJEVM0SFiFARNUsYRECRFTNEhYhQETVLGERAkRUzRIWIUBE1SxhEQJEVM0isH4DaUPxvgdE4AQAAAAASUVORK5CYII=",
+  },
 ];
 
 export default contributors;

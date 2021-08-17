@@ -755,7 +755,13 @@ Scoped.Create((fac, scope) => {
 });
 ```
 
-## 9.15.13 反馈与建议
+## 9.15.13 静态 `Default` 方式构建
+
+```cs
+SqlExecutePart.Default.SetSqlString("select * from person").SqlQuery();
+```
+
+## 9.15.14 反馈与建议
 
 :::note 与我们交流
 
