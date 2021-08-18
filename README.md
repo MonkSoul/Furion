@@ -1,4 +1,4 @@
-# Furion
+# 先知 / Furion
 
 [![license](https://img.shields.io/badge/license-MulanPSL--2.0-orange?cacheSeconds=10800)](https://gitee.com/dotnetchina/Furion/blob/master/LICENSE) [![nuget](https://img.shields.io/nuget/v/Furion.svg?cacheSeconds=10800)](https://www.nuget.org/packages/Furion) [![nuget downloads](https://img.shields.io/badge/downloads-992k-green?cacheSeconds=10800)](https://www.nuget.org/profiles/monk.soul) [![dotNET China](https://img.shields.io/badge/organization-dotNET%20China-yellow?cacheSeconds=10800)](https://gitee.com/dotnetchina)
 
@@ -6,7 +6,7 @@
 
 An application framework that you can integrate into any .NET/C# application.
 
-## 安装
+## 安装 / Installation
 
 - [Package Manager](https://www.nuget.org/packages/Furion)
 
@@ -20,9 +20,11 @@ Install-Package Furion
 dotnet add package Furion
 ```
 
-## 例子
+## 例子 / Examples
 
 我们在[主页](https://dotnetchina.gitee.io/furion)上有不少例子，这是让您入门的第一个：
+
+We have several examples [on the website](https://dotnetchina.gitee.io/furion). Here is the first one to get you started:
 
 ```cs
 var services = Inject.Create();
@@ -33,17 +35,23 @@ var responseString = await "https://dotnet.microsoft.com/".GetAsStringAsync();
 responseString.LogInformation();
 ```
 
-## 文档
+## 文档 / Documentation
 
 您可以在[主页](https://dotnetchina.gitee.io/furion)或[备份主页](https://furion.pro)找到 Furion 文档。
 
-## 贡献
+You can find the Furion documentation [on the website](https://dotnetchina.gitee.io/furion) or [on the backup website](https://dotnetchina.gitee.io/furion).
+
+## 贡献 / Contributing
 
 该存储库的主要目的是继续发展 Furion 核心，使其更快、更易于使用。 Furion 的开发在 [Gitee](https://gitee.com/dotnetchina/Furion) 上公开进行，我们感谢社区贡献错误修复和改进。阅读[贡献指南](https://dotnetchina.gitee.io/furion/docs/contribute)内容，了解如何参与改进 Furion。
 
-## 许可证
+The main purpose of this repository is to continue evolving Furion core, making it faster and easier to use. Development of Furion happens in the open on [Gitee](https://gitee.com/dotnetchina/Furion), and we are grateful to the community for contributing bugfixes and improvements. Read [contribution documents](https://dotnetchina.gitee.io/furion/docs/contribute) to learn how you can take part in improving Furion.
+
+## 许可证 / License
 
 Furion 采用 [MulanPSL-2.0](http://license.coscl.org.cn/MulanPSL2) 开源许可证，了解[项目许可证](https://gitee.com/dotnetchina/Furion/blob/master/LICENSE)。
+
+Furion uses the [MulanPSL-2.0](http://license.coscl.org.cn/MulanPSL2) open source license, [learn more details](https://gitee.com/dotnetchina/Furion/blob/master/LICENSE).
 
 ```
 Copyright (c) 2020-2021 百小僧, Baiqian Co.,Ltd.
