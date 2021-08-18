@@ -103,7 +103,7 @@ namespace Furion.Tools.CommandLine
                 Console.Write("> ");
 
                 // 接收用户输入
-                string input = Console.ReadLine();
+                var input = Console.ReadLine();
 
                 // 如果用户输入 exit 则退出
                 if (input == "exit") break;
@@ -127,7 +127,7 @@ namespace Furion.Tools.CommandLine
             Repeat: Success(text);
 
             // 输出选项
-            for (int i = 0; i < options.Length; i++)
+            for (var i = 0; i < options.Length; i++)
             {
                 Tip($" {i + 1}.{options[i]}");
             }
@@ -138,7 +138,7 @@ namespace Furion.Tools.CommandLine
             Console.Write("> ");
 
             // 接收用户输入
-            string input = Console.ReadLine();
+            var input = Console.ReadLine();
 
             // 如果用户输入 exit 则退出
             if (input == "exit") return -1;
