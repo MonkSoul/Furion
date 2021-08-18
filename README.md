@@ -49,9 +49,9 @@ The main purpose of this repository is to continue evolving Furion core, making 
 
 ## 许可证 / License
 
-Furion 采用 [MulanPSL-2.0](http://license.coscl.org.cn/MulanPSL2) 开源许可证，了解[项目许可证](https://gitee.com/dotnetchina/Furion/blob/master/LICENSE)。
+Furion 采用 [MulanPSL-2.0](http://license.coscl.org.cn/MulanPSL2) 开源许可证。了解[项目许可证](https://gitee.com/dotnetchina/Furion/blob/master/LICENSE)。
 
-Furion uses the [MulanPSL-2.0](http://license.coscl.org.cn/MulanPSL2) open source license, [learn more details](https://gitee.com/dotnetchina/Furion/blob/master/LICENSE).
+Furion uses the [MulanPSL-2.0](http://license.coscl.org.cn/MulanPSL2) open source license. [Learn more details](https://gitee.com/dotnetchina/Furion/blob/master/LICENSE).
 
 ```
 Copyright (c) 2020-2021 百小僧, Baiqian Co.,Ltd.
