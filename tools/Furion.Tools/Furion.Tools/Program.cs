@@ -24,6 +24,7 @@ namespace Furion.Tools
     ///     配置全局工具：dotnet tool install --global --add-source ../nupkgs Furion.Tools
     ///     更新全局工具：dotnet tool update --global --add-source ../nupkgs Furion.Tools
     ///     卸载全局工具：dotnet tool uninstall --global Furion.Tools
+    /// 生成字符图案：http://patorjk.com/software/taag/#p=display&f=Big&t=Furion%20Tools
     /// </summary>
     /// <remarks>
     /// <para>工具项目配置项</para>
