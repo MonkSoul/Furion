@@ -43,7 +43,7 @@ namespace Furion.DependencyInjection
             if (handler == null) throw new ArgumentNullException(nameof(handler));
 
             // 创建作用域
-            var scoped = CreateScope(scopeFactory);
+            var (scoped, serviceProvider) = CreateScope(ref scopeFactory);
 
             try
             {
@@ -60,6 +60,7 @@ namespace Furion.DependencyInjection
             {
                 // 释放
                 scoped.Dispose();
+                if (serviceProvider != null) await serviceProvider.DisposeAsync();
             }
         }
     }
