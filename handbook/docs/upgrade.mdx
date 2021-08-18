@@ -17,7 +17,7 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 > - 如果涉及到代码重构，则当天发版，次版本号 `加 1`，修订版本号 `清 0`。
 > - 如果 `.NET SDK` 主版本号升级，则当天发版，主版本号 `加 1`。
 
-## v2.17（已发布）
+## v2.18（当前版本）
 
 - **新特性**
 
@@ -25,6 +25,36 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
   - [新增] 基于 `AsyncLocal<T>` 的 `CallContext` 实现 [9057a21](https://gitee.com/dotnetchina/Furion/commit/9057a212aab8057b668086bd14369fa68ce120df)
   - [新增] 远程请求可配置请求移除重试策略 [656da87](https://gitee.com/dotnetchina/Furion/commit/656da87a667c2da7d82425cdcd47146e99602d65)
   - [新增] 远程请求 `OnRequestFailded` 事件 [4a3da4b](https://gitee.com/dotnetchina/Furion/commit/4a3da4ba2c69380fe5f8c2fda80054544c0a3468)
+
+- **突破性变化**
+
+  - [移除] `Scoped` 所有带返回值方法 [656da87](https://gitee.com/dotnetchina/Furion/commit/656da87a667c2da7d82425cdcd47146e99602d65)
+  - [调整] **在 `ConfigureService` 中调用 `App.GetOptions<>()` 获取配置逻辑** [afa4ac3](https://gitee.com/dotnetchina/Furion/commit/afa4ac347152ccac37bd1d0f9af1e8ffb665a662)
+
+> 在过去，很多开发者总是喜欢在 `Startup.cs` 配置服务的 `ConfigureService` 方法中解析服务，这样导致内存存在溢出风险，GC 无法回收。
+> 正确的方式是尽可能的避免 `ConfigureService` 中解析服务。**如果需要在【启动时】获取 `配置选项`，请使用 `App.GetConfig<TOptions>(路径, true)` 代替 `App.GetOptions<TOption>`**。
+
+- **问题修复**
+
+  - [修复] v2.16+ 版本重构 `AppDbContextBuilder` 之后写错实体类型 [#I45E6M](https://gitee.com/dotnetchina/Furion/issues/I45E6M)
+  - [修复] 远程请求单个值序列化错误处理方式 [3282eba](https://gitee.com/dotnetchina/Furion/commit/3282eba2cecb505e339ef3f9c8e823f84dcb43f0)
+  - [修复] v2.17.3+ 单元测试创建 `TestServer` bug [#I45JR3](https://gitee.com/dotnetchina/Furion/issues/I45JR3)
+  - [修复] `Retry.Invoke` 正常方法死循环 bug [!392](https://gitee.com/dotnetchina/Furion/pulls/392)
+  - [修复] 刷新 `Token` 生成新 `Token` 存在数组/集合类型导致 `Key` 重复异常问题 [aeea2b1](https://gitee.com/dotnetchina/Furion/commit/aeea2b1b19434f3171bd1c77be057ca36ecf9be2)
+  - [修复] 远程请求序列化引用类型对象（不含 `string`）不正确的处理 [93cf63a](https://gitee.com/dotnetchina/Furion/commit/93cf63a023f3372b80edb5debc46271d2281318a)
+  - [修复] `AppDbContext` 默认租户属性受工作单元影响问题 [e51557f](https://gitee.com/dotnetchina/Furion/commit/e51557fdf37ae5646b2ea37c227c970eccdbed38)
+
+- **文档**
+
+  - [新增] 包管理工具文档
+  - [更新] 模板引擎、`Sql` 操作，`数据库上下文` 等等文档
+
+---
+
+## v2.17（已发布）
+
+- **新特性**
+
   - [新增] `IPC（Inter-Process Communication，进程间通信）` 模块功能，目前提供进程内通信和共享内存进程外通讯 [ProcessChannel](https://gitee.com/dotnetchina/Furion/tree/master/framework/Furion/ProcessChannel)
   - [新增] 远程请求 `application/xml` 和 `text/xml` 默认支持 [4753a1a](https://gitee.com/dotnetchina/Furion/commit/4753a1aed527a6282fe6c05036de9d50bd3b3dd8)
   - [新增] 控制台全局异常拦截 [4a4fe1f](https://gitee.com/dotnetchina/Furion/commit/4a4fe1f40e1856ea36a0c0d19ca625d3f7bf95b7)
@@ -38,11 +68,6 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
   - [抽离] `Oops.Retry()` 重试策略功能至新类：`Retry.Invoke()` [6a7bbd0](https://gitee.com/dotnetchina/Furion/commit/6a7bbd0b30a653b9a42d340a63520485aa6bbfa4)
   - [移除] `IHttpContextAccessor.SigninToSwagger()` 拓展，请使用 `IHttpContextAccessor.HttpContext.SigninToSwagger()`，退出也一样
   - [移除] 全局处理 `Request Body` 重复读处理 `Request.EnableBuffering()` [d92c24b](https://gitee.com/dotnetchina/Furion/commit/d92c24bdb43bfb01643007ebb6a4ee42a5c738e9)
-  - [移除] `Scoped` 所有带返回值方法 [656da87](https://gitee.com/dotnetchina/Furion/commit/656da87a667c2da7d82425cdcd47146e99602d65)
-  - [调整] **在 `ConfigureService` 中调用 `App.GetOptions<>()` 获取配置逻辑** [afa4ac3](https://gitee.com/dotnetchina/Furion/commit/afa4ac347152ccac37bd1d0f9af1e8ffb665a662)
-
-> 在过去，很多开发者总是喜欢在 `Startup.cs` 配置服务的 `ConfigureService` 方法中解析服务，这样导致内存存在溢出风险，GC 无法回收。
-> 正确的方式是尽可能的避免 `ConfigureService` 中解析服务。**如果需要在【启动时】获取 `配置选项`，请使用 `App.GetConfig<TOptions>(路径, true)` 代替 `App.GetOptions<TOption>`**。
 
 - **问题修复**
 
@@ -53,13 +78,6 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
   - [修复] 友好异常在子类重写抽象类方法内部抛异常无法获取的问题 [4a4fe1f](https://gitee.com/dotnetchina/Furion/commit/4a4fe1f40e1856ea36a0c0d19ca625d3f7bf95b7)
   - [修复] 修复非 Web 项目抛异常问题 [4a4fe1f](https://gitee.com/dotnetchina/Furion/commit/4a4fe1f40e1856ea36a0c0d19ca625d3f7bf95b7)
   - [修复] 数据库实体模型贴 `[NotMapper]` 特性无效 [#I44MNO](https://gitee.com/dotnetchina/Furion/issues/I44MNO)
-  - [修复] v2.16+ 版本重构 `AppDbContextBuilder` 之后写错实体类型 [#I45E6M](https://gitee.com/dotnetchina/Furion/issues/I45E6M)
-  - [修复] 远程请求单个值序列化错误处理方式 [3282eba](https://gitee.com/dotnetchina/Furion/commit/3282eba2cecb505e339ef3f9c8e823f84dcb43f0)
-  - [修复] v2.17.3+ 单元测试创建 `TestServer` bug [#I45JR3](https://gitee.com/dotnetchina/Furion/issues/I45JR3)
-  - [修复] `Retry.Invoke` 正常方法死循环 bug [!392](https://gitee.com/dotnetchina/Furion/pulls/392)
-  - [修复] 刷新 `Token` 生成新 `Token` 存在数组/集合类型导致 `Key` 重复异常问题 [aeea2b1](https://gitee.com/dotnetchina/Furion/commit/aeea2b1b19434f3171bd1c77be057ca36ecf9be2)
-  - [修复] 远程请求序列化引用类型对象（不含  `string`）不正确的处理 [93cf63a](https://gitee.com/dotnetchina/Furion/commit/93cf63a023f3372b80edb5debc46271d2281318a)
-  - [修复] `AppDbContext` 默认租户属性受工作单元影响问题 [e51557f](https://gitee.com/dotnetchina/Furion/commit/e51557fdf37ae5646b2ea37c227c970eccdbed38)
 
 - **其他更改**
 
