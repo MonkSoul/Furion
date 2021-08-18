@@ -63,6 +63,23 @@ namespace Furion.Tools.CommandLine
         }
 
         /// <summary>
+        /// 检查一组命令参数
+        /// </summary>
+        /// <param name="arguments"></param>
+        /// <param name="handler"></param>
+        public static void Check(string[] arguments, Action<bool, object> handler)
+        {
+            if (handler == null) throw new ArgumentNullException(nameof(handler));
+
+            var matchArgument = arguments.FirstOrDefault(u => Arguments.ArgumentDictionary.ContainsKey(u));
+
+            var isMatch = matchArgument != null;
+            var value = isMatch ? Arguments.ArgumentDictionary[matchArgument] : null;
+
+            handler(isMatch, value);
+        }
+
+        /// <summary>
         /// 检查单个匹配
         /// </summary>
         /// <param name="argumentName"></param>
@@ -74,6 +91,21 @@ namespace Furion.Tools.CommandLine
             Check(argumentName, argument =>
             {
                 if (argument?.IsTransmission == true) handler(argument);
+            });
+        }
+
+        /// <summary>
+        /// 检查一组参数匹配
+        /// </summary>
+        /// <param name="argumentName"></param>
+        /// <param name="handler"></param>
+        public static void CheckMatch(string[] arguments, Action<object> handler)
+        {
+            if (handler == null) throw new ArgumentNullException(nameof(handler));
+
+            Check(arguments, (isMatch, value) =>
+            {
+                if (isMatch) handler(value);
             });
         }
 

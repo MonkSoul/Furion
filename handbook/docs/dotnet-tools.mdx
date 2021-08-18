@@ -1,7 +1,160 @@
 ---
 id: dotnet-tools
-title: 37. 编写工具库
-sidebar_label: 37. 编写工具库 (Tools)
+title: 37. 编写包管理工具
+sidebar_label: 37. 编写包管理工具 (Tools)
 ---
 
-文档紧急编写中，可以先看旧文档：https://monksoul.gitbook.io/hoa/
+import useBaseUrl from "@docusaurus/useBaseUrl";
+
+## 37.1 关于包管理工具
+
+使用过 `NodeJs` 的朋友一定对 `npm` 命令不会陌生，可以通过 `npm` 安装项目需要的包或环境需要的工具，在 `.NET Core 2.1+` 之后，微软也推出了新的特性，`Global/Local Tools`，该特性功能也正是收到 `npm` 启发下诞生的。
+
+不同的是，`npm` 中的包采用的是 `Javascript` 编写并发布到 [https://www.npmjs.com/](https://www.npmjs.com/) 平台，而 `dotnet tools` 采用 `C#` 编写并发布到 `https://www.nuget.org/` 平台供安装使用。
+
+## 37.2 了解包命令语法
+
+通常包命令语法都遵循一下规则：
+
+```bash
+<-|--|/>argument-name<=|:| >["|']value['|"] [--] [operand] ... [operand]
+```
+
+在这里，`Furion` 将简单介绍命令常用的知识：
+
+- `工具符`：通常指的是你工具的唯一名称，也就是关键字，而且总是在最开头编写，如：`dotnet`，`npm`，`node`
+- `短参数`：短参数指的是 `单个字符` 的字符串，我们通常使用 `-` 一个横杆指定参数及值，如：`-v` 或 `-v 0.0.1`
+- `长参数`：长参数指的是一个或多个单词连接的字符串，该参数通常和 `短参数` 同时存在，通常使用 `--` 指定参数及值，如：`--version` 或 `--version 0.0.1`
+- `操作符`：字符串中与参数值格式不匹配的任何文本都被视为操作数，任何出现在双连字符 `--` 之后且未包含在单引号或双引号中且两侧有空格的文本都被视为操作数，无论它是否与参数值格式匹配，通常用于归类/分类作用。
+
+### 37.2.1 短参数例子
+
+- `-a foo`
+
+| 短参数 | 参数值 |
+| ------ | ------ |
+| a      | foo    |
+
+- `-ab`
+
+| 短参数 | 参数值 |
+| ------ | ------ |
+| a      |        |
+| b      |        |
+
+- `-abc bar`
+
+| 短参数 | 参数值 |
+| ------ | ------ |
+| a      |        |
+| b      |        |
+| c      | bar    |
+
+### 37.2.2 长参数例子
+
+- `--foo bar`
+
+| 长参数 | 参数值 |
+| ------ | ------ |
+| foo    | bar    |
+
+- `--foo --bar`
+
+| 长参数 | 参数值 |
+| ------ | ------ |
+| foo    |        |
+| bar    |        |
+
+- `--foo bar --hello world`
+
+| 长参数 | 参数值 |
+| ------ | ------ |
+| foo    | bar    |
+| hello  | world  |
+
+### 37.2.3 混合参数例子
+
+- `-abc foo --hello world /new="slashes are ok too"`
+
+| 短/长参数 | 参数值             |
+| --------- | ------------------ |
+| a         |
+| b         |
+| c         | foo                |
+| hello     | world              |
+| new       | slashes are ok too |
+
+### 37.2.4 多个值参数
+
+- `--list 1 --list 2 --list 3`
+
+| 长参数 | 参数值 |
+| ------ | ------ |
+| list   | 1,2,3  |
+
+### 37.2.5 操作符
+
+- `-a foo bar "hello world" -b -- -explicit operand`
+
+| 短参数 | 参数值 |
+| ------ | ------ |
+| a      | foo    |
+| b      |
+
+| 操作符        |
+| ------------- |
+| bar           |
+| "hello world" |
+| -explicit     |
+| operand       |
+
+了解更多关于包命令语法的官方知识：[https://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap12.html](https://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap12.html)
+
+## 37.3 编写第一个包
+
+`dotnet tools` 工具实际上是一个 `控制台` 应用程序，不同的是 `.csproj` 项目文件需要添加特定配置。下面将给大家编写一个 `HelloTools` 包管理工具。
+
+### 37.3.1 创建 `HelloTools` 控制台应用
+
+<img src={useBaseUrl("img/ts1.png")} />
+
+### 37.3.2 编辑 `HelloTools.csproj`
+
+将控制台项目标记成 `dotnet tools` 需要配置以下节点，如下图所示：
+
+```cs {5-9}
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<OutputType>Exe</OutputType>
+		<TargetFramework>net5.0</TargetFramework>
+		<ToolCommandName>hello-tools</ToolCommandName>
+		<PackAsTool>true</PackAsTool>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<PackageOutputPath>./nupkg</PackageOutputPath>
+	</PropertyGroup>
+
+</Project>
+```
+
+#### 配置关键节点说明
+
+- `ToolCommandName`：包工具关键字，如 `dotnet`、`npm`，后续使用都是通过该关键字使用
+- `PackAsTool`：是否声明为包管理工具，设置 `true`
+- `GeneratePackageOnBuild`：是否编译时自动生成 `.nupkg` 包，方便后续上次到 `Nuget` 平台
+- `PackageOutputPath`：配置 `.nupkg` 包存储目录，推荐使用 `./nupkg`
+
+### 37.3.3 安装 `Furion.Tools.CommandLine` 包
+
+为了方便管理工具包开发，`Furion` 官方特意开发了 `Furion.Tools.CommandLine` 包，帮助大家快速开发管理工具包。
+
+<img src={useBaseUrl("img/ts2.png")} />
+
+### 37.3.4 编写逻辑代码
+
+我们先定义几个需求，然后编写逻辑代码：
+
+> 需求一：输入 `hello-tools` 打印介绍信息
+> 需求二：输入 `-n` 或 `--name` 输出 `Hello 名字`
+> 需求三：输入 `-v` 或 `--version` 输出当前版本
+> 需求四：输入 `-h` 或 `--help` 输出帮助文档

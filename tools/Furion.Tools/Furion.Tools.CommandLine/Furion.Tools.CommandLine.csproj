@@ -2,9 +2,9 @@
 
 	<PropertyGroup>
 		<TargetFramework>net5.0</TargetFramework>
-		<version>2.5.0</version>
+		<version>2.6.0</version>
 		<PackAsTool>false</PackAsTool>
-		<Description>Furion 解析控制台/命令行参数</Description>
+		<Description>Furion 包管理工具开发库</Description>
 	</PropertyGroup>
 
 </Project>
