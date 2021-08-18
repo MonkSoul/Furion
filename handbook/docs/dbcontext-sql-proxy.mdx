@@ -217,7 +217,7 @@ namespace Furion.Application
         [SqlExecute(@"
             exec PROP_NAME @id;
             select * from person;", CommandType = CommandType.StoredProcedure)]
-        (List<Person>,List<Student>) GetData(int id;
+        (List<Person>,List<Student>) GetData(int id);
 
         // 支持多数据库操作
         [SqlExecute(@"
@@ -230,7 +230,7 @@ namespace Furion.Application
             select * from person;
             select * from student;
             select 1;"), SqlDbContextLocator(typeof(MySqlDbContextLocator)]
-        Task<(List<Person>,List<Student>,int)> GetDataAsync();
+        Task<(List<Person>,List<Student>,List<int>)> GetDataAsync();
     }
 }
 ```
