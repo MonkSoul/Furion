@@ -8,7 +8,7 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 ## 37.1 关于包管理工具
 
-使用过 `NodeJs` 的朋友一定对 `npm` 命令不会陌生，可以通过 `npm` 安装项目需要的包或环境需要的工具，在 `.NET Core 2.1+` 之后，微软也推出了新的特性，`Global/Local Tools`，该特性功能也正是收到 `npm` 启发下诞生的。
+使用过 `NodeJs` 的朋友一定对 `npm` 命令不会陌生，可以通过 `npm` 安装项目需要的包或环境需要的工具，在 `.NET Core 2.1+` 之后，微软也推出了新的特性，`Global/Local Tools`，该特性功能也正是受到 `npm` 启发下诞生的。
 
 不同的是，`npm` 中的包采用的是 `Javascript` 编写并发布到 [https://www.npmjs.com/](https://www.npmjs.com/) 平台，而 `dotnet tools` 采用 `C#` 编写并发布到 `https://www.nuget.org/` 平台供安装使用。
 
@@ -128,14 +128,14 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 将控制台项目标记成 `dotnet tools` 需要配置以下节点，如下图所示：
 
-```cs {5-10}
+```cs {6-11}
 <Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
 		<OutputType>Exe</OutputType>
 		<TargetFramework>net5.0</TargetFramework>
-        <Version>0.0.1</Version>
-        <Description>第一个 dotnet tools 工具</Description>
+    <Version>0.0.1</Version>
+    <Description>第一个 dotnet tools 工具</Description>
 		<ToolCommandName>hello-tools</ToolCommandName>
 		<PackAsTool>true</PackAsTool>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
