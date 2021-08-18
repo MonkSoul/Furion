@@ -69,10 +69,11 @@ namespace Furion.DependencyInjection
 
             if (scopeFactory == null)
             {
+                // 默认返回根服务
                 if (App.RootServices != null) scopeFactory = App.RootServices.GetService<IServiceScopeFactory>();
                 else
                 {
-                    // 这里创建了一个待释放服务提供器
+                    // 这里创建了一个待释放服务提供器（这里会有性能小问题，如果走到这一步）
                     undisposeServiceProvider = InternalApp.InternalServices.BuildServiceProvider();
                     scopeFactory = undisposeServiceProvider.GetService<IServiceScopeFactory>();
                 }
