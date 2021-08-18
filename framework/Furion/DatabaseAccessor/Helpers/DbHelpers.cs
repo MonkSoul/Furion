@@ -14,6 +14,7 @@ using System.Data.Common;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Text.Json;
 
 namespace Furion.DatabaseAccessor
 {
@@ -28,6 +29,9 @@ namespace Furion.DatabaseAccessor
         internal static DbParameter[] ConvertToDbParameters(object model, DbCommand dbCommand)
         {
             var modelType = model?.GetType();
+
+            // 处理 JsonElement 类型
+            if (model is JsonElement jsonElement && jsonElement.ValueKind == JsonValueKind.Object) return ConvertToDbParameters((Dictionary<string, object>)jsonElement.ToObject(), dbCommand);
 
             // 处理字典类型参数
             if (modelType == typeof(Dictionary<string, object>)) return ConvertToDbParameters((Dictionary<string, object>)model, dbCommand);
@@ -56,7 +60,12 @@ namespace Furion.DatabaseAccessor
                 }
 
                 dbParameter.ParameterName = property.Name;
-                dbParameter.Value = propertyValue.ChangeType(propertyValue.GetActualType());    // 解决 object/json 类型值
+                dbParameter.Value = propertyValue is JsonElement propertyJsonElement
+                                        && propertyJsonElement.ValueKind != JsonValueKind.Object
+                                        && propertyJsonElement.ValueKind != JsonValueKind.Array
+                                    ? propertyJsonElement.ToObject()
+                                    : propertyValue;    // 解决 object/json 类型值
+
                 dbParameters.Add(dbParameter);
             }
 

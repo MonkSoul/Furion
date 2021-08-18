@@ -246,6 +246,14 @@ clay.@int = 1;
 clay.@event = "事件";
 ```
 
+### 29.3.13 转换成字典类型
+
+```cs
+dynamic clay = Clay.Object(new { name = "张三" });
+clay.name = "百小僧";
+Dictionary<string, object> parms = clay.ToDictionary();
+```
+
 ## 29.4 反馈与建议
 
 :::note 与我们交流

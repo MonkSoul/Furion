@@ -271,34 +271,6 @@ namespace Furion.Extensions
         }
 
         /// <summary>
-        /// 获取对象实际类型
-        /// </summary>
-        /// <param name="obj"></param>
-        /// <returns></returns>
-        internal static Type GetActualType(this object obj)
-        {
-            if (obj == null) return default;
-
-            var objType = obj.GetType();
-
-            // 处理 JSON 序列化问题
-            if (obj is JsonElement jsonElement)
-            {
-                return jsonElement.ValueKind switch
-                {
-                    JsonValueKind.Null => typeof(string),
-                    JsonValueKind.String => typeof(string),
-                    JsonValueKind.Number => typeof(long),
-                    JsonValueKind.True => typeof(bool),
-                    JsonValueKind.False => typeof(bool),
-                    _ => typeof(string)
-                };
-            }
-
-            return objType;
-        }
-
-        /// <summary>
         /// 查找方法指定特性，如果没找到则继续查找声明类
         /// </summary>
         /// <typeparam name="TAttribute"></typeparam>
@@ -351,6 +323,46 @@ namespace Furion.Extensions
             return Regex.Split(str, @"(?=\p{Lu}\p{Ll})|(?<=\p{Ll})(?=\p{Lu})")
                 .Where(u => u.Length > 0)
                 .ToArray();
+        }
+
+        /// <summary>
+        /// JsonElement 转 Object
+        /// </summary>
+        /// <param name="jsonElement"></param>
+        /// <returns></returns>
+        internal static object ToObject(this JsonElement jsonElement)
+        {
+            switch (jsonElement.ValueKind)
+            {
+                case JsonValueKind.String:
+                    return jsonElement.GetString();
+                case JsonValueKind.Undefined:
+                case JsonValueKind.Null:
+                    return default;
+                case JsonValueKind.Number:
+                    return jsonElement.GetDecimal();
+                case JsonValueKind.True:
+                case JsonValueKind.False:
+                    return jsonElement.GetBoolean();
+                case JsonValueKind.Object:
+                    var enumerateObject = jsonElement.EnumerateObject();
+                    var dic = new Dictionary<string, object>();
+                    foreach (var item in enumerateObject)
+                    {
+                        dic.Add(item.Name, item.Value.ToObject());
+                    }
+                    return dic;
+                case JsonValueKind.Array:
+                    var enumerateArray = jsonElement.EnumerateArray();
+                    var list = new List<object>();
+                    foreach (var item in enumerateArray)
+                    {
+                        list.Add(item.ToObject());
+                    }
+                    return list;
+                default:
+                    return default;
+            }
         }
     }
 }

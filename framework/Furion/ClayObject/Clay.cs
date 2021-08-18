@@ -19,6 +19,7 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.Serialization.Json;
 using System.Text;
+using System.Text.Json;
 using System.Xml;
 using System.Xml.Linq;
 
@@ -355,6 +356,15 @@ namespace Furion.ClayObject
         public T Solidify<T>()
         {
             return JSON.Deserialize<T>(ToString());
+        }
+
+        /// <summary>
+        /// 输出字典类型
+        /// </summary>
+        /// <returns></returns>
+        public IDictionary<string, object> ToDictionary()
+        {
+            return Solidify().ToDictionary();
         }
 
         /// <summary>

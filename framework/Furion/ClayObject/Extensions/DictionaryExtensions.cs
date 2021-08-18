@@ -7,10 +7,12 @@
 // See the Mulan PSL v2 for more details.
 
 using Furion.DependencyInjection;
+using Furion.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Text.Json;
 
 namespace Furion.ClayObject.Extensions
 {
@@ -40,6 +42,11 @@ namespace Furion.ClayObject.Extensions
                     dic.Add(item.Key, item.Value is Clay v ? v.ToDictionary() : item.Value);
                 }
                 return dic;
+            }
+
+            if (input is JsonElement jsonElement && jsonElement.ValueKind == JsonValueKind.Object)
+            {
+                return jsonElement.ToObject() as IDictionary<string, object>;
             }
 
             var properties = input.GetType().GetProperties();
