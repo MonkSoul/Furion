@@ -37,7 +37,7 @@ app.Run();
             OutpuDescription();
 
             // 获取路径
-            var sourcePath = argument.Value?.ToString() ?? Environment.CurrentDirectory;
+            var sourcePath = string.IsNullOrWhiteSpace(argument.Value?.ToString()) ? Environment.CurrentDirectory : argument.Value.ToString();
 
             // 第一步，检测 SDK
             Step1();
