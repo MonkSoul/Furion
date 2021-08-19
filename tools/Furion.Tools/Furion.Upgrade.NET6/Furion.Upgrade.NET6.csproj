@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net5.0</TargetFramework>
+		<OutputType>Exe</OutputType>
+		<Version>0.0.1</Version>
+		<ToolCommandName>furion-upgrade</ToolCommandName>
+		<Description>Furion v2（.NET 5) 全自动升级 v3（.NET 6）</Description>
+	</PropertyGroup>
+
+	<ItemGroup>
+	  <PackageReference Include="CliWrap" Version="3.3.2" />
+	  <PackageReference Include="Furion.Tools.CommandLine" Version="2.7.0" />
+	</ItemGroup>
+
+</Project>

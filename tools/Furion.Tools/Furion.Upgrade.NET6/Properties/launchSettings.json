@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Furion.Upgrade.NET6": {
+      "commandName": "Project",
+      "commandLineArgs": "-s C:\\Workplaces\\Test\\YourProject"
+    }
+  }
+}

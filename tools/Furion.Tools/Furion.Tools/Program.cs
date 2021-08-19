@@ -12,29 +12,6 @@ using Furion.Tools.CommandLine;
 
 namespace Furion.Tools
 {
-    /// <summary>
-    /// 本地安装：https://docs.microsoft.com/zh-cn/dotnet/core/tools/local-tools-how-to-use
-    ///     创建清单文件：dotnet new tool-manifest
-    ///     配置本地工具：dotnet tool install --add-source ../nupkgs Furion.Tools
-    ///     测试本地工具：dotnet tool run furion -- -v -f
-    ///     还原本地工具：dotnet tool restore
-    ///     更新本地工具：dotnet tool update --add-source ../nupkgs Furion.Tools
-    ///     卸载本地工具：dotnet tool uninstall Furion.Tools
-    /// 全局安装：https://docs.microsoft.com/zh-cn/dotnet/core/tools/global-tools-how-to-use
-    ///     配置全局工具：dotnet tool install --global --add-source ../nupkgs Furion.Tools
-    ///     更新全局工具：dotnet tool update --global --add-source ../nupkgs Furion.Tools
-    ///     卸载全局工具：dotnet tool uninstall --global Furion.Tools
-    /// 生成字符图案：http://patorjk.com/software/taag/#p=display&f=Big&t=Furion%20Tools
-    /// </summary>
-    /// <remarks>
-    /// <para>工具项目配置项</para>
-    /// <code>
-    ///     <ToolCommandName>furion</ToolCommandName>
-    ///     <PackAsTool>true</PackAsTool>
-    ///     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    ///     <PackageOutputPath>./nupkg</PackageOutputPath>
-    /// </code>
-    /// </remarks>
     internal class Program
     {
         // 初始化并自动填充命令参数
