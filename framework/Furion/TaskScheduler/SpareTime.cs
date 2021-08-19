@@ -7,6 +7,7 @@
 // See the Mulan PSL v2 for more details.
 
 using Furion.DependencyInjection;
+using Furion.IPCChannel;
 using Furion.Templates.Extensions;
 using System;
 using System.Collections.Concurrent;
@@ -49,9 +50,11 @@ namespace Furion.TaskScheduler
         /// <param name="startNow"></param>
         /// <param name="cancelInNoneNextTime"></param>
         /// <param name="executeType"></param>
-        public static void Do(double interval, Func<SpareTimer, long, Task> doWhat = default, string workerName = default, string description = default, bool startNow = true, bool cancelInNoneNextTime = true, SpareTimeExecuteTypes executeType = SpareTimeExecuteTypes.Parallel)
+        /// <param name="onlyInspect">无关紧要的参数（用于检查器，外部不可用）</param>
+        ///
+        public static void Do(double interval, Func<SpareTimer, long, Task> doWhat = default, string workerName = default, string description = default, bool startNow = true, bool cancelInNoneNextTime = true, SpareTimeExecuteTypes executeType = SpareTimeExecuteTypes.Parallel, bool onlyInspect = false)
         {
-            Do(() => interval, doWhat, workerName, description, startNow, cancelInNoneNextTime, executeType, true);
+            Do(() => interval, doWhat, workerName, description, startNow, cancelInNoneNextTime, executeType, true, onlyInspect);
         }
 
         /// <summary>
@@ -223,9 +226,16 @@ namespace Furion.TaskScheduler
                 currentRecord.Timer.Tally = timer.Tally = currentRecord.CronActualTally += 1;
                 UpdateWorkerRecord(workerName, currentRecord);
 
+                // 执行前通知
+                await WriteChannel(timer, 1);
+
                 // 执行方法
                 await doWhat(timer, currentRecord.CronActualTally);
-            }, workerName, description, startNow, cancelInNoneNextTime, executeType);
+
+                // 执行后通知
+                await WriteChannel(timer, 2);
+
+            }, workerName, description, startNow, cancelInNoneNextTime, executeType, true);
         }
 
         /// <summary>
@@ -259,7 +269,8 @@ namespace Furion.TaskScheduler
         /// <param name="cancelInNoneNextTime"></param>
         /// <param name="executeType"></param>
         /// <param name="continued">是否持续执行</param>
-        public static void Do(Func<double> intervalHandler, Func<SpareTimer, long, Task> doWhat = default, string workerName = default, string description = default, bool startNow = true, bool cancelInNoneNextTime = true, SpareTimeExecuteTypes executeType = SpareTimeExecuteTypes.Parallel, bool continued = true)
+        /// <param name="onlyInspect">无关紧要的参数（用于检查器，外部不可用）</param>
+        public static void Do(Func<double> intervalHandler, Func<SpareTimer, long, Task> doWhat = default, string workerName = default, string description = default, bool startNow = true, bool cancelInNoneNextTime = true, SpareTimeExecuteTypes executeType = SpareTimeExecuteTypes.Parallel, bool continued = true, bool onlyInspect = false)
         {
             if (doWhat == null) return;
 
@@ -317,11 +328,20 @@ namespace Furion.TaskScheduler
                 {
                     try
                     {
+                        // 执行前通知
+                        if (timer.Type == SpareTimeTypes.Interval && !onlyInspect) await WriteChannel(timer, 1);
+
                         // 执行任务
                         await doWhat(timer, currentRecord.Tally);
+
+                        // 执行成功通知
+                        if (timer.Type == SpareTimeTypes.Interval && !onlyInspect) await WriteChannel(timer, 2);
                     }
                     catch (Exception ex)
                     {
+                        // 执行异常通知
+                        if (timer.Type == SpareTimeTypes.Interval && !onlyInspect) await WriteChannel(timer, 3);
+
                         // 记录任务异常
                         currentRecord.Timer.Exception.TryAdd(currentRecord.Tally, ex);
 
@@ -358,7 +378,7 @@ namespace Furion.TaskScheduler
             timer.Elapsed += (sender, e) => handler(sender, e).GetAwaiter().GetResult();
 
             timer.AutoReset = continued;
-            if (startNow) timer.Start();
+            if (startNow) Start(timer.WorkerName);
         }
 
         /// <summary>
@@ -519,6 +539,9 @@ namespace Furion.TaskScheduler
             // 启动任务
             if (!timer.Enabled)
             {
+                // 任务开始通知
+                WriteChannel(timer, 0).GetAwaiter().GetResult();
+
                 // 如果任务过去是失败的，则清除异常信息后启动
                 if (timer.Status == SpareTimeStatus.Failed) timer.Exception.Clear();
 
@@ -545,6 +568,9 @@ namespace Furion.TaskScheduler
             // 停止任务
             if (timer.Enabled)
             {
+                // 任务停止通知
+                WriteChannel(timer, -1).GetAwaiter().GetResult();
+
                 timer.Status = !isFaild ? SpareTimeStatus.Stopped : SpareTimeStatus.Failed;
                 timer.Stop();
             }
@@ -563,6 +589,9 @@ namespace Furion.TaskScheduler
 
             // 获取定时器
             var timer = workerRecord.Timer;
+
+            // 任务取消通知
+            WriteChannel(timer, -2).GetAwaiter().GetResult();
 
             // 停止并销毁任务
             timer.Status = SpareTimeStatus.CanceledOrNone;
@@ -639,6 +668,17 @@ namespace Furion.TaskScheduler
         {
             _ = WorkerRecords.TryGetValue(workerName, out var currentRecord);
             _ = WorkerRecords.TryUpdate(workerName, newRecord, currentRecord);
+        }
+
+        /// <summary>
+        /// 写入管道消息
+        /// </summary>
+        /// <param name="timer"></param>
+        /// <param name="statues"></param>
+        /// <returns></returns>
+        private static async Task WriteChannel(SpareTimer timer, int statues)
+        {
+            await ChannelContext<SpareTimerExecuter, SpareTimeListenerChannelHandler>.BoundedChannel.Writer.WriteAsync(new SpareTimerExecuter(timer, statues));
         }
 
         /// <summary>

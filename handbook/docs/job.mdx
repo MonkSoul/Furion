@@ -786,7 +786,75 @@ namespace WorkerService1
 }
 ```
 
-## 26.13 IIS 部署回收设置
+## 26.13 定时任务监听器
+
+在 `Furion v2.18+` 版本之后新增了定时任务监听器 `ISpareTimeListener`，通过监听器可以实现所有定时任务的状态。如，创建一个 `单例` 的监听器 `SpareTimeListener`：
+
+```cs {8,15}
+using Furion.DependencyInjection;
+using Furion.TaskScheduler;
+using System;
+using System.Threading.Tasks;
+
+namespace Furion.Core
+{
+    public class SpareTimeListener : ISpareTimeListener, ISingleton
+    {
+        /// <summary>
+        /// 监听所有任务
+        /// </summary>
+        /// <param name="executer"></param>
+        /// <returns></returns>
+        public Task OnListener(SpareTimerExecuter executer)
+        {
+            switch (executer.Status)
+            {
+                // 执行开始通知
+                case 0:
+                    Console.WriteLine($"{executer.Timer.WorkerName} 任务开始通知");
+                    break;
+                // 任务执行之前通知
+                case 1:
+                    Console.WriteLine($"{executer.Timer.WorkerName} 执行之前通知");
+                    break;
+                // 执行成功通知
+                case 2:
+                    Console.WriteLine($"{executer.Timer.WorkerName} 执行成功通知");
+                    break;
+                // 任务执行失败通知
+                case 3:
+                    Console.WriteLine($"{executer.Timer.WorkerName} 执行失败通知");
+                    break;
+                // 任务执行停止通知
+                case -1:
+                    Console.WriteLine($"{executer.Timer.WorkerName} 执行停止通知");
+                    break;
+                // 任务执行取消通知
+                case -2:
+                    Console.WriteLine($"{executer.Timer.WorkerName} 执行取消通知");
+                    break;
+                default:
+                    break;
+            }
+
+            return Task.CompletedTask;
+        }
+    }
+}
+```
+
+### 26.13.1 `SpareTimerExecuter` 属性说明
+
+- `Timer`：`SpareTimer` 定时器对象
+- `Status`：监听状态
+  - `0`：任务开始
+  - `1`：执行之前
+  - `2`：执行成功
+  - `3`：执行失败
+  - `-1`：任务停止
+  - `-2`：任务取消
+
+## 26.14 IIS 部署回收设置
 
 如果在项目中使用了定时任务且部署到 `IIS` 中，那么需要设置 `IIS` 禁止回收，如：
 
@@ -798,7 +866,7 @@ namespace WorkerService1
 
 :::
 
-## 26.14 反馈与建议
+## 26.15 反馈与建议
 
 :::note 与我们交流
 
