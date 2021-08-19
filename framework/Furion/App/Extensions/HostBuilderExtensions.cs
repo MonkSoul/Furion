@@ -10,9 +10,6 @@ using Furion;
 using Furion.DependencyInjection;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
-#if !NET5_0
-using Microsoft.AspNetCore.Builder;
-#endif
 
 namespace Microsoft.Extensions.Hosting
 {
@@ -22,22 +19,6 @@ namespace Microsoft.Extensions.Hosting
     [SuppressSniffer]
     public static class HostBuilderExtensions
     {
-
-#if !NET5_0
-        /// <summary>
-        /// Web 应用注入
-        /// </summary>
-        /// <param name="webApplicationBuilder">Web应用构建器</param>
-        /// <param name="assemblyName">外部程序集名称</param>
-        /// <returns>IWebHostBuilder</returns>
-        public static WebApplicationBuilder Inject(this WebApplicationBuilder webApplicationBuilder, string assemblyName = default)
-        {
-            webApplicationBuilder.WebHost.Inject(assemblyName);
-
-            return webApplicationBuilder;
-        }
-#endif
-
         /// <summary>
         /// Web 主机注入
         /// </summary>

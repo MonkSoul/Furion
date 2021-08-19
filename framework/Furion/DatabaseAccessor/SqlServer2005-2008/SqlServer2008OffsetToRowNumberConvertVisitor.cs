@@ -105,11 +105,7 @@ namespace Microsoft.EntityFrameworkCore.Query
             var rowOrderings = oldOrderings.Count != 0 ? oldOrderings
                 : new[] { new OrderingExpression(new SqlFragmentExpression("(SELECT 1)"), true) };
 
-#if NET5_0
-            _ = selectExpression.PushdownIntoSubquery();    // .NET 6 该方法已无返回值
-#else
-            selectExpression.PushdownIntoSubquery();
-#endif
+            _ = selectExpression.PushdownIntoSubquery();
 
             var subQuery = (SelectExpression)selectExpression.Tables[0];
             var projection = new RowNumberExpression(Array.Empty<SqlExpression>(), rowOrderings, oldOffset.TypeMapping);
