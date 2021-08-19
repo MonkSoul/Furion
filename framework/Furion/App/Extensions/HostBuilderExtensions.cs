@@ -10,6 +10,9 @@ using Furion;
 using Furion.DependencyInjection;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
+#if !NET5_0
+using Microsoft.AspNetCore.Builder;
+#endif
 
 namespace Microsoft.Extensions.Hosting
 {
@@ -27,7 +30,7 @@ namespace Microsoft.Extensions.Hosting
         /// <param name="webApplicationBuilder">Web应用构建器</param>
         /// <param name="assemblyName">外部程序集名称</param>
         /// <returns>IWebHostBuilder</returns>
-        public static Microsoft.AspNetCore.Builder.WebApplicationBuilder Inject(this Microsoft.AspNetCore.Builder.WebApplicationBuilder webApplicationBuilder, string assemblyName = default)
+        public static WebApplicationBuilder Inject(this WebApplicationBuilder webApplicationBuilder, string assemblyName = default)
         {
             webApplicationBuilder.WebHost.Inject(assemblyName);
 
