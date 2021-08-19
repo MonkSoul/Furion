@@ -7,10 +7,12 @@ export default function JoinGroup() {
 
   return (
     <div className="furion-join-group">
-      {/* {show && <img src={useBaseUrl("img/dotnetchina2.jpg")} />} */}
-      <a href={useBaseUrl("blog/net6-preview6")}>
-        {/* {show ? "QQ 群号：592844340" : "加入 dotNET China 交流群"} */} ✨
-        尝鲜 Furion For .NET6 版本 ✨
+      <a
+        href="https://gitee.com/dotnetchina/Furion/tree/net6-dev/"
+        target="_blank"
+      >
+        ✨ <span style={{ color: "yellow" }}>.NET6</span> 版Furion可
+        <span style={{ color: "yellow" }}>正式</span>使用 ✨
       </a>
     </div>
   );
