@@ -334,6 +334,9 @@ namespace Furion.TaskScheduler
                         // 执行任务
                         await doWhat(timer, currentRecord.Tally);
 
+                        // 只要执行成功一次，那么清空异常信息
+                        currentRecord.Timer.Exception.Clear();
+
                         // 执行成功通知
                         if (timer.Type == SpareTimeTypes.Interval && !onlyInspect) await WriteChannel(timer, 2);
                     }
