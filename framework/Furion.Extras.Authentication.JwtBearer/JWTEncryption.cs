@@ -12,13 +12,14 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Primitives;
 using Microsoft.IdentityModel.JsonWebTokens;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
+using System.Runtime.Loader;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
@@ -116,8 +117,7 @@ namespace Furion.DataEncryption
             if (!isValid) return default;
 
             // 解析 HttpContext
-            var (serviceProvider, httpContext) = GetCurrentHttpContext();
-            using var _ = serviceProvider;  // 自动释放内存
+            var httpContext = GetCurrentHttpContext();
 
             // 判断这个刷新Token 是否已刷新过
             var blacklistRefreshKey = "BLACKLIST_REFRESH_TOKEN:" + refreshToken;
@@ -314,11 +314,7 @@ namespace Furion.DataEncryption
         /// <returns></returns>
         public static JWTSettingsOptions GetJWTSettings()
         {
-            // 解析 HttpContext
-            var (serviceProvider, httpContext) = GetCurrentHttpContext();
-            using var _ = serviceProvider;  // 自动释放内存
-
-            return httpContext?.RequestServices?.GetService<IOptions<JWTSettingsOptions>>()?.Value ?? SetDefaultJwtSettings(new JWTSettingsOptions());
+            return FrameworkApp.GetMethod("GetOptions").MakeGenericMethod(typeof(JWTSettingsOptions)).Invoke(null, new object[] { null }) as JWTSettingsOptions ?? SetDefaultJwtSettings(new JWTSettingsOptions());
         }
 
         /// <summary>
@@ -426,19 +422,41 @@ namespace Furion.DataEncryption
         /// 获取当前的 HttpContext
         /// </summary>
         /// <returns></returns>
-        private static (ServiceProvider ServiceProvider, HttpContext httpContext) GetCurrentHttpContext()
+        private static HttpContext GetCurrentHttpContext()
         {
-            var services = new ServiceCollection();
-            // 添加 HttContext 访问器
-            services.AddHttpContextAccessor();
-
-            var serviceProvider = services.BuildServiceProvider();
-            return (serviceProvider, serviceProvider.GetService<IHttpContextAccessor>()?.HttpContext);
+            return FrameworkApp.GetProperty("HttpContext").GetValue(null) as HttpContext;
         }
 
         /// <summary>
         /// 固定的 Claim 类型
         /// </summary>
         private static readonly string[] StationaryClaimTypes = new[] { JwtRegisteredClaimNames.Iat, JwtRegisteredClaimNames.Nbf, JwtRegisteredClaimNames.Exp, JwtRegisteredClaimNames.Iss, JwtRegisteredClaimNames.Aud };
+
+        /// <summary>
+        /// 框架 App 静态类
+        /// </summary>
+        internal static Type FrameworkApp { get; set; }
+
+        /// <summary>
+        /// 获取框架上下文
+        /// </summary>
+        /// <returns></returns>
+        internal static Assembly GetFrameworkContext(Assembly callAssembly)
+        {
+            if (FrameworkApp != null) return FrameworkApp.Assembly;
+
+            // 获取 Furion 程序集名称
+            var furionAssemblyName = callAssembly.GetReferencedAssemblies()
+                                                       .FirstOrDefault(u => u.Name == "Furion" || u.Name == "Furion.Pure")
+                                                       ?? throw new InvalidOperationException("No `Furion` assembly installed in the current project was detected.");
+
+            // 加载 Furion 程序集
+            var furionAssembly = AssemblyLoadContext.Default.LoadFromAssemblyName(furionAssemblyName);
+
+            // 获取 Furion.App 静态类
+            FrameworkApp = furionAssembly.GetType("Furion.App");
+
+            return furionAssembly;
+        }
     }
 }

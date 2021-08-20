@@ -59,12 +59,12 @@ namespace Microsoft.Extensions.DependencyInjection
                 }
             }
 
-            services.AddOptions<TOptions>()
-                .Bind(optionsConfiguration, options =>
-                {
-                    options.BindNonPublicProperties = true; // 绑定私有变量
-                })
-                .ValidateDataAnnotations();
+            var optionsConfigure = services.AddOptions<TOptions>()
+                  .BindConfiguration(path, options =>
+                  {
+                      options.BindNonPublicProperties = true; // 绑定私有变量
+                  })
+                  .ValidateDataAnnotations();
 
             // 配置复杂验证后后期配置
             var validateInterface = optionsType.GetInterfaces()
@@ -84,7 +84,7 @@ namespace Microsoft.Extensions.DependencyInjection
                 if (postConfigureMethod != null)
                 {
                     if (optionsSettings?.PostConfigureAll != true)
-                        services.PostConfigure<TOptions>(options => postConfigureMethod.Invoke(options, new object[] { options, optionsConfiguration }));
+                        optionsConfigure.PostConfigure(options => postConfigureMethod.Invoke(options, new object[] { options, optionsConfiguration }));
                     else
                         services.PostConfigureAll<TOptions>(options => postConfigureMethod.Invoke(options, new object[] { options, optionsConfiguration }));
                 }
