@@ -18,7 +18,7 @@ namespace Furion.Upgrade.NET6
 
         const string furionPackageRegex = @"<PackageReference\s+Include=""(?<package>Furion.*)""\s+Version=""(?<version>.+)""\s+/>";
         const string furionPackageFinal = @"<PackageReference Include=""{0}"" Version=""{1}"" />";
-        const string furionVersion = "3.0.0-rc.5";
+        const string furionVersion = "3.0.0-rc.6";
 
         const string programeCode = @"
 var builder = WebApplication.CreateBuilder(args).Inject();
