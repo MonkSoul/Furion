@@ -546,7 +546,7 @@ Cli.Tip("提示");
 var inputs = Cli.ReadInput(); // 输入 exit 退出输入
 
 // 选择消息
-var selectId = ReadOptions("请选择喜欢的水果：", new []{ "西瓜", "苹果", "凤梨"});  // selectId 从 1 开始
+var selectId = Cli.ReadOptions("请选择喜欢的水果：", new []{ "西瓜", "苹果", "凤梨"});  // selectId 从 1 开始
 ```
 
 ### 37.6.2 工具类
