@@ -596,7 +596,7 @@ namespace Furion.Core
         /// <param name="entityBuilder"></param>
         /// <param name="dbContext"></param>
         /// <param name="dbContextLocator"></param>
-        public void Configure(EntityTypeBuilder<City> entityBuilder, DbContext dbContext, Type dbContextLocator)
+        public void Configure(EntityTypeBuilder<Person> entityBuilder, DbContext dbContext, Type dbContextLocator)
         {
             entityBuilder.ToSqlQuery(
               @"select * from dbo.person.2020-09-19
