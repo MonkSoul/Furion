@@ -73,7 +73,9 @@ app.Run();
         private static void Step10()
         {
             Cli.WriteLine("======================================================", ConsoleColor.Gray);
+            Cli.EmptyLine();
             Cli.Warn("恭喜你！升级成功啦！！！");
+            Cli.EmptyLine();
             Cli.Warn(@"
   _    _                           _         _____                              __       _ _       
  | |  | |                         | |       / ____|                            / _|     | | |      
@@ -332,7 +334,7 @@ app.Run();
         static bool Help { get; set; }
         static void HelpHandler(ArgumentMetadata argument)
         {
-            Cli.GetHelpText("hello-tools");
+            Cli.GetHelpText("furion-upgrade");
         }
 
         /// <summary>
