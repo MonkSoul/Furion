@@ -157,10 +157,10 @@ namespace Furion.SpecificationDocument
             ConfigureSecurities(swaggerGenOptions);
 
             //使得 Swagger 能够正确地显示 Enum 的对应关系
-            swaggerGenOptions.SchemaFilter<EnumSchemaFilter>();
+            if (_specificationDocumentSettings.EnableEnumSchemaFilter == true) swaggerGenOptions.SchemaFilter<EnumSchemaFilter>();
 
             // 支持控制器排序操作
-            swaggerGenOptions.DocumentFilter<TagsOrderDocumentFilter>();
+            if (_specificationDocumentSettings.EnableTagsOrderDocumentFilter == true) swaggerGenOptions.DocumentFilter<TagsOrderDocumentFilter>();
 
             // 自定义配置
             configure?.Invoke(swaggerGenOptions);

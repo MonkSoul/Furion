@@ -7,8 +7,6 @@
 // See the Mulan PSL v2 for more details.
 
 using Furion.DependencyInjection;
-using Furion.JsonSerialization;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System;
@@ -25,19 +23,6 @@ namespace Furion.SpecificationDocument
     [SuppressSniffer]
     public class EnumSchemaFilter : ISchemaFilter
     {
-        /// <summary>
-        /// JSON 序列化
-        /// </summary>
-        private readonly IJsonSerializerProvider _serializerProvider;
-
-        /// <summary>
-        /// 构造函数
-        /// </summary>
-        public EnumSchemaFilter()
-        {
-            _serializerProvider = App.RootServices.GetService<IJsonSerializerProvider>();
-        }
-
         /// <summary>
         /// 实现过滤器方法
         /// </summary>
@@ -57,12 +42,14 @@ namespace Furion.SpecificationDocument
                 var enumValues = Enum.GetValues(type);
                 foreach (var value in enumValues)
                 {
+                    var intValue = (int)value;
+
                     // 获取枚举成员特性
                     var fieldinfo = type.GetField(Enum.GetName(type, value));
                     var descriptionAttribute = fieldinfo.GetCustomAttribute<DescriptionAttribute>(true);
-                    model.Enum.Add(OpenApiAnyFactory.CreateFromJson(_serializerProvider.Serialize(value)));
+                    model.Enum.Add(OpenApiAnyFactory.CreateFromJson($"{intValue}"));
 
-                    stringBuilder.Append($"&nbsp;{descriptionAttribute?.Description} {value} = {value}<br />");
+                    stringBuilder.Append($"&nbsp;{descriptionAttribute?.Description} {value} = {intValue}<br />");
                 }
                 model.Description = stringBuilder.ToString();
             }

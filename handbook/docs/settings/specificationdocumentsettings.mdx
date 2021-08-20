@@ -27,6 +27,8 @@ sidebar_label: 7. 规范化文档配置
   - `HideServers`：是否隐藏 Server 下拉列表，`bool` 类型，默认 `true`
   - `RouteTemplate`：配置文档 `swagger.json` 路由模板，默认模板：`swagger/{documentName}/swagger.json`, `{documentName}` 代表分组名，**必须保留原样**
   - `PackagesGroups`：配置模块化内置分组名称，`string[]` 类型，默认 `[]`
+  - `EnableEnumSchemaFilter`：启用枚举 Schema 筛选器，`bool` 类型，默认 `true`
+  - `EnableTagsOrderDocumentFilter`：启用标签排序筛选器，`bool` 类型，默认 `true`
 
 另外 `SpecificationOpenApiInfo` 内置配置如下：
 
