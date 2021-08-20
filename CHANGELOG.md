@@ -36,6 +36,7 @@
   - [修复] 远程请求序列化引用类型对象（不含 `string`）不正确的处理 [93cf63a](https://gitee.com/dotnetchina/Furion/commit/93cf63a023f3372b80edb5debc46271d2281318a)
   - [修复] `AppDbContext` 默认租户属性受工作单元影响问题 [e51557f](https://gitee.com/dotnetchina/Furion/commit/e51557fdf37ae5646b2ea37c227c970eccdbed38)
   - [修复] `Scoped.Create` 在 `EFCore` 进行 `Add-Migration` 时候报空异常问题，原因是在 `PM` 环境中不存在根服务[0853e74](https://gitee.com/dotnetchina/Furion/commit/0853e74de90718fce9c0892e2ee4da597f62a918)
+  - [修复] 定时任务执行异常后异常一直驻留内存问题，修正为执行成功自动清空过去异常 [197a62b](https://gitee.com/dotnetchina/Furion/commit/197a62bb4a7df34eb2c0dbda65121e9cf00d905c)
 
 - **文档**
 
