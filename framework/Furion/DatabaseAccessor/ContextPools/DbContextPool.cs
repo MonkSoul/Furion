@@ -233,7 +233,7 @@ namespace Furion.DatabaseAccessor
                 // 判断是否确保事务强制可用（此处是无奈之举）
                 if (ensureTransaction)
                 {
-                    var defaultDbContextLocator = Penetrates.DbContextWithLocatorCached.LastOrDefault();
+                    var defaultDbContextLocator = Penetrates.DbContextDescriptors.LastOrDefault();
                     if (defaultDbContextLocator.Key == null) return;
 
                     // 创建一个新的上下文

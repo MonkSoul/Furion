@@ -121,13 +121,8 @@ namespace Microsoft.Extensions.DependencyInjection
             where TDbContext : DbContext
             where TDbContextLocator : class, IDbContextLocator
         {
-            var dbContextLocatorType = (typeof(TDbContextLocator));
-
-            // 将数据库上下文和定位器一一保存起来
-            var isSuccess = Penetrates.DbContextWithLocatorCached.TryAdd(dbContextLocatorType, typeof(TDbContext));
-            Penetrates.DbContextLocatorTypeCached.TryAdd(dbContextLocatorType.FullName, dbContextLocatorType);
-
-            if (!isSuccess) throw new InvalidOperationException($"The locator `{dbContextLocatorType.FullName}` is bound to another DbContext.");
+            // 存储数据库上下文和定位器关系
+            Penetrates.DbContextDescriptors.AddOrUpdate(typeof(TDbContextLocator), typeof(TDbContext), (key, value) => typeof(TDbContext));
 
             // 注册数据库上下文
             services.TryAddScoped<TDbContext>();
