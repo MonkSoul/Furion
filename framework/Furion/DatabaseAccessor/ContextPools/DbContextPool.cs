@@ -95,36 +95,31 @@ namespace Furion.DatabaseAccessor
             if (!dbContext.Database.IsRelational()) return;
 
             var instanceId = dbContext.ContextId.InstanceId;
+            if (!dbContexts.TryAdd(instanceId, dbContext)) return;
 
-            var canAdd = dbContexts.TryAdd(instanceId, dbContext);
-            if (canAdd)
+            // 订阅数据库上下文操作失败事件
+            dbContext.SaveChangesFailed += (s, e) =>
             {
-                // 订阅数据库上下文操作失败事件
-                dbContext.SaveChangesFailed += (s, e) =>
-                {
-                    // 排除已经存在的数据库上下文
-                    var canAdd = failedDbContexts.TryAdd(instanceId, dbContext);
-                    if (canAdd)
-                    {
-                        dynamic context = s as DbContext;
+                // 排除已经存在的数据库上下文
+                if (!failedDbContexts.TryAdd(instanceId, dbContext)) return;
 
-                        // 当前事务
-                        var database = context.Database as DatabaseFacade;
-                        var currentTransaction = database?.CurrentTransaction;
-                        if (currentTransaction != null && context.FailedAutoRollback == true)
-                        {
-                            // 获取数据库连接信息
-                            var connection = database.GetDbConnection();
+                // 当前事务
+                dynamic context = s as DbContext;
+                var database = context.Database as DatabaseFacade;
+                var currentTransaction = database?.CurrentTransaction;
 
-                            // 回滚事务
-                            currentTransaction.Rollback();
+                // 只有事务不等于空且支持自动回滚
+                if (!(currentTransaction != null && context.FailedAutoRollback == true)) return;
 
-                            // 打印事务回滚消息
-                            App.PrintToMiniProfiler("transaction", "Rollback", $"[Connection Id: {context.ContextId}] / [Database: {connection.Database}]{(IsPrintDbConnectionInfo ? $" / [Connection String: {connection.ConnectionString}]" : string.Empty)}", isError: true);
-                        }
-                    }
-                };
-            }
+                // 获取数据库连接信息
+                var connection = database.GetDbConnection();
+
+                // 回滚事务
+                currentTransaction.Rollback();
+
+                // 打印事务回滚消息
+                App.PrintToMiniProfiler("transaction", "Rollback", $"[Connection Id: {context.ContextId}] / [Database: {connection.Database}]{(IsPrintDbConnectionInfo ? $" / [Connection String: {connection.ConnectionString}]" : string.Empty)}", isError: true);
+            };
         }
 
         /// <summary>
@@ -212,15 +207,11 @@ namespace Furion.DatabaseAccessor
 
                 // 先判断是否已经有上下文开启了事务
                 var transactionDbContext = dbContexts.FirstOrDefault(u => u.Value.Database.CurrentTransaction != null);
-                if (transactionDbContext.Value != null)
-                {
-                    DbContextTransaction = transactionDbContext.Value.Database.CurrentTransaction;
-                }
-                else
-                {
-                    // 如果没有任何上下文有事务，则将第一个开启事务
-                    DbContextTransaction = dbContexts.First().Value.Database.BeginTransaction();
-                }
+
+                DbContextTransaction = transactionDbContext.Value != null
+                       ? transactionDbContext.Value.Database.CurrentTransaction
+                       // 如果没有任何上下文有事务，则将第一个开启事务
+                       : dbContexts.First().Value.Database.BeginTransaction();
 
             // 共享事务
             ShareTransaction: ShareTransaction(DbContextTransaction.GetDbTransaction());
@@ -231,15 +222,14 @@ namespace Furion.DatabaseAccessor
             else
             {
                 // 判断是否确保事务强制可用（此处是无奈之举）
-                if (ensureTransaction)
-                {
-                    var defaultDbContextLocator = Penetrates.DbContextDescriptors.LastOrDefault();
-                    if (defaultDbContextLocator.Key == null) return;
+                if (!ensureTransaction) return;
 
-                    // 创建一个新的上下文
-                    var newDbContext = Db.GetDbContext(defaultDbContextLocator.Key, _serviceProvider);
-                    goto EnsureTransaction;
-                }
+                var defaultDbContextLocator = Penetrates.DbContextDescriptors.LastOrDefault();
+                if (defaultDbContextLocator.Key == null) return;
+
+                // 创建一个新的上下文
+                var newDbContext = Db.GetDbContext(defaultDbContextLocator.Key, _serviceProvider);
+                goto EnsureTransaction;
             }
         }
 
@@ -312,12 +302,11 @@ namespace Furion.DatabaseAccessor
             foreach (var item in dbContexts)
             {
                 var conn = item.Value.Database.GetDbConnection();
-                if (conn.State == ConnectionState.Open)
-                {
-                    conn.Close();
-                    // 打印数据库关闭信息
-                    App.PrintToMiniProfiler("sql", $"Close", $"Connection Close()");
-                }
+                if (conn.State != ConnectionState.Open) continue;
+
+                conn.Close();
+                // 打印数据库关闭信息
+                App.PrintToMiniProfiler("sql", $"Close", $"Connection Close()");
             }
         }
 
