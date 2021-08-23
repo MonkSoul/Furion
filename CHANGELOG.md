@@ -40,6 +40,7 @@
   - [修复] 定时任务执行异常后异常一直驻留内存问题，修正为执行成功自动清空过去异常 [197a62b](https://gitee.com/dotnetchina/Furion/commit/197a62bb4a7df34eb2c0dbda65121e9cf00d905c)
   - [修复] `Jwt` 拓展包不正确的代码导致 IOptions 失效[#I46LUP](https://gitee.com/dotnetchina/Furion/issues/I46LUP)
   - [修复] `Swagger` 枚举 `Schema` 过滤器不输出值问题 [#I46LON](https://gitee.com/dotnetchina/Furion/issues/I46LON) [!404](https://gitee.com/dotnetchina/Furion/pulls/404)
+  - [修复] `Swagger` 处理非 `int` 类型枚举转换 bug [#I46QJ9](https://gitee.com/dotnetchina/Furion/issues/I46QJ9)
 
 - **文档**
 
