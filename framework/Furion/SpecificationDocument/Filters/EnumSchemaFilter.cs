@@ -7,6 +7,7 @@
 // See the Mulan PSL v2 for more details.
 
 using Furion.DependencyInjection;
+using Furion.Extensions;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System;
@@ -40,9 +41,12 @@ namespace Furion.SpecificationDocument
                 stringBuilder.Append($"{model.Description}<br />");
 
                 var enumValues = Enum.GetValues(type);
+                // 获取枚举实际值类型
+                var enumValueType = type.GetFields().First().FieldType;
+
                 foreach (var value in enumValues)
                 {
-                    var intValue = (int)value;
+                    var intValue = value.ChangeType(enumValueType);
 
                     // 获取枚举成员特性
                     var fieldinfo = type.GetField(Enum.GetName(type, value));
