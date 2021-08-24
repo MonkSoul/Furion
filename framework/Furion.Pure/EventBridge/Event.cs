@@ -7,9 +7,11 @@
 // See the Mulan PSL v2 for more details.
 
 using Furion.DependencyInjection;
-using Furion.IPCChannel;
+using Furion.Extensions;
 using Furion.JsonSerialization;
 using System;
+using System.Reflection;
+using System.Runtime.Loader;
 using System.Threading.Tasks;
 
 namespace Furion.EventBridge
@@ -48,8 +50,6 @@ namespace Furion.EventBridge
                 PayloadAssemblyName = payload == null ? typeof(object).Assembly.GetName().Name : payload.GetType().Assembly.GetName().Name,
                 PayloadTypeFullName = payload == null ? typeof(object).FullName : payload.GetType().FullName,
             });
-
-            await ChannelContext<EventPayload, EventDispatcher>.BoundedChannel.Writer.WriteAsync(new EventPayload(eventCombines[0], eventCombines[1], payload));
         }
 
         /// <summary>
@@ -61,6 +61,30 @@ namespace Furion.EventBridge
         public static void Emit(string eventCombineId, object payload = default)
         {
             EmitAsync(eventCombineId, payload).GetAwaiter().GetResult();
+        }
+
+        /// <summary>
+        /// 反序列化承载是数据
+        /// </summary>
+        /// <param name="eventIdMetadata"></param>
+        /// <returns></returns>
+        public static object DeserializePayload(EventIdMetadata eventIdMetadata)
+        {
+            object payload = null;
+
+            // 反序列化承载数据
+            if (eventIdMetadata.Payload != null)
+            {
+                // 加载程序集
+                var payloadAssembly = AssemblyLoadContext.Default.LoadFromAssemblyName(new AssemblyName(eventIdMetadata.PayloadAssemblyName));
+                var payloadType = payloadAssembly.GetType(eventIdMetadata.PayloadTypeFullName);
+
+                // 转换承载数据为具体值
+                if (payloadType.IsValueType) payload = eventIdMetadata.Payload.ChangeType(payloadType);
+                else payload = typeof(JSON).GetMethod("Deserialize").MakeGenericMethod(payloadType).Invoke(null, new object[] { eventIdMetadata.Payload, null, null });
+            }
+
+            return payload;
         }
     }
 }
