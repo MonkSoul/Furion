@@ -148,12 +148,14 @@ namespace Furion.EventBridge
             {
                 object payload = null;
 
-                // 反序列化负载数据
+                // 反序列化承载数据
                 if (eventIdMetadata.Payload != null)
                 {
                     // 加载程序集
                     var payloadAssembly = AssemblyLoadContext.Default.LoadFromAssemblyName(new AssemblyName(eventIdMetadata.PayloadAssemblyName));
                     var payloadType = payloadAssembly.GetType(eventIdMetadata.PayloadTypeFullName);
+
+                    // 转换承载数据为具体值
                     if (payloadType.IsValueType) payload = eventIdMetadata.Payload.ChangeType(payloadType);
                     else payload = typeof(JSON).GetMethod("Deserialize").MakeGenericMethod(payloadType).Invoke(null, new object[] { eventIdMetadata.Payload, null, null });
                 }
