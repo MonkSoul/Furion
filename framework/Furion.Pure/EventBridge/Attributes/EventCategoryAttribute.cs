@@ -9,26 +9,26 @@
 using Furion.DependencyInjection;
 using System;
 
-namespace Furion.EventBus
+namespace Furion.EventBridge
 {
     /// <summary>
-    /// 订阅消息特性
+    /// 事件类别特性
     /// </summary>
-    [SuppressSniffer, AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
-    public class SubscribeMessageAttribute : Attribute
+    [SuppressSniffer, AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
+    public sealed class EventCategoryAttribute : Attribute
     {
         /// <summary>
         /// 构造函数
         /// </summary>
-        /// <param name="messageId"></param>
-        public SubscribeMessageAttribute(string messageId)
+        /// <param name="category"></param>
+        public EventCategoryAttribute(string category)
         {
-            MessageId = messageId;
+            Category = category;
         }
 
         /// <summary>
-        /// 消息Id
+        /// 分类名
         /// </summary>
-        public string MessageId { get; set; }
+        public string Category { get; set; }
     }
 }

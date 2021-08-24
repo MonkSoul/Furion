@@ -21,13 +21,10 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 - **新特性**
 
-  - [新增] 定时任务监听器 `ISpareTimeListener` [#I468Q1](https://gitee.com/dotnetchina/Furion/issues/I468Q1)
-  - [新增] 执行 `Sql` 支持 `JsonElement` 参数 [61985d6](https://gitee.com/dotnetchina/Furion/commit/61985d6a300485d553cbe8461b01f01bcd0936ef)
   - [新增] `Furion.Tools.CommandLine` 拓展库 [查看源码](https://gitee.com/dotnetchina/Furion/tree/master/tools/Furion.Tools/Furion.Tools.CommandLine)
   - [新增] 基于 `AsyncLocal<T>` 的 `CallContext` 实现 [9057a21](https://gitee.com/dotnetchina/Furion/commit/9057a212aab8057b668086bd14369fa68ce120df)
   - [新增] 远程请求可配置请求移除重试策略 [656da87](https://gitee.com/dotnetchina/Furion/commit/656da87a667c2da7d82425cdcd47146e99602d65)
   - [新增] 远程请求 `OnRequestFailded` 事件 [4a3da4b](https://gitee.com/dotnetchina/Furion/commit/4a3da4ba2c69380fe5f8c2fda80054544c0a3468)
-  - [新增] `Swagger` 配置枚举及标签排序过滤器 [#I46LON](https://gitee.com/dotnetchina/Furion/issues/I46LON) [!404](https://gitee.com/dotnetchina/Furion/pulls/404)
 
 - **突破性变化**
 
@@ -46,11 +43,6 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
   - [修复] 刷新 `Token` 生成新 `Token` 存在数组/集合类型导致 `Key` 重复异常问题 [aeea2b1](https://gitee.com/dotnetchina/Furion/commit/aeea2b1b19434f3171bd1c77be057ca36ecf9be2)
   - [修复] 远程请求序列化引用类型对象（不含 `string`）不正确的处理 [93cf63a](https://gitee.com/dotnetchina/Furion/commit/93cf63a023f3372b80edb5debc46271d2281318a)
   - [修复] `AppDbContext` 默认租户属性受工作单元影响问题 [e51557f](https://gitee.com/dotnetchina/Furion/commit/e51557fdf37ae5646b2ea37c227c970eccdbed38)
-  - [修复] `Scoped.Create` 在 `EFCore` 进行 `Add-Migration` 时候报空异常问题，原因是在 `PM` 环境中不存在根服务[0853e74](https://gitee.com/dotnetchina/Furion/commit/0853e74de90718fce9c0892e2ee4da597f62a918)
-  - [修复] 定时任务执行异常后异常一直驻留内存问题，修正为执行成功自动清空过去异常 [197a62b](https://gitee.com/dotnetchina/Furion/commit/197a62bb4a7df34eb2c0dbda65121e9cf00d905c)
-  - [修复] `Jwt` 拓展包不正确的代码导致 IOptions 失效[#I46LUP](https://gitee.com/dotnetchina/Furion/issues/I46LUP)
-  - [修复] `Swagger` 枚举 `Schema` 过滤器不输出值问题 [#I46LON](https://gitee.com/dotnetchina/Furion/issues/I46LON) [!404](https://gitee.com/dotnetchina/Furion/pulls/404)
-  - [修复] `Swagger` 处理非 `int` 类型枚举转换 bug [#I46QJ9](https://gitee.com/dotnetchina/Furion/issues/I46QJ9)
 
 - **文档**
 

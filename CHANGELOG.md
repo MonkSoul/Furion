@@ -7,6 +7,30 @@
 > - 如果涉及到代码重构，则当天发版，次版本号 `加 1`，修订版本号 `清 0`。
 > - 如果 `.NET SDK` 主版本号升级，则当天发版，主版本号 `加 1`。
 
+## v2.19（未发布版本）
+
+- **新特性**
+
+  - [新增] 定时任务监听器 `ISpareTimeListener` [#I468Q1](https://gitee.com/dotnetchina/Furion/issues/I468Q1)
+  - [新增] 执行 `Sql` 支持 `JsonElement` 参数 [61985d6](https://gitee.com/dotnetchina/Furion/commit/61985d6a300485d553cbe8461b01f01bcd0936ef)
+  - [新增] `Swagger` 配置枚举及标签排序过滤器 [#I46LON](https://gitee.com/dotnetchina/Furion/issues/I46LON) [!404](https://gitee.com/dotnetchina/Furion/pulls/404)
+
+- **突破性变化**
+
+  - [重构] 事件总线所有代码 [#I46X02](https://gitee.com/dotnetchina/Furion/issues/I46X02)
+
+- **问题修复**
+
+  - [修复] `Scoped.Create` 在 `EFCore` 进行 `Add-Migration` 时候报空异常问题，原因是在 `PM` 环境中不存在根服务[0853e74](https://gitee.com/dotnetchina/Furion/commit/0853e74de90718fce9c0892e2ee4da597f62a918)
+  - [修复] 定时任务执行异常后异常一直驻留内存问题，修正为执行成功自动清空过去异常 [197a62b](https://gitee.com/dotnetchina/Furion/commit/197a62bb4a7df34eb2c0dbda65121e9cf00d905c)
+  - [修复] `Jwt` 拓展包不正确的代码导致 IOptions 失效[#I46LUP](https://gitee.com/dotnetchina/Furion/issues/I46LUP)
+  - [修复] `Swagger` 枚举 `Schema` 过滤器不输出值问题 [#I46LON](https://gitee.com/dotnetchina/Furion/issues/I46LON) [!404](https://gitee.com/dotnetchina/Furion/pulls/404)
+  - [修复] `Swagger` 处理非 `int` 类型枚举转换 bug [#I46QJ9](https://gitee.com/dotnetchina/Furion/issues/I46QJ9)
+
+- **文档**
+
+---
+
 ## v2.18（当前版本）
 
 - **新特性**
