@@ -17,59 +17,47 @@ namespace Furion.EventBridge
     public interface IEventStoreProvider
     {
         /// <summary>
-        /// 注册事件
+        /// 注册事件处理程序对象
         /// </summary>
-        /// <param name="eventMetadata"></param>
+        /// <param name="eventHandlerMetadata"></param>
         /// <returns></returns>
-        Task RegisterEventAsync(EventMetadata eventMetadata);
+        Task RegisterEventHandlerAsync(EventHandlerMetadata eventHandlerMetadata);
 
         /// <summary>
-        /// 获取事件信息
+        /// 根据分类获取事件处理程序对象
         /// </summary>
         /// <param name="category"></param>
         /// <returns></returns>
-        Task<EventMetadata> GetEventAsync(string category);
+        Task<EventHandlerMetadata> GetEventHandlerAsync(string category);
 
         /// <summary>
-        /// 添加事件（等待触发）
+        /// 追加一条事件消息
         /// </summary>
-        /// <param name="eventIdMetadata"></param>
+        /// <param name="eventMessageMetadata"></param>
         /// <returns></returns>
-        Task AppendEventIdAsync(EventIdMetadata eventIdMetadata);
+        Task AppendEventMessageAsync(EventMessageMetadata eventMessageMetadata);
 
         /// <summary>
-        /// 获取事件 Id 信息
+        /// 根据分类及事件Id获取事件消息元数据对象
         /// </summary>
         /// <param name="category"></param>
         /// <param name="eventId"></param>
         /// <returns></returns>
-        Task<EventIdMetadata> GetEventIdAsync(string category, string eventId);
+        Task<EventMessageMetadata> GetEventMessageAsync(string category, string eventId);
 
         /// <summary>
-        /// 执行成功
+        /// 成功执行一条消息
         /// </summary>
-        /// <param name="eventIdMetadata"></param>
+        /// <param name="eventMessageMetadata"></param>
         /// <returns></returns>
-        Task ExecuteEventIdSuccessfully(EventIdMetadata eventIdMetadata);
+        Task ExecuteSuccessfullyAsync(EventMessageMetadata eventMessageMetadata);
 
         /// <summary>
-        /// 执行失败
+        /// 执行一条消息失败
         /// </summary>
-        /// <param name="eventIdMetadata"></param>
-        /// <param name="ex"></param>
+        /// <param name="eventMessageMetadata"></param>
+        /// <param name="exception"></param>
         /// <returns></returns>
-        Task ExecuteEventIdFaildAsync(EventIdMetadata eventIdMetadata, Exception ex);
-
-        /// <summary>
-        /// 获取失败的事件
-        /// </summary>
-        /// <returns></returns>
-        Task<EventIdMetadata[]> GetFailedEventIdsAsync();
-
-        /// <summary>
-        /// 重新发送失败事件
-        /// </summary>
-        /// <returns></returns>
-        Task RetryEventIdsAsync();
+        Task ExecuteFaildedAsync(EventMessageMetadata eventMessageMetadata, Exception exception);
     }
 }

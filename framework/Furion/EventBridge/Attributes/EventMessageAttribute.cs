@@ -12,23 +12,23 @@ using System;
 namespace Furion.EventBridge
 {
     /// <summary>
-    /// 事件 Id 配置
+    /// 事件消息特性
     /// </summary>
     [SuppressSniffer, AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
-    public sealed class EventIdAttribute : Attribute
+    public sealed class EventMessageAttribute : Attribute
     {
         /// <summary>
-        /// 事件 Id
+        /// 构造函数
         /// </summary>
-        /// <param name="id"></param>
-        public EventIdAttribute(string id)
+        /// <param name="eventId"></param>
+        public EventMessageAttribute(string eventId)
         {
-            Id = id;
+            EventId = eventId;
         }
 
         /// <summary>
-        /// 事件Id
+        /// 事件 Id
         /// </summary>
-        public string Id { get; set; }
+        public string EventId { get; set; }
     }
 }

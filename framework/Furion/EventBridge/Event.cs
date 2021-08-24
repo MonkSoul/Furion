@@ -8,6 +8,7 @@
 
 using Furion.DependencyInjection;
 using Furion.Extensions;
+using Furion.IPCChannel;
 using Furion.JsonSerialization;
 using System;
 using System.Reflection;
@@ -23,37 +24,7 @@ namespace Furion.EventBridge
     public static class Event
     {
         /// <summary>
-        /// 发出消息
-        /// </summary>
-        /// <param name="eventCombineId">分类名:事件Id</param>
-        /// <param name="payload"></param>
-        /// <returns></returns>
-        public static async Task EmitAsync(string eventCombineId, object payload = default)
-        {
-            var eventCombines = eventCombineId?.Split(':', System.StringSplitOptions.RemoveEmptyEntries);
-            if (eventCombines == null || eventCombines.Length <= 1) throw new InvalidCastException("Is not a valid event combination id.");
-
-            // 调用事件存储提供器
-            var eventStoreProvider = App.GetService<IEventStoreProvider>();
-            var eventMetadata = await eventStoreProvider?.GetEventAsync(eventCombines[0]);
-            if (eventMetadata == null) return;
-
-            // 添加事件
-            await eventStoreProvider.AppendEventIdAsync(new EventIdMetadata
-            {
-                AssemblyName = eventMetadata.AssemblyName,
-                Category = eventMetadata.Category,
-                CreatedTime = DateTimeOffset.UtcNow,
-                TypeFullName = eventMetadata.TypeFullName,
-                EventId = eventCombines[1],
-                Payload = payload == null ? null : (payload.GetType().IsValueType ? payload.ToString() : JSON.Serialize(payload)),
-                PayloadAssemblyName = payload == null ? typeof(object).Assembly.GetName().Name : payload.GetType().Assembly.GetName().Name,
-                PayloadTypeFullName = payload == null ? typeof(object).FullName : payload.GetType().FullName,
-            });
-        }
-
-        /// <summary>
-        /// 发出消息
+        /// 发射消息
         /// </summary>
         /// <param name="eventCombineId">分类名:事件Id</param>
         /// <param name="payload"></param>
@@ -64,27 +35,123 @@ namespace Furion.EventBridge
         }
 
         /// <summary>
-        /// 反序列化承载是数据
+        /// 发射消息
         /// </summary>
-        /// <param name="eventIdMetadata"></param>
+        /// <param name="eventCombineId">分类名:事件Id</param>
+        /// <param name="payload"></param>
         /// <returns></returns>
-        public static object DeserializePayload(EventIdMetadata eventIdMetadata)
+        public static async Task EmitAsync(string eventCombineId, object payload = default)
+        {
+            var eventCombines = eventCombineId?.Split(':', System.StringSplitOptions.RemoveEmptyEntries);
+            if (eventCombines == null || eventCombines.Length <= 1) throw new InvalidCastException("Is not a valid event combination id.");
+
+            // 解析注册的事件存储提供器
+            var eventStoreProvider = App.GetService<IEventStoreProvider>();
+
+            // 获取事件处理程序元数据
+            var eventHandlerMetadata = await eventStoreProvider?.GetEventHandlerAsync(eventCombines[0]);
+            if (eventHandlerMetadata == null) return;
+
+            var nonPayload = payload == null;
+            var payloadType = payload?.GetType();
+            // 追加一条事件消息
+            await eventStoreProvider.AppendEventMessageAsync(new EventMessageMetadata
+            {
+                AssemblyName = eventHandlerMetadata.AssemblyName,
+                Category = eventHandlerMetadata.Category,
+                CreatedTime = DateTimeOffset.UtcNow,
+                TypeFullName = eventHandlerMetadata.TypeFullName,
+                EventId = eventCombines[1],
+                Payload = nonPayload ? default : (payloadType.IsValueType ? payload.ToString() : JSON.Serialize(payload)),
+                PayloadAssemblyName = nonPayload ? default : payloadType.Assembly.GetName().Name,
+                PayloadTypeFullName = nonPayload ? default : payloadType.FullName,
+            });
+        }
+
+        /// <summary>
+        /// 发射消息
+        /// </summary>
+        /// <typeparam name="TEventHandler"></typeparam>
+        /// <param name="eventId"></param>
+        /// <param name="payload"></param>
+        /// <returns></returns>
+        public static Task EmitAsync<TEventHandler>(string eventId, object payload = default)
+            where TEventHandler : class, IEventHandler
+        {
+            return EmitAsync($"{GetEventHandlerCategory(typeof(TEventHandler))}:{eventId}", payload);
+        }
+
+        /// <summary>
+        /// 发射消息
+        /// </summary>
+        /// <typeparam name="TEventHandler"></typeparam>
+        /// <param name="eventId"></param>
+        /// <param name="payload"></param>
+        /// <returns></returns>
+        public static void Emit<TEventHandler>(string eventId, object payload = default)
+            where TEventHandler : class, IEventHandler
+        {
+            EmitAsync<TEventHandler>(eventId, payload).GetAwaiter().GetResult();
+        }
+
+        /// <summary>
+        /// 发射消息
+        /// </summary>
+        /// <param name="eventMessageMetadata"></param>
+        /// <returns></returns>
+        public static async Task EmitAsync(EventMessageMetadata eventMessageMetadata)
+        {
+            // 反射创建承载数据
+            var payload = DeserializePayload(eventMessageMetadata);
+            await ChannelContext<EventMessage, EventDispatcher>.BoundedChannel.Writer.WriteAsync(new EventMessage(eventMessageMetadata.Category, eventMessageMetadata.EventId, payload));
+        }
+
+        /// <summary>
+        /// 反序列化承载数据
+        /// </summary>
+        /// <param name="eventMessageMetadata"></param>
+        /// <returns></returns>
+        public static object DeserializePayload(EventMessageMetadata eventMessageMetadata)
         {
             object payload = null;
 
             // 反序列化承载数据
-            if (eventIdMetadata.Payload != null)
+            if (eventMessageMetadata.Payload != null)
             {
                 // 加载程序集
-                var payloadAssembly = AssemblyLoadContext.Default.LoadFromAssemblyName(new AssemblyName(eventIdMetadata.PayloadAssemblyName));
-                var payloadType = payloadAssembly.GetType(eventIdMetadata.PayloadTypeFullName);
+                var payloadAssembly = AssemblyLoadContext.Default.LoadFromAssemblyName(
+                    new AssemblyName(eventMessageMetadata.PayloadAssemblyName));
+
+                // 获取承载数据运行时类型
+                var payloadType = payloadAssembly.GetType(eventMessageMetadata.PayloadTypeFullName);
 
                 // 转换承载数据为具体值
-                if (payloadType.IsValueType) payload = eventIdMetadata.Payload.ChangeType(payloadType);
-                else payload = typeof(JSON).GetMethod("Deserialize").MakeGenericMethod(payloadType).Invoke(null, new object[] { eventIdMetadata.Payload, null, null });
+                if (payloadType.IsValueType) payload = eventMessageMetadata.Payload.ChangeType(payloadType);
+                else payload = typeof(JSON).GetMethod("Deserialize").MakeGenericMethod(payloadType)
+                                                                         .Invoke(null, new object[] { eventMessageMetadata.Payload, null, null });
             }
 
             return payload;
         }
+
+        /// <summary>
+        /// 获取事件处理程序分类名
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        internal static string GetEventHandlerCategory(Type type)
+        {
+            // 如果定义了 [EventHandler] 特性，使用 Category，否则使用类型名（默认去除 EventHandler）结尾
+            var defaultCategory = type.Name.EndsWith(eventTypeNameSuffix) ? type.Name[0..^eventTypeNameSuffix.Length] : type.Name;
+            var eventCategory = type.IsDefined(typeof(EventHandlerAttribute), false)
+                                                 ? type.GetCustomAttribute<EventHandlerAttribute>(false).Category ?? defaultCategory
+                                                 : defaultCategory;
+            return eventCategory;
+        }
+
+        /// <summary>
+        /// 默认移除事件命名后缀
+        /// </summary>
+        private const string eventTypeNameSuffix = "EventHandler";
     }
 }

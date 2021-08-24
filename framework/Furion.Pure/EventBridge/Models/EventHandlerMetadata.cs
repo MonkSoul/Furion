@@ -12,30 +12,36 @@ using System;
 namespace Furion.EventBridge
 {
     /// <summary>
-    /// 事件类别特性
+    /// 事件处理程序元数据
     /// </summary>
-    [SuppressSniffer, AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
-    public sealed class EventAttribute : Attribute
+    [SuppressSniffer]
+    public class EventHandlerMetadata
     {
         /// <summary>
-        /// 构造函数
+        /// 只允许程序集内创建
         /// </summary>
-        public EventAttribute()
+        internal EventHandlerMetadata()
         {
         }
 
         /// <summary>
-        /// 构造函数
+        /// 程序集名称
         /// </summary>
-        /// <param name="category"></param>
-        public EventAttribute(string category)
-        {
-            Category = category;
-        }
+        public string AssemblyName { get; internal set; }
+
+        /// <summary>
+        /// 处理程序名称
+        /// </summary>
+        public string TypeFullName { get; internal set; }
 
         /// <summary>
         /// 分类名
         /// </summary>
-        public string Category { get; set; }
+        public string Category { get; internal set; }
+
+        /// <summary>
+        /// 创建事件
+        /// </summary>
+        public DateTimeOffset CreatedTime { get; internal set; } = DateTimeOffset.UtcNow;
     }
 }

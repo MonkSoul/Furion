@@ -14,7 +14,7 @@ namespace Furion.EventBridge
     /// 事件消息承载体
     /// </summary>
     [SuppressSniffer]
-    public sealed class EventPayload : EventPayload<object>
+    public sealed class EventMessage : EventMessage<object>
     {
         /// <summary>
         /// 构造函数
@@ -22,17 +22,17 @@ namespace Furion.EventBridge
         /// <param name="category"></param>
         /// <param name="eventId"></param>
         /// <param name="payload"></param>
-        public EventPayload(string category, string eventId, object payload = default)
+        public EventMessage(string category, string eventId, object payload = default)
             : base(category, eventId, payload)
         {
         }
     }
 
     /// <summary>
-    /// 事件消息承载体
+    /// 事件消息
     /// </summary>
     [SuppressSniffer]
-    public class EventPayload<TPayload>
+    public class EventMessage<TPayload>
     {
         /// <summary>
         /// 构造函数
@@ -40,7 +40,7 @@ namespace Furion.EventBridge
         /// <param name="category"></param>
         /// <param name="eventId"></param>
         /// <param name="payload"></param>
-        public EventPayload(string category, string eventId, TPayload payload = default)
+        public EventMessage(string category, string eventId, TPayload payload = default)
         {
             Category = category;
             EventId = eventId;

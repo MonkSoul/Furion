@@ -24,18 +24,13 @@ namespace Microsoft.Extensions.DependencyInjection
     public static class EventBridgeServiceCollectionExtensions
     {
         /// <summary>
-        /// 默认移除事件命名后缀
-        /// </summary>
-        private const string eventTypeNameSuffix = "EventHandler";
-
-        /// <summary>
         /// 添加事件总线服务
         /// </summary>
         /// <param name="services"></param>
         /// <returns></returns>
         public static IServiceCollection AddEventBridge(this IServiceCollection services)
         {
-            return services.AddEventBridge<DefaultEventStoreProvider>();
+            return services.AddEventBridge<MemoryEventStoreProvider>();
         }
 
         /// <summary>
@@ -59,40 +54,32 @@ namespace Microsoft.Extensions.DependencyInjection
             // 批量注册
             foreach (var type in eventHandlerTypes)
             {
-                // 注册事件类型
+                // 注册事件处理程序
                 services.AddTransient(type);
                 services.AddTransient(typeof(IEventHandler), type);
 
-                var defaultCategory = type.Name.EndsWith(eventTypeNameSuffix) ? type.Name[0..^eventTypeNameSuffix.Length] : type.Name;
-
-                // 如果定义了 [EventCategory] 特性，使用 Category，否则使用类型名（默认去除 EventHandler）结尾
-                var eventCategory = type.IsDefined(typeof(EventAttribute), false)
-                                                     ? type.GetCustomAttribute<EventAttribute>(false).Category ?? defaultCategory
-                                                     : defaultCategory;
-
-                // 添加注册
+                // 触发事件存储提供器 [注册事件] 接口方法
                 var eventStoreProvider = serviceProvider.GetService<IEventStoreProvider>();
-                eventStoreProvider.RegisterEventAsync(new EventMetadata
+                eventStoreProvider.RegisterEventHandlerAsync(new EventHandlerMetadata
                 {
                     AssemblyName = type.Assembly.GetName().Name,
-                    Category = eventCategory,
+                    Category = Event.GetEventHandlerCategory(type),
                     TypeFullName = type.FullName,
                     CreatedTime = DateTimeOffset.UtcNow
                 }).GetAwaiter().GetResult();
             }
 
-            // 注册解析事件处理程序委托
+            // 注册事件处理程序委托
             services.TryAddTransient(provider =>
             {
-                IEventHandler eventHandlerResolve(EventIdMetadata eventIdMetadata)
+                IEventHandler eventHandlerResolve(EventMessageMetadata eventIdMetadata)
                 {
                     // 加载程序集
                     var assembly = AssemblyLoadContext.Default.LoadFromAssemblyName(new AssemblyName(eventIdMetadata.AssemblyName));
-
                     // 解析服务
                     return provider.GetService(assembly.GetType(eventIdMetadata.TypeFullName)) as IEventHandler;
                 }
-                return (Func<EventIdMetadata, IEventHandler>)eventHandlerResolve;
+                return (Func<EventMessageMetadata, IEventHandler>)eventHandlerResolve;
             });
 
             return services;
