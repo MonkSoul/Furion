@@ -63,10 +63,12 @@ namespace Microsoft.Extensions.DependencyInjection
                 services.AddTransient(type);
                 services.AddTransient(typeof(IEventHandler), type);
 
+                var defaultCategory = type.Name.EndsWith(eventTypeNameSuffix) ? type.Name[0..^eventTypeNameSuffix.Length] : type.Name;
+
                 // 如果定义了 [EventCategory] 特性，使用 Category，否则使用类型名（默认去除 EventHandler）结尾
-                var eventCategory = type.IsDefined(typeof(EventCategoryAttribute), false)
-                                                     ? type.GetCustomAttribute<EventCategoryAttribute>(false).Category
-                                                     : (type.Name.EndsWith(eventTypeNameSuffix) ? type.Name[0..^eventTypeNameSuffix.Length] : type.Name);
+                var eventCategory = type.IsDefined(typeof(EventAttribute), false)
+                                                     ? type.GetCustomAttribute<EventAttribute>(false).Category ?? defaultCategory
+                                                     : defaultCategory;
 
                 // 添加注册
                 var eventStoreProvider = serviceProvider.GetService<IEventStoreProvider>();

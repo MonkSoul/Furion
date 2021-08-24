@@ -15,13 +15,20 @@ namespace Furion.EventBridge
     /// 事件类别特性
     /// </summary>
     [SuppressSniffer, AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
-    public sealed class EventCategoryAttribute : Attribute
+    public sealed class EventAttribute : Attribute
     {
         /// <summary>
         /// 构造函数
         /// </summary>
+        public EventAttribute()
+        {
+        }
+
+        /// <summary>
+        /// 构造函数
+        /// </summary>
         /// <param name="category"></param>
-        public EventCategoryAttribute(string category)
+        public EventAttribute(string category)
         {
             Category = category;
         }
