@@ -8,6 +8,7 @@
 
 using Furion.DependencyInjection;
 using Furion.IPCChannel;
+using Furion.JsonSerialization;
 using System;
 using System.Threading.Tasks;
 
@@ -29,6 +30,24 @@ namespace Furion.EventBridge
         {
             var eventCombines = eventCombineId?.Split(':', System.StringSplitOptions.RemoveEmptyEntries);
             if (eventCombines == null || eventCombines.Length <= 1) throw new InvalidCastException("Is not a valid event combination id.");
+
+            // 调用事件存储提供器
+            var eventStoreProvider = App.GetService<IEventStoreProvider>();
+            var eventMetadata = await eventStoreProvider?.GetEventAsync(eventCombines[0]);
+            if (eventMetadata == null) return;
+
+            // 添加事件
+            await eventStoreProvider.AppendEventIdAsync(new EventIdMetadata
+            {
+                AssemblyName = eventMetadata.AssemblyName,
+                Category = eventMetadata.Category,
+                CreatedTime = DateTimeOffset.UtcNow,
+                TypeFullName = eventMetadata.TypeFullName,
+                EventId = eventCombines[1],
+                Payload = payload == null ? null : (payload.GetType().IsValueType ? payload.ToString() : JSON.Serialize(payload)),
+                PayloadAssemblyName = payload == null ? typeof(object).Assembly.GetName().Name : payload.GetType().Assembly.GetName().Name,
+                PayloadTypeFullName = payload == null ? typeof(object).FullName : payload.GetType().FullName,
+            });
 
             await ChannelContext<EventPayload, EventDispatcher>.BoundedChannel.Writer.WriteAsync(new EventPayload(eventCombines[0], eventCombines[1], payload));
         }

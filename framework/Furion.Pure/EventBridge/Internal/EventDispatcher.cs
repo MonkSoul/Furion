@@ -37,9 +37,14 @@ namespace Furion.EventBridge
             // 创建服务作用域
             using var scoped = serviceScopeFactory.CreateScope();
 
+            // 解析事件存储提供器
+            var eventStoreProvider = scoped.ServiceProvider.GetService<IEventStoreProvider>();
+            var eventIdMetadata = await eventStoreProvider?.GetEventIdAsync(eventPayload.Category, eventPayload.EventId);
+            if (eventIdMetadata == null) return;
+
             // 获取解析事件处理程序服务委托
-            var eventHandlerResolve = scoped.ServiceProvider.GetService<Func<string, IEventHandler, IEventHandler>>();
-            var eventHandler = eventHandlerResolve(eventPayload.Category, default);
+            var eventHandlerResolve = scoped.ServiceProvider.GetService<Func<EventIdMetadata, IEventHandler>>();
+            var eventHandler = eventHandlerResolve(eventIdMetadata);
             if (eventHandler == null) return;
 
             // 查找所有符合的处理方法，贴了 [EventId] 或 方法名相等的
@@ -53,18 +58,20 @@ namespace Furion.EventBridge
             if (!methods.Any()) return;
 
             // 调用方法
-            await InvokeMethods(eventPayload, scoped, eventHandler, methods);
+            await InvokeMethods(eventPayload, eventIdMetadata, scoped, eventStoreProvider, eventHandler, methods);
         }
 
         /// <summary>
         /// 调用符合规则的方法
         /// </summary>
         /// <param name="eventPayload"></param>
+        /// <param name="eventIdMetadata"></param>
         /// <param name="scoped"></param>
+        /// <param name="eventStoreProvider"></param>
         /// <param name="eventHandler"></param>
         /// <param name="methods"></param>
         /// <returns></returns>
-        private static async Task InvokeMethods(EventPayload eventPayload, IServiceScope scoped, IEventHandler eventHandler, IEnumerable<MethodInfo> methods)
+        private static async Task InvokeMethods(EventPayload eventPayload, EventIdMetadata eventIdMetadata, IServiceScope scoped, IEventStoreProvider eventStoreProvider, IEventHandler eventHandler, IEnumerable<MethodInfo> methods)
         {
             foreach (var method in methods)
             {
@@ -80,12 +87,23 @@ namespace Furion.EventBridge
                     else parameters.Add(scoped.ServiceProvider.GetService(parameterInfo.ParameterType));
                 }
 
-                // 默认重试 3 次（每次间隔 1s）
-                await Retry.Invoke(async () =>
+                try
                 {
-                    var result = method.Invoke(eventHandler, parameters.ToArray());
-                    if (method.IsAsync()) await (Task)result;
-                }, 3, 1000, finalThrow: false);
+                    // 默认重试 3 次（每次间隔 1s）
+                    await Retry.Invoke(async () =>
+                    {
+                        var result = method.Invoke(eventHandler, parameters.ToArray());
+                        if (method.IsAsync()) await (Task)result;
+                    }, 3, 1000, finalThrow: true);
+
+                    // 调用成功
+                    await eventStoreProvider.ExecuteEventIdSuccessfully(eventIdMetadata);
+                }
+                catch (Exception ex)
+                {
+                    // 调用失败
+                    await eventStoreProvider.ExecuteEventIdFaildAsync(eventIdMetadata, ex);
+                }
             }
         }
 

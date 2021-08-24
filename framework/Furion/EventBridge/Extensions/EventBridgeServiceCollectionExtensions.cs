@@ -11,9 +11,9 @@ using Furion.DependencyInjection;
 using Furion.EventBridge;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using System;
-using System.Collections.Concurrent;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.Loader;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
@@ -29,19 +29,32 @@ namespace Microsoft.Extensions.DependencyInjection
         private const string eventTypeNameSuffix = "EventHandler";
 
         /// <summary>
-        /// 事件处理程序集合
-        /// </summary>
-        private static readonly ConcurrentDictionary<string, Type> EventHandlerCollection;
-
-        /// <summary>
         /// 添加事件总线服务
         /// </summary>
         /// <param name="services"></param>
         /// <returns></returns>
         public static IServiceCollection AddEventBridge(this IServiceCollection services)
         {
+            return services.AddEventBridge<DefaultEventStoreProvider>();
+        }
+
+        /// <summary>
+        /// 添加事件总线服务
+        /// </summary>
+        /// <typeparam name="TEventStoreProvider"></typeparam>
+        /// <param name="services"></param>
+        /// <returns></returns>
+        public static IServiceCollection AddEventBridge<TEventStoreProvider>(this IServiceCollection services)
+            where TEventStoreProvider : class, IEventStoreProvider
+        {
             // 查找所有事件处理程序
             var eventHandlerTypes = App.EffectiveTypes.Where(u => u.IsClass && !u.IsInterface && !u.IsAbstract && typeof(IEventHandler).IsAssignableFrom(u));
+            if (!eventHandlerTypes.Any()) return services;
+
+            // 注册事件存储提供器
+            services.AddTransient<IEventStoreProvider, TEventStoreProvider>();
+
+            using var serviceProvider = InternalApp.InternalServices.BuildServiceProvider();
 
             // 批量注册
             foreach (var type in eventHandlerTypes)
@@ -54,32 +67,33 @@ namespace Microsoft.Extensions.DependencyInjection
                 var eventCategory = type.IsDefined(typeof(EventCategoryAttribute), false)
                                                      ? type.GetCustomAttribute<EventCategoryAttribute>(false).Category
                                                      : (type.Name.EndsWith(eventTypeNameSuffix) ? type.Name[0..^eventTypeNameSuffix.Length] : type.Name);
-                // 存储事件和类型关系
-                EventHandlerCollection.TryAdd(eventCategory, type);
+
+                // 添加注册
+                var eventStoreProvider = serviceProvider.GetService<IEventStoreProvider>();
+                eventStoreProvider.RegisterEventAsync(new EventMetadata
+                {
+                    AssemblyName = type.Assembly.GetName().Name,
+                    Category = eventCategory,
+                    TypeFullName = type.FullName,
+                    CreatedTime = DateTimeOffset.UtcNow
+                }).GetAwaiter().GetResult();
             }
 
             // 注册解析事件处理程序委托
             services.TryAddTransient(provider =>
             {
-                IEventHandler eventHandlerResolve(string category, IEventHandler _)
+                IEventHandler eventHandlerResolve(EventIdMetadata eventIdMetadata)
                 {
-                    if (!EventHandlerCollection.TryGetValue(category, out var eventHandlerType)) return default;
+                    // 加载程序集
+                    var assembly = AssemblyLoadContext.Default.LoadFromAssemblyName(new AssemblyName(eventIdMetadata.AssemblyName));
 
                     // 解析服务
-                    return provider.GetService(eventHandlerType) as IEventHandler;
+                    return provider.GetService(assembly.GetType(eventIdMetadata.TypeFullName)) as IEventHandler;
                 }
-                return (Func<string, IEventHandler, IEventHandler>)eventHandlerResolve;
+                return (Func<EventIdMetadata, IEventHandler>)eventHandlerResolve;
             });
 
             return services;
-        }
-
-        /// <summary>
-        /// 静态构造函数
-        /// </summary>
-        static EventBridgeServiceCollectionExtensions()
-        {
-            EventHandlerCollection = new();
         }
     }
 }
