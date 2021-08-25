@@ -7,11 +7,11 @@
 // See the Mulan PSL v2 for more details.
 
 using Furion.DependencyInjection;
+using Furion.Reflection;
 using Furion.Templates.Extensions;
 using Microsoft.Extensions.Caching.Distributed;
 using System;
 using System.Collections.Generic;
-using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -52,11 +52,11 @@ namespace Furion.SensitiveDetection
             var wordsCached = await _distributedCache.GetStringAsync(DISTRIBUTED_KEY);
             if (wordsCached != null) return wordsCached.Split(new[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
 
-            var entryAssembly = Assembly.GetEntryAssembly();
+            var entryAssembly = Reflect.GetEntryAssembly();
 
             // 解析嵌入式文件流
             byte[] buffer;
-            using (var readStream = entryAssembly.GetManifestResourceStream($"{entryAssembly.GetName().Name}.sensitive-words.txt"))
+            using (var readStream = entryAssembly.GetManifestResourceStream($"{Reflect.GetAssemblyName(entryAssembly)}.sensitive-words.txt"))
             {
                 buffer = new byte[readStream.Length];
                 await readStream.ReadAsync(buffer.AsMemory(0, buffer.Length));

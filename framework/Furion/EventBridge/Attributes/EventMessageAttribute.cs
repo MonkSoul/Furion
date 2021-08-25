@@ -20,6 +20,13 @@ namespace Furion.EventBridge
         /// <summary>
         /// 构造函数
         /// </summary>
+        public EventMessageAttribute()
+        {
+        }
+
+        /// <summary>
+        /// 构造函数
+        /// </summary>
         /// <param name="eventId"></param>
         public EventMessageAttribute(string eventId)
         {

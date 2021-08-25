@@ -8,6 +8,7 @@
 
 using Furion;
 using Furion.DependencyInjection;
+using Furion.Reflection;
 using Microsoft.AspNetCore.Hosting;
 
 namespace Microsoft.Extensions.Hosting
@@ -26,7 +27,7 @@ namespace Microsoft.Extensions.Hosting
         /// <returns>IWebHostBuilder</returns>
         public static IWebHostBuilder Inject(this IWebHostBuilder hostBuilder, string assemblyName = default)
         {
-            var frameworkPackageName = assemblyName ?? typeof(HostBuilderExtensions).Assembly.GetName().Name;
+            var frameworkPackageName = assemblyName ?? Reflect.GetAssemblyName(typeof(HostBuilderExtensions));
             hostBuilder.UseSetting(WebHostDefaults.HostingStartupAssembliesKey, frameworkPackageName);
 
             return hostBuilder;

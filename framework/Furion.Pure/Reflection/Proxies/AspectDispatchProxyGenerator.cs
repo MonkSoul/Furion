@@ -375,7 +375,7 @@ namespace Furion.Reflection
                 var typeInfo = type.GetTypeInfo();
                 if (!typeInfo.IsVisible)
                 {
-                    var assemblyName = typeInfo.Assembly.GetName().Name;
+                    var assemblyName = Reflect.GetAssemblyName(typeInfo);
                     if (!_ignoresAccessAssemblyNames.Contains(assemblyName))
                     {
                         GenerateInstanceOfIgnoresAccessChecksToAttribute(assemblyName);

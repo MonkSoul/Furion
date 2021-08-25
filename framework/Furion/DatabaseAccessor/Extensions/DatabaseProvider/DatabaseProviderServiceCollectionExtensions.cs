@@ -8,6 +8,7 @@
 
 using Furion.DatabaseAccessor;
 using Furion.DependencyInjection;
+using Furion.Reflection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.EntityFrameworkCore.Infrastructure;
@@ -314,7 +315,7 @@ namespace Microsoft.Extensions.DependencyInjection
                 object mySqlVersionInstance = default;
 
                 // 加载对应的数据库提供器程序集
-                var databaseProviderAssembly = Assembly.Load(providerName);
+                var databaseProviderAssembly = Reflect.GetAssembly(providerName);
 
                 // 数据库提供器服务拓展类型名
                 var databaseProviderServiceExtensionTypeName = providerName switch
@@ -333,7 +334,7 @@ namespace Microsoft.Extensions.DependencyInjection
                 };
 
                 // 加载拓展类型
-                var databaseProviderServiceExtensionType = databaseProviderAssembly.GetType($"Microsoft.EntityFrameworkCore.{databaseProviderServiceExtensionTypeName}");
+                var databaseProviderServiceExtensionType = Reflect.GetType(databaseProviderAssembly, $"Microsoft.EntityFrameworkCore.{databaseProviderServiceExtensionTypeName}");
 
                 // useXXX方法名
                 var useMethodName = providerName switch
@@ -363,7 +364,7 @@ namespace Microsoft.Extensions.DependencyInjection
                         .FirstOrDefault(u => u.Name == useMethodName && !u.IsGenericMethod && u.GetParameters().Length == 4 && u.GetParameters()[1].ParameterType == typeof(string));
 
                     // 解析mysql版本类型
-                    var mysqlVersionType = databaseProviderAssembly.GetType("Microsoft.EntityFrameworkCore.MySqlServerVersion");
+                    var mysqlVersionType = Reflect.GetType(databaseProviderAssembly, "Microsoft.EntityFrameworkCore.MySqlServerVersion");
                     mySqlVersionInstance = Activator.CreateInstance(mysqlVersionType, new object[] { new Version(version ?? "8.0.22") });
                 }
                 else

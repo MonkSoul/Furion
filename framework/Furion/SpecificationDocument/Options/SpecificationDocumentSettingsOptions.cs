@@ -7,6 +7,7 @@
 // See the Mulan PSL v2 for more details.
 
 using Furion.ConfigurableOptions;
+using Furion.Reflection;
 using Microsoft.Extensions.Configuration;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerUI;
@@ -109,7 +110,7 @@ namespace Furion.SpecificationDocument
             options.DocExpansionState ??= DocExpansion.List;
 
             // 加载项目注册和模块化/插件注释
-            var frameworkPackageName = GetType().Assembly.GetName().Name;
+            var frameworkPackageName = Reflect.GetAssemblyName(GetType());
             var projectXmlComments = App.Assemblies.Where(u => u.GetName().Name != frameworkPackageName).Select(t => t.GetName().Name);
             var externalXmlComments = App.ExternalAssemblies.Any() ? App.Settings.ExternalAssemblies.Select(u => u.EndsWith(".dll") ? u[0..^4] : u) : Array.Empty<string>();
             XmlComments ??= projectXmlComments.Concat(externalXmlComments).ToArray();

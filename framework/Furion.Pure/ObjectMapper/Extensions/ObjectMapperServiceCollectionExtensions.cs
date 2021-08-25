@@ -8,6 +8,7 @@
 
 using Furion;
 using Furion.DependencyInjection;
+using Furion.Reflection;
 using System.Linq;
 using System.Reflection;
 
@@ -31,7 +32,7 @@ namespace Microsoft.Extensions.DependencyInjection
             if (objectMapperAssembly != null)
             {
                 // 加载 ObjectMapper 拓展类型和拓展方法
-                var objectMapperServiceCollectionExtensionsType = objectMapperAssembly.GetType($"Microsoft.Extensions.DependencyInjection.ObjectMapperServiceCollectionExtensions");
+                var objectMapperServiceCollectionExtensionsType = Reflect.GetType(objectMapperAssembly, $"Microsoft.Extensions.DependencyInjection.ObjectMapperServiceCollectionExtensions");
                 var addObjectMapperMethod = objectMapperServiceCollectionExtensionsType
                     .GetMethods(BindingFlags.Public | BindingFlags.Static)
                     .First(u => u.Name == "AddObjectMapper");

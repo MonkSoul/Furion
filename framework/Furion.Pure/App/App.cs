@@ -8,6 +8,7 @@
 
 using Furion.ConfigurableOptions;
 using Furion.DependencyInjection;
+using Furion.Reflection;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
@@ -22,7 +23,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Runtime.Loader;
 using System.Security.Claims;
 using System.Threading;
 
@@ -303,7 +303,7 @@ namespace Furion
                        (u.Type == "project" && !excludeAssemblyNames.Any(j => u.Name.EndsWith(j))) ||
                        (u.Type == "package" && (u.Name.StartsWith(nameof(Furion)) || supportPackageNamePrefixs.Any(p => u.Name.StartsWith(p)))) ||
                        (Settings.EnabledReferenceAssemblyScan == true && u.Type == "reference"))    // 判断是否启用引用程序集扫描
-                .Select(u => AssemblyLoadContext.Default.LoadFromAssemblyName(new AssemblyName(u.Name)));
+                .Select(u => Reflect.GetAssembly(u.Name));
 
             IEnumerable<Assembly> externalAssemblies = Array.Empty<Assembly>();
 
@@ -316,10 +316,10 @@ namespace Furion
                     var assemblyFileFullPath = Path.Combine(AppContext.BaseDirectory
                         , externalAssembly.EndsWith(".dll") ? externalAssembly : $"{externalAssembly}.dll");
 
-                    // 模块化文件存在再加载
-                    if (!File.Exists(assemblyFileFullPath)) continue;
-
-                    var assembly = new[] { Assembly.LoadFrom(assemblyFileFullPath) };
+                    // 根据路径加载程序集
+                    var loadedAssembly = Reflect.LoadAssembly(assemblyFileFullPath);
+                    if (loadedAssembly == default) continue;
+                    var assembly = new[] { loadedAssembly };
 
                     // 合并程序集
                     scanAssemblies = scanAssemblies.Concat(assembly);

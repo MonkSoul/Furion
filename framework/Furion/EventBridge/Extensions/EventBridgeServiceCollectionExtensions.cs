@@ -9,11 +9,10 @@
 using Furion;
 using Furion.DependencyInjection;
 using Furion.EventBridge;
+using Furion.Reflection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using System;
 using System.Linq;
-using System.Reflection;
-using System.Runtime.Loader;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
@@ -62,7 +61,7 @@ namespace Microsoft.Extensions.DependencyInjection
                 var eventStoreProvider = serviceProvider.GetService<IEventStoreProvider>();
                 eventStoreProvider.RegisterEventHandlerAsync(new EventHandlerMetadata
                 {
-                    AssemblyName = type.Assembly.GetName().Name,
+                    AssemblyName = Reflect.GetAssemblyName(type),
                     Category = Event.GetEventHandlerCategory(type),
                     TypeFullName = type.FullName,
                     CreatedTime = DateTimeOffset.UtcNow
@@ -74,10 +73,9 @@ namespace Microsoft.Extensions.DependencyInjection
             {
                 IEventHandler eventHandlerResolve(EventMessageMetadata eventIdMetadata)
                 {
-                    // 加载程序集
-                    var assembly = AssemblyLoadContext.Default.LoadFromAssemblyName(new AssemblyName(eventIdMetadata.AssemblyName));
-                    // 解析服务
-                    return provider.GetService(assembly.GetType(eventIdMetadata.TypeFullName)) as IEventHandler;
+                    // 加载类型程序集
+                    var eventHandlerType = Reflect.GetType(eventIdMetadata.AssemblyName, eventIdMetadata.TypeFullName);
+                    return provider.GetService(eventHandlerType) as IEventHandler;
                 }
                 return (Func<EventMessageMetadata, IEventHandler>)eventHandlerResolve;
             });

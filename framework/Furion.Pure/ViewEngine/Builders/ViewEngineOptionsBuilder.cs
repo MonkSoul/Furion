@@ -7,6 +7,7 @@
 // See the Mulan PSL v2 for more details.
 
 using Furion.DependencyInjection;
+using Furion.Reflection;
 using Microsoft.CodeAnalysis;
 using System;
 using System.Linq;
@@ -40,7 +41,7 @@ namespace Furion.ViewEngine
         /// <param name="assemblyName"></param>
         public void AddAssemblyReferenceByName(string assemblyName)
         {
-            var assembly = Assembly.Load(new AssemblyName(assemblyName));
+            var assembly = Reflect.GetAssembly(assemblyName);
             AddAssemblyReference(assembly);
         }
 

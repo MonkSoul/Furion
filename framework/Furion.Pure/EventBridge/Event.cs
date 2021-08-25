@@ -10,9 +10,9 @@ using Furion.DependencyInjection;
 using Furion.Extensions;
 using Furion.IPCChannel;
 using Furion.JsonSerialization;
+using Furion.Reflection;
 using System;
 using System.Reflection;
-using System.Runtime.Loader;
 using System.Threading.Tasks;
 
 namespace Furion.EventBridge
@@ -28,7 +28,6 @@ namespace Furion.EventBridge
         /// </summary>
         /// <param name="eventCombineId">分类名:事件Id</param>
         /// <param name="payload"></param>
-        /// <returns></returns>
         public static void Emit(string eventCombineId, object payload = default)
         {
             EmitAsync(eventCombineId, payload).GetAwaiter().GetResult();
@@ -63,7 +62,7 @@ namespace Furion.EventBridge
                 TypeFullName = eventHandlerMetadata.TypeFullName,
                 EventId = eventCombines[1],
                 Payload = nonPayload ? default : (payloadType.IsValueType ? payload.ToString() : JSON.Serialize(payload)),
-                PayloadAssemblyName = nonPayload ? default : payloadType.Assembly.GetName().Name,
+                PayloadAssemblyName = nonPayload ? default : Reflect.GetAssemblyName(payloadType),
                 PayloadTypeFullName = nonPayload ? default : payloadType.FullName,
             });
         }
@@ -87,7 +86,6 @@ namespace Furion.EventBridge
         /// <typeparam name="TEventHandler"></typeparam>
         /// <param name="eventId"></param>
         /// <param name="payload"></param>
-        /// <returns></returns>
         public static void Emit<TEventHandler>(string eventId, object payload = default)
             where TEventHandler : class, IEventHandler
         {
@@ -118,12 +116,8 @@ namespace Furion.EventBridge
             // 反序列化承载数据
             if (eventMessageMetadata.Payload != null)
             {
-                // 加载程序集
-                var payloadAssembly = AssemblyLoadContext.Default.LoadFromAssemblyName(
-                    new AssemblyName(eventMessageMetadata.PayloadAssemblyName));
-
                 // 获取承载数据运行时类型
-                var payloadType = payloadAssembly.GetType(eventMessageMetadata.PayloadTypeFullName);
+                var payloadType = Reflect.GetType(eventMessageMetadata.PayloadAssemblyName, eventMessageMetadata.PayloadTypeFullName);
 
                 // 转换承载数据为具体值
                 if (payloadType.IsValueType) payload = eventMessageMetadata.Payload.ChangeType(payloadType);
@@ -142,7 +136,7 @@ namespace Furion.EventBridge
         internal static string GetEventHandlerCategory(Type type)
         {
             // 如果定义了 [EventHandler] 特性，使用 Category，否则使用类型名（默认去除 EventHandler）结尾
-            var defaultCategory = type.Name.EndsWith(eventTypeNameSuffix) ? type.Name[0..^eventTypeNameSuffix.Length] : type.Name;
+            var defaultCategory = type.Name.EndsWith(eventHandlerNamedSuffix) ? type.Name[0..^eventHandlerNamedSuffix.Length] : type.Name;
             var eventCategory = type.IsDefined(typeof(EventHandlerAttribute), false)
                                                  ? type.GetCustomAttribute<EventHandlerAttribute>(false).Category ?? defaultCategory
                                                  : defaultCategory;
@@ -150,8 +144,8 @@ namespace Furion.EventBridge
         }
 
         /// <summary>
-        /// 默认移除事件命名后缀
+        /// 默认移除事件处理程序命名后缀
         /// </summary>
-        private const string eventTypeNameSuffix = "EventHandler";
+        private const string eventHandlerNamedSuffix = "EventHandler";
     }
 }

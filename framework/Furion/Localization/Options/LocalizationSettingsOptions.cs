@@ -7,9 +7,9 @@
 // See the Mulan PSL v2 for more details.
 
 using Furion.ConfigurableOptions;
+using Furion.Reflection;
 using Microsoft.Extensions.Configuration;
 using System;
-using System.Reflection;
 
 namespace Furion.Localization
 {
@@ -54,7 +54,7 @@ namespace Furion.Localization
             SupportedCultures ??= Array.Empty<string>();
             DefaultCulture ??= string.Empty;
             LanguageFilePrefix ??= "Lang";
-            AssemblyName ??= Assembly.GetEntryAssembly().GetName().Name;
+            AssemblyName ??= Reflect.GetAssemblyName(Reflect.GetEntryAssembly());
         }
     }
 }

@@ -8,6 +8,7 @@
 
 using Furion.DependencyInjection;
 using Furion.DynamicApiController;
+using Furion.Reflection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
@@ -354,7 +355,7 @@ namespace Furion.SpecificationDocument
             var thisAssembly = thisType.Assembly;
 
             // 自定义 Swagger 首页
-            var customIndex = $"{thisAssembly.GetName().Name}{thisType.Namespace.Replace(nameof(Furion), string.Empty)}.Assets.{(App.Settings.InjectMiniProfiler != true ? "index" : "index-mini-profiler")}.html";
+            var customIndex = $"{Reflect.GetAssemblyName(thisAssembly)}{thisType.Namespace.Replace(nameof(Furion), string.Empty)}.Assets.{(App.Settings.InjectMiniProfiler != true ? "index" : "index-mini-profiler")}.html";
             swaggerUIOptions.IndexStream = () => thisAssembly.GetManifestResourceStream(customIndex);
         }
 
