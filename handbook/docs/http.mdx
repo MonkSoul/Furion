@@ -385,6 +385,7 @@ var str = await "https://www.baidu.com".GetAsStringAsync();
 有时候我们需要上传文件，需要设置 `Content-Type` 为 `multipart/form-data` 类型，如：
 
 ```cs
+// bytes 可以通过 File.ReadAllBytes(文件路径) 获取
 var res = await "https://www.furion.pro/upload".SetBody(new { id =1, name = "Furion"}, "multipart/form-data")
                                                .SetBodyBytes(("键", bytes, "文件名")).PostAsync();
 ```
@@ -768,7 +769,7 @@ public interface IHttp : IHttpDispatchProxy
 ```cs
 public interface IHttp : IHttpDispatchProxy
 {
-    [Post("https://www.furion.pro/upload")]
+    [Post("https://www.furion.pro/upload")] // bytes 可以通过 File.ReadAllBytes(文件路径) 获取
     Task<HttpRequestMessage> PostXXXAsync([Body("multipart/form-data")]User user, [BodyBytes("键","文件名")]Byte[] bytes);
 }
 ```
