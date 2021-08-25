@@ -11,7 +11,7 @@ using Furion.DependencyInjection;
 namespace Furion.EventBridge
 {
     /// <summary>
-    /// 事件消息承载体
+    /// 事件消息传输对象
     /// </summary>
     [SuppressSniffer]
     public sealed class EventMessage : EventMessage<object>
@@ -29,7 +29,7 @@ namespace Furion.EventBridge
     }
 
     /// <summary>
-    /// 事件消息
+    /// 事件消息传输对象
     /// </summary>
     [SuppressSniffer]
     public class EventMessage<TPayload>
