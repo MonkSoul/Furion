@@ -30,10 +30,34 @@ namespace Furion.TaskTimer
         /// </summary>
         /// <param name="message"></param>
         /// <returns></returns>
-        public async override Task InvokeAsync(TaskMessage message)
+        public override Task InvokeAsync(TaskMessage message)
         {
-            // 获取所有任务列表并循环载入任务（未完成代码）
-            await CreateTask(null);
+            // 测试间隔任务
+            //CreateTask(new TaskMessageMetadata
+            //{
+            //    SchedulerType = TaskSchedulerTypes.Interval,
+            //    SchedulerValue = "1000",
+            //    InvokeType = TaskInvokeTypes.Parallel
+            //}).Start();
+
+            // 测试 Cron 表达式任务
+            //CreateTask(new TaskMessageMetadata
+            //{
+            //    SchedulerType = TaskSchedulerTypes.CronExpression,
+            //    SchedulerValue = "*/5 * * * * *",
+            //    InvokeType = TaskInvokeTypes.Parallel
+            //}).Start();
+
+            // 测试超时任务
+            CreateTask(new TaskMessageMetadata
+            {
+                SchedulerType = TaskSchedulerTypes.CronExpression,
+                SchedulerValue = "*/5 * * * * *",
+                InvokeType = TaskInvokeTypes.Parallel,
+                InvokeTimeout = 5000
+            }).Start();
+
+            return Task.CompletedTask;
         }
 
         /// <summary>
@@ -103,7 +127,7 @@ namespace Furion.TaskTimer
             else
             {
                 // 执行任务
-                await InvokeAsync(taskMessageMetadata);
+                await InvokeAsync(taskMessageMetadata, cancellationTokenSource);
 
                 // 挂起线程
                 await Task.Delay(interval, cancellationTokenSource.Token);
@@ -124,41 +148,80 @@ namespace Furion.TaskTimer
             // 如果不是一个有效的时间，则取消任务
             if (cronNextOccurrence == null || cronNextOccurrence.Value.Offset.Equals(TimeSpan.Zero)) cancellationTokenSource.Cancel();
 
-            // 判断时间是否相等
-            var interval = (cronNextOccurrence.Value - DateTimeOffset.UtcNow.ToLocalTime()).TotalSeconds;
-            if (Math.Floor(interval) != 0) return;
+            // 只有时间相等才触发
+            var totalMilliseconds = (cronNextOccurrence.Value - DateTimeOffset.UtcNow.ToLocalTime()).TotalMilliseconds;
+            if (Math.Round(Math.Round(totalMilliseconds, 3, MidpointRounding.ToEven)) > 30) return;
 
             // 延迟 100ms 后执行，解决零点问题
             await Task.Delay(100, cancellationTokenSource.Token);
 
             // 执行任务
-            await InvokeAsync(taskMessageMetadata);
+            await InvokeAsync(taskMessageMetadata, cancellationTokenSource);
+
+            // 每 30ms 检查一次
+            await Task.Delay(30, cancellationTokenSource.Token);
         }
 
         /// <summary>
         /// 调用任务
         /// </summary>
         /// <param name="taskMessageMetadata"></param>
-        private static async Task InvokeAsync(TaskMessageMetadata taskMessageMetadata)
+        /// <param name="cancellationTokenSource"></param>
+        private static async Task InvokeAsync(TaskMessageMetadata taskMessageMetadata, CancellationTokenSource cancellationTokenSource)
         {
+            // 创建一个关联取消任务 Token ，用于执行任务处理程序
+            var refCancellationTokenSource = CancellationTokenSource.CreateLinkedTokenSource(cancellationTokenSource.Token);
+            var refCancellationToken = refCancellationTokenSource.Token;
+
             // 判断任务执行类型
             switch (taskMessageMetadata.InvokeType)
             {
                 // 串行执行任务
                 case TaskInvokeTypes.Serial:
-                    //=============================== 这里就是调用任务触发方法（包含重试、超时） ============================
-                    await Task.CompletedTask;
+                    await InvokeHandlerAsync(taskMessageMetadata, cancellationTokenSource);
                     break;
                 // 并行执行任务
                 case TaskInvokeTypes.Parallel:
-                    Parallel.Invoke(async () =>
-                    {
-                        //=============================== 这里就是调用任务触发方法（包含重试、超时） ============================
-                        await Task.CompletedTask;
-                    });
+                    Parallel.Invoke(async () => await InvokeHandlerAsync(taskMessageMetadata, cancellationTokenSource));
                     break;
                 default:
                     break;
+            }
+        }
+
+        /// <summary>
+        /// 调用任务 Handler 处理程序
+        /// </summary>
+        /// <param name="taskMessageMetadata"></param>
+        /// <param name="cancellationTokenSource"></param>
+        private static async Task InvokeHandlerAsync(TaskMessageMetadata taskMessageMetadata, CancellationTokenSource cancellationTokenSource)
+        {
+            // 创建一个关联取消任务 Token ，用于执行任务处理程序
+            var refCancellationTokenSource = CancellationTokenSource.CreateLinkedTokenSource(cancellationTokenSource.Token);
+            var refCancellationToken = refCancellationTokenSource.Token;
+
+            var timeoutTask = Task.Delay(taskMessageMetadata.InvokeTimeout > 0 ? taskMessageMetadata.InvokeTimeout : int.MaxValue);
+            var handlerTask = new Task(async () =>
+            {
+                // 监听任务取消
+                while (!refCancellationToken.IsCancellationRequested)
+                {
+                    //=============================== 这里就是调用任务触发方法（包含重试、超时） ============================
+
+                    Console.WriteLine($"{DateTime.Now:yyyy-MM-dd HH:mm:ss}");
+                    Thread.Sleep(1000); // 模拟超时任务
+
+                    await Task.CompletedTask;
+                    break;  // 跳出
+                }
+            });
+            handlerTask.Start();
+            // 控制超时
+            var resultTask = await Task.WhenAny(handlerTask, timeoutTask);
+            if (resultTask == timeoutTask)
+            {
+                Console.WriteLine($"已经超时：{DateTime.Now:yyyy-MM-dd HH:mm:ss}");
+                refCancellationTokenSource.Cancel();
             }
         }
 

@@ -6,6 +6,7 @@
 // THIS SOFTWARE IS PROVIDED ON AN "AS IS" BASIS, WITHOUT WARRANTIES OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO NON-INFRINGEMENT, MERCHANTABILITY OR FIT FOR A PARTICULAR PURPOSE.
 // See the Mulan PSL v2 for more details.
 
+using Furion.IPCChannel;
 using System.Threading.Tasks;
 
 namespace Furion.TaskTimer
@@ -31,9 +32,10 @@ namespace Furion.TaskTimer
         /// <param name="taskId"></param>
         /// <param name="payload"></param>
         /// <returns></returns>
-        public static Task StartTaskAsync(string taskId, object payload = default)
+        public static async Task StartTaskAsync(string taskId, object payload = default)
         {
-            return Task.CompletedTask;
+            // 测试代码
+            await ChannelContext<TaskMessage, TaskDispatcher>.BoundedChannel.Writer.WriteAsync(new TaskMessage(default, default, default));
         }
 
         /// <summary>

@@ -4,12 +4,14 @@ using Furion.DependencyInjection;
 using Furion.DynamicApiController;
 using Furion.FriendlyException;
 using Furion.TaskScheduler;
+using Furion.TaskTimer;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace Furion.Application
 {
@@ -185,6 +187,16 @@ namespace Furion.Application
 
                 Console.WriteLine($"{t.WorkerName} -{t.Description} - {DateTime.Now:yyyy-MM-dd HH:mm:ss} - {i}");
             }, "dbJob", "测试数据库操作");
+        }
+
+        /// <summary>
+        /// 新版本定时任务测试
+        /// </summary>
+        /// <returns></returns>
+
+        public async Task TestTaskScheduler()
+        {
+            await Scheduler.StartTaskAsync(default);
         }
     }
 }

@@ -72,7 +72,7 @@ namespace Furion.TaskTimer
         /// <summary>
         /// 执行类型
         /// </summary>
-        public TaskInvokeTypes InvokeType { get; internal set; }
+        public TaskInvokeTypes InvokeType { get; internal set; } = TaskInvokeTypes.Parallel;
 
         /// <summary>
         /// 执行超时时间

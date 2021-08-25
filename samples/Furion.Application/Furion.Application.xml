@@ -75,6 +75,12 @@
             测试数据库操作和释放
             </summary>
         </member>
+        <member name="M:Furion.Application.JobServices.TestTaskScheduler">
+            <summary>
+            新版本定时任务测试
+            </summary>
+            <returns></returns>
+        </member>
         <member name="P:Furion.Application.Persons.ChildrenDto.Id">
             <summary>
             主键
