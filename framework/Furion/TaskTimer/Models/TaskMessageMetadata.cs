@@ -83,5 +83,10 @@ namespace Furion.TaskTimer
         /// 总执行次数（含成功、失败）
         /// </summary>
         public long TotalTally { get; internal set; }
+
+        /// <summary>
+        /// 任务绝对过期时间（毫秒）
+        /// </summary>
+        public int AbsoluteExpiration { get; internal set; }
     }
 }

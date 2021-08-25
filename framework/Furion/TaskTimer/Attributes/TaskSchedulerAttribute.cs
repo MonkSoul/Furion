@@ -63,5 +63,10 @@ namespace Furion.TaskTimer
         /// 执行超时时间
         /// </summary>
         public int InvokeTimeout { get; internal set; }
+
+        /// <summary>
+        /// 任务绝对过期时间（毫秒）
+        /// </summary>
+        public int AbsoluteExpiration { get; internal set; }
     }
 }

@@ -53,8 +53,8 @@ namespace Furion.TaskTimer
             // 创建线程信号灯，控制任务暂停和继续（Reset()：表示红灯/暂停，Set(）：标识绿灯/通行，WaitOne() ：等待信号）
             var manualResetEvent = new ManualResetEvent(true);
 
-            // 设置任务超时时间
-            if (taskMessageMetadata.InvokeTimeout > 0) cancellationTokenSource.CancelAfter(taskMessageMetadata.InvokeTimeout);
+            // 任务绝对过期时间（毫秒），即使是不间断的任务也会受限该参数配置
+            if (taskMessageMetadata.AbsoluteExpiration > 0) cancellationTokenSource.CancelAfter(taskMessageMetadata.AbsoluteExpiration);
 
             // 创建任务
             var task = new Task(async () =>
@@ -146,14 +146,14 @@ namespace Furion.TaskTimer
             {
                 // 串行执行任务
                 case TaskInvokeTypes.Serial:
-                    //=============================== 这里就是调用任务触发方法（包含重试） ============================
+                    //=============================== 这里就是调用任务触发方法（包含重试、超时） ============================
                     await Task.CompletedTask;
                     break;
                 // 并行执行任务
                 case TaskInvokeTypes.Parallel:
                     Parallel.Invoke(async () =>
                     {
-                        //=============================== 这里就是调用任务触发方法（包含重试） ============================
+                        //=============================== 这里就是调用任务触发方法（包含重试、超时） ============================
                         await Task.CompletedTask;
                     });
                     break;
