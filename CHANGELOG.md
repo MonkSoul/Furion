@@ -14,6 +14,7 @@
   - [新增] 定时任务监听器 `ISpareTimeListener` [#I468Q1](https://gitee.com/dotnetchina/Furion/issues/I468Q1)
   - [新增] 执行 `Sql` 支持 `JsonElement` 参数 [61985d6](https://gitee.com/dotnetchina/Furion/commit/61985d6a300485d553cbe8461b01f01bcd0936ef)
   - [新增] `Swagger` 配置枚举及标签排序过滤器 [#I46LON](https://gitee.com/dotnetchina/Furion/issues/I46LON) [!404](https://gitee.com/dotnetchina/Furion/pulls/404)
+  - [新增] 远程请求 `application/octet-stream` 类型默认支持[d9bad03](https://gitee.com/dotnetchina/Furion/commit/d9bad0320cc4a204e24bc3a070517ebce4cdc5d7)
 
 - **突破性变化**
 
@@ -26,6 +27,10 @@
   - [修复] `Jwt` 拓展包不正确的代码导致 IOptions 失效[#I46LUP](https://gitee.com/dotnetchina/Furion/issues/I46LUP)
   - [修复] `Swagger` 枚举 `Schema` 过滤器不输出值问题 [#I46LON](https://gitee.com/dotnetchina/Furion/issues/I46LON) [!404](https://gitee.com/dotnetchina/Furion/pulls/404)
   - [修复] `Swagger` 处理非 `int` 类型枚举转换 bug [#I46QJ9](https://gitee.com/dotnetchina/Furion/issues/I46QJ9)
+  - [修复] 视图引擎编译模板生成 `dll` 后再次加载出现 `IL` 格式化错误问题 [ff52d38](https://gitee.com/dotnetchina/Furion/commit/ff52d383718b4d34968619f17c9d54d8718b4f3f)
+  - [修复] 管道 `Channel` 读取器无法释放 `Handler` 对象问题 [10f4a90](https://gitee.com/dotnetchina/Furion/commit/10f4a900ee558a29f40ae21366a0eba83eceb3eb)
+  - [修复] `Worker Services` 下日志不输出问题 [c482548](https://gitee.com/dotnetchina/Furion/commit/c48254822c09092906ef77f04d54497e27665a92)
+  - [修复] 远程请求 `multipart/form-data` 类型对接微信小程序上传文件 问题 [d9bad03](https://gitee.com/dotnetchina/Furion/commit/d9bad0320cc4a204e24bc3a070517ebce4cdc5d7)
 
 - **文档**
 

@@ -99,9 +99,8 @@ public async Task SendAsync()
 
 默认情况下，`Furion` 初始化了一个长时间的 `Task` 任务进行数据检查及订阅，如需实现多订阅模式，可创建新的订阅任务即可：
 
-```cs {1,5,7,13}
+```cs
 var reader = ChannelContext<string, MyChannelHandler>.BoundedChannel.Reader;
-ChannelHandler<string> handler = Activator.CreateInstance<MyChannelHandler>();
 
 // 创建长时间线程管道读取器
 _ = Task.Factory.StartNew(async () =>
@@ -110,7 +109,7 @@ _ = Task.Factory.StartNew(async () =>
       {
           if (!reader.TryRead(out var message)) continue;
           // 默认重试 3 次（每次间隔 1s）
-          await Retry.Invoke(async () => await handler.InvokeAsync(message), 3, 1000, finalThrow: false);
+          await Retry.Invoke(async () => await Activator.CreateInstance<MyChannelHandler>().InvokeAsync(message), 3, 1000, finalThrow: false);
       }
   }, TaskCreationOptions.LongRunning);
 ```
