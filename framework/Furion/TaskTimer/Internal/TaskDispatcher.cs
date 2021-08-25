@@ -23,7 +23,7 @@ namespace Furion.TaskTimer
         /// <summary>
         /// 并发标识
         /// </summary>
-        private static int usingResource = 0;
+        private static int increment = 0;
 
         /// <summary>
         /// 调度核心代码
@@ -44,7 +44,7 @@ namespace Furion.TaskTimer
         private static Task CreateTask(TaskMessageMetadata taskMessageMetadata)
         {
             // 保证创建任务是原子操作，避免线程抢占
-            if (Interlocked.Exchange(ref usingResource, 1) != 0) return Task.CompletedTask;
+            if (Interlocked.Exchange(ref increment, 1) != 0) return Task.CompletedTask;
 
             // 创建取消任务 Token
             var cancellationTokenSource = new CancellationTokenSource();
