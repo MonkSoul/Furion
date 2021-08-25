@@ -13,6 +13,7 @@ namespace Furion.TaskTimer
 {
     /// <summary>
     /// 解析 Cron 表达式出错异常类
+    /// <para>代码参考自：https://github.com/HangfireIO/Cronos </para>
     /// </summary>
     [SuppressSniffer, Serializable]
     public class CronFormatException : FormatException

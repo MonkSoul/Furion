@@ -12,6 +12,7 @@ namespace Furion.TaskTimer
 {
     /// <summary>
     /// Cron 表达式标识
+    /// <para>代码参考自：https://github.com/HangfireIO/Cronos </para>
     /// </summary>
     [Flags]
     internal enum CronExpressionFlag : byte

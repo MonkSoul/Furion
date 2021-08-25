@@ -12,6 +12,7 @@ namespace Furion.TaskTimer
 {
     /// <summary>
     /// 处理不同平台时区的区别
+    /// <para>代码参考自：https://github.com/HangfireIO/Cronos </para>
     /// </summary>
     internal static class TimeZoneHelper
     {

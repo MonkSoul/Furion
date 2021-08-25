@@ -10,6 +10,7 @@ namespace Furion.TaskTimer
 {
     /// <summary>
     /// Cron 表达式内置字段
+    /// <para>代码参考自：https://github.com/HangfireIO/Cronos </para>
     /// </summary>
     internal sealed class CronField
     {

@@ -12,6 +12,7 @@ namespace Furion.TaskTimer
 {
     /// <summary>
     /// 日期时间帮助类
+    /// <para>代码参考自：https://github.com/HangfireIO/Cronos </para>
     /// </summary>
     internal static class DateTimeHelper
     {

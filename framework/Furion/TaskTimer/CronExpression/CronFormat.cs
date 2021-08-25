@@ -14,6 +14,7 @@ namespace Furion.TaskTimer
 {
     /// <summary>
     /// Cron 表达式支持类型
+    /// <para>代码参考自：https://github.com/HangfireIO/Cronos </para>
     /// </summary>
     [SuppressSniffer, Flags]
     public enum CronFormat
