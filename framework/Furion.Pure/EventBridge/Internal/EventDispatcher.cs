@@ -48,7 +48,7 @@ namespace Furion.EventBridge
             // 查找所有符合的处理方法，贴了 [EventId] 或 方法名相等的
             var methods = eventHandler.GetType().GetTypeInfo().DeclaredMethods
                                    .Where(u => !u.IsStatic)
-                                   .Where(u => u.Name == eventMessage.EventId
+                                   .Where(u => u.Name.ClearStringAffixes(1, "Async") == eventMessage.EventId
                                        || (u.IsDefined(typeof(EventMessageAttribute), false) && u.GetCustomAttributes<EventMessageAttribute>(false).Any(e => e.EventId == eventMessage.EventId)))
                                    .Where(u => u.ReturnType == typeof(void) || u.ReturnType == typeof(Task))
                                    .Where(u => u.GetParameters().Length > 0 && u.GetParameters()[0].ParameterType.HasImplementedRawGeneric(typeof(EventMessage<>)));

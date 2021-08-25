@@ -364,5 +364,46 @@ namespace Furion.Extensions
                     return default;
             }
         }
+
+
+        /// <summary>
+        /// 清除字符串前后缀
+        /// </summary>
+        /// <param name="str">字符串</param>
+        /// <param name="pos">0：前后缀，1：后缀，-1：前缀</param>
+        /// <param name="affixes">前后缀集合</param>
+        /// <returns></returns>
+        internal static string ClearStringAffixes(this string str, int pos = 0, params string[] affixes)
+        {
+            // 空字符串直接返回
+            if (string.IsNullOrWhiteSpace(str)) return str;
+
+            // 空前后缀集合直接返回
+            if (affixes == null || affixes.Length == 0) return str;
+
+            var startCleared = false;
+            var endCleared = false;
+
+            string tempStr = null;
+            foreach (var affix in affixes)
+            {
+                if (string.IsNullOrWhiteSpace(affix)) continue;
+
+                if (pos != 1 && !startCleared && str.StartsWith(affix, StringComparison.OrdinalIgnoreCase))
+                {
+                    tempStr = str[affix.Length..];
+                    startCleared = true;
+                }
+                if (pos != -1 && !endCleared && str.EndsWith(affix, StringComparison.OrdinalIgnoreCase))
+                {
+                    var _tempStr = !string.IsNullOrWhiteSpace(tempStr) ? tempStr : str;
+                    tempStr = _tempStr.Substring(0, _tempStr.Length - affix.Length);
+                    endCleared = true;
+                }
+                if (startCleared && endCleared) break;
+            }
+
+            return !string.IsNullOrWhiteSpace(tempStr) ? tempStr : str;
+        }
     }
 }

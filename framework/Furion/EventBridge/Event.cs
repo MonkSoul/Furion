@@ -136,16 +136,11 @@ namespace Furion.EventBridge
         internal static string GetEventHandlerCategory(Type type)
         {
             // 如果定义了 [EventHandler] 特性，使用 Category，否则使用类型名（默认去除 EventHandler）结尾
-            var defaultCategory = type.Name.EndsWith(eventHandlerNamedSuffix) ? type.Name[0..^eventHandlerNamedSuffix.Length] : type.Name;
+            var defaultCategory = type.Name.ClearStringAffixes(1, "EventHandler");
             var eventCategory = type.IsDefined(typeof(EventHandlerAttribute), false)
                                                  ? type.GetCustomAttribute<EventHandlerAttribute>(false).Category ?? defaultCategory
                                                  : defaultCategory;
             return eventCategory;
         }
-
-        /// <summary>
-        /// 默认移除事件处理程序命名后缀
-        /// </summary>
-        private const string eventHandlerNamedSuffix = "EventHandler";
     }
 }

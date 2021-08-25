@@ -505,7 +505,7 @@ namespace Furion.DynamicApiController
                 apiVersion ??= version;
 
                 // 清除指定前后缀
-                tempName = Penetrates.ClearStringAffixes(tempName, affixes: affixes);
+                tempName = tempName.ClearStringAffixes(affixes: affixes);
 
                 isKeepName = CheckIsKeepName(controllerApiDescriptionSettings == null ? null : apiDescriptionSettings, controllerApiDescriptionSettings ?? apiDescriptionSettings);
 
