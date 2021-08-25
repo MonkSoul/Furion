@@ -15,10 +15,10 @@ using System;
 namespace Microsoft.Extensions.DependencyInjection
 {
     /// <summary>
-    /// Mvc 服务拓展类
+    /// ASP.NET Mvc 服务拓展类
     /// </summary>
     [SuppressSniffer]
-    public static class MvcBuilderServiceCollectionExtensions
+    public static class AspNetMvcBuilderServiceCollectionExtensions
     {
         /// <summary>
         /// 注册 Mvc 过滤器
