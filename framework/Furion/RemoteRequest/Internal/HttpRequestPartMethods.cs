@@ -538,8 +538,18 @@ namespace Furion.RemoteRequest
                     }
 
                     // 设置内容类型
-                    if (multipartFormDataContent.Any()) httpContent = multipartFormDataContent;
+                    multipartFormDataContent.Headers.ContentType = new MediaTypeHeaderValue(ContentType);
+                    httpContent = multipartFormDataContent;
+                    break;
 
+                case "application/octet-stream":
+                    if (BodyBytes.Count > 0 && BodyBytes[0].Bytes.Length > 0)
+                    {
+                        httpContent = new ByteArrayContent(BodyBytes[0].Bytes);
+
+                        // 设置内容类型
+                        httpContent.Headers.ContentType = new MediaTypeHeaderValue(ContentType);
+                    }
                     break;
 
                 case "application/json":
