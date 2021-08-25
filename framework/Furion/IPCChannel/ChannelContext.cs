@@ -80,7 +80,6 @@ namespace Furion.IPCChannel
         private static void StartReader(Channel<TMessage> channel)
         {
             var reader = channel.Reader;
-            ChannelHandler<TMessage> handler = Activator.CreateInstance<THandler>();
 
             // 创建长时间线程管道读取器
             _ = Task.Factory.StartNew(async () =>
@@ -90,7 +89,7 @@ namespace Furion.IPCChannel
                       if (!reader.TryRead(out var message)) continue;
 
                       // 默认重试 3 次（每次间隔 1s）
-                      await Retry.Invoke(async () => await handler.InvokeAsync(message), 3, 1000, finalThrow: false);
+                      await Retry.Invoke(async () => await Activator.CreateInstance<THandler>().InvokeAsync(message), 3, 1000, finalThrow: false);
                   }
               }, TaskCreationOptions.LongRunning);
         }
