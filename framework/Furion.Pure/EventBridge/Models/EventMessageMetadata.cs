@@ -29,17 +29,17 @@ namespace Furion.EventBridge
         public string EventId { get; internal set; }
 
         /// <summary>
-        /// 负载数据（进行序列化存储）
+        /// 承载数据值（进行序列化存储）
         /// </summary>
         public string Payload { get; internal set; }
 
         /// <summary>
-        /// 程序集名称
+        /// 承载数据程序集名称
         /// </summary>
         public string PayloadAssemblyName { get; internal set; }
 
         /// <summary>
-        /// 处理程序名称
+        /// 承载数据类型完整限定名
         /// </summary>
         public string PayloadTypeFullName { get; internal set; }
     }
