@@ -50,6 +50,9 @@ namespace Furion.TaskTimer
             var cancellationTokenSource = new CancellationTokenSource();
             var cancellationToken = cancellationTokenSource.Token;
 
+            // 创建线程信号灯，控制任务暂停和继续（Reset()：表示红灯/暂停，Set(）：标识绿灯/通信，WaitOne() ：等待信号）
+            var manualResetEvent = new ManualResetEvent(true);
+
             // 设置任务超时时间
             if (taskMessageMetadata.InvokeTimeout > 0) cancellationTokenSource.CancelAfter(taskMessageMetadata.InvokeTimeout);
 
@@ -61,6 +64,9 @@ namespace Furion.TaskTimer
                 {
                     // 如果调度值不是一个有效的值，则取消任务
                     if (string.IsNullOrWhiteSpace(taskMessageMetadata.SchedulerValue)) cancellationTokenSource.Cancel();
+
+                    // 等待线程信号灯（不阻塞）
+                    manualResetEvent.WaitOne();
 
                     // 判断任务调度类型
                     switch (taskMessageMetadata.SchedulerType)
