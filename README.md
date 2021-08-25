@@ -53,16 +53,16 @@ Read [contribution documents](https://dotnetchina.gitee.io/furion/docs/contribut
 
 ## 许可证 / License
 
-Furion 采用 [MulanPSL-2.0](http://license.coscl.org.cn/MulanPSL2) 开源许可证。
+Furion 采用 [MulanPSL-2.0](https://gitee.com/dotnetchina/Furion/blob/master/LICENSE) 开源许可证。
 
-Furion uses the [MulanPSL-2.0](http://license.coscl.org.cn/MulanPSL2) open source license. 
+Furion uses the [MulanPSL-2.0](https://gitee.com/dotnetchina/Furion/blob/master/LICENSE) open source license. 
 
 ```
 Copyright (c) 2020-2021 百小僧, Baiqian Co.,Ltd.
 Furion is licensed under Mulan PSL v2.
 You can use this software according to the terms andconditions of the Mulan PSL v2.
 You may obtain a copy of Mulan PSL v2 at:
-            http://license.coscl.org.cn/MulanPSL2
+            https://gitee.com/dotnetchina/Furion/blob/master/LICENSE
 THIS SOFTWARE IS PROVIDED ON AN "AS IS" BASIS, WITHOUTWARRANTIES OF ANY KIND, EITHER EXPRESS OR IMPLIED,INCLUDING BUT NOT LIMITED TO NON-INFRINGEMENT,MERCHANTABILITY OR FIT FOR A PARTICULAR PURPOSE.
 See the Mulan PSL v2 for more details.
 ```
