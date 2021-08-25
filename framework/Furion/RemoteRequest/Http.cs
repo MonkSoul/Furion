@@ -22,7 +22,7 @@ namespace Furion.RemoteRequest
         /// </summary>
         /// <param name="serviceProvider"></param>
         /// <returns>IHttpDispatchProxy</returns>
-        public static THttpDispatchProxy GetRemoteRequestProxy<THttpDispatchProxy>(IServiceProvider serviceProvider = default)
+        public static THttpDispatchProxy GetHttpProxy<THttpDispatchProxy>(IServiceProvider serviceProvider = default)
             where THttpDispatchProxy : class, IHttpDispatchProxy
         {
             return App.GetService<THttpDispatchProxy>(serviceProvider);
