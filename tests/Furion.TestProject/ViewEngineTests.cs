@@ -6,7 +6,7 @@ using System;
 using System.IO;
 using System.Threading.Tasks;
 
-namespace Furion.TestProject.TestServices
+namespace Furion.TestProject
 {
     /// <summary>
     /// 视图引擎集成测试
