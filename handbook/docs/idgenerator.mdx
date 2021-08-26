@@ -33,7 +33,7 @@ var guid2 = IDGen.NextID(new SequentialGuidSettings { LittleEndianBinary16Format
 
 :::important 特别提醒
 
-如果在循环中试用 `IDGen` 静态类方式，性能最差，原因是底层不断解析服务。如果非循环中，性能等于下面两种用法。
+如果在循环中使用 `IDGen` 静态类方式，性能最差，原因是底层不断解析服务。如果非循环中，性能等于下面两种用法。
 
 :::
 
