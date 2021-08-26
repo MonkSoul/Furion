@@ -7,25 +7,26 @@
 // See the Mulan PSL v2 for more details.
 
 using Furion.DependencyInjection;
-using Microsoft.AspNetCore.Hosting;
+using System.ComponentModel;
 
-[assembly: HostingStartup(typeof(Furion.HostingStartup))]
-
-namespace Furion
+namespace Furion.TaskTimer
 {
     /// <summary>
-    /// 配置程序启动时自动注入
+    /// 任务调度类型
     /// </summary>
     [SuppressSniffer]
-    public sealed class HostingStartup : IHostingStartup
+    public enum TaskSchedulerTypes
     {
         /// <summary>
-        /// 配置应用启动
+        /// 间隔方式
         /// </summary>
-        /// <param name="builder"></param>
-        public void Configure(IWebHostBuilder builder)
-        {
-            InternalApp.ConfigureApplication(builder);
-        }
+        [Description("间隔方式")]
+        Interval,
+
+        /// <summary>
+        /// Cron 表达式
+        /// </summary>
+        [Description("Cron 表达式")]
+        CronExpression
     }
 }

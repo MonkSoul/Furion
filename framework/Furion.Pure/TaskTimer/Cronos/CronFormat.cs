@@ -6,28 +6,29 @@
 // THIS SOFTWARE IS PROVIDED ON AN "AS IS" BASIS, WITHOUT WARRANTIES OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO NON-INFRINGEMENT, MERCHANTABILITY OR FIT FOR A PARTICULAR PURPOSE.
 // See the Mulan PSL v2 for more details.
 
-using Furion;
 using Furion.DependencyInjection;
+using System;
+using System.ComponentModel;
 
-namespace Microsoft.Extensions.Hosting
+namespace Furion.TaskTimer
 {
     /// <summary>
-    /// 主机构建器拓展类
+    /// Cron 表达式支持类型
+    /// <para>代码参考自：https://github.com/HangfireIO/Cronos </para>
     /// </summary>
-    [SuppressSniffer]
-    public static class HostBuilderExtensions
+    [SuppressSniffer, Flags]
+    public enum CronFormat
     {
         /// <summary>
-        /// 泛型主机注入
+        /// 只有 5 个字符：分钟，小时，月/天，天，周/天
         /// </summary>
-        /// <param name="hostBuilder">泛型主机注入构建器</param>
-        /// <param name="isWebHost">是否是 Web 主机，true 表示 web 主机，否则泛型主机</param>
-        /// <returns>IWebHostBuilder</returns>
-        public static IHostBuilder Inject(this IHostBuilder hostBuilder, bool isWebHost)
-        {
-            InternalApp.ConfigureApplication(hostBuilder, isWebHost);
+        [Description("只有 5 个字符：分钟，小时，月/天，天，周/天")]
+        Standard = 0,
 
-            return hostBuilder;
-        }
+        /// <summary>
+        /// 支持秒解析，也就是 6 个字符
+        /// </summary>
+        [Description("支持秒解析，也就是 6 个字符")]
+        IncludeSeconds = 1
     }
 }

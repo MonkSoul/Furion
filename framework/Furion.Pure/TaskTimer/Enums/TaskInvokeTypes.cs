@@ -6,28 +6,29 @@
 // THIS SOFTWARE IS PROVIDED ON AN "AS IS" BASIS, WITHOUT WARRANTIES OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO NON-INFRINGEMENT, MERCHANTABILITY OR FIT FOR A PARTICULAR PURPOSE.
 // See the Mulan PSL v2 for more details.
 
-using Furion;
 using Furion.DependencyInjection;
+using System.ComponentModel;
 
-namespace Microsoft.Extensions.Hosting
+namespace Furion.TaskTimer
 {
     /// <summary>
-    /// 主机构建器拓展类
+    /// 任务执行（调用）方式
     /// </summary>
     [SuppressSniffer]
-    public static class HostBuilderExtensions
+    public enum TaskInvokeTypes
     {
         /// <summary>
-        /// 泛型主机注入
+        /// 并行执行（默认方式）
+        /// <para>无需等待上一个完成</para>
         /// </summary>
-        /// <param name="hostBuilder">泛型主机注入构建器</param>
-        /// <param name="isWebHost">是否是 Web 主机，true 表示 web 主机，否则泛型主机</param>
-        /// <returns>IWebHostBuilder</returns>
-        public static IHostBuilder Inject(this IHostBuilder hostBuilder, bool isWebHost)
-        {
-            InternalApp.ConfigureApplication(hostBuilder, isWebHost);
+        [Description("并行执行")]
+        Parallel,
 
-            return hostBuilder;
-        }
+        /// <summary>
+        /// 串行执行
+        /// <para>需等待上一个完成</para>
+        /// </summary>
+        [Description("串行执行")]
+        Serial
     }
 }

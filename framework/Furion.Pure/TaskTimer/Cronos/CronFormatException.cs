@@ -6,28 +6,33 @@
 // THIS SOFTWARE IS PROVIDED ON AN "AS IS" BASIS, WITHOUT WARRANTIES OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO NON-INFRINGEMENT, MERCHANTABILITY OR FIT FOR A PARTICULAR PURPOSE.
 // See the Mulan PSL v2 for more details.
 
-using Furion;
 using Furion.DependencyInjection;
+using System;
 
-namespace Microsoft.Extensions.Hosting
+namespace Furion.TaskTimer
 {
     /// <summary>
-    /// 主机构建器拓展类
+    /// 解析 Cron 表达式出错异常类
+    /// <para>代码参考自：https://github.com/HangfireIO/Cronos </para>
     /// </summary>
-    [SuppressSniffer]
-    public static class HostBuilderExtensions
+    [SuppressSniffer, Serializable]
+    public class CronFormatException : FormatException
     {
         /// <summary>
-        /// 泛型主机注入
+        /// 构造函数
         /// </summary>
-        /// <param name="hostBuilder">泛型主机注入构建器</param>
-        /// <param name="isWebHost">是否是 Web 主机，true 表示 web 主机，否则泛型主机</param>
-        /// <returns>IWebHostBuilder</returns>
-        public static IHostBuilder Inject(this IHostBuilder hostBuilder, bool isWebHost)
+        /// <param name="message"></param>
+        public CronFormatException(string message) : base(message)
         {
-            InternalApp.ConfigureApplication(hostBuilder, isWebHost);
+        }
 
-            return hostBuilder;
+        /// <summary>
+        /// 内部构造函数
+        /// </summary>
+        /// <param name="field"></param>
+        /// <param name="message"></param>
+        internal CronFormatException(CronField field, string message) : this($"{field}: {message}")
+        {
         }
     }
 }

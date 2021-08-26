@@ -12,9 +12,10 @@ namespace Furion.TestProject
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
+                .Inject(true)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    webBuilder.Inject().UseStartup<Startup>();
+                    webBuilder.UseStartup<Startup>();
                 });
     }
 }

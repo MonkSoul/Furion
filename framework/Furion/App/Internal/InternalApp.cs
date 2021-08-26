@@ -48,45 +48,16 @@ namespace Furion
         internal static IHostEnvironment HostEnvironment;
 
         /// <summary>
-        /// 配置 Furion 框架（Web）
-        /// </summary>
-        /// <param name="builder"></param>
-        internal static void ConfigureApplication(IWebHostBuilder builder)
-        {
-            // 自动装载配置
-            builder.ConfigureAppConfiguration((hostContext, configurationBuilder) =>
-            {
-                // 存储环境对象
-                HostEnvironment = WebHostEnvironment = hostContext.HostingEnvironment;
-
-                // 加载配置
-                AddJsonFiles(configurationBuilder, hostContext.HostingEnvironment);
-            });
-
-            // 应用初始化服务
-            builder.ConfigureServices((hostContext, services) =>
-            {
-                // 存储配置对象
-                Configuration = hostContext.Configuration;
-
-                // 存储服务提供器
-                InternalServices = services;
-
-                // 注册 Startup 过滤器
-                services.AddTransient<IStartupFilter, StartupFilter>();
-
-                // 初始化应用服务
-                services.AddApp();
-            });
-        }
-
-        /// <summary>
         /// 配置 Furion 框架（非 Web）
         /// </summary>
         /// <param name="builder"></param>
-        /// <param name="autoRegisterBackgroundService"></param>
-        internal static void ConfigureApplication(IHostBuilder builder, bool autoRegisterBackgroundService = true)
+        /// <param name="isWebHost"></param>
+        internal static void ConfigureApplication(IHostBuilder builder, bool isWebHost)
         {
+            // 配置根服务提供器工厂
+            builder.UseServiceProviderFactory(new RootServiceProviderFactory());
+
+            // 自动装载配置
             builder.ConfigureAppConfiguration((hostContext, configurationBuilder) =>
             {
                 // 存储环境对象
@@ -107,9 +78,23 @@ namespace Furion
 
                 // 初始化应用服务
                 services.AddApp();
+            });
 
-                // 自动注册 BackgroundService
-                if (autoRegisterBackgroundService) services.AddAppHostedService();
+            // 配置 Web 基本信息
+            if (!isWebHost) return;
+            builder.ConfigureWebHostDefaults(webBuilder =>
+            {
+                webBuilder.ConfigureServices((hostContext, services) =>
+                {
+                    // 存储环境对象
+                    HostEnvironment = WebHostEnvironment = hostContext.HostingEnvironment;
+
+                    // 注册 Startup 过滤器
+                    services.AddTransient<IStartupFilter, StartupFilter>();
+
+                    // 注册 HttpContextAccessor 服务
+                    services.AddHttpContextAccessor();
+                });
             });
         }
 

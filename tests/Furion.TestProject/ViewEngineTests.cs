@@ -187,10 +187,10 @@ namespace Furion.TestProject
             var template = await _viewEngine.CompileAsync<CustomModel>(content);
 
             return await template.RunAsync(instance =>
-             {
-                 instance.A = 10;
-                 instance.B = "Furion";
-             });
+            {
+                instance.A = 10;
+                instance.B = "Furion";
+            });
         }
     }
 
