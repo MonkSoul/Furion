@@ -33,8 +33,8 @@ namespace Furion.IntegrationTests
         [InlineData("/api/view-engine-tests/test-run-compile-from-cached", "Furion")]
         public async Task Test_RunCompile_Or_FromCached(string url, string name)
         {
-            var httpClient = _factory.CreateClient();
-            var response = await httpClient.PostAsync($"{url}/{name}", default);
+            using var httpClient = _factory.CreateClient();
+            using var response = await httpClient.PostAsync($"{url}/{name}", default);
 
             var content = await response.Content.ReadAsStringAsync();
             Output.WriteLine(content);
@@ -57,8 +57,8 @@ namespace Furion.IntegrationTests
         {
             var model = new { Name = name, Items = items };
 
-            var httpClient = _factory.CreateClient();
-            var response = await httpClient.PostAsync($"{url}", new StringContent(JsonSerializer.Serialize(model), Encoding.UTF8, "application/json"));
+            using var httpClient = _factory.CreateClient();
+            using var response = await httpClient.PostAsync($"{url}", new StringContent(JsonSerializer.Serialize(model), Encoding.UTF8, "application/json"));
 
             var content = await response.Content.ReadAsStringAsync();
             Output.WriteLine(content);
@@ -82,8 +82,8 @@ namespace Furion.IntegrationTests
         [InlineData("/api/view-engine-tests/test-run-compile-add-assembly-and-namespace", "Furion")]
         public async Task Test_RunCompile_AddAssembly_Or_AddNamespace(string url, string name)
         {
-            var httpClient = _factory.CreateClient();
-            var response = await httpClient.PostAsync($"{url}/{name}", default);
+            using var httpClient = _factory.CreateClient();
+            using var response = await httpClient.PostAsync($"{url}/{name}", default);
 
             var content = await response.Content.ReadAsStringAsync();
             Output.WriteLine(content);
@@ -102,8 +102,8 @@ namespace Furion.IntegrationTests
         [InlineData("/api/view-engine-tests/test-run-compile-include-function-with-invoke")]
         public async Task Test_RunCompile_IncludeFunction_With_Invoke(string url)
         {
-            var httpClient = _factory.CreateClient();
-            var response = await httpClient.PostAsync(url, default);
+            using var httpClient = _factory.CreateClient();
+            using var response = await httpClient.PostAsync(url, default);
 
             var content = await response.Content.ReadAsStringAsync();
             Output.WriteLine(content);
@@ -128,8 +128,8 @@ namespace Furion.IntegrationTests
         [InlineData("/api/view-engine-tests/test-run-compile-strongly-invoke-class-method")]
         public async Task Test_RunCompile_Strongly_Invoke_ClassMethod(string url)
         {
-            var httpClient = _factory.CreateClient();
-            var response = await httpClient.PostAsync(url, default);
+            using var httpClient = _factory.CreateClient();
+            using var response = await httpClient.PostAsync(url, default);
 
             var content = await response.Content.ReadAsStringAsync();
             Output.WriteLine(content);

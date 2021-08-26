@@ -31,8 +31,8 @@ namespace Furion.IntegrationTests
         [InlineData("/api/data-encryption-tests/test-md5-encrypt", "Furion", false)]
         public async Task Test_RunCompile_Or_FromCached(string url, string text, bool uppercase)
         {
-            var httpClient = _factory.CreateClient();
-            var response = await httpClient.PostAsync($"{url}/{text}/{uppercase}", default);
+            using var httpClient = _factory.CreateClient();
+            using var response = await httpClient.PostAsync($"{url}/{text}/{uppercase}", default);
 
             var content = await response.Content.ReadAsStringAsync();
             Output.WriteLine(content);
