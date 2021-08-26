@@ -1,7 +1,0 @@
-﻿{
-  "ConnectionStrings": {
-    "SqlServerConnectionString": "Server=localhost;Database=Furion;User=sa;Password=000000;MultipleActiveResultSets=True;",
-    "Sqlite3ConnectionString": "Data Source=./Furion.db",
-    "MySqlConnectionString": "Data Source=localhost;Database=Furion;User ID=root;Password=000000;pooling=true;port=3306;sslmode=none;CharSet=utf8;"
-  }
-}
