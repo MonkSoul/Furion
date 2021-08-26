@@ -126,7 +126,7 @@ namespace Furion.IntegrationTests
         /// <returns></returns>
         [Theory]
         [InlineData("/api/view-engine-tests/test-run-compile-strongly-invoke-class-method")]
-        public async Task Test_RunCompile_Strongly_Invoke_ClassMetho(string url)
+        public async Task Test_RunCompile_Strongly_Invoke_ClassMethod(string url)
         {
             var httpClient = _factory.CreateClient();
             var response = await httpClient.PostAsync(url, default);
