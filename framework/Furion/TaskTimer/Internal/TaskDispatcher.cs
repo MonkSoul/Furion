@@ -109,6 +109,9 @@ namespace Furion.TaskTimer
                 }
             });
 
+            // 重置线程锁
+            Interlocked.Exchange(ref increment, 0);
+
             return task;
         }
 
