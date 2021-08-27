@@ -200,6 +200,12 @@ namespace Microsoft.Extensions.DependencyInjection
             // 添加对象映射
             services.AddObjectMapper();
 
+            // 注册 HttpContextAccessor 服务，仅限 Web 环境
+            if (App.WebHostEnvironment != null) services.AddHttpContextAccessor();
+
+            // 添加主机启动服务（只支持泛型主机或 Web 主机）
+            if (App.HostEnvironment != default) services.AddHostedService<LifetimeEventsHostedService>();
+
             // 自定义服务
             configure?.Invoke(services);
 
