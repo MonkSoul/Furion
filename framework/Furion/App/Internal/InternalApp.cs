@@ -75,6 +75,9 @@ namespace Furion
                 // 注册 Startup 过滤器
                 services.AddTransient<IStartupFilter, StartupFilter>();
 
+                // 注册 HttpContextAccessor 服务
+                services.AddHttpContextAccessor();
+
                 // 初始化应用服务
                 services.AddApp();
             });
@@ -104,6 +107,9 @@ namespace Furion
 
                 // 存储服务提供器
                 InternalServices = services;
+
+                // 存储根服务
+                services.AddHostedService<GenericHostLifetimeEventsHostedService>();
 
                 // 初始化应用服务
                 services.AddApp();

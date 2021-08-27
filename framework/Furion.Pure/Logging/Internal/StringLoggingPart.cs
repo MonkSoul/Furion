@@ -61,6 +61,6 @@ namespace Furion.Logging
         /// <summary>
         /// 日志对象所在作用域
         /// </summary>
-        public IServiceProvider LoggerScoped { get; private set; } = App.RootServices;
+        public IServiceProvider LoggerScoped { get; private set; }
     }
 }

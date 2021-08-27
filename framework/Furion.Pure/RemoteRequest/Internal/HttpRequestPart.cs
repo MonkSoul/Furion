@@ -117,7 +117,7 @@ namespace Furion.RemoteRequest
         /// <summary>
         /// 设置请求作用域
         /// </summary>
-        public IServiceProvider RequestScoped { get; private set; } = App.RootServices;
+        public IServiceProvider RequestScoped { get; private set; }
 
         /// <summary>
         /// 设置重试策略

@@ -39,7 +39,7 @@ namespace Furion.DataValidation
         /// <summary>
         /// 验证类型正则表达式
         /// </summary>
-        private static readonly Dictionary<string, ValidationItemMetadataAttribute> ValidationItemMetadatas;
+        private static readonly ConcurrentDictionary<string, ValidationItemMetadataAttribute> ValidationItemMetadatas;
 
         /// <summary>
         /// 构造函数
@@ -269,8 +269,10 @@ namespace Furion.DataValidation
         /// 获取验证类型所有有效的正则表达式
         /// </summary>
         /// <returns></returns>
-        private static Dictionary<string, ValidationItemMetadataAttribute> GetValidationValidationItemMetadatas()
+        private static ConcurrentDictionary<string, ValidationItemMetadataAttribute> GetValidationValidationItemMetadatas()
         {
+            var vaidationItems = new ConcurrentDictionary<string, ValidationItemMetadataAttribute>();
+
             // 查找所有 [ValidationMessageType] 类型中的 [ValidationMessage] 消息定义
             var customErrorMessages = ValidationMessageTypes.SelectMany(u => u.GetFields()
                     .Where(u => u.IsDefined(typeof(ValidationMessageAttribute))))
@@ -285,7 +287,6 @@ namespace Furion.DataValidation
                     .Where(u => u.Length > 1)
                     .ToDictionary(u => u[0].ToString(), u => u[1].ToString());
 
-                // 合并自定义验证消息
                 customErrorMessages = customErrorMessages.AddOrUpdate(settingsErrorMessages);
             }
 
@@ -294,7 +295,9 @@ namespace Furion.DataValidation
                 .Where(u => u.IsDefined(typeof(ValidationItemMetadataAttribute))))
                 .ToDictionary(u => u.Name, u => ReplaceValidateErrorMessage(u.Name, u, customErrorMessages));
 
-            return validationFields;
+            vaidationItems.AddOrUpdate(validationFields);
+
+            return vaidationItems;
         }
 
         /// <summary>

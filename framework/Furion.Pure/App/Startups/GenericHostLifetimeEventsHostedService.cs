@@ -7,25 +7,24 @@
 // See the Mulan PSL v2 for more details.
 
 using Furion;
-using System;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace Microsoft.Extensions.Hosting
 {
     /// <summary>
-    /// 监听主机启动事件并存储根服务
+    /// 监听泛型主机启动事件
     /// </summary>
-    internal class LifetimeEventsHostedService : IHostedService
+    internal class GenericHostLifetimeEventsHostedService : IHostedService
     {
         /// <summary>
         /// 构造函数
         /// </summary>
-        /// <param name="serviceProvider"></param>
-        public LifetimeEventsHostedService(IServiceProvider serviceProvider)
+        /// <param name="host"></param>
+        public GenericHostLifetimeEventsHostedService(IHost host)
         {
             // 存储根服务
-            InternalApp.RootServices = serviceProvider;
+            InternalApp.RootServices = host.Services;
         }
 
         /// <summary>

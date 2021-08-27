@@ -33,7 +33,7 @@ namespace Microsoft.AspNetCore.Mvc.Filters
         public async Task OnExceptionAsync(ExceptionContext context)
         {
             // 解析异常处理服务，实现自定义异常额外操作，如记录日志等
-            var globalExceptionHandler = App.RootServices.GetService<IGlobalExceptionHandler>();
+            var globalExceptionHandler = context.HttpContext.RequestServices.GetService<IGlobalExceptionHandler>();
             if (globalExceptionHandler != null)
             {
                 await globalExceptionHandler.OnExceptionAsync(context);

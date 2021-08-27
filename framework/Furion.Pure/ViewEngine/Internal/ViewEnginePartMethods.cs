@@ -84,7 +84,7 @@ namespace Furion.ViewEngine
         /// <returns></returns>
         private IViewEngine GetViewEngine()
         {
-            return App.GetService<IViewEngine>(ViewEngineScoped)
+            return App.GetService<IViewEngine>(ViewEngineScoped ?? App.RootServices)
                 ?? throw new InvalidOperationException("Please confirm whether the view engine is registered successfully.");
         }
     }

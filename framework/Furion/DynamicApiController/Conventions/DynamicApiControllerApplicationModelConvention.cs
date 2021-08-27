@@ -15,7 +15,6 @@ using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.Routing;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
@@ -38,17 +37,12 @@ namespace Furion.DynamicApiController
         private readonly Regex _nameVersionRegex;
 
         /// <summary>
-        /// 默认方法名映射规则
-        /// </summary>
-        private readonly Dictionary<string, string> _verbToHttpMethods;
-
-        /// <summary>
         /// 构造函数
         /// </summary>
         public DynamicApiControllerApplicationModelConvention()
         {
             _dynamicApiControllerSettings = App.GetConfig<DynamicApiControllerSettingsOptions>("DynamicApiControllerSettings", true);
-            _verbToHttpMethods = GetVerbToHttpMethodsConfigure();
+            LoadVerbToHttpMethodsConfigure();
             _nameVersionRegex = new Regex(@"V(?<version>[0-9_]+$)");
         }
 
@@ -198,11 +192,11 @@ namespace Furion.DynamicApiController
                       var words = tempName.SplitCamelCase();
                       var verbKey = words.First().ToLower();
                       // 处理类似 getlist,getall 多个单词
-                      if (words.Length > 1 && _verbToHttpMethods.ContainsKey((words[0] + words[1]).ToLower()))
+                      if (words.Length > 1 && Penetrates.VerbToHttpMethods.ContainsKey((words[0] + words[1]).ToLower()))
                       {
                           tempName = tempName[(words[0] + words[1]).Length..];
                       }
-                      else if (_verbToHttpMethods.ContainsKey(verbKey)) tempName = tempName[verbKey.Length..];
+                      else if (Penetrates.VerbToHttpMethods.ContainsKey(verbKey)) tempName = tempName[verbKey.Length..];
                   }
 
                   return tempName;
@@ -227,13 +221,13 @@ namespace Furion.DynamicApiController
             var verbKey = words.First().ToLower();
 
             // 处理类似 getlist,getall 多个单词
-            if (words.Length > 1 && _verbToHttpMethods.ContainsKey((words[0] + words[1]).ToLower()))
+            if (words.Length > 1 && Penetrates.VerbToHttpMethods.ContainsKey((words[0] + words[1]).ToLower()))
             {
                 verbKey = (words[0] + words[1]).ToLower();
             }
 
-            var verb = _verbToHttpMethods.ContainsKey(verbKey)
-                ? _verbToHttpMethods[verbKey] ?? _dynamicApiControllerSettings.DefaultHttpMethod.ToUpper()
+            var verb = Penetrates.VerbToHttpMethods.ContainsKey(verbKey)
+                ? Penetrates.VerbToHttpMethods[verbKey] ?? _dynamicApiControllerSettings.DefaultHttpMethod.ToUpper()
                 : _dynamicApiControllerSettings.DefaultHttpMethod.ToUpper();
 
             // 添加请求约束
@@ -676,7 +670,7 @@ namespace Furion.DynamicApiController
         /// 获取方法名映射 [HttpMethod] 规则
         /// </summary>
         /// <returns></returns>
-        private Dictionary<string, string> GetVerbToHttpMethodsConfigure()
+        private void LoadVerbToHttpMethodsConfigure()
         {
             var defaultVerbToHttpMethods = Penetrates.VerbToHttpMethods;
 
@@ -690,11 +684,8 @@ namespace Furion.DynamicApiController
                     .Where(u => u.Length > 1)
                     .ToDictionary(u => u[0].ToString().ToLower(), u => u[1]?.ToString());
 
-                // 复写消息
-                defaultVerbToHttpMethods = defaultVerbToHttpMethods.AddOrUpdate(settingsVerbToHttpMethods);
+                defaultVerbToHttpMethods.AddOrUpdate(settingsVerbToHttpMethods);
             }
-
-            return defaultVerbToHttpMethods;
         }
     }
 }

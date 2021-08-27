@@ -10,6 +10,7 @@ using Furion.DependencyInjection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,6 +35,9 @@ namespace Furion
         {
             return app =>
             {
+                // 存储根服务
+                InternalApp.RootServices = app.ApplicationServices.GetRequiredService<IHost>().Services;
+
                 // 环境名
                 var envName = App.HostEnvironment?.EnvironmentName ?? "Unknown";
 

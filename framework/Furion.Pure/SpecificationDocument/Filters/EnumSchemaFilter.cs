@@ -46,14 +46,14 @@ namespace Furion.SpecificationDocument
 
                 foreach (var value in enumValues)
                 {
-                    var intValue = value.ChangeType(enumValueType);
+                    var numValue = value.ChangeType(enumValueType);
 
                     // 获取枚举成员特性
                     var fieldinfo = type.GetField(Enum.GetName(type, value));
                     var descriptionAttribute = fieldinfo.GetCustomAttribute<DescriptionAttribute>(true);
-                    model.Enum.Add(OpenApiAnyFactory.CreateFromJson($"{intValue}"));
+                    model.Enum.Add(OpenApiAnyFactory.CreateFromJson($"{numValue}"));
 
-                    stringBuilder.Append($"&nbsp;{descriptionAttribute?.Description} {value} = {intValue}<br />");
+                    stringBuilder.Append($"&nbsp;{descriptionAttribute?.Description} {value} = {numValue}<br />");
                 }
                 model.Description = stringBuilder.ToString();
             }

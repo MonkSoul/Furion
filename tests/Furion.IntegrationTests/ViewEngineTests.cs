@@ -29,8 +29,8 @@ namespace Furion.IntegrationTests
         /// <param name="name"></param>
         /// <returns></returns>
         [Theory]
-        [InlineData("/api/view-engine-tests/test-run-compile", "Furion")]
-        [InlineData("/api/view-engine-tests/test-run-compile-from-cached", "Furion")]
+        [InlineData("/ViewEngineTests/TestRunCompile", "Furion")]
+        [InlineData("/ViewEngineTests/TestRunCompileFromCached", "Furion")]
         public async Task Test_RunCompile_Or_FromCached(string url, string name)
         {
             using var httpClient = _factory.CreateClient();
@@ -51,8 +51,8 @@ namespace Furion.IntegrationTests
         /// <param name="items"></param>
         /// <returns></returns>
         [Theory]
-        [InlineData("/api/view-engine-tests/test-run-compile-strongly", "Furion", 1, 2, 3)]
-        [InlineData("/api/view-engine-tests/test-run-compile-strongly-from-cached", "Furion", 1, 2, 3)]
+        [InlineData("/ViewEngineTests/TestRunCompileStrongly", "Furion", 1, 2, 3)]
+        [InlineData("/ViewEngineTests/TestRunCompileStronglyFromCached", "Furion", 1, 2, 3)]
         public async Task Test_RunCompile_Strongly_Or_FromCached(string url, string name, params int[] items)
         {
             var model = new { Name = name, Items = items };
@@ -78,8 +78,8 @@ namespace Furion.IntegrationTests
         /// <param name="name"></param>
         /// <returns></returns>
         [Theory]
-        [InlineData("/api/view-engine-tests/test-run-compile-assembly", "Furion")]
-        [InlineData("/api/view-engine-tests/test-run-compile-add-assembly-and-namespace", "Furion")]
+        [InlineData("/ViewEngineTests/TestRunCompileAssembly", "Furion")]
+        [InlineData("/ViewEngineTests/TestRunCompileAddAssemblyAndNamespace", "Furion")]
         public async Task Test_RunCompile_AddAssembly_Or_AddNamespace(string url, string name)
         {
             using var httpClient = _factory.CreateClient();
@@ -93,13 +93,13 @@ namespace Furion.IntegrationTests
         }
 
         /// <summary>
-        /// 测试 RunCompile 添加程序集或添加命名空间
+        /// 测试 RunCompile 调用模板方法
         /// </summary>
         /// <param name="url"></param>
         /// <param name="name"></param>
         /// <returns></returns>
         [Theory]
-        [InlineData("/api/view-engine-tests/test-run-compile-include-function-with-invoke")]
+        [InlineData("/ViewEngineTests/TestRunCompileIncludeFunctionWithInvoke")]
         public async Task Test_RunCompile_IncludeFunction_With_Invoke(string url)
         {
             using var httpClient = _factory.CreateClient();
@@ -125,7 +125,7 @@ namespace Furion.IntegrationTests
         /// <param name="name"></param>
         /// <returns></returns>
         [Theory]
-        [InlineData("/api/view-engine-tests/test-run-compile-strongly-invoke-class-method")]
+        [InlineData("/ViewEngineTests/TestRunCompileStronglyInvokeClassMethod")]
         public async Task Test_RunCompile_Strongly_Invoke_ClassMethod(string url)
         {
             using var httpClient = _factory.CreateClient();

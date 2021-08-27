@@ -24,5 +24,14 @@ namespace Furion.TestProject
 
             return data1;
         }
+
+        /// <summary>
+        /// 比较文本和加密后字符串
+        /// </summary>
+        /// <returns></returns>
+        public bool TestMD5Compare(string text, string hash, bool uppercase)
+        {
+            return MD5Encryption.Compare(text, hash, uppercase);
+        }
     }
 }

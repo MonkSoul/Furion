@@ -27,9 +27,9 @@ namespace Furion.IntegrationTests
         /// <param name="uppercase"></param>
         /// <returns></returns>
         [Theory]
-        [InlineData("/api/data-encryption-tests/test-md5-encrypt", "Furion", true)]
-        [InlineData("/api/data-encryption-tests/test-md5-encrypt", "Furion", false)]
-        public async Task Test_RunCompile_Or_FromCached(string url, string text, bool uppercase)
+        [InlineData("/DataEncryptionTests/TestMD5Encrypt", "Furion", true)]
+        [InlineData("/DataEncryptionTests/TestMD5Encrypt", "Furion", false)]
+        public async Task Test_MD5_Encrypt(string url, string text, bool uppercase)
         {
             using var httpClient = _factory.CreateClient();
             using var response = await httpClient.PostAsync($"{url}/{text}/{uppercase}", default);
@@ -39,6 +39,29 @@ namespace Furion.IntegrationTests
             response.EnsureSuccessStatusCode();
 
             Assert.Equal(uppercase ? "08C5318BD8A478A88E6D594A0142AE6C" : "08c5318bd8a478a88e6d594a0142ae6c", content);
+        }
+
+        /// <summary>
+        /// ≤‚ ‘ MD5 ∂‘±»
+        /// </summary>
+        /// <param name="url"></param>
+        /// <param name="text"></param>
+        /// <param name="hash"></param>
+        /// <param name="uppercase"></param>
+        /// <returns></returns>
+        [Theory]
+        [InlineData("/DataEncryptionTests/TestMD5Compare", "Furion", "08C5318BD8A478A88E6D594A0142AE6C", true)]
+        [InlineData("/DataEncryptionTests/TestMD5Compare", "Furion", "08c5318bd8a478a88e6d594a0142ae6c", false)]
+        public async Task Test_MD5_Compare(string url, string text, string hash, bool uppercase)
+        {
+            using var httpClient = _factory.CreateClient();
+            using var response = await httpClient.PostAsync($"{url}/{text}/{hash}/{uppercase}", default);
+
+            var content = await response.Content.ReadAsStringAsync();
+            Output.WriteLine(content);
+            response.EnsureSuccessStatusCode();
+
+            Assert.True(bool.Parse(content));
         }
     }
 }

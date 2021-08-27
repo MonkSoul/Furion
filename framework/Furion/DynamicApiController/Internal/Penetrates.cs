@@ -27,21 +27,21 @@ namespace Furion.DynamicApiController
         /// <summary>
         /// 请求动词映射字典
         /// </summary>
-        internal static Dictionary<string, string> VerbToHttpMethods { get; private set; }
+        internal static ConcurrentDictionary<string, string> VerbToHttpMethods { get; private set; }
 
         /// <summary>
         /// 控制器排序集合
         /// </summary>
-        internal static Dictionary<string, int> ControllerOrderCollection { get; set; }
+        internal static ConcurrentDictionary<string, int> ControllerOrderCollection { get; set; }
 
         /// <summary>
         /// 构造函数
         /// </summary>
         static Penetrates()
         {
-            ControllerOrderCollection = new Dictionary<string, int>();
+            ControllerOrderCollection = new ConcurrentDictionary<string, int>();
 
-            VerbToHttpMethods = new Dictionary<string, string>
+            VerbToHttpMethods = new ConcurrentDictionary<string, string>
             {
                 ["post"] = "POST",
                 ["add"] = "POST",

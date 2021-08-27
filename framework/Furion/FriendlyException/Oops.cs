@@ -42,7 +42,7 @@ namespace Furion.FriendlyException
         /// <summary>
         /// 错误消息字典
         /// </summary>
-        private static readonly Dictionary<string, string> ErrorCodeMessages;
+        private static readonly ConcurrentDictionary<string, string> ErrorCodeMessages;
 
         /// <summary>
         /// 友好异常设置
@@ -212,12 +212,16 @@ namespace Furion.FriendlyException
         /// 获取所有错误消息
         /// </summary>
         /// <returns></returns>
-        private static Dictionary<string, string> GetErrorCodeMessages()
+        private static ConcurrentDictionary<string, string> GetErrorCodeMessages()
         {
+            var defaultErrorCodeMessages = new ConcurrentDictionary<string, string>();
+
             // 查找所有 [ErrorCodeType] 类型中的 [ErrorCodeMetadata] 元数据定义
             var errorCodeMessages = ErrorCodeTypes.SelectMany(u => u.GetFields().Where(u => u.IsDefined(typeof(ErrorCodeItemMetadataAttribute))))
                 .Select(u => GetErrorCodeItemMessage(u))
                .ToDictionary(u => u.Key.ToString(), u => u.Value);
+
+            defaultErrorCodeMessages.AddOrUpdate(errorCodeMessages);
 
             // 加载配置文件状态码
             var errorCodeMessageSettings = App.GetConfig<ErrorCodeMessageSettingsOptions>("ErrorCodeMessageSettings", true);
@@ -228,11 +232,10 @@ namespace Furion.FriendlyException
                     .Where(u => u.Length > 1)
                     .ToDictionary(u => u[0].ToString(), u => FixErrorCodeSettingMessage(u));
 
-                // 合并两个字典
-                errorCodeMessages = (errorCodeMessages ?? new Dictionary<string, string>()).AddOrUpdate(fitErrorCodes);
+                defaultErrorCodeMessages.AddOrUpdate(fitErrorCodes);
             }
 
-            return errorCodeMessages;
+            return defaultErrorCodeMessages;
         }
 
         /// <summary>

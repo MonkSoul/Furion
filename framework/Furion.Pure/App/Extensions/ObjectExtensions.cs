@@ -8,6 +8,7 @@
 
 using Furion.DependencyInjection;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -89,6 +90,20 @@ namespace Furion.Extensions
             }
 
             return dic;
+        }
+
+        /// <summary>
+        /// 合并两个字典
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="dic">字典</param>
+        /// <param name="newDic">新字典</param>
+        internal static void AddOrUpdate<T>(this ConcurrentDictionary<string, T> dic, Dictionary<string, T> newDic)
+        {
+            foreach (var (key, value) in newDic)
+            {
+                dic.AddOrUpdate(key, value, (key, old) => value);
+            }
         }
 
         /// <summary>

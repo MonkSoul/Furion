@@ -6,6 +6,7 @@
 // THIS SOFTWARE IS PROVIDED ON AN "AS IS" BASIS, WITHOUT WARRANTIES OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO NON-INFRINGEMENT, MERCHANTABILITY OR FIT FOR A PARTICULAR PURPOSE.
 // See the Mulan PSL v2 for more details.
 
+using System;
 using System.IO;
 
 namespace Furion.ViewEngine
@@ -16,21 +17,17 @@ namespace Furion.ViewEngine
     internal static class Penetrates
     {
         /// <summary>
-        /// 模板保存目录
-        /// </summary>
-        internal static string TemplateSaveDir = "templates";
-
-        /// <summary>
         /// 获取模板文件名
         /// </summary>
         /// <param name="fileName"></param>
         /// <returns></returns>
         internal static string GetTemplateFileName(string fileName)
         {
-            if (!Directory.Exists(TemplateSaveDir)) Directory.CreateDirectory(TemplateSaveDir);
+            var templateSaveDir = Path.Combine(AppContext.BaseDirectory, "templates");
+            if (!Directory.Exists(templateSaveDir)) Directory.CreateDirectory(templateSaveDir);
 
             if (!fileName.EndsWith(".dll", System.StringComparison.OrdinalIgnoreCase)) fileName += ".dll";
-            var templatePath = Path.Combine(TemplateSaveDir, "~" + fileName);
+            var templatePath = Path.Combine(templateSaveDir, "~" + fileName);
 
             return templatePath;
         }
