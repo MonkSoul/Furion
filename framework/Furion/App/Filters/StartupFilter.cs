@@ -36,7 +36,7 @@ namespace Furion
             return app =>
             {
                 // 存储根服务
-                InternalApp.RootServices = app.ApplicationServices.GetRequiredService<IHost>().Services;
+                InternalApp.RootServices = app.ApplicationServices;
 
                 // 环境名
                 var envName = App.HostEnvironment?.EnvironmentName ?? "Unknown";
