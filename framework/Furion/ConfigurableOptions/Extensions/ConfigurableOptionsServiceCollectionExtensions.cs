@@ -60,7 +60,7 @@ namespace Microsoft.Extensions.DependencyInjection
             }
 
             var optionsConfigure = services.AddOptions<TOptions>()
-                  .BindConfiguration(path, options =>
+                  .Bind(optionsConfiguration, options =>
                   {
                       options.BindNonPublicProperties = true; // 绑定私有变量
                   })
