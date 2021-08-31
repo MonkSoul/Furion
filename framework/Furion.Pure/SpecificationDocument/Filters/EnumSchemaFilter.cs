@@ -42,7 +42,7 @@ namespace Furion.SpecificationDocument
 
                 var enumValues = Enum.GetValues(type);
                 // 获取枚举实际值类型
-                var enumValueType = type.GetFields().First().FieldType;
+                var enumValueType = type.GetField("value__").FieldType;
 
                 foreach (var value in enumValues)
                 {
