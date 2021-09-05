@@ -41,7 +41,16 @@ connectConfigList.Add(new ConnectionConfig
     DbType = DbType.MySql,
     IsAutoCloseConnection = true,
     InitKeyType = InitKeyType.Attribute,
-    ConfigId = "0"
+    ConfigId = "0",
+    AopEvents = new AopEvents
+    {
+        //多库状态下每个库必须单独绑定打印事件，否则只会打印第一个库的sql日志
+        OnLogExecuting = (sql, pars) =>
+        {
+            Console.WriteLine(SqlProfiler.ParameterFormat(sql, pars));
+            Console.WriteLine();
+        }
+    }
 });
 //数据库2
 connectConfigList.Add(new ConnectionConfig
@@ -50,13 +59,22 @@ connectConfigList.Add(new ConnectionConfig
     DbType = DbType.MySql,
     IsAutoCloseConnection = true,
     InitKeyType = InitKeyType.Attribute,
-    ConfigId = "1"
+    ConfigId = "1",
+    AopEvents = new AopEvents
+    {
+        //多库状态下每个库必须单独绑定打印事件，否则只会打印第一个库的sql日志
+        OnLogExecuting = (sql, pars) =>
+        {
+            Console.WriteLine(SqlProfiler.ParameterFormat(sql, pars));
+            Console.WriteLine();
+        }
+    }
 });
 services.AddSqlSugar(connectConfigList.ToArray());
 ```
 
 同时也可以添加更多配置，如：
-
+ps：多库状态下每个库必须单独绑定打印事件，否则只会打印第一个库的sql日志（参考上面的多库配置）
 ```cs
 services.AddSqlSugar(connectConfigList.ToArray(),
 db =>
