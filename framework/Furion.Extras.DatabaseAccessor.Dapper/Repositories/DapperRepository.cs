@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2020-2021 百小僧, Baiqian Co.,Ltd.
+// Copyright (c) 2020-2021 百小僧, Baiqian Co.,Ltd.
 // Furion is licensed under Mulan PSL v2.
 // You can use this software according to the terms and conditions of the Mulan PSL v2.
 // You may obtain a copy of Mulan PSL v2 at:
@@ -16,7 +16,7 @@ using System.Threading.Tasks;
 namespace Dapper
 {
     /// <summary>
-    /// 非泛型 SqlSugar 仓储
+    /// 非泛型 Dapper 仓储
     /// </summary>
     public partial class DapperRepository : IDapperRepository
     {
@@ -161,7 +161,7 @@ namespace Dapper
     }
 
     /// <summary>
-    /// SqlSugar 仓储实现类
+    /// Dapper 仓储实现类
     /// </summary>
     /// <typeparam name="TEntity"></typeparam>
     public partial class DapperRepository<TEntity> : DapperRepository, IDapperRepository<TEntity>
