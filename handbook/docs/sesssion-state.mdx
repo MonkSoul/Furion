@@ -13,7 +13,7 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 - `Cookie`：通常存储在客户端的数据，请求时带回服务端
 - `Session`：存储在服务端的数据（可以在存储在内存、进程等介质中）
 - `Query Strings`：通过 `Http` 请求地址参数共享
-- `HttpContext.Items`：存储在服务端端，只在请求声明周期内使用，请求结束自动销毁
+- `HttpContext.Items`：存储在服务端，只在请求声明周期内使用，请求结束自动销毁
 - `Cache`：服务端缓存，包括内存缓存、分布式内存缓存、IO 缓存、序列化缓存以及数据库缓存
 - `AsyncLocal<T>`：通过异步控制流实现本地数据共享，跨线程
 
