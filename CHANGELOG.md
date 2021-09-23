@@ -7,18 +7,14 @@
 > - 如果涉及到代码重构，则当天发版，次版本号 `加 1`，修订版本号 `清 0`。
 > - 如果 `.NET SDK` 主版本号升级，则当天发版，主版本号 `加 1`。
 
-## v2.19（未发布版本）
+## v2.19（当前版本）
 
 - **新特性**
 
   - [新增] 定时任务监听器 `ISpareTimeListener` [#I468Q1](https://gitee.com/dotnetchina/Furion/issues/I468Q1)
   - [新增] 执行 `Sql` 支持 `JsonElement` 参数 [61985d6](https://gitee.com/dotnetchina/Furion/commit/61985d6a300485d553cbe8461b01f01bcd0936ef)
   - [新增] `Swagger` 配置枚举及标签排序过滤器 [#I46LON](https://gitee.com/dotnetchina/Furion/issues/I46LON) [!404](https://gitee.com/dotnetchina/Furion/pulls/404)
-  - [新增] 远程请求 `application/octet-stream` 类型默认支持[d9bad03](https://gitee.com/dotnetchina/Furion/commit/d9bad0320cc4a204e24bc3a070517ebce4cdc5d7)
-
-- **突破性变化**
-
-  - [重构] 事件总线所有代码 [#I46X02](https://gitee.com/dotnetchina/Furion/issues/I46X02)
+  - [新增] 远程请求 `application/octet-stream` 类型默认支持 [d9bad03](https://gitee.com/dotnetchina/Furion/commit/d9bad0320cc4a204e24bc3a070517ebce4cdc5d7)
 
 - **问题修复**
 
@@ -31,12 +27,14 @@
   - [修复] 管道 `Channel` 读取器无法释放 `Handler` 对象问题 [10f4a90](https://gitee.com/dotnetchina/Furion/commit/10f4a900ee558a29f40ae21366a0eba83eceb3eb)
   - [修复] `Worker Services` 下日志不输出问题 [c482548](https://gitee.com/dotnetchina/Furion/commit/c48254822c09092906ef77f04d54497e27665a92)
   - [修复] 远程请求 `multipart/form-data` 类型对接微信小程序上传文件 问题 [d9bad03](https://gitee.com/dotnetchina/Furion/commit/d9bad0320cc4a204e24bc3a070517ebce4cdc5d7)
+  - [修复] 工作单元上下文在某些情况下共享事务失效问题 [006d439](https://gitee.com/dotnetchina/Furion/commit/006d439de3357d4d58ea6d7d3f9d51771a7b604e)
+  - [修复] `Swagger` 枚举值在 `GET` 请求中 `Schema` 显示不正确问题 [fb72fd7](https://gitee.com/dotnetchina/Furion/commit/fb72fd7c98de5bf2246dd1bf08200152bd7ab7a0)
 
 - **文档**
 
 ---
 
-## v2.18（当前版本）
+## v2.18（已发布）
 
 - **新特性**
 

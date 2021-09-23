@@ -4,7 +4,7 @@
 // You may obtain a copy of Mulan PSL v2 at:
 //             https://gitee.com/dotnetchina/Furion/blob/master/LICENSE
 // THIS SOFTWARE IS PROVIDED ON AN "AS IS" BASIS, WITHOUT WARRANTIES OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO NON-INFRINGEMENT, MERCHANTABILITY OR FIT FOR A PARTICULAR PURPOSE.
-// See the Mulan PSL v2 for more details. 
+// See the Mulan PSL v2 for more details.
 
 using Furion.ConfigurableOptions;
 using Furion.DependencyInjection;
@@ -337,8 +337,7 @@ namespace Furion
         internal static bool CanBeMiniProfiler()
         {
             // 减少不必要的监听
-            if (Settings.InjectMiniProfiler != true
-                || HttpContext == null
+            if (Settings.InjectMiniProfiler != true || HttpContext == null
                 || !(HttpContext.Request.Headers.TryGetValue("request-from", out var value) && value == "swagger")) return false;
 
             return true;

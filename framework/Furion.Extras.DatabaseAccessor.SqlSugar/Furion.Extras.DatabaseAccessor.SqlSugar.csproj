@@ -2,7 +2,7 @@
 
 	<PropertyGroup>
 		<TargetFramework>net5.0</TargetFramework>
-		<Version>2.18.7</Version>
+		<Version>2.19.0</Version>
 		<Description>Furion 数据库访问器 SqlSugar 插件。</Description>
 	</PropertyGroup>
 
@@ -11,7 +11,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="sqlSugarCore" Version="5.0.3.8" />
+		<PackageReference Include="sqlSugarCore" Version="5.0.4" />
 	</ItemGroup>
 
 </Project>
