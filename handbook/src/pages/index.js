@@ -81,7 +81,7 @@ function Banner() {
             >
               一分钟上手
             </Link>
-            <div className="furion-version">v2.19.0</div>
+            <div className="furion-version">v2.19.1</div>
           </div>
         </div>
         <div className="furion-banner-item">
@@ -129,7 +129,7 @@ function Gitee() {
         完全开源免费
       </p>
       <h1 className={"furion-big-title" + (isDarkTheme ? " dark" : "")}>
-        ⭐️ Gitee 平台 C# 语言最高星项目 ⭐️
+        ⭐️ 木兰宽松开源协议，代码在 Gitee 平台托管 ⭐️
       </h1>
       <div className="furion-gitee-log">
         <div
