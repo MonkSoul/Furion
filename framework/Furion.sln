@@ -13,8 +13,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Furion.Extras.DatabaseAcces
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Furion.Extras.ObjectMapper.Mapster", "Furion.Extras.ObjectMapper.Mapster\Furion.Extras.ObjectMapper.Mapster.csproj", "{30CADCB5-099F-40A1-A5BF-4A609534D602}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Furion.Extras.Logging.Serilog", "Furion.Extras.Logging.Serilog\Furion.Extras.Logging.Serilog.csproj", "{6F3B7C70-DE29-497D-AB11-70C6B00011FF}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Furion.Extras.DatabaseAccessor.Dapper", "Furion.Extras.DatabaseAccessor.Dapper\Furion.Extras.DatabaseAccessor.Dapper.csproj", "{70C2FD6B-5494-41CD-992D-AA7653499D19}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{193E87DF-D561-4E56-9CE5-BBFB1A7EB827}"
