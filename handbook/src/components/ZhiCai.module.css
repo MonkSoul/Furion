@@ -1,0 +1,40 @@
+.container {
+  position: fixed;
+  width: 600px;
+  height: 500px;
+  background-color: #fff;
+  z-index: 10000;
+  left: 50%;
+  top: 50%;
+  margin-top: -250px;
+  margin-left: -300px;
+  border-radius: 5px;
+  box-shadow: 1px 1px 50px rgb(0 0 0 / 30%);
+}
+
+.title {
+  font-size: 16px;
+  text-align: center;
+  padding: 8px;
+  font-weight: bold;
+  color: #f00;
+}
+
+.content {
+  padding: 10px;
+  font-size: 14px;
+  line-height: 24px;
+}
+
+.des {
+  font-size: 13px;
+}
+
+.gb {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  z-index: 54;
+  font-size: 12px;
+  cursor: pointer;
+}
