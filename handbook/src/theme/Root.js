@@ -8,7 +8,7 @@ function Root({ children }) {
   return (
     <>
       <GiveMeStar />
-      <ZhiCai />
+      {/* <ZhiCai /> */}
       {children}
       {/* <JoinGroup /> */}
       {/* <StarProject /> */}
