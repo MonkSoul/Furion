@@ -362,15 +362,14 @@ namespace Furion.RemoteRequest
                     else
                     {
                         parameterHeaders.Add(headersAttribute.Key ?? item.Name, item.Value);
-
                     }
                 }
-
-                // 合并所有请求报文头
-                var headers = declaringTypeHeaders.AddOrUpdate(methodHeaders)
-                                                                      .AddOrUpdate(parameterHeaders);
-                httpRequestPart.SetHeaders(headers);
             }
+
+            // 合并所有请求报文头
+            var headers = declaringTypeHeaders.AddOrUpdate(methodHeaders)
+                                                                  .AddOrUpdate(parameterHeaders);
+            httpRequestPart.SetHeaders(headers);
         }
     }
 }
