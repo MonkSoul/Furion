@@ -15,6 +15,7 @@ namespace Microsoft.Extensions.DependencyInjection
     /// </summary>
     public static class MongoDBServiceCollectionExtensions
     {
+        private const string defaultDbName = "furion";
         /// <summary>
         /// 添加 MongoDB 拓展
         /// </summary>
@@ -24,13 +25,16 @@ namespace Microsoft.Extensions.DependencyInjection
         public static IServiceCollection AddMongoDB(this IServiceCollection services, string connectionString)
         {
             // 创建数据库连接对象
-            services.AddScoped<IMongoClient>(u =>
+            services.AddScoped<IMongoDatabase>(u =>
             {
-                return new MongoClient(connectionString);
+                var mongoUrl = new MongoUrl(connectionString);
+                var dbName = mongoUrl.DatabaseName ?? defaultDbName;
+                return new MongoClient(connectionString).GetDatabase(dbName);
             });
 
             // 注册 MongoDB 仓储
             services.AddScoped<IMongoDBRepository, MongoDBRepository>();
+            services.AddScoped(typeof(IMongoDBRepository<,>), typeof(MongoDBRepository<,>));
 
             return services;
         }
@@ -40,17 +44,19 @@ namespace Microsoft.Extensions.DependencyInjection
         /// </summary>
         /// <param name="services"></param>
         /// <param name="settings"></param>
+        /// <param name="dbName">数据库名称</param>
         /// <returns></returns>
-        public static IServiceCollection AddMongoDB(this IServiceCollection services, MongoClientSettings settings)
+        public static IServiceCollection AddMongoDB(this IServiceCollection services, MongoClientSettings settings,string dbName="furion")
         {
             // 创建数据库连接对象
-            services.AddScoped<IMongoClient>(u =>
+            services.AddScoped<IMongoDatabase>(u =>
             {
-                return new MongoClient(settings);
+                return new MongoClient(settings).GetDatabase(dbName);
             });
 
             // 注册 MongoDB 仓储
             services.AddScoped<IMongoDBRepository, MongoDBRepository>();
+            services.AddScoped(typeof(IMongoDBRepository<,>), typeof(MongoDBRepository<,>));
 
             return services;
         }
@@ -64,13 +70,15 @@ namespace Microsoft.Extensions.DependencyInjection
         public static IServiceCollection AddMongoDB(this IServiceCollection services, MongoUrl url)
         {
             // 创建数据库连接对象
-            services.AddScoped<IMongoClient>(u =>
+            services.AddScoped<IMongoDatabase>(u =>
             {
-                return new MongoClient(url);
+                var dbName = url.DatabaseName ?? defaultDbName;
+                return new MongoClient(url).GetDatabase(dbName);
             });
 
             // 注册 MongoDB 仓储
             services.AddScoped<IMongoDBRepository, MongoDBRepository>();
+            services.AddScoped(typeof(IMongoDBRepository<,>), typeof(MongoDBRepository<,>));
 
             return services;
         }
