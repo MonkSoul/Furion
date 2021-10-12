@@ -61,17 +61,6 @@ namespace MongoDB.Driver
         /// 切换仓储
         /// </summary>
         /// <typeparam name="TDocument">实体类型</typeparam>
-        /// <returns>仓储</returns>
-        public virtual IMongoDBRepository<TDocument> Change<TDocument>()
-            where TDocument : class, IMongoDBEntity<string>, new()
-        {
-            return _serviceProvider.GetService<IMongoDBRepository<TDocument>>();
-        }
-
-        /// <summary>
-        /// 切换仓储
-        /// </summary>
-        /// <typeparam name="TDocument">实体类型</typeparam>
         /// <typeparam name="TKey">主键类型</typeparam>
         /// <returns>仓储</returns>
         public virtual IMongoDBRepository<TDocument, TKey> Change<TDocument, TKey>()
@@ -674,17 +663,6 @@ namespace MongoDB.Driver
         }
 
         #endregion 删除
-
-        /// <summary>
-        /// 切换仓储
-        /// </summary>
-        /// <typeparam name="TChangeEntity">实体类型</typeparam>
-        /// <returns>仓储</returns>
-        public virtual IMongoDBRepository<TChangeEntity> Change<TChangeEntity>()
-            where TChangeEntity : class, IMongoDBEntity<string>, new()
-        {
-            return _mongoDBRepository.Change<TChangeEntity>();
-        }
 
         /// <summary>
         /// 切换仓储

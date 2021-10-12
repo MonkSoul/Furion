@@ -83,13 +83,28 @@ namespace MongoDB.Driver
         /// <returns></returns>
         public static MongoDBPagedList<TDocument> ToPagedList<TDocument>(this IFindFluent<TDocument, TDocument> entities, int pageIndex = 1, int pageSize = 20)
         {
+            return entities.ToPagedList(a => a, pageIndex, pageSize);
+        }
+
+        /// <summary>
+        /// 分页拓展
+        /// </summary>
+        /// <typeparam name="TDocument"></typeparam>
+        /// <typeparam name="TNewProjection"></typeparam>
+        /// <param name="entities"></param>
+        /// <param name="projection"></param>
+        /// <param name="pageIndex">页码，必须大于0</param>
+        /// <param name="pageSize"></param>
+        /// <returns></returns>
+        public static MongoDBPagedList<TNewProjection> ToPagedList<TDocument, TNewProjection>(this IFindFluent<TDocument, TDocument> entities, Expression<Func<TDocument, TNewProjection>> projection, int pageIndex = 1, int pageSize = 20)
+        {
             if (pageIndex <= 0) throw new InvalidOperationException($"{nameof(pageIndex)} must be a positive integer greater than 0.");
 
             var totalCount = entities.CountDocuments();
-            var items = entities.Skip((pageIndex - 1) * pageSize).Limit(pageSize).ToEnumerable();
+            var items = entities.Skip((pageIndex - 1) * pageSize).Limit(pageSize).Project(projection).ToEnumerable();
             var totalPages = (int)Math.Ceiling(totalCount / (double)pageSize);
 
-            return new MongoDBPagedList<TDocument>
+            return new MongoDBPagedList<TNewProjection>
             {
                 PageIndex = pageIndex,
                 PageSize = pageSize,
@@ -112,13 +127,29 @@ namespace MongoDB.Driver
         /// <returns></returns>
         public static async Task<MongoDBPagedList<TDocument>> ToPagedListAsync<TDocument>(this IFindFluent<TDocument, TDocument> entities, int pageIndex = 1, int pageSize = 20, CancellationToken cancellationToken = default)
         {
+            return await entities.ToPagedListAsync(a => a, pageIndex, pageSize);
+        }
+
+        /// <summary>
+        /// 分页拓展
+        /// </summary>
+        /// <typeparam name="TDocument"></typeparam>
+        /// <typeparam name="TNewProjection"></typeparam>
+        /// <param name="entities"></param>
+        /// <param name="projection"></param>
+        /// <param name="pageIndex">页码，必须大于0</param>
+        /// <param name="pageSize"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public static async Task<MongoDBPagedList<TNewProjection>> ToPagedListAsync<TDocument, TNewProjection>(this IFindFluent<TDocument, TDocument> entities, Expression<Func<TDocument, TNewProjection>> projection, int pageIndex = 1, int pageSize = 20, CancellationToken cancellationToken = default)
+        {
             if (pageIndex <= 0) throw new InvalidOperationException($"{nameof(pageIndex)} must be a positive integer greater than 0.");
 
             var totalCount = await entities.CountDocumentsAsync();
-            var items = entities.Skip((pageIndex - 1) * pageSize).Limit(pageSize).ToEnumerable();
+            var items = entities.Skip((pageIndex - 1) * pageSize).Limit(pageSize).Project(projection).ToEnumerable();
             var totalPages = (int)Math.Ceiling(totalCount / (double)pageSize);
 
-            return new MongoDBPagedList<TDocument>
+            return new MongoDBPagedList<TNewProjection>
             {
                 PageIndex = pageIndex,
                 PageSize = pageSize,
