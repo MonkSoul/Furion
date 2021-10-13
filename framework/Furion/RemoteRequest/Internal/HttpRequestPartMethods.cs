@@ -334,7 +334,7 @@ namespace Furion.RemoteRequest
         public async Task<Stream> SendAsStreamAsync(CancellationToken cancellationToken = default)
         {
             var response = await SendAsync(cancellationToken);
-            if (response == null) return default;
+            if (response == null || response.Content == null) return default;
 
             // 读取响应流
             var stream = await response.Content.ReadAsStreamAsync(cancellationToken);
@@ -349,7 +349,7 @@ namespace Furion.RemoteRequest
         public async Task<string> SendAsStringAsync(CancellationToken cancellationToken = default)
         {
             var response = await SendAsync(cancellationToken);
-            if (response == null) return default;
+            if (response == null || response.Content == null) return default;
 
             // 读取响应报文
             var content = await response.Content.ReadAsStringAsync(cancellationToken);
@@ -482,9 +482,9 @@ namespace Furion.RemoteRequest
             else
             {
                 // 读取错误消息
-                var errors = exception == null
+                var errors = exception == null && response != null
                     ? await response.Content.ReadAsStringAsync(cancellationToken)
-                    : exception.Message;
+                    : exception?.Message;
 
                 // 打印失败请求
                 App.PrintToMiniProfiler(MiniProfilerCategory, "Failed", $"[StatusCode: {response?.StatusCode}] {errors}", true);
