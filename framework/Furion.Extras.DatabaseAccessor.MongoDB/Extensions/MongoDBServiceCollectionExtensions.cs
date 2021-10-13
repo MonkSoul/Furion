@@ -46,7 +46,7 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <param name="settings"></param>
         /// <param name="dbName">数据库名称</param>
         /// <returns></returns>
-        public static IServiceCollection AddMongoDB(this IServiceCollection services, MongoClientSettings settings,string dbName="furion")
+        public static IServiceCollection AddMongoDB(this IServiceCollection services, MongoClientSettings settings, string dbName = "furion")
         {
             // 创建数据库连接对象
             services.AddScoped<IMongoDatabase>(u =>

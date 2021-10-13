@@ -1,16 +1,14 @@
 ﻿// Copyright (c) 2020-2021 百小僧, Baiqian Co.,Ltd.
 // Furion is licensed under Mulan PSL v2.
-// You can use this software according to the terms and conditions of the Mulan PSL v2. 
+// You can use this software according to the terms and conditions of the Mulan PSL v2.
 // You may obtain a copy of Mulan PSL v2 at:
-//             https://gitee.com/dotnetchina/Furion/blob/master/LICENSE 
-// THIS SOFTWARE IS PROVIDED ON AN "AS IS" BASIS, WITHOUT WARRANTIES OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO NON-INFRINGEMENT, MERCHANTABILITY OR FIT FOR A PARTICULAR PURPOSE.  
+//             https://gitee.com/dotnetchina/Furion/blob/master/LICENSE
+// THIS SOFTWARE IS PROVIDED ON AN "AS IS" BASIS, WITHOUT WARRANTIES OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO NON-INFRINGEMENT, MERCHANTABILITY OR FIT FOR A PARTICULAR PURPOSE.
 // See the Mulan PSL v2 for more details.
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -22,7 +20,7 @@ namespace MongoDB.Driver
     public static partial class IAsyncCursorSourceExtensions
     {
         /// <summary>
-        /// 
+        /// 查找第一个
         /// </summary>
         /// <typeparam name="TDocument"></typeparam>
         /// <typeparam name="TNewProjection"></typeparam>
@@ -35,7 +33,7 @@ namespace MongoDB.Driver
         }
 
         /// <summary>
-        /// 
+        /// 查找第一个
         /// </summary>
         /// <typeparam name="TDocument"></typeparam>
         /// <typeparam name="TNewProjection"></typeparam>
@@ -48,7 +46,7 @@ namespace MongoDB.Driver
         }
 
         /// <summary>
-        /// 
+        /// ToList
         /// </summary>
         /// <typeparam name="TDocument"></typeparam>
         /// <typeparam name="TNewProjection"></typeparam>
@@ -61,7 +59,7 @@ namespace MongoDB.Driver
         }
 
         /// <summary>
-        /// 
+        /// ToListAsync
         /// </summary>
         /// <typeparam name="TDocument"></typeparam>
         /// <typeparam name="TNewProjection"></typeparam>
@@ -127,7 +125,7 @@ namespace MongoDB.Driver
         /// <returns></returns>
         public static async Task<MongoDBPagedList<TDocument>> ToPagedListAsync<TDocument>(this IFindFluent<TDocument, TDocument> entities, int pageIndex = 1, int pageSize = 20, CancellationToken cancellationToken = default)
         {
-            return await entities.ToPagedListAsync(a => a, pageIndex, pageSize);
+            return await entities.ToPagedListAsync(a => a, pageIndex, pageSize, cancellationToken: cancellationToken);
         }
 
         /// <summary>
@@ -145,8 +143,8 @@ namespace MongoDB.Driver
         {
             if (pageIndex <= 0) throw new InvalidOperationException($"{nameof(pageIndex)} must be a positive integer greater than 0.");
 
-            var totalCount = await entities.CountDocumentsAsync();
-            var items = entities.Skip((pageIndex - 1) * pageSize).Limit(pageSize).Project(projection).ToEnumerable();
+            var totalCount = await entities.CountDocumentsAsync(cancellationToken);
+            var items = entities.Skip((pageIndex - 1) * pageSize).Limit(pageSize).Project(projection).ToEnumerable(cancellationToken: cancellationToken);
             var totalPages = (int)Math.Ceiling(totalCount / (double)pageSize);
 
             return new MongoDBPagedList<TNewProjection>

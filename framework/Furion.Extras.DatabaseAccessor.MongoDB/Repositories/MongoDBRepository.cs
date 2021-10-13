@@ -1,9 +1,9 @@
 ﻿// Copyright (c) 2020-2021 百小僧, Baiqian Co.,Ltd.
 // Furion is licensed under Mulan PSL v2.
-// You can use this software according to the terms and conditions of the Mulan PSL v2. 
+// You can use this software according to the terms and conditions of the Mulan PSL v2.
 // You may obtain a copy of Mulan PSL v2 at:
-//             https://gitee.com/dotnetchina/Furion/blob/master/LICENSE 
-// THIS SOFTWARE IS PROVIDED ON AN "AS IS" BASIS, WITHOUT WARRANTIES OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO NON-INFRINGEMENT, MERCHANTABILITY OR FIT FOR A PARTICULAR PURPOSE.  
+//             https://gitee.com/dotnetchina/Furion/blob/master/LICENSE
+// THIS SOFTWARE IS PROVIDED ON AN "AS IS" BASIS, WITHOUT WARRANTIES OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO NON-INFRINGEMENT, MERCHANTABILITY OR FIT FOR A PARTICULAR PURPOSE.
 // See the Mulan PSL v2 for more details.
 
 using Microsoft.Extensions.DependencyInjection;
@@ -30,6 +30,7 @@ namespace MongoDB.Driver
         /// 构造函数
         /// </summary>
         /// <param name="serviceProvider">服务提供器</param>
+        /// <param name="db"></param>
         public MongoDBRepository(IServiceProvider serviceProvider, IMongoDatabase db)
         {
             _serviceProvider = serviceProvider;
@@ -165,7 +166,7 @@ namespace MongoDB.Driver
         /// 直接返回数据库结果
         /// </summary>
         /// <returns></returns>
-        public async virtual Task<List<TDocument>> AsAsyncEnumerable()
+        public virtual async Task<List<TDocument>> AsAsyncEnumerable()
         {
             return await Task.FromResult(AsQueryable().ToList());
         }
@@ -175,7 +176,7 @@ namespace MongoDB.Driver
         /// </summary>
         /// <param name="predicate"></param>
         /// <returns></returns>
-        public async virtual Task<List<TDocument>> AsAsyncEnumerable(Expression<Func<TDocument, bool>> predicate)
+        public virtual async Task<List<TDocument>> AsAsyncEnumerable(Expression<Func<TDocument, bool>> predicate)
         {
             return await Task.FromResult(AsQueryable(predicate).ToList());
         }
@@ -195,7 +196,7 @@ namespace MongoDB.Driver
         /// </summary>
         /// <param name="predicate">条件</param>
         /// <returns></returns>
-        public async virtual Task<bool> ExistsAsync(Expression<Func<TDocument, bool>> predicate)
+        public virtual async Task<bool> ExistsAsync(Expression<Func<TDocument, bool>> predicate)
         {
             return await Task.FromResult(Entities.AsQueryable().Any(predicate));
         }
@@ -232,7 +233,7 @@ namespace MongoDB.Driver
         /// 获取记录数
         /// </summary>
         /// <returns></returns>
-        public async virtual Task<long> CountAsync()
+        public virtual async Task<long> CountAsync()
         {
             return await CountAsync(new BsonDocument());
         }
@@ -242,7 +243,7 @@ namespace MongoDB.Driver
         /// </summary>
         /// <param name="expression">筛选条件</param>
         /// <returns></returns>
-        public async virtual Task<long> CountAsync(Expression<Func<TDocument, bool>> expression)
+        public virtual async Task<long> CountAsync(Expression<Func<TDocument, bool>> expression)
         {
             return await Entities.CountDocumentsAsync(expression);
         }
@@ -252,7 +253,7 @@ namespace MongoDB.Driver
         /// </summary>
         /// <param name="filter">过滤器</param>
         /// <returns></returns>
-        public async virtual Task<long> CountAsync(FilterDefinition<TDocument> filter)
+        public virtual async Task<long> CountAsync(FilterDefinition<TDocument> filter)
         {
             return await Entities.CountDocumentsAsync(filter);
         }
@@ -294,7 +295,7 @@ namespace MongoDB.Driver
         /// </summary>
         /// <param name="id">objectId</param>
         /// <returns></returns>
-        public async Task<TDocument> GetAsync(TKey id)
+        public virtual async Task<TDocument> GetAsync(TKey id)
         {
             return await Entities.Find(Builders<TDocument>.Filter.Eq(d => d.Id, id)).FirstOrDefaultAsync();
         }
@@ -327,7 +328,7 @@ namespace MongoDB.Driver
         /// 插入
         /// </summary>
         /// <param name="value">对象</param>
-        public void Insert(TDocument value)
+        public virtual void Insert(TDocument value)
         {
             Entities.InsertOne(value);
         }
@@ -337,7 +338,7 @@ namespace MongoDB.Driver
         /// </summary>
         /// <param name="value">对象</param>
         /// <returns></returns>
-        public async Task InsertAsync(TDocument value)
+        public virtual async Task InsertAsync(TDocument value)
         {
             await Entities.InsertOneAsync(value);
         }
@@ -346,7 +347,7 @@ namespace MongoDB.Driver
         /// 批量插入
         /// </summary>
         /// <param name="values">对象集合</param>
-        public void BatchInsert(IEnumerable<TDocument> values)
+        public virtual void BatchInsert(IEnumerable<TDocument> values)
         {
             Entities.InsertMany(values);
         }
@@ -356,7 +357,7 @@ namespace MongoDB.Driver
         /// </summary>
         /// <param name="values">对象集合</param>
         /// <returns></returns>
-        public async Task BatchInsertAsync(IEnumerable<TDocument> values)
+        public virtual async Task BatchInsertAsync(IEnumerable<TDocument> values)
         {
             await Entities.InsertManyAsync(values);
         }
@@ -392,7 +393,7 @@ namespace MongoDB.Driver
         /// <param name="id">记录ID</param>
         /// <param name="update">更新条件</param>
         /// <returns></returns>
-        public async virtual Task<UpdateResult> UpdateAsync(TKey id, UpdateDefinition<TDocument> update)
+        public virtual async Task<UpdateResult> UpdateAsync(TKey id, UpdateDefinition<TDocument> update)
         {
             return await UpdateAsync(Builders<TDocument>.Filter.Eq(d => d.Id, id), update);
         }
@@ -442,19 +443,18 @@ namespace MongoDB.Driver
         {
             var fieldList = new List<UpdateDefinition<TDocument>>();
 
-            var param = entity.Body as MemberInitExpression;
-            if (param != null)
+            if (entity.Body is MemberInitExpression param)
             {
                 foreach (var item in param.Bindings)
                 {
                     var propertyName = item.Member.Name;
                     object propertyValue = null;
-                    var memberAssignment = item as MemberAssignment;
-                    if (memberAssignment == null) continue;
+
+                    if (item is not MemberAssignment memberAssignment) continue;
+
                     if (memberAssignment.Expression.NodeType == ExpressionType.Constant)
                     {
-                        var constantExpression = memberAssignment.Expression as ConstantExpression;
-                        if (constantExpression != null)
+                        if (memberAssignment.Expression is ConstantExpression constantExpression)
                             propertyValue = constantExpression.Value;
                     }
                     else
@@ -468,6 +468,7 @@ namespace MongoDB.Driver
                     }
                 }
             }
+
             return Entities.UpdateOne(expression, Builders<TDocument>.Update.Combine(fieldList));
         }
 
@@ -477,7 +478,7 @@ namespace MongoDB.Driver
         /// <param name="filter">过滤器</param>
         /// <param name="update">更新条件</param>
         /// <returns></returns>
-        public async virtual Task<UpdateResult> UpdateAsync(FilterDefinition<TDocument> filter, UpdateDefinition<TDocument> update)
+        public virtual async Task<UpdateResult> UpdateAsync(FilterDefinition<TDocument> filter, UpdateDefinition<TDocument> update)
         {
             return await Entities.UpdateOneAsync(filter, update);
         }
@@ -488,7 +489,7 @@ namespace MongoDB.Driver
         /// <param name="expression">筛选条件</param>
         /// <param name="update">更新条件</param>
         /// <returns></returns>
-        public async virtual Task<UpdateResult> UpdateAsync<T>(Expression<Func<TDocument, bool>> expression,
+        public virtual async Task<UpdateResult> UpdateAsync<T>(Expression<Func<TDocument, bool>> expression,
             UpdateDefinition<TDocument> update)
         {
             return await Entities.UpdateOneAsync(expression, update);
@@ -500,7 +501,7 @@ namespace MongoDB.Driver
         /// <param name="expression">筛选条件</param>
         /// <param name="update">更新条件</param>
         /// <returns></returns>
-        public async virtual Task<UpdateResult> UpdateManyAsync(Expression<Func<TDocument, bool>> expression,
+        public virtual async Task<UpdateResult> UpdateManyAsync(Expression<Func<TDocument, bool>> expression,
             UpdateDefinition<TDocument> update)
         {
             return await Entities.UpdateManyAsync(expression, update);
@@ -512,24 +513,23 @@ namespace MongoDB.Driver
         /// <param name="expression">筛选条件</param>
         /// <param name="entity">更新条件</param>
         /// <returns></returns>
-        public async virtual Task<UpdateResult> UpdateAsync(Expression<Func<TDocument, bool>> expression,
+        public virtual async Task<UpdateResult> UpdateAsync(Expression<Func<TDocument, bool>> expression,
             Expression<Action<TDocument>> entity)
         {
             var fieldList = new List<UpdateDefinition<TDocument>>();
 
-            var param = entity.Body as MemberInitExpression;
-            if (param != null)
+            if (entity.Body is MemberInitExpression param)
             {
                 foreach (var item in param.Bindings)
                 {
                     var propertyName = item.Member.Name;
                     object propertyValue = null;
-                    var memberAssignment = item as MemberAssignment;
-                    if (memberAssignment == null) continue;
+
+                    if (item is not MemberAssignment memberAssignment) continue;
+
                     if (memberAssignment.Expression.NodeType == ExpressionType.Constant)
                     {
-                        var constantExpression = memberAssignment.Expression as ConstantExpression;
-                        if (constantExpression != null)
+                        if (memberAssignment.Expression is ConstantExpression constantExpression)
                             propertyValue = constantExpression.Value;
                     }
                     else
@@ -551,7 +551,7 @@ namespace MongoDB.Driver
         /// </summary>
         /// <param name="value">对象</param>
         /// <returns></returns>
-        public async virtual Task<ReplaceOneResult> UpdateAsync(TDocument value)
+        public virtual async Task<ReplaceOneResult> UpdateAsync(TDocument value)
         {
             return await Entities.ReplaceOneAsync(Builders<TDocument>.Filter.Eq(d => d.Id, value.Id), value);
         }
@@ -585,7 +585,7 @@ namespace MongoDB.Driver
         /// </summary>
         /// <param name="id">对象Id</param>
         /// <returns></returns>
-        public async virtual Task<DeleteResult> DeleteAsync(TKey id)
+        public virtual async Task<DeleteResult> DeleteAsync(TKey id)
         {
             return await Entities.DeleteOneAsync(Builders<TDocument>.Filter.Eq(d => d.Id, id));
         }
@@ -595,7 +595,7 @@ namespace MongoDB.Driver
         /// </summary>
         /// <param name="expression">查询条件</param>
         /// <returns></returns>
-        public async virtual Task<DeleteResult> DeleteAsync(Expression<Func<TDocument, bool>> expression)
+        public virtual async Task<DeleteResult> DeleteAsync(Expression<Func<TDocument, bool>> expression)
         {
             return await Entities.DeleteOneAsync(expression);
         }
@@ -636,7 +636,7 @@ namespace MongoDB.Driver
         /// </summary>
         /// <param name="ids">ID集合</param>
         /// <returns></returns>
-        public async virtual Task<DeleteResult> BatchDeleteAsync(IEnumerable<ObjectId> ids)
+        public virtual async Task<DeleteResult> BatchDeleteAsync(IEnumerable<ObjectId> ids)
         {
             var filter = Builders<TDocument>.Filter.In("_id", ids);
             return await Entities.DeleteManyAsync(filter);
@@ -647,7 +647,7 @@ namespace MongoDB.Driver
         /// </summary>
         /// <param name="filter">过滤器</param>
         /// <returns></returns>
-        public async virtual Task<DeleteResult> BatchDeleteAsync(FilterDefinition<TDocument> filter)
+        public virtual async Task<DeleteResult> BatchDeleteAsync(FilterDefinition<TDocument> filter)
         {
             return await Entities.DeleteManyAsync(filter);
         }
@@ -657,7 +657,7 @@ namespace MongoDB.Driver
         /// </summary>
         /// <param name="expression">筛选条件</param>
         /// <returns></returns>
-        public async virtual Task<DeleteResult> BatchDeleteAsync(Expression<Func<TDocument, bool>> expression)
+        public virtual async Task<DeleteResult> BatchDeleteAsync(Expression<Func<TDocument, bool>> expression)
         {
             return await Entities.DeleteManyAsync(expression);
         }
