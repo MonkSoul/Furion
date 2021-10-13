@@ -349,7 +349,21 @@ namespace Furion.RemoteRequest
             foreach (var item in headerParameters)
             {
                 var headersAttribute = item.Parameter.GetCustomAttribute<HeadersAttribute>(true);
-                if (item.Value != null) parameterHeaders.Add(headersAttribute.Key ?? item.Name, item.Value);
+                if (item.Value != null)
+                {
+                    // 处理参数传入 [Headers] IDictionary<string, object>  情况
+                    if (item.Value is IDictionary<string, object> dicHeaders)
+                    {
+                        foreach (var (key, value) in dicHeaders)
+                        {
+                            parameterHeaders.Add(key, value);
+                        }
+                    }
+                    else
+                    {
+                        parameterHeaders.Add(headersAttribute.Key ?? item.Name, item.Value);
+                    }
+                }
             }
 
             // 合并所有请求报文头
