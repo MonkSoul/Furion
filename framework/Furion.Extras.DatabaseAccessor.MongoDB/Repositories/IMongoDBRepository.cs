@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2020-2021 百小僧, Baiqian Co.,Ltd.
+// Copyright (c) 2020-2021 百小僧, Baiqian Co.,Ltd.
 // Furion is licensed under Mulan PSL v2.
 // You can use this software according to the terms and conditions of the Mulan PSL v2.
 // You may obtain a copy of Mulan PSL v2 at:
@@ -56,7 +56,6 @@ namespace MongoDB.Driver
     /// <typeparam name="TKey"></typeparam>
     public partial interface IMongoDBRepository<TDocument, TKey>
         where TDocument : IMongoDBEntity<TKey>, new()
-        where TKey : class
     {
         /// <summary>
         /// 文档集合
@@ -422,5 +421,14 @@ namespace MongoDB.Driver
         /// <returns></returns>
 
         Task<List<TDocument>> AsAsyncEnumerable(Expression<Func<TDocument, bool>> predicate);
+    }
+
+    /// <summary>
+    /// MongoDB 泛型仓储
+    /// </summary>
+    /// <typeparam name="TDocument"></typeparam>
+    public partial interface IMongoDBRepository<TDocument> : IMongoDBRepository<TDocument, ObjectId>
+        where TDocument : IMongoDBEntity<ObjectId>, new()
+    { 
     }
 }
