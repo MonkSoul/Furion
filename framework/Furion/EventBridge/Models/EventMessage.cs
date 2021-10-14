@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2020-2021 百小僧, Baiqian Co.,Ltd.
+// Copyright (c) 2020-2021 百小僧, Baiqian Co.,Ltd.
 // Furion is licensed under Mulan PSL v2.
 // You can use this software according to the terms and conditions of the Mulan PSL v2.
 // You may obtain a copy of Mulan PSL v2 at:
@@ -21,9 +21,10 @@ namespace Furion.EventBridge
         /// </summary>
         /// <param name="category"></param>
         /// <param name="eventId"></param>
+        /// <param name="messageId"></param>
         /// <param name="payload"></param>
-        public EventMessage(string category, string eventId, object payload = default)
-            : base(category, eventId, payload)
+        public EventMessage(string category, string eventId,string messageId, object payload = default)
+            : base(category, eventId, messageId, payload)
         {
         }
     }
@@ -39,11 +40,13 @@ namespace Furion.EventBridge
         /// </summary>
         /// <param name="category"></param>
         /// <param name="eventId"></param>
+        /// <param name="messageId"></param>
         /// <param name="payload"></param>
-        public EventMessage(string category, string eventId, TPayload payload = default)
+        public EventMessage(string category, string eventId,string messageId, TPayload payload = default)
         {
             Category = category;
             EventId = eventId;
+            MessageId = messageId;
             Payload = payload;
         }
 
@@ -51,6 +54,11 @@ namespace Furion.EventBridge
         /// 事件唯一 Id
         /// </summary>
         public string EventId { get; set; }
+
+        /// <summary>
+        /// 消息唯一标识
+        /// </summary>
+        public string MessageId { get; set; }
 
         /// <summary>
         /// 事件类别

@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2020-2021 百小僧, Baiqian Co.,Ltd.
+// Copyright (c) 2020-2021 百小僧, Baiqian Co.,Ltd.
 // Furion is licensed under Mulan PSL v2.
 // You can use this software according to the terms and conditions of the Mulan PSL v2.
 // You may obtain a copy of Mulan PSL v2 at:
@@ -37,7 +37,7 @@ namespace Furion.EventBridge
 
             // 解析事件消息元数据
             var eventStoreProvider = scoped.ServiceProvider.GetService<IEventStoreProvider>();
-            var eventMessageMetadata = await eventStoreProvider?.GetEventMessageAsync(eventMessage.Category, eventMessage.EventId);
+            var eventMessageMetadata = await eventStoreProvider?.GetEventMessageAsync(eventMessage.Category, eventMessage.EventId, eventMessage.MessageId);
             if (eventMessageMetadata == null) return;
 
             // 获取解析事件处理程序服务委托并创建事件处理程序
