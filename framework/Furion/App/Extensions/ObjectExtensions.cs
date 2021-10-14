@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2020-2021 百小僧, Baiqian Co.,Ltd.
+// Copyright (c) 2020-2021 百小僧, Baiqian Co.,Ltd.
 // Furion is licensed under Mulan PSL v2.
 // You can use this software according to the terms and conditions of the Mulan PSL v2.
 // You may obtain a copy of Mulan PSL v2 at:
@@ -42,6 +42,16 @@ namespace Furion.Extensions
         }
 
         /// <summary>
+        /// 将 DateTimeOffset? 转换成本地 DateTime?
+        /// </summary>
+        /// <param name="dateTime"></param>
+        /// <returns></returns>
+        public static DateTime? ConvertToDateTime(this DateTimeOffset? dateTime)
+        {
+            return dateTime.HasValue ? dateTime.Value.ConvertToDateTime() : null;
+        }
+
+        /// <summary>
         /// 将 DateTime 转换成 DateTimeOffset
         /// </summary>
         /// <param name="dateTime"></param>
@@ -49,6 +59,16 @@ namespace Furion.Extensions
         public static DateTimeOffset ConvertToDateTimeOffset(this DateTime dateTime)
         {
             return DateTime.SpecifyKind(dateTime, DateTimeKind.Local);
+        }
+
+        /// <summary>
+        /// 将 DateTime? 转换成 DateTimeOffset?
+        /// </summary>
+        /// <param name="dateTime"></param>
+        /// <returns></returns>
+        public static DateTimeOffset? ConvertToDateTimeOffset(this DateTime? dateTime)
+        {
+            return dateTime.HasValue ? dateTime.Value.ConvertToDateTimeOffset() : null;
         }
 
         /// <summary>
