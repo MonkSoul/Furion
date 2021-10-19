@@ -23,7 +23,7 @@ namespace Furion.EventBridge
         /// <param name="eventId"></param>
         /// <param name="messageId"></param>
         /// <param name="payload"></param>
-        public EventMessage(string category, string eventId,string messageId, object payload = default)
+        public EventMessage(string category, string eventId, string messageId, object payload = default)
             : base(category, eventId, messageId, payload)
         {
         }
@@ -42,7 +42,7 @@ namespace Furion.EventBridge
         /// <param name="eventId"></param>
         /// <param name="messageId"></param>
         /// <param name="payload"></param>
-        public EventMessage(string category, string eventId,string messageId, TPayload payload = default)
+        public EventMessage(string category, string eventId, string messageId, TPayload payload = default)
         {
             Category = category;
             EventId = eventId;

@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2020-2021 百小僧, Baiqian Co.,Ltd.
+// Copyright (c) 2020-2021 百小僧, Baiqian Co.,Ltd.
 // Furion is licensed under Mulan PSL v2.
 // You can use this software according to the terms and conditions of the Mulan PSL v2.
 // You may obtain a copy of Mulan PSL v2 at:
@@ -7,6 +7,7 @@
 // See the Mulan PSL v2 for more details.
 
 using Furion.DependencyInjection;
+using Furion.DistributedIDGenerator;
 using Furion.Extensions;
 using Furion.IPCChannel;
 using Furion.JsonSerialization;
@@ -61,6 +62,7 @@ namespace Furion.EventBridge
                 CreatedTime = DateTimeOffset.UtcNow,
                 TypeFullName = eventHandlerMetadata.TypeFullName,
                 EventId = eventCombines[1],
+                MessageId = IDGen.NextID().ToString(),
                 Payload = nonPayload ? default : (payloadType.IsValueType ? payload.ToString() : JSON.Serialize(payload)),
                 PayloadAssemblyName = nonPayload ? default : Reflect.GetAssemblyName(payloadType),
                 PayloadTypeFullName = nonPayload ? default : payloadType.FullName,
@@ -101,7 +103,7 @@ namespace Furion.EventBridge
         {
             // 反射创建承载数据
             var payload = DeserializePayload(eventMessageMetadata);
-            await ChannelContext<EventMessage, EventDispatcher>.BoundedChannel.Writer.WriteAsync(new EventMessage(eventMessageMetadata.Category, eventMessageMetadata.EventId, payload));
+            await ChannelContext<EventMessage, EventDispatcher>.BoundedChannel.Writer.WriteAsync(new EventMessage(eventMessageMetadata.Category, eventMessageMetadata.EventId, eventMessageMetadata.MessageId, payload));
         }
 
         /// <summary>
