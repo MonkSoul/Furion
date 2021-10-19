@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2020-2021 百小僧, Baiqian Co.,Ltd.
+// Copyright (c) 2020-2021 百小僧, Baiqian Co.,Ltd.
 // Furion is licensed under Mulan PSL v2.
 // You can use this software according to the terms and conditions of the Mulan PSL v2.
 // You may obtain a copy of Mulan PSL v2 at:
@@ -42,8 +42,9 @@ namespace Furion.EventBridge
         /// </summary>
         /// <param name="category"></param>
         /// <param name="eventId"></param>
+        /// <param name="messageId">消息唯一Id</param>
         /// <returns></returns>
-        Task<EventMessageMetadata> GetEventMessageAsync(string category, string eventId);
+        Task<EventMessageMetadata> GetEventMessageAsync(string category, string eventId, string messageId);
 
         /// <summary>
         /// 成功执行一条消息
