@@ -7,6 +7,27 @@
 > - 如果涉及到代码重构，则当天发版，次版本号 `加 1`，修订版本号 `清 0`。
 > - 如果 `.NET SDK` 主版本号升级，则当天发版，主版本号 `加 1`。
 
+## v2.20（未发布）
+
+- **新特性**
+
+  - [新增] 远程请求代理模式请求报文头支持 `IDictionary<string ,object>` 类型。[0204c0a](https://gitee.com/dotnetchina/Furion/commit/0204c0afe2de5c28ebbd44b29131e701b93ae8b8)
+  - [新增] `MongoDB` 拓展类，添加更多常用操作方法 [!423](https://gitee.com/dotnetchina/Furion/pulls/423)
+  - [新增] `DateTimeOffset?` 转换 `DateTime` 拓展（包含互换） [!432](https://gitee.com/dotnetchina/Furion/pulls/432)
+
+- **问题修复**
+
+  - [修复] 远程请求 `404` 不走异常过滤器问题 [!426](https://gitee.com/dotnetchina/Furion/pulls/423)
+  - [修复] 自定义事件总线并发情况下调用完成后无法正确处理队列数据 [!429](https://gitee.com/dotnetchina/Furion/pulls/429)
+  - [修复] `v2.19+` 版本之后模块化开发加载外部程序集失效问题 [!433](https://gitee.com/dotnetchina/Furion/pulls/433)
+  - [修复] 定时任务 SpareTime 频繁检查导致 CPU 增高问题 [aa0a2ee](https://gitee.com/dotnetchina/Furion/commit/aa0a2eec95f6ed2b74c681877498900726267d82)
+
+- **特别鸣谢**
+
+  - [YaChengMu](https://gitee.com/YaChengMu)
+
+---
+
 ## v2.19（当前版本）
 
 - **新特性**
