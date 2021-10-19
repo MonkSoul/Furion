@@ -432,7 +432,7 @@ namespace Furion.Extensions
                 if (pos != -1 && !endCleared && str.EndsWith(affix, StringComparison.OrdinalIgnoreCase))
                 {
                     var _tempStr = !string.IsNullOrWhiteSpace(tempStr) ? tempStr : str;
-                    tempStr = _tempStr.Substring(0, _tempStr.Length - affix.Length);
+                    tempStr = _tempStr[..^affix.Length];
                     endCleared = true;
                 }
                 if (startCleared && endCleared) break;
