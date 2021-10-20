@@ -20,7 +20,8 @@ namespace Furion.DependencyInjection
         /// 构造函数
         /// </summary>
         /// <param name="expectInterfaces"></param>
-        public InjectionAttribute(params Type[] expectInterfaces):this(InjectionActions.Add, expectInterfaces)
+        public InjectionAttribute(params Type[] expectInterfaces)
+            : this(InjectionActions.Add, expectInterfaces)
         {
         }
 

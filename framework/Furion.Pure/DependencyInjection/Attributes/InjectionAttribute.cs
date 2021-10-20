@@ -21,11 +21,8 @@ namespace Furion.DependencyInjection
         /// </summary>
         /// <param name="expectInterfaces"></param>
         public InjectionAttribute(params Type[] expectInterfaces)
+            : this(InjectionActions.Add, expectInterfaces)
         {
-            Action = InjectionActions.Add;
-            Pattern = InjectionPatterns.All;
-            ExpectInterfaces = expectInterfaces ?? Array.Empty<Type>();
-            Order = 0;
         }
 
         /// <summary>
