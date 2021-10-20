@@ -123,7 +123,7 @@ namespace Furion.EventBridge
             {
                 var payloadType = method.GetParameters()[0].ParameterType.GetGenericArguments().First();
                 payload = Activator.CreateInstance(method.GetParameters()[0].ParameterType
-                    , new object[] { eventMessage.Category, eventMessage.EventId, eventMessage.Payload.ChangeType(payloadType) });
+                    , new object[] { eventMessage.Category, eventMessage.EventId, eventMessage.MessageId, eventMessage.Payload.ChangeType(payloadType) });
             }
             else payload = eventMessage;
             return payload;
