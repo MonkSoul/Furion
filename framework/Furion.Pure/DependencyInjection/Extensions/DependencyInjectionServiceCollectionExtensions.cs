@@ -94,7 +94,7 @@ namespace Microsoft.Extensions.DependencyInjection
                 var interfaces = type.GetInterfaces();
 
                 // 获取所有能注册的接口
-                var canInjectInterfaces = interfaces.Where(u => !injectionAttribute.ExpectInterfaces.Contains(u)
+                var canInjectInterfaces = interfaces.Where(u => !injectionAttribute.ExceptInterfaces.Contains(u)
                                 && u != typeof(IPrivateDependency)
                                 && u != typeof(IDynamicApiController)
                                 && !lifetimeInterfaces.Contains(u)

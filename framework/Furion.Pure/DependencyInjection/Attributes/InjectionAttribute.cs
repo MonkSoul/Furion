@@ -19,9 +19,9 @@ namespace Furion.DependencyInjection
         /// <summary>
         /// 构造函数
         /// </summary>
-        /// <param name="expectInterfaces"></param>
-        public InjectionAttribute(params Type[] expectInterfaces)
-            : this(InjectionActions.Add, expectInterfaces)
+        /// <param name="exceptInterfaces"></param>
+        public InjectionAttribute(params Type[] exceptInterfaces)
+            : this(InjectionActions.Add, exceptInterfaces)
         {
         }
 
@@ -29,12 +29,12 @@ namespace Furion.DependencyInjection
         /// 构造函数
         /// </summary>
         /// <param name="action"></param>
-        /// <param name="expectInterfaces"></param>
-        public InjectionAttribute(InjectionActions action, params Type[] expectInterfaces)
+        /// <param name="exceptInterfaces"></param>
+        public InjectionAttribute(InjectionActions action, params Type[] exceptInterfaces)
         {
             Action = action;
             Pattern = InjectionPatterns.All;
-            ExpectInterfaces = expectInterfaces ?? Array.Empty<Type>();
+            ExceptInterfaces = exceptInterfaces ?? Array.Empty<Type>();
             Order = 0;
         }
 
@@ -62,7 +62,7 @@ namespace Furion.DependencyInjection
         /// <summary>
         /// 排除接口
         /// </summary>
-        public Type[] ExpectInterfaces { get; set; }
+        public Type[] ExceptInterfaces { get; set; }
 
         /// <summary>
         /// 代理类型，必须继承 DispatchProxy、IDispatchProxy
