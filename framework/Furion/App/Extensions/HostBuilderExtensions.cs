@@ -28,8 +28,14 @@ namespace Microsoft.Extensions.Hosting
         public static IWebHostBuilder Inject(this IWebHostBuilder hostBuilder, string assemblyName = default)
         {
             var frameworkPackageName = assemblyName ?? Reflect.GetAssemblyName(typeof(HostBuilderExtensions));
-            hostBuilder.UseSetting(WebHostDefaults.HostingStartupAssembliesKey, frameworkPackageName);
-
+            //Start 将环境变量合并进去支持通用的ihoststartup
+            var hostServiceEnv = Environment.GetEnvironmentVariable("ASPNETCORE_HOSTINGSTARTUPASSEMBLIES");
+            hostServiceEnv = frameworkPackageName + ";" + hostServiceEnv;
+            var hostServiceArr = hostServiceEnv.Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
+            hostServiceEnv = hostServiceArr.Distinct().Aggregate((a, b) => a + ";" + b);
+            
+            hostBuilder.UseSetting(WebHostDefaults.HostingStartupAssembliesKey, hostServiceEnv);
+            //End 将环境变量合并进去支持通用的ihoststartup
             return hostBuilder;
         }
 
