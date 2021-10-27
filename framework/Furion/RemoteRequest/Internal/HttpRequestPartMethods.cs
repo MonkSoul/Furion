@@ -538,7 +538,7 @@ namespace Furion.RemoteRequest
                     }
 
                     // 设置内容类型
-                    multipartFormDataContent.Headers.ContentType = new MediaTypeHeaderValue(ContentType);
+                    //multipartFormDataContent.Headers.ContentType = new MediaTypeHeaderValue(ContentType);
                     httpContent = multipartFormDataContent;
                     break;
 
