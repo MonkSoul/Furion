@@ -7,28 +7,31 @@
 > - 如果涉及到代码重构，则当天发版，次版本号 `加 1`，修订版本号 `清 0`。
 > - 如果 `.NET SDK` 主版本号升级，则当天发版，主版本号 `加 1`。
 
-## v2.20（未发布）
+## v2.20（当前版本）
 
-- **新特性**
+:::warning v2.20+ 版本说明
 
-  - [新增] 远程请求代理模式请求报文头支持 `IDictionary<string ,object>` 类型。[0204c0a](https://gitee.com/dotnetchina/Furion/commit/0204c0afe2de5c28ebbd44b29131e701b93ae8b8)
-  - [新增] `MongoDB` 拓展类，添加更多常用操作方法 [!423](https://gitee.com/dotnetchina/Furion/pulls/423)
-  - [新增] `DateTimeOffset?` 转换 `DateTime` 拓展（包含互换） [!432](https://gitee.com/dotnetchina/Furion/pulls/432)
+**在 `Furion v2.20+` 版本后采用 [Jaina](https://gitee.com/dotnetchina/Jaina) 事件总线替换原有的 `EventBus`**
+
+:::
+
+- **突破性变化**
+
+  - [重构] `EventBus` 模块，采用 [Jaina](https://gitee.com/dotnetchina/Jaina) 方式
 
 - **问题修复**
 
-  - [修复] 远程请求 `404` 不走异常过滤器问题 [!426](https://gitee.com/dotnetchina/Furion/pulls/423)
-  - [修复] 自定义事件总线并发情况下调用完成后无法正确处理队列数据 [!429](https://gitee.com/dotnetchina/Furion/pulls/429)
-  - [修复] `v2.19+` 版本之后模块化开发加载外部程序集失效问题 [!433](https://gitee.com/dotnetchina/Furion/pulls/433)
-  - [修复] 定时任务 SpareTime 频繁检查导致 CPU 增高问题 [aa0a2ee](https://gitee.com/dotnetchina/Furion/commit/aa0a2eec95f6ed2b74c681877498900726267d82)
+  - [修复] 远程请求上传文件异常 [0c0752](https://gitee.com/dotnetchina/Furion/commit/0c0752c624799d7d3c7661a8f36a93983399bb59)
+  - [修复] 框架启动不支持环境变量 `ASPNETCORE_HOSTINGSTARTUPASSEMBLIES` 配置 [!438](https://gitee.com/dotnetchina/Furion/pulls/438)
+  - [修正] 依赖注入 `InjectionAttribute` 特性的 `ExceptInterfaces` 单词拼写错误问题 [!436](https://gitee.com/dotnetchina/Furion/pulls/436)
 
-- **特别鸣谢**
+- **其他更改**
 
-  - [YaChengMu](https://gitee.com/YaChengMu)
+  - [优化] `InjectionAttribute` 代码 [!435](https://gitee.com/dotnetchina/Furion/pulls/435)
 
 ---
 
-## v2.19（当前版本）
+## v2.19（已发布）
 
 - **新特性**
 
@@ -36,6 +39,9 @@
   - [新增] 执行 `Sql` 支持 `JsonElement` 参数 [61985d6](https://gitee.com/dotnetchina/Furion/commit/61985d6a300485d553cbe8461b01f01bcd0936ef)
   - [新增] `Swagger` 配置枚举及标签排序过滤器 [#I46LON](https://gitee.com/dotnetchina/Furion/issues/I46LON) [!404](https://gitee.com/dotnetchina/Furion/pulls/404)
   - [新增] 远程请求 `application/octet-stream` 类型默认支持 [d9bad03](https://gitee.com/dotnetchina/Furion/commit/d9bad0320cc4a204e24bc3a070517ebce4cdc5d7)
+  - [新增] 远程请求代理模式请求报文头支持 `IDictionary<string ,object>` 类型。[0204c0a](https://gitee.com/dotnetchina/Furion/commit/0204c0afe2de5c28ebbd44b29131e701b93ae8b8)
+  - [新增] `MongoDB` 拓展类，添加更多常用操作方法 [!423](https://gitee.com/dotnetchina/Furion/pulls/423)
+  - [新增] `DateTimeOffset?` 转换 `DateTime` 拓展（包含互换） [!432](https://gitee.com/dotnetchina/Furion/pulls/432)
 
 - **问题修复**
 
@@ -50,8 +56,14 @@
   - [修复] 远程请求 `multipart/form-data` 类型对接微信小程序上传文件 问题 [d9bad03](https://gitee.com/dotnetchina/Furion/commit/d9bad0320cc4a204e24bc3a070517ebce4cdc5d7)
   - [修复] 工作单元上下文在某些情况下共享事务失效问题 [006d439](https://gitee.com/dotnetchina/Furion/commit/006d439de3357d4d58ea6d7d3f9d51771a7b604e)
   - [修复] `Swagger` 枚举值在 `GET` 请求中 `Schema` 显示不正确问题 [fb72fd7](https://gitee.com/dotnetchina/Furion/commit/fb72fd7c98de5bf2246dd1bf08200152bd7ab7a0)
+  - [修复] 远程请求 `404` 不走异常过滤器问题 [!426](https://gitee.com/dotnetchina/Furion/pulls/423)
+  - [修复] 自定义事件总线并发情况下调用完成后无法正确处理队列数据 [!429](https://gitee.com/dotnetchina/Furion/pulls/429)
+  - [修复] `v2.19+` 版本之后模块化开发加载外部程序集失效问题 [!433](https://gitee.com/dotnetchina/Furion/pulls/433)
+  - [修复] 定时任务 SpareTime 频繁检查导致 CPU 增高问题 [aa0a2ee](https://gitee.com/dotnetchina/Furion/commit/aa0a2eec95f6ed2b74c681877498900726267d82)
 
-- **文档**
+- **特别鸣谢**
+
+  - [YaChengMu](https://gitee.com/YaChengMu)
 
 ---
 

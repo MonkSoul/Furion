@@ -1,154 +1,346 @@
 ---
 id: event-bus
 title: 22. 事件总线
-sidebar_label: 22. 事件总线
+sidebar_label: 22. 事件总线（New）
 ---
 
 import useBaseUrl from "@docusaurus/useBaseUrl";
 
-:::warning v2.19+ 版本说明
+:::warning v2.20 以下版本说明
 
-**在 `Furion v2.19+` 版本后，对事件总线进行了重构，以下内容不再适合，后续将重写该文档，查看新的使用说明可查阅 `Issue`：[https://gitee.com/dotnetchina/Furion/issues/I46X02](https://gitee.com/dotnetchina/Furion/issues/I46X02)**
+**在 `Furion v2.20+` 版本后采用 [Jaina](https://gitee.com/dotnetchina/Jaina) 事件总线替换原有的 `EventBus`**，[查看旧文档](./event-bus-old)
 
 :::
 
-## 22.1 什么是事件总线
+## 25.1 快速入门
 
-事件总线是对发布-订阅模式的一种实现。它是一种集中式事件处理机制，允许不同的组件之间进行彼此通信而又不需要相互依赖，达到一种解耦的目的。
+1. 定义事件订阅者 `ToDoEventSubscriber`：
 
-我们来看看事件总线的处理流程：
-
-<img src={useBaseUrl("img/event1.png")} />
-
-## 22.2 `MessageCenter` 消息中心
-
-在 `Furion` 框架中，实现了一种轻量级的事件总线实现机制：`MessageCenter`（消息中心），`MessageCenter` 采用字符串消息机制进行广播， 可以在绝大多数中小型项目中发挥作用，缺点是消息处理是在主线程中完成并且消息不支持分布式存储。
-
-另外，`MessageCenter` 支持单播、多播发布及多订阅。如图所示：
-
-<img src={useBaseUrl("img/event2.png")} />
-
-### 22.2.1 注册 `轻量级事件总线服务`
-
-如果想使用 `MessageCenter` 轻量级事件总线，只需要在 `Startup.cs` 中注册服务即可，如：
-
-```cs {3}
-public void ConfigureServices(IServiceCollection services)
+```cs {2,10-11,19-21}
+// 实现 IEventSubscriber 接口
+public class ToDoEventSubscriber : IEventSubscriber
 {
-    services.AddSimpleEventBus();
-}
-```
-
-### 22.2.2 定义订阅处理程序
-
-`MessageCenter` 是根据 `MesseageId` 消息 Id 来触发对应的处理程序的，所以我们需要定义 `订阅处理程序类`，该类需实现 `ISubscribeHandler` 接口，如：
-
-```cs {1,4-5,11-13}
-public class UserChangeSubscribeHandler : ISubscribeHandler
-{
-    // 定义一条消息
-    [SubscribeMessage("create:user")]
-    public void CreateUser(string eventId, object payload)
+    private readonly ILogger<ToDoEventSubscriber> _logger;
+    public ToDoEventSubscriber(ILogger<ToDoEventSubscriber> logger)
     {
-        Console.WriteLine("我是"+eventId);
+        _logger = logger;
     }
 
-    // 多条消息共用同一个处理程序
-    [SubscribeMessage("delete:user")]
-    [SubscribeMessage("remove:user")]
-    public void RemoveUser(string eventId, object payload)
+    [EventSubscribe("ToDo:Create")]
+    public async Task CreateToDo(EventHandlerExecutingContext context)
     {
-        Console.WriteLine("我是"+eventId);
+        var todo = context.Source;
+        _logger.LogInformation("创建一个 ToDo：{Name}", todo.Payload);
+        await Task.CompletedTask;
     }
 
-    // 支持异步
-    [SubscribeMessage("delete:user")]
-    public async Task SupportAsync(string eventId, object payload)
+    // 支持多个
+    [EventSubscribe("ToDo:Create")]
+    [EventSubscribe("ToDo:Update")]
+    public async Task CreateOrUpdateToDo(EventHandlerExecutingContext context)
     {
-        await MethodAsync();
+        var todo = context.Source;
+        _logger.LogInformation("创建或更新一个 ToDo：{Name}", todo.Payload);
+        await Task.CompletedTask;
     }
 }
 ```
 
-### 22.2.3 发布消息
+2. 创建控制器 `ToDoController`，依赖注入 `IEventPublisher` 服务：
 
-定义好订阅处理程序后，我们就可以在程序任何地方进行广播消息，事件总线会自动根据 `消息 Id` 触发对应的处理程序方法：
+```cs {4,13}
+public class ToDoController : ControllerBase
+{
+    // 依赖注入事件发布者 IEventPublisher
+    private readonly IEventPublisher _eventPublisher;
+    public ToDoController(IEventPublisher eventPublisher)
+    {
+        _eventPublisher = eventPublisher;
+    }
 
-```cs
-MessageCenter.Send("create:user", new User {}); // => 打印：我是create:user
-
-MessageCenter.Send("delete:user", new User {}); // => 打印：我是delete:user
-MessageCenter.Send("remove:user", new User {}); // => 打印：我是remove:user
+    // 发布 ToDo:Create 消息
+    public async Task CreateDoTo(string name)
+    {
+        await _eventPublisher.PublishAsync(new ChannelEventSource("ToDo:Create", name));
+    }
+}
 ```
 
-### 22.2.4 直接订阅消息
+3. 在 `Startup.cs` 注册 `EventBus` 服务：
 
-在上面的例子中，我们需要创建 `ISubscribeHandler` 的派生类进行相关配置才能实现订阅处理。
-
-在某些特殊情况下，可能只需要订阅一次即可。所以，在 `Furion` 框架中，为了更简便的订阅消息，也提供了 `MessageCenter.Subscribe<T>` 静态方法，如：
-
-```cs
-MessageCenter.Subscribe<User>("create:user", (i,p) => {
-    // do something。。。
+```cs {2,5}
+// 注册 EventBus 服务
+services.AddEventBus(buidler =>
+{
+    // 注册 ToDo 事件订阅者
+    buidler.AddSubscriber<ToDoEventSubscriber>();
 });
 ```
 
-## 22.3 同步方式执行
+4. 运行项目：
 
-默认情况下，事件总线总是采用新线程方式执行，但是我们可以配置为同步方式，如：
-
-```cs
-MessageCenter.Send("create:user", isSync: true);
+```bash
+info: Jaina.Samples.ToDoEventSubscriber[0]
+      创建一个 ToDo：Jaina
 ```
 
-## 22.4 关于依赖注入
+## 25.2 自定义事件源
 
-在 `Furion` 框架中，事件总线是不支持构造函数注入的，而且构造函数也只会执行一次。所以需要用到服务，应该通过静态类解析，`App.GetService<xx>()` 或 `Db.GetRepository<XX>()`。
+`Furion` 使用 `IEventSource` 作为消息载体，任何实现该接口的类都可以充当消息载体。
 
-```cs {5,12-20}
-public class UserChangeSubscribeHandler : ISubscribeHandler
+如需自定义，只需实现 `IEventSource` 接口即可：
+
+```cs {1,15,20,26,31}
+public class ToDoEventSource : IEventSource
 {
-    public UserChangeSubscribeHandler()
+    public ToDoEventSource(string eventId, string todoName)
     {
-        // 不支持这里解析服务！！！！！！！！！！！
+        EventId = eventId;
+        ToDoName = todoName;
     }
 
-    // 定义一条消息
-    [SubscribeMessage("create:user")]
-    public void CreateUser(string eventId, object payload)
-    {
-        // 创建一个作用域，对象使用完成自动释放
-        Scoped.Create((_, scope) =>
-        {
-            var services = scope.ServiceProvider;
+    // 自定义属性
+    public string ToDoName { get; }
 
-            var repository = Db.GetRepository<Person>(services);    // services 传递进去
-            var someService = App.GetService<ISomeService>(services);   // services 传递进去
-            var otherService = services.GetService<IOtherService>();    // 直接用 services 解析
-        });
+    /// <summary>
+    /// 事件 Id
+    /// </summary>
+    public string EventId { get; }
+
+    /// <summary>
+    /// 事件承载（携带）数据
+    /// </summary>
+    public object Payload { get; }
+
+    /// <summary>
+    /// 取消任务 Token
+    /// </summary>
+    /// <remarks>用于取消本次消息处理</remarks>
+    public CancellationToken CancellationToken { get; }
+
+    /// <summary>
+    /// 事件创建时间
+    /// </summary>
+    public DateTime CreatedTime { get; } = DateTime.UtcNow;
+}
+```
+
+使用：
+
+```cs
+await _eventPublisher.PublishAsync(new ToDoEventSource ("ToDo:Create", "我的 ToDo Name"));
+```
+
+## 25.3 自定义事件源存储器
+
+`Fruion` 默认采用 `Channel` 作为事件源 `IEventSource` 存储器，开发者可以使用任何消息队列组件进行替换，如 `Kafka、RabbitMQ、ActiveMQ` 等，也可以使用部分数据库 `Redis、SQL Server、MySql` 实现。
+
+如需自定义，只需实现 `IEventSourceStorer` 接口即可：
+
+```cs {1,11,17}
+public class RedisEventSourceStorer : IEventSourceStorer
+{
+    private readonly IRedisClient _redisClient;
+
+    public RedisEventSourceStorer(IRedisClient redisClient)
+    {
+        _redisClient = redisClient;
+    }
+
+    // 往 Redis 中写入一条
+    public async ValueTask WriteAsync(IEventSource eventSource, CancellationToken cancellationToken)
+    {
+        await _redisClient.WriteAsync(...., cancellationToken);
+    }
+
+    // 从 Redis 中读取一条
+    public async ValueTask<IEventSource> ReadAsync(CancellationToken cancellationToken)
+    {
+       return await _redisClient.ReadAsync(...., cancellationToken);
     }
 }
 ```
 
-:::note 关于 `App.GetService<TService>()` 解析服务
+最后，在注册 `EventBus` 服务中替换默认 `IEventSourceStorer`：
 
-在高频定时任务中调用`App.GetService(TService)`，可能会出现内存无法回收的情况，建议始终使用`scope.ServiceProvider.GetService(TService)`来获取`TService`
+```cs {4-8}
+services.AddEventBus(buidler =>
+{
+    // 替换事件源存储器
+    buidler.ReplaceStorer(serviceProvider =>
+    {
+        var redisClient = serviceProvider.GetService<IRedisClient>();
+        return new RedisEventSourceStorer(redisClient);
+    });
+});
+```
 
-:::
+## 25.4 自定义事件发布者
 
-:::important 数据库操作注意
+`Furion` 默认内置基于 `Channel` 的事件发布者 `ChannelEventPublisher`。
 
-如果作用域中对**数据库有任何变更操作**，需手动调用 `SaveChanges` 或带 `Now` 结尾的方法。也可以使用 `Scoped.CreateUow(handler)` 代替。
+如需自定义，只需实现 `IEventPublisher` 接口即可：
 
-:::
+```cs {1,10}
+public class ToDoEventPublisher : IEventPublisher
+{
+    private readonly IEventSourceStorer _eventSourceStorer;
 
-:::warning 关于依赖注入
+    public ChannelEventPublisher(IEventSourceStorer eventSourceStorer)
+    {
+        _eventSourceStorer = eventSourceStorer;
+    }
 
-`ISubscribeHandler` 接口主要是用来查找定义事件对象的，也就是它的实现类并未提供依赖注入功能，所以在实现类并不支持构造函数注入依赖项。
+    public async Task PublishAsync(IEventSource eventSource)
+    {
+        await _eventSourceStorer.WriteAsync(eventSource, eventSource.CancellationToken);
+    }
+}
+```
 
-:::
+最后，在注册 `EventBus` 服务中替换默认 `IEventPublisher`：
 
-## 22.5 反馈与建议
+```cs {4}
+services.AddEventBus(buidler =>
+{
+    // 替换事件源存储器
+    buidler.ReplacePublisher<ToDoEventPublisher>();
+});
+```
+
+## 25.5 添加事件执行监视器
+
+`Furion` 提供了 `IEventHandlerMonitor` 监视器接口，实现该接口可以监视所有订阅事件，包括 `执行之前、执行之后，执行异常，共享上下文数据`。
+
+如添加 `ToDoEventHandlerMonitor`：
+
+```cs {1,9,15}
+public class ToDoEventHandlerMonitor : IEventHandlerMonitor
+{
+    private readonly ILogger<ToDoEventHandlerMonitor> _logger;
+    public ToDoEventHandlerMonitor(ILogger<ToDoEventHandlerMonitor> logger)
+    {
+        _logger = logger;
+    }
+
+    public Task OnExecutingAsync(EventHandlerExecutingContext context)
+    {
+        _logger.LogInformation("执行之前：{EventId}", context.Source.EventId);
+        return Task.CompletedTask;
+    }
+
+    public Task OnExecutedAsync(EventHandlerExecutedContext context)
+    {
+        _logger.LogInformation("执行之后：{EventId}", context.Source.EventId);
+
+        if (context.Exception != null)
+        {
+            _logger.LogError(context.Exception, "执行出错啦：{EventId}", context.Source.EventId);
+        }
+
+        return Task.CompletedTask;
+    }
+}
+```
+
+最后，在注册 `EventBus` 服务中注册 `ToDoEventHandlerMonitor`：
+
+```cs {4}
+services.AddEventBus(buidler =>
+{
+    // 添加事件执行监视器
+    buidler.AddMonitor<ToDoEventHandlerMonitor>();
+});
+```
+
+## 25.6 添加事件执行器
+
+`Furion` 提供了 `IEventHandlerExecutor` 执行器接口，可以让开发者自定义事件处理函数执行策略，如 `超时控制，失败重试、熔断等等`。
+
+如添加 `RetryEventHandlerExecutor`：
+
+```cs {1,3}
+public class RetryEventHandlerExecutor : IEventHandlerExecutor
+{
+    public async Task ExecuteAsync(EventHandlerExecutingContext context, Func<EventHandlerExecutingContext, Task> handler)
+    {
+        // 如果执行失败，每隔 1s 重试，最多三次
+        await Retry(async () => {
+            await handler(context);
+        }, 3, 1000);
+    }
+}
+```
+
+最后，在注册 `EventBus` 服务中注册 `RetryEventHandlerExecutor`：
+
+```cs {4}
+services.AddEventBus(buidler =>
+{
+    // 添加事件执行器
+    buidler.AddExecutor<RetryEventHandlerExecutor>();
+});
+```
+
+## 25.6 使用有作用域的服务
+
+`Furion` 所有服务均注册为单例，如需使用作用域服务（单例服务可直接注入），可通过依赖注入 `IServiceProvider` 实例并通过 `CreateScope()` 创建一个作用域，如：
+
+```cs {5,8,12,17-21}
+public class ToDoEventSubscriber : IEventSubscriber
+{
+    private readonly ILogger<ToDoEventSubscriber> _logger;
+
+    public ToDoEventSubscriber(IServiceProvider services
+        , ILogger<ToDoEventSubscriber> logger)
+    {
+        Services = services;
+        _logger = logger;
+    }
+
+    public IServiceProvider Services { get; }
+
+    [EventSubscribe("ToDo:Create")]
+    public async Task CreateToDo(EventHandlerExecutingContext context)
+    {
+        using (var scope = Services.CreateScope())
+        {
+            var scopedProcessingService = scope.ServiceProvider.GetRequiredService<IScopedProcessingService>();
+            // ....
+        }
+    }
+}
+```
+
+## 22.7 订阅执行任务意外异常
+
+```cs {4}
+services.AddEventBus(buidler =>
+{
+    // 订阅 EventBus 未捕获异常
+    buidler.UnobservedTaskExceptionHandler = (obj, args) =>
+    {
+        // ....
+    };
+});
+```
+
+## 22.8 `EventBusOptionsBuilder` 配置
+
+`EventBusOptionsBuilder` 是 `AddEventBus` 构建服务选项，该选项包含以下属性和方法：
+
+- 属性
+  - `ChannelCapacity`：默认内存通道容量
+  - `UnobservedTaskExceptionHandler`：订阅执行任务未察觉异常
+- 方法
+  - `AddSubscriber<TEventSubscriber>`：添加订阅者
+  - `ReplacePublisher<TEventPublisher>`：替换发布者
+  - `ReplaceStorer(Func<IServiceProvider, IEventSourceStorer>)`：替换存储器
+  - `AddMonitor<TEventHandlerMonitor>`：添加监视器
+  - `AddExecutor<TEventHandlerExecutor>`：添加执行器
+
+
+## 22.9 反馈与建议
 
 :::note 与我们交流
 
