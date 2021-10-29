@@ -9,12 +9,6 @@
 
 ## v2.20（当前版本）
 
-:::warning v2.20+ 版本说明
-
-**在 `Furion v2.20+` 版本后采用 [Jaina](https://gitee.com/dotnetchina/Jaina) 事件总线替换原有的 `EventBus`**
-
-:::
-
 - **突破性变化**
 
   - [重构] `EventBus` 模块，采用 [Jaina](https://gitee.com/dotnetchina/Jaina) 方式
@@ -28,6 +22,10 @@
 - **其他更改**
 
   - [优化] `InjectionAttribute` 代码 [!435](https://gitee.com/dotnetchina/Furion/pulls/435)
+
+- **文档**
+
+  - [新增] 事件总线新文档
 
 ---
 
