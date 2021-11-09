@@ -8,26 +8,25 @@
 
 using System;
 
-namespace Furion.DatabaseAccessor
+namespace Furion.DatabaseAccessor;
+
+/// <summary>
+/// Sql 代理指定定位器特性
+/// </summary>
+[AttributeUsage(AttributeTargets.Interface | AttributeTargets.Method)]
+public sealed class SqlDbContextLocatorAttribute : Attribute
 {
     /// <summary>
-    /// Sql 代理指定定位器特性
+    /// 构造函数
     /// </summary>
-    [AttributeUsage(AttributeTargets.Interface | AttributeTargets.Method)]
-    public sealed class SqlDbContextLocatorAttribute : Attribute
+    /// <param name="dbContextLocator"></param>
+    public SqlDbContextLocatorAttribute(Type dbContextLocator)
     {
-        /// <summary>
-        /// 构造函数
-        /// </summary>
-        /// <param name="dbContextLocator"></param>
-        public SqlDbContextLocatorAttribute(Type dbContextLocator)
-        {
-            Locator = dbContextLocator;
-        }
-
-        /// <summary>
-        /// 定位器
-        /// </summary>
-        public Type Locator { get; set; } = typeof(MasterDbContextLocator);
+        Locator = dbContextLocator;
     }
+
+    /// <summary>
+    /// 定位器
+    /// </summary>
+    public Type Locator { get; set; } = typeof(MasterDbContextLocator);
 }

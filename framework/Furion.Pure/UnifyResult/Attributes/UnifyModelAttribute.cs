@@ -9,26 +9,25 @@
 using Furion.DependencyInjection;
 using System;
 
-namespace Furion.UnifyResult
+namespace Furion.UnifyResult;
+
+/// <summary>
+/// 规范化模型特性
+/// </summary>
+[SuppressSniffer, AttributeUsage(AttributeTargets.Class)]
+public class UnifyModelAttribute : Attribute
 {
     /// <summary>
-    /// 规范化模型特性
+    /// 规范化模型
     /// </summary>
-    [SuppressSniffer, AttributeUsage(AttributeTargets.Class)]
-    public class UnifyModelAttribute : Attribute
+    /// <param name="modelType"></param>
+    public UnifyModelAttribute(Type modelType)
     {
-        /// <summary>
-        /// 规范化模型
-        /// </summary>
-        /// <param name="modelType"></param>
-        public UnifyModelAttribute(Type modelType)
-        {
-            ModelType = modelType;
-        }
-
-        /// <summary>
-        /// 模型类型（泛型）
-        /// </summary>
-        public Type ModelType { get; set; }
+        ModelType = modelType;
     }
+
+    /// <summary>
+    /// 模型类型（泛型）
+    /// </summary>
+    public Type ModelType { get; set; }
 }

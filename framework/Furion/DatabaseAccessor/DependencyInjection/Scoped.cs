@@ -11,57 +11,56 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Threading.Tasks;
 
-namespace Furion.DependencyInjection
+namespace Furion.DependencyInjection;
+
+/// <summary>
+/// 创建作用域静态类
+/// </summary>
+public static partial class Scoped
 {
     /// <summary>
-    /// 创建作用域静态类
+    /// 创建一个工作单元作用域
     /// </summary>
-    public static partial class Scoped
+    /// <param name="handler"></param>
+    /// <param name="scopeFactory"></param>
+    public static void CreateUow(Action<IServiceScopeFactory, IServiceScope> handler, IServiceScopeFactory scopeFactory = default)
     {
-        /// <summary>
-        /// 创建一个工作单元作用域
-        /// </summary>
-        /// <param name="handler"></param>
-        /// <param name="scopeFactory"></param>
-        public static void CreateUow(Action<IServiceScopeFactory, IServiceScope> handler, IServiceScopeFactory scopeFactory = default)
+        CreateUow(async (fac, scope) =>
         {
-            CreateUow(async (fac, scope) =>
-            {
-                handler(fac, scope);
-                await Task.CompletedTask;
-            }, scopeFactory).GetAwaiter().GetResult();
+            handler(fac, scope);
+            await Task.CompletedTask;
+        }, scopeFactory).GetAwaiter().GetResult();
+    }
+
+    /// <summary>
+    /// 创建一个工作单元作用域
+    /// </summary>
+    /// <param name="handler"></param>
+    /// <param name="scopeFactory"></param>
+    public static async Task CreateUow(Func<IServiceScopeFactory, IServiceScope, Task> handler, IServiceScopeFactory scopeFactory = default)
+    {
+        // 禁止空调用
+        if (handler == null) throw new ArgumentNullException(nameof(handler));
+
+        // 创建作用域
+        var (scoped, serviceProvider) = CreateScope(ref scopeFactory);
+
+        try
+        {
+            // 创建一个数据库上下文池
+            var dbContextPool = scoped.ServiceProvider.GetService<IDbContextPool>();
+
+            // 执行方法
+            await handler(scopeFactory, scoped);
+
+            // 提交工作单元
+            dbContextPool.SavePoolNow();
         }
-
-        /// <summary>
-        /// 创建一个工作单元作用域
-        /// </summary>
-        /// <param name="handler"></param>
-        /// <param name="scopeFactory"></param>
-        public static async Task CreateUow(Func<IServiceScopeFactory, IServiceScope, Task> handler, IServiceScopeFactory scopeFactory = default)
+        finally
         {
-            // 禁止空调用
-            if (handler == null) throw new ArgumentNullException(nameof(handler));
-
-            // 创建作用域
-            var (scoped, serviceProvider) = CreateScope(ref scopeFactory);
-
-            try
-            {
-                // 创建一个数据库上下文池
-                var dbContextPool = scoped.ServiceProvider.GetService<IDbContextPool>();
-
-                // 执行方法
-                await handler(scopeFactory, scoped);
-
-                // 提交工作单元
-                dbContextPool.SavePoolNow();
-            }
-            finally
-            {
-                // 释放
-                scoped.Dispose();
-                if (serviceProvider != null) await serviceProvider.DisposeAsync();
-            }
+            // 释放
+            scoped.Dispose();
+            if (serviceProvider != null) await serviceProvider.DisposeAsync();
         }
     }
 }

@@ -8,12 +8,11 @@
 
 using Microsoft.EntityFrameworkCore.Diagnostics;
 
-namespace Furion.DatabaseAccessor
+namespace Furion.DatabaseAccessor;
+
+/// <summary>
+/// 数据库执行命令拦截
+/// </summary>
+internal sealed class SqlCommandProfilerInterceptor : DbCommandInterceptor
 {
-    /// <summary>
-    /// 数据库执行命令拦截
-    /// </summary>
-    internal sealed class SqlCommandProfilerInterceptor : DbCommandInterceptor
-    {
-    }
 }

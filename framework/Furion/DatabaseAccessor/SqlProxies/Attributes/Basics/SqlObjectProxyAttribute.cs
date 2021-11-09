@@ -8,26 +8,25 @@
 
 using Furion.DependencyInjection;
 
-namespace Furion.DatabaseAccessor
+namespace Furion.DatabaseAccessor;
+
+/// <summary>
+/// Sql 对象类型执行代理
+/// </summary>
+[SuppressSniffer]
+public class SqlObjectProxyAttribute : SqlProxyAttribute
 {
     /// <summary>
-    /// Sql 对象类型执行代理
+    /// 构造函数
     /// </summary>
-    [SuppressSniffer]
-    public class SqlObjectProxyAttribute : SqlProxyAttribute
+    /// <param name="name">对象名</param>
+    public SqlObjectProxyAttribute(string name)
     {
-        /// <summary>
-        /// 构造函数
-        /// </summary>
-        /// <param name="name">对象名</param>
-        public SqlObjectProxyAttribute(string name)
-        {
-            Name = name;
-        }
-
-        /// <summary>
-        /// 对象名
-        /// </summary>
-        public string Name { get; set; }
+        Name = name;
     }
+
+    /// <summary>
+    /// 对象名
+    /// </summary>
+    public string Name { get; set; }
 }

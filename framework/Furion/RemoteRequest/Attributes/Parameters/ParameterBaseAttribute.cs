@@ -9,13 +9,12 @@
 using Furion.DependencyInjection;
 using System;
 
-namespace Furion.RemoteRequest
+namespace Furion.RemoteRequest;
+
+/// <summary>
+/// 代理参数基类特性
+/// </summary>
+[SuppressSniffer, AttributeUsage(AttributeTargets.Parameter)]
+public class ParameterBaseAttribute : Attribute
 {
-    /// <summary>
-    /// 代理参数基类特性
-    /// </summary>
-    [SuppressSniffer, AttributeUsage(AttributeTargets.Parameter)]
-    public class ParameterBaseAttribute : Attribute
-    {
-    }
 }

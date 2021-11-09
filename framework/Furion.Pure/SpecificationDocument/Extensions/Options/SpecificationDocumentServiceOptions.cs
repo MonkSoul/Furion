@@ -9,16 +9,15 @@
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System;
 
-namespace Furion.SpecificationDocument
+namespace Furion.SpecificationDocument;
+
+/// <summary>
+/// 规范化文档服务配置选项
+/// </summary>
+public sealed class SpecificationDocumentServiceOptions
 {
     /// <summary>
-    /// 规范化文档服务配置选项
+    /// Swagger 生成器配置
     /// </summary>
-    public sealed class SpecificationDocumentServiceOptions
-    {
-        /// <summary>
-        /// Swagger 生成器配置
-        /// </summary>
-        public Action<SwaggerGenOptions> SwaggerGenConfigure { get; set; }
-    }
+    public Action<SwaggerGenOptions> SwaggerGenConfigure { get; set; }
 }

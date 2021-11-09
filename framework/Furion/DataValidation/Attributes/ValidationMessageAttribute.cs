@@ -9,26 +9,25 @@
 using Furion.DependencyInjection;
 using System;
 
-namespace Furion.DataValidation
+namespace Furion.DataValidation;
+
+/// <summary>
+/// 验证消息特性
+/// </summary>
+[SuppressSniffer, AttributeUsage(AttributeTargets.Field)]
+public sealed class ValidationMessageAttribute : Attribute
 {
     /// <summary>
-    /// 验证消息特性
+    /// 构造函数
     /// </summary>
-    [SuppressSniffer, AttributeUsage(AttributeTargets.Field)]
-    public sealed class ValidationMessageAttribute : Attribute
+    /// <param name="errorMessage"></param>
+    public ValidationMessageAttribute(string errorMessage)
     {
-        /// <summary>
-        /// 构造函数
-        /// </summary>
-        /// <param name="errorMessage"></param>
-        public ValidationMessageAttribute(string errorMessage)
-        {
-            ErrorMessage = errorMessage;
-        }
-
-        /// <summary>
-        /// 错误消息
-        /// </summary>
-        public string ErrorMessage { get; set; }
+        ErrorMessage = errorMessage;
     }
+
+    /// <summary>
+    /// 错误消息
+    /// </summary>
+    public string ErrorMessage { get; set; }
 }

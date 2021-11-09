@@ -9,13 +9,12 @@
 using Furion.DependencyInjection;
 using System;
 
-namespace Furion.FriendlyException
+namespace Furion.FriendlyException;
+
+/// <summary>
+/// 错误代码类型特性
+/// </summary>
+[SuppressSniffer, AttributeUsage(AttributeTargets.Enum)]
+public sealed class ErrorCodeTypeAttribute : Attribute
 {
-    /// <summary>
-    /// 错误代码类型特性
-    /// </summary>
-    [SuppressSniffer, AttributeUsage(AttributeTargets.Enum)]
-    public sealed class ErrorCodeTypeAttribute : Attribute
-    {
-    }
 }

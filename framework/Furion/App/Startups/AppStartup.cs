@@ -8,13 +8,12 @@
 
 using Furion.DependencyInjection;
 
-namespace Furion
+namespace Furion;
+
+/// <summary>
+/// 依赖注入全局模块
+/// </summary>
+[SuppressSniffer]
+public abstract class AppStartup
 {
-    /// <summary>
-    /// 依赖注入全局模块
-    /// </summary>
-    [SuppressSniffer]
-    public abstract class AppStartup
-    {
-    }
 }

@@ -8,17 +8,16 @@
 
 using MongoDB.Bson.Serialization.Attributes;
 
-namespace MongoDB.Driver
+namespace MongoDB.Driver;
+
+/// <summary>
+/// 带实体主键的父 MongoDbEntity
+/// </summary>
+public interface IMongoDBEntity<TKey>
 {
     /// <summary>
-    /// 带实体主键的父 MongoDbEntity
+    /// 主键Id
     /// </summary>
-    public interface IMongoDBEntity<TKey>
-    {
-        /// <summary>
-        /// 主键Id
-        /// </summary>
-        [BsonId]
-        TKey Id { get; set; }
-    }
+    [BsonId]
+    TKey Id { get; set; }
 }

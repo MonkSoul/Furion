@@ -8,42 +8,41 @@
 
 using System.ComponentModel;
 
-namespace Furion.DependencyInjection
+namespace Furion.DependencyInjection;
+
+/// <summary>
+/// 注册范围
+/// </summary>
+[SuppressSniffer]
+public enum InjectionPatterns
 {
     /// <summary>
-    /// 注册范围
+    /// 只注册自己
     /// </summary>
-    [SuppressSniffer]
-    public enum InjectionPatterns
-    {
-        /// <summary>
-        /// 只注册自己
-        /// </summary>
-        [Description("只注册自己")]
-        Self,
+    [Description("只注册自己")]
+    Self,
 
-        /// <summary>
-        /// 第一个接口
-        /// </summary>
-        [Description("只注册第一个接口")]
-        FirstInterface,
+    /// <summary>
+    /// 第一个接口
+    /// </summary>
+    [Description("只注册第一个接口")]
+    FirstInterface,
 
-        /// <summary>
-        /// 自己和第一个接口，默认值
-        /// </summary>
-        [Description("自己和第一个接口")]
-        SelfWithFirstInterface,
+    /// <summary>
+    /// 自己和第一个接口，默认值
+    /// </summary>
+    [Description("自己和第一个接口")]
+    SelfWithFirstInterface,
 
-        /// <summary>
-        /// 所有接口
-        /// </summary>
-        [Description("所有接口")]
-        ImplementedInterfaces,
+    /// <summary>
+    /// 所有接口
+    /// </summary>
+    [Description("所有接口")]
+    ImplementedInterfaces,
 
-        /// <summary>
-        /// 注册自己包括所有接口
-        /// </summary>
-        [Description("自己包括所有接口")]
-        All
-    }
+    /// <summary>
+    /// 注册自己包括所有接口
+    /// </summary>
+    [Description("自己包括所有接口")]
+    All
 }

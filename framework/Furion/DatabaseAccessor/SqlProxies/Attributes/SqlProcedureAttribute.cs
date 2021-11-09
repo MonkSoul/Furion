@@ -9,20 +9,19 @@
 using Furion.DependencyInjection;
 using System;
 
-namespace Furion.DatabaseAccessor
+namespace Furion.DatabaseAccessor;
+
+/// <summary>
+/// 数据库存储过程特性
+/// </summary>
+[SuppressSniffer, AttributeUsage(AttributeTargets.Method)]
+public class SqlProcedureAttribute : SqlObjectProxyAttribute
 {
     /// <summary>
-    /// 数据库存储过程特性
+    /// 构造函数
     /// </summary>
-    [SuppressSniffer, AttributeUsage(AttributeTargets.Method)]
-    public class SqlProcedureAttribute : SqlObjectProxyAttribute
+    /// <param name="name">存储过程名</param>
+    public SqlProcedureAttribute(string name) : base(name)
     {
-        /// <summary>
-        /// 构造函数
-        /// </summary>
-        /// <param name="name">存储过程名</param>
-        public SqlProcedureAttribute(string name) : base(name)
-        {
-        }
     }
 }

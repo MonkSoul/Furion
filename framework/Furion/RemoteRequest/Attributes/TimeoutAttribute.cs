@@ -9,26 +9,25 @@
 using Furion.DependencyInjection;
 using System;
 
-namespace Furion.RemoteRequest
+namespace Furion.RemoteRequest;
+
+/// <summary>
+/// 配置客户端请求超时时间
+/// </summary>
+[SuppressSniffer, AttributeUsage(AttributeTargets.Interface | AttributeTargets.Method)]
+public class TimeoutAttribute : Attribute
 {
     /// <summary>
-    /// 配置客户端请求超时时间
+    /// 构造函数
     /// </summary>
-    [SuppressSniffer, AttributeUsage(AttributeTargets.Interface | AttributeTargets.Method)]
-    public class TimeoutAttribute : Attribute
+    /// <param name="seconds"></param>
+    public TimeoutAttribute(long seconds)
     {
-        /// <summary>
-        /// 构造函数
-        /// </summary>
-        /// <param name="seconds"></param>
-        public TimeoutAttribute(long seconds)
-        {
-            Seconds = seconds;
-        }
-
-        /// <summary>
-        /// 超时时间（秒）
-        /// </summary>
-        public long Seconds { get; set; }
+        Seconds = seconds;
     }
+
+    /// <summary>
+    /// 超时时间（秒）
+    /// </summary>
+    public long Seconds { get; set; }
 }

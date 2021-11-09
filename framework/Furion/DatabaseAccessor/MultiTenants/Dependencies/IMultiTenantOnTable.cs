@@ -6,17 +6,16 @@
 // THIS SOFTWARE IS PROVIDED ON AN "AS IS" BASIS, WITHOUT WARRANTIES OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO NON-INFRINGEMENT, MERCHANTABILITY OR FIT FOR A PARTICULAR PURPOSE.
 // See the Mulan PSL v2 for more details.
 
-namespace Furion.DatabaseAccessor
+namespace Furion.DatabaseAccessor;
+
+/// <summary>
+/// 基于数据库表的多租户模式
+/// </summary>
+public interface IMultiTenantOnTable : IPrivateMultiTenant
 {
     /// <summary>
-    /// 基于数据库表的多租户模式
+    /// 获取租户Id
     /// </summary>
-    public interface IMultiTenantOnTable : IPrivateMultiTenant
-    {
-        /// <summary>
-        /// 获取租户Id
-        /// </summary>
-        /// <returns></returns>
-        object GetTenantId();
-    }
+    /// <returns></returns>
+    object GetTenantId();
 }

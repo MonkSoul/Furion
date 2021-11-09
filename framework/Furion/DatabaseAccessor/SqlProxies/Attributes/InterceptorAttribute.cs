@@ -9,34 +9,33 @@
 using Furion.DependencyInjection;
 using System;
 
-namespace Furion.DatabaseAccessor
+namespace Furion.DatabaseAccessor;
+
+/// <summary>
+/// Sql 代理拦截器
+/// </summary>
+/// <remarks>如果贴在静态方法中且 InterceptorId/MethodName 为空，则为全局拦截</remarks>
+[SuppressSniffer, AttributeUsage(AttributeTargets.Method)]
+public class InterceptorAttribute : Attribute
 {
     /// <summary>
-    /// Sql 代理拦截器
+    /// 构造函数
     /// </summary>
-    /// <remarks>如果贴在静态方法中且 InterceptorId/MethodName 为空，则为全局拦截</remarks>
-    [SuppressSniffer, AttributeUsage(AttributeTargets.Method)]
-    public class InterceptorAttribute : Attribute
+    public InterceptorAttribute()
     {
-        /// <summary>
-        /// 构造函数
-        /// </summary>
-        public InterceptorAttribute()
-        {
-        }
-
-        /// <summary>
-        /// 构造函数
-        /// </summary>
-        /// <param name="interceptorIds"></param>
-        public InterceptorAttribute(params string[] interceptorIds)
-        {
-            InterceptorIds = interceptorIds;
-        }
-
-        /// <summary>
-        /// 方法名称
-        /// </summary>
-        public string[] InterceptorIds { get; set; }
     }
+
+    /// <summary>
+    /// 构造函数
+    /// </summary>
+    /// <param name="interceptorIds"></param>
+    public InterceptorAttribute(params string[] interceptorIds)
+    {
+        InterceptorIds = interceptorIds;
+    }
+
+    /// <summary>
+    /// 方法名称
+    /// </summary>
+    public string[] InterceptorIds { get; set; }
 }

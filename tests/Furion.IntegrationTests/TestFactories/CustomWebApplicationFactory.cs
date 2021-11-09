@@ -1,16 +1,15 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 
-namespace Furion.IntegrationTests
+namespace Furion.IntegrationTests;
+
+public class CustomWebApplicationFactory<TStartup> : WebApplicationFactory<TStartup>
+    where TStartup : class
 {
-    public class CustomWebApplicationFactory<TStartup> : WebApplicationFactory<TStartup>
-        where TStartup : class
+    protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
-        protected override void ConfigureWebHost(IWebHostBuilder builder)
+        builder.ConfigureServices(services =>
         {
-            builder.ConfigureServices(services =>
-            {
-            });
-        }
+        });
     }
 }

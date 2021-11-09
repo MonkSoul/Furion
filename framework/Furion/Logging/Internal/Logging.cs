@@ -6,12 +6,11 @@
 // THIS SOFTWARE IS PROVIDED ON AN "AS IS" BASIS, WITHOUT WARRANTIES OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO NON-INFRINGEMENT, MERCHANTABILITY OR FIT FOR A PARTICULAR PURPOSE.
 // See the Mulan PSL v2 for more details.
 
-namespace System.Running
+namespace System.Running;
+
+/// <summary>
+/// 默认日志分类名
+/// </summary>
+internal sealed class Logging
 {
-    /// <summary>
-    /// 默认日志分类名
-    /// </summary>
-    internal sealed class Logging
-    {
-    }
 }

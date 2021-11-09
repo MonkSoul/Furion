@@ -10,88 +10,87 @@ using System;
 using System.Collections.Concurrent;
 using System.Reflection;
 
-namespace Dapper
+namespace Dapper;
+
+/// <summary>
+/// Sql 类型
+/// </summary>
+public static class SqlProvider
 {
     /// <summary>
-    /// Sql 类型
+    /// SqlServer 提供器程序集
     /// </summary>
-    public static class SqlProvider
+    public const string SqlServer = "Microsoft.Data.SqlClient";
+
+    /// <summary>
+    /// Sqlite 提供器程序集
+    /// </summary>
+    public const string Sqlite = "Microsoft.Data.Sqlite";
+
+    /// <summary>
+    /// MySql 提供器程序集
+    /// </summary>
+    public const string MySql = "MySql.Data";
+
+    /// <summary>
+    /// PostgreSQL 提供器程序集
+    /// </summary>
+    public const string Npgsql = "Npgsql";
+
+    /// <summary>
+    /// Oracle 提供器程序集
+    /// </summary>
+    public const string Oracle = "Oracle.ManagedDataAccess";
+
+    /// <summary>
+    /// Firebird 提供器程序集
+    /// </summary>
+    public const string Firebird = "FirebirdSql.Data.FirebirdClient";
+
+    /// <summary>
+    /// 数据库提供器连接对象类型集合
+    /// </summary>
+    internal static readonly ConcurrentDictionary<string, Type> SqlProviderDbConnectionTypeCollection;
+
+    /// <summary>
+    /// 静态构造函数
+    /// </summary>
+    static SqlProvider()
     {
-        /// <summary>
-        /// SqlServer 提供器程序集
-        /// </summary>
-        public const string SqlServer = "Microsoft.Data.SqlClient";
+        SqlProviderDbConnectionTypeCollection = new ConcurrentDictionary<string, Type>();
+    }
 
-        /// <summary>
-        /// Sqlite 提供器程序集
-        /// </summary>
-        public const string Sqlite = "Microsoft.Data.Sqlite";
+    /// <summary>
+    /// 获取数据库连接对象类型
+    /// </summary>
+    /// <param name="sqlProvider"></param>
+    /// <returns></returns>
+    internal static Type GetDbConnectionType(string sqlProvider)
+    {
+        return SqlProviderDbConnectionTypeCollection.GetOrAdd(sqlProvider, Function);
 
-        /// <summary>
-        /// MySql 提供器程序集
-        /// </summary>
-        public const string MySql = "MySql.Data";
-
-        /// <summary>
-        /// PostgreSQL 提供器程序集
-        /// </summary>
-        public const string Npgsql = "Npgsql";
-
-        /// <summary>
-        /// Oracle 提供器程序集
-        /// </summary>
-        public const string Oracle = "Oracle.ManagedDataAccess";
-
-        /// <summary>
-        /// Firebird 提供器程序集
-        /// </summary>
-        public const string Firebird = "FirebirdSql.Data.FirebirdClient";
-
-        /// <summary>
-        /// 数据库提供器连接对象类型集合
-        /// </summary>
-        internal static readonly ConcurrentDictionary<string, Type> SqlProviderDbConnectionTypeCollection;
-
-        /// <summary>
-        /// 静态构造函数
-        /// </summary>
-        static SqlProvider()
+        // 本地静态方法
+        static Type Function(string sqlProvider)
         {
-            SqlProviderDbConnectionTypeCollection = new ConcurrentDictionary<string, Type>();
-        }
+            // 加载对应的数据库提供器程序集
+            var databaseProviderAssembly = Assembly.Load(sqlProvider);
 
-        /// <summary>
-        /// 获取数据库连接对象类型
-        /// </summary>
-        /// <param name="sqlProvider"></param>
-        /// <returns></returns>
-        internal static Type GetDbConnectionType(string sqlProvider)
-        {
-            return SqlProviderDbConnectionTypeCollection.GetOrAdd(sqlProvider, Function);
-
-            // 本地静态方法
-            static Type Function(string sqlProvider)
+            // 获取对应数据库连接对象
+            var databaseDbConnectionTypeName = sqlProvider switch
             {
-                // 加载对应的数据库提供器程序集
-                var databaseProviderAssembly = Assembly.Load(sqlProvider);
+                SqlServer => "Microsoft.Data.SqlClient.SqlConnection",
+                Sqlite => "Microsoft.Data.Sqlite.SqliteConnection",
+                MySql => "MySql.Data.MySqlClient.MySqlConnection",
+                Npgsql => "Npgsql.NpgsqlConnection",
+                Oracle => "Oracle.ManagedDataAccess.Client.OracleConnection",
+                Firebird => "FirebirdSql.Data.FirebirdClient.FbConnection",
+                _ => null
+            };
 
-                // 获取对应数据库连接对象
-                var databaseDbConnectionTypeName = sqlProvider switch
-                {
-                    SqlServer => "Microsoft.Data.SqlClient.SqlConnection",
-                    Sqlite => "Microsoft.Data.Sqlite.SqliteConnection",
-                    MySql => "MySql.Data.MySqlClient.MySqlConnection",
-                    Npgsql => "Npgsql.NpgsqlConnection",
-                    Oracle => "Oracle.ManagedDataAccess.Client.OracleConnection",
-                    Firebird => "FirebirdSql.Data.FirebirdClient.FbConnection",
-                    _ => null
-                };
+            // 加载数据库连接对象类型
+            var dbConnectionType = databaseProviderAssembly.GetType(databaseDbConnectionTypeName);
 
-                // 加载数据库连接对象类型
-                var dbConnectionType = databaseProviderAssembly.GetType(databaseDbConnectionTypeName);
-
-                return dbConnectionType;
-            }
+            return dbConnectionType;
         }
     }
 }

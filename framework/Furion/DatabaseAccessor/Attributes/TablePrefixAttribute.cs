@@ -8,26 +8,25 @@
 
 using Furion.DependencyInjection;
 
-namespace System.ComponentModel.DataAnnotations.Schema
+namespace System.ComponentModel.DataAnnotations.Schema;
+
+/// <summary>
+/// 配置表名称前缀
+/// </summary>
+[SuppressSniffer, AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
+public class TablePrefixAttribute : Attribute
 {
     /// <summary>
-    /// 配置表名称前缀
+    /// 构造函数
     /// </summary>
-    [SuppressSniffer, AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
-    public class TablePrefixAttribute : Attribute
+    /// <param name="prefix"></param>
+    public TablePrefixAttribute(string prefix)
     {
-        /// <summary>
-        /// 构造函数
-        /// </summary>
-        /// <param name="prefix"></param>
-        public TablePrefixAttribute(string prefix)
-        {
-            Prefix = prefix;
-        }
-
-        /// <summary>
-        /// 前缀
-        /// </summary>
-        public string Prefix { get; set; }
+        Prefix = prefix;
     }
+
+    /// <summary>
+    /// 前缀
+    /// </summary>
+    public string Prefix { get; set; }
 }

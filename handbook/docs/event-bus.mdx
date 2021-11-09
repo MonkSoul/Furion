@@ -284,7 +284,7 @@ services.AddEventBus(buidler =>
 
 ## 25.6 使用有作用域的服务
 
-`Furion` 所有服务均注册为单例，如需使用作用域服务（单例服务可直接注入），可通过依赖注入 `IServiceProvider` 实例并通过 `CreateScope()` 创建一个作用域，如：
+在 `Furion` 中， `Event Bus` 所有服务均注册为单例，如需使用作用域服务（单例服务可直接注入），可通过依赖注入 `IServiceProvider` 实例并通过 `CreateScope()` 创建一个作用域，如：
 
 ```cs {5,8,12,17-21}
 public class ToDoEventSubscriber : IEventSubscriber

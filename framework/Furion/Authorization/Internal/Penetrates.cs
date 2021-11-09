@@ -6,16 +6,15 @@
 // THIS SOFTWARE IS PROVIDED ON AN "AS IS" BASIS, WITHOUT WARRANTIES OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO NON-INFRINGEMENT, MERCHANTABILITY OR FIT FOR A PARTICULAR PURPOSE.
 // See the Mulan PSL v2 for more details.
 
-namespace Furion.Authorization
+namespace Furion.Authorization;
+
+/// <summary>
+/// 常量、公共方法配置类
+/// </summary>
+internal static class Penetrates
 {
     /// <summary>
-    /// 常量、公共方法配置类
+    /// 授权策略前缀
     /// </summary>
-    internal static class Penetrates
-    {
-        /// <summary>
-        /// 授权策略前缀
-        /// </summary>
-        internal const string AppAuthorizePrefix = "<Furion.Authorization.AppAuthorizeRequirement>";
-    }
+    internal const string AppAuthorizePrefix = "<Furion.Authorization.AppAuthorizeRequirement>";
 }

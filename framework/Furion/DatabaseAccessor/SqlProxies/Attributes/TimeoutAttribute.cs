@@ -9,26 +9,25 @@
 using Furion.DependencyInjection;
 using System;
 
-namespace Furion.DatabaseAccessor
+namespace Furion.DatabaseAccessor;
+
+/// <summary>
+/// 配置 ADO.NET 超时时间
+/// </summary>
+[SuppressSniffer, AttributeUsage(AttributeTargets.Interface | AttributeTargets.Method)]
+public class TimeoutAttribute : Attribute
 {
     /// <summary>
-    /// 配置 ADO.NET 超时时间
+    /// 构造函数
     /// </summary>
-    [SuppressSniffer, AttributeUsage(AttributeTargets.Interface | AttributeTargets.Method)]
-    public class TimeoutAttribute : Attribute
+    /// <param name="seconds"></param>
+    public TimeoutAttribute(int seconds)
     {
-        /// <summary>
-        /// 构造函数
-        /// </summary>
-        /// <param name="seconds"></param>
-        public TimeoutAttribute(int seconds)
-        {
-            Seconds = seconds;
-        }
-
-        /// <summary>
-        /// 超时时间（秒）
-        /// </summary>
-        public int Seconds { get; set; }
+        Seconds = seconds;
     }
+
+    /// <summary>
+    /// 超时时间（秒）
+    /// </summary>
+    public int Seconds { get; set; }
 }

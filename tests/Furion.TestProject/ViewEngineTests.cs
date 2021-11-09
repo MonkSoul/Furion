@@ -6,157 +6,157 @@ using System;
 using System.IO;
 using System.Threading.Tasks;
 
-namespace Furion.TestProject
+namespace Furion.TestProject;
+
+/// <summary>
+/// 视图引擎集成测试
+/// </summary>
+public class ViewEngineTests : IDynamicApiController
 {
-    /// <summary>
-    /// 视图引擎集成测试
-    /// </summary>
-    public class ViewEngineTests : IDynamicApiController
+    private readonly IViewEngine _viewEngine;
+    public ViewEngineTests(IViewEngine viewEngine)
     {
-        private readonly IViewEngine _viewEngine;
-        public ViewEngineTests(IViewEngine viewEngine)
-        {
-            _viewEngine = viewEngine;
-        }
+        _viewEngine = viewEngine;
+    }
 
-        /// <summary>
-        /// 测试 RunCompile 方法（弱类型模型）
-        /// </summary>
-        /// <param name="name"></param>
-        /// <returns></returns>
-        public async Task<string> TestRunCompile(string name)
-        {
-            var runCompileTemplate = "Hello @Model.Name";
-            var model = new { Name = name };
+    /// <summary>
+    /// 测试 RunCompile 方法（弱类型模型）
+    /// </summary>
+    /// <param name="name"></param>
+    /// <returns></returns>
+    public async Task<string> TestRunCompile(string name)
+    {
+        var runCompileTemplate = "Hello @Model.Name";
+        var model = new { Name = name };
 
-            var str1 = _viewEngine.RunCompile(runCompileTemplate, model);
-            var str2 = runCompileTemplate.RunCompile(model);
-            var str3 = await _viewEngine.RunCompileAsync(runCompileTemplate, model);
-            var str4 = await runCompileTemplate.RunCompileAsync(model);
+        var str1 = _viewEngine.RunCompile(runCompileTemplate, model);
+        var str2 = runCompileTemplate.RunCompile(model);
+        var str3 = await _viewEngine.RunCompileAsync(runCompileTemplate, model);
+        var str4 = await runCompileTemplate.RunCompileAsync(model);
 
-            var isEqual = (str1 == str2) && (str3 == str4) && (str1 == str4);
-            if (!isEqual) throw new Exception("多次编译之后模板内容相等");
+        var isEqual = (str1 == str2) && (str3 == str4) && (str1 == str4);
+        if (!isEqual) throw new Exception("多次编译之后模板内容相等");
 
-            return str1;
-        }
+        return str1;
+    }
 
-        /// <summary>
-        /// 测试 RunCompile 方法（强类型模型）
-        /// </summary>
-        /// <param name="model"></param>
-        /// <returns></returns>
-        public async Task<string> TestRunCompileStrongly(TestStronglyModel model)
-        {
-            var runCompileTemplate = @"Hello @Model.Name
+    /// <summary>
+    /// 测试 RunCompile 方法（强类型模型）
+    /// </summary>
+    /// <param name="model"></param>
+    /// <returns></returns>
+    public async Task<string> TestRunCompileStrongly(TestStronglyModel model)
+    {
+        var runCompileTemplate = @"Hello @Model.Name
 @foreach(var item in Model.Items)
 {
     <p>@item</p>
 }";
 
-            var str1 = _viewEngine.RunCompile(runCompileTemplate, model);
-            var str2 = runCompileTemplate.RunCompile(model);
-            var str3 = await _viewEngine.RunCompileAsync(runCompileTemplate, model);
-            var str4 = await runCompileTemplate.RunCompileAsync(model);
+        var str1 = _viewEngine.RunCompile(runCompileTemplate, model);
+        var str2 = runCompileTemplate.RunCompile(model);
+        var str3 = await _viewEngine.RunCompileAsync(runCompileTemplate, model);
+        var str4 = await runCompileTemplate.RunCompileAsync(model);
 
-            var isEqual = (str1 == str2) && (str3 == str4) && (str1 == str4);
-            if (!isEqual) throw new Exception("多次编译之后模板内容相等");
+        var isEqual = (str1 == str2) && (str3 == str4) && (str1 == str4);
+        if (!isEqual) throw new Exception("多次编译之后模板内容相等");
 
-            return str1;
+        return str1;
+    }
+
+    /// <summary>
+    /// 测试 RunCompileFromCached 方法（弱类型模型）
+    /// </summary>
+    /// <param name="name"></param>
+    /// <returns></returns>
+    public async Task<string> TestRunCompileFromCached(string name)
+    {
+        var runCompileTemplate = "Hello @Model.Name";
+        var model = new { Name = name };
+
+        var str1 = _viewEngine.RunCompileFromCached(runCompileTemplate, model);
+        var str2 = runCompileTemplate.RunCompileFromCached(model);
+        var str3 = await _viewEngine.RunCompileFromCachedAsync(runCompileTemplate, model);
+        var str4 = await runCompileTemplate.RunCompileFromCachedAsync(model);
+
+        var isEqual = (str1 == str2) && (str3 == str4) && (str1 == str4);
+        if (!isEqual) throw new Exception("多次编译之后模板内容相等");
+
+        if (!File.Exists(Path.Combine(AppContext.BaseDirectory, "templates", $"~{MD5Encryption.Encrypt(runCompileTemplate)}.dll")))
+        {
+            throw new Exception("没找到模板缓存 .dll");
         }
 
-        /// <summary>
-        /// 测试 RunCompileFromCached 方法（弱类型模型）
-        /// </summary>
-        /// <param name="name"></param>
-        /// <returns></returns>
-        public async Task<string> TestRunCompileFromCached(string name)
-        {
-            var runCompileTemplate = "Hello @Model.Name";
-            var model = new { Name = name };
+        return str1;
+    }
 
-            var str1 = _viewEngine.RunCompileFromCached(runCompileTemplate, model);
-            var str2 = runCompileTemplate.RunCompileFromCached(model);
-            var str3 = await _viewEngine.RunCompileFromCachedAsync(runCompileTemplate, model);
-            var str4 = await runCompileTemplate.RunCompileFromCachedAsync(model);
-
-            var isEqual = (str1 == str2) && (str3 == str4) && (str1 == str4);
-            if (!isEqual) throw new Exception("多次编译之后模板内容相等");
-
-            if (!File.Exists(Path.Combine(AppContext.BaseDirectory, "templates", $"~{MD5Encryption.Encrypt(runCompileTemplate)}.dll")))
-            {
-                throw new Exception("没找到模板缓存 .dll");
-            }
-
-            return str1;
-        }
-
-        /// <summary>
-        /// 测试 RunCompileFromCached 方法（强类型模型）
-        /// </summary>
-        /// <param name="model"></param>
-        /// <returns></returns>
-        public async Task<string> TestRunCompileStronglyFromCached(TestStronglyModel model)
-        {
-            var runCompileTemplate = @"Hello @Model.Name
+    /// <summary>
+    /// 测试 RunCompileFromCached 方法（强类型模型）
+    /// </summary>
+    /// <param name="model"></param>
+    /// <returns></returns>
+    public async Task<string> TestRunCompileStronglyFromCached(TestStronglyModel model)
+    {
+        var runCompileTemplate = @"Hello @Model.Name
 @foreach(var item in Model.Items)
 {
     <p>@item</p>
 }";
 
-            var str1 = _viewEngine.RunCompileFromCached(runCompileTemplate, model);
-            var str2 = runCompileTemplate.RunCompileFromCached(model);
-            var str3 = await _viewEngine.RunCompileFromCachedAsync(runCompileTemplate, model);
-            var str4 = await runCompileTemplate.RunCompileFromCachedAsync(model);
+        var str1 = _viewEngine.RunCompileFromCached(runCompileTemplate, model);
+        var str2 = runCompileTemplate.RunCompileFromCached(model);
+        var str3 = await _viewEngine.RunCompileFromCachedAsync(runCompileTemplate, model);
+        var str4 = await runCompileTemplate.RunCompileFromCachedAsync(model);
 
-            var isEqual = (str1 == str2) && (str3 == str4) && (str1 == str4);
-            if (!isEqual) throw new Exception("多次编译之后模板内容相等");
+        var isEqual = (str1 == str2) && (str3 == str4) && (str1 == str4);
+        if (!isEqual) throw new Exception("多次编译之后模板内容相等");
 
-            if (!File.Exists(Path.Combine(AppContext.BaseDirectory, "templates", $"~{MD5Encryption.Encrypt(runCompileTemplate)}.dll")))
-            {
-                throw new Exception("没找到模板缓存 .dll");
-            }
-
-            return str1;
+        if (!File.Exists(Path.Combine(AppContext.BaseDirectory, "templates", $"~{MD5Encryption.Encrypt(runCompileTemplate)}.dll")))
+        {
+            throw new Exception("没找到模板缓存 .dll");
         }
 
-        /// <summary>
-        /// 测试 RunCompile 添加程序集
-        /// </summary>
-        /// <param name="name"></param>
-        /// <returns></returns>
-        public async Task<string> TestRunCompileAssembly(string name)
+        return str1;
+    }
+
+    /// <summary>
+    /// 测试 RunCompile 添加程序集
+    /// </summary>
+    /// <param name="name"></param>
+    /// <returns></returns>
+    public async Task<string> TestRunCompileAssembly(string name)
+    {
+        var runCompileTemplate = @$"<div>@System.IO.Path.Combine(""{name}"", ""ViewEngine"")</div>";
+
+        return await _viewEngine.RunCompileAsync(runCompileTemplate, builderAction: builder =>
         {
-            var runCompileTemplate = @$"<div>@System.IO.Path.Combine(""{name}"", ""ViewEngine"")</div>";
+            builder.AddAssemblyReferenceByName("System.IO");
+        });
+    }
 
-            return await _viewEngine.RunCompileAsync(runCompileTemplate, builderAction: builder =>
-            {
-                builder.AddAssemblyReferenceByName("System.IO");
-            });
-        }
+    /// <summary>
+    /// 测试 RunCompile 添加程序集和命名空间
+    /// </summary>
+    /// <param name="name"></param>
+    /// <returns></returns>
+    public async Task<string> TestRunCompileAddAssemblyAndNamespace(string name)
+    {
+        var runCompileTemplate = @$"<div>@Path.Combine(""{name}"", ""ViewEngine"")</div>";
 
-        /// <summary>
-        /// 测试 RunCompile 添加程序集和命名空间
-        /// </summary>
-        /// <param name="name"></param>
-        /// <returns></returns>
-        public async Task<string> TestRunCompileAddAssemblyAndNamespace(string name)
+        return await _viewEngine.RunCompileAsync(runCompileTemplate, builderAction: builder =>
         {
-            var runCompileTemplate = @$"<div>@Path.Combine(""{name}"", ""ViewEngine"")</div>";
+            builder.AddUsing("System.IO");
+            builder.AddAssemblyReferenceByName("System.IO");
+        });
+    }
 
-            return await _viewEngine.RunCompileAsync(runCompileTemplate, builderAction: builder =>
-            {
-                builder.AddUsing("System.IO");
-                builder.AddAssemblyReferenceByName("System.IO");
-            });
-        }
-
-        /// <summary>
-        /// 测试 RunCompile 定义模板方法并调用
-        /// </summary>
-        /// <returns></returns>
-        public async Task<string> TestRunCompileIncludeFunctionWithInvoke()
-        {
-            var runCompileTemplate = @"<area>
+    /// <summary>
+    /// 测试 RunCompile 定义模板方法并调用
+    /// </summary>
+    /// <returns></returns>
+    public async Task<string> TestRunCompileIncludeFunctionWithInvoke()
+    {
+        var runCompileTemplate = @"<area>
     @{ RecursionTest(3); }
 </area>
 
@@ -173,40 +173,39 @@ namespace Furion.TestProject
   }
 }";
 
-            return await _viewEngine.RunCompileAsync(runCompileTemplate);
-        }
-
-        /// <summary>
-        /// 测试 RunCompile 调用强类型类方法
-        /// </summary>
-        /// <returns></returns>
-        public async Task<string> TestRunCompileStronglyInvokeClassMethod()
-        {
-            var content = @"Hello @A, @B, @Decorator(123)";
-
-            var template = await _viewEngine.CompileAsync<CustomModel>(content);
-
-            return await template.RunAsync(instance =>
-            {
-                instance.A = 10;
-                instance.B = "Furion";
-            });
-        }
+        return await _viewEngine.RunCompileAsync(runCompileTemplate);
     }
 
-    public class TestStronglyModel
+    /// <summary>
+    /// 测试 RunCompile 调用强类型类方法
+    /// </summary>
+    /// <returns></returns>
+    public async Task<string> TestRunCompileStronglyInvokeClassMethod()
     {
-        public string Name { get; set; }
-        public int[] Items { get; set; }
-    }
+        var content = @"Hello @A, @B, @Decorator(123)";
 
-    public class CustomModel : ViewEngineModel
-    {
-        public int A { get; set; }
-        public string B { get; set; }
-        public string Decorator(object value)
+        var template = await _viewEngine.CompileAsync<CustomModel>(content);
+
+        return await template.RunAsync(instance =>
         {
-            return "-=" + value + "=-";
-        }
+            instance.A = 10;
+            instance.B = "Furion";
+        });
+    }
+}
+
+public class TestStronglyModel
+{
+    public string Name { get; set; }
+    public int[] Items { get; set; }
+}
+
+public class CustomModel : ViewEngineModel
+{
+    public int A { get; set; }
+    public string B { get; set; }
+    public string Decorator(object value)
+    {
+        return "-=" + value + "=-";
     }
 }

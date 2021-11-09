@@ -10,20 +10,19 @@ using Furion.DependencyInjection;
 using System;
 using System.Net.Http;
 
-namespace Furion.RemoteRequest
+namespace Furion.RemoteRequest;
+
+/// <summary>
+/// HttpPost 请求
+/// </summary>
+[SuppressSniffer, AttributeUsage(AttributeTargets.Method)]
+public class PostAttribute : HttpMethodBaseAttribute
 {
     /// <summary>
-    /// HttpPost 请求
+    /// 构造函数
     /// </summary>
-    [SuppressSniffer, AttributeUsage(AttributeTargets.Method)]
-    public class PostAttribute : HttpMethodBaseAttribute
+    /// <param name="requestUrl"></param>
+    public PostAttribute(string requestUrl) : base(requestUrl, HttpMethod.Post)
     {
-        /// <summary>
-        /// 构造函数
-        /// </summary>
-        /// <param name="requestUrl"></param>
-        public PostAttribute(string requestUrl) : base(requestUrl, HttpMethod.Post)
-        {
-        }
     }
 }

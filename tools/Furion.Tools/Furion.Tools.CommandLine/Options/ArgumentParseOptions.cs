@@ -8,26 +8,25 @@
 
 using System;
 
-namespace Furion.Tools.CommandLine
+namespace Furion.Tools.CommandLine;
+
+/// <summary>
+/// 参数转换选项
+/// </summary>
+public class ArgumentParseOptions
 {
     /// <summary>
-    /// 参数转换选项
+    /// 目标类型
     /// </summary>
-    public class ArgumentParseOptions
-    {
-        /// <summary>
-        /// 目标类型
-        /// </summary>
-        public Type TargetType { get; set; }
+    public Type TargetType { get; set; }
 
-        /// <summary>
-        /// 合并多行
-        /// </summary>
-        public bool CombineAllMultiples { get; set; }
+    /// <summary>
+    /// 合并多行
+    /// </summary>
+    public bool CombineAllMultiples { get; set; }
 
-        /// <summary>
-        /// 合并参数
-        /// </summary>
-        public string[] CombinableArguments { get; set; } = Array.Empty<string>();
-    }
+    /// <summary>
+    /// 合并参数
+    /// </summary>
+    public string[] CombinableArguments { get; set; } = Array.Empty<string>();
 }

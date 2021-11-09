@@ -8,13 +8,12 @@
 
 using Furion.DependencyInjection;
 
-namespace Furion.DatabaseAccessor
+namespace Furion.DatabaseAccessor;
+
+/// <summary>
+/// 多租户数据库上下文定位器
+/// </summary>
+[SuppressSniffer]
+public sealed class MultiTenantDbContextLocator : IDbContextLocator
 {
-    /// <summary>
-    /// 多租户数据库上下文定位器
-    /// </summary>
-    [SuppressSniffer]
-    public sealed class MultiTenantDbContextLocator : IDbContextLocator
-    {
-    }
 }

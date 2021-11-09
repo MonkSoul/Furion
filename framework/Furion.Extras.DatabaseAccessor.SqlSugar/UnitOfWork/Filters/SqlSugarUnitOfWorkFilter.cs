@@ -11,87 +11,86 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace SqlSugar
+namespace SqlSugar;
+
+/// <summary>
+/// SqlSugar 工作单元拦截器
+/// </summary>
+public class SqlSugarUnitOfWorkFilter : IAsyncActionFilter, IOrderedFilter
 {
     /// <summary>
-    /// SqlSugar 工作单元拦截器
+    /// 过滤器排序
     /// </summary>
-    public class SqlSugarUnitOfWorkFilter : IAsyncActionFilter, IOrderedFilter
+    internal const int FilterOrder = 9999;
+
+    /// <summary>
+    /// 排序属性
+    /// </summary>
+    public int Order => FilterOrder;
+
+    /// <summary>
+    /// SqlSugar 对象
+    /// </summary>
+    private readonly SqlSugarClient _sqlSugarClient;
+
+    /// <summary>
+    /// 构造函数
+    /// </summary>
+    /// <param name="sqlSugarClient"></param>
+
+    public SqlSugarUnitOfWorkFilter(ISqlSugarClient sqlSugarClient)
     {
-        /// <summary>
-        /// 过滤器排序
-        /// </summary>
-        internal const int FilterOrder = 9999;
+        _sqlSugarClient = (SqlSugarClient)sqlSugarClient;
+    }
 
-        /// <summary>
-        /// 排序属性
-        /// </summary>
-        public int Order => FilterOrder;
+    /// <summary>
+    ///
+    /// </summary>
+    /// <param name="context"></param>
+    /// <param name="next"></param>
+    /// <returns></returns>
+    public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
+    {
+        // 获取动作方法描述器
+        var actionDescriptor = context.ActionDescriptor as ControllerActionDescriptor;
+        var method = actionDescriptor.MethodInfo;
 
-        /// <summary>
-        /// SqlSugar 对象
-        /// </summary>
-        private readonly SqlSugarClient _sqlSugarClient;
-
-        /// <summary>
-        /// 构造函数
-        /// </summary>
-        /// <param name="sqlSugarClient"></param>
-
-        public SqlSugarUnitOfWorkFilter(ISqlSugarClient sqlSugarClient)
+        // 判断是否贴有工作单元特性
+        if (!method.IsDefined(typeof(SqlSugarUnitOfWorkAttribute), true))
         {
-            _sqlSugarClient = (SqlSugarClient)sqlSugarClient;
+            // 调用方法
+            _ = await next();
         }
-
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="context"></param>
-        /// <param name="next"></param>
-        /// <returns></returns>
-        public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
+        else
         {
-            // 获取动作方法描述器
-            var actionDescriptor = context.ActionDescriptor as ControllerActionDescriptor;
-            var method = actionDescriptor.MethodInfo;
+            var attribute = (method.GetCustomAttributes(typeof(SqlSugarUnitOfWorkAttribute), true).FirstOrDefault() as SqlSugarUnitOfWorkAttribute);
 
-            // 判断是否贴有工作单元特性
-            if (!method.IsDefined(typeof(SqlSugarUnitOfWorkAttribute), true))
+            // 开启事务
+            _sqlSugarClient.Ado.BeginTran(attribute.IsolationLevel);
+
+            // 调用方法
+            var resultContext = await next();
+
+            if (resultContext.Exception == null)
             {
-                // 调用方法
-                _ = await next();
+                try
+                {
+                    _sqlSugarClient.Ado.CommitTran();
+                }
+                catch
+                {
+                    _sqlSugarClient.Ado.RollbackTran();
+                }
+                finally
+                {
+                    _sqlSugarClient.Ado.Dispose();
+                }
             }
             else
             {
-                var attribute = (method.GetCustomAttributes(typeof(SqlSugarUnitOfWorkAttribute), true).FirstOrDefault() as SqlSugarUnitOfWorkAttribute);
-
-                // 开启事务
-                _sqlSugarClient.Ado.BeginTran(attribute.IsolationLevel);
-
-                // 调用方法
-                var resultContext = await next();
-
-                if (resultContext.Exception == null)
-                {
-                    try
-                    {
-                        _sqlSugarClient.Ado.CommitTran();
-                    }
-                    catch
-                    {
-                        _sqlSugarClient.Ado.RollbackTran();
-                    }
-                    finally
-                    {
-                        _sqlSugarClient.Ado.Dispose();
-                    }
-                }
-                else
-                {
-                    // 回滚事务
-                    _sqlSugarClient.Ado.RollbackTran();
-                    _sqlSugarClient.Ado.Dispose();
-                }
+                // 回滚事务
+                _sqlSugarClient.Ado.RollbackTran();
+                _sqlSugarClient.Ado.Dispose();
             }
         }
     }

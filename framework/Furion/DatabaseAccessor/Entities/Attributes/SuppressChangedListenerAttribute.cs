@@ -9,13 +9,12 @@
 using Furion.DependencyInjection;
 using System;
 
-namespace Furion.DatabaseAccessor
+namespace Furion.DatabaseAccessor;
+
+/// <summary>
+/// 禁止实体监听
+/// </summary>
+[SuppressSniffer, AttributeUsage(AttributeTargets.Class)]
+public sealed class SuppressChangedListenerAttribute : Attribute
 {
-    /// <summary>
-    /// 禁止实体监听
-    /// </summary>
-    [SuppressSniffer, AttributeUsage(AttributeTargets.Class)]
-    public sealed class SuppressChangedListenerAttribute : Attribute
-    {
-    }
 }

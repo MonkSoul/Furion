@@ -1,7 +1,6 @@
-﻿namespace FurionApi.Application
+﻿namespace FurionApi.Application;
+
+public interface ISystemService
 {
-    public interface ISystemService
-    {
-        string GetDescription();
-    }
+    string GetDescription();
 }

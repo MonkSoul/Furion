@@ -15,70 +15,69 @@ using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 
-namespace Furion
+namespace Furion;
+
+/// <summary>
+/// 跨平台 Inject
+/// </summary>
+public static class Inject
 {
     /// <summary>
-    /// 跨平台 Inject
+    /// 创建初始服务集合
     /// </summary>
-    public static class Inject
+    /// <param name="configureLogging">配置日志</param>
+    /// <returns></returns>
+    public static IServiceCollection Create(Action<ILoggingBuilder> configureLogging = default)
     {
-        /// <summary>
-        /// 创建初始服务集合
-        /// </summary>
-        /// <param name="configureLogging">配置日志</param>
-        /// <returns></returns>
-        public static IServiceCollection Create(Action<ILoggingBuilder> configureLogging = default)
+        // 监听全局异常
+        AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
+
+        // 创建配置构建器
+        var configurationBuilder = new ConfigurationBuilder();
+
+        // 加载配置
+        InternalApp.AddJsonFiles(configurationBuilder, default);
+
+        // 存储配置对象
+        var configuration = InternalApp.Configuration = configurationBuilder.Build();
+
+        // 创建服务对象和存储服务提供器
+        var services = InternalApp.InternalServices = new ServiceCollection();
+
+        // 添加默认控制台日志处理程序
+        services.AddLogging(loggingBuilder =>
         {
-            // 监听全局异常
-            AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
+            loggingBuilder.AddConfiguration(configuration.GetSection("Logging"));
+            loggingBuilder.AddConsole(); // 将日志输出到控制台
+            configureLogging?.Invoke(loggingBuilder);
+        });
 
-            // 创建配置构建器
-            var configurationBuilder = new ConfigurationBuilder();
+        // 初始化应用服务
+        services.AddApp();
 
-            // 加载配置
-            InternalApp.AddJsonFiles(configurationBuilder, default);
+        return services;
+    }
 
-            // 存储配置对象
-            var configuration = InternalApp.Configuration = configurationBuilder.Build();
+    /// <summary>
+    /// 监听全局异常
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    private static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
+    {
+        var exception = (Exception)e.ExceptionObject;
+        if (exception is AppFriendlyException) return;
 
-            // 创建服务对象和存储服务提供器
-            var services = InternalApp.InternalServices = new ServiceCollection();
+        // 获取调用堆栈信息
+        var stackTrace = EnhancedStackTrace.Current();
 
-            // 添加默认控制台日志处理程序
-            services.AddLogging(loggingBuilder =>
-            {
-                loggingBuilder.AddConfiguration(configuration.GetSection("Logging"));
-                loggingBuilder.AddConsole(); // 将日志输出到控制台
-                configureLogging?.Invoke(loggingBuilder);
-            });
+        // 获取堆栈第一个全局 [IfException] 特性
+        var ifExceptionAttribute = stackTrace
+            .Where(u => u.MethodInfo.MethodBase != null && u.MethodInfo.MethodBase.IsDefined(typeof(IfExceptionAttribute), true))
+            .SelectMany(u => u.MethodInfo.MethodBase.GetCustomAttributes<IfExceptionAttribute>(true))
+            .FirstOrDefault(u => u.ErrorCode == null && !string.IsNullOrWhiteSpace(u.ErrorMessage));
 
-            // 初始化应用服务
-            services.AddApp();
-
-            return services;
-        }
-
-        /// <summary>
-        /// 监听全局异常
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
-        {
-            var exception = (Exception)e.ExceptionObject;
-            if (exception is AppFriendlyException) return;
-
-            // 获取调用堆栈信息
-            var stackTrace = EnhancedStackTrace.Current();
-
-            // 获取堆栈第一个全局 [IfException] 特性
-            var ifExceptionAttribute = stackTrace
-                .Where(u => u.MethodInfo.MethodBase != null && u.MethodInfo.MethodBase.IsDefined(typeof(IfExceptionAttribute), true))
-                .SelectMany(u => u.MethodInfo.MethodBase.GetCustomAttributes<IfExceptionAttribute>(true))
-                .FirstOrDefault(u => u.ErrorCode == null && !string.IsNullOrWhiteSpace(u.ErrorMessage));
-
-            // 打印全局消息
-            if (ifExceptionAttribute != null) Console.WriteLine(ifExceptionAttribute.ErrorMessage);
-        }
+        // 打印全局消息
+        if (ifExceptionAttribute != null) Console.WriteLine(ifExceptionAttribute.ErrorMessage);
     }
 }

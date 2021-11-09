@@ -1,11 +1,10 @@
 ﻿using Mapster;
 
-namespace FurionApp.Application
+namespace FurionApp.Application;
+
+public class Mapper : IRegister
 {
-    public class Mapper : IRegister
+    public void Register(TypeAdapterConfig config)
     {
-        public void Register(TypeAdapterConfig config)
-        {
-        }
     }
 }

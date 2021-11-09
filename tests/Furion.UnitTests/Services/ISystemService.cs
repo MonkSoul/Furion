@@ -1,7 +1,6 @@
-﻿namespace Furion.UnitTests
+﻿namespace Furion.UnitTests;
+
+public interface ISystemService
 {
-    public interface ISystemService
-    {
-        string GetName();
-    }
+    string GetName();
 }

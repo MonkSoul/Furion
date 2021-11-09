@@ -8,17 +8,16 @@
 
 using System.Threading.Tasks;
 
-namespace Furion.TaskScheduler
+namespace Furion.TaskScheduler;
+
+/// <summary>
+/// 定时器监听接口（注册为单例）
+/// </summary>
+public interface ISpareTimeListener
 {
     /// <summary>
-    /// 定时器监听接口（注册为单例）
+    /// 监听器
     /// </summary>
-    public interface ISpareTimeListener
-    {
-        /// <summary>
-        /// 监听器
-        /// </summary>
-        /// <param name="executer"></param>
-        Task OnListener(SpareTimerExecuter executer);
-    }
+    /// <param name="executer"></param>
+    Task OnListener(SpareTimerExecuter executer);
 }

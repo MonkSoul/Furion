@@ -11,47 +11,46 @@ using Furion.DependencyInjection;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace System.Net.Http
+namespace System.Net.Http;
+
+/// <summary>
+/// HttpRequestMessage 拓展
+/// </summary>
+[SuppressSniffer]
+public static class HttpRequestMessageExtensions
 {
     /// <summary>
-    /// HttpRequestMessage 拓展
+    /// 追加查询参数
     /// </summary>
-    [SuppressSniffer]
-    public static class HttpRequestMessageExtensions
+    /// <param name="httpRequest"></param>
+    /// <param name="queries"></param>
+    /// <param name="isEncode"></param>
+    public static void AppendQueries(this HttpRequestMessage httpRequest, IDictionary<string, object> queries, bool isEncode = true)
     {
-        /// <summary>
-        /// 追加查询参数
-        /// </summary>
-        /// <param name="httpRequest"></param>
-        /// <param name="queries"></param>
-        /// <param name="isEncode"></param>
-        public static void AppendQueries(this HttpRequestMessage httpRequest, IDictionary<string, object> queries, bool isEncode = true)
-        {
-            if (queries == null || queries.Count == 0) return;
+        if (queries == null || queries.Count == 0) return;
 
-            // 获取原始地址
-            var finalRequestUrl = httpRequest.RequestUri.OriginalString;
+        // 获取原始地址
+        var finalRequestUrl = httpRequest.RequestUri.OriginalString;
 
-            // 拼接
-            var urlParameters = queries.Where(u => u.Value != null)
-                            .Select(u => $"{u.Key}={(isEncode ? Uri.EscapeDataString(u.Value?.ToString() ?? string.Empty) : (u.Value?.ToString() ?? string.Empty))}");
-            finalRequestUrl += $"{(finalRequestUrl.IndexOf("?") > -1 ? "&" : "?")}{string.Join("&", urlParameters)}";
+        // 拼接
+        var urlParameters = queries.Where(u => u.Value != null)
+                        .Select(u => $"{u.Key}={(isEncode ? Uri.EscapeDataString(u.Value?.ToString() ?? string.Empty) : (u.Value?.ToString() ?? string.Empty))}");
+        finalRequestUrl += $"{(finalRequestUrl.IndexOf("?") > -1 ? "&" : "?")}{string.Join("&", urlParameters)}";
 
-            // 重新设置地址
-            httpRequest.RequestUri = new Uri(finalRequestUrl, UriKind.RelativeOrAbsolute);
-        }
+        // 重新设置地址
+        httpRequest.RequestUri = new Uri(finalRequestUrl, UriKind.RelativeOrAbsolute);
+    }
 
-        /// <summary>
-        /// 追加查询参数
-        /// </summary>
-        /// <param name="httpRequest"></param>
-        /// <param name="queries"></param>
-        /// <param name="isEncode"></param>
-        public static void AppendQueries(this HttpRequestMessage httpRequest, object queries, bool isEncode = true)
-        {
-            if (queries == null) return;
+    /// <summary>
+    /// 追加查询参数
+    /// </summary>
+    /// <param name="httpRequest"></param>
+    /// <param name="queries"></param>
+    /// <param name="isEncode"></param>
+    public static void AppendQueries(this HttpRequestMessage httpRequest, object queries, bool isEncode = true)
+    {
+        if (queries == null) return;
 
-            httpRequest.AppendQueries(queries.ToDictionary(), isEncode);
-        }
+        httpRequest.AppendQueries(queries.ToDictionary(), isEncode);
     }
 }

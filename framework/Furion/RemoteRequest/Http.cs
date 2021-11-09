@@ -9,23 +9,22 @@
 using Furion.DependencyInjection;
 using System;
 
-namespace Furion.RemoteRequest
+namespace Furion.RemoteRequest;
+
+/// <summary>
+/// 远程请求静态类
+/// </summary>
+[SuppressSniffer]
+public static class Http
 {
     /// <summary>
-    /// 远程请求静态类
+    /// 获取远程请求代理
     /// </summary>
-    [SuppressSniffer]
-    public static class Http
+    /// <param name="serviceProvider"></param>
+    /// <returns>IHttpDispatchProxy</returns>
+    public static THttpDispatchProxy GetHttpProxy<THttpDispatchProxy>(IServiceProvider serviceProvider = default)
+        where THttpDispatchProxy : class, IHttpDispatchProxy
     {
-        /// <summary>
-        /// 获取远程请求代理
-        /// </summary>
-        /// <param name="serviceProvider"></param>
-        /// <returns>IHttpDispatchProxy</returns>
-        public static THttpDispatchProxy GetHttpProxy<THttpDispatchProxy>(IServiceProvider serviceProvider = default)
-            where THttpDispatchProxy : class, IHttpDispatchProxy
-        {
-            return App.GetService<THttpDispatchProxy>(serviceProvider);
-        }
+        return App.GetService<THttpDispatchProxy>(serviceProvider);
     }
 }

@@ -1,7 +1,6 @@
-﻿namespace FurionBlazor.Application
+﻿namespace FurionBlazor.Application;
+
+public interface ISystemService
 {
-    public interface ISystemService
-    {
-        string GetDescription();
-    }
+    string GetDescription();
 }

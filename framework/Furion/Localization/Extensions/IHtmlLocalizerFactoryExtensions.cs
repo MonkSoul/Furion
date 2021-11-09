@@ -10,23 +10,22 @@ using Furion;
 using Furion.DependencyInjection;
 using Furion.Localization;
 
-namespace Microsoft.AspNetCore.Mvc.Localization
+namespace Microsoft.AspNetCore.Mvc.Localization;
+
+/// <summary>
+/// IHtmlLocalizerFactory 拓展类
+/// </summary>
+[SuppressSniffer]
+public static class IHtmlLocalizerFactoryExtensions
 {
     /// <summary>
-    /// IHtmlLocalizerFactory 拓展类
+    /// 创建默认多语言工厂
     /// </summary>
-    [SuppressSniffer]
-    public static class IHtmlLocalizerFactoryExtensions
+    /// <param name="htmlLocalizerFactory"></param>
+    /// <returns></returns>
+    public static IHtmlLocalizer Create(this IHtmlLocalizerFactory htmlLocalizerFactory)
     {
-        /// <summary>
-        /// 创建默认多语言工厂
-        /// </summary>
-        /// <param name="htmlLocalizerFactory"></param>
-        /// <returns></returns>
-        public static IHtmlLocalizer Create(this IHtmlLocalizerFactory htmlLocalizerFactory)
-        {
-            var localizationSettings = App.GetOptions<LocalizationSettingsOptions>();
-            return htmlLocalizerFactory.Create(localizationSettings.LanguageFilePrefix, localizationSettings.AssemblyName);
-        }
+        var localizationSettings = App.GetOptions<LocalizationSettingsOptions>();
+        return htmlLocalizerFactory.Create(localizationSettings.LanguageFilePrefix, localizationSettings.AssemblyName);
     }
 }

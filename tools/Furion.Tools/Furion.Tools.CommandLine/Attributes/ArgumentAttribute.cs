@@ -8,40 +8,39 @@
 
 using System;
 
-namespace Furion.Tools.CommandLine
+namespace Furion.Tools.CommandLine;
+
+/// <summary>
+/// 参数定义特性
+/// </summary>
+[AttributeUsage(AttributeTargets.Property, AllowMultiple = false)]
+public class ArgumentAttribute : Attribute
 {
     /// <summary>
-    /// 参数定义特性
+    /// 构造函数
     /// </summary>
-    [AttributeUsage(AttributeTargets.Property, AllowMultiple = false)]
-    public class ArgumentAttribute : Attribute
+    /// <param name="shortName">短参数名</param>
+    /// <param name="longName">长参数名</param>
+    /// <param name="helpText">帮助文本</param>
+    public ArgumentAttribute(char shortName, string longName, string helpText = null)
     {
-        /// <summary>
-        /// 构造函数
-        /// </summary>
-        /// <param name="shortName">短参数名</param>
-        /// <param name="longName">长参数名</param>
-        /// <param name="helpText">帮助文本</param>
-        public ArgumentAttribute(char shortName, string longName, string helpText = null)
-        {
-            ShortName = shortName;
-            LongName = longName;
-            HelpText = helpText;
-        }
-
-        /// <summary>
-        /// 帮助文本
-        /// </summary>
-        public string HelpText { get; set; }
-
-        /// <summary>
-        /// 长参数名
-        /// </summary>
-        public string LongName { get; set; }
-
-        /// <summary>
-        /// 短参数名
-        /// </summary>
-        public char ShortName { get; set; }
+        ShortName = shortName;
+        LongName = longName;
+        HelpText = helpText;
     }
+
+    /// <summary>
+    /// 帮助文本
+    /// </summary>
+    public string HelpText { get; set; }
+
+    /// <summary>
+    /// 长参数名
+    /// </summary>
+    public string LongName { get; set; }
+
+    /// <summary>
+    /// 短参数名
+    /// </summary>
+    public char ShortName { get; set; }
 }

@@ -9,20 +9,19 @@
 using Furion.DependencyInjection;
 using System;
 
-namespace Furion.DatabaseAccessor
+namespace Furion.DatabaseAccessor;
+
+/// <summary>
+/// Sql 执行特性
+/// </summary>
+[SuppressSniffer, AttributeUsage(AttributeTargets.Method)]
+public class SqlExecuteAttribute : SqlSentenceProxyAttribute
 {
     /// <summary>
-    /// Sql 执行特性
+    /// 构造函数
     /// </summary>
-    [SuppressSniffer, AttributeUsage(AttributeTargets.Method)]
-    public class SqlExecuteAttribute : SqlSentenceProxyAttribute
+    /// <param name="sql">sql 语句</param>
+    public SqlExecuteAttribute(string sql) : base(sql)
     {
-        /// <summary>
-        /// 构造函数
-        /// </summary>
-        /// <param name="sql">sql 语句</param>
-        public SqlExecuteAttribute(string sql) : base(sql)
-        {
-        }
     }
 }

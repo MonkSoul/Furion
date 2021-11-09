@@ -1,9 +1,8 @@
 ﻿using Furion.DependencyInjection;
 
-namespace Furion.UnitTests
+namespace Furion.UnitTests;
+
+public class SystemService : ISystemService, ITransient
 {
-    public class SystemService : ISystemService, ITransient
-    {
-        public string GetName() => "Furion";
-    }
+    public string GetName() => "Furion";
 }

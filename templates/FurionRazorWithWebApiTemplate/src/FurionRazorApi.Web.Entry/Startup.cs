@@ -3,25 +3,24 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace FurionRazorApi.Web.Entry
+namespace FurionRazorApi.Web.Entry;
+
+public class Startup
 {
-    public class Startup
+    public Startup(IConfiguration configuration)
     {
-        public Startup(IConfiguration configuration)
-        {
-            Configuration = configuration;
-        }
+        Configuration = configuration;
+    }
 
-        public IConfiguration Configuration { get; }
+    public IConfiguration Configuration { get; }
 
-        public void ConfigureServices(IServiceCollection services)
-        {
-            // 代码迁移至 FurionRazorApi.Web.Core/Startup.cs
-        }
+    public void ConfigureServices(IServiceCollection services)
+    {
+        // 代码迁移至 FurionRazorApi.Web.Core/Startup.cs
+    }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
-        {
-            // 代码迁移至 FurionRazorApi.Web.Core/Startup.cs
-        }
+    public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+    {
+        // 代码迁移至 FurionRazorApi.Web.Core/Startup.cs
     }
 }

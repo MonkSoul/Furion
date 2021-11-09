@@ -8,26 +8,25 @@
 
 using System.Threading.Tasks;
 
-namespace Furion.EventBus
+namespace Furion.EventBus;
+
+/// <summary>
+/// 事件发布服务依赖接口
+/// </summary>
+public interface IEventPublisher
 {
     /// <summary>
-    /// 事件发布服务依赖接口
+    /// 发布一条消息
     /// </summary>
-    public interface IEventPublisher
-    {
-        /// <summary>
-        /// 发布一条消息
-        /// </summary>
-        /// <param name="eventSource">事件源</param>
-        /// <returns><see cref="Task"/> 实例</returns>
-        Task PublishAsync(IEventSource eventSource);
+    /// <param name="eventSource">事件源</param>
+    /// <returns><see cref="Task"/> 实例</returns>
+    Task PublishAsync(IEventSource eventSource);
 
-        /// <summary>
-        /// 延迟发布一条消息
-        /// </summary>
-        /// <param name="eventSource">事件源</param>
-        /// <param name="delay">延迟数（毫秒）</param>
-        /// <returns><see cref="Task"/> 实例</returns>
-        Task PublishDelayAsync(IEventSource eventSource, long delay);
-    }
+    /// <summary>
+    /// 延迟发布一条消息
+    /// </summary>
+    /// <param name="eventSource">事件源</param>
+    /// <param name="delay">延迟数（毫秒）</param>
+    /// <returns><see cref="Task"/> 实例</returns>
+    Task PublishDelayAsync(IEventSource eventSource, long delay);
 }

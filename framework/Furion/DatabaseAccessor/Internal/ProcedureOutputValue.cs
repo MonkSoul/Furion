@@ -8,22 +8,21 @@
 
 using Furion.DependencyInjection;
 
-namespace Furion.DatabaseAccessor
+namespace Furion.DatabaseAccessor;
+
+/// <summary>
+/// 存储过程输出值模型
+/// </summary>
+[SuppressSniffer]
+public sealed class ProcedureOutputValue
 {
     /// <summary>
-    /// 存储过程输出值模型
+    /// 输出参数名
     /// </summary>
-    [SuppressSniffer]
-    public sealed class ProcedureOutputValue
-    {
-        /// <summary>
-        /// 输出参数名
-        /// </summary>
-        public string Name { get; set; }
+    public string Name { get; set; }
 
-        /// <summary>
-        /// 输出参数值
-        /// </summary>
-        public object Value { get; set; }
-    }
+    /// <summary>
+    /// 输出参数值
+    /// </summary>
+    public object Value { get; set; }
 }

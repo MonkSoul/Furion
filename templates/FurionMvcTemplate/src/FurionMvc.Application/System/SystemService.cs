@@ -1,12 +1,11 @@
 ﻿using Furion.DependencyInjection;
 
-namespace FurionMvc.Application
+namespace FurionMvc.Application;
+
+public class SystemService : ISystemService, ITransient
 {
-    public class SystemService : ISystemService, ITransient
+    public string GetDescription()
     {
-        public string GetDescription()
-        {
-            return "让 .NET 开发更简单，更通用，更流行。";
-        }
+        return "让 .NET 开发更简单，更通用，更流行。";
     }
 }

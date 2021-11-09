@@ -6,12 +6,11 @@
 // THIS SOFTWARE IS PROVIDED ON AN "AS IS" BASIS, WITHOUT WARRANTIES OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO NON-INFRINGEMENT, MERCHANTABILITY OR FIT FOR A PARTICULAR PURPOSE.
 // See the Mulan PSL v2 for more details.
 
-namespace Furion.Reflection
+namespace Furion.Reflection;
+
+/// <summary>
+/// 全局代理拦截接口
+/// </summary>
+public interface IGlobalDispatchProxy : IDispatchProxy
 {
-    /// <summary>
-    /// 全局代理拦截接口
-    /// </summary>
-    public interface IGlobalDispatchProxy : IDispatchProxy
-    {
-    }
 }

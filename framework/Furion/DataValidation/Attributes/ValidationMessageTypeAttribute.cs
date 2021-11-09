@@ -9,13 +9,12 @@
 using Furion.DependencyInjection;
 using System;
 
-namespace Furion.DataValidation
+namespace Furion.DataValidation;
+
+/// <summary>
+/// 验证消息类型特性
+/// </summary>
+[SuppressSniffer, AttributeUsage(AttributeTargets.Enum)]
+public sealed class ValidationMessageTypeAttribute : Attribute
 {
-    /// <summary>
-    /// 验证消息类型特性
-    /// </summary>
-    [SuppressSniffer, AttributeUsage(AttributeTargets.Enum)]
-    public sealed class ValidationMessageTypeAttribute : Attribute
-    {
-    }
 }

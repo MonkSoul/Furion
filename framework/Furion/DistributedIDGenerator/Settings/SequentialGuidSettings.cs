@@ -9,22 +9,21 @@
 using Furion.DependencyInjection;
 using System;
 
-namespace Furion.DistributedIDGenerator
+namespace Furion.DistributedIDGenerator;
+
+/// <summary>
+/// 连续 GUID 配置
+/// </summary>
+[SuppressSniffer]
+public sealed class SequentialGuidSettings
 {
     /// <summary>
-    /// 连续 GUID 配置
+    /// 当前时间
     /// </summary>
-    [SuppressSniffer]
-    public sealed class SequentialGuidSettings
-    {
-        /// <summary>
-        /// 当前时间
-        /// </summary>
-        public DateTimeOffset? TimeNow { get; set; }
+    public DateTimeOffset? TimeNow { get; set; }
 
-        /// <summary>
-        /// LittleEndianBinary 16 格式化
-        /// </summary>
-        public bool LittleEndianBinary16Format { get; set; }
-    }
+    /// <summary>
+    /// LittleEndianBinary 16 格式化
+    /// </summary>
+    public bool LittleEndianBinary16Format { get; set; }
 }

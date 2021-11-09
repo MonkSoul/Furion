@@ -6,18 +6,17 @@
 // THIS SOFTWARE IS PROVIDED ON AN "AS IS" BASIS, WITHOUT WARRANTIES OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO NON-INFRINGEMENT, MERCHANTABILITY OR FIT FOR A PARTICULAR PURPOSE.
 // See the Mulan PSL v2 for more details.
 
-namespace Furion.DistributedIDGenerator
+namespace Furion.DistributedIDGenerator;
+
+/// <summary>
+/// 分布式 ID 生成器
+/// </summary>
+public interface IDistributedIDGenerator
 {
     /// <summary>
-    /// 分布式 ID 生成器
+    /// 生成逻辑
     /// </summary>
-    public interface IDistributedIDGenerator
-    {
-        /// <summary>
-        /// 生成逻辑
-        /// </summary>
-        /// <param name="idGeneratorOptions"></param>
-        /// <returns></returns>
-        object Create(object idGeneratorOptions = default);
-    }
+    /// <param name="idGeneratorOptions"></param>
+    /// <returns></returns>
+    object Create(object idGeneratorOptions = default);
 }

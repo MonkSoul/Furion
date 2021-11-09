@@ -6,12 +6,11 @@
 // THIS SOFTWARE IS PROVIDED ON AN "AS IS" BASIS, WITHOUT WARRANTIES OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO NON-INFRINGEMENT, MERCHANTABILITY OR FIT FOR A PARTICULAR PURPOSE.
 // See the Mulan PSL v2 for more details.
 
-namespace Furion.DynamicApiController
+namespace Furion.DynamicApiController;
+
+/// <summary>
+/// 动态Api控制器依赖接口
+/// </summary>
+public interface IDynamicApiController
 {
-    /// <summary>
-    /// 动态Api控制器依赖接口
-    /// </summary>
-    public interface IDynamicApiController
-    {
-    }
 }

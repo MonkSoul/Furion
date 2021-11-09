@@ -8,22 +8,21 @@
 
 using Furion.DependencyInjection;
 
-namespace Microsoft.AspNetCore.Builder
+namespace Microsoft.AspNetCore.Builder;
+
+/// <summary>
+/// 虚拟文件服务中间件
+/// </summary>
+[SuppressSniffer]
+public static class VirtualFileServerApplicationBuilderExtensions
 {
     /// <summary>
-    /// 虚拟文件服务中间件
+    /// 虚拟文件系统中间件
     /// </summary>
-    [SuppressSniffer]
-    public static class VirtualFileServerApplicationBuilderExtensions
+    /// <param name="app"></param>
+    /// <returns></returns>
+    public static IApplicationBuilder UseVirtualFileServer(this IApplicationBuilder app)
     {
-        /// <summary>
-        /// 虚拟文件系统中间件
-        /// </summary>
-        /// <param name="app"></param>
-        /// <returns></returns>
-        public static IApplicationBuilder UseVirtualFileServer(this IApplicationBuilder app)
-        {
-            return app;
-        }
+        return app;
     }
 }
