@@ -42,16 +42,16 @@ public class StartupFilter : IStartupFilter
 
             // 设置响应报文头信息
             app.Use(async (context, next) =>
-        {
-            // 输出当前环境标识
-            context.Response.Headers["environment"] = envName;
+            {
+                // 输出当前环境标识
+                context.Response.Headers["environment"] = envName;
 
-            // 执行下一个中间件
-            await next.Invoke();
+                // 执行下一个中间件
+                await next.Invoke();
 
-            // 释放所有未托管的服务提供器
-            App.DisposeUnmanagedObjects();
-        });
+                // 释放所有未托管的服务提供器
+                App.DisposeUnmanagedObjects();
+            });
 
             // 调用默认中间件
             app.UseApp();
