@@ -105,7 +105,7 @@ internal class SqlServer2008OffsetToRowNumberConvertVisitor : ExpressionVisitor
         var rowOrderings = oldOrderings.Count != 0 ? oldOrderings
             : new[] { new OrderingExpression(new SqlFragmentExpression("(SELECT 1)"), true) };
 
-        _ = selectExpression.PushdownIntoSubquery();
+        selectExpression.PushdownIntoSubquery();
 
         var subQuery = (SelectExpression)selectExpression.Tables[0];
         var projection = new RowNumberExpression(Array.Empty<SqlExpression>(), rowOrderings, oldOffset.TypeMapping);
