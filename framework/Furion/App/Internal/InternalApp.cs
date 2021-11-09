@@ -50,18 +50,25 @@ internal static class InternalApp
     /// <summary>
     /// 配置 Furion 框架（Web）
     /// </summary>
+    /// <remarks>此次添加 <see cref="HostBuilder"/> 参数是为了兼容 .NET 5 直接升级到 .NET 6 问题</remarks>
     /// <param name="builder"></param>
-    internal static void ConfigureApplication(IWebHostBuilder builder)
+    /// <param name="hostBuilder"></param>
+    internal static void ConfigureApplication(IWebHostBuilder builder, IHostBuilder hostBuilder = default)
     {
         // 自动装载配置
-        builder.ConfigureAppConfiguration((hostContext, configurationBuilder) =>
+        if (hostBuilder == default)
         {
-            // 存储环境对象
-            HostEnvironment = WebHostEnvironment = hostContext.HostingEnvironment;
+            builder.ConfigureAppConfiguration((hostContext, configurationBuilder) =>
+            {
+                // 存储环境对象
+                HostEnvironment = WebHostEnvironment = hostContext.HostingEnvironment;
 
-            // 加载配置
-            AddJsonFiles(configurationBuilder, hostContext.HostingEnvironment);
-        });
+                // 加载配置
+                AddJsonFiles(configurationBuilder, hostContext.HostingEnvironment);
+            });
+        }
+        // 自动装载配置
+        else ConfigureHostAppConfiguration(hostBuilder);
 
         // 应用初始化服务
         builder.ConfigureServices((hostContext, services) =>
@@ -90,14 +97,8 @@ internal static class InternalApp
     /// <param name="autoRegisterBackgroundService"></param>
     internal static void ConfigureApplication(IHostBuilder builder, bool autoRegisterBackgroundService = true)
     {
-        builder.ConfigureAppConfiguration((hostContext, configurationBuilder) =>
-        {
-            // 存储环境对象
-            HostEnvironment = hostContext.HostingEnvironment;
-
-            // 加载配置
-            AddJsonFiles(configurationBuilder, hostContext.HostingEnvironment);
-        });
+        // 自动装载配置
+        ConfigureHostAppConfiguration(builder);
 
         // 自动注入 AddApp() 服务
         builder.ConfigureServices((hostContext, services) =>
@@ -120,6 +121,22 @@ internal static class InternalApp
     }
 
     /// <summary>
+    /// 自动装载主机配置
+    /// </summary>
+    /// <param name="builder"></param>
+    private static void ConfigureHostAppConfiguration(IHostBuilder builder)
+    {
+        builder.ConfigureAppConfiguration((hostContext, configurationBuilder) =>
+        {
+            // 存储环境对象
+            HostEnvironment = hostContext.HostingEnvironment;
+
+            // 加载配置
+            AddJsonFiles(configurationBuilder, hostContext.HostingEnvironment);
+        });
+    }
+
+    /// <summary>
     /// 加载自定义 .json 配置文件
     /// </summary>
     /// <param name="configurationBuilder"></param>
@@ -127,7 +144,9 @@ internal static class InternalApp
     internal static void AddJsonFiles(IConfigurationBuilder configurationBuilder, IHostEnvironment hostEnvironment)
     {
         // 获取根配置
-        var configuration = configurationBuilder.Build();
+        var configuration = configurationBuilder is ConfigurationManager
+            ? (configurationBuilder as ConfigurationManager)
+            : configurationBuilder.Build();
 
         // 获取程序执行目录
         var executeDirectory = AppContext.BaseDirectory;
@@ -191,7 +210,8 @@ internal static class InternalApp
             "deps.json",
             "runtimeconfig.dev.json",
             "runtimeconfig.prod.json",
-            "runtimeconfig.json"
+            "runtimeconfig.json",
+            "staticwebassets.runtime.json"
         };
 
     /// <summary>
