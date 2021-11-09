@@ -23,6 +23,7 @@ public static class AppWebApplicationBuilderExtensions
     public static WebApplicationBuilder Inject(this WebApplicationBuilder webApplicationBuilder)
     {
         // 为了兼容 .NET 5 无缝升级至 .NET 6，故传递 WebHost 和 Host
+        InternalApp.WebHostEnvironment = webApplicationBuilder.Environment;
         InternalApp.ConfigureApplication(webApplicationBuilder.WebHost, webApplicationBuilder.Host);
 
         return webApplicationBuilder;
