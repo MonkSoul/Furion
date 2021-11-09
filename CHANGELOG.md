@@ -7,7 +7,22 @@
 > - 如果涉及到代码重构，则当天发版，次版本号 `加 1`，修订版本号 `清 0`。
 > - 如果 `.NET SDK` 主版本号升级，则当天发版，主版本号 `加 1`。
 
-## v2.20（当前版本）
+## v3.0.0（当前版本）
+
+> **Furion v3.x 版本采用 .NET6 构建。**
+
+- **突破性变化**
+
+  - [升级] 全面支持 `.NET6` 版本
+
+- **文档**
+
+  - [文档] [.NET6 一分钟入门](https://dotnetchina.gitee.io/furion/docs/get-start-net6)
+  - [文档] [Furion v2 升级 v3](https://dotnetchina.gitee.io/furion/docs/net5-to-net6)
+
+---
+
+## v2.20（已发布）
 
 - **突破性变化**
 
@@ -17,6 +32,8 @@
 
   - [修复] 远程请求上传文件异常 [0c0752](https://gitee.com/dotnetchina/Furion/commit/0c0752c624799d7d3c7661a8f36a93983399bb59)
   - [修复] 框架启动不支持环境变量 `ASPNETCORE_HOSTINGSTARTUPASSEMBLIES` 配置 [!438](https://gitee.com/dotnetchina/Furion/pulls/438)
+  - [修复] 定时任务内存和CPU占用及特殊情况下空异常问题 [12c65de](https://gitee.com/dotnetchina/Furion/commit/12c65debf552c57780679e6a567a9dd9fb077f46)
+  - [修复] 默认控制器启用规范化结果无效 bug[c7a4a5e](https://gitee.com/dotnetchina/Furion/commit/c7a4a5ef8c3282d245cbe04124cf379d381d496f)
   - [修正] 依赖注入 `InjectionAttribute` 特性的 `ExceptInterfaces` 单词拼写错误问题 [!436](https://gitee.com/dotnetchina/Furion/pulls/436)
 
 - **其他更改**
