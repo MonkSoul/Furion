@@ -453,15 +453,15 @@ public sealed partial class HttpRequestPart
                 // 失败重试
                 await Retry.Invoke(async () =>
                 {
-                        // 发送请求
-                        response = await httpClient.SendAsync(request, cancellationToken);
+                    // 发送请求
+                    response = await httpClient.SendAsync(request, cancellationToken);
                 }, RetryPolicy.Value.NumRetries, RetryPolicy.Value.RetryTimeout);
             }
         }
         catch (Exception ex)
         {
             // 触发自定义事件
-            OnRequestFailded(this, new HttpRequestFaildedEventArgs(request, response, ex));
+            if (response != null) OnRequestFailded(this, new HttpRequestFaildedEventArgs(request, response, ex));
 
             exception = ex;
         }
