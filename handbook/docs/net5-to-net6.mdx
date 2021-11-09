@@ -50,6 +50,12 @@ var app = builder.Build();
 app.Run();
 ```
 
+:::tip 小提醒
+
+如果使用了 `Serilog` 日志组件，可添加 `builder.Host.UseSerilogDefault();`。
+
+:::
+
 <img src={useBaseUrl("img/sjl6.png")} />
 
 ### 2.5.1.7 重新编译整个解决方案

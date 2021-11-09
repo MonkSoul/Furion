@@ -81,7 +81,7 @@ function Banner() {
             >
               一分钟上手 (.NET6)
             </Link>
-            <div className="furion-version">v3.0.0</div>
+            <div className="furion-version">v3.0.1</div>
           </div>
         </div>
         <div className="furion-banner-item">

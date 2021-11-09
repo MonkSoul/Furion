@@ -123,6 +123,8 @@ public class ContactModel : PageModel
 
 - 在 `Program.cs` 中调用 `UseSerilogDefault()`
 
+`.NET5` 版本：
+
 ```cs {21}
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
@@ -148,6 +150,14 @@ namespace Furion.Web.Entry
         }
     }
 }
+```
+
+`.NET6 版本`：
+
+```cs {2}
+var builder = WebApplication.CreateBuilder(args).Inject();
+builder.Host.UseSerilogDefault();
+//....
 ```
 
 :::important 特别注意
