@@ -111,7 +111,7 @@ namespace Furion.EntityFramework.Core
                         OldValue = oldValue,    // 旧值
                         CreatedTime = DateTime.Now, // 操作时间
                         UserId = userId,    // 操作人
-                        Operate = entity.State.ToString();  // 操作方式：新增、更新、删除
+                        Operate = entity.State.ToString()  // 操作方式：新增、更新、删除
                     });
                 }
             }
@@ -134,7 +134,7 @@ dbContext.Set<Audit>().Add(new Audit
     OldValue = oldValue,    // 旧值
     CreatedTime = DateTime.Now, // 操作时间
     UserId = userId,    // 操作人
-    Operate = entity.State.ToString();  // 操作方式：新增、更新、删除
+    Operate = entity.State.ToString()  // 操作方式：新增、更新、删除
 });
 ```
 
@@ -149,7 +149,7 @@ logger.Information(JsonConvert.SerializeObject(new Audit
     OldValue = oldValue,    // 旧值
     CreatedTime = DateTime.Now, // 操作时间
     UserId = userId,    // 操作人
-    Operate = entity.State.ToString();  // 操作方式：新增、更新、删除
+    Operate = entity.State.ToString()  // 操作方式：新增、更新、删除
 }));
 ```
 
