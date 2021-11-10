@@ -56,6 +56,6 @@
 
 ### 关注 Furion
 
-如果您喜欢或正使用 Furion，Furion 也能帮助到您，可以考虑给 Furion 一个 Star。✨
+你给的 star，胜过所有读过的诗。✨
 
 ---
