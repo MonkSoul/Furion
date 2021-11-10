@@ -19,6 +19,7 @@ import IconArrow from '@theme/IconArrow';
 import { translate } from '@docusaurus/Translate';
 import { DocSidebarItems } from '@theme/DocSidebarItem';
 import styles from './styles.module.css';
+import useBaseUrl from "@docusaurus/useBaseUrl";
 
 function useShowAnnouncementBar() {
   const { isActive } = useAnnouncementBar();
@@ -75,7 +76,7 @@ function DocSidebarDesktop({ path, sidebar, onCollapse, isHidden }) {
         className={clsx('menu thin-scrollbar', styles.menu, {
           [styles.menuWithAnnouncementBar]: showAnnouncementBar,
         })}>
-        {/* <Sponsor /> */}
+        <Sponsor />
         <ul className={clsx(ThemeClassNames.docs.docSidebarMenu, 'menu__list')}>
           <DocSidebarItems items={sidebar} activePath={path} level={1} />
         </ul>
@@ -86,13 +87,14 @@ function DocSidebarDesktop({ path, sidebar, onCollapse, isHidden }) {
 }
 
 function Sponsor() {
-  return <div style={{margin:'0.5em', height:60,backgroundColor:'#dedede'}}>
-
-  </div>
+  return <a href="https://www.jnpfsoft.com/index.html?from=furion" target="_blank" style={{ margin: '0.5em',marginTop:'0', display: 'block', backgroundColor: '#dedede' }}>
+    <img src={useBaseUrl("img/jnpfsoft.png")} style={{ display: 'block',width:'100%' }} />
+  </a>
 }
 
 const DocSidebarMobileSecondaryMenu = ({ toggleSidebar, sidebar, path }) => {
-  return (
+  return <>
+   <Sponsor />
     <ul className={clsx(ThemeClassNames.docs.docSidebarMenu, 'menu__list')}>
       <DocSidebarItems
         items={sidebar}
@@ -101,7 +103,7 @@ const DocSidebarMobileSecondaryMenu = ({ toggleSidebar, sidebar, path }) => {
         level={1}
       />
     </ul>
-  );
+  </>;
 };
 
 function DocSidebarMobile(props) {
