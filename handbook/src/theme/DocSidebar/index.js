@@ -20,6 +20,7 @@ import { translate } from '@docusaurus/Translate';
 import { DocSidebarItems } from '@theme/DocSidebarItem';
 import styles from './styles.module.css';
 import useBaseUrl from "@docusaurus/useBaseUrl";
+import sponsors from '../../data/sponsor';
 
 function useShowAnnouncementBar() {
   const { isActive } = useAnnouncementBar();
@@ -88,9 +89,13 @@ function DocSidebarDesktop({ path, sidebar, onCollapse, isHidden }) {
 
 function Sponsor() {
   return <div style={{ margin: '0.5em', marginTop: '0', display: 'block', textAlign: 'center', borderBottom: '1px solid #dedede', paddingBottom: '0.2em' }}>
-    <a href="https://www.jnpfsoft.com/index.html?from=furion" target="_blank"><img src={useBaseUrl("img/jnpfsoft.png")} style={{ display: 'block', width: '100%' }} /></a>
-    <div><a href="mailto:monksoul@outlook.com" style={{ color: '#723cff', fontSize: 13 }} title="monksoul@outlook.com">成为赞助商</a></div>
+    {sponsors.map(({ picture, url, title }, i) => <SponsorItem key={url} title={title} url={url} picture={picture} last={sponsors.length - 1 == i} />)}
+    <div><a href="mailto:monksoul@outlook.com" style={{ color: '#723cff', fontSize: 13, fontWeight: 'bold' }} title="monksoul@outlook.com">成为赞助商</a></div>
   </div>
+}
+
+function SponsorItem({ picture, url, last, title }) {
+  return <a href={url} target="_blank" title={title} style={{ display: 'block', marginBottom: last ? null : '0.5em' }}><img src={useBaseUrl(picture)} style={{ display: 'block', width: '100%' }} /></a>
 }
 
 const DocSidebarMobileSecondaryMenu = ({ toggleSidebar, sidebar, path }) => {
