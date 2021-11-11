@@ -90,7 +90,7 @@ module.exports = {
             },
           ],
         },
-        { label: "社区", position: "right", href: "https://www.chinadot.net" },
+        { label: "社区", position: "right", href: "https://gitee.com/dotnetchina" },
         {
           label: "案例",
           position: "right",
@@ -163,13 +163,13 @@ module.exports = {
       {
         docs: {
           sidebarPath: require.resolve("./sidebars.js"),
-          editUrl: "https://gitee.com/dotnetchina/Furion/tree/master/handbook/",
+          editUrl: "https://gitee.com/dotnetchina/Furion/tree/net6/handbook/",
           showLastUpdateTime: true,
           showLastUpdateAuthor: true,
         },
         blog: {
           showReadingTime: true,
-          editUrl: "https://gitee.com/dotnetchina/Furion/tree/master/handbook/",
+          editUrl: "https://gitee.com/dotnetchina/Furion/tree/net6/handbook/",
         },
         theme: {
           customCss: require.resolve("./src/css/custom.css"),

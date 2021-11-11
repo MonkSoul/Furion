@@ -6,7 +6,7 @@ sidebar_label: 1.6 更新日志
 
 import useBaseUrl from "@docusaurus/useBaseUrl";
 
-**此章节只记录重大版本更新日志，小迭代版本不做更新。**想了解更多更新内容，可查阅 [CHANGELOG.md](https://gitee.com/dotnetchina/Furion/blob/master/CHANGELOG.md)
+**此章节只记录重大版本更新日志，小迭代版本不做记录。**想了解更多更新内容，可查阅 [CHANGELOG.md](https://gitee.com/dotnetchina/Furion/blob/net6/CHANGELOG.md)
 
 > 版本号规则：`主版本号.次版本号.修订版本号`
 >
@@ -19,7 +19,7 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 ## v3.0.0（当前版本）
 
-:::warning v3.+ 版本说明
+:::warning v3+ 版本说明
 
 **Furion v3.x 版本采用 .NET6 构建。**
 
@@ -31,8 +31,8 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 - **文档**
 
-  - [文档] [.NET6 一分钟入门](https://dotnetchina.gitee.io/furion/docs/get-start-net6)
-  - [文档] [Furion v2 升级 v3](https://dotnetchina.gitee.io/furion/docs/net5-to-net6)
+  - [文档] 查看 **[.NET6 一分钟入门](https://dotnetchina.gitee.io/furion/docs/get-start-net6)**
+  - [文档] 查看 **[Furion v2 升级 v3](https://dotnetchina.gitee.io/furion/docs/net5-to-net6)**
 
 ---
 
@@ -106,7 +106,7 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 - **新特性**
 
-  - [新增] `Furion.Tools.CommandLine` 拓展库 [查看源码](https://gitee.com/dotnetchina/Furion/tree/master/tools/Furion.Tools/Furion.Tools.CommandLine)
+  - [新增] `Furion.Tools.CommandLine` 拓展库 [查看源码](https://gitee.com/dotnetchina/Furion/tree/net6/tools/Furion.Tools/Furion.Tools.CommandLine)
   - [新增] 基于 `AsyncLocal<T>` 的 `CallContext` 实现 [9057a21](https://gitee.com/dotnetchina/Furion/commit/9057a212aab8057b668086bd14369fa68ce120df)
   - [新增] 远程请求可配置请求异常重试策略 [656da87](https://gitee.com/dotnetchina/Furion/commit/656da87a667c2da7d82425cdcd47146e99602d65)
   - [新增] 远程请求 `OnRequestFailded` 事件 [4a3da4b](https://gitee.com/dotnetchina/Furion/commit/4a3da4ba2c69380fe5f8c2fda80054544c0a3468)
@@ -140,7 +140,7 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 - **新特性**
 
-  - [新增] `IPC（Inter-Process Communication，进程间通信）` 模块功能，目前提供进程内通信和共享内存进程外通讯 [ProcessChannel](https://gitee.com/dotnetchina/Furion/tree/master/framework/Furion/ProcessChannel)
+  - [新增] `IPC（Inter-Process Communication，进程间通信）` 模块功能，目前提供进程内通信和共享内存进程外通讯 [ProcessChannel](https://gitee.com/dotnetchina/Furion/tree/net6/framework/Furion/ProcessChannel)
   - [新增] 远程请求 `application/xml` 和 `text/xml` 默认支持 [4753a1a](https://gitee.com/dotnetchina/Furion/commit/4753a1aed527a6282fe6c05036de9d50bd3b3dd8)
   - [新增] 控制台全局异常拦截 [4a4fe1f](https://gitee.com/dotnetchina/Furion/commit/4a4fe1f40e1856ea36a0c0d19ca625d3f7bf95b7)
   - [新增] 支持自定义 `.json` 配置文件扫描目录 [3e2910a](https://gitee.com/dotnetchina/Furion/commit/3e2910a8b775fb6323e293b020bbe7cdfb4c6436)

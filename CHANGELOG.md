@@ -17,8 +17,8 @@
 
 - **文档**
 
-  - [文档] [.NET6 一分钟入门](https://dotnetchina.gitee.io/furion/docs/get-start-net6)
-  - [文档] [Furion v2 升级 v3](https://dotnetchina.gitee.io/furion/docs/net5-to-net6)
+  - [文档] 查看 **[.NET6 一分钟入门](https://dotnetchina.gitee.io/furion/docs/get-start-net6)**
+  - [文档] 查看 **[Furion v2 升级 v3](https://dotnetchina.gitee.io/furion/docs/net5-to-net6)**
 
 ---
 
