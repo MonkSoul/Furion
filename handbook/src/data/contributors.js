@@ -582,13 +582,13 @@ const contributors = [
     author: "Lu sharp",
     link: "https://gitee.com/xieyonghao1989",
     photo:
-      "https://portrait.gitee.com/uploads/avatars/user/1601/4805222_xieyonghao1989_1627135464.png!avatar200",
+      "https://portrait.gitee.com/uploads/avatars/user/1601/4805222_xieyonghao1989_1634717081.png!avatar200",
   },
   {
     author: "happy1836",
     link: "https://gitee.com/happy1836",
     photo:
-      "https://portrait.gitee.com/uploads/avatars/user/320/962909_happy1836_1617418156.jpeg!avatar200",
+      "https://portrait.gitee.com/uploads/avatars/user/320/962909_happy1836_1635128378.png!avatar200",
   },
   {
     author: "cxlong89",
