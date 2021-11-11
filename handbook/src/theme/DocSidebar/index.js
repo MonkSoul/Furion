@@ -87,10 +87,10 @@ function DocSidebarDesktop({ path, sidebar, onCollapse, isHidden }) {
 }
 
 function Sponsor() {
-  return <a href="https://www.jnpfsoft.com/index.html?from=furion" target="_blank" style={{ margin: '0.5em', marginTop: '0', display: 'block', textAlign: 'center',borderBottom:'1px solid #dedede',paddingBottom:'0.2em' }}>
-    <img src={useBaseUrl("img/jnpfsoft.png")} style={{ display: 'block', width: '100%' }} />
+  return <div style={{ margin: '0.5em', marginTop: '0', display: 'block', textAlign: 'center', borderBottom: '1px solid #dedede', paddingBottom: '0.2em' }}>
+    <a href="https://www.jnpfsoft.com/index.html?from=furion" target="_blank"><img src={useBaseUrl("img/jnpfsoft.png")} style={{ display: 'block', width: '100%' }} /></a>
     <div><a href="mailto:monksoul@outlook.com" style={{ color: '#723cff', fontSize: 13 }} title="monksoul@outlook.com">成为赞助商</a></div>
-  </a>
+  </div>
 }
 
 const DocSidebarMobileSecondaryMenu = ({ toggleSidebar, sidebar, path }) => {
