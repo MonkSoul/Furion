@@ -74,8 +74,25 @@ services.AddEventBus(buidler =>
 {
     // 注册 ToDo 事件订阅者
     buidler.AddSubscriber<ToDoEventSubscriber>();
+
+    // 批量注册事件订阅者
+    builder.AddSubscribers(ass1, ass2, ....);
 });
 ```
+
+:::tip 懒人提醒
+
+在 `Furion` 中可以不用通过 `buidler.AddSubscriber<T>()` 方式一一注册，只需要实现 `ISingleton` 接口即可，如：
+
+```cs {1}
+public class ToDoEventSubscriber : IEventSubscriber, ISingleton
+{
+}
+```
+
+这样就无需写 ~~`buidler.AddSubscriber<ToDoEventSubscriber>();`~~ 代码了。
+
+:::
 
 4. 运行项目：
 
