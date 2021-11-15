@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2020-2021 百小僧, Baiqian Co.,Ltd.
+// Copyright (c) 2020-2021 百小僧, Baiqian Co.,Ltd.
 // Furion is licensed under Mulan PSL v2.
 // You can use this software according to the terms and conditions of the Mulan PSL v2.
 // You may obtain a copy of Mulan PSL v2 at:
@@ -8,8 +8,10 @@
 
 using Furion;
 using Furion.DependencyInjection;
+using Furion.Extensions;
 using Furion.Reflection;
 using Microsoft.AspNetCore.Hosting;
+using System;
 
 namespace Microsoft.Extensions.Hosting
 {
@@ -27,9 +29,14 @@ namespace Microsoft.Extensions.Hosting
         /// <returns>IWebHostBuilder</returns>
         public static IWebHostBuilder Inject(this IWebHostBuilder hostBuilder, string assemblyName = default)
         {
-            var frameworkPackageName = assemblyName ?? Reflect.GetAssemblyName(typeof(HostBuilderExtensions));
-            hostBuilder.UseSetting(WebHostDefaults.HostingStartupAssembliesKey, frameworkPackageName);
+            // 获取默认程序集名称
+            var defaultAssemblyName = assemblyName ?? Reflect.GetAssemblyName(typeof(HostBuilderExtensions));
 
+            //  获取环境变量 ASPNETCORE_HOSTINGSTARTUPASSEMBLIES 配置
+            var environmentVariables = Environment.GetEnvironmentVariable("ASPNETCORE_HOSTINGSTARTUPASSEMBLIES");
+            var combineAssembliesName = $"{defaultAssemblyName};{environmentVariables}".ClearStringAffixes(1, ";");
+
+            hostBuilder.UseSetting(WebHostDefaults.HostingStartupAssembliesKey, combineAssembliesName);
             return hostBuilder;
         }
 
