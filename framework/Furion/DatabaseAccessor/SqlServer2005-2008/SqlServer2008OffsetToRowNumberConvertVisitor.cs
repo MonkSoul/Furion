@@ -11,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Reflection;
 
 namespace Microsoft.EntityFrameworkCore.Query;
 
@@ -22,7 +23,13 @@ internal class SqlServer2008OffsetToRowNumberConvertVisitor : ExpressionVisitor
     /// <summary>
     /// 筛选列访问器
     /// </summary>
-    private static readonly Func<SelectExpression, SqlExpression, string, ColumnExpression> GenerateOuterColumnAccessor;
+    //private static readonly Func<SelectExpression, SqlExpression, string, ColumnExpression> GenerateOuterColumnAccessor;
+    private static readonly MethodInfo GenerateOuterColumnAccessor;
+
+    /// <summary>
+    /// 引用 TableReferenceExpression 类型
+    /// </summary>
+    private static readonly Type TableReferenceExpressionType;
 
     /// <summary>
     /// 表达式根节点
@@ -41,10 +48,14 @@ internal class SqlServer2008OffsetToRowNumberConvertVisitor : ExpressionVisitor
     {
         var method = typeof(SelectExpression).GetMethod("GenerateOuterColumn", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance, null, new Type[] { typeof(SqlExpression), typeof(string) }, null);
 
-        if (method?.ReturnType != typeof(ColumnExpression))
+        //if (method?.ReturnType != typeof(ColumnExpression))
+        //    throw new InvalidOperationException("SelectExpression.GenerateOuterColumn() is not found.");
+        if (!typeof(ColumnExpression).IsAssignableFrom(method?.ReturnType))
             throw new InvalidOperationException("SelectExpression.GenerateOuterColumn() is not found.");
 
-        GenerateOuterColumnAccessor = (Func<SelectExpression, SqlExpression, string, ColumnExpression>)method.CreateDelegate(typeof(Func<SelectExpression, SqlExpression, string, ColumnExpression>));
+        //GenerateOuterColumnAccessor = (Func<SelectExpression, SqlExpression, string, ColumnExpression>)method.CreateDelegate(typeof(Func<SelectExpression, SqlExpression, string, ColumnExpression>));
+        TableReferenceExpressionType = method.GetParameters().First().ParameterType;
+        GenerateOuterColumnAccessor = method;
     }
 
     /// <summary>
@@ -109,7 +120,15 @@ internal class SqlServer2008OffsetToRowNumberConvertVisitor : ExpressionVisitor
 
         var subQuery = (SelectExpression)selectExpression.Tables[0];
         var projection = new RowNumberExpression(Array.Empty<SqlExpression>(), rowOrderings, oldOffset.TypeMapping);
-        var left = GenerateOuterColumnAccessor(subQuery, projection, "row");
+        //var left = GenerateOuterColumnAccessor(subQuery, projection, "row");
+        var left = GenerateOuterColumnAccessor.Invoke(subQuery
+            , new object[]
+            {
+                Activator.CreateInstance(TableReferenceExpressionType, new object[] { subQuery, "row" }),
+                projection,
+                "row",
+                true
+            }) as ColumnExpression;
 
         selectExpression.ApplyPredicate(sqlExpressionFactory.GreaterThan(left, oldOffset));
 
