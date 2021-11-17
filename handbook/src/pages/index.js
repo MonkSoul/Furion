@@ -81,7 +81,7 @@ function Banner() {
             >
               一分钟上手 (.NET6)
             </Link>
-            <div className="furion-version">v3.0.1</div>
+            <div className="furion-version">v3.0.2</div>
           </div>
         </div>
         <div className="furion-banner-item">
@@ -140,7 +140,7 @@ function Gitee() {
             className={"furion-log-jiao" + (isDarkTheme ? " dark" : "")}
           ></div>
           <div className="furion-log-number">
-            <div style={{ color: "#723cff" }}>7300 +</div>
+            <div style={{ color: "#723cff" }}>7400 +</div>
             <span className={isDarkTheme ? " dark" : ""}>Stars</span>
           </div>
         </div>
@@ -164,7 +164,7 @@ function Gitee() {
             className={"furion-log-jiao" + (isDarkTheme ? " dark" : "")}
           ></div>
           <div className="furion-log-number">
-            <div style={{ color: "#1fd898" }}>1,248,612</div>
+            <div style={{ color: "#1fd898" }}>1,286,366</div>
             <span className={isDarkTheme ? " dark" : ""}>Downloads</span>
           </div>
         </div>

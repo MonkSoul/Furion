@@ -11,18 +11,34 @@
 
 > **Furion v3.x 版本采用 .NET6 构建。**
 
+- **新特性**
+
+  - [新增] 远程请求支持 `GET` 请求自动转换 `类类型` 类型对象 [#I4HR5Q](https://gitee.com/dotnetchina/Furion/issues/I4HR5Q)
+
 - **突破性变化**
 
   - [升级] 全面支持 `.NET6` 版本
+
+- **问题修复**
+
+  - [修复] `EFCore 6.0` 适配 `SqlServer 2005+` 出错 [#I4ILA5](https://gitee.com/dotnetchina/Furion/issues/I4ILA5)
 
 - **文档**
 
   - [文档] 查看 **[.NET6 一分钟入门](https://dotnetchina.gitee.io/furion/docs/get-start-net6)**
   - [文档] 查看 **[Furion v2 升级 v3](https://dotnetchina.gitee.io/furion/docs/net5-to-net6)**
 
+- **特别鸣谢**
+
+  - [KaneLeung](https://gitee.com/KaneLeung)
+
 ---
 
 ## v2.20（已发布）
+
+- **新特性**
+
+  - [新增] 远程请求支持 `GET` 请求自动转换 `类类型` 类型对象 [#I4HR5Q](https://gitee.com/dotnetchina/Furion/issues/I4HR5Q)
 
 - **突破性变化**
 
