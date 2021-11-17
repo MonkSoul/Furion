@@ -54,7 +54,7 @@ public static class ConfigurableOptionsServiceCollectionExtensions
                 ChangeToken.OnChange(() => configurationRoot.GetReloadToken(), () =>
                 {
                     var options = optionsConfiguration.Get<TOptions>();
-                    onListenerMethod.Invoke(options, new object[] { options, optionsConfiguration });
+                    if (options != null) onListenerMethod.Invoke(options, new object[] { options, optionsConfiguration });
                 });
             }
         }
