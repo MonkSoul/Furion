@@ -46,7 +46,7 @@ internal class SqlServer2008OffsetToRowNumberConvertVisitor : ExpressionVisitor
     /// </summary>
     static SqlServer2008OffsetToRowNumberConvertVisitor()
     {
-        var method = typeof(SelectExpression).GetMethod("GenerateOuterColumn", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance, null, new Type[] { typeof(SqlExpression), typeof(string) }, null);
+        var method = typeof(SelectExpression).GetMethod("GenerateOuterColumn", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
 
         //if (method?.ReturnType != typeof(ColumnExpression))
         //    throw new InvalidOperationException("SelectExpression.GenerateOuterColumn() is not found.");
@@ -124,7 +124,7 @@ internal class SqlServer2008OffsetToRowNumberConvertVisitor : ExpressionVisitor
         var left = GenerateOuterColumnAccessor.Invoke(subQuery
             , new object[]
             {
-                Activator.CreateInstance(TableReferenceExpressionType, new object[] { subQuery, "row" }),
+                Activator.CreateInstance(TableReferenceExpressionType, new object[] { subQuery,subQuery.Alias }),
                 projection,
                 "row",
                 true
