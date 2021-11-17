@@ -10,7 +10,7 @@
 		<IncludeSymbols>true</IncludeSymbols>
 		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
 		<PackageLicenseExpression>MulanPSL-2.0</PackageLicenseExpression>
-		<PackageProjectUrl>https://furion.pro</PackageProjectUrl>
+		<PackageProjectUrl>https://furion.icu</PackageProjectUrl>
 		<PackageIcon>icon.png</PackageIcon>
 		<PackageOutputPath>../nupkgs</PackageOutputPath>
 	</PropertyGroup>

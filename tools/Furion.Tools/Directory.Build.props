@@ -8,7 +8,7 @@
 		<RepositoryType>Gitee</RepositoryType>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<PackageLicenseExpression>MulanPSL-2.0</PackageLicenseExpression>
-		<PackageProjectUrl>https://furion.pro</PackageProjectUrl>
+		<PackageProjectUrl>https://furion.icu</PackageProjectUrl>
 		<PackAsTool>true</PackAsTool>
 		<PackageIcon>icon.png</PackageIcon>
 		<PackageOutputPath>../nupkgs</PackageOutputPath>

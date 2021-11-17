@@ -14,11 +14,11 @@ sidebar_label: 16. CORS 跨域
 
 | 当前页面 url                | 被请求页面 url                    | 是否跨域 | 原因                           |
 | --------------------------- | --------------------------------- | -------- | ------------------------------ |
-| http://www.furion.pro/      | http://www.furion.pro/index.html  | 否       | 同源（协议、域名、端口号相同） |
-| http://www.furion.pro/      | https://www.furion.pro/index.html | 跨域     | 协议不同（http/https）         |
-| http://www.furion.pro/      | http://www.baidu.com/             | 跨域     | 主域名不同（chinadot/baidu）   |
-| http://www.furion.pro/      | http://blog.furion.pro/           | 跨域     | 子域名不同（www/blog）         |
-| http://www.furion.pro:8080/ | http://www.furion.pro:7001/       | 跨域     | 端口号不同（8080/7001）        |
+| http://www.furion.icu/      | http://www.furion.icu/index.html  | 否       | 同源（协议、域名、端口号相同） |
+| http://www.furion.icu/      | https://www.furion.icu/index.html | 跨域     | 协议不同（http/https）         |
+| http://www.furion.icu/      | http://www.baidu.com/             | 跨域     | 主域名不同（chinadot/baidu）   |
+| http://www.furion.icu/      | http://blog.furion.icu/           | 跨域     | 子域名不同（www/blog）         |
+| http://www.furion.icu:8080/ | http://www.furion.icu:7001/       | 跨域     | 端口号不同（8080/7001）        |
 
 ## 16.3 什么是 CORS
 
@@ -87,7 +87,7 @@ namespace Furion.Web.Core
 {
   "CorsAccessorSettings": {
     "PolicyName": "自定义跨域策略名",
-    "WithOrigins": ["http://localhost:4200", "https://furion.pro"]
+    "WithOrigins": ["http://localhost:4200", "https://furion.icu"]
   }
 }
 ```

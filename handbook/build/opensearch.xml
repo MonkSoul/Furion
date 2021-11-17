@@ -4,8 +4,8 @@
   <ShortName>Furion</ShortName>
   <Description>Search Furion</Description>
   <InputEncoding>UTF-8</InputEncoding>
-  <Image width="16" height="16" type="image/x-icon">https://furion.pro/furion/img/favicon.ico</Image>
-  <Url type="text/html" method="get" template="https://furion.pro/furion/search?q={searchTerms}"/>
-  <Url type="application/opensearchdescription+xml" rel="self" template="https://furion.pro/furion/opensearch.xml" />
-  <moz:SearchForm>https://furion.pro/furion/</moz:SearchForm>
+  <Image width="16" height="16" type="image/x-icon">https://furion.icu/furion/img/favicon.ico</Image>
+  <Url type="text/html" method="get" template="https://furion.icu/furion/search?q={searchTerms}"/>
+  <Url type="application/opensearchdescription+xml" rel="self" template="https://furion.icu/furion/opensearch.xml" />
+  <moz:SearchForm>https://furion.icu/furion/</moz:SearchForm>
 </OpenSearchDescription>
