@@ -1456,6 +1456,8 @@ public class SampleAsyncActionFilter : IAsyncActionFilter
 
 在 `Program.cs` 中添加 `.UseKestrel` 配置即可，如：
 
+- `.NET5 版本`
+
 ```cs {8-12}
 public static IHostBuilder CreateHostBuilder(string[] args)
 {
@@ -1472,6 +1474,19 @@ public static IHostBuilder CreateHostBuilder(string[] args)
         });
 }
 ```
+
+- `.NET6 版本`
+
+```cs {3-7}
+var app = builder.Build();
+
+app.Configuration.Get<WebHostBuilder>().ConfigureKestrel(x =>
+{
+    x.Limits.KeepAliveTimeout = TimeSpan.FromMinutes(20);
+    x.Limits.RequestHeadersTimeout = TimeSpan.FromMinutes(20);
+});
+```
+
 
 ## 5.13 反馈与建议
 
