@@ -40,22 +40,22 @@ public static class CorsAccessorServiceCollectionExtensions
         {
             // 添加策略跨域
             options.AddPolicy(name: corsAccessorSettings.PolicyName, builder =>
-        {
+            {
                 // 判断是否设置了来源，因为 AllowAnyOrigin 不能和 AllowCredentials一起公用
                 var isNotSetOrigins = corsAccessorSettings.WithOrigins == null || corsAccessorSettings.WithOrigins.Length == 0;
 
                 // 如果没有配置来源，则允许所有来源
                 if (isNotSetOrigins) builder.AllowAnyOrigin();
-            else builder.WithOrigins(corsAccessorSettings.WithOrigins)
-                              .SetIsOriginAllowedToAllowWildcardSubdomains();
+                else builder.WithOrigins(corsAccessorSettings.WithOrigins)
+                                  .SetIsOriginAllowedToAllowWildcardSubdomains();
 
                 // 如果没有配置请求标头，则允许所有表头
                 if (corsAccessorSettings.WithHeaders == null || corsAccessorSettings.WithHeaders.Length == 0) builder.AllowAnyHeader();
-            else builder.WithHeaders(corsAccessorSettings.WithHeaders);
+                else builder.WithHeaders(corsAccessorSettings.WithHeaders);
 
                 // 如果没有配置任何请求谓词，则允许所有请求谓词
                 if (corsAccessorSettings.WithMethods == null || corsAccessorSettings.WithMethods.Length == 0) builder.AllowAnyMethod();
-            else builder.WithMethods(corsAccessorSettings.WithMethods);
+                else builder.WithMethods(corsAccessorSettings.WithMethods);
 
                 // 配置跨域凭据
                 if (corsAccessorSettings.AllowCredentials == true && !isNotSetOrigins) builder.AllowCredentials();
@@ -68,7 +68,7 @@ public static class CorsAccessorServiceCollectionExtensions
 
                 // 添加自定义配置
                 corsPolicyBuilderHandler?.Invoke(builder);
-        });
+            });
 
             // 添加自定义配置
             corsOptionsHandler?.Invoke(options);
