@@ -276,30 +276,31 @@ options.AddDbPool<ThirdDbContext, ThirdDbContextDbContextLocator>(DbProvider.Sql
 在 `Furion` 框架中，为了能够实现数据库的简单使用进行了注册封装，但有些时候，我们可能需要添加更多配置，这时就需要使用原生自定义配置方式，如：
 
 ```cs
-// 注册你的数据库上下文和定位器绑定
 services.AddDatabaseAccessor(options =>
 {
-    // 注册数据库上下文和定位器
-    options.RegisterDbContext<YourDbContext, YourDbContextLocator>();
-
-    // 获取连接字符串
-    var connStr = DbProvider.GetConnectionString<YourDbContext>(/*这里可写可不写*/);
-
-    // 使用原生注册
-    options.AddDbContextPool<YourDbContext>(builder =>
+    // 自定义原生配置
+    options.AddDb<YourDbContext>(builder =>
     {
-        // 注册特定数据库
-        builder.UseSqlite(connStr, dbContextOptions =>
-        {
-            // 配置迁移程序集
-            dbContextOptions.MigrationsAssembly("迁移程序集");
-        }).EnableDetailedErrors()   // 启动详细错误
-          .EnableSensitiveDataLogging() // 替换参数为具体参数值
-          .AddInterceptors(DbProvider.GetDefaultInterceptors()); // 添加默认过滤器
-    }, 100);    // 配置数据库连接池
+        builder.UseSqlite(...);
+    }
 });
-
 ```
+
+:::tip 小知识
+
+`Furion` 框架提供了快速解析连接字符串的静态方法，自动根据名称读取配置，自动解析 `[AppContext("...")]` 信息，如：
+
+```cs
+// 获取连接字符串
+var connStr = DbProvider.GetConnectionString<YourDbContext>(/*这里可写可不写*/);
+
+options.AddDb<YourDbContext>(builder =>
+{
+    builder.UseSqlite(connStr, ...);
+}
+```
+
+:::
 
 ## 9.1.9 动态数据库上下文对象
 
