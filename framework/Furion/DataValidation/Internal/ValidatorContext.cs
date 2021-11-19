@@ -6,11 +6,12 @@
 // THIS SOFTWARE IS PROVIDED ON AN "AS IS" BASIS, WITHOUT WARRANTIES OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO NON-INFRINGEMENT, MERCHANTABILITY OR FIT FOR A PARTICULAR PURPOSE.
 // See the Mulan PSL v2 for more details.
 
-using Furion.JsonSerialization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Encodings.Web;
+using System.Text.Json;
 
 namespace Furion.DataValidation;
 
@@ -50,14 +51,18 @@ internal static class ValidatorContext
         }
         // 其他类型
         else validationResults = new Dictionary<string, string[]>
-            {
-                {string.Empty, new[]{errors?.ToString()}}
-            };
+        {
+            {string.Empty, new[]{errors?.ToString()}}
+        };
 
         return new ValidationMetadata
         {
             ValidationResult = validationResults,
-            Message = JSON.Serialize(validationResults),
+            Message = JsonSerializer.Serialize(validationResults, new JsonSerializerOptions
+            {
+                Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
+                WriteIndented = true
+            }),
             ModelState = _modelState
         };
     }

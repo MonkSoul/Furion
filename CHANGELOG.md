@@ -21,6 +21,7 @@
 
 - **问题修复**
 
+  - [修复] `.NET5.0.5+` 和 `.NET6` 微软底层修改了 `[ApiController]` 验证失败返回 `IActionResult` 类型 [#I4ISOK](https://gitee.com/dotnetchina/Furion/issues/I4ISOK)
   - [修复] `EFCore 6.0` 适配 `SqlServer 2005+` 出错 [#I4ILA5](https://gitee.com/dotnetchina/Furion/issues/I4ILA5)
   - [修复] .NET6 获取配置对象如果不存在返回 null 问题，.NET5则返回初始对象 [94ae4d](https://gitee.com/dotnetchina/Furion/commit/94ae4d8c9b0fe7eb4d713a171f953c0d3c5a76ac)
 
@@ -47,6 +48,7 @@
 
 - **问题修复**
 
+  - [修复] `.NET5.0.5+` 微软底层修改了 `[ApiController]` 验证失败返回 `IActionResult` 类型 [#I4ISOK](https://gitee.com/dotnetchina/Furion/issues/I4ISOK)
   - [修复] 远程请求上传文件异常 [0c0752](https://gitee.com/dotnetchina/Furion/commit/0c0752c624799d7d3c7661a8f36a93983399bb59)
   - [修复] 框架启动不支持环境变量 `ASPNETCORE_HOSTINGSTARTUPASSEMBLIES` 配置 [!438](https://gitee.com/dotnetchina/Furion/pulls/438)
   - [修复] 定时任务内存和CPU占用及特殊情况下空异常问题 [12c65de](https://gitee.com/dotnetchina/Furion/commit/12c65debf552c57780679e6a567a9dd9fb077f46)
