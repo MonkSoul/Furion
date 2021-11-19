@@ -55,13 +55,13 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 **在本章节，`Furion` 框架使用 `xUnit` 库进行单元测试。**
 
-## 36.2 第一个例子
+## 36.1.2 第一个例子
 
-### 36.2.1 创建 `xUnit` 单元测试项目
+### 36.1.2.1 创建 `xUnit` 单元测试项目
 
 <img src={useBaseUrl("img/ut1.png")} />
 
-### 36.2.2 第一个测试方法
+### 36.1.2.2 第一个测试方法
 
 ```cs {1,7,10}
 using Xunit;
@@ -81,7 +81,7 @@ namespace TestProject1
 
 单元测试实际上是通过普通的类的方法进行模块功能测试，具体测试则是标记了 `[Fact]` 特性的方法，在方法中使用 `Assert` 类提供的静态方法进行 `断言`，`断言` 成功，则测试通过，否则测试不通过。
 
-### 36.2.3 运行测试
+### 36.1.2.3 运行测试
 
 在单元测试项目中 `右键` 选择 `运行测试` 并打开 `测试资源管理器` 即可查看测试结果。
 
@@ -89,27 +89,27 @@ namespace TestProject1
 
 <img src={useBaseUrl("img/ut3.png")} />
 
-### 36.2.4 多个测试方法测试
+### 36.1.2.4 多个测试方法测试
 
 <img src={useBaseUrl("img/ut4.png")} />
 
-### 36.2.5 重复/回归测试
+### 36.1.2.5 重复/回归测试
 
 后续添加更多测试方法只需在 `测试资源管理器` 点击 `在视图中运行所有测试` 播放按钮即可，如下图
 
 <img src={useBaseUrl("img/ut5.png")} />
 
-## 36.3 集成 `Furion` 强大功能
+## 36.1.3 集成 `Furion` 强大功能
 
 `Furion` 是跨平台、跨项目的开发框架，支持任意项目类型，包括单元测试项目。
 
-### 36.3.1 安装 `Furion` 包
+### 36.1.3.1 安装 `Furion` 包
 
 打开 `Nuget` 程序包控制台，安装 `Furion` 包
 
 <img src={useBaseUrl("img/ut6.png")} />
 
-### 36.3.2 添加 `Startup.cs` 类
+### 36.1.3.2 添加 `Startup.cs` 类
 
 在单元测试项目根目录下添加 `Startup.cs` 类，并写下以下代码：
 
@@ -155,7 +155,7 @@ namespace TestProject1
 
 :::
 
-### 36.3.3 使用 `Furion` 完整功能
+### 36.1.3.3 使用 `Furion` 完整功能
 
 `Furion` 是跨平台、跨项目的开发框架，下面在单元测试中演示 `远程请求` 并请求 `https://www.baidu.com` 数据，并测试是否请求成功。
 
@@ -192,7 +192,7 @@ public async Task 测试请求百度()
 
 很神奇吧！`Furion` 支持任何项目类型，任何平台使用。
 
-## 36.4 带参数的测试方法
+## 36.1.4 带参数的测试方法
 
 上面例子中，测试方法都是没有参数的，有时候需要同一个方法输入多个不同的值进行测试，这时候就需要用到 `[Theory]` 和 `[InlineData]` 特性了。
 
@@ -213,11 +213,11 @@ public void 带参数测试(int i, int j)
 
 <img src={useBaseUrl("img/ut8.png")} />
 
-## 36.5 如何进行依赖注入
+## 36.1.5 如何进行依赖注入
 
 有些时候，我们需要测试某接口，或者进行依赖注入方式解析服务并调用，这时候就需要用到 `App.GetService<>()` 静态类方式了，如：
 
-### 36.5.1 编写一个 `ICalcService` 接口及实现类
+### 36.1.5.1 编写一个 `ICalcService` 接口及实现类
 
 ```cs {3,8}
 namespace TestProject1.Services
@@ -237,7 +237,7 @@ namespace TestProject1.Services
 }
 ```
 
-### 36.5.2 在测试类中调用
+### 36.1.5.2 在测试类中调用
 
 ```cs {9,16,22}
 using Furion;
@@ -269,7 +269,7 @@ namespace TestProject1
 
 <img src={useBaseUrl("img/ut9.png")} />
 
-### 36.5.3 输出日志
+### 36.1.5.3 输出日志
 
 如果在单元测试中想输出日志，只需要在构造函数注入 `ITestOutputHelper` 即可，如：
 
@@ -300,7 +300,7 @@ namespace TestProject1
 
 <img src={useBaseUrl("img/un3.png")} />
 
-### 36.5.4 关于依赖注入作用域释放问题
+### 36.1.5.4 关于依赖注入作用域释放问题
 
 有时候我们需要对 `非托管资源` 或需要手动释放的对象进行服务解析并测试，这时候需要构建作用域进行测试，如：
 
@@ -319,7 +319,7 @@ public void 测试数据库()
 }
 ```
 
-### 36.5.5 测试释放资源
+### 36.1.5.5 测试释放资源
 
 有时候，我们需要测试成功后释放一些不能及时释放的对象，这时，只需要实现 `IDisposable` 接口即可：
 
@@ -345,7 +345,7 @@ namespace TestProject1
 }
 ```
 
-## 36.6 `Web` 集成测试
+## 36.1.6 `Web` 集成测试
 
 有时候，我们需要在没有 `IIS` 服务器或任何外部事物的情况下测试完整的 `Web` 应用程序，这时候，我们只需要执行以下步骤即可：
 
@@ -390,11 +390,11 @@ namespace TestProject1
 
 :::
 
-## 36.7 `Assert` 断言
+## 36.1.7 `Assert` 断言
 
 `Assert` 是单元测试判定成功的依据，通常第一个参数为 `期望值`，第二个参数为 `实际值`，对比这两个值是否一致即可判断成功与否。详细的 `Assert` 静态方法可查阅官方库 [Assert 方法](https://github.com/xunit/assert.xunit)
 
-## 36.8 反馈与建议
+## 36.1.8 反馈与建议
 
 :::note 与我们交流
 
