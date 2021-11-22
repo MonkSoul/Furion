@@ -6,10 +6,10 @@ export default function GiveMeStar() {
   return (
     <>
       <div className="furion-give-me-star">
-        <Typist
+        {/* <Typist
           cursor={{ show: false, hideWhenDone: true, hideWhenDoneDelay: 0 }}
-        >
-          ⭐️ 你给的 Star，胜过所有读过的诗
+        > */}
+        {/* ⭐️ 你给的 Star，胜过所有读过的诗
           <a href="https://gitee.com/dotnetchina/Furion" target="_blank">
             <img
               className="furion-gitee-star"
@@ -17,8 +17,9 @@ export default function GiveMeStar() {
               alt="star"
             ></img>
           </a>{" "}
-          ⭐️
-        </Typist>
+          ⭐️ */}
+        自己造轮子是一件苦差事。 现在，您可以专注于业务开发，仅需使用 ⭐️<a href="https://gitee.com/dotnetchina/Furion" target="_blank">Furion</a>⭐️ 即可。
+        {/* </Typist> */}
       </div>
     </>
   );

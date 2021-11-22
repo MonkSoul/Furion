@@ -79,7 +79,7 @@ function Banner() {
               className="furion-get-start"
               to={useBaseUrl("docs/get-start-net6")}
             >
-              一分钟上手 (.NET6)
+              你准备好了吗？
             </Link>
             <div className="furion-version">v3.0.5</div>
           </div>
