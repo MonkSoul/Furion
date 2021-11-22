@@ -25,6 +25,7 @@
   - [修复] `.NET5.0.5+` 和 `.NET6` 微软底层修改了 `[ApiController]` 验证失败返回 `IActionResult` 类型 [#I4ISOK](https://gitee.com/dotnetchina/Furion/issues/I4ISOK)
   - [修复] `EFCore 6.0` 适配 `SqlServer 2005+` 出错 [#I4ILA5](https://gitee.com/dotnetchina/Furion/issues/I4ILA5)
   - [修复] .NET6 获取配置对象如果不存在返回 null 问题，.NET5则返回初始对象 [94ae4d](https://gitee.com/dotnetchina/Furion/commit/94ae4d8c9b0fe7eb4d713a171f953c0d3c5a76ac)
+  - [修复] `Sql` 命令参数传入 `Clay` 类型异常问题 [#I4D21Q](https://gitee.com/dotnetchina/Furion/issues/I4D21Q)
 
 - **其他更改**
 
@@ -60,6 +61,7 @@
   - [修复] 定时任务内存和CPU占用及特殊情况下空异常问题 [12c65de](https://gitee.com/dotnetchina/Furion/commit/12c65debf552c57780679e6a567a9dd9fb077f46)
   - [修复] 默认控制器启用规范化结果无效 bug[c7a4a5e](https://gitee.com/dotnetchina/Furion/commit/c7a4a5ef8c3282d245cbe04124cf379d381d496f)
   - [修正] 依赖注入 `InjectionAttribute` 特性的 `ExceptInterfaces` 单词拼写错误问题 [!436](https://gitee.com/dotnetchina/Furion/pulls/436)
+  - [修复] `Sql` 命令参数传入 `Clay` 类型异常问题 [#I4D21Q](https://gitee.com/dotnetchina/Furion/issues/I4D21Q)
 
 - **其他更改**
 
