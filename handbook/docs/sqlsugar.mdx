@@ -4,6 +4,12 @@ title: 10.1. SqlSugar 集成
 sidebar_label: 10.1. SqlSugar 集成
 ---
 
+:::warning 温馨提醒
+
+在 `Furion` 包中默认集成了 `EFCore`，**如果不使用 `EFCore`，可安装纯净版 `Furion.Pure` 代替 `Furion`，这样可以忽略本章节直接按照 `SqlSugar` 官方文档使用**。
+
+:::
+
 ## 10.1.1 关于 SqlSugar
 
 `SqlSugar` 是 .NET/C# 平台非常优秀的 `ORM` 框架，目前 `Nuget` 总下载突破 700K，Github 关注量也高达 3.2K，是目前当之无愧的国产优秀 ORM 框架之一。
@@ -123,21 +129,21 @@ var data2 = db.Queryable<Student>().ToList();// db.GetList();
 // ================== 简单仓储 ================
 
 //插入
-repository.Insert(insertObj);
-var id = repository.InsertReturnIdentity(insertObj);
-repository.AsInsertable(insertObj).ExecuteCommand();
+db.Insert(insertObj);
+var id = db.InsertReturnIdentity(insertObj);
+db.AsInsertable(insertObj).ExecuteCommand();
 
 //删除
-repository.Delete(insertObj);
-repository.Delete(it => it.Id == 1);
+db.Delete(insertObj);
+db.Delete(it => it.Id == 1);
 
 //更新
-repository.Update(insertObj);
-repository.Update(it => new Order() { Name = "a", }, it => it.Id == 1);
+db.Update(insertObj);
+db.Update(it => new Order() { Name = "a", }, it => it.Id == 1);
 
 //异步方法用法
-repository.Insert(insertObj);//同步
-repository.InsertAsync(insertObj);//异步
+db.Insert(insertObj);//同步
+db.InsertAsync(insertObj);//异步
 
 //切换仓储
 var orderRespository=db.GetSimpleClient<Order>();
