@@ -1,8 +1,8 @@
 # Author:KaneLeung(https://github.com/KaneLeung)
-# Update:2021.03.15
+# Update:2021.11.22
 # .NET5 SDK Docker
 # https://hub.docker.com/_/microsoft-dotnet-sdk
-FROM mcr.microsoft.com/dotnet/sdk:5.0-alpine AS build
+FROM mcr.microsoft.com/dotnet/sdk:6.0-alpine AS build
 WORKDIR /source
 
 # Download source
@@ -20,9 +20,9 @@ RUN dotnet restore
 RUN dotnet publish -c release -o /app --no-restore
 
 # Run Furion
-# ASP.NET 5 Docker
+# ASP.NET 6 Docker
 # https://hub.docker.com/_/microsoft-dotnet-aspnet/
-FROM mcr.microsoft.com/dotnet/aspnet:5.0-alpine
+FROM mcr.microsoft.com/dotnet/aspnet:6.0-alpine
 WORKDIR /app
 COPY --from=build /app ./
 EXPOSE 80
