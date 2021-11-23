@@ -47,6 +47,7 @@ function Banner() {
               [fu:rɪən]
             </span>
           </div>
+          <div style={{ color: '#82aaff', position: 'relative',fontSize:14 }}>您的痛点，Furion 已阅已历；Furion 的惊喜，您且慢慢享受。</div>
           <div className="furion-banner-description">
             让 .NET 开发更简单，更通用，更流行。
           </div>
