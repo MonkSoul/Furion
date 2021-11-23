@@ -83,7 +83,25 @@ set ASPNETCORE_ENVIRONMENT=Production
 
 只需重启网站或应用程序池即可。
 
-## 34.1.4 反馈与建议
+## 34.1.4 常见问题
+
+### 34.1.4.1 405 状态码，不支持 `PUT，DELETE` 请求
+
+默认情况下，`IIS`拒绝 `PUT`和 `DELETE` 请求，原因为 `IIS` 默认注册了一个名为 `WebDAVModule` 的自定义 `HttpModule` 导致的。
+
+解决该问题，只需要在 `web.config` 移除即可：
+
+```xml {2-4}
+<configuration>
+ <system.webServer>
+   <modules runAllManagedModulesForAllRequests="true">
+     <remove name="webDAVModule"/>
+   </modules>
+ <system.webServer>
+</configuration>
+```
+
+## 34.1.5 反馈与建议
 
 :::note 与我们交流
 
