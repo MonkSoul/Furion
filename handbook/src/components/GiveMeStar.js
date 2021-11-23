@@ -18,7 +18,7 @@ export default function GiveMeStar() {
             ></img>
           </a>{" "}
           ⭐️ */}
-        自己造轮子是一件苦差事。 现在，您可以专注于业务开发，仅需使用 ⭐️<a href="https://gitee.com/dotnetchina/Furion" target="_blank">Furion</a>⭐️ 即可。
+        自己造轮子是一件苦差事。 现在，您可以专注于业务开发，仅需集成 ⭐️<a href="https://gitee.com/dotnetchina/Furion" style={{textDecoration:'underline',color:'yellow'}} target="_blank">Furion</a>⭐️ 即可。
         {/* </Typist> */}
       </div>
     </>
