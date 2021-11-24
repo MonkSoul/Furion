@@ -86,6 +86,11 @@ where TEntity : class, new()
         _sqlSugarRepository = sqlSugarRepository;
 
         DynamicContext = Context = sqlSugarRepository.Context;
+        TenantAttribute tenantAttribute = typeof(TEntity).GetCustomAttribute<TenantAttribute>()!;
+        if (tenantAttribute != null)
+        {
+            Context.ChangeDatabase(tenantAttribute.configId);
+        }
         Ado = sqlSugarRepository.Ado;
     }
 
