@@ -11,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Reflection;
 using System.Threading.Tasks;
 
 namespace SqlSugar;
@@ -86,11 +87,15 @@ where TEntity : class, new()
         _sqlSugarRepository = sqlSugarRepository;
 
         DynamicContext = Context = sqlSugarRepository.Context;
-        TenantAttribute tenantAttribute = typeof(TEntity).GetCustomAttribute<TenantAttribute>()!;
-        if (tenantAttribute != null)
+
+        // 设置租户信息
+        var entityType = typeof(TEntity);
+        if (entityType.IsDefined(typeof(TenantAttribute), false))
         {
+            var tenantAttribute = entityType.GetCustomAttribute<TenantAttribute>(false)!;
             Context.ChangeDatabase(tenantAttribute.configId);
         }
+
         Ado = sqlSugarRepository.Ado;
     }
 
