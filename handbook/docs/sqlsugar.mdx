@@ -10,338 +10,311 @@ sidebar_label: 10.1. SqlSugar 集成
 
 :::
 
-## 10.1.1 关于 SqlSugar
 
-`SqlSugar` 是 .NET/C# 平台非常优秀的 `ORM` 框架，目前 `Nuget` 总下载突破 700K，Github 关注量也高达 3.2K，是目前当之无愧的国产优秀 ORM 框架之一。
 
-`SqlSugar` 官方地址：[http://www.donet5.com/](http://www.donet5.com/)
+## SqlSugar ORM
+  
+SqlSugar是 .NET/C# 平台非常优秀的 ORM 框架，目前 Nuget 总下载突破 1000K，Github 关注量也高达 3.7K，是目前当之无愧的国产优秀 ORM 框架之一。
 
-`SqlSugar` 与 EF 优势： 性能比 EF 更快、语法上手更容易
+SqlSugar高性能，具体百万级 插入、更新 大数据分表等特色功能.
 
-`SqlSugar` 与 Dapper 优势： SqlSugar 功能更加丰富，性能丝毫不逊色于 Dapper，并且批量操作性能更好
+## 功能介绍
 
-## 10.1.2 如何集成
+- 支持 SqlServer、MySql、PgSql 、 Oracle  百万级插入和更新
+- 支持 全自动分表
+- 支持 多库事务
+- 支持 CodeFirst  
+- 支持 联表查询 、 嵌套查询 、导航查询、 子查询 和 动态JSON查询 等查询操作 
+- 支持 配置查询
+- 支持 工具生成实体和代码生成实体
+- 支持数据库 MySql、SqlServer、Sqlite、Oracle 、 postgresql 、达梦、人大金仓 、神通数据库
 
-在 `Furion` 框架中，已经推出 `SqlSugar` 拓展包 [Furion.Extras.DatabaseAccessor.SqlSugar](https://www.nuget.org/packages/Furion.Extras.DatabaseAccessor.SqlSugar)。
+##  官网文档
+点击可以跳转到SqlSugar官网查看详细API
 
-### 10.1.2.1 注册 `SqlSugar` 服务
+|入门 |查询  | 插入    | 更新  | 删 除| 
+| ----- | --------- | ----------- | ------- |------- |
+ <a href="https://www.donet5.com/home/Doc?typeId=1226">安装</a>| [简单查询](https://www.donet5.com/Home/Doc?typeId=1187)  | <a href="https://www.donet5.com/Home/Doc?typeId=1193"> 增 </a> |<a href="https://www.donet5.com/Home/Doc?typeId=1191">改</a>|    <a href="https://www.donet5.com/Home/Doc?typeId=1195">删</a>    | 
+[入门](https://www.donet5.com/home/Doc?typeId=1181)| <a target="_bank" href="https://www.donet5.com/Home/Doc?typeId=1185">联表 </a> |   |   |    |         |
 
-使用非常简单，只需要在 `Startup.cs` 中添加 `services.AddSqlSugar(config)` 即可。如：
 
+### Furion 集成
 ```cs
-// =====配置单库=====
-services.AddSqlSugar(new ConnectionConfig
+//建一个扩展类
+public static class SqlsugarSetup
 {
-    ConnectionString = "Server=.xxxxx",//连接符字串
-    DbType = DbType.SqlServer,
-    IsAutoCloseConnection = true,
-    InitKeyType = InitKeyType.Attribute//从特性读取主键自增信息
-});
-
-// =====配置多库=====
-List<ConnectionConfig> connectConfigList = new List<ConnectionConfig>();
-//数据库1
-connectConfigList.Add(new ConnectionConfig
-{
-    ConnectionString = "链接字符串1",
-    DbType = DbType.MySql,
-    IsAutoCloseConnection = true,
-    InitKeyType = InitKeyType.Attribute,
-    ConfigId = "0",
-    AopEvents = new AopEvents
+    public static void AddSqlsugarSetup(this IServiceCollection services, IConfiguration configuration, 
+    string dbName = "db_master")
     {
-        //多库状态下每个库必须单独绑定打印事件，否则只会打印第一个库的sql日志
-        OnLogExecuting = (sql, pars) =>
+	    //如果多个数数据库传 List<ConnectionConfig>
+		var configConnection=new ConnectionConfig()
         {
-            Console.WriteLine(SqlProfiler.ParameterFormat(sql, pars));
-            Console.WriteLine();
-        }
+            DbType = SqlSugar.DbType.MySql,
+            ConnectionString = configuration.GetConnectionString(dbName),
+            IsAutoCloseConnection = true,
+        };
+        SqlSugarScope sqlSugar = new SqlSugarScope(configConnection,
+            db =>
+            {
+                //单例参数配置，所有上下文生效
+                db.Aop.OnLogExecuting = (sql, pars) =>
+                {
+                    //Console.WriteLine(sql);//输出sql
+                };
+            });
+        services.AddSingleton<ISqlSugarClient>(sqlSugar);//这边是SqlSugarScope用AddSingleton
     }
-});
-//数据库2
-connectConfigList.Add(new ConnectionConfig
-{
-    ConnectionString = "链接字符串2",
-    DbType = DbType.MySql,
-    IsAutoCloseConnection = true,
-    InitKeyType = InitKeyType.Attribute,
-    ConfigId = "1",
-    AopEvents = new AopEvents
-    {
-        //多库状态下每个库必须单独绑定打印事件，否则只会打印第一个库的sql日志
-        OnLogExecuting = (sql, pars) =>
-        {
-            Console.WriteLine(SqlProfiler.ParameterFormat(sql, pars));
-            Console.WriteLine();
-        }
-    }
-});
-services.AddSqlSugar(connectConfigList.ToArray());
-```
-
-同时也可以添加更多配置，如：
-ps：多库状态下每个库必须单独绑定打印事件，否则只会打印第一个库的sql日志（参考上面的多库配置）
-```cs
-services.AddSqlSugar(connectConfigList.ToArray(),
-db =>
-{
-    //处理日志事务
-    db.Aop.OnLogExecuting = (sql, pars) =>
-    {
-        Console.WriteLine(sql);
-        Console.WriteLine(string.Join(",", pars?.Select(it => it.ParameterName + ":" + it.Value)));
-        Console.WriteLine();
-        App.PrintToMiniProfiler("SqlSugar", "Info", sql + "\r\n" + db.Utilities.SerializeObject(pars.ToDictionary(it => it.ParameterName, it => it.Value)));
-    };
-});
-```
-
-:::important 安装拓展包位置
-
-在 `Furion` 框架中，推荐将拓展包 `Furion.Extras.DatabaseAccessor.SqlSugar` 安装到 `Furion.Core` 层中。
-
-:::
-
-## 10.1.3 基本使用
-
-在使用之前，我们可以通过构造函数注入 `ISqlSugarRepository` 接口，如：
-
-```cs {1,6}
-private readonly ISqlSugarRepository repository; // 仓储对象：封装简单的CRUD
-private readonly SqlSugarClient db; // 核心对象：拥有完整的SqlSugar全部功能
-public PersonService(ISqlSugarRepository sqlSugarRepository)
-{
-    repository = sqlSugarRepository;
-    db = repository.Context;    // 推荐操作
 }
+//Startup.cs文件添加下面代码
+services.AddSqlsugarSetup(Configuration);
+
 ```
+多库: 看这篇文章
+https://www.donet5.com/home/Doc?typeId=2246
 
-## 10.1.4 数据库操作示例
 
+###  特色1: 联表查询
+联表查询超级简单
 ```cs
-// ================== SqlSugarClient ================
-
-//查询功能
-var data1 =db.Queryable<Student>().First(it=>it.Id==1); //db.GetById(1);
-
-var data2 = db.Queryable<Student>().ToList();// db.GetList();
-
-// ================== 简单仓储 ================
-
-//插入
-db.Insert(insertObj);
-var id = db.InsertReturnIdentity(insertObj);
-db.AsInsertable(insertObj).ExecuteCommand();
-
-//删除
-db.Delete(insertObj);
-db.Delete(it => it.Id == 1);
-
-//更新
-db.Update(insertObj);
-db.Update(it => new Order() { Name = "a", }, it => it.Id == 1);
-
-//异步方法用法
-db.Insert(insertObj);//同步
-db.InsertAsync(insertObj);//异步
-
-//切换仓储
-var orderRespository=db.GetSimpleClient<Order>();
-orderRespository.Insert(Order);
+var query5 = db.Queryable<Order>()
+            .LeftJoin<Custom>    ((o, cus) => o.CustomId == cus.Id)
+            .LeftJoin<OrderItem> ((o, cus, oritem ) => o.Id == oritem.OrderId)
+            .Where(o => o.Id == 1)  
+            .Select((o, cus) => new ViewOrder { Id = o.Id, CustomName = cus.Name })
+            .ToList();   
 ```
+```sql
+SELECT
+  [o].[Id] AS [Id],
+  [cus].[Name] AS [CustomName]
+FROM
+  [Order] o
+  Left JOIN [Custom] cus ON ([o].[CustomId] = [cus].[Id])
+  Left JOIN [OrderDetail] oritem ON ([o].[Id] = [oritem].[OrderId])
+WHERE
+  ([o].[Id] = @Id0)
+``` 
 
-## 10.1.5 SqlSugarClient 操作示例
-
-### 10.1.5.1 基础查询
-
+###   特色2 : 分页查询
 ```cs
-//查询所有
-var getAll = db.Queryable<Student>().ToList();
-//查询前10
-var top10= db.Queryable<Student>().Take(10).ToList();
-//查询单条
-var getFirst = db.Queryable<Student>().First(it=>it.Id==1);
-//with nolock
-var getAllNoLock = db.Queryable<Student>().With(SqlWith.NoLock).ToList();
-//根据主键查询
-var getByPrimaryKey = db.Queryable<Student>().InSingle(2);
-//查询总和
-var sum = db.Queryable<Student>().Sum(it=>it.Id);
-//是否存在
-var isAny = db.Queryable<Student>().Where(it=>it.Id==-1).Any();
-//模糊查
-var list2 = db.Queryable<Order>().Where(it =>it.Name.Contains("jack")).ToList();
-```
 
-### 10.1.5.2 联表查询
-
-```cs
-var list = db.Queryable<Student, School>((st, sc) => new JoinQueryInfos(
-        JoinType.Left,st.SchoolId==sc.Id))
-      .Select((st,sc)=>new{Id=st.Id,Name=st.Name,SchoolName=sc.Name}).ToList();
-
-生成的Sql如下:
-SELECT  [st].[ID] AS [id] ,
-          [st].[Name] AS [name] ,
-          [sc].[Name] AS [schoolName]  FROM [STudent] st
-          Left JOIN School sc ON ( [st].[SchoolId] =[sc].[Id])
-```
-
-### 10.1.5.3 分页查询
-
-```cs
- int pageIndex = 1;
+ int pageIndex = 1; 
  int pageSize = 20;
  int totalCount=0;
  var page = db.Queryable<Student>().ToPageList(pageIndex, pageSize, ref totalCount);
 ```
-
-更多查询用法 ： http://www.donet5.com/Home/Doc?typeId=1185
-
-### 10.1.5.4 插入
-
+ 
+###    特色3 : 动态表达式
 ```cs
-//可以是 类 或者 List<类>
-db.Insertable(insertObj).ExecuteCommand();
-
-//插入返回自增列
-db.Insertable(insertObj).ExecuteReturnIdentity();
-
-//可以是 Dictionary 或者 List<Dictionary >
-var dc= new Dictionary<string, object>();
-            dt.Add("name", "1");
-            dt.Add("CreateTime", null);
-db.Insertable(dc).AS("student").ExecuteCommand();
-
-//DataTable插入
-Dictionary<string,object> dc= db.Utilities.DataTableToDictionary(dataTable);//转成字典就可以按上面的字典更新了
-db.Insertable(dc).AS("student").ExecuteReturnIdentity();
-
-//实体可以配置主键和自增列
-public class Student
+var names= new string [] { "a","b"};
+Expressionable<Order> exp = new Expressionable<Order>();
+foreach (var item in names)
 {
-    [SugarColumn(IsPrimaryKey = true, IsIdentity = true)]
-    public int Id { get; set; }
-    public int? SchoolId { get; set; }
-    public string Name { get; set; }
+    exp.Or(it => it.Name.Contains(item.ToString()));
+}
+var list= db.Queryable<Order>().Where(exp.ToExpression()).ToList();
+ ```
+ ```sql
+SELECT [Id],[Name],[Price],[CreateTime],[CustomId]
+        FROM [Order]  WHERE (
+                      ([Name] like '%'+ CAST(@MethodConst0 AS NVARCHAR(MAX))+'%') OR 
+                      ([Name] like '%'+ CAST(@MethodConst1 AS NVARCHAR(MAX))+'%')
+                     )
+```
+
+###   特色4 : 仓储方法
+新建一个仓储类，如果想扩展方法写到仓储类中
+```cs
+public class Repository<T> : SimpleClient<T> where T : class, new()
+{
+    public Repository(ISqlSugarClient context = null) : base(context)//默认值等于null不能少
+    {
+         
+        //可以通过IOC注入也可以手动赋值 base.Context=context;
+    }
 }
 ```
-
-更多插入用法： http://www.donet5.com/Home/Doc?typeId=1193
-
-### 10.1.5.5 更新
-
-实体配置参考插入，只需要配置主键即可
+继承仓储类就可以使用仓储API了
 
 ```cs
-//根据主键更新单条 参数 Class
-var result= db.Updateable(updateObj).ExecuteCommand();
-//不更新 Name 和TestId
-var result=db.Updateable(updateObj).IgnoreColumns(it => new { it.CreateTime,it.TestId }).ExecuteCommand()
-//只更新 Name 和 CreateTime
-var result=db.Updateable(updateObj).UpdateColumns(it => new { it.Name,it.CreateTime }).ExecuteCommand();
-//根据表达式更新
-var result71 = db.Updateable<Order>()
-              .SetColumns(it => it.Name == "a")
-              .SetColumnsIF(p!=null ,it => it.CreateTime == p.Value)//当p不等于null更新createtime列
-            .Where(it => it.Id == 11).ExecuteCommand();
+//查询
+var data1 = base.GetById(1);//根据id查询
+var data2 = base.GetList();//查询所有
+var data3 = base.GetList(it => it.Id == 1); //根据条件查询
+var data4 = base.GetSingle(it => it.Id == 1);//查询单条记录，结果集不能超过1，不然会提示错误
+var  data= base.GetFirst(it => it.Id == 1);//查询第一条记录
+var p = new PageModel() { PageIndex = 1, PageSize = 2 };
+var data5 = base.GetPageList(it => it.Name == "xx", p);
+Console.Write(p.PageCount);
+var data6 = base.GetPageList(it => it.Name == "xx", p, it => it.Name, OrderByType.Asc);
+Console.Write(p.PageCount);
+List<IConditionalModel> conModels = new List<IConditionalModel>();
+conModels.Add(new ConditionalModel(){FieldName="id",ConditionalType=ConditionalType.Equal,FieldValue="1"});//id=1
+var data7 = base.GetPageList(conModels, p, it => it.Name, OrderByType.Asc);
+base.AsQueryable().Where(x => x.Id == 1).ToList();
+ 
+//插入
+base.Insert(insertObj);
+base.InsertRange(InsertObjs);
+var id = base.InsertReturnIdentity(insertObj);
+base.AsInsertable(insertObj).ExecuteCommand();
+ 
+ 
+//删除
+base.Delete(insertObj);
+base.DeleteById(1);
+base.DeleteByIds(new object [] { 1, 2 }); //数组带是 ids方法 ，封装传 object [] 类型
+base.Delete(it => it.Id == 1);
+base.AsDeleteable().Where(it => it.Id == 1).ExecuteCommand();
+ 
+//更新
+base.Update(insertObj); 
+base.UpdateRange(InsertObjs); 
+base.Update(it => new Order() { Name = "a", }, it => it.Id == 1);
+base.AsUpdateable(insertObj).UpdateColumns(it=>new { it.Name }).ExecuteCommand();
+ 
+ 
+//高级操作
+base.AsSugarClient // 获取完整的db对象
+base.AsTenant  // 获取多库相关操作
+ 
+//切换仓储
+base.ChangeRepository<Repository<OrderItem>>() //支持多租户和扩展方法，使用SqlSugarScope单例（或者SqlSugarClient Scope注入）
+base.Change<OrderItem>()//只支持自带方法和单库
 ```
 
-更多更新用法： http://www.donet5.com/Home/Doc?typeId=1191
 
-### 10.1.5.6 删除
-
-实体配置参考插入，只需要配置主键即可
-
+###   特色5 : 多库事务
 ```cs
-//根据实体删除
-db.Deleteable<Student>().Where(new Student() { Id = 1 }).ExecuteCommand();
-//根据主键删除
-db.Deleteable<Student>().In(1).ExecuteCommand();
-//根据表达式删除
-db.Deleteable<Student>().Where(it => it.Id == 1).ExecuteCommand();
-```
-
-更多删除用法: http://www.donet5.com/Home/Doc?typeId=1195
-
-## 10.1.6 Sql 查询
-
-```cs
-//sql分页
-var list = db.SqlQueryable<Student>("select * from student").ToPageList(1, 2,ref total);
-
-//原生Sql用法
-var dt=db.Ado.GetDataTable("select * from table where id=@id and name=@name",new List<SugarParameter>(){
-  new SugarParameter("@id",1),
-  new SugarParameter("@name",2)
-});
-//参数2
-var dt=db.Ado.GetDataTable("select * from table where id=@id and name=@name",new{id=1,name=2});
-
-//存储过程用法
-var nameP= new SugarParameter("@name", "张三");
-var ageP= new SugarParameter("@age", null, true);//设置为output
-var dt = db.Ado.UseStoredProcedure().GetDataTable("sp_school",nameP,ageP);
-
-```
-
-|     方法名     |              描述              |      返回值       |
-| :------------: | :----------------------------: | :---------------: |
-| SqlQuery< T >  |      查询所有返回实体集合      |       List        |
-| SqlQuery<T,T2> |      可以返回 2 个结果集       | Tuple<List, List> |
-| SqlQuerySingle |         查询第一条记录         |         T         |
-|  GetDataTable  |            查询所有            |     DataTable     |
-| GetDataReader  |    读取 DR 需要手动释放 DR     |    DataReader     |
-| GetDataSetAll  |         获取多个结果集         |      DataSet      |
-| ExecuteCommand | 返回受影响行数，一般用于增删改 |        int        |
-|   GetScalar    |          获取首行首列          |      object       |
-|   GetString    |          获取首行首列          |      string       |
-|     GetInt     |          获取首行首列          |        int        |
-|    GetLong     |          获取首行首列          |       long        |
-|   GetDouble    |          获取首行首列          |      Double       |
-|   GetDecimal   |          获取首行首列          |      Decimal      |
-|  GetDateTime   |          获取首行首列          |     DateTime      |
-
-想了解更多 `SqlSugar` 知识可查阅 [SqlSugar 官网](http://donet5.com/)。
-
-## 10.1.7 打印 `sql` 到 `Swagger`
-
-```cs
-services.AddSqlSugar(new ConnectionConfig
+//Creaate  database object
+SqlSugarClient db = new SqlSugarClient(new List<ConnectionConfig>()
 {
-    ConnectionString = "Server=.xxxxx",//连接符字串
-    DbType = DbType.SqlServer,
-    IsAutoCloseConnection = true,
-    InitKeyType = InitKeyType.Attribute//从特性读取主键自增信息
-},
-db =>
-{
-    db.Aop.OnLogExecuting = (sql, pars) =>
-    {
-        //方法一
-        App.PrintToMiniProfiler("SqlSugar", "Info", sql + "\r\n" +string.Join(",", pars?.Select(it => it.ParameterName + ":" + it.Value)));
-
-        //方法二:Furion对上述用法进行二次封装 建议方式 Sql参数会直接写入到生成Sql中
-        App.PrintToMiniProfiler("SqlSugar","Info",SqlProfiler.ParameterFormat(sql,pars));
-    };
+    new ConnectionConfig(){ ConfigId="0", DbType=DbType.SqlServer,  ConnectionString=Config.ConnectionString, IsAutoCloseConnection=true },
+    new ConnectionConfig(){ ConfigId="1", DbType=DbType.MySql, ConnectionString=Config.ConnectionString4 ,IsAutoCloseConnection=true}
 });
+
+
+var mysqldb = db.GetConnection("1");//mysql db
+var sqlServerdb = db.GetConnection("0");// sqlserver db
+ 
+db.BeginTran();
+            mysqldb.Insertable(new Order()
+            {
+                CreateTime = DateTime.Now,
+                CustomId = 1,
+                Name = "a",
+                Price = 1
+            }).ExecuteCommand();
+            mysqldb.Queryable<Order>().ToList();
+            sqlServerdb.Queryable<Order>().ToList();
+
+db.CommitTran();
+```
+###  特色6 : 单例模式
+Implement transactions across methods
+```CS
+public static SqlSugarScope Db = new SqlSugarScope(new ConnectionConfig()
+ {
+            DbType = SqlSugar.DbType.SqlServer,
+            ConnectionString = Config.ConnectionString,
+            IsAutoCloseConnection = true 
+  },
+  db=> {
+            db.Aop.OnLogExecuting = (s, p) =>
+            {
+                Console.WriteLine(s);
+            };
+ });
+ 
+ 
+  using (var tran = Db.UseTran())
+  {
+          
+              
+               new Test2().Insert(XX);
+               new Test1().Insert(XX);
+               ..... 
+                ....
+                         
+             tran.CommitTran(); 
+ }
+```
+### 特色7 : 全局过滤器
+```cs
+//set filter
+db.QueryFilter.Add(new TableFilterItem<Order>(it => it.Name.Contains("a")));  
+ 
+   
+db.Queryable<Order>().ToList();
+//SELECT [Id],[Name],[Price],[CreateTime],[CustomId] FROM [Order]  WHERE  ([Name] like '%'+@MethodConst0+'%')  
+
+db.Queryable<OrderItem, Order>((i, o) => i.OrderId == o.Id)
+        .Where(i => i.OrderId != 0)
+        .Select("i.*").ToList();
+//SELECT i.* FROM [OrderDetail] i  ,[Order]  o  WHERE ( [i].[OrderId] = [o].[Id] )  AND 
+//( [i].[OrderId] <> @OrderId0 )  AND  ([o].[Name] like '%'+@MethodConst1+'%')
+ 
 ```
 
-## 10.1.8 `Oracle`注意事项
-
-注意 .NET5 用户需要在 API 或者项目解决方案 `.csproj` 文件加以下一行代码：
-
-```cs {3}
-<PropertyGroup>
-   <TargetFramework>net5.0</TargetFramework>
-   <EnableUnsafeBinaryFormatterSerialization>true</EnableUnsafeBinaryFormatterSerialization>
-</PropertyGroup>
+### 特色8 : 添加或者更新
+insert or update 
+```cs
+    var x = Db.Storageable(list2).ToStorage();  
+    x.AsInsertable.ExecuteCommand();  
+    x.AsUpdateable.ExecuteCommand();  
 ```
+insert into not exists  
+```cs
+var x = Db.Storageable(list).SplitInsert(it => !it.Any()).ToStorage()
+x.AsInsertable.ExecuteCommand(); 
+```
+ 
+### 特色9 ：自动分表
+Split entity 
+```cs
+[SplitTable(SplitType.Year)]//Table by year (the table supports year, quarter, month, week and day)
+[SugarTable("SplitTestTable_{year}{month}{day}")] 
+ public class SplitTestTable
+ {
+     [SugarColumn(IsPrimaryKey =true)]
+     public long Id { get; set; }
+ 
+     public string Name { get; set; }
+     
+     //When the sub-table field is inserted, which table will be inserted according to this field. 
+     //When it is updated and deleted, it can also be convenient to use this field to      
+     //find out the related table 
+     [SplitField] 
+     public DateTime CreateTime { get; set; }
+ }
+ ```
+Split query
+```cs
+ var lis2t = db.Queryable<OrderSpliteTest>()
+.SplitTable(DateTime.Now.Date.AddYears(-1), DateTime.Now)
+.ToPageList(1,2);　
+``` 
 
-## 10.1.9 反馈与建议
+### 特色10： 大数据插入，更新，插入或者更新
+```cs
+//Insert A million only takes a few seconds
+db.Fastest<RealmAuctionDatum>().BulkCopy(GetList());
+ 
+ 
+//update A million only takes a few seconds
+db.Fastest<RealmAuctionDatum>().BulkUpdate(GetList());//A million only takes a few seconds完
+db.Fastest<RealmAuctionDatum>().BulkUpdate(GetList(),new string[]{"id"},new string[]{"name","time"})//no primary key
+ 
+//if exists update, else  insert
+ var x= db.Storageable<Order>(data).ToStorage();
+     x.BulkCopy();
+     x.BulkUpdate(); 
+     
+//set table name
+db.Fastest<RealmAuctionDatum>().AS("tableName").BulkCopy(GetList())
+ 
+//set page 
+db.Fastest<Order>().PageSize(300000).BulkCopy(insertObjs);
 
-:::note 与我们交流
-
-给 Furion 提 [Issue](https://gitee.com/dotnetchina/Furion/issues/new?issue)。
-
-:::
+```
+ 
