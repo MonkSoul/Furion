@@ -426,10 +426,10 @@ var query = repository.Where(u => u.CreatedDt >= starDate && u.CreatedDt <= endD
 
 ```cs
 // 示例一
-repository.Where(u => u.Name.StartWith("Furion"));
+repository.Where(u => u.Name.StartsWith("Furion"));
 
 // 示例二
-_testRepository.Where(u => u.Name.EndWith("Furion"));
+_testRepository.Where(u => u.Name.EndsWith("Furion"));
 
 // 示例三
 _testRepository.Where(u => u.Name.Contains("Furion"));
