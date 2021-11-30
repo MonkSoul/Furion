@@ -4,47 +4,54 @@ title: 10.1. SqlSugar 集成
 sidebar_label: 10.1. SqlSugar 集成
 ---
 
-:::warning 温馨提醒
+:::caution 关于拓展包
 
-在 `Furion` 包中默认集成了 `EFCore`，**如果不使用 `EFCore`，可安装纯净版 `Furion.Pure` 代替 `Furion`，这样可以忽略本章节直接按照 `SqlSugar` 官方文档使用**。
+由于 `SqlSugar` 高速发展，新版本带来了诸多特性，而 `Furion.Extras.DatabaseAccessor.SqlSugar` 拓展包更新不及时导致不能第一时间体验新特性。
+
+**所以，和 `SqlSugar` 作者商量后，决定全面推荐使用 `SqlSugar` 原生拓展包即可。以下文档已更新**，[查看旧文档](./sqlsugar-old)
 
 :::
 
+:::warning 温馨提醒
 
+在 `Furion` 包中默认集成了 `EFCore`，**如果不使用 `EFCore`，可安装纯净版 `Furion.Pure` 代替 `Furion`。
 
-## SqlSugar ORM
+:::
+
+## 10.1.1 SqlSugar ORM
   
-SqlSugar是 .NET/C# 平台非常优秀的 ORM 框架，目前 Nuget 总下载突破 1000K，Github 关注量也高达 3.7K，是目前当之无愧的国产优秀 ORM 框架之一。
+`SqlSugar` 是 `.NET/C#` 平台非常优秀的 `ORM` 框架，目前 `Nuget` 总下载突破 `1000K`，`Github` 关注量也高达 `3.7K`，是目前当之无愧的国产优秀 `ORM` 框架之一。
 
-SqlSugar高性能，具体百万级 插入、更新 大数据分表等特色功能.
+`SqlSugar` 高性能，具有百万级插入、更新大数据分表等特色功能。
 
-## 功能介绍
+## 10.1.2 功能介绍
 
-- 支持 SqlServer、MySql、PgSql 、 Oracle  百万级插入和更新
-- 支持 全自动分表
-- 支持 多库事务
-- 支持 CodeFirst  
-- 支持 联表查询 、 嵌套查询 、导航查询、 子查询 和 动态JSON查询 等查询操作 
-- 支持 配置查询
-- 支持 工具生成实体和代码生成实体
-- 支持数据库 MySql、SqlServer、Sqlite、Oracle 、 postgresql 、达梦、人大金仓 、神通数据库
+- 支持 `SqlServer、MySql、PgSql、Oracle` 百万级插入和更新
+- 支持全自动分表
+- 支持多库事务
+- 支持 `CodeFirst`  
+- 支持联表查询、嵌套查询、导航查询、子查询和动态 `JSON` 查询等查询操作 
+- 支持配置查询
+- 支持工具生成实体和代码生成实体
+- 支持数据库 MySql、SqlServer、Sqlite、Oracle、postgresql、达梦、人大金仓、神通数据库
 
-##  官网文档
-点击可以跳转到SqlSugar官网查看详细API
+## 10.1.3 官网文档
+
+点击以下链接可以跳转到 `SqlSugar` 官网查看详细 `API`
 
 |入门 |查询  | 插入    | 更新  | 删 除| 
 | ----- | --------- | ----------- | ------- |------- |
  <a href="https://www.donet5.com/home/Doc?typeId=1226">安装</a>| [简单查询](https://www.donet5.com/Home/Doc?typeId=1187)  | <a href="https://www.donet5.com/Home/Doc?typeId=1193"> 增 </a> |<a href="https://www.donet5.com/Home/Doc?typeId=1191">改</a>|    <a href="https://www.donet5.com/Home/Doc?typeId=1195">删</a>    | 
 [入门](https://www.donet5.com/home/Doc?typeId=1181)| <a target="_bank" href="https://www.donet5.com/Home/Doc?typeId=1185">联表 </a> |   |   |    |         |
 
+## 10.1.4 Furion 集成
 
-### Furion 集成
-```cs
-//建一个扩展类
+1. 创建一个拓展类：
+
+```cs {3,23}
 public static class SqlsugarSetup
 {
-    public static void AddSqlsugarSetup(this IServiceCollection services, IConfiguration configuration, 
-    string dbName = "db_master")
+    public static void AddSqlsugarSetup(this IServiceCollection services, IConfiguration configuration, string dbName = "db_master")
     {
 	    //如果多个数数据库传 List<ConnectionConfig>
 		var configConnection=new ConnectionConfig()
@@ -53,6 +60,7 @@ public static class SqlsugarSetup
             ConnectionString = configuration.GetConnectionString(dbName),
             IsAutoCloseConnection = true,
         };
+        
         SqlSugarScope sqlSugar = new SqlSugarScope(configConnection,
             db =>
             {
@@ -62,19 +70,30 @@ public static class SqlsugarSetup
                     //Console.WriteLine(sql);//输出sql
                 };
             });
+
         services.AddSingleton<ISqlSugarClient>(sqlSugar);//这边是SqlSugarScope用AddSingleton
     }
 }
-//Startup.cs文件添加下面代码
-services.AddSqlsugarSetup(Configuration);
-
 ```
-多库: 看这篇文章
-https://www.donet5.com/home/Doc?typeId=2246
 
+2. 在 `Startup.cs` 中注册：
 
-###  特色1: 联表查询
-联表查询超级简单
+```cs
+services.AddSqlsugarSetup(App.Configuration);
+```
+
+:::tip 小知识
+
+如果需要多库配置，可查看 [https://www.donet5.com/home/Doc?typeId=2246](https://www.donet5.com/home/Doc?typeId=2246)
+
+:::
+
+## 10.1.5 特色功能
+
+### 10.1.5.1 联表查询
+
+- `Linq/Lambda`：
+
 ```cs
 var query5 = db.Queryable<Order>()
             .LeftJoin<Custom>    ((o, cus) => o.CustomId == cus.Id)
@@ -83,6 +102,9 @@ var query5 = db.Queryable<Order>()
             .Select((o, cus) => new ViewOrder { Id = o.Id, CustomName = cus.Name })
             .ToList();   
 ```
+
+- 生成 `SQL`：
+
 ```sql
 SELECT
   [o].[Id] AS [Id],
@@ -95,26 +117,34 @@ WHERE
   ([o].[Id] = @Id0)
 ``` 
 
-###   特色2 : 分页查询
-```cs
+### 10.1.5.2 分页查询
 
- int pageIndex = 1; 
- int pageSize = 20;
- int totalCount=0;
- var page = db.Queryable<Student>().ToPageList(pageIndex, pageSize, ref totalCount);
+```cs
+int pageIndex = 1; 
+int pageSize = 20;
+int totalCount=0;
+var page = db.Queryable<Student>().ToPageList(pageIndex, pageSize, ref totalCount);
 ```
  
-###    特色3 : 动态表达式
+### 10.1.5.3 动态表达式
+
+- `Linq/Lambda`：
+
 ```cs
 var names= new string [] { "a","b"};
 Expressionable<Order> exp = new Expressionable<Order>();
+
 foreach (var item in names)
 {
     exp.Or(it => it.Name.Contains(item.ToString()));
 }
+
 var list= db.Queryable<Order>().Where(exp.ToExpression()).ToList();
- ```
- ```sql
+```
+
+- 生成 `SQL`：
+
+```sql
 SELECT [Id],[Name],[Price],[CreateTime],[CustomId]
         FROM [Order]  WHERE (
                       ([Name] like '%'+ CAST(@MethodConst0 AS NVARCHAR(MAX))+'%') OR 
@@ -122,32 +152,38 @@ SELECT [Id],[Name],[Price],[CreateTime],[CustomId]
                      )
 ```
 
-###   特色4 : 仓储方法
+### 10.1.5.4 仓储方法
+
 新建一个仓储类，如果想扩展方法写到仓储类中
+
 ```cs
 public class Repository<T> : SimpleClient<T> where T : class, new()
 {
     public Repository(ISqlSugarClient context = null) : base(context)//默认值等于null不能少
     {
-         
-        //可以通过IOC注入也可以手动赋值 base.Context=context;
+        //可以通过IOC注入也可以手动赋值 base.Context = context;
     }
 }
 ```
+
 继承仓储类就可以使用仓储API了
 
 ```cs
 //查询
 var data1 = base.GetById(1);//根据id查询
+var data4 = base.GetSingle(it => it.Id == 1);//查询单条记录，结果集不能超过1，不然会提示错误
+var data = base.GetFirst(it => it.Id == 1);//查询第一条记录
+
 var data2 = base.GetList();//查询所有
 var data3 = base.GetList(it => it.Id == 1); //根据条件查询
-var data4 = base.GetSingle(it => it.Id == 1);//查询单条记录，结果集不能超过1，不然会提示错误
-var  data= base.GetFirst(it => it.Id == 1);//查询第一条记录
+
 var p = new PageModel() { PageIndex = 1, PageSize = 2 };
 var data5 = base.GetPageList(it => it.Name == "xx", p);
 Console.Write(p.PageCount);
+
 var data6 = base.GetPageList(it => it.Name == "xx", p, it => it.Name, OrderByType.Asc);
 Console.Write(p.PageCount);
+
 List<IConditionalModel> conModels = new List<IConditionalModel>();
 conModels.Add(new ConditionalModel(){FieldName="id",ConditionalType=ConditionalType.Equal,FieldValue="1"});//id=1
 var data7 = base.GetPageList(conModels, p, it => it.Name, OrderByType.Asc);
@@ -158,7 +194,6 @@ base.Insert(insertObj);
 base.InsertRange(InsertObjs);
 var id = base.InsertReturnIdentity(insertObj);
 base.AsInsertable(insertObj).ExecuteCommand();
- 
  
 //删除
 base.Delete(insertObj);
@@ -173,7 +208,6 @@ base.UpdateRange(InsertObjs);
 base.Update(it => new Order() { Name = "a", }, it => it.Id == 1);
 base.AsUpdateable(insertObj).UpdateColumns(it=>new { it.Name }).ExecuteCommand();
  
- 
 //高级操作
 base.AsSugarClient // 获取完整的db对象
 base.AsTenant  // 获取多库相关操作
@@ -183,123 +217,118 @@ base.ChangeRepository<Repository<OrderItem>>() //支持多租户和扩展方法�
 base.Change<OrderItem>()//只支持自带方法和单库
 ```
 
+### 10.1.5.5 多库事务
 
-###   特色5 : 多库事务
 ```cs
-//Creaate  database object
 SqlSugarClient db = new SqlSugarClient(new List<ConnectionConfig>()
 {
     new ConnectionConfig(){ ConfigId="0", DbType=DbType.SqlServer,  ConnectionString=Config.ConnectionString, IsAutoCloseConnection=true },
     new ConnectionConfig(){ ConfigId="1", DbType=DbType.MySql, ConnectionString=Config.ConnectionString4 ,IsAutoCloseConnection=true}
 });
 
-
-var mysqldb = db.GetConnection("1");//mysql db
-var sqlServerdb = db.GetConnection("0");// sqlserver db
+var mysqldb = db.GetConnection("1"); // mysql db
+var sqlServerdb = db.GetConnection("0"); // sqlserver db
  
 db.BeginTran();
-            mysqldb.Insertable(new Order()
-            {
-                CreateTime = DateTime.Now,
-                CustomId = 1,
-                Name = "a",
-                Price = 1
-            }).ExecuteCommand();
-            mysqldb.Queryable<Order>().ToList();
-            sqlServerdb.Queryable<Order>().ToList();
+
+mysqldb.Insertable(new Order()
+{
+    CreateTime = DateTime.Now,
+    CustomId = 1,
+    Name = "a",
+    Price = 1
+}).ExecuteCommand();
+mysqldb.Queryable<Order>().ToList();
+sqlServerdb.Queryable<Order>().ToList();
 
 db.CommitTran();
 ```
-###  特色6 : 单例模式
-Implement transactions across methods
-```CS
+
+### 10.1.5.6 单例模式
+
+```cs
 public static SqlSugarScope Db = new SqlSugarScope(new ConnectionConfig()
- {
-            DbType = SqlSugar.DbType.SqlServer,
-            ConnectionString = Config.ConnectionString,
-            IsAutoCloseConnection = true 
-  },
-  db=> {
+    {
+        DbType = SqlSugar.DbType.SqlServer,
+        ConnectionString = Config.ConnectionString,
+        IsAutoCloseConnection = true 
+    },
+    db=> {
             db.Aop.OnLogExecuting = (s, p) =>
             {
                 Console.WriteLine(s);
             };
- });
+    });
  
- 
-  using (var tran = Db.UseTran())
-  {
-          
-              
-               new Test2().Insert(XX);
-               new Test1().Insert(XX);
-               ..... 
-                ....
-                         
-             tran.CommitTran(); 
- }
+using (var tran = Db.UseTran())
+{
+    new Test2().Insert(XX);
+    new Test1().Insert(XX);
+    ..... 
+                
+    tran.CommitTran(); 
+}
 ```
-### 特色7 : 全局过滤器
+
+### 10.1.5.7 全局过滤器
+
 ```cs
-//set filter
 db.QueryFilter.Add(new TableFilterItem<Order>(it => it.Name.Contains("a")));  
- 
    
 db.Queryable<Order>().ToList();
-//SELECT [Id],[Name],[Price],[CreateTime],[CustomId] FROM [Order]  WHERE  ([Name] like '%'+@MethodConst0+'%')  
+// SELECT [Id],[Name],[Price],[CreateTime],[CustomId] FROM [Order]  WHERE  ([Name] like '%'+@MethodConst0+'%')  
 
 db.Queryable<OrderItem, Order>((i, o) => i.OrderId == o.Id)
         .Where(i => i.OrderId != 0)
         .Select("i.*").ToList();
-//SELECT i.* FROM [OrderDetail] i  ,[Order]  o  WHERE ( [i].[OrderId] = [o].[Id] )  AND 
-//( [i].[OrderId] <> @OrderId0 )  AND  ([o].[Name] like '%'+@MethodConst1+'%')
- 
+// SELECT i.* FROM [OrderDetail] i  ,[Order]  o  WHERE ( [i].[OrderId] = [o].[Id] )  AND 
+// ( [i].[OrderId] <> @OrderId0 )  AND  ([o].[Name] like '%'+@MethodConst1+'%')
 ```
 
-### 特色8 : 添加或者更新
-insert or update 
+### 10.1.5.8 添加或者更新
+
 ```cs
-    var x = Db.Storageable(list2).ToStorage();  
-    x.AsInsertable.ExecuteCommand();  
-    x.AsUpdateable.ExecuteCommand();  
+var x = Db.Storageable(list2).ToStorage();  
+x.AsInsertable.ExecuteCommand();  
+x.AsUpdateable.ExecuteCommand();  
 ```
-insert into not exists  
+
 ```cs
 var x = Db.Storageable(list).SplitInsert(it => !it.Any()).ToStorage()
 x.AsInsertable.ExecuteCommand(); 
 ```
  
-### 特色9 ：自动分表
-Split entity 
+### 10.1.5.9 自动分表
+
 ```cs
-[SplitTable(SplitType.Year)]//Table by year (the table supports year, quarter, month, week and day)
+[SplitTable(SplitType.Year)] // Table by year (the table supports year, quarter, month, week and day)
 [SugarTable("SplitTestTable_{year}{month}{day}")] 
- public class SplitTestTable
- {
-     [SugarColumn(IsPrimaryKey =true)]
-     public long Id { get; set; }
- 
-     public string Name { get; set; }
-     
-     //When the sub-table field is inserted, which table will be inserted according to this field. 
-     //When it is updated and deleted, it can also be convenient to use this field to      
-     //find out the related table 
-     [SplitField] 
-     public DateTime CreateTime { get; set; }
- }
- ```
-Split query
+public class SplitTestTable
+{
+    [SugarColumn(IsPrimaryKey =true)]
+    public long Id { get; set; }
+
+    public string Name { get; set; }
+    
+    //When the sub-table field is inserted, which table will be inserted according to this field. 
+    //When it is updated and deleted, it can also be convenient to use this field to      
+    //find out the related table 
+    [SplitField] 
+    public DateTime CreateTime { get; set; }
+}
+```
+
 ```cs
- var lis2t = db.Queryable<OrderSpliteTest>()
+var lis2t = db.Queryable<OrderSpliteTest>()
 .SplitTable(DateTime.Now.Date.AddYears(-1), DateTime.Now)
 .ToPageList(1,2);　
 ``` 
 
-### 特色10： 大数据插入，更新，插入或者更新
+### 10.1.5.10 大数据插入，更新，插入或者更新
+
 ```cs
 //Insert A million only takes a few seconds
 db.Fastest<RealmAuctionDatum>().BulkCopy(GetList());
- 
  
 //update A million only takes a few seconds
 db.Fastest<RealmAuctionDatum>().BulkUpdate(GetList());//A million only takes a few seconds完
@@ -315,6 +344,24 @@ db.Fastest<RealmAuctionDatum>().AS("tableName").BulkCopy(GetList())
  
 //set page 
 db.Fastest<Order>().PageSize(300000).BulkCopy(insertObjs);
-
 ```
- 
+
+### 10.1.5.11 更多功能
+
+可查阅 [SqlSugar 官网](https://www.donet5.com/Home/Doc)。
+
+## 10.1.6 反馈与建议
+
+:::note 与我们交流
+
+给 Furion 提 [Issue](https://gitee.com/dotnetchina/Furion/issues/new?issue)。
+
+:::
+
+---
+
+:::note 了解更多
+
+想了解更多 `SqlSugar` 知识可查阅 [SqlSugar 官网](https://www.donet5.com/Home/Doc)。
+
+:::
