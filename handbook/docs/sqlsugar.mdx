@@ -75,6 +75,18 @@ public static class SqlsugarSetup
     }
 }
 ```
+使用注入
+```cs
+//1.构造函数注入
+SqlSugar.ISqlSugarClient db;
+public WeatherForecastController(ISqlSugarClient db) 
+{
+
+    this.db = db;
+}
+//2.手动获取
+App.GetService<ISqlSugarClient>();
+```
 
 2. 在 `Startup.cs` 中注册：
 
@@ -161,7 +173,7 @@ public class Repository<T> : SimpleClient<T> where T : class, new()
 {
     public Repository(ISqlSugarClient context = null) : base(context)//默认值等于null不能少
     {
-        //可以通过IOC注入也可以手动赋值 base.Context = context;
+        base.Context = App.GetService<ISqlSugarClient>();//用手动获取方式支持切换仓储
     }
 }
 ```
