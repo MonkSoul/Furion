@@ -75,7 +75,9 @@ public static class SqlsugarSetup
     }
 }
 ```
+
 使用注入
+
 ```cs
 //1.构造函数注入
 SqlSugar.ISqlSugarClient db;
@@ -84,6 +86,7 @@ public WeatherForecastController(ISqlSugarClient db)
 
     this.db = db;
 }
+
 //2.手动获取
 App.GetService<ISqlSugarClient>();
 ```
