@@ -94,21 +94,25 @@ function Banner() {
 public class FurionAppService : IDynamicApiController
 {
     private readonly IRepository<User> _userRepository;
+    // highlight-next-line
     public AppService(IRepository<User> userRepository)
     {
         _userRepository = userRepository;
     }
 
+    // highlight-next-line
     [IfException(1000, "用户ID: {0} 不存在")]
     public async Task<UserDto> GetUser([Range(1, int.MaxValue)] int userId)
     {
         var user = await _userRepository.FindOrDefaultAsync(userId);
+        // highlight-next-line
         _ = user ?? throw Oops.Oh(1000, userId);
         return user.Adapt<UserDto>();
     }
 
     public async Task<RemoteData> GetRemote(string id)
     {
+      // highlight-next-line
         var data = await $"https://www.furion.icu/data?id={id}".GetAsAsync<RemoteData>();
         return data;
     }
@@ -165,7 +169,7 @@ function Gitee() {
             className={"furion-log-jiao" + (isDarkTheme ? " dark" : "")}
           ></div>
           <div className="furion-log-number">
-            <div style={{ color: "#1fd898" }}>1,460,593</div>
+            <div style={{ color: "#1fd898" }}>1,462,545</div>
             <span className={isDarkTheme ? " dark" : ""}>Downloads</span>
           </div>
         </div>
