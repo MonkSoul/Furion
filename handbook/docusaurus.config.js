@@ -9,7 +9,7 @@ module.exports = {
   organizationName: "Baiqian Co.,Ltd",
   projectName: "Furion",
   scripts: [
-    '/script/baidutongji.js'
+    '/furion/script/baidutongji.js'
   ],
   themeConfig: {
     prism: {
