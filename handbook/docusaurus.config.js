@@ -8,6 +8,9 @@ module.exports = {
   favicon: "img/favicon.ico",
   organizationName: "Baiqian Co.,Ltd",
   projectName: "Furion",
+  scripts: [
+    'script/baidutongji.js'
+  ],
   themeConfig: {
     prism: {
       additionalLanguages: ["powershell", "csharp", "sql"],
@@ -148,9 +151,8 @@ module.exports = {
           ],
         },
       ],
-      copyright: `Copyright © ${
-        new Date().getFullYear() - 1
-      }-${new Date().getFullYear()} 百小僧, Baiqian Co.,Ltd.`,
+      copyright: `Copyright © ${new Date().getFullYear() - 1
+        }-${new Date().getFullYear()} 百小僧, Baiqian Co.,Ltd.`,
       logo: {
         src: "img/chinadotnet.png",
         href: "https://gitee.com/dotnetchina",
@@ -176,6 +178,5 @@ module.exports = {
         },
       },
     ],
-  ],
-  clientModules: [require.resolve("./baidutongji.js")],
+  ]
 };
