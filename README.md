@@ -39,7 +39,7 @@ responseString.LogInformation();
 
 您可以在[主页](https://dotnetchina.gitee.io/furion)或[备份主页](https://furion.icu)找到 Furion 文档。
 
-You can find the Furion documentation [on the website](https://dotnetchina.gitee.io/furion) or [on the backup website](https://dotnetchina.gitee.io/furion).
+You can find the Furion documentation [on the website](https://dotnetchina.gitee.io/furion) or [on the backup website](https://furion.icu).
 
 ## 贡献 / Contributing
 
