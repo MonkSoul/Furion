@@ -37,7 +37,7 @@ function Sponsor() {
 
 function SponsorItem({ picture, url, last, title }) {
   return <a href={url} target="_blank" title={title} style={{ display: 'block', marginBottom: last ? null : '0.5em', position: 'relative' }}><img src={useBaseUrl(picture)} style={{ display: 'block', width: '100%' }} />
-    <span style={{ position: 'absolute', display: 'block', right: 0, bottom: 0, zIndex: 10, fontSize: 12, backgroundColor: 'rgba(0,0,0,0.8)', padding: '0 5px' }}>广告</span>
+    <span style={{ position: 'absolute', display: 'block', right: 0, bottom: 0, zIndex: 10, fontSize: 12, backgroundColor: 'rgba(0,0,0,0.8)', padding: '0 5px' }}>赞助商广告</span>
   </a>
 }
 export default TOC;
