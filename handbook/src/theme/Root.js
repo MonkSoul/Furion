@@ -10,7 +10,7 @@ function Root({ children }) {
       <GiveMeStar />
       {/* <ZhiCai /> */}
       {children}
-      <JoinGroup />
+      {/* <JoinGroup /> */}
       {/* <StarProject /> */}
     </>
   );
