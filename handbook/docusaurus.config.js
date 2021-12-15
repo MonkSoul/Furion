@@ -52,7 +52,7 @@ module.exports = {
           label: "配置",
           position: "left",
         },
-        { to: "blog", label: "博客✨", position: "left" },
+        { to: "blog", label: "博客", position: "left" },
         {
           to: "docs/upgrade",
           activeBasePath: "docs/upgrade",
@@ -95,7 +95,7 @@ module.exports = {
         },
         { label: "社区", position: "right", href: "https://gitee.com/dotnetchina" },
         {
-          label: "案例",
+          label: "案例✨",
           position: "right",
           to: "docs/case",
           activeBasePath: "docs/case",
