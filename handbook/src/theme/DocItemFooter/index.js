@@ -203,5 +203,15 @@ const docIssues = {
   "scoped": 140,
   "sparetime": 141,
   "fs": 142,
-  "jwt": 143
+  "jwt": 143,
+  "appsettings": 144,
+  "corsaccessorsettings": 145,
+  "validationTypemessagesettings": 146,
+  "dependencyinjectionsettings": 147,
+  "dynamicapicontrollersettings": 148,
+  "friendlyexceptionsettings": 149,
+  "specificationdocumentsettings": 150,
+  "localizationsettings": 151,
+  "jwtsettings": 152,
+  "unifyresultsettings": 153
 };
