@@ -47,7 +47,7 @@ function Banner() {
               [fu:rɪən]
             </span>
           </div>
-          <div style={{ color: '#82aaff', position: 'relative',fontSize:14 }}>您的痛点，Furion 已阅已历；Furion 的惊喜，您且慢慢享受。</div>
+          <div style={{ color: '#82aaff', position: 'relative', fontSize: 14 }}>您的痛点，Furion 已阅已历；Furion 的惊喜，您且慢慢享受。</div>
           <div className="furion-banner-description">
             让 .NET 开发更简单，更通用，更流行。
           </div>
@@ -252,7 +252,7 @@ function Remark() {
       </div>
       <div>
         <a
-          href="https://gitee.com/dotnetchina/Furion#-%E8%B4%A1%E7%8C%AE%E4%BB%A3%E7%A0%81"
+          href="https://github.com/MonkSoul/Furion/issues/39"
           target="_blank"
           className="furion-get-start"
           style={{ margin: 0 }}
@@ -321,9 +321,9 @@ function WhoUse() {
             Furion
             已在全球多个项目中使用。从小型企业到企业的解决方案及知名企业。他们在简单软件和复杂管理系统的开发方面都信任我们。
           </p>
-          <Link className="furion-get-start" to="mailto:monksoul@outlook.com">
+          <a className="furion-get-start" href="https://github.com/MonkSoul/Furion/issues/154" target="_blank">
             立即添加您的公司
-          </Link>
+          </a>
         </div>
       </div>
     </div>
