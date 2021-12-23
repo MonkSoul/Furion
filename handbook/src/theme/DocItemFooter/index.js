@@ -81,8 +81,8 @@ export default function DocItemFooter(props) {
       <BrowserOnly>
         {() => {
           const docId = window.location.pathname.split('/').filter(u => u && u.trim().length > 0).pop();
-          const issueId = docIssues[docId] || 39;
-          return <>
+          const issueId = docIssues[docId];
+          return issueId && <>
             <div style={{ textAlign: 'center', marginTop: 20 }}>⭐️ 本章节讨论区：<a href={"https://github.com/MonkSoul/Furion/issues/" + issueId} target='_blank'>https://github.com/MonkSoul/Furion/issues/{issueId}</a></div>
             <GitalkComponent options={{
               clientID: "5c5f6505b699717b8a86",
