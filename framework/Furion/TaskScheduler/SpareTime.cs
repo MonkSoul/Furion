@@ -646,7 +646,7 @@ public static class SpareTime
         var realExpression = expression.Render();
 
         // 自动化 CronFormat
-        if (cronFormat == default)
+        if (cronFormat == null)
         {
             var parts = realExpression.Split(' ', StringSplitOptions.RemoveEmptyEntries);
             cronFormat = parts.Length <= 5 ? CronFormat.Standard : CronFormat.IncludeSeconds;
