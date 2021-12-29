@@ -1,6 +1,5 @@
 import React from "react";
 import "./GiveMeStar.css";
-import Typist from "react-typist";
 
 export default function GiveMeStar() {
   return (
