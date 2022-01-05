@@ -380,7 +380,7 @@ var user = await "https://www.furion.icu/".GetAsAsync<User>();
 var str = await "https://www.baidu.com".GetAsStringAsync();
 ```
 
-### 19.4.18 设置 `Byte[]` 类型
+### 19.4.18 设置 `Byte[]` 类型/上传文件
 
 有时候我们需要上传文件，需要设置 `Content-Type` 为 `multipart/form-data` 类型，如：
 
@@ -389,6 +389,19 @@ var str = await "https://www.baidu.com".GetAsStringAsync();
 var res = await "https://www.furion.icu/upload".SetBody(new { id =1, name = "Furion"}, "multipart/form-data")
                                                .SetBodyBytes(("键", bytes, "文件名")).PostAsync();
 ```
+
+:::note 关于微信上传接口
+
+如果遇到微信上传出现问题，则可设置 `Content-Type` 为：`application/octet-stream`，如：
+
+```cs
+var result = await $"https://api.weixin.qq.com/wxa/img_sec_check?access_token={token}"
+                .SetBodyBytes(("media", bytes, Path.GetFileName(imgPath)))
+                .SetContentType("application/octet-stream")
+                .PostAsStringAsync();
+```
+
+:::
 
 ### 19.4.19 设置 `IServiceProvider`
 
@@ -762,7 +775,7 @@ public interface IHttp : IHttpDispatchProxy
 }
 ```
 
-### 19.5.14 设置 `Byte[]` 类型
+### 19.5.14 设置 `Byte[]` 类型/上传文件
 
 有时候我们需要上传文件，需要设置 `Content-Type` 为 `multipart/form-data` 类型，如：
 
