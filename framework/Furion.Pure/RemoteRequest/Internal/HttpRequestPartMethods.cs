@@ -1,9 +1,9 @@
 // Copyright (c) 2020-2022 百小僧, Baiqian Co.,Ltd.
 // Furion is licensed under Mulan PSL v2.
-// You can use this software according to the terms and conditions of the Mulan PSL v2. 
+// You can use this software according to the terms and conditions of the Mulan PSL v2.
 // You may obtain a copy of Mulan PSL v2 at:
-//             https://gitee.com/dotnetchina/Furion/blob/master/LICENSE 
-// THIS SOFTWARE IS PROVIDED ON AN "AS IS" BASIS, WITHOUT WARRANTIES OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO NON-INFRINGEMENT, MERCHANTABILITY OR FIT FOR A PARTICULAR PURPOSE.  
+//             https://gitee.com/dotnetchina/Furion/blob/master/LICENSE
+// THIS SOFTWARE IS PROVIDED ON AN "AS IS" BASIS, WITHOUT WARRANTIES OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO NON-INFRINGEMENT, MERCHANTABILITY OR FIT FOR A PARTICULAR PURPOSE.
 // See the Mulan PSL v2 for more details.
 
 using Furion.ClayObject.Extensions;
@@ -69,6 +69,16 @@ public sealed partial class HttpRequestPart
     }
 
     /// <summary>
+    /// 发送 GET 请求返回 ByteArray
+    /// </summary>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<byte[]> GetAsByteArrayAsync(CancellationToken cancellationToken = default)
+    {
+        return SetHttpMethod(HttpMethod.Get).SendAsByteArrayAsync(cancellationToken);
+    }
+
+    /// <summary>
     /// 发送 GET 请求
     /// </summary>
     /// <param name="cancellationToken"></param>
@@ -107,6 +117,16 @@ public sealed partial class HttpRequestPart
     public Task<string> PostAsStringAsync(CancellationToken cancellationToken = default)
     {
         return SetHttpMethod(HttpMethod.Post).SendAsStringAsync(cancellationToken);
+    }
+
+    /// <summary>
+    /// 发送 POST 请求返回 ByteArray
+    /// </summary>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<byte[]> PostAsByteArrayAsync(CancellationToken cancellationToken = default)
+    {
+        return SetHttpMethod(HttpMethod.Post).SendAsByteArrayAsync(cancellationToken);
     }
 
     /// <summary>
@@ -151,6 +171,16 @@ public sealed partial class HttpRequestPart
     }
 
     /// <summary>
+    /// 发送 PUT 请求返回 ByteArray
+    /// </summary>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<byte[]> PutAsByteArrayAsync(CancellationToken cancellationToken = default)
+    {
+        return SetHttpMethod(HttpMethod.Put).SendAsByteArrayAsync(cancellationToken);
+    }
+
+    /// <summary>
     /// 发送 PUT 请求
     /// </summary>
     /// <param name="cancellationToken"></param>
@@ -189,6 +219,16 @@ public sealed partial class HttpRequestPart
     public Task<string> DeleteAsStringAsync(CancellationToken cancellationToken = default)
     {
         return SetHttpMethod(HttpMethod.Delete).SendAsStringAsync(cancellationToken);
+    }
+
+    /// <summary>
+    /// 发送 DELETE 请求返回 ByteArray
+    /// </summary>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<byte[]> DeleteAsByteArrayAsync(CancellationToken cancellationToken = default)
+    {
+        return SetHttpMethod(HttpMethod.Delete).SendAsByteArrayAsync(cancellationToken);
     }
 
     /// <summary>
@@ -233,6 +273,16 @@ public sealed partial class HttpRequestPart
     }
 
     /// <summary>
+    /// 发送 Patch 请求返回 ByteArray
+    /// </summary>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<byte[]> PatchAsByteArrayAsync(CancellationToken cancellationToken = default)
+    {
+        return SetHttpMethod(HttpMethod.Patch).SendAsByteArrayAsync(cancellationToken);
+    }
+
+    /// <summary>
     /// 发送 PATCH 请求
     /// </summary>
     /// <param name="cancellationToken"></param>
@@ -274,6 +324,16 @@ public sealed partial class HttpRequestPart
     }
 
     /// <summary>
+    /// 发送 Head 请求返回 ByteArray
+    /// </summary>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<byte[]> HeadAsByteArrayAsync(CancellationToken cancellationToken = default)
+    {
+        return SetHttpMethod(HttpMethod.Head).SendAsByteArrayAsync(cancellationToken);
+    }
+
+    /// <summary>
     /// 发送 HEAD 请求
     /// </summary>
     /// <param name="cancellationToken"></param>
@@ -297,10 +357,17 @@ public sealed partial class HttpRequestPart
             var httpResponseMessage = await SendAsync(cancellationToken);
             return (T)(object)httpResponseMessage;
         }
+        // 处理字符串类型
         if (typeof(T) == typeof(string))
         {
             var str = await SendAsStringAsync(cancellationToken);
             return (T)(object)str;
+        }
+        // 处理 byte[] 数组
+        if (typeof(T) == typeof(byte[]))
+        {
+            var byteArray = await SendAsByteArrayAsync(cancellationToken);
+            return (T)(object)byteArray;
         }
 
         // 读取流内容
@@ -353,6 +420,21 @@ public sealed partial class HttpRequestPart
 
         // 读取响应报文
         var content = await response.Content.ReadAsStringAsync(cancellationToken);
+        return content;
+    }
+
+    /// <summary>
+    /// 发送请求返回 ByteArray
+    /// </summary>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public async Task<byte[]> SendAsByteArrayAsync(CancellationToken cancellationToken = default)
+    {
+        var response = await SendAsync(cancellationToken);
+        if (response == null || response.Content == null) return default;
+
+        // 读取响应报文
+        var content = await response.Content.ReadAsByteArrayAsync(cancellationToken);
         return content;
     }
 

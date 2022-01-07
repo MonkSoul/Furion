@@ -1,9 +1,9 @@
 ﻿// Copyright (c) 2020-2022 百小僧, Baiqian Co.,Ltd.
 // Furion is licensed under Mulan PSL v2.
-// You can use this software according to the terms and conditions of the Mulan PSL v2. 
+// You can use this software according to the terms and conditions of the Mulan PSL v2.
 // You may obtain a copy of Mulan PSL v2 at:
-//             https://gitee.com/dotnetchina/Furion/blob/master/LICENSE 
-// THIS SOFTWARE IS PROVIDED ON AN "AS IS" BASIS, WITHOUT WARRANTIES OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO NON-INFRINGEMENT, MERCHANTABILITY OR FIT FOR A PARTICULAR PURPOSE.  
+//             https://gitee.com/dotnetchina/Furion/blob/master/LICENSE
+// THIS SOFTWARE IS PROVIDED ON AN "AS IS" BASIS, WITHOUT WARRANTIES OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO NON-INFRINGEMENT, MERCHANTABILITY OR FIT FOR A PARTICULAR PURPOSE.
 // See the Mulan PSL v2 for more details.
 
 using Furion.DependencyInjection;
@@ -308,6 +308,17 @@ public static class RemoteRequestStringExtensions
     }
 
     /// <summary>
+    /// 发送 GET 请求返回 ByteArray
+    /// </summary>
+    /// <param name="requestUrl"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public static Task<byte[]> GetAsByteArrayAsync(this string requestUrl, CancellationToken cancellationToken = default)
+    {
+        return new HttpRequestPart().SetRequestUrl(requestUrl).GetAsByteArrayAsync(cancellationToken);
+    }
+
+    /// <summary>
     /// 发送 GET 请求
     /// </summary>
     /// <param name="requestUrl"></param>
@@ -350,6 +361,17 @@ public static class RemoteRequestStringExtensions
     public static Task<string> PostAsStringAsync(this string requestUrl, CancellationToken cancellationToken = default)
     {
         return new HttpRequestPart().SetRequestUrl(requestUrl).PostAsStringAsync(cancellationToken);
+    }
+
+    /// <summary>
+    /// 发送 POST 请求返回 ByteArray
+    /// </summary>
+    /// <param name="requestUrl"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public static Task<byte[]> PostAsByteArrayAsync(this string requestUrl, CancellationToken cancellationToken = default)
+    {
+        return new HttpRequestPart().SetRequestUrl(requestUrl).PostAsByteArrayAsync(cancellationToken);
     }
 
     /// <summary>
@@ -398,6 +420,17 @@ public static class RemoteRequestStringExtensions
     }
 
     /// <summary>
+    /// 发送 PUT 请求返回 ByteArray
+    /// </summary>
+    /// <param name="requestUrl"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public static Task<byte[]> PutAsByteArrayAsync(this string requestUrl, CancellationToken cancellationToken = default)
+    {
+        return new HttpRequestPart().SetRequestUrl(requestUrl).PutAsByteArrayAsync(cancellationToken);
+    }
+
+    /// <summary>
     /// 发送 PUT 请求
     /// </summary>
     /// <param name="requestUrl"></param>
@@ -440,6 +473,17 @@ public static class RemoteRequestStringExtensions
     public static Task<string> DeleteAsStringAsync(this string requestUrl, CancellationToken cancellationToken = default)
     {
         return new HttpRequestPart().SetRequestUrl(requestUrl).DeleteAsStringAsync(cancellationToken);
+    }
+
+    /// <summary>
+    /// 发送 DELETE 请求返回 ByteArray
+    /// </summary>
+    /// <param name="requestUrl"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public static Task<byte[]> DeleteAsByteArrayAsync(this string requestUrl, CancellationToken cancellationToken = default)
+    {
+        return new HttpRequestPart().SetRequestUrl(requestUrl).DeleteAsByteArrayAsync(cancellationToken);
     }
 
     /// <summary>
@@ -488,6 +532,17 @@ public static class RemoteRequestStringExtensions
     }
 
     /// <summary>
+    /// 发送 PATCH 请求返回 ByteArray
+    /// </summary>
+    /// <param name="requestUrl"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public static Task<byte[]> PatchAsByteArrayAsync(this string requestUrl, CancellationToken cancellationToken = default)
+    {
+        return new HttpRequestPart().SetRequestUrl(requestUrl).PatchAsByteArrayAsync(cancellationToken);
+    }
+
+    /// <summary>
     /// 发送 PATCH 请求
     /// </summary>
     /// <param name="requestUrl"></param>
@@ -533,6 +588,17 @@ public static class RemoteRequestStringExtensions
     }
 
     /// <summary>
+    /// 发送 HEAD 请求返回 ByteArray
+    /// </summary>
+    /// <param name="requestUrl"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public static Task<byte[]> HeadAsByteArrayAsync(this string requestUrl, CancellationToken cancellationToken = default)
+    {
+        return new HttpRequestPart().SetRequestUrl(requestUrl).HeadAsByteArrayAsync(cancellationToken);
+    }
+
+    /// <summary>
     /// 发送 HEAD 请求
     /// </summary>
     /// <param name="requestUrl"></param>
@@ -575,6 +641,17 @@ public static class RemoteRequestStringExtensions
     public static Task<string> SendAsStringAsync(this string requestUrl, CancellationToken cancellationToken = default)
     {
         return new HttpRequestPart().SetRequestUrl(requestUrl).SendAsStringAsync(cancellationToken);
+    }
+
+    /// <summary>
+    /// 发送请求返回 ByteArray
+    /// </summary>
+    /// <param name="requestUrl"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public static Task<byte[]> SendAsByteArrayAsync(this string requestUrl, CancellationToken cancellationToken = default)
+    {
+        return new HttpRequestPart().SetRequestUrl(requestUrl).SendAsByteArrayAsync(cancellationToken);
     }
 
     /// <summary>
