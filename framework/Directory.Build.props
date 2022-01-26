@@ -1,9 +1,9 @@
-﻿<Project>
+<Project>
 	<PropertyGroup>
 		<Authors>百小僧</Authors>
 		<Company>Baiqian Co.,Ltd.</Company>
 		<Product>Furion</Product>
-		<Copyright>© 2020-2021 百小僧, Baiqian Co.,Ltd.</Copyright>
+		<Copyright>© 2020-2022 百小僧, Baiqian Co.,Ltd.</Copyright>
 		<RepositoryUrl>https://gitee.com/dotnetchina/Furion</RepositoryUrl>
 		<RepositoryType>Gitee</RepositoryType>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
