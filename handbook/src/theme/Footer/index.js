@@ -4,14 +4,17 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
-import React from "react";
-import clsx from "clsx";
-import Link from "@docusaurus/Link";
-import { useThemeConfig } from "@docusaurus/theme-common";
-import useBaseUrl from "@docusaurus/useBaseUrl";
-import styles from "./styles.module.css";
+import React from 'react';
+import clsx from 'clsx';
+import Link from '@docusaurus/Link';
+import {useThemeConfig} from '@docusaurus/theme-common';
+import useBaseUrl from '@docusaurus/useBaseUrl';
+import isInternalUrl from '@docusaurus/isInternalUrl';
+import styles from './styles.module.css';
+import ThemedImage from '@theme/ThemedImage';
+import IconExternalLink from '@theme/IconExternalLink';
 
-function FooterLink({ to, href, label, prependBaseUrlToHref, ...props }) {
+function FooterLink({to, href, label, prependBaseUrlToHref, ...props}) {
   const toUrl = useBaseUrl(to);
   const normalizedHref = useBaseUrl(href, {
     forcePrependBaseUrl: true,
@@ -21,33 +24,104 @@ function FooterLink({ to, href, label, prependBaseUrlToHref, ...props }) {
       className="footer__link-item"
       {...(href
         ? {
-            target: "_blank",
-            rel: "noopener noreferrer",
             href: prependBaseUrlToHref ? normalizedHref : href,
           }
         : {
             to: toUrl,
           })}
-      {...props}
-    >
-      {label}
+      {...props}>
+      {href && !isInternalUrl(href) ? (
+        <span>
+          {label}
+          <IconExternalLink />
+        </span>
+      ) : (
+        label
+      )}
     </Link>
   );
 }
 
-const FooterLogo = ({ url, alt }) => (
-  <img
-    className="footer__logo"
-    alt={alt}
-    src={url}
-    style={{ background: "#fff", padding: "5px 10px" }}
-  />
-);
+function FooterLogo({sources, alt, width, height}) {
+  return (
+    <ThemedImage
+      className="footer__logo"
+      alt={alt}
+      sources={sources}
+      width={width}
+      height={height}
+      style={{ background: "#fff", padding: "5px 10px" }}
+    />
+  );
+}
+
+function MultiColumnLinks({links}) {
+  return (
+    <>
+      {links.map((linkItem, i) => (
+        <div key={i} className="col footer__col">
+          <div className="footer__title">{linkItem.title}</div>
+          <ul className="footer__items">
+            {linkItem.items.map((item, key) =>
+              item.html ? (
+                <li
+                  key={key}
+                  className="footer__item" // Developer provided the HTML, so assume it's safe.
+                  // eslint-disable-next-line react/no-danger
+                  dangerouslySetInnerHTML={{
+                    __html: item.html,
+                  }}
+                />
+              ) : (
+                <li key={item.href || item.to} className="footer__item">
+                  <FooterLink {...item} />
+                </li>
+              ),
+            )}
+          </ul>
+        </div>
+      ))}
+    </>
+  );
+}
+
+function SimpleLinks({links}) {
+  return (
+    <div className="footer__links">
+      {links.map((item, key) => (
+        <>
+          {item.html ? (
+            <span
+              key={key}
+              className="footer__link-item" // Developer provided the HTML, so assume it's safe.
+              // eslint-disable-next-line react/no-danger
+              dangerouslySetInnerHTML={{
+                __html: item.html,
+              }}
+            />
+          ) : (
+            <FooterLink {...item} />
+          )}
+          {links.length !== key + 1 && (
+            <span className="footer__link-separator">·</span>
+          )}
+        </>
+      ))}
+    </div>
+  );
+}
+
+function isMultiColumnFooterLinks(links) {
+  return 'title' in links[0];
+}
 
 function Footer() {
-  const { footer } = useThemeConfig();
-  const { copyright, links = [], logo = {} } = footer || {};
-  const logoUrl = useBaseUrl(logo.src);
+  const {footer} = useThemeConfig();
+  const {copyright, links = [], logo = {}} = footer || {};
+  const sources = {
+    light: useBaseUrl(logo.src),
+    dark: useBaseUrl(logo.srcDark || logo.src),
+  };
 
   if (!footer) {
     return null;
@@ -55,59 +129,36 @@ function Footer() {
 
   return (
     <footer
-      className={clsx("footer", {
-        "footer--dark": footer.style === "dark",
-      })}
-    >
-      <div className="container">
-        {links && links.length > 0 && (
-          <div className="row footer__links">
-            {links.map((linkItem, i) => (
-              <div key={i} className="col footer__col">
-                {linkItem.title != null ? (
-                  <h4 className="footer__title">{linkItem.title}</h4>
-                ) : null}
-                {linkItem.items != null &&
-                Array.isArray(linkItem.items) &&
-                linkItem.items.length > 0 ? (
-                  <ul className="footer__items">
-                    {linkItem.items.map((item, key) =>
-                      item.html ? (
-                        <li
-                          key={key}
-                          className="footer__item" // Developer provided the HTML, so assume it's safe.
-                          // eslint-disable-next-line react/no-danger
-                          dangerouslySetInnerHTML={{
-                            __html: item.html,
-                          }}
-                        />
-                      ) : (
-                        <li key={item.href || item.to} className="footer__item">
-                          <FooterLink {...item} />
-                        </li>
-                      )
-                    )}
-                  </ul>
-                ) : null}
-              </div>
-            ))}
-          </div>
-        )}
+      className={clsx('footer', {
+        'footer--dark': footer.style === 'dark',
+      })}>
+      <div className="container container-fluid">
+        {links &&
+          links.length > 0 &&
+          (isMultiColumnFooterLinks(links) ? (
+            <div className="row footer__links">
+              <MultiColumnLinks links={links} />
+            </div>
+          ) : (
+            <div className="footer__links text--center">
+              <SimpleLinks links={links} />
+            </div>
+          ))}
         {(logo || copyright) && (
           <div className="footer__bottom text--center">
-            {logo && logo.src && (
+            {logo && (logo.src || logo.srcDark) && (
               <div className="margin-bottom--sm">
                 {logo.href ? (
-                  <a
-                    href={logo.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={styles.footerLogoLink}
-                  >
-                    <FooterLogo alt={logo.alt} url={logoUrl} />
-                  </a>
+                  <Link href={logo.href} className={styles.footerLogoLink}>
+                    <FooterLogo
+                      alt={logo.alt}
+                      sources={sources}
+                      width={logo.width}
+                      height={logo.height}
+                    />
+                  </Link>
                 ) : (
-                  <FooterLogo alt={logo.alt} url={logoUrl} />
+                  <FooterLogo alt={logo.alt} sources={sources} />
                 )}
               </div>
             )}
@@ -127,4 +178,4 @@ function Footer() {
   );
 }
 
-export default Footer;
+export default React.memo(Footer);

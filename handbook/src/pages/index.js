@@ -1,7 +1,7 @@
 import Link from "@docusaurus/Link";
 import useBaseUrl from "@docusaurus/useBaseUrl";
 import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
-import useThemeContext from "@theme/hooks/useThemeContext";
+import { useColorMode } from "@docusaurus/theme-common";
 import Layout from "@theme/Layout";
 import components from "@theme/MDXComponents";
 import React from "react";
@@ -127,7 +127,7 @@ public class FurionAppService : IDynamicApiController
 }
 
 function Gitee() {
-  const { isDarkTheme, setLightTheme, setDarkTheme } = useThemeContext();
+  const { isDarkTheme, setLightTheme, setDarkTheme } = useColorMode();
   return (
     <div className="furion-content">
       <p className={"furion-small-title" + (isDarkTheme ? " dark" : "")}>
@@ -179,7 +179,7 @@ function Gitee() {
 }
 
 function Remark() {
-  const { isDarkTheme, setLightTheme, setDarkTheme } = useThemeContext();
+  const { isDarkTheme, setLightTheme, setDarkTheme } = useColorMode();
   return (
     <div className="furion-content">
       <p className={"furion-small-title" + (isDarkTheme ? " dark" : "")}>
@@ -275,41 +275,41 @@ function WhoUse() {
           </a>
         </div>
         <div className="furion-custom-img">
-          <img src={useBaseUrl("img/custom1.png")} height="100" />
+          <img src={useBaseUrl("img/custom1.png")} height="100" style={{ height: 100 }} />
         </div>
         <div className="furion-custom-img">
-          <img src={useBaseUrl("img/custom2.png")} height="100" />
+          <img src={useBaseUrl("img/custom2.png")} height="100" style={{ height: 100 }} />
         </div>
         <div className="furion-custom-img">
-          <img src={useBaseUrl("img/custom3.png")} height="100" />
+          <img src={useBaseUrl("img/custom3.png")} height="100" style={{ height: 100 }} />
         </div>
         <div className="furion-custom-img">
-          <img src={useBaseUrl("img/custom4.jpg")} height="100" />
+          <img src={useBaseUrl("img/custom4.jpg")} height="100" style={{ height: 100 }} />
         </div>
         <div className="furion-custom-img">
           <a href="http://www.hezongsoft.net" target="_blank">
-            <img src={useBaseUrl("img/custom5.png")} height="100" />
+            <img src={useBaseUrl("img/custom5.png")} height="100" style={{ height: 100 }} />
           </a>
         </div>
         <div className="furion-custom-img">
           <a href="http://www.dilon.vip/" target="_blank">
-            <img src={useBaseUrl("img/custom6.png")} height="100" />
+            <img src={useBaseUrl("img/custom6.png")} height="100" style={{ height: 100 }} />
           </a>
         </div>
         <div className="furion-custom-img">
-          <img src={useBaseUrl("img/c10.jpg")} height="100" />
+          <img src={useBaseUrl("img/c10.jpg")} height="100" style={{ height: 100 }} />
         </div>
         <div className="furion-custom-img">
-          <img src={useBaseUrl("img/jjd.png")} height="100" />
+          <img src={useBaseUrl("img/jjd.png")} height="100" style={{ height: 100 }} />
         </div>
         <div className="furion-custom-img">
           <a href="http://www.samfeng.cn/" target="_blank">
-            <img src={useBaseUrl("img/custom10.png")} height="100" />
+            <img src={useBaseUrl("img/custom10.png")} height="100" style={{ height: 100 }} />
           </a>
         </div>
         <div className="furion-custom-img">
           <a href="http://www.ketaisoft.com/" target="_blank">
-            <img src={useBaseUrl("img/custom11.png")} height="100" />
+            <img src={useBaseUrl("img/custom11.png")} height="100" style={{ height: 100 }} />
           </a>
         </div>
       </div>
@@ -331,7 +331,7 @@ function WhoUse() {
 }
 
 function Links() {
-  const { isDarkTheme, setLightTheme, setDarkTheme } = useThemeContext();
+  const { isDarkTheme, setLightTheme, setDarkTheme } = useColorMode();
   return (
     <div className="furion-links">
       <p className={"furion-small-title" + (isDarkTheme ? " dark" : "")}>
@@ -352,7 +352,7 @@ function Links() {
 }
 
 function Contributor() {
-  const { isDarkTheme, setLightTheme, setDarkTheme } = useThemeContext();
+  const { isDarkTheme, setLightTheme, setDarkTheme } = useColorMode();
 
   return (
     <div className="furion-contributors">
@@ -393,7 +393,7 @@ function Contributor() {
 }
 
 function ProccessOn() {
-  const { isDarkTheme, setLightTheme, setDarkTheme } = useThemeContext();
+  const { isDarkTheme, setLightTheme, setDarkTheme } = useColorMode();
   return (
     <div className="furion-proccesson">
       <p className={"furion-small-title" + (isDarkTheme ? " dark" : "")}>

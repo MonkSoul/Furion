@@ -14,7 +14,7 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 const LINK_CLASS_NAME = 'table-of-contents__link toc-highlight';
 const LINK_ACTIVE_CLASS_NAME = 'table-of-contents__link--active';
 
-function TOC({ className, ...props }) {
+function TOC({className, ...props}) {
   return (
     <div className={clsx(styles.tableOfContents, 'thin-scrollbar', className)}>
       <DotNETChina />
