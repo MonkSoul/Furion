@@ -572,7 +572,7 @@ public sealed partial class HttpRequestPart
             App.PrintToMiniProfiler(MiniProfilerCategory, "Failed", $"[StatusCode: {response?.StatusCode}] {errors}", true);
 
             // 抛出异常
-            if (ExceptionInterceptors == null || ExceptionInterceptors.Count == 0) throw new HttpRequestException(errors);
+            if (ExceptionInterceptors == null || ExceptionInterceptors.Count == 0) throw new HttpRequestException(errors, null, response?.StatusCode);
             // 调用异常拦截器
             else ExceptionInterceptors.ForEach(u =>
             {
