@@ -26,6 +26,7 @@ public static class SerilogHostingExtensions
     /// <param name="hostBuilder"></param>
     /// <param name="configAction"></param>
     /// <returns>IWebHostBuilder</returns>
+    [Obsolete("Prefer UseSerilog() on IHostBuilder")]
     public static IWebHostBuilder UseSerilogDefault(this IWebHostBuilder hostBuilder, Action<LoggerConfiguration> configAction = default)
     {
         hostBuilder.UseSerilog((context, configuration) =>
