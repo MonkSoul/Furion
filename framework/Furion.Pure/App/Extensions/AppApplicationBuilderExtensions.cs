@@ -51,7 +51,7 @@ public static class AppApplicationBuilderExtensions
     /// </summary>
     /// <param name="app"></param>
     /// <returns></returns>
-    public static IApplicationBuilder MapControllers(this IApplicationBuilder app)
+    public static IApplicationBuilder MapRouteControllers(this IApplicationBuilder app)
     {
         app.UseRouting();
         app.UseEndpoints(endpoints =>
