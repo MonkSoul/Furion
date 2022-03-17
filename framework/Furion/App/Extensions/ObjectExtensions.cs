@@ -440,4 +440,16 @@ public static class ObjectExtensions
 
         return !string.IsNullOrWhiteSpace(tempStr) ? tempStr : str;
     }
+
+    /// <summary>
+    /// 首字母小写
+    /// </summary>
+    /// <param name="str"></param>
+    /// <returns></returns>
+    internal static string ToLowerCamelCase(this string str)
+    {
+        if (string.IsNullOrWhiteSpace(str)) return str;
+
+        return string.Concat(str.First().ToString().ToLower(), str.AsSpan(1));
+    }
 }

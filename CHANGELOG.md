@@ -7,7 +7,62 @@
 > - 如果涉及到代码重构，则当天发版，次版本号 `加 1`，修订版本号 `清 0`。
 > - 如果 `.NET SDK` 主版本号升级，则当天发版，主版本号 `加 1`。 -->
 
-## v3.0.0（当前版本）
+## v3.1.0（当前版本）
+
+- **新特性**
+
+  - [新增] 远程请求模块异常 `Http` 状态码 [!462](https://gitee.com/dotnetchina/Furion/pulls/462)
+  - [新增] 动态 WebAPI 支持小驼峰配置 [#I4W1R4](https://gitee.com/dotnetchina/Furion/issues/I4W1R4)
+  - [新增] 远程请求 `SendAsByteArrayAsync` 等一系列方法，支持返回 `byte[]` [!452](https://gitee.com/dotnetchina/Furion/pulls/452)
+
+- **突破性变化**
+
+  - [升级] `.NET6` 依赖包全部升级至 `Nuget` 最新版 `v6.0.3`
+
+- **问题修复**
+
+  - [修复] `.NET6 WebApplication` 模式二级虚拟目录问题 [#I4UZLM](https://gitee.com/dotnetchina/Furion/issues/I4UZLM) [#I4PZ0C](https://gitee.com/dotnetchina/Furion/issues/I4PZ0C)
+  - [修复] 日期验证不支持 `2022-03-01 0:00:00`（现在支持小时域 `0` 和 `00`） 问题 [#I4Y3NT](https://gitee.com/dotnetchina/Furion/issues/I4Y3NT)
+  - [修复] 环境配置和文件配置优先级问题
+
+- **其他更改**
+
+  - [过时] 标记 `Furion.Extras.Logging.Serilog` 拓展包 `IWebHost` 拓展为过时状态
+
+- **文档**
+
+  - [文档] 优化文档体验，新增面包屑导航，重写文档缓存，提升文档访问速度
+  - [文档] 更新动态 API 文档、配置文档、远程请求文档
+  - [文档] 更新二级虚拟目录文档
+
+
+- **本期亮点**
+
+1. 新增动态 `WebApi` 支持小驼峰路径，如 `GetMyName` -> `getMyName`：
+
+```json
+{
+    "DynamicApiControllerSettings": {
+        "LowercaseRoute": false,
+        "KeepName": true,
+        "AsLowerCamelCase": true
+    }
+}
+```
+
+2. 支持 `.NET6 WebApplication` 模式二级虚拟目录配置：
+
+```cs {title="Progame.cs"}
+app.UseVirtualPath(app =>
+{
+    app.UseInject(String.Empty);  // 注意 String.Empty 只是例子，可以不填或填其他的，见一分钟入门
+    app.MapControllers();
+});
+```
+
+---
+
+## v3.0.0（已发布）
 
 > **Furion v3.x 版本采用 .NET6 构建。**
 

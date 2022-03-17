@@ -147,7 +147,7 @@ internal sealed class DynamicApiControllerApplicationModelConvention : IApplicat
     /// <param name="controllerApiDescriptionSettings">接口描述配置</param>
     private void ConfigureControllerName(ControllerModel controller, ApiDescriptionSettingsAttribute controllerApiDescriptionSettings)
     {
-        var (Name, _, _) = ConfigureControllerAndActionName(controllerApiDescriptionSettings, controller.ControllerType.Name, _dynamicApiControllerSettings.AbandonControllerAffixes, _ => _);
+        var (Name, _, _, _) = ConfigureControllerAndActionName(controllerApiDescriptionSettings, controller.ControllerType.Name, _dynamicApiControllerSettings.AbandonControllerAffixes, _ => _);
         controller.ControllerName = Name;
     }
 
@@ -164,7 +164,7 @@ internal sealed class DynamicApiControllerApplicationModelConvention : IApplicat
         ConfigureActionApiExplorer(action);
 
         // 配置动作方法名称
-        var (isLowercaseRoute, isKeepName) = ConfigureActionName(action, apiDescriptionSettings, controllerApiDescriptionSettings);
+        var (isLowercaseRoute, isKeepName, isLowerCamelCase) = ConfigureActionName(action, apiDescriptionSettings, controllerApiDescriptionSettings);
 
         // 配置动作方法请求谓词特性
         ConfigureActionHttpMethodAttribute(action);
@@ -173,7 +173,7 @@ internal sealed class DynamicApiControllerApplicationModelConvention : IApplicat
         ConfigureClassTypeParameter(action);
 
         // 配置动作方法路由特性
-        ConfigureActionRouteAttribute(action, apiDescriptionSettings, controllerApiDescriptionSettings, isLowercaseRoute, isKeepName, hasApiControllerAttribute);
+        ConfigureActionRouteAttribute(action, apiDescriptionSettings, controllerApiDescriptionSettings, isLowercaseRoute, isKeepName, isLowerCamelCase, hasApiControllerAttribute);
 
         // 配置动作方法规范化特性
         if (UnifyContext.EnabledUnifyHandler) ConfigureActionUnifyResultAttribute(action);
@@ -195,9 +195,9 @@ internal sealed class DynamicApiControllerApplicationModelConvention : IApplicat
     /// <param name="apiDescriptionSettings">接口描述配置</param>
     /// <param name="controllerApiDescriptionSettings"></param>
     /// <returns></returns>
-    private (bool IsLowercaseRoute, bool IsKeepName) ConfigureActionName(ActionModel action, ApiDescriptionSettingsAttribute apiDescriptionSettings, ApiDescriptionSettingsAttribute controllerApiDescriptionSettings)
+    private (bool IsLowercaseRoute, bool IsKeepName, bool IsLowerCamelCase) ConfigureActionName(ActionModel action, ApiDescriptionSettingsAttribute apiDescriptionSettings, ApiDescriptionSettingsAttribute controllerApiDescriptionSettings)
     {
-        var (Name, IsLowercaseRoute, IsKeepName) = ConfigureControllerAndActionName(apiDescriptionSettings, action.ActionMethod.Name, _dynamicApiControllerSettings.AbandonActionAffixes, (tempName) =>
+        var (Name, IsLowercaseRoute, IsKeepName, IsLowerCamelCase) = ConfigureControllerAndActionName(apiDescriptionSettings, action.ActionMethod.Name, _dynamicApiControllerSettings.AbandonActionAffixes, (tempName) =>
           {
               // 处理动作方法名称谓词
               if (!CheckIsKeepVerb(apiDescriptionSettings, controllerApiDescriptionSettings))
@@ -216,7 +216,7 @@ internal sealed class DynamicApiControllerApplicationModelConvention : IApplicat
           }, controllerApiDescriptionSettings);
         action.ActionName = Name;
 
-        return (IsLowercaseRoute, IsKeepName);
+        return (IsLowercaseRoute, IsKeepName, IsLowerCamelCase);
     }
 
     /// <summary>
@@ -305,8 +305,9 @@ internal sealed class DynamicApiControllerApplicationModelConvention : IApplicat
     /// <param name="controllerApiDescriptionSettings">控制器接口描述配置</param>
     /// <param name="isLowercaseRoute"></param>
     /// <param name="isKeepName"></param>
+    /// <param name="isLowerCamelCase"></param>
     /// <param name="hasApiControllerAttribute"></param>
-    private void ConfigureActionRouteAttribute(ActionModel action, ApiDescriptionSettingsAttribute apiDescriptionSettings, ApiDescriptionSettingsAttribute controllerApiDescriptionSettings, bool isLowercaseRoute, bool isKeepName, bool hasApiControllerAttribute)
+    private void ConfigureActionRouteAttribute(ActionModel action, ApiDescriptionSettingsAttribute apiDescriptionSettings, ApiDescriptionSettingsAttribute controllerApiDescriptionSettings, bool isLowercaseRoute, bool isKeepName, bool isLowerCamelCase, bool hasApiControllerAttribute)
     {
         var selectorModel = action.Selectors[0];
         // 跳过已配置路由特性的配置
@@ -325,7 +326,7 @@ internal sealed class DynamicApiControllerApplicationModelConvention : IApplicat
         else
         {
             // 生成参数路由模板
-            var parameterRouteTemplate = GenerateParameterRouteTemplates(action, isLowercaseRoute, hasApiControllerAttribute);
+            var parameterRouteTemplate = GenerateParameterRouteTemplates(action, isLowercaseRoute, isLowerCamelCase, hasApiControllerAttribute);
 
             // 生成控制器模板
             controllerRouteTemplate = GenerateControllerRouteTemplate(action.Controller, controllerApiDescriptionSettings, parameterRouteTemplate);
@@ -344,7 +345,7 @@ internal sealed class DynamicApiControllerApplicationModelConvention : IApplicat
         if (!string.IsNullOrWhiteSpace(template))
         {
             // 处理多个斜杆问题
-            template = Regex.Replace(isLowercaseRoute ? template.ToLower() : template, @"\/{2,}", "/");
+            template = Regex.Replace(isLowercaseRoute ? template.ToLower() : isLowerCamelCase ? template.ToLowerCamelCase() : template, @"\/{2,}", "/");
 
             // 生成路由
             actionAttributeRouteModel = string.IsNullOrWhiteSpace(template) ? null : new AttributeRouteModel(new RouteAttribute(template));
@@ -393,8 +394,9 @@ internal sealed class DynamicApiControllerApplicationModelConvention : IApplicat
     /// </summary>
     /// <param name="action">动作方法模型</param>
     /// <param name="isLowercaseRoute"></param>
+    /// <param name="isLowerCamelCase"></param>
     /// <param name="hasApiControllerAttribute"></param>
-    private ParameterRouteTemplate GenerateParameterRouteTemplates(ActionModel action, bool isLowercaseRoute, bool hasApiControllerAttribute)
+    private ParameterRouteTemplate GenerateParameterRouteTemplates(ActionModel action, bool isLowercaseRoute, bool isLowerCamelCase, bool hasApiControllerAttribute)
     {
         // 如果没有参数，则跳过
         if (action.Parameters.Count == 0) return default;
@@ -413,6 +415,9 @@ internal sealed class DynamicApiControllerApplicationModelConvention : IApplicat
 
             // 处理小写参数路由匹配问题
             if (isLowercaseRoute) parameterModel.ParameterName = parameterModel.ParameterName.ToLower();
+
+            // 处理小驼峰命名
+            if (isLowerCamelCase) parameterModel.ParameterName = parameterModel.ParameterName.ToLowerCamelCase();
 
             // 判断是否贴有任何 [FromXXX] 特性了
             var hasFormAttribute = parameterAttributes.Any(u => typeof(IBindingSourceMetadata).IsAssignableFrom(u.GetType()));
@@ -495,7 +500,7 @@ internal sealed class DynamicApiControllerApplicationModelConvention : IApplicat
     /// <param name="configure"></param>
     /// <param name="controllerApiDescriptionSettings"></param>
     /// <returns></returns>
-    private (string Name, bool IsLowercaseRoute, bool IsKeepName) ConfigureControllerAndActionName(ApiDescriptionSettingsAttribute apiDescriptionSettings, string orignalName, string[] affixes, Func<string, string> configure, ApiDescriptionSettingsAttribute controllerApiDescriptionSettings = default)
+    private (string Name, bool IsLowercaseRoute, bool IsKeepName, bool IsLowerCamelCase) ConfigureControllerAndActionName(ApiDescriptionSettingsAttribute apiDescriptionSettings, string orignalName, string[] affixes, Func<string, string> configure, ApiDescriptionSettingsAttribute controllerApiDescriptionSettings = default)
     {
         // 获取版本号
         var apiVersion = apiDescriptionSettings?.Version;
@@ -534,7 +539,9 @@ internal sealed class DynamicApiControllerApplicationModelConvention : IApplicat
         var newName = $"{tempName}{(string.IsNullOrWhiteSpace(apiVersion) ? null : $"{_dynamicApiControllerSettings.VersionSeparator}{apiVersion}")}";
 
         var isLowercaseRoute = CheckIsLowercaseRoute(controllerApiDescriptionSettings == null ? null : apiDescriptionSettings, controllerApiDescriptionSettings ?? apiDescriptionSettings);
-        return (isLowercaseRoute ? newName.ToLower() : newName, isLowercaseRoute, isKeepName);
+        var isLowerCamelCase = CheckIsLowerCamelCase(controllerApiDescriptionSettings == null ? null : apiDescriptionSettings, controllerApiDescriptionSettings ?? apiDescriptionSettings);
+
+        return (isLowercaseRoute ? newName.ToLower() : isLowerCamelCase ? newName.ToLowerCamelCase() : newName, isLowercaseRoute, isKeepName, isLowerCamelCase);
     }
 
     /// <summary>
@@ -591,6 +598,35 @@ internal sealed class DynamicApiControllerApplicationModelConvention : IApplicat
         else isKeepVerb = _dynamicApiControllerSettings?.KeepVerb == true;
 
         return isKeepVerb;
+    }
+
+
+    /// <summary>
+    /// 检查是否设置了 AsLowerCamelCase 参数
+    /// </summary>
+    /// <param name="apiDescriptionSettings"></param>
+    /// <param name="controllerApiDescriptionSettings"></param>
+    /// <returns></returns>
+    private bool CheckIsLowerCamelCase(ApiDescriptionSettingsAttribute apiDescriptionSettings, ApiDescriptionSettingsAttribute controllerApiDescriptionSettings)
+    {
+        bool isLowerCamelCase;
+
+        // 判断 Action 是否配置了 AsLowerCamelCase 属性
+        if (apiDescriptionSettings?.AsLowerCamelCase != null)
+        {
+            var canParse = bool.TryParse(apiDescriptionSettings.AsLowerCamelCase.ToString(), out var value);
+            isLowerCamelCase = canParse && value;
+        }
+        // 判断 Controller 是否配置了 AsLowerCamelCase 属性
+        else if (controllerApiDescriptionSettings?.AsLowerCamelCase != null)
+        {
+            var canParse = bool.TryParse(controllerApiDescriptionSettings.AsLowerCamelCase.ToString(), out var value);
+            isLowerCamelCase = canParse && value;
+        }
+        // 取全局配置
+        else isLowerCamelCase = _dynamicApiControllerSettings?.AsLowerCamelCase == true;
+
+        return isLowerCamelCase;
     }
 
     /// <summary>

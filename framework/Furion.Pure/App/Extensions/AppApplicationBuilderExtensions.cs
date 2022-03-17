@@ -47,6 +47,22 @@ public static class AppApplicationBuilderExtensions
     }
 
     /// <summary>
+    /// 解决 .NET6 WebApplication 模式下二级虚拟目录错误问题
+    /// </summary>
+    /// <param name="app"></param>
+    /// <returns></returns>
+    public static IApplicationBuilder MapControllers(this IApplicationBuilder app)
+    {
+        app.UseRouting();
+        app.UseEndpoints(endpoints =>
+        {
+            endpoints.MapControllers();
+        });
+
+        return app;
+    }
+
+    /// <summary>
     /// 添加应用中间件
     /// </summary>
     /// <param name="app">应用构建器</param>

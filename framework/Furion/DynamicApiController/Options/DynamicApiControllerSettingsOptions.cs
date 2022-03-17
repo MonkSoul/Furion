@@ -39,6 +39,11 @@ public sealed class DynamicApiControllerSettingsOptions : IConfigurableOptions<D
     public bool? LowercaseRoute { get; set; }
 
     /// <summary>
+    /// 小驼峰命名（首字符小写）
+    /// </summary>
+    public bool? AsLowerCamelCase { get; set; }
+
+    /// <summary>
     /// 保留行为名称谓词
     /// </summary>
     public bool? KeepVerb { get; set; }
@@ -104,6 +109,7 @@ public sealed class DynamicApiControllerSettingsOptions : IConfigurableOptions<D
         options.DefaultRoutePrefix ??= "api";
         options.DefaultHttpMethod ??= "POST";
         options.LowercaseRoute ??= true;
+        options.AsLowerCamelCase ??= false;
         options.KeepVerb ??= false;
         options.KeepName ??= false;
         options.CamelCaseSeparator ??= "-";

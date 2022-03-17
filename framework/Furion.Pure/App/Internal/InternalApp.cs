@@ -198,7 +198,7 @@ internal static class InternalApp
     }
 
     /// <summary>
-    /// 排序的配置文件前缀
+    /// 排除的配置文件前缀
     /// </summary>
     private static readonly string[] excludeJsonPrefixs = new[] { "appsettings", "bundleconfig", "compilerconfig" };
 

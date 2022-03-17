@@ -7,7 +7,8 @@ sidebar_label: 1.6 更新日志
 import useBaseUrl from "@docusaurus/useBaseUrl";
 
 **此章节只记录重大版本更新日志，小迭代版本不做记录。**想了解更多更新内容，可查阅 [CHANGELOG.md](https://gitee.com/dotnetchina/Furion/blob/net6/CHANGELOG.md)
-<!-- 
+
+<!--
 > 版本号规则：`主版本号.次版本号.修订版本号`
 >
 > - 只要确认为框架 `bug`，则当天修复，当天发版，修订版本号 `加 1`。
@@ -17,7 +18,62 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 > - 如果涉及到代码重构，则当天发版，次版本号 `加 1`，修订版本号 `清 0`。
 > - 如果 `.NET SDK` 主版本号升级，则当天发版，主版本号 `加 1`。 -->
 
-## v3.0.0（当前版本）
+## v3.1.0（当前版本）
+
+- **新特性**
+
+  - [新增] 远程请求模块异常 `Http` 状态码 [!462](https://gitee.com/dotnetchina/Furion/pulls/462)
+  - [新增] 动态 WebAPI 支持小驼峰配置 [#I4W1R4](https://gitee.com/dotnetchina/Furion/issues/I4W1R4)
+  - [新增] 远程请求 `SendAsByteArrayAsync` 等一系列方法，支持返回 `byte[]` [!452](https://gitee.com/dotnetchina/Furion/pulls/452)
+
+- **突破性变化**
+
+  - [升级] `.NET6` 依赖包全部升级至 `Nuget` 最新版 `v6.0.3`
+
+- **问题修复**
+
+  - [修复] `.NET6 WebApplication` 模式二级虚拟目录问题 [#I4UZLM](https://gitee.com/dotnetchina/Furion/issues/I4UZLM) [#I4PZ0C](https://gitee.com/dotnetchina/Furion/issues/I4PZ0C)
+  - [修复] 日期验证不支持 `2022-03-01 0:00:00`（现在支持小时域 `0` 和 `00`） 问题 [#I4Y3NT](https://gitee.com/dotnetchina/Furion/issues/I4Y3NT)
+  - [修复] 环境配置和文件配置优先级问题
+
+- **其他更改**
+
+  - [过时] 标记 `Furion.Extras.Logging.Serilog` 拓展包 `IWebHost` 拓展为过时状态
+
+- **文档**
+
+  - [文档] 优化文档体验，新增面包屑导航，重写文档缓存，提升文档访问速度
+  - [文档] 更新动态 API 文档、配置文档、远程请求文档
+  - [文档] 更新二级虚拟目录文档
+
+
+- **本期亮点**
+
+1. 新增动态 `WebApi` 支持小驼峰路径，如 `GetMyName` -> `getMyName`：
+
+```json
+{
+    "DynamicApiControllerSettings": {
+        "LowercaseRoute": false,
+        "KeepName": true,
+        "AsLowerCamelCase": true
+    }
+}
+```
+
+2. 支持 `.NET6 WebApplication` 模式二级虚拟目录配置：
+
+```cs {title="Progame.cs"}
+app.UseVirtualPath(app =>
+{
+    app.UseInject(String.Empty);  // 注意 String.Empty 只是例子，可以不填或填其他的，见一分钟入门
+    app.MapControllers();
+});
+```
+
+---
+
+## v3.0.0（已发布）
 
 :::warning v3+ 版本说明
 
@@ -38,7 +94,7 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
   - [修复] 开启规范化结果并自定义全局异常导致异常经过 `OnSucceeded` 过滤器 bug [#I4DTVL](https://gitee.com/dotnetchina/Furion/issues/I4DTVL)
   - [修复] `.NET5.0.5+` 和 `.NET6` 微软底层修改了 `[ApiController]` 验证失败返回 `IActionResult` 类型 [#I4ISOK](https://gitee.com/dotnetchina/Furion/issues/I4ISOK)
   - [修复] `EFCore 6.0` 适配 `SqlServer 2005+` 出错 [#I4ILA5](https://gitee.com/dotnetchina/Furion/issues/I4ILA5)
-  - [修复] .NET6 获取配置对象如果不存在返回 null 问题，.NET5则返回初始对象 [94ae4d](https://gitee.com/dotnetchina/Furion/commit/94ae4d8c9b0fe7eb4d713a171f953c0d3c5a76ac)
+  - [修复] .NET6 获取配置对象如果不存在返回 null 问题，.NET5 则返回初始对象 [94ae4d](https://gitee.com/dotnetchina/Furion/commit/94ae4d8c9b0fe7eb4d713a171f953c0d3c5a76ac)
   - [修复] `Sql` 命令参数传入 `Clay` 类型异常问题 [#I4D21Q](https://gitee.com/dotnetchina/Furion/issues/I4D21Q)
   - [修复] `Cron` 定时任务特性方式 bug [#I4OJQI](https://gitee.com/dotnetchina/Furion/issues/I4OJQI)
 
@@ -79,7 +135,7 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
   - [修复] `.NET5.0.5+` 微软底层修改了 `[ApiController]` 验证失败返回 `IActionResult` 类型 [#I4ISOK](https://gitee.com/dotnetchina/Furion/issues/I4ISOK)
   - [修复] 远程请求上传文件异常 [0c0752](https://gitee.com/dotnetchina/Furion/commit/0c0752c624799d7d3c7661a8f36a93983399bb59)
   - [修复] 框架启动不支持环境变量 `ASPNETCORE_HOSTINGSTARTUPASSEMBLIES` 配置 [!438](https://gitee.com/dotnetchina/Furion/pulls/438)
-  - [修复] 定时任务内存和CPU占用及特殊情况下空异常问题 [12c65de](https://gitee.com/dotnetchina/Furion/commit/12c65debf552c57780679e6a567a9dd9fb077f46)
+  - [修复] 定时任务内存和 CPU 占用及特殊情况下空异常问题 [12c65de](https://gitee.com/dotnetchina/Furion/commit/12c65debf552c57780679e6a567a9dd9fb077f46)
   - [修复] 默认控制器启用规范化结果无效 bug[c7a4a5e](https://gitee.com/dotnetchina/Furion/commit/c7a4a5ef8c3282d245cbe04124cf379d381d496f)
   - [修正] 依赖注入 `InjectionAttribute` 特性的 `ExceptInterfaces` 单词拼写错误问题 [!436](https://gitee.com/dotnetchina/Furion/pulls/436)
   - [修复] `Sql` 命令参数传入 `Clay` 类型异常问题 [#I4D21Q](https://gitee.com/dotnetchina/Furion/issues/I4D21Q)

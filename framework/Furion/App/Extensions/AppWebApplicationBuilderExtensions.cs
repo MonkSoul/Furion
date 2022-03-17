@@ -7,6 +7,7 @@
 // See the Mulan PSL v2 for more details.
 
 using Furion;
+using System;
 
 namespace Microsoft.AspNetCore.Builder;
 
@@ -27,5 +28,22 @@ public static class AppWebApplicationBuilderExtensions
         InternalApp.ConfigureApplication(webApplicationBuilder.WebHost, webApplicationBuilder.Host);
 
         return webApplicationBuilder;
+    }
+
+    /// <summary>
+    /// 解决 .NET6 WebApplication 模式下二级虚拟目录错误问题
+    /// </summary>
+    /// <param name="app"></param>
+    /// <param name="configuration"></param>
+    /// <returns></returns>
+    public static IApplicationBuilder UseVirtualPath(this WebApplication app, Action<IApplicationBuilder> configuration)
+    {
+        if (!string.IsNullOrWhiteSpace(App.Settings.VirtualPath))
+        {
+            return app.Map(App.Settings.VirtualPath, configuration);
+        }
+
+        configuration(app);
+        return app;
     }
 }

@@ -63,6 +63,11 @@ public sealed class ApiDescriptionSettingsAttribute : ApiExplorerSettingsAttribu
     public object SplitCamelCase { get; set; }
 
     /// <summary>
+    /// 小驼峰命名（首字符小写）
+    /// </summary>
+    public object AsLowerCamelCase { get; set; }
+
+    /// <summary>
     /// 保留路由谓词（Boolean 类型）
     /// </summary>
     public object KeepVerb { get; set; }

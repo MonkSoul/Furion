@@ -22,7 +22,25 @@ sidebar_label: 34.4 二级虚拟目录部署
 }
 ```
 
-## 34.4.2 反馈与建议
+### 34.4.2 `.NET6 WebApplication 模式下虚拟目录配置`
+
+:::important 版本说明
+
+以下内容仅限 `Furion 3.1.0 +` 版本使用。
+
+:::
+
+由于在 `.NET6` 的 `WebApplication` 模式下微软底层发生了改变，**所以需要使用 `app.UseVirtualPath()` 包裹 `app.UseInject()` 和 `app.MapControllers()`**：
+
+```cs {1}
+app.UseVirtualPath(app =>
+{
+    app.UseInject(String.Empty);  // 注意 String.Empty 只是例子，可以不填或填其他的，见一分钟入门
+    app.MapControllers();
+});
+```
+
+## 34.4.3 反馈与建议
 
 :::note 与我们交流
 

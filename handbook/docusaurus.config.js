@@ -8,9 +8,7 @@ module.exports = {
   favicon: "img/favicon.ico",
   organizationName: "Baiqian Co.,Ltd",
   projectName: "Furion",
-  scripts: [
-    '/furion/script/baidutongji.js'
-  ],
+  scripts: ["/furion/script/baidutongji.js"],
   themeConfig: {
     prism: {
       additionalLanguages: ["powershell", "csharp", "sql"],
@@ -18,7 +16,8 @@ module.exports = {
       // darkTheme: require("prism-react-renderer/themes/dracula"),
     },
     algolia: {
-      apiKey: "97723a21d903df7ca5ea618b160f03c6",
+      appId: "XYY4NGVXSA",
+      apiKey: "957b35892d68e9ac86c35c96d89dcedf",
       indexName: "furion",
       contextualSearch: true,
     },
@@ -98,7 +97,11 @@ module.exports = {
             },
           ],
         },
-        { label: "社区", position: "right", href: "https://gitee.com/dotnetchina" },
+        {
+          label: "社区",
+          position: "right",
+          href: "https://gitee.com/dotnetchina",
+        },
         {
           label: "案例✨",
           position: "right",
@@ -156,8 +159,9 @@ module.exports = {
           ],
         },
       ],
-      copyright: `Copyright © ${new Date().getFullYear() - 1
-        }-${new Date().getFullYear()} 百小僧, Baiqian Co.,Ltd.`,
+      copyright: `Copyright © ${
+        new Date().getFullYear() - 1
+      }-${new Date().getFullYear()} 百小僧, Baiqian Co.,Ltd.`,
       logo: {
         src: "img/chinadotnet.png",
         href: "https://gitee.com/dotnetchina",
@@ -183,5 +187,5 @@ module.exports = {
         },
       },
     ],
-  ]
+  ],
 };
