@@ -231,6 +231,9 @@ public static class SpareTime
             // 执行方法
             await doWhat(timer, currentRecord.CronActualTally);
 
+            // 只要执行成功一次，那么清空异常信息
+            timer.Exception.Clear();
+
             // 执行后通知
             await WriteChannel(timer, 2);
 
@@ -333,22 +336,25 @@ public static class SpareTime
                     // 执行任务
                     await doWhat(timer, currentRecord.Tally);
 
-                    // 只要执行成功一次，那么清空异常信息
-                    currentRecord.Timer.Exception.Clear();
+                    if (timer.Type == SpareTimeTypes.Interval && !onlyInspect)
+                    {
+                        // 只要执行成功一次，那么清空异常信息
+                        currentRecord.Timer.Exception.Clear();
 
                     // 执行成功通知
-                    if (timer.Type == SpareTimeTypes.Interval && !onlyInspect) await WriteChannel(timer, 2);
+                        await WriteChannel(timer, 2);
+                    }
                 }
                 catch (Exception ex)
                 {
-                    // 执行异常通知
-                    if (timer.Type == SpareTimeTypes.Interval && !onlyInspect) await WriteChannel(timer, 3);
-
                     // 记录任务异常
-                    currentRecord.Timer.Exception.TryAdd(currentRecord.Tally, ex);
+                    currentRecord.Timer.Exception.TryAdd(timer.Tally, ex);
 
-                    // 如果任务执行超过 10 次失败，则停止任务
-                    if (currentRecord.Timer.Exception.Count > 10)
+                    // 执行异常通知
+                    await WriteChannel(currentRecord.Timer, 3);
+
+                    // 如果任务执行连续 10 次失败，则停止任务
+                    if (currentRecord.Timer.Exception.Count >= 10)
                     {
                         Stop(workerName, true);
                     }
