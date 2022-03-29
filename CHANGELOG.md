@@ -24,6 +24,7 @@
   - [修复] `.NET6 WebApplication` 模式二级虚拟目录问题 [#I4UZLM](https://gitee.com/dotnetchina/Furion/issues/I4UZLM) [#I4PZ0C](https://gitee.com/dotnetchina/Furion/issues/I4PZ0C)
   - [修复] 日期验证不支持 `2022-03-01 0:00:00`（现在支持小时域 `0` 和 `00`） 问题 [#I4Y3NT](https://gitee.com/dotnetchina/Furion/issues/I4Y3NT)
   - [修复] 环境配置和文件配置优先级问题
+  - [修复] 脱敏模块替换敏感词汇只替换最后一个 bug [#I4YFA0](https://gitee.com/dotnetchina/Furion/issues/I4YFA0)
 
 - **其他更改**
 
