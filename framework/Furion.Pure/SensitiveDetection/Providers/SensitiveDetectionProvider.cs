@@ -114,7 +114,7 @@ public class SensitiveDetectionProvider : ISensitiveDetectionProvider
             {
                 for (var j = 0; j < kv.Key.Length; j++)
                 {
-                    var tempIndex = GetSensitiveWordIndex(kv.Value, i, kv.Key.Length);
+                    var tempIndex = GetSensitiveWordIndex(kv.Value, i, sensitiveWordLength: kv.Key.Length);
 
                     // 设置替换的字符
                     stringBuilder[tempIndex + j] = transfer;
@@ -152,7 +152,7 @@ public class SensitiveDetectionProvider : ISensitiveDetectionProvider
             tempStringBuilder.Append(stringBuilder);
 
             // 查询查找至结尾
-            while (tempStringBuilder.ToString().Contains(sensitiveWord))
+            while (tempStringBuilder.ToString().IndexOf(sensitiveWord) > -1)
             {
                 if (foundSets.ContainsKey(sensitiveWord) == false)
                 {
