@@ -1,6 +1,6 @@
 # Author:KaneLeung(https://github.com/KaneLeung)
-# Update:2021.11.22
-# .NET5 SDK Docker
+# Update:2022.03.11
+# .NET6 SDK Docker
 # https://hub.docker.com/_/microsoft-dotnet-sdk
 FROM mcr.microsoft.com/dotnet/sdk:6.0-alpine AS build
 WORKDIR /source
