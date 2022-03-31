@@ -52,7 +52,7 @@ public class DataValidationAttribute : ValidationAttribute
         if (AllowNullValue && value == null) return ValidationResult.Success;
 
         // 是否忽略空字符串
-        if (AllowEmptyStrings && value is string && value.Equals(string.Empty)) return ValidationResult.Success;
+        if (AllowEmptyStrings && value is string && string.IsNullOrEmpty(value?.ToString())) return ValidationResult.Success;
 
         // 执行值验证
         var dataValidationResult = value.TryValidate(ValidationPattern, ValidationTypes);

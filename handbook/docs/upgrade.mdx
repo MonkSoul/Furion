@@ -25,6 +25,7 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
   - [新增] 远程请求模块异常 `Http` 状态码 [!462](https://gitee.com/dotnetchina/Furion/pulls/462)
   - [新增] 动态 WebAPI 支持小驼峰配置 [#I4W1R4](https://gitee.com/dotnetchina/Furion/issues/I4W1R4)
   - [新增] 远程请求 `SendAsByteArrayAsync` 等一系列方法，支持返回 `byte[]` [!452](https://gitee.com/dotnetchina/Furion/pulls/452)
+  - [新增] 远程请求 `GZip` 压缩支持 [#I506S5](https://gitee.com/dotnetchina/Furion/issues/I506S5)
 
 - **突破性变化**
 
@@ -36,6 +37,8 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
   - [修复] 日期验证不支持 `2022-03-01 0:00:00`（现在支持小时域 `0` 和 `00`） 问题 [#I4Y3NT](https://gitee.com/dotnetchina/Furion/issues/I4Y3NT)
   - [修复] 环境配置和文件配置优先级问题
   - [修复] 脱敏模块替换敏感词汇只替换最后一个 bug [#I4YFA0](https://gitee.com/dotnetchina/Furion/issues/I4YFA0)
+  - [修复] 远程请求返回字符串个别情况出现中文乱码问题 [#I50GBD](https://gitee.com/dotnetchina/Furion/issues/I50GBD)
+  - [修复] `[DataValidate]` 配置 `AllowNullValue` 和 `AllowEmptyString` 无效问题 [#I4ZZBE](https://gitee.com/dotnetchina/Furion/issues/I4ZZBE)
 
 - **其他更改**
 

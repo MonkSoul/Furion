@@ -296,4 +296,15 @@ public sealed partial class HttpRequestPart
         RetryPolicy = (numRetries, retryTimeout);
         return this;
     }
+
+    /// <summary>
+    /// 启用 Gzip 压缩反压缩支持
+    /// </summary>
+    /// <param name="supportGzip"></param>
+    /// <returns></returns>
+    public HttpRequestPart WithGZip(bool supportGzip = true)
+    {
+        SupportGZip = supportGzip;
+        return this;
+    }
 }

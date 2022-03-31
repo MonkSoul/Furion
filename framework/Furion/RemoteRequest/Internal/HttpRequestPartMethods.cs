@@ -14,9 +14,11 @@ using Furion.Templates.Extensions;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -377,7 +379,12 @@ public sealed partial class HttpRequestPart
         // 如果 T 是 Stream 类型，则返回
         if (typeof(T) == typeof(Stream)) return (T)(object)stream;
 
-        using var streamReader = new StreamReader(stream);
+        // 判断是否启用 Gzip
+        using var streamReader = new StreamReader(
+            !SupportGZip
+            ? stream
+            : new GZipStream(stream, CompressionMode.Decompress));
+
         var text = await streamReader.ReadToEndAsync();
         // 释放流
         await stream.DisposeAsync();
@@ -419,8 +426,8 @@ public sealed partial class HttpRequestPart
         if (response == null || response.Content == null) return default;
 
         // 读取响应报文
-        var content = await response.Content.ReadAsStringAsync(cancellationToken);
-        return content;
+        var content = await response.Content.ReadAsByteArrayAsync(cancellationToken);
+        return Encoding.Default.GetString(content);
     }
 
     /// <summary>

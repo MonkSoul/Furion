@@ -439,10 +439,18 @@ var res = await "#(Furion:Address)/upload".GetAsync();
 在 `Furion v2.18+` 版本支持配置重试策略，如：
 
 ```cs
-var res = await "#(Furion:Address)/upload".SetRetryPolicy(3, 1000).GetAsync();
+var res = await "https://www.furion.icu".SetRetryPolicy(3, 1000).GetAsync();
 ```
 
 以上代码表示请求失败重试 `3` 次，每次延迟 `1000ms` 。
+
+### 19.4.23 支持 `GZip` 压缩
+
+在 `Furion v3.1.3+` 版本支持`GZip` 压缩，如：
+
+```cs
+var res = await "https://www.furion.icu".WithGZip().GetAsync();
+```
 
 ## 19.5 `IHttpDispatchProxy` 代理方式
 
@@ -835,12 +843,24 @@ public interface IHttp : IHttpDispatchProxy
 [RetryPolicy(3, 1000)] // 支持全局
 public interface IHttp : IHttpDispatchProxy
 {
-    [Post("#(Furion:Address)/upload"), RetryPolicy(3, 1000)]    // 支持局部
+    [Post("https://www.furion.icu"), RetryPolicy(3, 1000)]    // 支持局部
     Task<HttpRequestMessage> PostXXXAsync([Body]User user);
 }
 ```
 
 以上代码表示请求失败重试 `3` 次，每次延迟 `1000ms` 。
+
+### 19.5.18 支持 `GZip`
+
+在 `Furion v3.1.3+` 版本支持 `GZip`，如：
+
+```cs
+public interface IHttp : IHttpDispatchProxy
+{
+    [Post("https://www.furion.icu", WithGZip = true)] 
+    Task<HttpRequestMessage> PostXXXAsync([Body]User user);
+}
+```
 
 ## 19.6 多个请求客户端配置
 

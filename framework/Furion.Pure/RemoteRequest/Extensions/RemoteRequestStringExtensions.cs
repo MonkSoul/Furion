@@ -274,6 +274,17 @@ public static class RemoteRequestStringExtensions
     }
 
     /// <summary>
+    /// 启用 Gzip 压缩反压缩支持
+    /// </summary>
+    /// <param name="requestUrl"></param>
+    /// <param name="supportGZip"></param>
+    /// <returns></returns>
+    public static HttpRequestPart WithGZip(this string requestUrl, bool supportGZip = true)
+    {
+        return new HttpRequestPart().SetRequestUrl(requestUrl).WithGZip(supportGZip);
+    }
+
+    /// <summary>
     /// 发送 GET 请求返回 T 对象
     /// </summary>
     /// <typeparam name="T"></typeparam>

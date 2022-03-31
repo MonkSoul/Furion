@@ -276,7 +276,7 @@ public class ViewEngine : IViewEngine
     /// <param name="templateSource"></param>
     /// <param name="options"></param>
     /// <returns></returns>
-    private static MemoryStream CreateAndCompileToStream(string templateSource, ViewEngineOptions options)
+    protected virtual MemoryStream CreateAndCompileToStream(string templateSource, ViewEngineOptions options)
     {
         templateSource = WriteDirectives(templateSource, options);
 
@@ -352,7 +352,7 @@ public class ViewEngine : IViewEngine
     /// <param name="content"></param>
     /// <param name="options"></param>
     /// <returns></returns>
-    private static string WriteDirectives(string content, ViewEngineOptions options)
+    protected virtual string WriteDirectives(string content, ViewEngineOptions options)
     {
         var stringBuilder = new StringBuilder();
         stringBuilder.AppendLine($"@inherits {options.Inherits}");

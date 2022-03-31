@@ -123,4 +123,9 @@ public sealed partial class HttpRequestPart
     /// 设置重试策略
     /// </summary>
     public (int NumRetries, int RetryTimeout)? RetryPolicy { get; private set; }
+
+    /// <summary>
+    /// 支持 GZip 压缩/反压缩
+    /// </summary>
+    public bool SupportGZip { get; private set; } = false;
 }

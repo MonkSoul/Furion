@@ -38,4 +38,9 @@ public class HttpMethodBaseAttribute : Attribute
     /// 请求谓词
     /// </summary>
     public HttpMethod Method { get; set; }
+
+    /// <summary>
+    /// 支持 GZip 压缩
+    /// </summary>
+    public bool WithGZip { get; set; } = false;
 }
