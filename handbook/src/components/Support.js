@@ -10,7 +10,7 @@ const Container = styled.div`
   bottom: 5px;
   z-index: 100;
   border-radius: 3px;
-  width: 260px;
+  width: 280px;
   font-size: 14px;
   overflow: hidden;
   line-height: 24px;
@@ -119,6 +119,9 @@ export default function Support() {
           <Lang className={langClassName}>TypeScript</Lang>
           <Lang className={langClassName}>Web</Lang>
           <Lang className={langClassName}>Rust</Lang>
+          <Lang className={langClassName}>桌面</Lang>
+          <Lang className={langClassName}>React Native</Lang>
+          <Lang className={langClassName}>小程序</Lang>
         </Content>
       )}
     </Container>
