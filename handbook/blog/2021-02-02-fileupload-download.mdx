@@ -64,3 +64,19 @@ public async Task<IActionResult> UploadFileAsync(List<IFormFile> files)
     return Ok(new { count = files.Count, size });
 }
 ```
+
+:::note 关于使用axios上传文件,方法获取到参数files.Count=0
+axios请求配置
+
+```cs
+    let formData = new FormData();
+    formData.append("files", this.file); //files需与方法里的参数files名称一样
+    let config = {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    };
+    axios.post(this.uploadURL, formData, config).then((res) => {//需引入axios
+      console.log(res);
+    });
+```
