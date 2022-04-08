@@ -10,10 +10,10 @@ const langClassName = clsx(
 );
 
 export default function Support() {
-  const [state, setState] = useState(true);
+  const [state, setState] = useState(false);
   return (
     <div
-      className={clsx(classes.container, "animate__animated", "animate__swing")}
+      className={clsx(classes.container, "animate__animated", "animate__shakeY")}
     >
       <div className={classes.title} onClick={() => setState((f) => !f)}>
         <IconFont className={classes.icon} name="fuwu" color="#fff" />
@@ -35,8 +35,7 @@ export default function Support() {
             "animate__fadeIn"
           )}
         >
-          如需长期<span className={classes.span}>技术支持</span>或
-          <span className={classes.span}>技术外包</span>
+          如需长期<span className={classes.span}>项目技术外包</span>
           可添加此微信
           <img
             className={classes.img}
@@ -53,6 +52,7 @@ export default function Support() {
           <span className={langClassName}>Web</span>
           <span className={langClassName}>Rust</span>
           <span className={langClassName}>桌面</span>
+          <span className={langClassName}>Tauri</span>
           <span className={langClassName}>React Native</span>
           <span className={langClassName}>小程序</span>
         </div>

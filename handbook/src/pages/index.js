@@ -47,7 +47,9 @@ function Banner() {
               [fu:rɪən]
             </span>
           </div>
-          <div style={{ color: '#82aaff', position: 'relative', fontSize: 14 }}>您的痛点，Furion 已阅已历；Furion 的惊喜，您且慢慢享受。</div>
+          <div style={{ color: "#82aaff", position: "relative", fontSize: 14 }}>
+            您的痛点，Furion 已阅已历；Furion 的惊喜，您且慢慢享受。
+          </div>
           <div className="furion-banner-description">
             让 .NET 开发更简单，更通用，更流行。
           </div>
@@ -127,7 +129,9 @@ public class FurionAppService : IDynamicApiController
 }
 
 function Gitee() {
-  const { isDarkTheme, setLightTheme, setDarkTheme } = useColorMode();
+  const { colorMode, setLightTheme, setDarkTheme } = useColorMode();
+  const isDarkTheme = colorMode === "dark";
+
   return (
     <div className="furion-content">
       <p className={"furion-small-title" + (isDarkTheme ? " dark" : "")}>
@@ -179,7 +183,8 @@ function Gitee() {
 }
 
 function Remark() {
-  const { isDarkTheme, setLightTheme, setDarkTheme } = useColorMode();
+  const { colorMode, setLightTheme, setDarkTheme } = useColorMode();
+  const isDarkTheme = colorMode === "dark";
   return (
     <div className="furion-content">
       <p className={"furion-small-title" + (isDarkTheme ? " dark" : "")}>
@@ -275,41 +280,81 @@ function WhoUse() {
           </a>
         </div>
         <div className="furion-custom-img">
-          <img src={useBaseUrl("img/custom1.png")} height="100" style={{ height: 100 }} />
+          <img
+            src={useBaseUrl("img/custom1.png")}
+            height="100"
+            style={{ height: 100 }}
+          />
         </div>
         <div className="furion-custom-img">
-          <img src={useBaseUrl("img/custom2.png")} height="100" style={{ height: 100 }} />
+          <img
+            src={useBaseUrl("img/custom2.png")}
+            height="100"
+            style={{ height: 100 }}
+          />
         </div>
         <div className="furion-custom-img">
-          <img src={useBaseUrl("img/custom3.png")} height="100" style={{ height: 100 }} />
+          <img
+            src={useBaseUrl("img/custom3.png")}
+            height="100"
+            style={{ height: 100 }}
+          />
         </div>
         <div className="furion-custom-img">
-          <img src={useBaseUrl("img/custom4.jpg")} height="100" style={{ height: 100 }} />
+          <img
+            src={useBaseUrl("img/custom4.jpg")}
+            height="100"
+            style={{ height: 100 }}
+          />
         </div>
         <div className="furion-custom-img">
           <a href="http://www.hezongsoft.net" target="_blank">
-            <img src={useBaseUrl("img/custom5.png")} height="100" style={{ height: 100 }} />
+            <img
+              src={useBaseUrl("img/custom5.png")}
+              height="100"
+              style={{ height: 100 }}
+            />
           </a>
         </div>
         <div className="furion-custom-img">
           <a href="http://www.dilon.vip/" target="_blank">
-            <img src={useBaseUrl("img/custom6.png")} height="100" style={{ height: 100 }} />
+            <img
+              src={useBaseUrl("img/custom6.png")}
+              height="100"
+              style={{ height: 100 }}
+            />
           </a>
         </div>
         <div className="furion-custom-img">
-          <img src={useBaseUrl("img/c10.jpg")} height="100" style={{ height: 100 }} />
+          <img
+            src={useBaseUrl("img/c10.jpg")}
+            height="100"
+            style={{ height: 100 }}
+          />
         </div>
         <div className="furion-custom-img">
-          <img src={useBaseUrl("img/jjd.png")} height="100" style={{ height: 100 }} />
+          <img
+            src={useBaseUrl("img/jjd.png")}
+            height="100"
+            style={{ height: 100 }}
+          />
         </div>
         <div className="furion-custom-img">
           <a href="http://www.samfeng.cn/" target="_blank">
-            <img src={useBaseUrl("img/custom10.png")} height="100" style={{ height: 100 }} />
+            <img
+              src={useBaseUrl("img/custom10.png")}
+              height="100"
+              style={{ height: 100 }}
+            />
           </a>
         </div>
         <div className="furion-custom-img">
           <a href="http://www.ketaisoft.com/" target="_blank">
-            <img src={useBaseUrl("img/custom11.png")} height="100" style={{ height: 100 }} />
+            <img
+              src={useBaseUrl("img/custom11.png")}
+              height="100"
+              style={{ height: 100 }}
+            />
           </a>
         </div>
       </div>
@@ -321,7 +366,11 @@ function WhoUse() {
             Furion
             已在全球多个项目中使用。从小型企业到企业的解决方案及知名企业。他们在简单软件和复杂管理系统的开发方面都信任我们。
           </p>
-          <a className="furion-get-start" href="https://github.com/MonkSoul/Furion/issues/154" target="_blank">
+          <a
+            className="furion-get-start"
+            href="https://github.com/MonkSoul/Furion/issues/154"
+            target="_blank"
+          >
             立即添加您的公司
           </a>
         </div>
@@ -331,7 +380,8 @@ function WhoUse() {
 }
 
 function Links() {
-  const { isDarkTheme, setLightTheme, setDarkTheme } = useColorMode();
+  const { colorMode, setLightTheme, setDarkTheme } = useColorMode();
+  const isDarkTheme = colorMode === "dark";
   return (
     <div className="furion-links">
       <p className={"furion-small-title" + (isDarkTheme ? " dark" : "")}>
@@ -352,7 +402,8 @@ function Links() {
 }
 
 function Contributor() {
-  const { isDarkTheme, setLightTheme, setDarkTheme } = useColorMode();
+  const { colorMode, setLightTheme, setDarkTheme } = useColorMode();
+  const isDarkTheme = colorMode === "dark";
 
   return (
     <div className="furion-contributors">
@@ -393,7 +444,8 @@ function Contributor() {
 }
 
 function ProccessOn() {
-  const { isDarkTheme, setLightTheme, setDarkTheme } = useColorMode();
+  const { colorMode, setLightTheme, setDarkTheme } = useColorMode();
+  const isDarkTheme = colorMode === "dark";
   return (
     <div className="furion-proccesson">
       <p className={"furion-small-title" + (isDarkTheme ? " dark" : "")}>

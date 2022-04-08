@@ -10,6 +10,7 @@ module.exports = {
   projectName: "Furion",
   scripts: ["/furion/script/baidutongji.js"],
   themeConfig: {
+    autoCollapseSidebarCategories: true,
     prism: {
       additionalLanguages: ["powershell", "csharp", "sql"],
       // theme: require("prism-react-renderer/themes/github"),
@@ -177,6 +178,7 @@ module.exports = {
           editUrl: "https://gitee.com/dotnetchina/Furion/tree/net6/handbook/",
           showLastUpdateTime: true,
           showLastUpdateAuthor: true,
+          // sidebarCollapsible: true,
         },
         blog: {
           showReadingTime: true,
