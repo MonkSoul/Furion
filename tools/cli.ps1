@@ -519,7 +519,7 @@ for ($i = 0; $i -le $files.Count - 1; $i++){
     # 生成继承关系和文件头
     $finalClass = $fileHeader +  @"
 
-namespace $CoreProject
+namespace $Namespace
 {
     public partial class $fileName$extents
     {
