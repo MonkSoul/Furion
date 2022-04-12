@@ -1,0 +1,33 @@
+.button {
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+    z-index: 1000000;
+    cursor: pointer;
+    background: #8759ff;
+    color: #fff;
+    padding: 0 10px;
+    border-radius: 5px;
+}
+
+.modal {
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    left: 0;
+    top: 0;
+    box-sizing: border-box;
+    z-index: 99999;
+    display: flex;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+.playground {
+    width: 80vw;
+    height: 80vh;
+    border-radius: 8px;
+    margin-top: 50px;
+    user-select: none;
+}

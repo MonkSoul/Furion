@@ -5,6 +5,7 @@ import StarProject from "../components/StarProject";
 import ZhiCai from "../components/ZhiCai";
 import Support from "../components/Support";
 import "animate.css";
+import Playground from "../components/Playground";
 
 function Root({ children }) {
   return (
@@ -15,6 +16,7 @@ function Root({ children }) {
       {/* <JoinGroup /> */}
       {/* <StarProject /> */}
       <Support />
+      <Playground />
     </>
   );
 }
