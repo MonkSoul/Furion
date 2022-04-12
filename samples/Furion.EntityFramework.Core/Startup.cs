@@ -10,6 +10,6 @@ public sealed class Startup : AppStartup
         services.AddDatabaseAccessor(options =>
         {
             options.AddDbPool<DefaultDbContext>();
-        });
+        }, "Furion.Database.Migrations");   // 设置 CodeFirst 生成迁移文件项目名
     }
 }
