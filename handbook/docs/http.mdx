@@ -446,7 +446,7 @@ var res = await "https://www.furion.icu".SetRetryPolicy(3, 1000).GetAsync();
 
 ### 19.4.23 支持 `GZip` 压缩
 
-在 `Furion v3.1.3+` 版本支持`GZip` 压缩，如：
+在 `Furion v3.1.4+` 版本支持`GZip` 压缩，如：
 
 ```cs
 var res = await "https://www.furion.icu".WithGZip().GetAsync();
@@ -852,7 +852,7 @@ public interface IHttp : IHttpDispatchProxy
 
 ### 19.5.18 支持 `GZip`
 
-在 `Furion v3.1.3+` 版本支持 `GZip`，如：
+在 `Furion v3.1.4+` 版本支持 `GZip`，如：
 
 ```cs
 public interface IHttp : IHttpDispatchProxy
