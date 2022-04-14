@@ -81,6 +81,7 @@ public abstract class AppAuthorizeHandler : IAuthorizationHandler
                 // 验证策略管道
                 var policyPipeline = await PolicyPipelineAsync(context, httpContext, requirement);
                 if (policyPipeline) context.Succeed(requirement);
+                else context.Fail();
             }
         }
         else context.Fail();
