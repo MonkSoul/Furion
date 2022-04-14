@@ -7,6 +7,7 @@
 // See the Mulan PSL v2 for more details.
 
 using Furion.DependencyInjection;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -69,6 +70,22 @@ public static class ObjectExtensions
     public static DateTimeOffset? ConvertToDateTimeOffset(this DateTime? dateTime)
     {
         return dateTime.HasValue ? dateTime.Value.ConvertToDateTimeOffset() : null;
+    }
+
+    /// <summary>
+    /// 将 IFormFile 转换成 byte[]
+    /// </summary>
+    /// <param name="formFile"></param>
+    /// <returns></returns>
+    public static byte[] ToByteArray(this IFormFile formFile)
+    {
+        var fileLength = formFile.Length;
+        using var stream = formFile.OpenReadStream();
+        var bytes = new byte[fileLength];
+
+        stream.Read(bytes, 0, (int)fileLength);
+
+        return bytes;
     }
 
     /// <summary>

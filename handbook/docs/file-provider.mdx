@@ -282,6 +282,22 @@ public async Task<IActionResult> UploadFileAsync(IFormFile file)
 }
 ```
 
+:::tip 便捷拓展方法
+
+在 Furion `v3.2.0` 新增了 `IFormFile` 的 `ToByteArray` 拓展，如:
+
+```cs {4}
+[HttpPost]
+public async Task<IActionResult> UploadFileAsync(IFormFile file)
+{
+    var bytes = file.ToByteArray();
+
+    // 这里将 bytes 存储到你想要的介质中即可
+}
+```
+
+:::tip
+
 ## 31.7 反馈与建议
 
 :::note 与我们交流
