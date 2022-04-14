@@ -873,6 +873,16 @@ services.AddInject(options =>
 }
 ```
 
+### 6.5.28 `Swagger` 刷新记住授权状态
+
+默认情况下，`Swagger` 刷新浏览器后，授权状态将被重置，也就是需要重新登录，通过下面代码在 **用户登录成功后** 调用即可：
+
+```cs
+// ....验证用户名/密码....
+
+_httpContextAccessor.HttpContext.SigninToSwagger("传入 token");
+```
+
 ## 6.6 `SpecificationDocumentSettings` 配置
 
 除了上述例子外，`Furion` 提供了一些配置选项，如：

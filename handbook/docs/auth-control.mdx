@@ -334,6 +334,48 @@ Authorization: Bearer 你的token
 X-Authorization: Bearer 你的刷新token
 ```
 
+这里简单贴出使用 `axios` 自动刷新 `token` 拦截配置示例
+
+```js {2,14}
+// 请求自动携带 access-token 和 x-access-token
+axiosInstance.interceptors.request.use((conf) => {
+  conf.headers!.Authorization = `Bearer ${window.localStorage.getItem(
+    "access-token"
+  )}`;
+  conf.headers!["X-Authorization"] = `Bearer ${window.localStorage.getItem(
+    "x-access-token"
+  )}`;
+  
+  return conf;
+});
+
+// 相应后自动存储
+axiosInstance.interceptors.response.use((res) => {
+  // 处理规范化结果带 `errors` 问题
+  const result: any = res.data;
+  if (result["errors"]) {
+    throw new Error(result["errors"]);
+  }
+
+  // 通过请求报文头读取新的 `token` 和 `刷新 token`
+  var accessToken = res.headers["access-token"];
+  var xAccessToken = res.headers["x-access-token"];
+
+  // 处理无效 `token` 问题
+  if (accessToken === "invalid_token") {
+    window.localStorage.removeItem("access-token");
+    window.localStorage.removeItem("x-access-token");
+  }
+  // 处理自动刷新
+  else if (xAccessToken && accessToken && accessToken !== "invalid_token") {
+    window.localStorage.setItem("access-token", accessToken);
+    window.localStorage.setItem("x-access-token", xAccessToken);
+  }
+
+  return res;
+});
+```
+
 :::important 特别注意
 
 在正常开发中，`refreshToken` 无需每次请求携带，而是 `accessToken` 即将过期之后携带即可。可以在客户端自行判断 `accessToken` 是否即将过期。
