@@ -15,7 +15,7 @@
 
 - **问题修复**
 
-  - [修复] `Swagger` 的 `schema` 类型如果是 `C# Object` 类型无法正确生成前端代码问题 [Swagger 官方 Issue](https://github.com/swagger-api/swagger-codegen-generators/issues/692)
+  - [修复] `Swagger` 的 `schema` 类型如果是 `C# Object` 类型无法正确生成前端代码问题 [Swagger 官方 Issue](https://github.com/swagger-api/swagger-codegen-generators/issues/692) [1a25274](https://gitee.com/dotnetchina/Furion/commit/1a252747fd60fc87a8ed4425c8edf7803f96ce43)
 
 - **其他更改**
 
