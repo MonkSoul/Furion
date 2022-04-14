@@ -341,7 +341,7 @@ public static class SpareTime
                         // 只要执行成功一次，那么清空异常信息
                         currentRecord.Timer.Exception.Clear();
 
-                    // 执行成功通知
+                        // 执行成功通知
                         await WriteChannel(timer, 2);
                     }
                 }
@@ -351,7 +351,7 @@ public static class SpareTime
                     currentRecord.Timer.Exception.TryAdd(timer.Tally, ex);
 
                     // 执行异常通知
-                    await WriteChannel(currentRecord.Timer, 3);
+                    if (timer.Type == SpareTimeTypes.Interval && !onlyInspect) await WriteChannel(timer, 3);
 
                     // 如果任务执行连续 10 次失败，则停止任务
                     if (currentRecord.Timer.Exception.Count >= 10)
