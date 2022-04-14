@@ -345,7 +345,7 @@ axiosInstance.interceptors.request.use((conf) => {
   conf.headers!["X-Authorization"] = `Bearer ${window.localStorage.getItem(
     "x-access-token"
   )}`;
-  
+
   return conf;
 });
 

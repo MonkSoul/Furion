@@ -1,7 +1,7 @@
 ---
 id: file-provider
 title: 31. 虚拟文件系统
-sidebar_label: 31. 虚拟文件系统
+sidebar_label: 31. 虚拟文件系统（上传下载）
 ---
 
 :::important 版本说明
@@ -120,7 +120,169 @@ app.UseFileServer(new FileServerOptions
 });
 ```
 
-## 31.6 反馈与建议
+## 31.6 文件上传下载
+
+在应用开发中，文件上传下载属于非常常用的功能，这里贴出常见的文件上传下载示例。
+
+### 31.6.1 文件下载
+
+```cs
+[HttpGet, NonUnify]
+public IActionResult FileDownload()
+{
+    string filePath = "这里获取完整的文件下载路径";
+    return new FileStreamResult(new FileStream(filePath, FileMode.Open), "application/octet-stream") {
+        FileDownloadName = fileName // 配置文件下载显示名
+    };
+}
+```
+
+:::note 关于前端获取文件名
+
+如果前端获取不到文件夹，可添加以下配置：
+
+```cs
+_httpContextAccessor.HttpContext.Response.Headers.Add("Content-Disposition", $"attachment; filename={文件名}");
+_httpContextAccessor.HttpContext.Response.Headers.Add("Access-Control-Expose-Headers", "Content-Disposition");
+```
+
+:::
+
+### 31.6.2 文件上传
+
+:::tip 小提醒
+
+`IFormFile` 类型对应前端的 `Content-Type` 为： `multipart/form-data`
+
+:::
+
+- **单文件 `IFormFile` 类型参数（存储到硬盘）**
+
+```cs {1,2,18}
+[HttpPost]
+public async Task<IActionResult> UploadFileAsync(IFormFile file)
+{
+    // 如：保存到网站根目录下的 uploads 目录
+    var savePath = Path.Combine(App.HostEnvironment.ContentRootPath, "uploads");
+    if (!Directory.Exists(savePath)) Directory.CreateDirectory(savePath);
+
+    //// 这里还可以获取文件的信息
+    // var size = file.Length / 1024.0;  // 文件大小 KB
+    // var clientFileName = file.FileName; // 客户端上传的文件名
+    // var contentType = file.ContentType; // 获取文件 ContentType 或解析 MIME 类型
+
+    // 避免文件名重复，采用 GUID 生成
+    var fileName = Guid.NewGuid().ToString("N") + Path.GetExtension(file.FileName);
+    var filePath = Path.Combine(savePath, fileName);
+
+    // 保存到指定路径
+    using (var stream = System.IO.File.Create(filePath))
+    {
+        await file.CopyToAsync(stream);
+    }
+
+    // 在动态 API 直接返回对象即可，无需 OK 和 IActionResult
+    return Ok(new { filename });
+}
+```
+
+- **单文件 `Base64` 类型参数（存储到硬盘）**
+
+```cs {1,2,9,19}
+[HttpPost]
+public async Task UploadFileAsync([FromBody] string fileBase64, string clientFileName)
+{
+    // 如：保存到网站根目录下的 uploads 目录
+    var savePath = Path.Combine(App.HostEnvironment.ContentRootPath, "uploads");
+    if (!Directory.Exists(savePath)) Directory.CreateDirectory(savePath);
+
+    // 将 base64 字符串转 byte[]
+    var bytes = Convert.FromBase64String(fileBase64);
+
+    // 这里还可以获取文件的信息
+    // var size = bytes.Length / 1024.0;  // 文件大小 KB
+
+    // 避免文件名重复，采用 GUID 生成
+    var fileName = Guid.NewGuid().ToString("N") + Path.GetExtension(clientFileName);
+    var filePath = Path.Combine(savePath, fileName);
+
+    // 保存到指定路径
+    using (var fs = new FileStream(filePath, FileMode.Create))
+    {
+        await fs.WriteAsync(bytes);
+    }
+
+    // 在动态 API 直接返回对象即可，无需 OK 和 IActionResult
+    return Ok(new { fileName });
+}
+```
+
+:::warning 特别注意
+
+文件 `Base64` 字符串如果带 `data:text/plain;base64,` 开头则，需要手动去掉 `,` 之前（含都好）的字符串。
+
+:::
+
+- **多文件 `List<IFormFile>` 类型参数（存储到硬盘）**
+
+代码和 `单文件处理一致`，只需 `foreach` 即可。
+
+```cs {1,12}
+[HttpPost]
+public async Task<IActionResult> UploadFileAsync(List<IFormFile> files)
+{
+    // 保存到网站根目录下的 uploads 目录
+    var savePath = Path.Combine(App.HostEnvironment.ContentRootPath, "uploads");
+    if(!Directory.Exists(savePath)) Directory.CreateDirectory(savePath);
+
+    // 总上传大小
+    long size = files.Sum(f => f.Length);
+
+    // 遍历所有文件逐一上传
+    foreach (var formFile in files)
+    {
+        if (formFile.Length > 0)
+        {
+            // 避免文件名重复，采用 GUID 生成
+            var fileName = Guid.NewGuid().ToString("N") + Path.GetExtension(clientFileName);
+            var filePath = Path.Combine(savePath, fileName);
+
+            // 保存到指定路径
+            using (var stream = System.IO.File.Create(filePath))
+            {
+                await formFile.CopyToAsync(stream);
+            }
+        }
+    }
+
+    // 在动态 API 直接返回对象即可，无需 OK 和 IActionResult
+    return Ok(new { count = files.Count, size });
+}
+```
+
+- **多文件 `List<string>` `Base64` 类型参数（存储到硬盘）**
+
+代码和 `单文件处理一致`，只需 `foreach` 即可（参上）。
+
+### 31.6.3 将 `IFormFile` 转 `byte[]`
+
+有时候我们需要将文件转换成 `byte[]` 存储到数据库，而不是存储到硬盘中。
+
+```cs
+[HttpPost]
+public async Task<IActionResult> UploadFileAsync(IFormFile file)
+{
+    var fileLength = formFile.Length;
+    using var stream = formFile.OpenReadStream();
+    var bytes = new byte[fileLength];
+
+    stream.Read(bytes, 0, (int)fileLength);
+
+    // 这里将 bytes 存储到你想要的介质中即可
+}
+```
+
+## 31.7 反馈与建议
 
 :::note 与我们交流
 
