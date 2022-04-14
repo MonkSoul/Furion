@@ -349,7 +349,7 @@ axiosInstance.interceptors.request.use((conf) => {
   return conf;
 });
 
-// 相应后自动存储
+// 响应后自动存储
 axiosInstance.interceptors.response.use((res) => {
   // 处理规范化结果带 `errors` 问题
   const result: any = res.data;
