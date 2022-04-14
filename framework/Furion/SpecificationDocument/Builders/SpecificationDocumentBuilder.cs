@@ -160,6 +160,9 @@ public static class SpecificationDocumentBuilder
         //使得 Swagger 能够正确地显示 Enum 的对应关系
         if (_specificationDocumentSettings.EnableEnumSchemaFilter == true) swaggerGenOptions.SchemaFilter<EnumSchemaFilter>();
 
+        // 修复 editor.swagger.io 生成不能正常处理 C# object 类型问题
+        swaggerGenOptions.SchemaFilter<AnySchemaFilter>();
+
         // 支持控制器排序操作
         if (_specificationDocumentSettings.EnableTagsOrderDocumentFilter == true) swaggerGenOptions.DocumentFilter<TagsOrderDocumentFilter>();
 
