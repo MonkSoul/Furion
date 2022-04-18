@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import clsx from "clsx";
 import IconFont from "./iconfonts";
 import classes from "./Support.module.css";
+import useBaseUrl from "@docusaurus/useBaseUrl";
 
 const langClassName = clsx(
   classes.lang,
@@ -12,12 +13,10 @@ const langClassName = clsx(
 export default function Support() {
   const [state, setState] = useState(false);
   return (
-    <div
-      className={clsx(classes.container, "animate__animated", "animate__shakeY")}
-    >
+    <div className={clsx(classes.container)}>
       <div className={classes.title} onClick={() => setState((f) => !f)}>
         <IconFont className={classes.icon} name="fuwu" color="#fff" />
-        <span>服务支持</span>
+        <span>请作者喝杯咖啡</span>
         <span className={classes.toggle}>
           <IconFont
             className={classes.icon}
@@ -55,6 +54,18 @@ export default function Support() {
           <span className={langClassName}>Tauri</span>
           <span className={langClassName}>React Native</span>
           <span className={langClassName}>小程序</span>
+          <div
+            style={{
+              marginTop: 10,
+              borderTop: "1px solid #dedede",
+              paddingTop: 5,
+              marginBottom: 5,
+              color: "rgb(114, 60, 255)",
+            }}
+          >
+            如果觉得 Furion 能够帮助到您，可以请作者喝杯咖啡。
+          </div>
+          <img src={useBaseUrl("img/support.png")} style={{ width: "100%" }} />
         </div>
       )}
     </div>
