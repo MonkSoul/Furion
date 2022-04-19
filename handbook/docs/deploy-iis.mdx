@@ -91,13 +91,13 @@ set ASPNETCORE_ENVIRONMENT=Production
 
 解决该问题，只需要在 `web.config` 移除即可：
 
-```xml {2-4}
+```xml {2-6}
 <configuration>
  <system.webServer>
    <modules runAllManagedModulesForAllRequests="true">
      <remove name="webDAVModule"/>
    </modules>
- <system.webServer>
+ </system.webServer>
 </configuration>
 ```
 
