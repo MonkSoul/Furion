@@ -1,7 +1,7 @@
 import Link from "@docusaurus/Link";
+import { useColorMode } from "@docusaurus/theme-common";
 import useBaseUrl from "@docusaurus/useBaseUrl";
 import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
-import { useColorMode } from "@docusaurus/theme-common";
 import Layout from "@theme/Layout";
 import components from "@theme/MDXComponents";
 import React from "react";
@@ -103,7 +103,7 @@ public class FurionAppService : IDynamicApiController
     }
 
     // highlight-next-line
-    [IfException(1000, "用户ID: {0} 不存在")]
+    [IfException(1000, ErrorMessage = "用户ID: {0} 不存在")]
     public async Task<UserDto> GetUser([Range(1, int.MaxValue)] int userId)
     {
         var user = await _userRepository.FindOrDefaultAsync(userId);
@@ -149,7 +149,7 @@ function Gitee() {
             className={"furion-log-jiao" + (isDarkTheme ? " dark" : "")}
           ></div>
           <div className="furion-log-number">
-            <div style={{ color: "#723cff" }}>7900 +</div>
+            <div style={{ color: "#723cff" }}>8000 +</div>
             <span className={isDarkTheme ? " dark" : ""}>Stars</span>
           </div>
         </div>
@@ -173,7 +173,7 @@ function Gitee() {
             className={"furion-log-jiao" + (isDarkTheme ? " dark" : "")}
           ></div>
           <div className="furion-log-number">
-            <div style={{ color: "#1fd898" }}>2,315,919</div>
+            <div style={{ color: "#1fd898" }}>2,344,143</div>
             <span className={isDarkTheme ? " dark" : ""}>Downloads</span>
           </div>
         </div>
