@@ -166,7 +166,7 @@ public abstract class AppDbContext<TDbContext, TDbContextLocator> : DbContext
             if (string.IsNullOrWhiteSpace(cachedValue))
             {
                 // 解析租户上下文
-                var dbContextResolve = serviceProvider.GetService<Func<Type, ITransient, DbContext>>();
+                var dbContextResolve = serviceProvider.GetService<Func<Type, IScoped, DbContext>>();
                 if (dbContextResolve == null) return default;
 
                 var tenantDbContext = dbContextResolve(typeof(MultiTenantDbContextLocator), default);

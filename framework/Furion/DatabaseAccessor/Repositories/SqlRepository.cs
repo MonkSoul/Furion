@@ -65,7 +65,7 @@ public partial class PrivateSqlRepository : IPrivateSqlRepository
         _serviceProvider = serviceProvider;
 
         // 解析数据库上下文
-        var dbContextResolve = serviceProvider.GetService<Func<Type, ITransient, DbContext>>();
+        var dbContextResolve = serviceProvider.GetService<Func<Type, IScoped, DbContext>>();
         var dbContext = dbContextResolve(dbContextLocator, default);
         DynamicContext = Context = dbContext;
 

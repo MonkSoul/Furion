@@ -170,7 +170,7 @@ public static class Db
         // 判断数据库上下文定位器是否绑定
         Penetrates.CheckDbContextLocator(dbContextLocator, out _);
 
-        var dbContextResolve = App.GetService<Func<Type, ITransient, DbContext>>(serviceProvider);
+        var dbContextResolve = App.GetService<Func<Type, IScoped, DbContext>>(serviceProvider);
         return dbContextResolve(dbContextLocator, default);
     }
 
