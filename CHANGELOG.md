@@ -16,6 +16,7 @@
 - **突破性变化**
 
   - [更新] 所有依赖包至最新版
+  - [重构] 依赖注入模块核心代码，移除注册服务采用反射机制，减少反射性能损耗
 
 - **问题修复**
 
@@ -23,6 +24,7 @@
   - [修复] `Worker Service` 发布成 `Windows Services` 时日志绝对路径问题 感谢 [@jacoat](https://gitee.com/jacoat) [!467](https://gitee.com/dotnetchina/Furion/pulls/467)
   - [修复] `Nginx` 和 `IIS` 对二级虚拟目录配置不同导致 `404` 问题 [8718392](https://gitee.com/dotnetchina/Furion/commit/87183921ac8b6f9856db01b4de679b858a58e753)
   - [修复] 远程请求模块未初始化 `OnRequestFailded` 导致空异常问题 [#I54PK7](https://gitee.com/dotnetchina/Furion/issues/I54PK7)
+  - [修复] 依赖注入反射出现 `Not found Method` bug [#I546L1](https://gitee.com/dotnetchina/Furion/issues/I546L1)
 
 - **其他更改**
 

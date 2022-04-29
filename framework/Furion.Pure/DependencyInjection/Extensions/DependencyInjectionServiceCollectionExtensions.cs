@@ -10,6 +10,7 @@ using Furion;
 using Furion.DependencyInjection;
 using Furion.DynamicApiController;
 using Furion.Reflection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -172,21 +173,22 @@ public static class DependencyInjectionServiceCollectionExtensions
         // 修复泛型注册类型
         var fixedType = FixedGenericType(type);
         var fixedInter = inter == null ? null : FixedGenericType(inter);
+        var lifetime = TryGetServiceLifetime(dependencyType);
 
         switch (injectionAttribute.Action)
         {
             case InjectionActions.Add:
-                if (fixedInter == null) services.InnerAdd(dependencyType, fixedType);
+                if (fixedInter == null) services.Add(ServiceDescriptor.Describe(fixedType, fixedType, lifetime));
                 else
                 {
-                    services.InnerAdd(dependencyType, fixedInter, fixedType);
+                    services.Add(ServiceDescriptor.Describe(fixedInter, fixedType, lifetime));
                     AddDispatchProxy(services, dependencyType, fixedType, injectionAttribute.Proxy, fixedInter, true);
                 }
                 break;
 
             case InjectionActions.TryAdd:
-                if (fixedInter == null) services.InnerTryAdd(dependencyType, fixedType);
-                else services.InnerTryAdd(dependencyType, fixedInter, fixedType);
+                if (fixedInter == null) services.TryAdd(ServiceDescriptor.Describe(fixedType, fixedType, lifetime));
+                else services.Add(ServiceDescriptor.Describe(fixedInter, fixedType, lifetime));
                 break;
 
             default: break;
@@ -207,21 +209,23 @@ public static class DependencyInjectionServiceCollectionExtensions
         proxyType ??= GlobalServiceProxyType;
         if (proxyType == null || (type != null && type.IsDefined(typeof(SuppressProxyAttribute), true))) return;
 
+        var lifetime = TryGetServiceLifetime(dependencyType);
+
         // 注册代理类型
-        services.InnerAdd(dependencyType, typeof(AspectDispatchProxy), proxyType);
+        services.Add(ServiceDescriptor.Describe(typeof(AspectDispatchProxy), proxyType, lifetime));
 
         // 注册服务
-        services.InnerAdd(dependencyType, inter, provider =>
-         {
-             dynamic proxy = DispatchCreateMethod.MakeGenericMethod(inter, proxyType).Invoke(null, null);
-             proxy.Services = provider;
-             if (hasTarget)
-             {
-                 proxy.Target = provider.GetService(type);
-             }
+        services.Add(ServiceDescriptor.Describe(inter, provider =>
+        {
+            dynamic proxy = DispatchCreateMethod.MakeGenericMethod(inter, proxyType).Invoke(null, null);
+            proxy.Services = provider;
+            if (hasTarget)
+            {
+                proxy.Target = provider.GetService(type);
+            }
 
-             return proxy;
-         });
+            return proxy;
+        }, lifetime));
     }
 
     /// <summary>
@@ -232,16 +236,18 @@ public static class DependencyInjectionServiceCollectionExtensions
     private static void RegisterNamedService<TDependency>(IServiceCollection services)
         where TDependency : IPrivateDependency
     {
+        var lifetime = TryGetServiceLifetime(typeof(TDependency));
+
         // 注册命名服务
-        services.InnerAdd(typeof(TDependency), provider =>
-         {
-             object ResolveService(string named, TDependency _)
-             {
-                 var isRegister = TypeNamedCollection.TryGetValue(named, out var serviceType);
-                 return isRegister ? provider.GetService(serviceType) : null;
-             }
-             return (Func<string, TDependency, object>)ResolveService;
-         });
+        services.Add(ServiceDescriptor.Describe(typeof(Func<string, TDependency, object>), provider =>
+        {
+            object ResolveService(string named, TDependency _)
+            {
+                var isRegister = TypeNamedCollection.TryGetValue(named, out var serviceType);
+                return isRegister ? provider.GetService(serviceType) : null;
+            }
+            return (Func<string, TDependency, object>)ResolveService;
+        }, lifetime));
     }
 
     /// <summary>
@@ -318,6 +324,31 @@ public static class DependencyInjectionServiceCollectionExtensions
     {
         var typeDefinitions = str.Split(";");
         return Reflect.GetType(typeDefinitions[0], typeDefinitions[1]);
+    }
+
+    /// <summary>
+    /// 根据依赖接口类型解析 ServiceLifetime 对象
+    /// </summary>
+    /// <param name="dependencyType"></param>
+    /// <returns></returns>
+    private static ServiceLifetime TryGetServiceLifetime(Type dependencyType)
+    {
+        if (dependencyType == typeof(ITransient))
+        {
+            return ServiceLifetime.Transient;
+        }
+        else if (dependencyType == typeof(IScoped))
+        {
+            return ServiceLifetime.Scoped;
+        }
+        else if (dependencyType == typeof(ISingleton))
+        {
+            return ServiceLifetime.Singleton;
+        }
+        else
+        {
+            throw new InvalidCastException("Invalid service registration lifetime.");
+        }
     }
 
     /// <summary>

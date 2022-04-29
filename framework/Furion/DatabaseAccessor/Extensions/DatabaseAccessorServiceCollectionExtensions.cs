@@ -70,11 +70,11 @@ public static class DatabaseAccessorServiceCollectionExtensions
         // 注册解析数据库上下文委托
         services.TryAddScoped(provider =>
         {
-            DbContext dbContextResolve(Type locator, IScoped transient)
+            DbContext dbContextResolve(Type locator, ITransient transient)
             {
                 return ResolveDbContext(provider, locator);
             }
-            return (Func<Type, IScoped, DbContext>)dbContextResolve;
+            return (Func<Type, ITransient, DbContext>)dbContextResolve;
         });
 
         // 注册 Sql 代理接口

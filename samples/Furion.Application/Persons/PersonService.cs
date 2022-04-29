@@ -1,4 +1,5 @@
 ﻿using Furion.Application.Persons;
+using Furion.Application.Services;
 using Furion.Core;
 using Furion.DatabaseAccessor;
 using Furion.DynamicApiController;
@@ -19,10 +20,13 @@ namespace Furion.Application;
 public class PersonService : IDynamicApiController
 {
     private readonly IRepository<Person> _personRepository;
+    private readonly ITestService _testService;
 
-    public PersonService(IRepository<Person> personRepository)
+    public PersonService(IRepository<Person> personRepository
+        , ITestService testService)
     {
         _personRepository = personRepository;
+        _testService = testService;
     }
 
     /// <summary>
@@ -118,5 +122,10 @@ public class PersonService : IDynamicApiController
                                        .ProjectToType<PersonDto>();
 
         return await persons.ToListAsync();
+    }
+
+    public string GetName()
+    {
+        return _testService.GetName();
     }
 }
