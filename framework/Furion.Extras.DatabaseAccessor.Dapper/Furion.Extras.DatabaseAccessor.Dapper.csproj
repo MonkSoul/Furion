@@ -2,7 +2,7 @@
 
 	<PropertyGroup>
 		<TargetFramework>net6.0</TargetFramework>
-		<Version>3.1.4</Version>
+		<Version>3.2.0</Version>
 		<Description>Furion 数据库访问器 Dapper 插件。</Description>
 	</PropertyGroup>
 

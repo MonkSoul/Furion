@@ -7,16 +7,17 @@
 > - 如果涉及到代码重构，则当天发版，次版本号 `加 1`，修订版本号 `清 0`。
 > - 如果 `.NET SDK` 主版本号升级，则当天发版，主版本号 `加 1`。 -->
 
-## v3.2.0（待发布）
+## v3.2.0（当前版本）
 
 - **新特性**
 
-  - [新增] `IFormFile` 拓展方法 `ToByteArray()`
+  - [新增] `IFormFile` 拓展方法 `ToByteArray()` [da69640](https://gitee.com/dotnetchina/Furion/commit/da69640da2331e2c8582b88bbda965c5ad7ecbe0)
+  - [新增] 规范化文档 `ServeDir` 虚拟目录配置功能，支持一键将一级目录切换至二级目录部署（IIS）[8718392](https://gitee.com/dotnetchina/Furion/commit/87183921ac8b6f9856db01b4de679b858a58e753)
 
 - **突破性变化**
 
   - [更新] 所有依赖包至最新版
-  - [重构] 依赖注入模块核心代码，移除注册服务采用反射机制，减少反射性能损耗
+  - [重构] 依赖注入模块核心代码，移除注册服务采用反射机制，减少反射性能损耗 [acdb315](https://gitee.com/dotnetchina/Furion/commit/acdb3157af92891610a1ba6d317b6af3f09e233f)
 
 - **问题修复**
 
@@ -37,7 +38,7 @@
 
 ---
 
-## v3.1.0（当前版本）
+## v3.1.0（已发布）
 
 - **新特性**
 
