@@ -97,6 +97,11 @@ public sealed class SpecificationDocumentSettingsOptions : IConfigurableOptions<
     public bool? EnableTagsOrderDocumentFilter { get; set; }
 
     /// <summary>
+    /// 服务目录（修正 IIS 创建 Application 问题）
+    /// </summary>
+    public string ServerDir { get; set; }
+
+    /// <summary>
     /// 后期配置
     /// </summary>
     /// <param name="options"></param>

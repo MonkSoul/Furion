@@ -343,6 +343,10 @@ public static class SpecificationDocumentBuilder
 
             // 替换路由模板
             var routeTemplate = _specificationDocumentSettings.RouteTemplate.Replace("{documentName}", Uri.EscapeDataString(group));
+            if (!string.IsNullOrWhiteSpace(_specificationDocumentSettings.ServerDir))
+            {
+                routeTemplate = _specificationDocumentSettings.ServerDir + "/" + routeTemplate;
+            }
             swaggerUIOptions.SwaggerEndpoint($"{_appSettings.VirtualPath}/{routeTemplate}", groupOpenApiInfo?.Title ?? group);
         }
     }

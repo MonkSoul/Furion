@@ -11,7 +11,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="sqlSugarCore" Version="5.0.7.5" />
+		<PackageReference Include="sqlSugarCore" Version="5.0.7.6" />
 	</ItemGroup>
 
 </Project>

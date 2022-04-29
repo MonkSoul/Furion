@@ -21,6 +21,7 @@
 
   - [修复] `Swagger` 的 `schema` 类型如果是 `C# Object` 类型无法正确生成前端代码问题 [Swagger 官方 Issue](https://github.com/swagger-api/swagger-codegen-generators/issues/692) [1a25274](https://gitee.com/dotnetchina/Furion/commit/1a252747fd60fc87a8ed4425c8edf7803f96ce43)
   - [修复] `Worker Service` 发布成 `Windows Services` 时日志绝对路径问题 感谢 [@jacoat](https://gitee.com/jacoat) [!467](https://gitee.com/dotnetchina/Furion/pulls/467)
+  - [修复] `Nginx` 和 `IIS` 对二级虚拟目录配置不同导致 `404` 问题
 
 - **其他更改**
 
