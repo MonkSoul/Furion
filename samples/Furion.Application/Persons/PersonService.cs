@@ -21,12 +21,15 @@ public class PersonService : IDynamicApiController
 {
     private readonly IRepository<Person> _personRepository;
     private readonly ITestService _testService;
+    private readonly ISql _sql;
 
     public PersonService(IRepository<Person> personRepository
-        , ITestService testService)
+        , ITestService testService
+        , ISql sql)
     {
         _personRepository = personRepository;
         _testService = testService;
+        _sql = sql;
     }
 
     /// <summary>
@@ -127,5 +130,10 @@ public class PersonService : IDynamicApiController
     public string GetName()
     {
         return _testService.GetName();
+    }
+
+    public List<Person> GetProxyPersons()
+    {
+        return _sql.GetPersons();
     }
 }

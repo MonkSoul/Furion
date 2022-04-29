@@ -38,8 +38,8 @@ namespace Furion.Application
 ### 9.17.3.1 构造函数方式
 
 ```cs {1-2}
-private readonly Isql _sql;
-public FurionService(Isql sql)
+private readonly ISql _sql;
+public FurionService(ISql sql)
 {
     _sql = sql;
 }
@@ -48,7 +48,7 @@ public FurionService(Isql sql)
 ### 9.17.3.2 方法参数注入
 
 ```cs {1}
-public async Task<List<PersonDto>> GetAll([FromServices] Isql, string keyword)
+public async Task<List<PersonDto>> GetAll([FromServices] ISql, string keyword)
 {
 }
 ```
