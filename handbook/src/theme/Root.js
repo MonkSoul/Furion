@@ -1,10 +1,6 @@
-import React from "react";
-import JoinGroup from "../components/JoinGroup";
-import GiveMeStar from "../components/GiveMeStar";
-import StarProject from "../components/StarProject";
-import ZhiCai from "../components/ZhiCai";
-import Support from "../components/Support";
 import "animate.css";
+import React from "react";
+import GiveMeStar from "../components/GiveMeStar";
 import Playground from "../components/Playground";
 
 function Root({ children }) {
@@ -15,7 +11,7 @@ function Root({ children }) {
       {children}
       {/* <JoinGroup /> */}
       {/* <StarProject /> */}
-      <Support />
+      {/* <Support /> */}
       <Playground />
     </>
   );
