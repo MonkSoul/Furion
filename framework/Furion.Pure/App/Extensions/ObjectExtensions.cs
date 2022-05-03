@@ -1,9 +1,9 @@
 // Copyright (c) 2020-2022 百小僧, Baiqian Co.,Ltd.
 // Furion is licensed under Mulan PSL v2.
-// You can use this software according to the terms and conditions of the Mulan PSL v2. 
+// You can use this software according to the terms and conditions of the Mulan PSL v2.
 // You may obtain a copy of Mulan PSL v2 at:
-//             https://gitee.com/dotnetchina/Furion/blob/master/LICENSE 
-// THIS SOFTWARE IS PROVIDED ON AN "AS IS" BASIS, WITHOUT WARRANTIES OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO NON-INFRINGEMENT, MERCHANTABILITY OR FIT FOR A PARTICULAR PURPOSE.  
+//             https://gitee.com/dotnetchina/Furion/blob/master/LICENSE
+// THIS SOFTWARE IS PROVIDED ON AN "AS IS" BASIS, WITHOUT WARRANTIES OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO NON-INFRINGEMENT, MERCHANTABILITY OR FIT FOR A PARTICULAR PURPOSE.
 // See the Mulan PSL v2 for more details.
 
 using Furion.DependencyInjection;
@@ -388,14 +388,18 @@ public static class ObjectExtensions
         {
             case JsonValueKind.String:
                 return jsonElement.GetString();
+
             case JsonValueKind.Undefined:
             case JsonValueKind.Null:
                 return default;
+
             case JsonValueKind.Number:
                 return jsonElement.GetDecimal();
+
             case JsonValueKind.True:
             case JsonValueKind.False:
                 return jsonElement.GetBoolean();
+
             case JsonValueKind.Object:
                 var enumerateObject = jsonElement.EnumerateObject();
                 var dic = new Dictionary<string, object>();
@@ -404,6 +408,7 @@ public static class ObjectExtensions
                     dic.Add(item.Name, item.Value.ToObject());
                 }
                 return dic;
+
             case JsonValueKind.Array:
                 var enumerateArray = jsonElement.EnumerateArray();
                 var list = new List<object>();
@@ -412,11 +417,11 @@ public static class ObjectExtensions
                     list.Add(item.ToObject());
                 }
                 return list;
+
             default:
                 return default;
         }
     }
-
 
     /// <summary>
     /// 清除字符串前后缀

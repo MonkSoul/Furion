@@ -1,9 +1,9 @@
 ﻿// Copyright (c) 2020-2022 百小僧, Baiqian Co.,Ltd.
 // Furion is licensed under Mulan PSL v2.
-// You can use this software according to the terms and conditions of the Mulan PSL v2. 
+// You can use this software according to the terms and conditions of the Mulan PSL v2.
 // You may obtain a copy of Mulan PSL v2 at:
-//             https://gitee.com/dotnetchina/Furion/blob/master/LICENSE 
-// THIS SOFTWARE IS PROVIDED ON AN "AS IS" BASIS, WITHOUT WARRANTIES OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO NON-INFRINGEMENT, MERCHANTABILITY OR FIT FOR A PARTICULAR PURPOSE.  
+//             https://gitee.com/dotnetchina/Furion/blob/master/LICENSE
+// THIS SOFTWARE IS PROVIDED ON AN "AS IS" BASIS, WITHOUT WARRANTIES OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO NON-INFRINGEMENT, MERCHANTABILITY OR FIT FOR A PARTICULAR PURPOSE.
 // See the Mulan PSL v2 for more details.
 
 using Microsoft.Extensions.DependencyInjection;
@@ -107,7 +107,7 @@ internal sealed class EventBusHostedService : BackgroundService
     /// </summary>
     /// <param name="stoppingToken">后台主机服务停止时取消任务 Token</param>
     /// <returns><see cref="Task"/> 实例</returns>
-    protected async override Task ExecuteAsync(CancellationToken stoppingToken)
+    protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
         _logger.LogInformation("EventBus Hosted Service is running.");
 

@@ -1,9 +1,9 @@
 ﻿// Copyright (c) 2020-2022 百小僧, Baiqian Co.,Ltd.
 // Furion is licensed under Mulan PSL v2.
-// You can use this software according to the terms and conditions of the Mulan PSL v2. 
+// You can use this software according to the terms and conditions of the Mulan PSL v2.
 // You may obtain a copy of Mulan PSL v2 at:
-//             https://gitee.com/dotnetchina/Furion/blob/master/LICENSE 
-// THIS SOFTWARE IS PROVIDED ON AN "AS IS" BASIS, WITHOUT WARRANTIES OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO NON-INFRINGEMENT, MERCHANTABILITY OR FIT FOR A PARTICULAR PURPOSE.  
+//             https://gitee.com/dotnetchina/Furion/blob/master/LICENSE
+// THIS SOFTWARE IS PROVIDED ON AN "AS IS" BASIS, WITHOUT WARRANTIES OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO NON-INFRINGEMENT, MERCHANTABILITY OR FIT FOR A PARTICULAR PURPOSE.
 // See the Mulan PSL v2 for more details.
 
 using Furion;
@@ -64,8 +64,8 @@ public static class DynamicApiControllerServiceCollectionExtensions
         // 配置 Mvc 选项
         services.Configure<MvcOptions>(options =>
         {
-                // 添加应用模型转换器
-                options.Conventions.Add(new DynamicApiControllerApplicationModelConvention());
+            // 添加应用模型转换器
+            options.Conventions.Add(new DynamicApiControllerApplicationModelConvention());
         });
 
         return services;

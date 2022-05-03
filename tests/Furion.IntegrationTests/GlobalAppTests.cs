@@ -12,6 +12,7 @@ public class GlobalAppTests : IClassFixture<WebApplicationFactory<TestProject.St
 {
     private readonly ITestOutputHelper Output;
     private readonly WebApplicationFactory<TestProject.Startup> _factory;
+
     public GlobalAppTests(ITestOutputHelper tempOutput,
         WebApplicationFactory<TestProject.Startup> factory)
     {

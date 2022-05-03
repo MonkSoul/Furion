@@ -15,6 +15,7 @@ public class ViewEngineTests : IClassFixture<WebApplicationFactory<TestProject.S
 {
     private readonly ITestOutputHelper Output;
     private readonly WebApplicationFactory<TestProject.Startup> _factory;
+
     public ViewEngineTests(ITestOutputHelper tempOutput,
         WebApplicationFactory<TestProject.Startup> factory)
     {

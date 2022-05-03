@@ -1,9 +1,9 @@
 ﻿// Copyright (c) 2020-2022 百小僧, Baiqian Co.,Ltd.
 // Furion is licensed under Mulan PSL v2.
-// You can use this software according to the terms and conditions of the Mulan PSL v2. 
+// You can use this software according to the terms and conditions of the Mulan PSL v2.
 // You may obtain a copy of Mulan PSL v2 at:
-//             https://gitee.com/dotnetchina/Furion/blob/master/LICENSE 
-// THIS SOFTWARE IS PROVIDED ON AN "AS IS" BASIS, WITHOUT WARRANTIES OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO NON-INFRINGEMENT, MERCHANTABILITY OR FIT FOR A PARTICULAR PURPOSE.  
+//             https://gitee.com/dotnetchina/Furion/blob/master/LICENSE
+// THIS SOFTWARE IS PROVIDED ON AN "AS IS" BASIS, WITHOUT WARRANTIES OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO NON-INFRINGEMENT, MERCHANTABILITY OR FIT FOR A PARTICULAR PURPOSE.
 // See the Mulan PSL v2 for more details.
 
 using Furion.DependencyInjection;
@@ -74,7 +74,7 @@ public class SqlDispatchProxy : AspectDispatchProxy, IDispatchProxy
     /// <param name="method"></param>
     /// <param name="args"></param>
     /// <returns></returns>
-    public async override Task InvokeAsync(MethodInfo method, object[] args)
+    public override async Task InvokeAsync(MethodInfo method, object[] args)
     {
         // 获取 Sql 代理方法信息
         var sqlProxyMethod = GetProxyMethod(method, args);
@@ -88,7 +88,7 @@ public class SqlDispatchProxy : AspectDispatchProxy, IDispatchProxy
     /// <param name="method"></param>
     /// <param name="args"></param>
     /// <returns></returns>
-    public async override Task<T> InvokeAsyncT<T>(MethodInfo method, object[] args)
+    public override async Task<T> InvokeAsyncT<T>(MethodInfo method, object[] args)
     {
         // 获取 Sql 代理方法信息
         var sqlProxyMethod = GetProxyMethod(method, args);

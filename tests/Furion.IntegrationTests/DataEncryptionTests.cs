@@ -12,6 +12,7 @@ public class DataEncryptionTests : IClassFixture<WebApplicationFactory<TestProje
 {
     private readonly ITestOutputHelper Output;
     private readonly WebApplicationFactory<TestProject.Startup> _factory;
+
     public DataEncryptionTests(ITestOutputHelper tempOutput,
         WebApplicationFactory<TestProject.Startup> factory)
     {

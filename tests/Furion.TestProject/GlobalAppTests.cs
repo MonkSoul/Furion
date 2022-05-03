@@ -15,6 +15,7 @@ public class GlobalAppTests : IDynamicApiController
     private readonly IServiceProvider _serviceProvider;
     private readonly IHost _host;
     private readonly IHttpContextAccessor _httpContextAccessor;
+
     public GlobalAppTests(IServiceProvider serviceProvider
         , IHost host
         , IHttpContextAccessor httpContextAccessor)

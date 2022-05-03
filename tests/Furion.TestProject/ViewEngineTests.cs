@@ -14,6 +14,7 @@ namespace Furion.TestProject;
 public class ViewEngineTests : IDynamicApiController
 {
     private readonly IViewEngine _viewEngine;
+
     public ViewEngineTests(IViewEngine viewEngine)
     {
         _viewEngine = viewEngine;
@@ -204,6 +205,7 @@ public class CustomModel : ViewEngineModel
 {
     public int A { get; set; }
     public string B { get; set; }
+
     public string Decorator(object value)
     {
         return "-=" + value + "=-";
