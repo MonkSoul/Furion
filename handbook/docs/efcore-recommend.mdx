@@ -20,7 +20,7 @@ sidebar_label: 9.29 EFCore 最佳实践
 - 使用 ·DbContextPool· 池来管理 DbContext，类似 ADO.NET 的连接池。
 - 手动或显式编译的查询 API，允许应用程序缓存查询转换，使其可仅被计算一次并执行多次。
 
-```cs
+```cs showLineNumbers 
 // Create an explicitly compiled query
 private static Func<CustomerContext, int, Customer> _customerById =
     EF.CompileQuery((CustomerContext db, int id) =>

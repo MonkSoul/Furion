@@ -38,7 +38,7 @@ sidebar_label: 9.0 入门简要 ✨
 
 ### 9.0.1.2 创建数据库上下文
 
-```cs {7}
+```cs showLineNumbers  {7}
 using Furion.DatabaseAccessor;
 using Microsoft.EntityFrameworkCore;
 
@@ -70,7 +70,7 @@ namespace Furion.EntityFramework.Core
 
 - `appsettings.json` 中配置
 
-```json {2-3}
+```json showLineNumbers  {2-3}
 {
   "ConnectionStrings": {
     "Sqlite3ConnectionString": "Data Source=./Furion.db"
@@ -80,7 +80,7 @@ namespace Furion.EntityFramework.Core
 
 - 自定义 `.json` 文件配置
 
-```json {2-3}
+```json showLineNumbers  {2-3}
 {
   "ConnectionStrings": {
     "Sqlite3ConnectionString": "Data Source=./Furion.db"
@@ -92,7 +92,7 @@ namespace Furion.EntityFramework.Core
 
 - `[AppDbContext]` 特性配置
 
-```cs {1}
+```cs showLineNumbers  {1}
 [AppDbContext("Data Source=./Furion.db", DbProvider.Sqlite)]
 public class DefaultDbContext : AppDbContext<DefaultDbContext>
 {
@@ -101,7 +101,7 @@ public class DefaultDbContext : AppDbContext<DefaultDbContext>
 
 - 在注册上下文时配置
 
-```cs {3-4}
+```cs showLineNumbers  {3-4}
 services.AddDatabaseAccessor(options =>
 {
     // options.AddDb<DefaultDbContext>(connectionMetadata: "配置Key或连接字符串");
@@ -111,7 +111,7 @@ services.AddDatabaseAccessor(options =>
 
 - 在 `DbContext` 中配置
 
-```cs {12-14}
+```cs showLineNumbers  {12-14}
 using Furion.DatabaseAccessor;
 using Microsoft.EntityFrameworkCore;
 
@@ -142,7 +142,7 @@ namespace Furion.EntityFramework.Core
 
 ### 9.0.1.5 注册数据库上下文
 
-```cs {12-19} title="Furion.EntityFramework.Core\Startup.cs"
+```cs showLineNumbers  {12-19} title="Furion.EntityFramework.Core\Startup.cs"
 using Furion.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -179,7 +179,7 @@ namespace Furion.EntityFramework.Core
 
 `Furion` 框架默认数据迁移的程序集为：`Furion.Database.Migrations`，所以如果您改了程序集名称或通过 `Nuget` 方式安装的 `Furion` 包，则需要配置迁移程序集名称：
 
-```cs {4}
+```cs showLineNumbers  {4}
 services.AddDatabaseAccessor(options =>
 {
     options.AddDbPool<DefaultDbContext>(DbProvider.Sqlite);
@@ -188,7 +188,7 @@ services.AddDatabaseAccessor(options =>
 
 另外，如果应用中配置了多个数据库上下文，那么所有的 `迁移命令` 都需要指定 `-Context 数据库上下文名称` 参数。如：
 
-```shell
+```shell showLineNumbers 
 Add-Migration v1.0.0 -Context DefaultDbContext
 ```
 

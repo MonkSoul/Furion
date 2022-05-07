@@ -10,7 +10,11 @@ module.exports = {
   projectName: "Furion",
   scripts: ["/furion/script/baidutongji.js"],
   themeConfig: {
-    autoCollapseSidebarCategories: true,
+    docs: {
+      sidebar: {
+        autoCollapseCategories: true,
+      },
+    },
     prism: {
       additionalLanguages: ["powershell", "csharp", "sql"],
       // theme: require("prism-react-renderer/themes/github"),

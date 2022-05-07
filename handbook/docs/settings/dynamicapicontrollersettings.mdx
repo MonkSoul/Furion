@@ -34,7 +34,7 @@ sidebar_label: 5. 动态API配置
   - `AbandonActionAffixes`：默认去除动作方法名称前后缀列表名，`string[]`，默认：
     - `Async`
   - `VerbToHttpMethods`：复写默认方法名转 `[HttpMethod]` 规则，`string[][]` 二维数组类型，内置匹配规则为：
-    ```cs
+    ```cs showLineNumbers 
     ["post"] = "POST",
     ["add"] = "POST",
     ["create"] = "POST",
@@ -54,7 +54,7 @@ sidebar_label: 5. 动态API配置
     ["patch"] = "PATCH"
     ```
     - 复写示例
-    ```json
+    ```json showLineNumbers 
     "DynamicApiControllerSettings": {
         "VerbToHttpMethods": [
           [ "getall", "HEAD" ],  // => getall 会被复写为 `[HttpHead]`
@@ -65,7 +65,7 @@ sidebar_label: 5. 动态API配置
 
 ## 5.3 配置示例
 
-```json
+```json showLineNumbers 
 {
   "DynamicApiControllerSettings": {
     "SupportedMvcController": true

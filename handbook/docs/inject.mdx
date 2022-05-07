@@ -27,7 +27,7 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 `Inject()` 是在启动程序 `Program.cs` 中使用的，集成 `Furion` 框架唯一方法，如：
 
-```cs {6,18} title="Furion.Web.Entry\Program.cs"
+```cs showLineNumbers  {6,18} title="Furion.Web.Entry\Program.cs"
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 
@@ -61,7 +61,7 @@ namespace Furion.Web.Entry
 
 `AddInject()` 包含以下基础功能注册：
 
-```cs
+```cs showLineNumbers 
 services.AddSpecificationDocuments([options])
         .AddDynamicApiControllers()
         .AddDataValidation()
@@ -70,7 +70,7 @@ services.AddSpecificationDocuments([options])
 
 使用如下：
 
-```cs {3,5,7,10}
+```cs showLineNumbers  {3,5,7,10}
 namespace Furion.Web.Entry
 {
     public class Startup
@@ -97,7 +97,7 @@ namespace Furion.Web.Entry
 
 `AddInjectBase()` 包含以下基础功能注册：
 
-```cs
+```cs showLineNumbers 
 services.AddDataValidation()
         .AddFriendlyException();
 ```
@@ -108,7 +108,7 @@ services.AddDataValidation()
 
 `AddInjectWithUnifyResult()` 方法实际上等同于：
 
-```cs
+```cs showLineNumbers 
 services.AddInject([swaggerGen])
         .AddUnifyResult();
 ```
@@ -129,13 +129,13 @@ services.AddInject([swaggerGen])
 
 `UseInject()` 包含以下基础功能注册：
 
-```cs
+```cs showLineNumbers 
 app.UseSpecificationDocuments();
 ```
 
 使用如下：
 
-```cs {3,5,12}
+```cs showLineNumbers  {3,5,12}
 namespace Furion.Web.Entry
 {
     public class Startup

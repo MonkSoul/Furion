@@ -30,7 +30,7 @@ sidebar_label: 10.3. MongoDB 操作
 
 使用非常简单，只需要在 `Startup.cs` 中添加 `services.AddMongoDB(connectionString)` 即可。如：
 
-```cs
+```cs showLineNumbers 
 // 方式一
 services.AddMongoDB("mongodb://localhost:27017");
 
@@ -47,7 +47,7 @@ services.AddMongoDB(new MongoUrl {});
 
 - 非泛型版本
 
-```cs
+```cs showLineNumbers 
 private readonly IMongoDBRepository _mongoRepository;
 public PersonService(IMongoDBRepository mongoRepository)
 {
@@ -57,7 +57,7 @@ public PersonService(IMongoDBRepository mongoRepository)
 
 ### 10.3.3.1 常见例子
 
-```cs
+```cs showLineNumbers 
 var database = _mongoRepository.Context.GetDatabase("foo");
 var collection = database.GetCollection<BsonDocument>("bar");
 
@@ -72,7 +72,7 @@ foreach(var document in list)
 }
 ```
 
-```cs
+```cs showLineNumbers 
 public class Person
 {
     public ObjectId Id { get; set; }
@@ -97,7 +97,7 @@ foreach(var person in list)
 
 `IMongoDBRepository` 只封装了 `MongoDB` 基础功能，如需获取更多操作可通过 `.Context` 属性获取 `MongoClient` 对象，如：
 
-```cs
+```cs showLineNumbers 
 var client = _mongoRepository.Context;
 ```
 

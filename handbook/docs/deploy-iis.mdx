@@ -10,7 +10,7 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 如果需要精简发布后的文件，也就是删除不必要的文件夹，可以编辑 Web 项目的 `.csproj` 并添加 `<SatelliteResourceLanguages>en-US</SatelliteResourceLanguages>`，如：
 
-```cs {3}
+```cs showLineNumbers  {3}
 <PropertyGroup>
   <TargetFramework>net5.0</TargetFramework>
   <SatelliteResourceLanguages>en-US</SatelliteResourceLanguages>
@@ -45,19 +45,19 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 ### 34.1.2.2 第二步（命令）
 
-```bash
+```bash showLineNumbers 
 net stop was /y
 ```
 
 ### 34.1.2.3 第三步（命令）
 
-```bash
+```bash showLineNumbers 
 net start w3svc
 ```
 
 ### 34.1.2.4 第四步（命令）
 
-```bash
+```bash showLineNumbers 
 set ASPNETCORE_ENVIRONMENT=Production
 ```
 

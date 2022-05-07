@@ -24,7 +24,7 @@ sidebar_label: 9.15 Sql 操作
 
 ### 9.15.2.1 返回 `DataTable`
 
-```cs
+```cs showLineNumbers 
 // ==== 同步操作 ====
 
 // 示例一
@@ -86,7 +86,7 @@ where p.Id > @id;".SqlQueryAsync(new {id = 10});
 
 ### 9.15.2.2 返回 `List<T>`
 
-```cs
+```cs showLineNumbers 
 // ==== 同步操作 ====
 
 // 示例一
@@ -148,7 +148,7 @@ where p.Id > @id;".SqlQueryAsync<Person>(new {id = 10});
 
 ### 9.15.2.3 返回 `DataSet`
 
-```cs
+```cs showLineNumbers 
 // ==== 同步操作 ====
 
 // 示例一
@@ -190,7 +190,7 @@ select * from FN_GetPerson(@id);".SqlQueriesAsync(new {id = 1});
 
 ### 9.15.2.4 返回 `Tuple<T1,...T8>`
 
-```cs
+```cs showLineNumbers 
 // ==== 同步操作 ====
 
 // 示例一
@@ -232,7 +232,7 @@ select * from FN_GetPerson(@id);".SqlQueriesAsync<Person, Student, string, Perso
 
 ### 9.15.2.5 返回 单行单列
 
-```cs
+```cs showLineNumbers 
 // ==== 同步操作 ====
 
 // 示例一
@@ -258,7 +258,7 @@ var value = await "select Age from person where id = @id".SqlScalarAsync<int>(ne
 
 ### 9.15.2.6 返回 受影响行数
 
-```cs
+```cs showLineNumbers 
 // ==== 同步操作 ====
 
 // 示例一
@@ -296,7 +296,7 @@ var rowEffects = await "delete from person where @id > 10".SqlNonQueryAsync(new 
 
 ### 9.15.3.1 返回 `DataTable`
 
-```cs
+```cs showLineNumbers 
 // ==== 同步操作 ====
 
 // 示例一
@@ -322,7 +322,7 @@ var dataTable = await "PROC_Name".SqlProcedureQueryAsync(new {id = 1, age = 27})
 
 ### 9.15.3.2 返回 `List<T>`
 
-```cs
+```cs showLineNumbers 
 // ==== 同步操作 ====
 
 // 示例一
@@ -348,7 +348,7 @@ var persons = await "PROC_Name".SqlProcedureQueryAsync<Person>(new {id = 1, age 
 
 ### 9.15.3.3 返回 `DataSet`
 
-```cs
+```cs showLineNumbers 
 // ==== 同步操作 ====
 
 // 示例一
@@ -374,7 +374,7 @@ var dataSet = await "PROC_Name".SqlProcedureQueriesAsync(new {id = 1, age = 27})
 
 ### 9.15.3.4 返回 `Tuple<T1,...T8>`
 
-```cs
+```cs showLineNumbers 
 // ==== 同步操作 ====
 
 // 示例一
@@ -406,7 +406,7 @@ var (persons,students,personDetail,string) = await "PROC_Name".SqlProcedureQueri
 
 ### 9.15.3.5 返回 单行单列
 
-```cs
+```cs showLineNumbers 
 // ==== 同步操作 ====
 
 // 示例一
@@ -432,7 +432,7 @@ var value = await "PROC_Name".SqlProcedureScalarAsync<int>(new {id = 1,  address
 
 ### 9.15.3.6 返回 受影响行数
 
-```cs
+```cs showLineNumbers 
 // ==== 同步操作 ====
 
 // 示例一
@@ -464,7 +464,7 @@ var rowEffects = await "PROC_Name".SqlProcedureNonQueryAsync(new {id=1});
 
 ### 9.15.3.7 带 `OUTPUT/RETURN` 返回
 
-```sql {3,4,10-12,15-17,22}
+```sql showLineNumbers  {3,4,10-12,15-17,22}
 CREATE PROC PROC_Output
     @Id INT,    // 输入参数
     @Name NVARCHAR(32) OUTPUT,  // 输出参数，还带长度
@@ -490,7 +490,7 @@ BEGIN
 END;
 ```
 
-```cs {1,10,13,16}
+```cs showLineNumbers  {1,10,13,16}
 using Furion.DatabaseAccessor;
 using System.Data;
 
@@ -512,7 +512,7 @@ namespace Furion.Application
 }
 ```
 
-```cs
+```cs showLineNumbers 
 // ==== 同步操作 ====
 
 // 示例一
@@ -539,7 +539,7 @@ ProcedureOutputResult<(List<Person>, List<Student>)> result = await "PROC_Name".
 
 ### 9.15.4.1 `标量函数`
 
-```cs
+```cs showLineNumbers 
 // ==== 同步操作 ====
 
 // 示例一
@@ -571,7 +571,7 @@ var value = await "FN_Name".SqlFunctionScalarAsync<int>(new {id = 1});
 
 ### 9.15.4.2 `表值函数`
 
-```cs
+```cs showLineNumbers 
 // ==== 同步操作 ====
 
 // 示例一
@@ -603,7 +603,7 @@ var persons = await "FN_Name".SqlFunctionQueryAsync<Person>(new {id = 1});
 
 ## 9.15.5 设置超时时间
 
-```cs
+```cs showLineNumbers 
 var data = "select * from table".SetCommandTimeout(100).SqlQuery(); // 单位秒
 ```
 
@@ -611,7 +611,7 @@ var data = "select * from table".SetCommandTimeout(100).SqlQuery(); // 单位秒
 
 `ISqlRepository` 仓储是专门处理 `Sql` 操作的，无需实体方式，所有接口和 `懒人无敌` 方式一样：
 
-```cs
+```cs showLineNumbers 
 // 示例一
 var dataTable = sqlRepository.SqlQuery("select * from person");
 
@@ -660,7 +660,7 @@ var persons = sqlRepository.SqlQuery<Person>("select * from person where id > @i
 
 `IRepository` 也能操作 `sql`，调用方法也是和上面一致的，如：
 
-```cs
+```cs showLineNumbers 
 var dataTable = repository.Sql().SqlQuery("select * from person");
 ```
 
@@ -674,7 +674,7 @@ var dataTable = repository.Sql().SqlQuery("select * from person");
 
 `IRepository<TEntity>` 也能操作 `sql`，调用方法也是和上面一致的，如：
 
-```cs
+```cs showLineNumbers 
 var dataTable = personRepository.SqlQuery("select * from person");
 ```
 
@@ -705,7 +705,7 @@ var dataTable = personRepository.SqlQuery("select * from person");
 
 ### 9.15.10.1 懒人无敌 🐮 方式
 
-```cs
+```cs showLineNumbers 
 var dataTable = "select * from person".Change<MySqlDbContextLocator>().SqlQuery();
 
 var persons = "select * from person whre id > @id".Change<SqliteDbContextLocator>().SqlQuery<Person>();
@@ -733,7 +733,7 @@ var persons = "select * from person whre id > @id".Change<SqliteDbContextLocator
 
 在 `Furion` 框架中，不管是懒人模式还是仓储模式都是通过 `.Change<TDbContextLocator>` 方式切换数据库，如：
 
-```cs
+```cs showLineNumbers 
 // 懒人模式
 var data = "select * from table".Change<MySqlDbContextLocator>().SqlQuery<Data>();
 
@@ -749,7 +749,7 @@ var data = req.Change<MySqlDbContextLocator>().SqlQuery<Data>("select * from tab
 
 这时，我们只需要通过 `.SetXXXScoped(service)` 共享当前服务提供器作用域即可，如：
 
-```cs
+```cs showLineNumbers 
 Scoped.Create((fac, scope) => {
     "select * from table".SetContextScoped(scope.ServiceProvider).SqlQuery();
 });
@@ -757,7 +757,7 @@ Scoped.Create((fac, scope) => {
 
 ## 9.15.13 静态 `Default` 方式构建
 
-```cs
+```cs showLineNumbers 
 SqlExecutePart.Default.SetSqlString("select * from person").SqlQuery();
 ```
 

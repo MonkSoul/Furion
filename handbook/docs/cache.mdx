@@ -30,7 +30,7 @@ sidebar_label: 14. 分布式缓存
 
 如，缓存当前时间：
 
-```cs {13,21-24}
+```cs showLineNumbers  {13,21-24}
 using Furion.DynamicApiController;
 using Microsoft.Extensions.Caching.Memory;
 using System;
@@ -64,7 +64,7 @@ namespace Furion.Application
 
 内存缓存支持设置缓存时间、缓存大小、及绝对缓存过期时间等
 
-```cs
+```cs showLineNumbers 
 _memoryCache.GetOrCreate(_timeCacheKey, entry =>
 {
     entry.SlidingExpiration = TimeSpan.FromSeconds(3);  // 滑动缓存时间
@@ -87,7 +87,7 @@ await _memoryCache.GetOrCreateAsync(_timeCacheKey, async entry =>
 
 如：
 
-```cs
+```cs showLineNumbers 
 _memoryCache.GetOrCreate(_timeCacheKey, entry =>
 {
     entry.SetSlidingExpiration(TimeSpan.FromSeconds(3));
@@ -104,7 +104,7 @@ _memoryCache.GetOrCreate(_timeCacheKey, entry =>
 
 除了上面的 `Func<MemoryCacheEntryOptions, object>` 方式设置缓存选项，我们可以手动创建并设置，如：
 
-```cs
+```cs showLineNumbers 
 var cacheEntryOptions = new MemoryCacheEntryOptions()
                 .SetSlidingExpiration(TimeSpan.FromSeconds(3));
 
@@ -115,7 +115,7 @@ _memoryCache.Set(_timeCacheKey, DateTimeOffset.UtcNow, cacheEntryOptions);
 
 下面的示例演示如何在依赖条目过期时使缓存条目过期。 `CancellationChangeToken` 添加到缓存的项。 当 `Cancel` 在上调用时 `CancellationTokenSource` ，将逐出两个缓存项。
 
-```cs
+```cs showLineNumbers 
 public IActionResult CreateDependentEntries()
 {
     var cts = new CancellationTokenSource();
@@ -221,13 +221,13 @@ private static void DependentEvictionCallback(object key, object value,
 
 通过运行命令 `sql-cache create` 创建一个表，提供 `SQL Server` 实例 (Data Source) 、数据库 (Initial Catalog) 、架构 (例如) dbo 和表名称。例如 `TestCache`：
 
-```shell
+```shell showLineNumbers 
 dotnet sql-cache create "Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=DistCache;Integrated Security=True;" dbo TestCache
 ```
 
 创建成功后，在 `Startup.cs` 中注册即可：
 
-```cs
+```cs showLineNumbers 
 services.AddDistributedSqlServerCache(options =>
 {
     options.ConnectionString =
@@ -245,7 +245,7 @@ services.AddDistributedSqlServerCache(options =>
 
 `Redis` 基本配置：
 
-```cs
+```cs showLineNumbers 
 services.AddStackExchangeRedisCache(options =>
 {
     // 连接字符串，这里也可以读取配置文件
@@ -266,7 +266,7 @@ services.AddStackExchangeRedisCache(options =>
 - 在 [ncconf](https://www.alachisoft.com/resources/docs/ncache-oss/admin-guide/client-config.html) 中配置缓存群集
 - 注册 `NCache` 服务
 
-```cs
+```cs showLineNumbers 
 services.AddNCacheDistributedCache(configuration =>
 {
     configuration.CacheName = "demoClusteredCache";
@@ -279,7 +279,7 @@ services.AddNCacheDistributedCache(configuration =>
 
 若要使用 `IDistributedCache` 接口，请 `IDistributedCache` 通过构造函数依赖关系注入。
 
-```cs {5,16,30-33}
+```cs showLineNumbers  {5,16,30-33}
 public class IndexModel : PageModel
 {
     private readonly IDistributedCache _cache;

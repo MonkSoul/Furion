@@ -68,7 +68,7 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 ### 11.5.1 创建租户数据库上下文
 
-```cs {6-7} title="Furion.EntityFramework.Core\DbContexts\MultiTenantDbContext.cs"
+```cs showLineNumbers  {6-7} title="Furion.EntityFramework.Core\DbContexts\MultiTenantDbContext.cs"
 using Furion.DatabaseAccessor;
 using Microsoft.EntityFrameworkCore;
 
@@ -92,7 +92,7 @@ namespace Furion.EntityFramework.Core
 
 ### 11.5.2 注册多租户数据库上下文
 
-```cs {14}
+```cs showLineNumbers  {14}
 using Furion.DatabaseAccessor;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -115,7 +115,7 @@ namespace Furion.EntityFramework.Core
 
 ### 11.5.3 添加 `Tenant` 种子数据
 
-```cs {8,12-28} title="Furion.EntityFramework.Core\SeedDatas\TenantSeedData.cs"
+```cs showLineNumbers  {8,12-28} title="Furion.EntityFramework.Core\SeedDatas\TenantSeedData.cs"
 using Furion.DatabaseAccessor;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -157,11 +157,11 @@ namespace Furion.EntityFramework.Core
 
 ### 11.5.4 根据模型创建 `Tenant` 表
 
-```shell
+```shell showLineNumbers 
 Add-Migration add_tenant_table -Context MultiTenantDbContext
 ```
 
-```shell
+```shell showLineNumbers 
 Update-Database -Context MultiTenantDbContext
 ```
 
@@ -169,7 +169,7 @@ Update-Database -Context MultiTenantDbContext
 
 在需要多租户的数据库上下文中实现 `IMultiTenantOnTable` 接口，如：
 
-```cs {8,14-17}
+```cs showLineNumbers  {8,14-17}
 using Furion.DatabaseAccessor;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -197,7 +197,7 @@ namespace Furion.EntityFramework.Core
 
 `base.Tenant` 只是 `Furion` 框架提供的默认租户实现方法，如果不能满足业务需求，只需要在 `GetTenantId` 里面写你的业务代码即可，也就是无需调用 `base.Tenant`。如：
 
-```cs
+```cs showLineNumbers 
 public object GetTenantId()
 {
    // 这里是你获取 TenantId 的逻辑
@@ -211,7 +211,7 @@ public object GetTenantId()
 
 `IModelBuilderFilter` 接口是全局查询过滤器实现接口，所以我们需要配置实体 `TenantId` 过滤器
 
-```cs {9,20-23}
+```cs showLineNumbers  {9,20-23}
 using Furion.DatabaseAccessor;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -248,7 +248,7 @@ namespace Furion.EntityFramework.Core
 
 实现上面的步骤很简单，只需要重写 `SavingChangesEvent` 事件方法即可。
 
-```cs {26-48}
+```cs showLineNumbers  {26-48}
 using Furion.DatabaseAccessor;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -312,7 +312,7 @@ namespace Furion.EntityFramework.Core
 
 ### 11.6.1 创建租户数据库上下文
 
-```cs {6-7} title="Furion.EntityFramework.Core\DbContexts\MultiTenantDbContext.cs"
+```cs showLineNumbers  {6-7} title="Furion.EntityFramework.Core\DbContexts\MultiTenantDbContext.cs"
 using Furion.DatabaseAccessor;
 using Microsoft.EntityFrameworkCore;
 
@@ -336,7 +336,7 @@ namespace Furion.EntityFramework.Core
 
 ### 11.6.2 注册多租户数据库上下文
 
-```cs {13,14}
+```cs showLineNumbers  {13,14}
 using Furion.DatabaseAccessor;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -365,7 +365,7 @@ namespace Furion.EntityFramework.Core
 
 ### 11.6.3 添加 `Tenant` 种子数据
 
-```cs {8,12-30} title="Furion.EntityFramework.Core\SeedDatas\TenantSeedData.cs"
+```cs showLineNumbers  {8,12-30} title="Furion.EntityFramework.Core\SeedDatas\TenantSeedData.cs"
 using Furion.DatabaseAccessor;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -409,11 +409,11 @@ namespace Furion.EntityFramework.Core
 
 ### 11.6.4 根据模型创建 `Tenant` 表
 
-```shell
+```shell showLineNumbers 
 Add-Migration add_tenant_table -Context MultiTenantDbContext
 ```
 
-```shell
+```shell showLineNumbers 
 Update-Database -Context MultiTenantDbContext
 ```
 
@@ -421,7 +421,7 @@ Update-Database -Context MultiTenantDbContext
 
 在需要多租户的数据库上下文中实现 `IMultiTenantOnDatabase` 接口，如：
 
-```cs {6,13-16}
+```cs showLineNumbers  {6,13-16}
 using Furion.DatabaseAccessor;
 using Microsoft.EntityFrameworkCore;
 
@@ -446,7 +446,7 @@ namespace Furion.EntityFramework.Core
 
 `base.Tenant` 只是 `Furion` 框架提供的默认租户实现方法，如果不能满足业务需求，只需要在 `GetDatabaseConnectionString` 里面写你的业务代码即可，也就是无需调用 `base.Tenant`。如：
 
-```cs
+```cs showLineNumbers 
 public string GetDatabaseConnectionString()
 {
    // 这里是你获取 DatabaseConnecionString 的逻辑
@@ -460,7 +460,7 @@ public string GetDatabaseConnectionString()
 
 在需要多租户的数据库上下文中重写 `OnConfiguring` 方法并配置连接字符串：
 
-```cs {12-17}
+```cs showLineNumbers  {12-17}
 using Furion.DatabaseAccessor;
 using Microsoft.EntityFrameworkCore;
 
@@ -493,7 +493,7 @@ namespace Furion.EntityFramework.Core
 
 基于 `Database` 方式做 `Code First` 的时候，需要手动指定迁移程序名称，如：
 
-```cs
+```cs showLineNumbers 
 optionsBuilder.UseSqlite(GetDatabaseConnectionString(), options=>
 {
     options.MigrationsAssembly("My.Migrations");
@@ -508,7 +508,7 @@ optionsBuilder.UseSqlite(GetDatabaseConnectionString(), options=>
 
 ### 11.7.1 创建租户数据库上下文
 
-```cs {6-7} title="Furion.EntityFramework.Core\DbContexts\MultiTenantDbContext.cs"
+```cs showLineNumbers  {6-7} title="Furion.EntityFramework.Core\DbContexts\MultiTenantDbContext.cs"
 using Furion.DatabaseAccessor;
 using Microsoft.EntityFrameworkCore;
 
@@ -532,7 +532,7 @@ namespace Furion.EntityFramework.Core
 
 ### 11.7.2 注册多租户数据库上下文
 
-```cs {14}
+```cs showLineNumbers  {14}
 using Furion.DatabaseAccessor;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -555,7 +555,7 @@ namespace Furion.EntityFramework.Core
 
 ### 11.7.3 添加 `Tenant` 种子数据
 
-```cs {8,12-30} title="Furion.EntityFramework.Core\SeedDatas\TenantSeedData.cs"
+```cs showLineNumbers  {8,12-30} title="Furion.EntityFramework.Core\SeedDatas\TenantSeedData.cs"
 using Furion.DatabaseAccessor;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -599,11 +599,11 @@ namespace Furion.EntityFramework.Core
 
 ### 11.7.4 根据模型创建 `Tenant` 表
 
-```shell
+```shell showLineNumbers 
 Add-Migration add_tenant_table -Context MultiTenantDbContext
 ```
 
-```shell
+```shell showLineNumbers 
 Update-Database -Context MultiTenantDbContext
 ```
 
@@ -611,7 +611,7 @@ Update-Database -Context MultiTenantDbContext
 
 在需要多租户的数据库上下文中实现 `IMultiTenantOnSchema` 接口，如：
 
-```cs {6,12-15}
+```cs showLineNumbers  {6,12-15}
 using Furion.DatabaseAccessor;
 using Microsoft.EntityFrameworkCore;
 
@@ -636,7 +636,7 @@ namespace Furion.EntityFramework.Core
 
 `base.Tenant` 只是 `Furion` 框架提供的默认租户实现方法，如果不能满足业务需求，只需要在 `GetSchemaName` 里面写你的业务代码即可，也就是无需调用 `base.Tenant`。如：
 
-```cs
+```cs showLineNumbers 
 public string GetSchemaName()
 {
    // 这里是你获取 Schema 的逻辑
@@ -650,14 +650,14 @@ public string GetSchemaName()
 
 基于 `Schema` 方式比较特别，生成数据迁移的时候没办法获取租户信息，所以建议**分开多次迁移**，如：
 
-```cs
+```cs showLineNumbers 
 public string GetSchemaName()
 {
     return base.Tenant?.Schema?? "租户一Schema";
 }
 ```
 
-```cs
+```cs showLineNumbers 
 public string GetSchemaName()
 {
     return base.Tenant?.Schema?? "租户二Schema";
@@ -672,7 +672,7 @@ public string GetSchemaName()
 
 ### 11.8.1 启动自定义多租户类型配置
 
-```cs {3}
+```cs showLineNumbers  {3}
 services.AddDatabaseAccessor(options =>
 {
     options.CustomizeMultiTenants();    // 启用自定义多租户类型，有一个默认参数，配置多租户表字段名
@@ -682,7 +682,7 @@ services.AddDatabaseAccessor(options =>
 
 ### 11.8.2 自定义租户类
 
-```cs {6}
+```cs showLineNumbers  {6}
 using System;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -702,7 +702,7 @@ namespace Furion.Core
 
 如果需要查询该租户信息，可通过以下代码获取，如：
 
-```cs
+```cs showLineNumbers 
 var tenantDbContext = Db.GetDbContext<MultiTenantDbContextLocator>();
 var myTenant = tenantDbContext.Set<MyTenant>();
 ```
@@ -711,7 +711,7 @@ var myTenant = tenantDbContext.Set<MyTenant>();
 
 `Furion` 框架会在租户上下文第一次查询时候将租户表缓存起来，避免频发查询数据库，如果更新了租户表，则需要手动刷新租户信息，如：
 
-```cs
+```cs showLineNumbers 
 using Furion.DatabaseAccessor.Extensions;
 
 // 在更新租户信息后调用

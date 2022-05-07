@@ -6,14 +6,14 @@ sidebar_label: 5. LinqExpression 静态类
 
 ## 5.1 创建一个表达式
 
-```cs
+```cs showLineNumbers 
 var expression = LinqExpression.Create<T>(u => u.Id == 1);
 var expression2 = LinqExpression.Create<T>((u,i) => u.Id == 1 && i > 0);
 ```
 
 ## 5.2 拼接两个表达式
 
-```cs
+```cs showLineNumbers 
 // 创建一个初始化的表达式
 var expression = LinqExpression.And();
 var expression2 = LinqExpression.IndexAnd();

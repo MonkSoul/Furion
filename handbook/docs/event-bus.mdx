@@ -18,7 +18,7 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 1. 定义事件订阅者 `ToDoEventSubscriber`：
 
-```cs {2,10-11,19-21}
+```cs showLineNumbers  {2,10-11,19-21}
 // 实现 IEventSubscriber 接口
 public class ToDoEventSubscriber : IEventSubscriber
 {
@@ -50,7 +50,7 @@ public class ToDoEventSubscriber : IEventSubscriber
 
 2. 创建控制器 `ToDoController`，依赖注入 `IEventPublisher` 服务：
 
-```cs {4,13}
+```cs showLineNumbers  {4,13}
 public class ToDoController : ControllerBase
 {
     // 依赖注入事件发布者 IEventPublisher
@@ -70,7 +70,7 @@ public class ToDoController : ControllerBase
 
 3. 在 `Startup.cs` 注册 `EventBus` 服务：
 
-```cs {2,5}
+```cs showLineNumbers  {2,5}
 // 注册 EventBus 服务
 services.AddEventBus(buidler =>
 {
@@ -86,7 +86,7 @@ services.AddEventBus(buidler =>
 
 在 `Furion` 中可以不用通过 `buidler.AddSubscriber<T>()` 方式一一注册，只需要实现 `ISingleton` 接口即可，如：
 
-```cs {1}
+```cs showLineNumbers  {1}
 public class ToDoEventSubscriber : IEventSubscriber, ISingleton
 {
 }
@@ -98,7 +98,7 @@ public class ToDoEventSubscriber : IEventSubscriber, ISingleton
 
 4. 运行项目：
 
-```bash
+```bash showLineNumbers 
 info: Jaina.Samples.ToDoEventSubscriber[0]
       创建一个 ToDo：Jaina
 ```
@@ -109,7 +109,7 @@ info: Jaina.Samples.ToDoEventSubscriber[0]
 
 如需自定义，只需实现 `IEventSource` 接口即可：
 
-```cs {1,15,20,26,31}
+```cs showLineNumbers  {1,15,20,26,31}
 public class ToDoEventSource : IEventSource
 {
     public ToDoEventSource(string eventId, string todoName)
@@ -146,7 +146,7 @@ public class ToDoEventSource : IEventSource
 
 使用：
 
-```cs
+```cs showLineNumbers 
 await _eventPublisher.PublishAsync(new ToDoEventSource ("ToDo:Create", "我的 ToDo Name"));
 ```
 
@@ -156,7 +156,7 @@ await _eventPublisher.PublishAsync(new ToDoEventSource ("ToDo:Create", "我的 T
 
 如需自定义，只需实现 `IEventSourceStorer` 接口即可：
 
-```cs {1,11,17}
+```cs showLineNumbers  {1,11,17}
 public class RedisEventSourceStorer : IEventSourceStorer
 {
     private readonly IRedisClient _redisClient;
@@ -182,7 +182,7 @@ public class RedisEventSourceStorer : IEventSourceStorer
 
 最后，在注册 `EventBus` 服务中替换默认 `IEventSourceStorer`：
 
-```cs {4-8}
+```cs showLineNumbers  {4-8}
 services.AddEventBus(buidler =>
 {
     // 替换事件源存储器
@@ -200,7 +200,7 @@ services.AddEventBus(buidler =>
 
 如需自定义，只需实现 `IEventPublisher` 接口即可：
 
-```cs {1,10}
+```cs showLineNumbers  {1,10}
 public class ToDoEventPublisher : IEventPublisher
 {
     private readonly IEventSourceStorer _eventSourceStorer;
@@ -219,7 +219,7 @@ public class ToDoEventPublisher : IEventPublisher
 
 最后，在注册 `EventBus` 服务中替换默认 `IEventPublisher`：
 
-```cs {4}
+```cs showLineNumbers  {4}
 services.AddEventBus(buidler =>
 {
     // 替换事件源存储器
@@ -233,7 +233,7 @@ services.AddEventBus(buidler =>
 
 如添加 `ToDoEventHandlerMonitor`：
 
-```cs {1,9,15}
+```cs showLineNumbers  {1,9,15}
 public class ToDoEventHandlerMonitor : IEventHandlerMonitor
 {
     private readonly ILogger<ToDoEventHandlerMonitor> _logger;
@@ -264,7 +264,7 @@ public class ToDoEventHandlerMonitor : IEventHandlerMonitor
 
 最后，在注册 `EventBus` 服务中注册 `ToDoEventHandlerMonitor`：
 
-```cs {4}
+```cs showLineNumbers  {4}
 services.AddEventBus(buidler =>
 {
     // 添加事件执行监视器
@@ -278,7 +278,7 @@ services.AddEventBus(buidler =>
 
 如添加 `RetryEventHandlerExecutor`：
 
-```cs {1,3}
+```cs showLineNumbers  {1,3}
 public class RetryEventHandlerExecutor : IEventHandlerExecutor
 {
     public async Task ExecuteAsync(EventHandlerExecutingContext context, Func<EventHandlerExecutingContext, Task> handler)
@@ -293,7 +293,7 @@ public class RetryEventHandlerExecutor : IEventHandlerExecutor
 
 最后，在注册 `EventBus` 服务中注册 `RetryEventHandlerExecutor`：
 
-```cs {4}
+```cs showLineNumbers  {4}
 services.AddEventBus(buidler =>
 {
     // 添加事件执行器
@@ -305,7 +305,7 @@ services.AddEventBus(buidler =>
 
 在 `Furion` 中， `Event Bus` 所有服务均注册为单例，如需使用作用域服务（单例服务可直接注入），可通过依赖注入 `IServiceProvider` 实例并通过 `CreateScope()` 创建一个作用域，如：
 
-```cs {5,8,12,17-21}
+```cs showLineNumbers  {5,8,12,17-21}
 public class ToDoEventSubscriber : IEventSubscriber
 {
     private readonly ILogger<ToDoEventSubscriber> _logger;
@@ -333,7 +333,7 @@ public class ToDoEventSubscriber : IEventSubscriber
 
 ## 22.8 订阅执行任务意外异常
 
-```cs {4}
+```cs showLineNumbers  {4}
 services.AddEventBus(buidler =>
 {
     // 订阅 EventBus 未捕获异常

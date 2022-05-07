@@ -24,7 +24,7 @@ sidebar_label: 27. 分布式 ID 生成
 
 - 静态 `IDGen` 方式
 
-```cs
+```cs showLineNumbers 
 var guid = IDGen.NextID();
 
 // 还可以配置更多参数
@@ -39,7 +39,7 @@ var guid2 = IDGen.NextID(new SequentialGuidSettings { LittleEndianBinary16Format
 
 - `IDistributedIDGenerator` 注入方式 **推荐**
 
-```cs {2,6}
+```cs showLineNumbers  {2,6}
 private readonly IDistributedIDGenerator _idGenerator;
 public AppServices(IDistributedIDGenerator idGenerator)
 {
@@ -51,7 +51,7 @@ public AppServices(IDistributedIDGenerator idGenerator)
 
 - `SequentialGuidIDGenerator` 方式
 
-```cs
+```cs showLineNumbers 
 var idGen = new SequentialGuidIDGenerator();
 var guid = idGen.Create();
 
@@ -64,7 +64,7 @@ var guid2 = idGen2.Create(new SequentialGuidSettings { LittleEndianBinary16Forma
 
 `短 ID` 按道理不应该放在分布式 ID 生成这个章节，它的作用用途常用于并发不强的内部系统中，比如 `任务ID`，`Issue 编号` 等等。
 
-```cs
+```cs showLineNumbers 
 var shortid = ShortIDGen.NextID(); // 生成一个包含数字，字母，不包含特殊符号的 8 位短id
 
 // 添加更多配置

@@ -22,7 +22,7 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 `Worker` 正是我们辅助角色的主要工作类，在这里我们编写我们所有的业务逻辑。通常 `Worker` 默认格式为：
 
-```cs {9,18}
+```cs showLineNumbers  {9,18}
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System;
@@ -54,7 +54,7 @@ namespace FurionWorkers
 
 **当我们创建了 `Worker` 类之后，需要在 `Program.cs` 中进行注册**，如：
 
-```cs {17}
+```cs showLineNumbers  {17}
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
@@ -95,7 +95,7 @@ namespace FurionWorkers
 - `ExecuteAsync`：`Worker Service` 真正实现业务逻辑的地方，这里不能调用阻塞代码！！！
 - `StopAsync`：负责结束 `Worker Service`，如果调用 `StopAsync` 方法的线程被一直阻塞了，那么 `Worker Service` 的结束就一直完成不了
 
-```cs {19,25,35}
+```cs showLineNumbers  {19,25,35}
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System;
@@ -142,7 +142,7 @@ namespace FurionWorkers
 
 `Worker Service` 集成 `Furion` 非常方便，只需要安装 `Furion` 的包即可，并在 `Program.cs` 中调用 `.Inject()` 方法，如：
 
-```cs {15}
+```cs showLineNumbers  {15}
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
@@ -179,7 +179,7 @@ namespace FurionWorkers
 
 `Worker Service` 注册服务和 `Web` 略有不同，`Web` 主要在 `Starup.cs` 类中注册，`Worker Service` 在 `Program.cs` 启动类的 `ConfigureServices` 方法中注册，如：
 
-```cs {16-28}
+```cs showLineNumbers  {16-28}
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
@@ -218,7 +218,7 @@ namespace FurionWorkers
 
 ### 26.6.1 间隔执行方式
 
-```cs {23-27}
+```cs showLineNumbers  {23-27}
 using Furion.TaskScheduler;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -254,7 +254,7 @@ namespace WorkerService1
 
 ### 26.6.2 `Cron` 表达式格式化方式，
 
-```cs {23-27}
+```cs showLineNumbers  {23-27}
 using Furion.TaskScheduler;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -292,7 +292,7 @@ namespace WorkerService1
 
 `Worker Service` 只为 `Worker` 提供了**单例作用域**的服务注入，如果需要注入瞬时或作用域对象，需手动创建作用域，如：
 
-```cs {7-8,19-31}
+```cs showLineNumbers  {7-8,19-31}
 public class Worker : BackgroundService
 {
     // 日志对象
@@ -345,7 +345,7 @@ public class Worker : BackgroundService
 
 在 `Program.cs` 中添加 `.UseWindowsService()`
 
-```cs {15}
+```cs showLineNumbers  {15}
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
@@ -413,7 +413,7 @@ sc.exe delete NETCoreDemoWorkerService, 执行删除时候, 把`Windows` 服务�
 
 在 `Program.cs` 中添加 `.UseSystemd()`
 
-```cs {15}
+```cs showLineNumbers  {15}
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 

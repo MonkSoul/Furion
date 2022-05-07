@@ -10,7 +10,7 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 如果需要精简发布后的文件，也就是删除不必要的文件夹，可以编辑 Web 项目的 `.csproj` 并添加 `<SatelliteResourceLanguages>en-US</SatelliteResourceLanguages>`，如：
 
-```cs {3}
+```cs showLineNumbers  {3}
 <PropertyGroup>
   <TargetFramework>net5.0</TargetFramework>
   <SatelliteResourceLanguages>en-US</SatelliteResourceLanguages>
@@ -36,7 +36,7 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 - 👉 编写 `Dockerfile`
 
-```bash
+```bash showLineNumbers 
 FROM mcr.microsoft.com/dotnet/aspnet:5.0.9
 WORKDIR /app
 EXPOSE 80
@@ -54,7 +54,7 @@ ENTRYPOINT ["dotnet", "Furion.Web.Entry.dll"]
 
 在网站发布后的路径根目录下（必须含 `Dockerfile`）打开 `CMD/PowerShell` 只需构建命令：
 
-```bash
+```bash showLineNumbers 
 docker build -t 网站名称:网站版本号 .
 ```
 
@@ -66,7 +66,7 @@ docker build -t 网站名称:网站版本号 .
 
 - 👉 启动镜像
 
-```bash
+```bash showLineNumbers 
 docker run --name 容器名称 -p 5000:80 --restart=always -d 网站名称:网站版本号
 ```
 
@@ -76,31 +76,31 @@ docker run --name 容器名称 -p 5000:80 --restart=always -d 网站名称:网�
 
 - 👉 为镜像打 `tag` 标签
 
-```bash
+```bash showLineNumbers 
 docker tag 网站名称:网站版本号 docker账号名/网站名称:网站版本号
 ```
 
 如：
 
-```bash
+```bash showLineNumbers 
 docker tag furion:v2.20 monksoul/furion:v2.20
 ```
 
 - 👉 登录 `docker`
 
-```bash
+```bash showLineNumbers 
 docker login
 ```
 
 - 👉 推送到 `hub.docker.com`
 
-```bash
+```bash showLineNumbers 
 docker push docker账号名/网站名称:网站版本号
 ```
 
 如：
 
-```bash
+```bash showLineNumbers 
 docker push monksoul/furion:v2.20
 ```
 
@@ -114,7 +114,7 @@ docker push monksoul/furion:v2.20
 
 这种方式只需要把 `Dockerfile` 内容替换成以下即可：
 
-```bash {6}
+```bash showLineNumbers  {6}
 FROM mcr.microsoft.com/dotnet/sdk:5.0.9 AS build
 WORKDIR /source
 

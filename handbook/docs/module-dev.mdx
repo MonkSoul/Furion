@@ -29,7 +29,7 @@ sidebar_label: 28. 模块化开发
 
 ### 28.3.1 启用模块化支持
 
-```json {2,3,4}
+```json showLineNumbers  {2,3,4}
 {
   "AppSettings": {
     "EnabledReferenceAssemblyScan": true,    // 启用模块化程序集扫描
@@ -51,7 +51,7 @@ sidebar_label: 28. 模块化开发
 
 需要配置 `EnabledReferenceAssemblyScan` 节点，如：
 
-```json {3}
+```json showLineNumbers  {3}
 {
   "AppSettings": {
     "EnabledReferenceAssemblyScan": true
@@ -63,7 +63,7 @@ sidebar_label: 28. 模块化开发
 
 如果通过 `Nuget` 方式安装模块，需要配置 `SupportPackageNamePrefixs` 节点，如：
 
-```json {3}
+```json showLineNumbers  {3}
 {
   "AppSettings": {
     "SupportPackageNamePrefixs": ["Nuget包名称", "Nuget包名称",...]
@@ -75,7 +75,7 @@ sidebar_label: 28. 模块化开发
 
 这种方式通常是在网站创建一个文件夹放入模块化 `.dll` 文件，如：`plugins`，无需添加引用可自动加载。
 
-```json {3}
+```json showLineNumbers  {3}
 {
   "AppSettings": {
     "ExternalAssemblies": ["plugins/Module1.dll", "plugins/Module2.dll", ...]

@@ -47,7 +47,7 @@ ASP.NET Core SignalR 是一种开放源代码库，可简化将实时 web 功能
 
 在 `Furion` 框架中，任何服务功能都需要先注册后再使用，`SignalR` 也不例外。只需要在 `Startup.cs` 中添加注册即可：
 
-```cs {1,15,22,25}
+```cs showLineNumbers  {1,15,22,25}
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
@@ -111,7 +111,7 @@ namespace Furion.Web.Core
 
 - `Hub` 方式
 
-```cs {9}
+```cs showLineNumbers  {9}
 using Furion.InstantMessaging;
 using Microsoft.AspNetCore.SignalR;
 
@@ -134,14 +134,14 @@ namespace Furion.Core
 
 - `Hub<TStrongType>` 类型方式
 
-```cs
+```cs showLineNumbers 
 public interface IChatClient
 {
     Task ReceiveMessage(string user, string message);
 }
 ```
 
-```cs {1}
+```cs showLineNumbers  {1}
 public class StronglyTypedChatHub : Hub<IChatClient>
 {
     // 定义一个方法供客户端调用
@@ -159,7 +159,7 @@ public class StronglyTypedChatHub : Hub<IChatClient>
 
 在 `SignalR` 库中要求每一个公开的集线器都需要配置客户端连接地址，所以，`Furion` 框架提供了更加 `[MapHub]` 配置，如：
 
-```cs {1,11}
+```cs showLineNumbers  {1,11}
 using Furion.InstantMessaging;
 using Microsoft.AspNetCore.SignalR;
 using System;
@@ -182,7 +182,7 @@ namespace Furion.Core
 
 在 `Furion` 中推荐使用 `[MapHub]` 方式配置集线器客户端连接地址，当然也可以使用 `SignalR` 提供的方式，如在 `Startup.cs` 配置：
 
-```cs {10}
+```cs showLineNumbers  {10}
 public sealed class Startup : AppStartup
 {
    // 其他代码
@@ -204,7 +204,7 @@ public sealed class Startup : AppStartup
 
 有些时候，我们需要注册 `Hub` 时配置更多参数，比如权限、跨域等，这时只需要在 `Hub` 派生类中编写以下静态方法即可：
 
-```cs {1,8,13,18}
+```cs showLineNumbers  {1,8,13,18}
 using Furion.InstantMessaging;
 using Microsoft.AspNetCore.SignalR;
 using System;
@@ -232,7 +232,7 @@ namespace Furion.Core
 
 以上配置等价于 `SignalR` 在 `Startup.cs` 中的配置：
 
-```cs
+```cs showLineNumbers 
 app.UseEndpoints(endpoints =>
 {
     var builder = endpoints.MapHub<ChatHub>("/hubs/chathub", options =>
@@ -246,49 +246,49 @@ app.UseEndpoints(endpoints =>
 
 ### 24.7.1 触发所有客户端代码
 
-```cs
+```cs showLineNumbers 
 Clients.All.客户端方法(参数);
 ```
 
 ### 24.7.2 触发调用者客户端
 
-```cs
+```cs showLineNumbers 
 Clients.Caller.客户端方法(参数);
 ```
 
 ### 24.7.3 触发除了调用者以外的客户端
 
-```cs
+```cs showLineNumbers 
 Clients.Others.客户端方法(参数);
 ```
 
 ### 24.7.4 触发特定用户客户端
 
-```cs
+```cs showLineNumbers 
 Clients.User("用户").客户端方法(参数);
 ```
 
 ### 24.7.5 触发多个用户客户端
 
-```cs
+```cs showLineNumbers 
 Clients.Users("用户","用户2",...).客户端方法(参数);
 ```
 
 ### 24.7.6 触发分组内客户端
 
-```cs
+```cs showLineNumbers 
 Clients.Group("分组").客户端方法(参数);
 ```
 
 ### 24.7.7 触发多个分组客户端
 
-```cs
+```cs showLineNumbers 
 Clients.Groups("分组","分组2",...).客户端方法(参数);
 ```
 
 ### 24.7.8 触发分组外的客户端
 
-```cs
+```cs showLineNumbers 
 Clients.GroupExcept("分组").客户端方法(参数);
 ```
 

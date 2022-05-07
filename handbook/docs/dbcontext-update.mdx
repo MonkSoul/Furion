@@ -12,7 +12,7 @@ sidebar_label: 9.6 更新操作
 
 ## 9.6.1 更新全部列（不立即提交）
 
-```cs
+```cs showLineNumbers 
 // ==== 同步操作 ====
 
 // 示例一
@@ -38,7 +38,7 @@ await user.UpdateAsync();
 
 ## 9.6.2 更新全部列（立即提交）
 
-```cs
+```cs showLineNumbers 
 // ==== 同步操作 ====
 
 // 示例一
@@ -58,7 +58,7 @@ await user.UpdateNowAsync();
 
 ## 9.6.3 更新部分列（不立即提交）
 
-```cs
+```cs showLineNumbers 
 // ==== 同步操作 ====
 
 // 示例一
@@ -103,7 +103,7 @@ await user.UpdateIncludeAsync(new[] {nameof(User.Name), nameof(User.Age)}, true)
 
 ## 9.6.4 更新部分列（立即提交）
 
-```cs
+```cs showLineNumbers 
 // ==== 同步操作 ====
 
 // 示例一
@@ -148,7 +148,7 @@ await user.UpdateIncludeNowAsync(new[] {nameof(User.Name), nameof(User.Age)}, tr
 
 ## 9.6.5 排除特定列更新（不立即提交）
 
-```cs
+```cs showLineNumbers 
 // ==== 同步操作 ====
 
 // 示例一
@@ -193,7 +193,7 @@ await user.UpdateExcludeAsync(new[] {nameof(User.Name), nameof(User.Age)}, true)
 
 ## 9.6.6 排除特定列更新（立即提交）
 
-```cs
+```cs showLineNumbers 
 // ==== 同步操作 ====
 
 // 示例一
@@ -238,7 +238,7 @@ await user.UpdateExcludeNowAsync(new[] {nameof(User.Name), nameof(User.Age)}, tr
 
 ## 9.6.7 数据存在才更新所有列（不立即提交）
 
-```cs
+```cs showLineNumbers 
 // ==== 同步操作 ====
 
 // 示例一
@@ -252,7 +252,7 @@ await repository.UpdateExistsAsync(user);
 
 ## 9.6.8 数据存在才更新所有列（立即提交）
 
-```cs
+```cs showLineNumbers 
 // ==== 同步操作 ====
 
 // 示例一
@@ -266,7 +266,7 @@ await repository.UpdateExistsNowAsync(user);
 
 ## 9.6.9 数据存在才更新部分列（不立即提交）
 
-```cs
+```cs showLineNumbers 
 // ==== 同步操作 ====
 
 // 示例一
@@ -292,7 +292,7 @@ await repository.UpdateIncludeExistsAsync(user, new[] {nameof(User.Name), nameof
 
 ## 9.6.10 数据存在才更新部分列（立即提交）
 
-```cs
+```cs showLineNumbers 
 // ==== 同步操作 ====
 
 // 示例一
@@ -318,7 +318,7 @@ await repository.UpdateIncludeExistsNowAsync(user, new[] {nameof(User.Name), nam
 
 ## 9.6.11 数据存在才排除特定部分列更新（不立即提交）
 
-```cs
+```cs showLineNumbers 
 // ==== 同步操作 ====
 
 // 示例一
@@ -344,7 +344,7 @@ await repository.UpdateExcludeExistsAsync(user, new[] {nameof(User.Name), nameof
 
 ## 9.6.12 数据存在才排除特定部分列更新（立即提交）
 
-```cs
+```cs showLineNumbers 
 // ==== 同步操作 ====
 
 // 示例一
@@ -370,7 +370,7 @@ await repository.UpdateExcludeExistsNowAsync(user, new[] {nameof(User.Name), nam
 
 ## 9.6.13 更新多条记录（不立即提交）
 
-```cs
+```cs showLineNumbers 
 // ==== 同步操作 ====
 
 // 示例一
@@ -396,7 +396,7 @@ await repository.UpdateAsync(new[] {user, user2 });
 
 ## 9.6.14 更新多条记录（立即提交）
 
-```cs
+```cs showLineNumbers 
 // ==== 同步操作 ====
 
 // 示例一
@@ -430,13 +430,13 @@ await repository.UpdateNowAsync(new[] {user, user2 });
 
 默认情况下，`EFCore` 更新会更新全部列（除实体跟踪方式以外），有些时候我们希望 `Null` 值无需更新，这是我们只需要在更新时候配置 `ignoreNullValues` 参数即可，如：
 
-```cs
+```cs showLineNumbers 
 repository.Update(entity, ignoreNullValues: true);
 ```
 
 也可以全局配置，在 `AppDbContext` 的派生类的构造函数中启用即可：
 
-```cs {11}
+```cs showLineNumbers  {11}
 using Furion.DatabaseAccessor;
 using Microsoft.EntityFrameworkCore;
 

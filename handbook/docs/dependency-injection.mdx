@@ -71,7 +71,7 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 代码示例：
 
-```cs {4}
+```cs showLineNumbers  {4}
 public class FurionService
 {
     private readonly IRepository _repository;
@@ -102,7 +102,7 @@ public class FurionService
   - 对象在创建后，被设置依赖对象之前这段时间状态是不对的
   - 不直观，无法清晰地表示哪些属性是必须的
 
-```cs {3}
+```cs showLineNumbers  {3}
 public class FurionService
 {
     public IRepository Repository { get; set; }
@@ -122,7 +122,7 @@ public class FurionService
   - 新加入依赖时会破坏原有的方法签名，如果这个方法已经被其他很多模块用到就很麻烦
   - 与构造方法注入一样，会有很多参数
 
-```cs {3}
+```cs showLineNumbers  {3}
 public class FurionService
 {
     public Person GetById([FromServices]IRepository repository, int id)
@@ -180,7 +180,7 @@ public class FurionService
 
 创建 `IBusinessService` 接口和 `BusinessService` 实现类，代码如下：
 
-```cs {7,12}
+```cs showLineNumbers  {7,12}
 using Furion.Core;
 using Furion.DatabaseAccessor;
 using Furion.DependencyInjection;
@@ -211,7 +211,7 @@ namespace Furion.Application
 
 创建 `PersonController` 控制器，代码如下：
 
-```cs {11,19}
+```cs showLineNumbers  {11,19}
 using Furion.Application;
 using Microsoft.AspNetCore.Mvc;
 
@@ -255,7 +255,7 @@ namespace Furion.Web.Entry.Controllers
 
 创建 `IBusinessService<T>` 接口和 `BusinessService<T>` 实现类，代码如下：
 
-```cs {7,12}
+```cs showLineNumbers  {7,12}
 using Furion.Core;
 using Furion.DatabaseAccessor;
 using Furion.DependencyInjection;
@@ -286,7 +286,7 @@ namespace Furion.Application
 
 创建 `PersonController` 控制器，代码如下：
 
-```cs {11,19}
+```cs showLineNumbers  {11,19}
 using Furion.Application;
 using Microsoft.AspNetCore.Mvc;
 
@@ -324,7 +324,7 @@ namespace Furion.Web.Entry.Controllers
 
 创建 `IBusinessService` 接口和 `BusinessService`、`OtherBusinessService` 两个实现类，代码如下：
 
-```cs {5,10,18}
+```cs showLineNumbers  {5,10,18}
 using Furion.DependencyInjection;
 
 namespace Furion.Application
@@ -354,7 +354,7 @@ namespace Furion.Application
 
 创建 `ValueController` 控制器，代码如下：
 
-```cs {15,17,18}
+```cs showLineNumbers  {15,17,18}
 using Furion.Application;
 using Furion.DependencyInjection;
 using Microsoft.AspNetCore.Mvc;
@@ -390,7 +390,7 @@ namespace Furion.Web.Entry.Controllers
 
 如果需要自定义解析名称，只需要贴 `[Injection(Named = "名称")]` 即可，如：
 
-```cs {5,11}
+```cs showLineNumbers  {5,11}
 using Furion.DependencyInjection;
 
 namespace Furion.Application
@@ -411,7 +411,7 @@ namespace Furion.Application
 
 解析服务：
 
-```cs
+```cs showLineNumbers 
 _businessService = resolveNamed("BusName1", default) as IBusinessService;
 _otherBusinessService = resolveNamed("BusName2", default) as IBusinessService;
 ```
@@ -424,7 +424,7 @@ _otherBusinessService = resolveNamed("BusName2", default) as IBusinessService;
 
 创建 `SelfService` 实例类，代码如下：
 
-```cs {7,11}
+```cs showLineNumbers  {7,11}
 using Furion.Core;
 using Furion.DatabaseAccessor;
 using Furion.DependencyInjection;
@@ -450,7 +450,7 @@ namespace Furion.Application
 
 创建 `ValueController` 控制器，代码如下：
 
-```cs {13,21}
+```cs showLineNumbers  {13,21}
 using Furion.Application;
 using Furion.Core;
 using Microsoft.AspNetCore.Mvc;
@@ -501,7 +501,7 @@ namespace Furion.Web.Entry.Controllers
 
 默认情况下，`Furion` 提供的注册方式可以满足大多数依赖注入的需求，如有特别注册需求，只需要在 `Startup` 中配置即可，如：
 
-```cs
+```cs showLineNumbers 
 services.AddScoped(typeof(ISpecService), provider = > {
     // 自定义任何创建实例的方式
     var instance = new SpecService();  // 或者可以通过 AOP插件返回代理实例
@@ -526,7 +526,7 @@ services.AddScoped(typeof(ISpecService), provider = > {
 
 除了在代码中实现依赖注入，也可以实现动态依赖注入，无需修改代码或重新编译即可实现热插拔（插件）效果。配置如下：
 
-```json {2}
+```json showLineNumbers  {2}
 {
   "DependencyInjectionSettings": {
     "Definitions": [
@@ -563,7 +563,7 @@ services.AddScoped(typeof(ISpecService), provider = > {
 
 如果动态注入的对象是外部程序集，那么首先先注册外部程序集：
 
-```json
+```json showLineNumbers 
 {
   "AppSettings": {
     "ExternalAssemblies": ["外部程序集名称", "Taobao.Pay"] // 支持多个
@@ -593,14 +593,14 @@ services.AddScoped(typeof(ISpecService), provider = > {
 
 假设我们有 `ITestService` 和 `TestService` 两个类型：
 
-```cs
+```cs showLineNumbers 
 public interface ITestService
 {
     string SayHello(string word);
 }
 ```
 
-```cs
+```cs showLineNumbers 
 public class TestService: ITestService, ITransient
 {
     public string SayHello(string word)
@@ -614,7 +614,7 @@ public class TestService: ITestService, ITransient
 
 这个时候我们只需要创建一个代理类即可，如 `LogDispatchProxy`
 
-```cs {1,3,7,25,37,48}
+```cs showLineNumbers  {1,3,7,25,37,48}
 using Furion.DependencyInjection;
 using System;
 using System.Reflection;
@@ -685,7 +685,7 @@ namespace Furion.Application
 
 之后我们只需要为 `TestService` 增加 `[Injection]` 特性即可，如：
 
-```cs {1}
+```cs showLineNumbers  {1}
 [Injection(Proxy = typeof(LogDispatchProxy))]
 public class TestService: ITestService, ITransient
 {
@@ -702,7 +702,7 @@ public class TestService: ITestService, ITransient
 
 `Furion` 框架也提供了全局拦截的方式，只需要将 `IDispatchProxy` 修改为 `IGlobalDispatchProxy` 即可。
 
-```cs
+```cs showLineNumbers 
 using Furion;
 using System.Reflection;
 
@@ -727,7 +727,7 @@ namespace Furion.Application
 
 `Furion` 框架未提供 `Proxy` 构造函数注入功能，但是提供了 `Services` 属性，如果需要解析服务，则可以通过以下方式：
 
-```cs
+```cs showLineNumbers 
 var someServices = Services.GetService<ISomeService>(); // 推荐方式
 // 或
 var someServices = App.GetService<ISomeService>();

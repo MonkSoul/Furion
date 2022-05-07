@@ -21,7 +21,7 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 - 👉 编写 `Dockerfile`
 
-```bash
+```bash showLineNumbers 
 # 封装Jenkins镜像（带有dotnet环境的） sdk=5.1
 FROM jenkins/jenkins:lts
 USER root
@@ -39,7 +39,7 @@ USER jenkins
 
 - 👉 命令解释
 
-```bash
+```bash showLineNumbers 
 - 1. 这个Docker镜像基于jenkins
 - 2. 设置当前用户为root，因为后面安装需要使用root
 - 3. 设置当前工作目录为dotnet
@@ -58,7 +58,7 @@ USER jenkins
 
 `cd` 到根目录下（必须含 `Dockerfile`） 只需构建命令：
 
-```bash
+```bash showLineNumbers 
  docker build -t jenkins:dotnet .
 ```
 
@@ -70,7 +70,7 @@ USER jenkins
 
 ### 35.1.2.2 运行 `Jenkins:dotnet` 镜像
 
-```bash
+```bash showLineNumbers 
 docker run -d -p 8080:8080 -p 50000:50000 --name mjenkins  \
            --privileged=true \
            --restart always \
@@ -89,7 +89,7 @@ docker run -d -p 8080:8080 -p 50000:50000 --name mjenkins  \
 
 ### 35.1.3.1 编写 Shell 脚本
 
-```bash
+```bash showLineNumbers 
 # Jenkins 构建 测试服
 
 echo '============查看打包环境================'
@@ -172,7 +172,7 @@ echo "success!"
 
 ### 35.1.4.3 写脚本
 
-```bash
+```bash showLineNumbers 
 # Jenkins 构建  正式服
 
 echo '============查看打包环境================'
@@ -235,7 +235,7 @@ echo "success!"
 
 选择 `Send Build artifacts over SSH`
 
-```bash
+```bash showLineNumbers 
 Source files: publish/
 Remove prefix(不填)
 Remote directory:/mudata/webroot/publish/
@@ -249,7 +249,7 @@ Exec command:bash /mudata/shell/publish.sh  ${JOB_NAME} jenkinsscmbase ${JOB_NAM
 
 ### 35.1.4.5 远程执行
 
-```bash title="publish.sh"
+```bash showLineNumbers  title="publish.sh"
 # Jenkins Prod服 调用脚本
 solutionName=$1
 containerName=$2

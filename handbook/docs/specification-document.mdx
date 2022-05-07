@@ -89,7 +89,7 @@ import TabItem from "@theme/TabItem";
 
 :::
 
-```cs {11,21} title="Furion.Web.Core\FurWebCoreStartup.cs"
+```cs showLineNumbers  {11,21} title="Furion.Web.Core\FurWebCoreStartup.cs"
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
@@ -139,13 +139,13 @@ namespace Furion.Web.Core
 
 - `app.UseInject("路由")` 方式，如
 
-```cs
+```cs showLineNumbers 
 app.UseInject("testapi"); // 那么  /testapi 就是规范化地址
 ```
 
 - `配置文件配置`：
 
-```cs {3}
+```cs showLineNumbers  {3}
 {
   "SpecificationDocumentSettings": {
     "RoutePrefix": "testapi"
@@ -159,7 +159,7 @@ app.UseInject("testapi"); // 那么  /testapi 就是规范化地址
 
 `Furion` 框架中默认分组名为 `Default`，**支持自定义配置**。
 
-```cs {3}
+```cs showLineNumbers  {3}
 {
   "SpecificationDocumentSettings": {
     "DefaultGroupName": "MyGroup"
@@ -173,7 +173,7 @@ app.UseInject("testapi"); // 那么  /testapi 就是规范化地址
 
 只支持 `///` 标识的注释语法，如：**类、方法、属性、参数、返回值、验证特性**。
 
-```cs {5-7,10-13,19-23}
+```cs showLineNumbers  {5-7,10-13,19-23}
 using Furion.DynamicApiController;
 
 namespace Furion.Application
@@ -227,7 +227,7 @@ namespace Furion.Application
 
 多分组是一个系统中必备功能，我们可以将系统划分为多个模块，每个模块都独立的 `api` 配置。在 `Furion` 框架中，实现多分组非常简单。如：
 
-```cs {5,21,32}
+```cs showLineNumbers  {5,21,32}
 using Furion.DynamicApiController;
 
 namespace Furion.Application
@@ -285,7 +285,7 @@ namespace Furion.Application
 
 **通过分组名称添加 `@整数` 进行排序**
 
-```cs {5,19}
+```cs showLineNumbers  {5,19}
 using Furion.DynamicApiController;
 
 namespace Furion.Application
@@ -320,7 +320,7 @@ namespace Furion.Application
 
 **通过配置文件配置排序**
 
-```json {2-17} title="Furion.Web.Entry/appsettings.json"
+```json showLineNumbers  {2-17} title="Furion.Web.Entry/appsettings.json"
 {
   "SpecificationDocumentSettings": {
     "GroupOpenApiInfos": [
@@ -358,7 +358,7 @@ namespace Furion.Application
 
 `Furion` 框架提供了可通过 `appsetting.json` 配置分组信息：
 
-```json {3-20} title="Furion.Web.Entry/appsettings.json"
+```json showLineNumbers  {3-20} title="Furion.Web.Entry/appsettings.json"
 {
   "SpecificationDocumentSettings": {
     "GroupOpenApiInfos": [
@@ -402,7 +402,7 @@ namespace Furion.Application
 
 #### 未贴标签之前
 
-```cs
+```cs showLineNumbers 
 using Furion.DynamicApiController;
 
 namespace Furion.Application
@@ -437,7 +437,7 @@ namespace Furion.Application
 
 #### 贴标签之后
 
-```cs {5,19}
+```cs showLineNumbers  {5,19}
 using Furion.DynamicApiController;
 
 namespace Furion.Application
@@ -479,7 +479,7 @@ namespace Furion.Application
   </TabItem>
   <TabItem value="tag2">
 
-```cs {5,19}
+```cs showLineNumbers  {5,19}
 using Furion.DynamicApiController;
 
 namespace Furion.Application
@@ -529,7 +529,7 @@ namespace Furion.Application
 
 ### 6.5.9 默认展开所有文档
 
-```json {2-4} title="Furion.Web.Entry/appsettings.json"
+```json showLineNumbers  {2-4} title="Furion.Web.Entry/appsettings.json"
 {
   "SpecificationDocumentSettings": {
     "DocExpansionState": "Full"
@@ -549,7 +549,7 @@ namespace Furion.Application
 
 ### 6.5.10 配置文档标题
 
-```json {2-4} title="Furion.Web.Entry/appsettings.json"
+```json showLineNumbers  {2-4} title="Furion.Web.Entry/appsettings.json"
 {
   "SpecificationDocumentSettings": {
     "DocumentTitle": "我是自定义标题"
@@ -565,7 +565,7 @@ namespace Furion.Application
 
 **新版本 `Furion` 已经默认启用了 Bearer Token 授权配置，无需手动配置**，如需手动配置，可手动添加以下类似配置：
 
-```json title="Furion.Web.Entry/appsettings.json"
+```json showLineNumbers  title="Furion.Web.Entry/appsettings.json"
 {
   "SpecificationDocumentSettings": {
     "EnableAuthorized": true,
@@ -617,7 +617,7 @@ namespace Furion.Application
 
 ### 6.5.14 定义接口输出类型
 
-```cs {2,8-9}
+```cs showLineNumbers  {2,8-9}
 using Furion.DynamicApiController;
 using Microsoft.AspNetCore.Mvc;
 
@@ -643,7 +643,7 @@ namespace Furion.Application
 
 `Furion` 新版本提供了隐藏分组的 `Visible` 配置，设置为 `false` 之后该分组将不显示在规范化文档中，如：
 
-```json title="appsetting.json"
+```json showLineNumbers  title="appsetting.json"
 {
   "SpecificationDocumentSettings": {
     "GroupOpenApiInfos": [
@@ -664,7 +664,7 @@ namespace Furion.Application
 
 如果不需要线上环境开启 `Swagger` 功能，只需要在 `appsetting.json` 配置即可：
 
-```json {3}
+```json showLineNumbers  {3}
 {
   "AppSettings": {
     "InjectSpecificationDocument": false
@@ -678,7 +678,7 @@ namespace Furion.Application
 
 如：
 
-```cs {4}
+```cs showLineNumbers  {4}
 /// <summary>
 /// 年龄
 /// </summary>
@@ -709,7 +709,7 @@ public int Age { get; set; }
 
 `Furion` 框架除了内置了不少配置以外，还提供了直接配置 `Swagger` Api 的参数，如：
 
-```cs
+```cs showLineNumbers 
 public void ConfigureServices(IServiceCollection services)
 {
     services.AddInject(options =>
@@ -725,7 +725,7 @@ public void ConfigureServices(IServiceCollection services)
 }
 ```
 
-```cs
+```cs showLineNumbers 
  public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
  {
       app.UseInject(configure: options =>
@@ -750,7 +750,7 @@ public void ConfigureServices(IServiceCollection services)
 
 `Furion` 框架默认只显示名称，如果需要自定义显示规则，只需要添加配置即可。
 
-```cs
+```cs showLineNumbers 
 services.AddControllersWithViews()
         .AddInject(options =>
         {
@@ -768,7 +768,7 @@ services.AddControllersWithViews()
 
 默认情况下，`Furion` 框架会生成统一的分组模板，如：`swagger/{documentName}/swagger.json`，`{documentName}` 会在运行时替换为分组名，如需自定义，配置 `RouteTemplate` 即可：
 
-```json title="appsetting.json"
+```json showLineNumbers  title="appsetting.json"
 {
   "SpecificationDocumentSettings": {
     "RouteTemplate": "myapp/{documentName}/xxxx.json"
@@ -780,7 +780,7 @@ services.AddControllersWithViews()
 
 默认情况下，`Swagger` 并未添加 `application/x-www-form-urlencoded` 支持，如需启用该配置，只需在方法顶部贴 `[Consumes]` 特性即可，如：
 
-```cs {1,2}
+```cs showLineNumbers  {1,2}
 [Consumes("application/x-www-form-urlencoded")]
 public async Task<IActionResult> Test([FromForm] TestRequest testRequest)
 {
@@ -807,7 +807,7 @@ public class TestRequest
 
 则需要添加以下配置：
 
-```json {2,3}
+```json showLineNumbers  {2,3}
 {
   "SpecificationDocumentSettings": {
     "HideServers": true
@@ -824,7 +824,7 @@ public class TestRequest
 
 所以解决方法是，先注册 `.AddNewtonsoftJson()` 再注册规范化结果，如：
 
-```cs {2}
+```cs showLineNumbers  {2}
 services.AddControllers()
         .AddNewtonsoftJson()
         .AddInjectWithUnifyResult();
@@ -838,7 +838,7 @@ services.AddControllers()
 
 有时候我们需要自定义 `Swagger` 接口可见性，比如根据权限，不同用户类型，各种逻辑控制，如：
 
-```cs
+```cs showLineNumbers 
 // 也可以用 .AddInjectWithUnifyResult
 services.AddInject(options =>
         {
@@ -865,7 +865,7 @@ services.AddInject(options =>
 
 ### 6.5.27 配置 `MVC` 控制器支持规范化处理
 
-```json
+```json showLineNumbers 
 {
   "UnifyResultSettings": {
     "SupportMvcController": true
@@ -877,7 +877,7 @@ services.AddInject(options =>
 
 默认情况下，`Swagger` 刷新浏览器后，授权状态将被重置，也就是需要重新登录，通过下面代码在 **用户登录成功后** 调用即可：
 
-```cs
+```cs showLineNumbers 
 // ....验证用户名/密码....
 
 _httpContextAccessor.HttpContext.SigninToSwagger("传入 token");
@@ -921,7 +921,7 @@ _httpContextAccessor.HttpContext.SigninToSwagger("传入 token");
 
 配置示例：
 
-```json
+```json showLineNumbers 
 {
   "SpecificationDocumentSettings": {
     "GroupOpenApiInfos": [
@@ -950,7 +950,7 @@ _httpContextAccessor.HttpContext.SigninToSwagger("传入 token");
 
 `Furion` 框架提供 `规范化结果` 功能，可以通过实现 `IUnifyResultProvider` 提供器实现统一规范化返回值定制，如：`RESTfulResultProvider`：
 
-```cs {15-16}
+```cs showLineNumbers  {15-16}
 using Furion.DataValidation;
 using Furion.DependencyInjection;
 using Furion.UnifyResult.Internal;
@@ -1055,7 +1055,7 @@ namespace Furion.UnifyResult
 
 之后在 `Startup.cs` 中注册即可：
 
-```cs
+```cs showLineNumbers 
 services.AddControllers()
         .AddInjectWithUnifyResult<RESTfulResultProvider>();
 ```
@@ -1064,7 +1064,7 @@ services.AddControllers()
 
 默认情况下，规范化结果不会对 `401` 和 `403`、`404` 状态码进行规范化处理，如需启动该状态码处理，只需在 `Startup.cs` 中的 `Configure` 中启用接口：
 
-```cs
+```cs showLineNumbers 
 public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
 {
     if (env.IsDevelopment())
@@ -1087,7 +1087,7 @@ public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
 
 默认的规范化结果中包含 `extras` 属性，可以配置额外数据返回到客户端：
 
-```cs
+```cs showLineNumbers 
 UnifyContext.Fill(new { Message = "操作成功" });
 ```
 
@@ -1095,7 +1095,7 @@ UnifyContext.Fill(new { Message = "操作成功" });
 
 有些时候，我们特定接口需返回特定的接口类型，无需规范化处理，这时候我们只需要贴 `[UnifyResult(typeof(结果类))]` 或 `[ProducesResponseType(typeof(结果类),200)]`，如：
 
-```cs
+```cs showLineNumbers 
 [UnifyResult(typeof(Person))]
 public Person GetPerson(int id)
 {

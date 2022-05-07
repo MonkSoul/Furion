@@ -21,7 +21,7 @@ sidebar_label: 2. 跨域配置
 
 ## 2.3 配置示例
 
-```json
+```json showLineNumbers 
 {
   "CorsAccessorSettings": {
     "PolicyName": "MyPolicy",
@@ -34,7 +34,7 @@ sidebar_label: 2. 跨域配置
 
 由于 `axios` 对跨域有特定的需要，需要响应报文中添加特定 `Header` 才能放行，如：`Access-Control-Expose-Headers: xxxxx`，所以，如果前端使用了 `axios` 请求，需要添加以下配置：
 
-```cs
+```cs showLineNumbers 
 {
   "CorsAccessorSettings": {
     "WithExposedHeaders": ["X-Pagination","access-token","x-access-token"]

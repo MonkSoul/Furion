@@ -36,7 +36,7 @@ import TabItem from "@theme/TabItem";
 >
   <TabItem value="mvc">
 
-```cs {1,5,7}
+```cs showLineNumbers  {1,5,7}
 using Microsoft.AspNetCore.Mvc;
 
 namespace Furion.Web.Entry.Controllers
@@ -54,7 +54,7 @@ namespace Furion.Web.Entry.Controllers
   </TabItem>
   <TabItem value="webapi">
 
-```cs {1,5,6,8,9}
+```cs showLineNumbers  {1,5,6,8,9}
 using Microsoft.AspNetCore.Mvc;
 
 namespace Furion.Web.Entry.Controllers
@@ -132,7 +132,7 @@ namespace Furion.Web.Entry.Controllers
 
 :::
 
-```cs {11} title="Furion.Web.Core\FurWebCoreStartup.cs"
+```cs showLineNumbers  {11} title="Furion.Web.Core\FurWebCoreStartup.cs"
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Furion.Web.Core
@@ -161,7 +161,7 @@ namespace Furion.Web.Core
 
 - **`IDynamicApiController` 方式**
 
-```cs {1,5,7}
+```cs showLineNumbers  {1,5,7}
 using Furion.DynamicApiController;
 
 namespace Furion.Application
@@ -178,7 +178,7 @@ namespace Furion.Application
 
 - **`[DynamicApiController]` 方式**
 
-```cs {1,5,8}
+```cs showLineNumbers  {1,5,8}
 using Furion.DynamicApiController;
 
 namespace Furion.Application
@@ -257,7 +257,7 @@ namespace Furion.Application
 
 ### 5.8.1 多种请求谓词方法
 
-```cs {7,12,17,22,27}
+```cs showLineNumbers  {7,12,17,22,27}
 using Furion.DynamicApiController;
 
 namespace Furion.Application
@@ -298,7 +298,7 @@ namespace Furion.Application
 
 ### 5.8.2 多个自定义动作方法
 
-```cs {7,12,17}
+```cs showLineNumbers  {7,12,17}
 using Furion.DynamicApiController;
 
 namespace Furion.Application
@@ -329,7 +329,7 @@ namespace Furion.Application
 
 ### 5.8.3 带参数动作方法
 
-```cs {7,12,17}
+```cs showLineNumbers  {7,12,17}
 using Furion.DynamicApiController;
 
 namespace Furion.Application
@@ -362,7 +362,7 @@ namespace Furion.Application
 
 默认情况下，`ASP.NET Core` 会将 `GET/HEAD` 请求中的 `类类型参数` 设置为 `[FromBody]` 绑定，如：
 
-```cs {7}
+```cs showLineNumbers  {7}
 using Furion.DynamicApiController;
 
 namespace Furion.Application
@@ -397,7 +397,7 @@ namespace Furion.Application
 >
   <TabItem value="fromquery">
 
-```cs {2,8}
+```cs showLineNumbers  {2,8}
 using Furion.DynamicApiController;
 using Microsoft.AspNetCore.Mvc;
 
@@ -416,7 +416,7 @@ namespace Furion.Application
   </TabItem>
   <TabItem value="DynamicApiControllerSettings">
 
-```json {2-4} title="Furion.Web.Entry/appsettings.json"
+```json showLineNumbers  {2-4} title="Furion.Web.Entry/appsettings.json"
 {
   "DynamicApiControllerSettings": {
     "ModelToQuery": true
@@ -440,7 +440,7 @@ namespace Furion.Application
 - `ApiSeats.ActionStart`：动作方法之前
 - `ApiSeats.ActionEnd`：动作方法之后。**默认值**
 
-```cs {8-9,15-20}
+```cs showLineNumbers  {8-9,15-20}
 using Furion.DynamicApiController;
 using System;
 
@@ -486,7 +486,7 @@ namespace Furion.Application
 
 ### 5.8.6 自定义请求谓词
 
-```cs {2,8}
+```cs showLineNumbers  {2,8}
 using Furion.DynamicApiController;
 using Microsoft.AspNetCore.Mvc;
 
@@ -509,7 +509,7 @@ namespace Furion.Application
 
 ### 5.8.7 支持多个谓词
 
-```cs {2,8}
+```cs showLineNumbers  {2,8}
 using Furion.DynamicApiController;
 using Microsoft.AspNetCore.Mvc;
 
@@ -551,7 +551,7 @@ namespace Furion.Application
 >
   <TabItem value="kzqrl">
 
-```cs {2,6}
+```cs showLineNumbers  {2,6}
 using Furion.DynamicApiController;
 using Microsoft.AspNetCore.Mvc;
 
@@ -575,7 +575,7 @@ namespace Furion.Application
   </TabItem>
   <TabItem value="dzffrl">
 
-```cs {2,8}
+```cs showLineNumbers  {2,8}
 using Furion.DynamicApiController;
 using Microsoft.AspNetCore.Mvc;
 
@@ -599,7 +599,7 @@ namespace Furion.Application
   </TabItem>
   <TabItem value="allrl">
 
-```cs {2,6,9}
+```cs showLineNumbers  {2,6,9}
 using Furion.DynamicApiController;
 using Microsoft.AspNetCore.Mvc;
 
@@ -624,7 +624,7 @@ namespace Furion.Application
   </TabItem>
   <TabItem value="vcrl">
 
-```cs {9}
+```cs showLineNumbers  {9}
 using Furion.DynamicApiController;
 using Microsoft.AspNetCore.Mvc;
 
@@ -665,7 +665,7 @@ namespace Furion.Application
 
 `Furion` 框架提供了非常灵活的各种路由组合方式，支持一对多，多对多路由组合：
 
-```cs {6-8,11-14}
+```cs showLineNumbers  {6-8,11-14}
 using Furion.DynamicApiController;
 using Microsoft.AspNetCore.Mvc;
 
@@ -709,7 +709,7 @@ namespace Furion.Application
 >
   <TabItem value="kzqbb">
 
-```cs {5,13,21}
+```cs showLineNumbers  {5,13,21}
 using Furion.DynamicApiController;
 
 namespace Furion.Application
@@ -747,7 +747,7 @@ namespace Furion.Application
   </TabItem>
   <TabItem value="dzffbb">
 
-```cs {7,12,16}
+```cs showLineNumbers  {7,12,16}
 using Furion.DynamicApiController;
 
 namespace Furion.Application
@@ -788,7 +788,7 @@ namespace Furion.Application
 
 除了通过特定后缀方式以外，版本还直接通过 `[ApiDescriptionSettings]` 进行复写。如：
 
-```cs {1,2}
+```cs showLineNumbers  {1,2}
 [ApiDescriptionSettings(Version = "4.0")]
 public string GetV1()
 {
@@ -816,7 +816,7 @@ public string GetV1()
 
 默认情况下，动态 API 会将控制器和方法名输出为 `RESTFul` 风格的路由，如需保留原有设计，只需配置：
 
-```json
+```json showLineNumbers 
 {
   "DynamicApiControllerSettings": {
     "KeepName": true,
@@ -830,7 +830,7 @@ public string GetV1()
 
 默认情况下，所有的基元类型参数都会贴上 `[FromRoute]` 特性，如果需要将参数调整为 `[FromQuery]` 修饰，只需要在方法上面贴 `[QueryParameters]` 特性即可，如：
 
-```cs
+```cs showLineNumbers 
 [QueryParameters]
 public string Get(int id, string name)
 {
@@ -842,7 +842,7 @@ public string Get(int id, string name)
 
 如果不喜欢每个都配置，也可以全局配置（**只会影响基元类型的参数**）：
 
-```json
+```json showLineNumbers 
 {
   "DynamicApiControllerSettings": {
     "UrlParameterization": true
@@ -882,7 +882,7 @@ public string Get(int id, string name)
 
 **但是，有些时候这不是我们想要的规则**，这时我们只需要在 `appsettings.json` 中配置即可：
 
-```json {2,3}
+```json showLineNumbers  {2,3}
 {
   "DynamicApiControllerSettings": {
     "VerbToHttpMethods": [
@@ -903,7 +903,7 @@ public string Get(int id, string name)
 
 在 `Furion v2.8.6` 版本中实现了 `[FromRoute]` 参数非必填功能，支持以下几种方式：
 
-```cs {2,6,11,16}
+```cs showLineNumbers  {2,6,11,16}
 // 方式一，通过可空 ?
 public object Method1(int id, Datetime? dateTime)
 {
@@ -929,7 +929,7 @@ public object Method1(int id, [FromQuery]string keyword)
 
 在 `Furion v2.8.6` 版本中，添加了 `[RouteConstraint]` 特性，可配置路由约束，如：`[RouteConstraint(":min(10)")]`
 
-```cs {2}
+```cs showLineNumbers  {2}
 // 最小值 10
 public object Method1([RouteConstraint(":min(10)")] int id)
 {
@@ -959,7 +959,7 @@ public object Method1([RouteConstraint(":min(10)")] int id)
 
 ### 5.8.18 `小驼峰` 路由路径
 
-```json
+```json showLineNumbers 
 {
     "DynamicApiControllerSettings": {
         "LowercaseRoute": false,
@@ -993,7 +993,7 @@ public object Method1([RouteConstraint(":min(10)")] int id)
 
 `Name` 参数可以覆盖动态 `WebAPI` 自动生成的控制器或动作方法名称。如：
 
-```cs {5,8}
+```cs showLineNumbers  {5,8}
 using Furion.DynamicApiController;
 
 namespace Furion.Application
@@ -1018,7 +1018,7 @@ namespace Furion.Application
 
 `KeepName` 参数可以保留原有的控制器或动作方法名称。如：
 
-```cs {5,8}
+```cs showLineNumbers  {5,8}
 using Furion.DynamicApiController;
 
 namespace Furion.Application
@@ -1043,7 +1043,7 @@ namespace Furion.Application
 
 `SplitCamelCase` 参数默认将骆驼(驼峰)命名切割成多个单词并通过指定 `占位符` 连接起来。默认 `占位符` 为 `-`。默认为 `true`。如：
 
-```cs {5,8}
+```cs showLineNumbers  {5,8}
 using Furion.DynamicApiController;
 
 namespace Furion.Application
@@ -1074,7 +1074,7 @@ namespace Furion.Application
 
 `KeepVerb` 参数作用于动作方法，标识是否保留动作谓词。如：
 
-```cs {7}
+```cs showLineNumbers  {7}
 using Furion.DynamicApiController;
 
 namespace Furion.Application
@@ -1098,7 +1098,7 @@ namespace Furion.Application
 
 `Enabled` 参数配置接口是否导出。通常用于动作方法，如果用于控制器实际作用不大。
 
-```cs {12}
+```cs showLineNumbers  {12}
 using Furion.DynamicApiController;
 
 namespace Furion.Application
@@ -1127,7 +1127,7 @@ namespace Furion.Application
 
 `Module` 参数可以配置路由分离，类似于 `Mvc 区域` 的作用。
 
-```cs {5,8}
+```cs showLineNumbers  {5,8}
 using Furion.DynamicApiController;
 
 namespace Furion.Application
@@ -1152,7 +1152,7 @@ namespace Furion.Application
 
 `Version` 参数可以配置接口版本，同时又可以复写特殊版本命名配置。默认版本分隔符为 `@`。如：
 
-```cs {5,9-10}
+```cs showLineNumbers  {5,9-10}
 using Furion.DynamicApiController;
 
 namespace Furion.Application
@@ -1180,7 +1180,7 @@ namespace Furion.Application
 
 通过配置 `Groups` 参数可以将`控制器和动作方法` 进行归类和多个分组直接共享。可通过 `[ApiDescriptionSettings(params Groups)]` 构造函数传入或指定 `Groups` 参数配置接口是否导出。通常用于动作方法，如果用于控制器实际作用不大。
 
-```cs {5,13}
+```cs showLineNumbers  {5,13}
 using Furion.DynamicApiController;
 
 namespace Furion.Application
@@ -1221,7 +1221,7 @@ namespace Furion.Application
 
 #### 未贴标签之前
 
-```cs
+```cs showLineNumbers 
 using Furion.DynamicApiController;
 
 namespace Furion.Application
@@ -1256,7 +1256,7 @@ namespace Furion.Application
 
 #### 贴标签之后
 
-```cs {5,19}
+```cs showLineNumbers  {5,19}
 using Furion.DynamicApiController;
 
 namespace Furion.Application
@@ -1298,7 +1298,7 @@ namespace Furion.Application
   </TabItem>
   <TabItem value="tag2">
 
-```cs {5,19}
+```cs showLineNumbers  {5,19}
 using Furion.DynamicApiController;
 
 namespace Furion.Application
@@ -1373,7 +1373,7 @@ namespace Furion.Application
 - `AbandonActionAffixes`：默认去除动作方法名称前后缀列表名，`string[]`，默认：
   - `Async`
   - `VerbToHttpMethods`：复写默认方法名转 `[HttpMethod]` 规则，`string[][]` 二维数组类型，内置匹配规则为：
-    ```cs
+    ```cs showLineNumbers 
     ["post"] = "POST",
     ["add"] = "POST",
     ["create"] = "POST",
@@ -1393,7 +1393,7 @@ namespace Furion.Application
     ["patch"] = "PATCH"
     ```
     - 复写示例
-    ```json
+    ```json showLineNumbers 
     "DynamicApiControllerSettings": {
         "VerbToHttpMethods": [
           [ "getall", "HEAD" ],  // => getall 会被复写为 `[HttpHead]`
@@ -1406,7 +1406,7 @@ namespace Furion.Application
 
 默认情况下，`Furion` 动态 `WebAPI` 接口不对 `ControllerBase` 类型进行任何处理。当然，我们也可以手动启用 `ControllerBase` 支持。
 
-```json {2-4} title="Furion.Web.Entry/appsettings.json"
+```json showLineNumbers  {2-4} title="Furion.Web.Entry/appsettings.json"
 {
   "DynamicApiControllerSettings": {
     "SupportedMvcController": true
@@ -1416,7 +1416,7 @@ namespace Furion.Application
 
 设置 `SupportedMvcController: true` 后，`Mvc ControllerBase` 类型也能和动态 `WebAPI` 一样的灵活了。代码如下：
 
-```cs {5}
+```cs showLineNumbers  {5}
 using Microsoft.AspNetCore.Mvc;
 
 namespace Furion.Web.Entry.Controllers
@@ -1444,7 +1444,7 @@ namespace Furion.Web.Entry.Controllers
 
 `动态WebAPI` 支持 `Controller` 的所有过滤器/筛选器拦截，也就是可以通过 `ActionFilter`，`ResultFilter` 进行拦截操作。如：
 
-```cs {1,3}
+```cs showLineNumbers  {1,3}
 public class SampleAsyncActionFilter : IAsyncActionFilter
 {
     public async Task OnActionExecutionAsync(ActionExecutingContext context,ActionExecutionDelegate next)
@@ -1472,7 +1472,7 @@ public class SampleAsyncActionFilter : IAsyncActionFilter
 
 - `.NET5 版本`
 
-```cs {8-12}
+```cs showLineNumbers  {8-12}
 public static IHostBuilder CreateHostBuilder(string[] args)
 {
     return Host.CreateDefaultBuilder(args)
@@ -1491,7 +1491,7 @@ public static IHostBuilder CreateHostBuilder(string[] args)
 
 - `.NET6 版本`
 
-```cs {3-7}
+```cs showLineNumbers  {3-7}
 var app = builder.Build();
 
 app.Configuration.Get<WebHostBuilder>().ConfigureKestrel(x =>

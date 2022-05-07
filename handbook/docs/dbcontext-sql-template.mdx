@@ -14,7 +14,7 @@ sidebar_label: 9.16 Sql 模板
 
 - **Json** 方式
 
-```json
+```json showLineNumbers 
 {
   "Select.User": "select * from User where id > @id"
 }
@@ -47,7 +47,7 @@ sidebar_label: 9.16 Sql 模板
 
 ### 9.16.3.1 常规使用
 
-```cs
+```cs showLineNumbers 
 // 仓储方式
 var users = repository.SqlQuery<User>("#(Select.User)", new { id = 1});
 
@@ -61,7 +61,7 @@ List<User> GetUser(int id);
 
 ### 9.16.3.2 高级嵌套
 
-```cs
+```cs showLineNumbers 
 var users = repository.SqlQuery<User>(
 @"select * from user u
 left join #(User.Detail) d on u.Id = d.UserId
@@ -72,7 +72,7 @@ where id > @id");
 
 ### 9.16.4.1 普通模式
 
-```json
+```json showLineNumbers 
 {
   "Select.User": "select * from User"
 }
@@ -86,7 +86,7 @@ where id > @id");
 
 :::
 
-```json
+```json showLineNumbers 
 {
   "Select.User": {
     "Sql": "select * from User where id > @id and Name = @name",

@@ -30,7 +30,7 @@ import TabItem from "@theme/TabItem";
 
 ### 4.2.3.1 配置 `appsettings.json` 信息
 
-```json {2-6}
+```json showLineNumbers  {2-6}
 {
   "AppInfo": {
     "Name": "Furion",
@@ -42,7 +42,7 @@ import TabItem from "@theme/TabItem";
 
 ### 4.2.3.2 创建 `AppInfoOptions` 强类型类
 
-```cs {1,5}
+```cs showLineNumbers  {1,5}
 using Furion.ConfigurableOptions;
 
 namespace Furion.Application
@@ -68,7 +68,7 @@ namespace Furion.Application
 
 **选项不同于配置，需在应用启动时注册**
 
-```cs {12} title="Furion.Web.Core\FurWebCoreStartup.cs"
+```cs showLineNumbers  {12} title="Furion.Web.Core\FurWebCoreStartup.cs"
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
@@ -113,7 +113,7 @@ namespace Furion.Web.Core
 >
   <TabItem value="App.GetOptions<TOptions>(path)">
 
-```cs {13-16}
+```cs showLineNumbers  {13-16}
 using Furion.Application;
 using Microsoft.AspNetCore.Mvc;
 
@@ -138,7 +138,7 @@ namespace Furion.Web.Entry.Controllers
   </TabItem>
   <TabItem value="依赖注入方式">
 
-```cs {3,15-17,27-29,31-33,35-37}
+```cs showLineNumbers  {3,15-17,27-29,31-33,35-37}
 using Furion.Application;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
@@ -187,7 +187,7 @@ namespace Furion.Web.Entry.Controllers
   
   <TabItem value="App.GetOptions<TOptions>()">
 
-```cs {12-15,17-20,22-25}
+```cs showLineNumbers  {12-15,17-20,22-25}
 using Furion.Application;
 using Microsoft.AspNetCore.Mvc;
 
@@ -281,7 +281,7 @@ namespace Furion.Web.Entry.Controllers
 
 - 以 `Options` 结尾，则键名为：`AppInfo`
 
-```cs {1}
+```cs showLineNumbers  {1}
 public class AppInfoOptions : IConfigurableOptions
 {
     public string Name { get; set; }
@@ -292,7 +292,7 @@ public class AppInfoOptions : IConfigurableOptions
 
 - 不以 `Options` 结尾，则键名为：`AppInfoSettings`
 
-```cs {1}
+```cs showLineNumbers  {1}
 public class AppInfoSettings : IConfigurableOptions
 {
     public string Name { get; set; }
@@ -307,7 +307,7 @@ public class AppInfoSettings : IConfigurableOptions
 
 - 配置了 `Path` 属性，则键名为：`AppSettings:AppInfo`
 
-```cs {1}
+```cs showLineNumbers  {1}
 [OptionsSettings("AppSettings:AppInfo")]
 public class AppInfoOptions : IConfigurableOptions
 {
@@ -319,7 +319,7 @@ public class AppInfoOptions : IConfigurableOptions
 
 - 没有配置 `Path` 属性，，则键名为：`AppInfoSettings`
 
-```cs {1}
+```cs showLineNumbers  {1}
 [OptionsSettings]
 public class AppInfoSettings : IConfigurableOptions
 {
@@ -357,7 +357,7 @@ public class AppInfoSettings : IConfigurableOptions
 >
   <TabItem value="texin">
 
-```cs {2,8,10,12}
+```cs showLineNumbers  {2,8,10,12}
 using Furion.ConfigurableOptions;
 using System.ComponentModel.DataAnnotations;
 
@@ -380,7 +380,7 @@ namespace Furion.Application
 
 - 自定义验证类 `AppInfoValidation` 并继承 `IValidateOptions<TOptions>` 接口，同时实现 `Validate` 方法。
 
-```cs {1,6,8,12,15}
+```cs showLineNumbers  {1,6,8,12,15}
 using Microsoft.Extensions.Options;
 using System.Text.RegularExpressions;
 
@@ -403,7 +403,7 @@ namespace Furion.Application
 
 - 选项类继承 `IConfigurableOptions<TOptions, TOptionsValidation>` 接口，并实现该接口。
 
-```cs {6,16-18}
+```cs showLineNumbers  {6,16-18}
 using Furion.ConfigurableOptions;
 using System.ComponentModel.DataAnnotations;
 
@@ -428,7 +428,7 @@ namespace Furion.Application
 
 - 完整代码如下：
 
-```cs {4,9,19,25,27,31,34}
+```cs showLineNumbers  {4,9,19,25,27,31,34}
 using Furion.ConfigurableOptions;
 using Microsoft.Extensions.Options;
 using System.ComponentModel.DataAnnotations;
@@ -483,7 +483,7 @@ namespace Furion.Application
 
 在 `Furion` 框架中，配置选项后期配置很简单，只需要继承 `IConfigurableOptions<TOptions>` 接口并实现 `PostConfigure(TOptions options)` 方法。
 
-```cs {7,16-21}
+```cs showLineNumbers  {7,16-21}
 using Furion.ConfigurableOptions;
 using Microsoft.Extensions.Configuration;
 using System.ComponentModel.DataAnnotations;
@@ -521,7 +521,7 @@ namespace Furion.Application
 
 使用非常简单，只需要继承 `IConfigurableOptionsListener<TOptions>` 接口并实现 `void OnListener(TOptions options, IConfiguration configuration)` 方法即可。
 
-```cs {5,11-15}
+```cs showLineNumbers  {5,11-15}
 using Furion.ConfigurableOptions;
 
 namespace Furion.Application

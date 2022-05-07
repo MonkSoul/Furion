@@ -30,7 +30,7 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 `Furion` 框架默认数据迁移的程序集为：`Furion.Database.Migrations`，所以如果您改了程序集名称或通过 `Nuget` 方式安装的 `Furion` 包，则需要配置迁移程序集名称：
 
-```cs {4}
+```cs showLineNumbers  {4}
 services.AddDatabaseAccessor(options =>
 {
     options.AddDbPool<FurionDbContext>(DbProvider.Sqlite);
@@ -39,7 +39,7 @@ services.AddDatabaseAccessor(options =>
 
 另外，如果应用中配置了多个数据库上下文，那么所有的 `迁移命令` 都需要指定 `-Context 数据库上下文名称` 参数。如：
 
-```shell
+```shell showLineNumbers 
 Add-Migration v1.0.0 -Context FurionDbContext
 ```
 
@@ -47,7 +47,7 @@ Add-Migration v1.0.0 -Context FurionDbContext
 
 ### 9.20.2.1 创建实体模型 `Person`
 
-```cs {1,6,8}
+```cs showLineNumbers  {1,6,8}
 using Furion.DatabaseAccessor;
 using System;
 using System.Collections.Generic;
@@ -103,7 +103,7 @@ namespace Furion.Core
 
 ### 9.20.2.4 创建模型版本
 
-```shell
+```shell showLineNumbers 
 Add-Migration v1.0.0
 ```
 
@@ -115,7 +115,7 @@ Add-Migration v1.0.0
 
 最终命令如下：
 
-```shell
+```shell showLineNumbers 
 PM> Add-Migration v1.0.0
 Build started...
 Build succeeded.
@@ -133,7 +133,7 @@ PM>
 
 ### 9.20.2.5 更新到数据库
 
-```shell
+```shell showLineNumbers 
 Update-Database
 ```
 
@@ -143,7 +143,7 @@ Update-Database
 
 如果 `Update-Database` 后面带字符串参数，则会自动还原数据库到指定版本，如：
 
-```shell
+```shell showLineNumbers 
 Update-Database v0.0.3
 ```
 
@@ -155,11 +155,11 @@ Update-Database v0.0.3
 
 如果模型改变了，重复上面操作即可，如：
 
-```shell
+```shell showLineNumbers 
 Add-Migration v1.0.1
 ```
 
-```shell
+```shell showLineNumbers 
 Update-Database
 ```
 
@@ -167,7 +167,7 @@ Update-Database
 
 有些时候，我们没有直接更新数据库的权限，或者怕出问题，我们都会先生成 `Sql` 看看，这时候只需要通过 `Script-Migration` 导出即可，如：
 
-```shell
+```shell showLineNumbers 
 Script-Migration
 ```
 
@@ -177,7 +177,7 @@ Script-Migration
 
 ### 9.20.5.1 安装 `dotnet ef`
 
-```shell
+```shell showLineNumbers 
 dotnet tool install --global dotnet-ef --version 5.0.0-rc.2.20475.6
 ```
 
@@ -187,17 +187,17 @@ dotnet tool install --global dotnet-ef --version 5.0.0-rc.2.20475.6
 
 之后进入 `Furion.Database.Migrations` 目录
 
-```shell
+```shell showLineNumbers 
 cd Furion.Database.Migrations
 ```
 
 ### 9.20.5.3 执行命令
 
-```shell
+```shell showLineNumbers 
 dotnet ef migrations add v1.0.0 -s "../Furion.Web.Entry"
 ```
 
-```shell
+```shell showLineNumbers 
 dotnet ef database update -s "../Furion.Web.Entry"
 ```
 
@@ -209,7 +209,7 @@ dotnet ef database update -s "../Furion.Web.Entry"
 
 如果已经生成 `Migrations` 文件，那么可以直接在 `Startup.cs` 代码中实现程序启动时自动执行 `update-database` 命令，如：
 
-```cs {1,4,6,8-9}
+```cs showLineNumbers  {1,4,6,8-9}
 public void Configure(IApplicationBuilder app, IHostingEnvironment env)
 {
     // 判断开发环境！！！必须！！！！
@@ -228,7 +228,7 @@ public void Configure(IApplicationBuilder app, IHostingEnvironment env)
 
 ### 9.20.6.2 如果没有生成过 `Migrations` 文件情况
 
-```cs {1,4,6,8-9}
+```cs showLineNumbers  {1,4,6,8-9}
 public void Configure(IApplicationBuilder app, IHostingEnvironment env)
 {
     // 判断开发环境！！！必须！！！！

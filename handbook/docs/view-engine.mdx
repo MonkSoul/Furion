@@ -24,7 +24,7 @@ sidebar_label: 17. 视图引擎
 
 使用之前需在 `Startup.cs` 中注册 `视图引擎服务`：
 
-```cs {3}
+```cs showLineNumbers  {3}
 public void ConfigureServices(IServiceCollection services)
 {
     services.AddViewEngine();
@@ -35,7 +35,7 @@ public void ConfigureServices(IServiceCollection services)
 
 - 构造函数注入 `IViewEngine`
 
-```cs {2,9,12}
+```cs showLineNumbers  {2,9,12}
 using Furion.DynamicApiController;
 using Furion.ViewEngine;
 
@@ -55,19 +55,19 @@ namespace Furion.Application
 
 - 字符串方式
 
-```cs
+```cs showLineNumbers 
 var result = "Hello @Model.Name".RunCompile(new { Name = "Furion" });
 ```
 
 ### 17.3.3 弱类型模板
 
-```cs
+```cs showLineNumbers 
 var result = _viewEngine.RunCompile("Hello @Model.Name", new { Name = "Furion" });
 ```
 
 结果：
 
-```html
+```html showLineNumbers 
 Hello Furion
 ```
 
@@ -75,7 +75,7 @@ Hello Furion
 
 ### 17.3.4 强类型模板
 
-```cs
+```cs showLineNumbers 
 var result = _viewEngine.RunCompile(@"
 Hello @Model.Name
 @foreach(var item in Model.Items)
@@ -91,7 +91,7 @@ Hello @Model.Name
 
 结果：
 
-```html
+```html showLineNumbers 
 Hello Furion
 <p>3</p>
 <p>1</p>
@@ -106,7 +106,7 @@ Hello Furion
 
 如，强类型模板：
 
-```cs
+```cs showLineNumbers 
 var result = _viewEngine.RunCompileFromCached(@"
 Hello @Model.Name
 @foreach(var item in Model.Items)
@@ -122,7 +122,7 @@ Hello @Model.Name
 
 结果：
 
-```html
+```html showLineNumbers 
 Hello Furion
 <p>3</p>
 <p>1</p>
@@ -133,7 +133,7 @@ Hello Furion
 
 如，传入新的数据：
 
-```cs {10}
+```cs showLineNumbers  {10}
 var result = _viewEngine.RunCompileFromCached(@"
 Hello @Model.Name
 @foreach(var item in Model.Items)
@@ -149,7 +149,7 @@ Hello @Model.Name
 
 结果：
 
-```html
+```html showLineNumbers 
 Hello Furion
 <p>5</p>
 <p>6</p>
@@ -167,7 +167,7 @@ Hello Furion
 
 比如这里添加 `System.IO` 程序集：
 
-```cs
+```cs showLineNumbers 
 var result = _viewEngine.RunCompileFromCached(@"<div>@System.IO.Path.Combine(""Furion"", ""ViewEngine"")</div>", builderAction: builder =>
             {
                 builder.AddAssemblyReferenceByName("System.IO");
@@ -176,13 +176,13 @@ var result = _viewEngine.RunCompileFromCached(@"<div>@System.IO.Path.Combine(""F
 
 结果：
 
-```html
+```html showLineNumbers 
 <div>Furion\\ViewEngine</div>
 ```
 
 另外，`Furion` 提供多种方式加载程序集：
 
-```cs
+```cs showLineNumbers 
 builder.AddAssemblyReferenceByName("System.Security"); // 通过名称
 builder.AddAssemblyReference(typeof(System.IO.File)); // 通过类型
 builder.AddAssemblyReference(Assembly.Load("source")); // 通过元数据引用
@@ -190,7 +190,7 @@ builder.AddAssemblyReference(Assembly.Load("source")); // 通过元数据引用
 
 ### 17.4.2 添加命名空间
 
-```cs
+```cs showLineNumbers 
 var result = _viewEngine.RunCompileFromCached(@"<div>@Path.Combine(""Furion"", ""ViewEngine"")</div>", builderAction: builder =>
             {
                 builder.AddUsing("System.IO");
@@ -200,7 +200,7 @@ var result = _viewEngine.RunCompileFromCached(@"<div>@Path.Combine(""Furion"", "
 
 结果：
 
-```html
+```html showLineNumbers 
 <div>Furion\\ViewEngine</div>
 ```
 
@@ -213,7 +213,7 @@ builder.AddUsing("Furion");
 
 ### 17.4.3 定义模板方法
 
-```cs
+```cs showLineNumbers 
 var result = _viewEngine.RunCompileFromCached(@"
 <area>
     @{ RecursionTest(3); }
@@ -236,7 +236,7 @@ var result = _viewEngine.RunCompileFromCached(@"
 
 结果：
 
-```html
+```html showLineNumbers 
 <area>
 <div>LEVEL: 3</div>
 <div>LEVEL: 2</div>
@@ -248,7 +248,7 @@ var result = _viewEngine.RunCompileFromCached(@"
 
 定义 `CustomModel` 类并继承 `ViewEngineModel` 基类
 
-```cs {1}
+```cs showLineNumbers  {1}
 public class CustomModel : ViewEngineModel
 {
     public int A { get; set; }
@@ -262,7 +262,7 @@ public class CustomModel : ViewEngineModel
 
 在模板中调用 `Decorator(value)` 方法：
 
-```cs
+```cs showLineNumbers 
 var content = @"Hello @A, @B, @Decorator(123)";
 
 var template = _viewEngine.Compile<CustomModel>(content);
@@ -276,7 +276,7 @@ var result = template.Run(instance =>
 
 结果：
 
-```html
+```html showLineNumbers 
 Hello 10, Alex, -=123=-
 ```
 
@@ -286,7 +286,7 @@ Hello 10, Alex, -=123=-
 
 通过原始的 `Compile` 和 `Run` 方法可以实现很多复杂的逻辑和自定义指令集。
 
-```cs
+```cs showLineNumbers 
 /// <summary>
 /// 编译模板
 /// </summary>
@@ -325,7 +325,7 @@ Task<IViewEngineTemplate<T>> CompileAsync<T>(string content, Action<IViewEngineO
 
 `Furion` 除了内置视图引擎之外，还支持以下几种模板替换，如：
 
-```cs
+```cs showLineNumbers 
 // 提供数据模板方式
 var str = "我叫{name}".Render(new Dictionary{ {"name", "Furion"} });
 var str = "我叫{Name}".Render(new { Name = "Furion" });
@@ -335,7 +335,7 @@ var str = "我叫{Detail.Name}".Render(new { Detail = new { Name = "Furoin" } })
 var str = "我叫#(Furion:Address)".Render();
 ```
 
-```json
+```json showLineNumbers 
 {
   "Furion": {
     "Address": "https://www.furion.icu"

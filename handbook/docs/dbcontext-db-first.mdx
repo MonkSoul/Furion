@@ -58,7 +58,7 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 ### 9.19.2.3 输入 `cli.ps1` 命令
 
-```shell
+```shell showLineNumbers 
 PM> Show-Command ../tools/cli.ps1
 ```
 
@@ -68,7 +68,7 @@ PM> Show-Command ../tools/cli.ps1
 
 除了采用 `Show-Command` 方式以外，还可以直接执行命令：
 
-```shell
+```shell showLineNumbers 
  &"../tools/cli.ps1" -DbProvider "EFCore数据库程序集名" -CoreProject "你的Core层" -EntryProject "你的启动层" -ConnectionName "连接字符串的 [key]"
 ```
 
@@ -86,7 +86,7 @@ PM> Show-Command ../tools/cli.ps1
 
 如果需要保持和数据库一模一样的命名，则使用 `-UseDatabaseNames` 参数指定，如：
 
-```cs
+```cs showLineNumbers 
  &"../tools/cli.ps1" -UseDatabaseNames
 ```
 
@@ -98,7 +98,7 @@ PM> Show-Command ../tools/cli.ps1
 
 执行上面命令后，此时 `Cli` 有一个等待输入提示：
 
-```shell
+```shell showLineNumbers 
 Furion Tools v1.0.0 请键入操作类型：[G] 界面操作，[任意字符] 命令行操作
 Furion Tools v1.0.0 您的输入是:
 ```
@@ -129,7 +129,7 @@ Furion Tools v1.0.0 您的输入是:
 
 :::
 
-```json {12-13}
+```json showLineNumbers  {12-13}
 {
   "Logging": {
     "LogLevel": {
@@ -175,7 +175,7 @@ Furion Tools v1.0.0 您的输入是:
 
 最终脚本如下：
 
-```shell
+```shell showLineNumbers 
 PM> &"../tools/cli.ps1"
 // -----------------------------------------------------------------------------
 //   ______            _______          _
@@ -352,7 +352,7 @@ PM>
 
 `Furion Tools Cli` 支持多个参数配置，使用方法只需要在命令后面添加即可，如：
 
-```shell
+```shell showLineNumbers 
  &"../tools/cli.ps1" -Context 数据库上下文名 -ConnectionName 连接字符串Key
 ```
 

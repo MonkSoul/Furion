@@ -24,7 +24,7 @@ sidebar_label: 34.4 二级虚拟目录部署
 2. 添加 `Application` 并选择刚刚创建的应用程序池
 3. 添加应用配置：
 
-```json {2,3}
+```json showLineNumbers  {2,3}
 {
   "SpecificationDocumentSettings": {
     "ServerDir": "IIS中应用程序名（Applicaiton）"
@@ -38,7 +38,7 @@ sidebar_label: 34.4 二级虚拟目录部署
 
 我们只需要配置 `AppSettings` 即可：
 
-```json {2,3}
+```json showLineNumbers  {2,3}
 {
   "AppSettings": {
     "VirtualPath": "/虚拟目录"
@@ -56,7 +56,7 @@ sidebar_label: 34.4 二级虚拟目录部署
 
 由于在 `.NET6` 的 `WebApplication` 模式下微软底层发生了改变，**所以需要使用 `app.UseVirtualPath()` 包裹 `app.UseInject()` 和 `app.MapRouteControllers()`**：
 
-```cs {1,4}
+```cs showLineNumbers  {1,4}
 app.UseVirtualPath(app =>
 {
     app.UseInject(String.Empty);  // 注意 String.Empty 只是例子，可以不填或填其他的，见一分钟入门

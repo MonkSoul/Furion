@@ -55,7 +55,7 @@ import TabItem from "@theme/TabItem";
 >
   <TabItem value="one">
 
-```cs {1,9-12}
+```cs showLineNumbers  {1,9-12}
 using Furion.DatabaseAccessor;
 using Furion.DynamicApiController;
 
@@ -76,7 +76,7 @@ namespace Furion.Application
   </TabItem>
   <TabItem value="two">
 
-```cs {2,7,9-10}
+```cs showLineNumbers  {2,7,9-10}
 using Furion.Core;
 using Furion.DatabaseAccessor;
 using System.Collections.Generic;
@@ -91,7 +91,7 @@ namespace Furion.Application
 }
 ```
 
-```cs {9-12}
+```cs showLineNumbers  {9-12}
 using Furion.DatabaseAccessor;
 using Furion.DynamicApiController;
 
@@ -112,14 +112,14 @@ namespace Furion.Application
   </TabItem>
 <TabItem value="three">
 
-```cs
+```cs showLineNumbers 
 var persons = personRepository.SqlProcedureQuery("proc_GetPersons");
 ```
 
   </TabItem>
   <TabItem value="four">
 
-```cs
+```cs showLineNumbers 
 var persons = "proc_GetPersons".SqlProcedureQuery();
 ```
 
@@ -129,7 +129,7 @@ var persons = "proc_GetPersons".SqlProcedureQuery();
 
 ### 9.13.2.2 返回 `DataTable`
 
-```cs
+```cs showLineNumbers 
 // ISqlRepository 方法
 var dataTable = _sqlRepository.SqlProcedureQuery("proc_GetPersons");
 
@@ -154,7 +154,7 @@ var dataTable = "proc_GetPersons".SqlProcedureQuery();
 
 ### 9.13.2.3 返回 `DataSet`
 
-```cs
+```cs showLineNumbers 
 // ISqlRepository 方法
 var dataSet = _sqlRepository.SqlProcedureQueries("proc_GetPersons");
 
@@ -179,7 +179,7 @@ var dataSet = "proc_GetPersons".SqlProcedureQueries();
 
 ### 9.13.2.4 返回 `List<T>`
 
-```cs
+```cs showLineNumbers 
 // ISqlRepository 方法
 var list = _sqlRepository.SqlProcedureQuery<Person>("proc_GetPersons");
 
@@ -206,7 +206,7 @@ var list = "proc_GetPersons".SqlProcedureQuery<Person>();
 
 `Furion` 框架大大利用了 `Tuple` 的特性，将返回多个结果集转成 `Tuple<T1,...T8>` 类型
 
-```cs
+```cs showLineNumbers 
 // ISqlRepository 方法
 
 // 返回一个结果集
@@ -354,7 +354,7 @@ var (list1, list2, list3, list4, list5, list6, list7, list8) = "proc_GetPersons"
 
 ### 9.13.2.6 返回 `单行单列 object`
 
-```cs
+```cs showLineNumbers 
 // ISqlRepository 方法
 var value = _sqlRepository.SqlProcedureScalar("proc_GetName");
 
@@ -379,7 +379,7 @@ var value = "proc_GetName".SqlProcedureScalar();
 
 ### 9.13.2.7 返回 `单行单列 <T>`
 
-```cs
+```cs showLineNumbers 
 // ISqlRepository 方法
 var value = _sqlRepository.SqlProcedureScalar<string>("proc_GetName");
 
@@ -404,7 +404,7 @@ var value = "proc_GetName".SqlProcedureScalar<string>();
 
 ### 9.13.2.8 执行但无返回
 
-```cs
+```cs showLineNumbers 
 // ISqlRepository 方法
 _sqlRepository.SqlProcedureNonQuery("proc_UpdateData");
 
@@ -431,7 +431,7 @@ _repository.Sql().SqlProcedureNonQuery("proc_UpdateData");
 
 在存储过程中，有一种例子非常复杂，那就是既有 `INPUT` 参数，又有 `OUTPUT` 参数，还有 `RETURN` 参数，同时还输出 结果集 💥，如：
 
-```sql {3,4,10-12,15-17,22}
+```sql showLineNumbers  {3,4,10-12,15-17,22}
 CREATE PROC PROC_Output
     @Id INT,    // 输入参数
     @Name NVARCHAR(32) OUTPUT,  // 输出参数，还带长度
@@ -459,7 +459,7 @@ END;
 
 ### 9.13.3.1 创建参数模型
 
-```cs {1,10,13,16}
+```cs showLineNumbers  {1,10,13,16}
 using Furion.DatabaseAccessor;
 using System.Data;
 
@@ -485,7 +485,7 @@ namespace Furion.Application
 
 - ** `DataSet` ** 方式
 
-```cs
+```cs showLineNumbers 
 // ISqlRepository 方法
 ProcedureOutputResult result = _sqlRepository.SqlProcedureOutput("proc_Complex", new ProcOutputModel{});
 
@@ -502,7 +502,7 @@ ProcedureOutputResult result = _repository.Sql().SqlProcedureOutput("proc_Comple
 ProcedureOutputResult result = "proc_Complex".SqlProcedureOutput(new ProcOutputModel{});
 ```
 
-```cs
+```cs showLineNumbers 
 // 获取 OUTPUT 参数值
 var outputs = result.OutputValues;
 
@@ -515,7 +515,7 @@ var dataSet = result.Result;
 
 - `Tuple<T1,...T8>` 方式
 
-```cs
+```cs showLineNumbers 
 // ISqlRepository 方法
 ProcedureOutputResult<(List<Test>, List<Test>)> result = _sqlRepository.SqlProcedureOutput<(List<Test>, List<Test>)>("proc_Complex", new ProcOutputModel{});
 
@@ -532,7 +532,7 @@ ProcedureOutputResult<(List<Test>, List<Test>)> result = _repository.Sql().SqlPr
 ProcedureOutputResult<(List<Test>, List<Test>)> result = "proc_Complex".SqlProcedureOutput<(List<Test>, List<Test>)>(new ProcOutputModel{});
 ```
 
-```cs
+```cs showLineNumbers 
 // 获取 OUTPUT 参数值
 var outputs = result.OutputValues;
 

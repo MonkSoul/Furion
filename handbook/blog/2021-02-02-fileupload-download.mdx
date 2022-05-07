@@ -12,7 +12,7 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 ## 文件下载
 
-```cs
+```cs showLineNumbers 
 [HttpGet, NonUnify]
 public IActionResult FileDownload(string path, string fileName)
 {
@@ -25,7 +25,7 @@ public IActionResult FileDownload(string path, string fileName)
 
 如果前端获取不到文件夹，可添加以下配置：
 
-```cs
+```cs showLineNumbers 
 _httpContextAccessor.HttpContext.Response.Headers.Add("Content-Disposition", $"attachment; filename={文件名}");
 _httpContextAccessor.HttpContext.Response.Headers.Add("Access-Control-Expose-Headers", "Content-Disposition");
 ```
@@ -36,7 +36,7 @@ _httpContextAccessor.HttpContext.Response.Headers.Add("Access-Control-Expose-Hea
 
 ## 文件上传
 
-```cs
+```cs showLineNumbers 
 [HttpPost, NonUnify]
 public async Task<IActionResult> UploadFileAsync(List<IFormFile> files)
 {
@@ -68,7 +68,7 @@ public async Task<IActionResult> UploadFileAsync(List<IFormFile> files)
 :::note 关于使用axios上传文件,方法获取到参数files.Count=0
 axios请求配置
 
-```cs
+```cs showLineNumbers 
     let formData = new FormData();
     formData.append("files", this.file); //files需与方法里的参数files名称一样
     let config = {

@@ -200,7 +200,7 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 - **动态切换数据库**
 
-```cs
+```cs showLineNumbers 
 // 直接改变数据库
 repository.ChangeDatabase("数据库连接字符串");
 
@@ -218,7 +218,7 @@ repository.Change<Entity, MyDbContextLocator2>();
 
 最后通过 `BuildChange<TEntity>` 切换即可。
 
-```cs
+```cs showLineNumbers 
 var (rep, scoped) = repository.BuildChange<Persion>();
 ```
 

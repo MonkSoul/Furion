@@ -44,7 +44,7 @@ import TabItem from "@theme/TabItem";
 
 ## 9.18.2 多数据库服务注册
 
-```cs
+```cs showLineNumbers 
 // 注册 SqlServer
 options.AddDbPool<FurionDbContext>(DbProvider.SqlServer);
 options.AddDbPool<FurionDbContext>($"{DbProvider.SqlServer}@2005"); // 支持 2005 数据库
@@ -82,7 +82,7 @@ options.AddDbPool<FurionDbContext>(DbProvider.Dm);
 
 `SqlServer` 兼容 `2005-2008` 写法：
 
-```cs
+```cs showLineNumbers 
 services.AddDatabaseAccessor(options =>
 {
     options.AddDbPool<FurionDbContext>($"{DbProvider.SqlServer}@2005"); // 支持 2005 数据库
@@ -92,7 +92,7 @@ services.AddDatabaseAccessor(options =>
 
 `MySQL` 兼容旧版本（带版本号）写法：
 
-```cs
+```cs showLineNumbers 
 services.AddDatabaseAccessor(options =>
 {
     options.AddDbPool<FurionDbContext>($"{DbProvider.MySql}@8.0.22");
@@ -101,7 +101,7 @@ services.AddDatabaseAccessor(options =>
 
 如果使用了 `MySql.EntityFrameworkCore` 包，则需改为以下注册：
 
-```cs
+```cs showLineNumbers 
 services.AddDatabaseAccessor(options =>
 {
     options.AddDbPool<FurionDbContext>(DbProvider.MySqlOfficial);
@@ -110,7 +110,7 @@ services.AddDatabaseAccessor(options =>
 
 `Oracle` 兼容 `11` 版本
 
-```cs
+```cs showLineNumbers 
 services.AddDatabaseAccessor(options =>
 {
     options.AddDbPool<FurionDbContext>($"{DbProvider.Oracle}@11");
@@ -135,7 +135,7 @@ services.AddDatabaseAccessor(options =>
 
 ### 9.18.4.1 实体仓储方式
 
-```cs
+```cs showLineNumbers 
 // 切换到 MSSQL 操作 Person表
 var mssqlRepository = personRepository.Change<Person, MsSqlDbContextLocator>();
 
@@ -149,7 +149,7 @@ var sqliteRepository = personRepository.Change<Person, SqliteDbContextLocator>()
 
 ### 9.18.4.2 非泛型仓储方式
 
-```cs
+```cs showLineNumbers 
 // 切换到 MSSQL 操作 Person表
 var mssqlRepository = repository.Change<Person, MsSqlDbContextLocator>();
 
@@ -162,7 +162,7 @@ var sqliteRepository = repository.Change<Person, SqliteDbContextLocator>();
 
 ### 9.18.4.3 `Sql` 仓储方式
 
-```cs
+```cs showLineNumbers 
 // 切换到 MSSQL 操作 Person表
 var mssqlRepository = sqlRepository.Change<MsSqlDbContextLocator>();
 
@@ -175,7 +175,7 @@ var sqliteRepository = sqlRepository.Change<SqliteDbContextLocator>();
 
 ### 9.18.4.4 实体定义方式
 
-```cs
+```cs showLineNumbers 
 
 // 支持一个数据库
 public class Person: IEntity<MySqlDbContextLocator>
@@ -198,7 +198,7 @@ public class Person: IEntity<MySqlDbContextLocator, SqliteDbContextLocator>
 
 ### 9.18.4.5 Linq 函数方式
 
-```cs
+```cs showLineNumbers 
 public static class QueryFunctions
 {
     [QueryableFunction("FN_GetId", "dbo", typeof(MySqlDbContextLocator), typeof(SqliteDbContextLocator))]
@@ -210,7 +210,7 @@ public static class QueryFunctions
 
 正常情况下，只需要在注册的时候指定 `@2008` 数据库即可，有些时候我们可能需要在 `DbContext` 的 `OnConfigure` 中配置，这个时候就需要添加以下代码：
 
-```cs {4}
+```cs showLineNumbers  {4}
 protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 {
     optionsBuilder.UseSqlServer(DbProvider.GetConnectionString<TDbContext>())

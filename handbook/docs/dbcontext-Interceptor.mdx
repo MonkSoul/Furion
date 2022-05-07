@@ -19,7 +19,7 @@ sidebar_label: 9.24 数据库操作拦截器
 
 ### 9.24.2.1 `DbConnectionInterceptor`
 
-```cs
+```cs showLineNumbers 
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using System.Data.Common;
 using System.Threading;
@@ -94,7 +94,7 @@ namespace Furion.DatabaseAccessor.Interceptors
 
 ### 9.24.2.2 `DbCommandInterceptor`
 
-```cs
+```cs showLineNumbers 
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using System.Data.Common;
 using System.Threading;
@@ -211,7 +211,7 @@ namespace Furion.DatabaseAccessor
 
 ### 9.24.2.3 `SaveChangesInterceptor`
 
-```cs
+```cs showLineNumbers 
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
@@ -271,7 +271,7 @@ namespace Furion.DatabaseAccessor
 
 如自动添加租户 Id：
 
-```cs
+```cs showLineNumbers 
 protected override void SavingChangesEvent(DbContextEventData eventData, InterceptionResult<int> result)
 {
     // 获取当前事件对应上下文
@@ -302,7 +302,7 @@ protected override void SavingChangesEvent(DbContextEventData eventData, Interce
 
 定义好过滤器之后，我们需要在数据库上下文中注册：
 
-```cs
+```cs showLineNumbers 
 services.AddDbPool<FurionDbContext>(interceptors: new IInterceptor[] {
     new YourSqlConnectionProfilerInterceptor(),
     new YourDbContextSaveChangesInterceptor(),

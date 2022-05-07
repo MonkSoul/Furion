@@ -12,7 +12,7 @@ sidebar_label: 9.7 新增或更新操作
 
 ## 9.7.1 新增或更新（不立即提交）
 
-```cs
+```cs showLineNumbers 
 // ==== 同步操作 ====
 
 // 示例一
@@ -32,7 +32,7 @@ await user.InsertOrUpdateAsync();
 
 ## 9.7.2 新增或更新（立即提交）
 
-```cs
+```cs showLineNumbers 
 // ==== 同步操作 ====
 
 // 示例一
@@ -52,7 +52,7 @@ await user.InsertOrUpdateNowAsync();
 
 ## 9.7.3 新增或更新部分列（不立即提交）
 
-```cs
+```cs showLineNumbers 
 // ==== 同步操作 ====
 
 // 示例一
@@ -108,7 +108,7 @@ await user.InsertOrUpdateIncludeAsync(new[] {"Age", "Name"});
 
 ## 9.7.4 新增或更新部分列（立即提交）
 
-```cs
+```cs showLineNumbers 
 // ==== 同步操作 ====
 
 // 示例一
@@ -164,7 +164,7 @@ await user.InsertOrUpdateIncludeNowAsync(new[] {"Age", "Name"});
 
 ## 9.7.5 新增或更新排除特定列（不立即提交）
 
-```cs
+```cs showLineNumbers 
 // ==== 同步操作 ====
 
 // 示例一
@@ -220,7 +220,7 @@ await user.InsertOrUpdateExcludeAsync(new[] {"Age", "Name"});
 
 ## 9.7.6 新增或更新排除特定列（立即提交）
 
-```cs
+```cs showLineNumbers 
 // ==== 同步操作 ====
 
 // 示例一

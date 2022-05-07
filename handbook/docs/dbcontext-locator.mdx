@@ -38,7 +38,7 @@ sidebar_label: 9.2 数据库上下文定位器
 
 数据库上下文定位器定义代码如下：
 
-```cs {1,5}
+```cs showLineNumbers  {1,5}
 using Furion.DatabaseAccessor;
 
 namespace Furion.Core
@@ -55,7 +55,7 @@ namespace Furion.Core
 
 如：只有一个数据库上下文定义：
 
-```cs
+```cs showLineNumbers 
 using Furion.DatabaseAccessor;
 using Microsoft.EntityFrameworkCore;
 
@@ -77,13 +77,13 @@ namespace Furion.EntityFramework.Core
 
 - 注册上下文：
 
-```cs
+```cs showLineNumbers 
 options.AddDbPool<OtherDbContext, OtherDbContextLocator>();
 ```
 
 - 定义上下文
 
-```cs
+```cs showLineNumbers 
 using Furion.DatabaseAccessor;
 using Microsoft.EntityFrameworkCore;
 

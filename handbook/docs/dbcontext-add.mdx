@@ -8,7 +8,7 @@ sidebar_label: 9.5 新增操作
 
 ## 9.5.1 新增一条，无返回值
 
-```cs
+```cs showLineNumbers 
 var user = new User { Name = "百小僧", Age = 27 };
 
 // ==== 同步操作 ====
@@ -40,7 +40,7 @@ await repository.Entities.AddAsync(user);
 
 ## 9.5.2 新增一条，返回最新数据
 
-```cs
+```cs showLineNumbers 
 // ==== 同步操作 ====
 
 // 示例一
@@ -60,7 +60,7 @@ var newEntity = await user.InsertNowAsync();  // 有三个重载
 
 ## 9.5.3 新增多条（不立即提交）
 
-```cs
+```cs showLineNumbers 
 // ==== 同步操作 ====
 
 // 示例一
@@ -86,7 +86,7 @@ await repository.InsertAsync(new[] {user, user2 });
 
 ## 9.5.4 新增多条（立即提交）
 
-```cs
+```cs showLineNumbers 
 // ==== 同步操作 ====
 
 // 示例一
@@ -120,13 +120,13 @@ await repository.InsertNowAsync(new[] {user, user2 });
 
 默认情况下，`EFCore` 新增会插入全部列（除实体跟踪方式以外），有些时候我们希望 `Null` 值无需插入，这是我们只需要在更新时候配置 `ignoreNullValues` 参数即可，如：
 
-```cs
+```cs showLineNumbers 
 repository.Insert(entity, ignoreNullValues: true);
 ```
 
 也可以全局配置，在 `AppDbContext` 的派生类的构造函数中启用即可：
 
-```cs {11}
+```cs showLineNumbers  {11}
 using Furion.DatabaseAccessor;
 using Microsoft.EntityFrameworkCore;
 

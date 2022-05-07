@@ -40,7 +40,7 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 这里演示 `3s` 后执行
 
-```cs {5}
+```cs showLineNumbers  {5}
 Console.WriteLine("当前时间：" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
 
 // timer 是定时器的对象，包含定时器相关信息
@@ -52,7 +52,7 @@ SpareTime.DoOnce(3000, (timer, count) => {
 
 ### 26.3.2 配置任务信息
 
-```cs {3}
+```cs showLineNumbers  {3}
 SpareTime.DoOnce(3000, (timer, count) => {
     Console.WriteLine("现在时间：" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
 }, "jobName", "描述一下这个任务是干什么的");
@@ -64,7 +64,7 @@ SpareTime.DoOnce(3000, (timer, count) => {
 
 默认情况下，任务初始化后就立即启动，等待符合的时间就执行，有些时候我们仅仅想初始化时间，不希望立即执行，只需要配置 `startNow` 即可：
 
-```cs {3,6}
+```cs showLineNumbers  {3,6}
 SpareTime.DoOnce(3000, (timer, count) => {
     Console.WriteLine("现在时间：" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
 },"jobName", startNow: false);
@@ -77,7 +77,7 @@ SpareTime.Start("jobName");
 
 有些时候，我们只需要开启新线程去执行一个任务，比如发短信，发邮件，无需配置。
 
-```cs {2}
+```cs showLineNumbers  {2}
 // 此方法无需主线程等待即可返回，可大大提高性能
 SpareTime.DoIt(() => {
     // 这里发送短信，发送邮件或记录访问记录
@@ -86,7 +86,7 @@ SpareTime.DoIt(() => {
 
 还可以指定多长时间后触发，建议 `10-1000` 毫秒之间：
 
-```cs {3}
+```cs showLineNumbers  {3}
 SpareTime.DoIt(() => {
     // 发送短信
 }, 100);
@@ -94,7 +94,7 @@ SpareTime.DoIt(() => {
 
 ### 26.3.5 `ISpareTimeWorker` 方式
 
-```cs {1,8}
+```cs showLineNumbers  {1,8}
 public class JobWorker : ISpareTimeWorker
 {
     /// <summary>
@@ -128,7 +128,7 @@ public class JobWorker : ISpareTimeWorker
 
 ### 26.4.1 每隔一段时间执行
 
-```cs {2}
+```cs showLineNumbers  {2}
 // 每隔 1s 执行
 SpareTime.Do(1000, (timer, count) => {
     Console.WriteLine("现在时间：" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
@@ -138,7 +138,7 @@ SpareTime.Do(1000, (timer, count) => {
 
 ### 26.4.2 配置任务信息
 
-```cs {1,4}
+```cs showLineNumbers  {1,4}
 SpareTime.Do(1000, (timer, count) => {
     Console.WriteLine("现在时间：" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
     Console.WriteLine($"一共执行了：{count} 次");
@@ -147,7 +147,7 @@ SpareTime.Do(1000, (timer, count) => {
 
 ### 26.4.3 手动启动执行
 
-```cs {1,4,6}
+```cs showLineNumbers  {1,4,6}
 SpareTime.Do(1000, (timer, count) => {
     Console.WriteLine("现在时间：" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
     Console.WriteLine($"一共执行了：{count} 次");
@@ -158,7 +158,7 @@ SpareTime.Start("jobName");
 
 ### 26.4.4 `ISpareTimeWorker` 方式
 
-```cs {1,8}
+```cs showLineNumbers  {1,8}
 public class JobWorker : ISpareTimeWorker
 {
     /// <summary>
@@ -290,7 +290,7 @@ Cron 从左到右（用空格隔开）：`秒` `分` `小时` `月份中的日�
 
 ### 26.5.5 使用 `Cron` 表达式
 
-```cs {2,5}
+```cs showLineNumbers  {2,5}
 // 每隔 1s 执行
 SpareTime.Do("* * * * * *", (timer, count) => {
     Console.WriteLine("现在时间：" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
@@ -306,7 +306,7 @@ SpareTime.Do("* * * * * *", (timer, count) => {
 
 ### 26.5.6 使用 `Macro` 占位符
 
-```cs {2}
+```cs showLineNumbers  {2}
 // 每隔 1s 执行
 SpareTime.Do("@every_second", (timer, count) => {
     Console.WriteLine("现在时间：" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
@@ -316,7 +316,7 @@ SpareTime.Do("@every_second", (timer, count) => {
 
 ### 26.5.7 配置任务信息
 
-```cs {4}
+```cs showLineNumbers  {4}
 SpareTime.Do("* * * * *", (timer, count) => {
     Console.WriteLine("现在时间：" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
     Console.WriteLine($"一共执行了：{count} 次");
@@ -325,7 +325,7 @@ SpareTime.Do("* * * * *", (timer, count) => {
 
 ### 26.5.8 手动启动执行
 
-```cs {4,6}
+```cs showLineNumbers  {4,6}
 SpareTime.Do("* * * * *", (timer, count) => {
     Console.WriteLine("现在时间：" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
     Console.WriteLine($"一共执行了：{count} 次");
@@ -336,7 +336,7 @@ SpareTime.Start("cronName");
 
 ### 26.5.9 `ISpareTimeWorker` 方式
 
-```cs {1,8}
+```cs showLineNumbers  {1,8}
 public class JobWorker : ISpareTimeWorker
 {
     /// <summary>
@@ -372,7 +372,7 @@ public class JobWorker : ISpareTimeWorker
 
 ### 26.6.1 高级自定义间隔方式
 
-```cs {2,4-5,7}
+```cs showLineNumbers  {2,4-5,7}
 SpareTime.Do(()=>{
     // 这里可以查询数据库或进行或进行任何业务逻辑
 
@@ -395,7 +395,7 @@ SpareTime.Do(()=>{
 
 ### 26.6.2 高级自定义 `Cron` 表达式
 
-```cs {2,4-5,7}
+```cs showLineNumbers  {2,4-5,7}
 SpareTime.Do(()=>{
     // 这里可以查询数据库或进行或进行任何业务逻辑
 
@@ -414,7 +414,7 @@ SpareTime.Do(()=>{
 
 默认情况下，该自定义会在返回 `null` 时终止任务的执行。但是我们希望该任务不要终止，只要符合条件都一直执行，只需要配置 `cancelInNoneNextTime: false` 即可，如：
 
-```cs {2,4-5,7,12}
+```cs showLineNumbers  {2,4-5,7,12}
 SpareTime.Do(()=>{
     // 这里可以查询数据库或进行或进行任何业务逻辑
 
@@ -443,7 +443,7 @@ SpareTime.Do(()=>{
 
 如：
 
-```cs {1,4-5,12-13,20-21,28-30,37-38,45}
+```cs showLineNumbers  {1,4-5,12-13,20-21,28-30,37-38,45}
 public class JobWorker : ISpareTimeWorker
 {
     // 每隔一秒执行，且立即启动
@@ -531,7 +531,7 @@ public class JobWorker : ISpareTimeWorker
 
 ### 26.8.1 初始化任务
 
-```cs
+```cs showLineNumbers 
 // 开启间隔任务
 SpareTime.Do(interval, [options]);
 
@@ -549,20 +549,20 @@ SpareTime.Do(()=>{
 
 ### 26.8.2 实现后台执行
 
-```cs
+```cs showLineNumbers 
 // 实现后台执行
 SpareTime.DoIt(()=>{});
 ```
 
 ### 26.8.3 开始一个任务
 
-```cs
+```cs showLineNumbers 
 SpareTime.Start("任务标识");
 ```
 
 ### 26.8.4 暂停一个任务
 
-```cs
+```cs showLineNumbers 
 SpareTime.Stop("任务标识");
 // 还可以标记一个任务执行失败
 SpareTime.Stop("任务标识", true);
@@ -570,31 +570,31 @@ SpareTime.Stop("任务标识", true);
 
 ### 26.8.5 取消一个任务
 
-```cs
+```cs showLineNumbers 
 SpareTime.Cancel("任务名称");
 ```
 
 ### 26.8.6 销毁所有任务
 
-```cs
+```cs showLineNumbers 
 SpareTime.Dispose();
 ```
 
 ### 26.8.7 获取所有任务
 
-```cs
+```cs showLineNumbers 
 var workers = SpareTime.GetWorkers();
 ```
 
 ### 26.8.8 获取单个任务
 
-```cs
+```cs showLineNumbers 
 var worker = SpareTime.GetWorker("workerName");
 ```
 
 ### 26.8.9 解析 `Cron` 表达式
 
-```cs
+```cs showLineNumbers 
 var nextTime = SpareTime.GetCronNextOccurrence("* * * * *");
 ```
 
@@ -607,7 +607,7 @@ var nextTime = SpareTime.GetCronNextOccurrence("* * * * *");
 
 ### 26.9.1 `SpareTime` 静态方式指定
 
-```cs {3,5}
+```cs showLineNumbers  {3,5}
 SpareTime.Do(1000, (t, i) =>
 {
     Thread.Sleep(5000); // 模拟执行耗时任务
@@ -617,7 +617,7 @@ SpareTime.Do(1000, (t, i) =>
 
 ### 26.9.2 `ISpareTimeWorker` 方式
 
-```cs {1}
+```cs showLineNumbers  {1}
 [SpareTime(1000, "jobName1", StartNow = true, ExecuteType = SpareTimeExecuteTypes.Serial)]
 public void DoSomething1(SpareTimer timer, long count)
 {
@@ -630,7 +630,7 @@ public void DoSomething1(SpareTimer timer, long count)
 
 有些时候我们可能在执行任务过程中出现异常，`Furion` 也提供了属性判断是否有异常和异常信息，方便记录到日志中，如：
 
-```cs {4-7,11}
+```cs showLineNumbers  {4-7,11}
 SpareTime.Do(1000, (t, c) =>
 {
     // 判断是否有异常
@@ -662,7 +662,7 @@ SpareTime.Do(1000, (t, c) =>
 
 ### 26.11.1 `SpareTime` 静态类中
 
-```cs {2}
+```cs showLineNumbers  {2}
 SpareTime.Do(1000, (timer,count) => {
     Scoped.Create((_, scope) =>
     {
@@ -683,7 +683,7 @@ SpareTime.Do(1000, (timer,count) => {
 
 ### 26.11.2 `ISpareTimeWorker` 方式
 
-```cs {4}
+```cs showLineNumbers  {4}
 [SpareTime(1000, "jobName1", StartNow = true, ExecuteType = SpareTimeExecuteTypes.Serial)]
 public void DoSomething1(SpareTimer timer, long count)
 {
@@ -716,7 +716,7 @@ public void DoSomething1(SpareTimer timer, long count)
 
 ### 26.12.1 间隔执行方式
 
-```cs {23-27}
+```cs showLineNumbers  {23-27}
 using Furion.TaskScheduler;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -752,7 +752,7 @@ namespace WorkerService1
 
 ### 26.12.2 `Cron` 表达式执行方式
 
-```cs {23-27}
+```cs showLineNumbers  {23-27}
 using Furion.TaskScheduler;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -790,7 +790,7 @@ namespace WorkerService1
 
 在 `Furion v2.18+` 版本之后新增了定时任务监听器 `ISpareTimeListener`，通过监听器可以实现所有定时任务的状态。如，创建一个 `单例` 的监听器 `SpareTimeListener`：
 
-```cs {8,15}
+```cs showLineNumbers  {8,15}
 using Furion.DependencyInjection;
 using Furion.TaskScheduler;
 using System;

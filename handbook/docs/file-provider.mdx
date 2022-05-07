@@ -25,7 +25,7 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 ## 31.2 注册虚拟文件系统服务
 
-```cs
+```cs showLineNumbers 
 services.AddVirtualFileServer();
 ```
 
@@ -35,7 +35,7 @@ services.AddVirtualFileServer();
 
 `Furion` 框架提供了 `Func<FileProviderTypes, object, IFileProvider>` 委托供构造函数注入或解析服务，如：
 
-```cs {6,8-9,11-12}
+```cs showLineNumbers  {6,8-9,11-12}
 public class PersonServices
 {
     private readonly IFileProvider _physicalFileProvider;
@@ -56,7 +56,7 @@ public class PersonServices
 
 `Furion` 框架也提供了 `FS` 静态类方式创建，如：
 
-```cs
+```cs showLineNumbers 
 // 解析物理文件系统
 var physicalFileProvider = FS.GetPhysicalFileProvider(@"c:/test");
 
@@ -68,7 +68,7 @@ var embeddedFileProvider = FS.GetEmbeddedFileProvider(Assembly.GetEntryAssembly(
 
 ### 31.4.1 读取文件内容
 
-```cs
+```cs showLineNumbers 
 byte[] buffer;
 using (Stream readStream = _fileProvider.GetFileInfo("你的文件路径").CreateReadStream())
 {
@@ -82,7 +82,7 @@ var content = Encoding.UTF8.GetString(buffer);
 
 ### 31.4.2 获取文件目录内容（需递归查找）
 
-```cs
+```cs showLineNumbers 
 var rootPath = "当前目录路径";
 var fileinfos = _fileProvider.GetDirectoryContents(rootPath);
 foreach (var fileinfo in fileinfos)
@@ -96,7 +96,7 @@ foreach (var fileinfo in fileinfos)
 
 ### 31.4.4 监听文件变化
 
-```cs
+```cs showLineNumbers 
 ChangeToken.OnChange(() => _fileProvider.Watch("监听的文件"), () =>
 {
     // 这里写你的逻辑
@@ -107,7 +107,7 @@ ChangeToken.OnChange(() => _fileProvider.Watch("监听的文件"), () =>
 
 通常我们采用模块化开发，静态资源都是嵌入进程序集中，这时候我们需要通过配置 `UseFileServer` 指定模块静态资源路径，如：
 
-```cs
+```cs showLineNumbers 
 // 默认静态资源调用，wwwroot
 app.UseStaticFiles();
 
@@ -126,7 +126,7 @@ app.UseFileServer(new FileServerOptions
 
 ### 31.6.1 文件下载
 
-```cs
+```cs showLineNumbers 
 [HttpGet, NonUnify]
 public IActionResult FileDownload()
 {
@@ -141,7 +141,7 @@ public IActionResult FileDownload()
 
 如果前端获取不到文件夹，可添加以下配置：
 
-```cs
+```cs showLineNumbers 
 _httpContextAccessor.HttpContext.Response.Headers.Add("Content-Disposition", $"attachment; filename={文件名}");
 _httpContextAccessor.HttpContext.Response.Headers.Add("Access-Control-Expose-Headers", "Content-Disposition");
 ```
@@ -158,7 +158,7 @@ _httpContextAccessor.HttpContext.Response.Headers.Add("Access-Control-Expose-Hea
 
 - **单文件 `IFormFile` 类型参数（存储到硬盘）**
 
-```cs {1,2,18}
+```cs showLineNumbers  {1,2,18}
 [HttpPost]
 public async Task<IActionResult> UploadFileAsync(IFormFile file)
 {
@@ -188,7 +188,7 @@ public async Task<IActionResult> UploadFileAsync(IFormFile file)
 
 - **单文件 `Base64` 类型参数（存储到硬盘）**
 
-```cs {1,2,9,19}
+```cs showLineNumbers  {1,2,9,19}
 [HttpPost]
 public async Task UploadFileAsync([FromBody] string fileBase64, string clientFileName)
 {
@@ -227,7 +227,7 @@ public async Task UploadFileAsync([FromBody] string fileBase64, string clientFil
 
 代码和 `单文件处理一致`，只需 `foreach` 即可。
 
-```cs {1,12}
+```cs showLineNumbers  {1,12}
 [HttpPost]
 public async Task<IActionResult> UploadFileAsync(List<IFormFile> files)
 {
@@ -268,7 +268,7 @@ public async Task<IActionResult> UploadFileAsync(List<IFormFile> files)
 
 有时候我们需要将文件转换成 `byte[]` 存储到数据库，而不是存储到硬盘中。
 
-```cs
+```cs showLineNumbers 
 [HttpPost]
 public async Task<IActionResult> UploadFileAsync(IFormFile file)
 {
@@ -286,7 +286,7 @@ public async Task<IActionResult> UploadFileAsync(IFormFile file)
 
 在 Furion `v3.2.0` 新增了 `IFormFile` 的 `ToByteArray` 拓展，如:
 
-```cs {4}
+```cs showLineNumbers  {4}
 [HttpPost]
 public async Task<IActionResult> UploadFileAsync(IFormFile file)
 {

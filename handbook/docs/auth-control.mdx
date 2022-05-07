@@ -39,7 +39,7 @@ OAuth 协议又有 1.0 和 2.0 两个版本。相比较 1.0 版，2.0 版整个�
 
 在添加授权服务之前，请先确保 `Startup.cs` 中 `Configure` 是否添加了以下两个中间件：
 
-```cs
+```cs showLineNumbers 
 app.UseAuthentication();
 app.UseAuthorization();
 ```
@@ -48,7 +48,7 @@ app.UseAuthorization();
 
 ### 15.2.1 添加 `Cookie` 身份验证
 
-```cs
+```cs showLineNumbers 
 // Cookies单独身份验证
 services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
         .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, b =>
@@ -59,7 +59,7 @@ services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
 
 ### 15.2.2 添加 `Jwt` 身份验证
 
-```cs
+```cs showLineNumbers 
 services.AddJwt();
 ```
 
@@ -73,7 +73,7 @@ services.AddJwt();
 
 - 自定义 `Jwt` 配置（默认无需配置）
 
-```json {4,6,8}
+```json showLineNumbers  {4,6,8}
 {
   "JWTSettings": {
     "ValidateIssuerSigningKey": true, // 是否验证密钥，bool 类型，默认true
@@ -104,7 +104,7 @@ services.AddJwt();
 
 - 生成 `Token`
 
-```cs
+```cs showLineNumbers 
 // 生成 token
 var accessToken = JWTEncryption.Encrypt(new Dictionary<string, object>()
             {
@@ -115,7 +115,7 @@ var accessToken = JWTEncryption.Encrypt(new Dictionary<string, object>()
 
 ### 15.2.3 混合身份验证
 
-```cs
+```cs showLineNumbers 
 // JWT 和 Cookies 混合身份验证
 services.AddJwt(options =>
 {
@@ -132,7 +132,7 @@ services.AddJwt(options =>
 
 如果启用了混合身份验证后，`WebApi` 需在控制器/Action 中指定 `Scheme` 类型为 `JwtBearerDefaults.AuthenticationScheme`，如：
 
-```cs {1}
+```cs showLineNumbers  {1}
 [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
 public class ApiServices : IDynamicApiController
 {
@@ -151,7 +151,7 @@ public class ApiServices : IDynamicApiController
 
 `Furion` 框架提供了 `AppAuthorizeHandler` 策略授权处理程序提供基类，只需要创建自己的 `Handler` 继承它即可。如：`JwtHandler`：
 
-```cs {20,12}
+```cs showLineNumbers  {20,12}
 using Furion.Authorization;
 using Furion.Core;
 using Microsoft.AspNetCore.Authorization;
@@ -198,7 +198,7 @@ namespace Furion.Web.Core
 
 之后注册 `JwtHandler` 即可：
 
-```cs
+```cs showLineNumbers 
 services.AddJwt<JwtHandler>();
 ```
 
@@ -206,7 +206,7 @@ services.AddJwt<JwtHandler>();
 
 有些时候可能针对不同的平台采用不一样的授权方式，比如合作信任的第三方机构可以免授权，这时候我们只需要重写 `HandleAsync` 方法即可。如：
 
-```cs {11-25}
+```cs showLineNumbers  {11-25}
 using Furion.Authorization;
 using Furion.Core;
 using Microsoft.AspNetCore.Authorization;
@@ -245,7 +245,7 @@ namespace Furion.Web.Core
 
 ### 15.4.1 全局授权
 
-```cs
+```cs showLineNumbers 
 services.AddJwt<JwtHandler>(enableGlobalAuthorize:true);
 ```
 
@@ -259,7 +259,7 @@ services.AddJwt<JwtHandler>(enableGlobalAuthorize:true);
 
 当用户登录成功之后，返回 `accessToken` 字符串，之后通过 `JWTEncryption.GenerateRefreshToken()` 获取 `刷新Token`，并通过响应报文头返回，如：
 
-```cs {9}
+```cs showLineNumbers  {9}
 // token
 var accessToken = JWTEncryption.Encrypt(new Dictionary<string, object>()
             {
@@ -279,7 +279,7 @@ httpContextAccessor.HttpContext.Response.Headers["x-access-token"] = refreshToke
 
 ### 15.5.2 后端授权 `Handler` 部分
 
-```cs {16-28}
+```cs showLineNumbers  {16-28}
 using Furion.Authorization;
 using Furion.Core;
 using Furion.DataEncryption;
@@ -336,7 +336,7 @@ X-Authorization: Bearer 你的刷新token
 
 这里简单贴出使用 `axios` 自动刷新 `token` 拦截配置示例
 
-```js {2,14}
+```js showLineNumbers {2,14}
 // 请求自动携带 access-token 和 x-access-token
 axiosInstance.interceptors.request.use((conf) => {
   conf.headers!.Authorization = `Bearer ${window.localStorage.getItem(
@@ -397,7 +397,7 @@ x-access-token: 新的刷新token
 
 ## 15.6 获取 `Jwt` 存储的信息
 
-```cs
+```cs showLineNumbers 
 // 获取 `Jwt` 存储的信息
 var userId = App.User?.FindFirstValue("键");
 ```

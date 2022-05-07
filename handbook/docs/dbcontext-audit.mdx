@@ -32,7 +32,7 @@ sidebar_label: 9.22 审计日志 (Audit)
 
 我们只需要在 `AppDbContext` 子类中重写 `SavingChanges` 事件对应方法即可：
 
-```cs {23}
+```cs showLineNumbers  {23}
 using Furion.DatabaseAccessor;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
@@ -124,7 +124,7 @@ namespace Furion.EntityFramework.Core
 
 如果对性能有所要求，那么建议审计日志通过 `日志组件` 写入数据库，如通过 `Nlog、Log4Net` 这些等：
 
-```cs
+```cs showLineNumbers 
 // 插入审计日志表
 dbContext.Set<Audit>().Add(new Audit
 {
@@ -140,7 +140,7 @@ dbContext.Set<Audit>().Add(new Audit
 
 替换为：
 
-```cs
+```cs showLineNumbers 
 logger.Information(JsonConvert.SerializeObject(new Audit
 {
     Table = entityType.Name,    // 表名
@@ -161,7 +161,7 @@ logger.Information(JsonConvert.SerializeObject(new Audit
 
 主要通过 `DbCommandInterceptor` 拦截实现，具体使用可查看 [数据库拦截器 - DbCommandInterceptor](./dbcontext-Interceptor#92422-dbcommandinterceptor)，如：
 
-```cs {11}
+```cs showLineNumbers  {11}
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using System.Data.Common;
 using System.Threading;
@@ -217,7 +217,7 @@ namespace Furion.Web.Core
 
 1. 定义 `RequestAuditFilter` 并实现 `IAsyncActionFilter`
 
-```cs {9,45}
+```cs showLineNumbers  {9,45}
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Filters;
 using System;
@@ -278,7 +278,7 @@ namespace Furion.Web.Core
 
 2. 注册 `RequestAuditFilter` 筛选器
 
-```cs
+```cs showLineNumbers 
 services.AddMvcFilter<RequestAuditFilter>();
 ```
 

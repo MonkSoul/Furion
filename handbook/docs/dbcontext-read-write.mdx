@@ -34,7 +34,7 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 ### 9.27.2.1 创建 `主库` 数据库上下文
 
-```cs
+```cs showLineNumbers 
 using Furion.DatabaseAccessor;
 using Microsoft.EntityFrameworkCore;
 
@@ -55,7 +55,7 @@ namespace Furion.EntityFramework.Core
 
 **数据库连接字符串：**
 
-```json
+```json showLineNumbers 
 {
   "ConnectionStrings": {
     "MasterConnectionString": "Server=localhost;Database=Furion;User=sa;Password=000000;MultipleActiveResultSets=True;"
@@ -65,7 +65,7 @@ namespace Furion.EntityFramework.Core
 
 ### 9.27.2.2 创建 `从库` 数据库上下文
 
-```cs {11}
+```cs showLineNumbers  {11}
 using Furion.Core;
 using Furion.DatabaseAccessor;
 using Microsoft.EntityFrameworkCore;
@@ -93,7 +93,7 @@ namespace Furion.EntityFramework.Core
 
 **从库数据库上下文定位器：**
 
-```cs {8}
+```cs showLineNumbers  {8}
 using Furion.DatabaseAccessor;
 
 namespace Furion.Core
@@ -109,7 +109,7 @@ namespace Furion.Core
 
 **数据库连接字符串：**
 
-```json
+```json showLineNumbers 
 {
   "ConnectionStrings": {
     "SlaveConnectionString": "Server=localhost;Database=FurSlave;User=sa;Password=000000;MultipleActiveResultSets=True;"
@@ -119,7 +119,7 @@ namespace Furion.Core
 
 ### 9.27.2.3 注册 `主从库` 数据库上下文
 
-```cs {13-14}
+```cs showLineNumbers  {13-14}
 using Furion.Core;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -144,7 +144,7 @@ namespace Furion.EntityFramework.Core
 
 由于 `主从库` 具有相同的数据库结构，所以实体也必须声明 `主从库`：
 
-```cs {7}
+```cs showLineNumbers  {7}
 using Furion.DatabaseAccessor;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -177,21 +177,21 @@ namespace Furion.Core
 
 **创建主库数据库表：**
 
-```shell
+```shell showLineNumbers 
 Add-Migration v0.0.1 -Context MasterDbContext
 ```
 
-```shell
+```shell showLineNumbers 
 Update-Database -Context MasterDbContext
 ```
 
 **创建从库数据库表：**
 
-```shell
+```shell showLineNumbers 
 Add-Migration v0.0.1 -Context SlaveDbContext
 ```
 
-```shell
+```shell showLineNumbers 
 Update-Database -Context SlaveDbContext
 ```
 
@@ -201,7 +201,7 @@ Update-Database -Context SlaveDbContext
 
 ### 9.27.2.6 固定主从库使用例子
 
-```cs {13,19,31,40}
+```cs showLineNumbers  {13,19,31,40}
 using Furion.Core;
 using Furion.DatabaseAccessor;
 using Furion.DynamicApiController;
@@ -253,7 +253,7 @@ namespace Furion.Application
 
 - 配置 主库 `[AppDbContext]` 特性的 `SlaveDbContextLocators` 属性，可通过构造函数最后参数传入，如：
 
-```cs {6}
+```cs showLineNumbers  {6}
 using Furion.DatabaseAccessor;
 using Microsoft.EntityFrameworkCore;
 
@@ -271,7 +271,7 @@ namespace Furion.EntityFramework.Core
 
 - 使用 `IMSRepository` 或 `IMSRepository<TMasterDbContextLocator>`
 
-```cs {13,19,31,40,49-53}
+```cs showLineNumbers  {13,19,31,40,49-53}
 using Furion.Core;
 using Furion.DatabaseAccessor;
 using Furion.DynamicApiController;

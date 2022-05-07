@@ -12,7 +12,7 @@ sidebar_label: 9.8 删除操作
 
 ## 9.8.1 删除一个实体（不立即提交）
 
-```cs
+```cs showLineNumbers 
 // ==== 同步操作 ====
 
 // 示例一
@@ -38,7 +38,7 @@ await user.DeleteAsync();
 
 ## 9.8.2 删除一个实体（立即提交）
 
-```cs
+```cs showLineNumbers 
 // ==== 同步操作 ====
 
 // 示例一
@@ -58,7 +58,7 @@ await user.DeleteNowAsync();
 
 ## 9.8.3 根据主键删除记录（不立即提交）
 
-```cs
+```cs showLineNumbers 
 // ==== 同步操作 ====
 
 // 示例一
@@ -78,7 +78,7 @@ await user.DeleteAsync(1);
 
 ## 9.8.4 根据主键删除记录（立即提交）
 
-```cs
+```cs showLineNumbers 
 // ==== 同步操作 ====
 
 // 示例一
@@ -98,7 +98,7 @@ await user.DeleteNowAsync(1);
 
 ## 9.8.5 数据存在才根据主键删除（不立即提交）
 
-```cs
+```cs showLineNumbers 
 // ==== 同步操作 ====
 
 // 示例一
@@ -118,7 +118,7 @@ await user.DeleteExistsAsync(1);
 
 ## 9.8.6 数据存在才根据主键删除（立即提交）
 
-```cs
+```cs showLineNumbers 
 // ==== 同步操作 ====
 
 // 示例一
@@ -154,7 +154,7 @@ await user.DeleteExistsNowAsync(1);
 
 ### 9.8.7.1 添加 `[FakeDelete]` 标记
 
-```cs {3}
+```cs showLineNumbers  {3}
 public class Model: IEntity
 {
     [FakeDelete(true)]  // 设置假删除的值
@@ -170,7 +170,7 @@ public class Model: IEntity
 
 ### 9.8.7.2 假删除使用
 
-```cs
+```cs showLineNumbers 
 // ==== 同步操作 ====
 
 // 示例一

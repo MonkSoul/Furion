@@ -8,7 +8,7 @@ sidebar_label: 3. 应用启动 Startup
 
 `Startup` 类是 `ASP.NET Core` 应用程序启动默认调用的类，该类是在 `Program.cs` 中配置：
 
-```cs {19} title="Furion.Web.Entry\Program.cs"
+```cs showLineNumbers  {19} title="Furion.Web.Entry\Program.cs"
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 
@@ -44,7 +44,7 @@ namespace Furion.Web.Entry
 
 默认代码如下：
 
-```cs {9,13} title="Furion.Web.Entry\Startup.cs"
+```cs showLineNumbers  {9,13} title="Furion.Web.Entry\Startup.cs"
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
@@ -103,7 +103,7 @@ namespace Furion.Web.Entry
 
 所以，我们可以自由的编写方法，只要遵循约定即可，如：
 
-```cs {5,7,12,18,23}
+```cs showLineNumbers  {5,7,12,18,23}
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Furion.EntityFramework.Core
@@ -139,7 +139,7 @@ namespace Furion.EntityFramework.Core
 
 `order` 数值越大，越在前面调用，如：
 
-```cs {5}
+```cs showLineNumbers  {5}
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Furion.EntityFramework.Core
@@ -158,7 +158,7 @@ namespace Furion.EntityFramework.Core
 }
 ```
 
-```cs {5}
+```cs showLineNumbers  {5}
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Furion.EntityFramework.Core
@@ -187,7 +187,7 @@ namespace Furion.EntityFramework.Core
 
 建议 `Web` 启动层的 `Startup.cs` 保持为空方法体，如：
 
-```cs title="Furion.Web.Entry\Startup.cs"
+```cs showLineNumbers  title="Furion.Web.Entry\Startup.cs"
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
@@ -209,7 +209,7 @@ namespace Furion.Web.Entry
 
 将所有 `Web 应用层` 配置迁移到 `Furion.Web.Core.Startup.cs` 中，如：
 
-```cs title="Furion.Web.Core\Startup.cs"
+```cs showLineNumbers  title="Furion.Web.Core\Startup.cs"
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
@@ -269,7 +269,7 @@ namespace Furion.Web.Core
 
 `AppStartup` 针对 `Configure` 方法提供了参数解析注入功能，也就是只要在方法中声明接口参数即可自动注入，如：
 
-```cs {1,2}
+```cs showLineNumbers  {1,2}
 // app 和 env 会自动注入
 public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
 {
@@ -286,7 +286,7 @@ public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
 
 如我们在 `Furion.EntityFramework.Core` 层创建 `dbsettings.json` 配置数据库连接字符串，如：
 
-```json title="Furion.EntityFramework.Core\dbsettings.json"
+```json showLineNumbers  title="Furion.EntityFramework.Core\dbsettings.json"
 {
   "ConnectionStrings": {
     "DbConnectionString": "Server=localhost;Database=Furion;User=sa;Password=000000;MultipleActiveResultSets=True;",
@@ -297,7 +297,7 @@ public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
 
 **无需在 `appsettings.json` 中配置**，下面是 `appsettings.json` 默认代码:
 
-```json
+```json showLineNumbers 
 {
   "Logging": {
     "LogLevel": {
@@ -333,7 +333,7 @@ public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
 
 如：
 
-```cs {18} title="Furion.Web.Entry\Program.cs"
+```cs showLineNumbers  {18} title="Furion.Web.Entry\Program.cs"
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 
@@ -359,7 +359,7 @@ namespace Furion.Web.Entry
 }
 ```
 
-```cs title="Furion.Web.Entry\Startup.cs"
+```cs showLineNumbers  title="Furion.Web.Entry\Startup.cs"
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;

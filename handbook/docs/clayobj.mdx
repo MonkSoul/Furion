@@ -32,7 +32,7 @@ sidebar_label: 29. 粘土对象
 
 ### 29.3.1 创建一个对象
 
-```cs
+```cs showLineNumbers 
 // 创建一个空的粘土对象
 dynamic clay = new Clay();
 
@@ -45,7 +45,7 @@ dynamic clay3 = Clay.Parse(@"{""foo"":""json"", ""bar"":100, ""nest"":{ ""foobar
 
 ### 29.3.2 读取/获取属性
 
-```cs
+```cs showLineNumbers 
 dynamic clay = Clay.Object(new
 {
     Foo = "json",
@@ -64,7 +64,7 @@ var r4 = clay["Nest"]["Foobar"]; // 还可以和 Javascript 一样通过索引�
 
 ### 29.3.3 新增属性
 
-```cs
+```cs showLineNumbers 
 dynamic clay = Clay.Object(new
 {
     Foo = "json",
@@ -83,7 +83,7 @@ clay.Obj2 = new { Foo = "abc", Bar = 100 }; // 新增一个匿名类
 
 ### 29.3.4 更新属性值
 
-```cs
+```cs showLineNumbers 
 dynamic clay = Clay.Object(new
 {
     Foo = "json",
@@ -102,7 +102,7 @@ clay.Nest["Foobar"] = true;
 
 ### 29.3.5 删除属性
 
-```cs
+```cs showLineNumbers 
 dynamic clay = Clay.Object(new
 {
     Foo = "json",
@@ -123,7 +123,7 @@ clay.Arr(1);    // 支持数组作为方法删除
 
 ### 29.3.6 判断属性是否存在
 
-```cs
+```cs showLineNumbers 
 dynamic clay = Clay.Object(new
 {
     Foo = "json",
@@ -144,7 +144,7 @@ var d = clay.Foooo(); // false;
 
 ### 29.3.7 遍历对象
 
-```cs
+```cs showLineNumbers 
 dynamic clay = Clay.Object(new
 {
     Foo = "json",
@@ -171,7 +171,7 @@ foreach (KeyValuePair<string, dynamic> item in clay)
 
 ### 29.3.8 转换成具体对象
 
-```cs
+```cs showLineNumbers 
 dynamic clay = new Clay();
 clay.Arr = new string[] { "Furion", "Fur" };
 
@@ -191,7 +191,7 @@ City c3 = clay.City; // 声明方式
 
 固化粘土在很多时候和序列化很像，但是如果直接调用 `Deserialize<object>` 或 `Deserialize<dynamic>` 无法返回实际类型，所以就有了固化类型的功能，如：
 
-```cs
+```cs showLineNumbers 
 // 返回 object
 var obj = clay.Solidify();
 
@@ -204,7 +204,7 @@ var obj2 = clay.Solidify<City>();
 
 ### 29.3.10 输出 `JSON`
 
-```cs
+```cs showLineNumbers 
 dynamic clay = Clay.Object(new
 {
     Foo = "json",
@@ -222,7 +222,7 @@ var json = clay.ToString(); // "{\"Foo\":\"json\",\"Bar\":100,\"Nest\":{\"Foobar
 
 ### 29.3.11 输出 `XML` 对象
 
-```cs
+```cs showLineNumbers 
 dynamic clay = Clay.Object(new
 {
     Foo = "json",
@@ -240,7 +240,7 @@ var xml = clay.XmlElement;
 
 ### 29.3.12 关键字处理
 
-```cs
+```cs showLineNumbers 
 dynamic clay = new Clay();
 clay.@int = 1;
 clay.@event = "事件";
@@ -248,7 +248,7 @@ clay.@event = "事件";
 
 ### 29.3.13 转换成字典类型
 
-```cs
+```cs showLineNumbers 
 dynamic clay = Clay.Object(new { name = "张三" });
 clay.name = "百小僧";
 Dictionary<string, object> parms = clay.ToDictionary();

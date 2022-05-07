@@ -6,7 +6,7 @@ sidebar_label: 11. Scoped 静态类
 
 ## 11.1 创建一个依赖注入作用域范围
 
-```cs {1}
+```cs showLineNumbers  {1}
 Scoped.Create((factory, scope) => {
      var services = scope.ServiceProvider;
 });
@@ -20,7 +20,7 @@ Scoped.Create((factory, scope) => {
 
 ## 11.2 创建一个带工作单元的作用域
 
-```cs
+```cs showLineNumbers 
 Scoped.CreateUow((factory, scope) => {
      var services = scope.ServiceProvider;
 });
@@ -36,7 +36,7 @@ Scoped.CreateUow((factory, scope) => {
 
 :::
 
-```cs {1}
+```cs showLineNumbers  {1}
 var obj = Scoped.CreateRef<string>((factory, scope) => {
      var services = scope.ServiceProvider;
      return "返回值";
@@ -51,7 +51,7 @@ var obj = Scoped.CreateRef<string>((factory, scope) => {
 
 :::
 
-```cs
+```cs showLineNumbers 
 var obj = Scoped.CreateUowRef<string>((factory, scope) => {
      var services = scope.ServiceProvider;
      return "返回值";

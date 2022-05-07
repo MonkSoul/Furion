@@ -28,7 +28,7 @@ sidebar_label: 10.1. SqlSugar 集成
 
 使用非常简单，只需要在 `Startup.cs` 中添加 `services.AddSqlSugar(config)` 即可。如：
 
-```cs
+```cs showLineNumbers 
 // =====配置单库=====
 services.AddSqlSugar(new ConnectionConfig
 {
@@ -81,7 +81,7 @@ services.AddSqlSugar(connectConfigList.ToArray());
 
 同时也可以添加更多配置，如：
 ps：多库状态下每个库必须单独绑定打印事件，否则只会打印第一个库的sql日志（参考上面的多库配置）
-```cs
+```cs showLineNumbers 
 services.AddSqlSugar(connectConfigList.ToArray(),
 db =>
 {
@@ -106,7 +106,7 @@ db =>
 
 在使用之前，我们可以通过构造函数注入 `ISqlSugarRepository` 接口，如：
 
-```cs {1,6}
+```cs showLineNumbers  {1,6}
 private readonly ISqlSugarRepository repository; // 仓储对象：封装简单的CRUD
 private readonly SqlSugarClient db; // 核心对象：拥有完整的SqlSugar全部功能
 public PersonService(ISqlSugarRepository sqlSugarRepository)
@@ -118,7 +118,7 @@ public PersonService(ISqlSugarRepository sqlSugarRepository)
 
 ## 10.1.4 数据库操作示例
 
-```cs
+```cs showLineNumbers 
 // ================== SqlSugarClient ================
 
 //查询功能
@@ -154,7 +154,7 @@ orderRespository.Insert(Order);
 
 ### 10.1.5.1 基础查询
 
-```cs
+```cs showLineNumbers 
 //查询所有
 var getAll = db.Queryable<Student>().ToList();
 //查询前10
@@ -175,7 +175,7 @@ var list2 = db.Queryable<Order>().Where(it =>it.Name.Contains("jack")).ToList();
 
 ### 10.1.5.2 联表查询
 
-```cs
+```cs showLineNumbers 
 var list = db.Queryable<Student, School>((st, sc) => new JoinQueryInfos(
         JoinType.Left,st.SchoolId==sc.Id))
       .Select((st,sc)=>new{Id=st.Id,Name=st.Name,SchoolName=sc.Name}).ToList();
@@ -189,7 +189,7 @@ SELECT  [st].[ID] AS [id] ,
 
 ### 10.1.5.3 分页查询
 
-```cs
+```cs showLineNumbers 
  int pageIndex = 1;
  int pageSize = 20;
  int totalCount=0;
@@ -200,7 +200,7 @@ SELECT  [st].[ID] AS [id] ,
 
 ### 10.1.5.4 插入
 
-```cs
+```cs showLineNumbers 
 //可以是 类 或者 List<类>
 db.Insertable(insertObj).ExecuteCommand();
 
@@ -233,7 +233,7 @@ public class Student
 
 实体配置参考插入，只需要配置主键即可
 
-```cs
+```cs showLineNumbers 
 //根据主键更新单条 参数 Class
 var result= db.Updateable(updateObj).ExecuteCommand();
 //不更新 Name 和TestId
@@ -253,7 +253,7 @@ var result71 = db.Updateable<Order>()
 
 实体配置参考插入，只需要配置主键即可
 
-```cs
+```cs showLineNumbers 
 //根据实体删除
 db.Deleteable<Student>().Where(new Student() { Id = 1 }).ExecuteCommand();
 //根据主键删除
@@ -266,7 +266,7 @@ db.Deleteable<Student>().Where(it => it.Id == 1).ExecuteCommand();
 
 ## 10.1.6 Sql 查询
 
-```cs
+```cs showLineNumbers 
 //sql分页
 var list = db.SqlQueryable<Student>("select * from student").ToPageList(1, 2,ref total);
 
@@ -306,7 +306,7 @@ var dt = db.Ado.UseStoredProcedure().GetDataTable("sp_school",nameP,ageP);
 
 ## 10.1.7 打印 `sql` 到 `Swagger`
 
-```cs
+```cs showLineNumbers 
 services.AddSqlSugar(new ConnectionConfig
 {
     ConnectionString = "Server=.xxxxx",//连接符字串
@@ -331,7 +331,7 @@ db =>
 
 注意 .NET5 用户需要在 API 或者项目解决方案 `.csproj` 文件加以下一行代码：
 
-```cs {3}
+```cs showLineNumbers  {3}
 <PropertyGroup>
    <TargetFramework>net5.0</TargetFramework>
    <EnableUnsafeBinaryFormatterSerialization>true</EnableUnsafeBinaryFormatterSerialization>

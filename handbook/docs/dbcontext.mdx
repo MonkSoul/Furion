@@ -52,7 +52,7 @@ sidebar_label: 9.1 数据库上下文
 
 ### 9.1.4.1 创建默认数据库上下文
 
-```cs {1,6,12}
+```cs showLineNumbers  {1,6,12}
 using Furion.DatabaseAccessor;
 using Microsoft.EntityFrameworkCore;
 
@@ -74,7 +74,7 @@ namespace Furion.EntityFramework.Core
 
 ### 9.1.4.2 创建其他数据库上下文
 
-```cs {1,6,12}
+```cs showLineNumbers  {1,6,12}
 using Furion.DatabaseAccessor;
 using Microsoft.EntityFrameworkCore;
 
@@ -108,7 +108,7 @@ namespace Furion.EntityFramework.Core
 
 ### 9.1.5.1 在注册数据库服务时配置
 
-```cs {12-19} title="Furion.EntityFramework.Core\Startup.cs"
+```cs showLineNumbers  {12-19} title="Furion.EntityFramework.Core\Startup.cs"
 using Furion.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -137,7 +137,7 @@ namespace Furion.EntityFramework.Core
 
 `MySQL` 在新版本包中注册有所修改，所以注册方式为：
 
-```cs
+```cs showLineNumbers 
 services.AddDatabaseAccessor(options =>
 {
     options.AddDbPool<FurionDbContext>($"{DbProvider.MySql}@8.0.22");
@@ -148,7 +148,7 @@ services.AddDatabaseAccessor(options =>
 
 ### 9.1.5.2 `[AppDbContext]` 方式配置
 
-```cs {1,6}
+```cs showLineNumbers  {1,6}
 using Furion.DatabaseAccessor;
 using Microsoft.EntityFrameworkCore;
 
@@ -187,7 +187,7 @@ namespace Furion.EntityFramework.Core
 
 ### 9.1.5.3 `OnConfiguring` 方式配置
 
-```cs {16-20}
+```cs showLineNumbers  {16-20}
 using Furion.DatabaseAccessor;
 using Microsoft.EntityFrameworkCore;
 
@@ -241,7 +241,7 @@ namespace Furion.EntityFramework.Core
 
 数据库上下文配置好数据库连接字符串后，需要注册该数据库上下文，并指定数据库类型，如：
 
-```cs {11-13} title="Furion\framework\Furion.EntityFramework.Core\FurEntityFrameworkCoreStartup.cs"
+```cs showLineNumbers  {11-13} title="Furion\framework\Furion.EntityFramework.Core\FurEntityFrameworkCoreStartup.cs"
 using Furion.DatabaseAccessor;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -263,7 +263,7 @@ namespace Furion.EntityFramework.Core
 
 如果有多个数据库操作，**那么从第二个起，就需要绑定数据库上下文定位器**，如：
 
-```cs
+```cs showLineNumbers 
 options.AddDbPool<FurionDbContext>(DbProvider.Sqlite); // 第一个数据库
 
 options.AddDbPool<SecondDbContext, SecondDbContextDbContextLocator>(DbProvider.SqlServer);  // 第二个数据库
@@ -275,7 +275,7 @@ options.AddDbPool<ThirdDbContext, ThirdDbContextDbContextLocator>(DbProvider.Sql
 
 在 `Furion` 框架中，为了能够实现数据库的简单使用进行了注册封装，但有些时候，我们可能需要添加更多配置，这时就需要使用原生自定义配置方式，如：
 
-```cs
+```cs showLineNumbers 
 services.AddDatabaseAccessor(options =>
 {
     // 自定义原生配置
@@ -290,7 +290,7 @@ services.AddDatabaseAccessor(options =>
 
 `Furion` 框架提供了快速解析连接字符串的静态方法，自动根据名称读取配置，自动解析 `[AppContext("...")]` 信息，如：
 
-```cs
+```cs showLineNumbers 
 // 获取连接字符串
 var connStr = DbProvider.GetConnectionString<YourDbContext>(/*这里可写可不写*/);
 
@@ -315,13 +315,13 @@ options.AddDb<YourDbContext>(builder =>
 
 如果你只是想使用 `DbContext` 的功能，直接使用 `repository.Context` 即可，如：
 
-```cs
+```cs showLineNumbers 
 repository.Context.SaveChanges();
 ```
 
 如果你想能够获取具体的数据库上下文类型，如 `MyDbContext`，那么使用 `repository.DynamicContext` 就可以获取到具体的 `MyDbContext` 类型。如：
 
-```cs
+```cs showLineNumbers 
 var persons = repository.DynamicContext.Persons.Find(1);
 var users = repository.DynamicContext.Users;
 ```
@@ -332,7 +332,7 @@ var users = repository.DynamicContext.Users;
 
 由于 `DbContext` 默认注册为 `Scoped` 生存周期，所以在后台任务中使用 `IServiceScopeFactory` 获取所有服务，如：
 
-```cs
+```cs showLineNumbers 
 public class JobService : BackgroundService
 {
     // 日志对象
@@ -396,7 +396,7 @@ public class JobService : BackgroundService
 
 - 第三步：重写 `OnConfiguring` 方法
 
-```cs {13,15}
+```cs showLineNumbers  {13,15}
 using Furion.DatabaseAccessor;
 using Microsoft.EntityFrameworkCore;
 

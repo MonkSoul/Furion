@@ -6,7 +6,7 @@ sidebar_label: 9. MessageCenter 静态类
 
 ## 9.1 订阅消息
 
-```cs
+```cs showLineNumbers 
 MessageCenter.Subscribe<T>("messageId", (i,p) => {
 
 });
@@ -14,12 +14,12 @@ MessageCenter.Subscribe<T>("messageId", (i,p) => {
 
 ## 9.2 发送消息
 
-```cs
+```cs showLineNumbers 
 MessageCenter.Send("messageId", new {});
 ```
 
 ## 9.3 取消订阅
 
-```cs
+```cs showLineNumbers 
 MessageCenter.Unsubscribe("messageId");
 ```

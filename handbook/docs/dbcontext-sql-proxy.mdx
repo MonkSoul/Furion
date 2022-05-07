@@ -16,7 +16,7 @@ sidebar_label: 9.17 Sql 高级代理
 
 简单定义一个 **Sql 代理接口**
 
-```cs {1,5}
+```cs showLineNumbers  {1,5}
 using Furion.DatabaseAccessor;
 
 namespace Furion.Application
@@ -37,7 +37,7 @@ namespace Furion.Application
 
 ### 9.17.3.1 构造函数方式
 
-```cs {1-2}
+```cs showLineNumbers  {1-2}
 private readonly ISql _sql;
 public FurionService(ISql sql)
 {
@@ -47,7 +47,7 @@ public FurionService(ISql sql)
 
 ### 9.17.3.2 方法参数注入
 
-```cs {1}
+```cs showLineNumbers  {1}
 public async Task<List<PersonDto>> GetAll([FromServices] ISql, string keyword)
 {
 }
@@ -55,7 +55,7 @@ public async Task<List<PersonDto>> GetAll([FromServices] ISql, string keyword)
 
 ### 9.17.3.3 `Db.GetSqlDispatchProxy<ISql>()`
 
-```cs
+```cs showLineNumbers 
 var sql = Db.GetSqlDispatchProxy<ISql>();
 ```
 
@@ -63,7 +63,7 @@ var sql = Db.GetSqlDispatchProxy<ISql>();
 
 ### 9.17.4.1 返回 `DataTable`
 
-```cs {8,12,16,20}
+```cs showLineNumbers  {8,12,16,20}
 using Furion.DatabaseAccessor;
 
 namespace Furion.Application
@@ -101,7 +101,7 @@ namespace Furion.Application
 
 如果方法的参数是 `类类型`，那么自动遍历该类公开实例属性生成 `DbParameter[]` 数组，每一个属性名都将是命令参数，不区分大小写，如：
 
-```cs
+```cs showLineNumbers 
 public class MyModel
 {
     public int Id {get;set;}
@@ -111,7 +111,7 @@ public class MyModel
 
 那么 `sql` 语句可以直接使用属性名作为参数：
 
-```sql
+```sql showLineNumbers 
 select * from person where id > @id and name = @name;
 ```
 
@@ -119,7 +119,7 @@ select * from person where id > @id and name = @name;
 
 ### 9.17.4.2 返回 `List<T>`
 
-```cs {8,12,16,20}
+```cs showLineNumbers  {8,12,16,20}
 using Furion.DatabaseAccessor;
 
 namespace Furion.Application
@@ -151,7 +151,7 @@ namespace Furion.Application
 
 ### 9.17.4.3 返回 `DataSet`
 
-```cs {8-10,14-16,20-22,26-28,32-35}
+```cs showLineNumbers  {8-10,14-16,20-22,26-28,32-35}
 using Furion.DatabaseAccessor;
 
 namespace Furion.Application
@@ -194,7 +194,7 @@ namespace Furion.Application
 
 ### 9.17.4.4 返回 `Tuple<T1,...T8>`
 
-```cs {8-10,14-16,20-22,26-28,32-35}
+```cs showLineNumbers  {8-10,14-16,20-22,26-28,32-35}
 using Furion.DatabaseAccessor;
 
 namespace Furion.Application
@@ -237,7 +237,7 @@ namespace Furion.Application
 
 ### 9.17.4.5 返回 `单行单列`
 
-```cs {7,10,13}
+```cs showLineNumbers  {7,10,13}
 using Furion.DatabaseAccessor;
 
 namespace Furion.Application
@@ -258,7 +258,7 @@ namespace Furion.Application
 
 ### 9.17.4.6 无返回值
 
-```cs {7,10,13}
+```cs showLineNumbers  {7,10,13}
 using Furion.DatabaseAccessor;
 
 namespace Furion.Application
@@ -281,7 +281,7 @@ namespace Furion.Application
 
 ### 9.17.5.1 返回 `DataTable`
 
-```cs {7,10,13}
+```cs showLineNumbers  {7,10,13}
 using Furion.DatabaseAccessor;
 
 namespace Furion.Application
@@ -302,7 +302,7 @@ namespace Furion.Application
 
 ### 9.17.5.2 返回 `List<T>`
 
-```cs {7,10,13}
+```cs showLineNumbers  {7,10,13}
 using Furion.DatabaseAccessor;
 
 namespace Furion.Application
@@ -323,7 +323,7 @@ namespace Furion.Application
 
 ### 9.17.5.3 返回 `DataSet`
 
-```cs {7,10,13}
+```cs showLineNumbers  {7,10,13}
 using Furion.DatabaseAccessor;
 
 namespace Furion.Application
@@ -344,7 +344,7 @@ namespace Furion.Application
 
 ### 9.17.5.4 返回 `Tuple(T1,...T8)`
 
-```cs {7,10,13}
+```cs showLineNumbers  {7,10,13}
 using Furion.DatabaseAccessor;
 
 namespace Furion.Application
@@ -365,7 +365,7 @@ namespace Furion.Application
 
 ### 9.17.5.5 返回 `单行单列`
 
-```cs {7,10,13}
+```cs showLineNumbers  {7,10,13}
 using Furion.DatabaseAccessor;
 
 namespace Furion.Application
@@ -386,7 +386,7 @@ namespace Furion.Application
 
 ### 9.17.5.6 无返回值
 
-```cs {7,10,13}
+```cs showLineNumbers  {7,10,13}
 using Furion.DatabaseAccessor;
 
 namespace Furion.Application
@@ -407,7 +407,7 @@ namespace Furion.Application
 
 ### 9.17.5.7 带 `OUTPUT/RETURN` 返回
 
-```cs {7,10,13}
+```cs showLineNumbers  {7,10,13}
 using Furion.DatabaseAccessor;
 
 namespace Furion.Application
@@ -428,7 +428,7 @@ namespace Furion.Application
 
 ## 9.17.6 `函数` 操作
 
-```cs {7,10}
+```cs showLineNumbers  {7,10}
 using Furion.DatabaseAccessor;
 
 namespace Furion.Application
@@ -454,7 +454,7 @@ namespace Furion.Application
 
 在最新的 `1.18.3` 版本中提供了模板替换功能，如：
 
-```cs
+```cs showLineNumbers 
 [SqlExecute("select * from person where id > {id} and name like {name} and age > {user.Age}")]
 List<Person> GetPerson(int id, string name, User user);
 ```
@@ -473,7 +473,7 @@ List<Person> GetPerson(int id, string name, User user);
 
 主要通过在方法上贴 `[SqlDbContextLocator]` 特性
 
-```cs {1}
+```cs showLineNumbers  {1}
 [SqlExecute("select * from person"), SqlDbContextLocator(typeof(MySqlDbContextLocator)]
 List<Person> GetPerson();
 ```
@@ -482,7 +482,7 @@ List<Person> GetPerson();
 
 在接口中贴 `[SqlDbContextLocator]` 特性，此方式下，接口所有方法将采用指定的数据库执行。
 
-```cs {1}
+```cs showLineNumbers  {1}
 [SqlDbContextLocator(typeof(MySqlDbContextLocator)]
 public interface ISql : ISqlDispatchProxy
 {
@@ -498,7 +498,7 @@ public interface ISql : ISqlDispatchProxy
 
 除了以上两种 `静态` 配置方式，`Furion` 框架还提供 `动态` 方式，如：
 
-```cs {2,6}
+```cs showLineNumbers  {2,6}
 // 将 sql 代理数据库切换成特定数据库
 _sql.Change<MySqlDbContextLocator>();
 _sql.GetPerson();
@@ -531,7 +531,7 @@ _sql.GetPerson();
 
 如：
 
-```cs {9,13-17,20-24,26-30,32-36}
+```cs showLineNumbers  {9,13-17,20-24,26-30,32-36}
 public interface ISql : ISqlDispatchProxy
 {
     [SqlFunction("FN_Name")]
@@ -573,7 +573,7 @@ public interface ISql : ISqlDispatchProxy
 
 ## 9.17.10 设置超时时间
 
-```cs
+```cs showLineNumbers 
 [Timeout(1000)]
 public interface ISql : ISqlDispatchProxy
 {

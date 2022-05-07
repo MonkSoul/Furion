@@ -28,7 +28,7 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 在 `Furion` 框架中，默认已经注册了 `IHttpContextAccessor` 服务，所以我们可以通过构造函数注入该对象获取。
 
-```cs {3,5}
+```cs showLineNumbers  {3,5}
 public class AppService
 {
     public AppService(IHttpContextAccessor httpContextAccessor)
@@ -48,32 +48,32 @@ public class AppService
 
 ### 获取当前请求的特性
 
-```cs
+```cs showLineNumbers 
 var attribute = httpContext.GetMetadata<SomeAttribute>();
 ```
 
 ### 设置 `Swagger` 自动授权
 
-```cs
+```cs showLineNumbers 
 httpContext.SigninToSwagger("你的token");
 ```
 
 ### 退出 `Swagger` 授权
 
-```cs
+```cs showLineNumbers 
 httpContext.SignoutToSwagger();
 ```
 
 ### 获取本地 IP 地址
 
-```cs
+```cs showLineNumbers 
 var ipv4 = httpContext.GetLocalIpAddressToIPv4();
 var ipv6 = httpContext.GetLocalIpAddressToIPv6();
 ```
 
 ### 获取客户端 IP 地址
 
-```cs
+```cs showLineNumbers 
 var ipv4 = httpContext.GetRemoteIpAddressToIPv4();
 var ipv6 = httpContext.GetRemoteIpAddressToIPv6();
 ```

@@ -35,7 +35,7 @@ sidebar_label: 9.4 仓储模式 (Repository)
 
 除此之后的所有仓储只能通过 `rep.Constraint<TRepository>()` 进行约束创建，如，只读仓储：
 
-```cs
+```cs showLineNumbers 
 var readRepository = rep.Constraint<IReadableRepository<TEntity>>();
 ```
 
@@ -126,7 +126,7 @@ var readRepository = rep.Constraint<IReadableRepository<TEntity>>();
 
 ### 9.4.3.1 构造函数注入
 
-```cs {2}
+```cs showLineNumbers  {2}
 private readonly IRepository<Person> _personRepository;
 public FurionService(IRepository<Person> personRepository)
 {
@@ -136,7 +136,7 @@ public FurionService(IRepository<Person> personRepository)
 
 ### 9.4.3.2 方法参数注入
 
-```cs {1}
+```cs showLineNumbers  {1}
 public async Task<List<PersonDto>> GetAll([FromServices] IRepository<Person> repository, string keyword)
 {
     var persons = await repository.AsQueryable().ToListAsync();
@@ -146,7 +146,7 @@ public async Task<List<PersonDto>> GetAll([FromServices] IRepository<Person> rep
 
 ### 9.4.3.3 `Db.GetRepository` 获取
 
-```cs
+```cs showLineNumbers 
 // 非泛型仓储
 var repository = Db.GetRepository();
 
@@ -167,7 +167,7 @@ var sqlRepository = Db.GetSqlRepository();
 
 ### 9.4.4.1 动态切换实体仓储
 
-```cs
+```cs showLineNumbers 
 var userRepository = personRepository.Change<User>();
 ```
 
@@ -175,7 +175,7 @@ var userRepository = personRepository.Change<User>();
 
 比如，读写分离/主从库仓储：
 
-```cs
+```cs showLineNumbers 
 // 只读仓储
 var readRepository = personRepository.Constraint<IReadableRepository<User>>();
 
@@ -191,7 +191,7 @@ var writeRepository = personRepository.Constraint<IWritableRepository<User>>();
 
 ### 9.4.4.3 获取 `Sql` 操作仓储
 
-```cs
+```cs showLineNumbers 
 var sqlRepository = repository.Sql();
 ```
 
@@ -203,7 +203,7 @@ var sqlRepository = repository.Sql();
 
 #### 动态切换数据库
 
-```cs
+```cs showLineNumbers 
 // 切换到 MSSQL 操作 Person表
 var mssqlRepository = repository.Change<Person, MsSqlDbContextLocator>();
 
@@ -220,7 +220,7 @@ var sqliteRepository = repository.Change<Person, SqliteDbContextLocator>();
 
 仓储方式
 
-```cs
+```cs showLineNumbers 
 IRepository<Person, MsSqlDbContextLocator> mssqlRepository
 
 ISqlRepository<MsSqlDbContextLocator> mssqlRepository;
@@ -228,13 +228,13 @@ ISqlRepository<MsSqlDbContextLocator> mssqlRepository;
 
 动态 `sql` 方式
 
-```cs
+```cs showLineNumbers 
 "select * from person".Change<MsSqlDbContextLocator>().SqlQuery();
 ```
 
 实体配置方式
 
-```cs
+```cs showLineNumbers 
 public class User:Entity<int, MsSqlDbContextLocator, MySqlDbContextLocator>
 {
 }
@@ -242,14 +242,14 @@ public class User:Entity<int, MsSqlDbContextLocator, MySqlDbContextLocator>
 
 `Sql` 代理方式
 
-```cs
+```cs showLineNumbers 
 [SqlFunction("funcName", DbContextLocator = typeof(MySqlDbContextLocator))]
 int GetAge(int id);
 ```
 
 `Linq` 中方式
 
-```cs
+```cs showLineNumbers 
 [QueryableFunction("funcName","dbo", DbContextLocator = typeof(MySqlDbContextLocator))]
 string GetName()=> throw Oops.Oh("不支持该数据库操作");
 ```
@@ -258,7 +258,7 @@ string GetName()=> throw Oops.Oh("不支持该数据库操作");
 
 由于 `DbContext` 默认注册为 `Scoped` 生存周期，所以在后台任务中使用 `IServiceScopeFactory` 获取所有服务，如：
 
-```cs
+```cs showLineNumbers 
 public class JobService : BackgroundService
 {
     // 日志对象
@@ -306,7 +306,7 @@ public class JobService : BackgroundService
 
 有些时候我们需要自定义仓储，拓展现有的仓储功能，可参考以下代码（含定位器仓储和默认仓储实现）
 
-```cs
+```cs showLineNumbers 
 /// <summary>
 /// 自定义仓储接口
 /// </summary>

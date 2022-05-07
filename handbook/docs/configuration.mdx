@@ -38,7 +38,7 @@ import TabItem from "@theme/TabItem";
 
 ### 4.1.2.1 配置 `appsettings.json` 信息
 
-```json {2-6}
+```json showLineNumbers  {2-6}
 {
   "AppInfo": {
     "Name": "Furion",
@@ -75,7 +75,7 @@ import TabItem from "@theme/TabItem";
 >
   <TabItem value="App.Configuration[path]">
 
-```cs {11-13}
+```cs showLineNumbers  {11-13}
 using Microsoft.AspNetCore.Mvc;
 
 namespace Furion.Web.Entry.Controllers
@@ -97,7 +97,7 @@ namespace Furion.Web.Entry.Controllers
   </TabItem>
   <TabItem value="依赖注入方式">
 
-```cs {2,10-15}
+```cs showLineNumbers  {2,10-15}
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 
@@ -126,7 +126,7 @@ namespace Furion.Web.Entry.Controllers
 
 - 构造函数注入方式
 
-```cs {2}
+```cs showLineNumbers  {2}
 private readonly IConfiguration _configuration;
 public DefaultController(IConfiguration configuration)
 {
@@ -136,7 +136,7 @@ public DefaultController(IConfiguration configuration)
 
 - 参数注入方式 `[FromServices]`
 
-```cs {1}
+```cs showLineNumbers  {1}
 public string Get([FromServices] IConfiguration configuration)
 {
 }
@@ -144,7 +144,7 @@ public string Get([FromServices] IConfiguration configuration)
 
 - 属性注入方式
 
-```cs {1}
+```cs showLineNumbers  {1}
 public IConfiguration Configuration { get; set; }
 ```
 
@@ -163,7 +163,7 @@ public IConfiguration Configuration { get; set; }
 
 假设我们有以下配置信息：
 
-```json {5-12}
+```json showLineNumbers  {5-12}
 {
   "AppInfo": {
     "Name": "Furion",
@@ -191,28 +191,28 @@ public IConfiguration Configuration { get; set; }
 >
   <TabItem value="two">
 
-```cs
+```cs showLineNumbers 
 var companyName = App.Configuration["AppInfo:Name"]; // => Furion
 ```
 
   </TabItem>
   <TabItem value="three">
 
-```cs
+```cs showLineNumbers 
 var companyName = App.Configuration["AppInfo:Company:Name"]; // => Baiqian
 ```
 
   </TabItem>
   <TabItem value="four">
 
-```cs
+```cs showLineNumbers 
 var companyName = App.Configuration["AppInfo:Company:Address:Detail"]; // => 中山市东区紫马公园西门
 ```
 
   </TabItem>
   <TabItem value="n">
 
-```cs
+```cs showLineNumbers 
 var companyName = App.Configuration["AppInfo:Tier2:Tier3:Tier4...Tiern1:Tiern3..."]; // => 中山市东区紫马公园西门
 ```
 
@@ -233,7 +233,7 @@ var companyName = App.Configuration["AppInfo:Tier2:Tier3:Tier4...Tiern1:Tiern3..
 
 大多情况下，我们的配置只需要在 `appsettings.json` 中配置即可，但一些特殊情况下，我们希望某些组件或功能拥有独立的配置，这个时候就需要用到自定义配置，`Furion` 目前支持 `.json` 和 `.xml` 两种方式配置，如：
 
-```json {2-13} title="Furion.Web.Entry/emailsetting.json"
+```json showLineNumbers  {2-13} title="Furion.Web.Entry/emailsetting.json"
 {
   "outlook": {
     "smtp": {
@@ -281,7 +281,7 @@ var companyName = App.Configuration["AppInfo:Tier2:Tier3:Tier4...Tiern1:Tiern3..
 
 在 `v2.16.7+` 版本版本之后，支持自定义配置扫描目录：
 
-```json
+```json showLineNumbers 
 {
   "ConfigurationScanDirectories": ["目录1名称", "目录1名称/子目录名称"]
 }
@@ -303,14 +303,14 @@ var companyName = App.Configuration["AppInfo:Tier2:Tier3:Tier4...Tiern1:Tiern3..
   ]}>
   <TabItem value="jtl">
 
-```cs
+```cs showLineNumbers 
 var smtpServer = App.Configuration["outlook:smtp:server"]; // => smtp.office365.com
 ```
 
   </TabItem>
   <TabItem value="ylzr">
 
-```cs
+```cs showLineNumbers 
 var smtpServer = _configuration["outlook:smtp:server"]; // => smtp.office365.com
 ```
 
@@ -321,7 +321,7 @@ var smtpServer = _configuration["outlook:smtp:server"]; // => smtp.office365.com
 
 有些时候，我们不需要 `.json` 或 `.xml` 自动载入配置中，我们只需要在启动层 `appsettings.json` 中添加 `IgnoreConfigurationFiles` 节点即可：
 
-```json
+```json showLineNumbers 
 {
   "IgnoreConfigurationFiles": ["runtime.json"]
 }
@@ -346,7 +346,7 @@ var smtpServer = _configuration["outlook:smtp:server"]; // => smtp.office365.com
 
 在 `.NET Core` 应用程序中，配置支持更改通知，也就是热更新操作。**一旦监听到 `appsetting.json` 或自定义配置文件发生变动，就会触发 `OnChange` 方法**。代码如下：
 
-```cs {2,4-5}
+```cs showLineNumbers  {2,4-5}
 var appInfoConfiguration = App.Configuration.GetSection("AppInfo");
 ChangeToken.OnChange(() => App.Configuration.GetReloadToken(), () =>
 {
@@ -365,7 +365,7 @@ ChangeToken.OnChange(() => App.Configuration.GetReloadToken(), () =>
 
 有些时候，我们的配置文件没有放在项目的根目录下，这时候我们需要手动载入自定义配置文件，只需要在 `Program.cs` 中加载即可：
 
-```cs {10,13}
+```cs showLineNumbers  {10,13}
 public class Program
 {
     public static void Main(string[] args)
@@ -426,7 +426,7 @@ public class Program
 
 `Furion` 会在应用启动的时候对 `IConfiguration` 进行静态缓存，如果使用了 `App.Configuration` 静态属性且配置数据已发生变更，则调用以下方法刷新即可：
 
-```cs
+```cs showLineNumbers 
 App.Configuration.Reload();
 ```
 

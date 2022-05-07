@@ -26,7 +26,7 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 ### 30.2.1 注册 `脱敏词汇检测` 服务
 
-```cs {3}
+```cs showLineNumbers  {3}
 public void ConfigureServices(IServiceCollection services)
 {
     services.AddSensitiveDetection();
@@ -56,7 +56,7 @@ public void ConfigureServices(IServiceCollection services)
 
 `Furion` 框架提供了 `[SensitiveDetection]` 验证特性，可以对参数、属性进行脱敏验证，用法和 `[DataValidation]` 一致，如：
 
-```cs {4,9}
+```cs showLineNumbers  {4,9}
 // 在属性中使用
 public class Content
 {
@@ -75,7 +75,7 @@ public void Test([SensitiveDetection] string text)
 
 `Furion` 框架也提供了 `ISensitiveDetectionProvider` 服务进行手动脱敏验证处理，如：
 
-```cs {4,15,25,35}
+```cs showLineNumbers  {4,15,25,35}
 public class FurionService
 {
     private readonly ISensitiveDetectionProvider _sensitiveDetectionProvider;
@@ -119,7 +119,7 @@ public class FurionService
 
 `Furion` 框架也提供了替换脱敏词汇的特性支持，如：
 
-```cs {4}
+```cs showLineNumbers  {4}
 // 在属性中使用
 public class Content
 {
@@ -132,7 +132,7 @@ public class Content
 
 `Furion` 框架目前只提供类中使用替换特性支持，但未提供方法单个值替换支持，如**以下代码不受支持**：
 
-```cs {1}
+```cs showLineNumbers  {1}
 public void Test([SensitiveDetection('*')] string text)
 {
 }
@@ -146,7 +146,7 @@ public void Test([SensitiveDetection('*')] string text)
 
 ### 30.3.1 自定义 `ISensitiveDetectionProvider` 程序，如：
 
-```cs {4,15,25,36}
+```cs showLineNumbers  {4,15,25,36}
 /// <summary>
 /// 自定义脱敏词汇检测器
 /// </summary>
@@ -191,7 +191,7 @@ public class YourSensitiveDetectionProvider : ISensitiveDetectionProvider
 
 ### 30.3.2 注册自定义脱敏提供器
 
-```cs {3}
+```cs showLineNumbers  {3}
 public void ConfigureServices(IServiceCollection services)
 {
     services.AddSensitiveDetection<YourSensitiveDetectionProvider>();

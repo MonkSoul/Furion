@@ -8,7 +8,7 @@ sidebar_label: 12. SpareTime 静态类
 
 ## 12.1 初始化任务
 
-```cs
+```cs showLineNumbers 
 // 开启间隔任务
 SpareTime.Do(interval, [options]);
 
@@ -26,20 +26,20 @@ SpareTime.Do(()=>{
 
 ## 12.2 实现后台执行
 
-```cs
+```cs showLineNumbers 
 // 实现后台执行
 SpareTime.DoIt(()=>{});
 ```
 
 ## 12.3 开始一个任务
 
-```cs
+```cs showLineNumbers 
 SpareTime.Start("任务标识");
 ```
 
 ## 12.4 暂停一个任务
 
-```cs
+```cs showLineNumbers 
 SpareTime.Stop("任务标识");
 // 还可以标记一个任务执行失败
 SpareTime.Stop("任务标识", true);
@@ -47,37 +47,37 @@ SpareTime.Stop("任务标识", true);
 
 ## 12.5 取消一个任务
 
-```cs
+```cs showLineNumbers 
 SpareTime.Cancel("任务名称");
 ```
 
 ## 12.6 销毁所有任务
 
-```cs
+```cs showLineNumbers 
 SpareTime.Dispose();
 ```
 
 ## 12.7 获取所有任务
 
-```cs
+```cs showLineNumbers 
 var workers = SpareTime.GetWorkers();
 ```
 
 ## 12.8 获取单个任务
 
-```cs
+```cs showLineNumbers 
 var worker = SpareTime.GetWorker("workerName");
 ```
 
 ## 12.9 解析 `Cron` 表达式
 
-```cs
+```cs showLineNumbers 
 var nextTime = SpareTime.GetCronNextOccurrence("* * * * *");
 ```
 
 ## 12.10 `BackgroundService` 间隔定时任务
 
-```cs
+```cs showLineNumbers 
 // 间隔执行任务
 await SpareTime.DoAsync(1000, () =>
 {
@@ -87,7 +87,7 @@ await SpareTime.DoAsync(1000, () =>
 
 ## 12.11 `BackgroundService` `Cron` 定时任务
 
-```cs
+```cs showLineNumbers 
  // 执行 Cron 表达式任务
 await SpareTime.DoAsync("*/5 * * * * *", () =>
 {

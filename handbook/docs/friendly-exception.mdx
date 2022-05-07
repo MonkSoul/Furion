@@ -61,7 +61,7 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 ### 7.4.1 注册友好异常服务
 
-```cs {11} title="Furion.Web.Core\FurWebCoreStartup.cs"
+```cs showLineNumbers  {11} title="Furion.Web.Core\FurWebCoreStartup.cs"
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Furion.Web.Core
@@ -88,7 +88,7 @@ namespace Furion.Web.Core
 
 #### 简单抛个异常
 
-```cs {2,12}
+```cs showLineNumbers  {2,12}
 using Furion.DynamicApiController;
 using Furion.FriendlyException;
 
@@ -115,7 +115,7 @@ namespace Furion.Application
 
 #### 抛出特定类型异常
 
-```cs {2,13}
+```cs showLineNumbers  {2,13}
 using Furion.DynamicApiController;
 using Furion.FriendlyException;
 using System;
@@ -151,7 +151,7 @@ namespace Furion.Application
 
 ### 7.5.2 `Oops.Oh` 重载方法
 
-```cs {13,22,30,39}
+```cs showLineNumbers  {13,22,30,39}
 using System;
 
 namespace Furion.FriendlyException
@@ -207,7 +207,7 @@ namespace Furion.FriendlyException
 - 枚举类型必须贴有 `[ErrorCodeType]` 特性
 - 枚举中每一项必须贴有 `[ErrorCodeItemMetadata]` 特性
 
-```cs {1,5,8,11,14,17}
+```cs showLineNumbers  {1,5,8,11,14,17}
 using Furion.FriendlyException;
 
 namespace Furion.Application
@@ -244,7 +244,7 @@ namespace Furion.Application
 
 ### 7.6.3 静态异常类使用
 
-```cs {2,12}
+```cs showLineNumbers  {2,12}
 using Furion.DynamicApiController;
 using Furion.FriendlyException;
 
@@ -277,7 +277,7 @@ namespace Furion.Application
 
 :::
 
-```cs
+```cs showLineNumbers 
 Oops.Retry(() => {
     // Do.....
 }, 3, 1000);
@@ -295,7 +295,7 @@ Oops.Retry(() => {
 
 ### 7.6.5 更多例子
 
-```cs {6}
+```cs showLineNumbers  {6}
 throw Oops.Oh(1000);
 throw Oops.Oh(ErrorCodes.x1000);
 throw Oops.Oh("哈哈哈哈");
@@ -308,7 +308,7 @@ throw Oops.Bah(1000);
 
 ## 7.7 多个异常信息类型
 
-```cs {5-6,21-22}
+```cs showLineNumbers  {5-6,21-22}
 using Furion.FriendlyException;
 
 namespace Furion.Application
@@ -351,7 +351,7 @@ namespace Furion.Application
 
 在 `Furion` 框架中，还提供了 `IErrorCodeTypeProvider` 异常消息提供器接口，方便在不能贴 `[ErrorCodeType]` 特性情况下使用：
 
-```cs {2,6,8-11}
+```cs showLineNumbers  {2,6,8-11}
 using Furion.FriendlyException;
 using System;
 
@@ -369,7 +369,7 @@ namespace Furion.Application
 
 启用 `IErrorCodeTypeProvider` 提供器：
 
-```cs {11} title="Furion.Web.Core\FurWebCoreStartup.cs"
+```cs showLineNumbers  {11} title="Furion.Web.Core\FurWebCoreStartup.cs"
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Furion.Web.Core
@@ -396,7 +396,7 @@ namespace Furion.Web.Core
 
 `Furion` 框架还提供了非常灵活的配置文件配置异常，通过这种方式可以实现异常信息后期配置，也就是无需在开发阶段预先定义。
 
-```json {2-8} title="Furion.Web.Entry/appsettings.json"
+```json showLineNumbers  {2-8} title="Furion.Web.Entry/appsettings.json"
 {
   "ErrorCodeMessageSettings": {
     "Definitions": [
@@ -412,7 +412,7 @@ namespace Furion.Web.Core
 
 #### 使用示例
 
-```cs {2,12}
+```cs showLineNumbers  {2,12}
 using Furion.DynamicApiController;
 using Furion.FriendlyException;
 
@@ -453,7 +453,7 @@ namespace Furion.Application
 
 - 异常消息类定义
 
-```cs {1,4}
+```cs showLineNumbers  {1,4}
 [ErrorCodeType]
 public enum ErrorCodes
 {
@@ -464,7 +464,7 @@ public enum ErrorCodes
 
 - 覆盖默认配置
 
-```cs {8}
+```cs showLineNumbers  {8}
 using Furion.DynamicApiController;
 using Furion.FriendlyException;
 
@@ -492,7 +492,7 @@ namespace Furion.Application
 
 ### 7.10.2 更多例子
 
-```cs {2,8-11}
+```cs showLineNumbers  {2,8-11}
 using Furion.DynamicApiController;
 using Furion.FriendlyException;
 
@@ -538,7 +538,7 @@ namespace Furion.Application
 
 ## 7.13 规范化结果异常处理
 
-```cs {15-16}
+```cs showLineNumbers  {15-16}
 using Furion.DataValidation;
 using Furion.DependencyInjection;
 using Furion.UnifyResult.Internal;
@@ -643,7 +643,7 @@ namespace Furion.UnifyResult
 
 之后在 `Startup.cs` 中注册即可：
 
-```cs
+```cs showLineNumbers 
 services.AddControllers()
         .AddInjectWithUnifyResult<RESTfulResultProvider>();
 ```
@@ -652,7 +652,7 @@ services.AddControllers()
 
 通常我们需要在异常捕获的时候写日志，这时候就需要使用到 `IGlobalExceptionHandler` 异常定义处理程序，如：
 
-```cs {8}
+```cs showLineNumbers  {8}
 using Furion.DependencyInjection;
 using Furion.FriendlyException;
 using Microsoft.AspNetCore.Mvc.Filters;
@@ -680,7 +680,7 @@ namespace Furion.Application
 
 配置示例
 
-```json
+```json showLineNumbers 
 {
   "FriendlyExceptionSettings": {
     "DefaultErrorMessage": "系统异常，请联系管理员"

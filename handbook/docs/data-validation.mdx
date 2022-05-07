@@ -30,7 +30,7 @@ import TabItem from "@theme/TabItem";
 
 在很多老项目中，我们经常看到这样的代码：
 
-```cs {4,9,14}
+```cs showLineNumbers  {4,9,14}
 public bool Insert(Person person)
 {
     // 验证参数
@@ -70,7 +70,7 @@ public bool Insert(Person person)
 
 - **在模型中验证**
 
-```cs {1,7-8,11-12}
+```cs showLineNumbers  {1,7-8,11-12}
 using System.ComponentModel.DataAnnotations;
 
 namespace Hoa.Application.Authorization.Dtos
@@ -90,7 +90,7 @@ namespace Hoa.Application.Authorization.Dtos
 
 - **在参数中验证**
 
-```cs {2-3,8-9,12-13}
+```cs showLineNumbers  {2-3,8-9,12-13}
 public void CheckMethodParameterValid(
     [Required]    // 必填验证
     [MinLength(4)]    // 最小长度验证
@@ -119,7 +119,7 @@ public void CheckMethodParameterValid(
 
 - **自定义特性验证**
 
-```cs {1,13-24}
+```cs showLineNumbers  {1,13-24}
 public class ClassicMovieAttribute : ValidationAttribute
 {
     public ClassicMovieAttribute(int year)
@@ -149,7 +149,7 @@ public class ClassicMovieAttribute : ValidationAttribute
 
 - **`IValidatableObject` 复杂验证**
 
-```cs {1,3,10-21}
+```cs showLineNumbers  {1,3,10-21}
 using System.Collections.Generic;
 
 public class DtoModel : IValidatableObject
@@ -209,7 +209,7 @@ public class DtoModel : IValidatableObject
 
 ### 8.5.1 注册验证服务
 
-```cs {11} title="Furion.Web.Core\FurWebCoreStartup.cs"
+```cs showLineNumbers  {11} title="Furion.Web.Core\FurWebCoreStartup.cs"
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Furion.Web.Core
@@ -243,7 +243,7 @@ namespace Furion.Web.Core
 >
   <TabItem value="testdto">
 
-```cs {1,7,10}
+```cs showLineNumbers  {1,7,10}
 using System.ComponentModel.DataAnnotations;
 
 namespace Furion.Application
@@ -262,7 +262,7 @@ namespace Furion.Application
   </TabItem>
   <TabItem value="FurionAppService">
 
-```cs {12,22}
+```cs showLineNumbers  {12,22}
 using Furion.DynamicApiController;
 
 namespace Furion.Application
@@ -301,7 +301,7 @@ namespace Furion.Application
 
 ### 8.5.3 兼容 `Mvc` 复杂验证
 
-```cs {2,6,14-24}
+```cs showLineNumbers  {2,6,14-24}
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -340,7 +340,7 @@ namespace Furion.Application
 
 ### 8.6.1 验证模型
 
-```cs {1,11}
+```cs showLineNumbers  {1,11}
 using Furion.DataValidation;
 using Furion.DynamicApiController;
 
@@ -418,7 +418,7 @@ namespace Furion.Application
 >
 <TabItem value="dglx">
 
-```cs
+```cs showLineNumbers 
 // 验证中文
 "我叫 MonK".TryValidate(ValidationTypes.Chinese); // => false
 
@@ -441,7 +441,7 @@ true.TryValidate(ValidationTypes.Integer); // => false
 </TabItem>
 <TabItem value="zhlx">
 
-```cs
+```cs showLineNumbers 
 // 验证数值类型且是整数
 "20".TryValidate(ValidationTypes.Numeric, ValidationTypes.Integer); // => true
 
@@ -464,7 +464,7 @@ true.TryValidate(ValidationTypes.Integer); // => false
 
 `Furion` 还提供了 `[DataValidation]` 特性方便在模型参数中使用 `ValidationTypes` 常见验证或自定义验证。
 
-```cs {1,7,10,14,17,20}
+```cs showLineNumbers  {1,7,10,14,17,20}
 using Furion.DataValidation;
 
 namespace Furion.Application
@@ -501,7 +501,7 @@ namespace Furion.Application
 
 默认情况下，验证失败信息会根据属性名进行序列化，但是如果属性序列化自定义了 `[JsonPropertyName]` 特性，那么验证失败的消息就不匹配了，这时我们需要添加 `[ModelBinder(Name = "序列化对应名字")]` 进行纠正。如下图所示：
 
-```cs {1}
+```cs showLineNumbers  {1}
 [JsonPropertyName("phone_number"), ModelBinder(Name = "phone_number")]
 public string PhoneNumber { get; set; }
 ```
@@ -532,7 +532,7 @@ public string PhoneNumber { get; set; }
 
 **如**：
 
-```cs {1,6,12,18}
+```cs showLineNumbers  {1,6,12,18}
 using Furion.DataValidation;
 using System.Text.RegularExpressions;
 
@@ -561,7 +561,7 @@ namespace Furion.Application
 
 - 手动使用
 
-```cs
+```cs showLineNumbers 
 "q1w2e3".TryValidate(MyValidationTypes.StrongPassword); // => false
 
 "furos".TryValidate(MyValidationTypes.StartWithFurString); // => true
@@ -569,14 +569,14 @@ namespace Furion.Application
 
 - `[DataValidation]` 中使用
 
-```cs
+```cs showLineNumbers 
 [DataValidation(MyValidationTypes.StrongPassword)]
 public string Password { get; set; }
 ```
 
 - 多个自定义类型混用
 
-```cs
+```cs showLineNumbers 
 "Q1w2e3r4t5!*".TryValidate(MyValidationTypes.StrongPassword, ValidationTypes.EmailAddress); // => true
 ```
 
@@ -626,7 +626,7 @@ public string Password { get; set; }
 
 - **`[ValidationMessageType]`** 方式
 
-```cs {5,9,12,15,19,22}
+```cs showLineNumbers  {5,9,12,15,19,22}
 using Furion.DataValidation;
 
 namespace Furion.Application
@@ -654,7 +654,7 @@ namespace Furion.Application
 
 除了贴 `[ValidationMessageType]` 特性外，`Furion` 框架还提供了 `IValidationMessageTypeProvider` 方式查找验证消息类型，如下图所示：
 
-```cs {1,6,8-12}
+```cs showLineNumbers  {1,6,8-12}
 using Furion.DataValidation;
 using System;
 
@@ -673,7 +673,7 @@ namespace Furion.Application
 
 注册验证消息提供器
 
-```cs {11} title="Furion.Web.Core\FurWebCoreStartup.cs"
+```cs showLineNumbers  {11} title="Furion.Web.Core\FurWebCoreStartup.cs"
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Furion.Web.Core
@@ -698,7 +698,7 @@ namespace Furion.Web.Core
 
 - **`appsettings.json` 方式**
 
-```json {2-9} title="Furion.Web.Entry/appsettings.json"
+```json showLineNumbers  {2-9} title="Furion.Web.Entry/appsettings.json"
 {
   "ValidationTypeMessageSettings": {
     "Definitions": [
@@ -741,7 +741,7 @@ namespace Furion.Web.Core
 
 我们也可以无需注册 `.AddDataValidation()` 服务，直接在 `动作方法` 上贴 `[TypeFilter(typeof(DataValidationFilter))]` 可启用局部验证。如：
 
-```cs {1,3,9}
+```cs showLineNumbers  {1,3,9}
 using Furion.DataValidation;
 using Furion.DynamicApiController;
 using Microsoft.AspNetCore.Mvc;
@@ -763,7 +763,7 @@ namespace Furion.Application
 
 `[ApiController]` 是 `Mvc` 提供的控制器范围（含所有动作方法）的验证。
 
-```cs {1,5}
+```cs showLineNumbers  {1,5}
 using Microsoft.AspNetCore.Mvc;
 
 namespace Furion.Web.Entry.Controllers
@@ -795,13 +795,13 @@ namespace Furion.Web.Entry.Controllers
 
 ### 8.12.1 安装 `FluentValidation.AspNetCore` 拓展包
 
-```shell
+```shell showLineNumbers 
 dotnet add package FluentValidation.AspNetCore
 ```
 
 ### 8.12.2 在 `Startup.cs` 中注册
 
-```cs {2}
+```cs showLineNumbers  {2}
 services.AddControllers()
         .AddFluentValidation(fv => {
             fv.RegisterValidatorsFromAssemblies(App.Assemblies);
@@ -810,7 +810,7 @@ services.AddControllers()
 
 ### 8.12.3 使用例子
 
-```cs
+```cs showLineNumbers 
 public class Person {
 	public int Id { get; set; }
 	public string Name { get; set; }

@@ -21,7 +21,7 @@ import TabItem from "@theme/TabItem";
 >
   <TabItem value="person">
 
-```cs {38,43,48}
+```cs showLineNumbers  {38,43,48}
 using Furion.DatabaseAccessor;
 using System;
 using System.Collections.Generic;
@@ -76,7 +76,7 @@ namespace Furion.Core
   </TabItem>
   <TabItem value="person-detail">
 
-```cs {25}
+```cs showLineNumbers  {25}
 using Furion.DatabaseAccessor;
 
 namespace Furion.Core
@@ -109,7 +109,7 @@ namespace Furion.Core
   </TabItem>
   <TabItem value="children">
 
-```cs {35}
+```cs showLineNumbers  {35}
 using Furion.DatabaseAccessor;
 using System;
 
@@ -153,7 +153,7 @@ namespace Furion.Core
 
   <TabItem value="post">
 
-```cs {26}
+```cs showLineNumbers  {26}
 using Furion.DatabaseAccessor;
 using System;
 using System.Collections.Generic;
@@ -189,7 +189,7 @@ namespace Furion.Core
 
 ## 9.11.2 一对一查询
 
-```cs
+```cs showLineNumbers 
 // 示例一
 var person = repository.Include(u => u.Detail);
 
@@ -219,7 +219,7 @@ var person = repository.Include(!string.IsNullOrEmpty(keyword), u => u.Detail)
 
 ## 9.11.3 一对多查询
 
-```cs
+```cs showLineNumbers 
 // 示例一
 var person = repository.Include(u => u.Childrens);
 
@@ -234,7 +234,7 @@ var person = repository.Include(u => u.Childrens);
 
 ## 9.11.4 多对多查询
 
-```cs
+```cs showLineNumbers 
 // 示例一
 var person = repository.Include(u => u.Posts);
 
@@ -251,7 +251,7 @@ var person = repository.Include(u => u.Posts);
 
 ### 9.11.5.1 内连接 `Inner Join`
 
-```cs
+```cs showLineNumbers 
 var query = from p in _personRepository.AsQueryable()
             join d in _personDetailRepository.AsQueryable() on p.Id equals d.PersonId
             select new PersonDto
@@ -267,7 +267,7 @@ var query = from p in _personRepository.AsQueryable()
 
 ### 9.11.5.2 左连接 `Left Join`
 
-```cs {2,3}
+```cs showLineNumbers  {2,3}
 var query = from p in _personRepository.AsQueryable()
             join d in _personDetailRepository.AsQueryable() on p.Id equals d.PersonId into results
             from d in results.DefaultIfEmpty()
@@ -294,7 +294,7 @@ var query = from p in _personRepository.AsQueryable()
 
 ## 9.11.6 分组查询
 
-```cs
+```cs showLineNumbers 
 // 示例一
 var query = repository.AsQueryable().GroupBy(x => new { x.Column1, x.Column2 });
 
@@ -320,7 +320,7 @@ var query = from a in repository.AsQueryable()
 
 ## 9.11.7 合并结果集
 
-```cs
+```cs showLineNumbers 
 var query = repository.AsQueryable(u => u.Id > 10)
                       .Union(
                           repository2.AsQueryable(u => u.Id <= 10)
@@ -331,7 +331,7 @@ var query = repository.AsQueryable(u => u.Id > 10)
 
 ### 9.11.8.1 正序
 
-```cs
+```cs showLineNumbers 
 // 示例一
 var query = repository.AsQueryable()
                       .OrderBy(u => u.Id);
@@ -344,7 +344,7 @@ var query =repository.AsQueryable()
 
 ### 9.11.8.2 倒序
 
-```cs
+```cs showLineNumbers 
 // 示例一
 var query = repository.AsQueryable()
                       .OrderByDescending(u => u.Id);
@@ -357,7 +357,7 @@ var query =repository.AsQueryable()
 
 ### 9.11.8.3 混合倒序
 
-```cs
+```cs showLineNumbers 
 // 示例一
 var query = repository.AsQueryable()
                       .OrderBy(u => u.Id)
@@ -376,7 +376,7 @@ var query = repository.AsQueryable()
 >
   <TabItem value="city">
 
-```cs {12,36,41,49-55}
+```cs showLineNumbers  {12,36,41,49-55}
 using Furion.DatabaseAccessor;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -458,7 +458,7 @@ namespace Furion.Core
   </TabItem>
   <TabItem value="citydto">
 
-```cs
+```cs showLineNumbers 
 using System.Collections.Generic;
 
 namespace Furion.Application.Persons
@@ -486,7 +486,7 @@ namespace Furion.Application.Persons
   </TabItem>
 </Tabs>
 
-```cs
+```cs showLineNumbers 
 var cities = await repository.AsQueryable()
                              .Include(u => u.Childrens)
                              .Where(u => u.Id == 1)
@@ -503,7 +503,7 @@ var dtos = cities.Adapt<List<CityDto>>();
 
 ### 9.11.10.1 动态 `Sql`
 
-```cs
+```cs showLineNumbers 
 // 示例一
 var query = repository.AsQueryable()
                       .Where("City == @0 and Orders.Count >= @1", "China", 10)
@@ -524,7 +524,7 @@ var customers = repository.AsQueryable()
 
 ### 9.11.10.2 动态 `Lambda`
 
-```cs
+```cs showLineNumbers 
 // 示例一
 var x = Expression.Parameter(typeof(int), "x");
 var y = Expression.Parameter(typeof(int), "y");
@@ -548,7 +548,7 @@ var e = DynamicExpressionParser.ParseLambda(
 
 `Furion` 框架还提供了时态查询功能，可以查询特定时间的数据，如：
 
-```cs
+```cs showLineNumbers 
 var result = rep.Entities
     .AsTemporalOf(DateTime.UtcNow.AddDays(-1))
     .Include(i=> i.Company)
@@ -577,7 +577,7 @@ var result = rep.Entities
 
 ## 9.11.13 分表查询小例子
 
-```cs
+```cs showLineNumbers 
 using Furion.DatabaseAccessor;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -607,7 +607,7 @@ namespace Furion.Core
 }
 ```
 
-```cs
+```cs showLineNumbers 
 var posts = repository.Where(u => u.Id > 10).ToList();
 ```
 

@@ -12,24 +12,24 @@ sidebar_label: 10. JSON 静态类
 
 ## 10.1 获取序列化提供器
 
-```cs
+```cs showLineNumbers 
 var serializer = JSON.GetJsonSerializer();
 ```
 
 ## 10.2 序列化
 
-```cs
+```cs showLineNumbers 
 var str = JSON.Serialize(obj, [options]);
 ```
 
 ## 10.3 反序列化
 
-```cs
+```cs showLineNumbers 
 var obj = JSON.Deserialize<T>(str, [options]);
 ```
 
 ## 10.4 获取全局配置
 
-```cs
+```cs showLineNumbers 
 var options = JSON.GetSerializerOptions<TOption>();
 ```

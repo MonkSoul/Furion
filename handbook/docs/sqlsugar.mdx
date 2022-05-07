@@ -48,7 +48,7 @@ sidebar_label: 10.1. SqlSugar 集成
 
 1. 创建一个拓展类：
 
-```cs {3,23}
+```cs showLineNumbers  {3,23}
 public static class SqlsugarSetup
 {
     public static void AddSqlsugarSetup(this IServiceCollection services, IConfiguration configuration, string dbName = "db_master")
@@ -78,7 +78,7 @@ public static class SqlsugarSetup
 
 使用注入
 
-```cs
+```cs showLineNumbers 
 //1.构造函数注入
 SqlSugar.ISqlSugarClient db;
 public WeatherForecastController(ISqlSugarClient db) 
@@ -93,7 +93,7 @@ App.GetService<ISqlSugarClient>();
 
 2. 在 `Startup.cs` 中注册：
 
-```cs
+```cs showLineNumbers 
 services.AddSqlsugarSetup(App.Configuration);
 ```
 
@@ -109,7 +109,7 @@ services.AddSqlsugarSetup(App.Configuration);
 
 - `Linq/Lambda`：
 
-```cs
+```cs showLineNumbers 
 var query5 = db.Queryable<Order>()
             .LeftJoin<Custom>    ((o, cus) => o.CustomId == cus.Id)
             .LeftJoin<OrderItem> ((o, cus, oritem ) => o.Id == oritem.OrderId)
@@ -120,7 +120,7 @@ var query5 = db.Queryable<Order>()
 
 - 生成 `SQL`：
 
-```sql
+```sql showLineNumbers 
 SELECT
   [o].[Id] AS [Id],
   [cus].[Name] AS [CustomName]
@@ -134,7 +134,7 @@ WHERE
 
 ### 10.1.5.2 分页查询
 
-```cs
+```cs showLineNumbers 
 int pageIndex = 1; 
 int pageSize = 20;
 int totalCount=0;
@@ -145,7 +145,7 @@ var page = db.Queryable<Student>().ToPageList(pageIndex, pageSize, ref totalCoun
 
 - `Linq/Lambda`：
 
-```cs
+```cs showLineNumbers 
 var names= new string [] { "a","b"};
 Expressionable<Order> exp = new Expressionable<Order>();
 
@@ -159,7 +159,7 @@ var list= db.Queryable<Order>().Where(exp.ToExpression()).ToList();
 
 - 生成 `SQL`：
 
-```sql
+```sql showLineNumbers 
 SELECT [Id],[Name],[Price],[CreateTime],[CustomId]
         FROM [Order]  WHERE (
                       ([Name] like '%'+ CAST(@MethodConst0 AS NVARCHAR(MAX))+'%') OR 
@@ -171,7 +171,7 @@ SELECT [Id],[Name],[Price],[CreateTime],[CustomId]
 
 新建一个仓储类，如果想扩展方法写到仓储类中
 
-```cs
+```cs showLineNumbers 
 public class Repository<T> : SimpleClient<T> where T : class, new()
 {
     public Repository(ISqlSugarClient context = null) : base(context)//默认值等于null不能少
@@ -183,7 +183,7 @@ public class Repository<T> : SimpleClient<T> where T : class, new()
 
 继承仓储类就可以使用仓储API了
 
-```cs
+```cs showLineNumbers 
 //查询
 var data1 = base.GetById(1);//根据id查询
 var data4 = base.GetSingle(it => it.Id == 1);//查询单条记录，结果集不能超过1，不然会提示错误
@@ -234,7 +234,7 @@ base.Change<OrderItem>()//只支持自带方法和单库
 
 ### 10.1.5.5 多库事务
 
-```cs
+```cs showLineNumbers 
 SqlSugarClient db = new SqlSugarClient(new List<ConnectionConfig>()
 {
     new ConnectionConfig(){ ConfigId="0", DbType=DbType.SqlServer,  ConnectionString=Config.ConnectionString, IsAutoCloseConnection=true },
@@ -261,7 +261,7 @@ db.CommitTran();
 
 ### 10.1.5.6 单例模式
 
-```cs
+```cs showLineNumbers 
 public static SqlSugarScope Db = new SqlSugarScope(new ConnectionConfig()
     {
         DbType = SqlSugar.DbType.SqlServer,
@@ -287,7 +287,7 @@ using (var tran = Db.UseTran())
 
 ### 10.1.5.7 全局过滤器
 
-```cs
+```cs showLineNumbers 
 db.QueryFilter.Add(new TableFilterItem<Order>(it => it.Name.Contains("a")));  
    
 db.Queryable<Order>().ToList();
@@ -302,20 +302,20 @@ db.Queryable<OrderItem, Order>((i, o) => i.OrderId == o.Id)
 
 ### 10.1.5.8 添加或者更新
 
-```cs
+```cs showLineNumbers 
 var x = Db.Storageable(list2).ToStorage();  
 x.AsInsertable.ExecuteCommand();  
 x.AsUpdateable.ExecuteCommand();  
 ```
 
-```cs
+```cs showLineNumbers 
 var x = Db.Storageable(list).SplitInsert(it => !it.Any()).ToStorage()
 x.AsInsertable.ExecuteCommand(); 
 ```
  
 ### 10.1.5.9 自动分表
 
-```cs
+```cs showLineNumbers 
 [SplitTable(SplitType.Year)] // Table by year (the table supports year, quarter, month, week and day)
 [SugarTable("SplitTestTable_{year}{month}{day}")] 
 public class SplitTestTable
@@ -333,7 +333,7 @@ public class SplitTestTable
 }
 ```
 
-```cs
+```cs showLineNumbers 
 var lis2t = db.Queryable<OrderSpliteTest>()
 .SplitTable(DateTime.Now.Date.AddYears(-1), DateTime.Now)
 .ToPageList(1,2);　
@@ -341,7 +341,7 @@ var lis2t = db.Queryable<OrderSpliteTest>()
 
 ### 10.1.5.10 大数据插入，更新，插入或者更新
 
-```cs
+```cs showLineNumbers 
 //Insert A million only takes a few seconds
 db.Fastest<RealmAuctionDatum>().BulkCopy(GetList());
  

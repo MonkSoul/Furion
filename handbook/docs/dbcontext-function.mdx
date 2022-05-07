@@ -43,7 +43,7 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 ### 9.14.3.1 标量函数返回 `object`
 
-```cs
+```cs showLineNumbers 
 // ISqlRepository 方法
 var value = _sqlRepository.SqlFunctionScalar("func_GetValue");
 
@@ -68,7 +68,7 @@ var value = "func_GetValue".SqlFunctionScalar();
 
 ### 9.14.3.2 标量函数返回 `T`
 
-```cs
+```cs showLineNumbers 
 // ISqlRepository 方法
 var value = _sqlRepository.SqlFunctionScalar<string>("func_GetValue");
 
@@ -93,7 +93,7 @@ var value = "func_GetValue".SqlFunctionScalar<string>();
 
 ### 9.14.3.3 表值函数返回 `DataTable`
 
-```cs
+```cs showLineNumbers 
 // ISqlRepository 方法
 var value = _sqlRepository.SqlFunctionQuery("func_GetTable");
 
@@ -118,7 +118,7 @@ var value = "func_GetTable".SqlFunctionQuery();
 
 ### 9.14.3.4 表值函数返回 `List<T>`
 
-```cs
+```cs showLineNumbers 
 // ISqlRepository 方法
 var value = _sqlRepository.SqlFunctionQuery<Person>("func_GetTable");
 
@@ -152,7 +152,7 @@ var value = "func_GetTable".SqlFunctionQuery<Person>();
 
 ### 9.14.4.1 创建标量函数
 
-```sql
+```sql showLineNumbers 
 CREATE FUNCTION FN_GetId
 (
     @id INT
@@ -168,7 +168,7 @@ END;
 
 创建静态类，如 `QueryFunctions`，将该 `标量函数` 放在静态类中：
 
-```cs {1, 7, 10-11}
+```cs showLineNumbers  {1, 7, 10-11}
 using Furion.DatabaseAccessor;
 using System;
 
@@ -186,11 +186,11 @@ namespace Furion.Application
 
 ### 9.14.4.3 在 `Linq` 中使用
 
-```cs
+```cs showLineNumbers 
 _personRepository.Where(u => u.Id > QueryFunctions.GetId(1)).ToList();
 ```
 
-```sql
+```sql showLineNumbers 
 SELECT [p].[Id], [p].[Address], [p].[Age], [p].[CreatedTime], [p].[IsDeleted], [p].[Name], [p].[UpdatedTime]
 FROM [Person] AS [p]
 WHERE [p].[Id] > [dbo].[FN_GetId](1)    // 💥 注意这里
@@ -206,7 +206,7 @@ WHERE [p].[Id] > [dbo].[FN_GetId](1)    // 💥 注意这里
 
 ### 9.14.5.1 创建表值函数
 
-```sql
+```sql showLineNumbers 
 CREATE FUNCTION dbo.GetPersons
 (
     @id INT
@@ -226,7 +226,7 @@ RETURN
 
 ### 9.14.5.2 创建表值函数模型
 
-```cs
+```cs showLineNumbers 
 namespace Furion.Core
 {
     public class F_Person
@@ -258,7 +258,7 @@ namespace Furion.Core
 
 在 `DbContext` 类中定义方法：
 
-```cs {3,10,20-21}
+```cs showLineNumbers  {3,10,20-21}
 using Furion.DatabaseAccessor;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
@@ -287,14 +287,14 @@ namespace Furion.EntityFramework.Core
 
 ### 9.14.5.4 在 `Linq` 中使用
 
-```cs
+```cs showLineNumbers 
 IQueryable<F_Person> query = _repository.DynamicDbContext.GetPersons(1);
 var result = query.Where(u => u.Name.Equals("Furion")).ToList();
 ```
 
 最终生成 `Sql`
 
-```sql
+```sql showLineNumbers 
 SELECT [g].Id, [g].Name, [g].Age, [g].Address
 FROM dbo.GetPersons(1) AS [g]
 WHERE [g].Name == N'Furion';
@@ -304,13 +304,13 @@ WHERE [g].Name == N'Furion';
 
 `EF Core` 为我们提供了很多常用的内置函数，可以在 `Lambda` 条件中使用，主要是通过 EF.Functions 调用，如：
 
-```cs
+```cs showLineNumbers 
 _repository.Where(u => EF.Functions.DateDiffHour(u.CreatedDt, DateTime.Now) > 8).FirstOrDefault();
 ```
 
 这个语句使用了 EF.Functions.DateDiffHour 最终生成的 Sql 如下：
 
-```sql
+```sql showLineNumbers 
 SELECT TOP(1) [a].*
 FROM [dbo].[TEST] AS [a]
 WHERE DATEDIFF(HOUR, [a].[CREATED_DT], GETDATE()) > 8

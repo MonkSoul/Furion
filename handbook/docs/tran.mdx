@@ -35,7 +35,7 @@ import TabItem from "@theme/TabItem";
 
 有些时候我们通过静态类或者其他方式不小心创建了新的 `DbContext` 实例，这时候贴了 `[UnitOfWork]` 也不见起效，这时候可以通过以下方法来确认事务是否有效：
 
-```cs
+```cs showLineNumbers 
 repository.EnsureTransaction();
 ```
 
@@ -55,7 +55,7 @@ repository.EnsureTransaction();
 >
   <TabItem value="one">
 
-```cs
+```cs showLineNumbers 
 // 开启事务
 using (var transaction = _testRepository.Database.BeginTransaction())
 {
@@ -85,7 +85,7 @@ using (var transaction = _testRepository.Database.BeginTransaction())
   </TabItem>
   <TabItem value="two">
 
-```cs
+```cs showLineNumbers 
 var options = new DbContextOptionsBuilder<DefaultDbContext>()
     .UseSqlServer(new SqlConnection(connectionString))
     .Options;
@@ -130,7 +130,7 @@ using (var context1 = new DefaultDbContext(options))
   </TabItem>
   <TabItem value="three">
 
-```cs {1-2}
+```cs showLineNumbers  {1-2}
 // 开启分布式事务
 using (var scope = new TransactionScope(TransactionScopeOption.Required, new TransactionOptions { IsolationLevel = IsolationLevel.ReadCommitted }))
 {

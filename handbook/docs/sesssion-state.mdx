@@ -23,7 +23,7 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 使用 `Cookie` 非常简单，如：
 
-```cs
+```cs showLineNumbers 
 // 读取 Cookies
 var value = httpContext.Request.Cookies["key"];
 
@@ -48,7 +48,7 @@ httpContext.Response.Cookies.Delete(key);
 
 在使用 `Session` 之前，必须注册 `Session` 服务：（如果
 
-```cs {1,5,7-12,32,37,39}
+```cs showLineNumbers  {1,5,7-12,32,37,39}
 public class Startup
 {
     public void ConfigureServices(IServiceCollection services)
@@ -104,7 +104,7 @@ public class Startup
 
 - 常见例子：
 
-```cs
+```cs showLineNumbers 
 // 读取 Session
 var byteArr = httpContext.Session.Get("key"); // 返回 byte[]
 var str = httpContext.Session.GetString("key");   // 返回 string[]
@@ -117,7 +117,7 @@ httpContext.Session.SetInt32("key", 1); // 设置 int 类型
 
 - **自定义设置任意类型拓展：**
 
-```cs
+```cs showLineNumbers 
 public static class SessionExtensions
 {
     public static void Set<T>(this ISession session, string key, T value)
@@ -137,7 +137,7 @@ public static class SessionExtensions
 
 在 `Startup.cs` 的 `ConfigureServices` 配置即可：
 
-```cs
+```cs showLineNumbers 
 services.Configure<CookiePolicyOptions>(options =>
 {
  　　options.CheckConsentNeeded = context => false; // 默认为true，改为false
@@ -153,7 +153,7 @@ services.Configure<CookiePolicyOptions>(options =>
 
 `HttpContext` 对象提供了 `Items` 集合属性，可以让我们在单次请求间共享数据，请求结束立即销毁，可以存储任何数据。使用也非常简单，如：
 
-```cs
+```cs showLineNumbers 
 // 读取
 var value = httpContext.Items["key"];
 
@@ -172,7 +172,7 @@ httpContext.Items.Remove("key");
 
 `AsyncLocal<T>` 可以说是进程内共享数据的大利器，可以通过该类实现跨线程、异步控制流中共享数据，如：
 
-```cs
+```cs showLineNumbers 
 using System;
 using System.Threading;
 using System.Threading.Tasks;
@@ -229,7 +229,7 @@ class Example
 
 为了简化操作，`Furion v2.18+` 版本实现了轻量级的 `CallContext` 静态类，内部使用 `AsyncLocal<T>` 实现，使用如下：
 
-```cs
+```cs showLineNumbers 
 CallContext.SetLocalValue("name", "Furion");
 CallContext.GetLocalValue("name");
 

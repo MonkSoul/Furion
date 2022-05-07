@@ -85,7 +85,7 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 1. 新增动态 `WebApi` 支持小驼峰路径，如 `GetMyName` -> `getMyName`：
 
-```json
+```json showLineNumbers 
 {
   "DynamicApiControllerSettings": {
     "LowercaseRoute": false,
@@ -97,7 +97,7 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 2. 支持 `.NET6 WebApplication` 模式二级虚拟目录配置：
 
-```cs {title="Progame.cs"}
+```cs showLineNumbers  {title="Progame.cs"}
 app.UseVirtualPath(app =>
 {
     app.UseInject(String.Empty);  // 注意 String.Empty 只是例子，可以不填或填其他的，见一分钟入门
@@ -305,7 +305,7 @@ app.UseVirtualPath(app =>
 
 :::important 新版本自定义规范化结果
 
-```cs {15-16}
+```cs showLineNumbers  {15-16}
 using Furion.DataValidation;
 using Furion.DependencyInjection;
 using Furion.UnifyResult.Internal;

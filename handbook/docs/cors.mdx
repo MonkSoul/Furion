@@ -35,7 +35,7 @@ sidebar_label: 16. CORS 跨域
 
 启用跨域 `Cors` 支持首先添加 `CorsAccessor` 服务，如：
 
-```cs {13,22}
+```cs showLineNumbers  {13,22}
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
@@ -83,7 +83,7 @@ namespace Furion.Web.Core
 
 如果需要指定特定域名，则添加以下配置即可：
 
-```json {4}
+```json showLineNumbers  {4}
 {
   "CorsAccessorSettings": {
     "PolicyName": "自定义跨域策略名",
@@ -107,7 +107,7 @@ namespace Furion.Web.Core
 
 由于 `axios` 对跨域有特定的需要，需要响应报文中公开特定 `Header` 才能放行，如：`Access-Control-Expose-Headers: xxxxx`，所以，如果前端使用了 `axios` 请求，需要添加以下配置：
 
-```cs
+```cs showLineNumbers 
 {
   "CorsAccessorSettings": {
     "WithExposedHeaders": ["access-token","x-access-token"]
@@ -121,7 +121,7 @@ namespace Furion.Web.Core
 
 使用 `Jquery` 前端请求可以参考以下配置：
 
-```cs {4-7}
+```cs showLineNumbers  {4-7}
 $.ajax({
         url: "http://localhost:8080/getdata",
         type: "GET",

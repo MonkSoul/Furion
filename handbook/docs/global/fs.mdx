@@ -6,19 +6,19 @@ sidebar_label: 13. FS 静态类
 
 ## 13.1 获取物理文件提供器
 
-```cs
+```cs showLineNumbers 
 var fileProvider = FS.GetPhysicalFileProvider(@"c:/test");
 ```
 
 ## 13.2 获取嵌入资源文件提供器
 
-```cs
+```cs showLineNumbers 
 var fileProvider = FS.GetEmbeddedFileProvider(Assembly.GetEntryAssembly());
 ```
 
 ## 13.3 获取文件提供器
 
-```cs
+```cs showLineNumbers 
 var fileProvider = FS.GetFileProvider(FileProviderTypes.Physical, @"c:/test");
 ```
 
@@ -28,7 +28,7 @@ var fileProvider = FS.GetFileProvider(FileProviderTypes.Physical, @"c:/test");
 
 - **`AppSettings` 配置**（推荐方式）
 
-```json
+```json showLineNumbers 
 {
   "AppSettings": {
     "EnabledVirtualFileServer": true
@@ -40,6 +40,6 @@ var fileProvider = FS.GetFileProvider(FileProviderTypes.Physical, @"c:/test");
 
 - **`手动注册**
 
-```cs
+```cs showLineNumbers 
 services.AddVirtualFileServer();
 ```
