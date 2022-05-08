@@ -4,15 +4,15 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
-import React from "react";
-import clsx from "clsx";
 import { useThemeConfig } from "@docusaurus/theme-common";
-import Logo from "@theme/Logo";
+import useBaseUrl from "@docusaurus/useBaseUrl";
 import CollapseButton from "@theme/DocSidebar/Desktop/CollapseButton";
 import Content from "@theme/DocSidebar/Desktop/Content";
-import styles from "./styles.module.css";
-import useBaseUrl from "@docusaurus/useBaseUrl";
+import Logo from "@theme/Logo";
+import clsx from "clsx";
+import React from "react";
 import sponsors from "../../../data/sponsor";
+import styles from "./styles.module.css";
 
 function DocSidebarDesktop({ path, sidebar, onCollapse, isHidden }) {
   const {
