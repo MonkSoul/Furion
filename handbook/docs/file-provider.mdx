@@ -25,7 +25,7 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 ## 31.2 注册虚拟文件系统服务
 
-```cs showLineNumbers 
+```cs showLineNumbers
 services.AddVirtualFileServer();
 ```
 
@@ -56,7 +56,7 @@ public class PersonServices
 
 `Furion` 框架也提供了 `FS` 静态类方式创建，如：
 
-```cs showLineNumbers 
+```cs showLineNumbers
 // 解析物理文件系统
 var physicalFileProvider = FS.GetPhysicalFileProvider(@"c:/test");
 
@@ -68,7 +68,7 @@ var embeddedFileProvider = FS.GetEmbeddedFileProvider(Assembly.GetEntryAssembly(
 
 ### 31.4.1 读取文件内容
 
-```cs showLineNumbers 
+```cs showLineNumbers
 byte[] buffer;
 using (Stream readStream = _fileProvider.GetFileInfo("你的文件路径").CreateReadStream())
 {
@@ -82,7 +82,7 @@ var content = Encoding.UTF8.GetString(buffer);
 
 ### 31.4.2 获取文件目录内容（需递归查找）
 
-```cs showLineNumbers 
+```cs showLineNumbers
 var rootPath = "当前目录路径";
 var fileinfos = _fileProvider.GetDirectoryContents(rootPath);
 foreach (var fileinfo in fileinfos)
@@ -96,7 +96,7 @@ foreach (var fileinfo in fileinfos)
 
 ### 31.4.4 监听文件变化
 
-```cs showLineNumbers 
+```cs showLineNumbers
 ChangeToken.OnChange(() => _fileProvider.Watch("监听的文件"), () =>
 {
     // 这里写你的逻辑
@@ -107,7 +107,7 @@ ChangeToken.OnChange(() => _fileProvider.Watch("监听的文件"), () =>
 
 通常我们采用模块化开发，静态资源都是嵌入进程序集中，这时候我们需要通过配置 `UseFileServer` 指定模块静态资源路径，如：
 
-```cs showLineNumbers 
+```cs showLineNumbers
 // 默认静态资源调用，wwwroot
 app.UseStaticFiles();
 
@@ -126,7 +126,7 @@ app.UseFileServer(new FileServerOptions
 
 ### 31.6.1 文件下载
 
-```cs showLineNumbers 
+```cs showLineNumbers
 [HttpGet, NonUnify]
 public IActionResult FileDownload()
 {
@@ -141,7 +141,7 @@ public IActionResult FileDownload()
 
 如果前端获取不到文件夹，可添加以下配置：
 
-```cs showLineNumbers 
+```cs showLineNumbers
 _httpContextAccessor.HttpContext.Response.Headers.Add("Content-Disposition", $"attachment; filename={文件名}");
 _httpContextAccessor.HttpContext.Response.Headers.Add("Access-Control-Expose-Headers", "Content-Disposition");
 ```
@@ -268,7 +268,7 @@ public async Task<IActionResult> UploadFileAsync(List<IFormFile> files)
 
 有时候我们需要将文件转换成 `byte[]` 存储到数据库，而不是存储到硬盘中。
 
-```cs showLineNumbers 
+```cs showLineNumbers
 [HttpPost]
 public async Task<IActionResult> UploadFileAsync(IFormFile file)
 {
@@ -297,6 +297,23 @@ public async Task<IActionResult> UploadFileAsync(IFormFile file)
 ```
 
 :::tip
+
+### 31.6.4 将 `byte[]` 输出为 `Url` 地址
+
+由于一些项目直接将文件二进制存储在数据库中，读取到内存的时候都是 `byte[]` 数组，比如我们将图片文件存储在数据库中，然后前端通过 `Url` 链接进行访问，这个时候就需要将 `byte[]` 转换为有效的资源路径格式，如：保存到网站根目录下的
+
+```cs showLineNumbers {1}
+[NonUnify, HttpGet, AllowAnonymous]
+public async Task<IActionResult> attachment(string resourceId)
+{
+    // 根据 resourceId 查询 byte[] 字节数组和 content-type
+
+    // 返回 FileContentResult 类型
+    return new FileContentResult(字节数组，content-type);
+}
+```
+
+之后我们就可以通过 `https://localhost/attachment/user_picture` 访问文件或图片了。
 
 ## 31.7 反馈与建议
 
