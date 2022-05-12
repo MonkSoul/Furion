@@ -93,10 +93,12 @@ public sealed class FriendlyExceptionFilter : IAsyncExceptionFilter
     internal static void PrintToMiniProfiler(Exception exception)
     {
         // 判断是否注入 MiniProfiler 组件
-        if (App.Settings.InjectMiniProfiler != true) return;
+        if (App.Settings.InjectMiniProfiler != true || exception == null) return;
 
         // 获取异常堆栈
-        var traceFrame = new StackTrace(exception, true).GetFrame(0);
+        var stackTrace = new StackTrace(exception, true);
+        if (stackTrace.FrameCount == 0) return;
+        var traceFrame = stackTrace.GetFrame(0);
 
         // 获取出错的文件名
         var exceptionFileName = traceFrame.GetFileName();
