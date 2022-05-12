@@ -50,7 +50,7 @@ internal static class Penetrates
                          .EnableSensitiveDataLogging();
             }
 
-            optionBuilder.Invoke(options);
+            optionBuilder?.Invoke(options);
 
             // 添加拦截器
             AddInterceptors(interceptors, options);
