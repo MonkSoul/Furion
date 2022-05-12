@@ -14,9 +14,13 @@ sidebar_label: 9.0 入门简要 ✨
 
 ### 9.0.1.1 安装对应数据库包
 
+:::tip
+
 在本章节所在的类别中，所有数据库操作功能均需要依赖 `EntityFramework Core` 框架，但 `Furion` 框架底层并未集成 `EntityFramework Core` 包，而是采用动态加载程序集方式自动载入。
 
-所以，如需使用本大类数据库功能，需安装对应的 `EntityFramework Core` 数据库包：
+:::
+
+**所以，如需使用本大类数据库功能，需安装对应的 `EntityFramework Core` 数据库包：**
 
 - `SqlServer`：`Microsoft.EntityFrameworkCore.SqlServer` (支持 SqlServer 2005 +)
 - `Sqlite`：`Microsoft.EntityFrameworkCore.Sqlite`

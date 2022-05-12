@@ -4,6 +4,8 @@ title: 34.4 二级虚拟目录部署
 sidebar_label: 34.4 二级虚拟目录部署
 ---
 
+import useBaseUrl from "@docusaurus/useBaseUrl";
+
 ## 34.4.1 关于二级虚拟目录
 
 通常我们的站点都是部署在网站的根目录下的，但是有些时候，我们可能将网站根目录下的目录作为二级站点或子站点，这个时候，就会出现 `404` 错误了。
@@ -21,7 +23,21 @@ sidebar_label: 34.4 二级虚拟目录部署
 如果网站是在 `Site` 下面添加 `Application` 下部署，则遵循以下步骤：
 
 1. 添加 `Application Pool` 应用程序池，并设置为非托管模式
+
+<img src={useBaseUrl("img/vr1.png")} />
+
 2. 添加 `Application` 并选择刚刚创建的应用程序池
+
+<img src={useBaseUrl("img/vr2.png")} />
+
+<br />
+
+<img src={useBaseUrl("img/vr3.png")} />
+
+<br />
+
+<img src={useBaseUrl("img/vr4.png")} />
+
 3. 添加应用配置：
 
 ```json showLineNumbers  {2,3}
@@ -31,6 +47,8 @@ sidebar_label: 34.4 二级虚拟目录部署
   }
 }
 ```
+
+**该配置主要是解决 `Swagger` 出现 `404` 问题。**
 
 ## 34.4.3 针对非 `IIS` 下部署情况
 

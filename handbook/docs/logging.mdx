@@ -97,7 +97,7 @@ public class ContactModel : PageModel
 
 在 `Furion` 框架中，提供了更懒的方式写入日志，也就是通过字符串拓展的方式写入，如：
 
-```cs showLineNumbers 
+```cs showLineNumbers
 "简单日志".LogInformation();
 
 "百小僧 新增了一条记录".LogInformation<HomeController>();
@@ -164,7 +164,7 @@ builder.Host.UseSerilogDefault();
 
 `.UseSerilogDefault()` 默认集成了 `控制台` 和 `文件` 方式。如需自定义写入，则传入需要写入的介质即可：
 
-```cs showLineNumbers 
+```cs showLineNumbers
 .UseSerilogDefault(config =>
 {
     config.WriteTo.Console(outputTemplate: "[{Timestamp:HH:mm:ss} {Level:u3}] {Message:lj} {Properties:j}{NewLine}{Exception}")
@@ -176,7 +176,7 @@ builder.Host.UseSerilogDefault();
 
 :::important 拓展：可按日志级别 单独输出
 
-```cs showLineNumbers 
+```cs showLineNumbers
 .UseSerilogDefault(config =>//默认集成了 控制台 和 文件 方式。如需自定义写入，则传入需要写入的介质即可：
  {
      string date = DateTime.Now.ToString("yyyy-MM-dd");//按时间创建文件夹
@@ -232,7 +232,7 @@ builder.Host.UseSerilogDefault();
 
 - 替换 `appsetting.json` 默认日志内容
 
-```json showLineNumbers 
+```json showLineNumbers
 "Logging": {
     "LogLevel": {
       "Default": "Information",
@@ -245,7 +245,7 @@ builder.Host.UseSerilogDefault();
 
 替换为：
 
-```json showLineNumbers 
+```json showLineNumbers
 "Serilog": {
     "MinimumLevel": {
       "Default": "Information",
@@ -263,7 +263,7 @@ builder.Host.UseSerilogDefault();
 
 `Serilog` 日志组件也提供了非常方便快捷的请求日志中间件，只需要在 `Startup.cs` 中启用即可。如：
 
-```cs showLineNumbers 
+```cs showLineNumbers
 public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
  {
      app.UseStaticFiles();
@@ -282,7 +282,7 @@ public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
 
 下面便是日志输出日志的模板，支持各种自定义方式
 
-```
+```bash showLineNumbers
 2020-12-21 15:54:43.775 +08:00 [INF] Application started. Press Ctrl+C to shut down.
 2020-12-21 15:54:43.897 +08:00 [INF] Hosting environment: Development
 2020-12-21 15:54:43.899 +08:00 [INF] Content root path: D:\MONK\Furion\samples\Furion.Web.Entry
@@ -323,7 +323,7 @@ ORDER BY "p"."Id", "p0"."Id", "c"."Id", "t"."PersonsId", "t"."PostsId", "t"."Id"
 
 在 `Furion` 框架中默认集成了 `MiniProfiler` 组件并与 `Swagger` 进行了结合，如需打印日志或调试代码，只需调用以下方法即可：
 
-```cs showLineNumbers 
+```cs showLineNumbers
 App.PrintToMiniProfiler("分类", "状态", "要打印的消息");
 ```
 
@@ -331,7 +331,7 @@ App.PrintToMiniProfiler("分类", "状态", "要打印的消息");
 
 由于 `DbContext` 默认注册为 `Scoped` 生存周期，所以在后台任务中使用 `IServiceScopeFactory` 获取所有服务，如：
 
-```cs showLineNumbers 
+```cs showLineNumbers
 public class JobService : BackgroundService
 {
     // 日志对象
@@ -375,7 +375,7 @@ public class JobService : BackgroundService
 
 1. 设置 `字符串` 拓展日志作用域
 
-```cs showLineNumbers 
+```cs showLineNumbers
 "日志内容".SetLoggerScoped(serviceProvider).LogInformation();
 ```
 
@@ -415,7 +415,7 @@ namespace FurStart
 
 这时，我们只需要通过 `.SetXXXScoped(service)` 共享当前服务提供器作用域即可，如：
 
-```cs showLineNumbers 
+```cs showLineNumbers
 Scoped.Create(async (fac, scope) => {
    "写日志".SetLoggerScoped(scope.ServiceProvider).LogInformation();
 });
@@ -423,7 +423,7 @@ Scoped.Create(async (fac, scope) => {
 
 ## 18.11 静态 `Default` 方式构建
 
-```cs showLineNumbers 
+```cs showLineNumbers
 StringLoggingPart.Default.SetMessage("这是一个日志").LogInformation();
 ```
 

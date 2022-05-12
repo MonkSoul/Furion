@@ -39,7 +39,7 @@ OAuth 协议又有 1.0 和 2.0 两个版本。相比较 1.0 版，2.0 版整个�
 
 在添加授权服务之前，请先确保 `Startup.cs` 中 `Configure` 是否添加了以下两个中间件：
 
-```cs showLineNumbers 
+```cs showLineNumbers
 app.UseAuthentication();
 app.UseAuthorization();
 ```
@@ -48,7 +48,7 @@ app.UseAuthorization();
 
 ### 15.2.1 添加 `Cookie` 身份验证
 
-```cs showLineNumbers 
+```cs showLineNumbers
 // Cookies单独身份验证
 services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
         .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, b =>
@@ -59,7 +59,7 @@ services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
 
 ### 15.2.2 添加 `Jwt` 身份验证
 
-```cs showLineNumbers 
+```cs showLineNumbers
 services.AddJwt();
 ```
 
@@ -104,7 +104,7 @@ services.AddJwt();
 
 - 生成 `Token`
 
-```cs showLineNumbers 
+```cs showLineNumbers
 // 生成 token
 var accessToken = JWTEncryption.Encrypt(new Dictionary<string, object>()
             {
@@ -115,7 +115,7 @@ var accessToken = JWTEncryption.Encrypt(new Dictionary<string, object>()
 
 ### 15.2.3 混合身份验证
 
-```cs showLineNumbers 
+```cs showLineNumbers
 // JWT 和 Cookies 混合身份验证
 services.AddJwt(options =>
 {
@@ -198,7 +198,7 @@ namespace Furion.Web.Core
 
 之后注册 `JwtHandler` 即可：
 
-```cs showLineNumbers 
+```cs showLineNumbers
 services.AddJwt<JwtHandler>();
 ```
 
@@ -245,7 +245,7 @@ namespace Furion.Web.Core
 
 ### 15.4.1 全局授权
 
-```cs showLineNumbers 
+```cs showLineNumbers
 services.AddJwt<JwtHandler>(enableGlobalAuthorize:true);
 ```
 
@@ -373,6 +373,10 @@ axiosInstance.interceptors.response.use((res) => {
   }
 
   return res;
+},error => {
+    window.localStorage.removeItem("access-token");
+    window.localStorage.removeItem("x-access-token");
+    return Promise.reject(error);
 });
 ```
 
@@ -397,7 +401,7 @@ x-access-token: 新的刷新token
 
 ## 15.6 获取 `Jwt` 存储的信息
 
-```cs showLineNumbers 
+```cs showLineNumbers
 // 获取 `Jwt` 存储的信息
 var userId = App.User?.FindFirstValue("键");
 ```

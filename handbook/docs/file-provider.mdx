@@ -300,9 +300,9 @@ public async Task<IActionResult> UploadFileAsync(IFormFile file)
 
 ### 31.6.4 将 `byte[]` 输出为 `Url` 地址
 
-由于一些项目直接将文件二进制存储在数据库中，读取到内存的时候都是 `byte[]` 数组，比如我们将图片文件存储在数据库中，然后前端通过 `Url` 链接进行访问，这个时候就需要将 `byte[]` 转换为有效的资源路径格式，如：保存到网站根目录下的
+由于一些项目直接将文件二进制存储在数据库中，读取到内存的时候都是 `byte[]` 数组，比如我们将图片文件存储在数据库中，然后前端通过 `Url` 链接进行访问，这个时候就需要将 `byte[]` 转换为有效的资源路径格式，如：
 
-```cs showLineNumbers {1}
+```cs showLineNumbers {1,7}
 [NonUnify, HttpGet, AllowAnonymous]
 public async Task<IActionResult> attachment(string resourceId)
 {
@@ -313,7 +313,7 @@ public async Task<IActionResult> attachment(string resourceId)
 }
 ```
 
-之后我们就可以通过 `https://localhost/attachment/user_picture` 访问文件或图片了。
+之后我们就可以通过 `https://localhost/attachment/资源id` 访问文件或图片了。
 
 ## 31.7 反馈与建议
 
