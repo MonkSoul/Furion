@@ -38,11 +38,12 @@ public static class StringRenderExtensions
     /// <param name="template"></param>
     /// <param name="templateData"></param>
     /// <param name="encode"></param>
-    public static void Render(this string template, object templateData, bool encode = false)
+    /// <returns></returns>
+    public static string Render(this string template, object templateData, bool encode = false)
     {
-        if (template == null) return;
+        if (template == null) return default;
 
-        template.Render(templateData == null ? default : templateData.ToDictionary(), encode);
+        return template.Render(templateData == null ? default : templateData.ToDictionary(), encode);
     }
 
     /// <summary>
