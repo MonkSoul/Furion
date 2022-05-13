@@ -374,8 +374,6 @@ axiosInstance.interceptors.response.use((res) => {
 
   return res;
 },error => {
-    window.localStorage.removeItem("access-token");
-    window.localStorage.removeItem("x-access-token");
     return Promise.reject(error);
 });
 ```
