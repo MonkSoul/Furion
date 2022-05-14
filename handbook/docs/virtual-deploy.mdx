@@ -50,6 +50,16 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 **该配置主要是解决 `Swagger` 出现 `404` 问题。**
 
+:::tip 个别情况
+
+如果配置之后还 `Swagger` 还出现不能加载 `swagger.json` 文件问题，那么需修改启动注册代码：
+
+```cs showLineNumbers
+app.UseInject(string.Empty);  // 确保参数是 strng.Empty
+```
+
+:::
+
 ## 34.4.3 针对非 `IIS` 下部署情况
 
 ### 34.4.3.1 配置 `AppSettings`
