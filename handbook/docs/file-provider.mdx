@@ -126,12 +126,26 @@ app.UseFileServer(new FileServerOptions
 
 ### 31.6.1 文件下载
 
-```cs showLineNumbers
+- 文件路径的方式
+
+```cs showLineNumbers {1,5}
 [HttpGet, NonUnify]
 public IActionResult FileDownload()
 {
     string filePath = "这里获取完整的文件下载路径";
     return new FileStreamResult(new FileStream(filePath, FileMode.Open), "application/octet-stream") {
+        FileDownloadName = fileName // 配置文件下载显示名
+    };
+}
+```
+
+- `byte[]` 方式
+
+```cs showLineNumbers {1,4}
+[HttpGet, NonUnify]
+public IActionResult FileDownload()
+{
+    return new FileStreamResult(byte数组, "application/octet-stream") {
         FileDownloadName = fileName // 配置文件下载显示名
     };
 }
@@ -268,7 +282,7 @@ public async Task<IActionResult> UploadFileAsync(List<IFormFile> files)
 
 有时候我们需要将文件转换成 `byte[]` 存储到数据库，而不是存储到硬盘中。
 
-```cs showLineNumbers
+```cs showLineNumbers {4-8}
 [HttpPost]
 public async Task<IActionResult> UploadFileAsync(IFormFile file)
 {
