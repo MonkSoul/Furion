@@ -6,7 +6,7 @@ sidebar_label: 14. 分布式缓存
 
 ## 14.1 什么是缓存
 
-缓存可以减少生成内容所需的工作，从而显著提高应用程序的性能和可伸缩性。 **缓存最适用于不经常更改的数据，因为生成成本很高**。 通过缓存，可以比从数据源返回的数据的副本速度快得多。 应该对应用进行编写和测试，使其不要永远依赖于缓存的数据。
+缓存可以减少生成内容所需的工作，从而显著提高应用程序的性能和可伸缩性。 **缓存适用于不经常更改的数据，因为生成成本很高**。 通过缓存，可比从数据源返回数据的副本速度快得多。 应该对应用进行编写和测试，使其不要永远依赖于缓存的数据。
 
 ## 14.2 缓存类型
 
@@ -79,7 +79,7 @@ await _memoryCache.GetOrCreateAsync(_timeCacheKey, async entry =>
 
 :::caution 关于缓存时间
 
-只有具有可调过期的缓存项集存在过时的风险。 如果访问的时间比滑动过期时间间隔更频繁，则该项将永不过期。
+具有可调过期的缓存项集存在过时的风险。 如果访问的时间比滑动过期时间间隔更频繁，则该项将永不过期。
 
 将弹性过期与绝对过期组合在一起，以保证项目在其绝对过期时间通过后过期。 绝对过期会将项的上限设置为可缓存项的时间，同时仍允许项在可调整过期时间间隔内未请求时提前过期。
 
@@ -113,7 +113,7 @@ _memoryCache.Set(_timeCacheKey, DateTimeOffset.UtcNow, cacheEntryOptions);
 
 ### 14.3.4 缓存依赖关系
 
-下面的示例演示如何在依赖条目过期时使缓存条目过期。 `CancellationChangeToken` 添加到缓存的项。 当 `Cancel` 在上调用时 `CancellationTokenSource` ，将逐出两个缓存项。
+下面的示例演示如何在依赖条目过期后使缓存条目过期。 `CancellationChangeToken` 添加到缓存的项。 当 `Cancel` 在上调用时 `CancellationTokenSource` ，将逐出两个缓存项。
 
 ```cs showLineNumbers 
 public IActionResult CreateDependentEntries()
