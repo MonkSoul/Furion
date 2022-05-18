@@ -7,7 +7,36 @@
 > - 如果涉及到代码重构，则当天发版，次版本号 `加 1`，修订版本号 `清 0`。
 > - 如果 `.NET SDK` 主版本号升级，则当天发版，主版本号 `加 1`。 -->
 
-## v3.2.0（当前版本）
+## v3.3.0（当前版本）
+
+- **新特性**
+
+  - [新增] 远程请求文件上传自动识别 `Content-Type` 和 `Mime` [I57ZMN](https://gitee.com/dotnetchina/Furion/issues/I57ZMN)
+  - [新增] 远程请求方法支持设置 `Content-Type` 和 `Encoding` [I57ZMN](https://gitee.com/dotnetchina/Furion/issues/I57ZMN)
+
+- **突破性变化**
+
+  - [更新] `.NET` 所有依赖包至 `v6.0.5` 版本
+
+- **问题修复**
+
+  - [修复] 自定义全局异常 `Exception` 后导致获取错误行号，文件空异常问题 [#I53EGM](https://gitee.com/dotnetchina/Furion/issues/I53EGM)
+  - [修复] 配置数据库上下文传递空委托导致空引用异常问题 [#I519AW](https://gitee.com/dotnetchina/Furion/issues/I519AW)
+  - [修复] 字符串模板模板 `Render` 拓展方法返回 `void` 问题，应该返回 `string`
+  - [修复] 远程请求文件上传出现空情况问题（原因是缺失 `Content-Type` ）[I57ZMN](https://gitee.com/dotnetchina/Furion/issues/I57ZMN)
+
+- **其他更改**
+
+  - [优化] 视图引擎反射性能
+
+- **文档**
+
+  - [更新] 二级虚拟目录部署文档，远程请求文档，文件上传文档，安全授权文档
+  - [新增] 将 `byte[]` 转 `url` 文档
+
+---
+
+## v3.2.0（已发布）
 
 - **新特性**
 
