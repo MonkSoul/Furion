@@ -62,6 +62,12 @@ app.UseInject(string.Empty);  // 确保参数是 strng.Empty
 
 ## 34.4.3 针对非 `IIS` 下部署情况
 
+:::caution 注意事项
+
+这里是针对 `非 IIS` 部署使用的！！！
+
+:::
+
 ### 34.4.3.1 配置 `AppSettings`
 
 我们只需要配置 `AppSettings` 即可：
@@ -92,7 +98,7 @@ app.UseVirtualPath(app =>
 });
 ```
 
-\*\*注意，`app.MapRouteControllers()` 是替换 `app.MapControllers()` 的！
+**注意，`app.MapRouteControllers()` 是替换 `app.MapControllers()` 的！**
 
 ## 34.4.4 反馈与建议
 

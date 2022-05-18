@@ -46,7 +46,13 @@ app.UseAuthorization();
 
 :::
 
-### 15.2.1 添加 `Cookie` 身份验证
+### 15.2.1 <s>添加 `Cookie` 身份验证</s>
+
+:::important 使用说明
+
+如果您使用的是 `WebAPI`，则该小节可忽略，通常 `WebAPI` 使用的是 `JWT` 授权方式，而非 `Cookie`。
+
+:::
 
 ```cs showLineNumbers
 // Cookies单独身份验证
@@ -59,19 +65,44 @@ services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
 
 ### 15.2.2 添加 `Jwt` 身份验证
 
-```cs showLineNumbers
+- 安装 `Furion.Extras.Authentication.JwtBearer` 拓展包
+
+- 在 `Startup.cs` 中注册 `AddJwt` 服务，注意，**必须在 `.AddControllers()` 之前注册！！**
+
+```cs showLineNumbers {2,5}
+// 默认授权机制，需授权的即可（方法）需贴 `[Authorize]` 特性
 services.AddJwt();
+
+// 启用全局授权，这样每个接口都必须授权才能访问，无需贴 `[Authorize]` 特性，推荐！！！！！！！！！❤️
+// services.AddJwt<JwtHandler>(enableGlobalAuthorize:true);
 ```
 
-:::important 特别注意
+:::note 额外补充
 
-`JWT` 鉴权并未包含在 `Furion` 框架中，需要安装 `Furion` 框架提供的 `Furion.Extras.Authentication.JwtBearer` 拓展包。
+默认 `JwtHandler` 代码：
 
-另外 `.AddJwt()` 必须在 `.AddControllers()` 之前注册。💡
+```cs showLineNumbers {8,14}
+using Furion.Authorization;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using System.Threading.Tasks;
+
+namespace FurionApi.Web.Core;
+
+public class JwtHandler : AppAuthorizeHandler
+{
+    public override Task<bool> PipelineAsync(AuthorizationHandlerContext context, DefaultHttpContext httpContext)
+    {
+        // 这里写您的授权判断逻辑，授权通过返回 true，否则返回 false
+
+        return Task.FromResult(true);
+    }
+}
+```
 
 :::
 
-- 自定义 `Jwt` 配置（默认无需配置）
+- 自定义 `Jwt` 配置（**默认无需配置**）
 
 ```json showLineNumbers  {4,6,8}
 {
@@ -102,9 +133,11 @@ services.AddJwt();
 
 :::
 
-- 生成 `Token`
+- ❤️ ❤️ 生成 `Token`
 
-```cs showLineNumbers
+通常我们需要在登录成功之后生成 `JWT` Token 并返回，可通过 `JWTEncryption.Encrypt` 静态方法生成，如：
+
+```cs showLineNumbers {2,4-5}
 // 生成 token
 var accessToken = JWTEncryption.Encrypt(new Dictionary<string, object>()
             {
@@ -115,7 +148,7 @@ var accessToken = JWTEncryption.Encrypt(new Dictionary<string, object>()
 
 ### 15.2.3 混合身份验证
 
-```cs showLineNumbers
+```cs showLineNumbers {2,7}
 // JWT 和 Cookies 混合身份验证
 services.AddJwt(options =>
 {
@@ -239,7 +272,7 @@ namespace Furion.Web.Core
 
 ## 15.4 授权特性及全局授权
 
-默认情况下，所有的路由都是允许匿名访问的，所以如果需要对某个 `Action` 或 `Controller` 设定授权访问，只需要在 `Action` 或 `Controller` 贴 `[AppAuthorize]` 或 `[Authorize]` 特性即可。
+**默认情况下，所有的路由都是允许匿名访问的，所以如果需要对某个 `Action` 或 `Controller` 设定授权访问，只需要在 `Action` 或 `Controller` 贴 `[AppAuthorize]` 或 `[Authorize]` 特性即可。**
 
 如果需要对特定的 `Action` 或 `Controller` 允许匿名访问，则贴 `[AllowAnonymous]` 即可。
 
@@ -399,12 +432,19 @@ x-access-token: 新的刷新token
 
 ## 15.6 获取 `Jwt` 存储的信息
 
+
 ```cs showLineNumbers
 // 获取 `Jwt` 存储的信息
 var userId = App.User?.FindFirstValue("键");
 ```
 
 **注意引入 `System.Security.Claims` 命名空间**
+
+:::warning 获取不到 `Token` 信息说明
+
+请确保 `.AddJwt` 服务已注册且启用了 `全局授权` 或该接口（方法）贴有 `[Authorize]` 特性。
+
+:::
 
 ## 15.7 反馈与建议
 
