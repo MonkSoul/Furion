@@ -454,5 +454,29 @@
             为角色分配权限
             </summary>
         </member>
+        <member name="M:Furion.Application.TestModuleServices.TestSingleFileProxy">
+            <summary>
+            测试单文件上传
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Furion.Application.TestModuleServices.TestMultiFileProxy">
+            <summary>
+            测试多文件上传
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Furion.Application.TestModuleServices.TestSingleFileProxyString">
+            <summary>
+            测试单文件上传（字符串方式）
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Furion.Application.TestModuleServices.TestMultiFileProxyString">
+            <summary>
+            测试多文件上传（字符串方式）
+            </summary>
+            <returns></returns>
+        </member>
     </members>
 </doc>

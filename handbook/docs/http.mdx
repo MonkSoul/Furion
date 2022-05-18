@@ -387,8 +387,12 @@ var str = await "https://www.baidu.com".GetAsStringAsync();
 
 ```cs showLineNumbers 
 // bytes 可以通过 File.ReadAllBytes(文件路径) 获取
-var res = await "https://www.furion.icu/upload".SetBody(new { id =1, name = "Furion"}, "multipart/form-data")
-                                               .SetBodyBytes(("键", bytes, "文件名")).PostAsync();
+var res = await "https://www.furion.icu/upload".SetContentType("multipart/form-data")
+                                               .SetBodyBytes(("键", bytes, "文件名")).PostAsync();                             
+
+// 支持多个文件                                               
+var res = await "https://www.furion.icu/upload".SetContentType("multipart/form-data")
+                                               .SetBodyBytes(("键", bytes, "文件名"),("键", bytes, "文件名")).PostAsync();                             
 ```
 
 :::note 关于微信上传接口
@@ -788,11 +792,15 @@ public interface IHttp : IHttpDispatchProxy
 
 有时候我们需要上传文件，需要设置 `Content-Type` 为 `multipart/form-data` 类型，如：
 
-```cs showLineNumbers 
+```cs showLineNumbers {3,4}
 public interface IHttp : IHttpDispatchProxy
 {
-    [Post("https://www.furion.icu/upload")] // bytes 可以通过 File.ReadAllBytes(文件路径) 获取
-    Task<HttpRequestMessage> PostXXXAsync([Body("multipart/form-data")]User user, [BodyBytes("键","文件名")]Byte[] bytes);
+    [Post("https://www.furion.icu/upload", ContentType = "multipart/form-data")] // bytes 可以通过 File.ReadAllBytes(文件路径) 获取
+    Task<HttpResponseMessage> PostXXXAsync([BodyBytes("键","文件名")]Byte[] bytes);
+
+    // 支持多个文件
+    [Post("https://www.furion.icu/upload", ContentType = "multipart/form-data")] // bytes 可以通过 File.ReadAllBytes(文件路径) 获取
+    Task<HttpResponseMessage> PostXXXAsync([BodyBytes("键","文件名")]Byte[] bytes,[BodyBytes("键","文件名")]Byte[] bytes2);
 }
 ```
 
@@ -803,7 +811,7 @@ public interface IHttp : IHttpDispatchProxy
 public interface IHttp : IHttpDispatchProxy
 {
     [Post("https://www.furion.icu/upload"), Timeout(500)]   // 单位秒
-    Task<HttpRequestMessage> PostXXXAsync([Body]User user);
+    Task<HttpResponseMessage> PostXXXAsync([Body]User user);
 }
 ```
 
@@ -821,7 +829,7 @@ var res = await "https://www.furion.icu/upload".SetClientTimeout(10); // 单位�
 public interface IHttp : IHttpDispatchProxy
 {
     [Post("#(Furion:Address)/upload")]
-    Task<HttpRequestMessage> PostXXXAsync([Body]User user);
+    Task<HttpResponseMessage> PostXXXAsync([Body]User user);
 }
 ```
 
@@ -844,7 +852,7 @@ public interface IHttp : IHttpDispatchProxy
 public interface IHttp : IHttpDispatchProxy
 {
     [Post("https://www.furion.icu"), RetryPolicy(3, 1000)]    // 支持局部
-    Task<HttpRequestMessage> PostXXXAsync([Body]User user);
+    Task<HttpResponseMessage> PostXXXAsync([Body]User user);
 }
 ```
 
@@ -858,7 +866,7 @@ public interface IHttp : IHttpDispatchProxy
 public interface IHttp : IHttpDispatchProxy
 {
     [Post("https://www.furion.icu", WithGZip = true)] 
-    Task<HttpRequestMessage> PostXXXAsync([Body]User user);
+    Task<HttpResponseMessage> PostXXXAsync([Body]User user);
 }
 ```
 

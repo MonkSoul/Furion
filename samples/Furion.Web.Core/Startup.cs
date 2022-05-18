@@ -20,6 +20,8 @@ public sealed class Startup : AppStartup
                 .AddAppLocalization()
                 .AddInjectWithUnifyResult();
 
+        services.AddRemoteRequest();
+
         // 添加实时通讯
         services.AddSignalR();
     }

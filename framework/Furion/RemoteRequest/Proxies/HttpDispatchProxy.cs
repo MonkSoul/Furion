@@ -100,6 +100,8 @@ public class HttpDispatchProxy : AspectDispatchProxy, IDispatchProxy
         // 创建请求配置对象
         var httpRequestPart = new HttpRequestPart();
         httpRequestPart.SetRequestUrl(httpMethodBase.RequestUrl)
+                      .SetContentType(httpMethodBase.ContentType)
+                      .SetContentEncoding(Encoding.GetEncoding(httpMethodBase.Encoding))
                       .SetHttpMethod(httpMethodBase.Method)
                       .SetTemplates(parameters.ToDictionary(u => u.Name, u => u.Value))
                       .SetRequestScoped(Services)
@@ -191,6 +193,7 @@ public class HttpDispatchProxy : AspectDispatchProxy, IDispatchProxy
         if (bodyBytesParameters != null)
         {
             var bodyBytes = new List<(string Name, byte[] Bytes, string FileName)>();
+
             foreach (var item in bodyBytesParameters)
             {
                 var bodyBytesAttribute = item.Parameter.GetCustomAttribute<BodyBytesAttribute>();

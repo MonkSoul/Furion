@@ -11,6 +11,7 @@ using Furion.DataValidation;
 using Furion.FriendlyException;
 using Furion.JsonSerialization;
 using Furion.Templates.Extensions;
+using Microsoft.AspNetCore.StaticFiles;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -610,10 +611,16 @@ public sealed partial class HttpRequestPart
                 // 添加 Bytes 类型
                 foreach (var (Name, Bytes, FileName) in BodyBytes)
                 {
+                    // 获取文件 Content-Type 类型
+                    new FileExtensionContentTypeProvider().TryGetContentType(FileName, out string contentType);
+
+                    var byteArrayContent = new ByteArrayContent(Bytes);
+                    byteArrayContent.Headers.Add("Content-Type", contentType ?? string.Empty);
+
                     if (string.IsNullOrWhiteSpace(FileName))
-                        multipartFormDataContent.Add(new ByteArrayContent(Bytes), Name);
+                        multipartFormDataContent.Add(byteArrayContent, Name);
                     else
-                        multipartFormDataContent.Add(new ByteArrayContent(Bytes), Name, FileName);
+                        multipartFormDataContent.Add(byteArrayContent, Name, FileName);
                 }
 
                 // 处理其他类型

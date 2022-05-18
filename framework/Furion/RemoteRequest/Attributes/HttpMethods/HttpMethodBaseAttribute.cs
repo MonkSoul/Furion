@@ -43,4 +43,14 @@ public class HttpMethodBaseAttribute : Attribute
     /// 支持 GZip 压缩
     /// </summary>
     public bool WithGZip { get; set; } = false;
+
+    /// <summary>
+    /// 内容类型
+    /// </summary>
+    public string ContentType { get; set; } = "application/json";
+
+    /// <summary>
+    /// 内容编码
+    /// </summary>
+    public string Encoding { get; set; } = "UTF-8";
 }
