@@ -74,7 +74,17 @@ dotnet new --install Furion.Template.Mvc::2.x.x
 
 <img src={useBaseUrl("img/ksh.png")} />
 
-## 2.2.6 搭建脚手架
+## 2.2.6 `关于 MVC 添加区域出错问题`
+
+由于 `Furion` 底层依赖了 `Microsoft.CodeAnalysis.CSharp` 包，所以可能通过 `Viusal Studio` 的界面添加 `Area 区域` 时会出错，这时候只需要在 `Web.Entry` 层安装下面几个包即可：
+
+- `Microsoft.CodeAnalysis.CSharp.Features`
+- `Microsoft.CodeAnalysis.CSharp.Scripting`
+- `Microsoft.CodeAnalysis.VisualBasic.Features`
+- `Microsoft.CodeAnalysis.Workspaces.MSBuild`
+- `Microsoft.VisualStudio.Web.CodeGeneration.Design`
+
+## 2.2.7 搭建脚手架
 
 脚手架可以极大的提高我们搭建新项目的速度，推荐两篇文章给大家学习：
 
@@ -86,7 +96,7 @@ dotnet new --install Furion.Template.Mvc::2.x.x
 
 [Furion 脚手架源码](https://gitee.com/dotnetchina/Furion/tree/net6/templates)
 
-## 2.2.7 反馈与建议
+## 2.2.8 反馈与建议
 
 :::note 与我们交流
 
