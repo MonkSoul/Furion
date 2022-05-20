@@ -1,4 +1,4 @@
-// Copyright (c) 2020-2022 °ÙĞ¡É®, Baiqian Co.,Ltd.
+ï»¿// Copyright (c) 2020-2022 ç™¾å°åƒ§, Baiqian Co.,Ltd.
 // Furion is licensed under Mulan PSL v2.
 // You can use this software according to the terms and conditions of the Mulan PSL v2.
 // You may obtain a copy of Mulan PSL v2 at:
@@ -12,19 +12,19 @@ using System;
 namespace Microsoft.Extensions.DependencyInjection;
 
 /// <summary>
-/// EventBus Ä£¿é·şÎñÍØÕ¹
+/// EventBus æ¨¡å—æœåŠ¡æ‹“å±•
 /// </summary>
 public static class EventBusServiceCollectionExtensions
 {
     /// <summary>
-    /// Ìí¼Ó EventBus Ä£¿é×¢²á
+    /// æ·»åŠ  EventBus æ¨¡å—æ³¨å†Œ
     /// </summary>
-    /// <param name="services">·şÎñ¼¯ºÏ¶ÔÏó</param>
-    /// <param name="configureOptionsBuilder">ÊÂ¼ş×ÜÏßÅäÖÃÑ¡Ïî¹¹½¨Æ÷Î¯ÍĞ</param>
-    /// <returns>·şÎñ¼¯ºÏÊµÀı</returns>
+    /// <param name="services">æœåŠ¡é›†åˆå¯¹è±¡</param>
+    /// <param name="configureOptionsBuilder">äº‹ä»¶æ€»çº¿é…ç½®é€‰é¡¹æ„å»ºå™¨å§”æ‰˜</param>
+    /// <returns>æœåŠ¡é›†åˆå®ä¾‹</returns>
     public static IServiceCollection AddEventBus(this IServiceCollection services, Action<EventBusOptionsBuilder> configureOptionsBuilder)
     {
-        // ´´½¨³õÊ¼ÊÂ¼ş×ÜÏßÅäÖÃÑ¡Ïî¹¹½¨Æ÷
+        // åˆ›å»ºåˆå§‹äº‹ä»¶æ€»çº¿é…ç½®é€‰é¡¹æ„å»ºå™¨
         var eventBusOptionsBuilder = new EventBusOptionsBuilder();
         configureOptionsBuilder.Invoke(eventBusOptionsBuilder);
 
@@ -32,26 +32,26 @@ public static class EventBusServiceCollectionExtensions
     }
 
     /// <summary>
-    /// Ìí¼Ó EventBus Ä£¿é×¢²á
+    /// æ·»åŠ  EventBus æ¨¡å—æ³¨å†Œ
     /// </summary>
-    /// <param name="services">·şÎñ¼¯ºÏ¶ÔÏó</param>
-    /// <param name="eventBusOptionsBuilder">ÊÂ¼ş×ÜÏßÅäÖÃÑ¡Ïî¹¹½¨Æ÷</param>
-    /// <returns>·şÎñ¼¯ºÏÊµÀı</returns>
+    /// <param name="services">æœåŠ¡é›†åˆå¯¹è±¡</param>
+    /// <param name="eventBusOptionsBuilder">äº‹ä»¶æ€»çº¿é…ç½®é€‰é¡¹æ„å»ºå™¨</param>
+    /// <returns>æœåŠ¡é›†åˆå®ä¾‹</returns>
     public static IServiceCollection AddEventBus(this IServiceCollection services, EventBusOptionsBuilder eventBusOptionsBuilder = default)
     {
-        // ³õÊ¼»¯ÊÂ¼ş×ÜÏßÅäÖÃÏî
+        // åˆå§‹åŒ–äº‹ä»¶æ€»çº¿é…ç½®é¡¹
         eventBusOptionsBuilder ??= new EventBusOptionsBuilder();
 
-        // ×¢²áÄÚ²¿·şÎñ
+        // æ³¨å†Œå†…éƒ¨æœåŠ¡
         services.AddInternalService(eventBusOptionsBuilder);
 
-        // Í¨¹ı¹¤³§Ä£Ê½´´½¨
+        // é€šè¿‡å·¥å‚æ¨¡å¼åˆ›å»º
         services.AddHostedService(serviceProvider =>
         {
-            // ´´½¨ÊÂ¼ş×ÜÏßºóÌ¨·şÎñ¶ÔÏó
+            // åˆ›å»ºäº‹ä»¶æ€»çº¿åå°æœåŠ¡å¯¹è±¡
             var eventBusHostedService = ActivatorUtilities.CreateInstance<EventBusHostedService>(serviceProvider);
 
-            // ¶©ÔÄÎ´²ì¾õÈÎÎñÒì³£ÊÂ¼ş
+            // è®¢é˜…æœªå¯Ÿè§‰ä»»åŠ¡å¼‚å¸¸äº‹ä»¶
             var unobservedTaskExceptionHandler = eventBusOptionsBuilder.UnobservedTaskExceptionHandler;
             if (unobservedTaskExceptionHandler != default)
             {
@@ -61,28 +61,28 @@ public static class EventBusServiceCollectionExtensions
             return eventBusHostedService;
         });
 
-        // ¹¹½¨ÊÂ¼ş×ÜÏß·şÎñ
+        // æ„å»ºäº‹ä»¶æ€»çº¿æœåŠ¡
         eventBusOptionsBuilder.Build(services);
 
         return services;
     }
 
     /// <summary>
-    /// ×¢²áÄÚ²¿·şÎñ
+    /// æ³¨å†Œå†…éƒ¨æœåŠ¡
     /// </summary>
-    /// <param name="services">·şÎñ¼¯ºÏ¶ÔÏó</param>
-    /// <param name="eventBusOptions">ÊÂ¼ş×ÜÏßÅäÖÃÑ¡Ïî</param>
-    /// <returns>·şÎñ¼¯ºÏÊµÀı</returns>
+    /// <param name="services">æœåŠ¡é›†åˆå¯¹è±¡</param>
+    /// <param name="eventBusOptions">äº‹ä»¶æ€»çº¿é…ç½®é€‰é¡¹</param>
+    /// <returns>æœåŠ¡é›†åˆå®ä¾‹</returns>
     private static IServiceCollection AddInternalService(this IServiceCollection services, EventBusOptionsBuilder eventBusOptions)
     {
-        // ×¢²áºóÌ¨ÈÎÎñ¶ÓÁĞ½Ó¿Ú/ÊµÀıÎªµ¥Àı£¬²ÉÓÃ¹¤³§·½Ê½´´½¨
+        // æ³¨å†Œåå°ä»»åŠ¡é˜Ÿåˆ—æ¥å£/å®ä¾‹ä¸ºå•ä¾‹ï¼Œé‡‡ç”¨å·¥å‚æ–¹å¼åˆ›å»º
         services.AddSingleton<IEventSourceStorer>(_ =>
         {
-            // ´´½¨Ä¬ÈÏÄÚ´æÍ¨µÀÊÂ¼şÔ´¶ÔÏó
+            // åˆ›å»ºé»˜è®¤å†…å­˜é€šé“äº‹ä»¶æºå¯¹è±¡
             return new ChannelEventSourceStorer(eventBusOptions.ChannelCapacity);
         });
 
-        // ×¢²áÄ¬ÈÏÄÚ´æÍ¨µÀÊÂ¼ş·¢²¼Õß
+        // æ³¨å†Œé»˜è®¤å†…å­˜é€šé“äº‹ä»¶å‘å¸ƒè€…
         services.AddSingleton<IEventPublisher, ChannelEventPublisher>();
 
         return services;
