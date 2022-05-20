@@ -85,6 +85,11 @@ public class StartupFilter : IStartupFilter
         UseStartups(startups, app);
     }
 
+    /// <summary>
+    /// 批量将自定义 AppStartup 添加到 Startup.cs 的 Configure 中
+    /// </summary>
+    /// <param name="startups"></param>
+    /// <param name="app"></param>
     private static void UseStartups(IEnumerable<AppStartup> startups, IApplicationBuilder app)
     {
         // 遍历所有
@@ -92,7 +97,7 @@ public class StartupFilter : IStartupFilter
         {
             var type = startup.GetType();
 
-            // 获取所有符合依赖注入格式的方法，如返回值void，且第一个参数是 IApplicationBuilder 类型
+            // 获取所有符合依赖注入格式的方法，如返回值 void，且第一个参数是 IApplicationBuilder 类型
             var configureMethods = type.GetMethods(BindingFlags.Public | BindingFlags.Instance)
                 .Where(u => u.ReturnType == typeof(void)
                     && u.GetParameters().Length > 0
