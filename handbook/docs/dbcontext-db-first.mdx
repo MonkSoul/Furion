@@ -64,12 +64,12 @@ PM> Show-Command ../tools/cli.ps1
 
 <img src={useBaseUrl("img/df10.png")} />
 
-:::important 其他方式
+:::important 全命令方式（推荐）❤️
 
-除了采用 `Show-Command` 方式以外，还可以直接执行命令：
+除了采用 `Show-Command` 方式以外，还可以直接执行命令，如：
 
 ```shell showLineNumbers 
- &"../tools/cli.ps1" -DbProvider "EFCore数据库程序集名" -CoreProject "你的Core层" -EntryProject "你的启动层" -ConnectionName "连接字符串的 [key]"
+&"./tools/cli.ps1" -DbProvider "Microsoft.EntityFrameworkCore.SqlServer" -CoreProject "XXX.Core" -EntryProject "XXX.Web.Entry" -ConnectionName "Default"
 ```
 
 :::
