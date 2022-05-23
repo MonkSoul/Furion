@@ -1,8 +1,15 @@
+/**
+ * https://editor.swagger.io 代码生成 typescript-axios 辅组工具库
+ * 适配 axios 版本：v0.21.1
+ */
+
 import globalAxios, { AxiosInstance } from "axios";
 import { Configuration } from "../api-services";
 import { BaseAPI, BASE_PATH } from "../api-services/base";
 
-// 接口服务器配置
+/**
+ * 接口服务器配置
+ */
 export const serveConfig = new Configuration({
   basePath:
     process.env.NODE_ENV !== "production"
@@ -10,19 +17,27 @@ export const serveConfig = new Configuration({
       : "https://furion.icu", // 生产环境服务器接口地址
 });
 
-// jwt token 键定义，清除 token 操作
+// token 键定义
 const accessTokenKey = "access-token";
 const refreshAccessTokenKey = `x-${accessTokenKey}`;
+
+// 清除 token
 const clearAccessTokens = () => {
   window.localStorage.removeItem(accessTokenKey);
   window.localStorage.removeItem(refreshAccessTokenKey);
 };
 
-// axios 实例配置
+/**
+ * axios 默认实例
+ */
 export const axiosInstance: AxiosInstance = globalAxios;
+
+// 这里可以配置 axios 更多选项 =========================================
+
 // axios 请求拦截
 axiosInstance.interceptors.request.use(
   (conf) => {
+    // 将 token 添加到请求报文头中
     conf.headers!["Authorization"] = `Bearer ${window.localStorage.getItem(
       accessTokenKey
     )}`;
@@ -30,7 +45,7 @@ axiosInstance.interceptors.request.use(
       refreshAccessTokenKey
     )}`;
 
-    // 这里编写请求拦截代码
+    // 这里编写请求拦截代码 =========================================
 
     return conf;
   },
@@ -58,15 +73,15 @@ axiosInstance.interceptors.response.use(
       throw new Error(JSON.stringify(serve.errors || "[500] Server Error."));
     }
 
-    // 读取响应头授权信息
+    // 读取响应报文头 token 信息
     var accessToken = res.headers[accessTokenKey];
     var refreshAccessToken = res.headers[refreshAccessTokenKey];
 
-    // 判断是否是 401 状态码或无效 token
+    // 判断是否是无效 token
     if (accessToken === "invalid_token") {
       clearAccessTokens();
     }
-    // 判断是否存在刷新 token
+    // 判断是否存在刷新 token，如果存在则存储在本地
     else if (
       refreshAccessToken &&
       accessToken &&
@@ -76,7 +91,7 @@ axiosInstance.interceptors.response.use(
       window.localStorage.setItem(refreshAccessTokenKey, refreshAccessToken);
     }
 
-    // 这里编写响应拦截代码
+    // 这里编写响应拦截代码 =========================================
 
     return res;
   },
@@ -87,7 +102,12 @@ axiosInstance.interceptors.response.use(
   }
 );
 
-// 处理 Promise 并返回 [err,res] 数组
+/**
+ * 包装 Promise 并返回 [Error, any]
+ * @param promise Promise 方法
+ * @param errorExt 自定义错误信息（拓展）
+ * @returns [Eror, any]
+ */
 export function feature<T, U = Error>(
   promise: Promise<T>,
   errorExt?: object
@@ -104,7 +124,11 @@ export function feature<T, U = Error>(
     });
 }
 
-// 获取特定类型 API 实例
+/**
+ * 获取/创建服务 API 实例
+ * @param apiType BaseAPI 派生类型
+ * @returns 服务API 实例
+ */
 export function getAPI<T extends BaseAPI>(
   apiType: new (
     configuration?: Configuration,
