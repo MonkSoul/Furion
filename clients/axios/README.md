@@ -1,0 +1,41 @@
+### 使用手册
+
+1. 在源码目录下（`src`）创建 `api-services` 文件夹，并将 [https://editor.swagger.io](https://editor.swagger.io) 生成的 `typescript-axios` 代码放入其中。
+
+2. 拷贝 `Furion` 源码下的 `clients/axios-utils.ts`文件放置到 `api-services` 同级目录下
+
+3. 基本使用
+
+- `Promise` 方式：
+
+```ts
+getAPI(SystemAPI)
+  .apiGetXXXX()
+  .then((res) => {
+    var data = res.data.data!;
+  })
+  .catch((err) => {
+    console.log(err);
+  })
+  .finally(() => {
+    console.log("api request completed.");
+  });
+```
+
+- `async/await` 方式：
+
+```ts
+const [err, res] = await feature(getAPI(SystemAPI).apiGetXXX());
+
+if (err) {
+  console.log(err);
+} else {
+  var data = res.data.data!;
+}
+
+console.log("api request completed.");
+```
+
+---
+
+如果服务器有 API 发生改变，重新生成代码并替换 `api-services` 目录所有代码即可（**建议先删除里面所有文件后再粘贴**）
