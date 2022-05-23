@@ -1,6 +1,6 @@
 ### 使用手册
 
-1. 在源码目录下（`src`）创建 `api-services` 文件夹，并将 [https://editor.swagger.io](https://editor.swagger.io) 生成的 `typescript-axios` 代码放入其中。
+1. 在源码目录下（`src`）创建 `api-services` 文件夹，并将 [https://editor.swagger.io](https://editor.swagger.io) 生成的 `typescript-axios` 代码（`.ts` 后缀文件）放入其中（**注意 `package.json` 文件中 `axios` 的版本，必须和项目保持一致，这里使用的是 `v0.21.1` 版本**）。
 
 2. 拷贝 `Furion` 源码下的 `clients/axios-utils.ts`文件放置到 `api-services` 同级目录下
 

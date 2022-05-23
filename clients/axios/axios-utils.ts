@@ -6,8 +6,8 @@ import { BaseAPI, BASE_PATH } from "../api-services/base";
 export const serveConfig = new Configuration({
   basePath:
     process.env.NODE_ENV !== "production"
-      ? "https://localhost:44342"
-      : "https://furion.icu",
+      ? "https://localhost:44342" // 开发环境服务器接口地址
+      : "https://furion.icu", // 生产环境服务器接口地址
 });
 
 // jwt token 键定义，清除 token 操作
