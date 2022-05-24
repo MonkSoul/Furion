@@ -367,48 +367,100 @@ Authorization: Bearer 你的token
 X-Authorization: Bearer 你的刷新token
 ```
 
-这里简单贴出使用 `axios` 自动刷新 `token` 拦截配置示例
+这里简单贴出使用 `axios` 自动刷新 `token` 拦截配置示例：
 
-```js showLineNumbers {2,14}
-// 请求自动携带 access-token 和 x-access-token
-axiosInstance.interceptors.request.use((conf) => {
-  conf.headers!.Authorization = `Bearer ${window.localStorage.getItem(
-    "access-token"
-  )}`;
-  conf.headers!["X-Authorization"] = `Bearer ${window.localStorage.getItem(
-    "x-access-token"
-  )}`;
+**[查看完整代码 - https://gitee.com/dotnetchina/Furion/tree/net6/clients/axios](https://gitee.com/dotnetchina/Furion/tree/net6/clients/axios)**
 
-  return conf;
-});
+```js showLineNumbers {14,19,41}
+// token 键定义
+const accessTokenKey = "access-token";
+const refreshAccessTokenKey = `x-${accessTokenKey}`;
 
-// 响应后自动存储
-axiosInstance.interceptors.response.use((res) => {
-  // 处理规范化结果带 `errors` 问题
-  const result: any = res.data;
-  if (result["errors"]) {
-    throw new Error(result["errors"]);
-  }
+// 清除 token
+const clearAccessTokens = () => {
+  window.localStorage.removeItem(accessTokenKey);
+  window.localStorage.removeItem(refreshAccessTokenKey);
+};
 
-  // 通过请求报文头读取新的 `token` 和 `刷新 token`
-  var accessToken = res.headers["access-token"];
-  var xAccessToken = res.headers["x-access-token"];
+/**
+ * axios 默认实例
+ */
+export const axiosInstance: AxiosInstance = globalAxios;
 
-  // 处理无效 `token` 问题
-  if (accessToken === "invalid_token") {
-    window.localStorage.removeItem("access-token");
-    window.localStorage.removeItem("x-access-token");
-  }
-  // 处理自动刷新
-  else if (xAccessToken && accessToken && accessToken !== "invalid_token") {
-    window.localStorage.setItem("access-token", accessToken);
-    window.localStorage.setItem("x-access-token", xAccessToken);
-  }
+// 这里可以配置 axios 更多选项 =========================================
 
-  return res;
-},error => {
+// axios 请求拦截
+axiosInstance.interceptors.request.use(
+  (conf) => {
+    // 将 token 添加到请求报文头中
+    conf.headers!["Authorization"] = `Bearer ${window.localStorage.getItem(
+      accessTokenKey
+    )}`;
+    conf.headers!["X-Authorization"] = `Bearer ${window.localStorage.getItem(
+      refreshAccessTokenKey
+    )}`;
+
+    // 这里编写请求拦截代码 =========================================
+
+    return conf;
+  },
+  (error) => {
+    // 这里编写请求错误代码
+
     return Promise.reject(error);
-});
+  }
+);
+
+// axios 响应拦截
+axiosInstance.interceptors.response.use(
+  (res) => {
+    // 获取状态码和返回数据
+    var status = res.status;
+    var serve = res.data;
+
+    // 处理 401
+    if (status === 401) {
+      clearAccessTokens();
+    }
+
+    // 处理未进行规范化处理的
+    if (status >= 400) {
+      throw new Error(res.statusText || "Request Error.");
+    }
+
+    // 处理规范化结果错误
+    if (serve && serve.hasOwnProperty("errors") && serve.errors) {
+      throw new Error(JSON.stringify(serve.errors || "Request Error."));
+    }
+
+    // 读取响应报文头 token 信息
+    var accessToken = res.headers[accessTokenKey];
+    var refreshAccessToken = res.headers[refreshAccessTokenKey];
+
+    // 判断是否是无效 token
+    if (accessToken === "invalid_token") {
+      clearAccessTokens();
+    }
+    // 判断是否存在刷新 token，如果存在则存储在本地
+    else if (
+      refreshAccessToken &&
+      accessToken &&
+      accessToken !== "invalid_token"
+    ) {
+      window.localStorage.setItem(accessTokenKey, accessToken);
+      window.localStorage.setItem(refreshAccessTokenKey, refreshAccessToken);
+    }
+
+    // 这里编写响应拦截代码 =========================================
+
+    return res;
+  },
+  (error) => {
+    // 这里编写响应错误代码
+
+    return Promise.reject(error);
+  }
+);
 ```
 
 :::important 特别注意
@@ -431,7 +483,6 @@ x-access-token: 新的刷新token
 :::
 
 ## 15.6 获取 `Jwt` 存储的信息
-
 
 ```cs showLineNumbers
 // 获取 `Jwt` 存储的信息
