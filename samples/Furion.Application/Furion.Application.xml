@@ -105,21 +105,6 @@
             性别
             </summary>
         </member>
-        <member name="P:Furion.Application.Persons.CityDto.Id">
-            <summary>
-            主键
-            </summary>
-        </member>
-        <member name="P:Furion.Application.Persons.CityDto.Name">
-            <summary>
-            名称
-            </summary>
-        </member>
-        <member name="P:Furion.Application.Persons.CityDto.Childrens">
-            <summary>
-            子集
-            </summary>
-        </member>
         <member name="P:Furion.Application.Persons.PersonDto.Id">
             <summary>
             Id
@@ -270,12 +255,6 @@
         <member name="M:Furion.Application.Persons.PersonRelationshipService.RightJoin">
             <summary>
             右连接
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:Furion.Application.Persons.PersonRelationshipService.TreeSelect">
-            <summary>
-            树形/递归查询
             </summary>
             <returns></returns>
         </member>

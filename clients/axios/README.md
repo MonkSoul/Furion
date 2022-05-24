@@ -41,3 +41,14 @@ console.log("api request completed.");
 ---
 
 如果服务器有 API 发生改变，重新生成代码并替换 `api-services` 目录所有代码即可（**建议先删除里面所有文件后再粘贴**）
+
+### 常见问题
+
+在 `Vue3` 项目中启用 `TypeScript` 和 `ESlint` 后报错，只需要修改相关的 `tsconfig.json` 文件添加以下配置即可：
+
+```json
+"compilerOptions": {
+    "importsNotUsedAsValues": "remove",
+    "preserveValueImports": false
+  }
+```

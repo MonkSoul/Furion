@@ -136,21 +136,6 @@ public class PersonRelationshipService : IDynamicApiController
     }
 
     /// <summary>
-    /// 树形/递归查询
-    /// </summary>
-    /// <returns></returns>
-    public async Task<List<CityDto>> TreeSelect()
-    {
-        var cities = await _personRepository.Change<City>().AsQueryable(false)
-                                                         .Include(u => u.Childrens)
-                                                            .ThenInclude(u => u.Childrens)
-                                                         .Where(u => u.Id == 1)
-                                                         .ToListAsync();
-
-        return cities.Adapt<List<CityDto>>();
-    }
-
-    /// <summary>
     /// 读取视图
     /// </summary>
     /// <returns></returns>
