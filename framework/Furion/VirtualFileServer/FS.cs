@@ -7,6 +7,7 @@
 // See the Mulan PSL v2 for more details.
 
 using Furion.DependencyInjection;
+using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.Extensions.FileProviders;
 using System;
 using System.Reflection;
@@ -52,5 +53,16 @@ public static class FS
     {
         var fileProviderResolve = App.GetService<Func<FileProviderTypes, object, IFileProvider>>(serviceProvider ?? App.RootServices);
         return fileProviderResolve(fileProviderTypes, args);
+    }
+
+    /// <summary>
+    /// 根据文件名获取文件的 ContentType 或 MIME 
+    /// </summary>
+    /// <param name="fileName">文件名（带拓展）</param>
+    /// <param name="contentType">ContentType 或 MIME</param>
+    /// <returns></returns>
+    public static bool TryGetContentType(string fileName, out string contentType)
+    {
+        return new FileExtensionContentTypeProvider().TryGetContentType(fileName, out contentType);
     }
 }

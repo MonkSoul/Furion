@@ -6,19 +6,19 @@ sidebar_label: 13. FS 静态类
 
 ## 13.1 获取物理文件提供器
 
-```cs showLineNumbers 
+```cs showLineNumbers
 var fileProvider = FS.GetPhysicalFileProvider(@"c:/test");
 ```
 
 ## 13.2 获取嵌入资源文件提供器
 
-```cs showLineNumbers 
+```cs showLineNumbers
 var fileProvider = FS.GetEmbeddedFileProvider(Assembly.GetEntryAssembly());
 ```
 
 ## 13.3 获取文件提供器
 
-```cs showLineNumbers 
+```cs showLineNumbers
 var fileProvider = FS.GetFileProvider(FileProviderTypes.Physical, @"c:/test");
 ```
 
@@ -28,7 +28,7 @@ var fileProvider = FS.GetFileProvider(FileProviderTypes.Physical, @"c:/test");
 
 - **`AppSettings` 配置**（推荐方式）
 
-```json showLineNumbers 
+```json showLineNumbers
 {
   "AppSettings": {
     "EnabledVirtualFileServer": true
@@ -40,6 +40,18 @@ var fileProvider = FS.GetFileProvider(FileProviderTypes.Physical, @"c:/test");
 
 - **`手动注册**
 
-```cs showLineNumbers 
+```cs showLineNumbers
 services.AddVirtualFileServer();
+```
+
+13.5 获取文件 `ContentType` 或 `Mime`
+
+:::warning 版本说明
+
+以下内容仅限 `Furion 3.3.1 +` 版本使用。
+
+:::
+
+```cs showLineNumbers
+var success = FS.TryGetContentType("image.png", out string contentType);  // image/png
 ```
