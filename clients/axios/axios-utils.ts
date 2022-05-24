@@ -4,8 +4,8 @@
  */
 
 import globalAxios, { AxiosInstance } from "axios";
-import { Configuration } from "../api-services";
-import { BaseAPI, BASE_PATH } from "../api-services/base";
+import { Configuration } from "./api-services";
+import { BaseAPI, BASE_PATH } from "./api-services/base";
 
 /**
  * 接口服务器配置
@@ -68,9 +68,14 @@ axiosInstance.interceptors.response.use(
       clearAccessTokens();
     }
 
-    // 处理规范化结果 400/500 错误
-    if (serve && serve.hasOwnProperty("errors")) {
-      throw new Error(JSON.stringify(serve.errors || "[500] Server Error."));
+    // 处理未进行规范化处理的
+    if (status >= 400) {
+      throw new Error(res.statusText || "Request Error.");
+    }
+
+    // 处理规范化结果错误
+    if (serve && serve.hasOwnProperty("errors") && serve.errors) {
+      throw new Error(JSON.stringify(serve.errors || "Request Error."));
     }
 
     // 读取响应报文头 token 信息
