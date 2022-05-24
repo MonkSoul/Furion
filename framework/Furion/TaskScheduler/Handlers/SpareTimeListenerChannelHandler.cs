@@ -20,7 +20,7 @@ internal sealed class SpareTimeListenerChannelHandler : ChannelHandler<SpareTime
     /// </summary>
     /// <param name="executer"></param>
     /// <returns></returns>
-    public override async Task InvokeAsync(SpareTimerExecuter executer)
+    public async override Task InvokeAsync(SpareTimerExecuter executer)
     {
         var spareTimeListener = App.GetService<ISpareTimeListener>(App.RootServices);
         if (spareTimeListener == null) return;

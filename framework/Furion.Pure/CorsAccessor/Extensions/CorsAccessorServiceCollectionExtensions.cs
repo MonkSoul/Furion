@@ -61,8 +61,8 @@ public static class CorsAccessorServiceCollectionExtensions
                 // 配置响应头
                 if (corsAccessorSettings.WithExposedHeaders != null && corsAccessorSettings.WithExposedHeaders.Length > 0) builder.WithExposedHeaders(corsAccessorSettings.WithExposedHeaders);
 
-                // 设置预检过期时间
-                if (corsAccessorSettings.SetPreflightMaxAge.HasValue) builder.SetPreflightMaxAge(TimeSpan.FromSeconds(corsAccessorSettings.SetPreflightMaxAge.Value));
+                // 设置预检过期时间，如果不设置默认为 24小时
+                builder.SetPreflightMaxAge(TimeSpan.FromSeconds(corsAccessorSettings.SetPreflightMaxAge ?? 24 * 60 * 60));
 
                 // 添加自定义配置
                 corsPolicyBuilderHandler?.Invoke(builder);

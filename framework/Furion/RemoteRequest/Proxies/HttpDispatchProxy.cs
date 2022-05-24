@@ -49,7 +49,7 @@ public class HttpDispatchProxy : AspectDispatchProxy, IDispatchProxy
     /// <param name="method"></param>
     /// <param name="args"></param>
     /// <returns></returns>
-    public override async Task InvokeAsync(MethodInfo method, object[] args)
+    public async override Task InvokeAsync(MethodInfo method, object[] args)
     {
         var httpRequestPart = BuildHttpRequestPart(method, args);
         _ = await httpRequestPart.SendAsync();

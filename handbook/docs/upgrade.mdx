@@ -44,6 +44,7 @@ var success = FS.TryGetContentType("image.png", out string contentType);  // ima
 - **其他更改**
 
   - [优化] 视图引擎反射性能
+  - [调整] 跨域请求的预检设置，如果未设置，则默认为 24小时，主要解决前端多次发送 204 预检问题
 
 - **文档**
 
