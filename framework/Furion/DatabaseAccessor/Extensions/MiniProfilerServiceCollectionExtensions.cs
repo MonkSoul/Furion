@@ -7,9 +7,7 @@
 // See the Mulan PSL v2 for more details.
 
 using Furion.DatabaseAccessor;
-using Furion.DependencyInjection;
 using StackExchange.Profiling.Internal;
-using System;
 
 namespace Microsoft.Extensions.DependencyInjection;
 

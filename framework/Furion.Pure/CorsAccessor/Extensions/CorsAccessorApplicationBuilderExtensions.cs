@@ -7,11 +7,9 @@
 // See the Mulan PSL v2 for more details.
 
 using Furion.CorsAccessor;
-using Furion.DependencyInjection;
 using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
-using System;
 
 namespace Microsoft.AspNetCore.Builder;
 

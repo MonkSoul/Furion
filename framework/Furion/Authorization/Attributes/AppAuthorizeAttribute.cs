@@ -7,8 +7,6 @@
 // See the Mulan PSL v2 for more details.
 
 using Furion.Authorization;
-using Furion.DependencyInjection;
-using System;
 
 namespace Microsoft.AspNetCore.Authorization;
 

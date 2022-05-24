@@ -6,8 +6,6 @@
 // THIS SOFTWARE IS PROVIDED ON AN "AS IS" BASIS, WITHOUT WARRANTIES OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO NON-INFRINGEMENT, MERCHANTABILITY OR FIT FOR A PARTICULAR PURPOSE.
 // See the Mulan PSL v2 for more details.
 
-using System;
-
 namespace Furion.EventBus;
 
 /// <summary>
@@ -17,7 +15,7 @@ namespace Furion.EventBus;
 /// <para>作用于 <see cref="IEventSubscriber"/> 实现类实例方法</para>
 /// <para>支持多个事件 Id 触发同一个事件处理程序</para>
 /// </remarks>
-[AttributeUsage(AttributeTargets.Method, AllowMultiple = true, Inherited = false)]
+[SuppressSniffer, AttributeUsage(AttributeTargets.Method, AllowMultiple = true, Inherited = false)]
 public sealed class EventSubscribeAttribute : Attribute
 {
     /// <summary>

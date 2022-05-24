@@ -8,8 +8,6 @@
 
 using Furion.DatabaseAccessor;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Threading.Tasks;
 
 namespace Furion.DependencyInjection;
 

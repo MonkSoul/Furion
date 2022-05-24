@@ -7,11 +7,7 @@
 // See the Mulan PSL v2 for more details.
 
 using Furion.ClayObject.Extensions;
-using Furion.DependencyInjection;
 using Furion.Extensions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text.RegularExpressions;
 
 namespace Furion.Templates.Extensions;

@@ -7,11 +7,9 @@
 // See the Mulan PSL v2 for more details.
 
 using Furion;
-using Furion.DependencyInjection;
 using Furion.Extensions;
 using Furion.Reflection;
 using Microsoft.AspNetCore.Hosting;
-using System;
 
 namespace Microsoft.Extensions.Hosting;
 

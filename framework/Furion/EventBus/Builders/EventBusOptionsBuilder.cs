@@ -8,17 +8,14 @@
 
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Threading.Tasks;
 
 namespace Furion.EventBus;
 
 /// <summary>
 /// 事件总线配置选项构建器
 /// </summary>
+[SuppressSniffer]
 public sealed class EventBusOptionsBuilder
 {
     /// <summary>

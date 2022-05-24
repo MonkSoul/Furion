@@ -8,9 +8,7 @@
 
 using Furion;
 using Furion.CorsAccessor;
-using Furion.DependencyInjection;
 using Microsoft.AspNetCore.Cors.Infrastructure;
-using System;
 
 namespace Microsoft.Extensions.DependencyInjection;
 

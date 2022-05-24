@@ -7,7 +7,6 @@
 // See the Mulan PSL v2 for more details.
 
 using Microsoft.AspNetCore.SignalR;
-using System;
 
 namespace Furion.InstantMessaging;
 

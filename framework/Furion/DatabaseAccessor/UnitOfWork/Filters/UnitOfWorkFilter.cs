@@ -9,7 +9,6 @@
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.Filters;
 using System.Reflection;
-using System.Threading.Tasks;
 
 namespace Furion.DatabaseAccessor;
 

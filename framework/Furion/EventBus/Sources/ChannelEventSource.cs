@@ -6,14 +6,12 @@
 // THIS SOFTWARE IS PROVIDED ON AN "AS IS" BASIS, WITHOUT WARRANTIES OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO NON-INFRINGEMENT, MERCHANTABILITY OR FIT FOR A PARTICULAR PURPOSE.
 // See the Mulan PSL v2 for more details.
 
-using System;
-using System.Threading;
-
 namespace Furion.EventBus;
 
 /// <summary>
 /// 内存通道事件源（事件承载对象）
 /// </summary>
+[SuppressSniffer]
 public sealed class ChannelEventSource : IEventSource
 {
     /// <summary>

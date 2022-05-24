@@ -11,17 +11,10 @@ using Furion.DataValidation;
 using Furion.FriendlyException;
 using Furion.JsonSerialization;
 using Furion.Templates.Extensions;
-using Microsoft.AspNetCore.StaticFiles;
-using System;
-using System.Collections.Generic;
-using System.IO;
+using Furion.VirtualFileServer;
 using System.IO.Compression;
-using System.Linq;
-using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Furion.RemoteRequest;
 
@@ -612,7 +605,7 @@ public sealed partial class HttpRequestPart
                 foreach (var (Name, Bytes, FileName) in BodyBytes)
                 {
                     // 获取文件 Content-Type 类型
-                    new FileExtensionContentTypeProvider().TryGetContentType(FileName, out string contentType);
+                    FS.TryGetContentType(FileName, out var contentType);
 
                     var byteArrayContent = new ByteArrayContent(Bytes);
                     byteArrayContent.Headers.Add("Content-Type", contentType ?? string.Empty);

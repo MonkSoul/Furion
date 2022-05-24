@@ -8,7 +8,6 @@
 
 using Furion.ConfigurableOptions;
 using Microsoft.Extensions.Configuration;
-using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace Furion.CorsAccessor;

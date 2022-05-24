@@ -8,13 +8,10 @@
 
 using Furion;
 using Furion.ConfigurableOptions;
-using Furion.DependencyInjection;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Primitives;
-using System;
-using System.Linq;
 using System.Reflection;
 
 namespace Microsoft.Extensions.DependencyInjection;

@@ -9,7 +9,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Hosting;
-using System;
 using System.Collections.Concurrent;
 
 namespace Furion.DatabaseAccessor;

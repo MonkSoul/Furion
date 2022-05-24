@@ -7,7 +7,6 @@
 // See the Mulan PSL v2 for more details.
 
 using Furion;
-using System;
 
 namespace Microsoft.AspNetCore.Builder;
 

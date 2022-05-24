@@ -7,10 +7,8 @@
 // See the Mulan PSL v2 for more details.
 
 using Furion.DatabaseAccessor;
-using Furion.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection.Extensions;
-using System;
 
 namespace Microsoft.Extensions.DependencyInjection;
 

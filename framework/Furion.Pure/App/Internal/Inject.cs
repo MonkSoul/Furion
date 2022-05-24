@@ -10,9 +10,7 @@ using Furion.FriendlyException;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using System;
 using System.Diagnostics;
-using System.Linq;
 using System.Reflection;
 
 namespace Furion;

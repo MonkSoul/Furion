@@ -6,10 +6,8 @@
 // THIS SOFTWARE IS PROVIDED ON AN "AS IS" BASIS, WITHOUT WARRANTIES OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO NON-INFRINGEMENT, MERCHANTABILITY OR FIT FOR A PARTICULAR PURPOSE.
 // See the Mulan PSL v2 for more details.
 
-using Furion.DependencyInjection;
 using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.Extensions.FileProviders;
-using System;
 using System.Reflection;
 
 namespace Furion.VirtualFileServer;
@@ -56,7 +54,7 @@ public static class FS
     }
 
     /// <summary>
-    /// 根据文件名获取文件的 ContentType 或 MIME 
+    /// 根据文件名获取文件的 ContentType 或 MIME
     /// </summary>
     /// <param name="fileName">文件名（带拓展）</param>
     /// <param name="contentType">ContentType 或 MIME</param>

@@ -7,13 +7,13 @@
 // See the Mulan PSL v2 for more details.
 
 using Furion.EventBus;
-using System;
 
 namespace Microsoft.Extensions.DependencyInjection;
 
 /// <summary>
 /// EventBus 模块服务拓展
 /// </summary>
+[SuppressSniffer]
 public static class EventBusServiceCollectionExtensions
 {
     /// <summary>

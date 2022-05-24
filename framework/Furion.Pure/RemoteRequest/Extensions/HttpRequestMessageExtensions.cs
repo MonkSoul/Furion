@@ -7,9 +7,6 @@
 // See the Mulan PSL v2 for more details.
 
 using Furion.ClayObject.Extensions;
-using Furion.DependencyInjection;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace System.Net.Http;
 

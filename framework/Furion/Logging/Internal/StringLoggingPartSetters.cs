@@ -8,7 +8,6 @@
 
 using Furion.Templates.Extensions;
 using Microsoft.Extensions.Logging;
-using System;
 
 namespace Furion.Logging;
 
