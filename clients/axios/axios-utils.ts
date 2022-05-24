@@ -6,11 +6,15 @@
 import globalAxios, { AxiosInstance } from "axios";
 import { Configuration } from "./api-services";
 import { BaseAPI, BASE_PATH } from "./api-services/base";
+// 如果是 Angular 项目，则取消下面注释即可
+// import { environment } from './environments/environment';
 
 /**
  * 接口服务器配置
  */
 export const serveConfig = new Configuration({
+  // 如果是 Angular 项目，则取消下面注释，并删除 process.env.NODE_ENV !== "production"
+  // basePath: !environment.production
   basePath:
     process.env.NODE_ENV !== "production"
       ? "https://localhost:44342" // 开发环境服务器接口地址
