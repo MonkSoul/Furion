@@ -139,7 +139,7 @@ namespace Furion.Web.Core
 
 - `app.UseInject("路由")` 方式，如
 
-```cs showLineNumbers 
+```cs showLineNumbers
 app.UseInject("testapi"); // 那么  /testapi 就是规范化地址
 ```
 
@@ -402,7 +402,7 @@ namespace Furion.Application
 
 #### 未贴标签之前
 
-```cs showLineNumbers 
+```cs showLineNumbers
 using Furion.DynamicApiController;
 
 namespace Furion.Application
@@ -709,7 +709,7 @@ public int Age { get; set; }
 
 `Furion` 框架除了内置了不少配置以外，还提供了直接配置 `Swagger` Api 的参数，如：
 
-```cs showLineNumbers 
+```cs showLineNumbers
 public void ConfigureServices(IServiceCollection services)
 {
     services.AddInject(options =>
@@ -725,7 +725,7 @@ public void ConfigureServices(IServiceCollection services)
 }
 ```
 
-```cs showLineNumbers 
+```cs showLineNumbers
  public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
  {
       app.UseInject(configure: options =>
@@ -750,7 +750,7 @@ public void ConfigureServices(IServiceCollection services)
 
 `Furion` 框架默认只显示名称，如果需要自定义显示规则，只需要添加配置即可。
 
-```cs showLineNumbers 
+```cs showLineNumbers
 services.AddControllersWithViews()
         .AddInject(options =>
         {
@@ -838,7 +838,7 @@ services.AddControllers()
 
 有时候我们需要自定义 `Swagger` 接口可见性，比如根据权限，不同用户类型，各种逻辑控制，如：
 
-```cs showLineNumbers 
+```cs showLineNumbers
 // 也可以用 .AddInjectWithUnifyResult
 services.AddInject(options =>
         {
@@ -865,7 +865,7 @@ services.AddInject(options =>
 
 ### 6.5.27 配置 `MVC` 控制器支持规范化处理
 
-```json showLineNumbers 
+```json showLineNumbers
 {
   "UnifyResultSettings": {
     "SupportMvcController": true
@@ -877,11 +877,94 @@ services.AddInject(options =>
 
 默认情况下，`Swagger` 刷新浏览器后，授权状态将被重置，也就是需要重新登录，通过下面代码在 **用户登录成功后** 调用即可：
 
-```cs showLineNumbers 
+```cs showLineNumbers
 // ....验证用户名/密码....
 
 _httpContextAccessor.HttpContext.SigninToSwagger("传入 token");
 ```
+
+### 6.5.29 带登录的 `Swagger` 文档
+
+:::important 版本说明
+
+以下内容仅限 `Furion v3.3.1+` 版本使用。
+
+:::
+
+默认情况下，`Swagger` 是任何人都可以访问的，这样也暴露出一些安全问题，所以在该版本之后添加了登录功能，只需要配置 `SpecificationDocumentSettings` 的 `LoginInfo` 即可：
+
+```json showLineNumbers {2-6}
+{
+  "SpecificationDocumentSettings": {
+    "LoginInfo": {
+      "Enabled": false,
+      "CheckUrl": "https://localhost:44316/Home/CheckUrl",
+      "SubmitUrl": "https://localhost:44316/Home/SubmitUrl"
+    }
+  }
+}
+```
+
+#### 配置说明
+
+- `LoginInfo`：配置 `Swagger` 是否需要登录才能访问，`SpecificationLoginInfo` 类型，默认 `null`，**仅在 Furion v3.3.1+` 有效**
+  - `Enabled`：是否启用登录授权，默认 `false`
+  - `CheckUrl`：检查登录状态的 `Url` 地址，**该地址必须是 `GET` 请求**，已授权返回 `200`，否则返回 `401`
+  - `SubmitUrl`：提交登录地址，\*\*该地址必须是 `POST` 请求且只有一个 `SpecificationAuth` 类型参数，成功登录返回 `200`，否则返回 `401`
+
+#### 配置示例
+
+```cs showLineNumbers {17-18,22,26,30-31,36,40}
+using Furion.SpecificationDocument;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
+
+namespace Furion.Web.Entry.Controllers;
+
+[AllowAnonymous]
+public class HomeController : Controller
+{
+    private readonly IMemoryCache _cache;
+    public HomeController(IMemoryCache cache)
+    {
+        _cache = cache;
+    }
+
+    [HttpGet]
+    public int CheckUrl()
+    {
+        if (_cache.Get<bool>("swagger_login"))
+        {
+            return 200;
+        }
+        else
+        {
+            return 401;
+        }
+    }
+
+    [HttpPost]
+    public int SubmitUrl(SpecificationAuth auth)
+    {
+        if (auth.UserName == "admin")
+        {
+            _cache.Set<bool>("swagger_login", true);
+            return 200;
+        }
+        else
+        {
+            return 401;
+        }
+    }
+}
+```
+
+:::tip 补充说明
+
+上面使用内存缓存作为例子，当然开发者也可以使用 `Session` 或 `Cookies` 会更好。
+
+:::
 
 ## 6.6 `SpecificationDocumentSettings` 配置
 
@@ -905,7 +988,11 @@ _httpContextAccessor.HttpContext.SigninToSwagger("传入 token");
 - `PackagesGroups`：配置模块化内置分组名称，`string[]` 类型，默认 `[]`
 - `EnableEnumSchemaFilter`：启用枚举 Schema 筛选器，`bool` 类型，默认 `true`
 - `EnableTagsOrderDocumentFilter`：启用标签排序筛选器，`bool` 类型，默认 `true`
-- `ServerDir`：配置 `IIS` 添加 `Application` 部署名，`string` 类型，默认，**仅在 Furion v3.2.0+` 有效**
+- `ServerDir`：配置 `IIS` 添加 `Application` 部署名，`string` 类型，默认空，**仅在 Furion v3.2.0+` 有效**
+- `LoginInfo`：配置 `Swagger` 是否需要登录才能访问，`SpecificationLoginInfo` 类型，默认 `null`，**仅在 Furion v3.3.1+` 有效**
+  - `Enabled`：是否启用登录授权，默认 `false`
+  - `CheckUrl`：检查登录状态的 `Url` 地址，**该地址必须是 `GET` 请求**，已授权返回 `200`，否则返回 `401`
+  - `SubmitUrl`：提交登录地址，\*\*该地址必须是 `POST` 请求且只有一个 `SpecificationAuth` 类型参数，成功登录返回 `200`，否则返回 `401`
 
 另外 `SpecificationOpenApiInfo` 内置配置如下：
 
@@ -921,7 +1008,7 @@ _httpContextAccessor.HttpContext.SigninToSwagger("传入 token");
 
 配置示例：
 
-```json showLineNumbers 
+```json showLineNumbers
 {
   "SpecificationDocumentSettings": {
     "GroupOpenApiInfos": [
@@ -1055,7 +1142,7 @@ namespace Furion.UnifyResult
 
 之后在 `Startup.cs` 中注册即可：
 
-```cs showLineNumbers 
+```cs showLineNumbers
 services.AddControllers()
         .AddInjectWithUnifyResult<RESTfulResultProvider>();
 ```
@@ -1064,7 +1151,7 @@ services.AddControllers()
 
 默认情况下，规范化结果不会对 `401` 和 `403`、`404` 状态码进行规范化处理，如需启动该状态码处理，只需在 `Startup.cs` 中的 `Configure` 中启用接口：
 
-```cs showLineNumbers 
+```cs showLineNumbers
 public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
 {
     if (env.IsDevelopment())
@@ -1087,7 +1174,7 @@ public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
 
 默认的规范化结果中包含 `extras` 属性，可以配置额外数据返回到客户端：
 
-```cs showLineNumbers 
+```cs showLineNumbers
 UnifyContext.Fill(new { Message = "操作成功" });
 ```
 
@@ -1095,7 +1182,7 @@ UnifyContext.Fill(new { Message = "操作成功" });
 
 有些时候，我们特定接口需返回特定的接口类型，无需规范化处理，这时候我们只需要贴 `[UnifyResult(typeof(结果类))]` 或 `[ProducesResponseType(typeof(结果类),200)]`，如：
 
-```cs showLineNumbers 
+```cs showLineNumbers
 [UnifyResult(typeof(Person))]
 public Person GetPerson(int id)
 {

@@ -359,6 +359,13 @@ public static class SpecificationDocumentBuilder
         // 自定义 Swagger 首页
         var customIndex = $"{Reflect.GetAssemblyName(thisAssembly)}{thisType.Namespace.Replace(nameof(Furion), string.Empty)}.Assets.{(App.Settings.InjectMiniProfiler != true ? "index" : "index-mini-profiler")}.html";
         swaggerUIOptions.IndexStream = () => thisAssembly.GetManifestResourceStream(customIndex);
+
+        // 添加登录信息配置
+        var additionals = _specificationDocumentSettings.LoginInfo;
+        if (additionals != null)
+        {
+            swaggerUIOptions.ConfigObject.AdditionalItems.Add(nameof(_specificationDocumentSettings.LoginInfo), additionals);
+        }
     }
 
     /// <summary>

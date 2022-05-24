@@ -25,12 +25,69 @@
             margin: 0;
             background: #fafafa;
         }
+
+        #login-form {
+            position: fixed;
+            top: 30px;
+            left: 50%;
+            margin-left: -191px;
+            background-color: rgb(255, 255, 255);
+            border-radius: 3px;
+            padding: 25px 40px 40px;
+            box-shadow: rgb(0 0 0 / 10%) 0px 0px 10px;
+            width: 382px;
+            height: 180px;
+            display: none;
+        }
+
+        .form-row {
+            padding: 6px 0;
+        }
+
+            .form-row label {
+                display: inline-block;
+                vertical-align: middle;
+                width: 120px;
+            }
+
+            .form-row input {
+                padding: 3px 5px;
+            }
+
+            .form-row button {
+                background-color: rgb(0, 103, 163);
+                color: #fff;
+                padding: 5px 12px;
+                font-size: 14px;
+                border: none;
+                outline: none;
+                cursor: pointer;
+                border-radius: 3px;
+            }
+
+                .form-row button:hover {
+                    opacity: 0.8;
+                }
     </style>
     %(HeadContent)
 </head>
 
 <body>
     <div id="swagger-ui"></div>
+    <div id="login-form">
+        <div class="form-row">
+            <label for="userName">User Name: </label>
+            <input type="text" id="userName" name="userName" />
+        </div>
+        <div class="form-row">
+            <label for="password">Password: </label>
+            <input type="password" id="password" name="password" />
+        </div>
+        <div class="form-row">
+            <label></label>
+            <button id="submit">Submit</button>
+        </div>
+    </div>
     <!-- Workaround for https://github.com/swagger-api/swagger-editor/issues/1371 -->
     <script>
         if (window.navigator.userAgent.indexOf("Edge") > -1) {
@@ -183,10 +240,41 @@
             return request;
         }
 
-        window.onload = function () {
-            var configObject = JSON.parse('%(ConfigObject)');
-            var oauthConfigObject = JSON.parse('%(OAuthConfigObject)');
+        // send ajax request
+        function sendRequest(params) {
+            let xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    let obj = JSON.parse(xhr.response);
+                    params.success(obj);
+                } else if (xhr.readyState == 4 && xhr.status >= 400) {
+                    params.error("Invalid access.");
+                }
+            }
 
+            function objectToString(obj) {
+                let arr = [];
+                for (var k in obj) {
+                    arr.push(`${k}=${obj[k]}`);
+                }
+
+                return arr.join('&');
+            }
+
+            let qs = objectToString(params.data);
+
+            if (params.method.toUpperCase() == 'GET') {
+                xhr.open('GET', params.url + '?' + qs);
+                xhr.send();
+            } else if (params.method.toUpperCase() == 'POST') {
+                xhr.open('POST', params.url);
+                xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                xhr.send(qs);
+            }
+        }
+
+        // init swagger ui
+        function initSwaggerUI(configObject, oauthConfigObject) {
             configObject.onComplete = function () {
                 var accessToken = window.localStorage.getItem(tokenKey);
                 if (accessToken) {
@@ -229,6 +317,66 @@
             // End Swagger UI call region
 
             window.ui = ui
+        }
+
+        window.onload = function () {
+            var configObject = JSON.parse('%(ConfigObject)');
+            var oauthConfigObject = JSON.parse('%(OAuthConfigObject)');
+            var loginObject = configObject.LoginInfo;
+            if (loginObject.enabled === true) {
+                sendRequest({
+                    method: "GET",
+                    url: loginObject.checkUrl,
+                    success: function (res) {
+                        if (res.toString() === "200") {
+                            initSwaggerUI(configObject, oauthConfigObject);
+                        }
+                        else {
+                            var loginForm = document.getElementById("login-form");
+                            var userName = document.getElementById("userName");
+                            var password = document.getElementById("password");
+                            var submit = document.getElementById("submit");
+
+                            loginForm.style.display = "block";
+                            userName.focus();
+
+                            submit.addEventListener("click", function (ev) {
+                                if (userName.value.trim().length === 0 || password.value.trim().length === 0) {
+                                    alert("Please input user name and password.");
+                                    return;
+                                }
+
+                                sendRequest({
+                                    method: "POST",
+                                    url: loginObject.submitUrl,
+                                    data: {
+                                        userName: userName.value.trim(),
+                                        password: password.value.trim()
+                                    },
+                                    success: function (res) {
+                                        if (res.toString() === "200") {
+                                            loginForm.style.display = "none";
+                                            initSwaggerUI(configObject, oauthConfigObject);
+                                        }
+                                        else {
+                                            alert("Invalid UserName or Password.")
+                                        }
+                                    },
+                                    error: function (txt) {
+                                        alert(txt);
+                                    }
+                                });
+                            });
+                        }
+                    },
+                    error: function (txt) {
+                        alert(txt);
+                    }
+                });
+            }
+            else {
+                initSwaggerUI(configObject, oauthConfigObject);
+            }
         }
     </script>
 </body>

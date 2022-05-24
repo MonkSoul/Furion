@@ -29,7 +29,12 @@
         "Title": "定时任务",
         "Order": 2
       }
-    ]
+    ],
+    "LoginInfo": {
+      "Enabled": false,
+      "CheckUrl": "https://localhost:44316/Home/CheckUrl",
+      "SubmitUrl": "https://localhost:44316/Home/SubmitUrl"
+    }
   },
   "LocalizationSettings": {
     "SupportedCultures": [ "zh-CN", "en-US" ],

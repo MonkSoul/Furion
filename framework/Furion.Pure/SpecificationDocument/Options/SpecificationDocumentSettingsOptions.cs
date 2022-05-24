@@ -100,6 +100,11 @@ public sealed class SpecificationDocumentSettingsOptions : IConfigurableOptions<
     public string ServerDir { get; set; }
 
     /// <summary>
+    /// 配置规范化文档登录信息
+    /// </summary>
+    public SpecificationLoginInfo LoginInfo { get; set; }
+
+    /// <summary>
     /// 后期配置
     /// </summary>
     /// <param name="options"></param>
