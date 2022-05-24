@@ -52,3 +52,11 @@ console.log("api request completed.");
     "preserveValueImports": false
   }
 ```
+
+在 `Angular` 项目中，可能会出现 `override` 错误问题，只需要编辑 `api-services/base.ts` 文件并添加 `override` 关键字即可，如：
+
+```ts
+export class RequiredError extends Error {
+   override name: "RequiredError" = "RequiredError";
+}
+```
