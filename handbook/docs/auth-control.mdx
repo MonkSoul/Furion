@@ -501,6 +501,8 @@ var userId = App.User?.FindFirstValue("键");
 
 通常在用户登录成功后我们会将 `JWT Token` 存储到浏览器中，这时候就需要在浏览器端解析 `token` 里面存储的信息，可以通过调用下面方法实现：
 
+- `TypeScript` 版本
+
 ```ts showLineNumbers {7-9}
 /**
  * 解密 JWT token 的信息
@@ -508,6 +510,21 @@ var userId = App.User?.FindFirstValue("键");
  * @returns <any>object
  */
 function decryptJWT(token: string): any {
+  token = token.replace("_", "/").replace("-", "+");
+  var json = window.atob(token.split(".")[1]);
+  return JSON.parse(json);
+}
+```
+
+- `JavaScript` 版本
+
+```js showLineNumbers {7-9}
+/**
+ * 解密 JWT token 的信息
+ * @param token jwt token 字符串
+ * @returns <any>object
+ */
+function decryptJWT(token) {
   token = token.replace("_", "/").replace("-", "+");
   var json = window.atob(token.split(".")[1]);
   return JSON.parse(json);
@@ -531,3 +548,4 @@ function decryptJWT(token: string): any {
 想了解更多 `鉴权授权` 知识可查阅 [ASP.NET Core - 安全和标识](https://docs.microsoft.com/zh-cn/aspnet/core/security/?view=aspnetcore-5.0) 章节。
 
 :::
+```
