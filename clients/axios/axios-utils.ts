@@ -147,3 +147,14 @@ export function getAPI<T extends BaseAPI>(
 ) {
   return new apiType(serveConfig, BASE_PATH, axiosInstance);
 }
+
+/**
+ * 解密 JWT token 的信息
+ * @param token jwt token 字符串
+ * @returns <any>object
+ */
+export function decryptJWT(token: string): any {
+  token = token.replace("_", "/").replace("-", "+");
+  var json = window.atob(token.split(".")[1]);
+  return JSON.parse(json);
+}

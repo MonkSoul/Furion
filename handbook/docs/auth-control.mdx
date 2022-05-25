@@ -497,7 +497,26 @@ var userId = App.User?.FindFirstValue("键");
 
 :::
 
-## 15.7 反馈与建议
+## 15.7 前端解密 `JWT` 信息
+
+通常在用户登录成功后我们会将 `JWT Token` 存储到浏览器中，这时候就需要在浏览器端解析 `token` 里面存储的信息，可以通过调用下面方法实现：
+
+```ts showLineNumbers {7-9}
+/**
+ * 解密 JWT token 的信息
+ * @param token jwt token 字符串
+ * @returns <any>object
+ */
+function decryptJWT(token: string): any {
+  token = token.replace("_", "/").replace("-", "+");
+  var json = window.atob(token.split(".")[1]);
+  return JSON.parse(json);
+}
+```
+
+这样就可以把后端放在 `token` 里面的信息解析出来了。
+
+## 15.8 反馈与建议
 
 :::note 与我们交流
 
