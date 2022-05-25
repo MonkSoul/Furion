@@ -23,7 +23,7 @@ public class HomeController : Controller
         return View();
     }
 
-    [HttpGet]
+    [HttpPost]
     public int CheckUrl()
     {
         if (_cache.Get<bool>("swagger_login"))

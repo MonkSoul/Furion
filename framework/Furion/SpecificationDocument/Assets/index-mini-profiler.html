@@ -323,10 +323,11 @@
         window.onload = function () {
             var configObject = JSON.parse('%(ConfigObject)');
             var oauthConfigObject = JSON.parse('%(OAuthConfigObject)');
+
             var loginObject = configObject.LoginInfo;
             if (loginObject.enabled === true) {
                 sendRequest({
-                    method: "GET",
+                    method: "POST",
                     url: loginObject.checkUrl,
                     success: function (res) {
                         if (res.toString() === "200") {
