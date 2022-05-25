@@ -509,9 +509,9 @@ var userId = App.User?.FindFirstValue("键");
  * @param token jwt token 字符串
  * @returns <any>object
  */
-function decryptJWT(token: string): any {
+export function decryptJWT(token: string): any {
   token = token.replace("_", "/").replace("-", "+");
-  var json = window.atob(token.split(".")[1]);
+  var json = decodeURIComponent(escape(window.atob(token.split(".")[1])));
   return JSON.parse(json);
 }
 ```
@@ -526,7 +526,7 @@ function decryptJWT(token: string): any {
  */
 function decryptJWT(token) {
   token = token.replace("_", "/").replace("-", "+");
-  var json = window.atob(token.split(".")[1]);
+  var json = decodeURIComponent(escape(window.atob(token.split(".")[1])));
   return JSON.parse(json);
 }
 ```
@@ -554,4 +554,7 @@ function decryptJWT(token) {
 想了解更多 `鉴权授权` 知识可查阅 [ASP.NET Core - 安全和标识](https://docs.microsoft.com/zh-cn/aspnet/core/security/?view=aspnetcore-5.0) 章节。
 
 :::
+
+```
+
 ```

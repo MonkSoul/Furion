@@ -155,6 +155,6 @@ export function getAPI<T extends BaseAPI>(
  */
 export function decryptJWT(token: string): any {
   token = token.replace("_", "/").replace("-", "+");
-  var json = window.atob(token.split(".")[1]);
+  var json = decodeURIComponent(escape(window.atob(token.split(".")[1])));
   return JSON.parse(json);
 }
