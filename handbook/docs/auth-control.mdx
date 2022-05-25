@@ -535,7 +535,7 @@ function decryptJWT(token) {
 
 :::tip 小知识
 
-可以解密之后读取 `过期时间 exp` 来决定什么时候请求需要添加刷新 `Token` 哦。
+可以在解密之后读取 `过期时间 exp` 来解决请求时是否需要带刷新 `Token`，比如即将过期前 `5` 分钟。
 
 :::
 
@@ -554,7 +554,3 @@ function decryptJWT(token) {
 想了解更多 `鉴权授权` 知识可查阅 [ASP.NET Core - 安全和标识](https://docs.microsoft.com/zh-cn/aspnet/core/security/?view=aspnetcore-5.0) 章节。
 
 :::
-
-```
-
-```
