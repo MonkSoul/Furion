@@ -154,7 +154,7 @@ export function getAPI<T extends BaseAPI>(
  * @returns <any>object
  */
 export function decryptJWT(token: string): any {
-  token = token.replace("_", "/").replace("-", "+");
+  token = token.replaceAll("_", "/").replaceAll("-", "+");
   var json = decodeURIComponent(escape(window.atob(token.split(".")[1])));
   return JSON.parse(json);
 }

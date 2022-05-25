@@ -509,8 +509,8 @@ var userId = App.User?.FindFirstValue("键");
  * @param token jwt token 字符串
  * @returns <any>object
  */
-export function decryptJWT(token: string): any {
-  token = token.replace("_", "/").replace("-", "+");
+function decryptJWT(token: string): any {
+  token = token.replaceAll("_", "/").replaceAll("-", "+");
   var json = decodeURIComponent(escape(window.atob(token.split(".")[1])));
   return JSON.parse(json);
 }
@@ -525,7 +525,7 @@ export function decryptJWT(token: string): any {
  * @returns <any>object
  */
 function decryptJWT(token) {
-  token = token.replace("_", "/").replace("-", "+");
+  token = token.replaceAll("_", "/").replaceAll("-", "+");
   var json = decodeURIComponent(escape(window.atob(token.split(".")[1])));
   return JSON.parse(json);
 }
@@ -535,7 +535,7 @@ function decryptJWT(token) {
 
 :::tip 小知识
 
-可以解密之后读取过期时间来决定什么时候请求需要添加刷新 `Token` 哦。
+可以解密之后读取 `过期时间 exp` 来决定什么时候请求需要添加刷新 `Token` 哦。
 
 :::
 
