@@ -20,6 +20,8 @@ using Swashbuckle.AspNetCore.SwaggerUI;
 using System.Collections.Concurrent;
 using System.Reflection;
 using System.Text.RegularExpressions;
+using System.Xml.Linq;
+using System.Xml.XPath;
 
 namespace Furion.SpecificationDocument;
 
@@ -276,14 +278,44 @@ public static class SpecificationDocumentBuilder
     private static void LoadXmlComments(SwaggerGenOptions swaggerGenOptions)
     {
         var xmlComments = _specificationDocumentSettings.XmlComments;
+        var xmlDocList = new List<XDocument>();
+
         foreach (var xmlComment in xmlComments)
         {
             var assemblyXmlName = xmlComment.EndsWith(".xml") ? xmlComment : $"{xmlComment}.xml";
             var assemblyXmlPath = Path.Combine(AppContext.BaseDirectory, assemblyXmlName);
             if (File.Exists(assemblyXmlPath))
             {
+                xmlDocList.Add(XDocument.Load(assemblyXmlPath));
                 swaggerGenOptions.IncludeXmlComments(assemblyXmlPath, true);
             }
+        }
+
+        // 支持 inheritdoc 注释语法
+        var members = new Dictionary<string, XElement>();
+
+        foreach (var xmlDoc in xmlDocList)
+        {
+            var memberElementList = xmlDoc.XPathSelectElements("/doc/members/member[@name and not(inheritdoc)]");
+            foreach (var memberElement in memberElementList)
+            {
+                members.Add(memberElement.Attribute("name").Value, memberElement);
+            }
+        }
+
+        foreach (var xmlDoc in xmlDocList)
+        {
+            var memberElementList = xmlDoc.XPathSelectElements("/doc/members/member[inheritdoc[@cref]]");
+            foreach (var memberElement in memberElementList)
+            {
+                var inheritdocElement = memberElement.Element("inheritdoc");
+
+                var cref = inheritdocElement.Attribute("cref").Value;
+                if (members.TryGetValue(cref, out var realDocMember))
+                    inheritdocElement.Parent.ReplaceNodes(realDocMember.Nodes());
+            }
+
+            swaggerGenOptions.IncludeXmlComments(() => new XPathDocument(xmlDoc.CreateReader()), true);
         }
     }
 

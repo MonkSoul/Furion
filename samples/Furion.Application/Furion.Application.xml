@@ -433,6 +433,23 @@
             为角色分配权限
             </summary>
         </member>
+        <member name="T:Furion.Application.TestInheritdoc">
+            <inheritdoc cref="T:Furion.Application.ITestInheritdoc" />
+        </member>
+        <member name="M:Furion.Application.TestInheritdoc.GetName">
+            <inheritdoc cref="M:Furion.Application.ITestInheritdoc.GetName"/>
+        </member>
+        <member name="T:Furion.Application.ITestInheritdoc">
+            <summary>
+            测试注释继承
+            </summary>
+        </member>
+        <member name="M:Furion.Application.ITestInheritdoc.GetName">
+            <summary>
+            获取名称
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:Furion.Application.TestModuleServices.TestSingleFileProxy">
             <summary>
             测试单文件上传

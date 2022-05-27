@@ -53,5 +53,5 @@ services.AddVirtualFileServer();
 :::
 
 ```cs showLineNumbers
-var success = FS.TryGetContentType("image.png", out string contentType);  // image/png
+var success = FS.TryGetContentType("image.png", out var contentType);  // image/png
 ```

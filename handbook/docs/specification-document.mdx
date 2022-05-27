@@ -966,6 +966,48 @@ public class HomeController : Controller
 
 :::
 
+### 6.5.30 `inheritdoc` 实现注释继承
+
+:::important 版本说明
+
+以下内容仅限 `Furion v3.3.1+` 版本使用。
+
+:::
+
+在过去我们在接口定义的时候编写了完整的成员注释，然后在派生成员中又要重复写一次，实际上做了很大无用功，现在 `Furion` 支持了注释继承了，同时 `Swagger` 中也能正确显示。
+
+```cs showLineNumbers {5,8}
+using Furion.DynamicApiController;
+
+namespace Furion.Application
+{
+    /// <inheritdoc cref="ITestInheritdoc" />
+    public class TestInheritdoc : ITestInheritdoc, IDynamicApiController
+    {
+        /// <inheritdoc cref="ITestInheritdoc.GetName"/>
+        public string GetName()
+        {
+            return "Furion";
+        }
+    }
+
+    /// <summary>
+    /// 测试注释继承
+    /// </summary>
+    public interface ITestInheritdoc
+    {
+        /// <summary>
+        /// 获取名称
+        /// </summary>
+        /// <returns></returns>
+        string GetName();
+    }
+}
+```
+显示效果：
+
+<img src={useBaseUrl("img/cdr22.png")} />
+
 ## 6.6 `SpecificationDocumentSettings` 配置
 
 除了上述例子外，`Furion` 提供了一些配置选项，如：
