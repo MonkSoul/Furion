@@ -931,7 +931,7 @@ public class HomeController : Controller
         _cache = cache;
     }
 
-    [HttpPost]
+    [HttpPost, NonUnify]
     public int CheckUrl()
     {
         if (_cache.Get<bool>("swagger_login"))
@@ -944,7 +944,7 @@ public class HomeController : Controller
         }
     }
 
-    [HttpPost]
+    [HttpPost, NonUnify]
     public int SubmitUrl(SpecificationAuth auth)
     {
         if (auth.UserName == "admin")
