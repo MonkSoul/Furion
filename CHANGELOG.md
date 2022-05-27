@@ -7,32 +7,96 @@
 > - 如果涉及到代码重构，则当天发版，次版本号 `加 1`，修订版本号 `清 0`。
 > - 如果 `.NET SDK` 主版本号升级，则当天发版，主版本号 `加 1`。 -->
 
-## v3.3.0（当前版本）
+## v3.3.1（当前版本）
 
 - **新特性**
 
-  - [新增] 远程请求文件上传自动识别 `Content-Type` 和 `Mime` [I57ZMN](https://gitee.com/dotnetchina/Furion/issues/I57ZMN)
-  - [新增] 远程请求方法支持设置 `Content-Type` 和 `Encoding` [I57ZMN](https://gitee.com/dotnetchina/Furion/issues/I57ZMN)
+  - [新增] 远程请求文件上传自动识别 `Content-Type` 和 `Mime` [#I57ZMN](https://gitee.com/dotnetchina/Furion/issues/I57ZMN)
+  - [新增] 远程请求方法支持设置 `Content-Type` 和 `Encoding` [#I57ZMN](https://gitee.com/dotnetchina/Furion/issues/I57ZMN)
+  - [新增] 根据文件名获取 `Content-Type` 和 `Mime` 类型 [#8f78184](https://gitee.com/dotnetchina/Furion/commit/8f78184f8661830744592c054b65d503346c1b27)
+  - [新增] 规范化文档支持授权访问 [#32aa3b6](https://gitee.com/dotnetchina/Furion/commit/32aa3b6328d23a5885033837883c7b546e898d43)
+  - [新增] 代码注释，规范化文档注释 `inheritdoc` 语法支持 ❤️️️️ [#159A6W](https://gitee.com/dotnetchina/Furion/issues/I59A6W)
+  - [新增] 新增 `Vue2/3`，`React 16.8+`，`Angular 9+` 前端请求工具库，实现后端 API 代理 [axios-utils](https://gitee.com/dotnetchina/Furion/tree/net6/clients/axios)
 
 - **突破性变化**
 
+  - [新增] 代码注释，规范化文档注释 `inheritdoc` 语法支持 ❤️️️️ [#159A6W](https://gitee.com/dotnetchina/Furion/issues/I59A6W)
   - [更新] `.NET` 所有依赖包至 `v6.0.5` 版本
 
 - **问题修复**
 
   - [修复] 自定义全局异常 `Exception` 后导致获取错误行号，文件空异常问题 [#I53EGM](https://gitee.com/dotnetchina/Furion/issues/I53EGM)
   - [修复] 配置数据库上下文传递空委托导致空引用异常问题 [#I519AW](https://gitee.com/dotnetchina/Furion/issues/I519AW)
-  - [修复] 字符串模板模板 `Render` 拓展方法返回 `void` 问题，应该返回 `string`
+  - [修复] 字符串模板模板 `Render` 拓展方法返回 `void` 问题，应该返回 `string` [Github-#99](https://github.com/MonkSoul/Furion/issues/99#issuecomment-1073131906)
   - [修复] 远程请求文件上传出现空情况问题（原因是缺失 `Content-Type` ）[I57ZMN](https://gitee.com/dotnetchina/Furion/issues/I57ZMN)
 
 - **其他更改**
 
+  - [调整] 框架源码引入 `GlobalUsings` 机制，减少代码体积 [#7e9cc1c](https://gitee.com/dotnetchina/Furion/commit/7e9cc1c205750906cddd540ad08a4c02f14efa3a)
+  - [调整] 跨域请求的预检设置，如果未设置，则默认为 24 小时，主要解决前端多次发送 204 预检问题 [4a11e7c](https://gitee.com/dotnetchina/Furion/commit/4a11e7c9fa20b4419ac00f6ad21c078500d00791)
   - [优化] 视图引擎反射性能
 
 - **文档**
 
-  - [更新] 二级虚拟目录部署文档，远程请求文档，文件上传文档，安全授权文档
+  - [新增] 粘土对象序列化 `JSON` 配置文档
+  - [新增] 前端解密 `JWT` 文档
   - [新增] 将 `byte[]` 转 `url` 文档
+  - [更新] 二级虚拟目录部署文档，远程请求文档，文件上传文档，安全授权文档、规范化文档
+
+- **本期亮点**
+
+  - ❤️️️️ **根据文件名获取 `MIME` 或 `Content-Type` 类型**
+
+```cs showLineNumbers
+var success = FS.TryGetContentType("image.png", out var contentType);  // image/png
+```
+
+- ❤️️️️ **支持 `Swagger` 配置登录后才能访问**
+
+```json showLineNumbers {2-6}
+{
+  "SpecificationDocumentSettings": {
+    "LoginInfo": {
+      "Enabled": false,
+      "CheckUrl": "检查登录地址",
+      "SubmitUrl": "提交登录地址"
+    }
+  }
+}
+```
+
+[查看详细文档](https://dotnetchina.gitee.io/furion/docs/specification-document#6529-带登录的-swagger-文档)
+
+- ❤️️️️ **支持代码注释继承，Swagger 文档注释也支持**
+
+```cs showLineNumbers {1,4}
+/// <inheritdoc cref="ITestInheritdoc" />
+public class TestInheritdoc : ITestInheritdoc, IDynamicApiController
+{
+    /// <inheritdoc cref="ITestInheritdoc.GetName"/>
+    public string GetName()
+    {
+        return "Furion";
+    }
+}
+
+/// <summary>
+/// 测试注释继承
+/// </summary>
+public interface ITestInheritdoc
+{
+    /// <summary>
+    /// 获取名称
+    /// </summary>
+    /// <returns></returns>
+    string GetName();
+}
+```
+
+![](https://gitee.com/dotnetchina/Furion/raw/net6/handbook/static/img/cdr22.png)
+
+[查看详细文档](https://dotnetchina.gitee.io/furion/docs/specification-document#6530-inheritdoc-实现注释继承)
+
 
 ---
 
