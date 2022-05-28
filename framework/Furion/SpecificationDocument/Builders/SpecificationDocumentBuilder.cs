@@ -290,9 +290,9 @@ public static class SpecificationDocumentBuilder
 
                 // 查找所有 member[name] 节点，且不包含 <inheritdoc /> 节点的注释
                 var members = new Dictionary<string, XElement>();
-                var memberParentElementList = xmlDoc.XPathSelectElements("/doc/members/member[@name and not(inheritdoc)]");
+                var memberNotInheritdocElementList = xmlDoc.XPathSelectElements("/doc/members/member[@name and not(inheritdoc)]");
 
-                foreach (var memberElement in memberParentElementList)
+                foreach (var memberElement in memberNotInheritdocElementList)
                 {
                     members.Add(memberElement.Attribute("name").Value, memberElement);
                 }
