@@ -278,6 +278,7 @@ public static class SpecificationDocumentBuilder
     private static void LoadXmlComments(SwaggerGenOptions swaggerGenOptions)
     {
         var xmlComments = _specificationDocumentSettings.XmlComments;
+        var members = new Dictionary<string, XElement>();
 
         // 支持注释完整特性，包括 inheritdoc 注释语法
         foreach (var xmlComment in xmlComments)
@@ -289,7 +290,6 @@ public static class SpecificationDocumentBuilder
                 var xmlDoc = XDocument.Load(assemblyXmlPath);
 
                 // 查找所有 member[name] 节点，且不包含 <inheritdoc /> 节点的注释
-                var members = new Dictionary<string, XElement>();
                 var memberNotInheritdocElementList = xmlDoc.XPathSelectElements("/doc/members/member[@name and not(inheritdoc)]");
 
                 foreach (var memberElement in memberNotInheritdocElementList)
