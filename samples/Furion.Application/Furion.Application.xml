@@ -439,6 +439,9 @@
         <member name="M:Furion.Application.TestInheritdoc.GetName">
             <inheritdoc cref="M:Furion.Application.ITestInheritdoc.GetName"/>
         </member>
+        <member name="M:Furion.Application.TestInheritdoc.GetVersion">
+            <inheritdoc />
+        </member>
         <member name="T:Furion.Application.ITestInheritdoc">
             <summary>
             测试注释继承
@@ -447,6 +450,12 @@
         <member name="M:Furion.Application.ITestInheritdoc.GetName">
             <summary>
             获取名称
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Furion.Application.ITestInheritdoc.GetVersion">
+            <summary>
+            获取版本
             </summary>
             <returns></returns>
         </member>

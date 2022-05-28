@@ -278,7 +278,6 @@ public static class SpecificationDocumentBuilder
     private static void LoadXmlComments(SwaggerGenOptions swaggerGenOptions)
     {
         var xmlComments = _specificationDocumentSettings.XmlComments;
-        var members = new Dictionary<string, XElement>();
 
         // 支持注释完整特性，包括 inheritdoc 注释语法
         foreach (var xmlComment in xmlComments)
@@ -288,21 +287,46 @@ public static class SpecificationDocumentBuilder
             if (File.Exists(assemblyXmlPath))
             {
                 var xmlDoc = XDocument.Load(assemblyXmlPath);
-                var notInheritdocElementList = xmlDoc.XPathSelectElements("/doc/members/member[@name and not(inheritdoc)]");
 
-                foreach (var memberElement in notInheritdocElementList)
+                // 查找所有 member[name] 节点，且不包含 <inheritdoc /> 节点的注释
+                var members = new Dictionary<string, XElement>();
+                var memberParentElementList = xmlDoc.XPathSelectElements("/doc/members/member[@name and not(inheritdoc)]");
+
+                foreach (var memberElement in memberParentElementList)
                 {
                     members.Add(memberElement.Attribute("name").Value, memberElement);
                 }
 
-                var memberElementList = xmlDoc.XPathSelectElements("/doc/members/member[inheritdoc[@cref]]");
+                // 查找所有 member[name] 含有 <inheritdoc /> 节点的注释
+                var memberElementList = xmlDoc.XPathSelectElements("/doc/members/member[inheritdoc]");
                 foreach (var memberElement in memberElementList)
                 {
                     var inheritdocElement = memberElement.Element("inheritdoc");
+                    var cref = inheritdocElement.Attribute("cref");
+                    var value = cref?.Value;
 
-                    var cref = inheritdocElement.Attribute("cref").Value;
-                    if (members.TryGetValue(cref, out var realDocMember))
+                    // 如果没有定义 cref，也就是 /// <inheritdoc />，则查找父类节点的 name
+                    if (value == null)
+                    {
+                        var memberName = inheritdocElement.Parent.Attribute("name").Value;
+
+                        // 获取所在类命名空间
+                        var className = memberName[memberName.IndexOf(":")..memberName.LastIndexOf(".")];
+                        var classElement = xmlDoc.XPathSelectElements($"/doc/members/member[@name='{"T" + className}' and @_ref_]").FirstOrDefault();
+                        if (classElement == null) continue;
+
+                        var _ref_value = classElement.Attribute("_ref_")?.Value;
+                        if (_ref_value == null) continue;
+
+                        var classCrefValue = _ref_value[_ref_value.IndexOf(":")..];
+                        value = memberName.Replace(className, classCrefValue);
+                    }
+
+                    if (members.TryGetValue(value, out var realDocMember))
+                    {
+                        memberElement.SetAttributeValue("_ref_", value);
                         inheritdocElement.Parent.ReplaceNodes(realDocMember.Nodes());
+                    }
                 }
 
                 swaggerGenOptions.IncludeXmlComments(() => new XPathDocument(xmlDoc.CreateReader()), true);

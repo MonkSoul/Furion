@@ -976,7 +976,7 @@ public class HomeController : Controller
 
 在过去我们在接口定义的时候编写了完整的成员注释，然后在派生成员中又要重复写一次，实际上做了很大无用功，现在 `Furion` 支持了注释继承了，同时 `Swagger` 中也能正确显示。
 
-```cs showLineNumbers {5,8}
+```cs showLineNumbers {5,8,14}
 using Furion.DynamicApiController;
 
 namespace Furion.Application
@@ -988,6 +988,12 @@ namespace Furion.Application
         public string GetName()
         {
             return "Furion";
+        }
+
+        /// <inheritdoc />
+        public string GetVersion()
+        {
+            return "3.3.3";
         }
     }
 
@@ -1001,8 +1007,15 @@ namespace Furion.Application
         /// </summary>
         /// <returns></returns>
         string GetName();
+
+        /// <summary>
+        /// 获取版本
+        /// </summary>
+        /// <returns></returns>
+        string GetVersion();
     }
 }
+
 ```
 显示效果：
 

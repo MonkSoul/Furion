@@ -69,7 +69,7 @@ var success = FS.TryGetContentType("image.png", out var contentType);  // image/
 
 - ❤️️️️ **支持代码注释继承，Swagger 文档注释也支持**
 
-```cs showLineNumbers {1,4}
+```cs showLineNumbers {1,4,10}
 /// <inheritdoc cref="ITestInheritdoc" />
 public class TestInheritdoc : ITestInheritdoc, IDynamicApiController
 {
@@ -77,6 +77,12 @@ public class TestInheritdoc : ITestInheritdoc, IDynamicApiController
     public string GetName()
     {
         return "Furion";
+    }
+
+    /// <inheritdoc />
+    public string GetVersion()
+    {
+        return "3.3.3";
     }
 }
 
@@ -90,9 +96,14 @@ public interface ITestInheritdoc
     /// </summary>
     /// <returns></returns>
     string GetName();
+
+    /// <summary>
+    /// 获取版本
+    /// </summary>
+    /// <returns></returns>
+    string GetVersion();
 }
 ```
-
 ![](https://gitee.com/dotnetchina/Furion/raw/net6/handbook/static/img/cdr22.png)
 
 [查看详细文档](https://dotnetchina.gitee.io/furion/docs/specification-document#6530-inheritdoc-实现注释继承)
