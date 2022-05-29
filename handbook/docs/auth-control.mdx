@@ -510,7 +510,7 @@ var userId = App.User?.FindFirstValue("键");
  * @returns <any>object
  */
 function decryptJWT(token: string): any {
-  token = token.replaceAll("_", "/").replaceAll("-", "+");
+  token = token.replace(/\_/g, "/").replace(/\-/g, "+");
   var json = decodeURIComponent(escape(window.atob(token.split(".")[1])));
   return JSON.parse(json);
 }
@@ -525,7 +525,7 @@ function decryptJWT(token: string): any {
  * @returns <any>object
  */
 function decryptJWT(token) {
-  token = token.replaceAll("_", "/").replaceAll("-", "+");
+  token = token.replace(/\_/g, "/").replace(/\-/g, "+");
   var json = decodeURIComponent(escape(window.atob(token.split(".")[1])));
   return JSON.parse(json);
 }
