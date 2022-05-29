@@ -1,11 +1,13 @@
 /**
  * https://editor.swagger.io 代码生成 typescript-axios 辅组工具库
  * 适配 axios 版本：v0.21.1
+ * 视频教程：https://www.bilibili.com/video/BV1EW4y1C71D
  */
 
 import globalAxios, { AxiosInstance } from "axios";
 import { Configuration } from "./api-services";
 import { BaseAPI, BASE_PATH } from "./api-services/base";
+
 // 如果是 Angular 项目，则取消下面注释即可
 // import { environment } from './environments/environment';
 
@@ -115,7 +117,7 @@ axiosInstance.interceptors.response.use(
  * 包装 Promise 并返回 [Error, any]
  * @param promise Promise 方法
  * @param errorExt 自定义错误信息（拓展）
- * @returns [Eror, any]
+ * @returns [Error, any]
  */
 export function feature<T, U = Error>(
   promise: Promise<T>,
