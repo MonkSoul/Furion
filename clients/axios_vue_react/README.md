@@ -6,7 +6,7 @@
 
 ![](./swagger-editor.png)
 
-2. 拷贝 `Furion` 源码下的 `clients/axios_vue_react/axios-utils.ts`文件放置到 `api-services` 同级目录下，同时修改 `serveConfig` 中的配置地址为对应的服务器地址。
+2. 拷贝 `Furion` 源码下的 `clients/axios_vue_react/axios-utils.ts`文件放置到 `api-services` 同级目录下，同时修改 `serveConfig` 中的配置地址为对应的服务器地址，同时**安装 `"axios": "^0.21.1"` 的包到 `package.json` 中**
 
 3. 基本使用
 
