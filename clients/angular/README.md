@@ -1,7 +1,5 @@
 ### 使用手册
 
-[视频教程](https://www.bilibili.com/video/BV1EW4y1C71D)
-
 1. 在源码目录下（`src`）创建 `api-services` 文件夹，并将 [https://editor.swagger.io](https://editor.swagger.io) 生成的 `typescript-angular` 代码（`.ts` 后缀文件）放入其中。
 
 ![](./swagger-editor.png)
