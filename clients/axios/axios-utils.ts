@@ -1,6 +1,7 @@
 /**
- * https://editor.swagger.io 代码生成 typescript-axios 辅组工具库
- * 适配 axios 版本：v0.21.1
+ * 当前版本：v1.0.0
+ * 使用描述：https://editor.swagger.io 代码生成 typescript-axios 辅组工具库
+ * 依赖说明：适配 axios 版本：v0.21.1
  * 视频教程：https://www.bilibili.com/video/BV1EW4y1C71D
  */
 
@@ -156,7 +157,7 @@ export function getAPI<T extends BaseAPI>(
  * @returns <any>object
  */
 export function decryptJWT(token: string): any {
-  token = token.replace(/\_/g, "/").replace(/\-/g, "+");
+  token = token.replace(/_/g, "/").replace(/-/g, "+");
   var json = decodeURIComponent(escape(window.atob(token.split(".")[1])));
   return JSON.parse(json);
 }
