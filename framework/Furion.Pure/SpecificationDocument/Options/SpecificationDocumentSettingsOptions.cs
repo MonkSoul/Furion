@@ -105,6 +105,11 @@ public sealed class SpecificationDocumentSettingsOptions : IConfigurableOptions<
     public SpecificationLoginInfo LoginInfo { get; set; }
 
     /// <summary>
+    /// 启用 All Groups 功能
+    /// </summary>
+    public bool? EnableAllGroups { get; set; }
+
+    /// <summary>
     /// 后期配置
     /// </summary>
     /// <param name="options"></param>
@@ -167,5 +172,6 @@ public sealed class SpecificationDocumentSettingsOptions : IConfigurableOptions<
         PackagesGroups ??= Array.Empty<string>();
         EnableEnumSchemaFilter ??= true;
         EnableTagsOrderDocumentFilter ??= true;
+        EnableAllGroups ??= false;
     }
 }

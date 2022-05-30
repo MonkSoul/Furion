@@ -32,6 +32,11 @@ namespace Furion.SpecificationDocument;
 public static class SpecificationDocumentBuilder
 {
     /// <summary>
+    /// 所有分组默认的组名 Key
+    /// </summary>
+    private const string AllGroupsKey = "All Groups";
+
+    /// <summary>
     /// 规范化文档配置
     /// </summary>
     private static readonly SpecificationDocumentSettingsOptions _specificationDocumentSettings;
@@ -89,6 +94,11 @@ public static class SpecificationDocumentBuilder
     public static bool CheckApiDescriptionInCurrentGroup(string currentGroup, ApiDescription apiDescription)
     {
         if (!apiDescription.TryGetMethodInfo(out var method) || typeof(Controller).IsAssignableFrom(method.ReflectedType)) return false;
+
+        if (currentGroup == AllGroupsKey)
+        {
+            return true;
+        }
 
         return GetActionGroups(method).Any(u => u.Group == currentGroup);
     }
@@ -455,7 +465,21 @@ public static class SpecificationDocumentBuilder
     {
         // 获取所有的控制器和动作方法
         var controllers = App.EffectiveTypes.Where(u => Penetrates.IsApiController(u));
-        if (!controllers.Any()) return new[] { _specificationDocumentSettings.DefaultGroupName };
+        if (!controllers.Any())
+        {
+            var defaultGroups = new List<string>
+            {
+                _specificationDocumentSettings.DefaultGroupName
+            };
+
+            // 启用总分组功能
+            if (_specificationDocumentSettings.EnableAllGroups == true)
+            {
+                defaultGroups.Add(AllGroupsKey);
+            }
+
+            return defaultGroups;
+        }
 
         var actions = controllers.SelectMany(c => c.GetMethods().Where(u => IsApiAction(u, c)));
 
@@ -475,11 +499,19 @@ public static class SpecificationDocumentBuilder
             });
 
         // 分组排序
-        return groupOrders
+        var groups = groupOrders
             .OrderByDescending(u => u.Order)
             .ThenBy(u => u.Group)
             .Select(u => u.Group)
             .Union(_specificationDocumentSettings.PackagesGroups);
+
+        // 启用总分组功能
+        if (_specificationDocumentSettings.EnableAllGroups == true)
+        {
+            groups = groups.Concat(new[] { AllGroupsKey });
+        }
+
+        return groups;
     }
 
     /// <summary>

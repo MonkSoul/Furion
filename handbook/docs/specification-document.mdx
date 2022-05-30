@@ -1017,6 +1017,7 @@ namespace Furion.Application
 }
 
 ```
+
 显示效果：
 
 <img src={useBaseUrl("img/cdr22.png")} />
@@ -1026,6 +1027,24 @@ namespace Furion.Application
 `<inheritdoc />` 不指定 `cref` **仅限成员可用**且所在的类型必须指定 `<inheritdoc cref="" />`，这样才能自动识别。
 
 :::
+
+### 6.5.31 启用 `All Groups` 分组功能
+
+:::important 版本说明
+
+以下内容仅限 `Furion v3.3.4+` 版本使用。
+
+:::
+
+有时候我们为了更好的对接口进行归类，配置了 `Swagger` 多个分组的功能，但这样也对生成客户端请求代码造成了困扰，所以添加了新的配置：
+
+```json showLineNumbers {2-3}
+{
+  "SpecificationDocumentSettings": {
+    "EnableAllGroups": true
+  }
+}
+```
 
 ## 6.6 `SpecificationDocumentSettings` 配置
 
@@ -1054,6 +1073,7 @@ namespace Furion.Application
   - `Enabled`：是否启用登录授权，默认 `false`
   - `CheckUrl`：检查登录状态的 `Url` 地址，**该地址必须是 `POST` 请求**，已授权返回 `200`，否则返回 `401`
   - `SubmitUrl`：提交登录地址，\*\*该地址必须是 `POST` 请求且只有一个 `SpecificationAuth` 类型参数，成功登录返回 `200`，否则返回 `401`
+- `EnableAllGroups`：启用 `Swagger` 总分组功能，自动将所有分组的接口合并到 `All Groups` 中，`bool` 类型，默认 `false`，**仅在 Furion v3.3.4+` 有效**
 
 另外 `SpecificationOpenApiInfo` 内置配置如下：
 
