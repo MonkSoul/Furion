@@ -6,7 +6,7 @@
 
 ![](./swagger-editor.png)
 
-2. 拷贝 `Furion` 源码下的 `clients/axios-utils.ts`文件放置到 `api-services` 同级目录下
+2. 拷贝 `Furion` 源码下的 `clients/axios-utils.ts`文件放置到 `api-services` 同级目录下，同时秀姑 `serveConfig` 中的配置地址为对应的服务器地址。
 
 3. 基本使用
 
