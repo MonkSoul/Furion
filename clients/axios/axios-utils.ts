@@ -32,6 +32,8 @@ const refreshAccessTokenKey = `x-${accessTokenKey}`;
 const clearAccessTokens = () => {
   window.localStorage.removeItem(accessTokenKey);
   window.localStorage.removeItem(refreshAccessTokenKey);
+
+  // 这里可以添加清除更多 Key =========================================
 };
 
 /**
