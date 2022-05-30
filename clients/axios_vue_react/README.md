@@ -6,7 +6,7 @@
 
 ![](./swagger-editor.png)
 
-2. 拷贝 `Furion` 源码下的 `clients/axios/axios-utils.ts`文件放置到 `api-services` 同级目录下，同时修改 `serveConfig` 中的配置地址为对应的服务器地址。
+2. 拷贝 `Furion` 源码下的 `clients/axios_vue_react/axios-utils.ts`文件放置到 `api-services` 同级目录下，同时修改 `serveConfig` 中的配置地址为对应的服务器地址。
 
 3. 基本使用
 
@@ -56,6 +56,8 @@ console.log("api request completed.");
 ```
 
 在 `Angular` 项目中，可能会出现 `override` 错误问题，只需要编辑 `api-services/base.ts` 文件并添加 `override` 关键字即可，如：
+
+> 推荐使用 [Angular 版本](../angular)
 
 ```ts
 export class RequiredError extends Error {
