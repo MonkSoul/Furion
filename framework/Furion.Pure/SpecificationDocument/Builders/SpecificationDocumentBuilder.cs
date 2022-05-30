@@ -656,7 +656,7 @@ public static class SpecificationDocumentBuilder
         // 如果所在类型不是控制器，则该行为也被忽略
         if (method.ReflectedType != ReflectedType || method.DeclaringType == typeof(object)) return false;
 
-        // 不是能被导出忽略的接方法
+        // 配置了 [ApiExplorerSettings] 特性，且 IgnoreApi 为  true
         if (method.IsDefined(typeof(ApiExplorerSettingsAttribute), true) && method.GetCustomAttribute<ApiExplorerSettingsAttribute>(true).IgnoreApi) return false;
 
         return true;
