@@ -331,11 +331,31 @@ public class Worker : BackgroundService
 }
 ```
 
-## 25.8 部署到操作系统
+## 25.8 和网站一同部署
+
+`Worker Service` 除了可以独立部署到操作系统上以外，还支持在网站中配置，也就是同一宿主。
+
+使用非常简单，只需要在 `Startup.cs` 中注册 `Worker Service` 接口，支持两种方式，如：
+
+```cs showLineNumbers
+// 方式一（推荐）
+service.AddHostedService<你的WorkerService类>();
+
+// 方式二，通常用于需要传递构造函数
+service.AddHostedService(new 你的WorkerService类());
+```
+
+:::important 特别说明
+
+如果部署到 `IIS` 中，可能存在 `Worker Service` 被回收的情况，毕竟是和网站同一个宿主。
+
+:::
+
+## 25.9 部署到操作系统
 
 `Worker Service` 支持部署到 `Windows Service` 中 或 `Linux 守护进程中`
 
-### 25.8.1 部署到 `Windows Service`
+### 25.9.1 部署到 `Windows Service`
 
 - **第一步**
 
@@ -403,7 +423,7 @@ sc.exe delete NETCoreDemoWorkerService, 执行删除时候, 把`Windows` 服务�
 
 :::
 
-### 25.8.2 部署到 `Linux 守护程序`
+### 25.9.2 部署到 `Linux 守护程序`
 
 - **第一步**
 
@@ -441,7 +461,7 @@ namespace FurionWorkers
 
 部署到 `Linux 守护进程` 就是这么简单。
 
-## 25.9 反馈与建议
+## 25.10 反馈与建议
 
 :::note 与我们交流
 
