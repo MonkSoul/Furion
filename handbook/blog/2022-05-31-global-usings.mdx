@@ -8,6 +8,8 @@ author_image_url: https://i.loli.net/2021/01/19/M8q5a3OTZWUKicl.png
 tags: [furion, furos, .net, .netcore, .net5, .net6]
 ---
 
+import useBaseUrl from "@docusaurus/useBaseUrl";
+
 ### 简介
 
 在 `.NET6/C#10` 之后，微软新增了 `GlobalUsings` 机制，可以在项目的根目录下创建一个 `GlobalUsings.cs` 文件，把常用的 `using` 放置其中。
@@ -78,6 +80,8 @@ public class DefaultAppService : IDynamicApiController
 ```
 
 **注意必须以 `global` 开头！**
+
+<img src={useBaseUrl("img/cd2223.png")} />
 
 ### 默认全局 `using`
 
