@@ -7,6 +7,7 @@ using Mapster;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -37,6 +38,7 @@ public class PersonService : IDynamicApiController
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
+    [ApiDescriptionSettings(Description = "我是一段描述，显示更多内容 <button>我是按钮</button>")]
     public async Task<int> Insert(PersonInputDto input)
     {
         // 如果不需要返回自增Id，使用 InsertAsync即可
@@ -52,6 +54,7 @@ public class PersonService : IDynamicApiController
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
+    [Obsolete]
     public async Task Update(PersonInputDto input)
     {
         var person = await _personRepository.Include(u => u.PersonDetail, false)

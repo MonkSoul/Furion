@@ -104,4 +104,9 @@ public sealed class ApiDescriptionSettingsAttribute : ApiExplorerSettingsAttribu
     /// 配置控制器区域（只对控制器有效）
     /// </summary>
     public string Area { get; set; }
+
+    /// <summary>
+    /// 额外描述，支持 HTML
+    /// </summary>
+    public string Description { get; set; }
 }

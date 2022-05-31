@@ -1046,6 +1046,52 @@ namespace Furion.Application
 }
 ```
 
+### 6.5.32 接口过时控制
+
+:::important 版本说明
+
+以下内容仅限 `Furion v3.3.5+` 版本使用。
+
+:::
+
+有时候我们某个接口已经过时，提示尽早调用最新接口，只需要在方法上面贴 `[Obsolete]` 即可，如：
+
+```cs showLineNumbers {1,7}
+[Obsolete("GetName() 已经过时，请调用 GetFrameworkName() 替代")]
+public string GetName()
+{
+  return nameof(Furion);
+}
+
+[Obsolete]
+public string Other()
+{
+  // ...
+}
+```
+
+<img src={useBaseUrl("img/swg2.png")} />
+
+### 6.5.33 单一接口更多描述
+
+:::important 版本说明
+
+以下内容仅限 `Furion v3.3.5+` 版本使用。
+
+:::
+
+在该版本新增了 `[ApiDescriptionSettings]` 的 `Description` 属性，支持定义更多描述，如：
+
+```cs showLineNumbers {1}
+[ApiDescriptionSettings(Description = "我是一段描述，显示更多内容 <button>我是按钮</button>")]
+public string add()
+{
+  //....
+}
+```
+
+<img src={useBaseUrl("img/swg1.png")} />
+
 ## 6.6 `SpecificationDocumentSettings` 配置
 
 除了上述例子外，`Furion` 提供了一些配置选项，如：
