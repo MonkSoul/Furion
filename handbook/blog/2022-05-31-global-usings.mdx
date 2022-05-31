@@ -43,6 +43,8 @@ global using Microsoft.CodeAnalysis;
 global using Microsoft.EntityFrameworkCore;
 ```
 
+**注意必须以 `global` 开头！**
+
 :::tip 小知识
 
 一般推荐把实体类的命名空间也放进去，因为仓储 `IRepository<T>` 使用的频率非常高。
@@ -78,8 +80,6 @@ public class DefaultAppService : IDynamicApiController
 
 // ....
 ```
-
-**注意必须以 `global` 开头！**
 
 <img src={useBaseUrl("img/cd2223.png")} />
 
