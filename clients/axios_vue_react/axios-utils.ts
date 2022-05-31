@@ -1,5 +1,5 @@
 /**
- * 当前版本：v1.0.0
+ * 当前版本：v1.0.1
  * 使用描述：https://editor.swagger.io 代码生成 typescript-axios 辅组工具库
  * 依赖说明：适配 axios 版本：v0.21.1
  * 视频教程：https://www.bilibili.com/video/BV1EW4y1C71D
@@ -141,6 +141,9 @@ export function feature<T, U = Error>(
 /**
  * 获取/创建服务 API 实例
  * @param apiType BaseAPI 派生类型
+ * @param configuration 服务器配置对象
+ * @param basePath 服务器地址
+ * @param axiosObject axios 实例
  * @returns 服务API 实例
  */
 export function getAPI<T extends BaseAPI>(
@@ -148,9 +151,12 @@ export function getAPI<T extends BaseAPI>(
     configuration?: Configuration,
     basePath?: string,
     axiosInstance?: AxiosInstance
-  ) => T
+  ) => T,
+  configuration: Configuration = serveConfig,
+  basePath: string = BASE_PATH,
+  axiosObject: AxiosInstance = axiosInstance
 ) {
-  return new apiType(serveConfig, BASE_PATH, axiosInstance);
+  return new apiType(configuration, basePath, axiosObject);
 }
 
 /**

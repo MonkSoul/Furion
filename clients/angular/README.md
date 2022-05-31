@@ -79,3 +79,17 @@ export class CustomHttpUrlEncodingCodec extends HttpUrlEncodingCodec {
   }
 }
 ```
+
+`Swagger` 多分组处理
+
+如果使用了`Swagger` 多分组的功能，可以升级 `Furion` 框架至 `v3.3.4` 版本，之后启用 `EnableAllGroups` 功能，如：
+
+```json
+{
+  "SpecificationDocumentSettings": {
+    "EnableAllGroups": true
+  }
+}
+```
+
+这样就会自动将所有分组的内容合并到 `All Groups` 中。
