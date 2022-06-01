@@ -329,7 +329,66 @@ public async Task<IActionResult> attachment(string resourceId)
 
 之后我们就可以通过 `https://localhost/attachment/资源id` 访问文件或图片了。
 
-## 31.7 反馈与建议
+## 31.7 请求大小控制（上传文件大小控制）
+
+在 `Web` 项目中，`Kestrel` 和 `HttpSys` 都强制实施 `30M (~28.6MiB)` 的最大请求正文大小限制，如果请求正文大小超过配置的最大请求正文大小限制，则引发 `Request body too large. The max request body size is xxxxx` 异常，状态码为 `413` 或 `500`。
+
+### 31.7.1 对特定的接口进行控制
+
+可通过 `[RequestSizeLimit]` 特性进行特定限制
+
+```cs showLineNumbers {2}
+[HttpPost]
+[RequestSizeLimit(100_000_000)]
+public IActionResult MyAction([FromBody] MyViewModel data)
+{
+}
+```
+
+### 31.7.2 对特定接口取消限制
+
+如果不需要对请求大小进行限制，也就是支持提交无限大小，则贴 `[DisableRequestSizeLimit]` 特性即可。
+
+### 31.7.3 通用中间件进行控制
+
+我们也可以通过中间件的方式在 `Startup.cs` 中进行配置：
+
+```cs showLineNumbers {1,3}
+app.Run(async context =>
+{
+    context.Features.Get<IHttpMaxRequestBodySizeFeature>().MaxRequestBodySize = 100_000_000; // 设置 null 就是不限制，具体值就是限制最大多少 M
+}
+```
+
+如果设置 `MaxRequestBodySize` 为 `null` ，则等同于取消限制，也就是 `[DisableRequestSizeLimit]` 的效果。
+
+:::tip 小注意
+
+有时候配置了中间件效果发现没起作用，很有可能和中间件顺序有关，可以通过 `.IsReadOnly` 属性判断，如果为 `true` ，说明你的配置无效，只有 `false` 才有效。
+
+:::
+
+### 31.7.4 全局配置
+
+- `Kestrel` 方式：
+
+```cs showLineNumbers
+.UseKestrel(options =>
+{
+    options.Limits.MaxRequestBodySize = null;   // 设置 null 就是不限制，具体值就是限制最大多少 M
+}
+```
+
+- `HttpSys` 方式：
+
+```cs showLineNumbers
+.UseHttpSys(options =>
+{
+    options.MaxRequestBodySize = 100_000_000;   // 设置 null 就是不限制，具体值就是限制最大多少 M
+}
+```
+
+## 31.8 反馈与建议
 
 :::note 与我们交流
 
