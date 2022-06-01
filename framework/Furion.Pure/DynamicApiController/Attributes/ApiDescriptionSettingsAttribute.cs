@@ -109,4 +109,9 @@ public sealed class ApiDescriptionSettingsAttribute : ApiExplorerSettingsAttribu
     /// 额外描述，支持 HTML
     /// </summary>
     public string Description { get; set; }
+
+    /// <summary>
+    /// 强制携带路由前缀，即使使用 [Route] 重写，仅对 Class/Controller 有效
+    /// </summary>
+    public object ForceWithRoutePrefix { get; set; }
 }

@@ -10,7 +10,6 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System.Text;
 
 namespace Furion;
 
@@ -52,9 +51,6 @@ internal static class InternalApp
     /// <param name="hostBuilder"></param>
     internal static void ConfigureApplication(IWebHostBuilder builder, IHostBuilder hostBuilder = default)
     {
-        // 默认内置 GBK，Windows-1252, Shift-JIS, GB2312 编码支持
-        Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
-
         // 自动装载配置
         if (hostBuilder == default)
         {

@@ -100,6 +100,11 @@ public sealed class DynamicApiControllerSettingsOptions : IConfigurableOptions<D
     public string DefaultArea { get; set; }
 
     /// <summary>
+    /// 强制携带路由前缀，即使使用 [Route] 重写
+    /// </summary>
+    public bool? ForceWithRoutePrefix { get; set; }
+
+    /// <summary>
     /// 选项后期配置
     /// </summary>
     /// <param name="options"></param>
@@ -116,6 +121,7 @@ public sealed class DynamicApiControllerSettingsOptions : IConfigurableOptions<D
         options.VersionSeparator ??= "@";
         options.ModelToQuery ??= false;
         options.SupportedMvcController ??= false;
+        options.ForceWithRoutePrefix ??= false;
         options.AbandonControllerAffixes ??= new string[]
         {
                 "AppServices",

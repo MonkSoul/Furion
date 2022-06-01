@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Mvc.ActionConstraints;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.Routing;
+using System.Collections.Concurrent;
 using System.Reflection;
 using System.Text.RegularExpressions;
 
@@ -296,6 +297,12 @@ internal sealed class DynamicApiControllerApplicationModelConvention : IApplicat
     }
 
     /// <summary>
+    /// 强制处理了 ForceWithDefaultPrefix 的控制器
+    /// </summary>
+    /// <remarks>避免路由无限追加</remarks>
+    private ConcurrentBag<Type> ForceWithDefaultPrefixRouteControllerTypes { get; } = new ConcurrentBag<Type>();
+
+    /// <summary>
     /// 配置动作方法路由特性
     /// </summary>
     /// <param name="action">动作方法模型</param>
@@ -309,7 +316,24 @@ internal sealed class DynamicApiControllerApplicationModelConvention : IApplicat
     {
         var selectorModel = action.Selectors[0];
         // 跳过已配置路由特性的配置
-        if (selectorModel.AttributeRouteModel != null) return;
+        if (selectorModel.AttributeRouteModel != null)
+        {
+            // 解决 Gitee 该 Issue：https://gitee.com/dotnetchina/Furion/issues/I59B74
+            var controller = action.Controller;
+            // 如果启用强制添加前缀且前缀不为空
+            if (controller.Selectors[0].AttributeRouteModel != null
+                && controller.Selectors[0] != null
+                && !ForceWithDefaultPrefixRouteControllerTypes.Contains(controller.ControllerType)
+                && CheckIsForceWithDefaultRoute(controllerApiDescriptionSettings)
+                && !string.IsNullOrWhiteSpace(_dynamicApiControllerSettings.DefaultRoutePrefix))
+            {
+                controller.Selectors[0].AttributeRouteModel = AttributeRouteModel.CombineAttributeRouteModel(new AttributeRouteModel(new RouteAttribute(_dynamicApiControllerSettings.DefaultRoutePrefix))
+                    , controller.Selectors[0].AttributeRouteModel);
+                ForceWithDefaultPrefixRouteControllerTypes.Add(controller.ControllerType);
+            }
+
+            return;
+        }
 
         // 读取模块
         var module = apiDescriptionSettings?.Module;
@@ -596,6 +620,27 @@ internal sealed class DynamicApiControllerApplicationModelConvention : IApplicat
         else isKeepVerb = _dynamicApiControllerSettings?.KeepVerb == true;
 
         return isKeepVerb;
+    }
+
+    /// <summary>
+    /// 检查是否设置了 ForceWithRoutePrefix  参数
+    /// </summary>
+    /// <param name="controllerApiDescriptionSettings"></param>
+    /// <returns></returns>
+    private bool CheckIsForceWithDefaultRoute(ApiDescriptionSettingsAttribute controllerApiDescriptionSettings)
+    {
+        bool isForceWithRoutePrefix;
+
+        // 判断 Controller 是否配置了 ForceWithRoutePrefix 属性
+        if (controllerApiDescriptionSettings?.ForceWithRoutePrefix != null)
+        {
+            var canParse = bool.TryParse(controllerApiDescriptionSettings.ForceWithRoutePrefix.ToString(), out var value);
+            isForceWithRoutePrefix = canParse && value;
+        }
+        // 取全局配置
+        else isForceWithRoutePrefix = _dynamicApiControllerSettings?.ForceWithRoutePrefix == true;
+
+        return isForceWithRoutePrefix;
     }
 
     /// <summary>

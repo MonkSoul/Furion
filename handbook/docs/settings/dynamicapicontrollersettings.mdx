@@ -24,6 +24,7 @@ sidebar_label: 5. 动态API配置
   - `SupportedMvcController`：是否支持 `Mvc Controller` 动态配置，`bool`，默认 `false`
   - `UrlParameterization`：路由参数采用 `[FromQuery]` 化，默认 `false`（`[FromRoute]` 方式）
   - `DefaultArea`：配置默认区域，默认 `null`
+  - `ForceWithRoutePrefix`：配置是否强制添加 `DefaultRoutePrefix`，当控制器自定义了 `[Route]` 有效，**仅限 v3.4.1+版本有效**
   - `AbandonControllerAffixes`：默认去除控制器名称前后缀列表名，`string[]`，默认：
     - `AppServices`
     - `AppService`
