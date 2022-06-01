@@ -18,25 +18,25 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 > - 如果涉及到代码重构，则当天发版，次版本号 `加 1`，修订版本号 `清 0`。
 > - 如果 `.NET SDK` 主版本号升级，则当天发版，主版本号 `加 1`。 -->
 
-## v3.4.0（未发布）
+## v3.4.0（当前版本）
 
 - **新特性**
 
-  - [新增] 规范化文件 `EnableAllGroups` 功能，可以将多个分组合并到一个分组中
-  - [新增] `angular-utils` 客户端工具库，专门处理 `angular` 项目接口代理问题
-  - [新增] `Swagger` 支持单个接口更多描述功能（支持 `html`）
-  - [新增] `Swagger` 接口 `[Obsolete]` 过时支持功能
+  - [新增] 规范化文件 `EnableAllGroups` 功能，可以将多个分组合并到一个分组中 [9277b98](https://gitee.com/dotnetchina/Furion/commit/9277b982ce024bac8ab5117ba02c3bd96ad07972)
+  - [新增] `angular-utils` 客户端工具库，专门处理 `angular` 项目接口代理问题 [6c70584](https://gitee.com/dotnetchina/Furion/commit/6c705848a77fbf7234070d0ef9f053a85cc8838a)
+  - [新增] `Swagger` 支持单个接口更多描述功能（支持 `html`）[e5e1db0](https://gitee.com/dotnetchina/Furion/commit/e5e1db09710dab02966330063935bd5e5b7e4dc8)
+  - [新增] `Swagger` 接口 `[Obsolete]` 过时支持功能 [e5e1db0](https://gitee.com/dotnetchina/Furion/commit/e5e1db09710dab02966330063935bd5e5b7e4dc8)
 
 - **突破性变化**
 
-  - [内置] 默认内置 `GBK`，`Windows-1252`, `Shift-JIS`, `GB2312` 等编码支持
+  - [内置] 默认内置 `GBK`，`Windows-1252`, `Shift-JIS`, `GB2312` 等编码支持 [c456ecb](https://gitee.com/dotnetchina/Furion/commit/c456ecb225b099e5d24add32024f16c359414532)
 
 - **问题修复**
 
-  - [修复] `<inheritdoc />` 不能跨程序集问题
-  - [修复] `v3.3.1` 版本导致 `Swagger` 不能显示问题
-  - [修复] 远程请求、`JSON`以及 `Web` 页面不支持 `GBK`，`GB2312` 等国标编码问题
-  - [修复] 远程请求响应报文设置了 `Content-Type:charset=` 不能自动转换编码问题
+  - [修复] `<inheritdoc />` 不能跨程序集问题 [3b9d39c](https://gitee.com/dotnetchina/Furion/commit/3b9d39ce691f9505c5541a790103fbb0ba6d35af)
+  - [修复] `v3.3.1` 版本导致 `Swagger` 不能显示问题 [6763352](https://gitee.com/dotnetchina/Furion/commit/676335264478d68b99db009d32b65de781702605)
+  - [修复] 远程请求、`JSON`以及 `Web` 页面不支持 `GBK`，`GB2312` 等国标编码问题 [c456ecb](https://gitee.com/dotnetchina/Furion/commit/c456ecb225b099e5d24add32024f16c359414532)
+  - [修复] 远程请求响应报文设置了 `Content-Type:charset=` 不能自动转换编码问题 [c456ecb](https://gitee.com/dotnetchina/Furion/commit/c456ecb225b099e5d24add32024f16c359414532)
 
 - **其他更改**
 
@@ -44,9 +44,60 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 - **文档**
 
+  - [新增] `GlobalUsings` 文档 [文档地址](https://dotnetchina.gitee.io/furion/blog/global-usings)
   - [更新] 规范化文档，`Worker Service` 文档，动态 API 文档
 
-## v3.3.3（当前版本）
+- **本期亮点**
+
+1. **启用 `All Groups` 分组功能**
+
+有时候我们为了更好的对接口进行归类，配置了 `Swagger` 多个分组的功能，但这样也对生成客户端请求代码造成了困扰，所以添加了新的配置：
+
+```json showLineNumbers {2-3}
+{
+  "SpecificationDocumentSettings": {
+    "EnableAllGroups": true
+  }
+}
+```
+
+2. **接口过时控制**
+
+当我们某个接口已经过时，提示尽早调用最新接口，只需要在方法上面贴 `[Obsolete]` 即可，如：
+
+```cs showLineNumbers {1,7}
+[Obsolete("GetName() 已经过时，请调用 GetFrameworkName() 替代")]
+public string GetName()
+{
+  return nameof(Furion);
+}
+
+[Obsolete]
+public string Other()
+{
+  // ...
+}
+```
+
+<img src={useBaseUrl("img/swg2.png")} />
+
+3. **单一接口更多描述**
+
+在该版本新增了 `[ApiDescriptionSettings]` 的 `Description` 属性，支持定义更多描述，如：
+
+```cs showLineNumbers {1}
+[ApiDescriptionSettings(Description = "我是一段描述，显示更多内容 <button>我是按钮</button>")]
+public string add()
+{
+  //....
+}
+```
+
+<img src={useBaseUrl("img/swg1.png")} />
+
+---
+
+## v3.3.3（已发布）
 
 - **新特性**
 
