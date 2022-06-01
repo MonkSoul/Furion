@@ -370,22 +370,45 @@ app.Run(async context =>
 
 ### 31.7.4 全局配置
 
-- `Kestrel` 方式：
+- `Kestrel` 方式：(**通用推荐**)
 
-```cs showLineNumbers
+:::tip 小知识
+
+未使用 `IIS` 托管时，`ASP.NET Core` 默认使用 `Kestrel` 方式。
+
+:::
+
+```cs showLineNumbers {1,8}
+// .NET5 方式，在 .ConfigureWebHostDefaults 里面配置
+.UseStartup<Startup>()
 .UseKestrel(options =>
 {
     options.Limits.MaxRequestBodySize = null;   // 设置 null 就是不限制，具体值就是限制最大多少 M
 }
+
+// .NET6 方式,在 progame.cs 文件 var app = builder.Build(); 之后配置
+app.Configuration.Get<WebHostBuilder>().ConfigureKestrel(options =>
+{
+    options.Limits.MaxRequestBodySize = null;   // 设置 null 就是不限制，具体值就是限制最大多少 M
+});
 ```
 
 - `HttpSys` 方式：
 
+:::tip 小知识
+
+`HTTP.sys` 是仅在 `Windows` 上运行的适用于 `ASP.NET Core` 的 `Web` 服务器。 `HTTP.sys` 是 `Kestrel` 服务器的替代选择，提供了一些 `Kestrel` 不提供的功能。
+
+:::
+
 ```cs showLineNumbers
+// .NET5 方式同上
 .UseHttpSys(options =>
 {
     options.MaxRequestBodySize = 100_000_000;   // 设置 null 就是不限制，具体值就是限制最大多少 M
 }
+
+// .NET6 方式同上
 ```
 
 ## 31.8 反馈与建议
