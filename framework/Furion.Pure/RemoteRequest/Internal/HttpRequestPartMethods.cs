@@ -419,9 +419,27 @@ public sealed partial class HttpRequestPart
         var response = await SendAsync(cancellationToken);
         if (response == null || response.Content == null) return default;
 
-        // 读取响应报文
+        // 读取内容字节流
         var content = await response.Content.ReadAsByteArrayAsync(cancellationToken);
-        return Encoding.Default.GetString(content);
+
+        // 获取 charset
+        string charset;
+
+        // 获取响应头的编码格式
+        var withContentType = response.Content.Headers.TryGetValues("Content-Type", out var contentTypes);
+        if (withContentType)
+        {
+            charset = contentTypes.First()
+                                  .Split(';', StringSplitOptions.RemoveEmptyEntries)
+                                  .Where(u => u.Contains("charset", StringComparison.OrdinalIgnoreCase))
+                                  .FirstOrDefault() ?? "charset=UTF-8";
+
+        }
+        else charset = "charset=UTF-8";
+
+        var encoding = charset.Split('=', StringSplitOptions.RemoveEmptyEntries).LastOrDefault() ?? "UTF-8";
+
+        return Encoding.GetEncoding(encoding).GetString(content);
     }
 
     /// <summary>

@@ -84,5 +84,12 @@ namespace Furion.Application
 
             return fileName;
         }
+
+        public async Task<string> TestRequestEncode([FromQuery] string ip)
+        {
+            var url = $"http://whois.pconline.com.cn/ipJson.jsp?ip={ip}";
+            var resultStr = await url.GetAsStringAsync();
+            return resultStr;
+        }
     }
 }

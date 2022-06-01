@@ -29,9 +29,14 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 - **突破性变化**
 
+  - [内置] 默认内置 `GBK`，`Windows-1252`, `Shift-JIS`, `GB2312` 等编码支持
+
 - **问题修复**
 
   - [修复] `<inheritdoc />` 不能跨程序集问题
+  - [修复] `v3.3.1` 版本导致 `Swagger` 不能显示问题
+  - [修复] 远程请求、`JSON`以及 `Web` 页面不支持 `GBK`，`GB2312` 等国标编码问题
+  - [修复] 远程请求响应报文设置了 `Content-Type:charset=` 不能自动转换编码问题
 
 - **其他更改**
 

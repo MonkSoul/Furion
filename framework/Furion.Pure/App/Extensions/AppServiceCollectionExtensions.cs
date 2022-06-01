@@ -10,6 +10,7 @@ using Furion;
 using Furion.UnifyResult;
 using Microsoft.Extensions.Hosting;
 using System.Reflection;
+using System.Text;
 
 namespace Microsoft.Extensions.DependencyInjection;
 
@@ -197,6 +198,9 @@ public static class AppServiceCollectionExtensions
 
         // 添加对象映射
         services.AddObjectMapper();
+
+        // 默认内置 GBK，Windows-1252, Shift-JIS, GB2312 编码支持
+        Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
 
         // 自定义服务
         configure?.Invoke(services);
