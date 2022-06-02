@@ -370,7 +370,40 @@ app.Run(async context =>
 
 ### 31.7.4 全局配置
 
-- `Kestrel` 方式：(**通用推荐**)
+- `IIS` 方式：
+
+1. **开发环境（IISExpress）**
+
+在 `Web` 启动层（通常是 `XXX.Web.Entry`）根目录下创建 `web.config` 文件，内容如下：
+
+```xml showLineNumbers {3-9}
+<?xml version="1.0" encoding="utf-8"?>
+<configuration>
+	<system.webServer>
+		<security>
+			<requestFiltering>
+				<requestLimits maxAllowedContentLength="1073741824" />
+			</requestFiltering>
+		</security>
+	</system.webServer>
+</configuration>
+```
+
+2. **生产环境**
+
+通常生产环境 `IIS` 自动项目添加了 `web.config` 文件，这时候只需要在 `<configuration>` 节点下添加下面内容即可：
+
+```xml showLineNumbers {3-5}
+<system.webServer>
+    <security>
+        <requestFiltering>
+            <requestLimits maxAllowedContentLength="1073741824" />
+        </requestFiltering>
+    </security>
+</system.webServer>
+```
+
+- `Kestrel` 方式：
 
 :::tip 小知识
 
