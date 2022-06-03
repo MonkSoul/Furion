@@ -7,7 +7,7 @@
 > - 如果涉及到代码重构，则当天发版，次版本号 `加 1`，修订版本号 `清 0`。
 > - 如果 `.NET SDK` 主版本号升级，则当天发版，主版本号 `加 1`。 -->
 
-## v3.4.0（当前版本）
+## v3.4.1（当前版本）
 
 - **新特性**
 
@@ -15,6 +15,7 @@
   - [新增] `angular-utils` 客户端工具库，专门处理 `angular` 项目接口代理问题 [6c70584](https://gitee.com/dotnetchina/Furion/commit/6c705848a77fbf7234070d0ef9f053a85cc8838a)
   - [新增] `Swagger` 支持单个接口更多描述功能（支持 `html`）[e5e1db0](https://gitee.com/dotnetchina/Furion/commit/e5e1db09710dab02966330063935bd5e5b7e4dc8)
   - [新增] `Swagger` 接口 `[Obsolete]` 过时支持功能 [e5e1db0](https://gitee.com/dotnetchina/Furion/commit/e5e1db09710dab02966330063935bd5e5b7e4dc8)
+  - [新增] 动态 `API` 的 `[ApiDescriptionSettings]` 特性 和`DynamicApiControllerSettings` 配置 的 `ForceWithRoutePrefix` 参数，支持强制复写 `[Route]` 特性并添加 `DefaultRoutePrefix` [#I59B74](https://gitee.com/dotnetchina/Furion/issues/I59B74)
 
 - **突破性变化**
 
@@ -23,6 +24,7 @@
 - **问题修复**
 
   - [修复] `<inheritdoc />` 不能跨程序集问题 [3b9d39c](https://gitee.com/dotnetchina/Furion/commit/3b9d39ce691f9505c5541a790103fbb0ba6d35af)
+  - [修复] `<inheritdoc />` 不支持带参数，不支持隐式实现接口注释问题 [#I59A6W#note_10699021](https://gitee.com/dotnetchina/Furion/issues/I59A6W#note_10699021_link)
   - [修复] `v3.3.1` 版本导致 `Swagger` 不能显示问题 [6763352](https://gitee.com/dotnetchina/Furion/commit/676335264478d68b99db009d32b65de781702605)
   - [修复] 远程请求、`JSON`以及 `Web` 页面不支持 `GBK`，`GB2312` 等国标编码问题 [c456ecb](https://gitee.com/dotnetchina/Furion/commit/c456ecb225b099e5d24add32024f16c359414532)
   - [修复] 远程请求响应报文设置了 `Content-Type:charset=` 不能自动转换编码问题 [c456ecb](https://gitee.com/dotnetchina/Furion/commit/c456ecb225b099e5d24add32024f16c359414532)
@@ -34,8 +36,8 @@
 - **文档**
 
   - [新增] `GlobalUsings` 文档 [文档地址](https://dotnetchina.gitee.io/furion/blog/global-usings)
+  - [新增] 请求大小/上传大小限制文档 [文档地址](https://dotnetchina.gitee.io/furion/docs/file-provider/#317-%E8%AF%B7%E6%B1%82%E5%A4%A7%E5%B0%8F%E6%8E%A7%E5%88%B6%E4%B8%8A%E4%BC%A0%E6%96%87%E4%BB%B6%E5%A4%A7%E5%B0%8F%E6%8E%A7%E5%88%B6)
   - [更新] 规范化文档，`Worker Service` 文档，动态 API 文档
-
 
 - **本期亮点**
 
@@ -184,10 +186,10 @@ public interface ITestInheritdoc
     string GetVersion();
 }
 ```
+
 ![](https://gitee.com/dotnetchina/Furion/raw/net6/handbook/static/img/cdr22.png)
 
 [查看详细文档](https://dotnetchina.gitee.io/furion/docs/specification-document#6530-inheritdoc-实现注释继承)
-
 
 ---
 
