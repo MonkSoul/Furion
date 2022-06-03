@@ -298,6 +298,11 @@ public static class SpecificationDocumentBuilder
         {
             var assemblyXmlName = xmlComment.EndsWith(".xml") ? xmlComment : $"{xmlComment}.xml";
             var assemblyXmlPath = Path.Combine(AppContext.BaseDirectory, assemblyXmlName);
+            // 显式继承的注释
+            var regex = new Regex(@"[A-Z]:[a-zA-Z_@\.]+");
+            // 隐式继承的注释
+            var regex2 = new Regex(@"[A-Z]:[a-zA-Z_@\.]+\.");
+
             if (File.Exists(assemblyXmlPath))
             {
                 var xmlDoc = XDocument.Load(assemblyXmlPath);
@@ -318,23 +323,43 @@ public static class SpecificationDocumentBuilder
                     var cref = inheritdocElement.Attribute("cref");
                     var value = cref?.Value;
 
-                    // 如果没有定义 cref，也就是 /// <inheritdoc />，则查找父类节点的 name
+                    // 处理不带 cref 的 inheritdoc 注释
                     if (value == null)
                     {
                         var memberName = inheritdocElement.Parent.Attribute("name").Value;
 
-                        // 获取所在类命名空间
-                        var className = memberName[memberName.IndexOf(":")..memberName.LastIndexOf(".")];
-                        var classElement = xmlDoc.XPathSelectElements($"/doc/members/member[@name='{"T" + className}' and @_ref_]").FirstOrDefault();
-                        if (classElement == null) continue;
-
-                        var _ref_value = classElement.Attribute("_ref_")?.Value;
-                        if (_ref_value == null) continue;
-
-                        var classCrefValue = _ref_value[_ref_value.IndexOf(":")..];
-                        value = memberName.Replace(className, classCrefValue);
+                        // 处理隐式实现接口的注释
+                        // 注释格式：M:Furion.Application.TestInheritdoc.Furion#Application#ITestInheritdoc#Abc(System.String)
+                        // 匹配格式：[A-Z]:[a-zA-Z_@\.]+\.
+                        // 处理逻辑：直接替换匹配为空，然后讲 # 替换为 . 查找即可
+                        if (memberName.Contains('#'))
+                        {
+                            value = memberName.Substring(0, 2) + regex2.Replace(memberName, "").Replace('#', '.');
+                        }
+                        // 处理带参数的注释
+                        // 注释格式：M:Furion.Application.TestInheritdoc.WithParams(System.String)
+                        // 匹配格式：[A-Z]:[a-zA-Z_@\.]+
+                        // 处理逻辑：匹配出不带参数的部分，然后获取类型命名空间，最后调用 GenerateInheritdocCref 进行生成
+                        else if (memberName.Contains('('))
+                        {
+                            var noParamsClassName = regex.Match(memberName).Value;
+                            var className = noParamsClassName[noParamsClassName.IndexOf(":")..noParamsClassName.LastIndexOf(".")];
+                            value = GenerateInheritdocCref(xmlDoc, memberName, className);
+                        }
+                        // 处理不带参数的注释
+                        // 注释格式：M:Furion.Application.TestInheritdoc.WithParams
+                        // 匹配格式：无
+                        // 处理逻辑：获取类型命名空间，最后调用 GenerateInheritdocCref 进行生成
+                        else
+                        {
+                            var className = memberName[memberName.IndexOf(":")..memberName.LastIndexOf(".")];
+                            value = GenerateInheritdocCref(xmlDoc, memberName, className);
+                        }
                     }
 
+                    if (string.IsNullOrWhiteSpace(value)) continue;
+
+                    // 处理带 cref 的 inheritdoc 注释
                     if (members.TryGetValue(value, out var realDocMember))
                     {
                         memberElement.SetAttributeValue("_ref_", value);
@@ -345,6 +370,25 @@ public static class SpecificationDocumentBuilder
                 swaggerGenOptions.IncludeXmlComments(() => new XPathDocument(xmlDoc.CreateReader()), true);
             }
         }
+    }
+
+    /// <summary>
+    /// 生成 Inheritdoc cref 属性
+    /// </summary>
+    /// <param name="xmlDoc"></param>
+    /// <param name="memberName"></param>
+    /// <param name="className"></param>
+    /// <returns></returns>
+    private static string GenerateInheritdocCref(XDocument xmlDoc, string memberName, string className)
+    {
+        var classElement = xmlDoc.XPathSelectElements($"/doc/members/member[@name='{"T" + className}' and @_ref_]").FirstOrDefault();
+        if (classElement == null) return default;
+
+        var _ref_value = classElement.Attribute("_ref_")?.Value;
+        if (_ref_value == null) return default;
+
+        var classCrefValue = _ref_value[_ref_value.IndexOf(":")..];
+        return memberName.Replace(className, classCrefValue);
     }
 
     /// <summary>

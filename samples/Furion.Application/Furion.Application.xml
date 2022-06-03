@@ -442,6 +442,15 @@
         <member name="M:Furion.Application.TestInheritdoc.GetVersion">
             <inheritdoc />
         </member>
+        <member name="M:Furion.Application.TestInheritdoc.WithParams(System.String)">
+            <inheritdoc />
+        </member>
+        <member name="M:Furion.Application.TestInheritdoc.WithParams2(System.Int32,System.String)">
+            <inheritdoc />
+        </member>
+        <member name="M:Furion.Application.TestInheritdoc.Furion#Application#ITestInheritdoc#Private(System.Int32)">
+            <inheritdoc />
+        </member>
         <member name="T:Furion.Application.ITestInheritdoc">
             <summary>
             测试注释继承
@@ -457,6 +466,28 @@
             <summary>
             获取版本
             </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Furion.Application.ITestInheritdoc.WithParams(System.String)">
+            <summary>
+            携带参数
+            </summary>
+            <param name="name"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Furion.Application.ITestInheritdoc.WithParams2(System.Int32,System.String)">
+            <summary>
+            携带参数二
+            </summary>
+            <param name="id"></param>
+            <param name="name"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Furion.Application.ITestInheritdoc.Private(System.Int32)">
+            <summary>
+            隐式实现接口
+            </summary>
+            <param name="id"></param>
             <returns></returns>
         </member>
         <member name="M:Furion.Application.TestModuleServices.TestSingleFileProxy">
