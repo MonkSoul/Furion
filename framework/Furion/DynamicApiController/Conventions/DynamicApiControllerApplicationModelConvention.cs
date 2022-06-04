@@ -167,12 +167,11 @@ internal sealed class DynamicApiControllerApplicationModelConvention : IApplicat
     private void ConfigureControllerRouteAttribute(ControllerModel controller, ApiDescriptionSettingsAttribute controllerApiDescriptionSettings)
     {
         // 解决 Gitee 该 Issue：https://gitee.com/dotnetchina/Furion/issues/I59B74
-        // 如果启用强制添加前缀且前缀不为空
-        if (controller.Selectors[0].AttributeRouteModel != null
+        if (CheckIsForceWithDefaultRoute(controllerApiDescriptionSettings)
+            && !string.IsNullOrWhiteSpace(_dynamicApiControllerSettings.DefaultRoutePrefix)
             && controller.Selectors[0] != null
-            && !ForceWithDefaultPrefixRouteControllerTypes.Contains(controller.ControllerType)
-            && CheckIsForceWithDefaultRoute(controllerApiDescriptionSettings)
-            && !string.IsNullOrWhiteSpace(_dynamicApiControllerSettings.DefaultRoutePrefix))
+            && controller.Selectors[0].AttributeRouteModel != null
+            && !ForceWithDefaultPrefixRouteControllerTypes.Contains(controller.ControllerType))
         {
             controller.Selectors[0].AttributeRouteModel = AttributeRouteModel.CombineAttributeRouteModel(new AttributeRouteModel(new RouteAttribute(_dynamicApiControllerSettings.DefaultRoutePrefix))
                 , controller.Selectors[0].AttributeRouteModel);
