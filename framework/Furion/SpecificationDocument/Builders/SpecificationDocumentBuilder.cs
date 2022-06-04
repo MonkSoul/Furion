@@ -334,7 +334,7 @@ public static class SpecificationDocumentBuilder
                         // 处理逻辑：直接替换匹配为空，然后讲 # 替换为 . 查找即可
                         if (memberName.Contains('#'))
                         {
-                            value = memberName.Substring(0, 2) + regex2.Replace(memberName, "").Replace('#', '.');
+                            value = $"{memberName[..2]}{regex2.Replace(memberName, "").Replace('#', '.')}";
                         }
                         // 处理带参数的注释
                         // 注释格式：M:Furion.Application.TestInheritdoc.WithParams(System.String)

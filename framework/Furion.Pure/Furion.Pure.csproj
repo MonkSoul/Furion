@@ -9,13 +9,13 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<None Remove="SpecificationDocument\Assets\index-mini-profiler.html" />
-		<None Remove="SpecificationDocument\Assets\index.html" />
+	  <None Remove="SpecificationDocument\Assets\index-mini-profiler.html" />
+	  <None Remove="SpecificationDocument\Assets\index.html" />
 	</ItemGroup>
 
 	<ItemGroup>
-		<EmbeddedResource Include="SpecificationDocument\Assets\index-mini-profiler.html" />
-		<EmbeddedResource Include="SpecificationDocument\Assets\index.html" />
+	  <EmbeddedResource Include="SpecificationDocument\Assets\index-mini-profiler.html" />
+	  <EmbeddedResource Include="SpecificationDocument\Assets\index.html" />
 	</ItemGroup>
 
 	<ItemGroup>

@@ -93,6 +93,9 @@ internal sealed class DynamicApiControllerApplicationModelConvention : IApplicat
         // 配置控制器名称
         ConfigureControllerName(controller, controllerApiDescriptionSettings);
 
+        // 配置控制器路由特性
+        ConfigureControllerRouteAttribute(controller, controllerApiDescriptionSettings);
+
         // 存储排序给 Swagger 使用
         Penetrates.ControllerOrderCollection.TryAdd(controller.ControllerName, controllerApiDescriptionSettings?.Order ?? 0);
 
@@ -148,6 +151,33 @@ internal sealed class DynamicApiControllerApplicationModelConvention : IApplicat
     {
         var (Name, _, _, _) = ConfigureControllerAndActionName(controllerApiDescriptionSettings, controller.ControllerType.Name, _dynamicApiControllerSettings.AbandonControllerAffixes, _ => _);
         controller.ControllerName = Name;
+    }
+
+    /// <summary>
+    /// 强制处理了 ForceWithDefaultPrefix 的控制器
+    /// </summary>
+    /// <remarks>避免路由无限追加</remarks>
+    private ConcurrentBag<Type> ForceWithDefaultPrefixRouteControllerTypes { get; } = new ConcurrentBag<Type>();
+
+    /// <summary>
+    /// 配置控制器路由特性
+    /// </summary>
+    /// <param name="controller"></param>
+    /// <param name="controllerApiDescriptionSettings"></param>
+    private void ConfigureControllerRouteAttribute(ControllerModel controller, ApiDescriptionSettingsAttribute controllerApiDescriptionSettings)
+    {
+        // 解决 Gitee 该 Issue：https://gitee.com/dotnetchina/Furion/issues/I59B74
+        // 如果启用强制添加前缀且前缀不为空
+        if (controller.Selectors[0].AttributeRouteModel != null
+            && controller.Selectors[0] != null
+            && !ForceWithDefaultPrefixRouteControllerTypes.Contains(controller.ControllerType)
+            && CheckIsForceWithDefaultRoute(controllerApiDescriptionSettings)
+            && !string.IsNullOrWhiteSpace(_dynamicApiControllerSettings.DefaultRoutePrefix))
+        {
+            controller.Selectors[0].AttributeRouteModel = AttributeRouteModel.CombineAttributeRouteModel(new AttributeRouteModel(new RouteAttribute(_dynamicApiControllerSettings.DefaultRoutePrefix))
+                , controller.Selectors[0].AttributeRouteModel);
+            ForceWithDefaultPrefixRouteControllerTypes.Add(controller.ControllerType);
+        }
     }
 
     /// <summary>
@@ -297,12 +327,6 @@ internal sealed class DynamicApiControllerApplicationModelConvention : IApplicat
     }
 
     /// <summary>
-    /// 强制处理了 ForceWithDefaultPrefix 的控制器
-    /// </summary>
-    /// <remarks>避免路由无限追加</remarks>
-    private ConcurrentBag<Type> ForceWithDefaultPrefixRouteControllerTypes { get; } = new ConcurrentBag<Type>();
-
-    /// <summary>
     /// 配置动作方法路由特性
     /// </summary>
     /// <param name="action">动作方法模型</param>
@@ -316,24 +340,7 @@ internal sealed class DynamicApiControllerApplicationModelConvention : IApplicat
     {
         var selectorModel = action.Selectors[0];
         // 跳过已配置路由特性的配置
-        if (selectorModel.AttributeRouteModel != null)
-        {
-            // 解决 Gitee 该 Issue：https://gitee.com/dotnetchina/Furion/issues/I59B74
-            var controller = action.Controller;
-            // 如果启用强制添加前缀且前缀不为空
-            if (controller.Selectors[0].AttributeRouteModel != null
-                && controller.Selectors[0] != null
-                && !ForceWithDefaultPrefixRouteControllerTypes.Contains(controller.ControllerType)
-                && CheckIsForceWithDefaultRoute(controllerApiDescriptionSettings)
-                && !string.IsNullOrWhiteSpace(_dynamicApiControllerSettings.DefaultRoutePrefix))
-            {
-                controller.Selectors[0].AttributeRouteModel = AttributeRouteModel.CombineAttributeRouteModel(new AttributeRouteModel(new RouteAttribute(_dynamicApiControllerSettings.DefaultRoutePrefix))
-                    , controller.Selectors[0].AttributeRouteModel);
-                ForceWithDefaultPrefixRouteControllerTypes.Add(controller.ControllerType);
-            }
-
-            return;
-        }
+        if (selectorModel.AttributeRouteModel != null) return;
 
         // 读取模块
         var module = apiDescriptionSettings?.Module;
