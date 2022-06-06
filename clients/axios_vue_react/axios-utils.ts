@@ -25,8 +25,8 @@ export const serveConfig = new Configuration({
 });
 
 // token 键定义
-const accessTokenKey = "access-token";
-const refreshAccessTokenKey = `x-${accessTokenKey}`;
+export const accessTokenKey = "access-token";
+export const refreshAccessTokenKey = `x-${accessTokenKey}`;
 
 // 清除 token
 const clearAccessTokens = () => {
