@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<SatelliteResourceLanguages>en-US</SatelliteResourceLanguages>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<Content Remove="wwwroot\images\logo.png" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Include="wwwroot\images\logo.png" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\FurionRazorApi.Web.Core\FurionRazorApi.Web.Core.csproj" />
+	</ItemGroup>
+
+</Project>

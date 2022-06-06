@@ -1,0 +1,14 @@
+{
+  "$schema": "http://json.schemastore.org/template",
+  "author": "百小僧",
+  "classifications": ["Furion", "WebApi", "Api", "RESTful", "Swagger", "SqlSugar"],
+  "name": "Furion Api",
+  "identity": "Furion.SqlSugar.Template.Api",
+  "shortName": "fsapi",
+  "tags": {
+    "language": "C#",
+    "type": "project"
+  },
+  "sourceName": "FurionApi",
+  "preferNameDirectory": true
+}

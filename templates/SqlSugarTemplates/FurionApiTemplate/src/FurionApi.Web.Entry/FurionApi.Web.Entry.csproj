@@ -1,0 +1,28 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<SatelliteResourceLanguages>en-US</SatelliteResourceLanguages>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<Compile Remove="Controllers\**" />
+		<Compile Remove="wwwroot\**" />
+		<Content Remove="Controllers\**" />
+		<Content Remove="wwwroot\**" />
+		<EmbeddedResource Remove="Controllers\**" />
+		<EmbeddedResource Remove="wwwroot\**" />
+		<None Remove="Controllers\**" />
+		<None Remove="wwwroot\**" />
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\FurionApi.Web.Core\FurionApi.Web.Core.csproj" />
+	</ItemGroup>
+	<ProjectExtensions>
+		<VisualStudio>
+			<UserProperties properties_4launchsettings_1json__JsonSchema="" />
+		</VisualStudio>
+	</ProjectExtensions>
+
+</Project>

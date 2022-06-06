@@ -1,0 +1,14 @@
+{
+  "$schema": "http://json.schemastore.org/template",
+  "author": "百小僧",
+  "classifications": ["Furion", "Razor", "Pages", "WebApi", "Api", "SqlSugar"],
+  "name": "Furion Razor With WebApi",
+  "identity": "Furion.SqlSugar.Template.RazorWithWebApi",
+  "shortName": "fsrazorapi",
+  "tags": {
+    "language": "C#",
+    "type": "project"
+  },
+  "sourceName": "FurionRazorApi",
+  "preferNameDirectory": true
+}

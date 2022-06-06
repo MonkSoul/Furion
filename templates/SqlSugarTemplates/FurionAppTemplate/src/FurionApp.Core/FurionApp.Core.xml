@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>FurionApp.Core</name>
+    </assembly>
+    <members>
+        <member name="T:FurionApp.Core.DbContext">
+            <summary>
+            数据库上下文对象
+            </summary>
+        </member>
+        <member name="F:FurionApp.Core.DbContext.Instance">
+            <summary>
+            SqlSugar 数据库实例
+            </summary>
+        </member>
+    </members>
+</doc>
