@@ -1,5 +1,5 @@
 /**
- * 当前版本：v1.0.2
+ * 当前版本：v1.0.3
  * 使用描述：https://editor.swagger.io 代码生成 typescript-angular 辅组工具库
  */
 
@@ -7,6 +7,7 @@ import {
   HttpClientModule,
   HttpEvent,
   HttpHandler,
+  HttpHeaders,
   HttpInterceptor,
   HttpRequest,
   HttpResponse,
@@ -57,20 +58,41 @@ export class ClientHttpInterceptor implements HttpInterceptor {
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
+    // 构建请求拦截信息
+    const update: { headers: HttpHeaders } = { headers: req.headers };
+
+    // 获取本地的 token
+    const accessToken = window.localStorage.getItem(accessTokenKey);
+    if (accessToken) {
+      // 将 token 添加到请求报文头中
+      update.headers = update.headers.set(
+        "Authorization",
+        `Bearer ${accessToken}`
+      );
+
+      // 判断 accessToken 是否过期
+      const jwt: any = decryptJWT(accessToken);
+      const exp = getJWTDate(jwt.exp as number);
+
+      // token 已经过期
+      if (new Date() >= exp) {
+        // 获取刷新 token
+        const refreshAccessToken = window.localStorage.getItem(
+          refreshAccessTokenKey
+        );
+
+        // 携带刷新 token
+        if (refreshAccessToken) {
+          update.headers = update.headers.set(
+            "X-Authorization",
+            `Bearer ${refreshAccessToken}`
+          );
+        }
+      }
+    }
+
     // 克隆一份请求再修改
-    const wrapReq = req.clone({
-      // 设置请求头
-      headers: req.headers
-        .set(
-          "Authorization",
-          `Bearer ${window.localStorage.getItem(accessTokenKey)}`
-        )
-        .set(
-          "X-Authorization",
-          `Bearer ${window.localStorage.getItem(refreshAccessTokenKey)}`
-        ),
-      // 支持链式编程设置请求报文头
-    });
+    const wrapReq = req.clone(update);
 
     // 这里编写请求拦截代码 =========================================
 

@@ -1,5 +1,5 @@
 /**
- * 当前版本：v1.0.2
+ * 当前版本：v1.0.3
  * 使用描述：https://editor.swagger.io 代码生成 typescript-axios 辅组工具库
  * 依赖说明：适配 axios 版本：v0.21.1
  * 视频教程：https://www.bilibili.com/video/BV1EW4y1C71D
@@ -46,13 +46,29 @@ export const axiosInstance: AxiosInstance = globalAxios;
 // axios 请求拦截
 axiosInstance.interceptors.request.use(
   (conf) => {
-    // 将 token 添加到请求报文头中
-    conf.headers!["Authorization"] = `Bearer ${window.localStorage.getItem(
-      accessTokenKey
-    )}`;
-    conf.headers!["X-Authorization"] = `Bearer ${window.localStorage.getItem(
-      refreshAccessTokenKey
-    )}`;
+    // 获取本地的 token
+    const accessToken = window.localStorage.getItem(accessTokenKey);
+    if (accessToken) {
+      // 将 token 添加到请求报文头中
+      conf.headers!["Authorization"] = `Bearer ${accessToken}`;
+
+      // 判断 accessToken 是否过期
+      const jwt: any = decryptJWT(accessToken);
+      const exp = getJWTDate(jwt.exp as number);
+
+      // token 已经过期
+      if (new Date() >= exp) {
+        // 获取刷新 token
+        const refreshAccessToken = window.localStorage.getItem(
+          refreshAccessTokenKey
+        );
+
+        // 携带刷新 token
+        if (refreshAccessToken) {
+          conf.headers!["X-Authorization"] = `Bearer ${refreshAccessToken}`;
+        }
+      }
+    }
 
     // 这里编写请求拦截代码 =========================================
 
