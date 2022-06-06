@@ -1,6 +1,7 @@
 ﻿{
   "SpecificationDocumentSettings": {
     "DocumentTitle": "Furion | 数据库操作演示",
+    "DocExpansionState": "None",
     "GroupOpenApiInfos": [
       {
         "Group": "Default",
@@ -32,7 +33,10 @@
     ]
   },
   "LocalizationSettings": {
-    "SupportedCultures": [ "zh-CN", "en-US" ],
+    "SupportedCultures": [
+      "zh-CN",
+      "en-US"
+    ],
     "DefaultCulture": "zh-CN",
     "AssemblyName": "Furion.Web.Core"
   }

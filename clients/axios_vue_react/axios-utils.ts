@@ -1,5 +1,5 @@
 /**
- * 当前版本：v1.0.1
+ * 当前版本：v1.0.2
  * 使用描述：https://editor.swagger.io 代码生成 typescript-axios 辅组工具库
  * 依赖说明：适配 axios 版本：v0.21.1
  * 视频教程：https://www.bilibili.com/video/BV1EW4y1C71D
@@ -168,4 +168,14 @@ export function decryptJWT(token: string): any {
   token = token.replace(/_/g, "/").replace(/-/g, "+");
   var json = decodeURIComponent(escape(window.atob(token.split(".")[1])));
   return JSON.parse(json);
+}
+
+/**
+ * 将 JWT 时间戳转换成 Date
+ * @description 主要针对 `exp`，`iat`，`nbf`
+ * @param timestamp 时间戳
+ * @returns Date 对象
+ */
+export function getJWTDate(timestamp: number): Date {
+  return new Date(timestamp * 1000);
 }
