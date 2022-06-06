@@ -1,7 +1,4 @@
-﻿using Furion.Core;
-using System.ComponentModel.DataAnnotations;
-
-namespace Furion.Application.Persons;
+﻿namespace Furion.Application.Persons;
 
 public class ChildrenInputDto
 {

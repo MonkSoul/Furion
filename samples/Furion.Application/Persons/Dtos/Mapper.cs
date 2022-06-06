@@ -1,8 +1,4 @@
-﻿using Furion.Core;
-using Mapster;
-using System;
-
-namespace Furion.Application.Persons;
+﻿namespace Furion.Application.Persons;
 
 public class Mapper : IRegister
 {

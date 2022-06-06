@@ -1,13 +1,4 @@
-﻿using Furion.Core;
-using Furion.DatabaseAccessor;
-using Furion.DynamicApiController;
-using Mapster;
-using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace Furion.Application.Persons;
+﻿namespace Furion.Application.Persons;
 
 /// <summary>
 /// 关联数据演示

@@ -1,16 +1,5 @@
 ﻿using Furion.Application.Persons;
 using Furion.Application.Services;
-using Furion.Core;
-using Furion.DatabaseAccessor;
-using Furion.DynamicApiController;
-using Mapster;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Furion.Application;
 

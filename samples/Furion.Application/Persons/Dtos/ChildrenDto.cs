@@ -1,6 +1,4 @@
-﻿using Furion.Core;
-
-namespace Furion.Application.Persons;
+﻿namespace Furion.Application.Persons;
 
 public class ChildrenDto
 {

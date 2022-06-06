@@ -1,12 +1,9 @@
-﻿using Furion.DependencyInjection;
+﻿namespace Furion.Application.Services;
 
-namespace Furion.Application.Services
+public class TestService : ITestService, ITransient
 {
-    public class TestService : ITestService, ITransient
+    public string GetName()
     {
-        public string GetName()
-        {
-            return "Furion";
-        }
+        return "Furion";
     }
 }

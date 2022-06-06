@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Furion.Application.Persons;
+﻿namespace Furion.Application.Persons;
 
 public class PersonDto
 {

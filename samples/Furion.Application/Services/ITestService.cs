@@ -1,7 +1,6 @@
-﻿namespace Furion.Application.Services
+﻿namespace Furion.Application.Services;
+
+public interface ITestService
 {
-    public interface ITestService
-    {
-        string GetName();
-    }
+    string GetName();
 }

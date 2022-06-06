@@ -1,8 +1,4 @@
-﻿using Furion.DataValidation;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-
-namespace Furion.Application.Persons;
+﻿namespace Furion.Application.Persons;
 
 public class PersonInputDto
 {

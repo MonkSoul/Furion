@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace Furion.Application;
+﻿namespace Furion.Application;
 
 /// <summary>
 /// 登录输入参数
