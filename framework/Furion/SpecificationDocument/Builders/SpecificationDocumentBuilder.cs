@@ -293,15 +293,16 @@ public static class SpecificationDocumentBuilder
         var xmlComments = _specificationDocumentSettings.XmlComments;
         var members = new Dictionary<string, XElement>();
 
+        // 显式继承的注释
+        var regex = new Regex(@"[A-Z]:[a-zA-Z_@\.]+");
+        // 隐式继承的注释
+        var regex2 = new Regex(@"[A-Z]:[a-zA-Z_@\.]+\.");
+
         // 支持注释完整特性，包括 inheritdoc 注释语法
         foreach (var xmlComment in xmlComments)
         {
             var assemblyXmlName = xmlComment.EndsWith(".xml") ? xmlComment : $"{xmlComment}.xml";
             var assemblyXmlPath = Path.Combine(AppContext.BaseDirectory, assemblyXmlName);
-            // 显式继承的注释
-            var regex = new Regex(@"[A-Z]:[a-zA-Z_@\.]+");
-            // 隐式继承的注释
-            var regex2 = new Regex(@"[A-Z]:[a-zA-Z_@\.]+\.");
 
             if (File.Exists(assemblyXmlPath))
             {
