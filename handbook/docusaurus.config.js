@@ -165,9 +165,7 @@ module.exports = {
           ],
         },
       ],
-      copyright: `Copyright © ${
-        new Date().getFullYear() - 1
-      }-${new Date().getFullYear()} 百小僧, Baiqian Co.,Ltd.`,
+      copyright: `Copyright © 2020-${new Date().getFullYear()} 百小僧, Baiqian Co.,Ltd.`,
       logo: {
         src: "img/chinadotnet.png",
         href: "https://gitee.com/dotnetchina",
