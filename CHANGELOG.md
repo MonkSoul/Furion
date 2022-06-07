@@ -11,7 +11,7 @@
 
 - **新特性**
 
-  - [新增] `Options` 选项属性支持自定义 `Key` 名称，`[MapSettings("key")]`  [#I5B2HN](https://gitee.com/dotnetchina/Furion/issues/I5B2HN)
+  - [新增] `Options` 选项属性支持自定义 `Key` 名称，`[MapSettings("key")]` [#I5B2HN](https://gitee.com/dotnetchina/Furion/issues/I5B2HN)
   - [新增] `EventBus` 模块事件 `Id` 支持枚举类型 [2f328aa](https://gitee.com/dotnetchina/Furion/commit/2f328aa8213c8efe7a8480116985573cc6b7fce6)
   - [新增] `EventBus` 模块发布者 `PublishAsync` 和 `PublishDelayAsync` 重载 [2f328aa](https://gitee.com/dotnetchina/Furion/commit/2f328aa8213c8efe7a8480116985573cc6b7fce6)
   - [新增] `EventBus` 模块拓展方法：`Enum.ParseToString()` 和 `String.ParseToEnum()` [2f328aa](https://gitee.com/dotnetchina/Furion/commit/2f328aa8213c8efe7a8480116985573cc6b7fce6)
@@ -51,7 +51,18 @@ public async Task EventHandler2(EventHandlerExecutingContext context)
 }
 ```
 
-2. **选项支持属性自定义配置 `Key`**
+2. **事件总线发布支持更简单调用**
+
+```cs
+// 旧版本
+await _eventPublisher.PublishAsync(new ChannelEventSource("ToDo:Create", name));
+
+// 新版本
+await _eventPublisher.PublishAsync("ToDo:Create", name);
+await _eventPublisher.PublishAsync(YourEnum.Some); // 也支持枚举
+```
+
+3. **选项支持属性自定义配置 `Key`**
 
 ```json
 "AppInfo": {
