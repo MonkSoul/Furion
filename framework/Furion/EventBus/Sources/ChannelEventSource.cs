@@ -6,6 +6,8 @@
 // THIS SOFTWARE IS PROVIDED ON AN "AS IS" BASIS, WITHOUT WARRANTIES OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO NON-INFRINGEMENT, MERCHANTABILITY OR FIT FOR A PARTICULAR PURPOSE.
 // See the Mulan PSL v2 for more details.
 
+using Furion.Extensitions.EventBus;
+
 namespace Furion.EventBus;
 
 /// <summary>
@@ -44,6 +46,36 @@ public sealed class ChannelEventSource : IEventSource
         : this(eventId, payload)
     {
         CancellationToken = cancellationToken;
+    }
+
+    /// <summary>
+    /// 构造函数
+    /// </summary>
+    /// <param name="eventId">事件 Id</param>
+    public ChannelEventSource(Enum eventId)
+        : this(eventId.ParseToString())
+    {
+    }
+
+    /// <summary>
+    /// 构造函数
+    /// </summary>
+    /// <param name="eventId">事件 Id</param>
+    /// <param name="payload">事件承载（携带）数据</param>
+    public ChannelEventSource(Enum eventId, object payload)
+        : this(eventId.ParseToString(), payload)
+    {
+    }
+
+    /// <summary>
+    /// 构造函数
+    /// </summary>
+    /// <param name="eventId">事件 Id</param>
+    /// <param name="payload">事件承载（携带）数据</param>
+    /// <param name="cancellationToken">取消任务 Token</param>
+    public ChannelEventSource(Enum eventId, object payload, CancellationToken cancellationToken)
+        : this(eventId.ParseToString(), payload, cancellationToken)
+    {
     }
 
     /// <summary>

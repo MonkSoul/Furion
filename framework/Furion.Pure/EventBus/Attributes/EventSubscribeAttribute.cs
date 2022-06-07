@@ -6,6 +6,8 @@
 // THIS SOFTWARE IS PROVIDED ON AN "AS IS" BASIS, WITHOUT WARRANTIES OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO NON-INFRINGEMENT, MERCHANTABILITY OR FIT FOR A PARTICULAR PURPOSE.
 // See the Mulan PSL v2 for more details.
 
+using Furion.Extensitions.EventBus;
+
 namespace Furion.EventBus;
 
 /// <summary>
@@ -22,9 +24,18 @@ public sealed class EventSubscribeAttribute : Attribute
     /// 构造函数
     /// </summary>
     /// <param name="eventId">事件 Id</param>
-    public EventSubscribeAttribute(string eventId)
+    /// <remarks>只支持事件类型和 Enum 类型</remarks>
+    public EventSubscribeAttribute(object eventId)
     {
-        EventId = eventId;
+        if (eventId is string)
+        {
+            EventId = eventId as string;
+        }
+        else if (eventId is Enum)
+        {
+            EventId = (eventId as Enum).ParseToString();
+        }
+        else throw new ArgumentException("Only support string or Enum data type.");
     }
 
     /// <summary>

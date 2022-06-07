@@ -22,6 +22,8 @@ public sealed class Startup : AppStartup
 
         services.AddRemoteRequest();
 
+        services.AddEventBus();
+
         // 添加实时通讯
         services.AddSignalR();
     }

@@ -18,7 +18,7 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 1. 定义事件订阅者 `ToDoEventSubscriber`：
 
-```cs showLineNumbers  {2,10-11,19-21}
+```cs showLineNumbers  {2,10-11,19-21,28-29,32}
 // 实现 IEventSubscriber 接口
 public class ToDoEventSubscriber : IEventSubscriber
 {
@@ -45,12 +45,20 @@ public class ToDoEventSubscriber : IEventSubscriber
         _logger.LogInformation("创建或更新一个 ToDo：{Name}", todo.Payload);
         await Task.CompletedTask;
     }
+
+    // 支持枚举类型，v3.4.3+ 版本支持
+    [EventSubscribe(YourEnum.Some)]
+    public async Task EnumHandler(EventHandlerExecutingContext context)
+    {
+        var eventEnum = context.Source.EventId.ParseToEnum(); // 将事件 Id 转换成枚举对象
+        await Task.CompletedTask;
+    }
 }
 ```
 
 2. 创建控制器 `ToDoController`，依赖注入 `IEventPublisher` 服务：
 
-```cs showLineNumbers  {4,13}
+```cs showLineNumbers  {4,13,16-21}
 public class ToDoController : ControllerBase
 {
     // 依赖注入事件发布者 IEventPublisher
@@ -64,6 +72,14 @@ public class ToDoController : ControllerBase
     public async Task CreateDoTo(string name)
     {
         await _eventPublisher.PublishAsync(new ChannelEventSource("ToDo:Create", name));
+    }
+
+    // v3.4.3+ 版本支持发送消息简化
+    public async Task CreateDoTo(string name)
+    {
+        await _eventPublisher.PublishAsync("ToDo:Create", name);
+        // 也支持枚举
+        await _eventPublisher.PublishAsync(YourEnum.Some);
     }
 }
 ```
@@ -98,7 +114,7 @@ public class ToDoEventSubscriber : IEventSubscriber, ISingleton
 
 4. 运行项目：
 
-```bash showLineNumbers 
+```bash showLineNumbers
 info: Jaina.Samples.ToDoEventSubscriber[0]
       创建一个 ToDo：Jaina
 ```
@@ -146,7 +162,7 @@ public class ToDoEventSource : IEventSource
 
 使用：
 
-```cs showLineNumbers 
+```cs showLineNumbers
 await _eventPublisher.PublishAsync(new ToDoEventSource ("ToDo:Create", "我的 ToDo Name"));
 ```
 
@@ -357,7 +373,6 @@ services.AddEventBus(buidler =>
   - `ReplaceStorer(Func<IServiceProvider, IEventSourceStorer>)`：替换存储器
   - `AddMonitor<TEventHandlerMonitor>`：添加监视器
   - `AddExecutor<TEventHandlerExecutor>`：添加执行器
-
 
 ## 22.10 反馈与建议
 

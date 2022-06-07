@@ -11,6 +11,9 @@
 
 - **新特性**
 
+  - [新增] `EventBus` 模块事件 `Id` 支持枚举类型
+  - [新增] `EventBus` 模块发布者 `PublishAsync` 和 `PublishDelayAsync` 重载
+  - [新增] `EventBus` 模块拓展方法：`Enum.ParseToString()` 和 `String.ParseToEnum()`
   - [新增] `Furion` 和 `SqlSugar` 脚手架 [8d9293d](https://gitee.com/dotnetchina/Furion/commit/8d9293d1188670626f017ccea4ffb85ac315d2fc)
   - [新增] `Dapper` 拓展全局配置委托 [I5AYFX](https://gitee.com/dotnetchina/Furion/issues/I5AYFX)
 
@@ -24,6 +27,27 @@
   - [优化] 规范化文档 `Swagger` 加载继承注释 `<inheritoc />` 性能小优化 [5f06880](https://gitee.com/dotnetchina/Furion/commit/5f06880564ee8cd2e77caa5957ff18a0c489bdd2)
 
 - **文档**
+
+  - [更新] 事件总线文档
+
+- **本期亮点**
+
+1. **事件总线 `Id` 支持枚举类型**
+
+```cs
+EventSubscribe("TO:DO")]  // 字符串类型
+public async Task EventHandler1(EventHandlerExecutingContext context)
+{
+    // ....
+}
+
+[EventSubscribe(YourEnum.Some)] // 枚举类型
+public async Task EventHandler2(EventHandlerExecutingContext context)
+{
+    var eventEnum = context.Source.EventId.ParseToEnum(); // 将事件 Id 转换成枚举对象
+    // ....
+}
+```
 
 ---
 
