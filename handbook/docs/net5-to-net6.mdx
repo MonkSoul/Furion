@@ -44,7 +44,7 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 ### 2.5.1.6 替换 `Program.cs` 内容为：
 
-```cs showLineNumbers 
+```cs showLineNumbers
 var builder = WebApplication.CreateBuilder(args).Inject();
 var app = builder.Build();
 app.Run();
@@ -53,8 +53,9 @@ app.Run();
 :::tip 小提醒
 
 如果使用了 `Serilog` 日志组件，可添加 `builder.Host.UseSerilogDefault();`。
-如果使用了`pgsql`数据库，你还需要添加`AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);`
-[由于.NET6.0的变更，Npgsql 6.0对时间戳的映射方式进行了一些重要的更改。](https://www.npgsql.org/doc/types/datetime.html)
+
+如果使用了 `pgsql` 数据库，你还需要添加 `AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);`
+=> [相关说明：在 .NET6 中 Npgsql 6.0 对时间戳的映射方式进行了一些重要的更改。](https://www.npgsql.org/doc/types/datetime.html)
 
 :::
 
