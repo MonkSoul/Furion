@@ -38,5 +38,10 @@
     ],
     "DefaultCulture": "zh-CN",
     "AssemblyName": "Furion.Web.Core"
+  },
+  "AppInfo": {
+    "Name": "Furion",
+    "Version": "1.0.0",
+    "Company_Name": "Baiqian"
   }
 }

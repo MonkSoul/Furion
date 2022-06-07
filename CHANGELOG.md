@@ -11,11 +11,12 @@
 
 - **新特性**
 
+  - [新增] `Options` 选项属性支持自定义 `Key` 名称，`[MapSettings("key")]`  [#I5B2HN](https://gitee.com/dotnetchina/Furion/issues/I5B2HN)
   - [新增] `EventBus` 模块事件 `Id` 支持枚举类型
   - [新增] `EventBus` 模块发布者 `PublishAsync` 和 `PublishDelayAsync` 重载
   - [新增] `EventBus` 模块拓展方法：`Enum.ParseToString()` 和 `String.ParseToEnum()`
   - [新增] `Furion` 和 `SqlSugar` 脚手架 [8d9293d](https://gitee.com/dotnetchina/Furion/commit/8d9293d1188670626f017ccea4ffb85ac315d2fc)
-  - [新增] `Dapper` 拓展全局配置委托 [I5AYFX](https://gitee.com/dotnetchina/Furion/issues/I5AYFX)
+  - [新增] `Dapper` 拓展全局配置委托 [#I5AYFX](https://gitee.com/dotnetchina/Furion/issues/I5AYFX)
 
 - **突破性变化**
 
@@ -28,7 +29,7 @@
 
 - **文档**
 
-  - [更新] 事件总线文档
+  - [更新] 事件总线文档、选项文档
 
 - **本期亮点**
 
@@ -46,6 +47,27 @@ public async Task EventHandler2(EventHandlerExecutingContext context)
 {
     var eventEnum = context.Source.EventId.ParseToEnum(); // 将事件 Id 转换成枚举对象
     // ....
+}
+```
+
+2. **选项支持属性自定义配置 `Key`**
+
+```json
+"AppInfo": {
+    "Name": "Furion",
+    "Version": "1.0.0",
+    "Company_Name": "Baiqian" // 可以和属性不一样
+}
+```
+
+```cs
+public class AppInfoOptions : IConfigurableOptions
+{
+    public string Name { get; set; }
+    public string Version { get; set; }
+
+    [MapSettings("Company_Name")] // 支持自定义
+    public string Company { get; set; }
 }
 ```
 

@@ -63,6 +63,23 @@ public static class ConfigurableOptionsServiceCollectionExtensions
               })
               .ValidateDataAnnotations();
 
+        // 实现 Key 映射
+        services.PostConfigureAll<TOptions>(options =>
+        {
+            // 查找所有贴了 MapSettings 的键值对
+            var remapKeys = optionsType.GetProperties(BindingFlags.Instance | BindingFlags.Public)
+                                                           .Where(u => u.IsDefined(typeof(MapSettingsAttribute), true));
+            if (!remapKeys.Any()) return;
+
+            foreach (var prop in remapKeys)
+            {
+                var propType = prop.PropertyType;
+                var realKey = prop.GetCustomAttribute<MapSettingsAttribute>(true).Path;
+                var realValue = configurationRoot.GetValue(propType, $"{path}:{realKey}");
+                prop.SetValue(options, realValue);
+            }
+        });
+
         // 配置复杂验证后后期配置
         var validateInterface = optionsType.GetInterfaces()
             .FirstOrDefault(u => u.IsGenericType && typeof(IConfigurableOptions).IsAssignableFrom(u.GetGenericTypeDefinition()));

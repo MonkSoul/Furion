@@ -569,7 +569,42 @@ namespace Furion.Application
   - 需要定义对应类型
   - 需要在启动时注册
 
-## 4.2.11 反馈与建议
+## 4.2.11 自定义属性 `Key` 映射
+
+:::important 版本说明
+
+以下内容仅限 `Furion v3.4.3+` 版本使用。
+
+:::
+
+有时候我们在 `appsettings.json` 中配置的 `Key` 和选项定义的属性名不一样，这时候就需要用到 `[MapSettings]` 特性即可，如：
+
+```json showLineNumbers {4}
+"AppInfo": {
+    "Name": "Furion",
+    "Version": "1.0.0",
+    "Company_Name": "Baiqian"
+}
+```
+
+```cs showLineNumbers {6-7}
+public class AppInfoOptions : IConfigurableOptions
+{
+    public string Name { get; set; }
+    public string Version { get; set; }
+
+    [MapSettings("Company_Name")]
+    public string Company { get; set; }
+}
+```
+
+:::tip 特别注意
+
+`[MapSettings]` 配置的 `Key` 会自定应用选项的 `Key` 作为起始点，如实际上 `Company` 属性对应的 `Key` 为：`AppInfo:Company_Name`。
+
+:::
+
+## 4.2.12 反馈与建议
 
 :::note 与我们交流
 
