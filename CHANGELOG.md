@@ -7,6 +7,26 @@
 > - 如果涉及到代码重构，则当天发版，次版本号 `加 1`，修订版本号 `清 0`。
 > - 如果 `.NET SDK` 主版本号升级，则当天发版，主版本号 `加 1`。 -->
 
+## v3.5.0（未发布）
+
+- **新特性**
+
+  - [新增] `Furion` 和 `SqlSugar` 脚手架 [8d9293d](https://gitee.com/dotnetchina/Furion/commit/8d9293d1188670626f017ccea4ffb85ac315d2fc)
+  - [新增] `Dapper` 拓展全局配置委托 [I5AYFX](https://gitee.com/dotnetchina/Furion/issues/I5AYFX)
+
+- **突破性变化**
+
+- **问题修复**
+
+- **其他更改**
+
+  - [调整] `axios-utils.ts` 和 `angular-utils.ts` ，新增请求拦截携带刷新 `Token` 的时机判断 [82f89bd](https://gitee.com/dotnetchina/Furion/commit/82f89bd95573aefa7075676af7f00c55507cb03b)
+  - [优化] 规范化文档 `Swagger` 加载继承注释 `<inheritoc />` 性能小优化 [5f06880](https://gitee.com/dotnetchina/Furion/commit/5f06880564ee8cd2e77caa5957ff18a0c489bdd2)
+
+- **文档**
+
+---
+
 ## v3.4.2（当前版本）
 
 - **新特性**

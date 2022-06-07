@@ -22,8 +22,9 @@ public static class DapperServiceCollectionExtensions
     /// <param name="services"></param>
     /// <param name="connectionString">连接字符串</param>
     /// <param name="sqlProvider"> <see cref="Dapper.SqlProvider"/> 类型</param>
+    /// <param name="configure"></param>
     /// <returns></returns>
-    public static IServiceCollection AddDapper(this IServiceCollection services, string connectionString, string sqlProvider)
+    public static IServiceCollection AddDapper(this IServiceCollection services, string connectionString, string sqlProvider, Action configure = default)
     {
         // 获取数据库类型
         var dbConnectionType = SqlProvider.GetDbConnectionType(sqlProvider);
@@ -42,6 +43,9 @@ public static class DapperServiceCollectionExtensions
 
         // 注册 Dapper 仓储
         services.AddScoped(typeof(IDapperRepository<>), typeof(DapperRepository<>));
+
+        // 添加 Dapper 其他初始配置，关联 https://gitee.com/dotnetchina/Furion/issues/I5AYFX
+        configure?.Invoke();
 
         return services;
     }

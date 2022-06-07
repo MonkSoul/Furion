@@ -24,8 +24,13 @@ sidebar_label: 10.2. Dapper 集成
 
 使用非常简单，只需要在 `Startup.cs` 中添加 `services.AddDapper(connStr, SqlProvider)` 即可。如：
 
-```cs showLineNumbers 
+```cs showLineNumbers
 services.AddDapper("Data Source=./Furion.db", SqlProvider.Sqlite);
+
+// 更多配置，仅 v3.4.3+ 版本有效
+servers.AddDapper("Data Source=./Furion.db", SqlProvider.Sqlite, () => {
+  DefaultTypeMap.MatchNamesWithUnderscores = true;
+})
 ```
 
 ### 10.2.2.2 安装对应的数据库提供器
@@ -49,7 +54,7 @@ services.AddDapper("Data Source=./Furion.db", SqlProvider.Sqlite);
 
 - 非泛型版本
 
-```cs showLineNumbers 
+```cs showLineNumbers
 private readonly IDapperRepository _dapperRepository;
 public PersonService(IDapperRepository dapperRepository)
 {
@@ -59,7 +64,7 @@ public PersonService(IDapperRepository dapperRepository)
 
 - 泛型版本
 
-```cs showLineNumbers 
+```cs showLineNumbers
 private readonly IDapperRepository<Person> _personRepository;
 public PersonService(IDapperRepository<Person> personRepository)
 {
@@ -69,7 +74,7 @@ public PersonService(IDapperRepository<Person> personRepository)
 
 ### 10.2.3.1 `sql` 操作
 
-```cs showLineNumbers 
+```cs showLineNumbers
 var data = _dapperRepository.Query("select * from person");
 var data = await _dapperRepository.QueryAsync("select * from person");
 
@@ -79,7 +84,7 @@ var guid = Guid.NewGuid();
 var dog = _dapperRepository.Query<Dog>("select Age = @Age, Id = @Id", new { Age = (int?)null, Id = guid });
 ```
 
-```cs showLineNumbers 
+```cs showLineNumbers
 var count = _dapperRepository.Execute(@"insert MyTable(colA, colB) values (@a, @b)",
     new[] { new { a=1, b=1 }, new { a=2, b=2 }, new { a=3, b=3 } }
   );
@@ -94,7 +99,7 @@ var user = _dapperRepository.Query<User>("spGetUser", new {Id = 1},
 
 `Furion` 框架提供了 `IDapperRepository` 和 `IDapperRepository<TEntity>` 两个操作仓储，后者继承前者。使用如下：
 
-```cs showLineNumbers 
+```cs showLineNumbers
 var person = personRepository.Get(1);
 var persons = personRepository.GetAll();
 
@@ -117,7 +122,7 @@ var effects = await personRepository.InsertAsync(person);
 
 ### 10.2.4.1 查询一对一
 
-```cs showLineNumbers 
+```cs showLineNumbers
 var sql =
 @"select * from #Posts p
 left join #Users u on u.Id = p.OwnerId
@@ -129,7 +134,7 @@ var post = data.First();
 
 ### 10.2.4.2 查询多个结果
 
-```cs showLineNumbers 
+```cs showLineNumbers
 var sql =
 @"
 select * from Customers where CustomerId = @id
@@ -147,7 +152,7 @@ using (var multi = dapperRepository.Context.QueryMultiple(sql, new {id=selectedI
 
 ### 10.2.4.3 更多操作
 
-```cs showLineNumbers 
+```cs showLineNumbers
 var shapes = new List<IShape>();
 using (var reader = dapperRepository.Context.ExecuteReader("select * from Shapes"))
 {
