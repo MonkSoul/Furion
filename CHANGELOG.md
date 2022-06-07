@@ -12,9 +12,9 @@
 - **新特性**
 
   - [新增] `Options` 选项属性支持自定义 `Key` 名称，`[MapSettings("key")]`  [#I5B2HN](https://gitee.com/dotnetchina/Furion/issues/I5B2HN)
-  - [新增] `EventBus` 模块事件 `Id` 支持枚举类型
-  - [新增] `EventBus` 模块发布者 `PublishAsync` 和 `PublishDelayAsync` 重载
-  - [新增] `EventBus` 模块拓展方法：`Enum.ParseToString()` 和 `String.ParseToEnum()`
+  - [新增] `EventBus` 模块事件 `Id` 支持枚举类型 [2f328aa](https://gitee.com/dotnetchina/Furion/commit/2f328aa8213c8efe7a8480116985573cc6b7fce6)
+  - [新增] `EventBus` 模块发布者 `PublishAsync` 和 `PublishDelayAsync` 重载 [2f328aa](https://gitee.com/dotnetchina/Furion/commit/2f328aa8213c8efe7a8480116985573cc6b7fce6)
+  - [新增] `EventBus` 模块拓展方法：`Enum.ParseToString()` 和 `String.ParseToEnum()` [2f328aa](https://gitee.com/dotnetchina/Furion/commit/2f328aa8213c8efe7a8480116985573cc6b7fce6)
   - [新增] `Furion` 和 `SqlSugar` 脚手架 [8d9293d](https://gitee.com/dotnetchina/Furion/commit/8d9293d1188670626f017ccea4ffb85ac315d2fc)
   - [新增] `Dapper` 拓展全局配置委托 [#I5AYFX](https://gitee.com/dotnetchina/Furion/issues/I5AYFX)
 
