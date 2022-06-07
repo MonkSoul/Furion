@@ -12,7 +12,7 @@ namespace Furion.ConfigurableOptions;
 /// 重新映射属性配置
 /// </summary>
 [SuppressSniffer, AttributeUsage(AttributeTargets.Property | AttributeTargets.Field, AllowMultiple = false)]
-public class MapSettingsAttribute : Attribute
+public sealed class MapSettingsAttribute : Attribute
 {
     /// <summary>
     /// 构造函数
