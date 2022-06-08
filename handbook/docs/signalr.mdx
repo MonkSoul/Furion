@@ -301,7 +301,37 @@ Clients.GroupExcept("分组").客户端方法(参数);
 ### 24.10.1 `Javascript` 客户端
 
 ### 24.10.2 `Typescript` 客户端
+在vue3.2 + ts 框架中使用signalr 
+    1、安装微软的signalr typescript客户端包，主要用于调用服务端方法，如（Hub中的SendMessage方法）：
+       安装命令： npm i @microsoft/signalr @types/node
+    2、vue3.2 + ts中连接signalr：
+       import { HubConnectionBuilder } from "@microsoft/signalr";
+       <script setup lang="ts">
+        import { HubConnectionBuilder } from "@microsoft/signalr";
+        import { ref } from "vue";
 
+        const messages = ref('')
+
+        const reciveMessage = (msg: string) => {
+            console.log("msg", msg)
+        }
+        //初始化signalr HubConnection对象
+        const connection = new HubConnectionBuilder()
+        .withUrl("<你的signalr连接地址>")//https://localhost:7260/chatHub
+        .build();
+        //启动连接并发送消息测试
+        connection.start()
+        .then(() => connection.send("SendMassgae", "Hello"));
+        //注册web端方法以供后端调用
+        connection.on("ReciveMessage", reciveMessage);
+
+        const sendMsg = async () => {
+            console.log(messages.value)
+            await connection.send("SendMassgae", messages.value).catch(function (err) {
+                console.log(err)
+            });
+        }
+        参考：https://docs.microsoft.com/zh-cn/aspnet/core/tutorials/signalr-typescript-webpack?view=aspnetcore-6.0&tabs=visual-studio    
 ### 24.10.3 `.NET` 客户端
 
 ### 24.10.4 `Java` 客户端
