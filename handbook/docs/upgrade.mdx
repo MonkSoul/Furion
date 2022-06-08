@@ -18,7 +18,88 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 > - 如果涉及到代码重构，则当天发版，次版本号 `加 1`，修订版本号 `清 0`。
 > - 如果 `.NET SDK` 主版本号升级，则当天发版，主版本号 `加 1`。 -->
 
-## v3.4.2（当前版本）
+## v3.5.0（当前版本）
+
+:::tip 有点开心
+
+两年的持续更新，唯一一次无 `BUG` 修复的大版本。**`Furion` 已经准备好了，你呢？**
+
+:::
+
+- **新特性**
+
+  - [新增] `Options` 选项属性支持自定义 `Key` 名称，`[MapSettings("key")]` [#I5B2HN](https://gitee.com/dotnetchina/Furion/issues/I5B2HN)
+  - [新增] `EventBus` 模块事件 `Id` 支持枚举类型 [2f328aa](https://gitee.com/dotnetchina/Furion/commit/2f328aa8213c8efe7a8480116985573cc6b7fce6)
+  - [新增] `EventBus` 模块发布者 `PublishAsync` 和 `PublishDelayAsync` 重载 [2f328aa](https://gitee.com/dotnetchina/Furion/commit/2f328aa8213c8efe7a8480116985573cc6b7fce6)
+  - [新增] `EventBus` 模块拓展方法：`Enum.ParseToString()` 和 `String.ParseToEnum()` [2f328aa](https://gitee.com/dotnetchina/Furion/commit/2f328aa8213c8efe7a8480116985573cc6b7fce6)
+  - [新增] **`Furion` 和 `SqlSugar` 脚手架** 🆕🆕🆕 [8d9293d](https://gitee.com/dotnetchina/Furion/commit/8d9293d1188670626f017ccea4ffb85ac315d2fc)
+  - [新增] `Dapper` 拓展全局配置委托 [#I5AYFX](https://gitee.com/dotnetchina/Furion/issues/I5AYFX)
+
+- **其他更改**
+
+  - [调整] `axios-utils.ts` 和 `angular-utils.ts` ，新增请求拦截携带刷新 `Token` 的时机判断 [82f89bd](https://gitee.com/dotnetchina/Furion/commit/82f89bd95573aefa7075676af7f00c55507cb03b)
+  - [优化] 规范化文档 `Swagger` 加载继承注释 `<inheritoc />` 性能小优化 [5f06880](https://gitee.com/dotnetchina/Furion/commit/5f06880564ee8cd2e77caa5957ff18a0c489bdd2)
+  - [调整] 脚手架模板，新增 `GlobalUsings.cs` 模式
+
+- **文档**
+
+  - [新增] `Furion + SqlSugar` 脚手架文档
+  - [更新] 事件总线文档、选项文档、即时通讯文档、`.NET5` 升级 `.NET6` 文档、依赖注入文档
+
+- **本期亮点**
+
+1. **事件总线 `Id` 支持枚举类型**
+
+```cs showLineNumbers {7,10}
+EventSubscribe("TO:DO")]  // 字符串类型
+public async Task EventHandler1(EventHandlerExecutingContext context)
+{
+    // ....
+}
+
+[EventSubscribe(YourEnum.Some)] // 枚举类型
+public async Task EventHandler2(EventHandlerExecutingContext context)
+{
+    var eventEnum = context.Source.EventId.ParseToEnum(); // 将事件 Id 转换成枚举对象
+    // ....
+}
+```
+
+2. **事件总线发布支持更简单调用**
+
+```cs showLineNumbers {5,6}
+// 旧版本
+await _eventPublisher.PublishAsync(new ChannelEventSource("ToDo:Create", name));
+
+// 新版本
+await _eventPublisher.PublishAsync("ToDo:Create", name);
+await _eventPublisher.PublishAsync(YourEnum.Some); // 也支持枚举
+```
+
+3. **选项支持属性自定义配置 `Key`**
+
+```json showLineNumbers {4}
+"AppInfo": {
+    "Name": "Furion",
+    "Version": "1.0.0",
+    "Company_Name": "Baiqian" // 可以和属性不一样
+}
+```
+
+```cs showLineNumbers {6,7}
+public class AppInfoOptions : IConfigurableOptions
+{
+    public string Name { get; set; }
+    public string Version { get; set; }
+
+    [MapSettings("Company_Name")] // 支持自定义
+    public string Company { get; set; }
+}
+```
+
+---
+
+## v3.4.2（已发布）
 
 - **新特性**
 
