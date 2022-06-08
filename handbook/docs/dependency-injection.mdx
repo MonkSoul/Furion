@@ -411,7 +411,7 @@ namespace Furion.Application
 
 解析服务：
 
-```cs showLineNumbers 
+```cs showLineNumbers
 _businessService = resolveNamed("BusName1", default) as IBusinessService;
 _otherBusinessService = resolveNamed("BusName2", default) as IBusinessService;
 ```
@@ -501,7 +501,7 @@ namespace Furion.Web.Entry.Controllers
 
 默认情况下，`Furion` 提供的注册方式可以满足大多数依赖注入的需求，如有特别注册需求，只需要在 `Startup` 中配置即可，如：
 
-```cs showLineNumbers 
+```cs showLineNumbers
 services.AddScoped(typeof(ISpecService), provider = > {
     // 自定义任何创建实例的方式
     var instance = new SpecService();  // 或者可以通过 AOP插件返回代理实例
@@ -563,7 +563,7 @@ services.AddScoped(typeof(ISpecService), provider = > {
 
 如果动态注入的对象是外部程序集，那么首先先注册外部程序集：
 
-```json showLineNumbers 
+```json showLineNumbers
 {
   "AppSettings": {
     "ExternalAssemblies": ["外部程序集名称", "Taobao.Pay"] // 支持多个
@@ -593,14 +593,14 @@ services.AddScoped(typeof(ISpecService), provider = > {
 
 假设我们有 `ITestService` 和 `TestService` 两个类型：
 
-```cs showLineNumbers 
+```cs showLineNumbers
 public interface ITestService
 {
     string SayHello(string word);
 }
 ```
 
-```cs showLineNumbers 
+```cs showLineNumbers
 public class TestService: ITestService, ITransient
 {
     public string SayHello(string word)
@@ -702,7 +702,7 @@ public class TestService: ITestService, ITransient
 
 `Furion` 框架也提供了全局拦截的方式，只需要将 `IDispatchProxy` 修改为 `IGlobalDispatchProxy` 即可。
 
-```cs showLineNumbers 
+```cs showLineNumbers
 using Furion;
 using System.Reflection;
 
@@ -727,7 +727,7 @@ namespace Furion.Application
 
 `Furion` 框架未提供 `Proxy` 构造函数注入功能，但是提供了 `Services` 属性，如果需要解析服务，则可以通过以下方式：
 
-```cs showLineNumbers 
+```cs showLineNumbers
 var someServices = Services.GetService<ISomeService>(); // 推荐方式
 // 或
 var someServices = App.GetService<ISomeService>();
@@ -746,7 +746,41 @@ var someServices = App.GetService<ISomeService>();
 
 还可以做更多更多的事情。
 
-## 12.13 反馈与建议
+## 12.13 自定义扫描/筛选注册服务
+
+`Furion` 框架中并未提供完全自定义依赖注入扫描的机制，但推荐一个非常优秀的 `.NET Core` 依赖注入拓展库：`Scrutor`，使用非常简单，主要通过 `FromAssemblyOf<>` 扫描程序集和 `AddClasses(o)` 进行筛选注册。
+
+使用如下：
+
+```cs showLineNumbers {1,3,6,13,19,22}
+services.Scan(scan => scan
+    // 扫描特定类型所在的程序集，这里是 ITransientService 所在的程序集
+    .FromAssemblyOf<ITransientService>()
+        // .AddClasses 在上面获取到的程序集中扫描所有公开、非抽象类型
+        // 之后可以通过委托进行类型筛选，例如下面只扫描实现 ITransientService 的类型
+        .AddClasses(classes => classes.AssignableTo<ITransientService>())
+            // 将上面的类型作为它实现的所有接口进行注册
+            // 如果类型实现了 N 个接口，那么就会有三个独立的注册
+            .AsImplementedInterfaces()
+            // 最后指定注册的生存期，如瞬时，作用域，还是单例
+            .WithTransientLifetime()
+        // 重复上面操作，比如这里扫描 IScopedService 所在的程序集
+        .AddClasses(classes => classes.AssignableTo<IScopedService>())
+            // 这里和上面不一样的是，这里指定只实现特定的几口，也就是只注册一次
+            .As<IScopedService>()
+            // 指定注册的生存期
+            .WithScopedLifetime()
+        // 也支持泛型注册，单个泛型参数
+        .AddClasses(classes => classes.AssignableTo(typeof(IOpenGeneric<>)))
+            .AsImplementedInterfaces()
+        // 多个泛型参数
+        .AddClasses(classes => classes.AssignableTo(typeof(IQueryHandler<,>)))
+            .AsImplementedInterfaces());
+```
+
+详细文档请查阅 [https://github.com/khellang/Scrutor](https://github.com/khellang/Scrutor)
+
+## 12.14 反馈与建议
 
 :::note 与我们交流
 
