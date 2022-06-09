@@ -44,7 +44,7 @@ var fileProvider = FS.GetFileProvider(FileProviderTypes.Physical, @"c:/test");
 services.AddVirtualFileServer();
 ```
 
-13.5 获取文件 `ContentType` 或 `Mime`
+## 13.5 获取文件 `ContentType` 或 `Mime`
 
 :::warning 版本说明
 
@@ -54,4 +54,15 @@ services.AddVirtualFileServer();
 
 ```cs showLineNumbers
 var success = FS.TryGetContentType("image.png", out var contentType);  // image/png
+```
+
+## 13.6 初始化文件 `ContentType` 提供器
+
+```cs showLineNumbers
+var provider = FS.InitialContentTypeProvider();
+
+// 可以在 Startup.cs 中添加静态配置
+app.UseStaticFiles(new StaticFileOptions {
+  ContentTypeProvider = provider
+})
 ```

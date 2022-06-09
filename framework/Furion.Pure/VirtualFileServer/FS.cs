@@ -61,6 +61,20 @@ public static class FS
     /// <returns></returns>
     public static bool TryGetContentType(string fileName, out string contentType)
     {
-        return new FileExtensionContentTypeProvider().TryGetContentType(fileName, out contentType);
+        return InitialContentTypeProvider().TryGetContentType(fileName, out contentType);
+    }
+
+    /// <summary>
+    /// 初始化文件 ContentType 提供器
+    /// </summary>
+    /// <returns></returns>
+    public static FileExtensionContentTypeProvider InitialContentTypeProvider()
+    {
+        var fileExtensionProvider = new FileExtensionContentTypeProvider();
+        fileExtensionProvider.Mappings[".iec"] = "application/octet-stream";
+        fileExtensionProvider.Mappings[".patch"] = "application/octet-stream";
+        fileExtensionProvider.Mappings[".apk"] = "application/octet-stream";
+
+        return fileExtensionProvider;
     }
 }
