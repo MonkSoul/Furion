@@ -100,7 +100,7 @@ namespace Furion.Web.Core
   - `WithHeaders`：请求表头，没有配置则允许所有表头，字符串数组类型
   - `WithExposedHeaders`：响应标头，字符串数组类型
   - `WithMethods`：设置跨域允许请求谓词，没有配置则允许所有，字符串数组类型
-  - `AllowCredentials`：跨域请求中的凭据，`bool` 类型
+  - `AllowCredentials`：跨域请求中的凭据，`bool` 类型，默认 `true`
   - `SetPreflightMaxAge`：设置预检过期时间，`int` 类型，单位秒，**此配置可以控制客户端发送非 `GET`，`HEAD`，`POST` 请求前发送 `OPTION` 请求检查，状态码（204）**
 
 ## 16.6 使用 `axios` 前端注意事项
@@ -139,7 +139,25 @@ $.ajax({
 
 有时候，我们希望某个方法不检查跨域请求，可以在 `Action` 中贴 `[DisableCors]` 特性即可。
 
-## 16.9 反馈与建议
+## 16.9 `SignalR` 跨域问题
+
+很多开发者使用 `SignalR` 进行跨域的时候都会遇到不能跨域的问题，可以参考该 [#I3ALQ7](https://gitee.com/dotnetchina/Furion/issues/I3ALQ7)，具体代码如下：
+
+```cs showLineNumbers {3,6-7,10}
+// 注册服务
+services.AddSignalR();
+services.AddCorsAccessor();
+
+// 配置跨域
+app.UseCorsAccessor(builder => 
+    builder.SetIsOriginAllowed(_ => true)
+           .AllowAnyMethod()
+           .AllowAnyHeader()
+           .AllowCredentials()  // 注意 必须 AllowCredentials，其他的可以自由配置
+);
+```
+
+## 16.10 反馈与建议
 
 :::note 与我们交流
 
