@@ -158,6 +158,22 @@ var str=s.ToRSADecrypt(privateKey);  // 解密
 
 `Furion` 框架未内置国密算法 `SM2-4`，但是已有开发者贡献实现并开源，可查阅 [Gitee 仓库](https://gitee.com/xxcxy/SM/tree/master/GfsDemo/Smcrypto)，感谢 `QQ（373696184）形影相印²º²²` 贡献
 
+var data = "{\"lx\":\"1\",\"wxid\":\"\",\"ehealth_code_id\":\"68A018036186B717CC1B051C10996F4EEE805F5F81EB1594C9EB43592545F7F6\",\"ehealth_code\":\"68A018036186B717CC1B051C10996F4EEE805F5F81EB1594C9EB43592545F7F6\",\"xm\":\"测试\"}";
+//SM2
+var b=SM2Utils.加密("123"); 
+var b1= SM2Utils.解密(b);
+
+//SM3 一般用于数字签名
+var sM3Utils = new SM3Utils();
+sM3Utils.secretKey = "ASAFSDFDSGSDFSDFSDFSFSF";
+var token= sM3Utils.加密("123");
+
+//SM4
+var sM4Utils = new SM4Utils();
+sM4Utils.secretKey = "BDBDBDBDBDBDBDBDBDBDBDBDBDBDBD";
+var a = sM4Utils.加密(data);
+var a1 = sM4Utils.解密(a);
+
 ## 20.6 反馈与建议
 
 :::note 与我们交流
