@@ -130,8 +130,9 @@ using (var context1 = new DefaultDbContext(options))
   </TabItem>
   <TabItem value="three">
 
-```cs showLineNumbers  {1-2}
+```cs showLineNumbers  {1-3}
 // 开启分布式事务
+// 如果事务包裹的代码中包含异步 async/await，那么需要设置 TransactionScopeAsyncFlowOption.Enabled = true
 using (var scope = new TransactionScope(TransactionScopeOption.Required, new TransactionOptions { IsolationLevel = IsolationLevel.ReadCommitted }))
 {
     using (var connection = new SqlConnection(connectionString))
