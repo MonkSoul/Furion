@@ -23,7 +23,7 @@ sidebar_label: 20. 数据加解密
 
 ### 20.3.1 `MD5` 加密
 
-```cs showLineNumbers 
+```cs showLineNumbers
 // 测试 MD5 加密，比较
 var md5Hash = MD5Encryption.Encrypt("百小僧");  // 加密
 var isEqual = MD5Encryption.Compare("百小僧", md5Hash); // 比较
@@ -35,7 +35,7 @@ var md5Hash = MD5Encryption.Encrypt("百小僧", true);
 
 ### 20.3.2 `DESC` 加解密
 
-```cs showLineNumbers 
+```cs showLineNumbers
 // 测试 DESC 加解密
 var descHash = DESCEncryption.Encrypt("百小僧", "Furion"); // 加密
 var str = DESCEncryption.Decrypt(descHash, "Furion");  // 解密
@@ -44,7 +44,7 @@ return (descHash, str);
 
 ### 20.3.3 `AES` 加解密
 
-```cs showLineNumbers 
+```cs showLineNumbers
 // 测试 AES 加解密
 var key = Guid.NewGuid().ToString("N"); // 密钥，长度必须为24位或32位
 
@@ -55,7 +55,7 @@ return (aesHash, str2);
 
 ### 20.3.4 `JWT` 加解密
 
-```cs showLineNumbers 
+```cs showLineNumbers
 var token = JWTEncryption.Encrypt(new Dictionary<string, object>()  // 加密
             {
                 { "UserId", user.Id },
@@ -77,7 +77,7 @@ var (isValid, tokenData) = JWTEncryption.Validate("你的token"); // 验证token
 
 **`Furion v2.12 +` 版本已移除。**
 
-```cs showLineNumbers 
+```cs showLineNumbers
 // 测试 PBKDF2 加密，比较
 var basestring = PBKDF2Encryption.Encrypt("百小僧");  // 加密
 var isEqual = PBKDF2Encryption.Compare("百小僧", basestring); // 比较
@@ -89,13 +89,13 @@ var isEqual = PBKDF2Encryption.Compare("百小僧", basestring); // 比较
 
 - `Startup.cs` 中注册服务
 
-```cs showLineNumbers 
+```cs showLineNumbers
 services.AddPBKDF2EncryptionOptions();
 ```
 
 - `appsettings.json` 配置：
 
-```json showLineNumbers 
+```json showLineNumbers
 {
   "PBKDF2EncryptionSettings": {
     "InitialIterationCount": 110, // 初始迭代次数累加值
@@ -111,7 +111,7 @@ services.AddPBKDF2EncryptionOptions();
 
 ### 20.3.6 `RSA` 加密
 
-```cs showLineNumbers 
+```cs showLineNumbers
 // 测试 RSA 加密
 var (publicKey, privateKey) = RSAEncryption.GenerateSecretKey(2048);  //生成 RSA 秘钥 秘钥大小必须为 2048 到 16384，并且是 8 的倍数
 var basestring = RSAEncryption.Encrypt("百小僧", publicKey);  // 加密
@@ -129,7 +129,7 @@ return (basestring, str2);
 
 `Furion` 框架也提供了字符串拓展方式进行 `MD5加密、AES/DESC加解密、RSA加解密`。
 
-```cs showLineNumbers 
+```cs showLineNumbers
 using Furion.DataEncryption.Extensions;
 
 // MD5 加密
@@ -158,21 +158,25 @@ var str=s.ToRSADecrypt(privateKey);  // 解密
 
 `Furion` 框架未内置国密算法 `SM2-4`，但是已有开发者贡献实现并开源，可查阅 [Gitee 仓库](https://gitee.com/xxcxy/SM/tree/master/GfsDemo/Smcrypto)，感谢 `QQ（373696184）形影相印²º²²` 贡献
 
+```cs showLineNumbers
 var data = "{\"lx\":\"1\",\"wxid\":\"\",\"ehealth_code_id\":\"68A018036186B717CC1B051C10996F4EEE805F5F81EB1594C9EB43592545F7F6\",\"ehealth_code\":\"68A018036186B717CC1B051C10996F4EEE805F5F81EB1594C9EB43592545F7F6\",\"xm\":\"测试\"}";
-//SM2
-var b=SM2Utils.加密("123"); 
-var b1= SM2Utils.解密(b);
 
-//SM3 一般用于数字签名
+// SM2
+var b = SM2Utils.加密("123");
+var b1 = SM2Utils.解密(b);
+
+// SM3 一般用于数字签名
 var sM3Utils = new SM3Utils();
 sM3Utils.secretKey = "ASAFSDFDSGSDFSDFSDFSFSF";
 var token= sM3Utils.加密("123");
 
-//SM4
+// SM4
 var sM4Utils = new SM4Utils();
 sM4Utils.secretKey = "BDBDBDBDBDBDBDBDBDBDBDBDBDBDBD";
+
 var a = sM4Utils.加密(data);
 var a1 = sM4Utils.解密(a);
+```
 
 ## 20.6 反馈与建议
 
