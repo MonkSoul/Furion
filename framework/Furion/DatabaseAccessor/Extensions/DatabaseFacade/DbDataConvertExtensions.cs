@@ -372,7 +372,17 @@ public static class DbDataConvertExtensions
                     if (!dataColumns.Contains(columnName))
                     {
                         var splitColumnName = string.Join('_', property.Name.SplitCamelCase());
+
+                        // 继续检查带下划线的
                         if (dataColumns.Contains(splitColumnName)) columnName = splitColumnName;
+                        // 检查下划线大写的
+                        else if (dataColumns.Contains(splitColumnName.ToUpper())) columnName = splitColumnName.ToUpper();
+                        // 检查下划线小写的
+                        else if (dataColumns.Contains(splitColumnName.ToLower())) columnName = splitColumnName.ToLower();
+                        // 检查全大写的
+                        else if (dataColumns.Contains(columnName.ToUpper())) columnName = columnName.ToUpper();
+                        // 检查全小写的
+                        else if (dataColumns.Contains(columnName.ToLower())) columnName = columnName.ToLower();
                         else continue;
                     }
 
