@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2020-2022 百小僧, Baiqian Co.,Ltd.
+// Copyright (c) 2020-2022 百小僧, Baiqian Co.,Ltd.
 // Furion is licensed under Mulan PSL v2.
 // You can use this software according to the terms and conditions of the Mulan PSL v2.
 // You may obtain a copy of Mulan PSL v2 at:
@@ -34,6 +34,11 @@ public static class ObjectMapperServiceCollectionExtensions
         // 配置默认全局映射（支持覆盖）
         config.Default
               .NameMatchingStrategy(NameMatchingStrategy.Flexible)
+              .PreserveReference(true);
+              
+        // 配置默认全局映射（忽略大小写敏感）
+        config.Default
+              .NameMatchingStrategy(NameMatchingStrategy.IgnoreCase)
               .PreserveReference(true);
 
         // 配置支持依赖注入
