@@ -35,7 +35,7 @@ public static class ObjectMapperServiceCollectionExtensions
         config.Default
               .NameMatchingStrategy(NameMatchingStrategy.Flexible)
               .PreserveReference(true);
-              
+
         // 配置默认全局映射（忽略大小写敏感）
         config.Default
               .NameMatchingStrategy(NameMatchingStrategy.IgnoreCase)
