@@ -4,9 +4,9 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
 import Layout from "@theme/Layout";
 import components from "@theme/MDXComponents";
-import React from "react";
 import contributors from "../data/contributors";
 import urls from "../data/urls";
+import React from "react";
 import DockerIcon from "./docker.svg";
 import "./index.css";
 import "./index.own.css";
@@ -84,7 +84,7 @@ function Banner() {
             >
               我准备好了
             </Link>
-            <div className="furion-version">v3.5.0</div>
+            <div className="furion-version">v3.5.1</div>
           </div>
         </div>
         <div className="furion-banner-item">
@@ -173,7 +173,7 @@ function Gitee() {
             className={"furion-log-jiao" + (isDarkTheme ? " dark" : "")}
           ></div>
           <div className="furion-log-number">
-            <div style={{ color: "#1fd898" }}>2,553,878</div>
+            <div style={{ color: "#1fd898" }}>2,571,431</div>
             <span className={isDarkTheme ? " dark" : ""}>Downloads</span>
           </div>
         </div>
