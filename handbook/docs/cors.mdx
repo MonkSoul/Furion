@@ -103,11 +103,11 @@ namespace Furion.Web.Core
   - `AllowCredentials`：跨域请求中的凭据，`bool` 类型，默认 `true`
   - `SetPreflightMaxAge`：设置预检过期时间，`int` 类型，单位秒，**此配置可以控制客户端发送非 `GET`，`HEAD`，`POST` 请求前发送 `OPTION` 请求检查，状态码（204）**
 
-## 16.6 使用 `axios` 前端注意事项
+## 16.6 前端不能读取响应头注意事项
 
-由于 `axios` 对跨域有特定的需要，需要响应报文中公开特定 `Header` 才能放行，如：`Access-Control-Expose-Headers: xxxxx`，所以，如果前端使用了 `axios` 请求，需要添加以下配置：
+有时候，我们通过 `ajax` 或者 `axios` 第三方库无法读取响应头自定义信息，这时需要响应报文中公开特定 `Header` 才能放行，如：`Access-Control-Expose-Headers: xxxxx`，所以，需要添加以下配置：
 
-```cs showLineNumbers 
+```cs showLineNumbers title="appsettings.json"
 {
   "CorsAccessorSettings": {
     "WithExposedHeaders": ["access-token","x-access-token"]
@@ -115,7 +115,7 @@ namespace Furion.Web.Core
 }
 ```
 
-另外请求设置 `withCredentials: false` 即可。
+特别情况下不能请求，可以考虑设置 `withCredentials: false` 。
 
 ## 16.7 使用 `$.ajax` 前端注意事项
 
