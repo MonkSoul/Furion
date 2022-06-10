@@ -43,5 +43,8 @@
     "Name": "Furion",
     "Version": "1.0.0",
     "Company_Name": "Baiqian"
+  },
+  "CorsAccessorSettings": {
+    "WithExposedHeaders": [ "access-token", "x-access-token", "environment" ]
   }
 }

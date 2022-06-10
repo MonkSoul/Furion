@@ -115,6 +115,8 @@ namespace Furion.Web.Core
 }
 ```
 
+需要获取哪个头，就在 `WithExposedHeaders` 数组中配置即可。如果使用 `ajax` 可以通过 `xhr.getResponseHeader(key)` 或 `xhr.getAllResponseHeaders()` 获取配置的 `key`。
+
 特别情况下不能请求，可以考虑设置 `withCredentials: false` 。
 
 ## 16.7 使用 `$.ajax` 前端注意事项
