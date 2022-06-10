@@ -58,7 +58,7 @@ public static class CorsAccessorServiceCollectionExtensions
                 // 配置跨域凭据
                 if (corsAccessorSettings.AllowCredentials == true && !isNotSetOrigins) builder.AllowCredentials();
 
-                // 配置响应头
+                // 配置响应头，如果前端不能获取自定义的 header 信息，必须配置该项
                 if (corsAccessorSettings.WithExposedHeaders != null && corsAccessorSettings.WithExposedHeaders.Length > 0) builder.WithExposedHeaders(corsAccessorSettings.WithExposedHeaders);
 
                 // 设置预检过期时间，如果不设置默认为 24小时
