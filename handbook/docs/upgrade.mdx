@@ -18,7 +18,7 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 > - 如果涉及到代码重构，则当天发版，次版本号 `加 1`，修订版本号 `清 0`。
 > - 如果 `.NET SDK` 主版本号升级，则当天发版，主版本号 `加 1`。 -->
 
-## v3.5.1（当前版本）
+## v3.5.2（当前版本）
 
 :::tip 有点开心
 
@@ -37,6 +37,10 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
   - [新增] `sql` 转实体支持多种命名策略（纯大写，纯小写，带下划线分割等等），如 `Oracle` 数据库 [a90e245](https://gitee.com/dotnetchina/Furion/commit/a90e24516387e088b2c427e6b99d3dab937116c9)
   - [新增] `FS.InitalContentTypeProvider()` 拓展方法，获取系统内所有支持的 `Content-Type` 文件提供器 [6099900](https://gitee.com/dotnetchina/Furion/commit/6099900472d93dab7012f0b091b05c914be11c4a)
 
+- **突破性变化**
+
+  - [解决] 彻底解决了 `Furion` 不能单文件发布的问题 [7e8e0b7](https://gitee.com/dotnetchina/Furion/commit/7e8e0b708bcdac670aa835dec5cd494d41ff3648)
+
 - **其他更改**
 
   - [调整] `axios-utils.ts` 和 `angular-utils.ts` ，新增请求拦截携带刷新 `Token` 的时机判断 [82f89bd](https://gitee.com/dotnetchina/Furion/commit/82f89bd95573aefa7075676af7f00c55507cb03b)
@@ -46,6 +50,7 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 - **文档**
 
+  - [新增] `Furion` 单文件发布文档
   - [新增] `Furion + SqlSugar` 脚手架文档
   - [更新] 事件总线文档、选项文档、即时通讯文档、`.NET5` 升级 `.NET6` 文档、依赖注入文档、跨域文档、数据加解密文档
 

@@ -6,7 +6,6 @@ import Layout from "@theme/Layout";
 import components from "@theme/MDXComponents";
 import contributors from "../data/contributors";
 import urls from "../data/urls";
-import React from "react";
 import DockerIcon from "./docker.svg";
 import "./index.css";
 import "./index.own.css";
@@ -14,10 +13,12 @@ import KubernetesIcon from "./kubernetes.svg";
 import LinuxIcon from "./linux.svg";
 import MacOSIcon from "./macos.svg";
 import WindowIcon from "./windows.svg";
+import React from "react";
 
 function Home() {
   const context = useDocusaurusContext();
   const { siteConfig = {} } = context;
+
   return (
     <Layout
       title={`让 .NET 开发更简单，更通用，更流行。 ${siteConfig.title}`}
@@ -84,7 +85,7 @@ function Banner() {
             >
               我准备好了
             </Link>
-            <div className="furion-version">v3.5.1</div>
+            <div className="furion-version">v3.5.2</div>
           </div>
         </div>
         <div className="furion-banner-item">
@@ -173,7 +174,7 @@ function Gitee() {
             className={"furion-log-jiao" + (isDarkTheme ? " dark" : "")}
           ></div>
           <div className="furion-log-number">
-            <div style={{ color: "#1fd898" }}>2,571,431</div>
+            <div style={{ color: "#1fd898" }}>2,594,835</div>
             <span className={isDarkTheme ? " dark" : ""}>Downloads</span>
           </div>
         </div>
