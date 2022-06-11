@@ -17,7 +17,14 @@ module.exports = {
     {
       type: "category",
       label: "2. 入门指南",
-      items: ["get-start","get-start-net6", "template", "reference", "inject","net5-to-net6"],
+      items: [
+        "get-start",
+        "get-start-net6",
+        "template",
+        "reference",
+        "inject",
+        "net5-to-net6",
+      ],
     },
     {
       type: "doc",
@@ -179,8 +186,14 @@ module.exports = {
     },
     {
       type: "category",
-      label: "34. 托管部署",
-      items: ["deploy-iis", "deploy-docker", "deploy-nginx", "virtual-deploy"],
+      label: "34. 托管/部署/发布",
+      items: [
+        "deploy-iis",
+        "deploy-docker",
+        "deploy-nginx",
+        "virtual-deploy",
+        "singlefile",
+      ],
     },
     {
       type: "category",

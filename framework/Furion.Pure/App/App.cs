@@ -289,15 +289,54 @@ public static class App
         // 读取应用配置
         var supportPackageNamePrefixs = Settings.SupportPackageNamePrefixs ?? Array.Empty<string>();
 
-        var dependencyContext = DependencyContext.Default;
+        IEnumerable<Assembly> scanAssemblies;
 
-        // 读取项目程序集或 Furion 官方发布的包，或手动添加引用的dll，或配置特定的包前缀
-        var scanAssemblies = dependencyContext.RuntimeLibraries
-            .Where(u =>
-                   (u.Type == "project" && !excludeAssemblyNames.Any(j => u.Name.EndsWith(j))) ||
-                   (u.Type == "package" && (u.Name.StartsWith(nameof(Furion)) || supportPackageNamePrefixs.Any(p => u.Name.StartsWith(p)))) ||
-                   (Settings.EnabledReferenceAssemblyScan == true && u.Type == "reference"))    // 判断是否启用引用程序集扫描
-            .Select(u => Reflect.GetAssembly(u.Name));
+        // 获取入口程序集
+        var entryAssembly = Assembly.GetEntryAssembly();
+
+        // 非独立发布/非单文件发布
+        if (!string.IsNullOrWhiteSpace(entryAssembly.Location))
+        {
+            var dependencyContext = DependencyContext.Default;
+
+            // 读取项目程序集或 Furion 官方发布的包，或手动添加引用的dll，或配置特定的包前缀
+            scanAssemblies = dependencyContext.RuntimeLibraries
+               .Where(u =>
+                      (u.Type == "project" && !excludeAssemblyNames.Any(j => u.Name.EndsWith(j))) ||
+                      (u.Type == "package" && (u.Name.StartsWith(nameof(Furion)) || supportPackageNamePrefixs.Any(p => u.Name.StartsWith(p)))) ||
+                      (Settings.EnabledReferenceAssemblyScan == true && u.Type == "reference"))    // 判断是否启用引用程序集扫描
+               .Select(u => Reflect.GetAssembly(u.Name));
+        }
+        // 独立发布/单文件发布
+        else
+        {
+            IEnumerable<Assembly> fixedSingleFileAssemblies = new[] { entryAssembly };
+
+            // 扫描实现 ISingleFilePublish 接口的类型
+            var singleFilePublishType = entryAssembly.GetTypes()
+                                                .FirstOrDefault(u => u.IsClass && !u.IsInterface && !u.IsAbstract && typeof(ISingleFilePublish).IsAssignableFrom(u));
+            if (singleFilePublishType != null)
+            {
+                var singleFilePublish = Activator.CreateInstance(singleFilePublishType) as ISingleFilePublish;
+
+                var nativeAssemblies = singleFilePublish.IncludeAssemblies();
+                var loadAssemblies = singleFilePublish.IncludeAssemblyNames()
+                                                .Select(u => Assembly.Load(new AssemblyName(u)));
+
+                fixedSingleFileAssemblies = fixedSingleFileAssemblies.Concat(nativeAssemblies)
+                                                            .Concat(loadAssemblies);
+            }
+
+            // 通过 AppDomain.CurrentDomain 扫描，默认为延迟加载，正常只能扫描到 Furion 和 入口程序集（启动层）
+            scanAssemblies = AppDomain.CurrentDomain.GetAssemblies()
+                                    .Where(ass =>
+                                            // 排除 System，Microsoft，netstandard 开口的程序集
+                                            !ass.FullName.StartsWith(nameof(System))
+                                            && !ass.FullName.StartsWith(nameof(Microsoft))
+                                            && !ass.FullName.StartsWith("netstandard"))
+                                    .Concat(fixedSingleFileAssemblies)
+                                    .Distinct();
+        }
 
         IEnumerable<Assembly> externalAssemblies = Array.Empty<Assembly>();
 

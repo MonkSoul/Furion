@@ -1,0 +1,93 @@
+---
+id: singlefile
+title: 34.5. 单文件发布
+sidebar_label: 34.5. 单文件发布 
+---
+
+import useBaseUrl from "@docusaurus/useBaseUrl";
+
+:::important 版本说明
+
+以下内容仅限 `Furion 3.5.2 +` 版本使用。
+
+:::
+
+## 34.5.1 历史背景
+
+自 `.NET Core 3` 起，微软就提供了单文件发布的技术支持，但实际上并不是 `.NET` 所有 `CLR` 都支持单文件发布，如 `Microsoft.Extensions.DependencyModel` 包本身不支持单文件发布，原因是内部使用了 `Assembley.CodeBase`。
+
+**好巧不巧**，`Furion` 中招了，在过去两年中，`Furion` 依赖该包的 `DependencyContext.Default` 特性进行程序集扫描，所以单文件发布也就成了 `Furion` 不愿提起的痛！！！
+
+**终于，在 `Furion v3.5.2+` 版本想出了新的解决方案，自此彻底解决了单文件发布的问题。**
+
+:::tip `.NET` 官方单文件发布说明
+
+[https://docs.microsoft.com/zh-cn/dotnet/core/deploying/single-file/overview](https://docs.microsoft.com/zh-cn/dotnet/core/deploying/single-file/overview)
+
+:::
+
+## 34.5.2 必要配置
+
+在 `Furion v3.5.2+` 版本之后，新增了 `ISingleFilePublish` 接口，**如需支持单文件发布，必须在 `Web 启动层` 创建类型并实现该接口`，如：
+
+```cs showLineNumbers {9,15,26}
+using System.Reflection;
+
+namespace YourProject.Web.Entry;
+
+/// <summary>
+/// 解决单文件发布问题
+/// </summary>
+public class SingleFilePublish : ISingleFilePublish
+{
+    /// <summary>
+    /// 解决单文件不能扫描的程序集
+    /// </summary>
+    /// <remarks>和 <see cref="IncludeAssemblyNames"/> 可同时配置</remarks>
+    /// <returns></returns>
+    public Assembly[] IncludeAssemblies()
+    {
+        // 需要 Furion 框架扫描哪些程序集就写上去即可
+        return Array.Empty<Assembly>();
+    }
+
+    /// <summary>
+    /// 解决单文件不能扫描的程序集名称
+    /// </summary>
+    /// <remarks>和 <see cref="IncludeAssemblies"/> 可同时配置</remarks>
+    /// <returns></returns>
+    public string[] IncludeAssemblyNames()
+    {
+        // 需要 Furion 框架扫描哪些程序集就写上去即可
+        return new[]
+        {
+            "YourProject.Application",
+            "YourProject.Core",
+            "YourProject.EntityFramework.Core",
+            "YourProject.Web.Core"
+        };
+    }
+}
+```
+
+:::tip 配置说明
+
+`IncludeAssemblies` 和 `IncludeAssemblyNames` 的区别是前者是开发者直接返回 `Assembley` 集合，后者是直接返回名称，`Furion` 会自动加载程序集，**可同时配置，也可以配置其中一个。**
+
+如果只配置启用一个，则另外一个返回 `Array.Empty<Assembley>()` 或 `Array.Empty<string>()` 即可。
+
+:::
+
+### 34.5.3 发布
+
+<img src={useBaseUrl("img/sf1.png")} />
+
+<img src={useBaseUrl("img/sf2.png")} />
+
+## 34.5.4 反馈与建议
+
+:::note 与我们交流
+
+给 Furion 提 [Issue](https://gitee.com/dotnetchina/Furion/issues/new?issue)。
+
+:::

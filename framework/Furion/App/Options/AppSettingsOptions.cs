@@ -35,6 +35,7 @@ public sealed class AppSettingsOptions : IConfigurableOptions<AppSettingsOptions
     /// <summary>
     /// 外部程序集
     /// </summary>
+    /// <remarks>扫描 dll 文件，如果是单文件发布，需拷贝放在根目录下</remarks>
     public string[] ExternalAssemblies { get; set; }
 
     /// <summary>
