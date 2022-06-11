@@ -84,6 +84,19 @@ public class SingleFilePublish : ISingleFilePublish
 
 <img src={useBaseUrl("img/sf2.png")} />
 
+## 34.5.4 自定义启动端口
+
+默认单文件发布监听的是 `https://localhost:5001`，如果需要修改，可在 `program.cs` 中配置：
+
+```cs showLineNumbers {2}
+var builder = WebApplication.CreateBuilder(args).Inject();
+builder.WebHost.UseUrls("https://*:8089");
+var app = builder.Build();
+app.Run();
+```
+
+这样就可以通过 `https://localhost:8089` 访问。
+
 ## 34.5.4 反馈与建议
 
 :::note 与我们交流
