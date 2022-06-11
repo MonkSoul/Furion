@@ -28,9 +28,9 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 ## 34.5.2 必要配置
 
-在 `Furion v3.5.2+` 版本之后，新增了 `ISingleFilePublish` 接口，**如需支持单文件发布，必须在 `Web 启动层` 创建类型并实现该接口`，如：
+在 `Furion v3.5.2+` 版本之后，新增了 `ISingleFilePublish` 接口，**如需支持单文件发布，必须在 `Web 启动层` 创建类型并实现该接口**，如：
 
-```cs showLineNumbers {9,15,26}
+```cs showLineNumbers {9,15,26,28-35}
 using System.Reflection;
 
 namespace YourProject.Web.Entry;
