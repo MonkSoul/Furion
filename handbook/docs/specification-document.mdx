@@ -897,7 +897,7 @@ _httpContextAccessor.HttpContext.SigninToSwagger("传入 token");
 {
   "SpecificationDocumentSettings": {
     "LoginInfo": {
-      "Enabled": false,
+      "Enabled": true,
       "CheckUrl": "https://localhost:44316/Home/CheckUrl",
       "SubmitUrl": "https://localhost:44316/Home/SubmitUrl"
     }
@@ -909,8 +909,8 @@ _httpContextAccessor.HttpContext.SigninToSwagger("传入 token");
 
 - `LoginInfo`：配置 `Swagger` 是否需要登录才能访问，`SpecificationLoginInfo` 类型，默认 `null`，**仅在 Furion v3.3.3+` 有效**
   - `Enabled`：是否启用登录授权，默认 `false`
-  - `CheckUrl`：检查登录状态的 `Url` 地址，**该地址必须是 `POST` 请求**，已授权返回 `200`，否则返回 `401`
-  - `SubmitUrl`：提交登录地址，\*\*该地址必须是 `POST` 请求且只有一个 `SpecificationAuth` 类型参数，成功登录返回 `200`，否则返回 `401`
+  - `CheckUrl`：检查登录状态的 `Url` 地址，**该地址必须是 `POST` 请求**，已授权返回 `200`，否则返回 `401`，支持相对地址，以 `/` 开头
+  - `SubmitUrl`：提交登录地址，\*\*该地址必须是 `POST` 请求且只有一个 `SpecificationAuth` 类型参数，成功登录返回 `200`，否则返回 `401`，以 `/` 开头
 
 #### 配置示例
 
