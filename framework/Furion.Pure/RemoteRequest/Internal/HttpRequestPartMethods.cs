@@ -433,7 +433,6 @@ public sealed partial class HttpRequestPart
                                   .Split(';', StringSplitOptions.RemoveEmptyEntries)
                                   .Where(u => u.Contains("charset", StringComparison.OrdinalIgnoreCase))
                                   .FirstOrDefault() ?? "charset=UTF-8";
-
         }
         else charset = "charset=UTF-8";
 

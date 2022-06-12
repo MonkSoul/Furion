@@ -319,6 +319,7 @@ public static class App
             {
                 var singleFilePublish = Activator.CreateInstance(singleFilePublishType) as ISingleFilePublish;
 
+                // 加载用户自定义配置单文件所需程序集
                 var nativeAssemblies = singleFilePublish.IncludeAssemblies();
                 var loadAssemblies = singleFilePublish.IncludeAssemblyNames()
                                                 .Select(u => Assembly.Load(new AssemblyName(u)));
@@ -330,7 +331,7 @@ public static class App
             // 通过 AppDomain.CurrentDomain 扫描，默认为延迟加载，正常只能扫描到 Furion 和 入口程序集（启动层）
             scanAssemblies = AppDomain.CurrentDomain.GetAssemblies()
                                     .Where(ass =>
-                                            // 排除 System，Microsoft，netstandard 开口的程序集
+                                            // 排除 System，Microsoft，netstandard 开头的程序集
                                             !ass.FullName.StartsWith(nameof(System))
                                             && !ass.FullName.StartsWith(nameof(Microsoft))
                                             && !ass.FullName.StartsWith("netstandard"))
