@@ -1,7 +1,7 @@
 ---
 id: singlefile
 title: 34.5. 单文件发布
-sidebar_label: 34.5. 单文件发布 
+sidebar_label: 34.5. 单文件发布
 ---
 
 import useBaseUrl from "@docusaurus/useBaseUrl";
@@ -105,7 +105,124 @@ app.Run();
 
 这样就可以通过 `https://localhost:8089` 访问。
 
-## 34.5.5 反馈与建议
+## 34.5.5 `pm2` 守护进程部署
+
+### 34.5.5.1 运行弊端
+
+正常情况下，将应用程序发布成单文件后，需点击 `XXXXX.exe` 进行启动，这时候程序自动打开终端（控制台），之后根据提示在浏览器上打开对应的地址即可。
+
+**但是这种方式有以下问题：**
+
+- 必须保证终端/控制台一直运行
+- 终端/控制台有时候会出现假死的情况，导致应用程序无法访问
+- 无法实时监听应用程序资源使用情况（如 CPU，内存，日志等）
+- 无法映射端口启动
+- 集群变得复杂
+
+### 34.5.5.2 `pm2` 守护进程部署
+
+为了解决上述问题，推荐 `NodeJS` 一个非常强大的工具 `pm2` [https://pm2.keymetrics.io/](https://pm2.keymetrics.io/)，通过该工具可以解决上述的所有问题。
+
+#### 必要条件
+
+1. **系统必须安装 `NodeJS` 环境 [https://nodejs.org/en/](https://nodejs.org/en/)**
+
+相信大部分人电脑都已经安装。
+
+2. **通过 `npm` 或 `yarn` 全局安装 `pm2` 工具**
+
+npm:
+
+```bash showLineNumbers
+npm install pm2@latest -g
+```
+
+yarn:
+
+```bash showLineNumbers
+yarn global add pm2
+```
+
+3. **启动应用程序**
+
+使用 `pm2` 非常简单就可以启动守护进程应用程序。
+
+```bash showLineNumbers
+pm2 start 项目.exe --name 名称
+```
+
+`start` 后面跟着是 `.exe` 文件，在 `linux/macos` 下无需指定后缀名。
+
+**启动成功后即可通过浏览器访问指定端口，通常是 `http://localhost:5000`**
+
+```bash showLineNumbers
+PS C:\Users\bqrjsoft\Desktop\pms> pm2 start PMS.Web.Entry.exe --name pms
+[PM2] Starting C:\Users\bqrjsoft\Desktop\pms\PMS.Web.Entry.exe in fork_mode (1 instance)
+[PM2] Done.
+┌─────┬────────┬─────────────┬─────────┬─────────┬──────────┬────────┬──────┬───────────┬──────────┬──────────┬──────────┬──────────┐
+│ id  │ name   │ namespace   │ version │ mode    │ pid      │ uptime │ ↺    │ status    │ cpu      │ mem      │ user     │ watching │
+├─────┼────────┼─────────────┼─────────┼─────────┼──────────┼────────┼──────┼───────────┼──────────┼──────────┼──────────┼──────────┤
+│ 0   │ pms    │ default     │ N/A     │ fork    │ 41764    │ 0s     │ 0    │ online    │ 0%       │ 85.0mb   │ bqrjsoft │ disabled │
+└─────┴────────┴─────────────┴─────────┴─────────┴──────────┴────────┴──────┴───────────┴──────────┴──────────┴──────────┴──────────┘
+PS C:\Users\bqrjsoft\Desktop\pms>
+```
+
+<img src={useBaseUrl("img/sf30.png")} />
+
+### 34.5.5.3 `pm2` 常见操作
+
+- **实时监听运行状态**
+
+```bash showLineNumbers
+pm2 monit
+```
+
+<img src={useBaseUrl("img/sf4.png")} />
+
+- **显示运行日志**
+
+```bash showLineNumbers
+pm2 logs
+```
+
+<img src={useBaseUrl("img/sf5.png")} />
+
+- **查看应用信息**
+
+```bash showLineNumbers
+pm2 info pms
+```
+
+注意，`pms` 为您配置的 `--name` 名称。
+
+<img src={useBaseUrl("img/sf6.png")} />
+
+- **随机启动**
+
+```bash showLineNumbers
+pm2 startup
+pm2 save
+```
+
+- **其他操作**
+
+```bash showLineNumbers
+// 重启应用
+pm2 restart app_name
+
+// 重载应用
+pm2 reload app_name
+
+// 停止应用
+pm2 stop app_name
+
+// 删除应用
+pm2 delete app_name
+```
+
+<img src={useBaseUrl("img/sf5.png")} />
+
+## 34.5.6 反馈与建议
 
 :::note 与我们交流
 

@@ -1,0 +1,179 @@
+---
+id: pm2
+title: 34.6. pm2 部署
+sidebar_label: 34.6. pm2 部署
+---
+
+import useBaseUrl from "@docusaurus/useBaseUrl";
+
+## 34.6.1 关于 `pm2`
+
+`pm2` 是 `NodeJS` 平台高级生产流程管理器，也是一个守护进程管理器，它能够管理和保持应用程序 7*24 小时在线。
+
+`pm2` 优点:
+
+- 简单易用
+- 跨平台
+- 容器集成
+- 内置集群、负载均衡
+- 支持模块系统
+- 支持实时监测
+- 支持日志管理
+- 支持关键指标监控
+....
+
+想了解更多 `pm2` 知识可查阅 [https://pm2.keymetrics.io/](https://pm2.keymetrics.io/)。
+
+## 34.6.2 如何安装
+
+
+1. **系统安装 `NodeJS` 环境 [https://nodejs.org/en/](https://nodejs.org/en/)**
+
+相信大部分人电脑都已经安装。
+
+2. **通过 `npm` 或 `yarn` 全局安装 `pm2` 工具**
+
+npm:
+
+```bash showLineNumbers
+npm install pm2@latest -g
+```
+
+yarn:
+
+```bash showLineNumbers
+yarn global add pm2
+```
+
+## 34.6.3 托管 `.NET5/6` 应用程序
+
+### 34.6.3.1 非单文件/非独立发布模式
+
+这种模式的特点就是需要服务器安装 `.NET5/6` 的环境
+
+```bash showLineNumbers
+pm2 start "dotnet xxx.dll" --name xxx
+```
+
+:::tip 命令说明
+
+`xxx.dll` 为项目发布后的启动层名称。
+
+`--name` 配置应用程序在 `pm2` 中的唯一标识。
+
+:::
+
+### 34.5.3.2 单文件/独立发布模式
+
+这种模式的特点就是无需服务器安装 `.NET` 任何环境，可查阅 [单文件发布文档](./singlefile.mdx)
+
+```bash showLineNumbers
+pm2 start xxx.exe --name xxx
+```
+
+:::tip 命令说明
+
+`xxx.exe` 为项目发布后的启动层名称，如果名称包含 `空格`，则使用双引号包裹，如 `"x xx.exe"`。
+
+`--name` 配置应用程序在 `pm2` 中的唯一标识。
+
+:::
+
+### 34.5.3.3 启用应用程序
+
+执行上述命令后会显示启动成功日志，如：
+
+```bash showLineNumbers
+PS C:\Users\bqrjsoft\Desktop\pms> pm2 start PMS.Web.Entry.exe --name pms
+[PM2] Starting C:\Users\bqrjsoft\Desktop\pms\PMS.Web.Entry.exe in fork_mode (1 instance)
+[PM2] Done.
+┌─────┬────────┬─────────────┬─────────┬─────────┬──────────┬────────┬──────┬───────────┬──────────┬──────────┬──────────┬──────────┐
+│ id  │ name   │ namespace   │ version │ mode    │ pid      │ uptime │ ↺    │ status    │ cpu      │ mem      │ user     │ watching │
+├─────┼────────┼─────────────┼─────────┼─────────┼──────────┼────────┼──────┼───────────┼──────────┼──────────┼──────────┼──────────┤
+│ 0   │ pms    │ default     │ N/A     │ fork    │ 41764    │ 0s     │ 0    │ online    │ 0%       │ 85.0mb   │ bqrjsoft │ disabled │
+└─────┴────────┴─────────────┴─────────┴─────────┴──────────┴────────┴──────┴───────────┴──────────┴──────────┴──────────┴──────────┘
+PS C:\Users\bqrjsoft\Desktop\pms>
+```
+
+<img src={useBaseUrl("img/sf30.png")} />
+
+:::tip 关于端口
+
+`ASP.NET Core` 程序默认端口都是 `5000`，如 `http://localhost:5000`。
+
+:::
+
+## 34.6.4 `pm2` 常见操作
+
+### 34.6.4.1 实时监听运行状态
+
+```bash showLineNumbers
+pm2 monit
+```
+
+<img src={useBaseUrl("img/sf4.png")} />
+
+### 34.6.4.2 显示运行日志
+
+```bash showLineNumbers
+pm2 logs
+```
+
+<img src={useBaseUrl("img/sf5.png")} />
+
+### 34.6.4.3 查看应用信息
+
+```bash showLineNumbers
+pm2 info pms
+```
+
+注意，`pms` 为您配置的 `--name` 名称。
+
+<img src={useBaseUrl("img/sf6.png")} />
+
+### 34.6.4.4 随机启动
+
+```bash showLineNumbers
+pm2 startup
+pm2 save
+```
+
+### 34.6.4.5 集群模式（负载均衡）
+
+- 非单文件/非独立发布模式
+
+```bash showLineNumbers
+pm2 start "xxx.dll" -i max
+```
+
+- 单文件/独立发布模式
+
+```bash showLineNumbers
+pm2 start xxx.exe -i max
+```
+
+### 34.6.4.6 其他操作
+
+```bash showLineNumbers
+// 重启应用
+pm2 restart app_name
+
+// 重载应用
+pm2 reload app_name
+
+// 停止应用
+pm2 stop app_name
+
+// 删除应用
+pm2 delete app_name
+```
+
+<img src={useBaseUrl("img/sf5.png")} />
+
+## 34.6.5 反馈与建议
+
+:::note 与我们交流
+
+给 Furion 提 [Issue](https://gitee.com/dotnetchina/Furion/issues/new?issue)。
+
+:::

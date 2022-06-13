@@ -193,6 +193,7 @@ module.exports = {
         "deploy-nginx",
         "virtual-deploy",
         "singlefile",
+        "pm2",
       ],
     },
     {
