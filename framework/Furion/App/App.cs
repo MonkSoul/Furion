@@ -327,6 +327,14 @@ public static class App
                 fixedSingleFileAssemblies = fixedSingleFileAssemblies.Concat(nativeAssemblies)
                                                             .Concat(loadAssemblies);
             }
+            else
+            {
+                // 提示没有正确配置单文件配置
+                Console.ResetColor();
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("It is detected that the application uses a single file deployment, but it is not configured correctly. Please check the documentation https://dotnetchina.gitee.io/furion/docs/singlefile .");
+                Console.ResetColor();
+            }
 
             // 通过 AppDomain.CurrentDomain 扫描，默认为延迟加载，正常只能扫描到 Furion 和 入口程序集（启动层）
             scanAssemblies = AppDomain.CurrentDomain.GetAssemblies()
