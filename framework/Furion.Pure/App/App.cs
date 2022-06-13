@@ -332,7 +332,11 @@ public static class App
                 // 提示没有正确配置单文件配置
                 Console.ResetColor();
                 Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine();
+                Console.WriteLine("========== Deploy Error ==========");
                 Console.WriteLine("It is detected that the application uses a single file deployment, but it is not configured correctly. Please check the documentation https://dotnetchina.gitee.io/furion/docs/singlefile .");
+                Console.WriteLine("========== Deploy Error ==========");
+                Console.WriteLine();
                 Console.ResetColor();
             }
 
