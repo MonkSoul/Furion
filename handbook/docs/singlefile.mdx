@@ -64,7 +64,8 @@ public class SingleFilePublish : ISingleFilePublish
             "YourProject.Application",
             "YourProject.Core",
             "YourProject.EntityFramework.Core",
-            "YourProject.Web.Core"
+            "YourProject.Web.Core",
+            "Furion.Extras.ObjectMapper.Mapster"    // 解决 Mapster 单文件失效问题
         };
     }
 }
@@ -75,6 +76,8 @@ public class SingleFilePublish : ISingleFilePublish
 `IncludeAssemblies` 和 `IncludeAssemblyNames` 的区别是前者是开发者直接返回 `Assembley` 集合，后者是直接返回名称，`Furion` 会自动加载程序集，**可同时配置，也可以配置其中一个。**
 
 如果只配置启用一个，则另外一个返回 `Array.Empty<Assembley>()` 或 `Array.Empty<string>()` 即可。
+
+如果发布后出现 `Mapster` 不能映射问题，可将 `Furion.Extras.ObjectMapper.Mapster` 添加到 `IncludeAssemblyNames` 集合中即可。
 
 :::
 

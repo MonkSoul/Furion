@@ -322,7 +322,7 @@ public static class App
                 // 加载用户自定义配置单文件所需程序集
                 var nativeAssemblies = singleFilePublish.IncludeAssemblies();
                 var loadAssemblies = singleFilePublish.IncludeAssemblyNames()
-                                                .Select(u => Assembly.Load(new AssemblyName(u)));
+                                                .Select(u => Reflect.GetAssembly(u));
 
                 fixedSingleFileAssemblies = fixedSingleFileAssemblies.Concat(nativeAssemblies)
                                                             .Concat(loadAssemblies);
