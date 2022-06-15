@@ -314,5 +314,10 @@ module.exports = {
       type: "doc",
       id: "global/jwt",
     },
+    {
+      type: "doc",
+      id: "global/tp",
+    },
+    ,
   ],
 };

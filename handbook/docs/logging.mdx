@@ -427,7 +427,43 @@ Scoped.Create(async (fac, scope) => {
 StringLoggingPart.Default.SetMessage("这是一个日志").LogInformation();
 ```
 
-## 18.12 反馈与建议
+## 18.12 规范日志模板
+
+在 `Furion v3.5.3+` 新增了 `TP.Wrapper(...)` 规范模板，使用如下：
+
+```cs showLineNumbers {2}
+// 生成模板字符串
+var template = TP.Wrapper("Furion 框架", "让 .NET 开发更简单，更通用，更流行。",
+    "[作者] 百小僧",
+    "[当前版本] v3.5.3",
+    "[文档地址] https://furion.icu",
+    "[Copyright] 百小僧, Baiqian Co.,Ltd.");
+
+Console.WriteLine(template);
+```
+
+日志打印模板如下：
+
+```bash showLineNumbers
+┏━━━━━━━━━━━  Furion 框架 ━━━━━━━━━━━
+┣ 让 .NET 开发更简单，更通用，更流行。
+┣
+┣ 作者：        百小僧
+┣ 当前版本：     v3.5.3
+┣ 文档地址：     https://furion.icu
+┣ Copyright：   百小僧, Baiqian Co.,Ltd.
+┗━━━━━━━━━━━  Furion 框架 ━━━━━━━━━━━
+
+```
+
+:::tip 关于属性生成
+
+如果列表项以 `[属性名]` 开头，自动生成 `属性名：` 作为行首且自动等宽对齐。
+
+:::
+
+
+## 18.13 反馈与建议
 
 :::note 与我们交流
 

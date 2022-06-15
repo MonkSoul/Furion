@@ -14,6 +14,7 @@ namespace Furion.Templates;
 /// <summary>
 /// 模板静态类
 /// </summary>
+[SuppressSniffer]
 public static class TP
 {
     /// <summary>
