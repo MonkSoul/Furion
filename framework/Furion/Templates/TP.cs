@@ -75,13 +75,16 @@ public static class TP
     private static string PadRight(string str, int totalByteCount)
     {
         Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+
         var coding = Encoding.GetEncoding("gbk");
         var dcount = 0;
+
         foreach (var ch in str.ToCharArray())
         {
             if (coding.GetByteCount(ch.ToString()) == 2)
                 dcount++;
         }
+
         var w = str.PadRight(totalByteCount - dcount);
         return w;
     }

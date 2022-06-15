@@ -1,18 +1,18 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
-    <NoWarn>1701;1702;1591</NoWarn>
-    <DocumentationFile>Furion.Web.Core.xml</DocumentationFile>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<NoWarn>1701;1702;1591</NoWarn>
+		<DocumentationFile>Furion.Web.Core.xml</DocumentationFile>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <None Remove="Furion.Web.Core.xml" />
-  </ItemGroup>
+	<ItemGroup>
+		<None Remove="Furion.Web.Core.xml" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Furion.Application\Furion.Application.csproj" />
-    <ProjectReference Include="..\Furion.Database.Migrations\Furion.Database.Migrations.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\Furion.Application\Furion.Application.csproj" />
+		<ProjectReference Include="..\Furion.Database.Migrations\Furion.Database.Migrations.csproj" />
+	</ItemGroup>
 
 </Project>

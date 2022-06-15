@@ -1,28 +1,28 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <None Remove="dbsettings.json" />
-    <None Remove="sqlsettings.json" />
-  </ItemGroup>
+	<ItemGroup>
+		<None Remove="dbsettings.json" />
+		<None Remove="sqlsettings.json" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <Content Include="dbsettings.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </Content>
-  </ItemGroup>
+	<ItemGroup>
+		<Content Include="dbsettings.json">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+			<ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+			<CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+		</Content>
+	</ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="6.0.6" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="6.0.6" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Furion.Core\Furion.Core.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\Furion.Core\Furion.Core.csproj" />
+	</ItemGroup>
 
 </Project>
