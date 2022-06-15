@@ -131,11 +131,13 @@ public static class UnifyContext
     /// <param name="unifyResultSettings"></param>
     public static void SetResponseStatusCodes(HttpContext context, int statusCode, UnifyResultSettingsOptions unifyResultSettings)
     {
+        if (unifyResultSettings == null) return;
+
         // 篡改响应状态码
         if (unifyResultSettings.AdaptStatusCodes != null && unifyResultSettings.AdaptStatusCodes.Length > 0)
         {
             var adaptStatusCode = unifyResultSettings.AdaptStatusCodes.FirstOrDefault(u => u[0] == statusCode);
-            if (adaptStatusCode[0] > 0)
+            if (adaptStatusCode != null && adaptStatusCode.Length > 0 && adaptStatusCode[0] > 0)
             {
                 context.Response.StatusCode = adaptStatusCode[1];
                 return;
