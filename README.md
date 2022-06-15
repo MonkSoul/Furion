@@ -1,3 +1,13 @@
+## .NET 6.0.6 SDK 通告
+
+2022 年 06 月 15 日，微软发布 `.NET 6.0.6` 版本，**该版本会导致单文件部署出现异常，引起该异常的原因暂未排查出**，受影响的框架版本为 `v3.5.3+（含）`。
+
+如需单文件或独立发布的项目可暂时安装 `.NET 6.0.5 SDK` 和 `Furion v3.5.2` 版本，其他微软提供的包同时安装 `6.0.5` 版本。
+
+**非**单文件或独立发布的项目可自由选择安装版本。
+
+---
+
 # 先知 / Furion ([探索版](https://gitee.com/dotnetchina/Furion/tree/experimental/))
 
 [![license](https://img.shields.io/badge/license-MulanPSL--2.0-orange?cacheSeconds=10800)](https://gitee.com/dotnetchina/Furion/blob/master/LICENSE) [![nuget](https://img.shields.io/nuget/v/Furion.svg?cacheSeconds=10800)](https://www.nuget.org/packages/Furion) [![nuget downloads](https://img.shields.io/badge/downloads-2.6M-green?cacheSeconds=10800)](https://www.nuget.org/profiles/monk.soul) [![dotNET China](https://img.shields.io/badge/organization-dotNET%20China-yellow?cacheSeconds=10800)](https://gitee.com/dotnetchina)
@@ -47,7 +57,7 @@ You can find the Furion documentation [on the website](https://dotnetchina.gitee
 
 阅读[贡献指南](https://dotnetchina.gitee.io/furion/docs/contribute)内容，了解如何参与改进 Furion。
 
-The main purpose of this repository is to continue evolving Furion core, making it faster and easier to use. Development of Furion happens in the open on [Gitee](https://gitee.com/dotnetchina/Furion), and we are grateful to the community for contributing bugfixes and improvements. 
+The main purpose of this repository is to continue evolving Furion core, making it faster and easier to use. Development of Furion happens in the open on [Gitee](https://gitee.com/dotnetchina/Furion), and we are grateful to the community for contributing bugfixes and improvements.
 
 Read [contribution documents](https://dotnetchina.gitee.io/furion/docs/contribute) to learn how you can take part in improving Furion.
 
@@ -55,7 +65,7 @@ Read [contribution documents](https://dotnetchina.gitee.io/furion/docs/contribut
 
 Furion 采用 [MulanPSL-2.0](https://gitee.com/dotnetchina/Furion/blob/master/LICENSE) 开源许可证。
 
-Furion uses the [MulanPSL-2.0](https://gitee.com/dotnetchina/Furion/blob/master/LICENSE) open source license. 
+Furion uses the [MulanPSL-2.0](https://gitee.com/dotnetchina/Furion/blob/master/LICENSE) open source license.
 
 ```
 Copyright (c) 2020-2022 百小僧, Baiqian Co.,Ltd.
