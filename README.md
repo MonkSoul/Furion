@@ -1,13 +1,3 @@
-## .NET 6.0.6 SDK 通告
-
-2022 年 06 月 15 日，微软发布 `.NET 6.0.6` 版本，**该版本会导致单文件部署出现异常，引起该异常的原因暂未排查出**，受影响的框架版本为 `v3.5.3+（含）`。
-
-如需单文件或独立发布的项目可暂时安装 `.NET 6.0.5 SDK` 和 `Furion v3.5.2` 版本，其他微软提供的包同时安装 `6.0.5` 版本。
-
-**非**单文件或独立发布的项目可自由选择安装版本。
-
----
-
 # 先知 / Furion ([探索版](https://gitee.com/dotnetchina/Furion/tree/experimental/))
 
 [![license](https://img.shields.io/badge/license-MulanPSL--2.0-orange?cacheSeconds=10800)](https://gitee.com/dotnetchina/Furion/blob/master/LICENSE) [![nuget](https://img.shields.io/nuget/v/Furion.svg?cacheSeconds=10800)](https://www.nuget.org/packages/Furion) [![nuget downloads](https://img.shields.io/badge/downloads-2.6M-green?cacheSeconds=10800)](https://www.nuget.org/profiles/monk.soul) [![dotNET China](https://img.shields.io/badge/organization-dotNET%20China-yellow?cacheSeconds=10800)](https://gitee.com/dotnetchina)
