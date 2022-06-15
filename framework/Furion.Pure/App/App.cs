@@ -8,6 +8,7 @@
 
 using Furion.ConfigurableOptions;
 using Furion.Reflection;
+using Furion.Templates;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
@@ -326,17 +327,27 @@ public static class App
 
                 fixedSingleFileAssemblies = fixedSingleFileAssemblies.Concat(nativeAssemblies)
                                                             .Concat(loadAssemblies);
+
+                // 解决 Furion.Extras.ObjectMapper.Mapster 程序集不能加载问题
+                try
+                {
+                    if (!fixedSingleFileAssemblies.Any(u => u.GetName().Name.Equals(ObjectMapperServiceCollectionExtensions.ASSEMBLY_NAME)))
+                    {
+                        fixedSingleFileAssemblies = fixedSingleFileAssemblies.Concat(new[] {
+                            Reflect.GetAssembly(ObjectMapperServiceCollectionExtensions.ASSEMBLY_NAME) });
+                    }
+                }
+                catch { }
             }
             else
             {
-                // 提示没有正确配置单文件配置
                 Console.ResetColor();
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine();
-                Console.WriteLine("========== Deploy Error ==========");
-                Console.WriteLine("It is detected that the application uses a single file deployment, but it is not configured correctly. Please check the documentation https://dotnetchina.gitee.io/furion/docs/singlefile .");
-                Console.WriteLine("========== Deploy Error ==========");
-                Console.WriteLine();
+                // 提示没有正确配置单文件配置
+                Console.WriteLine(TP.Wrapper("Deploy Console"
+                    , "Single file deploy error."
+                    , "[Exception] Single file deployment configuration error."
+                    , "[Documentation] https://dotnetchina.gitee.io/furion/docs/singlefile"));
                 Console.ResetColor();
             }
 

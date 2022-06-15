@@ -1,4 +1,6 @@
-﻿using Furion.RemoteRequest.Extensions;
+﻿using Furion.Application.Persons;
+using Furion.RemoteRequest.Extensions;
+using Furion.UnifyResult;
 
 namespace Furion.Application;
 
@@ -84,5 +86,12 @@ public class TestModuleServices : IDynamicApiController
         var url = $"http://whois.pconline.com.cn/ipJson.jsp?ip={ip}";
         var resultStr = await url.GetAsStringAsync();
         return resultStr;
+    }
+
+    public async Task<PersonDto> TestSerial()
+    {
+        var result = await "https://localhost:44316/api/person/1".GetAsAsync<RESTfulResult<PersonDto>>();
+
+        return result.Data;
     }
 }

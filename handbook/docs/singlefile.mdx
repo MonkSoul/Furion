@@ -65,7 +65,7 @@ public class SingleFilePublish : ISingleFilePublish
             "YourProject.Core",
             "YourProject.EntityFramework.Core",
             "YourProject.Web.Core",
-            "Furion.Extras.ObjectMapper.Mapster"    // 解决 Mapster 单文件失效问题
+            "Furion.Extras.ObjectMapper.Mapster"    // 解决 Mapster 单文件失效问题，v3.5.3+版本后无需配置
         };
     }
 }
@@ -77,7 +77,7 @@ public class SingleFilePublish : ISingleFilePublish
 
 如果只配置启用一个，则另外一个返回 `Array.Empty<Assembley>()` 或 `Array.Empty<string>()` 即可。
 
-如果发布后出现 `Mapster` 不能映射问题，可将 `Furion.Extras.ObjectMapper.Mapster` 添加到 `IncludeAssemblyNames` 集合中即可。
+如果发布后出现 `Mapster` 不能映射问题，可将 `Furion.Extras.ObjectMapper.Mapster` 添加到 `IncludeAssemblyNames` 集合中即可。**v3.5.3+` 版本后无需配置。
 
 :::
 

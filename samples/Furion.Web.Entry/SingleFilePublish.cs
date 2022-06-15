@@ -29,8 +29,7 @@ public class SingleFilePublish : ISingleFilePublish
             "Furion.Application",
             "Furion.Core",
             "Furion.EntityFramework.Core",
-            "Furion.Web.Core",
-            "Furion.Extras.ObjectMapper.Mapster"
+            "Furion.Web.Core"
         };
     }
 }
