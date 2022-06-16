@@ -57,7 +57,7 @@ internal sealed class DynamicApiControllerApplicationModelConvention : IApplicat
             var controllerType = controller.ControllerType;
 
             // 判断是否处理 Mvc控制器
-            if (typeof(ControllerBase).IsAssignableFrom(controller.ControllerType))
+            if (typeof(ControllerBase).IsAssignableFrom(controllerType))
             {
                 if (!_dynamicApiControllerSettings.SupportedMvcController.Value || controller.ApiExplorer?.IsVisible == false)
                 {
