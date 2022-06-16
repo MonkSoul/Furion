@@ -226,12 +226,19 @@ public abstract class PrivateEntityNotKey : IPrivateEntityNotKey
     private readonly string _name;
 
     /// <summary>
+    /// 无键实体 schema
+    /// </summary>
+    private readonly string _schema;
+
+    /// <summary>
     /// 构造函数
     /// </summary>
     /// <param name="name">数据库中定义名</param>
-    public PrivateEntityNotKey(string name)
+    /// <param name="schema"></param>
+    public PrivateEntityNotKey(string name, string schema = default)
     {
         _name = name;
+        _schema = schema;
     }
 
     /// <summary>
@@ -241,5 +248,15 @@ public abstract class PrivateEntityNotKey : IPrivateEntityNotKey
     public string GetName()
     {
         return _name;
+    }
+
+    /// <summary>
+    ///  数据库中定义的 Schema
+    /// </summary>
+    /// <returns></returns>
+    /// <exception cref="NotImplementedException"></exception>
+    public string GetSchema()
+    {
+        return _schema;
     }
 }

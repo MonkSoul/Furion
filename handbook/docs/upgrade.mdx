@@ -20,12 +20,6 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 ## v3.5.4（当前版本）
 
-:::tip 有点开心
-
-两年的持续更新，唯一一次不带 `BUG` 修复的大版本。**`Furion` 已经准备好了，你们准备好用了吗？**
-
-:::
-
 - **新特性**
 
   - [新增] `Options` 选项属性支持自定义 `Key` 名称，`[MapSettings("key")]` [#I5B2HN](https://gitee.com/dotnetchina/Furion/issues/I5B2HN)
@@ -41,6 +35,12 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 - **突破性变化**
 
   - [解决] 彻底解决了 `Furion` 不能单文件发布的问题 [7e8e0b7](https://gitee.com/dotnetchina/Furion/commit/7e8e0b708bcdac670aa835dec5cd494d41ff3648)
+
+- **问题修复**
+
+  - [修复] 基于 `Schema` 多租户配置无效问题
+  - [修复] 指定实体 `[Table(schema:"dbo")]` 特性后 `Schema` 无效问题
+  - [修复] 数据库视图不支持 `Schema` 配置问题
 
 - **其他更改**
 

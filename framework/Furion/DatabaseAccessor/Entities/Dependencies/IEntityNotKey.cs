@@ -152,4 +152,10 @@ public interface IPrivateEntityNotKey : IPrivateEntity
     /// 数据库中定义名
     /// </summary>
     string GetName();
+
+    /// <summary>
+    /// 数据库中定义的 Schema
+    /// </summary>
+    /// <returns></returns>
+    string GetSchema();
 }

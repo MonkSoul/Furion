@@ -66,11 +66,13 @@ public class AppDbContextAttribute : Attribute
     /// <summary>
     /// 表统一前缀
     /// </summary>
+    /// <remarks>前缀不能包含 . 和特殊符号，可使用下划线或短杆线</remarks>
     public string TablePrefix { get; set; }
 
     /// <summary>
     /// 表统一后缀
     /// </summary>
+    /// <remarks>后缀不能包含 . 和特殊符号，可使用下划线或短杆线</remarks>
     public string TableSuffix { get; set; }
 
     /// <summary>

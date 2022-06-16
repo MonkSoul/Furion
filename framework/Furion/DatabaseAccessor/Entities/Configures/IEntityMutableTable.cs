@@ -175,6 +175,6 @@ public interface IPrivateEntityMutableTable<TEntity> : IPrivateModelBuilder
     /// </summary>
     /// <param name="dbContext"></param>
     /// <param name="dbContextLocator"></param>
-    /// <returns></returns>
-    string GetTableName(DbContext dbContext, Type dbContextLocator);
+    /// <returns>最少含一个元素，最多含两个元素，第一个元素为表名，第二个原始为 schema</returns>
+    string[] GetTableName(DbContext dbContext, Type dbContextLocator);
 }

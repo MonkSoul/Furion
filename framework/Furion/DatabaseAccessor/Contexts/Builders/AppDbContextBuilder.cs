@@ -156,46 +156,23 @@ internal static class AppDbContextBuilder
         // 获取真实表名
         var tableName = tableAttribute?.Name ?? type.Name;
 
-        // 判断是否是启用了多租户模式，如果是，则获取 Schema
-        var dynamicSchema = !typeof(IMultiTenantOnSchema).IsAssignableFrom(dbContextType)
+        // 判断是否配置了 Schema，如果是直接采用。如果不是，继续判断是否启用基于 Schema 的多租户，如果是，则获取 Schema
+        var dynamicSchema = tableAttribute?.Schema ?? (!typeof(IMultiTenantOnSchema).IsAssignableFrom(dbContextType)
             ? default
             : (dbContextType.GetMethod(nameof(IMultiTenantOnSchema.GetSchemaName))  // 支持显式和隐式
                     ?? typeof(IMultiTenantOnSchema).GetMethod(nameof(IMultiTenantOnSchema.GetSchemaName))
-                )?.Invoke(dbContext, null)?.ToString();
+                )?.Invoke(dbContext, null)?.ToString());
 
-        // 获取类型前缀 [TablePrefix] 特性
-        var tablePrefixAttribute = !type.IsDefined(typeof(TablePrefixAttribute), true)
+        // 获取类型前缀 [TableFixs] 特性
+        var tableFixsAttribute = !type.IsDefined(typeof(TableFixsAttribute), true)
             ? default
-            : type.GetCustomAttribute<TablePrefixAttribute>(true);
+            : type.GetCustomAttribute<TableFixsAttribute>(true);
 
-        // 判断是否启用全局表前后缀支持或个别表自定义了前缀
-        if (tablePrefixAttribute != null || appDbContextAttribute == null)
-        {
-            entityTypeBuilder.ToTable($"{tablePrefixAttribute?.Prefix}{tableName}", dynamicSchema);
-        }
-        else
-        {
-            // 添加表统一前后缀，排除视图
-            if (!string.IsNullOrWhiteSpace(appDbContextAttribute.TablePrefix) || !string.IsNullOrWhiteSpace(appDbContextAttribute.TableSuffix))
-            {
-                var tablePrefix = appDbContextAttribute.TablePrefix;
-                var tableSuffix = appDbContextAttribute.TableSuffix;
+        // 获取表名最终前后缀
+        var tablePrefix = (tableFixsAttribute?.Prefix ?? appDbContextAttribute?.TablePrefix)?.Trim();
+        var tableSuffix = (tableFixsAttribute?.Suffix ?? appDbContextAttribute?.TableSuffix)?.Trim();
 
-                if (!string.IsNullOrWhiteSpace(tablePrefix))
-                {
-                    // 如果前缀中找到 . 字符
-                    if (tablePrefix.IndexOf(".") > 0)
-                    {
-                        var schema = tablePrefix.EndsWith(".") ? tablePrefix[0..^1] : tablePrefix;
-                        entityTypeBuilder.ToTable($"{tableName}{tableSuffix}", schema: schema);
-                    }
-                    else entityTypeBuilder.ToTable($"{tablePrefix}{tableName}{tableSuffix}", dynamicSchema);
-                }
-                else entityTypeBuilder.ToTable($"{tableName}{tableSuffix}", dynamicSchema);
-
-                return;
-            }
-        }
+        entityTypeBuilder.ToTable($"{tablePrefix}{tableName}{tableSuffix}", dynamicSchema);
     }
 
     /// <summary>
@@ -224,11 +201,11 @@ internal static class AppDbContextBuilder
         var getTableNameMethod = lastEntityMutableTableType.GetMethod("GetTableName")
             ?? typeof(IPrivateEntityMutableTable<>).MakeGenericType(entityType).GetMethod("GetTableName");
 
-        var tableName = getTableNameMethod?.Invoke(Activator.CreateInstance(lastEntityMutableTableType), new object[] { dbContext, dbContextLocator });
-        if (tableName != null)
+        var tableMeta = (string[])(getTableNameMethod?.Invoke(Activator.CreateInstance(lastEntityMutableTableType), new object[] { dbContext, dbContextLocator }));
+        if (tableMeta != null)
         {
             // 设置动态表名
-            entityBuilder.ToTable(tableName.ToString());
+            entityBuilder.ToTable(tableMeta[0], tableMeta.Length > 1 ? tableMeta[1] : null);
             isSet = true;
         }
 
@@ -247,7 +224,9 @@ internal static class AppDbContextBuilder
 
         // 配置视图、存储过程、函数无键实体
         entityBuilder.HasNoKey();
-        entityBuilder.ToView((Activator.CreateInstance(entityType) as IPrivateEntityNotKey).GetName());
+
+        var configure = (Activator.CreateInstance(entityType) as IPrivateEntityNotKey);
+        entityBuilder.ToView(configure.GetName(), configure.GetSchema());
     }
 
     /// <summary>
