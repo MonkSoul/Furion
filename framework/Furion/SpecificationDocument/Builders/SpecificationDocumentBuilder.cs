@@ -93,7 +93,7 @@ public static class SpecificationDocumentBuilder
     /// <returns></returns>
     public static bool CheckApiDescriptionInCurrentGroup(string currentGroup, ApiDescription apiDescription)
     {
-        if (!apiDescription.TryGetMethodInfo(out var method) || typeof(Controller).IsAssignableFrom(method.ReflectedType)) return false;
+        if (!apiDescription.TryGetMethodInfo(out var method)) return false;
 
         if (currentGroup == AllGroupsKey)
         {
