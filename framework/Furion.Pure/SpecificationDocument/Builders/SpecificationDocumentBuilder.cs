@@ -95,6 +95,12 @@ public static class SpecificationDocumentBuilder
     {
         if (!apiDescription.TryGetMethodInfo(out var method)) return false;
 
+        // 处理 Mvc 和 WebAPI 混合项目路由问题
+        if (typeof(Controller).IsAssignableFrom(method.DeclaringType) && apiDescription.ActionDescriptor.ActionConstraints == null)
+        {
+            return false;
+        }
+
         if (currentGroup == AllGroupsKey)
         {
             return true;
