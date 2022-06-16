@@ -8,7 +8,7 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 ## 34.6.1 关于 `pm2`
 
-`pm2` 是 `NodeJS` 平台高级生产流程管理器，也是一个守护进程管理器，它能够管理和保持应用程序 7*24 小时在线。
+`pm2` 是 `NodeJS` 平台高级生产流程管理器，也是一个守护进程管理器，它能够管理和保持应用程序 7\*24 小时在线。
 
 `pm2` 优点:
 
@@ -20,12 +20,11 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 - 支持实时监测
 - 支持日志管理
 - 支持关键指标监控
-....
+  ....
 
 想了解更多 `pm2` 知识可查阅 [https://pm2.keymetrics.io/](https://pm2.keymetrics.io/)。
 
 ## 34.6.2 如何安装
-
 
 1. **系统安装 `NodeJS` 环境 [https://nodejs.org/en/](https://nodejs.org/en/)**
 
@@ -137,12 +136,18 @@ pm2 info pms
 pm2 startup
 pm2 save
 ```
-- windows下随机自启动，可查阅 [pm2-windows-startup](https://www.npmjs.com/package/pm2-windows-startup)
+
+:::tip `Windows` 下随即启动
+
+可查阅 [pm2-windows-startup](https://www.npmjs.com/package/pm2-windows-startup)。
+
 ```bash showLineNumbers
 npm install pm2-windows-startup -g
 pm2-startup install
 pm2 save
 ```
+
+:::
 
 ### 34.6.4.5 集群模式（负载均衡）
 
