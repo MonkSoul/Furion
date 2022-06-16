@@ -42,12 +42,24 @@ public static class DynamicApiControllerServiceCollectionExtensions
         var partManager = services.FirstOrDefault(s => s.ServiceType == typeof(ApplicationPartManager))?.ImplementationInstance as ApplicationPartManager
             ?? throw new InvalidOperationException($"`{nameof(AddDynamicApiControllers)}` must be invoked after `{nameof(MvcServiceCollectionExtensions.AddControllers)}`.");
 
+        // 解决项目类型为 <Project Sdk="Microsoft.NET.Sdk"> 不能加载 API 问题，默认支持 <Project Sdk="Microsoft.NET.Sdk.Web">
+        foreach (var assembly in App.Assemblies)
+        {
+            if (partManager.ApplicationParts.Any(u => u.Name != assembly.GetName().Name))
+            {
+                partManager.ApplicationParts.Add(new AssemblyPart(assembly));
+            }
+        }
+
         // 载入模块化/插件程序集部件
         if (App.ExternalAssemblies.Any())
         {
             foreach (var assembly in App.ExternalAssemblies)
             {
-                partManager.ApplicationParts.Add(new AssemblyPart(assembly));
+                if (partManager.ApplicationParts.Any(u => u.Name != assembly.GetName().Name))
+                {
+                    partManager.ApplicationParts.Add(new AssemblyPart(assembly));
+                }
             }
         }
 
@@ -75,12 +87,16 @@ public static class DynamicApiControllerServiceCollectionExtensions
     /// <returns>Mvc构建器</returns>
     public static IMvcBuilder AddExternalAssemblyParts(this IMvcBuilder mvcBuilder, IEnumerable<Assembly> assemblies)
     {
+        var partManager = mvcBuilder.PartManager;
         // 载入程序集部件
-        if (assemblies != null && assemblies.Any())
+        if (partManager != null && assemblies != null && assemblies.Any())
         {
             foreach (var assembly in assemblies)
             {
-                mvcBuilder.AddApplicationPart(assembly);
+                if (partManager.ApplicationParts.Any(u => u.Name != assembly.GetName().Name))
+                {
+                    mvcBuilder.AddApplicationPart(assembly);
+                }
             }
         }
 
