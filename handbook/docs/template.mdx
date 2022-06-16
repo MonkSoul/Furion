@@ -54,10 +54,18 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 // .NET5
 dotnet new --install Furion.Template.Mvc::2.20.3
 // .NET6
-dotnet new --install Furion.Template.Mvc::3.5.4
+dotnet new --install Furion.Template.Mvc::3.5.5
 // SqlSugar
-dotnet new --install Furion.SqlSugar.Template.Mvc::3.5.4
+dotnet new --install Furion.SqlSugar.Template.Mvc::3.5.5
 ```
+
+:::tip `SqlSugar` 脚手架基本使用
+
+在 `SqlSugar` 脚手架中，`Core` 层包含了一个 `DbContext.cs` 类，可通过 `DbContext.Instance` 就可以获取到 `SqlSugarScope` 对象。
+
+数据库链接字符串在启动层 `appsettings.json` 文件的 `ConnectionConfigs` 节点中配置，对应的是 `SqlSugar` 中的 `ConnectionConfig[]` 对象。
+
+:::
 
 ## 2.2.3 使用脚手架
 

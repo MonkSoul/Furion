@@ -7,8 +7,8 @@
     "distDir": "../build"
   },
   "package": {
-    "productName": "furion",
-    "version": "3.5.4"
+    "productName": "furion_docs",
+    "version": "3.5.5"
   },
   "tauri": {
     "allowlist": {
@@ -58,7 +58,7 @@
         "fullscreen": false,
         "height": 600,
         "resizable": true,
-        "title": "Furion 离线文档 v3.5.4",
+        "title": "Furion 离线文档 v3.5.5",
         "width": 800
       }
     ]
