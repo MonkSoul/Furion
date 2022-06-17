@@ -6,23 +6,44 @@ sidebar_label: 2.0 极速上手 ✨
 
 import useBaseUrl from "@docusaurus/useBaseUrl";
 
-:::tip 未来已来
+:::important 版本说明
 
-为了能够让大家极速体验 `Furion` 的强大易用，在 `v3.6.0+` 版本新增了 `Serve.Run()` 功能，只需要一行代码即可完成入门！
+以下内容仅限 `Furion 3.6.0 +` 版本使用。
+
+:::
+
+:::tip 推荐使用脚手架
+
+`Furion` 官方提供了非常灵活方便的脚手架，可以快速的创建多层架构项目。
+
+推荐使用 《[2.2 官方脚手架](template.mdx)》代替本章节功能。
 
 :::
 
 ## 2.0.1 历史背景
 
-**为什么还要搞这样的功能呢？**
+相信从 `ASP.NET 5` 使用到 `ASP.NET 6` 的开发者都经历过这样变更：
 
-我相信从 `ASP.NET 5` 升级到 `ASP.NET 6` 的朋友都经历过这样事情：
+- 在 `ASP.NET 5` 中，我们这样创建 `Web 主机`：
 
-- 在 `ASP.NET 5` 之后，我们通过 `Host.CreateDefaultBuilder(args)...` 这样的方式启动 `Web 主机` （参考一分钟入门）
-- 在 `ASP.NET 6` 之后，微软改了，通过 `WebApplication.CreateBuilder(args)...` 的方式启动 `Web 主机`（参考一分钟入门.NET6）
-- **那 `ASP.NET7，8...` 呢，微软是不是又搞一套？？！！**
+```cs showLineNumbers title="Program.cs"
+Host.CreateDefaultBuilder(args)
+    .ConfigureWebHostDefaults(webBuilder =>
+    {
+        webBuilder.UseStartup<Startup>();
+    });
+```
 
-**所以，`Furion` 为了保证一致的代码体验和后续无缝升级，创造出了 `Serve.Run()`，未来微软又做出改变，也不用担心了，`Furion` 帮你搞定，你的代码不用动！！**
+- 在 `ASP.NET 6` 中， 我们这样创建 `Web 主机`：
+
+```cs showLineNumbers title="Program.cs"
+var builder = WebApplication.CreateBuilder(args);
+var app = builder.Build();
+```
+
+试问，`ASP.NET 7` 呢？`ASP.NET 8` 呢？`ASP.NET N` 呢？会不会每一个版本都有不同的创建 `Web 主机` 方式，那后续我们的项目如何无缝升级？
+
+**所以，`Furion` 为了保证一致的代码体验和后续无缝升级，创造出了 `Serve.Run()`，即使未来创建 `Web 主机方式变了`，也不用担心，交给 `Furion` 框架即可。**
 
 ## 2.0.2 创建 `控制台` 项目
 
@@ -38,7 +59,7 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 <img src={useBaseUrl("img/03.png")} />
 
-:::tip 命令行方式
+:::tip 使用命令行方式
 
 ```bash showLineNumbers
 // 创建控制台项目
@@ -51,7 +72,7 @@ dotnet new console -n HelloFurion
 
 <img src={useBaseUrl("img/04.png")} />
 
-:::tip 命令行方式
+:::tip 使用命令行方式
 
 ```bash showLineNumbers
 // 进入创建的目录
@@ -314,6 +335,6 @@ dotnet publish -c Release
 - 想要快速创建 `API` 项目
 - ......
 
-以上列出的场景并不代表 `Serve.Run()` 只能干简单的项目，未来它会有更多可能性，现在只是第一步。
+以上列出的场景并不代表 `Serve.Run()` 只能创建简单的项目，未来它会有更多可能性，现在只是第一步。
 
 对于中大型生产级的项目暂时推荐使用**脚手架**项目架构优先。

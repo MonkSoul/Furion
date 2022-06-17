@@ -4,6 +4,7 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
 import Layout from "@theme/Layout";
 import components from "@theme/MDXComponents";
+import React from "react";
 import contributors from "../data/contributors";
 import urls from "../data/urls";
 import DockerIcon from "./docker.svg";
@@ -13,11 +14,12 @@ import KubernetesIcon from "./kubernetes.svg";
 import LinuxIcon from "./linux.svg";
 import MacOSIcon from "./macos.svg";
 import WindowIcon from "./windows.svg";
-import React from "react";
 
 function Home() {
   const context = useDocusaurusContext();
   const { siteConfig = {} } = context;
+
+  React.useEffect(() => {}, []);
 
   return (
     <Layout
@@ -81,7 +83,7 @@ function Banner() {
           <div className="furion-get-start-btn">
             <Link
               className="furion-get-start"
-              to={useBaseUrl("docs/get-start-net6")}
+              to={useBaseUrl("docs/serverun")}
             >
               我准备好了
             </Link>
