@@ -36,8 +36,9 @@ module.exports = {
       items: ["configuration", "options"],
     },
     {
-      type: "doc",
-      id: "dynamic-api-controller",
+      type: "category",
+      label: "5. 动态 WebAPI 和 HttpContext",
+      items: ["dynamic-api-controller", "httpcontext"],
     },
     {
       type: "doc",

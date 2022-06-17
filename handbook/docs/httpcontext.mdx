@@ -1,0 +1,139 @@
+---
+id: httpcontext
+title: 5.2 HttpContext
+sidebar_label: 5.2 HttpContext
+---
+
+import useBaseUrl from "@docusaurus/useBaseUrl";
+
+## 5.2.1 关于 `HttpContext`
+
+在 `ASP.NET` 的时代，我们通常通过 `HttpContext` 全局静态类获取请求上下文，但在 `ASP.NET Core` 中，`HttpContext` 是一个非静态的抽象类，无法手动创建，也无法通过静态获取。
+
+虽然在 `ASP.NET Core` 中无法直接获取 `HttpContext` 对象。但是微软也提供了注入 `IHttpContextAccessor` 方式获取。
+
+## 5.2.2 获取 `HttpContext`
+
+`ASP.NET Core` 和 `Furion` 提供了多种访问 `HttpContext` 的方式。
+
+### 5.2.2.1 在 `ControllerBase` 派生类中
+
+在 `ControllerBase` 派生类中，我们可以直接通过 `HttpContext` 属性获取 `HttpContext` 对象。
+
+```cs showLineNumbers {5-6}
+public class HomeController : Controller
+{
+    public IActionResult Index()
+    {
+        // 在这里HttpContext 是 Controller/ControllerBase 对象的属性
+        var httpContext = HttpContext;
+
+        return View();
+    }
+}
+```
+
+### 5.2.2.2 注入 `IHttpContextAccessor`
+
+在 `Furion` 框架中，默认已经注册了 `IHttpContextAccessor` 服务，所以我们可以通过构造函数注入该接口获取。
+
+```cs showLineNumbers  {3,5}
+public class AppService
+{
+    public AppService(IHttpContextAccessor httpContextAccessor)
+    {
+        var httpContext = httpContextAccessor.HttpContext;
+    }
+}
+```
+
+### 5.2.2.3 通过 `App.HttpContext`
+
+`App` 静态类也提供了 `App.HttpContext` 获取 `HttpContext` 对象。
+
+```cs showLineNumbers
+var request = App.HttpContext.Request;
+```
+
+:::tip 非 `Web` 中访问
+
+在 `Web` 完整的生命周期内，`App.HttpContext` 都是有效的，但在非 `Web` 中返回 `null`，避免在多线程，事件总线，定时任务等中使用。
+
+:::
+
+## 5.2.3 `HttpContext` 拓展方法
+
+`Furion` 框架基于 `HttpContext` 提供了一些常用的拓展方法。
+
+### 5.2.3.1 获取当前请求的特性 `Attribute`
+
+下列代码通常用于授权 `Handler` 中。
+
+```cs showLineNumbers
+var attribute = httpContext.GetMetadata<SomeAttribute>();
+```
+
+:::tip `Middleware` 中间件获取特性方式
+
+在 `Middleware` 中间件中获取有所区别，主要通过 `HttpContext` 的 `Features` 获取，如：
+
+```cs showLineNumbers
+var endpointFeature = httpContext.Features.Get<IEndpointFeature>();
+var attribute =  endpointFeature?.Endpoint?.Metadata?.GetMetadata<SomeAttribute>();
+```
+
+:::
+
+### 5.2.3.2 设置 `Swagger` 自动授权
+
+**`Swagger` 默认不能记住授权信息，一旦刷新浏览器就自动清空**，所以 `Furion` 提供了该拓展，即使刷新浏览器也能保持授权状态。
+
+```cs showLineNumbers {4-5}
+// 检查用户登录和生成 token 代码...
+// .....
+
+// 之后调用该拓展，这样就可以实现 Swagger 刷新也能记住登录了
+httpContext.SigninToSwagger("你的token");
+```
+
+### 5.2.3.3 退出 `Swagger` 授权
+
+通过后端代码强制性让 `Swagger` 授权实现，**只针对下一次请求有效！**
+
+```cs showLineNumbers
+httpContext.SignoutToSwagger();
+```
+
+### 5.2.3.4 获取本地 IP 地址
+
+```cs showLineNumbers
+// ipv4
+var ipv4 = httpContext.GetLocalIpAddressToIPv4();
+
+// ipv6
+var ipv6 = httpContext.GetLocalIpAddressToIPv6();
+```
+
+### 5.2.3.5 获取客户端 IP 地址
+
+```cs showLineNumbers
+// ipv4
+var ipv4 = httpContext.GetRemoteIpAddressToIPv4();
+
+// ipv6
+var ipv6 = httpContext.GetRemoteIpAddressToIPv6();
+```
+
+:::tip 获取不准问题
+
+如果服务器端使用了 `nginx` 等反向代理工具，那么此拓展可能无效，需要自己在配置客户端 `IP` 转发，然后手动获取。
+
+:::
+
+## 5.2.4 反馈与建议
+
+:::note 与我们交流
+
+给 Furion 提 [Issue](https://gitee.com/dotnetchina/Furion/issues/new?issue)。
+
+:::
