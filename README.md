@@ -27,13 +27,21 @@ dotnet add package Furion
 We have several examples [on the website](https://dotnetchina.gitee.io/furion). Here is the first one to get you started:
 
 ```cs
-var services = Inject.Create();
-services.AddRemoteRequest();
-services.Build();
+Serve.Run();
 
-var responseString = await "https://dotnet.microsoft.com/".GetAsStringAsync();
-responseString.LogInformation();
+[DynamicApiController]
+public class HelloService
+{
+    public string Say()
+    {
+        return "Hello, Furion";
+    }
+}
 ```
+
+打开浏览器访问 `https://localhost:5001`。
+
+Open browser access `https://localhost:5001`.
 
 ## 文档 / Documentation
 

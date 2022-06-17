@@ -8,7 +8,7 @@
   },
   "package": {
     "productName": "furion_docs",
-    "version": "3.5.7"
+    "version": "3.5.8"
   },
   "tauri": {
     "allowlist": {
@@ -58,7 +58,7 @@
         "fullscreen": false,
         "height": 600,
         "resizable": true,
-        "title": "Furion 离线文档 v3.5.7",
+        "title": "Furion 离线文档 v3.5.8",
         "width": 800
       }
     ]
