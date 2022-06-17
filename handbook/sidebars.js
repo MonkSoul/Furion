@@ -24,6 +24,7 @@ module.exports = {
         "reference",
         "inject",
         "net5-to-net6",
+        "globalusing"
       ],
     },
     {
