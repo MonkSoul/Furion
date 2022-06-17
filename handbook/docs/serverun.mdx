@@ -1,7 +1,7 @@
 ---
 id: serverun
-title: 2.0 零秒上手
-sidebar_label: 2.0 零秒上手 ✨
+title: 2.0 极速上手
+sidebar_label: 2.0 极速上手 ✨
 ---
 
 import useBaseUrl from "@docusaurus/useBaseUrl";
@@ -22,7 +22,7 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 - 在 `ASP.NET 6` 之后，微软改了，通过 `WebApplication.CreateBuilder(args)...` 的方式启动 `Web 主机`（参考一分钟入门.NET6）
 - **那 `ASP.NET7，8...` 呢，微软是不是又搞一套？？！！**
 
-**所以，`Furion` 为了保证一致的代码体验和后续无缝升级，创造出了 `Serve.Run()`，未来微软又来了，不用担心，`Furion` 帮你搞定，你的代码不用动！！**
+**所以，`Furion` 为了保证一致的代码体验和后续无缝升级，创造出了 `Serve.Run()`，未来微软又做出改变，也不用担心了，`Furion` 帮你搞定，你的代码不用动！！**
 
 ## 2.0.2 创建 `控制台` 项目
 
@@ -38,11 +38,33 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 <img src={useBaseUrl("img/03.png")} />
 
+:::tip 命令行方式
+
+```bash showLineNumbers
+// 创建控制台项目
+dotnet new console -n HelloFurion
+```
+
+:::
+
 ## 2.0.3 添加 `Furion` 依赖包
 
 <img src={useBaseUrl("img/04.png")} />
 
+:::tip 命令行方式
+
+```bash showLineNumbers
+// 进入创建的目录
+cd HelloFurion
+// 添加包
+dotnet add package Furion --version 3.6.0
+```
+
+:::
+
 ## 2.0.4 一句话搞定
+
+修改 `Program.cs` 代码为：
 
 ```cs showLineNumbers title="Program.cs"
 Serve.Run();
@@ -174,6 +196,8 @@ public class HelloService
 }
 ```
 
+<img src={useBaseUrl("img/07.png")} />
+
 ### 2.0.7.3 主机自定义配置
 
 ```cs showLineNumbers {10-13}
@@ -280,3 +304,16 @@ dotnet publish -c Release
 ```
 
 更多发布命令说明可查阅微软官方文档 [https://docs.microsoft.com/en-us/dotnet/core/tools/dotnet-publish](https://docs.microsoft.com/en-us/dotnet/core/tools/dotnet-publish)
+
+## 2.0.10 应用场景
+
+`Serve.Run()` 更适合以下几种应用场景
+
+- 想要快速上手 `Furion`
+- 想要快速创建一个测试项目
+- 想要快速创建 `API` 项目
+- ......
+
+以上列出的场景并不代表 `Serve.Run()` 只能干简单的项目，未来它会有更多可能性，现在只是第一步。
+
+对于中大型生产级的项目暂时推荐使用**脚手架**项目架构优先。
