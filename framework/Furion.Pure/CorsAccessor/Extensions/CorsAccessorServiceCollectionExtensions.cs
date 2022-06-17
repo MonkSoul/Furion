@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2020-2022 百小僧, Baiqian Co.,Ltd.
+// Copyright (c) 2020-2022 百小僧, Baiqian Co.,Ltd.
 // Furion is licensed under Mulan PSL v2.
 // You can use this software according to the terms and conditions of the Mulan PSL v2.
 // You may obtain a copy of Mulan PSL v2 at:
@@ -71,9 +71,6 @@ public static class CorsAccessorServiceCollectionExtensions
             // 添加自定义配置
             corsOptionsHandler?.Invoke(options);
         });
-
-        // 添加响应压缩
-        services.AddResponseCaching();
 
         return services;
     }
