@@ -88,10 +88,10 @@ public class ToDoController : ControllerBase
 
 ```cs showLineNumbers  {2,5}
 // 注册 EventBus 服务
-services.AddEventBus(buidler =>
+services.AddEventBus(builder =>
 {
     // 注册 ToDo 事件订阅者
-    buidler.AddSubscriber<ToDoEventSubscriber>();
+    builder.AddSubscriber<ToDoEventSubscriber>();
 
     // 批量注册事件订阅者
     builder.AddSubscribers(ass1, ass2, ....);
@@ -100,7 +100,7 @@ services.AddEventBus(buidler =>
 
 :::tip 懒人提醒
 
-在 `Furion` 中可以不用通过 `buidler.AddSubscriber<T>()` 方式一一注册，只需要实现 `ISingleton` 接口即可，如：
+在 `Furion` 中可以不用通过 `builder.AddSubscriber<T>()` 方式一一注册，只需要实现 `ISingleton` 接口即可，如：
 
 ```cs showLineNumbers  {1}
 public class ToDoEventSubscriber : IEventSubscriber, ISingleton
@@ -108,7 +108,7 @@ public class ToDoEventSubscriber : IEventSubscriber, ISingleton
 }
 ```
 
-这样就无需写 ~~`buidler.AddSubscriber<ToDoEventSubscriber>();`~~ 代码了。
+这样就无需写 ~~`builder.AddSubscriber<ToDoEventSubscriber>();`~~ 代码了。
 
 :::
 
@@ -199,10 +199,10 @@ public class RedisEventSourceStorer : IEventSourceStorer
 最后，在注册 `EventBus` 服务中替换默认 `IEventSourceStorer`：
 
 ```cs showLineNumbers  {4-8}
-services.AddEventBus(buidler =>
+services.AddEventBus(builder =>
 {
     // 替换事件源存储器
-    buidler.ReplaceStorer(serviceProvider =>
+    builder.ReplaceStorer(serviceProvider =>
     {
         var redisClient = serviceProvider.GetService<IRedisClient>();
         return new RedisEventSourceStorer(redisClient);
@@ -236,10 +236,10 @@ public class ToDoEventPublisher : IEventPublisher
 最后，在注册 `EventBus` 服务中替换默认 `IEventPublisher`：
 
 ```cs showLineNumbers  {4}
-services.AddEventBus(buidler =>
+services.AddEventBus(builder =>
 {
     // 替换事件源存储器
-    buidler.ReplacePublisher<ToDoEventPublisher>();
+    builder.ReplacePublisher<ToDoEventPublisher>();
 });
 ```
 
@@ -281,10 +281,10 @@ public class ToDoEventHandlerMonitor : IEventHandlerMonitor
 最后，在注册 `EventBus` 服务中注册 `ToDoEventHandlerMonitor`：
 
 ```cs showLineNumbers  {4}
-services.AddEventBus(buidler =>
+services.AddEventBus(builder =>
 {
     // 添加事件执行监视器
-    buidler.AddMonitor<ToDoEventHandlerMonitor>();
+    builder.AddMonitor<ToDoEventHandlerMonitor>();
 });
 ```
 
@@ -310,10 +310,10 @@ public class RetryEventHandlerExecutor : IEventHandlerExecutor
 最后，在注册 `EventBus` 服务中注册 `RetryEventHandlerExecutor`：
 
 ```cs showLineNumbers  {4}
-services.AddEventBus(buidler =>
+services.AddEventBus(builder =>
 {
     // 添加事件执行器
-    buidler.AddExecutor<RetryEventHandlerExecutor>();
+    builder.AddExecutor<RetryEventHandlerExecutor>();
 });
 ```
 
@@ -350,10 +350,10 @@ public class ToDoEventSubscriber : IEventSubscriber
 ## 22.8 订阅执行任务意外异常
 
 ```cs showLineNumbers  {4}
-services.AddEventBus(buidler =>
+services.AddEventBus(builder =>
 {
     // 订阅 EventBus 未捕获异常
-    buidler.UnobservedTaskExceptionHandler = (obj, args) =>
+    builder.UnobservedTaskExceptionHandler = (obj, args) =>
     {
         // ....
     };
