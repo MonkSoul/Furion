@@ -35,6 +35,9 @@ public static class HostBuilderExtensions
         var combineAssembliesName = $"{defaultAssemblyName};{environmentVariables}".ClearStringAffixes(1, ";");
 
         hostBuilder.UseSetting(WebHostDefaults.HostingStartupAssembliesKey, combineAssembliesName);
+
+        // 实现假的 Starup，解决泛型主机启动问题
+        hostBuilder.UseStartup<FakeStartup>();
         return hostBuilder;
     }
 

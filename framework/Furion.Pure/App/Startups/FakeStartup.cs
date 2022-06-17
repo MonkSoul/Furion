@@ -6,12 +6,27 @@
 // THIS SOFTWARE IS PROVIDED ON AN "AS IS" BASIS, WITHOUT WARRANTIES OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO NON-INFRINGEMENT, MERCHANTABILITY OR FIT FOR A PARTICULAR PURPOSE.
 // See the Mulan PSL v2 for more details.
 
-namespace System;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
+
+namespace Furion;
 
 /// <summary>
-/// 动态 WebApi 特性
+/// 模拟 Starup，解决不设置 UseStartup 时错误问题
 /// </summary>
-[SuppressSniffer, AttributeUsage(AttributeTargets.Class)]
-public sealed class DynamicApiControllerAttribute : Attribute
+public sealed class FakeStartup
 {
+    /// <summary>
+    /// 配置服务
+    /// </summary>
+    public void ConfigureServices(IServiceCollection _)
+    {
+    }
+
+    /// <summary>
+    /// 配置请求
+    /// </summary>
+    public void Configure(IApplicationBuilder _)
+    {
+    }
 }
