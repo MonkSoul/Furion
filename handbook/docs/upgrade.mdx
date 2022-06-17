@@ -18,7 +18,48 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 > - 如果涉及到代码重构，则当天发版，次版本号 `加 1`，修订版本号 `清 0`。
 > - 如果 `.NET SDK` 主版本号升级，则当天发版，主版本号 `加 1`。 -->
 
-## v3.5.8（当前版本）
+## v3.6.0（当前版本）
+
+- **新特性**
+
+  - [新增] `Serve.Run()` 极简主机模式，真正实现零入门。[95cac5b](https://gitee.com/dotnetchina/Furion/commit/95cac5b391b70d73bfc94147ee40eef529b2eec6)
+  - [新增] `TP.Wrapper(...)` 拓展方法，主要用来生成规范化的日志模板 [427999a](https://gitee.com/dotnetchina/Furion/commit/427999aba4847522ea91c42df6164e5fe69c5bc0)
+  - [支持] 项目类型为 `<Project Sdk="Microsoft.NET.Sdk">` 的控制台项目 [fb08a65](https://gitee.com/dotnetchina/Furion/commit/fb08a6548d49921aa143d01389a2592b92e94e31)
+
+- **突破性变化**
+
+  - [支持] 项目类型为 `<Project Sdk="Microsoft.NET.Sdk">` 的控制台项目 [fb08a65](https://gitee.com/dotnetchina/Furion/commit/fb08a6548d49921aa143d01389a2592b92e94e31)
+  - [新增] `Serve.Run()` 极简主机模式，真正实现零入门。[95cac5b](https://gitee.com/dotnetchina/Furion/commit/95cac5b391b70d73bfc94147ee40eef529b2eec6)
+
+- **文档**
+
+  - [新增] `Serve.Run()` 文档
+  - [新增] `HttpContext` 文档
+  - [新增] `GlobalUsings` 文档
+  - [新增] `TP` 全局静态类文档
+
+- **本期亮点**
+
+1. **零秒入门**
+
+```cs showLineNumbers title="Program.cs" {3,6}
+Serve.Run();
+
+[DynamicApiController]
+public class HelloService
+{
+    public string Say()
+    {
+        return "Hello, Furion";
+    }
+}
+```
+
+惊呆了吗！！
+
+---
+
+## v3.5.7（已发布）
 
 - **新特性**
 
@@ -30,13 +71,10 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
   - [新增] `Dapper` 拓展全局配置委托 [#I5AYFX](https://gitee.com/dotnetchina/Furion/issues/I5AYFX)
   - [新增] `sql` 转实体支持多种命名策略（纯大写，纯小写，带下划线分割等等），如 `Oracle` 数据库 [a90e245](https://gitee.com/dotnetchina/Furion/commit/a90e24516387e088b2c427e6b99d3dab937116c9)
   - [新增] `FS.InitalContentTypeProvider()` 拓展方法，获取系统内所有支持的 `Content-Type` 文件提供器 [6099900](https://gitee.com/dotnetchina/Furion/commit/6099900472d93dab7012f0b091b05c914be11c4a)
-  - [新增] `TP.Wrapper(...)` 拓展方法，主要用来生成规范化的日志模板 [427999a](https://gitee.com/dotnetchina/Furion/commit/427999aba4847522ea91c42df6164e5fe69c5bc0)
 
 - **突破性变化**
 
   - [解决] 彻底解决了 `Furion` 不能单文件发布的问题 [7e8e0b7](https://gitee.com/dotnetchina/Furion/commit/7e8e0b708bcdac670aa835dec5cd494d41ff3648)
-  - [支持] 项目类型为 `<Project Sdk="Microsoft.NET.Sdk">` 的控制台项目 [fb08a65](https://gitee.com/dotnetchina/Furion/commit/fb08a6548d49921aa143d01389a2592b92e94e31)
-  - [新增] `Serve.Run()` 极简主机模式，真正实现零入门。
 
 - **问题修复**
 
@@ -57,7 +95,6 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
   - [新增] `Furion` 单文件发布文档
   - [新增] `Furion + SqlSugar` 脚手架文档
-  - [新增] `TP` 全局静态类文档
   - [更新] 事件总线文档、选项文档、即时通讯文档、`.NET5` 升级 `.NET6` 文档、依赖注入文档、跨域文档、数据加解密文档
 
 - **本期亮点**

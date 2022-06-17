@@ -18,13 +18,14 @@ module.exports = {
       type: "category",
       label: "2. 入门指南",
       items: [
+        "serverun",
         "get-start",
         "get-start-net6",
         "template",
         "reference",
         "inject",
         "net5-to-net6",
-        "globalusing"
+        "globalusing",
       ],
     },
     {

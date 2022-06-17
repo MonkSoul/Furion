@@ -1,0 +1,282 @@
+---
+id: serverun
+title: 2.0 零秒上手
+sidebar_label: 2.0 零秒上手 ✨
+---
+
+import useBaseUrl from "@docusaurus/useBaseUrl";
+
+:::tip 未来已来
+
+为了能够让大家极速体验 `Furion` 的强大易用，在 `v3.6.0+` 版本新增了 `Serve.Run()` 功能，只需要一行代码即可完成入门！
+
+:::
+
+## 2.0.1 历史背景
+
+**为什么还要搞这样的功能呢？**
+
+我详细从 `ASP.NET 5` 升级到 `ASP.NET 6` 的朋友都经历过这样事情：
+
+- 在 `ASP.NET 5` 之后，我们通过 `Host.CreateDefaultBuilder(args)...` 这样的方式启动 `Web 主机` （参考一分钟入门）
+- 在 `ASP.NET 6` 之后，微软改了，通过 `WebApplication.CreateBuilder(args)...` 的方式启动 `Web 主机`（参考一分钟入门.NET6）
+- **那 `ASP.NET7，8...` 呢，微软是不是又搞一套？？！！**
+
+**所以，`Furion` 为了保证一致的代码体验和后续无缝升级，创造出了 `Serve.Run()`，未来微软又来了，不用担心，`Furion` 帮你搞定，你的代码不用动！！**
+
+## 2.0.2 创建 `控制台` 项目
+
+- 打开 `Visual Studio 2022` 并创建 `控制台` 项目
+
+<img src={useBaseUrl("img/01.png")} />
+
+- 配置项目名称
+
+<img src={useBaseUrl("img/02.png")} />
+
+- 选择 `.NET6`
+
+<img src={useBaseUrl("img/03.png")} />
+
+## 2.0.3 添加 `Furion` 依赖包
+
+<img src={useBaseUrl("img/04.png")} />
+
+## 2.0.4 一句话搞定
+
+```cs showLineNumbers title="Program.cs"
+Serve.Run();
+```
+
+对，你没看错，`Furion` 已经配置好了！
+
+## 2.0.5 启动浏览器
+
+启动浏览器查看效果
+
+<img src={useBaseUrl("img/05.png")} />
+
+<img src={useBaseUrl("img/06.png")} />
+
+是不是超级超级简单！！！
+
+## 2.0.6 编写第一个 `API`
+
+```cs showLineNumbers title="Program.cs" {3,6}
+Serve.Run();
+
+[DynamicApiController]
+public class HelloService
+{
+    public string Say()
+    {
+        return "Hello, Furion";
+    }
+}
+```
+
+启动浏览器查看效果
+
+<img src={useBaseUrl("img/07.png")} />
+
+## 2.0.7 `Serve.Run()` 更多配置
+
+### 2.0.7.1 配置默认端口
+
+默认情况下，创建的 `Web` 主机端口为 `5000/5001` 端口，如需自定义配置，可通过第一个参数配置
+
+```cs showLineNumbers
+Serve.Run("https://localhost:8080");
+```
+
+### 2.0.7.2 完全自定义配置
+
+以下功能相当于完全自定义，也就是除了默认集成了 `Furion` 以外，没有注册任何功能。
+
+```cs showLineNumbers {5,9}
+using Microsoft.AspNetCore.Hosting;
+
+Serve.Run(b =>
+{
+    b.ConfigureServices(services =>
+    {
+        // 注册 服务
+    })
+    .Configure(app =>
+    {
+        // 注册中间件
+    });
+});
+```
+
+更多重置配置
+
+```cs showLineNumbers {6,16}
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.DependencyInjection;
+
+Serve.Run(b =>
+{
+    b.ConfigureServices((context, services) =>
+    {
+        // 获取配置
+        var configuration = context.Configuration;
+
+        // 获取环境
+        var environment = context.HostingEnvironment;
+
+        // 注册服务等等
+    })
+    .Configure((context, app) =>
+    {
+        // 获取配置
+        var configuration = context.Configuration;
+
+        // 获取环境
+        var environment = context.HostingEnvironment;
+
+        // 注册其他中间件等等
+    });
+});
+```
+
+### 2.0.7.2 一个自定义小例子
+
+```cs showLineNumbers {7-19}
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.DependencyInjection;
+
+Serve.Run(b =>
+{
+    b.ConfigureServices(services =>
+    {
+        services.AddControllers().AddInject();
+    })
+    .Configure(app =>
+    {
+        app.UseRouting();
+        app.UseInject(string.Empty);
+        app.UseEndpoints(endpoints =>
+        {
+            endpoints.MapControllers();
+        });
+    });
+});
+
+[DynamicApiController]
+public class HelloService
+{
+    public string Say()
+    {
+        return "Hello, Furion";
+    }
+}
+```
+
+### 2.0.7.3 主机自定义配置
+
+```cs showLineNumbers {10-13}
+Serve.Run(b =>
+{
+    b.ConfigureServices(services =>
+    {
+    })
+    .Configure(app =>
+    {
+    });
+},
+hostBuilderConfigure: h =>
+{
+    // h.ConfigureAppConfiguration(....
+});
+```
+
+## 2.0.8 支持 `Furion` 所有功能
+
+`Serve.Run()` 看似非常简单，实则非常灵活，而且支持 `Furion` 和 `.NET` 所有功能。
+
+### 2.0.8.1 添加 `appsettings.json`
+
+创建 `appsettings.json` 文件，并设置 `属性` 为 `如果较新则复制` 和 `内容`（生成操作）
+
+```json showLineNumbers
+{
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft": "Warning",
+      "Microsoft.Hosting.Lifetime": "Information",
+      "Microsoft.EntityFrameworkCore": "Information"
+    }
+  },
+  "AllowedHosts": "*"
+}
+```
+
+在代码中读取配置：
+
+```cs showLineNumbers {10}
+using Furion;
+
+Serve.Run();
+
+[DynamicApiController]
+public class HelloService
+{
+    public string Say()
+    {
+        return "Hello, Furion " + App.Configuration["Logging:LogLevel:Default"];
+    }
+}
+```
+
+<img src={useBaseUrl("img/08.png")} />
+
+### 2.0.8.2 添加自定义 `Startup`
+
+在 `Furion` 中可以派生自 `AppStartup` 可以实现更多配置，如：
+
+```cs showLineNumbers {8,10,12,15,17} title="MyStartup.cs"
+using Furion;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.DependencyInjection;
+
+namespace HelloFurion
+{
+    public class MyStartup : AppStartup
+    {
+        public void ConfigureServices(IServiceCollection services)
+        {
+            Console.WriteLine("调用服务注册啦~~");
+        }
+
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        {
+            Console.WriteLine("调用中间件注册啦");
+        }
+    }
+}
+
+```
+
+<img src={useBaseUrl("img/09.png")} />
+
+### 2.0.7.3 还没看够？
+
+是不是非常强大啊，`Serve.Run()` 虽然简单，但是 100% 支持 `Furion` 和 `.NET` 所有功能。
+
+尽情去体验吧。
+
+## 2.0.9 如何发布
+
+由于是控制台应用程序，我们直接将 `Visual Studio` 切换成 `Release` 编译即可~~。
+
+也可以通过下列命令发布：
+
+```bash showLineNumbers
+dotnet publish -c Release
+```
+
+更多发布命令说明可查阅微软官方文档 [https://docs.microsoft.com/en-us/dotnet/core/tools/dotnet-publish](https://docs.microsoft.com/en-us/dotnet/core/tools/dotnet-publish)
