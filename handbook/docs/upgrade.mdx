@@ -31,6 +31,10 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
   - [支持] 项目类型为 `<Project Sdk="Microsoft.NET.Sdk">` 的控制台项目 [fb08a65](https://gitee.com/dotnetchina/Furion/commit/fb08a6548d49921aa143d01389a2592b92e94e31)
   - [新增] `Serve.Run()` 极简主机模式，真正实现零入门。[95cac5b](https://gitee.com/dotnetchina/Furion/commit/95cac5b391b70d73bfc94147ee40eef529b2eec6)
 
+- **问题修复**
+
+  - [修复] 修复默认注册的 `services.AddResponseCaching();` 服务导致 `.axd` 内嵌资源请求错误问题 [!495](https://gitee.com/dotnetchina/Furion/pulls/495)
+
 - **文档**
 
   - [新增] `Serve.Run()` 文档
