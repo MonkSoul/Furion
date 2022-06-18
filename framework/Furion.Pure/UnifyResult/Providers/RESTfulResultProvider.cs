@@ -50,6 +50,8 @@ public class RESTfulResultProvider : IUnifyResultProvider
     /// <returns></returns>
     public IActionResult OnValidateFailed(ActionExecutingContext context, ValidationMetadata metadata)
     {
+        // 如果是 MVC 控制器，可以选择返回 BadPageResult，如 return new new BadPageResult(400) { Code = metadata.Message };
+
         return new JsonResult(RESTfulResult(StatusCodes.Status400BadRequest, errors: metadata.ValidationResult));
     }
 

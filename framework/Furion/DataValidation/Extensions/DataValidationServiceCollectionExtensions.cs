@@ -83,10 +83,10 @@ public static class DataValidationServiceCollectionExtensions
         // 判断是否启用全局
         if (configureOptions.EnableGlobalDataValidation)
         {
-            // 添加自定义验证
+            // 启用了全局验证，则默认关闭原生 ModelStateInvalidFilter 验证
             services.Configure<ApiBehaviorOptions>(options =>
             {
-                options.SuppressModelStateInvalidFilter = true;
+                options.SuppressModelStateInvalidFilter = configureOptions.SuppressModelStateInvalidFilter;
             });
 
             // 添加全局数据验证

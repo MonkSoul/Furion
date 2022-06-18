@@ -7,6 +7,7 @@
 // See the Mulan PSL v2 for more details.
 
 using Furion.DynamicApiController;
+using Furion.FriendlyException;
 using Furion.UnifyResult;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Controllers;
@@ -71,7 +72,8 @@ public sealed class DataValidationFilter : IActionFilter, IOrderedFilter
         // 获取验证状态
         var modelState = context.ModelState;
 
-        // 判断是否验证成功
+        // 判断是否验证成功，只针对参数没有验证特性的情况下
+        // 如果参数贴了验证特性，还是会验证
         if (modelState.IsValid) return;
 
         // 如果其他过滤器已经设置了结果，那么跳过
@@ -83,15 +85,27 @@ public sealed class DataValidationFilter : IActionFilter, IOrderedFilter
         // 判断是否跳过规范化结果，如果跳过，返回 400 BadRequestResult
         if (UnifyContext.CheckFailedNonUnify(actionDescriptor.MethodInfo, out var unifyResult))
         {
-            if (!Penetrates.IsApiController(method.DeclaringType))
+            // WebAPI 情况
+            if (Penetrates.IsApiController(method.DeclaringType))
             {
-                context.Result = new BadRequestResult();
+                // 如果不启用 SuppressModelStateInvalidFilter，则跳过，理应手动验证
+                if (!_apiBehaviorOptions.SuppressModelStateInvalidFilter)
+                {
+                    context.Result = _apiBehaviorOptions.InvalidModelStateResponseFactory(context);
+                }
             }
-            else context.Result = _apiBehaviorOptions.InvalidModelStateResponseFactory(context);
+            else
+            {
+                // 返回自定义错误页面
+                context.Result = new BadPageResult(400)
+                {
+                    Code = validationMetadata.Message
+                };
+            }
         }
         else
         {
-            // 判断是否支持 MVC 规范化处理
+            // 判断是否支持 MVC 规范化处理，一旦启用，则自动调用规范化提供器进行操作
             if (!UnifyContext.CheckSupportMvcController(context.HttpContext, actionDescriptor, out _)) return;
 
             context.Result = unifyResult.OnValidateFailed(context, validationMetadata);

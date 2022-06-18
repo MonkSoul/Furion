@@ -1,15 +1,15 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
 
-namespace Furion.Web.Entry.Controllers
+namespace Furion.Web.Entry.Controllers;
+
+[Route("api/[controller]")]
+[ApiController]
+public class TestApiController : ControllerBase
 {
-    //[Route("api/[controller]")]
-    public class TestApiController : Controller
+    [HttpGet, NonUnify]
+    public string TestApi([MinLength(3)] string name)
     {
-        //[HttpGet]
-        [HttpGet("api/test")]
-        public IActionResult Index()
-        {
-            return Content("ddd");
-        }
+        return "Furion " + name;
     }
 }

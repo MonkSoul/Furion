@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
+using System.ComponentModel.DataAnnotations;
 
 namespace Furion.Web.Entry.Controllers;
 
@@ -48,5 +49,11 @@ public class HomeController : Controller
         {
             return 401;
         }
+    }
+
+    [NonUnify]
+    public IActionResult TestValidate([Required, MinLength(3)] string data)
+    {
+        return Content("数据");
     }
 }

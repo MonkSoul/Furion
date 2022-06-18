@@ -23,15 +23,21 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
   - [新增] `Serve.Run()` 极简主机模式，真正实现零入门。[95cac5b](https://gitee.com/dotnetchina/Furion/commit/95cac5b391b70d73bfc94147ee40eef529b2eec6)
   - [新增] `TP.Wrapper(...)` 拓展方法，主要用来生成规范化的日志模板 [427999a](https://gitee.com/dotnetchina/Furion/commit/427999aba4847522ea91c42df6164e5fe69c5bc0)
   - [支持] 项目类型为 `<Project Sdk="Microsoft.NET.Sdk">` 的控制台项目 [fb08a65](https://gitee.com/dotnetchina/Furion/commit/fb08a6548d49921aa143d01389a2592b92e94e31)
+  - [新增] `BadPageResult` 错误页面类型 [!494](https://gitee.com/dotnetchina/Furion/pulls/495)
 
 - **突破性变化**
 
   - [支持] 项目类型为 `<Project Sdk="Microsoft.NET.Sdk">` 的控制台项目 [fb08a65](https://gitee.com/dotnetchina/Furion/commit/fb08a6548d49921aa143d01389a2592b92e94e31)
   - [新增] `Serve.Run()` 极简主机模式，真正实现零入门。[95cac5b](https://gitee.com/dotnetchina/Furion/commit/95cac5b391b70d73bfc94147ee40eef529b2eec6)
+  - [调整] 未启用规范化结果时，`MVC` 验证失败返回 `BadPageResult()` 页面类型 [!494](https://gitee.com/dotnetchina/Furion/pulls/495)
 
 - **问题修复**
 
   - [修复] 修复默认注册的 `services.AddResponseCaching();` 服务导致 `.axd` 内嵌资源请求错误问题 [!495](https://gitee.com/dotnetchina/Furion/pulls/495)
+
+- **其他更改**
+
+  - [调整] 开放验证服务选项 `SuppressModelStateInvalidFilter` 属性为可配置 [!494](https://gitee.com/dotnetchina/Furion/pulls/495)
 
 - **文档**
 
@@ -39,6 +45,10 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
   - [新增] `HttpContext` 文档
   - [新增] `GlobalUsings` 文档
   - [新增] `TP` 全局静态类文档
+
+- **精彩贡献**
+
+  - [!494](https://gitee.com/dotnetchina/Furion/pulls/494) 优秀 `Pull Request` 辩论典范
 
 - **本期亮点**
 

@@ -161,7 +161,23 @@ namespace Furion.Web.Entry
 
 使用同上 `UseInject()`。
 
-## 2.4.6 反馈与建议
+## 2.4.6 配置 `Inject()` 默认注册服务
+
+所有  `.Inject` 方法都可以传入委托，通过委托可以进一步去配置默认行为。如：
+
+```cs showLineNumbers {1}
+.AddInject(options =>
+{
+    options.DataValidationConfigure = (d) =>
+    {
+        d.EnableGlobalDataValidation = false;
+    };
+
+    // ....
+});
+```
+
+## 2.4.7 反馈与建议
 
 :::note 与我们交流
 
