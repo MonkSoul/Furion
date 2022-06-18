@@ -31,10 +31,6 @@ function generate($path, $templates){
     Write-Output "生成成功";
 }
 
-Write-Output "正在生成所有模板 Nupkg 包......";
-
-Write-Output "-----------------";
-
 # 生成 EFCore Nupkg 包
 generate -path $efcore_path -templates $efcore_templates
 
