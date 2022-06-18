@@ -1,3 +1,7 @@
-https://www.cnblogs.com/laozhang-is-phi/p/10205495.html
+## 使用指南
 
-https://www.cnblogs.com/catcher1994/p/10061470.html
+打开 `PowerShell` 终端，并进入当前目录，执行 `generate.ps` 脚本，将自动生成所有模板脚手架的 `.nupkg` 包。
+
+```powershell
+&"./generate.ps1"
+```
