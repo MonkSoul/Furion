@@ -277,7 +277,7 @@ namespace Furion.Application
 
 :::
 
-```cs showLineNumbers 
+```cs showLineNumbers
 Oops.Retry(() => {
     // Do.....
 }, 3, 1000);
@@ -643,7 +643,7 @@ namespace Furion.UnifyResult
 
 之后在 `Startup.cs` 中注册即可：
 
-```cs showLineNumbers 
+```cs showLineNumbers
 services.AddControllers()
         .AddInjectWithUnifyResult<RESTfulResultProvider>();
 ```
@@ -680,7 +680,7 @@ namespace Furion.Application
 
 配置示例
 
-```json showLineNumbers 
+```json showLineNumbers
 {
   "FriendlyExceptionSettings": {
     "DefaultErrorMessage": "系统异常，请联系管理员"
@@ -688,7 +688,39 @@ namespace Furion.Application
 }
 ```
 
-## 7.16 反馈与建议
+## 7.16 `BadPageResult` 错误页
+
+:::important 版本说明
+
+以下内容仅限 `Furion 3.6.1 +` 版本使用。
+
+:::
+
+`Furion` 在该版本之后内置了 `BadPageResult` 错误结果类型，该类型派生自 `IActionResult`，如需返回只需要在 `Action` 中返回即可。
+
+```cs showLineNumbers{1,7}
+using Furion.FriendlyException;
+
+public IActionResult Add(Person person)
+{
+    if(!ModelState.IsValid)
+    {
+        return new BadPageResult();
+    }
+}
+```
+
+<img src={useBaseUrl("img/er1.png")} />
+
+- `BadPageResult` 更多配置
+  - 构造函数 `statusCode`：状态码，`int` 类，默认 400
+  - `Title`：页面标题，`string` 类型，默认 `ModelState Invalid`
+  - `Description`：页面描述，`string` 类型，默认 `User data verification failed. Please input it correctly.`
+  - `Code`：详细错误代码，`string` 类型，支持 `代码`，默认空字符串
+  - `CodeLang`：详细错误代码语言，`string` 类型，默认 `json`
+  - `Base64Icon`：页面图标，`string` 类型，带默认值，自定义必须是 `base64` 格式图标
+
+## 7.17 反馈与建议
 
 :::note 与我们交流
 

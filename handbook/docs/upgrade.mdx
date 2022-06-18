@@ -20,7 +20,7 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 - **新特性**
 
-  - [新增] `Serve.Run()` 极简主机模式，真正实现零入门。[95cac5b](https://gitee.com/dotnetchina/Furion/commit/95cac5b391b70d73bfc94147ee40eef529b2eec6)
+  - [新增] `Serve.Run()` 极简主机模式，真正实现极速入门。[95cac5b](https://gitee.com/dotnetchina/Furion/commit/95cac5b391b70d73bfc94147ee40eef529b2eec6)
   - [新增] `TP.Wrapper(...)` 拓展方法，主要用来生成规范化的日志模板 [427999a](https://gitee.com/dotnetchina/Furion/commit/427999aba4847522ea91c42df6164e5fe69c5bc0)
   - [支持] 项目类型为 `<Project Sdk="Microsoft.NET.Sdk">` 的控制台项目 [fb08a65](https://gitee.com/dotnetchina/Furion/commit/fb08a6548d49921aa143d01389a2592b92e94e31)
   - [新增] `BadPageResult` 错误页面类型 [!494](https://gitee.com/dotnetchina/Furion/pulls/495)
@@ -52,7 +52,7 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 - **本期亮点**
 
-1. **零秒入门**
+1. **极速入门**
 
 ```cs showLineNumbers title="Program.cs" {3,6}
 Serve.Run();
@@ -67,7 +67,25 @@ public class HelloService
 }
 ```
 
-惊呆了吗！！
+启动浏览器查看效果，惊呆了吗！
+
+<img src={useBaseUrl("img/07.png")} />
+
+2. **内置错误页**
+
+```cs showLineNumbers{1,7}
+using Furion.FriendlyException;
+
+public IActionResult Add(Person person)
+{
+    if(!ModelState.IsValid)
+    {
+        return new BadPageResult();
+    }
+}
+```
+
+<img src={useBaseUrl("img/er1.png")} />
 
 ---
 

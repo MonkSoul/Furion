@@ -45,9 +45,20 @@ public class BadPageResult : StatusCodeResult
     public string Description { get; set; } = "User data verification failed. Please input it correctly.";
 
     /// <summary>
+    /// 图标
+    /// </summary>
+    /// <remarks>必须是 base64 类型</remarks>
+    public string Base64Icon { get; set; } = "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTE0LjIxIDEzLjVsMS43NjcgMS43NzMtLjcwNC43MDRMMTMuNSAxNC4yMWwtMS43NzMgMS43NzMtLjcwNC0uNzEgMS43NzQtMS43NzQtMS43NzQtMS43NzMuNzA0LS43MDQgMS43NzMgMS43NzQgMS43NzMtMS43NzQuNzA0LjcxMUwxNC4yMSAxMy41ek0yIDE1aDh2MUgxVjBoOC43MUwxNCA0LjI5VjEwaC0xVjVIOVYxSDJ2MTR6bTgtMTFoMi4yOUwxMCAxLjcxVjR6IiBmaWxsPSIjMTAxMDEwIi8+PC9zdmc+";
+
+    /// <summary>
     /// 错误代码
     /// </summary>
-    public string Code { get; set; }
+    public string Code { get; set; } = "";
+
+    /// <summary>
+    /// 错误代码语言
+    /// </summary>
+    public string CodeLang { get; set; } = "json";
 
     /// <summary>
     /// 重写返回结果
@@ -77,7 +88,9 @@ public class BadPageResult : StatusCodeResult
         content = content.Replace($"@{{{nameof(Title)}}}", Title)
                          .Replace($"@{{{nameof(Description)}}}", Description)
                          .Replace($"@{{{nameof(StatusCode)}}}", StatusCode.ToString())
-                         .Replace($"@{{{nameof(Code)}}}", Code);
+                         .Replace($"@{{{nameof(Code)}}}", Code)
+                         .Replace($"@{{{nameof(CodeLang)}}}", CodeLang)
+                         .Replace($"@{{{nameof(Base64Icon)}}}", Base64Icon); ;
 
         var httpContext = context.HttpContext;
         httpContext.Response.Body.WriteAsync(Encoding.UTF8.GetBytes(content));

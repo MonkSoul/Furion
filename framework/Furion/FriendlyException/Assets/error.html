@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="@{Description}" />
     <title>@{Title}</title>
     <style>
         html,
@@ -34,7 +35,7 @@
         }
 
         .icon-page-error {
-            content: url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTE0LjIxIDEzLjVsMS43NjcgMS43NzMtLjcwNC43MDRMMTMuNSAxNC4yMWwtMS43NzMgMS43NzMtLjcwNC0uNzEgMS43NzQtMS43NzQtMS43NzQtMS43NzMuNzA0LS43MDQgMS43NzMgMS43NzQgMS43NzMtMS43NzQuNzA0LjcxMUwxNC4yMSAxMy41ek0yIDE1aDh2MUgxVjBoOC43MUwxNCA0LjI5VjEwaC0xVjVIOVYxSDJ2MTR6bTgtMTFoMi4yOUwxMCAxLjcxVjR6IiBmaWxsPSIjMTAxMDEwIi8+PC9zdmc+);
+            content: url(@{Base64Icon});
         }
 
         h1 {
@@ -125,7 +126,7 @@
                 <p>@{Description}</p>
                 <details>
                     <summary>See more details.</summary>
-                    <pre class="code" data-language="json">
+                    <pre class="code" data-language="@{CodeLang}">
 @{Code}</pre>
                 </details>
                 <div class="error-code">HTTP ERROR @{StatusCode}</div>
@@ -133,28 +134,28 @@
         </div>
     </div>
     <script type="text/javascript">
-      var codes = document.querySelectorAll(".code");
-      Array.prototype.forEach.call(codes, function (code, i) {
-        var language = code.getAttribute("data-language");
-        var html = code.innerHTML;
-        if (
-          language.toLowerCase() == "html" ||
-          language.toLowerCase() == "xml"
-        ) {
-          html = html
-            .replace(/&(?!#?[a-zA-Z0-9]+;)/g, "&amp;")
-            .replace(/</g, "&lt;")
-            .replace( />/g, "&gt;")
-            .replace(/'/g, "&#39;")
-            .replace(/"/g, "&quot;");
-        }
-        code.innerHTML =
-          '<ol class="code-area"><li><code>' +
-          html.replace(/[\r\t\n]+/g, "</code></li><li><code>") +
-          '</code></li></ol><span class="code-language">' +
-          language +
-          "</span>";
-      });
+        var codes = document.querySelectorAll(".code");
+        Array.prototype.forEach.call(codes, function (code, i) {
+            var language = code.getAttribute("data-language");
+            var html = code.innerHTML;
+            if (
+                language.toLowerCase() == "html" ||
+                language.toLowerCase() == "xml"
+            ) {
+                html = html
+                    .replace(/&(?!#?[a-zA-Z0-9]+;)/g, "&amp;")
+                    .replace(/</g, "&lt;")
+                    .replace( />/g, "&gt;")
+                    .replace(/'/g, "&#39;")
+                    .replace(/"/g, "&quot;");
+            }
+            code.innerHTML =
+                '<ol class="code-area"><li><code>' +
+                html.replace(/[\r\t\n]+/g, "</code></li><li><code>") +
+                '</code></li></ol><span class="code-language">' +
+                language +
+                "</span>";
+        });
     </script>
 </body>
 </html>
