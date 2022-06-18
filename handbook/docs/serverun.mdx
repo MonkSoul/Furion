@@ -136,6 +136,8 @@ Serve.Run("https://localhost:8080");
 
 以下功能相当于完全自定义，也就是除了默认集成了 `Furion` 以外，没有注册任何功能。
 
+- 基础配置
+
 ```cs showLineNumbers {5,9}
 using Microsoft.AspNetCore.Hosting;
 
@@ -152,7 +154,7 @@ Serve.Run(b =>
 });
 ```
 
-更多重置配置
+- 更多重载配置
 
 ```cs showLineNumbers {6,16}
 using Microsoft.AspNetCore.Hosting;
@@ -181,6 +183,12 @@ Serve.Run(b =>
         // 注册其他中间件等等
     });
 });
+```
+
+- 实现 `Startup` 模式
+
+```cs showLineNumbers
+Serve.Run(b => {}); // 委托写非空默认值即可
 ```
 
 ### 2.0.7.2 一个自定义小例子
