@@ -28,7 +28,7 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 ## 2.0.1 历史背景
 
-相信从 `ASP.NET 5` 使用到 `ASP.NET 6` 的开发者都经历过这样变更：
+相信从 `ASP.NET 5` 升级至 `ASP.NET 6` 的开发者都经历过这样变更：
 
 - 在 `ASP.NET 5` 中，我们这样创建 `Web 主机`：
 
@@ -47,9 +47,9 @@ var builder = WebApplication.CreateBuilder(args);
 var app = builder.Build();
 ```
 
-试问，`ASP.NET 7` 呢？`ASP.NET 8` 呢？`ASP.NET N` 呢？会不会每一个版本都有不同的创建 `Web 主机` 方式，那后续我们的项目如何无缝升级？
+试问，`ASP.NET 7`，`ASP.NET 8`...`ASP.NET N` 呢？会不会每一个版本都有不同的创建方式，那后续项目如何无缝升级？
 
-**所以，`Furion` 为了保证一致的代码体验和后续无缝升级，创造出了 `Serve.Run()`，即使未来创建 `Web 主机方式变了`，也不用担心，交给 `Furion` 框架即可。**
+**所以，为了保证一致的代码体验和后续无缝升级，创造出了 `Serve.Run()`，即使未来创建方式变了，也不用担心，交给框架即可。**
 
 ## 2.0.2 创建 `控制台` 项目
 
@@ -138,11 +138,11 @@ public class HelloService
 Serve.Run("https://localhost:8080");
 ```
 
-### 2.0.7.2 完全自定义配置
+### 2.0.7.2 委托自定义配置
 
-以下功能相当于完全自定义，也就是除了默认集成了 `Furion` 以外，没有注册任何功能。
+传入 `委托参数` 相当于自由定义和控制，也就是除了默认集成了 `Furion` 以外，没有注册任何功能。
 
-- 基础配置
+- 委托方式
 
 ```cs showLineNumbers {5,9}
 using Microsoft.AspNetCore.Hosting;
@@ -160,7 +160,7 @@ Serve.Run(b =>
 });
 ```
 
-- 更多重载配置
+- 委托方式参数重载
 
 ```cs showLineNumbers {6,16}
 using Microsoft.AspNetCore.Hosting;
@@ -191,13 +191,7 @@ Serve.Run(b =>
 });
 ```
 
-- 实现 `Startup` 模式
-
-```cs showLineNumbers
-Serve.Run(b => {}); // 委托写非空默认值即可
-```
-
-### 2.0.7.2 一个自定义小例子
+- 委托自定义基础 `Web` 小例子
 
 ```cs showLineNumbers {7-19}
 using Microsoft.AspNetCore.Builder;
@@ -220,31 +214,53 @@ Serve.Run(b =>
         });
     });
 });
+```
 
-[DynamicApiController]
-public class HelloService
+### 2.0.7.3 `Serve.Run` 和 `Startup` 最佳组合
+
+默认情况下 `Serve.Run()` 注册了一些常见的服务和中间件，可查看 [Serve.Run() 更多配置](./serverun.mdx#207-serverun-更多配置) 说明
+
+但不能对这些服务和中间件进行自定义配置，所以，`Furion` 提供了空委托 `Serve.Run(b => {})` + `Startup` 方式，如：
+
+```cs showLineNumbers title="Program.cs"
+Serve.Run(b => {}); // 委托写非空默认值即可
+```
+
+一个基础的 `Web` 服务 `Startup` 配置：
+
+```cs showLineNumbers {8,10,15} title="Startup.cs"
+using Furion;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.DependencyInjection;
+
+namespace HelloFurion;
+
+public class MyStartup : AppStartup
 {
-    public string Say()
+    public void ConfigureServices(IServiceCollection services)
     {
-        return "Hello, Furion";
+        services.AddControllers().AddInject();
+    }
+
+    public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+    {
+        app.UseRouting();
+        app.UseInject(string.Empty);
+        app.UseEndpoints(endpoints =>
+        {
+            endpoints.MapControllers();
+        });
     }
 }
 ```
 
-<img src={useBaseUrl("img/07.png")} />
+### 2.0.7.4 配置主机
 
-### 2.0.7.3 主机自定义配置
+`Serve.Run()` 也提供了配置主机的委托，如：
 
-```cs showLineNumbers {10-13}
-Serve.Run(b =>
-{
-    b.ConfigureServices(services =>
-    {
-    })
-    .Configure(app =>
-    {
-    });
-},
+```cs showLineNumbers {2}
+Serve.Run(b => { /*其他代码*/ },
 hostBuilderConfigure: h =>
 {
     // h.ConfigureAppConfiguration(....
@@ -302,27 +318,41 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace HelloFurion
-{
-    public class MyStartup : AppStartup
-    {
-        public void ConfigureServices(IServiceCollection services)
-        {
-            Console.WriteLine("调用服务注册啦~~");
-        }
+namespace HelloFurion;
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
-        {
-            Console.WriteLine("调用中间件注册啦");
-        }
+public class MyStartup : AppStartup
+{
+    public void ConfigureServices(IServiceCollection services)
+    {
+        Console.WriteLine("调用服务注册啦~~");
+    }
+
+    public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+    {
+        Console.WriteLine("调用中间件注册啦");
     }
 }
-
 ```
 
 <img src={useBaseUrl("img/09.png")} />
 
-### 2.0.8.3 还没看够？
+### 2.0.8.3 将控制台项目变成 `Web` 项目
+
+只需要编辑 `.csproj` 文件，将第一行 `Project` 节点的 `Sdk`
+
+```xml showLineNumbers
+<Project Sdk="Microsoft.NET.Sdk">
+```
+
+修改为：
+
+```xml showLineNumbers
+<Project Sdk="Microsoft.NET.Sdk.Web">
+```
+
+即可完成转换，实际上只是追加了 `.Web`。
+
+### 2.0.8.4 还没看够？
 
 是不是非常强大啊，`Serve.Run()` 虽然简单，但是 100% 支持 `Furion` 和 `.NET` 所有功能。
 
