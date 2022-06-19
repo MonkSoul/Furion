@@ -13,6 +13,7 @@ namespace System;
 /// <summary>
 /// <see cref="WebApplication"/> 方式配置选项
 /// </summary>
+[SuppressSniffer]
 public sealed class RunOptions
 {
     /// <summary>
@@ -31,7 +32,7 @@ public sealed class RunOptions
     /// 配置 <see cref="WebApplicationOptions"/>
     /// </summary>
     /// <param name="options"></param>
-    /// <returns></returns>
+    /// <returns><see cref="RunOptions"/></returns>
     public RunOptions ConfigureOptions(WebApplicationOptions options)
     {
         Options = options;
@@ -42,7 +43,7 @@ public sealed class RunOptions
     /// 配置 <see cref="WebApplicationBuilder"/>
     /// </summary>
     /// <param name="configureAction"></param>
-    /// <returns></returns>
+    /// <returns><see cref="RunOptions"/></returns>
     public RunOptions ConfigureBuilder(Action<WebApplicationBuilder> configureAction)
     {
         ActionBuilder = configureAction;
@@ -53,10 +54,10 @@ public sealed class RunOptions
     /// 配置 <see cref="WebApplication"/>
     /// </summary>
     /// <param name="configureAction">配置委托</param>
-    /// <returns></returns>
-    public RunOptions ConfigureApplication(Action<WebApplication> configureAction)
+    /// <returns><see cref="RunOptions"/></returns>
+    public RunOptions Configure(Action<WebApplication> configureAction)
     {
-        ActionApplication = configureAction;
+        ActionConfigure = configureAction;
         return this;
     }
 
@@ -83,5 +84,5 @@ public sealed class RunOptions
     /// <summary>
     /// 自定义 <see cref="WebApplication"/> 委托
     /// </summary>
-    internal Action<WebApplication> ActionApplication { get; set; }
+    internal Action<WebApplication> ActionConfigure { get; set; }
 }

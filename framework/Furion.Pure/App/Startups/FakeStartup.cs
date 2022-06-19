@@ -14,6 +14,7 @@ namespace Furion;
 /// <summary>
 /// 模拟 Starup，解决不设置 UseStartup 时错误问题
 /// </summary>
+[SuppressSniffer]
 public sealed class FakeStartup
 {
     /// <summary>

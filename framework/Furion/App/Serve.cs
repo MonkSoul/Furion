@@ -16,6 +16,7 @@ namespace System;
 /// <summary>
 /// 迷你 Web 主机静态类
 /// </summary>
+[SuppressSniffer]
 public static class Serve
 {
     /// <summary>
@@ -24,54 +25,48 @@ public static class Serve
     /// <param name="url">默认 5000/5001 端口</param>
     public static void Run(string url = default)
     {
-        Run(LegacyRunOptions.Default
-            .ConfigureWebHostBuilder(builder =>
+        Run(RunOptions.Default
+            .ConfigureBuilder(builder =>
             {
-                builder.ConfigureServices((context, services) =>
+                // 配置跨域
+                builder.Services.AddCorsAccessor();
+
+                // 控制器和规范化结果
+                builder.Services.AddControllers()
+                        .AddInjectWithUnifyResult();
+            })
+            .Configure(app =>
+            {
+                // 配置错误页
+                if (app.Environment.IsDevelopment())
                 {
-                    // 默认跨域
-                    services.AddCorsAccessor();
+                    app.UseDeveloperExceptionPage();
+                }
 
-                    // 控制器和规范化结果
-                    services.AddControllers()
-                            .AddInjectWithUnifyResult();
-                })
-                .Configure((context, app) =>
-                {
-                    // 错误页
-                    if (context.HostingEnvironment.IsDevelopment())
-                    {
-                        app.UseDeveloperExceptionPage();
-                    }
+                // 401，403 规范化结果
+                app.UseUnifyResultStatusCodes();
 
-                    // 401，403 规范化结果
-                    app.UseUnifyResultStatusCodes();
+                // Https 重定向
+                app.UseHttpsRedirection();
 
-                    // Https 重定向
-                    app.UseHttpsRedirection();
+                // 配置静态
+                app.UseStaticFiles();
 
-                    // 静态文件
-                    app.UseStaticFiles();
+                // 配置路由
+                app.UseRouting();
 
-                    // 路由
-                    app.UseRouting();
+                // 配置跨域
+                app.UseCorsAccessor();
 
-                    // 跨域中间件
-                    app.UseCorsAccessor();
+                // 配置授权
+                app.UseAuthentication();
+                app.UseAuthorization();
 
-                    // 授权模式
-                    app.UseAuthentication();
-                    app.UseAuthorization();
+                // 框架基础配置
+                app.UseInject(string.Empty);
 
-                    // 框架基础配置
-                    app.UseInject(string.Empty);
-
-                    // 重点路由
-                    app.UseEndpoints(endpoints =>
-                    {
-                        endpoints.MapControllers();
-                    });
-                });
+                // 配置路由
+                app.MapControllers();
             }), url);
     }
 
@@ -85,6 +80,7 @@ public static class Serve
         var hostBuilder = Host.CreateDefaultBuilder(Environment.GetCommandLineArgs());
         options.HostBuilder = hostBuilder;
 
+        // 配置 Web 主机
         hostBuilder.ConfigureWebHostDefaults(webHostBuilder =>
         {
             webHostBuilder.Inject();
@@ -133,7 +129,7 @@ public static class Serve
         options.Application = app;
 
         // 调用自定义配置
-        options?.ActionApplication?.Invoke(app);
+        options?.ActionConfigure?.Invoke(app);
 
         app.Run();
     }

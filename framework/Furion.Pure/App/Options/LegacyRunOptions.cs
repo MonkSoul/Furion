@@ -14,6 +14,7 @@ namespace System;
 /// <summary>
 /// 泛型主机方式配置选项
 /// </summary>
+[SuppressSniffer]
 public sealed class LegacyRunOptions
 {
     /// <summary>
