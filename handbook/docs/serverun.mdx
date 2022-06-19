@@ -8,13 +8,7 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 :::important 版本说明
 
-以下内容仅限 `Furion 3.6.0 +` 版本使用。
-
-:::
-
-:::tip 视频教程
-
-[https://www.bilibili.com/video/BV17v4y1g7kf](https://www.bilibili.com/video/BV17v4y1g7kf)
+以下内容仅限 `Furion 3.6.2 +` 版本使用。
 
 :::
 
@@ -47,7 +41,7 @@ var builder = WebApplication.CreateBuilder(args);
 var app = builder.Build();
 ```
 
-试问，`ASP.NET 7`，`ASP.NET 8`...`ASP.NET N` 呢？会不会每一个版本都有不同的创建方式，那后续项目如何无缝升级？
+试问，`ASP.NET 7`，`ASP.NET 8` ... `ASP.NET N` 呢？会不会每一个版本都有不同的创建方式，那后续项目如何无缝升级？
 
 **所以，为了保证一致的代码体验和后续无缝升级，创造出了 `Serve.Run()`，即使未来创建方式变了，也不用担心，交给框架即可。**
 
@@ -84,7 +78,7 @@ dotnet new console -n HelloFurion
 // 进入创建的目录
 cd HelloFurion
 // 添加包
-dotnet add package Furion --version 3.6.0
+dotnet add package Furion --version 3.6.2
 ```
 
 :::
@@ -138,71 +132,24 @@ public class HelloService
 Serve.Run("https://localhost:8080");
 ```
 
-### 2.0.7.2 委托自定义配置
+### 2.0.7.2 自定义配置
 
-传入 `委托参数` 相当于自由定义和控制，也就是除了默认集成了 `Furion` 以外，没有注册任何功能。
+传入 `RunOptions` 对象相当于自由定义和控制，也就是除了默认集成了 `Furion` 以外，没有注册任何功能。
 
-- 委托方式
+- 仅集成 `Furion` 的默认配置
 
-```cs showLineNumbers {5,9}
-using Microsoft.AspNetCore.Hosting;
-
-Serve.Run(b =>
-{
-    b.ConfigureServices(services =>
-    {
-        // 注册 服务
-    })
-    .Configure(app =>
-    {
-        // 注册中间件
-    });
-});
+```cs showLineNumbers
+Serve.Run(RunOptions.Default);
 ```
 
-- 委托方式参数重载
+- 配置更多服务/中间件
 
-```cs showLineNumbers {6,16}
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.DependencyInjection;
-
-Serve.Run(b =>
-{
-    b.ConfigureServices((context, services) =>
+```cs showLineNumbers {1,2,7}
+Serve.Run(RunOptions.Default
+    .ConfigureBuilder(builder =>
     {
-        // 获取配置
-        var configuration = context.Configuration;
-
-        // 获取环境
-        var environment = context.HostingEnvironment;
-
-        // 注册服务等等
-    })
-    .Configure((context, app) =>
-    {
-        // 获取配置
-        var configuration = context.Configuration;
-
-        // 获取环境
-        var environment = context.HostingEnvironment;
-
-        // 注册其他中间件等等
-    });
-});
-```
-
-- 委托自定义基础 `Web` 小例子
-
-```cs showLineNumbers {7-19}
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.DependencyInjection;
-
-Serve.Run(b =>
-{
-    b.ConfigureServices(services =>
-    {
-        services.AddControllers().AddInject();
+        builder.Services.AddControllers()
+                        .AddInject();
     })
     .Configure(app =>
     {
@@ -212,21 +159,30 @@ Serve.Run(b =>
         {
             endpoints.MapControllers();
         });
-    });
-});
+    }));
 ```
 
 ### 2.0.7.3 `Serve.Run` 和 `Startup` 最佳组合
 
-默认情况下 `Serve.Run()` 注册了一些常见的服务和中间件，默认配置提供了 `跨域`，`控制器`，`路由`，`规范化结果`、`静态文件` 功能。适合快速开始项目和编写测试代码。
+默认情况下 `Serve.Run()` 内置了 `跨域`，`控制器`，`路由`，`规范化结果`、`静态文件` 服务/中间件。适合快速开始项目和编写测试代码。
 
-**但不能对这些已注册服务和中间件进行自定义配置**，所以，框架额外提供了空委托 `Serve.Run(b => {})` + `Startup` 方式，如：
+**但不能对这些已注册服务/中间件进行自定义配置**，这时只需要配置 `RunOptions` 属性/方法即可，如：
 
 ```cs showLineNumbers title="Program.cs"
-Serve.Run(b => {}); // 委托写非空默认值即可
+Serve.Run(RunOptions.Default
+    .ConfigureBuilder(...)
+    .Configure(..));
 ```
 
-一个基础的 `Web` 服务 `Startup` 配置：
+**但把所有服务/中间件都放在 `Program.cs` 中好吗？**答案是不好的，因为会导致后续迁移代码维护代码造成了一些困扰。
+
+所以 `Furion` 推荐下面更加灵活且易维护的方式，`Program.cs` 只需一句话即可：
+
+```cs showLineNumbers title="Program.cs"
+Serve.Run(RunOptions.Default);
+```
+
+然后添加自定义 `Startup.cs` 文件，代码如下：
 
 ```cs showLineNumbers {8,10,15} title="Startup.cs"
 using Furion;
@@ -236,36 +192,38 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace HelloFurion;
 
-public class MyStartup : AppStartup
+public class Startup : AppStartup
 {
     public void ConfigureServices(IServiceCollection services)
     {
-        services.AddControllers().AddInject();
+        // ....
     }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
     {
-        app.UseRouting();
-        app.UseInject(string.Empty);
-        app.UseEndpoints(endpoints =>
-        {
-            endpoints.MapControllers();
-        });
+        // ....
     }
 }
 ```
 
-### 2.0.7.4 配置主机
+:::tip 小提示
 
-`Serve.Run()` 也提供了配置主机的委托，如：
+正常情况下，自定义 `Startup.cs` 文件应该放在独立的 `YourProject.Web.Core` 层或其他层。
 
-```cs showLineNumbers {2}
-Serve.Run(b => { /*其他代码*/ },
-hostBuilderConfigure: h =>
-{
-    // h.ConfigureAppConfiguration(....
-});
+:::
+
+### 2.0.7.4 更多配置
+
+如配置 `WebHost`...
+
+```cs showLineNumbers
+Serve.Run(RunOptions.Default
+    .ConfigureBuilder(builder => {
+        builder.WebHost.....
+    }));
 ```
+
+
 
 ## 2.0.8 支持 `Furion` 所有功能
 
@@ -312,6 +270,10 @@ public class HelloService
 
 在 `Furion` 中可以派生自 `AppStartup` 可以实现更多配置，如：
 
+```cs showLineNumbers title="Program.cs"
+Serve.Run();
+```
+
 ```cs showLineNumbers {8,10,12,15,17} title="MyStartup.cs"
 using Furion;
 using Microsoft.AspNetCore.Builder;
@@ -354,11 +316,37 @@ public class MyStartup : AppStartup
 
 ### 2.0.8.4 还没看够？
 
-是不是非常强大啊，`Serve.Run()` 虽然简单，但是 100% 支持 `Furion` 和 `.NET` 所有功能。
+是不是非常强大啊，`Serve.Run()` 虽然简单，但是 100% 支持 `Furion` 和 `.NET` 所有功能。尽情去体验吧！
 
-尽情去体验吧。
+## 2.0.9 `RunOptions` 和 `LegacyRunOptions`
 
-## 2.0.9 如何发布
+`Serve.Run` 提供了 `RunOptions` 和 `LegacyRunOptions` 重载参数类型，前者使用的是 `.NET6` `WebApplication` 方式创建主机，后者使用的是 `.NET5` `Host` 方式创建。**优先推荐 `RunOptions` 方式创建。**
+
+这里也列出 `LegacyRunOptions` 的配置例子：
+
+```cs showLineNumbers {4,5,16}
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.DependencyInjection;
+
+Serve.Run(LegacyRunOptions.Default
+    .ConfigureWebHostBuilder(builder =>
+    {
+        builder.ConfigureServices(services =>
+        {
+            // 配置服务
+        })
+        .Configure(app =>
+        {
+            // 配置中间件
+        });
+    })
+    .ConfigureHostBuilder(builder =>
+    {
+        // 配置主机
+    }));
+```
+
+## 2.0.10 如何发布
 
 由于是控制台应用程序，我们直接将 `Visual Studio` 切换成 `Release` 编译即可~~。
 
@@ -370,15 +358,11 @@ dotnet publish -c Release
 
 更多发布命令说明可查阅微软官方文档 [https://docs.microsoft.com/en-us/dotnet/core/tools/dotnet-publish](https://docs.microsoft.com/en-us/dotnet/core/tools/dotnet-publish)
 
-## 2.0.10 应用场景
 
-`Serve.Run()` 更适合以下几种应用场景
+## 2.0.11 反馈与建议
 
-- 想要快速上手 `Furion`
-- 想要快速创建一个测试项目
-- 想要快速创建 `API` 项目
-- ......
+:::note 与我们交流
 
-以上列出的场景并不代表 `Serve.Run()` 只能创建简单的项目，未来它会有更多可能性，现在只是第一步。
+给 Furion 提 [Issue](https://gitee.com/dotnetchina/Furion/issues/new?issue)。
 
-对于中大型生产级的项目暂时推荐使用**脚手架**项目架构优先。
+:::

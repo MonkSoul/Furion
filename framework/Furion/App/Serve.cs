@@ -20,7 +20,7 @@ namespace System;
 public static class Serve
 {
     /// <summary>
-    /// 启动默认迷你 Web 主机
+    /// 启动默认迷你 Web 主机，含最基础的 WebAPI 注册
     /// </summary>
     /// <param name="url">默认 5000/5001 端口</param>
     public static void Run(string url = default)
