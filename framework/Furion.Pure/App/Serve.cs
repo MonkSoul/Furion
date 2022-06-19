@@ -24,77 +24,117 @@ public static class Serve
     /// <param name="url">默认 5000/5001 端口</param>
     public static void Run(string url = default)
     {
-        Host.CreateDefaultBuilder(Environment.GetCommandLineArgs())
-            .ConfigureWebHostDefaults(webHostBuilder =>
+        Run(LegacyRunOptions.Default
+            .ConfigureWebHostBuilder(builder =>
             {
-                webHostBuilder.Inject()
-                              .ConfigureServices((context, services) =>
-                              {
-                                  // 默认配置控制器、动态 WebAPI 和规范化结果
-                                  services.AddCorsAccessor();
-                                  services.AddControllers().AddInjectWithUnifyResult();
-                              })
-                              .Configure((context, app) =>
-                              {
-                                  if (context.HostingEnvironment.IsDevelopment())
-                                  {
-                                      app.UseDeveloperExceptionPage();
-                                  }
-
-                                  app.UseUnifyResultStatusCodes();
-
-                                  app.UseHttpsRedirection();
-
-                                  app.UseStaticFiles();
-
-                                  app.UseRouting();
-
-                                  app.UseCorsAccessor();
-
-                                  app.UseAuthentication();
-                                  app.UseAuthorization();
-
-                                  app.UseInject(string.Empty);
-
-                                  app.UseEndpoints(endpoints =>
-                                  {
-                                      endpoints.MapControllers();
-                                  });
-                              });
-
-                if (!string.IsNullOrWhiteSpace(url))
+                builder.ConfigureServices((context, services) =>
                 {
-                    webHostBuilder.UseUrls(url);
-                }
-            })
-            .Build()
-            .Run();
+                    // 默认跨域
+                    services.AddCorsAccessor();
+
+                    // 控制器和规范化结果
+                    services.AddControllers()
+                            .AddInjectWithUnifyResult();
+                })
+                .Configure((context, app) =>
+                {
+                    // 错误页
+                    if (context.HostingEnvironment.IsDevelopment())
+                    {
+                        app.UseDeveloperExceptionPage();
+                    }
+
+                    // 401，403 规范化结果
+                    app.UseUnifyResultStatusCodes();
+
+                    // Https 重定向
+                    app.UseHttpsRedirection();
+
+                    // 静态文件
+                    app.UseStaticFiles();
+
+                    // 路由
+                    app.UseRouting();
+
+                    // 跨域中间件
+                    app.UseCorsAccessor();
+
+                    // 授权模式
+                    app.UseAuthentication();
+                    app.UseAuthorization();
+
+                    // 框架基础配置
+                    app.UseInject(string.Empty);
+
+                    // 重点路由
+                    app.UseEndpoints(endpoints =>
+                    {
+                        endpoints.MapControllers();
+                    });
+                });
+            }), url);
     }
 
     /// <summary>
-    /// 启动自定义迷你 Web 主机
+    /// 启动泛型迷你 Web 主机
     /// </summary>
-    /// <param name="webHostBuilderConfigure">Web 主机更多配置</param>
+    /// <param name="options">配置选项</param>
     /// <param name="url">默认 5000/5001 端口</param>
-    /// <param name="hostBuilderConfigure">泛型主机更多配置</param>
-    public static void Run(Action<IWebHostBuilder> webHostBuilderConfigure, string url = default, Action<IHostBuilder> hostBuilderConfigure = default)
+    public static void Run(LegacyRunOptions options, string url = default)
     {
-        var hostBuilder = Host.CreateDefaultBuilder(Environment.GetCommandLineArgs())
-              .ConfigureWebHostDefaults(webHostBuilder =>
-              {
-                  webHostBuilder.Inject();
+        var hostBuilder = Host.CreateDefaultBuilder(Environment.GetCommandLineArgs());
+        options.HostBuilder = hostBuilder;
 
-                  // 自定义端口
-                  if (!string.IsNullOrWhiteSpace(url))
-                  {
-                      webHostBuilder.UseUrls(url);
-                  }
+        hostBuilder.ConfigureWebHostDefaults(webHostBuilder =>
+        {
+            webHostBuilder.Inject();
+            options.WebHostBuilder = webHostBuilder;
 
-                  webHostBuilderConfigure(webHostBuilder);
-              });
+            // 自定义启动端口
+            if (!string.IsNullOrWhiteSpace(url))
+            {
+                webHostBuilder.UseUrls(url);
+            }
 
-        hostBuilderConfigure?.Invoke(hostBuilder);
+            // 调用自定义配置
+            options?.ActionWebHostBuilder?.Invoke(webHostBuilder);
+        });
+
+        // 调用自定义配置
+        options?.ActionBuilder?.Invoke(hostBuilder);
 
         hostBuilder.Build().Run();
+    }
+
+    /// <summary>
+    /// 启动 WebApplication 迷你主机
+    /// </summary>
+    /// <param name="options">配置选项</param>
+    /// <param name="url">默认 5000/5001 端口</param>
+    public static void Run(RunOptions options, string url = default)
+    {
+        // 初始化 WebApplicationBuilder
+        var builder = (options.Options == null
+            ? WebApplication.CreateBuilder(Environment.GetCommandLineArgs())
+            : WebApplication.CreateBuilder(options.Options)).Inject();
+        options.Builder = builder;
+
+        // 自定义启动端口
+        if (!string.IsNullOrWhiteSpace(url))
+        {
+            builder.WebHost.UseUrls(url);
+        }
+
+        // 调用自定义配置
+        options?.ActionBuilder?.Invoke(builder);
+
+        // 初始化 WebApplication
+        var app = builder.Build();
+        options.Application = app;
+
+        // 调用自定义配置
+        options?.ActionApplication?.Invoke(app);
+
+        app.Run();
     }
 }
