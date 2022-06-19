@@ -218,9 +218,9 @@ Serve.Run(b =>
 
 ### 2.0.7.3 `Serve.Run` 和 `Startup` 最佳组合
 
-默认情况下 `Serve.Run()` 注册了一些常见的服务和中间件，可查看 [Serve.Run() 更多配置](./serverun.mdx#207-serverun-更多配置) 说明
+默认情况下 `Serve.Run()` 注册了一些常见的服务和中间件，默认配置提供了 `跨域`，`控制器`，`路由`，`规范化结果`、`静态文件` 功能。适合快速开始项目和编写测试代码。
 
-但不能对这些服务和中间件进行自定义配置，所以，`Furion` 提供了空委托 `Serve.Run(b => {})` + `Startup` 方式，如：
+**但不能对这些已注册服务和中间件进行自定义配置**，所以，框架额外提供了空委托 `Serve.Run(b => {})` + `Startup` 方式，如：
 
 ```cs showLineNumbers title="Program.cs"
 Serve.Run(b => {}); // 委托写非空默认值即可
