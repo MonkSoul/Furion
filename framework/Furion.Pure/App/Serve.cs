@@ -105,7 +105,7 @@ public static class Serve
     /// <summary>
     /// 启动泛型通用主机
     /// </summary>
-    /// <param name="options"></param>
+    /// <param name="options">配置选项</param>
     public static void Run(GenericRunOptions options)
     {
         var builder = Host.CreateDefaultBuilder(Environment.GetCommandLineArgs()).Inject();
