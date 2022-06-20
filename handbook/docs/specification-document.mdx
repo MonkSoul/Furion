@@ -1116,7 +1116,7 @@ https://localhost:你的端口/swagger/Default/swagger.json
 
 :::
 
-有时候，我们会定义相同的 `Dto` 类型，但是他们在不同的程序集中，这样就会导致生成 `Swagger` 的 `SchemaId` 出现冲突问题，这时候只需要在类型上贴 `[SchemaId]` 特性即可，如：
+有时候，不同程序集会定义相同的类型名称 `Name`，这样就会导致生成 `Swagger` 的 `SchemaId` 出现冲突，这时只需要在类型上贴 `[SchemaId]` 特性即可，如：
 
 ```cs showLineNumbers {3}
 using Furion.SpecificationDocument;
