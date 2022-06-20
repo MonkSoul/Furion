@@ -276,14 +276,29 @@ public static class SpecificationDocumentBuilder
         // 本地函数
         static string DefaultSchemaIdSelector(Type modelType)
         {
-            if (!modelType.IsConstructedGenericType) return modelType.Name;
+            var modelName = modelType.Name;
 
-            var prefix = modelType.GetGenericArguments()
-                .Select(genericArg => DefaultSchemaIdSelector(genericArg))
-                .Aggregate((previous, current) => previous + current);
+            // 处理泛型类型问题
+            if (modelType.IsConstructedGenericType)
+            {
+                var prefix = modelType.GetGenericArguments()
+                    .Select(genericArg => DefaultSchemaIdSelector(genericArg))
+                    .Aggregate((previous, current) => previous + current);
 
-            // 通过 _ 拼接多个泛型
-            return modelType.Name.Split('`').First() + "_" + prefix;
+                // 通过 _ 拼接多个泛型
+                modelName = modelName.Split('`').First() + "_" + prefix;
+            }
+
+            // 判断是否自定义了 [SchemaId] 特性，解决模块化多个程序集命名冲突
+            var isCustomize = modelType.IsDefined(typeof(SchemaIdAttribute));
+            if (isCustomize)
+            {
+                var schemaIdAttribute = modelType.GetCustomAttribute<SchemaIdAttribute>();
+                if (!schemaIdAttribute.Replace) return schemaIdAttribute.SchemaId + modelName;
+                else return schemaIdAttribute.SchemaId;
+            }
+
+            return modelName;
         }
 
         // 调用本地函数

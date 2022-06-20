@@ -1108,6 +1108,30 @@ https://localhost:你的端口/swagger/Default/swagger.json
 
 <img src={useBaseUrl("img/sperr2.png")} />
 
+### 6.5.35 自定义 `Swagger` 的 `SchemaId`
+
+:::important 版本说明
+
+以下内容仅限 `Furion v3.6.4+` 版本使用。
+
+:::
+
+有时候，我们会定义相同的 `Dto` 类型，但是他们在不同的程序集中，这样就会导致生成 `Swagger` 的 `SchemaId` 出现冲突问题，这时候只需要在类型上贴 `[SchemaId]` 特性即可，如：
+
+```cs showLineNumbers {3}
+using Furion.SpecificationDocument;
+
+[SchemaId("Other_")]
+public class PersonDto
+{
+  // ...
+}
+```
+
+- `SchemaIdAttribute` 配置选项：
+  - `SchemaId`：自定义 `SchemaId`，字符串类型，只能是 `字母,数字，下划线` 组合
+  - `Replace`：是否完全替换，`bool` 类型，默认 `false`，默认是作为前缀拼接，如上面的 `PersonDto` 会生成 `Other_PersonDto`，如果设置为 `true`，则直接使用 `Test_`
+
 ## 6.6 `SpecificationDocumentSettings` 配置
 
 除了上述例子外，`Furion` 提供了一些配置选项，如：
