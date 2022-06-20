@@ -901,6 +901,8 @@ services.AddRemoteRequest(options=>
     {
         // 忽略 SSL 不安全检查，或 https 不安全或 https 证书有误
         ServerCertificateCustomValidationCallback = (_, _, _, _) => true,
+
+        // 手动配置证书
         ClientCertificateOptions = ClientCertificateOption.Manual,
         ClientCertificates = {
             new X509Certificate2("...","..."),
