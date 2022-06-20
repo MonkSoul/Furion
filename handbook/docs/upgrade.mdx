@@ -36,6 +36,7 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
   - [修复] 修复默认注册的 `services.AddResponseCaching();` 服务导致 `.axd` 内嵌资源请求错误问题 [!495](https://gitee.com/dotnetchina/Furion/pulls/495)
   - [修复] `Oracle` 数据库执行 `sql` 必须要求命令参数和 `sql` 语言参数数量一致 [#I5D057](https://gitee.com/dotnetchina/Furion/issues/I5D057)
+  - [修复] `IHostService` 类型不能自动注册问题，之前只扫描了 `BackgroundService` 派生类
 
 - **其他更改**
 
