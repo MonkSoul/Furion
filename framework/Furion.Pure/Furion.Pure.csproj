@@ -2,7 +2,7 @@
 
 	<PropertyGroup>
 		<TargetFramework>net6.0</TargetFramework>
-		<Version>3.6.2</Version>
+		<Version>3.6.3</Version>
 		<Description>让 .NET 开发更简单，更通用，更流行。</Description>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 		<ImplicitUsings>enable</ImplicitUsings>
@@ -25,7 +25,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Furion.Pure.Extras.DependencyModel.CodeAnalysis" Version="3.6.2" />
+		<PackageReference Include="Furion.Pure.Extras.DependencyModel.CodeAnalysis" Version="3.6.3" />
 		<PackageReference Include="MiniProfiler.AspNetCore.Mvc" Version="4.2.22" />
 		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.3.1" />
 	</ItemGroup>

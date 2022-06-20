@@ -53,12 +53,8 @@ internal static class DbHelpers
         var properties = modelType.GetProperties(BindingFlags.Public | BindingFlags.Instance);
         if (properties.Length == 0) return dbParameters.ToArray();
 
-        // 处理参数不对等问题，Orache 数据库要求参数必须和 sql 标注的一致的数量，错误代码：ORA-01006
-        var regex = new Regex(ParamRegex, RegexOptions.IgnoreCase | RegexOptions.Multiline | RegexOptions.IgnorePatternWhitespace);
-        var isMatch = regex.IsMatch(dbCommand.CommandText);
-        var paramNames = !isMatch
-            ? Array.Empty<string>()
-            : regex.Matches(dbCommand.CommandText).Select(u => u.Groups["param"].Value).ToArray();
+        // 检查 Sql 语句中参数个数
+        CheckSqlParamsCount(dbCommand, out var isMatch, out var paramNames);
 
         // 如果命令参数都没有，则不用生成
         if (!isMatch) return dbParameters.ToArray();
@@ -109,8 +105,20 @@ internal static class DbHelpers
         var dbParameters = new List<DbParameter>();
         if (keyValues == null || keyValues.Count == 0) return dbParameters.ToArray();
 
+        // 检查 Sql 语句中参数个数
+        CheckSqlParamsCount(dbCommand, out var isMatch, out var paramNames);
+
+        // 如果命令参数都没有，则不用生成
+        if (!isMatch) return dbParameters.ToArray();
+
         foreach (var key in keyValues.Keys)
         {
+            // 如果不包含该命令参数，则跳过
+            if (!paramNames.Contains(key, StringComparer.OrdinalIgnoreCase))
+            {
+                continue;
+            }
+
             var value = keyValues[key] ?? DBNull.Value;
 
             // 创建命令参数
@@ -382,5 +390,21 @@ internal static class DbHelpers
         stringBuilder.Append("); ");
 
         return stringBuilder.ToString();
+    }
+
+    /// <summary>
+    /// 检查 Sql 中命令参数个数
+    /// </summary>
+    /// <param name="dbCommand"></param>
+    /// <param name="isMatch"></param>
+    /// <param name="paramNames"></param>
+    private static void CheckSqlParamsCount(DbCommand dbCommand, out bool isMatch, out string[] paramNames)
+    {
+        // 处理参数不对等问题，Orache 数据库要求参数必须和 sql 标注的一致的数量，错误代码：ORA-01006
+        var regex = new Regex(ParamRegex, RegexOptions.IgnoreCase | RegexOptions.Multiline | RegexOptions.IgnorePatternWhitespace);
+        isMatch = regex.IsMatch(dbCommand.CommandText);
+        paramNames = !isMatch
+            ? Array.Empty<string>()
+            : regex.Matches(dbCommand.CommandText).Select(u => u.Groups["param"].Value).ToArray();
     }
 }
