@@ -8,7 +8,7 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 :::important 版本说明
 
-以下内容仅限 `Furion 3.6.2 +` 版本使用。
+以下内容仅限 `Furion 3.6.3 +` 版本使用。
 
 :::
 
@@ -132,6 +132,39 @@ public class HelloService
 Serve.Run("https://localhost:8080");
 ```
 
+:::tip 通过 `json` 方式配置
+
+如需通过配置文件配置端口，需两个该步骤：
+
+1. 编辑控制台启动项目 `.csproj` 文件，修改 `Project` 节点为：
+
+```xml showLineNumbers
+<Project Sdk="Microsoft.NET.Sdk.Web">
+```
+
+也就是在原来的 `Sdk` 中添加 `.Web` 即可。
+
+2. 在控制台启动项目中添加 `Properties` 文件夹并在此文件夹中创建 `launchSettings.json` 文件，同时写入以下内容：
+
+```json showLineNumbers {4,8}
+{
+  "$schema": "http://json.schemastore.org/launchsettings.json",
+  "profiles": {
+    "启动项目名称": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "launchUrl": "",
+      "applicationUrl": "https://localhost:8080;http://localhost:8081",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    }
+  }
+}
+```
+
+:::
+
 ### 2.0.7.2 自定义配置
 
 传入 `RunOptions` 对象相当于自由定义和控制，也就是除了默认集成了 `Furion` 以外，没有注册任何功能。
@@ -222,8 +255,6 @@ Serve.Run(RunOptions.Default
         builder.WebHost.....
     }));
 ```
-
-
 
 ## 2.0.8 支持 `Furion` 所有功能
 
@@ -318,31 +349,48 @@ public class MyStartup : AppStartup
 
 是不是非常强大啊，`Serve.Run()` 虽然简单，但是 100% 支持 `Furion` 和 `.NET` 所有功能。尽情去体验吧！
 
-## 2.0.9 `RunOptions` 和 `LegacyRunOptions`
+## 2.0.9 `RunOptions`，`LegacyRunOptions` 和 `GenericRunOptions`
 
-`Serve.Run` 提供了 `RunOptions` 和 `LegacyRunOptions` 重载参数类型，前者使用的是 `.NET6` `WebApplication` 方式创建主机，后者使用的是 `.NET5` `Host` 方式创建。**优先推荐 `RunOptions` 方式创建。**
+`Serve.Run` 提供了 `RunOptions`，`LegacyRunOptions` 和 `GenericRunOptions` 重载参数类型，他们的主要区别：
 
-这里也列出 `LegacyRunOptions` 的配置例子：
+- `RunOptions`：使用的是 `WebApplication` 方式，**创建 `Web` 主机优先推荐方式**
+- `LegacyRunOptions`：使用的是 `Host` 方式，但默认配置了 `Web` 主机
+- `GenericRunOptions`：使用的是 `Host` 方式，通用类型主机，可用于 `WorkerService`
 
-```cs showLineNumbers {4,5,16}
+`LegacyRunOptions` 配置例子：
+
+```cs showLineNumbers {5-6,17-18}
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 
 Serve.Run(LegacyRunOptions.Default
-    .ConfigureWebHostBuilder(builder =>
+    // 配置 Web 主机
+    .ConfigureWebDefaults(builder =>
     {
         builder.ConfigureServices(services =>
         {
-            // 配置服务
+            // ...
         })
         .Configure(app =>
         {
-            // 配置中间件
+            // ...
         });
     })
-    .ConfigureHostBuilder(builder =>
+    // 配置 Host 主机
+    .ConfigureBuilder(builder =>
     {
-        // 配置主机
+        // ...
+    }));
+```
+
+`GenericRunOptions` 配置例子：
+
+```cs showLineNumbers {2-3}
+Serve.Run(GenericRunOptions.Default
+    // 配置 Host 主机
+    .ConfigureBuilder(hostBuilder =>
+    {
+       // ...
     }));
 ```
 
@@ -357,7 +405,6 @@ dotnet publish -c Release
 ```
 
 更多发布命令说明可查阅微软官方文档 [https://docs.microsoft.com/en-us/dotnet/core/tools/dotnet-publish](https://docs.microsoft.com/en-us/dotnet/core/tools/dotnet-publish)
-
 
 ## 2.0.11 反馈与建议
 

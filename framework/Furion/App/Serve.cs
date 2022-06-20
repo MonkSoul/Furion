@@ -14,13 +14,13 @@ using Microsoft.Extensions.Hosting;
 namespace System;
 
 /// <summary>
-/// 迷你 Web 主机静态类
+/// 主机静态类
 /// </summary>
 [SuppressSniffer]
 public static class Serve
 {
     /// <summary>
-    /// 启动默认迷你 Web 主机，含最基础的 WebAPI 注册
+    /// 启动默认 Web 主机，含最基础的 Web 注册
     /// </summary>
     /// <param name="url">默认 5000/5001 端口</param>
     public static void Run(string url = default)
@@ -71,17 +71,17 @@ public static class Serve
     }
 
     /// <summary>
-    /// 启动泛型迷你 Web 主机
+    /// 启动泛型 Web 主机
     /// </summary>
     /// <param name="options">配置选项</param>
     /// <param name="url">默认 5000/5001 端口</param>
     public static void Run(LegacyRunOptions options, string url = default)
     {
-        var hostBuilder = Host.CreateDefaultBuilder(Environment.GetCommandLineArgs());
-        options.HostBuilder = hostBuilder;
+        var builder = Host.CreateDefaultBuilder(Environment.GetCommandLineArgs());
+        options.Builder = builder;
 
         // 配置 Web 主机
-        hostBuilder.ConfigureWebHostDefaults(webHostBuilder =>
+        builder.ConfigureWebHostDefaults(webHostBuilder =>
         {
             webHostBuilder.Inject();
             options.WebHostBuilder = webHostBuilder;
@@ -97,13 +97,28 @@ public static class Serve
         });
 
         // 调用自定义配置
-        options?.ActionBuilder?.Invoke(hostBuilder);
+        options?.ActionBuilder?.Invoke(builder);
 
-        hostBuilder.Build().Run();
+        builder.Build().Run();
     }
 
     /// <summary>
-    /// 启动 WebApplication 迷你主机
+    /// 启动泛型通用主机
+    /// </summary>
+    /// <param name="options"></param>
+    public static void Run(GenericRunOptions options)
+    {
+        var builder = Host.CreateDefaultBuilder(Environment.GetCommandLineArgs()).Inject();
+        options.Builder = builder;
+
+        // 调用自定义配置
+        options?.ActionBuilder?.Invoke(builder);
+
+        builder.Build().Run();
+    }
+
+    /// <summary>
+    /// 启动 WebApplication 主机
     /// </summary>
     /// <param name="options">配置选项</param>
     /// <param name="url">默认 5000/5001 端口</param>

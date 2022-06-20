@@ -17,9 +17,9 @@ namespace System;
 public sealed class RunOptions
 {
     /// <summary>
-    /// 私有构造函数
+    /// 内部构造函数
     /// </summary>
-    private RunOptions()
+    internal RunOptions()
     {
     }
 

@@ -6,47 +6,46 @@
 // THIS SOFTWARE IS PROVIDED ON AN "AS IS" BASIS, WITHOUT WARRANTIES OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO NON-INFRINGEMENT, MERCHANTABILITY OR FIT FOR A PARTICULAR PURPOSE.
 // See the Mulan PSL v2 for more details.
 
-using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Hosting;
 
 namespace System;
 
 /// <summary>
-/// Web 泛型主机方式配置选项
+/// 泛型主机方式配置选项
 /// </summary>
 [SuppressSniffer]
-public sealed class LegacyRunOptions : GenericRunOptions
+public class GenericRunOptions
 {
     /// <summary>
     /// 内部构造函数
     /// </summary>
-    internal LegacyRunOptions()
-        : base()
+    internal GenericRunOptions()
     {
     }
 
     /// <summary>
     /// 默认配置
     /// </summary>
-    public static new LegacyRunOptions Default { get; } = new LegacyRunOptions();
+    public static GenericRunOptions Default { get; } = new GenericRunOptions();
 
     /// <summary>
-    /// 配置 <see cref="IWebHostBuilder"/>
+    /// 配置 <see cref="IHostBuilder"/>
     /// </summary>
     /// <param name="configureAction">配置委托</param>
     /// <returns><see cref="LegacyRunOptions"/></returns>
-    public LegacyRunOptions ConfigureWebDefaults(Action<IWebHostBuilder> configureAction)
+    public GenericRunOptions ConfigureBuilder(Action<IHostBuilder> configureAction)
     {
-        ActionWebHostBuilder = configureAction;
+        ActionBuilder = configureAction;
         return this;
     }
 
     /// <summary>
-    /// <see cref="IWebHostBuilder"/>
+    /// <see cref="IHostBuilder"/>
     /// </summary>
-    internal IWebHostBuilder WebHostBuilder { get; set; }
+    internal IHostBuilder Builder { get; set; }
 
     /// <summary>
-    /// 自定义 <see cref="IWebHostBuilder"/> 委托
+    /// 自定义 <see cref="IHostBuilder"/> 委托
     /// </summary>
-    internal Action<IWebHostBuilder> ActionWebHostBuilder { get; set; }
+    internal Action<IHostBuilder> ActionBuilder { get; set; }
 }
