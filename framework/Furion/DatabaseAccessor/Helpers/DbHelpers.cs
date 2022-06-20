@@ -13,11 +13,20 @@ using System.Data.Common;
 using System.Reflection;
 using System.Text;
 using System.Text.Json;
+using System.Text.RegularExpressions;
 
 namespace Furion.DatabaseAccessor;
 
+/// <summary>
+/// 数据库帮助类
+/// </summary>
 internal static class DbHelpers
 {
+    /// <summary>
+    /// 参数匹配正则表达式
+    /// </summary>
+    internal const string ParamRegex = "[@:](?<param>[a-zA-Z][a-zA-Z0-9_]*)";
+
     /// <summary>
     /// 将模型转为 DbParameter 集合
     /// </summary>
@@ -44,9 +53,25 @@ internal static class DbHelpers
         var properties = modelType.GetProperties(BindingFlags.Public | BindingFlags.Instance);
         if (properties.Length == 0) return dbParameters.ToArray();
 
+        // 处理参数不对等问题，Orache 数据库要求参数必须和 sql 标注的一致的数量，错误代码：ORA-01006
+        var regex = new Regex(ParamRegex, RegexOptions.IgnoreCase | RegexOptions.Multiline | RegexOptions.IgnorePatternWhitespace);
+        var isMatch = regex.IsMatch(dbCommand.CommandText);
+        var paramNames = !isMatch
+            ? Array.Empty<string>()
+            : regex.Matches(dbCommand.CommandText).Select(u => u.Groups["param"].Value).ToArray();
+
+        // 如果命令参数都没有，则不用生成
+        if (!isMatch) return dbParameters.ToArray();
+
         // 遍历所有属性
         foreach (var property in properties)
         {
+            // 如果不包含该命令参数，则跳过
+            if (!paramNames.Contains(property.Name, StringComparer.OrdinalIgnoreCase))
+            {
+                continue;
+            }
+
             var propertyValue = property.GetValue(model) ?? DBNull.Value;
 
             // 创建命令参数

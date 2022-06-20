@@ -50,6 +50,12 @@ var app = builder.Build();
 app.Run();
 ```
 
+:::important v3.6.3+ 版本
+
+如果使用 `Furion 3.6.3+` 版本，可直接使用 `Serve.Run(RunOptions.Default);` 替代上面即可。
+
+:::
+
 :::tip 小提醒
 
 如果使用了 `Serilog` 日志组件，可添加 `builder.Host.UseSerilogDefault();`。

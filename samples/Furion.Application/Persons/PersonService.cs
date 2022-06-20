@@ -1,5 +1,6 @@
 ﻿using Furion.Application.Persons;
 using Furion.Application.Services;
+using Furion.DatabaseAccessor.Extensions;
 
 namespace Furion.Application;
 
@@ -127,5 +128,14 @@ public class PersonService : IDynamicApiController
     public List<Person> GetProxyPersons()
     {
         return _sql.GetPersons();
+    }
+
+    public void TestDbParameters()
+    {
+        var data = "select * from person where id=@Id".SqlQuery(new
+        {
+            Id = 1,
+            Name = "Furion"
+        });
     }
 }
