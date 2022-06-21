@@ -126,10 +126,19 @@ public class HelloService
 
 ### 2.0.7.1 配置默认端口
 
-默认情况下，创建的 `Web` 主机端口为 `5000/5001` 端口，如需自定义配置，可通过第一个参数配置
+默认情况下，创建的 `Web` 主机端口为 `5000/5001` 端口，如需自定义配置，可通过第一个参数配置：
 
 ```cs showLineNumbers
 Serve.Run("https://localhost:8080");
+```
+
+同时也支持 `dotnet run` 和 `dotnet watch run` 指定：
+
+```bash showLineNumbers
+dotnet run --urls https://localhost:8080
+
+# watch 方式
+dotnet watch run --urls https://localhost:8080
 ```
 
 :::tip 通过 `json` 方式配置

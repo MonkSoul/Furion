@@ -22,8 +22,8 @@ public static class Serve
     /// <summary>
     /// 启动默认 Web 主机，含最基础的 Web 注册
     /// </summary>
-    /// <param name="url">默认 5000/5001 端口</param>
-    public static void Run(string url = default)
+    /// <param name="urls">默认 5000/5001 端口</param>
+    public static void Run(string urls = default)
     {
         Run(RunOptions.Default
             .ConfigureBuilder(builder =>
@@ -67,15 +67,16 @@ public static class Serve
 
                 // 配置路由
                 app.MapControllers();
-            }), url);
+            }), urls);
     }
 
     /// <summary>
     /// 启动泛型 Web 主机
     /// </summary>
+    /// <remarks>未包含 Web 基础功能，需手动注册服务/中间件</remarks>
     /// <param name="options">配置选项</param>
-    /// <param name="url">默认 5000/5001 端口</param>
-    public static void Run(LegacyRunOptions options, string url = default)
+    /// <param name="urls">默认 5000/5001 端口</param>
+    public static void Run(LegacyRunOptions options, string urls = default)
     {
         var builder = Host.CreateDefaultBuilder(Environment.GetCommandLineArgs());
         options.Builder = builder;
@@ -86,10 +87,13 @@ public static class Serve
             webHostBuilder.Inject();
             options.WebHostBuilder = webHostBuilder;
 
+            // 解决部分主机不能正确读取 urls 参数命令问题
+            var startUrls = !string.IsNullOrWhiteSpace(urls) ? urls : webHostBuilder.GetSetting("urls");
+
             // 自定义启动端口
-            if (!string.IsNullOrWhiteSpace(url))
+            if (!string.IsNullOrWhiteSpace(startUrls))
             {
-                webHostBuilder.UseUrls(url);
+                webHostBuilder.UseUrls(startUrls);
             }
 
             // 调用自定义配置
@@ -120,9 +124,10 @@ public static class Serve
     /// <summary>
     /// 启动 WebApplication 主机
     /// </summary>
+    /// <remarks>未包含 Web 基础功能，需手动注册服务/中间件</remarks>
     /// <param name="options">配置选项</param>
-    /// <param name="url">默认 5000/5001 端口</param>
-    public static void Run(RunOptions options, string url = default)
+    /// <param name="urls">默认 5000/5001 端口</param>
+    public static void Run(RunOptions options, string urls = default)
     {
         // 初始化 WebApplicationBuilder
         var builder = (options.Options == null
@@ -130,10 +135,13 @@ public static class Serve
             : WebApplication.CreateBuilder(options.Options)).Inject();
         options.Builder = builder;
 
+        // 解决部分主机不能正确读取 urls 参数命令问题
+        var startUrls = !string.IsNullOrWhiteSpace(urls) ? urls : builder.Configuration["urls"];
+
         // 自定义启动端口
-        if (!string.IsNullOrWhiteSpace(url))
+        if (!string.IsNullOrWhiteSpace(startUrls))
         {
-            builder.WebHost.UseUrls(url);
+            builder.WebHost.UseUrls(startUrls);
         }
 
         // 调用自定义配置
