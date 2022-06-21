@@ -88,7 +88,7 @@ public static class Serve
             options.WebHostBuilder = webHostBuilder;
 
             // 解决部分主机不能正确读取 urls 参数命令问题
-            var startUrls = !string.IsNullOrWhiteSpace(urls) ? urls : webHostBuilder.GetSetting("urls");
+            var startUrls = !string.IsNullOrWhiteSpace(urls) ? urls : webHostBuilder.GetSetting(nameof(urls));
 
             // 自定义启动端口
             if (!string.IsNullOrWhiteSpace(startUrls))
@@ -136,7 +136,7 @@ public static class Serve
         options.Builder = builder;
 
         // 解决部分主机不能正确读取 urls 参数命令问题
-        var startUrls = !string.IsNullOrWhiteSpace(urls) ? urls : builder.Configuration["urls"];
+        var startUrls = !string.IsNullOrWhiteSpace(urls) ? urls : builder.Configuration[nameof(urls)];
 
         // 自定义启动端口
         if (!string.IsNullOrWhiteSpace(startUrls))

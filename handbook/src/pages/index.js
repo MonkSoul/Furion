@@ -81,13 +81,16 @@ function Banner() {
             </span>
           </div>
           <div className="furion-get-start-btn">
-            <Link
-              className="furion-get-start"
-              to={useBaseUrl("docs/serverun")}
-            >
-              我准备好了
+            <Link className="furion-get-start" to={useBaseUrl("docs/serverun")}>
+              入门指南
             </Link>
-            <div className="furion-version">v3.6.4</div>
+            <Link
+              className="furion-try-demo"
+              to="https://replit.com/@MonkSoul/HelloFurion?v=1#Program.cs"
+            >
+              试用一下
+            </Link>
+            <div className="furion-version">v3.6.5</div>
           </div>
         </div>
         <div className="furion-banner-item">
@@ -176,7 +179,7 @@ function Gitee() {
             className={"furion-log-jiao" + (isDarkTheme ? " dark" : "")}
           ></div>
           <div className="furion-log-number">
-            <div style={{ color: "#1fd898" }}>2,669,978</div>
+            <div style={{ color: "#1fd898" }}>2,678,367</div>
             <span className={isDarkTheme ? " dark" : ""}>Downloads</span>
           </div>
         </div>

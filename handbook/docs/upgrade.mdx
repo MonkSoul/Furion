@@ -16,7 +16,7 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 > - 如果涉及到代码重构，则当天发版，次版本号 `加 1`，修订版本号 `清 0`。
 > - 如果 `.NET SDK` 主版本号升级，则当天发版，主版本号 `加 1`。 -->
 
-## v3.6.4（当前版本）
+## v3.6.5（当前版本）
 
 - **新特性**
 
@@ -37,6 +37,7 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
   - [修复] 修复默认注册的 `services.AddResponseCaching();` 服务导致 `.axd` 内嵌资源请求错误问题 [!495](https://gitee.com/dotnetchina/Furion/pulls/495)
   - [修复] `Oracle` 数据库执行 `sql` 必须要求命令参数和 `sql` 语言参数数量一致 [#I5D057](https://gitee.com/dotnetchina/Furion/issues/I5D057)
   - [修复] `IHostService` 类型不能自动注册问题，之前只扫描了 `BackgroundService` 派生类 [968344](https://gitee.com/dotnetchina/Furion/commit/968344aa07348f4c06f914abf7b6f46174633d81)
+  - [修复] 国产芯片主机不能识别 `dotnet run --urls` 参数问题 [6d4398](https://gitee.com/dotnetchina/Furion/commit/6d43983781e0c41228c4917a242141d011088bdb)
 
 - **其他更改**
 
