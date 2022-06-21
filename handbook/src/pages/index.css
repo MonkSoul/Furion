@@ -81,9 +81,10 @@
 .furion-try-demo {
   margin-top: 4em;
   border-radius: 2em;
-  min-width: 200px;
+  min-width: 145px;
   color: #fff;
   background: #8759ff;
+  position: relative;
   line-height: 1.5;
   text-align: center;
   padding: 8px 32px;
@@ -93,7 +94,6 @@
 }
 
 .furion-try-demo {
-  min-width: 120px;
   background-color: rgb(33, 176, 145);
   margin-left: 20px;
 }
@@ -447,13 +447,14 @@
 
 .furion-get-start-btn {
   position: relative;
+  display: flex;
 }
 
 .furion-version {
   position: absolute;
   z-index: 10;
-  margin-top: -53px;
-  margin-left: 150px;
+  right: 0;
+  top: -10px;
   color: yellow;
   font-size: 16px;
 }
