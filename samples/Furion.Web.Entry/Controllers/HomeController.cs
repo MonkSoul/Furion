@@ -1,4 +1,5 @@
-﻿using Furion.SpecificationDocument;
+﻿using Furion.FriendlyException;
+using Furion.SpecificationDocument;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
@@ -55,5 +56,16 @@ public class HomeController : Controller
     public IActionResult TestValidate([Required, MinLength(3)] string data)
     {
         return Content("数据");
+    }
+
+    public IActionResult TestBad()
+    {
+        return new BadPageResult(500)
+        {
+            Title = "错误标题",
+            Code = "详细错误消息",
+            CodeLang = "语言",
+            Description = "这里是一段错误描述",
+        };
     }
 }
