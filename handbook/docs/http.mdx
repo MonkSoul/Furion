@@ -874,7 +874,7 @@ public interface IHttp : IHttpDispatchProxy
 
 `Furion` 框架也提供了多个请求客户端配置，可以为多个客户端请求配置默认请求信息，如：
 
-```cs showLineNumbers  {4,9,17}
+```cs showLineNumbers  {4,9}
 services.AddRemoteRequest(options=>
 {
     // 配置默认 HttpClient
@@ -882,19 +882,11 @@ services.AddRemoteRequest(options=>
         // 其他配置
     });
 
-    // 配置 Github 基本信息
+    // 配置特定客户端
     options.AddHttpClient("github", c =>
     {
         c.BaseAddress = new Uri("https://api.github.com/");
         c.DefaultRequestHeaders.Add("Accept", "application/vnd.github.v3+json");
-        c.DefaultRequestHeaders.Add("User-Agent", "HttpClientFactory-Sample");
-    });
-
-    // 配置 Facebook 基本信息
-    options.AddHttpClient("facebook", c =>
-    {
-        c.BaseAddress = new Uri("https://api.facebook.com/");
-        c.DefaultRequestHeaders.Add("Accept", "application/vnd.facebook.v3+json");
         c.DefaultRequestHeaders.Add("User-Agent", "HttpClientFactory-Sample");
     });
 })
@@ -935,7 +927,7 @@ services.AddRemoteRequest(options=>
                 ServerCertificateCustomValidationCallback = (_, _, _, _) => true,
             });
 
-    // 配置 Github 基本信息
+    // 配置特定客户端
     options.AddHttpClient("github", c => { /*其他配置*/ })
            .ConfigurePrimaryHttpMessageHandler(u => new HttpClientHandler
             {
@@ -949,7 +941,7 @@ services.AddRemoteRequest(options=>
 ```cs showLineNumbers {5,8-13}
 services.AddRemoteRequest(options=>
 {
-    // 配置 Github 基本信息
+    // 配置特定客户端
     options.AddHttpClient("github", c => { /*其他配置*/ })
            .ConfigurePrimaryHttpMessageHandler(u => new HttpClientHandler
            {

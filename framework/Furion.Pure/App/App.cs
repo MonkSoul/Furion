@@ -399,7 +399,10 @@ public static class App
         {
             types = ass.GetTypes();
         }
-        catch { }
+        catch
+        {
+            Console.WriteLine($"Error load `{ass.FullName}` assembly.");
+        }
 
         return types.Where(u => u.IsPublic && !u.IsDefined(typeof(SuppressSnifferAttribute), false));
     }
