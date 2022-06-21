@@ -73,7 +73,20 @@ public static class FS
         var fileExtensionProvider = new FileExtensionContentTypeProvider();
         fileExtensionProvider.Mappings[".iec"] = "application/octet-stream";
         fileExtensionProvider.Mappings[".patch"] = "application/octet-stream";
-        fileExtensionProvider.Mappings[".apk"] = "application/octet-stream";
+        fileExtensionProvider.Mappings[".apk"] = "application/vnd.android.package-archive";
+        fileExtensionProvider.Mappings[".pem"] = "application/x-x509-user-cert";
+        fileExtensionProvider.Mappings[".gzip"] = "application/x-gzip";
+        fileExtensionProvider.Mappings[".7zip"] = "application/zip";
+        fileExtensionProvider.Mappings[".jpg2"] = "image/jp2";
+        fileExtensionProvider.Mappings[".wps"] = "application/kswps";
+        fileExtensionProvider.Mappings[".et"] = "application/kset";
+        fileExtensionProvider.Mappings[".dps"] = "application/ksdps";
+        fileExtensionProvider.Mappings[".cdr"] = "application/x-coreldraw";
+        fileExtensionProvider.Mappings[".shtml"] = "text/html";
+        fileExtensionProvider.Mappings[".php"] = "application/x-httpd-php";
+        fileExtensionProvider.Mappings[".php3"] = "application/x-httpd-php";
+        fileExtensionProvider.Mappings[".php4"] = "application/x-httpd-php";
+        fileExtensionProvider.Mappings[".phtml"] = "application/x-httpd-php";
 
         return fileExtensionProvider;
     }

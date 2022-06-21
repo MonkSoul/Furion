@@ -625,7 +625,7 @@ public sealed partial class HttpRequestPart
                     FS.TryGetContentType(FileName, out var contentType);
 
                     var byteArrayContent = new ByteArrayContent(Bytes);
-                    byteArrayContent.Headers.Add("Content-Type", contentType ?? string.Empty);
+                    byteArrayContent.Headers.Add("Content-Type", contentType ?? "application/octet-stream");
 
                     if (string.IsNullOrWhiteSpace(FileName))
                         multipartFormDataContent.Add(byteArrayContent, Name);
