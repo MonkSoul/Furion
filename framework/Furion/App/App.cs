@@ -260,8 +260,7 @@ public static class App
         ExternalAssemblies = assObject.ExternalAssemblies;
 
         // 获取有效的类型集合
-        EffectiveTypes = Assemblies.SelectMany(u => u.GetTypes()
-            .Where(u => u.IsPublic && !u.IsDefined(typeof(SuppressSnifferAttribute), false)));
+        EffectiveTypes = Assemblies.SelectMany(GetTypes);
 
         AppStartups = new ConcurrentBag<AppStartup>();
     }
@@ -385,6 +384,24 @@ public static class App
         }
 
         return (scanAssemblies, externalAssemblies);
+    }
+
+    /// <summary>
+    /// 加载程序集中的所有类型
+    /// </summary>
+    /// <param name="ass"></param>
+    /// <returns></returns>
+    private static IEnumerable<Type> GetTypes(Assembly ass)
+    {
+        var types = Array.Empty<Type>();
+
+        try
+        {
+            types = ass.GetTypes();
+        }
+        catch { }
+
+        return types.Where(u => u.IsPublic && !u.IsDefined(typeof(SuppressSnifferAttribute), false));
     }
 
     /// <summary>
