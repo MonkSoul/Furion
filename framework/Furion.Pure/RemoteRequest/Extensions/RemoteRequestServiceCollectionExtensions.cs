@@ -7,6 +7,7 @@
 // See the Mulan PSL v2 for more details.
 
 using Furion.RemoteRequest;
+using System.Net;
 
 namespace Microsoft.Extensions.DependencyInjection;
 
@@ -29,11 +30,31 @@ public static class RemoteRequestServiceCollectionExtensions
         services.AddScopedDispatchProxyForInterface<HttpDispatchProxy, IHttpDispatchProxy>();
 
         // 注册默认请求客户端
-        if (inludeDefaultHttpClient) services.AddHttpClient();
+        if (inludeDefaultHttpClient)
+        {
+            services.AddHttpClient(string.Empty)
+                // 忽略 SSL 不安全检查，或 https 不安全或 https 证书有误
+                .ConfigurePrimaryHttpMessageHandler(u => new HttpClientHandler
+                {
+                    ServerCertificateCustomValidationCallback = (_, _, _, _) => true,
+                });
+        }
 
         // 注册其他客户端
         configure?.Invoke(services);
 
         return services;
+    }
+
+    /// <summary>
+    /// 忽略所有请求证书
+    /// </summary>
+    /// <remarks>慎用</remarks>
+    public static void ApproveAllCerts(this IServiceCollection _)
+    {
+        ServicePointManager.ServerCertificateValidationCallback += (sender, certificate, chain, errors) =>
+        {
+            return true;
+        };
     }
 }

@@ -94,4 +94,11 @@ public class TestModuleServices : IDynamicApiController
 
         return result.Data;
     }
+
+    public async Task<string> TestBaidu()
+    {
+        var url = $"https://www.baidu.com";
+        var resultStr = await url.GetAsStringAsync();
+        return resultStr;
+    }
 }

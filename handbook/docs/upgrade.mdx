@@ -25,6 +25,7 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
   - [支持] 项目类型为 `<Project Sdk="Microsoft.NET.Sdk">` 的控制台项目 [fb08a65](https://gitee.com/dotnetchina/Furion/commit/fb08a6548d49921aa143d01389a2592b92e94e31)
   - [新增] `BadPageResult` 错误页面类型 [!494](https://gitee.com/dotnetchina/Furion/pulls/495)
   - [新增] `[SchemaId]` 特性，解决不同程序集相同的类名生成 `Swagger` 的 `SchemaId` 冲突问题 [#I5D3CU](https://gitee.com/dotnetchina/Furion/issues/I5D3CU)
+  - [新增] 远程请求 `options.ApproveAllCerts()` 忽略所有客户端证书拓展
 
 - **突破性变化**
 
@@ -38,9 +39,11 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
   - [修复] `Oracle` 数据库执行 `sql` 必须要求命令参数和 `sql` 语言参数数量一致 [#I5D057](https://gitee.com/dotnetchina/Furion/issues/I5D057)
   - [修复] `IHostService` 类型不能自动注册问题，之前只扫描了 `BackgroundService` 派生类 [968344](https://gitee.com/dotnetchina/Furion/commit/968344aa07348f4c06f914abf7b6f46174633d81)
   - [修复] 国产芯片主机不能识别 `dotnet run --urls` 参数问题 [6d4398](https://gitee.com/dotnetchina/Furion/commit/6d43983781e0c41228c4917a242141d011088bdb)
+  - [修复] 远程请求上传文件不支持特定文件后缀问题，如 `.pem` 文件 [ba42198](https://gitee.com/dotnetchina/Furion/commit/ba42198c1cd58612f2b383349c37068aac78cdd7)
 
 - **其他更改**
 
+  - [调整] 远程请求默认客户端不检查 `SSL` 证书
   - [调整] 开放验证服务选项 `SuppressModelStateInvalidFilter` 属性为可配置 [!494](https://gitee.com/dotnetchina/Furion/pulls/495)
 
 - **文档**
@@ -49,7 +52,7 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
   - [新增] `HttpContext` 文档
   - [新增] `GlobalUsings` 文档
   - [新增] `TP` 全局静态类文档
-  - [更新] 跨域文档
+  - [更新] 跨域文档、远程请求文档
 
 - **精彩贡献**
 

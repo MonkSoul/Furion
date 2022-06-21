@@ -106,7 +106,7 @@ namespace Furion.Application
   </TabItem>
   <TabItem value="字符串拓展方式">
 
-```cs showLineNumbers 
+```cs showLineNumbers
 var response = await "https://www.furion.icu/get".GetAsync();
 
 var response = await "https://www.furion.icu/post".PostAsync();
@@ -129,7 +129,7 @@ var response = await "https://www.furion.icu/head".HeadAsync();
 
 ### 19.4.1 内置请求方式
 
-```cs showLineNumbers 
+```cs showLineNumbers
 // 发送 Get 请求
 var response = await "https://www.furion.icu/get".GetAsync();
 
@@ -155,19 +155,19 @@ var response = await "https://www.furion.icu/post".SetHttpMethod(HttpMethod.Post
 
 ### 19.4.2 设置请求地址
 
-```cs showLineNumbers 
+```cs showLineNumbers
 await "".SetRequestUrl("https://www.furion.icu/");
 ```
 
 ### 19.4.3 设置请求方式
 
-```cs showLineNumbers 
+```cs showLineNumbers
 await "https://www.furion.icu/post".SetHttpMethod(HttpMethod.Get);
 ```
 
 ### 19.4.4 设置地址模板
 
-```cs showLineNumbers 
+```cs showLineNumbers
 // 字典方式
 await "https://www.furion.icu/post/{id}?name={name}&id={p.Id}".SetTemplates(new Dictionary<string , object> {
     { "id", 1 },
@@ -186,7 +186,7 @@ await "https://www.furion.icu/post/{id}?name={name}".SetTemplates(new {
 
 ### 19.4.5 设置请求报文头
 
-```cs showLineNumbers 
+```cs showLineNumbers
 // 字典方式
 await "https://www.furion.icu/post".SetHeaders(new Dictionary<string , object> {
     { "Authorization", "Bearer 你的token"},
@@ -201,7 +201,7 @@ await "https://www.furion.icu/post".SetHeaders(new {
 
 ### 19.4.6 设置 `URL` 地址参数
 
-```cs showLineNumbers 
+```cs showLineNumbers
 // 字典方式
 await "https://www.furion.icu/get".SetQueries(new Dictionary<string , object> {
     { "id", 1 },
@@ -238,7 +238,7 @@ await "get".SetClient("github");
 
 ### 19.4.8 设置 `Body` 参数
 
-```cs showLineNumbers 
+```cs showLineNumbers
 // 传入对象
 await "https://www.furion.icu/api/user/add".SetBody(new User { Id = 1, Name = "Furion" });
 
@@ -266,13 +266,13 @@ await "https://www.furion.icu/api/user/add".SetBody("<SomeDto><SomeTag>somevalue
 
 ### 19.4.9 设置 `Content-Type`
 
-```cs showLineNumbers 
+```cs showLineNumbers
 await "https://www.furion.icu/post".SetContentType("application/json");
 ```
 
 ### 19.4.10 设置内容编码
 
-```cs showLineNumbers 
+```cs showLineNumbers
 await "https://www.furion.icu/post".SetContentEncoding(Encoding.UTF8);
 ```
 
@@ -280,7 +280,7 @@ await "https://www.furion.icu/post".SetContentEncoding(Encoding.UTF8);
 
 `Furion` 默认情况下采用 `System.Text.Json` 进行 `JSON` 序列化处理，如需设置第三方 `JSON` 提供器，则可以通过以下配置：
 
-```cs showLineNumbers 
+```cs showLineNumbers
 // 泛型方式
 await "https://www.furion.icu/api/user/add".SetJsonSerialization<NewtonsoftJsonSerializerProvider>();
 
@@ -301,7 +301,7 @@ await "https://www.furion.icu/api/user/add".SetJsonSerialization<NewtonsoftJsonS
 
 ### 19.4.12 启用 `Body` 参数验证
 
-```cs showLineNumbers 
+```cs showLineNumbers
 await "https://www.furion.icu/api/user/add".SetValidationState();
 
 // 设置不验证 null 值
@@ -312,7 +312,7 @@ await "https://www.furion.icu/api/user/add".SetValidationState(includeNull: true
 
 ### 19.4.13 请求拦截
 
-```cs showLineNumbers 
+```cs showLineNumbers
 await "https://www.furion.icu/".OnRequesting(req => {
     // req 为 HttpRequestMessage 对象
     // 追加更多参数
@@ -326,7 +326,7 @@ await "https://www.furion.icu/".OnRequesting(req => {
 
 ### 19.4.14 `HttpClient` 拦截
 
-```cs showLineNumbers 
+```cs showLineNumbers
 await "https://www.furion.icu/".OnClientCreating(client => {
     // client 为 HttpClient 对象
     client.Timeout = 30000; // 设置超时时间
@@ -337,7 +337,7 @@ await "https://www.furion.icu/".OnClientCreating(client => {
 
 ### 19.4.15 成功请求拦截
 
-```cs showLineNumbers 
+```cs showLineNumbers
 await "https://www.furion.icu/".OnResponsing(res => {
     // res 为 HttpResponseMessage 对象
 });
@@ -347,7 +347,7 @@ await "https://www.furion.icu/".OnResponsing(res => {
 
 ### 19.4.16 请求异常拦截
 
-```cs showLineNumbers 
+```cs showLineNumbers
 await "https://www.furion.icu/".OnException((res,errors) => {
     // res 为 HttpResponseMessage 对象
 });
@@ -367,7 +367,7 @@ await "https://www.furion.icu/".OnException((res,errors) => {
 
 如：
 
-```cs showLineNumbers 
+```cs showLineNumbers
 // HttpResponseMessage
 var res = await "https://www.furion.icu/".GetAsync();
 
@@ -385,21 +385,21 @@ var str = await "https://www.baidu.com".GetAsStringAsync();
 
 有时候我们需要上传文件，需要设置 `Content-Type` 为 `multipart/form-data` 类型，如：
 
-```cs showLineNumbers 
+```cs showLineNumbers
 // bytes 可以通过 File.ReadAllBytes(文件路径) 获取
 var res = await "https://www.furion.icu/upload".SetContentType("multipart/form-data")
-                                               .SetBodyBytes(("键", bytes, "文件名")).PostAsync();                             
+                                               .SetBodyBytes(("键", bytes, "文件名")).PostAsync();
 
-// 支持多个文件                                               
+// 支持多个文件
 var res = await "https://www.furion.icu/upload".SetContentType("multipart/form-data")
-                                               .SetBodyBytes(("键", bytes, "文件名"),("键", bytes, "文件名")).PostAsync();                             
+                                               .SetBodyBytes(("键", bytes, "文件名"),("键", bytes, "文件名")).PostAsync();
 ```
 
 :::note 关于微信上传接口
 
 如果遇到微信上传出现问题，则可设置 `Content-Type` 为：`application/octet-stream`，如：
 
-```cs showLineNumbers 
+```cs showLineNumbers
 var result = await $"https://api.weixin.qq.com/wxa/img_sec_check?access_token={token}"
                 .SetBodyBytes(("media", bytes, Path.GetFileName(imgPath)))
                 .SetContentType("application/octet-stream")
@@ -412,13 +412,13 @@ var result = await $"https://api.weixin.qq.com/wxa/img_sec_check?access_token={t
 
 有时候我们需要构建一个作用域的 `IServiceProvider`，这时只需要设置即可：
 
-```cs showLineNumbers 
+```cs showLineNumbers
 var res = await "https://www.furion.icu/upload".SetRequestScoped(services);
 ```
 
 ### 19.4.20 设置 `Timeout` 超时时间
 
-```cs showLineNumbers 
+```cs showLineNumbers
 var res = await "https://www.furion.icu/upload".SetClientTimeout(10); // 单位秒
 ```
 
@@ -426,11 +426,11 @@ var res = await "https://www.furion.icu/upload".SetClientTimeout(10); // 单位�
 
 模板格式为：`#(配置路径)`
 
-```cs showLineNumbers 
+```cs showLineNumbers
 var res = await "#(Furion:Address)/upload".GetAsync();
 ```
 
-```json showLineNumbers 
+```json showLineNumbers
 {
   "Furion": {
     "Address": "https://www.furion.icu"
@@ -442,7 +442,7 @@ var res = await "#(Furion:Address)/upload".GetAsync();
 
 在 `Furion v2.18+` 版本支持配置重试策略，如：
 
-```cs showLineNumbers 
+```cs showLineNumbers
 var res = await "https://www.furion.icu".SetRetryPolicy(3, 1000).GetAsync();
 ```
 
@@ -452,7 +452,7 @@ var res = await "https://www.furion.icu".SetRetryPolicy(3, 1000).GetAsync();
 
 在 `Furion v3.2.0+` 版本支持`GZip` 压缩，如：
 
-```cs showLineNumbers 
+```cs showLineNumbers
 var res = await "https://www.furion.icu".WithGZip().GetAsync();
 ```
 
@@ -460,7 +460,7 @@ var res = await "https://www.furion.icu".WithGZip().GetAsync();
 
 ### 19.5.1 支持多种代理方式
 
-```cs showLineNumbers 
+```cs showLineNumbers
 public interface IHttp : IHttpDispatchProxy
 {
     // 发送 Get 请求
@@ -491,7 +491,7 @@ public interface IHttp : IHttpDispatchProxy
 
 ### 19.5.2 设置地址模板
 
-```cs showLineNumbers 
+```cs showLineNumbers
 public interface IHttp : IHttpDispatchProxy
 {
     [Get("https://www.furion.icu/get/{id}?name={name}&number={p.PersonDetail.PhonNumber}")]
@@ -771,7 +771,7 @@ public interface IHttp : IHttpDispatchProxy
 
 如：
 
-```cs showLineNumbers 
+```cs showLineNumbers
 public interface IHttp : IHttpDispatchProxy
 {
     [Post("https://www.furion.icu/post")]
@@ -806,7 +806,7 @@ public interface IHttp : IHttpDispatchProxy
 
 ### 19.5.15 设置 `Timeout` 超时时间
 
-```cs showLineNumbers 
+```cs showLineNumbers
 [Timeout(1000)]
 public interface IHttp : IHttpDispatchProxy
 {
@@ -817,7 +817,7 @@ public interface IHttp : IHttpDispatchProxy
 
 ### 19.4.20 设置 `Timeout` 超时时间
 
-```cs showLineNumbers 
+```cs showLineNumbers
 var res = await "https://www.furion.icu/upload".SetClientTimeout(10); // 单位秒
 ```
 
@@ -825,7 +825,7 @@ var res = await "https://www.furion.icu/upload".SetClientTimeout(10); // 单位�
 
 模板格式为：`#(配置路径)`
 
-```cs showLineNumbers 
+```cs showLineNumbers
 public interface IHttp : IHttpDispatchProxy
 {
     [Post("#(Furion:Address)/upload")]
@@ -833,7 +833,7 @@ public interface IHttp : IHttpDispatchProxy
 }
 ```
 
-```json showLineNumbers 
+```json showLineNumbers
 {
   "Furion": {
     "Address": "https://www.furion.icu"
@@ -847,7 +847,7 @@ public interface IHttp : IHttpDispatchProxy
 
 在 `Furion v2.18+` 版本支持配置重试策略，如：
 
-```cs showLineNumbers 
+```cs showLineNumbers
 [RetryPolicy(3, 1000)] // 支持全局
 public interface IHttp : IHttpDispatchProxy
 {
@@ -862,10 +862,10 @@ public interface IHttp : IHttpDispatchProxy
 
 在 `Furion v3.2.0+` 版本支持 `GZip`，如：
 
-```cs showLineNumbers 
+```cs showLineNumbers
 public interface IHttp : IHttpDispatchProxy
 {
-    [Post("https://www.furion.icu", WithGZip = true)] 
+    [Post("https://www.furion.icu", WithGZip = true)]
     Task<HttpResponseMessage> PostXXXAsync([Body]User user);
 }
 ```
@@ -874,9 +874,14 @@ public interface IHttp : IHttpDispatchProxy
 
 `Furion` 框架也提供了多个请求客户端配置，可以为多个客户端请求配置默认请求信息，如：
 
-```cs showLineNumbers  {4,12}
+```cs showLineNumbers  {4,9,17}
 services.AddRemoteRequest(options=>
 {
+    // 配置默认 HttpClient
+    options.AddHttpClient(string.Empty, c => {
+        // 其他配置
+    });
+
     // 配置 Github 基本信息
     options.AddHttpClient("github", c =>
     {
@@ -892,50 +897,14 @@ services.AddRemoteRequest(options=>
         c.DefaultRequestHeaders.Add("Accept", "application/vnd.facebook.v3+json");
         c.DefaultRequestHeaders.Add("User-Agent", "HttpClientFactory-Sample");
     });
-
-    // 配置更多参数，比如 SSL 证书
-    services.AddHttpClient("github", c => {
-        // 其他配置
-    })
-    .ConfigurePrimaryHttpMessageHandler(u => new HttpClientHandler
-    {
-        // 忽略 SSL 不安全检查，或 https 不安全或 https 证书有误
-        ServerCertificateCustomValidationCallback = (_, _, _, _) => true,
-
-        // 手动配置证书
-        ClientCertificateOptions = ClientCertificateOption.Manual,
-        ClientCertificates = {
-            new X509Certificate2("...","..."),
-            new X509Certificate2("...","..."),
-            new X509Certificate2("...","...")
-        }
-    });
 })
 ```
-
-:::important 关于默认客户端配置
-
-默认情况下，`services.AddRemoteRequest()` 会注册一个默认的客户端，但是无法进行默认客户端更多配置，如需配置默认客户端，可以设置 `inludeDefaultHttpClient` 参数为 `false`，并手动注册默认客户端，如：
-
-```cs showLineNumbers  {3-4,9}
-services.AddRemoteRequest(options=>
-{
-    // 配置默认客户端，注意 string.Empty
-    options.AddHttpClient(string.Empty, c =>
-    {
-        c.BaseAddress = new Uri("https://furion.icu/");
-        // 其他配置
-    });
-}, false)
-```
-
-:::
 
 **配置了命名客户端后，每次请求都会自动加上这些配置。**
 
 - 在 `代理请求` 使用
 
-```cs showLineNumbers 
+```cs showLineNumbers
 [Get("api/getdata"), Client("github")]
 Task<User> GetData();
 
@@ -945,17 +914,78 @@ Task<User> GetData();
 
 - 在 `字符串拓展` 使用
 
-```cs showLineNumbers 
+```cs showLineNumbers
 // 设置请求拦截
 var response = await "http://47.100.247.61/api/sysdata/categories".SetClient("github").PostAsync();
 ```
 
-## 19.7 关于返回值非 `200` 时忽略 `Http状态`
+## 19.7 `SSL/https` 证书配置
+
+有时候我们请求远程接口时会遇到 `The SSL connection could not be established, see inner exception.` 这样的错误，原因是证书配置不正确问题，下面有几种解决方法。
+
+### 19.7.1 忽略特定客户端 `SSL` 证书检查
+
+```cs showLineNumbers {5,7,12,14}
+services.AddRemoteRequest(options=>
+{
+    // 默认 HttpClient 在 Furion 框架内部已经配置了该操作
+    options.AddHttpClient(string.Empty)
+            .ConfigurePrimaryHttpMessageHandler(u => new HttpClientHandler
+            {
+                ServerCertificateCustomValidationCallback = (_, _, _, _) => true,
+            });
+
+    // 配置 Github 基本信息
+    options.AddHttpClient("github", c => { /*其他配置*/ })
+           .ConfigurePrimaryHttpMessageHandler(u => new HttpClientHandler
+            {
+                ServerCertificateCustomValidationCallback = (_, _, _, _) => true,
+            });
+});
+```
+
+### 19.7.2 手动指定 `SSL` 证书
+
+```cs showLineNumbers {5,8-13}
+services.AddRemoteRequest(options=>
+{
+    // 配置 Github 基本信息
+    options.AddHttpClient("github", c => { /*其他配置*/ })
+           .ConfigurePrimaryHttpMessageHandler(u => new HttpClientHandler
+           {
+                // 手动配置证书
+                ClientCertificateOptions = ClientCertificateOption.Manual,
+                ClientCertificates = {
+                    new X509Certificate2("...","..."),
+                    new X509Certificate2("...","..."),
+                    new X509Certificate2("...","...")
+                }
+            });
+});
+```
+
+### 19.7.3 忽略所有客户端证书检查
+
+:::important 版本说明
+
+以下内容仅限 `Furion v3.6.6+` 版本使用。
+
+:::
+
+```cs showLineNumbers {4}
+services.AddRemoteRequest(options=>
+{
+    // 需在所有客户端注册之前注册
+    options.ApproveAllCerts();
+});
+```
+
+## 19.8 关于返回值非 `200` 时忽略 `Http状态`
 
 `Furion` 提供了非常方便的请求并且序列化请求结果 `PostAsAsync<T>`
 在 `2.8.8` 及以下版本，当返回结果的 `Http` 状态为非 `200` 时，会直接截断。考虑到请求接口的多样性，在 `2.8.9` 及以上版本增加忽略返回 `Http` 状态，直接序列化结果的方式。
 
-```cs showLineNumbers 
+```cs showLineNumbers
 //请求并且序列化请求结果
 var result = await "https://api.facebook.com/"
     //如果不加OnException，则会直接截断
@@ -974,11 +1004,11 @@ var result = await "https://api.facebook.com/"
 
 :::
 
-## 19.8 关于同步请求
+## 19.9 关于同步请求
 
 `Furion` 框架内部默认不提供同步请求操作，建议总是使用异步的方式请求。如在不能使用异步的情况下，可自行转换为同步执行。
 
-## 19.9 多线程共享作用域
+## 19.10 多线程共享作用域
 
 默认情况下，所有的 `字符串` 和 `实体` 拓展都有自己独立维护的 `ServiceProvider` 作用域。
 
@@ -986,19 +1016,19 @@ var result = await "https://api.facebook.com/"
 
 这时，我们只需要通过 `.SetXXXScoped(service)` 共享当前服务提供器作用域即可，如：
 
-```cs showLineNumbers 
+```cs showLineNumbers
 Scoped.Create(async (fac, scope) => {
    var response = await "https://www.furion.icu".SetRequestScoped(scope.ServiceProvider).PostAsync();
 });
 ```
 
-## 19.10 静态 `Default` 方式构建
+## 19.11 静态 `Default` 方式构建
 
-```cs showLineNumbers 
+```cs showLineNumbers
 await HttpRequestPart.Default.SetRequestUrl("https://www.baidu.com").GetAsStringAsync();
 ```
 
-## 19.11 反馈与建议
+## 19.12 反馈与建议
 
 :::note 与我们交流
 
