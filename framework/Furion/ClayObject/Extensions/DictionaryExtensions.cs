@@ -75,13 +75,24 @@ public static class DictionaryExtensions
     {
         if (input == null) return default;
 
-        if (input is IDictionary<string, object> dictionary)
-            return dictionary.ToDictionary(
-                kvp => kvp.Key,
-                kvp => kvp.Value == null ?
-                    new Tuple<Type, object>(typeof(object), kvp.Value) :
-                    new Tuple<Type, object>(kvp.Value.GetType(), kvp.Value)
-            );
+        // 处理本就是字典类型
+        if (input.GetType().HasImplementedRawGeneric(typeof(IDictionary<,>)))
+        {
+            var dicInput = ((IDictionary)input);
+
+            var dic = new Dictionary<string, Tuple<Type, object>>();
+            foreach (var key in dicInput.Keys)
+            {
+                var value = dicInput[key];
+                var tupleValue = value == null ?
+                    new Tuple<Type, object>(typeof(object), value) :
+                    new Tuple<Type, object>(value.GetType(), value);
+
+                dic.Add(key.ToString(), tupleValue);
+            }
+
+            return dic;
+        }
 
         var dict = new Dictionary<string, Tuple<Type, object>>();
 
