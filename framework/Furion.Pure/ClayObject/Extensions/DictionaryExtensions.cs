@@ -27,9 +27,21 @@ public static class DictionaryExtensions
     {
         if (input == null) return default;
 
-        if (input is IDictionary<string, object> dictionary)
-            return dictionary;
+        // 处理本就是字典类型
+        if (input.GetType().HasImplementedRawGeneric(typeof(IDictionary<,>)))
+        {
+            var dicInput = ((IDictionary)input);
 
+            var dic = new Dictionary<string, object>();
+            foreach (var key in dicInput.Keys)
+            {
+                dic.Add(key.ToString(), dicInput[key]);
+            }
+
+            return dic;
+        }
+
+        // 处理粘土对象
         if (input is Clay clay && clay.IsObject)
         {
             var dic = new Dictionary<string, object>();
@@ -40,11 +52,13 @@ public static class DictionaryExtensions
             return dic;
         }
 
+        // 处理 JSON 类型
         if (input is JsonElement jsonElement && jsonElement.ValueKind == JsonValueKind.Object)
         {
             return jsonElement.ToObject() as IDictionary<string, object>;
         }
 
+        // 剩下的当对象处理
         var properties = input.GetType().GetProperties();
         var fields = input.GetType().GetFields();
         var members = properties.Cast<MemberInfo>().Concat(fields.Cast<MemberInfo>());
