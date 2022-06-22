@@ -57,6 +57,7 @@ function Banner() {
             让 .NET 开发更简单，更通用，更流行。
           </div>
           <ul className="furion-banner-spec">
+            <li>木兰宽松开源协议，无需商业授权</li>
             <li>基于 .NET5/6 平台，没有历史包袱</li>
             <li>极少依赖，只依赖两个第三方包</li>
             <li>极速上手，一个 Inject() 完成配置</li>
@@ -89,7 +90,7 @@ function Banner() {
               className="furion-try-demo"
               to="https://replit.com/@MonkSoul/HelloFurion?v=1#Program.cs"
             >
-              试用一下
+              云上体验
             </Link>
           </div>
         </div>
@@ -99,6 +100,9 @@ function Banner() {
               language="cs"
               // section="schema"
               source={`
+// highlight-next-line
+Serve.Run();
+
 public class FurionAppService : IDynamicApiController
 {
     private readonly IRepository<User> _userRepository;
@@ -141,7 +145,7 @@ function Gitee() {
   return (
     <div className="furion-content">
       <p className={"furion-small-title" + (isDarkTheme ? " dark" : "")}>
-        完全开源免费
+        完全开源免费/无授权
       </p>
       <h1 className={"furion-big-title" + (isDarkTheme ? " dark" : "")}>
         ⭐️ 木兰宽松开源协议，代码在 Gitee 平台托管 ⭐️
@@ -179,7 +183,7 @@ function Gitee() {
             className={"furion-log-jiao" + (isDarkTheme ? " dark" : "")}
           ></div>
           <div className="furion-log-number">
-            <div style={{ color: "#1fd898" }}>2,678,367</div>
+            <div style={{ color: "#1fd898" }}>2,683,218</div>
             <span className={isDarkTheme ? " dark" : ""}>Downloads</span>
           </div>
         </div>
