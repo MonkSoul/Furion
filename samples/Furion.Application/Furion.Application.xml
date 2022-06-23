@@ -317,6 +317,70 @@
             <param name="age"></param>
             <returns></returns>
         </member>
+        <member name="M:Furion.Application.PersonService.TestDbParameters">
+            <summary>
+            测试 Markdown
+            </summary>
+            <remarks>
+            # 测试 `Markdown` 注释
+            
+            ![](https://localhost:44316/images/logo.png)
+            
+            ```cs
+            Serve.Run();
+            
+            [DynamicApiController
+            public class HelloService
+            {
+                public string Say()
+                {
+                    return nameof(Furion);
+                }
+            }
+            ```
+            
+            功能还不错！！！
+            
+            | 商品         | 价格     | # 其他 |
+            |--------------|-----------|------------|
+            | Juicy Apples | 1.99      | *7*        |
+            | Bananas      | **1.89**  | 5234       |
+            | Bananas      | **1.89**  | 5234       |
+            | Bananas      | **1.89**  | 5234       |
+            
+            -----
+            
+            # Furion 探索版
+            
+            > 在过去一年，实现 `Furion` 从无到有，编写文档已逾百万字，过程心酸开源人自知。
+            >
+            > 这一路日夜兼程，嘲讽批评常伴眼耳，即便辛苦无奈、想过放弃，但为了那微不足道的存在感依然努力着。
+            >
+            > 当然，也收获了不少...越来越多拥趸者，越发精湛技术能力，更高层次思维模式，还有许多跨界跨行朋友。
+            >
+            > 在 《[开源指北] (https://gitee.com/opensource-guide/comments/)》中，我曾说道：“开源如同人的脸，好坏一面便知，缺点可能会受到嘲讽批评，优点也会收获赞扬尊重。别担心，他们正在塑造更好的你。”
+            >
+            > 所以，这一次重新起航，重塑 `Furion` 重塑自己。也许未来在某个 IT 圈但凡有人谈起 `.NET` 还能瞟到 `Furion` 的身影。
+            
+            ---
+            
+            🎉 探索 Furion 未来更多可能性，实现无第三方依赖的版本，所有模块功能按需安装，按需加载。
+            
+            - 作者：[百小僧] (https://gitee.com/monksoul)
+            - 日期：2021 年 08 月 30 日
+            
+            ## 环境
+            
+            - IDE ：[Microsoft Visual Studio Enterprise 2022 Preview(64 位) 版本 17.0.0 Preview 3.1] (https://visualstudio.microsoft.com/zh-hans/vs/preview/)
+            - SDK ：[.NET SDK 6] (https://dotnet.microsoft.com/download/dotnet/6.0)
+            - 语言：[C# 10](https://docs.microsoft.com/zh-cn/dotnet/csharp/whats-new/csharp-10)
+            
+            ## 包说明
+            
+            - `Furion.Core`：无第三方依赖，可在 `.NET 6` 所有项目类型中运行。
+            - `Furion`：内部依赖 `Furion.Core` 且无第三方依赖，**聚焦 `Web` 应用**，采用共享框架 `<FrameworkReference Include="Microsoft.AspNetCore.App" />` 模式
+             </remarks>
+        </member>
         <member name="M:Furion.Application.PersonService.Hello">
             <summary>
             测试 Markdown
