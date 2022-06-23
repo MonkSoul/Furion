@@ -173,3 +173,15 @@ var objs = App.UnmanagedObjects;
 ```cs showLineNumbers 
 App.DisposeUnmanagedObjects();  // 通常在非 `Web` 环境中手动处理释放时机
 ```
+
+## 1.22 判断是否是单文件环境
+
+:::important 版本说明
+
+以下内容仅限 `Furion 3.6.8 +` 版本使用。
+
+:::
+
+```cs showLineNumbers
+bool isSingleFileEnviroment = App.SingleFileEnvironment;
+```

@@ -9,6 +9,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Serilog;
 using Serilog.Events;
+using System.Reflection;
 using System.Text;
 
 namespace Microsoft.Extensions.Hosting;
@@ -27,6 +28,9 @@ public static class SerilogHostingExtensions
     [Obsolete("Prefer UseSerilog() on IHostBuilder")]
     public static IWebHostBuilder UseSerilogDefault(this IWebHostBuilder hostBuilder, Action<LoggerConfiguration> configAction = default)
     {
+        // 判断是否是单文件环境
+        var isSingleFileEnvironment = string.IsNullOrWhiteSpace(Assembly.GetEntryAssembly().Location);
+
         hostBuilder.UseSerilog((context, configuration) =>
         {
             // 加载配置文件
@@ -42,7 +46,7 @@ public static class SerilogHostingExtensions
                 if (hasWriteTo == null)
                 {
                     config.WriteTo.Console(outputTemplate: "[{Timestamp:HH:mm:ss} {Level:u3}] {Message:lj} {Properties:j}{NewLine}{Exception}")
-                      .WriteTo.File(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "logs", "application.log"), LogEventLevel.Information, rollingInterval: RollingInterval.Day, retainedFileCountLimit: null, encoding: Encoding.UTF8);
+                      .WriteTo.File(Path.Combine(!isSingleFileEnvironment ? AppDomain.CurrentDomain.BaseDirectory : AppContext.BaseDirectory, "logs", "application.log"), LogEventLevel.Information, rollingInterval: RollingInterval.Day, retainedFileCountLimit: null, encoding: Encoding.UTF8);
                 }
             }
         });
@@ -58,6 +62,9 @@ public static class SerilogHostingExtensions
     /// <returns></returns>
     public static IHostBuilder UseSerilogDefault(this IHostBuilder builder, Action<LoggerConfiguration> configAction = default)
     {
+        // 判断是否是单文件环境
+        var isSingleFileEnvironment = string.IsNullOrWhiteSpace(Assembly.GetEntryAssembly().Location);
+
         builder.UseSerilog((context, configuration) =>
         {
             // 加载配置文件
@@ -73,7 +80,7 @@ public static class SerilogHostingExtensions
                 if (hasWriteTo == null)
                 {
                     config.WriteTo.Console(outputTemplate: "[{Timestamp:HH:mm:ss} {Level:u3}] {Message:lj} {Properties:j}{NewLine}{Exception}")
-                      .WriteTo.File(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "logs", "application.log"), LogEventLevel.Information, rollingInterval: RollingInterval.Day, retainedFileCountLimit: null, encoding: Encoding.UTF8);
+                      .WriteTo.File(Path.Combine(!isSingleFileEnvironment ? AppDomain.CurrentDomain.BaseDirectory : AppContext.BaseDirectory, "logs", "application.log"), LogEventLevel.Information, rollingInterval: RollingInterval.Day, retainedFileCountLimit: null, encoding: Encoding.UTF8);
                 }
             }
         });

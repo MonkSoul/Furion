@@ -60,6 +60,11 @@ public static class App
     public static IServiceProvider RootServices => InternalApp.RootServices;
 
     /// <summary>
+    /// 判断是否是单文件环境
+    /// </summary>
+    public static bool SingleFileEnvironment => string.IsNullOrWhiteSpace(Assembly.GetEntryAssembly().Location);
+
+    /// <summary>
     /// 应用有效程序集
     /// </summary>
     public static readonly IEnumerable<Assembly> Assemblies;
