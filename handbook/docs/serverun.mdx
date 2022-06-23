@@ -141,6 +141,15 @@ dotnet run --urls https://localhost:8080
 dotnet watch run --urls https://localhost:8080
 ```
 
+也可以通过 `ConfigureBuilder` 方式配置：
+
+```cs showLineNumbers {}
+Serve.Run(RunOptions.Default.ConfigureBuilder(builder =>
+{
+    builder.WebHost.UseUrls("https://localhost:8080");  // 也可以通过 builder.Configuration 读取 urls 配置
+}));
+```
+
 :::tip 通过 `json` 方式配置
 
 如需通过配置文件配置端口，需两个该步骤：
