@@ -85,7 +85,7 @@ public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
 
 ### 21.5.1 在类中使用
 
-```cs showLineNumbers 
+```cs showLineNumbers
 // 文本多语言
 var apiInterface = L.Text["API 接口"];
 var sourceCode = L.Text["源码地址"];
@@ -113,7 +113,7 @@ var name = L.Html["<b>Hello</b><i> {0}</i>", name];
 
 ### 21.5.3 在验证特性中使用
 
-```cs showLineNumbers 
+```cs showLineNumbers
 [Required(ErrorMessage = "必填消息")]
 ```
 
@@ -137,7 +137,7 @@ namespace Furion.Application
 
 **所有异常消息特性已经自动支持多语言配置了，无需通过 `L.Text[]` 调用。**
 
-```cs showLineNumbers 
+```cs showLineNumbers
 throw Oops.Oh(ErrorCodes.z1000);    // 自动应用多语言
 ```
 
@@ -145,7 +145,7 @@ throw Oops.Oh(ErrorCodes.z1000);    // 自动应用多语言
 
 在 `Furion` 框架中，如果没找到对应的语言翻译文件，则自动显示字符串文本，如：
 
-```cs showLineNumbers 
+```cs showLineNumbers
 L.Text["没找到"];   // => 如果设置为英文，但是没有文件，则直接输出 “没找到”
 ```
 
@@ -165,7 +165,7 @@ L.Text["没找到"];   // => 如果设置为英文，但是没有文件，则直
 
 默认情况下，资源文件名必须以 `Lang` 开头，且只能放在启动层，如果需要自定义，添加配置文件即可
 
-```json showLineNumbers 
+```json showLineNumbers
 {
   "LocalizationSettings": {
     "LanguageFilePrefix": "MyLang"
@@ -194,7 +194,7 @@ L.Text["没找到"];   // => 如果设置为英文，但是没有文件，则直
 
 此方式只需要提供一个 `api` 或设置代码即可：
 
-```cs showLineNumbers 
+```cs showLineNumbers
 L.SetCulture("en-US");  // en-US 也可以通过前端传递过来，这样就可以不用 `culture` 参数了，可以自定义参数。
 ```
 
@@ -236,7 +236,13 @@ L.SetCulture("en-US");  // en-US 也可以通过前端传递过来，这样就�
   - `LanguageFilePrefix`：配置资源文件前缀，`string` 类型，默认 `Lang`
   - `AssemblyName`：配置资源文件存放程序集名，`string` 类型，默认 `启动层` 名称
 
-## 21.10 区域码列表
+## 21.10 关于中文不能切换问题
+
+若通过 `dotnet build` 命令行编译后发布的代码（比如 `jenkins` 以及其他 `devops` 工具），无法生成 `zh-CN` 资源文件，会出现中文无法显示的问题，这时候只需要将 `Lang.zh-CN.resx` 修改为：`Lang.zh-Hans.resx` 或 `Lang.zh-Hant.resx` 或 `Lang.zh.resx` 即可。
+
+相关文档说明 [https://docs.microsoft.com/zh-cn/dotnet/api/system.globalization.cultureinfo?view=net-6.0](https://docs.microsoft.com/zh-cn/dotnet/api/system.globalization.cultureinfo?view=net-6.0)
+
+## 21.11 区域码列表
 
 - af 公用荷兰语
 - af-ZA 公用荷兰语 - 南非
