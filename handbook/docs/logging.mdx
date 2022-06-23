@@ -157,7 +157,9 @@ namespace Furion.Web.Entry
 ```cs showLineNumbers  {2}
 var builder = WebApplication.CreateBuilder(args).Inject();
 builder.Host.UseSerilogDefault();
-//....
+
+// Furion 3.6.8 版本支持下列用法
+builder.UseSerilogDefault();
 ```
 
 :::important 特别注意
