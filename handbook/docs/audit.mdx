@@ -1,0 +1,109 @@
+---
+id: audit
+title: 5.4 请求审计日志
+sidebar_label: 5.4 请求审计日志 (Audit)
+---
+
+## 5.4.1 审计日志
+
+在一个企业应用系统中，用户对系统所有的操作包括请求、数据库操作等等都应该记录起来，那么这些日志我们称为操作日志，也可以说审计日志。
+
+:::tip 关于数据库操作审计日志
+
+如需实现 `sql` 操作，`数据库操作` 的审计日志可查阅 【[9.22 审计日志章节](./dbcontext-audit.mdx)】
+
+:::
+
+## 5.4.2 请求审计日志
+
+:::note 实现原理
+
+在这里，结合 【[5.3 筛选器](./filter.mdx)】 实现请求审计日志功能。
+
+:::
+
+请求审计日志通常指的是记录请求地址，来源地址，操作人，传递参数等。这个主要是通过 `IAsyncActionFilter` 筛选器实现，如：
+
+1. 定义 `RequestAuditFilter` 并实现 `IAsyncActionFilter`
+
+```cs showLineNumbers  {9,45}
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.Filters;
+using System;
+using System.Security.Claims;
+using System.Threading.Tasks;
+
+namespace Furion.Web.Core
+{
+    public class RequestAuditFilter : IAsyncActionFilter
+    {
+        public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
+        {
+            //============== 这里是执行方法之前获取数据 ====================
+
+            // 获取控制器、路由信息
+            var actionDescriptor = context.ActionDescriptor as ControllerActionDescriptor;
+
+            // 获取请求的方法
+            var method = actionDescriptor.MethodInfo;
+
+            // 获取 HttpContext 和 HttpRequest 对象
+            var httpContext = context.HttpContext;
+            var httpRequest = httpContext.Request;
+
+            // 获取客户端 Ipv4 地址
+            var remoteIPv4 = httpContext.GetRemoteIpAddressToIPv4();
+
+            // 获取请求的 Url 地址
+            var requestUrl = httpRequest.GetRequestUrlAddress();
+
+            // 获取来源 Url 地址
+            var refererUrl = httpRequest.GetRefererUrlAddress();
+
+            // 获取请求参数（写入日志，需序列化成字符串后存储）
+            var parameters = context.ActionArguments;
+
+            // 获取操作人（必须授权访问才有值）"userId" 为你存储的 claims type，jwt 授权对应的是 payload 中存储的键名
+            var userId = httpContext.User?.FindFirstValue("userId");
+
+            // 请求时间
+            var requestedTime = DateTimeOffset.Now;
+
+
+            //============== 这里是执行方法之后获取数据 ====================
+            var actionContext = await next();
+
+            // 获取返回的结果
+            var returnResult = actionContext.Result;
+
+            // 判断是否请求成功，没有异常就是请求成功
+            var isRequestSucceed = actionContext.Exception == null;
+
+            // 获取调用堆栈信息，提供更加简单明了的调用和异常堆栈
+            var stackTrace = EnhancedStackTrace.Current();
+
+            // 这里写入日志，或存储到数据库中！！！~~~~~~~~~~~~~~~~~~~~
+        }
+    }
+}
+```
+
+2. 注册 `RequestAuditFilter` 筛选器
+
+```cs showLineNumbers
+services.AddMvcFilter<RequestAuditFilter>();
+```
+
+:::important 关于筛选器注册顺序
+
+通常先注册的会先执行，也可以通过实现 `IOrderedFilter` 接口配置 `Order` 属性，数值越小，越先执行。
+
+:::
+
+## 5.4.3 反馈与建议
+
+:::note 与我们交流
+
+给 Furion 提 [Issue](https://gitee.com/dotnetchina/Furion/issues/new?issue)。
+
+:::
