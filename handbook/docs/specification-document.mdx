@@ -1298,7 +1298,47 @@ public string Hello()
 
 `Furion` 框架提供 `规范化结果` 功能，可以通过实现 `IUnifyResultProvider` 提供器实现统一规范化返回值定制，如：`RESTfulResultProvider`：
 
-```cs showLineNumbers  {15-16}
+- **定义结果包装类型**
+
+```cs showLineNumbers {1-2}
+// 必须是泛型类型
+public class YourRESTfulResult<T>
+{
+    /// <summary>
+    /// 状态码
+    /// </summary>
+    public int? StatusCode { get; set; }
+
+    /// <summary>
+    /// 数据
+    /// </summary>
+    public T Data { get; set; }
+
+    /// <summary>
+    /// 执行成功
+    /// </summary>
+    public bool Succeeded { get; set; }
+
+    /// <summary>
+    /// 错误信息
+    /// </summary>
+    public object Errors { get; set; }
+
+    /// <summary>
+    /// 附加数据
+    /// </summary>
+    public object Extras { get; set; }
+
+    /// <summary>
+    /// 时间戳
+    /// </summary>
+    public long Timestamp { get; set; }
+}
+```
+
+- **定义 `IUnifyResultProvider` 实现类，并贴特性 `[UnifyModel(typeof(YourRESTfulResult<>))]`**
+
+```cs showLineNumbers  {15-16,24,35,46,58}
 using Furion.DataValidation;
 using Furion.DependencyInjection;
 using Furion.UnifyResult.Internal;
@@ -1308,13 +1348,13 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using System;
 using System.Threading.Tasks;
 
-namespace Furion.UnifyResult
+namespace YourProject.UnifyResult
 {
     /// <summary>
     /// RESTful 风格返回值
     /// </summary>
-    [SuppressSniffer, UnifyModel(typeof(RESTfulResult<>))]
-    public class RESTfulResultProvider : IUnifyResultProvider
+    [UnifyModel(typeof(YourRESTfulResult<>))]
+    public class YourRESTfulResultProvider  : IUnifyResultProvider
     {
         /// <summary>
         /// 异常返回值
@@ -1324,7 +1364,7 @@ namespace Furion.UnifyResult
         /// <returns></returns>
         public IActionResult OnException(ExceptionContext context, ExceptionMetadata metadata)
         {
-            return new JsonResult(RESTfulResult(metadata.StatusCode, errors: metadata.Errors));
+            return new JsonResult(YourRESTfulResult(metadata.StatusCode, errors: metadata.Errors));
         }
 
         /// <summary>
@@ -1335,7 +1375,7 @@ namespace Furion.UnifyResult
         /// <returns></returns>
         public IActionResult OnSucceeded(ActionExecutedContext context, object data)
         {
-            return new JsonResult(RESTfulResult(StatusCodes.Status200OK, true, data));
+            return new JsonResult(YourRESTfulResult(StatusCodes.Status200OK, true, data));
         }
 
         /// <summary>
@@ -1346,7 +1386,7 @@ namespace Furion.UnifyResult
         /// <returns></returns>
         public IActionResult OnValidateFailed(ActionExecutingContext context, ValidationMetadata metadata)
         {
-            return new JsonResult(RESTfulResult(StatusCodes.Status400BadRequest, errors: metadata.ValidationResult));
+            return new JsonResult(YourRESTfulResult(StatusCodes.Status400BadRequest, errors: metadata.ValidationResult));
         }
 
         /// <summary>
@@ -1365,12 +1405,12 @@ namespace Furion.UnifyResult
             {
                 // 处理 401 状态码
                 case StatusCodes.Status401Unauthorized:
-                    await context.Response.WriteAsJsonAsync(RESTfulResult(statusCode, errors: "401 Unauthorized")
+                    await context.Response.WriteAsJsonAsync(YourRESTfulResult(statusCode, errors: "401 Unauthorized")
                         , App.GetOptions<JsonOptions>()?.JsonSerializerOptions);
                     break;
                 // 处理 403 状态码
                 case StatusCodes.Status403Forbidden:
-                    await context.Response.WriteAsJsonAsync(RESTfulResult(statusCode, errors: "403 Forbidden")
+                    await context.Response.WriteAsJsonAsync(YourRESTfulResult(statusCode, errors: "403 Forbidden")
                         , App.GetOptions<JsonOptions>()?.JsonSerializerOptions);
                     break;
                 default: break;
@@ -1385,9 +1425,9 @@ namespace Furion.UnifyResult
         /// <param name="data"></param>
         /// <param name="errors"></param>
         /// <returns></returns>
-        private static RESTfulResult<object> RESTfulResult(int statusCode, bool succeeded = default, object data = default, object errors = default)
+        private static YourRESTfulResult<object> YourRESTfulResult(int statusCode, bool succeeded = default, object data = default, object errors = default)
         {
-            return new RESTfulResult<object>
+            return new YourRESTfulResult<object>
             {
                 StatusCode = statusCode,
                 Succeeded = succeeded,
@@ -1405,7 +1445,7 @@ namespace Furion.UnifyResult
 
 ```cs showLineNumbers
 services.AddControllers()
-        .AddInjectWithUnifyResult<RESTfulResultProvider>();
+        .AddInjectWithUnifyResult<YourRESTfulResultProvider>();
 ```
 
 :::important 特别注意
