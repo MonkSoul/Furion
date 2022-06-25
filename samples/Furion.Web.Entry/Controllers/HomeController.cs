@@ -39,7 +39,7 @@ public class HomeController : Controller
     }
 
     [HttpPost]
-    public int SubmitUrl(SpecificationAuth auth)
+    public int SubmitUrl([FromForm] SpecificationAuth auth)
     {
         if (auth.UserName == "admin")
         {
