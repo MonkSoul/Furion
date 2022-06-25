@@ -286,8 +286,8 @@ public async Task<IActionResult> UploadFileAsync(List<IFormFile> files)
 [HttpPost]
 public async Task<IActionResult> UploadFileAsync(IFormFile file)
 {
-    var fileLength = formFile.Length;
-    using var stream = formFile.OpenReadStream();
+    var fileLength = file.Length;
+    using var stream = file.OpenReadStream();
     var bytes = new byte[fileLength];
 
     stream.Read(bytes, 0, (int)fileLength);
