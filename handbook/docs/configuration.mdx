@@ -369,7 +369,30 @@ ChangeToken.OnChange(() => App.Configuration.GetReloadToken(), () =>
 
 ## 4.1.7 手动添加配置文件
 
-有些时候，我们的配置文件没有放在项目的根目录下，这时候我们需要手动载入自定义配置文件，只需要在 `Program.cs` 中加载即可：
+:::info 获取路径说明
+
+- 获取项目目录：`AppContext.BaseDirectory`
+- 获取网站根目录：`Directory.GetCurrentDirectory()`
+
+:::
+
+有些时候，我们的配置文件没有放在项目的根目录下，这时候我们需要手动载入自定义配置文件，有以下几种方式：
+
+- 方式一：**`appsettings.json`** 中 （推荐）
+
+:::important 支持版本
+
+在 `v2.16.7+` 版本有效
+
+:::
+
+```json showLineNumbers {2}
+{
+  "ConfigurationScanDirectories": ["目录1名称", "目录1名称/子目录名称"]
+}
+```
+
+- 方式二：**`.NET5`** 中 `Program.cs` 中配置
 
 ```cs showLineNumbers  {10,13}
 public class Program
@@ -393,12 +416,22 @@ public class Program
 }
 ```
 
-:::info 补充说明
+- 方式三：**`.NET6`** 中 `Program.cs` 中配置
 
-- 获取项目目录：`AppContext.BaseDirectory`
-- 获取网站根目录：`Directory.GetCurrentDirectory()`
+```cs showLineNumbers {2}
+var builder = WebApplication.CreateBuilder(args).Inject();
+builder.Configuration.AddJsonFile("MyConfig.json", optional: true, reloadOnChange: true);
+var app = builder.Build();
+app.Run();
+```
 
-:::
+如果使用 `Serve.Run()` 模式可使用下列代码配置：
+
+```cs showLineNumbers {2}
+Serve.Run(RunOptions.Default.ConfigureBuilder(builder => {
+  builder.Configuration.AddJsonFile("MyConfig.json", optional: true, reloadOnChange: true);
+}));
+```
 
 ## 4.1.8 配置的优缺点
 
