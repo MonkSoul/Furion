@@ -32,6 +32,7 @@ public class HomeController : Controller
         var userName = App.Configuration["SpecificationDocumentSettings:LoginInfo:UserName"];
         var password = App.Configuration["SpecificationDocumentSettings:LoginInfo:Password"];
 
+        // 判断用户名密码
         if (auth.UserName == userName && auth.Password == password)
         {
             return 200;
