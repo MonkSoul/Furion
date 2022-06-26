@@ -115,7 +115,7 @@ public void ConfigureServices(IServiceCollection services)
     });
 
     // Mvc 注册方式三，全局执行，Furion 框架提供方式
-    serve.AddMvcFilter<TFilter>();
+    services.AddMvcFilter<TFilter>();
 }
 ```
 
