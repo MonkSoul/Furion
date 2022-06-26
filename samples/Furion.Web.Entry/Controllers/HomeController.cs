@@ -2,7 +2,6 @@
 using Furion.SpecificationDocument;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Caching.Memory;
 using System.ComponentModel.DataAnnotations;
 
 namespace Furion.Web.Entry.Controllers;
@@ -10,11 +9,6 @@ namespace Furion.Web.Entry.Controllers;
 [AllowAnonymous]
 public class HomeController : Controller
 {
-    private readonly IMemoryCache _cache;
-    public HomeController(IMemoryCache cache)
-    {
-        _cache = cache;
-    }
     public IActionResult Index()
     {
         return View();
@@ -25,25 +19,21 @@ public class HomeController : Controller
         return View();
     }
 
-    [HttpPost]
+    [HttpPost, AllowAnonymous, NonUnify]
     public int CheckUrl()
     {
-        if (_cache.Get<bool>("swagger_login"))
-        {
-            return 200;
-        }
-        else
-        {
-            return 401;
-        }
+        return 401;
     }
 
-    [HttpPost]
+    [HttpPost, AllowAnonymous, NonUnify]
     public int SubmitUrl([FromForm] SpecificationAuth auth)
     {
-        if (auth.UserName == "admin")
+        // 读取配置信息
+        var userName = App.Configuration["SpecificationDocumentSettings:LoginInfo:UserName"];
+        var password = App.Configuration["SpecificationDocumentSettings:LoginInfo:Password"];
+
+        if (auth.UserName == password && auth.Password == password)
         {
-            _cache.Set<bool>("swagger_login", true);
             return 200;
         }
         else

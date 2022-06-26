@@ -898,8 +898,10 @@ _httpContextAccessor.HttpContext.SigninToSwagger("传入 token");
   "SpecificationDocumentSettings": {
     "LoginInfo": {
       "Enabled": true,
-      "CheckUrl": "https://localhost:44316/Home/CheckUrl",
-      "SubmitUrl": "https://localhost:44316/Home/SubmitUrl"
+      "CheckUrl": "/Home/CheckUrl",
+      "SubmitUrl": "/Home/SubmitUrl",
+      "UserName": "admin",
+      "Password": "admin"
     }
   }
 }
@@ -914,42 +916,31 @@ _httpContextAccessor.HttpContext.SigninToSwagger("传入 token");
 
 #### 配置示例
 
-```cs showLineNumbers {17-18,22,26,30-31,36,40}
+```cs showLineNumbers {10-14,16-31}
 using Furion.SpecificationDocument;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Caching.Memory;
+using System.ComponentModel.DataAnnotations;
 
 namespace Furion.Web.Entry.Controllers;
 
-[AllowAnonymous]
 public class HomeController : Controller
 {
-    private readonly IMemoryCache _cache;
-    public HomeController(IMemoryCache cache)
-    {
-        _cache = cache;
-    }
-
-    [HttpPost, NonUnify]
+    [HttpPost, AllowAnonymous, NonUnify]
     public int CheckUrl()
     {
-        if (_cache.Get<bool>("swagger_login"))
-        {
-            return 200;
-        }
-        else
-        {
-            return 401;
-        }
+        return 401;
     }
 
-    [HttpPost, NonUnify]
+    [HttpPost, AllowAnonymous, NonUnify]
     public int SubmitUrl([FromForm] SpecificationAuth auth)
     {
-        if (auth.UserName == "admin")
+        // 读取配置信息
+        var userName = App.Configuration["SpecificationDocumentSettings:LoginInfo:UserName"];
+        var password = App.Configuration["SpecificationDocumentSettings:LoginInfo:Password"];
+
+        if (auth.UserName == password && auth.Password == password)
         {
-            _cache.Set<bool>("swagger_login", true);
             return 200;
         }
         else
@@ -962,13 +953,7 @@ public class HomeController : Controller
 
 <img src={useBaseUrl("img/swgdl.png")} />
 
-:::tip 补充说明
-
-上面使用内存缓存作为例子，当然开发者也可以使用配置文件存储用户名密码方式或 `Session` 或 `Cookies` 验证方式。
-
-:::
-
-### 6.5.30 `inheritdoc` 实现注释继承
+## 6.5.30 `inheritdoc` 实现注释继承
 
 :::important 版本说明
 
