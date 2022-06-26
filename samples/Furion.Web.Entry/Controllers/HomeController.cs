@@ -1,4 +1,4 @@
-﻿using Furion.FriendlyException;
+using Furion.FriendlyException;
 using Furion.SpecificationDocument;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -32,7 +32,7 @@ public class HomeController : Controller
         var userName = App.Configuration["SpecificationDocumentSettings:LoginInfo:UserName"];
         var password = App.Configuration["SpecificationDocumentSettings:LoginInfo:Password"];
 
-        if (auth.UserName == password && auth.Password == password)
+        if (auth.UserName == userName && auth.Password == password)
         {
             return 200;
         }
