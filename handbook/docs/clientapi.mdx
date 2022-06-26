@@ -26,11 +26,15 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 `Furion` 框架编写的所有后端接口都会生成规范化的 `swagger.json` 文件，使用该文件可以在 **[https://editor.swagger.io](https://editor.swagger.io)** 生成任何支持标准 `swagger` 的界面或客户端代码。
 
+**自此，前端程序员再也无需自己手写 `$.ajax` 和 `axios` 代码，这部分代码全部自动生成，以后开发效率至少提高一半以上。**
+
 ## 5.6.3 生成客户端请求代码
 
-:::important 适应范围
+:::important 关于 `TypeScript` 和 `JavaScript`
 
 以下教程仅适用于 `Vue/React/Angular` 的 `TypeScript` 类型项目，暂不支持 `JavaScript`。
+
+为了项目良好的发展和维护，建议使用 `TypeScript` 进行编写。
 
 :::
 
@@ -78,7 +82,7 @@ yarn add axios@0.21.4
 
 :::important `axios` 版本说明
 
-注意 `axios` 版本必须是 `0.21.4` 版本，如果按照更改版本可能会出现无法编译的情况。
+注意 `axios` 版本必须是 `0.21.4` 版本，如果安装其他版本可能会出现无法编译的情况。
 
 :::
 
@@ -146,7 +150,7 @@ export class CustomHttpUrlEncodingCodec extends HttpUrlEncodingCodec {
 
 :::
 
-**最后在 `src/app/app.module.ts` 中注册 `ServeModule` 即可**
+**最后在 `src/app/app.module.ts` 中注册 `ServeModule`**
 
 ```ts showLineNumbers {7,16} title="src/app/app.module.ts"
 import { NgModule } from "@angular/core";
@@ -260,7 +264,7 @@ export const serveConfig = new Configuration({
 ```ts showLineNumbers {1,3}
 import { getAPI } from "../axios-utils";
 
-getAPI(SystemAPI)
+getAPI(SystemAPI) // SystemAPI 对应的是 Swagger 分组标签名称 + API
   .apiGetXXXX()
   .then((res) => {
     var data = res.data.data!;
@@ -326,19 +330,19 @@ export class AppComponent {
 
 ## 5.6.6 重新生成代码
 
-如果后端接口（API）发生改变，只需要删除 `api-services` 所有代码并重新生成复制进去即可。
+如果后端接口（API）发生改变，只需要删除 `api-services` 所有目录文件并重新生成复制进去即可。
 
 :::tip 关于 `Angular` 项目
 
-如果是 `Angular` 项目，可以保留 `api-services/encoder.ts` 文件并删除其他即可，新生成的目录文件无需复制 `encoder.ts`，这样可以避免每次修改 `encoder.ts` 文件。
+如果是 `Angular` 项目，可以保留 `api-services/encoder.ts` 文件并删除其他目录文件，新生成的目录文件无需复制 `encoder.ts`，这样可以避免每次修改 `encoder.ts` 文件。
 
 :::
 
 ## 5.6.7 `Swagger` 多分组生成
 
-在很多大型系统中，为了方便对接口进行归类，往往使用了 `Swagger` 多分组功能，这样导致系统的接口散落在多个 `swagger.json` 中。
+在很多大型系统中，为了方便对接口进行归类，往往使用了 `Swagger` 多分组功能，这样会使系统的接口散落在多个 `swagger.json` 中。
 
-这个时候，需要在后端规范化文档中启用多分组配置即可：
+这个时候，需要在后端规范化文档中启用多分组配置：
 
 ```json showLineNumbers {2,3}
 {
@@ -348,7 +352,7 @@ export class AppComponent {
 }
 ```
 
-启用配置之后在 `Swagger` 导航栏顶部下拉分组将出现 `All Groups` 选项，这时候使用这个 `All Groups` 的 `swagger.json` 即可。
+启用配置之后在 `Swagger` 导航栏顶部下拉分组将出现 `All Groups` 选项，这时候使用这个 `All Groups` 的 `swagger.json` 进行生成。
 
 ## 5.6.8 框架客户端工具库介绍
 
