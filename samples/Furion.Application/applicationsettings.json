@@ -6,7 +6,7 @@
         "Group": "Default",
         "Order": 3,
         "Title": "数据库操作演示",
-        "Description": "这里列举了常见数据库操作方法，方便大家学习。\r\n ## Furion 入门\r\n```cs\r\nServe.Run();\r\n\r\n    [DynamicApiController]\r\n    public class HelloService\r\n    {\r\n        public string Say()\r\n        {\r\n            return \"Hello, Furion\";\r\n        }\r\n    }\r\n```",
+        "Description": "这里列举了常见数据库操作方法，方便大家学习。\r\n ## Furion 入门\r\n```cs\r\nServe.Run();\r\n\r\n[DynamicApiController]\r\npublic class HelloService\r\n{\r\n    public string Say()\r\n    {\r\n        return \"Hello, Furion\";\r\n    }\r\n}\r\n```",
         "Version": "1.0.0",
         "TermsOfService": "https://furion.icu",
         "Contact": {
