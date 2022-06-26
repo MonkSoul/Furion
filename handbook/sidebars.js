@@ -46,6 +46,7 @@ module.exports = {
         "filter",
         "audit",
         "middleware",
+        "clientapi",
       ],
     },
     {

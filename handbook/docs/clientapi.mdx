@@ -1,0 +1,369 @@
+---
+id: clientapi
+title: 5.6 Vue/React/Angular 接口代理
+sidebar_label: 5.6 Vue/React/Angular 请求代理
+---
+
+import useBaseUrl from "@docusaurus/useBaseUrl";
+
+:::tip 视频教程
+
+[https://www.bilibili.com/video/BV1EW4y1C71D](https://www.bilibili.com/video/BV1EW4y1C71D)
+
+:::
+
+## 5.6.1 历史背景
+
+在现在主流的 Web 项目开发中，越来越多的开发者选择使用 `Vue/React/Angular` 三大框架进行开发，这三大框架和传统开发模式最大的不同是前者采用前后端分离的方式，而后者统一由后端程序员编写。
+
+在前后端分离的模式中，前后端程序员各司其职，后端程序负责编写接口（API），前端程序员负责编写客户端请求后端接口（API）并进行数据绑定。
+
+**但这里暴露出了一个工作效率极低且易出错的问题，那就是前端程序需要将后端几百个甚至上千个接口进行一一对应编写，大多都是采用 `$.ajax` 或 `axios` 的方式。**
+
+一旦后端接口参数或返回值发生改变，前端程序员需要一一进行勘正，一旦出现纠正不完全就会导致系统无法响应或接收错误的用户消息从而造成不必要的维护工作和成本浪费。
+
+## 5.6.2 如何解决？
+
+`Furion` 框架编写的所有后端接口都会生成规范化的 `swagger.json` 文件，使用该文件可以在 **[https://editor.swagger.io](https://editor.swagger.io)** 生成任何支持标准 `swagger` 的界面或客户端代码。
+
+## 5.6.3 生成客户端请求代码
+
+:::important 适应范围
+
+以下教程仅适用于 `Vue/React/Angular` 的 `TypeScript` 类型项目，暂不支持 `JavaScript`。
+
+:::
+
+### 5.3.3.1 生成客户端代码
+
+1. **打开规范化文档（Swagger）首页，并点击顶部 `/swagger/xxxx/swagger.json` 到新窗口打开。**
+
+<img src={useBaseUrl("img/sg1.png")} />
+
+2. **接着全选并复制全部内容**
+
+<img src={useBaseUrl("img/sg2.png")} />
+
+3. **打开 [https://editor.swagger.io](https://editor.swagger.io/) 官网并粘贴进去**
+
+<img src={useBaseUrl("img/sg3.png")} />
+
+4. **最后点击顶部的 `Generate Client` 选择对应的语言/框架进行生成即可。**
+
+---
+
+### 5.6.3.2 `Vue/React` 配置
+
+**点击 `Generate Client` 顶部菜单并选择 `typescript-axios` 进行下载。**
+
+<img src={useBaseUrl("img/sg4.png")} />
+
+**下载成功之后拷贝下图选择的目录和文件：**
+
+<img src={useBaseUrl("img/sg5.png")} />
+
+**接着打开你的 `Vue` 或 `React` 项目，并在 `src` 目录下创建 `api-services` 目录并将刚刚复制的目录文件放在里面。**
+
+<img src={useBaseUrl("img/sg6.png")} />
+
+**接下来通过 `npm` 或 `yarn` 安装 `axios` 包**
+
+```bash showLineNumbers
+# npm 方式
+npm i axios@0.21.4
+
+# yarn 方式
+yarn add axios@0.21.4
+```
+
+:::important `axios` 版本说明
+
+注意 `axios` 版本必须是 `0.21.4` 版本，如果按照更改版本可能会出现无法编译的情况。
+
+:::
+
+**接着下载 `Furion` 提供的 `Vue/React` 工具库 `axios-utils.ts` 并拷贝到和 `api-services` 同级目录下：**
+
+[axios-utils.ts 下载地址](https://gitee.com/dotnetchina/Furion/blob/net6/clients/axios_vue_react/axios-utils.ts)
+
+<img src={useBaseUrl("img/sg7.png")} />
+
+:::tip `Vue3` 项目不能编译问题
+
+如果在 `Vue3` 项目中无法编译通过，则需要修改根目录下的 `tsconfig.app.json` 和 `tsconfig.vite-config.json` 和 `tsconfig.vitest.json` 文件并添加下列配置即可，如：
+
+```json showLineNumbers {1-3}
+"compilerOptions": {
+    "importsNotUsedAsValues": "remove",
+    "preserveValueImports": false
+}
+```
+
+<img src={useBaseUrl("img/sg8.png")} />
+
+:::
+
+---
+
+### 5.6.3.3 `Angular` 配置
+
+**点击 `Generate Client` 顶部菜单并选择 `typescript-angular` 进行下载。**
+
+<img src={useBaseUrl("img/sg9.png")} />
+
+**下载成功之后拷贝下图选择的目录和文件：**
+
+<img src={useBaseUrl("img/sg10.png")} />
+
+**接着打开你的 `Angular` 项目，并在 `src` 目录下创建 `api-services` 目录并将刚刚复制的目录文件放在里面。**
+
+<img src={useBaseUrl("img/sg11.png")} />
+
+**接着下载 `Furion` 提供的 `Angular` 工具库 `angular-utils.ts` 并拷贝到和 `api-services` 同级目录下：**
+
+[angular-utils.ts 下载地址](https://gitee.com/dotnetchina/Furion/blob/net6/clients/angular/angular-utils.ts)
+
+<img src={useBaseUrl("img/sg12.png")} />
+
+:::tip `Angular` 项目不能编译问题
+
+如果在 `Angular` 项目中无法编译通过，则需要修改根目录下的 `api-services/encoder.ts` 文件，并在 `encodeKey` 和 `encodeValue` 前添加 `override` 即可，如：
+
+```ts showLineNumbers {2,6} title="api-services/encoder.ts"
+export class CustomHttpUrlEncodingCodec extends HttpUrlEncodingCodec {
+  override encodeKey(k: string): string {
+    k = super.encodeKey(k);
+    return k.replace(/\+/gi, "%2B");
+  }
+  override encodeValue(v: string): string {
+    v = super.encodeValue(v);
+    return v.replace(/\+/gi, "%2B");
+  }
+}
+```
+
+<img src={useBaseUrl("img/sg13.png")} />
+
+:::
+
+**最后在 `src/app/app.module.ts` 中注册 `ServeModule` 即可**
+
+```ts showLineNumbers {7,16} title="src/app/app.module.ts"
+import { NgModule } from "@angular/core";
+import { BrowserModule } from "@angular/platform-browser";
+
+import { AppRoutingModule } from "./app-routing.module";
+import { AppComponent } from "./app.component";
+
+import { ServeModule } from "src/angular-utils";
+
+@NgModule({
+  declarations: [AppComponent],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    ServeModule, // 注册代理服务模块
+  ],
+  providers: [],
+  bootstrap: [AppComponent],
+})
+export class AppModule {}
+```
+
+<img src={useBaseUrl("img/sg14.png")} />
+
+## 5.6.4 初始配置
+
+完成上面步骤之后还需要最后一步，那就修改服务端（后端）接口（API）地址。
+
+### 5.6.4.1 `Vue/React` 配置
+
+在 `Vue/React` 项目中编辑 `Furion` 框架提供的 `axios-utils.ts` 文件，并将 `serveConfig` 修改为对应的后端地址即可，如：
+
+```ts showLineNumbers {21-24}
+/**
+ * 当前版本：v1.0.3
+ * 使用描述：https://editor.swagger.io 代码生成 typescript-axios 辅组工具库
+ * 依赖说明：适配 axios 版本：v0.21.1
+ * 视频教程：https://www.bilibili.com/video/BV1EW4y1C71D
+ */
+
+import globalAxios, { AxiosInstance } from "axios";
+import { Configuration } from "./api-services";
+import { BaseAPI, BASE_PATH } from "./api-services/base";
+
+// 如果是 Angular 项目，则取消下面注释即可
+// import { environment } from './environments/environment';
+
+/**
+ * 接口服务器配置
+ */
+export const serveConfig = new Configuration({
+  // 如果是 Angular 项目，则取消下面注释，并删除 process.env.NODE_ENV !== "production"
+  // basePath: !environment.production
+  basePath:
+    process.env.NODE_ENV !== "production"
+      ? "https://localhost:44342" // 开发环境服务器接口地址
+      : "https://furion.icu", // 生产环境服务器接口地址
+});
+
+// ......
+```
+
+<img src={useBaseUrl("img/sg15.png")} />
+
+### 5.6.4.2 `Angular` 配置
+
+如果是 `Angular` 项目则编辑 `Furion` 框架提供的 `angular-utils.ts` 文件，并将 `serveConfig` 修改为对应的后端地址即可，如：
+
+```ts showLineNumbers {25-27}
+/**
+ * 当前版本：v1.0.3
+ * 使用描述：https://editor.swagger.io 代码生成 typescript-angular 辅组工具库
+ */
+
+import {
+  HttpClientModule,
+  HttpEvent,
+  HttpHandler,
+  HttpHeaders,
+  HttpInterceptor,
+  HttpRequest,
+  HttpResponse,
+  HTTP_INTERCEPTORS,
+} from "@angular/common/http";
+import { Injectable, NgModule } from "@angular/core";
+import { finalize, Observable, tap } from "rxjs";
+import { ApiModule, Configuration } from "./api-services";
+import { environment } from "./environments/environment";
+
+/**
+ * 接口服务器配置
+ */
+export const serveConfig = new Configuration({
+  basePath: !environment.production
+    ? "https://localhost:44316" // 开发环境服务器接口地址
+    : "https://furion.icu", // 生产环境服务器接口地址
+});
+
+// ......
+```
+
+<img src={useBaseUrl("img/sg16.png")} />
+
+## 5.6.5 基本使用
+
+### 5.6.5.1 `Vue/React` 中使用
+
+- `Promise` 方式
+
+```ts showLineNumbers {1,3}
+import { getAPI } from "../axios-utils";
+
+getAPI(SystemAPI)
+  .apiGetXXXX()
+  .then((res) => {
+    var data = res.data.data!;
+  })
+  .catch((err) => {
+    console.log(err);
+  })
+  .finally(() => {
+    console.log("api request completed.");
+  });
+```
+
+- `await/async` 方式
+
+```ts showLineNumbers {1,3}
+import { getAPI, feature } from "../axios-utils";
+
+const [err, res] = await feature(getAPI(SystemAPI).apiGetXXX());
+
+if (err) {
+  console.log(err);
+} else {
+  var data = res.data.data!;
+}
+
+console.log("api request completed.");
+```
+
+### 5.6.5.2 `Angular` 中使用
+
+```ts showLineNumbers {2,12-13,16-28}
+import { Component } from "@angular/core";
+import { PersonService } from "src/api-services";
+
+@Component({
+  selector: "app-root",
+  templateUrl: "./app.component.html",
+  styleUrls: ["./app.component.css"],
+})
+export class AppComponent {
+  title = "angulars";
+
+  // 注入 PersonService
+  constructor(private personService: PersonService) {}
+
+  ngOnInit(): void {
+    // 使用 personService
+    this.personService.apiPersonAllGet().subscribe({
+      next: (res) => {
+        // 请求成功
+        console.log(res);
+      },
+      error: (err) => {
+        // 请求失败
+      },
+      complete: () => {
+        // 请求完成
+      },
+    });
+  }
+}
+```
+
+## 5.6.6 重新生成代码
+
+如果后端接口（API）发生改变，只需要删除 `api-services` 所有代码并重新生成复制进去即可。
+
+:::tip 关于 `Angular` 项目
+
+如果是 `Angular` 项目，可以保留 `api-services/encoder.ts` 文件并删除其他即可，新生成的目录文件无需复制 `encoder.ts`，这样可以避免每次修改 `encoder.ts` 文件。
+
+:::
+
+## 5.6.7 `Swagger` 多分组生成
+
+在很多大型系统中，为了方便对接口进行归类，往往使用了 `Swagger` 多分组功能，这样导致系统的接口散落在多个 `swagger.json` 中。
+
+这个时候，需要在后端规范化文档中启用多分组配置即可：
+
+```json showLineNumbers {2,3}
+{
+  "SpecificationDocumentSettings": {
+    "EnableAllGroups": true
+  }
+}
+```
+
+启用配置之后在 `Swagger` 导航栏顶部下拉分组将出现 `All Groups` 选项，这时候使用这个 `All Groups` 的 `swagger.json` 即可。
+
+## 5.6.8 框架客户端工具库介绍
+
+`axios-utils.ts` 和 `angular-utils.ts` 是 `Furion` 框架专门针对 `Furion` 开发的 `WebAPI` 项目编写的客户端代理库，在这个代理库中已经处理了跨域，授权，自动刷新 `token` 以及解密客户端 `JWT token` 问题。
+
+同时提供了非常方便的 `feature` 方法，可将异步方法进行同步化处理。
+
+## 5.6.9 无法连接外网/内网情况
+
+在一些比较注重代码安全的组织或公司中，可能不能连接外网进行生成，这个时候只需要下载 [https://github.com/swagger-api/swagger-editor](https://github.com/swagger-api/swagger-editor) 代码在本地部署即可。
+
+## 5.6.10 反馈与建议
+
+:::note 与我们交流
+
+给 Furion 提 [Issue](https://gitee.com/dotnetchina/Furion/issues/new?issue)。
+
+:::
