@@ -240,7 +240,8 @@ builder.UseSerilogDefault();
       "Default": "Information",
       "Microsoft": "Warning",
       "Microsoft.Hosting.Lifetime": "Information",
-      "Microsoft.EntityFrameworkCore": "Information"
+      "Microsoft.EntityFrameworkCore": "Information",
+      "Microsoft.AspNetCore.HttpLogging.HttpLoggingMiddleware": "Information"
     }
   }
 ```
@@ -255,7 +256,8 @@ builder.UseSerilogDefault();
         "System": "Warning",
         "Microsoft": "Warning",
         "Microsoft.Hosting.Lifetime": "Information",
-        "Microsoft.EntityFrameworkCore": "Information"
+        "Microsoft.EntityFrameworkCore": "Information",
+        "Microsoft.AspNetCore.HttpLogging.HttpLoggingMiddleware": "Information"
       }
     }
   }
@@ -273,6 +275,12 @@ public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
      app.UseRouting();
  }
 ```
+
+:::tip `.NET6` 自带 `HTTP` 日志
+
+在 `ASP.NET 6` 中，框架默认提供了 `app.UseHttpLogging()` 记录 `HTTP` 请求日志功能，详细了解可查看官方文档 [ASP.NET Core - HTTP 日志记录](https://docs.microsoft.com/zh-cn/aspnet/core/fundamentals/http-logging/?view=aspnetcore-6.0)
+
+:::
 
 ## 18.6 日志示例
 
@@ -463,7 +471,6 @@ Console.WriteLine(template);
 如果列表项以 `[属性名]` 开头，自动生成 `属性名：` 作为行首且自动等宽对齐。
 
 :::
-
 
 ## 18.13 反馈与建议
 

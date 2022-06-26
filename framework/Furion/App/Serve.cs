@@ -37,6 +37,9 @@ public static class Serve
             })
             .Configure(app =>
             {
+                // 启用 HTTP 日志记录
+                app.UseHttpLogging();
+
                 // 配置错误页
                 if (app.Environment.IsDevelopment())
                 {

@@ -19,6 +19,16 @@ namespace Microsoft.Extensions.DependencyInjection;
 public static class CorsAccessorServiceCollectionExtensions
 {
     /// <summary>
+    /// 默认跨域导出响应头 Key
+    /// </summary>
+    /// <remarks>解决 ajax，XMLHttpRequest，axios 不能获取请求头问题</remarks>
+    private static readonly string[] _defaultExposedHeaders = new[]
+    {
+        "access-token",
+        "x-access-token"
+    };
+
+    /// <summary>
     /// 配置跨域
     /// </summary>
     /// <param name="services">服务集合</param>
@@ -58,8 +68,14 @@ public static class CorsAccessorServiceCollectionExtensions
                 // 配置跨域凭据
                 if (corsAccessorSettings.AllowCredentials == true && !isNotSetOrigins) builder.AllowCredentials();
 
-                // 配置响应头，如果前端不能获取自定义的 header 信息，必须配置该项
-                if (corsAccessorSettings.WithExposedHeaders != null && corsAccessorSettings.WithExposedHeaders.Length > 0) builder.WithExposedHeaders(corsAccessorSettings.WithExposedHeaders);
+                // 配置响应头，如果前端不能获取自定义的 header 信息，必须配置该项，默认配置了 access-token 和 x-access-token
+                IEnumerable<string> defaultExposedHeaders = _defaultExposedHeaders;
+                if (corsAccessorSettings.WithExposedHeaders != null && corsAccessorSettings.WithExposedHeaders.Length > 0)
+                {
+                    defaultExposedHeaders = defaultExposedHeaders.Concat(corsAccessorSettings.WithExposedHeaders).Distinct(StringComparer.OrdinalIgnoreCase);
+                }
+
+                builder.WithExposedHeaders(defaultExposedHeaders.ToArray());
 
                 // 设置预检过期时间，如果不设置默认为 24小时
                 builder.SetPreflightMaxAge(TimeSpan.FromSeconds(corsAccessorSettings.SetPreflightMaxAge ?? 24 * 60 * 60));
