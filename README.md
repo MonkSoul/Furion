@@ -32,10 +32,7 @@ Serve.Run();
 [DynamicApiController]
 public class HelloService
 {
-    public string Say()
-    {
-        return "Hello, Furion";
-    }
+    public string Say() => "Hello, Furion";
 }
 ```
 
