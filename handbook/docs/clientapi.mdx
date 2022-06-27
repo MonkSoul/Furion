@@ -50,6 +50,12 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 3. **打开 [https://editor.swagger.io](https://editor.swagger.io/) 官网并粘贴进去**
 
+:::tip 无法联网
+
+`Furion` 也提供了 **[Swagger-Editor.rar](https://gitee.com/dotnetchina/Furion/blob/net6/clients/Swagger-Editor.rar)** 离线包，可直接下载解压并双击 `index.html` 即可。
+
+:::
+
 <img src={useBaseUrl("img/sg3.png")} />
 
 4. **最后点击顶部的 `Generate Client` 选择对应的语言/框架进行生成即可。**
@@ -259,10 +265,12 @@ export const serveConfig = new Configuration({
 
 ### 5.6.5.1 `Vue/React` 中使用
 
+在 `Vue/React` 中使用有两种方式，一种是 `Promise`，另外一种就是 `async/await`，推荐使用后者。
+
 - `Promise` 方式
 
 ```ts showLineNumbers {1,3}
-import { getAPI } from "../axios-utils";
+import { getAPI } from "../axios-utils"; // 注意项目的路径
 
 getAPI(SystemAPI) // SystemAPI 对应的是 Swagger 分组标签名称 + API
   .apiGetXXXX()
@@ -277,10 +285,10 @@ getAPI(SystemAPI) // SystemAPI 对应的是 Swagger 分组标签名称 + API
   });
 ```
 
-- `await/async` 方式
+- `async/await` 方式
 
 ```ts showLineNumbers {1,3}
-import { getAPI, feature } from "../axios-utils";
+import { getAPI, feature } from "../axios-utils"; // 注意项目的路径
 
 const [err, res] = await feature(getAPI(SystemAPI).apiGetXXX());
 
@@ -295,9 +303,11 @@ console.log("api request completed.");
 
 ### 5.6.5.2 `Angular` 中使用
 
+在 `Angular` 项目中，通过构造函数注入对应的服务即可
+
 ```ts showLineNumbers {2,12-13,16-28}
 import { Component } from "@angular/core";
-import { PersonService } from "src/api-services";
+import { PersonService } from "src/api-services"; // 注意项目的路径
 
 @Component({
   selector: "app-root",
@@ -330,7 +340,7 @@ export class AppComponent {
 
 ## 5.6.6 重新生成代码
 
-如果后端接口（API）发生改变，只需要删除 `api-services` 所有目录文件并重新生成复制进去即可。
+如果后端接口（API）发生改变，只需要删除 `api-services` 下所有目录文件并重新生成复制进去即可。
 
 :::tip 关于 `Angular` 项目
 
@@ -360,9 +370,15 @@ export class AppComponent {
 
 同时提供了非常方便的 `feature` 方法，可将异步方法进行同步化处理。
 
-## 5.6.9 无法连接外网/内网情况
+## 5.6.9 无法连接外网/内网情况/离线包
 
 在一些比较注重代码安全的组织或公司中，可能不能连接外网进行生成，这个时候只需要下载 [https://github.com/swagger-api/swagger-editor](https://github.com/swagger-api/swagger-editor) 代码在本地部署即可。
+
+`Furion` 官网也提供了 `Swagger-Editor.rar` 离线包下载：[https://gitee.com/dotnetchina/Furion/blob/net6/clients/Swagger-Editor.rar](https://gitee.com/dotnetchina/Furion/blob/net6/clients/Swagger-Editor.rar)
+
+下载离线包后直接双击 `index.html` 启动即可
+
+<img src={useBaseUrl("img/sg17.png")} />
 
 ## 5.6.10 反馈与建议
 
