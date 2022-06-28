@@ -126,6 +126,23 @@
                     "default": 86400
                 }
             }
+        },
+        "ValidationTypeMessageSettings": {
+            "type": "object",
+            "description": "验证消息配置选项",
+            "properties": {
+                "Definitions": {
+                    "type": "array",
+                    "description": "配置验证类型对应的消息类型，[类型名称，类型消息][] 类型，如：[\"Required\", \"值不能为空或Null\"]",
+                    "default": [],
+                    "items": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
         }
     }
 }
