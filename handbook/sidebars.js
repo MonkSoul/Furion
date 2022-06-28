@@ -26,6 +26,7 @@ module.exports = {
         "inject",
         "net5-to-net6",
         "globalusing",
+        "jsonschema",
       ],
     },
     {

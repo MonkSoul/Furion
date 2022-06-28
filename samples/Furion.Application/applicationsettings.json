@@ -1,4 +1,6 @@
 ﻿{
+  "$schema": "https://gitee.com/dotnetchina/Furion/raw/net6/schemas/v3/furion-schema.json",
+
   "SpecificationDocumentSettings": {
     "DocumentTitle": "Furion | 数据库操作演示",
     "GroupOpenApiInfos": [
