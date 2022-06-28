@@ -143,6 +143,72 @@
                     }
                 }
             }
+        },
+        "DependencyInjectionSettings": {
+            "type": "object",
+            "description": "依赖注入配置选项",
+            "properties": {
+                "Definitions": {
+                    "type": "array",
+                    "description": "外部注册定义",
+                    "default": [],
+                    "items": {
+                        "type": "object",
+                        "description": "外部注册类型模型",
+                        "properties": {
+                            "Interface": {
+                                "type": "string",
+                                "description": "接口类型，格式：\"程序集名称;接口完整名称\""
+                            },
+                            "Service": {
+                                "type": "string",
+                                "description": "实例类型，格式：\"程序集名称;接口完整名称\""
+                            },
+                            "RegisterType": {
+                                "type": "string",
+                                "description": "注册类型",
+                                "enum": [
+                                    "Transient",
+                                    "Scoped",
+                                    "Singleton"
+                                ]
+                            },
+                            "Action": {
+                                "type": "string",
+                                "description": "添加服务方式，存在不添加，或继续添加",
+                                "enum": [
+                                    "Add",
+                                    "TryAdd"
+                                ]
+                            },
+                            "Pattern": {
+                                "type": "string",
+                                "description": "注册选项",
+                                "enum": [
+                                    "Self",
+                                    "FirstInterface",
+                                    "SelfWithFirstInterface",
+                                    "ImplementedInterfaces",
+                                    "All"
+                                ]
+                            },
+                            "Named": {
+                                "type": "string",
+                                "description": "注册别名，多服务时使用"
+                            },
+                            "Order": {
+                                "type": "number",
+                                "description": "排序，排序越大，则在后面注册",
+                                "default": 0
+                            },
+                            "Proxy": {
+                                "type": "string",
+                                "description": "代理类型，格式：\"程序集名称;接口完整名称\""
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 }
