@@ -209,6 +209,125 @@
                     }
                 }
             }
+        },
+        "DynamicApiControllerSettings": {
+            "type": "object",
+            "description": "动态接口控制器配置",
+            "properties": {
+                "DefaultRoutePrefix": {
+                    "type": "string",
+                    "description": "默认路由前缀",
+                    "default": "api"
+                },
+                "DefaultHttpMethod": {
+                    "type": "string",
+                    "description": "默认请求谓词",
+                    "enum": [
+                        "GET",
+                        "POST",
+                        "PUT",
+                        "DELETE",
+                        "PATCH",
+                        "HEAD"
+                    ],
+                    "default": "POST"
+                },
+                "DefaultModule": {
+                    "type": "string",
+                    "description": "默认模块名称"
+                },
+                "LowercaseRoute": {
+                    "type": "boolean",
+                    "description": "小写路由",
+                    "default": true
+                },
+                "AsLowerCamelCase": {
+                    "type": "boolean",
+                    "description": "小驼峰命名（首字符小写）",
+                    "default": false
+                },
+                "KeepVerb": {
+                    "type": "boolean",
+                    "description": "保留行为名称谓词",
+                    "default": false
+                },
+                "KeepName": {
+                    "type": "boolean",
+                    "description": "保留名称",
+                    "default": false
+                },
+                "CamelCaseSeparator": {
+                    "type": "string",
+                    "description": "骆驼命名分隔符",
+                    "default": "-"
+                },
+                "VersionSeparator": {
+                    "type": "string",
+                    "description": "版本号分隔符",
+                    "default": "@"
+                },
+                "ModelToQuery": {
+                    "type": "boolean",
+                    "description": "模型转查询参数（只有GET、HEAD请求有效）",
+                    "default": false
+                },
+                "SupportedMvcController": {
+                    "type": "boolean",
+                    "description": "支持Mvc控制器处理",
+                    "default": false
+                },
+                "UrlParameterization": {
+                    "type": "boolean",
+                    "description": "配置参数 [FromQuery] 化，默认 false ([FromRoute])",
+                    "default": false
+                },
+                "AbandonControllerAffixes": {
+                    "type": "array",
+                    "description": "被舍弃的控制器名称前后缀",
+                    "default": [
+                        "AppServices",
+                        "AppService",
+                        "ApiController",
+                        "Controller",
+                        "Services",
+                        "Service"
+                    ],
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "AbandonActionAffixes": {
+                    "type": "array",
+                    "description": "被舍弃的行为名称前后缀",
+                    "default": [
+                        "Async"
+                    ],
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "VerbToHttpMethods": {
+                    "type": "array",
+                    "description": "复写默认配置路由规则配置",
+                    "default": [],
+                    "items": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "DefaultArea": {
+                    "type": "string",
+                    "description": "默认区域",
+                    "default": ""
+                },
+                "ForceWithRoutePrefix": {
+                    "type": "boolean",
+                    "description": "强制携带路由前缀，即使使用 [Route] 重写",
+                    "default": false
+                }
+            }
         }
     }
 }
