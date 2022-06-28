@@ -27,7 +27,7 @@
                     "default": [],
                     "items": {
                         "type": "string",
-                        "description": "格式：程序集名称;接口完整名称，如：Furion.Application;Furion.Application.ITestService",
+                        "description": "格式：程序集名称;接口完整名称，如：Furion.Application;Furion.Application.ITestService"
                     }
                 },
                 "PrintDbConnectionInfo": {
@@ -71,6 +71,59 @@
                         "type": "string",
                         "description": "目录名称"
                     }
+                }
+            }
+        },
+        "CorsAccessorSettings": {
+            "type": "object",
+            "description": "跨域配置选项",
+            "properties": {
+                "PolicyName": {
+                    "type": "string",
+                    "description": "策略名称",
+                    "default": "App.Cors.Policy"
+                },
+                "WithOrigins": {
+                    "type": "array",
+                    "description": "允许来源域名，没有配置则允许所有来源",
+                    "default": [],
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "WithHeaders": {
+                    "type": "array",
+                    "description": "请求表头，没有配置则允许所有表头",
+                    "default": [],
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "WithExposedHeaders": {
+                    "type": "array",
+                    "description": "设置客户端可获取的响应标头",
+                    "default": [],
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "WithMethods": {
+                    "type": "array",
+                    "description": "设置跨域允许请求谓词，没有配置则允许所有",
+                    "default": [],
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "AllowCredentials": {
+                    "type": "boolean",
+                    "description": "是否允许跨域请求中的凭据",
+                    "default": true
+                },
+                "SetPreflightMaxAge": {
+                    "type": "number",
+                    "description": "设置预检过期时间",
+                    "default": 86400
                 }
             }
         }

@@ -95,13 +95,13 @@ namespace Furion.Web.Core
 ## 16.5 `CorsAccessorSettings` 配置
 
 - `CorsAccessorSettings`
-  - `PolicyName`：跨域策略名，字符串类型，必填，默认 `FurCorsAccessor`
-  - `WithOrigins`：允许跨域的域名列表，字符串数组类型，默认 `[ "http://localhost:4200" ]`
-  - `WithHeaders`：请求表头，没有配置则允许所有表头，字符串数组类型
-  - `WithExposedHeaders`：响应标头，字符串数组类型
-  - `WithMethods`：设置跨域允许请求谓词，没有配置则允许所有，字符串数组类型
-  - `AllowCredentials`：跨域请求中的凭据，`bool` 类型，默认 `true`
-  - `SetPreflightMaxAge`：设置预检过期时间，`int` 类型，单位秒，**此配置可以控制客户端发送非 `GET`，`HEAD`，`POST` 请求前发送 `OPTION` 请求检查，状态码（204）**
+  - `PolicyName`：跨域策略名，`string` 类型，必填，默认 `App.Cors.Policy`
+  - `WithOrigins`：允许跨域的域名列表，`string[]` 类型，默认 `*`
+  - `WithHeaders`：请求表头，没有配置则允许所有表头，`string[]` 类型
+  - `WithExposedHeaders`：设置客户端可获取的响应标头，`string[]` 类型，默认 `["access-token", "x-access-token"]`
+  - `WithMethods`：设置跨域允许请求谓词，没有配置则允许所有，`string[]` 类型
+  - `AllowCredentials`：是否允许跨域请求中的凭据，`bool` 类型，默认值 `true`
+  - `SetPreflightMaxAge`：设置预检过期时间，`int` 类型，默认值 `24小时`
 
 ## 16.6 前端不能读取响应头注意事项
 
