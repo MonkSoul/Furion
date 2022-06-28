@@ -6,7 +6,6 @@ sidebar_label: 1.6 更新日志
 
 import useBaseUrl from "@docusaurus/useBaseUrl";
 
-<!--
 > 版本号规则：`主版本号.次版本号.修订版本号`
 >
 > - 只要确认为框架 `bug`，则当天修复，当天发版，修订版本号 `加 1`。
@@ -14,7 +13,7 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 > - 如果 `.csproj` 文件有变更，则当天发版，修订版本号 `加 1`。
 > - 如果新增 `拓展包`，为了版本号统一，则当天发版，修订版本号 `加 1`。
 > - 如果涉及到代码重构，则当天发版，次版本号 `加 1`，修订版本号 `清 0`。
-> - 如果 `.NET SDK` 主版本号升级，则当天发版，主版本号 `加 1`。 -->
+> - 如果 `.NET SDK` 主版本号升级，则当天发版，主版本号 `加 1`。
 
 ## v3.7.0（当前版本）
 
@@ -22,16 +21,52 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
   - [新增] 跨域 `WithExposedHeaders` 默认配置 `access-token` 和 `x-access-token` [42ebdfd](https://gitee.com/dotnetchina/Furion/commit/42ebdfd33a01353a0b3a801528de052990d2e4c9)
   - [新增] 脚手架默认启用 `app.UseHttpLogging()` `HTTP` 日志 [42ebdfd](https://gitee.com/dotnetchina/Furion/commit/42ebdfd33a01353a0b3a801528de052990d2e4c9)
-  - [新增] `Furion` 和 `ASP.NET Core` 完整 `json` 配置的 `JSON Schema` 架构 [JSON Schema](https://gitee.com/dotnetchina/Furion/raw/net6/schemas/v3/furion-schema.json)
+  - [新增] **`Furion` 和 `ASP.NET Core` 完整 `json` 配置的 `JSON Schema` 架构 [JSON Schema](https://gitee.com/dotnetchina/Furion/raw/net6/schemas/v3/furion-schema.json)**
 
 - **突破性变化**
 
-  - [新增] `Furion` 和 `ASP.NET Core` 完整 `json` 配置的 `JSON Schema` 架构 [JSON Schema](https://gitee.com/dotnetchina/Furion/raw/net6/schemas/v3/furion-schema.json)
+  - [新增] **`Furion` 和 `ASP.NET Core` 完整 `json` 配置的 `JSON Schema` 架构 [JSON Schema](https://gitee.com/dotnetchina/Furion/raw/net6/schemas/v3/furion-schema.json)**
+
+- **其他更改**
+
+  - [调整] 脚手架所有 `.json` 文件，默认添加 `JSON Schema` 支持
 
 - **文档**
 
   - [新增] `Vue/React/Angular` 请求代理文档
+  - [新增] `JSON Schema` 文档，支持配置智能提示和验证
   - [更新] 跨域文档、规范化文档、配置文档、日志文档
+
+- **本期亮点**
+
+1. **新增 `JSON Schema` 支持，所有 `.json` 文件支持智能提示和验证**
+
+```json showLineNumbers {2}
+{
+  "$schema": "https://gitee.com/dotnetchina/Furion/raw/net6/schemas/v3/furion-schema.json",
+
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft": "Warning",
+      "Microsoft.Hosting.Lifetime": "Information",
+      "Microsoft.EntityFrameworkCore": "Information",
+      "Microsoft.AspNetCore.HttpLogging.HttpLoggingMiddleware": "Information"
+    }
+  },
+  "AllowedHosts": "*"
+}
+```
+
+<img src={useBaseUrl("img/js1.png")} />
+
+**[查看更多 `JSON Schema` 文档](./jsonschema)**
+
+2. **根据 `Swagger` 生成 `Vue/React/Angular` 前端请求代码**
+
+**[查看文档](./clientapi)**
+
+---
 
 ## v3.6.9（已发布）
 
@@ -450,6 +485,8 @@ var success = FS.TryGetContentType("image.png", out var contentType);  // image/
   }
 }
 ```
+
+<img src={useBaseUrl("img/swgdl.png")} />
 
 [查看详细文档](./specification-document#6529-带登录的-swagger-文档)
 
