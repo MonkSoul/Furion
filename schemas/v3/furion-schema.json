@@ -1154,6 +1154,39 @@
                     ]
                 }
             }
+        },
+        "UnifyResultSettings": {
+            "type": "object",
+            "description": "规范化配置选项",
+            "properties": {
+                "Return200StatusCodes": {
+                    "type": "array",
+                    "description": "设置返回 200 状态码列表",
+                    "default": [
+                        401,
+                        403
+                    ],
+                    "items": {
+                        "type": "number"
+                    }
+                },
+                "AdaptStatusCodes": {
+                    "type": "array",
+                    "description": "适配（篡改）Http 状态码（只支持短路状态码，比如 401，403，500 等）",
+                    "default": [],
+                    "items": {
+                        "type": "array",
+                        "items": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "SupportMvcController": {
+                    "type": "boolean",
+                    "description": "是否支持 MVC 控制台规范化处理",
+                    "default": false
+                }
+            }
         }
     }
 }
