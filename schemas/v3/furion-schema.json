@@ -1,0 +1,68 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "type": "object",
+    "properties": {
+        "AppSettings": {
+            "type": "object",
+            "description": "应用全局配置",
+            "properties": {
+                "InjectMiniProfiler": {
+                    "type": "boolean",
+                    "description": "集成 MiniProfiler 组件"
+                },
+                "InjectSpecificationDocument": {
+                    "type": "boolean",
+                    "description": "是否启用规范化文档"
+                },
+                "EnabledReferenceAssemblyScan": {
+                    "type": "boolean",
+                    "description": "是否启用引用程序集扫描"
+                },
+                "ExternalAssemblies": {
+                    "type": "array",
+                    "description": "外部程序集，扫描 dll 文件，如果是单文件发布，需拷贝放在根目录下",
+                    "items": {
+                        "type": "string",
+                        "description": "格式：程序集名称;接口完整名称，如：Furion.Application;Furion.Application.ITestService"
+                    }
+                },
+                "PrintDbConnectionInfo": {
+                    "type": "boolean",
+                    "description": "是否打印数据库连接信息到 MiniProfiler 中"
+                },
+                "OutputOriginalSqlExecuteLog": {
+                    "type": "boolean",
+                    "description": "是否输出原始 Sql 执行日志（ADO.NET）"
+                },
+                "SupportPackageNamePrefixs": {
+                    "type": "array",
+                    "description": "配置支持的包前缀名，只有特定的包名前缀才会被框架扫描",
+                    "items": {
+                        "type": "string",
+                        "description": "程序集前缀"
+                    }
+                },
+                "VirtualPath": {
+                    "type": "string",
+                    "description": "【部署】二级虚拟目录"
+                },
+                "IgnoreConfigurationFiles": {
+                    "type": "array",
+                    "description": "配置被忽略扫描的 json 配置文件",
+                    "items": {
+                        "type": "string",
+                        "description": "json 配置文件名称"
+                    }
+                },
+                "ConfigurationScanDirectories": {
+                    "type": "array",
+                    "description": "自定义 json 扫描目录",
+                    "items": {
+                        "type": "string",
+                        "description": "目录名称"
+                    }
+                }
+            }
+        }
+    }
+}
