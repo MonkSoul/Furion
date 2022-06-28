@@ -17,7 +17,7 @@ sidebar_label: 6. 友好异常配置
 
 ## 6.3 配置示例
 
-```json showLineNumbers 
+```json showLineNumbers
 {
   "FriendlyExceptionSettings": {
     "DefaultErrorMessage": "系统异常，请联系管理员"
@@ -32,17 +32,17 @@ sidebar_label: 6. 友好异常配置
 ### 6.4.1 配置信息
 
 - `ErrorCodeMessageSettings`：配置根节点
-  - `Definitions`：配置异常错误码消息类型，`[错误状态码，错误消息][]` 类型，如：`[5000, "{0} 不能小于 {1}"]`
+  - `Definitions`：配置异常错误码消息类型，`[错误状态码，错误消息][]` 类型，如：`["5000", "{0} 不能小于 {1}"]`
 
 ### 6.4.2 配置示例
 
-```json showLineNumbers 
+```json showLineNumbers
 {
   "ErrorCodeMessageSettings": {
     "Definitions": [
-      [5000, "{0} 不能小于 {1}"],
-      [5001, "我叫 {0} 名字", "百小僧"],
-      [5002, "Oops! 出错了"]
+      ["5000", "{0} 不能小于 {1}"],
+      ["5001", "我叫 {0} 名字", "百小僧"],
+      ["5002", "Oops! 出错了"]
     ]
   }
 }

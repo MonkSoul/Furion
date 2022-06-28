@@ -328,6 +328,44 @@
                     "default": false
                 }
             }
+        },
+        "FriendlyExceptionSettings": {
+            "type": "object",
+            "description": "友好异常配置选项",
+            "properties": {
+                "HideErrorCode": {
+                    "type": "boolean",
+                    "description": "隐藏错误码",
+                    "default": false
+                },
+                "DefaultErrorCode": {
+                    "type": "string",
+                    "description": "默认错误码",
+                    "default": ""
+                },
+                "DefaultErrorMessage": {
+                    "type": "string",
+                    "description": "默认错误消息",
+                    "default": "Internal Server Error"
+                }
+            }
+        },
+        "ErrorCodeMessageSettings": {
+            "type": "object",
+            "description": "异常配置选项，最优的方式是采用后期配置，也就是所有异常状态码先不设置（推荐）",
+            "properties": {
+                "Definitions": {
+                    "type": "array",
+                    "description": "异常状态码配置列表",
+                    "default": [],
+                    "items": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
         }
     }
 }
