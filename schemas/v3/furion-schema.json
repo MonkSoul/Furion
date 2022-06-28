@@ -2481,7 +2481,7 @@
                     "description": "配置规范化文档登录信息",
                     "properties": {
                         "Enabled": {
-                            "type": "string",
+                            "type": "boolean",
                             "description": "是否启用授权控制",
                             "default": false
                         },
