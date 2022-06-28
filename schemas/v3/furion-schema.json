@@ -1080,6 +1080,80 @@
                     "description": "资源所在程序集名称，默认入口程序集名称"
                 }
             }
+        },
+        "JWTSettings": {
+            "type": "object",
+            "description": "Jwt 配置",
+            "properties": {
+                "ValidateIssuerSigningKey": {
+                    "type": "boolean",
+                    "description": "验证签发方密钥"
+                },
+                "IssuerSigningKey": {
+                    "type": "string",
+                    "description": "签发方密钥"
+                },
+                "ValidateIssuer": {
+                    "type": "boolean",
+                    "description": "验证签发方"
+                },
+                "ValidIssuer": {
+                    "type": "string",
+                    "description": "签发方"
+                },
+                "ValidateAudience": {
+                    "type": "boolean",
+                    "description": "验证签收方"
+                },
+                "ValidAudience": {
+                    "type": "string",
+                    "description": "签收方"
+                },
+                "ValidateLifetime": {
+                    "type": "boolean",
+                    "description": "验证生存期"
+                },
+                "ClockSkew": {
+                    "type": "number",
+                    "description": "过期时间容错值，解决服务器端时间不同步问题（秒）",
+                    "default": 10
+                },
+                "ExpiredTime": {
+                    "type": "number",
+                    "description": "过期时间（分钟）",
+                    "default": 20
+                },
+                "Algorithm": {
+                    "type": "string",
+                    "description": "加密算法",
+                    "default": "HmacSha256",
+                    "enum": [
+                        "Aes128KW",
+                        "Aes256KW",
+                        "RsaPKCS1",
+                        "RsaOAEP",
+                        "Sha256",
+                        "Sha384",
+                        "Sha512",
+                        "EcdsaSha256",
+                        "EcdsaSha384",
+                        "EcdsaSha512",
+                        "HmacSha256",
+                        "HmacSha384",
+                        "HmacSha512",
+                        "None",
+                        "RsaSha256",
+                        "RsaSha384",
+                        "RsaSha512",
+                        "RsaSsaPssSha256",
+                        "RsaSsaPssSha384",
+                        "RsaSsaPssSha512",
+                        "Aes128CbcHmacSha256",
+                        "Aes192CbcHmacSha384",
+                        "Aes256CbcHmacSha512"
+                    ]
+                }
+            }
         }
     }
 }
