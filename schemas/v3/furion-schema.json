@@ -366,6 +366,483 @@
                     }
                 }
             }
+        },
+        "SpecificationDocumentSettings": {
+            "type": "object",
+            "description": "规范化文档配置选项",
+            "properties": {
+                "DocumentTitle": {
+                    "type": "string",
+                    "description": "文档标题",
+                    "default": "Specification Api Document"
+                },
+                "DefaultGroupName": {
+                    "type": "string",
+                    "description": "默认分组名",
+                    "default": "Default"
+                },
+                "EnableAuthorized": {
+                    "type": "boolean",
+                    "description": "启用授权支持",
+                    "default": true
+                },
+                "FormatAsV2": {
+                    "type": "boolean",
+                    "description": "格式化为V2版本",
+                    "default": false
+                },
+                "RoutePrefix": {
+                    "type": "string",
+                    "description": "配置规范化文档地址",
+                    "default": ""
+                },
+                "DocExpansionState": {
+                    "type": "string",
+                    "description": "文档展开设置",
+                    "enum": [
+                        "List",
+                        "Full",
+                        "None"
+                    ]
+                },
+                "XmlComments": {
+                    "type": "array",
+                    "description": "XML 描述文件",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "GroupOpenApiInfos": {
+                    "type": "array",
+                    "description": "分组信息",
+                    "items": {
+                        "type": "object",
+                        "description": "规范化文档开放接口信息",
+                        "properties": {
+                            "Group": {
+                                "type": "string",
+                                "description": "分组名，所属组"
+                            },
+                            "Order": {
+                                "type": "number",
+                                "description": "排序",
+                                "default": 0
+                            },
+                            "Visible": {
+                                "type": "boolean",
+                                "description": "是否可见"
+                            },
+                            "Title": {
+                                "type": "string",
+                                "description": "分组标题"
+                            },
+                            "Description": {
+                                "type": "string",
+                                "description": "分组描述"
+                            },
+                            "Version": {
+                                "type": "string",
+                                "description": "分组版本号"
+                            },
+                            "TermsOfService": {
+                                "type": "string",
+                                "description": "服务地址"
+                            },
+                            "Contact": {
+                                "type": "object",
+                                "description": "联系人",
+                                "properties": {
+                                    "Name": {
+                                        "type": "string",
+                                        "description": "名称"
+                                    },
+                                    "Url": {
+                                        "type": "string",
+                                        "description": "链接地址"
+                                    },
+                                    "Email": {
+                                        "type": "string",
+                                        "description": "电子邮箱"
+                                    }
+                                }
+                            },
+                            "License": {
+                                "type": "object",
+                                "description": "授权协议",
+                                "properties": {
+                                    "Name": {
+                                        "type": "string",
+                                        "description": "协议名称"
+                                    },
+                                    "Url": {
+                                        "type": "string",
+                                        "description": "协议地址"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "SecurityDefinitions": {
+                    "type": "array",
+                    "description": "安全定义，授权定义",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "Id": {
+                                "type": "string",
+                                "description": "唯一 Id"
+                            },
+                            "Requirement": {
+                                "type": "object",
+                                "description": "安全配置需求",
+                                "properties": {
+                                    "Scheme": {
+                                        "type": "object",
+                                        "properties": {
+                                            "Type": {
+                                                "type": "string",
+                                                "enum": [
+                                                    "ApiKey",
+                                                    "Http",
+                                                    "OAuth2",
+                                                    "OpenIdConnect"
+                                                ]
+                                            },
+                                            "Description": {
+                                                "type": "string"
+                                            },
+                                            "Name": {
+                                                "type": "string"
+                                            },
+                                            "In": {
+                                                "type": "string",
+                                                "enum": [
+                                                    "Query",
+                                                    "Header",
+                                                    "Path",
+                                                    "Cookie"
+                                                ]
+                                            },
+                                            "Scheme": {
+                                                "type": "string"
+                                            },
+                                            "BearerFormat": {
+                                                "type": "string"
+                                            },
+                                            "Flows": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "Implicit": {
+                                                        "type": "object",
+                                                        "properties": {
+                                                            "AuthorizationUrl": {
+                                                                "type": "string"
+                                                            },
+                                                            "TokenUrl": {
+                                                                "type": "string"
+                                                            },
+                                                            "RefreshUrl": {
+                                                                "type": "string"
+                                                            }
+                                                        }
+                                                    },
+                                                    "Password": {
+                                                        "type": "object",
+                                                        "properties": {
+                                                            "AuthorizationUrl": {
+                                                                "type": "string"
+                                                            },
+                                                            "TokenUrl": {
+                                                                "type": "string"
+                                                            },
+                                                            "RefreshUrl": {
+                                                                "type": "string"
+                                                            }
+                                                        }
+                                                    },
+                                                    "ClientCredentials": {
+                                                        "type": "object",
+                                                        "properties": {
+                                                            "AuthorizationUrl": {
+                                                                "type": "string"
+                                                            },
+                                                            "TokenUrl": {
+                                                                "type": "string"
+                                                            },
+                                                            "RefreshUrl": {
+                                                                "type": "string"
+                                                            }
+                                                        }
+                                                    },
+                                                    "AuthorizationCode": {
+                                                        "type": "object",
+                                                        "properties": {
+                                                            "AuthorizationUrl": {
+                                                                "type": "string"
+                                                            },
+                                                            "TokenUrl": {
+                                                                "type": "string"
+                                                            },
+                                                            "RefreshUrl": {
+                                                                "type": "string"
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            },
+                                            "OpenIdConnectUrl": {
+                                                "type": "string"
+                                            },
+                                            "UnresolvedReference": {
+                                                "type": "boolean"
+                                            },
+                                            "Reference": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "ExternalResource": {
+                                                        "type": "string"
+                                                    },
+                                                    "Type": {
+                                                        "type": "string",
+                                                        "enum": [
+                                                            "Schema",
+                                                            "Response",
+                                                            "Parameter",
+                                                            "Example",
+                                                            "RequestBody",
+                                                            "Header",
+                                                            "SecurityScheme",
+                                                            "Link",
+                                                            "Callback",
+                                                            "Tag"
+                                                        ]
+                                                    },
+                                                    "Id": {
+                                                        "type": "string"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    },
+                                    "Accesses": {
+                                        "type": "array",
+                                        "description": "权限配置",
+                                        "items": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            },
+                            "Type": {
+                                "type": "string",
+                                "enum": [
+                                    "ApiKey",
+                                    "Http",
+                                    "OAuth2",
+                                    "OpenIdConnect"
+                                ]
+                            },
+                            "Description": {
+                                "type": "string"
+                            },
+                            "Name": {
+                                "type": "string"
+                            },
+                            "In": {
+                                "type": "string",
+                                "enum": [
+                                    "Query",
+                                    "Header",
+                                    "Path",
+                                    "Cookie"
+                                ]
+                            },
+                            "Scheme": {
+                                "type": "string"
+                            },
+                            "BearerFormat": {
+                                "type": "string"
+                            },
+                            "Flows": {
+                                "type": "object",
+                                "properties": {
+                                    "Implicit": {
+                                        "type": "object",
+                                        "properties": {
+                                            "AuthorizationUrl": {
+                                                "type": "string"
+                                            },
+                                            "TokenUrl": {
+                                                "type": "string"
+                                            },
+                                            "RefreshUrl": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    },
+                                    "Password": {
+                                        "type": "object",
+                                        "properties": {
+                                            "AuthorizationUrl": {
+                                                "type": "string"
+                                            },
+                                            "TokenUrl": {
+                                                "type": "string"
+                                            },
+                                            "RefreshUrl": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    },
+                                    "ClientCredentials": {
+                                        "type": "object",
+                                        "properties": {
+                                            "AuthorizationUrl": {
+                                                "type": "string"
+                                            },
+                                            "TokenUrl": {
+                                                "type": "string"
+                                            },
+                                            "RefreshUrl": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    },
+                                    "AuthorizationCode": {
+                                        "type": "object",
+                                        "properties": {
+                                            "AuthorizationUrl": {
+                                                "type": "string"
+                                            },
+                                            "TokenUrl": {
+                                                "type": "string"
+                                            },
+                                            "RefreshUrl": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                }
+                            },
+                            "OpenIdConnectUrl": {
+                                "type": "string"
+                            },
+                            "UnresolvedReference": {
+                                "type": "boolean"
+                            },
+                            "Reference": {
+                                "type": "object",
+                                "properties": {
+                                    "ExternalResource": {
+                                        "type": "string"
+                                    },
+                                    "Type": {
+                                        "type": "string",
+                                        "enum": [
+                                            "Schema",
+                                            "Response",
+                                            "Parameter",
+                                            "Example",
+                                            "RequestBody",
+                                            "Header",
+                                            "SecurityScheme",
+                                            "Link",
+                                            "Callback",
+                                            "Tag"
+                                        ]
+                                    },
+                                    "Id": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "Servers": {
+                    "type": "array",
+                    "description": "配置 Servers",
+                    "default": [],
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "Description": {
+                                "type": "string",
+                                "description": "描述"
+                            },
+                            "Url": {
+                                "type": "string",
+                                "description": "链接地址"
+                            }
+                        }
+                    }
+                },
+                "HideServers": {
+                    "type": "boolean",
+                    "description": "隐藏 Servers",
+                    "default": true
+                },
+                "RouteTemplate": {
+                    "type": "string",
+                    "description": "默认 swagger.json 路由模板",
+                    "default": "swagger/{documentName}/swagger.json"
+                },
+                "PackagesGroups": {
+                    "type": "array",
+                    "description": "配置安装第三方包的分组名",
+                    "default": [],
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "EnableEnumSchemaFilter": {
+                    "type": "boolean",
+                    "description": "启用枚举 Schema 筛选器",
+                    "default": true
+                },
+                "EnableTagsOrderDocumentFilter": {
+                    "type": "boolean",
+                    "description": "启用标签排序筛选器",
+                    "default": true
+                },
+                "ServerDir": {
+                    "type": "string",
+                    "description": "服务目录（修正 IIS 创建 Application 问题）",
+                },
+                "LoginInfo": {
+                    "type": "object",
+                    "description": "配置规范化文档登录信息",
+                    "properties": {
+                        "Enabled": {
+                            "type": "string",
+                            "description": "是否启用授权控制",
+                            "default": false
+                        },
+                        "CheckUrl": {
+                            "type": "string",
+                            "description": "检查登录地址"
+                        },
+                        "SubmitUrl": {
+                            "type": "string",
+                            "description": "提交登录地址"
+                        },
+                        "UserName": {
+                            "type": "string",
+                            "description": "用户名"
+                        },
+                        "Password": {
+                            "type": "string",
+                            "description": "密码"
+                        }
+                    }
+                },
+                "EnableAllGroups": {
+                    "type": "boolean",
+                    "description": "启用 All Groups 功能",
+                    "default": false
+                }
+            }
         }
     }
 }
