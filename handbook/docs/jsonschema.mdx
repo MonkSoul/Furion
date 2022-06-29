@@ -76,7 +76,31 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 重启 `Visual Studio Code` 即可。
 
-## 2.7.6 反馈与建议
+## 2.7.6 如何更新 `JSON Schema`
+
+默认情况下，`JSON Schema` 在第一次获取之后会自动缓存起来，可能会导致 `.json` 文件提示错误，这个时候只需要删除缓存即可。
+
+### 2.7.6.1 `Visual Studio`
+
+打开电脑的 `运行` 并输入 `%AppData%`，之后进入 `C:\Users\你的电脑用户名\AppData\Local\Microsoft\VisualStudio` 下
+
+<img src={useBaseUrl("img/js8.png")} />
+
+<img src={useBaseUrl("img/js9.png")} />
+
+<img src={useBaseUrl("img/js10.png")} />
+
+**之后删除 `http/https` 开头的文件即可。**
+
+### 2.7.6.2 `Visual Studio Code`
+
+同上，运行进入 `%AppData%`，之后进入下列路径：`C:\Users\你的电脑用户名\AppData\Roaming\Code\User\globalStorage\vscode.json-language-features\json-schema-cache`
+
+<img src={useBaseUrl("img/js11.png")} />
+
+**之后删除这些文件即可。**
+
+## 2.7.7 反馈与建议
 
 :::note 与我们交流
 
