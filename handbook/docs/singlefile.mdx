@@ -165,15 +165,35 @@ yarn global add pm2
 使用 `pm2` 非常简单就可以启动守护进程应用程序。
 
 ```bash showLineNumbers
-pm2 start 项目.exe --name 名称
+pm2 start --name pms PMS.Web.Entry.exe
 ```
+
+:::important 指定端口
+
+如需指定端口，可使用下列命令：
+
+```bash showLineNumbers
+pm2 start --name pms PMS.Web.Entry.exe -- --urls=https://localhost:8089
+```
+
+注意 `--` 后面可以写完整的 `dotnet` 命令。
+
+:::
+
+:::tip 命令说明
+
+`pms.exe` 为项目发布后的启动层名称，如果名称包含 `空格`，则使用双引号包裹，如 `"p ms.exe"`。
+
+`--name` 配置应用程序在 `pm2` 中的唯一标识。
+
+:::
 
 `start` 后面跟着是 `.exe` 文件，在 `linux/macos` 下无需指定后缀名。
 
 **启动成功后即可通过浏览器访问指定端口，通常是 `http://localhost:5000`**
 
 ```bash showLineNumbers
-PS C:\Users\bqrjsoft\Desktop\pms> pm2 start PMS.Web.Entry.exe --name pms
+PS C:\Users\bqrjsoft\Desktop\pms> pm2 start --name pms PMS.Web.Entry.exe
 [PM2] Starting C:\Users\bqrjsoft\Desktop\pms\PMS.Web.Entry.exe in fork_mode (1 instance)
 [PM2] Done.
 ┌─────┬────────┬─────────────┬─────────┬─────────┬──────────┬────────┬──────┬───────────┬──────────┬──────────┬──────────┬──────────┐

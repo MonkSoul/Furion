@@ -54,6 +54,18 @@ yarn global add pm2
 pm2 start --name xxx dotnet -- xxx.dll
 ```
 
+:::important 指定端口
+
+如需指定端口，可使用下列命令：
+
+```bash showLineNumbers
+pm2 start --name xxx dotnet -- PMS.Web.Entry.dll --urls=https://localhost:8089
+```
+
+注意 `--` 后面可以写完整的 `dotnet` 命令。
+
+:::
+
 :::tip 命令说明
 
 `xxx.dll` 为项目发布后的启动层名称。
@@ -67,8 +79,20 @@ pm2 start --name xxx dotnet -- xxx.dll
 这种模式的特点就是无需服务器安装 `.NET` 任何环境，可查阅 [单文件发布文档](./singlefile.mdx)
 
 ```bash showLineNumbers
-pm2 start xxx.exe --name xxx
+pm2 start --name xxx PMS.Web.Entry.exe
 ```
+
+:::important 指定端口
+
+如需指定端口，可使用下列命令：
+
+```bash showLineNumbers
+pm2 start --name xxx PMS.Web.Entry.exe -- --urls=https://localhost:8089
+```
+
+注意 `--` 后面可以写完整的 `dotnet` 命令。
+
+:::
 
 :::tip 命令说明
 

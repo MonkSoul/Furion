@@ -170,7 +170,7 @@ Serve.Run(RunOptions.Default.ConfigureBuilder(builder =>
 
 2. 在控制台启动项目中添加 `Properties` 文件夹并在此文件夹中创建 `launchSettings.json` 文件，同时写入以下内容：
 
-```json showLineNumbers {4,8}
+```json showLineNumbers {4,8} title="launchSettings.json"
 {
   "$schema": "http://json.schemastore.org/launchsettings.json",
   "profiles": {
@@ -184,6 +184,16 @@ Serve.Run(RunOptions.Default.ConfigureBuilder(builder =>
       }
     }
   }
+}
+```
+
+除了 `launchsettings.json` 的方式，还可以在 `appsettings.json` 简单配置
+
+---
+
+```json showLineNumbers {2} title="appsettings.json"
+{
+  "Urls": "http://localhost:8081"
 }
 ```
 
