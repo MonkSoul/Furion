@@ -32,10 +32,15 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
   - [新增] 跨域 `WithExposedHeaders` 默认配置 `access-token` 和 `x-access-token` [42ebdfd](https://gitee.com/dotnetchina/Furion/commit/42ebdfd33a01353a0b3a801528de052990d2e4c9)
   - [新增] 脚手架默认启用 `app.UseHttpLogging()` `HTTP` 日志 [42ebdfd](https://gitee.com/dotnetchina/Furion/commit/42ebdfd33a01353a0b3a801528de052990d2e4c9)
   - [新增] **`Furion` 和 `ASP.NET Core` 完整 `json` 配置的 `JSON Schema` 架构 [JSON Schema](https://gitee.com/dotnetchina/Furion/raw/net6/schemas/v3/furion-schema.json)**
+  - [新增] `Sql` 代理支持返回单个类类型参数 [1d7fb5b](https://gitee.com/dotnetchina/Furion/commit/1d7fb5b5330c5a30098056818a93a0879034fecd)
 
 - **突破性变化**
 
   - [新增] **`Furion` 和 `ASP.NET Core` 完整 `json` 配置的 `JSON Schema` 架构 [JSON Schema](https://gitee.com/dotnetchina/Furion/raw/net6/schemas/v3/furion-schema.json)**
+
+- **问题修复**
+
+  - [修复] 自 `v3.6.3` 版本依赖，执行原生 `Sql` 添加了参数校验导致存储过程执行错误问题 [#I5ERMQ](https://gitee.com/dotnetchina/Furion/issues/I5ERMQ)
 
 - **其他更改**
 
@@ -75,6 +80,21 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 2. **根据 `Swagger` 生成 `Vue/React/Angular` 前端请求代码**
 
 **[查看文档](./clientapi)**
+
+3. **`Sql` 代理支持返回单个类类型参数**
+
+```cs showLineNumbers {7-9}
+public interface ISql : ISqlDispatchProxy
+{
+    // 集合类型
+    [SqlExecute("select * from person")]
+    List<Person> GetPersons();
+
+    // 自 v3.7.1+ 版本支持返回单个类类型参数
+    [SqlExecute("select * from person where id=@id")]
+    Person GetPerson(int id);
+}
+```
 
 ---
 
