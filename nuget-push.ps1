@@ -8,6 +8,12 @@ Param(
     [string] $apikey
 )
 
+if ($version -eq $null -or $version -eq "")
+{
+    Write-Error "必须指定版本号";
+    return;
+}
+
 Write-Warning "正在发布 framework 目录 Nuget 包......";
 
 # 查找 .\framework\nupkgs 下所有目录

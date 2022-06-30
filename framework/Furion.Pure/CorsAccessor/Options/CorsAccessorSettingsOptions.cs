@@ -34,7 +34,7 @@ public sealed class CorsAccessorSettingsOptions : IConfigurableOptions<CorsAcces
     public string[] WithHeaders { get; set; }
 
     /// <summary>
-    /// 响应标头
+    /// 设置客户端可获取的响应标头
     /// </summary>
     public string[] WithExposedHeaders { get; set; }
 
@@ -44,7 +44,7 @@ public sealed class CorsAccessorSettingsOptions : IConfigurableOptions<CorsAcces
     public string[] WithMethods { get; set; }
 
     /// <summary>
-    /// 跨域请求中的凭据
+    /// 是否允许跨域请求中的凭据
     /// </summary>
     public bool? AllowCredentials { get; set; }
 
