@@ -139,7 +139,7 @@ public class SqlDispatchProxy : AspectDispatchProxy, IDispatchProxy
                 // 处理单个值的情况
                 if (!typeof(IEnumerable).IsAssignableFrom(genericArguments[i]))
                 {
-                    args[i] = ((IEnumerable)tupleResult[i]).Cast<object>().FirstOrDefault();
+                    args[i] = ((IEnumerable)tupleResult[i])?.Cast<object>()?.FirstOrDefault();
                     continue;
                 }
 
@@ -176,7 +176,7 @@ public class SqlDispatchProxy : AspectDispatchProxy, IDispatchProxy
             else
             {
                 var @object = dataTable.ToList(returnType);
-                var listObject = ((IEnumerable)@object).Cast<object>();
+                var listObject = ((IEnumerable)@object)?.Cast<object>();
 
                 // 如果是集合参数
                 if (typeof(IEnumerable).IsAssignableFrom(returnType))
@@ -185,7 +185,7 @@ public class SqlDispatchProxy : AspectDispatchProxy, IDispatchProxy
                 }
 
                 // 否则取第一条
-                return listObject.FirstOrDefault();
+                return listObject?.FirstOrDefault();
             }
         }
     }
@@ -250,7 +250,7 @@ public class SqlDispatchProxy : AspectDispatchProxy, IDispatchProxy
                 // 处理单个值的情况
                 if (!typeof(IEnumerable).IsAssignableFrom(genericArguments[i]))
                 {
-                    args[i] = ((IEnumerable)tupleResult[i]).Cast<object>().FirstOrDefault();
+                    args[i] = ((IEnumerable)tupleResult[i])?.Cast<object>()?.FirstOrDefault();
                     continue;
                 }
 
@@ -288,7 +288,7 @@ public class SqlDispatchProxy : AspectDispatchProxy, IDispatchProxy
             else
             {
                 var @object = await dataTable.ToListAsync(returnType);
-                var listObject = ((IEnumerable)@object).Cast<object>();
+                var listObject = ((IEnumerable)@object)?.Cast<object>();
 
                 // 如果是集合参数
                 if (typeof(IEnumerable).IsAssignableFrom(returnType))
@@ -297,7 +297,7 @@ public class SqlDispatchProxy : AspectDispatchProxy, IDispatchProxy
                 }
 
                 // 否则取第一条
-                return (T)(listObject.FirstOrDefault());
+                return (T)(listObject?.FirstOrDefault());
             }
         }
     }
