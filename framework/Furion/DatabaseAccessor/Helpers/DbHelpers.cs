@@ -56,14 +56,17 @@ internal static class DbHelpers
         // 检查 Sql 语句中参数个数
         CheckSqlParamsCount(dbCommand, out var isMatch, out var paramNames);
 
-        // 如果命令参数都没有，则不用生成
+        // 如果命令参数都没有，则不用生成，存储过程直接返回 true
         if (!isMatch) return dbParameters.ToArray();
+
+        // 判断是否是存储过程，如果是，则跳过检查参数数量
+        var isStoredProcedure = dbCommand.CommandType == CommandType.StoredProcedure;
 
         // 遍历所有属性
         foreach (var property in properties)
         {
-            // 如果不包含该命令参数，则跳过
-            if (!paramNames.Contains(property.Name, StringComparer.OrdinalIgnoreCase))
+            // 如果不包含该命令参数且不是执行存储过程，则跳过
+            if (!isStoredProcedure && !paramNames.Contains(property.Name, StringComparer.OrdinalIgnoreCase))
             {
                 continue;
             }
@@ -108,13 +111,16 @@ internal static class DbHelpers
         // 检查 Sql 语句中参数个数
         CheckSqlParamsCount(dbCommand, out var isMatch, out var paramNames);
 
-        // 如果命令参数都没有，则不用生成
+        // 如果命令参数都没有，则不用生成，存储过程直接返回 true
         if (!isMatch) return dbParameters.ToArray();
+
+        // 判断是否是存储过程，如果是，则跳过检查参数数量
+        var isStoredProcedure = dbCommand.CommandType == CommandType.StoredProcedure;
 
         foreach (var key in keyValues.Keys)
         {
-            // 如果不包含该命令参数，则跳过
-            if (!paramNames.Contains(key, StringComparer.OrdinalIgnoreCase))
+            // 如果不包含该命令参数且不是执行存储过程，则跳过
+            if (!isStoredProcedure && !paramNames.Contains(key, StringComparer.OrdinalIgnoreCase))
             {
                 continue;
             }
@@ -395,11 +401,20 @@ internal static class DbHelpers
     /// <summary>
     /// 检查 Sql 中命令参数个数
     /// </summary>
+    /// <remarks>如果是存储过程，则返回 true</remarks>
     /// <param name="dbCommand"></param>
     /// <param name="isMatch"></param>
     /// <param name="paramNames"></param>
     private static void CheckSqlParamsCount(DbCommand dbCommand, out bool isMatch, out string[] paramNames)
     {
+        // 存储过程排除参数数量校验，函数无需排除，因为函数最终是生成 SQL 去执行
+        if (dbCommand.CommandType == CommandType.StoredProcedure)
+        {
+            isMatch = true;
+            paramNames = Array.Empty<string>();
+            return;
+        }
+
         // 处理参数不对等问题，Orache 数据库要求参数必须和 sql 标注的一致的数量，错误代码：ORA-01006
         var regex = new Regex(ParamRegex, RegexOptions.IgnoreCase | RegexOptions.Multiline | RegexOptions.IgnorePatternWhitespace);
         isMatch = regex.IsMatch(dbCommand.CommandText);
