@@ -194,7 +194,7 @@ namespace Furion.Application
 
 ### 9.17.4.4 返回 `Tuple<T1,...T8>`
 
-```cs showLineNumbers  {8-10,14-16,20-22,26-28,32-35}
+```cs showLineNumbers  {8-10,14-16,20-22,26-28,32-35,38-42}
 using Furion.DatabaseAccessor;
 
 namespace Furion.Application
@@ -231,7 +231,12 @@ namespace Furion.Application
             select * from student;
             select 1;"), SqlDbContextLocator(typeof(MySqlDbContextLocator)]
         Task<(List<Person>,List<Student>,List<int>)> GetDataAsync();
-    }
+
+        // 自 v3.7.1+ 版本支持返回单个类类型参数
+        [SqlExecute(@"
+            select * from person where id =@id;
+            select * from person")]
+        (Person, List<Person>) GetData(int id); // 注意返回值是 `(Person, List<Person>)` 组合
 }
 ```
 
@@ -361,7 +366,7 @@ namespace Furion.Application
 
 ### 9.17.5.4 返回 `Tuple(T1,...T8)`
 
-```cs showLineNumbers  {7,10,13}
+```cs showLineNumbers  {7,10,13,16-18}
 using Furion.DatabaseAccessor;
 
 namespace Furion.Application
@@ -376,6 +381,10 @@ namespace Furion.Application
 
         [SqlProcedure("PROC_Name")]
         (List<Person>, List<Student>, Person, int) GetData(int id, string name);
+
+        // 自 v3.7.1+ 版本支持返回单个类类型参数
+        [SqlProcedure(@"PROC_Name)]
+        (Person, List<Person>) GetData(int id); // 注意返回值是 `(Person, List<Person>)` 组合
     }
 }
 ```
