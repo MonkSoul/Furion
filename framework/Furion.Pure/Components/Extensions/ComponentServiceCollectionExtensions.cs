@@ -40,9 +40,18 @@ public static class ComponentServiceCollectionExtensions
     public static IServiceCollection AddComponent<TComponent, TComponentOptions>(this IServiceCollection services, TComponentOptions options = default)
         where TComponent : class, IServiceComponent
     {
-        // 解析组件类型
-        var componentType = typeof(TComponent);
+        return services.AddComponent(typeof(TComponent), options);
+    }
 
+    /// <summary>
+    /// 注册依赖组件
+    /// </summary>
+    /// <param name="services"><see cref="IServiceCollection"/></param>
+    /// <param name="componentType">组件类型</param>
+    /// <param name="options">组件参数</param>
+    /// <returns><see cref="IServiceCollection"/></returns>
+    public static IServiceCollection AddComponent(this IServiceCollection services, Type componentType, object options = default)
+    {
         // 初始化组件依赖链
         var dependLinkList = new List<Type> { componentType };
         var componentContextLinkList = new List<ComponentContext>
@@ -50,7 +59,7 @@ public static class ComponentServiceCollectionExtensions
             new ComponentContext
             {
                 Parameter = options,
-                ParameterType = typeof(TComponentOptions),
+                ParameterType = options?.GetType()??typeof(object),
                 ComponentType = componentType,
             }
         };

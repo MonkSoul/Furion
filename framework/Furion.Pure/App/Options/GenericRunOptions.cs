@@ -40,6 +40,32 @@ public class GenericRunOptions
     }
 
     /// <summary>
+    /// 添加应用服务组件
+    /// </summary>
+    /// <typeparam name="TComponent">组件类型</typeparam>
+    /// <returns></returns>
+    public GenericRunOptions AddComponent<TComponent>()
+        where TComponent : IServiceComponent
+    {
+        ServiceComponents.Add(typeof(TComponent), null);
+        return this;
+    }
+
+    /// <summary>
+    /// 添加应用服务组件
+    /// </summary>
+    /// <typeparam name="TComponent">组件类型</typeparam>
+    /// <typeparam name="TComponentOptions"></typeparam>
+    /// <param name="options">组件参数</param>
+    /// <returns></returns>
+    public GenericRunOptions AddComponent<TComponent, TComponentOptions>(TComponentOptions options)
+        where TComponent : IServiceComponent
+    {
+        ServiceComponents.Add(typeof(TComponent), options);
+        return this;
+    }
+
+    /// <summary>
     /// <see cref="IHostBuilder"/>
     /// </summary>
     internal IHostBuilder Builder { get; set; }
@@ -48,4 +74,9 @@ public class GenericRunOptions
     /// 自定义 <see cref="IHostBuilder"/> 委托
     /// </summary>
     internal Action<IHostBuilder> ActionBuilder { get; set; }
+
+    /// <summary>
+    /// 应用服务组件
+    /// </summary>
+    internal Dictionary<Type, object> ServiceComponents { get; set; } = new();
 }

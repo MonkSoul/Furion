@@ -41,6 +41,32 @@ public sealed class LegacyRunOptions : GenericRunOptions
     }
 
     /// <summary>
+    /// 添加应用中间件组件
+    /// </summary>
+    /// <typeparam name="TComponent">组件类型</typeparam>
+    /// <returns></returns>
+    public LegacyRunOptions UseComponent<TComponent>()
+        where TComponent : IApplicationComponent
+    {
+        ApplicationComponents.Add(typeof(TComponent), null);
+        return this;
+    }
+
+    /// <summary>
+    /// 添加应用中间件组件
+    /// </summary>
+    /// <typeparam name="TComponent">组件类型</typeparam>
+    /// <typeparam name="TComponentOptions"></typeparam>
+    /// <param name="options">组件参数</param>
+    /// <returns></returns>
+    public LegacyRunOptions UseComponent<TComponent, TComponentOptions>(TComponentOptions options)
+        where TComponent : IApplicationComponent
+    {
+        ApplicationComponents.Add(typeof(TComponent), options);
+        return this;
+    }
+
+    /// <summary>
     /// <see cref="IWebHostBuilder"/>
     /// </summary>
     internal IWebHostBuilder WebHostBuilder { get; set; }
@@ -49,4 +75,9 @@ public sealed class LegacyRunOptions : GenericRunOptions
     /// 自定义 <see cref="IWebHostBuilder"/> 委托
     /// </summary>
     internal Action<IWebHostBuilder> ActionWebHostBuilder { get; set; }
+
+    /// <summary>
+    /// 应用中间件组件
+    /// </summary>
+    internal Dictionary<Type, object> ApplicationComponents { get; set; } = new();
 }

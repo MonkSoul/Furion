@@ -7,6 +7,7 @@
 // See the Mulan PSL v2 for more details.
 
 using Furion;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Microsoft.AspNetCore.Builder;
 
@@ -25,6 +26,51 @@ public static class AppWebApplicationBuilderExtensions
         // 为了兼容 .NET 5 无缝升级至 .NET 6，故传递 WebHost 和 Host
         InternalApp.WebHostEnvironment = webApplicationBuilder.Environment;
         InternalApp.ConfigureApplication(webApplicationBuilder.WebHost, webApplicationBuilder.Host);
+
+        return webApplicationBuilder;
+    }
+
+    /// <summary>
+    /// 注册单个组件
+    /// </summary>
+    /// <typeparam name="TComponent"></typeparam>
+    /// <param name="webApplicationBuilder">Web应用构建器</param>
+    /// <param name="options"></param>
+    /// <returns></returns>
+    public static WebApplicationBuilder AddComponent<TComponent>(this WebApplicationBuilder webApplicationBuilder, object options = default)
+        where TComponent : class, IServiceComponent
+    {
+        webApplicationBuilder.Services.AddComponent<TComponent>(options);
+
+        return webApplicationBuilder;
+    }
+
+    /// <summary>
+    /// 注册依赖组件
+    /// </summary>
+    /// <typeparam name="TComponent">派生自 <see cref="IServiceComponent"/></typeparam>
+    /// <typeparam name="TComponentOptions">组件参数</typeparam>
+    /// <param name="webApplicationBuilder">Web应用构建器</param>
+    /// <param name="options">组件参数</param>
+    /// <returns><see cref="IServiceCollection"/></returns>
+    public static WebApplicationBuilder AddComponent<TComponent, TComponentOptions>(this WebApplicationBuilder webApplicationBuilder, TComponentOptions options = default)
+        where TComponent : class, IServiceComponent
+    {
+        webApplicationBuilder.Services.AddComponent<TComponent, TComponentOptions>(options);
+
+        return webApplicationBuilder;
+    }
+
+    /// <summary>
+    /// 注册依赖组件
+    /// </summary>
+    /// <param name="webApplicationBuilder">Web应用构建器</param>
+    /// <param name="componentType">组件类型</param>
+    /// <param name="options">组件参数</param>
+    /// <returns><see cref="IServiceCollection"/></returns>
+    public static WebApplicationBuilder AddComponent(this WebApplicationBuilder webApplicationBuilder, Type componentType, object options = default)
+    {
+        webApplicationBuilder.Services.AddComponent(componentType, options);
 
         return webApplicationBuilder;
     }

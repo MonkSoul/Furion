@@ -43,9 +43,19 @@ public static class ComponentApplicationBuilderExtensions
     public static IApplicationBuilder UseComponent<TComponent, TComponentOptions>(this IApplicationBuilder app, IWebHostEnvironment env, TComponentOptions options = default)
         where TComponent : class, IApplicationComponent
     {
-        // 解析组件类型
-        var componentType = typeof(TComponent);
+        return app.UseComponent(env, typeof(TComponent), options);
+    }
 
+    /// <summary>
+    /// 注册依赖组件
+    /// </summary>
+    /// <param name="app"><see cref="IApplicationBuilder"/></param>
+    /// <param name="env"><see cref="IWebHostEnvironment"/></param>
+    /// <param name="componentType">组件类型</param>
+    /// <param name="options">组件参数</param>
+    /// <returns><see cref="IApplicationBuilder"/></returns>
+    public static IApplicationBuilder UseComponent(this IApplicationBuilder app, IWebHostEnvironment env, Type componentType, object options = default)
+    {
         // 初始化组件依赖链
         var dependLinkList = new List<Type> { componentType };
         var componentContextLinkList = new List<ComponentContext>
@@ -53,7 +63,7 @@ public static class ComponentApplicationBuilderExtensions
             new ComponentContext
             {
                 Parameter = options,
-                ParameterType = typeof(TComponentOptions),
+                ParameterType = options?.GetType()??typeof(object),
                 ComponentType = componentType,
             }
         };

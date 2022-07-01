@@ -99,6 +99,26 @@ public static class Serve
                 webHostBuilder.UseUrls(startUrls);
             }
 
+            // 配置服务
+            webHostBuilder.ConfigureServices(services =>
+            {
+                // 注册应用服务组件
+                foreach (var (componentType, opt) in options.ServiceComponents)
+                {
+                    services.AddComponent(componentType, opt);
+                }
+            });
+
+            // 配置中间件
+            webHostBuilder.Configure((context, app) =>
+            {
+                // 注册应用中间件组件
+                foreach (var (componentType, opt) in options.ApplicationComponents)
+                {
+                    app.UseComponent(context.HostingEnvironment, componentType, opt);
+                }
+            });
+
             // 调用自定义配置
             options?.ActionWebHostBuilder?.Invoke(webHostBuilder);
         });
@@ -117,6 +137,16 @@ public static class Serve
     {
         var builder = Host.CreateDefaultBuilder(Environment.GetCommandLineArgs()).Inject();
         options.Builder = builder;
+
+        // 配置服务
+        builder.ConfigureServices(services =>
+        {
+            // 注册应用服务组件
+            foreach (var (componentType, opt) in options.ServiceComponents)
+            {
+                services.AddComponent(componentType, opt);
+            }
+        });
 
         // 调用自定义配置
         options?.ActionBuilder?.Invoke(builder);
@@ -138,6 +168,12 @@ public static class Serve
             : WebApplication.CreateBuilder(options.Options)).Inject();
         options.Builder = builder;
 
+        // 注册服应用务组件
+        foreach (var (componentType, opt) in options.ServiceComponents)
+        {
+            builder.AddComponent(componentType, opt);
+        }
+
         // 解决部分主机不能正确读取 urls 参数命令问题
         var startUrls = !string.IsNullOrWhiteSpace(urls) ? urls : builder.Configuration[nameof(urls)];
 
@@ -153,6 +189,12 @@ public static class Serve
         // 初始化 WebApplication
         var app = builder.Build();
         options.Application = app;
+
+        // 注册应用中间件组件
+        foreach (var (componentType, opt) in options.ApplicationComponents)
+        {
+            app.UseComponent(app.Environment, componentType, opt);
+        }
 
         // 调用自定义配置
         options?.ActionConfigure?.Invoke(app);
