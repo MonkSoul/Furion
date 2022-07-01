@@ -23,16 +23,18 @@ internal static class Penetrates
     /// <returns></returns>
     internal static List<ComponentContext> CreateDependLinkList(Type componentType, object options = default)
     {
+        // 根组件上下文
+        var rootComponentContext = new ComponentContext
+        {
+            ComponentType = componentType,
+        };
+        rootComponentContext.SetProperty(componentType, options);
+
         // 初始化组件依赖链
         var dependLinkList = new List<Type> { componentType };
         var componentContextLinkList = new List<ComponentContext>
         {
-            new ComponentContext
-            {
-                Parameter = options,
-                ParameterType = options?.GetType()??typeof(object),
-                ComponentType = componentType,
-            }
+            rootComponentContext
         };
 
         // 创建组件依赖链
@@ -88,9 +90,7 @@ internal static class Penetrates
                 {
                     CalledContext = calledContext,
                     RootContext = rootComponentContext,
-                    ComponentType = cmpType,
-                    Parameter = rootComponentContext.Parameter,
-                    ParameterType = rootComponentContext.ParameterType
+                    ComponentType = cmpType
                 });
 
                 // 递增序号

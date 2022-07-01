@@ -38,7 +38,7 @@ public static class AppWebApplicationBuilderExtensions
     /// <param name="options"></param>
     /// <returns></returns>
     public static WebApplicationBuilder AddComponent<TComponent>(this WebApplicationBuilder webApplicationBuilder, object options = default)
-        where TComponent : class, IServiceComponent
+        where TComponent : class, IServiceComponent, new()
     {
         webApplicationBuilder.Services.AddComponent<TComponent>(options);
 
@@ -54,7 +54,7 @@ public static class AppWebApplicationBuilderExtensions
     /// <param name="options">组件参数</param>
     /// <returns><see cref="IServiceCollection"/></returns>
     public static WebApplicationBuilder AddComponent<TComponent, TComponentOptions>(this WebApplicationBuilder webApplicationBuilder, TComponentOptions options = default)
-        where TComponent : class, IServiceComponent
+        where TComponent : class, IServiceComponent, new()
     {
         webApplicationBuilder.Services.AddComponent<TComponent, TComponentOptions>(options);
 

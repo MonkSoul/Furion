@@ -26,7 +26,7 @@ public static class ComponentApplicationBuilderExtensions
     /// <param name="options">组件参数</param>
     /// <returns><see cref="IApplicationBuilder"/></returns>
     public static IApplicationBuilder UseComponent<TComponent>(this IApplicationBuilder app, IWebHostEnvironment env, object options = default)
-        where TComponent : class, IApplicationComponent
+        where TComponent : class, IApplicationComponent, new()
     {
         return app.UseComponent<TComponent, object>(env, options);
     }
@@ -41,7 +41,7 @@ public static class ComponentApplicationBuilderExtensions
     /// <param name="options">组件参数</param>
     /// <returns><see cref="IApplicationBuilder"/></returns>
     public static IApplicationBuilder UseComponent<TComponent, TComponentOptions>(this IApplicationBuilder app, IWebHostEnvironment env, TComponentOptions options = default)
-        where TComponent : class, IApplicationComponent
+        where TComponent : class, IApplicationComponent, new()
     {
         return app.UseComponent(env, typeof(TComponent), options);
     }

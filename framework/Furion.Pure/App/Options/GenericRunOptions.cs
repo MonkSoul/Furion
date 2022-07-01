@@ -45,7 +45,7 @@ public class GenericRunOptions
     /// <typeparam name="TComponent">组件类型</typeparam>
     /// <returns></returns>
     public GenericRunOptions AddComponent<TComponent>()
-        where TComponent : IServiceComponent
+        where TComponent : class, IServiceComponent, new()
     {
         ServiceComponents.Add(typeof(TComponent), null);
         return this;
@@ -59,9 +59,21 @@ public class GenericRunOptions
     /// <param name="options">组件参数</param>
     /// <returns></returns>
     public GenericRunOptions AddComponent<TComponent, TComponentOptions>(TComponentOptions options)
-        where TComponent : IServiceComponent
+        where TComponent : class, IServiceComponent, new()
     {
         ServiceComponents.Add(typeof(TComponent), options);
+        return this;
+    }
+
+    /// <summary>
+    /// 添加应用服务组件
+    /// </summary>
+    /// <param name="componentType">组件类型</param>
+    /// <param name="options">组件参数</param>
+    /// <returns></returns>
+    public GenericRunOptions AddComponent(Type componentType, object options)
+    {
+        ServiceComponents.Add(componentType, options);
         return this;
     }
 

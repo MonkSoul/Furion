@@ -67,7 +67,7 @@ public sealed class RunOptions
     /// <typeparam name="TComponent">组件类型</typeparam>
     /// <returns></returns>
     public RunOptions AddComponent<TComponent>()
-        where TComponent : IServiceComponent
+        where TComponent : class, IServiceComponent, new()
     {
         ServiceComponents.Add(typeof(TComponent), null);
         return this;
@@ -81,9 +81,21 @@ public sealed class RunOptions
     /// <param name="options">组件参数</param>
     /// <returns></returns>
     public RunOptions AddComponent<TComponent, TComponentOptions>(TComponentOptions options)
-        where TComponent : IServiceComponent
+        where TComponent : class, IServiceComponent, new()
     {
         ServiceComponents.Add(typeof(TComponent), options);
+        return this;
+    }
+
+    /// <summary>
+    /// 添加应用服务组件
+    /// </summary>
+    /// <param name="componentType">组件类型</param>
+    /// <param name="options">组件参数</param>
+    /// <returns></returns>
+    public RunOptions AddComponent(Type componentType, object options)
+    {
+        ServiceComponents.Add(componentType, options);
         return this;
     }
 
@@ -93,7 +105,7 @@ public sealed class RunOptions
     /// <typeparam name="TComponent">组件类型</typeparam>
     /// <returns></returns>
     public RunOptions UseComponent<TComponent>()
-        where TComponent : IApplicationComponent
+        where TComponent : class, IApplicationComponent, new()
     {
         ApplicationComponents.Add(typeof(TComponent), null);
         return this;
@@ -107,9 +119,21 @@ public sealed class RunOptions
     /// <param name="options">组件参数</param>
     /// <returns></returns>
     public RunOptions UseComponent<TComponent, TComponentOptions>(TComponentOptions options)
-        where TComponent : IApplicationComponent
+        where TComponent : class, IApplicationComponent, new()
     {
         ApplicationComponents.Add(typeof(TComponent), options);
+        return this;
+    }
+
+    /// <summary>
+    /// 添加应用中间件组件
+    /// </summary>
+    /// <param name="componentType">组件类型</param>
+    /// <param name="options">组件参数</param>
+    /// <returns></returns>
+    public RunOptions UseComponent(Type componentType, object options)
+    {
+        ApplicationComponents.Add(componentType, options);
         return this;
     }
 

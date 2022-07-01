@@ -24,7 +24,7 @@ public static class ComponentServiceCollectionExtensions
     /// <param name="options"></param>
     /// <returns></returns>
     public static IServiceCollection AddComponent<TComponent>(this IServiceCollection services, object options = default)
-        where TComponent : class, IServiceComponent
+        where TComponent : class, IServiceComponent, new()
     {
         return services.AddComponent<TComponent, object>(options);
     }
@@ -38,7 +38,7 @@ public static class ComponentServiceCollectionExtensions
     /// <param name="options">组件参数</param>
     /// <returns><see cref="IServiceCollection"/></returns>
     public static IServiceCollection AddComponent<TComponent, TComponentOptions>(this IServiceCollection services, TComponentOptions options = default)
-        where TComponent : class, IServiceComponent
+        where TComponent : class, IServiceComponent, new()
     {
         return services.AddComponent(typeof(TComponent), options);
     }

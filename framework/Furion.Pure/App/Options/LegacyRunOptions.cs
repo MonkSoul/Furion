@@ -46,7 +46,7 @@ public sealed class LegacyRunOptions : GenericRunOptions
     /// <typeparam name="TComponent">组件类型</typeparam>
     /// <returns></returns>
     public LegacyRunOptions UseComponent<TComponent>()
-        where TComponent : IApplicationComponent
+        where TComponent : class, IApplicationComponent, new()
     {
         ApplicationComponents.Add(typeof(TComponent), null);
         return this;
@@ -60,9 +60,21 @@ public sealed class LegacyRunOptions : GenericRunOptions
     /// <param name="options">组件参数</param>
     /// <returns></returns>
     public LegacyRunOptions UseComponent<TComponent, TComponentOptions>(TComponentOptions options)
-        where TComponent : IApplicationComponent
+        where TComponent : class, IApplicationComponent, new()
     {
         ApplicationComponents.Add(typeof(TComponent), options);
+        return this;
+    }
+
+    /// <summary>
+    /// 添加应用中间件组件
+    /// </summary>
+    /// <param name="componentType">组件类型</param>
+    /// <param name="options">组件参数</param>
+    /// <returns></returns>
+    public LegacyRunOptions UseComponent(Type componentType, object options)
+    {
+        ApplicationComponents.Add(componentType, options);
         return this;
     }
 
