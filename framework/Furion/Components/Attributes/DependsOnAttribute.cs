@@ -14,7 +14,7 @@ namespace System;
 /// <summary>
 /// 组件依赖配置特性
 /// </summary>
-[AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = false)]
+[SuppressSniffer, AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = false)]
 public sealed class DependsOnAttribute : Attribute
 {
     /// <summary>
