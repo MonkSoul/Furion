@@ -270,7 +270,7 @@ public static class DependencyInjectionServiceCollectionExtensions
                 };
 
                 // 加载代理拦截
-                if (!string.IsNullOrWhiteSpace(externalService.Proxy)) injectionAttribute.Proxy = GetProxyType(externalService.Proxy);
+                if (!string.IsNullOrWhiteSpace(externalService.Proxy)) injectionAttribute.Proxy = Reflect.GetStringType(externalService.Proxy);
 
                 // 解析注册类型
                 var dependencyType = externalService.RegisterType switch
@@ -282,9 +282,9 @@ public static class DependencyInjectionServiceCollectionExtensions
                 };
 
                 RegisterService(services, dependencyType,
-                    GetProxyType(externalService.Service),
+                    Reflect.GetStringType(externalService.Service),
                     injectionAttribute,
-                    new[] { GetProxyType(externalService.Interface) });
+                    new[] { Reflect.GetStringType(externalService.Interface) });
             }
         }
     }
@@ -309,17 +309,6 @@ public static class DependencyInjectionServiceCollectionExtensions
     private static int GetOrder(Type type)
     {
         return !type.IsDefined(typeof(InjectionAttribute), true) ? 0 : type.GetCustomAttribute<InjectionAttribute>(true).Order;
-    }
-
-    /// <summary>
-    /// 加载代理程序集
-    /// </summary>
-    /// <param name="str"></param>
-    /// <returns></returns>
-    private static Type GetProxyType(string str)
-    {
-        var typeDefinitions = str.Split(";");
-        return Reflect.GetType(typeDefinitions[0], typeDefinitions[1]);
     }
 
     /// <summary>

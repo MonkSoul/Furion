@@ -26,7 +26,7 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 - 在 `ASP.NET 5` 中，我们这样创建 `Web 主机`：
 
-```cs showLineNumbers title="Program.cs"
+```cs showLineNumbers {1} title="Program.cs"
 Host.CreateDefaultBuilder(args)
     .ConfigureWebHostDefaults(webBuilder =>
     {
@@ -36,7 +36,7 @@ Host.CreateDefaultBuilder(args)
 
 - 在 `ASP.NET 6` 中， 我们这样创建 `Web 主机`：
 
-```cs showLineNumbers title="Program.cs"
+```cs showLineNumbers {1} title="Program.cs"
 var builder = WebApplication.CreateBuilder(args);
 var app = builder.Build();
 ```

@@ -119,4 +119,15 @@ internal static class Reflect
     {
         return GetAssemblyName(typeInfo.Assembly);
     }
+
+    /// <summary>
+    /// 加载程序集类型，支持格式：程序集;网站类型命名空间
+    /// </summary>
+    /// <param name="str"></param>
+    /// <returns></returns>
+    internal static Type GetStringType(string str)
+    {
+        var typeDefinitions = str.Split(";");
+        return GetType(typeDefinitions[0], typeDefinitions[1]);
+    }
 }

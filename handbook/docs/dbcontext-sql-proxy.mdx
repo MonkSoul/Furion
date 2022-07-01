@@ -99,7 +99,7 @@ namespace Furion.Application
 
 如果方法的参数是 `基元类型`（或 `string`、`值类型`），则自动将这些类型组合成 `Dictionary<string, object>` 作为 `Sql` 参数。命令参数可使用方法同名参数加 `@` 符号。
 
-如果方法的参数是 `类类型`，那么自动遍历该类公开实例属性生成 `DbParameter[]` 数组，每一个属性名都将是命令参数，不区分大小写，如：
+如果方法的参数是 `类类型`，那么自动遍历该类公开实例属性生成 `DbParameter[]` 数组，每一个属性名都将是命令参数，**大部分数据库是不区分大小写，个别数据库除外**，如 `Sqlite`，如：
 
 ```cs showLineNumbers
 public class MyModel
