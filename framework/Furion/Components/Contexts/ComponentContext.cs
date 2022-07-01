@@ -37,9 +37,19 @@ public sealed class ComponentContext
     public Type[] DependComponents { get; internal set; }
 
     /// <summary>
+    /// 链接组件列表
+    /// </summary>
+    public Type[] LinkComponents { get; internal set; }
+
+    /// <summary>
     /// 上下文数据
     /// </summary>
     private Dictionary<string, object> Properties { get; set; } = new();
+
+    /// <summary>
+    /// 上下文数据
+    /// </summary>
+    internal bool IsRoot { get; set; } = false;
 
     /// <summary>
     /// 设置组件属性参数
