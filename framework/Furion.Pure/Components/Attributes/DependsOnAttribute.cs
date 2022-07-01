@@ -33,26 +33,27 @@ public sealed class DependsOnAttribute : Attribute
     /// 构造函数
     /// </summary>
     /// <param name="dependComponents">依赖组件列表</param>
-    public DependsOnAttribute(params Type[] dependComponents)
-    {
-        DependComponents = dependComponents;
-    }
-
-    /// <summary>
-    /// 构造函数
-    /// </summary>
-    /// <param name="dependComponents">依赖组件列表</param>
     /// <remarks>支持字符串类型程序集/类型配置</remarks>
-    public DependsOnAttribute(params string[] dependComponents)
+    public DependsOnAttribute(params object[] dependComponents)
     {
         var components = new List<Type>();
 
-        // 将字符串类型转换成 Type 类型
+        // 遍历所有依赖组件
         if (dependComponents != null && dependComponents.Length > 0)
         {
-            foreach (var typeString in dependComponents)
+            foreach (var component in dependComponents)
             {
-                components.Add(Reflect.GetStringType(typeString));
+                // 如果是类型自动载入
+                if (component is Type componentType)
+                {
+                    components.Add(componentType);
+                }
+                // 处理字符串配置模式
+                else if (component is string typeString)
+                {
+                    components.Add(Reflect.GetStringType(typeString));
+                }
+                else throw new InvalidOperationException("Component type can only be `Type` or `String` type of specific format.");
             }
         }
 
