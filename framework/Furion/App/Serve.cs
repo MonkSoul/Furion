@@ -6,6 +6,7 @@
 // THIS SOFTWARE IS PROVIDED ON AN "AS IS" BASIS, WITHOUT WARRANTIES OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO NON-INFRINGEMENT, MERCHANTABILITY OR FIT FOR A PARTICULAR PURPOSE.
 // See the Mulan PSL v2 for more details.
 
+using Furion;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
@@ -26,51 +27,8 @@ public static class Serve
     public static void Run(string urls = default)
     {
         Run(RunOptions.Default
-            .ConfigureBuilder(builder =>
-            {
-                // 配置跨域
-                builder.Services.AddCorsAccessor();
-
-                // 控制器和规范化结果
-                builder.Services.AddControllers()
-                        .AddInjectWithUnifyResult();
-            })
-            .Configure(app =>
-            {
-                // 启用 HTTP 日志记录
-                app.UseHttpLogging();
-
-                // 配置错误页
-                if (app.Environment.IsDevelopment())
-                {
-                    app.UseDeveloperExceptionPage();
-                }
-
-                // 401，403 规范化结果
-                app.UseUnifyResultStatusCodes();
-
-                // Https 重定向
-                app.UseHttpsRedirection();
-
-                // 配置静态
-                app.UseStaticFiles();
-
-                // 配置路由
-                app.UseRouting();
-
-                // 配置跨域
-                app.UseCorsAccessor();
-
-                // 配置授权
-                app.UseAuthentication();
-                app.UseAuthorization();
-
-                // 框架基础配置
-                app.UseInject(string.Empty);
-
-                // 配置路由
-                app.MapControllers();
-            }), urls);
+            .AddComponent<ServeServiceComponent>()
+            .UseComponent<ServeApplicationComponent>(), urls);
     }
 
     /// <summary>
