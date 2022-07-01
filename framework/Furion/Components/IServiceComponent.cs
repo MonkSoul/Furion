@@ -14,7 +14,7 @@ namespace System;
 /// <summary>
 /// 服务组件依赖接口
 /// </summary>
-public interface IServiceComponent : IStartupComponent
+public interface IServiceComponent : IComponent
 {
     /// <summary>
     /// 装载服务

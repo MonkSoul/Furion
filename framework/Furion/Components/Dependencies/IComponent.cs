@@ -11,6 +11,6 @@ namespace Furion.Components;
 /// <summary>
 /// 组件依赖接口
 /// </summary>
-public interface IStartupComponent
+public interface IComponent
 {
 }

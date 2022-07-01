@@ -15,7 +15,7 @@ namespace System;
 /// <summary>
 /// 应用中间件接口
 /// </summary>
-public interface IApplicationComponent : IStartupComponent
+public interface IApplicationComponent : IComponent
 {
     /// <summary>
     /// 装置中间件

@@ -73,9 +73,9 @@ public sealed class DependsOnAttribute : Attribute
             // 检查类型是否实现 IStartupComponent 接口
             foreach (var type in components)
             {
-                if (!typeof(IStartupComponent).IsAssignableFrom(type))
+                if (!typeof(IComponent).IsAssignableFrom(type))
                 {
-                    throw new InvalidOperationException($"The type of `{type.FullName}` must be assignable from `{nameof(IStartupComponent)}`.");
+                    throw new InvalidOperationException($"The type of `{type.FullName}` must be assignable from `{nameof(IComponent)}`.");
                 }
             }
 
