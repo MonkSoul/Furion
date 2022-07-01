@@ -52,20 +52,8 @@ public static class ComponentServiceCollectionExtensions
     /// <returns><see cref="IServiceCollection"/></returns>
     public static IServiceCollection AddComponent(this IServiceCollection services, Type componentType, object options = default)
     {
-        // 初始化组件依赖链
-        var dependLinkList = new List<Type> { componentType };
-        var componentContextLinkList = new List<ComponentContext>
-        {
-            new ComponentContext
-            {
-                Parameter = options,
-                ParameterType = options?.GetType()??typeof(object),
-                ComponentType = componentType,
-            }
-        };
-
         // 创建组件依赖链
-        Penetrates.CreateDependLinkList(componentType, ref dependLinkList, ref componentContextLinkList);
+        var componentContextLinkList = Penetrates.CreateDependLinkList(componentType, options);
 
         // 逐条创建组件实例并调用
         foreach (var context in componentContextLinkList)

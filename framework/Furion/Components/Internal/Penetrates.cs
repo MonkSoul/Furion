@@ -19,6 +19,32 @@ internal static class Penetrates
     /// 创建组件依赖链表
     /// </summary>
     /// <param name="componentType">组件类型</param>
+    /// <param name="options">组件参数</param>
+    /// <returns></returns>
+    internal static List<ComponentContext> CreateDependLinkList(Type componentType, object options = default)
+    {
+        // 初始化组件依赖链
+        var dependLinkList = new List<Type> { componentType };
+        var componentContextLinkList = new List<ComponentContext>
+        {
+            new ComponentContext
+            {
+                Parameter = options,
+                ParameterType = options?.GetType()??typeof(object),
+                ComponentType = componentType,
+            }
+        };
+
+        // 创建组件依赖链
+        CreateDependLinkList(componentType, ref dependLinkList, ref componentContextLinkList);
+
+        return componentContextLinkList;
+    }
+
+    /// <summary>
+    /// 创建组件依赖链表
+    /// </summary>
+    /// <param name="componentType">组件类型</param>
     /// <param name="dependLinkList">依赖链表</param>
     /// <param name="componentContextLinkList">组件上下文链表</param>
     /// <exception cref="InvalidOperationException"></exception>

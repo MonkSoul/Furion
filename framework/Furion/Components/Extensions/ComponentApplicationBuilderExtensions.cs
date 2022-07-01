@@ -56,20 +56,8 @@ public static class ComponentApplicationBuilderExtensions
     /// <returns><see cref="IApplicationBuilder"/></returns>
     public static IApplicationBuilder UseComponent(this IApplicationBuilder app, IWebHostEnvironment env, Type componentType, object options = default)
     {
-        // 初始化组件依赖链
-        var dependLinkList = new List<Type> { componentType };
-        var componentContextLinkList = new List<ComponentContext>
-        {
-            new ComponentContext
-            {
-                Parameter = options,
-                ParameterType = options?.GetType()??typeof(object),
-                ComponentType = componentType,
-            }
-        };
-
         // 创建组件依赖链
-        Penetrates.CreateDependLinkList(componentType, ref dependLinkList, ref componentContextLinkList);
+        var componentContextLinkList = Penetrates.CreateDependLinkList(componentType, options);
 
         // 逐条创建组件实例并调用
         foreach (var componentContext in componentContextLinkList)
