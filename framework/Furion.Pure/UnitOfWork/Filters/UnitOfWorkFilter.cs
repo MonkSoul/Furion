@@ -33,17 +33,17 @@ internal sealed class UnitOfWorkFilter : IAsyncActionFilter, IOrderedFilter
     public int Order => FilterOrder;
 
     /// <summary>
-    /// 数据库上下文池
+    /// 数据库工作单元对象
     /// </summary>
-    private readonly IDbContextPool _dbContextPool;
+    private readonly IUnitOfWork _unitOfWork;
 
     /// <summary>
     /// 构造函数
     /// </summary>
-    /// <param name="dbContextPool"></param>
-    public UnitOfWorkFilter(IDbContextPool dbContextPool)
+    /// <param name="unitOfWork"></param>
+    public UnitOfWorkFilter(IUnitOfWork unitOfWork)
     {
-        _dbContextPool = dbContextPool;
+        _unitOfWork = unitOfWork;
     }
 
     /// <summary>
@@ -61,14 +61,16 @@ internal sealed class UnitOfWorkFilter : IAsyncActionFilter, IOrderedFilter
         // 判断是否手动提交
         var isManualSaveChanges = method.IsDefined(typeof(ManualCommitAttribute), true);
 
+        ActionExecutedContext resultContext;
+
         // 判断是否贴有工作单元特性
         if (!method.IsDefined(typeof(UnitOfWorkAttribute), true))
         {
             // 调用方法
-            var resultContext = await next();
+            resultContext = await next();
 
-            // 判断是否异常，并且没有贴 [ManualSaveChanges] 特性
-            if (resultContext.Exception == null && !isManualSaveChanges) _dbContextPool.SavePoolNow();
+            // 调用未标记方法
+            _unitOfWork.OnUnmark(resultContext, isManualSaveChanges);
         }
         else
         {
@@ -78,20 +80,28 @@ internal sealed class UnitOfWorkFilter : IAsyncActionFilter, IOrderedFilter
             // 获取工作单元特性
             var unitOfWorkAttribute = method.GetCustomAttribute<UnitOfWorkAttribute>();
 
-            // 开启事务
-            _dbContextPool.BeginTransaction(unitOfWorkAttribute.EnsureTransaction);
+            // 调用开启事务方法
+            _unitOfWork.BeginTransaction(context, unitOfWorkAttribute, isManualSaveChanges);
 
-            // 调用方法
-            var resultContext = await next();
+            // 获取执行 Action 结果
+            resultContext = await next();
 
-            // 提交事务
-            _dbContextPool.CommitTransaction(isManualSaveChanges, resultContext.Exception);
+            if (resultContext.Exception == null)
+            {
+                // 调用提交事务方法
+                _unitOfWork.CommitTransaction(resultContext, unitOfWorkAttribute, isManualSaveChanges);
+            }
+            else
+            {
+                // 调用回滚事务方法
+                _unitOfWork.RollbackTransaction(resultContext, unitOfWorkAttribute, isManualSaveChanges);
+            }
 
             // 打印工作单元结束消息
             App.PrintToMiniProfiler(MiniProfilerCategory, "Ending");
         }
 
-        // 手动关闭
-        _dbContextPool.CloseAll();
+        // 调用执行完毕方法
+        _unitOfWork.OnCompleted(context, resultContext);
     }
 }

@@ -79,7 +79,7 @@ public static class DatabaseAccessorServiceCollectionExtensions
         services.AddScopedDispatchProxyForInterface<SqlDispatchProxy, ISqlDispatchProxy>();
 
         // 注册全局工作单元过滤器
-        services.AddMvcFilter<UnitOfWorkFilter>();
+        services.AddUnitOfWork<EFCoreUnitOfWork>();
 
         return services;
     }

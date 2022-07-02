@@ -233,59 +233,66 @@ public class DbContextPool : IDbContextPool
     /// 提交事务
     /// </summary>
     /// <param name="isManualSaveChanges"></param>
-    /// <param name="exception"></param>
     /// <param name="withCloseAll">是否自动关闭所有连接</param>
-    public void CommitTransaction(bool isManualSaveChanges = true, Exception exception = default, bool withCloseAll = false)
+    public void CommitTransaction(bool isManualSaveChanges = true, bool withCloseAll = false)
     {
-        // 判断是否异常
-        if (exception == null)
+        try
         {
-            try
+            // 将所有数据库上下文修改 SaveChanges();，这里另外判断是否需要手动提交
+            var hasChangesCount = !isManualSaveChanges ? SavePoolNow() : 0;
+
+            // 如果事务为空，则执行完毕后关闭连接
+            if (DbContextTransaction == null)
             {
-                // 将所有数据库上下文修改 SaveChanges();，这里另外判断是否需要手动提交
-                var hasChangesCount = !isManualSaveChanges ? SavePoolNow() : 0;
-
-                // 如果事务为空，则执行完毕后关闭连接
-                if (DbContextTransaction == null) goto CloseAll;
-
-                // 提交共享事务
-                DbContextTransaction?.Commit();
-
-                // 打印事务提交消息
-                App.PrintToMiniProfiler(MiniProfilerCategory, "Completed", $"Transaction Completed! Has {hasChangesCount} DbContext Changes.");
+                if (withCloseAll) CloseAll();
+                return;
             }
-            catch
-            {
-                // 回滚事务
-                if (DbContextTransaction?.GetDbTransaction()?.Connection != null) DbContextTransaction?.Rollback();
 
-                // 打印事务回滚消息
-                App.PrintToMiniProfiler(MiniProfilerCategory, "Rollback", isError: true);
+            // 提交共享事务
+            DbContextTransaction?.Commit();
 
-                throw;
-            }
-            finally
-            {
-                if (DbContextTransaction?.GetDbTransaction()?.Connection != null)
-                {
-                    DbContextTransaction = null;
-                    DbContextTransaction?.Dispose();
-                }
-            }
+            // 打印事务提交消息
+            App.PrintToMiniProfiler(MiniProfilerCategory, "Completed", $"Transaction Completed! Has {hasChangesCount} DbContext Changes.");
         }
-        else
+        catch
         {
             // 回滚事务
             if (DbContextTransaction?.GetDbTransaction()?.Connection != null) DbContextTransaction?.Rollback();
-            DbContextTransaction?.Dispose();
-            DbContextTransaction = null;
 
             // 打印事务回滚消息
             App.PrintToMiniProfiler(MiniProfilerCategory, "Rollback", isError: true);
+
+            throw;
+        }
+        finally
+        {
+            if (DbContextTransaction?.GetDbTransaction()?.Connection != null)
+            {
+                DbContextTransaction = null;
+                DbContextTransaction?.Dispose();
+            }
         }
 
-    // 关闭所有连接
-    CloseAll: if (withCloseAll) CloseAll();
+        // 关闭所有连接
+        if (withCloseAll) CloseAll();
+    }
+
+    /// <summary>
+    /// 回滚事务
+    /// </summary>
+    /// <param name="withCloseAll">是否自动关闭所有连接</param>
+    public void RollbackTransaction(bool withCloseAll = false)
+    {
+        // 回滚事务
+        if (DbContextTransaction?.GetDbTransaction()?.Connection != null) DbContextTransaction?.Rollback();
+        DbContextTransaction?.Dispose();
+        DbContextTransaction = null;
+
+        // 打印事务回滚消息
+        App.PrintToMiniProfiler(MiniProfilerCategory, "Rollback", isError: true);
+
+        // 关闭所有连接
+        if (withCloseAll) CloseAll();
     }
 
     /// <summary>

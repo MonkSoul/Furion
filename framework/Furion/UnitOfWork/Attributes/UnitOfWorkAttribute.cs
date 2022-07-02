@@ -9,10 +9,30 @@
 namespace Furion.DatabaseAccessor;
 
 /// <summary>
-/// 手动提交 SaveChanges
-/// <para>默认情况下，框架会自动在方法结束之时调用 SaveChanges 方法，贴此特性可以忽略该行为</para>
+/// 工作单元配置特性
 /// </summary>
 [SuppressSniffer, AttributeUsage(AttributeTargets.Method)]
-public sealed class ManualCommitAttribute : Attribute
+public sealed class UnitOfWorkAttribute : Attribute
 {
+    /// <summary>
+    /// 构造函数
+    /// </summary>
+    public UnitOfWorkAttribute()
+    {
+    }
+
+    /// <summary>
+    /// 构造函数
+    /// </summary>
+    /// <param name="ensureTransaction"></param>
+    public UnitOfWorkAttribute(bool ensureTransaction)
+    {
+        EnsureTransaction = ensureTransaction;
+    }
+
+    /// <summary>
+    /// 确保事务可用
+    /// <para>此方法为了解决静态类方式操作数据库的问题</para>
+    /// </summary>
+    public bool EnsureTransaction { get; set; } = false;
 }

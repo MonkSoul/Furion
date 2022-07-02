@@ -31,11 +31,93 @@ import TabItem from "@theme/TabItem";
 
 在 `Furion` 框架中，我们只需要在控制器 Action 中贴 `[UnitOfWork]` 特性即可开启工作单元模式，保证了每一次请求都是一个 `工作单元`，要么同时成功，要么同时失败。
 
+:::important 版本说明
+
+以下内容仅限 `Furion 3.7.3 +` 版本使用。
+
+:::
+
+如使用非 `EFCore` ORM 框架，可实现 `IUnitOfWork` 接口之后调用 `services.AddUnitOfWork<TUnitOfWorkd>()` 注册即可，如：
+
+```cs showLineNumbers {8,18,29,40,52,62}
+using Microsoft.AspNetCore.Mvc.Filters;
+
+namespace Furion.DatabaseAccessor;
+
+/// <summary>
+/// EFCore 工作单元实现
+/// </summary>
+public sealed class SqlSugarUnitOfWork : IUnitOfWork
+{
+   // 支持构造函数注入
+
+    /// <summary>
+    /// 工作单元未标记处理
+    /// </summary>
+    /// <param name="resultContext"></param>
+    /// <param name="isManual"></param>
+    /// <exception cref="NotImplementedException"></exception>
+    public void OnUnmark(ActionExecutedContext resultContext, bool isManual)
+    {
+    }
+
+    /// <summary>
+    /// 开启工作单元处理
+    /// </summary>
+    /// <param name="context"></param>
+    /// <param name="unitOfwork"></param>
+    /// <param name="isManual"></param>
+    /// <exception cref="NotImplementedException"></exception>
+    public void BeginTransaction(ActionExecutingContext context, UnitOfWorkAttribute unitOfwork, bool isManual)
+    {
+    }
+
+    /// <summary>
+    /// 提交工作单元处理
+    /// </summary>
+    /// <param name="resultContext"></param>
+    /// <param name="unitOfwork"></param>
+    /// <param name="isManual"></param>
+    /// <exception cref="NotImplementedException"></exception>
+    public void CommitTransaction(ActionExecutedContext resultContext, UnitOfWorkAttribute unitOfwork, bool isManual)
+    {
+    }
+
+    /// <summary>
+    /// 回滚工作单元处理
+    /// </summary>
+    /// <param name="resultContext"></param>
+    /// <param name="unitOfwork"></param>
+    /// <param name="isManual"></param>
+    /// <exception cref="NotImplementedException"></exception>
+
+    public void RollbackTransaction(ActionExecutedContext resultContext, UnitOfWorkAttribute unitOfwork, bool isManual)
+    {
+    }
+
+    /// <summary>
+    /// 执行完毕（无论成功失败）
+    /// </summary>
+    /// <param name="context"></param>
+    /// <param name="resultContext"></param>
+    /// <exception cref="NotImplementedException"></exception>
+    public void OnCompleted(ActionExecutingContext context, ActionExecutedContext resultContext)
+    {
+    }
+}
+```
+
+之后注册即可：
+
+```cs showLineNumbers
+servers.AddUnitOfWork<SqlSugarUnitOfWork>();
+```
+
 ### 9.26.3.2 `EnsureTransaction()` 方法 ✨
 
 有些时候我们通过静态类或者其他方式不小心创建了新的 `DbContext` 实例，这时候贴了 `[UnitOfWork]` 也不见起效，这时候可以通过以下方法来确认事务是否有效：
 
-```cs showLineNumbers 
+```cs showLineNumbers
 repository.EnsureTransaction();
 ```
 
@@ -55,7 +137,7 @@ repository.EnsureTransaction();
 >
   <TabItem value="one">
 
-```cs showLineNumbers 
+```cs showLineNumbers
 // 开启事务
 using (var transaction = _testRepository.Database.BeginTransaction())
 {
@@ -85,7 +167,7 @@ using (var transaction = _testRepository.Database.BeginTransaction())
   </TabItem>
   <TabItem value="two">
 
-```cs showLineNumbers 
+```cs showLineNumbers
 var options = new DbContextOptionsBuilder<DefaultDbContext>()
     .UseSqlServer(new SqlConnection(connectionString))
     .Options;

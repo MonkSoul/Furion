@@ -79,9 +79,14 @@ public interface IDbContextPool
     /// 提交事务
     /// </summary>
     /// <param name="isManualSaveChanges"></param>
-    /// <param name="exception"></param>
     /// <param name="withCloseAll">是否自动关闭所有连接</param>
-    void CommitTransaction(bool isManualSaveChanges = true, Exception exception = default, bool withCloseAll = false);
+    void CommitTransaction(bool isManualSaveChanges = true, bool withCloseAll = false);
+
+    /// <summary>
+    /// 回滚事务
+    /// </summary>
+    /// <param name="withCloseAll">是否自动关闭所有连接</param>
+    void RollbackTransaction(bool withCloseAll = false);
 
     /// <summary>
     /// 关闭所有数据库链接
