@@ -34,7 +34,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Furion.UnitTests", "..\test
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Furion.IntegrationTests", "..\tests\Furion.IntegrationTests\Furion.IntegrationTests.csproj", "{F6D6D551-E436-480B-A334-7FD6DADD01D1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Furion.TestProject", "..\tests\Furion.TestProject\Furion.TestProject.csproj", "{323F958E-8900-489D-BF47-2540A1DF10BA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Furion.TestProject", "..\tests\Furion.TestProject\Furion.TestProject.csproj", "{323F958E-8900-489D-BF47-2540A1DF10BA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
