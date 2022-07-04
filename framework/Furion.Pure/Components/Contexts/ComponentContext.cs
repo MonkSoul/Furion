@@ -47,7 +47,7 @@ public sealed class ComponentContext
     private Dictionary<string, object> Properties { get; set; } = new();
 
     /// <summary>
-    /// 上下文数据
+    /// 是否是根组件
     /// </summary>
     internal bool IsRoot { get; set; } = false;
 
