@@ -145,7 +145,7 @@ public sealed class XXXServiceComponent : IServiceComponent
 }
 ```
 
-有了这么多服务组件，那怎么将它们关联起来呢，而且能够正确的处理它们的顺序呢？比如 `AddXXX()` 必须等等 `AddDynamicApiControllers()` 注册才能注册，这时候只需要为 `XXXServiceComponent` 添加依赖即可，如：
+有了这么多服务组件，那怎么将它们关联起来呢，而且能够正确的处理它们的顺序呢？比如 `AddXXX()` 必须等 `AddDynamicApiControllers()` 注册才能注册，这时候只需要为 `XXXServiceComponent` 添加依赖即可，如：
 
 ```cs showLineNumbers {1-3}
 [DependsOn(
@@ -460,7 +460,7 @@ Serve.Run(RunOptions.Default
 
 在写最佳实践时是最痛苦的，因为最佳实践应该是把微软底层所有的 `service.AddXXX` 和 `app.AddXXX` 独立成一个个组件，比如 `servers.AddControllers()` 对应一个 `ControllersServiceComponent`。
 
-这样做的话工作量是非常大的，但如果不怎样做，组件化就无法彻底。
+这样做的话工作量是非常大的，但如果不这样做，组件化就无法彻底。
 
 所以现阶段暂时采用自由定制组件方式，比如自己在项目中编写 `ControllersServiceComponent` 这类组件。
 
