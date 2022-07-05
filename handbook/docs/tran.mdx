@@ -45,7 +45,7 @@ using Microsoft.AspNetCore.Mvc.Filters;
 namespace Furion.DatabaseAccessor;
 
 /// <summary>
-/// EFCore 工作单元实现
+/// SqlSugar 工作单元实现
 /// </summary>
 public sealed class SqlSugarUnitOfWork : IUnitOfWork
 {
@@ -110,7 +110,7 @@ public sealed class SqlSugarUnitOfWork : IUnitOfWork
 之后注册即可：
 
 ```cs showLineNumbers
-servers.AddUnitOfWork<SqlSugarUnitOfWork>();
+services.AddUnitOfWork<SqlSugarUnitOfWork>();
 ```
 
 ### 9.26.3.2 `EnsureTransaction()` 方法 ✨
