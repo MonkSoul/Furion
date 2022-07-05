@@ -182,7 +182,7 @@ public sealed class EntryServiceComponent : IServiceComponent
 
 在 `Furion 3.7.3+` 版本，新增了 `Components` 模块，该模块的根接口为 `IComponent`，含有两个派生接口 `IServiceComponent` 和 `IApplicationComponent`。
 
-### 3.2.4.1 `ISericeComponent`
+### 3.2.4.1 `IServiceComponent`
 
 `IServiceComponent` 接口简称**服务组件**对应的是 `Startup.cs` 中的 `ConfigureService`，接口签名为：
 
@@ -295,7 +295,7 @@ public sealed class YourServiceComponent : IServiceComponent
 
 ### 3.2.5.2 约定大于配置
 
-由于组件通常包含服务和中间件两个注册，所以推荐组件类的命名统一为：`XXXComponent.cs`，然后在 `XXXComponent.cs` 中分别写 `ISericeComponent` 和 `IApplicationComponent` 组件。
+由于组件通常包含服务和中间件两个注册，所以推荐组件类的命名统一为：`XXXComponent.cs`，然后在 `XXXComponent.cs` 中分别写 `IServiceComponent` 和 `IApplicationComponent` 组件。
 
 尽可能每一个服务组件（`IServiceComponent`）以 `ServiceComponent` 结尾，每一个中间件组件（`IApplicationComponent`）以 `ApplicationComponent` 结尾。如：
 
@@ -317,7 +317,7 @@ public sealed class XXXApplicationComponent : IApplicationComponent
 
 :::tip 小知识
 
-如果没有 `ISericeComponent` 或 `IApplicationComponent`，则写其一即可。
+如果没有 `IServiceComponent` 或 `IApplicationComponent`，则写其一即可。
 
 :::
 
