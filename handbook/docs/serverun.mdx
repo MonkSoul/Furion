@@ -245,6 +245,14 @@ Serve.Run(RunOptions.Default
 
 所以 `Furion` 推荐下面更加灵活且易维护的方式，`Program.cs` 只需一句话即可：
 
+:::tip 推荐使用组件启动
+
+`Furion 3.7.3+` 官方提供了非常灵活方便的组件化启动配置服务。
+
+推荐使用 《[3.1 组件化启动](./component)》代替 `AppStartup` 方式功能。
+
+:::
+
 ```cs showLineNumbers title="Program.cs"
 Serve.Run(RunOptions.Default);
 ```

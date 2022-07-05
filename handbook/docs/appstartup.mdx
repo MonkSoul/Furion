@@ -1,14 +1,24 @@
 ---
 id: appstartup
-title: 3. 应用启动 Startup
-sidebar_label: 3. 应用启动 Startup
+title: 3.1 AppStartup 启动
+sidebar_label: 3.1 AppStartup 启动
 ---
 
-## 3.1 `Startup` 类
+:::tip 推荐使用组件启动
+
+`Furion 3.7.3+` 官方提供了非常灵活方便的组件化启动配置服务。
+
+推荐使用 《[3.1 组件化启动](./component)》代替本章节功能。
+
+:::
+
+## 3.1.1 `Startup` 类
 
 `Startup` 类是 `ASP.NET Core` 应用程序启动默认调用的类，该类是在 `Program.cs` 中配置：
 
-```cs showLineNumbers  {19} title="Furion.Web.Entry\Program.cs"
+**.NET5** 方式
+
+```cs showLineNumbers  {18} title="Furion.Web.Entry\Program.cs"
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 
@@ -26,16 +36,18 @@ namespace Furion.Web.Entry
             return Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    webBuilder
-                        .Inject()
-                        .UseStartup<Startup>();
+                    webBuilder.UseStartup<Startup>();
                 });
         }
     }
 }
 ```
 
-### 3.2.0 `Startup` 两个重要方法
+**.NET6 方式**
+
+在 `.NET6` 中微软已不再推荐 `UseStartup<TStarup>()` 方式。
+
+### 3.1.1.1 `Startup` 两个重要方法
 
 `Startup` 默认有两个重要的方法:
 
@@ -72,9 +84,9 @@ namespace Furion.Web.Entry
 
 :::
 
-## 3.2 `AppStartup`
+## 3.1.2 `AppStartup`
 
-在 `Furion` 框架中，提供了更为灵活的 `Startup` 类配置方式，无需在 `Web 启用层` 中配置，可将配置放到任何项目层。
+在 `Furion` 框架中，提供了更为灵活的 `Startup` 类配置方式，**无需在 `Web 启用层` 中配置，可将配置放到任何项目层。**
 
 可能会有读者有疑问，为什么要多此一举呢？原因有几点：
 
@@ -90,11 +102,11 @@ namespace Furion.Web.Entry
 
 :::
 
-### 3.2.1 如何配置 `AppStartup`
+### 3.1.2.1 如何配置 `AppStartup`
 
 `AppStartup` 是一个抽象的空类，没有任何定义成员。正是因为这样，才提供更加灵活的配置方式。
 
-### 3.2.2 `AppStartup` 约定
+### 3.1.2.2 `AppStartup` 约定
 
 `AppStartup` 派生类只有两个小约定：
 
@@ -133,7 +145,7 @@ namespace Furion.EntityFramework.Core
 }
 ```
 
-### 3.2.3 `AppStartup` 配置顺序
+### 3.1.2.3 `AppStartup` 配置顺序
 
 默认情况下，`AppStartup` 配置顺序由所在程序集的名称进行正序调用，如果我们需要配置执行顺序，只需要在 `AppStartup` 派生类中贴 `[AppStartup(order)]` 特性即可。
 
@@ -179,15 +191,21 @@ namespace Furion.EntityFramework.Core
 
 `FirstStartup` 会在 `SecondStartup` 之前调用。
 
-### 3.2.4 `AppStartup` 方法调用顺序
+### 3.1.2.4 `AppStartup` 方法调用顺序
 
 `AppStartup` 方法调用顺序和方法的书写先后有关，越在前面的方法越先调用。
 
-## 3.3 `Startup` 配置最佳实践
+## 3.1.3 `Startup` 配置最佳实践
+
+:::important `v3.6.3+` 说明
+
+在 `Furion v3.6.3+` 版本之后无需创建空 `Startup.cs` 类，内部已实现 `FakeStartup` 模式。
+
+:::
 
 建议 `Web` 启动层的 `Startup.cs` 保持为空方法体，如：
 
-```cs showLineNumbers  title="Furion.Web.Entry\Startup.cs"
+```cs showLineNumbers {9-11,13-15} title="Furion.Web.Entry\Startup.cs"
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
@@ -217,7 +235,6 @@ using Microsoft.Extensions.Hosting;
 
 namespace Furion.Web.Core
 {
-    [AppStartup(800)]
     public sealed class FurWebCoreStartup : AppStartup
     {
         public void ConfigureServices(IServiceCollection services)
@@ -256,9 +273,9 @@ namespace Furion.Web.Core
 
 这样，后续更换 `Web 应用层` 也无需重新配置 `Startup.cs`
 
-## 3.4 构造函数注入说明
+## 3.1.4 构造函数注入说明
 
-`AppStartup` 的派生类并未提供依赖注入的功能，也即是无法通过构造函数进行注入服务。原因是 `AppStartup` 是个空类，目的是用来查找 `Startup` 的。
+**`AppStartup` 的派生类并未提供依赖注入的功能，也即是无法通过构造函数进行注入服务**。原因是 `AppStartup` 是个空类，目的是用来查找 `Startup` 的。
 
 那如何像 `Startup.cs` 一样使用服务呢？
 
@@ -278,7 +295,7 @@ public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
 
 :::
 
-## 3.5 关于 `appsettings.json`
+## 3.1.5 关于 `appsettings.json`
 
 在默认情况下，`ASP.NET Core` 配置放在 `appsettings.json` 中配置，但是这样的方式和 `Startup.cs` 配置一样的道理，一旦我们更换了 `Web 应用层`，那么 `appsettings.json` 又要重新配置一次。
 
@@ -297,7 +314,7 @@ public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
 
 **无需在 `appsettings.json` 中配置**，下面是 `appsettings.json` 默认代码:
 
-```json showLineNumbers 
+```json showLineNumbers
 {
   "Logging": {
     "LogLevel": {
@@ -321,79 +338,7 @@ public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
 
 :::
 
-## 3.6 神奇的 `Inject()`
-
-`Inject()` 方法是 `Furion` 框架提供的最小侵入式的方法，可以让任何 `ASP.NET Core` Web 项目瞬间支持所有 `Furion` 框架特性。
-
-我们创建了新的 `Web 项目`，只需要三个步骤即可：
-
-- 添加 `Furion.Web.Core` 项目引用
-- 在 `Program.cs` 中调用即可
-- 将 `Startup.cs` 代码迁移到 `Furion.Web.Core` 项目的 `Startup.cs` 中
-
-如：
-
-```cs showLineNumbers  {18} title="Furion.Web.Entry\Program.cs"
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Hosting;
-
-namespace Furion.Web.Entry
-{
-    public class Program
-    {
-        public static void Main(string[] args)
-        {
-            CreateHostBuilder(args).Build().Run();
-        }
-
-        public static IHostBuilder CreateHostBuilder(string[] args)
-        {
-            return Host.CreateDefaultBuilder(args)
-                .ConfigureWebHostDefaults(webBuilder =>
-                {
-                    webBuilder.Inject()
-                              .UseStartup<Startup>();
-                });
-        }
-    }
-}
-```
-
-```cs showLineNumbers  title="Furion.Web.Entry\Startup.cs"
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.DependencyInjection;
-
-namespace Furion.Web.Entry
-{
-    public class Startup
-    {
-        public void ConfigureServices(IServiceCollection services)
-        {
-        }
-
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
-        {
-        }
-    }
-}
-```
-
-:::important `Startup.cs` 代码迁移
-
-只需要将 `ConfigureServices` 和 `Configure` 方法代码迁移到 `Furion.Web.Core.Startup.cs` 中即可，而 `Startup.cs` 中两个方法留空即可。
-
-:::
-
-非常简单吧。我们后续创建任何 `MVC`，`RazorPages`，`Blazor` 项目只需要添加 `Furion.Web.Core` 引用和调用 `Inject()` 即可。
-
-:::note 了解更多
-
-想了解更多 `Inject` 知识可查阅 [2.4 神奇的 Inject](/docs/inject) 章节。
-
-:::
-
-## 3.7 反馈与建议
+## 3.1.6 反馈与建议
 
 :::note 与我们交流
 

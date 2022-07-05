@@ -45,19 +45,19 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 ### 34.1.2.2 第二步（命令）
 
-```bash showLineNumbers 
+```bash showLineNumbers
 net stop was /y
 ```
 
 ### 34.1.2.3 第三步（命令）
 
-```bash showLineNumbers 
+```bash showLineNumbers
 net start w3svc
 ```
 
 ### 34.1.2.4 第四步（命令）
 
-```bash showLineNumbers 
+```bash showLineNumbers
 set ASPNETCORE_ENVIRONMENT=Production
 ```
 
@@ -100,6 +100,12 @@ set ASPNETCORE_ENVIRONMENT=Production
  </system.webServer>
 </configuration>
 ```
+
+### 34.1.4.2 不支持 `WebSocket`/ `SignalR`
+
+如果项目部署在 `IIS` 中出现 `WebSoket`/`SignalR` 不能连接或链接失败等问题，请确保 `IIS` 服务中的 `WebSocket 协议` 是勾选状态
+
+<img src={useBaseUrl("img/iis2.png")} />
 
 ## 34.1.5 反馈与建议
 

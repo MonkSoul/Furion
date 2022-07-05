@@ -19,7 +19,7 @@ public sealed class ComponentContext
     /// <summary>
     /// 组件类型
     /// </summary>
-    public Type ComponentType { get; set; }
+    public Type ComponentType { get; internal set; }
 
     /// <summary>
     /// 上级组件上下文

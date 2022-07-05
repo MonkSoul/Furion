@@ -1,0 +1,473 @@
+---
+id: component
+title: 3.2 组件化启动
+sidebar_label: 3.2 组件化启动 ✨
+---
+
+## 3.2.1 历史背景
+
+在 `.NET Core 2+` 之后，微软创造了 `Startup.cs` 模式，在这样的模式中，需要任何服务或者中间件处理，只需要在 `Startup.cs` 文件的两个方法（`ConfigureServices` 和 `Configure`）中配置即可。
+
+**但在 `.NET6` 之后，微软不再推荐使用 `Startup.cs` 模式。**
+
+在这里，不阐述 `Startup.cs` 的优点，就列举几个比较明显的缺点：
+
+- 默认情况下必须放在启动层且主机启动时需通过 `.UseStartup<>` 进行注册，此问题在 `Furion` 已解决 `AppStartup`
+- 配置服务很容易编写出又臭又长的 `service.AddXXX()` 和 `app.AddXXX()` 代码，不管是阅读性和灵活性大大减分
+- **对服务注册和中间件注册有顺序要求，不同的顺序可能产生不同的效果，甚至出现异常**
+- **不能实现模块化自动装载注册，添加新的模块需要手动注册，注册又得考虑模块化之间依赖顺序问题**
+- **不能对模块注册进行监视，比如加载之前，加载失败，加载之后**
+
+## 3.2.2 先看一个例子
+
+在一个大型的 `.NET Core` 项目中，会经常看到这样的代码：
+
+```cs showLineNumbers {12-26,31-50}
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+
+namespace Furion.Web.Core;
+
+public sealed class FurWebCoreStartup : AppStartup
+{
+    public void ConfigureServices(IServiceCollection services)
+    {
+        services.AddCorsAccessor();
+        services.AddControllers().AddInject();
+        services.AddRemoteRequest();
+        services.AddEventBus();
+        services.AddAppLocalization();
+        services.AddViewEngine();
+        services.AddSensitiveDetection();
+        services.AddVirtualFileServer();
+        services.AddX();
+        services.AddXX();
+        services.AddXXX();
+        services.AddXXXX();
+        services.AddXXXXX();
+        services.AddXXXXXX();
+        // .....
+    }
+
+    public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+    {
+        if (env.IsDevelopment())
+        {
+            app.UseDeveloperExceptionPage();
+        }
+        app.UseHttpsRedirection();
+        app.UseRouting();
+        app.UseCorsAccessor();
+        app.UseAuthentication();
+        app.UseAuthorization();
+        app.UseInject();
+        app.UseX();
+        app.UseXX();
+        app.UseXXX();
+        app.UseXXXX();
+        app.UseXXXXX();
+        app.UseXXXXXX();
+        app.UseEndpoints(endpoints =>
+        {
+            endpoints.MapControllers();
+        });
+    }
+}
+```
+
+可能对于大部分 `.NET` 开发者来说貌似没有任何问题，但是仔细瞧瞧，这里充斥着大量的 `.AddXXXX()` 和 `.UseXXXX()`，**真的美观，真的好吗**？而且稍有不慎移动了它们的注册顺序可能会引发灾难，还有可能多个服务之间相互依赖，要么全部移除，要么全部保留，未来替代你开发岗位的人知道吗？
+
+**试问，这个问题是无解吗？**
+
+## 3.2.3 当然有解
+
+在 `Furion 3.7.3+` 版本之后，借助 `Docker-Compose` 的设计理念，推出了全新的 `Component 组件化` 模式，通过组件化开发可以实现组件之间相互依赖，相互链接，还可以共享参数，你仅仅需要编写一个入口组件即可。
+
+**先看一个例子：**
+
+- 创建 `EntryServiceComponent` 入口服务组件
+
+```cs showLineNumbers {2,6}
+// 创建入口服务组件实现 IServeComponent 接口
+public sealed class EntryServiceComponent : IServiceComponent
+{
+    public void Load(IServiceCollection services, ComponentContext componentContext)
+    {
+        // 做任何你想做的事情，如 service.AddYourInitService(); 如添加你的模块初始化配置
+    }
+}
+```
+
+- 通过 `AddComponent<>` 注册入口组件
+
+```cs showLineNumbers {2}
+// 通过 .AddComponent 注册一个入口服务组件
+Serve.Run(RunOptions.Default.AddComponent<EntryServiceComponent>());
+```
+
+**接下来，我们模拟实际项目的开发需求：**
+
+1. 需要添加跨域服务，创建 `CorsServiceComponent` 组件
+
+```cs showLineNumbers {1,5}
+public sealed class CorsServiceComponent : IServiceComponent
+{
+    public void Load(IServiceCollection services, ComponentContext componentContext)
+    {
+        services.AddCorsAccessor();
+    }
+}
+```
+
+2. 需要添加动态 `WebAPI` 服务，创建 `DynamicApiServiceComponent` 组件
+
+```cs showLineNumbers {1,5}
+public sealed class DynamicApiServiceComponent : IServiceComponent
+{
+    public void Load(IServiceCollection services, ComponentContext componentContext)
+    {
+        services.AddDynamicApiControllers();
+    }
+}
+```
+
+3. 需要添加 `XXX` 第三方服务，创建 `XXXServiceComponent` 组件
+
+```cs showLineNumbers {1,5}
+public sealed class XXXServiceComponent : IServiceComponent
+{
+    public void Load(IServiceCollection services, ComponentContext componentContext)
+    {
+        services.AddXXX();
+    }
+}
+```
+
+有了这么多服务组件，那怎么将它们关联起来呢，而且能够正确的处理它们的顺序呢？比如 `AddXXX()` 必须等等 `AddDynamicApiControllers()` 注册才能注册，这时候只需要为 `XXXServiceComponent` 添加依赖即可，如需通过配置文件配置端口，需两个该步骤：
+
+```cs showLineNumbers {1-3}
+[DependsOn(
+    typeof(DynamicApiServiceComponent)
+)]
+public sealed class XXXServiceComponent : IServiceComponent
+{
+    // ....
+}
+```
+
+这样表示 `XXXServiceComponent` 依赖 `DynamicApiServiceComponent` 组件，只有 `DynamicApiServiceComponent` 完成注册才会注册 `XXXServiceComponent`。
+
+那么最后的 `EntryServiceComponent` 的代码将会是：
+
+```cs showLineNumbers {1-4}
+[DependsOn(
+    typeof(CorsServiceComponent),
+    typeof(XXXServiceComponent)
+)]
+public sealed class EntryServiceComponent : IServiceComponent
+{
+   // ....
+}
+```
+
+最后生成的调用顺序为：`AddCorsAccessor()` -> `AddDynamicApiControllers()` -> `AddXXX()` -> `AddEntry()`。
+
+**看到这里，是否已找到答案：每一个项目只有一个入口组件，每个组件只做一件事，组件之间可以通过 `DependsOn` 配置依赖，组件之间还能共享上下文数据 `ComponentContext`。**
+
+没错，这就是 Furion 目前能够想到的最优解决方案。
+
+## 3.2.4 `IComponent`
+
+在 `Furion 3.7.3+` 版本，新增了 `Components` 模块，该模块的根接口为 `IComponent`，含有两个派生接口 `IServiceComponent` 和 `IApplicationComponent`。
+
+### 3.2.4.1 `ISericeComponent`
+
+`IServiceComponent` 接口简称**服务组件**对应的是 `Startup.cs` 中的 `ConfigureService`，接口签名为：
+
+```cs showLineNumbers {6,13}
+namespace System;
+
+/// <summary>
+/// 服务组件依赖接口
+/// </summary>
+public interface IServiceComponent : IComponent
+{
+    /// <summary>
+    /// 装载服务
+    /// </summary>
+    /// <param name="services"><see cref="IServiceCollection"/></param>
+    /// <param name="componentContext">组件上下文</param>
+    void Load(IServiceCollection services, ComponentContext componentContext);
+}
+```
+
+需要注册服务可在 `Load` 方法中注册即可。
+
+### 3.2.4.2 `IApplicationComponent`
+
+`IApplicationComponent` 接口简称**中间件组件**对应的是 `Startup.cs` 中的 `Configure`，接口签名为：
+
+```cs showLineNumbers {6,14}
+namespace System;
+
+/// <summary>
+/// 应用中间件接口
+/// </summary>
+public interface IApplicationComponent : IComponent
+{
+    /// <summary>
+    /// 装置中间件
+    /// </summary>
+    /// <param name="app"><see cref="IApplicationBuilder"/></param>
+    /// <param name="env"><see cref="IWebHostEnvironment"/></param>
+    /// <param name="componentContext">组件上下文</param>
+    void Load(IApplicationBuilder app, IWebHostEnvironment env, ComponentContext componentContext);
+}
+```
+
+需要注册中间件可在 `Load` 方法中注册即可。
+
+### 3.2.4.3 注册组件
+
+`Furion` 提供了多种注册组件的方式：
+
+- 方式一
+
+通过 `RunOptions`，`LegacyRunOptions`，`GenericRunOptions` 方式：
+
+```cs showLineNumbers {2-3}
+Serve.Run(RunOptions.Default
+    .AddComponent<TComponent>()
+    .UseComponent<TComponent>());
+```
+
+- 方式二
+
+通过 `services.AddComponent` 和 `app.UseComponent` 方式
+
+```cs showLineNumbers {2,5}
+// 服务组件
+service.AddComponent<TComponent>();
+
+// 中间件组件
+app.UseComponent<TComponent>();
+```
+
+- 方式三
+
+组件注册可以传递参数，通过最后的参数指定。
+
+```cs showLineNumbers {2,5}
+// 服务组件
+service.AddComponent<TComponent>(options);
+
+// 中间件组件
+app.UseComponent<TComponent>(options);
+```
+
+:::tip 类型 `Type` 注册方式
+
+除了提供泛型注册组件的方式，还提供了 `.AddComponent(typeof(XXXComponent))` 和 `.UseComponent(typeof(XXXComponent))` 方式。
+
+:::
+
+## 3.2.5 组件设计原则
+
+### 3.2.5.1 职责单一性
+
+组件的设计理应遵循**职责单一性原则**，具有单一性又有职责明确性，通俗点说每一个组件尽可能的只做一件事，如果组件之间有依赖，通过 `[DependsOn]` 声明配置，如：
+
+```cs showLineNumbers {1,5}
+[DependsOn(
+    typeof(OtherServiceComponent),
+    "Other.Assembly;Other.Assembly.OtherServiceComponent"
+)]
+public sealed class YourServiceComponent : IServiceComponent
+{
+    public void Load(IServiceCollection services, ComponentContext componentContext)
+    {
+        services.AddXXX();
+    }
+}
+```
+
+### 3.2.5.2 约定大于配置
+
+由于组件通常包含服务和中间件两个注册，所以推荐组件类的命名统一为：`XXXComponent.cs`，然后在 `XXXComponent.cs` 中分别写 `ISericeComponent` 和 `IApplicationComponent` 组件。
+
+尽可能每一个服务组件（`IServiceComponent`）以 `ServiceComponent` 结尾，每一个中间件组件（`IApplicationComponent`）以 `ApplicationComponent` 结尾。如：
+
+```cs showLineNumbers {3-4,9-10} title="XXXComponent.cs"
+namespace Your.Components;
+
+// 服务组件
+public sealed class XXXServiceComponent : IServiceComponent
+{
+    // ....
+}
+
+// 中间件组件
+public sealed class XXXApplicationComponent : IApplicationComponent
+{
+    // ....
+}
+```
+
+:::tip 小知识
+
+如果没有 `ISericeComponent` 或 `IApplicationComponent`，则写其一即可。
+
+:::
+
+## 3.2.6 `[DependsOn]` 详解
+
+由于组件和组件之间存在依赖方式，甚至没有依赖关系但支持唤醒其他组件功能，所以 `Furion` 提供了 `[DependsOn]` 特性。
+
+### 3.2.6.1 配置介绍
+
+- `DependsOn`
+  - `DependComponents`：配置组件依赖关系，`Type[]` 类型，一旦配置了依赖关系，那么被依赖的组件会先于当前组件注册
+  - `Links`：配置组件链接关系，`Type[]` 类型，该配置主要解决一些组件并不是从 `根组件` 进行配置，而是处于和 `根组件` 平行的情况，类似多入口组件
+
+:::tip 构造函数说明
+
+`DependComponents` 是 `DependsOnAttribute` 特性的默认构造函数，支持 `Type` 和 `String` 类型，如：
+
+```cs showLineNumbers {2-4}
+[DependsOn(
+    typeof(XXXComponent),
+    typeof(XXXXComponent),
+    "程序集;类型完整限定名" // 会自动加载程序集中特定的组件，后续模块化开发非常方便
+)]
+```
+
+如需配置 `Links`，只需要这样接口：
+
+```cs showLineNumbers {3-6}
+[DependsOn(
+    typeof(XXXComponent),
+    Links = new object[]{
+        typeof(XXXComponent),
+        typeof(XXXXComponent)
+    }
+)]
+```
+
+:::
+
+### 3.2.6.2 重复依赖问题
+
+`Furion` 框架中已经处理了组件重复依赖问题，会自动生成好最佳的注册顺序并去除重复依赖注册问题。
+
+### 3.2.6.3 循环依赖问题
+
+循环依赖实际上是一种错误注册组件的方式，会导致出现内存溢出情况，早期组件化版本框架处理了循环依赖问题，也就是主动忽略或报错，但是考虑此行为本身带有潜在的安全问题，所以移除了循环依赖处理，而是选择在开发阶段抛出异常方式。
+
+## 3.2.7 `ComponentContext` 详解
+
+`ComponentContext` 是组件注册 `Load` 方法的最后参数，该参数提供了组件之间的一些元数据。
+
+### 3.2.7.1 属性介绍
+
+- `ComponentContext`
+  - `ComponentType`：组件类型，`Type` 类型
+  - `CalledContext`：上级组件，`ComponentContext` 类型，也就是 `DependsOn` 中的组件上下文，如果没有则是前一个组件的上下文
+  - `RootContext`：根组件/入口组件，`ComponentContext` 类型
+  - `DependComponents`：组件依赖的所有组件列表，`Type[]` 类型
+  - `LinkComponents`：组件链接的所有组件列表，`Type[]` 类型
+
+### 3.2.7.2 参数配置/获取
+
+在注册组件小节中，我们可以通过 `.AddComponent` 和 `.UseComponent` 最后的参数来指定组件的参数，那么如何在组件中获取呢传递的参数呢？
+
+`ComponentContext` 提供了多种方法：
+
+- `GetProperty<TComponent, TComponentOptions>()`：获取组件的参数
+- `GetProperty<TComponentOptions>(Type)`：通过类型获取组件参数
+- `GetProperty<TComponentOptions>(string)`：通过指定 `key` 获取
+- `GetProperties()`：获取组件所有参数列表（包括依赖，链接等）
+- `SetProperty<TComponent>(object)`：设置特定组件参数
+- `SetProperty(Type, object)`：设置特定类型组件的参数
+- `SetProperty(string, object)`：设置指定 `key` 的参数值
+
+#### 例子说明
+
+注册时传入 `EntryOption` 参数
+
+```cs showLineNumbers
+service.AddComponent<EntryServiceComponent>(new EntryOption {});
+```
+
+在组件内部获取：
+
+```cs showLineNumbers {5,7}
+public sealed class EntryServiceComponent : IServiceComponent
+{
+    public void Load(IServiceCollection services, ComponentContext componentContext)
+    {
+        var options = componentContext.GetProperty<EntryServiceComponent, EntryOption>();
+
+        services.AddXXXX(options);
+    }
+}
+```
+
+除此之外，还可以通过 `componentContext.SetProperty<XXXServiceComponent>(new xxxOptions{})` 来设置下游组件的参数。
+
+## 3.2.8 实现 `Startup.cs` 模式
+
+组件模式是非常强大且灵活的，我们也可以通过组件的模式模拟出传统的 `Startup.cs`，如：
+
+```cs showLineNumbers {1,6-7,11,16-21} title="StartupComponent"
+// 模拟 ConfigureService
+public sealed class StartupServiceComponent : IServiceComponent
+{
+    public void Load(IServiceCollection services, ComponentContext componentContext)
+    {
+         services.AddControllers()
+                        .AddInject();
+    }
+}
+
+// 模拟 Configure
+public sealed class StartupApplicationComponent : IApplicationComponent
+{
+    public void Load(IApplicationBuilder app, IWebHostEnvironment env, ComponentContext componentContext)
+    {
+        app.UseRouting();
+        app.UseInject(string.Empty);
+        app.UseEndpoints(endpoints =>
+        {
+            endpoints.MapControllers();
+        });
+    }
+}
+```
+
+只需要通过 `service.AddComponent<StartupComponent>()` 注册即可，如果使用 `Serve.Run()` 模式将更简单，如：
+
+```cs showLineNumbers {2-3}
+Serve.Run(RunOptions.Default
+            .AddComponent<StartupServiceComponent>()
+            .UseComponent<StartupApplicationComponent>());
+```
+
+是不是很灵活啊~
+
+## 3.2.9 最佳实践？
+
+在写最佳实践时是最痛苦的，因为最佳实践应该是把微软底层所有的 `service.AddXXX` 和 `app.AddXXX` 独立成一个个组件，比如 `servers.AddControllers()` 对应一个 `ControllersServiceComponent`。
+
+这样做的话工作量是非常大的，但如果不怎样做，组件化就无法彻底。
+
+所以现阶段暂时采用自由定制组件方式，比如自己在项目中编写 `ControllersServiceComponent` 这类组件。
+
+## 3.2.10 反馈与建议
+
+:::note 与我们交流
+
+给 Furion 提 [Issue](https://gitee.com/dotnetchina/Furion/issues/new?issue)。
+
+:::

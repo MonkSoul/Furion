@@ -30,8 +30,9 @@ module.exports = {
       ],
     },
     {
-      type: "doc",
-      id: "appstartup",
+      type: "category",
+      label: "3. 应用启动",
+      items: ["appstartup", "component"],
     },
     {
       type: "category",
