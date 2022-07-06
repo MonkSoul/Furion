@@ -16,35 +16,25 @@ namespace Furion.DatabaseAccessor;
 public interface IUnitOfWork
 {
     /// <summary>
-    /// 工作单元未标记处理
-    /// </summary>
-    /// <param name="resultContext"></param>
-    /// <param name="isManual"></param>
-    void OnUnmark(ActionExecutedContext resultContext, bool isManual);
-
-    /// <summary>
     /// 开启工作单元处理
     /// </summary>
     /// <param name="context"></param>
-    /// <param name="unitOfwork"></param>
-    /// <param name="isManual"></param>
-    void BeginTransaction(ActionExecutingContext context, UnitOfWorkAttribute unitOfwork, bool isManual);
+    /// <param name="unitOfWork"></param>
+    void BeginTransaction(ActionExecutingContext context, UnitOfWorkAttribute unitOfWork);
 
     /// <summary>
     /// 提交工作单元处理
     /// </summary>
     /// <param name="resultContext"></param>
-    /// <param name="unitOfwork"></param>
-    /// <param name="isManual"></param>
-    void CommitTransaction(ActionExecutedContext resultContext, UnitOfWorkAttribute unitOfwork, bool isManual);
+    /// <param name="unitOfWork"></param>
+    void CommitTransaction(ActionExecutedContext resultContext, UnitOfWorkAttribute unitOfWork);
 
     /// <summary>
     /// 回滚工作单元处理
     /// </summary>
     /// <param name="resultContext"></param>
-    /// <param name="unitOfwork"></param>
-    /// <param name="isManual"></param>
-    void RollbackTransaction(ActionExecutedContext resultContext, UnitOfWorkAttribute unitOfwork, bool isManual);
+    /// <param name="unitOfWork"></param>
+    void RollbackTransaction(ActionExecutedContext resultContext, UnitOfWorkAttribute unitOfWork);
 
     /// <summary>
     /// 执行完毕（无论成功失败）

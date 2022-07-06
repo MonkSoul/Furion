@@ -22,7 +22,7 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 通常包命令语法都遵循以下规则：
 
-```bash showLineNumbers 
+```bash showLineNumbers
 <-|--|/>argument-name<=|:| >["|']value['|"] [--] [operand] ... [operand]
 ```
 
@@ -128,14 +128,14 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 将控制台项目标记成 `dotnet tools` 需要配置以下节点，如下图所示：
 
-```cs showLineNumbers  {6-11}
+```xml showLineNumbers  {6-11}
 <Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
 		<OutputType>Exe</OutputType>
 		<TargetFramework>net5.0</TargetFramework>
-    <Version>0.0.1</Version>
-    <Description>第一个 dotnet tools 工具</Description>
+    	<Version>0.0.1</Version>
+    	<Description>第一个 dotnet tools 工具</Description>
 		<ToolCommandName>hello-tools</ToolCommandName>
 		<PackAsTool>true</PackAsTool>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
@@ -366,7 +366,7 @@ namespace HelloTools
 
 #### ✔ 安装全局包
 
-```bash showLineNumbers 
+```bash showLineNumbers
 dotnet tool install --global --add-source ./nupkg HelloTools
 ```
 
@@ -384,13 +384,13 @@ dotnet tool install --global --add-source ./nupkg HelloTools
 
 如果源码发生改变，只需要编译项目后重新更新包工具即可：
 
-```bash showLineNumbers 
+```bash showLineNumbers
 dotnet tool update --global --add-source ./nupkg HelloTools
 ```
 
 #### ✔ 卸载全局包
 
-```bash showLineNumbers 
+```bash showLineNumbers
 dotnet tool uninstall --global HelloTools
 ```
 
@@ -404,13 +404,13 @@ dotnet tool uninstall --global HelloTools
 
 #### ✔ 创建本地清单文件
 
-```bash showLineNumbers 
+```bash showLineNumbers
 dotnet new tool-manifest
 ```
 
 执行该命令后会自动创建 `.config` 文件夹并添加 `dotnet-tools.json` 文件：
 
-```json showLineNumbers 
+```json showLineNumbers
 {
   "version": 1,
   "isRoot": true,
@@ -426,7 +426,7 @@ dotnet new tool-manifest
 
 #### ✔ 安装本地包
 
-```bash showLineNumbers 
+```bash showLineNumbers
 dotnet tool install --add-source ./nupkg HelloTools
 ```
 
@@ -436,7 +436,7 @@ dotnet tool install --add-source ./nupkg HelloTools
 
 本地包测试和全局包不一样的是本地包是通过 `dotnet 关键字 参数` 测试：
 
-```bash showLineNumbers 
+```bash showLineNumbers
 dotnet hello-tools -n Furion
 ```
 
@@ -446,13 +446,13 @@ dotnet hello-tools -n Furion
 
 如果源码发生改变，只需要编译项目后重新更新包工具即可：
 
-```bash showLineNumbers 
+```bash showLineNumbers
 dotnet tool update --add-source ./nupkg HelloTools
 ```
 
 #### ✔ 卸载本地包
 
-```bash showLineNumbers 
+```bash showLineNumbers
 dotnet tool uninstall HelloTools
 ```
 
@@ -510,7 +510,7 @@ dotnet tool uninstall HelloTools
 
 #### ✔ 安装 Nuget 包到本地
 
-```bash showLineNumbers 
+```bash showLineNumbers
 dotnet tool install --global 项目名 --version 版本号
 ```
 
@@ -520,7 +520,7 @@ dotnet tool install --global 项目名 --version 版本号
 
 ### 37.6.1 消息类
 
-```cs showLineNumbers 
+```cs showLineNumbers
 // 输出空行
 Cli.EmptyLine();
 
@@ -551,7 +551,7 @@ var selectId = Cli.ReadOptions("请选择喜欢的水果：", new []{ "西瓜", 
 
 ### 37.6.2 工具类
 
-```cs showLineNumbers 
+```cs showLineNumbers
 // 完成参数填充属性初始化操作
 Cli.Inject();
 
@@ -609,7 +609,7 @@ Cli.Exit();
 
 ### 37.6.2 信息类
 
-```cs showLineNumbers 
+```cs showLineNumbers
 // 获取当前工具包版本号
 var version = Cli.GetVersion();
 
@@ -621,7 +621,7 @@ var description = Cli.GetDescription();
 
 我们可以通过 `Environment` 获取当前环境更多信息，如下图所示：
 
-```cs showLineNumbers 
+```cs showLineNumbers
 // 当前执行命令目录
 var currentDirectory = Environment.CurrentDirectory;
 

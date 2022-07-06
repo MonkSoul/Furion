@@ -37,7 +37,7 @@ import TabItem from "@theme/TabItem";
 
 :::
 
-如使用非 `EFCore` ORM 框架，可实现 `IUnitOfWork` 接口之后调用 `services.AddUnitOfWork<TUnitOfWorkd>()` 注册即可，如：
+如使用非 `EFCore` ORM 框架，可实现 `IUnitOfWork` 接口之后调用 `services.AddUnitOfWork<TUnitOfWork>()` 注册即可，如示例代码：
 
 ```cs showLineNumbers {8,18,29,40,52,62}
 using Microsoft.AspNetCore.Mvc.Filters;
@@ -47,7 +47,6 @@ namespace Furion.DatabaseAccessor;
 /// <summary>
 /// SqlSugar 工作单元实现
 /// </summary>
-[SuppressSniffer]
 public sealed class SqlSugarUnitOfWork : IUnitOfWork
 {
     /// <summary>
@@ -65,23 +64,12 @@ public sealed class SqlSugarUnitOfWork : IUnitOfWork
     }
 
     /// <summary>
-    /// 工作单元未标记处理
-    /// </summary>
-    /// <param name="resultContext"></param>
-    /// <param name="isManual"></param>
-    /// <exception cref="NotImplementedException"></exception>
-    public void OnUnmark(ActionExecutedContext resultContext, bool isManual)
-    {
-    }
-
-    /// <summary>
     /// 开启工作单元处理
     /// </summary>
     /// <param name="context"></param>
-    /// <param name="unitOfwork"></param>
-    /// <param name="isManual"></param>
+    /// <param name="unitOfWork"></param>
     /// <exception cref="NotImplementedException"></exception>
-    public void BeginTransaction(ActionExecutingContext context, UnitOfWorkAttribute unitOfwork, bool isManual)
+    public void BeginTransaction(ActionExecutingContext context, UnitOfWorkAttribute unitOfWork)
     {
         _sqlSugarClient.AsTenant().BeginTran();
     }
@@ -90,10 +78,9 @@ public sealed class SqlSugarUnitOfWork : IUnitOfWork
     /// 提交工作单元处理
     /// </summary>
     /// <param name="resultContext"></param>
-    /// <param name="unitOfwork"></param>
-    /// <param name="isManual"></param>
+    /// <param name="unitOfWork"></param>
     /// <exception cref="NotImplementedException"></exception>
-    public void CommitTransaction(ActionExecutedContext resultContext, UnitOfWorkAttribute unitOfwork, bool isManual)
+    public void CommitTransaction(ActionExecutedContext resultContext, UnitOfWorkAttribute unitOfWork)
     {
         _sqlSugarClient.AsTenant().CommitTran();
     }
@@ -102,10 +89,9 @@ public sealed class SqlSugarUnitOfWork : IUnitOfWork
     /// 回滚工作单元处理
     /// </summary>
     /// <param name="resultContext"></param>
-    /// <param name="unitOfwork"></param>
-    /// <param name="isManual"></param>
+    /// <param name="unitOfWork"></param>
     /// <exception cref="NotImplementedException"></exception>
-    public void RollbackTransaction(ActionExecutedContext resultContext, UnitOfWorkAttribute unitOfwork, bool isManual)
+    public void RollbackTransaction(ActionExecutedContext resultContext, UnitOfWorkAttribute unitOfWork)
     {
         _sqlSugarClient.AsTenant().RollbackTran();
     }

@@ -8,6 +8,7 @@
 
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 
 namespace Furion.DatabaseAccessor;
@@ -33,20 +34,6 @@ internal sealed class UnitOfWorkFilter : IAsyncActionFilter, IOrderedFilter
     public int Order => FilterOrder;
 
     /// <summary>
-    /// 数据库工作单元对象
-    /// </summary>
-    private readonly IUnitOfWork _unitOfWork;
-
-    /// <summary>
-    /// 构造函数
-    /// </summary>
-    /// <param name="unitOfWork"></param>
-    public UnitOfWorkFilter(IUnitOfWork unitOfWork)
-    {
-        _unitOfWork = unitOfWork;
-    }
-
-    /// <summary>
     /// 拦截请求
     /// </summary>
     /// <param name="context">动作方法上下文</param>
@@ -58,50 +45,48 @@ internal sealed class UnitOfWorkFilter : IAsyncActionFilter, IOrderedFilter
         var actionDescriptor = context.ActionDescriptor as ControllerActionDescriptor;
         var method = actionDescriptor.MethodInfo;
 
-        // 判断是否手动提交
-        var isManualSaveChanges = method.IsDefined(typeof(ManualCommitAttribute), true);
+        // 获取请求上下文
+        var httpContext = context.HttpContext;
 
-        ActionExecutedContext resultContext;
-
-        // 判断是否贴有工作单元特性
+        // 如果没有定义工作单元过滤器，则跳过
         if (!method.IsDefined(typeof(UnitOfWorkAttribute), true))
         {
             // 调用方法
-            resultContext = await next();
+            _ = await next();
 
-            // 调用未标记方法
-            _unitOfWork.OnUnmark(resultContext, isManualSaveChanges);
+            return;
+        }
+
+        // 打印工作单元开始消息
+        App.PrintToMiniProfiler(MiniProfilerCategory, "Beginning");
+
+        // 解析工作单元服务
+        var _unitOfWork = httpContext.RequestServices.GetRequiredService<IUnitOfWork>();
+
+        // 获取工作单元特性
+        var unitOfWorkAttribute = method.GetCustomAttribute<UnitOfWorkAttribute>();
+
+        // 调用开启事务方法
+        _unitOfWork.BeginTransaction(context, unitOfWorkAttribute);
+
+        // 获取执行 Action 结果
+        var resultContext = await next();
+
+        if (resultContext.Exception == null)
+        {
+            // 调用提交事务方法
+            _unitOfWork.CommitTransaction(resultContext, unitOfWorkAttribute);
         }
         else
         {
-            // 打印工作单元开始消息
-            App.PrintToMiniProfiler(MiniProfilerCategory, "Beginning");
-
-            // 获取工作单元特性
-            var unitOfWorkAttribute = method.GetCustomAttribute<UnitOfWorkAttribute>();
-
-            // 调用开启事务方法
-            _unitOfWork.BeginTransaction(context, unitOfWorkAttribute, isManualSaveChanges);
-
-            // 获取执行 Action 结果
-            resultContext = await next();
-
-            if (resultContext.Exception == null)
-            {
-                // 调用提交事务方法
-                _unitOfWork.CommitTransaction(resultContext, unitOfWorkAttribute, isManualSaveChanges);
-            }
-            else
-            {
-                // 调用回滚事务方法
-                _unitOfWork.RollbackTransaction(resultContext, unitOfWorkAttribute, isManualSaveChanges);
-            }
-
-            // 打印工作单元结束消息
-            App.PrintToMiniProfiler(MiniProfilerCategory, "Ending");
+            // 调用回滚事务方法
+            _unitOfWork.RollbackTransaction(resultContext, unitOfWorkAttribute);
         }
 
         // 调用执行完毕方法
         _unitOfWork.OnCompleted(context, resultContext);
+
+        // 打印工作单元结束消息
+        App.PrintToMiniProfiler(MiniProfilerCategory, "Ending");
     }
 }

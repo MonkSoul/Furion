@@ -81,6 +81,9 @@ public static class DatabaseAccessorServiceCollectionExtensions
         // 注册全局工作单元过滤器
         services.AddUnitOfWork<EFCoreUnitOfWork>();
 
+        // 注册自动 SaveChanges
+        services.AddMvcFilter<AutoSaveChangesFilter>();
+
         return services;
     }
 

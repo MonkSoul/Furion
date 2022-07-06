@@ -31,54 +31,39 @@ public sealed class EFCoreUnitOfWork : IUnitOfWork
     }
 
     /// <summary>
-    /// 工作单元未标记处理
-    /// </summary>
-    /// <param name="resultContext"></param>
-    /// <param name="isManual"></param>
-    /// <exception cref="NotImplementedException"></exception>
-    public void OnUnmark(ActionExecutedContext resultContext, bool isManual)
-    {
-        // 判断是否异常，并且没有贴 [ManualSaveChanges] 特性
-        if (resultContext.Exception == null && !isManual) _dbContextPool.SavePoolNow();
-    }
-
-    /// <summary>
     /// 开启工作单元处理
     /// </summary>
     /// <param name="context"></param>
-    /// <param name="unitOfwork"></param>
-    /// <param name="isManual"></param>
+    /// <param name="unitOfWork"></param>
     /// <exception cref="NotImplementedException"></exception>
-    public void BeginTransaction(ActionExecutingContext context, UnitOfWorkAttribute unitOfwork, bool isManual)
+    public void BeginTransaction(ActionExecutingContext context, UnitOfWorkAttribute unitOfWork)
     {
         // 开启事务
-        _dbContextPool.BeginTransaction(unitOfwork.EnsureTransaction);
+        _dbContextPool.BeginTransaction(unitOfWork.EnsureTransaction);
     }
 
     /// <summary>
     /// 提交工作单元处理
     /// </summary>
     /// <param name="resultContext"></param>
-    /// <param name="unitOfwork"></param>
-    /// <param name="isManual"></param>
+    /// <param name="unitOfWork"></param>
     /// <exception cref="NotImplementedException"></exception>
-    public void CommitTransaction(ActionExecutedContext resultContext, UnitOfWorkAttribute unitOfwork, bool isManual)
+    public void CommitTransaction(ActionExecutedContext resultContext, UnitOfWorkAttribute unitOfWork)
     {
         // 提交事务
-        _dbContextPool.CommitTransaction(isManual);
+        _dbContextPool.CommitTransaction();
     }
 
     /// <summary>
     /// 回滚工作单元处理
     /// </summary>
     /// <param name="resultContext"></param>
-    /// <param name="unitOfwork"></param>
-    /// <param name="isManual"></param>
+    /// <param name="unitOfWork"></param>
     /// <exception cref="NotImplementedException"></exception>
 
-    public void RollbackTransaction(ActionExecutedContext resultContext, UnitOfWorkAttribute unitOfwork, bool isManual)
+    public void RollbackTransaction(ActionExecutedContext resultContext, UnitOfWorkAttribute unitOfWork)
     {
-        // 提交事务
+        // 回滚事务
         _dbContextPool.RollbackTransaction();
     }
 

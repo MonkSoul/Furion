@@ -9,20 +9,14 @@
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.DependencyInjection;
-using System.Reflection;
 
 namespace Furion.DatabaseAccessor;
 
 /// <summary>
-/// 工作单元拦截器
+/// 自动调用 SaveChanges 拦截器
 /// </summary>
-internal sealed class UnitOfWorkFilter : IAsyncActionFilter, IOrderedFilter
+internal sealed class AutoSaveChangesFilter : IAsyncActionFilter, IOrderedFilter
 {
-    /// <summary>
-    ///  MiniProfiler 分类名
-    /// </summary>
-    private const string MiniProfilerCategory = "unitOfWork";
-
     /// <summary>
     /// 过滤器排序
     /// </summary>
@@ -48,45 +42,19 @@ internal sealed class UnitOfWorkFilter : IAsyncActionFilter, IOrderedFilter
         // 获取请求上下文
         var httpContext = context.HttpContext;
 
-        // 如果没有定义工作单元过滤器，则跳过
-        if (!method.IsDefined(typeof(UnitOfWorkAttribute), true))
-        {
-            // 调用方法
-            _ = await next();
+        // 判断是否贴有工作单元特性
+        if (method.IsDefined(typeof(UnitOfWorkAttribute), true)) return;
 
-            return;
-        }
-
-        // 打印工作单元开始消息
-        App.PrintToMiniProfiler(MiniProfilerCategory, "Beginning");
-
-        // 解析工作单元服务
-        var _unitOfWork = httpContext.RequestServices.GetRequiredService<IUnitOfWork>();
-
-        // 获取工作单元特性
-        var unitOfWorkAttribute = method.GetCustomAttribute<UnitOfWorkAttribute>();
-
-        // 调用开启事务方法
-        _unitOfWork.BeginTransaction(context, unitOfWorkAttribute);
-
-        // 获取执行 Action 结果
+        // 调用方法
         var resultContext = await next();
 
-        if (resultContext.Exception == null)
-        {
-            // 调用提交事务方法
-            _unitOfWork.CommitTransaction(resultContext, unitOfWorkAttribute);
-        }
-        else
-        {
-            // 调用回滚事务方法
-            _unitOfWork.RollbackTransaction(resultContext, unitOfWorkAttribute);
-        }
+        // 判断是否手动提交
+        var isManualSaveChanges = method.IsDefined(typeof(ManualCommitAttribute), true);
 
-        // 调用执行完毕方法
-        _unitOfWork.OnCompleted(context, resultContext);
-
-        // 打印工作单元结束消息
-        App.PrintToMiniProfiler(MiniProfilerCategory, "Ending");
+        // 判断是否异常，并且没有贴 [ManualSaveChanges] 特性
+        if (resultContext.Exception == null && !isManualSaveChanges)
+        {
+            httpContext.RequestServices.GetRequiredService<IDbContextPool>().SavePoolNow();
+        }
     }
 }
