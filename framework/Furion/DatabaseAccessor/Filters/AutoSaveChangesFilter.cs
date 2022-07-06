@@ -43,7 +43,12 @@ internal sealed class AutoSaveChangesFilter : IAsyncActionFilter, IOrderedFilter
         var httpContext = context.HttpContext;
 
         // 判断是否贴有工作单元特性
-        if (method.IsDefined(typeof(UnitOfWorkAttribute), true)) return;
+        if (method.IsDefined(typeof(UnitOfWorkAttribute), true))
+        {
+            _ = await next();
+
+            return;
+        }
 
         // 调用方法
         var resultContext = await next();
