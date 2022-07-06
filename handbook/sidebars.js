@@ -27,6 +27,7 @@ module.exports = {
         "net5-to-net6",
         "globalusing",
         "jsonschema",
+        "vsfast",
       ],
     },
     {
