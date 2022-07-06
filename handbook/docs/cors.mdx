@@ -102,6 +102,7 @@ namespace Furion.Web.Core
   - `WithMethods`：设置跨域允许请求谓词，没有配置则允许所有，`string[]` 类型
   - `AllowCredentials`：是否允许跨域请求中的凭据，`bool` 类型，默认值 `true`
   - `SetPreflightMaxAge`：设置预检过期时间，`int` 类型，默认值 `24小时`
+  - `FixedClientToken`：是否默认配置 `WithExposedHeaders`，`bool` 类型，默认 `true`
 
 ## 16.6 前端不能读取响应头注意事项
 

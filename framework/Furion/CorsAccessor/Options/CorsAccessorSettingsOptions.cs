@@ -54,6 +54,11 @@ public sealed class CorsAccessorSettingsOptions : IConfigurableOptions<CorsAcces
     public int? SetPreflightMaxAge { get; set; }
 
     /// <summary>
+    /// 修正前端无法获取 Token 问题
+    /// </summary>
+    public bool? FixedClientToken { get; set; }
+
+    /// <summary>
     /// 后期配置
     /// </summary>
     /// <param name="options"></param>
@@ -63,5 +68,6 @@ public sealed class CorsAccessorSettingsOptions : IConfigurableOptions<CorsAcces
         PolicyName ??= "App.Cors.Policy";
         WithOrigins ??= Array.Empty<string>();
         AllowCredentials ??= true;
+        FixedClientToken ??= true;
     }
 }

@@ -68,14 +68,16 @@ public static class CorsAccessorServiceCollectionExtensions
                 // 配置跨域凭据
                 if (corsAccessorSettings.AllowCredentials == true && !isNotSetOrigins) builder.AllowCredentials();
 
-                // 配置响应头，如果前端不能获取自定义的 header 信息，必须配置该项，默认配置了 access-token 和 x-access-token
-                IEnumerable<string> defaultExposedHeaders = _defaultExposedHeaders;
+                // 配置响应头，如果前端不能获取自定义的 header 信息，必须配置该项，默认配置了 access-token 和 x-access-token，可取消默认行为
+                IEnumerable<string> exposedHeaders = corsAccessorSettings.FixedClientToken == true
+                    ? _defaultExposedHeaders
+                    : Array.Empty<string>();
                 if (corsAccessorSettings.WithExposedHeaders != null && corsAccessorSettings.WithExposedHeaders.Length > 0)
                 {
-                    defaultExposedHeaders = defaultExposedHeaders.Concat(corsAccessorSettings.WithExposedHeaders).Distinct(StringComparer.OrdinalIgnoreCase);
+                    exposedHeaders = exposedHeaders.Concat(corsAccessorSettings.WithExposedHeaders).Distinct(StringComparer.OrdinalIgnoreCase);
                 }
 
-                builder.WithExposedHeaders(defaultExposedHeaders.ToArray());
+                if (exposedHeaders.Any()) builder.WithExposedHeaders(exposedHeaders.ToArray());
 
                 // 设置预检过期时间，如果不设置默认为 24小时
                 builder.SetPreflightMaxAge(TimeSpan.FromSeconds(corsAccessorSettings.SetPreflightMaxAge ?? 24 * 60 * 60));

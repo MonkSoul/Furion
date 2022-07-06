@@ -1790,6 +1790,11 @@
           "type": "number",
           "description": "设置预检过期时间",
           "default": 86400
+        },
+        "FixedClientToken": {
+          "type": "boolean",
+          "description": "是否默认配置 WithExposedHeaders",
+          "default": true
         }
       }
     },
