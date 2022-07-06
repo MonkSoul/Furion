@@ -47,9 +47,22 @@ namespace Furion.DatabaseAccessor;
 /// <summary>
 /// SqlSugar 工作单元实现
 /// </summary>
+[SuppressSniffer]
 public sealed class SqlSugarUnitOfWork : IUnitOfWork
 {
-   // 支持构造函数注入
+    /// <summary>
+    /// SqlSugar 对象
+    /// </summary>
+    private readonly ISqlSugarClient _sqlSugarClient;
+
+    /// <summary>
+    /// 构造函数
+    /// </summary>
+    /// <param name="sqlSugarClient"></param>
+    public SqlSugarUnitOfWork(ISqlSugarClient sqlSugarClient)
+    {
+        _sqlSugarClient = sqlSugarClient;
+    }
 
     /// <summary>
     /// 工作单元未标记处理
@@ -70,6 +83,7 @@ public sealed class SqlSugarUnitOfWork : IUnitOfWork
     /// <exception cref="NotImplementedException"></exception>
     public void BeginTransaction(ActionExecutingContext context, UnitOfWorkAttribute unitOfwork, bool isManual)
     {
+        _sqlSugarClient.AsTenant().BeginTran();
     }
 
     /// <summary>
@@ -81,6 +95,7 @@ public sealed class SqlSugarUnitOfWork : IUnitOfWork
     /// <exception cref="NotImplementedException"></exception>
     public void CommitTransaction(ActionExecutedContext resultContext, UnitOfWorkAttribute unitOfwork, bool isManual)
     {
+        _sqlSugarClient.AsTenant().CommitTran();
     }
 
     /// <summary>
@@ -90,9 +105,9 @@ public sealed class SqlSugarUnitOfWork : IUnitOfWork
     /// <param name="unitOfwork"></param>
     /// <param name="isManual"></param>
     /// <exception cref="NotImplementedException"></exception>
-
     public void RollbackTransaction(ActionExecutedContext resultContext, UnitOfWorkAttribute unitOfwork, bool isManual)
     {
+        _sqlSugarClient.AsTenant().RollbackTran();
     }
 
     /// <summary>
@@ -103,6 +118,7 @@ public sealed class SqlSugarUnitOfWork : IUnitOfWork
     /// <exception cref="NotImplementedException"></exception>
     public void OnCompleted(ActionExecutingContext context, ActionExecutedContext resultContext)
     {
+        _sqlSugarClient.Dispose();
     }
 }
 ```
