@@ -3,14 +3,14 @@
 	<PropertyGroup>
 		<TargetFramework>net6.0</TargetFramework>
 		<OutputType>Exe</OutputType>
-		<Version>3.7.4</Version>
+		<Version>3.7.5</Version>
 		<ToolCommandName>furion-upgrade</ToolCommandName>
 		<Description>Furion v2（.NET 5) 全自动升级 v3（.NET 6）</Description>
 	</PropertyGroup>
 
 	<ItemGroup>
 		<PackageReference Include="CliWrap" Version="3.4.4" />
-		<PackageReference Include="Furion.Tools.CommandLine" Version="3.7.4" />
+		<PackageReference Include="Furion.Tools.CommandLine" Version="3.7.5" />
 	</ItemGroup>
 
 </Project>
