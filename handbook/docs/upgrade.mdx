@@ -21,7 +21,7 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 :::
 
-## v3.7.3（当前版本）
+## v3.7.4（当前版本）
 
 - **新特性**
 
@@ -32,17 +32,18 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
   - [新增] `Sql` 代理支持返回 `ValueTuple` 单个类类型参数 [876a2f5](https://gitee.com/dotnetchina/Furion/commit/876a2f5f7e2d07fa3bbc3f5b99c0653893e0ada8)
   - [新增] 组件化设计模块，支持比 `AppStartup` 更灵活便捷的设计 [#components](https://gitee.com/dotnetchina/Furion/tree/net6/framework/Furion/Components)
   - [新增] 独立工作单元单元模块，支持任何第三方 `ORM` [a02413d](https://gitee.com/dotnetchina/Furion/commit/a02413d6887d258ad3a1ba972bb6a08d29291d0c)
-  - [新增] 跨域 `FixedClientToken` 配置参数
+  - [新增] 跨域 `FixedClientToken` 配置参数 [bd01638](https://gitee.com/dotnetchina/Furion/commit/bd016386681631a5539bcf215c068c2069bba15f)
 
 - **突破性变化**
 
   - [新增] **`Furion` 和 `ASP.NET Core` 完整 `json` 配置的 `JSON Schema` 架构 [JSON Schema](https://gitee.com/dotnetchina/Furion/raw/net6/schemas/v3/furion-schema.json)**
   - [新增] 组件化设计模块，支持比 `AppStartup` 更灵活便捷的设计 [#components](https://gitee.com/dotnetchina/Furion/tree/net6/framework/Furion/Components)
-  - [新增] 独立工作单元单元模块，支持任何第三方 `ORM`  [a02413d](https://gitee.com/dotnetchina/Furion/commit/a02413d6887d258ad3a1ba972bb6a08d29291d0c)
+  - [新增] 独立工作单元单元模块，支持任何第三方 `ORM` [a02413d](https://gitee.com/dotnetchina/Furion/commit/a02413d6887d258ad3a1ba972bb6a08d29291d0c)
 
 - **问题修复**
 
   - [修复] 自 `v3.6.3` 版本依赖，执行原生 `Sql` 添加了参数校验导致存储过程执行错误问题 [#I5ERMQ](https://gitee.com/dotnetchina/Furion/issues/I5ERMQ)
+  - [修复] `tools/cli.ps1` 脚本工具出现数据库链接被占用问题
 
 - **其他更改**
 
@@ -93,7 +94,7 @@ public interface ISql : ISqlDispatchProxy
     [SqlExecute("select * from person")]
     List<Person> GetPersons();
 
-    // 自 v3.7.3+ 版本支持返回单个类类型参数
+    // 自 v3.7.4+ 版本支持返回单个类类型参数
     [SqlExecute("select * from person where id=@id")]
     Person GetPerson(int id);
 }

@@ -343,7 +343,7 @@ healthchecksdb
 # NodeJS node_modules
 handbook/node_modules
 
-# .NET Comments
+# Ignore project some folders
 framework/**/*.xml
 /framework/nupkgs
 /tests/Furion.TestProject/templates

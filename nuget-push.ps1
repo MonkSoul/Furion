@@ -43,3 +43,5 @@ for ($i = 0; $i -le $framework_nupkgs.Length - 1; $i++){
 
 # 回到项目根目录
 cd ../../;
+
+Write-Warning "发布成功";

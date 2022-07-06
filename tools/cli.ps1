@@ -24,7 +24,7 @@ Param(
     #[string]$UseDatabaseNames
 )
 
-$FurTools = "Furion Tools v3.7.3";
+$FurTools = "Furion Tools v3.7.4";
 
 # 输出信息
 $copyright = @"
@@ -152,6 +152,9 @@ if($options -eq "G")
 
         # 关闭数据库连接
         $conn.Close();
+
+        # 销毁数据库链接
+        $conn.Dispose();
     
         $rowCount = $ds.Tables[0].Rows.Count;
 
