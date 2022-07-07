@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
-  "title": "JSON schema ASP.NET Core and Furion's .json file",
+  "title": "JSON schema for ASP.NET Core and Furion.",
   "type": "object",
   "properties": {
     "Kestrel": {
