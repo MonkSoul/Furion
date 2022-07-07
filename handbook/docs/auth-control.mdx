@@ -116,7 +116,7 @@ public class JwtHandler : AppAuthorizeHandler
     "ValidateLifetime": true, // 是否验证过期时间，bool 类型，默认true，建议true
     "ExpiredTime": 20, // 过期时间，long 类型，单位分钟，默认20分钟
     "ClockSkew": 5, // 过期时间容错值，long 类型，单位秒，默认 5秒
-    "Algorithm": "HS256" // 加密算法，string 类型，默认 SecurityAlgorithms.HmacSha256
+    "Algorithm": "HS256" // 加密算法，string 类型，默认 HS256
   }
 }
 ```
@@ -127,9 +127,26 @@ public class JwtHandler : AppAuthorizeHandler
 
 :::
 
-:::important 温馨提示
+:::important `Algorithm` 算法支持列表
 
-目前支持的`加密算法`，详情请查阅[SecurityAlgorithms](https://github.com/AzureAD/azure-activedirectory-identitymodel-extensions-for-dotnet/blob/dev/src/Microsoft.IdentityModel.Tokens/SecurityAlgorithms.cs)
+目前支持的`加密算法`
+
+- `HS256`
+- `HS384`
+- `HS512`
+- `PS256`
+- `PS384`
+- `PS512`
+- `RS256`
+- `RS384`
+- `RS512`
+- `ES256`
+- `ES256K`
+- `ES384`
+- `ES512`
+- `EdDSA`
+
+详情请查阅 [SecurityAlgorithms](https://github.com/AzureAD/azure-activedirectory-identitymodel-extensions-for-dotnet/blob/dev/src/Microsoft.IdentityModel.Tokens/SecurityAlgorithms.cs)
 
 :::
 
