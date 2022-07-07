@@ -294,7 +294,7 @@ Clients.GroupExcept("分组").客户端方法(参数);
 
 ## 24.8 自定义用户唯一标识
 
-默认情况下 `SignalR` 会为每一个链接创建 `ConnectionId`，但是整个 `ConnectionId` 并没有和我们系统的用户绑定起来，所以需要采用自定义 `ConnectionId`，如：
+默认情况下 `SignalR` 会为每一个链接创建 `ConnectionId`，但是这个 `ConnectionId` 并没有和我们系统的用户绑关联起来，所以需要采用自定义 `ConnectionId`，如：
 
 ```cs showLineNumbers {1,3}
 public class YourUserIdProvider : IUserIdProvider
