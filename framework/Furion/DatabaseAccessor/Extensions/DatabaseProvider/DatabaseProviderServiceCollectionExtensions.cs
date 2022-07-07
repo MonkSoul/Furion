@@ -34,7 +34,7 @@ public static class DatabaseProviderServiceCollectionExtensions
     /// <param name="poolSize">池大小</param>
     /// <param name="interceptors">拦截器</param>
     /// <returns>服务集合</returns>
-    public static IServiceCollection AddDbPool<TDbContext>(this IServiceCollection services, string providerName = default, Action<DbContextOptionsBuilder> optionBuilder = null, string connectionMetadata = default, int poolSize = 100, params IInterceptor[] interceptors)
+    public static IServiceCollection AddDbPool<TDbContext>(this IServiceCollection services, string providerName = default, Action<IServiceProvider, DbContextOptionsBuilder> optionBuilder = null, string connectionMetadata = default, int poolSize = 100, params IInterceptor[] interceptors)
         where TDbContext : DbContext
     {
         // 注册数据库上下文
@@ -50,7 +50,7 @@ public static class DatabaseProviderServiceCollectionExtensions
     /// <param name="poolSize">池大小</param>
     /// <param name="interceptors">拦截器</param>
     /// <returns>服务集合</returns>
-    public static IServiceCollection AddDbPool<TDbContext>(this IServiceCollection services, Action<DbContextOptionsBuilder> optionBuilder, int poolSize = 100, params IInterceptor[] interceptors)
+    public static IServiceCollection AddDbPool<TDbContext>(this IServiceCollection services, Action<IServiceProvider, DbContextOptionsBuilder> optionBuilder, int poolSize = 100, params IInterceptor[] interceptors)
         where TDbContext : DbContext
     {
         // 注册数据库上下文
@@ -69,7 +69,7 @@ public static class DatabaseProviderServiceCollectionExtensions
     /// <param name="poolSize">池大小</param>
     /// <param name="interceptors">拦截器</param>
     /// <returns>服务集合</returns>
-    public static IServiceCollection AddDbPool<TDbContext, TDbContextLocator>(this IServiceCollection services, string providerName = default, Action<DbContextOptionsBuilder> optionBuilder = null, string connectionMetadata = default, int poolSize = 100, params IInterceptor[] interceptors)
+    public static IServiceCollection AddDbPool<TDbContext, TDbContextLocator>(this IServiceCollection services, string providerName = default, Action<IServiceProvider, DbContextOptionsBuilder> optionBuilder = null, string connectionMetadata = default, int poolSize = 100, params IInterceptor[] interceptors)
         where TDbContext : DbContext
         where TDbContextLocator : class, IDbContextLocator
     {
@@ -78,10 +78,10 @@ public static class DatabaseProviderServiceCollectionExtensions
 
         // 配置数据库上下文
         var connStr = DbProvider.GetConnectionString<TDbContext>(connectionMetadata);
-        services.AddDbContextPool<TDbContext>(Penetrates.ConfigureDbContext(options =>
+        services.AddDbContextPool<TDbContext>(Penetrates.ConfigureDbContext((serviceProvider, options) =>
         {
             var _options = ConfigureDatabase<TDbContext>(providerName, connStr, options);
-            optionBuilder?.Invoke(_options);
+            optionBuilder?.Invoke(serviceProvider, _options);
         }, interceptors), poolSize: poolSize);
 
         return services;
@@ -97,7 +97,7 @@ public static class DatabaseProviderServiceCollectionExtensions
     /// <param name="poolSize">池大小</param>
     /// <param name="interceptors">拦截器</param>
     /// <returns>服务集合</returns>
-    public static IServiceCollection AddDbPool<TDbContext, TDbContextLocator>(this IServiceCollection services, Action<DbContextOptionsBuilder> optionBuilder, int poolSize = 100, params IInterceptor[] interceptors)
+    public static IServiceCollection AddDbPool<TDbContext, TDbContextLocator>(this IServiceCollection services, Action<IServiceProvider, DbContextOptionsBuilder> optionBuilder, int poolSize = 100, params IInterceptor[] interceptors)
         where TDbContext : DbContext
         where TDbContextLocator : class, IDbContextLocator
     {
@@ -120,7 +120,7 @@ public static class DatabaseProviderServiceCollectionExtensions
     /// <param name="connectionMetadata">支持数据库连接字符串，配置文件的 ConnectionStrings 中的Key或 配置文件的完整的配置路径，如果是内存数据库，则为数据库名称</param>
     /// <param name="interceptors">拦截器</param>
     /// <returns>服务集合</returns>
-    public static IServiceCollection AddDb<TDbContext>(this IServiceCollection services, string providerName = default, Action<DbContextOptionsBuilder> optionBuilder = null, string connectionMetadata = default, params IInterceptor[] interceptors)
+    public static IServiceCollection AddDb<TDbContext>(this IServiceCollection services, string providerName = default, Action<IServiceProvider, DbContextOptionsBuilder> optionBuilder = null, string connectionMetadata = default, params IInterceptor[] interceptors)
         where TDbContext : DbContext
     {
         // 注册数据库上下文
@@ -135,7 +135,7 @@ public static class DatabaseProviderServiceCollectionExtensions
     /// <param name="optionBuilder">自定义配置</param>
     /// <param name="interceptors">拦截器</param>
     /// <returns>服务集合</returns>
-    public static IServiceCollection AddDb<TDbContext>(this IServiceCollection services, Action<DbContextOptionsBuilder> optionBuilder, params IInterceptor[] interceptors)
+    public static IServiceCollection AddDb<TDbContext>(this IServiceCollection services, Action<IServiceProvider, DbContextOptionsBuilder> optionBuilder, params IInterceptor[] interceptors)
         where TDbContext : DbContext
     {
         // 注册数据库上下文
@@ -153,7 +153,7 @@ public static class DatabaseProviderServiceCollectionExtensions
     /// <param name="connectionMetadata">支持数据库连接字符串，配置文件的 ConnectionStrings 中的Key或 配置文件的完整的配置路径，如果是内存数据库，则为数据库名称</param>
     /// <param name="interceptors">拦截器</param>
     /// <returns>服务集合</returns>
-    public static IServiceCollection AddDb<TDbContext, TDbContextLocator>(this IServiceCollection services, string providerName = default, Action<DbContextOptionsBuilder> optionBuilder = null, string connectionMetadata = default, params IInterceptor[] interceptors)
+    public static IServiceCollection AddDb<TDbContext, TDbContextLocator>(this IServiceCollection services, string providerName = default, Action<IServiceProvider, DbContextOptionsBuilder> optionBuilder = null, string connectionMetadata = default, params IInterceptor[] interceptors)
         where TDbContext : DbContext
         where TDbContextLocator : class, IDbContextLocator
     {
@@ -162,10 +162,10 @@ public static class DatabaseProviderServiceCollectionExtensions
 
         // 配置数据库上下文
         var connStr = DbProvider.GetConnectionString<TDbContext>(connectionMetadata);
-        services.AddDbContext<TDbContext>(Penetrates.ConfigureDbContext(options =>
+        services.AddDbContext<TDbContext>(Penetrates.ConfigureDbContext((serviceProvider, options) =>
         {
             var _options = ConfigureDatabase<TDbContext>(providerName, connStr, options);
-            optionBuilder?.Invoke(_options);
+            optionBuilder?.Invoke(serviceProvider, _options);
         }, interceptors));
 
         return services;
@@ -180,7 +180,7 @@ public static class DatabaseProviderServiceCollectionExtensions
     /// <param name="optionBuilder">自定义配置</param>
     /// <param name="interceptors">拦截器</param>
     /// <returns>服务集合</returns>
-    public static IServiceCollection AddDb<TDbContext, TDbContextLocator>(this IServiceCollection services, Action<DbContextOptionsBuilder> optionBuilder, params IInterceptor[] interceptors)
+    public static IServiceCollection AddDb<TDbContext, TDbContextLocator>(this IServiceCollection services, Action<IServiceProvider, DbContextOptionsBuilder> optionBuilder, params IInterceptor[] interceptors)
         where TDbContext : DbContext
         where TDbContextLocator : class, IDbContextLocator
     {

@@ -37,7 +37,7 @@ internal static class Penetrates
     /// <param name="optionBuilder">数据库上下文选项构建器</param>
     /// <param name="interceptors">拦截器</param>
     /// <returns></returns>
-    internal static Action<IServiceProvider, DbContextOptionsBuilder> ConfigureDbContext(Action<DbContextOptionsBuilder> optionBuilder, params IInterceptor[] interceptors)
+    internal static Action<IServiceProvider, DbContextOptionsBuilder> ConfigureDbContext(Action<IServiceProvider, DbContextOptionsBuilder> optionBuilder, params IInterceptor[] interceptors)
     {
         return (serviceProvider, options) =>
         {
@@ -49,7 +49,7 @@ internal static class Penetrates
                          .EnableSensitiveDataLogging();
             }
 
-            optionBuilder?.Invoke(options);
+            optionBuilder?.Invoke(serviceProvider, options);
 
             // 添加拦截器
             AddInterceptors(interceptors, options);
