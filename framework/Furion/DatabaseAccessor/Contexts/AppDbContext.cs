@@ -224,7 +224,8 @@ public abstract class AppDbContext<TDbContext, TDbContextLocator> : DbContext
 
             // 获取获取数据库操作上下文，跳过贴了 [NotChangedListener] 特性的实体
             ChangeTrackerEntities = dbContext.ChangeTracker.Entries()
-                .Where(u => !u.Entity.GetType().IsDefined(typeof(SuppressChangedListenerAttribute), true) && (u.State == EntityState.Added || u.State == EntityState.Modified || u.State == EntityState.Deleted)).ToDictionary(u => u, u => u.GetDatabaseValues());
+                .Where(u => !u.Entity.GetType().IsDefined(typeof(SuppressChangedListenerAttribute), true) && (u.State == EntityState.Added || u.State == EntityState.Modified || u.State == EntityState.Deleted))
+                .ToDictionary(u => u, u => u.State == EntityState.Added ? default : u.GetDatabaseValues());
 
             AttachEntityChangedListener(eventData.Context, "OnChanging", ChangeTrackerEntities);
         }
