@@ -12,9 +12,13 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 :::
 
+## 22.1 关于事件总线
+
+事件总线是对发布-订阅模式的一种实现。它是一种集中式事件处理机制，允许不同的组件之间进行彼此通信而又不需要相互依赖，达到一种解耦的目的。
+
 <img src={useBaseUrl("img/ebs.png")} />
 
-## 22.1 快速入门
+## 22.2 快速入门
 
 1. 定义事件订阅者 `ToDoEventSubscriber`：
 
@@ -119,7 +123,7 @@ info: Jaina.Samples.ToDoEventSubscriber[0]
       创建一个 ToDo：Jaina
 ```
 
-## 22.2 自定义事件源
+## 22.3 自定义事件源
 
 `Furion` 使用 `IEventSource` 作为消息载体，任何实现该接口的类都可以充当消息载体。
 
@@ -166,7 +170,7 @@ public class ToDoEventSource : IEventSource
 await _eventPublisher.PublishAsync(new ToDoEventSource ("ToDo:Create", "我的 ToDo Name"));
 ```
 
-## 22.3 自定义事件源存储器
+## 22.4 自定义事件源存储器
 
 `Fruion` 默认采用 `Channel` 作为事件源 `IEventSource` 存储器，开发者可以使用任何消息队列组件进行替换，如 `Kafka、RabbitMQ、ActiveMQ` 等，也可以使用部分数据库 `Redis、SQL Server、MySql` 实现。
 
@@ -210,7 +214,7 @@ services.AddEventBus(builder =>
 });
 ```
 
-## 22.4 自定义事件发布者
+## 22.5 自定义事件发布者
 
 `Furion` 默认内置基于 `Channel` 的事件发布者 `ChannelEventPublisher`。
 
@@ -243,7 +247,7 @@ services.AddEventBus(builder =>
 });
 ```
 
-## 22.5 添加事件执行监视器
+## 22.6 添加事件执行监视器
 
 `Furion` 提供了 `IEventHandlerMonitor` 监视器接口，实现该接口可以监视所有订阅事件，包括 `执行之前、执行之后，执行异常，共享上下文数据`。
 
@@ -288,7 +292,7 @@ services.AddEventBus(builder =>
 });
 ```
 
-## 22.6 添加事件执行器
+## 22.7 添加事件执行器
 
 `Furion` 提供了 `IEventHandlerExecutor` 执行器接口，可以让开发者自定义事件处理函数执行策略，如 `超时控制，失败重试、熔断等等`。
 
@@ -317,7 +321,7 @@ services.AddEventBus(builder =>
 });
 ```
 
-## 22.7 使用有作用域的服务
+## 22.8 使用有作用域的服务
 
 在 `Furion` 中， `Event Bus` 所有服务均注册为单例，如需使用作用域服务（单例服务可直接注入），可通过依赖注入 `IServiceProvider` 实例并通过 `CreateScope()` 创建一个作用域，如：
 
@@ -347,7 +351,7 @@ public class ToDoEventSubscriber : IEventSubscriber
 }
 ```
 
-## 22.8 订阅执行任务意外异常
+## 22.9 订阅执行任务意外异常
 
 ```cs showLineNumbers  {4}
 services.AddEventBus(builder =>
@@ -360,7 +364,7 @@ services.AddEventBus(builder =>
 });
 ```
 
-## 22.9 `EventBusOptionsBuilder` 配置
+## 22.10 `EventBusOptionsBuilder` 配置
 
 `EventBusOptionsBuilder` 是 `AddEventBus` 构建服务选项，该选项包含以下属性和方法：
 
@@ -374,7 +378,7 @@ services.AddEventBus(builder =>
   - `AddMonitor<TEventHandlerMonitor>`：添加监视器
   - `AddExecutor<TEventHandlerExecutor>`：添加执行器
 
-## 22.10 反馈与建议
+## 22.11 反馈与建议
 
 :::note 与我们交流
 
