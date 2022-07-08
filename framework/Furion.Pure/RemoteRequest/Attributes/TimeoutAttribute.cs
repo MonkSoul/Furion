@@ -17,7 +17,7 @@ public class TimeoutAttribute : Attribute
     /// <summary>
     /// 构造函数
     /// </summary>
-    /// <param name="seconds"></param>
+    /// <param name="seconds">默认 100 秒</param>
     public TimeoutAttribute(long seconds)
     {
         Seconds = seconds;

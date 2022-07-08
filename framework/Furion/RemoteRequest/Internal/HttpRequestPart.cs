@@ -72,7 +72,7 @@ public sealed partial class HttpRequestPart
     public List<(string Name, byte[] Bytes, string FileName)> BodyBytes { get; private set; } = new List<(string Name, byte[] Bytes, string FileName)>();
 
     /// <summary>
-    /// 超时时间（秒）
+    /// 超时时间（秒），默认 100 秒
     /// </summary>
     public long Timeout { get; private set; }
 
