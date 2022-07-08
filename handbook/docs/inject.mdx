@@ -18,6 +18,7 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 - `AddInject()`：在 `Startup.cs` 的 `ConfigureServices` 中注册
 - `AddInjectBase()`：在 `Startup.cs` 的 `ConfigureServices` 中注册
 - `AddInjectWithUnifyResult()/ AddInjectWithUnifyResult<T>()`：在 `Startup.cs` 的 `ConfigureServices` 中注册
+- `AddInjectMini()`：支持 `Minimal API`
 - `UseInject()`：在 `Startup.cs` 的 `Configure` 中注册
 - `UseInjectBase()`：在 `Startup.cs` 的 `Configure` 中注册
 
@@ -61,7 +62,7 @@ namespace Furion.Web.Entry
 
 `AddInject()` 包含以下基础功能注册：
 
-```cs showLineNumbers 
+```cs showLineNumbers
 services.AddSpecificationDocuments([options])
         .AddDynamicApiControllers()
         .AddDataValidation()
@@ -97,18 +98,32 @@ namespace Furion.Web.Entry
 
 `AddInjectBase()` 包含以下基础功能注册：
 
-```cs showLineNumbers 
+```cs showLineNumbers
 services.AddDataValidation()
         .AddFriendlyException();
 ```
 
 使用同上 `AddInject()`。
 
-### 2.4.4.5 `AddInjectWithUnifyResult()` 方法
+### 2.4.4.3 `AddInjectMini()` 方法
+
+:::important 版本说明
+
+以下内容仅限 `Furion 3.7.6 +` 版本使用。
+
+:::
+
+支持 `.NET6` 最新的 `Minimal API` 模式：
+
+```cs showLineNumbers
+builder.Services.AddInjectMini();
+```
+
+### 2.4.4.4 `AddInjectWithUnifyResult()` 方法
 
 `AddInjectWithUnifyResult()` 方法实际上等同于：
 
-```cs showLineNumbers 
+```cs showLineNumbers
 services.AddInject([swaggerGen])
         .AddUnifyResult();
 ```
@@ -129,7 +144,7 @@ services.AddInject([swaggerGen])
 
 `UseInject()` 包含以下基础功能注册：
 
-```cs showLineNumbers 
+```cs showLineNumbers
 app.UseSpecificationDocuments();
 ```
 
@@ -163,7 +178,7 @@ namespace Furion.Web.Entry
 
 ## 2.4.6 配置 `Inject()` 默认注册服务
 
-所有  `.Inject` 方法都可以传入委托，通过委托可以进一步去配置默认行为。如：
+所有 `.Inject` 方法都可以传入委托，通过委托可以进一步去配置默认行为。如：
 
 ```cs showLineNumbers {1}
 .AddInject(options =>

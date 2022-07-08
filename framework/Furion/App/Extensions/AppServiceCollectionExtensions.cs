@@ -37,8 +37,8 @@ public static class AppServiceCollectionExtensions
     /// 服务注入基础配置（带Swagger）
     /// </summary>
     /// <param name="services">服务集合</param>
-    /// <returns>IMvcBuilder</returns>
     /// <param name="configure"></param>
+    /// <returns>IMvcBuilder</returns>
     public static IServiceCollection AddInject(this IServiceCollection services, Action<InjectServiceOptions> configure = null)
     {
         // 载入服务配置选项
@@ -47,6 +47,27 @@ public static class AppServiceCollectionExtensions
 
         services.AddSpecificationDocuments(configureOptions?.SpecificationDocumentConfigure)
                 .AddDynamicApiControllers()
+                .AddDataValidation(configureOptions?.DataValidationConfigure)
+                .AddFriendlyException(configureOptions?.FriendlyExceptionConfigure);
+
+        return services;
+    }
+
+    /// <summary>
+    /// MiniAPI 服务注入基础配置（带Swagger）
+    /// </summary>
+    /// <param name="services">服务集合</param>
+    /// <param name="configure"></param>
+    /// <returns>IMvcBuilder</returns>
+    /// <remarks>https://docs.microsoft.com/zh-cn/aspnet/core/fundamentals/minimal-apis?view=aspnetcore-6.0</remarks>
+    public static IServiceCollection AddInjectMini(this IServiceCollection services, Action<InjectServiceOptions> configure = null)
+    {
+        // 载入服务配置选项
+        var configureOptions = new InjectServiceOptions();
+        configure?.Invoke(configureOptions);
+
+        services.AddEndpointsApiExplorer()
+                .AddSpecificationDocuments(configureOptions?.SpecificationDocumentConfigure)
                 .AddDataValidation(configureOptions?.DataValidationConfigure)
                 .AddFriendlyException(configureOptions?.FriendlyExceptionConfigure);
 

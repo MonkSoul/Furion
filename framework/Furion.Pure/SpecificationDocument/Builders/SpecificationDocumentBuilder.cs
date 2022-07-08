@@ -697,10 +697,8 @@ public static class SpecificationDocumentBuilder
         // 本地函数
         static string Function(ApiDescription apiDescription)
         {
-            if (!apiDescription.TryGetMethodInfo(out var method)) return "unknown";
-
-            // 获取控制器描述器
-            var controllerActionDescriptor = apiDescription.ActionDescriptor as ControllerActionDescriptor;
+            if (!apiDescription.TryGetMethodInfo(out var method)
+                || apiDescription.ActionDescriptor is not ControllerActionDescriptor controllerActionDescriptor) return Assembly.GetEntryAssembly().GetName().Name;
 
             // 如果动作方法没有定义 [ApiDescriptionSettings] 特性，则返回所在控制器名
             if (!method.IsDefined(typeof(ApiDescriptionSettingsAttribute), true)) return GetControllerTag(controllerActionDescriptor);
