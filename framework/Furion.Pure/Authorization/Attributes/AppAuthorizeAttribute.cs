@@ -30,7 +30,12 @@ public sealed class AppAuthorizeAttribute : AuthorizeAttribute
     /// </summary>
     public string[] Policies
     {
-        get => Policy[Penetrates.AppAuthorizePrefix.Length..].Split(',', StringSplitOptions.RemoveEmptyEntries);
+        get
+        {
+            if (string.IsNullOrWhiteSpace(Policy)) return Array.Empty<string>();
+
+            return Policy[Penetrates.AppAuthorizePrefix.Length..].Split(',', StringSplitOptions.RemoveEmptyEntries);
+        }
         internal set => Policy = $"{Penetrates.AppAuthorizePrefix}{string.Join(',', value)}";
     }
 }
