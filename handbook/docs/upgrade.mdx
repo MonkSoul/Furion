@@ -34,6 +34,7 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
   - [新增] 组件化设计模块，支持比 `AppStartup` 更灵活便捷的设计 [#components](https://gitee.com/dotnetchina/Furion/tree/net6/framework/Furion/Components)
   - [新增] 独立工作单元模块，支持任何第三方 `ORM` [a02413d](https://gitee.com/dotnetchina/Furion/commit/a02413d6887d258ad3a1ba972bb6a08d29291d0c)
   - [新增] 跨域 `FixedClientToken` 配置参数 [bd01638](https://gitee.com/dotnetchina/Furion/commit/bd016386681631a5539bcf215c068c2069bba15f)
+  - [新增] `throw Oops.Bah` 可以手动触发规范化验证失败处理 [83f0036](https://gitee.com/dotnetchina/Furion/commit/83f0036a4ce10c6b1cfc4a258dc61e197af38879)
 
 - **突破性变化**
 
@@ -42,6 +43,7 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
   - [新增] 组件化设计模块，支持比 `AppStartup` 更灵活便捷的设计 [#components](https://gitee.com/dotnetchina/Furion/tree/net6/framework/Furion/Components)
   - [新增] 独立工作单元单元模块，支持任何第三方 `ORM` [a02413d](https://gitee.com/dotnetchina/Furion/commit/a02413d6887d258ad3a1ba972bb6a08d29291d0c)
   - [调整] `.AddDb<>` 和 `.AddDbPool<>` 自定义委托参数签名，由 `Action<DbContextOptionsBuilder>` 改为：`Action<IServiceProvider, DbContextOptionsBuilder>`
+  - [重构] `DataValidationFilter` 和 `FriendlyExceptionFilter`，解决不支持手动抛出业务异常问题 [83f0036](https://gitee.com/dotnetchina/Furion/commit/83f0036a4ce10c6b1cfc4a258dc61e197af38879)
 
 - **问题修复**
 
@@ -50,6 +52,8 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
   - [修复] `JWTSettings` 算法配置 `JSON Schema` 错误问题，感谢 [@gitwentao](https://gitee.com/gitwentao) [#I5G27B](https://gitee.com/dotnetchina/Furion/issues/I5G27B) [!516](https://gitee.com/dotnetchina/Furion/pulls/516)
   - [修复] 基于策略授权在不配置 `Policy` 的情况下出现空异常问题 [#I5EVF2](https://gitee.com/dotnetchina/Furion/issues/I5EVF2)
   - [修复] 启用数据库实体跟踪时导致新增实体多次查询数据库问题 [#I4J2LZ](https://gitee.com/dotnetchina/Furion/issues/I4J2LZ)
+  - [修复] 不启用规范化结果导致验证失效，异常失效问题 [cdb3f57](https://gitee.com/dotnetchina/Furion/commit/cdb3f570ab72cff0a5327a717f85c48e153211be)
+  - [修复] 验证异常和友好异常冲突问题 [83f0036](https://gitee.com/dotnetchina/Furion/commit/83f0036a4ce10c6b1cfc4a258dc61e197af38879)
 
 - **其他更改**
 
