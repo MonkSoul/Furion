@@ -6,6 +6,7 @@
 // THIS SOFTWARE IS PROVIDED ON AN "AS IS" BASIS, WITHOUT WARRANTIES OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO NON-INFRINGEMENT, MERCHANTABILITY OR FIT FOR A PARTICULAR PURPOSE.
 // See the Mulan PSL v2 for more details.
 
+using Furion.FriendlyException;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System.Text.Encodings.Web;
@@ -50,7 +51,7 @@ internal static class ValidatorContext
         // 其他类型
         else validationResults = new Dictionary<string, string[]>
         {
-            {string.Empty, new[]{errors?.ToString()}}
+            {$"__{nameof(Oops.Bah)}__", new[]{errors?.ToString()}}
         };
 
         return new ValidationMetadata
