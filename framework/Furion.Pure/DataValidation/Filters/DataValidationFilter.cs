@@ -9,6 +9,7 @@
 using Furion.DynamicApiController;
 using Furion.FriendlyException;
 using Furion.UnifyResult;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.Filters;
@@ -92,6 +93,14 @@ public sealed class DataValidationFilter : IActionFilter, IOrderedFilter
                 if (!_apiBehaviorOptions.SuppressModelStateInvalidFilter)
                 {
                     context.Result = _apiBehaviorOptions.InvalidModelStateResponseFactory(context);
+                }
+                else
+                {
+                    // 返回 JsonResult
+                    context.Result = new JsonResult(validationMetadata.ValidationResult)
+                    {
+                        StatusCode = StatusCodes.Status400BadRequest
+                    };
                 }
             }
             else

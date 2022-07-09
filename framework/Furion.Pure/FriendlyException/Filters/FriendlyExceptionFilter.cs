@@ -8,6 +8,7 @@
 
 using Furion;
 using Furion.DataValidation;
+using Furion.DynamicApiController;
 using Furion.FriendlyException;
 using Furion.UnifyResult;
 using Microsoft.AspNetCore.Mvc.Controllers;
@@ -42,24 +43,37 @@ public sealed class FriendlyExceptionFilter : IAsyncExceptionFilter
         // 获取控制器信息
         var actionDescriptor = context.ActionDescriptor as ControllerActionDescriptor;
 
+        // 获取方法信息
+        var method = actionDescriptor.MethodInfo;
+
         // 解析异常信息
         var exceptionMetadata = UnifyContext.GetExceptionMetadata(context);
 
         // 判断是否是验证异常
         var isValidationException = context.Exception is AppFriendlyException friendlyException && friendlyException.ValidationException;
 
+        // 解析验证消息
+        var validationMetadata = isValidationException ? ValidatorContext.GetValidationMetadata((context.Exception as AppFriendlyException).ErrorMessage) : default;
+
         // 判断是否跳过规范化结果，如果是，则只处理为友好异常消息
         if (UnifyContext.CheckFailedNonUnify(actionDescriptor.MethodInfo, out var unifyResult))
         {
-            // 如果是验证异常，返回 400
-            if (isValidationException) context.Result = new BadRequestResult();
+            // WebAPI 情况
+            if (Penetrates.IsApiController(method.DeclaringType))
+            {
+                // 返回 JsonResult
+                context.Result = new JsonResult(isValidationException ? validationMetadata.ValidationResult : exceptionMetadata.Errors)
+                {
+                    StatusCode = exceptionMetadata.StatusCode,
+                };
+            }
             else
             {
-                // 返回友好异常
-                context.Result = new ContentResult()
+                // 返回自定义错误页面
+                context.Result = new BadPageResult(exceptionMetadata.StatusCode)
                 {
-                    Content = exceptionMetadata.Errors.ToString(),
-                    StatusCode = exceptionMetadata.StatusCode
+                    Title = isValidationException ? "Invalid Data" : "Internal Server",
+                    Code = isValidationException ? validationMetadata.Message : exceptionMetadata.Errors.ToString()
                 };
             }
         }
@@ -75,9 +89,6 @@ public sealed class FriendlyExceptionFilter : IAsyncExceptionFilter
         // 判断异常消息是否是验证异常（比如数据验证异常，业务抛出异常）
         if (isValidationException)
         {
-            // 解析验证消息
-            var validationMetadata = ValidatorContext.GetValidationMetadata((context.Exception as AppFriendlyException).ErrorMessage);
-
             App.PrintToMiniProfiler("Validation", "Failed", $"Validation Failed:\r\n{validationMetadata.Message}", true);
         }
         else PrintToMiniProfiler(context.Exception);

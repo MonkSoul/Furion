@@ -49,7 +49,7 @@ public static class UnifyContext
     /// </summary>
     /// <param name="context"></param>
     /// <returns></returns>
-    public static ExceptionMetadata GetExceptionMetadata(ExceptionContext context)
+    public static ExceptionMetadata GetExceptionMetadata(ActionContext context)
     {
         object errorCode = default;
         object errors = default;
@@ -57,8 +57,17 @@ public static class UnifyContext
         var isValidationException = false; // 判断是否是验证异常
         var isFriendlyException = false;
 
+        // 判断是否是 ExceptionContext 或者 ActionExecutedContext
+        var exception = context is ExceptionContext exContext
+            ? exContext.Exception
+            : (
+                context is ActionExecutedContext edContext
+                ? edContext.Exception
+                : default
+            );
+
         // 判断是否是友好异常
-        if (context.Exception is AppFriendlyException friendlyException)
+        if (exception is AppFriendlyException friendlyException)
         {
             isFriendlyException = true;
             errorCode = friendlyException.ErrorCode;
@@ -83,15 +92,15 @@ public static class UnifyContext
             {
                 // 首先判断是否有相同类型的异常
                 var actionIfExceptionAttribute = ifExceptionAttributes.FirstOrDefault(u => u.ExceptionType ==
-                                                (isFriendlyException && context.Exception.InnerException != null
-                                                                    ? context.Exception.InnerException.GetType()
-                                                                    : context.Exception.GetType()))
+                                                (isFriendlyException && exception?.InnerException != null
+                                                                    ? exception?.InnerException.GetType()
+                                                                    : exception?.GetType()))
                         ?? ifExceptionAttributes.FirstOrDefault(u => u.ExceptionType == null);
 
                 // 支持渲染配置文件
                 if (actionIfExceptionAttribute is { ErrorMessage: not null }) errors = actionIfExceptionAttribute.ErrorMessage.Render();
             }
-            else errors = context.Exception?.InnerException?.Message ?? context.Exception.Message;
+            else errors = exception?.InnerException?.Message ?? exception?.Message;
         }
 
         return new ExceptionMetadata
