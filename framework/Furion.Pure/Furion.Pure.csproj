@@ -9,15 +9,15 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <None Remove="FriendlyException\Assets\error.html" />
-	  <None Remove="SpecificationDocument\Assets\index-mini-profiler.html" />
-	  <None Remove="SpecificationDocument\Assets\index.html" />
+		<None Remove="FriendlyException\Assets\error.html" />
+		<None Remove="SpecificationDocument\Assets\index-mini-profiler.html" />
+		<None Remove="SpecificationDocument\Assets\index.html" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <EmbeddedResource Include="FriendlyException\Assets\error.html" />
-	  <EmbeddedResource Include="SpecificationDocument\Assets\index-mini-profiler.html" />
-	  <EmbeddedResource Include="SpecificationDocument\Assets\index.html" />
+		<EmbeddedResource Include="FriendlyException\Assets\error.html" />
+		<EmbeddedResource Include="SpecificationDocument\Assets\index-mini-profiler.html" />
+		<EmbeddedResource Include="SpecificationDocument\Assets\index.html" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -28,12 +28,6 @@
 		<PackageReference Include="Furion.Pure.Extras.DependencyModel.CodeAnalysis" Version="3.7.8" />
 		<PackageReference Include="MiniProfiler.AspNetCore.Mvc" Version="4.2.22" />
 		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.3.1" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Compile Update="TaskScheduler\Internal\SpareTimer.cs">
-	    <SubType>Component</SubType>
-	  </Compile>
 	</ItemGroup>
 
 </Project>

@@ -9,12 +9,6 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<Compile Remove="UnifyResult\Extensions\Options\**" />
-		<EmbeddedResource Remove="UnifyResult\Extensions\Options\**" />
-		<None Remove="UnifyResult\Extensions\Options\**" />
-	</ItemGroup>
-
-	<ItemGroup>
 		<None Remove="FriendlyException\Assets\error.html" />
 		<None Remove="SpecificationDocument\Assets\index-mini-profiler.html" />
 		<None Remove="SpecificationDocument\Assets\index.html" />
