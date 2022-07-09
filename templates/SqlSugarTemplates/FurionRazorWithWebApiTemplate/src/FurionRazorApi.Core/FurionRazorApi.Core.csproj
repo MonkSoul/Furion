@@ -11,9 +11,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Furion.Extras.Authentication.JwtBearer" Version="3.7.6" />
-    <PackageReference Include="Furion.Extras.ObjectMapper.Mapster" Version="3.7.6" />
-    <PackageReference Include="Furion.Pure" Version="3.7.6" />
+    <PackageReference Include="Furion.Extras.Authentication.JwtBearer" Version="3.7.8" />
+    <PackageReference Include="Furion.Extras.ObjectMapper.Mapster" Version="3.7.8" />
+    <PackageReference Include="Furion.Pure" Version="3.7.8" />
     <PackageReference Include="SqlSugarCore" Version="5.0.9.2" />
   </ItemGroup>
 
