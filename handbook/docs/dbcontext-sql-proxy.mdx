@@ -232,7 +232,7 @@ namespace Furion.Application
             select 1;"), SqlDbContextLocator(typeof(MySqlDbContextLocator)]
         Task<(List<Person>,List<Student>,List<int>)> GetDataAsync();
 
-        // 自 v3.7.9+ 版本支持返回单个类类型参数
+        // 自 v3.7.10+ 版本支持返回单个类类型参数
         [SqlExecute(@"
             select * from person where id =@id;
             select * from person")]
@@ -293,7 +293,7 @@ namespace Furion.Application
 ```cs showLineNumbers {3-5}
 public interface ISql : ISqlDispatchProxy
 {
-    // 自 v3.7.9+ 版本支持返回单个类类型参数
+    // 自 v3.7.10+ 版本支持返回单个类类型参数
     [SqlExecute("select * from person where id=@id")]
     Person GetPerson(int id);
 }
@@ -382,7 +382,7 @@ namespace Furion.Application
         [SqlProcedure("PROC_Name")]
         (List<Person>, List<Student>, Person, int) GetData(int id, string name);
 
-        // 自 v3.7.9+ 版本支持返回单个类类型参数
+        // 自 v3.7.10+ 版本支持返回单个类类型参数
         [SqlProcedure(@"PROC_Name)]
         (Person, List<Person>) GetData(int id); // 注意返回值是 `(Person, List<Person>)` 组合
     }
@@ -463,7 +463,7 @@ namespace Furion.Application
 ```cs showLineNumbers {3-5}
 public interface ISql : ISqlDispatchProxy
 {
-    // 自 v3.7.9+ 版本支持返回单个类类型参数
+    // 自 v3.7.10+ 版本支持返回单个类类型参数
     [SqlProcedure("PROC_Name")]
     Person GetPerson(int id);
 }

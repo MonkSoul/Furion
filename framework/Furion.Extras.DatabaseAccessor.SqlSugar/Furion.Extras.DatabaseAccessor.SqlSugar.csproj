@@ -2,7 +2,7 @@
 
 	<PropertyGroup>
 		<TargetFramework>net6.0</TargetFramework>
-		<Version>3.7.9</Version>
+		<Version>3.7.10</Version>
 		<Description>Furion 数据库访问器 SqlSugar 插件。</Description>
 		<ImplicitUsings>enable</ImplicitUsings>
 	</PropertyGroup>
@@ -12,7 +12,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="sqlSugarCore" Version="5.0.9.2" />
+		<PackageReference Include="sqlSugarCore" Version="5.0.9.4" />
 	</ItemGroup>
 
 </Project>
