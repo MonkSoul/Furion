@@ -21,7 +21,7 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 :::
 
-## v3.7.8（当前版本）
+## v3.7.9（当前版本）
 
 - **新特性**
 
@@ -105,7 +105,7 @@ public interface ISql : ISqlDispatchProxy
     [SqlExecute("select * from person")]
     List<Person> GetPersons();
 
-    // 自 v3.7.8+ 版本支持返回单个类类型参数
+    // 自 v3.7.9+ 版本支持返回单个类类型参数
     [SqlExecute("select * from person where id=@id")]
     Person GetPerson(int id);
 }
