@@ -1,5 +1,5 @@
 /**
- * 当前版本：v1.0.3
+ * 当前版本：v1.0.4
  * 使用描述：https://editor.swagger.io 代码生成 typescript-angular 辅组工具库
  */
 
@@ -112,7 +112,12 @@ export class ClientHttpInterceptor implements HttpInterceptor {
 
             // 处理规范化结果错误
             if (serve && serve.hasOwnProperty("errors") && serve.errors) {
-              throw new Error(JSON.stringify(serve.errors || "Request Error."));
+              // 处理 Oops.Bah 问题
+              const errorMessage = serve.errors.hasOwnProperty("__Bah__")
+                ? serve.errors.__Bah__[0]
+                : serve.errors;
+
+              throw new Error(JSON.stringify(errorMessage || "Request Error."));
             }
 
             // 读取响应报文头 token 信息

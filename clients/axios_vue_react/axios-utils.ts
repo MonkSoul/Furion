@@ -1,5 +1,5 @@
 /**
- * 当前版本：v1.0.3
+ * 当前版本：v1.0.4
  * 使用描述：https://editor.swagger.io 代码生成 typescript-axios 辅组工具库
  * 依赖说明：适配 axios 版本：v0.21.1
  * 视频教程：https://www.bilibili.com/video/BV1EW4y1C71D
@@ -100,7 +100,12 @@ axiosInstance.interceptors.response.use(
 
     // 处理规范化结果错误
     if (serve && serve.hasOwnProperty("errors") && serve.errors) {
-      throw new Error(JSON.stringify(serve.errors || "Request Error."));
+      // 处理 Oops.Bah 问题
+      const errorMessage = serve.errors.hasOwnProperty("__Bah__")
+        ? serve.errors.__Bah__[0]
+        : serve.errors;
+
+      throw new Error(JSON.stringify(errorMessage || "Request Error."));
     }
 
     // 读取响应报文头 token 信息
