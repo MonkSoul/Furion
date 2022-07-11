@@ -32,6 +32,12 @@ public sealed class FriendlyExceptionSettingsOptions : IConfigurableOptions<Frie
     public string DefaultErrorMessage { get; set; }
 
     /// <summary>
+    /// 标记 Oops.Oh 为业务异常
+    /// </summary>
+    /// <remarks>也就是不会进入异常处理</remarks>
+    public bool? ThrowBah { get; set; }
+
+    /// <summary>
     /// 选项后期配置
     /// </summary>
     /// <param name="options"></param>
@@ -41,5 +47,6 @@ public sealed class FriendlyExceptionSettingsOptions : IConfigurableOptions<Frie
         options.HideErrorCode ??= false;
         options.DefaultErrorCode ??= string.Empty;
         options.DefaultErrorMessage ??= "Internal Server Error";
+        options.ThrowBah ??= false;
     }
 }

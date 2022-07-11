@@ -28,6 +28,7 @@ sidebar_label: 6. 友好异常配置
   - `HideErrorCode`：隐藏错误码，`bool` 类型，默认 `false`
   - `DefaultErrorCode`：默认错误码，`string` 类型
   - `DefaultErrorMessage`：默认错误消息，`string` 类型
+  - `ThrowBah`：是否将 `Oops.Oh` 默认抛出为业务异常，`bool` 类型，默认 `false`，设置 `true` 之后 `Oops.Oh` 默认进入 `OnValidateFailed` 处理，而不是 `OnException`
 
 ## 6.3 配置示例
 

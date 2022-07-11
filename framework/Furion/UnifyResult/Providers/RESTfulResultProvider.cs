@@ -43,7 +43,7 @@ public class RESTfulResultProvider : IUnifyResultProvider
     }
 
     /// <summary>
-    /// 验证失败返回值
+    /// 验证失败/业务异常返回值
     /// </summary>
     /// <param name="context"></param>
     /// <param name="metadata"></param>

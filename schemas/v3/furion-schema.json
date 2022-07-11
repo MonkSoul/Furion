@@ -2018,6 +2018,11 @@
           "type": "string",
           "description": "默认错误消息",
           "default": "Internal Server Error"
+        },
+        "ThrowBah": {
+          "type": "boolean",
+          "description": "标记 Oops.Oh 为业务异常，也就是不会进入异常处理",
+          "default": false
         }
       }
     },

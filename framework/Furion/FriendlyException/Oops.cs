@@ -90,7 +90,15 @@ public static class Oops
     /// <returns>异常实例</returns>
     public static AppFriendlyException Oh(string errorMessage, params object[] args)
     {
-        return new AppFriendlyException(MontageErrorMessage(errorMessage, default, args), default);
+        var friendlyException = new AppFriendlyException(MontageErrorMessage(errorMessage, default, args), default);
+
+        // 处理默认配置为业务异常问题
+        if (_friendlyExceptionSettings.ThrowBah == true)
+        {
+            friendlyException.StatusCode(StatusCodes.Status400BadRequest);
+            friendlyException.ValidationException = true;
+        }
+        return friendlyException;
     }
 
     /// <summary>
@@ -108,6 +116,19 @@ public static class Oops
     }
 
     /// <summary>
+    /// 抛出字符串异常
+    /// </summary>
+    /// <typeparam name="TException">具体异常类型</typeparam>
+    /// <param name="errorMessage">异常消息</param>
+    /// <param name="args">String.Format 参数</param>
+    /// <returns>异常实例</returns>
+    public static AppFriendlyException Oh<TException>(string errorMessage, params object[] args)
+        where TException : class
+    {
+        return Oh(errorMessage, typeof(TException), args);
+    }
+
+    /// <summary>
     /// 抛出错误码异常
     /// </summary>
     /// <param name="errorCode">错误码</param>
@@ -115,7 +136,15 @@ public static class Oops
     /// <returns>异常实例</returns>
     public static AppFriendlyException Oh(object errorCode, params object[] args)
     {
-        return new AppFriendlyException(GetErrorCodeMessage(errorCode, args), errorCode);
+        var friendlyException = new AppFriendlyException(GetErrorCodeMessage(errorCode, args), errorCode);
+
+        // 处理默认配置为业务异常问题
+        if (_friendlyExceptionSettings.ThrowBah == true)
+        {
+            friendlyException.StatusCode(StatusCodes.Status400BadRequest);
+            friendlyException.ValidationException = true;
+        }
+        return friendlyException;
     }
 
     /// <summary>
@@ -130,6 +159,19 @@ public static class Oops
         var exceptionMessage = GetErrorCodeMessage(errorCode, args);
         return new AppFriendlyException(exceptionMessage, errorCode,
             Activator.CreateInstance(exceptionType, new object[] { exceptionMessage }) as Exception);
+    }
+
+    /// <summary>
+    /// 抛出错误码异常
+    /// </summary>
+    /// <typeparam name="TException">具体异常类型</typeparam>
+    /// <param name="errorCode">错误码</param>
+    /// <param name="args">String.Format 参数</param>
+    /// <returns>异常实例</returns>
+    public static AppFriendlyException Oh<TException>(object errorCode, params object[] args)
+        where TException : class
+    {
+        return Oh(errorCode, typeof(TException), args);
     }
 
     /// <summary>
