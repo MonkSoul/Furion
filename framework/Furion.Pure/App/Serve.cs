@@ -39,7 +39,10 @@ public static class Serve
     /// <param name="urls">默认 5000/5001 端口</param>
     public static void Run(LegacyRunOptions options, string urls = default)
     {
-        var builder = Host.CreateDefaultBuilder(Environment.GetCommandLineArgs());
+        // 获取命令行参数
+        var args = Environment.GetCommandLineArgs().Skip(1).ToArray();
+
+        var builder = Host.CreateDefaultBuilder(args);
         options.Builder = builder;
 
         // 配置 Web 主机
@@ -93,7 +96,10 @@ public static class Serve
     /// <param name="options">配置选项</param>
     public static void Run(GenericRunOptions options)
     {
-        var builder = Host.CreateDefaultBuilder(Environment.GetCommandLineArgs()).Inject();
+        // 获取命令行参数
+        var args = Environment.GetCommandLineArgs().Skip(1).ToArray();
+
+        var builder = Host.CreateDefaultBuilder(args).Inject();
         options.Builder = builder;
 
         // 配置服务
@@ -120,9 +126,12 @@ public static class Serve
     /// <param name="urls">默认 5000/5001 端口</param>
     public static void Run(RunOptions options, string urls = default)
     {
+        // 获取命令行参数
+        var args = Environment.GetCommandLineArgs().Skip(1).ToArray();
+
         // 初始化 WebApplicationBuilder
         var builder = (options.Options == null
-            ? WebApplication.CreateBuilder(Environment.GetCommandLineArgs())
+            ? WebApplication.CreateBuilder(args)
             : WebApplication.CreateBuilder(options.Options)).Inject();
         options.Builder = builder;
 
