@@ -30,4 +30,9 @@ public sealed class ValidationMetadata
     /// 验证状态
     /// </summary>
     public ModelStateDictionary ModelState { get; internal set; }
+
+    /// <summary>
+    /// 错误码
+    /// </summary>
+    public object ErrorCode { get; internal set; }
 }
