@@ -18,7 +18,8 @@ public sealed class ValidationMetadata
     /// <summary>
     /// 验证结果
     /// </summary>
-    public Dictionary<string, string[]> ValidationResult { get; internal set; }
+    /// <remarks>返回字典或字符串类型</remarks>
+    public object ValidationResult { get; internal set; }
 
     /// <summary>
     /// 异常消息
