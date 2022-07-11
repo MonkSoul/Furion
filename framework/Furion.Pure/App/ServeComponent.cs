@@ -50,9 +50,6 @@ public sealed class ServeApplicationComponent : IApplicationComponent
     /// <param name="componentContext"></param>
     public void Load(IApplicationBuilder app, IWebHostEnvironment env, ComponentContext componentContext)
     {
-        // 启用 HTTP 日志记录
-        app.UseHttpLogging();
-
         // 配置错误页
         if (env.IsDevelopment())
         {
