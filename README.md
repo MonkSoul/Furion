@@ -36,9 +36,9 @@ public class HelloService
 }
 ```
 
-打开浏览器访问 `https://localhost:5001`。
+打开浏览器访问 `https://localhost:5001` 或 `http://localhost:5000`。
 
-Open browser access `https://localhost:5001`.
+Open browser access `https://localhost:5001` or `http://localhost:5000`.
 
 ## 文档 / Documentation
 
