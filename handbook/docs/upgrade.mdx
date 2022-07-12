@@ -21,20 +21,24 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 :::
 
-## v3.8.0（未发布）
+## v3.8.0（当前版本）
 
 - **新特性**
 
   - [新增] 规范化结果 `ExceptionMetadata` 和 `ValidationMetadata` 都可以获取 `ErrorCode` 属性 [#I5GJ6D](https://gitee.com/dotnetchina/Furion/issues/I5GJ6D)
-  - [新增] 远程请求对 `Url` 是否编码设置，`[Get(WithEncodeUrl = true)]` 和 `WithEncodeUrl(true)` [#I5GOBC](https://gitee.com/dotnetchina/Furion/issues/I5GOBC)
+  - [新增] 远程请求对 `Url` 是否编码设置，`[Get(WithEncodeUrl = false)]` 和 `WithEncodeUrl(false)` [#I5GOBC](https://gitee.com/dotnetchina/Furion/issues/I5GOBC)
 
 - **其他更改**
 
-  - [调整] 多语言默认处理逻辑，允许不配置任何语言，过去版本会报错 [#I5GRD9](https://gitee.com/dotnetchina/Furion/issues/I5GRD9)
+  - [调整] 多语言默认处理逻辑，**允许不配置任何语言**，过去版本会报错 [#I5GRD9](https://gitee.com/dotnetchina/Furion/issues/I5GRD9) [5077c5d](https://gitee.com/dotnetchina/Furion/commit/5077c5dab9ee94733817f55ff8224b853d0001a3)
+
+- **文档**
+
+  - [更新] 远程请求文档
 
 ---
 
-## v3.7.11（当前版本）
+## v3.7.11（已发布）
 
 - **新特性**
 
@@ -128,7 +132,7 @@ public interface ISql : ISqlDispatchProxy
     [SqlExecute("select * from person")]
     List<Person> GetPersons();
 
-    // 自 v3.7.11+ 版本支持返回单个类类型参数
+    // 自 v3.7.3+ 版本支持返回单个类类型参数
     [SqlExecute("select * from person where id=@id")]
     Person GetPerson(int id);
 }

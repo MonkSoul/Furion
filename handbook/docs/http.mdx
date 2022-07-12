@@ -1002,9 +1002,12 @@ services.AddRemoteRequest(options=>
 
 :::
 
-```cs showLineNumbers {1}
-services.ApproveAllCerts();
-services.AddRemoteRequest();
+```cs showLineNumbers {1,4}
+services.AddRemoteRequest(options=>
+{
+    // 需在所有客户端注册之前注册
+    options.ApproveAllCerts();
+});
 ```
 
 ## 19.8 关于返回值非 `200` 时忽略 `Http状态`

@@ -2,22 +2,22 @@
 
 	<PropertyGroup>
 		<TargetFramework>net6.0</TargetFramework>
-		<Version>3.7.11</Version>
+		<Version>3.8.0</Version>
 		<Description>让 .NET 开发更简单，更通用，更流行。</Description>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 		<ImplicitUsings>enable</ImplicitUsings>
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <None Remove="FriendlyException\Assets\error.html" />
-	  <None Remove="SpecificationDocument\Assets\index-mini-profiler.html" />
-	  <None Remove="SpecificationDocument\Assets\index.html" />
+		<None Remove="FriendlyException\Assets\error.html" />
+		<None Remove="SpecificationDocument\Assets\index-mini-profiler.html" />
+		<None Remove="SpecificationDocument\Assets\index.html" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <EmbeddedResource Include="FriendlyException\Assets\error.html" />
-	  <EmbeddedResource Include="SpecificationDocument\Assets\index-mini-profiler.html" />
-	  <EmbeddedResource Include="SpecificationDocument\Assets\index.html" />
+		<EmbeddedResource Include="FriendlyException\Assets\error.html" />
+		<EmbeddedResource Include="SpecificationDocument\Assets\index-mini-profiler.html" />
+		<EmbeddedResource Include="SpecificationDocument\Assets\index.html" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -25,7 +25,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Furion.Pure.Extras.DependencyModel.CodeAnalysis" Version="3.7.11" />
+		<PackageReference Include="Furion.Pure.Extras.DependencyModel.CodeAnalysis" Version="3.8.0" />
 		<PackageReference Include="MiniProfiler.AspNetCore.Mvc" Version="4.2.22" />
 		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.3.1" />
 	</ItemGroup>
