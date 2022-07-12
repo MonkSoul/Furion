@@ -51,8 +51,17 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
   - [新增] **`Furion` 和 `ASP.NET Core` 完整 `json` 配置的 `JSON Schema` 架构 [JSON Schema](https://gitee.com/dotnetchina/Furion/raw/net6/schemas/v3/furion-schema.json)**
   - [新增] 组件化设计模块，支持比 `AppStartup` 更灵活便捷的设计 [#components](https://gitee.com/dotnetchina/Furion/tree/net6/framework/Furion/Components)
   - [新增] 独立工作单元单元模块，支持任何第三方 `ORM` [a02413d](https://gitee.com/dotnetchina/Furion/commit/a02413d6887d258ad3a1ba972bb6a08d29291d0c)
-  - [调整] `.AddDb<>` 和 `.AddDbPool<>` 自定义委托参数签名，由 `Action<DbContextOptionsBuilder>` 改为：`Action<IServiceProvider, DbContextOptionsBuilder>`
   - [重构] `DataValidationFilter` 和 `FriendlyExceptionFilter`，解决不支持手动抛出业务异常问题 [83f0036](https://gitee.com/dotnetchina/Furion/commit/83f0036a4ce10c6b1cfc4a258dc61e197af38879)
+  - [调整] **`.AddDb<>` 和 `.AddDbPool<>` 自定义委托参数签名，由 `Action<DbContextOptionsBuilder>` 改为：`Action<IServiceProvider, DbContextOptionsBuilder>`**
+
+```cs showLineNumbers {2,5}
+// 由：
+options.AddDbPool<TDbContext>(DbProvider.MySql, opt => {
+});
+// 改为
+options.AddDbPool<TDbContext>(DbProvider.MySql, (services, opt)=> {
+})
+```
 
 - **问题修复**
 
