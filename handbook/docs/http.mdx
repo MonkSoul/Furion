@@ -956,6 +956,24 @@ services.AddRemoteRequest(options=>
 });
 ```
 
+:::tip 关于 `HttpClientHandler` 和 `SocketsHttpHandler`
+
+在 `.NET6` 之后默认使用 `SocketsHttpHandler ` 作为默认底层网络通信，但比 `HttpClientHandler` 提供了更多平台无差异的功能，对 `HttpClientHandler` 的任何设置都会转发到 `SocketsHttpHandler` 中，如需使用 `SocketsHttpHandler` 配置可参考：
+
+```cs showLineNumbers {3,5-8}
+// 忽略 SSL 不安全检查，或 https 不安全或 https 证书有误
+options.AddHttpClient(string.Empty)
+       .ConfigurePrimaryHttpMessageHandler(u => new SocketsHttpHandler
+        {
+            SslOptions = new SslClientAuthenticationOptions
+            {
+                RemoteCertificateValidationCallback = (sender, certificate, chain, sslPolicyErrors) => true
+            }
+    });
+```
+
+:::
+
 ### 19.7.2 手动指定 `SSL` 证书
 
 ```cs showLineNumbers {5,8-13}
@@ -984,12 +1002,9 @@ services.AddRemoteRequest(options=>
 
 :::
 
-```cs showLineNumbers {4}
-services.AddRemoteRequest(options=>
-{
-    // 需在所有客户端注册之前注册
-    options.ApproveAllCerts();
-});
+```cs showLineNumbers {1}
+services.ApproveAllCerts();
+services.AddRemoteRequest();
 ```
 
 ## 19.8 关于返回值非 `200` 时忽略 `Http状态`
