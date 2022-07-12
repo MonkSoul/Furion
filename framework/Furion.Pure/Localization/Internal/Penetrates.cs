@@ -23,7 +23,10 @@ internal static class Penetrates
     internal static void SetRequestLocalization(RequestLocalizationOptions requestLocalization, LocalizationSettingsOptions localizationSettings)
     {
         // 如果设置了默认语言，则取默认语言，否则取第一个
-        requestLocalization.SetDefaultCulture(string.IsNullOrWhiteSpace(localizationSettings.DefaultCulture) ? localizationSettings.SupportedCultures[0] : localizationSettings.DefaultCulture)
+        requestLocalization.SetDefaultCulture(
+                    string.IsNullOrWhiteSpace(localizationSettings.DefaultCulture)
+                        ? (localizationSettings.SupportedCultures != null && localizationSettings.SupportedCultures.Length > 0 ? localizationSettings.SupportedCultures[0] : localizationSettings.DefaultCulture)
+                        : localizationSettings.DefaultCulture)
                .AddSupportedCultures(localizationSettings.SupportedCultures)
                .AddSupportedUICultures(localizationSettings.SupportedCultures);
 

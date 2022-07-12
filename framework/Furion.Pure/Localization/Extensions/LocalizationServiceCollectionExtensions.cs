@@ -36,9 +36,6 @@ public static class LocalizationServiceCollectionExtensions
         // 获取多语言配置选项
         var localizationSettings = App.GetConfig<LocalizationSettingsOptions>("LocalizationSettings", true);
 
-        // 如果没有配置多语言选项，则不注册服务
-        if (localizationSettings.SupportedCultures == null || localizationSettings.SupportedCultures.Length == 0) return mvcBuilde;
-
         // 注册多语言服务
         services.AddLocalization(options =>
         {

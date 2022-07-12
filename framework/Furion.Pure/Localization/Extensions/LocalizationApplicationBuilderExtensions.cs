@@ -28,9 +28,6 @@ public static class LocalizationApplicationBuilderExtensions
         // 获取多语言配置选项
         var localizationSettings = app.ApplicationServices.GetRequiredService<IOptions<LocalizationSettingsOptions>>().Value;
 
-        // 如果没有配置多语言选项，则不注册服务
-        if (localizationSettings.SupportedCultures == null || localizationSettings.SupportedCultures.Length == 0) return app;
-
         var requestLocalization = new RequestLocalizationOptions();
         Penetrates.SetRequestLocalization(requestLocalization, localizationSettings);
 
