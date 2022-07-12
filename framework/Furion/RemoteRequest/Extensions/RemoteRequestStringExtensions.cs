@@ -278,6 +278,17 @@ public static class RemoteRequestStringExtensions
     }
 
     /// <summary>
+    /// 启用对 Url 进行 Uri.EscapeDataString
+    /// </summary>
+    /// <param name="requestUrl"></param>
+    /// <param name="encodeUrl"></param>
+    /// <returns></returns>
+    public static HttpRequestPart WithEncodeUrl(this string requestUrl, bool encodeUrl = true)
+    {
+        return new HttpRequestPart().SetRequestUrl(requestUrl).WithEncodeUrl(encodeUrl);
+    }
+
+    /// <summary>
     /// 发送 GET 请求返回 T 对象
     /// </summary>
     /// <typeparam name="T"></typeparam>

@@ -99,7 +99,8 @@ public class HttpDispatchProxy : AspectDispatchProxy, IDispatchProxy
                       .SetHttpMethod(httpMethodBase.Method)
                       .SetTemplates(parameters.ToDictionary(u => u.Name, u => u.Value))
                       .SetRequestScoped(Services)
-                      .WithGZip(httpMethodBase.WithGZip);
+                      .WithGZip(httpMethodBase.WithGZip)
+                      .WithEncodeUrl(httpMethodBase.WithEncodeUrl);
 
         // 设置请求客户端
         var clientAttribute = method.GetFoundAttribute<ClientAttribute>(true);

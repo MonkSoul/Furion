@@ -456,6 +456,14 @@ var res = await "https://www.furion.icu".SetRetryPolicy(3, 1000).GetAsync();
 var res = await "https://www.furion.icu".WithGZip().GetAsync();
 ```
 
+### 19.4.24 设置 `Url` 转码
+
+过去版本会对所有的 `Url` 进行 `Uri.EscapeDataString` 转码，在 `Furion v3.8.0+` 版本支持 `Url` 转码设置，如：
+
+```cs showLineNumbers
+var res = await "https://www.furion.icu".WithEncodeUrl(false).GetAsync();
+```
+
 ## 19.5 `IHttpDispatchProxy` 代理方式
 
 ### 19.5.1 支持多种代理方式
@@ -866,6 +874,18 @@ public interface IHttp : IHttpDispatchProxy
 public interface IHttp : IHttpDispatchProxy
 {
     [Post("https://www.furion.icu", WithGZip = true)]
+    Task<HttpResponseMessage> PostXXXAsync([Body]User user);
+}
+```
+
+### 19.5.19 设置 `Url` 转码
+
+过去版本会对所有的 `Url` 进行 `Uri.EscapeDataString` 转码，在 `Furion v3.8.0+` 版本支持 `Url` 转码设置，如：
+
+```cs showLineNumbers
+public interface IHttp : IHttpDispatchProxy
+{
+    [Post("https://www.furion.icu", WithEncodeUrl = false)]
     Task<HttpResponseMessage> PostXXXAsync([Body]User user);
 }
 ```

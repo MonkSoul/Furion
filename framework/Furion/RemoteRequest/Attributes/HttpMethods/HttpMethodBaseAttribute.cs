@@ -49,4 +49,9 @@ public class HttpMethodBaseAttribute : Attribute
     /// 内容编码
     /// </summary>
     public string Encoding { get; set; } = "UTF-8";
+
+    /// <summary>
+    /// 是否对 Url 进行 Uri.EscapeDataString
+    /// </summary>
+    public bool WithEncodeUrl { get; private set; } = true;
 }

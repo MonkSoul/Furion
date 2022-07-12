@@ -125,4 +125,9 @@ public sealed partial class HttpRequestPart
     /// 支持 GZip 压缩/反压缩
     /// </summary>
     public bool SupportGZip { get; private set; } = false;
+
+    /// <summary>
+    /// 是否对 Url 进行 Uri.EscapeDataString
+    /// </summary>
+    public bool EncodeUrl { get; private set; } = true;
 }

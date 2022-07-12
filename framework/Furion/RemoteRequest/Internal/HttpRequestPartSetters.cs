@@ -304,4 +304,15 @@ public sealed partial class HttpRequestPart
         SupportGZip = supportGzip;
         return this;
     }
+
+    /// <summary>
+    /// 启用对 Url 进行 Uri.EscapeDataString
+    /// </summary>
+    /// <param name="encodeUrl"></param>
+    /// <returns></returns>
+    public HttpRequestPart WithEncodeUrl(bool encodeUrl = true)
+    {
+        EncodeUrl = encodeUrl;
+        return this;
+    }
 }
