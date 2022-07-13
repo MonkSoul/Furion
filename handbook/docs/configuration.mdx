@@ -163,6 +163,18 @@ public IConfiguration Configuration { get; set; }
 - 在可依赖注入类中，依赖注入 `IConfiguration` 读取
 - 在静态类/非依赖注入类中，选择 `App.Configuration[path]` 读取
 
+### 4.1.2.4 读取配置并转换成特定类型
+
+`ASP.NET Core` 和 `Furion` 提供了多种配置类型读取并转换成特定类型，包括基础类型，对象类型，数组，集合，字典等等，如：
+
+```cs showLineNumbers {2,5}
+// ASP.NET Core
+var data = Configuration.GetSection("配置节点").Get<类型>();
+
+// Furion，推荐！！！
+var data = App.GetConfig<类型>("配置节点");
+```
+
 ## 4.1.3 `路径符` 查找节点
 
 在 `ASP.NET Core` 中，配置采用 `:` 分隔符来读取分层配置数据。如上述例子中的 `AppInfo:Name`。如有更多层级数据则只需要通过 `:` 进入下一层节点即可。
@@ -197,28 +209,28 @@ public IConfiguration Configuration { get; set; }
 >
   <TabItem value="two">
 
-```cs showLineNumbers 
+```cs showLineNumbers
 var companyName = App.Configuration["AppInfo:Name"]; // => Furion
 ```
 
   </TabItem>
   <TabItem value="three">
 
-```cs showLineNumbers 
+```cs showLineNumbers
 var companyName = App.Configuration["AppInfo:Company:Name"]; // => Baiqian
 ```
 
   </TabItem>
   <TabItem value="four">
 
-```cs showLineNumbers 
+```cs showLineNumbers
 var companyName = App.Configuration["AppInfo:Company:Address:Detail"]; // => 中山市东区紫马公园西门
 ```
 
   </TabItem>
   <TabItem value="n">
 
-```cs showLineNumbers 
+```cs showLineNumbers
 var companyName = App.Configuration["AppInfo:Tier2:Tier3:Tier4...Tiern1:Tiern3..."]; // => 中山市东区紫马公园西门
 ```
 
@@ -287,7 +299,7 @@ var companyName = App.Configuration["AppInfo:Tier2:Tier3:Tier4...Tiern1:Tiern3..
 
 在 `v2.16.7+` 版本版本之后，支持自定义配置扫描目录：
 
-```json showLineNumbers 
+```json showLineNumbers
 {
   "ConfigurationScanDirectories": ["目录1名称", "目录1名称/子目录名称"]
 }
@@ -309,14 +321,14 @@ var companyName = App.Configuration["AppInfo:Tier2:Tier3:Tier4...Tiern1:Tiern3..
   ]}>
   <TabItem value="jtl">
 
-```cs showLineNumbers 
+```cs showLineNumbers
 var smtpServer = App.Configuration["outlook:smtp:server"]; // => smtp.office365.com
 ```
 
   </TabItem>
   <TabItem value="ylzr">
 
-```cs showLineNumbers 
+```cs showLineNumbers
 var smtpServer = _configuration["outlook:smtp:server"]; // => smtp.office365.com
 ```
 
@@ -327,7 +339,7 @@ var smtpServer = _configuration["outlook:smtp:server"]; // => smtp.office365.com
 
 有些时候，我们不需要 `.json` 或 `.xml` 自动载入配置中，我们只需要在启动层 `appsettings.json` 中添加 `IgnoreConfigurationFiles` 节点即可：
 
-```json showLineNumbers 
+```json showLineNumbers
 {
   "IgnoreConfigurationFiles": ["runtime.json"]
 }
@@ -465,7 +477,7 @@ Serve.Run(RunOptions.Default.ConfigureBuilder(builder => {
 
 `Furion` 会在应用启动的时候对 `IConfiguration` 进行静态缓存，如果使用了 `App.Configuration` 静态属性且配置数据已发生变更，则调用以下方法刷新即可：
 
-```cs showLineNumbers 
+```cs showLineNumbers
 App.Configuration.Reload();
 ```
 

@@ -68,6 +68,12 @@ public bool Insert(Person person)
 
 在 `ASP.NET Core` 中，微软为我们提供了全新的 `特性` 验证方式，可通过对对象贴特性实现数据验证。这种方式有效的将数据校验和业务代码剥离开来，而且容易使用和拓展。
 
+:::tip `Mvc` 内置特性
+
+想了解 `Mvc` 内置特性列表可查看官方文档 [ASP.NET Core - 模型验证](https://docs.microsoft.com/zh-cn/aspnet/core/mvc/models/validation?view=aspnetcore-6.0)
+
+:::
+
 - **在模型中验证**
 
 ```cs showLineNumbers  {1,7-8,11-12}
@@ -418,7 +424,7 @@ namespace Furion.Application
 >
 <TabItem value="dglx">
 
-```cs showLineNumbers 
+```cs showLineNumbers
 // 验证中文
 "我叫 MonK".TryValidate(ValidationTypes.Chinese); // => false
 
@@ -441,7 +447,7 @@ true.TryValidate(ValidationTypes.Integer); // => false
 </TabItem>
 <TabItem value="zhlx">
 
-```cs showLineNumbers 
+```cs showLineNumbers
 // 验证数值类型且是整数
 "20".TryValidate(ValidationTypes.Numeric, ValidationTypes.Integer); // => true
 
@@ -561,7 +567,7 @@ namespace Furion.Application
 
 - 手动使用
 
-```cs showLineNumbers 
+```cs showLineNumbers
 "q1w2e3".TryValidate(MyValidationTypes.StrongPassword); // => false
 
 "furos".TryValidate(MyValidationTypes.StartWithFurString); // => true
@@ -569,14 +575,14 @@ namespace Furion.Application
 
 - `[DataValidation]` 中使用
 
-```cs showLineNumbers 
+```cs showLineNumbers
 [DataValidation(MyValidationTypes.StrongPassword)]
 public string Password { get; set; }
 ```
 
 - 多个自定义类型混用
 
-```cs showLineNumbers 
+```cs showLineNumbers
 "Q1w2e3r4t5!*".TryValidate(MyValidationTypes.StrongPassword, ValidationTypes.EmailAddress); // => true
 ```
 
@@ -795,7 +801,7 @@ namespace Furion.Web.Entry.Controllers
 
 ### 8.12.1 安装 `FluentValidation.AspNetCore` 拓展包
 
-```shell showLineNumbers 
+```shell showLineNumbers
 dotnet add package FluentValidation.AspNetCore
 ```
 
@@ -810,7 +816,7 @@ services.AddControllers()
 
 ### 8.12.3 使用例子
 
-```cs showLineNumbers 
+```cs showLineNumbers
 public class Person {
 	public int Id { get; set; }
 	public string Name { get; set; }
