@@ -152,6 +152,7 @@ public static class DbProvider
             connStrOrConnKey = dbContextAttribute.ConnectionMetadata.Render();
         }
 
+        // 如果都没有，则直接返回空
         if (string.IsNullOrWhiteSpace(connStrOrConnKey)) return default;
 
         // 如果包含 = 符号，那么认为是连接字符串
