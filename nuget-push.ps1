@@ -1,4 +1,4 @@
-﻿# 排除 Furion 和 Furion.Pure 发布，原因是这两个包依赖了 Furion.[Pure].Extras.DependencyModel.CodeAnalysis 拓展包
+# 排除 Furion 和 Furion.Pure 发布，原因是这两个包依赖了 Furion.[Pure].Extras.DependencyModel.CodeAnalysis 拓展包
 #
 # 定义参数
 Param(
@@ -34,8 +34,8 @@ for ($i = 0; $i -le $framework_nupkgs.Length - 1; $i++){
         $nupkg;
 
         # 发布到 nuget.org 平台
-        dotnet nuget push $nupkg --api-key $apikey --source https://api.nuget.org/v3/index.json;
-        dotnet nuget push $snupkg --api-key $apikey --source https://api.nuget.org/v3/index.json;
+        dotnet nuget push $nupkg --skip-duplicate --api-key $apikey --source https://api.nuget.org/v3/index.json;
+        dotnet nuget push $snupkg --skip-duplicate --api-key $apikey --source https://api.nuget.org/v3/index.json;
 
         Write-Output "-----------------";
     }
