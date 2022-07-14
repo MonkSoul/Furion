@@ -154,6 +154,12 @@ public class JwtHandler : AppAuthorizeHandler
 
 通常我们需要在登录成功之后生成 `JWT` Token 并返回，可通过 `JWTEncryption.Encrypt` 静态方法生成，如：
 
+:::tip 关于 `Token` 的值
+
+字典 `Dictionary` 中的值支持所有基元类型和基元类型组成的值，但应尽可能避免使用 `数组` 值。
+
+:::
+
 ```cs showLineNumbers {2,4-5}
 // 生成 token
 var accessToken = JWTEncryption.Encrypt(new Dictionary<string, object>()
