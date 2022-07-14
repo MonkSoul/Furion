@@ -19,7 +19,7 @@ for ($i = 0; $i -le $template_nupkgs.Length - 1; $i++){
     $nupkg;
 
     # 发布到 nuget.org 平台
-    dotnet nuget push $nupkg --api-key $apikey --source https://api.nuget.org/v3/index.json;
+    dotnet nuget push $nupkg --skip-duplicate --api-key $apikey --source https://api.nuget.org/v3/index.json;
 
     Write-Output "-----------------";
 }
