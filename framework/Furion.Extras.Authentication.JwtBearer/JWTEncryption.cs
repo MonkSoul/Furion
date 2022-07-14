@@ -52,7 +52,9 @@ public class JWTEncryption
     /// <returns></returns>
     public static string Encrypt(string issuerSigningKey, IDictionary<string, object> payload, string algorithm = SecurityAlgorithms.HmacSha256)
     {
-        return Encrypt(issuerSigningKey, JsonSerializer.Serialize(payload), algorithm);
+        // 处理 JwtPayload 序列化不一致问题
+        var stringPayload = payload is JwtPayload jwtPayload ? jwtPayload.SerializeToJson() : JsonSerializer.Serialize(payload);
+        return Encrypt(issuerSigningKey, stringPayload, algorithm);
     }
 
     /// <summary>
@@ -146,8 +148,8 @@ public class JWTEncryption
         var jwtSecurityToken = SecurityReadJwtToken(expiredToken);
         var payload = jwtSecurityToken.Payload;
 
-        // 移除 Iat，Nbf，Exp，Iss，Aud
-        foreach (var innerKey in StationaryClaimTypes)
+        // 移除 Iat，Nbf，Exp
+        foreach (var innerKey in DateTypeClaimTypes)
         {
             if (!payload.ContainsKey(innerKey)) continue;
 
@@ -446,9 +448,9 @@ public class JWTEncryption
     }
 
     /// <summary>
-    /// 固定的 Claim 类型
+    /// 日期类型的 Claim 类型
     /// </summary>
-    private static readonly string[] StationaryClaimTypes = new[] { JwtRegisteredClaimNames.Iat, JwtRegisteredClaimNames.Nbf, JwtRegisteredClaimNames.Exp, JwtRegisteredClaimNames.Iss, JwtRegisteredClaimNames.Aud };
+    private static readonly string[] DateTypeClaimTypes = new[] { JwtRegisteredClaimNames.Iat, JwtRegisteredClaimNames.Nbf, JwtRegisteredClaimNames.Exp };
 
     /// <summary>
     /// 框架 App 静态类
