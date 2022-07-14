@@ -143,7 +143,11 @@ public class JWTEncryption
         // 获取过期 Token 的存储信息
         var oldToken = ReadJwtToken(expiredToken);
         var payload = oldToken.Claims.Where(u => !StationaryClaimTypes.Contains(u.Type))
-                                     .ToDictionary(u => u.Type, u => (object)u.Value, new MultiClaimsDictionaryComparer());
+                                                .GroupBy(u => u.Type)
+                                                .ToDictionary(u => u.Key
+                                                         , u => u.Count() == 1
+                                                                ? (object)(u.First().Value)
+                                                                : u.Select(c => (object)(c.Value)).ToArray());
 
         // 交换成功后登记刷新Token，标记失效
         if (!isRefresh)
@@ -229,7 +233,7 @@ public class JWTEncryption
 
         // 创建Token验证参数
         var tokenValidationParameters = CreateTokenValidationParameters(jwtSettings);
-        if (tokenValidationParameters.IssuerSigningKey == null) tokenValidationParameters.IssuerSigningKey = creds.Key;
+        tokenValidationParameters.IssuerSigningKey ??= creds.Key;
 
         // 验证 Token
         var tokenHandler = new JsonWebTokenHandler();
