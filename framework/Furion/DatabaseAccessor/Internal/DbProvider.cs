@@ -140,31 +140,33 @@ public static class DbProvider
         where TDbContext : DbContext
     {
         // 支持读取配置渲染
-        var realConnectionString = connectionMetadata.Render();
-
-        if (!string.IsNullOrWhiteSpace(realConnectionString)) return realConnectionString;
+        var connStrOrConnKey = connectionMetadata.Render();
 
         // 如果没有配置数据库连接字符串，那么查找特性
-        var dbContextAttribute = GetAppDbContextAttribute(typeof(TDbContext));
-        if (dbContextAttribute == null) return default;
+        if (string.IsNullOrWhiteSpace(connStrOrConnKey))
+        {
+            var dbContextAttribute = GetAppDbContextAttribute(typeof(TDbContext));
+            if (dbContextAttribute == null) return default;
 
-        // 获取特性连接字符串（渲染配置模板）
-        var connStr = dbContextAttribute.ConnectionMetadata.Render();
+            // 获取特性连接字符串（渲染配置模板）
+            connStrOrConnKey = dbContextAttribute.ConnectionMetadata.Render();
+        }
 
-        if (string.IsNullOrWhiteSpace(connStr)) return default;
+        if (string.IsNullOrWhiteSpace(connStrOrConnKey)) return default;
+
         // 如果包含 = 符号，那么认为是连接字符串
-        if (connStr.Contains('=')) return connStr;
+        if (connStrOrConnKey.Contains('=')) return connStrOrConnKey;
         else
         {
             var configuration = App.Configuration;
 
             // 如果包含 : 符号，那么认为是一个 Key 路径
-            if (connStr.Contains(':')) return configuration[connStr];
+            if (connStrOrConnKey.Contains(':')) return configuration[connStrOrConnKey];
             else
             {
                 // 首先查找 DbConnectionString 键，如果没有找到，则当成 Key 去查找
-                var connStrValue = configuration.GetConnectionString(connStr);
-                return (!string.IsNullOrWhiteSpace(connStrValue) ? connStrValue : configuration[connStr]) ?? connStr;
+                var connStrValue = configuration.GetConnectionString(connStrOrConnKey);
+                return (!string.IsNullOrWhiteSpace(connStrValue) ? connStrValue : configuration[connStrOrConnKey]) ?? connStrOrConnKey;
             }
         }
     }
