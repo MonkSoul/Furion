@@ -2,7 +2,7 @@
   "$schema": "http://json.schemastore.org/template",
   "author": "百小僧",
   "classifications": ["Furion", "Razor", "Pages", "SqlSugar"],
-  "name": "Furion Razor",
+  "name": "Furion Razor(SqlSugar)",
   "identity": "Furion.SqlSugar.Template.Razor",
   "shortName": "fsrazor",
   "tags": {
