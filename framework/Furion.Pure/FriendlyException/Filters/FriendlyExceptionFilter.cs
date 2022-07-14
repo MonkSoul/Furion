@@ -31,11 +31,18 @@ public sealed class FriendlyExceptionFilter : IAsyncExceptionFilter
     /// <returns></returns>
     public async Task OnExceptionAsync(ExceptionContext context)
     {
-        // 解析异常处理服务，实现自定义异常额外操作，如记录日志等
-        var globalExceptionHandler = context.HttpContext.RequestServices.GetService<IGlobalExceptionHandler>();
-        if (globalExceptionHandler != null)
+        // 判断是否是验证异常
+        var isValidationException = context.Exception is AppFriendlyException friendlyException && friendlyException.ValidationException;
+
+        // 只有不是验证异常才处理
+        if (!isValidationException)
         {
-            await globalExceptionHandler.OnExceptionAsync(context);
+            // 解析异常处理服务，实现自定义异常额外操作，如记录日志等
+            var globalExceptionHandler = context.HttpContext.RequestServices.GetService<IGlobalExceptionHandler>();
+            if (globalExceptionHandler != null)
+            {
+                await globalExceptionHandler.OnExceptionAsync(context);
+            }
         }
 
         // 如果异常在其他地方被标记了处理，那么这里不再处理
@@ -48,7 +55,7 @@ public sealed class FriendlyExceptionFilter : IAsyncExceptionFilter
         var exceptionMetadata = UnifyContext.GetExceptionMetadata(context);
 
         // 判断是否是验证异常，如果是，则不处理
-        if (context.Exception is AppFriendlyException friendlyException && friendlyException.ValidationException)
+        if (isValidationException)
         {
             // 存储执行结果
             if (context.HttpContext.Items[nameof(DataValidationFilter)] is ActionExecutedContext actionResultContext)
@@ -56,7 +63,7 @@ public sealed class FriendlyExceptionFilter : IAsyncExceptionFilter
                 // 直接将验证结果设置为异常结果
                 context.Result = actionResultContext.Result ?? new BadPageResult(StatusCodes.Status400BadRequest)
                 {
-                    Code = ValidatorContext.GetValidationMetadata(friendlyException.ErrorMessage).Message
+                    Code = ValidatorContext.GetValidationMetadata((context.Exception as AppFriendlyException).ErrorMessage).Message
                 };
 
                 // 标记验证异常已被处理
