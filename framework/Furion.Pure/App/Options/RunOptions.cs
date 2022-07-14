@@ -7,6 +7,7 @@
 // See the Mulan PSL v2 for more details.
 
 using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.Configuration;
 
 namespace System;
 
@@ -58,6 +59,17 @@ public sealed class RunOptions
     public RunOptions Configure(Action<WebApplication> configureAction)
     {
         ActionConfigure = configureAction;
+        return this;
+    }
+
+    /// <summary>
+    /// 配置 <see cref="ConfigurationManager"/>
+    /// </summary>
+    /// <param name="configureAction">配置委托</param>
+    /// <returns><see cref="RunOptions"/></returns>
+    public RunOptions ConfigureConfiguration(Action<ConfigurationManager> configureAction)
+    {
+        ActionConfigurationManager = configureAction;
         return this;
     }
 
@@ -161,6 +173,11 @@ public sealed class RunOptions
     /// 自定义 <see cref="WebApplication"/> 委托
     /// </summary>
     internal Action<WebApplication> ActionConfigure { get; set; }
+
+    /// <summary>
+    /// 自定义 <see cref="ConfigurationManager"/> 委托
+    /// </summary>
+    internal Action<ConfigurationManager> ActionConfigurationManager { get; set; }
 
     /// <summary>
     /// 应用服务组件

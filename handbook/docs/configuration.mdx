@@ -430,9 +430,11 @@ public class Program
 
 - 方式三：**`.NET6`** 中 `Program.cs` 中配置
 
-```cs showLineNumbers {2}
-var builder = WebApplication.CreateBuilder(args).Inject();
+```cs showLineNumbers {2-4}
+var builder = WebApplication.CreateBuilder(args)
 builder.Configuration.AddJsonFile("MyConfig.json", optional: true, reloadOnChange: true);
+// 注意先添加配置再初始化 Furion
+builder.Inject();
 var app = builder.Build();
 app.Run();
 ```
@@ -440,8 +442,8 @@ app.Run();
 如果使用 `Serve.Run()` 模式可使用下列代码配置：
 
 ```cs showLineNumbers {2}
-Serve.Run(RunOptions.Default.ConfigureBuilder(builder => {
-  builder.Configuration.AddJsonFile("MyConfig.json", optional: true, reloadOnChange: true);
+Serve.Run(RunOptions.Default.ConfigureConfiguration(configuration => {
+  configuration.AddJsonFile("MyConfig.json", optional: true, reloadOnChange: true);
 }));
 ```
 

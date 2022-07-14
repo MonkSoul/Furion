@@ -132,7 +132,13 @@ public static class Serve
         // 初始化 WebApplicationBuilder
         var builder = (options.Options == null
             ? WebApplication.CreateBuilder(args)
-            : WebApplication.CreateBuilder(options.Options)).Inject();
+            : WebApplication.CreateBuilder(options.Options));
+
+        // 添加自定义配置
+        options.ActionConfigurationManager?.Invoke(builder.Configuration);
+
+        // 初始化框架
+        builder.Inject();
         options.Builder = builder;
 
         // 注册服应用务组件
