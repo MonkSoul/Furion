@@ -15,12 +15,14 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Primitives;
 using Microsoft.IdentityModel.JsonWebTokens;
 using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
 using System.Reflection;
 using System.Runtime.Loader;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json;
+using JwtRegisteredClaimNames = Microsoft.IdentityModel.JsonWebTokens.JwtRegisteredClaimNames;
 
 namespace Furion.DataEncryption;
 
@@ -141,13 +143,16 @@ public class JWTEncryption
         if (!tokenParagraphs[1].Substring(refreshTokenObj.GetPayloadValue<int>("s"), refreshTokenObj.GetPayloadValue<int>("l")).Equals(refreshTokenObj.GetPayloadValue<string>("k"))) return default;
 
         // 获取过期 Token 的存储信息
-        var oldToken = ReadJwtToken(expiredToken);
-        var payload = oldToken.Claims.Where(u => !StationaryClaimTypes.Contains(u.Type))
-                                                .GroupBy(u => u.Type)
-                                                .ToDictionary(u => u.Key
-                                                         , u => u.Count() == 1
-                                                                ? (object)(u.First().Value)
-                                                                : u.Select(c => (object)(c.Value)).ToArray());
+        var jwtSecurityToken = SecurityReadJwtToken(expiredToken);
+        var payload = jwtSecurityToken.Payload;
+
+        // 移除 Iat，Nbf，Exp，Iss，Aud
+        foreach (var innerKey in StationaryClaimTypes)
+        {
+            if (!payload.ContainsKey(innerKey)) continue;
+
+            payload.Remove(innerKey);
+        }
 
         // 交换成功后登记刷新Token，标记失效
         if (!isRefresh)
@@ -290,6 +295,18 @@ public class JWTEncryption
         }
 
         return default;
+    }
+
+    /// <summary>
+    /// 读取 Token，不含验证
+    /// </summary>
+    /// <param name="accessToken"></param>
+    /// <returns></returns>
+    public static JwtSecurityToken SecurityReadJwtToken(string accessToken)
+    {
+        var jwtSecurityTokenHandler = new JwtSecurityTokenHandler();
+        var jwtSecurityToken = jwtSecurityTokenHandler.ReadJwtToken(accessToken);
+        return jwtSecurityToken;
     }
 
     /// <summary>

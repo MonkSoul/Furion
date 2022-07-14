@@ -53,5 +53,5 @@ public class HttpMethodBaseAttribute : Attribute
     /// <summary>
     /// 是否对 Url 进行 Uri.EscapeDataString
     /// </summary>
-    public bool WithEncodeUrl { get; private set; } = true;
+    public bool WithEncodeUrl { get; set; } = true;
 }
