@@ -41,8 +41,7 @@ public partial interface IMongoDBRepository
     /// <typeparam name="TKey">主键类型</typeparam>
     /// <returns>仓储</returns>
     IMongoDBRepository<TDocument, TKey> Change<TDocument, TKey>()
-        where TDocument : class, IMongoDBEntity<TKey>, new()
-        where TKey : class;
+        where TDocument : class, IMongoDBEntity<TKey>, new();
 }
 
 /// <summary>
@@ -51,7 +50,7 @@ public partial interface IMongoDBRepository
 /// <typeparam name="TDocument"></typeparam>
 /// <typeparam name="TKey"></typeparam>
 public partial interface IMongoDBRepository<TDocument, TKey>
-    where TDocument : IMongoDBEntity<TKey>, new()
+    where TDocument : class, IMongoDBEntity<TKey>, new()
 {
     /// <summary>
     /// 文档集合
@@ -424,6 +423,6 @@ public partial interface IMongoDBRepository<TDocument, TKey>
 /// </summary>
 /// <typeparam name="TDocument"></typeparam>
 public partial interface IMongoDBRepository<TDocument> : IMongoDBRepository<TDocument, ObjectId>
-    where TDocument : IMongoDBEntity<ObjectId>, new()
+    where TDocument : class, IMongoDBEntity<ObjectId>, new()
 {
 }

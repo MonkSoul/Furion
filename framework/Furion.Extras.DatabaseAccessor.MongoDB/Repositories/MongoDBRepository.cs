@@ -62,7 +62,6 @@ public partial class MongoDBRepository : IMongoDBRepository
     /// <returns>仓储</returns>
     public virtual IMongoDBRepository<TDocument, TKey> Change<TDocument, TKey>()
         where TDocument : class, IMongoDBEntity<TKey>, new()
-        where TKey : class
     {
         return _serviceProvider.GetService<IMongoDBRepository<TDocument, TKey>>();
     }
