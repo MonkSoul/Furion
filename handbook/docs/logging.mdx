@@ -162,6 +162,12 @@ builder.Host.UseSerilogDefault();
 builder.UseSerilogDefault();
 ```
 
+`Serve.Run() 方式`：
+
+```cs showLineNumbers
+Serve.Run(RunOptions.Default.ConfigureBuilder(builder => builder.UseSerilogDefault()));
+```
+
 :::important 特别注意
 
 `.UseSerilogDefault()` 默认集成了 `控制台` 和 `文件` 方式。如需自定义写入，则传入需要写入的介质即可：
