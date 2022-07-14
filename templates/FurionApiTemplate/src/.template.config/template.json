@@ -1,7 +1,13 @@
 {
   "$schema": "http://json.schemastore.org/template",
   "author": "百小僧",
-  "classifications": ["Furion", "WebApi", "Api", "RESTful", "Swagger"],
+  "classifications": [
+    "Furion",
+    "WebApi",
+    "Api",
+    "RESTful",
+    "Swagger"
+  ],
   "name": "Furion Api",
   "identity": "Furion.Template.Api",
   "shortName": "furionapi",

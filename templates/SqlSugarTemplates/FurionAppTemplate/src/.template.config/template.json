@@ -11,7 +11,7 @@
     "Swagger",
     "SqlSugar"
   ],
-  "name": "Furion App(SqlSugar)",
+  "name": "Furion App (SqlSugar)",
   "identity": "Furion.SqlSugar.Template.App",
   "shortName": "fsapp",
   "tags": {

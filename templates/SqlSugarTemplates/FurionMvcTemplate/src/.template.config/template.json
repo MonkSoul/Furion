@@ -1,8 +1,13 @@
 {
   "$schema": "http://json.schemastore.org/template",
   "author": "百小僧",
-  "classifications": ["Furion", "Mvc", "Web", "SqlSugar"],
-  "name": "Furion Mvc(SqlSugar)",
+  "classifications": [
+    "Furion",
+    "Mvc",
+    "Web",
+    "SqlSugar"
+  ],
+  "name": "Furion Mvc (SqlSugar)",
   "identity": "Furion.SqlSugar.Template.Mvc",
   "shortName": "fsmvc",
   "tags": {

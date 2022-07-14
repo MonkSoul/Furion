@@ -1,7 +1,10 @@
 {
   "$schema": "http://json.schemastore.org/template",
   "author": "百小僧",
-  "classifications": ["Furion", "Blazor"],
+  "classifications": [
+    "Furion",
+    "Blazor"
+  ],
   "name": "Furion Blazor",
   "identity": "Furion.Template.Blazor",
   "shortName": "furionblazor",
