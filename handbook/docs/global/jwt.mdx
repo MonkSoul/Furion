@@ -54,4 +54,7 @@ var isValid = JWTEncryption.ValidateJwtBearerToken(httpContext, out tokenInfo);
 
 ```cs showLineNumbers 
 var tokenInfo = JWTEncryption.ReadJwtToken("token");
+
+// 3.8.2+ 之后支持更强大的读取
+var securityToken = JWTEncryption.SecurityReadJwtToken("token");
 ```

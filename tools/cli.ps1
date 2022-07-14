@@ -24,7 +24,7 @@ Param(
     #[string]$UseDatabaseNames
 )
 
-$FurTools = "Furion Tools v3.8.1";
+$FurTools = "Furion Tools v3.8.2";
 
 # 输出信息
 $copyright = @"

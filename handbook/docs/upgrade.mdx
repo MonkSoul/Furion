@@ -21,26 +21,30 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 :::
 
-## v3.8.1（当前版本）
+## v3.8.2（当前版本）
 
 - **新特性**
 
   - [新增] 规范化结果 `ExceptionMetadata` 和 `ValidationMetadata` 都可以获取 `ErrorCode` 属性 [#I5GJ6D](https://gitee.com/dotnetchina/Furion/issues/I5GJ6D)
   - [新增] 远程请求对 `Url` 是否编码设置，`[Get(WithEncodeUrl = false)]` 和 `WithEncodeUrl(false)` [#I5GOBC](https://gitee.com/dotnetchina/Furion/issues/I5GOBC)
+  - [新增] 更强大的 `JWTEncryption.SecurityReadJwtToken('token')` 读取解析 `Token` 静态方法 [574eeb6](https://gitee.com/dotnetchina/Furion/commit/574eeb601294378e68c3d57ceaf6cb17f36636e3)
 
 - **突破性变化**
 
   - [新增] 升级所有 `.NET` 依赖包至 `6.0.7` 版本
+  - [重构] `JWT` `Token` 刷新逻辑 [#I5GXML](https://gitee.com/dotnetchina/Furion/issues/I5GXML) [574eeb6](https://gitee.com/dotnetchina/Furion/commit/574eeb601294378e68c3d57ceaf6cb17f36636e3)
 
 - **问题修复**
 
   - [修复] `Rider` 开发工具对同名脚手架 (`EFCore` 和 `SqlSugar`) 只显示一个问题 [!518](https://gitee.com/dotnetchina/Furion/pulls/518)
   - [修复] `UnitOfWork` 工作单元在 `EFCore` 中失效问题 [#I5H0T3](https://gitee.com/dotnetchina/Furion/issues/I5H0T3)
   - [修复] `JWT` 中 `Token` 如果存在数组类型的值时，刷新 `Token` 后丢失了历史值 [#I5GXML](https://gitee.com/dotnetchina/Furion/issues/I5GXML)
+  - [修复] 远程请求 `WithEncodeUrl` 无法在 `[HttpMethod]` 设置问题 [574eeb6](https://gitee.com/dotnetchina/Furion/commit/574eeb601294378e68c3d57ceaf6cb17f36636e3)
 
 - **其他更改**
 
   - [调整] 多语言默认处理逻辑，**允许不配置任何语言**，过去版本会报错 [#I5GRD9](https://gitee.com/dotnetchina/Furion/issues/I5GRD9) [5077c5d](https://gitee.com/dotnetchina/Furion/commit/5077c5dab9ee94733817f55ff8224b853d0001a3)
+  - [改进] 规范化文档 `Swagger` 性能
 
 - **文档**
 
