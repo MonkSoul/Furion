@@ -232,14 +232,13 @@ public class DbContextPool : IDbContextPool
     /// <summary>
     /// 提交事务
     /// </summary>
-    /// <param name="isManualSaveChanges"></param>
     /// <param name="withCloseAll">是否自动关闭所有连接</param>
-    public void CommitTransaction(bool isManualSaveChanges = true, bool withCloseAll = false)
+    public void CommitTransaction(bool withCloseAll = false)
     {
         try
         {
             // 将所有数据库上下文修改 SaveChanges();，这里另外判断是否需要手动提交
-            var hasChangesCount = !isManualSaveChanges ? SavePoolNow() : 0;
+            var hasChangesCount = SavePoolNow();
 
             // 如果事务为空，则执行完毕后关闭连接
             if (DbContextTransaction == null)
