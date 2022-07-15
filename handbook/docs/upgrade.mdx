@@ -29,12 +29,13 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
   - [新增] `ValidationMetadata` 类 `StatusCode` 属性 [#I5HB5L](https://gitee.com/dotnetchina/Furion/issues/I5HB5L)
   - [新增] 远程请求对 `Url` 是否编码设置，`[Get(WithEncodeUrl = false)]` 和 `WithEncodeUrl(false)` [#I5GOBC](https://gitee.com/dotnetchina/Furion/issues/I5GOBC)
   - [新增] 更强大的 `JWTEncryption.SecurityReadJwtToken('token')` 读取解析 `Token` 静态方法 [574eeb6](https://gitee.com/dotnetchina/Furion/commit/574eeb601294378e68c3d57ceaf6cb17f36636e3)
+  - [新增] `ValiationTypes.Html` 验证 `Html` 标签 [#I5HBKC](https://gitee.com/dotnetchina/Furion/issues/I5HBKC)
 
 - **突破性变化**
 
   - [新增] 升级所有 `.NET` 依赖包至 `6.0.7` 版本
   - [重构] `JWT` `Token` 刷新逻辑 [#I5GXML](https://gitee.com/dotnetchina/Furion/issues/I5GXML) [574eeb6](https://gitee.com/dotnetchina/Furion/commit/574eeb601294378e68c3d57ceaf6cb17f36636e3)
-  - [调整] **`ExceptionMetadata` 命名空间为 `Furion.FriendlyException`**
+  - [调整] **`ExceptionMetadata` 命名空间为 `Furion.FriendlyException`** [3105d16](https://gitee.com/dotnetchina/Furion/commit/3105d168db10bfbe6e83fff2e435ba5d9ef62ed5)
 
 - **问题修复**
 
@@ -45,6 +46,7 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
   - [修复] `Serve.Run()` 模式下添加自定义配置导致 `EFCore` 无法获取自定义配置文件问题 [#I5GZ0F](https://gitee.com/dotnetchina/Furion/issues/I5GZ0F)
   - [修复] `Oops.Bah` 进入全局异常拦截器问题 [#I5H47S](https://gitee.com/dotnetchina/Furion/issues/I5H47S)
   - [修复] `AddDbPool/AddDb` 扩展未根据配置 `Key` 路径读取问题 [#I5H6S4](https://gitee.com/dotnetchina/Furion/issues/I5H6S4) [!520](https://gitee.com/dotnetchina/Furion/pulls/520)
+  - [修复] `ValiationTypes.Url` 正则表达式覆盖不全问题 [#I5HBKC](https://gitee.com/dotnetchina/Furion/issues/I5HBKC)
 
 - **其他更改**
 
