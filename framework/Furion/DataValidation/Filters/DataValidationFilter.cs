@@ -88,7 +88,7 @@ public sealed class DataValidationFilter : IAsyncActionFilter, IOrderedFilter
                 context.HttpContext.Items[nameof(DataValidationFilter)] = resultContext;
 
                 // 处理验证信息
-                HandleValidation(context, method, actionDescriptor, friendlyException.ErrorMessage, resultContext, friendlyException.ErrorCode);
+                HandleValidation(context, method, actionDescriptor, friendlyException.ErrorMessage, resultContext, friendlyException);
             }
             return;
         }
@@ -105,14 +105,15 @@ public sealed class DataValidationFilter : IAsyncActionFilter, IOrderedFilter
     /// <param name="actionDescriptor"></param>
     /// <param name="errors"></param>
     /// <param name="resultContext"></param>
-    /// <param name="errorCode"></param>
-    private void HandleValidation(ActionExecutingContext context, MethodInfo method, ControllerActionDescriptor actionDescriptor, object errors, ActionExecutedContext resultContext = default, object errorCode = default)
+    /// <param name="friendlyException"></param>
+    private void HandleValidation(ActionExecutingContext context, MethodInfo method, ControllerActionDescriptor actionDescriptor, object errors, ActionExecutedContext resultContext = default, AppFriendlyException friendlyException = default)
     {
         dynamic finalContext = resultContext != null ? resultContext : context;
 
         // 解析验证消息
         var validationMetadata = ValidatorContext.GetValidationMetadata(errors);
-        validationMetadata.ErrorCode = errorCode;
+        validationMetadata.ErrorCode = friendlyException?.ErrorCode;
+        validationMetadata.StatusCode = friendlyException?.StatusCode;
 
         // 判断是否跳过规范化结果，如果跳过，返回 400 BadRequestResult
         if (UnifyContext.CheckFailedNonUnify(actionDescriptor.MethodInfo, out var unifyResult))

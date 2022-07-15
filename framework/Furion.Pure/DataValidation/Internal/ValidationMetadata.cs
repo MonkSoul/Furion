@@ -35,4 +35,9 @@ public sealed class ValidationMetadata
     /// 错误码
     /// </summary>
     public object ErrorCode { get; internal set; }
+
+    /// <summary>
+    /// 状态码
+    /// </summary>
+    public int? StatusCode { get; internal set; }
 }

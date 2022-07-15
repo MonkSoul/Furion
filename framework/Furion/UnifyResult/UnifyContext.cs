@@ -9,7 +9,6 @@
 using Furion.Extensions;
 using Furion.FriendlyException;
 using Furion.Templates.Extensions;
-using Furion.UnifyResult.Internal;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Mvc;
