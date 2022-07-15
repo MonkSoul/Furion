@@ -21,7 +21,7 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 :::
 
-## v3.8.4（当前版本）
+## v3.8.5（当前版本）
 
 - **新特性**
 
@@ -30,10 +30,12 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
   - [新增] 远程请求对 `Url` 是否编码设置，`[Get(WithEncodeUrl = false)]` 和 `WithEncodeUrl(false)` [#I5GOBC](https://gitee.com/dotnetchina/Furion/issues/I5GOBC)
   - [新增] 更强大的 `JWTEncryption.SecurityReadJwtToken('token')` 读取解析 `Token` 静态方法 [574eeb6](https://gitee.com/dotnetchina/Furion/commit/574eeb601294378e68c3d57ceaf6cb17f36636e3)
   - [新增] `ValiationTypes.Html` 验证 `Html` 标签 [#I5HBKC](https://gitee.com/dotnetchina/Furion/issues/I5HBKC)
+  - [新增] **[EFCore.NamingConventions](https://github.com/efcore/EFCore.NamingConventions) 支持，可自定义生成表名，字段名风格，比如小驼峰，蛇形命名等 [#I5HBEI](https://gitee.com/dotnetchina/Furion/issues/I5HBEI)**
 
 - **突破性变化**
 
-  - [新增] 升级所有 `.NET` 依赖包至 `6.0.7` 版本
+  - [升级] 所有 `.NET` 依赖包至 `6.0.7` 版本
+  - [升级] `Serilog.AspNetCore` 包至 `6.0.0` 版本
   - [重构] `JWT` `Token` 刷新逻辑 [#I5GXML](https://gitee.com/dotnetchina/Furion/issues/I5GXML) [574eeb6](https://gitee.com/dotnetchina/Furion/commit/574eeb601294378e68c3d57ceaf6cb17f36636e3)
   - [调整] **`ExceptionMetadata` 命名空间为 `Furion.FriendlyException`** [3105d16](https://gitee.com/dotnetchina/Furion/commit/3105d168db10bfbe6e83fff2e435ba5d9ef62ed5)
 
@@ -57,7 +59,7 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 - **文档**
 
-  - [更新] 远程请求文档，日志记录文档
+  - [更新] 远程请求文档，日志记录文档、多数据库文档
 
 ---
 

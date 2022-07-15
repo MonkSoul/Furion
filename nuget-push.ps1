@@ -1,8 +1,8 @@
-# æ’é™¤ Furion å’Œ Furion.Pure å‘å¸ƒï¼ŒåŸå› æ˜¯è¿™ä¸¤ä¸ªåŒ…ä¾èµ–äº† Furion.[Pure].Extras.DependencyModel.CodeAnalysis æ‹“å±•åŒ…
+# ÅÅ³ı Furion ºÍ Furion.Pure ·¢²¼£¬Ô­ÒòÊÇÕâÁ½¸ö°üÒÀÀµÁË Furion.[Pure].Extras.DependencyModel.CodeAnalysis ÍØÕ¹°ü
 #
-# å®šä¹‰å‚æ•°
+# ¶¨Òå²ÎÊı
 Param(
-    # ç‰ˆæœ¬å·
+    # °æ±¾ºÅ
     [string] $version,
     # Nuget APIKey
     [string] $apikey
@@ -10,21 +10,21 @@ Param(
 
 if ($version -eq $null -or $version -eq "")
 {
-    Write-Error "å¿…é¡»æŒ‡å®šç‰ˆæœ¬å·";
+    Write-Error "±ØĞëÖ¸¶¨°æ±¾ºÅ";
     return;
 }
 
-Write-Warning "æ­£åœ¨å‘å¸ƒ framework ç›®å½• Nuget åŒ…......";
+Write-Warning "ÕıÔÚ·¢²¼ framework Ä¿Â¼ Nuget °ü......";
 
-# æŸ¥æ‰¾ .\framework\nupkgs ä¸‹æ‰€æœ‰ç›®å½•
+# ²éÕÒ .\framework\nupkgs ÏÂËùÓĞÄ¿Â¼
 cd .\framework\nupkgs;
 $framework_nupkgs = Get-ChildItem -Filter *.nupkg;
 
-# éå†æ‰€æœ‰ *.nupkg æ–‡ä»¶
+# ±éÀúËùÓĞ *.nupkg ÎÄ¼ş
 for ($i = 0; $i -le $framework_nupkgs.Length - 1; $i++){
     $item = $framework_nupkgs[$i];
 
-    # æ’é™¤ Furion å’Œ Furion.Pure å‘å¸ƒï¼ŒåŸå› æ˜¯è¿™ä¸¤ä¸ªåŒ…ä¾èµ–äº† Furion.[Pure].Extras.DependencyModel.CodeAnalysis æ‹“å±•åŒ…
+    # ÅÅ³ı Furion ºÍ Furion.Pure ·¢²¼£¬Ô­ÒòÊÇÕâÁ½¸ö°üÒÀÀµÁË Furion.[Pure].Extras.DependencyModel.CodeAnalysis ÍØÕ¹°ü
     if ($item.Name -ne "Furion.$version.nupkg" -and $item.Name -ne "Furion.Pure.$version.nupkg")
     {
         $nupkg = $item.FullName;
@@ -33,7 +33,7 @@ for ($i = 0; $i -le $framework_nupkgs.Length - 1; $i++){
         Write-Output "-----------------";
         $nupkg;
 
-        # å‘å¸ƒåˆ° nuget.org å¹³å°
+        # ·¢²¼µ½ nuget.org Æ½Ì¨
         dotnet nuget push $nupkg --skip-duplicate --api-key $apikey --source https://api.nuget.org/v3/index.json;
         dotnet nuget push $snupkg --skip-duplicate --api-key $apikey --source https://api.nuget.org/v3/index.json;
 
@@ -41,7 +41,7 @@ for ($i = 0; $i -le $framework_nupkgs.Length - 1; $i++){
     }
 }
 
-# å›åˆ°é¡¹ç›®æ ¹ç›®å½•
+# »Øµ½ÏîÄ¿¸ùÄ¿Â¼
 cd ../../;
 
-Write-Warning "å‘å¸ƒæˆåŠŸ";
+Write-Warning "·¢²¼³É¹¦";
