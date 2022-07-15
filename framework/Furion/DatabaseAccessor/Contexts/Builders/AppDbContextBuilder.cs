@@ -172,7 +172,18 @@ internal static class AppDbContextBuilder
         var tablePrefix = (tableFixsAttribute?.Prefix ?? appDbContextAttribute?.TablePrefix)?.Trim();
         var tableSuffix = (tableFixsAttribute?.Suffix ?? appDbContextAttribute?.TableSuffix)?.Trim();
 
-        entityTypeBuilder.ToTable($"{tablePrefix}{tableName}{tableSuffix}", dynamicSchema);
+        // 如果没有定义 Table 特性且没有定义 TableFixs 特性，且没有实现 IMultiTenantOnSchema 接口且 AppDbContextAttribute 没有配置前后缀
+        // 满足以上条件则不配置表名
+        if (!(tableAttribute == null && tableFixsAttribute == null && string.IsNullOrWhiteSpace(tablePrefix) && string.IsNullOrWhiteSpace(tableSuffix)))
+        {
+            entityTypeBuilder.Metadata.SetTableName($"{tablePrefix}{tableName}{tableSuffix}");
+        }
+
+        // 设置 Schema
+        if (!string.IsNullOrWhiteSpace(dynamicSchema))
+        {
+            entityTypeBuilder.Metadata.SetSchema(dynamicSchema);
+        }
     }
 
     /// <summary>

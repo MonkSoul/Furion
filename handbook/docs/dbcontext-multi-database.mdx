@@ -229,7 +229,18 @@ protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 
 可查阅相关 `Issue`：[https://gitee.com/dotnetchina/Furion/issues/I3RSCO](https://gitee.com/dotnetchina/Furion/issues/I3RSCO)
 
-## 9.18.7 反馈与建议
+## 9.18.7 `snake_case` 风格表名和字段
+
+默认情况下 `EFCore` 将使用和模型定义一致的方式定义表和字段，但可以通过 [https://github.com/efcore/EFCore.NamingConventions](https://github.com/efcore/EFCore.NamingConventions) 拓展插件改变此行为，如下图所示：
+
+```cs showLineNumbers {2}
+ builder.UseNpgsql()
+        .UseLowerCaseNamingConvention();
+```
+
+其他资料：[https://www.npgsql.org/efcore/modeling/table-column-naming.html](https://www.npgsql.org/efcore/modeling/table-column-naming.html)
+
+## 9.18.8 反馈与建议
 
 :::note 与我们交流
 
