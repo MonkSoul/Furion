@@ -76,11 +76,13 @@ pm2 start --name xxx dotnet -- PMS.Web.Entry.dll --urls=https://localhost:8089
 
 :::warning 终端说明
 
-注意：通过 `--` 传递参数在 `powershell` 终端下无效，需要在 `cmd` 终端下才行。
+注意：通过 `--` 传递参数在 `powershell` 终端下无效，需要在 `cmd` 终端下才行。比如出现这样的错误：
+
+<img src={useBaseUrl("img/pm2err.png")} />
 
 :::
 
-### 34.5.3.2 单文件/独立发布模式
+### 34.6.3.2 单文件/独立发布模式
 
 这种模式的特点就是无需服务器安装 `.NET` 任何环境，可查阅 [单文件发布文档](./singlefile.mdx)
 
@@ -108,7 +110,15 @@ pm2 start --name xxx PMS.Web.Entry.exe -- --urls=https://localhost:8089
 
 :::
 
-### 34.5.3.3 启用应用程序
+:::warning 终端说明
+
+注意：通过 `--` 传递参数在 `powershell` 终端下无效，需要在 `cmd` 终端下才行。
+
+<img src={useBaseUrl("img/pm2err.png")} />
+
+:::
+
+### 34.6.3.3 启用应用程序
 
 执行上述命令后会显示启动成功日志，如：
 
