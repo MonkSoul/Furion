@@ -48,7 +48,7 @@ internal class NamedServiceProvider<TService> : INamedServiceProvider<TService>
     /// <summary>
     /// 根据服务名称获取服务
     /// </summary>
-    /// <typeparam name="ILifetime">声明周期接口，<see cref="ITransient"/>，<see cref="IScoped"/>，<see cref="ISingleton"/></typeparam>
+    /// <typeparam name="ILifetime">服务生存周期接口，<see cref="ITransient"/>，<see cref="IScoped"/>，<see cref="ISingleton"/></typeparam>
     /// <param name="serviceName">服务名称</param>
     /// <returns></returns>
     public TService GetService<ILifetime>(string serviceName)
@@ -77,7 +77,7 @@ internal class NamedServiceProvider<TService> : INamedServiceProvider<TService>
     /// <summary>
     /// 根据服务名称获取服务
     /// </summary>
-    /// <typeparam name="ILifetime">声明周期接口，<see cref="ITransient"/>，<see cref="IScoped"/>，<see cref="ISingleton"/></typeparam>
+    /// <typeparam name="ILifetime">服务生存周期接口，<see cref="ITransient"/>，<see cref="IScoped"/>，<see cref="ISingleton"/></typeparam>
     /// <param name="serviceName">服务名称</param>
     /// <returns></returns>
     public TService GetRequiredService<ILifetime>(string serviceName)
