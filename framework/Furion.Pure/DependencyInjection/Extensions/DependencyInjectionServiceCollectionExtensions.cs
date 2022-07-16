@@ -30,8 +30,12 @@ public static class DependencyInjectionServiceCollectionExtensions
     {
         // 添加外部程序集配置
         services.AddConfigurableOptions<DependencyInjectionSettingsOptions>();
+
         // 添加内部依赖注入扫描拓展
         services.AddInnerDependencyInjection();
+
+        // 注册命名服务
+        services.AddTransient(typeof(INamedServiceProvider<>), typeof(NamedServiceProvider<>));
 
         return services;
     }
