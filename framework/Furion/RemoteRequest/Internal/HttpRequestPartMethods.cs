@@ -616,7 +616,9 @@ public sealed partial class HttpRequestPart
         switch (ContentType)
         {
             case "multipart/form-data":
-                var multipartFormDataContent = new MultipartFormDataContent();
+
+                var boundary = "---------------" + DateTime.Now.Ticks.ToString("x");
+                var multipartFormDataContent = new MultipartFormDataContent(boundary);
 
                 // 添加 Bytes 类型
                 foreach (var (Name, Bytes, FileName) in BodyBytes)
@@ -628,9 +630,9 @@ public sealed partial class HttpRequestPart
                     byteArrayContent.Headers.Add("Content-Type", contentType ?? "application/octet-stream");
 
                     if (string.IsNullOrWhiteSpace(FileName))
-                        multipartFormDataContent.Add(byteArrayContent, Name);
+                        multipartFormDataContent.Add(byteArrayContent, $"\"{Name}\"");
                     else
-                        multipartFormDataContent.Add(byteArrayContent, Name, FileName);
+                        multipartFormDataContent.Add(byteArrayContent, $"\"{Name}\"", $"\"{FileName}\"");
                 }
 
                 // 处理其他类型
@@ -643,8 +645,11 @@ public sealed partial class HttpRequestPart
                     }
                 }
 
+                // 解决 boundary 带双引号问题
+                multipartFormDataContent.Headers.Remove("Content-Type");
+                multipartFormDataContent.Headers.Add("Content-Type", "multipart/form-data; boundary=" + boundary);
+
                 // 设置内容类型
-                //multipartFormDataContent.Headers.ContentType = new MediaTypeHeaderValue(ContentType);
                 httpContent = multipartFormDataContent;
                 break;
 
