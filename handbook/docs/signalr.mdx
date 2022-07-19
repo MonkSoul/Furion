@@ -357,14 +357,14 @@ import { HubConnectionBuilder } from "@microsoft/signalr";
 
     //启动连接并发送消息测试
     connection.start()
-              .then(() => connection.send("SendMassgae", "Hello"));
+              .then(() => connection.send("SendMessage", "Hello"));
 
     //注册web端方法以供后端调用
     connection.on("ReciveMessage", reciveMessage);
 
     const sendMsg = async () => {
         console.log(messages.value);
-        await connection.send("SendMassgae", messages.value).catch(function (err) {
+        await connection.send("SendMessage", messages.value).catch(function (err) {
             console.log(err);
         });
     }
