@@ -561,8 +561,13 @@ namespace Furion.Application
         StartWithFurString
     }
 }
-
 ```
+
+:::tip 小知识
+
+`Any-Rule` 是国人记录的正则表达式大全，如需查找正则表达式可查阅 [https://any86.github.io/any-rule/](https://any86.github.io/any-rule/)
+
+:::
 
 **使用**
 
@@ -597,38 +602,38 @@ public string Password { get; set; }
 
 `Furion` 内置的 `ValidationTypes` 已有默认的失败消息：
 
-- `Numeric`：**The Value is not a numeric type.**
-- `PositiveNumber`：**The Value is not a positive number type.**
-- `NegativeNumber`：**The Value is not a negative number type.**
-- `Integer`：**The Value is not a integer type.**
-- `Money`：**The Value is not a money type.**
-- `Date`：**The Value is not a date type.**
-- `Time`：**The Value is not a time type.**
-- `IDCard`：**The Value is not a idcard type.**
-- `PostCode`：**The Value is not a postcode type.**
-- `PhoneNumber`：**The Value is not a phone number type.**
-- `Telephone`：**The Value is not a telephone type.**
-- `PhoneOrTelNumber`：**The Value is not a phone number or telephone type.**
-- `EmailAddress`：**The Value is not a email address type.**
-- `Url`：**The Value is not a url address type.**
-- `Color`：**The Value is not a color type.**
-- `Chinese`：**The Value is not a chinese type.**
-- `IPv4`：**The Value is not a IPv4 type.**
-- `IPv6`：**The Value is not a IPv6 type.**
-- `Age`：**The Value is not a age type.**
-- `ChineseName`：**The Value is not a chinese name type.**
-- `EnglishName`：**The Value is not a english name type.**
-- `Capital`：**The Value is not a capital type.**
-- `Lowercase`：**The Value is not a lowercase type.**
-- `Ascii`：**The Value is not a ascii type.**
-- `Md5`：**The Value is not a md5 type.**
-- `Zip`：**The Value is not a zip type.**
-- `Image`：**The Value is not a image type.**
-- `Document`：**The Value is not a document type.**
-- `MP3`：**The Value is not a mp3 type.**
-- `Flash`：**The Value is not a flash type.**
-- `Video`：**The Value is not a video type.**
-- `Html`：**The Value is not a video type.**
+- `Numeric`：**The value is not a numeric type.**
+- `PositiveNumber`：**The value is not a positive number type.**
+- `NegativeNumber`：**The value is not a negative number type.**
+- `Integer`：**The value is not a integer type.**
+- `Money`：**The value is not a money type.**
+- `Date`：**The value is not a date type.**
+- `Time`：**The value is not a time type.**
+- `IDCard`：**The value is not a idcard type.**
+- `PostCode`：**The value is not a postcode type.**
+- `PhoneNumber`：**The value is not a phone number type.**
+- `Telephone`：**The value is not a telephone type.**
+- `PhoneOrTelNumber`：**The value is not a phone number or telephone type.**
+- `EmailAddress`：**The value is not a email address type.**
+- `Url`：**The value is not a url address type.**
+- `Color`：**The value is not a color type.**
+- `Chinese`：**The value is not a chinese type.**
+- `IPv4`：**The value is not a IPv4 type.**
+- `IPv6`：**The value is not a IPv6 type.**
+- `Age`：**The value is not a age type.**
+- `ChineseName`：**The value is not a chinese name type.**
+- `EnglishName`：**The value is not a english name type.**
+- `Capital`：**The value is not a capital type.**
+- `Lowercase`：**The value is not a lowercase type.**
+- `Ascii`：**The value is not a ascii type.**
+- `Md5`：**The value is not a md5 type.**
+- `Zip`：**The value is not a zip type.**
+- `Image`：**The value is not a image type.**
+- `Document`：**The value is not a document type.**
+- `MP3`：**The value is not a mp3 type.**
+- `Flash`：**The value is not a flash type.**
+- `Video`：**The value is not a video type.**
+- `Html`：**The value is not a html type.**
 
 我们可以通过创建继承 `IValidationMessageTypeProvider` 验证消息提供器类型，或通过 `appsettings.json` 配置。
 
