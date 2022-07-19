@@ -355,7 +355,7 @@ internal static class AppDbContextBuilder
     /// <summary>
     /// 配置数据库函数
     /// </summary>
-    /// <param name="modelBuilder">模型构建起</param>
+    /// <param name="modelBuilder">模型构建器</param>
     /// <param name="dbContextLocator">数据库上下文定位器</param>
     private static void ConfigureDbFunctions(ModelBuilder modelBuilder, Type dbContextLocator)
     {
