@@ -27,7 +27,7 @@ public sealed class Retry
     {
         if (action == null) throw new ArgumentNullException(nameof(action));
 
-        Invoke(async () =>
+        InvokeAsync(async () =>
         {
             action();
             await Task.CompletedTask;
@@ -42,7 +42,7 @@ public sealed class Retry
     /// <param name="retryTimeout">重试间隔时间</param>
     /// <param name="finalThrow">是否最终抛异常</param>
     /// <param name="exceptionTypes">异常类型,可多个</param>
-    public static async Task Invoke(Func<Task> action, int numRetries, int retryTimeout = 1000, bool finalThrow = true, Type[] exceptionTypes = default)
+    public static async Task InvokeAsync(Func<Task> action, int numRetries, int retryTimeout = 1000, bool finalThrow = true, Type[] exceptionTypes = default)
     {
         if (action == null) throw new ArgumentNullException(nameof(action));
 

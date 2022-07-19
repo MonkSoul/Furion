@@ -89,7 +89,7 @@ public sealed class ChannelContext<TMessage, THandler>
                   var task = new Task(async () =>
               {
                   // 默认重试 3 次（每次间隔 1s）
-                  await Retry.Invoke(async () => await Activator.CreateInstance<THandler>().InvokeAsync(message), 3, 1000, finalThrow: false);
+                  await Retry.InvokeAsync(async () => await Activator.CreateInstance<THandler>().InvokeAsync(message), 3, 1000, finalThrow: false);
               });
                   task.Start();
               }

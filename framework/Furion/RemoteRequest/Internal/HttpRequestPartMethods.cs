@@ -551,7 +551,7 @@ public sealed partial class HttpRequestPart
             else
             {
                 // 失败重试
-                await Retry.Invoke(async () =>
+                await Retry.InvokeAsync(async () =>
                 {
                     // 发送请求
                     response = await httpClient.SendAsync(request, cancellationToken);
