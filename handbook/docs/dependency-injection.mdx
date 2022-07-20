@@ -356,7 +356,7 @@ namespace Furion.Application
 
 在 `Furion 3.8.6+` 版本之后新增了 `INamedServiceProvider` 服务接口，可替代 `Func<string, ILifetime, object>` 方式：
 
-```cs showLineNumbers {8,15-23}
+```cs showLineNumbers {8,15-17,19-23}
 using Furion.Application.Services;
 
 namespace Furion.Application;
@@ -375,7 +375,7 @@ public class TestNamedServices : IDynamicApiController
         var service1 = _namedServiceProvider.GetService(nameof(BusinessService));
         var service2 = _namedServiceProvider.GetService(nameof(OtherBusinessService));
 
-        // 第二种用法，无需反射
+        // 第二种用法，无需反射，注意下面的泛型参数传入的是生命周期依赖接口，ITransient, IScoped, ISingleton
         var service3 = _namedServiceProvider.GetService<ITransient>(nameof(BusinessService));
         var service4 = _namedServiceProvider.GetService<ITransient>(nameof(OtherBusinessService));
 
@@ -387,7 +387,6 @@ public class TestNamedServices : IDynamicApiController
 :::
 
 :::important 不再推荐 `Func<string, TLifetime, object>` 方式
-
 
 ```cs showLineNumbers  {15,17,18}
 using Furion.Application;
