@@ -4,6 +4,11 @@ const sponsors = [
     picture: "img/jnpfsoft.png",
     url: "https://dotnet.jnpfsoft.com/login?from=furion",
   },
+  {
+    title: "Layui - Vue 开源前端 UI 框架",
+    picture: "img/layui.png",
+    url: "http://www.layui-vue.com",
+  },
   // {
   //   title: "ProcessOn：在线流程图思维导图工具",
   //   picture: "img/processon1.png",
