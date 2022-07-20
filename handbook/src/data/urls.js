@@ -173,7 +173,12 @@ const urls = [
     url: "https://gitee.com/dromara/liteFlow",
     text: "LiteFlow",
     title: "",
-  }
+  },
+  {
+    url: "http://www.layui-vue.com",
+    text: "Layui Vue",
+    title: "Layui - Vue 开源前端 UI 框架",
+  },
 ];
 
 export default urls;
