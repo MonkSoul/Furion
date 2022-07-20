@@ -27,7 +27,7 @@
 	<ItemGroup>
 		<PackageReference Include="Furion.Extras.DependencyModel.CodeAnalysis" Version="3.8.6" />
 		<PackageReference Include="MiniProfiler.AspNetCore.Mvc" Version="4.2.22" />
-		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.3.2" />
+		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
 	</ItemGroup>
 
 </Project>
