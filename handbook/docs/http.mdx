@@ -483,11 +483,11 @@ public interface IHttp : IHttpDispatchProxy
     [Put("https://www.furion.icu/put")]
     Task<HttpResponseMessage> PutXXXAsync();
 
-    // 发送 Put 请求
+    // 发送 Delete 请求
     [Delete("https://www.furion.icu/delete")]
     Task<HttpResponseMessage> DeleteXXXAsync();
 
-    // 发送 Put 请求
+    // 发送 Patch 请求
     [Patch("https://www.furion.icu/patch")]
     Task<HttpResponseMessage> PatchXXXAsync();
 
