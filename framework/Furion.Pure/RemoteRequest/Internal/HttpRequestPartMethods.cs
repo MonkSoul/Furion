@@ -489,7 +489,7 @@ public sealed partial class HttpRequestPart
         if (ValidationState.Enabled)
         {
             // 判断是否启用 Null 验证且 body 值为 null
-            if (ValidationState.IncludeNull && Body == null) throw new InvalidOperationException($"{nameof(Body)} can not be null.");
+            if (ValidationState.IncludeNull && Body == null) throw new InvalidOperationException($"The `{nameof(Body)}` can not be null.");
 
             // 验证模型
             Body?.Validate();
@@ -506,7 +506,7 @@ public sealed partial class HttpRequestPart
 
         // 创建客户端请求工厂
         var clientFactory = App.GetService<IHttpClientFactory>(RequestScoped ?? App.RootServices);
-        if (clientFactory == null) throw new InvalidOperationException("please add `services.AddRemoteRequest()` in Startup.cs.");
+        if (clientFactory == null) throw new InvalidOperationException("Please add `services.AddRemoteRequest()` in Startup.cs.");
 
         // 创建 HttpClient 对象
         using var httpClient = string.IsNullOrWhiteSpace(ClientName)
