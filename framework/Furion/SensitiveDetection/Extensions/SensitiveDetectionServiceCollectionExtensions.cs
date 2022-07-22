@@ -7,6 +7,7 @@
 // See the Mulan PSL v2 for more details.
 
 using Furion.SensitiveDetection;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Microsoft.Extensions.DependencyInjection;
 
@@ -71,6 +72,13 @@ public static class SensitiveDetectionServiceCollectionExtensions
     {
         // 注册脱敏词汇服务
         services.AddSingleton<ISensitiveDetectionProvider, TSensitiveDetectionProvider>();
+
+        // 配置 Mvc 选项
+        services.Configure<MvcOptions>(options =>
+        {
+            // 添加模型绑定器
+            options.ModelBinderProviders.Insert(0, new SensitiveDetectionBinderProvider());
+        });
 
         // 自定义配置
         handle?.Invoke(services);

@@ -35,7 +35,7 @@ public void ConfigureServices(IServiceCollection services)
 
 ### 30.2.2 创建 `sensitive-words.txt` 文件
 
-在 `Web` 启动层项目中创建 `sensitive-words.txt` 文件，**确保采用 `UTF-8` 编码格式且设置为嵌入式资源！**🎃
+在 `Web` 启动层项目中创建 `sensitive-words.txt` 文件，**确保采用 `UTF-8` 编码格式且不能带 `BOM 签名` 且设置为嵌入式资源！**🎃
 
 `sensitive-words.txt` 内容格式为每一行标识一个脱敏词汇：
 
@@ -130,7 +130,7 @@ public class Content
 
 :::caution 特别注意
 
-`Furion` 框架目前只提供类中使用替换特性支持，但未提供方法单个值替换支持，如**以下代码不受支持**：
+在 `Furion 3.8.8+` 版本后支持方法特性直接替换
 
 ```cs showLineNumbers  {1}
 public void Test([SensitiveDetection('*')] string text)

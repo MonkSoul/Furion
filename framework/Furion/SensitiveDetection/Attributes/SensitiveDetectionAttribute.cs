@@ -75,9 +75,8 @@ public class SensitiveDetectionAttribute : ValidationAttribute
         // 替换敏感词汇
         else
         {
-            // 不支持单个值替换（有知道方法的朋友可以提交 PR）
-            if (validationContext.ObjectType == typeof(string))
-                throw new NotSupportedException("Single value sensitive word substitution is not supported.");
+            // 单个值已在模型绑定中处理
+            if (validationContext.ObjectType == typeof(string)) return ValidationResult.Success;
 
             // 替换字符
             var newValue = sensitiveWordsProvider.ReplaceAsync(strValue, Transfer).GetAwaiter().GetResult();
@@ -85,7 +84,7 @@ public class SensitiveDetectionAttribute : ValidationAttribute
             // 如果不包含敏感词汇直接返回
             if (newValue == strValue) return ValidationResult.Success;
 
-            // 对象类型替换
+            // 将对象属性值进行替换
             validationContext.ObjectType
                                 .GetProperty(validationContext.MemberName, BindingFlags.Public | BindingFlags.Instance)
                                 .SetValue(validationContext.ObjectInstance, newValue);
