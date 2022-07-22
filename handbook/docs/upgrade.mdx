@@ -21,7 +21,7 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 :::
 
-## v3.8.7（当前版本）
+## v3.8.8（当前版本）
 
 - **新特性**
 
@@ -32,6 +32,7 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
   - [新增] `ValiationTypes.Html` 验证 `Html` 标签 [#I5HBKC](https://gitee.com/dotnetchina/Furion/issues/I5HBKC)
   - [新增] **[EFCore.NamingConventions](https://github.com/efcore/EFCore.NamingConventions) 支持，可自定义生成表名，字段名风格，比如小驼峰，蛇形命名等 [#I5HBEI](https://gitee.com/dotnetchina/Furion/issues/I5HBEI)**
   - [新增] `INamedServiceProvider` 命名服务提供器，可解析接口多实现 [#I5HF98](https://gitee.com/dotnetchina/Furion/issues/I5HF98)
+  - [新增] 脱敏处理模块方法参数单个值处理 [a22ec3c](https://gitee.com/dotnetchina/Furion/commit/a22ec3cc3565582eea67052936e788ede8c633cb)
 
 - **突破性变化**
 
@@ -40,6 +41,7 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
   - [重构] `JWT` `Token` 刷新逻辑 [#I5GXML](https://gitee.com/dotnetchina/Furion/issues/I5GXML) [574eeb6](https://gitee.com/dotnetchina/Furion/commit/574eeb601294378e68c3d57ceaf6cb17f36636e3)
   - [调整] **`ExceptionMetadata` 命名空间为 `Furion.FriendlyException`** [3105d16](https://gitee.com/dotnetchina/Furion/commit/3105d168db10bfbe6e83fff2e435ba5d9ef62ed5)
   - [调整] `Retry.Invoke(Func<Task>...)` 为：`Retry.InvokeAsync(Func<Task>...)` [3b78999](https://gitee.com/dotnetchina/Furion/commit/3b7899942bb37423c2c4ed313069fe361aabf682)
+  - [重构] 脱敏处理模块，大大提高性能和准确率，同时支持方法参数单个值处理 [a22ec3c](https://gitee.com/dotnetchina/Furion/commit/a22ec3cc3565582eea67052936e788ede8c633cb)
 
 - **问题修复**
 
@@ -54,6 +56,7 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
   - [修复] **`v3.5.x` 版本导致集成 [EFCore.NamingConventions](https://github.com/efcore/EFCore.NamingConventions) 失效问题 [#I5HBEI](https://gitee.com/dotnetchina/Furion/issues/I5HBEI)**
   - [修复] `Swagger` 长路由不支持问题以及 `[Required]` 配置 `AllowEmptyStrings` 无效问题 [c014330](https://gitee.com/dotnetchina/Furion/commit/c0143300329b5a96a2fbd4d92de109f520674d33)
   - [修复] 远程请求上传文件时请求报文 `boundary` 和 `Content-Disposition` 设置不正确问题 [#I5HEF0](https://gitee.com/dotnetchina/Furion/issues/I5HEF0)
+  - [修复] 脱敏模块替换敏感词汇出现多替换问题 [a22ec3c](https://gitee.com/dotnetchina/Furion/commit/a22ec3cc3565582eea67052936e788ede8c633cb)
 
 - **其他更改**
 
