@@ -46,7 +46,7 @@ public class SensitiveDetectionProvider : ISensitiveDetectionProvider
     {
         // 读取缓存数据
         var wordsCached = await _distributedCache.GetStringAsync(DISTRIBUTED_KEY);
-        if (wordsCached != null) return wordsCached.Split(new[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
+        if (wordsCached != null) return wordsCached.Split(new[] { "\r\n", "|" }, StringSplitOptions.RemoveEmptyEntries).Select(u => u.Trim());
 
         var entryAssembly = Reflect.GetEntryAssembly();
 
@@ -64,7 +64,7 @@ public class SensitiveDetectionProvider : ISensitiveDetectionProvider
         await _distributedCache.SetStringAsync(DISTRIBUTED_KEY, content);
 
         // 取换行符分割字符串
-        var words = content.Split(new[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
+        var words = content.Split(new[] { "\r\n", "|" }, StringSplitOptions.RemoveEmptyEntries).Select(u => u.Trim());
 
         return words;
     }

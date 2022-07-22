@@ -39,12 +39,23 @@ public void ConfigureServices(IServiceCollection services)
 
 `sensitive-words.txt` 内容格式为每一行标识一个脱敏词汇：
 
-```
+```showLineNumbers
 坏人
 无语
 滚开
 八嘎
 ```
+
+:::tip 3.8.9+ 版本
+
+在 `Furion 3.8.9+` 版本支持 `|` 分隔符进行分割，也同时支持 `换行` 和 `|` 混用，如：
+
+```showLineNumbers
+坏人|无语|滚开
+八嘎
+```
+
+:::
 
 接下来设置为嵌入式资源：
 
