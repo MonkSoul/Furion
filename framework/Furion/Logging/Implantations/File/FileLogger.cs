@@ -79,14 +79,14 @@ public sealed class FileLogger : ILogger
 
         // 是否自定义了日志筛选器，如果是则检查是否条件
         if (_fileLoggerProvider.LoggerOptions.WriteFilter?.Invoke(
-            new FileLogMessage(_logName, logLevel, eventId, message, exception)) == false) return;
+            new LogMessage(_logName, logLevel, eventId, message, exception)) == false) return;
 
         // 是否自定义了自定义日志格式化程序，如果是则使用
         if (_fileLoggerProvider.MessageFormat != null)
         {
             // 写入日志队列
             _fileLoggerProvider.WriteToQueue(_fileLoggerProvider.MessageFormat(
-                new FileLogMessage(_logName, logLevel, eventId, message, exception)));
+                new LogMessage(_logName, logLevel, eventId, message, exception)));
 
             return;
         }

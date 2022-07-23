@@ -13,7 +13,7 @@ using System.Text.Json;
 namespace Furion.Logging;
 
 /// <summary>
-/// <see cref="FileLogMessage"/> 拓展
+/// <see cref="LogMessage"/> 拓展
 /// </summary>
 [SuppressSniffer]
 public static class FileLogMessageExtensions
@@ -21,10 +21,10 @@ public static class FileLogMessageExtensions
     /// <summary>
     /// 高性能写入日志模板
     /// </summary>
-    /// <param name="_"><see cref="FileLogMessage"/></param>
+    /// <param name="_"><see cref="LogMessage"/></param>
     /// <param name="writeAction"></param>
     /// <returns></returns>
-    public static string Write(this FileLogMessage _, Action<Utf8JsonWriter> writeAction)
+    public static string Write(this LogMessage _, Action<Utf8JsonWriter> writeAction)
     {
         using var stream = new MemoryStream();
         using var writer = new Utf8JsonWriter(stream, new JsonWriterOptions
@@ -43,10 +43,10 @@ public static class FileLogMessageExtensions
     /// <summary>
     /// 高性能写入数组日志模板
     /// </summary>
-    /// <param name="logMsg"><see cref="FileLogMessage"/></param>
+    /// <param name="logMsg"><see cref="LogMessage"/></param>
     /// <param name="writeAction"></param>
     /// <returns></returns>
-    public static string WriteArray(this FileLogMessage logMsg, Action<Utf8JsonWriter> writeAction)
+    public static string WriteArray(this LogMessage logMsg, Action<Utf8JsonWriter> writeAction)
     {
         return logMsg.Write(writer =>
         {

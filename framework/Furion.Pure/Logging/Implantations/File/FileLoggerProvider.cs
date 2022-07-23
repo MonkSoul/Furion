@@ -90,7 +90,7 @@ public sealed class FileLoggerProvider : ILoggerProvider
     /// <summary>
     /// 自定义日志消息格式化程序
     /// </summary>
-    public Func<FileLogMessage, string> MessageFormat
+    public Func<LogMessage, string> MessageFormat
     {
         get => LoggerOptions.MessageFormat;
         set { LoggerOptions.MessageFormat = value; }

@@ -3,10 +3,10 @@
 namespace Furion.Logging;
 
 /// <summary>
-/// 文件日志结构化消息
+/// 日志结构化消息
 /// </summary>
 [SuppressSniffer]
-public struct FileLogMessage
+public struct LogMessage
 {
     /// <summary>
     /// 构造函数
@@ -16,7 +16,7 @@ public struct FileLogMessage
     /// <param name="eventId">事件 Id</param>
     /// <param name="message">日志消息</param>
     /// <param name="exception">异常对象</param>
-    internal FileLogMessage(string logName
+    internal LogMessage(string logName
         , LogLevel logLevel
         , EventId eventId
         , string message

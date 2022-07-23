@@ -33,12 +33,12 @@ public sealed class FileLoggerOptions
     /// <summary>
     /// 自定义日志消息格式化程序
     /// </summary>
-    public Func<FileLogMessage, string> MessageFormat { get; set; }
+    public Func<LogMessage, string> MessageFormat { get; set; }
 
     /// <summary>
     /// 自定义日志筛选器
     /// </summary>
-    public Func<FileLogMessage, bool> WriteFilter { get; set; }
+    public Func<LogMessage, bool> WriteFilter { get; set; }
 
     /// <summary>
     /// 最低日志记录级别
