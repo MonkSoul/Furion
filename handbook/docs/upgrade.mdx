@@ -49,6 +49,20 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
   - [更新] 日志文档
 
+- **本期亮点**
+
+1. **极易使用且强大的日志模块**
+
+```cs showLineNumbers
+// 写入文件
+services.AddFileLogging("logs/application.log");
+
+// 写入数据库
+services.AddDatabaseLogging<DatabaseLoggingWriter>();
+```
+
+**[查看更多日志文档](./logging.mdx)**
+
 ---
 
 ## v3.8.9（已发布）
