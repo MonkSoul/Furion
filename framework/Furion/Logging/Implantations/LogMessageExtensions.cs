@@ -16,7 +16,7 @@ namespace Furion.Logging;
 /// <see cref="LogMessage"/> 拓展
 /// </summary>
 [SuppressSniffer]
-public static class FileLogMessageExtensions
+public static class LogMessageExtensions
 {
     /// <summary>
     /// 高性能写入日志模板
