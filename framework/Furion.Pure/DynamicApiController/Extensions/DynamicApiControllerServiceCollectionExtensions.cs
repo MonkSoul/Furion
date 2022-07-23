@@ -36,7 +36,7 @@ public static class DynamicApiControllerServiceCollectionExtensions
     /// 添加动态接口控制器服务
     /// </summary>
     /// <param name="services"></param>
-    /// <returns>Mvc构建器</returns>
+    /// <returns></returns>
     public static IServiceCollection AddDynamicApiControllers(this IServiceCollection services)
     {
         var partManager = services.FirstOrDefault(s => s.ServiceType == typeof(ApplicationPartManager))?.ImplementationInstance as ApplicationPartManager
