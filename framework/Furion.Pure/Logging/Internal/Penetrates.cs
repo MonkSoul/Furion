@@ -18,7 +18,7 @@ internal static class Penetrates
     /// <summary>
     /// 从配置文件中加载配置并创建文件日志记录器提供程序
     /// </summary>
-    /// <param name="configuraionKey">获取配置文件对于的 Key</param>
+    /// <param name="configuraionKey">获取配置文件对应的 Key</param>
     /// <param name="configure">文件日志记录器配置选项委托</param>
     /// <returns><see cref="FileLoggerProvider"/></returns>
     internal static FileLoggerProvider CreateFromConfiguration(Func<string> configuraionKey, Action<FileLoggerOptions> configure = default)
@@ -27,7 +27,7 @@ internal static class Penetrates
         var key = configuraionKey?.Invoke();
         if (string.IsNullOrWhiteSpace(key)) return default;
 
-        // 加载配置文件中 Logging:File 节点
+        // 加载配置文件中指定节点
         var fileLoggerSettings = App.GetConfig<FileLoggerSettings>(key);
 
         // 如果配置为空或者文件名为空，则添加文件日志记录器服务
@@ -47,6 +47,34 @@ internal static class Penetrates
 
         // 创建文件日志记录器提供程序
         return new FileLoggerProvider(fileLoggerSettings.FileName, fileLoggerOptions);
+    }
+
+    /// <summary>
+    /// 从配置文件中加载配置并创建数据库日志记录器提供程序
+    /// </summary>
+    /// <param name="configuraionKey">获取配置文件对应的 Key</param>
+    /// <param name="configure">数据库日志记录器配置选项委托</param>
+    /// <returns><see cref="DatabaseLoggerProvider"/></returns>
+    internal static DatabaseLoggerProvider CreateFromConfiguration(Func<string> configuraionKey, Action<DatabaseLoggerOptions> configure = default)
+    {
+        // 检查 Key 是否存在
+        var key = configuraionKey?.Invoke();
+        if (string.IsNullOrWhiteSpace(key)) return default;
+
+        // 加载配置文件中指定节点
+        var databaseLoggerSettings = App.GetConfig<DatabaseLoggerSettings>(key);
+
+        // 创建数据库日志记录器配置选项
+        var databaseLoggerOptions = new DatabaseLoggerOptions
+        {
+            MinimumLevel = databaseLoggerSettings.MinimumLevel,
+        };
+
+        // 处理自定义配置
+        configure?.Invoke(databaseLoggerOptions);
+
+        // 创建数据库日志记录器提供程序
+        return new DatabaseLoggerProvider(databaseLoggerOptions);
     }
 
     /// <summary>

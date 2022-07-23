@@ -585,11 +585,6 @@
             为角色分配权限
             </summary>
         </member>
-        <member name="T:Furion.Application.TestFileLoggerServices">
-            <summary>
-            测试文件日志写入
-            </summary>
-        </member>
         <member name="T:Furion.Application.TestInheritdoc">
             <inheritdoc cref="T:Furion.Application.ITestInheritdoc" />
         </member>
@@ -646,6 +641,11 @@
             </summary>
             <param name="id"></param>
             <returns></returns>
+        </member>
+        <member name="T:Furion.Application.TestLoggerServices">
+            <summary>
+            测试文件/数据库日志写入
+            </summary>
         </member>
         <member name="M:Furion.Application.TestModuleServices.TestSingleFileProxy">
             <summary>

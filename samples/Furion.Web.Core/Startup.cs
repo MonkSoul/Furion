@@ -1,4 +1,5 @@
-﻿using Furion.Logging;
+﻿using Furion.Application;
+using Furion.Logging;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
@@ -53,7 +54,7 @@ public sealed class Startup : AppStartup
         {
             options.WriteFilter = (logMsg) =>
             {
-                return logMsg.LogName.Contains("TestFileLoggerServices");
+                return logMsg.LogName.Contains("TestLoggerServices");
             };
         });
 
@@ -82,6 +83,31 @@ public sealed class Startup : AppStartup
             options.HandleWriteError = (writeError) =>
             {
                 writeError.UseRollbackFileName(Path.GetFileNameWithoutExtension(writeError.CurrentFileName) + "-oops" + Path.GetExtension(writeError.CurrentFileName));
+            };
+        });
+
+        // 读取配置文件
+        services.AddDatabaseLogging<DatabaseLoggingWriter>();
+
+        // 读取配置文件，默认配置
+        services.AddDatabaseLogging<DatabaseLoggingWriter>(options =>
+        {
+        });
+
+        // 读取配置文件，默认配置
+        services.AddDatabaseLogging<DatabaseLoggingWriter>(options =>
+        {
+            options.WriteFilter = (logMsg) =>
+            {
+                return logMsg.LogLevel == Microsoft.Extensions.Logging.LogLevel.Error;
+            };
+        });
+
+        // 处理文件写入错误
+        services.AddDatabaseLogging<DatabaseLoggingWriter>(options =>
+        {
+            options.HandleWriteError = (writeError, writer) =>
+            {
             };
         });
     }

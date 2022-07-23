@@ -3,12 +3,12 @@
 namespace Furion.Application;
 
 /// <summary>
-/// 测试文件日志写入
+/// 测试文件/数据库日志写入
 /// </summary>
-public class TestFileLoggerServices : IDynamicApiController
+public class TestLoggerServices : IDynamicApiController
 {
-    private readonly ILogger<TestFileLoggerServices> _logger;
-    public TestFileLoggerServices(ILogger<TestFileLoggerServices> logger)
+    private readonly ILogger<TestLoggerServices> _logger;
+    public TestLoggerServices(ILogger<TestLoggerServices> logger)
     {
         _logger = logger;
     }
@@ -20,6 +20,6 @@ public class TestFileLoggerServices : IDynamicApiController
 
     public void 测试配置日志()
     {
-        _logger.LogWarning("我是一个日志 {id}", 20);
+        _logger.LogWarning("我是一个二配置日志 {id}", 20);
     }
 }

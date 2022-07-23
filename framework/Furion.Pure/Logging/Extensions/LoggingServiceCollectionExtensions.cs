@@ -56,11 +56,49 @@ public static class LoggingServiceCollectionExtensions
     /// 添加文件日志服务（从配置文件中读取配置）
     /// </summary>
     /// <param name="services"></param>
-    /// <param name="configuraionKey">获取配置文件对于的 Key</param>
+    /// <param name="configuraionKey">获取配置文件对应的 Key</param>
     /// <param name="configure">文件日志记录器配置选项委托</param>
     /// <returns></returns>
     public static IServiceCollection AddFileLogging(this IServiceCollection services, Func<string> configuraionKey, Action<FileLoggerOptions> configure = default)
     {
         return services.AddLogging(builder => builder.AddFile(configuraionKey, configure));
+    }
+
+    /// <summary>
+    /// 添加数据库日志服务
+    /// </summary>
+    /// <param name="services"></param>
+    /// <param name="configure">数据库日志记录器配置选项委托</param>
+    /// <returns></returns>
+    public static IServiceCollection AddDatabaseLogging<TDatabaseLoggingWriter>(this IServiceCollection services, Action<DatabaseLoggerOptions> configure)
+        where TDatabaseLoggingWriter : class, IDatabaseLoggingWriter
+    {
+        return services.AddLogging(builder => builder.AddDatabase<TDatabaseLoggingWriter>(configure));
+    }
+
+    /// <summary>
+    /// 添加数据库日志服务
+    /// </summary>
+    /// <param name="services"></param>
+    /// <param name="configuraionKey">配置文件对于的 Key</param>
+    /// <param name="configure">数据库日志记录器配置选项委托</param>
+    /// <returns></returns>
+    public static IServiceCollection AddDatabaseLogging<TDatabaseLoggingWriter>(this IServiceCollection services, string configuraionKey = default, Action<DatabaseLoggerOptions> configure = default)
+        where TDatabaseLoggingWriter : class, IDatabaseLoggingWriter
+    {
+        return services.AddLogging(builder => builder.AddDatabase<TDatabaseLoggingWriter>(configuraionKey, configure));
+    }
+
+    /// <summary>
+    /// 添加数据库日志服务
+    /// </summary>
+    /// <param name="services"></param>
+    /// <param name="configuraionKey">获取配置文件对于的 Key</param>
+    /// <param name="configure">数据库日志记录器配置选项委托</param>
+    /// <returns></returns>
+    public static IServiceCollection AddDatabaseLogging<TDatabaseLoggingWriter>(this IServiceCollection services, Func<string> configuraionKey, Action<DatabaseLoggerOptions> configure = default)
+        where TDatabaseLoggingWriter : class, IDatabaseLoggingWriter
+    {
+        return services.AddLogging(builder => builder.AddDatabase<TDatabaseLoggingWriter>(configuraionKey, configure));
     }
 }

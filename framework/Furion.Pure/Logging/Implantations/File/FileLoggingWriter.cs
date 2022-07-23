@@ -9,9 +9,9 @@
 namespace Furion.Logging;
 
 /// <summary>
-/// 内部文件写入器
+/// 文件日志写入器
 /// </summary>
-internal class InternalFileWriter
+internal class FileLoggingWriter
 {
     /// <summary>
     /// 文件日志记录器提供程序
@@ -42,7 +42,7 @@ internal class InternalFileWriter
     /// 构造函数
     /// </summary>
     /// <param name="fileLoggerProvider">文件日志记录器提供程序</param>
-    internal InternalFileWriter(FileLoggerProvider fileLoggerProvider)
+    internal FileLoggingWriter(FileLoggerProvider fileLoggerProvider)
     {
         _fileLoggerProvider = fileLoggerProvider;
 

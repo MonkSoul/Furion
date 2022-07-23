@@ -21,9 +21,9 @@ public sealed class FileLoggerProvider : ILoggerProvider
     private readonly BlockingCollection<string> _logMessageQueue = new(1024);
 
     /// <summary>
-    /// 内部文件写入器
+    /// 文件日志写入器
     /// </summary>
-    private readonly InternalFileWriter _fileWriter;
+    private readonly FileLoggingWriter _fileLoggingWriter;
 
     /// <summary>
     /// 长时间运行的后台任务
@@ -61,8 +61,8 @@ public sealed class FileLoggerProvider : ILoggerProvider
         FileName = Environment.ExpandEnvironmentVariables(fileName);
         LoggerOptions = fileLoggerOptions;
 
-        // 创建内部文件写入器
-        _fileWriter = new InternalFileWriter(this);
+        // 创建文件日志写入器
+        _fileLoggingWriter = new FileLoggingWriter(this);
 
         // 创建长时间运行的后台任务，并将日志消息队列中数据写入文件中
         _processQueueTask = Task.Factory.StartNew(state => ((FileLoggerProvider)state).ProcessQueue()
@@ -186,7 +186,7 @@ public sealed class FileLoggerProvider : ILoggerProvider
         _fileLoggers.Clear();
 
         // 释放内部文件写入器
-        _fileWriter.Close();
+        _fileLoggingWriter.Close();
     }
 
     /// <summary>
@@ -214,7 +214,7 @@ public sealed class FileLoggerProvider : ILoggerProvider
     {
         foreach (var message in _logMessageQueue.GetConsumingEnumerable())
         {
-            _fileWriter.Write(message, _logMessageQueue.Count == 0);
+            _fileLoggingWriter.Write(message, _logMessageQueue.Count == 0);
         }
     }
 }
