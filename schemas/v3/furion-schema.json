@@ -442,6 +442,15 @@
               "$ref": "#/definitions/logLevel"
             }
           }
+        },
+        "Database": {
+          "type": "object",
+          "description": "数据库日志记录器配置选项",
+          "properties": {
+            "MinimumLevel": {
+              "$ref": "#/definitions/logLevel"
+            }
+          }
         }
       },
       "additionalProperties": {
