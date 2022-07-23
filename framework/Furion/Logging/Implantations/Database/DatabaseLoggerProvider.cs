@@ -63,11 +63,11 @@ public sealed class DatabaseLoggerProvider : ILoggerProvider
     /// </summary>
     /// <remarks>主要解决日志在写入过程出现异常问题</remarks>
     /// <example>
-    /// options.HandleWriteError = (err, writer) => {
+    /// options.HandleWriteError = (err) => {
     ///     // do anything
     /// };
     /// </example>
-    public Action<DatabaseWriteError, IDatabaseLoggingWriter> HandleWriteError
+    public Action<DatabaseWriteError> HandleWriteError
     {
         get => LoggerOptions.HandleWriteError;
         set { LoggerOptions.HandleWriteError = value; }
@@ -170,7 +170,7 @@ public sealed class DatabaseLoggerProvider : ILoggerProvider
                 if (HandleWriteError != null)
                 {
                     var databaseWriteError = new DatabaseWriteError(ex);
-                    HandleWriteError(databaseWriteError, databaseLoggingWriter);
+                    HandleWriteError(databaseWriteError);
                 }
                 // 其他直接抛出异常
                 else throw;

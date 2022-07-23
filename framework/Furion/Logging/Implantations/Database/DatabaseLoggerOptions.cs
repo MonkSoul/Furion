@@ -23,9 +23,9 @@ public sealed class DatabaseLoggerOptions
     /// </summary>
     /// <remarks>主要解决日志在写入过程出现异常问题</remarks>
     /// <example>
-    /// options.HandleWriteError = (err, writer) => {
+    /// options.HandleWriteError = (err) => {
     ///     // do anything
     /// };
     /// </example>
-    public Action<DatabaseWriteError, IDatabaseLoggingWriter> HandleWriteError { get; set; }
+    public Action<DatabaseWriteError> HandleWriteError { get; set; }
 }
