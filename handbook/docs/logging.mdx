@@ -189,7 +189,7 @@ services.AddFileLogging("application.log", true);
     "File": {
       "FileName": "application.log", // 日志文件完整路径或文件名，推荐 .log 作为拓展名
       "Append": true, // 追加到已存在日志文件或覆盖它们
-      "MinimumLevel": "Warning", // 最低日志记录级别
+      "MinimumLevel": "Information", // 最低日志记录级别
       "FileSizeLimitBytes": 0, // 控制每一个日志文件最大存储大小，默认无限制，如果指定了该值，那么日志文件大小超出了该配置就会创建的日志文件，新创建的日志文件命名规则：文件名+[递增序号].log
       "MaxRollingFiles": 0 // 控制最大创建的日志文件数量，默认无限制，配合 FileSizeLimitBytes 使用，如果指定了该值，那么超出该值将从最初日志文件中从头写入覆盖
     }
@@ -198,7 +198,7 @@ services.AddFileLogging("application.log", true);
   "MyLogger": {
     "FileName": "application.log",
     "Append": true,
-    "MinimumLevel": "Warning",
+    "MinimumLevel": "Information",
     "FileSizeLimitBytes": 0,
     "MaxRollingFiles": 0
   }
@@ -430,12 +430,12 @@ services.AddDatabaseLogging<DatabaseLoggingWriter>(options =>
       // .... appsettings 默认配置
     },
     "Database": {
-      "MinimumLevel": "Warning" // 最低日志记录级别
+      "MinimumLevel": "Information" // 最低日志记录级别
     }
   },
   // 自定义配置节点
   "MyLogger": {
-    "MinimumLevel": "Warning"
+    "MinimumLevel": "Information"
   }
 }
 ```

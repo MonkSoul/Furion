@@ -27,7 +27,7 @@ public sealed class Startup : AppStartup
         // 添加实时通讯
         services.AddSignalR();
 
-        services.AddFileLogging("logs/application.log");
+        services.AddFileLogging();
     }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
