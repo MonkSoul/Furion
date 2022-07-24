@@ -37,7 +37,9 @@ public class SensitiveDetectionBinderProvider : IModelBinderProvider
         if (context.Metadata.ModelType == typeof(string) && context.Metadata is DefaultModelMetadata actMetadata)
         {
             // 判断是否定义 [SensitiveDetection] 特性且 Transfer 不为空
-            if (actMetadata.Attributes.ParameterAttributes.FirstOrDefault(u => u.GetType() == typeof(SensitiveDetectionAttribute))
+            if (actMetadata.Attributes.ParameterAttributes != null
+                && actMetadata.Attributes.ParameterAttributes.Count > 0
+                && actMetadata.Attributes.ParameterAttributes.FirstOrDefault(u => u.GetType() == typeof(SensitiveDetectionAttribute))
                 is SensitiveDetectionAttribute sensitiveDetectionAttribute && sensitiveDetectionAttribute.Transfer != default)
             {
                 return new BinderTypeModelBinder(typeof(SensitiveDetectionBinder));
