@@ -33,21 +33,27 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 **这一次，`Furion` 不再妥协，彻底重构了日志模块，实现日志功能/需求完全自主可控，提供给开发者几乎所有日志功能的需求！**
 
-`Furion` 的使用者们，**是时候“更换”掉第三方日志组件了，让我们一起迭代出更强更好的日志组件吧！** 🍖
+`Furion` 的使用者们，**是时候“更换”掉第三方日志组件，让我们一起迭代出更强更好的日志组件吧！** 🍖
 
 :::
 
 - **新特性**
 
   - [重构] 日志模块，内置写入控制台、文件、数据库功能，再也无需引入第三方日志了！[日志源码](https://gitee.com/dotnetchina/Furion/tree/net6/framework/Furion/Logging)
+  - [新增] **强大的调试日志 `[LoggingMonitor]` [32dfc1](https://gitee.com/dotnetchina/Furion/commit/32dfc11fd6b47551a81c09e676eb7f5d018ef737)**
 
 - **突破性变化**
 
-  - [重构] 日志模块，内置写入控制台、文件、数据库功能，再也无需引入第三方日志了！[日志源码](https://gitee.com/dotnetchina/Furion/tree/net6/framework/Furion/Logging)
+  - [重构] **日志模块，内置写入控制台、文件、数据库功能，再也无需引入第三方日志了！[日志源码](https://gitee.com/dotnetchina/Furion/tree/net6/framework/Furion/Logging)**
+  - [调整] **`TP.Wrapper` 规范化日志模板算法，由过去的 `[属性]` 改为 `##属性##`，解决 `JSON` 内容冲突问题 [394ecec](https://gitee.com/dotnetchina/Furion/commit/394ecec28629aee9945480155d502418d0b7a8f8)**
+
+- **问题修复**
+
+  - [修复] 修复脱敏模块模型绑定个别情况下空异常问题 [#I5IM5C](https://gitee.com/dotnetchina/Furion/issues/I5IM5C)
 
 - **文档**
 
-  - [更新] 日志文档
+  - [更新] 日志文档、静态类文档
 
 - **本期亮点**
 
@@ -62,6 +68,64 @@ services.AddDatabaseLogging<DatabaseLoggingWriter>();
 ```
 
 **[查看更多日志文档](./logging.mdx)**
+
+2. \*\*强大的 `[LoggingMonitor]` 调试日志
+
+```cs showLineNumbers {1,7}
+using Furion.Logging;
+
+namespace Furion.Application;
+
+public class TestLoggerServices : IDynamicApiController
+{
+    [LoggingMonitor]
+    public PersonDto GetPerson(int id)
+    {
+        return new PersonDto
+        {
+            Id = id
+        };
+    }
+}
+```
+
+输出日志为：
+
+```bash showLineNumbers
+┏━━━━━━━━━━━  Logging Monitor ━━━━━━━━━━━
+┣ Furion.Application.TestLoggerServices.GetPerson (Furion.Application)
+┣
+┣ 控制器名称：              TestLoggerServices
+┣ 操作名称：                GetPerson
+┣ 路由信息：                [area]: ; [controller]: test-logger; [action]: person
+┣ 请求地址：                https://localhost:44316/api/test-logger/person/1
+┣ 来源地址：                https://localhost:44316/api/index.html?urls.primaryName=数据库操作演示
+┣ 浏览器标识：              Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.5060.134 Safari/537.36 Edg/103.0.1264.71
+┣ 客户端 IP 地址：          0.0.0.1
+┣ 服务端 IP 地址：          0.0.0.1
+┣ 服务端运行环境：          Development
+┣
+┣ ━━━━━━━━━━━━━━  授权信息 ━━━━━━━━━━━━━━
+┣ JWT Token：               Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOjEsIkFjY291bnQiOiJhZG1pbiIsImlhdCI6MTY1ODY3NjY0OCwibmJmIjoxNjU4Njc2NjQ4LCJleHAiOjE2NTg2Nzc4NDgsImlzcyI6ImRvdG5ldGNoaW5hIiwiYXVkIjoicG93ZXJieSBGdXJpb24ifQ.jdZ8t1dhIFVRIVaLi-Im9NwPjMWR25MND_5fQ2qKNHk
+┣
+┣ UserId (integer)：        1
+┣ Account (string)：        admin
+┣ iat (integer)：           1658676648
+┣ nbf (integer)：           1658676648
+┣ exp (integer)：           1658677848
+┣ iss (string)：            dotnetchina
+┣ aud (string)：            powerby Furion
+┣
+┣ ━━━━━━━━━━━━━━  参数列表 ━━━━━━━━━━━━━━
+┣ Content-Type：
+┣
+┣ id (Int32)：              1
+┣
+┣ ━━━━━━━━━━━━━━  返回信息 ━━━━━━━━━━━━━━
+┣ 类型：                    Furion.Application.Persons.PersonDto
+┣ 返回值：                  {"Id":1,"Name":null,"Age":0,"Address":null,"PhoneNumber":null,"QQ":null,"CreatedTime":"0001-01-01T00:00:00+00:00","Childrens":null,"Posts":null}
+┗━━━━━━━━━━━  Logging Monitor ━━━━━━━━━━━
+```
 
 ---
 
