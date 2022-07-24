@@ -171,11 +171,21 @@ services.AddFileLogging("application.log", true);
 
 - **从配置文件读取配置**
 
+:::important 特别注意
+
+**只有不在 `.AddFile` 第一个参数配置文件名才会自动加载配置，也就是文件名应该配置在配置文件中。**
+
+:::
+
 文件日志配置说明：
 
-```json showLineNumbers {3-9,12}
+```json showLineNumbers {2,7-13,16-22}
 {
   "Logging": {
+    "LogLevel": {
+      "Default": "Information"
+      // .... appsettings 默认配置
+    },
     "File": {
       "FileName": "application.log", // 日志文件完整路径或文件名，推荐 .log 作为拓展名
       "Append": true, // 追加到已存在日志文件或覆盖它们
@@ -402,11 +412,23 @@ services.AddDatabaseLogging<DatabaseLoggingWriter>(options =>
 });
 ```
 
+- **从配置文件中读取**
+
+:::important 特别注意
+
+**只有不在 `.AddDatabase` 第一个参数为空才会自动加载配置。**
+
+:::
+
 数据库日志配置说明：
 
-```json showLineNumbers {3-5,8}
+```json showLineNumbers {2,7-9,12-14}
 {
   "Logging": {
+    "LogLevel": {
+      "Default": "Information"
+      // .... appsettings 默认配置
+    },
     "Database": {
       "MinimumLevel": "Warning" // 最低日志记录级别
     }
@@ -540,6 +562,22 @@ services.AddLogging(builder =>
 在 `ASP.NET 6` 中，框架默认提供了 `app.UseHttpLogging()` 记录 `HTTP` 请求日志功能，详细了解可查看官方文档 [ASP.NET Core - HTTP 日志记录](https://docs.microsoft.com/zh-cn/aspnet/core/fundamentals/http-logging/?view=aspnetcore-6.0)
 
 当然也可以自定义中间件的方式写，只需要注入 `ILogger<>` 接口即可。
+
+### 18.5.7 `Debug` 和 `Trace` 默认不输出问题
+
+默认情况下，微软在 `appsettings.json` 和 `appsettings.Development.json` 中配置了 `Default` 日志级别，如需自定义：
+
+```json showLineNumbers {4}
+{
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information"
+    }
+  }
+}
+```
+
+这时候只需要修改 `Default` 为 `Debug` 或 `Trace` 即可，**注意不同环境加载不同的配置文件。开发环境应修改 `appsettings.Development.json` 下的配置。**
 
 ## 18.6 打印日志到 `Swagger` 中
 
