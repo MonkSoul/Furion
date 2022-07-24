@@ -579,7 +579,67 @@ services.AddLogging(builder =>
 
 这时候只需要修改 `Default` 为 `Debug` 或 `Trace` 即可，**注意不同环境加载不同的配置文件。开发环境应修改 `appsettings.Development.json` 下的配置。**
 
-## 18.6 打印日志到 `Swagger` 中
+## 18.6 `[LoggingMonitor]` 监听日志
+
+在 `Furion 3.9.1` 版本新增了 `[LoggingMonitor]` 特性，支持在控制器或操作中贴该特性，可以实现调试日志监听，方便测试，如需自定义：
+
+```cs showLineNumbers {1,7}
+using Furion.Logging;
+
+namespace Furion.Application;
+
+public class TestLoggerServices : IDynamicApiController
+{
+    [LoggingMonitor]
+    public PersonDto GetPerson(int id)
+    {
+        return new PersonDto
+        {
+            Id = id
+        };
+    }
+}
+```
+
+输出日志为：
+
+```bash showLineNumbers
+┏━━━━━━━━━━━  Logging Monitor ━━━━━━━━━━━
+┣ Furion.Application.TestLoggerServices.GetPerson (Furion.Application)
+┣ 
+┣ 控制器名称：              TestLoggerServices
+┣ 操作名称：                GetPerson
+┣ 路由信息：                [area]: ; [controller]: test-logger; [action]: person
+┣ 请求地址：                https://localhost:44316/api/test-logger/person/1
+┣ 来源地址：                https://localhost:44316/api/index.html?urls.primaryName=数据库操作演示
+┣ 浏览器标识：              Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.5060.134 Safari/537.36 Edg/103.0.1264.71
+┣ 客户端 IP 地址：          0.0.0.1
+┣ 服务端 IP 地址：          0.0.0.1
+┣ 服务端运行环境：          Development
+┣ 
+┣ ━━━━━━━━━━━━━━  授权信息 ━━━━━━━━━━━━━━
+┣ JWT Token：               Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOjEsIkFjY291bnQiOiJhZG1pbiIsImlhdCI6MTY1ODY3NjY0OCwibmJmIjoxNjU4Njc2NjQ4LCJleHAiOjE2NTg2Nzc4NDgsImlzcyI6ImRvdG5ldGNoaW5hIiwiYXVkIjoicG93ZXJieSBGdXJpb24ifQ.jdZ8t1dhIFVRIVaLi-Im9NwPjMWR25MND_5fQ2qKNHk
+┣ 
+┣ UserId (integer)：        1
+┣ Account (string)：        admin
+┣ iat (integer)：           1658676648
+┣ nbf (integer)：           1658676648
+┣ exp (integer)：           1658677848
+┣ iss (string)：            dotnetchina
+┣ aud (string)：            powerby Furion
+┣ 
+┣ ━━━━━━━━━━━━━━  参数列表 ━━━━━━━━━━━━━━
+┣ Content-Type：            
+┣ 
+┣ id (Int32)：              1
+┣ 
+┣ ━━━━━━━━━━━━━━  返回信息 ━━━━━━━━━━━━━━
+┣ 类型：                    Furion.Application.Persons.PersonDto
+┣ 返回值：                  {"Id":1,"Name":null,"Age":0,"Address":null,"PhoneNumber":null,"QQ":null,"CreatedTime":"0001-01-01T00:00:00+00:00","Childrens":null,"Posts":null}
+┗━━━━━━━━━━━  Logging Monitor ━━━━━━━━━━━
+```
+
+## 18.7 打印日志到 `Swagger` 中
 
 在 `Furion` 框架中默认集成了 `MiniProfiler` 组件并与 `Swagger` 进行了结合，如需打印日志或调试代码，只需调用以下方法即可：
 
@@ -587,7 +647,7 @@ services.AddLogging(builder =>
 App.PrintToMiniProfiler("分类", "状态", "要打印的消息");
 ```
 
-## 18.7 在后台任务中使用
+## 18.8 在后台任务中使用
 
 由于 `DbContext` 默认注册为 `Scoped` 生存周期，所以在后台任务中使用 `IServiceScopeFactory` 获取所有服务，如：
 
@@ -629,7 +689,7 @@ public class JobService : BackgroundService
 }
 ```
 
-## 18.8 多线程共享作用域
+## 18.9 多线程共享作用域
 
 默认情况下，所有的 `字符串` 和 `实体` 拓展都有自己独立维护的 `ServiceProvider` 作用域。
 
@@ -643,23 +703,23 @@ Scoped.Create(async (fac, scope) => {
 });
 ```
 
-## 18.9 静态 `Default` 方式构建
+## 18.10 静态 `Default` 方式构建
 
 ```cs showLineNumbers
 StringLoggingPart.Default.SetMessage("这是一个日志").LogInformation();
 ```
 
-## 18.10 规范日志模板
+## 18.11 规范日志模板
 
 在 `Furion v3.5.3+` 新增了 `TP.Wrapper(...)` 规范模板，使用如下：
 
 ```cs showLineNumbers {2}
 // 生成模板字符串
 var template = TP.Wrapper("Furion 框架", "让 .NET 开发更简单，更通用，更流行。",
-    "[作者] 百小僧",
-    "[当前版本] v3.5.3",
-    "[文档地址] https://furion.icu",
-    "[Copyright] 百小僧, Baiqian Co.,Ltd.");
+    "##作者## 百小僧",
+    "##当前版本## v3.5.3",
+    "##文档地址## https://furion.icu",
+    "##Copyright## 百小僧, Baiqian Co.,Ltd.");
 
 Console.WriteLine(template);
 ```
@@ -680,11 +740,13 @@ Console.WriteLine(template);
 
 :::tip 关于属性生成
 
-如果列表项以 `[属性名]` 开头，自动生成 `属性名：` 作为行首且自动等宽对齐。
+如果列表项以 `##属性名##` 开头，自动生成 `属性名：` 作为行首且自动等宽对齐。
+
+`Furion 3.9.1` 之前版本使用 `[属性名]` 开头。
 
 :::
 
-## 18.11 反馈与建议
+## 18.12 反馈与建议
 
 :::note 与我们交流
 
