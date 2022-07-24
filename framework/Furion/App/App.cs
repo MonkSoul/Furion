@@ -350,8 +350,8 @@ public static class App
                 // 提示没有正确配置单文件配置
                 Console.WriteLine(TP.Wrapper("Deploy Console"
                     , "Single file deploy error."
-                    , "[Exception] Single file deployment configuration error."
-                    , "[Documentation] https://dotnetchina.gitee.io/furion/docs/singlefile"));
+                    , "##Exception## Single file deployment configuration error."
+                    , "##Documentation## https://dotnetchina.gitee.io/furion/docs/singlefile"));
                 Console.ResetColor();
             }
 

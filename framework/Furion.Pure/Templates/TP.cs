@@ -26,9 +26,13 @@ public static class TP
     /// <returns><see cref="string"/></returns>
     public static string Wrapper(string title, string description, params string[] items)
     {
-        var regex = new Regex(@"^\[(?<prop>.*)?\][:：]?\s*(?<content>.*)");
+        // 处理不同编码问题
+        Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+
+        var regex = new Regex(@"^##(?<prop>.*)?##[:：]?\s*(?<content>.*)");
 
         var stringBuilder = new StringBuilder();
+        stringBuilder.AppendLine();
         stringBuilder.Append($"┏━━━━━━━━━━━  {title} ━━━━━━━━━━━").AppendLine();
 
         // 添加描述
@@ -41,7 +45,8 @@ public static class TP
         {
             var propMaxLength = items.Where(u => regex.IsMatch(u))
                 .DefaultIfEmpty(string.Empty)
-                .Max(u => regex.Match(u).Groups["prop"].Value.Length) + 5;
+                .Max(u => regex.Match(u).Groups["prop"].Value.Length);
+            propMaxLength += (propMaxLength >= 5 ? 10 : 5);
 
             for (var i = 0; i < items.Length; i++)
             {
@@ -74,8 +79,6 @@ public static class TP
     /// <returns></returns>
     private static string PadRight(string str, int totalByteCount)
     {
-        Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
-
         var coding = Encoding.GetEncoding("gbk");
         var dcount = 0;
 
