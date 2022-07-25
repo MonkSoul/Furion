@@ -645,6 +645,8 @@ public class TestLoggerServices : IDynamicApiController
 services.AddMvcFilter<LoggingMonitorAttribute>();
 ```
 
+如果配置了全局请求监视日志，对个别不需要监视的接口方法只需要贴 `[SuppressMonitor]` 特性即可。
+
 :::
 
 ## 18.7 打印日志到 `Swagger` 中
