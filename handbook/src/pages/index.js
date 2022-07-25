@@ -84,7 +84,7 @@ function Banner() {
           <div className="furion-get-start-btn">
             <Link className="furion-get-start" to={useBaseUrl("docs/serverun")}>
               入门指南
-              <span className="furion-version">v3.9.2</span>
+              <span className="furion-version">v4.0.0</span>
             </Link>
             <Link
               className="furion-try-demo"

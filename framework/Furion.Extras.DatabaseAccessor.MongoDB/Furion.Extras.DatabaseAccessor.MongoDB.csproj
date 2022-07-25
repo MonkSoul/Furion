@@ -2,7 +2,7 @@
 
 	<PropertyGroup>
 		<TargetFrameworks>net5.0;net6.0;net7.0</TargetFrameworks>
-		<Version>3.9.3-preview-2022072502</Version>
+		<Version>4.0.0</Version>
 		<Description>Furion 数据库访问器 MongoDB 插件。</Description>
 		<ImplicitUsings>enable</ImplicitUsings>
 	</PropertyGroup>
