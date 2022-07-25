@@ -439,7 +439,18 @@
               "default": 0
             },
             "MinimumLevel": {
-              "$ref": "#/definitions/logLevel"
+              "description": "最低日志级别",
+              "type": "string",
+              "default": "Trace",
+              "enum": [
+                "Trace",
+                "Debug",
+                "Information",
+                "Warning",
+                "Error",
+                "Critical",
+                "None"
+              ]
             }
           }
         },
@@ -448,7 +459,18 @@
           "description": "数据库日志记录器配置选项",
           "properties": {
             "MinimumLevel": {
-              "$ref": "#/definitions/logLevel"
+              "description": "最低日志级别",
+              "type": "string",
+              "default": "Trace",
+              "enum": [
+                "Trace",
+                "Debug",
+                "Information",
+                "Warning",
+                "Error",
+                "Critical",
+                "None"
+              ]
             }
           }
         }
