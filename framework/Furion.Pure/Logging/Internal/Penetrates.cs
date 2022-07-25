@@ -93,7 +93,7 @@ internal static class Penetrates
             LogLevel.Error => "ERR",
             LogLevel.Critical => "CRT",
             LogLevel.None => "NON",
-            _ => "UNK",
+            _ => logLevel.ToString().ToUpper(),
         };
     }
 }

@@ -606,38 +606,46 @@ public class TestLoggerServices : IDynamicApiController
 ```bash showLineNumbers
 ┏━━━━━━━━━━━  Logging Monitor ━━━━━━━━━━━
 ┣ Furion.Application.TestLoggerServices.GetPerson (Furion.Application)
-┣ 
+┣
 ┣ 控制器名称：              TestLoggerServices
 ┣ 操作名称：                GetPerson
 ┣ 路由信息：                [area]: ; [controller]: test-logger; [action]: person
-┣ 请求地址：                https://localhost:44316/api/test-logger/person/1
-┣ 来源地址：                https://localhost:44316/api/index.html?urls.primaryName=数据库操作演示
-┣ 浏览器标识：              Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.5060.134 Safari/537.36 Edg/103.0.1264.71
+┣ 请求地址：                https://localhost:44316/api/test-logger/person/11
+┣ 来源地址：                https://localhost:44316/api/index.html
+┣ 浏览器标识：              Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.5060.114 Safari/537.36 Edg/103.0.1264.62
 ┣ 客户端 IP 地址：          0.0.0.1
 ┣ 服务端 IP 地址：          0.0.0.1
 ┣ 服务端运行环境：          Development
-┣ 
-┣ ━━━━━━━━━━━━━━  授权信息 ━━━━━━━━━━━━━━
-┣ JWT Token：               Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOjEsIkFjY291bnQiOiJhZG1pbiIsImlhdCI6MTY1ODY3NjY0OCwibmJmIjoxNjU4Njc2NjQ4LCJleHAiOjE2NTg2Nzc4NDgsImlzcyI6ImRvdG5ldGNoaW5hIiwiYXVkIjoicG93ZXJieSBGdXJpb24ifQ.jdZ8t1dhIFVRIVaLi-Im9NwPjMWR25MND_5fQ2qKNHk
-┣ 
+┣ 执行耗时：                31ms
+┣ ━━━━━━━━━━━━━━━  授权信息 ━━━━━━━━━━━━━━━
+┣ JWT Token：               Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOjEsIkFjY291bnQiOiJhZG1pbiIsImlhdCI6MTY1ODcxNjc5NywibmJmIjoxNjU4NzE2Nzk3LCJleHAiOjE2NTg3MTc5OTcsImlzcyI6ImRvdG5ldGNoaW5hIiwiYXVkIjoicG93ZXJieSBGdXJpb24ifQ.VYZkwwqCwlUy3aJjuL-og62I0rkxNQ96kSjEm3VgXtg
+┣
 ┣ UserId (integer)：        1
 ┣ Account (string)：        admin
-┣ iat (integer)：           1658676648
-┣ nbf (integer)：           1658676648
-┣ exp (integer)：           1658677848
+┣ iat (integer)：           1658716797
+┣ nbf (integer)：           1658716797
+┣ exp (integer)：           1658717997
 ┣ iss (string)：            dotnetchina
 ┣ aud (string)：            powerby Furion
-┣ 
-┣ ━━━━━━━━━━━━━━  参数列表 ━━━━━━━━━━━━━━
-┣ Content-Type：            
-┣ 
-┣ id (Int32)：              1
-┣ 
-┣ ━━━━━━━━━━━━━━  返回信息 ━━━━━━━━━━━━━━
+┣ ━━━━━━━━━━━━━━━  参数列表 ━━━━━━━━━━━━━━━
+┣ Content-Type：
+┣
+┣ id (Int32)：              11
+┣ ━━━━━━━━━━━━━━━  返回信息 ━━━━━━━━━━━━━━━
 ┣ 类型：                    Furion.Application.Persons.PersonDto
-┣ 返回值：                  {"Id":1,"Name":null,"Age":0,"Address":null,"PhoneNumber":null,"QQ":null,"CreatedTime":"0001-01-01T00:00:00+00:00","Childrens":null,"Posts":null}
+┣ 返回值：                  {"Id":11,"Name":null,"Age":0,"Address":null,"PhoneNumber":null,"QQ":null,"CreatedTime":"0001-01-01T00:00:00+00:00","Childrens":null,"Posts":null}
 ┗━━━━━━━━━━━  Logging Monitor ━━━━━━━━━━━
 ```
+
+:::tip 实现全局监听
+
+默认情况下，只对贴有 `[LoggingMonitor]` 的控制器或操作有效，如需全局控制可通过以下代码在 `Startup.cs` 中注册即可：
+
+```cs showLineNumbers
+services.AddMvcFilter<LoggingMonitorAttribute>();
+```
+
+:::
 
 ## 18.7 打印日志到 `Swagger` 中
 

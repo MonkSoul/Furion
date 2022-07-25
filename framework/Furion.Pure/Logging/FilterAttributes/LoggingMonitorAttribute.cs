@@ -14,19 +14,28 @@ using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Primitives;
 using System.Diagnostics;
+using System.Reflection;
+using System.Security.Claims;
 using System.Text.Encodings.Web;
 using System.Text.Json;
 
 namespace Furion.Logging;
 
 /// <summary>
-/// 日志监视器
+/// 强大的日志监听器
 /// </summary>
 /// <remarks>主要用于将请求的信息打印出来</remarks>
 [AttributeUsage(AttributeTargets.Method | AttributeTargets.Class, Inherited = true, AllowMultiple = false)]
 public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter
 {
+    /// <summary>
+    /// 固定日志分类名
+    /// </summary>
+    /// <remarks>方便对日志进行过滤写入不同的存储介质中</remarks>
+    private const string LOG_CATEGORY_NAME = "System.Logging.LoggingMonitor";
+
     /// <summary>
     /// 构造函数
     /// </summary>
@@ -35,9 +44,9 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter
     }
 
     /// <summary>
-    /// 显示调用堆栈
+    /// 日志标题
     /// </summary>
-    public bool StackTrace { get; set; } = false;
+    public string Title { get; set; } = "Logging Monitor";
 
     /// <summary>
     /// 监视 Action 执行
@@ -47,7 +56,7 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter
     /// <returns></returns>
     public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
     {
-        // 获取控制器/操作描述器材
+        // 获取控制器/操作描述器
         var controllerActionDescriptor = context.ActionDescriptor as ControllerActionDescriptor;
 
         // 获取路由表信息
@@ -56,7 +65,7 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter
         var actionName = routeData.Values["action"];
         var areaName = routeData.DataTokens["area"];
 
-        // 调用呈现链
+        // 调用呈现链名称
         var displayName = controllerActionDescriptor.DisplayName;
 
         // 获取请求方法
@@ -66,7 +75,7 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter
         var httpContext = context.HttpContext;
         var httpRequest = httpContext.Request;
 
-        // 获取客户端 IPv4 地址
+        // 获取服务端 IPv4 地址
         var localIPv4 = httpContext.GetLocalIpAddressToIPv4();
 
         // 获取客户端 IPv4 地址
@@ -82,26 +91,26 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter
         var environmentName = httpContext.RequestServices.GetRequiredService<IWebHostEnvironment>().EnvironmentName;
 
         // 获取方法参数
-        var parameters = context.ActionArguments;
+        var parameterValues = context.ActionArguments;
 
         // 获取授权用户
         var user = httpContext.User;
 
         // token 信息
-        var token = httpRequest.Headers["Authorization"].ToString();
+        var authorization = httpRequest.Headers["Authorization"].ToString();
 
         // 解析 token 内容
 
         // 客户端浏览器信息
         var userAgent = httpRequest.Headers["User-Agent"];
 
+        // 计算接口执行时间
+        var timeOperation = Stopwatch.StartNew();
         var resultContext = await next();
+        timeOperation.Stop();
 
         // 获取异常对象情况
         var exception = resultContext.Exception;
-
-        // 获取调用堆栈
-        var stackTrace = EnhancedStackTrace.Current();
 
         var monitorItems = new List<string>()
         {
@@ -114,113 +123,179 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter
             , $"##客户端 IP 地址## {remoteIPv4}"
             , $"##服务端 IP 地址## {localIPv4}"
             , $"##服务端运行环境## {environmentName}"
+            , $"##执行耗时## {timeOperation.ElapsedMilliseconds}ms"
         };
 
-        // 授权信息
-        if (user.Claims.Any())
-        {
-            monitorItems.AddRange(new[]
-            {
-                ""
-                , $"━━━━━━━━━━━━━━  授权信息 ━━━━━━━━━━━━━━"
-                , $"##JWT Token## {token}"
-                , $""
-            });
+        // 添加 JWT 授权信息日志模板
+        monitorItems.AddRange(GenerateAuthorizationTemplate(user, authorization));
 
-            // 遍历身份信息
-            foreach (var claim in user.Claims)
-            {
-                monitorItems.Add($"##{claim.Type} ({(claim.ValueType.Replace("http://www.w3.org/2001/XMLSchema#", ""))})## {claim.Value}");
-            }
+        // 添加请求参数信息日志模板
+        monitorItems.AddRange(GenerateParameterTemplate(parameterValues, actionMethod, httpRequest.Headers.ContentType));
+
+        // 添加返回值信息日志模板
+        monitorItems.AddRange(GenerateReturnInfomationTemplate(resultContext, actionMethod));
+
+        // 添加异常信息日志模板
+        monitorItems.AddRange(GenerateExcetpionInfomationTemplate(exception));
+
+        // 生成最终模板
+        var monitor = TP.Wrapper(Title, displayName, monitorItems.ToArray());
+
+        // 创建日志记录器
+        var logger = httpContext.RequestServices.GetRequiredService<ILoggerFactory>()
+            .CreateLogger(LOG_CATEGORY_NAME);
+
+        // 写入日志
+        logger.LogInformation(monitor);
+    }
+
+    /// <summary>
+    /// 生成 JWT 授权信息日志模板
+    /// </summary>
+    /// <param name="claimsPrincipal"></param>
+    /// <param name="authorization"></param>
+    /// <returns></returns>
+    private static List<string> GenerateAuthorizationTemplate(ClaimsPrincipal claimsPrincipal, StringValues authorization)
+    {
+        var templates = new List<string>();
+
+        if (!claimsPrincipal.Claims.Any()) return templates;
+
+        templates.AddRange(new[]
+        {
+            $"━━━━━━━━━━━━━━━  授权信息 ━━━━━━━━━━━━━━━"
+            , $"##JWT Token## {authorization}"
+            , $""
+        });
+
+        // 遍历身份信息
+        foreach (var claim in claimsPrincipal.Claims)
+        {
+            templates.Add($"##{claim.Type} ({(claim.ValueType.Replace("http://www.w3.org/2001/XMLSchema#", ""))})## {claim.Value}");
         }
 
-        // 处理参数
-        if (parameters.Count > 0)
+        return templates;
+    }
+
+    /// <summary>
+    /// 生成请求参数信息日志模板
+    /// </summary>
+    /// <param name="parameterValues"></param>
+    /// <param name="method"></param>
+    /// <param name="contentType"></param>
+    /// <returns></returns>
+    private static List<string> GenerateParameterTemplate(IDictionary<string, object> parameterValues, MethodInfo method, StringValues contentType)
+    {
+        var templates = new List<string>();
+
+        if (parameterValues.Count == 0) return templates;
+
+        templates.AddRange(new[]
         {
-            monitorItems.AddRange(new[]
+            $"━━━━━━━━━━━━━━━  参数列表 ━━━━━━━━━━━━━━━"
+            , $"##Content-Type## {contentType}"
+            , $""
+        });
+
+        var parameters = method.GetParameters();
+        foreach (var parameter in parameters)
+        {
+            var name = parameter.Name;
+            var value = parameterValues[name];
+            var type = parameter.ParameterType;
+
+            object rawValue = default;
+
+            // 文件类型参数
+            if (value is IFormFile || value is List<IFormFile>)
             {
-                ""
-                , $"━━━━━━━━━━━━━━  参数列表 ━━━━━━━━━━━━━━"
-                , $"##Content-Type## {httpRequest.Headers.ContentType}"
-                , $""
-            });
-
-            // 遍历参数
-            foreach (var parameter in actionMethod.GetParameters())
-            {
-                var name = parameter.Name;
-                var value = parameters[name];
-                var type = parameter.ParameterType;
-
-                object rawValue = default;
-
-                if (value is IFormFile || value is List<IFormFile>)
+                // 单文件
+                if (value is IFormFile formFile)
                 {
-                    if (value is IFormFile formFile)
-                    {
-                        rawValue = $"[name]: {formFile.FileName}; [size]: {(Math.Round(formFile.Length / 1024D))}kb; [content-type]: {formFile.ContentType}";
-                    }
-                    else if (value is List<IFormFile> formFiles)
-                    {
-                        for (var i = 0; i < formFiles.Count; i++)
-                        {
-                            var file = formFiles[i];
-                            monitorItems.Add($"##{name}{i} ({nameof(IFormFile)})## [name]: {file.FileName}; [size]: {(Math.Round(file.Length / 1024D))}kb; [content-type]: {file.ContentType}");
-                        }
-
-                        continue;
-                    }
+                    rawValue = $"[name]: {formFile.FileName}; [size]: {(Math.Round(formFile.Length / 1024D))}KB; [content-type]: {formFile.ContentType}";
                 }
-                else if (type.IsPrimitive || value is string || value == null) rawValue = value;
-                else
+                // 多文件
+                else if (value is List<IFormFile> formFiles)
                 {
-                    rawValue = JsonSerializer.Serialize(value, new JsonSerializerOptions
+                    for (var i = 0; i < formFiles.Count; i++)
                     {
-                        Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping
-                    });
-                }
+                        var file = formFiles[i];
+                        templates.Add($"##{name}{i} ({nameof(IFormFile)})## [name]: {file.FileName}; [size]: {(Math.Round(file.Length / 1024D))}KB; [content-type]: {file.ContentType}");
+                    }
 
-                monitorItems.Add($"##{name} ({type.Name})## {rawValue}");
+                    continue;
+                }
             }
+            // 处理基元类型，字符串类型和空值
+            else if (type.IsPrimitive || value is string || value == null) rawValue = value;
+            // 其他类型统一进行序列化
+            else
+            {
+                rawValue = JsonSerializer.Serialize(value, new JsonSerializerOptions
+                {
+                    // 处理中文乱码问题
+                    Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping
+                });
+            }
+
+            templates.Add($"##{name} ({type.Name})## {rawValue}");
         }
 
-        // 返回值
+        return templates;
+    }
+
+    /// <summary>
+    /// 生成返回值信息日志模板
+    /// </summary>
+    /// <param name="resultContext"></param>
+    /// <param name="method"></param>
+    /// <returns></returns>
+    private static List<string> GenerateReturnInfomationTemplate(ActionExecutedContext resultContext, MethodInfo method)
+    {
+        var templates = new List<string>();
+
         object returnValue = null;
+
+        // 解析返回值
         if (UnifyContext.CheckVaildResult(resultContext.Result, out var data)) returnValue = data;
-        var jsonReturnValue = actionMethod.ReturnType == typeof(void)
+
+        // 获取最终呈现值（字符串类型）
+        var displayValue = method.ReturnType == typeof(void)
             ? string.Empty
             : JsonSerializer.Serialize(returnValue, new JsonSerializerOptions
             {
                 Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping
             });
 
-        monitorItems.AddRange(new[]
+        templates.AddRange(new[]
         {
-            ""
-            , $"━━━━━━━━━━━━━━  返回信息 ━━━━━━━━━━━━━━"
-            , $"##类型## {actionMethod.ReturnType.FullName}"
-            , $"##返回值## {jsonReturnValue}"
+            $"━━━━━━━━━━━━━━━  返回信息 ━━━━━━━━━━━━━━━"
+            , $"##类型## {method.ReturnType.FullName}"
+            , $"##返回值## {displayValue}"
         });
 
-        // 处理异常
-        if (exception != null)
+        return templates;
+    }
+
+    /// <summary>
+    /// 生成异常信息日志模板
+    /// </summary>
+    /// <param name="exception"></param>
+    /// <returns></returns>
+    private static List<string> GenerateExcetpionInfomationTemplate(Exception exception)
+    {
+        var templates = new List<string>();
+
+        if (exception == null) return templates;
+
+        templates.AddRange(new[]
         {
-            monitorItems.AddRange(new[]
-            {
-                ""
-                , $"━━━━━━━━━━━━━━  异常信息 ━━━━━━━━━━━━━━"
-                , $"##类型## {exception.GetType()}"
-                , $"##消息## {exception.Message}"
-                , $"##错误堆栈## {exception.StackTrace}"
-            });
-        }
+            $"━━━━━━━━━━━━━━━  异常信息 ━━━━━━━━━━━━━━━"
+            , $"##类型## {exception.GetType()}"
+            , $"##消息## {exception.Message}"
+            , $"##错误堆栈## {exception.StackTrace}"
+        });
 
-        var monitor = TP.Wrapper("Logging Monitor", displayName, monitorItems.ToArray());
-
-        // 创建日志工厂并写入
-        var loggerFactory = httpContext.RequestServices.GetRequiredService<ILoggerFactory>();
-        var logger = loggerFactory.CreateLogger(displayName);
-
-        logger.LogInformation(monitor);
+        return templates;
     }
 }

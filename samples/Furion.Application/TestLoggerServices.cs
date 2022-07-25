@@ -71,4 +71,13 @@ public class TestLoggerServices : IDynamicApiController
         var c = id / 0;
         return c;
     }
+
+    [LoggingMonitor]
+    public PersonDto GetPerson(int id)
+    {
+        return new PersonDto
+        {
+            Id = id
+        };
+    }
 }
