@@ -59,6 +59,16 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter
         // 获取控制器/操作描述器
         var controllerActionDescriptor = context.ActionDescriptor as ControllerActionDescriptor;
 
+        // 获取请求方法
+        var actionMethod = controllerActionDescriptor.MethodInfo;
+
+        // 如果贴了 [SuppressMonitor] 特性则跳过
+        if (actionMethod.IsDefined(typeof(SuppressMonitorAttribute), true))
+        {
+            _ = await next();
+            return;
+        }
+
         // 获取路由表信息
         var routeData = context.RouteData;
         var controllerName = routeData.Values["controller"];
@@ -67,9 +77,6 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter
 
         // 调用呈现链名称
         var displayName = controllerActionDescriptor.DisplayName;
-
-        // 获取请求方法
-        var actionMethod = controllerActionDescriptor.MethodInfo;
 
         // 获取 HttpContext 和 HttpRequest 对象
         var httpContext = context.HttpContext;
