@@ -140,9 +140,13 @@ internal static class InternalApp
     internal static void AddJsonFiles(IConfigurationBuilder configurationBuilder, IHostEnvironment hostEnvironment)
     {
         // 获取根配置
+#if !NET5_0
         var configuration = configurationBuilder is ConfigurationManager
             ? (configurationBuilder as ConfigurationManager)
             : configurationBuilder.Build();
+#else
+        var configuration = configurationBuilder.Build();
+#endif
 
         // 获取程序执行目录
         var executeDirectory = AppContext.BaseDirectory;

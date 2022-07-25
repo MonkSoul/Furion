@@ -6,14 +6,22 @@
 // THIS SOFTWARE IS PROVIDED ON AN "AS IS" BASIS, WITHOUT WARRANTIES OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO NON-INFRINGEMENT, MERCHANTABILITY OR FIT FOR A PARTICULAR PURPOSE.
 // See the Mulan PSL v2 for more details.
 
+#if !NET5_0
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
+#endif
 
 namespace System;
 
+#if !NET5_0
 /// <summary>
 /// <see cref="WebApplication"/> 方式配置选项
 /// </summary>
+#else
+/// <summary>
+/// <see cref="LegacyRunOptions"/> 方式配置选项
+/// </summary>
+#endif
 [SuppressSniffer]
 public sealed class RunOptions
 {
@@ -24,11 +32,19 @@ public sealed class RunOptions
     {
     }
 
+#if !NET5_0
     /// <summary>
     /// 默认配置
     /// </summary>
     public static RunOptions Default { get; } = new RunOptions();
+#else
+    /// <summary>
+    /// 默认配置
+    /// </summary>
+    public static LegacyRunOptions Default { get; } = new LegacyRunOptions();
+#endif
 
+#if !NET5_0
     /// <summary>
     /// 配置 <see cref="WebApplicationOptions"/>
     /// </summary>
@@ -188,4 +204,5 @@ public sealed class RunOptions
     /// 应用中间件组件
     /// </summary>
     internal Dictionary<Type, object> ApplicationComponents { get; set; } = new();
+#endif
 }

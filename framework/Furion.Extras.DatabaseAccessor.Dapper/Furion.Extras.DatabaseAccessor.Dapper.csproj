@@ -1,11 +1,16 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFrameworks>net6.0;net7.0</TargetFrameworks>
-		<Version>3.9.3-preview-2022072501</Version>
+		<TargetFrameworks>net5.0;net6.0;net7.0</TargetFrameworks>
+		<Version>3.9.3-preview-2022072502</Version>
 		<Description>Furion 数据库访问器 Dapper 插件。</Description>
 		<ImplicitUsings>enable</ImplicitUsings>
 	</PropertyGroup>
+
+	<ItemGroup Condition=" '$(TargetFramework)' == 'net5.0' ">
+		<PackageReference Include="Dapper.Contrib" Version="2.0.78" />
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.0.0" />
+	</ItemGroup>
 
 	<ItemGroup Condition=" '$(TargetFramework)' == 'net6.0' ">
 		<PackageReference Include="Dapper.Contrib" Version="2.0.78" />

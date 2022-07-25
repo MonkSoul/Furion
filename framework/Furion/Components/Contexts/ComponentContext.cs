@@ -82,7 +82,7 @@ public sealed class ComponentContext
     /// <returns></returns>
     public Dictionary<string, object> SetProperty(string key, object value)
     {
-        ArgumentNullException.ThrowIfNull(key);
+        if (string.IsNullOrWhiteSpace(key)) throw new ArgumentNullException(nameof(key));
 
         var properties = RootContext == null ? Properties : RootContext.Properties;
 
@@ -126,7 +126,7 @@ public sealed class ComponentContext
     /// <returns></returns>
     public TComponentOptions GetProperty<TComponentOptions>(string key)
     {
-        ArgumentNullException.ThrowIfNull(key);
+        if (string.IsNullOrWhiteSpace(key)) throw new ArgumentNullException(nameof(key));
 
         var properties = RootContext == null ? Properties : RootContext.Properties;
 

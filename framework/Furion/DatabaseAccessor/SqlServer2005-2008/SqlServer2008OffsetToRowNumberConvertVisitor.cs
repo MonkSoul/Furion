@@ -17,15 +17,22 @@ namespace Microsoft.EntityFrameworkCore.Query;
 /// </summary>
 internal class SqlServer2008OffsetToRowNumberConvertVisitor : ExpressionVisitor
 {
+#if !NET5_0
     /// <summary>
     /// 筛选列访问器
     /// </summary>
     private static readonly MethodInfo GenerateOuterColumnAccessor;
-
+    
     /// <summary>
     /// 引用 TableReferenceExpression 类型
     /// </summary>
     private static readonly Type TableReferenceExpressionType;
+#else
+    /// <summary>
+    /// 筛选列访问器
+    /// </summary>
+    private static readonly Func<SelectExpression, SqlExpression, string, ColumnExpression> GenerateOuterColumnAccessor;
+#endif
 
     /// <summary>
     /// 表达式根节点
@@ -47,8 +54,12 @@ internal class SqlServer2008OffsetToRowNumberConvertVisitor : ExpressionVisitor
         if (!typeof(ColumnExpression).IsAssignableFrom(method?.ReturnType))
             throw new InvalidOperationException("SelectExpression.GenerateOuterColumn() is not found.");
 
+#if !NET5_0
         TableReferenceExpressionType = method.GetParameters().First().ParameterType;
         GenerateOuterColumnAccessor = method;
+#else
+        GenerateOuterColumnAccessor = (Func<SelectExpression, SqlExpression, string, ColumnExpression>)method.CreateDelegate(typeof(Func<SelectExpression, SqlExpression, string, ColumnExpression>));
+#endif
     }
 
     /// <summary>
@@ -113,6 +124,7 @@ internal class SqlServer2008OffsetToRowNumberConvertVisitor : ExpressionVisitor
 
         var subQuery = (SelectExpression)selectExpression.Tables[0];
         var projection = new RowNumberExpression(Array.Empty<SqlExpression>(), rowOrderings, oldOffset.TypeMapping);
+#if !NET5_0
         var left = GenerateOuterColumnAccessor.Invoke(subQuery
             , new object[]
             {
@@ -121,6 +133,9 @@ internal class SqlServer2008OffsetToRowNumberConvertVisitor : ExpressionVisitor
                 "row",
                 true
             }) as ColumnExpression;
+#else
+        var left = GenerateOuterColumnAccessor(subQuery, projection, "row");
+#endif
 
         selectExpression.ApplyPredicate(sqlExpressionFactory.GreaterThan(left, oldOffset));
 

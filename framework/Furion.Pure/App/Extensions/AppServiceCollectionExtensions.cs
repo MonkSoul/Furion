@@ -66,8 +66,10 @@ public static class AppServiceCollectionExtensions
         var configureOptions = new InjectServiceOptions();
         configure?.Invoke(configureOptions);
 
-        services.AddEndpointsApiExplorer()
-                .AddSpecificationDocuments(configureOptions?.SpecificationDocumentConfigure)
+#if !NET5_0
+        services.AddEndpointsApiExplorer();
+#endif
+        services.AddSpecificationDocuments(configureOptions?.SpecificationDocumentConfigure)
                 .AddDataValidation(configureOptions?.DataValidationConfigure)
                 .AddFriendlyException(configureOptions?.FriendlyExceptionConfigure);
 

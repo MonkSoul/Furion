@@ -137,7 +137,7 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter
         monitorItems.AddRange(GenerateAuthorizationTemplate(user, authorization));
 
         // 添加请求参数信息日志模板
-        monitorItems.AddRange(GenerateParameterTemplate(parameterValues, actionMethod, httpRequest.Headers.ContentType));
+        monitorItems.AddRange(GenerateParameterTemplate(parameterValues, actionMethod, httpRequest.Headers["Content-Type"]));
 
         // 添加返回值信息日志模板
         monitorItems.AddRange(GenerateReturnInfomationTemplate(resultContext, actionMethod));

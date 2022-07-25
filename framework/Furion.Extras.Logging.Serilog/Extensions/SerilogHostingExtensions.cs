@@ -6,7 +6,9 @@
 // THIS SOFTWARE IS PROVIDED ON AN "AS IS" BASIS, WITHOUT WARRANTIES OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO NON-INFRINGEMENT, MERCHANTABILITY OR FIT FOR A PARTICULAR PURPOSE.
 // See the Mulan PSL v2 for more details.
 
+#if !NET5_0
 using Microsoft.AspNetCore.Builder;
+#endif
 using Microsoft.AspNetCore.Hosting;
 using Serilog;
 using Serilog.Events;
@@ -26,7 +28,9 @@ public static class SerilogHostingExtensions
     /// <param name="hostBuilder"></param>
     /// <param name="configAction"></param>
     /// <returns>IWebHostBuilder</returns>
+#if !NET5_0
     [Obsolete("Prefer UseSerilog() on IHostBuilder")]
+#endif
     public static IWebHostBuilder UseSerilogDefault(this IWebHostBuilder hostBuilder, Action<LoggerConfiguration> configAction = default)
     {
         // 判断是否是单文件环境
@@ -88,7 +92,7 @@ public static class SerilogHostingExtensions
 
         return builder;
     }
-
+#if !NET5_0
     /// <summary>
     /// 添加默认日志拓展
     /// </summary>
@@ -101,4 +105,5 @@ public static class SerilogHostingExtensions
 
         return builder;
     }
+#endif
 }

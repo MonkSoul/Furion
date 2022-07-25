@@ -26,9 +26,16 @@ public static class Serve
     /// <param name="urls">默认 5000/5001 端口</param>
     public static void Run(string urls = default)
     {
+#if !NET5_0
         Run(RunOptions.Default
             .AddComponent<ServeServiceComponent>()
             .UseComponent<ServeApplicationComponent>(), urls);
+#else
+
+        Run((LegacyRunOptions.Default
+            .AddComponent<ServeServiceComponent>() as LegacyRunOptions)
+            .UseComponent<ServeApplicationComponent>(), urls);
+#endif
     }
 
     /// <summary>
@@ -117,7 +124,7 @@ public static class Serve
 
         builder.Build().Run();
     }
-
+#if !NET5_0
     /// <summary>
     /// 启动 WebApplication 主机
     /// </summary>
@@ -174,4 +181,5 @@ public static class Serve
 
         app.Run();
     }
+#endif
 }
