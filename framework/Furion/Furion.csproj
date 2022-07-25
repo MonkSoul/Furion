@@ -1,11 +1,12 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFramework>net6.0</TargetFramework>
-		<Version>3.9.2</Version>
+		<TargetFrameworks>net6.0;net7.0</TargetFrameworks>
+		<Version>3.9.3-preview-2022072501</Version>
 		<Description>让 .NET 开发更简单，更通用，更流行。</Description>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 		<ImplicitUsings>enable</ImplicitUsings>
+		<OpenApiGenerateDocuments>false</OpenApiGenerateDocuments>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -26,6 +27,12 @@
 
 	<ItemGroup Condition=" '$(TargetFramework)' == 'net6.0' ">
 		<PackageReference Include="Furion.Extras.DependencyModel.CodeAnalysis" Version="3.9.2" />
+		<PackageReference Include="MiniProfiler.AspNetCore.Mvc" Version="4.2.22" />
+		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
+	</ItemGroup>
+
+	<ItemGroup Condition=" '$(TargetFramework)' == 'net7.0' ">
+		<PackageReference Include="Furion.Extras.DependencyModel.CodeAnalysis" Version="3.9.3-preview-2022072501" />
 		<PackageReference Include="MiniProfiler.AspNetCore.Mvc" Version="4.2.22" />
 		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
 	</ItemGroup>

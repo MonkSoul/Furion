@@ -1,14 +1,18 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFramework>net6.0</TargetFramework>
-		<Version>3.9.2</Version>
+		<TargetFrameworks>net6.0;net7.0</TargetFrameworks>
+		<Version>3.9.3-preview-2022072501</Version>
 		<Description>Furion Jwt 授权验证拓展插件。</Description>
 		<ImplicitUsings>enable</ImplicitUsings>
 	</PropertyGroup>
 
 	<ItemGroup Condition=" '$(TargetFramework)' == 'net6.0' ">
 		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.7" />
+	</ItemGroup>
+
+	<ItemGroup Condition=" '$(TargetFramework)' == 'net7.0' ">
+		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.0-preview.6.22330.3" />
 	</ItemGroup>
 
 </Project>

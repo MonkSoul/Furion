@@ -1,8 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFramework>net6.0</TargetFramework>
-		<Version>3.9.2</Version>
+		<TargetFrameworks>net6.0;net7.0</TargetFrameworks>
+		<Version>3.9.3-preview-2022072501</Version>
 		<Description>Furion 程序集扫描和代码分析拓展插件。</Description>
 		<ImplicitUsings>enable</ImplicitUsings>
 	</PropertyGroup>
@@ -13,6 +13,14 @@
 		<PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.2.0" />
 		<PackageReference Include="Microsoft.Extensions.DependencyModel" Version="6.0.0" />
 		<PackageReference Include="System.Text.Json" Version="6.0.5" />
+	</ItemGroup>
+
+	<ItemGroup Condition=" '$(TargetFramework)' == 'net7.0' ">
+		<PackageReference Include="Ben.Demystifier" Version="0.4.1" />
+		<PackageReference Include="Microsoft.AspNetCore.Razor.Language" Version="6.0.7" />
+		<PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.3.0-2.final" />
+		<PackageReference Include="Microsoft.Extensions.DependencyModel" Version="7.0.0-preview.6.22324.4" />
+		<PackageReference Include="System.Text.Json" Version="7.0.0-preview.6.22324.4" />
 	</ItemGroup>
 
 </Project>

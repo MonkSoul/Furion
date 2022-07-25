@@ -36,8 +36,9 @@ public class DynamicModelCacheKeyFactory : IModelCacheKeyFactory
     /// 更新模型缓存
     /// </summary>
     /// <param name="context"></param>
+    /// <param name="designTime"></param>
     /// <returns></returns>
-    public object Create(DbContext context)
+    public object Create(DbContext context, bool designTime)
     {
         return (context.GetType(), cacheKey);
     }
