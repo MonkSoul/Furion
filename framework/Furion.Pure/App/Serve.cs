@@ -6,6 +6,7 @@
 // THIS SOFTWARE IS PROVIDED ON AN "AS IS" BASIS, WITHOUT WARRANTIES OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO NON-INFRINGEMENT, MERCHANTABILITY OR FIT FOR A PARTICULAR PURPOSE.
 // See the Mulan PSL v2 for more details.
 
+using Furion;
 using Furion.Components;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -45,6 +46,19 @@ public static class Serve
     /// <param name="options">配置选项</param>
     /// <param name="urls">默认 5000/5001 端口</param>
     public static void Run(LegacyRunOptions options, string urls = default)
+    {
+        Run<FakeStartup>(options, urls);
+    }
+
+    /// <summary>
+    /// 启动泛型 Web 主机
+    /// </summary>
+    /// <remarks>未包含 Web 基础功能，需手动注册服务/中间件</remarks>
+    /// <typeparam name="TStartup">启动项目</typeparam>
+    /// <param name="options">配置选项</param>
+    /// <param name="urls">默认 5000/5001 端口</param>
+    public static void Run<TStartup>(LegacyRunOptions options, string urls = default)
+        where TStartup : class
     {
         // 获取命令行参数
         var args = Environment.GetCommandLineArgs().Skip(1).ToArray();
@@ -87,6 +101,12 @@ public static class Serve
                 }
             });
 
+            // 解决 .NET5 项目必须配置 Startup 问题
+            if (typeof(TStartup) != typeof(FakeStartup))
+            {
+                webHostBuilder.UseStartup<TStartup>();
+            }
+
             // 调用自定义配置
             options?.ActionWebHostBuilder?.Invoke(webHostBuilder);
         });
@@ -124,6 +144,7 @@ public static class Serve
 
         builder.Build().Run();
     }
+
 #if !NET5_0
     /// <summary>
     /// 启动 WebApplication 主机

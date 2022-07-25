@@ -99,15 +99,15 @@ public sealed class FileLogger : ILogger
             var timeStamp = _fileLoggerProvider.UseUtcTimestamp ? DateTime.UtcNow : DateTime.Now;
 
             formatString.Append(timeStamp.ToString("o"));
-            formatString.Append("\t[");
+            formatString.Append("  [");
             formatString.Append(Penetrates.GetShortLogLevel(logLevel));
             formatString.Append(']');
-            formatString.Append("\t[");
+            formatString.Append("  [");
             formatString.Append(_logName);
             formatString.Append(']');
-            formatString.Append("\t[");
+            formatString.Append("  [");
             formatString.Append(eventId);
-            formatString.Append("]\t");
+            formatString.Append("]  ");
             formatString.Append(message);
         }
 
