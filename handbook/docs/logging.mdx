@@ -551,7 +551,7 @@ services.AddLogging(builder =>
 {
 	builder.AddFile("applicaion.log");
 
-    builder.AddDatabaseFile<DatabaseLoggingWriter>();
+    builder.AddDatabase<DatabaseLoggingWriter>();
 
     //....
 });
