@@ -677,8 +677,6 @@ services.AddMonitorLogging();   // 默认读取 Logging:Monitor 下配置，支�
 
 如果配置了全局请求监视日志，对个别不需要监视的接口方法只需要贴 `[SuppressMonitor]` 特性即可。
 
-:::
-
 ## 18.7 打印日志到 `Swagger` 中
 
 在 `Furion` 框架中默认集成了 `MiniProfiler` 组件并与 `Swagger` 进行了结合，如需打印日志或调试代码，只需调用以下方法即可：
