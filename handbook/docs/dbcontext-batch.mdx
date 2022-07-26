@@ -23,7 +23,7 @@ sidebar_label: 9.9 批量操作
 ```cs showLineNumbers  {3,5}
 services.AddDatabaseAccessor(options =>
 {
-    options.AddDbPool<DefaultDbContext>(providerName: default, optionBuilder: opt =>
+    options.AddDbPool<DefaultDbContext>(providerName: default, optionBuilder: (services, opt) => // 如果是 v3.7.11 之前，使用 opt =>
     {
         opt.UseBatchEF_Sqlite();    // SQlite 数据库包
     });
@@ -32,7 +32,7 @@ services.AddDatabaseAccessor(options =>
 
 ### 9.9.2.3 基本使用
 
-```cs showLineNumbers 
+```cs showLineNumbers
 // 批量更新
 await repository.Context.BatchUpdate<Book>()
     .Set(b => b.Price, b => b.Price + 3)
@@ -52,7 +52,7 @@ await repository.Context.DeleteRangeAsync<Book>(b => b.Price > n || b.AuthorName
 
 ### 9.9.3.1 常见批量操作
 
-```cs showLineNumbers 
+```cs showLineNumbers
 // 批量插入
 repository.Context.BulkInsert(entitiesList);
 repository.Context.BulkInsertAsync(entitiesList);
@@ -84,7 +84,7 @@ repository.Context.TruncateAsync<Entity>();
 
 ### 9.9.3.2 查询后批量操作
 
-```cs showLineNumbers 
+```cs showLineNumbers
 // 根据条件批量删除
 repository.Where(a => a.ItemId >  500).BatchDelete();
 await repository.Where(a => a.ItemId >  500).BatchDeleteAsync();
