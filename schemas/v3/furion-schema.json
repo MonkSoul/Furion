@@ -473,6 +473,33 @@
               ]
             }
           }
+        },
+        "Monitor": {
+          "type": "object",
+          "description": "日志监视器配置",
+          "properties": {
+            "GlobalEnabled": {
+              "description": "是否全局启用",
+              "type": "boolean",
+              "default": false
+            },
+            "IncludeOfMethods": {
+              "description": "配置包含拦截的方法名列表（完全限定名格式：程序集名称.类名.方法名），注意无需添加参数签名，GlobalEnabled:false 有效",
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "default": []
+            },
+            "ExcludeOfMethods": {
+              "description": "配置排除拦截的方法名列表（完全限定名格式：程序集名称.类名.方法名），注意无需添加参数签名，GlobalEnabled:true 有效",
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "default": []
+            }
+          }
         }
       },
       "additionalProperties": {
