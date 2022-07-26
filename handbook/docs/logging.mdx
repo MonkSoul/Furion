@@ -583,6 +583,8 @@ services.AddLogging(builder =>
 
 在 `Furion 3.9.1` 版本新增了 `[LoggingMonitor]` 特性，支持在控制器或操作中贴该特性，可以实现强大的请求日志监听，方便测试，如：
 
+### 18.6.1 特性配置
+
 ```cs showLineNumbers {1,7}
 using Furion.Logging;
 
@@ -637,13 +639,41 @@ public class TestLoggerServices : IDynamicApiController
 ┗━━━━━━━━━━━  Logging Monitor ━━━━━━━━━━━
 ```
 
-:::tip 实现全局监听
+### 18.6.2 全局配置
 
-默认情况下，只对贴有 `[LoggingMonitor]` 的控制器或操作有效，如需全局控制可通过以下代码在 `Startup.cs` 中注册即可：
+如需全局启用 `LoggingMonitor` 功能，无需在每个控制器或者方法中贴，全局注册如下：
 
 ```cs showLineNumbers
 services.AddMvcFilter<LoggingMonitorAttribute>();
 ```
+
+:::tip `Furion 4.0.2` 新推荐配置
+
+在 `Furion 4.0.2` 版本中新增了非常灵活方便的 `services.AddMonitorLogging()` 服务配置，可在配置中随意控制哪个类哪个方法启用或不启用。
+
+- 注册服务
+
+```cs showLineNumbers
+services.AddMonitorLogging();   // 默认读取 Logging:Monitor 下配置，支持传入参数自定义
+```
+
+- 添加配置
+
+```json showLineNumbers {2,3,4-6}
+{
+  "Logging": {
+    "Monitor": {
+      "GlobalEnabled": false, // 是否启用全局拦截，默认 `false`
+      "IncludeOfMethods": [], // 是否指定拦截特定方法，当 GlobalEnabled: false 有效
+      "ExcludeOfMethods": [] // 是否指定排除特定方法，当 GlobalEnabled: true 有效
+    }
+  }
+}
+```
+
+`IncludeOfMethods` 和 `ExcludeOfMethods` 方法签名格式为：`类完全限定名.方法名`，如：`Furion.Application.TestNamedServices.GetName`，`Furion.Application.TestNamedServices` 是类名，`GetName` 是方法名。
+
+:::
 
 如果配置了全局请求监视日志，对个别不需要监视的接口方法只需要贴 `[SuppressMonitor]` 特性即可。
 

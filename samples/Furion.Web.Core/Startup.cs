@@ -28,6 +28,8 @@ public sealed class Startup : AppStartup
         services.AddSignalR();
 
         services.AddFileLogging();
+
+        services.AddMonitorLogging();
     }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

@@ -40,13 +40,28 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter
     /// 构造函数
     /// </summary>
     public LoggingMonitorAttribute()
+        : this(new LoggingMonitorSettings())
     {
+    }
+
+    /// <summary>
+    /// 构造函数
+    /// </summary>
+    /// <param name="settings"></param>
+    internal LoggingMonitorAttribute(LoggingMonitorSettings settings)
+    {
+        Settings = settings;
     }
 
     /// <summary>
     /// 日志标题
     /// </summary>
     public string Title { get; set; } = "Logging Monitor";
+
+    /// <summary>
+    /// 配置信息
+    /// </summary>
+    private LoggingMonitorSettings Settings { get; set; }
 
     /// <summary>
     /// 监视 Action 执行
@@ -67,6 +82,30 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter
         {
             _ = await next();
             return;
+        }
+
+        // 获取方法完整名称
+        var methodFullName = controllerActionDescriptor.ControllerTypeInfo.FullName + "." + actionMethod.Name;
+
+        // 只有方法没有贴有 [LoggingMonitor] 特性才判断全局，贴了特性优先级最大
+        if (!actionMethod.IsDefined(typeof(LoggingMonitorAttribute), true))
+        {
+            // 处理不启用但排除的情况
+            if (!Settings.GlobalEnabled
+                && !Settings.IncludeOfMethods.Contains(methodFullName, StringComparer.OrdinalIgnoreCase))
+            {
+                // 查找是否包含匹配，忽略大小写
+                _ = await next();
+                return;
+            }
+
+            // 处理启用但排除的情况
+            if (Settings.GlobalEnabled
+                && Settings.ExcludeOfMethods.Contains(methodFullName, StringComparer.OrdinalIgnoreCase))
+            {
+                _ = await next();
+                return;
+            }
         }
 
         // 获取路由表信息

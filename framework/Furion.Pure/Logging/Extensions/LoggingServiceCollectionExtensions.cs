@@ -6,6 +6,7 @@
 // THIS SOFTWARE IS PROVIDED ON AN "AS IS" BASIS, WITHOUT WARRANTIES OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO NON-INFRINGEMENT, MERCHANTABILITY OR FIT FOR A PARTICULAR PURPOSE.
 // See the Mulan PSL v2 for more details.
 
+using Furion;
 using Furion.Logging;
 using Microsoft.Extensions.Logging;
 
@@ -17,6 +18,31 @@ namespace Microsoft.Extensions.DependencyInjection;
 [SuppressSniffer]
 public static class LoggingServiceCollectionExtensions
 {
+    /// <summary>
+    /// 添加日志监视器服务
+    /// </summary>
+    /// <param name="services"></param>
+    /// <param name="configurationKey">配置文件对于的 Key，默认为 Logging:Monitor</param>
+    /// <returns></returns>
+    public static IServiceCollection AddMonitorLogging(this IServiceCollection services, string configurationKey = "Logging:Monitor")
+    {
+        // 读取配置
+        var settings = App.GetConfig<LoggingMonitorSettings>(configurationKey)
+            ?? new LoggingMonitorSettings();
+        settings.IncludeOfMethods ??= Array.Empty<string>();
+        settings.ExcludeOfMethods ??= Array.Empty<string>();
+
+        // 如果配置 GlobalEnabled = false 且 IncludeOfMethods 和 ExcludeOfMethods 都为空，则不注册服务
+        if (settings.GlobalEnabled == false
+            && settings.IncludeOfMethods.Length == 0
+            && settings.ExcludeOfMethods.Length == 0) return services;
+
+        // 注册日志监视器过滤器
+        services.AddMvcFilter(new LoggingMonitorAttribute(settings));
+
+        return services;
+    }
+
     /// <summary>
     /// 添加文件日志服务
     /// </summary>

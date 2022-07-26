@@ -56,4 +56,27 @@ public static class AspNetMvcBuilderServiceCollectionExtensions
 
         return services;
     }
+
+    /// <summary>
+    /// 注册 Mvc 过滤器
+    /// </summary>
+    /// <param name="services"></param>
+    /// <param name="filter"></param>
+    /// <param name="configure"></param>
+    /// <returns></returns>
+    public static IServiceCollection AddMvcFilter(this IServiceCollection services, IFilterMetadata filter, Action<MvcOptions> configure = default)
+    {
+        // 非 Web 环境跳过注册
+        if (App.WebHostEnvironment == default) return services;
+
+        services.Configure<MvcOptions>(options =>
+        {
+            options.Filters.Add(filter);
+
+            // 其他额外配置
+            configure?.Invoke(options);
+        });
+
+        return services;
+    }
 }
