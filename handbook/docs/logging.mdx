@@ -300,7 +300,7 @@ services.AddFileLogging("someclass.log", options =>
 如需自定义：
 
 ```cs showLineNumbers {2,16,34}
-// 例子一，自定义日志模板
+// 例子一，自定义日志模板（常用）
 services.AddFileLogging("mytemplate.log", options =>
 {
     options.MessageFormat = (logMsg) =>
@@ -314,7 +314,7 @@ services.AddFileLogging("mytemplate.log", options =>
     };
 });
 
-// 例子二，超高性能输出数组模板
+// 例子二，需要输出 json 格式，比如对接阿里云日志，kibana第三方日志使用这个
 services.AddFileLogging("mytemplate.log", options =>
 {
     options.MessageFormat = (logMsg) =>
@@ -332,7 +332,7 @@ services.AddFileLogging("mytemplate.log", options =>
     };
 });
 
-// 例子三，超高性能输出自定义模板
+// 例子二，需要输出 json （自定义）格式，比如对接阿里云日志，kibana第三方日志使用这个
 services.AddFileLogging("mytemplate.log", options =>
 {
     options.MessageFormat = (logMsg) =>
