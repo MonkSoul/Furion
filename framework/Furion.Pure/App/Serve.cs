@@ -54,7 +54,7 @@ public static class Serve
     /// 启动泛型 Web 主机
     /// </summary>
     /// <remarks>未包含 Web 基础功能，需手动注册服务/中间件</remarks>
-    /// <typeparam name="TStartup">启动项目</typeparam>
+    /// <typeparam name="TStartup">启动 Startup 类</typeparam>
     /// <param name="options">配置选项</param>
     /// <param name="urls">默认 5000/5001 端口</param>
     public static void Run<TStartup>(LegacyRunOptions options, string urls = default)

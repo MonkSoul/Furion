@@ -9,6 +9,8 @@
 #if !NET5_0
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
+#else
+using Microsoft.AspNetCore.Hosting;
 #endif
 
 namespace System;
@@ -19,7 +21,7 @@ namespace System;
 /// </summary>
 #else
 /// <summary>
-/// <see cref="LegacyRunOptions"/> 方式配置选项
+/// <see cref="IWebHostBuilder"/> 方式配置选项
 /// </summary>
 #endif
 [SuppressSniffer]
