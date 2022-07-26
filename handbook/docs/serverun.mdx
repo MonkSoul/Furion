@@ -448,7 +448,28 @@ dotnet publish -c Release
 
 更多发布命令说明可查阅微软官方文档 [https://docs.microsoft.com/en-us/dotnet/core/tools/dotnet-publish](https://docs.microsoft.com/en-us/dotnet/core/tools/dotnet-publish)
 
-## 2.0.11 反馈与建议
+## 2.0.11 在 `Winform/WPF` 桌面中使用
+
+在 `Winform` 或 `WPF` 中使用，请确保 `Serve.Run()` 在桌面应用程序之前初始化：
+
+```cs showLineNumbers {3,8,10-11}
+namespace WinFormsApp2
+{
+    internal static class Program
+    {
+        [STAThread]
+        static void Main()
+        {
+            Task.Factory.StartNew(() => Serve.Run(), TaskCreationOptions.LongRunning);
+
+            ApplicationConfiguration.Initialize();
+            Application.Run(new Form1());
+        }
+    }
+}
+```
+
+## 2.0.12 反馈与建议
 
 :::note 与我们交流
 
