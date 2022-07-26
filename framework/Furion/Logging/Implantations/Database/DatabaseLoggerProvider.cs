@@ -135,7 +135,7 @@ public sealed class DatabaseLoggerProvider : ILoggerProvider
     {
         _serviceProvider = serviceProvider;
 
-        // 创建长时间运行的后台任务，并将日志消息队列中数据写入文件中
+        // 创建长时间运行的后台任务，并将日志消息队列中数据写入存储中
         _processQueueTask = Task.Factory.StartNew(state => ((DatabaseLoggerProvider)state).ProcessQueue()
             , this, TaskCreationOptions.LongRunning);
     }
@@ -166,7 +166,7 @@ public sealed class DatabaseLoggerProvider : ILoggerProvider
             }
             catch (Exception ex)
             {
-                // 处理文件写入错误
+                // 处理数据库写入错误
                 if (HandleWriteError != null)
                 {
                     var databaseWriteError = new DatabaseWriteError(ex);
