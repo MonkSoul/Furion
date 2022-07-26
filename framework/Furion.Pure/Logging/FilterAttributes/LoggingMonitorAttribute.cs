@@ -191,8 +191,9 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter
         var logger = httpContext.RequestServices.GetRequiredService<ILoggerFactory>()
             .CreateLogger(LOG_CATEGORY_NAME);
 
-        // 写入日志
-        logger.LogInformation(monitor);
+        // 写入日志，如果没有异常使用 LogInformation，否则使用 LogError
+        if (exception == null) logger.LogInformation(monitor);
+        else logger.LogError(exception, monitor);
     }
 
     /// <summary>
