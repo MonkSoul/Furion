@@ -24,7 +24,7 @@ public sealed class DatabaseLoggerProvider : ILoggerProvider
     /// <summary>
     /// 数据库日志写入器作用域范围
     /// </summary>
-    private IServiceScope _serviceScope;
+    internal IServiceScope _serviceScope;
 
     /// <summary>
     /// 数据库日志写入器

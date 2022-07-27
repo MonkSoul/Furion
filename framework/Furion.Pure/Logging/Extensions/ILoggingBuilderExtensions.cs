@@ -97,15 +97,20 @@ public static class ILoggingBuilderExtensions
         // 注册数据库日志写入器
         builder.Services.TryAddTransient(typeof(IDatabaseLoggingWriter), typeof(TDatabaseLoggingWriter));
 
+        var options = new DatabaseLoggerOptions();
+        configure?.Invoke(options);
+
+        // 数据库日志记录器提供程序
+        var databaseLoggerProvider = new DatabaseLoggerProvider(options);
+
         // 注册数据库日志记录器提供器
         builder.Services.Add(ServiceDescriptor.Singleton<ILoggerProvider, DatabaseLoggerProvider>((serviceProvider) =>
         {
-            var options = new DatabaseLoggerOptions();
-            configure?.Invoke(options);
-
-            // 数据库日志记录器提供程序
-            var databaseLoggerProvider = new DatabaseLoggerProvider(options);
-            databaseLoggerProvider.SetServiceProvider(serviceProvider);
+            // 解决数据库写入器中循环引用数据库仓储问题
+            if (databaseLoggerProvider._serviceScope == null)
+            {
+                databaseLoggerProvider.SetServiceProvider(serviceProvider);
+            }
 
             return databaseLoggerProvider;
         }));
@@ -150,7 +155,12 @@ public static class ILoggingBuilderExtensions
         // 注册数据库日志记录器提供器
         builder.Services.AddSingleton<ILoggerProvider, DatabaseLoggerProvider>((serviceProvider) =>
         {
-            databaseLoggerProvider.SetServiceProvider(serviceProvider);
+            // 解决数据库写入器中循环引用数据库仓储问题
+            if (databaseLoggerProvider._serviceScope == null)
+            {
+                databaseLoggerProvider.SetServiceProvider(serviceProvider);
+            }
+
             return databaseLoggerProvider;
         });
 

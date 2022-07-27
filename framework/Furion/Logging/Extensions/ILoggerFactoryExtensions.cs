@@ -78,7 +78,12 @@ public static class ILoggerFactoryExtensions
         configure?.Invoke(options);
 
         var databaseLoggerProvider = new DatabaseLoggerProvider(options);
-        databaseLoggerProvider.SetServiceProvider(serviceProvider);
+
+        // 解决数据库写入器中循环引用数据库仓储问题
+        if (databaseLoggerProvider._serviceScope == null)
+        {
+            databaseLoggerProvider.SetServiceProvider(serviceProvider);
+        }
 
         // 添加数据库日志记录器提供程序
         factory.AddProvider(databaseLoggerProvider);
@@ -119,8 +124,13 @@ public static class ILoggerFactoryExtensions
         // 如果从配置文件中加载配置失败，则跳过注册
         if (databaseLoggerProvider == default) return factory;
 
+        // 解决数据库写入器中循环引用数据库仓储问题
+        if (databaseLoggerProvider._serviceScope == null)
+        {
+            databaseLoggerProvider.SetServiceProvider(serviceProvider);
+        }
+
         // 添加数据库日志记录器提供程序
-        databaseLoggerProvider.SetServiceProvider(serviceProvider);
         factory.AddProvider(databaseLoggerProvider);
 
         return factory;
