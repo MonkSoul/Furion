@@ -115,10 +115,14 @@ public static class ObjectExtensions
     {
         foreach (var key in newDic.Keys)
         {
-            if (dic.ContainsKey(key))
-                dic[key] = newDic[key];
+            if (dic.TryGetValue(key, out var value))
+            {
+                dic[key] = value;
+            }
             else
+            {
                 dic.Add(key, newDic[key]);
+            }
         }
 
         return dic;
@@ -468,5 +472,38 @@ public static class ObjectExtensions
         if (string.IsNullOrWhiteSpace(str)) return str;
 
         return string.Concat(str.First().ToString().ToLower(), str.AsSpan(1));
+    }
+
+    /// <summary>
+    /// 判断集合是否为空
+    /// </summary>
+    /// <typeparam name="T">元素类型</typeparam>
+    /// <param name="collection">集合对象</param>
+    /// <returns><see cref="bool"/> 实例，true 表示空集合，false 表示非空集合</returns>
+    internal static bool IsEmpty<T>(this IEnumerable<T> collection)
+    {
+        return collection == null || !collection.Any();
+    }
+
+    /// <summary>
+    /// 获取类型自定义特性
+    /// </summary>
+    /// <typeparam name="TAttribute">特性类型</typeparam>
+    /// <param name="type">类类型</param>
+    /// <param name="inherit">是否继承查找</param>
+    /// <returns>特性对象</returns>
+    internal static TAttribute GetTypeAttribute<TAttribute>(this Type type, bool inherit = false)
+        where TAttribute : Attribute
+    {
+        // 空检查
+        if (type == null)
+        {
+            throw new ArgumentNullException(nameof(type));
+        }
+
+        // 检查特性并获取特性对象
+        return type.IsDefined(typeof(TAttribute), inherit)
+            ? type.GetCustomAttribute<TAttribute>(inherit)
+            : default;
     }
 }
