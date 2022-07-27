@@ -273,6 +273,12 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter
                     continue;
                 }
             }
+            // 处理 byte[] 参数类型
+            else if (value is byte[] byteArray)
+            {
+                templates.Add($"##{name} ({type.Name})## [Length]: {byteArray.Length}");
+                continue;
+            }
             // 处理基元类型，字符串类型和空值
             else if (type.IsPrimitive || value is string || value == null) rawValue = value;
             // 其他类型统一进行序列化
