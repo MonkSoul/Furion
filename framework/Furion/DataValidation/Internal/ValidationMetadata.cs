@@ -37,6 +37,11 @@ public sealed class ValidationMetadata
     public object ErrorCode { get; internal set; }
 
     /// <summary>
+    /// 错误码（没被复写过的 ErrorCode ）
+    /// </summary>
+    public object OriginErrorCode { get; internal set; }
+
+    /// <summary>
     /// 状态码
     /// </summary>
     public int? StatusCode { get; internal set; }

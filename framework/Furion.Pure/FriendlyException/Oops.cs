@@ -136,7 +136,8 @@ public static class Oops
     /// <returns>异常实例</returns>
     public static AppFriendlyException Oh(object errorCode, params object[] args)
     {
-        var friendlyException = new AppFriendlyException(GetErrorCodeMessage(errorCode, args), errorCode);
+        var (ErrorCode, Message) = GetErrorCodeMessage(errorCode, args);
+        var friendlyException = new AppFriendlyException(Message, errorCode) { ErrorCode = ErrorCode };
 
         // 处理默认配置为业务异常问题
         if (_friendlyExceptionSettings.ThrowBah == true)
@@ -156,9 +157,10 @@ public static class Oops
     /// <returns>异常实例</returns>
     public static AppFriendlyException Oh(object errorCode, Type exceptionType, params object[] args)
     {
-        var exceptionMessage = GetErrorCodeMessage(errorCode, args);
-        return new AppFriendlyException(exceptionMessage, errorCode,
-            Activator.CreateInstance(exceptionType, new object[] { exceptionMessage }) as Exception);
+        var (ErrorCode, Message) = GetErrorCodeMessage(errorCode, args);
+        return new AppFriendlyException(Message, errorCode,
+            Activator.CreateInstance(exceptionType, new object[] { Message }) as Exception)
+        { ErrorCode = ErrorCode };
     }
 
     /// <summary>
@@ -180,7 +182,7 @@ public static class Oops
     /// <param name="errorCode"></param>
     /// <param name="args"></param>
     /// <returns></returns>
-    private static string GetErrorCodeMessage(object errorCode, params object[] args)
+    private static (object ErrorCode, string Message) GetErrorCodeMessage(object errorCode, params object[] args)
     {
         errorCode = HandleEnumErrorCode(errorCode);
 
@@ -202,8 +204,8 @@ public static class Oops
         }
 
         // 字符串格式化
-        return MontageErrorMessage(errorCodeMessage, errorCode.ToString()
-            , args != null && args.Length > 0 ? args : ifExceptionAttribute?.Args);
+        return (errorCode, MontageErrorMessage(errorCodeMessage, errorCode.ToString()
+            , args != null && args.Length > 0 ? args : ifExceptionAttribute?.Args));
     }
 
     /// <summary>
@@ -222,7 +224,7 @@ public static class Oops
             var fieldinfo = errorType.GetField(Enum.GetName(errorType, errorCode));
             if (fieldinfo.IsDefined(typeof(ErrorCodeItemMetadataAttribute), true))
             {
-                errorCode = GetErrorCodeItemMessage(fieldinfo).Key;
+                errorCode = GetErrorCodeItemInformation(fieldinfo).Key;
             }
         }
 
@@ -256,7 +258,7 @@ public static class Oops
 
         // 查找所有 [ErrorCodeType] 类型中的 [ErrorCodeMetadata] 元数据定义
         var errorCodeMessages = ErrorCodeTypes.SelectMany(u => u.GetFields().Where(u => u.IsDefined(typeof(ErrorCodeItemMetadataAttribute))))
-            .Select(u => GetErrorCodeItemMessage(u))
+            .Select(u => GetErrorCodeItemInformation(u))
            .ToDictionary(u => u.Key.ToString(), u => u.Value);
 
         defaultErrorCodeMessages.AddOrUpdate(errorCodeMessages);
@@ -330,11 +332,11 @@ public static class Oops
     }
 
     /// <summary>
-    /// 获取错误代码消息实体
+    /// 获取错误代码信息
     /// </summary>
     /// <param name="fieldInfo">字段对象</param>
     /// <returns>(object key, object value)</returns>
-    private static (object Key, string Value) GetErrorCodeItemMessage(FieldInfo fieldInfo)
+    private static (object Key, string Value) GetErrorCodeItemInformation(FieldInfo fieldInfo)
     {
         var errorCodeItemMetadata = fieldInfo.GetCustomAttribute<ErrorCodeItemMetadataAttribute>();
         return (errorCodeItemMetadata.ErrorCode ?? fieldInfo.Name, errorCodeItemMetadata.ErrorMessage.Format(errorCodeItemMetadata.Args));

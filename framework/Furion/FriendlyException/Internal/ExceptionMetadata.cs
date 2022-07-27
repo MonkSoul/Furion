@@ -25,6 +25,11 @@ public sealed class ExceptionMetadata
     public object ErrorCode { get; internal set; }
 
     /// <summary>
+    /// 错误码（没被复写过的 ErrorCode ）
+    /// </summary>
+    public object OriginErrorCode { get; internal set; }
+
+    /// <summary>
     /// 错误对象（信息）
     /// </summary>
     public object Errors { get; internal set; }

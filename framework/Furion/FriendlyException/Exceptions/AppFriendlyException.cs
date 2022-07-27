@@ -32,7 +32,7 @@ public class AppFriendlyException : Exception
     public AppFriendlyException(string message, object errorCode) : base(message)
     {
         ErrorMessage = message;
-        ErrorCode = errorCode;
+        ErrorCode = OriginErrorCode = errorCode;
     }
 
     /// <summary>
@@ -44,7 +44,7 @@ public class AppFriendlyException : Exception
     public AppFriendlyException(string message, object errorCode, Exception innerException) : base(message, innerException)
     {
         ErrorMessage = message;
-        ErrorCode = errorCode;
+        ErrorCode = OriginErrorCode = errorCode;
     }
 
     /// <summary>
@@ -60,6 +60,11 @@ public class AppFriendlyException : Exception
     /// 错误码
     /// </summary>
     public object ErrorCode { get; set; }
+
+    /// <summary>
+    /// 错误码（没被复写过的 ErrorCode ）
+    /// </summary>
+    public object OriginErrorCode { get; set; }
 
     /// <summary>
     /// 错误消息（支持 Object 对象）

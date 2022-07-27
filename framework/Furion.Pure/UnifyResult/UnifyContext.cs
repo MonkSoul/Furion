@@ -51,6 +51,7 @@ public static class UnifyContext
     public static ExceptionMetadata GetExceptionMetadata(ActionContext context)
     {
         object errorCode = default;
+        object originErrorCode = default;
         object errors = default;
         var statusCode = StatusCodes.Status500InternalServerError;
         var isValidationException = false; // 判断是否是验证异常
@@ -70,6 +71,7 @@ public static class UnifyContext
         {
             isFriendlyException = true;
             errorCode = friendlyException.ErrorCode;
+            originErrorCode = friendlyException.OriginErrorCode;
             statusCode = friendlyException.StatusCode;
             isValidationException = friendlyException.ValidationException;
             errors = friendlyException.ErrorMessage;
@@ -106,6 +108,7 @@ public static class UnifyContext
         {
             StatusCode = statusCode,
             ErrorCode = errorCode,
+            OriginErrorCode = originErrorCode,
             Errors = errors
         };
     }

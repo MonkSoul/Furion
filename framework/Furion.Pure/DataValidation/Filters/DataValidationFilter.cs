@@ -113,6 +113,7 @@ public sealed class DataValidationFilter : IAsyncActionFilter, IOrderedFilter
         // 解析验证消息
         var validationMetadata = ValidatorContext.GetValidationMetadata(errors);
         validationMetadata.ErrorCode = friendlyException?.ErrorCode;
+        validationMetadata.OriginErrorCode = friendlyException?.OriginErrorCode;
         validationMetadata.StatusCode = friendlyException?.StatusCode;
 
         // 判断是否跳过规范化结果，如果跳过，返回 400 BadRequestResult
