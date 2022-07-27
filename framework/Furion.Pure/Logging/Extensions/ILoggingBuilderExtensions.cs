@@ -19,7 +19,7 @@ public static class ILoggingBuilderExtensions
     /// <returns><see cref="ILoggingBuilder"/></returns>
     public static ILoggingBuilder AddFile(this ILoggingBuilder builder, string fileName, bool append = true)
     {
-        // 文件日志记录器提供器
+        // 注册文件日志记录器提供器
         builder.Services.Add(ServiceDescriptor.Singleton<ILoggerProvider, FileLoggerProvider>((serviceProvider) =>
         {
             return new FileLoggerProvider(fileName, append);
@@ -37,7 +37,7 @@ public static class ILoggingBuilderExtensions
     /// <returns><see cref="ILoggingBuilder"/></returns>
     public static ILoggingBuilder AddFile(this ILoggingBuilder builder, string fileName, Action<FileLoggerOptions> configure)
     {
-        // 文件日志记录器提供器
+        // 注册文件日志记录器提供器
         builder.Services.Add(ServiceDescriptor.Singleton<ILoggerProvider, FileLoggerProvider>((serviceProvider) =>
         {
             var options = new FileLoggerOptions();
@@ -75,7 +75,7 @@ public static class ILoggingBuilderExtensions
         // 如果从配置文件中加载配置失败，则跳过注册
         if (fileLoggerProvider == default) return builder;
 
-        // 文件日志记录器提供器
+        // 注册文件日志记录器提供器
         builder.Services.AddSingleton<ILoggerProvider, FileLoggerProvider>((serviceProvider) =>
         {
             return fileLoggerProvider;
@@ -97,7 +97,7 @@ public static class ILoggingBuilderExtensions
         // 注册数据库日志写入器
         builder.Services.TryAddTransient(typeof(IDatabaseLoggingWriter), typeof(TDatabaseLoggingWriter));
 
-        // 文件日志记录器提供器
+        // 注册数据库日志记录器提供器
         builder.Services.Add(ServiceDescriptor.Singleton<ILoggerProvider, DatabaseLoggerProvider>((serviceProvider) =>
         {
             var options = new DatabaseLoggerOptions();
@@ -147,7 +147,7 @@ public static class ILoggingBuilderExtensions
         // 如果从配置文件中加载配置失败，则跳过注册
         if (databaseLoggerProvider == default) return builder;
 
-        // 文件日志记录器提供器
+        // 注册数据库日志记录器提供器
         builder.Services.AddSingleton<ILoggerProvider, DatabaseLoggerProvider>((serviceProvider) =>
         {
             databaseLoggerProvider.SetServiceProvider(serviceProvider);

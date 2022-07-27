@@ -133,11 +133,8 @@ public sealed class DatabaseLoggerProvider : ILoggerProvider
     /// <param name="serviceProvider"></param>
     internal void SetServiceProvider(IServiceProvider serviceProvider)
     {
-        // 解析服务作用域工厂服务
-        var serviceScopeFactory = serviceProvider.GetRequiredService<IServiceScopeFactory>();
-
         // 创建服务作用域
-        _serviceScope = serviceScopeFactory.CreateScope();
+        _serviceScope = serviceProvider.CreateScope();
 
         // 基于当前作用域创建数据库日志写入器
         _databaseLoggingWriter = _serviceScope.ServiceProvider.GetRequiredService<IDatabaseLoggingWriter>();

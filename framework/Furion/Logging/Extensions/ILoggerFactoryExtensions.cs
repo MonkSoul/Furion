@@ -119,7 +119,7 @@ public static class ILoggerFactoryExtensions
         // 如果从配置文件中加载配置失败，则跳过注册
         if (databaseLoggerProvider == default) return factory;
 
-        // 添加文件日志记录器提供程序
+        // 添加数据库日志记录器提供程序
         databaseLoggerProvider.SetServiceProvider(serviceProvider);
         factory.AddProvider(databaseLoggerProvider);
 
