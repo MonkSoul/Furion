@@ -126,7 +126,19 @@ public static class Serve
         // 获取命令行参数
         var args = Environment.GetCommandLineArgs().Skip(1).ToArray();
 
-        var builder = Host.CreateDefaultBuilder(args).Inject();
+        var builder = Host.CreateDefaultBuilder(args);
+
+        // 添加自定义配置
+        if (options.ActionConfigurationManager != null)
+        {
+            builder.ConfigureAppConfiguration((context, configuration) =>
+            {
+                options.ActionConfigurationManager?.Invoke(context.HostingEnvironment, configuration);
+            });
+        }
+
+        // 初始化框架
+        builder.Inject();
         options.Builder = builder;
 
         // 配置服务
@@ -163,7 +175,7 @@ public static class Serve
             : WebApplication.CreateBuilder(options.Options));
 
         // 添加自定义配置
-        options.ActionConfigurationManager?.Invoke(builder.Configuration);
+        options.ActionConfigurationManager?.Invoke(builder.Environment, builder.Configuration);
 
         // 初始化框架
         builder.Inject();

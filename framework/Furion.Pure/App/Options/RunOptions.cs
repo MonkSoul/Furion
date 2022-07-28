@@ -9,6 +9,7 @@
 #if !NET5_0
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
 #else
 using Microsoft.AspNetCore.Hosting;
 #endif
@@ -85,7 +86,7 @@ public sealed class RunOptions
     /// </summary>
     /// <param name="configureAction">配置委托</param>
     /// <returns><see cref="RunOptions"/></returns>
-    public RunOptions ConfigureConfiguration(Action<ConfigurationManager> configureAction)
+    public RunOptions ConfigureConfiguration(Action<IHostEnvironment, ConfigurationManager> configureAction)
     {
         ActionConfigurationManager = configureAction;
         return this;
@@ -195,7 +196,7 @@ public sealed class RunOptions
     /// <summary>
     /// 自定义 <see cref="ConfigurationManager"/> 委托
     /// </summary>
-    internal Action<ConfigurationManager> ActionConfigurationManager { get; set; }
+    internal Action<IHostEnvironment, ConfigurationManager> ActionConfigurationManager { get; set; }
 
     /// <summary>
     /// 应用服务组件

@@ -51,6 +51,7 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 - **突破性变化**
 
   - [移除] `Furion.Extras.DatabaseAccessor.SqlSugar` 拓展插件中的 `[SqlSugarUnitOfWork]` 工作单元特性，将使用通用工作单元替换，**[查看最新实现文档](./tran.mdx#92631-自动管理)**
+  - [调整] `Serve.Run` 的 `ConfigureConfiguration` 方法参数，由 `configuration => {}` 改为 `(environment, configuration) => {}`
 
 - **问题修复**
 

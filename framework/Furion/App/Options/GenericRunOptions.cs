@@ -6,6 +6,7 @@
 // THIS SOFTWARE IS PROVIDED ON AN "AS IS" BASIS, WITHOUT WARRANTIES OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO NON-INFRINGEMENT, MERCHANTABILITY OR FIT FOR A PARTICULAR PURPOSE.
 // See the Mulan PSL v2 for more details.
 
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 
 namespace System;
@@ -36,6 +37,17 @@ public class GenericRunOptions
     public GenericRunOptions ConfigureBuilder(Action<IHostBuilder> configureAction)
     {
         ActionBuilder = configureAction;
+        return this;
+    }
+
+    /// <summary>
+    /// 配置 <see cref="IConfigurationBuilder"/>
+    /// </summary>
+    /// <param name="configureAction">配置委托</param>
+    /// <returns><see cref="RunOptions"/></returns>
+    public GenericRunOptions ConfigureConfiguration(Action<IHostEnvironment, IConfigurationBuilder> configureAction)
+    {
+        ActionConfigurationManager = configureAction;
         return this;
     }
 
@@ -86,6 +98,11 @@ public class GenericRunOptions
     /// 自定义 <see cref="IHostBuilder"/> 委托
     /// </summary>
     internal Action<IHostBuilder> ActionBuilder { get; set; }
+
+    /// <summary>
+    /// 自定义 <see cref="IConfigurationBuilder"/> 委托
+    /// </summary>
+    internal Action<IHostEnvironment, IConfigurationBuilder> ActionConfigurationManager { get; set; }
 
     /// <summary>
     /// 应用服务组件
