@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 
 namespace System;
 
@@ -21,6 +22,17 @@ namespace System;
 [SuppressSniffer]
 public static class Serve
 {
+    /// <summary>
+    /// 静默启动排除日志分类名
+    /// </summary>
+    private static readonly string[] SilenceExcludesOfLogCategoryName = new string[]
+    {
+        "Microsoft.Hosting.Lifetime"
+        , "Microsoft.Extensions.Hosting"
+        , "Microsoft.AspNetCore.Server"
+        , "Microsoft.AspNetCore.Hosting"
+    };
+
     /// <summary>
     /// 启动默认 Web 主机，含最基础的 Web 注册
     /// </summary>
@@ -67,6 +79,18 @@ public static class Serve
         var args = Environment.GetCommandLineArgs().Skip(1).ToArray();
 
         var builder = Host.CreateDefaultBuilder(args);
+
+        // 静默启动排除指定日志类名
+        if (options.IsSilence)
+        {
+            builder.ConfigureLogging(logging =>
+            {
+                logging.AddFilter((provider, category, logLevel) =>
+                {
+                    return !SilenceExcludesOfLogCategoryName.Any(u => category.StartsWith(u));
+                });
+            });
+        }
 
         // 添加自定义配置
         if (options.ActionConfigurationManager != null)
@@ -137,7 +161,7 @@ public static class Serve
         }
         else
         {
-            Task.Factory.StartNew(() => builder.Build().Run(), TaskCreationOptions.LongRunning);
+            builder.Build().Start();
         }
     }
 
@@ -151,6 +175,18 @@ public static class Serve
         var args = Environment.GetCommandLineArgs().Skip(1).ToArray();
 
         var builder = Host.CreateDefaultBuilder(args);
+
+        // 静默启动排除指定日志类名
+        if (options.IsSilence)
+        {
+            builder.ConfigureLogging(logging =>
+            {
+                logging.AddFilter((provider, category, logLevel) =>
+                {
+                    return !SilenceExcludesOfLogCategoryName.Any(u => category.StartsWith(u));
+                });
+            });
+        }
 
         // 添加自定义配置
         if (options.ActionConfigurationManager != null)
@@ -187,7 +223,7 @@ public static class Serve
         }
         else
         {
-            Task.Factory.StartNew(() => builder.Build().Run(), TaskCreationOptions.LongRunning);
+            builder.Build().Start();
         }
     }
 
@@ -207,6 +243,15 @@ public static class Serve
         var builder = (options.Options == null
             ? WebApplication.CreateBuilder(args)
             : WebApplication.CreateBuilder(options.Options));
+
+        // 静默启动排除指定日志类名
+        if (options.IsSilence)
+        {
+            builder.Logging.AddFilter((provider, category, logLevel) =>
+            {
+                return !SilenceExcludesOfLogCategoryName.Any(u => category.StartsWith(u));
+            });
+        }
 
         // 添加自定义配置
         options.ActionConfigurationManager?.Invoke(builder.Environment, builder.Configuration);
@@ -257,7 +302,7 @@ public static class Serve
         }
         else
         {
-            Task.Factory.StartNew(() => app.Run(), TaskCreationOptions.LongRunning);
+            app.Start();
         }
     }
 #endif
