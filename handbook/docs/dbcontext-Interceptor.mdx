@@ -298,11 +298,12 @@ protected override void SavingChangesEvent(DbContextEventData eventData, Interce
 }
 ```
 
-## 9.24.3 注册自定义过滤器
+## 9.24.3 注册自定义筛选器
 
 定义好过滤器之后，我们需要在数据库上下文中注册：
 
 ```cs showLineNumbers 
+// services.AddDb 也是一样用法
 services.AddDbPool<FurionDbContext>(interceptors: new IInterceptor[] {
     new YourSqlConnectionProfilerInterceptor(),
     new YourDbContextSaveChangesInterceptor(),

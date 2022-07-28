@@ -211,6 +211,17 @@ namespace Furion.Web.Core
 }
 ```
 
+- 注册审计日志
+
+只需要在注册数据库上下文中指定 `interceptors` 参数即可
+
+```cs showLineNumbers
+// services.AddDb 一样
+services.AddDbPool<FurionDbContext>(interceptors: new IInterceptor[] {
+    new SqlCommandAuditInterceptor()
+});
+```
+
 ### 9.22.3.3 请求审计日志
 
 :::tip 关于请求审计日志
