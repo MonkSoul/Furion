@@ -70,7 +70,7 @@ public static class Serve
         {
             builder = builder.ConfigureAppConfiguration((context, configuration) =>
             {
-                options.ActionConfigurationManager?.Invoke(context.HostingEnvironment, configuration);
+                options.ActionConfigurationManager.Invoke(context.HostingEnvironment, configuration);
             });
         }
 
@@ -121,11 +121,11 @@ public static class Serve
             }
 
             // 调用自定义配置
-            webHostBuilder = options?.ActionWebDefaultsBuilder?.Invoke(webHostBuilder);
+            webHostBuilder = options?.ActionWebDefaultsBuilder?.Invoke(webHostBuilder) ?? webHostBuilder;
         });
 
         // 调用自定义配置
-        builder = options?.ActionBuilder?.Invoke(builder);
+        builder = options?.ActionBuilder?.Invoke(builder) ?? builder;
 
         builder.Build().Run();
     }
@@ -146,7 +146,7 @@ public static class Serve
         {
             builder = builder.ConfigureAppConfiguration((context, configuration) =>
             {
-                options.ActionConfigurationManager?.Invoke(context.HostingEnvironment, configuration);
+                options.ActionConfigurationManager.Invoke(context.HostingEnvironment, configuration);
             });
         }
 
@@ -167,7 +167,7 @@ public static class Serve
         }
 
         // 调用自定义配置
-        builder = options?.ActionBuilder?.Invoke(builder);
+        builder = options?.ActionBuilder?.Invoke(builder) ?? builder;
 
         builder.Build().Run();
     }
