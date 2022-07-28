@@ -47,12 +47,12 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
   - **`v4.0.0` 支持 `.NET5`，`.NET6`，...，`.NET N`，所有的 `Furion` 项目都能够升级到该版本，重新起航，实现大统。**
   - [新增] `services.AddMonitorLogging()` 日志监视器服务，支持非常灵活的日志操作 [81df742](https://gitee.com/dotnetchina/Furion/commit/81df742b2784a18fbf4060fe30cc5151909c3cab)
-  - [新增] `Serve.Run(silence: true)` 等一系列强大的静默启动功能
+  - [新增] `Serve.Run(silence: true)` 等一系列强大的静默启动功能 [7cced4](https://gitee.com/dotnetchina/Furion/commit/7cced443ca1cdcb29226c71274e087ec2a6135ef)
 
 - **突破性变化**
 
   - [移除] `Furion.Extras.DatabaseAccessor.SqlSugar` 拓展插件中的 `[SqlSugarUnitOfWork]` 工作单元特性，将使用通用工作单元替换，**[查看最新实现文档](./tran.mdx#92631-自动管理)**
-  - [调整] `Serve.Run` 的 `ConfigureConfiguration` 方法参数，由 `configuration => {}` 改为 `(environment, configuration) => {}`
+  - [调整] `Serve.Run` 的 `ConfigureConfiguration` 方法参数，由 `configuration => {}` 改为 `(environment, configuration) => {}` [83c97bb](https://gitee.com/dotnetchina/Furion/commit/83c97bb5a19d6fc4e51cfe05f635675d26067d45)
 
 ```cs showLineNumbers {2,6}
 // 由
