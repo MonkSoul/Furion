@@ -47,7 +47,7 @@ public sealed class RunOptions
     /// <summary>
     /// 默认配置（静默启动）
     /// </summary>
-    public static RunOptions DefaultSilence { get; } = Default.Silence();
+    public static RunOptions DefaultSilence { get; } = new RunOptions().Silence();
 #else
 
     /// <summary>
@@ -58,7 +58,7 @@ public sealed class RunOptions
     /// <summary>
     /// 默认配置（静默启动）
     /// </summary>
-    public static LegacyRunOptions DefaultSilence { get; } = Default.Silence();
+    public static LegacyRunOptions DefaultSilence { get; } = new LegacyRunOptions().Silence();
 
 #endif
 

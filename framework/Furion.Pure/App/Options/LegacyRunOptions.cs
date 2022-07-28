@@ -34,7 +34,7 @@ public sealed class LegacyRunOptions : GenericRunOptions
     /// <summary>
     /// 默认配置（静默启动）
     /// </summary>
-    public static new LegacyRunOptions DefaultSilence { get; } = Default.Silence();
+    public static new LegacyRunOptions DefaultSilence { get; } = new LegacyRunOptions().Silence();
 
     /// <summary>
     /// 配置 <see cref="IWebHostBuilder"/>

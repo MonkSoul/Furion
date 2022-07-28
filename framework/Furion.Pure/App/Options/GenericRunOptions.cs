@@ -32,7 +32,7 @@ public class GenericRunOptions
     /// <summary>
     /// 默认配置（静默启动）
     /// </summary>
-    public static GenericRunOptions DefaultSilence { get; } = Default.Silence();
+    public static GenericRunOptions DefaultSilence { get; } = new GenericRunOptions().Silence();
 
     /// <summary>
     /// 配置 <see cref="IHostBuilder"/>
