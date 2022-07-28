@@ -41,16 +41,14 @@ public static class Serve
     public static void Run(string urls = default, bool silence = false)
     {
 #if !NET5_0
-        Run(RunOptions.Default
+        Run(RunOptions.Default.Silence(silence)
             .AddComponent<ServeServiceComponent>()
-            .UseComponent<ServeApplicationComponent>()
-            .Silence(silence), urls);
+            .UseComponent<ServeApplicationComponent>(), urls);
 #else
-
         Run((LegacyRunOptions.Default
+            .Silence(silence)
             .AddComponent<ServeServiceComponent>())
-            .UseComponent<ServeApplicationComponent>()
-            .Silence(silence), urls);
+            .UseComponent<ServeApplicationComponent>(), urls);
 #endif
     }
 
