@@ -78,23 +78,42 @@ public sealed class DataValidationFilter : IAsyncActionFilter, IOrderedFilter
             modelState.IsValid ||
             context.Result != null)
         {
-            // 处理执行后验证信息
-            var resultContext = await next();
-
-            // 如果异常不为空且属于友好验证异常
-            if (resultContext.Exception != null && resultContext.Exception is AppFriendlyException friendlyException && friendlyException.ValidationException)
-            {
-                // 存储执行结果
-                context.HttpContext.Items[nameof(DataValidationFilter)] = resultContext;
-
-                // 处理验证信息
-                HandleValidation(context, method, actionDescriptor, friendlyException.ErrorMessage, resultContext, friendlyException);
-            }
+            await CallUnHandleResult(context, next, actionDescriptor, method);
             return;
         }
 
         // 处理执行前验证信息
-        HandleValidation(context, method, actionDescriptor, modelState);
+        var handledResult = HandleValidation(context, method, actionDescriptor, modelState);
+
+        // 处理 Mvc 未处理结果情况
+        if (!handledResult)
+        {
+            await CallUnHandleResult(context, next, actionDescriptor, method);
+        }
+    }
+
+    /// <summary>
+    /// 调用未处理的结果类型
+    /// </summary>
+    /// <param name="context"></param>
+    /// <param name="next"></param>
+    /// <param name="actionDescriptor"></param>
+    /// <param name="method"></param>
+    /// <returns></returns>
+    private async Task CallUnHandleResult(ActionExecutingContext context, ActionExecutionDelegate next, ControllerActionDescriptor actionDescriptor, MethodInfo method)
+    {
+        // 处理执行后验证信息
+        var resultContext = await next();
+
+        // 如果异常不为空且属于友好验证异常
+        if (resultContext.Exception != null && resultContext.Exception is AppFriendlyException friendlyException && friendlyException.ValidationException)
+        {
+            // 存储执行结果
+            context.HttpContext.Items[nameof(DataValidationFilter)] = resultContext;
+
+            // 处理验证信息
+            _ = HandleValidation(context, method, actionDescriptor, friendlyException.ErrorMessage, resultContext, friendlyException);
+        }
     }
 
     /// <summary>
@@ -106,7 +125,8 @@ public sealed class DataValidationFilter : IAsyncActionFilter, IOrderedFilter
     /// <param name="errors"></param>
     /// <param name="resultContext"></param>
     /// <param name="friendlyException"></param>
-    private void HandleValidation(ActionExecutingContext context, MethodInfo method, ControllerActionDescriptor actionDescriptor, object errors, ActionExecutedContext resultContext = default, AppFriendlyException friendlyException = default)
+    /// <returns>返回 false 表示结果没有处理</returns>
+    private bool HandleValidation(ActionExecutingContext context, MethodInfo method, ControllerActionDescriptor actionDescriptor, object errors, ActionExecutedContext resultContext = default, AppFriendlyException friendlyException = default)
     {
         dynamic finalContext = resultContext != null ? resultContext : context;
 
@@ -147,13 +167,15 @@ public sealed class DataValidationFilter : IAsyncActionFilter, IOrderedFilter
         }
         else
         {
-            // 判断是否支持 MVC 规范化处理，一旦启用，则自动调用规范化提供器进行操作
-            if (!UnifyContext.CheckSupportMvcController(context.HttpContext, actionDescriptor, out _)) return;
+            // 判断是否支持 MVC 规范化处理，一旦启用，则自动调用规范化提供器进行操作，这里返回 false 表示没有处理结果
+            if (!UnifyContext.CheckSupportMvcController(context.HttpContext, actionDescriptor, out _)) return false;
 
             finalContext.Result = unifyResult.OnValidateFailed(context, validationMetadata);
         }
 
         // 打印验证失败信息
         App.PrintToMiniProfiler("validation", "Failed", $"Validation Failed:\r\n{validationMetadata.Message}", true);
+
+        return true;
     }
 }
