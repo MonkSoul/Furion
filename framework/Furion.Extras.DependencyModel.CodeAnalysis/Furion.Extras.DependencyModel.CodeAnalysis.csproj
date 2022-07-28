@@ -2,7 +2,7 @@
 
 	<PropertyGroup>
 		<TargetFrameworks>net5.0;net6.0;net7.0</TargetFrameworks>
-		<Version>4.0.5</Version>
+		<Version>4.0.6</Version>
 		<Description>Furion 程序集扫描和代码分析拓展插件。</Description>
 		<ImplicitUsings>enable</ImplicitUsings>
 	</PropertyGroup>
@@ -28,7 +28,7 @@
 	<ItemGroup Condition=" '$(TargetFramework)' == 'net7.0' ">
 		<PackageReference Include="Ben.Demystifier" Version="0.4.1" />
 		<PackageReference Include="Microsoft.AspNetCore.Razor.Language" Version="6.0.7" />
-		<PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.3.0-2.final" />
+		<PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.3.0-3.final" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="7.0.0-preview.6.22329.4" />
 		<PackageReference Include="Microsoft.Extensions.DependencyModel" Version="7.0.0-preview.6.22324.4" />
 		<PackageReference Include="System.Text.Json" Version="7.0.0-preview.6.22324.4" />
