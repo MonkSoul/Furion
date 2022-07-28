@@ -428,19 +428,9 @@ Serve.Run(GenericRunOptions.Default
     .ConfigureBuilder(hostBuilder => hostBuilder....);
 ```
 
-## 2.0.10 如何发布
-
-由于是控制台应用程序，我们直接将 `Visual Studio` 切换成 `Release` 编译即可~~。
-
-也可以通过下列命令发布：
-
-```bash showLineNumbers
-dotnet publish -c Release
-```
-
 更多发布命令说明可查阅微软官方文档 [https://docs.microsoft.com/en-us/dotnet/core/tools/dotnet-publish](https://docs.microsoft.com/en-us/dotnet/core/tools/dotnet-publish)
 
-## 2.0.11 在 `Winform/WPF` 桌面中使用
+## 2.0.10 在 `Winform/WPF` 桌面中使用
 
 在 `Winform` 或 `WPF` 中使用，请确保 `Serve.Run()` 在桌面应用程序之前初始化：
 
@@ -452,7 +442,7 @@ namespace WinFormsApp2
         [STAThread]
         static void Main()
         {
-            Task.Factory.StartNew(() => Serve.Run(), TaskCreationOptions.LongRunning);
+            Serve.Run(silence: true);   // 静默启动
 
             ApplicationConfiguration.Initialize();
             Application.Run(new Form1());
@@ -461,10 +451,67 @@ namespace WinFormsApp2
 }
 ```
 
-## 2.0.12 反馈与建议
+## 2.0.11 静默启动
+
+默认情况下，`Serve.Run()` 使用阻塞线程方式启动，但有些时候我们不希望阻塞现有的代码，可使用**静默启动**的方式：
+
+```cs showLineNumbers {1}
+Serve.Run(silence: true);
+
+Console.WriteLine("Hello, World!");
+Console.ReadKey();
+```
+
+也可以通过 `RunOptions`，`LegacyRunOptions` 或 `GenericRunOptions` 方式，如：
+
+```cs showLineNumbers {2,5,8}
+// RunOptions 方式
+Serve.Run(RunOptions.DefaultSilence);
+
+// LegacyRunOptions 方式
+Serve.Run(LegacyRunOptions.DefaultSilence);
+
+// GenericRunOptions 方式
+Serve.Run(GenericRunOptions.DefaultSilence);
+```
+
+## 2.0.12 `.NET5` 模式找不到 `Views` 视图路径
+
+由于 `.NET5` 必须在使用 `.UseStartup<>` 配置启动项，所以 `Serve.Run()` 模式会提示找不到 `Views` 视图路径，这时候只需要在启动目录创建 `Startup.cs` 文件并通过泛型方式指定即可，如：
+
+```cs showLineNumbers title="Startup.cs"
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
+
+namespace YourProject.Web.Entity
+{
+    public class Startup
+    {
+        public void ConfigureServices(IServiceCollection _)
+        {
+        }
+
+        public void Configure(IApplicationBuilder _)
+        {
+        }
+    }
+}
+```
+
+将 `Startup` 类通过 `Serve.Run` 泛型指定：
+
+```cs showLineNumbers
+Serve.Run<Startup>(LegacyRunOptions.Default);
+```
+
+## 2.0.13 反馈与建议
 
 :::note 与我们交流
 
 给 Furion 提 [Issue](https://gitee.com/dotnetchina/Furion/issues/new?issue)。
 
 :::
+
+```
+
+```

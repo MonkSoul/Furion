@@ -30,6 +30,11 @@ public class GenericRunOptions
     public static GenericRunOptions Default { get; } = new GenericRunOptions();
 
     /// <summary>
+    /// 默认配置（静默启动）
+    /// </summary>
+    public static GenericRunOptions DefaultSilence { get; } = Default.Silence();
+
+    /// <summary>
     /// 配置 <see cref="IHostBuilder"/>
     /// </summary>
     /// <param name="configureAction">配置委托</param>
@@ -90,6 +95,18 @@ public class GenericRunOptions
     }
 
     /// <summary>
+    /// 标识主机静默启动
+    /// </summary>
+    /// <remarks>不阻塞程序运行</remarks>
+    /// <param name="silence">静默启动</param>
+    /// <returns></returns>
+    public virtual GenericRunOptions Silence(bool silence = true)
+    {
+        IsSilence = silence;
+        return this;
+    }
+
+    /// <summary>
     /// 自定义 <see cref="IHostBuilder"/> 委托
     /// </summary>
     internal Func<IHostBuilder, IHostBuilder> ActionBuilder { get; set; }
@@ -103,4 +120,10 @@ public class GenericRunOptions
     /// 应用服务组件
     /// </summary>
     internal Dictionary<Type, object> ServiceComponents { get; set; } = new();
+
+    /// <summary>
+    /// 静默启动
+    /// </summary>
+    /// <remarks>不阻塞程序运行</remarks>
+    internal bool IsSilence { get; private set; }
 }

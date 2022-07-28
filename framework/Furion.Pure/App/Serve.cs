@@ -25,17 +25,20 @@ public static class Serve
     /// 启动默认 Web 主机，含最基础的 Web 注册
     /// </summary>
     /// <param name="urls">默认 5000/5001 端口</param>
-    public static void Run(string urls = default)
+    /// <param name="silence"></param>
+    public static void Run(string urls = default, bool silence = false)
     {
 #if !NET5_0
         Run(RunOptions.Default
             .AddComponent<ServeServiceComponent>()
-            .UseComponent<ServeApplicationComponent>(), urls);
+            .UseComponent<ServeApplicationComponent>()
+            .Silence(silence), urls);
 #else
 
         Run((LegacyRunOptions.Default
             .AddComponent<ServeServiceComponent>())
-            .UseComponent<ServeApplicationComponent>(), urls);
+            .UseComponent<ServeApplicationComponent>()
+            .Silence(silence), urls);
 #endif
     }
 
@@ -127,7 +130,15 @@ public static class Serve
         // 调用自定义配置
         builder = options?.ActionBuilder?.Invoke(builder) ?? builder;
 
-        builder.Build().Run();
+        // 是否静默启动
+        if (!options.IsSilence)
+        {
+            builder.Build().Run();
+        }
+        else
+        {
+            Task.Factory.StartNew(() => builder.Build().Run(), TaskCreationOptions.LongRunning);
+        }
     }
 
     /// <summary>
@@ -169,7 +180,15 @@ public static class Serve
         // 调用自定义配置
         builder = options?.ActionBuilder?.Invoke(builder) ?? builder;
 
-        builder.Build().Run();
+        // 是否静默启动
+        if (!options.IsSilence)
+        {
+            builder.Build().Run();
+        }
+        else
+        {
+            Task.Factory.StartNew(() => builder.Build().Run(), TaskCreationOptions.LongRunning);
+        }
     }
 
 #if !NET5_0
@@ -231,7 +250,15 @@ public static class Serve
         // 调用自定义配置
         options?.ActionConfigure?.Invoke(app);
 
-        app.Run();
+        // 是否静默启动
+        if (!options.IsSilence)
+        {
+            app.Run();
+        }
+        else
+        {
+            Task.Factory.StartNew(() => app.Run(), TaskCreationOptions.LongRunning);
+        }
     }
 #endif
 }

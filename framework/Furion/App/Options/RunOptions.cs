@@ -43,12 +43,22 @@ public sealed class RunOptions
     /// 默认配置
     /// </summary>
     public static RunOptions Default { get; } = new RunOptions();
+
+    /// <summary>
+    /// 默认配置（静默启动）
+    /// </summary>
+    public static RunOptions DefaultSilence { get; } = Default.Silence();
 #else
 
     /// <summary>
     /// 默认配置
     /// </summary>
     public static LegacyRunOptions Default { get; } = new LegacyRunOptions();
+
+    /// <summary>
+    /// 默认配置（静默启动）
+    /// </summary>
+    public static LegacyRunOptions DefaultSilence { get; } = Default.Silence();
 
 #endif
 
@@ -174,6 +184,18 @@ public sealed class RunOptions
     }
 
     /// <summary>
+    /// 标识主机静默启动
+    /// </summary>
+    /// <remarks>不阻塞程序运行</remarks>
+    /// <param name="silence">静默启动</param>
+    /// <returns></returns>
+    public RunOptions Silence(bool silence = true)
+    {
+        IsSilence = silence;
+        return this;
+    }
+
+    /// <summary>
     /// <see cref="WebApplicationOptions"/>
     /// </summary>
     internal WebApplicationOptions Options { get; set; }
@@ -202,5 +224,11 @@ public sealed class RunOptions
     /// 应用中间件组件
     /// </summary>
     internal Dictionary<Type, object> ApplicationComponents { get; set; } = new();
+
+    /// <summary>
+    /// 静默启动
+    /// </summary>
+    /// <remarks>不阻塞程序运行</remarks>
+    internal bool IsSilence { get; private set; }
 #endif
 }

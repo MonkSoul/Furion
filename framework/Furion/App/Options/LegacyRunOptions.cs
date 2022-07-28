@@ -32,6 +32,11 @@ public sealed class LegacyRunOptions : GenericRunOptions
     public static new LegacyRunOptions Default { get; } = new LegacyRunOptions();
 
     /// <summary>
+    /// 默认配置（静默启动）
+    /// </summary>
+    public static new LegacyRunOptions DefaultSilence { get; } = Default.Silence();
+
+    /// <summary>
     /// 配置 <see cref="IWebHostBuilder"/>
     /// </summary>
     /// <param name="configureAction">配置委托</param>
@@ -131,6 +136,17 @@ public sealed class LegacyRunOptions : GenericRunOptions
     {
         ApplicationComponents.Add(componentType, options);
         return this;
+    }
+
+    // <summary>
+    /// 标识主机静默启动
+    /// </summary>
+    /// <remarks>不阻塞程序运行</remarks>
+    /// <param name="silence">静默启动</param>
+    /// <returns></returns>
+    public override LegacyRunOptions Silence(bool silence = true)
+    {
+        return base.Silence(silence) as LegacyRunOptions;
     }
 
     /// <summary>
