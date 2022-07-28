@@ -11,7 +11,9 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 #else
+
 using Microsoft.AspNetCore.Hosting;
+
 #endif
 
 namespace System;
@@ -25,6 +27,7 @@ namespace System;
 /// <see cref="IWebHostBuilder"/> 方式配置选项
 /// </summary>
 #endif
+
 [SuppressSniffer]
 public sealed class RunOptions
 {
@@ -41,10 +44,12 @@ public sealed class RunOptions
     /// </summary>
     public static RunOptions Default { get; } = new RunOptions();
 #else
+
     /// <summary>
     /// 默认配置
     /// </summary>
     public static LegacyRunOptions Default { get; } = new LegacyRunOptions();
+
 #endif
 
 #if !NET5_0
@@ -167,16 +172,6 @@ public sealed class RunOptions
         ApplicationComponents.Add(componentType, options);
         return this;
     }
-
-    /// <summary>
-    /// <see cref="WebApplicationBuilder"/>
-    /// </summary>
-    internal WebApplicationBuilder Builder { get; set; }
-
-    /// <summary>
-    /// <see cref="WebApplication"/>
-    /// </summary>
-    internal WebApplication Application { get; set; }
 
     /// <summary>
     /// <see cref="WebApplicationOptions"/>

@@ -34,7 +34,7 @@ public static class Serve
 #else
 
         Run((LegacyRunOptions.Default
-            .AddComponent<ServeServiceComponent>() as LegacyRunOptions)
+            .AddComponent<ServeServiceComponent>())
             .UseComponent<ServeApplicationComponent>(), urls);
 #endif
     }
@@ -64,13 +64,20 @@ public static class Serve
         var args = Environment.GetCommandLineArgs().Skip(1).ToArray();
 
         var builder = Host.CreateDefaultBuilder(args);
-        options.Builder = builder;
+
+        // 添加自定义配置
+        if (options.ActionConfigurationManager != null)
+        {
+            builder = builder.ConfigureAppConfiguration((context, configuration) =>
+            {
+                options.ActionConfigurationManager?.Invoke(context.HostingEnvironment, configuration);
+            });
+        }
 
         // 配置 Web 主机
-        builder.ConfigureWebHostDefaults(webHostBuilder =>
+        builder = builder.ConfigureWebHostDefaults(webHostBuilder =>
         {
-            webHostBuilder.Inject();
-            options.WebHostBuilder = webHostBuilder;
+            webHostBuilder = webHostBuilder.Inject();
 
             // 解决部分主机不能正确读取 urls 参数命令问题
             var startUrls = !string.IsNullOrWhiteSpace(urls) ? urls : webHostBuilder.GetSetting(nameof(urls));
@@ -78,41 +85,47 @@ public static class Serve
             // 自定义启动端口
             if (!string.IsNullOrWhiteSpace(startUrls))
             {
-                webHostBuilder.UseUrls(startUrls);
+                webHostBuilder = webHostBuilder.UseUrls(startUrls);
             }
 
             // 配置服务
-            webHostBuilder.ConfigureServices(services =>
+            if (options.ServiceComponents.Any())
             {
-                // 注册应用服务组件
-                foreach (var (componentType, opt) in options.ServiceComponents)
+                webHostBuilder = webHostBuilder.ConfigureServices(services =>
                 {
-                    services.AddComponent(componentType, opt);
-                }
-            });
+                    // 注册应用服务组件
+                    foreach (var (componentType, opt) in options.ServiceComponents)
+                    {
+                        services.AddComponent(componentType, opt);
+                    }
+                });
+            }
 
             // 配置中间件
-            webHostBuilder.Configure((context, app) =>
+            if (options.ApplicationComponents.Any())
             {
-                // 注册应用中间件组件
-                foreach (var (componentType, opt) in options.ApplicationComponents)
+                webHostBuilder = webHostBuilder.Configure((context, app) =>
                 {
-                    app.UseComponent(context.HostingEnvironment, componentType, opt);
-                }
-            });
+                    // 注册应用中间件组件
+                    foreach (var (componentType, opt) in options.ApplicationComponents)
+                    {
+                        app.UseComponent(context.HostingEnvironment, componentType, opt);
+                    }
+                });
+            }
 
             // 解决 .NET5 项目必须配置 Startup 问题
             if (typeof(TStartup) != typeof(FakeStartup))
             {
-                webHostBuilder.UseStartup<TStartup>();
+                webHostBuilder = webHostBuilder.UseStartup<TStartup>();
             }
 
             // 调用自定义配置
-            options?.ActionWebHostBuilder?.Invoke(webHostBuilder);
+            webHostBuilder = options?.ActionWebDefaultsBuilder?.Invoke(webHostBuilder);
         });
 
         // 调用自定义配置
-        options?.ActionBuilder?.Invoke(builder);
+        builder = options?.ActionBuilder?.Invoke(builder);
 
         builder.Build().Run();
     }
@@ -131,28 +144,30 @@ public static class Serve
         // 添加自定义配置
         if (options.ActionConfigurationManager != null)
         {
-            builder.ConfigureAppConfiguration((context, configuration) =>
+            builder = builder.ConfigureAppConfiguration((context, configuration) =>
             {
                 options.ActionConfigurationManager?.Invoke(context.HostingEnvironment, configuration);
             });
         }
 
         // 初始化框架
-        builder.Inject();
-        options.Builder = builder;
+        builder = builder.Inject();
 
         // 配置服务
-        builder.ConfigureServices(services =>
+        if (options.ServiceComponents.Any())
         {
-            // 注册应用服务组件
-            foreach (var (componentType, opt) in options.ServiceComponents)
+            builder = builder.ConfigureServices(services =>
             {
-                services.AddComponent(componentType, opt);
-            }
-        });
+                // 注册应用服务组件
+                foreach (var (componentType, opt) in options.ServiceComponents)
+                {
+                    services.AddComponent(componentType, opt);
+                }
+            });
+        }
 
         // 调用自定义配置
-        options?.ActionBuilder?.Invoke(builder);
+        builder = options?.ActionBuilder?.Invoke(builder);
 
         builder.Build().Run();
     }
@@ -179,12 +194,14 @@ public static class Serve
 
         // 初始化框架
         builder.Inject();
-        options.Builder = builder;
 
         // 注册服应用务组件
-        foreach (var (componentType, opt) in options.ServiceComponents)
+        if (options.ServiceComponents.Any())
         {
-            builder.AddComponent(componentType, opt);
+            foreach (var (componentType, opt) in options.ServiceComponents)
+            {
+                builder.AddComponent(componentType, opt);
+            }
         }
 
         // 解决部分主机不能正确读取 urls 参数命令问题
@@ -201,12 +218,14 @@ public static class Serve
 
         // 初始化 WebApplication
         var app = builder.Build();
-        options.Application = app;
 
         // 注册应用中间件组件
-        foreach (var (componentType, opt) in options.ApplicationComponents)
+        if (options.ApplicationComponents.Any())
         {
-            app.UseComponent(app.Environment, componentType, opt);
+            foreach (var (componentType, opt) in options.ApplicationComponents)
+            {
+                app.UseComponent(app.Environment, componentType, opt);
+            }
         }
 
         // 调用自定义配置

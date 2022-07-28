@@ -72,6 +72,8 @@ Serve.Run(RunOptions.Default.ConfigureConfiguration((environment, configuration)
   - [修复] `[LoggingMonitor]` 针对 `byte[]` 类型参数输出过大问题 [5380f35](https://gitee.com/dotnetchina/Furion/commit/5380f3551de69f8607ca0fc33c950103c7ed8174)
   - [修复] 友好异常和规范化结果丢失了原始 `ErrorCode` 问题 [#I5IX2R](https://gitee.com/dotnetchina/Furion/issues/I5IX2R)
   - [修复] 新版本日志组件自定义数据库读写器注入 `IRepository` 仓储导致死循环问题 [#I5IX2R](https://gitee.com/dotnetchina/Furion/issues/I5IX2R)
+  - [修复] `Mvc` 默认手动验证和 `Furion` 全局验证冲突问题 [2a06c39](https://gitee.com/dotnetchina/Furion/commit/2a06c39c1d0a032bbc317e25a22c646babce2a60)
+  - [修复] `Server.Run()` 模式不支持 `SuperSocket` 第三方包问题，原生是支持的。
 
 ---
 

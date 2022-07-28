@@ -33,8 +33,8 @@ public class GenericRunOptions
     /// 配置 <see cref="IHostBuilder"/>
     /// </summary>
     /// <param name="configureAction">配置委托</param>
-    /// <returns><see cref="LegacyRunOptions"/></returns>
-    public GenericRunOptions ConfigureBuilder(Action<IHostBuilder> configureAction)
+    /// <returns><see cref="GenericRunOptions"/></returns>
+    public virtual GenericRunOptions ConfigureBuilder(Func<IHostBuilder, IHostBuilder> configureAction)
     {
         ActionBuilder = configureAction;
         return this;
@@ -45,7 +45,7 @@ public class GenericRunOptions
     /// </summary>
     /// <param name="configureAction">配置委托</param>
     /// <returns><see cref="RunOptions"/></returns>
-    public GenericRunOptions ConfigureConfiguration(Action<IHostEnvironment, IConfigurationBuilder> configureAction)
+    public virtual GenericRunOptions ConfigureConfiguration(Action<IHostEnvironment, IConfigurationBuilder> configureAction)
     {
         ActionConfigurationManager = configureAction;
         return this;
@@ -56,7 +56,7 @@ public class GenericRunOptions
     /// </summary>
     /// <typeparam name="TComponent">组件类型</typeparam>
     /// <returns></returns>
-    public GenericRunOptions AddComponent<TComponent>()
+    public virtual GenericRunOptions AddComponent<TComponent>()
         where TComponent : class, IServiceComponent, new()
     {
         ServiceComponents.Add(typeof(TComponent), null);
@@ -70,7 +70,7 @@ public class GenericRunOptions
     /// <typeparam name="TComponentOptions"></typeparam>
     /// <param name="options">组件参数</param>
     /// <returns></returns>
-    public GenericRunOptions AddComponent<TComponent, TComponentOptions>(TComponentOptions options)
+    public virtual GenericRunOptions AddComponent<TComponent, TComponentOptions>(TComponentOptions options)
         where TComponent : class, IServiceComponent, new()
     {
         ServiceComponents.Add(typeof(TComponent), options);
@@ -83,21 +83,16 @@ public class GenericRunOptions
     /// <param name="componentType">组件类型</param>
     /// <param name="options">组件参数</param>
     /// <returns></returns>
-    public GenericRunOptions AddComponent(Type componentType, object options)
+    public virtual GenericRunOptions AddComponent(Type componentType, object options)
     {
         ServiceComponents.Add(componentType, options);
         return this;
     }
 
     /// <summary>
-    /// <see cref="IHostBuilder"/>
-    /// </summary>
-    internal IHostBuilder Builder { get; set; }
-
-    /// <summary>
     /// 自定义 <see cref="IHostBuilder"/> 委托
     /// </summary>
-    internal Action<IHostBuilder> ActionBuilder { get; set; }
+    internal Func<IHostBuilder, IHostBuilder> ActionBuilder { get; set; }
 
     /// <summary>
     /// 自定义 <see cref="IConfigurationBuilder"/> 委托
