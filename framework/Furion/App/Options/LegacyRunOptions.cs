@@ -138,7 +138,7 @@ public sealed class LegacyRunOptions : GenericRunOptions
         return this;
     }
 
-    // <summary>
+    /// <summary>
     /// 标识主机静默启动
     /// </summary>
     /// <remarks>不阻塞程序运行</remarks>
