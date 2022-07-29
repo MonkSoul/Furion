@@ -9,10 +9,12 @@ public class SampleTests
     ///  ‰≥ˆ»’÷æ
     /// </summary>
     private readonly ITestOutputHelper Output;
+    private readonly ISystemService _sysService;
 
-    public SampleTests(ITestOutputHelper tempOutput)
+    public SampleTests(ITestOutputHelper tempOutput, ISystemService sysService)
     {
         Output = tempOutput;
+        _sysService = sysService;
     }
 
     [Fact]
@@ -40,7 +42,7 @@ public class SampleTests
     [Fact]
     public void Test_Dependency_Injection()
     {
-        Assert.Equal("Furion", App.GetService<ISystemService>().GetName());
+        Assert.Equal("Furion", _sysService.GetName());
     }
 
     private static bool IsOdd(int value)

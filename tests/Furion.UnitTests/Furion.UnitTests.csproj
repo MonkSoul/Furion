@@ -20,7 +20,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\..\framework\Furion\Furion.csproj" />
+		<ProjectReference Include="..\..\framework\Furion.Xunit\Furion.Xunit.csproj" />
 	</ItemGroup>
 
 </Project>

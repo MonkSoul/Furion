@@ -36,6 +36,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Furion.IntegrationTests", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Furion.TestProject", "..\tests\Furion.TestProject\Furion.TestProject.csproj", "{323F958E-8900-489D-BF47-2540A1DF10BA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Furion.Xunit", "Furion.Xunit\Furion.Xunit.csproj", "{C447D8F5-615F-44F2-8826-2B3EB2409EF5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -94,6 +96,10 @@ Global
 		{323F958E-8900-489D-BF47-2540A1DF10BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{323F958E-8900-489D-BF47-2540A1DF10BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{323F958E-8900-489D-BF47-2540A1DF10BA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C447D8F5-615F-44F2-8826-2B3EB2409EF5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C447D8F5-615F-44F2-8826-2B3EB2409EF5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C447D8F5-615F-44F2-8826-2B3EB2409EF5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C447D8F5-615F-44F2-8826-2B3EB2409EF5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
