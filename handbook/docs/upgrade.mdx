@@ -25,9 +25,9 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 - **新特性**
 
-  - [新增] `Furion.Xunit` 拓展包，正式实现 `Xunit` 单元测试完整支持 `Furion` [063a034e](https://gitee.com/dotnetchina/Furion/commit/063a034edd089e88d501af4c09251611476fd238)
+  - [新增] **`Furion.Xunit` 拓展包，正式实现 `Xunit` 单元测试完整支持 `Furion` [063a034e](https://gitee.com/dotnetchina/Furion/commit/063a034edd089e88d501af4c09251611476fd238)**
   - [新增] `services.AddMonitorLogging()` 日志监视器服务，支持非常灵活的日志操作 [81df742](https://gitee.com/dotnetchina/Furion/commit/81df742b2784a18fbf4060fe30cc5151909c3cab)
-  - [新增] `Serve.Run(silence: true)` 等一系列强大的静默启动功能 [#I5JBSQ](https://gitee.com/dotnetchina/Furion/issues/I5JBSQ) [#I5J98T](https://gitee.com/dotnetchina/Furion/issues/I5J98T) [7cced4](https://gitee.com/dotnetchina/Furion/commit/7cced443ca1cdcb29226c71274e087ec2a6135ef)
+  - [新增] **`Serve.Run(silence: true)` 等一系列强大的静默启动功能 [#I5JBSQ](https://gitee.com/dotnetchina/Furion/issues/I5JBSQ) [#I5J98T](https://gitee.com/dotnetchina/Furion/issues/I5J98T) [7cced4](https://gitee.com/dotnetchina/Furion/commit/7cced443ca1cdcb29226c71274e087ec2a6135ef)**
 
 - **突破性变化**
 
@@ -56,7 +56,105 @@ Serve.Run(RunOptions.Default.ConfigureConfiguration((environment, configuration)
   - [修复] 友好异常和规范化结果丢失了原始 `ErrorCode` 问题 [#I5IX2R](https://gitee.com/dotnetchina/Furion/issues/I5IX2R)
   - [修复] 新版本日志组件自定义数据库读写器注入 `IRepository` 仓储导致死循环问题 [#I5IX2R](https://gitee.com/dotnetchina/Furion/issues/I5IX2R)
   - [修复] `Mvc` 默认手动验证和 `Furion` 全局验证冲突问题 [2a06c39](https://gitee.com/dotnetchina/Furion/commit/2a06c39c1d0a032bbc317e25a22c646babce2a60)
-  - [修复] `Server.Run()` 模式不支持 `SuperSocket` 第三方包问题，原生是支持的。[186ca0a](https://gitee.com/dotnetchina/Furion/commit/186ca0a35d696f58d9e696094848a560074cdf6f)
+  - [修复] `Serve.Run()` 模式不支持 `SuperSocket` 第三方包问题，原生是支持的。[186ca0a](https://gitee.com/dotnetchina/Furion/commit/186ca0a35d696f58d9e696094848a560074cdf6f)
+
+- **本期亮点**
+
+1. `Serve.Run()` 彻彻底底支持全平台，提供非常强大的静默模式
+
+**启用静默模式可以实现无阻塞方式执行程序，而且还能体验完整的 `Furion` 功能。**
+
+:::tip 大革命
+
+有了 `Serve.Run()` 静默模式后，`Furion` 彻彻底底支持全平台，不管你是 `控制台、Web、桌面、移动、单元测试，集成测试，基准测试等等应用程序`。
+
+:::
+
+```cs showLineNumbers {1,3}
+Serve.Run(silence: true);
+
+// 不会阻塞执行哦，而且从这里开始可以使用 Furion 任何功能，比如 App.Configuration....
+Console.WriteLine("Hello, World!");
+Console.ReadKey();
+```
+
+还有更多静默模式。
+
+```cs showLineNumbers {2,5,8}
+// RunOptions 方式
+Serve.Run(RunOptions.DefaultSilence);
+
+// LegacyRunOptions 方式
+Serve.Run(LegacyRunOptions.DefaultSilence);
+
+// GenericRunOptions 方式
+Serve.Run(GenericRunOptions.DefaultSilence);
+```
+
+2. 强大的 `Furion.Xunit` 单元测试、集成测试
+
+:::tip 大革命
+
+单元测试和集成测试是保证一个系统能够持续维护和稳定运行的必备技能，但是目前现有的单元测试组件无法直接集成 `Furion` 的功能，最常用的就是如何在单元测试中读取配置，以及**如何进行依赖注入**。
+
+在过去，`Furion` 只能不断的去调整，以至于适配第三方单元测试写法，搞得不伦不类！
+
+所以，这一次不再妥协，**`Furion` 推出自己的单元测试工具，可以让现有的单元测试如 `Xunit` 100% 支持 `Furion` 所有功能，全部保证一致的写法。**
+
+:::
+
+单元测试中初始化 `Furion`
+
+```cs showLineNumbers {6,13,18}
+using Furion.Xunit;
+using Xunit.Abstractions;
+using Xunit.Sdk;
+
+// 配置启动类类型，第一个参数是 TestProgram 类完整限定名，第二个参数是当前项目程序集名称
+[assembly: TestFramework("TestProject1.TestProgram", "TestProject1")]
+
+namespace TestProject1;
+
+/// <summary>
+/// 单元测试启动类
+/// </summary>
+public class TestProgram : TestStartup
+{
+    public TestProgram(IMessageSink messageSink) : base(messageSink)
+    {
+        // 初始化 Furion
+        Serve.Run(silence: true);
+    }
+}
+```
+
+**测试类支持完整依赖注入**
+
+```cs showLineNumbers {9,15}
+using TestProject1.Services;
+using Xunit;
+
+namespace TestProject1;
+
+public class UnitTest1
+{
+    private readonly ICalcService _calcService;
+    public UnitTest1(ICalcService calcService)
+    {
+        _calcService = calcService;
+    }
+
+    [Fact]
+    public void 测试两个数的和()
+    {
+        Assert.Equal(3, _calcService.Plus(1, 2));
+    }
+}
+```
+
+<img src={useBaseUrl("img/ut9.png")} />
+
+**[查看新版本单元测试文档](./unittest.mdx)**
 
 ---
 

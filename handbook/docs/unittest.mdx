@@ -1,7 +1,7 @@
 ---
 id: unittest
-title: 36.1 单元测试
-sidebar_label: 36.1 单元测试
+title: 36.1 单元/集成测试
+sidebar_label: 36.1 单元/集成测试
 ---
 
 import useBaseUrl from "@docusaurus/useBaseUrl";
@@ -103,55 +103,48 @@ namespace TestProject1
 
 `Furion` 是跨平台、跨项目的开发框架，支持任意项目类型，包括单元测试项目。
 
-### 36.1.3.1 安装 `Furion` 包
+### 36.1.3.1 安装 `Furion.Xunit` 包
 
-打开 `Nuget` 程序包控制台，安装 `Furion` 包
+打开 `Nuget` 程序包控制台，安装 `Furion.Xunit` 包
 
 <img src={useBaseUrl("img/ut6.png")} />
 
-### 36.1.3.2 添加 `Startup.cs` 类
+:::important 特别注意
 
-在单元测试项目根目录下添加 `Startup.cs` 类，并写下以下代码：
+`Furion.Xunit` 已经包含 `Furion` 无需再次安装 `Furion`。
 
-```cs showLineNumbers  {8,16,18,21-26}
-using Furion;
-using Microsoft.Extensions.DependencyInjection;
-using Xunit;
+:::
+
+### 36.1.3.2 添加初始配置类
+
+在单元测试项目根目录下添加 `TestProgram.cs` 类，并写下以下代码：
+
+```cs showLineNumbers {6,13,18} title="TestProgram.cs"
+using Furion.Xunit;
 using Xunit.Abstractions;
 using Xunit.Sdk;
 
-// 配置启动类类型，第一个参数是 Startup 类完整限定名，第二个参数是当前项目程序集名称
-[assembly: TestFramework("TestProject1.Startup", "TestProject1")]
+// 配置启动类类型，第一个参数是 TestProgram 类完整限定名，第二个参数是当前项目程序集名称
+[assembly: TestFramework("TestProject1.TestProgram", "TestProject1")]
 
-namespace TestProject1
+namespace TestProject1;
+
+/// <summary>
+/// 单元测试启动类
+/// </summary>
+public class TestProgram : TestStartup
 {
-    /// <summary>
-    /// 单元测试启动类
-    /// </summary>
-    /// <remarks>在这里可以使用 Furion 几乎所有功能</remarks>
-    public sealed class Startup : XunitTestFramework
+    public TestProgram(IMessageSink messageSink) : base(messageSink)
     {
-        public Startup(IMessageSink messageSink) : base(messageSink)
-        {
-            // 初始化 IServiceCollection 对象
-            var services = Inject.Create();
-
-            // 在这里可以和 .NET Core 一样注册服务了！！！！！！！！！！！！！！
-
-            // 构建 ServiceProvider 对象
-            services.Build();
-        }
+        // 初始化 Furion
+        Serve.Run(silence: true);
     }
 }
 ```
 
-:::important 特别注意
+:::tip 小提示
 
-以下代码是必须的！，`TestFramework` 第一个参数是 `类完全限定名（含命名空间）`，第二个参数是 `单元测试程序集名称`
-
-```cs showLineNumbers 
-[assembly: TestFramework("TestProject1.Startup", "TestProject1")]
-```
+`TestProgram.cs` 名称可随意，只需要继承 `TestStartup` 类即可。
 
 :::
 
@@ -159,25 +152,33 @@ namespace TestProject1
 
 `Furion` 是跨平台、跨项目的开发框架，下面在单元测试中演示 `远程请求` 并请求 `https://www.baidu.com` 数据，并测试是否请求成功。
 
-- 在 `Startup.cs` 中注册 `远程请求服务`
+- 在根目录下添加 `Startup.cs` 启动类，并继承 `AppStartup`:
 
-```cs showLineNumbers  {7}
-public Startup(IMessageSink messageSink) : base(messageSink)
+```cs showLineNumbers {8,13} title="Startup.cs"
+using Furion;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.DependencyInjection;
+
+namespace TestProject1;
+
+public class Startup : AppStartup
 {
-    // 初始化 IServiceCollection 对象
-    var services = Inject.Create();
+    public void ConfigureServices(IServiceCollection services)
+    {
+        // 注册远程服务
+        services.AddRemoteRequest();
+    }
 
-    // 在这里可以和 .NET Core 一样注册服务了！！！！！！！！！！！！！！
-    services.AddRemoteRequest();
-
-    // 构建 ServiceProvider 对象
-    services.Build();
+    public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+    {
+    }
 }
 ```
 
 - 编写测试方法
 
-```cs showLineNumbers 
+```cs showLineNumbers
 [Fact]
 public async Task 测试请求百度()
 {
@@ -215,54 +216,49 @@ public void 带参数测试(int i, int j)
 
 ## 36.1.5 如何进行依赖注入
 
-有些时候，我们需要测试某接口，或者进行依赖注入方式解析服务并调用，这时候就需要用到 `App.GetService<>()` 静态类方式了，如：
+有些时候，我们需要测试某接口，或者进行依赖注入方式解析服务并调用，`Furion.Xunit` 提供完整的构造函数注入。
 
 ### 36.1.5.1 编写一个 `ICalcService` 接口及实现类
 
-```cs showLineNumbers  {3,8}
-namespace TestProject1.Services
-{
-    public interface ICalcService
-    {
-        int Plus(int i, int j);
-    }
+```cs showLineNumbers  {5,10}
+using Furion.DependencyInjection;
 
-    public class CalcService : ICalcService, ITransient
+namespace TestProject1.Services;
+
+public interface ICalcService
+{
+    int Plus(int i, int j);
+}
+
+public class CalcService : ICalcService, ITransient // 支持任何生命周期
+{
+    public int Plus(int i, int j)
     {
-        public int Plus(int i, int j)
-        {
-            return i + j;
-        }
+        return i + j;
     }
 }
 ```
 
 ### 36.1.5.2 在测试类中调用
 
-```cs showLineNumbers  {9,16,22}
-using Furion;
+```cs showLineNumbers  {9,15,17}
 using TestProject1.Services;
 using Xunit;
 
-namespace TestProject1
+namespace TestProject1;
+
+public class UnitTest1
 {
-    public class UnitTest1
+    private readonly ICalcService _calcService;
+    public UnitTest1(ICalcService calcService)
     {
-        private readonly ICalcService _calcService;
+        _calcService = calcService;
+    }
 
-        /// <summary>
-        /// 这里不能通过构造函数注入，而是采用 App.GetService<> 方式
-        /// </summary>
-        public UnitTest1()
-        {
-            _calcService = App.GetService<ICalcService>();
-        }
-
-        [Fact]
-        public void 测试两个数的和()
-        {
-            Assert.Equal(3, _calcService.Plus(1, 2));
-        }
+    [Fact]
+    public void 测试两个数的和()
+    {
+        Assert.Equal(3, _calcService.Plus(1, 2));
     }
 }
 ```
@@ -300,24 +296,9 @@ namespace TestProject1
 
 <img src={useBaseUrl("img/un3.png")} />
 
-### 36.1.5.4 关于依赖注入作用域释放问题
+### 36.1.5.4 关于依赖注入作用域释放
 
-有时候我们需要对 `非托管资源` 或需要手动释放的对象进行服务解析并测试，这时候需要构建作用域进行测试，如：
-
-```cs showLineNumbers 
-// 支持异步方法测试
-[Fact]
-public void 测试数据库()
-{
-    Scoped.Create((f,s) => {
-        var otherService = s.ServiceProvider.GetService<IOtherService>();
-        var repository = Db.GetRepository<Person>(s.ServiceProvider);
-
-        var isTrue = repository.Any(u => u.Id > 10);
-        Assert.True(isTrue);
-    });
-}
-```
+`Furion` 会在创建单元测试实例时创建一个 `IServiceScope` 对象，等该实例所有测试案例执行完毕自动调用 `Dispose`，编写测试的开发者无需关注。
 
 ### 36.1.5.5 测试释放资源
 
@@ -345,50 +326,425 @@ namespace TestProject1
 }
 ```
 
-## 36.1.6 `Web` 集成测试
+### 36.1.5.6 `[AssemblyFixture]` 特性
 
-有时候，我们需要在没有 `IIS` 服务器或任何外部事物的情况下测试完整的 `Web` 应用程序，这时候，我们只需要执行以下步骤即可：
+有时候我们可能不需要对类进行依赖注册，或者无法通过外部进行注册，这时候可以通过 `[AssemblyFixture]` 特性实现构造函数注入任何类，如：
 
-- **单元测试添加 `Web` 启动层引用**
-- **单元测试层安装 `Microsoft.AspNetCore.TestHost` 包**
-- 编写测试代码
+:::important 有效范围说明
 
-```cs showLineNumbers  {15-18,20-21}
-using Microsoft.AspNetCore;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.TestHost;
-using Microsoft.Extensions.Hosting;
-using WebApplication1;
-using Xunit;
+`[AssemblyFixture]` 方式对整个单元测试类构造函数都有效，如需个别单元测试类有效可使用 `IClassFixture<>` 或 `ICollectionFixture<>` + `[Collection]` 组合方式。
 
-namespace TestProject1
+:::
+
+- **定义需要注入进单元测试构造函数中的类**
+
+```cs showLineNumbers {1}
+public class MyAssemblyFixture : IDisposable
 {
-    public class UnitTest1
+    public static int InstantiationCount;
+
+    public MyAssemblyFixture()
     {
-        [Fact]
-        public async Task Test_Web()
-        {
-            // 创建一个测试服务
-            using var testServer = new TestServer(WebHost.CreateDefaultBuilder()
-                                               .Inject()
-                                               .UseStartup<Startup>()); // 这里的 Startup 就是你 Web 层的 Startup
+        InstantiationCount++;
+    }
 
-            // 创建一个 HttpClient 客户端
-            using var httpClient = testServer.CreateClient();
-
-            // 测试 Api
-            var result = await httpClient.GetStringAsync("/api/user/1");
-            Assert.AreEqual("Furion", result.Name);
-        }
+    public void Dispose()
+    {
+        // 做一些释放工作
     }
 }
 ```
 
-:::tip 小知识
+- **在 `TestProgram.cs` 顶部全局注册**
 
-这种方式的好处就是无需在启动中调用 `Inject.Create()` 初始化，每一个测试方法都有独立的生命周期，不会污染全局。
+```cs showLineNumbers {11} title="TestProgram.cs"
+using Furion.Xunit;
+using TestProject1;
+using Xunit;
+using Xunit.Abstractions;
+using Xunit.Sdk;
+
+// 配置启动类类型，第一个参数是 TestProgram 类完整限定名，第二个参数是当前项目程序集名称
+[assembly: TestFramework("TestProject1.TestProgram", "TestProject1")]
+
+// 支持多个
+[assembly: AssemblyFixture(typeof(MyAssemblyFixture))]
+// [assembly: AssemblyFixture(typeof(XXXXFixture))]
+
+namespace TestProject1;
+
+/// <summary>
+/// 单元测试启动类
+/// </summary>
+public class TestProgram : TestStartup
+{
+    public TestProgram(IMessageSink messageSink) : base(messageSink)
+    {
+        Serve.Run(silence: true);
+    }
+}
+```
+
+- **在测试类构造函数注入**
+
+```cs showLineNumbers {12,27}
+using TestProject1.Services;
+using Xunit;
+
+namespace TestProject1;
+
+public class UnitTest1
+{
+    private readonly ICalcService _calcService;
+    private readonly MyAssemblyFixture _fixture;
+
+    public UnitTest1(ICalcService calcService
+        , MyAssemblyFixture fixture)
+    {
+        _calcService = calcService;
+        _fixture = fixture;
+    }
+
+    [Fact]
+    public void 测试两个数的和()
+    {
+        Assert.Equal(3, _calcService.Plus(1, 2));
+    }
+
+    [Fact]
+    public void EnsureSingleton()
+    {
+        Assert.Equal(1, MyAssemblyFixture.InstantiationCount);
+    }
+}
+```
+
+<img src={useBaseUrl("img/ut10.png")} />
+
+### 36.1.5.7 `IClassFixture<>` 单个注入
+
+通过上面 `[AssemblyFixture]` 方式我们知道此方式对全局的单元测试类都有效，但有时候我们只需要特定单元测试类有效，则可通过 `IClassFixture<>` 方式，如：
+
+- **定义需要注入进单元测试构造函数中的类**
+
+```cs showLineNumbers {1}
+public class MyClassFixture : IDisposable
+{
+    public static int InstantiationCount;
+
+    public MyClassFixture()
+    {
+        InstantiationCount++;
+    }
+
+    public void Dispose()
+    {
+        // 做一些释放工作
+    }
+}
+```
+
+- **在测试类构造函数注入**
+
+```cs showLineNumbers {6,14,34}
+using TestProject1.Services;
+using Xunit;
+
+namespace TestProject1;
+
+public class UnitTest1 : IClassFixture<MyClassFixture>
+{
+    private readonly ICalcService _calcService;
+    private readonly MyAssemblyFixture _fixture;
+    private readonly MyClassFixture _classFixture;
+
+    public UnitTest1(ICalcService calcService
+        , MyAssemblyFixture fixture
+        , MyClassFixture classFixture)
+    {
+        _calcService = calcService;
+        _fixture = fixture;
+        _classFixture = classFixture;
+    }
+
+    [Fact]
+    public void 测试两个数的和()
+    {
+        Assert.Equal(3, _calcService.Plus(1, 2));
+    }
+
+    [Fact]
+    public void EnsureSingleton()
+    {
+        Assert.Equal(1, MyAssemblyFixture.InstantiationCount);
+    }
+
+    [Fact]
+    public void EnsureClassSingleton()
+    {
+        Assert.Equal(1, MyClassFixture.InstantiationCount);
+    }
+}
+```
+
+<img src={useBaseUrl("img/ut11.png")} />
+
+### 36.1.5.8 `ICollectionFixture<>` 多个注入
+
+`ICollectionFixture<>` 方式和 `IClassFixture<>` 方式最大的不同就是后者只能配置为单个测试类使用，而 `ICollectionFixture<>` 则通过 `[Collection]` 方式配置多个测试类有效，如：
+
+- **定义需要注入进单元测试构造函数中的类**
+
+:::important 特别注意
+
+这里区别于 `IClassFixture<>` 方式，需定义配置器并实现 `ICollectionFixture<>` 接口。
 
 :::
+
+```cs showLineNumbers {5,20-21}
+using Xunit;
+
+namespace TestProject1;
+
+public class MyCollectionFixture : IDisposable
+{
+    public static int InstantiationCount;
+
+    public MyCollectionFixture()
+    {
+        InstantiationCount++;
+    }
+
+    public void Dispose()
+    {
+        // 做一些释放工作
+    }
+}
+
+[CollectionDefinition("MyCollection")]
+public class MyCollection : ICollectionFixture<MyCollectionFixture>
+{
+}
+```
+
+- **在测试类构造函数注入**
+
+```cs showLineNumbers {6,17,44}
+using TestProject1.Services;
+using Xunit;
+
+namespace TestProject1;
+
+[Collection("MyCollection")]
+public class UnitTest1 : IClassFixture<MyClassFixture>
+{
+    private readonly ICalcService _calcService;
+    private readonly MyAssemblyFixture _fixture;
+    private readonly MyClassFixture _classFixture;
+    private readonly MyCollectionFixture _collectionFixture;
+
+    public UnitTest1(ICalcService calcService
+        , MyAssemblyFixture fixture
+        , MyClassFixture classFixture
+        , MyCollectionFixture collectionFixture)
+    {
+        _calcService = calcService;
+        _fixture = fixture;
+        _classFixture = classFixture;
+        _collectionFixture = collectionFixture;
+    }
+
+    [Fact]
+    public void 测试两个数的和()
+    {
+        Assert.Equal(3, _calcService.Plus(1, 2));
+    }
+
+    [Fact]
+    public void EnsureSingleton()
+    {
+        Assert.Equal(1, MyAssemblyFixture.InstantiationCount);
+    }
+
+    [Fact]
+    public void EnsureClassSingleton()
+    {
+        Assert.Equal(1, MyClassFixture.InstantiationCount);
+    }
+
+    [Fact]
+    public void EnsureCollectionSingleton()
+    {
+        Assert.Equal(1, MyCollectionFixture.InstantiationCount);
+    }
+}
+```
+
+<img src={useBaseUrl("img/ut12.png")} />
+
+## 36.1.6 `Web` 集成测试
+
+`Web` 集成测试有三种方式，通过这三种方式可以对项目进行全方位的测试，保证部署上线是测试期盼效果。
+
+### 36.1.6.1 对现有项目进行集成测试
+
+这种方式比较简单，也是最常用的方式，无需部署到服务器直接在本地即可测试，如：
+
+1. 创建 `Xunit` 单元测试项目
+
+<img src={useBaseUrl("img/ut1.png")} />
+
+2. 添加 `Microsoft.AspNetCore.Mvc.Testing` 微软提供的集成测试拓展
+
+<img src={useBaseUrl("img/ut13.png")} />
+
+3. 添加测试项目或使用已有的测试项目**引用**
+
+<img src={useBaseUrl("img/ut14.png")} />
+
+4. 在需要测试的 `Web` 项目启动层添加 `FakeStarup.cs` 类
+
+```cs showLineNumbers title="FakeStarup.cs"
+namespace WebApplication1;
+
+/// <summary>
+/// 供集成测试使用
+/// </summary>
+public class FakeStartup
+{
+}
+```
+
+5. 编写测试 `Web` 项目接口测试案例
+
+```cs showLineNumbers {6,8-12,15,16}
+using Microsoft.AspNetCore.Mvc.Testing;
+using Xunit;
+
+namespace TestProject2;
+
+public class UnitTest1 : IClassFixture<WebApplicationFactory<WebApplication1.FakeStartup>>
+{
+    private readonly WebApplicationFactory<WebApplication1.FakeStartup> _factory;
+    public UnitTest1(WebApplicationFactory<WebApplication1.FakeStartup> factory)
+    {
+        _factory = factory;
+    }
+
+    [Theory]
+    [InlineData("/default")]
+    public async Task TestEnsureSuccessStatusCode(string url)
+    {
+        using var client = _factory.CreateClient();
+        using var response = await client.GetAsync(url);
+        response.EnsureSuccessStatusCode();
+    }
+}
+```
+
+`/default` 接口对应控制器定义如下：
+
+```cs showLineNumbers {10,12}
+using Microsoft.AspNetCore.Mvc;
+
+namespace WebApplication1.Controllers
+{
+    [ApiController]
+    [Route("[controller]")]
+    public class DefaultController : ControllerBase
+    {
+        [HttpGet]
+        public string Get()
+        {
+            return "Furion 集成测试";
+        }
+    }
+}
+```
+<img src={useBaseUrl("img/ut15.png")} />
+
+6. 允许测试
+
+<img src={useBaseUrl("img/ut16.png")} />
+
+### 36.1.6.2 独立主机方式测试
+
+独立主机的方式就是利用单元测试的每一个测试案例构建主机进行测试。
+
+1. 创建 `Xunit` 单元测试项目
+
+<img src={useBaseUrl("img/ut1.png")} />
+
+2. 添加 `Microsoft.AspNetCore.Mvc.Testing` 微软提供的集成测试拓展
+
+<img src={useBaseUrl("img/ut13.png")} />
+
+3. 各种创建主机方式示例
+
+```cs showLineNumbers {15,33}
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Xunit;
+
+namespace TestProject3;
+
+public class UnitTest1
+{
+    /// <summary>
+    /// 创建主机并注册服务
+    /// </summary>
+    /// <remarks>可用来判断服务是否注册</remarks>
+    [Fact]
+    public void Test1()
+    {
+        var builder = WebApplication.CreateBuilder();
+
+        // 注册服务
+        builder.Services.AddScoped<IYourService, YourService>();
+
+        using var app = builder.Build();
+        var services = app.Services;
+
+        services.GetRequiredService<IYourService>();
+    }
+
+    /// <summary>
+    /// 测试配置
+    /// </summary>
+    /// <remarks>比如添加 JSON 文件配置后读取</remarks>
+    [Fact]
+    public void Test2()
+    {
+        var builder = WebApplication.CreateBuilder();
+        var host = builder.Host;
+        host.ConfigureAppConfiguration(builder =>
+        {
+            builder.Sources.Clear();
+        });
+
+        var config = builder.Configuration["配置"];
+
+        // 判断不为空
+    }
+}
+```
+
+### 36.1.6.3 系统集成/环境/配置部署测试
+
+有时候我们需要测试 `Web` 主机各种情况，比如端口是否有效，环境配置是否有效，系统集成情况等等，这时候只需要添加 `Microsoft.AspNetCore.TestHost` 拓展，然后在测试类顶部贴：
+
+```cs showLineNumbers
+[assembly: HostingStartup(typeof(WebApplicationTests.TestHostingStartup))]
+```
+
+微软已经提供了非常详细的例子，这里直接放链接 [https://github.com/dotnet/aspnetcore/tree/main/src/DefaultBuilder/test/Microsoft.AspNetCore.Tests](https://github.com/dotnet/aspnetcore/tree/main/src/DefaultBuilder/test/Microsoft.AspNetCore.Tests)
+
+`WebApplicationTests.TestHostingStartup` 为您要测试的 `Web` 项目启动类。
+
+### 36.1.6.4 集成 `Furion.Xunit` 拓展
+
+`Web` 集成测试支持完整的 `Furion` 特性，参考上面单元测试集成 `Furion` 章节。
 
 ## 36.1.7 `Assert` 断言
 

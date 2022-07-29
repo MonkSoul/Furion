@@ -24,7 +24,7 @@ public sealed class AssemblyFixtureAttribute : Attribute
     }
 
     /// <summary>
-    /// 类型
+    /// 单元测试实例构造函数修复类型
     /// </summary>
     public Type FixtureType { get; private set; }
 }
