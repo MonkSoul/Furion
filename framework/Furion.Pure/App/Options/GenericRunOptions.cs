@@ -99,10 +99,12 @@ public class GenericRunOptions
     /// </summary>
     /// <remarks>不阻塞程序运行</remarks>
     /// <param name="silence">静默启动</param>
+    /// <param name="logging">静默启动日志状态，默认 false</param>
     /// <returns></returns>
-    public virtual GenericRunOptions Silence(bool silence = true)
+    public virtual GenericRunOptions Silence(bool silence = true, bool logging = false)
     {
         IsSilence = silence;
+        SilenceLogging = logging;
         return this;
     }
 
@@ -126,4 +128,9 @@ public class GenericRunOptions
     /// </summary>
     /// <remarks>不阻塞程序运行</remarks>
     internal bool IsSilence { get; private set; }
+
+    /// <summary>
+    /// 启用静默启动日志
+    /// </summary>
+    internal bool SilenceLogging { get; set; }
 }

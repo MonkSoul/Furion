@@ -36,17 +36,18 @@ public static class Serve
     /// 启动默认 Web 主机，含最基础的 Web 注册
     /// </summary>
     /// <param name="urls">默认 5000/5001 端口</param>
-    /// <param name="silence"></param>
-    public static void Run(string urls = default, bool silence = false)
+    /// <param name="silence">静默启动</param>
+    /// <param name="logging">静默启动日志状态，默认 false</param>
+    public static void Run(string urls = default, bool silence = false, bool logging = false)
     {
 #if !NET5_0
         Run(RunOptions.Default
-            .Silence(silence)
+            .Silence(silence, logging)
             .AddComponent<ServeServiceComponent>()
             .UseComponent<ServeApplicationComponent>(), urls);
 #else
         Run((LegacyRunOptions.Default
-            .Silence(silence)
+            .Silence(silence, logging)
             .AddComponent<ServeServiceComponent>())
             .UseComponent<ServeApplicationComponent>(), urls);
 #endif
@@ -79,9 +80,9 @@ public static class Serve
         var builder = Host.CreateDefaultBuilder(args);
 
         // 静默启动排除指定日志类名
-        if (options.IsSilence)
+        if (options.IsSilence && !options.SilenceLogging)
         {
-            builder.ConfigureLogging(logging =>
+            builder = builder.ConfigureLogging(logging =>
             {
                 logging.AddFilter((provider, category, logLevel) =>
                 {
@@ -175,9 +176,9 @@ public static class Serve
         var builder = Host.CreateDefaultBuilder(args);
 
         // 静默启动排除指定日志类名
-        if (options.IsSilence)
+        if (options.IsSilence && !options.SilenceLogging)
         {
-            builder.ConfigureLogging(logging =>
+            builder = builder.ConfigureLogging(logging =>
             {
                 logging.AddFilter((provider, category, logLevel) =>
                 {
@@ -243,7 +244,7 @@ public static class Serve
             : WebApplication.CreateBuilder(options.Options));
 
         // 静默启动排除指定日志类名
-        if (options.IsSilence)
+        if (options.IsSilence && !options.SilenceLogging)
         {
             builder.Logging.AddFilter((provider, category, logLevel) =>
             {

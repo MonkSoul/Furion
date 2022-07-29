@@ -143,10 +143,11 @@ public sealed class LegacyRunOptions : GenericRunOptions
     /// </summary>
     /// <remarks>不阻塞程序运行</remarks>
     /// <param name="silence">静默启动</param>
+    /// <param name="logging">静默启动日志状态，默认 false</param>
     /// <returns></returns>
-    public override LegacyRunOptions Silence(bool silence = true)
+    public override LegacyRunOptions Silence(bool silence = true, bool logging = false)
     {
-        return base.Silence(silence) as LegacyRunOptions;
+        return base.Silence(silence, logging) as LegacyRunOptions;
     }
 
     /// <summary>
