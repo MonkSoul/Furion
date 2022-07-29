@@ -25,7 +25,7 @@ for ($i = 0; $i -le $framework_nupkgs.Length - 1; $i++){
     $item = $framework_nupkgs[$i];
 
     # 排除 Furion 和 Furion.Pure 发布，原因是这两个包依赖了 Furion.[Pure].Extras.DependencyModel.CodeAnalysis 拓展包
-    if ($item.Name -ne "Furion.$version.nupkg" -and $item.Name -ne "Furion.Pure.$version.nupkg"  -and $item.Name -ne "Furion.Xunit.$version.nupkg")
+    if ($item.Name -ne "Furion.$version.nupkg" -and $item.Name -ne "Furion.Pure.$version.nupkg" -and $item.Name -ne "Furion.Xunit.$version.nupkg" -and $item.Name -ne "Furion.Pure.Xunit.$version.nupkg")
     {
         $nupkg = $item.FullName;
         $snupkg = $nupkg.Replace(".nupkg", ".snupkg");
