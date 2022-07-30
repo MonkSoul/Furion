@@ -462,13 +462,7 @@ public static class SpecificationDocumentBuilder
         {
             var groupOpenApiInfo = GetGroupOpenApiInfo(group);
 
-            // 替换路由模板
-            var routeTemplate = _specificationDocumentSettings.RouteTemplate.Replace("{documentName}", Uri.EscapeDataString(group));
-            if (!string.IsNullOrWhiteSpace(_specificationDocumentSettings.ServerDir))
-            {
-                routeTemplate = _specificationDocumentSettings.ServerDir + "/" + routeTemplate;
-            }
-            swaggerUIOptions.SwaggerEndpoint($"{_appSettings.VirtualPath}/{routeTemplate}", groupOpenApiInfo?.Title ?? group);
+            swaggerUIOptions.SwaggerEndpoint(groupOpenApiInfo.RouteTemplate, groupOpenApiInfo?.Title ?? group);
         }
     }
 
@@ -515,14 +509,35 @@ public static class SpecificationDocumentBuilder
     /// </summary>
     /// <param name="group"></param>
     /// <returns></returns>
-    private static SpecificationOpenApiInfo GetGroupOpenApiInfo(string group)
+    public static SpecificationOpenApiInfo GetGroupOpenApiInfo(string group)
     {
         return GetGroupOpenApiInfoCached.GetOrAdd(group, Function);
 
         // 本地函数
         static SpecificationOpenApiInfo Function(string group)
         {
-            return _specificationDocumentSettings.GroupOpenApiInfos.FirstOrDefault(u => u.Group == group) ?? new SpecificationOpenApiInfo { Group = group };
+            // 替换路由模板
+            var routeTemplate = _specificationDocumentSettings.RouteTemplate.Replace("{documentName}", Uri.EscapeDataString(group));
+            if (!string.IsNullOrWhiteSpace(_specificationDocumentSettings.ServerDir))
+            {
+                routeTemplate = _specificationDocumentSettings.ServerDir + "/" + routeTemplate;
+            }
+
+            // 处理虚拟目录问题
+            var template = $"{_appSettings.VirtualPath}/{routeTemplate}";
+
+            var groupInfo = _specificationDocumentSettings.GroupOpenApiInfos.FirstOrDefault(u => u.Group == group);
+            if (groupInfo != null)
+            {
+                groupInfo.RouteTemplate = template;
+                groupInfo.Title ??= group;
+            }
+            else
+            {
+                groupInfo = new SpecificationOpenApiInfo { Group = group, RouteTemplate = template };
+            }
+
+            return groupInfo;
         }
     }
 
