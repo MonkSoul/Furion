@@ -110,6 +110,63 @@ public static class SpecificationDocumentBuilder
     }
 
     /// <summary>
+    /// 获取所有的规范化分组信息
+    /// </summary>
+    /// <returns></returns>
+    public static List<SpecificationOpenApiInfo> GetOpenApiGroups()
+    {
+        var openApiGroups = new List<SpecificationOpenApiInfo>();
+        foreach (var group in DocumentGroups)
+        {
+            openApiGroups.Add(GetGroupOpenApiInfo(group));
+        }
+
+        return openApiGroups;
+    }
+
+    /// <summary>
+    /// 获取分组信息缓存集合
+    /// </summary>
+    private static readonly ConcurrentDictionary<string, SpecificationOpenApiInfo> GetGroupOpenApiInfoCached;
+
+    /// <summary>
+    /// 获取分组配置信息
+    /// </summary>
+    /// <param name="group"></param>
+    /// <returns></returns>
+    public static SpecificationOpenApiInfo GetGroupOpenApiInfo(string group)
+    {
+        return GetGroupOpenApiInfoCached.GetOrAdd(group, Function);
+
+        // 本地函数
+        static SpecificationOpenApiInfo Function(string group)
+        {
+            // 替换路由模板
+            var routeTemplate = _specificationDocumentSettings.RouteTemplate.Replace("{documentName}", Uri.EscapeDataString(group));
+            if (!string.IsNullOrWhiteSpace(_specificationDocumentSettings.ServerDir))
+            {
+                routeTemplate = _specificationDocumentSettings.ServerDir + "/" + routeTemplate;
+            }
+
+            // 处理虚拟目录问题
+            var template = $"{_appSettings.VirtualPath}/{routeTemplate}";
+
+            var groupInfo = _specificationDocumentSettings.GroupOpenApiInfos.FirstOrDefault(u => u.Group == group);
+            if (groupInfo != null)
+            {
+                groupInfo.RouteTemplate = template;
+                groupInfo.Title ??= group;
+            }
+            else
+            {
+                groupInfo = new SpecificationOpenApiInfo { Group = group, RouteTemplate = template };
+            }
+
+            return groupInfo;
+        }
+    }
+
+    /// <summary>
     /// 构建Swagger全局配置
     /// </summary>
     /// <param name="swaggerOptions">Swagger 全局配置</param>
@@ -497,48 +554,6 @@ public static class SpecificationDocumentBuilder
         // 配置多语言和自动登录token
         swaggerUIOptions.UseRequestInterceptor("(request) => { return defaultRequestInterceptor(request); }");
         swaggerUIOptions.UseResponseInterceptor("(response) => { return defaultResponseInterceptor(response); }");
-    }
-
-    /// <summary>
-    /// 获取分组信息缓存集合
-    /// </summary>
-    private static readonly ConcurrentDictionary<string, SpecificationOpenApiInfo> GetGroupOpenApiInfoCached;
-
-    /// <summary>
-    /// 获取分组配置信息
-    /// </summary>
-    /// <param name="group"></param>
-    /// <returns></returns>
-    public static SpecificationOpenApiInfo GetGroupOpenApiInfo(string group)
-    {
-        return GetGroupOpenApiInfoCached.GetOrAdd(group, Function);
-
-        // 本地函数
-        static SpecificationOpenApiInfo Function(string group)
-        {
-            // 替换路由模板
-            var routeTemplate = _specificationDocumentSettings.RouteTemplate.Replace("{documentName}", Uri.EscapeDataString(group));
-            if (!string.IsNullOrWhiteSpace(_specificationDocumentSettings.ServerDir))
-            {
-                routeTemplate = _specificationDocumentSettings.ServerDir + "/" + routeTemplate;
-            }
-
-            // 处理虚拟目录问题
-            var template = $"{_appSettings.VirtualPath}/{routeTemplate}";
-
-            var groupInfo = _specificationDocumentSettings.GroupOpenApiInfos.FirstOrDefault(u => u.Group == group);
-            if (groupInfo != null)
-            {
-                groupInfo.RouteTemplate = template;
-                groupInfo.Title ??= group;
-            }
-            else
-            {
-                groupInfo = new SpecificationOpenApiInfo { Group = group, RouteTemplate = template };
-            }
-
-            return groupInfo;
-        }
     }
 
     /// <summary>
