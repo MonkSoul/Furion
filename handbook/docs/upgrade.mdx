@@ -29,6 +29,7 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
   - [新增] `services.AddMonitorLogging()` 日志监视器服务，支持非常灵活的日志操作 [81df742](https://gitee.com/dotnetchina/Furion/commit/81df742b2784a18fbf4060fe30cc5151909c3cab)
   - [新增] **`Serve.Run(silence: true)` 等一系列强大的静默启动功能 [#I5JBSQ](https://gitee.com/dotnetchina/Furion/issues/I5JBSQ) [#I5J98T](https://gitee.com/dotnetchina/Furion/issues/I5J98T) [7cced4](https://gitee.com/dotnetchina/Furion/commit/7cced443ca1cdcb29226c71274e087ec2a6135ef)**
   - [新增] `SpecificationDocumentBuilder.GetOpenApiGroups()` 方法获取底层的规范化接口分组信息 [4ff03c5](https://gitee.com/dotnetchina/Furion/commit/4ff03c5f8342c4d9b26fb1336cd78936ab189f5e)
+  - [新增] `logger.ScopeContext()` 配置日志上下文功能 [#I5JC0D](https://gitee.com/dotnetchina/Furion/issues/I5JC0D)
 
 - **突破性变化**
 
@@ -202,6 +203,25 @@ app.UseInject();  // Furion 默认 api 地址为  /api
 ```
 
 <img src={useBaseUrl("img/sg20.png")} />
+
+4. 提供强大的日志上下文功能
+
+```cs showLineNumbers {2,6,12}
+// 写法一
+_logger.ScopeContext(ctx => ctx.Set("Name", "Furion").Set("UserId", 10))
+       .LogInformation("我是一个日志 {id}", 20);
+
+// 写法二
+_logger.ScopeContext(new Dictionary<object, object> {
+    { "Name", "Furion" },
+    { "UserId", 10 }
+}).LogInformation("我是一个日志 {id}", 20);
+
+// 写法三
+_logger.ScopeContext(new LogContext {
+    // ....
+}).LogInformation("我是一个日志 {id}", 20)
+```
 
 ---
 

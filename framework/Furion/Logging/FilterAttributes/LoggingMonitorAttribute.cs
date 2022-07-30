@@ -37,6 +37,11 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter
     private const string LOG_CATEGORY_NAME = "System.Logging.LoggingMonitor";
 
     /// <summary>
+    /// 日志上下文统一 Key
+    /// </summary>
+    private const string LOG_CONTEXT_NAME = "LoggingMonitor";
+
+    /// <summary>
     /// 构造函数
     /// </summary>
     public LoggingMonitorAttribute()
@@ -108,14 +113,23 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter
             }
         }
 
+        // 创建日志上下文
+        var logContext = new LogContext();
+
         // 获取路由表信息
         var routeData = context.RouteData;
         var controllerName = routeData.Values["controller"];
         var actionName = routeData.Values["action"];
         var areaName = routeData.DataTokens["area"];
+        logContext.Set($"{LOG_CONTEXT_NAME}.ControllerName", controllerName)
+                  .Set($"{LOG_CONTEXT_NAME}.ControllerTypeName", controllerActionDescriptor.ControllerTypeInfo.Name)
+                  .Set($"{LOG_CONTEXT_NAME}.ActionName", actionName)
+                  .Set($"{LOG_CONTEXT_NAME}.ActionTypeName", actionMethod.Name)
+                  .Set($"{LOG_CONTEXT_NAME}.AreaName", areaName);
 
         // 调用呈现链名称
         var displayName = controllerActionDescriptor.DisplayName;
+        logContext.Set($"{LOG_CONTEXT_NAME}.DisplayName", displayName);
 
         // 获取 HttpContext 和 HttpRequest 对象
         var httpContext = context.HttpContext;
@@ -123,18 +137,27 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter
 
         // 获取服务端 IPv4 地址
         var localIPv4 = httpContext.GetLocalIpAddressToIPv4();
+        logContext.Set($"{LOG_CONTEXT_NAME}.LocalIPv4", localIPv4);
 
         // 获取客户端 IPv4 地址
         var remoteIPv4 = httpContext.GetRemoteIpAddressToIPv4();
+        logContext.Set($"{LOG_CONTEXT_NAME}.RemoteIPv4", localIPv4);
 
         // 获取请求的 Url 地址
         var requestUrl = Uri.UnescapeDataString(httpRequest.GetRequestUrlAddress());
+        logContext.Set($"{LOG_CONTEXT_NAME}.RequestUrl", requestUrl);
 
         // 获取来源 Url 地址
         var refererUrl = Uri.UnescapeDataString(httpRequest.GetRefererUrlAddress());
+        logContext.Set($"{LOG_CONTEXT_NAME}.RefererUrl", refererUrl);
 
         // 服务器环境
         var environmentName = httpContext.RequestServices.GetRequiredService<IWebHostEnvironment>().EnvironmentName;
+        logContext.Set($"{LOG_CONTEXT_NAME}.EnvironmentName", environmentName);
+
+        // 客户端浏览器信息
+        var userAgent = httpRequest.Headers["User-Agent"];
+        logContext.Set($"{LOG_CONTEXT_NAME}.UserAgent", userAgent);
 
         // 获取方法参数
         var parameterValues = context.ActionArguments;
@@ -144,16 +167,13 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter
 
         // token 信息
         var authorization = httpRequest.Headers["Authorization"].ToString();
-
-        // 解析 token 内容
-
-        // 客户端浏览器信息
-        var userAgent = httpRequest.Headers["User-Agent"];
+        logContext.Set($"{LOG_CONTEXT_NAME}.Authorization", authorization);
 
         // 计算接口执行时间
         var timeOperation = Stopwatch.StartNew();
         var resultContext = await next();
         timeOperation.Stop();
+        logContext.Set($"{LOG_CONTEXT_NAME}.ElapsedMilliseconds", timeOperation.ElapsedMilliseconds);
 
         // 获取异常对象情况
         var exception = resultContext.Exception;
@@ -173,23 +193,24 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter
         };
 
         // 添加 JWT 授权信息日志模板
-        monitorItems.AddRange(GenerateAuthorizationTemplate(user, authorization));
+        monitorItems.AddRange(GenerateAuthorizationTemplate(logContext, user, authorization));
 
         // 添加请求参数信息日志模板
-        monitorItems.AddRange(GenerateParameterTemplate(parameterValues, actionMethod, httpRequest.Headers["Content-Type"]));
+        monitorItems.AddRange(GenerateParameterTemplate(logContext, parameterValues, actionMethod, httpRequest.Headers["Content-Type"]));
 
         // 添加返回值信息日志模板
-        monitorItems.AddRange(GenerateReturnInfomationTemplate(resultContext, actionMethod));
+        monitorItems.AddRange(GenerateReturnInfomationTemplate(logContext, resultContext, actionMethod));
 
         // 添加异常信息日志模板
-        monitorItems.AddRange(GenerateExcetpionInfomationTemplate(exception));
+        monitorItems.AddRange(GenerateExcetpionInfomationTemplate(logContext, exception));
 
         // 生成最终模板
         var monitor = TP.Wrapper(Title, displayName, monitorItems.ToArray());
 
         // 创建日志记录器
         var logger = httpContext.RequestServices.GetRequiredService<ILoggerFactory>()
-            .CreateLogger(LOG_CATEGORY_NAME);
+            .CreateLogger(LOG_CATEGORY_NAME)
+            .ScopeContext(logContext);
 
         // 写入日志，如果没有异常使用 LogInformation，否则使用 LogError
         if (exception == null) logger.LogInformation(monitor);
@@ -199,10 +220,11 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter
     /// <summary>
     /// 生成 JWT 授权信息日志模板
     /// </summary>
+    /// <param name="logContext"></param>
     /// <param name="claimsPrincipal"></param>
     /// <param name="authorization"></param>
     /// <returns></returns>
-    private static List<string> GenerateAuthorizationTemplate(ClaimsPrincipal claimsPrincipal, StringValues authorization)
+    private static List<string> GenerateAuthorizationTemplate(LogContext logContext, ClaimsPrincipal claimsPrincipal, StringValues authorization)
     {
         var templates = new List<string>();
 
@@ -219,6 +241,7 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter
         foreach (var claim in claimsPrincipal.Claims)
         {
             templates.Add($"##{claim.Type} ({(claim.ValueType.Replace("http://www.w3.org/2001/XMLSchema#", ""))})## {claim.Value}");
+            logContext.Set($"{LOG_CONTEXT_NAME}.Authorization.{claim.Type}", claim.Value);
         }
 
         return templates;
@@ -227,11 +250,12 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter
     /// <summary>
     /// 生成请求参数信息日志模板
     /// </summary>
+    /// <param name="logContext"></param>
     /// <param name="parameterValues"></param>
     /// <param name="method"></param>
     /// <param name="contentType"></param>
     /// <returns></returns>
-    private static List<string> GenerateParameterTemplate(IDictionary<string, object> parameterValues, MethodInfo method, StringValues contentType)
+    private static List<string> GenerateParameterTemplate(LogContext logContext, IDictionary<string, object> parameterValues, MethodInfo method, StringValues contentType)
     {
         var templates = new List<string>();
 
@@ -259,7 +283,10 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter
                 // 单文件
                 if (value is IFormFile formFile)
                 {
-                    rawValue = $"[name]: {formFile.FileName}; [size]: {(Math.Round(formFile.Length / 1024D))}KB; [content-type]: {formFile.ContentType}";
+                    var fileSize = Math.Round(formFile.Length / 1024D);
+                    templates.Add($"##{name} ({type.Name})## [name]: {formFile.FileName}; [size]: {fileSize}KB; [content-type]: {formFile.ContentType}");
+                    logContext.Set($"{LOG_CONTEXT_NAME}.Parameter.{name}", $"File {{ name: {formFile.FileName}, size: {fileSize}, contentType: {formFile.ContentType} }}");
+                    continue;
                 }
                 // 多文件
                 else if (value is List<IFormFile> formFiles)
@@ -267,7 +294,9 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter
                     for (var i = 0; i < formFiles.Count; i++)
                     {
                         var file = formFiles[i];
-                        templates.Add($"##{name}{i} ({nameof(IFormFile)})## [name]: {file.FileName}; [size]: {(Math.Round(file.Length / 1024D))}KB; [content-type]: {file.ContentType}");
+                        var size = Math.Round(file.Length / 1024D);
+                        templates.Add($"##{name}[{i}] ({nameof(IFormFile)})## [name]: {file.FileName}; [size]: {size}KB; [content-type]: {file.ContentType}");
+                        logContext.Set($"{LOG_CONTEXT_NAME}.Parameter.{name}[{i}]", $"File {{ name: {file.FileName}, size: {size}, contentType: {file.ContentType} }}");
                     }
 
                     continue;
@@ -277,6 +306,7 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter
             else if (value is byte[] byteArray)
             {
                 templates.Add($"##{name} ({type.Name})## [Length]: {byteArray.Length}");
+                logContext.Set($"{LOG_CONTEXT_NAME}.Parameter.{name}", $"Byte[{byteArray.Length}]");
                 continue;
             }
             // 处理基元类型，字符串类型和空值
@@ -292,6 +322,7 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter
             }
 
             templates.Add($"##{name} ({type.Name})## {rawValue}");
+            logContext.Set($"{LOG_CONTEXT_NAME}.Parameter.{name}", rawValue);
         }
 
         return templates;
@@ -300,10 +331,11 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter
     /// <summary>
     /// 生成返回值信息日志模板
     /// </summary>
+    /// <param name="logContext"></param>
     /// <param name="resultContext"></param>
     /// <param name="method"></param>
     /// <returns></returns>
-    private static List<string> GenerateReturnInfomationTemplate(ActionExecutedContext resultContext, MethodInfo method)
+    private static List<string> GenerateReturnInfomationTemplate(LogContext logContext, ActionExecutedContext resultContext, MethodInfo method)
     {
         var templates = new List<string>();
 
@@ -326,6 +358,8 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter
             , $"##类型## {method.ReturnType.FullName}"
             , $"##返回值## {displayValue}"
         });
+        logContext.Set($"{LOG_CONTEXT_NAME}.Return.Type", method.ReturnType.FullName)
+                  .Set($"{LOG_CONTEXT_NAME}.Return.Value", displayValue);
 
         return templates;
     }
@@ -333,9 +367,10 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter
     /// <summary>
     /// 生成异常信息日志模板
     /// </summary>
+    /// <param name="logContext"></param>
     /// <param name="exception"></param>
     /// <returns></returns>
-    private static List<string> GenerateExcetpionInfomationTemplate(Exception exception)
+    private static List<string> GenerateExcetpionInfomationTemplate(LogContext logContext, Exception exception)
     {
         var templates = new List<string>();
 
@@ -344,10 +379,13 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter
         templates.AddRange(new[]
         {
             $"━━━━━━━━━━━━━━━  异常信息 ━━━━━━━━━━━━━━━"
-            , $"##类型## {exception.GetType()}"
+            , $"##类型## {exception.GetType().FullName}"
             , $"##消息## {exception.Message}"
             , $"##错误堆栈## {exception.StackTrace}"
         });
+        logContext.Set($"{LOG_CONTEXT_NAME}.Exception.Type", exception.GetType().FullName)
+                  .Set($"{LOG_CONTEXT_NAME}.Exception.Message", exception.Message)
+                  .Set($"{LOG_CONTEXT_NAME}.Exception.StackTrace", exception.StackTrace);
 
         return templates;
     }

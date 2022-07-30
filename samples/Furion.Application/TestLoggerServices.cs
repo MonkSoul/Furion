@@ -10,14 +10,16 @@ namespace Furion.Application;
 public class TestLoggerServices : IDynamicApiController
 {
     private readonly ILogger<TestLoggerServices> _logger;
-    public TestLoggerServices(ILogger<TestLoggerServices> logger)
+    private readonly ILoggerFactory _loggerFactory;
+    public TestLoggerServices(ILogger<TestLoggerServices> logger, ILoggerFactory loggerFactory)
     {
         _logger = logger;
+        _loggerFactory = loggerFactory;
     }
 
     public void 测试日志()
     {
-        _logger.LogInformation("我是一个日志 {id}", 20);
+        _logger.ScopeContext(ctx => ctx.Set("Name", "Furion")).LogInformation("我是一个日志 {id}", 20);
     }
 
     public void 测试配置日志()

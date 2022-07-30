@@ -32,6 +32,11 @@ public sealed class FileLogger : ILogger
     }
 
     /// <summary>
+    /// 日志上下文
+    /// </summary>
+    public LogContext Context { get; private set; }
+
+    /// <summary>
     /// 开始逻辑操作范围
     /// </summary>
     /// <typeparam name="TState">标识符类型参数</typeparam>
@@ -39,6 +44,12 @@ public sealed class FileLogger : ILogger
     /// <returns><see cref="IDisposable"/></returns>
     public IDisposable BeginScope<TState>(TState state)
     {
+        // 设置日志上下文
+        if (state is LogContext context)
+        {
+            Context = context;
+        }
+
         return default;
     }
 
@@ -76,17 +87,16 @@ public sealed class FileLogger : ILogger
 
         // 获取格式化后的消息
         var message = formatter(state, exception);
+        var logMsg = new LogMessage(_logName, logLevel, eventId, message, exception, Context);
 
         // 是否自定义了日志筛选器，如果是则检查是否条件
-        if (_fileLoggerProvider.LoggerOptions.WriteFilter?.Invoke(
-            new LogMessage(_logName, logLevel, eventId, message, exception)) == false) return;
+        if (_fileLoggerProvider.LoggerOptions.WriteFilter?.Invoke(logMsg) == false) return;
 
         // 是否自定义了自定义日志格式化程序，如果是则使用
         if (_fileLoggerProvider.MessageFormat != null)
         {
             // 写入日志队列
-            _fileLoggerProvider.WriteToQueue(_fileLoggerProvider.MessageFormat(
-                new LogMessage(_logName, logLevel, eventId, message, exception)));
+            _fileLoggerProvider.WriteToQueue(_fileLoggerProvider.MessageFormat(logMsg));
 
             return;
         }

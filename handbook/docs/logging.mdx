@@ -788,7 +788,50 @@ Console.WriteLine(template);
 
 :::
 
-## 18.12 反馈与建议
+## 18.12 日志上下文
+
+:::important 版本说明
+
+以下内容仅限 `Furion 4.1.3 +` 版本使用。
+
+:::
+
+有时候我们希望为日志提供额外数据，这时候可通过 `.ScopeContext()` 配置，如：
+
+```cs showLineNumbers {2,6,12}
+// 写法一
+_logger.ScopeContext(ctx => ctx.Set("Name", "Furion").Set("UserId", 10))
+       .LogInformation("我是一个日志 {id}", 20);
+
+// 写法二
+_logger.ScopeContext(new Dictionary<object, object> {
+    { "Name", "Furion" },
+    { "UserId", 10 }
+}).LogInformation("我是一个日志 {id}", 20);
+
+// 写法三
+_logger.ScopeContext(new LogContext {
+    // ....
+}).LogInformation("我是一个日志 {id}", 20)
+```
+
+在 `LogMessage` 对象中使用：
+
+```cs showLineNumbers {1,9}
+var value = logMsg.Context.Get("Key");
+
+// 比如在过滤中使用
+services.AddFileLogging("infomation.log", options =>
+{
+    options.WriteFilter = (logMsg) =>
+    {
+        // 还可以设置给运行时使用：logMsg.Context.Set(...);
+        return logMsg.Context.Get("Name") == "Furion";
+    };
+});
+```
+
+## 18.13 反馈与建议
 
 :::note 与我们交流
 
