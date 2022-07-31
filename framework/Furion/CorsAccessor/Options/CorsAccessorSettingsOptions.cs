@@ -59,6 +59,11 @@ public sealed class CorsAccessorSettingsOptions : IConfigurableOptions<CorsAcces
     public bool? FixedClientToken { get; set; }
 
     /// <summary>
+    /// 启用 SignalR 跨域支持
+    /// </summary>
+    public bool? SignalRSupport { get; set; }
+
+    /// <summary>
     /// 后期配置
     /// </summary>
     /// <param name="options"></param>
@@ -69,5 +74,6 @@ public sealed class CorsAccessorSettingsOptions : IConfigurableOptions<CorsAcces
         WithOrigins ??= Array.Empty<string>();
         AllowCredentials ??= true;
         FixedClientToken ??= true;
+        SignalRSupport ??= false;
     }
 }

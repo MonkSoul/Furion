@@ -103,6 +103,7 @@ namespace Furion.Web.Core
   - `AllowCredentials`：是否允许跨域请求中的凭据，`bool` 类型，默认值 `true`
   - `SetPreflightMaxAge`：设置预检过期时间，`int` 类型，默认值 `24小时`
   - `FixedClientToken`：是否默认配置 `WithExposedHeaders`，`bool` 类型，默认 `true`
+  - `SignalRSupport`：是否启用 `SignalR` 跨域支持，`bool` 类型，默认 `false`
 
 ## 16.6 前端不能读取响应头注意事项
 
@@ -154,20 +155,22 @@ $.ajax({
 
 ## 16.9 `SignalR` 跨域问题
 
-很多开发者使用 `SignalR` 进行跨域的时候都会遇到不能跨域的问题，可以参考该 [#I3ALQ7](https://gitee.com/dotnetchina/Furion/issues/I3ALQ7)，具体代码如下：
+`SignalR` 实现跨域需要满足下面几个条件：
 
-```cs showLineNumbers {3,6-7,10}
-// 注册服务
-services.AddSignalR();
-services.AddCorsAccessor();
+- 允许特定的预期来源，允许任何来源是可行的，但不安全或不推荐使用
+- 必须允许使用 HTTP 方法 `GET` 和 `POST`
+- 为了使基于 `cookie` 的粘滞会话正常工作，必须允许使用凭据，即使未使用身份验证，也必须启用它们。
 
-// 配置跨域
-app.UseCorsAccessor(builder =>
-    builder.SetIsOriginAllowed(_ => true)
-           .AllowAnyMethod()
-           .AllowAnyHeader()
-           .AllowCredentials()  // 注意 必须 AllowCredentials，其他的可以自由配置
-);
+官方文档说明 [https://docs.microsoft.com/zh-cn/aspnet/core/signalr/security?view=aspnetcore-6.0](https://docs.microsoft.com/zh-cn/aspnet/core/signalr/security?view=aspnetcore-6.0)
+
+**在 `Furion 4.1.4+` 版本已修正 `SignalR` 跨域问题，只需要启用 `SignalRSupport` 配置即可**，如：
+
+```json showLineNumbers {2,3}
+{
+  "CorsAccessorSettings": {
+    "SignalRSupport": true
+  }
+}
 ```
 
 ## 16.10 反馈与建议

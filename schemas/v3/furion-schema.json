@@ -1882,6 +1882,11 @@
           "type": "boolean",
           "description": "是否默认配置 WithExposedHeaders",
           "default": true
+        },
+        "SignalRSupport": {
+          "type": "boolean",
+          "description": "启用 SignalR 跨域支持",
+          "default": false
         }
       }
     },

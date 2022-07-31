@@ -30,6 +30,7 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
   - [新增] **`Serve.Run(silence: true)` 等一系列强大的静默启动功能 [#I5JBSQ](https://gitee.com/dotnetchina/Furion/issues/I5JBSQ) [#I5J98T](https://gitee.com/dotnetchina/Furion/issues/I5J98T) [7cced4](https://gitee.com/dotnetchina/Furion/commit/7cced443ca1cdcb29226c71274e087ec2a6135ef)**
   - [新增] `SpecificationDocumentBuilder.GetOpenApiGroups()` 方法获取底层的规范化接口分组信息 [4ff03c5](https://gitee.com/dotnetchina/Furion/commit/4ff03c5f8342c4d9b26fb1336cd78936ab189f5e)
   - [新增] `logger.ScopeContext()` 配置日志上下文功能 [#I5JC0D](https://gitee.com/dotnetchina/Furion/issues/I5JC0D)
+  - [新增] 跨域配置 `CorsAccessorSettings.SignalRSupport` 配置选项，支持配置 `SignalR` 跨域 [#I5JREM](https://gitee.com/dotnetchina/Furion/issues/I5JREM)
 
 - **突破性变化**
 
@@ -59,6 +60,7 @@ Serve.Run(RunOptions.Default.ConfigureConfiguration((environment, configuration)
   - [修复] 新版本日志组件自定义数据库读写器注入 `IRepository` 仓储导致死循环问题 [#I5IX2R](https://gitee.com/dotnetchina/Furion/issues/I5IX2R)
   - [修复] `Mvc` 默认手动验证和 `Furion` 全局验证冲突问题 [2a06c39](https://gitee.com/dotnetchina/Furion/commit/2a06c39c1d0a032bbc317e25a22c646babce2a60)
   - [修复] `Serve.Run()` 模式不支持 `SuperSocket` 第三方包问题，原生是支持的。[186ca0a](https://gitee.com/dotnetchina/Furion/commit/186ca0a35d696f58d9e696094848a560074cdf6f)
+  - [修复] `SignalR` 跨域错误问题 [#I5JREM](https://gitee.com/dotnetchina/Furion/issues/I5JREM)
 
 - **其他更改**
 

@@ -30,10 +30,26 @@ public static class CorsAccessorApplicationBuilderExtensions
         // 获取选项
         var corsAccessorSettings = app.ApplicationServices.GetService<IOptions<CorsAccessorSettingsOptions>>().Value;
 
-        // 配置跨域中间件
-        _ = corsPolicyBuilderHandler == null
-               ? app.UseCors(corsAccessorSettings.PolicyName)
-               : app.UseCors(corsPolicyBuilderHandler);
+        // 判断是否启用 SignalR 跨域支持
+        if (corsAccessorSettings.SignalRSupport == false)
+        {
+            // 配置跨域中间件
+            _ = corsPolicyBuilderHandler == null
+                   ? app.UseCors(corsAccessorSettings.PolicyName)
+                   : app.UseCors(corsPolicyBuilderHandler);
+        }
+        else
+        {
+            // 配置跨域中间件
+            app.UseCors(builder =>
+            {
+                // 设置跨域策略
+                Penetrates.SetCorsPolicy(builder, corsAccessorSettings, true);
+
+                // 添加自定义配置
+                corsPolicyBuilderHandler?.Invoke(builder);
+            });
+        }
 
         // 添加压缩缓存
         app.UseResponseCaching();
