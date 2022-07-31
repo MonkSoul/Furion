@@ -1,11 +1,12 @@
 import "animate.css";
-import Playground from "../components/Playground";
 import React from "react";
+import GiveMeStar from "../components/GiveMeStar";
+import Playground from "../components/Playground";
 
 function Root({ children }) {
   return (
     <>
-      {/* <GiveMeStar /> */}
+      <GiveMeStar />
       {/* <ZhiCai /> */}
       {children}
       {/* <JoinGroup /> */}
