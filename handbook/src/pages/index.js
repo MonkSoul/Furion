@@ -58,7 +58,7 @@ function Banner() {
           </div>
           <ul className="furion-banner-spec">
             <li>木兰宽松开源协议，无需商业授权</li>
-            <li>基于 .NET5/6 平台，没有历史包袱</li>
+            <li>基于 .NET5+ 平台，没有历史包袱</li>
             <li>极少依赖，只依赖两个第三方包</li>
             <li>极速上手，一个 Inject() 完成配置</li>
             <li>代码无侵入性，100% 兼容原生写法</li>
