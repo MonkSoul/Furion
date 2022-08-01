@@ -347,6 +347,12 @@ public class HelloService
 Serve.Run();
 ```
 
+:::important 特别注意
+
+如果您想自己配置 `Web` 项目服务，可通过 `Serve.Run(RunOptions.Default);` 方式，因为 `Serve.Run()` 已经包含了常用的 `Web` 可能会提示重复注册错误。
+
+:::
+
 ```cs showLineNumbers {8,10,12,15,17} title="MyStartup.cs"
 using Furion;
 using Microsoft.AspNetCore.Builder;
