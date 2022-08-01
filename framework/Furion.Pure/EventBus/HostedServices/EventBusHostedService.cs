@@ -49,21 +49,29 @@ internal sealed class EventBusHostedService : BackgroundService
     private IEventHandlerExecutor Executor { get; }
 
     /// <summary>
+    /// 是否使用 UTC 时间
+    /// </summary>
+    private bool UseUtcTimestamp { get; }
+
+    /// <summary>
     /// 构造函数
     /// </summary>
     /// <param name="logger">日志对象</param>
     /// <param name="serviceProvider">服务提供器</param>
     /// <param name="eventSourceStorer">事件源存储器</param>
     /// <param name="eventSubscribers">事件订阅者集合</param>
+    /// <param name="useUtcTimestamp">是否使用 Utc 时间</param>
     public EventBusHostedService(ILogger<EventBusHostedService> logger
         , IServiceProvider serviceProvider
         , IEventSourceStorer eventSourceStorer
-        , IEnumerable<IEventSubscriber> eventSubscribers)
+        , IEnumerable<IEventSubscriber> eventSubscribers
+        , bool useUtcTimestamp)
     {
         _logger = logger;
         _eventSourceStorer = eventSourceStorer;
         Monitor = serviceProvider.GetService<IEventHandlerMonitor>();
         Executor = serviceProvider.GetService<IEventHandlerExecutor>();
+        UseUtcTimestamp = useUtcTimestamp;
 
         var bindingAttr = BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly;
         // 逐条获取事件处理程序并进行包装
@@ -102,7 +110,7 @@ internal sealed class EventBusHostedService : BackgroundService
     /// </summary>
     /// <param name="stoppingToken">后台主机服务停止时取消任务 Token</param>
     /// <returns><see cref="Task"/> 实例</returns>
-    protected async override Task ExecuteAsync(CancellationToken stoppingToken)
+    protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
         _logger.LogInformation("EventBus Hosted Service is running.");
 
@@ -164,7 +172,7 @@ internal sealed class EventBusHostedService : BackgroundService
                 // 创建执行前上下文
                 var eventHandlerExecutingContext = new EventHandlerExecutingContext(eventSource, properties)
                 {
-                    ExecutingTime = DateTime.UtcNow
+                    ExecutingTime = UseUtcTimestamp ? DateTime.UtcNow : DateTime.Now
                 };
 
                 // 执行异常对象
@@ -219,7 +227,7 @@ internal sealed class EventBusHostedService : BackgroundService
                         // 创建执行后上下文
                         var eventHandlerExecutedContext = new EventHandlerExecutedContext(eventSource, properties)
                         {
-                            ExecutedTime = DateTime.UtcNow,
+                            ExecutedTime = UseUtcTimestamp ? DateTime.UtcNow : DateTime.Now,
                             Exception = executionException
                         };
 

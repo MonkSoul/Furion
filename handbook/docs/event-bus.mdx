@@ -371,6 +371,7 @@ services.AddEventBus(builder =>
 - 属性
   - `ChannelCapacity`：默认内存通道容量
   - `UnobservedTaskExceptionHandler`：订阅执行任务未察觉异常
+  - `UseUtcTimestamp`：是否使用 `UTC` 事件，默认 `false`
 - 方法
   - `AddSubscriber<TEventSubscriber>`：添加订阅者
   - `ReplacePublisher<TEventPublisher>`：替换发布者

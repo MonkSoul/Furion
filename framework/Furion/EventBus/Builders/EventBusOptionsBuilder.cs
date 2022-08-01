@@ -50,6 +50,11 @@ public sealed class EventBusOptionsBuilder
     public int ChannelCapacity { get; set; } = 3000;
 
     /// <summary>
+    /// 是否使用 UTC 时间戳，默认 false
+    /// </summary>
+    public bool UseUtcTimestamp { get; set; }
+
+    /// <summary>
     /// 未察觉任务异常事件处理程序
     /// </summary>
     public EventHandler<UnobservedTaskExceptionEventArgs> UnobservedTaskExceptionHandler { get; set; }
