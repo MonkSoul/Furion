@@ -1,6 +1,7 @@
 ﻿using Furion.Application.Persons;
 using Furion.Application.Services;
 using Furion.DatabaseAccessor.Extensions;
+using Furion.Localization;
 
 namespace Furion.Application;
 
@@ -294,5 +295,10 @@ public class PersonService : IDynamicApiController
     [ApiDescriptionSettings(Order = 1000)]
     public void MarkdownTest()
     {
+    }
+
+    public string 测试多语言()
+    {
+        return L.Text["API 接口"];
     }
 }
