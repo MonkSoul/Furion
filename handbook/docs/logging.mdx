@@ -669,7 +669,8 @@ services.AddMonitorLogging();   // 默认读取 Logging:Monitor 下配置，支�
     "Monitor": {
       "GlobalEnabled": false, // 是否启用全局拦截，默认 `false`
       "IncludeOfMethods": [], // 是否指定拦截特定方法，当 GlobalEnabled: false 有效
-      "ExcludeOfMethods": [] // 是否指定排除特定方法，当 GlobalEnabled: true 有效
+      "ExcludeOfMethods": [], // 是否指定排除特定方法，当 GlobalEnabled: true 有效
+      "BahLogLevel": "Information" // 配置 Oops.Oh 和 Oops.Bah 业务日志输出级别，默认 Information
     }
   }
 }

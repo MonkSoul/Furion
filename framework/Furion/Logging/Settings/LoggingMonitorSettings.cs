@@ -20,6 +20,8 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+using Microsoft.Extensions.Logging;
+
 namespace Furion.Logging;
 
 /// <summary>
@@ -44,4 +46,10 @@ public sealed class LoggingMonitorSettings
     /// </summary>
     /// <remarks>结合 <seealso cref="GlobalEnabled"/> 使用，当 <see cref="GlobalEnabled"/> 为 true 时有效，</remarks>
     public string[] ExcludeOfMethods { get; set; } = Array.Empty<string>();
+
+    /// <summary>
+    /// 业务日志消息级别
+    /// </summary>
+    /// <remarks>控制 Oops.Oh 或 Oops.Bah 日志记录位置，默认写入 <see cref="LogLevel.Information"/></remarks>
+    public LogLevel BahLogLevel { get; set; } = LogLevel.Information;
 }

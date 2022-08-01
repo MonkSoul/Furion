@@ -20,6 +20,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+using Furion.FriendlyException;
 using Furion.Templates;
 using Furion.UnifyResult;
 using Microsoft.AspNetCore.Hosting;
@@ -192,6 +193,9 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter
         // 获取异常对象情况
         var exception = resultContext.Exception;
 
+        // 判断是否是验证异常
+        var isValidationException = exception is AppFriendlyException friendlyException && friendlyException.ValidationException;
+
         var monitorItems = new List<string>()
         {
             $"##控制器名称## {controllerActionDescriptor.ControllerTypeInfo.Name}"
@@ -216,7 +220,7 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter
         monitorItems.AddRange(GenerateReturnInfomationTemplate(logContext, resultContext, actionMethod));
 
         // 添加异常信息日志模板
-        monitorItems.AddRange(GenerateExcetpionInfomationTemplate(logContext, exception));
+        monitorItems.AddRange(GenerateExcetpionInfomationTemplate(logContext, exception, isValidationException));
 
         // 生成最终模板
         var monitor = TP.Wrapper(Title, displayName, monitorItems.ToArray());
@@ -228,7 +232,16 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter
 
         // 写入日志，如果没有异常使用 LogInformation，否则使用 LogError
         if (exception == null) logger.LogInformation(monitor);
-        else logger.LogError(exception, monitor);
+        else
+        {
+            // 如果不是验证异常，写入 Error
+            if (!isValidationException) logger.LogError(exception, monitor);
+            else
+            {
+                // 读取配置的日志级别并写入
+                logger.Log(Settings.BahLogLevel, monitor);
+            }
+        }
     }
 
     /// <summary>
@@ -383,23 +396,42 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter
     /// </summary>
     /// <param name="logContext"></param>
     /// <param name="exception"></param>
+    /// <param name="isValidationException">是否是验证异常</param>
     /// <returns></returns>
-    private static List<string> GenerateExcetpionInfomationTemplate(LogContext logContext, Exception exception)
+    private static List<string> GenerateExcetpionInfomationTemplate(LogContext logContext, Exception exception, bool isValidationException)
     {
         var templates = new List<string>();
 
         if (exception == null) return templates;
 
-        templates.AddRange(new[]
+        // 处理不是验证异常情况
+        if (!isValidationException)
         {
-            $"━━━━━━━━━━━━━━━  异常信息 ━━━━━━━━━━━━━━━"
-            , $"##类型## {exception.GetType().FullName}"
-            , $"##消息## {exception.Message}"
-            , $"##错误堆栈## {exception.StackTrace}"
-        });
-        logContext.Set($"{LOG_CONTEXT_NAME}.Exception.Type", exception.GetType().FullName)
-                  .Set($"{LOG_CONTEXT_NAME}.Exception.Message", exception.Message)
-                  .Set($"{LOG_CONTEXT_NAME}.Exception.StackTrace", exception.StackTrace);
+            templates.AddRange(new[]
+            {
+                $"━━━━━━━━━━━━━━━  异常信息 ━━━━━━━━━━━━━━━"
+                , $"##类型## {exception.GetType().FullName}"
+                , $"##消息## {exception.Message}"
+                , $"##错误堆栈## {exception.StackTrace}"
+            });
+            logContext.Set($"{LOG_CONTEXT_NAME}.Exception.Type", exception.GetType().FullName)
+                      .Set($"{LOG_CONTEXT_NAME}.Exception.Message", exception.Message)
+                      .Set($"{LOG_CONTEXT_NAME}.Exception.StackTrace", exception.StackTrace);
+        }
+        else
+        {
+            var friendlyException = exception as AppFriendlyException;
+            templates.AddRange(new[]
+            {
+                $"━━━━━━━━━━━━━━━  业务异常 ━━━━━━━━━━━━━━━"
+                , $"##业务码## {friendlyException.ErrorCode}"
+                , $"##业务码（原）## {friendlyException.OriginErrorCode}"
+                , $"##业务消息## {friendlyException.ErrorMessage}"
+            });
+            logContext.Set($"{LOG_CONTEXT_NAME}.BusinessException.ErrorCode", friendlyException.ErrorCode)
+                      .Set($"{LOG_CONTEXT_NAME}.BusinessException.OriginErrorCode", friendlyException.OriginErrorCode)
+                      .Set($"{LOG_CONTEXT_NAME}.BusinessException.ErrorMessage", friendlyException.ErrorMessage);
+        }
 
         return templates;
     }
