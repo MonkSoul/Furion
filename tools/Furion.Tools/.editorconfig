@@ -1,4 +1,4 @@
-# Rules in this file were initially inferred by Visual Studio IntelliCode from the C:\Workplaces\Furion\tools\Furion.Tools codebase based on best match to current usage at 2021/8/16
+# Rules in this file were initially inferred by Visual Studio IntelliCode from the C:\Baiqian\Workplaces\Gitee\Furion\framework codebase based on best match to current usage at 2021-5-16
 # You can modify the rules from these initially generated values to suit your own policies
 # You can learn more about editorconfig here: https://docs.microsoft.com/en-us/visualstudio/ide/editorconfig-code-style-settings-reference
 [*.cs]
@@ -9,26 +9,43 @@
 #use soft tabs (spaces) for indentation
 indent_style = space
 
+#Formatting - indentation options
+
+#indent switch case contents.
+csharp_indent_case_contents = true
+#labels are placed at one less indent to the current context
+csharp_indent_labels = one_less_than_current
+#indent switch labels
+csharp_indent_switch_labels = true
+
 #Formatting - new line options
 
+#place catch statements on a new line
+csharp_new_line_before_catch = true
 #place else statements on a new line
 csharp_new_line_before_else = true
+#require finally statements to be on a new line after the closing brace
+csharp_new_line_before_finally = true
 #require members of object intializers to be on separate lines
 csharp_new_line_before_members_in_object_initializers = true
-#require braces to be on a new line for methods, control_blocks, object_collection_array_initializers, types, and lambdas (also known as "Allman" style)
-csharp_new_line_before_open_brace = methods, control_blocks, object_collection_array_initializers, types, lambdas
+#require braces to be on a new line for properties, accessors, methods, control_blocks, types, lambdas, and object_collection_array_initializers (also known as "Allman" style)
+csharp_new_line_before_open_brace = properties, accessors, methods, control_blocks, types, lambdas, object_collection_array_initializers
 
 #Formatting - organize using options
 
-#sort System.* using directives alphabetically, and place them before other usings
-dotnet_sort_system_directives_first = true
+#do not place System.* using directives before other using directives
+dotnet_sort_system_directives_first = false
 
 #Formatting - spacing options
 
 #require NO space between a cast and the value
 csharp_space_after_cast = false
+#require a space before the colon for bases or interfaces in a type declaration
+csharp_space_after_colon_in_inheritance_clause = true
 #require a space after a keyword in a control flow statement such as a for loop
 csharp_space_after_keywords_in_control_flow_statements = true
+#require a space before the colon for bases or interfaces in a type declaration
+csharp_space_before_colon_in_inheritance_clause = true
 #remove space within empty argument list parentheses
 csharp_space_between_method_call_empty_parameter_list_parentheses = false
 #remove space between method call name and opening parenthesis
@@ -58,11 +75,15 @@ csharp_prefer_braces = false:suggestion
 csharp_style_expression_bodied_constructors = false:suggestion
 #prefer block bodies for methods
 csharp_style_expression_bodied_methods = false:suggestion
+#prefer expression-bodied members for properties
+csharp_style_expression_bodied_properties = true:suggestion
 
 #Style - expression level options
 
 #prefer out variables to be declared inline in the argument list of a method call when possible
 csharp_style_inlined_variable_declaration = true:suggestion
+#prefer tuple names to ItemX properties
+dotnet_style_explicit_tuple_names = true:suggestion
 #prefer the language keyword for member access expressions, instead of the type name, for types that have a keyword to represent them
 dotnet_style_predefined_type_for_member_access = true:suggestion
 
@@ -72,6 +93,8 @@ dotnet_style_predefined_type_for_member_access = true:suggestion
 csharp_prefer_simple_default_expression = true:suggestion
 #prefer objects to be initialized using object initializers when possible
 dotnet_style_object_initializer = true:suggestion
+#prefer inferred tuple element names
+dotnet_style_prefer_inferred_tuple_names = true:suggestion
 
 #Style - implicit and explicit types
 
@@ -87,20 +110,29 @@ csharp_style_var_when_type_is_apparent = true:suggestion
 #prefer the language keyword for local variables, method parameters, and class members, instead of the type name, for types that have a keyword to represent them
 dotnet_style_predefined_type_for_locals_parameters_members = true:suggestion
 
-#Style - modifier options
+#Style - Miscellaneous preferences
 
-#prefer accessibility modifiers to be declared except for public interface members. This will currently not differ from always and will act as future proofing for if C# adds default interface methods.
-dotnet_style_require_accessibility_modifiers = for_non_interface_members:suggestion
+#prefer anonymous functions over local functions
+csharp_style_pattern_local_over_anonymous_function = false:suggestion
 
 #Style - Modifier preferences
 
 #when this rule is set to a list of modifiers, prefer the specified ordering.
-csharp_preferred_modifier_order = public,private,internal,static,sealed:suggestion
+csharp_preferred_modifier_order = public,private,internal,protected,static,virtual,readonly,async,override,abstract,new:suggestion
+
+#Style - Pattern matching
+
+#prefer pattern matching instead of is expression with type casts
+csharp_style_pattern_matching_over_as_with_null_check = true:suggestion
 
 #Style - qualification options
 
+#prefer fields not to be prefaced with this. or Me. in Visual Basic
+dotnet_style_qualification_for_field = false:suggestion
+#prefer methods not to be prefaced with this. or Me. in Visual Basic
+dotnet_style_qualification_for_method = false:suggestion
 #prefer properties not to be prefaced with this. or Me. in Visual Basic
 dotnet_style_qualification_for_property = false:suggestion
 
 # Add copyright file header
-file_header_template = Copyright (c) 2020-2022 ��Сɮ, Baiqian Co.,Ltd.\nFurion is licensed under Mulan PSL v2.\nYou can use this software according to the terms and conditions of the Mulan PSL v2. \nYou may obtain a copy of Mulan PSL v2 at:\n        https://gitee.com/dotnetchina/Furion/blob/master/LICENSEPSL2 \nTHIS SOFTWARE IS PROVIDED ON AN "AS IS" BASIS, WITHOUT WARRANTIES OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO NON-INFRINGEMENT, MERCHANTABILITY OR FIT FOR A PARTICULAR PURPOSE.  \nSee the Mulan PSL v2 for more details.  
+file_header_template = MIT License\n\nCopyright (c) 2020-2022 百小僧, Baiqian Co.,Ltd.\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the "Software"), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\ncopies of the Software, and to permit persons to whom the Software is\nfurnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all\ncopies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\nSOFTWARE.

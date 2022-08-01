@@ -209,16 +209,16 @@ public class PersonService : IDynamicApiController
     /// 
     /// ## 许可证 / License
     /// 
-    /// Furion 采用[MulanPSL - 2.0](https://gitee.com/dotnetchina/Furion/blob/master/LICENSE) 开源许可证。
+    /// Furion 采用[MIT](https://gitee.com/dotnetchina/Furion/blob/net6/LICENSE) 开源许可证。
     /// 
-    /// Furion uses the[MulanPSL - 2.0] (https://gitee.com/dotnetchina/Furion/blob/master/LICENSE) open source license.
+    /// Furion uses the[MIT] (https://gitee.com/dotnetchina/Furion/blob/net6/LICENSE) open source license.
     /// 
     /// ```
     /// Copyright(c) 2020-2022 百小僧, Baiqian Co., Ltd.
     /// Furion is licensed under Mulan PSL v2.
     /// You can use this software according to the terms andconditions of the Mulan PSL v2.
     /// You may obtain a copy of Mulan PSL v2 at:
-    ///             https://gitee.com/dotnetchina/Furion/blob/master/LICENSE
+    ///             https://gitee.com/dotnetchina/Furion/blob/net6/LICENSE
     /// THIS SOFTWARE IS PROVIDED ON AN "AS IS" BASIS, WITHOUTWARRANTIES OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO NON-INFRINGEMENT, MERCHANTABILITY OR FIT FOR A PARTICULAR PURPOSE.
     /// See the Mulan PSL v2 for more details.
     /// ```

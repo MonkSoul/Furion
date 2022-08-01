@@ -57,7 +57,7 @@ function Banner() {
             让 .NET 开发更简单，更通用，更流行。
           </div>
           <ul className="furion-banner-spec">
-            <li>木兰宽松开源协议，无需商业授权</li>
+            <li>MIT 开源协议，无需商业授权</li>
             <li>基于 .NET5+ 平台，没有历史包袱</li>
             <li>极少依赖，只依赖两个第三方包</li>
             <li>极速上手，一个 Inject() 完成配置</li>
@@ -84,7 +84,7 @@ function Banner() {
           <div className="furion-get-start-btn">
             <Link className="furion-get-start" to={useBaseUrl("docs/serverun")}>
               入门指南
-              <span className="furion-version">v4.1.4</span>
+              <span className="furion-version">v4.1.5</span>
             </Link>
             <Link
               className="furion-try-demo"
@@ -148,7 +148,7 @@ function Gitee() {
         完全开源免费/无授权
       </p>
       <h1 className={"furion-big-title" + (isDarkTheme ? " dark" : "")}>
-        ⭐️ 木兰宽松开源协议，代码在 Gitee 平台托管 ⭐️
+        ⭐️ MIT 开源协议，代码在 Gitee 平台托管 ⭐️
       </h1>
       <div className="furion-gitee-log">
         <div
