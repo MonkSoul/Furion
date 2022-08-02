@@ -730,14 +730,14 @@ public interface IHttp : IHttpDispatchProxy
 
     // 全局拦截，类中每一个方法都会触发
     [Interceptor(InterceptorTypes.Request)]
-    static void OnResponsing1(HttpRequestMessage req)
+    static void OnRequest1(HttpRequestMessage req)
     {
 
     }
 
     // 全局拦截，类中每一个方法都会触发
     [Interceptor(InterceptorTypes.Request)]
-    static void OnResponsing2(HttpRequestMessage req)
+    static void OnRequest2(HttpRequestMessage req)
     {
 
     }
