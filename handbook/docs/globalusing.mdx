@@ -99,7 +99,19 @@ global using global::System.Threading.Tasks;
 
 **也就是以上的 `using` 无需写在你创建的 `GlobalUsings.cs` 中了，微软会在编译时自动合并。**
 
-## 2.6.4 反馈与建议
+## 2.6.4 `.NET5` 项目开启支持
+
+默认情况下，`.NET5` 采用 `C# 9.0` 编写，而 `GlobalUsing` 是从 `C# 10.0` 开始，这时候只需要编辑项目的 `.csproj` 并添加 `<LangVersion>10.0</LangVersion>` 即可：
+
+```xml showLineNumbers {3}
+<PropertyGroup>
+	<TargetFramework>net5.0</TargetFramework>
+    <LangVersion>10.0</LangVersion>
+    <!-- 其他配置 -->
+</PropertyGroup>
+```
+
+## 2.6.5 反馈与建议
 
 :::note 与我们交流
 

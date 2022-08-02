@@ -48,7 +48,7 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 ## 2.2.2 安装脚手架
 
-打开 `CMD` 或 `Powershell` 执行模板安装命令：
+打开 `CMD` 或 `Powershell` 执行模板安装命令（新版本 `--install` 可换成 `install`）：
 
 ```bash showLineNumbers
 // EFCore
@@ -113,7 +113,73 @@ dotnet new --install Furion.Template.Mvc::2.x.x
 - `Microsoft.CodeAnalysis.Workspaces.MSBuild`
 - `Microsoft.VisualStudio.Web.CodeGeneration.Design`
 
-## 2.2.7 搭建脚手架
+## 2.2.7 使用 `.NET5` 脚手架
+
+目前 `Furion` 只提供了 `.NET6+` 版本脚手架，如需使用 `.NET` 版本，可创建之后执行下面步骤：
+
+1. 替换 `<TargetFramework>net6.0</TargetFramework>` 为 `<TargetFramework>net5.0</TargetFramework>`
+
+2. 编辑所有层 `.csproj` 文件并添加 `<LangVersion>10.0</LangVersion>`，如：
+
+```xml showLineNumbers {3}
+<PropertyGroup>
+	<TargetFramework>net5.0</TargetFramework>
+    <LangVersion>10.0</LangVersion>
+    <!-- 其他配置 -->
+</PropertyGroup>
+```
+
+3. 如果使用的是 `EFCore` 版本则需要将启动层的 `Microsoft.EntityFrameworkCore.Tools` 版本改为 `5.0.17` 版本，如编辑启动层的 `Web.Entry.csproj`：
+
+```xml showLineNumbers {1}
+<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.7">
+	<PrivateAssets>all</PrivateAssets>
+	<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+</PackageReference>
+```
+
+改为：
+
+```xml showLineNumbers {1}
+<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="5.0.17">
+	<PrivateAssets>all</PrivateAssets>
+	<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+</PackageReference>
+```
+
+4. 在启动层添加 `Startup.cs` 文件
+
+```cs showLineNumbers
+namespace YourProject.Web.Entry;    // 你的项目命名空间
+
+public class Startup
+{
+    public Startup(IConfiguration configuration)
+    {
+        Configuration = configuration;
+    }
+
+    public IConfiguration Configuration { get; }
+
+    public void ConfigureServices(IServiceCollection services)
+    {
+    }
+
+    public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+    {
+    }
+}
+```
+
+5. 修改 `Program.cs` 为：
+
+```cs showLineNumbers {3}
+using YourProject.Web.Entry;
+
+Serve.Run<Startup>(LegacyRunOptions.Default);
+```
+
+## 2.2.8 搭建脚手架
 
 脚手架可以极大的提高我们搭建新项目的速度，推荐两篇文章给大家学习：
 
