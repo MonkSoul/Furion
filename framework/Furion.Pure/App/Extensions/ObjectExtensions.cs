@@ -489,6 +489,18 @@ public static class ObjectExtensions
     }
 
     /// <summary>
+    /// 首字母大写
+    /// </summary>
+    /// <param name="str"></param>
+    /// <returns></returns>
+    internal static string ToUpperCamelCase(this string str)
+    {
+        if (string.IsNullOrWhiteSpace(str)) return str;
+
+        return string.Concat(str.First().ToString().ToUpper(), str.AsSpan(1));
+    }
+
+    /// <summary>
     /// 判断集合是否为空
     /// </summary>
     /// <typeparam name="T">元素类型</typeparam>

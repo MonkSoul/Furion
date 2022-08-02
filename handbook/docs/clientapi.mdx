@@ -364,13 +364,36 @@ export class AppComponent {
 
 启用配置之后在 `Swagger` 导航栏顶部下拉分组将出现 `All Groups` 选项，这时候使用这个 `All Groups` 的 `swagger.json` 进行生成。
 
-## 5.6.8 框架客户端工具库介绍
+## 5.6.7 自定义生成前端方法名
+
+:::important 版本说明
+
+以下内容仅限 `Furion v4.1.7+` 版本使用。
+
+:::
+
+通过我们根据 `swagger.json` 生成前端代码时，`Swagger` 会自动根据路由地址生成调用的 `api` 名称，但这样的名称往往不易读，这时候可自定义 `[OperationId]` 来配置生成的前端名称。
+
+```cs showLineNumbers {5}
+using Furion.SpecificationDocument;
+
+public class PersonDto
+{
+  [OperationId("MyClientMethodName")]
+  public string TestMethod()
+  {
+    // ...
+  }
+}
+```
+
+## 5.6.9 框架客户端工具库介绍
 
 `axios-utils.ts` 和 `angular-utils.ts` 是 `Furion` 框架专门针对 `Furion` 开发的 `WebAPI` 项目编写的客户端代理库，在这个代理库中已经处理了跨域，授权，自动刷新 `token` 以及解密客户端 `JWT token` 问题。
 
 同时提供了非常方便的 `feature` 方法，可将异步方法进行同步化处理。
 
-## 5.6.9 无法连接外网/内网情况/离线包
+## 5.6.10 无法连接外网/内网情况/离线包
 
 在一些比较注重代码安全的组织或公司中，可能不能连接外网进行生成，这个时候只需要下载 [https://github.com/swagger-api/swagger-editor](https://github.com/swagger-api/swagger-editor) 代码在本地部署即可。
 
@@ -380,7 +403,7 @@ export class AppComponent {
 
 <img src={useBaseUrl("img/sg17.png")} />
 
-## 5.6.10 反馈与建议
+## 5.6.11 反馈与建议
 
 :::note 与我们交流
 

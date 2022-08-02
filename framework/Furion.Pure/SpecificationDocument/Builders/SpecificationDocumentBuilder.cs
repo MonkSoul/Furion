@@ -21,6 +21,7 @@
 // SOFTWARE.
 
 using Furion.DynamicApiController;
+using Furion.Extensions;
 using Furion.Reflection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc;
@@ -226,8 +227,11 @@ public static class SpecificationDocumentBuilder
         // 加载分组控制器和动作方法列表
         LoadGroupControllerWithActions(swaggerGenOptions);
 
+        // 配置 Swagger OperationIds
+        ConfigureOperationIds(swaggerGenOptions);
+
         // 配置 Swagger SchemaId
-        ConfigureSchemaId(swaggerGenOptions);
+        ConfigureSchemaIds(swaggerGenOptions);
 
         // 配置标签
         ConfigureTagsAction(swaggerGenOptions);
@@ -339,10 +343,34 @@ public static class SpecificationDocumentBuilder
     }
 
     /// <summary>
-    /// 配置 Swagger SchemaId
+    /// 配置 Swagger OperationIds
     /// </summary>
     /// <param name="swaggerGenOptions">Swagger 生成器配置</param>
-    private static void ConfigureSchemaId(SwaggerGenOptions swaggerGenOptions)
+    private static void ConfigureOperationIds(SwaggerGenOptions swaggerGenOptions)
+    {
+        swaggerGenOptions.CustomOperationIds(apiDescription =>
+        {
+            var isMethod = apiDescription.TryGetMethodInfo(out var method);
+
+            // 判断是否自定义了 [OperationId] 特性
+            if (isMethod && method.IsDefined(typeof(OperationIdAttribute), false))
+            {
+                return method.GetCustomAttribute<OperationIdAttribute>(false).OperationId;
+            }
+
+            var operationId = apiDescription.RelativePath.Replace("/", "-")
+                                       .Replace("{", "-")
+                                       .Replace("}", "-") + "-" + apiDescription.HttpMethod.ToLower().ToUpperCamelCase();
+
+            return operationId.Replace("--", "-");
+        });
+    }
+
+    /// <summary>
+    /// 配置 Swagger SchemaIds
+    /// </summary>
+    /// <param name="swaggerGenOptions">Swagger 生成器配置</param>
+    private static void ConfigureSchemaIds(SwaggerGenOptions swaggerGenOptions)
     {
         // 本地函数
         static string DefaultSchemaIdSelector(Type modelType)

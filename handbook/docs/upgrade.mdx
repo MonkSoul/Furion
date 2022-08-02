@@ -32,6 +32,7 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
   - [新增] `logger.ScopeContext()` 配置日志上下文功能 [#I5JC0D](https://gitee.com/dotnetchina/Furion/issues/I5JC0D)
   - [新增] 跨域配置 `CorsAccessorSettings.SignalRSupport` 配置选项，支持配置 `SignalR` 跨域 [#I5JREM](https://gitee.com/dotnetchina/Furion/issues/I5JREM)
   - [新增] 事件总线 `UseUtcTimestamp` 选项配置，可选择使用 `DateTime.UtcNow` 还是 `DateTime.Now`，默认是 `DateTime.Now` [#I5JSEU](https://gitee.com/dotnetchina/Furion/issues/I5JSEU)
+  - [新增] 规范化文档 `[OperationId]` 配置，解决自定义 `Swagger UI` 不能正式显示地址问题 [#I5K1IB](https://gitee.com/dotnetchina/Furion/issues/I5K1IB)
 
 - **突破性变化**
 
@@ -63,6 +64,7 @@ Serve.Run(RunOptions.Default.ConfigureConfiguration((environment, configuration)
   - [修复] `Serve.Run()` 模式不支持 `SuperSocket` 第三方包问题，原生是支持的。[186ca0a](https://gitee.com/dotnetchina/Furion/commit/186ca0a35d696f58d9e696094848a560074cdf6f)
   - [修复] `SignalR` 跨域错误问题 [#I5JREM](https://gitee.com/dotnetchina/Furion/issues/I5JREM)
   - [修复] `[LoggingMonitor]` 将 `Oops.Oh` 和 `Oops.Bah` 记录到了错误日志中，默认应该是 `Information` 且提供可配置 [#I5JZ1H](https://gitee.com/dotnetchina/Furion/issues/I5JZ1H)
+  - [修复] 自定义 `Swagger UI` 之后个别 `UI` 要求必须配置 `operationId`，否则出现 `guid` 序号 [#I5K1IB](https://gitee.com/dotnetchina/Furion/issues/I5K1IB)
 
 - **其他更改**
 

@@ -1119,7 +1119,30 @@ public class PersonDto
   - `SchemaId`：自定义 `SchemaId`，字符串类型，只能是 `字母,数字，下划线` 组合
   - `Replace`：是否完全替换，`bool` 类型，默认 `false`，默认是作为前缀拼接，如上面的 `PersonDto` 会生成 `Other_PersonDto`，如果设置为 `true`，则直接使用 `Test_`
 
-## 6.5.36 `Swagger` 接口文档支持完整的 `Markdown`
+### 6.5.36 自定义 `Swagger` 的 `OperationId`
+
+:::important 版本说明
+
+以下内容仅限 `Furion v4.1.7+` 版本使用。
+
+:::
+
+通过我们根据 `swagger.json` 生成前端代码时，`Swagger` 会自动根据路由地址生成调用的 `api` 名称，但这样的名称往往不易读，这时候可自定义 `[OperationId]` 来配置生成的前端名称。
+
+```cs showLineNumbers {5}
+using Furion.SpecificationDocument;
+
+public class PersonDto
+{
+  [OperationId("MyClientMethodName")]
+  public string TestMethod()
+  {
+    // ...
+  }
+}
+```
+
+### 6.5.37 `Swagger` 接口文档支持完整的 `Markdown`
 
 在 `Furion` 最新版中，支持了完整的 `Markdown` 注册，如：
 
