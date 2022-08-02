@@ -287,6 +287,8 @@ public static class UnifyContext
             ForbidResult => false,
             ViewComponentResult => false,
             PageResult => false,
+            NotFoundResult => false,
+            NotFoundObjectResult => false,
             _ => true,
         };
 

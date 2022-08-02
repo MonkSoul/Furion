@@ -24,6 +24,9 @@ using Furion.DataValidation;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 
 namespace Furion.UnifyResult;
 
@@ -53,6 +56,23 @@ public class SucceededUnifyResultFilter : IAsyncActionFilter, IOrderedFilter
     {
         // 执行 Action 并获取结果
         var actionExecutedContext = await next();
+
+        // 处理已经含有状态码结果的 Result
+        if (actionExecutedContext.Result is IStatusCodeActionResult statusCodeResult && statusCodeResult.StatusCode != null)
+        {
+            // 小于 200 或者 大于 299 都不是成功值，直接跳过
+            if (statusCodeResult.StatusCode.Value < 200 || statusCodeResult.StatusCode.Value > 299)
+            {
+                // 处理规范化结果
+                if (!UnifyContext.CheckStatusCodeNonUnify(context.HttpContext, out var unifyRes))
+                {
+                    var httpContext = context.HttpContext;
+                    await unifyRes.OnResponseStatusCodes(httpContext, statusCodeResult.StatusCode.Value, httpContext.RequestServices.GetService<IOptions<UnifyResultSettingsOptions>>()?.Value);
+                }
+
+                return;
+            }
+        }
 
         // 如果出现异常，则不会进入该过滤器
         if (actionExecutedContext.Exception != null) return;
