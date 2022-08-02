@@ -264,9 +264,12 @@ public class HttpDispatchProxy : AspectDispatchProxy, IDispatchProxy
     /// <param name="declaringType"></param>
     private static void CallGlobalInterceptors(HttpRequestPart httpRequestPart, Type declaringType)
     {
-        // 获取所有静态方法且贴有 [Interceptor] 特性
-        var interceptorMethods = declaringType.GetMethods()
-                                                              .Where(u => u.IsDefined(typeof(InterceptorAttribute), true));
+        // 获取所有静态方法且贴有 [Interceptor] 特性，支持查找继承接口
+        var interceptorMethods = declaringType.GetInterfaces()
+                                           .Where(i => i != typeof(IHttpDispatchProxy))
+                                           .Concat(new[] { declaringType })
+                                           .SelectMany(t => t.GetMethods()
+                                                              .Where(u => u.IsDefined(typeof(InterceptorAttribute), true)));
 
         foreach (var method in interceptorMethods)
         {
