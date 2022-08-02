@@ -142,8 +142,8 @@ public class HttpDispatchProxy : AspectDispatchProxy, IDispatchProxy
         // 配置全局拦截
         CallGlobalInterceptors(httpRequestPart, method.DeclaringType);
 
-        // 设置请求拦截
-        SetInterceptors(parameters, httpRequestPart);
+        // 调用单个方法拦截
+        CallMethodInterceptors(parameters, httpRequestPart);
 
         // 设置重试
         var retryPolicyAttribute = method.GetFoundAttribute<RetryPolicyAttribute>(true);
@@ -301,11 +301,11 @@ public class HttpDispatchProxy : AspectDispatchProxy, IDispatchProxy
     }
 
     /// <summary>
-    /// 设置请求拦截
+    /// 调用单个方法拦截
     /// </summary>
     /// <param name="parameters"></param>
     /// <param name="httpRequestPart"></param>
-    private static void SetInterceptors(IEnumerable<MethodParameterInfo> parameters, HttpRequestPart httpRequestPart)
+    private static void CallMethodInterceptors(IEnumerable<MethodParameterInfo> parameters, HttpRequestPart httpRequestPart)
     {
         // 添加方法拦截器
         var Interceptors = parameters.Where(u => u.Parameter.IsDefined(typeof(InterceptorAttribute), true));

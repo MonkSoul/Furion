@@ -335,7 +335,17 @@ await "https://www.furion.icu/".OnClientCreating(client => {
 
 **支持多次拦截**
 
-### 19.4.15 成功请求拦截
+### 19.4.15 请求之前拦截
+
+```cs showLineNumbers
+await "https://www.furion.icu/".OnRequesting(req => {
+    // req 为 HttpRequestMessage 对象
+});
+```
+
+**支持多次拦截**
+
+### 19.4.16 成功请求拦截
 
 ```cs showLineNumbers
 await "https://www.furion.icu/".OnResponsing(res => {
@@ -345,7 +355,7 @@ await "https://www.furion.icu/".OnResponsing(res => {
 
 **支持多次拦截**
 
-### 19.4.16 请求异常拦截
+### 19.4.17 请求异常拦截
 
 ```cs showLineNumbers
 await "https://www.furion.icu/".OnException((res,errors) => {
@@ -355,7 +365,7 @@ await "https://www.furion.icu/".OnException((res,errors) => {
 
 **支持多次拦截**
 
-### 19.4.17 各种返回值处理
+### 19.4.18 各种返回值处理
 
 `Furion` 远程请求默认提供四种返回值类型：
 
@@ -381,7 +391,7 @@ var user = await "https://www.furion.icu/".GetAsAsync<User>();
 var str = await "https://www.baidu.com".GetAsStringAsync();
 ```
 
-### 19.4.18 设置 `Byte[]` 类型/上传文件
+### 19.4.19 设置 `Byte[]` 类型/上传文件
 
 有时候我们需要上传文件，需要设置 `Content-Type` 为 `multipart/form-data` 类型，如：
 
@@ -408,7 +418,7 @@ var result = await $"https://api.weixin.qq.com/wxa/img_sec_check?access_token={t
 
 :::
 
-### 19.4.19 设置 `IServiceProvider`
+### 19.4.20 设置 `IServiceProvider`
 
 有时候我们需要构建一个作用域的 `IServiceProvider`，这时只需要设置即可：
 
@@ -416,13 +426,13 @@ var result = await $"https://api.weixin.qq.com/wxa/img_sec_check?access_token={t
 var res = await "https://www.furion.icu/upload".SetRequestScoped(services);
 ```
 
-### 19.4.20 设置 `Timeout` 超时时间
+### 19.4.21 设置 `Timeout` 超时时间
 
 ```cs showLineNumbers
 var res = await "https://www.furion.icu/upload".SetClientTimeout(10); // 单位秒
 ```
 
-### 19.4.21 支持模板配置
+### 19.4.22 支持模板配置
 
 模板格式为：`#(配置路径)`
 
@@ -438,7 +448,7 @@ var res = await "#(Furion:Address)/upload".GetAsync();
 }
 ```
 
-### 19.4.22 重试策略
+### 19.4.23 重试策略
 
 在 `Furion v2.18+` 版本支持配置重试策略，如：
 
@@ -448,7 +458,7 @@ var res = await "https://www.furion.icu".SetRetryPolicy(3, 1000).GetAsync();
 
 以上代码表示请求失败重试 `3` 次，每次延迟 `1000ms` 。
 
-### 19.4.23 支持 `GZip` 压缩
+### 19.4.24 支持 `GZip` 压缩
 
 在 `Furion v3.2.0+` 版本支持`GZip` 压缩，如：
 
@@ -456,7 +466,7 @@ var res = await "https://www.furion.icu".SetRetryPolicy(3, 1000).GetAsync();
 var res = await "https://www.furion.icu".WithGZip().GetAsync();
 ```
 
-### 19.4.24 设置 `Url` 转码
+### 19.4.25 设置 `Url` 转码
 
 过去版本会对所有的 `Url` 进行 `Uri.EscapeDataString` 转码，在 `Furion v3.8.0+` 版本支持 `Url` 转码设置，如：
 
@@ -704,7 +714,39 @@ public interface IHttp : IHttpDispatchProxy
 
 **支持多次拦截**
 
-### 19.5.11 成功请求拦截
+### 19.5.11 请求之前拦截
+
+`Furion` 远程请求代理方式提供两种拦截方式：
+
+- 接口静态方法拦截
+- 参数标记拦截
+
+```cs showLineNumbers  {5,8,15}
+public interface IHttp : IHttpDispatchProxy
+{
+    // 通过参数拦截
+    [Post("https://www.furion.icu/post")]
+    Task<HttpResponseMessage> PostXXXAsync([Interceptor(InterceptorTypes.Request)] Action<HttpRequestMessage> action = default);
+
+    // 全局拦截，类中每一个方法都会触发
+    [Interceptor(InterceptorTypes.Request)]
+    static void OnResponsing1(HttpRequestMessage req)
+    {
+
+    }
+
+    // 全局拦截，类中每一个方法都会触发
+    [Interceptor(InterceptorTypes.Request)]
+    static void OnResponsing2(HttpRequestMessage req)
+    {
+
+    }
+}
+```
+
+**支持多次拦截**
+
+### 19.5.12 成功请求拦截
 
 `Furion` 远程请求代理方式提供两种拦截方式：
 
@@ -720,14 +762,14 @@ public interface IHttp : IHttpDispatchProxy
 
     // 全局拦截，类中每一个方法都会触发
     [Interceptor(InterceptorTypes.Response)]
-    static void OnResponsing1(HttpResponseMessage req)
+    static void OnResponsing1(HttpResponseMessage res)
     {
 
     }
 
     // 全局拦截，类中每一个方法都会触发
     [Interceptor(InterceptorTypes.Response)]
-    static void OnResponsing2(HttpResponseMessage req)
+    static void OnResponsing2(HttpResponseMessage res)
     {
 
     }
@@ -736,7 +778,7 @@ public interface IHttp : IHttpDispatchProxy
 
 **支持多次拦截**
 
-### 19.5.12 请求异常拦截
+### 19.5.13 请求异常拦截
 
 `Furion` 远程请求代理方式提供两种拦截方式：
 
@@ -752,14 +794,14 @@ public interface IHttp : IHttpDispatchProxy
 
     // 全局拦截，类中每一个方法都会触发
     [Interceptor(InterceptorTypes.Exception)]
-    static void OnException1(HttpResponseMessage req, string errors)
+    static void OnException1(HttpResponseMessage res, string errors)
     {
 
     }
 
     // 全局拦截，类中每一个方法都会触发
     [Interceptor(InterceptorTypes.Exception)]
-    static void OnException2(HttpResponseMessage req, string errors)
+    static void OnException2(HttpResponseMessage res, string errors)
     {
 
     }
@@ -768,7 +810,7 @@ public interface IHttp : IHttpDispatchProxy
 
 **支持多次拦截**
 
-### 19.5.13 各种返回值处理
+### 19.5.14 各种返回值处理
 
 `Furion` 远程请求默认提供四种返回值类型：
 
@@ -796,7 +838,7 @@ public interface IHttp : IHttpDispatchProxy
 }
 ```
 
-### 19.5.14 设置 `Byte[]` 类型/上传文件
+### 19.5.15 设置 `Byte[]` 类型/上传文件
 
 有时候我们需要上传文件，需要设置 `Content-Type` 为 `multipart/form-data` 类型，如：
 
@@ -812,7 +854,7 @@ public interface IHttp : IHttpDispatchProxy
 }
 ```
 
-### 19.5.15 设置 `Timeout` 超时时间
+### 19.5.16 设置 `Timeout` 超时时间
 
 ```cs showLineNumbers
 [Timeout(1000)]
@@ -823,13 +865,7 @@ public interface IHttp : IHttpDispatchProxy
 }
 ```
 
-### 19.4.20 设置 `Timeout` 超时时间
-
-```cs showLineNumbers
-var res = await "https://www.furion.icu/upload".SetClientTimeout(10); // 单位秒
-```
-
-### 19.5.16 支持模板配置
+### 19.5.17 支持模板配置
 
 模板格式为：`#(配置路径)`
 
@@ -851,7 +887,7 @@ public interface IHttp : IHttpDispatchProxy
 
 方法的优先级高于接口定义的优先级。
 
-### 19.5.17 重试策略
+### 19.5.18 重试策略
 
 在 `Furion v2.18+` 版本支持配置重试策略，如：
 
@@ -866,7 +902,7 @@ public interface IHttp : IHttpDispatchProxy
 
 以上代码表示请求失败重试 `3` 次，每次延迟 `1000ms` 。
 
-### 19.5.18 支持 `GZip`
+### 19.5.19 支持 `GZip`
 
 在 `Furion v3.2.0+` 版本支持 `GZip`，如：
 
@@ -878,7 +914,7 @@ public interface IHttp : IHttpDispatchProxy
 }
 ```
 
-### 19.5.19 设置 `Url` 转码
+### 19.5.20 设置 `Url` 转码
 
 过去版本会对所有的 `Url` 进行 `Uri.EscapeDataString` 转码，在 `Furion v3.8.0+` 版本支持 `Url` 转码设置，如：
 
