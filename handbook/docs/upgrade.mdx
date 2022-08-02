@@ -210,6 +210,17 @@ app.UseInject();  // Furion 默认 api 地址为  /api
 
 <img src={useBaseUrl("img/sg20.png")} />
 
+**如需实现登录之后自动将 `token` 添加到头部可在登录接口 `AfterScript` 执行以下代码：**
+
+```js
+ke.global.setAllHeader(
+  "Authorization",
+  "Bearer " + ke.response.headers["access-token"]
+);
+```
+
+<img src={useBaseUrl("img/kni.jpg")} />
+
 4. 提供强大的日志上下文功能
 
 ```cs showLineNumbers {2,6,12}
