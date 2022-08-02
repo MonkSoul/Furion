@@ -93,6 +93,12 @@ Serve.Run();
 
 对，你没看错，`Furion` 已经配置好了！
 
+:::tip 功能说明
+
+`Serve.Run()` 已经包含了基本的 `WebAPI` 功能，包含动态 `WebAPI`，`跨域` 等等，如需完全自定义配置可使用 `Serve.Run(RunOptions.Default)`，之后 `AppStartup` 派生类自行配置。
+
+:::
+
 ## 2.0.5 启动浏览器
 
 启动浏览器查看效果
@@ -440,6 +446,8 @@ Serve.Run(GenericRunOptions.Default
 
 在 `Winform` 或 `WPF` 中使用，请确保 `Serve.Run()` 在桌面应用程序之前初始化：
 
+- **Winform**
+
 ```cs showLineNumbers {3,8,10-11}
 namespace WinFormsApp2
 {
@@ -452,6 +460,24 @@ namespace WinFormsApp2
 
             ApplicationConfiguration.Initialize();
             Application.Run(new Form1());
+        }
+    }
+}
+```
+
+- **WPF**
+
+```cs showLineNumbers {6,8,10}
+using System;
+using System.Windows;
+
+namespace WpfApp1
+{
+    public partial class App : Application
+    {
+        public App()
+        {
+            Serve.Run(silence: true);   // 静默启动
         }
     }
 }
@@ -517,7 +543,3 @@ Serve.Run<Startup>(LegacyRunOptions.Default);
 给 Furion 提 [Issue](https://gitee.com/dotnetchina/Furion/issues/new?issue)。
 
 :::
-
-```
-
-```
