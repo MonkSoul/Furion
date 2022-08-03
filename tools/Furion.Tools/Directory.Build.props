@@ -10,7 +10,9 @@
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<PackageProjectUrl>https://furion.icu</PackageProjectUrl>
 		<PackAsTool>true</PackAsTool>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<PackageIcon>icon.png</PackageIcon>
+		<PackageTags>Furion;Fur;百小僧;Monk;MonkSoul;ASP.NET;ASP.NET Core;.NET;.NET Core;.NET5;.NET6;Framework;dotNET;dotNET China;Web;Cross Platform</PackageTags>
 		<PackageOutputPath>../nupkgs</PackageOutputPath>
 	</PropertyGroup>
 
@@ -23,6 +25,10 @@
 			<Pack>True</Pack>
 			<PackagePath></PackagePath>
 		</None>
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Include="..\..\..\README.md" Pack="true" PackagePath="\"/>
 	</ItemGroup>
 
 </Project>
