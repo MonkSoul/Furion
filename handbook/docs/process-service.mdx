@@ -10,13 +10,86 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 `.NET Core 3.0` 新增了 `Worker Service` 的新项目模板，**可以编写长时间运行的后台服务，并且能轻松的部署成 `Windows服务` 或 `Linux 守护程序`**。
 
-## 25.2 如何创建 `Worker Service`
+目前微软提供了两种方式创建长时间运行的后台服务：
+
+- **共宿主方式**：中小型项目推荐，无需单独部署 `Windows/Linux` 服务
+- **独立 `Worker Service` 方式**：需独立部署 `Windows/Linux` 服务
+
+## 25.2 共宿主方式
+
+共宿主方式指的是在现有的 `Web` 或其他应用程中创建类文件并派生自 `BackgroundService` 类即可。**这种方式的典型特点就是和应用共生存周期，应用启动时启动，应用结束停止运行。**
+
+:::tip 推荐等级
+
+推荐中小型项目使用这种方式。
+
+:::
+
+```cs showLineNumbers {8,11,12-17}
+using Microsoft.Extensions.Hosting;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
+
+namespace YourPoject.Web.Core;
+
+public class Worker : BackgroundService
+{
+    protected override async Task ExecuteAsync(CancellationToken stoppingToken)
+    {
+        while (!stoppingToken.IsCancellationRequested)
+        {
+            Console.WriteLine(DateTime.Now);
+
+            // 延迟 1 秒
+            await Task.Delay(1000, stoppingToken);
+        }
+    }
+}
+```
+
+之后在 `Startup.cs` 中注册即可：
+
+```cs showLineNumbers
+services.AddHostedService<Worker>();
+```
+
+### 25.2.1 最佳实践
+
+最好的实践方式是创建独立的类库项目：`YourProject.BackgroundServices`，之后添加 `YourPoject.Application` 和 `YourPoject.Core` 层引用，将所有的 `Worker` 放在该层，同时创建 `Startup.cs` 类进行 `Worker` 统一注册，如：
+
+```cs showLineNumbers {5,7,9-10}
+using Microsoft.Extensions.DependencyInjection;
+
+namespace YourProject.BackgroundServices;
+
+public sealed class Startup : AppStartup
+{
+    public void ConfigureServices(IServiceCollection services)
+    {
+        services.AddHostedService<Worker>();
+        services.AddHostedService<Worker2>();
+    }
+}
+```
+
+## 25.3 独立 `Worker Service` 方式
+
+**独立 `Worker Service` 方式的主要特点就是它是一个独立的项目**，和现有的项目没有直接关联关系，**需要分开独立部署**。
+
+:::tip 推荐等级
+
+推荐中大型项目使用这种方式，也就是独立部署成 `Windows Service` 或者 `Linux 守护进程`，具有独立生存周期，即使应用故障了也不会允许它的运行。
+
+:::
+
+### 25.3.1 如何创建 `Worker Service`
 
 通过 `Visual Studio 2019` 提供的 `Worker Service` 可直接创建。如图：
 
 <img src={useBaseUrl("img/wk.png")} />
 
-## 25.3 创建 `Worker`
+### 25.3.2 创建 `Worker`
 
 当我们创建好 `Worker Service` 项目时，已经自带了一个 `Worker` 类并继承自 `BackgroundService` 基类。
 
@@ -83,11 +156,11 @@ namespace FurionWorkers
 
 :::
 
-### 25.3.1 多个 `Worker`
+### 25.3.3 多个 `Worker`
 
 `Worker Service` 是支持定义多个 `Worker` 进行协调工作的，每个 `Worker` 是完全独立的工作环境，但可共享同一主进程信息。
 
-### 25.3.2 生命周期
+### 25.3.4 生命周期
 
 `Worker Service` 为 `Worker` 提供了三个执行方法，分别代表三个生命周期：
 
@@ -138,7 +211,7 @@ namespace FurionWorkers
 }
 ```
 
-## 25.4 集成 `Furion`
+### 25.3.5 集成 `Furion`
 
 `Worker Service` 集成 `Furion` 非常方便，只需要安装 `Furion` 的包即可，并在 `Program.cs` 中调用 `.Inject()` 方法，如：
 
@@ -175,7 +248,7 @@ namespace FurionWorkers
 
 :::
 
-## 25.5 注册服务
+### 25.3.6 注册服务
 
 `Worker Service` 注册服务和 `Web` 略有不同，`Web` 主要在 `Starup.cs` 类中注册，`Worker Service` 在 `Program.cs` 启动类的 `ConfigureServices` 方法中注册，如：
 
@@ -212,11 +285,11 @@ namespace FurionWorkers
 }
 ```
 
-## 25.6 实现定时任务
+## 25.4 实现定时任务
 
-`Furion` 框架同时也为 `Worker Service` 提供了定时任务的支持。
+`Furion` 框架为 `BackgroundService` 提供了定时任务的支持。
 
-### 26.6.1 间隔执行方式
+### 26.4.1 间隔执行方式
 
 ```cs showLineNumbers  {23-27}
 using Furion.TaskScheduler;
@@ -252,7 +325,7 @@ namespace WorkerService1
 }
 ```
 
-### 26.6.2 `Cron` 表达式格式化方式，
+### 26.4.2 `Cron` 表达式格式化方式，
 
 ```cs showLineNumbers  {23-27}
 using Furion.TaskScheduler;
@@ -288,7 +361,7 @@ namespace WorkerService1
 }
 ```
 
-## 25.7 依赖注入使用
+## 25.5 依赖注入使用
 
 `Worker Service` 只为 `Worker` 提供了**单例作用域**的服务注入，如果需要注入瞬时或作用域对象，需手动创建作用域，如：
 
@@ -331,19 +404,11 @@ public class Worker : BackgroundService
 }
 ```
 
-## 25.8 和网站一同部署
+## 25.6 如何部署
 
-`Worker Service` 除了可以独立部署到操作系统上以外，还支持在网站中配置，也就是同一宿主。
+### 25.6.1 共宿主方式
 
-使用非常简单，只需要在 `Startup.cs` 中注册 `Worker Service` 接口，支持两种方式，如：
-
-```cs showLineNumbers
-// 方式一（推荐）
-service.AddHostedService<你的WorkerService类>();
-
-// 方式二，通常用于需要传递构造函数
-service.AddHostedService(new 你的WorkerService类());
-```
+共宿主方式方式部署非常简单，只需要部署所在的 `Web` 或其他应用程序项目即可，会自动随着项目启动自动启动。
 
 :::important 特别说明
 
@@ -351,19 +416,17 @@ service.AddHostedService(new 你的WorkerService类());
 
 :::
 
-## 25.9 部署到操作系统
+### 25.6.2 独立 `Worker Service` 方式
 
 `Worker Service` 支持部署到 `Windows Service` 中 或 `Linux 守护进程中`
 
-### 25.9.1 部署到 `Windows Service`
+---
 
-- **第一步**
+#### 部署到 `Windows Service`
 
-安装 `Microsoft.Extensions.Hosting.WindowsServices` 拓展包
+- **第一步**：安装 `Microsoft.Extensions.Hosting.WindowsServices` 拓展包
 
-- **第二步**
-
-在 `Program.cs` 中添加 `.UseWindowsService()`
+- **第二步**：在 `Program.cs` 中添加 `.UseWindowsService()`
 
 ```cs showLineNumbers  {15}
 using Microsoft.Extensions.DependencyInjection;
@@ -391,15 +454,11 @@ namespace FurionWorkers
 }
 ```
 
-- **第三步**
-
-发布 `Worker Service`，可通过 `dotnet publish -c Release -o C:\FurionWorker` 命令发布或通过 `Visual Studio 2019` 发布。
+- **第三步**：发布 `Worker Service`，可通过 `dotnet publish -c Release -o C:\FurionWorker` 命令发布或通过 `Visual Studio 2019` 发布。
 
 独立发布不依赖 SDK 方式 `dotnet publish -c release -r win10-x64 --framework net6.0`
 
-- **第四步**
-
-通过 `sc.exe` 工具来管理并创建 `Windows` 服务，通过 **管理员模式** 并打开控制台，输入：
+- **第四步**：通过 `sc.exe` 工具来管理并创建 `Windows` 服务，通过 **管理员模式** 并打开控制台，输入：
 
 ```cmd
 sc.exe create FurionWorkerServices binPath= C:\FurionWorker\FurionWorker.exe
@@ -423,15 +482,13 @@ sc.exe delete NETCoreDemoWorkerService, 执行删除时候, 把`Windows` 服务�
 
 :::
 
-### 25.9.2 部署到 `Linux 守护程序`
+---
 
-- **第一步**
+#### 部署到 `Linux 守护程序`
 
-安装 `Microsoft.Extensions.Hosting.Systemd` 拓展包
+- **第一步**：安装 `Microsoft.Extensions.Hosting.Systemd` 拓展包
 
-- **第二步**
-
-在 `Program.cs` 中添加 `.UseSystemd()`
+- **第二步**：在 `Program.cs` 中添加 `.UseSystemd()`
 
 ```cs showLineNumbers  {15}
 using Microsoft.Extensions.DependencyInjection;
@@ -461,13 +518,13 @@ namespace FurionWorkers
 
 部署到 `Linux 守护进程` 就是这么简单。
 
-## 25.10 关于 `Windows` 部署日志问题
+## 25.7 关于 `Windows` 部署日志问题
 
 默认情况下，使用 `Windows Services` 部署后，日志文件可能会在系统盘的 `System32` 下。
 
 <img src={useBaseUrl("img/rjs.jpg")} />
 
-## 25.11 反馈与建议
+## 25.8 反馈与建议
 
 :::note 与我们交流
 
