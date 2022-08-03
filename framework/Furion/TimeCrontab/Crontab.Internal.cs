@@ -325,7 +325,7 @@ public partial class Crontab
         // 处理字母开头的连贯类型值，通常认为这是一个单词，如SUN，JAN
         else
         {
-            List<KeyValuePair<string, int>>? replaceVal = null;
+            List<KeyValuePair<string, int>> replaceVal = null;
 
             // 判断当前 Cron 字段类型是否是星期，如果是，则查找该单词是否在 Constants.Days 定义之中
             if (kind == CrontabFieldKind.DayOfWeek)
@@ -538,7 +538,7 @@ public partial class Crontab
 
         // 如果程序达到这里，说明天数变了（一旦天数变了，那么月份可能也变了，星期可能也变了，年份也可能变了）
         // 所以这里的计算最为复杂
-        List<ITimeParser>? yearParsers = null;
+        List<ITimeParser> yearParsers = null;
 
         // 首先先判断当前 Cron 格式化类型是否支持年份
         var isYearFormat = Format == CronStringFormat.WithYears || Format == CronStringFormat.WithSecondsAndYears;

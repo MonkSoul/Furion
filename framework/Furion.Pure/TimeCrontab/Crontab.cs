@@ -73,7 +73,7 @@ public sealed partial class Crontab
     /// <param name="expression">Cron 表达式</param>
     /// <param name="format">Cron 表达式格式化类型</param>
     /// <returns><see cref="Crontab"/></returns>
-    public static Crontab? TryParse(string expression, CronStringFormat format = CronStringFormat.Default)
+    public static Crontab TryParse(string expression, CronStringFormat format = CronStringFormat.Default)
     {
         try
         {
