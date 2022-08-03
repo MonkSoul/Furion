@@ -299,7 +299,7 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter
         foreach (var parameter in parameters)
         {
             var name = parameter.Name;
-            var value = parameterValues[name];
+            parameterValues.TryGetValue(name, out var value);
             var type = parameter.ParameterType;
 
             object rawValue = default;
