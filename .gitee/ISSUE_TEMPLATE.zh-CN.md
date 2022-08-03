@@ -6,6 +6,14 @@
 
 ---
 
+### .NET SDK 版本号
+
+- [ ] .NET5
+- [x] .NET6
+- [ ] .NET7
+
+---
+
 ### Web 项目类型
 
 - [x] WebApi
