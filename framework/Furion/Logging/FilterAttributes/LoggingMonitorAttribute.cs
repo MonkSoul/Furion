@@ -20,6 +20,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+using Furion.Extensions;
 using Furion.FriendlyException;
 using Furion.Templates;
 using Furion.UnifyResult;
@@ -371,13 +372,14 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter
         // 解析返回值
         if (UnifyContext.CheckVaildResult(resultContext.Result, out var data)) returnValue = data;
 
-        // 获取最终呈现值（字符串类型）
+        // 获取最终呈现值（字符串类型），这里处理了 IQueryable 返回值类型，会导致二次查询问题
         var displayValue = method.ReturnType == typeof(void)
             ? string.Empty
-            : JsonSerializer.Serialize(returnValue, new JsonSerializerOptions
-            {
-                Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping
-            });
+            : JsonSerializer.Serialize(returnValue is IQueryable queryable
+                ? queryable.AsUntypedEnumerable() : returnValue, new JsonSerializerOptions
+                {
+                    Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping
+                });
 
         templates.AddRange(new[]
         {
