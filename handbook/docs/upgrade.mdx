@@ -21,7 +21,7 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 :::
 
-## v4.1.10（当前版本）
+## v4.1.11（当前版本）
 
 - **新特性**
 
@@ -69,6 +69,8 @@ Serve.Run(RunOptions.Default.ConfigureConfiguration((environment, configuration)
   - [修复] 主动抛出 `NotFoundResult` 和 `NotFoundObjectResult` 无效问题 [#I5KALZ](https://gitee.com/dotnetchina/Furion/issues/I5KALZ)
   - [修复] `[LoggingMonitor]` 解析方法参数但前端未传入时出现错误问题 [#I5KC5P](https://gitee.com/dotnetchina/Furion/issues/I5KC5P)
   - [修复] `[LoggingMonitor]` 无法序列化 `IQueryable` 返回值问题 [#I5KJD1](https://gitee.com/dotnetchina/Furion/issues/I5KJD1)
+  - [修复] `[LoggingMonitor]` 不能记录全局验证错误问题 [b44087d](https://gitee.com/dotnetchina/Furion/commit/b44087dcc7dbe9992b8f4518e0b0cf4ed61c56bb)
+  - [修复] `[LoggingMonitor]` 存在注册顺序差异问题 [b44087d](https://gitee.com/dotnetchina/Furion/commit/b44087dcc7dbe9992b8f4518e0b0cf4ed61c56bb)
 
 - **其他更改**
 
