@@ -532,17 +532,4 @@ public static class ObjectExtensions
             ? type.GetCustomAttribute<TAttribute>(inherit)
             : default;
     }
-
-    /// <summary>
-    /// 使 IQueryable 可序列化
-    /// </summary>
-    /// <param name="query"></param>
-    /// <returns></returns>
-    internal static IEnumerable AsUntypedEnumerable(this IQueryable query)
-    {
-        foreach (var o in query)
-        {
-            yield return o;
-        }
-    }
 }
