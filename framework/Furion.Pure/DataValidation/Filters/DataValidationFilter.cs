@@ -122,8 +122,8 @@ public sealed class DataValidationFilter : IAsyncActionFilter, IOrderedFilter
         // 如果异常不为空且属于友好验证异常
         if (resultContext.Exception != null && resultContext.Exception is AppFriendlyException friendlyException && friendlyException.ValidationException)
         {
-            // 存储执行结果
-            context.HttpContext.Items[nameof(DataValidationFilter)] = resultContext;
+            // 存储验证执行结果
+            context.HttpContext.Items[nameof(DataValidationFilter) + nameof(AppFriendlyException)] = resultContext;
 
             // 处理验证信息
             _ = HandleValidation(context, method, actionDescriptor, friendlyException.ErrorMessage, resultContext, friendlyException);
@@ -149,6 +149,9 @@ public sealed class DataValidationFilter : IAsyncActionFilter, IOrderedFilter
         validationMetadata.ErrorCode = friendlyException?.ErrorCode;
         validationMetadata.OriginErrorCode = friendlyException?.OriginErrorCode;
         validationMetadata.StatusCode = friendlyException?.StatusCode;
+
+        // 存储验证信息
+        context.HttpContext.Items[nameof(DataValidationFilter) + nameof(ValidationMetadata)] = validationMetadata;
 
         // 判断是否跳过规范化结果，如果跳过，返回 400 BadRequestResult
         if (UnifyContext.CheckFailedNonUnify(actionDescriptor.MethodInfo, out var unifyResult))

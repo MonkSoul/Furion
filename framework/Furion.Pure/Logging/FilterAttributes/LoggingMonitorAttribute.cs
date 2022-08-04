@@ -20,7 +20,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-using Furion.Extensions;
+using Furion.DataValidation;
 using Furion.FriendlyException;
 using Furion.Templates;
 using Furion.UnifyResult;
@@ -44,8 +44,18 @@ namespace Furion.Logging;
 /// </summary>
 /// <remarks>主要用于将请求的信息打印出来</remarks>
 [AttributeUsage(AttributeTargets.Method | AttributeTargets.Class, Inherited = true, AllowMultiple = false)]
-public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter
+public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter, IOrderedFilter
 {
+    /// <summary>
+    /// 过滤器排序
+    /// </summary>
+    internal const int FilterOrder = -2000;
+
+    /// <summary>
+    /// 排序属性
+    /// </summary>
+    public int Order => FilterOrder;
+
     /// <summary>
     /// 固定日志分类名
     /// </summary>
@@ -159,6 +169,10 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter
         var remoteIPv4 = httpContext.GetRemoteIpAddressToIPv4();
         logContext.Set($"{LOG_CONTEXT_NAME}.RemoteIPv4", localIPv4);
 
+        // 获取请求方式
+        var httpMethod = httpContext.Request.Method;
+        logContext.Set($"{LOG_CONTEXT_NAME}.RequestHttpMethod", httpMethod);
+
         // 获取请求的 Url 地址
         var requestUrl = Uri.UnescapeDataString(httpRequest.GetRequestUrlAddress());
         logContext.Set($"{LOG_CONTEXT_NAME}.RequestUrl", requestUrl);
@@ -193,6 +207,25 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter
 
         // 获取异常对象情况
         var exception = resultContext.Exception;
+        if (exception == null)
+        {
+            // 解析存储的验证信息
+            var validationFailedKey = nameof(DataValidationFilter) + nameof(ValidationMetadata);
+            var validationMetadata = !httpContext.Items.ContainsKey(validationFailedKey)
+                ? default
+                : httpContext.Items[validationFailedKey] as ValidationMetadata;
+
+            if (validationMetadata != null)
+            {
+                // 创建全局验证友好异常
+                exception = new AppFriendlyException(SerializeObject(validationMetadata.ValidationResult), validationMetadata.OriginErrorCode)
+                {
+                    ErrorCode = validationMetadata.ErrorCode,
+                    StatusCode = validationMetadata.StatusCode ?? StatusCodes.Status400BadRequest,
+                    ValidationException = true
+                };
+            }
+        }
 
         // 判断是否是验证异常
         var isValidationException = exception is AppFriendlyException friendlyException && friendlyException.ValidationException;
@@ -202,6 +235,7 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter
             $"##控制器名称## {controllerActionDescriptor.ControllerTypeInfo.Name}"
             , $"##操作名称## {actionMethod.Name}"
             , $"##路由信息## [area]: {areaName}; [controller]: {controllerName}; [action]: {actionName}"
+            , $"##请求方式## {httpMethod}"
             , $"##请求地址## {requestUrl}"
             , $"##来源地址## {refererUrl}"
             , $"##浏览器标识## {userAgent}"
@@ -252,7 +286,7 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter
     /// <param name="claimsPrincipal"></param>
     /// <param name="authorization"></param>
     /// <returns></returns>
-    private static List<string> GenerateAuthorizationTemplate(LogContext logContext, ClaimsPrincipal claimsPrincipal, StringValues authorization)
+    private List<string> GenerateAuthorizationTemplate(LogContext logContext, ClaimsPrincipal claimsPrincipal, StringValues authorization)
     {
         var templates = new List<string>();
 
@@ -283,7 +317,7 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter
     /// <param name="method"></param>
     /// <param name="contentType"></param>
     /// <returns></returns>
-    private static List<string> GenerateParameterTemplate(LogContext logContext, IDictionary<string, object> parameterValues, MethodInfo method, StringValues contentType)
+    private List<string> GenerateParameterTemplate(LogContext logContext, IDictionary<string, object> parameterValues, MethodInfo method, StringValues contentType)
     {
         var templates = new List<string>();
 
@@ -301,7 +335,7 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter
         {
             var name = parameter.Name;
             _ = parameterValues.TryGetValue(name, out var value);
-            var type = parameter.ParameterType;
+            var parameterType = parameter.ParameterType;
 
             object rawValue = default;
 
@@ -312,7 +346,7 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter
                 if (value is IFormFile formFile)
                 {
                     var fileSize = Math.Round(formFile.Length / 1024D);
-                    templates.Add($"##{name} ({type.Name})## [name]: {formFile.FileName}; [size]: {fileSize}KB; [content-type]: {formFile.ContentType}");
+                    templates.Add($"##{name} ({parameterType.Name})## [name]: {formFile.FileName}; [size]: {fileSize}KB; [content-type]: {formFile.ContentType}");
                     logContext.Set($"{LOG_CONTEXT_NAME}.Parameter.{name}", $"File {{ name: {formFile.FileName}, size: {fileSize}, contentType: {formFile.ContentType} }}");
                     continue;
                 }
@@ -333,23 +367,19 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter
             // 处理 byte[] 参数类型
             else if (value is byte[] byteArray)
             {
-                templates.Add($"##{name} ({type.Name})## [Length]: {byteArray.Length}");
+                templates.Add($"##{name} ({parameterType.Name})## [Length]: {byteArray.Length}");
                 logContext.Set($"{LOG_CONTEXT_NAME}.Parameter.{name}", $"Byte[{byteArray.Length}]");
                 continue;
             }
             // 处理基元类型，字符串类型和空值
-            else if (type.IsPrimitive || value is string || value == null) rawValue = value;
+            else if (parameterType.IsPrimitive || value is string || value == null) rawValue = value;
             // 其他类型统一进行序列化
             else
             {
-                rawValue = JsonSerializer.Serialize(value, new JsonSerializerOptions
-                {
-                    // 处理中文乱码问题
-                    Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping
-                });
+                rawValue = SerializeObject(value);
             }
 
-            templates.Add($"##{name} ({type.Name})## {rawValue}");
+            templates.Add($"##{name} ({parameterType.Name})## {rawValue}");
             logContext.Set($"{LOG_CONTEXT_NAME}.Parameter.{name}", rawValue);
         }
 
@@ -363,7 +393,7 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter
     /// <param name="resultContext"></param>
     /// <param name="method"></param>
     /// <returns></returns>
-    private static List<string> GenerateReturnInfomationTemplate(LogContext logContext, ActionExecutedContext resultContext, MethodInfo method)
+    private List<string> GenerateReturnInfomationTemplate(LogContext logContext, ActionExecutedContext resultContext, MethodInfo method)
     {
         var templates = new List<string>();
 
@@ -372,23 +402,21 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter
         // 解析返回值
         if (UnifyContext.CheckVaildResult(resultContext.Result, out var data)) returnValue = data;
 
-        // 获取最终呈现值（字符串类型），这里处理了 IQueryable 返回值类型，会导致二次查询问题
+        // 获取最终呈现值（字符串类型）
         var displayValue = method.ReturnType == typeof(void)
             ? string.Empty
-            : JsonSerializer.Serialize(returnValue is IQueryable queryable
-                ? queryable.AsUntypedEnumerable() : returnValue, new JsonSerializerOptions
-                {
-                    Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping
-                });
+            : SerializeObject(returnValue);
 
         templates.AddRange(new[]
         {
             $"━━━━━━━━━━━━━━━  返回信息 ━━━━━━━━━━━━━━━"
-            , $"##类型## {method.ReturnType.FullName}"
-            , $"##返回值## {displayValue}"
+            , $"##原始类型## {method.ReturnType.FullName}"
+            , $"##最终类型## {returnValue?.GetType()?.FullName}"
+            , $"##最终返回值## {displayValue}"
         });
         logContext.Set($"{LOG_CONTEXT_NAME}.Return.Type", method.ReturnType.FullName)
-                  .Set($"{LOG_CONTEXT_NAME}.Return.Value", displayValue);
+                  .Set($"{LOG_CONTEXT_NAME}.Return.FinalType", returnValue?.GetType()?.FullName)
+                  .Set($"{LOG_CONTEXT_NAME}.Return.FinalValue", displayValue);
 
         return templates;
     }
@@ -400,7 +428,7 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter
     /// <param name="exception"></param>
     /// <param name="isValidationException">是否是验证异常</param>
     /// <returns></returns>
-    private static List<string> GenerateExcetpionInfomationTemplate(LogContext logContext, Exception exception, bool isValidationException)
+    private List<string> GenerateExcetpionInfomationTemplate(LogContext logContext, Exception exception, bool isValidationException)
     {
         var templates = new List<string>();
 
@@ -436,5 +464,27 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter
         }
 
         return templates;
+    }
+
+    /// <summary>
+    /// 序列化对象
+    /// </summary>
+    /// <param name="obj"></param>
+    /// <returns></returns>
+    private static string SerializeObject(object obj)
+    {
+        var jsonSerializerOptions = new JsonSerializerOptions()
+        {
+            Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping
+        };
+
+        try
+        {
+            return JsonSerializer.Serialize(obj, jsonSerializerOptions);
+        }
+        catch
+        {
+            return "<Error Serialize>";
+        }
     }
 }

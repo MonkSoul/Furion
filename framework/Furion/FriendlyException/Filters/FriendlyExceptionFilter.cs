@@ -71,8 +71,8 @@ public sealed class FriendlyExceptionFilter : IAsyncExceptionFilter
         // 判断是否是验证异常，如果是，则不处理
         if (isValidationException)
         {
-            // 存储执行结果
-            if (context.HttpContext.Items[nameof(DataValidationFilter)] is ActionExecutedContext actionResultContext)
+            // 读取验证执行结果
+            if (context.HttpContext.Items[nameof(DataValidationFilter) + nameof(AppFriendlyException)] is ActionExecutedContext actionResultContext)
             {
                 // 直接将验证结果设置为异常结果
                 context.Result = actionResultContext.Result ?? new BadPageResult(StatusCodes.Status400BadRequest)
