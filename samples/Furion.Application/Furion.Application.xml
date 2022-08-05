@@ -585,6 +585,20 @@
             为角色分配权限
             </summary>
         </member>
+        <member name="M:Furion.Application.TestDateTime.测试时间1(System.DateTime)">
+            <summary>
+            测试 08/06/2022 10:45 AM
+            </summary>
+            <param name="datetime"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Furion.Application.TestDateTime.测试其他类型(Furion.Application.Persons.PersonDto)">
+            <summary>
+            测试其他类型
+            </summary>
+            <param name="dto"></param>
+            <returns></returns>
+        </member>
         <member name="T:Furion.Application.TestInheritdoc">
             <inheritdoc cref="T:Furion.Application.ITestInheritdoc" />
         </member>

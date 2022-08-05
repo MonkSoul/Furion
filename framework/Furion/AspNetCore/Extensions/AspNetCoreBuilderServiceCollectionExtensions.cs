@@ -21,16 +21,19 @@
 // SOFTWARE.
 
 using Furion;
+using Furion.AspNetCore;
+using Furion.SensitiveDetection;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using System.Collections.Concurrent;
 
 namespace Microsoft.Extensions.DependencyInjection;
 
 /// <summary>
-/// ASP.NET Mvc 服务拓展类
+/// ASP.NET Core 服务拓展类
 /// </summary>
 [SuppressSniffer]
-public static class AspNetMvcBuilderServiceCollectionExtensions
+public static class AspNetCoreBuilderServiceCollectionExtensions
 {
     /// <summary>
     /// 注册 Mvc 过滤器
@@ -90,6 +93,50 @@ public static class AspNetMvcBuilderServiceCollectionExtensions
             // 其他额外配置
             configure?.Invoke(options);
         });
+
+        return services;
+    }
+
+    /// <summary>
+    /// 注册模型转换绑定器
+    /// </summary>
+    /// <typeparam name="TFilter"></typeparam>
+    /// <param name="mvcBuilder"></param>
+    /// <param name="configure"></param>
+    /// <returns></returns>
+    public static IMvcBuilder AddModelConvertBinder<TFilter>(this IMvcBuilder mvcBuilder, Action<ConcurrentDictionary<Type, Type>> configure = default)
+        where TFilter : IFilterMetadata
+    {
+        mvcBuilder.Services.AddModelConvertBinder(configure);
+
+        return mvcBuilder;
+    }
+
+    /// <summary>
+    /// 注册模型转换绑定器
+    /// </summary>
+    /// <param name="services"></param>
+    /// <param name="configure"></param>
+    /// <returns></returns>
+    public static IServiceCollection AddModelConvertBinder(this IServiceCollection services, Action<ConcurrentDictionary<Type, Type>> configure = default)
+    {
+        // 非 Web 环境跳过注册
+        if (App.WebHostEnvironment == default) return services;
+
+        // 定义模型绑定转换器集合
+        var modelBinderConverts = new ConcurrentDictionary<Type, Type>();
+        modelBinderConverts.TryAdd(typeof(DateTime), typeof(DateTimeModelConvertBinder));
+        modelBinderConverts.TryAdd(typeof(DateTimeOffset), typeof(DateTimeOffsetModelConvertBinder));
+
+        // 配置 Mvc 选项
+        services.Configure<MvcOptions>(options =>
+        {
+            // 添加模型绑定器
+            options.ModelBinderProviders.Insert(0, new BindToBinderProvider(modelBinderConverts));
+        });
+
+        // 调用外部方法
+        configure?.Invoke(modelBinderConverts);
 
         return services;
     }

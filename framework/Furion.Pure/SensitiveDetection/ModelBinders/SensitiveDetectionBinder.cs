@@ -53,24 +53,33 @@ public class SensitiveDetectionBinder : IModelBinder
         var valueProviderResult = bindingContext.ValueProvider.GetValue(modelName);
 
         // 如果未提供，则直接返回
-        if (valueProviderResult == ValueProviderResult.None) return;
+        if (valueProviderResult == ValueProviderResult.None)
+        {
+            await bindingContext.DefaultAsync();
+            return;
+        }
 
         // 设置模型验证信息
         bindingContext.ModelState.SetModelValue(modelName, valueProviderResult);
 
         // 获取 Http 初始绑定值
         var value = valueProviderResult.FirstValue;
-        if (string.IsNullOrEmpty(value)) return;
+
+        // 模型绑定元数据
+        var metadata = (bindingContext.ModelMetadata as DefaultModelMetadata);
+
+        if (string.IsNullOrEmpty(value))
+        {
+            await bindingContext.DefaultAsync();
+            return;
+        }
 
         // 获取 [SensitiveDetection] 特性
-        var sensitiveDetectionAttribute = (bindingContext.ModelMetadata as DefaultModelMetadata).Attributes.ParameterAttributes.FirstOrDefault(u => u.GetType() == typeof(SensitiveDetectionAttribute)) as SensitiveDetectionAttribute;
+        var sensitiveDetectionAttribute = metadata.Attributes.ParameterAttributes.FirstOrDefault(u => u.GetType() == typeof(SensitiveDetectionAttribute)) as SensitiveDetectionAttribute;
 
         // 替换字符
         var sensitiveWordsProvider = bindingContext.HttpContext.RequestServices.GetRequiredService<ISensitiveDetectionProvider>();
         var newValue = await sensitiveWordsProvider.ReplaceAsync(value, sensitiveDetectionAttribute.Transfer);
-
-        // 如果不包含敏感词汇直接返回
-        if (newValue == value) return;
 
         // 替换模型绑定为最后值
         bindingContext.Result = ModelBindingResult.Success(newValue);

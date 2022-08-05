@@ -30,6 +30,8 @@ public sealed class Startup : AppStartup
         services.AddFileLogging();
 
         services.AddMonitorLogging();
+
+        services.AddModelConvertBinder();
     }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
