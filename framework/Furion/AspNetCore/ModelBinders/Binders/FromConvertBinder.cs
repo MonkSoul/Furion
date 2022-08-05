@@ -30,10 +30,10 @@ using System.Collections.Concurrent;
 namespace Furion.AspNetCore;
 
 /// <summary>
-/// [BindTo] 模型绑定器
+/// [FromConvert] 模型绑定器
 /// </summary>
 [SuppressSniffer]
-public class BindToBinder : IModelBinder
+public class FromConvertBinder : IModelBinder
 {
     /// <summary>
     /// 定义模型绑定转换器集合
@@ -44,7 +44,7 @@ public class BindToBinder : IModelBinder
     /// 构造函数
     /// </summary>
     /// <param name="modelBinderConverts">定义模型绑定转换器集合</param>
-    public BindToBinder(ConcurrentDictionary<Type, Type> modelBinderConverts)
+    public FromConvertBinder(ConcurrentDictionary<Type, Type> modelBinderConverts)
     {
         _modelBinderConverts = modelBinderConverts;
     }
@@ -68,14 +68,14 @@ public class BindToBinder : IModelBinder
         // 模型绑定元数据
         var metadata = (bindingContext.ModelMetadata as DefaultModelMetadata);
 
-        // 获取 [BindTo] 特性
-        var bindToAttribute = metadata.Attributes.ParameterAttributes.FirstOrDefault(u => u.GetType() == typeof(BindToAttribute)) as BindToAttribute;
+        // 获取 [FromConvert] 特性
+        var fromConvertAttribute = metadata.Attributes.ParameterAttributes.FirstOrDefault(u => u.GetType() == typeof(FromConvertAttribute)) as FromConvertAttribute;
 
         // 获取初始参数值提供器
         var valueProviderResult = bindingContext.ValueProvider.GetValue(modelName);
 
         // 是否完全自定义
-        if (bindToAttribute.Customize != true)
+        if (fromConvertAttribute.Customize != true)
         {
             // 如果未提供，则直接返回
             if (valueProviderResult == ValueProviderResult.None) return bindingContext.DefaultAsync();
@@ -84,14 +84,14 @@ public class BindToBinder : IModelBinder
             bindingContext.ModelState.SetModelValue(modelName, valueProviderResult);
 
             // 处理空字符串问题
-            if (bindToAttribute.AllowStringEmpty == false && string.IsNullOrEmpty(valueProviderResult.FirstValue)) return bindingContext.DefaultAsync();
+            if (fromConvertAttribute.AllowStringEmpty == false && string.IsNullOrEmpty(valueProviderResult.FirstValue)) return bindingContext.DefaultAsync();
         }
 
         // 获取转换后的值
         var (Value, ConvertBinder) = GetConvertValue(bindingContext
             , metadata
             , valueProviderResult
-            , bindToAttribute
+            , fromConvertAttribute
             , bindingContext.HttpContext.RequestServices);
         if (ConvertBinder == null) return bindingContext.DefaultAsync();
 
@@ -109,13 +109,13 @@ public class BindToBinder : IModelBinder
     /// 创建模型转换绑定器
     /// </summary>
     /// <param name="valueType"></param>
-    /// <param name="bindToAttribute"></param>
+    /// <param name="fromConvertAttribute"></param>
     /// <param name="serviceProvider"></param>
     /// <returns></returns>
-    private IModelConvertBinder CreateConvertBinder(Type valueType, BindToAttribute bindToAttribute, IServiceProvider serviceProvider)
+    private IModelConvertBinder CreateConvertBinder(Type valueType, FromConvertAttribute fromConvertAttribute, IServiceProvider serviceProvider)
     {
         // 解析模型绑定器
-        var modelConvertBinder = bindToAttribute.ModelConvertBinder;
+        var modelConvertBinder = fromConvertAttribute.ModelConvertBinder;
         if (modelConvertBinder == null)
         {
             var canGet = _modelBinderConverts.TryGetValue(valueType, out var convert);
@@ -134,21 +134,21 @@ public class BindToBinder : IModelBinder
     /// <param name="bindingContext"></param>
     /// <param name="metadata"></param>
     /// <param name="valueProviderResult"></param>
-    /// <param name="bindToAttribute"></param>
+    /// <param name="fromConvertAttribute"></param>
     /// <param name="serviceProvider"></param>
     /// <returns></returns>
     private (object Value, IModelConvertBinder ConvertBinder) GetConvertValue(ModelBindingContext bindingContext
         , DefaultModelMetadata metadata
         , ValueProviderResult valueProviderResult
-        , BindToAttribute bindToAttribute
+        , FromConvertAttribute fromConvertAttribute
         , IServiceProvider serviceProvider)
     {
         // 创建转换绑定器对象
-        var convertBinder = CreateConvertBinder(bindingContext.ModelType, bindToAttribute, serviceProvider);
+        var convertBinder = CreateConvertBinder(bindingContext.ModelType, fromConvertAttribute, serviceProvider);
         if (convertBinder == null) return (default, default);
 
         // 调用转换器
-        var newValue = convertBinder.ConvertTo(bindingContext, metadata, valueProviderResult, bindToAttribute.Extras);
+        var newValue = convertBinder.ConvertTo(bindingContext, metadata, valueProviderResult, fromConvertAttribute.Extras);
 
         return (newValue, convertBinder);
     }

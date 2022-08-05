@@ -29,11 +29,10 @@ using System.Collections.Concurrent;
 namespace Furion.SensitiveDetection;
 
 /// <summary>
-/// 脱敏词汇（脱敏）提供器模型绑定
+/// [FromConvert] 模型绑定提供器
 /// </summary>
-/// <remarks>用于替换脱敏词汇</remarks>
 [SuppressSniffer]
-public class BindToBinderProvider : IModelBinderProvider
+public class FromConvertBinderProvider : IModelBinderProvider
 {
     /// <summary>
     /// 定义模型绑定转换器集合
@@ -44,7 +43,7 @@ public class BindToBinderProvider : IModelBinderProvider
     /// 构造函数
     /// </summary>
     /// <param name="modelBinderConverts">定义模型绑定转换器集合</param>
-    public BindToBinderProvider(ConcurrentDictionary<Type, Type> modelBinderConverts)
+    public FromConvertBinderProvider(ConcurrentDictionary<Type, Type> modelBinderConverts)
     {
         _modelBinderConverts = modelBinderConverts;
     }
@@ -62,13 +61,13 @@ public class BindToBinderProvider : IModelBinderProvider
             throw new ArgumentNullException(nameof(context));
         }
 
-        // 判断是否定义 [BindTo] 特性
+        // 判断是否定义 [FromConvert] 特性
         if (context.Metadata is DefaultModelMetadata actMetadata
             && actMetadata.Attributes.ParameterAttributes != null
             && actMetadata.Attributes.ParameterAttributes.Count > 0
-            && actMetadata.Attributes.ParameterAttributes.Any(u => u.GetType() == typeof(BindToAttribute)))
+            && actMetadata.Attributes.ParameterAttributes.Any(u => u.GetType() == typeof(FromConvertAttribute)))
         {
-            return new BindToBinder(_modelBinderConverts);
+            return new FromConvertBinder(_modelBinderConverts);
         }
 
         return null;

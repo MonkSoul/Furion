@@ -9,7 +9,7 @@ public class TestDateTime : IDynamicApiController
     /// </summary>
     /// <param name="datetime"></param>
     /// <returns></returns>
-    public DateTime 测试时间1([BindTo] DateTime datetime)
+    public DateTime 测试时间1([FromConvert] DateTime datetime)
     {
         return datetime;
     }
@@ -19,7 +19,7 @@ public class TestDateTime : IDynamicApiController
     /// </summary>
     /// <param name="dto"></param>
     /// <returns></returns>
-    public PersonDto 测试其他类型([BindTo] PersonDto dto)
+    public PersonDto 测试其他类型([FromConvert] PersonDto dto)
     {
         return dto;
     }

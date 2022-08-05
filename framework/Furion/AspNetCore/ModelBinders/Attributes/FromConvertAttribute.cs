@@ -20,25 +20,33 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-using System.ComponentModel;
-
 namespace Microsoft.AspNetCore.Mvc;
 
 /// <summary>
-/// 模型绑定转换器枚举类型
+/// 自定义参数绑定转换特性
 /// </summary>
-[SuppressSniffer]
-public enum BinderConverts
+/// <remarks>供模型绑定使用</remarks>
+[SuppressSniffer, AttributeUsage(AttributeTargets.Parameter, AllowMultiple = false)]
+public sealed class FromConvertAttribute : Attribute
 {
     /// <summary>
-    /// <see cref="DateTime"/>
+    /// 是否允许空字符串
     /// </summary>
-    [Description("DateTime 类型")]
-    DateTime,
+    public bool AllowStringEmpty { get; set; } = false;
 
     /// <summary>
-    /// <see cref="DateTimeOffset"/>
+    /// 模型转换绑定器
     /// </summary>
-    [Description("DateTimeOffset 类型")]
-    DateTimeOffset
+    public Type ModelConvertBinder { get; set; }
+
+    /// <summary>
+    /// 额外数据
+    /// </summary>
+    public object Extras { get; set; }
+
+    /// <summary>
+    /// 完全自定义
+    /// </summary>
+    /// <remarks>框架内部不做任何处理</remarks>
+    public bool Customize { get; set; } = false;
 }

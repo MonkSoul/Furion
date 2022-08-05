@@ -98,27 +98,25 @@ public static class AspNetCoreBuilderServiceCollectionExtensions
     }
 
     /// <summary>
-    /// 注册模型转换绑定器
+    /// 添加 [FromConvert] 模型绑定
     /// </summary>
-    /// <typeparam name="TFilter"></typeparam>
     /// <param name="mvcBuilder"></param>
     /// <param name="configure"></param>
     /// <returns></returns>
-    public static IMvcBuilder AddModelConvertBinder<TFilter>(this IMvcBuilder mvcBuilder, Action<ConcurrentDictionary<Type, Type>> configure = default)
-        where TFilter : IFilterMetadata
+    public static IMvcBuilder AddFromConvertBinding(this IMvcBuilder mvcBuilder, Action<ConcurrentDictionary<Type, Type>> configure = default)
     {
-        mvcBuilder.Services.AddModelConvertBinder(configure);
+        mvcBuilder.Services.AddFromConvertBinding(configure);
 
         return mvcBuilder;
     }
 
     /// <summary>
-    /// 注册模型转换绑定器
+    /// 添加 [FromConvert] 模型绑定
     /// </summary>
     /// <param name="services"></param>
     /// <param name="configure"></param>
     /// <returns></returns>
-    public static IServiceCollection AddModelConvertBinder(this IServiceCollection services, Action<ConcurrentDictionary<Type, Type>> configure = default)
+    public static IServiceCollection AddFromConvertBinding(this IServiceCollection services, Action<ConcurrentDictionary<Type, Type>> configure = default)
     {
         // 非 Web 环境跳过注册
         if (App.WebHostEnvironment == default) return services;
@@ -132,7 +130,7 @@ public static class AspNetCoreBuilderServiceCollectionExtensions
         services.Configure<MvcOptions>(options =>
         {
             // 添加模型绑定器
-            options.ModelBinderProviders.Insert(0, new BindToBinderProvider(modelBinderConverts));
+            options.ModelBinderProviders.Insert(0, new FromConvertBinderProvider(modelBinderConverts));
         });
 
         // 调用外部方法
