@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System.Text.Json;
 
 namespace Furion.Web.Core;
 
@@ -18,6 +19,10 @@ public sealed class Startup : AppStartup
         services.AddControllersWithViews()
                 // 配置多语言
                 .AddAppLocalization()
+                .AddJsonOptions(options =>
+                {
+                    options.JsonSerializerOptions.Converters.AddDateFormatString("yyyy-MM-dd HH:mm:ss");
+                })
                 .AddInjectWithUnifyResult();
 
         services.AddRemoteRequest();
