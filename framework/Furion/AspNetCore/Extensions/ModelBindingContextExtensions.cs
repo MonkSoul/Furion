@@ -48,7 +48,7 @@ public static class ModelBindingContextExtensions
         // 创建模型元数据
         var modelMetadata = bindingContext.ModelMetadata.GetMetadataForType(bindingContext.ModelType);
 
-        // 创建模型绑定工厂
+        // 获取模型绑定工厂对象
         var modelBinderFactory = bindingContext.HttpContext.RequestServices.GetRequiredService<IModelBinderFactory>();
 
         // 创建默认模型绑定器
@@ -64,7 +64,7 @@ public static class ModelBindingContextExtensions
         // 处理回调
         configure?.Invoke(bindingContext);
 
-        // 确保数据验证正常允许
+        // 确保数据验证正常运行
         bindingContext.ValidationState[bindingContext.Result.Model] = new ValidationStateEntry
         {
             Metadata = bindingContext.ModelMetadata,
