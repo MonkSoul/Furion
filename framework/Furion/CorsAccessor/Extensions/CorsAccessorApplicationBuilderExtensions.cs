@@ -65,9 +65,6 @@ public static class CorsAccessorApplicationBuilderExtensions
             });
         }
 
-        // 添加压缩缓存
-        app.UseResponseCaching();
-
         return app;
     }
 }

@@ -101,10 +101,11 @@ public sealed class ChannelContext<TMessage, THandler>
 
                   // 并行执行（非等待）
                   var task = new Task(async () =>
-              {
-                  // 默认重试 3 次（每次间隔 1s）
-                  await Retry.InvokeAsync(async () => await Activator.CreateInstance<THandler>().InvokeAsync(message), 3, 1000, finalThrow: false);
-              });
+                  {
+                      // 默认重试 3 次（每次间隔 1s）
+                      await Retry.InvokeAsync(async () => await Activator.CreateInstance<THandler>().InvokeAsync(message), 3, 1000, finalThrow: false);
+                  });
+
                   task.Start();
               }
           }, TaskCreationOptions.LongRunning);
