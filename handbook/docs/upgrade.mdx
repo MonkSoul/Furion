@@ -71,6 +71,7 @@ Serve.Run(RunOptions.Default.ConfigureConfiguration((environment, configuration)
   - [修复] `[LoggingMonitor]` 无法序列化 `IQueryable` 返回值问题 [#I5KJD1](https://gitee.com/dotnetchina/Furion/issues/I5KJD1)
   - [修复] `[LoggingMonitor]` 不能记录全局验证错误问题 [b44087d](https://gitee.com/dotnetchina/Furion/commit/b44087dcc7dbe9992b8f4518e0b0cf4ed61c56bb)
   - [修复] `[LoggingMonitor]` 存在注册顺序差异问题 [b44087d](https://gitee.com/dotnetchina/Furion/commit/b44087dcc7dbe9992b8f4518e0b0cf4ed61c56bb)
+  - [修复] 个别情况下跨域默认配置的响应缓存导致嵌入式资源异常问题 [7a57efe](https://gitee.com/dotnetchina/Furion/commit/7a57efe15a9a2d76475d758f2b64395f96d94077)
 
 - **其他更改**
 
@@ -174,7 +175,7 @@ public class UnitTest1
 
 **[查看新版本单元测试文档](./unittest.mdx)**
 
-3. 开放底层规范化文档分组接口，让集成第三方 `Swagger UI` 更加容易，如集成 `IGeekFan.AspNetCore.Knife4jUI` 拓展：
+3. 开放底层规范化文档分组接口，使得集成第三方 `Swagger UI` 更加容易，如集成 `IGeekFan.AspNetCore.Knife4jUI` 拓展：
 
 :::note 安装包
 
