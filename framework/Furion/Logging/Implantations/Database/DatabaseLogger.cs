@@ -55,7 +55,7 @@ public sealed class DatabaseLogger : ILogger
     /// <summary>
     /// 日志上下文
     /// </summary>
-    public LogContext Context { get; private set; }
+    public LogContext Context { get; internal set; }
 
     /// <summary>
     /// 开始逻辑操作范围
@@ -68,7 +68,8 @@ public sealed class DatabaseLogger : ILogger
         // 设置日志上下文
         if (state is LogContext context)
         {
-            Context = context;
+            if (Context == null) Context = new LogContext().SetRange(context.Properties);
+            else Context.SetRange(context.Properties);
         }
 
         return default;

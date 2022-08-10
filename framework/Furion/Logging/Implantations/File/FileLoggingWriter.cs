@@ -266,14 +266,14 @@ internal class FileLoggingWriter
     /// <summary>
     /// 写入文件
     /// </summary>
-    /// <param name="message">日志消息</param>
+    /// <param name="logMsg">日志消息</param>
     /// <param name="flush"></param>
-    internal void Write(string message, bool flush)
+    internal void Write(LogMessage logMsg, bool flush)
     {
         if (_textWriter != null)
         {
             CheckForNewLogFile();
-            _textWriter.WriteLine(message);
+            _textWriter.WriteLine(logMsg.Message);
 
             if (flush) _textWriter.Flush();
         }

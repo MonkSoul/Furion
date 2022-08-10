@@ -72,7 +72,7 @@ public struct LogMessage
     /// <summary>
     /// 日志消息
     /// </summary>
-    public readonly string Message;
+    public string Message { get; internal set; }
 
     /// <summary>
     /// 异常对象

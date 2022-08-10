@@ -55,6 +55,25 @@ public sealed class LogContext
     }
 
     /// <summary>
+    /// 批量设置上下文数据
+    /// </summary>
+    /// <param name="properties"></param>
+    /// <returns></returns>
+    public LogContext SetRange(IDictionary<object, object> properties)
+    {
+        if (properties == null || properties.Count == 0) return this;
+
+        Properties ??= new Dictionary<object, object>();
+
+        foreach (var (key, value) in properties)
+        {
+            Properties.TryAdd(key, value);
+        }
+
+        return this;
+    }
+
+    /// <summary>
     /// 获取上下文数据
     /// </summary>
     /// <param name="key">键</param>

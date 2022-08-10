@@ -171,12 +171,12 @@ public sealed class DatabaseLoggerProvider : ILoggerProvider
     /// </summary>
     private void ProcessQueue()
     {
-        foreach (var message in _logMessageQueue.GetConsumingEnumerable())
+        foreach (var logMsg in _logMessageQueue.GetConsumingEnumerable())
         {
             try
             {
                 // 调用数据库写入器写入数据库方法
-                _databaseLoggingWriter.Write(message, _logMessageQueue.Count == 0);
+                _databaseLoggingWriter.Write(logMsg, _logMessageQueue.Count == 0);
             }
             catch (Exception ex)
             {
@@ -186,9 +186,28 @@ public sealed class DatabaseLoggerProvider : ILoggerProvider
                     var databaseWriteError = new DatabaseWriteError(ex);
                     HandleWriteError(databaseWriteError);
                 }
-                // 其他直接抛出异常
-                else throw;
+                // 这里不抛出异常，避免中断日志写入
+                else { }
             }
+            finally
+            {
+                // 清空日志上下文
+                ClearScopeContext(logMsg.LogName);
+            }
+        }
+    }
+
+    /// <summary>
+    /// 清空日志上下文
+    /// </summary>
+    /// <param name="categoryName"></param>
+    private void ClearScopeContext(string categoryName)
+    {
+        var isExist = _databaseLoggers.TryGetValue(categoryName, out var fileLogger);
+        if (isExist)
+        {
+            fileLogger.Context?.Properties?.Clear();
+            fileLogger.Context = null;
         }
     }
 }

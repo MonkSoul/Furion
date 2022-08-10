@@ -56,7 +56,7 @@ public sealed class FileLogger : ILogger
     /// <summary>
     /// 日志上下文
     /// </summary>
-    public LogContext Context { get; private set; }
+    public LogContext Context { get; internal set; }
 
     /// <summary>
     /// 开始逻辑操作范围
@@ -69,7 +69,8 @@ public sealed class FileLogger : ILogger
         // 设置日志上下文
         if (state is LogContext context)
         {
-            Context = context;
+            if (Context == null) Context = new LogContext().SetRange(context.Properties);
+            else Context.SetRange(context.Properties);
         }
 
         return default;
@@ -117,8 +118,11 @@ public sealed class FileLogger : ILogger
         // 是否自定义了自定义日志格式化程序，如果是则使用
         if (_fileLoggerProvider.MessageFormat != null)
         {
+            // 设置日志消息模板
+            logMsg.Message = _fileLoggerProvider.MessageFormat(logMsg);
+
             // 写入日志队列
-            _fileLoggerProvider.WriteToQueue(_fileLoggerProvider.MessageFormat(logMsg));
+            _fileLoggerProvider.WriteToQueue(logMsg);
 
             return;
         }
@@ -146,7 +150,10 @@ public sealed class FileLogger : ILogger
         // 如果包含异常信息，则创建新一行写入
         if (exception != null) formatString.AppendLine(exception.ToString());
 
+        // 设置日志消息模板
+        logMsg.Message = formatString.ToString();
+
         // 写入日志队列
-        _fileLoggerProvider.WriteToQueue(formatString.ToString());
+        _fileLoggerProvider.WriteToQueue(logMsg);
     }
 }

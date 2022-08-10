@@ -40,7 +40,7 @@ public sealed class FileLoggerProvider : ILoggerProvider
     /// <summary>
     /// 日志消息队列（线程安全）
     /// </summary>
-    private readonly BlockingCollection<string> _logMessageQueue = new(1024);
+    private readonly BlockingCollection<LogMessage> _logMessageQueue = new(1024);
 
     /// <summary>
     /// 文件日志写入器
@@ -214,15 +214,15 @@ public sealed class FileLoggerProvider : ILoggerProvider
     /// <summary>
     /// 将日志消息写入队列中等待后台任务出队写入文件
     /// </summary>
-    /// <param name="message">日志消息</param>
-    internal void WriteToQueue(string message)
+    /// <param name="logMsg">日志消息</param>
+    internal void WriteToQueue(LogMessage logMsg)
     {
         // 只有队列可持续入队才写入
         if (!_logMessageQueue.IsAddingCompleted)
         {
             try
             {
-                _logMessageQueue.Add(message);
+                _logMessageQueue.Add(logMsg);
                 return;
             }
             catch (InvalidOperationException) { }
@@ -234,9 +234,26 @@ public sealed class FileLoggerProvider : ILoggerProvider
     /// </summary>
     private void ProcessQueue()
     {
-        foreach (var message in _logMessageQueue.GetConsumingEnumerable())
+        foreach (var logMsg in _logMessageQueue.GetConsumingEnumerable())
         {
-            _fileLoggingWriter.Write(message, _logMessageQueue.Count == 0);
+            _fileLoggingWriter.Write(logMsg, _logMessageQueue.Count == 0);
+
+            // 清空日志上下文
+            ClearScopeContext(logMsg.LogName);
+        }
+    }
+
+    /// <summary>
+    /// 清空日志上下文
+    /// </summary>
+    /// <param name="categoryName"></param>
+    private void ClearScopeContext(string categoryName)
+    {
+        var isExist = _fileLoggers.TryGetValue(categoryName, out var fileLogger);
+        if (isExist)
+        {
+            fileLogger.Context?.Properties?.Clear();
+            fileLogger.Context = null;
         }
     }
 }
