@@ -342,11 +342,12 @@ public class ToDoEventSubscriber : IEventSubscriber
     [EventSubscribe("ToDo:Create")]
     public async Task CreateToDo(EventHandlerExecutingContext context)
     {
-        using (var scope = Services.CreateScope())
-        {
-            var scopedProcessingService = scope.ServiceProvider.GetRequiredService<IScopedProcessingService>();
-            // ....
-        }
+        // 创建新的作用域
+        using var scope = Services.CreateScope();
+
+        // 解析服务
+        var scopedProcessingService = scope.ServiceProvider.GetRequiredService<IScopedProcessingService>();
+        // ....
     }
 }
 ```
