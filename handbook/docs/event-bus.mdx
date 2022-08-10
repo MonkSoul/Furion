@@ -112,7 +112,7 @@ public class ToDoEventSubscriber : IEventSubscriber, ISingleton
 }
 ```
 
-这样就无需写 ~~`builder.AddSubscriber<ToDoEventSubscriber>();`~~ 代码了。
+这样就无需写 ~~`builder.AddSubscriber<ToDoEventSubscriber>();`~~ 代码了，只需保留 `services.AddEventBus()` 服务即可。
 
 :::
 
