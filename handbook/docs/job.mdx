@@ -267,7 +267,7 @@ Cron 从左到右（用空格隔开）：`秒` `分` `小时` `月份中的日�
 | `0 0 * * 2L`             | 本月最后一个星期二上午 00：00                              | `CronFormat.Standard`       |
 | `0 0 * * 6#3`            | 每月第三个星期六上午 00：00                                | `CronFormat.Standard`       |
 | `0 0 ? 1 MON#1`          | 1 月第一个星期一上午 00：00                                | `CronFormat.Standard`       |
-| `0 0 3 * * ?`            | 每天几点执行一次                                           | `CronFormat.Standard`       |
+| `0 0 3 * * ?`            | 每天几点执行一次                                           | `CronFormat.IncludeSeconds` |
 
 ### 26.5.3 在线生成 `Cron` 表达式
 
@@ -532,7 +532,7 @@ public class JobWorker : ISpareTimeWorker
 
 ### 26.8.1 初始化任务
 
-```cs showLineNumbers 
+```cs showLineNumbers
 // 开启间隔任务
 SpareTime.Do(interval, [options]);
 
@@ -550,20 +550,20 @@ SpareTime.Do(()=>{
 
 ### 26.8.2 实现后台执行
 
-```cs showLineNumbers 
+```cs showLineNumbers
 // 实现后台执行
 SpareTime.DoIt(()=>{});
 ```
 
 ### 26.8.3 开始一个任务
 
-```cs showLineNumbers 
+```cs showLineNumbers
 SpareTime.Start("任务标识");
 ```
 
 ### 26.8.4 暂停一个任务
 
-```cs showLineNumbers 
+```cs showLineNumbers
 SpareTime.Stop("任务标识");
 // 还可以标记一个任务执行失败
 SpareTime.Stop("任务标识", true);
@@ -571,31 +571,31 @@ SpareTime.Stop("任务标识", true);
 
 ### 26.8.5 取消一个任务
 
-```cs showLineNumbers 
+```cs showLineNumbers
 SpareTime.Cancel("任务名称");
 ```
 
 ### 26.8.6 销毁所有任务
 
-```cs showLineNumbers 
+```cs showLineNumbers
 SpareTime.Dispose();
 ```
 
 ### 26.8.7 获取所有任务
 
-```cs showLineNumbers 
+```cs showLineNumbers
 var workers = SpareTime.GetWorkers();
 ```
 
 ### 26.8.8 获取单个任务
 
-```cs showLineNumbers 
+```cs showLineNumbers
 var worker = SpareTime.GetWorker("workerName");
 ```
 
 ### 26.8.9 解析 `Cron` 表达式
 
-```cs showLineNumbers 
+```cs showLineNumbers
 var nextTime = SpareTime.GetCronNextOccurrence("* * * * *");
 ```
 

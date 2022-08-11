@@ -94,7 +94,7 @@ public static class ILoggerFactoryExtensions
         var databaseLoggerProvider = new DatabaseLoggerProvider(options);
 
         // 解决数据库写入器中循环引用数据库仓储问题
-        if (databaseLoggerProvider._serviceScope == null)
+        if (databaseLoggerProvider._serviceProvider == null)
         {
             databaseLoggerProvider.SetServiceProvider(serviceProvider);
         }
@@ -139,7 +139,7 @@ public static class ILoggerFactoryExtensions
         if (databaseLoggerProvider == default) return factory;
 
         // 解决数据库写入器中循环引用数据库仓储问题
-        if (databaseLoggerProvider._serviceScope == null)
+        if (databaseLoggerProvider._serviceProvider == null)
         {
             databaseLoggerProvider.SetServiceProvider(serviceProvider);
         }

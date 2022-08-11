@@ -129,7 +129,7 @@ public static class ILoggingBuilderExtensions
         builder.Services.Add(ServiceDescriptor.Singleton<ILoggerProvider, DatabaseLoggerProvider>((serviceProvider) =>
         {
             // 解决数据库写入器中循环引用数据库仓储问题
-            if (databaseLoggerProvider._serviceScope == null)
+            if (databaseLoggerProvider._serviceProvider == null)
             {
                 databaseLoggerProvider.SetServiceProvider(serviceProvider);
             }
@@ -178,7 +178,7 @@ public static class ILoggingBuilderExtensions
         builder.Services.AddSingleton<ILoggerProvider, DatabaseLoggerProvider>((serviceProvider) =>
         {
             // 解决数据库写入器中循环引用数据库仓储问题
-            if (databaseLoggerProvider._serviceScope == null)
+            if (databaseLoggerProvider._serviceProvider == null)
             {
                 databaseLoggerProvider.SetServiceProvider(serviceProvider);
             }
