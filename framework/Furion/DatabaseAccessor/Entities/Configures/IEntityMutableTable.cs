@@ -189,6 +189,6 @@ public interface IPrivateEntityMutableTable<TEntity> : IPrivateModelBuilder
     /// </summary>
     /// <param name="dbContext"></param>
     /// <param name="dbContextLocator"></param>
-    /// <returns>最少含一个元素，最多含两个元素，第一个元素为表名，第二个原始为 schema</returns>
+    /// <returns>至少包含一个元素，最多不能超过两个。第一个元素为表名，第二个元素为 schema 架构名</returns>
     string[] GetTableName(DbContext dbContext, Type dbContextLocator);
 }
