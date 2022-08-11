@@ -251,10 +251,10 @@ namespace Furion.Web.Entry.Controllers
     - 可重载配置
     - 选择性选项失效 `(IOptionsMonitorCache<TOptions>)`
 
-:::warning 注意注意
+:::warning 注意事项
 
-**在使用 `IConfigurableOptionsListener`监听选项后，如要获取最新的配置信息 **
-**请使用 App.GetOptionsMonitor<xxxxOptions>() 而不是 App.GetOptions<xxxxOptions>()**
+在使用 `IConfigurableOptionsListener` 监听选项后，如要获取最新的配置信息，请使用 `App.GetOptionsMonitor<TOptions>()` 而不是 `App.GetOptions<TOptions>()`。
+
 :::
 
 :::note 了解更多
