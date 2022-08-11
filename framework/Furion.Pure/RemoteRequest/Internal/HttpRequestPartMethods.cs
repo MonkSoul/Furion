@@ -495,7 +495,7 @@ public sealed partial class HttpRequestPart
         {
             foreach (var header in Headers)
             {
-                if (header.Value != null) request.Headers.Add(header.Key, header.Value.ToString());
+                if (header.Value != null) request.Headers.TryAddWithoutValidation(header.Key, header.Value.ToString());
             }
         }
 
@@ -641,7 +641,7 @@ public sealed partial class HttpRequestPart
                     FS.TryGetContentType(FileName, out var contentType);
 
                     var byteArrayContent = new ByteArrayContent(Bytes);
-                    byteArrayContent.Headers.Add("Content-Type", contentType ?? "application/octet-stream");
+                    byteArrayContent.Headers.TryAddWithoutValidation("Content-Type", contentType ?? "application/octet-stream");
 
                     if (string.IsNullOrWhiteSpace(FileName))
                         multipartFormDataContent.Add(byteArrayContent, $"\"{Name}\"");
@@ -661,7 +661,7 @@ public sealed partial class HttpRequestPart
 
                 // 解决 boundary 带双引号问题
                 multipartFormDataContent.Headers.Remove("Content-Type");
-                multipartFormDataContent.Headers.Add("Content-Type", "multipart/form-data; boundary=" + boundary);
+                multipartFormDataContent.Headers.TryAddWithoutValidation("Content-Type", "multipart/form-data; boundary=" + boundary);
 
                 // 设置内容类型
                 httpContent = multipartFormDataContent;
