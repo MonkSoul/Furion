@@ -183,7 +183,7 @@ function Gitee() {
             className={"furion-log-jiao" + (isDarkTheme ? " dark" : "")}
           ></div>
           <div className="furion-log-number">
-            <div style={{ color: "#1fd898" }}>2,971,632</div>
+            <div style={{ color: "#1fd898" }}>2,977,121</div>
             <span className={isDarkTheme ? " dark" : ""}>Downloads</span>
           </div>
         </div>
@@ -421,7 +421,7 @@ function Contributor() {
         框架贡献者
       </p>
       <h1 className={"furion-big-title" + (isDarkTheme ? " dark" : "")}>
-        正是他们成就了 Furion 不凡
+        没有你们所有人，我们不可能做到这一点
       </h1>
       <div className="furion-contributors-list">
         {contributors.map((c, i) => (
