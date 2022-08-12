@@ -22,6 +22,7 @@
 
 using Furion.DataValidation;
 using Furion.FriendlyException;
+using Furion.Logging;
 using Furion.Templates;
 using Furion.UnifyResult;
 using Microsoft.AspNetCore.Hosting;
@@ -37,7 +38,7 @@ using System.Security.Claims;
 using System.Text.Encodings.Web;
 using System.Text.Json;
 
-namespace Furion.Logging;
+namespace System;
 
 /// <summary>
 /// 强大的日志监听器
