@@ -1,5 +1,4 @@
 ﻿using Furion.Application.Persons;
-using Furion.Logging;
 using Microsoft.Extensions.Logging;
 
 namespace Furion.Application;
