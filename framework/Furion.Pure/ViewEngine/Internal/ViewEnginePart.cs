@@ -31,7 +31,7 @@ public sealed partial class ViewEnginePart
     /// <summary>
     /// 静态缺省 视图 部件
     /// </summary>
-    public static ViewEnginePart Default => new();
+    public static ViewEnginePart Default() => new();
 
     /// <summary>
     /// 字符串模板

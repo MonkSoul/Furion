@@ -33,7 +33,7 @@ public sealed partial class HttpRequestPart
     /// <summary>
     /// 静态缺省请求部件
     /// </summary>
-    public static HttpRequestPart Default => new();
+    public static HttpRequestPart Default() => new();
 
     /// <summary>
     /// 请求地址
