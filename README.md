@@ -22,7 +22,7 @@ dotnet add package Furion
 
 ## 例子 / Examples
 
-我们在[主页](https://dotnetchina.gitee.io/furion)上有不少例子，这是让您入门的第一个：
+我们在 [主页](https://dotnetchina.gitee.io/furion) 上有不少例子，这是让您入门的第一个：
 
 We have several examples [on the website](https://dotnetchina.gitee.io/furion). Here is the first one to get you started:
 
@@ -42,7 +42,7 @@ Open browser access `https://localhost:5001` or `http://localhost:5000`.
 
 ## 文档 / Documentation
 
-您可以在[主页](https://dotnetchina.gitee.io/furion)或[备份主页](https://furion.icu)找到 Furion 文档。
+您可以在 [主页](https://dotnetchina.gitee.io/furion) 或 [备份主页](https://furion.icu) 找到 Furion 文档。
 
 You can find the Furion documentation [on the website](https://dotnetchina.gitee.io/furion) or [on the backup website](https://furion.icu).
 
@@ -50,7 +50,7 @@ You can find the Furion documentation [on the website](https://dotnetchina.gitee
 
 该存储库的主要目的是继续发展 Furion 核心，使其更快、更易于使用。 Furion 的开发在 [Gitee](https://gitee.com/dotnetchina/Furion) 上公开进行，我们感谢社区贡献错误修复和改进。
 
-阅读[贡献指南](https://dotnetchina.gitee.io/furion/docs/contribute)内容，了解如何参与改进 Furion。
+阅读 [贡献指南](https://dotnetchina.gitee.io/furion/docs/contribute) 内容，了解如何参与改进 Furion。
 
 The main purpose of this repository is to continue evolving Furion core, making it faster and easier to use. Development of Furion happens in the open on [Gitee](https://gitee.com/dotnetchina/Furion), and we are grateful to the community for contributing bugfixes and improvements.
 
