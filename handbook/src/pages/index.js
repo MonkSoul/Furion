@@ -84,7 +84,7 @@ function Banner() {
           <div className="furion-get-start-btn">
             <Link className="furion-get-start" to={useBaseUrl("docs/serverun")}>
               入门指南
-              <span className="furion-version">v4.1.14</span>
+              <span className="furion-version">v4.2.0</span>
             </Link>
             <Link
               className="furion-try-demo"
@@ -145,7 +145,7 @@ function Gitee() {
   return (
     <div className="furion-content">
       <p className={"furion-small-title" + (isDarkTheme ? " dark" : "")}>
-        完全开源免费/无授权
+        开源免费/商业无需授权
       </p>
       <h1 className={"furion-big-title" + (isDarkTheme ? " dark" : "")}>
         ⭐️ MIT 开源协议，代码在 Gitee 平台托管 ⭐️
@@ -183,7 +183,7 @@ function Gitee() {
             className={"furion-log-jiao" + (isDarkTheme ? " dark" : "")}
           ></div>
           <div className="furion-log-number">
-            <div style={{ color: "#1fd898" }}>2,977,121</div>
+            <div style={{ color: "#1fd898" }}>2,987,508</div>
             <span className={isDarkTheme ? " dark" : ""}>Downloads</span>
           </div>
         </div>
