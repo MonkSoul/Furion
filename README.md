@@ -65,7 +65,7 @@ Read [contribution documents](https://dotnetchina.gitee.io/furion/docs/contribut
 ```
 MIT 许可证
 
-版权 (c) 2020-2022 百小僧, Baiqian Co.,Ltd 和贡献者们.
+版权 (c) 2020-2022 百小僧, Baiqian Co.,Ltd 和贡献者们
 
 特此免费授予任何获得本软件副本和相关文档文件（下称“软件”）的人不受限制地处置该软件的权利，包括不受限制地使用、复制、修改、合并、发布、分发、转授许可和/或出售该软件副本，以及再授权被配发了本软件的人如上的权利，须在下列条件下：
 
@@ -77,7 +77,7 @@ MIT 许可证
 ```
 MIT License
 
-Copyright (c) 2020-2022 百小僧, Baiqian Co.,Ltd and Contributors.
+Copyright (c) 2020-2022 百小僧, Baiqian Co.,Ltd and Contributors
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
