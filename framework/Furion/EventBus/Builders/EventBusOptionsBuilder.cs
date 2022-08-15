@@ -86,6 +86,20 @@ public sealed class EventBusOptionsBuilder
     }
 
     /// <summary>
+    /// 注册事件订阅者
+    /// </summary>
+    /// <param name="eventSubscriberType"><see cref="IEventSubscriber"/> 派生类型</param>
+    /// <returns><see cref="EventBusOptionsBuilder"/> 实例</returns>
+    public EventBusOptionsBuilder AddSubscriber(Type eventSubscriberType)
+    {
+        // 类型检查
+        if (!typeof(IEventSubscriber).IsAssignableFrom(eventSubscriberType)) throw new InvalidOperationException("The <eventSubscriberType> is not implement the IEventSubscriber interface.");
+
+        _eventSubscribers.Add(eventSubscriberType);
+        return this;
+    }
+
+    /// <summary>
     /// 批量注册事件订阅者
     /// </summary>
     /// <param name="assemblies">程序集</param>
