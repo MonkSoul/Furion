@@ -50,7 +50,7 @@ public class XunitTestFrameworkExecutorWithAssemblyFixture : XunitTestFrameworkE
     /// <param name="testCases"></param>
     /// <param name="executionMessageSink"></param>
     /// <param name="executionOptions"></param>
-    protected override async void RunTestCases(IEnumerable<IXunitTestCase> testCases, IMessageSink executionMessageSink, ITestFrameworkExecutionOptions executionOptions)
+    protected async override void RunTestCases(IEnumerable<IXunitTestCase> testCases, IMessageSink executionMessageSink, ITestFrameworkExecutionOptions executionOptions)
     {
         using var assemblyRunner = new XunitTestAssemblyRunnerWithAssemblyFixture(TestAssembly, testCases, DiagnosticMessageSink, executionMessageSink, executionOptions);
         await assemblyRunner.RunAsync();

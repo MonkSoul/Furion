@@ -55,8 +55,7 @@ public class DynamicModelCacheKeyFactory : IModelCacheKeyFactory
     {
         return (context.GetType(), cacheKey);
     }
-#endif
-
+#else
     /// <summary>
     /// 更新模型缓存
     /// </summary>
@@ -67,4 +66,5 @@ public class DynamicModelCacheKeyFactory : IModelCacheKeyFactory
     {
         return (context.GetType(), cacheKey);
     }
+#endif
 }
