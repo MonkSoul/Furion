@@ -124,9 +124,19 @@ var ipv4 = httpContext.GetRemoteIpAddressToIPv4();
 var ipv6 = httpContext.GetRemoteIpAddressToIPv6();
 ```
 
-:::tip 获取不准问题
+:::tip `Nginx` 无法获取正确客户端 `IP` 问题
 
-如果服务器端使用了 `nginx` 等反向代理工具，那么此拓展可能无效，需要自己在配置客户端 `IP` 转发，然后手动获取。
+如果服务器端使用了 `nginx` 等反向代理工具，可添加以下代码配置：
+
+```cs showLineNumbers title="Startup.cs" {1-4,6-7}
+services.Configure<ForwardedHeadersOptions>(options =>
+{
+    options.ForwardedHeaders = ForwardedHeaders.All;
+});
+
+// 注意在 Configure 最前面配置
+app.UseForwardedHeaders();
+```
 
 :::
 
