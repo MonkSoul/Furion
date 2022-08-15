@@ -36,6 +36,7 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
   - [修复] 个别情况下跨域默认配置的响应缓存导致嵌入式资源异常问题 [7a57efe](https://gitee.com/dotnetchina/Furion/commit/7a57efe15a9a2d76475d758f2b64395f96d94077)
   - [修复] 远程请求传入不合法的请求报文头数据触发校验失败问题 [#I5LPFE](https://gitee.com/dotnetchina/Furion/issues/I5LPFE)
   - [修复] 多线程中使用静态日志写数据库日志导致连接池耗光问题 [8d5cdd6](https://gitee.com/dotnetchina/Furion/commit/8d5cdd6ca04d55e33322000ecc176e47195b6f4d)
+  - [修复] `EFCore 6.0` 之后 `IModelCacheKeyFactory` 接口方法改变导致分表分库异常问题 [#I5MCZ6](https://gitee.com/dotnetchina/Furion/issues/I5MCZ6) [EFCore#25154](https://github.com/dotnet/efcore/issues/25154#issuecomment-868804532) [EFCore!3305](https://github.com/dotnet/EntityFramework.Docs/pull/3305)
 
 - **其他更改**
 
