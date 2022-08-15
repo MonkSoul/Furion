@@ -67,7 +67,7 @@ public class DynamicModelCacheKeyFactory : IModelCacheKeyFactory
         var dbContextAttribute = DbProvider.GetAppDbContextAttribute(context.GetType());
 
         return dbContextAttribute?.Mode == DbContextMode.Dynamic
-            ? (context.GetType(), designTime)
+            ? (context.GetType(), cacheKey, designTime)
             : context.GetType();
     }
 #endif
