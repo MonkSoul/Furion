@@ -34,26 +34,26 @@ public interface IUnitOfWork
     /// </summary>
     /// <param name="context"></param>
     /// <param name="unitOfWork"></param>
-    void BeginTransaction(ActionExecutingContext context, UnitOfWorkAttribute unitOfWork);
+    void BeginTransaction(FilterContext context, UnitOfWorkAttribute unitOfWork);
 
     /// <summary>
     /// 提交工作单元处理
     /// </summary>
     /// <param name="resultContext"></param>
     /// <param name="unitOfWork"></param>
-    void CommitTransaction(ActionExecutedContext resultContext, UnitOfWorkAttribute unitOfWork);
+    void CommitTransaction(FilterContext resultContext, UnitOfWorkAttribute unitOfWork);
 
     /// <summary>
     /// 回滚工作单元处理
     /// </summary>
     /// <param name="resultContext"></param>
     /// <param name="unitOfWork"></param>
-    void RollbackTransaction(ActionExecutedContext resultContext, UnitOfWorkAttribute unitOfWork);
+    void RollbackTransaction(FilterContext resultContext, UnitOfWorkAttribute unitOfWork);
 
     /// <summary>
     /// 执行完毕（无论成功失败）
     /// </summary>
     /// <param name="context"></param>
     /// <param name="resultContext"></param>
-    void OnCompleted(ActionExecutingContext context, ActionExecutedContext resultContext);
+    void OnCompleted(FilterContext context, FilterContext resultContext);
 }
