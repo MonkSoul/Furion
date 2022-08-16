@@ -40,7 +40,7 @@ public static class SqlStringExecuteExtensions
     public static SqlExecutePart Change<TDbContextLocator>(this string sql)
         where TDbContextLocator : class, IDbContextLocator
     {
-        return new SqlExecutePart().SetSqlString(sql).Change<TDbContextLocator>();
+        return SqlExecutePart.Default().SetSqlString(sql).Change<TDbContextLocator>();
     }
 
     /// <summary>
@@ -51,7 +51,7 @@ public static class SqlStringExecuteExtensions
     /// <returns></returns>
     public static SqlExecutePart Change(this string sql, Type dbContextLocator)
     {
-        return new SqlExecutePart().SetSqlString(sql).Change(dbContextLocator);
+        return SqlExecutePart.Default().SetSqlString(sql).Change(dbContextLocator);
     }
 
     /// <summary>
@@ -62,7 +62,7 @@ public static class SqlStringExecuteExtensions
     /// <returns></returns>
     public static SqlExecutePart SetContextScoped(this string sql, IServiceProvider serviceProvider)
     {
-        return new SqlExecutePart().SetSqlString(sql).SetContextScoped(serviceProvider);
+        return SqlExecutePart.Default().SetSqlString(sql).SetContextScoped(serviceProvider);
     }
 
     /// <summary>
@@ -73,7 +73,7 @@ public static class SqlStringExecuteExtensions
     /// <returns></returns>
     public static SqlExecutePart SetCommandTimeout(this string sql, int timeout)
     {
-        return new SqlExecutePart().SetSqlString(sql).SetCommandTimeout(timeout);
+        return SqlExecutePart.Default().SetSqlString(sql).SetCommandTimeout(timeout);
     }
 
     /// <summary>
@@ -84,7 +84,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>DataTable</returns>
     public static DataTable SqlQuery(this string sql, params DbParameter[] parameters)
     {
-        return new SqlExecutePart().SetSqlString(sql).SqlQuery(parameters);
+        return SqlExecutePart.Default().SetSqlString(sql).SqlQuery(parameters);
     }
 
     /// <summary>
@@ -95,7 +95,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>DataTable</returns>
     public static DataTable SqlQuery(this string sql, object model)
     {
-        return new SqlExecutePart().SetSqlString(sql).SqlQuery(model);
+        return SqlExecutePart.Default().SetSqlString(sql).SqlQuery(model);
     }
 
     /// <summary>
@@ -106,7 +106,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>Task{DataTable}</returns>
     public static Task<DataTable> SqlQueryAsync(this string sql, params DbParameter[] parameters)
     {
-        return new SqlExecutePart().SetSqlString(sql).SqlQueryAsync(parameters);
+        return SqlExecutePart.Default().SetSqlString(sql).SqlQueryAsync(parameters);
     }
 
     /// <summary>
@@ -118,7 +118,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>Task{DataTable}</returns>
     public static Task<DataTable> SqlQueryAsync(this string sql, DbParameter[] parameters, CancellationToken cancellationToken = default)
     {
-        return new SqlExecutePart().SetSqlString(sql).SqlQueryAsync(parameters, cancellationToken);
+        return SqlExecutePart.Default().SetSqlString(sql).SqlQueryAsync(parameters, cancellationToken);
     }
 
     /// <summary>
@@ -130,7 +130,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>Task{DataTable}</returns>
     public static Task<DataTable> SqlQueryAsync(this string sql, object model, CancellationToken cancellationToken = default)
     {
-        return new SqlExecutePart().SetSqlString(sql).SqlQueryAsync(model, cancellationToken);
+        return SqlExecutePart.Default().SetSqlString(sql).SqlQueryAsync(model, cancellationToken);
     }
 
     /// <summary>
@@ -142,7 +142,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>List{T}</returns>
     public static List<T> SqlQuery<T>(this string sql, params DbParameter[] parameters)
     {
-        return new SqlExecutePart().SetSqlString(sql).SqlQuery<T>(parameters);
+        return SqlExecutePart.Default().SetSqlString(sql).SqlQuery<T>(parameters);
     }
 
     /// <summary>
@@ -154,7 +154,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>List{T}</returns>
     public static List<T> SqlQuery<T>(this string sql, object model)
     {
-        return new SqlExecutePart().SetSqlString(sql).SqlQuery<T>(model);
+        return SqlExecutePart.Default().SetSqlString(sql).SqlQuery<T>(model);
     }
 
     /// <summary>
@@ -166,7 +166,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>Task{List{T}}</returns>
     public static Task<List<T>> SqlQueryAsync<T>(this string sql, params DbParameter[] parameters)
     {
-        return new SqlExecutePart().SetSqlString(sql).SqlQueryAsync<T>(parameters);
+        return SqlExecutePart.Default().SetSqlString(sql).SqlQueryAsync<T>(parameters);
     }
 
     /// <summary>
@@ -179,7 +179,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>Task{List{T}}</returns>
     public static Task<List<T>> SqlQueryAsync<T>(this string sql, DbParameter[] parameters, CancellationToken cancellationToken = default)
     {
-        return new SqlExecutePart().SetSqlString(sql).SqlQueryAsync<T>(parameters, cancellationToken);
+        return SqlExecutePart.Default().SetSqlString(sql).SqlQueryAsync<T>(parameters, cancellationToken);
     }
 
     /// <summary>
@@ -192,7 +192,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>Task{List{T}}</returns>
     public static Task<List<T>> SqlQueryAsync<T>(this string sql, object model, CancellationToken cancellationToken = default)
     {
-        return new SqlExecutePart().SetSqlString(sql).SqlQueryAsync<T>(model, cancellationToken);
+        return SqlExecutePart.Default().SetSqlString(sql).SqlQueryAsync<T>(model, cancellationToken);
     }
 
     /// <summary>
@@ -203,7 +203,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>DataSet</returns>
     public static DataSet SqlQueries(this string sql, params DbParameter[] parameters)
     {
-        return new SqlExecutePart().SetSqlString(sql).SqlQueries(parameters);
+        return SqlExecutePart.Default().SetSqlString(sql).SqlQueries(parameters);
     }
 
     /// <summary>
@@ -214,7 +214,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>DataSet</returns>
     public static DataSet SqlQueries(this string sql, object model)
     {
-        return new SqlExecutePart().SetSqlString(sql).SqlQueries(model);
+        return SqlExecutePart.Default().SetSqlString(sql).SqlQueries(model);
     }
 
     /// <summary>
@@ -225,7 +225,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>Task{DataSet}</returns>
     public static Task<DataSet> SqlQueriesAsync(this string sql, params DbParameter[] parameters)
     {
-        return new SqlExecutePart().SetSqlString(sql).SqlQueriesAsync(parameters);
+        return SqlExecutePart.Default().SetSqlString(sql).SqlQueriesAsync(parameters);
     }
 
     /// <summary>
@@ -237,7 +237,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>Task{DataSet}</returns>
     public static Task<DataSet> SqlQueriesAsync(this string sql, DbParameter[] parameters, CancellationToken cancellationToken = default)
     {
-        return new SqlExecutePart().SetSqlString(sql).SqlQueriesAsync(parameters, cancellationToken);
+        return SqlExecutePart.Default().SetSqlString(sql).SqlQueriesAsync(parameters, cancellationToken);
     }
 
     /// <summary>
@@ -249,7 +249,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>Task{DataSet}</returns>
     public static Task<DataSet> SqlQueriesAsync(this string sql, object model, CancellationToken cancellationToken = default)
     {
-        return new SqlExecutePart().SetSqlString(sql).SqlQueriesAsync(model, cancellationToken);
+        return SqlExecutePart.Default().SetSqlString(sql).SqlQueriesAsync(model, cancellationToken);
     }
 
     /// <summary>
@@ -261,7 +261,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>List{T1}</returns>
     public static List<T1> SqlQueries<T1>(this string sql, params DbParameter[] parameters)
     {
-        return new SqlExecutePart().SetSqlString(sql).SqlQueries<T1>(parameters);
+        return SqlExecutePart.Default().SetSqlString(sql).SqlQueries<T1>(parameters);
     }
 
     /// <summary>
@@ -274,7 +274,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>元组类型</returns>
     public static (List<T1> list1, List<T2> list2) SqlQueries<T1, T2>(this string sql, params DbParameter[] parameters)
     {
-        return new SqlExecutePart().SetSqlString(sql).SqlQueries<T1, T2>(parameters);
+        return SqlExecutePart.Default().SetSqlString(sql).SqlQueries<T1, T2>(parameters);
     }
 
     /// <summary>
@@ -288,7 +288,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>元组类型</returns>
     public static (List<T1> list1, List<T2> list2, List<T3> list3) SqlQueries<T1, T2, T3>(this string sql, params DbParameter[] parameters)
     {
-        return new SqlExecutePart().SetSqlString(sql).SqlQueries<T1, T2, T3>(parameters);
+        return SqlExecutePart.Default().SetSqlString(sql).SqlQueries<T1, T2, T3>(parameters);
     }
 
     /// <summary>
@@ -303,7 +303,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>元组类型</returns>
     public static (List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4) SqlQueries<T1, T2, T3, T4>(this string sql, params DbParameter[] parameters)
     {
-        return new SqlExecutePart().SetSqlString(sql).SqlQueries<T1, T2, T3, T4>(parameters);
+        return SqlExecutePart.Default().SetSqlString(sql).SqlQueries<T1, T2, T3, T4>(parameters);
     }
 
     /// <summary>
@@ -319,7 +319,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>元组类型</returns>
     public static (List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5) SqlQueries<T1, T2, T3, T4, T5>(this string sql, params DbParameter[] parameters)
     {
-        return new SqlExecutePart().SetSqlString(sql).SqlQueries<T1, T2, T3, T4, T5>(parameters);
+        return SqlExecutePart.Default().SetSqlString(sql).SqlQueries<T1, T2, T3, T4, T5>(parameters);
     }
 
     /// <summary>
@@ -336,7 +336,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>元组类型</returns>
     public static (List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6) SqlQueries<T1, T2, T3, T4, T5, T6>(this string sql, params DbParameter[] parameters)
     {
-        return new SqlExecutePart().SetSqlString(sql).SqlQueries<T1, T2, T3, T4, T5, T6>(parameters);
+        return SqlExecutePart.Default().SetSqlString(sql).SqlQueries<T1, T2, T3, T4, T5, T6>(parameters);
     }
 
     /// <summary>
@@ -354,7 +354,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>元组类型</returns>
     public static (List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6, List<T7> list7) SqlQueries<T1, T2, T3, T4, T5, T6, T7>(this string sql, params DbParameter[] parameters)
     {
-        return new SqlExecutePart().SetSqlString(sql).SqlQueries<T1, T2, T3, T4, T5, T6, T7>(parameters);
+        return SqlExecutePart.Default().SetSqlString(sql).SqlQueries<T1, T2, T3, T4, T5, T6, T7>(parameters);
     }
 
     /// <summary>
@@ -373,7 +373,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>元组类型</returns>
     public static (List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6, List<T7> list7, List<T8> list8) SqlQueries<T1, T2, T3, T4, T5, T6, T7, T8>(this string sql, params DbParameter[] parameters)
     {
-        return new SqlExecutePart().SetSqlString(sql).SqlQueries<T1, T2, T3, T4, T5, T6, T7, T8>(parameters);
+        return SqlExecutePart.Default().SetSqlString(sql).SqlQueries<T1, T2, T3, T4, T5, T6, T7, T8>(parameters);
     }
 
     /// <summary>
@@ -385,7 +385,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>List{T1}</returns>
     public static List<T1> SqlQueries<T1>(this string sql, object model)
     {
-        return new SqlExecutePart().SetSqlString(sql).SqlQueries<T1>(model);
+        return SqlExecutePart.Default().SetSqlString(sql).SqlQueries<T1>(model);
     }
 
     /// <summary>
@@ -398,7 +398,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>元组类型</returns>
     public static (List<T1> list1, List<T2> list2) SqlQueries<T1, T2>(this string sql, object model)
     {
-        return new SqlExecutePart().SetSqlString(sql).SqlQueries<T1, T2>(model);
+        return SqlExecutePart.Default().SetSqlString(sql).SqlQueries<T1, T2>(model);
     }
 
     /// <summary>
@@ -412,7 +412,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>元组类型</returns>
     public static (List<T1> list1, List<T2> list2, List<T3> list3) SqlQueries<T1, T2, T3>(this string sql, object model)
     {
-        return new SqlExecutePart().SetSqlString(sql).SqlQueries<T1, T2, T3>(model);
+        return SqlExecutePart.Default().SetSqlString(sql).SqlQueries<T1, T2, T3>(model);
     }
 
     /// <summary>
@@ -427,7 +427,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>元组类型</returns>
     public static (List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4) SqlQueries<T1, T2, T3, T4>(this string sql, object model)
     {
-        return new SqlExecutePart().SetSqlString(sql).SqlQueries<T1, T2, T3, T4>(model);
+        return SqlExecutePart.Default().SetSqlString(sql).SqlQueries<T1, T2, T3, T4>(model);
     }
 
     /// <summary>
@@ -443,7 +443,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>元组类型</returns>
     public static (List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5) SqlQueries<T1, T2, T3, T4, T5>(this string sql, object model)
     {
-        return new SqlExecutePart().SetSqlString(sql).SqlQueries<T1, T2, T3, T4, T5>(model);
+        return SqlExecutePart.Default().SetSqlString(sql).SqlQueries<T1, T2, T3, T4, T5>(model);
     }
 
     /// <summary>
@@ -460,7 +460,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>元组类型</returns>
     public static (List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6) SqlQueries<T1, T2, T3, T4, T5, T6>(this string sql, object model)
     {
-        return new SqlExecutePart().SetSqlString(sql).SqlQueries<T1, T2, T3, T4, T5, T6>(model);
+        return SqlExecutePart.Default().SetSqlString(sql).SqlQueries<T1, T2, T3, T4, T5, T6>(model);
     }
 
     /// <summary>
@@ -478,7 +478,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>元组类型</returns>
     public static (List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6, List<T7> list7) SqlQueries<T1, T2, T3, T4, T5, T6, T7>(this string sql, object model)
     {
-        return new SqlExecutePart().SetSqlString(sql).SqlQueries<T1, T2, T3, T4, T5, T6, T7>(model);
+        return SqlExecutePart.Default().SetSqlString(sql).SqlQueries<T1, T2, T3, T4, T5, T6, T7>(model);
     }
 
     /// <summary>
@@ -497,7 +497,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>元组类型</returns>
     public static (List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6, List<T7> list7, List<T8> list8) SqlQueries<T1, T2, T3, T4, T5, T6, T7, T8>(this string sql, object model)
     {
-        return new SqlExecutePart().SetSqlString(sql).SqlQueries<T1, T2, T3, T4, T5, T6, T7, T8>(model);
+        return SqlExecutePart.Default().SetSqlString(sql).SqlQueries<T1, T2, T3, T4, T5, T6, T7, T8>(model);
     }
 
     /// <summary>
@@ -509,7 +509,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>Task{List{T1}}</returns>
     public static Task<List<T1>> SqlQueriesAsync<T1>(this string sql, params DbParameter[] parameters)
     {
-        return new SqlExecutePart().SetSqlString(sql).SqlQueriesAsync<T1>(parameters);
+        return SqlExecutePart.Default().SetSqlString(sql).SqlQueriesAsync<T1>(parameters);
     }
 
     /// <summary>
@@ -522,7 +522,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>Task{List{T1}}</returns>
     public static Task<List<T1>> SqlQueriesAsync<T1>(this string sql, DbParameter[] parameters, CancellationToken cancellationToken = default)
     {
-        return new SqlExecutePart().SetSqlString(sql).SqlQueriesAsync<T1>(parameters, cancellationToken);
+        return SqlExecutePart.Default().SetSqlString(sql).SqlQueriesAsync<T1>(parameters, cancellationToken);
     }
 
     /// <summary>
@@ -535,7 +535,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>元组类型</returns>
     public static Task<(List<T1> list1, List<T2> list2)> SqlQueriesAsync<T1, T2>(this string sql, params DbParameter[] parameters)
     {
-        return new SqlExecutePart().SetSqlString(sql).SqlQueriesAsync<T1, T2>(parameters);
+        return SqlExecutePart.Default().SetSqlString(sql).SqlQueriesAsync<T1, T2>(parameters);
     }
 
     /// <summary>
@@ -549,7 +549,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>元组类型</returns>
     public static Task<(List<T1> list1, List<T2> list2)> SqlQueriesAsync<T1, T2>(this string sql, DbParameter[] parameters, CancellationToken cancellationToken = default)
     {
-        return new SqlExecutePart().SetSqlString(sql).SqlQueriesAsync<T1, T2>(parameters, cancellationToken);
+        return SqlExecutePart.Default().SetSqlString(sql).SqlQueriesAsync<T1, T2>(parameters, cancellationToken);
     }
 
     /// <summary>
@@ -563,7 +563,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>元组类型</returns>
     public static Task<(List<T1> list1, List<T2> list2, List<T3> list3)> SqlQueriesAsync<T1, T2, T3>(this string sql, params DbParameter[] parameters)
     {
-        return new SqlExecutePart().SetSqlString(sql).SqlQueriesAsync<T1, T2, T3>(parameters);
+        return SqlExecutePart.Default().SetSqlString(sql).SqlQueriesAsync<T1, T2, T3>(parameters);
     }
 
     /// <summary>
@@ -578,7 +578,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>元组类型</returns>
     public static Task<(List<T1> list1, List<T2> list2, List<T3> list3)> SqlQueriesAsync<T1, T2, T3>(this string sql, DbParameter[] parameters, CancellationToken cancellationToken = default)
     {
-        return new SqlExecutePart().SetSqlString(sql).SqlQueriesAsync<T1, T2, T3>(parameters, cancellationToken);
+        return SqlExecutePart.Default().SetSqlString(sql).SqlQueriesAsync<T1, T2, T3>(parameters, cancellationToken);
     }
 
     /// <summary>
@@ -593,7 +593,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>元组类型</returns>
     public static Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4)> SqlQueriesAsync<T1, T2, T3, T4>(this string sql, params DbParameter[] parameters)
     {
-        return new SqlExecutePart().SetSqlString(sql).SqlQueriesAsync<T1, T2, T3, T4>(parameters);
+        return SqlExecutePart.Default().SetSqlString(sql).SqlQueriesAsync<T1, T2, T3, T4>(parameters);
     }
 
     /// <summary>
@@ -609,7 +609,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>元组类型</returns>
     public static Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4)> SqlQueriesAsync<T1, T2, T3, T4>(this string sql, DbParameter[] parameters, CancellationToken cancellationToken = default)
     {
-        return new SqlExecutePart().SetSqlString(sql).SqlQueriesAsync<T1, T2, T3, T4>(parameters, cancellationToken);
+        return SqlExecutePart.Default().SetSqlString(sql).SqlQueriesAsync<T1, T2, T3, T4>(parameters, cancellationToken);
     }
 
     /// <summary>
@@ -625,7 +625,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>元组类型</returns>
     public static Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5)> SqlQueriesAsync<T1, T2, T3, T4, T5>(this string sql, params DbParameter[] parameters)
     {
-        return new SqlExecutePart().SetSqlString(sql).SqlQueriesAsync<T1, T2, T3, T4, T5>(parameters);
+        return SqlExecutePart.Default().SetSqlString(sql).SqlQueriesAsync<T1, T2, T3, T4, T5>(parameters);
     }
 
     /// <summary>
@@ -642,7 +642,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>元组类型</returns>
     public static Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5)> SqlQueriesAsync<T1, T2, T3, T4, T5>(this string sql, DbParameter[] parameters, CancellationToken cancellationToken = default)
     {
-        return new SqlExecutePart().SetSqlString(sql).SqlQueriesAsync<T1, T2, T3, T4, T5>(parameters, cancellationToken);
+        return SqlExecutePart.Default().SetSqlString(sql).SqlQueriesAsync<T1, T2, T3, T4, T5>(parameters, cancellationToken);
     }
 
     /// <summary>
@@ -659,7 +659,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>元组类型</returns>
     public static Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6)> SqlQueriesAsync<T1, T2, T3, T4, T5, T6>(this string sql, params DbParameter[] parameters)
     {
-        return new SqlExecutePart().SetSqlString(sql).SqlQueriesAsync<T1, T2, T3, T4, T5, T6>(parameters);
+        return SqlExecutePart.Default().SetSqlString(sql).SqlQueriesAsync<T1, T2, T3, T4, T5, T6>(parameters);
     }
 
     /// <summary>
@@ -677,7 +677,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>元组类型</returns>
     public static Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6)> SqlQueriesAsync<T1, T2, T3, T4, T5, T6>(this string sql, DbParameter[] parameters, CancellationToken cancellationToken = default)
     {
-        return new SqlExecutePart().SetSqlString(sql).SqlQueriesAsync<T1, T2, T3, T4, T5, T6>(parameters, cancellationToken);
+        return SqlExecutePart.Default().SetSqlString(sql).SqlQueriesAsync<T1, T2, T3, T4, T5, T6>(parameters, cancellationToken);
     }
 
     /// <summary>
@@ -695,7 +695,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>元组类型</returns>
     public static Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6, List<T7> list7)> SqlQueriesAsync<T1, T2, T3, T4, T5, T6, T7>(this string sql, params DbParameter[] parameters)
     {
-        return new SqlExecutePart().SetSqlString(sql).SqlQueriesAsync<T1, T2, T3, T4, T5, T6, T7>(parameters);
+        return SqlExecutePart.Default().SetSqlString(sql).SqlQueriesAsync<T1, T2, T3, T4, T5, T6, T7>(parameters);
     }
 
     /// <summary>
@@ -714,7 +714,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>元组类型</returns>
     public static Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6, List<T7> list7)> SqlQueriesAsync<T1, T2, T3, T4, T5, T6, T7>(this string sql, DbParameter[] parameters, CancellationToken cancellationToken = default)
     {
-        return new SqlExecutePart().SetSqlString(sql).SqlQueriesAsync<T1, T2, T3, T4, T5, T6, T7>(parameters, cancellationToken);
+        return SqlExecutePart.Default().SetSqlString(sql).SqlQueriesAsync<T1, T2, T3, T4, T5, T6, T7>(parameters, cancellationToken);
     }
 
     /// <summary>
@@ -733,7 +733,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>元组类型</returns>
     public static Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6, List<T7> list7, List<T8> list8)> SqlQueriesAsync<T1, T2, T3, T4, T5, T6, T7, T8>(this string sql, params DbParameter[] parameters)
     {
-        return new SqlExecutePart().SetSqlString(sql).SqlQueriesAsync<T1, T2, T3, T4, T5, T6, T7, T8>(parameters);
+        return SqlExecutePart.Default().SetSqlString(sql).SqlQueriesAsync<T1, T2, T3, T4, T5, T6, T7, T8>(parameters);
     }
 
     /// <summary>
@@ -753,7 +753,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>元组类型</returns>
     public static Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6, List<T7> list7, List<T8> list8)> SqlQueriesAsync<T1, T2, T3, T4, T5, T6, T7, T8>(this string sql, DbParameter[] parameters, CancellationToken cancellationToken = default)
     {
-        return new SqlExecutePart().SetSqlString(sql).SqlQueriesAsync<T1, T2, T3, T4, T5, T6, T7, T8>(parameters, cancellationToken);
+        return SqlExecutePart.Default().SetSqlString(sql).SqlQueriesAsync<T1, T2, T3, T4, T5, T6, T7, T8>(parameters, cancellationToken);
     }
 
     /// <summary>
@@ -766,7 +766,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>List{T1}</returns>
     public static Task<List<T1>> SqlQueriesAsync<T1>(this string sql, object model, CancellationToken cancellationToken = default)
     {
-        return new SqlExecutePart().SetSqlString(sql).SqlQueriesAsync<T1>(model, cancellationToken);
+        return SqlExecutePart.Default().SetSqlString(sql).SqlQueriesAsync<T1>(model, cancellationToken);
     }
 
     /// <summary>
@@ -780,7 +780,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>元组类型</returns>
     public static Task<(List<T1> list1, List<T2> list2)> SqlQueriesAsync<T1, T2>(this string sql, object model, CancellationToken cancellationToken = default)
     {
-        return new SqlExecutePart().SetSqlString(sql).SqlQueriesAsync<T1, T2>(model, cancellationToken);
+        return SqlExecutePart.Default().SetSqlString(sql).SqlQueriesAsync<T1, T2>(model, cancellationToken);
     }
 
     /// <summary>
@@ -795,7 +795,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>元组类型</returns>
     public static Task<(List<T1> list1, List<T2> list2, List<T3> list3)> SqlQueriesAsync<T1, T2, T3>(this string sql, object model, CancellationToken cancellationToken = default)
     {
-        return new SqlExecutePart().SetSqlString(sql).SqlQueriesAsync<T1, T2, T3>(model, cancellationToken);
+        return SqlExecutePart.Default().SetSqlString(sql).SqlQueriesAsync<T1, T2, T3>(model, cancellationToken);
     }
 
     /// <summary>
@@ -811,7 +811,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>元组类型</returns>
     public static Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4)> SqlQueriesAsync<T1, T2, T3, T4>(this string sql, object model, CancellationToken cancellationToken = default)
     {
-        return new SqlExecutePart().SetSqlString(sql).SqlQueriesAsync<T1, T2, T3, T4>(model, cancellationToken);
+        return SqlExecutePart.Default().SetSqlString(sql).SqlQueriesAsync<T1, T2, T3, T4>(model, cancellationToken);
     }
 
     /// <summary>
@@ -828,7 +828,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>元组类型</returns>
     public static Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5)> SqlQueriesAsync<T1, T2, T3, T4, T5>(this string sql, object model, CancellationToken cancellationToken = default)
     {
-        return new SqlExecutePart().SetSqlString(sql).SqlQueriesAsync<T1, T2, T3, T4, T5>(model, cancellationToken);
+        return SqlExecutePart.Default().SetSqlString(sql).SqlQueriesAsync<T1, T2, T3, T4, T5>(model, cancellationToken);
     }
 
     /// <summary>
@@ -846,7 +846,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>元组类型</returns>
     public static Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6)> SqlQueriesAsync<T1, T2, T3, T4, T5, T6>(this string sql, object model, CancellationToken cancellationToken = default)
     {
-        return new SqlExecutePart().SetSqlString(sql).SqlQueriesAsync<T1, T2, T3, T4, T5, T6>(model, cancellationToken);
+        return SqlExecutePart.Default().SetSqlString(sql).SqlQueriesAsync<T1, T2, T3, T4, T5, T6>(model, cancellationToken);
     }
 
     /// <summary>
@@ -865,7 +865,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>元组类型</returns>
     public static Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6, List<T7> list7)> SqlQueriesAsync<T1, T2, T3, T4, T5, T6, T7>(this string sql, object model, CancellationToken cancellationToken = default)
     {
-        return new SqlExecutePart().SetSqlString(sql).SqlQueriesAsync<T1, T2, T3, T4, T5, T6, T7>(model, cancellationToken);
+        return SqlExecutePart.Default().SetSqlString(sql).SqlQueriesAsync<T1, T2, T3, T4, T5, T6, T7>(model, cancellationToken);
     }
 
     /// <summary>
@@ -885,7 +885,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>元组类型</returns>
     public static Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6, List<T7> list7, List<T8> list8)> SqlQueriesAsync<T1, T2, T3, T4, T5, T6, T7, T8>(this string sql, object model, CancellationToken cancellationToken = default)
     {
-        return new SqlExecutePart().SetSqlString(sql).SqlQueriesAsync<T1, T2, T3, T4, T5, T6, T7, T8>(model, cancellationToken);
+        return SqlExecutePart.Default().SetSqlString(sql).SqlQueriesAsync<T1, T2, T3, T4, T5, T6, T7, T8>(model, cancellationToken);
     }
 
     /// <summary>
@@ -896,7 +896,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>int</returns>
     public static int SqlNonQuery(this string sql, params DbParameter[] parameters)
     {
-        return new SqlExecutePart().SetSqlString(sql).SqlNonQuery(parameters);
+        return SqlExecutePart.Default().SetSqlString(sql).SqlNonQuery(parameters);
     }
 
     /// <summary>
@@ -907,7 +907,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>int</returns>
     public static int SqlNonQuery(this string sql, object model)
     {
-        return new SqlExecutePart().SetSqlString(sql).SqlNonQuery(model);
+        return SqlExecutePart.Default().SetSqlString(sql).SqlNonQuery(model);
     }
 
     /// <summary>
@@ -918,7 +918,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>int</returns>
     public static Task<int> SqlNonQueryAsync(this string sql, params DbParameter[] parameters)
     {
-        return new SqlExecutePart().SetSqlString(sql).SqlNonQueryAsync(parameters);
+        return SqlExecutePart.Default().SetSqlString(sql).SqlNonQueryAsync(parameters);
     }
 
     /// <summary>
@@ -930,7 +930,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>int</returns>
     public static Task<int> SqlNonQueryAsync(this string sql, DbParameter[] parameters, CancellationToken cancellationToken = default)
     {
-        return new SqlExecutePart().SetSqlString(sql).SqlNonQueryAsync(parameters, cancellationToken);
+        return SqlExecutePart.Default().SetSqlString(sql).SqlNonQueryAsync(parameters, cancellationToken);
     }
 
     /// <summary>
@@ -942,7 +942,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>int</returns>
     public static Task<int> SqlNonQueryAsync(this string sql, object model, CancellationToken cancellationToken = default)
     {
-        return new SqlExecutePart().SetSqlString(sql).SqlNonQueryAsync(model, cancellationToken);
+        return SqlExecutePart.Default().SetSqlString(sql).SqlNonQueryAsync(model, cancellationToken);
     }
 
     /// <summary>
@@ -953,7 +953,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>object</returns>
     public static object SqlScalar(this string sql, params DbParameter[] parameters)
     {
-        return new SqlExecutePart().SetSqlString(sql).SqlScalar(parameters);
+        return SqlExecutePart.Default().SetSqlString(sql).SqlScalar(parameters);
     }
 
     /// <summary>
@@ -964,7 +964,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>object</returns>
     public static object SqlScalar(this string sql, object model)
     {
-        return new SqlExecutePart().SetSqlString(sql).SqlScalar(model);
+        return SqlExecutePart.Default().SetSqlString(sql).SqlScalar(model);
     }
 
     /// <summary>
@@ -975,7 +975,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>object</returns>
     public static Task<object> SqlScalarAsync(this string sql, params DbParameter[] parameters)
     {
-        return new SqlExecutePart().SetSqlString(sql).SqlScalarAsync(parameters);
+        return SqlExecutePart.Default().SetSqlString(sql).SqlScalarAsync(parameters);
     }
 
     /// <summary>
@@ -987,7 +987,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>object</returns>
     public static Task<object> SqlScalarAsync(this string sql, DbParameter[] parameters, CancellationToken cancellationToken = default)
     {
-        return new SqlExecutePart().SetSqlString(sql).SqlScalarAsync(parameters, cancellationToken);
+        return SqlExecutePart.Default().SetSqlString(sql).SqlScalarAsync(parameters, cancellationToken);
     }
 
     /// <summary>
@@ -999,7 +999,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>object</returns>
     public static Task<object> SqlScalarAsync(this string sql, object model, CancellationToken cancellationToken = default)
     {
-        return new SqlExecutePart().SetSqlString(sql).SqlScalarAsync(model, cancellationToken);
+        return SqlExecutePart.Default().SetSqlString(sql).SqlScalarAsync(model, cancellationToken);
     }
 
     /// <summary>
@@ -1010,7 +1010,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>TResult</returns>
     public static TResult SqlScalar<TResult>(this string sql, params DbParameter[] parameters)
     {
-        return new SqlExecutePart().SetSqlString(sql).SqlScalar<TResult>(parameters);
+        return SqlExecutePart.Default().SetSqlString(sql).SqlScalar<TResult>(parameters);
     }
 
     /// <summary>
@@ -1021,7 +1021,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>TResult</returns>
     public static TResult SqlScalar<TResult>(this string sql, object model)
     {
-        return new SqlExecutePart().SetSqlString(sql).SqlScalar<TResult>(model);
+        return SqlExecutePart.Default().SetSqlString(sql).SqlScalar<TResult>(model);
     }
 
     /// <summary>
@@ -1032,7 +1032,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>TResult</returns>
     public static Task<TResult> SqlScalarAsync<TResult>(this string sql, params DbParameter[] parameters)
     {
-        return new SqlExecutePart().SetSqlString(sql).SqlScalarAsync<TResult>(parameters);
+        return SqlExecutePart.Default().SetSqlString(sql).SqlScalarAsync<TResult>(parameters);
     }
 
     /// <summary>
@@ -1044,7 +1044,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>TResult</returns>
     public static Task<TResult> SqlScalarAsync<TResult>(this string sql, DbParameter[] parameters, CancellationToken cancellationToken = default)
     {
-        return new SqlExecutePart().SetSqlString(sql).SqlScalarAsync<TResult>(parameters, cancellationToken);
+        return SqlExecutePart.Default().SetSqlString(sql).SqlScalarAsync<TResult>(parameters, cancellationToken);
     }
 
     /// <summary>
@@ -1056,7 +1056,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>TResult</returns>
     public static Task<TResult> SqlScalarAsync<TResult>(this string sql, object model, CancellationToken cancellationToken = default)
     {
-        return new SqlExecutePart().SetSqlString(sql).SqlScalarAsync<TResult>(model, cancellationToken);
+        return SqlExecutePart.Default().SetSqlString(sql).SqlScalarAsync<TResult>(model, cancellationToken);
     }
 
     /// <summary>
@@ -1067,7 +1067,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>DataTable</returns>
     public static DataTable SqlProcedureQuery(this string procName, params DbParameter[] parameters)
     {
-        return new SqlExecutePart().SetSqlString(procName).SqlProcedureQuery(parameters);
+        return SqlExecutePart.Default().SetSqlString(procName).SqlProcedureQuery(parameters);
     }
 
     /// <summary>
@@ -1078,7 +1078,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>DataTable</returns>
     public static DataTable SqlProcedureQuery(this string procName, object model)
     {
-        return new SqlExecutePart().SetSqlString(procName).SqlProcedureQuery(model);
+        return SqlExecutePart.Default().SetSqlString(procName).SqlProcedureQuery(model);
     }
 
     /// <summary>
@@ -1089,7 +1089,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>DataTable</returns>
     public static Task<DataTable> SqlProcedureQueryAsync(this string procName, params DbParameter[] parameters)
     {
-        return new SqlExecutePart().SetSqlString(procName).SqlProcedureQueryAsync(parameters);
+        return SqlExecutePart.Default().SetSqlString(procName).SqlProcedureQueryAsync(parameters);
     }
 
     /// <summary>
@@ -1101,7 +1101,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>DataTable</returns>
     public static Task<DataTable> SqlProcedureQueryAsync(this string procName, DbParameter[] parameters, CancellationToken cancellationToken = default)
     {
-        return new SqlExecutePart().SetSqlString(procName).SqlProcedureQueryAsync(parameters, cancellationToken);
+        return SqlExecutePart.Default().SetSqlString(procName).SqlProcedureQueryAsync(parameters, cancellationToken);
     }
 
     /// <summary>
@@ -1113,7 +1113,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>DataTable</returns>
     public static Task<DataTable> SqlProcedureQueryAsync(this string procName, object model, CancellationToken cancellationToken = default)
     {
-        return new SqlExecutePart().SetSqlString(procName).SqlProcedureQueryAsync(model, cancellationToken);
+        return SqlExecutePart.Default().SetSqlString(procName).SqlProcedureQueryAsync(model, cancellationToken);
     }
 
     /// <summary>
@@ -1124,7 +1124,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>List{T}</returns>
     public static List<T> SqlProcedureQuery<T>(this string procName, params DbParameter[] parameters)
     {
-        return new SqlExecutePart().SetSqlString(procName).SqlProcedureQuery<T>(parameters);
+        return SqlExecutePart.Default().SetSqlString(procName).SqlProcedureQuery<T>(parameters);
     }
 
     /// <summary>
@@ -1135,7 +1135,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>List{T}</returns>
     public static List<T> SqlProcedureQuery<T>(this string procName, object model)
     {
-        return new SqlExecutePart().SetSqlString(procName).SqlProcedureQuery<T>(model);
+        return SqlExecutePart.Default().SetSqlString(procName).SqlProcedureQuery<T>(model);
     }
 
     /// <summary>
@@ -1146,7 +1146,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>List{T}</returns>
     public static Task<List<T>> SqlProcedureQueryAsync<T>(this string procName, params DbParameter[] parameters)
     {
-        return new SqlExecutePart().SetSqlString(procName).SqlProcedureQueryAsync<T>(parameters);
+        return SqlExecutePart.Default().SetSqlString(procName).SqlProcedureQueryAsync<T>(parameters);
     }
 
     /// <summary>
@@ -1158,7 +1158,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>List{T}</returns>
     public static Task<List<T>> SqlProcedureQueryAsync<T>(this string procName, DbParameter[] parameters, CancellationToken cancellationToken = default)
     {
-        return new SqlExecutePart().SetSqlString(procName).SqlProcedureQueryAsync<T>(parameters, cancellationToken);
+        return SqlExecutePart.Default().SetSqlString(procName).SqlProcedureQueryAsync<T>(parameters, cancellationToken);
     }
 
     /// <summary>
@@ -1170,7 +1170,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>List{T}</returns>
     public static Task<List<T>> SqlProcedureQueryAsync<T>(this string procName, object model, CancellationToken cancellationToken = default)
     {
-        return new SqlExecutePart().SetSqlString(procName).SqlProcedureQueryAsync<T>(model, cancellationToken);
+        return SqlExecutePart.Default().SetSqlString(procName).SqlProcedureQueryAsync<T>(model, cancellationToken);
     }
 
     /// <summary>
@@ -1181,7 +1181,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>DataSet</returns>
     public static DataSet SqlProcedureQueries(this string procName, params DbParameter[] parameters)
     {
-        return new SqlExecutePart().SetSqlString(procName).SqlProcedureQueries(parameters);
+        return SqlExecutePart.Default().SetSqlString(procName).SqlProcedureQueries(parameters);
     }
 
     /// <summary>
@@ -1192,7 +1192,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>DataSet</returns>
     public static DataSet SqlProcedureQueries(this string procName, object model)
     {
-        return new SqlExecutePart().SetSqlString(procName).SqlProcedureQueries(model);
+        return SqlExecutePart.Default().SetSqlString(procName).SqlProcedureQueries(model);
     }
 
     /// <summary>
@@ -1203,7 +1203,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>DataSet</returns>
     public static Task<DataSet> SqlProcedureQueriesAsync(this string procName, params DbParameter[] parameters)
     {
-        return new SqlExecutePart().SetSqlString(procName).SqlProcedureQueriesAsync(parameters);
+        return SqlExecutePart.Default().SetSqlString(procName).SqlProcedureQueriesAsync(parameters);
     }
 
     /// <summary>
@@ -1215,7 +1215,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>DataSet</returns>
     public static Task<DataSet> SqlProcedureQueriesAsync(this string procName, DbParameter[] parameters, CancellationToken cancellationToken = default)
     {
-        return new SqlExecutePart().SetSqlString(procName).SqlProcedureQueriesAsync(parameters, cancellationToken);
+        return SqlExecutePart.Default().SetSqlString(procName).SqlProcedureQueriesAsync(parameters, cancellationToken);
     }
 
     /// <summary>
@@ -1227,7 +1227,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>DataSet</returns>
     public static Task<DataSet> SqlProcedureQueriesAsync(this string procName, object model, CancellationToken cancellationToken = default)
     {
-        return new SqlExecutePart().SetSqlString(procName).SqlProcedureQueriesAsync(model, cancellationToken);
+        return SqlExecutePart.Default().SetSqlString(procName).SqlProcedureQueriesAsync(model, cancellationToken);
     }
 
     /// <summary>
@@ -1239,7 +1239,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>List{T1}</returns>
     public static List<T1> SqlProcedureQueries<T1>(this string procName, params DbParameter[] parameters)
     {
-        return new SqlExecutePart().SetSqlString(procName).SqlProcedureQueries<T1>(parameters);
+        return SqlExecutePart.Default().SetSqlString(procName).SqlProcedureQueries<T1>(parameters);
     }
 
     /// <summary>
@@ -1252,7 +1252,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>元组类型</returns>
     public static (List<T1> list1, List<T2> list2) SqlProcedureQueries<T1, T2>(this string procName, params DbParameter[] parameters)
     {
-        return new SqlExecutePart().SetSqlString(procName).SqlProcedureQueries<T1, T2>(parameters);
+        return SqlExecutePart.Default().SetSqlString(procName).SqlProcedureQueries<T1, T2>(parameters);
     }
 
     /// <summary>
@@ -1266,7 +1266,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>元组类型</returns>
     public static (List<T1> list1, List<T2> list2, List<T3> list3) SqlProcedureQueries<T1, T2, T3>(this string procName, params DbParameter[] parameters)
     {
-        return new SqlExecutePart().SetSqlString(procName).SqlProcedureQueries<T1, T2, T3>(parameters);
+        return SqlExecutePart.Default().SetSqlString(procName).SqlProcedureQueries<T1, T2, T3>(parameters);
     }
 
     /// <summary>
@@ -1281,7 +1281,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>元组类型</returns>
     public static (List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4) SqlProcedureQueries<T1, T2, T3, T4>(this string procName, params DbParameter[] parameters)
     {
-        return new SqlExecutePart().SetSqlString(procName).SqlProcedureQueries<T1, T2, T3, T4>(parameters);
+        return SqlExecutePart.Default().SetSqlString(procName).SqlProcedureQueries<T1, T2, T3, T4>(parameters);
     }
 
     /// <summary>
@@ -1297,7 +1297,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>元组类型</returns>
     public static (List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5) SqlProcedureQueries<T1, T2, T3, T4, T5>(this string procName, params DbParameter[] parameters)
     {
-        return new SqlExecutePart().SetSqlString(procName).SqlProcedureQueries<T1, T2, T3, T4, T5>(parameters);
+        return SqlExecutePart.Default().SetSqlString(procName).SqlProcedureQueries<T1, T2, T3, T4, T5>(parameters);
     }
 
     /// <summary>
@@ -1314,7 +1314,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>元组类型</returns>
     public static (List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6) SqlProcedureQueries<T1, T2, T3, T4, T5, T6>(this string procName, params DbParameter[] parameters)
     {
-        return new SqlExecutePart().SetSqlString(procName).SqlProcedureQueries<T1, T2, T3, T4, T5, T6>(parameters);
+        return SqlExecutePart.Default().SetSqlString(procName).SqlProcedureQueries<T1, T2, T3, T4, T5, T6>(parameters);
     }
 
     /// <summary>
@@ -1332,7 +1332,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>元组类型</returns>
     public static (List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6, List<T7> list7) SqlProcedureQueries<T1, T2, T3, T4, T5, T6, T7>(this string procName, params DbParameter[] parameters)
     {
-        return new SqlExecutePart().SetSqlString(procName).SqlProcedureQueries<T1, T2, T3, T4, T5, T6, T7>(parameters);
+        return SqlExecutePart.Default().SetSqlString(procName).SqlProcedureQueries<T1, T2, T3, T4, T5, T6, T7>(parameters);
     }
 
     /// <summary>
@@ -1351,7 +1351,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>元组类型</returns>
     public static (List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6, List<T7> list7, List<T8> list8) SqlProcedureQueries<T1, T2, T3, T4, T5, T6, T7, T8>(this string procName, params DbParameter[] parameters)
     {
-        return new SqlExecutePart().SetSqlString(procName).SqlProcedureQueries<T1, T2, T3, T4, T5, T6, T7, T8>(parameters);
+        return SqlExecutePart.Default().SetSqlString(procName).SqlProcedureQueries<T1, T2, T3, T4, T5, T6, T7, T8>(parameters);
     }
 
     /// <summary>
@@ -1363,7 +1363,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>List{T1}</returns>
     public static List<T1> SqlProcedureQueries<T1>(this string procName, object model)
     {
-        return new SqlExecutePart().SetSqlString(procName).SqlProcedureQueries<T1>(model);
+        return SqlExecutePart.Default().SetSqlString(procName).SqlProcedureQueries<T1>(model);
     }
 
     /// <summary>
@@ -1376,7 +1376,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>元组类型</returns>
     public static (List<T1> list1, List<T2> list2) SqlProcedureQueries<T1, T2>(this string procName, object model)
     {
-        return new SqlExecutePart().SetSqlString(procName).SqlProcedureQueries<T1, T2>(model);
+        return SqlExecutePart.Default().SetSqlString(procName).SqlProcedureQueries<T1, T2>(model);
     }
 
     /// <summary>
@@ -1390,7 +1390,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>元组类型</returns>
     public static (List<T1> list1, List<T2> list2, List<T3> list3) SqlProcedureQueries<T1, T2, T3>(this string procName, object model)
     {
-        return new SqlExecutePart().SetSqlString(procName).SqlProcedureQueries<T1, T2, T3>(model);
+        return SqlExecutePart.Default().SetSqlString(procName).SqlProcedureQueries<T1, T2, T3>(model);
     }
 
     /// <summary>
@@ -1405,7 +1405,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>元组类型</returns>
     public static (List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4) SqlProcedureQueries<T1, T2, T3, T4>(this string procName, object model)
     {
-        return new SqlExecutePart().SetSqlString(procName).SqlProcedureQueries<T1, T2, T3, T4>(model);
+        return SqlExecutePart.Default().SetSqlString(procName).SqlProcedureQueries<T1, T2, T3, T4>(model);
     }
 
     /// <summary>
@@ -1421,7 +1421,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>元组类型</returns>
     public static (List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5) SqlProcedureQueries<T1, T2, T3, T4, T5>(this string procName, object model)
     {
-        return new SqlExecutePart().SetSqlString(procName).SqlProcedureQueries<T1, T2, T3, T4, T5>(model);
+        return SqlExecutePart.Default().SetSqlString(procName).SqlProcedureQueries<T1, T2, T3, T4, T5>(model);
     }
 
     /// <summary>
@@ -1438,7 +1438,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>元组类型</returns>
     public static (List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6) SqlProcedureQueries<T1, T2, T3, T4, T5, T6>(this string procName, object model)
     {
-        return new SqlExecutePart().SetSqlString(procName).SqlProcedureQueries<T1, T2, T3, T4, T5, T6>(model);
+        return SqlExecutePart.Default().SetSqlString(procName).SqlProcedureQueries<T1, T2, T3, T4, T5, T6>(model);
     }
 
     /// <summary>
@@ -1456,7 +1456,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>元组类型</returns>
     public static (List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6, List<T7> list7) SqlProcedureQueries<T1, T2, T3, T4, T5, T6, T7>(this string procName, object model)
     {
-        return new SqlExecutePart().SetSqlString(procName).SqlProcedureQueries<T1, T2, T3, T4, T5, T6, T7>(model);
+        return SqlExecutePart.Default().SetSqlString(procName).SqlProcedureQueries<T1, T2, T3, T4, T5, T6, T7>(model);
     }
 
     /// <summary>
@@ -1475,7 +1475,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>元组类型</returns>
     public static (List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6, List<T7> list7, List<T8> list8) SqlProcedureQueries<T1, T2, T3, T4, T5, T6, T7, T8>(this string procName, object model)
     {
-        return new SqlExecutePart().SetSqlString(procName).SqlProcedureQueries<T1, T2, T3, T4, T5, T6, T7, T8>(model);
+        return SqlExecutePart.Default().SetSqlString(procName).SqlProcedureQueries<T1, T2, T3, T4, T5, T6, T7, T8>(model);
     }
 
     /// <summary>
@@ -1487,7 +1487,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>Task{List{T1}}</returns>
     public static Task<List<T1>> SqlProcedureQueriesAsync<T1>(this string procName, params DbParameter[] parameters)
     {
-        return new SqlExecutePart().SetSqlString(procName).SqlProcedureQueriesAsync<T1>(parameters);
+        return SqlExecutePart.Default().SetSqlString(procName).SqlProcedureQueriesAsync<T1>(parameters);
     }
 
     /// <summary>
@@ -1500,7 +1500,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>Task{List{T1}}</returns>
     public static Task<List<T1>> SqlProcedureQueriesAsync<T1>(this string procName, DbParameter[] parameters, CancellationToken cancellationToken = default)
     {
-        return new SqlExecutePart().SetSqlString(procName).SqlProcedureQueriesAsync<T1>(parameters, cancellationToken);
+        return SqlExecutePart.Default().SetSqlString(procName).SqlProcedureQueriesAsync<T1>(parameters, cancellationToken);
     }
 
     /// <summary>
@@ -1513,7 +1513,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>元组类型</returns>
     public static Task<(List<T1> list1, List<T2> list2)> SqlProcedureQueriesAsync<T1, T2>(this string procName, params DbParameter[] parameters)
     {
-        return new SqlExecutePart().SetSqlString(procName).SqlProcedureQueriesAsync<T1, T2>(parameters);
+        return SqlExecutePart.Default().SetSqlString(procName).SqlProcedureQueriesAsync<T1, T2>(parameters);
     }
 
     /// <summary>
@@ -1527,7 +1527,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>元组类型</returns>
     public static Task<(List<T1> list1, List<T2> list2)> SqlProcedureQueriesAsync<T1, T2>(this string procName, DbParameter[] parameters, CancellationToken cancellationToken = default)
     {
-        return new SqlExecutePart().SetSqlString(procName).SqlProcedureQueriesAsync<T1, T2>(parameters, cancellationToken);
+        return SqlExecutePart.Default().SetSqlString(procName).SqlProcedureQueriesAsync<T1, T2>(parameters, cancellationToken);
     }
 
     /// <summary>
@@ -1541,7 +1541,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>元组类型</returns>
     public static Task<(List<T1> list1, List<T2> list2, List<T3> list3)> SqlProcedureQueriesAsync<T1, T2, T3>(this string procName, params DbParameter[] parameters)
     {
-        return new SqlExecutePart().SetSqlString(procName).SqlProcedureQueriesAsync<T1, T2, T3>(parameters);
+        return SqlExecutePart.Default().SetSqlString(procName).SqlProcedureQueriesAsync<T1, T2, T3>(parameters);
     }
 
     /// <summary>
@@ -1556,7 +1556,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>元组类型</returns>
     public static Task<(List<T1> list1, List<T2> list2, List<T3> list3)> SqlProcedureQueriesAsync<T1, T2, T3>(this string procName, DbParameter[] parameters, CancellationToken cancellationToken = default)
     {
-        return new SqlExecutePart().SetSqlString(procName).SqlProcedureQueriesAsync<T1, T2, T3>(parameters, cancellationToken);
+        return SqlExecutePart.Default().SetSqlString(procName).SqlProcedureQueriesAsync<T1, T2, T3>(parameters, cancellationToken);
     }
 
     /// <summary>
@@ -1571,7 +1571,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>元组类型</returns>
     public static Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4)> SqlProcedureQueriesAsync<T1, T2, T3, T4>(this string procName, params DbParameter[] parameters)
     {
-        return new SqlExecutePart().SetSqlString(procName).SqlProcedureQueriesAsync<T1, T2, T3, T4>(parameters);
+        return SqlExecutePart.Default().SetSqlString(procName).SqlProcedureQueriesAsync<T1, T2, T3, T4>(parameters);
     }
 
     /// <summary>
@@ -1587,7 +1587,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>元组类型</returns>
     public static Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4)> SqlProcedureQueriesAsync<T1, T2, T3, T4>(this string procName, DbParameter[] parameters, CancellationToken cancellationToken = default)
     {
-        return new SqlExecutePart().SetSqlString(procName).SqlProcedureQueriesAsync<T1, T2, T3, T4>(parameters, cancellationToken);
+        return SqlExecutePart.Default().SetSqlString(procName).SqlProcedureQueriesAsync<T1, T2, T3, T4>(parameters, cancellationToken);
     }
 
     /// <summary>
@@ -1603,7 +1603,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>元组类型</returns>
     public static Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5)> SqlProcedureQueriesAsync<T1, T2, T3, T4, T5>(this string procName, params DbParameter[] parameters)
     {
-        return new SqlExecutePart().SetSqlString(procName).SqlProcedureQueriesAsync<T1, T2, T3, T4, T5>(parameters);
+        return SqlExecutePart.Default().SetSqlString(procName).SqlProcedureQueriesAsync<T1, T2, T3, T4, T5>(parameters);
     }
 
     /// <summary>
@@ -1620,7 +1620,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>元组类型</returns>
     public static Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5)> SqlProcedureQueriesAsync<T1, T2, T3, T4, T5>(this string procName, DbParameter[] parameters, CancellationToken cancellationToken = default)
     {
-        return new SqlExecutePart().SetSqlString(procName).SqlProcedureQueriesAsync<T1, T2, T3, T4, T5>(parameters, cancellationToken);
+        return SqlExecutePart.Default().SetSqlString(procName).SqlProcedureQueriesAsync<T1, T2, T3, T4, T5>(parameters, cancellationToken);
     }
 
     /// <summary>
@@ -1637,7 +1637,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>元组类型</returns>
     public static Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6)> SqlProcedureQueriesAsync<T1, T2, T3, T4, T5, T6>(this string procName, params DbParameter[] parameters)
     {
-        return new SqlExecutePart().SetSqlString(procName).SqlProcedureQueriesAsync<T1, T2, T3, T4, T5, T6>(parameters);
+        return SqlExecutePart.Default().SetSqlString(procName).SqlProcedureQueriesAsync<T1, T2, T3, T4, T5, T6>(parameters);
     }
 
     /// <summary>
@@ -1655,7 +1655,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>元组类型</returns>
     public static Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6)> SqlProcedureQueriesAsync<T1, T2, T3, T4, T5, T6>(this string procName, DbParameter[] parameters, CancellationToken cancellationToken = default)
     {
-        return new SqlExecutePart().SetSqlString(procName).SqlProcedureQueriesAsync<T1, T2, T3, T4, T5, T6>(parameters, cancellationToken);
+        return SqlExecutePart.Default().SetSqlString(procName).SqlProcedureQueriesAsync<T1, T2, T3, T4, T5, T6>(parameters, cancellationToken);
     }
 
     /// <summary>
@@ -1673,7 +1673,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>元组类型</returns>
     public static Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6, List<T7> list7)> SqlProcedureQueriesAsync<T1, T2, T3, T4, T5, T6, T7>(this string procName, params DbParameter[] parameters)
     {
-        return new SqlExecutePart().SetSqlString(procName).SqlProcedureQueriesAsync<T1, T2, T3, T4, T5, T6, T7>(parameters);
+        return SqlExecutePart.Default().SetSqlString(procName).SqlProcedureQueriesAsync<T1, T2, T3, T4, T5, T6, T7>(parameters);
     }
 
     /// <summary>
@@ -1692,7 +1692,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>元组类型</returns>
     public static Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6, List<T7> list7)> SqlProcedureQueriesAsync<T1, T2, T3, T4, T5, T6, T7>(this string procName, DbParameter[] parameters, CancellationToken cancellationToken = default)
     {
-        return new SqlExecutePart().SetSqlString(procName).SqlProcedureQueriesAsync<T1, T2, T3, T4, T5, T6, T7>(parameters, cancellationToken);
+        return SqlExecutePart.Default().SetSqlString(procName).SqlProcedureQueriesAsync<T1, T2, T3, T4, T5, T6, T7>(parameters, cancellationToken);
     }
 
     /// <summary>
@@ -1711,7 +1711,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>元组类型</returns>
     public static Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6, List<T7> list7, List<T8> list8)> SqlProcedureQueriesAsync<T1, T2, T3, T4, T5, T6, T7, T8>(this string procName, params DbParameter[] parameters)
     {
-        return new SqlExecutePart().SetSqlString(procName).SqlProcedureQueriesAsync<T1, T2, T3, T4, T5, T6, T7, T8>(parameters);
+        return SqlExecutePart.Default().SetSqlString(procName).SqlProcedureQueriesAsync<T1, T2, T3, T4, T5, T6, T7, T8>(parameters);
     }
 
     /// <summary>
@@ -1731,7 +1731,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>元组类型</returns>
     public static Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6, List<T7> list7, List<T8> list8)> SqlProcedureQueriesAsync<T1, T2, T3, T4, T5, T6, T7, T8>(this string procName, DbParameter[] parameters, CancellationToken cancellationToken = default)
     {
-        return new SqlExecutePart().SetSqlString(procName).SqlProcedureQueriesAsync<T1, T2, T3, T4, T5, T6, T7, T8>(parameters, cancellationToken);
+        return SqlExecutePart.Default().SetSqlString(procName).SqlProcedureQueriesAsync<T1, T2, T3, T4, T5, T6, T7, T8>(parameters, cancellationToken);
     }
 
     /// <summary>
@@ -1744,7 +1744,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>List{T1}</returns>
     public static Task<List<T1>> SqlProcedureQueriesAsync<T1>(this string procName, object model, CancellationToken cancellationToken = default)
     {
-        return new SqlExecutePart().SetSqlString(procName).SqlProcedureQueriesAsync<T1>(model, cancellationToken);
+        return SqlExecutePart.Default().SetSqlString(procName).SqlProcedureQueriesAsync<T1>(model, cancellationToken);
     }
 
     /// <summary>
@@ -1758,7 +1758,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>元组类型</returns>
     public static Task<(List<T1> list1, List<T2> list2)> SqlProcedureQueriesAsync<T1, T2>(this string procName, object model, CancellationToken cancellationToken = default)
     {
-        return new SqlExecutePart().SetSqlString(procName).SqlProcedureQueriesAsync<T1, T2>(model, cancellationToken);
+        return SqlExecutePart.Default().SetSqlString(procName).SqlProcedureQueriesAsync<T1, T2>(model, cancellationToken);
     }
 
     /// <summary>
@@ -1773,7 +1773,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>元组类型</returns>
     public static Task<(List<T1> list1, List<T2> list2, List<T3> list3)> SqlProcedureQueriesAsync<T1, T2, T3>(this string procName, object model, CancellationToken cancellationToken = default)
     {
-        return new SqlExecutePart().SetSqlString(procName).SqlProcedureQueriesAsync<T1, T2, T3>(model, cancellationToken);
+        return SqlExecutePart.Default().SetSqlString(procName).SqlProcedureQueriesAsync<T1, T2, T3>(model, cancellationToken);
     }
 
     /// <summary>
@@ -1789,7 +1789,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>元组类型</returns>
     public static Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4)> SqlProcedureQueriesAsync<T1, T2, T3, T4>(this string procName, object model, CancellationToken cancellationToken = default)
     {
-        return new SqlExecutePart().SetSqlString(procName).SqlProcedureQueriesAsync<T1, T2, T3, T4>(model, cancellationToken);
+        return SqlExecutePart.Default().SetSqlString(procName).SqlProcedureQueriesAsync<T1, T2, T3, T4>(model, cancellationToken);
     }
 
     /// <summary>
@@ -1806,7 +1806,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>元组类型</returns>
     public static Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5)> SqlProcedureQueriesAsync<T1, T2, T3, T4, T5>(this string procName, object model, CancellationToken cancellationToken = default)
     {
-        return new SqlExecutePart().SetSqlString(procName).SqlProcedureQueriesAsync<T1, T2, T3, T4, T5>(model, cancellationToken);
+        return SqlExecutePart.Default().SetSqlString(procName).SqlProcedureQueriesAsync<T1, T2, T3, T4, T5>(model, cancellationToken);
     }
 
     /// <summary>
@@ -1824,7 +1824,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>元组类型</returns>
     public static Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6)> SqlProcedureQueriesAsync<T1, T2, T3, T4, T5, T6>(this string procName, object model, CancellationToken cancellationToken = default)
     {
-        return new SqlExecutePart().SetSqlString(procName).SqlProcedureQueriesAsync<T1, T2, T3, T4, T5, T6>(model, cancellationToken);
+        return SqlExecutePart.Default().SetSqlString(procName).SqlProcedureQueriesAsync<T1, T2, T3, T4, T5, T6>(model, cancellationToken);
     }
 
     /// <summary>
@@ -1843,7 +1843,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>元组类型</returns>
     public static Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6, List<T7> list7)> SqlProcedureQueriesAsync<T1, T2, T3, T4, T5, T6, T7>(this string procName, object model, CancellationToken cancellationToken = default)
     {
-        return new SqlExecutePart().SetSqlString(procName).SqlProcedureQueriesAsync<T1, T2, T3, T4, T5, T6, T7>(model, cancellationToken);
+        return SqlExecutePart.Default().SetSqlString(procName).SqlProcedureQueriesAsync<T1, T2, T3, T4, T5, T6, T7>(model, cancellationToken);
     }
 
     /// <summary>
@@ -1863,7 +1863,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>元组类型</returns>
     public static Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6, List<T7> list7, List<T8> list8)> SqlProcedureQueriesAsync<T1, T2, T3, T4, T5, T6, T7, T8>(this string procName, object model, CancellationToken cancellationToken = default)
     {
-        return new SqlExecutePart().SetSqlString(procName).SqlProcedureQueriesAsync<T1, T2, T3, T4, T5, T6, T7, T8>(model, cancellationToken);
+        return SqlExecutePart.Default().SetSqlString(procName).SqlProcedureQueriesAsync<T1, T2, T3, T4, T5, T6, T7, T8>(model, cancellationToken);
     }
 
     /// <summary>
@@ -1874,7 +1874,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>object</returns>
     public static object SqlProcedureScalar(this string procName, params DbParameter[] parameters)
     {
-        return new SqlExecutePart().SetSqlString(procName).SqlProcedureScalar(parameters);
+        return SqlExecutePart.Default().SetSqlString(procName).SqlProcedureScalar(parameters);
     }
 
     /// <summary>
@@ -1885,7 +1885,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>object</returns>
     public static object SqlProcedureScalar(this string procName, object model)
     {
-        return new SqlExecutePart().SetSqlString(procName).SqlProcedureScalar(model);
+        return SqlExecutePart.Default().SetSqlString(procName).SqlProcedureScalar(model);
     }
 
     /// <summary>
@@ -1896,7 +1896,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>object</returns>
     public static Task<object> SqlProcedureScalarAsync(this string procName, params DbParameter[] parameters)
     {
-        return new SqlExecutePart().SetSqlString(procName).SqlProcedureScalarAsync(parameters);
+        return SqlExecutePart.Default().SetSqlString(procName).SqlProcedureScalarAsync(parameters);
     }
 
     /// <summary>
@@ -1908,7 +1908,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>object</returns>
     public static Task<object> SqlProcedureScalarAsync(this string procName, DbParameter[] parameters, CancellationToken cancellationToken = default)
     {
-        return new SqlExecutePart().SetSqlString(procName).SqlProcedureScalarAsync(parameters, cancellationToken);
+        return SqlExecutePart.Default().SetSqlString(procName).SqlProcedureScalarAsync(parameters, cancellationToken);
     }
 
     /// <summary>
@@ -1920,7 +1920,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>object</returns>
     public static Task<object> SqlProcedureScalarAsync(this string procName, object model, CancellationToken cancellationToken = default)
     {
-        return new SqlExecutePart().SetSqlString(procName).SqlProcedureScalarAsync(model, cancellationToken);
+        return SqlExecutePart.Default().SetSqlString(procName).SqlProcedureScalarAsync(model, cancellationToken);
     }
 
     /// <summary>
@@ -1931,7 +1931,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>TResult</returns>
     public static TResult SqlProcedureScalar<TResult>(this string procName, params DbParameter[] parameters)
     {
-        return new SqlExecutePart().SetSqlString(procName).SqlProcedureScalar<TResult>(parameters);
+        return SqlExecutePart.Default().SetSqlString(procName).SqlProcedureScalar<TResult>(parameters);
     }
 
     /// <summary>
@@ -1942,7 +1942,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>TResult</returns>
     public static TResult SqlProcedureScalar<TResult>(this string procName, object model)
     {
-        return new SqlExecutePart().SetSqlString(procName).SqlProcedureScalar<TResult>(model);
+        return SqlExecutePart.Default().SetSqlString(procName).SqlProcedureScalar<TResult>(model);
     }
 
     /// <summary>
@@ -1953,7 +1953,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>TResult</returns>
     public static Task<TResult> SqlProcedureScalarAsync<TResult>(this string procName, params DbParameter[] parameters)
     {
-        return new SqlExecutePart().SetSqlString(procName).SqlProcedureScalarAsync<TResult>(parameters);
+        return SqlExecutePart.Default().SetSqlString(procName).SqlProcedureScalarAsync<TResult>(parameters);
     }
 
     /// <summary>
@@ -1965,7 +1965,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>TResult</returns>
     public static Task<TResult> SqlProcedureScalarAsync<TResult>(this string procName, DbParameter[] parameters, CancellationToken cancellationToken = default)
     {
-        return new SqlExecutePart().SetSqlString(procName).SqlProcedureScalarAsync<TResult>(parameters, cancellationToken);
+        return SqlExecutePart.Default().SetSqlString(procName).SqlProcedureScalarAsync<TResult>(parameters, cancellationToken);
     }
 
     /// <summary>
@@ -1977,7 +1977,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>TResult</returns>
     public static Task<TResult> SqlProcedureScalarAsync<TResult>(this string procName, object model, CancellationToken cancellationToken = default)
     {
-        return new SqlExecutePart().SetSqlString(procName).SqlProcedureScalarAsync<TResult>(model, cancellationToken);
+        return SqlExecutePart.Default().SetSqlString(procName).SqlProcedureScalarAsync<TResult>(model, cancellationToken);
     }
 
     /// <summary>
@@ -1988,7 +1988,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>int</returns>
     public static int SqlProcedureNonQuery(this string procName, params DbParameter[] parameters)
     {
-        return new SqlExecutePart().SetSqlString(procName).SqlProcedureNonQuery(parameters);
+        return SqlExecutePart.Default().SetSqlString(procName).SqlProcedureNonQuery(parameters);
     }
 
     /// <summary>
@@ -1999,7 +1999,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>int</returns>
     public static int SqlProcedureNonQuery(this string procName, object model)
     {
-        return new SqlExecutePart().SetSqlString(procName).SqlProcedureNonQuery(model);
+        return SqlExecutePart.Default().SetSqlString(procName).SqlProcedureNonQuery(model);
     }
 
     /// <summary>
@@ -2010,7 +2010,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>int</returns>
     public static Task<int> SqlProcedureNonQueryAsync(this string procName, params DbParameter[] parameters)
     {
-        return new SqlExecutePart().SetSqlString(procName).SqlProcedureNonQueryAsync(parameters);
+        return SqlExecutePart.Default().SetSqlString(procName).SqlProcedureNonQueryAsync(parameters);
     }
 
     /// <summary>
@@ -2022,7 +2022,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>int</returns>
     public static Task<int> SqlProcedureNonQueryAsync(this string procName, DbParameter[] parameters, CancellationToken cancellationToken = default)
     {
-        return new SqlExecutePart().SetSqlString(procName).SqlProcedureNonQueryAsync(parameters, cancellationToken);
+        return SqlExecutePart.Default().SetSqlString(procName).SqlProcedureNonQueryAsync(parameters, cancellationToken);
     }
 
     /// <summary>
@@ -2034,7 +2034,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>int</returns>
     public static Task<int> SqlProcedureNonQueryAsync(this string procName, object model, CancellationToken cancellationToken = default)
     {
-        return new SqlExecutePart().SetSqlString(procName).SqlProcedureNonQueryAsync(model, cancellationToken);
+        return SqlExecutePart.Default().SetSqlString(procName).SqlProcedureNonQueryAsync(model, cancellationToken);
     }
 
     /// <summary>
@@ -2045,7 +2045,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>ProcedureOutput</returns>
     public static ProcedureOutputResult SqlProcedureOutput(this string procName, DbParameter[] parameters)
     {
-        return new SqlExecutePart().SetSqlString(procName).SqlProcedureOutput(parameters);
+        return SqlExecutePart.Default().SetSqlString(procName).SqlProcedureOutput(parameters);
     }
 
     /// <summary>
@@ -2057,7 +2057,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>ProcedureOutput</returns>
     public static Task<ProcedureOutputResult> SqlProcedureOutputAsync(this string procName, DbParameter[] parameters, CancellationToken cancellationToken = default)
     {
-        return new SqlExecutePart().SetSqlString(procName).SqlProcedureOutputAsync(parameters, cancellationToken);
+        return SqlExecutePart.Default().SetSqlString(procName).SqlProcedureOutputAsync(parameters, cancellationToken);
     }
 
     /// <summary>
@@ -2068,7 +2068,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>ProcedureOutput</returns>
     public static ProcedureOutputResult SqlProcedureOutput(this string procName, object model)
     {
-        return new SqlExecutePart().SetSqlString(procName).SqlProcedureOutput(model);
+        return SqlExecutePart.Default().SetSqlString(procName).SqlProcedureOutput(model);
     }
 
     /// <summary>
@@ -2080,7 +2080,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>ProcedureOutput</returns>
     public static Task<ProcedureOutputResult> SqlProcedureOutputAsync(this string procName, object model, CancellationToken cancellationToken = default)
     {
-        return new SqlExecutePart().SetSqlString(procName).SqlProcedureOutputAsync(model, cancellationToken);
+        return SqlExecutePart.Default().SetSqlString(procName).SqlProcedureOutputAsync(model, cancellationToken);
     }
 
     /// <summary>
@@ -2092,7 +2092,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>ProcedureOutput</returns>
     public static ProcedureOutputResult<TResult> SqlProcedureOutput<TResult>(this string procName, DbParameter[] parameters)
     {
-        return new SqlExecutePart().SetSqlString(procName).SqlProcedureOutput<TResult>(parameters);
+        return SqlExecutePart.Default().SetSqlString(procName).SqlProcedureOutput<TResult>(parameters);
     }
 
     /// <summary>
@@ -2105,7 +2105,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>ProcedureOutput</returns>
     public static Task<ProcedureOutputResult<TResult>> SqlProcedureOutputAsync<TResult>(this string procName, DbParameter[] parameters, CancellationToken cancellationToken = default)
     {
-        return new SqlExecutePart().SetSqlString(procName).SqlProcedureOutputAsync<TResult>(parameters, cancellationToken);
+        return SqlExecutePart.Default().SetSqlString(procName).SqlProcedureOutputAsync<TResult>(parameters, cancellationToken);
     }
 
     /// <summary>
@@ -2117,7 +2117,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>ProcedureOutput</returns>
     public static ProcedureOutputResult<TResult> SqlProcedureOutput<TResult>(this string procName, object model)
     {
-        return new SqlExecutePart().SetSqlString(procName).SqlProcedureOutput<TResult>(model);
+        return SqlExecutePart.Default().SetSqlString(procName).SqlProcedureOutput<TResult>(model);
     }
 
     /// <summary>
@@ -2130,7 +2130,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>ProcedureOutput</returns>
     public static Task<ProcedureOutputResult<TResult>> SqlProcedureOutputAsync<TResult>(this string procName, object model, CancellationToken cancellationToken = default)
     {
-        return new SqlExecutePart().SetSqlString(procName).SqlProcedureOutputAsync<TResult>(model, cancellationToken);
+        return SqlExecutePart.Default().SetSqlString(procName).SqlProcedureOutputAsync<TResult>(model, cancellationToken);
     }
 
     /// <summary>
@@ -2141,7 +2141,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>object</returns>
     public static object SqlFunctionScalar(this string funcName, params DbParameter[] parameters)
     {
-        return new SqlExecutePart().SetSqlString(funcName).SqlFunctionScalar(parameters);
+        return SqlExecutePart.Default().SetSqlString(funcName).SqlFunctionScalar(parameters);
     }
 
     /// <summary>
@@ -2152,7 +2152,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>object</returns>
     public static object SqlFunctionScalar(this string funcName, object model)
     {
-        return new SqlExecutePart().SetSqlString(funcName).SqlFunctionScalar(model);
+        return SqlExecutePart.Default().SetSqlString(funcName).SqlFunctionScalar(model);
     }
 
     /// <summary>
@@ -2163,7 +2163,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>object</returns>
     public static Task<object> SqlFunctionScalarAsync(this string funcName, params DbParameter[] parameters)
     {
-        return new SqlExecutePart().SetSqlString(funcName).SqlFunctionScalarAsync(parameters);
+        return SqlExecutePart.Default().SetSqlString(funcName).SqlFunctionScalarAsync(parameters);
     }
 
     /// <summary>
@@ -2175,7 +2175,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>object</returns>
     public static Task<object> SqlFunctionScalarAsync(this string funcName, DbParameter[] parameters, CancellationToken cancellationToken = default)
     {
-        return new SqlExecutePart().SetSqlString(funcName).SqlFunctionScalarAsync(parameters, cancellationToken);
+        return SqlExecutePart.Default().SetSqlString(funcName).SqlFunctionScalarAsync(parameters, cancellationToken);
     }
 
     /// <summary>
@@ -2187,7 +2187,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>object</returns>
     public static Task<object> SqlFunctionScalarAsync(this string funcName, object model, CancellationToken cancellationToken = default)
     {
-        return new SqlExecutePart().SetSqlString(funcName).SqlFunctionScalarAsync(model, cancellationToken);
+        return SqlExecutePart.Default().SetSqlString(funcName).SqlFunctionScalarAsync(model, cancellationToken);
     }
 
     /// <summary>
@@ -2199,7 +2199,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>TResult</returns>
     public static TResult SqlFunctionScalar<TResult>(this string funcName, params DbParameter[] parameters)
     {
-        return new SqlExecutePart().SetSqlString(funcName).SqlFunctionScalar<TResult>(parameters);
+        return SqlExecutePart.Default().SetSqlString(funcName).SqlFunctionScalar<TResult>(parameters);
     }
 
     /// <summary>
@@ -2211,7 +2211,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>TResult</returns>
     public static TResult SqlFunctionScalar<TResult>(this string funcName, object model)
     {
-        return new SqlExecutePart().SetSqlString(funcName).SqlFunctionScalar<TResult>(model);
+        return SqlExecutePart.Default().SetSqlString(funcName).SqlFunctionScalar<TResult>(model);
     }
 
     /// <summary>
@@ -2223,7 +2223,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>TResult</returns>
     public static Task<TResult> SqlFunctionScalarAsync<TResult>(this string funcName, params DbParameter[] parameters)
     {
-        return new SqlExecutePart().SetSqlString(funcName).SqlFunctionScalarAsync<TResult>(parameters);
+        return SqlExecutePart.Default().SetSqlString(funcName).SqlFunctionScalarAsync<TResult>(parameters);
     }
 
     /// <summary>
@@ -2236,7 +2236,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>TResult</returns>
     public static Task<TResult> SqlFunctionScalarAsync<TResult>(this string funcName, DbParameter[] parameters, CancellationToken cancellationToken = default)
     {
-        return new SqlExecutePart().SetSqlString(funcName).SqlFunctionScalarAsync<TResult>(parameters, cancellationToken);
+        return SqlExecutePart.Default().SetSqlString(funcName).SqlFunctionScalarAsync<TResult>(parameters, cancellationToken);
     }
 
     /// <summary>
@@ -2249,7 +2249,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>object</returns>
     public static Task<TResult> SqlFunctionScalarAsync<TResult>(this string funcName, object model, CancellationToken cancellationToken = default)
     {
-        return new SqlExecutePart().SetSqlString(funcName).SqlFunctionScalarAsync<TResult>(model, cancellationToken);
+        return SqlExecutePart.Default().SetSqlString(funcName).SqlFunctionScalarAsync<TResult>(model, cancellationToken);
     }
 
     /// <summary>
@@ -2260,7 +2260,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>DataTable</returns>
     public static DataTable SqlFunctionQuery(this string funcName, params DbParameter[] parameters)
     {
-        return new SqlExecutePart().SetSqlString(funcName).SqlFunctionQuery(parameters);
+        return SqlExecutePart.Default().SetSqlString(funcName).SqlFunctionQuery(parameters);
     }
 
     /// <summary>
@@ -2271,7 +2271,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>DataTable</returns>
     public static DataTable SqlFunctionQuery(this string funcName, object model)
     {
-        return new SqlExecutePart().SetSqlString(funcName).SqlFunctionQuery(model);
+        return SqlExecutePart.Default().SetSqlString(funcName).SqlFunctionQuery(model);
     }
 
     /// <summary>
@@ -2282,7 +2282,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>Task{DataTable}</returns>
     public static Task<DataTable> SqlFunctionQueryAsync(this string funcName, params DbParameter[] parameters)
     {
-        return new SqlExecutePart().SetSqlString(funcName).SqlFunctionQueryAsync(parameters);
+        return SqlExecutePart.Default().SetSqlString(funcName).SqlFunctionQueryAsync(parameters);
     }
 
     /// <summary>
@@ -2294,7 +2294,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>Task{DataTable}</returns>
     public static Task<DataTable> SqlFunctionQueryAsync(this string funcName, DbParameter[] parameters, CancellationToken cancellationToken = default)
     {
-        return new SqlExecutePart().SetSqlString(funcName).SqlFunctionQueryAsync(parameters, cancellationToken);
+        return SqlExecutePart.Default().SetSqlString(funcName).SqlFunctionQueryAsync(parameters, cancellationToken);
     }
 
     /// <summary>
@@ -2306,7 +2306,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>Task{DataTable}</returns>
     public static Task<DataTable> SqlFunctionQueryAsync(this string funcName, object model, CancellationToken cancellationToken = default)
     {
-        return new SqlExecutePart().SetSqlString(funcName).SqlFunctionQueryAsync(model, cancellationToken);
+        return SqlExecutePart.Default().SetSqlString(funcName).SqlFunctionQueryAsync(model, cancellationToken);
     }
 
     /// <summary>
@@ -2318,7 +2318,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>List{T}</returns>
     public static List<T> SqlFunctionQuery<T>(this string funcName, params DbParameter[] parameters)
     {
-        return new SqlExecutePart().SetSqlString(funcName).SqlFunctionQuery<T>(parameters);
+        return SqlExecutePart.Default().SetSqlString(funcName).SqlFunctionQuery<T>(parameters);
     }
 
     /// <summary>
@@ -2330,7 +2330,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>List{T}</returns>
     public static List<T> SqlFunctionQuery<T>(this string funcName, object model)
     {
-        return new SqlExecutePart().SetSqlString(funcName).SqlFunctionQuery<T>(model);
+        return SqlExecutePart.Default().SetSqlString(funcName).SqlFunctionQuery<T>(model);
     }
 
     /// <summary>
@@ -2342,7 +2342,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>Task{List{T}}</returns>
     public static Task<List<T>> SqlFunctionQueryAsync<T>(this string funcName, params DbParameter[] parameters)
     {
-        return new SqlExecutePart().SetSqlString(funcName).SqlFunctionQueryAsync<T>(parameters);
+        return SqlExecutePart.Default().SetSqlString(funcName).SqlFunctionQueryAsync<T>(parameters);
     }
 
     /// <summary>
@@ -2355,7 +2355,7 @@ public static class SqlStringExecuteExtensions
     /// <returns>Task{List{T}}</returns>
     public static Task<List<T>> SqlFunctionQueryAsync<T>(this string funcName, DbParameter[] parameters, CancellationToken cancellationToken = default)
     {
-        return new SqlExecutePart().SetSqlString(funcName).SqlFunctionQueryAsync<T>(parameters, cancellationToken);
+        return SqlExecutePart.Default().SetSqlString(funcName).SqlFunctionQueryAsync<T>(parameters, cancellationToken);
     }
 
     /// <summary>
@@ -2368,6 +2368,6 @@ public static class SqlStringExecuteExtensions
     /// <returns>Task{List{T}}</returns>
     public static Task<List<T>> SqlFunctionQueryAsync<T>(this string funcName, object model, CancellationToken cancellationToken = default)
     {
-        return new SqlExecutePart().SetSqlString(funcName).SqlFunctionQueryAsync<T>(model, cancellationToken);
+        return SqlExecutePart.Default().SetSqlString(funcName).SqlFunctionQueryAsync<T>(model, cancellationToken);
     }
 }

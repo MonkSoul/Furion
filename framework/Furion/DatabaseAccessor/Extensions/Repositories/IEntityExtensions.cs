@@ -41,7 +41,7 @@ public static class IEntityExtensions
     public static EntityExecutePart<TEntity> SetEntity<TEntity>(this TEntity entity)
         where TEntity : class, IPrivateEntity, new()
     {
-        return new EntityExecutePart<TEntity>().SetEntity(entity);
+        return EntityExecutePart<TEntity>.Default().SetEntity(entity);
     }
 
     /// <summary>
@@ -54,7 +54,7 @@ public static class IEntityExtensions
     public static EntityExecutePart<TEntity> SetContextScoped<TEntity>(this TEntity entity, IServiceProvider serviceProvider)
         where TEntity : class, IPrivateEntity, new()
     {
-        return new EntityExecutePart<TEntity>().SetEntity(entity).SetContextScoped(serviceProvider);
+        return EntityExecutePart<TEntity>.Default().SetEntity(entity).SetContextScoped(serviceProvider);
     }
 
     /// <summary>
@@ -68,7 +68,7 @@ public static class IEntityExtensions
         where TEntity : class, IPrivateEntity, new()
         where TDbContextLocator : class, IDbContextLocator
     {
-        return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>();
+        return EntityExecutePart<TEntity>.Default().SetEntity(entity).Change<TDbContextLocator>();
     }
 
     /// <summary>
@@ -81,7 +81,7 @@ public static class IEntityExtensions
     public static EntityExecutePart<TEntity> Change<TEntity>(this TEntity entity, Type dbContextLocator)
         where TEntity : class, IPrivateEntity, new()
     {
-        return new EntityExecutePart<TEntity>().SetEntity(entity).Change(dbContextLocator);
+        return EntityExecutePart<TEntity>.Default().SetEntity(entity).Change(dbContextLocator);
     }
 
     /// <summary>
@@ -92,7 +92,7 @@ public static class IEntityExtensions
     public static DbSet<TEntity> Ethnics<TEntity>(this TEntity entity)
         where TEntity : class, IPrivateEntity, new()
     {
-        return new EntityExecutePart<TEntity>().SetEntity(entity).Ethnics();
+        return EntityExecutePart<TEntity>.Default().SetEntity(entity).Ethnics();
     }
 
     /// <summary>
@@ -105,7 +105,7 @@ public static class IEntityExtensions
     public static EntityEntry<TEntity> Insert<TEntity>(this TEntity entity, bool? ignoreNullValues = null)
         where TEntity : class, IPrivateEntity, new()
     {
-        return new EntityExecutePart<TEntity>().SetEntity(entity).Insert(ignoreNullValues);
+        return EntityExecutePart<TEntity>.Default().SetEntity(entity).Insert(ignoreNullValues);
     }
 
     /// <summary>
@@ -119,7 +119,7 @@ public static class IEntityExtensions
     public static Task<EntityEntry<TEntity>> InsertAsync<TEntity>(this TEntity entity, bool? ignoreNullValues = null, CancellationToken cancellationToken = default)
         where TEntity : class, IPrivateEntity, new()
     {
-        return new EntityExecutePart<TEntity>().SetEntity(entity).InsertAsync(ignoreNullValues, cancellationToken);
+        return EntityExecutePart<TEntity>.Default().SetEntity(entity).InsertAsync(ignoreNullValues, cancellationToken);
     }
 
     /// <summary>
@@ -132,7 +132,7 @@ public static class IEntityExtensions
     public static EntityEntry<TEntity> InsertNow<TEntity>(this TEntity entity, bool? ignoreNullValues = null)
         where TEntity : class, IPrivateEntity, new()
     {
-        return new EntityExecutePart<TEntity>().SetEntity(entity).InsertNow(ignoreNullValues);
+        return EntityExecutePart<TEntity>.Default().SetEntity(entity).InsertNow(ignoreNullValues);
     }
 
     /// <summary>
@@ -146,7 +146,7 @@ public static class IEntityExtensions
     public static EntityEntry<TEntity> InsertNow<TEntity>(this TEntity entity, bool acceptAllChangesOnSuccess, bool? ignoreNullValues = null)
         where TEntity : class, IPrivateEntity, new()
     {
-        return new EntityExecutePart<TEntity>().SetEntity(entity).InsertNow(acceptAllChangesOnSuccess, ignoreNullValues);
+        return EntityExecutePart<TEntity>.Default().SetEntity(entity).InsertNow(acceptAllChangesOnSuccess, ignoreNullValues);
     }
 
     /// <summary>
@@ -160,7 +160,7 @@ public static class IEntityExtensions
     public static Task<EntityEntry<TEntity>> InsertNowAsync<TEntity>(this TEntity entity, bool? ignoreNullValues = null, CancellationToken cancellationToken = default)
         where TEntity : class, IPrivateEntity, new()
     {
-        return new EntityExecutePart<TEntity>().SetEntity(entity).InsertNowAsync(ignoreNullValues, cancellationToken);
+        return EntityExecutePart<TEntity>.Default().SetEntity(entity).InsertNowAsync(ignoreNullValues, cancellationToken);
     }
 
     /// <summary>
@@ -175,7 +175,7 @@ public static class IEntityExtensions
     public static Task<EntityEntry<TEntity>> InsertNowAsync<TEntity>(this TEntity entity, bool acceptAllChangesOnSuccess, bool? ignoreNullValues = null, CancellationToken cancellationToken = default)
         where TEntity : class, IPrivateEntity, new()
     {
-        return new EntityExecutePart<TEntity>().SetEntity(entity).InsertNowAsync(acceptAllChangesOnSuccess, ignoreNullValues, cancellationToken);
+        return EntityExecutePart<TEntity>.Default().SetEntity(entity).InsertNowAsync(acceptAllChangesOnSuccess, ignoreNullValues, cancellationToken);
     }
 
     /// <summary>
@@ -188,7 +188,7 @@ public static class IEntityExtensions
     public static EntityEntry<TEntity> Update<TEntity>(this TEntity entity, bool? ignoreNullValues = null)
         where TEntity : class, IPrivateEntity, new()
     {
-        return new EntityExecutePart<TEntity>().SetEntity(entity).Update(ignoreNullValues);
+        return EntityExecutePart<TEntity>.Default().SetEntity(entity).Update(ignoreNullValues);
     }
 
     /// <summary>
@@ -201,7 +201,7 @@ public static class IEntityExtensions
     public static Task<EntityEntry<TEntity>> UpdateAsync<TEntity>(this TEntity entity, bool? ignoreNullValues = null)
          where TEntity : class, IPrivateEntity, new()
     {
-        return new EntityExecutePart<TEntity>().SetEntity(entity).UpdateAsync(ignoreNullValues);
+        return EntityExecutePart<TEntity>.Default().SetEntity(entity).UpdateAsync(ignoreNullValues);
     }
 
     /// <summary>
@@ -214,7 +214,7 @@ public static class IEntityExtensions
     public static EntityEntry<TEntity> UpdateNow<TEntity>(this TEntity entity, bool? ignoreNullValues = null)
         where TEntity : class, IPrivateEntity, new()
     {
-        return new EntityExecutePart<TEntity>().SetEntity(entity).UpdateNow(ignoreNullValues);
+        return EntityExecutePart<TEntity>.Default().SetEntity(entity).UpdateNow(ignoreNullValues);
     }
 
     /// <summary>
@@ -228,7 +228,7 @@ public static class IEntityExtensions
     public static EntityEntry<TEntity> UpdateNow<TEntity>(this TEntity entity, bool acceptAllChangesOnSuccess, bool? ignoreNullValues = null)
          where TEntity : class, IPrivateEntity, new()
     {
-        return new EntityExecutePart<TEntity>().SetEntity(entity).UpdateNow(acceptAllChangesOnSuccess, ignoreNullValues);
+        return EntityExecutePart<TEntity>.Default().SetEntity(entity).UpdateNow(acceptAllChangesOnSuccess, ignoreNullValues);
     }
 
     /// <summary>
@@ -242,7 +242,7 @@ public static class IEntityExtensions
     public static Task<EntityEntry<TEntity>> UpdateNowAsync<TEntity>(this TEntity entity, bool? ignoreNullValues = null, CancellationToken cancellationToken = default)
         where TEntity : class, IPrivateEntity, new()
     {
-        return new EntityExecutePart<TEntity>().SetEntity(entity).UpdateNowAsync(ignoreNullValues, cancellationToken);
+        return EntityExecutePart<TEntity>.Default().SetEntity(entity).UpdateNowAsync(ignoreNullValues, cancellationToken);
     }
 
     /// <summary>
@@ -257,7 +257,7 @@ public static class IEntityExtensions
     public static Task<EntityEntry<TEntity>> UpdateNowAsync<TEntity>(this TEntity entity, bool acceptAllChangesOnSuccess, bool? ignoreNullValues = null, CancellationToken cancellationToken = default)
         where TEntity : class, IPrivateEntity, new()
     {
-        return new EntityExecutePart<TEntity>().SetEntity(entity).UpdateNowAsync(acceptAllChangesOnSuccess, ignoreNullValues, cancellationToken);
+        return EntityExecutePart<TEntity>.Default().SetEntity(entity).UpdateNowAsync(acceptAllChangesOnSuccess, ignoreNullValues, cancellationToken);
     }
 
     /// <summary>
@@ -271,7 +271,7 @@ public static class IEntityExtensions
     public static EntityEntry<TEntity> UpdateInclude<TEntity>(this TEntity entity, string[] propertyNames, bool? ignoreNullValues = null)
         where TEntity : class, IPrivateEntity, new()
     {
-        return new EntityExecutePart<TEntity>().SetEntity(entity).UpdateInclude(propertyNames, ignoreNullValues);
+        return EntityExecutePart<TEntity>.Default().SetEntity(entity).UpdateInclude(propertyNames, ignoreNullValues);
     }
 
     /// <summary>
@@ -285,7 +285,7 @@ public static class IEntityExtensions
     public static EntityEntry<TEntity> UpdateInclude<TEntity>(this TEntity entity, Expression<Func<TEntity, object>>[] propertyPredicates, bool? ignoreNullValues = null)
         where TEntity : class, IPrivateEntity, new()
     {
-        return new EntityExecutePart<TEntity>().SetEntity(entity).UpdateInclude(propertyPredicates, ignoreNullValues);
+        return EntityExecutePart<TEntity>.Default().SetEntity(entity).UpdateInclude(propertyPredicates, ignoreNullValues);
     }
 
     /// <summary>
@@ -299,7 +299,7 @@ public static class IEntityExtensions
     public static EntityEntry<TEntity> UpdateInclude<TEntity>(this TEntity entity, IEnumerable<string> propertyNames, bool? ignoreNullValues = null)
         where TEntity : class, IPrivateEntity, new()
     {
-        return new EntityExecutePart<TEntity>().SetEntity(entity).UpdateInclude(propertyNames, ignoreNullValues);
+        return EntityExecutePart<TEntity>.Default().SetEntity(entity).UpdateInclude(propertyNames, ignoreNullValues);
     }
 
     /// <summary>
@@ -313,7 +313,7 @@ public static class IEntityExtensions
     public static EntityEntry<TEntity> UpdateInclude<TEntity>(this TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates, bool? ignoreNullValues = null)
         where TEntity : class, IPrivateEntity, new()
     {
-        return new EntityExecutePart<TEntity>().SetEntity(entity).UpdateInclude(propertyPredicates, ignoreNullValues);
+        return EntityExecutePart<TEntity>.Default().SetEntity(entity).UpdateInclude(propertyPredicates, ignoreNullValues);
     }
 
     /// <summary>
@@ -327,7 +327,7 @@ public static class IEntityExtensions
     public static Task<EntityEntry<TEntity>> UpdateIncludeAsync<TEntity>(this TEntity entity, string[] propertyNames, bool? ignoreNullValues = null)
         where TEntity : class, IPrivateEntity, new()
     {
-        return new EntityExecutePart<TEntity>().SetEntity(entity).UpdateIncludeAsync(propertyNames, ignoreNullValues);
+        return EntityExecutePart<TEntity>.Default().SetEntity(entity).UpdateIncludeAsync(propertyNames, ignoreNullValues);
     }
 
     /// <summary>
@@ -341,7 +341,7 @@ public static class IEntityExtensions
     public static Task<EntityEntry<TEntity>> UpdateIncludeAsync<TEntity>(this TEntity entity, Expression<Func<TEntity, object>>[] propertyPredicates, bool? ignoreNullValues = null)
         where TEntity : class, IPrivateEntity, new()
     {
-        return new EntityExecutePart<TEntity>().SetEntity(entity).UpdateIncludeAsync(propertyPredicates, ignoreNullValues);
+        return EntityExecutePart<TEntity>.Default().SetEntity(entity).UpdateIncludeAsync(propertyPredicates, ignoreNullValues);
     }
 
     /// <summary>
@@ -355,7 +355,7 @@ public static class IEntityExtensions
     public static Task<EntityEntry<TEntity>> UpdateIncludeAsync<TEntity>(this TEntity entity, IEnumerable<string> propertyNames, bool? ignoreNullValues = null)
         where TEntity : class, IPrivateEntity, new()
     {
-        return new EntityExecutePart<TEntity>().SetEntity(entity).UpdateIncludeAsync(propertyNames, ignoreNullValues);
+        return EntityExecutePart<TEntity>.Default().SetEntity(entity).UpdateIncludeAsync(propertyNames, ignoreNullValues);
     }
 
     /// <summary>
@@ -369,7 +369,7 @@ public static class IEntityExtensions
     public static Task<EntityEntry<TEntity>> UpdateIncludeAsync<TEntity>(this TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates, bool? ignoreNullValues = null)
         where TEntity : class, IPrivateEntity, new()
     {
-        return new EntityExecutePart<TEntity>().SetEntity(entity).UpdateIncludeAsync(propertyPredicates, ignoreNullValues);
+        return EntityExecutePart<TEntity>.Default().SetEntity(entity).UpdateIncludeAsync(propertyPredicates, ignoreNullValues);
     }
 
     /// <summary>
@@ -383,7 +383,7 @@ public static class IEntityExtensions
     public static EntityEntry<TEntity> UpdateIncludeNow<TEntity>(this TEntity entity, string[] propertyNames, bool? ignoreNullValues = null)
         where TEntity : class, IPrivateEntity, new()
     {
-        return new EntityExecutePart<TEntity>().SetEntity(entity).UpdateIncludeNow(propertyNames, ignoreNullValues);
+        return EntityExecutePart<TEntity>.Default().SetEntity(entity).UpdateIncludeNow(propertyNames, ignoreNullValues);
     }
 
     /// <summary>
@@ -398,7 +398,7 @@ public static class IEntityExtensions
     public static EntityEntry<TEntity> UpdateIncludeNow<TEntity>(this TEntity entity, string[] propertyNames, bool acceptAllChangesOnSuccess, bool? ignoreNullValues = null)
         where TEntity : class, IPrivateEntity, new()
     {
-        return new EntityExecutePart<TEntity>().SetEntity(entity).UpdateIncludeNow(propertyNames, acceptAllChangesOnSuccess, ignoreNullValues);
+        return EntityExecutePart<TEntity>.Default().SetEntity(entity).UpdateIncludeNow(propertyNames, acceptAllChangesOnSuccess, ignoreNullValues);
     }
 
     /// <summary>
@@ -412,7 +412,7 @@ public static class IEntityExtensions
     public static EntityEntry<TEntity> UpdateIncludeNow<TEntity>(this TEntity entity, Expression<Func<TEntity, object>>[] propertyPredicates, bool? ignoreNullValues = null)
         where TEntity : class, IPrivateEntity, new()
     {
-        return new EntityExecutePart<TEntity>().SetEntity(entity).UpdateIncludeNow(propertyPredicates, ignoreNullValues);
+        return EntityExecutePart<TEntity>.Default().SetEntity(entity).UpdateIncludeNow(propertyPredicates, ignoreNullValues);
     }
 
     /// <summary>
@@ -427,7 +427,7 @@ public static class IEntityExtensions
     public static EntityEntry<TEntity> UpdateIncludeNow<TEntity>(this TEntity entity, Expression<Func<TEntity, object>>[] propertyPredicates, bool acceptAllChangesOnSuccess, bool? ignoreNullValues = null)
         where TEntity : class, IPrivateEntity, new()
     {
-        return new EntityExecutePart<TEntity>().SetEntity(entity).UpdateIncludeNow(propertyPredicates, acceptAllChangesOnSuccess, ignoreNullValues);
+        return EntityExecutePart<TEntity>.Default().SetEntity(entity).UpdateIncludeNow(propertyPredicates, acceptAllChangesOnSuccess, ignoreNullValues);
     }
 
     /// <summary>
@@ -441,7 +441,7 @@ public static class IEntityExtensions
     public static EntityEntry<TEntity> UpdateIncludeNow<TEntity>(this TEntity entity, IEnumerable<string> propertyNames, bool? ignoreNullValues = null)
         where TEntity : class, IPrivateEntity, new()
     {
-        return new EntityExecutePart<TEntity>().SetEntity(entity).UpdateIncludeNow(propertyNames, ignoreNullValues);
+        return EntityExecutePart<TEntity>.Default().SetEntity(entity).UpdateIncludeNow(propertyNames, ignoreNullValues);
     }
 
     /// <summary>
@@ -456,7 +456,7 @@ public static class IEntityExtensions
     public static EntityEntry<TEntity> UpdateIncludeNow<TEntity>(this TEntity entity, IEnumerable<string> propertyNames, bool acceptAllChangesOnSuccess, bool? ignoreNullValues = null)
          where TEntity : class, IPrivateEntity, new()
     {
-        return new EntityExecutePart<TEntity>().SetEntity(entity).UpdateIncludeNow(propertyNames, acceptAllChangesOnSuccess, ignoreNullValues);
+        return EntityExecutePart<TEntity>.Default().SetEntity(entity).UpdateIncludeNow(propertyNames, acceptAllChangesOnSuccess, ignoreNullValues);
     }
 
     /// <summary>
@@ -470,7 +470,7 @@ public static class IEntityExtensions
     public static EntityEntry<TEntity> UpdateIncludeNow<TEntity>(this TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates, bool? ignoreNullValues = null)
         where TEntity : class, IPrivateEntity, new()
     {
-        return new EntityExecutePart<TEntity>().SetEntity(entity).UpdateIncludeNow(propertyPredicates, ignoreNullValues);
+        return EntityExecutePart<TEntity>.Default().SetEntity(entity).UpdateIncludeNow(propertyPredicates, ignoreNullValues);
     }
 
     /// <summary>
@@ -485,7 +485,7 @@ public static class IEntityExtensions
     public static EntityEntry<TEntity> UpdateIncludeNow<TEntity>(this TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates, bool acceptAllChangesOnSuccess, bool? ignoreNullValues = null)
         where TEntity : class, IPrivateEntity, new()
     {
-        return new EntityExecutePart<TEntity>().SetEntity(entity).UpdateIncludeNow(propertyPredicates, acceptAllChangesOnSuccess, ignoreNullValues);
+        return EntityExecutePart<TEntity>.Default().SetEntity(entity).UpdateIncludeNow(propertyPredicates, acceptAllChangesOnSuccess, ignoreNullValues);
     }
 
     /// <summary>
@@ -500,7 +500,7 @@ public static class IEntityExtensions
     public static Task<EntityEntry<TEntity>> UpdateIncludeNowAsync<TEntity>(this TEntity entity, string[] propertyNames, bool? ignoreNullValues = null, CancellationToken cancellationToken = default)
         where TEntity : class, IPrivateEntity, new()
     {
-        return new EntityExecutePart<TEntity>().SetEntity(entity).UpdateIncludeNowAsync(propertyNames, ignoreNullValues, cancellationToken);
+        return EntityExecutePart<TEntity>.Default().SetEntity(entity).UpdateIncludeNowAsync(propertyNames, ignoreNullValues, cancellationToken);
     }
 
     /// <summary>
@@ -516,7 +516,7 @@ public static class IEntityExtensions
     public static Task<EntityEntry<TEntity>> UpdateIncludeNowAsync<TEntity>(this TEntity entity, string[] propertyNames, bool acceptAllChangesOnSuccess, bool? ignoreNullValues = null, CancellationToken cancellationToken = default)
         where TEntity : class, IPrivateEntity, new()
     {
-        return new EntityExecutePart<TEntity>().SetEntity(entity).UpdateIncludeNowAsync(propertyNames, acceptAllChangesOnSuccess, ignoreNullValues, cancellationToken);
+        return EntityExecutePart<TEntity>.Default().SetEntity(entity).UpdateIncludeNowAsync(propertyNames, acceptAllChangesOnSuccess, ignoreNullValues, cancellationToken);
     }
 
     /// <summary>
@@ -531,7 +531,7 @@ public static class IEntityExtensions
     public static Task<EntityEntry<TEntity>> UpdateIncludeNowAsync<TEntity>(this TEntity entity, Expression<Func<TEntity, object>>[] propertyPredicates, bool? ignoreNullValues = null, CancellationToken cancellationToken = default)
         where TEntity : class, IPrivateEntity, new()
     {
-        return new EntityExecutePart<TEntity>().SetEntity(entity).UpdateIncludeNowAsync(propertyPredicates, ignoreNullValues, cancellationToken);
+        return EntityExecutePart<TEntity>.Default().SetEntity(entity).UpdateIncludeNowAsync(propertyPredicates, ignoreNullValues, cancellationToken);
     }
 
     /// <summary>
@@ -547,7 +547,7 @@ public static class IEntityExtensions
     public static Task<EntityEntry<TEntity>> UpdateIncludeNowAsync<TEntity>(this TEntity entity, Expression<Func<TEntity, object>>[] propertyPredicates, bool acceptAllChangesOnSuccess, bool? ignoreNullValues = null, CancellationToken cancellationToken = default)
         where TEntity : class, IPrivateEntity, new()
     {
-        return new EntityExecutePart<TEntity>().SetEntity(entity).UpdateIncludeNowAsync(propertyPredicates, acceptAllChangesOnSuccess, ignoreNullValues, cancellationToken);
+        return EntityExecutePart<TEntity>.Default().SetEntity(entity).UpdateIncludeNowAsync(propertyPredicates, acceptAllChangesOnSuccess, ignoreNullValues, cancellationToken);
     }
 
     /// <summary>
@@ -562,7 +562,7 @@ public static class IEntityExtensions
     public static Task<EntityEntry<TEntity>> UpdateIncludeNowAsync<TEntity>(this TEntity entity, IEnumerable<string> propertyNames, bool? ignoreNullValues = null, CancellationToken cancellationToken = default)
         where TEntity : class, IPrivateEntity, new()
     {
-        return new EntityExecutePart<TEntity>().SetEntity(entity).UpdateIncludeNowAsync(propertyNames, ignoreNullValues, cancellationToken);
+        return EntityExecutePart<TEntity>.Default().SetEntity(entity).UpdateIncludeNowAsync(propertyNames, ignoreNullValues, cancellationToken);
     }
 
     /// <summary>
@@ -578,7 +578,7 @@ public static class IEntityExtensions
     public static Task<EntityEntry<TEntity>> UpdateIncludeNowAsync<TEntity>(this TEntity entity, IEnumerable<string> propertyNames, bool acceptAllChangesOnSuccess, bool? ignoreNullValues = null, CancellationToken cancellationToken = default)
         where TEntity : class, IPrivateEntity, new()
     {
-        return new EntityExecutePart<TEntity>().SetEntity(entity).UpdateIncludeNowAsync(propertyNames, acceptAllChangesOnSuccess, ignoreNullValues, cancellationToken);
+        return EntityExecutePart<TEntity>.Default().SetEntity(entity).UpdateIncludeNowAsync(propertyNames, acceptAllChangesOnSuccess, ignoreNullValues, cancellationToken);
     }
 
     /// <summary>
@@ -593,7 +593,7 @@ public static class IEntityExtensions
     public static Task<EntityEntry<TEntity>> UpdateIncludeNowAsync<TEntity>(this TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates, bool? ignoreNullValues = null, CancellationToken cancellationToken = default)
         where TEntity : class, IPrivateEntity, new()
     {
-        return new EntityExecutePart<TEntity>().SetEntity(entity).UpdateIncludeNowAsync(propertyPredicates, ignoreNullValues, cancellationToken);
+        return EntityExecutePart<TEntity>.Default().SetEntity(entity).UpdateIncludeNowAsync(propertyPredicates, ignoreNullValues, cancellationToken);
     }
 
     /// <summary>
@@ -609,7 +609,7 @@ public static class IEntityExtensions
     public static Task<EntityEntry<TEntity>> UpdateIncludeNowAsync<TEntity>(this TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates, bool acceptAllChangesOnSuccess, bool? ignoreNullValues = null, CancellationToken cancellationToken = default)
         where TEntity : class, IPrivateEntity, new()
     {
-        return new EntityExecutePart<TEntity>().SetEntity(entity).UpdateIncludeNowAsync(propertyPredicates, acceptAllChangesOnSuccess, ignoreNullValues, cancellationToken);
+        return EntityExecutePart<TEntity>.Default().SetEntity(entity).UpdateIncludeNowAsync(propertyPredicates, acceptAllChangesOnSuccess, ignoreNullValues, cancellationToken);
     }
 
     /// <summary>
@@ -623,7 +623,7 @@ public static class IEntityExtensions
     public static EntityEntry<TEntity> UpdateExclude<TEntity>(this TEntity entity, string[] propertyNames, bool? ignoreNullValues = null)
         where TEntity : class, IPrivateEntity, new()
     {
-        return new EntityExecutePart<TEntity>().SetEntity(entity).UpdateExclude(propertyNames, ignoreNullValues);
+        return EntityExecutePart<TEntity>.Default().SetEntity(entity).UpdateExclude(propertyNames, ignoreNullValues);
     }
 
     /// <summary>
@@ -637,7 +637,7 @@ public static class IEntityExtensions
     public static EntityEntry<TEntity> UpdateExclude<TEntity>(this TEntity entity, Expression<Func<TEntity, object>>[] propertyPredicates, bool? ignoreNullValues = null)
         where TEntity : class, IPrivateEntity, new()
     {
-        return new EntityExecutePart<TEntity>().SetEntity(entity).UpdateExclude(propertyPredicates, ignoreNullValues);
+        return EntityExecutePart<TEntity>.Default().SetEntity(entity).UpdateExclude(propertyPredicates, ignoreNullValues);
     }
 
     /// <summary>
@@ -651,7 +651,7 @@ public static class IEntityExtensions
     public static EntityEntry<TEntity> UpdateExclude<TEntity>(this TEntity entity, IEnumerable<string> propertyNames, bool? ignoreNullValues = null)
         where TEntity : class, IPrivateEntity, new()
     {
-        return new EntityExecutePart<TEntity>().SetEntity(entity).UpdateExclude(propertyNames, ignoreNullValues);
+        return EntityExecutePart<TEntity>.Default().SetEntity(entity).UpdateExclude(propertyNames, ignoreNullValues);
     }
 
     /// <summary>
@@ -665,7 +665,7 @@ public static class IEntityExtensions
     public static EntityEntry<TEntity> UpdateExclude<TEntity>(this TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates, bool? ignoreNullValues = null)
         where TEntity : class, IPrivateEntity, new()
     {
-        return new EntityExecutePart<TEntity>().SetEntity(entity).UpdateExclude(propertyPredicates, ignoreNullValues);
+        return EntityExecutePart<TEntity>.Default().SetEntity(entity).UpdateExclude(propertyPredicates, ignoreNullValues);
     }
 
     /// <summary>
@@ -679,7 +679,7 @@ public static class IEntityExtensions
     public static Task<EntityEntry<TEntity>> UpdateExcludeAsync<TEntity>(this TEntity entity, string[] propertyNames, bool? ignoreNullValues = null)
         where TEntity : class, IPrivateEntity, new()
     {
-        return new EntityExecutePart<TEntity>().SetEntity(entity).UpdateExcludeAsync(propertyNames, ignoreNullValues);
+        return EntityExecutePart<TEntity>.Default().SetEntity(entity).UpdateExcludeAsync(propertyNames, ignoreNullValues);
     }
 
     /// <summary>
@@ -693,7 +693,7 @@ public static class IEntityExtensions
     public static Task<EntityEntry<TEntity>> UpdateExcludeAsync<TEntity>(this TEntity entity, Expression<Func<TEntity, object>>[] propertyPredicates, bool? ignoreNullValues = null)
         where TEntity : class, IPrivateEntity, new()
     {
-        return new EntityExecutePart<TEntity>().SetEntity(entity).UpdateExcludeAsync(propertyPredicates, ignoreNullValues);
+        return EntityExecutePart<TEntity>.Default().SetEntity(entity).UpdateExcludeAsync(propertyPredicates, ignoreNullValues);
     }
 
     /// <summary>
@@ -707,7 +707,7 @@ public static class IEntityExtensions
     public static Task<EntityEntry<TEntity>> UpdateExcludeAsync<TEntity>(this TEntity entity, IEnumerable<string> propertyNames, bool? ignoreNullValues = null)
         where TEntity : class, IPrivateEntity, new()
     {
-        return new EntityExecutePart<TEntity>().SetEntity(entity).UpdateExcludeAsync(propertyNames, ignoreNullValues);
+        return EntityExecutePart<TEntity>.Default().SetEntity(entity).UpdateExcludeAsync(propertyNames, ignoreNullValues);
     }
 
     /// <summary>
@@ -721,7 +721,7 @@ public static class IEntityExtensions
     public static Task<EntityEntry<TEntity>> UpdateExcludeAsync<TEntity>(this TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates, bool? ignoreNullValues = null)
         where TEntity : class, IPrivateEntity, new()
     {
-        return new EntityExecutePart<TEntity>().SetEntity(entity).UpdateExcludeAsync(propertyPredicates, ignoreNullValues);
+        return EntityExecutePart<TEntity>.Default().SetEntity(entity).UpdateExcludeAsync(propertyPredicates, ignoreNullValues);
     }
 
     /// <summary>
@@ -735,7 +735,7 @@ public static class IEntityExtensions
     public static EntityEntry<TEntity> UpdateExcludeNow<TEntity>(this TEntity entity, string[] propertyNames, bool? ignoreNullValues = null)
         where TEntity : class, IPrivateEntity, new()
     {
-        return new EntityExecutePart<TEntity>().SetEntity(entity).UpdateExcludeNow(propertyNames, ignoreNullValues);
+        return EntityExecutePart<TEntity>.Default().SetEntity(entity).UpdateExcludeNow(propertyNames, ignoreNullValues);
     }
 
     /// <summary>
@@ -750,7 +750,7 @@ public static class IEntityExtensions
     public static EntityEntry<TEntity> UpdateExcludeNow<TEntity>(this TEntity entity, string[] propertyNames, bool acceptAllChangesOnSuccess, bool? ignoreNullValues = null)
         where TEntity : class, IPrivateEntity, new()
     {
-        return new EntityExecutePart<TEntity>().SetEntity(entity).UpdateExcludeNow(propertyNames, acceptAllChangesOnSuccess, ignoreNullValues);
+        return EntityExecutePart<TEntity>.Default().SetEntity(entity).UpdateExcludeNow(propertyNames, acceptAllChangesOnSuccess, ignoreNullValues);
     }
 
     /// <summary>
@@ -764,7 +764,7 @@ public static class IEntityExtensions
     public static EntityEntry<TEntity> UpdateExcludeNow<TEntity>(this TEntity entity, Expression<Func<TEntity, object>>[] propertyPredicates, bool? ignoreNullValues = null)
         where TEntity : class, IPrivateEntity, new()
     {
-        return new EntityExecutePart<TEntity>().SetEntity(entity).UpdateExcludeNow(propertyPredicates, ignoreNullValues);
+        return EntityExecutePart<TEntity>.Default().SetEntity(entity).UpdateExcludeNow(propertyPredicates, ignoreNullValues);
     }
 
     /// <summary>
@@ -779,7 +779,7 @@ public static class IEntityExtensions
     public static EntityEntry<TEntity> UpdateExcludeNow<TEntity>(this TEntity entity, Expression<Func<TEntity, object>>[] propertyPredicates, bool acceptAllChangesOnSuccess, bool? ignoreNullValues = null)
         where TEntity : class, IPrivateEntity, new()
     {
-        return new EntityExecutePart<TEntity>().SetEntity(entity).UpdateExcludeNow(propertyPredicates, acceptAllChangesOnSuccess, ignoreNullValues);
+        return EntityExecutePart<TEntity>.Default().SetEntity(entity).UpdateExcludeNow(propertyPredicates, acceptAllChangesOnSuccess, ignoreNullValues);
     }
 
     /// <summary>
@@ -793,7 +793,7 @@ public static class IEntityExtensions
     public static EntityEntry<TEntity> UpdateExcludeNow<TEntity>(this TEntity entity, IEnumerable<string> propertyNames, bool? ignoreNullValues = null)
         where TEntity : class, IPrivateEntity, new()
     {
-        return new EntityExecutePart<TEntity>().SetEntity(entity).UpdateExcludeNow(propertyNames, ignoreNullValues);
+        return EntityExecutePart<TEntity>.Default().SetEntity(entity).UpdateExcludeNow(propertyNames, ignoreNullValues);
     }
 
     /// <summary>
@@ -808,7 +808,7 @@ public static class IEntityExtensions
     public static EntityEntry<TEntity> UpdateExcludeNow<TEntity>(this TEntity entity, IEnumerable<string> propertyNames, bool acceptAllChangesOnSuccess, bool? ignoreNullValues = null)
          where TEntity : class, IPrivateEntity, new()
     {
-        return new EntityExecutePart<TEntity>().SetEntity(entity).UpdateExcludeNow(propertyNames, acceptAllChangesOnSuccess, ignoreNullValues);
+        return EntityExecutePart<TEntity>.Default().SetEntity(entity).UpdateExcludeNow(propertyNames, acceptAllChangesOnSuccess, ignoreNullValues);
     }
 
     /// <summary>
@@ -822,7 +822,7 @@ public static class IEntityExtensions
     public static EntityEntry<TEntity> UpdateExcludeNow<TEntity>(this TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates, bool? ignoreNullValues = null)
         where TEntity : class, IPrivateEntity, new()
     {
-        return new EntityExecutePart<TEntity>().SetEntity(entity).UpdateExcludeNow(propertyPredicates, ignoreNullValues);
+        return EntityExecutePart<TEntity>.Default().SetEntity(entity).UpdateExcludeNow(propertyPredicates, ignoreNullValues);
     }
 
     /// <summary>
@@ -837,7 +837,7 @@ public static class IEntityExtensions
     public static EntityEntry<TEntity> UpdateExcludeNow<TEntity>(this TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates, bool acceptAllChangesOnSuccess, bool? ignoreNullValues = null)
         where TEntity : class, IPrivateEntity, new()
     {
-        return new EntityExecutePart<TEntity>().SetEntity(entity).UpdateExcludeNow(propertyPredicates, acceptAllChangesOnSuccess, ignoreNullValues);
+        return EntityExecutePart<TEntity>.Default().SetEntity(entity).UpdateExcludeNow(propertyPredicates, acceptAllChangesOnSuccess, ignoreNullValues);
     }
 
     /// <summary>
@@ -852,7 +852,7 @@ public static class IEntityExtensions
     public static Task<EntityEntry<TEntity>> UpdateExcludeNowAsync<TEntity>(this TEntity entity, string[] propertyNames, bool? ignoreNullValues = null, CancellationToken cancellationToken = default)
         where TEntity : class, IPrivateEntity, new()
     {
-        return new EntityExecutePart<TEntity>().SetEntity(entity).UpdateExcludeNowAsync(propertyNames, ignoreNullValues, cancellationToken);
+        return EntityExecutePart<TEntity>.Default().SetEntity(entity).UpdateExcludeNowAsync(propertyNames, ignoreNullValues, cancellationToken);
     }
 
     /// <summary>
@@ -868,7 +868,7 @@ public static class IEntityExtensions
     public static Task<EntityEntry<TEntity>> UpdateExcludeNowAsync<TEntity>(this TEntity entity, string[] propertyNames, bool acceptAllChangesOnSuccess, bool? ignoreNullValues = null, CancellationToken cancellationToken = default)
         where TEntity : class, IPrivateEntity, new()
     {
-        return new EntityExecutePart<TEntity>().SetEntity(entity).UpdateExcludeNowAsync(propertyNames, acceptAllChangesOnSuccess, ignoreNullValues, cancellationToken);
+        return EntityExecutePart<TEntity>.Default().SetEntity(entity).UpdateExcludeNowAsync(propertyNames, acceptAllChangesOnSuccess, ignoreNullValues, cancellationToken);
     }
 
     /// <summary>
@@ -883,7 +883,7 @@ public static class IEntityExtensions
     public static Task<EntityEntry<TEntity>> UpdateExcludeNowAsync<TEntity>(this TEntity entity, Expression<Func<TEntity, object>>[] propertyPredicates, bool? ignoreNullValues = null, CancellationToken cancellationToken = default)
         where TEntity : class, IPrivateEntity, new()
     {
-        return new EntityExecutePart<TEntity>().SetEntity(entity).UpdateExcludeNowAsync(propertyPredicates, ignoreNullValues, cancellationToken);
+        return EntityExecutePart<TEntity>.Default().SetEntity(entity).UpdateExcludeNowAsync(propertyPredicates, ignoreNullValues, cancellationToken);
     }
 
     /// <summary>
@@ -899,7 +899,7 @@ public static class IEntityExtensions
     public static Task<EntityEntry<TEntity>> UpdateExcludeNowAsync<TEntity>(this TEntity entity, Expression<Func<TEntity, object>>[] propertyPredicates, bool acceptAllChangesOnSuccess, bool? ignoreNullValues = null, CancellationToken cancellationToken = default)
         where TEntity : class, IPrivateEntity, new()
     {
-        return new EntityExecutePart<TEntity>().SetEntity(entity).UpdateExcludeNowAsync(propertyPredicates, acceptAllChangesOnSuccess, ignoreNullValues, cancellationToken);
+        return EntityExecutePart<TEntity>.Default().SetEntity(entity).UpdateExcludeNowAsync(propertyPredicates, acceptAllChangesOnSuccess, ignoreNullValues, cancellationToken);
     }
 
     /// <summary>
@@ -914,7 +914,7 @@ public static class IEntityExtensions
     public static Task<EntityEntry<TEntity>> UpdateExcludeNowAsync<TEntity>(this TEntity entity, IEnumerable<string> propertyNames, bool? ignoreNullValues = null, CancellationToken cancellationToken = default)
         where TEntity : class, IPrivateEntity, new()
     {
-        return new EntityExecutePart<TEntity>().SetEntity(entity).UpdateExcludeNowAsync(propertyNames, ignoreNullValues, cancellationToken);
+        return EntityExecutePart<TEntity>.Default().SetEntity(entity).UpdateExcludeNowAsync(propertyNames, ignoreNullValues, cancellationToken);
     }
 
     /// <summary>
@@ -930,7 +930,7 @@ public static class IEntityExtensions
     public static Task<EntityEntry<TEntity>> UpdateExcludeNowAsync<TEntity>(this TEntity entity, IEnumerable<string> propertyNames, bool acceptAllChangesOnSuccess, bool? ignoreNullValues = null, CancellationToken cancellationToken = default)
         where TEntity : class, IPrivateEntity, new()
     {
-        return new EntityExecutePart<TEntity>().SetEntity(entity).UpdateExcludeNowAsync(propertyNames, acceptAllChangesOnSuccess, ignoreNullValues, cancellationToken);
+        return EntityExecutePart<TEntity>.Default().SetEntity(entity).UpdateExcludeNowAsync(propertyNames, acceptAllChangesOnSuccess, ignoreNullValues, cancellationToken);
     }
 
     /// <summary>
@@ -945,7 +945,7 @@ public static class IEntityExtensions
     public static Task<EntityEntry<TEntity>> UpdateExcludeNowAsync<TEntity>(this TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates, bool? ignoreNullValues = null, CancellationToken cancellationToken = default)
         where TEntity : class, IPrivateEntity, new()
     {
-        return new EntityExecutePart<TEntity>().SetEntity(entity).UpdateExcludeNowAsync(propertyPredicates, ignoreNullValues, cancellationToken);
+        return EntityExecutePart<TEntity>.Default().SetEntity(entity).UpdateExcludeNowAsync(propertyPredicates, ignoreNullValues, cancellationToken);
     }
 
     /// <summary>
@@ -961,7 +961,7 @@ public static class IEntityExtensions
     public static Task<EntityEntry<TEntity>> UpdateExcludeNowAsync<TEntity>(this TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates, bool acceptAllChangesOnSuccess, bool? ignoreNullValues = null, CancellationToken cancellationToken = default)
         where TEntity : class, IPrivateEntity, new()
     {
-        return new EntityExecutePart<TEntity>().SetEntity(entity).UpdateExcludeNowAsync(propertyPredicates, acceptAllChangesOnSuccess, ignoreNullValues, cancellationToken);
+        return EntityExecutePart<TEntity>.Default().SetEntity(entity).UpdateExcludeNowAsync(propertyPredicates, acceptAllChangesOnSuccess, ignoreNullValues, cancellationToken);
     }
 
     /// <summary>
@@ -973,7 +973,7 @@ public static class IEntityExtensions
     public static EntityEntry<TEntity> Delete<TEntity>(this TEntity entity)
         where TEntity : class, IPrivateEntity, new()
     {
-        return new EntityExecutePart<TEntity>().SetEntity(entity).Delete();
+        return EntityExecutePart<TEntity>.Default().SetEntity(entity).Delete();
     }
 
     /// <summary>
@@ -985,7 +985,7 @@ public static class IEntityExtensions
     public static Task<EntityEntry<TEntity>> DeleteAsync<TEntity>(this TEntity entity)
         where TEntity : class, IPrivateEntity, new()
     {
-        return new EntityExecutePart<TEntity>().SetEntity(entity).DeleteAsync();
+        return EntityExecutePart<TEntity>.Default().SetEntity(entity).DeleteAsync();
     }
 
     /// <summary>
@@ -997,7 +997,7 @@ public static class IEntityExtensions
     public static EntityEntry<TEntity> DeleteNow<TEntity>(this TEntity entity)
         where TEntity : class, IPrivateEntity, new()
     {
-        return new EntityExecutePart<TEntity>().SetEntity(entity).DeleteNow();
+        return EntityExecutePart<TEntity>.Default().SetEntity(entity).DeleteNow();
     }
 
     /// <summary>
@@ -1010,7 +1010,7 @@ public static class IEntityExtensions
     public static EntityEntry<TEntity> DeleteNow<TEntity>(this TEntity entity, bool acceptAllChangesOnSuccess)
         where TEntity : class, IPrivateEntity, new()
     {
-        return new EntityExecutePart<TEntity>().SetEntity(entity).DeleteNow(acceptAllChangesOnSuccess);
+        return EntityExecutePart<TEntity>.Default().SetEntity(entity).DeleteNow(acceptAllChangesOnSuccess);
     }
 
     /// <summary>
@@ -1023,7 +1023,7 @@ public static class IEntityExtensions
     public static Task<EntityEntry<TEntity>> DeleteNowAsync<TEntity>(this TEntity entity, CancellationToken cancellationToken = default)
         where TEntity : class, IPrivateEntity, new()
     {
-        return new EntityExecutePart<TEntity>().SetEntity(entity).DeleteNowAsync(cancellationToken);
+        return EntityExecutePart<TEntity>.Default().SetEntity(entity).DeleteNowAsync(cancellationToken);
     }
 
     /// <summary>
@@ -1037,6 +1037,6 @@ public static class IEntityExtensions
     public static Task<EntityEntry<TEntity>> DeleteNowAsync<TEntity>(this TEntity entity, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
         where TEntity : class, IPrivateEntity, new()
     {
-        return new EntityExecutePart<TEntity>().SetEntity(entity).DeleteNowAsync(acceptAllChangesOnSuccess, cancellationToken);
+        return EntityExecutePart<TEntity>.Default().SetEntity(entity).DeleteNowAsync(acceptAllChangesOnSuccess, cancellationToken);
     }
 }

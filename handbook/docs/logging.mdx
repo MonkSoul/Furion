@@ -93,7 +93,29 @@ public class ContactModel : PageModel
 }
 ```
 
-### 18.4.3 `懒人模式` 😁
+### 18.4.3 `Log` 静态类方式
+
+:::important 版本说明
+
+以下内容仅限 `Furion 4.2.1 +` 版本使用。
+
+:::
+
+```cs showLineNumbers
+Log.Information("Information");
+
+Log.Warning("Warning");
+
+Log.Error("Error");
+
+Log.Debug("Debug");
+
+Log.Trace("Trace");
+
+Log.Critical("Critical");
+```
+
+### 18.4.4 `懒人模式` 😁
 
 在 `Furion` 框架中，提供了更懒的方式写入日志，也就是通过字符串拓展的方式写入，如：
 

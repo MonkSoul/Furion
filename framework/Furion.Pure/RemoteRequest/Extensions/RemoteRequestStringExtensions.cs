@@ -39,7 +39,7 @@ public static class RemoteRequestStringExtensions
     /// <returns></returns>
     public static HttpRequestPart SetTemplates(this string requestUrl, IDictionary<string, object> templates)
     {
-        return new HttpRequestPart().SetRequestUrl(requestUrl).SetTemplates(templates);
+        return HttpRequestPart.Default().SetRequestUrl(requestUrl).SetTemplates(templates);
     }
 
     /// <summary>
@@ -50,7 +50,7 @@ public static class RemoteRequestStringExtensions
     /// <returns></returns>
     public static HttpRequestPart SetTemplates(this string requestUrl, object templates)
     {
-        return new HttpRequestPart().SetRequestUrl(requestUrl).SetTemplates(templates);
+        return HttpRequestPart.Default().SetRequestUrl(requestUrl).SetTemplates(templates);
     }
 
     /// <summary>
@@ -61,7 +61,7 @@ public static class RemoteRequestStringExtensions
     /// <returns></returns>
     public static HttpRequestPart SetHttpMethod(this string requestUrl, HttpMethod httpMethod)
     {
-        return new HttpRequestPart().SetRequestUrl(requestUrl).SetHttpMethod(httpMethod);
+        return HttpRequestPart.Default().SetRequestUrl(requestUrl).SetHttpMethod(httpMethod);
     }
 
     /// <summary>
@@ -72,7 +72,7 @@ public static class RemoteRequestStringExtensions
     /// <returns></returns>
     public static HttpRequestPart SetHeaders(this string requestUrl, IDictionary<string, object> headers)
     {
-        return new HttpRequestPart().SetRequestUrl(requestUrl).SetHeaders(headers);
+        return HttpRequestPart.Default().SetRequestUrl(requestUrl).SetHeaders(headers);
     }
 
     /// <summary>
@@ -83,7 +83,7 @@ public static class RemoteRequestStringExtensions
     /// <returns></returns>
     public static HttpRequestPart SetHeaders(this string requestUrl, object headers)
     {
-        return new HttpRequestPart().SetRequestUrl(requestUrl).SetHeaders(headers);
+        return HttpRequestPart.Default().SetRequestUrl(requestUrl).SetHeaders(headers);
     }
 
     /// <summary>
@@ -94,7 +94,7 @@ public static class RemoteRequestStringExtensions
     /// <returns></returns>
     public static HttpRequestPart SetQueries(this string requestUrl, IDictionary<string, object> queries)
     {
-        return new HttpRequestPart().SetRequestUrl(requestUrl).SetQueries(queries);
+        return HttpRequestPart.Default().SetRequestUrl(requestUrl).SetQueries(queries);
     }
 
     /// <summary>
@@ -105,7 +105,7 @@ public static class RemoteRequestStringExtensions
     /// <returns></returns>
     public static HttpRequestPart SetQueries(this string requestUrl, object queries)
     {
-        return new HttpRequestPart().SetRequestUrl(requestUrl).SetQueries(queries);
+        return HttpRequestPart.Default().SetRequestUrl(requestUrl).SetQueries(queries);
     }
 
     /// <summary>
@@ -116,7 +116,7 @@ public static class RemoteRequestStringExtensions
     /// <returns></returns>
     public static HttpRequestPart SetClient(this string requestUrl, string name)
     {
-        return new HttpRequestPart().SetRequestUrl(requestUrl).SetClient(name);
+        return HttpRequestPart.Default().SetRequestUrl(requestUrl).SetClient(name);
     }
 
     /// <summary>
@@ -129,7 +129,7 @@ public static class RemoteRequestStringExtensions
     /// <returns></returns>
     public static HttpRequestPart SetBody(this string requestUrl, object body, string contentType = default, Encoding encoding = default)
     {
-        return new HttpRequestPart().SetRequestUrl(requestUrl).SetBody(body, contentType, encoding);
+        return HttpRequestPart.Default().SetRequestUrl(requestUrl).SetBody(body, contentType, encoding);
     }
 
     /// <summary>
@@ -140,7 +140,7 @@ public static class RemoteRequestStringExtensions
     /// <returns></returns>
     public static HttpRequestPart SetContentType(this string requestUrl, string contentType)
     {
-        return new HttpRequestPart().SetRequestUrl(requestUrl).SetContentType(contentType);
+        return HttpRequestPart.Default().SetRequestUrl(requestUrl).SetContentType(contentType);
     }
 
     /// <summary>
@@ -151,7 +151,7 @@ public static class RemoteRequestStringExtensions
     /// <returns></returns>
     public static HttpRequestPart SetContentEncoding(this string requestUrl, Encoding encoding)
     {
-        return new HttpRequestPart().SetRequestUrl(requestUrl).SetContentEncoding(encoding);
+        return HttpRequestPart.Default().SetRequestUrl(requestUrl).SetContentEncoding(encoding);
     }
 
     /// <summary>
@@ -162,7 +162,7 @@ public static class RemoteRequestStringExtensions
     /// <returns></returns>
     public static HttpRequestPart SetBodyBytes(this string requestUrl, params (string Name, byte[] Bytes, string FileName)[] bytesData)
     {
-        return new HttpRequestPart().SetRequestUrl(requestUrl).SetBodyBytes(bytesData);
+        return HttpRequestPart.Default().SetRequestUrl(requestUrl).SetBodyBytes(bytesData);
     }
 
     /// <summary>
@@ -173,7 +173,7 @@ public static class RemoteRequestStringExtensions
     /// <returns></returns>
     public static HttpRequestPart SetClientTimeout(this string requestUrl, long timeout)
     {
-        return new HttpRequestPart().SetRequestUrl(requestUrl).SetClientTimeout(timeout);
+        return HttpRequestPart.Default().SetRequestUrl(requestUrl).SetClientTimeout(timeout);
     }
 
     /// <summary>
@@ -186,7 +186,7 @@ public static class RemoteRequestStringExtensions
     public static HttpRequestPart SetJsonSerialization<TJsonSerializationProvider>(this string requestUrl, object jsonSerializerOptions = default)
         where TJsonSerializationProvider : IJsonSerializerProvider
     {
-        return new HttpRequestPart().SetRequestUrl(requestUrl).SetJsonSerialization<TJsonSerializationProvider>(jsonSerializerOptions);
+        return HttpRequestPart.Default().SetRequestUrl(requestUrl).SetJsonSerialization<TJsonSerializationProvider>(jsonSerializerOptions);
     }
 
     /// <summary>
@@ -198,7 +198,7 @@ public static class RemoteRequestStringExtensions
     /// <returns></returns>
     public static HttpRequestPart SetJsonSerialization(this string requestUrl, Type providerType, object jsonSerializerOptions = default)
     {
-        return new HttpRequestPart().SetRequestUrl(requestUrl).SetJsonSerialization(providerType, jsonSerializerOptions);
+        return HttpRequestPart.Default().SetRequestUrl(requestUrl).SetJsonSerialization(providerType, jsonSerializerOptions);
     }
 
     /// <summary>
@@ -210,7 +210,7 @@ public static class RemoteRequestStringExtensions
     /// <returns></returns>
     public static HttpRequestPart SetValidationState(this string requestUrl, bool enabled, bool includeNull = true)
     {
-        return new HttpRequestPart().SetRequestUrl(requestUrl).SetValidationState(enabled, includeNull);
+        return HttpRequestPart.Default().SetRequestUrl(requestUrl).SetValidationState(enabled, includeNull);
     }
 
     /// <summary>
@@ -221,7 +221,7 @@ public static class RemoteRequestStringExtensions
     /// <returns></returns>
     public static HttpRequestPart SetRequestScoped(this string requestUrl, IServiceProvider serviceProvider)
     {
-        return new HttpRequestPart().SetRequestUrl(requestUrl).SetRequestScoped(serviceProvider);
+        return HttpRequestPart.Default().SetRequestUrl(requestUrl).SetRequestScoped(serviceProvider);
     }
 
     /// <summary>
@@ -232,7 +232,7 @@ public static class RemoteRequestStringExtensions
     /// <returns></returns>
     public static HttpRequestPart OnRequesting(this string requestUrl, Action<HttpRequestMessage> action)
     {
-        return new HttpRequestPart().SetRequestUrl(requestUrl).OnRequesting(action);
+        return HttpRequestPart.Default().SetRequestUrl(requestUrl).OnRequesting(action);
     }
 
     /// <summary>
@@ -243,7 +243,7 @@ public static class RemoteRequestStringExtensions
     /// <returns></returns>
     public static HttpRequestPart OnClientCreating(this string requestUrl, Action<HttpClient> action)
     {
-        return new HttpRequestPart().SetRequestUrl(requestUrl).OnClientCreating(action);
+        return HttpRequestPart.Default().SetRequestUrl(requestUrl).OnClientCreating(action);
     }
 
     /// <summary>
@@ -254,7 +254,7 @@ public static class RemoteRequestStringExtensions
     /// <returns></returns>
     public static HttpRequestPart OnResponsing(this string requestUrl, Action<HttpResponseMessage> action)
     {
-        return new HttpRequestPart().SetRequestUrl(requestUrl).OnResponsing(action);
+        return HttpRequestPart.Default().SetRequestUrl(requestUrl).OnResponsing(action);
     }
 
     /// <summary>
@@ -265,7 +265,7 @@ public static class RemoteRequestStringExtensions
     /// <returns></returns>
     public static HttpRequestPart OnException(this string requestUrl, Action<HttpResponseMessage, string> action)
     {
-        return new HttpRequestPart().SetRequestUrl(requestUrl).OnException(action);
+        return HttpRequestPart.Default().SetRequestUrl(requestUrl).OnException(action);
     }
 
     /// <summary>
@@ -277,7 +277,7 @@ public static class RemoteRequestStringExtensions
     /// <returns></returns>
     public static HttpRequestPart SetRetryPolicy(this string requestUrl, int numRetries, int retryTimeout = 1000)
     {
-        return new HttpRequestPart().SetRequestUrl(requestUrl).SetRetryPolicy(numRetries, retryTimeout);
+        return HttpRequestPart.Default().SetRequestUrl(requestUrl).SetRetryPolicy(numRetries, retryTimeout);
     }
 
     /// <summary>
@@ -288,7 +288,7 @@ public static class RemoteRequestStringExtensions
     /// <returns></returns>
     public static HttpRequestPart WithGZip(this string requestUrl, bool supportGZip = true)
     {
-        return new HttpRequestPart().SetRequestUrl(requestUrl).WithGZip(supportGZip);
+        return HttpRequestPart.Default().SetRequestUrl(requestUrl).WithGZip(supportGZip);
     }
 
     /// <summary>
@@ -299,7 +299,7 @@ public static class RemoteRequestStringExtensions
     /// <returns></returns>
     public static HttpRequestPart WithEncodeUrl(this string requestUrl, bool encodeUrl = true)
     {
-        return new HttpRequestPart().SetRequestUrl(requestUrl).WithEncodeUrl(encodeUrl);
+        return HttpRequestPart.Default().SetRequestUrl(requestUrl).WithEncodeUrl(encodeUrl);
     }
 
     /// <summary>
@@ -311,7 +311,7 @@ public static class RemoteRequestStringExtensions
     /// <returns></returns>
     public static Task<T> GetAsAsync<T>(this string requestUrl, CancellationToken cancellationToken = default)
     {
-        return new HttpRequestPart().SetRequestUrl(requestUrl).GetAsAsync<T>(cancellationToken);
+        return HttpRequestPart.Default().SetRequestUrl(requestUrl).GetAsAsync<T>(cancellationToken);
     }
 
     /// <summary>
@@ -322,7 +322,7 @@ public static class RemoteRequestStringExtensions
     /// <returns></returns>
     public static Task<Stream> GetAsStreamAsync(this string requestUrl, CancellationToken cancellationToken = default)
     {
-        return new HttpRequestPart().SetRequestUrl(requestUrl).GetAsStreamAsync(cancellationToken);
+        return HttpRequestPart.Default().SetRequestUrl(requestUrl).GetAsStreamAsync(cancellationToken);
     }
 
     /// <summary>
@@ -333,7 +333,7 @@ public static class RemoteRequestStringExtensions
     /// <returns></returns>
     public static Task<string> GetAsStringAsync(this string requestUrl, CancellationToken cancellationToken = default)
     {
-        return new HttpRequestPart().SetRequestUrl(requestUrl).GetAsStringAsync(cancellationToken);
+        return HttpRequestPart.Default().SetRequestUrl(requestUrl).GetAsStringAsync(cancellationToken);
     }
 
     /// <summary>
@@ -344,7 +344,7 @@ public static class RemoteRequestStringExtensions
     /// <returns></returns>
     public static Task<byte[]> GetAsByteArrayAsync(this string requestUrl, CancellationToken cancellationToken = default)
     {
-        return new HttpRequestPart().SetRequestUrl(requestUrl).GetAsByteArrayAsync(cancellationToken);
+        return HttpRequestPart.Default().SetRequestUrl(requestUrl).GetAsByteArrayAsync(cancellationToken);
     }
 
     /// <summary>
@@ -355,7 +355,7 @@ public static class RemoteRequestStringExtensions
     /// <returns></returns>
     public static Task<HttpResponseMessage> GetAsync(this string requestUrl, CancellationToken cancellationToken = default)
     {
-        return new HttpRequestPart().SetRequestUrl(requestUrl).GetAsync(cancellationToken);
+        return HttpRequestPart.Default().SetRequestUrl(requestUrl).GetAsync(cancellationToken);
     }
 
     /// <summary>
@@ -367,7 +367,7 @@ public static class RemoteRequestStringExtensions
     /// <returns></returns>
     public static Task<T> PostAsAsync<T>(this string requestUrl, CancellationToken cancellationToken = default)
     {
-        return new HttpRequestPart().SetRequestUrl(requestUrl).PostAsAsync<T>(cancellationToken);
+        return HttpRequestPart.Default().SetRequestUrl(requestUrl).PostAsAsync<T>(cancellationToken);
     }
 
     /// <summary>
@@ -378,7 +378,7 @@ public static class RemoteRequestStringExtensions
     /// <returns></returns>
     public static Task<Stream> PostAsStreamAsync(this string requestUrl, CancellationToken cancellationToken = default)
     {
-        return new HttpRequestPart().SetRequestUrl(requestUrl).PostAsStreamAsync(cancellationToken);
+        return HttpRequestPart.Default().SetRequestUrl(requestUrl).PostAsStreamAsync(cancellationToken);
     }
 
     /// <summary>
@@ -389,7 +389,7 @@ public static class RemoteRequestStringExtensions
     /// <returns></returns>
     public static Task<string> PostAsStringAsync(this string requestUrl, CancellationToken cancellationToken = default)
     {
-        return new HttpRequestPart().SetRequestUrl(requestUrl).PostAsStringAsync(cancellationToken);
+        return HttpRequestPart.Default().SetRequestUrl(requestUrl).PostAsStringAsync(cancellationToken);
     }
 
     /// <summary>
@@ -400,7 +400,7 @@ public static class RemoteRequestStringExtensions
     /// <returns></returns>
     public static Task<byte[]> PostAsByteArrayAsync(this string requestUrl, CancellationToken cancellationToken = default)
     {
-        return new HttpRequestPart().SetRequestUrl(requestUrl).PostAsByteArrayAsync(cancellationToken);
+        return HttpRequestPart.Default().SetRequestUrl(requestUrl).PostAsByteArrayAsync(cancellationToken);
     }
 
     /// <summary>
@@ -411,7 +411,7 @@ public static class RemoteRequestStringExtensions
     /// <returns></returns>
     public static Task<HttpResponseMessage> PostAsync(this string requestUrl, CancellationToken cancellationToken = default)
     {
-        return new HttpRequestPart().SetRequestUrl(requestUrl).PostAsync(cancellationToken);
+        return HttpRequestPart.Default().SetRequestUrl(requestUrl).PostAsync(cancellationToken);
     }
 
     /// <summary>
@@ -423,7 +423,7 @@ public static class RemoteRequestStringExtensions
     /// <returns></returns>
     public static Task<T> PutAsAsync<T>(this string requestUrl, CancellationToken cancellationToken = default)
     {
-        return new HttpRequestPart().SetRequestUrl(requestUrl).PutAsAsync<T>(cancellationToken);
+        return HttpRequestPart.Default().SetRequestUrl(requestUrl).PutAsAsync<T>(cancellationToken);
     }
 
     /// <summary>
@@ -434,7 +434,7 @@ public static class RemoteRequestStringExtensions
     /// <returns></returns>
     public static Task<Stream> PutAsStreamAsync(this string requestUrl, CancellationToken cancellationToken = default)
     {
-        return new HttpRequestPart().SetRequestUrl(requestUrl).PutAsStreamAsync(cancellationToken);
+        return HttpRequestPart.Default().SetRequestUrl(requestUrl).PutAsStreamAsync(cancellationToken);
     }
 
     /// <summary>
@@ -445,7 +445,7 @@ public static class RemoteRequestStringExtensions
     /// <returns></returns>
     public static Task<string> PutAsStringAsync(this string requestUrl, CancellationToken cancellationToken = default)
     {
-        return new HttpRequestPart().SetRequestUrl(requestUrl).PutAsStringAsync(cancellationToken);
+        return HttpRequestPart.Default().SetRequestUrl(requestUrl).PutAsStringAsync(cancellationToken);
     }
 
     /// <summary>
@@ -456,7 +456,7 @@ public static class RemoteRequestStringExtensions
     /// <returns></returns>
     public static Task<byte[]> PutAsByteArrayAsync(this string requestUrl, CancellationToken cancellationToken = default)
     {
-        return new HttpRequestPart().SetRequestUrl(requestUrl).PutAsByteArrayAsync(cancellationToken);
+        return HttpRequestPart.Default().SetRequestUrl(requestUrl).PutAsByteArrayAsync(cancellationToken);
     }
 
     /// <summary>
@@ -467,7 +467,7 @@ public static class RemoteRequestStringExtensions
     /// <returns></returns>
     public static Task<HttpResponseMessage> PutAsync(this string requestUrl, CancellationToken cancellationToken = default)
     {
-        return new HttpRequestPart().SetRequestUrl(requestUrl).PutAsync(cancellationToken);
+        return HttpRequestPart.Default().SetRequestUrl(requestUrl).PutAsync(cancellationToken);
     }
 
     /// <summary>
@@ -479,7 +479,7 @@ public static class RemoteRequestStringExtensions
     /// <returns></returns>
     public static Task<T> DeleteAsAsync<T>(this string requestUrl, CancellationToken cancellationToken = default)
     {
-        return new HttpRequestPart().SetRequestUrl(requestUrl).DeleteAsAsync<T>(cancellationToken);
+        return HttpRequestPart.Default().SetRequestUrl(requestUrl).DeleteAsAsync<T>(cancellationToken);
     }
 
     /// <summary>
@@ -490,7 +490,7 @@ public static class RemoteRequestStringExtensions
     /// <returns></returns>
     public static Task<Stream> DeleteAsStreamAsync(this string requestUrl, CancellationToken cancellationToken = default)
     {
-        return new HttpRequestPart().SetRequestUrl(requestUrl).DeleteAsStreamAsync(cancellationToken);
+        return HttpRequestPart.Default().SetRequestUrl(requestUrl).DeleteAsStreamAsync(cancellationToken);
     }
 
     /// <summary>
@@ -501,7 +501,7 @@ public static class RemoteRequestStringExtensions
     /// <returns></returns>
     public static Task<string> DeleteAsStringAsync(this string requestUrl, CancellationToken cancellationToken = default)
     {
-        return new HttpRequestPart().SetRequestUrl(requestUrl).DeleteAsStringAsync(cancellationToken);
+        return HttpRequestPart.Default().SetRequestUrl(requestUrl).DeleteAsStringAsync(cancellationToken);
     }
 
     /// <summary>
@@ -512,7 +512,7 @@ public static class RemoteRequestStringExtensions
     /// <returns></returns>
     public static Task<byte[]> DeleteAsByteArrayAsync(this string requestUrl, CancellationToken cancellationToken = default)
     {
-        return new HttpRequestPart().SetRequestUrl(requestUrl).DeleteAsByteArrayAsync(cancellationToken);
+        return HttpRequestPart.Default().SetRequestUrl(requestUrl).DeleteAsByteArrayAsync(cancellationToken);
     }
 
     /// <summary>
@@ -523,7 +523,7 @@ public static class RemoteRequestStringExtensions
     /// <returns></returns>
     public static Task<HttpResponseMessage> DeleteAsync(this string requestUrl, CancellationToken cancellationToken = default)
     {
-        return new HttpRequestPart().SetRequestUrl(requestUrl).DeleteAsync(cancellationToken);
+        return HttpRequestPart.Default().SetRequestUrl(requestUrl).DeleteAsync(cancellationToken);
     }
 
     /// <summary>
@@ -535,7 +535,7 @@ public static class RemoteRequestStringExtensions
     /// <returns></returns>
     public static Task<T> PatchAsAsync<T>(this string requestUrl, CancellationToken cancellationToken = default)
     {
-        return new HttpRequestPart().SetRequestUrl(requestUrl).PatchAsAsync<T>(cancellationToken);
+        return HttpRequestPart.Default().SetRequestUrl(requestUrl).PatchAsAsync<T>(cancellationToken);
     }
 
     /// <summary>
@@ -546,7 +546,7 @@ public static class RemoteRequestStringExtensions
     /// <returns></returns>
     public static Task<Stream> PatchAsStreamAsync(this string requestUrl, CancellationToken cancellationToken = default)
     {
-        return new HttpRequestPart().SetRequestUrl(requestUrl).PatchAsStreamAsync(cancellationToken);
+        return HttpRequestPart.Default().SetRequestUrl(requestUrl).PatchAsStreamAsync(cancellationToken);
     }
 
     /// <summary>
@@ -557,7 +557,7 @@ public static class RemoteRequestStringExtensions
     /// <returns></returns>
     public static Task<string> PatchAsStringAsync(this string requestUrl, CancellationToken cancellationToken = default)
     {
-        return new HttpRequestPart().SetRequestUrl(requestUrl).PatchAsStringAsync(cancellationToken);
+        return HttpRequestPart.Default().SetRequestUrl(requestUrl).PatchAsStringAsync(cancellationToken);
     }
 
     /// <summary>
@@ -568,7 +568,7 @@ public static class RemoteRequestStringExtensions
     /// <returns></returns>
     public static Task<byte[]> PatchAsByteArrayAsync(this string requestUrl, CancellationToken cancellationToken = default)
     {
-        return new HttpRequestPart().SetRequestUrl(requestUrl).PatchAsByteArrayAsync(cancellationToken);
+        return HttpRequestPart.Default().SetRequestUrl(requestUrl).PatchAsByteArrayAsync(cancellationToken);
     }
 
     /// <summary>
@@ -579,7 +579,7 @@ public static class RemoteRequestStringExtensions
     /// <returns></returns>
     public static Task<HttpResponseMessage> PatchAsync(this string requestUrl, CancellationToken cancellationToken = default)
     {
-        return new HttpRequestPart().SetRequestUrl(requestUrl).PatchAsync(cancellationToken);
+        return HttpRequestPart.Default().SetRequestUrl(requestUrl).PatchAsync(cancellationToken);
     }
 
     /// <summary>
@@ -591,7 +591,7 @@ public static class RemoteRequestStringExtensions
     /// <returns></returns>
     public static Task<T> HeadAsAsync<T>(this string requestUrl, CancellationToken cancellationToken = default)
     {
-        return new HttpRequestPart().SetRequestUrl(requestUrl).HeadAsAsync<T>(cancellationToken);
+        return HttpRequestPart.Default().SetRequestUrl(requestUrl).HeadAsAsync<T>(cancellationToken);
     }
 
     /// <summary>
@@ -602,7 +602,7 @@ public static class RemoteRequestStringExtensions
     /// <returns></returns>
     public static Task<Stream> HeadAsStreamAsync(this string requestUrl, CancellationToken cancellationToken = default)
     {
-        return new HttpRequestPart().SetRequestUrl(requestUrl).HeadAsStreamAsync(cancellationToken);
+        return HttpRequestPart.Default().SetRequestUrl(requestUrl).HeadAsStreamAsync(cancellationToken);
     }
 
     /// <summary>
@@ -613,7 +613,7 @@ public static class RemoteRequestStringExtensions
     /// <returns></returns>
     public static Task<string> HeadAsStringAsync(this string requestUrl, CancellationToken cancellationToken = default)
     {
-        return new HttpRequestPart().SetRequestUrl(requestUrl).HeadAsStringAsync(cancellationToken);
+        return HttpRequestPart.Default().SetRequestUrl(requestUrl).HeadAsStringAsync(cancellationToken);
     }
 
     /// <summary>
@@ -624,7 +624,7 @@ public static class RemoteRequestStringExtensions
     /// <returns></returns>
     public static Task<byte[]> HeadAsByteArrayAsync(this string requestUrl, CancellationToken cancellationToken = default)
     {
-        return new HttpRequestPart().SetRequestUrl(requestUrl).HeadAsByteArrayAsync(cancellationToken);
+        return HttpRequestPart.Default().SetRequestUrl(requestUrl).HeadAsByteArrayAsync(cancellationToken);
     }
 
     /// <summary>
@@ -635,7 +635,7 @@ public static class RemoteRequestStringExtensions
     /// <returns></returns>
     public static Task<HttpResponseMessage> HeadAsync(this string requestUrl, CancellationToken cancellationToken = default)
     {
-        return new HttpRequestPart().SetRequestUrl(requestUrl).HeadAsync(cancellationToken);
+        return HttpRequestPart.Default().SetRequestUrl(requestUrl).HeadAsync(cancellationToken);
     }
 
     /// <summary>
@@ -647,7 +647,7 @@ public static class RemoteRequestStringExtensions
     /// <returns></returns>
     public static Task<T> SendAsAsync<T>(this string requestUrl, CancellationToken cancellationToken = default)
     {
-        return new HttpRequestPart().SetRequestUrl(requestUrl).SendAsAsync<T>(cancellationToken);
+        return HttpRequestPart.Default().SetRequestUrl(requestUrl).SendAsAsync<T>(cancellationToken);
     }
 
     /// <summary>
@@ -658,7 +658,7 @@ public static class RemoteRequestStringExtensions
     /// <returns></returns>
     public static Task<Stream> SendAsStreamAsync(this string requestUrl, CancellationToken cancellationToken = default)
     {
-        return new HttpRequestPart().SetRequestUrl(requestUrl).SendAsStreamAsync(cancellationToken);
+        return HttpRequestPart.Default().SetRequestUrl(requestUrl).SendAsStreamAsync(cancellationToken);
     }
 
     /// <summary>
@@ -669,7 +669,7 @@ public static class RemoteRequestStringExtensions
     /// <returns></returns>
     public static Task<string> SendAsStringAsync(this string requestUrl, CancellationToken cancellationToken = default)
     {
-        return new HttpRequestPart().SetRequestUrl(requestUrl).SendAsStringAsync(cancellationToken);
+        return HttpRequestPart.Default().SetRequestUrl(requestUrl).SendAsStringAsync(cancellationToken);
     }
 
     /// <summary>
@@ -680,7 +680,7 @@ public static class RemoteRequestStringExtensions
     /// <returns></returns>
     public static Task<byte[]> SendAsByteArrayAsync(this string requestUrl, CancellationToken cancellationToken = default)
     {
-        return new HttpRequestPart().SetRequestUrl(requestUrl).SendAsByteArrayAsync(cancellationToken);
+        return HttpRequestPart.Default().SetRequestUrl(requestUrl).SendAsByteArrayAsync(cancellationToken);
     }
 
     /// <summary>
@@ -691,6 +691,6 @@ public static class RemoteRequestStringExtensions
     /// <returns></returns>
     public static Task<HttpResponseMessage> SendAsync(this string requestUrl, CancellationToken cancellationToken = default)
     {
-        return new HttpRequestPart().SetRequestUrl(requestUrl).SendAsync(cancellationToken);
+        return HttpRequestPart.Default().SetRequestUrl(requestUrl).SendAsync(cancellationToken);
     }
 }

@@ -38,7 +38,7 @@ public static class ViewEngineStringExtensions
     public static ViewEnginePart SetTemplateModel<T>(this string template, T model)
         where T : class, new()
     {
-        return new ViewEnginePart().SetTemplate(template).SetTemplateModel<T>(model);
+        return ViewEnginePart.Default().SetTemplate(template).SetTemplateModel<T>(model);
     }
 
     /// <summary>
@@ -49,7 +49,7 @@ public static class ViewEngineStringExtensions
     /// <returns></returns>
     public static ViewEnginePart SetTemplateModel(this string template, object model)
     {
-        return new ViewEnginePart().SetTemplate(template).SetTemplateModel(model);
+        return ViewEnginePart.Default().SetTemplate(template).SetTemplateModel(model);
     }
 
     /// <summary>
@@ -60,7 +60,7 @@ public static class ViewEngineStringExtensions
     /// <returns></returns>
     public static ViewEnginePart SetTemplateOptionsBuilder(this string template, Action<IViewEngineOptionsBuilder> optionsBuilder = default)
     {
-        return new ViewEnginePart().SetTemplate(template).SetTemplateOptionsBuilder(optionsBuilder);
+        return ViewEnginePart.Default().SetTemplate(template).SetTemplateOptionsBuilder(optionsBuilder);
     }
 
     /// <summary>
@@ -71,7 +71,7 @@ public static class ViewEngineStringExtensions
     /// <returns></returns>
     public static ViewEnginePart SetTemplateCachedFileName(this string template, string cachedFileName)
     {
-        return new ViewEnginePart().SetTemplate(template).SetTemplateCachedFileName(cachedFileName);
+        return ViewEnginePart.Default().SetTemplate(template).SetTemplateCachedFileName(cachedFileName);
     }
 
     /// <summary>
@@ -82,7 +82,7 @@ public static class ViewEngineStringExtensions
     /// <returns></returns>
     public static ViewEnginePart SetViewEngineScoped(this string template, IServiceProvider serviceProvider)
     {
-        return new ViewEnginePart().SetTemplate(template).SetViewEngineScoped(serviceProvider);
+        return ViewEnginePart.Default().SetTemplate(template).SetViewEngineScoped(serviceProvider);
     }
 
     /// <summary>
@@ -94,7 +94,7 @@ public static class ViewEngineStringExtensions
     /// <returns></returns>
     public static string RunCompile(this string template, object model = null, Action<IViewEngineOptionsBuilder> builderAction = null)
     {
-        return new ViewEnginePart().SetTemplate(template).SetTemplateModel(model).SetTemplateOptionsBuilder(builderAction).RunCompile();
+        return ViewEnginePart.Default().SetTemplate(template).SetTemplateModel(model).SetTemplateOptionsBuilder(builderAction).RunCompile();
     }
 
     /// <summary>
@@ -106,7 +106,7 @@ public static class ViewEngineStringExtensions
     /// <returns></returns>
     public static Task<string> RunCompileAsync(this string template, object model = null, Action<IViewEngineOptionsBuilder> builderAction = null)
     {
-        return new ViewEnginePart().SetTemplate(template).SetTemplateModel(model).SetTemplateOptionsBuilder(builderAction).RunCompileAsync();
+        return ViewEnginePart.Default().SetTemplate(template).SetTemplateModel(model).SetTemplateOptionsBuilder(builderAction).RunCompileAsync();
     }
 
     /// <summary>
@@ -120,7 +120,7 @@ public static class ViewEngineStringExtensions
     public static string RunCompile<T>(this string template, T model, Action<IViewEngineOptionsBuilder> builderAction = null)
         where T : class, new()
     {
-        return new ViewEnginePart().SetTemplate(template).SetTemplateModel(model).SetTemplateOptionsBuilder(builderAction).RunCompile();
+        return ViewEnginePart.Default().SetTemplate(template).SetTemplateModel(model).SetTemplateOptionsBuilder(builderAction).RunCompile();
     }
 
     /// <summary>
@@ -134,7 +134,7 @@ public static class ViewEngineStringExtensions
     public static Task<string> RunCompileAsync<T>(this string template, T model, Action<IViewEngineOptionsBuilder> builderAction = null)
         where T : class, new()
     {
-        return new ViewEnginePart().SetTemplate(template).SetTemplateModel(model).SetTemplateOptionsBuilder(builderAction).RunCompileAsync();
+        return ViewEnginePart.Default().SetTemplate(template).SetTemplateModel(model).SetTemplateOptionsBuilder(builderAction).RunCompileAsync();
     }
 
     /// <summary>
@@ -147,7 +147,7 @@ public static class ViewEngineStringExtensions
     /// <returns></returns>
     public static string RunCompileFromCached(this string template, object model = null, string cachedFileName = default, Action<IViewEngineOptionsBuilder> builderAction = null)
     {
-        return new ViewEnginePart().SetTemplate(template).SetTemplateModel(model).SetTemplateCachedFileName(cachedFileName).SetTemplateOptionsBuilder(builderAction).RunCompileFromCached();
+        return ViewEnginePart.Default().SetTemplate(template).SetTemplateModel(model).SetTemplateCachedFileName(cachedFileName).SetTemplateOptionsBuilder(builderAction).RunCompileFromCached();
     }
 
     /// <summary>
@@ -160,7 +160,7 @@ public static class ViewEngineStringExtensions
     /// <returns></returns>
     public static Task<string> RunCompileFromCachedAsync(this string template, object model = null, string cachedFileName = default, Action<IViewEngineOptionsBuilder> builderAction = null)
     {
-        return new ViewEnginePart().SetTemplate(template).SetTemplateModel(model).SetTemplateCachedFileName(cachedFileName).SetTemplateOptionsBuilder(builderAction).RunCompileFromCachedAsync();
+        return ViewEnginePart.Default().SetTemplate(template).SetTemplateModel(model).SetTemplateCachedFileName(cachedFileName).SetTemplateOptionsBuilder(builderAction).RunCompileFromCachedAsync();
     }
 
     /// <summary>
@@ -175,7 +175,7 @@ public static class ViewEngineStringExtensions
     public static string RunCompileFromCached<T>(this string template, T model, string cachedFileName = default, Action<IViewEngineOptionsBuilder> builderAction = null)
         where T : class, new()
     {
-        return new ViewEnginePart().SetTemplate(template).SetTemplateModel(model).SetTemplateCachedFileName(cachedFileName).SetTemplateOptionsBuilder(builderAction).RunCompileFromCached();
+        return ViewEnginePart.Default().SetTemplate(template).SetTemplateModel(model).SetTemplateCachedFileName(cachedFileName).SetTemplateOptionsBuilder(builderAction).RunCompileFromCached();
     }
 
     /// <summary>
@@ -189,6 +189,6 @@ public static class ViewEngineStringExtensions
     public static Task<string> RunCompileFromCachedAsync<T>(this string template, T model, string cachedFileName = default, Action<IViewEngineOptionsBuilder> builderAction = null)
         where T : class, new()
     {
-        return new ViewEnginePart().SetTemplate(template).SetTemplateModel(model).SetTemplateCachedFileName(cachedFileName).SetTemplateOptionsBuilder(builderAction).RunCompileFromCachedAsync();
+        return ViewEnginePart.Default().SetTemplate(template).SetTemplateModel(model).SetTemplateCachedFileName(cachedFileName).SetTemplateOptionsBuilder(builderAction).RunCompileFromCachedAsync();
     }
 }

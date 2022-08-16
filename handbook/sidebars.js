@@ -331,6 +331,9 @@ module.exports = {
       type: "doc",
       id: "global/tp",
     },
-    ,
+    {
+      type: "doc",
+      id: "global/log",
+    },
   ],
 };

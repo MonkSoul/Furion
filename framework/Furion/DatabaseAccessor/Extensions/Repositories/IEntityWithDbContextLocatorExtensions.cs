@@ -42,7 +42,7 @@ public static class IEntityWithDbContextLocatorExtensions
         where TEntity : class, IPrivateEntity, new()
         where TDbContextLocator : class, IDbContextLocator
     {
-        return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().Ethnics();
+        return EntityExecutePart<TEntity>.Default().SetEntity(entity).Change<TDbContextLocator>().Ethnics();
     }
 
     /// <summary>
@@ -57,7 +57,7 @@ public static class IEntityWithDbContextLocatorExtensions
         where TEntity : class, IPrivateEntity, new()
         where TDbContextLocator : class, IDbContextLocator
     {
-        return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().Insert(ignoreNullValues);
+        return EntityExecutePart<TEntity>.Default().SetEntity(entity).Change<TDbContextLocator>().Insert(ignoreNullValues);
     }
 
     /// <summary>
@@ -73,7 +73,7 @@ public static class IEntityWithDbContextLocatorExtensions
         where TEntity : class, IPrivateEntity, new()
         where TDbContextLocator : class, IDbContextLocator
     {
-        return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().InsertAsync(ignoreNullValues, cancellationToken);
+        return EntityExecutePart<TEntity>.Default().SetEntity(entity).Change<TDbContextLocator>().InsertAsync(ignoreNullValues, cancellationToken);
     }
 
     /// <summary>
@@ -88,7 +88,7 @@ public static class IEntityWithDbContextLocatorExtensions
         where TEntity : class, IPrivateEntity, new()
         where TDbContextLocator : class, IDbContextLocator
     {
-        return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().InsertNow(ignoreNullValues);
+        return EntityExecutePart<TEntity>.Default().SetEntity(entity).Change<TDbContextLocator>().InsertNow(ignoreNullValues);
     }
 
     /// <summary>
@@ -104,7 +104,7 @@ public static class IEntityWithDbContextLocatorExtensions
         where TEntity : class, IPrivateEntity, new()
         where TDbContextLocator : class, IDbContextLocator
     {
-        return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().InsertNow(acceptAllChangesOnSuccess, ignoreNullValues);
+        return EntityExecutePart<TEntity>.Default().SetEntity(entity).Change<TDbContextLocator>().InsertNow(acceptAllChangesOnSuccess, ignoreNullValues);
     }
 
     /// <summary>
@@ -120,7 +120,7 @@ public static class IEntityWithDbContextLocatorExtensions
         where TEntity : class, IPrivateEntity, new()
         where TDbContextLocator : class, IDbContextLocator
     {
-        return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().InsertNowAsync(ignoreNullValues, cancellationToken);
+        return EntityExecutePart<TEntity>.Default().SetEntity(entity).Change<TDbContextLocator>().InsertNowAsync(ignoreNullValues, cancellationToken);
     }
 
     /// <summary>
@@ -137,7 +137,7 @@ public static class IEntityWithDbContextLocatorExtensions
         where TEntity : class, IPrivateEntity, new()
         where TDbContextLocator : class, IDbContextLocator
     {
-        return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().InsertNowAsync(acceptAllChangesOnSuccess, ignoreNullValues, cancellationToken);
+        return EntityExecutePart<TEntity>.Default().SetEntity(entity).Change<TDbContextLocator>().InsertNowAsync(acceptAllChangesOnSuccess, ignoreNullValues, cancellationToken);
     }
 
     /// <summary>
@@ -152,7 +152,7 @@ public static class IEntityWithDbContextLocatorExtensions
         where TEntity : class, IPrivateEntity, new()
         where TDbContextLocator : class, IDbContextLocator
     {
-        return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().Update(ignoreNullValues);
+        return EntityExecutePart<TEntity>.Default().SetEntity(entity).Change<TDbContextLocator>().Update(ignoreNullValues);
     }
 
     /// <summary>
@@ -167,7 +167,7 @@ public static class IEntityWithDbContextLocatorExtensions
          where TEntity : class, IPrivateEntity, new()
          where TDbContextLocator : class, IDbContextLocator
     {
-        return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().UpdateAsync(ignoreNullValues);
+        return EntityExecutePart<TEntity>.Default().SetEntity(entity).Change<TDbContextLocator>().UpdateAsync(ignoreNullValues);
     }
 
     /// <summary>
@@ -182,7 +182,7 @@ public static class IEntityWithDbContextLocatorExtensions
         where TEntity : class, IPrivateEntity, new()
         where TDbContextLocator : class, IDbContextLocator
     {
-        return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().UpdateNow(ignoreNullValues);
+        return EntityExecutePart<TEntity>.Default().SetEntity(entity).Change<TDbContextLocator>().UpdateNow(ignoreNullValues);
     }
 
     /// <summary>
@@ -198,7 +198,7 @@ public static class IEntityWithDbContextLocatorExtensions
          where TEntity : class, IPrivateEntity, new()
         where TDbContextLocator : class, IDbContextLocator
     {
-        return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().UpdateNow(acceptAllChangesOnSuccess, ignoreNullValues);
+        return EntityExecutePart<TEntity>.Default().SetEntity(entity).Change<TDbContextLocator>().UpdateNow(acceptAllChangesOnSuccess, ignoreNullValues);
     }
 
     /// <summary>
@@ -214,7 +214,7 @@ public static class IEntityWithDbContextLocatorExtensions
         where TEntity : class, IPrivateEntity, new()
         where TDbContextLocator : class, IDbContextLocator
     {
-        return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().UpdateNowAsync(ignoreNullValues, cancellationToken);
+        return EntityExecutePart<TEntity>.Default().SetEntity(entity).Change<TDbContextLocator>().UpdateNowAsync(ignoreNullValues, cancellationToken);
     }
 
     /// <summary>
@@ -231,7 +231,7 @@ public static class IEntityWithDbContextLocatorExtensions
         where TEntity : class, IPrivateEntity, new()
         where TDbContextLocator : class, IDbContextLocator
     {
-        return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().UpdateNowAsync(acceptAllChangesOnSuccess, ignoreNullValues, cancellationToken);
+        return EntityExecutePart<TEntity>.Default().SetEntity(entity).Change<TDbContextLocator>().UpdateNowAsync(acceptAllChangesOnSuccess, ignoreNullValues, cancellationToken);
     }
 
     /// <summary>
@@ -247,7 +247,7 @@ public static class IEntityWithDbContextLocatorExtensions
         where TEntity : class, IPrivateEntity, new()
         where TDbContextLocator : class, IDbContextLocator
     {
-        return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().UpdateInclude(propertyNames, ignoreNullValues);
+        return EntityExecutePart<TEntity>.Default().SetEntity(entity).Change<TDbContextLocator>().UpdateInclude(propertyNames, ignoreNullValues);
     }
 
     /// <summary>
@@ -263,7 +263,7 @@ public static class IEntityWithDbContextLocatorExtensions
         where TEntity : class, IPrivateEntity, new()
         where TDbContextLocator : class, IDbContextLocator
     {
-        return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().UpdateInclude(propertyPredicates, ignoreNullValues);
+        return EntityExecutePart<TEntity>.Default().SetEntity(entity).Change<TDbContextLocator>().UpdateInclude(propertyPredicates, ignoreNullValues);
     }
 
     /// <summary>
@@ -279,7 +279,7 @@ public static class IEntityWithDbContextLocatorExtensions
         where TEntity : class, IPrivateEntity, new()
         where TDbContextLocator : class, IDbContextLocator
     {
-        return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().UpdateInclude(propertyNames, ignoreNullValues);
+        return EntityExecutePart<TEntity>.Default().SetEntity(entity).Change<TDbContextLocator>().UpdateInclude(propertyNames, ignoreNullValues);
     }
 
     /// <summary>
@@ -295,7 +295,7 @@ public static class IEntityWithDbContextLocatorExtensions
         where TEntity : class, IPrivateEntity, new()
         where TDbContextLocator : class, IDbContextLocator
     {
-        return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().UpdateInclude(propertyPredicates, ignoreNullValues);
+        return EntityExecutePart<TEntity>.Default().SetEntity(entity).Change<TDbContextLocator>().UpdateInclude(propertyPredicates, ignoreNullValues);
     }
 
     /// <summary>
@@ -311,7 +311,7 @@ public static class IEntityWithDbContextLocatorExtensions
         where TEntity : class, IPrivateEntity, new()
         where TDbContextLocator : class, IDbContextLocator
     {
-        return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().UpdateIncludeAsync(propertyNames, ignoreNullValues);
+        return EntityExecutePart<TEntity>.Default().SetEntity(entity).Change<TDbContextLocator>().UpdateIncludeAsync(propertyNames, ignoreNullValues);
     }
 
     /// <summary>
@@ -327,7 +327,7 @@ public static class IEntityWithDbContextLocatorExtensions
         where TEntity : class, IPrivateEntity, new()
         where TDbContextLocator : class, IDbContextLocator
     {
-        return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().UpdateIncludeAsync(propertyPredicates, ignoreNullValues);
+        return EntityExecutePart<TEntity>.Default().SetEntity(entity).Change<TDbContextLocator>().UpdateIncludeAsync(propertyPredicates, ignoreNullValues);
     }
 
     /// <summary>
@@ -343,7 +343,7 @@ public static class IEntityWithDbContextLocatorExtensions
         where TEntity : class, IPrivateEntity, new()
         where TDbContextLocator : class, IDbContextLocator
     {
-        return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().UpdateIncludeAsync(propertyNames, ignoreNullValues);
+        return EntityExecutePart<TEntity>.Default().SetEntity(entity).Change<TDbContextLocator>().UpdateIncludeAsync(propertyNames, ignoreNullValues);
     }
 
     /// <summary>
@@ -359,7 +359,7 @@ public static class IEntityWithDbContextLocatorExtensions
         where TEntity : class, IPrivateEntity, new()
         where TDbContextLocator : class, IDbContextLocator
     {
-        return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().UpdateIncludeAsync(propertyPredicates, ignoreNullValues);
+        return EntityExecutePart<TEntity>.Default().SetEntity(entity).Change<TDbContextLocator>().UpdateIncludeAsync(propertyPredicates, ignoreNullValues);
     }
 
     /// <summary>
@@ -375,7 +375,7 @@ public static class IEntityWithDbContextLocatorExtensions
         where TEntity : class, IPrivateEntity, new()
         where TDbContextLocator : class, IDbContextLocator
     {
-        return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().UpdateIncludeNow(propertyNames, ignoreNullValues);
+        return EntityExecutePart<TEntity>.Default().SetEntity(entity).Change<TDbContextLocator>().UpdateIncludeNow(propertyNames, ignoreNullValues);
     }
 
     /// <summary>
@@ -392,7 +392,7 @@ public static class IEntityWithDbContextLocatorExtensions
         where TEntity : class, IPrivateEntity, new()
         where TDbContextLocator : class, IDbContextLocator
     {
-        return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().UpdateIncludeNow(propertyNames, acceptAllChangesOnSuccess, ignoreNullValues);
+        return EntityExecutePart<TEntity>.Default().SetEntity(entity).Change<TDbContextLocator>().UpdateIncludeNow(propertyNames, acceptAllChangesOnSuccess, ignoreNullValues);
     }
 
     /// <summary>
@@ -408,7 +408,7 @@ public static class IEntityWithDbContextLocatorExtensions
         where TEntity : class, IPrivateEntity, new()
         where TDbContextLocator : class, IDbContextLocator
     {
-        return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().UpdateIncludeNow(propertyPredicates, ignoreNullValues);
+        return EntityExecutePart<TEntity>.Default().SetEntity(entity).Change<TDbContextLocator>().UpdateIncludeNow(propertyPredicates, ignoreNullValues);
     }
 
     /// <summary>
@@ -425,7 +425,7 @@ public static class IEntityWithDbContextLocatorExtensions
         where TEntity : class, IPrivateEntity, new()
         where TDbContextLocator : class, IDbContextLocator
     {
-        return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().UpdateIncludeNow(propertyPredicates, acceptAllChangesOnSuccess, ignoreNullValues);
+        return EntityExecutePart<TEntity>.Default().SetEntity(entity).Change<TDbContextLocator>().UpdateIncludeNow(propertyPredicates, acceptAllChangesOnSuccess, ignoreNullValues);
     }
 
     /// <summary>
@@ -441,7 +441,7 @@ public static class IEntityWithDbContextLocatorExtensions
         where TEntity : class, IPrivateEntity, new()
         where TDbContextLocator : class, IDbContextLocator
     {
-        return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().UpdateIncludeNow(propertyNames, ignoreNullValues);
+        return EntityExecutePart<TEntity>.Default().SetEntity(entity).Change<TDbContextLocator>().UpdateIncludeNow(propertyNames, ignoreNullValues);
     }
 
     /// <summary>
@@ -458,7 +458,7 @@ public static class IEntityWithDbContextLocatorExtensions
          where TEntity : class, IPrivateEntity, new()
         where TDbContextLocator : class, IDbContextLocator
     {
-        return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().UpdateIncludeNow(propertyNames, acceptAllChangesOnSuccess, ignoreNullValues);
+        return EntityExecutePart<TEntity>.Default().SetEntity(entity).Change<TDbContextLocator>().UpdateIncludeNow(propertyNames, acceptAllChangesOnSuccess, ignoreNullValues);
     }
 
     /// <summary>
@@ -474,7 +474,7 @@ public static class IEntityWithDbContextLocatorExtensions
         where TEntity : class, IPrivateEntity, new()
         where TDbContextLocator : class, IDbContextLocator
     {
-        return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().UpdateIncludeNow(propertyPredicates, ignoreNullValues);
+        return EntityExecutePart<TEntity>.Default().SetEntity(entity).Change<TDbContextLocator>().UpdateIncludeNow(propertyPredicates, ignoreNullValues);
     }
 
     /// <summary>
@@ -491,7 +491,7 @@ public static class IEntityWithDbContextLocatorExtensions
         where TEntity : class, IPrivateEntity, new()
         where TDbContextLocator : class, IDbContextLocator
     {
-        return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().UpdateIncludeNow(propertyPredicates, acceptAllChangesOnSuccess, ignoreNullValues);
+        return EntityExecutePart<TEntity>.Default().SetEntity(entity).Change<TDbContextLocator>().UpdateIncludeNow(propertyPredicates, acceptAllChangesOnSuccess, ignoreNullValues);
     }
 
     /// <summary>
@@ -508,7 +508,7 @@ public static class IEntityWithDbContextLocatorExtensions
         where TEntity : class, IPrivateEntity, new()
         where TDbContextLocator : class, IDbContextLocator
     {
-        return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().UpdateIncludeNowAsync(propertyNames, ignoreNullValues, cancellationToken);
+        return EntityExecutePart<TEntity>.Default().SetEntity(entity).Change<TDbContextLocator>().UpdateIncludeNowAsync(propertyNames, ignoreNullValues, cancellationToken);
     }
 
     /// <summary>
@@ -526,7 +526,7 @@ public static class IEntityWithDbContextLocatorExtensions
         where TEntity : class, IPrivateEntity, new()
         where TDbContextLocator : class, IDbContextLocator
     {
-        return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().UpdateIncludeNowAsync(propertyNames, acceptAllChangesOnSuccess, ignoreNullValues, cancellationToken);
+        return EntityExecutePart<TEntity>.Default().SetEntity(entity).Change<TDbContextLocator>().UpdateIncludeNowAsync(propertyNames, acceptAllChangesOnSuccess, ignoreNullValues, cancellationToken);
     }
 
     /// <summary>
@@ -543,7 +543,7 @@ public static class IEntityWithDbContextLocatorExtensions
         where TEntity : class, IPrivateEntity, new()
         where TDbContextLocator : class, IDbContextLocator
     {
-        return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().UpdateIncludeNowAsync(propertyPredicates, ignoreNullValues, cancellationToken);
+        return EntityExecutePart<TEntity>.Default().SetEntity(entity).Change<TDbContextLocator>().UpdateIncludeNowAsync(propertyPredicates, ignoreNullValues, cancellationToken);
     }
 
     /// <summary>
@@ -561,7 +561,7 @@ public static class IEntityWithDbContextLocatorExtensions
         where TEntity : class, IPrivateEntity, new()
         where TDbContextLocator : class, IDbContextLocator
     {
-        return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().UpdateIncludeNowAsync(propertyPredicates, acceptAllChangesOnSuccess, ignoreNullValues, cancellationToken);
+        return EntityExecutePart<TEntity>.Default().SetEntity(entity).Change<TDbContextLocator>().UpdateIncludeNowAsync(propertyPredicates, acceptAllChangesOnSuccess, ignoreNullValues, cancellationToken);
     }
 
     /// <summary>
@@ -578,7 +578,7 @@ public static class IEntityWithDbContextLocatorExtensions
         where TEntity : class, IPrivateEntity, new()
         where TDbContextLocator : class, IDbContextLocator
     {
-        return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().UpdateIncludeNowAsync(propertyNames, ignoreNullValues, cancellationToken);
+        return EntityExecutePart<TEntity>.Default().SetEntity(entity).Change<TDbContextLocator>().UpdateIncludeNowAsync(propertyNames, ignoreNullValues, cancellationToken);
     }
 
     /// <summary>
@@ -596,7 +596,7 @@ public static class IEntityWithDbContextLocatorExtensions
         where TEntity : class, IPrivateEntity, new()
         where TDbContextLocator : class, IDbContextLocator
     {
-        return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().UpdateIncludeNowAsync(propertyNames, acceptAllChangesOnSuccess, ignoreNullValues, cancellationToken);
+        return EntityExecutePart<TEntity>.Default().SetEntity(entity).Change<TDbContextLocator>().UpdateIncludeNowAsync(propertyNames, acceptAllChangesOnSuccess, ignoreNullValues, cancellationToken);
     }
 
     /// <summary>
@@ -613,7 +613,7 @@ public static class IEntityWithDbContextLocatorExtensions
         where TEntity : class, IPrivateEntity, new()
         where TDbContextLocator : class, IDbContextLocator
     {
-        return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().UpdateIncludeNowAsync(propertyPredicates, ignoreNullValues, cancellationToken);
+        return EntityExecutePart<TEntity>.Default().SetEntity(entity).Change<TDbContextLocator>().UpdateIncludeNowAsync(propertyPredicates, ignoreNullValues, cancellationToken);
     }
 
     /// <summary>
@@ -631,7 +631,7 @@ public static class IEntityWithDbContextLocatorExtensions
         where TEntity : class, IPrivateEntity, new()
         where TDbContextLocator : class, IDbContextLocator
     {
-        return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().UpdateIncludeNowAsync(propertyPredicates, acceptAllChangesOnSuccess, ignoreNullValues, cancellationToken);
+        return EntityExecutePart<TEntity>.Default().SetEntity(entity).Change<TDbContextLocator>().UpdateIncludeNowAsync(propertyPredicates, acceptAllChangesOnSuccess, ignoreNullValues, cancellationToken);
     }
 
     /// <summary>
@@ -647,7 +647,7 @@ public static class IEntityWithDbContextLocatorExtensions
         where TEntity : class, IPrivateEntity, new()
         where TDbContextLocator : class, IDbContextLocator
     {
-        return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().UpdateExclude(propertyNames, ignoreNullValues);
+        return EntityExecutePart<TEntity>.Default().SetEntity(entity).Change<TDbContextLocator>().UpdateExclude(propertyNames, ignoreNullValues);
     }
 
     /// <summary>
@@ -663,7 +663,7 @@ public static class IEntityWithDbContextLocatorExtensions
         where TEntity : class, IPrivateEntity, new()
         where TDbContextLocator : class, IDbContextLocator
     {
-        return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().UpdateExclude(propertyPredicates, ignoreNullValues);
+        return EntityExecutePart<TEntity>.Default().SetEntity(entity).Change<TDbContextLocator>().UpdateExclude(propertyPredicates, ignoreNullValues);
     }
 
     /// <summary>
@@ -679,7 +679,7 @@ public static class IEntityWithDbContextLocatorExtensions
         where TEntity : class, IPrivateEntity, new()
         where TDbContextLocator : class, IDbContextLocator
     {
-        return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().UpdateExclude(propertyNames, ignoreNullValues);
+        return EntityExecutePart<TEntity>.Default().SetEntity(entity).Change<TDbContextLocator>().UpdateExclude(propertyNames, ignoreNullValues);
     }
 
     /// <summary>
@@ -695,7 +695,7 @@ public static class IEntityWithDbContextLocatorExtensions
         where TEntity : class, IPrivateEntity, new()
         where TDbContextLocator : class, IDbContextLocator
     {
-        return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().UpdateExclude(propertyPredicates, ignoreNullValues);
+        return EntityExecutePart<TEntity>.Default().SetEntity(entity).Change<TDbContextLocator>().UpdateExclude(propertyPredicates, ignoreNullValues);
     }
 
     /// <summary>
@@ -711,7 +711,7 @@ public static class IEntityWithDbContextLocatorExtensions
         where TEntity : class, IPrivateEntity, new()
         where TDbContextLocator : class, IDbContextLocator
     {
-        return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().UpdateExcludeAsync(propertyNames, ignoreNullValues);
+        return EntityExecutePart<TEntity>.Default().SetEntity(entity).Change<TDbContextLocator>().UpdateExcludeAsync(propertyNames, ignoreNullValues);
     }
 
     /// <summary>
@@ -727,7 +727,7 @@ public static class IEntityWithDbContextLocatorExtensions
         where TEntity : class, IPrivateEntity, new()
         where TDbContextLocator : class, IDbContextLocator
     {
-        return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().UpdateExcludeAsync(propertyPredicates, ignoreNullValues);
+        return EntityExecutePart<TEntity>.Default().SetEntity(entity).Change<TDbContextLocator>().UpdateExcludeAsync(propertyPredicates, ignoreNullValues);
     }
 
     /// <summary>
@@ -743,7 +743,7 @@ public static class IEntityWithDbContextLocatorExtensions
         where TEntity : class, IPrivateEntity, new()
         where TDbContextLocator : class, IDbContextLocator
     {
-        return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().UpdateExcludeAsync(propertyNames, ignoreNullValues);
+        return EntityExecutePart<TEntity>.Default().SetEntity(entity).Change<TDbContextLocator>().UpdateExcludeAsync(propertyNames, ignoreNullValues);
     }
 
     /// <summary>
@@ -759,7 +759,7 @@ public static class IEntityWithDbContextLocatorExtensions
         where TEntity : class, IPrivateEntity, new()
         where TDbContextLocator : class, IDbContextLocator
     {
-        return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().UpdateExcludeAsync(propertyPredicates, ignoreNullValues);
+        return EntityExecutePart<TEntity>.Default().SetEntity(entity).Change<TDbContextLocator>().UpdateExcludeAsync(propertyPredicates, ignoreNullValues);
     }
 
     /// <summary>
@@ -775,7 +775,7 @@ public static class IEntityWithDbContextLocatorExtensions
         where TEntity : class, IPrivateEntity, new()
         where TDbContextLocator : class, IDbContextLocator
     {
-        return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().UpdateExcludeNow(propertyNames, ignoreNullValues);
+        return EntityExecutePart<TEntity>.Default().SetEntity(entity).Change<TDbContextLocator>().UpdateExcludeNow(propertyNames, ignoreNullValues);
     }
 
     /// <summary>
@@ -792,7 +792,7 @@ public static class IEntityWithDbContextLocatorExtensions
         where TEntity : class, IPrivateEntity, new()
         where TDbContextLocator : class, IDbContextLocator
     {
-        return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().UpdateExcludeNow(propertyNames, acceptAllChangesOnSuccess, ignoreNullValues);
+        return EntityExecutePart<TEntity>.Default().SetEntity(entity).Change<TDbContextLocator>().UpdateExcludeNow(propertyNames, acceptAllChangesOnSuccess, ignoreNullValues);
     }
 
     /// <summary>
@@ -808,7 +808,7 @@ public static class IEntityWithDbContextLocatorExtensions
         where TEntity : class, IPrivateEntity, new()
         where TDbContextLocator : class, IDbContextLocator
     {
-        return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().UpdateExcludeNow(propertyPredicates, ignoreNullValues);
+        return EntityExecutePart<TEntity>.Default().SetEntity(entity).Change<TDbContextLocator>().UpdateExcludeNow(propertyPredicates, ignoreNullValues);
     }
 
     /// <summary>
@@ -825,7 +825,7 @@ public static class IEntityWithDbContextLocatorExtensions
         where TEntity : class, IPrivateEntity, new()
         where TDbContextLocator : class, IDbContextLocator
     {
-        return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().UpdateExcludeNow(propertyPredicates, acceptAllChangesOnSuccess, ignoreNullValues);
+        return EntityExecutePart<TEntity>.Default().SetEntity(entity).Change<TDbContextLocator>().UpdateExcludeNow(propertyPredicates, acceptAllChangesOnSuccess, ignoreNullValues);
     }
 
     /// <summary>
@@ -841,7 +841,7 @@ public static class IEntityWithDbContextLocatorExtensions
         where TEntity : class, IPrivateEntity, new()
         where TDbContextLocator : class, IDbContextLocator
     {
-        return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().UpdateExcludeNow(propertyNames, ignoreNullValues);
+        return EntityExecutePart<TEntity>.Default().SetEntity(entity).Change<TDbContextLocator>().UpdateExcludeNow(propertyNames, ignoreNullValues);
     }
 
     /// <summary>
@@ -858,7 +858,7 @@ public static class IEntityWithDbContextLocatorExtensions
          where TEntity : class, IPrivateEntity, new()
         where TDbContextLocator : class, IDbContextLocator
     {
-        return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().UpdateExcludeNow(propertyNames, acceptAllChangesOnSuccess, ignoreNullValues);
+        return EntityExecutePart<TEntity>.Default().SetEntity(entity).Change<TDbContextLocator>().UpdateExcludeNow(propertyNames, acceptAllChangesOnSuccess, ignoreNullValues);
     }
 
     /// <summary>
@@ -874,7 +874,7 @@ public static class IEntityWithDbContextLocatorExtensions
         where TEntity : class, IPrivateEntity, new()
         where TDbContextLocator : class, IDbContextLocator
     {
-        return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().UpdateExcludeNow(propertyPredicates, ignoreNullValues);
+        return EntityExecutePart<TEntity>.Default().SetEntity(entity).Change<TDbContextLocator>().UpdateExcludeNow(propertyPredicates, ignoreNullValues);
     }
 
     /// <summary>
@@ -891,7 +891,7 @@ public static class IEntityWithDbContextLocatorExtensions
         where TEntity : class, IPrivateEntity, new()
         where TDbContextLocator : class, IDbContextLocator
     {
-        return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().UpdateExcludeNow(propertyPredicates, acceptAllChangesOnSuccess, ignoreNullValues);
+        return EntityExecutePart<TEntity>.Default().SetEntity(entity).Change<TDbContextLocator>().UpdateExcludeNow(propertyPredicates, acceptAllChangesOnSuccess, ignoreNullValues);
     }
 
     /// <summary>
@@ -908,7 +908,7 @@ public static class IEntityWithDbContextLocatorExtensions
         where TEntity : class, IPrivateEntity, new()
         where TDbContextLocator : class, IDbContextLocator
     {
-        return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().UpdateExcludeNowAsync(propertyNames, ignoreNullValues, cancellationToken);
+        return EntityExecutePart<TEntity>.Default().SetEntity(entity).Change<TDbContextLocator>().UpdateExcludeNowAsync(propertyNames, ignoreNullValues, cancellationToken);
     }
 
     /// <summary>
@@ -926,7 +926,7 @@ public static class IEntityWithDbContextLocatorExtensions
         where TEntity : class, IPrivateEntity, new()
         where TDbContextLocator : class, IDbContextLocator
     {
-        return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().UpdateExcludeNowAsync(propertyNames, acceptAllChangesOnSuccess, ignoreNullValues, cancellationToken);
+        return EntityExecutePart<TEntity>.Default().SetEntity(entity).Change<TDbContextLocator>().UpdateExcludeNowAsync(propertyNames, acceptAllChangesOnSuccess, ignoreNullValues, cancellationToken);
     }
 
     /// <summary>
@@ -943,7 +943,7 @@ public static class IEntityWithDbContextLocatorExtensions
         where TEntity : class, IPrivateEntity, new()
         where TDbContextLocator : class, IDbContextLocator
     {
-        return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().UpdateExcludeNowAsync(propertyPredicates, ignoreNullValues, cancellationToken);
+        return EntityExecutePart<TEntity>.Default().SetEntity(entity).Change<TDbContextLocator>().UpdateExcludeNowAsync(propertyPredicates, ignoreNullValues, cancellationToken);
     }
 
     /// <summary>
@@ -961,7 +961,7 @@ public static class IEntityWithDbContextLocatorExtensions
         where TEntity : class, IPrivateEntity, new()
         where TDbContextLocator : class, IDbContextLocator
     {
-        return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().UpdateExcludeNowAsync(propertyPredicates, acceptAllChangesOnSuccess, ignoreNullValues, cancellationToken);
+        return EntityExecutePart<TEntity>.Default().SetEntity(entity).Change<TDbContextLocator>().UpdateExcludeNowAsync(propertyPredicates, acceptAllChangesOnSuccess, ignoreNullValues, cancellationToken);
     }
 
     /// <summary>
@@ -978,7 +978,7 @@ public static class IEntityWithDbContextLocatorExtensions
         where TEntity : class, IPrivateEntity, new()
         where TDbContextLocator : class, IDbContextLocator
     {
-        return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().UpdateExcludeNowAsync(propertyNames, ignoreNullValues, cancellationToken);
+        return EntityExecutePart<TEntity>.Default().SetEntity(entity).Change<TDbContextLocator>().UpdateExcludeNowAsync(propertyNames, ignoreNullValues, cancellationToken);
     }
 
     /// <summary>
@@ -996,7 +996,7 @@ public static class IEntityWithDbContextLocatorExtensions
         where TEntity : class, IPrivateEntity, new()
         where TDbContextLocator : class, IDbContextLocator
     {
-        return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().UpdateExcludeNowAsync(propertyNames, acceptAllChangesOnSuccess, ignoreNullValues, cancellationToken);
+        return EntityExecutePart<TEntity>.Default().SetEntity(entity).Change<TDbContextLocator>().UpdateExcludeNowAsync(propertyNames, acceptAllChangesOnSuccess, ignoreNullValues, cancellationToken);
     }
 
     /// <summary>
@@ -1013,7 +1013,7 @@ public static class IEntityWithDbContextLocatorExtensions
         where TEntity : class, IPrivateEntity, new()
         where TDbContextLocator : class, IDbContextLocator
     {
-        return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().UpdateExcludeNowAsync(propertyPredicates, ignoreNullValues, cancellationToken);
+        return EntityExecutePart<TEntity>.Default().SetEntity(entity).Change<TDbContextLocator>().UpdateExcludeNowAsync(propertyPredicates, ignoreNullValues, cancellationToken);
     }
 
     /// <summary>
@@ -1031,7 +1031,7 @@ public static class IEntityWithDbContextLocatorExtensions
         where TEntity : class, IPrivateEntity, new()
         where TDbContextLocator : class, IDbContextLocator
     {
-        return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().UpdateExcludeNowAsync(propertyPredicates, acceptAllChangesOnSuccess, ignoreNullValues, cancellationToken);
+        return EntityExecutePart<TEntity>.Default().SetEntity(entity).Change<TDbContextLocator>().UpdateExcludeNowAsync(propertyPredicates, acceptAllChangesOnSuccess, ignoreNullValues, cancellationToken);
     }
 
     /// <summary>
@@ -1045,7 +1045,7 @@ public static class IEntityWithDbContextLocatorExtensions
         where TEntity : class, IPrivateEntity, new()
         where TDbContextLocator : class, IDbContextLocator
     {
-        return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().Delete();
+        return EntityExecutePart<TEntity>.Default().SetEntity(entity).Change<TDbContextLocator>().Delete();
     }
 
     /// <summary>
@@ -1059,7 +1059,7 @@ public static class IEntityWithDbContextLocatorExtensions
         where TEntity : class, IPrivateEntity, new()
         where TDbContextLocator : class, IDbContextLocator
     {
-        return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().DeleteAsync();
+        return EntityExecutePart<TEntity>.Default().SetEntity(entity).Change<TDbContextLocator>().DeleteAsync();
     }
 
     /// <summary>
@@ -1073,7 +1073,7 @@ public static class IEntityWithDbContextLocatorExtensions
         where TEntity : class, IPrivateEntity, new()
         where TDbContextLocator : class, IDbContextLocator
     {
-        return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().DeleteNow();
+        return EntityExecutePart<TEntity>.Default().SetEntity(entity).Change<TDbContextLocator>().DeleteNow();
     }
 
     /// <summary>
@@ -1088,7 +1088,7 @@ public static class IEntityWithDbContextLocatorExtensions
         where TEntity : class, IPrivateEntity, new()
         where TDbContextLocator : class, IDbContextLocator
     {
-        return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().DeleteNow(acceptAllChangesOnSuccess);
+        return EntityExecutePart<TEntity>.Default().SetEntity(entity).Change<TDbContextLocator>().DeleteNow(acceptAllChangesOnSuccess);
     }
 
     /// <summary>
@@ -1103,7 +1103,7 @@ public static class IEntityWithDbContextLocatorExtensions
         where TEntity : class, IPrivateEntity, new()
         where TDbContextLocator : class, IDbContextLocator
     {
-        return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().DeleteNowAsync(cancellationToken);
+        return EntityExecutePart<TEntity>.Default().SetEntity(entity).Change<TDbContextLocator>().DeleteNowAsync(cancellationToken);
     }
 
     /// <summary>
@@ -1119,6 +1119,6 @@ public static class IEntityWithDbContextLocatorExtensions
         where TEntity : class, IPrivateEntity, new()
         where TDbContextLocator : class, IDbContextLocator
     {
-        return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().DeleteNowAsync(acceptAllChangesOnSuccess, cancellationToken);
+        return EntityExecutePart<TEntity>.Default().SetEntity(entity).Change<TDbContextLocator>().DeleteNowAsync(acceptAllChangesOnSuccess, cancellationToken);
     }
 }
