@@ -20,23 +20,19 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-using Furion.DynamicApiController;
 using Furion.FriendlyException;
-using Furion.UnifyResult;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Options;
-using System.Reflection;
 
 namespace Furion.DataValidation;
 
 /// <summary>
-/// 数据验证拦截器
+/// 数据验证拦截器（Razor Pages）
 /// </summary>
 [SuppressSniffer]
-public sealed class DataValidationFilter : IAsyncActionFilter, IOrderedFilter
+public sealed class DataValidationPageFilter : IAsyncPageFilter, IOrderedFilter
 {
     /// <summary>
     /// Api 行为配置选项
@@ -47,7 +43,7 @@ public sealed class DataValidationFilter : IAsyncActionFilter, IOrderedFilter
     /// 构造函数
     /// </summary>
     /// <param name="options"></param>
-    public DataValidationFilter(IOptions<ApiBehaviorOptions> options)
+    public DataValidationPageFilter(IOptions<ApiBehaviorOptions> options)
     {
         _apiBehaviorOptions = options.Value;
     }
@@ -68,41 +64,48 @@ public sealed class DataValidationFilter : IAsyncActionFilter, IOrderedFilter
     public static bool IsReusable => true;
 
     /// <summary>
+    /// 模型绑定拦截
+    /// </summary>
+    /// <param name="context"></param>
+    /// <returns></returns>
+    public Task OnPageHandlerSelectionAsync(PageHandlerSelectedContext context)
+    {
+        return Task.CompletedTask;
+    }
+
+    /// <summary>
     /// 拦截请求
     /// </summary>
-    /// <param name="context">动作方法上下文</param>
-    /// <param name="next">中间件委托</param>
+    /// <param name="context"></param>
+    /// <param name="next"></param>
     /// <returns></returns>
-    public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
+    public async Task OnPageHandlerExecutionAsync(PageHandlerExecutingContext context, PageHandlerExecutionDelegate next)
     {
-        // 获取控制器/方法信息
-        var actionDescriptor = context.ActionDescriptor as ControllerActionDescriptor;
-
         // 跳过验证类型
         var nonValidationAttributeType = typeof(NonValidationAttribute);
-        var method = actionDescriptor.MethodInfo;
+        var method = context.HandlerMethod.MethodInfo;
 
         // 获取验证状态
         var modelState = context.ModelState;
 
         // 如果参数为 0或贴了 [NonValidation] 特性 或所在类型贴了 [NonValidation] 特性或验证成功或已经设置了结果，则跳过验证
-        if (actionDescriptor.Parameters.Count == 0 ||
+        if (context.HandlerArguments.Count == 0 ||
             method.IsDefined(nonValidationAttributeType, true) ||
             method.DeclaringType.IsDefined(nonValidationAttributeType, true) ||
             modelState.IsValid ||
             context.Result != null)
         {
-            await CallUnHandleResult(context, next, actionDescriptor, method);
+            await CallUnHandleResult(context, next);
             return;
         }
 
         // 处理执行前验证信息
-        var handledResult = HandleValidation(context, method, actionDescriptor, modelState);
+        var handledResult = HandleValidation(context, modelState);
 
         // 处理 Mvc 未处理结果情况
         if (!handledResult)
         {
-            await CallUnHandleResult(context, next, actionDescriptor, method);
+            await CallUnHandleResult(context, next);
         }
     }
 
@@ -111,13 +114,11 @@ public sealed class DataValidationFilter : IAsyncActionFilter, IOrderedFilter
     /// </summary>
     /// <param name="context"></param>
     /// <param name="next"></param>
-    /// <param name="actionDescriptor"></param>
-    /// <param name="method"></param>
     /// <returns></returns>
-    private async Task CallUnHandleResult(ActionExecutingContext context, ActionExecutionDelegate next, ControllerActionDescriptor actionDescriptor, MethodInfo method)
+    private async Task CallUnHandleResult(PageHandlerExecutingContext context, PageHandlerExecutionDelegate next)
     {
         // 处理执行后验证信息
-        var resultContext = await next();
+        var resultContext = await next.Invoke();
 
         // 如果异常不为空且属于友好验证异常
         if (resultContext.Exception != null && resultContext.Exception is AppFriendlyException friendlyException && friendlyException.ValidationException)
@@ -126,7 +127,7 @@ public sealed class DataValidationFilter : IAsyncActionFilter, IOrderedFilter
             context.HttpContext.Items[nameof(DataValidationFilter) + nameof(AppFriendlyException)] = resultContext;
 
             // 处理验证信息
-            _ = HandleValidation(context, method, actionDescriptor, friendlyException.ErrorMessage, resultContext, friendlyException);
+            _ = HandleValidation(context, friendlyException.ErrorMessage, resultContext, friendlyException);
         }
     }
 
@@ -134,14 +135,14 @@ public sealed class DataValidationFilter : IAsyncActionFilter, IOrderedFilter
     /// 内部处理异常
     /// </summary>
     /// <param name="context"></param>
-    /// <param name="method"></param>
-    /// <param name="actionDescriptor"></param>
     /// <param name="errors"></param>
     /// <param name="resultContext"></param>
     /// <param name="friendlyException"></param>
     /// <returns>返回 false 表示结果没有处理</returns>
-    private bool HandleValidation(ActionExecutingContext context, MethodInfo method, ControllerActionDescriptor actionDescriptor, object errors, ActionExecutedContext resultContext = default, AppFriendlyException friendlyException = default)
+    private bool HandleValidation(PageHandlerExecutingContext context, object errors, PageHandlerExecutedContext resultContext = default, AppFriendlyException friendlyException = default)
     {
+        var method = context.HandlerMethod.MethodInfo;
+
         dynamic finalContext = resultContext != null ? resultContext : context;
 
         // 解析验证消息
@@ -153,42 +154,11 @@ public sealed class DataValidationFilter : IAsyncActionFilter, IOrderedFilter
         // 存储验证信息
         context.HttpContext.Items[nameof(DataValidationFilter) + nameof(ValidationMetadata)] = validationMetadata;
 
-        // 判断是否跳过规范化结果，如果跳过，返回 400 BadRequestResult
-        if (UnifyContext.CheckFailedNonUnify(actionDescriptor.MethodInfo, out var unifyResult))
+        // 返回自定义错误页面
+        finalContext.Result = new BadPageResult(StatusCodes.Status400BadRequest)
         {
-            // WebAPI 情况
-            if (Penetrates.IsApiController(method.DeclaringType))
-            {
-                // 如果不启用 SuppressModelStateInvalidFilter，则跳过，理应手动验证
-                if (!_apiBehaviorOptions.SuppressModelStateInvalidFilter)
-                {
-                    finalContext.Result = _apiBehaviorOptions.InvalidModelStateResponseFactory(context);
-                }
-                else
-                {
-                    // 返回 JsonResult
-                    finalContext.Result = new JsonResult(validationMetadata.ValidationResult)
-                    {
-                        StatusCode = StatusCodes.Status400BadRequest
-                    };
-                }
-            }
-            else
-            {
-                // 返回自定义错误页面
-                finalContext.Result = new BadPageResult(StatusCodes.Status400BadRequest)
-                {
-                    Code = validationMetadata.Message
-                };
-            }
-        }
-        else
-        {
-            // 判断是否支持 MVC 规范化处理，一旦启用，则自动调用规范化提供器进行操作，这里返回 false 表示没有处理结果
-            if (!UnifyContext.CheckSupportMvcController(context.HttpContext, actionDescriptor, out _)) return false;
-
-            finalContext.Result = unifyResult.OnValidateFailed(context, validationMetadata);
-        }
+            Code = validationMetadata.Message
+        };
 
         // 打印验证失败信息
         App.PrintToMiniProfiler("validation", "Failed", $"Validation Failed:\r\n\r\n{validationMetadata.Message}", true);

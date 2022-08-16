@@ -33,7 +33,7 @@ using System.Reflection;
 namespace Furion.DataValidation;
 
 /// <summary>
-/// 数据验证控制器
+/// 数据验证拦截器
 /// </summary>
 [SuppressSniffer]
 public sealed class DataValidationFilter : IAsyncActionFilter, IOrderedFilter
