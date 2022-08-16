@@ -95,6 +95,8 @@
         .code ol.code-area {
             list-style-type: decimal;
             margin: 0;
+            overflow-x: auto;
+            overflow-y: hidden;
         }
 
             .code ol.code-area li {
@@ -114,6 +116,7 @@
                     padding: 0 10px;
                     font-family: Arial;
                     display: block;
+                    white-space: nowrap;
                 }
     </style>
 </head>
@@ -145,7 +148,7 @@
                 html = html
                     .replace(/&(?!#?[a-zA-Z0-9]+;)/g, "&amp;")
                     .replace(/</g, "&lt;")
-                    .replace( />/g, "&gt;")
+                    .replace(/>/g, "&gt;")
                     .replace(/'/g, "&#39;")
                     .replace(/"/g, "&quot;");
             }
