@@ -29,6 +29,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Primitives;
@@ -103,6 +104,12 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter, IOr
     /// <returns></returns>
     public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
     {
+        // 判断是否是 Razor Pages
+        var isPageDescriptor = context.ActionDescriptor is CompiledPageActionDescriptor;
+
+        // 抛出不支持 Razor Pages 异常
+        if (isPageDescriptor) throw new InvalidOperationException("The LoggingMonitorAttribute is not support the Razor Pages application.");
+
         // 获取控制器/操作描述器
         var controllerActionDescriptor = context.ActionDescriptor as ControllerActionDescriptor;
 

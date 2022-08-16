@@ -98,6 +98,9 @@ public static class DatabaseAccessorServiceCollectionExtensions
         // 注册自动 SaveChanges
         services.AddMvcFilter<AutoSaveChangesFilter>();
 
+        // 注册自动 SaveChanges（Razor Pages）
+        services.AddMvcFilter<AutoSaveChangesPageFilter>();
+
         return services;
     }
 

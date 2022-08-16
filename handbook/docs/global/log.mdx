@@ -10,19 +10,18 @@ sidebar_label: 16. Log 静态类
 
 :::
 
-## 16.1 日志记录
+## 16.1 常见操作
 
 ```cs showLineNumbers
+// 创建日志对象
+var logger = Log.CreateLogger("日志名称");
+
+// 日志记录
 Log.Information("Information");
-
 Log.Warning("Warning");
-
 Log.Error("Error");
-
 Log.Debug("Debug");
-
 Log.Trace("Trace");
-
 Log.Critical("Critical");
 ```
 

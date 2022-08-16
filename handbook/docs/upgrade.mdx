@@ -35,6 +35,20 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
   - [调整] `[LoggingMonitor]` 命名空间为 `System`，因为使用频率越来越高 [b879861](https://gitee.com/dotnetchina/Furion/commit/b879861c9db5cf3cb0f4ae023d1e96b06fad3e46)
   - [添加] **在非 `Web` 环境中不正确使用字符串拓展方法检测机制** [6389cbd](https://gitee.com/dotnetchina/Furion/commit/6389cbdd69f5ca826fad25749a45ede079db98ce)
   - [调整] **所有 `.Default` 静态属性为 `.Default()` 方法** [6389cbd](https://gitee.com/dotnetchina/Furion/commit/6389cbdd69f5ca826fad25749a45ede079db98ce)
+  - [调整] **工作单元 `IUnitOfWork` 所有方法参数类型，由 `ActionExecutingContext` 和 `ActionExecutedContext` 改为 `FilterContext`** [#I5MHX5](https://gitee.com/dotnetchina/Furion/issues/I5MHX5)
+
+```cs showLineNumbers {3,5,7,9}
+public interface IUnitOfWork
+{
+    void BeginTransaction(FilterContext context, UnitOfWorkAttribute unitOfWork);
+
+    void CommitTransaction(FilterContext resultContext, UnitOfWorkAttribute unitOfWork);
+
+    void RollbackTransaction(FilterContext resultContext, UnitOfWorkAttribute unitOfWork);
+
+    void OnCompleted(FilterContext context, FilterContext resultContext);
+}
+```
 
 - **问题修复**
 
@@ -46,6 +60,10 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
   - [修复] `ValidationMetadata` 对象 `Message` 字符串类型出现 `\"\"` 问题 [#I5MFJT](https://gitee.com/dotnetchina/Furion/issues/I5MFJT)
   - [修复] `[IfException]` 覆盖 `Oops.Oh/Bah` 错误消息问题 [4bbd854](https://gitee.com/dotnetchina/Furion/commit/4bbd854c6779bf7eca26fd69b25c4979b8cec32d)
   - [修复] 数据库日志写入循环写入和频繁创建数据库连接池问题 [9ce214c](https://gitee.com/dotnetchina/Furion/commit/9ce214c9cf49eb1ff59f3c52dbecd789be4f45fd)
+  - [修复] `Razor Pages` 不支持全局异常拦截问题 [#I5MHX5](https://gitee.com/dotnetchina/Furion/issues/I5MHX5)
+  - [修复] `Razor Pages` 不支持全局数据验证问题 [#I5MHX5](https://gitee.com/dotnetchina/Furion/issues/I5MHX5)
+  - [修复] `Razor Pages` 不支持工作单元 `[UnitOfWork]` 问题 [#I5MHX5](https://gitee.com/dotnetchina/Furion/issues/I5MHX5)
+  - [修复] `Razor Pages` 不支持 `EFCore` 自动 `SaveChanges` 问题 [#I5MHX5](https://gitee.com/dotnetchina/Furion/issues/I5MHX5)
 
 - **其他更改**
 
@@ -54,7 +72,7 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 - **文档**
 
   - [新增] 全局日志静态类 `Log` 文档 [ba9b1f1](https://gitee.com/dotnetchina/Furion/commit/ba9b1f13a0b89b6670cf7078ac15abe0eed1f2c3)
-  - [更新] 日志文档、静态类文档、数据校验文档、Worker Service 文档
+  - [更新] 日志文档、静态类文档、数据校验文档、Worker Service 文档、工作单元文档
 
 ---
 

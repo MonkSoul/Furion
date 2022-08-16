@@ -36,6 +36,24 @@ public static class Log
     public static StringLoggingPart Default() => StringLoggingPart.Default();
 
     /// <summary>
+    /// 创建日志记录器
+    /// </summary>
+    /// <param name="categoryName"></param>
+    /// <param name="provider"></param>
+    /// <returns></returns>
+    public static ILogger CreateLogger(string categoryName, ILoggerProvider provider = default)
+    {
+        var loggerFactory = App.GetRequiredService<ILoggerFactory>(App.RootServices);
+
+        if (provider != null)
+        {
+            loggerFactory.AddProvider(provider);
+        }
+
+        return loggerFactory.CreateLogger(categoryName);
+    }
+
+    /// <summary>
     /// LogInformation
     /// </summary>
     /// <param name="message"></param>

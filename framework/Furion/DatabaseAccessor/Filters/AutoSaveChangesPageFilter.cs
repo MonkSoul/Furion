@@ -21,75 +21,69 @@
 // SOFTWARE.
 
 using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Furion.DatabaseAccessor;
 
 /// <summary>
-/// EFCore 工作单元实现
+/// 自动调用 SaveChanges 拦截器（Razor Pages）
 /// </summary>
-[SuppressSniffer]
-public sealed class EFCoreUnitOfWork : IUnitOfWork
+internal sealed class AutoSaveChangesPageFilter : IAsyncPageFilter, IOrderedFilter
 {
     /// <summary>
-    /// 数据库上下文池
+    /// 过滤器排序
     /// </summary>
-    private readonly IDbContextPool _dbContextPool;
+    internal const int FilterOrder = 9999;
 
     /// <summary>
-    /// 构造函数
+    /// 排序属性
     /// </summary>
-    /// <param name="dbContextPool"></param>
-    public EFCoreUnitOfWork(IDbContextPool dbContextPool)
-    {
-        _dbContextPool = dbContextPool;
-    }
+    public int Order => FilterOrder;
 
     /// <summary>
-    /// 开启工作单元处理
+    /// 模型绑定拦截
     /// </summary>
     /// <param name="context"></param>
-    /// <param name="unitOfWork"></param>
+    /// <returns></returns>
     /// <exception cref="NotImplementedException"></exception>
-    public void BeginTransaction(FilterContext context, UnitOfWorkAttribute unitOfWork)
+    public Task OnPageHandlerSelectionAsync(PageHandlerSelectedContext context)
     {
-        // 开启事务
-        _dbContextPool.BeginTransaction(unitOfWork.EnsureTransaction);
+        return Task.CompletedTask;
     }
 
     /// <summary>
-    /// 提交工作单元处理
-    /// </summary>
-    /// <param name="resultContext"></param>
-    /// <param name="unitOfWork"></param>
-    /// <exception cref="NotImplementedException"></exception>
-    public void CommitTransaction(FilterContext resultContext, UnitOfWorkAttribute unitOfWork)
-    {
-        // 提交事务
-        _dbContextPool.CommitTransaction();
-    }
-
-    /// <summary>
-    /// 回滚工作单元处理
-    /// </summary>
-    /// <param name="resultContext"></param>
-    /// <param name="unitOfWork"></param>
-    /// <exception cref="NotImplementedException"></exception>
-
-    public void RollbackTransaction(FilterContext resultContext, UnitOfWorkAttribute unitOfWork)
-    {
-        // 回滚事务
-        _dbContextPool.RollbackTransaction();
-    }
-
-    /// <summary>
-    /// 执行完毕（无论成功失败）
+    /// 拦截请求
     /// </summary>
     /// <param name="context"></param>
-    /// <param name="resultContext"></param>
+    /// <param name="next"></param>
+    /// <returns></returns>
     /// <exception cref="NotImplementedException"></exception>
-    public void OnCompleted(FilterContext context, FilterContext resultContext)
+    public async Task OnPageHandlerExecutionAsync(PageHandlerExecutingContext context, PageHandlerExecutionDelegate next)
     {
-        // 手动关闭
-        _dbContextPool.CloseAll();
+        // 获取动作方法描述器
+        var method = context.HandlerMethod.MethodInfo;
+
+        // 获取请求上下文
+        var httpContext = context.HttpContext;
+
+        // 判断是否贴有工作单元特性
+        if (method.IsDefined(typeof(UnitOfWorkAttribute), true))
+        {
+            _ = await next.Invoke();
+
+            return;
+        }
+
+        // 调用方法
+        var resultContext = await next.Invoke();
+
+        // 判断是否手动提交
+        var isManualSaveChanges = method.IsDefined(typeof(ManualCommitAttribute), true);
+
+        // 判断是否异常，并且没有贴 [ManualSaveChanges] 特性
+        if (resultContext.Exception == null && !isManualSaveChanges)
+        {
+            httpContext.RequestServices.GetRequiredService<IDbContextPool>().SavePoolNow();
+        }
     }
 }
