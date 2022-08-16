@@ -94,13 +94,12 @@ public static class UnifyContext
         // 处理验证失败异常
         if (!isValidationException)
         {
-            // 判断是否定义了全局类型异常
-            var actionDescriptor = context.ActionDescriptor as ControllerActionDescriptor;
-
             // 查找所有全局定义异常
-            var ifExceptionAttributes = actionDescriptor.MethodInfo
-                        .GetCustomAttributes<IfExceptionAttribute>(true)
-                        .Where(u => u.ErrorCode == null);
+            var ifExceptionAttributes = context.ActionDescriptor is not ControllerActionDescriptor actionDescriptor
+                        ? Array.Empty<IfExceptionAttribute>()
+                        : actionDescriptor.MethodInfo
+                            .GetCustomAttributes<IfExceptionAttribute>(true)
+                            .Where(u => u.ErrorCode == null);
 
             // 处理全局异常
             if (ifExceptionAttributes.Any())
