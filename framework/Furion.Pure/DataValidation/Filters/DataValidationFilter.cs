@@ -191,7 +191,7 @@ public sealed class DataValidationFilter : IAsyncActionFilter, IOrderedFilter
         }
 
         // 打印验证失败信息
-        App.PrintToMiniProfiler("validation", "Failed", $"Validation Failed:\r\n{validationMetadata.Message}", true);
+        App.PrintToMiniProfiler("validation", "Failed", $"Validation Failed:\r\n\r\n{validationMetadata.Message}", true);
 
         return true;
     }

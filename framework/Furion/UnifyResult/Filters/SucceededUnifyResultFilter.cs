@@ -96,7 +96,7 @@ public class SucceededUnifyResultFilter : IAsyncActionFilter, IOrderedFilter
             if (result != null) actionExecutedContext.Result = result;
 
             // 打印验证失败信息
-            App.PrintToMiniProfiler("validation", "Failed", $"Validation Failed:\r\n{validationMetadata.Message}", true);
+            App.PrintToMiniProfiler("validation", "Failed", $"Validation Failed:\r\n\r\n{validationMetadata.Message}", true);
         }
         else
         {

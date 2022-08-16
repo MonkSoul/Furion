@@ -59,4 +59,14 @@ public sealed class ValidationMetadata
     /// 状态码
     /// </summary>
     public int? StatusCode { get; internal set; }
+
+    /// <summary>
+    /// 首个错误属性
+    /// </summary>
+    public string FirstErrorProperty { get; internal set; }
+
+    /// <summary>
+    /// 首个错误消息
+    /// </summary>
+    public string FirstErrorMessage { get; internal set; }
 }
