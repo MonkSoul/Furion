@@ -110,10 +110,11 @@ public static class UnifyContext
                                                 (isFriendlyException && exception?.InnerException != null
                                                                     ? exception?.InnerException.GetType()
                                                                     : exception?.GetType()))
+                        ?? ifExceptionAttributes.FirstOrDefault(u => u.ExceptionType == typeof(Exception))
                         ?? ifExceptionAttributes.FirstOrDefault(u => u.ExceptionType == null);
 
                 // 支持渲染配置文件
-                if (actionIfExceptionAttribute is { ErrorMessage: not null }) errors = actionIfExceptionAttribute.ErrorMessage.Render();
+                if (actionIfExceptionAttribute is { ErrorMessage: not null } && !isFriendlyException) errors = actionIfExceptionAttribute.ErrorMessage.Render();
             }
             else errors = exception?.InnerException?.Message ?? exception?.Message;
         }
