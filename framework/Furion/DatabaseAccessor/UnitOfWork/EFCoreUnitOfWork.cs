@@ -1,6 +1,6 @@
 ﻿// MIT License
 //
-// Copyright (c) 2020-2022 百小僧, Baiqian Co.,Ltd.
+// Copyright (c) 2020-2022 百小僧, Baiqian Co.,Ltd and Contributors
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -50,7 +50,7 @@ public sealed class EFCoreUnitOfWork : IUnitOfWork
     /// <param name="context"></param>
     /// <param name="unitOfWork"></param>
     /// <exception cref="NotImplementedException"></exception>
-    public void BeginTransaction(ActionExecutingContext context, UnitOfWorkAttribute unitOfWork)
+    public void BeginTransaction(FilterContext context, UnitOfWorkAttribute unitOfWork)
     {
         // 开启事务
         _dbContextPool.BeginTransaction(unitOfWork.EnsureTransaction);
@@ -62,7 +62,7 @@ public sealed class EFCoreUnitOfWork : IUnitOfWork
     /// <param name="resultContext"></param>
     /// <param name="unitOfWork"></param>
     /// <exception cref="NotImplementedException"></exception>
-    public void CommitTransaction(ActionExecutedContext resultContext, UnitOfWorkAttribute unitOfWork)
+    public void CommitTransaction(FilterContext resultContext, UnitOfWorkAttribute unitOfWork)
     {
         // 提交事务
         _dbContextPool.CommitTransaction();
@@ -75,7 +75,7 @@ public sealed class EFCoreUnitOfWork : IUnitOfWork
     /// <param name="unitOfWork"></param>
     /// <exception cref="NotImplementedException"></exception>
 
-    public void RollbackTransaction(ActionExecutedContext resultContext, UnitOfWorkAttribute unitOfWork)
+    public void RollbackTransaction(FilterContext resultContext, UnitOfWorkAttribute unitOfWork)
     {
         // 回滚事务
         _dbContextPool.RollbackTransaction();
@@ -87,7 +87,7 @@ public sealed class EFCoreUnitOfWork : IUnitOfWork
     /// <param name="context"></param>
     /// <param name="resultContext"></param>
     /// <exception cref="NotImplementedException"></exception>
-    public void OnCompleted(ActionExecutingContext context, ActionExecutedContext resultContext)
+    public void OnCompleted(FilterContext context, FilterContext resultContext)
     {
         // 手动关闭
         _dbContextPool.CloseAll();

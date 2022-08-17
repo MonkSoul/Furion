@@ -1,6 +1,6 @@
 ﻿// MIT License
 //
-// Copyright (c) 2020-2022 百小僧, Baiqian Co.,Ltd.
+// Copyright (c) 2020-2022 百小僧, Baiqian Co.,Ltd and Contributors
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -105,6 +105,13 @@ public static class DataValidationServiceCollectionExtensions
 
             // 添加全局数据验证
             services.AddMvcFilter<DataValidationFilter>(options =>
+            {
+                // 关闭空引用对象验证
+                options.SuppressImplicitRequiredAttributeForNonNullableReferenceTypes = configureOptions.SuppressImplicitRequiredAttributeForNonNullableReferenceTypes;
+            });
+
+            // 添加全局数据验证（Razor Pages）
+            services.AddMvcFilter<DataValidationPageFilter>(options =>
             {
                 // 关闭空引用对象验证
                 options.SuppressImplicitRequiredAttributeForNonNullableReferenceTypes = configureOptions.SuppressImplicitRequiredAttributeForNonNullableReferenceTypes;

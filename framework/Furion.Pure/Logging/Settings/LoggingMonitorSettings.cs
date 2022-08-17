@@ -1,6 +1,6 @@
 ﻿// MIT License
 //
-// Copyright (c) 2020-2022 百小僧, Baiqian Co.,Ltd.
+// Copyright (c) 2020-2022 百小僧, Baiqian Co.,Ltd and Contributors
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -52,4 +52,10 @@ public sealed class LoggingMonitorSettings
     /// </summary>
     /// <remarks>控制 Oops.Oh 或 Oops.Bah 日志记录位置，默认写入 <see cref="LogLevel.Information"/></remarks>
     public LogLevel BahLogLevel { get; set; } = LogLevel.Information;
+
+    /// <summary>
+    /// 是否 Mvc Filter 方式注册
+    /// </summary>
+    /// <remarks>解决旧版本兼容问题</remarks>
+    internal bool IsMvcFilterRegister { get; set; } = true;
 }

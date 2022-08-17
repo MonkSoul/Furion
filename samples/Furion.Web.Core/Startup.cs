@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using Furion.Application;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -33,6 +34,8 @@ public sealed class Startup : AppStartup
         services.AddSignalR();
 
         services.AddFileLogging();
+
+        services.AddDatabaseLogging<DatabaseLoggingWriter>();
 
         services.AddMonitorLogging();
 

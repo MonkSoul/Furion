@@ -28,6 +28,7 @@ module.exports = {
         "globalusing",
         "jsonschema",
         "vsfast",
+        "nuget-local",
       ],
     },
     {
@@ -331,6 +332,9 @@ module.exports = {
       type: "doc",
       id: "global/tp",
     },
-    ,
+    {
+      type: "doc",
+      id: "global/log",
+    },
   ],
 };

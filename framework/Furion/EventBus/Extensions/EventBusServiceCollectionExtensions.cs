@@ -1,6 +1,6 @@
 ﻿// MIT License
 //
-// Copyright (c) 2020-2022 百小僧, Baiqian Co.,Ltd.
+// Copyright (c) 2020-2022 百小僧, Baiqian Co.,Ltd and Contributors
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -89,11 +89,13 @@ public static class EventBusServiceCollectionExtensions
     /// <returns>服务集合实例</returns>
     private static IServiceCollection AddInternalService(this IServiceCollection services, EventBusOptionsBuilder eventBusOptions)
     {
+        // 创建默认内存通道事件源对象
+        var defaultStorerOfChannel = new ChannelEventSourceStorer(eventBusOptions.ChannelCapacity);
+
         // 注册后台任务队列接口/实例为单例，采用工厂方式创建
         services.AddSingleton<IEventSourceStorer>(_ =>
         {
-            // 创建默认内存通道事件源对象
-            return new ChannelEventSourceStorer(eventBusOptions.ChannelCapacity);
+            return defaultStorerOfChannel;
         });
 
         // 注册默认内存通道事件发布者

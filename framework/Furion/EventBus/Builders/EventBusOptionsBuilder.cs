@@ -1,6 +1,6 @@
 ﻿// MIT License
 //
-// Copyright (c) 2020-2022 百小僧, Baiqian Co.,Ltd.
+// Copyright (c) 2020-2022 百小僧, Baiqian Co.,Ltd and Contributors
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -82,6 +82,20 @@ public sealed class EventBusOptionsBuilder
         where TEventSubscriber : class, IEventSubscriber
     {
         _eventSubscribers.Add(typeof(TEventSubscriber));
+        return this;
+    }
+
+    /// <summary>
+    /// 注册事件订阅者
+    /// </summary>
+    /// <param name="eventSubscriberType"><see cref="IEventSubscriber"/> 派生类型</param>
+    /// <returns><see cref="EventBusOptionsBuilder"/> 实例</returns>
+    public EventBusOptionsBuilder AddSubscriber(Type eventSubscriberType)
+    {
+        // 类型检查
+        if (!typeof(IEventSubscriber).IsAssignableFrom(eventSubscriberType)) throw new InvalidOperationException("The <eventSubscriberType> is not implement the IEventSubscriber interface.");
+
+        _eventSubscribers.Add(eventSubscriberType);
         return this;
     }
 

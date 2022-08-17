@@ -1,6 +1,6 @@
 ﻿// MIT License
 //
-// Copyright (c) 2020-2022 百小僧, Baiqian Co.,Ltd.
+// Copyright (c) 2020-2022 百小僧, Baiqian Co.,Ltd and Contributors
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -44,9 +44,14 @@ public sealed class DatabaseLoggerProvider : ILoggerProvider
     private readonly BlockingCollection<LogMessage> _logMessageQueue = new(1024);
 
     /// <summary>
-    /// 服务提供器
+    /// 数据库日志写入器作用域范围
     /// </summary>
-    internal IServiceProvider _serviceProvider;
+    internal IServiceScope _serviceScope;
+
+    /// <summary>
+    /// 数据库日志写入器
+    /// </summary>
+    private IDatabaseLoggingWriter _databaseLoggingWriter;
 
     /// <summary>
     /// 长时间运行的后台任务
@@ -121,6 +126,9 @@ public sealed class DatabaseLoggerProvider : ILoggerProvider
 
         // 清空数据库日志记录器
         _databaseLoggers.Clear();
+
+        // 释放数据库写入器作用域范围
+        _serviceScope?.Dispose();
     }
 
     /// <summary>
@@ -147,7 +155,14 @@ public sealed class DatabaseLoggerProvider : ILoggerProvider
     /// <param name="serviceProvider"></param>
     internal void SetServiceProvider(IServiceProvider serviceProvider)
     {
-        _serviceProvider = serviceProvider;
+        // 解析服务作用域工厂服务
+        var serviceScopeFactory = serviceProvider.GetRequiredService<IServiceScopeFactory>();
+
+        // 创建服务作用域
+        _serviceScope = serviceScopeFactory.CreateScope();
+
+        // 基于当前作用域创建数据库日志写入器
+        _databaseLoggingWriter = _serviceScope.ServiceProvider.GetRequiredService<IDatabaseLoggingWriter>();
 
         // 创建长时间运行的后台任务，并将日志消息队列中数据写入存储中
         _processQueueTask = Task.Factory.StartNew(state => ((DatabaseLoggerProvider)state).ProcessQueue()
@@ -161,16 +176,10 @@ public sealed class DatabaseLoggerProvider : ILoggerProvider
     {
         foreach (var logMsg in _logMessageQueue.GetConsumingEnumerable())
         {
-            // 创建服务作用域
-            var serviceScope = _serviceProvider.CreateScope();
-
             try
             {
-                // 基于当前作用域创建数据库日志写入器
-                var databaseLoggingWriter = serviceScope.ServiceProvider.GetRequiredService<IDatabaseLoggingWriter>();
-
                 // 调用数据库写入器写入数据库方法
-                databaseLoggingWriter.Write(logMsg, _logMessageQueue.Count == 0);
+                _databaseLoggingWriter.Write(logMsg, _logMessageQueue.Count == 0);
             }
             catch (Exception ex)
             {
@@ -185,9 +194,6 @@ public sealed class DatabaseLoggerProvider : ILoggerProvider
             }
             finally
             {
-                // 释放作用域
-                serviceScope?.Dispose();
-
                 // 清空日志上下文
                 ClearScopeContext(logMsg.LogName);
             }

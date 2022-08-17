@@ -1,6 +1,6 @@
 ﻿// MIT License
 //
-// Copyright (c) 2020-2022 百小僧, Baiqian Co.,Ltd.
+// Copyright (c) 2020-2022 百小僧, Baiqian Co.,Ltd and Contributors
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -31,6 +31,15 @@ namespace Furion.Logging;
 [SuppressSniffer]
 public sealed class DatabaseLogger : ILogger
 {
+    /// <summary>
+    /// 排除日志分类名
+    /// </summary>
+    /// <remarks>避免数据库日志死循环</remarks>
+    private static readonly string[] ExcludesOfLogCategoryName = new string[]
+    {
+        "Microsoft.EntityFrameworkCore"
+    };
+
     /// <summary>
     /// 记录器类别名称
     /// </summary>
@@ -103,6 +112,9 @@ public sealed class DatabaseLogger : ILogger
     {
         // 判断日志级别是否有效
         if (!IsEnabled(logLevel)) return;
+
+        // 排除数据库自身日志
+        if (ExcludesOfLogCategoryName.Any(u => _logName.StartsWith(u))) return;
 
         // 检查日志格式化器
         if (formatter == null) throw new ArgumentNullException(nameof(formatter));

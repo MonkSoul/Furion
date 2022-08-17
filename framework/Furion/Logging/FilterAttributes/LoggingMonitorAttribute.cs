@@ -1,6 +1,6 @@
 ﻿// MIT License
 //
-// Copyright (c) 2020-2022 百小僧, Baiqian Co.,Ltd.
+// Copyright (c) 2020-2022 百小僧, Baiqian Co.,Ltd and Contributors
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -29,6 +29,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Primitives;
@@ -103,6 +104,12 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter, IOr
     /// <returns></returns>
     public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
     {
+        // 判断是否是 Razor Pages
+        var isPageDescriptor = context.ActionDescriptor is CompiledPageActionDescriptor;
+
+        // 抛出不支持 Razor Pages 异常
+        if (isPageDescriptor) throw new InvalidOperationException("The LoggingMonitorAttribute is not support the Razor Pages application.");
+
         // 获取控制器/操作描述器
         var controllerActionDescriptor = context.ActionDescriptor as ControllerActionDescriptor;
 
@@ -122,21 +129,25 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter, IOr
         // 只有方法没有贴有 [LoggingMonitor] 特性才判断全局，贴了特性优先级最大
         if (!actionMethod.IsDefined(typeof(LoggingMonitorAttribute), true))
         {
-            // 处理不启用但排除的情况
-            if (!Settings.GlobalEnabled
-                && !Settings.IncludeOfMethods.Contains(methodFullName, StringComparer.OrdinalIgnoreCase))
+            // 解决通过 AddMvcFilter 的问题
+            if (!Settings.IsMvcFilterRegister)
             {
-                // 查找是否包含匹配，忽略大小写
-                _ = await next();
-                return;
-            }
+                // 处理不启用但排除的情况
+                if (!Settings.GlobalEnabled
+                    && !Settings.IncludeOfMethods.Contains(methodFullName, StringComparer.OrdinalIgnoreCase))
+                {
+                    // 查找是否包含匹配，忽略大小写
+                    _ = await next();
+                    return;
+                }
 
-            // 处理启用但排除的情况
-            if (Settings.GlobalEnabled
-                && Settings.ExcludeOfMethods.Contains(methodFullName, StringComparer.OrdinalIgnoreCase))
-            {
-                _ = await next();
-                return;
+                // 处理启用但排除的情况
+                if (Settings.GlobalEnabled
+                    && Settings.ExcludeOfMethods.Contains(methodFullName, StringComparer.OrdinalIgnoreCase))
+                {
+                    _ = await next();
+                    return;
+                }
             }
         }
 

@@ -1,6 +1,6 @@
 ﻿// MIT License
 //
-// Copyright (c) 2020-2022 百小僧, Baiqian Co.,Ltd.
+// Copyright (c) 2020-2022 百小僧, Baiqian Co.,Ltd and Contributors
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -22,6 +22,7 @@
 
 using Furion.Extensions;
 using Furion.FriendlyException;
+using Furion.Localization;
 using Furion.Templates.Extensions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Features;
@@ -94,13 +95,12 @@ public static class UnifyContext
         // 处理验证失败异常
         if (!isValidationException)
         {
-            // 判断是否定义了全局类型异常
-            var actionDescriptor = context.ActionDescriptor as ControllerActionDescriptor;
-
             // 查找所有全局定义异常
-            var ifExceptionAttributes = actionDescriptor.MethodInfo
-                        .GetCustomAttributes<IfExceptionAttribute>(true)
-                        .Where(u => u.ErrorCode == null);
+            var ifExceptionAttributes = context.ActionDescriptor is not ControllerActionDescriptor actionDescriptor
+                        ? Array.Empty<IfExceptionAttribute>()
+                        : actionDescriptor.MethodInfo
+                            .GetCustomAttributes<IfExceptionAttribute>(true)
+                            .Where(u => u.ErrorCode == null);
 
             // 处理全局异常
             if (ifExceptionAttributes.Any())
@@ -110,10 +110,17 @@ public static class UnifyContext
                                                 (isFriendlyException && exception?.InnerException != null
                                                                     ? exception?.InnerException.GetType()
                                                                     : exception?.GetType()))
+                        ?? ifExceptionAttributes.FirstOrDefault(u => u.ExceptionType == typeof(Exception))
                         ?? ifExceptionAttributes.FirstOrDefault(u => u.ExceptionType == null);
 
                 // 支持渲染配置文件
-                if (actionIfExceptionAttribute is { ErrorMessage: not null }) errors = actionIfExceptionAttribute.ErrorMessage.Render();
+                if (actionIfExceptionAttribute is { ErrorMessage: not null } && !isFriendlyException)
+                {
+                    var realErrorMessage = actionIfExceptionAttribute.ErrorMessage.Render();
+
+                    // 多语言处理
+                    errors = L.Text == null ? realErrorMessage : L.Text[realErrorMessage];
+                }
             }
             else errors = exception?.InnerException?.Message ?? exception?.Message;
         }

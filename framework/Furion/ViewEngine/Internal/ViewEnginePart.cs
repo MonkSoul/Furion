@@ -1,6 +1,6 @@
 ﻿// MIT License
 //
-// Copyright (c) 2020-2022 百小僧, Baiqian Co.,Ltd.
+// Copyright (c) 2020-2022 百小僧, Baiqian Co.,Ltd and Contributors
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -31,7 +31,7 @@ public sealed partial class ViewEnginePart
     /// <summary>
     /// 静态缺省 视图 部件
     /// </summary>
-    public static ViewEnginePart Default => new();
+    public static ViewEnginePart Default() => new();
 
     /// <summary>
     /// 字符串模板

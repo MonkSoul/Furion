@@ -1,6 +1,6 @@
 ﻿// MIT License
 //
-// Copyright (c) 2020-2022 百小僧, Baiqian Co.,Ltd.
+// Copyright (c) 2020-2022 百小僧, Baiqian Co.,Ltd and Contributors
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -59,4 +59,14 @@ public sealed class ValidationMetadata
     /// 状态码
     /// </summary>
     public int? StatusCode { get; internal set; }
+
+    /// <summary>
+    /// 首个错误属性
+    /// </summary>
+    public string FirstErrorProperty { get; internal set; }
+
+    /// <summary>
+    /// 首个错误消息
+    /// </summary>
+    public string FirstErrorMessage { get; internal set; }
 }

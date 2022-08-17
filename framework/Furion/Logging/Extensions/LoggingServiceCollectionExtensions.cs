@@ -1,6 +1,6 @@
 ﻿// MIT License
 //
-// Copyright (c) 2020-2022 百小僧, Baiqian Co.,Ltd.
+// Copyright (c) 2020-2022 百小僧, Baiqian Co.,Ltd and Contributors
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -43,6 +43,7 @@ public static class LoggingServiceCollectionExtensions
         // 读取配置
         var settings = App.GetConfig<LoggingMonitorSettings>(configurationKey)
             ?? new LoggingMonitorSettings();
+        settings.IsMvcFilterRegister = false;   // 解决过去 Mvc Filter 全局注册的问题
         settings.IncludeOfMethods ??= Array.Empty<string>();
         settings.ExcludeOfMethods ??= Array.Empty<string>();
 

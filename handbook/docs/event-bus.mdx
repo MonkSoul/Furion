@@ -97,6 +97,9 @@ services.AddEventBus(builder =>
     // 注册 ToDo 事件订阅者
     builder.AddSubscriber<ToDoEventSubscriber>();
 
+    // 通过类型注册，Furion 4.2.1+ 版本
+    builder.AddSubscriber(typeof(ToDoEventSubscriber));
+
     // 批量注册事件订阅者
     builder.AddSubscribers(ass1, ass2, ....);
 });

@@ -21,14 +21,34 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 :::
 
-## v4.2.0（未发布）
+## v4.2.3（当前版本）
 
 - **新特性**
+
+  - [新增] **`Log` 全局静态类，方便随时随地记录日志** [ba9b1f1](https://gitee.com/dotnetchina/Furion/commit/ba9b1f13a0b89b6670cf7078ac15abe0eed1f2c3)
+  - [新增] 事件总线 `options.AddSubscriber(Type)` 重载 [42446078](https://gitee.com/dotnetchina/Furion/blob/424460780b630e1c71de4db84ad8fd14e33a09f5/framework/Furion.Pure/EventBus/Builders/EventBusOptionsBuilder.cs)
+  - [新增] `ValidationMetadata` 类型 `FirstErrorProperty` 和 `FirstErrorMessage` 属性 [#I5MFJT](https://gitee.com/dotnetchina/Furion/issues/I5MFJT)
 
 - **突破性变化**
 
   - [支持] `.NET 6.0.8` 和 `.NET 7 Preview 7` [842d4f7](https://gitee.com/dotnetchina/Furion/commit/842d4f739c92366e05fb1d2c619c9b2c2c2c21b7)
   - [调整] `[LoggingMonitor]` 命名空间为 `System`，因为使用频率越来越高 [b879861](https://gitee.com/dotnetchina/Furion/commit/b879861c9db5cf3cb0f4ae023d1e96b06fad3e46)
+  - [添加] **在非 `Web` 环境中不正确使用字符串拓展方法检测机制** [6389cbd](https://gitee.com/dotnetchina/Furion/commit/6389cbdd69f5ca826fad25749a45ede079db98ce)
+  - [调整] **所有 `.Default` 静态属性为 `.Default()` 方法** [6389cbd](https://gitee.com/dotnetchina/Furion/commit/6389cbdd69f5ca826fad25749a45ede079db98ce)
+  - [调整] **工作单元 `IUnitOfWork` 所有方法参数类型，由 `ActionExecutingContext` 和 `ActionExecutedContext` 改为 `FilterContext`** [#I5MHX5](https://gitee.com/dotnetchina/Furion/issues/I5MHX5)
+
+```cs showLineNumbers {3,5,7,9}
+public interface IUnitOfWork
+{
+    void BeginTransaction(FilterContext context, UnitOfWorkAttribute unitOfWork);
+
+    void CommitTransaction(FilterContext resultContext, UnitOfWorkAttribute unitOfWork);
+
+    void RollbackTransaction(FilterContext resultContext, UnitOfWorkAttribute unitOfWork);
+
+    void OnCompleted(FilterContext context, FilterContext resultContext);
+}
+```
 
 - **问题修复**
 
@@ -36,16 +56,33 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
   - [修复] 个别情况下跨域默认配置的响应缓存导致嵌入式资源异常问题 [7a57efe](https://gitee.com/dotnetchina/Furion/commit/7a57efe15a9a2d76475d758f2b64395f96d94077)
   - [修复] 远程请求传入不合法的请求报文头数据触发校验失败问题 [#I5LPFE](https://gitee.com/dotnetchina/Furion/issues/I5LPFE)
   - [修复] 多线程中使用静态日志写数据库日志导致连接池耗光问题 [8d5cdd6](https://gitee.com/dotnetchina/Furion/commit/8d5cdd6ca04d55e33322000ecc176e47195b6f4d)
+  - [修复] `EFCore 6.0` 之后 `IModelCacheKeyFactory` 接口方法改变导致分表分库异常问题 [#I5MCZ6](https://gitee.com/dotnetchina/Furion/issues/I5MCZ6) [EFCore#25154](https://github.com/dotnet/efcore/issues/25154#issuecomment-868804532) [EFCore!3305](https://github.com/dotnet/EntityFramework.Docs/pull/3305)
+  - [修复] `ValidationMetadata` 对象 `Message` 字符串类型出现 `\"\"` 问题 [#I5MFJT](https://gitee.com/dotnetchina/Furion/issues/I5MFJT)
+  - [修复] `[IfException]` 覆盖 `Oops.Oh/Bah` 错误消息问题 [4bbd854](https://gitee.com/dotnetchina/Furion/commit/4bbd854c6779bf7eca26fd69b25c4979b8cec32d)
+  - [修复] 数据库日志写入循环写入和频繁创建数据库连接池问题 [9ce214c](https://gitee.com/dotnetchina/Furion/commit/9ce214c9cf49eb1ff59f3c52dbecd789be4f45fd)
+  - [修复] `Razor Pages` 不支持全局异常拦截问题 [#I5MHX5](https://gitee.com/dotnetchina/Furion/issues/I5MHX5)
+  - [修复] `Razor Pages` 不支持全局数据验证问题 [#I5MHX5](https://gitee.com/dotnetchina/Furion/issues/I5MHX5)
+  - [修复] `Razor Pages` 不支持工作单元 `[UnitOfWork]` 问题 [#I5MHX5](https://gitee.com/dotnetchina/Furion/issues/I5MHX5)
+  - [修复] `Razor Pages` 不支持 `EFCore` 自动 `SaveChanges` 问题 [#I5MHX5](https://gitee.com/dotnetchina/Furion/issues/I5MHX5)
+  - [修复] `Blazor Server` 因 `v4.2.2` 版本更新导致的问题 [#I5MNFN](https://gitee.com/dotnetchina/Furion/issues/I5MNFN)
+  - [修复] `[IfException]` 不支持多语言配置问题 [#I5MPN7](https://gitee.com/dotnetchina/Furion/issues/I5MPN7)
+  - [修复] 通过 `services.AddMvcFilter<LoggingMonitorAttribute>()` 方式注册无效问题 [8d1477d](https://gitee.com/dotnetchina/Furion/commit/8d1477d8b44ae111bddb8e4780672bcaf4e0e467)
+  - [修复] 事件总线默认 `Channel` 管道初始化时机过晚问题，解决部分第三方依赖使用问题 [#I5MM3O](https://gitee.com/dotnetchina/Furion/issues/I5MM3O)
 
 - **其他更改**
 
+  - [调整] 事件总线默认 `Channel` 管道初始化时机，解决部分第三方依赖使用问题 [#I5MM3O](https://gitee.com/dotnetchina/Furion/issues/I5MM3O)
+  - [优化] 底层迭代改进优化
+
 - **文档**
 
-  - [更新] 日志文档、静态类文档、数据校验文档、Worker Service 文档
+  - [新增] 全局日志静态类 `Log` 文档 [ba9b1f1](https://gitee.com/dotnetchina/Furion/commit/ba9b1f13a0b89b6670cf7078ac15abe0eed1f2c3)
+  - [新增] `Nuget` 本地测试包文档
+  - [更新] 日志文档、静态类文档、数据校验文档、Worker Service 文档、工作单元文档
 
 ---
 
-## v4.1.14（当前版本）
+## v4.1.14（已发布）
 
 - **新特性**
 
@@ -99,6 +136,10 @@ Serve.Run(RunOptions.Default.ConfigureConfiguration((environment, configuration)
 - **其他更改**
 
   - [开放] 底层的规范化文档 `SpecificationDocumentBuilder` 部分方法，提供更加便捷的第三方 `Swagger UI` 集成 [10f0f01](https://gitee.com/dotnetchina/Furion/commit/10f0f01996586eedb138304c7b00c6f31282dfeb)
+
+- **文档**
+
+  - [更新] 单元测试文档、入门指南文档、Worker Services 文档
 
 - **本期亮点**
 

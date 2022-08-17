@@ -1,6 +1,6 @@
 ﻿// MIT License
 //
-// Copyright (c) 2020-2022 百小僧, Baiqian Co.,Ltd.
+// Copyright (c) 2020-2022 百小僧, Baiqian Co.,Ltd and Contributors
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -55,8 +55,7 @@ public class DynamicModelCacheKeyFactory : IModelCacheKeyFactory
     {
         return (context.GetType(), cacheKey);
     }
-#endif
-
+#else
     /// <summary>
     /// 更新模型缓存
     /// </summary>
@@ -65,6 +64,11 @@ public class DynamicModelCacheKeyFactory : IModelCacheKeyFactory
     /// <returns></returns>
     public object Create(DbContext context, bool designTime)
     {
-        return (context.GetType(), cacheKey);
+        var dbContextAttribute = DbProvider.GetAppDbContextAttribute(context.GetType());
+
+        return dbContextAttribute?.Mode == DbContextMode.Dynamic
+            ? (context.GetType(), cacheKey, designTime)
+            : context.GetType();
     }
+#endif
 }

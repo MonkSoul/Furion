@@ -1,6 +1,6 @@
 ﻿// MIT License
 //
-// Copyright (c) 2020-2022 百小僧, Baiqian Co.,Ltd.
+// Copyright (c) 2020-2022 百小僧, Baiqian Co.,Ltd and Contributors
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -94,7 +94,7 @@ public static class ILoggerFactoryExtensions
         var databaseLoggerProvider = new DatabaseLoggerProvider(options);
 
         // 解决数据库写入器中循环引用数据库仓储问题
-        if (databaseLoggerProvider._serviceProvider == null)
+        if (databaseLoggerProvider._serviceScope == null)
         {
             databaseLoggerProvider.SetServiceProvider(serviceProvider);
         }
@@ -139,7 +139,7 @@ public static class ILoggerFactoryExtensions
         if (databaseLoggerProvider == default) return factory;
 
         // 解决数据库写入器中循环引用数据库仓储问题
-        if (databaseLoggerProvider._serviceProvider == null)
+        if (databaseLoggerProvider._serviceScope == null)
         {
             databaseLoggerProvider.SetServiceProvider(serviceProvider);
         }

@@ -301,4 +301,12 @@ public class PersonService : IDynamicApiController
     {
         return L.Text["API 接口"];
     }
+
+    public void 测试多线程没有创建作用域()
+    {
+        Task.Run(() =>
+        {
+            var c = Db.GetRepository<Person>().FirstOrDefault();
+        });
+    }
 }
