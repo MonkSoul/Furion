@@ -44,18 +44,18 @@ public sealed class UnitOfWorkAttribute : Attribute, IAsyncActionFilter, IAsyncP
     /// <summary>
     /// 是否使用分布式事务
     /// </summary>
-    public bool UseTransaction { get; set; } = false;
+    public bool UseAmbientTransaction { get; set; } = false;
 
     /// <summary>
     /// 分布式事务范围
     /// </summary>
-    /// <remarks><see cref="UseTransaction"/> 为 true 有效</remarks>
+    /// <remarks><see cref="UseAmbientTransaction"/> 为 true 有效</remarks>
     public TransactionScopeOption TransactionScope { get; set; } = TransactionScopeOption.Required;
 
     /// <summary>
     /// 分布式事务隔离级别
     /// </summary>
-    /// <remarks><see cref="UseTransaction"/> 为 true 有效</remarks>
+    /// <remarks><see cref="UseAmbientTransaction"/> 为 true 有效</remarks>
     public IsolationLevel TransactionIsolationLevel { get; set; } = IsolationLevel.ReadCommitted;
 
     /// <summary>
@@ -67,7 +67,7 @@ public sealed class UnitOfWorkAttribute : Attribute, IAsyncActionFilter, IAsyncP
     /// <summary>
     /// 支持分布式事务异步流
     /// </summary>
-    /// <remarks><see cref="UseTransaction"/> 为 true 有效</remarks>
+    /// <remarks><see cref="UseAmbientTransaction"/> 为 true 有效</remarks>
     public TransactionScopeAsyncFlowOption TransactionScopeAsyncFlow { get; set; } = TransactionScopeAsyncFlowOption.Enabled;
 
     /// <summary>
@@ -123,7 +123,7 @@ public sealed class UnitOfWorkAttribute : Attribute, IAsyncActionFilter, IAsyncP
         }
 
         // 是否启用分布式事务
-        var transactionScope = UseTransaction
+        var transactionScope = UseAmbientTransaction
             ? new TransactionScope(TransactionScope,
            new TransactionOptions { IsolationLevel = TransactionIsolationLevel, Timeout = TransactionTimeout > 0 ? TimeSpan.FromSeconds(TransactionTimeout) : default }
            , TransactionScopeAsyncFlow)
@@ -199,7 +199,7 @@ public sealed class UnitOfWorkAttribute : Attribute, IAsyncActionFilter, IAsyncP
         }
 
         // 是否启用分布式事务
-        var transactionScope = UseTransaction
+        var transactionScope = UseAmbientTransaction
             ? new TransactionScope(TransactionScope,
            new TransactionOptions { IsolationLevel = TransactionIsolationLevel, Timeout = TransactionTimeout > 0 ? TimeSpan.FromSeconds(TransactionTimeout) : default }
            , TransactionScopeAsyncFlow)
