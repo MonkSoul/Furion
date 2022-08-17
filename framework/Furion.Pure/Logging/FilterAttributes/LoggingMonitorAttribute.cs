@@ -129,21 +129,25 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter, IOr
         // 只有方法没有贴有 [LoggingMonitor] 特性才判断全局，贴了特性优先级最大
         if (!actionMethod.IsDefined(typeof(LoggingMonitorAttribute), true))
         {
-            // 处理不启用但排除的情况
-            if (!Settings.GlobalEnabled
-                && !Settings.IncludeOfMethods.Contains(methodFullName, StringComparer.OrdinalIgnoreCase))
+            // 解决通过 AddMvcFilter 的问题
+            if (!Settings.IsMvcFilterRegister)
             {
-                // 查找是否包含匹配，忽略大小写
-                _ = await next();
-                return;
-            }
+                // 处理不启用但排除的情况
+                if (!Settings.GlobalEnabled
+                    && !Settings.IncludeOfMethods.Contains(methodFullName, StringComparer.OrdinalIgnoreCase))
+                {
+                    // 查找是否包含匹配，忽略大小写
+                    _ = await next();
+                    return;
+                }
 
-            // 处理启用但排除的情况
-            if (Settings.GlobalEnabled
-                && Settings.ExcludeOfMethods.Contains(methodFullName, StringComparer.OrdinalIgnoreCase))
-            {
-                _ = await next();
-                return;
+                // 处理启用但排除的情况
+                if (Settings.GlobalEnabled
+                    && Settings.ExcludeOfMethods.Contains(methodFullName, StringComparer.OrdinalIgnoreCase))
+                {
+                    _ = await next();
+                    return;
+                }
             }
         }
 

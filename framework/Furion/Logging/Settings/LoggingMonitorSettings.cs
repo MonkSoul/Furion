@@ -52,4 +52,10 @@ public sealed class LoggingMonitorSettings
     /// </summary>
     /// <remarks>控制 Oops.Oh 或 Oops.Bah 日志记录位置，默认写入 <see cref="LogLevel.Information"/></remarks>
     public LogLevel BahLogLevel { get; set; } = LogLevel.Information;
+
+    /// <summary>
+    /// 是否 Mvc Filter 方式注册
+    /// </summary>
+    /// <remarks>解决旧版本兼容问题</remarks>
+    internal bool IsMvcFilterRegister { get; set; } = true;
 }

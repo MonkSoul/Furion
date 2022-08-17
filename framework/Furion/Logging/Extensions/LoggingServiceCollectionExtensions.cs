@@ -43,6 +43,7 @@ public static class LoggingServiceCollectionExtensions
         // 读取配置
         var settings = App.GetConfig<LoggingMonitorSettings>(configurationKey)
             ?? new LoggingMonitorSettings();
+        settings.IsMvcFilterRegister = false;   // 解决过去 Mvc Filter 全局注册的问题
         settings.IncludeOfMethods ??= Array.Empty<string>();
         settings.ExcludeOfMethods ??= Array.Empty<string>();
 
