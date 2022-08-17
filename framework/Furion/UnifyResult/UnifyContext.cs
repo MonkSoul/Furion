@@ -22,6 +22,7 @@
 
 using Furion.Extensions;
 using Furion.FriendlyException;
+using Furion.Localization;
 using Furion.Templates.Extensions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Features;
@@ -113,7 +114,13 @@ public static class UnifyContext
                         ?? ifExceptionAttributes.FirstOrDefault(u => u.ExceptionType == null);
 
                 // 支持渲染配置文件
-                if (actionIfExceptionAttribute is { ErrorMessage: not null } && !isFriendlyException) errors = actionIfExceptionAttribute.ErrorMessage.Render();
+                if (actionIfExceptionAttribute is { ErrorMessage: not null } && !isFriendlyException)
+                {
+                    var realErrorMessage = actionIfExceptionAttribute.ErrorMessage.Render();
+
+                    // 多语言处理
+                    errors = L.Text == null ? realErrorMessage : L.Text[realErrorMessage];
+                }
             }
             else errors = exception?.InnerException?.Message ?? exception?.Message;
         }
