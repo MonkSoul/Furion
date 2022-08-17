@@ -444,6 +444,15 @@ public static class App
     /// </summary>
     public static void DisposeUnmanagedObjects()
     {
+        foreach (var dsp in UnmanagedObjects)
+        {
+            try
+            {
+                dsp?.Dispose();
+            }
+            finally { }
+        }
+
         UnmanagedObjects.Clear();
     }
 }

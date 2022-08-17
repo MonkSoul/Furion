@@ -795,7 +795,7 @@ public sealed partial class EntityExecutePart<TEntity>
     private IPrivateRepository<TEntity> GetRepository()
     {
         // 判断是否在非 Web 中执行
-        if (ContextScoped == null) throw new InvalidOperationException("It is detected that it is executed in a non Web environment. Please create the scope and pass `.SetContextScoped(serviceProvider)` incoming.");
+        if (ContextScoped == null) throw new InvalidOperationException("Entity Extensions：It is detected that it is executed in a non Web environment. Please create the scope and pass `.SetContextScoped(serviceProvider)` incoming.");
 
         return Db.GetRepository<TEntity>(DbContextLocator, ContextScoped);
     }

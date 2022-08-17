@@ -83,4 +83,13 @@ public struct LogMessage
     /// 日志上下文
     /// </summary>
     public LogContext Context;
+
+    /// <summary>
+    /// 重写默认输出
+    /// </summary>
+    /// <returns></returns>
+    public override string ToString()
+    {
+        return Message;
+    }
 }

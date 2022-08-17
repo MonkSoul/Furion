@@ -2165,7 +2165,7 @@ public sealed partial class SqlExecutePart
     private IPrivateSqlRepository GetSqlRepository()
     {
         // 判断是否在非 Web 中执行
-        if (ContextScoped == null) throw new InvalidOperationException("It is detected that it is executed in a non Web environment. Please create the scope and pass `.SetContextScoped(serviceProvider)` incoming.");
+        if (ContextScoped == null) throw new InvalidOperationException("Sql Extensions：It is detected that it is executed in a non Web environment. Please create the scope and pass `.SetContextScoped(serviceProvider)` incoming.");
 
         var repository = App.GetService(typeof(ISqlRepository<>).MakeGenericType(DbContextLocator), ContextScoped) as IPrivateSqlRepository;
         // 设置超时时间
