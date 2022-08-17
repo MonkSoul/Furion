@@ -28,6 +28,7 @@ module.exports = {
         "globalusing",
         "jsonschema",
         "vsfast",
+        "nuget-local",
       ],
     },
     {
