@@ -257,7 +257,7 @@ services.AddFileLogging(() => "MyLogger", options =>
 
 - **自定义日志文件名规则**
 
-```cs showLineNumbers {2,5,14}
+```cs showLineNumbers {2,5,14,23}
 // 例子一：支持系统环境变量，如%SystemDrive%，%SystemRoot%
 services.AddFileLogging("application%SystemDrive%-%SystemRoot%.log");
 
@@ -277,6 +277,16 @@ services.AddFileLogging("application-{0:yyyy}-{0:MM}-{0:dd}.log", options =>
     {
         // your rule...
     };
+});
+
+// 例子四，批量设置多个
+Array.ForEach(new[] { LogLevel.Information, LogLevel.Warning, LogLevel.Error }, logLevel =>
+{
+    services.AddFileLogging($"application-{logLevel}-{0:yyyy}-{0:MM}-{0:dd}.log", options =>
+    {
+        options.FileNameRule = fileName => string.Format(fileName, DateTime.UtcNow);
+        options.WriteFilter = logMsg => logMsg.LogLevel == logLevel;
+    });
 });
 ```
 
