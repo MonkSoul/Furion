@@ -51,12 +51,6 @@ public static class UnitOfWorkServiceCollectionExtensions
     public static IServiceCollection AddUnitOfWork<TUnitOfWork>(this IServiceCollection services)
         where TUnitOfWork : class, IUnitOfWork
     {
-        // 注册全局工作单元过滤器
-        services.AddMvcFilter<UnitOfWorkFilter>();
-
-        // 注册全局工作单元过滤器（Razor Pages）
-        services.AddMvcFilter<UnitOfWorkPageFilter>();
-
         // 注册工作单元服务
         services.AddTransient<IUnitOfWork, TUnitOfWork>();
         return services;
