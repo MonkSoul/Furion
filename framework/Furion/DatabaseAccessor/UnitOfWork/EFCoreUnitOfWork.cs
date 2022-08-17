@@ -52,8 +52,8 @@ public sealed class EFCoreUnitOfWork : IUnitOfWork
     /// <exception cref="NotImplementedException"></exception>
     public void BeginTransaction(FilterContext context, UnitOfWorkAttribute unitOfWork)
     {
-        // 开启事务
-        _dbContextPool.BeginTransaction(unitOfWork.EnsureTransaction);
+        // 开启事务，如果已经开启分布式事务，则无需创建本地事务
+        if (!unitOfWork.UseTransaction) _dbContextPool.BeginTransaction(unitOfWork.EnsureTransaction);
     }
 
     /// <summary>
@@ -78,7 +78,7 @@ public sealed class EFCoreUnitOfWork : IUnitOfWork
     public void RollbackTransaction(FilterContext resultContext, UnitOfWorkAttribute unitOfWork)
     {
         // 回滚事务
-        _dbContextPool.RollbackTransaction();
+        if (!unitOfWork.UseTransaction) _dbContextPool.RollbackTransaction();
     }
 
     /// <summary>

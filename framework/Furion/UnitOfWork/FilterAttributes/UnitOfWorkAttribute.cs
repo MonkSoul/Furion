@@ -23,7 +23,9 @@
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using System.Reflection;
+using System.Transactions;
 
 namespace Furion.DatabaseAccessor;
 
@@ -34,26 +36,39 @@ namespace Furion.DatabaseAccessor;
 public sealed class UnitOfWorkAttribute : Attribute, IAsyncActionFilter, IAsyncPageFilter, IOrderedFilter
 {
     /// <summary>
-    /// 构造函数
-    /// </summary>
-    public UnitOfWorkAttribute()
-    {
-    }
-
-    /// <summary>
-    /// 构造函数
-    /// </summary>
-    /// <param name="ensureTransaction"></param>
-    public UnitOfWorkAttribute(bool ensureTransaction)
-    {
-        EnsureTransaction = ensureTransaction;
-    }
-
-    /// <summary>
     /// 确保事务可用
     /// <para>此方法为了解决静态类方式操作数据库的问题</para>
     /// </summary>
     public bool EnsureTransaction { get; set; } = false;
+
+    /// <summary>
+    /// 是否使用分布式事务
+    /// </summary>
+    public bool UseTransaction { get; set; } = false;
+
+    /// <summary>
+    /// 分布式事务范围
+    /// </summary>
+    /// <remarks><see cref="UseTransaction"/> 为 true 有效</remarks>
+    public TransactionScopeOption TransactionScope { get; set; } = TransactionScopeOption.Required;
+
+    /// <summary>
+    /// 分布式事务隔离级别
+    /// </summary>
+    /// <remarks><see cref="UseTransaction"/> 为 true 有效</remarks>
+    public IsolationLevel TransactionIsolationLevel { get; set; } = IsolationLevel.ReadCommitted;
+
+    /// <summary>
+    /// 分布式事务超时时间
+    /// </summary>
+    /// <remarks>单位秒</remarks>
+    public int TransactionTimeout { get; set; } = 0;
+
+    /// <summary>
+    /// 支持分布式事务异步流
+    /// </summary>
+    /// <remarks><see cref="UseTransaction"/> 为 true 有效</remarks>
+    public TransactionScopeAsyncFlowOption TransactionScopeAsyncFlow { get; set; } = TransactionScopeAsyncFlowOption.Enabled;
 
     /// <summary>
     ///  MiniProfiler 分类名
@@ -69,6 +84,22 @@ public sealed class UnitOfWorkAttribute : Attribute, IAsyncActionFilter, IAsyncP
     /// 排序属性
     /// </summary>
     public int Order => FilterOrder;
+
+    /// <summary>
+    /// 构造函数
+    /// </summary>
+    public UnitOfWorkAttribute()
+    {
+    }
+
+    /// <summary>
+    /// 构造函数
+    /// </summary>
+    /// <param name="ensureTransaction"></param>
+    public UnitOfWorkAttribute(bool ensureTransaction)
+    {
+        EnsureTransaction = ensureTransaction;
+    }
 
     /// <summary>
     /// 拦截请求
@@ -91,14 +122,45 @@ public sealed class UnitOfWorkAttribute : Attribute, IAsyncActionFilter, IAsyncP
             return;
         }
 
-        // 开始事务
-        BeginTransaction(context, method, out var _unitOfWork, out var unitOfWorkAttribute);
+        // 是否启用分布式事务
+        var transactionScope = UseTransaction
+            ? new TransactionScope(TransactionScope,
+           new TransactionOptions { IsolationLevel = TransactionIsolationLevel, Timeout = TransactionTimeout > 0 ? TimeSpan.FromSeconds(TransactionTimeout) : default }
+           , TransactionScopeAsyncFlow)
+            : default;
 
-        // 获取执行 Action 结果
-        var resultContext = await next();
+        // 创建日志记录器
+        var logger = context.HttpContext.RequestServices.GetRequiredService<ILoggerFactory>()
+            .CreateLogger(GetType().FullName);
 
-        // 提交事务
-        CommitTransaction(context, _unitOfWork, unitOfWorkAttribute, resultContext);
+        try
+        {
+            // 开始事务
+            BeginTransaction(context, method, out var _unitOfWork, out var unitOfWorkAttribute);
+
+            // 获取执行 Action 结果
+            var resultContext = await next();
+
+            // 提交事务
+            CommitTransaction(context, _unitOfWork, unitOfWorkAttribute, resultContext);
+
+            // 提交分布式事务
+            if (resultContext.Exception == null) transactionScope?.Complete();
+            else logger.LogError(resultContext.Exception, "Transaction Failed.");
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "Transaction Failed.");
+
+            // 打印事务回滚消息
+            App.PrintToMiniProfiler(MiniProfilerCategory, "Rollback", isError: true);
+
+            throw;
+        }
+        finally
+        {
+            transactionScope?.Dispose();
+        }
     }
 
     /// <summary>
@@ -136,14 +198,45 @@ public sealed class UnitOfWorkAttribute : Attribute, IAsyncActionFilter, IAsyncP
             return;
         }
 
-        // 开始事务
-        BeginTransaction(context, method, out var _unitOfWork, out var unitOfWorkAttribute);
+        // 是否启用分布式事务
+        var transactionScope = UseTransaction
+            ? new TransactionScope(TransactionScope,
+           new TransactionOptions { IsolationLevel = TransactionIsolationLevel, Timeout = TransactionTimeout > 0 ? TimeSpan.FromSeconds(TransactionTimeout) : default }
+           , TransactionScopeAsyncFlow)
+            : default;
 
-        // 获取执行 Action 结果
-        var resultContext = await next.Invoke();
+        // 创建日志记录器
+        var logger = context.HttpContext.RequestServices.GetRequiredService<ILoggerFactory>()
+            .CreateLogger(GetType().FullName);
 
-        // 提交事务
-        CommitTransaction(context, _unitOfWork, unitOfWorkAttribute, resultContext);
+        try
+        {
+            // 开始事务
+            BeginTransaction(context, method, out var _unitOfWork, out var unitOfWorkAttribute);
+
+            // 获取执行 Action 结果
+            var resultContext = await next.Invoke();
+
+            // 提交事务
+            CommitTransaction(context, _unitOfWork, unitOfWorkAttribute, resultContext);
+
+            // 提交分布式事务
+            if (resultContext.Exception == null) transactionScope?.Complete();
+            else logger.LogError(resultContext.Exception, "Transaction Failed.");
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "Transaction Failed.");
+
+            // 打印事务回滚消息
+            App.PrintToMiniProfiler(MiniProfilerCategory, "Rollback", isError: true);
+
+            throw;
+        }
+        finally
+        {
+            transactionScope?.Dispose();
+        }
     }
 
     /// <summary>
