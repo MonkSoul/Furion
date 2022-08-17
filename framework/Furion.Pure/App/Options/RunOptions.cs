@@ -22,11 +22,8 @@
 
 #if !NET5_0
 using Microsoft.AspNetCore.Builder;
-using Microsoft.CodeAnalysis;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Runtime.CompilerServices;
 #else
 
 using Microsoft.AspNetCore.Hosting;
