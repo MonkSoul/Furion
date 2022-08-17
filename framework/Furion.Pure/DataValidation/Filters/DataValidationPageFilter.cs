@@ -83,7 +83,13 @@ public sealed class DataValidationPageFilter : IAsyncPageFilter, IOrderedFilter
     {
         // 跳过验证类型
         var nonValidationAttributeType = typeof(NonValidationAttribute);
-        var method = context.HandlerMethod.MethodInfo;
+        var method = context.HandlerMethod?.MethodInfo;
+        // 处理 Blazor Server
+        if (method == null)
+        {
+            await CallUnHandleResult(context, next);
+            return;
+        }
 
         // 获取验证状态
         var modelState = context.ModelState;
@@ -141,8 +147,6 @@ public sealed class DataValidationPageFilter : IAsyncPageFilter, IOrderedFilter
     /// <returns>返回 false 表示结果没有处理</returns>
     private bool HandleValidation(PageHandlerExecutingContext context, object errors, PageHandlerExecutedContext resultContext = default, AppFriendlyException friendlyException = default)
     {
-        var method = context.HandlerMethod.MethodInfo;
-
         dynamic finalContext = resultContext != null ? resultContext : context;
 
         // 解析验证消息

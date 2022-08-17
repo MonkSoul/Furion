@@ -61,7 +61,13 @@ internal sealed class AutoSaveChangesPageFilter : IAsyncPageFilter, IOrderedFilt
     public async Task OnPageHandlerExecutionAsync(PageHandlerExecutingContext context, PageHandlerExecutionDelegate next)
     {
         // 获取动作方法描述器
-        var method = context.HandlerMethod.MethodInfo;
+        var method = context.HandlerMethod?.MethodInfo;
+        // 处理 Blazor Server
+        if (method == null)
+        {
+            _ = await next.Invoke();
+            return;
+        }
 
         // 获取请求上下文
         var httpContext = context.HttpContext;
@@ -70,7 +76,6 @@ internal sealed class AutoSaveChangesPageFilter : IAsyncPageFilter, IOrderedFilt
         if (method.IsDefined(typeof(UnitOfWorkAttribute), true))
         {
             _ = await next.Invoke();
-
             return;
         }
 
