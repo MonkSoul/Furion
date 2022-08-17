@@ -21,7 +21,7 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 :::
 
-## v4.2.2（当前版本）
+## v4.2.3（当前版本）
 
 - **新特性**
 
@@ -66,7 +66,8 @@ public interface IUnitOfWork
   - [修复] `Razor Pages` 不支持 `EFCore` 自动 `SaveChanges` 问题 [#I5MHX5](https://gitee.com/dotnetchina/Furion/issues/I5MHX5)
   - [修复] `Blazor Server` 因 `v4.2.2` 版本更新导致的问题 [#I5MNFN](https://gitee.com/dotnetchina/Furion/issues/I5MNFN)
   - [修复] `[IfException]` 不支持多语言配置问题 [#I5MPN7](https://gitee.com/dotnetchina/Furion/issues/I5MPN7)
-  - [修正] 通过 `services.AddMvcFilter<LoggingMonitorAttribute>()` 方式注册无效问题
+  - [修复] 通过 `services.AddMvcFilter<LoggingMonitorAttribute>()` 方式注册无效问题 [8d1477d](https://gitee.com/dotnetchina/Furion/commit/8d1477d8b44ae111bddb8e4780672bcaf4e0e467)
+  - [修复] 事件总线默认 `Channel` 管道初始化时机过晚问题，解决部分第三方依赖使用问题 [#I5MM3O](https://gitee.com/dotnetchina/Furion/issues/I5MM3O)
 
 - **其他更改**
 
