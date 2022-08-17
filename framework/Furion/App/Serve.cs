@@ -52,15 +52,18 @@ public static class Serve
     /// <param name="urls">默认 5000/5001 端口</param>
     /// <param name="silence">静默启动</param>
     /// <param name="logging">静默启动日志状态，默认 false</param>
-    public static void Run(string urls = default, bool silence = false, bool logging = false)
+    /// <param name="args">启动参数</param>
+    public static void Run(string urls = default, bool silence = false, bool logging = false, string[] args = default)
     {
 #if !NET5_0
         Run(RunOptions.Default
+            .WithArgs(args)
             .Silence(silence, logging)
             .AddComponent<ServeServiceComponent>()
             .UseComponent<ServeApplicationComponent>(), urls);
 #else
         Run((LegacyRunOptions.Default
+            .WithArgs(args)
             .Silence(silence, logging)
             .AddComponent<ServeServiceComponent>())
             .UseComponent<ServeApplicationComponent>(), urls);
@@ -89,7 +92,7 @@ public static class Serve
         where TStartup : class
     {
         // 获取命令行参数
-        var args = Environment.GetCommandLineArgs().Skip(1).ToArray();
+        var args = options.Args ?? Environment.GetCommandLineArgs().Skip(1).ToArray();
 
         var builder = Host.CreateDefaultBuilder(args);
 
@@ -185,7 +188,7 @@ public static class Serve
     public static void Run(GenericRunOptions options)
     {
         // 获取命令行参数
-        var args = Environment.GetCommandLineArgs().Skip(1).ToArray();
+        var args = options.Args ?? Environment.GetCommandLineArgs().Skip(1).ToArray();
 
         var builder = Host.CreateDefaultBuilder(args);
 
@@ -250,7 +253,7 @@ public static class Serve
     public static void Run(RunOptions options, string urls = default)
     {
         // 获取命令行参数
-        var args = Environment.GetCommandLineArgs().Skip(1).ToArray();
+        var args = options.Args ?? Environment.GetCommandLineArgs().Skip(1).ToArray();
 
         // 初始化 WebApplicationBuilder
         var builder = (options.Options == null

@@ -46,9 +46,19 @@ public sealed class LegacyRunOptions : GenericRunOptions
     public static new LegacyRunOptions Default { get; } = new LegacyRunOptions();
 
     /// <summary>
+    /// 默认配置（带启动参数）
+    /// </summary>
+    public static new LegacyRunOptions Main(string[] args) => Default.WithArgs(args);
+
+    /// <summary>
     /// 默认配置（静默启动）
     /// </summary>
     public static new LegacyRunOptions DefaultSilence { get; } = new LegacyRunOptions().Silence();
+
+    /// <summary>
+    /// 默认配置（静默启动 + 启动参数）
+    /// </summary>
+    public static new LegacyRunOptions MainSilence(string[] args) => DefaultSilence.WithArgs(args);
 
     /// <summary>
     /// 配置 <see cref="IWebHostBuilder"/>
@@ -162,6 +172,16 @@ public sealed class LegacyRunOptions : GenericRunOptions
     public override LegacyRunOptions Silence(bool silence = true, bool logging = false)
     {
         return base.Silence(silence, logging) as LegacyRunOptions;
+    }
+
+    /// <summary>
+    /// 设置进程启动参数
+    /// </summary>
+    /// <param name="args">启动参数</param>
+    /// <returns></returns>
+    public override LegacyRunOptions WithArgs(string[] args)
+    {
+        return base.WithArgs(args) as LegacyRunOptions;
     }
 
     /// <summary>

@@ -44,9 +44,19 @@ public class GenericRunOptions
     public static GenericRunOptions Default { get; } = new GenericRunOptions();
 
     /// <summary>
+    /// 默认配置（带启动参数）
+    /// </summary>
+    public static GenericRunOptions Main(string[] args) => Default.WithArgs(args);
+
+    /// <summary>
     /// 默认配置（静默启动）
     /// </summary>
     public static GenericRunOptions DefaultSilence { get; } = new GenericRunOptions().Silence();
+
+    /// <summary>
+    /// 默认配置（静默启动 + 启动参数）
+    /// </summary>
+    public static GenericRunOptions MainSilence(string[] args) => DefaultSilence.WithArgs(args);
 
     /// <summary>
     /// 配置 <see cref="IHostBuilder"/>
@@ -123,6 +133,17 @@ public class GenericRunOptions
     }
 
     /// <summary>
+    /// 设置进程启动参数
+    /// </summary>
+    /// <param name="args">启动参数</param>
+    /// <returns></returns>
+    public virtual GenericRunOptions WithArgs(string[] args)
+    {
+        Args = args;
+        return this;
+    }
+
+    /// <summary>
     /// 自定义 <see cref="IHostBuilder"/> 委托
     /// </summary>
     internal Func<IHostBuilder, IHostBuilder> ActionBuilder { get; set; }
@@ -147,4 +168,9 @@ public class GenericRunOptions
     /// 启用静默启动日志
     /// </summary>
     internal bool SilenceLogging { get; set; }
+
+    /// <summary>
+    /// 命令行参数
+    /// </summary>
+    internal string[] Args { get; set; }
 }

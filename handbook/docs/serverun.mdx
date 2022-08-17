@@ -399,7 +399,23 @@ public class MyStartup : AppStartup
 
 即可完成转换，实际上只是追加了 `.Web`。
 
-### 2.0.8.4 还没看够？
+### 2.0.8.4 添加 `args` 启动参数
+
+:::important 版本说明
+
+以下内容仅限 `Furion 4.2.4 +` 版本使用。
+
+:::
+
+```cs showLineNumbers {1,3,5}
+Serve.Run(args: args);
+
+Serve.Run(RunOptions.Default.WithArgs(args));
+
+Serve.Run(RunOptions.Main(args));
+```
+
+### 2.0.8.5 还没看够？
 
 是不是非常强大啊，`Serve.Run()` 虽然简单，但是 100% 支持 `Furion` 和 `.NET` 所有功能。尽情去体验吧！
 

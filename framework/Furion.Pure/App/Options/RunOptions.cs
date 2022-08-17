@@ -22,8 +22,11 @@
 
 #if !NET5_0
 using Microsoft.AspNetCore.Builder;
+using Microsoft.CodeAnalysis;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Runtime.CompilerServices;
 #else
 
 using Microsoft.AspNetCore.Hosting;
@@ -59,9 +62,19 @@ public sealed class RunOptions
     public static RunOptions Default { get; } = new RunOptions();
 
     /// <summary>
+    /// 默认配置（带启动参数）
+    /// </summary>
+    public static RunOptions Main(string[] args) => Default.WithArgs(args);
+
+    /// <summary>
     /// 默认配置（静默启动）
     /// </summary>
     public static RunOptions DefaultSilence { get; } = new RunOptions().Silence();
+
+    /// <summary>
+    /// 默认配置（静默启动 + 启动参数）
+    /// </summary>
+    public static RunOptions MainSilence(string[] args) => DefaultSilence.WithArgs(args);
 #else
 
     /// <summary>
@@ -70,9 +83,19 @@ public sealed class RunOptions
     public static LegacyRunOptions Default { get; } = new LegacyRunOptions();
 
     /// <summary>
+    /// 默认配置（带启动参数）
+    /// </summary>
+    public static LegacyRunOptions Main(string[] args) => Default.WithArgs(args);
+
+    /// <summary>
     /// 默认配置（静默启动）
     /// </summary>
     public static LegacyRunOptions DefaultSilence { get; } = new LegacyRunOptions().Silence();
+
+    /// <summary>
+    /// 默认配置（静默启动 + 启动参数）
+    /// </summary>
+    public static LegacyRunOptions MainSilence(string[] args) => DefaultSilence.WithArgs(args);
 
 #endif
 
@@ -212,6 +235,17 @@ public sealed class RunOptions
     }
 
     /// <summary>
+    /// 设置进程启动参数
+    /// </summary>
+    /// <param name="args">启动参数</param>
+    /// <returns></returns>
+    public RunOptions WithArgs(string[] args)
+    {
+        Args = args;
+        return this;
+    }
+
+    /// <summary>
     /// <see cref="WebApplicationOptions"/>
     /// </summary>
     internal WebApplicationOptions Options { get; set; }
@@ -251,5 +285,10 @@ public sealed class RunOptions
     /// 静默启动日志状态
     /// </summary>
     internal bool SilenceLogging { get; set; }
+
+    /// <summary>
+    /// 命令行参数
+    /// </summary>
+    internal string[] Args { get; set; }
 #endif
 }
