@@ -113,15 +113,6 @@ public sealed class UnitOfWorkAttribute : Attribute, IAsyncActionFilter, IAsyncP
         var actionDescriptor = context.ActionDescriptor as ControllerActionDescriptor;
         var method = actionDescriptor.MethodInfo;
 
-        // 如果没有定义工作单元过滤器，则跳过
-        if (!method.IsDefined(typeof(UnitOfWorkAttribute), true))
-        {
-            // 调用方法
-            _ = await next();
-
-            return;
-        }
-
         // 创建分布式环境事务
         (var transactionScope, var logger) = CreateTransactionScope(context);
 
@@ -193,14 +184,6 @@ public sealed class UnitOfWorkAttribute : Attribute, IAsyncActionFilter, IAsyncP
         // 处理 Blazor Server
         if (method == null)
         {
-            _ = await next.Invoke();
-            return;
-        }
-
-        // 如果没有定义工作单元过滤器，则跳过
-        if (!method.IsDefined(typeof(UnitOfWorkAttribute), true))
-        {
-            // 调用方法
             _ = await next.Invoke();
             return;
         }
