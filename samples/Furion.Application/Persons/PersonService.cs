@@ -309,4 +309,11 @@ public class PersonService : IDynamicApiController
             var c = Db.GetRepository<Person>().FirstOrDefault();
         });
     }
+
+    [UnitOfWork]
+    public async Task 测试环境事务(int id)
+    {
+        await _personRepository.DeleteNowAsync(id);
+        var d = await _personRepository.SqlQueriesAsync("select * from persion2 d");
+    }
 }

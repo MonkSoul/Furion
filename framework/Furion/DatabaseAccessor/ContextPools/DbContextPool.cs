@@ -26,6 +26,7 @@ using Microsoft.EntityFrameworkCore.Storage;
 using System.Collections.Concurrent;
 using System.Data;
 using System.Data.Common;
+using System.Transactions;
 
 namespace Furion.DatabaseAccessor;
 
@@ -208,8 +209,11 @@ public class DbContextPool : IDbContextPool
     /// <returns></returns>
     public void BeginTransaction(bool ensureTransaction = false)
     {
-    // 判断 dbContextPool 中是否包含DbContext，如果是，则使用第一个数据库上下文开启事务，并应用于其他数据库上下文
-    EnsureTransaction: if (_dbContexts.Any())
+        // 判断是否启用了分布式环境事务，如果是，则跳过
+        if (Transaction.Current != null) return;
+
+        // 判断 dbContextPool 中是否包含DbContext，如果是，则使用第一个数据库上下文开启事务，并应用于其他数据库上下文
+        EnsureTransaction: if (_dbContexts.Any())
         {
             // 如果共享事务不为空，则直接共享
             if (DbContextTransaction != null) goto ShareTransaction;
@@ -249,6 +253,9 @@ public class DbContextPool : IDbContextPool
     /// <param name="withCloseAll">是否自动关闭所有连接</param>
     public void CommitTransaction(bool withCloseAll = false)
     {
+        // 判断是否启用了分布式环境事务，如果是，则跳过
+        if (Transaction.Current != null) return;
+
         try
         {
             // 将所有数据库上下文修改 SaveChanges();，这里另外判断是否需要手动提交
@@ -296,6 +303,9 @@ public class DbContextPool : IDbContextPool
     /// <param name="withCloseAll">是否自动关闭所有连接</param>
     public void RollbackTransaction(bool withCloseAll = false)
     {
+        // 判断是否启用了分布式环境事务，如果是，则跳过
+        if (Transaction.Current != null) return;
+
         // 回滚事务
         if (DbContextTransaction?.GetDbTransaction()?.Connection != null) DbContextTransaction?.Rollback();
         DbContextTransaction?.Dispose();

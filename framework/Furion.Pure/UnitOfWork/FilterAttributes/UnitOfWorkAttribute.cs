@@ -42,30 +42,30 @@ public sealed class UnitOfWorkAttribute : Attribute, IAsyncActionFilter, IAsyncP
     public bool EnsureTransaction { get; set; } = false;
 
     /// <summary>
-    /// 是否使用分布式事务
+    /// 是否使用分布式环境事务
     /// </summary>
     public bool UseAmbientTransaction { get; set; } = false;
 
     /// <summary>
-    /// 分布式事务范围
+    /// 分布式环境事务范围
     /// </summary>
     /// <remarks><see cref="UseAmbientTransaction"/> 为 true 有效</remarks>
     public TransactionScopeOption TransactionScope { get; set; } = TransactionScopeOption.Required;
 
     /// <summary>
-    /// 分布式事务隔离级别
+    /// 分布式环境事务隔离级别
     /// </summary>
     /// <remarks><see cref="UseAmbientTransaction"/> 为 true 有效</remarks>
     public IsolationLevel TransactionIsolationLevel { get; set; } = IsolationLevel.ReadCommitted;
 
     /// <summary>
-    /// 分布式事务超时时间
+    /// 分布式环境事务超时时间
     /// </summary>
     /// <remarks>单位秒</remarks>
     public int TransactionTimeout { get; set; } = 0;
 
     /// <summary>
-    /// 支持分布式事务异步流
+    /// 支持分布式环境事务异步流
     /// </summary>
     /// <remarks><see cref="UseAmbientTransaction"/> 为 true 有效</remarks>
     public TransactionScopeAsyncFlowOption TransactionScopeAsyncFlow { get; set; } = TransactionScopeAsyncFlowOption.Enabled;
@@ -122,19 +122,14 @@ public sealed class UnitOfWorkAttribute : Attribute, IAsyncActionFilter, IAsyncP
             return;
         }
 
-        // 是否启用分布式事务
-        var transactionScope = UseAmbientTransaction
-            ? new TransactionScope(TransactionScope,
-           new TransactionOptions { IsolationLevel = TransactionIsolationLevel, Timeout = TransactionTimeout > 0 ? TimeSpan.FromSeconds(TransactionTimeout) : default }
-           , TransactionScopeAsyncFlow)
-            : default;
-
-        // 创建日志记录器
-        var logger = context.HttpContext.RequestServices.GetRequiredService<ILoggerFactory>()
-            .CreateLogger(GetType().FullName);
+        // 创建分布式环境事务
+        (var transactionScope, var logger) = CreateTransactionScope(context);
 
         try
         {
+            // 打印工作单元开始消息
+            if (UseAmbientTransaction) App.PrintToMiniProfiler(MiniProfilerCategory, "Beginning (Ambient)");
+
             // 开始事务
             BeginTransaction(context, method, out var _unitOfWork, out var unitOfWorkAttribute);
 
@@ -144,16 +139,28 @@ public sealed class UnitOfWorkAttribute : Attribute, IAsyncActionFilter, IAsyncP
             // 提交事务
             CommitTransaction(context, _unitOfWork, unitOfWorkAttribute, resultContext);
 
-            // 提交分布式事务
-            if (resultContext.Exception == null) transactionScope?.Complete();
-            else logger.LogError(resultContext.Exception, "Transaction Failed.");
+            // 提交分布式环境事务
+            if (resultContext.Exception == null)
+            {
+                transactionScope?.Complete();
+
+                // 打印事务提交消息
+                if (UseAmbientTransaction) App.PrintToMiniProfiler(MiniProfilerCategory, "Completed (Ambient)");
+            }
+            else
+            {
+                // 打印事务回滚消息
+                if (UseAmbientTransaction) App.PrintToMiniProfiler(MiniProfilerCategory, "Rollback (Ambient)", isError: true);
+
+                logger.LogError(resultContext.Exception, "Transaction Failed.");
+            }
         }
         catch (Exception ex)
         {
             logger.LogError(ex, "Transaction Failed.");
 
             // 打印事务回滚消息
-            App.PrintToMiniProfiler(MiniProfilerCategory, "Rollback", isError: true);
+            if (UseAmbientTransaction) App.PrintToMiniProfiler(MiniProfilerCategory, "Rollback (Ambient)", isError: true);
 
             throw;
         }
@@ -198,19 +205,14 @@ public sealed class UnitOfWorkAttribute : Attribute, IAsyncActionFilter, IAsyncP
             return;
         }
 
-        // 是否启用分布式事务
-        var transactionScope = UseAmbientTransaction
-            ? new TransactionScope(TransactionScope,
-           new TransactionOptions { IsolationLevel = TransactionIsolationLevel, Timeout = TransactionTimeout > 0 ? TimeSpan.FromSeconds(TransactionTimeout) : default }
-           , TransactionScopeAsyncFlow)
-            : default;
-
-        // 创建日志记录器
-        var logger = context.HttpContext.RequestServices.GetRequiredService<ILoggerFactory>()
-            .CreateLogger(GetType().FullName);
+        // 创建分布式环境事务
+        (var transactionScope, var logger) = CreateTransactionScope(context);
 
         try
         {
+            // 打印工作单元开始消息
+            if (UseAmbientTransaction) App.PrintToMiniProfiler(MiniProfilerCategory, "Beginning (Ambient)");
+
             // 开始事务
             BeginTransaction(context, method, out var _unitOfWork, out var unitOfWorkAttribute);
 
@@ -220,16 +222,28 @@ public sealed class UnitOfWorkAttribute : Attribute, IAsyncActionFilter, IAsyncP
             // 提交事务
             CommitTransaction(context, _unitOfWork, unitOfWorkAttribute, resultContext);
 
-            // 提交分布式事务
-            if (resultContext.Exception == null) transactionScope?.Complete();
-            else logger.LogError(resultContext.Exception, "Transaction Failed.");
+            // 提交分布式环境事务
+            if (resultContext.Exception == null)
+            {
+                transactionScope?.Complete();
+
+                // 打印事务提交消息
+                if (UseAmbientTransaction) App.PrintToMiniProfiler(MiniProfilerCategory, "Completed (Ambient)");
+            }
+            else
+            {
+                // 打印事务回滚消息
+                if (UseAmbientTransaction) App.PrintToMiniProfiler(MiniProfilerCategory, "Rollback (Ambient)", isError: true);
+
+                logger.LogError(resultContext.Exception, "Transaction Failed.");
+            }
         }
         catch (Exception ex)
         {
             logger.LogError(ex, "Transaction Failed.");
 
             // 打印事务回滚消息
-            App.PrintToMiniProfiler(MiniProfilerCategory, "Rollback", isError: true);
+            if (UseAmbientTransaction) App.PrintToMiniProfiler(MiniProfilerCategory, "Rollback (Ambient)", isError: true);
 
             throw;
         }
@@ -237,6 +251,27 @@ public sealed class UnitOfWorkAttribute : Attribute, IAsyncActionFilter, IAsyncP
         {
             transactionScope?.Dispose();
         }
+    }
+
+    /// <summary>
+    /// 创建分布式环境事务
+    /// </summary>
+    /// <param name="context"></param>
+    /// <returns></returns>
+    private (TransactionScope, ILogger) CreateTransactionScope(FilterContext context)
+    {
+        // 是否启用分布式环境事务
+        var transactionScope = UseAmbientTransaction
+             ? new TransactionScope(TransactionScope,
+            new TransactionOptions { IsolationLevel = TransactionIsolationLevel, Timeout = TransactionTimeout > 0 ? TimeSpan.FromSeconds(TransactionTimeout) : default }
+            , TransactionScopeAsyncFlow)
+             : default;
+
+        // 创建日志记录器
+        var logger = context.HttpContext.RequestServices.GetRequiredService<ILoggerFactory>()
+             .CreateLogger(GetType().FullName);
+
+        return (transactionScope, logger);
     }
 
     /// <summary>
@@ -248,9 +283,6 @@ public sealed class UnitOfWorkAttribute : Attribute, IAsyncActionFilter, IAsyncP
     /// <param name="unitOfWorkAttribute"></param>
     private static void BeginTransaction(FilterContext context, MethodInfo method, out IUnitOfWork _unitOfWork, out UnitOfWorkAttribute unitOfWorkAttribute)
     {
-        // 打印工作单元开始消息
-        App.PrintToMiniProfiler(MiniProfilerCategory, "Beginning");
-
         // 解析工作单元服务
         _unitOfWork = context.HttpContext.RequestServices.GetRequiredService<IUnitOfWork>();
 
@@ -259,6 +291,9 @@ public sealed class UnitOfWorkAttribute : Attribute, IAsyncActionFilter, IAsyncP
 
         // 调用开启事务方法
         _unitOfWork.BeginTransaction(context, unitOfWorkAttribute);
+
+        // 打印工作单元开始消息
+        if (!unitOfWorkAttribute.UseAmbientTransaction) App.PrintToMiniProfiler(MiniProfilerCategory, "Beginning");
     }
 
     /// <summary>
@@ -288,6 +323,6 @@ public sealed class UnitOfWorkAttribute : Attribute, IAsyncActionFilter, IAsyncP
         _unitOfWork.OnCompleted(context, resultContext);
 
         // 打印工作单元结束消息
-        App.PrintToMiniProfiler(MiniProfilerCategory, "Ending");
+        if (!unitOfWorkAttribute.UseAmbientTransaction) App.PrintToMiniProfiler(MiniProfilerCategory, "Ending");
     }
 }
