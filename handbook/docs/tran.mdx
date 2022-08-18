@@ -70,7 +70,7 @@ public async Task 测试环境事务(int id)
 - `UnitOfWork` 内置配置：
   - `UseAmbientTransaction`：是否开启分布式环境事务，`bool` 类型，默认 `false`，**不支持 `Sqlite`**
   - `TransactionScope`：配置分布式环境事务范围，`TransactionScopeOption` 类型，当 `UseAmbientTransaction` 为 `true` 有效
-  - `TransactionIsolationLevel`：配置分布式环境事务隔离基本，`IsolationLevel` 类型，当 `UseAmbientTransaction` 为 `true` 有效
+  - `TransactionIsolationLevel`：配置分布式环境事务隔离级别，`IsolationLevel` 类型，当 `UseAmbientTransaction` 为 `true` 有效
   - `TransactionTimeout`：配置分布式环境事务执行超时时间，`int` 类型，当 `UseAmbientTransaction` 为 `true` 有效
   - `TransactionScopeAsyncFlow`：配置分布式环境事务异步流支持，`TransactionScopeAsyncFlowOption` 类型，当 `UseAmbientTransaction` 为 `true` 有效
   - `EnsureTransaction`：强制使字符串 `sql` 拓展事务有效，`bool` 类型，默认 `false`
