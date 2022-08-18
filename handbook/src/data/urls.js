@@ -1,5 +1,10 @@
 const urls = [
   {
+    url: "https://gitee.com/dotnetchina/SmartSQL/",
+    text: "SmartSQL",
+    title: "",
+  },
+  {
     url: "https://www.oschina.net/",
     text: "开源中国",
     title: "",
