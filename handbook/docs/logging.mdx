@@ -282,7 +282,7 @@ services.AddFileLogging("application-{0:yyyy}-{0:MM}-{0:dd}.log", options =>
 // 例子四，批量设置多个
 Array.ForEach(new[] { LogLevel.Information, LogLevel.Warning, LogLevel.Error }, logLevel =>
 {
-    services.AddFileLogging($"application-{logLevel}-{0:yyyy}-{0:MM}-{0:dd}.log", options =>
+    services.AddFileLogging("application-" + logLevel + "-{0:yyyy}-{0:MM}-{0:dd}.log", options =>
     {
         options.FileNameRule = fileName => string.Format(fileName, DateTime.UtcNow);
         options.WriteFilter = logMsg => logMsg.LogLevel == logLevel;

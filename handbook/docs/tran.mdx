@@ -27,9 +27,53 @@ import TabItem from "@theme/TabItem";
 
 ## 9.26.3 如何使用
 
-### 9.26.3.1 自动管理
+### 9.26.3.1 `[UnitOfWork]` 自动管理
 
 在 `Furion` 框架中，我们只需要在控制器 Action 中贴 `[UnitOfWork]` 特性即可开启工作单元模式，保证了每一次请求都是一个 `工作单元`，要么同时成功，要么同时失败。
+
+- **单库操作**
+
+下面方式支持所有关系型数据库类型
+
+```cs showLineNumbers {1}
+[UnitOfWork]    // 由于出现错误，所以所有数据库变更都会自动回滚
+public async Task 测试环境事务(int id)
+{
+    // 各种奇葩数据库操作
+    await _personRepository.DeleteNowAsync(id);
+
+    // 其他数据库操作。。
+
+    // 故意出错
+    var d = await _personRepository.SqlQueriesAsync("select * from persion2 d");
+}
+```
+
+- **多库操作**
+
+支持各种奇葩的 `ORM`，包括 `ADO.NET`，`EFCore` 等第三方，**支持所有关系型数据库类型但不支持 `Sqlite`**
+
+```cs showLineNumbers
+[UnitOfWork(UseAmbientTransaction = true)]    // 由于出现错误，所以所有数据库变更都会自动回滚
+public async Task 测试环境事务(int id)
+{
+    // 各种奇葩数据库操作
+    await _personRepository.DeleteNowAsync(id);
+
+    // 其他数据库操作。。
+
+    // 故意出错
+    var d = await _personRepository.SqlQueriesAsync("select * from persion2 d");
+}
+```
+
+- `UnitOfWork` 内置配置：
+  - `UseAmbientTransaction`：是否开启分布式环境事务，`bool` 类型，默认 `false`，**不支持 `Sqlite`**
+  - `TransactionScope`：配置分布式环境事务范围，`TransactionScopeOption` 类型，当 `UseAmbientTransaction` 为 `true` 有效
+  - `TransactionIsolationLevel`：配置分布式环境事务隔离基本，`IsolationLevel` 类型，当 `UseAmbientTransaction` 为 `true` 有效
+  - `TransactionTimeout`：配置分布式环境事务执行超时时间，`int` 类型，当 `UseAmbientTransaction` 为 `true` 有效
+  - `TransactionScopeAsyncFlow`：配置分布式环境事务异步流支持，`TransactionScopeAsyncFlowOption` 类型，当 `UseAmbientTransaction` 为 `true` 有效
+  - `EnsureTransaction`：强制使字符串 `sql` 拓展事务有效，`bool` 类型，默认 `false`
 
 :::important 版本说明
 
@@ -114,6 +158,12 @@ public sealed class SqlSugarUnitOfWork : IUnitOfWork
 ```cs showLineNumbers
 services.AddUnitOfWork<SqlSugarUnitOfWork>();
 ```
+
+:::tip 小知识-如何判断是否开启了分布式环境事务
+
+有时候我们自定义了工作单元之后，个别 `ORM` 不支持分布式环境事务，那么就会出现执行错误，我们可以通过 `System.Transactions.Transaction.Current != null` 来判断是否启用了分布式环境事务，不等于 `null` 则为启用，否则未启用。
+
+:::
 
 ### 9.26.3.2 `EnsureTransaction()` 方法 ✨
 
