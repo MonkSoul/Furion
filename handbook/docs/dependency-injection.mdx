@@ -782,7 +782,49 @@ var someServices = App.GetService<ISomeService>();
 
 还可以做更多更多的事情。
 
-## 12.13 自定义扫描/筛选注册服务
+## 12.13 在非 `Web` 或多线程解析服务
+
+默认情况下，在 `Web` 请求开始之前会自动创建范围作用域，这个作用域的生存周期是请求之前和响应之后，也就是在这个作用域内的所有服务都实现了自动管理，比如创建服务和释放服务的时机。
+
+**但在非 `Web` 或多线程中，框架并不会做这样的事情，也就是框架只负责了服务的创建，但是没有负责销毁，原因是框架无法得知具体的销毁时机，这样就导致了内存溢出。**
+
+解决方式是：在非 `Web` 或多线程中使用服务，应该主动创建作用域，类似过去的 `using`，目前框架提供了几种方式。
+
+### 12.13.1 `IServiceProvider` 方式
+
+```cs showLineNumbers {1-2,5,8,11-12}
+using var scope = serviceProvider.CreateScope();
+var services = scope.ServiceProvider;
+
+// 获取数据库上下文
+var dbContext = Db.GetDbContext(services);
+
+// 获取仓储
+var respository = Db.GetRepository<Person>(services);
+
+// 解析其他服务
+var otherService = services.GetService<XXX>();
+var otherService2 = App.GetService<XXX>(services);
+```
+
+### 12.13.2 `IServiceScopeFactory` 方式
+
+```cs showLineNumbers
+using var scope = serviceScopeFactory.CreateScope();
+var services = scope.ServiceProvider;
+```
+
+### 12.13.3 `Scoped` 静态类
+
+为了方法快速创建服务作用域，`Furion` 框架提供了 `Scoped` 静态类，如：
+
+```cs showLineNumbers {1-2}
+Scoped.Create((factory, scope) => {
+     var services = scope.ServiceProvider;
+});
+```
+
+## 12.14 自定义扫描/筛选注册服务
 
 `Furion` 框架中并未提供完全自定义依赖注入扫描的机制，但推荐一个非常优秀的 `.NET Core` 依赖注入拓展库：`Scrutor`，使用非常简单，主要通过 `FromAssemblyOf<>` 扫描程序集和 `AddClasses(o)` 进行筛选注册。
 
@@ -816,7 +858,7 @@ services.Scan(scan => scan
 
 详细文档请查阅 [https://github.com/khellang/Scrutor](https://github.com/khellang/Scrutor)
 
-## 12.14 反馈与建议
+## 12.15 反馈与建议
 
 :::note 与我们交流
 
