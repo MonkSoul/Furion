@@ -236,6 +236,9 @@ public static class AppServiceCollectionExtensions
         // 添加对象映射
         services.AddObjectMapper();
 
+        // 监听主机生命周期
+        services.AddHostedService<HostLifetimeService>();
+
         // 默认内置 GBK，Windows-1252, Shift-JIS, GB2312 编码支持
         Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
 

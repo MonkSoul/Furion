@@ -85,9 +85,35 @@ public sealed partial class StringLoggingPart
     {
         if (Message == null) return;
 
-        var logger = !string.IsNullOrWhiteSpace(CategoryName)
-            ? App.GetService<ILoggerFactory>(LoggerScoped ?? App.RootServices)?.CreateLogger(CategoryName)
-            : App.GetService(typeof(ILogger<>).MakeGenericType(CategoryType), LoggerScoped ?? App.RootServices) as ILogger;
+        ILoggerFactory loggerFactory = null;
+        ILogger logger;
+        var hasException = false;
+
+        try
+        {
+            // 处理传入分类名
+            if (!string.IsNullOrWhiteSpace(CategoryName))
+            {
+                loggerFactory = InternalApp.RunningOfHost
+                    ? App.GetService<ILoggerFactory>(LoggerScoped ?? App.RootServices)
+                    : CreateDisposeLoggerFactory();
+
+                logger = loggerFactory.CreateLogger(CategoryName);
+            }
+            else
+            {
+                logger = InternalApp.RunningOfHost
+                    ? App.GetService(typeof(ILogger<>).MakeGenericType(CategoryType), LoggerScoped ?? App.RootServices) as ILogger
+                    : loggerFactory.CreateLogger(typeof(System.Running.Logging).FullName) as ILogger;
+            }
+        }
+        catch
+        {
+            hasException = true;
+
+            loggerFactory = CreateDisposeLoggerFactory();
+            logger = loggerFactory.CreateLogger(CategoryName);
+        }
 
         // 如果没有异常且事件 Id 为空
         if (Exception == null && EventId == null)
@@ -110,5 +136,23 @@ public sealed partial class StringLoggingPart
             logger.Log(Level, EventId.Value, Exception, Message, Args);
         }
         else { }
+
+        // 释放临时日志工厂
+        if (InternalApp.RunningOfHost == false || hasException == true)
+        {
+            loggerFactory.Dispose();
+        }
+    }
+
+    /// <summary>
+    /// 创建待释放的日志工厂
+    /// </summary>
+    /// <returns></returns>
+    private static ILoggerFactory CreateDisposeLoggerFactory()
+    {
+        return LoggerFactory.Create(builder =>
+        {
+            builder.AddConsole();
+        });
     }
 }

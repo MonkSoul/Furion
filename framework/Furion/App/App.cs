@@ -111,6 +111,9 @@ public static class App
     /// <returns></returns>
     public static IServiceProvider GetServiceProvider(Type serviceType)
     {
+        // 如果主机已经关闭
+        if (InternalApp.RunningOfHost == false) throw new InvalidOperationException("Application is down and the service cannot be resolved.");
+
         // 处理控制台应用程序
         if (HostEnvironment == default) return RootServices;
 
