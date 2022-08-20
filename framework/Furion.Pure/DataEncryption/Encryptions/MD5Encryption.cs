@@ -37,10 +37,11 @@ public static unsafe class MD5Encryption
     /// <param name="text">加密文本</param>
     /// <param name="hash">MD5 字符串</param>
     /// <param name="uppercase">是否输出大写加密，默认 false</param>
+    /// <param name="is16">是否输出 16 位</param>
     /// <returns>bool</returns>
-    public static bool Compare(string text, string hash, bool uppercase = false)
+    public static bool Compare(string text, string hash, bool uppercase = false, bool is16 = false)
     {
-        var hashOfInput = Encrypt(text, uppercase);
+        var hashOfInput = Encrypt(text, uppercase, is16);
         return hash.Equals(hashOfInput, StringComparison.OrdinalIgnoreCase);
     }
 
@@ -49,8 +50,9 @@ public static unsafe class MD5Encryption
     /// </summary>
     /// <param name="text">加密文本</param>
     /// <param name="uppercase">是否输出大写加密，默认 false</param>
+    /// <param name="is16">是否输出 16 位</param>
     /// <returns></returns>
-    public static string Encrypt(string text, bool uppercase = false)
+    public static string Encrypt(string text, bool uppercase = false, bool is16 = false)
     {
         using var md5Hash = MD5.Create();
         var data = md5Hash.ComputeHash(Encoding.UTF8.GetBytes(text));
@@ -61,7 +63,8 @@ public static unsafe class MD5Encryption
             stringBuilder.Append(data[i].ToString("x2"));
         }
 
-        var hash = stringBuilder.ToString();
+        var md5String = stringBuilder.ToString();
+        var hash = !is16 ? md5String : md5String.Substring(8, 16);
         return !uppercase ? hash : hash.ToUpper();
     }
 }
