@@ -6,10 +6,18 @@ sidebar_label: 11. Scoped 静态类
 
 ## 11.1 创建一个依赖注入作用域范围
 
-```cs showLineNumbers  {1}
+```cs showLineNumbers
+// 同步
 Scoped.Create((factory, scope) => {
      var services = scope.ServiceProvider;
 });
+
+// 异步
+await Scope.Create(async (factory, scope) => {
+     var services = scope.ServiceProvider;
+     await _calcService.GetAsync();
+     // ...
+})
 ```
 
 :::important 数据库操作注意
@@ -21,8 +29,16 @@ Scoped.Create((factory, scope) => {
 ## 11.2 创建一个带工作单元的作用域
 
 ```cs showLineNumbers 
+// 同步
 Scoped.CreateUow((factory, scope) => {
      var services = scope.ServiceProvider;
+});
+
+// 异步
+await Scope.CreateUowAsync(await (factory, scope) => {
+     var services = scope.ServiceProvider;
+     await _calcService.GetAsync();
+     // ...
 });
 ```
 

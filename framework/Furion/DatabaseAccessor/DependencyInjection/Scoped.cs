@@ -37,7 +37,7 @@ public static partial class Scoped
     /// <param name="scopeFactory"></param>
     public static void CreateUow(Action<IServiceScopeFactory, IServiceScope> handler, IServiceScopeFactory scopeFactory = default)
     {
-        CreateUow(async (fac, scope) =>
+        CreateUowAsync(async (fac, scope) =>
         {
             handler(fac, scope);
             await Task.CompletedTask;
@@ -45,11 +45,11 @@ public static partial class Scoped
     }
 
     /// <summary>
-    /// 创建一个工作单元作用域
+    /// 创建一个工作单元作用域（异步）
     /// </summary>
     /// <param name="handler"></param>
     /// <param name="scopeFactory"></param>
-    public static async Task CreateUow(Func<IServiceScopeFactory, IServiceScope, Task> handler, IServiceScopeFactory scopeFactory = default)
+    public static async Task CreateUowAsync(Func<IServiceScopeFactory, IServiceScope, Task> handler, IServiceScopeFactory scopeFactory = default)
     {
         // 禁止空调用
         if (handler == null) throw new ArgumentNullException(nameof(handler));
