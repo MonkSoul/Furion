@@ -85,35 +85,24 @@ public sealed partial class StringLoggingPart
     {
         if (Message == null) return;
 
-        ILoggerFactory loggerFactory = null;
-        ILogger logger;
-        var hasException = false;
+        // 解析日志分类名
+        var categoryName = !string.IsNullOrWhiteSpace(CategoryName)
+            ? CategoryName : typeof(System.Running.Logging).FullName;
 
+        ILoggerFactory loggerFactory;
+        var hasException = false;
         try
         {
-            // 处理传入分类名
-            if (!string.IsNullOrWhiteSpace(CategoryName))
-            {
-                loggerFactory = InternalApp.RunningOfHost
-                    ? App.GetService<ILoggerFactory>(LoggerScoped ?? App.RootServices)
-                    : CreateDisposeLoggerFactory();
-
-                logger = loggerFactory.CreateLogger(CategoryName);
-            }
-            else
-            {
-                logger = InternalApp.RunningOfHost
-                    ? App.GetService(typeof(ILogger<>).MakeGenericType(CategoryType), LoggerScoped ?? App.RootServices) as ILogger
-                    : loggerFactory.CreateLogger(typeof(System.Running.Logging).FullName) as ILogger;
-            }
+            loggerFactory = App.GetService<ILoggerFactory>(LoggerScoped ?? App.RootServices);
         }
         catch
         {
             hasException = true;
-
             loggerFactory = CreateDisposeLoggerFactory();
-            logger = loggerFactory.CreateLogger(CategoryName);
         }
+
+        // 创建日志实例
+        var logger = loggerFactory.CreateLogger(categoryName);
 
         // 如果没有异常且事件 Id 为空
         if (Exception == null && EventId == null)
@@ -138,9 +127,9 @@ public sealed partial class StringLoggingPart
         else { }
 
         // 释放临时日志工厂
-        if (InternalApp.RunningOfHost == false || hasException == true)
+        if (hasException == true)
         {
-            loggerFactory.Dispose();
+            loggerFactory?.Dispose();
         }
     }
 

@@ -58,11 +58,6 @@ internal static class InternalApp
     internal static IHostEnvironment HostEnvironment;
 
     /// <summary>
-    /// 判断主机是否运行
-    /// </summary>
-    internal static bool RunningOfHost;
-
-    /// <summary>
     /// 配置 Furion 框架（Web）
     /// </summary>
     /// <remarks>此次添加 <see cref="HostBuilder"/> 参数是为了兼容 .NET 5 直接升级到 .NET 6 问题</remarks>
