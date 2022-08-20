@@ -31,6 +31,9 @@ return (md5Hash, isEqual);
 
 // 输出大写 MD5 加密
 var md5Hash = MD5Encryption.Encrypt("百小僧", true);
+
+// 输出 16位 MD5 加密，Furion 4.2.6+ 版本
+var md5Hash16 = MD5Encryption.Encrypt("百小僧", is16: true);
 ```
 
 ### 20.3.2 `DESC` 加解密
