@@ -1,7 +1,7 @@
 ---
 id: nuget-local
-title: 2.9 Nuget 本地测试包
-sidebar_label: 2.9 Nuget 本地测试包
+title: 2.9 Nuget 本地调试包
+sidebar_label: 2.9 Nuget 本地调试包
 ---
 
 import useBaseUrl from "@docusaurus/useBaseUrl";
@@ -67,7 +67,15 @@ dotnet restore "YourProject.Web.Entry/YourProject.Web.Entry.csproj" -s "https://
 
 <img src={useBaseUrl("img/ng8.png")} />
 
-## 2.9.3 反馈与建议
+## 2.9.3 `Visual Studio` 调试 `Nuget` 包
+
+`Furion` 提供了 `.snupkg` 包，在安装 `Furion` 的时候自动下载到本地，如需启用源码调试，只需要启用以下配置即可：
+
+<img src={useBaseUrl("img/vs10.png")} />
+
+启用之后重新编译解决方案就可以通过 `F12` 跳转到源代码区并调试源代码了。
+
+## 2.9.4 反馈与建议
 
 :::note 与我们交流
 
