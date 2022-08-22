@@ -33,10 +33,11 @@ public static class StringEncryptionExtensions
     /// </summary>
     /// <param name="text"></param>
     /// <param name="uppercase">是否输出大写加密，默认 false</param>
+    /// <param name="is16">是否输出 16 位</param>
     /// <returns>string</returns>
-    public static string ToMD5Encrypt(this string text, bool uppercase = false)
+    public static string ToMD5Encrypt(this string text, bool uppercase = false, bool is16 = false)
     {
-        return MD5Encryption.Encrypt(text, uppercase);
+        return MD5Encryption.Encrypt(text, uppercase, is16);
     }
 
     /// <summary>
@@ -45,10 +46,11 @@ public static class StringEncryptionExtensions
     /// <param name="text"></param>
     /// <param name="hash"></param>
     /// <param name="uppercase">是否输出大写加密，默认 false</param>
+    /// <param name="is16">是否输出 16 位</param>
     /// <returns>string</returns>
-    public static bool ToMD5Compare(this string text, string hash, bool uppercase = false)
+    public static bool ToMD5Compare(this string text, string hash, bool uppercase = false, bool is16 = false)
     {
-        return MD5Encryption.Compare(text, hash, uppercase);
+        return MD5Encryption.Compare(text, hash, uppercase, is16);
     }
 
     /// <summary>
