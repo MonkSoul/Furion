@@ -26,6 +26,7 @@ using Microsoft.EntityFrameworkCore.Storage;
 using System.Collections.Concurrent;
 using System.Data;
 using System.Data.Common;
+using System.Reflection;
 using System.Transactions;
 
 namespace Furion.DatabaseAccessor;
@@ -34,7 +35,7 @@ namespace Furion.DatabaseAccessor;
 /// 数据库上下文池
 /// </summary>
 [SuppressSniffer]
-public class DbContextPool : IDbContextPool
+public class DbContextPool : IDbContextPool, IDisposable
 {
     /// <summary>
     ///  MiniProfiler 分类名
@@ -150,7 +151,7 @@ public class DbContextPool : IDbContextPool
     {
         // 查找所有已改变的数据库上下文并保存更改
         return _dbContexts
-            .Where(u => u.Value != null && u.Value.ChangeTracker.HasChanges() && !_failedDbContexts.Contains(u))
+            .Where(u => u.Value != null && !CheckDbContextDispose(u.Value) && u.Value.ChangeTracker.HasChanges() && !_failedDbContexts.Contains(u))
             .Select(u => u.Value.SaveChanges()).Count();
     }
 
@@ -163,7 +164,7 @@ public class DbContextPool : IDbContextPool
     {
         // 查找所有已改变的数据库上下文并保存更改
         return _dbContexts
-            .Where(u => u.Value != null && u.Value.ChangeTracker.HasChanges() && !_failedDbContexts.Contains(u))
+            .Where(u => u.Value != null && !CheckDbContextDispose(u.Value) && u.Value.ChangeTracker.HasChanges() && !_failedDbContexts.Contains(u))
             .Select(u => u.Value.SaveChanges(acceptAllChangesOnSuccess)).Count();
     }
 
@@ -176,7 +177,7 @@ public class DbContextPool : IDbContextPool
     {
         // 查找所有已改变的数据库上下文并保存更改
         var tasks = _dbContexts
-            .Where(u => u.Value != null && u.Value.ChangeTracker.HasChanges() && !_failedDbContexts.Contains(u))
+            .Where(u => u.Value != null && !CheckDbContextDispose(u.Value) && u.Value.ChangeTracker.HasChanges() && !_failedDbContexts.Contains(u))
             .Select(u => u.Value.SaveChangesAsync(cancellationToken));
 
         // 等待所有异步完成
@@ -194,7 +195,7 @@ public class DbContextPool : IDbContextPool
     {
         // 查找所有已改变的数据库上下文并保存更改
         var tasks = _dbContexts
-            .Where(u => u.Value != null && u.Value.ChangeTracker.HasChanges() && !_failedDbContexts.Contains(u))
+            .Where(u => u.Value != null && !CheckDbContextDispose(u.Value) && u.Value.ChangeTracker.HasChanges() && !_failedDbContexts.Contains(u))
             .Select(u => u.Value.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken));
 
         // 等待所有异步完成
@@ -327,6 +328,8 @@ public class DbContextPool : IDbContextPool
 
         foreach (var item in _dbContexts)
         {
+            if (CheckDbContextDispose(item.Value)) continue;
+
             var conn = item.Value.Database.GetDbConnection();
             if (conn.State != ConnectionState.Open) continue;
 
@@ -345,8 +348,32 @@ public class DbContextPool : IDbContextPool
     {
         // 跳过第一个数据库上下文并设置共享事务
         _ = _dbContexts
-               .Where(u => u.Value != null && ((dynamic)u.Value).UseUnitOfWork == true && u.Value.Database.CurrentTransaction == null)
+               .Where(u => u.Value != null && !CheckDbContextDispose(u.Value) && ((dynamic)u.Value).UseUnitOfWork == true && u.Value.Database.CurrentTransaction == null)
                .Select(u => u.Value.Database.UseTransaction(transaction))
                .Count();
+    }
+
+    /// <summary>
+    /// 释放所有上下文
+    /// </summary>
+    public void Dispose() => _dbContexts.Clear();
+
+    /// <summary>
+    /// 判断数据库上下文是否释放
+    /// </summary>
+    /// <param name="dbContext"></param>
+    /// <returns></returns>
+    private static bool CheckDbContextDispose(DbContext dbContext)
+    {
+        var dbContextType = dbContext.GetType();
+
+        while (dbContextType != typeof(DbContext))
+        {
+            dbContextType = dbContextType.BaseType;
+        }
+
+        var _disposedField = dbContextType.GetField("_disposed", BindingFlags.Instance | BindingFlags.NonPublic);
+        var _disposed = Convert.ToBoolean(_disposedField.GetValue(dbContext));
+        return _disposed;
     }
 }
