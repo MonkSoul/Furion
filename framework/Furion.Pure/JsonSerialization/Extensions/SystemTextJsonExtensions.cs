@@ -35,11 +35,11 @@ public static class SystemTextJsonExtensions
     /// 添加时间格式化
     /// </summary>
     /// <param name="converters"></param>
-    /// <param name="formatString"></param>
+    /// <param name="outputFormat"></param>
     /// <param name="outputToLocalDateTime">自动转换 DateTimeOffset 为当地时间</param>
-    public static void AddDateFormatString(this IList<JsonConverter> converters, string formatString, bool outputToLocalDateTime = false)
+    public static void AddDateFormatString(this IList<JsonConverter> converters, string outputFormat = default, bool outputToLocalDateTime = false)
     {
-        converters.Add(new DateTimeJsonConverter(formatString));
-        converters.Add(new DateTimeOffsetJsonConverter(formatString, outputToLocalDateTime));
+        converters.Add(new DateTimeJsonConverter(outputFormat));
+        converters.Add(new DateTimeOffsetJsonConverter(outputFormat, outputToLocalDateTime));
     }
 }

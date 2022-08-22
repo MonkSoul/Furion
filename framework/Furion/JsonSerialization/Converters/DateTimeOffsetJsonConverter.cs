@@ -79,7 +79,7 @@ public class DateTimeOffsetJsonConverter : JsonConverter<DateTimeOffset>
     /// <returns></returns>
     public override DateTimeOffset Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
-        return DateTimeOffset.Parse(reader.GetString());
+        return DateTime.SpecifyKind(Convert.ToDateTime(reader.GetString()), OutputToLocalDateTime ? DateTimeKind.Local : DateTimeKind.Utc);
     }
 
     /// <summary>

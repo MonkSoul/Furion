@@ -22,7 +22,7 @@ public sealed class Startup : AppStartup
                 .AddAppLocalization()
                 .AddJsonOptions(options =>
                 {
-                    options.JsonSerializerOptions.Converters.AddDateFormatString("yyyy-MM-dd HH:mm:ss");
+                    options.JsonSerializerOptions.Converters.AddDateFormatString();
                 })
                 .AddInjectWithUnifyResult();
 

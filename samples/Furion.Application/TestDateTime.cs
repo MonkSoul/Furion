@@ -23,4 +23,9 @@ public class TestDateTime : IDynamicApiController
     {
         return dto;
     }
+
+    public DateTime 测试序列化(DateTime datetime)
+    {
+        return datetime;
+    }
 }
