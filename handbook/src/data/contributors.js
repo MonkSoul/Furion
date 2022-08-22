@@ -61,7 +61,7 @@ const contributors = [
     author: "Jerry",
     link: "https://gitee.com/JerryFox",
     photo:
-      "https://portrait.gitee.com/uploads/avatars/user/24/73073_JerryFox_1608471117.png!avatar200",
+      "https://portrait.gitee.com/uploads/avatars/user/24/73073_JerryFox_1660287343.png!avatar200",
   },
   {
     author: "非凡人生",
@@ -612,7 +612,7 @@ const contributors = [
     author: "Protear",
     link: "https://gitee.com/Protear",
     photo:
-      "https://portrait.gitee.com/uploads/avatars/user/399/1199412_Protear_1578945941.jpg!avatar200",
+      "https://portrait.gitee.com/uploads/avatars/user/399/1199412_Protear_1656047215.png!avatar200",
   },
   {
     author: "Hawkins",

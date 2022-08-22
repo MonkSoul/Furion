@@ -1,10 +1,5 @@
 const urls = [
   {
-    url: "https://gitee.com/dotnetchina/SmartSQL/",
-    text: "SmartSQL",
-    title: "",
-  },
-  {
     url: "https://www.oschina.net/",
     text: "开源中国",
     title: "",
@@ -22,6 +17,11 @@ const urls = [
   {
     url: "https://github.com/sunkaixuan/SqlSugar",
     text: "SqlSugar",
+    title: "",
+  },
+  {
+    url: "https://gitee.com/dotnetchina/SmartSQL/",
+    text: "SmartSQL",
     title: "",
   },
   {

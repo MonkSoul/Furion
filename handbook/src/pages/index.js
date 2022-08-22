@@ -57,8 +57,8 @@ function Banner() {
             让 .NET 开发更简单，更通用，更流行。
           </div>
           <ul className="furion-banner-spec">
-            <li>MIT 开源协议，无需商业授权</li>
-            <li>基于 .NET5+ 平台，没有历史包袱</li>
+            <li>MIT 开源协议，商业无需授权</li>
+            <li>支持 .NET5+ 平台，没有历史包袱</li>
             <li>极少依赖，只依赖两个第三方包</li>
             <li>极速上手，一个 Inject() 完成配置</li>
             <li>代码无侵入性，100% 兼容原生写法</li>
@@ -183,7 +183,7 @@ function Gitee() {
             className={"furion-log-jiao" + (isDarkTheme ? " dark" : "")}
           ></div>
           <div className="furion-log-number">
-            <div style={{ color: "#1fd898" }}>3,031,239</div>
+            <div style={{ color: "#1fd898" }}>3,036,281</div>
             <span className={isDarkTheme ? " dark" : ""}>Downloads</span>
           </div>
         </div>
@@ -421,7 +421,7 @@ function Contributor() {
         框架贡献者
       </p>
       <h1 className={"furion-big-title" + (isDarkTheme ? " dark" : "")}>
-        没有你们所有人，我们不可能做到这一点
+        没有你们所有人，Furion 不可能做到这一点
       </h1>
       <div className="furion-contributors-list">
         {contributors.map((c, i) => (

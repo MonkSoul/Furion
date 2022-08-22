@@ -25,7 +25,7 @@ using System.Diagnostics;
 namespace Furion.FriendlyException;
 
 /// <summary>
-/// 重试类
+/// 重试静态类
 /// </summary>
 public sealed class Retry
 {
