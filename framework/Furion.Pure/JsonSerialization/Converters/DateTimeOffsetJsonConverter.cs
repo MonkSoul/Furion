@@ -57,7 +57,7 @@ public class DateTimeOffsetJsonConverter : JsonConverter<DateTimeOffset>
     public DateTimeOffsetJsonConverter(string format, bool outputToLocalDateTime)
     {
         Format = format;
-        OutputToLocalDateTime = outputToLocalDateTime;
+        Localized = outputToLocalDateTime;
     }
 
     /// <summary>
@@ -68,7 +68,7 @@ public class DateTimeOffsetJsonConverter : JsonConverter<DateTimeOffset>
     /// <summary>
     /// 是否输出为为当地时间
     /// </summary>
-    public bool OutputToLocalDateTime { get; set; } = false;
+    public bool Localized { get; set; } = false;
 
     /// <summary>
     /// 反序列化
@@ -79,7 +79,7 @@ public class DateTimeOffsetJsonConverter : JsonConverter<DateTimeOffset>
     /// <returns></returns>
     public override DateTimeOffset Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
-        return DateTime.SpecifyKind(Convert.ToDateTime(reader.GetString()), OutputToLocalDateTime ? DateTimeKind.Local : DateTimeKind.Utc);
+        return DateTime.SpecifyKind(Convert.ToDateTime(reader.GetString()), Localized ? DateTimeKind.Local : DateTimeKind.Utc);
     }
 
     /// <summary>
@@ -91,7 +91,7 @@ public class DateTimeOffsetJsonConverter : JsonConverter<DateTimeOffset>
     public override void Write(Utf8JsonWriter writer, DateTimeOffset value, JsonSerializerOptions options)
     {
         // 判断是否序列化成当地时间
-        var formatDateTime = OutputToLocalDateTime ? value.ConvertToDateTime() : value;
+        var formatDateTime = Localized ? value.ConvertToDateTime() : value;
         writer.WriteStringValue(formatDateTime.ToString(Format));
     }
 }

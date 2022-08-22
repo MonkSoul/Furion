@@ -36,10 +36,10 @@ public static class SystemTextJsonExtensions
     /// </summary>
     /// <param name="converters"></param>
     /// <param name="outputFormat"></param>
-    /// <param name="outputToLocalDateTime">自动转换 DateTimeOffset 为当地时间</param>
-    public static void AddDateFormatString(this IList<JsonConverter> converters, string outputFormat = default, bool outputToLocalDateTime = false)
+    /// <param name="localized">自动转换 DateTimeOffset 为当地时间</param>
+    public static void AddDateFormatString(this IList<JsonConverter> converters, string outputFormat = default, bool localized = false)
     {
         converters.Add(new DateTimeJsonConverter(outputFormat));
-        converters.Add(new DateTimeOffsetJsonConverter(outputFormat, outputToLocalDateTime));
+        converters.Add(new DateTimeOffsetJsonConverter(outputFormat, localized));
     }
 }
