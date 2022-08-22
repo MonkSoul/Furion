@@ -365,14 +365,8 @@ public class DbContextPool : IDbContextPool, IDisposable
     /// <returns></returns>
     private static bool CheckDbContextDispose(DbContext dbContext)
     {
-        var dbContextType = dbContext.GetType();
-        while (dbContextType != typeof(DbContext))
-        {
-            dbContextType = dbContextType.BaseType;
-        }
-
         // 反射获取 _disposed 字段，判断数据库上下文是否已释放
-        var _disposedField = dbContextType.GetField("_disposed", BindingFlags.Instance | BindingFlags.NonPublic);
+        var _disposedField = typeof(DbContext).GetField("_disposed", BindingFlags.Instance | BindingFlags.NonPublic);
         if (_disposedField == null) return false;
 
         var _disposed = Convert.ToBoolean(_disposedField.GetValue(dbContext));
