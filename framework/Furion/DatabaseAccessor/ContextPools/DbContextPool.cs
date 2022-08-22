@@ -372,7 +372,10 @@ public class DbContextPool : IDbContextPool, IDisposable
             dbContextType = dbContextType.BaseType;
         }
 
+        // 反射获取 _disposed 字段，判断数据库上下文释放已释放
         var _disposedField = dbContextType.GetField("_disposed", BindingFlags.Instance | BindingFlags.NonPublic);
+        if (_disposedField == null) return false;
+
         var _disposed = Convert.ToBoolean(_disposedField.GetValue(dbContext));
         return _disposed;
     }
