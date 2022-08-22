@@ -9,6 +9,7 @@ public class SampleTests
     ///  ‰≥ˆ»’÷æ
     /// </summary>
     private readonly ITestOutputHelper Output;
+
     private readonly ISystemService _sysService;
 
     public SampleTests(ITestOutputHelper tempOutput, ISystemService sysService)

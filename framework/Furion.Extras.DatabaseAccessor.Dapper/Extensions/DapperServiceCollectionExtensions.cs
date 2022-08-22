@@ -21,7 +21,6 @@
 // SOFTWARE.
 
 using Dapper;
-using Microsoft.Extensions.DependencyInjection;
 using System.Data;
 
 namespace Microsoft.Extensions.DependencyInjection;

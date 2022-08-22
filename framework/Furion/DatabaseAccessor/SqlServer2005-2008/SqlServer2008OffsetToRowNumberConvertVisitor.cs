@@ -36,16 +36,18 @@ internal class SqlServer2008OffsetToRowNumberConvertVisitor : ExpressionVisitor
     /// 筛选列访问器
     /// </summary>
     private static readonly MethodInfo GenerateOuterColumnAccessor;
-    
+
     /// <summary>
     /// 引用 TableReferenceExpression 类型
     /// </summary>
     private static readonly Type TableReferenceExpressionType;
 #else
+
     /// <summary>
     /// 筛选列访问器
     /// </summary>
     private static readonly Func<SelectExpression, SqlExpression, string, ColumnExpression> GenerateOuterColumnAccessor;
+
 #endif
 
     /// <summary>

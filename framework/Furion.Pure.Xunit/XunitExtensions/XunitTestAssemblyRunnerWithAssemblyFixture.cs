@@ -53,7 +53,7 @@ public class XunitTestAssemblyRunnerWithAssemblyFixture : XunitTestAssemblyRunne
     /// 单元测试程序集调用时触发
     /// </summary>
     /// <returns></returns>
-    protected async override Task AfterTestAssemblyStartingAsync()
+    protected override async Task AfterTestAssemblyStartingAsync()
     {
         // 让测试程序集回归初始状态
         await base.AfterTestAssemblyStartingAsync();

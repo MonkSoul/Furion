@@ -23,6 +23,7 @@
 #if !NET5_0
 using Microsoft.AspNetCore.Builder;
 #endif
+
 using Microsoft.AspNetCore.Hosting;
 using Serilog;
 using Serilog.Events;
@@ -45,6 +46,7 @@ public static class SerilogHostingExtensions
 #if !NET5_0
     [Obsolete("Prefer UseSerilog() on IHostBuilder")]
 #endif
+
     public static IWebHostBuilder UseSerilogDefault(this IWebHostBuilder hostBuilder, Action<LoggerConfiguration> configAction = default)
     {
         // 判断是否是单文件环境
@@ -106,6 +108,7 @@ public static class SerilogHostingExtensions
 
         return builder;
     }
+
 #if !NET5_0
     /// <summary>
     /// 添加默认日志拓展
