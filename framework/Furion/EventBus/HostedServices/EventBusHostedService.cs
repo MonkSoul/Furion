@@ -110,7 +110,7 @@ internal sealed class EventBusHostedService : BackgroundService
                 // 处理同一个事件处理程序支持多个事件 Id 情况
                 var eventSubscribeAttributes = eventHandlerMethod.GetCustomAttributes<EventSubscribeAttribute>(false);
 
-                // 逐条包装并添加到 HashSet 集合中
+                // 逐条包装并添加到 _eventHandlers 集合中
                 foreach (var eventSubscribeAttribute in eventSubscribeAttributes)
                 {
                     var wrapper = new EventHandlerWrapper(eventSubscribeAttribute.EventId)
@@ -298,11 +298,13 @@ internal sealed class EventBusHostedService : BackgroundService
                 Pattern = new Regex(eventId, RegexOptions.Singleline)
             };
 
+            // 追加到集合中
             _eventHandlers.TryAdd(wrapper, wrapper);
         }
         // 处理删除
         else if (subscribeOperateSource.Operate == EventSubscribeOperates.Remove)
         {
+            // 删除所有匹配事件 Id 的处理程序
             foreach (var wrapper in _eventHandlers.Keys)
             {
                 if (wrapper.EventId == eventId) _eventHandlers.TryRemove(wrapper, out _);
