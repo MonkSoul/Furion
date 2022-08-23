@@ -38,6 +38,7 @@ using System.Reflection;
 using System.Security.Claims;
 using System.Text.Encodings.Web;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace System;
 
@@ -487,7 +488,10 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter, IOr
     {
         var jsonSerializerOptions = new JsonSerializerOptions()
         {
-            Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping
+            Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
+            ReferenceHandler = ReferenceHandler.IgnoreCycles,
+            AllowTrailingCommas = true,
+            ReadCommentHandling = JsonCommentHandling.Skip
         };
 
         try
