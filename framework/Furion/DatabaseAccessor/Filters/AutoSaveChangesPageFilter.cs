@@ -33,7 +33,7 @@ internal sealed class AutoSaveChangesPageFilter : IAsyncPageFilter, IOrderedFilt
     /// <summary>
     /// 过滤器排序
     /// </summary>
-    internal const int FilterOrder = 9999;
+    private const int FilterOrder = 9999;
 
     /// <summary>
     /// 排序属性
@@ -85,7 +85,7 @@ internal sealed class AutoSaveChangesPageFilter : IAsyncPageFilter, IOrderedFilt
         // 判断是否手动提交
         var isManualSaveChanges = method.IsDefined(typeof(ManualCommitAttribute), true);
 
-        // 判断是否异常，并且没有贴 [ManualSaveChanges] 特性
+        // 判断是否异常，并且没有贴 [ManualCommit] 特性
         if (resultContext.Exception == null && !isManualSaveChanges)
         {
             httpContext.RequestServices.GetRequiredService<IDbContextPool>().SavePoolNow();

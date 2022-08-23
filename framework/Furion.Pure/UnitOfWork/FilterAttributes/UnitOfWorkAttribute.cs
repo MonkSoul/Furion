@@ -78,7 +78,7 @@ public sealed class UnitOfWorkAttribute : Attribute, IAsyncActionFilter, IAsyncP
     /// <summary>
     /// 过滤器排序
     /// </summary>
-    internal const int FilterOrder = 9999;
+    private const int FilterOrder = 9999;
 
     /// <summary>
     /// 排序属性

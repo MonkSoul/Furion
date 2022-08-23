@@ -55,7 +55,7 @@ public sealed class DataValidationFilter : IAsyncActionFilter, IOrderedFilter
     /// <summary>
     /// 过滤器排序
     /// </summary>
-    internal const int FilterOrder = -1000;
+    private const int FilterOrder = -1000;
 
     /// <summary>
     /// 排序属性

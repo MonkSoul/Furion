@@ -51,7 +51,7 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter, IOr
     /// <summary>
     /// 过滤器排序
     /// </summary>
-    internal const int FilterOrder = -2000;
+    private const int FilterOrder = -2000;
 
     /// <summary>
     /// 排序属性

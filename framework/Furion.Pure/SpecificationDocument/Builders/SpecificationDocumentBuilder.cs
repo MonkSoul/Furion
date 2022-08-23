@@ -665,7 +665,7 @@ public static class SpecificationDocumentBuilder
     /// </summary>
     /// <param name="type"></param>
     /// <returns></returns>
-    private static IEnumerable<GroupExtraInfo> GetControllerGroups(Type type)
+    public static IEnumerable<GroupExtraInfo> GetControllerGroups(Type type)
     {
         return GetControllerGroupsCached.GetOrAdd(type, Function);
 
@@ -700,7 +700,7 @@ public static class SpecificationDocumentBuilder
     /// </summary>
     /// <param name="method">方法</param>
     /// <returns></returns>
-    private static IEnumerable<GroupExtraInfo> GetActionGroups(MethodInfo method)
+    public static IEnumerable<GroupExtraInfo> GetActionGroups(MethodInfo method)
     {
         return GetActionGroupsCached.GetOrAdd(method, Function);
 
@@ -735,7 +735,7 @@ public static class SpecificationDocumentBuilder
     /// </summary>
     /// <param name="controllerActionDescriptor">控制器接口描述器</param>
     /// <returns></returns>
-    private static string GetControllerTag(ControllerActionDescriptor controllerActionDescriptor)
+    public static string GetControllerTag(ControllerActionDescriptor controllerActionDescriptor)
     {
         return GetControllerTagCached.GetOrAdd(controllerActionDescriptor, Function);
 
@@ -762,7 +762,7 @@ public static class SpecificationDocumentBuilder
     /// </summary>
     /// <param name="apiDescription">接口描述器</param>
     /// <returns></returns>
-    private static string GetActionTag(ApiDescription apiDescription)
+    public static string GetActionTag(ApiDescription apiDescription)
     {
         return GetActionTagCached.GetOrAdd(apiDescription, Function);
 
@@ -787,7 +787,7 @@ public static class SpecificationDocumentBuilder
     /// <param name="method">方法</param>
     /// <param name="ReflectedType">声明类型</param>
     /// <returns></returns>
-    private static bool IsApiAction(MethodInfo method, Type ReflectedType)
+    public static bool IsApiAction(MethodInfo method, Type ReflectedType)
     {
         // 不是非公开、抽象、静态、泛型方法
         if (!method.IsPublic || method.IsAbstract || method.IsStatic || method.IsGenericMethod) return false;

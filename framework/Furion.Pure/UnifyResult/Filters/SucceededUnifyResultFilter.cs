@@ -39,7 +39,7 @@ public class SucceededUnifyResultFilter : IAsyncActionFilter, IOrderedFilter
     /// <summary>
     /// 过滤器排序
     /// </summary>
-    internal const int FilterOrder = 8888;
+    private const int FilterOrder = 8888;
 
     /// <summary>
     /// 排序属性
