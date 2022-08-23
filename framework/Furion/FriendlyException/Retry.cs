@@ -60,7 +60,7 @@ public sealed class Retry
     {
         if (action == null) throw new ArgumentNullException(nameof(action));
 
-        // 如果重试次数为 0，则直接调用
+        // 如果重试次数小于或等于 0，则直接调用
         if (numRetries <= 0)
         {
             await action();
