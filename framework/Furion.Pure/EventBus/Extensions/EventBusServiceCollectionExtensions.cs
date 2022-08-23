@@ -101,6 +101,9 @@ public static class EventBusServiceCollectionExtensions
         // 注册默认内存通道事件发布者
         services.AddSingleton<IEventPublisher, ChannelEventPublisher>();
 
+        // 注册事件总线工厂
+        services.AddSingleton<IEventBusFactory, EventBusFactory>();
+
         return services;
     }
 }

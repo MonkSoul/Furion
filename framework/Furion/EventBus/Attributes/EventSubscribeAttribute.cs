@@ -56,4 +56,20 @@ public sealed class EventSubscribeAttribute : Attribute
     /// 事件 Id
     /// </summary>
     public string EventId { get; set; }
+
+    /// <summary>
+    /// 重试次数
+    /// </summary>
+    public int NumRetries { get; set; } = 0;
+
+    /// <summary>
+    /// 重试间隔时间
+    /// </summary>
+    /// <remarks>默认1000毫秒</remarks>
+    public int RetryTimeout { get; set; } = 1000;
+
+    /// <summary>
+    /// 可以指定特定异常类型才重试
+    /// </summary>
+    public Type[] ExceptionTypes { get; set; }
 }

@@ -20,56 +20,58 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-using Furion.Extensitions.EventBus;
+using System.Reflection;
 
 namespace Furion.EventBus;
 
 /// <summary>
-/// 事件处理程序特性
+/// 事件总线订阅管理事件源
 /// </summary>
-/// <remarks>
-/// <para>作用于 <see cref="IEventSubscriber"/> 实现类实例方法</para>
-/// <para>支持多个事件 Id 触发同一个事件处理程序</para>
-/// </remarks>
-[SuppressSniffer, AttributeUsage(AttributeTargets.Method, AllowMultiple = true, Inherited = false)]
-public sealed class EventSubscribeAttribute : Attribute
+internal sealed class EventSubscribeOperateSource : IEventSource
 {
-    /// <summary>
-    /// 构造函数
-    /// </summary>
-    /// <param name="eventId">事件 Id</param>
-    /// <remarks>只支持事件类型和 Enum 类型</remarks>
-    public EventSubscribeAttribute(object eventId)
-    {
-        if (eventId is string)
-        {
-            EventId = eventId as string;
-        }
-        else if (eventId is Enum)
-        {
-            EventId = (eventId as Enum).ParseToString();
-        }
-        else throw new ArgumentException("Only support string or Enum data type.");
-    }
-
     /// <summary>
     /// 事件 Id
     /// </summary>
     public string EventId { get; set; }
 
     /// <summary>
-    /// 重试次数
+    /// 事件承载（携带）数据
     /// </summary>
-    public int NumRetries { get; set; } = 0;
+    public object Payload { get; set; }
 
     /// <summary>
-    /// 重试间隔时间
+    /// 取消任务 Token
     /// </summary>
-    /// <remarks>默认1000毫秒</remarks>
-    public int RetryTimeout { get; set; } = 1000;
+    /// <remarks>用于取消本次消息处理</remarks>
+    public CancellationToken CancellationToken { get; set; }
 
     /// <summary>
-    /// 可以指定特定异常类型才重试
+    /// 事件创建时间
     /// </summary>
-    public Type[] ExceptionTypes { get; set; }
+    public DateTime CreatedTime { get; set; } = DateTime.UtcNow;
+
+    /// <summary>
+    /// 事件处理程序
+    /// </summary>
+    internal Func<EventHandlerExecutingContext, Task> Handler { get; set; }
+
+    /// <summary>
+    /// 订阅特性
+    /// </summary>
+    internal EventSubscribeAttribute Attribute { get; set; }
+
+    /// <summary>
+    /// 触发的方法
+    /// </summary>
+    internal MethodInfo HandlerMethod { get; set; }
+
+    /// <summary>
+    /// 实际事件 Id
+    /// </summary>
+    internal string SubscribeEventId { get; set; }
+
+    /// <summary>
+    /// 事件订阅器操作选项
+    /// </summary>
+    internal EventSubscribeOperates Operate { get; set; }
 }

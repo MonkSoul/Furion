@@ -20,6 +20,8 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+using System.Reflection;
+
 namespace Furion.EventBus;
 
 /// <summary>
@@ -32,10 +34,17 @@ public abstract class EventHandlerContext
     /// </summary>
     /// <param name="eventSource">事件源（事件承载对象）</param>
     /// <param name="properties">共享上下文数据</param>
-    public EventHandlerContext(IEventSource eventSource, IDictionary<object, object> properties)
+    /// <param name="handlerMethod">触发的方法</param>
+    /// <param name="attribute">订阅特性</param>
+    public EventHandlerContext(IEventSource eventSource
+        , IDictionary<object, object> properties
+        , MethodInfo handlerMethod
+        , EventSubscribeAttribute attribute)
     {
         Source = eventSource;
         Properties = properties;
+        HandlerMethod = handlerMethod;
+        Attribute = attribute;
     }
 
     /// <summary>
@@ -47,4 +56,16 @@ public abstract class EventHandlerContext
     /// 共享上下文数据
     /// </summary>
     public IDictionary<object, object> Properties { get; }
+
+    /// <summary>
+    /// 触发的方法
+    /// </summary>
+    /// <remarks>如果是动态订阅，可能为 null</remarks>
+    public MethodInfo HandlerMethod { get; }
+
+    /// <summary>
+    /// 订阅特性
+    /// </summary>
+    /// <remarks><remarks>如果是动态订阅，可能为 null</remarks></remarks>
+    public EventSubscribeAttribute Attribute { get; }
 }

@@ -22,7 +22,7 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 1. 定义事件订阅者 `ToDoEventSubscriber`：
 
-```cs showLineNumbers  {2,10-11,19-21,28-29,32}
+```cs showLineNumbers  {2,10-11,19-21,28-30,32,36-38,44-48}
 // 实现 IEventSubscriber 接口
 public class ToDoEventSubscriber : IEventSubscriber
 {
@@ -55,6 +55,24 @@ public class ToDoEventSubscriber : IEventSubscriber
     public async Task EnumHandler(EventHandlerExecutingContext context)
     {
         var eventEnum = context.Source.EventId.ParseToEnum(); // 将事件 Id 转换成枚举对象
+        await Task.CompletedTask;
+    }
+
+    // 支持正则表达式匹配，v4.2.10+ 版本支持
+    [EventSubscribe("(^1[3456789][0-9]{9}$)|((^[0-9]{3,4}\\-[0-9]{3,8}$)|(^[0-9]{3,8}$)|(^\\([0-9]{3,4}\\)[0-9]{3,8}$)|(^0{0,1}13[0-9]{9}$))")]
+    public async Task RegexHandler(EventHandlerExecutingContext context)
+    {
+        var eventEnum = context.Source.EventId;
+        await Task.CompletedTask;
+    }
+
+     // 支持多种异常重试配置，v4.2.10+ 版本支持
+    [EventSubscribe("test:error", NumRetries = 3)]
+    [EventSubscribe("test:error", NumRetries = 3, RetryTimeout = 1000)] // 重试间隔时间
+    [EventSubscribe("test:error", NumRetries = 3, ExceptionTypes = new[] { typeof(ArgumentException) })]    // 特定类型异常才重试
+    public async Task ExceptionHandler(EventHandlerExecutingContext context)
+    {
+        var eventEnum = context.Source.EventId;
         await Task.CompletedTask;
     }
 }
@@ -368,7 +386,46 @@ services.AddEventBus(builder =>
 });
 ```
 
-## 22.10 `EventBusOptionsBuilder` 配置
+## 22.10 事件总线工厂
+
+:::important 版本说明
+
+以下内容仅限 `Furion 4.2.10 +` 版本使用。
+
+:::
+
+在该版本中，`Furion` 提供了 `IEventBusFactory` 工厂服务，可在运行时动态新增或删除订阅，如：
+
+```cs showLineNumbers {4,14-17,24}
+public class TestEventBus : IDynamicApiController
+{
+    private readonly IEventPublisher _eventPublisher;
+    private readonly IEventBusFactory _eventBusFactory;
+    public TestEventBus(IEventPublisher eventPublisher, IEventBusFactory eventBusFactory)
+    {
+        _eventPublisher = eventPublisher;
+        _eventBusFactory = eventBusFactory;
+    }
+
+    // 运行时动态添加一个订阅器
+    public async Task AddSubscriber()
+    {
+        await _eventBusFactory.AddSubscriber("xxx", async (c) =>
+        {
+            Console.WriteLine("我是动态的");
+            await Task.CompletedTask;
+        });
+    }
+
+    // 运行时动态删除一个订阅器
+    public async Task RemoveDynamic(string eventId)
+    {
+        await _eventBusFactory.RemoveSubscriber(eventId);
+    }
+}
+```
+
+## 22.11 `EventBusOptionsBuilder` 配置
 
 `EventBusOptionsBuilder` 是 `AddEventBus` 构建服务选项，该选项包含以下属性和方法：
 
@@ -383,7 +440,7 @@ services.AddEventBus(builder =>
   - `AddMonitor<TEventHandlerMonitor>`：添加监视器
   - `AddExecutor<TEventHandlerExecutor>`：添加执行器
 
-## 22.11 反馈与建议
+## 22.12 反馈与建议
 
 :::note 与我们交流
 

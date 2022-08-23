@@ -7,9 +7,11 @@ namespace Furion.Application;
 public class TestEventBus : IDynamicApiController
 {
     private readonly IEventPublisher _eventPublisher;
-    public TestEventBus(IEventPublisher eventPublisher)
+    private readonly IEventBusFactory _eventBusFactory;
+    public TestEventBus(IEventPublisher eventPublisher, IEventBusFactory eventBusFactory)
     {
         _eventPublisher = eventPublisher;
+        _eventBusFactory = eventBusFactory;
     }
 
     // 发布 ToDo:Create 消息
@@ -22,6 +24,38 @@ public class TestEventBus : IDynamicApiController
     public async Task CreateEnum()
     {
         await _eventPublisher.PublishAsync(ValidationTypes.Numeric);
+    }
+
+    // 发送电话
+    public async Task SendPhone()
+    {
+        await _eventPublisher.PublishAsync("13800138000");
+        await _eventPublisher.PublishAsync("13434563233");
+    }
+
+    // 发送电话
+    public async Task SendError()
+    {
+        await _eventPublisher.PublishAsync("test:error");
+    }
+
+    public async Task AddSubscriber()
+    {
+        await _eventBusFactory.AddSubscriber("xxx", async (c) =>
+        {
+            Console.WriteLine("我是动态的");
+            await Task.CompletedTask;
+        });
+    }
+
+    public async Task SendDynamic(string eventId)
+    {
+        await _eventPublisher.PublishAsync(eventId);
+    }
+
+    public async Task RemoveDynamic(string eventId)
+    {
+        await _eventBusFactory.RemoveSubscriber(eventId);
     }
 }
 
@@ -47,5 +81,19 @@ public class ToDoEventSubscriber : IEventSubscriber, ISingleton
     {
         var eventEnum = context.Source.EventId.ParseToEnum();
         await Task.CompletedTask;
+    }
+
+    [EventSubscribe("(^1[3456789][0-9]{9}$)|((^[0-9]{3,4}\\-[0-9]{3,8}$)|(^[0-9]{3,8}$)|(^\\([0-9]{3,4}\\)[0-9]{3,8}$)|(^0{0,1}13[0-9]{9}$))")]
+    public async Task 测试电话正则表达式(EventHandlerExecutingContext context)
+    {
+        Console.WriteLine(context.Source.EventId);
+        await Task.CompletedTask;
+    }
+
+    [EventSubscribe("test:error", NumRetries = 3)]  // 重试三次
+    public async Task 测试异常重试(EventHandlerExecutingContext context)
+    {
+        Console.WriteLine("我执行啦~~");
+        throw new NotImplementedException();
     }
 }

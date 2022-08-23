@@ -20,10 +20,13 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+using Furion.FriendlyException;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using System.Collections.Concurrent;
 using System.Reflection;
+using System.Text.RegularExpressions;
 
 namespace Furion.EventBus;
 
@@ -50,7 +53,7 @@ internal sealed class EventBusHostedService : BackgroundService
     /// <summary>
     /// 事件处理程序集合
     /// </summary>
-    private readonly HashSet<EventHandlerWrapper> _eventHandlers = new();
+    private readonly ConcurrentDictionary<EventHandlerWrapper, EventHandlerWrapper> _eventHandlers = new();
 
     /// <summary>
     /// 事件处理程序监视器
@@ -110,10 +113,15 @@ internal sealed class EventBusHostedService : BackgroundService
                 // 逐条包装并添加到 HashSet 集合中
                 foreach (var eventSubscribeAttribute in eventSubscribeAttributes)
                 {
-                    _eventHandlers.Add(new EventHandlerWrapper(eventSubscribeAttribute.EventId)
+                    var wrapper = new EventHandlerWrapper(eventSubscribeAttribute.EventId)
                     {
-                        Handler = handler
-                    });
+                        Handler = handler,
+                        HandlerMethod = eventHandlerMethod,
+                        Attribute = eventSubscribeAttribute,
+                        Pattern = new Regex(eventSubscribeAttribute.EventId, RegexOptions.Singleline)
+                    };
+
+                    _eventHandlers.TryAdd(wrapper, wrapper);
                 }
             }
         }
@@ -152,6 +160,14 @@ internal sealed class EventBusHostedService : BackgroundService
         // 从事件存储器中读取一条
         var eventSource = await _eventSourceStorer.ReadAsync(stoppingToken);
 
+        // 处理动态新增/删除事件订阅器
+        if (eventSource is EventSubscribeOperateSource subscribeOperateSource)
+        {
+            ManageEventSubscribers(subscribeOperateSource);
+
+            return;
+        }
+
         // 空检查
         if (string.IsNullOrWhiteSpace(eventSource?.EventId))
         {
@@ -161,7 +177,7 @@ internal sealed class EventBusHostedService : BackgroundService
         }
 
         // 查找事件 Id 匹配的事件处理程序
-        var eventHandlersThatShouldRun = _eventHandlers.Where(t => t.ShouldRun(eventSource.EventId));
+        var eventHandlersThatShouldRun = _eventHandlers.Keys.Where(t => t.ShouldRun(eventSource.EventId));
 
         // 空订阅
         if (!eventHandlersThatShouldRun.Any())
@@ -183,8 +199,11 @@ internal sealed class EventBusHostedService : BackgroundService
                 // 创建共享上下文数据对象
                 var properties = new Dictionary<object, object>();
 
+                // 获取特性信息，可能为 null
+                var eventSubscribeAttribute = eventHandlerThatShouldRun.Attribute;
+
                 // 创建执行前上下文
-                var eventHandlerExecutingContext = new EventHandlerExecutingContext(eventSource, properties)
+                var eventHandlerExecutingContext = new EventHandlerExecutingContext(eventSource, properties, eventHandlerThatShouldRun.HandlerMethod, eventSubscribeAttribute)
                 {
                     ExecutingTime = UseUtcTimestamp ? DateTime.UtcNow : DateTime.Now
                 };
@@ -209,7 +228,11 @@ internal sealed class EventBusHostedService : BackgroundService
                     // 判断是否自定义了执行器
                     if (Executor == default)
                     {
-                        await eventHandlerThatShouldRun.Handler!(eventHandlerExecutingContext);
+                        // 运行重试
+                        await Retry.InvokeAsync(async () =>
+                        {
+                            await eventHandlerThatShouldRun.Handler!(eventHandlerExecutingContext);
+                        }, eventSubscribeAttribute?.NumRetries ?? 0, eventSubscribeAttribute?.RetryTimeout ?? 1000, exceptionTypes: eventSubscribeAttribute?.ExceptionTypes);
                     }
                     else
                     {
@@ -239,7 +262,7 @@ internal sealed class EventBusHostedService : BackgroundService
                     if (Monitor != default)
                     {
                         // 创建执行后上下文
-                        var eventHandlerExecutedContext = new EventHandlerExecutedContext(eventSource, properties)
+                        var eventHandlerExecutedContext = new EventHandlerExecutedContext(eventSource, properties, eventHandlerThatShouldRun.HandlerMethod, eventSubscribeAttribute)
                         {
                             ExecutedTime = UseUtcTimestamp ? DateTime.UtcNow : DateTime.Now,
                             Exception = executionException
@@ -249,6 +272,41 @@ internal sealed class EventBusHostedService : BackgroundService
                     }
                 }
             }, stoppingToken);
+        }
+    }
+
+    /// <summary>
+    /// 管理事件订阅器动态
+    /// </summary>
+    /// <param name="subscribeOperateSource"></param>
+    private void ManageEventSubscribers(EventSubscribeOperateSource subscribeOperateSource)
+    {
+        // 获取实际订阅事件 Id
+        var eventId = subscribeOperateSource.SubscribeEventId;
+
+        // 确保事件订阅 Id 和传入的特性 EventId 一致
+        if (subscribeOperateSource.Attribute != null && subscribeOperateSource.Attribute.EventId != eventId) throw new InvalidOperationException("Ensure that the <eventId> is consistent with the <EventId> attribute of the EventSubscribeAttribute object.");
+
+        // 处理新增
+        if (subscribeOperateSource.Operate == EventSubscribeOperates.Append)
+        {
+            var wrapper = new EventHandlerWrapper(eventId)
+            {
+                Attribute = subscribeOperateSource.Attribute,
+                HandlerMethod = subscribeOperateSource.HandlerMethod,
+                Handler = subscribeOperateSource.Handler,
+                Pattern = new Regex(eventId, RegexOptions.Singleline)
+            };
+
+            _eventHandlers.TryAdd(wrapper, wrapper);
+        }
+        // 处理删除
+        else if (subscribeOperateSource.Operate == EventSubscribeOperates.Remove)
+        {
+            foreach (var wrapper in _eventHandlers.Keys)
+            {
+                if (wrapper.EventId == eventId) _eventHandlers.TryRemove(wrapper, out _);
+            }
         }
     }
 }
