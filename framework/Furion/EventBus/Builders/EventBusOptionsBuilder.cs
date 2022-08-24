@@ -66,7 +66,13 @@ public sealed class EventBusOptionsBuilder
     /// <summary>
     /// 是否使用 UTC 时间戳，默认 false
     /// </summary>
-    public bool UseUtcTimestamp { get; set; }
+    public bool UseUtcTimestamp { get; set; } = false;
+
+    /// <summary>
+    /// 是否启用模糊匹配消息
+    /// </summary>
+    /// <remarks>支持正则表达式</remarks>
+    public bool FuzzyMatch { get; set; } = false;
 
     /// <summary>
     /// 未察觉任务异常事件处理程序

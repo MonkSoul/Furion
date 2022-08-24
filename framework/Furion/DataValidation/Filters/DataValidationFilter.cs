@@ -85,7 +85,7 @@ public sealed class DataValidationFilter : IAsyncActionFilter, IOrderedFilter
         // 获取验证状态
         var modelState = context.ModelState;
 
-        // 如果参数为 0或贴了 [NonValidation] 特性 或所在类型贴了 [NonValidation] 特性或验证成功或已经设置了结果，则跳过验证
+        // 如果参数数量为 0 或贴了 [NonValidation] 特性 或所在类型贴了 [NonValidation] 特性或验证成功或已经设置了结果，则跳过验证
         if (actionDescriptor.Parameters.Count == 0 ||
             method.IsDefined(nonValidationAttributeType, true) ||
             method.DeclaringType.IsDefined(nonValidationAttributeType, true) ||

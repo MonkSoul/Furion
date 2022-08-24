@@ -71,6 +71,11 @@ internal sealed class EventBusHostedService : BackgroundService
     private bool UseUtcTimestamp { get; }
 
     /// <summary>
+    /// 是否启用模糊匹配事件消息
+    /// </summary>
+    private bool FuzzyMatch { get; set; }
+
+    /// <summary>
     /// 构造函数
     /// </summary>
     /// <param name="logger">日志对象</param>
@@ -78,17 +83,20 @@ internal sealed class EventBusHostedService : BackgroundService
     /// <param name="eventSourceStorer">事件源存储器</param>
     /// <param name="eventSubscribers">事件订阅者集合</param>
     /// <param name="useUtcTimestamp">是否使用 Utc 时间</param>
+    /// <param name="fuzzyMatch">是否启用模糊匹配事件消息</param>
     public EventBusHostedService(ILogger<EventBusHostedService> logger
         , IServiceProvider serviceProvider
         , IEventSourceStorer eventSourceStorer
         , IEnumerable<IEventSubscriber> eventSubscribers
-        , bool useUtcTimestamp)
+        , bool useUtcTimestamp
+        , bool fuzzyMatch)
     {
         _logger = logger;
         _eventSourceStorer = eventSourceStorer;
         Monitor = serviceProvider.GetService<IEventHandlerMonitor>();
         Executor = serviceProvider.GetService<IEventHandlerExecutor>();
         UseUtcTimestamp = useUtcTimestamp;
+        FuzzyMatch = fuzzyMatch;
 
         var bindingAttr = BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly;
         // 逐条获取事件处理程序并进行包装
@@ -118,7 +126,7 @@ internal sealed class EventBusHostedService : BackgroundService
                         Handler = handler,
                         HandlerMethod = eventHandlerMethod,
                         Attribute = eventSubscribeAttribute,
-                        Pattern = new Regex(eventSubscribeAttribute.EventId, RegexOptions.Singleline)
+                        Pattern = CheckFuzzyMatch(eventSubscribeAttribute.FuzzyMatch) ? new Regex(eventSubscribeAttribute.EventId, RegexOptions.Singleline) : default
                     };
 
                     _eventHandlers.TryAdd(wrapper, wrapper);
@@ -295,7 +303,7 @@ internal sealed class EventBusHostedService : BackgroundService
                 Attribute = subscribeOperateSource.Attribute,
                 HandlerMethod = subscribeOperateSource.HandlerMethod,
                 Handler = subscribeOperateSource.Handler,
-                Pattern = new Regex(eventId, RegexOptions.Singleline)
+                Pattern = CheckFuzzyMatch(subscribeOperateSource.Attribute?.FuzzyMatch) ? new Regex(eventId, RegexOptions.Singleline) : default
             };
 
             // 追加到集合中
@@ -310,5 +318,17 @@ internal sealed class EventBusHostedService : BackgroundService
                 if (wrapper.EventId == eventId) _eventHandlers.TryRemove(wrapper, out _);
             }
         }
+    }
+
+    /// <summary>
+    /// 检查是否开启模糊匹配事件 Id 功能
+    /// </summary>
+    /// <param name="fuzzyMatch"></param>
+    /// <returns></returns>
+    private bool CheckFuzzyMatch(object fuzzyMatch)
+    {
+        return fuzzyMatch == null
+            ? FuzzyMatch
+            : Convert.ToBoolean(fuzzyMatch);
     }
 }

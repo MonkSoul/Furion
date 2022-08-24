@@ -58,6 +58,12 @@ public sealed class EventSubscribeAttribute : Attribute
     public string EventId { get; set; }
 
     /// <summary>
+    /// 是否启用模糊匹配消息
+    /// </summary>
+    /// <remarks>支持正则表达式，bool 类型，默认为 null</remarks>
+    public object FuzzyMatch { get; set; } = null;
+
+    /// <summary>
     /// 重试次数
     /// </summary>
     public int NumRetries { get; set; } = 0;

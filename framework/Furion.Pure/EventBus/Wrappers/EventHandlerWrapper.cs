@@ -73,6 +73,6 @@ internal sealed class EventHandlerWrapper
     /// <returns><see cref="bool"/></returns>
     internal bool ShouldRun(string eventId)
     {
-        return EventId == eventId || Pattern.IsMatch(eventId);
+        return EventId == eventId || (Pattern?.IsMatch(eventId) ?? false);
     }
 }
