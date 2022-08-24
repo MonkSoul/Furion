@@ -66,7 +66,7 @@ public class ToDoEventSubscriber : IEventSubscriber
         await Task.CompletedTask;
     }
 
-     // 支持多种异常重试配置，4.2.10+ 版本支持
+    // 支持多种异常重试配置，4.2.10+ 版本支持
     [EventSubscribe("test:error", NumRetries = 3)]
     [EventSubscribe("test:error", NumRetries = 3, RetryTimeout = 1000)] // 重试间隔时间
     [EventSubscribe("test:error", NumRetries = 3, ExceptionTypes = new[] { typeof(ArgumentException) })]    // 特定类型异常才重试
