@@ -655,7 +655,7 @@ public sealed partial class HttpRequestPart
                 {
                     foreach (var (key, value) in dic)
                     {
-                        multipartFormDataContent.Add(new StringContent(value, ContentEncoding), string.Format("\"{0}\"", key));
+                        multipartFormDataContent.Add(new StringContent(value ?? string.Empty, ContentEncoding), string.Format("\"{0}\"", key));
                     }
                 }
 
