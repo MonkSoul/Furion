@@ -927,9 +927,11 @@ public interface IHttp : IHttpDispatchProxy
 }
 ```
 
-## 19.6 多个请求客户端配置
+## 19.6 请求客户端配置
 
-`Furion` 框架也提供了多个请求客户端配置，可以为多个客户端请求配置默认请求信息，如：
+`Furion` 框架也提供了多个请求客户端配置，可以为多个客户端请求配置默认请求信息，目前支持四种模式进行配置。
+
+### 19.6.1 `Startup.cs` 统一配置
 
 ```cs showLineNumbers  {4,9}
 services.AddRemoteRequest(options=>
@@ -966,6 +968,130 @@ Task<User> GetData();
 ```cs showLineNumbers
 // 设置请求拦截
 var response = await "http://47.100.247.61/api/sysdata/categories".SetClient("github").PostAsync();
+```
+
+- 在 `IHttpClientFactory` 中使用
+
+```cs showLineNumbers {3,13}
+public class ValuesController : Controller
+{
+    private readonly IHttpClientFactory _httpClientFactory;
+
+    public ValuesController(IHttpClientFactory httpClientFactory)
+    {
+        _httpClientFactory = httpClientFactory;
+    }
+
+    [HttpGet]
+    public async Task<ActionResult> Get()
+    {
+        var client = _httpClientFactory.CreateClient("github");
+        string result = await client.GetStringAsync("/");
+        return Ok(result);
+    }
+}
+```
+
+### 19.6.2 自定义 `Client` 类方式
+
+我们可以按照一定的规则编写特定服务的请求客户端，如：
+
+```cs showLineNumbers {1,3,5}
+public class GitHubClient
+{
+    public HttpClient Client { get; private set; }
+
+    public GitHubClient(HttpClient httpClient)
+    {
+        httpClient.BaseAddress = new Uri("https://api.github.com/");
+        httpClient.DefaultRequestHeaders.Add("Accept", "application/vnd.github.v3+json");
+        httpClient.DefaultRequestHeaders.Add("User-Agent", "HttpClientFactory-Sample");
+        Client = httpClient;
+    }
+}
+```
+
+然后在 `Startup.cs` 中注册：
+
+```cs showLineNumbers
+services.AddHttpClient<GitHubClient>();
+```
+
+使用如下：
+
+```cs showLineNumbers {3,13}
+public class ValuesController : Controller
+{
+    private readonly GitHubClient _gitHubClient;;
+
+    public ValuesController(GitHubClient gitHubClient)
+    {
+        _gitHubClient = gitHubClient;
+    }
+
+    [HttpGet]
+    public async Task<ActionResult> Get()
+    {
+        string result = await _gitHubClient.Client.GetStringAsync("/");
+        return Ok(result);
+    }
+}
+```
+
+### 19.6.3 自定义 `Client` 类 + 接口方式
+
+我们也可以定义接口，通过接口的提供具体的服务 `API` 操作，无需手动配置 `Url`，如上面的 `GetStringAsync("/")`。
+
+```cs showLineNumbers {1,3,6,10,18-21}
+public interface IGitHubClient
+{
+    Task<string> GetData();
+}
+
+public class GitHubClient : IGitHubClient
+{
+    private readonly HttpClient _client;
+
+    public GitHubClient(HttpClient httpClient)
+    {
+        httpClient.BaseAddress = new Uri("https://api.github.com/");
+        httpClient.DefaultRequestHeaders.Add("Accept", "application/vnd.github.v3+json");
+        httpClient.DefaultRequestHeaders.Add("User-Agent", "HttpClientFactory-Sample");
+        _client = httpClient;
+    }
+
+    public async Task<string> GetData()
+    {
+        return await _client.GetStringAsync("/");
+    }
+}
+```
+
+然后在 `Startup.cs` 中注册：
+
+```cs showLineNumbers
+services.AddHttpClient<IGitHubClient, GitHubClient>();
+```
+
+使用：
+
+```cs showLineNumbers {3,13}
+public class ValuesController : Controller
+{
+    private readonly IGitHubClient _gitHubClient;;
+
+    public ValuesController(IGitHubClient gitHubClient)
+    {
+        _gitHubClient = gitHubClient;
+    }
+
+    [HttpGet]
+    public async Task<ActionResult> Get()
+    {
+        string result = await _gitHubClient.GetData();
+        return Ok(result);
+    }
+}
 ```
 
 ## 19.7 `SSL/https` 证书配置
