@@ -27,6 +27,7 @@ namespace Furion.FriendlyException;
 /// <summary>
 /// 重试静态类
 /// </summary>
+[SuppressSniffer]
 public sealed class Retry
 {
     /// <summary>
