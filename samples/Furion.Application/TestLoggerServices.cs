@@ -26,6 +26,11 @@ public class TestLoggerServices : IDynamicApiController
         _logger.LogWarning("我是一个二配置日志 {id}", 20);
     }
 
+    public void 测试日志异常()
+    {
+        _logger.LogError(new Exception("错误啦"), "测试日志异常", 20);
+    }
+
     [LoggingMonitor]
     public void 测试日志监听1()
     {

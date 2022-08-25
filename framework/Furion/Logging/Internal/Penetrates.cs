@@ -96,7 +96,7 @@ internal static class Penetrates
     /// </summary>
     /// <param name="logLevel">日志级别</param>
     /// <returns></returns>
-    internal static string GetShortLogLevel(LogLevel logLevel)
+    internal static string GetLogLevelString(LogLevel logLevel)
     {
         return logLevel switch
         {

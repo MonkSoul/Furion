@@ -46,7 +46,6 @@ public static class TP
         var regex = new Regex(@"^##(?<prop>.*)?##[:：]?\s*(?<content>.*)");
 
         var stringBuilder = new StringBuilder();
-        stringBuilder.AppendLine();
         stringBuilder.Append($"┏━━━━━━━━━━━  {title} ━━━━━━━━━━━").AppendLine();
 
         // 添加描述
@@ -81,7 +80,7 @@ public static class TP
             }
         }
 
-        stringBuilder.Append($"┗━━━━━━━━━━━  {title} ━━━━━━━━━━━").AppendLine();
+        stringBuilder.Append($"┗━━━━━━━━━━━  {title} ━━━━━━━━━━━");
         return stringBuilder.ToString();
     }
 

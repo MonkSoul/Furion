@@ -63,7 +63,7 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter, IOr
     /// 固定日志分类名
     /// </summary>
     /// <remarks>方便对日志进行过滤写入不同的存储介质中</remarks>
-    private const string LOG_CATEGORY_NAME = "System.Logging.LoggingMonitor";
+    internal const string LOG_CATEGORY_NAME = "System.Logging.LoggingMonitor";
 
     /// <summary>
     /// 日志上下文统一 Key

@@ -43,6 +43,11 @@ public sealed class FileLogger : ILogger
     private readonly FileLoggerProvider _fileLoggerProvider;
 
     /// <summary>
+    /// 异常分隔符
+    /// </summary>
+    private const string EXCEPTION_SEPARATOR = "++++++++++++++++++++++++++++++++++++++++++++++++++++++++";
+
+    /// <summary>
     /// 构造函数
     /// </summary>
     /// <param name="logName">记录器类别名称</param>
@@ -134,21 +139,41 @@ public sealed class FileLogger : ILogger
         {
             var timeStamp = _fileLoggerProvider.UseUtcTimestamp ? DateTime.UtcNow : DateTime.Now;
 
-            formatString.Append(timeStamp.ToString("o"));
-            formatString.Append("  [");
-            formatString.Append(Penetrates.GetShortLogLevel(logLevel));
+            formatString.Append('[');
+            formatString.Append(Penetrates.GetLogLevelString(logLevel));
             formatString.Append(']');
             formatString.Append("  [");
             formatString.Append(_logName);
             formatString.Append(']');
+            formatString.Append("  ");
+            formatString.Append(timeStamp.ToString("o"));
             formatString.Append("  [");
             formatString.Append(eventId);
             formatString.Append("]  ");
-            formatString.Append(message);
+            formatString.AppendLine();
+
+            // 处理非 LoggingMonitor 情况
+            if (_logName != LoggingMonitorAttribute.LOG_CATEGORY_NAME)
+            {
+                formatString.Append(string.Empty.PadLeft(7, ' ') + message);
+            }
+            else
+            {
+                var newMessage = string.Join(Environment.NewLine, message.Split(Environment.NewLine)
+                        .Select(line => string.Empty.PadLeft(7, ' ') + line));
+
+                formatString.Append(newMessage);
+            }
         }
 
         // 如果包含异常信息，则创建新一行写入
-        if (exception != null) formatString.AppendLine(exception.ToString());
+        if (exception != null)
+        {
+            formatString.AppendLine()
+                        .AppendLine(EXCEPTION_SEPARATOR)
+                        .AppendLine(exception.ToString())
+                        .Append(EXCEPTION_SEPARATOR);
+        }
 
         // 设置日志消息模板
         logMsg.Message = formatString.ToString();
