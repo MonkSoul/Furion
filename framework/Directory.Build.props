@@ -15,6 +15,9 @@
 		<PackageIcon>icon.png</PackageIcon>
 		<PackageTags>Furion;Fur;百小僧;Monk;MonkSoul;ASP.NET;ASP.NET Core;.NET;.NET Core;.NET5;.NET6;Framework;dotNET;dotNET China;Web;Cross Platform</PackageTags>
 		<PackageOutputPath>../nupkgs</PackageOutputPath>
+		<SignAssembly>True</SignAssembly>
+		<DelaySign>False</DelaySign>
+		<AssemblyOriginatorKeyFile>..\..\snks\Furion.snk</AssemblyOriginatorKeyFile>
 	</PropertyGroup>
 
 	<PropertyGroup>
