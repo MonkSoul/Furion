@@ -94,7 +94,50 @@ namespace Furion.Web.Core
 services.AddMvcFilter<RequestAuditFilter>();
 ```
 
-## 5.4.3 反馈与建议
+## 5.4.3 `LoggingMonitor` 审计日志
+
+:::tip 小知识
+
+`Furion` 提供了非常强大的 `LoggingMonitor` 审计日志功能，可直接使用：[LoggingMonitor 文档](logging.mdx#186-loggingmonitor-监听日志)
+
+:::
+
+```bash showLineNumbers
+┏━━━━━━━━━━━  Logging Monitor ━━━━━━━━━━━
+┣ Furion.Application.TestLoggerServices.GetPerson (Furion.Application)
+┣
+┣ 控制器名称：              TestLoggerServices
+┣ 操作名称：                GetPerson
+┣ 路由信息：                [area]: ; [controller]: test-logger; [action]: person
+┣ 请求方式：                POST
+┣ 请求地址：                https://localhost:44316/api/test-logger/person/11
+┣ 来源地址：                https://localhost:44316/api/index.html
+┣ 浏览器标识：              Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.5060.114 Safari/537.36 Edg/103.0.1264.62
+┣ 客户端 IP 地址：          0.0.0.1
+┣ 服务端 IP 地址：          0.0.0.1
+┣ 服务端运行环境：          Development
+┣ 执行耗时：                31ms
+┣ ━━━━━━━━━━━━━━━  授权信息 ━━━━━━━━━━━━━━━
+┣ JWT Token：               Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOjEsIkFjY291bnQiOiJhZG1pbiIsImlhdCI6MTY1ODcxNjc5NywibmJmIjoxNjU4NzE2Nzk3LCJleHAiOjE2NTg3MTc5OTcsImlzcyI6ImRvdG5ldGNoaW5hIiwiYXVkIjoicG93ZXJieSBGdXJpb24ifQ.VYZkwwqCwlUy3aJjuL-og62I0rkxNQ96kSjEm3VgXtg
+┣
+┣ UserId (integer)：        1
+┣ Account (string)：        admin
+┣ iat (integer)：           1658716797
+┣ nbf (integer)：           1658716797
+┣ exp (integer)：           1658717997
+┣ iss (string)：            dotnetchina
+┣ aud (string)：            powerby Furion
+┣ ━━━━━━━━━━━━━━━  参数列表 ━━━━━━━━━━━━━━━
+┣ Content-Type：
+┣
+┣ id (Int32)：              11
+┣ ━━━━━━━━━━━━━━━  返回信息 ━━━━━━━━━━━━━━━
+┣ 类型：                    Furion.Application.Persons.PersonDto
+┣ 返回值：                  {"Id":11,"Name":null,"Age":0,"Address":null,"PhoneNumber":null,"QQ":null,"CreatedTime":"0001-01-01T00:00:00+00:00","Childrens":null,"Posts":null}
+┗━━━━━━━━━━━  Logging Monitor ━━━━━━━━━━━
+````
+
+## 5.4.4 反馈与建议
 
 :::note 与我们交流
 
