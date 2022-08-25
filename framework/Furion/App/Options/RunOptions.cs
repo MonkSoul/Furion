@@ -61,7 +61,10 @@ public sealed class RunOptions
     /// <summary>
     /// 默认配置（带启动参数）
     /// </summary>
-    public static RunOptions Main(string[] args) => Default.WithArgs(args);
+    public static RunOptions Main(string[] args)
+    {
+        return Default.WithArgs(args);
+    }
 
     /// <summary>
     /// 默认配置（静默启动）
@@ -71,7 +74,10 @@ public sealed class RunOptions
     /// <summary>
     /// 默认配置（静默启动 + 启动参数）
     /// </summary>
-    public static RunOptions MainSilence(string[] args) => DefaultSilence.WithArgs(args);
+    public static RunOptions MainSilence(string[] args)
+    {
+        return DefaultSilence.WithArgs(args);
+    }
 #else
 
     /// <summary>
@@ -82,7 +88,10 @@ public sealed class RunOptions
     /// <summary>
     /// 默认配置（带启动参数）
     /// </summary>
-    public static LegacyRunOptions Main(string[] args) => Default.WithArgs(args);
+    public static LegacyRunOptions Main(string[] args)
+    {
+        return Default.WithArgs(args);
+    }
 
     /// <summary>
     /// 默认配置（静默启动）
@@ -92,7 +101,10 @@ public sealed class RunOptions
     /// <summary>
     /// 默认配置（静默启动 + 启动参数）
     /// </summary>
-    public static LegacyRunOptions MainSilence(string[] args) => DefaultSilence.WithArgs(args);
+    public static LegacyRunOptions MainSilence(string[] args)
+    {
+        return DefaultSilence.WithArgs(args);
+    }
 
 #endif
 

@@ -356,7 +356,10 @@ public class DbContextPool : IDbContextPool, IDisposable
     /// <summary>
     /// 释放所有上下文
     /// </summary>
-    public void Dispose() => _dbContexts.Clear();
+    public void Dispose()
+    {
+        _dbContexts.Clear();
+    }
 
     /// <summary>
     /// 判断数据库上下文是否释放

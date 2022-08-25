@@ -33,7 +33,10 @@ public sealed partial class EntityExecutePart<TEntity>
     /// <summary>
     /// 静态缺省 Entity 部件
     /// </summary>
-    public static EntityExecutePart<TEntity> Default() => new();
+    public static EntityExecutePart<TEntity> Default()
+    {
+        return new();
+    }
 
     /// <summary>
     /// 实体

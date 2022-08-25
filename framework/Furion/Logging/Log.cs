@@ -33,7 +33,10 @@ public static class Log
     /// 手动构建方式
     /// </summary>
     /// <returns></returns>
-    public static StringLoggingPart Default() => StringLoggingPart.Default();
+    public static StringLoggingPart Default()
+    {
+        return StringLoggingPart.Default();
+    }
 
     /// <summary>
     /// 创建日志记录器

@@ -31,7 +31,10 @@ public sealed partial class SqlExecutePart
     /// <summary>
     /// 静态缺省 Sql 部件
     /// </summary>
-    public static SqlExecutePart Default() => new();
+    public static SqlExecutePart Default()
+    {
+        return new();
+    }
 
     /// <summary>
     /// Sql 字符串

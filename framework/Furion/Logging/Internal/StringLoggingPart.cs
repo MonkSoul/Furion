@@ -33,7 +33,10 @@ public sealed partial class StringLoggingPart
     /// <summary>
     /// 静态缺省日志部件
     /// </summary>
-    public static StringLoggingPart Default() => new();
+    public static StringLoggingPart Default()
+    {
+        return new();
+    }
 
     /// <summary>
     /// 日志内容

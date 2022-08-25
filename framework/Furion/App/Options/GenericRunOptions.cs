@@ -46,7 +46,10 @@ public class GenericRunOptions
     /// <summary>
     /// 默认配置（带启动参数）
     /// </summary>
-    public static GenericRunOptions Main(string[] args) => Default.WithArgs(args);
+    public static GenericRunOptions Main(string[] args)
+    {
+        return Default.WithArgs(args);
+    }
 
     /// <summary>
     /// 默认配置（静默启动）
@@ -56,7 +59,10 @@ public class GenericRunOptions
     /// <summary>
     /// 默认配置（静默启动 + 启动参数）
     /// </summary>
-    public static GenericRunOptions MainSilence(string[] args) => DefaultSilence.WithArgs(args);
+    public static GenericRunOptions MainSilence(string[] args)
+    {
+        return DefaultSilence.WithArgs(args);
+    }
 
     /// <summary>
     /// 配置 <see cref="IHostBuilder"/>
