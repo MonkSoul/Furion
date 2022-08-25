@@ -1797,6 +1797,15 @@
             "description": "格式：程序集名称;接口完整名称，如：Furion.Application;Furion.Application.ITestService"
           }
         },
+        "ExcludeAssemblies": {
+          "type": "array",
+          "description": "排除扫描的程序集名称",
+          "default": [],
+          "items": {
+            "type": "string",
+            "description": "程序集名称，不区分大小写"
+          }
+        },
         "PrintDbConnectionInfo": {
           "type": "boolean",
           "description": "是否打印数据库连接信息到 MiniProfiler 中",

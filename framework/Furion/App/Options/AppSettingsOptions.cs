@@ -53,6 +53,11 @@ public sealed class AppSettingsOptions : IConfigurableOptions<AppSettingsOptions
     public string[] ExternalAssemblies { get; set; }
 
     /// <summary>
+    /// 排除扫描的程序集
+    /// </summary>
+    public string[] ExcludeAssemblies { get; set; }
+
+    /// <summary>
     /// 是否打印数据库连接信息到 MiniProfiler 中
     /// </summary>
     public bool? PrintDbConnectionInfo { get; set; }
@@ -87,6 +92,7 @@ public sealed class AppSettingsOptions : IConfigurableOptions<AppSettingsOptions
         options.InjectSpecificationDocument ??= true;
         options.EnabledReferenceAssemblyScan ??= false;
         options.ExternalAssemblies ??= Array.Empty<string>();
+        options.ExcludeAssemblies ??= Array.Empty<string>();
         options.PrintDbConnectionInfo ??= true;
         options.OutputOriginalSqlExecuteLog ??= true;
         options.SupportPackageNamePrefixs ??= Array.Empty<string>();
