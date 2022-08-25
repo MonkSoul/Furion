@@ -441,7 +441,36 @@ public class TestEventBus : IDynamicApiController
   - `AddMonitor<TEventHandlerMonitor>`：添加监视器
   - `AddExecutor<TEventHandlerExecutor>`：添加执行器
 
-## 22.12 反馈与建议
+## 22.12 如何实现数据库事务控制
+
+相信很多朋友都使用了事件总线进行数据库操作，但是不知道如何实现事务控制，实际上并不难，如：
+
+```cs showLineNumbers {1,3,10,11,13,17}
+await _eventPublisher.PublishAsync(eventId, new YourModel {
+    OtherArgs = ...,
+    Exception = ex    // 有异常传入，否则 null
+});
+
+[EventSubscribe("ToDo:Create")]
+public async Task CreateToDo(EventHandlerExecutingContext context)
+{
+    // 开启事务....
+    var model = context.Source.Payload as YourModel;
+    if(model.Exception != null)
+    {
+        // 回滚事务
+    }
+    else
+    {
+        // 提交事务
+    }
+    // 结束事务...
+
+    await Task.CompletedTask;
+}
+```
+
+## 22.13 反馈与建议
 
 :::note 与我们交流
 

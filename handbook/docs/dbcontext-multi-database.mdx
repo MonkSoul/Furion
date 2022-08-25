@@ -110,10 +110,17 @@ services.AddDatabaseAccessor(options =>
 
 `Oracle` 兼容 `11` 版本
 
-```cs showLineNumbers
+```cs showLineNumbers {3-4,6-10}
 services.AddDatabaseAccessor(options =>
 {
+    // 正常这样配置即可
     options.AddDbPool<FurionDbContext>($"{DbProvider.Oracle}@11");
+
+    // 如果依然出现 ORA-00933: SQL 错误，可以尝试以下配置：
+    options.AddDbPool<FurionDbContext>($"{DbProvider.Oracle}@11", optionBuilder: (ses, opt) => 
+    {
+        opt.UseOracle(b => b.UseOracleSQLCompatibility("11"));
+    });
 });
 ```
 
