@@ -164,13 +164,20 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 我们先定义几个需求，然后编写逻辑代码：
 
-> 需求一：输入 `hello-tools` 打印介绍信息，可通过 **👏[生成字符 LOGO](http://patorjk.com/software/taag/#p=display&f=Big&t=Furion%20Tools)👏** 工具生成 `Logo`
+> 需求一：输入 `hello-tools` 打印介绍信息
 >
 > 需求二：输入 `-n` 或 `--name` 输出 `Hello 名字`
 >
 > 需求三：输入 `-v` 或 `--version` 输出当前版本
 >
 > 需求四：输入 `-h` 或 `--help` 输出帮助文档
+
+:::tip 生成控制台 `LOGO`
+
+- 不支持中文：[http://patorjk.com/software/taag/#p=display&f=Big&t=Furion%20Tools](http://patorjk.com/software/taag/#p=display&f=Big&t=Furion%20Tools)
+- 支持所有字符：[https://www.qqxiuzi.cn/zh/dianzhenzi-zifu/](https://www.qqxiuzi.cn/zh/dianzhenzi-zifu/)
+
+:::
 
 ```cs showLineNumbers  {1,10,15-18,26-29,37-40,45}
 using Furion.Tools.CommandLine;
