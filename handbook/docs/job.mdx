@@ -117,7 +117,7 @@ public class JobWorker : ISpareTimeWorker
     public async Task DoSomethingAsync(SpareTimer timer, long count)
     {
         Console.WriteLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
-        await Task.Completed;
+        await Task.CompletedTask;
     }
 }
 ```
