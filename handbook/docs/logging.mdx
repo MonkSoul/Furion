@@ -158,6 +158,32 @@ info: Microsoft.Hosting.Lifetime[0]
       Content root path: C:\Workplaces\Furion\samples\Furion.Web.Entry\
 ```
 
+- **控制台输出过滤**
+
+`.NET5` 版本：
+
+```cs showLineNumbers {1,2,4}
+Host.CreateDefaultBuilder(args)
+    .ConfigureLogging(logging =>
+    {
+        logging.AddFilter((provider, category, logLevel) =>
+        {
+            // .....
+        });
+    })
+```
+
+`.NET6+` 版本：
+
+```cs showLineNumbers {1,3}
+var builder = WebApplication.CreateBuilder(args);
+
+builder.Logging.AddFilter((provider, category, logLevel) =>
+{
+    // .....
+});
+```
+
 如需其他配置可在 `appsettings.json` 配置即可：
 
 ```json showLineNumbers {2-12}

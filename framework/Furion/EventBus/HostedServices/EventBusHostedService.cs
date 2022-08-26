@@ -278,9 +278,6 @@ internal sealed class EventBusHostedService : BackgroundService
 
                         await Monitor.OnExecutedAsync(eventHandlerExecutedContext);
                     }
-
-                    // 情况上下文数据
-                    properties.Clear();
                 }
             }, stoppingToken);
         }
