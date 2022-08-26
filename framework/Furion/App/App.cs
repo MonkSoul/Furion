@@ -403,7 +403,10 @@ public static class App
         }
 
         // 处理排除的程序集
-        scanAssemblies = scanAssemblies.Where(ass => !Settings.ExcludeAssemblies.Contains(ass.GetName().Name, StringComparer.OrdinalIgnoreCase));
+        if (Settings.ExcludeAssemblies != null && Settings.ExcludeAssemblies.Any())
+        {
+            scanAssemblies = scanAssemblies.Where(ass => !Settings.ExcludeAssemblies.Contains(ass.GetName().Name, StringComparer.OrdinalIgnoreCase));
+        }
 
         return (scanAssemblies, externalAssemblies);
     }
