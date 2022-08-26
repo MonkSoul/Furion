@@ -94,4 +94,9 @@ public class AppFriendlyException : Exception
     /// 是否是数据验证异常
     /// </summary>
     public bool ValidationException { get; set; } = false;
+
+    /// <summary>
+    /// 额外数据
+    /// </summary>
+    public new object Data { get; set; }
 }

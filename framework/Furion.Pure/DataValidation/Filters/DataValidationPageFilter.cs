@@ -154,6 +154,7 @@ public sealed class DataValidationPageFilter : IAsyncPageFilter, IOrderedFilter
         validationMetadata.ErrorCode = friendlyException?.ErrorCode;
         validationMetadata.OriginErrorCode = friendlyException?.OriginErrorCode;
         validationMetadata.StatusCode = friendlyException?.StatusCode;
+        validationMetadata.Data = friendlyException?.Data;
 
         // 存储验证信息
         context.HttpContext.Items[nameof(DataValidationFilter) + nameof(ValidationMetadata)] = validationMetadata;

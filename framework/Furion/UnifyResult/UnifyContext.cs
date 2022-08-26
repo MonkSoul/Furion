@@ -68,6 +68,7 @@ public static class UnifyContext
         object errorCode = default;
         object originErrorCode = default;
         object errors = default;
+        object data = default;
         var statusCode = StatusCodes.Status500InternalServerError;
         var isValidationException = false; // 判断是否是验证异常
         var isFriendlyException = false;
@@ -90,6 +91,7 @@ public static class UnifyContext
             statusCode = friendlyException.StatusCode;
             isValidationException = friendlyException.ValidationException;
             errors = friendlyException.ErrorMessage;
+            data = friendlyException.Data;
         }
 
         // 处理验证失败异常
@@ -130,7 +132,8 @@ public static class UnifyContext
             StatusCode = statusCode,
             ErrorCode = errorCode,
             OriginErrorCode = originErrorCode,
-            Errors = errors
+            Errors = errors,
+            Data = data
         };
     }
 

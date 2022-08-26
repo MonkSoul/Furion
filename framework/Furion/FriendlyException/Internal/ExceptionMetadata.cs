@@ -47,4 +47,9 @@ public sealed class ExceptionMetadata
     /// 错误对象（信息）
     /// </summary>
     public object Errors { get; internal set; }
+
+    /// <summary>
+    /// 额外数据
+    /// </summary>
+    public object Data { get; internal set; }
 }

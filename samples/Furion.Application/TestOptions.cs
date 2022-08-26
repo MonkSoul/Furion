@@ -35,6 +35,14 @@ public class TestOptions : IDynamicApiController
             .SendAsync();
         var jjj = await resp.Content.ReadAsStringAsync();
     }
+
+    public void 测试异常添加额外数据()
+    {
+        throw Oops.Bah("我是业务异常").WithData(new
+        {
+            Name = "Furion"
+        });
+    }
 }
 
 public class AppInfoOptions : IConfigurableOptions

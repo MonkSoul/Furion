@@ -69,4 +69,9 @@ public sealed class ValidationMetadata
     /// 首个错误消息
     /// </summary>
     public string FirstErrorMessage { get; internal set; }
+
+    /// <summary>
+    /// 额外数据
+    /// </summary>
+    public object Data { get; internal set; }
 }

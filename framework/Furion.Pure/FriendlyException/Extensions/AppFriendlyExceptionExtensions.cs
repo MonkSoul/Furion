@@ -41,4 +41,16 @@ public static class AppFriendlyExceptionExtensions
         exception.StatusCode = statusCode;
         return exception;
     }
+
+    /// <summary>
+    /// 设置额外数据
+    /// </summary>
+    /// <param name="exception"></param>
+    /// <param name="data"></param>
+    /// <returns></returns>
+    public static AppFriendlyException WithData(this AppFriendlyException exception, object data)
+    {
+        exception.Data = data;
+        return exception;
+    }
 }
