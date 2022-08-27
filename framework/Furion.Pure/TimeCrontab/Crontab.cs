@@ -123,6 +123,27 @@ public sealed partial class Crontab
     }
 
     /// <summary>
+    /// 计算距离下一个发生时间相差毫秒数
+    /// </summary>
+    /// <param name="baseTime">起始时间</param>
+    /// <returns></returns>
+    public TimeSpan GetSleepMilliseconds(DateTime baseTime)
+    {
+        // 采用 DateTimeKind.Unspecified 转换当前时间并忽略毫秒部分
+        var unspecifiedCheckTime = new DateTime(baseTime.Year
+            , baseTime.Month
+            , baseTime.Day
+            , baseTime.Hour
+            , baseTime.Minute
+            , baseTime.Second);
+
+        // 计算总休眠时间
+        var sleepMilliseconds = (GetNextOccurrence(unspecifiedCheckTime) - unspecifiedCheckTime).TotalMilliseconds;
+
+        return TimeSpan.FromMilliseconds(sleepMilliseconds);
+    }
+
+    /// <summary>
     /// 将 <see cref="Crontab"/> 对象转换成 Cron 表达式字符串
     /// </summary>
     /// <returns></returns>
