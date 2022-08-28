@@ -40,16 +40,6 @@ const urls = [
     title: "",
   },
   {
-    url: "https://gitee.com/LongbowEnterprise/BootstrapBlazor",
-    text: "BootstrapBlazor",
-    title: "",
-  },
-  {
-    url: "https://gitee.com/LongbowEnterprise/BootstrapAdmin",
-    text: "BootstrapAdmin",
-    title: "",
-  },
-  {
     url: "https://gitee.com/monksoul/LayX",
     text: "Layx",
     title: "",

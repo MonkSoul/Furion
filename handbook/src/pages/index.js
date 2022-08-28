@@ -28,10 +28,10 @@ function Home() {
     >
       <Banner />
       <Gitee />
-      <ProccessOn />
-      <Remark />
+      {/* <ProccessOn /> */}
+      {/* <Remark /> */}
       <WhoUse />
-      <Contributor />
+      {/* <Contributor /> */}
       <Links />
     </Layout>
   );
