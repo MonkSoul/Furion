@@ -13,7 +13,7 @@ Scoped.Create((factory, scope) => {
 });
 
 // 异步
-await Scope.Create(async (factory, scope) => {
+await Scope.CreateAsync(async (factory, scope) => {
      var services = scope.ServiceProvider;
      await _calcService.GetAsync();
      // ...
