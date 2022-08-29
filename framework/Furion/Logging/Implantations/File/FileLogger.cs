@@ -153,19 +153,15 @@ public sealed class FileLogger : ILogger
             formatString.AppendLine();
 
             // 对日志内容进行缩进对齐处理
-            var newMessage = string.Join(Environment.NewLine, message.Split(Environment.NewLine)
-                        .Select(line => string.Empty.PadLeft(7, ' ') + line));
-
-            formatString.Append(newMessage);
+            formatString.Append(PadLeftAlign(message));
         }
 
         // 如果包含异常信息，则创建新一行写入
         if (exception != null)
         {
-            formatString.AppendLine()
-                        .AppendLine(EXCEPTION_SEPARATOR)
-                        .AppendLine(exception.ToString())
-                        .Append(EXCEPTION_SEPARATOR);
+            var exceptionMessage = $"{Environment.NewLine}{EXCEPTION_SEPARATOR}{Environment.NewLine}{exception}{Environment.NewLine}{EXCEPTION_SEPARATOR}";
+
+            formatString.Append(PadLeftAlign(exceptionMessage));
         }
 
         // 设置日志消息模板
@@ -173,5 +169,18 @@ public sealed class FileLogger : ILogger
 
         // 写入日志队列
         _fileLoggerProvider.WriteToQueue(logMsg);
+    }
+
+    /// <summary>
+    /// 将日志内容进行对齐
+    /// </summary>
+    /// <param name="message"></param>
+    /// <returns></returns>
+    private static string PadLeftAlign(string message)
+    {
+        var newMessage = string.Join(Environment.NewLine, message.Split(Environment.NewLine)
+                    .Select(line => string.Empty.PadLeft(7, ' ') + line));
+
+        return newMessage;
     }
 }
