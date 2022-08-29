@@ -152,18 +152,11 @@ public sealed class FileLogger : ILogger
             formatString.Append("]  ");
             formatString.AppendLine();
 
-            // 处理非 LoggingMonitor 情况
-            if (_logName != LoggingMonitorAttribute.LOG_CATEGORY_NAME)
-            {
-                formatString.Append(string.Empty.PadLeft(7, ' ') + message);
-            }
-            else
-            {
-                var newMessage = string.Join(Environment.NewLine, message.Split(Environment.NewLine)
+            // 对日志内容进行缩进对齐处理
+            var newMessage = string.Join(Environment.NewLine, message.Split(Environment.NewLine)
                         .Select(line => string.Empty.PadLeft(7, ' ') + line));
 
-                formatString.Append(newMessage);
-            }
+            formatString.Append(newMessage);
         }
 
         // 如果包含异常信息，则创建新一行写入
