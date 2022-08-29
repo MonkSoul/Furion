@@ -1,7 +1,7 @@
 /**
- * 当前版本：v1.0.5
+ * 当前版本：v1.0.6
  * 使用描述：https://editor.swagger.io 代码生成 typescript-axios 辅组工具库
- * 依赖说明：适配 axios 版本：v0.21.1
+ * 依赖说明：适配 axios 版本：v0.21.4
  * 视频教程：https://www.bilibili.com/video/BV1EW4y1C71D
  */
 
@@ -32,6 +32,9 @@ export const refreshAccessTokenKey = `x-${accessTokenKey}`;
 const clearAccessTokens = () => {
   window.localStorage.removeItem(accessTokenKey);
   window.localStorage.removeItem(refreshAccessTokenKey);
+
+  // 刷新浏览器
+  window.location.reload();
 
   // 这里可以添加清除更多 Key =========================================
 };
@@ -75,6 +78,10 @@ axiosInstance.interceptors.request.use(
     return conf;
   },
   (error) => {
+    // 处理请求错误
+    if (error.request) {
+    }
+
     // 这里编写请求错误代码
 
     return Promise.reject(error);
@@ -126,6 +133,13 @@ axiosInstance.interceptors.response.use(
     return res;
   },
   (error) => {
+    // 处理响应错误
+    if (error.response) {
+      if (error.response.status === 401) {
+        clearAccessTokens();
+      }
+    }
+
     // 这里编写响应错误代码
 
     return Promise.reject(error);

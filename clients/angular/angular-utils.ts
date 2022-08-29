@@ -1,5 +1,5 @@
 /**
- * 当前版本：v1.0.5
+ * 当前版本：v1.0.6
  * 使用描述：https://editor.swagger.io 代码生成 typescript-angular 辅组工具库
  */
 
@@ -35,6 +35,9 @@ export const refreshAccessTokenKey = `x-${accessTokenKey}`;
 const clearAccessTokens = () => {
   window.localStorage.removeItem(accessTokenKey);
   window.localStorage.removeItem(refreshAccessTokenKey);
+
+  // 刷新浏览器
+  window.location.reload();
 
   // 这里可以添加清除更多 Key =========================================
 };
@@ -104,6 +107,11 @@ export class ClientHttpInterceptor implements HttpInterceptor {
             // 获取状态码和返回数据
             var status = res.status;
             var serve = res.body;
+
+            // 处理 401
+            if (status === 401) {
+              clearAccessTokens();
+            }
 
             // 处理未进行规范化处理的
             if (status >= 400) {
