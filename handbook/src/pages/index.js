@@ -148,7 +148,7 @@ function Gitee() {
         开源免费/商业无需授权
       </p>
       <h1 className={"furion-big-title" + (isDarkTheme ? " dark" : "")}>
-        ⭐️ MIT 开源协议，代码在 Gitee 平台托管 ⭐️
+        ⭐️ MIT 开源协议，代码在 Gitee/Github 平台托管 ⭐️
       </h1>
       <div className="furion-gitee-log">
         <div
@@ -159,7 +159,7 @@ function Gitee() {
             className={"furion-log-jiao" + (isDarkTheme ? " dark" : "")}
           ></div>
           <div className="furion-log-number">
-            <div style={{ color: "#723cff" }}>8300 +</div>
+            <div style={{ color: "#723cff" }}>8400 +</div>
             <span className={isDarkTheme ? " dark" : ""}>Stars</span>
           </div>
         </div>
@@ -183,7 +183,7 @@ function Gitee() {
             className={"furion-log-jiao" + (isDarkTheme ? " dark" : "")}
           ></div>
           <div className="furion-log-number">
-            <div style={{ color: "#1fd898" }}>3,069,098</div>
+            <div style={{ color: "#1fd898" }}>3,074,421</div>
             <span className={isDarkTheme ? " dark" : ""}>Downloads</span>
           </div>
         </div>
@@ -374,7 +374,7 @@ function WhoUse() {
           <h1>他们都在用</h1>
           <p>
             Furion
-            已在全球多个项目中使用。从小型企业到企业的解决方案及知名企业。他们在简单软件和复杂管理系统的开发方面都信任我们。
+            已在全球超过300万个项目中使用。从小型企业到企业的解决方案及知名企业。他们在简单软件和复杂管理系统的开发方面都信任我们。
           </p>
           <a
             className="furion-get-start"
