@@ -49,13 +49,13 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 **在本章节，`Furion` 框架使用 `xUnit` 库进行单元测试。**
 
-## 36.1.2 第一个例子
+## 36.1.5 第一个例子
 
-### 36.1.2.1 创建 `xUnit` 单元测试项目
+### 36.1.5.1 创建 `xUnit` 单元测试项目
 
 <img src={useBaseUrl("img/ut1.png")} />
 
-### 36.1.2.2 第一个测试方法
+### 36.1.5.2 第一个测试方法
 
 ```cs showLineNumbers  {1,7,10}
 using Xunit;
@@ -75,7 +75,7 @@ namespace TestProject1
 
 单元测试实际上是通过普通的类的方法进行模块功能测试，具体测试则是标记了 `[Fact]` 特性的方法，在方法中使用 `Assert` 类提供的静态方法进行 `断言`，`断言` 成功，则测试通过，否则测试不通过。
 
-### 36.1.2.3 运行测试
+### 36.1.5.3 运行测试
 
 在单元测试项目中 `右键` 选择 `运行测试` 并打开 `测试资源管理器` 即可查看测试结果。
 
@@ -83,21 +83,21 @@ namespace TestProject1
 
 <img src={useBaseUrl("img/ut3.png")} />
 
-### 36.1.2.4 多个测试方法测试
+### 36.1.5.4 多个测试方法测试
 
 <img src={useBaseUrl("img/ut4.png")} />
 
-### 36.1.2.5 重复/回归测试
+### 36.1.5.5 重复/回归测试
 
 后续添加更多测试方法只需在 `测试资源管理器` 点击 `在视图中运行所有测试` 播放按钮即可，如下图
 
 <img src={useBaseUrl("img/ut5.png")} />
 
-## 36.1.3 集成 `Furion` 强大功能
+## 36.1.6 集成 `Furion` 强大功能
 
 `Furion` 是跨平台、跨项目的开发框架，支持任意项目类型，包括单元测试项目。
 
-### 36.1.3.1 安装 `Furion.Xunit` 包
+### 36.1.6.1 安装 `Furion.Xunit` 包
 
 :::note `Furion` 纯净版
 
@@ -115,7 +115,7 @@ namespace TestProject1
 
 :::
 
-### 36.1.3.2 添加初始配置类
+### 36.1.6.2 添加初始配置类
 
 在单元测试项目根目录下添加 `TestProgram.cs` 类，并写下以下代码：
 
@@ -148,7 +148,7 @@ public class TestProgram : TestStartup
 
 :::
 
-### 36.1.3.3 使用 `Furion` 完整功能
+### 36.1.6.3 使用 `Furion` 完整功能
 
 `Furion` 是跨平台、跨项目的开发框架，下面在单元测试中演示 `远程请求` 并请求 `https://www.baidu.com` 数据，并测试是否请求成功。
 
@@ -193,7 +193,7 @@ public async Task 测试请求百度()
 
 很神奇吧！`Furion` 支持任何项目类型，任何平台使用。
 
-## 36.1.4 带参数的测试方法
+## 36.1.7 带参数的测试方法
 
 上面例子中，测试方法都是没有参数的，有时候需要同一个方法输入多个不同的值进行测试，这时候就需要用到 `[Theory]` 和 `[InlineData]` 特性了。
 
@@ -214,11 +214,11 @@ public void 带参数测试(int i, int j)
 
 <img src={useBaseUrl("img/ut8.png")} />
 
-## 36.1.5 如何进行依赖注入
+## 36.1.8 如何进行依赖注入
 
 有些时候，我们需要测试某接口，或者进行依赖注入方式解析服务并调用，`Furion.Xunit` 提供完整的构造函数注入。
 
-### 36.1.5.1 编写一个 `ICalcService` 接口及实现类
+### 36.1.8.1 编写一个 `ICalcService` 接口及实现类
 
 ```cs showLineNumbers  {5,10}
 using Furion.DependencyInjection;
@@ -239,7 +239,7 @@ public class CalcService : ICalcService, ITransient // 支持任何生命周期
 }
 ```
 
-### 36.1.5.2 在测试类中调用
+### 36.1.8.2 在测试类中调用
 
 ```cs showLineNumbers  {9,15,17}
 using TestProject1.Services;
@@ -265,7 +265,7 @@ public class UnitTest1
 
 <img src={useBaseUrl("img/ut9.png")} />
 
-### 36.1.5.3 输出日志
+### 36.1.8.3 输出日志
 
 如果在单元测试中想输出日志，只需要在构造函数注入 `ITestOutputHelper` 即可，如：
 
@@ -296,11 +296,11 @@ namespace TestProject1
 
 <img src={useBaseUrl("img/un3.png")} />
 
-### 36.1.5.4 关于依赖注入作用域释放
+### 36.1.8.4 关于依赖注入作用域释放
 
 `Furion` 会在创建单元测试实例时创建一个 `IServiceScope` 对象，等该实例所有测试案例执行完毕自动调用 `Dispose`，编写测试的开发者无需关注。
 
-### 36.1.5.5 测试释放资源
+### 36.1.8.5 测试释放资源
 
 有时候，我们需要测试成功后释放一些不能及时释放的对象，这时，只需要实现 `IDisposable` 接口即可：
 
@@ -326,7 +326,7 @@ namespace TestProject1
 }
 ```
 
-### 36.1.5.6 `[AssemblyFixture]` 特性
+### 36.1.8.6 `[AssemblyFixture]` 特性
 
 有时候我们可能不需要对类进行依赖注册，或者无法通过外部进行注册，这时候可以通过 `[AssemblyFixture]` 特性实现构造函数注入任何类，如：
 
@@ -421,7 +421,7 @@ public class UnitTest1
 
 <img src={useBaseUrl("img/ut10.png")} />
 
-### 36.1.5.7 `IClassFixture<>` 单个注入
+### 36.1.8.7 `IClassFixture<>` 单个注入
 
 通过上面 `[AssemblyFixture]` 方式我们知道此方式对全局的单元测试类都有效，但有时候我们只需要特定单元测试类有效，则可通过 `IClassFixture<>` 方式，如：
 
@@ -489,7 +489,7 @@ public class UnitTest1 : IClassFixture<MyClassFixture>
 
 <img src={useBaseUrl("img/ut11.png")} />
 
-### 36.1.5.8 `ICollectionFixture<>` 多个注入
+### 36.1.8.8 `ICollectionFixture<>` 多个注入
 
 `ICollectionFixture<>` 方式和 `IClassFixture<>` 方式最大的不同就是后者只能配置为单个测试类使用，而 `ICollectionFixture<>` 则通过 `[Collection]` 方式配置多个测试类有效，如：
 
@@ -582,11 +582,11 @@ public class UnitTest1 : IClassFixture<MyClassFixture>
 
 <img src={useBaseUrl("img/ut12.png")} />
 
-## 36.1.6 `Web` 集成测试
+## 36.1.9 `Web` 集成测试
 
 `Web` 集成测试有三种方式，通过这三种方式可以对项目进行全方位的测试，保证部署上线是测试期盼效果。
 
-### 36.1.6.1 对现有项目进行集成测试
+### 36.1.9.1 对现有项目进行集成测试
 
 这种方式比较简单，也是最常用的方式，无需部署到服务器直接在本地即可测试，如：
 
@@ -668,7 +668,7 @@ namespace WebApplication1.Controllers
 
 <img src={useBaseUrl("img/ut16.png")} />
 
-### 36.1.6.2 独立主机方式测试
+### 36.1.9.2 独立主机方式测试
 
 独立主机的方式就是利用单元测试的每一个测试案例构建主机进行测试。
 
@@ -731,7 +731,7 @@ public class UnitTest1
 }
 ```
 
-### 36.1.6.3 系统集成/环境/配置部署测试
+### 36.1.9.3 系统集成/环境/配置部署测试
 
 有时候我们需要测试 `Web` 主机各种情况，比如端口是否有效，环境配置是否有效，系统集成情况等等，这时候只需要添加 `Microsoft.AspNetCore.TestHost` 拓展，然后在测试类顶部贴：
 
@@ -743,7 +743,7 @@ public class UnitTest1
 
 `WebApplicationTests.TestHostingStartup` 为您要测试的 `Web` 项目启动类。
 
-### 36.1.6.4 集成 `Furion.Xunit` 拓展
+### 36.1.9.4 集成 `Furion.Xunit` 拓展
 
 `Web` 集成测试支持完整的 `Furion` 特性，参考上面单元测试集成 `Furion` 章节。
 
@@ -753,11 +753,11 @@ public class UnitTest1
 
 :::
 
-## 36.1.7 `Assert` 断言
+## 36.1.10 `Assert` 断言
 
 `Assert` 是单元测试判定成功的依据，通常第一个参数为 `期望值`，第二个参数为 `实际值`，对比这两个值是否一致即可判断成功与否。详细的 `Assert` 静态方法可查阅官方库 [Assert 方法](https://github.com/xunit/assert.xunit)
 
-## 36.1.8 反馈与建议
+## 36.1.11 反馈与建议
 
 :::note 与我们交流
 
