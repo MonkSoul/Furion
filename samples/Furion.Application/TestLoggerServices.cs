@@ -86,4 +86,10 @@ public class TestLoggerServices : IDynamicApiController
             Id = id
         };
     }
+
+    public int 测试直接抛出异常拦截(int id)
+    {
+        var c = id / 0;
+        return c;
+    }
 }

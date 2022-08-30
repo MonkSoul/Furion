@@ -20,11 +20,11 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-namespace System.Running;
+namespace System.Logging;
 
 /// <summary>
-/// 默认日志分类名
+/// 字符串日志拓展默认分类名
 /// </summary>
-internal sealed class Logging
+internal sealed class StringLogging
 {
 }

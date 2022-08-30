@@ -29,6 +29,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using System.Diagnostics;
 
 namespace Microsoft.AspNetCore.Mvc.Filters;
@@ -39,6 +40,12 @@ namespace Microsoft.AspNetCore.Mvc.Filters;
 [SuppressSniffer]
 public sealed class FriendlyExceptionFilter : IAsyncExceptionFilter
 {
+    /// <summary>
+    /// 固定日志分类名
+    /// </summary>
+    /// <remarks>方便对日志进行过滤写入不同的存储介质中</remarks>
+    private const string LOG_CATEGORY_NAME = "System.Logging.FriendlyException";
+
     /// <summary>
     /// 异常拦截
     /// </summary>
@@ -141,6 +148,13 @@ public sealed class FriendlyExceptionFilter : IAsyncExceptionFilter
                 context.Result = unifyResult.OnException(context, exceptionMetadata);
             }
         }
+
+        // 创建日志记录器
+        var logger = context.HttpContext.RequestServices.GetRequiredService<ILoggerFactory>()
+        .CreateLogger(LOG_CATEGORY_NAME);
+
+        // 记录拦截日常
+        logger.LogError(context.Exception, context.Exception.Message);
 
         // 打印错误消息
         PrintToMiniProfiler(context.Exception);

@@ -87,7 +87,7 @@ public sealed partial class StringLoggingPart
 
         // 解析日志分类名
         var categoryName = !string.IsNullOrWhiteSpace(CategoryName)
-            ? CategoryName : typeof(System.Running.Logging).FullName;
+            ? CategoryName : typeof(System.Logging.StringLogging).FullName;
 
         ILoggerFactory loggerFactory;
         var hasException = false;

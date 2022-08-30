@@ -61,7 +61,7 @@ public sealed partial class StringLoggingPart
     /// <summary>
     /// 日志分类类型（从依赖注入中解析）
     /// </summary>
-    public Type CategoryType { get; private set; } = typeof(System.Running.Logging);
+    public Type CategoryType { get; private set; } = typeof(System.Logging.StringLogging);
 
     /// <summary>
     /// 日志分类名（总是创建新的实例）

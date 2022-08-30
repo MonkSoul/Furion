@@ -142,14 +142,14 @@ public sealed class FileLogger : ILogger
             formatString.Append('[');
             formatString.Append(Penetrates.GetLogLevelString(logLevel));
             formatString.Append(']');
-            formatString.Append("  [");
+            formatString.Append(" [");
             formatString.Append(_logName);
             formatString.Append(']');
-            formatString.Append("  ");
+            formatString.Append(" ");
             formatString.Append(timeStamp.ToString("o"));
-            formatString.Append("  [");
+            formatString.Append(" [");
             formatString.Append(eventId);
-            formatString.Append("]  ");
+            formatString.Append("] ");
             formatString.AppendLine();
 
             // 对日志内容进行缩进对齐处理
@@ -179,7 +179,7 @@ public sealed class FileLogger : ILogger
     private static string PadLeftAlign(string message)
     {
         var newMessage = string.Join(Environment.NewLine, message.Split(Environment.NewLine)
-                    .Select(line => string.Empty.PadLeft(7, ' ') + line));
+                    .Select(line => string.Empty.PadLeft(6, ' ') + line));
 
         return newMessage;
     }
