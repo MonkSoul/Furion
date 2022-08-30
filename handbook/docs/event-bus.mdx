@@ -410,7 +410,7 @@ public class TestEventBus : IDynamicApiController
     // 运行时动态添加一个订阅器
     public async Task AddSubscriber()
     {
-        await _eventBusFactory.Subscribe("xxx", async (c) =>
+        await _eventBusFactory.Subscribe("xxx", async (ctx) =>
         {
             Console.WriteLine("我是动态的");
             await Task.CompletedTask;
@@ -425,7 +425,25 @@ public class TestEventBus : IDynamicApiController
 }
 ```
 
-## 22.11 `EventBusOptionsBuilder` 配置
+## 22.11 `MessageCenter` 静态类
+
+在 `Furion 4.3.3` 版本新增了 `MessageCenter` 静态类，可在任何地方发送事件消息或订阅消息。
+
+```cs showLineNumbers {2,5,11}
+// 发送消息（含诸多重载）
+await MessageCenter.PublishAsync("messageId", new {});
+
+// 动态订阅消息
+MessageCenter.Subscribe("messageId", async (ctx) => {
+    Console.WriteLine("我是动态的");
+    await Task.CompletedTask;
+});
+
+// 取消订阅
+MessageCenter.Unsubscribe("messageId");
+```
+
+## 22.12 `EventBusOptionsBuilder` 配置
 
 `EventBusOptionsBuilder` 是 `AddEventBus` 构建服务选项，该选项包含以下属性和方法：
 
@@ -441,7 +459,7 @@ public class TestEventBus : IDynamicApiController
   - `AddMonitor<TEventHandlerMonitor>`：添加监视器
   - `AddExecutor<TEventHandlerExecutor>`：添加执行器
 
-## 22.12 如何实现数据库事务控制
+## 22.13 如何实现数据库事务控制
 
 相信很多朋友都使用了事件总线进行数据库操作，但是不知道如何实现事务控制，实际上并不难，如：
 
@@ -470,7 +488,7 @@ public async Task CreateToDo(EventHandlerExecutingContext context)
 }
 ```
 
-## 22.13 反馈与建议
+## 22.14 反馈与建议
 
 :::note 与我们交流
 
