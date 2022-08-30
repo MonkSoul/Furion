@@ -291,7 +291,7 @@ namespace FurionWorkers
 
 ### 26.4.1 间隔执行方式
 
-```cs showLineNumbers  {7,20}
+```cs showLineNumbers  {7,18,20,30}
 namespace WorkerService;
 
 public class Worker : BackgroundService
@@ -309,7 +309,17 @@ public class Worker : BackgroundService
     {
         while (!stoppingToken.IsCancellationRequested)
         {
-            _logger.LogInformation("Worker running at: {time}", DateTimeOffset.Now);
+            var taskFactory = new TaskFactory(System.Threading.Tasks.TaskScheduler.Current);
+
+            await taskFactory.StartNew(async () =>
+            {
+                // 你的业务代码写到这里面
+
+                _logger.LogInformation("Worker running at: {time}", DateTimeOffset.Now);
+
+                await Task.CompletedTask;
+
+            }, stoppingToken);
 
             await Task.Delay(delay, stoppingToken);
         }
@@ -319,7 +329,7 @@ public class Worker : BackgroundService
 
 ### 26.4.2 `Cron` 表达式格式化方式，
 
-```cs showLineNumbers  {9,14,23}
+```cs showLineNumbers  {9,14,21,23,32}
 using Furion.TimeCrontab;
 
 namespace WorkerService;
@@ -340,7 +350,16 @@ public class Worker : BackgroundService
     {
         while (!stoppingToken.IsCancellationRequested)
         {
-            _logger.LogInformation("Worker running at: {time}", DateTimeOffset.Now);
+            var taskFactory = new TaskFactory(System.Threading.Tasks.TaskScheduler.Current);
+
+            await taskFactory.StartNew(async () =>
+            {
+                // 你的业务代码写到这里面
+
+                _logger.LogInformation("Worker running at: {time}", DateTimeOffset.Now);
+
+                await Task.CompletedTask;
+            }, stoppingToken);
 
             await Task.Delay(_crontab.GetSleepMilliseconds(DateTime.UtcNow), stoppingToken);
         }
