@@ -150,9 +150,13 @@ info: Jaina.Samples.ToDoEventSubscriber[0]
 
 如需自定义，只需实现 `IEventSource` 接口即可：
 
-```cs showLineNumbers  {1,15,20,26,31}
+```cs showLineNumbers  {1,3,14,19,24,29,35-37}
 public class ToDoEventSource : IEventSource
 {
+    public ToDoEventSource()
+    {
+    }
+
     public ToDoEventSource(string eventId, string todoName)
     {
         EventId = eventId;
@@ -160,28 +164,30 @@ public class ToDoEventSource : IEventSource
     }
 
     // 自定义属性
-    public string ToDoName { get; }
+    public string ToDoName { get; set; }
 
     /// <summary>
     /// 事件 Id
     /// </summary>
-    public string EventId { get; }
+    public string EventId { get; set; }
 
     /// <summary>
     /// 事件承载（携带）数据
     /// </summary>
-    public object Payload { get; }
+    public object Payload { get; set; }
+
+    /// <summary>
+    /// 事件创建时间
+    /// </summary>
+    public DateTime CreatedTime { get; set; } = DateTime.UtcNow;
 
     /// <summary>
     /// 取消任务 Token
     /// </summary>
     /// <remarks>用于取消本次消息处理</remarks>
-    public CancellationToken CancellationToken { get; }
-
-    /// <summary>
-    /// 事件创建时间
-    /// </summary>
-    public DateTime CreatedTime { get; } = DateTime.UtcNow;
+    [Newtonsoft.Json.JsonIgnore]
+    [System.Text.Json.Serialization.JsonIgnore]
+    public CancellationToken CancellationToken { get; set; }
 }
 ```
 
@@ -234,6 +240,174 @@ services.AddEventBus(builder =>
     });
 });
 ```
+
+### 22.4.1 `RabbitMQ` 自定义指南
+
+由于使用 `RabbitMQ` 作为事件总线存储器的比较多，所以这里提供了完整的使用例子。
+
+**1. 安装 `RabbitMQ.Client` 拓展包**
+
+```bash showLineNumbers
+Install-Package RabbitMQ.Client -Version 6.4.0
+```
+
+**2. 创建 `RabbitMQEventSourceStorer` 自定义存储器**
+
+```cs showLineNumbers {13,41,60,66-78,99-103,116-117,125-126}
+using Furion.EventBus;
+using RabbitMQ.Client;
+using RabbitMQ.Client.Events;
+using System;
+using System.Text;
+using System.Text.Json;
+using System.Threading;
+using System.Threading.Channels;
+using System.Threading.Tasks;
+
+namespace Furion.Core;
+
+public sealed class RabbitMQEventSourceStorer : IEventSourceStorer, IDisposable
+{
+    /// <summary>
+    /// 内存通道事件源存储器
+    /// </summary>
+    private readonly Channel<IEventSource> _channel;
+
+    /// <summary>
+    /// 通道对象
+    /// </summary>
+    private readonly IModel _model;
+
+    /// <summary>
+    /// 连接对象
+    /// </summary>
+    private readonly IConnection _connection;
+
+    /// <summary>
+    /// 路由键
+    /// </summary>
+    private readonly string _routeKey;
+
+    /// <summary>
+    /// 构造函数
+    /// </summary>
+    /// <param name="factory">连接工厂</param>
+    /// <param name="routeKey">路由键</param>
+    /// <param name="capacity">存储器最多能够处理多少消息，超过该容量进入等待写入</param>
+    public RabbitMQEventSourceStorer(ConnectionFactory factory, string routeKey, int capacity)
+    {
+        // 配置通道，设置超出默认容量后进入等待
+        var boundedChannelOptions = new BoundedChannelOptions(capacity)
+        {
+            FullMode = BoundedChannelFullMode.Wait
+        };
+
+        // 创建有限容量通道
+        _channel = Channel.CreateBounded<IEventSource>(boundedChannelOptions);
+
+        // 创建连接
+        _connection = factory.CreateConnection();
+        _routeKey = routeKey;
+
+        // 创建通道
+        _model = _connection.CreateModel();
+
+        // 声明路由队列
+        _model.QueueDeclare(routeKey, false, false, false, null);
+
+        // 创建消息订阅者
+        var consumer = new EventingBasicConsumer(_model);
+
+        // 订阅消息并写入内存 Channel
+        consumer.Received += (ch, ea) =>
+        {
+            // 读取原始消息
+            var stringEventSource = Encoding.UTF8.GetString(ea.Body.ToArray());
+
+            // 转换为 IEventSource，这里可以选择自己喜欢的序列化工具，如果自定义了 EventSource，注意属性是可读可写
+            var eventSource = JsonSerializer.Deserialize<ChannelEventSource>(stringEventSource);
+
+            // 写入内存管道存储器
+            _channel.Writer.TryWrite(eventSource);
+
+            // 确认该消息已被消费
+            _model.BasicAck(ea.DeliveryTag, false);
+        };
+
+        // 启动消费者 设置为手动应答消息
+        _model.BasicConsume(routeKey, false, consumer);
+    }
+
+    /// <summary>
+    /// 将事件源写入存储器
+    /// </summary>
+    /// <param name="eventSource">事件源对象</param>
+    /// <param name="cancellationToken">取消任务 Token</param>
+    /// <returns><see cref="ValueTask"/></returns>
+    public ValueTask WriteAsync(IEventSource eventSource, CancellationToken cancellationToken)
+    {
+        // 空检查
+        if (eventSource == default)
+        {
+            throw new ArgumentNullException(nameof(eventSource));
+        }
+
+        // 序列化，这里可以选择自己喜欢的序列化工具
+        var data = Encoding.UTF8.GetBytes(JsonSerializer.Serialize(eventSource));
+
+        // 发布
+        _model.BasicPublish("", _routeKey, null, data);
+
+        return ValueTask.CompletedTask;
+    }
+
+    /// <summary>
+    /// 从存储器中读取一条事件源
+    /// </summary>
+    /// <param name="cancellationToken">取消任务 Token</param>
+    /// <returns>事件源对象</returns>
+    public async ValueTask<IEventSource> ReadAsync(CancellationToken cancellationToken)
+    {
+        // 读取一条事件源
+        var eventSource = await _channel.Reader.ReadAsync(cancellationToken);
+        return eventSource;
+    }
+
+    /// <summary>
+    /// 释放非托管资源
+    /// </summary>
+    public void Dispose()
+    {
+        _model.Dispose();
+        _connection.Dispose();
+    }
+}
+```
+
+**3. 替换默认事件存储器**
+
+```cs showLineNumbers {1,4-8,11,14-16}
+services.AddEventBus(options =>
+{
+    // 创建连接工厂
+    var factory = new ConnectionFactory
+    {
+        UserName = "admin",
+        Password = "q1w2e3",
+    };
+
+    // 创建默认内存通道事件源对象，可自定义队列路由key，比如这里是 eventbus
+    var rbmqEventSourceStorer = new RabbitMQEventSourceStorer(factory, "eventbus", 3000);
+
+    // 替换默认事件总线存储器
+    options.ReplaceStorer(serviceProvider =>
+    {
+        return rbmqEventSourceStorer;
+    });
+});
+```
+
+<img src={useBaseUrl("img/evs1.png")} />
 
 ## 22.5 自定义事件发布者
 

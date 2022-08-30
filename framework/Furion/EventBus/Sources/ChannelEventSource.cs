@@ -33,6 +33,13 @@ public sealed class ChannelEventSource : IEventSource
     /// <summary>
     /// 构造函数
     /// </summary>
+    public ChannelEventSource()
+    {
+    }
+
+    /// <summary>
+    /// 构造函数
+    /// </summary>
     /// <param name="eventId">事件 Id</param>
     public ChannelEventSource(string eventId)
     {
@@ -95,21 +102,23 @@ public sealed class ChannelEventSource : IEventSource
     /// <summary>
     /// 事件 Id
     /// </summary>
-    public string EventId { get; }
+    public string EventId { get; set; }
 
     /// <summary>
     /// 事件承载（携带）数据
     /// </summary>
-    public object Payload { get; }
+    public object Payload { get; set; }
+
+    /// <summary>
+    /// 事件创建时间
+    /// </summary>
+    public DateTime CreatedTime { get; set; } = DateTime.UtcNow;
 
     /// <summary>
     /// 取消任务 Token
     /// </summary>
     /// <remarks>用于取消本次消息处理</remarks>
-    public CancellationToken CancellationToken { get; }
-
-    /// <summary>
-    /// 事件创建时间
-    /// </summary>
-    public DateTime CreatedTime { get; } = DateTime.UtcNow;
+    [Newtonsoft.Json.JsonIgnore]
+    [System.Text.Json.Serialization.JsonIgnore]
+    public CancellationToken CancellationToken { get; set; }
 }
