@@ -41,7 +41,7 @@ public class TestEventBus : IDynamicApiController
 
     public async Task AddSubscriber()
     {
-        await _eventBusFactory.AddSubscriber("xxx", async (c) =>
+        await _eventBusFactory.Subscribe("xxx", async (c) =>
         {
             Console.WriteLine("我是动态的");
             await Task.CompletedTask;
@@ -55,7 +55,7 @@ public class TestEventBus : IDynamicApiController
 
     public async Task RemoveDynamic(string eventId)
     {
-        await _eventBusFactory.RemoveSubscriber(eventId);
+        await _eventBusFactory.Unsubscribe(eventId);
     }
 }
 
