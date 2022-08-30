@@ -27,6 +27,7 @@ namespace Furion.Logging;
 /// <summary>
 /// 全局日志静态类
 /// </summary>
+[SuppressSniffer]
 public static class Log
 {
     /// <summary>
