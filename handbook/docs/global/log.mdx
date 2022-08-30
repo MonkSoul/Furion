@@ -12,9 +12,14 @@ sidebar_label: 16. Log 静态类
 
 ## 16.1 常见操作
 
-```cs showLineNumbers
+```cs showLineNumbers {2,5,10-15}
 // 创建日志对象
 var logger = Log.CreateLogger("日志名称");
+
+// 创建日志工厂
+using loggerFactory = Log.CreateLoggerFactory(builder => {
+    // ....
+});
 
 // 日志记录
 Log.Information("Information");
