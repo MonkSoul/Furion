@@ -106,7 +106,7 @@ public class ContactModel : PageModel
 var logger = Log.CreateLogger("日志名称");
 
 // 创建日志工厂
-using loggerFactory = Log.CreateLoggerFactory(builder => {
+using var loggerFactory = Log.CreateLoggerFactory(builder => {
     // ....
 });
 
