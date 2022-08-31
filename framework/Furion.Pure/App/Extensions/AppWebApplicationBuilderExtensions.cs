@@ -21,6 +21,7 @@
 // SOFTWARE.
 
 using Furion;
+using Furion.Components;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Microsoft.AspNetCore.Builder;
@@ -35,7 +36,7 @@ public static class AppWebApplicationBuilderExtensions
     /// Web 应用注入
     /// </summary>
     /// <param name="webApplicationBuilder">Web应用构建器</param>
-    /// <returns>IWebHostBuilder</returns>
+    /// <returns>WebApplicationBuilder</returns>
     public static WebApplicationBuilder Inject(this WebApplicationBuilder webApplicationBuilder)
     {
         // 为了兼容 .NET 5 无缝升级至 .NET 6，故传递 WebHost 和 Host
@@ -46,11 +47,11 @@ public static class AppWebApplicationBuilderExtensions
     }
 
     /// <summary>
-    /// 注册单个组件
+    /// 注册依赖组件
     /// </summary>
-    /// <typeparam name="TComponent"></typeparam>
+    /// <typeparam name="TComponent">派生自 <see cref="IServiceComponent"/></typeparam>
     /// <param name="webApplicationBuilder">Web应用构建器</param>
-    /// <param name="options"></param>
+    /// <param name="options">组件参数</param>
     /// <returns></returns>
     public static WebApplicationBuilder AddComponent<TComponent>(this WebApplicationBuilder webApplicationBuilder, object options = default)
         where TComponent : class, IServiceComponent, new()
@@ -67,7 +68,7 @@ public static class AppWebApplicationBuilderExtensions
     /// <typeparam name="TComponentOptions">组件参数</typeparam>
     /// <param name="webApplicationBuilder">Web应用构建器</param>
     /// <param name="options">组件参数</param>
-    /// <returns><see cref="IServiceCollection"/></returns>
+    /// <returns><see cref="WebApplicationBuilder"/></returns>
     public static WebApplicationBuilder AddComponent<TComponent, TComponentOptions>(this WebApplicationBuilder webApplicationBuilder, TComponentOptions options = default)
         where TComponent : class, IServiceComponent, new()
     {
@@ -82,10 +83,66 @@ public static class AppWebApplicationBuilderExtensions
     /// <param name="webApplicationBuilder">Web应用构建器</param>
     /// <param name="componentType">组件类型</param>
     /// <param name="options">组件参数</param>
-    /// <returns><see cref="IServiceCollection"/></returns>
+    /// <returns><see cref="WebApplicationBuilder"/></returns>
     public static WebApplicationBuilder AddComponent(this WebApplicationBuilder webApplicationBuilder, Type componentType, object options = default)
     {
         webApplicationBuilder.Services.AddComponent(componentType, options);
+
+        return webApplicationBuilder;
+    }
+
+    /// <summary>
+    /// 注册 WebApplicationBuilder 依赖组件
+    /// </summary>
+    /// <typeparam name="TComponent">派生自 <see cref="IWebComponent"/></typeparam>
+    /// <param name="webApplicationBuilder">Web应用构建器</param>
+    /// <param name="options">组件参数</param>
+    /// <returns><see cref="WebApplicationBuilder"/></returns>
+    public static WebApplicationBuilder AddWebComponent<TComponent>(this WebApplicationBuilder webApplicationBuilder, object options = default)
+        where TComponent : class, IWebComponent, new()
+    {
+        webApplicationBuilder.AddWebComponent<TComponent>(options);
+
+        return webApplicationBuilder;
+    }
+
+    /// <summary>
+    /// 注册 WebApplicationBuilder 依赖组件
+    /// </summary>
+    /// <typeparam name="TComponent">派生自 <see cref="IWebComponent"/></typeparam>
+    /// <typeparam name="TComponentOptions">组件参数</typeparam>
+    /// <param name="webApplicationBuilder">Web应用构建器</param>
+    /// <param name="options">组件参数</param>
+    /// <returns><see cref="WebApplicationBuilder"/></returns>
+    public static WebApplicationBuilder AddWebComponent<TComponent, TComponentOptions>(this WebApplicationBuilder webApplicationBuilder, TComponentOptions options = default)
+        where TComponent : class, IWebComponent, new()
+    {
+        webApplicationBuilder.AddWebComponent<TComponent, TComponentOptions>(options);
+
+        return webApplicationBuilder;
+    }
+
+    /// <summary>
+    /// 注册 WebApplicationBuilder 依赖组件
+    /// </summary>
+    /// <param name="webApplicationBuilder"><see cref="WebApplicationBuilder"/></param>
+    /// <param name="componentType">组件类型</param>
+    /// <param name="options">组件参数</param>
+    /// <returns><see cref="WebApplicationBuilder"/></returns>
+    public static WebApplicationBuilder AddWebComponent(this WebApplicationBuilder webApplicationBuilder, Type componentType, object options = default)
+    {
+        // 创建组件依赖链
+        var componentContextLinkList = Penetrates.CreateDependLinkList(componentType, options);
+
+        // 逐条创建组件实例并调用
+        foreach (var context in componentContextLinkList)
+        {
+            // 创建组件实例
+            var component = Activator.CreateInstance(context.ComponentType) as IWebComponent;
+
+            // 调用
+            component.Load(webApplicationBuilder, context);
+        }
 
         return webApplicationBuilder;
     }

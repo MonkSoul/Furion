@@ -21,6 +21,7 @@
 // SOFTWARE.
 
 using Furion;
+using Furion.Components;
 using Furion.Extensions;
 using Furion.Reflection;
 using Microsoft.AspNetCore.Hosting;
@@ -64,6 +65,67 @@ public static class HostBuilderExtensions
     public static IHostBuilder Inject(this IHostBuilder hostBuilder, bool autoRegisterBackgroundService = true)
     {
         InternalApp.ConfigureApplication(hostBuilder, autoRegisterBackgroundService);
+
+        return hostBuilder;
+    }
+
+    /// <summary>
+    /// 注册 IWebHostBuilder 依赖组件
+    /// </summary>
+    /// <typeparam name="TComponent">派生自 <see cref="IWebComponent"/></typeparam>
+    /// <param name="hostBuilder">Web应用构建器</param>
+    /// <param name="options">组件参数</param>
+    /// <returns><see cref="IWebHostBuilder"/></returns>
+    public static IWebHostBuilder AddWebComponent<TComponent>(this IWebHostBuilder hostBuilder, object options = default)
+        where TComponent : class, IWebComponent, new()
+    {
+        hostBuilder.AddWebComponent<TComponent>(options);
+
+        return hostBuilder;
+    }
+
+    /// <summary>
+    /// 注册 IWebHostBuilder 依赖组件
+    /// </summary>
+    /// <typeparam name="TComponent">派生自 <see cref="IWebComponent"/></typeparam>
+    /// <typeparam name="TComponentOptions">组件参数</typeparam>
+    /// <param name="hostBuilder">Web应用构建器</param>
+    /// <param name="options">组件参数</param>
+    /// <returns><see cref="IWebHostBuilder"/></returns>
+    public static IWebHostBuilder AddWebComponent<TComponent, TComponentOptions>(this IWebHostBuilder hostBuilder, TComponentOptions options = default)
+        where TComponent : class, IWebComponent, new()
+    {
+        hostBuilder.AddWebComponent<TComponent, TComponentOptions>(options);
+
+        return hostBuilder;
+    }
+
+    /// <summary>
+    /// 注册 IWebHostBuilder 依赖组件
+    /// </summary>
+    /// <param name="hostBuilder"><see cref="IWebHostBuilder"/></param>
+    /// <param name="componentType">组件类型</param>
+    /// <param name="options">组件参数</param>
+    /// <returns><see cref="IWebHostBuilder"/></returns>
+    public static IWebHostBuilder AddWebComponent(this IWebHostBuilder hostBuilder, Type componentType, object options = default)
+    {
+#if NET5_0
+        // 创建组件依赖链
+        var componentContextLinkList = Penetrates.CreateDependLinkList(componentType, options);
+
+        // 逐条创建组件实例并调用
+        foreach (var context in componentContextLinkList)
+        {
+            // 创建组件实例
+            var component = Activator.CreateInstance(context.ComponentType) as IWebComponent;
+
+
+            // 调用
+            component.Load(hostBuilder, context);
+
+        }
+
+#endif
 
         return hostBuilder;
     }

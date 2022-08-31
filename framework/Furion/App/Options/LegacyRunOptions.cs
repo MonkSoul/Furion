@@ -169,6 +169,44 @@ public sealed class LegacyRunOptions : GenericRunOptions
     }
 
     /// <summary>
+    /// 添加 IWebHostBuilder 组件
+    /// </summary>
+    /// <typeparam name="TComponent">组件类型</typeparam>
+    /// <returns></returns>
+    public LegacyRunOptions AddWebComponent<TComponent>()
+        where TComponent : class, IWebComponent, new()
+    {
+        WebComponents.Add(typeof(TComponent), null);
+        return this;
+    }
+
+    /// <summary>
+    /// 添加 IWebHostBuilder 组件
+    /// </summary>
+    /// <typeparam name="TComponent">组件类型</typeparam>
+    /// <typeparam name="TComponentOptions"></typeparam>
+    /// <param name="options">组件参数</param>
+    /// <returns></returns>
+    public LegacyRunOptions AddWebComponent<TComponent, TComponentOptions>(TComponentOptions options)
+        where TComponent : class, IWebComponent, new()
+    {
+        WebComponents.Add(typeof(TComponent), options);
+        return this;
+    }
+
+    /// <summary>
+    /// 添加 IWebHostBuilder 组件
+    /// </summary>
+    /// <param name="componentType">组件类型</param>
+    /// <param name="options">组件参数</param>
+    /// <returns></returns>
+    public LegacyRunOptions AddWebComponent(Type componentType, object options)
+    {
+        WebComponents.Add(componentType, options);
+        return this;
+    }
+
+    /// <summary>
     /// 标识主机静默启动
     /// </summary>
     /// <remarks>不阻塞程序运行</remarks>
@@ -199,4 +237,9 @@ public sealed class LegacyRunOptions : GenericRunOptions
     /// 应用中间件组件
     /// </summary>
     internal Dictionary<Type, object> ApplicationComponents { get; set; } = new();
+
+    /// <summary>
+    /// IWebHostBuilder 组件
+    /// </summary>
+    internal Dictionary<Type, object> WebComponents { get; set; } = new();
 }

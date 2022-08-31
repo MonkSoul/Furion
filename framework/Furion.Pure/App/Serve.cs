@@ -120,6 +120,15 @@ public static class Serve
         // 配置 Web 主机
         builder = builder.ConfigureWebHostDefaults(webHostBuilder =>
         {
+            // 注册 IWebHostBuilder 组件
+            if (options.WebComponents.Any())
+            {
+                foreach (var (componentType, opt) in options.WebComponents)
+                {
+                    webHostBuilder.AddWebComponent(componentType, opt);
+                }
+            }
+
             webHostBuilder = webHostBuilder.Inject();
 
             // 解决部分主机不能正确读取 urls 参数命令问题
@@ -259,6 +268,15 @@ public static class Serve
         var builder = (options.Options == null
             ? WebApplication.CreateBuilder(args)
             : WebApplication.CreateBuilder(options.Options));
+
+        // 注册 WebApplicationBuilder 组件
+        if (options.WebComponents.Any())
+        {
+            foreach (var (componentType, opt) in options.WebComponents)
+            {
+                builder.AddWebComponent(componentType, opt);
+            }
+        }
 
         // 静默启动排除指定日志类名
         if (options.IsSilence && !options.SilenceLogging)

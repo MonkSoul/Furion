@@ -229,6 +229,28 @@ public interface IApplicationComponent : IComponent
 
 需要注册中间件可在 `Load` 方法中注册即可。
 
+### 3.2.4.3 `IWebComponent`
+
+`IWebComponent` 接口简称** `Web` 组件**对应的是 `Program.cs` 中的 `WebApplicationBuilder`，接口签名为：
+
+```cs showLineNumbers {6,13}
+namespace System;
+
+/// <summary>
+/// WebApplicationBuilder 组件依赖接口
+/// </summary>
+public interface IWebComponent : IComponent
+{
+    /// <summary>
+    /// 装置 Web 应用构建器
+    /// </summary>
+    /// <param name="app"><see cref="WebApplicationBuilder"/></param>
+    /// <param name="componentContext">组件上下文</param>
+    void Load(WebApplicationBuilder builder, ComponentContext componentContext);
+}
+```
+
+需要注册中间件可在 `Load` 方法中注册即可。
 ### 3.2.4.3 注册组件
 
 `Furion` 提供了多种注册组件的方式：
@@ -237,34 +259,44 @@ public interface IApplicationComponent : IComponent
 
 通过 `RunOptions`，`LegacyRunOptions`，`GenericRunOptions` 方式：
 
-```cs showLineNumbers {2-3}
+```cs showLineNumbers {2-3,7}
 Serve.Run(RunOptions.Default
     .AddComponent<TComponent>()
     .UseComponent<TComponent>());
+
+// .NET6+ 还支持 AddWebComponent<TComponent>();
+Serve.Run(RunOptions.Default
+    .AddWebComponent<TComponent>());
 ```
 
 - 方式二
 
 通过 `services.AddComponent` 和 `app.UseComponent` 方式
 
-```cs showLineNumbers {2,5}
+```cs showLineNumbers {2,5,8}
 // 服务组件
 service.AddComponent<TComponent>();
 
 // 中间件组件
 app.UseComponent<TComponent>();
+
+// .NET6+ 还支持 AddWebComponent<TComponent>();
+builder.AddWebComponent<TComponent>();
 ```
 
 - 方式三
 
 组件注册可以传递参数，通过最后的参数指定。
 
-```cs showLineNumbers {2,5}
+```cs showLineNumbers {2,5,8}
 // 服务组件
 service.AddComponent<TComponent>(options);
 
 // 中间件组件
 app.UseComponent<TComponent>(options);
+
+// .NET6+ 还支持 AddWebComponent<TComponent>();
+builder.AddWebComponent<TComponent>(options);
 ```
 
 :::tip 类型 `Type` 注册方式
@@ -299,7 +331,7 @@ public sealed class YourServiceComponent : IServiceComponent
 
 尽可能每一个服务组件（`IServiceComponent`）以 `ServiceComponent` 结尾，每一个中间件组件（`IApplicationComponent`）以 `ApplicationComponent` 结尾。如：
 
-```cs showLineNumbers {3-4,9-10} title="XXXComponent.cs"
+```cs showLineNumbers {3-4,9-10,15-16} title="XXXComponent.cs"
 namespace Your.Components;
 
 // 服务组件
@@ -310,6 +342,12 @@ public sealed class XXXServiceComponent : IServiceComponent
 
 // 中间件组件
 public sealed class XXXApplicationComponent : IApplicationComponent
+{
+    // ....
+}
+
+// WebApplicationBuilder 组件
+public sealed class XXXWebComponent : IWebComponent
 {
     // ....
 }

@@ -235,6 +235,27 @@ Serve.Run(RunOptions.Default
     }));
 ```
 
+- `WebComponent` 方式
+
+:::important 版本说明
+
+以下内容仅限 `Furion 4.3.5 +` 版本使用。
+
+:::
+
+```cs showLineNumbers {2,4,6}
+Serve.Run(RunOptions.Default
+     .AddWebComponent<XXXWebComponent>());
+
+public class XXXWebComponent : IWebComponent
+{
+    public void Load(WebApplicationBuilder builder, ComponentContext componentContext)
+    {
+        // ....
+    }
+}
+```
+
 ### 2.0.7.3 `Serve.Run` 和 `Startup` 最佳组合
 
 默认情况下 `Serve.Run()` 内置了 `跨域`，`控制器`，`路由`，`规范化结果`、`静态文件` 服务/中间件。适合快速开始项目和编写测试代码。

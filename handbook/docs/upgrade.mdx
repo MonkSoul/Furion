@@ -31,6 +31,20 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
   - [新增] **友好异常默认打印异常日志，避免生产环境漏掉重要异常信息 [6e3a5bd](https://gitee.com/dotnetchina/Furion/commit/6e3a5bdd0fd22a7f9ae618b7495cd64081a7f2e8)**
   - [新增] 日志静态类 `Log.CreateLoggerFactory()` 静态方法 [75c672a](https://gitee.com/dotnetchina/Furion/commit/75c672afc58b393313916c433cb9d92c779b9629)
   - [新增] **事件总线 `MessageCenter` 静态类，解决从 `Fur v1.x` 版本升级问题 [a29fc7c](https://gitee.com/dotnetchina/Furion/commit/a29fc7cf63a3ea41b1617a6ad98a701a243e24f8)**
+  - [新增] 组件化 `IWebComponent` 模式，支持 `.NET5+`
+
+```cs showLineNumbers {2,4,6}
+Serve.Run(RunOptions.Default
+     .AddWebComponent<XXXWebComponent>());
+
+public class XXXWebComponent : IWebComponent
+{
+    public void Load(WebApplicationBuilder builder, ComponentContext componentContext)
+    {
+        // ....
+    }
+}
+```
 
 - **突破性变化**
 

@@ -230,6 +230,44 @@ public sealed class RunOptions
     }
 
     /// <summary>
+    /// 添加 WebApplicationBuilder 组件
+    /// </summary>
+    /// <typeparam name="TComponent">组件类型</typeparam>
+    /// <returns></returns>
+    public RunOptions AddWebComponent<TComponent>()
+        where TComponent : class, IWebComponent, new()
+    {
+        WebComponents.Add(typeof(TComponent), null);
+        return this;
+    }
+
+    /// <summary>
+    /// 添加 WebApplicationBuilder 组件
+    /// </summary>
+    /// <typeparam name="TComponent">组件类型</typeparam>
+    /// <typeparam name="TComponentOptions"></typeparam>
+    /// <param name="options">组件参数</param>
+    /// <returns></returns>
+    public RunOptions AddWebComponent<TComponent, TComponentOptions>(TComponentOptions options)
+        where TComponent : class, IWebComponent, new()
+    {
+        WebComponents.Add(typeof(TComponent), options);
+        return this;
+    }
+
+    /// <summary>
+    /// 添加 WebApplicationBuilder 组件
+    /// </summary>
+    /// <param name="componentType">组件类型</param>
+    /// <param name="options">组件参数</param>
+    /// <returns></returns>
+    public RunOptions AddWebComponent(Type componentType, object options)
+    {
+        WebComponents.Add(componentType, options);
+        return this;
+    }
+
+    /// <summary>
     /// 标识主机静默启动
     /// </summary>
     /// <remarks>不阻塞程序运行</remarks>
@@ -278,6 +316,11 @@ public sealed class RunOptions
     /// 应用服务组件
     /// </summary>
     internal Dictionary<Type, object> ServiceComponents { get; set; } = new();
+
+    /// <summary>
+    /// WebApplicationBuilder 组件
+    /// </summary>
+    internal Dictionary<Type, object> WebComponents { get; set; } = new();
 
     /// <summary>
     /// 应用中间件组件
