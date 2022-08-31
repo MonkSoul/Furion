@@ -314,7 +314,7 @@ await "https://www.furion.icu/api/user/add".SetValidationState(includeNull: true
 ### 19.4.13 请求拦截
 
 ```cs showLineNumbers
-await "https://www.furion.icu/".OnRequesting(req => {
+await "https://www.furion.icu/".OnRequesting((client, req) => {
     // req 为 HttpRequestMessage 对象
     // 追加更多参数
     req.AppendQueries(new Dictionary<string, object> {
@@ -339,7 +339,7 @@ await "https://www.furion.icu/".OnClientCreating(client => {
 ### 19.4.15 请求之前拦截
 
 ```cs showLineNumbers
-await "https://www.furion.icu/".OnRequesting(req => {
+await "https://www.furion.icu/".OnRequesting((client, req) => {
     // req 为 HttpRequestMessage 对象
 });
 ```
@@ -349,7 +349,7 @@ await "https://www.furion.icu/".OnRequesting(req => {
 ### 19.4.16 成功请求拦截
 
 ```cs showLineNumbers
-await "https://www.furion.icu/".OnResponsing(res => {
+await "https://www.furion.icu/".OnResponsing((client, res) => {
     // res 为 HttpResponseMessage 对象
 });
 ```
@@ -359,7 +359,7 @@ await "https://www.furion.icu/".OnResponsing(res => {
 ### 19.4.17 请求异常拦截
 
 ```cs showLineNumbers
-await "https://www.furion.icu/".OnException((res,errors) => {
+await "https://www.furion.icu/".OnException((client, res, errors) => {
     // res 为 HttpResponseMessage 对象
 });
 ```
@@ -655,16 +655,16 @@ public interface IHttp : IHttpDispatchProxy
 - 接口静态方法拦截
 - 参数标记拦截
 
-```cs showLineNumbers  {5,8,15}
+```cs showLineNumbers  {5,8,18}
 public interface IHttp : IHttpDispatchProxy
 {
     // 通过参数拦截
     [Post("https://www.furion.icu/post")]
-    Task<HttpResponseMessage> PostXXXAsync([Interceptor(InterceptorTypes.Request)] Action<HttpRequestMessage> action = default);
+    Task<HttpResponseMessage> PostXXXAsync([Interceptor(InterceptorTypes.Request)] Action<HttpClient, HttpRequestMessage> action = default);
 
     // 全局拦截，类中每一个方法都会触发
     [Interceptor(InterceptorTypes.Request)]
-    static void OnRequesting1(HttpRequestMessage req)
+    static void OnRequesting1(HttpClient client, HttpRequestMessage req)
     {
         // 追加更多参数
         req.AppendQueries(new Dictionary<string, object> {
@@ -674,7 +674,7 @@ public interface IHttp : IHttpDispatchProxy
 
     // 全局拦截，类中每一个方法都会触发
     [Interceptor(InterceptorTypes.Request)]
-    static void OnRequesting2(HttpRequestMessage req)
+    static void OnRequesting2(HttpClient client, HttpRequestMessage req)
     {
 
     }
@@ -695,18 +695,18 @@ public interface IHttp : IHttpDispatchProxy
 {
     // 通过参数拦截
     [Post("https://www.furion.icu/post")]
-    Task<HttpResponseMessage> PostXXXAsync([Interceptor(InterceptorTypes.Client)] Action<HttpRequestMessage> action = default);
+    Task<HttpResponseMessage> PostXXXAsync([Interceptor(InterceptorTypes.Client)] Action<HttpClient> action = default);
 
     // 全局拦截，类中每一个方法都会触发
     [Interceptor(InterceptorTypes.Client)]
-    static void onClientCreating1(HttpClient req)
+    static void onClientCreating1(HttpClient client)
     {
 
     }
 
     // 全局拦截，类中每一个方法都会触发
     [Interceptor(InterceptorTypes.Client)]
-    static void onClientCreating2(HttpClient req)
+    static void onClientCreating2(HttpClient client)
     {
 
     }
@@ -727,18 +727,18 @@ public interface IHttp : IHttpDispatchProxy
 {
     // 通过参数拦截
     [Post("https://www.furion.icu/post")]
-    Task<HttpResponseMessage> PostXXXAsync([Interceptor(InterceptorTypes.Request)] Action<HttpRequestMessage> action = default);
+    Task<HttpResponseMessage> PostXXXAsync([Interceptor(InterceptorTypes.Request)] Action<HttpClient, HttpRequestMessage> action = default);
 
     // 全局拦截，类中每一个方法都会触发
     [Interceptor(InterceptorTypes.Request)]
-    static void OnRequest1(HttpRequestMessage req)
+    static void OnRequest1(HttpClient client, HttpRequestMessage req)
     {
 
     }
 
     // 全局拦截，类中每一个方法都会触发
     [Interceptor(InterceptorTypes.Request)]
-    static void OnRequest2(HttpRequestMessage req)
+    static void OnRequest2(HttpClient client, HttpRequestMessage req)
     {
 
     }
@@ -759,18 +759,18 @@ public interface IHttp : IHttpDispatchProxy
 {
     // 通过参数拦截
     [Post("https://www.furion.icu/post")]
-    Task<HttpResponseMessage> PostXXXAsync([Interceptor(InterceptorTypes.Response)] Action<HttpResponseMessage> action = default);
+    Task<HttpResponseMessage> PostXXXAsync([Interceptor(InterceptorTypes.Response)] Action<HttpClient, HttpResponseMessage> action = default);
 
     // 全局拦截，类中每一个方法都会触发
     [Interceptor(InterceptorTypes.Response)]
-    static void OnResponsing1(HttpResponseMessage res)
+    static void OnResponsing1(HttpClien client, HttpResponseMessage res)
     {
 
     }
 
     // 全局拦截，类中每一个方法都会触发
     [Interceptor(InterceptorTypes.Response)]
-    static void OnResponsing2(HttpResponseMessage res)
+    static void OnResponsing2(HttpClien client, HttpResponseMessage res)
     {
 
     }
@@ -791,18 +791,18 @@ public interface IHttp : IHttpDispatchProxy
 {
     // 通过参数拦截
     [Post("https://www.furion.icu/post")]
-    Task<HttpResponseMessage> PostXXXAsync([Interceptor(InterceptorTypes.Exception)] Action<HttpResponseMessage, string> action = default);
+    Task<HttpResponseMessage> PostXXXAsync([Interceptor(InterceptorTypes.Exception)] Action<HttpClient, HttpResponseMessage, string> action = default);
 
     // 全局拦截，类中每一个方法都会触发
     [Interceptor(InterceptorTypes.Exception)]
-    static void OnException1(HttpResponseMessage res, string errors)
+    static void OnException1(HttpClient client, HttpResponseMessage res, string errors)
     {
 
     }
 
     // 全局拦截，类中每一个方法都会触发
     [Interceptor(InterceptorTypes.Exception)]
-    static void OnException2(HttpResponseMessage res, string errors)
+    static void OnException2(HttpClient client, HttpResponseMessage res, string errors)
     {
 
     }

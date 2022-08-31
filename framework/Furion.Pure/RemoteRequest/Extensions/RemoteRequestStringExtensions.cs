@@ -230,7 +230,7 @@ public static class RemoteRequestStringExtensions
     /// <param name="requestUrl"></param>
     /// <param name="action"></param>
     /// <returns></returns>
-    public static HttpRequestPart OnRequesting(this string requestUrl, Action<HttpRequestMessage> action)
+    public static HttpRequestPart OnRequesting(this string requestUrl, Action<HttpClient, HttpRequestMessage> action)
     {
         return HttpRequestPart.Default().SetRequestUrl(requestUrl).OnRequesting(action);
     }
@@ -252,7 +252,7 @@ public static class RemoteRequestStringExtensions
     /// <param name="requestUrl"></param>
     /// <param name="action"></param>
     /// <returns></returns>
-    public static HttpRequestPart OnResponsing(this string requestUrl, Action<HttpResponseMessage> action)
+    public static HttpRequestPart OnResponsing(this string requestUrl, Action<HttpClient, HttpResponseMessage> action)
     {
         return HttpRequestPart.Default().SetRequestUrl(requestUrl).OnResponsing(action);
     }
@@ -263,7 +263,7 @@ public static class RemoteRequestStringExtensions
     /// <param name="requestUrl"></param>
     /// <param name="action"></param>
     /// <returns></returns>
-    public static HttpRequestPart OnException(this string requestUrl, Action<HttpResponseMessage, string> action)
+    public static HttpRequestPart OnException(this string requestUrl, Action<HttpClient, HttpResponseMessage, string> action)
     {
         return HttpRequestPart.Default().SetRequestUrl(requestUrl).OnException(action);
     }

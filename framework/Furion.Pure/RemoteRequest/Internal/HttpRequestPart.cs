@@ -111,7 +111,7 @@ public sealed partial class HttpRequestPart
     /// <summary>
     /// 构建请求对象拦截器
     /// </summary>
-    public List<Action<HttpRequestMessage>> RequestInterceptors { get; private set; } = new List<Action<HttpRequestMessage>>();
+    public List<Action<HttpClient, HttpRequestMessage>> RequestInterceptors { get; private set; } = new List<Action<HttpClient, HttpRequestMessage>>();
 
     /// <summary>
     /// 创建客户端对象拦截器
@@ -121,12 +121,12 @@ public sealed partial class HttpRequestPart
     /// <summary>
     /// 请求成功拦截器
     /// </summary>
-    public List<Action<HttpResponseMessage>> ResponseInterceptors { get; private set; } = new List<Action<HttpResponseMessage>>();
+    public List<Action<HttpClient, HttpResponseMessage>> ResponseInterceptors { get; private set; } = new List<Action<HttpClient, HttpResponseMessage>>();
 
     /// <summary>
     /// 请求异常拦截器
     /// </summary>
-    public List<Action<HttpResponseMessage, string>> ExceptionInterceptors { get; private set; } = new List<Action<HttpResponseMessage, string>>();
+    public List<Action<HttpClient, HttpResponseMessage, string>> ExceptionInterceptors { get; private set; } = new List<Action<HttpClient, HttpResponseMessage, string>>();
 
     /// <summary>
     /// 设置请求作用域

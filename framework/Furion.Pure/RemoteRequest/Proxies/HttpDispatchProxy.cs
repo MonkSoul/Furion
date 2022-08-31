@@ -279,12 +279,12 @@ public class HttpDispatchProxy : AspectDispatchProxy, IDispatchProxy
             {
                 // 加载请求拦截
                 case InterceptorTypes.Request:
-                    var onRequesting = (Action<HttpRequestMessage>)Delegate.CreateDelegate(typeof(Action<HttpRequestMessage>), method);
+                    var onRequesting = (Action<HttpClient, HttpRequestMessage>)Delegate.CreateDelegate(typeof(Action<HttpClient, HttpRequestMessage>), method);
                     httpRequestPart.OnRequesting(onRequesting);
                     break;
                 // 加载响应拦截
                 case InterceptorTypes.Response:
-                    var onResponsing = (Action<HttpResponseMessage>)Delegate.CreateDelegate(typeof(Action<HttpResponseMessage>), method);
+                    var onResponsing = (Action<HttpClient, HttpResponseMessage>)Delegate.CreateDelegate(typeof(Action<HttpClient, HttpResponseMessage>), method);
                     httpRequestPart.OnResponsing(onResponsing);
                     break;
                 // 加载 Client 配置拦截
@@ -294,7 +294,7 @@ public class HttpDispatchProxy : AspectDispatchProxy, IDispatchProxy
                     break;
                 // 加载异常拦截
                 case InterceptorTypes.Exception:
-                    var onException = (Action<HttpResponseMessage, string>)Delegate.CreateDelegate(typeof(Action<HttpResponseMessage, string>), method);
+                    var onException = (Action<HttpClient, HttpResponseMessage, string>)Delegate.CreateDelegate(typeof(Action<HttpClient, HttpResponseMessage, string>), method);
                     httpRequestPart.OnException(onException);
                     break;
 
@@ -320,14 +320,14 @@ public class HttpDispatchProxy : AspectDispatchProxy, IDispatchProxy
             {
                 // 加载请求拦截
                 case InterceptorTypes.Request:
-                    if (item.Value is Action<HttpRequestMessage> onRequesting)
+                    if (item.Value is Action<HttpClient, HttpRequestMessage> onRequesting)
                     {
                         httpRequestPart.OnRequesting(onRequesting);
                     }
                     break;
                 // 加载响应拦截
                 case InterceptorTypes.Response:
-                    if (item.Value is Action<HttpResponseMessage> onResponsing)
+                    if (item.Value is Action<HttpClient, HttpResponseMessage> onResponsing)
                     {
                         httpRequestPart.OnResponsing(onResponsing);
                     }
@@ -341,7 +341,7 @@ public class HttpDispatchProxy : AspectDispatchProxy, IDispatchProxy
                     break;
                 // 加载异常拦截
                 case InterceptorTypes.Exception:
-                    if (item.Value is Action<HttpResponseMessage, string> onException)
+                    if (item.Value is Action<HttpClient, HttpResponseMessage, string> onException)
                     {
                         httpRequestPart.OnException(onException);
                     }

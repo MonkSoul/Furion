@@ -238,7 +238,7 @@ public sealed partial class HttpRequestPart
     /// </summary>
     /// <param name="action"></param>
     /// <returns></returns>
-    public HttpRequestPart OnRequesting(Action<HttpRequestMessage> action)
+    public HttpRequestPart OnRequesting(Action<HttpClient, HttpRequestMessage> action)
     {
         if (action == null) return this;
         if (!RequestInterceptors.Contains(action)) RequestInterceptors.Add(action);
@@ -264,7 +264,7 @@ public sealed partial class HttpRequestPart
     /// </summary>
     /// <param name="action"></param>
     /// <returns></returns>
-    public HttpRequestPart OnResponsing(Action<HttpResponseMessage> action)
+    public HttpRequestPart OnResponsing(Action<HttpClient, HttpResponseMessage> action)
     {
         if (action == null) return this;
         if (!ResponseInterceptors.Contains(action)) ResponseInterceptors.Add(action);
@@ -277,7 +277,7 @@ public sealed partial class HttpRequestPart
     /// </summary>
     /// <param name="action"></param>
     /// <returns></returns>
-    public HttpRequestPart OnException(Action<HttpResponseMessage, string> action)
+    public HttpRequestPart OnException(Action<HttpClient, HttpResponseMessage, string> action)
     {
         if (action == null) return this;
         if (!ExceptionInterceptors.Contains(action)) ExceptionInterceptors.Add(action);

@@ -37,6 +37,24 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
   - [新增] **`Furion` 程序集 `PublicKeyToken` 强签名** [26b12c0](https://gitee.com/dotnetchina/Furion/commit/26b12c0fd64b153a71496eb62110567e05450f20)
   - [调整] **事件总线 `IEventBusFactory` 事件工厂方法 `AddSubscriber -> Subscribe`，`RemoveSubscriber -> Unsubscribe` [a29fc7c](https://gitee.com/dotnetchina/Furion/commit/a29fc7cf63a3ea41b1617a6ad98a701a243e24f8)**
   - [调整] `.AddInject()` 和 `.UseInject()` 配置选项名称，移除 `Configure` 后缀
+  - [调整] **远程请求 `请求拦截`、`响应拦截` 和 `异常拦截` 委托签名，新增 `HttpClient` 参数** [#I5OWBO](https://gitee.com/dotnetchina/Furion/issues/I5OWBO)
+
+```cs showLineNumbers {2,7,12}
+[Interceptor(InterceptorTypes.Request)]
+static void OnRequest(HttpClient client, HttpRequestMessage req)
+{
+}
+
+[Interceptor(InterceptorTypes.Response)]
+static void OnResponsing(HttpClien client, HttpResponseMessage res)
+{
+}
+
+[Interceptor(InterceptorTypes.Exception)]
+static void OnException(HttpClient client, HttpResponseMessage res, string errors)
+{
+}
+```
 
 - **问题修复**
 

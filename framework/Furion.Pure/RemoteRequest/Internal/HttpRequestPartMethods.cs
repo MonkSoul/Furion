@@ -480,8 +480,42 @@ public sealed partial class HttpRequestPart
         // 检查是否配置了请求方法
         if (Method == null) throw new NullReferenceException(nameof(Method));
 
-        // 检查请求地址，只有 Client 不配置才检查空
-        if (string.IsNullOrWhiteSpace(ClientName) && string.IsNullOrWhiteSpace(RequestUrl)) throw new NullReferenceException(RequestUrl);
+        // 创建客户端请求工厂
+        var clientFactory = App.GetService<IHttpClientFactory>(RequestScoped ?? App.RootServices);
+        if (clientFactory == null) throw new InvalidOperationException("Please add `services.AddRemoteRequest()` in Startup.cs.");
+
+        // 创建 HttpClient 对象
+        using var httpClient = string.IsNullOrWhiteSpace(ClientName)
+                                     ? clientFactory.CreateClient()
+                                     : clientFactory.CreateClient(ClientName);
+
+        // 只有大于 0 才设置超时时间
+        if (Timeout > 0)
+        {
+            // 设置请求超时时间
+            httpClient.Timeout = TimeSpan.FromSeconds(Timeout);
+        }
+
+        // 判断命名客户端是否配置了 BaseAddress，且必须以 / 结尾
+        var httpClientOriginalString = httpClient.BaseAddress?.OriginalString;
+        if (!string.IsNullOrWhiteSpace(httpClientOriginalString) && !httpClientOriginalString.EndsWith("/"))
+            throw new InvalidOperationException($"The `{ClientName}` of HttpClient BaseAddress must be end with '/'.");
+
+        // 添加默认 User-Agent
+        if (!httpClient.DefaultRequestHeaders.Contains("User-Agent"))
+        {
+            httpClient.DefaultRequestHeaders.Add("User-Agent",
+                             "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.5112.81 Safari/537.36 Edg/104.0.1293.47");
+        }
+
+        // 配置 HttpClient 拦截
+        HttpClientInterceptors.ForEach(u =>
+        {
+            u?.Invoke(httpClient);
+        });
+
+        // 检查请求地址，如果客户端 BaseAddress 没有配置且 RequestUrl 也没配置
+        if (string.IsNullOrWhiteSpace(httpClient.BaseAddress?.OriginalString) && string.IsNullOrWhiteSpace(RequestUrl)) throw new NullReferenceException(RequestUrl);
 
         // 处理模板问题
         RequestUrl = RequestUrl.Render(Templates, true);
@@ -515,41 +549,7 @@ public sealed partial class HttpRequestPart
         // 配置请求拦截
         RequestInterceptors.ForEach(u =>
         {
-            u?.Invoke(request);
-        });
-
-        // 创建客户端请求工厂
-        var clientFactory = App.GetService<IHttpClientFactory>(RequestScoped ?? App.RootServices);
-        if (clientFactory == null) throw new InvalidOperationException("Please add `services.AddRemoteRequest()` in Startup.cs.");
-
-        // 创建 HttpClient 对象
-        using var httpClient = string.IsNullOrWhiteSpace(ClientName)
-                                     ? clientFactory.CreateClient()
-                                     : clientFactory.CreateClient(ClientName);
-
-        // 只有大于 0 才设置超时时间
-        if (Timeout > 0)
-        {
-            // 设置请求超时时间
-            httpClient.Timeout = TimeSpan.FromSeconds(Timeout);
-        }
-
-        // 判断命名客户端是否配置了 BaseAddress，且必须以 / 结尾
-        var httpClientOriginalString = httpClient.BaseAddress?.OriginalString;
-        if (!string.IsNullOrWhiteSpace(httpClientOriginalString) && !httpClientOriginalString.EndsWith("/"))
-            throw new InvalidOperationException($"The `{ClientName}` of HttpClient BaseAddress must be end with '/'.");
-
-        // 添加默认 User-Agent
-        if (!httpClient.DefaultRequestHeaders.Contains("User-Agent"))
-        {
-            httpClient.DefaultRequestHeaders.Add("User-Agent",
-                             "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.5112.81 Safari/537.36 Edg/104.0.1293.47");
-        }
-
-        // 配置 HttpClient 拦截
-        HttpClientInterceptors.ForEach(u =>
-        {
-            u?.Invoke(httpClient);
+            u?.Invoke(httpClient, request);
         });
 
         // 打印发送请求
@@ -589,7 +589,7 @@ public sealed partial class HttpRequestPart
             // 调用成功拦截器
             ResponseInterceptors.ForEach(u =>
             {
-                u?.Invoke(response);
+                u?.Invoke(httpClient, response);
             });
         }
         // 请求异常
@@ -608,7 +608,7 @@ public sealed partial class HttpRequestPart
             // 调用异常拦截器
             else ExceptionInterceptors.ForEach(u =>
             {
-                u?.Invoke(response, errors);
+                u?.Invoke(httpClient, response, errors);
             });
         }
 

@@ -31,12 +31,21 @@ public class HttpMethodBaseAttribute : Attribute
     /// <summary>
     /// 构造函数
     /// </summary>
+    /// <param name="method"></param>
+    public HttpMethodBaseAttribute(HttpMethod method)
+    {
+        Method = method;
+    }
+
+    /// <summary>
+    /// 构造函数
+    /// </summary>
     /// <param name="requestUrl"></param>
     /// <param name="method"></param>
     public HttpMethodBaseAttribute(string requestUrl, HttpMethod method)
+        : this(method)
     {
         RequestUrl = requestUrl;
-        Method = method;
     }
 
     /// <summary>
