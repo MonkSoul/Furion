@@ -15,7 +15,7 @@ public interface IHttp : IBase
 public interface IBase : IHttpDispatchProxy
 {
     [Furion.RemoteRequest.Interceptor(InterceptorTypes.Request)]
-    static void OnRequest(HttpRequestMessage req)
+    static void OnRequest(HttpClient client, HttpRequestMessage req)
     {
     }
 }
