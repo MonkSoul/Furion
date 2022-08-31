@@ -1396,7 +1396,7 @@ namespace YourProject.UnifyResult
         /// <returns></returns>
         public IActionResult OnValidateFailed(ActionExecutingContext context, ValidationMetadata metadata)
         {
-            return new JsonResult(YourRESTfulResult(StatusCodes.Status400BadRequest, errors: metadata.ValidationResult));
+            return new JsonResult(YourRESTfulResult(metadata.StatusCode ?? StatusCodes.Status400BadRequest, errors: metadata.ValidationResult));
         }
 
         /// <summary>
