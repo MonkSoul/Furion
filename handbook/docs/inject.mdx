@@ -183,9 +183,9 @@ namespace Furion.Web.Entry
 ```cs showLineNumbers {1}
 .AddInject(options =>
 {
-    options.DataValidationConfigure = (d) =>
+    options.DataValidation = (d) =>
     {
-        d.EnableGlobalDataValidation = false;
+        d.GlobalEnabled = false;
     };
 
     // ....

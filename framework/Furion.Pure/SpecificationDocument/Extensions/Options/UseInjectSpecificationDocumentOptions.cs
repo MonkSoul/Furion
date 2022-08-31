@@ -26,17 +26,17 @@ using Swashbuckle.AspNetCore.SwaggerUI;
 namespace Furion.SpecificationDocument;
 
 /// <summary>
-/// 规范化结果中间件配置选项
+/// UseInject 规范化结果配置选项
 /// </summary>
-public sealed class SpecificationDocumentConfigureOptions
+public sealed class UseInjectSpecificationDocumentOptions
 {
     /// <summary>
     /// Swagger 配置
     /// </summary>
-    public Action<SwaggerOptions> SwaggerConfigure { get; set; }
+    public Action<SwaggerOptions> Swagger { get; set; }
 
     /// <summary>
     /// Swagger UI 配置
     /// </summary>
-    public Action<SwaggerUIOptions> SwaggerUIConfigure { get; set; }
+    public Action<SwaggerUIOptions> SwaggerUI { get; set; }
 }

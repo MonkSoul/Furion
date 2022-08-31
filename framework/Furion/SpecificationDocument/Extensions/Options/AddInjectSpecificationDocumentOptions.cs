@@ -20,15 +20,17 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-namespace Furion.FriendlyException;
+using Swashbuckle.AspNetCore.SwaggerGen;
+
+namespace Furion.SpecificationDocument;
 
 /// <summary>
-/// 友好异常服务配置选项
+/// AddInject 规范化文档配置选项
 /// </summary>
-public sealed class FriendlyExceptionServiceOptions
+public sealed class AddInjectSpecificationDocumentOptions
 {
     /// <summary>
-    /// 是否启用全局友好异常
+    /// Swagger 生成器配置
     /// </summary>
-    public bool EnabledGlobalFriendlyException { get; set; } = true;
+    public Action<SwaggerGenOptions> SwaggerGen { get; set; }
 }

@@ -40,7 +40,7 @@ public static class AppServiceCollectionExtensions
     /// <param name="mvcBuilder">Mvc构建器</param>
     /// <param name="configure"></param>
     /// <returns>IMvcBuilder</returns>
-    public static IMvcBuilder AddInject(this IMvcBuilder mvcBuilder, Action<InjectServiceOptions> configure = null)
+    public static IMvcBuilder AddInject(this IMvcBuilder mvcBuilder, Action<AddInjectOptions> configure = null)
     {
         mvcBuilder.Services.AddInject(configure);
 
@@ -53,16 +53,16 @@ public static class AppServiceCollectionExtensions
     /// <param name="services">服务集合</param>
     /// <param name="configure"></param>
     /// <returns>IMvcBuilder</returns>
-    public static IServiceCollection AddInject(this IServiceCollection services, Action<InjectServiceOptions> configure = null)
+    public static IServiceCollection AddInject(this IServiceCollection services, Action<AddInjectOptions> configure = null)
     {
         // 载入服务配置选项
-        var configureOptions = new InjectServiceOptions();
+        var configureOptions = new AddInjectOptions();
         configure?.Invoke(configureOptions);
 
-        services.AddSpecificationDocuments(configureOptions?.SpecificationDocumentConfigure)
+        services.AddSpecificationDocuments(configureOptions?.SpecificationDocument)
                 .AddDynamicApiControllers()
-                .AddDataValidation(configureOptions?.DataValidationConfigure)
-                .AddFriendlyException(configureOptions?.FriendlyExceptionConfigure);
+                .AddDataValidation(configureOptions?.DataValidation)
+                .AddFriendlyException(configureOptions?.FriendlyException);
 
         return services;
     }
@@ -74,18 +74,18 @@ public static class AppServiceCollectionExtensions
     /// <param name="configure"></param>
     /// <returns>IMvcBuilder</returns>
     /// <remarks>https://docs.microsoft.com/zh-cn/aspnet/core/fundamentals/minimal-apis?view=aspnetcore-6.0</remarks>
-    public static IServiceCollection AddInjectMini(this IServiceCollection services, Action<InjectServiceOptions> configure = null)
+    public static IServiceCollection AddInjectMini(this IServiceCollection services, Action<AddInjectOptions> configure = null)
     {
         // 载入服务配置选项
-        var configureOptions = new InjectServiceOptions();
+        var configureOptions = new AddInjectOptions();
         configure?.Invoke(configureOptions);
 
 #if !NET5_0
         services.AddEndpointsApiExplorer();
 #endif
-        services.AddSpecificationDocuments(configureOptions?.SpecificationDocumentConfigure)
-                .AddDataValidation(configureOptions?.DataValidationConfigure)
-                .AddFriendlyException(configureOptions?.FriendlyExceptionConfigure);
+        services.AddSpecificationDocuments(configureOptions?.SpecificationDocument)
+                .AddDataValidation(configureOptions?.DataValidation)
+                .AddFriendlyException(configureOptions?.FriendlyException);
 
         return services;
     }
@@ -96,7 +96,7 @@ public static class AppServiceCollectionExtensions
     /// <param name="mvcBuilder">Mvc构建器</param>
     /// <param name="configure"></param>
     /// <returns>IMvcBuilder</returns>
-    public static IMvcBuilder AddInjectBase(this IMvcBuilder mvcBuilder, Action<InjectServiceOptions> configure = null)
+    public static IMvcBuilder AddInjectBase(this IMvcBuilder mvcBuilder, Action<AddInjectOptions> configure = null)
     {
         mvcBuilder.Services.AddInjectBase(configure);
 
@@ -109,14 +109,14 @@ public static class AppServiceCollectionExtensions
     /// <param name="services">服务集合</param>
     /// <param name="configure"></param>
     /// <returns>IMvcBuilder</returns>
-    public static IServiceCollection AddInjectBase(this IServiceCollection services, Action<InjectServiceOptions> configure = null)
+    public static IServiceCollection AddInjectBase(this IServiceCollection services, Action<AddInjectOptions> configure = null)
     {
         // 载入服务配置选项
-        var configureOptions = new InjectServiceOptions();
+        var configureOptions = new AddInjectOptions();
         configure?.Invoke(configureOptions);
 
-        services.AddDataValidation(configureOptions?.DataValidationConfigure)
-                .AddFriendlyException(configureOptions?.FriendlyExceptionConfigure);
+        services.AddDataValidation(configureOptions?.DataValidation)
+                .AddFriendlyException(configureOptions?.FriendlyException);
 
         return services;
     }
@@ -127,7 +127,7 @@ public static class AppServiceCollectionExtensions
     /// <param name="mvcBuilder"></param>
     /// <param name="configure"></param>
     /// <returns></returns>
-    public static IMvcBuilder AddInjectWithUnifyResult(this IMvcBuilder mvcBuilder, Action<InjectServiceOptions> configure = null)
+    public static IMvcBuilder AddInjectWithUnifyResult(this IMvcBuilder mvcBuilder, Action<AddInjectOptions> configure = null)
     {
         mvcBuilder.Services.AddInjectWithUnifyResult(configure);
 
@@ -140,7 +140,7 @@ public static class AppServiceCollectionExtensions
     /// <param name="services"></param>
     /// <param name="configure"></param>
     /// <returns></returns>
-    public static IServiceCollection AddInjectWithUnifyResult(this IServiceCollection services, Action<InjectServiceOptions> configure = null)
+    public static IServiceCollection AddInjectWithUnifyResult(this IServiceCollection services, Action<AddInjectOptions> configure = null)
     {
         services.AddInject(configure)
                 .AddUnifyResult();
@@ -155,7 +155,7 @@ public static class AppServiceCollectionExtensions
     /// <param name="mvcBuilder"></param>
     /// <param name="configure"></param>
     /// <returns></returns>
-    public static IMvcBuilder AddInjectWithUnifyResult<TUnifyResultProvider>(this IMvcBuilder mvcBuilder, Action<InjectServiceOptions> configure = null)
+    public static IMvcBuilder AddInjectWithUnifyResult<TUnifyResultProvider>(this IMvcBuilder mvcBuilder, Action<AddInjectOptions> configure = null)
         where TUnifyResultProvider : class, IUnifyResultProvider
     {
         mvcBuilder.Services.AddInjectWithUnifyResult<TUnifyResultProvider>(configure);
@@ -170,7 +170,7 @@ public static class AppServiceCollectionExtensions
     /// <param name="configure"></param>
     /// <param name="services"></param>
     /// <returns></returns>
-    public static IServiceCollection AddInjectWithUnifyResult<TUnifyResultProvider>(this IServiceCollection services, Action<InjectServiceOptions> configure = null)
+    public static IServiceCollection AddInjectWithUnifyResult<TUnifyResultProvider>(this IServiceCollection services, Action<AddInjectOptions> configure = null)
         where TUnifyResultProvider : class, IUnifyResultProvider
     {
         services.AddInject(configure)

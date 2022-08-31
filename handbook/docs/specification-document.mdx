@@ -713,15 +713,15 @@ public int Age { get; set; }
 public void ConfigureServices(IServiceCollection services)
 {
     services.AddInject(options =>
+    {
+        options.SpecificationDocument = spt =>
+        {
+            spt.SwaggerGen = gen =>
             {
-                options.SpecificationDocumentConfigure = spt =>
-                {
-                    spt.SwaggerGenConfigure = gen =>
-                    {
-                        // 配置 Swagger Gen
-                    };
-                };
-            });
+                // 配置 Swagger Gen
+            };
+        };
+    });
 }
 ```
 
@@ -729,19 +729,19 @@ public void ConfigureServices(IServiceCollection services)
  public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
  {
       app.UseInject(configure: options =>
-        {
-            options.SpecificationDocumentConfigure = spt =>
-            {
-                spt.SwaggerConfigure = swg =>
-                {
-                    // 配置 Swagger Options
-                };
-                spt.SwaggerUIConfigure = ui =>
-                {
-                    // 配置 Swagger UI
-                };
-            };
-        });
+      {
+          options.SpecificationDocument = spt =>
+          {
+              spt.Swagger = swg =>
+              {
+                  // 配置 Swagger Options
+              };
+              spt.SwaggerUI = ui =>
+              {
+                  // 配置 Swagger UI
+              };
+          };
+      });
 }
 
 ```
@@ -754,9 +754,9 @@ public void ConfigureServices(IServiceCollection services)
 services.AddControllersWithViews()
         .AddInject(options =>
         {
-            options.SpecificationDocumentConfigure = spt =>
+            options.SpecificationDocument = spt =>
             {
-                spt.SwaggerGenConfigure = gen =>
+                spt.SwaggerGen = gen =>
                 {
                     gen.CustomSchemaIds(x => x.FullName);
                 };

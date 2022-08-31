@@ -20,26 +20,15 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-namespace Furion.DataValidation;
+namespace Furion.FriendlyException;
 
 /// <summary>
-/// 数据验证服务配置选项
+/// AddInject 友好异常配置选项
 /// </summary>
-public sealed class DataValidationServiceOptions
+public sealed class AddInjectFriendlyExceptionOptions
 {
     /// <summary>
-    /// 启用全局数据验证
+    /// 是否启用全局友好异常
     /// </summary>
-    public bool EnableGlobalDataValidation { get; set; } = true;
-
-    /// <summary>
-    /// 禁止C# 8.0 验证非可空引用类型
-    /// </summary>
-    public bool SuppressImplicitRequiredAttributeForNonNullableReferenceTypes { get; set; } = true;
-
-    /// <summary>
-    /// 是否禁用 MVC 模型验证过滤器
-    /// </summary>
-    /// <remarks>只会改变启用全局验证的情况，也就是 <see cref="EnableGlobalDataValidation"/> 为 true 的情况</remarks>
-    public bool SuppressModelStateInvalidFilter { get; set; } = true;
+    public bool GlobalEnabled { get; set; } = true;
 }

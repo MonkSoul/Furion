@@ -37,7 +37,7 @@ public static class SpecificationDocumentServiceCollectionExtensions
     /// <param name="mvcBuilder">Mvc 构建器</param>
     /// <param name="configure">自定义配置</param>
     /// <returns>服务集合</returns>
-    public static IMvcBuilder AddSpecificationDocuments(this IMvcBuilder mvcBuilder, Action<SpecificationDocumentServiceOptions> configure = default)
+    public static IMvcBuilder AddSpecificationDocuments(this IMvcBuilder mvcBuilder, Action<AddInjectSpecificationDocumentOptions> configure = default)
     {
         mvcBuilder.Services.AddSpecificationDocuments(configure);
 
@@ -50,7 +50,7 @@ public static class SpecificationDocumentServiceCollectionExtensions
     /// <param name="services">服务集合</param>
     /// <param name="configure">自定义配置</param>
     /// <returns>服务集合</returns>
-    public static IServiceCollection AddSpecificationDocuments(this IServiceCollection services, Action<SpecificationDocumentServiceOptions> configure = default)
+    public static IServiceCollection AddSpecificationDocuments(this IServiceCollection services, Action<AddInjectSpecificationDocumentOptions> configure = default)
     {
         // 判断是否启用规范化文档
         if (App.Settings.InjectSpecificationDocument != true) return services;
@@ -59,11 +59,11 @@ public static class SpecificationDocumentServiceCollectionExtensions
         services.AddConfigurableOptions<SpecificationDocumentSettingsOptions>();
 
         // 载入服务配置选项
-        var configureOptions = new SpecificationDocumentServiceOptions();
+        var configureOptions = new AddInjectSpecificationDocumentOptions();
         configure?.Invoke(configureOptions);
 
         // 添加Swagger生成器服务
-        services.AddSwaggerGen(options => SpecificationDocumentBuilder.BuildGen(options, configureOptions?.SwaggerGenConfigure));
+        services.AddSwaggerGen(options => SpecificationDocumentBuilder.BuildGen(options, configureOptions?.SwaggerGen));
 
         // 添加 MiniProfiler 服务
         AddMiniProfiler(services);

@@ -38,20 +38,20 @@ public static class SpecificationDocumentApplicationBuilderExtensions
     /// <param name="routePrefix"></param>
     /// <param name="configure"></param>
     /// <returns></returns>
-    public static IApplicationBuilder UseSpecificationDocuments(this IApplicationBuilder app, string routePrefix = default, Action<SpecificationDocumentConfigureOptions> configure = default)
+    public static IApplicationBuilder UseSpecificationDocuments(this IApplicationBuilder app, string routePrefix = default, Action<UseInjectSpecificationDocumentOptions> configure = default)
     {
         // 判断是否启用规范化文档
         if (App.Settings.InjectSpecificationDocument != true) return app;
 
         // 载入服务配置选项
-        var configureOptions = new SpecificationDocumentConfigureOptions();
+        var configureOptions = new UseInjectSpecificationDocumentOptions();
         configure?.Invoke(configureOptions);
 
         // 配置 Swagger 全局参数
-        app.UseSwagger(options => SpecificationDocumentBuilder.Build(options, configureOptions?.SwaggerConfigure));
+        app.UseSwagger(options => SpecificationDocumentBuilder.Build(options, configureOptions?.Swagger));
 
         // 配置 Swagger UI 参数
-        app.UseSwaggerUI(options => SpecificationDocumentBuilder.BuildUI(options, routePrefix, configureOptions?.SwaggerUIConfigure));
+        app.UseSwaggerUI(options => SpecificationDocumentBuilder.BuildUI(options, routePrefix, configureOptions?.SwaggerUI));
 
         // 启用 MiniProfiler组件
         if (App.Settings.InjectMiniProfiler == true) app.UseMiniProfiler();

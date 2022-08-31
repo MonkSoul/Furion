@@ -37,13 +37,13 @@ public static class AppApplicationBuilderExtensions
     /// <param name="routePrefix">空字符串将为首页</param>
     /// <param name="configure"></param>
     /// <returns></returns>
-    public static IApplicationBuilder UseInject(this IApplicationBuilder app, string routePrefix = default, Action<InjectConfigureOptions> configure = null)
+    public static IApplicationBuilder UseInject(this IApplicationBuilder app, string routePrefix = default, Action<UseInjectOptions> configure = null)
     {
         // 载入中间件配置选项
-        var configureOptions = new InjectConfigureOptions();
+        var configureOptions = new UseInjectOptions();
         configure?.Invoke(configureOptions);
 
-        app.UseSpecificationDocuments(routePrefix, configureOptions?.SpecificationDocumentConfigure);
+        app.UseSpecificationDocuments(routePrefix, configureOptions?.SpecificationDocument);
 
         return app;
     }
