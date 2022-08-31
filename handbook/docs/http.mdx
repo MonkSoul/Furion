@@ -546,9 +546,15 @@ public interface IHttp : IHttpDispatchProxy
 
 ### 19.5.4 设置 `URL` 地址参数
 
-```cs showLineNumbers  {4,7}
+```cs showLineNumbers  {4,7,10,13}
 public interface IHttp : IHttpDispatchProxy
 {
+    [Get("https://www.furion.icu/get/{id}?name={name}")]
+    Task<HttpResponseMessage> GetXXXAsync(int id, string name);
+
+    [Get("https://www.furion.icu/get/{p.Id}?name={p.Name}")]
+    Task<HttpResponseMessage> GetXXXAsync(Person p);
+
     [Get("https://www.furion.icu/get")]
     Task<HttpResponseMessage> GetXXXAsync([QueryString]int id, [QueryString]string name);
 
