@@ -841,26 +841,26 @@ services.AddControllers()
 ```cs showLineNumbers
 // 也可以用 .AddInjectWithUnifyResult
 services.AddInject(options =>
+{
+    options.SpecificationDocument = spt =>
+    {
+        spt.SwaggerGen = gen =>
         {
-            options.SpecificationDocumentConfigure = spt =>
+            gen.DocInclusionPredicate((currentGroup, apiDescription) =>
             {
-                spt.SwaggerGenConfigure = gen =>
-                {
-                    gen.DocInclusionPredicate((currentGroup, apiDescription) =>
-                    {
-                        // Furion 内部检查，必须放第一行
-                        var isShow = SpecificationDocumentBuilder.CheckApiDescriptionInCurrentGroup(currentGroup, apiDescription);
+                // Furion 内部检查，必须放第一行
+                var isShow = SpecificationDocumentBuilder.CheckApiDescriptionInCurrentGroup(currentGroup, apiDescription);
 
-                        // 获取当前方法
-                        _ = apiDescription.TryGetMethodInfo(out var method);
+                // 获取当前方法
+                _ = apiDescription.TryGetMethodInfo(out var method);
 
-                        // 有了方法，这里做你想做的事情，isShow 设置 true 可见，设置 false 不可见
+                // 有了方法，这里做你想做的事情，isShow 设置 true 可见，设置 false 不可见
 
-                        return isShow;
-                    });
-                };
-            };
-        });
+                return isShow;
+            });
+        };
+    };
+});
 ```
 
 ### 6.5.27 配置 `MVC` 控制器支持规范化处理
