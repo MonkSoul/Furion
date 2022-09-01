@@ -27,6 +27,7 @@ using Microsoft.AspNetCore.Mvc.Localization;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Options;
+using System.Linq.Expressions;
 
 namespace Furion.Localization;
 
@@ -93,5 +94,16 @@ public static class L
             .ToDictionary(u => u.Name, u => u.DisplayName);
 
         return cultureItems;
+    }
+
+    /// <summary>
+    /// 根据实体类属性名获取对应的多语言配置
+    /// </summary>
+    /// <typeparam name="TResource">通常命名为 SharedResource </typeparam>
+    /// <param name="propertyExpression">属性表达式</param>
+    /// <returns></returns>
+    public static LocalizedString GetString<TResource>(Expression<Func<TResource, string>> propertyExpression)
+    {
+        return Text.GetString(propertyExpression);
     }
 }

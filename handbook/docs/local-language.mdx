@@ -141,6 +141,36 @@ namespace Furion.Application
 throw Oops.Oh(ErrorCodes.z1000);    // 自动应用多语言
 ```
 
+### 21.5.5 `SharedResource` 模式
+
+:::important 版本说明
+
+以下内容仅限 `Furion 4.3.7 +` 版本使用。
+
+:::
+
+正常情况下，我们都是通过 `L.Text["Hello"]` 方式输出 `Hello` 在不同的区域语言的翻译，但是会导致 `Hello` 硬编码字符串散落到处都是。
+
+所以 `Furion` 提供了 `SharedResource` 模式，只需要创建一个 `SharedResource.cs` 类（可以任何名字）并添加对应的属性即可，如：
+
+```cs showLineNumbers {3,5,7}
+namespace Furion.Core;
+
+public class SharedResource
+{
+    public string Hello { get; set; }
+
+    public string Name { get; set; }
+}
+```
+
+使用如下：
+
+```cs showLineNumbers
+var hello = L.GetString<SharedResource>(u => u.Hello);  // 比 L.Text["Hello"]; 容易维护
+var name = L.GetString<SharedResource>(u => u.Name);  // 比 L.Text["Name"]; 容易维护
+```
+
 ## 21.6 创建语言翻译文件
 
 在 `Furion` 框架中，如果没找到对应的语言翻译文件，则自动显示字符串文本，如：
@@ -242,7 +272,15 @@ L.SetCulture("en-US");  // en-US 也可以通过前端传递过来，这样就�
 
 相关文档说明 [https://docs.microsoft.com/zh-cn/dotnet/api/system.globalization.cultureinfo?view=net-6.0](https://docs.microsoft.com/zh-cn/dotnet/api/system.globalization.cultureinfo?view=net-6.0)
 
-## 21.11 区域码列表
+## 21.11 `Json` 或 `数据库` 多语言实现
+
+在 `asp.net core 本地化` 文档中微软推荐了三个拓展开源项目：[https://docs.microsoft.com/zh-cn/aspnet/core/fundamentals/localization-extensibility?view=aspnetcore-6.0#localization-resources](https://docs.microsoft.com/zh-cn/aspnet/core/fundamentals/localization-extensibility?view=aspnetcore-6.0#localization-resources)
+
+选择自己合适的即可。
+
+<img src={useBaseUrl("img/lang6.png")} />
+
+## 21.12 区域码列表
 
 - af 公用荷兰语
 - af-ZA 公用荷兰语 - 南非
@@ -446,7 +484,7 @@ L.SetCulture("en-US");  // en-US 也可以通过前端传递过来，这样就�
 - vi 越南
 - vi-VN 越南 -越南
 
-## 21.12 反馈与建议
+## 21.13 反馈与建议
 
 :::note 与我们交流
 
