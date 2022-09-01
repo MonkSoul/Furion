@@ -1,5 +1,7 @@
 using Furion.FriendlyException;
+using Furion.Localization;
 using Furion.SpecificationDocument;
+using Furion.Web.Core;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
@@ -11,6 +13,7 @@ public class HomeController : Controller
 {
     public IActionResult Index()
     {
+        var test = L.GetString<SharedResource>(u => u.实时通信);
         return View();
     }
 
