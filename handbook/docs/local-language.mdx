@@ -171,6 +171,13 @@ var hello = L.GetString<SharedResource>(u => u.Hello);  // 比 L.Text["Hello"]; 
 var name = L.GetString<SharedResource>(u => u.Name);  // 比 L.Text["Name"]; 容易维护
 ```
 
+当然也有更简单的方式，就是使用 `nameof`，如：
+
+```cs showLineNumbers
+var hello = L.Text[nameof(SharedResource.Hello)];  // 比 L.Text["Hello"]; 容易维护
+var name = L.Text[nameof(SharedResource.Name)];  // 比 L.Text["Name"]; 容易维护
+```
+
 ## 21.6 创建语言翻译文件
 
 在 `Furion` 框架中，如果没找到对应的语言翻译文件，则自动显示字符串文本，如：
