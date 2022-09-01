@@ -67,6 +67,11 @@ public sealed partial class HttpRequestPart
     /// 客户端名称
     /// </summary>
     public string ClientName { get; private set; }
+    
+    /// <summary>
+    /// 客户端提供者
+    /// </summary>
+    public Func<HttpClient> ClientProvider { get; set; }
 
     /// <summary>
     /// 请求报文 Body 参数

@@ -120,6 +120,17 @@ public static class RemoteRequestStringExtensions
     }
 
     /// <summary>
+    /// 设置客户端提供者
+    /// </summary>
+    /// <param name="requestUrl"></param>
+    /// <param name="clientProvider"></param>
+    /// <returns></returns>
+    public static HttpRequestPart SetClient(this string requestUrl, Func<HttpClient> clientProvider)
+    {
+        return HttpRequestPart.Default().SetRequestUrl(requestUrl).SetClient(clientProvider);
+    }
+
+    /// <summary>
     /// 设置 Body 内容
     /// </summary>
     /// <param name="requestUrl"></param>

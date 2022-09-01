@@ -485,7 +485,9 @@ public sealed partial class HttpRequestPart
         if (clientFactory == null) throw new InvalidOperationException("Please add `services.AddRemoteRequest()` in Startup.cs.");
 
         // 创建 HttpClient 对象
-        using var httpClient = string.IsNullOrWhiteSpace(ClientName)
+        using var httpClient = 
+            ClientProvider is not null ? ClientProvider() :
+            string.IsNullOrWhiteSpace(ClientName)
                                      ? clientFactory.CreateClient()
                                      : clientFactory.CreateClient(ClientName);
 
