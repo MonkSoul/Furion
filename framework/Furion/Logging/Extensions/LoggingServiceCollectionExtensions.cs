@@ -36,16 +36,20 @@ public static class LoggingServiceCollectionExtensions
     /// 添加日志监视器服务
     /// </summary>
     /// <param name="services"></param>
-    /// <param name="configurationKey">配置文件对于的 Key，默认为 Logging:Monitor</param>
+    /// <param name="configure">添加更多配置</param>
+    /// <param name="jsonKey">配置文件对于的 Key，默认为 Logging:Monitor</param>
     /// <returns></returns>
-    public static IServiceCollection AddMonitorLogging(this IServiceCollection services, string configurationKey = "Logging:Monitor")
+    public static IServiceCollection AddMonitorLogging(this IServiceCollection services, Action<LoggingMonitorSettings> configure = default, string jsonKey = "Logging:Monitor")
     {
         // 读取配置
-        var settings = App.GetConfig<LoggingMonitorSettings>(configurationKey)
+        var settings = App.GetConfig<LoggingMonitorSettings>(jsonKey)
             ?? new LoggingMonitorSettings();
         settings.IsMvcFilterRegister = false;   // 解决过去 Mvc Filter 全局注册的问题
         settings.IncludeOfMethods ??= Array.Empty<string>();
         settings.ExcludeOfMethods ??= Array.Empty<string>();
+
+        // 添加外部配置
+        configure?.Invoke(settings);
 
         // 如果配置 GlobalEnabled = false 且 IncludeOfMethods 和 ExcludeOfMethods 都为空，则不注册服务
         if (settings.GlobalEnabled == false

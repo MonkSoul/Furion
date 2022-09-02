@@ -275,8 +275,13 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter, IOr
 
         // 创建日志记录器
         var logger = httpContext.RequestServices.GetRequiredService<ILoggerFactory>()
-            .CreateLogger(LOG_CATEGORY_NAME)
-            .ScopeContext(logContext);
+            .CreateLogger(LOG_CATEGORY_NAME);
+
+        // 调用外部配置
+        LoggingMonitorSettings.Configure?.Invoke(logger, logContext, resultContext);
+
+        // 设置日志上下文
+        logger.ScopeContext(logContext);
 
         // 写入日志，如果没有异常使用 LogInformation，否则使用 LogError
         if (exception == null) logger.LogInformation(monitor);

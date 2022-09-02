@@ -745,6 +745,33 @@ services.AddMonitorLogging();   // 默认读取 Logging:Monitor 下配置，支�
 
 如果配置了全局请求监视日志，对个别不需要监视的接口方法只需要贴 `[SuppressMonitor]` 特性即可。
 
+### 18.6.3 更多配置
+
+:::important 版本说明
+
+以下内容仅限 `Furion 4.3.9 +` 版本使用。
+
+:::
+
+支持 `LoggingMonitor` 写入日志拦截，如添加额外数据：
+
+```cs showLineNumbers {1,3,6}
+services.AddMonitorLogging(options => 
+{
+    options.ConfigureLogger((logger, logContext, context) => 
+    {
+        var httpContext = context.HttpContext;
+        logContext.Set("extra", "其他数据");
+    });    
+});
+```
+
+除此之外，还支持配置 `json` 路径：
+
+```cs showLineNumbers
+services.AddMonitorLogging(jsonKey: "YourKey:Monitor");
+```
+
 ## 18.7 打印日志到 `Swagger` 中
 
 在 `Furion` 框架中默认集成了 `MiniProfiler` 组件并与 `Swagger` 进行了结合，如需打印日志或调试代码，只需调用以下方法即可：
