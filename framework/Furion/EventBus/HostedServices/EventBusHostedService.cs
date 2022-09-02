@@ -126,7 +126,7 @@ internal sealed class EventBusHostedService : BackgroundService
                         Handler = handler,
                         HandlerMethod = eventHandlerMethod,
                         Attribute = eventSubscribeAttribute,
-                        Pattern = CheckFuzzyMatch(eventSubscribeAttribute.FuzzyMatch) ? new Regex(eventSubscribeAttribute.EventId, RegexOptions.Singleline) : default
+                        Pattern = CheckIsSetFuzzyMatch(eventSubscribeAttribute.FuzzyMatch) ? new Regex(eventSubscribeAttribute.EventId, RegexOptions.Singleline) : default
                     };
 
                     _eventHandlers.TryAdd(wrapper, wrapper);
@@ -303,7 +303,7 @@ internal sealed class EventBusHostedService : BackgroundService
                 Attribute = subscribeOperateSource.Attribute,
                 HandlerMethod = subscribeOperateSource.HandlerMethod,
                 Handler = subscribeOperateSource.Handler,
-                Pattern = CheckFuzzyMatch(subscribeOperateSource.Attribute?.FuzzyMatch) ? new Regex(eventId, RegexOptions.Singleline) : default
+                Pattern = CheckIsSetFuzzyMatch(subscribeOperateSource.Attribute?.FuzzyMatch) ? new Regex(eventId, RegexOptions.Singleline) : default
             };
 
             // 追加到集合中
@@ -325,7 +325,7 @@ internal sealed class EventBusHostedService : BackgroundService
     /// </summary>
     /// <param name="fuzzyMatch"></param>
     /// <returns></returns>
-    private bool CheckFuzzyMatch(object fuzzyMatch)
+    private bool CheckIsSetFuzzyMatch(object fuzzyMatch)
     {
         return fuzzyMatch == null
             ? FuzzyMatch

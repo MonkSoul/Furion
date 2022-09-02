@@ -47,6 +47,7 @@ public static class LoggingServiceCollectionExtensions
         settings.IsMvcFilterRegister = false;   // 解决过去 Mvc Filter 全局注册的问题
         settings.IncludeOfMethods ??= Array.Empty<string>();
         settings.ExcludeOfMethods ??= Array.Empty<string>();
+        settings.MethodsSettings ??= Array.Empty<LoggingMonitorMethod>();
 
         // 添加外部配置
         configure?.Invoke(settings);

@@ -92,4 +92,16 @@ public class TestLoggerServices : IDynamicApiController
         var c = id / 0;
         return c;
     }
+
+    [LoggingMonitor(WithReturnValue = false)]
+    public string 不输出返回值()
+    {
+        return "让 .NET 开发更简单，更通用，更流行。";
+    }
+
+    [LoggingMonitor(ReturnValueThreshold = 30)]
+    public string 只输出返回值30个长度()
+    {
+        return "让 .NET 开发更简单，更通用，更流行。";
+    }
 }

@@ -153,7 +153,8 @@ public sealed class DatabaseLoggerProvider : ILoggerProvider
     /// 设置服务提供器
     /// </summary>
     /// <param name="serviceProvider"></param>
-    internal void SetServiceProvider(IServiceProvider serviceProvider)
+    /// <param name="databaseLoggingWriterType"></param>
+    internal void SetServiceProvider(IServiceProvider serviceProvider, Type databaseLoggingWriterType)
     {
         // 解析服务作用域工厂服务
         var serviceScopeFactory = serviceProvider.GetRequiredService<IServiceScopeFactory>();
@@ -162,7 +163,7 @@ public sealed class DatabaseLoggerProvider : ILoggerProvider
         _serviceScope = serviceScopeFactory.CreateScope();
 
         // 基于当前作用域创建数据库日志写入器
-        _databaseLoggingWriter = _serviceScope.ServiceProvider.GetRequiredService<IDatabaseLoggingWriter>();
+        _databaseLoggingWriter = _serviceScope.ServiceProvider.GetRequiredService(databaseLoggingWriterType) as IDatabaseLoggingWriter;
 
         // 创建长时间运行的后台任务，并将日志消息队列中数据写入存储中
         _processQueueTask = Task.Factory.StartNew(state => ((DatabaseLoggerProvider)state).ProcessQueue()

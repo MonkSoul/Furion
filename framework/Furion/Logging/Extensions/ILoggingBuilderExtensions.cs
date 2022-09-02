@@ -117,7 +117,7 @@ public static class ILoggingBuilderExtensions
         where TDatabaseLoggingWriter : class, IDatabaseLoggingWriter
     {
         // 注册数据库日志写入器
-        builder.Services.TryAddTransient(typeof(IDatabaseLoggingWriter), typeof(TDatabaseLoggingWriter));
+        builder.Services.TryAddTransient<TDatabaseLoggingWriter, TDatabaseLoggingWriter>();
 
         var options = new DatabaseLoggerOptions();
         configure?.Invoke(options);
@@ -131,7 +131,7 @@ public static class ILoggingBuilderExtensions
             // 解决数据库写入器中循环引用数据库仓储问题
             if (databaseLoggerProvider._serviceScope == null)
             {
-                databaseLoggerProvider.SetServiceProvider(serviceProvider);
+                databaseLoggerProvider.SetServiceProvider(serviceProvider, typeof(TDatabaseLoggingWriter));
             }
 
             return databaseLoggerProvider;
@@ -166,7 +166,7 @@ public static class ILoggingBuilderExtensions
         where TDatabaseLoggingWriter : class, IDatabaseLoggingWriter
     {
         // 注册数据库日志写入器
-        builder.Services.TryAddTransient(typeof(IDatabaseLoggingWriter), typeof(TDatabaseLoggingWriter));
+        builder.Services.TryAddTransient<TDatabaseLoggingWriter, TDatabaseLoggingWriter>();
 
         // 创建数据库日志记录器提供程序
         var databaseLoggerProvider = Penetrates.CreateFromConfiguration(configuraionKey, configure);
@@ -180,7 +180,7 @@ public static class ILoggingBuilderExtensions
             // 解决数据库写入器中循环引用数据库仓储问题
             if (databaseLoggerProvider._serviceScope == null)
             {
-                databaseLoggerProvider.SetServiceProvider(serviceProvider);
+                databaseLoggerProvider.SetServiceProvider(serviceProvider, typeof(TDatabaseLoggingWriter));
             }
 
             return databaseLoggerProvider;

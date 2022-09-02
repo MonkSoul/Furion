@@ -512,6 +512,41 @@
                 "Critical",
                 "None"
               ]
+            },
+            "WithReturnValue": {
+              "description": "配置是否包含返回值，默认 true",
+              "type": "boolean",
+              "default": true
+            },
+            "ReturnValueThreshold": {
+              "description": "配置返回值字符串阈值，默认 0",
+              "type": "number",
+              "default": 0
+            },
+            "MethodsSettings": {
+              "description": "配置监听方法更多信息",
+              "type": "array",
+              "default": [],
+              "items": {
+                "type": "object",
+                "description": "单个监听方法配置",
+                "properties": {
+                  "FullName": {
+                    "description": "方法完全限定名格式：程序集名称.类名.方法名",
+                    "type": "string"
+                  },
+                  "WithReturnValue": {
+                    "description": "配置是否包含返回值，默认 true",
+                    "type": "boolean",
+                    "default": true
+                  },
+                  "ReturnValueThreshold": {
+                    "description": "配置返回值字符串阈值，默认 0",
+                    "type": "number",
+                    "default": 0
+                  }
+                }
+              }
             }
           }
         }
