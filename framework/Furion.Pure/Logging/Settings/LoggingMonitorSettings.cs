@@ -20,6 +20,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Logging;
 
 namespace Furion.Logging;
@@ -58,4 +59,18 @@ public sealed class LoggingMonitorSettings
     /// </summary>
     /// <remarks>解决旧版本兼容问题</remarks>
     internal bool IsMvcFilterRegister { get; set; } = true;
+
+    /// <summary>
+    /// 添加日志更多配置
+    /// </summary>
+    internal static Action<ILogger, LogContext, ActionExecutedContext> Configure { get; private set; }
+
+    /// <summary>
+    /// 配置日志更多功能
+    /// </summary>
+    /// <param name="configure"></param>
+    public void ConfigureLogger(Action<ILogger, LogContext, ActionExecutedContext> configure)
+    {
+        Configure = configure;
+    }
 }

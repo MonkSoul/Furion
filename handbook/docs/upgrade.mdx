@@ -36,6 +36,7 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
   - [新增] **事件总线 `MessageCenter` 静态类，解决从 `Fur v1.x` 版本升级问题 [a29fc7c](https://gitee.com/dotnetchina/Furion/commit/a29fc7cf63a3ea41b1617a6ad98a701a243e24f8)**
   - [新增] 组件化 `IWebComponent` 模式，支持 `.NET5+` [08a44c3](https://gitee.com/dotnetchina/Furion/commit/08a44c347a56c467527935a8caac8966585f5d1a)
   - [新增] 远程请求设置自己的 `HttpClient` 功能 [#I5PBR3](https://gitee.com/dotnetchina/Furion/issues/I5PBR3) [!545](https://gitee.com/dotnetchina/Furion/pulls/544)
+  - [新增] `LoggingMonitor` 支持添加更多自定义配置 [#I5PEPA](https://gitee.com/dotnetchina/Furion/issues/I5PEPA)
 
 ```cs showLineNumbers {2,4,6}
 Serve.Run(RunOptions.Default
@@ -77,6 +78,7 @@ static void OnException(HttpClient client, HttpResponseMessage res, string error
 - **问题修复**
 
   - [修复] 生成包含 `中文` 的 `JWT Token` 解密后出现乱码问题 [#I5O397](https://gitee.com/dotnetchina/Furion/issues/I5O397)
+  - [修复] `HttpRequestMessage`` 拓展中追加查询参数时的空引用异常 [#I5PENW](https://gitee.com/dotnetchina/Furion/issues/I5PENW) [!547](https://gitee.com/dotnetchina/Furion/pulls/547)
 
 - **其他更改**
 
