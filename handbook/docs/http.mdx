@@ -220,6 +220,8 @@ await "https://www.furion.icu/get".SetQueries(new {
 
 ### 19.4.7 设置请求客户端
 
+- **全局配置方式**
+
 ```cs showLineNumbers  {1,3-4,12}
 services.AddRemoteRequest(options=>
 {
@@ -236,6 +238,19 @@ await "get".SetClient("github");
 ```
 
 最终生成请求地址为：`https://api.github.com/get`。
+
+- **局部配置方式**
+
+:::important 版本说明
+
+以下内容仅限 `Furion 4.3.8 +` 版本使用。
+
+:::
+
+```cs showLineNumbers
+await "https://www.furion.icu".SetClient(() => new HttpClient());
+```
+
 
 ### 19.4.8 设置 `Body` 参数
 
@@ -567,6 +582,8 @@ public interface IHttp : IHttpDispatchProxy
 
 ### 19.5.5 设置请求客户端
 
+- **全局配置方式**
+
 ```cs showLineNumbers  {1,3-4,14}
 services.AddRemoteRequest(options=>
 {
@@ -587,6 +604,31 @@ public interface IHttp : IHttpDispatchProxy
 ```
 
 最终生成请求地址为：`https://api.github.com/get`。
+
+- **局部配置方式**
+
+:::important 版本说明
+
+以下内容仅限 `Furion 4.3.8 +` 版本使用。
+
+:::
+
+```cs showLineNumbers {5,7-11}
+public interface IHttp : IHttpDispatchProxy
+{
+    // 局部方式
+    [Get("get")]
+    Task<HttpResponseMessage> GetXXXAsync([Interceptor(InterceptorTypes.Initiate)]Func<HttpClient> clientProvider);
+
+    // 全局静态方式
+    [Interceptor(InterceptorTypes.Initiate)]
+    static HttpClient CreateHttpClient()
+    {
+        return new HttpClient(...);
+    }
+}
+```
+
 
 ### 19.5.6 设置 `Body` 参数
 
