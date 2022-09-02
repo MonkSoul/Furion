@@ -41,7 +41,7 @@ public static class HttpRequestMessageExtensions
         if (queries == null || queries.Count == 0) return;
 
         // 获取原始地址
-        var finalRequestUrl = httpRequest.RequestUri.OriginalString;
+        var finalRequestUrl = httpRequest.RequestUri?.OriginalString ?? string.Empty;
 
         // 拼接
         var urlParameters = queries.Where(u => u.Value != null)
