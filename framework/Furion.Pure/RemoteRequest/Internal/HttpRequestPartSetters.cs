@@ -135,6 +135,17 @@ public sealed partial class HttpRequestPart
     }
 
     /// <summary>
+    /// 设置客户端提供者
+    /// </summary>
+    /// <param name="clientProvider"></param>
+    /// <returns></returns>
+    public HttpRequestPart SetClient(Func<HttpClient> clientProvider)
+    {
+        ClientProvider = clientProvider;
+        return this;
+    }
+
+    /// <summary>
     /// 设置内容类型
     /// </summary>
     /// <param name="contentType"></param>

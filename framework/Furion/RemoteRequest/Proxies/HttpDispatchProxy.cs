@@ -277,6 +277,16 @@ public class HttpDispatchProxy : AspectDispatchProxy, IDispatchProxy
             var interceptor = method.GetCustomAttributes<InterceptorAttribute>().First();
             switch (interceptor.Type)
             {
+                // Client 创建拦截
+                case InterceptorTypes.Initiate:
+                    var clientProvider = (Func<HttpClient>)Delegate.CreateDelegate(typeof(Func<HttpClient>), method);
+                    httpRequestPart.SetClient(clientProvider);
+                    break;
+                // 加载 Client 配置拦截
+                case InterceptorTypes.Client:
+                    var onClientCreating = (Action<HttpClient>)Delegate.CreateDelegate(typeof(Action<HttpClient>), method);
+                    httpRequestPart.OnClientCreating(onClientCreating);
+                    break;
                 // 加载请求拦截
                 case InterceptorTypes.Request:
                     var onRequesting = (Action<HttpClient, HttpRequestMessage>)Delegate.CreateDelegate(typeof(Action<HttpClient, HttpRequestMessage>), method);
@@ -286,11 +296,6 @@ public class HttpDispatchProxy : AspectDispatchProxy, IDispatchProxy
                 case InterceptorTypes.Response:
                     var onResponsing = (Action<HttpClient, HttpResponseMessage>)Delegate.CreateDelegate(typeof(Action<HttpClient, HttpResponseMessage>), method);
                     httpRequestPart.OnResponsing(onResponsing);
-                    break;
-                // 加载 Client 配置拦截
-                case InterceptorTypes.Client:
-                    var onClientCreating = (Action<HttpClient>)Delegate.CreateDelegate(typeof(Action<HttpClient>), method);
-                    httpRequestPart.OnClientCreating(onClientCreating);
                     break;
                 // 加载异常拦截
                 case InterceptorTypes.Exception:
@@ -318,6 +323,20 @@ public class HttpDispatchProxy : AspectDispatchProxy, IDispatchProxy
             var interceptor = item.Parameter.GetCustomAttribute<InterceptorAttribute>();
             switch (interceptor.Type)
             {
+                // Client 创建拦截
+                case InterceptorTypes.Initiate:
+                    if (item.Value is Func<HttpClient> clientProvider)
+                    {
+                        httpRequestPart.SetClient(clientProvider);
+                    }
+                    break;
+                // 加载 Client 配置拦截
+                case InterceptorTypes.Client:
+                    if (item.Value is Action<HttpClient> onClientCreating)
+                    {
+                        httpRequestPart.OnClientCreating(onClientCreating);
+                    }
+                    break;
                 // 加载请求拦截
                 case InterceptorTypes.Request:
                     if (item.Value is Action<HttpClient, HttpRequestMessage> onRequesting)
@@ -332,13 +351,6 @@ public class HttpDispatchProxy : AspectDispatchProxy, IDispatchProxy
                         httpRequestPart.OnResponsing(onResponsing);
                     }
                     break;
-                // 加载 Client 配置拦截
-                case InterceptorTypes.Client:
-                    if (item.Value is Action<HttpClient> onClientCreating)
-                    {
-                        httpRequestPart.OnClientCreating(onClientCreating);
-                    }
-                    break;
                 // 加载异常拦截
                 case InterceptorTypes.Exception:
                     if (item.Value is Action<HttpClient, HttpResponseMessage, string> onException)
@@ -346,7 +358,6 @@ public class HttpDispatchProxy : AspectDispatchProxy, IDispatchProxy
                         httpRequestPart.OnException(onException);
                     }
                     break;
-
                 default: break;
             }
         }

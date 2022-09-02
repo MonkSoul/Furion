@@ -31,6 +31,12 @@ namespace Furion.RemoteRequest;
 public enum InterceptorTypes
 {
     /// <summary>
+    /// 创建 HttpClient 拦截
+    /// </summary>
+    [Description("创建 HttpClient 拦截")]
+    Initiate,
+
+    /// <summary>
     /// HttpClient 拦截
     /// </summary>
     [Description("HttpClient 拦截")]
