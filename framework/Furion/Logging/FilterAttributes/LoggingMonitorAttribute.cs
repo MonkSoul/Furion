@@ -164,6 +164,9 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter, IOr
             }
         }
 
+        // 获取全局 LoggingMonitorMethod 配置
+        var monitorMethod = Settings.MethodsSettings.FirstOrDefault(m => m.FullName.Equals(methodFullName, StringComparison.OrdinalIgnoreCase));
+
         // 创建日志上下文
         var logContext = new LogContext();
 
@@ -277,10 +280,10 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter, IOr
         monitorItems.AddRange(GenerateParameterTemplate(logContext, parameterValues, actionMethod, httpRequest.Headers["Content-Type"]));
 
         // 判断是否启用返回值打印
-        if (CheckIsSetWithReturnValue(WithReturnValue))
+        if (CheckIsSetWithReturnValue(WithReturnValue, monitorMethod))
         {
             // 添加返回值信息日志模板
-            monitorItems.AddRange(GenerateReturnInfomationTemplate(logContext, resultContext, actionMethod));
+            monitorItems.AddRange(GenerateReturnInfomationTemplate(logContext, resultContext, actionMethod, monitorMethod));
         }
 
         // 添加异常信息日志模板
@@ -426,8 +429,9 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter, IOr
     /// <param name="logContext"></param>
     /// <param name="resultContext"></param>
     /// <param name="method"></param>
+    /// <param name="monitorMethod"></param>
     /// <returns></returns>
-    private List<string> GenerateReturnInfomationTemplate(LogContext logContext, ActionExecutedContext resultContext, MethodInfo method)
+    private List<string> GenerateReturnInfomationTemplate(LogContext logContext, ActionExecutedContext resultContext, MethodInfo method, LoggingMonitorMethod monitorMethod)
     {
         var templates = new List<string>();
 
@@ -442,7 +446,7 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter, IOr
             : SerializeObject(returnValue);
 
         // 获取返回值阈值
-        var threshold = CheckIsSetReturnValueThreshold(ReturnValueThreshold);
+        var threshold = CheckIsSetReturnValueThreshold(ReturnValueThreshold, monitorMethod);
         if (threshold > 0)
         {
             displayValue = displayValue[..(displayValue.Length > threshold ? threshold : displayValue.Length)];
@@ -536,11 +540,12 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter, IOr
     /// 检查是否开启启用返回值
     /// </summary>
     /// <param name="withReturnValue"></param>
+    /// <param name="monitorMethod"></param>
     /// <returns></returns>
-    private bool CheckIsSetWithReturnValue(object withReturnValue)
+    private bool CheckIsSetWithReturnValue(object withReturnValue, LoggingMonitorMethod monitorMethod)
     {
         return withReturnValue == null
-            ? Settings.WithReturnValue
+            ? (monitorMethod?.WithReturnValue ?? Settings.WithReturnValue)
             : Convert.ToBoolean(withReturnValue);
     }
 
@@ -548,11 +553,12 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter, IOr
     /// 检查是否设置返回值阈值
     /// </summary>
     /// <param name="returnValueThreshold"></param>
+    /// <param name="monitorMethod"></param>
     /// <returns></returns>
-    private int CheckIsSetReturnValueThreshold(object returnValueThreshold)
+    private int CheckIsSetReturnValueThreshold(object returnValueThreshold, LoggingMonitorMethod monitorMethod)
     {
         return returnValueThreshold == null
-            ? Settings.ReturnValueThreshold
+            ? (monitorMethod?.ReturnValueThreshold ?? Settings.ReturnValueThreshold)
             : Convert.ToInt32(returnValueThreshold);
     }
 }

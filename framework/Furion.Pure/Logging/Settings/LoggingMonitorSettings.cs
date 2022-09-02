@@ -49,6 +49,11 @@ public sealed class LoggingMonitorSettings
     public string[] ExcludeOfMethods { get; set; } = Array.Empty<string>();
 
     /// <summary>
+    /// 配置方法更多信息
+    /// </summary>
+    public LoggingMonitorMethod[] MethodsSettings { get; set; } = Array.Empty<LoggingMonitorMethod>();
+
+    /// <summary>
     /// 业务日志消息级别
     /// </summary>
     /// <remarks>控制 Oops.Oh 或 Oops.Bah 日志记录位置，默认写入 <see cref="LogLevel.Information"/></remarks>

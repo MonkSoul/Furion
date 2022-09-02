@@ -38,6 +38,7 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
   - [新增] 远程请求设置自己的 `HttpClient` 功能 [#I5PBR3](https://gitee.com/dotnetchina/Furion/issues/I5PBR3) [!545](https://gitee.com/dotnetchina/Furion/pulls/544)
   - [新增] `LoggingMonitor` 支持添加更多自定义配置 [#I5PEPA](https://gitee.com/dotnetchina/Furion/issues/I5PEPA)
   - [新增] `LoggingMonitor` 可配置 `WithReturnValue` 和 `ReturnValueThreshold` [#I5PFJ1](https://gitee.com/dotnetchina/Furion/issues/I5PFJ1) [#I5PFOW](https://gitee.com/dotnetchina/Furion/issues/I5PFOW)
+  - [新增] `LoggingMonitor` 可配置 `MethodsSettings` 更多信息  [#I5PFJ1](https://gitee.com/dotnetchina/Furion/issues/I5PFJ1) [#I5PFOW](https://gitee.com/dotnetchina/Furion/issues/I5PFOW)
 
 ```cs showLineNumbers {2,4,6}
 Serve.Run(RunOptions.Default
@@ -87,6 +88,7 @@ static void OnException(HttpClient client, HttpResponseMessage res, string error
   - [调整] 默认输出文件日志模板，使其更加美观 [#1518cf3](https://gitee.com/dotnetchina/Furion/commit/1518cf3be74524ed0d3f73360068a9a0ec6685d9)
   - [调整] 默认规范化结果验证处理也支持状态码设置 [2eb9390](https://gitee.com/dotnetchina/Furion/commit/2eb939074a14d29fcd3e4726937c8a8430765f48)
   - [更新] `SqlSugarCore` 拓展包和脚手架至 `5.1.2.6` 版本 [#I5PCXK](https://gitee.com/dotnetchina/Furion/issues/I5PCXK)
+  - [更新] `JSON Schema` 关于 `LoggingMonitor` 更多配置 [#I5PFJ1](https://gitee.com/dotnetchina/Furion/issues/I5PFJ1)
 
 - **文档**
 
