@@ -96,7 +96,7 @@ public static class ILoggerFactoryExtensions
         // 解决数据库写入器中循环引用数据库仓储问题
         if (databaseLoggerProvider._serviceScope == null)
         {
-            databaseLoggerProvider.SetServiceProvider(serviceProvider);
+            databaseLoggerProvider.SetServiceProvider(serviceProvider, typeof(TDatabaseLoggingWriter));
         }
 
         // 添加数据库日志记录器提供程序
@@ -141,7 +141,7 @@ public static class ILoggerFactoryExtensions
         // 解决数据库写入器中循环引用数据库仓储问题
         if (databaseLoggerProvider._serviceScope == null)
         {
-            databaseLoggerProvider.SetServiceProvider(serviceProvider);
+            databaseLoggerProvider.SetServiceProvider(serviceProvider, typeof(TDatabaseLoggingWriter));
         }
 
         // 添加数据库日志记录器提供程序
