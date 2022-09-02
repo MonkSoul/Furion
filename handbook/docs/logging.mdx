@@ -881,7 +881,7 @@ _logger.ScopeContext(new LogContext {
 
 在 `LogMessage` 对象中使用：
 
-```cs showLineNumbers {1,9}
+```cs showLineNumbers {1,9,14,16}
 var value = logMsg.Context.Get("Key");
 
 // 比如在过滤中使用
@@ -893,6 +893,41 @@ services.AddFileLogging("infomation.log", options =>
         return logMsg.Context.Get("Name") == "Furion";
     };
 });
+
+// 在  IDatabaseLoggingWriter 中使用
+public void Write(LogMessage logMsg, bool flush)
+{
+    var name = logMsg.Context.Get("Name");
+}
+```
+
+还可以实现共享日志上下文，如：
+
+```cs showLineNumbers {7,13,21}
+private readonly ILogger<TestAppService> _logger;
+public TestAppService(ILogger<TestAppService> logger)
+{
+    _logger = logger;
+    
+     // 添加全局用户信息上下文数据
+    _logger.ScopeContext(ctx => ctx.Set("uid", "100").Set("uname", "百小僧"));
+}
+
+public string GetName(int id)
+{
+    // 共享全局上下文数据
+    _logger.LogInformation("写入新的日志");
+
+    return "Furion";
+}
+
+public string GetTags(int id)
+{
+    // 额外新增上下文数据
+    _logger.ScopeContext(ctx => ctx.Set("key", "value")).LogInformation("设置额外的上上下文日志");
+
+    return "百小僧";
+}
 ```
 
 ## 18.13 反馈与建议
