@@ -55,6 +55,18 @@ public sealed class LoggingMonitorSettings
     public LogLevel BahLogLevel { get; set; } = LogLevel.Information;
 
     /// <summary>
+    /// 是否记录返回值
+    /// </summary>
+    /// <remarks>bool 类型，默认输出</remarks>
+    public bool WithReturnValue { get; set; } = true;
+
+    /// <summary>
+    /// 设置返回值阈值
+    /// </summary>
+    /// <remarks>配置返回值字符串阈值，超过这个阈值将截断，默认全量输出</remarks>
+    public int ReturnValueThreshold { get; set; } = 0;
+
+    /// <summary>
     /// 是否 Mvc Filter 方式注册
     /// </summary>
     /// <remarks>解决旧版本兼容问题</remarks>

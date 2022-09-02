@@ -93,6 +93,18 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter, IOr
     public string Title { get; set; } = "Logging Monitor";
 
     /// <summary>
+    /// 是否记录返回值
+    /// </summary>
+    /// <remarks>bool 类型，默认输出</remarks>
+    public object WithReturnValue { get; set; } = null;
+
+    /// <summary>
+    /// 设置返回值阈值
+    /// </summary>
+    /// <remarks>配置返回值字符串阈值，超过这个阈值将截断，默认全量输出</remarks>
+    public object ReturnValueThreshold { get; set; } = null;
+
+    /// <summary>
     /// 配置信息
     /// </summary>
     private LoggingMonitorSettings Settings { get; set; }
@@ -264,8 +276,12 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter, IOr
         // 添加请求参数信息日志模板
         monitorItems.AddRange(GenerateParameterTemplate(logContext, parameterValues, actionMethod, httpRequest.Headers["Content-Type"]));
 
-        // 添加返回值信息日志模板
-        monitorItems.AddRange(GenerateReturnInfomationTemplate(logContext, resultContext, actionMethod));
+        // 判断是否启用返回值打印
+        if (CheckIsSetWithReturnValue(WithReturnValue))
+        {
+            // 添加返回值信息日志模板
+            monitorItems.AddRange(GenerateReturnInfomationTemplate(logContext, resultContext, actionMethod));
+        }
 
         // 添加异常信息日志模板
         monitorItems.AddRange(GenerateExcetpionInfomationTemplate(logContext, exception, isValidationException));
@@ -425,6 +441,13 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter, IOr
             ? string.Empty
             : SerializeObject(returnValue);
 
+        // 获取返回值阈值
+        var threshold = CheckIsSetReturnValueThreshold(ReturnValueThreshold);
+        if (threshold > 0)
+        {
+            displayValue = displayValue[..(displayValue.Length > threshold ? threshold : displayValue.Length)];
+        }
+
         templates.AddRange(new[]
         {
             $"━━━━━━━━━━━━━━━  返回信息 ━━━━━━━━━━━━━━━"
@@ -507,5 +530,29 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter, IOr
         {
             return "<Error Serialize>";
         }
+    }
+
+    /// <summary>
+    /// 检查是否开启启用返回值
+    /// </summary>
+    /// <param name="withReturnValue"></param>
+    /// <returns></returns>
+    private bool CheckIsSetWithReturnValue(object withReturnValue)
+    {
+        return withReturnValue == null
+            ? Settings.WithReturnValue
+            : Convert.ToBoolean(withReturnValue);
+    }
+
+    /// <summary>
+    /// 检查是否设置返回值阈值
+    /// </summary>
+    /// <param name="returnValueThreshold"></param>
+    /// <returns></returns>
+    private int CheckIsSetReturnValueThreshold(object returnValueThreshold)
+    {
+        return returnValueThreshold == null
+            ? Settings.ReturnValueThreshold
+            : Convert.ToInt32(returnValueThreshold);
     }
 }
