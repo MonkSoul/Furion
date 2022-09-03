@@ -30,6 +30,7 @@ using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using System.Diagnostics;
 
 namespace Microsoft.AspNetCore.Mvc.Filters;
@@ -149,12 +150,19 @@ public sealed class FriendlyExceptionFilter : IAsyncExceptionFilter
             }
         }
 
-        // 创建日志记录器
-        var logger = context.HttpContext.RequestServices.GetRequiredService<ILoggerFactory>()
-        .CreateLogger(LOG_CATEGORY_NAME);
+        // 读取异常配置
+        var friendlyExceptionSettings = context.HttpContext.RequestServices.GetRequiredService<IOptions<FriendlyExceptionSettingsOptions>>();
 
-        // 记录拦截日常
-        logger.LogError(context.Exception, context.Exception.Message);
+        // 判断是否启用异常日志输出
+        if (friendlyExceptionSettings.Value.LogError == true)
+        {
+            // 创建日志记录器
+            var logger = context.HttpContext.RequestServices.GetRequiredService<ILoggerFactory>()
+            .CreateLogger(LOG_CATEGORY_NAME);
+
+            // 记录拦截日常
+            logger.LogError(context.Exception, context.Exception.Message);
+        }
 
         // 打印错误消息
         PrintToMiniProfiler(context.Exception);

@@ -2173,6 +2173,11 @@
           "type": "boolean",
           "description": "标记 Oops.Oh 为业务异常，也就是不会进入异常处理",
           "default": false
+        },
+        "LogError": {
+          "type": "boolean",
+          "description": "是否输出异常日志，默认 true",
+          "default": true
         }
       }
     },
