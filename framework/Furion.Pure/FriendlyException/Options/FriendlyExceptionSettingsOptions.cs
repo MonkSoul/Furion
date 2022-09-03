@@ -52,6 +52,11 @@ public sealed class FriendlyExceptionSettingsOptions : IConfigurableOptions<Frie
     public bool? ThrowBah { get; set; }
 
     /// <summary>
+    /// 是否输出异常日志
+    /// </summary>
+    public bool? LogError { get; set; }
+
+    /// <summary>
     /// 选项后期配置
     /// </summary>
     /// <param name="options"></param>
@@ -62,5 +67,6 @@ public sealed class FriendlyExceptionSettingsOptions : IConfigurableOptions<Frie
         options.DefaultErrorCode ??= string.Empty;
         options.DefaultErrorMessage ??= "Internal Server Error";
         options.ThrowBah ??= false;
+        options.LogError ??= true;
     }
 }
