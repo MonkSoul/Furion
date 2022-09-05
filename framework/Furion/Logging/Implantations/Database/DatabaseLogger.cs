@@ -123,7 +123,7 @@ public sealed class DatabaseLogger : ILogger
         var message = formatter(state, exception);
         var logMsg = new LogMessage(_logName, logLevel, eventId, message, exception, Context);
 
-        // 是否自定义了日志筛选器，如果是则检查是否条件
+        // 判断是否自定义了日志筛选器，如果是则检查是否符合条件
         if (_databaseLoggerProvider.LoggerOptions.WriteFilter?.Invoke(logMsg) == false) return;
 
         // 写入日志队列
