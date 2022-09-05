@@ -89,9 +89,9 @@ public sealed partial class HttpRequestPart
     public Encoding ContentEncoding { get; private set; } = Encoding.UTF8;
 
     /// <summary>
-    /// 设置 Body Bytes 类型
+    /// 上传文件
     /// </summary>
-    public List<(string Name, byte[] Bytes, string FileName)> BodyBytes { get; private set; } = new List<(string Name, byte[] Bytes, string FileName)>();
+    public List<HttpFile> Files { get; private set; } = new();
 
     /// <summary>
     /// 超时时间（秒），默认 100 秒

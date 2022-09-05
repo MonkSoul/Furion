@@ -636,18 +636,18 @@ public sealed partial class HttpRequestPart
                 var multipartFormDataContent = new MultipartFormDataContent(boundary);
 
                 // 添加 Bytes 类型
-                foreach (var (Name, Bytes, FileName) in BodyBytes)
+                foreach (var httpFile in Files)
                 {
                     // 获取文件 Content-Type 类型
-                    FS.TryGetContentType(FileName, out var contentType);
+                    FS.TryGetContentType(httpFile.FileName, out var contentType);
 
-                    var byteArrayContent = new ByteArrayContent(Bytes);
+                    var byteArrayContent = new ByteArrayContent(httpFile.Bytes);
                     byteArrayContent.Headers.TryAddWithoutValidation("Content-Type", contentType ?? "application/octet-stream");
 
-                    if (string.IsNullOrWhiteSpace(FileName))
-                        multipartFormDataContent.Add(byteArrayContent, $"\"{Name}\"");
+                    if (string.IsNullOrWhiteSpace(httpFile.FileName))
+                        multipartFormDataContent.Add(byteArrayContent, $"\"{httpFile.Name}\"");
                     else
-                        multipartFormDataContent.Add(byteArrayContent, $"\"{Name}\"", $"\"{FileName}\"");
+                        multipartFormDataContent.Add(byteArrayContent, $"\"{httpFile.Name}\"", $"\"{httpFile.FileName}\"");
                 }
 
                 // 处理其他类型
@@ -669,9 +669,9 @@ public sealed partial class HttpRequestPart
                 break;
 
             case "application/octet-stream":
-                if (BodyBytes.Count > 0 && BodyBytes[0].Bytes.Length > 0)
+                if (Files.Count > 0 && Files[0].Bytes.Length > 0)
                 {
-                    httpContent = new ByteArrayContent(BodyBytes[0].Bytes);
+                    httpContent = new ByteArrayContent(Files[0].Bytes);
 
                     // 设置内容类型
                     httpContent.Headers.ContentType = new MediaTypeHeaderValue(ContentType);

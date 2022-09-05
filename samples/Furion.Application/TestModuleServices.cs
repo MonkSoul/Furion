@@ -1,4 +1,5 @@
 ﻿using Furion.Application.Persons;
+using Furion.RemoteRequest;
 using Furion.RemoteRequest.Extensions;
 using Furion.UnifyResult;
 
@@ -32,7 +33,7 @@ public class TestModuleServices : IDynamicApiController
     public async Task<string> TestSingleFileProxy()
     {
         var bytes = File.ReadAllBytes("image.png");
-        var result = await _http.TestSingleFileProxyAsync(bytes);
+        var result = await _http.TestSingleFileProxyAsync(HttpFile.Create("file", bytes, "image.png"));
         var fileName = await result.Content.ReadAsStringAsync();
 
         return fileName;
@@ -45,7 +46,7 @@ public class TestModuleServices : IDynamicApiController
     public async Task<string> TestMultiFileProxy()
     {
         var bytes = File.ReadAllBytes("image.png");
-        var result = await _http.TestMultiFileProxyAsync(bytes, bytes);
+        var result = await _http.TestMultiFileProxyAsync(HttpFile.CreateMultiple("files", (bytes, "image1.png"), (bytes, "image2.png")));
         var fileName = await result.Content.ReadAsStringAsync();
 
         return fileName;
@@ -60,7 +61,7 @@ public class TestModuleServices : IDynamicApiController
         var bytes = File.ReadAllBytes("image.png");
 
         var result = await "https://localhost:44316/api/test-module/upload-file".SetContentType("multipart/form-data")
-                            .SetBodyBytes(("file", bytes, "image.png")).PostAsync();
+                            .SetFiles(HttpFile.Create("file", bytes, "image.png")).PostAsync();
 
         var fileName = await result.Content.ReadAsStringAsync();
 
@@ -75,7 +76,7 @@ public class TestModuleServices : IDynamicApiController
     {
         var bytes = File.ReadAllBytes("image.png");
         var result = await "https://localhost:44316/api/test-module/upload-muliti-file".SetContentType("multipart/form-data")
-                            .SetBodyBytes(("files", bytes, "image.png"), ("files", bytes, "image2.png")).PostAsync();
+                            .SetFiles(HttpFile.CreateMultiple("files", (bytes, "image1.png"), (bytes, "image2.png"))).PostAsync();
         var fileName = await result.Content.ReadAsStringAsync();
 
         return fileName;
