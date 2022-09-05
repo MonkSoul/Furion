@@ -29,6 +29,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Primitives;
 using Microsoft.IdentityModel.JsonWebTokens;
 using Microsoft.IdentityModel.Tokens;
+using System.Diagnostics;
 using System.IdentityModel.Tokens.Jwt;
 using System.Reflection;
 using System.Runtime.Loader;
@@ -84,11 +85,16 @@ public class JWTEncryption
     /// <returns></returns>
     public static string Encrypt(string issuerSigningKey, string payload, string algorithm = SecurityAlgorithms.HmacSha256)
     {
-        var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(issuerSigningKey));
-        var credentials = new SigningCredentials(securityKey, algorithm);
+        SigningCredentials credentials = null;
+
+        if (!string.IsNullOrWhiteSpace(issuerSigningKey))
+        {
+            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(issuerSigningKey));
+            credentials = new SigningCredentials(securityKey, algorithm);
+        }
 
         var tokenHandler = new JsonWebTokenHandler();
-        return tokenHandler.CreateToken(payload, credentials);
+        return credentials == null ? tokenHandler.CreateToken(payload) : tokenHandler.CreateToken(payload, credentials);
     }
 
     /// <summary>
@@ -352,6 +358,15 @@ public class JWTEncryption
     /// <returns></returns>
     public static JWTSettingsOptions GetJWTSettings()
     {
+        if (FrameworkApp == null)
+        {
+            Debug.WriteLine("No register the code `services.AddJwt()` on Startup.cs.");
+
+            var jwtSettings = new JWTSettingsOptions();
+            SetDefaultJwtSettings(jwtSettings);
+            return jwtSettings;
+        }
+
         return FrameworkApp.GetMethod("GetOptions").MakeGenericMethod(typeof(JWTSettingsOptions)).Invoke(null, new object[] { null }) as JWTSettingsOptions ?? SetDefaultJwtSettings(new JWTSettingsOptions());
     }
 
