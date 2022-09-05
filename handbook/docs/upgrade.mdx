@@ -29,13 +29,42 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 - **突破性变化**
 
+  - [调整] 远程请求 `.SetBodyBytes` 为 `.SetFiles` [#I5PMS5](https://gitee.com/dotnetchina/Furion/issues/I5PMS5) [#I5PIYI](https://gitee.com/dotnetchina/Furion/issues/I5PIYI)
+  - [移除] 远程请求 `[BodyBytes]` 设计，采用 `HttpFile` 方式 [#I5PMS5](https://gitee.com/dotnetchina/Furion/issues/I5PMS5) [#I5PIYI](https://gitee.com/dotnetchina/Furion/issues/I5PIYI)
+
+```cs showLineNumbers {3-4,7-8,11-12}
+public interface IHttp : IHttpDispatchProxy
+{
+    [Post("https://www.furion.icu/upload", ContentType = "multipart/form-data")]
+    Task<HttpResponseMessage> PostXXXAsync(HttpFile file);
+
+    // 支持多个文件
+    [Post("https://www.furion.icu/upload", ContentType = "multipart/form-data")]
+    Task<HttpResponseMessage> PostXXXAsync(HttpFile[] files);
+
+    // 支持多个文件
+    [Post("https://www.furion.icu/upload", ContentType = "multipart/form-data")]
+    Task<HttpResponseMessage> PostXXXAsync(IList<HttpFile> files);
+}
+```
+
+```cs showLineNumbers {3,7}
+// bytes 可以通过 File.ReadAllBytes(文件路径) 获取
+var res = await "https://www.furion.icu/upload".SetContentType("multipart/form-data")
+                                               .SetFiles(HttpFile.Create("file", bytes, "image.png")).PostAsync();
+
+// 支持多个文件
+var res = await "https://www.furion.icu/upload".SetContentType("multipart/form-data")
+                                               .SetFiles(HttpFile.CreateMultiple("files", (bytes, "image1.png"), (bytes, "image2.png"))).PostAsync();
+```
+
 - **问题修复**
 
 - **其他更改**
 
 - **文档**
 
-  - [更新] 友好异常文档
+  - [更新] 友好异常文档、远程请求文档
 
 ---
 

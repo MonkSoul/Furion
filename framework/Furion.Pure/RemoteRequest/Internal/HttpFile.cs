@@ -23,38 +23,59 @@
 namespace Furion.RemoteRequest;
 
 /// <summary>
-/// 配置 Body Bytes 参数
+/// 远程请求文件类
 /// </summary>
-[SuppressSniffer, AttributeUsage(AttributeTargets.Parameter)]
-public class BodyBytesAttribute : ParameterBaseAttribute
+[SuppressSniffer]
+public sealed class HttpFile
 {
     /// <summary>
-    /// 构造函数
+    /// 创建 HttpFile 类
     /// </summary>
-    /// <param name="alias"></param>
-    public BodyBytesAttribute(string alias)
-    {
-        Alias = alias;
-    }
-
-    /// <summary>
-    /// 构造函数
-    /// </summary>
-    /// <param name="alias"></param>
+    /// <param name="name"></param>
+    /// <param name="bytes"></param>
     /// <param name="fileName"></param>
-    public BodyBytesAttribute(string alias, string fileName)
+    /// <returns></returns>
+    public static HttpFile Create(string name, byte[] bytes, string fileName = default)
     {
-        Alias = alias;
-        FileName = fileName;
+        return new HttpFile
+        {
+            Name = name,
+            Bytes = bytes,
+            FileName = fileName
+        };
     }
 
     /// <summary>
-    /// 参数别名
+    /// 添加多个文件
     /// </summary>
-    public string Alias { get; set; }
+    /// <param name="name"></param>
+    /// <param name="items"></param>
+    /// <returns></returns>
+    public static HttpFile[] CreateMultiple(string name, params (byte[] bytes, string fileName)[] items)
+    {
+        var files = new List<HttpFile>();
+        if (items == null || items.Length == 0) return files.ToArray();
+
+        foreach (var (bytes, fileName) in items)
+        {
+            files.Add(Create(name, bytes, fileName));
+        }
+
+        return files.ToArray();
+    }
+
+    /// <summary>
+    /// 表单名
+    /// </summary>
+    public string Name { get; set; }
 
     /// <summary>
     /// 文件名
     /// </summary>
     public string FileName { get; set; }
+
+    /// <summary>
+    /// 文件字节数组
+    /// </summary>
+    public byte[] Bytes { get; set; }
 }

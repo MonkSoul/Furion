@@ -251,7 +251,6 @@ await "get".SetClient("github");
 await "https://www.furion.icu".SetClient(() => new HttpClient());
 ```
 
-
 ### 19.4.8 设置 `Body` 参数
 
 ```cs showLineNumbers
@@ -409,9 +408,15 @@ var str = await "https://www.baidu.com".GetAsStringAsync();
 
 ### 19.4.19 设置 `Byte[]` 类型/上传文件
 
+:::warning `Furion 4.4.0` 以下版本
+
+在 `Furion 4.4.0+` 版本移除了 `.SetBodyBytes` 方式，原因是拓展性太差，**新版本请使用 `.SetFiles` 方式**。
+
+:::
+
 有时候我们需要上传文件，需要设置 `Content-Type` 为 `multipart/form-data` 类型，如：
 
-```cs showLineNumbers
+```cs showLineNumbers {3,7}
 // bytes 可以通过 File.ReadAllBytes(文件路径) 获取
 var res = await "https://www.furion.icu/upload".SetContentType("multipart/form-data")
                                                .SetBodyBytes(("键", bytes, "文件名")).PostAsync();
@@ -433,6 +438,22 @@ var result = await $"https://api.weixin.qq.com/wxa/img_sec_check?access_token={t
 ```
 
 :::
+
+:::tip `Furion 4.4.0+` 版本
+
+如果使用 `Furion 4.4.0+` 版本，请使用以下的 `.SetFiles` 替代 `.SetBodyBytes` 操作。
+
+:::
+
+```cs showLineNumbers {3,7}
+// bytes 可以通过 File.ReadAllBytes(文件路径) 获取
+var res = await "https://www.furion.icu/upload".SetContentType("multipart/form-data")
+                                               .SetFiles(HttpFile.Create("file", bytes, "image.png")).PostAsync();
+
+// 支持多个文件
+var res = await "https://www.furion.icu/upload".SetContentType("multipart/form-data")
+                                               .SetFiles(HttpFile.CreateMultiple("files", (bytes, "image1.png"), (bytes, "image2.png"))).PostAsync();
+```
 
 ### 19.4.20 设置 `IServiceProvider`
 
@@ -628,7 +649,6 @@ public interface IHttp : IHttpDispatchProxy
     }
 }
 ```
-
 
 ### 19.5.6 设置 `Body` 参数
 
@@ -889,6 +909,12 @@ public interface IHttp : IHttpDispatchProxy
 
 ### 19.5.15 设置 `Byte[]` 类型/上传文件
 
+:::warning `Furion 4.4.0` 以下版本
+
+在 `Furion 4.4.0+` 版本移除了 `[BodyBytes]` 方式，原因是拓展性太差，**新版本请使用 `HttpFile` 方式**。
+
+:::
+
 有时候我们需要上传文件，需要设置 `Content-Type` 为 `multipart/form-data` 类型，如：
 
 ```cs showLineNumbers {3,4}
@@ -900,6 +926,28 @@ public interface IHttp : IHttpDispatchProxy
     // 支持多个文件
     [Post("https://www.furion.icu/upload", ContentType = "multipart/form-data")] // bytes 可以通过 File.ReadAllBytes(文件路径) 获取
     Task<HttpResponseMessage> PostXXXAsync([BodyBytes("键","文件名")]Byte[] bytes,[BodyBytes("键","文件名")]Byte[] bytes2);
+}
+```
+
+:::tip `Furion 4.4.0+` 版本
+
+如果使用 `Furion 4.4.0+` 版本，请使用以下的 `HttpFile` 替代 `[BodyBytes]` 操作。
+
+:::
+
+```cs showLineNumbers {3-4,7-8,11-12}
+public interface IHttp : IHttpDispatchProxy
+{
+    [Post("https://www.furion.icu/upload", ContentType = "multipart/form-data")] 
+    Task<HttpResponseMessage> PostXXXAsync(HttpFile file);
+
+    // 支持多个文件
+    [Post("https://www.furion.icu/upload", ContentType = "multipart/form-data")] 
+    Task<HttpResponseMessage> PostXXXAsync(HttpFile[] files);
+    
+    // 支持多个文件
+    [Post("https://www.furion.icu/upload", ContentType = "multipart/form-data")] 
+    Task<HttpResponseMessage> PostXXXAsync(IList<HttpFile> files);
 }
 ```
 

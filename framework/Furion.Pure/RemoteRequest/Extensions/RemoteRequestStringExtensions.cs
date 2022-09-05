@@ -166,14 +166,14 @@ public static class RemoteRequestStringExtensions
     }
 
     /// <summary>
-    /// 设置 Body  Bytes
+    /// 设置文件
     /// </summary>
     /// <param name="requestUrl"></param>
-    /// <param name="bytesData"></param>
+    /// <param name="files"></param>
     /// <returns></returns>
-    public static HttpRequestPart SetBodyBytes(this string requestUrl, params (string Name, byte[] Bytes, string FileName)[] bytesData)
+    public static HttpRequestPart SetFiles(this string requestUrl, params HttpFile[] files)
     {
-        return HttpRequestPart.Default().SetRequestUrl(requestUrl).SetBodyBytes(bytesData);
+        return HttpRequestPart.Default().SetRequestUrl(requestUrl).SetFiles(files);
     }
 
     /// <summary>

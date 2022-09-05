@@ -183,14 +183,13 @@ public sealed partial class HttpRequestPart
     }
 
     /// <summary>
-    /// 设置 Body  Bytes
+    /// 设置文件
     /// </summary>
-    /// <param name="bytesData"></param>
+    /// <param name="files"></param>
     /// <returns></returns>
-    public HttpRequestPart SetBodyBytes(params (string Name, byte[] Bytes, string FileName)[] bytesData)
+    public HttpRequestPart SetFiles(params HttpFile[] files)
     {
-        BodyBytes ??= new List<(string Name, byte[] Bytes, string FileName)>();
-        if (bytesData != null && bytesData.Length > 0) BodyBytes.AddRange(bytesData);
+        Files.AddRange(files);
 
         return this;
     }

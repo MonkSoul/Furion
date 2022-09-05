@@ -197,19 +197,38 @@ public class HttpDispatchProxy : AspectDispatchProxy, IDispatchProxy
             httpRequestPart.SetBody(bodyParameter.Value, bodyAttribute.ContentType, Encoding.GetEncoding(bodyAttribute.Encoding));
         }
 
-        // 查找所有贴了 [BodyBytes] 特性的参数
-        var bodyBytesParameters = parameters.Where(u => u.Parameter.IsDefined(typeof(BodyBytesAttribute), true));
-        if (bodyBytesParameters != null)
-        {
-            var bodyBytes = new List<(string Name, byte[] Bytes, string FileName)>();
+        // 查找所有 HttpFile 和 HttpFile 集合类型的参数
+        var filesParameters = parameters.Where(u => u.Parameter.ParameterType == typeof(HttpFile)
+            || u.Parameter.ParameterType == typeof(HttpFile[])
+            || (u.Parameter.ParameterType.HasImplementedRawGeneric(typeof(IEnumerable<>)) && u.Parameter.ParameterType.GenericTypeArguments[0] == typeof(HttpFile)));
 
-            foreach (var item in bodyBytesParameters)
+        if (filesParameters != null)
+        {
+            var files = new List<HttpFile>();
+
+            foreach (var item in filesParameters)
             {
-                var bodyBytesAttribute = item.Parameter.GetCustomAttribute<BodyBytesAttribute>();
-                if (item.Value != null && item.Value.GetType() == typeof(byte[])) bodyBytes.Add((bodyBytesAttribute.Alias ?? item.Name, (byte[])item.Value, bodyBytesAttribute.FileName));
+                if (item.Value != null)
+                {
+                    // 处理 HttpFile[] 类型
+                    if (item.Parameter.ParameterType.IsArray)
+                    {
+                        files.AddRange((HttpFile[])item.Value);
+                    }
+                    // 处理 IList<HttpFile> IEnumerable<HttpFile> 类型
+                    else if (typeof(IEnumerable).IsAssignableFrom(item.Parameter.ParameterType))
+                    {
+                        files.AddRange(((IEnumerable)item.Value).Cast<HttpFile>());
+                    }
+                    // 处理单个类型
+                    else
+                    {
+                        files.Add((HttpFile)item.Value);
+                    }
+                }
             }
 
-            httpRequestPart.SetBodyBytes(bodyBytes.ToArray());
+            httpRequestPart.SetFiles(files.ToArray());
         }
     }
 
