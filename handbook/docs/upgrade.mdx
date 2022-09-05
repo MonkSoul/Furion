@@ -21,7 +21,13 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 :::
 
-## v4.4.0（未发布）
+## v4.4.0（当前版本）
+
+:::important 版本细节
+
+- `v4.4.0` 版本细节：[https://gitee.com/dotnetchina/Furion/issues/I5PQHR](https://gitee.com/dotnetchina/Furion/issues/I5PQHR)
+
+:::
 
 - **新特性**
 
@@ -58,8 +64,6 @@ var res = await "https://www.furion.icu/upload".SetContentType("multipart/form-d
                                                .SetFiles(HttpFile.CreateMultiple("files", (bytes, "image1.png"), (bytes, "image2.png"))).PostAsync();
 ```
 
-- **问题修复**
-
 - **其他更改**
 
   - [调整] `JWTEncryption` 静态类，支持无需注册 `services.AddJwt()` 使用 [#I5PPKE](https://gitee.com/dotnetchina/Furion/issues/I5PPKE) [#I5POLZ](https://gitee.com/dotnetchina/Furion/issues/I5POLZ)
@@ -70,7 +74,7 @@ var res = await "https://www.furion.icu/upload".SetContentType("multipart/form-d
 
 ---
 
-## v4.3.9（当前版本）
+## v4.3.9（已发布）
 
 :::important 版本细节
 
