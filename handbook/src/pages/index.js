@@ -107,7 +107,7 @@ public class FurionAppService : IDynamicApiController
 {
     private readonly IRepository<User> _userRepository;
     // highlight-next-line
-    public AppService(IRepository<User> userRepository)
+    public FurionAppService(IRepository<User> userRepository)
     {
         _userRepository = userRepository;
     }
