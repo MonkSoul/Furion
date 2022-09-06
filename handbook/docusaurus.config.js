@@ -21,12 +21,12 @@ module.exports = {
       // theme: require("prism-react-renderer/themes/github"),
       // darkTheme: require("prism-react-renderer/themes/dracula"),
     },
-    algolia: {
-      appId: "XYY4NGVXSA",
-      apiKey: "957b35892d68e9ac86c35c96d89dcedf",
-      indexName: "furion",
-      contextualSearch: true,
-    },
+    // algolia: {
+    //   appId: "XYY4NGVXSA",
+    //   apiKey: "957b35892d68e9ac86c35c96d89dcedf",
+    //   indexName: "furion",
+    //   contextualSearch: true,
+    // },
     navbar: {
       title: "Furion",
       logo: {
@@ -190,6 +190,17 @@ module.exports = {
         theme: {
           customCss: require.resolve("./src/css/custom.css"),
         },
+      },
+    ],
+  ],
+  themes: [
+    [
+      "@easyops-cn/docusaurus-search-local",
+      {
+        hashed: true,
+        language: ["en", "zh"],
+        highlightSearchTermsOnTargetPage: true,
+        explicitSearchResultPath: true,
       },
     ],
   ],
