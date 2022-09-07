@@ -1,4 +1,4 @@
-[中](https://gitee.com/dotnetchina/Furion) | En
+[中](https://gitee.com/dotnetchina/Furion) | **En**
 
 # Furion
 
