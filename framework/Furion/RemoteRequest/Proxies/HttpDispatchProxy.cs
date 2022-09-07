@@ -200,7 +200,7 @@ public class HttpDispatchProxy : AspectDispatchProxy, IDispatchProxy
         // 查找所有 HttpFile 和 HttpFile 集合类型的参数
         var filesParameters = parameters.Where(u => u.Parameter.ParameterType == typeof(HttpFile)
             || u.Parameter.ParameterType == typeof(HttpFile[])
-            || (u.Parameter.ParameterType.HasImplementedRawGeneric(typeof(IEnumerable<>)) && u.Parameter.ParameterType.GenericTypeArguments[0] == typeof(HttpFile)));
+            || (u.Parameter.ParameterType.IsGenericType && typeof(IEnumerable).IsAssignableFrom(u.Parameter.ParameterType) && u.Parameter.ParameterType.GenericTypeArguments[0] == typeof(HttpFile)));
 
         if (filesParameters != null)
         {

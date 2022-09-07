@@ -64,6 +64,10 @@ var res = await "https://www.furion.icu/upload".SetContentType("multipart/form-d
                                                .SetFiles(HttpFile.CreateMultiple("files", (bytes, "image1.png"), (bytes, "image2.png"))).PostAsync();
 ```
 
+- **问题修复**
+
+  - [修复] 远程请求代理模式非泛型参数导致数组溢出问题 [#I5Q3SN](https://gitee.com/dotnetchina/Furion/issues/I5Q3SN)
+
 - **其他更改**
 
   - [调整] `JWTEncryption` 静态类，支持无需注册 `services.AddJwt()` 使用 [#I5PPKE](https://gitee.com/dotnetchina/Furion/issues/I5PPKE) [#I5POLZ](https://gitee.com/dotnetchina/Furion/issues/I5POLZ)
