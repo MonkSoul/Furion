@@ -259,7 +259,7 @@ Install-Package RabbitMQ.Client -Version 6.4.0
 
 **2. 创建 `RabbitMQEventSourceStorer` 自定义存储器**
 
-```cs showLineNumbers {13,41,60,66-78,99-103,116-117,125-126}
+```cs showLineNumbers {13,41,60,66-78,99-112,116-117,125-126}
 using Furion.EventBus;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
@@ -350,7 +350,7 @@ public sealed class RabbitMQEventSourceStorer : IEventSourceStorer, IDisposable
     /// <param name="eventSource">事件源对象</param>
     /// <param name="cancellationToken">取消任务 Token</param>
     /// <returns><see cref="ValueTask"/></returns>
-    public ValueTask WriteAsync(IEventSource eventSource, CancellationToken cancellationToken)
+    public async ValueTask WriteAsync(IEventSource eventSource, CancellationToken cancellationToken)
     {
         // 空检查
         if (eventSource == default)
@@ -358,13 +358,20 @@ public sealed class RabbitMQEventSourceStorer : IEventSourceStorer, IDisposable
             throw new ArgumentNullException(nameof(eventSource));
         }
 
-        // 序列化，这里可以选择自己喜欢的序列化工具
-        var data = Encoding.UTF8.GetBytes(JsonSerializer.Serialize(eventSource));
+        // 这里判断是否是 ChannelEventSource 或者 自定义的 EventSouce
+        if (eventSource is ChannelEventSource source)
+        {
+            // 序列化，这里可以选择自己喜欢的序列化工具
+            var data = Encoding.UTF8.GetBytes(JsonSerializer.Serialize(source));
 
-        // 发布
-        _model.BasicPublish("", _routeKey, null, data);
-
-        return ValueTask.CompletedTask;
+            // 发布
+            _model.BasicPublish("", _routeKey, null, data);
+        }
+        else
+        {
+            // 这里处理动态订阅问题
+            await _channel.Writer.WriteAsync(eventSource, cancellationToken);
+        }
     }
 
     /// <summary>
