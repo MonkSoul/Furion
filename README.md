@@ -8,14 +8,6 @@ An application framework that you can integrate into any .NET/C# application.
 
 ## Installation
 
-- [Package Manager](https://www.nuget.org/packages/Furion)
-
-```powershell
-Install-Package Furion
-```
-
-- [.NET CLI](https://www.nuget.org/packages/Furion)
-
 ```powershell
 dotnet add package Furion
 ```

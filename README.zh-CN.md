@@ -8,14 +8,6 @@
 
 ## 安装
 
-- [Package Manager](https://www.nuget.org/packages/Furion)
-
-```powershell
-Install-Package Furion
-```
-
-- [.NET CLI](https://www.nuget.org/packages/Furion)
-
 ```powershell
 dotnet add package Furion
 ```
