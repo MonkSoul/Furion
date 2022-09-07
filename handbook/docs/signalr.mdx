@@ -242,57 +242,145 @@ app.UseEndpoints(endpoints =>
 });
 ```
 
-## 24.7 服务端和客户端双工通信
+## 24.7 获取 `Hub` 实例方式
 
-### 24.7.1 触发所有客户端代码
+`SignalR` 提供了几种方式进行获取 `Hub` 实例。
+
+### 24.7.1 `IHubContext` 注入方式
+
+`IHubContext` 默认注册为单例模式，可在任何地方直接获取实例。
+
+```cs showLineNumbers {5,12}
+public class HomeController : Controller
+{
+    private readonly IHubContext<NotificationHub> _hubContext;
+
+    public HomeController(IHubContext<NotificationHub> hubContext)
+    {
+        _hubContext = hubContext;
+    }
+
+    public async Task<IActionResult> Index()
+    {
+        await _hubContext.Clients.All.SendAsync("Notify", $"Home page loaded at: {DateTime.Now}");
+        return View();
+    }
+}
+```
+
+### 24.7.2 `HttpContext` 解析方式
+
+```cs showLineNumbers {2}
+ var hubContext = context.RequestServices
+                         .GetRequiredService<IHubContext<ChatHub>>();
+```
+
+### 24.7.3 `IHost` 中解析方式
+
+```cs showLineNumbers {6}
+public class Program
+{
+    public static void Main(string[] args)
+    {
+        var host = CreateHostBuilder(args).Build();
+        var hubContext = host.Services.GetService(typeof(IHubContext<ChatHub>));
+        host.Run();
+    }
+
+    public static IHostBuilder CreateHostBuilder(string[] args) =>
+        Host.CreateDefaultBuilder(args)
+            .ConfigureWebHostDefaults(webBuilder => {
+                webBuilder.UseStartup<Startup>();
+            });
+}
+```
+
+### 24.7.4 强类型 `IHubContext` 注入方式
+
+默认情况下，`IHubContext` 非泛型实例返回的是 `dynamic` 动态类型对象，该类型对象无法获得编译期语法检查和 `IDE` 智能提示，所以我们可以传入一个和自定义 `Hub` 一样的方法签名接口，如：
+
+```cs showLineNumbers {5,12}
+public class ChatController : Controller
+{
+    public IHubContext<ChatHub, IChatClient> _strongChatHubContext { get; }
+
+    public ChatController(IHubContext<ChatHub, IChatClient> chatHubContext)
+    {
+        _strongChatHubContext = chatHubContext;
+    }
+
+    public async Task SendMessage(string user, string message)
+    {
+        await _strongChatHubContext.Clients.All.ReceiveMessage(user, message);
+    }
+}
+```
+
+### 24.7.5 `IHubContext` 泛型转换
+
+正常情况下，我们获取的是 `IHubContext<>` 的实例，但在一些反射场景下，可以将 `IHubContext<>` 强制转换成 `IHubContext` 从而更易于操作，如：
+
+```cs showLineNumbers {2,4,6-7}
+var myHubContext = context.RequestServices
+                          .GetRequiredService<IHubContext<MyHub>>();
+var myOtherHubContext = context.RequestServices
+                               .GetRequiredService<IHubContext<MyOtherHub>>();
+
+await CommonHubContextMethod((IHubContext)myHubContext);
+await CommonHubContextMethod((IHubContext)myOtherHubContext);
+````
+
+## 24.8 服务端和客户端双工通信
+
+### 24.8.1 触发所有客户端代码
 
 ```cs showLineNumbers
 Clients.All.客户端方法(参数);
 ```
 
-### 24.7.2 触发调用者客户端
+### 24.8.2 触发调用者客户端
 
 ```cs showLineNumbers
 Clients.Caller.客户端方法(参数);
 ```
 
-### 24.7.3 触发除了调用者以外的客户端
+### 24.8.3 触发除了调用者以外的客户端
 
 ```cs showLineNumbers
 Clients.Others.客户端方法(参数);
 ```
 
-### 24.7.4 触发特定用户客户端
+### 24.8.4 触发特定用户客户端
 
 ```cs showLineNumbers
 Clients.User("用户").客户端方法(参数);
 ```
 
-### 24.7.5 触发多个用户客户端
+### 24.8.5 触发多个用户客户端
 
 ```cs showLineNumbers
 Clients.Users("用户","用户2",...).客户端方法(参数);
 ```
 
-### 24.7.6 触发分组内客户端
+### 24.8.6 触发分组内客户端
 
 ```cs showLineNumbers
 Clients.Group("分组").客户端方法(参数);
 ```
 
-### 24.7.7 触发多个分组客户端
+### 24.8.7 触发多个分组客户端
 
 ```cs showLineNumbers
 Clients.Groups("分组","分组2",...).客户端方法(参数);
 ```
 
-### 24.7.8 触发分组外的客户端
+### 24.8.8 触发分组外的客户端
 
 ```cs showLineNumbers
 Clients.GroupExcept("分组").客户端方法(参数);
 ```
 
-## 24.8 自定义用户唯一标识
+## 24.9 自定义用户唯一标识
 
 默认情况下 `SignalR` 会为每一个链接创建 `ConnectionId`，但是这个 `ConnectionId` 并没有和我们系统的用户绑关联起来，所以需要采用自定义 `ConnectionId`，如：
 
@@ -320,13 +408,13 @@ Clients.User(userId).客户端方法(参数);
 
 查看更多文档 [https://docs.microsoft.com/zh-cn/aspnet/core/signalr/authn-and-authz?view=aspnetcore-6.0#use-claims-to-customize-identity-handling](https://docs.microsoft.com/zh-cn/aspnet/core/signalr/authn-and-authz?view=aspnetcore-6.0#use-claims-to-customize-identity-handling)
 
-## 24.9 分组管理
+## 24.10 分组管理
 
-## 24.10 各个客户端连接 API
+## 24.11 各个客户端连接 API
 
-### 24.10.1 `Javascript` 客户端
+### 24.11.1 `Javascript` 客户端
 
-### 24.10.2 `Typescript` 客户端
+### 24.11.2 `Typescript` 客户端
 
 #### 在 `vue3.2+` 中使用
 
@@ -373,25 +461,25 @@ import { HubConnectionBuilder } from "@microsoft/signalr";
 
 [参考文档](https://docs.microsoft.com/zh-cn/aspnet/core/tutorials/signalr-typescript-webpack?view=aspnetcore-6.0&tabs=visual-studio)
 
-### 24.10.3 `.NET` 客户端
+### 24.11.3 `.NET` 客户端
 
-### 24.10.4 `Java` 客户端
+### 24.11.4 `Java` 客户端
 
-## 24.11 常见例子
+## 24.12 常见例子
 
-### 24.11.1 实现消息广播、推送
-
-整理中...
-
-### 24.11.2 实现聊天功能
+### 24.12.1 实现消息广播、推送
 
 整理中...
 
-### 24.11.3 实现 `你画我来猜`
+### 24.12.2 实现聊天功能
 
 整理中...
 
-## 24.12 反馈与建议
+### 24.12.3 实现 `你画我来猜`
+
+整理中...
+
+## 24.13 反馈与建议
 
 :::note 与我们交流
 
