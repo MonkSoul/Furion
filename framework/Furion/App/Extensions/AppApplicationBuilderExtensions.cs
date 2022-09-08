@@ -43,7 +43,7 @@ public static class AppApplicationBuilderExtensions
         var configureOptions = new UseInjectOptions();
         configure?.Invoke(configureOptions);
 
-        app.UseSpecificationDocuments(routePrefix, configureOptions?.SpecificationDocument);
+        app.UseSpecificationDocuments(routePrefix, UseInjectOptions.SwaggerConfigure, UseInjectOptions.SwaggerUIConfigure);
 
         return app;
     }

@@ -38,7 +38,7 @@ public static class DataValidationServiceCollectionExtensions
     /// <param name="mvcBuilder"></param>
     /// <param name="configure"></param>
     /// <returns></returns>
-    public static IMvcBuilder AddDataValidation<TValidationMessageTypeProvider>(this IMvcBuilder mvcBuilder, Action<AddInjectDataValidationOptions> configure = null)
+    public static IMvcBuilder AddDataValidation<TValidationMessageTypeProvider>(this IMvcBuilder mvcBuilder, Action<DataValidationOptions> configure = null)
         where TValidationMessageTypeProvider : class, IValidationMessageTypeProvider
     {
         // 添加全局数据验证
@@ -54,7 +54,7 @@ public static class DataValidationServiceCollectionExtensions
     /// <param name="services"></param>
     /// <param name="configure"></param>
     /// <returns></returns>
-    public static IServiceCollection AddDataValidation<TValidationMessageTypeProvider>(this IServiceCollection services, Action<AddInjectDataValidationOptions> configure = null)
+    public static IServiceCollection AddDataValidation<TValidationMessageTypeProvider>(this IServiceCollection services, Action<DataValidationOptions> configure = null)
         where TValidationMessageTypeProvider : class, IValidationMessageTypeProvider
     {
         // 添加全局数据验证
@@ -72,7 +72,7 @@ public static class DataValidationServiceCollectionExtensions
     /// <param name="mvcBuilder"></param>
     /// <param name="configure"></param>
     /// <returns></returns>
-    public static IMvcBuilder AddDataValidation(this IMvcBuilder mvcBuilder, Action<AddInjectDataValidationOptions> configure = null)
+    public static IMvcBuilder AddDataValidation(this IMvcBuilder mvcBuilder, Action<DataValidationOptions> configure = null)
     {
         mvcBuilder.Services.AddDataValidation(configure);
 
@@ -85,13 +85,13 @@ public static class DataValidationServiceCollectionExtensions
     /// <param name="services"></param>
     /// <param name="configure"></param>
     /// <returns></returns>
-    public static IServiceCollection AddDataValidation(this IServiceCollection services, Action<AddInjectDataValidationOptions> configure = null)
+    public static IServiceCollection AddDataValidation(this IServiceCollection services, Action<DataValidationOptions> configure = null)
     {
         // 添加验证配置文件支持
         services.AddConfigurableOptions<ValidationTypeMessageSettingsOptions>();
 
         // 载入服务配置选项
-        var configureOptions = new AddInjectDataValidationOptions();
+        var configureOptions = new DataValidationOptions();
         configure?.Invoke(configureOptions);
 
         // 判断是否启用全局

@@ -20,7 +20,8 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-using Furion.SpecificationDocument;
+using Swashbuckle.AspNetCore.Swagger;
+using Swashbuckle.AspNetCore.SwaggerUI;
 
 namespace Furion;
 
@@ -30,7 +31,30 @@ namespace Furion;
 public sealed class UseInjectOptions
 {
     /// <summary>
-    /// 规范化结果中间件配置
+    /// 配置 Swagger
     /// </summary>
-    public Action<UseInjectSpecificationDocumentOptions> SpecificationDocument { get; set; }
+    /// <param name="configure"></param>
+    public void ConfigureSwagger(Action<SwaggerOptions> configure)
+    {
+        SwaggerConfigure = configure;
+    }
+
+    /// <summary>
+    /// 配置 Swagger UI
+    /// </summary>
+    /// <param name="configure"></param>
+    public void ConfigureSwaggerUI(Action<SwaggerUIOptions> configure)
+    {
+        SwaggerUIConfigure = configure;
+    }
+
+    /// <summary>
+    /// Swagger 配置
+    /// </summary>
+    internal static Action<SwaggerOptions> SwaggerConfigure { get; private set; }
+
+    /// <summary>
+    /// Swagger UI 配置
+    /// </summary>
+    internal static Action<SwaggerUIOptions> SwaggerUIConfigure { get; private set; }
 }
