@@ -26,7 +26,7 @@ using System.Text.Json.Serialization;
 namespace Furion.JsonSerialization;
 
 /// <summary>
-/// DateTime 类型序列化
+/// DateTime 类型序列化（仅包含日志不含时间部分）
 /// </summary>
 [SuppressSniffer]
 public class DateOnlyJsonConverter : JsonConverter<DateTime>
