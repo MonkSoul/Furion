@@ -195,7 +195,7 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter, IOr
 
         // 获取客户端 IPv4 地址
         var remoteIPv4 = httpContext.GetRemoteIpAddressToIPv4();
-        logContext.Set($"{LOG_CONTEXT_NAME}.RemoteIPv4", localIPv4);
+        logContext.Set($"{LOG_CONTEXT_NAME}.RemoteIPv4", remoteIPv4);
 
         // 获取请求方式
         var httpMethod = httpContext.Request.Method;
