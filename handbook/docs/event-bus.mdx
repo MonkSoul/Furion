@@ -358,7 +358,7 @@ public sealed class RabbitMQEventSourceStorer : IEventSourceStorer, IDisposable
             throw new ArgumentNullException(nameof(eventSource));
         }
 
-        // 这里判断是否是 ChannelEventSource 或者 自定义的 EventSouce
+        // 这里判断是否是 ChannelEventSource 或者 自定义的 EventSource
         if (eventSource is ChannelEventSource source)
         {
             // 序列化，这里可以选择自己喜欢的序列化工具
