@@ -59,10 +59,10 @@ public static class AppServiceCollectionExtensions
         var configureOptions = new AddInjectOptions();
         configure?.Invoke(configureOptions);
 
-        services.AddSpecificationDocuments(configureOptions?.SpecificationDocument)
+        services.AddSpecificationDocuments(AddInjectOptions.SwaggerGenConfigure)
                 .AddDynamicApiControllers()
-                .AddDataValidation(configureOptions?.DataValidation)
-                .AddFriendlyException(configureOptions?.FriendlyException);
+                .AddDataValidation(AddInjectOptions.DataValidationConfigure)
+                .AddFriendlyException(AddInjectOptions.FriendlyExceptionConfigure);
 
         return services;
     }
@@ -83,9 +83,9 @@ public static class AppServiceCollectionExtensions
 #if !NET5_0
         services.AddEndpointsApiExplorer();
 #endif
-        services.AddSpecificationDocuments(configureOptions?.SpecificationDocument)
-                .AddDataValidation(configureOptions?.DataValidation)
-                .AddFriendlyException(configureOptions?.FriendlyException);
+        services.AddSpecificationDocuments(AddInjectOptions.SwaggerGenConfigure)
+                .AddDataValidation(AddInjectOptions.DataValidationConfigure)
+                .AddFriendlyException(AddInjectOptions.FriendlyExceptionConfigure);
 
         return services;
     }
@@ -115,8 +115,8 @@ public static class AppServiceCollectionExtensions
         var configureOptions = new AddInjectOptions();
         configure?.Invoke(configureOptions);
 
-        services.AddDataValidation(configureOptions?.DataValidation)
-                .AddFriendlyException(configureOptions?.FriendlyException);
+        services.AddDataValidation(AddInjectOptions.DataValidationConfigure)
+                .AddFriendlyException(AddInjectOptions.FriendlyExceptionConfigure);
 
         return services;
     }

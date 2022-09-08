@@ -22,6 +22,8 @@
 
 using Furion;
 using Furion.SpecificationDocument;
+using Swashbuckle.AspNetCore.Swagger;
+using Swashbuckle.AspNetCore.SwaggerUI;
 
 namespace Microsoft.AspNetCore.Builder;
 
@@ -36,22 +38,19 @@ public static class SpecificationDocumentApplicationBuilderExtensions
     /// </summary>
     /// <param name="app"></param>
     /// <param name="routePrefix"></param>
-    /// <param name="configure"></param>
+    /// <param name="configureSwagger"></param>
+    /// <param name="configureSwaggerUI"></param>
     /// <returns></returns>
-    public static IApplicationBuilder UseSpecificationDocuments(this IApplicationBuilder app, string routePrefix = default, Action<UseInjectSpecificationDocumentOptions> configure = default)
+    public static IApplicationBuilder UseSpecificationDocuments(this IApplicationBuilder app, string routePrefix = default, Action<SwaggerOptions> configureSwagger = default, Action<SwaggerUIOptions> configureSwaggerUI = default)
     {
         // 判断是否启用规范化文档
         if (App.Settings.InjectSpecificationDocument != true) return app;
 
-        // 载入服务配置选项
-        var configureOptions = new UseInjectSpecificationDocumentOptions();
-        configure?.Invoke(configureOptions);
-
         // 配置 Swagger 全局参数
-        app.UseSwagger(options => SpecificationDocumentBuilder.Build(options, configureOptions?.Swagger));
+        app.UseSwagger(options => SpecificationDocumentBuilder.Build(options, configureSwagger));
 
         // 配置 Swagger UI 参数
-        app.UseSwaggerUI(options => SpecificationDocumentBuilder.BuildUI(options, routePrefix, configureOptions?.SwaggerUI));
+        app.UseSwaggerUI(options => SpecificationDocumentBuilder.BuildUI(options, routePrefix, configureSwaggerUI));
 
         // 启用 MiniProfiler组件
         if (App.Settings.InjectMiniProfiler == true) app.UseMiniProfiler();

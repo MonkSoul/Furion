@@ -709,38 +709,33 @@ public int Age { get; set; }
 
 `Furion` 框架除了内置了不少配置以外，还提供了直接配置 `Swagger` Api 的参数，如：
 
-```cs showLineNumbers
+```cs showLineNumbers {5}
 public void ConfigureServices(IServiceCollection services)
 {
     services.AddInject(options =>
     {
-        options.SpecificationDocument = spt =>
+        options.ConfigureSwaggerGen(gen =>
         {
-            spt.SwaggerGen = gen =>
-            {
-                // 配置 Swagger Gen
-            };
-        };
+           // ....
+        });
     });
 }
 ```
 
-```cs showLineNumbers
+```cs showLineNumbers {5,10}
  public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
  {
       app.UseInject(configure: options =>
       {
-          options.SpecificationDocument = spt =>
+          options.ConfigureSwagger(swg =>
           {
-              spt.Swagger = swg =>
-              {
-                  // 配置 Swagger Options
-              };
-              spt.SwaggerUI = ui =>
-              {
-                  // 配置 Swagger UI
-              };
-          };
+              // ....
+          });
+
+          options.ConfigureSwaggerUI(ui =>
+          {
+              // ....
+          });
       });
 }
 
@@ -750,17 +745,14 @@ public void ConfigureServices(IServiceCollection services)
 
 `Furion` 框架默认只显示名称，如果需要自定义显示规则，只需要添加配置即可。
 
-```cs showLineNumbers
+```cs showLineNumbers {4,6}
 services.AddControllersWithViews()
         .AddInject(options =>
         {
-            options.SpecificationDocument = spt =>
+            options.ConfigureSwaggerGen(gen =>
             {
-                spt.SwaggerGen = gen =>
-                {
-                    gen.CustomSchemaIds(x => x.FullName);
-                };
-            };
+                gen.CustomSchemaIds(x => x.FullName);
+            });
         });
 ```
 
@@ -838,28 +830,25 @@ services.AddControllers()
 
 有时候我们需要自定义 `Swagger` 接口可见性，比如根据权限，不同用户类型，各种逻辑控制，如：
 
-```cs showLineNumbers
+```cs showLineNumbers {4,6}
 // 也可以用 .AddInjectWithUnifyResult
 services.AddInject(options =>
 {
-    options.SpecificationDocument = spt =>
+    options.ConfigureSwaggerGen(gen =>
     {
-        spt.SwaggerGen = gen =>
+        gen.DocInclusionPredicate((currentGroup, apiDescription) =>
         {
-            gen.DocInclusionPredicate((currentGroup, apiDescription) =>
-            {
-                // Furion 内部检查，必须放第一行
-                var isShow = SpecificationDocumentBuilder.CheckApiDescriptionInCurrentGroup(currentGroup, apiDescription);
+            // Furion 内部检查，必须放第一行
+            var isShow = SpecificationDocumentBuilder.CheckApiDescriptionInCurrentGroup(currentGroup, apiDescription);
 
-                // 获取当前方法
-                _ = apiDescription.TryGetMethodInfo(out var method);
+            // 获取当前方法
+            _ = apiDescription.TryGetMethodInfo(out var method);
 
-                // 有了方法，这里做你想做的事情，isShow 设置 true 可见，设置 false 不可见
+            // 有了方法，这里做你想做的事情，isShow 设置 true 可见，设置 false 不可见
 
-                return isShow;
-            });
-        };
-    };
+            return isShow;
+        });
+    });
 });
 ```
 

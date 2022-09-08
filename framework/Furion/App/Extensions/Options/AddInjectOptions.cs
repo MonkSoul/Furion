@@ -22,7 +22,7 @@
 
 using Furion.DataValidation;
 using Furion.FriendlyException;
-using Furion.SpecificationDocument;
+using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace Furion;
 
@@ -32,17 +32,44 @@ namespace Furion;
 public sealed class AddInjectOptions
 {
     /// <summary>
-    /// 规范化结果配置
+    /// 配置 Swagger Gen
     /// </summary>
-    public Action<AddInjectSpecificationDocumentOptions> SpecificationDocument { get; set; }
+    /// <param name="configure"></param>
+    public void ConfigureSwaggerGen(Action<SwaggerGenOptions> configure)
+    {
+        SwaggerGenConfigure = configure;
+    }
 
     /// <summary>
-    /// 数据校验配置
+    /// 配置 DataValidation
     /// </summary>
-    public Action<AddInjectDataValidationOptions> DataValidation { get; set; }
+    /// <param name="configure"></param>
+    public void ConfigureDataValidation(Action<DataValidationOptions> configure)
+    {
+        DataValidationConfigure = configure;
+    }
 
     /// <summary>
-    /// 友好异常配置
+    /// 配置 FriendlyException
     /// </summary>
-    public Action<AddInjectFriendlyExceptionOptions> FriendlyException { get; set; }
+    /// <param name="configure"></param>
+    public void ConfigureFriendlyException(Action<FriendlyExceptionOptions> configure)
+    {
+        FriendlyExceptionConfigure = configure;
+    }
+
+    /// <summary>
+    /// Swagger Gen 配置
+    /// </summary>
+    internal static Action<SwaggerGenOptions> SwaggerGenConfigure { get; private set; }
+
+    /// <summary>
+    /// DataValidation 配置
+    /// </summary>
+    internal static Action<DataValidationOptions> DataValidationConfigure { get; private set; }
+
+    /// <summary>
+    /// FriendlyException 配置
+    /// </summary>
+    internal static Action<FriendlyExceptionOptions> FriendlyExceptionConfigure { get; private set; }
 }

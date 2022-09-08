@@ -183,10 +183,10 @@ namespace Furion.Web.Entry
 ```cs showLineNumbers {1}
 .AddInject(options =>
 {
-    options.DataValidation = (d) =>
+    options.ConfigureDataValidation(vail =>
     {
-        d.GlobalEnabled = false;
-    };
+        vail.GlobalEnabled = false;
+    });
 
     // ....
 });
