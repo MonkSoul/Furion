@@ -11,6 +11,7 @@ module.exports = {
         "donate",
         "upgrade",
         "course",
+        "target",
         // "pillar-of-humiliation"
       ],
     },

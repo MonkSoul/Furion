@@ -59,10 +59,18 @@ module.exports = {
         },
         { to: "blog", label: "博客", position: "left" },
         {
-          to: "docs/upgrade",
-          activeBasePath: "docs/upgrade",
           label: "更新日志",
           position: "left",
+          items: [
+            {
+              label: "📝 查看日志",
+              href: "/docs/upgrade",
+            },
+            {
+              label: "🚀 路线图",
+              href: "/docs/target",
+            },
+          ],
         },
         // {
         //   label: "视频",

@@ -371,7 +371,7 @@ public class Worker : BackgroundService
 
 `Worker Service` 只为 `Worker` 提供了**单例作用域**的服务注入，如果需要注入瞬时或作用域对象，需手动创建作用域，如：
 
-```cs showLineNumbers  {7-8,19-31}
+```cs showLineNumbers  {7-8,19-29}
 public class Worker : BackgroundService
 {
     // 日志对象
@@ -390,19 +390,17 @@ public class Worker : BackgroundService
     {
         while (!stoppingToken.IsCancellationRequested)
         {
-            using (var scope = _scopeFactory.CreateScope())
-            {
-                var services = scope.ServiceProvider;
+            using var scope = _scopeFactory.CreateScope();
+            var services = scope.ServiceProvider;
 
-                // 获取数据库上下文
-                var dbContext = Db.GetDbContext(services);
+            // 获取数据库上下文
+            var dbContext = Db.GetDbContext(services);
 
-                // 获取仓储
-                var respository = Db.GetRepository<Person>(services);
+            // 获取仓储
+            var respository = Db.GetRepository<Person>(services);
 
-                // 解析其他服务
-                var otherService = services.GetService<XXX>();
-            }
+            // 解析其他服务
+            var otherService = services.GetService<XXX>();
         }
 
         return Task.CompletedTask;
