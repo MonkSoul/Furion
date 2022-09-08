@@ -49,7 +49,7 @@ public class DateOnlyJsonConverter : JsonConverter<DateTime>
     }
 
     /// <summary>
-    /// 时间格式化格式
+    /// 日期格式化格式
     /// </summary>
     public string Format { get; private set; }
 
