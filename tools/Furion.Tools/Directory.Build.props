@@ -5,6 +5,9 @@
 		<Product>Furion</Product>
 		<Copyright>© 2020-2022 百小僧, Baiqian Co.,Ltd.</Copyright>
 		<RepositoryUrl>https://gitee.com/dotnetchina/Furion</RepositoryUrl>
+		<PublishRepositoryUrl>true</PublishRepositoryUrl>
+		<EmbedUntrackedSource>true</EmbedUntrackedSource>
+		<EmbedAllSources>true</EmbedAllSources>
 		<RepositoryType>Gitee</RepositoryType>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
