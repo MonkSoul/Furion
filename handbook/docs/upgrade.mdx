@@ -103,10 +103,10 @@ public void ConfigureServices(IServiceCollection services)
               // ...
           });
 
-          options.ConfigureSwaggerUI = ui =>
+          options.ConfigureSwaggerUI(ui =>
           {
              // ...
-          };
+          });
       });
 }
 ```
