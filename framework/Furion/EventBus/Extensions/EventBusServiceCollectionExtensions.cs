@@ -63,7 +63,11 @@ public static class EventBusServiceCollectionExtensions
         services.AddHostedService(serviceProvider =>
         {
             // 创建事件总线后台服务对象
-            var eventBusHostedService = ActivatorUtilities.CreateInstance<EventBusHostedService>(serviceProvider, eventBusOptionsBuilder.UseUtcTimestamp, eventBusOptionsBuilder.FuzzyMatch);
+            var eventBusHostedService = ActivatorUtilities.CreateInstance<EventBusHostedService>(
+                serviceProvider
+                , eventBusOptionsBuilder.UseUtcTimestamp
+                , eventBusOptionsBuilder.FuzzyMatch
+                , eventBusOptionsBuilder.LogEnabled);
 
             // 订阅未察觉任务异常事件
             var unobservedTaskExceptionHandler = eventBusOptionsBuilder.UnobservedTaskExceptionHandler;

@@ -643,8 +643,9 @@ MessageCenter.Unsubscribe("messageId");
 - 属性
   - `ChannelCapacity`：默认内存通道容量
   - `UnobservedTaskExceptionHandler`：订阅执行任务未察觉异常
-  - `UseUtcTimestamp`：是否使用 `UTC` 事件，默认 `false`
-  - `FuzzyMatch`：是否开启全局模糊匹配（正则表达式）事件 `Id`，默认 `false`
+  - `UseUtcTimestamp`：是否使用 `UTC` 事件，`bool` 类型，默认 `false`
+  - `FuzzyMatch`：是否开启全局模糊匹配（正则表达式）事件 `Id`，`bool` 类型，默认 `false`
+  - `LogEnabled`：是否启用日志输出，`bool` 类型，默认 `true`
 - 方法
   - `AddSubscriber<TEventSubscriber>`：添加订阅者
   - `ReplacePublisher<TEventPublisher>`：替换发布者
