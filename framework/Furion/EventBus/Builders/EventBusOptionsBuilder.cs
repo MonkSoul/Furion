@@ -75,6 +75,11 @@ public sealed class EventBusOptionsBuilder
     public bool FuzzyMatch { get; set; } = false;
 
     /// <summary>
+    /// 是否启用日志记录
+    /// </summary>
+    public bool LogEnabled { get; set; } = true;
+
+    /// <summary>
     /// 未察觉任务异常事件处理程序
     /// </summary>
     public EventHandler<UnobservedTaskExceptionEventArgs> UnobservedTaskExceptionHandler { get; set; }

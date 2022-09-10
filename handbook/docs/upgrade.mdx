@@ -35,6 +35,7 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
   - [新增] 新增友好异常可控制是否输出错误日志配置 `LogError: true` [#I5PKJH](https://gitee.com/dotnetchina/Furion/issues/I5PKJH)
   - [新增] `DateOnlyJsonConvert` 和 `DateOnlyOffsetJsonConverter` 序列化转换器 [!565](https://gitee.com/dotnetchina/Furion/pulls/565)
+  - [新增] 事件总线 `LogEnabled` 配置，可控制是否输出服务日志 [#I5QLY5](https://gitee.com/dotnetchina/Furion/issues/I5QLY5)
 
 - **突破性变化**
 
@@ -122,6 +123,7 @@ public void ConfigureServices(IServiceCollection services)
 - **其他更改**
 
   - [调整] `JWTEncryption` 静态类，支持无需注册 `services.AddJwt()` 使用 [#I5PPKE](https://gitee.com/dotnetchina/Furion/issues/I5PPKE) [#I5POLZ](https://gitee.com/dotnetchina/Furion/issues/I5POLZ)
+  - [调整] 事件总线默认日志类名为 `System.Logging.EventBusService` [#I5QLY5](https://gitee.com/dotnetchina/Furion/issues/I5QLY5)
 
 - **文档**
 

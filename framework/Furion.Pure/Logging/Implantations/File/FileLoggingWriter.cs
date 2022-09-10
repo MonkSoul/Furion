@@ -210,7 +210,7 @@ internal class FileLoggingWriter
             fileInfo.Directory.Create();
 
             // 创建文件流，采用共享锁方式
-            _fileStream = new FileStream(_fileName, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.ReadWrite);
+            _fileStream = new FileStream(_fileName, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.Read, 4096, FileOptions.WriteThrough);
 
             // 判断是否追加还是覆盖
             if (append) _fileStream.Seek(0, SeekOrigin.End);
