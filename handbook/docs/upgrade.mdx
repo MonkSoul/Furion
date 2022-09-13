@@ -242,7 +242,7 @@ static void OnException(HttpClient client, HttpResponseMessage res, string error
 
 - **突破性变化**
 
-  - [调整] 异步创建作用域方法名称，避免一些情况下无法区分，**同步方法不变** [#I5N9XY](https://gitee.com/dotnetchina/Furion/issues/I5N9XY)
+  - [调整] `Scoped.Create(async (f,s) => {})` 异步创建作用域方法名称为 `CreateAsync`，避免一些情况下无法区分，**同步方法不变** [#I5N9XY](https://gitee.com/dotnetchina/Furion/issues/I5N9XY)
 
 <details>
   <summary>查看更改</summary>
