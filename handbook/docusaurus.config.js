@@ -186,14 +186,14 @@ module.exports = {
       {
         docs: {
           sidebarPath: require.resolve("./sidebars.js"),
-          editUrl: "https://gitee.com/dotnetchina/Furion/tree/net6/handbook/",
+          editUrl: "https://gitee.com/dotnetchina/Furion/tree/v4/handbook/",
           showLastUpdateTime: true,
           showLastUpdateAuthor: true,
           // sidebarCollapsible: true,
         },
         blog: {
           showReadingTime: true,
-          editUrl: "https://gitee.com/dotnetchina/Furion/tree/net6/handbook/",
+          editUrl: "https://gitee.com/dotnetchina/Furion/tree/v4/handbook/",
         },
         theme: {
           customCss: require.resolve("./src/css/custom.css"),

@@ -634,12 +634,12 @@ _logger.ScopeContext(new LogContext {
 
 - **新特性**
 
-  - [重构] 日志模块，内置写入控制台、文件、数据库功能，再也无需引入第三方日志了！[日志源码](https://gitee.com/dotnetchina/Furion/tree/net6/framework/Furion/Logging)
+  - [重构] 日志模块，内置写入控制台、文件、数据库功能，再也无需引入第三方日志了！[日志源码](https://gitee.com/dotnetchina/Furion/tree/v4/framework/Furion/Logging)
   - [新增] **强大的调试日志 `[LoggingMonitor]` [32dfc1](https://gitee.com/dotnetchina/Furion/commit/32dfc11fd6b47551a81c09e676eb7f5d018ef737)**
 
 - **突破性变化**
 
-  - [重构] **日志模块，内置写入控制台、文件、数据库功能，再也无需引入第三方日志了！[日志源码](https://gitee.com/dotnetchina/Furion/tree/net6/framework/Furion/Logging)**
+  - [重构] **日志模块，内置写入控制台、文件、数据库功能，再也无需引入第三方日志了！[日志源码](https://gitee.com/dotnetchina/Furion/tree/v4/framework/Furion/Logging)**
   - [调整] **`TP.Wrapper` 规范化日志模板算法，由过去的 `[属性]` 改为 `##属性##`，解决 `JSON` 内容冲突问题 [394ecec](https://gitee.com/dotnetchina/Furion/commit/394ecec28629aee9945480155d502418d0b7a8f8)**
   - [公告] **未来 `Furion.Extras.Logging.Serilog` 拓展将不再继续维护，因为 `Furion` 有强大的日志组件了！**
 
@@ -796,10 +796,10 @@ public class TestLoggerServices : IDynamicApiController
   - [新增] **`Minimal API` 应用支持：`.AddInjectMini()` [#I4KOQ5](https://gitee.com/dotnetchina/Furion/issues/I4KOQ5)**
   - [新增] 跨域 `WithExposedHeaders` 默认配置 `access-token` 和 `x-access-token` [42ebdfd](https://gitee.com/dotnetchina/Furion/commit/42ebdfd33a01353a0b3a801528de052990d2e4c9)
   - [新增] 脚手架默认启用 `app.UseHttpLogging()` `HTTP` 日志 [42ebdfd](https://gitee.com/dotnetchina/Furion/commit/42ebdfd33a01353a0b3a801528de052990d2e4c9)
-  - [新增] **`Furion` 和 `ASP.NET Core` 完整 `json` 配置的 `JSON Schema` 架构 [JSON Schema](https://gitee.com/dotnetchina/Furion/raw/net6/schemas/v3/furion-schema.json)**
+  - [新增] **`Furion` 和 `ASP.NET Core` 完整 `json` 配置的 `JSON Schema` 架构 [JSON Schema](https://gitee.com/dotnetchina/Furion/raw/v4/schemas/v4/furion-schema.json)**
   - [新增] `Sql` 代理支持返回单个类类型参数 [1d7fb5b](https://gitee.com/dotnetchina/Furion/commit/1d7fb5b5330c5a30098056818a93a0879034fecd)
   - [新增] `Sql` 代理支持返回 `ValueTuple` 单个类类型参数 [876a2f5](https://gitee.com/dotnetchina/Furion/commit/876a2f5f7e2d07fa3bbc3f5b99c0653893e0ada8)
-  - [新增] 组件化设计模块，支持比 `AppStartup` 更灵活便捷的设计 [#components](https://gitee.com/dotnetchina/Furion/tree/net6/framework/Furion/Components)
+  - [新增] 组件化设计模块，支持比 `AppStartup` 更灵活便捷的设计 [#components](https://gitee.com/dotnetchina/Furion/tree/v4/framework/Furion/Components)
   - [新增] 独立工作单元模块，支持任何第三方 `ORM` [a02413d](https://gitee.com/dotnetchina/Furion/commit/a02413d6887d258ad3a1ba972bb6a08d29291d0c)
   - [新增] 跨域 `FixedClientToken` 配置参数 [bd01638](https://gitee.com/dotnetchina/Furion/commit/bd016386681631a5539bcf215c068c2069bba15f)
   - [新增] `throw Oops.Bah` 可以手动触发规范化验证失败处理 [83f0036](https://gitee.com/dotnetchina/Furion/commit/83f0036a4ce10c6b1cfc4a258dc61e197af38879)
@@ -808,8 +808,8 @@ public class TestLoggerServices : IDynamicApiController
 - **突破性变化**
 
   - [新增] **`Minimal API` 应用支持：`.AddInjectMini()` [#I4KOQ5](https://gitee.com/dotnetchina/Furion/issues/I4KOQ5)**
-  - [新增] **`Furion` 和 `ASP.NET Core` 完整 `json` 配置的 `JSON Schema` 架构 [JSON Schema](https://gitee.com/dotnetchina/Furion/raw/net6/schemas/v3/furion-schema.json)**
-  - [新增] 组件化设计模块，支持比 `AppStartup` 更灵活便捷的设计 [#components](https://gitee.com/dotnetchina/Furion/tree/net6/framework/Furion/Components)
+  - [新增] **`Furion` 和 `ASP.NET Core` 完整 `json` 配置的 `JSON Schema` 架构 [JSON Schema](https://gitee.com/dotnetchina/Furion/raw/v4/schemas/v4/furion-schema.json)**
+  - [新增] 组件化设计模块，支持比 `AppStartup` 更灵活便捷的设计 [#components](https://gitee.com/dotnetchina/Furion/tree/v4/framework/Furion/Components)
   - [新增] 独立工作单元单元模块，支持任何第三方 `ORM` [a02413d](https://gitee.com/dotnetchina/Furion/commit/a02413d6887d258ad3a1ba972bb6a08d29291d0c)
   - [重构] `DataValidationFilter` 和 `FriendlyExceptionFilter`，解决不支持手动抛出业务异常问题 [83f0036](https://gitee.com/dotnetchina/Furion/commit/83f0036a4ce10c6b1cfc4a258dc61e197af38879)
   - [调整] **`.AddDb<>` 和 `.AddDbPool<>` 自定义委托参数签名，由 `Action<DbContextOptionsBuilder>` 改为：`Action<IServiceProvider, DbContextOptionsBuilder>`**
@@ -862,7 +862,7 @@ options.AddDbPool<TDbContext>(DbProvider.MySql, (services, opt)=> {
 
 ```json showLineNumbers {2}
 {
-  "$schema": "https://gitee.com/dotnetchina/Furion/raw/net6/schemas/v3/furion-schema.json",
+  "$schema": "https://gitee.com/dotnetchina/Furion/raw/v4/schemas/v4/furion-schema.json",
 
   "Logging": {
     "LogLevel": {
@@ -1400,7 +1400,7 @@ public string add()
   - [新增] 根据文件名获取 `Content-Type` 和 `Mime` 类型 [#8f78184](https://gitee.com/dotnetchina/Furion/commit/8f78184f8661830744592c054b65d503346c1b27)
   - [新增] 规范化文档支持授权访问 [#32aa3b6](https://gitee.com/dotnetchina/Furion/commit/32aa3b6328d23a5885033837883c7b546e898d43)
   - [新增] 代码注释，规范化文档注释 `inheritdoc` 语法支持 ❤️️️️ [#159A6W](https://gitee.com/dotnetchina/Furion/issues/I59A6W)
-  - [新增] 新增 `Vue2/3`，`React 16.8+`，`Angular 9+` 前端请求工具库，实现后端 API 代理 [axios-utils](https://gitee.com/dotnetchina/Furion/tree/net6/clients/axios)
+  - [新增] 新增 `Vue2/3`，`React 16.8+`，`Angular 9+` 前端请求工具库，实现后端 API 代理 [axios-utils](https://gitee.com/dotnetchina/Furion/tree/v4/clients/axios)
 
 - **突破性变化**
 
@@ -1732,7 +1732,7 @@ app.UseVirtualPath(app =>
 
 - **新特性**
 
-  - [新增] `Furion.Tools.CommandLine` 拓展库 [查看源码](https://gitee.com/dotnetchina/Furion/tree/net6/tools/Furion.Tools/Furion.Tools.CommandLine)
+  - [新增] `Furion.Tools.CommandLine` 拓展库 [查看源码](https://gitee.com/dotnetchina/Furion/tree/v4/tools/Furion.Tools/Furion.Tools.CommandLine)
   - [新增] 基于 `AsyncLocal<T>` 的 `CallContext` 实现 [9057a21](https://gitee.com/dotnetchina/Furion/commit/9057a212aab8057b668086bd14369fa68ce120df)
   - [新增] 远程请求可配置请求异常重试策略 [656da87](https://gitee.com/dotnetchina/Furion/commit/656da87a667c2da7d82425cdcd47146e99602d65)
   - [新增] 远程请求 `OnRequestFailded` 事件 [4a3da4b](https://gitee.com/dotnetchina/Furion/commit/4a3da4ba2c69380fe5f8c2fda80054544c0a3468)
@@ -1766,7 +1766,7 @@ app.UseVirtualPath(app =>
 
 - **新特性**
 
-  - [新增] `IPC（Inter-Process Communication，进程间通信）` 模块功能，目前提供进程内通信和共享内存进程外通讯 [ProcessChannel](https://gitee.com/dotnetchina/Furion/tree/net6/framework/Furion/ProcessChannel)
+  - [新增] `IPC（Inter-Process Communication，进程间通信）` 模块功能，目前提供进程内通信和共享内存进程外通讯 [ProcessChannel](https://gitee.com/dotnetchina/Furion/tree/v4/framework/Furion/ProcessChannel)
   - [新增] 远程请求 `application/xml` 和 `text/xml` 默认支持 [4753a1a](https://gitee.com/dotnetchina/Furion/commit/4753a1aed527a6282fe6c05036de9d50bd3b3dd8)
   - [新增] 控制台全局异常拦截 [4a4fe1f](https://gitee.com/dotnetchina/Furion/commit/4a4fe1f40e1856ea36a0c0d19ca625d3f7bf95b7)
   - [新增] 支持自定义 `.json` 配置文件扫描目录 [3e2910a](https://gitee.com/dotnetchina/Furion/commit/3e2910a8b775fb6323e293b020bbe7cdfb4c6436)

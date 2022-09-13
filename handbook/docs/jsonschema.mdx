@@ -27,15 +27,15 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 `Furion` 框架提供了完整的 `Furion` 和 `ASP.NET Core` 的 `JSON Schema` 文件，通过该文件可以在编写配置文件时提供完整的智能提示和校验。
 
-**[查看 `JSON Schema` 源码地址](https://gitee.com/dotnetchina/Furion/raw/net6/schemas/v3/furion-schema.json)**
+**[查看 `JSON Schema` 源码地址](https://gitee.com/dotnetchina/Furion/raw/v4/schemas/v4/furion-schema.json)**
 
 ## 2.7.4 如何使用
 
-使用方式非常简单，只需要在 `.json` 文件的头部添加 `"$schema": "https://gitee.com/dotnetchina/Furion/raw/net6/schemas/v3/furion-schema.json",` 即可，如：
+使用方式非常简单，只需要在 `.json` 文件的头部添加 `"$schema": "https://gitee.com/dotnetchina/Furion/raw/v4/schemas/v4/furion-schema.json",` 即可，如：
 
 ```json showLineNumbers {2}
 {
-  "$schema": "https://gitee.com/dotnetchina/Furion/raw/net6/schemas/v3/furion-schema.json",
+  "$schema": "https://gitee.com/dotnetchina/Furion/raw/v4/schemas/v4/furion-schema.json",
 
   "Logging": {
     "LogLevel": {
@@ -62,7 +62,7 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 ## 2.7.5 `JSON Schema` 失效解决
 
-如果添加了 `"$schema": "https://gitee.com/dotnetchina/Furion/raw/net6/schemas/v3/furion-schema.json",` 依然无法进行智能提示校验，可尝试关闭 `.json` 文件再重新打开。
+如果添加了 `"$schema": "https://gitee.com/dotnetchina/Furion/raw/v4/schemas/v4/furion-schema.json",` 依然无法进行智能提示校验，可尝试关闭 `.json` 文件再重新打开。
 
 如果上面步骤依然无效，那么还可以通过下面方式：
 
