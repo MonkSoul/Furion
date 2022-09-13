@@ -46,7 +46,7 @@ namespace System;
 /// 强大的日志监听器
 /// </summary>
 /// <remarks>主要用于将请求的信息打印出来</remarks>
-[AttributeUsage(AttributeTargets.Method | AttributeTargets.Class, Inherited = true, AllowMultiple = false)]
+[SuppressSniffer, AttributeUsage(AttributeTargets.Method | AttributeTargets.Class, Inherited = true, AllowMultiple = false)]
 public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter, IOrderedFilter
 {
     /// <summary>

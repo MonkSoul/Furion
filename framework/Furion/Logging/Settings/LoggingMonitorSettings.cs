@@ -29,6 +29,7 @@ namespace Furion.Logging;
 /// 日志监视器配置
 /// </summary>
 /// <remarks>默认配置节点：Logging:Monitor，支持自定义</remarks>
+[SuppressSniffer]
 public sealed class LoggingMonitorSettings
 {
     /// <summary>

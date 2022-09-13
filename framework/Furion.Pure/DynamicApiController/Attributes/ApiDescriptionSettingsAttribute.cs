@@ -27,7 +27,7 @@ namespace Microsoft.AspNetCore.Mvc;
 /// <summary>
 /// 接口描述设置
 /// </summary>
-[SuppressSniffer, AttributeUsage(AttributeTargets.Interface | AttributeTargets.Class | AttributeTargets.Method)]
+[SuppressSniffer, AttributeUsage(AttributeTargets.Interface | AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = false)]
 public sealed class ApiDescriptionSettingsAttribute : ApiExplorerSettingsAttribute
 {
     /// <summary>
