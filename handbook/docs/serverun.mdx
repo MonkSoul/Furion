@@ -520,6 +520,27 @@ namespace WpfApp1
 }
 ```
 
+### 2.0.10.1 添加更多服务
+
+如果想注册服务，可创建 `YourStartup` 派生自 `AppStartup` 即可，如：
+
+```cs showLineNumbers {8,10,12,15} title="YourStartup.cs"
+using Furion;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.DependencyInjection;
+
+namespace HelloFurion;
+
+public class YourStartup : AppStartup
+{
+    public void ConfigureServices(IServiceCollection services)
+    {
+        services.AddRemoteRequest();
+    }
+}
+```
+
 ## 2.0.11 静默启动
 
 默认情况下，`Serve.Run()` 使用阻塞线程方式启动，但有些时候我们不希望阻塞现有的代码，可使用**静默启动**的方式：
