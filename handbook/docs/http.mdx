@@ -306,6 +306,14 @@ await "https://www.furion.icu/api/user/add".SetJsonSerialization(typeof(Newtonso
 await "https://www.furion.icu/api/user/add".SetJsonSerialization<NewtonsoftJsonSerializerProvider>(new JsonSerializerSettings {
 
 });
+
+// 比如配置缺省的序列化选项
+await "https://www.furion.icu".SetJsonSerialization(default, new JsonSerializerOptions
+    {
+        // 中文乱码
+        Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping
+    })
+    .GetAsAsync();
 ```
 
 :::important 关于 `JSON` 序列化提供器
