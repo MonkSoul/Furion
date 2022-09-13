@@ -938,15 +938,15 @@ public interface IHttp : IHttpDispatchProxy
 ```cs showLineNumbers {3-4,7-8,11-12}
 public interface IHttp : IHttpDispatchProxy
 {
-    [Post("https://www.furion.icu/upload", ContentType = "multipart/form-data")] 
+    [Post("https://www.furion.icu/upload", ContentType = "multipart/form-data")]
     Task<HttpResponseMessage> PostXXXAsync(HttpFile file);
 
     // 支持多个文件
-    [Post("https://www.furion.icu/upload", ContentType = "multipart/form-data")] 
+    [Post("https://www.furion.icu/upload", ContentType = "multipart/form-data")]
     Task<HttpResponseMessage> PostXXXAsync(HttpFile[] files);
-    
+
     // 支持多个文件
-    [Post("https://www.furion.icu/upload", ContentType = "multipart/form-data")] 
+    [Post("https://www.furion.icu/upload", ContentType = "multipart/form-data")]
     Task<HttpResponseMessage> PostXXXAsync(IList<HttpFile> files);
 }
 ```
@@ -1295,29 +1295,19 @@ var result = await "https://api.facebook.com/"
 
 ## 19.9 关于同步请求
 
-`Furion` 框架内部默认不提供同步请求操作，建议总是使用异步的方式请求。如在不能使用异步的情况下，可自行转换为同步执行。
-
-## 19.10 多线程共享作用域
-
-默认情况下，所有的 `字符串` 和 `实体` 拓展都有自己独立维护的 `ServiceProvider` 作用域。
-
-在 `Web` 请求中，默认是 `HttpContext.RequestServices`，但在 `非 Web`，如多线程操作，后台任务，事件总线等场景下会自动创建新的作用域，实际上这是非常不必要的内存开销。
-
-这时，我们只需要通过 `.SetXXXScoped(service)` 共享当前服务提供器作用域即可，如：
+`Furion` 框架内部默认不提供同步请求操作，建议总是使用异步的方式请求。如在不能使用异步的情况下，可自行转换为同步执行。如：
 
 ```cs showLineNumbers
-Scoped.Create(async (fac, scope) => {
-   var response = await "https://www.furion.icu".SetRequestScoped(scope.ServiceProvider).PostAsync();
-});
+var result = "https://api.facebook.com".GetAsync().GetAwaiter().GetResult();
 ```
 
-## 19.11 静态 `Default` 方式构建
+## 19.10 静态 `Default` 方式构建
 
 ```cs showLineNumbers
 await HttpRequestPart.Default.SetRequestUrl("https://www.baidu.com").GetAsStringAsync();
 ```
 
-## 19.12 反馈与建议
+## 19.11 反馈与建议
 
 :::note 与我们交流
 
