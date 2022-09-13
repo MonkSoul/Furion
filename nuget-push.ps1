@@ -1,8 +1,8 @@
-# ÅÅ³ı Furion ºÍ Furion.Pure ·¢²¼£¬Ô­ÒòÊÇÕâÁ½¸ö°üÒÀÀµÁË Furion.[Pure].Extras.DependencyModel.CodeAnalysis ÍØÕ¹°ü
+ï»¿# æ’é™¤ Furion å’Œ Furion.Pure å‘å¸ƒï¼ŒåŸå› æ˜¯è¿™ä¸¤ä¸ªåŒ…ä¾èµ–äº† Furion.[Pure].Extras.DependencyModel.CodeAnalysis æ‹“å±•åŒ…
 #
-# ¶¨Òå²ÎÊı
+# å®šä¹‰å‚æ•°
 Param(
-    # °æ±¾ºÅ
+    # ç‰ˆæœ¬å·
     [string] $version,
     # Nuget APIKey
     [string] $apikey
@@ -10,21 +10,21 @@ Param(
 
 if ($version -eq $null -or $version -eq "")
 {
-    Write-Error "±ØĞëÖ¸¶¨°æ±¾ºÅ";
+    Write-Error "å¿…é¡»æŒ‡å®šç‰ˆæœ¬å·";
     return;
 }
 
-Write-Warning "ÕıÔÚ·¢²¼ framework Ä¿Â¼ Nuget °ü......";
+Write-Warning "æ­£åœ¨å‘å¸ƒ framework ç›®å½• Nuget åŒ…......";
 
-# ²éÕÒ .\framework\nupkgs ÏÂËùÓĞÄ¿Â¼
+# æŸ¥æ‰¾ .\framework\nupkgs ä¸‹æ‰€æœ‰ç›®å½•
 cd .\framework\nupkgs;
 $framework_nupkgs = Get-ChildItem -Filter *.nupkg;
 
-# ±éÀúËùÓĞ *.nupkg ÎÄ¼ş
+# éå†æ‰€æœ‰ *.nupkg æ–‡ä»¶
 for ($i = 0; $i -le $framework_nupkgs.Length - 1; $i++){
     $item = $framework_nupkgs[$i];
 
-    # ÅÅ³ı Furion ºÍ Furion.Pure ·¢²¼£¬Ô­ÒòÊÇÕâÁ½¸ö°üÒÀÀµÁË Furion.[Pure].Extras.DependencyModel.CodeAnalysis ÍØÕ¹°ü
+    # æ’é™¤ Furion å’Œ Furion.Pure å‘å¸ƒï¼ŒåŸå› æ˜¯è¿™ä¸¤ä¸ªåŒ…ä¾èµ–äº† Furion.[Pure].Extras.DependencyModel.CodeAnalysis æ‹“å±•åŒ…
     if ($item.Name -ne "Furion.$version.nupkg" -and $item.Name -ne "Furion.Pure.$version.nupkg" -and $item.Name -ne "Furion.Xunit.$version.nupkg" -and $item.Name -ne "Furion.Pure.Xunit.$version.nupkg")
     {
         $nupkg = $item.FullName;
@@ -33,7 +33,7 @@ for ($i = 0; $i -le $framework_nupkgs.Length - 1; $i++){
         Write-Output "-----------------";
         $nupkg;
 
-        # ·¢²¼µ½ nuget.org Æ½Ì¨
+        # å‘å¸ƒåˆ° nuget.org å¹³å°
         dotnet nuget push $nupkg --skip-duplicate --api-key $apikey --source https://api.nuget.org/v3/index.json;
         dotnet nuget push $snupkg --skip-duplicate --api-key $apikey --source https://api.nuget.org/v3/index.json;
 
@@ -41,7 +41,7 @@ for ($i = 0; $i -le $framework_nupkgs.Length - 1; $i++){
     }
 }
 
-# »Øµ½ÏîÄ¿¸ùÄ¿Â¼
+# å›åˆ°é¡¹ç›®æ ¹ç›®å½•
 cd ../../;
 
-Write-Warning "·¢²¼³É¹¦";
+Write-Warning "å‘å¸ƒæˆåŠŸ";
