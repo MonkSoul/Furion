@@ -63,7 +63,7 @@ public sealed partial class HttpRequestPart
     /// </summary>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<Stream> GetAsStreamAsync(CancellationToken cancellationToken = default)
+    public Task<(Stream Stream, Encoding Encoding)> GetAsStreamAsync(CancellationToken cancellationToken = default)
     {
         return SetHttpMethod(HttpMethod.Get).SendAsStreamAsync(cancellationToken);
     }
@@ -114,7 +114,7 @@ public sealed partial class HttpRequestPart
     /// </summary>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<Stream> PostAsStreamAsync(CancellationToken cancellationToken = default)
+    public Task<(Stream Stream, Encoding Encoding)> PostAsStreamAsync(CancellationToken cancellationToken = default)
     {
         return SetHttpMethod(HttpMethod.Post).SendAsStreamAsync(cancellationToken);
     }
@@ -165,7 +165,7 @@ public sealed partial class HttpRequestPart
     /// </summary>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<Stream> PutAsStreamAsync(CancellationToken cancellationToken = default)
+    public Task<(Stream Stream, Encoding Encoding)> PutAsStreamAsync(CancellationToken cancellationToken = default)
     {
         return SetHttpMethod(HttpMethod.Put).SendAsStreamAsync(cancellationToken);
     }
@@ -216,7 +216,7 @@ public sealed partial class HttpRequestPart
     /// </summary>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<Stream> DeleteAsStreamAsync(CancellationToken cancellationToken = default)
+    public Task<(Stream Stream, Encoding Encoding)> DeleteAsStreamAsync(CancellationToken cancellationToken = default)
     {
         return SetHttpMethod(HttpMethod.Delete).SendAsStreamAsync(cancellationToken);
     }
@@ -267,7 +267,7 @@ public sealed partial class HttpRequestPart
     /// </summary>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<Stream> PatchAsStreamAsync(CancellationToken cancellationToken = default)
+    public Task<(Stream Stream, Encoding Encoding)> PatchAsStreamAsync(CancellationToken cancellationToken = default)
     {
         return SetHttpMethod(HttpMethod.Patch).SendAsStreamAsync(cancellationToken);
     }
@@ -318,7 +318,7 @@ public sealed partial class HttpRequestPart
     /// </summary>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<Stream> HeadAsStreamAsync(CancellationToken cancellationToken = default)
+    public Task<(Stream Stream, Encoding Encoding)> HeadAsStreamAsync(CancellationToken cancellationToken = default)
     {
         return SetHttpMethod(HttpMethod.Head).SendAsStreamAsync(cancellationToken);
     }
@@ -381,7 +381,7 @@ public sealed partial class HttpRequestPart
         }
 
         // 读取流内容
-        var stream = await SendAsStreamAsync(cancellationToken);
+        var (stream, encoding) = await SendAsStreamAsync(cancellationToken);
         if (stream == null) return default;
 
         // 如果 T 是 Stream 类型，则返回
@@ -391,7 +391,7 @@ public sealed partial class HttpRequestPart
         using var streamReader = new StreamReader(
             !SupportGZip
             ? stream
-            : new GZipStream(stream, CompressionMode.Decompress));
+            : new GZipStream(stream, CompressionMode.Decompress), encoding);
 
         var text = await streamReader.ReadToEndAsync();
         // 释放流
@@ -413,14 +413,17 @@ public sealed partial class HttpRequestPart
     /// </summary>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public async Task<Stream> SendAsStreamAsync(CancellationToken cancellationToken = default)
+    public async Task<(Stream Stream, Encoding Encoding)> SendAsStreamAsync(CancellationToken cancellationToken = default)
     {
         var response = await SendAsync(cancellationToken);
         if (response == null || response.Content == null) return default;
 
+        // 获取 charset 编码
+        var encoding = GetCharsetEncoding(response);
+
         // 读取响应流
         var stream = await response.Content.ReadAsStreamAsync(cancellationToken);
-        return stream;
+        return (stream, encoding);
     }
 
     /// <summary>
@@ -433,26 +436,14 @@ public sealed partial class HttpRequestPart
         var response = await SendAsync(cancellationToken);
         if (response == null || response.Content == null) return default;
 
+        // 获取 charset 编码
+        var encoding = GetCharsetEncoding(response);
+
         // 读取内容字节流
         var content = await response.Content.ReadAsByteArrayAsync(cancellationToken);
 
-        // 获取 charset
-        string charset;
-
-        // 获取响应头的编码格式
-        var withContentType = response.Content.Headers.TryGetValues("Content-Type", out var contentTypes);
-        if (withContentType)
-        {
-            charset = contentTypes.First()
-                                  .Split(';', StringSplitOptions.RemoveEmptyEntries)
-                                  .Where(u => u.Contains("charset", StringComparison.OrdinalIgnoreCase))
-                                  .FirstOrDefault() ?? "charset=UTF-8";
-        }
-        else charset = "charset=UTF-8";
-
-        var encoding = charset.Split('=', StringSplitOptions.RemoveEmptyEntries).LastOrDefault() ?? "UTF-8";
-
-        return Encoding.GetEncoding(encoding).GetString(content);
+        // 通过指定编码解码
+        return encoding.GetString(content);
     }
 
     /// <summary>
@@ -744,5 +735,32 @@ public sealed partial class HttpRequestPart
         // 解析序列化工具
         var jsonSerializer = App.GetService(JsonSerializerProvider, RequestScoped ?? App.RootServices) as IJsonSerializerProvider;
         return jsonSerializer.Serialize(body, JsonSerializerOptions);
+    }
+
+    /// <summary>
+    /// 解析响应报文 charset 编码
+    /// </summary>
+    /// <param name="response"></param>
+    /// <returns></returns>
+    private static Encoding GetCharsetEncoding(HttpResponseMessage response)
+    {
+        if (response == null) return Encoding.UTF8;
+
+        // 获取 charset
+        string charset;
+
+        // 获取响应头的编码格式
+        var withContentType = response.Content.Headers.TryGetValues("Content-Type", out var contentTypes);
+        if (withContentType)
+        {
+            charset = contentTypes.First()
+                                  .Split(';', StringSplitOptions.RemoveEmptyEntries)
+                                  .Where(u => u.Contains("charset", StringComparison.OrdinalIgnoreCase))
+                                  .FirstOrDefault() ?? "charset=UTF-8";
+        }
+        else charset = "charset=UTF-8";
+
+        var encoding = charset.Split('=', StringSplitOptions.RemoveEmptyEntries).LastOrDefault() ?? "UTF-8";
+        return Encoding.GetEncoding(encoding);
     }
 }

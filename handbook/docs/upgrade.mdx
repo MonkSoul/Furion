@@ -115,10 +115,32 @@ public void ConfigureServices(IServiceCollection services)
   </div>
 </details>
 
+- - [调整] **远程请求所有 `xxxAsStreamAsync` 返回值** [#I5QVEB](https://gitee.com/dotnetchina/Furion/issues/I5QVEB)
+
+<details>
+  <summary>查看更改</summary>
+  <div>
+
+由：
+
+```cs showLineNumbers
+var stream = await "https://www.furion.icu/".GetAsStreamAsync();
+```
+
+改为：
+
+```cs showLineNumbers
+var (stream, encoding) = await "https://www.furion.icu/".GetAsStreamAsync();
+```
+
+  </div>
+</details>
+
 - **问题修复**
 
   - [修复] 远程请求代理模式非泛型参数导致数组溢出问题 [#I5Q3SN](https://gitee.com/dotnetchina/Furion/issues/I5Q3SN)
   - [修复] `LoggingMonitor` 客户端 `IP` 记录错误 [#I5QCU1](https://gitee.com/dotnetchina/Furion/issues/I5QCU1) [!562](https://gitee.com/dotnetchina/Furion/pulls/562)
+  - [修复] 远程请求响应报文中包含 `charset=gbk` 进行序列化后乱码问题 [#I5QVEB](https://gitee.com/dotnetchina/Furion/issues/I5QVEB)
 
 - **其他更改**
 

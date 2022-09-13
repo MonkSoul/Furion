@@ -405,7 +405,7 @@ await "https://www.furion.icu/".OnException((client, res, errors) => {
 var res = await "https://www.furion.icu/".GetAsync();
 
 // Stream
-var stream = await "https://www.furion.icu/".GetAsStreamAsync();
+var (stream, encoding) = await "https://www.furion.icu/".GetAsStreamAsync();
 
 // T
 var user = await "https://www.furion.icu/".GetAsAsync<User>();
