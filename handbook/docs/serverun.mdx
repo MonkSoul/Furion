@@ -524,13 +524,11 @@ namespace WpfApp1
 
 如果想注册服务，可创建 `YourStartup` 派生自 `AppStartup` 即可，如：
 
-```cs showLineNumbers {8,10,12,15} title="YourStartup.cs"
+```cs showLineNumbers {6,8,10} title="YourStartup.cs"
 using Furion;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace HelloFurion;
+namespace YourProject;
 
 public class YourStartup : AppStartup
 {
