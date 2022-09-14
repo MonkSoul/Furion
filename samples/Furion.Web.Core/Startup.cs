@@ -17,8 +17,6 @@ public sealed class Startup : AppStartup
 
         services.AddCorsAccessor();
 
-
-
         services.AddControllersWithViews()
                 // 配置多语言
                 .AddAppLocalization()
