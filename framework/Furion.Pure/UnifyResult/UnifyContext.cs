@@ -31,8 +31,10 @@ using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.CodeAnalysis;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
+using System.Collections.Concurrent;
 using System.Reflection;
 
 namespace Furion.UnifyResult;
@@ -49,14 +51,14 @@ public static class UnifyContext
     internal static bool EnabledUnifyHandler = false;
 
     /// <summary>
-    /// 规范化结果类型
-    /// </summary>
-    internal static Type RESTfulResultType = typeof(RESTfulResult<>);
-
-    /// <summary>
     /// 规范化结果额外数据键
     /// </summary>
     internal static string UnifyResultExtrasKey = "UNIFY_RESULT_EXTRAS";
+
+    /// <summary>
+    /// 规范化结果提供器
+    /// </summary>
+    internal static ConcurrentDictionary<string, UnifyMetadata> UnifyProviders = new();
 
     /// <summary>
     /// 获取异常元数据
@@ -195,9 +197,12 @@ public static class UnifyContext
     /// <returns>返回 true 跳过处理，否则进行规范化处理</returns>
     internal static bool CheckSucceededNonUnify(MethodInfo method, out IUnifyResultProvider unifyResult, bool isWebRequest = true)
     {
+        // 解析规范化元数据
+        var unityMetadata = GetMethodUnityMetadata(method);
+
         // 判断是否跳过规范化处理
         var isSkip = !EnabledUnifyHandler
-              || method.GetRealReturnType().HasImplementedRawGeneric(RESTfulResultType)
+              || method.GetRealReturnType().HasImplementedRawGeneric(unityMetadata.ResultType)
               || method.CustomAttributes.Any(x => typeof(NonUnifyAttribute).IsAssignableFrom(x.AttributeType) || typeof(ProducesResponseTypeAttribute).IsAssignableFrom(x.AttributeType) || typeof(IApiResponseMetadataProvider).IsAssignableFrom(x.AttributeType))
               || method.ReflectedType.IsDefined(typeof(NonUnifyAttribute), true);
 
@@ -207,7 +212,7 @@ public static class UnifyContext
             return isSkip;
         }
 
-        unifyResult = isSkip ? null : App.RootServices.GetService<IUnifyResultProvider>();
+        unifyResult = isSkip ? null : App.RootServices.GetService(unityMetadata.ProviderType) as IUnifyResultProvider;
         return unifyResult == null || isSkip;
     }
 
@@ -219,6 +224,9 @@ public static class UnifyContext
     /// <returns>返回 true 跳过处理，否则进行规范化处理</returns>
     internal static bool CheckFailedNonUnify(MethodInfo method, out IUnifyResultProvider unifyResult)
     {
+        // 解析规范化元数据
+        var unityMetadata = GetMethodUnityMetadata(method);
+
         // 判断是否跳过规范化处理
         var isSkip = !EnabledUnifyHandler
                 || method.CustomAttributes.Any(x => typeof(NonUnifyAttribute).IsAssignableFrom(x.AttributeType))
@@ -227,7 +235,7 @@ public static class UnifyContext
                         && method.ReflectedType.IsDefined(typeof(NonUnifyAttribute), true)
                     );
 
-        unifyResult = isSkip ? null : App.RootServices.GetService<IUnifyResultProvider>();
+        unifyResult = isSkip ? null : App.RootServices.GetService(unityMetadata.ProviderType) as IUnifyResultProvider;
         return unifyResult == null || isSkip;
     }
 
@@ -248,7 +256,16 @@ public static class UnifyContext
                 || context.GetMetadata<NonUnifyAttribute>() != null
                 || endpointFeature?.Endpoint?.Metadata?.GetMetadata<NonUnifyAttribute>() != null;
 
-        unifyResult = isSkip ? null : context.RequestServices.GetService<IUnifyResultProvider>();
+        if (isSkip == true) unifyResult = null;
+        else
+        {
+            // 解析规范化元数据
+            var unifyProviderAttribute = endpointFeature?.Endpoint?.Metadata?.GetMetadata<UnifyProviderAttribute>();
+            UnifyProviders.TryGetValue(unifyProviderAttribute?.Name ?? string.Empty, out var unityMetadata);
+
+            unifyResult = context.RequestServices.GetService(unityMetadata.ProviderType) as IUnifyResultProvider;
+        }
+
         return unifyResult == null || isSkip;
     }
 
@@ -315,5 +332,28 @@ public static class UnifyContext
         };
 
         return isDataResult;
+    }
+
+    /// <summary>
+    /// 获取方法规范化元数据
+    /// </summary>
+    /// <remarks>如果追求性能，这里理应缓存起来，避免每次请求去检测</remarks>
+    /// <param name="method"></param>
+    /// <returns></returns>
+    internal static UnifyMetadata GetMethodUnityMetadata(MethodInfo method)
+    {
+        if (method == default) return default;
+
+        var unityProviderAttribute = method.GetFoundAttribute<UnifyProviderAttribute>(true);
+
+        // 获取元数据
+        var isExists = UnifyProviders.TryGetValue(unityProviderAttribute?.Name ?? string.Empty, out var metadata);
+        if (!isExists)
+        {
+            // 不存在则将默认的返回
+            UnifyProviders.TryGetValue(string.Empty, out metadata);
+        }
+
+        return metadata;
     }
 }

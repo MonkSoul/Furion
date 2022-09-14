@@ -761,7 +761,7 @@ internal sealed class DynamicApiControllerApplicationModelConvention : IApplicat
         if (returnType == typeof(void)) return;
 
         // 添加规范化结果特性
-        action.Filters.Add(new UnifyResultAttribute(returnType, StatusCodes.Status200OK));
+        action.Filters.Add(new UnifyResultAttribute(returnType, StatusCodes.Status200OK, action.ActionMethod));
     }
 
     /// <summary>

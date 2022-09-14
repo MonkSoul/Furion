@@ -17,6 +17,8 @@ public sealed class Startup : AppStartup
 
         services.AddCorsAccessor();
 
+
+
         services.AddControllersWithViews()
                 // 配置多语言
                 .AddAppLocalization()
@@ -25,6 +27,8 @@ public sealed class Startup : AppStartup
                     options.JsonSerializerOptions.Converters.AddDateFormatString();
                 })
                 .AddInjectWithUnifyResult();
+
+        services.AddUnifyProvider<SpeciallyResultProvider>("specially");
 
         services.AddRemoteRequest();
 
