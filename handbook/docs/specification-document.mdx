@@ -1490,7 +1490,94 @@ public Person GetPerson(int id)
 }
 ```
 
-## 6.8 反馈与建议
+## 6.8 支持多套规范化配置
+
+:::important 版本说明
+
+以下内容仅限 `Furion 4.4.4 +` 版本使用。
+
+:::
+
+在一些情况下，我们可能需要针对特定的控制器（动态 WebAPI）或特定的方法使用不同的规范化处理机制，这时就需要多套规范化处理提供器，如：
+
+1. **定义规范化处理提供程序**
+
+```cs showLineNumbers {1-2,25}
+[UnifyModel(typeof(MyResult<>))]
+public class SpeciallyResultProvider : IUnifyResultProvider
+{
+    public IActionResult OnException(ExceptionContext context, ExceptionMetadata metadata)
+    {
+        // 参考上面的规范化处理写法
+    }
+
+    public IActionResult OnSucceeded(ActionExecutedContext context, object data)
+    {
+        // 参考上面的规范化处理写法
+    }
+
+    public IActionResult OnValidateFailed(ActionExecutingContext context, ValidationMetadata metadata)
+    {
+        // 参考上面的规范化处理写法
+    }
+
+    public async Task OnResponseStatusCodes(HttpContext context, int statusCode, UnifyResultSettingsOptions unifyResultSettings)
+    {
+        // 参考上面的规范化处理写法
+    }
+}
+
+public class MyResult<T>
+{
+    /// <summary>
+    /// 数据
+    /// </summary>
+    public T Data { get; set; }
+}
+```
+
+2. **注册规范化处理提供器**
+
+```cs showLineNumbers
+services.AddUnifyProvider<SpeciallyResultProvider>("specially");  // 指定规范化唯一名称，如果不指定就会替代默认的
+```
+
+3. **在控制器/动态 WebAPI 中使用**
+
+```cs showLineNumbers {3,8,14}
+public class TestUnifyProvider : IDynamicApiController
+{
+    public string DefaultUnify()
+    {
+        return "test";
+    }
+
+    [UnifyProvider]
+    public string DefaultUnify2()
+    {
+        return "test";
+    }
+
+    [UnifyProvider("specially")]
+    public string SpeciallyUnify()
+    {
+        return "特别";
+    }
+}
+```
+
+### 6.8.1 针对特别控制器或方法配置序列化选项
+
+很少开发者注意到 `new JsonResult(data)` 实际上有第二个参数的，也就是 `new JsonResult(data, serializerSettings)`，那么可以根据自己的逻辑传递第二个参数，如果不传递则采用全局配置的序列化选项。如：
+
+```cs showLineNumbers {3}
+public IActionResult OnSucceeded(ActionExecutedContext context, object data)
+{
+    return new JsonResult(data, new JsonSerializerOptions { ... });
+}
+```
+
+## 6.9 反馈与建议
 
 :::note 与我们交流
 

@@ -23,6 +23,7 @@
 using Furion.Extensions;
 using Furion.UnifyResult;
 using Microsoft.AspNetCore.Http;
+using System.Reflection;
 
 namespace Microsoft.AspNetCore.Mvc;
 
@@ -60,16 +61,30 @@ public class UnifyResultAttribute : ProducesResponseTypeAttribute
     }
 
     /// <summary>
+    /// 构造函数
+    /// </summary>
+    /// <param name="type"></param>
+    /// <param name="statusCode"></param>
+    /// <param name="method"></param>
+    internal UnifyResultAttribute(Type type, int statusCode, MethodInfo method) : base(type, statusCode)
+    {
+        WrapType(type, method);
+    }
+
+    /// <summary>
     /// 包装类型
     /// </summary>
     /// <param name="type"></param>
-    private void WrapType(Type type)
+    /// <param name="method"></param>
+    private void WrapType(Type type, MethodInfo method = default)
     {
-        if (type != null)
+        if (type != null && UnifyContext.EnabledUnifyHandler)
         {
-            if (!type.HasImplementedRawGeneric(UnifyContext.RESTfulResultType))
+            var unityMetadata = UnifyContext.GetMethodUnityMetadata(method);
+
+            if (unityMetadata != null && !type.HasImplementedRawGeneric(unityMetadata.ResultType))
             {
-                Type = UnifyContext.RESTfulResultType.MakeGenericType(type);
+                Type = unityMetadata.ResultType.MakeGenericType(type);
             }
             else Type = default;
         }
