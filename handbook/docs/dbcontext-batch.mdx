@@ -110,7 +110,32 @@ int affected = q.BatchUpdate(new Item { Description = "Updated" }, updateColumns
 | ----------------- | ------------ | ---------------- | ------------------ |
 | **Together**      |      70.70 s |           5.88 s |            56.84 s |
 
-## 9.9.4 反馈与建议
+## 9.9.4 `EFCore 7` 内置批量操作
+
+[https://docs.microsoft.com/zh-cn/ef/core/what-is-new/ef-core-7.0/whatsnew#executeupdate-and-executedelete-bulk-updates](https://docs.microsoft.com/zh-cn/ef/core/what-is-new/ef-core-7.0/whatsnew#executeupdate-and-executedelete-bulk-updates)
+
+```cs showLineNumbers {2,7}
+// 批量删除
+await repository.Entities.ExecuteDeleteAsync();
+await repository.Entities.Where(t => t.Text.Contains(".NET")).ExecuteDeleteAsync();
+await repository.Entities.Where(t => t.Posts.All(e => e.PublishedOn.Year < 2022)).ExecuteDeleteAsync();
+
+// 批量更新
+await repository.Entities.ExecuteUpdateAsync(
+    s => s.SetProperty(b => b.Name, b => b.Name + " *Featured!*"));
+
+await repository.Entities
+    .Where(p => p.PublishedOn.Year < 2022)
+    .ExecuteUpdateAsync(s => s
+        .SetProperty(b => b.Title, b => b.Title + " (" + b.PublishedOn.Year + ")")
+        .SetProperty(b => b.Content, b => b.Content + " ( This content was published in " + b.PublishedOn.Year + ")"));
+
+await repository.Entities
+    .Where(t => t.Posts.All(e => e.PublishedOn.Year < 2022))
+    .ExecuteUpdateAsync(s => s.SetProperty(t => t.Text, t => t.Text + " (old)"));
+```
+
+## 9.9.5 反馈与建议
 
 :::note 与我们交流
 
