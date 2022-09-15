@@ -440,13 +440,13 @@ public string PropertyName {get; set;}
 })
 ```
 
-### 23.5.12 long类型序列化时转string
+### 23.5.12 long 类型序列化时转 string
 
-有时候我们需要将long类型序列化时转为string类型，防止js出现精度溢出问题，这个时候可以尝试使用以下方法解决：
+有时候我们需要将 ` long`` 类型序列化时转为  `string`类型，防止`JavaScript` 出现精度溢出问题，这个时候可以尝试使用以下方法解决：
 
 - `System.Text.Json` 方式
 
-```cs showLineNumbers
+```cs showLineNumbers {4}
 services.AddControllersWithViews()
         .AddJsonOptions(options =>
         {
@@ -454,29 +454,19 @@ services.AddControllersWithViews()
         });
 ```
 
-需新建一个类继承`JsonConverter<long>`类并重写Read、Write方法
+创建 `LongJsonConverter` 类：
 
-```cs showLineNumbers
-/// <summary>
-/// Long 类型Json返回处理
-/// </summary>
+```cs showLineNumbers {1,6,13}
 public class LongJsonConverter : JsonConverter<long>
 {
-    /// <summary>Reads and converts the JSON to type <typeparamref name="T" />.</summary>
-    /// <param name="reader">The reader.</param>
-    /// <param name="typeToConvert">The type to convert.</param>
-    /// <param name="options">An object that specifies serialization options to use.</param>
-    /// <returns>The converted value.</returns>
     public override long Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
-        // 这里做处理，前端传入的Long类型可能为String类型，或者Number类型。
-        return reader.TokenType == JsonTokenType.String ? long.Parse(reader.GetString()) : reader.GetInt64();
+        // 这里做处理，前端传入的 long 类型可能为 string 类型，或者 number 类型
+        return reader.TokenType == JsonTokenType.String
+                ? long.Parse(reader.GetString())
+                : reader.GetInt64();
     }
 
-    /// <summary>Writes a specified value as JSON.</summary>
-    /// <param name="writer">The writer to write to.</param>
-    /// <param name="value">The value to convert to JSON.</param>
-    /// <param name="options">An object that specifies serialization options to use.</param>
     public override void Write(Utf8JsonWriter writer, long value, JsonSerializerOptions options)
     {
         writer.WriteStringValue($"{value}");
@@ -485,26 +475,24 @@ public class LongJsonConverter : JsonConverter<long>
 ```
 
 - `Newtonsoft.Json` 方式
-```cs showLineNumbers
+
+```cs showLineNumbers {4}
 .AddNewtonsoftJson(options =>
 {
-     //long类型序列化时转string,防止js精度溢出
-     options.SerializerSettings.Converters.Add(new LongToStringConverter());
+     // long类型序列化时转 string ,防止 Javascript 精度溢出
+     options.SerializerSettings.Converters.Add(new LongJsonConverter());
 })
 ```
 
-需新建一个类继承`JsonConverter`类并重写ReadJson、CanConvert、WriteJson方法
+创建 `LongJsonConverter` 类：
 
-```cs showLineNumbers
-/// <summary>
-/// 将long转为string类型
-/// </summary>
-public class LongToStringConverter : JsonConverter
+```cs showLineNumbers {1,5-6,11,16}
+public class LongJsonConverter : JsonConverter
 {
     public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
     {
-        JToken jt = JValue.ReadFrom(reader);
-        return jt.Values();
+        JToken jtoken = JValue.ReadFrom(reader);
+        return jtoken.Values();
     }
 
     public override bool CanConvert(Type objectType)
