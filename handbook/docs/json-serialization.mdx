@@ -440,6 +440,85 @@ public string PropertyName {get; set;}
 })
 ```
 
+### 23.5.12 long类型序列化时转string
+
+有时候我们需要将long类型序列化时转为string类型，防止js出现精度溢出问题，这个时候可以尝试使用以下方法解决：
+
+- `System.Text.Json` 方式
+
+```cs showLineNumbers
+services.AddControllersWithViews()
+        .AddJsonOptions(options =>
+        {
+            options.JsonSerializerOptions.Converters.Add(new LongJsonConverter()); // 配置过长的整数类型返回前端会丢失精度的问题
+        });
+```
+
+需新建一个类继承`JsonConverter<long>`类并重写Read、Write方法
+
+```cs showLineNumbers
+/// <summary>
+/// Long 类型Json返回处理
+/// </summary>
+public class LongJsonConverter : JsonConverter<long>
+{
+    /// <summary>Reads and converts the JSON to type <typeparamref name="T" />.</summary>
+    /// <param name="reader">The reader.</param>
+    /// <param name="typeToConvert">The type to convert.</param>
+    /// <param name="options">An object that specifies serialization options to use.</param>
+    /// <returns>The converted value.</returns>
+    public override long Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+    {
+        // 这里做处理，前端传入的Long类型可能为String类型，或者Number类型。
+        return reader.TokenType == JsonTokenType.String ? long.Parse(reader.GetString()) : reader.GetInt64();
+    }
+
+    /// <summary>Writes a specified value as JSON.</summary>
+    /// <param name="writer">The writer to write to.</param>
+    /// <param name="value">The value to convert to JSON.</param>
+    /// <param name="options">An object that specifies serialization options to use.</param>
+    public override void Write(Utf8JsonWriter writer, long value, JsonSerializerOptions options)
+    {
+        writer.WriteStringValue($"{value}");
+    }
+}
+```
+
+- `Newtonsoft.Json` 方式
+```cs showLineNumbers
+.AddNewtonsoftJson(options =>
+{
+     //long类型序列化时转string,防止js精度溢出
+     options.SerializerSettings.Converters.Add(new LongToStringConverter());
+})
+```
+
+需新建一个类继承`JsonConverter`类并重写ReadJson、CanConvert、WriteJson方法
+
+```cs showLineNumbers
+/// <summary>
+/// 将long转为string类型
+/// </summary>
+public class LongToStringConverter : JsonConverter
+{
+    public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+    {
+        JToken jt = JValue.ReadFrom(reader);
+        return jt.Values();
+    }
+
+    public override bool CanConvert(Type objectType)
+    {
+        return typeof(System.Int64).Equals(objectType);
+    }
+
+    public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+    {
+        serializer.Serialize(writer, value.ToString());
+    }
+}
+```
+
 ## 23.6 `DataTable`、`DataSet`、`Tuple` 元组等序列化问题
 
 由于默认 `Furion` 采用 `System.Text.Json` 进行序列化，但是不支持复杂类型，如 `DataTable` 、 `DataSet`、`Tuple` 元组，所以需要更换成 `NewtonsoftJson` 即可，见 [JSON 序列化 - 23.5.1 自定义序列化提供器](./json-serialization#2351-自定义序列化提供器)
