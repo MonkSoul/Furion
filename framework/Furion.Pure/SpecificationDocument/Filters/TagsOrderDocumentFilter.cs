@@ -21,6 +21,7 @@
 // SOFTWARE.
 
 using Furion.DynamicApiController;
+using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
@@ -39,6 +40,24 @@ public class TagsOrderDocumentFilter : IDocumentFilter
     /// <param name="context"></param>
     public void Apply(OpenApiDocument swaggerDoc, DocumentFilterContext context)
     {
+        foreach (var apiDescription in context.ApiDescriptions)
+        {
+            var actionDescriptor = apiDescription.ActionDescriptor as ControllerActionDescriptor;
+
+            var controllerName = actionDescriptor.ControllerName;
+            var controllerTag = SpecificationDocumentBuilder.GetControllerTag(actionDescriptor);
+
+            // 修正自定义 Tag 不能实现注释问题
+            if (controllerName != controllerTag)
+            {
+                var tag = swaggerDoc.Tags.FirstOrDefault(u => u.Name == controllerName);
+                if (tag != null)
+                {
+                    tag.Name = controllerTag;
+                }
+            }
+        }
+
         swaggerDoc.Tags = swaggerDoc.Tags
                                     .OrderByDescending(u => GetTagOrder(u.Name))
                                     .ThenBy(u => u.Name)
