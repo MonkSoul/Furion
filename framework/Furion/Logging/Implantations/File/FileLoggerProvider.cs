@@ -43,6 +43,12 @@ public sealed class FileLoggerProvider : ILoggerProvider
     private readonly BlockingCollection<LogMessage> _logMessageQueue = new(1024);
 
     /// <summary>
+    /// 记录日志所有滚动文件名
+    /// </summary>
+    /// <remarks>只有 <see cref="MaxRollingFiles"/> 和 <see cref="FileSizeLimitBytes"/> 大于 0 有效</remarks>
+    internal readonly ConcurrentDictionary<string, FileInfo> _rollingFileNames = new();
+
+    /// <summary>
     /// 文件日志写入器
     /// </summary>
     private readonly FileLoggingWriter _fileLoggingWriter;
@@ -79,8 +85,8 @@ public sealed class FileLoggerProvider : ILoggerProvider
     /// <param name="fileLoggerOptions">文件日志记录器配置选项</param>
     public FileLoggerProvider(string fileName, FileLoggerOptions fileLoggerOptions)
     {
-        // 支持文件名嵌入系统环境变量，格式为：%SystemDrive%，%SystemRoot%
-        FileName = Environment.ExpandEnvironmentVariables(fileName);
+        // 支持文件名嵌入系统环境变量，格式为：%SystemDrive%，%SystemRoot%，处理 Windows 和 Linux 路径分隔符不一致问题
+        FileName = Environment.ExpandEnvironmentVariables(fileName).Replace('\\', '/');
         LoggerOptions = fileLoggerOptions;
 
         // 创建文件日志写入器
@@ -166,7 +172,7 @@ public sealed class FileLoggerProvider : ILoggerProvider
     internal bool Append => LoggerOptions.Append;
 
     /// <summary>
-    /// 控制每一个日志文件最大存储大小，默认无限制
+    /// 控制每一个日志文件最大存储大小，默认无限制，单位是 B，也就是 1024 才等于 1KB
     /// </summary>
     /// <remarks>如果指定了该值，那么日志文件大小超出了该配置就会创建的日志文件，新创建的日志文件命名规则：文件名+[递增序号].log</remarks>
     internal long FileSizeLimitBytes => LoggerOptions.FileSizeLimitBytes;
@@ -206,6 +212,9 @@ public sealed class FileLoggerProvider : ILoggerProvider
 
         // 清空文件日志记录器
         _fileLoggers.Clear();
+
+        // 清空滚动文件名记录器
+        _rollingFileNames.Clear();
 
         // 释放内部文件写入器
         _fileLoggingWriter.Close();

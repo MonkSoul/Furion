@@ -36,7 +36,7 @@ public sealed class FileLoggerOptions
     public bool Append { get; set; } = true;
 
     /// <summary>
-    /// 控制每一个日志文件最大存储大小，默认无限制
+    /// 控制每一个日志文件最大存储大小，默认无限制，单位是 B，也就是 1024 才等于 1KB
     /// </summary>
     /// <remarks>如果指定了该值，那么日志文件大小超出了该配置就会创建的日志文件，新创建的日志文件命名规则：文件名+[递增序号].log</remarks>
     public long FileSizeLimitBytes { get; set; } = 0;

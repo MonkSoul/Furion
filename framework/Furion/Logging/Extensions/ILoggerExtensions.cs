@@ -34,7 +34,7 @@ public static class ILoggerExtensions
     /// 配置日志上下文
     /// </summary>
     /// <param name="logger"></param>
-    /// <param name="properties"></param>
+    /// <param name="properties">建议使用 ConcurrentDictionary 类型</param>
     /// <returns></returns>
     public static ILogger ScopeContext(this ILogger logger, IDictionary<object, object> properties)
     {

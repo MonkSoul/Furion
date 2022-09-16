@@ -20,6 +20,8 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+using System.Collections.Concurrent;
+
 namespace Furion.Logging;
 
 /// <summary>
@@ -48,7 +50,7 @@ public sealed class LogContext
     /// <returns></returns>
     public LogContext Set(object key, object value)
     {
-        Properties ??= new Dictionary<object, object>();
+        Properties ??= new ConcurrentDictionary<object, object>();
 
         Properties.TryAdd(key, value);
         return this;
@@ -63,7 +65,7 @@ public sealed class LogContext
     {
         if (properties == null || properties.Count == 0) return this;
 
-        Properties ??= new Dictionary<object, object>();
+        Properties ??= new ConcurrentDictionary<object, object>();
 
         foreach (var (key, value) in properties)
         {

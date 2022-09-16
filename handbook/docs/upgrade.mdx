@@ -42,6 +42,7 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
   - [新增] `ILoggerFactory` 日志工厂动态批量添加文件日志拓展 [#I5R9PO](https://gitee.com/dotnetchina/Furion/issues/I5R9PO)
   - [新增] `App.GetCommandLineConfiguration(args)` 解析命令行参数静态方法 [803542c](https://gitee.com/dotnetchina/Furion/commit/803542c3e21496e92d2bf83aaa2d00831fcb09bc)
   - [新增] `Sql` 代理支持返回受影响函数 [#I5REJ9](https://gitee.com/dotnetchina/Furion/issues/I5REJ9)
+  - [新增] **任意自定义日志文件名支持滚动日志删除功能** [#I5RFBQ](https://gitee.com/dotnetchina/Furion/issues/I5RFBQ)
 
 - **突破性变化**
 
@@ -150,8 +151,10 @@ var (stream, encoding) = await "https://www.furion.icu/".GetAsStreamAsync();
   - [修复] 远程请求响应报文中包含 `charset=gbk` 进行序列化后乱码问题 [#I5QVEB](https://gitee.com/dotnetchina/Furion/issues/I5QVEB)
   - [修复] 文件日志断电时丢失日志问题 [ db7d51b](https://gitee.com/dotnetchina/Furion/commit/db7d51bba569001bc363727a6683ab3f31c3fc1d)
   - [修复] 动态 `WebAPI` 或控制台贴了 `[ApiDescriptionSettings(Tag = "")]` 标签之后导致注释丢失 [#I5REVF](https://gitee.com/dotnetchina/Furion/issues/I5REVF) [#I5RE4J](https://gitee.com/dotnetchina/Furion/issues/I5RE4J)
-  - [修复] 启用数据库日志但是没有配置配置文件出现空异常问题 [33817be](https://gitee.com/dotnetchina/Furion/commit/33817bed9d47c85a57c0198c0819ad5cf1c41d0b)
-  - [修复] 控制台日志过滤无法过滤默认主机日志问题 [33817be](https://gitee.com/dotnetchina/Furion/commit/33817bed9d47c85a57c0198c0819ad5cf1c41d0b)
+  - [修复] **启用数据库日志但是没有配置配置文件出现空异常问题** [33817be](https://gitee.com/dotnetchina/Furion/commit/33817bed9d47c85a57c0198c0819ad5cf1c41d0b)
+  - [修复] **控制台日志过滤无法过滤默认主机日志问题** [33817be](https://gitee.com/dotnetchina/Furion/commit/33817bed9d47c85a57c0198c0819ad5cf1c41d0b)
+  - [修复] **高频压测情况下写日志并设置日志上下文导致并发更新出现 `System.AggregateException` 异常问题** [#I5RFBQ](https://gitee.com/dotnetchina/Furion/issues/I5RFBQ)
+  - [修复] **日志文件名因 `Windows` 和 `Linux` 路径分隔符不一致导致日志文件创建失败问题，`Linux` 只支持 `/` 不支持 `/`** [#I5RFBQ](https://gitee.com/dotnetchina/Furion/issues/I5RFBQ)
 
 - **其他更改**
 
