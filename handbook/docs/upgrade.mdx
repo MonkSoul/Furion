@@ -150,6 +150,8 @@ var (stream, encoding) = await "https://www.furion.icu/".GetAsStreamAsync();
   - [修复] 远程请求响应报文中包含 `charset=gbk` 进行序列化后乱码问题 [#I5QVEB](https://gitee.com/dotnetchina/Furion/issues/I5QVEB)
   - [修复] 文件日志断电时丢失日志问题 [ db7d51b](https://gitee.com/dotnetchina/Furion/commit/db7d51bba569001bc363727a6683ab3f31c3fc1d)
   - [修复] 动态 `WebAPI` 或控制台贴了 `[ApiDescriptionSettings(Tag = "")]` 标签之后导致注释丢失 [#I5REVF](https://gitee.com/dotnetchina/Furion/issues/I5REVF) [#I5RE4J](https://gitee.com/dotnetchina/Furion/issues/I5RE4J)
+  - [修复] 启用数据库日志但是没有配置配置文件出现空异常问题
+  - [修复] 控制台日志过滤无法过滤默认主机日志问题
 
 - **其他更改**
 
@@ -160,7 +162,7 @@ var (stream, encoding) = await "https://www.furion.icu/".GetAsStreamAsync();
 
   - [新增] `.NET6` 升级 `.NET7` 文档
   - [新增] `ASP.NET 7` 集成文档
-  - [更新] 友好异常文档、远程请求文档、依赖注入文档、即时通讯文档、事件总线文档、Worker Service 文档、单元测试文档、入门指南文档
+  - [更新] 友好异常文档、日志记录文档、远程请求文档、依赖注入文档、即时通讯文档、事件总线文档、Worker Service 文档、单元测试文档、入门指南文档
 
 ---
 

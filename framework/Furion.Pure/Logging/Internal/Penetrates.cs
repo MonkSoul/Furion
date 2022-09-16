@@ -81,7 +81,7 @@ internal static class Penetrates
         // 创建数据库日志记录器配置选项
         var databaseLoggerOptions = new DatabaseLoggerOptions
         {
-            MinimumLevel = databaseLoggerSettings.MinimumLevel,
+            MinimumLevel = databaseLoggerSettings?.MinimumLevel ?? LogLevel.Trace,
         };
 
         // 处理自定义配置
