@@ -53,12 +53,18 @@ internal class FileLoggingWriter
     private string __LastBaseFileName = null;
 
     /// <summary>
+    /// 判断是否启动滚动日志功能
+    /// </summary>
+    private readonly bool _isEnabledRollingFiles;
+
+    /// <summary>
     /// 构造函数
     /// </summary>
     /// <param name="fileLoggerProvider">文件日志记录器提供程序</param>
     internal FileLoggingWriter(FileLoggerProvider fileLoggerProvider)
     {
         _fileLoggerProvider = fileLoggerProvider;
+        _isEnabledRollingFiles = _fileLoggerProvider.MaxRollingFiles > 0 && _fileLoggerProvider.FileSizeLimitBytes > 0;
 
         // 解析当前写入日志的文件名
         GetCurrentFileName();
@@ -212,6 +218,9 @@ internal class FileLoggingWriter
             // 创建文件流，采用共享锁方式
             _fileStream = new FileStream(_fileName, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.ReadWrite, 4096, FileOptions.WriteThrough);
 
+            // 删除超出滚动日志限制的文件
+            DropFilesIfOverLimit(fileInfo);
+
             // 判断是否追加还是覆盖
             if (append) _fileStream.Seek(0, SeekOrigin.End);
             else _fileStream.SetLength(0);
@@ -260,6 +269,47 @@ internal class FileLoggingWriter
             }
 
             return false;
+        }
+    }
+
+    /// <summary>
+    /// 删除超出滚动日志限制的文件
+    /// </summary>
+    /// <param name="fileInfo"></param>
+    private void DropFilesIfOverLimit(FileInfo fileInfo)
+    {
+        // 判断是否启用滚动文件功能
+        if (_isEnabledRollingFiles)
+        {
+            // 处理 Windows 和 Linux 路径分隔符不一致问题
+            var fName = fileInfo.FullName.Replace('\\', '/');
+
+            // 将当前文件名存储到集合中
+            var succeed = _fileLoggerProvider._rollingFileNames.TryAdd(fName, fileInfo);
+
+            // 判断超出限制的文件自动删除
+            if (succeed && _fileLoggerProvider._rollingFileNames.Count > _fileLoggerProvider.MaxRollingFiles)
+            {
+                // 根据最后写入时间删除过时日志
+                var dropFiles = _fileLoggerProvider._rollingFileNames
+                    .OrderBy(u => u.Value.LastWriteTimeUtc)
+                    .Take(_fileLoggerProvider._rollingFileNames.Count - _fileLoggerProvider.MaxRollingFiles);
+
+                // 遍历所有需要删除的文件
+                foreach (var rollingFile in dropFiles)
+                {
+                    var removeSucceed = _fileLoggerProvider._rollingFileNames.TryRemove(rollingFile);
+
+                    // 执行删除
+                    if (removeSucceed)
+                    {
+                        Task.Run(() =>
+                        {
+                            if (File.Exists(rollingFile.Key)) File.Delete(rollingFile.Key);
+                        });
+                    }
+                }
+            }
         }
     }
 
