@@ -76,4 +76,10 @@ public sealed class SqlProxyMethod
     /// 拦截Id
     /// </summary>
     public string InterceptorId { get; internal set; }
+
+    /// <summary>
+    /// 返回受影响行数
+    /// </summary>
+    /// <remarks>只有非查询类操作有效</remarks>
+    public bool RowEffects { get; internal set; }
 }

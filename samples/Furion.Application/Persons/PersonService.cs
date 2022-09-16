@@ -131,6 +131,15 @@ public class PersonService : IDynamicApiController
         return _sql.GetPersons();
     }
 
+    public int TestRowEffects()
+    {
+        return _sql.UpdatePerson(1);
+    }
+
+    public Task<int> TestRowEffects2()
+    {
+        return _sql.UpdatePerson2(1);
+    }
 
     /// <summary>
     /// 测试数据库参数少给或多个情况

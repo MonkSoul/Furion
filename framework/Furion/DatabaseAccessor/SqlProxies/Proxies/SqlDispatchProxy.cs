@@ -127,8 +127,8 @@ public class SqlDispatchProxy : AspectDispatchProxy, IDispatchProxy
             var (dataSet, _) = database.DataAdapterFill(sql, parameterModel, commandType);
             return dataSet;
         }
-        // 处理 无返回值
-        else if (returnType == typeof(void))
+        // 处理 无返回值或返回受影响行数的情况
+        else if (returnType == typeof(void) || (returnType == typeof(int) && sqlProxyMethod.RowEffects == true))
         {
             var (rowEffects, _) = database.ExecuteNonQuery(sql, parameterModel, commandType);
             return rowEffects;
@@ -244,6 +244,12 @@ public class SqlDispatchProxy : AspectDispatchProxy, IDispatchProxy
             var (dataSet, _) = await database.DataAdapterFillAsync(sql, parameterModel, commandType);
             return (T)(dataSet as object);
         }
+        // 处理返回受影响行数的情况
+        else if (returnType == typeof(int) && sqlProxyMethod.RowEffects == true)
+        {
+            var (rowEffects, _) = database.ExecuteNonQuery(sql, parameterModel, commandType);
+            return (T)(rowEffects as object);
+        }
         // 处理 元组类型 返回值
         else if (returnType.IsValueTuple())
         {
@@ -345,6 +351,7 @@ public class SqlDispatchProxy : AspectDispatchProxy, IDispatchProxy
         // 定义最终 Sql 语句
         string finalSql;
         var commandType = CommandType.Text;
+        var rowEffects = false;
 
         // 如果是存储过程类型
         if (sqlProxyAttribute is SqlProcedureAttribute sqlProduceAttribute)
@@ -365,6 +372,7 @@ public class SqlDispatchProxy : AspectDispatchProxy, IDispatchProxy
         {
             finalSql = sqlExecuteAttribute.Sql;
             commandType = sqlExecuteAttribute.CommandType;
+            rowEffects = sqlExecuteAttribute.RowEffects;
         }
         else throw new NotSupportedException($"{sqlProxyAttribute.GetType().FullName} is an invalid annotation.");
 
@@ -390,7 +398,8 @@ public class SqlDispatchProxy : AspectDispatchProxy, IDispatchProxy
             FinalSql = finalSql,
             Method = method,
             Arguments = args,
-            InterceptorId = string.IsNullOrWhiteSpace(sqlProxyAttribute.InterceptorId) ? method.Name : sqlProxyAttribute.InterceptorId
+            InterceptorId = string.IsNullOrWhiteSpace(sqlProxyAttribute.InterceptorId) ? method.Name : sqlProxyAttribute.InterceptorId,
+            RowEffects = rowEffects
         };
 
         // 添加方法拦截

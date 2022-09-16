@@ -299,6 +299,29 @@ public interface ISql : ISqlDispatchProxy
 }
 ```
 
+### 9.17.4.8 返回受影响函数
+
+:::important 版本说明
+
+以下内容仅限 `Furion 4.4.5 +` 版本使用。
+
+:::
+
+需要在 `[SqlExcuete]` 特性中标记 `RowEffects = true` 且返回值是 `int` 或者 `Task<int>`。
+
+```cs showLineNumbers {4,8}
+public interface ISql : ISqlDispatchProxy
+{
+    // 同步
+    [SqlExecute("update person set age = 30 where id = {id}", RowEffects = true)]
+    int Update(int id);
+
+    // 异步
+    [SqlExecute("update person set age = 30 where id = {id}", RowEffects = true)]
+    Task<int> UpdateAsync(int id);
+}
+```
+
 ## 9.17.5 `存储过程` 操作
 
 ### 9.17.5.1 返回 `DataTable`

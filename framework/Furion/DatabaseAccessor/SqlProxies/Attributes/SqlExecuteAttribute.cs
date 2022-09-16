@@ -35,4 +35,10 @@ public class SqlExecuteAttribute : SqlSentenceProxyAttribute
     public SqlExecuteAttribute(string sql) : base(sql)
     {
     }
+
+    /// <summary>
+    /// 返回受影响行数
+    /// </summary>
+    /// <remarks>只有非查询类操作有效</remarks>
+    public bool RowEffects { get; set; } = false;
 }
