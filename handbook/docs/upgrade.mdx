@@ -21,10 +21,11 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 :::
 
-## v4.4.4（当前版本）
+## v4.4.5（当前版本）
 
 :::important 版本细节
 
+- `v4.4.5` 版本细节：[https://gitee.com/dotnetchina/Furion/issues/I5RHQX](https://gitee.com/dotnetchina/Furion/issues/I5RHQX)
 - `v4.4.4` 版本细节：[https://gitee.com/dotnetchina/Furion/issues/I5R5TI](https://gitee.com/dotnetchina/Furion/issues/I5R5TI)
 - `v4.4.3` 版本细节：[https://gitee.com/dotnetchina/Furion/issues/I5QVH3](https://gitee.com/dotnetchina/Furion/issues/I5QVH3)
 - `v4.4.2` 版本细节：[https://gitee.com/dotnetchina/Furion/issues/I5QDHX](https://gitee.com/dotnetchina/Furion/issues/I5QDHX)
@@ -153,8 +154,9 @@ var (stream, encoding) = await "https://www.furion.icu/".GetAsStreamAsync();
   - [修复] 动态 `WebAPI` 或控制台贴了 `[ApiDescriptionSettings(Tag = "")]` 标签之后导致注释丢失 [#I5REVF](https://gitee.com/dotnetchina/Furion/issues/I5REVF) [#I5RE4J](https://gitee.com/dotnetchina/Furion/issues/I5RE4J)
   - [修复] **启用数据库日志但是没有配置配置文件出现空异常问题** [33817be](https://gitee.com/dotnetchina/Furion/commit/33817bed9d47c85a57c0198c0819ad5cf1c41d0b)
   - [修复] **控制台日志过滤无法过滤默认主机日志问题** [33817be](https://gitee.com/dotnetchina/Furion/commit/33817bed9d47c85a57c0198c0819ad5cf1c41d0b)
+  - [修复] **脚手架错误的日志配置问题** [33817be](https://gitee.com/dotnetchina/Furion/commit/33817bed9d47c85a57c0198c0819ad5cf1c41d0b)
   - [修复] **高频压测情况下写日志并设置日志上下文导致并发更新出现 `System.AggregateException` 异常问题** [#I5RFBQ](https://gitee.com/dotnetchina/Furion/issues/I5RFBQ)
-  - [修复] **日志文件名因 `Windows` 和 `Linux` 路径分隔符不一致导致日志文件创建失败问题，`Linux` 只支持 `/` 不支持 `/`** [#I5RFBQ](https://gitee.com/dotnetchina/Furion/issues/I5RFBQ)
+  - [修复] **日志文件名因 `Windows` 和 `Linux` 路径分隔符不一致导致日志文件创建失败问题，`Linux` 只支持 `/` 不支持 `\`** [#I5RFBQ](https://gitee.com/dotnetchina/Furion/issues/I5RFBQ)
 
 - **其他更改**
 
