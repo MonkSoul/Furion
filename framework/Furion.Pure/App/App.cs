@@ -26,6 +26,7 @@ using Furion.Templates;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Configuration.CommandLine;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyModel;
 using Microsoft.Extensions.Hosting;
@@ -243,6 +244,20 @@ public static class App
     {
         // 这里不能从根服务解析，因为是 Scoped 作用域
         return GetService<IOptionsSnapshot<TOptions>>(serviceProvider)?.Value;
+    }
+
+    /// <summary>
+    /// 获取命令行配置
+    /// </summary>
+    /// <param name="args"></param>
+    /// <param name="switchMappings"></param>
+    /// <returns></returns>
+    public static CommandLineConfigurationProvider GetCommandLineConfiguration(string[] args, IDictionary<string, string> switchMappings = null)
+    {
+        var commandLineConfiguration = new CommandLineConfigurationProvider(args, switchMappings);
+        commandLineConfiguration.Load();
+
+        return commandLineConfiguration;
     }
 
     /// <summary>

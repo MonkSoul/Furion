@@ -185,3 +185,16 @@ App.DisposeUnmanagedObjects();  // 通常在非 `Web` 环境中手动处理释�
 ```cs showLineNumbers
 bool isSingleFileEnviroment = App.SingleFileEnvironment;
 ```
+
+## 1.23 解析命令行参数
+
+:::important 版本说明
+
+以下内容仅限 `Furion 4.4.5 +` 版本使用。
+
+:::
+
+```cs
+var cmdConfig = App.GetCommandLineConfiguration(args);
+cmdConfig.TryGet("参数", out var value);
+```
