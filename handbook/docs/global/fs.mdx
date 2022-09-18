@@ -56,13 +56,12 @@ services.AddVirtualFileServer();
 var success = FS.TryGetContentType("image.png", out var contentType);  // image/png
 ```
 
-## 13.6 初始化文件 `ContentType` 提供器
+## 13.6 解决不受支持的文件 `MIME` 类型
+
+解决不受支持的文件 `MIME` 出现 `404` 问题。
 
 ```cs showLineNumbers
-var provider = FS.InitialContentTypeProvider();
-
-// 可以在 Startup.cs 中添加静态配置
 app.UseStaticFiles(new StaticFileOptions {
-  ContentTypeProvider = provider
+  ContentTypeProvider = FS.GetFileExtensionContentTypeProvider()
 })
 ```

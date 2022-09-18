@@ -75,14 +75,14 @@ public static class FS
     /// <returns></returns>
     public static bool TryGetContentType(string fileName, out string contentType)
     {
-        return InitialContentTypeProvider().TryGetContentType(fileName, out contentType);
+        return GetFileExtensionContentTypeProvider().TryGetContentType(fileName, out contentType);
     }
 
     /// <summary>
     /// 初始化文件 ContentType 提供器
     /// </summary>
     /// <returns></returns>
-    public static FileExtensionContentTypeProvider InitialContentTypeProvider()
+    public static FileExtensionContentTypeProvider GetFileExtensionContentTypeProvider()
     {
         var fileExtensionProvider = new FileExtensionContentTypeProvider();
         fileExtensionProvider.Mappings[".iec"] = "application/octet-stream";
@@ -101,6 +101,7 @@ public static class FS
         fileExtensionProvider.Mappings[".php3"] = "application/x-httpd-php";
         fileExtensionProvider.Mappings[".php4"] = "application/x-httpd-php";
         fileExtensionProvider.Mappings[".phtml"] = "application/x-httpd-php";
+        fileExtensionProvider.Mappings[".pcd"] = "image/x-photo-cd";
 
         return fileExtensionProvider;
     }
