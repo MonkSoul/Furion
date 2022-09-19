@@ -161,6 +161,7 @@ var (stream, encoding) = await "https://www.furion.icu/".GetAsStreamAsync();
   - [修复] **高频压测情况下写日志并设置日志上下文导致并发更新出现 `System.AggregateException` 异常问题** [#I5RFBQ](https://gitee.com/dotnetchina/Furion/issues/I5RFBQ)
   - [修复] **日志文件名因 `Windows` 和 `Linux` 路径分隔符不一致导致日志文件创建失败问题，`Linux` 只支持 `/` 不支持 `\`** [#I5RFBQ](https://gitee.com/dotnetchina/Furion/issues/I5RFBQ)
   - [修复] `Oops.Oh/Bah` 设置 `.WithData` 之后无效问题 [!580](https://gitee.com/dotnetchina/Furion/pulls/580)
+  - [修复] 基于 `Redis` 重写事件存储器序列化 `IEventSource` 实例异常问题
 
 - **其他更改**
 
