@@ -42,7 +42,7 @@ public class RESTfulResultProvider : IUnifyResultProvider
     /// <returns></returns>
     public IActionResult OnException(ExceptionContext context, ExceptionMetadata metadata)
     {
-        return new JsonResult(RESTfulResult(metadata.StatusCode, errors: metadata.Errors)); // JsonResult 第二个参数可配置独立的序列化属性
+        return new JsonResult(RESTfulResult(metadata.StatusCode, data: metadata.Data, errors: metadata.Errors)); // JsonResult 第二个参数可配置独立的序列化属性
     }
 
     /// <summary>
@@ -64,7 +64,7 @@ public class RESTfulResultProvider : IUnifyResultProvider
     /// <returns></returns>
     public IActionResult OnValidateFailed(ActionExecutingContext context, ValidationMetadata metadata)
     {
-        return new JsonResult(RESTfulResult(metadata.StatusCode ?? StatusCodes.Status400BadRequest, errors: metadata.ValidationResult)); // JsonResult 第二个参数可配置独立的序列化属性
+        return new JsonResult(RESTfulResult(metadata.StatusCode ?? StatusCodes.Status400BadRequest, data: metadata.Data, errors: metadata.ValidationResult)); // JsonResult 第二个参数可配置独立的序列化属性
     }
 
     /// <summary>
