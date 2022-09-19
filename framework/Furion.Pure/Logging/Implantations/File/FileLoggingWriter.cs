@@ -279,36 +279,33 @@ internal class FileLoggingWriter
     private void DropFilesIfOverLimit(FileInfo fileInfo)
     {
         // 判断是否启用滚动文件功能
-        if (_isEnabledRollingFiles)
+        if (!_isEnabledRollingFiles) return;
+
+        // 处理 Windows 和 Linux 路径分隔符不一致问题
+        var fName = fileInfo.FullName.Replace('\\', '/');
+
+        // 将当前文件名存储到集合中
+        var succeed = _fileLoggerProvider._rollingFileNames.TryAdd(fName, fileInfo);
+
+        // 判断超出限制的文件自动删除
+        if (succeed && _fileLoggerProvider._rollingFileNames.Count > _fileLoggerProvider.MaxRollingFiles)
         {
-            // 处理 Windows 和 Linux 路径分隔符不一致问题
-            var fName = fileInfo.FullName.Replace('\\', '/');
+            // 根据最后写入时间删除过时日志
+            var dropFiles = _fileLoggerProvider._rollingFileNames
+                .OrderBy(u => u.Value.LastWriteTimeUtc)
+                .Take(_fileLoggerProvider._rollingFileNames.Count - _fileLoggerProvider.MaxRollingFiles);
 
-            // 将当前文件名存储到集合中
-            var succeed = _fileLoggerProvider._rollingFileNames.TryAdd(fName, fileInfo);
-
-            // 判断超出限制的文件自动删除
-            if (succeed && _fileLoggerProvider._rollingFileNames.Count > _fileLoggerProvider.MaxRollingFiles)
+            // 遍历所有需要删除的文件
+            foreach (var rollingFile in dropFiles)
             {
-                // 根据最后写入时间删除过时日志
-                var dropFiles = _fileLoggerProvider._rollingFileNames
-                    .OrderBy(u => u.Value.LastWriteTimeUtc)
-                    .Take(_fileLoggerProvider._rollingFileNames.Count - _fileLoggerProvider.MaxRollingFiles);
+                var removeSucceed = _fileLoggerProvider._rollingFileNames.TryRemove(rollingFile);
+                if (!removeSucceed) continue;
 
-                // 遍历所有需要删除的文件
-                foreach (var rollingFile in dropFiles)
+                // 执行删除
+                Task.Run(() =>
                 {
-                    var removeSucceed = _fileLoggerProvider._rollingFileNames.TryRemove(rollingFile);
-
-                    // 执行删除
-                    if (removeSucceed)
-                    {
-                        Task.Run(() =>
-                        {
-                            if (File.Exists(rollingFile.Key)) File.Delete(rollingFile.Key);
-                        });
-                    }
-                }
+                    if (File.Exists(rollingFile.Key)) File.Delete(rollingFile.Key);
+                });
             }
         }
     }
@@ -320,13 +317,12 @@ internal class FileLoggingWriter
     /// <param name="flush"></param>
     internal void Write(LogMessage logMsg, bool flush)
     {
-        if (_textWriter != null)
-        {
-            CheckForNewLogFile();
-            _textWriter.WriteLine(logMsg.Message);
+        if (_textWriter == null) return;
 
-            if (flush) _textWriter.Flush();
-        }
+        CheckForNewLogFile();
+        _textWriter.WriteLine(logMsg.Message);
+
+        if (flush) _textWriter.Flush();
     }
 
     /// <summary>
@@ -334,15 +330,14 @@ internal class FileLoggingWriter
     /// </summary>
     internal void Close()
     {
-        if (_textWriter != null)
-        {
-            var textloWriter = _textWriter;
-            _textWriter = null;
+        if (_textWriter == null) return;
 
-            textloWriter.Dispose();
-            _fileStream.Dispose();
+        var textloWriter = _textWriter;
+        _textWriter = null;
 
-            _fileStream = null;
-        }
+        textloWriter.Dispose();
+        _fileStream.Dispose();
+
+        _fileStream = null;
     }
 }

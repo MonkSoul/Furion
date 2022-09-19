@@ -335,16 +335,13 @@ internal sealed class EventBusHostedService : BackgroundService
             // 删除所有匹配事件 Id 的处理程序
             foreach (var wrapper in _eventHandlers.Keys)
             {
-                if (wrapper.EventId == eventId)
-                {
-                    var succeeded = _eventHandlers.TryRemove(wrapper, out _);
+                if (wrapper.EventId != eventId) continue;
 
-                    // 输出日志
-                    if (succeeded)
-                    {
-                        Log(LogLevel.Warning, "Subscriber<{Name}> with event ID <{EventId}> was remove.", new[] { wrapper.HandlerMethod?.Name, eventId });
-                    }
-                }
+                var succeeded = _eventHandlers.TryRemove(wrapper, out _);
+                if (!succeeded) continue;
+
+                // 输出日志
+                Log(LogLevel.Warning, "Subscriber<{Name}> with event ID <{EventId}> was remove.", new[] { wrapper.HandlerMethod?.Name, eventId });
             }
         }
     }
