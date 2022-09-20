@@ -35,7 +35,7 @@ Scoped.CreateUow((factory, scope) => {
 });
 
 // 异步
-await Scope.CreateUowAsync(await (factory, scope) => {
+await Scope.CreateUowAsync(async (factory, scope) => {
      var services = scope.ServiceProvider;
      await _calcService.GetAsync();
      // ...
