@@ -32,18 +32,21 @@ namespace Furion.Templates;
 public static class TP
 {
     /// <summary>
+    /// 模板正则表达式对象
+    /// </summary>
+    private static readonly Lazy<Regex> _lazyRegex = new(() => new(@"^##(?<prop>.*)?##[:：]?\s*(?<content>.*)"));
+
+    /// <summary>
     /// 生成规范日志模板
     /// </summary>
     /// <param name="title">标题</param>
     /// <param name="description">描述</param>
-    /// <param name="items">列表项，如果以 [xxx] 开头，自动生成 xxx: 属性</param>
+    /// <param name="items">列表项，如果以 ##xxx## 开头，自动生成 xxx: 属性</param>
     /// <returns><see cref="string"/></returns>
     public static string Wrapper(string title, string description, params string[] items)
     {
         // 处理不同编码问题
         Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
-
-        var regex = new Regex(@"^##(?<prop>.*)?##[:：]?\s*(?<content>.*)");
 
         var stringBuilder = new StringBuilder();
         stringBuilder.Append($"┏━━━━━━━━━━━  {title} ━━━━━━━━━━━").AppendLine();
@@ -56,17 +59,17 @@ public static class TP
 
         if (items != null && items.Length > 0)
         {
-            var propMaxLength = items.Where(u => regex.IsMatch(u))
+            var propMaxLength = items.Where(u => _lazyRegex.Value.IsMatch(u))
                 .DefaultIfEmpty(string.Empty)
-                .Max(u => regex.Match(u).Groups["prop"].Value.Length);
+                .Max(u => _lazyRegex.Value.Match(u).Groups["prop"].Value.Length);
             propMaxLength += (propMaxLength >= 5 ? 10 : 5);
 
             for (var i = 0; i < items.Length; i++)
             {
                 var item = items[i];
-                if (regex.IsMatch(item))
+                if (_lazyRegex.Value.IsMatch(item))
                 {
-                    var match = regex.Match(item);
+                    var match = _lazyRegex.Value.Match(item);
                     var prop = match.Groups["prop"].Value;
                     var content = match.Groups["content"].Value;
 
