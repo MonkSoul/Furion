@@ -49,6 +49,17 @@ public static class AppApplicationBuilderExtensions
     }
 
     /// <summary>
+    /// 注入基础中间件（带Swagger）
+    /// </summary>
+    /// <param name="app"></param>
+    /// <param name="configure"></param>
+    /// <returns></returns>
+    public static IApplicationBuilder UseInject(this IApplicationBuilder app, Action<UseInjectOptions> configure)
+    {
+        return app.UseInject(configure: configure);
+    }
+
+    /// <summary>
     /// 注入基础中间件
     /// </summary>
     /// <param name="app"></param>
