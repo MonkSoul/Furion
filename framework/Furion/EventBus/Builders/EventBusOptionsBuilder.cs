@@ -104,7 +104,7 @@ public sealed class EventBusOptionsBuilder
     public EventBusOptionsBuilder AddSubscriber(Type eventSubscriberType)
     {
         // 类型检查
-        if (!typeof(IEventSubscriber).IsAssignableFrom(eventSubscriberType)) throw new InvalidOperationException("The <eventSubscriberType> is not implement the IEventSubscriber interface.");
+        if (!typeof(IEventSubscriber).IsAssignableFrom(eventSubscriberType) || eventSubscriberType.IsInterface) throw new InvalidOperationException("The <eventSubscriberType> is not implement the IEventSubscriber interface.");
 
         _eventSubscribers.Add(eventSubscriberType);
         return this;
