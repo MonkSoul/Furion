@@ -150,6 +150,7 @@ public sealed class FileLogger : ILogger
             formatString.Append(" [");
             formatString.Append(eventId);
             formatString.Append("] ");
+            formatString.Append($"#{Environment.CurrentManagedThreadId}");
             formatString.AppendLine();
 
             // 对日志内容进行缩进对齐处理
