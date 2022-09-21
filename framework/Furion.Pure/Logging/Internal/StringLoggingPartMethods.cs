@@ -21,6 +21,7 @@
 // SOFTWARE.
 
 using Microsoft.Extensions.Logging;
+using System.Collections.Concurrent;
 
 namespace Furion.Logging;
 
@@ -29,6 +30,11 @@ namespace Furion.Logging;
 /// </summary>
 public sealed partial class StringLoggingPart
 {
+    /// <summary>
+    /// 缓存日志组件
+    /// </summary>
+    private static readonly ConcurrentDictionary<string, ILogger> _loggers = new();
+
     /// <summary>
     /// Information
     /// </summary>
@@ -102,7 +108,11 @@ public sealed partial class StringLoggingPart
         }
 
         // 创建日志实例
-        var logger = loggerFactory.CreateLogger(categoryName);
+        if (!_loggers.TryGetValue(categoryName, out var logger))
+        {
+            logger = loggerFactory.CreateLogger(categoryName);
+            _loggers.TryAdd(categoryName, logger);
+        }
 
         // 如果没有异常且事件 Id 为空
         if (Exception == null && EventId == null)
