@@ -8,7 +8,7 @@ sidebar_label: 9.5 新增操作
 
 ## 9.5.1 新增一条，无返回值
 
-```cs showLineNumbers 
+```cs showLineNumbers
 var user = new User { Name = "百小僧", Age = 27 };
 
 // ==== 同步操作 ====
@@ -40,7 +40,7 @@ await repository.Entities.AddAsync(user);
 
 ## 9.5.2 新增一条，返回最新数据
 
-```cs showLineNumbers 
+```cs showLineNumbers
 // ==== 同步操作 ====
 
 // 示例一
@@ -60,7 +60,7 @@ var newEntity = await user.InsertNowAsync();  // 有三个重载
 
 ## 9.5.3 新增多条（不立即提交）
 
-```cs showLineNumbers 
+```cs showLineNumbers
 // ==== 同步操作 ====
 
 // 示例一
@@ -86,7 +86,7 @@ await repository.InsertAsync(new[] {user, user2 });
 
 ## 9.5.4 新增多条（立即提交）
 
-```cs showLineNumbers 
+```cs showLineNumbers
 // ==== 同步操作 ====
 
 // 示例一
@@ -120,7 +120,7 @@ await repository.InsertNowAsync(new[] {user, user2 });
 
 默认情况下，`EFCore` 新增会插入全部列（除实体跟踪方式以外），有些时候我们希望 `Null` 值无需插入，这是我们只需要在更新时候配置 `ignoreNullValues` 参数即可，如：
 
-```cs showLineNumbers 
+```cs showLineNumbers
 repository.Insert(entity, ignoreNullValues: true);
 ```
 
@@ -143,7 +143,29 @@ namespace Furion.EntityFramework.Core
 }
 ```
 
-## 9.5.6 反馈与建议
+## 9.5.6 表带触发器异常解决
+
+在某些情况下，数据库表存在触发器，这时候调用带 `Now` 方法会出现下列异常：
+
+```txt showLineNumbers
+Microsoft.EntityFrameworkCore.DbUpdateException:
+    Could not save changes because the target table has database triggers.
+    Please configure your entity type accordingly,
+    see https://aka.ms/efcore-docs-sqlserver-save-changes-and-triggers for more information.
+```
+
+这时我们只需要添加 `HasTrigger` 即可，如：
+
+```cs showLineNumbers {3}
+public void Configure(EntityTypeBuilder<YourEntity> entityBuilder, DbContext dbContext, Type dbContextLocator)
+{
+    entityBuilder.ToTable(tb => tb.HasTrigger("TriggerName")); // 标记数据库表存在触发器，触发器名称可随意
+}
+```
+
+相关 Issue [https://gitee.com/dotnetchina/Furion/issues/I5S4EC](https://gitee.com/dotnetchina/Furion/issues/I5S4EC)
+
+## 9.5.7 反馈与建议
 
 :::note 与我们交流
 
