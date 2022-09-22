@@ -102,4 +102,13 @@ public class TestModuleServices : IDynamicApiController
         var resultStr = await url.GetAsStringAsync();
         return resultStr;
     }
+
+
+    public async Task 测试高频远程请求()
+    {
+        for (var i = 0; i < 5000; i++)
+        {
+            _ = await "https://www.baidu.com".GetAsStringAsync();
+        }
+    }
 }
