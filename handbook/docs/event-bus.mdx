@@ -944,7 +944,42 @@ MessageCenter.Unsubscribe("messageId");
   - `AddMonitor<TEventHandlerMonitor>`：添加监视器
   - `AddExecutor<TEventHandlerExecutor>`：添加执行器
 
-## 22.13 反馈与建议
+## 22.13 关于高频消息处理方式
+
+在一些高频发送消息的场景如 `IoT`、日志记录、数据采集，为避免频繁解析服务和创建作用域，可使用 **类全局作用域** 和所有服务都采取单例的方式：
+
+```cs showLineNumbers {1,4,6,9,17,24-26}
+public class ToDoEventSubscriber : IEventSubscriber, IDisposable
+{
+    private readonly ILogger<ToDoEventSubscriber> _logger;
+    private readonly IServiceScope _serviceScope;
+
+    public ToDoEventSubscriber(IServiceProvider serviceProvider
+        , ILogger<ToDoEventSubscriber> logger)
+    {
+        _serviceScope = serviceProvider.CreateScope();
+        _logger = logger;
+    }
+
+    [EventSubscribe("iot:log")]
+    public async Task LogFromIoT(EventHandlerExecutingContext context)
+    {
+        // 解析服务
+        var scopedProcessingService = _serviceScope.ServiceProvider.GetRequiredService<IScopedProcessingService>();
+        // ....
+    }
+
+    /// <summary>
+    /// 释放服务作用域
+    /// </summary>
+    public void Dispose()
+    {
+        _serviceScope.Dispose();
+    }
+}
+```
+
+## 22.14 反馈与建议
 
 :::note 与我们交流
 

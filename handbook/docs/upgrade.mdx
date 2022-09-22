@@ -38,7 +38,7 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 - **新特性**
 
-  - [新增] 新增友好异常可控制是否输出错误日志配置 `LogError: true` [#I5PKJH](https://gitee.com/dotnetchina/Furion/issues/I5PKJH)
+  - [新增] 新增友好异常可控制是否输出错误日志配置 `LogError: true`  <sup>4.4.0</sup> [#I5PKJH](https://gitee.com/dotnetchina/Furion/issues/I5PKJH)
   - [新增] `DateOnlyJsonConverter` 和 `DateOnlyOffsetJsonConverter` 序列化转换器 [!565](https://gitee.com/dotnetchina/Furion/pulls/565)
   - [新增] 事件总线 `LogEnabled` 配置，可控制是否输出服务日志 [#I5QLY5](https://gitee.com/dotnetchina/Furion/issues/I5QLY5)
   - [新增] **可实现任何多套规范化结果功能，支持特定控制器，特定方法** [#I5QZ37](https://gitee.com/dotnetchina/Furion/issues/I5QZ37)
@@ -48,7 +48,7 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
   - [新增] **任意自定义日志文件名支持滚动日志删除功能** [#I5RFBQ](https://gitee.com/dotnetchina/Furion/issues/I5RFBQ)
   - [新增] `.pcd` 图片类型 `MIME` 为 `image/x-photo-cd` 支持 [5fafc84](https://gitee.com/dotnetchina/Furion/commit/5fafc8477a4d213d16db92cf030f409c758fab95)
   - [新增] 默认日志输出当前线程 `Environment.CurrentManagedThreadId` [b8fe2cd](https://gitee.com/dotnetchina/Furion/commit/b8fe2cdc49d1bd11e38ad37fa512acafc3d96417)
-  - [新增] `app.UseInject(Action<UseInjectOptions>)` 重载方法，简化配置
+  - [新增] `app.UseInject(Action<UseInjectOptions>)` 重载方法，简化配置 <sup>4.4.8</sup> [0b645fe](https://gitee.com/dotnetchina/Furion/commit/0b645fede0ad81c4779a8b9b4b16d9c5d60c9662)
 
 - **突破性变化**
 
@@ -176,6 +176,7 @@ var (stream, encoding) = await "https://www.furion.icu/".GetAsStreamAsync();
 
   - [新增] `.NET6` 升级 `.NET7` 文档
   - [新增] `ASP.NET 7` 集成文档
+  - [新增] 事件总线集成 `Kafka` 文档 [#I5P5UG](https://gitee.com/dotnetchina/Furion/issues/I5P5UG)
   - [更新] 友好异常文档、日志记录文档、远程请求文档、依赖注入文档、即时通讯文档、事件总线文档、Worker Service 文档、单元测试文档、入门指南文档、数据库新增文档
 
 ---
