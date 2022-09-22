@@ -38,12 +38,16 @@ public static class HostBuilderExtensions
     /// Web 主机注入
     /// </summary>
     /// <param name="hostBuilder">Web主机构建器</param>
-    /// <param name="assemblyName">外部程序集名称</param>
+    /// <param name="configure"></param>
     /// <returns>IWebHostBuilder</returns>
-    public static IWebHostBuilder Inject(this IWebHostBuilder hostBuilder, string assemblyName = default)
+    public static IWebHostBuilder Inject(this IWebHostBuilder hostBuilder, Action<IWebHostBuilder, InjectOptions> configure = default)
     {
+        // 载入服务配置选项
+        var configureOptions = new InjectOptions();
+        configure?.Invoke(hostBuilder, configureOptions);
+
         // 获取默认程序集名称
-        var defaultAssemblyName = assemblyName ?? Reflect.GetAssemblyName(typeof(HostBuilderExtensions));
+        var defaultAssemblyName = configureOptions.AssemblyName ?? Reflect.GetAssemblyName(typeof(HostBuilderExtensions));
 
         //  获取环境变量 ASPNETCORE_HOSTINGSTARTUPASSEMBLIES 配置
         var environmentVariables = Environment.GetEnvironmentVariable("ASPNETCORE_HOSTINGSTARTUPASSEMBLIES");
@@ -60,11 +64,15 @@ public static class HostBuilderExtensions
     /// 泛型主机注入
     /// </summary>
     /// <param name="hostBuilder">泛型主机注入构建器</param>
-    /// <param name="autoRegisterBackgroundService">是否自动注册 BackgroundService</param>
-    /// <returns>IWebHostBuilder</returns>
-    public static IHostBuilder Inject(this IHostBuilder hostBuilder, bool autoRegisterBackgroundService = true)
+    /// <param name="configure"></param>
+    /// <returns>IHostBuilder</returns>
+    public static IHostBuilder Inject(this IHostBuilder hostBuilder, Action<IHostBuilder, InjectOptions> configure = default)
     {
-        InternalApp.ConfigureApplication(hostBuilder, autoRegisterBackgroundService);
+        // 载入服务配置选项
+        var configureOptions = new InjectOptions();
+        configure?.Invoke(hostBuilder, configureOptions);
+
+        InternalApp.ConfigureApplication(hostBuilder, configureOptions.AutoRegisterBackgroundService);
 
         return hostBuilder;
     }

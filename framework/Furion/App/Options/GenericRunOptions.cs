@@ -20,7 +20,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-using Microsoft.Extensions.Configuration;
+using Furion;
 using Microsoft.Extensions.Hosting;
 
 namespace System;
@@ -76,13 +76,13 @@ public class GenericRunOptions
     }
 
     /// <summary>
-    /// 配置 <see cref="IConfigurationBuilder"/>
+    /// 配置 <see cref="InjectOptions"/>
     /// </summary>
-    /// <param name="configureAction">配置委托</param>
+    /// <param name="configureAction"></param>
     /// <returns><see cref="RunOptions"/></returns>
-    public virtual GenericRunOptions ConfigureConfiguration(Action<IHostEnvironment, IConfigurationBuilder> configureAction)
+    public virtual GenericRunOptions ConfigureInject(Action<IHostBuilder, InjectOptions> configureAction)
     {
-        ActionConfigurationManager = configureAction;
+        ActionInject = configureAction;
         return this;
     }
 
@@ -155,9 +155,9 @@ public class GenericRunOptions
     internal Func<IHostBuilder, IHostBuilder> ActionBuilder { get; set; }
 
     /// <summary>
-    /// 自定义 <see cref="IConfigurationBuilder"/> 委托
+    /// 自定义 <see cref="InjectOptions"/> 委托
     /// </summary>
-    internal Action<IHostEnvironment, IConfigurationBuilder> ActionConfigurationManager { get; set; }
+    internal Action<IHostBuilder, InjectOptions> ActionInject { get; set; }
 
     /// <summary>
     /// 应用服务组件

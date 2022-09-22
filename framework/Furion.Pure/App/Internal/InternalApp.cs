@@ -75,6 +75,9 @@ internal static class InternalApp
 
                 // 加载配置
                 AddJsonFiles(configurationBuilder, hostContext.HostingEnvironment);
+
+                // 加载自定义配置
+                InjectOptions.WebAppConfigurationConfigure?.Invoke(hostContext, configurationBuilder);
             });
         }
         // 自动装载配置
@@ -97,6 +100,9 @@ internal static class InternalApp
 
             // 初始化应用服务
             services.AddApp();
+
+            // 加载自定义配置
+            InjectOptions.WebServicesConfigure?.Invoke(hostContext, services);
         });
     }
 
@@ -127,6 +133,9 @@ internal static class InternalApp
 
             // 自动注册 BackgroundService
             if (autoRegisterBackgroundService) services.AddAppHostedService();
+
+            // 加载自定义配置
+            InjectOptions.ServicesConfigure?.Invoke(hostContext, services);
         });
     }
 
@@ -143,6 +152,9 @@ internal static class InternalApp
 
             // 加载配置
             AddJsonFiles(configurationBuilder, hostContext.HostingEnvironment);
+
+            // 加载自定义配置
+            InjectOptions.AppConfigurationConfigure?.Invoke(hostContext, configurationBuilder);
         });
     }
 

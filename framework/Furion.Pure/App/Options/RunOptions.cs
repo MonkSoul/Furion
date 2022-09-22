@@ -21,7 +21,9 @@
 // SOFTWARE.
 
 #if !NET5_0
+using Furion;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 #else
@@ -128,6 +130,17 @@ public sealed class RunOptions
     public RunOptions ConfigureBuilder(Action<WebApplicationBuilder> configureAction)
     {
         ActionBuilder = configureAction;
+        return this;
+    }
+
+    /// <summary>
+    /// 配置 <see cref="InjectOptions"/>
+    /// </summary>
+    /// <param name="configureAction"></param>
+    /// <returns><see cref="RunOptions"/></returns>
+    public RunOptions ConfigureInject(Action<WebApplicationBuilder, InjectOptions> configureAction)
+    {
+        ActionInject = configureAction;
         return this;
     }
 
@@ -301,6 +314,11 @@ public sealed class RunOptions
     /// 自定义 <see cref="WebApplicationBuilder"/> 委托
     /// </summary>
     internal Action<WebApplicationBuilder> ActionBuilder { get; set; }
+
+    /// <summary>
+    /// 自定义 <see cref="InjectOptions"/> 委托
+    /// </summary>
+    internal Action<WebApplicationBuilder, InjectOptions> ActionInject { get; set; }
 
     /// <summary>
     /// 自定义 <see cref="WebApplication"/> 委托

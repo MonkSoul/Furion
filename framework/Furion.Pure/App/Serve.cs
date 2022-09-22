@@ -108,15 +108,6 @@ public static class Serve
             });
         }
 
-        // 添加自定义配置
-        if (options.ActionConfigurationManager != null)
-        {
-            builder = builder.ConfigureAppConfiguration((context, configuration) =>
-            {
-                options.ActionConfigurationManager.Invoke(context.HostingEnvironment, configuration);
-            });
-        }
-
         // 配置 Web 主机
         builder = builder.ConfigureWebHostDefaults(webHostBuilder =>
         {
@@ -129,7 +120,7 @@ public static class Serve
                 }
             }
 
-            webHostBuilder = webHostBuilder.Inject();
+            webHostBuilder = webHostBuilder.Inject(options.ActionWebInject);
 
             // 解决部分主机不能正确读取 urls 参数命令问题
             var startUrls = !string.IsNullOrWhiteSpace(urls) ? urls : webHostBuilder.GetSetting(nameof(urls));
@@ -213,17 +204,8 @@ public static class Serve
             });
         }
 
-        // 添加自定义配置
-        if (options.ActionConfigurationManager != null)
-        {
-            builder = builder.ConfigureAppConfiguration((context, configuration) =>
-            {
-                options.ActionConfigurationManager.Invoke(context.HostingEnvironment, configuration);
-            });
-        }
-
         // 初始化框架
-        builder = builder.Inject();
+        builder = builder.Inject(options.ActionInject);
 
         // 配置服务
         if (options.ServiceComponents.Any())
@@ -291,7 +273,7 @@ public static class Serve
         options.ActionConfigurationManager?.Invoke(builder.Environment, builder.Configuration);
 
         // 初始化框架
-        builder.Inject();
+        builder.Inject(options.ActionInject);
 
         // 注册服应用务组件
         if (options.ServiceComponents.Any())

@@ -979,7 +979,17 @@ public class ToDoEventSubscriber : IEventSubscriber, IDisposable
 }
 ```
 
-## 22.14 反馈与建议
+## 22.14 使用第三方事件总线 `CAP` 示例
+
+```cs showLineNumbers {1,5}
+builder.Services.AddCap(options =>
+{
+    options.UseInMemoryStorage();
+    options.UseInMemoryMessageQueue();
+}).AddSubscriberAssembly(App.Assemblies.ToArray());
+```
+
+## 22.15 反馈与建议
 
 :::note 与我们交流
 

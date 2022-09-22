@@ -20,8 +20,8 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+using Furion;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 
 namespace System;
@@ -78,13 +78,14 @@ public sealed class LegacyRunOptions : GenericRunOptions
     }
 
     /// <summary>
-    /// 配置 <see cref="IConfigurationBuilder"/>
+    /// 配置 <see cref="IWebHostBuilder"/>
     /// </summary>
     /// <param name="configureAction">配置委托</param>
     /// <returns><see cref="LegacyRunOptions"/></returns>
-    public override LegacyRunOptions ConfigureConfiguration(Action<IHostEnvironment, IConfigurationBuilder> configureAction)
+    public LegacyRunOptions ConfigureWebInject(Action<IWebHostBuilder, InjectOptions> configureAction)
     {
-        return base.ConfigureConfiguration(configureAction) as LegacyRunOptions;
+        ActionWebInject = configureAction;
+        return this;
     }
 
     /// <summary>
@@ -95,6 +96,16 @@ public sealed class LegacyRunOptions : GenericRunOptions
     public override LegacyRunOptions ConfigureBuilder(Func<IHostBuilder, IHostBuilder> configureAction)
     {
         return base.ConfigureBuilder(configureAction) as LegacyRunOptions;
+    }
+
+    /// <summary>
+    /// 配置 <see cref="IHostBuilder"/>
+    /// </summary>
+    /// <param name="configureAction">配置委托</param>
+    /// <returns><see cref="LegacyRunOptions"/></returns>
+    public override LegacyRunOptions ConfigureInject(Action<IHostBuilder, InjectOptions> configureAction)
+    {
+        return base.ConfigureInject(configureAction) as LegacyRunOptions;
     }
 
     /// <summary>
@@ -227,6 +238,11 @@ public sealed class LegacyRunOptions : GenericRunOptions
     {
         return base.WithArgs(args) as LegacyRunOptions;
     }
+
+    /// <summary>
+    /// 自定义 <see cref="InjectOptions"/> 委托
+    /// </summary>
+    internal Action<IWebHostBuilder, InjectOptions> ActionWebInject { get; set; }
 
     /// <summary>
     /// 自定义 <see cref="IWebHostBuilder"/> 委托

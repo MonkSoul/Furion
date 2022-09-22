@@ -155,6 +155,21 @@ var (stream, encoding) = await "https://www.furion.icu/".GetAsStreamAsync();
   </div>
 </details>
 
+- - &nbsp;<Tag>调整</Tag> ** `.Inject()` 更多参数** <sup>4.4.9</sup>
+
+<details style={{ marginLeft: 50 }}>
+  <summary>查看更改</summary>
+  <div>
+
+```cs showLineNumbers {1}
+.Inject((builder, options) => {
+
+});
+```
+
+  </div>
+</details>
+
 - **问题修复**
 
   - &nbsp;<Tag>修复</Tag> 远程请求代理模式非泛型参数导致数组溢出问题 [#I5Q3SN](https://gitee.com/dotnetchina/Furion/issues/I5Q3SN)
