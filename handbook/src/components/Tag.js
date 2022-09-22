@@ -1,6 +1,6 @@
 import React from "react";
-import styled from "styled-components";
 import IconFont from "./iconfonts";
+import classes from "./Tag.module.css";
 
 export default function (props) {
   const { children } = props;
@@ -43,29 +43,18 @@ export default function (props) {
     },
   };
   return (
-    <Label
+    <label
+      className={classes.label}
       title={children}
       style={{ backgroundColor: operates[children].bgColor }}
     >
-      <Icon name={operates[children].icon} color="white" size={14} /> {children}
-    </Label>
+      <IconFont
+        name={operates[children].icon}
+        color="white"
+        size={14}
+        className={classes.icon}
+      />{" "}
+      {children}
+    </label>
   );
 }
-
-const Label = styled.label`
-  display: inline-flex;
-  align-items: center;
-  color: #fff;
-  padding: 4px 5px;
-  font-size: 12px;
-  color: #fff;
-  border-radius: 3px;
-  line-height: normal;
-  margin-left: -3px;
-  vertical-align: middle;
-  margin-right: 4px;
-`;
-
-const Icon = styled(IconFont)`
-  margin-right: 4px;
-`;
