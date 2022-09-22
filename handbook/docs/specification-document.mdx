@@ -722,9 +722,10 @@ public void ConfigureServices(IServiceCollection services)
 }
 ```
 
-```cs showLineNumbers {5,10}
+```cs showLineNumbers {6,11}
  public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
  {
+      // 如果使用 Furion 4.4.8+ 版本可以 app.UseInject(options => {}) 了，无需指定 configure:
       app.UseInject(configure: options =>
       {
           options.ConfigureSwagger(swg =>
@@ -1584,3 +1585,4 @@ public IActionResult OnSucceeded(ActionExecutedContext context, object data)
 给 Furion 提 [Issue](https://gitee.com/dotnetchina/Furion/issues/new?issue)。
 
 :::
+

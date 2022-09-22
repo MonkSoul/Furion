@@ -24,10 +24,11 @@ import Tag from "@site/src/components/Tag.js";
 
 :::
 
-## v4.4.7（当前版本）
+## v4.4.8（当前版本）
 
 :::important 版本细节
 
+- `v4.4.8` 版本细节：[https://gitee.com/dotnetchina/Furion/issues/I5SKUE](https://gitee.com/dotnetchina/Furion/issues/I5SKUE)
 - `v4.4.7` 版本细节：[https://gitee.com/dotnetchina/Furion/issues/I5SEFE](https://gitee.com/dotnetchina/Furion/issues/I5SEFE)
 - `v4.4.6` 版本细节：[https://gitee.com/dotnetchina/Furion/issues/I5RSFD](https://gitee.com/dotnetchina/Furion/issues/I5RSFD)
 - `v4.4.5` 版本细节：[https://gitee.com/dotnetchina/Furion/issues/I5RHQX](https://gitee.com/dotnetchina/Furion/issues/I5RHQX)
@@ -167,8 +168,8 @@ var (stream, encoding) = await "https://www.furion.icu/".GetAsStreamAsync();
   - &nbsp;<Tag>修复</Tag> **高频压测情况下写日志并设置日志上下文导致并发更新出现 `System.AggregateException` 异常问题** [#I5RFBQ](https://gitee.com/dotnetchina/Furion/issues/I5RFBQ)
   - &nbsp;<Tag>修复</Tag> **日志文件名因 `Windows` 和 `Linux` 路径分隔符不一致导致日志文件创建失败问题，`Linux` 只支持 `/` 不支持 `\`** [#I5RFBQ](https://gitee.com/dotnetchina/Furion/issues/I5RFBQ)
   - &nbsp;<Tag>修复</Tag> `Oops.Oh/Bah` 设置 `.WithData` 之后无效问题 [!580](https://gitee.com/dotnetchina/Furion/pulls/580)
-  - &nbsp;<Tag>修复</Tag> 基于 `Redis` 重写事件存储器序列化 `IEventSource` 实例异常问题 [3e45020](https://gitee.com/dotnetchina/Furion/commit/3e45020eca5948d18d5cb405a665aae44088fd20)
-  - &nbsp;<Tag>修复</Tag> 使用 `Log` 静态类超高频率下写日志导致 `CPU` 激增问题 [#I5SDK5](https://gitee.com/dotnetchina/Furion/issues/I5SDK5)
+  - &nbsp;<Tag>修复</Tag> 基于 `Redis` 重写事件存储器序列化 `IEventSource` 实例异常问题 <sup>4.4.7</sup> [3e45020](https://gitee.com/dotnetchina/Furion/commit/3e45020eca5948d18d5cb405a665aae44088fd20)
+  - &nbsp;<Tag>修复</Tag> 使用 `Log` 静态类超高频率下写日志导致 `CPU` 激增问题 <sup>4.4.7</sup> [#I5SDK5](https://gitee.com/dotnetchina/Furion/issues/I5SDK5)
   - &nbsp;<Tag>修复</Tag> 远程请求超高频率下发送请求导致 `CPU` 激增问题和异常问题 <sup>4.4.8</sup> [#I5SJJR](https://gitee.com/dotnetchina/Furion/issues/I5SJJR)
 
 - **其他更改**
