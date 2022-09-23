@@ -12,6 +12,7 @@ module.exports = {
         "upgrade",
         "course",
         "target",
+        "position",
         // "pillar-of-humiliation"
       ],
     },
