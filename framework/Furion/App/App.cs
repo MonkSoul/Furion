@@ -57,7 +57,7 @@ public static class App
     /// <summary>
     /// 全局配置选项
     /// </summary>
-    public static IConfiguration Configuration => InternalApp.Configuration;
+    public static IConfiguration Configuration => InternalApp.Configuration.Reload();
 
     /// <summary>
     /// 获取Web主机环境，如，是否是开发环境，生产环境等
