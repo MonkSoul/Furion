@@ -1226,6 +1226,61 @@ public string Hello()
 
 <img src={useBaseUrl("img/mdx.png")} />
 
+### 6.5.38 第三方 `UI` 集成，如 `Knife4jUI`
+
+在 `Furion` 框架中，集成第三方 `SwaggerUI` 非常容易，比如集成 `IGeekFan.AspNetCore.Knife4jUI`：
+
+:::note 安装包
+
+只需要在 `YourPoject.Web.Core` 层安装 `IGeekFan.AspNetCore.Knife4jUI` 即可。
+
+:::
+
+**`Knife4jUI` 独立版本配置**
+
+```cs showLineNumbers {1,3,12}
+var routePrefix = "api";    // 定义 swagger 路由地址，如果是跟目录，设置 string.Empty 即可
+
+app.UseKnife4UI(options =>
+{
+    options.RoutePrefix = routePrefix;  // 配置 Knife4UI 路由地址
+    foreach (var groupInfo in SpecificationDocumentBuilder.GetOpenApiGroups())
+    {
+        options.SwaggerEndpoint("/" + groupInfo.RouteTemplate, groupInfo.Title);
+    }
+});
+
+app.UseInject(routePrefix); // 配置 Furion 路由地址
+```
+
+**`Knife4jUI` 和 `Swagger` 共存版本配置**
+
+```cs showLineNumbers {1,3,10}
+app.UseKnife4UI(options =>
+{
+    options.RoutePrefix = "newapi";  // 配置 Knife4UI 路由地址，现在是 /newapi
+    foreach (var groupInfo in SpecificationDocumentBuilder.GetOpenApiGroups())
+    {
+        options.SwaggerEndpoint("/" + groupInfo.RouteTemplate, groupInfo.Title);
+    }
+});
+
+app.UseInject();  // Furion 默认 api 地址为  /api
+```
+
+<img src={useBaseUrl("img/sg20.png")} />
+
+**如需实现登录之后自动将 `token` 添加到头部可在登录接口 `AfterScript` 执行以下代码：**
+
+```js
+ke.global.setAllHeader(
+  "Authorization",
+  "Bearer " + ke.response.headers["access-token"]
+);
+```
+
+<img src={useBaseUrl("img/kni.jpg")} />
+
 ## 6.6 `SpecificationDocumentSettings` 配置
 
 除了上述例子外，`Furion` 提供了一些配置选项，如：
@@ -1585,4 +1640,3 @@ public IActionResult OnSucceeded(ActionExecutedContext context, object data)
 给 Furion 提 [Issue](https://gitee.com/dotnetchina/Furion/issues/new?issue)。
 
 :::
-

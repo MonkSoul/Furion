@@ -40,12 +40,12 @@ public static class AppWebApplicationBuilderExtensions
     /// <returns>WebApplicationBuilder</returns>
     public static WebApplicationBuilder Inject(this WebApplicationBuilder webApplicationBuilder, Action<WebApplicationBuilder, InjectOptions> configure = default)
     {
-        // 为了兼容 .NET 5 无缝升级至 .NET 6，故传递 WebHost 和 Host
-        InternalApp.WebHostEnvironment = webApplicationBuilder.Environment;
-
         // 载入服务配置选项
         var configureOptions = new InjectOptions();
         configure?.Invoke(webApplicationBuilder, configureOptions);
+
+        // 为了兼容 .NET 5 无缝升级至 .NET 6，故传递 WebHost 和 Host
+        InternalApp.WebHostEnvironment = webApplicationBuilder.Environment;
 
         // 初始化配置
         InternalApp.ConfigureApplication(webApplicationBuilder.WebHost, webApplicationBuilder.Host);

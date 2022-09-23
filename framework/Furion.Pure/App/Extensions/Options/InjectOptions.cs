@@ -43,6 +43,24 @@ public sealed class InjectOptions
     public bool AutoRegisterBackgroundService { get; set; } = true;
 
     /// <summary>
+    /// 配置 ConfigurationScanDirectories
+    /// </summary>
+    /// <param name="directories"></param>
+    public void ConfigurationScanDirectories(params string[] directories)
+    {
+        InternalConfigurationScanDirectories = directories ?? Array.Empty<string>();
+    }
+
+    /// <summary>
+    /// 配置 IgnoreConfigurationFiles
+    /// </summary>
+    /// <param name="files"></param>
+    public void IgnoreConfigurationFiles(params string[] files)
+    {
+        InternalIgnoreConfigurationFiles = files ?? Array.Empty<string>();
+    }
+
+    /// <summary>
     /// 配置 ConfigureAppConfiguration
     /// </summary>
     /// <param name="configure"></param>
@@ -77,6 +95,16 @@ public sealed class InjectOptions
     {
         WebServicesConfigure = configure;
     }
+
+    /// <summary>
+    /// 配置配置文件扫描目录
+    /// </summary>
+    internal static IEnumerable<string> InternalConfigurationScanDirectories { get; private set; } = Array.Empty<string>();
+
+    /// <summary>
+    /// 配置配置文件忽略注册文件
+    /// </summary>
+    internal static IEnumerable<string> InternalIgnoreConfigurationFiles { get; private set; } = Array.Empty<string>();
 
     /// <summary>
     /// AppConfiguration 配置
