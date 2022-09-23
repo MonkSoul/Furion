@@ -495,7 +495,7 @@ Serve.Run(RunOptions.Default.WithArgs(args)
             });
         });
 
-        options.ConfigureServices((_, services) =>
+        options.ConfigureWebServices((_, services) =>
         {
             services.AddAgileConfig();
         });
@@ -516,7 +516,7 @@ var builder = WebApplication.CreateBuilder(args)
                 Console.WriteLine($"{obj}");
             });
         });
-        options.ConfigureServices((_, services) =>
+        options.ConfigureWebServices((_, services) =>
         {
             services.AddAgileConfig();
         });
@@ -547,7 +547,7 @@ public class Program
                             Console.WriteLine($"{obj}");
                         });
                     });
-                    options.ConfigureServices((_, services) =>
+                    options.ConfigureWebServices((_, services) =>
                     {
                         services.AddAgileConfig();
                     });
