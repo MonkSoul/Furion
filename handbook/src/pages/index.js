@@ -32,7 +32,7 @@ function Home() {
       {/* <Remark /> */}
       <WhoUse />
       {/* <Contributor /> */}
-      <Links />
+      <Links /> <Bifa />
     </Layout>
   );
 }
@@ -530,6 +530,32 @@ function SystemWindow(systemWindowProps) {
       {children}
     </div>
   );
+}
+
+function Bifa() {
+  return (
+    <div className="furion-bifa">
+      <div className="furion-wzi-title">
+        <b>Furion</b>
+        历经两年打磨
+      </div>
+      <Wzi>网友笔伐过</Wzi>
+      <Wzi>用户捧杀过</Wzi>
+      <Wzi>
+        内心<span>反复放弃</span>过
+      </Wzi>
+      <Wzi>
+        最终<span>化茧成蝶</span>
+      </Wzi>
+      <Wzi>
+        为<span>祖国信创</span>添砖加瓦
+      </Wzi>
+    </div>
+  );
+}
+
+function Wzi(props) {
+  return <div className="furion-wzi">{props.children}</div>;
 }
 
 export default Home;
