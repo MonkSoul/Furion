@@ -442,7 +442,7 @@ app.Run();
 如果使用 `Serve.Run()` 模式可使用下列代码配置：
 
 ```cs showLineNumbers {2}
-Serve.Run(RunOptions.Default.ConfigureConfiguration(configuration => {
+Serve.Run(RunOptions.Default.ConfigureConfiguration((env, configuration) => {
   configuration.AddJsonFile("MyConfig.json", optional: true, reloadOnChange: true);
 }));
 ```
