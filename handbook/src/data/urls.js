@@ -105,8 +105,8 @@ const urls = [
     title: "",
   },
   {
-    url: "https://gitee.com/dotnetchina/RRQMSocket",
-    text: "RRQMSocket",
+    url: "https://gitee.com/dotnetchina/TouchSocket",
+    text: "TouchSocket",
     title: "",
   },
   {
