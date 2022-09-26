@@ -724,7 +724,7 @@ public class ToDoEventPublisher : IEventPublisher
 {
     private readonly IEventSourceStorer _eventSourceStorer;
 
-    public ChannelEventPublisher(IEventSourceStorer eventSourceStorer)
+    public ToDoEventPublisher(IEventSourceStorer eventSourceStorer)
     {
         _eventSourceStorer = eventSourceStorer;
     }
