@@ -21,6 +21,7 @@
 // SOFTWARE.
 
 using Microsoft.Extensions.Logging;
+using System.Logging;
 
 namespace Furion.Logging;
 
@@ -59,14 +60,9 @@ public sealed partial class StringLoggingPart
     public EventId? EventId { get; private set; }
 
     /// <summary>
-    /// 日志分类类型（从依赖注入中解析）
-    /// </summary>
-    public Type CategoryType { get; private set; } = typeof(System.Logging.StringLogging);
-
-    /// <summary>
     /// 日志分类名（总是创建新的实例）
     /// </summary>
-    public string CategoryName { get; private set; }
+    public string CategoryName { get; private set; } = typeof(StringLogging).FullName;
 
     /// <summary>
     /// 异常对象

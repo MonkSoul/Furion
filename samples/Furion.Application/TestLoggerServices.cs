@@ -1,4 +1,5 @@
 ﻿using Furion.Application.Persons;
+using Furion.Logging.Extensions;
 using Microsoft.Extensions.Logging;
 
 namespace Furion.Application;
@@ -113,5 +114,10 @@ public class TestLoggerServices : IDynamicApiController
         {
             _logger.LogInformation("我是其他线程");
         }).Start();
+    }
+
+    public void 测试字符串拓展日志()
+    {
+        "This is log".LogInformation<TestLoggerServices>();
     }
 }

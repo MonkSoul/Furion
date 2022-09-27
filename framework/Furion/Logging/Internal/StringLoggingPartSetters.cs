@@ -77,7 +77,7 @@ public sealed partial class StringLoggingPart
     /// <typeparam name="TClass"></typeparam>
     public StringLoggingPart SetCategory<TClass>()
     {
-        CategoryType = typeof(TClass);
+        CategoryName = typeof(TClass).FullName;
         return this;
     }
 

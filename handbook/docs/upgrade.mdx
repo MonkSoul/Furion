@@ -195,6 +195,7 @@ var (stream, encoding) = await "https://www.furion.icu/".GetAsStreamAsync();
   - &nbsp;<Tag>修复</Tag> 使用 `Log` 静态类超高频率下写日志导致 `CPU` 激增问题 <sup>4.4.7</sup> [#I5SDK5](https://gitee.com/dotnetchina/Furion/issues/I5SDK5)
   - &nbsp;<Tag>修复</Tag> 远程请求超高频率下发送请求导致 `CPU` 激增问题和异常问题 <sup>4.4.8</sup> [#I5SJJR](https://gitee.com/dotnetchina/Furion/issues/I5SJJR)
   - &nbsp;<Tag>修复</Tag> 集成第三方配置中心时获取的不是最新数据问题 <sup>4.4.9</sup> [2cdef6b](https://gitee.com/dotnetchina/Furion/commit/2cdef6bd4274e5ea0328f209c34b9158dcded7ee)
+  - &nbsp;<Tag>修复</Tag> 字符串日志拓展带泛型方法不能正确显示 `CategoryName` 日志类别 <sup>4.4.10</sup> [#I5TBKL](https://gitee.com/dotnetchina/Furion/issues/I5TBKL)
 
 - **其他更改**
 
@@ -205,8 +206,8 @@ var (stream, encoding) = await "https://www.furion.icu/".GetAsStreamAsync();
 
   - &nbsp;<Tag>新增</Tag> `.NET6` 升级 `.NET7` 文档
   - &nbsp;<Tag>新增</Tag> `ASP.NET 7` 集成文档
-  - &nbsp;<Tag>新增</Tag> 集成第三方配置中心文档  <sup>4.4.9</sup>
-  - &nbsp;<Tag>新增</Tag> 第三方事件总线和 `Furion` 集成文档  <sup>4.4.9</sup>
+  - &nbsp;<Tag>新增</Tag> 集成第三方配置中心文档 <sup>4.4.9</sup>
+  - &nbsp;<Tag>新增</Tag> 第三方事件总线和 `Furion` 集成文档 <sup>4.4.9</sup>
   - &nbsp;<Tag>新增</Tag> 事件总线集成 `Kafka` 文档 [#I5P5UG](https://gitee.com/dotnetchina/Furion/issues/I5P5UG)
   - &nbsp;<Tag>更新</Tag> 友好异常文档、日志记录文档、远程请求文档、依赖注入文档、即时通讯文档、事件总线文档、Worker Service 文档、单元测试文档、入门指南文档、数据库新增文档
 
