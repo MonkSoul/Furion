@@ -33,6 +33,17 @@ namespace Microsoft.Extensions.DependencyInjection;
 public static class LoggingServiceCollectionExtensions
 {
     /// <summary>
+    /// 添加控制台默认格式化器
+    /// </summary>
+    /// <param name="services"></param>
+    /// <param name="configure">添加更多配置</param>
+    /// <returns></returns>
+    public static IServiceCollection AddConsoleFormatter(this IServiceCollection services, Action<ConsoleLoggerOptions> configure = default)
+    {
+        return services.AddLogging(builder => builder.AddConsoleFormatter(configure));
+    }
+
+    /// <summary>
     /// 添加日志监视器服务
     /// </summary>
     /// <param name="services"></param>

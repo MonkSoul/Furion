@@ -33,6 +33,20 @@ namespace Microsoft.Extensions.Logging;
 public static class ILoggingBuilderExtensions
 {
     /// <summary>
+    /// 添加控制台默认格式化器
+    /// </summary>
+    /// <param name="builder"></param>
+    /// <param name="configure"></param>
+    /// <returns></returns>
+    public static ILoggingBuilder AddConsoleFormatter(this ILoggingBuilder builder, Action<ConsoleLoggerOptions> configure = default)
+    {
+        configure ??= (options) => { };
+
+        return builder.AddConsole(options => options.FormatterName = "console-format")
+                      .AddConsoleFormatter<ConsoleLoggerFormatter, ConsoleLoggerOptions>(configure);
+    }
+
+    /// <summary>
     /// 添加文件日志记录器
     /// </summary>
     /// <param name="builder">日志构建器</param>

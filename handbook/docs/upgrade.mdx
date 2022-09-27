@@ -24,7 +24,29 @@ import Tag from "@site/src/components/Tag.js";
 
 :::
 
-## v4.4.9（当前版本）
+## v4.5.0（当前版本）
+
+:::important 版本细节
+
+- `v4.5.0` 版本细节：[https://gitee.com/dotnetchina/Furion/issues/I5PQHR](https://gitee.com/dotnetchina/Furion/issues/I5PQHR)
+
+:::
+
+- **新特性**
+
+  - &nbsp;<Tag>新增</Tag> `.AddConsoleFormatter()` 拓展简化控制台日志模板配置 <sup>4.5.0</sup> [#I5TCMO](https://gitee.com/dotnetchina/Furion/issues/I5TCMO)
+
+- **问题修复**
+
+  - &nbsp;<Tag>修复</Tag> 字符串日志拓展带泛型方法不能正确显示 `CategoryName` 日志类别 <sup>4.5.0</sup> [#I5TBKL](https://gitee.com/dotnetchina/Furion/issues/I5TBKL)
+
+- **文档**
+
+  - &nbsp;<Tag>更新</Tag> 日志记录文档
+
+---
+
+## v4.4.9（已发布）
 
 :::important 版本细节
 
@@ -195,7 +217,6 @@ var (stream, encoding) = await "https://www.furion.icu/".GetAsStreamAsync();
   - &nbsp;<Tag>修复</Tag> 使用 `Log` 静态类超高频率下写日志导致 `CPU` 激增问题 <sup>4.4.7</sup> [#I5SDK5](https://gitee.com/dotnetchina/Furion/issues/I5SDK5)
   - &nbsp;<Tag>修复</Tag> 远程请求超高频率下发送请求导致 `CPU` 激增问题和异常问题 <sup>4.4.8</sup> [#I5SJJR](https://gitee.com/dotnetchina/Furion/issues/I5SJJR)
   - &nbsp;<Tag>修复</Tag> 集成第三方配置中心时获取的不是最新数据问题 <sup>4.4.9</sup> [2cdef6b](https://gitee.com/dotnetchina/Furion/commit/2cdef6bd4274e5ea0328f209c34b9158dcded7ee)
-  - &nbsp;<Tag>修复</Tag> 字符串日志拓展带泛型方法不能正确显示 `CategoryName` 日志类别 <sup>4.4.10</sup> [#I5TBKL](https://gitee.com/dotnetchina/Furion/issues/I5TBKL)
 
 - **其他更改**
 
