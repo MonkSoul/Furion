@@ -97,14 +97,24 @@ public sealed partial class StringLoggingPart
 
         ILoggerFactory loggerFactory;
         var hasException = false;
-        try
-        {
-            loggerFactory = App.GetService<ILoggerFactory>(LoggerScoped ?? App.RootServices);
-        }
-        catch
+
+        // 解决启动时打印日志问题
+        if (App.RootServices == null)
         {
             hasException = true;
             loggerFactory = CreateDisposeLoggerFactory();
+        }
+        else
+        {
+            try
+            {
+                loggerFactory = App.GetService<ILoggerFactory>(LoggerScoped ?? App.RootServices);
+            }
+            catch
+            {
+                hasException = true;
+                loggerFactory = CreateDisposeLoggerFactory();
+            }
         }
 
         // 创建日志实例
@@ -151,7 +161,7 @@ public sealed partial class StringLoggingPart
     {
         return LoggerFactory.Create(builder =>
         {
-            builder.AddConsole();
+            builder.AddConsoleFormatter();
         });
     }
 }

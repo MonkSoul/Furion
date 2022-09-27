@@ -21,7 +21,6 @@
 // SOFTWARE.
 
 using Microsoft.Extensions.Logging;
-using System.Text;
 
 namespace Furion.Logging;
 
@@ -41,11 +40,6 @@ public sealed class FileLogger : ILogger
     /// 文件记录器提供器
     /// </summary>
     private readonly FileLoggerProvider _fileLoggerProvider;
-
-    /// <summary>
-    /// 异常分隔符
-    /// </summary>
-    private const string EXCEPTION_SEPARATOR = "++++++++++++++++++++++++++++++++++++++++++++++++++++++++";
 
     /// <summary>
     /// 构造函数
@@ -132,56 +126,18 @@ public sealed class FileLogger : ILogger
             return;
         }
 
-        // 创建默认日志格式化模板
-        var formatString = new StringBuilder();
-
-        if (!string.IsNullOrEmpty(message))
-        {
-            var timeStamp = _fileLoggerProvider.UseUtcTimestamp ? DateTime.UtcNow : DateTime.Now;
-
-            formatString.Append('[');
-            formatString.Append(Penetrates.GetLogLevelString(logLevel));
-            formatString.Append(']');
-            formatString.Append(" [");
-            formatString.Append(_logName);
-            formatString.Append(']');
-            formatString.Append(" ");
-            formatString.Append(timeStamp.ToString("o"));
-            formatString.Append(" [");
-            formatString.Append(eventId);
-            formatString.Append("] ");
-            formatString.Append($"#{Environment.CurrentManagedThreadId}");
-            formatString.AppendLine();
-
-            // 对日志内容进行缩进对齐处理
-            formatString.Append(PadLeftAlign(message));
-        }
-
-        // 如果包含异常信息，则创建新一行写入
-        if (exception != null)
-        {
-            var exceptionMessage = $"{Environment.NewLine}{EXCEPTION_SEPARATOR}{Environment.NewLine}{exception}{Environment.NewLine}{EXCEPTION_SEPARATOR}";
-
-            formatString.Append(PadLeftAlign(exceptionMessage));
-        }
-
         // 设置日志消息模板
-        logMsg.Message = formatString.ToString();
+        logMsg.Message = Penetrates.OutputStandardMessage(message
+            , _logName
+            , _fileLoggerProvider.UseUtcTimestamp ? DateTime.UtcNow : DateTime.Now
+            , logLevel
+            , eventId
+            , exception);
+
+        // 空检查
+        if (logMsg.Message is null) return;
 
         // 写入日志队列
         _fileLoggerProvider.WriteToQueue(logMsg);
-    }
-
-    /// <summary>
-    /// 将日志内容进行对齐
-    /// </summary>
-    /// <param name="message"></param>
-    /// <returns></returns>
-    private static string PadLeftAlign(string message)
-    {
-        var newMessage = string.Join(Environment.NewLine, message.Split(Environment.NewLine)
-                    .Select(line => string.Empty.PadLeft(6, ' ') + line));
-
-        return newMessage;
     }
 }

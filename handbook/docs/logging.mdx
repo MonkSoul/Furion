@@ -235,9 +235,85 @@ public class WebComponent : IWebComponent
 
 :::
 
-如需自定义控制台日志模板可查看微软官方文档 [https://docs.microsoft.com/zh-cn/dotnet/core/extensions/console-log-formatter#implement-a-custom-formatter](https://docs.microsoft.com/zh-cn/dotnet/core/extensions/console-log-formatter#implement-a-custom-formatter)
+- **控制台日志标准化模板**
 
-这里也提供相关 `Issue` 参考：**[#I5JJJH](https://gitee.com/dotnetchina/Furion/issues/I5JJJH)**
+:::important 版本说明
+
+以下内容仅限 `Furion 4.5.0 +` 版本使用。
+
+:::
+
+在 `ASP.NET Core` 默认控制台日志相对简洁，并未包含常见的日志时间、线程 `Id` 等，而且自定义模板也相对复杂，所以 `Furion 4.5.0+` 版本提供了简化配置，如：
+
+1. `Startup.cs` 方式
+
+```cs showLineNumbers
+services.AddConsoleFormatter();
+```
+
+2. `.NET5` 方式
+
+```cs showLineNumbers {2,4}
+Host.CreateDefaultBuilder(args)
+    .ConfigureLogging(logging =>
+    {
+        logging.AddConsoleFormatter();
+    });
+```
+
+3. `.NET6` 方式
+
+```cs showLineNumbers {3}
+var builder = WebApplication.CreateBuilder(args);
+
+builder.Logging.AddConsoleFormatter();
+```
+
+4. `Serve.Run()` 方式
+
+```cs showLineNumbers {1,3,7}
+Serve.Run(RunOptions.Default.AddWebComponent<WebComponent>());
+
+public class WebComponent : IWebComponent
+{
+    public void Load(WebApplicationBuilder builder, ComponentContext componentContext)
+    {
+        logging.AddConsoleFormatter();
+    }
+}
+```
+
+输出结果：
+
+```bash showLineNumbers
+info: 2022-09-27T13:17:33.5958395+08:00 System.Logging.EventBusService[0] #1
+      EventBus Hosted Service is running.
+info: 2022-09-27T13:17:35.1666167+08:00 Microsoft.Hosting.Lifetime[ListeningOnAddress] #1
+      Now listening on: https://localhost:5001
+info: 2022-09-27T13:17:35.1728106+08:00 Microsoft.Hosting.Lifetime[ListeningOnAddress] #1
+      Now listening on: http://localhost:5000
+info: 2022-09-27T13:17:35.1893063+08:00 Microsoft.Hosting.Lifetime[0] #1
+      Application started. Press Ctrl+C to shut down.
+info: 2022-09-27T13:17:35.1941484+08:00 Microsoft.Hosting.Lifetime[0] #1
+      Hosting environment: Development
+info: 2022-09-27T13:17:35.1996545+08:00 Microsoft.Hosting.Lifetime[0] #1
+      Content root path: D:\Workplaces\OpenSources\Furion\samples\Furion.Web.Entry\
+```
+
+- **自定义控制台日志输出模板**
+
+```cs showLineNumbers {1,3}
+services.AddConsoleFormatter(options =>
+{
+    options.MessageFormat = (logMsg) =>
+    {
+        var stringBuilder = new StringBuilder();
+        stringBuilder.Append(DateTime.Now.ToString("o"));
+        // 其他的。。。自己组装
+        return stringBuilder.ToString();
+    };
+});
+```
 
 ### 18.5.2 输出到文件
 
