@@ -118,7 +118,7 @@ internal static class Penetrates
         , Exception exception
         , string dateFormat = "o"
         , bool isConsole = false
-        , bool disableColors = false)
+        , bool disableColors = true)
     {
         // 空检查
         if (message is null) return null;
@@ -127,14 +127,16 @@ internal static class Penetrates
         var formatString = new StringBuilder();
 
         // 获取日志级别对应控制台的颜色
-        var withConsoleColor = !isConsole || disableColors;
-        var logLevelColors = GetLogLevelConsoleColors(logLevel, withConsoleColor);
+        var disableConsoleColor = !isConsole || disableColors;
+        var logLevelColors = GetLogLevelConsoleColors(logLevel, disableConsoleColor);
 
         _ = AppendWithColor(formatString, GetLogLevelString(logLevel), logLevelColors);
         formatString.Append(": ");
         formatString.Append(timeStamp.ToString(dateFormat));
         formatString.Append(" ");
-        _ = AppendWithColor(formatString, logName, withConsoleColor ? new ConsoleColors(null, null) : new ConsoleColors(ConsoleColor.Cyan, ConsoleColor.DarkCyan));
+        _ = AppendWithColor(formatString, logName, disableConsoleColor
+            ? new ConsoleColors(null, null)
+            : new ConsoleColors(ConsoleColor.Cyan, ConsoleColor.DarkCyan));
         formatString.Append("[");
         formatString.Append(eventId.Id);
         formatString.Append("]");
