@@ -90,4 +90,9 @@ public sealed class FileLoggerOptions
     /// };
     /// </example>
     public Action<FileWriteError> HandleWriteError { get; set; }
+
+    /// <summary>
+    /// 日期格式化
+    /// </summary>
+    public string DateFormat { get; set; } = "yyyy-MM-dd hh:mm:ss(zzz) dddd";
 }

@@ -132,7 +132,8 @@ public sealed class FileLogger : ILogger
             , _fileLoggerProvider.UseUtcTimestamp ? DateTime.UtcNow : DateTime.Now
             , logLevel
             , eventId
-            , exception);
+            , exception
+            , _fileLoggerProvider.DateFormat);
 
         // 空检查
         if (logMsg.Message is null) return;

@@ -38,12 +38,12 @@ public static class ILoggingBuilderExtensions
     /// <param name="builder"></param>
     /// <param name="configure"></param>
     /// <returns></returns>
-    public static ILoggingBuilder AddConsoleFormatter(this ILoggingBuilder builder, Action<ConsoleLoggerOptions> configure = default)
+    public static ILoggingBuilder AddConsoleFormatter(this ILoggingBuilder builder, Action<ConsoleFormatterSettingsOptions> configure = default)
     {
         configure ??= (options) => { };
 
         return builder.AddConsole(options => options.FormatterName = "console-format")
-                      .AddConsoleFormatter<ConsoleLoggerFormatter, ConsoleLoggerOptions>(configure);
+                      .AddConsoleFormatter<ConsoleLoggerFormatter, ConsoleFormatterSettingsOptions>(configure);
     }
 
     /// <summary>

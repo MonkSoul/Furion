@@ -12,6 +12,7 @@ public sealed class Startup : AppStartup
 {
     public void ConfigureServices(IServiceCollection services)
     {
+        services.AddConsoleFormatter();
         // 注册 JWT 授权
         services.AddJwt<AuthHandler>();
 

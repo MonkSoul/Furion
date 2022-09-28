@@ -34,23 +34,42 @@ namespace Furion.Logging;
 public sealed class ConsoleLoggerFormatter : ConsoleFormatter, IDisposable
 {
     /// <summary>
-    /// 选项刷新 Token
+    /// 日志格式化选项刷新 Token
+    /// </summary>
+    private readonly IDisposable _formatOptionsReloadToken;
+
+    /// <summary>
+    /// 日志选项刷新 Token
     /// </summary>
     private readonly IDisposable _optionsReloadToken;
 
     /// <summary>
-    /// 格式化配置选项
+    /// 日志格式化配置选项
     /// </summary>
-    private ConsoleLoggerOptions _formatterOptions;
+    private ConsoleFormatterSettingsOptions _formatterOptions;
+
+    /// <summary>
+    /// 日志配置选项
+    /// </summary>
+    private SimpleConsoleFormatterOptions _options;
+
+    /// <summary>
+    /// 是否启用控制台颜色
+    /// </summary>
+    private bool _disableColors;
 
     /// <summary>
     /// 构造函数
     /// </summary>
+    /// <param name="formatterOptions"></param>
     /// <param name="options"></param>
-    public ConsoleLoggerFormatter(IOptionsMonitor<ConsoleLoggerOptions> options)
+    public ConsoleLoggerFormatter(IOptionsMonitor<ConsoleFormatterSettingsOptions> formatterOptions
+        , IOptionsMonitor<SimpleConsoleFormatterOptions> options)
         : base("console-format")
     {
-        (_optionsReloadToken, _formatterOptions) = (options.OnChange(ReloadLoggerOptions), options.CurrentValue);
+        (_formatOptionsReloadToken, _formatterOptions) = (formatterOptions.OnChange(ReloadFormatterOptions), formatterOptions.CurrentValue);
+        (_optionsReloadToken, _options) = (options.OnChange(ReloadLoggerOptions), options.CurrentValue);
+        _disableColors = _options.ColorBehavior == LoggerColorBehavior.Disabled || (_options.ColorBehavior == LoggerColorBehavior.Default && Console.IsOutputRedirected);
     }
 
     /// <summary>
@@ -82,7 +101,10 @@ public sealed class ConsoleLoggerFormatter : ConsoleFormatter, IDisposable
                , _formatterOptions.UseUtcTimestamp ? DateTime.UtcNow : DateTime.Now
                , logEntry.LogLevel
                , logEntry.EventId
-               , logEntry.Exception);
+               , logEntry.Exception
+               , _formatterOptions.DateFormat
+               , true
+               , _disableColors);
         }
 
         // 空检查
@@ -97,15 +119,26 @@ public sealed class ConsoleLoggerFormatter : ConsoleFormatter, IDisposable
     /// </summary>
     public void Dispose()
     {
+        _formatOptionsReloadToken?.Dispose();
         _optionsReloadToken?.Dispose();
+    }
+
+    /// <summary>
+    /// 刷新日志格式化选项
+    /// </summary>
+    /// <param name="options"></param>
+    private void ReloadFormatterOptions(ConsoleFormatterSettingsOptions options)
+    {
+        _formatterOptions = options;
     }
 
     /// <summary>
     /// 刷新日志选项
     /// </summary>
     /// <param name="options"></param>
-    private void ReloadLoggerOptions(ConsoleLoggerOptions options)
+    private void ReloadLoggerOptions(SimpleConsoleFormatterOptions options)
     {
-        _formatterOptions = options;
+        _options = options;
+        _disableColors = _options.ColorBehavior == LoggerColorBehavior.Disabled || (_options.ColorBehavior == LoggerColorBehavior.Default && Console.IsOutputRedirected);
     }
 }

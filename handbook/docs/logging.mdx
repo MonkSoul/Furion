@@ -315,6 +315,36 @@ services.AddConsoleFormatter(options =>
 });
 ```
 
+- **自定义日志输出时间格式**
+
+:::important 版本说明
+
+以下内容仅限 `Furion 4.5.1 +` 版本使用。
+
+:::
+
+```cs showLineNumbers {1,3}
+services.AddConsoleFormatter(options =>
+{
+    options.DateFormat = "yyyy-MM-dd hh:mm:ss(zzz) dddd";
+});
+```
+
+```bash showLineNumbers {1}
+info: 2022-09-28 02:02:20(+08:00) 星期三 System.Logging.EventBusService[0] #1
+      EventBus Hosted Service is running.
+info: 2022-09-28 02:02:22(+08:00) 星期三 Microsoft.Hosting.Lifetime[14] #1
+      Now listening on: https://localhost:5001
+info: 2022-09-28 02:02:22(+08:00) 星期三 Microsoft.Hosting.Lifetime[14] #1
+      Now listening on: http://localhost:5000
+info: 2022-09-28 02:02:22(+08:00) 星期三 Microsoft.Hosting.Lifetime[0] #1
+      Application started. Press Ctrl+C to shut down.
+info: 2022-09-28 02:02:22(+08:00) 星期三 Microsoft.Hosting.Lifetime[0] #1
+      Hosting environment: Development
+info: 2022-09-28 02:02:22(+08:00) 星期三 Microsoft.Hosting.Lifetime[0] #1
+      Content root path: D:\Workplaces\OpenSources\Furion\samples\Furion.Web.Entry\
+```
+
 ### 18.5.2 输出到文件
 
 - **基础使用**
@@ -539,6 +569,36 @@ services.AddFileLogging("template-obj.log", options =>
         writeError.UseRollbackFileName(Path.GetFileNameWithoutExtension(writeError.CurrentFileName) + "-oops" + Path.GetExtension(writeError.CurrentFileName));
     };
 });
+```
+
+- **自定义日志输出时间格式**
+
+:::important 版本说明
+
+以下内容仅限 `Furion 4.5.1 +` 版本使用。
+
+:::
+
+```cs showLineNumbers {1,3}
+services.AddFileLogging("application.log", options =>
+{
+    options.DateFormat = "yyyy-MM-dd hh:mm:ss(zzz) dddd";
+});
+```
+
+```bash showLineNumbers {1}
+info: 2022-09-28 02:02:20(+08:00) 星期三 System.Logging.EventBusService[0] #1
+      EventBus Hosted Service is running.
+info: 2022-09-28 02:02:22(+08:00) 星期三 Microsoft.Hosting.Lifetime[14] #1
+      Now listening on: https://localhost:5001
+info: 2022-09-28 02:02:22(+08:00) 星期三 Microsoft.Hosting.Lifetime[14] #1
+      Now listening on: http://localhost:5000
+info: 2022-09-28 02:02:22(+08:00) 星期三 Microsoft.Hosting.Lifetime[0] #1
+      Application started. Press Ctrl+C to shut down.
+info: 2022-09-28 02:02:22(+08:00) 星期三 Microsoft.Hosting.Lifetime[0] #1
+      Hosting environment: Development
+info: 2022-09-28 02:02:22(+08:00) 星期三 Microsoft.Hosting.Lifetime[0] #1
+      Content root path: D:\Workplaces\OpenSources\Furion\samples\Furion.Web.Entry\
 ```
 
 ### 18.5.3 输出到数据库/其他存储介质
