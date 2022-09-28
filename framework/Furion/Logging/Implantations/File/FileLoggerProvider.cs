@@ -157,6 +157,15 @@ public sealed class FileLoggerProvider : ILoggerProvider
     }
 
     /// <summary>
+    /// 日期格式化
+    /// </summary>
+    public string DateFormat
+    {
+        get => LoggerOptions.DateFormat;
+        set { LoggerOptions.DateFormat = value; }
+    }
+
+    /// <summary>
     /// 文件名
     /// </summary>
     internal string FileName;

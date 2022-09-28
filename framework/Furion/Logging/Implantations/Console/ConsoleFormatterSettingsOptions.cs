@@ -28,10 +28,15 @@ namespace Furion.Logging;
 /// 控制台日志选项
 /// </summary>
 [SuppressSniffer]
-public sealed class ConsoleLoggerOptions : ConsoleFormatterOptions
+public sealed class ConsoleFormatterSettingsOptions : ConsoleFormatterOptions
 {
     /// <summary>
     /// 自定义日志消息格式化程序
     /// </summary>
     public Func<LogMessage, string> MessageFormat { get; set; }
+
+    /// <summary>
+    /// 日期格式化
+    /// </summary>
+    public string DateFormat { get; set; } = "yyyy-MM-dd hh:mm:ss(zzz) dddd";
 }
