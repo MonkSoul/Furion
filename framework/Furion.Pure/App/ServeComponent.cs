@@ -41,6 +41,9 @@ public sealed class ServeServiceComponent : IServiceComponent
     /// <exception cref="NotImplementedException"></exception>
     public void Load(IServiceCollection services, ComponentContext componentContext)
     {
+        // 控制台日志美化
+        services.AddConsoleFormatter();
+
         // 配置跨域
         services.AddCorsAccessor();
 
