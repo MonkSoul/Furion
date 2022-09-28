@@ -278,7 +278,7 @@ public class WebComponent : IWebComponent
 {
     public void Load(WebApplicationBuilder builder, ComponentContext componentContext)
     {
-        logging.AddConsoleFormatter();
+        builder.Logging.AddConsoleFormatter();
     }
 }
 ```
