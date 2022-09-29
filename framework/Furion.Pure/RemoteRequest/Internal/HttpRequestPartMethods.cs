@@ -26,7 +26,6 @@ using Furion.FriendlyException;
 using Furion.JsonSerialization;
 using Furion.Templates.Extensions;
 using Furion.VirtualFileServer;
-using System.Collections.Concurrent;
 using System.IO.Compression;
 using System.Net.Http.Headers;
 using System.Text;
@@ -38,11 +37,6 @@ namespace Furion.RemoteRequest;
 /// </summary>
 public sealed partial class HttpRequestPart
 {
-    /// <summary>
-    /// 缓存 HttpClient
-    /// </summary>
-    private static readonly ConcurrentDictionary<string, HttpClient> _clients = new();
-
     /// <summary>
     /// 请求失败事件
     /// </summary>
@@ -483,14 +477,10 @@ public sealed partial class HttpRequestPart
 
         // 创建 HttpClient 对象，这里支持自定义
         var clientName = ClientName ?? string.Empty;
-        if (!_clients.TryGetValue(clientName, out var httpClient))
-        {
-            httpClient = ClientProvider?.Invoke() ?? (
-                               string.IsNullOrWhiteSpace(clientName)
-                                ? clientFactory.CreateClient()
-                                : clientFactory.CreateClient(clientName));
-            _clients.TryAdd(clientName, httpClient);
-        }
+        using var httpClient = ClientProvider?.Invoke() ?? (
+                                string.IsNullOrWhiteSpace(clientName)
+                                 ? clientFactory.CreateClient()
+                                 : clientFactory.CreateClient(clientName));
 
         // 只有大于 0 才设置超时时间
         if (Timeout > 0)
