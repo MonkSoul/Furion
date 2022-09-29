@@ -26,10 +26,10 @@ using Microsoft.Extensions.Logging.Console;
 namespace Furion.Logging;
 
 /// <summary>
-/// 控制台日志选项
+/// 控制台默认格式化选项拓展
 /// </summary>
 [SuppressSniffer]
-public sealed class ConsoleFormatterSettingsOptions : ConsoleFormatterOptions
+public sealed class ConsoleFormatterExtendOptions : ConsoleFormatterOptions
 {
     /// <summary>
     /// 控制是否启用颜色
@@ -49,5 +49,5 @@ public sealed class ConsoleFormatterSettingsOptions : ConsoleFormatterOptions
     /// <summary>
     /// 自定义格式化日志处理程序
     /// </summary>
-    public Action<LogMessage, IExternalScopeProvider, TextWriter, string, ConsoleFormatterSettingsOptions> WriteHandler { get; set; }
+    public Action<LogMessage, IExternalScopeProvider, TextWriter, string, ConsoleFormatterExtendOptions> WriteHandler { get; set; }
 }

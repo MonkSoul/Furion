@@ -38,7 +38,7 @@ public static class LoggingServiceCollectionExtensions
     /// <param name="services"></param>
     /// <param name="configure">添加更多配置</param>
     /// <returns></returns>
-    public static IServiceCollection AddConsoleFormatter(this IServiceCollection services, Action<ConsoleFormatterSettingsOptions> configure = default)
+    public static IServiceCollection AddConsoleFormatter(this IServiceCollection services, Action<ConsoleFormatterExtendOptions> configure = default)
     {
         return services.AddLogging(builder => builder.AddConsoleFormatter(configure));
     }

@@ -28,10 +28,10 @@ using Microsoft.Extensions.Options;
 namespace Furion.Logging;
 
 /// <summary>
-/// 控制台日志格式化程序
+/// 控制台默认格式化程序拓展
 /// </summary>
 [SuppressSniffer]
-public sealed class ConsoleLoggerFormatter : ConsoleFormatter, IDisposable
+public sealed class ConsoleFormatterExtend : ConsoleFormatter, IDisposable
 {
     /// <summary>
     /// 日志格式化选项刷新 Token
@@ -41,7 +41,7 @@ public sealed class ConsoleLoggerFormatter : ConsoleFormatter, IDisposable
     /// <summary>
     /// 日志格式化配置选项
     /// </summary>
-    private ConsoleFormatterSettingsOptions _formatterOptions;
+    private ConsoleFormatterExtendOptions _formatterOptions;
 
     /// <summary>
     /// 是否启用控制台颜色
@@ -52,7 +52,7 @@ public sealed class ConsoleLoggerFormatter : ConsoleFormatter, IDisposable
     /// 构造函数
     /// </summary>
     /// <param name="formatterOptions"></param>
-    public ConsoleLoggerFormatter(IOptionsMonitor<ConsoleFormatterSettingsOptions> formatterOptions)
+    public ConsoleFormatterExtend(IOptionsMonitor<ConsoleFormatterExtendOptions> formatterOptions)
         : base("console-format")
     {
         (_formatOptionsReloadToken, _formatterOptions) = (formatterOptions.OnChange(ReloadFormatterOptions), formatterOptions.CurrentValue);
@@ -128,7 +128,7 @@ public sealed class ConsoleLoggerFormatter : ConsoleFormatter, IDisposable
     /// 刷新日志格式化选项
     /// </summary>
     /// <param name="options"></param>
-    private void ReloadFormatterOptions(ConsoleFormatterSettingsOptions options)
+    private void ReloadFormatterOptions(ConsoleFormatterExtendOptions options)
     {
         _formatterOptions = options;
         _disableColors = options.ColorBehavior == LoggerColorBehavior.Disabled || (options.ColorBehavior == LoggerColorBehavior.Default && Console.IsOutputRedirected);
