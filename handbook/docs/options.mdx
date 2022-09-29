@@ -557,6 +557,38 @@ namespace Furion.Application
 
 :::
 
+### 4.2.9.1 关于多次触发问题
+
+在 `Furion` 底层使用的是 `ChangeToken.OnChange` 监听文件更改，但是此方式会导致 `OnListener` 触发两次，这并非是框架的 `bug`，而是 `.NET Core` 本身存在的问题，详见：[https://github.com/dotnet/aspnetcore/issues/2542](https://github.com/dotnet/aspnetcore/issues/2542)
+
+所以，`Furion` 框架也给出另一种解决方案可替代 `IConfigurableOptionsListener` 的方式，也就是通过局部注入 `IOptionsMonitor` 的方式，如：
+
+```cs showLineNumbers {1,3,7,9,14,19}
+public class YourService : IYourService, IDisposable
+{
+    private readonly IDisposable _optionsReloadToken;
+
+    private YourOptions _options;
+
+    public YourService(IOptionsMonitor<YourOptions> options)
+    {
+        (_optionsReloadToken, _options) = (options.OnChange(ReloadOptions), options.CurrentValue);
+    }
+
+    private void ReloadOptions(YourOptions options)
+    {
+        _options = options;
+    }
+
+    public void Dispose()
+    {
+        _optionsReloadToken?.Dispose();
+    }
+}
+```
+
+这种方式虽然啰嗦，但是可以很好和业务代码契合。
+
 ## 4.2.10 选项的优缺点
 
 - 优点

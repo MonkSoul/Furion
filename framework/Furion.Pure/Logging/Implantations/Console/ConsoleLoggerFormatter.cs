@@ -39,11 +39,6 @@ public sealed class ConsoleLoggerFormatter : ConsoleFormatter, IDisposable
     private readonly IDisposable _formatOptionsReloadToken;
 
     /// <summary>
-    /// 日志选项刷新 Token
-    /// </summary>
-    private readonly IDisposable _optionsReloadToken;
-
-    /// <summary>
     /// 日志格式化配置选项
     /// </summary>
     private ConsoleFormatterSettingsOptions _formatterOptions;

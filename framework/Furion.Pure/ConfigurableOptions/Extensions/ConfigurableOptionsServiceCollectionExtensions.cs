@@ -61,7 +61,7 @@ public static class ConfigurableOptionsServiceCollectionExtensions
             var onListenerMethod = optionsType.GetMethod(nameof(IConfigurableOptionsListener<TOptions>.OnListener));
             if (onListenerMethod != null)
             {
-                // 这里监听的是全局配置（总感觉不对头）
+                // 监听全局配置改变，目前该方式存在触发两次的 bug：https://github.com/dotnet/aspnetcore/issues/2542
                 ChangeToken.OnChange(() => configurationRoot.GetReloadToken(), () =>
                 {
                     var options = optionsConfiguration.Get<TOptions>();
