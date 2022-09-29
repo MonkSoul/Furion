@@ -40,6 +40,13 @@ import Tag from "@site/src/components/Tag.js";
   - &nbsp;<Tag>新增</Tag> 控制台和文件日志支持配置 `options.DateFormat` 日期格式化 <sup>4.5.1</sup> [#I5TKL5](https://gitee.com/dotnetchina/Furion/issues/I5TKL5)
   - &nbsp;<Tag>新增</Tag> 控制台日志带颜色输出，比如高亮 `日志级别` <sup>4.5.1</sup> [#I5TKL5](https://gitee.com/dotnetchina/Furion/issues/I5TKL5)
   - &nbsp;<Tag>新增</Tag> 控制台格式化配置 `options.WriteHandler` 完全自定义配置 <sup>4.5.2</sup> [7fb3036](https://gitee.com/dotnetchina/Furion/commit/7fb30368f9640360017fc7f357df13eeb5031c2b)
+  - &nbsp;<Tag>新增</Tag> **日志输出 `JSON` 格式化配置** <sup>4.5.2</sup> [#I5TWC1](https://gitee.com/dotnetchina/Furion/issues/I5TWC1) [#I5OUT1](https://gitee.com/dotnetchina/Furion/issues/I5OUT1)
+  - &nbsp;<Tag>新增</Tag> 数据库日志写入独立日志模板配置、独立日期格式配置 <sup>4.5.2</sup> [#I5TWC1](https://gitee.com/dotnetchina/Furion/issues/I5TWC1)
+  - &nbsp;<Tag>新增</Tag> `LogMessage` 结构类 `LogDateTime`，`ThreadId`，`State` 属性 <sup>4.5.2</sup> [#I5TWC1](https://gitee.com/dotnetchina/Furion/issues/I5TWC1)
+
+- **突破性变化**
+
+  - &nbsp;<Tag>调整</Tag> `LoggingMonitor` 底层逻辑，移除原来的 `.ScopeContext` 存储监听信息设计 <sup>4.5.2</sup> [#I5TWC1](https://gitee.com/dotnetchina/Furion/issues/I5TWC1)
 
 - **问题修复**
 
@@ -56,6 +63,168 @@ import Tag from "@site/src/components/Tag.js";
 
   - &nbsp;<Tag>新增</Tag> 选项监听出现触发多次的解决方案 [#I5T9PR](https://gitee.com/dotnetchina/Furion/issues/I5T9PR)
   - &nbsp;<Tag>更新</Tag> 日志记录文档、动态 WebAPI 文档
+
+- **本期亮点**
+
+- 1. **支持日志配置 `JSON` 格式化输出**
+
+<details style={{ marginLeft: 50 }}>
+  <summary>查看更改</summary>
+  <div>
+
+```cs showLineNumbers {2,4,8,10,14,16}
+// 控制台
+services.AddConsoleFormatter(options =>
+{
+    options.MessageFormat = LoggerFormatter.Json;
+});
+
+// 文件
+services.AddFileLogging("mytemplate.log", options =>
+{
+    options.MessageFormat = LoggerFormatter.Json;
+});
+
+// 数据库
+services.AddDatabaseLogging<DatabaseLoggingWriter>(options =>
+{
+    options.MessageFormat = LoggerFormatter.Json;
+});
+```
+
+  </div>
+</details>
+
+- 2. **支持 `LoggingMonitor` 输出 `JSON` 格式**
+
+<details style={{ marginLeft: 50 }}>
+  <summary>查看更改</summary>
+  <div>
+
+```cs showLineNumbers {14-17}
+using Furion.Logging;
+
+namespace Your.Core;
+
+public class DatabaseLoggingWriter : IDatabaseLoggingWriter
+{
+    // 支持构造函数注入任何实例，会自动释放任何服务，比如注入 IRepository，或者 SqlSugarClient
+    public DatabaseLoggingWriter()
+    {
+    }
+
+    public void Write(LogMessage logMsg, bool flush)
+    {
+        if(logMsg.LogName == "System.Logging.LoggingMonitor")
+        {
+            var jsonString = logMsg.Context.Get("loggingMonitor");
+        }
+
+        // 这里写你任何插入数据库的操作，无需 try catch
+    }
+}
+```
+
+其中 `jsonString` 的值如下：
+
+```json showLineNumbers
+{
+  "controllerName": "test-logger",
+  "controllerTypeName": "TestLoggerServices",
+  "actionName": "person",
+  "actionTypeName": "GetPerson",
+  "areaName": null,
+  "displayName": "Furion.Application.TestLoggerServices.GetPerson (Furion.Application)",
+  "localIPv4": "0.0.0.1",
+  "remoteIPv4": "0.0.0.1",
+  "httpMethod": "GET",
+  "requestUrl": "https://localhost:5001/api/test-logger/person/2",
+  "refererUrl": "https://localhost:5001/api/index.html?urls.primaryName=数据库操作演示",
+  "environment": "Development",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36 Edg/105.0.1343.53",
+  "requestHeaderAuthorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOjEsIkFjY291bnQiOiJhZG1pbiIsImlhdCI6MTY2NDQ1MDUwNSwibmJmIjoxNjY0NDUwNTA1LCJleHAiOjE2NjQ0NTE3MDUsImlzcyI6ImRvdG5ldGNoaW5hIiwiYXVkIjoicG93ZXJieSBGdXJpb24ifQ.-xocNcDQGoXClceoVU5QAHIkTcOZ7ZXo0hEbzghDfFI",
+  "timeOperationElapsedMilliseconds": 55,
+  "authorizationClaims": [
+    {
+      "type": "UserId",
+      "valueType": "integer",
+      "value": "1"
+    },
+    {
+      "type": "Account",
+      "valueType": "string",
+      "value": "admin"
+    },
+    {
+      "type": "iat",
+      "valueType": "integer",
+      "value": "1664450505"
+    },
+    {
+      "type": "nbf",
+      "valueType": "integer",
+      "value": "1664450505"
+    },
+    {
+      "type": "exp",
+      "valueType": "integer",
+      "value": "1664451705"
+    },
+    {
+      "type": "iss",
+      "valueType": "string",
+      "value": "dotnetchina"
+    },
+    {
+      "type": "aud",
+      "valueType": "string",
+      "value": "powerby Furion"
+    }
+  ],
+  "parameters": [
+    {
+      "name": "id",
+      "type": "System.Int32",
+      "value": 2
+    }
+  ],
+  "returnInformation": {
+    "type": "Furion.UnifyResult.RESTfulResult`1[[System.Object, System.Private.CoreLib, Version=6.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+    "actType": "Furion.Application.Persons.PersonDto",
+    "value": {
+      "StatusCode": 200,
+      "Data": {
+        "Id": 2,
+        "Name": null,
+        "Age": 0,
+        "Address": null,
+        "PhoneNumber": null,
+        "QQ": null,
+        "CreatedTime": "0001-01-01T00:00:00+00:00",
+        "Childrens": null,
+        "Posts": null
+      },
+      "Succeeded": true,
+      "Errors": null,
+      "Extras": null,
+      "Timestamp": 1664450517341
+    }
+  },
+  "exception": {
+    "type": "System.DivideByZeroException",
+    "message": "Attempted to divide by zero.",
+    "stackTrace": "   at Furion.Application.TestLoggerServices.测试日志监听8(Int32 id) in D:\\Workplaces\\OpenSources\\Furion\\samples\\Furion.Application\\TestLoggerServices.cs:line 78\r\n   at lambda_method103(Closure , Object , Object[] )\r\n   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.SyncObjectResultExecutor.Execute(IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)\r\n   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Logged|12_1(ControllerActionInvoker invoker)\r\n   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)"
+  },
+  "validation": {
+    "errorCode": null,
+    "originErrorCode": null,
+    "message": "出错了啊。。。。"
+  }
+}
+```
+
+  </div>
+</details>
 
 ---
 

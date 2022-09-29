@@ -20,49 +20,49 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-using Microsoft.Extensions.Logging;
+using Furion.Logging;
 
-namespace Furion.Logging;
+namespace System;
 
 /// <summary>
-/// 数据库记录器配置选项
+/// 日志格式化静态类
 /// </summary>
 [SuppressSniffer]
-public sealed class DatabaseLoggerOptions
+public static class LoggerFormatter
 {
     /// <summary>
-    /// 自定义日志筛选器
+    /// Json 输出格式化
     /// </summary>
-    public Func<LogMessage, bool> WriteFilter { get; set; }
+    public static readonly Func<LogMessage, string> Json = (logMsg) =>
+    {
+        return logMsg.Write(writer =>
+        {
+            writer.WriteStartObject();
 
-    /// <summary>
-    /// 最低日志记录级别
-    /// </summary>
-    public LogLevel MinimumLevel { get; set; } = LogLevel.Trace;
+            // 输出日志级别
+            writer.WriteString("logLevel", logMsg.LogLevel.ToString());
 
-    /// <summary>
-    /// 自定义日志消息格式化程序
-    /// </summary>
-    public Func<LogMessage, string> MessageFormat { get; set; }
+            // 输出日志时间
+            writer.WriteString("logDateTime", logMsg.LogDateTime.ToString("o"));
 
-    /// <summary>
-    /// 自定义数据库日志写入错误程序
-    /// </summary>
-    /// <remarks>主要解决日志在写入过程出现异常问题</remarks>
-    /// <example>
-    /// options.HandleWriteError = (err) => {
-    ///     // do anything
-    /// };
-    /// </example>
-    public Action<DatabaseWriteError> HandleWriteError { get; set; }
+            // 输出日志类别
+            writer.WriteString("logName", logMsg.LogName);
 
-    /// <summary>
-    /// 是否使用 UTC 时间戳，默认 false
-    /// </summary>
-    public bool UseUtcTimestamp { get; set; }
+            // 输出日志事件 Id
+            writer.WriteNumber("eventId", logMsg.EventId.Id);
 
-    /// <summary>
-    /// 日期格式化
-    /// </summary>
-    public string DateFormat { get; set; } = "yyyy-MM-dd hh:mm:ss(zzz) dddd";
+            // 输出日志消息
+            writer.WriteString("message", logMsg.Message);
+
+            // 输出日志所在线程 Id
+            writer.WriteNumber("threadId", logMsg.ThreadId);
+
+            // 输出异常信息
+            writer.WritePropertyName("exception");
+            if (logMsg.Exception == null) writer.WriteNullValue();
+            else writer.WriteStringValue(logMsg.Exception.ToString());
+
+            writer.WriteEndObject();
+        });
+    };
 }

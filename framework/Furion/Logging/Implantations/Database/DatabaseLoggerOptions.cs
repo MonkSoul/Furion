@@ -41,6 +41,11 @@ public sealed class DatabaseLoggerOptions
     public LogLevel MinimumLevel { get; set; } = LogLevel.Trace;
 
     /// <summary>
+    /// 自定义日志消息格式化程序
+    /// </summary>
+    public Func<LogMessage, string> MessageFormat { get; set; }
+
+    /// <summary>
     /// 自定义数据库日志写入错误程序
     /// </summary>
     /// <remarks>主要解决日志在写入过程出现异常问题</remarks>
@@ -50,4 +55,14 @@ public sealed class DatabaseLoggerOptions
     /// };
     /// </example>
     public Action<DatabaseWriteError> HandleWriteError { get; set; }
+
+    /// <summary>
+    /// 是否使用 UTC 时间戳，默认 false
+    /// </summary>
+    public bool UseUtcTimestamp { get; set; }
+
+    /// <summary>
+    /// 日期格式化
+    /// </summary>
+    public string DateFormat { get; set; } = "yyyy-MM-dd hh:mm:ss(zzz) dddd";
 }

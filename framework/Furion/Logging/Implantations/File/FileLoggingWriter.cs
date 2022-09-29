@@ -33,6 +33,11 @@ internal class FileLoggingWriter
     private readonly FileLoggerProvider _fileLoggerProvider;
 
     /// <summary>
+    /// 日志配置选项
+    /// </summary>
+    private readonly FileLoggerOptions _options;
+
+    /// <summary>
     /// 日志文件名
     /// </summary>
     private string _fileName;
@@ -64,6 +69,7 @@ internal class FileLoggingWriter
     internal FileLoggingWriter(FileLoggerProvider fileLoggerProvider)
     {
         _fileLoggerProvider = fileLoggerProvider;
+        _options = fileLoggerProvider.LoggerOptions;
         _isEnabledRollingFiles = _fileLoggerProvider.MaxRollingFiles > 0 && _fileLoggerProvider.FileSizeLimitBytes > 0;
 
         // 解析当前写入日志的文件名
@@ -82,8 +88,8 @@ internal class FileLoggingWriter
         var fileName = _fileLoggerProvider.FileName;
 
         // 如果配置了日志文件名格式化程序，则先处理再返回
-        if (_fileLoggerProvider.FileNameRule != null)
-            fileName = _fileLoggerProvider.FileNameRule(fileName);
+        if (_options.FileNameRule != null)
+            fileName = _options.FileNameRule(fileName);
 
         return fileName;
     }
@@ -185,10 +191,10 @@ internal class FileLoggingWriter
         catch (Exception ex)
         {
             // 处理文件写入错误
-            if (_fileLoggerProvider.HandleWriteError != null)
+            if (_options.HandleWriteError != null)
             {
                 var fileWriteError = new FileWriteError(_fileName, ex);
-                _fileLoggerProvider.HandleWriteError(fileWriteError);
+                _options.HandleWriteError(fileWriteError);
 
                 // 如果配置了备用文件名，则重新写入
                 if (fileWriteError.RollbackFileName != null)
@@ -255,7 +261,7 @@ internal class FileLoggingWriter
         // 是否重新自定义了文件名
         bool isBaseFileNameChanged()
         {
-            if (_fileLoggerProvider.FileNameRule != null)
+            if (_options.FileNameRule != null)
             {
                 var baseFileName = GetBaseFileName();
 
