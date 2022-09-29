@@ -100,58 +100,48 @@ internal static class Penetrates
     /// <summary>
     /// 输出标准日志消息
     /// </summary>
-    /// <param name="message"></param>
-    /// <param name="logName"></param>
-    /// <param name="timeStamp"></param>
-    /// <param name="logLevel"></param>
-    /// <param name="eventId"></param>
-    /// <param name="exception"></param>
+    /// <param name="logMsg"></param>
     /// <param name="dateFormat"></param>
     /// <param name="disableColors"></param>
     /// <param name="isConsole"></param>
     /// <returns></returns>
-    internal static string OutputStandardMessage(string message
-        , string logName
-        , DateTime timeStamp
-        , LogLevel logLevel
-        , EventId eventId
-        , Exception exception
+    internal static string OutputStandardMessage(LogMessage logMsg
         , string dateFormat = "o"
         , bool isConsole = false
         , bool disableColors = true)
     {
         // 空检查
-        if (message is null) return null;
+        if (logMsg.Message is null) return null;
 
         // 创建默认日志格式化模板
         var formatString = new StringBuilder();
 
         // 获取日志级别对应控制台的颜色
         var disableConsoleColor = !isConsole || disableColors;
-        var logLevelColors = GetLogLevelConsoleColors(logLevel, disableConsoleColor);
+        var logLevelColors = GetLogLevelConsoleColors(logMsg.LogLevel, disableConsoleColor);
 
-        _ = AppendWithColor(formatString, GetLogLevelString(logLevel), logLevelColors);
+        _ = AppendWithColor(formatString, GetLogLevelString(logMsg.LogLevel), logLevelColors);
         formatString.Append(": ");
-        formatString.Append(timeStamp.ToString(dateFormat));
+        formatString.Append(logMsg.LogDateTime.ToString(dateFormat));
         formatString.Append(" ");
-        _ = AppendWithColor(formatString, logName, disableConsoleColor
+        _ = AppendWithColor(formatString, logMsg.LogName, disableConsoleColor
             ? new ConsoleColors(null, null)
             : new ConsoleColors(ConsoleColor.Cyan, ConsoleColor.DarkCyan));
         formatString.Append("[");
-        formatString.Append(eventId.Id);
+        formatString.Append(logMsg.EventId.Id);
         formatString.Append("]");
         formatString.Append(" ");
-        formatString.Append($"#{Environment.CurrentManagedThreadId}");
+        formatString.Append($"#{logMsg.ThreadId}");
         formatString.AppendLine();
 
         // 对日志内容进行缩进对齐处理
-        formatString.Append(PadLeftAlign(message));
+        formatString.Append(PadLeftAlign(logMsg.Message));
 
         // 如果包含异常信息，则创建新一行写入
-        if (exception != null)
+        if (logMsg.Exception != null)
         {
             var EXCEPTION_SEPARATOR_WITHCOLOR = AppendWithColor(default, EXCEPTION_SEPARATOR, logLevelColors).ToString();
-            var exceptionMessage = $"{Environment.NewLine}{EXCEPTION_SEPARATOR_WITHCOLOR}{Environment.NewLine}{exception}{Environment.NewLine}{EXCEPTION_SEPARATOR_WITHCOLOR}";
+            var exceptionMessage = $"{Environment.NewLine}{EXCEPTION_SEPARATOR_WITHCOLOR}{Environment.NewLine}{logMsg.Exception}{Environment.NewLine}{EXCEPTION_SEPARATOR_WITHCOLOR}";
 
             formatString.Append(PadLeftAlign(exceptionMessage));
         }

@@ -51,6 +51,11 @@ public sealed class DatabaseLogger : ILogger
     private readonly DatabaseLoggerProvider _databaseLoggerProvider;
 
     /// <summary>
+    /// 日志配置选项
+    /// </summary>
+    private readonly DatabaseLoggerOptions _options;
+
+    /// <summary>
     /// 构造函数
     /// </summary>
     /// <param name="logName">记录器类别名称</param>
@@ -59,6 +64,7 @@ public sealed class DatabaseLogger : ILogger
     {
         _logName = logName;
         _databaseLoggerProvider = databaseLoggerProvider;
+        _options = databaseLoggerProvider.LoggerOptions;
     }
 
     /// <summary>
@@ -91,7 +97,7 @@ public sealed class DatabaseLogger : ILogger
     /// <returns><see cref="bool"/></returns>
     public bool IsEnabled(LogLevel logLevel)
     {
-        return logLevel >= _databaseLoggerProvider.MinimumLevel;
+        return logLevel >= _options.MinimumLevel;
     }
 
     /// <summary>
@@ -121,10 +127,20 @@ public sealed class DatabaseLogger : ILogger
 
         // 获取格式化后的消息
         var message = formatter(state, exception);
-        var logMsg = new LogMessage(_logName, logLevel, eventId, message, exception, Context, state);
+
+        var logDateTime = _options.UseUtcTimestamp ? DateTime.UtcNow : DateTime.Now;
+        var logMsg = new LogMessage(_logName, logLevel, eventId, message, exception, Context, state, logDateTime, Environment.CurrentManagedThreadId);
 
         // 判断是否自定义了日志筛选器，如果是则检查是否符合条件
-        if (_databaseLoggerProvider.LoggerOptions.WriteFilter?.Invoke(logMsg) == false) return;
+        if (_options.WriteFilter?.Invoke(logMsg) == false) return;
+
+        // 设置日志消息模板
+        logMsg.Message = _options.MessageFormat != null
+            ? _options.MessageFormat(logMsg)
+            : Penetrates.OutputStandardMessage(logMsg, _options.DateFormat);
+
+        // 空检查
+        if (logMsg.Message is null) return;
 
         // 写入日志队列
         _databaseLoggerProvider.WriteToQueue(logMsg);

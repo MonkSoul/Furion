@@ -69,30 +69,6 @@ public sealed class DatabaseLoggerProvider : ILoggerProvider
     }
 
     /// <summary>
-    /// 最低日志记录级别
-    /// </summary>
-    public LogLevel MinimumLevel
-    {
-        get => LoggerOptions.MinimumLevel;
-        set { LoggerOptions.MinimumLevel = value; }
-    }
-
-    /// <summary>
-    /// 自定义数据库日志写入错误程序
-    /// </summary>
-    /// <remarks>主要解决日志在写入过程出现异常问题</remarks>
-    /// <example>
-    /// options.HandleWriteError = (err) => {
-    ///     // do anything
-    /// };
-    /// </example>
-    public Action<DatabaseWriteError> HandleWriteError
-    {
-        get => LoggerOptions.HandleWriteError;
-        set { LoggerOptions.HandleWriteError = value; }
-    }
-
-    /// <summary>
     /// 数据库日志记录器配置选项
     /// </summary>
     internal DatabaseLoggerOptions LoggerOptions { get; private set; }
@@ -185,10 +161,10 @@ public sealed class DatabaseLoggerProvider : ILoggerProvider
             catch (Exception ex)
             {
                 // 处理数据库写入错误
-                if (HandleWriteError != null)
+                if (LoggerOptions.HandleWriteError != null)
                 {
                     var databaseWriteError = new DatabaseWriteError(ex);
-                    HandleWriteError(databaseWriteError);
+                    LoggerOptions.HandleWriteError(databaseWriteError);
                 }
                 // 这里不抛出异常，避免中断日志写入
                 else { }

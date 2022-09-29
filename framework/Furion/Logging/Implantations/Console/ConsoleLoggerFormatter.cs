@@ -72,9 +72,8 @@ public sealed class ConsoleLoggerFormatter : ConsoleFormatter, IDisposable
         var message = logEntry.Formatter?.Invoke(logEntry.State, logEntry.Exception);
 
         // 创建日志消息
-        var logMsg = _formatterOptions.MessageFormat != null || _formatterOptions.WriteHandler != null
-            ? new LogMessage(logEntry.Category, logEntry.LogLevel, logEntry.EventId, message, logEntry.Exception, null, logEntry.State)
-            : default;
+        var logDateTime = _formatterOptions.UseUtcTimestamp ? DateTime.UtcNow : DateTime.Now;
+        var logMsg = new LogMessage(logEntry.Category, logEntry.LogLevel, logEntry.EventId, message, logEntry.Exception, null, logEntry.State, logDateTime, Environment.CurrentManagedThreadId);
 
         string standardMessage;
 
@@ -96,12 +95,7 @@ public sealed class ConsoleLoggerFormatter : ConsoleFormatter, IDisposable
         else
         {
             // 获取标准化日志消息
-            standardMessage = Penetrates.OutputStandardMessage(message
-               , logEntry.Category
-               , _formatterOptions.UseUtcTimestamp ? DateTime.UtcNow : DateTime.Now
-               , logEntry.LogLevel
-               , logEntry.EventId
-               , logEntry.Exception
+            standardMessage = Penetrates.OutputStandardMessage(logMsg
                , _formatterOptions.DateFormat
                , true
                , _disableColors);
