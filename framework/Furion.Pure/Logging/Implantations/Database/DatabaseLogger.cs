@@ -121,7 +121,7 @@ public sealed class DatabaseLogger : ILogger
 
         // 获取格式化后的消息
         var message = formatter(state, exception);
-        var logMsg = new LogMessage(_logName, logLevel, eventId, message, exception, Context);
+        var logMsg = new LogMessage(_logName, logLevel, eventId, message, exception, Context, state);
 
         // 判断是否自定义了日志筛选器，如果是则检查是否符合条件
         if (_databaseLoggerProvider.LoggerOptions.WriteFilter?.Invoke(logMsg) == false) return;

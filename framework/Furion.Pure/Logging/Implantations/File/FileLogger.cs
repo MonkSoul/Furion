@@ -109,7 +109,7 @@ public sealed class FileLogger : ILogger
 
         // 获取格式化后的消息
         var message = formatter(state, exception);
-        var logMsg = new LogMessage(_logName, logLevel, eventId, message, exception, Context);
+        var logMsg = new LogMessage(_logName, logLevel, eventId, message, exception, Context, state);
 
         // 是否自定义了日志筛选器，如果是则检查是否条件
         if (_fileLoggerProvider.LoggerOptions.WriteFilter?.Invoke(logMsg) == false) return;

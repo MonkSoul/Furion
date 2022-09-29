@@ -49,11 +49,6 @@ public sealed class ConsoleLoggerFormatter : ConsoleFormatter, IDisposable
     private ConsoleFormatterSettingsOptions _formatterOptions;
 
     /// <summary>
-    /// 日志配置选项
-    /// </summary>
-    private SimpleConsoleFormatterOptions _options;
-
-    /// <summary>
     /// 是否启用控制台颜色
     /// </summary>
     private bool _disableColors;
@@ -62,14 +57,11 @@ public sealed class ConsoleLoggerFormatter : ConsoleFormatter, IDisposable
     /// 构造函数
     /// </summary>
     /// <param name="formatterOptions"></param>
-    /// <param name="options"></param>
-    public ConsoleLoggerFormatter(IOptionsMonitor<ConsoleFormatterSettingsOptions> formatterOptions
-        , IOptionsMonitor<SimpleConsoleFormatterOptions> options)
+    public ConsoleLoggerFormatter(IOptionsMonitor<ConsoleFormatterSettingsOptions> formatterOptions)
         : base("console-format")
     {
         (_formatOptionsReloadToken, _formatterOptions) = (formatterOptions.OnChange(ReloadFormatterOptions), formatterOptions.CurrentValue);
-        (_optionsReloadToken, _options) = (options.OnChange(ReloadLoggerOptions), options.CurrentValue);
-        _disableColors = _options.ColorBehavior == LoggerColorBehavior.Disabled || (_options.ColorBehavior == LoggerColorBehavior.Default && Console.IsOutputRedirected);
+        _disableColors = _formatterOptions.ColorBehavior == LoggerColorBehavior.Disabled || (_formatterOptions.ColorBehavior == LoggerColorBehavior.Default && Console.IsOutputRedirected);
     }
 
     /// <summary>
@@ -84,14 +76,27 @@ public sealed class ConsoleLoggerFormatter : ConsoleFormatter, IDisposable
         // 获取格式化后的消息
         var message = logEntry.Formatter?.Invoke(logEntry.State, logEntry.Exception);
 
+        // 创建日志消息
+        var logMsg = _formatterOptions.MessageFormat != null || _formatterOptions.WriteHandler != null
+            ? new LogMessage(logEntry.Category, logEntry.LogLevel, logEntry.EventId, message, logEntry.Exception, null, logEntry.State)
+            : default;
+
         string standardMessage;
 
         // 是否自定义了自定义日志格式化程序，如果是则使用
         if (_formatterOptions.MessageFormat != null)
         {
+            // 解析日志上下文数据
+            scopeProvider?.ForEachScope<object>((scope, ctx) =>
+            {
+                if (scope is LogContext context)
+                {
+                    logMsg.Context = context;
+                }
+            }, null);
+
             // 设置日志消息模板
-            standardMessage = _formatterOptions.MessageFormat(
-                new LogMessage(logEntry.Category, logEntry.LogLevel, logEntry.EventId, message, logEntry.Exception, null));
+            standardMessage = _formatterOptions.MessageFormat(logMsg);
         }
         else
         {
@@ -110,8 +115,16 @@ public sealed class ConsoleLoggerFormatter : ConsoleFormatter, IDisposable
         // 空检查
         if (message is null) return;
 
-        // 写入控制台
-        textWriter.WriteLine(standardMessage);
+        // 判断是否自定义了日志格式化程序
+        if (_formatterOptions.WriteHandler != null)
+        {
+            _formatterOptions.WriteHandler?.Invoke(logMsg, scopeProvider, textWriter, standardMessage, _formatterOptions);
+        }
+        else
+        {
+            // 写入控制台
+            textWriter.WriteLine(standardMessage);
+        }
     }
 
     /// <summary>
@@ -120,7 +133,6 @@ public sealed class ConsoleLoggerFormatter : ConsoleFormatter, IDisposable
     public void Dispose()
     {
         _formatOptionsReloadToken?.Dispose();
-        _optionsReloadToken?.Dispose();
     }
 
     /// <summary>
@@ -130,15 +142,6 @@ public sealed class ConsoleLoggerFormatter : ConsoleFormatter, IDisposable
     private void ReloadFormatterOptions(ConsoleFormatterSettingsOptions options)
     {
         _formatterOptions = options;
-    }
-
-    /// <summary>
-    /// 刷新日志选项
-    /// </summary>
-    /// <param name="options"></param>
-    private void ReloadLoggerOptions(SimpleConsoleFormatterOptions options)
-    {
-        _options = options;
-        _disableColors = _options.ColorBehavior == LoggerColorBehavior.Disabled || (_options.ColorBehavior == LoggerColorBehavior.Default && Console.IsOutputRedirected);
+        _disableColors = options.ColorBehavior == LoggerColorBehavior.Disabled || (options.ColorBehavior == LoggerColorBehavior.Default && Console.IsOutputRedirected);
     }
 }

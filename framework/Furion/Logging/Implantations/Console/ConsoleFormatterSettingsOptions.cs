@@ -20,6 +20,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Console;
 
 namespace Furion.Logging;
@@ -31,6 +32,11 @@ namespace Furion.Logging;
 public sealed class ConsoleFormatterSettingsOptions : ConsoleFormatterOptions
 {
     /// <summary>
+    /// 控制是否启用颜色
+    /// </summary>
+    public LoggerColorBehavior ColorBehavior { get; set; }
+
+    /// <summary>
     /// 自定义日志消息格式化程序
     /// </summary>
     public Func<LogMessage, string> MessageFormat { get; set; }
@@ -39,4 +45,9 @@ public sealed class ConsoleFormatterSettingsOptions : ConsoleFormatterOptions
     /// 日期格式化
     /// </summary>
     public string DateFormat { get; set; } = "yyyy-MM-dd hh:mm:ss(zzz) dddd";
+
+    /// <summary>
+    /// 自定义格式化日志处理程序
+    /// </summary>
+    public Action<LogMessage, IExternalScopeProvider, TextWriter, string, ConsoleFormatterSettingsOptions> WriteHandler { get; set; }
 }

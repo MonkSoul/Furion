@@ -39,12 +39,14 @@ public struct LogMessage
     /// <param name="message">日志消息</param>
     /// <param name="exception">异常对象</param>
     /// <param name="context">日志上下文</param>
+    /// <param name="state"></param>
     internal LogMessage(string logName
         , LogLevel logLevel
         , EventId eventId
         , string message
         , Exception exception
-        , LogContext context)
+        , LogContext context
+        , object state)
     {
         LogName = logName;
         Message = message;
@@ -52,6 +54,7 @@ public struct LogMessage
         EventId = eventId;
         Exception = exception;
         Context = context;
+        State = state;
     }
 
     /// <summary>
@@ -78,6 +81,11 @@ public struct LogMessage
     /// 异常对象
     /// </summary>
     public readonly Exception Exception;
+
+    /// <summary>
+    /// 状态
+    /// </summary>
+    public readonly object State;
 
     /// <summary>
     /// 日志上下文

@@ -120,4 +120,12 @@ public class TestLoggerServices : IDynamicApiController
     {
         "This is log".LogInformation<TestLoggerServices>();
     }
+
+    public void 测试作用域()
+    {
+        _logger.ScopeContext(new Dictionary<object, object>
+       {
+           {"name","Furion" }
+       }).LogInformation("测试啊");
+    }
 }
