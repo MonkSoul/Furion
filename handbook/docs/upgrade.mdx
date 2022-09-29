@@ -102,7 +102,28 @@ services.AddDatabaseLogging<DatabaseLoggingWriter>(options =>
   <summary>查看更改</summary>
   <div>
 
-```cs showLineNumbers {14-17}
+1. 全局/局部启用 `Json` 输出配置
+
+```cs showLineNumbers {4,8}
+// 全局
+services.AddMonitorLogging(options =>
+{
+    options.JsonBehavior = Furion.Logging.JsonBehavior.OnlyJson;
+});
+
+// 局部
+[LoggingMonitor(JsonBehavior = Furion.Logging.JsonBehavior.OnlyJson)]
+```
+
+:::note 关于 `JsonBehavior`
+
+只有设置为 `JsonBehavior.OnlyJson` 时才不会输出**美观的**日志。
+
+:::
+
+2. 写入存储介质
+
+```cs showLineNumbers {14-18}
 using Furion.Logging;
 
 namespace Your.Core;
@@ -116,7 +137,9 @@ public class DatabaseLoggingWriter : IDatabaseLoggingWriter
 
     public void Write(LogMessage logMsg, bool flush)
     {
-        if(logMsg.LogName == "System.Logging.LoggingMonitor")
+        // 如果 JsonBehavior 配置为 OnlyJson 或者 All，那么 Context 就包含 loggingMonitor 的值
+        // 如果 JsonBehavior 配置为 OnlyJson，那么可直接通过 logMsg.Message 获取结果就是 json 格式
+        if (logMsg.LogName == "System.Logging.LoggingMonitor")
         {
             var jsonString = logMsg.Context.Get("loggingMonitor");
         }
@@ -126,7 +149,7 @@ public class DatabaseLoggingWriter : IDatabaseLoggingWriter
 }
 ```
 
-其中 `jsonString` 的值如下：
+`Json` 输出格式如下：
 
 ```json showLineNumbers
 {

@@ -1013,9 +1013,28 @@ services.AddMonitorLogging(jsonKey: "YourKey:Monitor");
 
 :::
 
-在 `Furion 4.5.2+` 版本中，添加了键为 `loggingMonitor` 的上下文 `JSON` 输出字符串，可将改字符串写入存储介质中，如 `ES`。
+1. 全局/局部启用 `Json` 输出配置
 
-```cs showLineNumbers {14-17}
+```cs showLineNumbers {4,8}
+// 全局
+services.AddMonitorLogging(options =>
+{
+    options.JsonBehavior = Furion.Logging.JsonBehavior.OnlyJson;
+});
+
+// 局部
+[LoggingMonitor(JsonBehavior = Furion.Logging.JsonBehavior.OnlyJson)]
+```
+
+:::note 关于 `JsonBehavior`
+
+只有设置为 `JsonBehavior.OnlyJson` 时才不会输出**美观的**日志。
+
+:::
+
+2. 写入存储介质
+
+```cs showLineNumbers {14-18}
 using Furion.Logging;
 
 namespace Your.Core;
@@ -1029,7 +1048,9 @@ public class DatabaseLoggingWriter : IDatabaseLoggingWriter
 
     public void Write(LogMessage logMsg, bool flush)
     {
-        if(logMsg.LogName == "System.Logging.LoggingMonitor")
+        // 如果 JsonBehavior 配置为 OnlyJson 或者 All，那么 Context 就包含 loggingMonitor 的值
+        // 如果 JsonBehavior 配置为 OnlyJson，那么可直接通过 logMsg.Message 获取结果就是 json 格式
+        if (logMsg.LogName == "System.Logging.LoggingMonitor")
         {
             var jsonString = logMsg.Context.Get("loggingMonitor");
         }
@@ -1039,101 +1060,101 @@ public class DatabaseLoggingWriter : IDatabaseLoggingWriter
 }
 ```
 
-其中 `jsonString` 的值如下：
+`Json` 输出格式如下：
 
 ```json showLineNumbers
 {
-    "controllerName": "test-logger",
-    "controllerTypeName": "TestLoggerServices",
-    "actionName": "person",
-    "actionTypeName": "GetPerson",
-    "areaName": null,
-    "displayName": "Furion.Application.TestLoggerServices.GetPerson (Furion.Application)",
-    "localIPv4": "0.0.0.1",
-    "remoteIPv4": "0.0.0.1",
-    "httpMethod": "GET",
-    "requestUrl": "https://localhost:5001/api/test-logger/person/2",
-    "refererUrl": "https://localhost:5001/api/index.html?urls.primaryName=数据库操作演示",
-    "environment": "Development",
-    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36 Edg/105.0.1343.53",
-    "requestHeaderAuthorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOjEsIkFjY291bnQiOiJhZG1pbiIsImlhdCI6MTY2NDQ1MDUwNSwibmJmIjoxNjY0NDUwNTA1LCJleHAiOjE2NjQ0NTE3MDUsImlzcyI6ImRvdG5ldGNoaW5hIiwiYXVkIjoicG93ZXJieSBGdXJpb24ifQ.-xocNcDQGoXClceoVU5QAHIkTcOZ7ZXo0hEbzghDfFI",
-    "timeOperationElapsedMilliseconds": 55,
-    "authorizationClaims": [
-        {
-            "type": "UserId",
-            "valueType": "integer",
-            "value": "1"
-        },
-        {
-            "type": "Account",
-            "valueType": "string",
-            "value": "admin"
-        },
-        {
-            "type": "iat",
-            "valueType": "integer",
-            "value": "1664450505"
-        },
-        {
-            "type": "nbf",
-            "valueType": "integer",
-            "value": "1664450505"
-        },
-        {
-            "type": "exp",
-            "valueType": "integer",
-            "value": "1664451705"
-        },
-        {
-            "type": "iss",
-            "valueType": "string",
-            "value": "dotnetchina"
-        },
-        {
-            "type": "aud",
-            "valueType": "string",
-            "value": "powerby Furion"
-        }
-    ],
-    "parameters": [
-        {
-            "name": "id",
-            "type": "System.Int32",
-            "value": 2
-        }
-    ],
-    "returnInformation": {
-        "type": "Furion.UnifyResult.RESTfulResult`1[[System.Object, System.Private.CoreLib, Version=6.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
-        "actType": "Furion.Application.Persons.PersonDto",
-        "value": {
-            "StatusCode": 200,
-            "Data": {
-                "Id": 2,
-                "Name": null,
-                "Age": 0,
-                "Address": null,
-                "PhoneNumber": null,
-                "QQ": null,
-                "CreatedTime": "0001-01-01T00:00:00+00:00",
-                "Childrens": null,
-                "Posts": null
-            },
-            "Succeeded": true,
-            "Errors": null,
-            "Extras": null,
-            "Timestamp": 1664450517341
-        }
+  "controllerName": "test-logger",
+  "controllerTypeName": "TestLoggerServices",
+  "actionName": "person",
+  "actionTypeName": "GetPerson",
+  "areaName": null,
+  "displayName": "Furion.Application.TestLoggerServices.GetPerson (Furion.Application)",
+  "localIPv4": "0.0.0.1",
+  "remoteIPv4": "0.0.0.1",
+  "httpMethod": "GET",
+  "requestUrl": "https://localhost:5001/api/test-logger/person/2",
+  "refererUrl": "https://localhost:5001/api/index.html?urls.primaryName=数据库操作演示",
+  "environment": "Development",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36 Edg/105.0.1343.53",
+  "requestHeaderAuthorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOjEsIkFjY291bnQiOiJhZG1pbiIsImlhdCI6MTY2NDQ1MDUwNSwibmJmIjoxNjY0NDUwNTA1LCJleHAiOjE2NjQ0NTE3MDUsImlzcyI6ImRvdG5ldGNoaW5hIiwiYXVkIjoicG93ZXJieSBGdXJpb24ifQ.-xocNcDQGoXClceoVU5QAHIkTcOZ7ZXo0hEbzghDfFI",
+  "timeOperationElapsedMilliseconds": 55,
+  "authorizationClaims": [
+    {
+      "type": "UserId",
+      "valueType": "integer",
+      "value": "1"
     },
-    "exception": {
-        "type": "System.DivideByZeroException",
-        "message": "Attempted to divide by zero.",
-        "stackTrace": "   at Furion.Application.TestLoggerServices.测试日志监听8(Int32 id) in D:\\Workplaces\\OpenSources\\Furion\\samples\\Furion.Application\\TestLoggerServices.cs:line 78\r\n   at lambda_method103(Closure , Object , Object[] )\r\n   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.SyncObjectResultExecutor.Execute(IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)\r\n   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Logged|12_1(ControllerActionInvoker invoker)\r\n   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)"
+    {
+      "type": "Account",
+      "valueType": "string",
+      "value": "admin"
     },
-    "validation": {
-        "errorCode": null,
-        "originErrorCode": null,
-        "message": "出错了啊。。。。"
+    {
+      "type": "iat",
+      "valueType": "integer",
+      "value": "1664450505"
+    },
+    {
+      "type": "nbf",
+      "valueType": "integer",
+      "value": "1664450505"
+    },
+    {
+      "type": "exp",
+      "valueType": "integer",
+      "value": "1664451705"
+    },
+    {
+      "type": "iss",
+      "valueType": "string",
+      "value": "dotnetchina"
+    },
+    {
+      "type": "aud",
+      "valueType": "string",
+      "value": "powerby Furion"
     }
+  ],
+  "parameters": [
+    {
+      "name": "id",
+      "type": "System.Int32",
+      "value": 2
+    }
+  ],
+  "returnInformation": {
+    "type": "Furion.UnifyResult.RESTfulResult`1[[System.Object, System.Private.CoreLib, Version=6.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+    "actType": "Furion.Application.Persons.PersonDto",
+    "value": {
+      "StatusCode": 200,
+      "Data": {
+        "Id": 2,
+        "Name": null,
+        "Age": 0,
+        "Address": null,
+        "PhoneNumber": null,
+        "QQ": null,
+        "CreatedTime": "0001-01-01T00:00:00+00:00",
+        "Childrens": null,
+        "Posts": null
+      },
+      "Succeeded": true,
+      "Errors": null,
+      "Extras": null,
+      "Timestamp": 1664450517341
+    }
+  },
+  "exception": {
+    "type": "System.DivideByZeroException",
+    "message": "Attempted to divide by zero.",
+    "stackTrace": "   at Furion.Application.TestLoggerServices.测试日志监听8(Int32 id) in D:\\Workplaces\\OpenSources\\Furion\\samples\\Furion.Application\\TestLoggerServices.cs:line 78\r\n   at lambda_method103(Closure , Object , Object[] )\r\n   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.SyncObjectResultExecutor.Execute(IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)\r\n   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Logged|12_1(ControllerActionInvoker invoker)\r\n   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)"
+  },
+  "validation": {
+    "errorCode": null,
+    "originErrorCode": null,
+    "message": "出错了啊。。。。"
+  }
 }
 ```
 

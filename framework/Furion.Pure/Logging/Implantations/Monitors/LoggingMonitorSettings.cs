@@ -73,6 +73,11 @@ public sealed class LoggingMonitorSettings
     public int ReturnValueThreshold { get; set; } = 0;
 
     /// <summary>
+    /// 配置 Json 输出行为
+    /// </summary>
+    public JsonBehavior JsonBehavior { get; set; } = JsonBehavior.None;
+
+    /// <summary>
     /// 是否 Mvc Filter 方式注册
     /// </summary>
     /// <remarks>解决旧版本兼容问题</remarks>

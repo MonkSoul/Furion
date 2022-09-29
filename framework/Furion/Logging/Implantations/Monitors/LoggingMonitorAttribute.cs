@@ -101,6 +101,11 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter, IOr
     public object ReturnValueThreshold { get; set; } = null;
 
     /// <summary>
+    /// 配置 Json 输出行为
+    /// </summary>
+    public object JsonBehavior { get; set; } = null;
+
+    /// <summary>
     /// 配置信息
     /// </summary>
     private LoggingMonitorSettings Settings { get; set; }
@@ -297,7 +302,7 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter, IOr
         monitorItems.AddRange(GenerateExcetpionInfomationTemplate(writer, exception, isValidationException));
 
         // 生成最终模板
-        var monitor = TP.Wrapper(Title, displayName, monitorItems.ToArray());
+        var monitorMessage = TP.Wrapper(Title, displayName, monitorItems.ToArray());
 
         // 创建日志记录器
         var logger = httpContext.RequestServices.GetRequiredService<ILoggerFactory>()
@@ -308,21 +313,27 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter, IOr
 
         writer.WriteEndObject();
         writer.Flush();
-        logContext.Set("loggingMonitor", Encoding.UTF8.GetString(stream.ToArray()));
+
+        // 获取 json 字符串
+        var jsonString = Encoding.UTF8.GetString(stream.ToArray());
+        logContext.Set("loggingMonitor", jsonString);
 
         // 设置日志上下文
         logger.ScopeContext(logContext);
 
+        // 获取最终写入日志消息格式
+        var finalMessage = GetJsonBehavior(JsonBehavior, monitorMethod) == Furion.Logging.JsonBehavior.OnlyJson ? jsonString : monitorMessage;
+
         // 写入日志，如果没有异常使用 LogInformation，否则使用 LogError
-        if (exception == null) logger.LogInformation(monitor);
+        if (exception == null) logger.LogInformation(finalMessage);
         else
         {
             // 如果不是验证异常，写入 Error
-            if (!isValidationException) logger.LogError(exception, monitor);
+            if (!isValidationException) logger.LogError(exception, finalMessage);
             else
             {
                 // 读取配置的日志级别并写入
-                logger.Log(Settings.BahLogLevel, monitor);
+                logger.Log(Settings.BahLogLevel, finalMessage);
             }
         }
     }
@@ -514,7 +525,7 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter, IOr
             : TrySerializeObject(returnValue, out succeed);
 
         // 获取返回值阈值
-        var threshold = CheckIsSetReturnValueThreshold(ReturnValueThreshold, monitorMethod);
+        var threshold = GetReturnValueThreshold(ReturnValueThreshold, monitorMethod);
         if (threshold > 0)
         {
             displayValue = displayValue[..(displayValue.Length > threshold ? threshold : displayValue.Length)];
@@ -650,15 +661,28 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter, IOr
     }
 
     /// <summary>
-    /// 检查是否设置返回值阈值
+    /// 获取返回值阈值
     /// </summary>
     /// <param name="returnValueThreshold"></param>
     /// <param name="monitorMethod"></param>
     /// <returns></returns>
-    private int CheckIsSetReturnValueThreshold(object returnValueThreshold, LoggingMonitorMethod monitorMethod)
+    private int GetReturnValueThreshold(object returnValueThreshold, LoggingMonitorMethod monitorMethod)
     {
         return returnValueThreshold == null
             ? (monitorMethod?.ReturnValueThreshold ?? Settings.ReturnValueThreshold)
             : Convert.ToInt32(returnValueThreshold);
+    }
+
+    /// <summary>
+    /// 获取 Json 输出行为
+    /// </summary>
+    /// <param name="jsonBehavior"></param>
+    /// <param name="monitorMethod"></param>
+    /// <returns></returns>
+    private JsonBehavior GetJsonBehavior(object jsonBehavior, LoggingMonitorMethod monitorMethod)
+    {
+        return jsonBehavior == null
+            ? (monitorMethod?.JsonBehavior ?? Settings.JsonBehavior)
+            : (JsonBehavior)jsonBehavior;
     }
 }

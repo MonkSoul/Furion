@@ -45,4 +45,9 @@ public sealed class LoggingMonitorMethod
     /// </summary>
     /// <remarks>配置返回值字符串阈值，超过这个阈值将截断，默认全量输出</remarks>
     public int ReturnValueThreshold { get; set; } = 0;
+
+    /// <summary>
+    /// 配置 Json 输出行为
+    /// </summary>
+    public JsonBehavior JsonBehavior { get; set; } = JsonBehavior.None;
 }
