@@ -25,7 +25,7 @@ using System.ComponentModel;
 namespace Furion.Logging;
 
 /// <summary>
-/// 控制 LoggingMonitor Json 输出行为
+/// LoggingMonitor Json 输出行为
 /// </summary>
 [SuppressSniffer]
 public enum JsonBehavior

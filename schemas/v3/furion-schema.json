@@ -523,6 +523,16 @@
               "type": "number",
               "default": 0
             },
+            "JsonBehavior": {
+              "description": "配置 LoggingMonitor Json 输出行为",
+              "type": "string",
+              "default": "None",
+              "enum": [
+                "None",
+                "OnlyJson",
+                "All"
+              ]
+            },
             "MethodsSettings": {
               "description": "配置监听方法更多信息",
               "type": "array",
