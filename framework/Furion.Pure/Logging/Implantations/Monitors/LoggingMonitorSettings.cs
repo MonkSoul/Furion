@@ -80,8 +80,14 @@ public sealed class LoggingMonitorSettings
     /// <summary>
     /// 是否 Mvc Filter 方式注册
     /// </summary>
-    /// <remarks>解决旧版本兼容问题</remarks>
+    /// <remarks>解决过去 Mvc Filter 全局注册的问题</remarks>
     internal bool IsMvcFilterRegister { get; set; } = true;
+
+    /// <summary>
+    /// 是否来自全局触发器
+    /// </summary>
+    /// <remarks>解决局部和全局触发器同时配置触发两次问题</remarks>
+    internal bool FromGlobalFilter { get; set; } = false;
 
     /// <summary>
     /// 添加日志更多配置

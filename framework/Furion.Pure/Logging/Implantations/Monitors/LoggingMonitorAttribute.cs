@@ -142,6 +142,14 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter, IOr
 
         // 只有方法没有贴有 [LoggingMonitor] 特性才判断全局，贴了特性优先级最大
         var isDefinedScopedAttribute = actionMethod.IsDefined(typeof(LoggingMonitorAttribute), true);
+
+        // 解决局部和全局触发器同时配置触发两次问题
+        if (isDefinedScopedAttribute && Settings.FromGlobalFilter == true)
+        {
+            _ = await next();
+            return;
+        }
+
         if (!isDefinedScopedAttribute)
         {
             // 解决通过 AddMvcFilter 的问题
