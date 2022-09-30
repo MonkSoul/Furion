@@ -16,7 +16,7 @@ export default function Support() {
     <div className={clsx(classes.container)}>
       <div className={classes.title} onClick={() => setState((f) => !f)}>
         <IconFont className={classes.icon} name="fuwu" color="#fff" />
-        <span>请作者喝杯咖啡</span>
+        <span>最美的诗，莫过于指尖的温存</span>
         <span className={classes.toggle}>
           <IconFont
             className={classes.icon}
@@ -34,7 +34,7 @@ export default function Support() {
             "animate__fadeIn"
           )}
         >
-          如需长期<span className={classes.span}>项目技术外包</span>
+          {/* 如需长期<span className={classes.span}>项目技术外包</span>
           可添加此微信
           <img
             className={classes.img}
@@ -42,8 +42,8 @@ export default function Support() {
             alt="微信号：ibaiqian"
             title="微信号：ibaiqian"
           />
-          <br />
-          <span className={langClassName}>C#</span>
+          <br /> */}
+          {/* <span className={langClassName}>C#</span>
           <span className={langClassName}>.NET6</span>
           <span className={langClassName}>React</span>
           <span className={langClassName}>Node</span>
@@ -53,17 +53,15 @@ export default function Support() {
           <span className={langClassName}>桌面</span>
           <span className={langClassName}>Tauri</span>
           <span className={langClassName}>React Native</span>
-          <span className={langClassName}>小程序</span>
+          <span className={langClassName}>小程序</span> */}
           <div
             style={{
-              marginTop: 10,
-              borderTop: "1px solid #dedede",
-              paddingTop: 5,
-              marginBottom: 5,
+              padding: "0 12px",
               color: "rgb(114, 60, 255)",
             }}
           >
-            如果觉得 Furion 能够帮助到您，可以请作者喝杯咖啡。
+            如果你觉得 Furion
+            确实有用，并且实实在在的帮助到了你，那么可以考虑支持一下我们。
           </div>
           <img src={useBaseUrl("img/support.png")} style={{ width: "100%" }} />
         </div>
