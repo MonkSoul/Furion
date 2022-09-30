@@ -1,7 +1,6 @@
 import "animate.css";
 import React from "react";
 import GiveMeStar from "../components/GiveMeStar";
-import Support from "../components/Support";
 
 function Root({ children }) {
   return (
@@ -11,7 +10,7 @@ function Root({ children }) {
       {children}
       {/* <JoinGroup /> */}
       {/* <StarProject /> */}
-      <Support />
+      {/* <Support /> */}
       {/* <Playground /> */}
     </>
   );
