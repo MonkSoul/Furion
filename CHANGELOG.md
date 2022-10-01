@@ -1,1 +1,1 @@
-请查阅 [https://dotnetchina.gitee.io/furion/docs/upgrade](https://dotnetchina.gitee.io/furion/docs/upgrade)。
+请查阅 [https://furion.baiqian.ltd/docs/upgrade](https://furion.baiqian.ltd/docs/upgrade)。

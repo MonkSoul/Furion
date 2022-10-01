@@ -380,7 +380,7 @@ public static class App
                 Console.WriteLine(TP.Wrapper("Deploy Console"
                     , "Single file deploy error."
                     , "##Exception## Single file deployment configuration error."
-                    , "##Documentation## https://dotnetchina.gitee.io/furion/docs/singlefile"));
+                    , "##Documentation## https://furion.baiqian.ltd/docs/singlefile"));
                 Console.ResetColor();
             }
 

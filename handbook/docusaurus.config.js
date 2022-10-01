@@ -1,14 +1,14 @@
 module.exports = {
   title: "Furion",
   tagline: "让 .NET 开发更简单，更通用，更流行。",
-  url: "https://dotnetchina.gitee.io",
-  baseUrl: "/furion/",
+  url: "https://furion.baiqian.ltd",
+  baseUrl: "/",
   onBrokenLinks: "throw",
   onBrokenMarkdownLinks: "warn",
   favicon: "img/favicon.ico",
   organizationName: "Baiqian Co.,Ltd",
   projectName: "Furion",
-  scripts: ["/furion/script/baidutongji.js"],
+  scripts: ["/script/baidutongji.js"],
   themeConfig: {
     docs: {
       sidebar: {
