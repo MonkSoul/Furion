@@ -1263,7 +1263,7 @@ Console.WriteLine(template);
 
 有时候我们希望为日志提供额外数据，这时候可通过 `.ScopeContext()` 配置，如：
 
-```cs showLineNumbers {2,6,12}
+```cs showLineNumbers {2,6,12,17,22}
 // 写法一
 _logger.ScopeContext(ctx => ctx.Set("Name", "Furion").Set("UserId", 10))
        .LogInformation("我是一个日志 {id}", 20);
@@ -1278,6 +1278,16 @@ _logger.ScopeContext(new Dictionary<object, object> {
 _logger.ScopeContext(new LogContext {
     // ....
 }).LogInformation("我是一个日志 {id}", 20)
+
+// 写法四
+Log.ScopeContext(new LogContext {
+    // ...
+}).LogInformation("我是一个日志 {id}", 20);
+
+// 写法五
+"我是一个日志 {id}".ScopeContext(new LogContext {
+    // ...
+}).LogInformation();
 ```
 
 在 `LogMessage` 对象中使用：
