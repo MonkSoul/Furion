@@ -22,6 +22,8 @@
 
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Logging;
+using System.Text.Encodings.Web;
+using System.Text.Json;
 
 namespace Furion.Logging;
 
@@ -102,4 +104,13 @@ public sealed class LoggingMonitorSettings
     {
         Configure = configure;
     }
+
+    /// <summary>
+    /// 配置 Json 写入选项
+    /// </summary>
+    public JsonWriterOptions JsonWriterOptions { get; set; } = new JsonWriterOptions
+    {
+        Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
+        SkipValidation = true
+    };
 }

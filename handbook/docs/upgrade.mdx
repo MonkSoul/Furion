@@ -44,6 +44,7 @@ import Tag from "@site/src/components/Tag.js";
   - &nbsp;<Tag>新增</Tag> **日志输出 `JSON` 格式化配置** <sup>4.5.2</sup> [#I5TWC1](https://gitee.com/dotnetchina/Furion/issues/I5TWC1) [#I5OUT1](https://gitee.com/dotnetchina/Furion/issues/I5OUT1)
   - &nbsp;<Tag>新增</Tag> 数据库日志写入独立日志模板配置、独立日期格式配置 <sup>4.5.2</sup> [#I5TWC1](https://gitee.com/dotnetchina/Furion/issues/I5TWC1)
   - &nbsp;<Tag>新增</Tag> `LogMessage` 结构类 `LogDateTime`，`ThreadId`，`State` 属性 <sup>4.5.2</sup> [#I5TWC1](https://gitee.com/dotnetchina/Furion/issues/I5TWC1)
+  - &nbsp;<Tag>新增</Tag> `LoggingMonitor` 可配置 `JsonWriterOptions` 属性 <sup>4.5.3</sup> [#I5U375](https://gitee.com/dotnetchina/Furion/issues/I5U375)
 
 - **突破性变化**
 
@@ -55,6 +56,7 @@ import Tag from "@site/src/components/Tag.js";
   - &nbsp;<Tag>修复</Tag> 控制台日志设置了 `.ScopeContext` 无效问题 <sup>4.5.2</sup> [7fb3036](https://gitee.com/dotnetchina/Furion/commit/7fb30368f9640360017fc7f357df13eeb5031c2b)
   - &nbsp;<Tag>修复</Tag> `LoggingMonitor` 同时配置了局部和全局日志监听触发两次问题 <sup>4.5.2</sup> [a1a97e8](https://gitee.com/dotnetchina/Furion/commit/a1a97e817c43db4c20ba6e3aae03cea96d545a4b)
   - &nbsp;<Tag>修复</Tag> `v4.4.8+` 版本更新导致远程请求在个别情况下出现并发问题 <sup>4.5.2</sup> [#I5TWL3](https://gitee.com/dotnetchina/Furion/issues/I5TWL3)
+  - &nbsp;<Tag>修复</Tag> `LoggingMonitor` 配置了 `ReturnValueThreshold` 之后 `Json` 被截断引发有效性检测异常 <sup>4.5.3</sup> [#I5U375](https://gitee.com/dotnetchina/Furion/issues/I5U375)
 
 - **其他更改**
 

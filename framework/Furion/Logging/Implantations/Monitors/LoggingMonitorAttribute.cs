@@ -176,11 +176,7 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter, IOr
 
         // 创建 json 写入器
         using var stream = new MemoryStream();
-        using var writer = new Utf8JsonWriter(stream, new JsonWriterOptions
-        {
-            // 解决中文乱码问题
-            Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping
-        });
+        using var writer = new Utf8JsonWriter(stream, Settings.JsonWriterOptions);
         writer.WriteStartObject();
 
         // 获取全局 LoggingMonitorMethod 配置
@@ -531,6 +527,7 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter, IOr
         var displayValue = method.ReturnType == typeof(void)
             ? string.Empty
             : TrySerializeObject(returnValue, out succeed);
+        var originValue = displayValue;
 
         // 获取返回值阈值
         var threshold = GetReturnValueThreshold(ReturnValueThreshold, monitorMethod);
@@ -552,7 +549,12 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter, IOr
         writer.WriteString("type", returnValue?.GetType()?.FullName);
         writer.WriteString("actType", method.ReturnType.FullName);
         writer.WritePropertyName("value");
-        if (succeed && method.ReturnType != typeof(void)) writer.WriteRawValue(displayValue);
+        if (succeed && method.ReturnType != typeof(void))
+        {
+            // 解决返回值被截断后 json 验证失败异常问题
+            if (threshold > 0 && originValue != displayValue) writer.WriteStringValue(displayValue);
+            else writer.WriteRawValue(displayValue);
+        }
         else writer.WriteNullValue();
         writer.WriteEndObject();
 
