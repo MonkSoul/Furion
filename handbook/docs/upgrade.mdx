@@ -24,11 +24,11 @@ import Tag from "@site/src/components/Tag.js";
 
 :::
 
-## v4.5.2（当前版本）
+## v4.5.4（当前版本）
 
 :::important 版本细节
 
-- `v4.5.3` 版本细节：[https://gitee.com/dotnetchina/Furion/issues/I5U3MK](https://gitee.com/dotnetchina/Furion/issues/I5U3MK) <sup>2022.10.01</sup>
+- `v4.5.4` 版本细节：[https://gitee.com/dotnetchina/Furion/issues/I5U3MK](https://gitee.com/dotnetchina/Furion/issues/I5U3MK) <sup>2022.10.01</sup>
 - `v4.5.2` 版本细节：[https://gitee.com/dotnetchina/Furion/issues/I5TXON](https://gitee.com/dotnetchina/Furion/issues/I5TXON) <sup>2022.09.30</sup>
 - `v4.5.1` 版本细节：[https://gitee.com/dotnetchina/Furion/issues/I5TLI6](https://gitee.com/dotnetchina/Furion/issues/I5TLI6) <sup>2022.09.28</sup>
 - `v4.5.0` 版本细节：[https://gitee.com/dotnetchina/Furion/issues/I5TD4X](https://gitee.com/dotnetchina/Furion/issues/I5TD4X) <sup>2022.09.27</sup>
@@ -45,14 +45,14 @@ import Tag from "@site/src/components/Tag.js";
   - &nbsp;<Tag>新增</Tag> **日志输出 `JSON` 格式化配置** <sup>4.5.2</sup> [#I5TWC1](https://gitee.com/dotnetchina/Furion/issues/I5TWC1) [#I5OUT1](https://gitee.com/dotnetchina/Furion/issues/I5OUT1)
   - &nbsp;<Tag>新增</Tag> 数据库日志写入独立日志模板配置、独立日期格式配置 <sup>4.5.2</sup> [#I5TWC1](https://gitee.com/dotnetchina/Furion/issues/I5TWC1)
   - &nbsp;<Tag>新增</Tag> `LogMessage` 结构类 `LogDateTime`，`ThreadId`，`State` 属性 <sup>4.5.2</sup> [#I5TWC1](https://gitee.com/dotnetchina/Furion/issues/I5TWC1)
-  - &nbsp;<Tag>新增</Tag> `LoggingMonitor` 可配置 `JsonWriterOptions` 属性 <sup>4.5.3</sup> [#I5U375](https://gitee.com/dotnetchina/Furion/issues/I5U375)
-  - &nbsp;<Tag>新增</Tag> `Log.ScopeContext` 和 `"some log".ScopeContext` 拓展 <sup>4.5.3</sup> [8129693](https://gitee.com/dotnetchina/Furion/commit/812969357a60d0b73becf105e6b77b46113b3800)
+  - &nbsp;<Tag>新增</Tag> `LoggingMonitor` 可配置 `JsonWriterOptions` 属性 <sup>4.5.4</sup> [#I5U375](https://gitee.com/dotnetchina/Furion/issues/I5U375)
+  - &nbsp;<Tag>新增</Tag> `Log.ScopeContext` 和 `"some log".ScopeContext` 拓展 <sup>4.5.4</sup> [8129693](https://gitee.com/dotnetchina/Furion/commit/812969357a60d0b73becf105e6b77b46113b3800)
 
 - **突破性变化**
 
   - &nbsp;<Tag>调整</Tag> `LoggingMonitor` 底层逻辑，移除原来的 `.ScopeContext` 存储监听信息设计 <sup>4.5.2</sup> [#I5TWC1](https://gitee.com/dotnetchina/Furion/issues/I5TWC1)
-  - &nbsp;<Tag>移除</Tag> **主机未启动时构建服务的操作权限，此操作会导致内存激增，受影响方法： `App.GetSerice` 和 `Scoped.Create` ** <sup>4.5.3</sup> [#I5U0A4](https://gitee.com/dotnetchina/Furion/issues/I5U0A4) [8129693](https://gitee.com/dotnetchina/Furion/commit/812969357a60d0b73becf105e6b77b46113b3800)
-  - &nbsp;<Tag>调整</Tag> **😊 `Furion` 框架文档地址为 [https://furion.baiqian.ltd](https://furion.baiqian.ltd)** <sup>4.5.3</sup> [2e3d80e](https://gitee.com/dotnetchina/Furion/commit/2e3d80ec0be830c33923ef9953ff504528120f06)
+  - &nbsp;<Tag>移除</Tag> **主机未启动时构建服务的操作权限，此操作会导致内存激增，受影响方法： `App.GetSerice` 和 `Scoped.Create` ** <sup>4.5.4</sup> [#I5U0A4](https://gitee.com/dotnetchina/Furion/issues/I5U0A4) [8129693](https://gitee.com/dotnetchina/Furion/commit/812969357a60d0b73becf105e6b77b46113b3800)
+  - &nbsp;<Tag>调整</Tag> **😊 `Furion` 框架文档地址为 [https://furion.baiqian.ltd](https://furion.baiqian.ltd)** <sup>4.5.4</sup> [2e3d80e](https://gitee.com/dotnetchina/Furion/commit/2e3d80ec0be830c33923ef9953ff504528120f06)
 
 - **问题修复**
 
@@ -60,7 +60,7 @@ import Tag from "@site/src/components/Tag.js";
   - &nbsp;<Tag>修复</Tag> 控制台日志设置了 `.ScopeContext` 无效问题 <sup>4.5.2</sup> [7fb3036](https://gitee.com/dotnetchina/Furion/commit/7fb30368f9640360017fc7f357df13eeb5031c2b)
   - &nbsp;<Tag>修复</Tag> `LoggingMonitor` 同时配置了局部和全局日志监听触发两次问题 <sup>4.5.2</sup> [a1a97e8](https://gitee.com/dotnetchina/Furion/commit/a1a97e817c43db4c20ba6e3aae03cea96d545a4b)
   - &nbsp;<Tag>修复</Tag> `v4.4.8+` 版本更新导致远程请求在个别情况下出现并发问题 <sup>4.5.2</sup> [#I5TWL3](https://gitee.com/dotnetchina/Furion/issues/I5TWL3)
-  - &nbsp;<Tag>修复</Tag> `LoggingMonitor` 配置了 `ReturnValueThreshold` 之后 `Json` 被截断引发有效性检测异常 <sup>4.5.3</sup> [#I5U375](https://gitee.com/dotnetchina/Furion/issues/I5U375)
+  - &nbsp;<Tag>修复</Tag> `LoggingMonitor` 配置了 `ReturnValueThreshold` 之后 `Json` 被截断引发有效性检测异常 <sup>4.5.4</sup> [#I5U375](https://gitee.com/dotnetchina/Furion/issues/I5U375)
 
 - **其他更改**
 
