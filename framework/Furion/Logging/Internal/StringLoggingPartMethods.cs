@@ -91,6 +91,44 @@ public sealed partial class StringLoggingPart
     {
         if (Message == null) return;
 
+        // 获取日志实例
+        var (logger, loggerFactory, hasException) = GetLogger();
+
+        // 如果没有异常且事件 Id 为空
+        if (Exception == null && EventId == null)
+        {
+            logger.Log(Level, Message, Args);
+        }
+        // 如果存在异常且事件 Id 为空
+        else if (Exception != null && EventId == null)
+        {
+            logger.Log(Level, Exception, Message, Args);
+        }
+        // 如果异常为空且事件 Id 不为空
+        else if (Exception == null && EventId != null)
+        {
+            logger.Log(Level, EventId.Value, Message, Args);
+        }
+        // 如果存在异常且事件 Id 不为空
+        else if (Exception != null && EventId != null)
+        {
+            logger.Log(Level, EventId.Value, Exception, Message, Args);
+        }
+        else { }
+
+        // 释放临时日志工厂
+        if (hasException == true)
+        {
+            loggerFactory?.Dispose();
+        }
+    }
+
+    /// <summary>
+    /// 获取日志实例
+    /// </summary>
+    /// <returns></returns>
+    internal (ILogger, ILoggerFactory, bool) GetLogger()
+    {
         // 解析日志分类名
         var categoryName = !string.IsNullOrWhiteSpace(CategoryName)
             ? CategoryName : typeof(System.Logging.StringLogging).FullName;
@@ -124,33 +162,7 @@ public sealed partial class StringLoggingPart
             _loggers.TryAdd(categoryName, logger);
         }
 
-        // 如果没有异常且事件 Id 为空
-        if (Exception == null && EventId == null)
-        {
-            logger.Log(Level, Message, Args);
-        }
-        // 如果存在异常且事件 Id 为空
-        else if (Exception != null && EventId == null)
-        {
-            logger.Log(Level, Exception, Message, Args);
-        }
-        // 如果异常为空且事件 Id 不为空
-        else if (Exception == null && EventId != null)
-        {
-            logger.Log(Level, EventId.Value, Message, Args);
-        }
-        // 如果存在异常且事件 Id 不为空
-        else if (Exception != null && EventId != null)
-        {
-            logger.Log(Level, EventId.Value, Exception, Message, Args);
-        }
-        else { }
-
-        // 释放临时日志工厂
-        if (hasException == true)
-        {
-            loggerFactory?.Dispose();
-        }
+        return (logger, loggerFactory, hasException);
     }
 
     /// <summary>

@@ -75,6 +75,36 @@ public static class Log
     }
 
     /// <summary>
+    /// 配置日志上下文
+    /// </summary>
+    /// <param name="properties">建议使用 ConcurrentDictionary 类型</param>
+    /// <returns></returns>
+    public static ILogger ScopeContext(IDictionary<object, object> properties)
+    {
+        return GetLogger(StringLoggingPart.Default().ScopeContext(properties));
+    }
+
+    /// <summary>
+    /// 配置日志上下文
+    /// </summary>
+    /// <param name="configure"></param>
+    /// <returns></returns>
+    public static ILogger ScopeContext(Action<LogContext> configure)
+    {
+        return GetLogger(StringLoggingPart.Default().ScopeContext(configure));
+    }
+
+    /// <summary>
+    /// 配置日志上下文
+    /// </summary>
+    /// <param name="context"></param>
+    /// <returns></returns>
+    public static ILogger ScopeContext(LogContext context)
+    {
+        return GetLogger(StringLoggingPart.Default().ScopeContext(context));
+    }
+
+    /// <summary>
     /// LogInformation
     /// </summary>
     /// <param name="message"></param>
@@ -624,5 +654,25 @@ public static class Log
     public static void Critical<TClass>(string message, EventId eventId, Exception exception, params object[] args)
     {
         StringLoggingPart.Default().SetCategory<TClass>().SetMessage(message).SetArgs(args).SetEventId(eventId).SetException(exception).LogCritical();
+    }
+
+    /// <summary>
+    /// 获取日志实例
+    /// </summary>
+    /// <param name="loggingPart"></param>
+    /// <returns></returns>
+    /// <exception cref="InvalidOperationException"></exception>
+    private static ILogger GetLogger(StringLoggingPart loggingPart)
+    {
+        // 获取日志实例
+        var (logger, loggerFactory, hasException) = loggingPart.GetLogger();
+        if (hasException)
+        {
+            loggerFactory?.Dispose();
+
+            throw new InvalidOperationException("Unable to set log context data.");
+        }
+
+        return logger;
     }
 }

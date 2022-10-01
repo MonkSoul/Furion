@@ -201,18 +201,6 @@ public static class AppServiceCollectionExtensions
     }
 
     /// <summary>
-    /// 供控制台构建根服务
-    /// </summary>
-    /// <param name="services"></param>
-    /// <returns></returns>
-    public static void Build(this IServiceCollection services)
-    {
-        var serviceProvider = services.BuildServiceProvider(false);
-        // 存储根服务
-        InternalApp.RootServices = serviceProvider;
-    }
-
-    /// <summary>
     /// 添加应用配置
     /// </summary>
     /// <param name="services">服务集合</param>

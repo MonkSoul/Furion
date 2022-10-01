@@ -1,4 +1,5 @@
 ﻿using Furion.Application.Persons;
+using Furion.Logging;
 using Furion.Logging.Extensions;
 using Microsoft.Extensions.Logging;
 
@@ -127,5 +128,11 @@ public class TestLoggerServices : IDynamicApiController
        {
            {"name","Furion" }
        }).LogInformation("测试啊");
+    }
+
+    public void 测试日志上下文()
+    {
+        "设置日志上下文".ScopeContext(ctx => ctx.Set("name", "Furion")).LogWarning();
+        Log.ScopeContext(ctx => ctx.Set("name", "Furion")).LogInformation("dddd");
     }
 }

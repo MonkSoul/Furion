@@ -129,13 +129,7 @@ public static class App
             UnmanagedObjects.Add(scoped);
             return scoped.ServiceProvider;
         }
-        // 第四选择，构建新的服务对象（性能最差）
-        else
-        {
-            var serviceProvider = InternalApp.InternalServices.BuildServiceProvider();
-            UnmanagedObjects.Add(serviceProvider);
-            return serviceProvider;
-        }
+        else throw new InvalidOperationException("The host has not been started, unable to build the service.");
     }
 
     /// <summary>

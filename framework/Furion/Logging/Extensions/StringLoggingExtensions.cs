@@ -100,6 +100,39 @@ public static class StringLoggingExtensions
     }
 
     /// <summary>
+    /// 配置日志上下文
+    /// </summary>
+    /// <param name="message"></param>
+    /// <param name="properties">建议使用 ConcurrentDictionary 类型</param>
+    /// <returns></returns>
+    public static StringLoggingPart ScopeContext(this string message, IDictionary<object, object> properties)
+    {
+        return StringLoggingPart.Default().SetMessage(message).ScopeContext(properties);
+    }
+
+    /// <summary>
+    /// 配置日志上下文
+    /// </summary>
+    /// <param name="message"></param>
+    /// <param name="configure"></param>
+    /// <returns></returns>
+    public static StringLoggingPart ScopeContext(this string message, Action<LogContext> configure)
+    {
+        return StringLoggingPart.Default().SetMessage(message).ScopeContext(configure);
+    }
+
+    /// <summary>
+    /// 配置日志上下文
+    /// </summary>
+    /// <param name="message"></param>
+    /// <param name="context"></param>
+    /// <returns></returns>
+    public static StringLoggingPart ScopeContext(this string message, LogContext context)
+    {
+        return StringLoggingPart.Default().SetMessage(message).ScopeContext(context);
+    }
+
+    /// <summary>
     /// LogInformation
     /// </summary>
     /// <param name="message"></param>

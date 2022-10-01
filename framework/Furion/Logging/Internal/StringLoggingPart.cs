@@ -73,4 +73,9 @@ public sealed partial class StringLoggingPart
     /// 日志对象所在作用域
     /// </summary>
     public IServiceProvider LoggerScoped { get; private set; }
+
+    /// <summary>
+    /// 日志上下文
+    /// </summary>
+    public LogContext LogContext { get; private set; }
 }

@@ -38,6 +38,7 @@ public static class ILoggerExtensions
     /// <returns></returns>
     public static ILogger ScopeContext(this ILogger logger, IDictionary<object, object> properties)
     {
+        if (properties == null) return logger;
         logger.BeginScope(new LogContext { Properties = properties });
 
         return logger;
@@ -67,6 +68,7 @@ public static class ILoggerExtensions
     /// <returns></returns>
     public static ILogger ScopeContext(this ILogger logger, LogContext context)
     {
+        if (context == null) return logger;
         logger.BeginScope(context);
 
         return logger;
