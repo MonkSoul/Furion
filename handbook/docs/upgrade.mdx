@@ -64,7 +64,7 @@ import Tag from "@site/src/components/Tag.js";
 - **在启动的时候通过 `App.GetOptions` 获取选项对象**
 - 在启动的时候通过 `App.GetService<T>` 解析服务
 
-正确的错误是，启动的时候禁止使用 `Scoped.Create` 和 `App.GetService<T>`。
+正确的做法是，启动的时候禁止使用 `Scoped.Create` 和 `App.GetService<T>`。
 
 **如需启动时获取配置应该通过：`App.GetConfig<TOptions>("配置节点", true)` 替代 `App.GetOptions<TOptions>()`**。
 
