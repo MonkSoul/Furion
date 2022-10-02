@@ -163,7 +163,7 @@ public static class ObjectExtensions
     /// <returns></returns>
     internal static bool IsValueTuple(this Type type)
     {
-        return type.ToString().StartsWith(typeof(ValueTuple).FullName);
+        return type.Namespace == "System" && type.Name.Contains("ValueTuple`");
     }
 
     /// <summary>

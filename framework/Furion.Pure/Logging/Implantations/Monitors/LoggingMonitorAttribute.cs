@@ -33,13 +33,13 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Primitives;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using System.Diagnostics;
 using System.Reflection;
 using System.Security.Claims;
 using System.Text;
-using System.Text.Encodings.Web;
 using System.Text.Json;
-using System.Text.Json.Serialization;
 
 namespace System;
 
@@ -629,6 +629,15 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter, IOr
     }
 
     /// <summary>
+    /// 序列化默认配置
+    /// </summary>
+    private static readonly JsonSerializerSettings _serializerSettings = new()
+    {
+        ContractResolver = new CamelCasePropertyNamesContractResolver(),
+        ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+    };
+
+    /// <summary>
     /// 序列化对象
     /// </summary>
     /// <param name="obj"></param>
@@ -636,17 +645,10 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter, IOr
     /// <returns></returns>
     private static string TrySerializeObject(object obj, out bool succeed)
     {
-        var jsonSerializerOptions = new JsonSerializerOptions()
-        {
-            Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
-            ReferenceHandler = ReferenceHandler.IgnoreCycles,
-            AllowTrailingCommas = true,
-            ReadCommentHandling = JsonCommentHandling.Skip
-        };
-
         try
         {
-            var result = JsonSerializer.Serialize(obj, jsonSerializerOptions);
+            var result = Newtonsoft.Json.JsonConvert.SerializeObject(obj, _serializerSettings);
+
             succeed = true;
             return result;
         }
