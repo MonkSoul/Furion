@@ -51,9 +51,25 @@ import Tag from "@site/src/components/Tag.js";
 
 - **突破性变化**
 
-  - &nbsp;<Tag>调整</Tag> `LoggingMonitor` 底层逻辑，移除原来的 `.ScopeContext` 存储监听信息设计 <sup>4.5.2</sup> [#I5TWC1](https://gitee.com/dotnetchina/Furion/issues/I5TWC1)
-  - &nbsp;<Tag>移除</Tag> **主机未启动时构建服务的操作权限，此操作会导致内存激增，受影响方法： `App.GetService` 和 `Scoped.Create` ** <sup>4.5.4</sup> [#I5U0A4](https://gitee.com/dotnetchina/Furion/issues/I5U0A4) [8129693](https://gitee.com/dotnetchina/Furion/commit/812969357a60d0b73becf105e6b77b46113b3800)
   - &nbsp;<Tag>调整</Tag> **😊 `Furion` 框架文档地址为 [https://furion.baiqian.ltd](https://furion.baiqian.ltd)** <sup>4.5.4</sup> [2e3d80e](https://gitee.com/dotnetchina/Furion/commit/2e3d80ec0be830c33923ef9953ff504528120f06)
+  - &nbsp;<Tag>调整</Tag> `LoggingMonitor` 底层逻辑，移除原来的 `.ScopeContext` 存储监听信息设计 <sup>4.5.2</sup> [#I5TWC1](https://gitee.com/dotnetchina/Furion/issues/I5TWC1)
+  - &nbsp;<Tag>移除</Tag> **主机未启动时构建服务的操作权限，此操作会导致内存激增，受影响方法： `App.GetOptions` 系列和 `App.GetService` 和 `Scoped.Create`** <sup>4.5.4</sup> [#I5U0A4](https://gitee.com/dotnetchina/Furion/issues/I5U0A4) [8129693](https://gitee.com/dotnetchina/Furion/commit/812969357a60d0b73becf105e6b77b46113b3800)
+
+<details style={{ marginLeft: 50 }}>
+  <summary>查看更改</summary>
+  <div>
+
+近期发现许多开发者在主机还未启动时解析服务，这是非常不正确的行为，会导致启动时内存激增甚至溢出，常见的错误有：
+- 在启动的时候通过 `Scoped.Create` 创建作用域
+- **在启动的时候通过 `App.GetOptions` 获取选项对象**
+- 在启动的时候通过 `App.GetService<T>` 解析服务
+
+正确的错误是，启动的时候禁止使用 `Scoped.Create` 和 `App.GetService<T>`。
+
+**如需启动时获取配置应该通过：`App.GetConfig<TOptions>("配置节点", true)` 替代 `App.GetOptions<TOptions>()`**。
+
+  </div>
+</details>
 
 - **问题修复**
 
@@ -73,7 +89,7 @@ import Tag from "@site/src/components/Tag.js";
 - **文档**
 
   - &nbsp;<Tag>新增</Tag> 选项监听出现触发多次的解决方案 [#I5T9PR](https://gitee.com/dotnetchina/Furion/issues/I5T9PR)
-  - &nbsp;<Tag>更新</Tag> 日志记录文档、动态 WebAPI 文档
+  - &nbsp;<Tag>更新</Tag> 日志记录文档、动态 WebAPI 文档、选项文档
 
 - **本期亮点**
 

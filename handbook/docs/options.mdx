@@ -100,6 +100,12 @@ namespace Furion.Web.Core
   - `App.GetOptionsMonitor<TOptions>()`
   - `App.GetOptionsSnapshot<TOptions>()`
 
+:::warning 特别注意
+
+禁止在主机启动时通过 `App.GetOptions<TOptions>` 获取选项，如需获取配置选项理应通过 `App.GetConfig<TOptions>("配置节点", true)`。
+
+:::
+
 <Tabs
   defaultValue="App.GetOptions<TOptions>(path)"
   values={[
