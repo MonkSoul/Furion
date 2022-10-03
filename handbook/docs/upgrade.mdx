@@ -28,6 +28,7 @@ import Tag from "@site/src/components/Tag.js";
 
 :::important 版本细节
 
+- `v4.5.6` 版本细节：[https://gitee.com/dotnetchina/Furion/issues/I5U4SG](https://gitee.com/dotnetchina/Furion/issues/I5U4SG) <sup>2022.10.03</sup>
 - `v4.5.5` 版本细节：[https://gitee.com/dotnetchina/Furion/issues/I5U413](https://gitee.com/dotnetchina/Furion/issues/I5U413) <sup>2022.10.02</sup>
 - `v4.5.4` 版本细节：[https://gitee.com/dotnetchina/Furion/issues/I5U3MK](https://gitee.com/dotnetchina/Furion/issues/I5U3MK) <sup>2022.10.01</sup>
 - `v4.5.2` 版本细节：[https://gitee.com/dotnetchina/Furion/issues/I5TXON](https://gitee.com/dotnetchina/Furion/issues/I5TXON) <sup>2022.09.30</sup>
@@ -60,6 +61,7 @@ import Tag from "@site/src/components/Tag.js";
   <div>
 
 近期发现许多开发者在主机还未启动时解析服务，这是非常不正确的行为，会导致启动时内存激增甚至溢出，常见的错误有：
+
 - 在启动的时候通过 `Scoped.Create` 创建作用域
 - **在启动的时候通过 `App.GetOptions` 获取选项对象**
 - 在启动的时候通过 `App.GetService<T>` 解析服务
@@ -79,6 +81,7 @@ import Tag from "@site/src/components/Tag.js";
   - &nbsp;<Tag>修复</Tag> `v4.4.8+` 版本更新导致远程请求在个别情况下出现并发问题 <sup>4.5.2</sup> [#I5TWL3](https://gitee.com/dotnetchina/Furion/issues/I5TWL3)
   - &nbsp;<Tag>修复</Tag> `LoggingMonitor` 配置了 `ReturnValueThreshold` 之后 `Json` 被截断引发有效性检测异常 <sup>4.5.4</sup> [#I5U375](https://gitee.com/dotnetchina/Furion/issues/I5U375)
   - &nbsp;<Tag>修复</Tag> `LoggingMonitor` 不支持 `DataTable`，`DataSet`，`Tuple` 等类型问题 <sup>4.5.5</sup> [#I5U3VO](https://gitee.com/dotnetchina/Furion/issues/I5U3VO)
+  - &nbsp;<Tag>修复</Tag> **自 `v4.5.2+` 版本升级后出现启动时使用 `App.GetOptons<TOptions>` 异常问题** <sup>4.5.6</sup> [f9a6587](https://gitee.com/dotnetchina/Furion/commit/f9a6587e3f7893db88c905cf77c3c4ebed39b73c)
 
 - **其他更改**
 

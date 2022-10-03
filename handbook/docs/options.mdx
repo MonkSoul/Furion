@@ -231,7 +231,7 @@ namespace Furion.Web.Entry.Controllers
 
 ### 4.2.3.5 如何选择读取方式
 
-- 如果选项需要在多个地方使用，则无论任何时候都不推荐使用 `App.GetOptions<TOptions>(path)`
+- 如果选项需要在多个地方使用，则无论任何时候都不推荐使用 `App.GetOptions<TOptions>()`
 - 在可依赖注入类中，依赖注入 `IOptions[Snapshot|Monitor]<TOptions>` 读取
 - 在静态类/非依赖注入类中，选择 `App.GetOptions[Snapshot|Monitor]<TOptions>()` 读取
 
