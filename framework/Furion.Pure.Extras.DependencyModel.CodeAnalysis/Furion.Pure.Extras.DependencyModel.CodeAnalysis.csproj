@@ -26,7 +26,7 @@
 	<ItemGroup Condition=" '$(TargetFramework)' == 'net7.0' ">
 		<PackageReference Include="Ben.Demystifier" Version="0.4.1" />
 		<PackageReference Include="Microsoft.AspNetCore.Razor.Language" Version="6.0.9" />
-		<PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.4.0-1.final" />
+		<PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.4.0-2.final" />
 		<PackageReference Include="Microsoft.Extensions.DependencyModel" Version="7.0.0-rc.1.22426.10" />
 		<PackageReference Include="System.Text.Json" Version="7.0.0-rc.1.22426.10" />
 	</ItemGroup>
