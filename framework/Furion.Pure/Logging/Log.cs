@@ -68,7 +68,7 @@ public static class Log
         return LoggerFactory.Create(builder =>
         {
             // 添加默认控制台输出
-            builder.AddConsole();
+            builder.AddConsoleFormatter();
 
             configure?.Invoke(builder);
         });
