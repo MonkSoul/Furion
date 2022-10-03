@@ -94,7 +94,7 @@ public sealed class Retry
 
                 if (Debugger.IsAttached)
                 {
-                    Console.WriteLine($"You can retry {numRetries} more times.");
+                    Debug.WriteLine($"You can retry {numRetries} more times.");
                 }
 
                 // 如果可重试异常数大于 0，则间隔指定时间后继续执行
