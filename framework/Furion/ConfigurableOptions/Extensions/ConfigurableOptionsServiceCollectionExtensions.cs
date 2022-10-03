@@ -46,10 +46,9 @@ public static class ConfigurableOptionsServiceCollectionExtensions
         where TOptions : class, IConfigurableOptions
     {
         var optionsType = typeof(TOptions);
-        var optionsSettings = optionsType.GetCustomAttribute<OptionsSettingsAttribute>(false);
 
-        // 获取配置路径
-        var path = GetConfigurationPath(optionsSettings, optionsType);
+        // 获取选项配置
+        var (optionsSettings, path) = Penetrates.GetOptionsConfiguration(optionsType);
 
         // 配置选项（含验证信息）
         var configurationRoot = App.Configuration;
@@ -119,25 +118,5 @@ public static class ConfigurableOptionsServiceCollectionExtensions
         }
 
         return services;
-    }
-
-    /// <summary>
-    /// 获取配置路径
-    /// </summary>
-    /// <param name="optionsSettings">选项配置特性</param>
-    /// <param name="optionsType">选项类型</param>
-    /// <returns></returns>
-    private static string GetConfigurationPath(OptionsSettingsAttribute optionsSettings, Type optionsType)
-    {
-        // 默认后缀
-        var defaultStuffx = nameof(Options);
-
-        return optionsSettings switch
-        {
-            // // 没有贴 [OptionsSettings]，如果选项类以 `Options` 结尾，则移除，否则返回类名称
-            null => optionsType.Name.EndsWith(defaultStuffx) ? optionsType.Name[0..^defaultStuffx.Length] : optionsType.Name,
-            // 如果贴有 [OptionsSettings] 特性，但未指定 Path 参数，则直接返回类名，否则返回 Path
-            _ => optionsSettings != null && string.IsNullOrWhiteSpace(optionsSettings.Path) ? optionsType.Name : optionsSettings.Path,
-        };
     }
 }
