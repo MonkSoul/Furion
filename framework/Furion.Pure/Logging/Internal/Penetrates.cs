@@ -123,14 +123,14 @@ internal static class Penetrates
         _ = AppendWithColor(formatString, GetLogLevelString(logMsg.LogLevel), logLevelColors);
         formatString.Append(": ");
         formatString.Append(logMsg.LogDateTime.ToString(dateFormat));
-        formatString.Append(" ");
+        formatString.Append(' ');
         _ = AppendWithColor(formatString, logMsg.LogName, disableConsoleColor
             ? new ConsoleColors(null, null)
             : new ConsoleColors(ConsoleColor.Cyan, ConsoleColor.DarkCyan));
-        formatString.Append("[");
+        formatString.Append('[');
         formatString.Append(logMsg.EventId.Id);
-        formatString.Append("]");
-        formatString.Append(" ");
+        formatString.Append(']');
+        formatString.Append(' ');
         formatString.Append($"#{logMsg.ThreadId}");
         formatString.AppendLine();
 
@@ -178,7 +178,7 @@ internal static class Penetrates
             LogLevel.Warning => "warn",
             LogLevel.Error => "fail",
             LogLevel.Critical => "crit",
-            _ => throw new ArgumentOutOfRangeException("logLevel"),
+            _ => throw new ArgumentOutOfRangeException(nameof(logLevel)),
         };
     }
 
