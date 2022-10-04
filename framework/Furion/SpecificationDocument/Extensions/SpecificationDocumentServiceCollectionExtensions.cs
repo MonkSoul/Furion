@@ -79,6 +79,13 @@ public static class SpecificationDocumentServiceCollectionExtensions
 
         services.AddMiniProfiler(options =>
         {
+            // 减少非 Swagger 页面请求监听问题
+            options.ShouldProfile = (req) =>
+            {
+                if (!req.Headers.ContainsKey("request-from")) return false;
+                return true;
+            };
+
             options.RouteBasePath = "/index-mini-profiler";
             options.EnableMvcFilterProfiling = false;
             options.EnableMvcViewProfiling = false;
