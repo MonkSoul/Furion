@@ -74,6 +74,21 @@ public static class HttpContextExtensions
     }
 
     /// <summary>
+    /// 设置响应头 Tokens
+    /// </summary>
+    /// <param name="httpContext"></param>
+    /// <param name="accessToken"></param>
+    /// <param name="refreshToken"></param>
+    public static void SetTokensOfResponseHeaders(this HttpContext httpContext, string accessToken, string refreshToken = null)
+    {
+        httpContext.Response.Headers["access-token"] = accessToken;
+        if (!string.IsNullOrWhiteSpace(refreshToken))
+        {
+            httpContext.Response.Headers["x-access-token"] = refreshToken;
+        }
+    }
+
+    /// <summary>
     /// 获取本机 IPv4地址
     /// </summary>
     /// <param name="context"></param>
