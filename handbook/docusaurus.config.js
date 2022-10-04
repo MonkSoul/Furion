@@ -111,11 +111,11 @@ module.exports = {
             },
           ],
         },
-        // {
-        //   label: "社区",
-        //   position: "right",
-        //   href: "https://gitee.com/dotnetchina",
-        // },
+        {
+          label: "社区",
+          position: "right",
+          href: "https://gitee.com/dotnetchina",
+        },
         {
           label: "案例",
           position: "right",
@@ -128,12 +128,12 @@ module.exports = {
           to: "docs/donate",
           activeBasePath: "docs/donate",
         },
-        {
-          label: "耻辱柱",
-          position: "right",
-          to: "docs/pillar-of-humiliation",
-          activeBasePath: "docs/pillar-of-humiliation",
-        },
+        // {
+        //   label: "耻辱柱",
+        //   position: "right",
+        //   to: "docs/pillar-of-humiliation",
+        //   activeBasePath: "docs/pillar-of-humiliation",
+        // },
       ],
     },
     footer: {
