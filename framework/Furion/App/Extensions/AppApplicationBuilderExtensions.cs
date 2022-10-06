@@ -1,4 +1,4 @@
-﻿// MIT License
+// MIT License
 //
 // Copyright (c) 2020-2022 百小僧, Baiqian Co.,Ltd and Contributors
 //
@@ -56,7 +56,7 @@ public static class AppApplicationBuilderExtensions
     /// <returns></returns>
     public static IApplicationBuilder UseInject(this IApplicationBuilder app, Action<UseInjectOptions> configure)
     {
-        return app.UseInject(configure: configure);
+        return app.UseInject(default, configure: configure);
     }
 
     /// <summary>
