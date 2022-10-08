@@ -46,6 +46,23 @@ public sealed class HttpFile
     }
 
     /// <summary>
+    /// 创建 HttpFile 类
+    /// </summary>
+    /// <param name="name"></param>
+    /// <param name="fileStream"></param>
+    /// <param name="fileName"></param>
+    /// <returns></returns>
+    public static HttpFile Create(string name, Stream fileStream, string fileName = default)
+    {
+        return new HttpFile
+        {
+            Name = name,
+            FileStream = fileStream,
+            FileName = fileName
+        };
+    }
+
+    /// <summary>
     /// 添加多个文件
     /// </summary>
     /// <param name="name"></param>
@@ -65,6 +82,25 @@ public sealed class HttpFile
     }
 
     /// <summary>
+    /// 添加多个文件
+    /// </summary>
+    /// <param name="name"></param>
+    /// <param name="items"></param>
+    /// <returns></returns>
+    public static HttpFile[] CreateMultiple(string name, params (Stream fileStream, string fileName)[] items)
+    {
+        var files = new List<HttpFile>();
+        if (items == null || items.Length == 0) return files.ToArray();
+
+        foreach (var (fileStream, fileName) in items)
+        {
+            files.Add(Create(name, fileStream, fileName));
+        }
+
+        return files.ToArray();
+    }
+
+    /// <summary>
     /// 表单名
     /// </summary>
     public string Name { get; set; }
@@ -78,4 +114,9 @@ public sealed class HttpFile
     /// 文件字节数组
     /// </summary>
     public byte[] Bytes { get; set; }
+
+    /// <summary>
+    /// 文件流
+    /// </summary>
+    public Stream FileStream { get; set; }
 }

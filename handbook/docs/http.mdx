@@ -414,7 +414,7 @@ var user = await "https://www.furion.icu/".GetAsAsync<User>();
 var str = await "https://www.baidu.com".GetAsStringAsync();
 ```
 
-### 19.4.19 设置 `Byte[]` 类型/上传文件
+### 19.4.19 设置 `Byte[]/Stream` 类型/上传文件
 
 :::warning `Furion 4.4.0` 以下版本
 
@@ -424,14 +424,22 @@ var str = await "https://www.baidu.com".GetAsStringAsync();
 
 有时候我们需要上传文件，需要设置 `Content-Type` 为 `multipart/form-data` 类型，如：
 
-```cs showLineNumbers {3,7}
-// bytes 可以通过 File.ReadAllBytes(文件路径) 获取
+```cs showLineNumbers {3,7,10,15}
+// 支持单文件，bytes 可以通过 File.ReadAllBytes(文件路径) 获取
 var res = await "https://www.furion.icu/upload".SetContentType("multipart/form-data")
                                                .SetBodyBytes(("键", bytes, "文件名")).PostAsync();
 
 // 支持多个文件
 var res = await "https://www.furion.icu/upload".SetContentType("multipart/form-data")
                                                .SetBodyBytes(("键", bytes, "文件名"),("键", bytes, "文件名")).PostAsync();
+
+// 支持单文件，Furion 4.5.8 版本支持 Stream 方式更新
+var res = await "https://www.furion.icu/upload".SetContentType("multipart/form-data")
+                                               .SetBodyBytes(("键", fileStream, "文件名")).PostAsync();
+
+// 支持多个文件，Furion 4.5.8 版本支持 Stream 方式更新
+var res = await "https://www.furion.icu/upload".SetContentType("multipart/form-data")
+                                               .SetBodyBytes(("键", fileStream, "文件名"),("键", fileStream, "文件名")).PostAsync();
 ```
 
 :::note 关于微信上传接口
@@ -915,7 +923,7 @@ public interface IHttp : IHttpDispatchProxy
 }
 ```
 
-### 19.5.15 设置 `Byte[]` 类型/上传文件
+### 19.5.15 设置 `Byte[]/Stream` 类型/上传文件
 
 :::warning `Furion 4.4.0` 以下版本
 

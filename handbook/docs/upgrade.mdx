@@ -51,6 +51,7 @@ import Tag from "@site/src/components/Tag.js";
   - &nbsp;<Tag>新增</Tag> `LoggingMonitor` 可配置 `JsonWriterOptions` 属性 <sup>4.5.4</sup> [#I5U375](https://gitee.com/dotnetchina/Furion/issues/I5U375)
   - &nbsp;<Tag>新增</Tag> `Log.ScopeContext` 和 `"some log".ScopeContext` 拓展 <sup>4.5.4</sup> [8129693](https://gitee.com/dotnetchina/Furion/commit/812969357a60d0b73becf105e6b77b46113b3800)
   - &nbsp;<Tag>新增</Tag> 新增 `HttpContext.SetTokensOfResponseHeaders` 拓展 <sup>4.5.7</sup> [3775e65](https://gitee.com/dotnetchina/Furion/commit/3775e659ca13615bc7f65b050fb8540daeed9433)
+  - &nbsp;<Tag>新增</Tag> 新增远程请求支持 `Stream` 文件格式上传 <sup>4.5.8</sup> [#I5UF3I](https://gitee.com/dotnetchina/Furion/issues/I5UF3I)
 
 - **突破性变化**
 
@@ -96,7 +97,7 @@ import Tag from "@site/src/components/Tag.js";
 - **文档**
 
   - &nbsp;<Tag>新增</Tag> 选项监听出现触发多次的解决方案 [#I5T9PR](https://gitee.com/dotnetchina/Furion/issues/I5T9PR)
-  - &nbsp;<Tag>更新</Tag> 日志记录文档、动态 WebAPI 文档、选项文档、`HttpContext` 文档
+  - &nbsp;<Tag>更新</Tag> 日志记录文档、动态 WebAPI 文档、选项文档、`HttpContext` 文档、远程请求文件
 
 - **本期亮点**
 
@@ -278,6 +279,91 @@ public class DatabaseLoggingWriter : IDatabaseLoggingWriter
     "message": "出错了啊。。。。"
   }
 }
+```
+
+  </div>
+</details>
+
+- 3. **支持远程请求上传文件 `Stream` 流**
+
+<details style={{ marginLeft: 50 }}>
+  <summary>查看更改</summary>
+  <div>
+
+1. 单文件上传
+
+- 字符串方式
+
+```cs showLineNumbers {1,5,9}
+var fileStream = new FileStream("image.png", FileMode.Open);
+
+var result = await "https://localhost:44316/api/test-module/upload-file"
+                    .SetContentType("multipart/form-data")
+                    .SetFiles(HttpFile.Create("file", fileStream, "image.png")).PostAsync();
+
+var fileName = await result.Content.ReadAsStringAsync();
+
+await fileStream.DisposeAsync();
+```
+
+- 代理方式
+
+```cs showLineNumbers {1,3,6}
+var fileStream = new FileStream("image.png", FileMode.Open);
+
+var result = await _http.TestSingleFileProxyAsync(HttpFile.Create("file", fileStream, "image.png"));
+var fileName = await result.Content.ReadAsStringAsync();
+
+await fileStream.DisposeAsync();
+```
+
+2. 多文件上传
+
+- 字符串方式
+
+```cs showLineNumbers {1,5,8}
+var fileStream = new FileStream("image.png", FileMode.Open);
+
+var result = await "https://localhost:44316/api/test-module/upload-muliti-file"
+                    .SetContentType("multipart/form-data")
+                    .SetFiles(HttpFile.CreateMultiple("files", (fileStream, "image1.png"), (fileStream, "image2.png"))).PostAsync();
+var fileName = await result.Content.ReadAsStringAsync();
+
+await fileStream.DisposeAsync();
+```
+
+- 代理方式
+
+```cs showLineNumbers {1,3,6}
+var fileStream = new FileStream("image.png", FileMode.Open);
+
+var result = await _http.TestMultiFileProxyAsync(HttpFile.CreateMultiple("files", (fileStream, "image1.png"), (fileStream, "image2.png")));
+var fileName = await result.Content.ReadAsStringAsync();
+
+await fileStream.DisposeAsync();
+```
+
+3. 还支持 `Bytes` 和 `Stream` 混合
+
+```cs showLineNumbers {1-2,4-10,14,18}
+var fileStream = new FileStream("image.png", FileMode.Open);
+var bytes = File.ReadAllBytes("image.png");
+
+var httpFile = new HttpFile
+{
+    Name = name,
+    Bytes = bytes,
+    FileStream = fileStream,
+    FileName = fileName
+};
+
+var result = await "https://localhost:44316/api/test-module/upload-file"
+                    .SetContentType("multipart/form-data")
+                    .SetFiles(httpFile).PostAsync();
+
+var fileName = await result.Content.ReadAsStringAsync();
+
+await fileStream.DisposeAsync();
 ```
 
   </div>

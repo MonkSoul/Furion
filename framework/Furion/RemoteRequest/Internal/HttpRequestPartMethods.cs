@@ -627,19 +627,35 @@ public sealed partial class HttpRequestPart
                 var boundary = "---------------" + DateTime.Now.Ticks.ToString("x");
                 var multipartFormDataContent = new MultipartFormDataContent(boundary);
 
-                // 添加 Bytes 类型
+                // 遍历所有上传文件
                 foreach (var httpFile in Files)
                 {
                     // 获取文件 Content-Type 类型
                     FS.TryGetContentType(httpFile.FileName, out var contentType);
 
-                    var byteArrayContent = new ByteArrayContent(httpFile.Bytes);
-                    byteArrayContent.Headers.TryAddWithoutValidation("Content-Type", contentType ?? "application/octet-stream");
+                    // 处理 Bytes 文件
+                    if (httpFile.Bytes != null)
+                    {
+                        var byteArrayContent = new ByteArrayContent(httpFile.Bytes);
+                        byteArrayContent.Headers.TryAddWithoutValidation("Content-Type", contentType ?? "application/octet-stream");
 
-                    if (string.IsNullOrWhiteSpace(httpFile.FileName))
-                        multipartFormDataContent.Add(byteArrayContent, $"\"{httpFile.Name}\"");
-                    else
-                        multipartFormDataContent.Add(byteArrayContent, $"\"{httpFile.Name}\"", $"\"{httpFile.FileName}\"");
+                        if (string.IsNullOrWhiteSpace(httpFile.FileName))
+                            multipartFormDataContent.Add(byteArrayContent, $"\"{httpFile.Name}\"");
+                        else
+                            multipartFormDataContent.Add(byteArrayContent, $"\"{httpFile.Name}\"", $"\"{httpFile.FileName}\"");
+                    }
+
+                    // 处理 Stream 文件
+                    if (httpFile.FileStream != null)
+                    {
+                        var streamContent = new StreamContent(httpFile.FileStream, (int)httpFile.FileStream.Length);
+                        streamContent.Headers.TryAddWithoutValidation("Content-Type", contentType ?? "application/octet-stream");
+
+                        if (string.IsNullOrWhiteSpace(httpFile.FileName))
+                            multipartFormDataContent.Add(streamContent, $"\"{httpFile.Name}\"");
+                        else
+                            multipartFormDataContent.Add(streamContent, $"\"{httpFile.Name}\"", $"\"{httpFile.FileName}\"");
+                    }
                 }
 
                 // 处理其他类型
