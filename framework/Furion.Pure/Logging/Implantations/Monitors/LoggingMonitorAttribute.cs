@@ -1,4 +1,4 @@
-﻿// MIT License
+// MIT License
 //
 // Copyright (c) 2020-2022 百小僧, Baiqian Co.,Ltd and Contributors
 //
@@ -482,7 +482,7 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter, IOr
                 rawValue = value;
 
                 if (value == null) writer.WriteNullValue();
-                if (value is string str) writer.WriteStringValue(str);
+                else if (value is string str) writer.WriteStringValue(str);
                 else if (double.TryParse(value.ToString(), out var r)) writer.WriteNumberValue(r);
                 else writer.WriteStringValue(value.ToString());
             }
