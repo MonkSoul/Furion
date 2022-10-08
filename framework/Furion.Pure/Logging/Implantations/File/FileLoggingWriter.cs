@@ -70,13 +70,13 @@ internal class FileLoggingWriter
     {
         _fileLoggerProvider = fileLoggerProvider;
         _options = fileLoggerProvider.LoggerOptions;
-        _isEnabledRollingFiles = _fileLoggerProvider.MaxRollingFiles > 0 && _fileLoggerProvider.FileSizeLimitBytes > 0;
+        _isEnabledRollingFiles = _options.MaxRollingFiles > 0 && _options.FileSizeLimitBytes > 0;
 
         // 解析当前写入日志的文件名
         GetCurrentFileName();
 
         // 打开文件并持续写入
-        OpenFile(_fileLoggerProvider.Append);
+        OpenFile(_options.Append);
     }
 
     /// <summary>
@@ -104,7 +104,7 @@ internal class FileLoggingWriter
         __LastBaseFileName = baseFileName;
 
         // 是否配置了日志文件最大存储大小
-        if (_fileLoggerProvider.FileSizeLimitBytes > 0)
+        if (_options.FileSizeLimitBytes > 0)
         {
             // 定义文件查找通配符
             var logFileMask = Path.GetFileNameWithoutExtension(baseFileName) + "*" + Path.GetExtension(baseFileName);
@@ -149,8 +149,8 @@ internal class FileLoggingWriter
 
         // 如果文件不存在或没有达到 FileSizeLimitBytes 限制大小，则返回基础文件名
         if (!System.IO.File.Exists(baseFileName)
-            || _fileLoggerProvider.FileSizeLimitBytes <= 0
-            || new FileInfo(baseFileName).Length < _fileLoggerProvider.FileSizeLimitBytes) return baseFileName;
+            || _options.FileSizeLimitBytes <= 0
+            || new FileInfo(baseFileName).Length < _options.FileSizeLimitBytes) return baseFileName;
 
         // 获取日志基础文件名和当前日志文件名
         var currentFileIndex = 0;
@@ -168,9 +168,9 @@ internal class FileLoggingWriter
         var nextFileIndex = currentFileIndex + 1;
 
         // 如果配置了最大【递增】数，则超出自动从头开始（覆盖写入）
-        if (_fileLoggerProvider.MaxRollingFiles > 0)
+        if (_options.MaxRollingFiles > 0)
         {
-            nextFileIndex %= _fileLoggerProvider.MaxRollingFiles;
+            nextFileIndex %= _options.MaxRollingFiles;
         }
 
         // 返回下一个匹配的日志文件名（完整路径）
@@ -255,8 +255,8 @@ internal class FileLoggingWriter
         }
 
         // 是否超出限制的最大大小
-        bool isMaxFileSizeThresholdReached() => _fileLoggerProvider.FileSizeLimitBytes > 0
-            && _fileStream.Length > _fileLoggerProvider.FileSizeLimitBytes;
+        bool isMaxFileSizeThresholdReached() => _options.FileSizeLimitBytes > 0
+            && _fileStream.Length > _options.FileSizeLimitBytes;
 
         // 是否重新自定义了文件名
         bool isBaseFileNameChanged()
@@ -294,12 +294,12 @@ internal class FileLoggingWriter
         var succeed = _fileLoggerProvider._rollingFileNames.TryAdd(fName, fileInfo);
 
         // 判断超出限制的文件自动删除
-        if (succeed && _fileLoggerProvider._rollingFileNames.Count > _fileLoggerProvider.MaxRollingFiles)
+        if (succeed && _fileLoggerProvider._rollingFileNames.Count > _options.MaxRollingFiles)
         {
             // 根据最后写入时间删除过时日志
             var dropFiles = _fileLoggerProvider._rollingFileNames
                 .OrderBy(u => u.Value.LastWriteTimeUtc)
-                .Take(_fileLoggerProvider._rollingFileNames.Count - _fileLoggerProvider.MaxRollingFiles);
+                .Take(_fileLoggerProvider._rollingFileNames.Count - _options.MaxRollingFiles);
 
             // 遍历所有需要删除的文件
             foreach (var rollingFile in dropFiles)
