@@ -1,4 +1,4 @@
-// MIT License
+﻿// MIT License
 //
 // Copyright (c) 2020-2022 百小僧, Baiqian Co.,Ltd and Contributors
 //

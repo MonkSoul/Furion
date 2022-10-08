@@ -64,5 +64,5 @@ public sealed class DatabaseLoggerOptions
     /// <summary>
     /// 日期格式化
     /// </summary>
-    public string DateFormat { get; set; } = "yyyy-MM-dd hh:mm:ss(zzz) dddd";
+    public string DateFormat { get; set; } = "yyyy-MM-dd HH:mm:ss(zzz) dddd";
 }
