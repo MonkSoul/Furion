@@ -693,7 +693,7 @@
         </member>
         <member name="M:Furion.Application.TestModuleServices.TestSingleFileStreamProxy">
             <summary>
-            测试单文件上传
+            测试单文件流上传
             </summary>
             <returns></returns>
         </member>
