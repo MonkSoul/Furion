@@ -124,6 +124,8 @@ internal static class Penetrates
         formatString.Append(": ");
         formatString.Append(logMsg.LogDateTime.ToString(dateFormat));
         formatString.Append(' ');
+        formatString.Append(logMsg.UseUtcTimestamp ? "U" : "L");
+        formatString.Append(' ');
         _ = AppendWithColor(formatString, logMsg.LogName, disableConsoleColor
             ? new ConsoleColors(null, null)
             : new ConsoleColors(ConsoleColor.Cyan, ConsoleColor.DarkCyan));

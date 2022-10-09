@@ -42,6 +42,7 @@ public struct LogMessage
     /// <param name="state"></param>
     /// <param name="logDateTime"></param>
     /// <param name="threadId"></param>
+    /// <param name="useUtcTimestamp"></param>
     internal LogMessage(string logName
         , LogLevel logLevel
         , EventId eventId
@@ -50,7 +51,8 @@ public struct LogMessage
         , LogContext context
         , object state
         , DateTime logDateTime
-        , int threadId)
+        , int threadId
+        , bool useUtcTimestamp)
     {
         LogName = logName;
         Message = message;
@@ -61,6 +63,7 @@ public struct LogMessage
         State = state;
         LogDateTime = logDateTime;
         ThreadId = threadId;
+        UseUtcTimestamp = useUtcTimestamp;
     }
 
     /// <summary>
@@ -102,6 +105,11 @@ public struct LogMessage
     /// 线程 Id
     /// </summary>
     public readonly int ThreadId;
+
+    /// <summary>
+    /// 是否使用 UTC 时间戳
+    /// </summary>
+    public readonly bool UseUtcTimestamp;
 
     /// <summary>
     /// 日志上下文
