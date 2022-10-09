@@ -54,6 +54,7 @@ import Tag from "@site/src/components/Tag.js";
   - &nbsp;<Tag>新增</Tag> 新增 `HttpContext.SetTokensOfResponseHeaders` 拓展 <sup>4.5.7</sup> [3775e65](https://gitee.com/dotnetchina/Furion/commit/3775e659ca13615bc7f65b050fb8540daeed9433)
   - &nbsp;<Tag>新增</Tag> 新增远程请求支持 `Stream` 文件格式上传 <sup>4.5.8</sup> [#I5UF3I](https://gitee.com/dotnetchina/Furion/issues/I5UF3I)
   - &nbsp;<Tag>新增</Tag> 日志模块可配置是否启用上下文功能 `IncludeScopes` 属性 <sup>4.5.9</sup> [#I5UJRS](https://gitee.com/dotnetchina/Furion/issues/I5UJRS)
+  - &nbsp;<Tag>新增</Tag> `LoggingMonitor` 日志筛选 `WriteFilter` 配置 <sup>4.5.9</sup>
 
 - **突破性变化**
 
@@ -369,6 +370,30 @@ var result = await "https://localhost:44316/api/test-module/upload-file"
 var fileName = await result.Content.ReadAsStringAsync();
 
 await fileStream.DisposeAsync();
+```
+
+  </div>
+</details>
+
+- 4. **`LoggingMonitor` 全局过滤**
+
+<details style={{ marginLeft: 50 }}>
+  <summary>查看更改</summary>
+  <div>
+
+```cs showLineNumbers showLineNumbers {1,3,10}
+services.AddMonitorLogging(options =>
+{
+    options.WriteFilter = (context) =>
+    {
+        // 获取控制器/操作描述器
+        var controllerActionDescriptor = context.ActionDescriptor as ControllerActionDescriptor;
+
+        // 你的逻辑....，不需要拦截返回 false，否则 true
+
+        return true;
+    };
+});
 ```
 
   </div>

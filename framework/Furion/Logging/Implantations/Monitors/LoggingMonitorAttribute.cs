@@ -174,6 +174,13 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter, IOr
             }
         }
 
+        // 判断是否自定义了日志筛选器，如果是则检查是否符合条件
+        if (LoggingMonitorSettings.InternalWriteFilter?.Invoke(context) == false)
+        {
+            _ = await next();
+            return;
+        }
+
         // 创建 json 写入器
         using var stream = new MemoryStream();
         using var writer = new Utf8JsonWriter(stream, Settings.JsonWriterOptions);

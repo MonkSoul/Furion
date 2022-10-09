@@ -69,6 +69,9 @@ public static class LoggingServiceCollectionExtensions
             && settings.IncludeOfMethods.Length == 0
             && settings.ExcludeOfMethods.Length == 0) return services;
 
+        // 配置日志过滤器
+        LoggingMonitorSettings.InternalWriteFilter = settings.WriteFilter;
+
         // 注册日志监视器过滤器
         services.AddMvcFilter(new LoggingMonitorAttribute(settings));
 

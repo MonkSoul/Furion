@@ -121,7 +121,7 @@ public sealed class FileLogger : ILogger
         var logDateTime = _options.UseUtcTimestamp ? DateTime.UtcNow : DateTime.Now;
         var logMsg = new LogMessage(_logName, logLevel, eventId, message, exception, Context, state, logDateTime, Environment.CurrentManagedThreadId);
 
-        // 是否自定义了日志筛选器，如果是则检查是否条件
+        // 判断是否自定义了日志筛选器，如果是则检查是否符合条件
         if (_options.WriteFilter?.Invoke(logMsg) == false) return;
 
         // 设置日志消息模板
