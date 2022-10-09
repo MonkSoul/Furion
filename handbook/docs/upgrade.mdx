@@ -38,7 +38,7 @@ import Tag from "@site/src/components/Tag.js";
 
 - **突破性变化**
 
-  - &nbsp;<Tag>移除</Tag> `"some log".SetCategory(name)` 拓展方法 <sup>4.6.0</sup>
+  - &nbsp;<Tag>移除</Tag> `"some log".SetCategory(name)` 拓展方法 <sup>4.6.0</sup> [ec4838c](https://gitee.com/dotnetchina/Furion/commit/ec4838c218ed9c96ba92d7a80fd11539da59ca22)
   - &nbsp;<Tag>调整</Tag> **重构日志模块设置上下文功能** <sup>4.6.0</sup> [1c198ee](https://gitee.com/dotnetchina/Furion/commit/1c198ee2701e0ca76bca1057df6fce6789344c35)
 
 <details style={{ marginLeft: 50 }}>
@@ -75,7 +75,7 @@ _logger.LogInformation("我是一个日志 {id}", 20);
   - &nbsp;<Tag>修复</Tag> `4.5.9+` 版本新增的 `IncludeScopes` 配置导致日志上下文失效 <sup>4.6.0</sup> [4a76841](https://gitee.com/dotnetchina/Furion/commit/4a768415bb2effe47f1a6e12de0773d3bbd6f75c)
   - &nbsp;<Tag>修复</Tag> 多个 `sql` 共用 `DbParameters` 出现冲突问题 <sup>4.6.0</sup> [#I5UO2H](https://gitee.com/dotnetchina/Furion/issues/I5UO2H)
   - &nbsp;<Tag>修复</Tag> 高频率写入日志导致堆内存溢出的异常问题 <sup>4.6.0</sup> [#I5UJRS](https://gitee.com/dotnetchina/Furion/issues/I5UJRS)
-  - &nbsp;<Tag>修复</Tag> 框架内部所有使用 `.CreateLogger` 创建的日志对象无法应用上下文问题 <sup>4.6.0</sup>
+  - &nbsp;<Tag>修复</Tag> 框架内部所有使用 `.CreateLogger` 创建的日志对象无法应用上下文问题 <sup>4.6.0</sup> [ec4838c](https://gitee.com/dotnetchina/Furion/commit/ec4838c218ed9c96ba92d7a80fd11539da59ca22)
 
 - **文档**
 
