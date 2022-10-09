@@ -24,6 +24,7 @@ using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using System.Logging;
 using System.Reflection;
 using System.Transactions;
 
@@ -251,8 +252,7 @@ public sealed class UnitOfWorkAttribute : Attribute, IAsyncActionFilter, IAsyncP
              : default;
 
         // 创建日志记录器
-        var logger = context.HttpContext.RequestServices.GetRequiredService<ILoggerFactory>()
-             .CreateLogger(GetType().FullName);
+        var logger = context.HttpContext.RequestServices.GetRequiredService<ILogger<UnitOfWork>>();
 
         return (transactionScope, logger);
     }

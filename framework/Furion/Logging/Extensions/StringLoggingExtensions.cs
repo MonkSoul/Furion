@@ -71,16 +71,6 @@ public static class StringLoggingExtensions
     }
 
     /// <summary>
-    /// 设置日志分类名
-    /// </summary>
-    /// <param name="message"></param>
-    /// <param name="categoryName"></param>
-    public static StringLoggingPart SetCategory(this string message, string categoryName)
-    {
-        return StringLoggingPart.Default().SetMessage(message).SetCategory(categoryName);
-    }
-
-    /// <summary>
     /// 设置异常对象
     /// </summary>
     public static StringLoggingPart SetException(this string message, Exception exception)

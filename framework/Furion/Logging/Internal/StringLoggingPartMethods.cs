@@ -21,7 +21,6 @@
 // SOFTWARE.
 
 using Microsoft.Extensions.Logging;
-using System.Collections.Concurrent;
 
 namespace Furion.Logging;
 
@@ -30,11 +29,6 @@ namespace Furion.Logging;
 /// </summary>
 public sealed partial class StringLoggingPart
 {
-    /// <summary>
-    /// 缓存日志组件
-    /// </summary>
-    private static readonly ConcurrentDictionary<string, ILogger> _loggers = new();
-
     /// <summary>
     /// Information
     /// </summary>
@@ -131,10 +125,10 @@ public sealed partial class StringLoggingPart
     internal (ILogger, ILoggerFactory, bool) GetLogger()
     {
         // 解析日志分类名
-        var categoryName = !string.IsNullOrWhiteSpace(CategoryName)
-            ? CategoryName : typeof(System.Logging.StringLogging).FullName;
+        var categoryType = CategoryType ?? typeof(System.Logging.StringLogging);
 
-        ILoggerFactory loggerFactory;
+        ILoggerFactory loggerFactory = null;
+        ILogger logger = null;
         var hasException = false;
 
         // 解决启动时打印日志问题
@@ -147,7 +141,7 @@ public sealed partial class StringLoggingPart
         {
             try
             {
-                loggerFactory = App.GetService<ILoggerFactory>(LoggerScoped ?? App.RootServices);
+                logger = App.GetService(typeof(ILogger<>).MakeGenericType(categoryType)) as ILogger;
             }
             catch
             {
@@ -157,11 +151,7 @@ public sealed partial class StringLoggingPart
         }
 
         // 创建日志实例
-        if (!_loggers.TryGetValue(categoryName, out var logger))
-        {
-            logger = loggerFactory.CreateLogger(categoryName);
-            _loggers.TryAdd(categoryName, logger);
-        }
+        logger ??= loggerFactory.CreateLogger(categoryType.FullName);
 
         return (logger, loggerFactory, hasException);
     }

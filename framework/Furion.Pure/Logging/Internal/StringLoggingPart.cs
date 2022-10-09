@@ -60,9 +60,9 @@ public sealed partial class StringLoggingPart
     public EventId? EventId { get; private set; }
 
     /// <summary>
-    /// 日志分类名（总是创建新的实例）
+    /// 日志分类类型
     /// </summary>
-    public string CategoryName { get; private set; } = typeof(StringLogging).FullName;
+    public Type CategoryType { get; private set; } = typeof(StringLogging);
 
     /// <summary>
     /// 异常对象

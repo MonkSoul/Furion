@@ -37,6 +37,7 @@ using Microsoft.Extensions.Primitives;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using System.Diagnostics;
+using System.Logging;
 using System.Reflection;
 using System.Security.Claims;
 using System.Text;
@@ -60,12 +61,6 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter, IOr
     /// 排序属性
     /// </summary>
     public int Order => FilterOrder;
-
-    /// <summary>
-    /// 日志 LogName
-    /// </summary>
-    /// <remarks>方便对日志进行过滤写入不同的存储介质中</remarks>
-    internal const string LOG_CATEGORY_NAME = "System.Logging.LoggingMonitor";
 
     /// <summary>
     /// 构造函数
@@ -317,8 +312,7 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter, IOr
         var monitorMessage = TP.Wrapper(Title, displayName, monitorItems.ToArray());
 
         // 创建日志记录器
-        var logger = httpContext.RequestServices.GetRequiredService<ILoggerFactory>()
-            .CreateLogger(LOG_CATEGORY_NAME);
+        var logger = httpContext.RequestServices.GetRequiredService<ILogger<LoggingMonitor>>();
 
         // 调用外部配置
         LoggingMonitorSettings.Configure?.Invoke(logger, logContext, resultContext);

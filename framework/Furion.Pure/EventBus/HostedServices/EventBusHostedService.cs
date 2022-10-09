@@ -25,6 +25,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System.Collections.Concurrent;
+using System.Logging;
 using System.Reflection;
 using System.Text.RegularExpressions;
 
@@ -35,12 +36,6 @@ namespace Furion.EventBus;
 /// </summary>
 internal sealed class EventBusHostedService : BackgroundService
 {
-    /// <summary>
-    /// 日志 LogName
-    /// </summary>
-    /// <remarks>方便对日志进行过滤写入不同的存储介质中</remarks>
-    private const string LOG_CATEGORY_NAME = "System.Logging.EventBusService";
-
     /// <summary>
     /// 避免由 CLR 的终结器捕获该异常从而终止应用程序，让所有未觉察异常被觉察
     /// </summary>
@@ -89,14 +84,14 @@ internal sealed class EventBusHostedService : BackgroundService
     /// <summary>
     /// 构造函数
     /// </summary>
-    /// <param name="loggerFactory">日志工厂</param>
+    /// <param name="logger">日志对象</param>
     /// <param name="serviceProvider">服务提供器</param>
     /// <param name="eventSourceStorer">事件源存储器</param>
     /// <param name="eventSubscribers">事件订阅者集合</param>
     /// <param name="useUtcTimestamp">是否使用 Utc 时间</param>
     /// <param name="fuzzyMatch">是否启用模糊匹配事件消息</param>
     /// <param name="logEnabled">是否启用日志记录</param>
-    public EventBusHostedService(ILoggerFactory loggerFactory
+    public EventBusHostedService(ILogger<EventBusService> logger
         , IServiceProvider serviceProvider
         , IEventSourceStorer eventSourceStorer
         , IEnumerable<IEventSubscriber> eventSubscribers
@@ -104,7 +99,7 @@ internal sealed class EventBusHostedService : BackgroundService
         , bool fuzzyMatch
         , bool logEnabled)
     {
-        _logger = loggerFactory.CreateLogger(LOG_CATEGORY_NAME);
+        _logger = logger;
         _eventSourceStorer = eventSourceStorer;
         Monitor = serviceProvider.GetService<IEventHandlerMonitor>();
         Executor = serviceProvider.GetService<IEventHandlerExecutor>();

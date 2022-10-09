@@ -77,17 +77,7 @@ public sealed partial class StringLoggingPart
     /// <typeparam name="TClass"></typeparam>
     public StringLoggingPart SetCategory<TClass>()
     {
-        CategoryName = typeof(TClass).FullName;
-        return this;
-    }
-
-    /// <summary>
-    /// 设置日志分类名
-    /// </summary>
-    /// <param name="categoryName"></param>
-    public StringLoggingPart SetCategory(string categoryName)
-    {
-        if (!string.IsNullOrWhiteSpace(categoryName)) CategoryName = categoryName;
+        CategoryType = typeof(TClass);
         return this;
     }
 

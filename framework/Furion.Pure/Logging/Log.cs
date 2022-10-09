@@ -42,19 +42,10 @@ public static class Log
     /// <summary>
     /// 创建日志记录器
     /// </summary>
-    /// <param name="categoryName"></param>
-    /// <param name="provider"></param>
     /// <returns></returns>
-    public static ILogger CreateLogger(string categoryName, ILoggerProvider provider = default)
+    public static ILogger CreateLogger<T>()
     {
-        var loggerFactory = App.GetRequiredService<ILoggerFactory>(App.RootServices);
-
-        if (provider != null)
-        {
-            loggerFactory.AddProvider(provider);
-        }
-
-        return loggerFactory.CreateLogger(categoryName);
+        return App.GetService<ILogger<T>>();
     }
 
     /// <summary>
