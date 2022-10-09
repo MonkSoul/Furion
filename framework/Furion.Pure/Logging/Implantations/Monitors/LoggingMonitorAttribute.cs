@@ -526,7 +526,7 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter, IOr
         var templates = new List<string>();
 
         object returnValue = null;
-        Type finalReturnType = null;
+        Type finalReturnType;
 
         // 解析返回值
         if (UnifyContext.CheckVaildResult(resultContext.Result, out var data))
@@ -557,7 +557,7 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter, IOr
         var threshold = GetReturnValueThreshold(ReturnValueThreshold, monitorMethod);
         if (threshold > 0)
         {
-            displayValue = displayValue[..(displayValue.Length > threshold ? threshold : displayValue.Length)];
+            displayValue = displayValue.Length <= threshold ? displayValue : displayValue[..threshold];
         }
 
         templates.AddRange(new[]
@@ -573,10 +573,13 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter, IOr
         writer.WriteString("type", finalReturnType?.FullName);
         writer.WriteString("actType", method.ReturnType.FullName);
         writer.WritePropertyName("value");
-        if (succeed && method.ReturnType != typeof(void))
+        if (succeed && method.ReturnType != typeof(void) && returnValue != null)
         {
             // 解决返回值被截断后 json 验证失败异常问题
-            if (threshold > 0 && originValue != displayValue) writer.WriteStringValue(displayValue);
+            if (threshold > 0 && originValue != displayValue)
+            {
+                writer.WriteStringValue(displayValue);
+            }
             else writer.WriteRawValue(displayValue);
         }
         else writer.WriteNullValue();
