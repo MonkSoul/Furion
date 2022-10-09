@@ -75,7 +75,7 @@ public sealed class FileLogger : ILogger
         if (state is LogContext context)
         {
             if (Context == null) Context = new LogContext().SetRange(context.Properties);
-            else Context.SetRange(context.Properties);
+            else Context?.SetRange(context.Properties);
         }
 
         return default;

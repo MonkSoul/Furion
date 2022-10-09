@@ -135,4 +135,12 @@ public class TestLoggerServices : IDynamicApiController
         "设置日志上下文".ScopeContext(ctx => ctx.Set("name", "Furion")).LogWarning();
         Log.ScopeContext(ctx => ctx.Set("name", "Furion")).LogInformation("dddd");
     }
+
+    public void 测试批量日志插入()
+    {
+        for (int i = 0; i < 10000; i++)
+        {
+            _logger.ScopeContext(ctx => ctx.Set("LoggingConst.Color", ConsoleColor.Green)).LogInformation($"这是绿色 {i}", i);
+        }
+    }
 }

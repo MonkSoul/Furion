@@ -83,7 +83,7 @@ public sealed class ConsoleFormatterExtend : ConsoleFormatter, IDisposable
             // 解析日志上下文数据
             scopeProvider?.ForEachScope<object>((scope, ctx) =>
             {
-                if (scope is LogContext context)
+                if (scope != null && scope is LogContext context)
                 {
                     logMsg.Context = context;
                 }
