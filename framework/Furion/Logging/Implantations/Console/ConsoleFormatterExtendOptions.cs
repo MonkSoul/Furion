@@ -32,6 +32,16 @@ namespace Furion.Logging;
 public sealed class ConsoleFormatterExtendOptions : ConsoleFormatterOptions
 {
     /// <summary>
+    /// 构造函数
+    /// </summary>
+    public ConsoleFormatterExtendOptions()
+        : base()
+    {
+        // 默认启用控制台日志上下文功能
+        IncludeScopes = true;
+    }
+
+    /// <summary>
     /// 控制是否启用颜色
     /// </summary>
     public LoggerColorBehavior ColorBehavior { get; set; }

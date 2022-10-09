@@ -80,6 +80,8 @@ public sealed class DatabaseLogger : ILogger
     /// <returns><see cref="IDisposable"/></returns>
     public IDisposable BeginScope<TState>(TState state)
     {
+        if (!_options.IncludeScopes) return default;
+
         // 设置日志上下文
         if (state is LogContext context)
         {

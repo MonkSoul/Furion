@@ -80,14 +80,18 @@ public sealed class ConsoleFormatterExtend : ConsoleFormatter, IDisposable
         // 是否自定义了自定义日志格式化程序，如果是则使用
         if (_formatterOptions.MessageFormat != null)
         {
-            // 解析日志上下文数据
-            scopeProvider?.ForEachScope<object>((scope, ctx) =>
+            if (_formatterOptions.IncludeScopes && scopeProvider != null)
             {
-                if (scope != null && scope is LogContext context)
+                // 解析日志上下文数据
+                scopeProvider.ForEachScope<object>((scope, ctx) =>
                 {
-                    logMsg.Context = context;
-                }
-            }, null);
+                    if (scope != null && scope is LogContext context)
+                    {
+                        logMsg.Context = context;
+                        return;
+                    }
+                }, null);
+            }
 
             // 设置日志消息模板
             standardMessage = _formatterOptions.MessageFormat(logMsg);
@@ -114,6 +118,10 @@ public sealed class ConsoleFormatterExtend : ConsoleFormatter, IDisposable
             // 写入控制台
             textWriter.WriteLine(standardMessage);
         }
+
+        // 清空日志上下文
+        logMsg.Context?.Properties?.Clear();
+        logMsg.Context = null;
     }
 
     /// <summary>
