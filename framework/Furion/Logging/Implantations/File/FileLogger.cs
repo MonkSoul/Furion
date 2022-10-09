@@ -108,18 +108,7 @@ public sealed class FileLogger : ILogger
         var logMsg = new LogMessage(_logName, logLevel, eventId, message, exception, null, state, logDateTime, Environment.CurrentManagedThreadId);
 
         // 设置日志上下文
-        if (_options.IncludeScopes && _fileLoggerProvider.ScopeProvider != null)
-        {
-            // 解析日志上下文数据
-            _fileLoggerProvider.ScopeProvider.ForEachScope<object>((scope, ctx) =>
-            {
-                if (scope != null && scope is LogContext context)
-                {
-                    logMsg.Context = context;
-                    return;
-                }
-            }, null);
-        }
+        logMsg = Penetrates.SetLogContext(_fileLoggerProvider.ScopeProvider, logMsg, _options.IncludeScopes);
 
         // 判断是否自定义了日志筛选器，如果是则检查是否符合条件
         if (_options.WriteFilter?.Invoke(logMsg) == false) return;

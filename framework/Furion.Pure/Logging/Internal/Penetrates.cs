@@ -183,6 +183,32 @@ internal static class Penetrates
     }
 
     /// <summary>
+    /// 设置日志上下文
+    /// </summary>
+    /// <param name="scopeProvider"></param>
+    /// <param name="logMsg"></param>
+    /// <param name="includeScopes"></param>
+    /// <returns></returns>
+    internal static LogMessage SetLogContext(IExternalScopeProvider scopeProvider, LogMessage logMsg, bool includeScopes)
+    {
+        // 设置日志上下文
+        if (includeScopes && scopeProvider != null)
+        {
+            // 解析日志上下文数据
+            scopeProvider.ForEachScope<object>((scope, ctx) =>
+            {
+                if (scope != null && scope is LogContext context)
+                {
+                    if (logMsg.Context == null) logMsg.Context = context;
+                    else logMsg.Context = logMsg.Context?.SetRange(context.Properties);
+                }
+            }, null);
+        }
+
+        return logMsg;
+    }
+
+    /// <summary>
     /// 拓展 StringBuilder 增加带颜色写入
     /// </summary>
     /// <param name="message"></param>

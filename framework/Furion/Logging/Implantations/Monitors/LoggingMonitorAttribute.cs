@@ -331,7 +331,7 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter, IOr
         logContext.Set("loggingMonitor", jsonString);
 
         // 设置日志上下文
-        logger.ScopeContext(logContext);
+        using var scope = logger.ScopeContext(logContext);
 
         // 获取最终写入日志消息格式
         var finalMessage = GetJsonBehavior(JsonBehavior, monitorMethod) == Furion.Logging.JsonBehavior.OnlyJson ? jsonString : monitorMessage;

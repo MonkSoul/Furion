@@ -79,7 +79,7 @@ public static class Log
     /// </summary>
     /// <param name="properties">建议使用 ConcurrentDictionary 类型</param>
     /// <returns></returns>
-    public static ILogger ScopeContext(IDictionary<object, object> properties)
+    public static (ILogger logger, IDisposable scope) ScopeContext(IDictionary<object, object> properties)
     {
         return GetLogger(StringLoggingPart.Default().ScopeContext(properties));
     }
@@ -89,7 +89,7 @@ public static class Log
     /// </summary>
     /// <param name="configure"></param>
     /// <returns></returns>
-    public static ILogger ScopeContext(Action<LogContext> configure)
+    public static (ILogger logger, IDisposable scope) ScopeContext(Action<LogContext> configure)
     {
         return GetLogger(StringLoggingPart.Default().ScopeContext(configure));
     }
@@ -99,7 +99,7 @@ public static class Log
     /// </summary>
     /// <param name="context"></param>
     /// <returns></returns>
-    public static ILogger ScopeContext(LogContext context)
+    public static (ILogger logger, IDisposable scope) ScopeContext(LogContext context)
     {
         return GetLogger(StringLoggingPart.Default().ScopeContext(context));
     }
@@ -662,17 +662,19 @@ public static class Log
     /// <param name="loggingPart"></param>
     /// <returns></returns>
     /// <exception cref="InvalidOperationException"></exception>
-    private static ILogger GetLogger(StringLoggingPart loggingPart)
+    private static (ILogger, IDisposable) GetLogger(StringLoggingPart loggingPart)
     {
         // 获取日志实例
         var (logger, loggerFactory, hasException) = loggingPart.GetLogger();
+        var scope = logger.ScopeContext(loggingPart.LogContext);
         if (hasException)
         {
+            scope?.Dispose();
             loggerFactory?.Dispose();
 
             throw new InvalidOperationException("Unable to set log context data.");
         }
 
-        return logger;
+        return (logger, scope);
     }
 }

@@ -1282,32 +1282,38 @@ Console.WriteLine(template);
 
 :::important 版本说明
 
-以下内容仅限 `Furion 4.1.3 +` 版本使用。
+以下内容仅限 `Furion 4.6.0 +` 版本使用。
 
 :::
 
 有时候我们希望为日志提供额外数据，这时候可通过 `.ScopeContext()` 配置，如：
 
-```cs showLineNumbers {2,6,12,17,22}
+```cs showLineNumbers {2,8,15,21,25,28}
 // 写法一
-_logger.ScopeContext(ctx => ctx.Set("Name", "Furion").Set("UserId", 10))
-       .LogInformation("我是一个日志 {id}", 20);
+using (var scope = _logger.ScopeContext(ctx => ctx.Set("Name", "Furion").Set("UserId", 10)))
+{
+  _logger.LogInformation("我是一个日志 {id}", 20);
+}
 
 // 写法二
-_logger.ScopeContext(new Dictionary<object, object> {
+using var scope = _logger.ScopeContext(new Dictionary<object, object> {
     { "Name", "Furion" },
     { "UserId", 10 }
-}).LogInformation("我是一个日志 {id}", 20);
+});
+_logger.LogInformation("我是一个日志 {id}", 20);
 
 // 写法三
-_logger.ScopeContext(new LogContext {
+using var scope = _logger.ScopeContext(new LogContext {
     // ....
-}).LogInformation("我是一个日志 {id}", 20)
+});
+_logger.LogInformation("我是一个日志 {id}", 20);
 
 // 写法四
-Log.ScopeContext(new LogContext {
+var (logger, scoped) = Log.ScopeContext(new LogContext {
     // ...
-}).LogInformation("我是一个日志 {id}", 20);
+});
+logger.LogInformation("我是一个日志 {id}", 20);
+scope?.Dispose();
 
 // 写法五
 "我是一个日志 {id}".ScopeContext(new LogContext {
@@ -1339,30 +1345,41 @@ public void Write(LogMessage logMsg, bool flush)
 
 还可以实现共享日志上下文，如：
 
-```cs showLineNumbers {7,13,21}
-private readonly ILogger<TestAppService> _logger;
-public TestAppService(ILogger<TestAppService> logger)
+```cs showLineNumbers{1,4,11,25,33}
+public TestAppService: ITestAppService, IDisposable
 {
-    _logger = logger;
+    private readonly ILogger<TestAppService> _logger;
+    private IDisposable _scopeProvider;
 
-     // 添加全局用户信息上下文数据
-    _logger.ScopeContext(ctx => ctx.Set("uid", "100").Set("uname", "百小僧"));
-}
+    public TestAppService(ILogger<TestAppService> logger)
+    {
+        _logger = logger;
 
-public string GetName(int id)
-{
-    // 共享全局上下文数据
-    _logger.LogInformation("写入新的日志");
+        // 添加全局用户信息上下文数据
+        _scopeProvider = _logger.ScopeContext(ctx => ctx.Set("uid", "100").Set("uname", "百小僧"));
+    }
 
-    return "Furion";
-}
+    public string GetName(int id)
+    {
+        // 共享全局上下文数据
+        _logger.LogInformation("写入新的日志");
 
-public string GetTags(int id)
-{
-    // 额外新增上下文数据
-    _logger.ScopeContext(ctx => ctx.Set("key", "value")).LogInformation("设置额外的上上下文日志");
+        return "Furion";
+    }
 
-    return "百小僧";
+    public string GetTags(int id)
+    {
+        // 额外新增上下文数据
+        using var scope = _logger.ScopeContext(ctx => ctx.Set("key", "value"));
+        _logger.LogInformation("设置额外的上上下文日志");
+
+        return "百小僧";
+    }
+
+    public void Dispose()
+    {
+        _scopeProvider.Dispose();
+    }
 }
 ```
 

@@ -20,7 +20,8 @@ public class TestLoggerServices : IDynamicApiController
 
     public void 测试日志()
     {
-        _logger.ScopeContext(ctx => ctx.Set("Name", "Furion")).LogInformation("我是一个日志 {id}", 20);
+        using var scope = _logger.ScopeContext(ctx => ctx.Set("Name", "Furion"));
+        _logger.LogInformation("我是一个日志 {id}", 20);
     }
 
     public void 测试配置日志()
@@ -124,23 +125,28 @@ public class TestLoggerServices : IDynamicApiController
 
     public void 测试作用域()
     {
-        _logger.ScopeContext(new Dictionary<object, object>
-       {
+        using var scope = _logger.ScopeContext(new Dictionary<object, object>
+        {
            {"name","Furion" }
-       }).LogInformation("测试啊");
+        });
+
+        _logger.LogInformation("测试啊");
     }
 
     public void 测试日志上下文()
     {
         "设置日志上下文".ScopeContext(ctx => ctx.Set("name", "Furion")).LogWarning();
-        Log.ScopeContext(ctx => ctx.Set("name", "Furion")).LogInformation("dddd");
+        var (logger, scoped) = Log.ScopeContext(ctx => ctx.Set("name", "Furion"));
+        logger.LogInformation("dddd");
+        scoped?.Dispose();
     }
 
     public void 测试批量日志插入()
     {
         for (int i = 0; i < 10000; i++)
         {
-            _logger.ScopeContext(ctx => ctx.Set("LoggingConst.Color", ConsoleColor.Green)).LogInformation($"这是绿色 {i}", i);
+            using var scope = _logger.ScopeContext(ctx => ctx.Set("LoggingConst.Color", ConsoleColor.Green));
+            _logger.LogInformation($"这是绿色 {i}", i);
         }
     }
 

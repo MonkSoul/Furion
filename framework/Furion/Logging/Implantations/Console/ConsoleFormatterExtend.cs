@@ -81,18 +81,7 @@ public sealed class ConsoleFormatterExtend : ConsoleFormatter, IDisposable
         if (_formatterOptions.MessageFormat != null)
         {
             // 设置日志上下文
-            if (_formatterOptions.IncludeScopes && scopeProvider != null)
-            {
-                // 解析日志上下文数据
-                scopeProvider.ForEachScope<object>((scope, ctx) =>
-                {
-                    if (scope != null && scope is LogContext context)
-                    {
-                        logMsg.Context = context;
-                        return;
-                    }
-                }, null);
-            }
+            logMsg = Penetrates.SetLogContext(scopeProvider, logMsg, _formatterOptions.IncludeScopes);
 
             // 设置日志消息模板
             standardMessage = _formatterOptions.MessageFormat(logMsg);
@@ -119,10 +108,6 @@ public sealed class ConsoleFormatterExtend : ConsoleFormatter, IDisposable
             // 写入控制台
             textWriter.WriteLine(standardMessage);
         }
-
-        // 清空日志上下文
-        logMsg.Context?.Properties?.Clear();
-        logMsg.Context = null;
     }
 
     /// <summary>
