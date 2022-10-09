@@ -141,7 +141,7 @@ public sealed partial class StringLoggingPart
         {
             try
             {
-                logger = App.GetService(typeof(ILogger<>).MakeGenericType(categoryType)) as ILogger;
+                logger = App.GetRequiredService(typeof(ILogger<>).MakeGenericType(categoryType)) as ILogger;
             }
             catch
             {

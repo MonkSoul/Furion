@@ -45,7 +45,7 @@ public static class Log
     /// <returns></returns>
     public static ILogger CreateLogger<T>()
     {
-        return App.GetService<ILogger<T>>();
+        return App.GetRequiredService<ILogger<T>>();
     }
 
     /// <summary>
