@@ -2,7 +2,6 @@
 using Furion.Application.Services;
 using Furion.DatabaseAccessor.Extensions;
 using Furion.Localization;
-using Microsoft.Data.Sqlite;
 
 namespace Furion.Application;
 
@@ -325,12 +324,5 @@ public class PersonService : IDynamicApiController
     {
         await _personRepository.DeleteNowAsync(id);
         var d = await _personRepository.SqlQueriesAsync("select * from persion2 d");
-    }
-
-    public async Task 测试多个sql参数共用()
-    {
-        var pas = new SqliteParameter("id", 2);
-        var dt1 = await "select * from person where id = @id".SqlQueriesAsync(pas);
-        var dt2 = await "select * from person where id > @id".SqlQueriesAsync(pas);
     }
 }

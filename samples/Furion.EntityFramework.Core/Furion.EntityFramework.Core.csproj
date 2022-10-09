@@ -6,7 +6,6 @@
 
 	<ItemGroup>
 		<None Remove="dbsettings.json" />
-		<None Remove="sqlsettings.json" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -19,7 +18,6 @@
 
 	<ItemGroup>
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="6.0.9" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.9" />
 	</ItemGroup>
 
 	<ItemGroup>
