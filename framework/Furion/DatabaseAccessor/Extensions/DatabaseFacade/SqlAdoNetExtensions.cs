@@ -53,6 +53,7 @@ public static class SqlAdoNetExtensions
         var dataTable = dbDataReader.ToDataTable();
 
         // 释放命令对象
+        dbCommand.Parameters?.Clear();
         dbCommand.Dispose();
 
         return dataTable;
@@ -79,6 +80,7 @@ public static class SqlAdoNetExtensions
         var dataTable = dbDataReader.ToDataTable();
 
         // 释放命令对象
+        dbCommand.Parameters?.Clear();
         dbCommand.Dispose();
 
         return (dataTable, dbParameters);
@@ -106,6 +108,7 @@ public static class SqlAdoNetExtensions
         var dataTable = dbDataReader.ToDataTable();
 
         // 释放命令对象
+        dbCommand.Parameters?.Clear();
         await dbCommand.DisposeAsync();
 
         return dataTable;
@@ -133,6 +136,7 @@ public static class SqlAdoNetExtensions
         var dataTable = dbDataReader.ToDataTable();
 
         // 释放命令对象
+        dbCommand.Parameters?.Clear();
         await dbCommand.DisposeAsync();
 
         return (dataTable, dbParameters);
@@ -155,6 +159,7 @@ public static class SqlAdoNetExtensions
         var rowEffects = dbCommand.ExecuteNonQuery();
 
         // 释放命令对象
+        dbCommand.Parameters?.Clear();
         dbCommand.Dispose();
 
         return rowEffects;
@@ -177,6 +182,7 @@ public static class SqlAdoNetExtensions
         var rowEffects = dbCommand.ExecuteNonQuery();
 
         // 释放命令对象
+        dbCommand.Parameters?.Clear();
         dbCommand.Dispose();
 
         return (rowEffects, dbParameters);
@@ -200,6 +206,7 @@ public static class SqlAdoNetExtensions
         var rowEffects = await dbCommand.ExecuteNonQueryAsync(cancellationToken);
 
         // 释放命令对象
+        dbCommand.Parameters?.Clear();
         await dbCommand.DisposeAsync();
 
         return rowEffects;
@@ -223,6 +230,7 @@ public static class SqlAdoNetExtensions
         var rowEffects = await dbCommand.ExecuteNonQueryAsync(cancellationToken);
 
         // 释放命令对象
+        dbCommand.Parameters?.Clear();
         await dbCommand.DisposeAsync();
 
         return (rowEffects, dbParameters);
@@ -245,6 +253,7 @@ public static class SqlAdoNetExtensions
         var result = dbCommand.ExecuteScalar();
 
         // 释放命令对象
+        dbCommand.Parameters?.Clear();
         dbCommand.Dispose();
 
         return result != DBNull.Value ? result : default;
@@ -267,6 +276,7 @@ public static class SqlAdoNetExtensions
         var result = dbCommand.ExecuteScalar();
 
         // 释放命令对象
+        dbCommand.Parameters?.Clear();
         dbCommand.Dispose();
 
         return (result != DBNull.Value ? result : default, dbParameters);
@@ -290,6 +300,7 @@ public static class SqlAdoNetExtensions
         var result = await dbCommand.ExecuteScalarAsync(cancellationToken);
 
         // 释放命令对象
+        dbCommand.Parameters?.Clear();
         await dbCommand.DisposeAsync();
 
         return result != DBNull.Value ? result : default;
@@ -313,6 +324,7 @@ public static class SqlAdoNetExtensions
         var result = await dbCommand.ExecuteScalarAsync(cancellationToken);
 
         // 释放命令对象
+        dbCommand.Parameters?.Clear();
         await dbCommand.DisposeAsync();
 
         return (result != DBNull.Value ? result : default, dbParameters);
@@ -339,6 +351,7 @@ public static class SqlAdoNetExtensions
         var dataSet = dbDataReader.ToDataSet();
 
         // 释放命令对象
+        dbCommand.Parameters?.Clear();
         dbCommand.Dispose();
 
         return dataSet;
@@ -365,6 +378,7 @@ public static class SqlAdoNetExtensions
         var dataSet = dbDataReader.ToDataSet();
 
         // 释放命令对象
+        dbCommand.Parameters?.Clear();
         dbCommand.Dispose();
 
         return (dataSet, dbParameters);
@@ -392,6 +406,7 @@ public static class SqlAdoNetExtensions
         var dataSet = dbDataReader.ToDataSet();
 
         // 释放命令对象
+        dbCommand.Parameters?.Clear();
         await dbCommand.DisposeAsync();
 
         return dataSet;
@@ -419,6 +434,7 @@ public static class SqlAdoNetExtensions
         var dataSet = dbDataReader.ToDataSet();
 
         // 释放命令对象
+        dbCommand.Parameters?.Clear();
         await dbCommand.DisposeAsync();
 
         return (dataSet, dbParameters);
