@@ -451,6 +451,21 @@
                 "Critical",
                 "None"
               ]
+            },
+            "UseUtcTimestamp": {
+              "type": "boolean",
+              "description": "是否使用 UTC 时间戳",
+              "default": false
+            },
+            "IncludeScopes": {
+              "type": "boolean",
+              "description": "是否启用日志上下文",
+              "default": true
+            },
+            "DateFormat": {
+              "type": "string",
+              "description": "日期格式化",
+              "default": "yyyy-MM-dd HH:mm:ss(zzz) dddd"
             }
           }
         },
@@ -471,6 +486,21 @@
                 "Critical",
                 "None"
               ]
+            },
+            "UseUtcTimestamp": {
+              "type": "boolean",
+              "description": "是否使用 UTC 时间戳",
+              "default": false
+            },
+            "IncludeScopes": {
+              "type": "boolean",
+              "description": "是否启用日志上下文",
+              "default": true
+            },
+            "DateFormat": {
+              "type": "string",
+              "description": "日期格式化",
+              "default": "yyyy-MM-dd HH:mm:ss(zzz) dddd"
             }
           }
         },

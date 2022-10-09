@@ -27,6 +27,7 @@ using Furion.Templates;
 using Furion.UnifyResult;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -525,9 +526,25 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter, IOr
         var templates = new List<string>();
 
         object returnValue = null;
+        Type finalReturnType = null;
 
         // 解析返回值
-        if (UnifyContext.CheckVaildResult(resultContext.Result, out var data)) returnValue = data;
+        if (UnifyContext.CheckVaildResult(resultContext.Result, out var data))
+        {
+            returnValue = data;
+            finalReturnType = data?.GetType();
+        }
+        // 处理文件类型
+        else if (resultContext.Result is FileResult fresult)
+        {
+            returnValue = new {
+                FileName = fresult.FileDownloadName,
+                fresult.ContentType,
+                Length = fresult is FileContentResult cresult ? (object)cresult.FileContents.Length : null
+            };
+            finalReturnType = fresult?.GetType();
+        }
+        else finalReturnType = resultContext.Result?.GetType();
 
         var succeed = true;
         // 获取最终呈现值（字符串类型）
@@ -547,13 +564,13 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter, IOr
         {
             $"━━━━━━━━━━━━━━━  返回信息 ━━━━━━━━━━━━━━━"
             , $"##原始类型## {method.ReturnType.FullName}"
-            , $"##最终类型## {returnValue?.GetType()?.FullName}"
+            , $"##最终类型## {finalReturnType?.FullName}"
             , $"##最终返回值## {displayValue}"
         });
 
         writer.WritePropertyName("returnInformation");
         writer.WriteStartObject();
-        writer.WriteString("type", returnValue?.GetType()?.FullName);
+        writer.WriteString("type", finalReturnType?.FullName);
         writer.WriteString("actType", method.ReturnType.FullName);
         writer.WritePropertyName("value");
         if (succeed && method.ReturnType != typeof(void))
