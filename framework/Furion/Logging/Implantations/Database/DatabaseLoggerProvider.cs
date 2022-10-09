@@ -31,7 +31,7 @@ namespace Furion.Logging;
 /// </summary>
 /// <remarks>https://docs.microsoft.com/zh-cn/dotnet/core/extensions/custom-logging-provider</remarks>
 [SuppressSniffer, ProviderAlias("Database")]
-public sealed class DatabaseLoggerProvider : ILoggerProvider
+public sealed class DatabaseLoggerProvider : ILoggerProvider, ISupportExternalScope
 {
     /// <summary>
     /// 存储多日志分类日志记录器
@@ -42,6 +42,11 @@ public sealed class DatabaseLoggerProvider : ILoggerProvider
     /// 日志消息队列（线程安全）
     /// </summary>
     private readonly BlockingCollection<LogMessage> _logMessageQueue = new(1024);
+
+    /// <summary>
+    /// 日志作用域提供器
+    /// </summary>
+    private IExternalScopeProvider _scopeProvider;
 
     /// <summary>
     /// 数据库日志写入器作用域范围
@@ -74,6 +79,18 @@ public sealed class DatabaseLoggerProvider : ILoggerProvider
     internal DatabaseLoggerOptions LoggerOptions { get; private set; }
 
     /// <summary>
+    /// 日志作用域提供器
+    /// </summary>
+    internal IExternalScopeProvider ScopeProvider
+    {
+        get
+        {
+            _scopeProvider ??= new LoggerExternalScopeProvider();
+            return _scopeProvider;
+        }
+    }
+
+    /// <summary>
     /// 创建数据库日志记录器
     /// </summary>
     /// <param name="categoryName">日志分类名</param>
@@ -81,6 +98,15 @@ public sealed class DatabaseLoggerProvider : ILoggerProvider
     public ILogger CreateLogger(string categoryName)
     {
         return _databaseLoggers.GetOrAdd(categoryName, name => new DatabaseLogger(name, this));
+    }
+
+    /// <summary>
+    /// 设置作用域提供器
+    /// </summary>
+    /// <param name="scopeProvider"></param>
+    public void SetScopeProvider(IExternalScopeProvider scopeProvider)
+    {
+        _scopeProvider = scopeProvider;
     }
 
     /// <summary>
@@ -169,25 +195,7 @@ public sealed class DatabaseLoggerProvider : ILoggerProvider
                 // 这里不抛出异常，避免中断日志写入
                 else { }
             }
-            finally
-            {
-                // 清空日志上下文
-                ClearScopeContext(logMsg.LogName);
-            }
-        }
-    }
-
-    /// <summary>
-    /// 清空日志上下文
-    /// </summary>
-    /// <param name="categoryName"></param>
-    private void ClearScopeContext(string categoryName)
-    {
-        var isExist = _databaseLoggers.TryGetValue(categoryName, out var fileLogger);
-        if (isExist)
-        {
-            fileLogger.Context?.Properties?.Clear();
-            fileLogger.Context = null;
+            finally { }
         }
     }
 }

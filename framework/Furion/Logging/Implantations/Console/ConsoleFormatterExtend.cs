@@ -80,6 +80,7 @@ public sealed class ConsoleFormatterExtend : ConsoleFormatter, IDisposable
         // 是否自定义了自定义日志格式化程序，如果是则使用
         if (_formatterOptions.MessageFormat != null)
         {
+            // 设置日志上下文
             if (_formatterOptions.IncludeScopes && scopeProvider != null)
             {
                 // 解析日志上下文数据

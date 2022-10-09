@@ -68,11 +68,6 @@ public sealed class DatabaseLogger : ILogger
     }
 
     /// <summary>
-    /// 日志上下文
-    /// </summary>
-    public LogContext Context { get; internal set; }
-
-    /// <summary>
     /// 开始逻辑操作范围
     /// </summary>
     /// <typeparam name="TState">标识符类型参数</typeparam>
@@ -80,16 +75,7 @@ public sealed class DatabaseLogger : ILogger
     /// <returns><see cref="IDisposable"/></returns>
     public IDisposable BeginScope<TState>(TState state)
     {
-        if (!_options.IncludeScopes) return default;
-
-        // 设置日志上下文
-        if (state is LogContext context)
-        {
-            if (Context == null) Context = new LogContext().SetRange(context.Properties);
-            else Context?.SetRange(context.Properties);
-        }
-
-        return default;
+        return _databaseLoggerProvider.ScopeProvider.Push(state);
     }
 
     /// <summary>
@@ -131,7 +117,21 @@ public sealed class DatabaseLogger : ILogger
         var message = formatter(state, exception);
 
         var logDateTime = _options.UseUtcTimestamp ? DateTime.UtcNow : DateTime.Now;
-        var logMsg = new LogMessage(_logName, logLevel, eventId, message, exception, Context, state, logDateTime, Environment.CurrentManagedThreadId);
+        var logMsg = new LogMessage(_logName, logLevel, eventId, message, exception, null, state, logDateTime, Environment.CurrentManagedThreadId);
+
+        // 设置日志上下文
+        if (_options.IncludeScopes && _databaseLoggerProvider.ScopeProvider != null)
+        {
+            // 解析日志上下文数据
+            _databaseLoggerProvider.ScopeProvider.ForEachScope<object>((scope, ctx) =>
+            {
+                if (scope != null && scope is LogContext context)
+                {
+                    logMsg.Context = context;
+                    return;
+                }
+            }, null);
+        }
 
         // 判断是否自定义了日志筛选器，如果是则检查是否符合条件
         if (_options.WriteFilter?.Invoke(logMsg) == false) return;
