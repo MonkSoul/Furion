@@ -143,4 +143,14 @@ public class TestLoggerServices : IDynamicApiController
             _logger.ScopeContext(ctx => ctx.Set("LoggingConst.Color", ConsoleColor.Green)).LogInformation($"这是绿色 {i}", i);
         }
     }
+
+    [LoggingMonitor]
+    public IActionResult 测试附件类型监听()
+    {
+        var bytes = File.ReadAllBytes("image.png");
+        return new FileContentResult(bytes, "image/png")
+        {
+            FileDownloadName = "image.png"
+        };
+    }
 }

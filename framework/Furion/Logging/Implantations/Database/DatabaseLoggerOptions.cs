@@ -69,5 +69,5 @@ public sealed class DatabaseLoggerOptions
     /// <summary>
     /// 是否启用日志上下文
     /// </summary>
-    public bool IncludeScopes { get; set; }
+    public bool IncludeScopes { get; set; } = true;
 }
