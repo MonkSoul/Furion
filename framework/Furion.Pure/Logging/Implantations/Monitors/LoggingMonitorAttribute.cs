@@ -35,7 +35,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Primitives;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 using System.Diagnostics;
 using System.Logging;
 using System.Reflection;
@@ -100,6 +99,16 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter, IOr
     /// 配置 Json 输出行为
     /// </summary>
     public object JsonBehavior { get; set; } = null;
+
+    /// <summary>
+    /// 配置序列化忽略的属性名称
+    /// </summary>
+    public string[] IgnorePropertyNames { get; set; }
+
+    /// <summary>
+    /// 配置序列化忽略的属性类型
+    /// </summary>
+    public Type[] IgnorePropertyTypes { get; set; }
 
     /// <summary>
     /// 配置信息
@@ -264,7 +273,7 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter, IOr
             if (validationMetadata != null)
             {
                 // 创建全局验证友好异常
-                var error = TrySerializeObject(validationMetadata.ValidationResult, out _);
+                var error = TrySerializeObject(validationMetadata.ValidationResult, monitorMethod, out _);
                 exception = new AppFriendlyException(error, validationMetadata.OriginErrorCode)
                 {
                     ErrorCode = validationMetadata.ErrorCode,
@@ -296,10 +305,10 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter, IOr
         monitorItems.AddRange(GenerateAuthorizationTemplate(writer, user, authorization));
 
         // 添加请求参数信息日志模板
-        monitorItems.AddRange(GenerateParameterTemplate(writer, parameterValues, actionMethod, httpRequest.Headers["Content-Type"]));
+        monitorItems.AddRange(GenerateParameterTemplate(writer, parameterValues, actionMethod, httpRequest.Headers["Content-Type"], monitorMethod));
 
         // 判断是否启用返回值打印
-        if (CheckIsSetWithReturnValue(WithReturnValue, monitorMethod))
+        if (CheckIsSetWithReturnValue(monitorMethod))
         {
             // 添加返回值信息日志模板
             monitorItems.AddRange(GenerateReturnInfomationTemplate(writer, resultContext, actionMethod, monitorMethod));
@@ -389,8 +398,9 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter, IOr
     /// <param name="parameterValues"></param>
     /// <param name="method"></param>
     /// <param name="contentType"></param>
+    /// <param name="monitorMethod"></param>
     /// <returns></returns>
-    private List<string> GenerateParameterTemplate(Utf8JsonWriter writer, IDictionary<string, object> parameterValues, MethodInfo method, StringValues contentType)
+    private List<string> GenerateParameterTemplate(Utf8JsonWriter writer, IDictionary<string, object> parameterValues, MethodInfo method, StringValues contentType, LoggingMonitorMethod monitorMethod)
     {
         var templates = new List<string>();
         writer.WritePropertyName("parameters");
@@ -492,7 +502,7 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter, IOr
             else
             {
                 writer.WritePropertyName("value");
-                rawValue = TrySerializeObject(value, out var succeed);
+                rawValue = TrySerializeObject(value, monitorMethod, out var succeed);
 
                 if (succeed) writer.WriteRawValue(rawValue?.ToString());
                 else writer.WriteNullValue();
@@ -544,11 +554,11 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter, IOr
         // 获取最终呈现值（字符串类型）
         var displayValue = method.ReturnType == typeof(void)
             ? string.Empty
-            : TrySerializeObject(returnValue, out succeed);
+            : TrySerializeObject(returnValue, monitorMethod, out succeed);
         var originValue = displayValue;
 
         // 获取返回值阈值
-        var threshold = GetReturnValueThreshold(ReturnValueThreshold, monitorMethod);
+        var threshold = GetReturnValueThreshold(monitorMethod);
         if (threshold > 0)
         {
             displayValue = displayValue.Length <= threshold ? displayValue : displayValue[..threshold];
@@ -650,25 +660,21 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter, IOr
     }
 
     /// <summary>
-    /// 序列化默认配置
-    /// </summary>
-    private static readonly JsonSerializerSettings _serializerSettings = new()
-    {
-        ContractResolver = new CamelCasePropertyNamesContractResolver(),
-        ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
-    };
-
-    /// <summary>
     /// 序列化对象
     /// </summary>
     /// <param name="obj"></param>
+    /// <param name="monitorMethod"></param>
     /// <param name="succeed"></param>
     /// <returns></returns>
-    private static string TrySerializeObject(object obj, out bool succeed)
+    private string TrySerializeObject(object obj, LoggingMonitorMethod monitorMethod, out bool succeed)
     {
         try
         {
-            var result = Newtonsoft.Json.JsonConvert.SerializeObject(obj, _serializerSettings);
+            var result = Newtonsoft.Json.JsonConvert.SerializeObject(obj, new JsonSerializerSettings()
+            {
+                ContractResolver = new IgnorePropertiesContractResolver(GetIgnorePropertyNames(monitorMethod), GetIgnorePropertyTypes(monitorMethod)),
+                ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+            });
 
             succeed = true;
             return result;
@@ -683,27 +689,25 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter, IOr
     /// <summary>
     /// 检查是否开启启用返回值
     /// </summary>
-    /// <param name="withReturnValue"></param>
     /// <param name="monitorMethod"></param>
     /// <returns></returns>
-    private bool CheckIsSetWithReturnValue(object withReturnValue, LoggingMonitorMethod monitorMethod)
+    private bool CheckIsSetWithReturnValue(LoggingMonitorMethod monitorMethod)
     {
-        return withReturnValue == null
+        return WithReturnValue == null
             ? (monitorMethod?.WithReturnValue ?? Settings.WithReturnValue)
-            : Convert.ToBoolean(withReturnValue);
+            : Convert.ToBoolean(WithReturnValue);
     }
 
     /// <summary>
     /// 获取返回值阈值
     /// </summary>
-    /// <param name="returnValueThreshold"></param>
     /// <param name="monitorMethod"></param>
     /// <returns></returns>
-    private int GetReturnValueThreshold(object returnValueThreshold, LoggingMonitorMethod monitorMethod)
+    private int GetReturnValueThreshold(LoggingMonitorMethod monitorMethod)
     {
-        return returnValueThreshold == null
+        return ReturnValueThreshold == null
             ? (monitorMethod?.ReturnValueThreshold ?? Settings.ReturnValueThreshold)
-            : Convert.ToInt32(returnValueThreshold);
+            : Convert.ToInt32(ReturnValueThreshold);
     }
 
     /// <summary>
@@ -717,5 +721,33 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter, IOr
         return jsonBehavior == null
             ? (monitorMethod?.JsonBehavior ?? Settings.JsonBehavior)
             : (JsonBehavior)jsonBehavior;
+    }
+
+    /// <summary>
+    /// 获取忽略序列化属性名称集合
+    /// </summary>
+    /// <param name="monitorMethod"></param>
+    /// <returns></returns>
+    private string[] GetIgnorePropertyNames(LoggingMonitorMethod monitorMethod)
+    {
+        IEnumerable<string> ignorePropertyNamesList = IgnorePropertyNames ?? Array.Empty<string>();
+
+        return ignorePropertyNamesList.Concat(monitorMethod?.IgnorePropertyNames ?? Array.Empty<string>())
+                                      .Concat(Settings.IgnorePropertyNames ?? Array.Empty<string>())
+                                      .ToArray();
+    }
+
+    /// <summary>
+    /// 获取忽略序列化属性类型集合
+    /// </summary>
+    /// <param name="monitorMethod"></param>
+    /// <returns></returns>
+    private Type[] GetIgnorePropertyTypes(LoggingMonitorMethod monitorMethod)
+    {
+        IEnumerable<Type> ignorePropertyTypesList = IgnorePropertyTypes ?? Array.Empty<Type>();
+
+        return ignorePropertyTypesList.Concat(monitorMethod?.IgnorePropertyTypes ?? Array.Empty<Type>())
+                                      .Concat(Settings.IgnorePropertyTypes ?? Array.Empty<Type>())
+                                      .ToArray();
     }
 }

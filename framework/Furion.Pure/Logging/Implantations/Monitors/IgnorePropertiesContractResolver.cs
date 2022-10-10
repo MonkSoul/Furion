@@ -20,44 +20,49 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
+
 namespace Furion.Logging;
 
 /// <summary>
-/// LoggingMonitor 方法配置
+/// 解决 LoggingMonitor 特别字段序列化过大问题
 /// </summary>
-[SuppressSniffer]
-public sealed class LoggingMonitorMethod
+internal sealed class IgnorePropertiesContractResolver : CamelCasePropertyNamesContractResolver
 {
     /// <summary>
-    /// 方法名称
+    /// 被忽略的属性名称
     /// </summary>
-    /// <remarks>完全限定名</remarks>
-    public string FullName { get; set; }
+    private readonly string[] _names;
 
     /// <summary>
-    /// 是否记录返回值
+    /// 被忽略的属性类型
     /// </summary>
-    /// <remarks>bool 类型，默认输出</remarks>
-    public bool WithReturnValue { get; set; } = true;
+    private readonly Type[] _type;
 
     /// <summary>
-    /// 设置返回值阈值
+    /// 构造函数
     /// </summary>
-    /// <remarks>配置返回值字符串阈值，超过这个阈值将截断，默认全量输出</remarks>
-    public int ReturnValueThreshold { get; set; } = 0;
+    /// <param name="names"></param>
+    /// <param name="types"></param>
+    public IgnorePropertiesContractResolver(string[] names, Type[] types)
+    {
+        _names = names ?? Array.Empty<string>();
+        _type = types ?? Array.Empty<Type>();
+    }
 
     /// <summary>
-    /// 配置 Json 输出行为
+    /// 重写需要序列化的属性名
     /// </summary>
-    public JsonBehavior JsonBehavior { get; set; } = JsonBehavior.None;
+    /// <param name="type"></param>
+    /// <param name="memberSerialization"></param>
+    /// <returns></returns>
+    protected override IList<JsonProperty> CreateProperties(Type type, MemberSerialization memberSerialization)
+    {
+        var allProperties = base.CreateProperties(type, memberSerialization);
 
-    /// <summary>
-    /// 配置序列化忽略的属性名称
-    /// </summary>
-    public string[] IgnorePropertyNames { get; set; }
-
-    /// <summary>
-    /// 配置序列化忽略的属性类型
-    /// </summary>
-    public Type[] IgnorePropertyTypes { get; set; }
+        return allProperties.Where(p =>
+                !_names.Contains(p.PropertyName, StringComparer.OrdinalIgnoreCase)
+                && !_type.Contains(p.PropertyType)).ToList();
+    }
 }

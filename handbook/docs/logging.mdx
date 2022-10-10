@@ -4,6 +4,8 @@ title: 18. 日志记录
 sidebar_label: 18. 日志记录
 ---
 
+import useBaseUrl from "@docusaurus/useBaseUrl";
+
 ## 18.1 关于日志
 
 通常日志指的是**系统日志**和**程序日志**。
@@ -1184,6 +1186,46 @@ services.AddMonitorLogging(options =>
     };
 });
 ```
+
+### 18.6.6 输出 `JSON` 支持忽略属性名或属性类型
+
+:::important 版本说明
+
+以下内容仅限 `Furion 4.6.1 +` 版本使用。
+
+:::
+
+有时接口的返回值包含不能被序列化的类型或者想忽略某些属性名不被序列化，这时候就需要用到这个。
+
+- **局部配置**
+
+```cs showLineNumbers {3,4,10}
+// 忽略名称和属性，支持单一配置或局部配置
+[LoggingMonitor(JsonBehavior = JsonBehavior.OnlyJson
+    , IgnorePropertyNames = new[] { "Bytes" }
+    , IgnorePropertyTypes = new[] { typeof(byte[]) })]
+public object 测试指定忽略指定序列化类型(int id)
+{
+    return new
+    {
+        Id = 10,
+        Bytes = File.ReadAllBytes("image.png")
+    };
+}
+```
+
+- **全局配置**
+
+```cs showLineNumbers {4-5}
+// 忽略名称和属性，支持单一配置或局部配置
+services.AddMonitorLogging(options =>
+{
+    options.IgnorePropertyNames = new[] { "Byte" };
+    opensource.IgnorePropertyTypes = new[] { typeof(byte[]) };
+});
+```
+
+<img src={useBaseUrl("img/hl1.png")} />
 
 ## 18.7 打印日志到 `Swagger` 中
 

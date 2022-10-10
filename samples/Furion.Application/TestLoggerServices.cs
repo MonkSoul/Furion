@@ -159,4 +159,26 @@ public class TestLoggerServices : IDynamicApiController
             FileDownloadName = "image.png"
         };
     }
+
+    [LoggingMonitor(JsonBehavior = JsonBehavior.OnlyJson)]
+    public object 测试指定忽略指定序列化类型(int id)
+    {
+        return new
+        {
+            Id = 10,
+            Bytes = File.ReadAllBytes("image.png")
+        };
+    }
+
+    [LoggingMonitor(JsonBehavior = JsonBehavior.OnlyJson
+        //, IgnorePropertyNames = new[] { "Bytes" }
+        , IgnorePropertyTypes = new[] { typeof(byte[]) })]
+    public object 测试指定忽略指定序列化类型2(int id)
+    {
+        return new
+        {
+            Id = 10,
+            Bytes = File.ReadAllBytes("image.png")
+        };
+    }
 }

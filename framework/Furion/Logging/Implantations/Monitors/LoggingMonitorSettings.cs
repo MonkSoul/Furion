@@ -80,6 +80,16 @@ public sealed class LoggingMonitorSettings
     public JsonBehavior JsonBehavior { get; set; } = JsonBehavior.None;
 
     /// <summary>
+    /// 配置序列化忽略的属性名称
+    /// </summary>
+    public string[] IgnorePropertyNames { get; set; }
+
+    /// <summary>
+    /// 配置序列化忽略的属性类型
+    /// </summary>
+    public Type[] IgnorePropertyTypes { get; set; }
+
+    /// <summary>
     /// 自定义日志筛选器
     /// </summary>
     public Func<ActionExecutingContext, bool> WriteFilter { get; set; }

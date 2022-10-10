@@ -50,4 +50,14 @@ public sealed class LoggingMonitorMethod
     /// 配置 Json 输出行为
     /// </summary>
     public JsonBehavior JsonBehavior { get; set; } = JsonBehavior.None;
+
+    /// <summary>
+    /// 配置序列化忽略的属性名称
+    /// </summary>
+    public string[] IgnorePropertyNames { get; set; }
+
+    /// <summary>
+    /// 配置序列化忽略的属性类型
+    /// </summary>
+    public Type[] IgnorePropertyTypes { get; set; }
 }
