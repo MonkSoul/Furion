@@ -58,6 +58,11 @@ public sealed class EventBusOptionsBuilder
     private Type _eventHandlerExecutor;
 
     /// <summary>
+    /// 事件重试策略类型集合
+    /// </summary>
+    private readonly List<Type> _fallbackPolicyTypes = new();
+
+    /// <summary>
     /// 默认内置事件源存储器内存通道容量
     /// </summary>
     /// <remarks>超过 n 条待处理消息，第 n+1 条将进入等待，默认为 3000</remarks>
@@ -78,6 +83,11 @@ public sealed class EventBusOptionsBuilder
     /// 是否启用日志记录
     /// </summary>
     public bool LogEnabled { get; set; } = true;
+
+    /// <summary>
+    /// 重试失败策略配置
+    /// </summary>
+    public Type FallbackPolicy { get; set; }
 
     /// <summary>
     /// 未察觉任务异常事件处理程序
@@ -183,6 +193,32 @@ public sealed class EventBusOptionsBuilder
     }
 
     /// <summary>
+    /// 注册事件重试策略
+    /// </summary>
+    /// <typeparam name="TEventFallbackPolicy">实现自 <see cref="IEventFallbackPolicy"/></typeparam>
+    /// <returns><see cref="EventBusOptionsBuilder"/> 实例</returns>
+    public EventBusOptionsBuilder AddFallbackPolicy<TEventFallbackPolicy>()
+        where TEventFallbackPolicy : class, IEventFallbackPolicy
+    {
+        _fallbackPolicyTypes.Add(typeof(TEventFallbackPolicy));
+        return this;
+    }
+
+    /// <summary>
+    /// 注册事件重试策略
+    /// </summary>
+    /// <param name="fallbackPolicyType"><see cref="IEventFallbackPolicy"/> 派生类型</param>
+    /// <returns><see cref="EventBusOptionsBuilder"/> 实例</returns>
+    public EventBusOptionsBuilder AddFallbackPolicy(Type fallbackPolicyType)
+    {
+        // 类型检查
+        if (!typeof(IEventFallbackPolicy).IsAssignableFrom(fallbackPolicyType) || fallbackPolicyType.IsInterface) throw new InvalidOperationException("The <fallbackPolicyType> is not implement the IEventFallbackPolicy interface.");
+
+        _fallbackPolicyTypes.Add(fallbackPolicyType);
+        return this;
+    }
+
+    /// <summary>
     /// 构建事件总线配置选项
     /// </summary>
     /// <param name="services">服务集合对象</param>
@@ -216,6 +252,12 @@ public sealed class EventBusOptionsBuilder
         if (_eventHandlerExecutor != default)
         {
             services.AddSingleton(typeof(IEventHandlerExecutor), _eventHandlerExecutor);
+        }
+
+        // 注册事件重试策略
+        foreach (var fallbackPolicyType in _fallbackPolicyTypes)
+        {
+            services.AddSingleton(fallbackPolicyType);
         }
     }
 }

@@ -32,7 +32,10 @@ public sealed class Startup : AppStartup
 
         services.AddRemoteRequest();
 
-        services.AddEventBus();
+        services.AddEventBus(options =>
+        {
+            options.AddFallbackPolicy<EventFallbackPolicy>();
+        });
 
         // 添加实时通讯
         services.AddSignalR();

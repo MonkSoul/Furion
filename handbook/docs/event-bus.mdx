@@ -927,7 +927,68 @@ MessageCenter.Subscribe("messageId", async (ctx) => {
 MessageCenter.Unsubscribe("messageId");
 ```
 
-## 22.12 `EventBusOptionsBuilder` 配置
+## 22.12 配置重试失败回调
+
+:::important 版本说明
+
+以下内容仅限 `Furion 4.6.1 +` 版本使用。
+
+:::
+
+1. 创建 `IEventFallbackPolicy` 实现类并实现 `Callback` 方法，如 `EventFallbackPolicy`：
+
+```cs showLineNumbers {1,9}
+public class EventFallbackPolicy : IEventFallbackPolicy
+{
+    private readonly ILogger<EventFallbackPolicy> _logger;
+    public EventFallbackPolicy(ILogger<EventFallbackPolicy> logger)
+    {
+        _logger = logger;
+    }
+
+    public async Task CallbackAsync(EventHandlerExecutingContext context, Exception ex)
+    {
+        _logger.LogError(ex, "重试了多次最终还是失败了");
+        await Task.CompletedTask;
+    }
+}
+```
+
+2. 注册 `EventFallbackPolicy` 类型服务
+
+```cs showLineNumbers {1,3}
+services.AddEventBus(options =>
+{
+    options.AddFallbackPolicy<EventFallbackPolicy>();
+});
+```
+
+3. 通过 `[EventSubscribe]` 特性配置 `FallbackPolicy` 属性使用
+
+```cs showLineNumbers {1}
+[EventSubscribe("test:error", NumRetries = 3, FallbackPolicy = typeof(EventFallbackPolicy))]  // 重试三次
+public async Task TestError(EventHandlerExecutingContext context)
+{
+    Console.WriteLine("我执行啦~~");
+    throw new NotImplementedException();
+}
+```
+
+<img src={useBaseUrl("img/nrs.png")} />
+
+:::note 小知识
+
+可以定义多个 `IEventFallbackPolicy` 实现类，然后通过 `options.AddFallbackPolicy<T>()` 注册多个，这样实现不同的事件订阅程序执行不同的策略。如：
+
+```cs showLineNumbers {1,3}
+[EventSubscribe("test:error", NumRetries = 3, FallbackPolicy = typeof(EventFallbackPolicy))]
+
+[EventSubscribe("test:error", NumRetries = 1010, FallbackPolicy = typeof(OtherEventFallbackPolicy))]
+```
+
+:::
+
+## 22.13 `EventBusOptionsBuilder` 配置
 
 `EventBusOptionsBuilder` 是 `AddEventBus` 构建服务选项，该选项包含以下属性和方法：
 
@@ -944,7 +1005,7 @@ MessageCenter.Unsubscribe("messageId");
   - `AddMonitor<TEventHandlerMonitor>`：添加监视器
   - `AddExecutor<TEventHandlerExecutor>`：添加执行器
 
-## 22.13 关于高频消息处理方式
+## 22.14 关于高频消息处理方式
 
 在一些高频发送消息的场景如 `IoT`、日志记录、数据采集，为避免频繁解析服务和创建作用域，可使用 **类全局作用域** 和所有服务都采取单例的方式：
 
@@ -979,7 +1040,7 @@ public class ToDoEventSubscriber : IEventSubscriber, IDisposable
 }
 ```
 
-## 22.14 使用第三方事件总线 `CAP` 示例
+## 22.15 使用第三方事件总线 `CAP` 示例
 
 ```cs showLineNumbers {1,5}
 builder.Services.AddCap(options =>
@@ -989,7 +1050,7 @@ builder.Services.AddCap(options =>
 }).AddSubscriberAssembly(App.Assemblies.ToArray());
 ```
 
-## 22.15 反馈与建议
+## 22.16 反馈与建议
 
 :::note 与我们交流
 

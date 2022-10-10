@@ -47,6 +47,11 @@ internal sealed class EventBusHostedService : BackgroundService
     private readonly ILogger _logger;
 
     /// <summary>
+    /// 服务提供器
+    /// </summary>
+    private readonly IServiceProvider _serviceProvider;
+
+    /// <summary>
     /// 事件源存储器
     /// </summary>
     private readonly IEventSourceStorer _eventSourceStorer;
@@ -100,6 +105,7 @@ internal sealed class EventBusHostedService : BackgroundService
         , bool logEnabled)
     {
         _logger = logger;
+        _serviceProvider = serviceProvider;
         _eventSourceStorer = eventSourceStorer;
         Monitor = serviceProvider.GetService<IEventHandlerMonitor>();
         Executor = serviceProvider.GetService<IEventHandlerExecutor>();
@@ -149,7 +155,7 @@ internal sealed class EventBusHostedService : BackgroundService
     /// </summary>
     /// <param name="stoppingToken">后台主机服务停止时取消任务 Token</param>
     /// <returns><see cref="Task"/> 实例</returns>
-    protected async override Task ExecuteAsync(CancellationToken stoppingToken)
+    protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
         Log(LogLevel.Information, "EventBus Hosted Service is running.");
 
@@ -245,11 +251,17 @@ internal sealed class EventBusHostedService : BackgroundService
                     // 判断是否自定义了执行器
                     if (Executor == default)
                     {
-                        // 运行重试
+                        // 判断是否自定义了重试失败回调服务
+                        var fallbackPolicyService = eventSubscribeAttribute?.FallbackPolicy == null
+                            ? null
+                            : _serviceProvider.GetService(eventSubscribeAttribute.FallbackPolicy) as IEventFallbackPolicy;
+
+                        // 执行重试
                         await Retry.InvokeAsync(async () =>
                         {
                             await eventHandlerThatShouldRun.Handler!(eventHandlerExecutingContext);
-                        }, eventSubscribeAttribute?.NumRetries ?? 0, eventSubscribeAttribute?.RetryTimeout ?? 1000, exceptionTypes: eventSubscribeAttribute?.ExceptionTypes);
+                        }, eventSubscribeAttribute?.NumRetries ?? 0, eventSubscribeAttribute?.RetryTimeout ?? 1000, exceptionTypes: eventSubscribeAttribute?.ExceptionTypes
+                            , fallbackPolicy: fallbackPolicyService == null ? null : async (ex) => await fallbackPolicyService.CallbackAsync(eventHandlerExecutingContext, ex));
                     }
                     else
                     {

@@ -78,4 +78,10 @@ public sealed class EventSubscribeAttribute : Attribute
     /// 可以指定特定异常类型才重试
     /// </summary>
     public Type[] ExceptionTypes { get; set; }
+
+    /// <summary>
+    /// 重试失败策略配置
+    /// </summary>
+    /// <remarks>如果没有注册，必须通过 options.AddFallbackPolicy(type) 注册</remarks>
+    public Type FallbackPolicy { get; set; }
 }
