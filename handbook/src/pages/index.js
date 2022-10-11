@@ -183,7 +183,7 @@ function Gitee() {
             className={"furion-log-jiao" + (isDarkTheme ? " dark" : "")}
           ></div>
           <div className="furion-log-number">
-            <div style={{ color: "#1fd898" }}>3,644,854</div>
+            <div style={{ color: "#1fd898" }}>3,684,289</div>
             <span className={isDarkTheme ? " dark" : ""}>Downloads</span>
           </div>
         </div>
@@ -373,7 +373,7 @@ function WhoUse() {
           <div></div>
           <h1>他们都在用</h1>
           <p>
-            Furion 已在全球超过 360万
+            Furion 已在全球超过 370万
             个项目中使用。从小型企业到企业的解决方案及知名企业。他们在简单软件和复杂管理系统的开发方面都信任我们。
           </p>
           <a
