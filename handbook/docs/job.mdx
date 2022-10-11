@@ -362,7 +362,7 @@ public class JobWorker : ISpareTimeWorker
     {
         Console.WriteLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
         Console.WriteLine($"一共执行了：{count} 次");
-        await Task.Completed;
+        await Task.CompletedTask;
     }
 }
 ```
@@ -502,7 +502,7 @@ public class JobWorker : ISpareTimeWorker
     {
         Console.WriteLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
         Console.WriteLine($"一共执行了：{count} 次");
-        await Task.Completed;
+        await Task.CompletedTask;
     }
 }
 ```
