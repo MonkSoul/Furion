@@ -67,7 +67,7 @@ var token = JWTEncryption.Encrypt(new Dictionary<string, object>()  // 加密
 
 var tokenData = JWTEncryption.ReadJwtToken("你的token");  // 解密
 
-var (isValid, tokenData) = JWTEncryption.Validate("你的token"); // 验证token有效期
+var (isValid, tokenData,validationResult) = JWTEncryption.Validate("你的token"); // 验证token有效期
 ```
 
 :::important 特别注意
