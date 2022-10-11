@@ -429,7 +429,7 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter, IOr
             var parameterType = parameter.ParameterType;
             writer.WriteStartObject();
             writer.WriteString("name", name);
-            writer.WriteString("type", parameterType.FullName);
+            writer.WriteString("type", HandleGenericType(parameterType));
 
             object rawValue = default;
 
@@ -564,18 +564,21 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter, IOr
             displayValue = displayValue.Length <= threshold ? displayValue : displayValue[..threshold];
         }
 
+        var returnTypeName = HandleGenericType(method.ReturnType);
+        var finalReturnTypeName = HandleGenericType(finalReturnType);
+
         templates.AddRange(new[]
         {
             $"━━━━━━━━━━━━━━━  返回信息 ━━━━━━━━━━━━━━━"
-            , $"##原始类型## {method.ReturnType.FullName}"
-            , $"##最终类型## {finalReturnType?.FullName}"
+            , $"##原始类型## {returnTypeName}"
+            , $"##最终类型## {finalReturnTypeName}"
             , $"##最终返回值## {displayValue}"
         });
 
         writer.WritePropertyName("returnInformation");
         writer.WriteStartObject();
-        writer.WriteString("type", finalReturnType?.FullName);
-        writer.WriteString("actType", method.ReturnType.FullName);
+        writer.WriteString("type", finalReturnTypeName);
+        writer.WriteString("actType", returnTypeName);
         writer.WritePropertyName("value");
         if (succeed && method.ReturnType != typeof(void) && returnValue != null)
         {
@@ -616,17 +619,18 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter, IOr
         // 处理不是验证异常情况
         if (!isValidationException)
         {
+            var exceptionTypeName = HandleGenericType(exception.GetType());
             templates.AddRange(new[]
             {
                 $"━━━━━━━━━━━━━━━  异常信息 ━━━━━━━━━━━━━━━"
-                , $"##类型## {exception.GetType().FullName}"
+                , $"##类型## {exceptionTypeName}"
                 , $"##消息## {exception.Message}"
                 , $"##错误堆栈## {exception.StackTrace}"
             });
 
             writer.WritePropertyName("exception");
             writer.WriteStartObject();
-            writer.WriteString("type", exception.GetType().FullName);
+            writer.WriteString("type", exceptionTypeName);
             writer.WriteString("message", exception.Message);
             writer.WriteString("stackTrace", exception.StackTrace.ToString());
             writer.WriteEndObject();
@@ -749,5 +753,30 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter, IOr
         return ignorePropertyTypesList.Concat(monitorMethod?.IgnorePropertyTypes ?? Array.Empty<Type>())
                                       .Concat(Settings.IgnorePropertyTypes ?? Array.Empty<Type>())
                                       .ToArray();
+    }
+
+    /// <summary>
+    /// 处理泛型类型转字符串打印问题
+    /// </summary>
+    /// <param name="type"></param>
+    /// <returns></returns>
+    private static string HandleGenericType(Type type)
+    {
+        if (type == null) return string.Empty;
+
+        var typeName = type.FullName;
+
+        // 处理泛型类型问题
+        if (type.IsConstructedGenericType)
+        {
+            var prefix = type.GetGenericArguments()
+                .Select(genericArg => HandleGenericType(genericArg))
+                .Aggregate((previous, current) => previous + current);
+
+            // 通过 _ 拼接多个泛型
+            typeName = typeName.Split('`').First() + "_" + prefix;
+        }
+
+        return typeName;
     }
 }

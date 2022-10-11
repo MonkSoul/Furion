@@ -81,6 +81,10 @@ _logger.LogInformation("我是一个日志 {id}", 20);
   - &nbsp;<Tag>修复</Tag> 高频率写入日志导致堆内存溢出的异常问题 <sup>4.6.0</sup> [#I5UJRS](https://gitee.com/dotnetchina/Furion/issues/I5UJRS)
   - &nbsp;<Tag>修复</Tag> 框架内部所有使用 `.CreateLogger` 创建的日志对象无法应用上下文问题 <sup>4.6.0</sup> [ec4838c](https://gitee.com/dotnetchina/Furion/commit/ec4838c218ed9c96ba92d7a80fd11539da59ca22)
 
+- **其他更改**
+
+  - &nbsp;<Tag>调整</Tag> `LoggingMonitor` 返回值类型是 `泛型` 时获取 `FullName` 带程序集签名问题 <sup>4.6.2</sup>
+
 - **文档**
 
   - &nbsp;<Tag>更新</Tag> 日志记录文档、事件总线文档
