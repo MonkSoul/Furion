@@ -474,6 +474,12 @@ public class LongJsonConverter : JsonConverter<long>
 }
 ```
 
+:::note 关于 `long?` 处理
+
+如果类型不是 `long` 而是 `long?`，可修改 `long` 为 `long?` 即可。如果两者都要，那么创建一个 `LongNullableJsonConverter` 类并继承 `JsonConverter<long?>`。
+
+:::
+
 - `Newtonsoft.Json` 方式
 
 ```cs showLineNumbers {4}
@@ -501,6 +507,12 @@ public class LongJsonConverter : JsonConverter<long>
     }
 }
 ```
+
+:::note 关于 `long?` 处理
+
+如果类型不是 `long` 而是 `long?`，可修改 `long` 为 `long?` 即可。如果两者都要，那么创建一个 `LongNullableJsonConverter` 类并继承 `JsonConverter<long?>`。
+
+:::
 
 ## 23.6 `DataTable`、`DataSet`、`Tuple` 元组等序列化问题
 
