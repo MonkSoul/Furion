@@ -41,7 +41,7 @@ public static class RemoteRequestServiceCollectionExtensions
     public static IServiceCollection AddRemoteRequest(this IServiceCollection services, Action<IServiceCollection> configure = null, bool inludeDefaultHttpClient = true)
     {
         // 注册远程请求代理接口
-        services.AddScopedDispatchProxyForInterface<HttpDispatchProxy, IHttpDispatchProxy>();
+        services.AddDispatchProxyForInterface<HttpDispatchProxy, IHttpDispatchProxy>(typeof(ISingleton));
 
         // 注册默认请求客户端
         if (inludeDefaultHttpClient)

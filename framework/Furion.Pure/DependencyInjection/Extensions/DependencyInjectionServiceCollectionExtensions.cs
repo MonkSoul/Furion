@@ -60,13 +60,15 @@ public static class DependencyInjectionServiceCollectionExtensions
     /// <typeparam name="TDispatchProxy">代理类</typeparam>
     /// <typeparam name="TIDispatchProxy">被代理接口依赖</typeparam>
     /// <param name="services">服务集合</param>
+    /// <param name="dependencyType"></param>
     /// <returns>服务集合</returns>
-    public static IServiceCollection AddScopedDispatchProxyForInterface<TDispatchProxy, TIDispatchProxy>(this IServiceCollection services)
+    public static IServiceCollection AddDispatchProxyForInterface<TDispatchProxy, TIDispatchProxy>(this IServiceCollection services, Type dependencyType)
         where TDispatchProxy : AspectDispatchProxy, IDispatchProxy
         where TIDispatchProxy : class
     {
         // 注册代理类
-        services.AddScoped<AspectDispatchProxy, TDispatchProxy>();
+        var lifetime = TryGetServiceLifetime(dependencyType);
+        services.Add(ServiceDescriptor.Describe(typeof(AspectDispatchProxy), typeof(TDispatchProxy), lifetime));
 
         // 代理依赖接口类型
         var proxyType = typeof(TDispatchProxy);
@@ -79,7 +81,7 @@ public static class DependencyInjectionServiceCollectionExtensions
         // 注册代理类型
         foreach (var interfaceType in dispatchProxyInterfaceTypes)
         {
-            AddDispatchProxy(services, typeof(IScoped), default, proxyType, interfaceType, false);
+            AddDispatchProxy(services, dependencyType, default, proxyType, interfaceType, false);
         }
 
         return services;

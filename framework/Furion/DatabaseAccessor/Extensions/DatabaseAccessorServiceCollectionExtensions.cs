@@ -90,7 +90,7 @@ public static class DatabaseAccessorServiceCollectionExtensions
         });
 
         // 注册 Sql 代理接口
-        services.AddScopedDispatchProxyForInterface<SqlDispatchProxy, ISqlDispatchProxy>();
+        services.AddDispatchProxyForInterface<SqlDispatchProxy, ISqlDispatchProxy>(typeof(IScoped));
 
         // 注册全局工作单元过滤器
         services.AddUnitOfWork<EFCoreUnitOfWork>();
