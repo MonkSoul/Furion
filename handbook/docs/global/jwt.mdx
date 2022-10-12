@@ -41,7 +41,7 @@ JWTEncryption.AutoRefreshToken(context, httpContext);
 ## 14.5 验证 `Token` 有效性
 
 ```cs showLineNumbers 
-var (isVaild, tokenInfo) = JWTEncryption.Validate("token");
+var (isVaild, tokenData, validationResult) = JWTEncryption.Validate("token");
 ```
 
 ## 14.6 验证请求中 `Token` 有效性
