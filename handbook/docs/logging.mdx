@@ -1221,7 +1221,7 @@ public object 测试指定忽略指定序列化类型(int id)
 services.AddMonitorLogging(options =>
 {
     options.IgnorePropertyNames = new[] { "Byte" };
-    opensource.IgnorePropertyTypes = new[] { typeof(byte[]) };
+    options.IgnorePropertyTypes = new[] { typeof(byte[]) };
 });
 ```
 
