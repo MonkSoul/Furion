@@ -479,13 +479,7 @@ var res = await "https://www.furion.icu/upload".SetContentType("multipart/form-d
 var res = await "https://www.furion.icu/upload".SetRequestScoped(services);
 ```
 
-### 19.4.21 设置 `Timeout` 超时时间
-
-```cs showLineNumbers
-var res = await "https://www.furion.icu/upload".SetClientTimeout(10); // 单位秒
-```
-
-### 19.4.22 支持模板配置
+### 19.4.21 支持模板配置
 
 模板格式为：`#(配置路径)`
 
@@ -501,7 +495,7 @@ var res = await "#(Furion:Address)/upload".GetAsync();
 }
 ```
 
-### 19.4.23 重试策略
+### 19.4.22 重试策略
 
 在 `Furion v2.18+` 版本支持配置重试策略，如：
 
@@ -511,7 +505,7 @@ var res = await "https://www.furion.icu".SetRetryPolicy(3, 1000).GetAsync();
 
 以上代码表示请求失败重试 `3` 次，每次延迟 `1000ms` 。
 
-### 19.4.24 支持 `GZip` 压缩
+### 19.4.23 支持 `GZip` 压缩
 
 在 `Furion v3.2.0+` 版本支持`GZip` 压缩，如：
 
@@ -519,7 +513,7 @@ var res = await "https://www.furion.icu".SetRetryPolicy(3, 1000).GetAsync();
 var res = await "https://www.furion.icu".WithGZip().GetAsync();
 ```
 
-### 19.4.25 设置 `Url` 转码
+### 19.4.24 设置 `Url` 转码
 
 过去版本会对所有的 `Url` 进行 `Uri.EscapeDataString` 转码，在 `Furion v3.8.0+` 版本支持 `Url` 转码设置，如：
 
@@ -967,18 +961,7 @@ public interface IHttp : IHttpDispatchProxy
 }
 ```
 
-### 19.5.16 设置 `Timeout` 超时时间
-
-```cs showLineNumbers
-[Timeout(1000)]
-public interface IHttp : IHttpDispatchProxy
-{
-    [Post("https://www.furion.icu/upload"), Timeout(500)]   // 单位秒
-    Task<HttpResponseMessage> PostXXXAsync([Body]User user);
-}
-```
-
-### 19.5.17 支持模板配置
+### 19.5.16 支持模板配置
 
 模板格式为：`#(配置路径)`
 
@@ -1000,7 +983,7 @@ public interface IHttp : IHttpDispatchProxy
 
 方法的优先级高于接口定义的优先级。
 
-### 19.5.18 重试策略
+### 19.5.17 重试策略
 
 在 `Furion v2.18+` 版本支持配置重试策略，如：
 
@@ -1015,7 +998,7 @@ public interface IHttp : IHttpDispatchProxy
 
 以上代码表示请求失败重试 `3` 次，每次延迟 `1000ms` 。
 
-### 19.5.19 支持 `GZip`
+### 19.5.18 支持 `GZip`
 
 在 `Furion v3.2.0+` 版本支持 `GZip`，如：
 
@@ -1027,7 +1010,7 @@ public interface IHttp : IHttpDispatchProxy
 }
 ```
 
-### 19.5.20 设置 `Url` 转码
+### 19.5.19 设置 `Url` 转码
 
 过去版本会对所有的 `Url` 进行 `Uri.EscapeDataString` 转码，在 `Furion v3.8.0+` 版本支持 `Url` 转码设置，如：
 
@@ -1104,7 +1087,43 @@ public class ValuesController : Controller
 }
 ```
 
-### 19.6.2 自定义 `Client` 类方式
+### 19.6.2 配置客户端 `Timeout`
+
+默认情况下，`HttpClient` 请求超时时间为 `100秒`，可根据实际情况进行设置：
+
+```cs showLineNumbers {4,10}
+// 配置默认 HttpClient
+options.AddHttpClient(string.Empty, c => 
+{
+    c.Timeout = TimeSpan.FromMinutes(2);
+});
+
+// 配置特定客户端
+options.AddHttpClient("github", c =>
+{
+    c.Timeout = TimeSpan.FromMinutes(2);
+});
+```
+
+### 19.6.3 配置客户端生存期
+
+每次对 `IHttpClientFactory` 调用 `CreateClient` 都会返回一个新 `HttpClient` 实例。 每个命名客户端都创建一个 `HttpMessageHandler`。 工厂管理 `HttpMessageHandler` 实例的生存期。
+
+`IHttpClientFactory` 将工厂创建的 `HttpMessageHandler` 实例汇集到池中，以减少资源消耗。 新建 `HttpClient` 实例时，可能会重用池中的 `HttpMessageHandler` 实例（如果生存期尚未到期的话）。
+
+处理程序的默认生存期为**两分钟**。 可在每个命名客户端上重写默认值：
+
+```cs showLineNumbers {3,7}
+// 配置默认 HttpClient
+options.AddHttpClient(string.Empty, c => { ... })
+       .SetHandlerLifetime(TimeSpan.FromMinutes(5));
+
+// 配置特定客户端
+options.AddHttpClient("github", c => { ... })
+       .SetHandlerLifetime(TimeSpan.FromMinutes(5));
+```
+
+### 19.6.4 自定义 `Client` 类方式
 
 我们可以按照一定的规则编写特定服务的请求客户端，如：
 
@@ -1150,7 +1169,7 @@ public class ValuesController : Controller
 }
 ```
 
-### 19.6.3 自定义 `Client` 类 + 接口方式
+### 19.6.5 自定义 `Client` 类 + 接口方式
 
 我们也可以定义接口，通过接口的提供具体的服务 `API` 操作，无需手动配置 `Url`，如上面的 `GetStringAsync("/")`。
 
@@ -1210,7 +1229,32 @@ public class ValuesController : Controller
 
 有时候我们请求远程接口时会遇到 `The SSL connection could not be established, see inner exception.` 这样的错误，原因是证书配置不正确问题，下面有几种解决方法。
 
-### 19.7.1 忽略特定客户端 `SSL` 证书检查
+### 19.7.1 使用默认 `SSL` 证书
+
+在一些情况下，可直接使用默认证书即可解决问题，如：
+
+```cs showLineNumbers {5,7-8,13,15-16}
+services.AddRemoteRequest(options=>
+{
+    // 默认 HttpClient 在 Furion 框架内部已经配置了该操作
+    options.AddHttpClient(string.Empty)
+            .ConfigurePrimaryHttpMessageHandler(u => new HttpClientHandler
+            {
+                AllowAutoRedirect = true,
+                UseDefaultCredentials = true
+            });
+
+    // 配置特定客户端
+    options.AddHttpClient("github", c => { /*其他配置*/ })
+           .ConfigurePrimaryHttpMessageHandler(u => new HttpClientHandler
+            {
+                AllowAutoRedirect = true,
+                UseDefaultCredentials = true
+            });
+});
+```
+
+### 19.7.2 忽略特定客户端 `SSL` 证书检查
 
 ```cs showLineNumbers {5,7,12,14}
 services.AddRemoteRequest(options=>
@@ -1249,7 +1293,7 @@ options.AddHttpClient(string.Empty)
 
 :::
 
-### 19.7.2 手动指定 `SSL` 证书
+### 19.7.3 手动指定 `SSL` 证书
 
 ```cs showLineNumbers {5,8-13}
 services.AddRemoteRequest(options=>
@@ -1269,7 +1313,7 @@ services.AddRemoteRequest(options=>
 });
 ```
 
-### 19.7.3 忽略所有客户端证书检查
+### 19.7.4 忽略所有客户端证书检查
 
 :::important 版本说明
 

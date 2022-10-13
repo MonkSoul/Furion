@@ -1,5 +1,10 @@
 const sponsors = [
   {
+    title: "CRMEB 专注开源电商系统研发",
+    picture: "img/crmeb.jpg",
+    url: "http://github.crmeb.net/u/furion",
+  },
+  {
     title: "FirstUI 跨平台移动端组件库",
     picture: "img/firstui.jpeg",
     url: "https://www.firstui.cn?from=furion",
