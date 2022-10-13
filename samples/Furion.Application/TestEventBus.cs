@@ -57,6 +57,15 @@ public class TestEventBus : IDynamicApiController
     {
         await _eventBusFactory.Unsubscribe(eventId);
     }
+
+    // 发布 ToDo:Create 消息
+    public void 测试高频事件()
+    {
+        Parallel.For(0, 10000, (i) =>
+        {
+            _eventPublisher.PublishAsync("ToDo:Create");
+        });
+    }
 }
 
 // 实现 IEventSubscriber 接口

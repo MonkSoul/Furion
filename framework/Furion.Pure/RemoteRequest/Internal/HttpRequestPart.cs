@@ -94,11 +94,6 @@ public sealed partial class HttpRequestPart
     public List<HttpFile> Files { get; private set; } = new();
 
     /// <summary>
-    /// 超时时间（秒），默认 100 秒
-    /// </summary>
-    public long Timeout { get; private set; }
-
-    /// <summary>
     /// JSON 序列化提供器
     /// </summary>
     public Type JsonSerializerProvider { get; private set; } = typeof(SystemTextJsonSerializerProvider);

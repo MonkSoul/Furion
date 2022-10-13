@@ -195,17 +195,6 @@ public sealed partial class HttpRequestPart
     }
 
     /// <summary>
-    /// 设置超时时间（秒）
-    /// </summary>
-    /// <param name="timeout"></param>
-    /// <returns></returns>
-    public HttpRequestPart SetClientTimeout(long timeout)
-    {
-        if (timeout > 0) Timeout = timeout;
-        return this;
-    }
-
-    /// <summary>
     /// 设置 JSON 序列化提供器
     /// </summary>
     /// <param name="providerType"></param>

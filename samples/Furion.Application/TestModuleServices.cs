@@ -104,12 +104,12 @@ public class TestModuleServices : IDynamicApiController
     }
 
 
-    public async Task 测试高频远程请求()
+    public void 测试高频远程请求()
     {
-        for (var i = 0; i < 5000; i++)
+        Parallel.For(0, 5000, (i) =>
         {
-            _ = await "https://www.baidu.com".GetAsStringAsync();
-        }
+            "https://www.baidu.com".GetAsStringAsync();
+        });
     }
 
     /// <summary>

@@ -177,17 +177,6 @@ public static class RemoteRequestStringExtensions
     }
 
     /// <summary>
-    /// 设置超时时间（秒）
-    /// </summary>
-    /// <param name="requestUrl"></param>
-    /// <param name="timeout"></param>
-    /// <returns></returns>
-    public static HttpRequestPart SetClientTimeout(this string requestUrl, long timeout)
-    {
-        return HttpRequestPart.Default().SetRequestUrl(requestUrl).SetClientTimeout(timeout);
-    }
-
-    /// <summary>
     /// 设置 JSON 序列化提供器
     /// </summary>
     /// <typeparam name="TJsonSerializationProvider"></typeparam>

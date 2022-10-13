@@ -120,10 +120,6 @@ public class HttpDispatchProxy : AspectDispatchProxy, IDispatchProxy
         var clientAttribute = method.GetFoundAttribute<ClientAttribute>(true);
         if (clientAttribute != null) httpRequestPart.SetClient(clientAttribute.Name);
 
-        // 设置请求超时时间
-        var timeout = method.GetFoundAttribute<TimeoutAttribute>(true)?.Seconds;
-        if (timeout != null && timeout.Value > 0) httpRequestPart.SetClientTimeout(timeout.Value);
-
         // 设置请求报文头
         SetHeaders(method, parameters, httpRequestPart);
 

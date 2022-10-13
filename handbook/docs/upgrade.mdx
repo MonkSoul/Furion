@@ -46,6 +46,7 @@ import Tag from "@site/src/components/Tag.js";
 
   - &nbsp;<Tag>新增</Tag> **适配 `.NET 6.0.10` 和 `.NET 7 RC2`** <sup>4.6.2</sup> [6bb2fad](https://gitee.com/dotnetchina/Furion/commit/6bb2fadd6600edcebc1539faedba98d4db0e189e)
   - &nbsp;<Tag>移除</Tag> `"some log".SetCategory(name)` 拓展方法 <sup>4.6.0</sup> [ec4838c](https://gitee.com/dotnetchina/Furion/commit/ec4838c218ed9c96ba92d7a80fd11539da59ca22)
+  - &nbsp;<Tag>调整</Tag> **事件总线触发处理程序的逻辑，由过去的 `foreach` 改为 `Parallel.ForEach`，吞吐量提升近 4 倍** <sup>4.6.4</sup>
   - &nbsp;<Tag>调整</Tag> **重构日志模块设置上下文数据功能** <sup>4.6.0</sup> [1c198ee](https://gitee.com/dotnetchina/Furion/commit/1c198ee2701e0ca76bca1057df6fce6789344c35)
 
 <details style={{ marginLeft: 50 }}>
@@ -77,6 +78,31 @@ _logger.LogInformation("我是一个日志 {id}", 20);
   </div>
 </details>
 
+- - &nbsp;<Tag>移除</Tag> **远程请求 `.SetTimeout` 和 `[Timeout]` 配置方法，采用全局统一配置** <sup>4.6.4</sup>
+
+<details style={{ marginLeft: 50 }}>
+  <summary>查看更改</summary>
+  <div>
+
+默认情况下，`HttpClient` 请求超时时间为 `100秒`，可根据实际情况进行设置：
+
+```cs showLineNumbers {4,10}
+// 配置默认 HttpClient
+options.AddHttpClient(string.Empty, c =>
+{
+    c.Timeout = TimeSpan.FromMinutes(2);
+});
+
+// 配置特定客户端
+options.AddHttpClient("github", c =>
+{
+    c.Timeout = TimeSpan.FromMinutes(2);
+});
+```
+
+  </div>
+</details>
+
 - **问题修复**
 
   - &nbsp;<Tag>修复</Tag> `4.5.9+` 版本新增的 `IncludeScopes` 配置导致日志上下文失效 <sup>4.6.0</sup> [4a76841](https://gitee.com/dotnetchina/Furion/commit/4a768415bb2effe47f1a6e12de0773d3bbd6f75c)
@@ -89,10 +115,12 @@ _logger.LogInformation("我是一个日志 {id}", 20);
 - **其他更改**
 
   - &nbsp;<Tag>调整</Tag> `LoggingMonitor` 返回值类型是 `泛型` 时获取 `FullName` 带程序集签名问题 <sup>4.6.2</sup> [f0aaec6](https://gitee.com/dotnetchina/Furion/commit/f0aaec6a5ae358bab7f4b6ed58848de8a7f32f5e)
+  - &nbsp;<Tag>调整</Tag> 优化远程请求性能，添加复用池的机制，避免频繁销毁创建 <sup>4.6.4</sup>
 
 - **文档**
 
-  - &nbsp;<Tag>更新</Tag> 日志记录文档、事件总线文档、数据库入门文档、`JSON` 序列化文档
+  - &nbsp;<Tag>新增</Tag> 远程请求设置客户端生命周期配置文档和新超时配置文档
+  - &nbsp;<Tag>更新</Tag> 日志记录文档、事件总线文档、数据库入门文档、`JSON` 序列化文档、远程请求文档
 
 ---
 

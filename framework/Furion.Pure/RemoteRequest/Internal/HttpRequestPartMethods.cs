@@ -477,17 +477,12 @@ public sealed partial class HttpRequestPart
 
         // 创建 HttpClient 对象，这里支持自定义
         var clientName = ClientName ?? string.Empty;
-        using var httpClient = ClientProvider?.Invoke() ?? (
-                                string.IsNullOrWhiteSpace(clientName)
-                                 ? clientFactory.CreateClient()
-                                 : clientFactory.CreateClient(clientName));
-
-        // 只有大于 0 才设置超时时间
-        if (Timeout > 0)
-        {
-            // 设置请求超时时间
-            httpClient.Timeout = TimeSpan.FromSeconds(Timeout);
-        }
+        // 这里不需要 using 释放：https://learn.microsoft.com/zh-cn/aspnet/core/fundamentals/http-requests?view=aspnetcore-6.0#httpclient-and-lifetime-management
+        // 默认生存期为两分钟，两分钟后会自动释放
+        var httpClient = ClientProvider?.Invoke() ?? (
+                               string.IsNullOrWhiteSpace(clientName)
+                                ? clientFactory.CreateClient()
+                                : clientFactory.CreateClient(clientName));
 
         // 判断命名客户端是否配置了 BaseAddress，且必须以 / 结尾
         var httpClientOriginalString = httpClient.BaseAddress?.OriginalString;

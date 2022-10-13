@@ -51,7 +51,9 @@ public static class RemoteRequestServiceCollectionExtensions
                 .ConfigurePrimaryHttpMessageHandler(u => new HttpClientHandler
                 {
                     ServerCertificateCustomValidationCallback = (_, _, _, _) => true,
-                });
+                })
+                // 设置客户端生存期为 5 分钟
+                .SetHandlerLifetime(TimeSpan.FromMinutes(5));
         }
 
         // 注册其他客户端

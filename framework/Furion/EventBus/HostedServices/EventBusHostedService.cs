@@ -216,11 +216,11 @@ internal sealed class EventBusHostedService : BackgroundService
         // 创建共享上下文数据对象
         var properties = new Dictionary<object, object>();
 
-        // 逐条创建新线程调用
-        foreach (var eventHandlerThatShouldRun in eventHandlersThatShouldRun)
+        // 通过并行方式提高吞吐量
+        Parallel.ForEach(eventHandlersThatShouldRun, (eventHandlerThatShouldRun) =>
         {
             // 创建新的线程执行
-            await taskFactory.StartNew(async () =>
+            taskFactory.StartNew(async () =>
             {
                 // 获取特性信息，可能为 null
                 var eventSubscribeAttribute = eventHandlerThatShouldRun.Attribute;
@@ -301,7 +301,7 @@ internal sealed class EventBusHostedService : BackgroundService
                     }
                 }
             }, stoppingToken);
-        }
+        });
     }
 
     /// <summary>
