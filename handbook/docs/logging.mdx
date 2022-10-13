@@ -1235,55 +1235,13 @@ services.AddMonitorLogging(options =>
 App.PrintToMiniProfiler("分类", "状态", "要打印的消息");
 ```
 
-## 18.8 在后台任务中使用
-
-由于 `DbContext` 默认注册为 `Scoped` 生存周期，所以在后台任务中使用 `IServiceScopeFactory` 获取所有服务，如：
+## 18.8 静态 `Default()` 方式构建
 
 ```cs showLineNumbers
-public class JobService : BackgroundService
-{
-    // 日志对象
-    private readonly ILogger<JobService> _logger;
-
-    // 服务工厂
-    private readonly IServiceScopeFactory _scopeFactory;
-    public JobService(ILogger<JobService> logger
-        , IServiceScopeFactory scopeFactory)
-    {
-        _logger = logger;
-        _scopeFactory = scopeFactory;
-    }
-
-    protected override Task ExecuteAsync(CancellationToken stoppingToken)
-    {
-        _logger.LogInformation("写日志~~");
-
-        using (var scope = _scopeFactory.CreateScope())
-        {
-            var services = scope.ServiceProvider;
-
-            // 获取数据库上下文
-            var dbContext = Db.GetDbContext(services);
-
-            // 获取仓储
-            var respository = Db.GetRepository<Person>(services);
-
-            // 解析其他服务
-            var otherService = services.GetService<XXX>();
-        }
-
-        return Task.CompletedTask;
-    }
-}
+StringLoggingPart.Default().SetMessage("这是一个日志").LogInformation();
 ```
 
-## 18.9 静态 `Default` 方式构建
-
-```cs showLineNumbers
-StringLoggingPart.Default.SetMessage("这是一个日志").LogInformation();
-```
-
-## 18.10 规范日志模板
+## 18.9 规范日志模板
 
 在 `Furion v3.5.3+` 新增了 `TP.Wrapper(...)` 规范模板，使用如下：
 
@@ -1320,7 +1278,7 @@ Console.WriteLine(template);
 
 :::
 
-## 18.11 日志上下文
+## 18.10 日志上下文
 
 :::important 版本说明
 
@@ -1425,7 +1383,7 @@ public TestAppService: ITestAppService, IDisposable
 }
 ```
 
-## 18.12 反馈与建议
+## 18.11 反馈与建议
 
 :::note 与我们交流
 
