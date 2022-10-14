@@ -21,6 +21,7 @@
 // SOFTWARE.
 
 using Furion.Extensions;
+using Newtonsoft.Json.Linq;
 using System.Reflection;
 using System.Text.Json;
 
@@ -40,6 +41,18 @@ public static class DictionaryExtensions
     public static IDictionary<string, object> ToDictionary(this object input)
     {
         if (input == null) return default;
+
+        // 处理 JObject 类型
+        if (input is JObject jobj)
+        {
+            var dic = new Dictionary<string, object>();
+            foreach (var (key, value) in jobj)
+            {
+                dic.Add(key, value);
+            }
+
+            return dic;
+        }
 
         // 处理本就是字典类型
         if (input.GetType().HasImplementedRawGeneric(typeof(IDictionary<,>)))
