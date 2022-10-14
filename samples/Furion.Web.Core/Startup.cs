@@ -24,7 +24,7 @@ public sealed class Startup : AppStartup
                 .AddAppLocalization()
                 .AddJsonOptions(options =>
                 {
-                    options.JsonSerializerOptions.Converters.AddDateFormatString();
+                    options.JsonSerializerOptions.Converters.AddDateTimeTypeConverters();
                 })
                 .AddInjectWithUnifyResult();
 

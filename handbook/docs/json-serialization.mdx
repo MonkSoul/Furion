@@ -171,6 +171,12 @@ var json =  _jsonSerializer.Serialize(new
 
 正如上文所说，`Furion` 默认的 `IJsonSerializerProvider` 实现方式是 `System.Text.Json` 库，如需替换为 `Newtonsoft.Json`，只需以下步骤即可：
 
+:::tip 无需安装
+
+在 `Furion 4.6.5+` 版本已经内置了 `Microsoft.AspNetCore.Mvc.NewtonsoftJson` 拓展包，也就是直接在 `Startup.cs` 中注册即可。
+
+:::
+
 1. 安装 `Microsoft.AspNetCore.Mvc.NewtonsoftJson` 拓展，并在 `Startup.cs` 中注册
 
 ```cs showLineNumbers  {2}
