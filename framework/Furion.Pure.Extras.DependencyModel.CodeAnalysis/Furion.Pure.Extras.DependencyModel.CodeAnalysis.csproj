@@ -2,7 +2,7 @@
 
 	<PropertyGroup>
 		<TargetFrameworks>net5.0;net6.0;net7.0</TargetFrameworks>
-		<Version>4.6.4</Version>
+		<Version>4.6.5</Version>
 		<Description>Furion 程序集扫描和代码分析拓展插件。</Description>
 		<ImplicitUsings>enable</ImplicitUsings>
 	</PropertyGroup>
@@ -12,6 +12,7 @@
 		<PackageReference Include="Microsoft.AspNetCore.Razor.Language" Version="5.0.17" />
 		<PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.3.1" />
 		<PackageReference Include="Microsoft.Extensions.DependencyModel" Version="6.0.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="5.0.17" />
 		<PackageReference Include="System.Text.Json" Version="6.0.6" />
 	</ItemGroup>
 
@@ -20,6 +21,7 @@
 		<PackageReference Include="Microsoft.AspNetCore.Razor.Language" Version="6.0.10" />
 		<PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.3.1" />
 		<PackageReference Include="Microsoft.Extensions.DependencyModel" Version="6.0.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.10" />
 		<PackageReference Include="System.Text.Json" Version="6.0.6" />
 	</ItemGroup>
 
@@ -28,6 +30,7 @@
 		<PackageReference Include="Microsoft.AspNetCore.Razor.Language" Version="6.0.10" />
 		<PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.4.0-2.final" />
 		<PackageReference Include="Microsoft.Extensions.DependencyModel" Version="7.0.0-rc.2.22472.3" />
+		<PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="7.0.0-rc.2.22476.2" />
 		<PackageReference Include="System.Text.Json" Version="7.0.0-rc.2.22472.3" />
 	</ItemGroup>
 

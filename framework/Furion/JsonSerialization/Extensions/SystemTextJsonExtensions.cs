@@ -32,14 +32,32 @@ namespace System.Text.Json;
 public static class SystemTextJsonExtensions
 {
     /// <summary>
-    /// 添加时间格式化
+    /// 添加 DateTime/DateTime?/DateTimeOffset/DateTimeOffset? 类型序列化处理
     /// </summary>
     /// <param name="converters"></param>
     /// <param name="outputFormat"></param>
     /// <param name="localized">自动转换 DateTimeOffset 为当地时间</param>
-    public static void AddDateFormatString(this IList<JsonConverter> converters, string outputFormat = default, bool localized = false)
+    /// <returns></returns>
+    public static IList<JsonConverter> AddDateTimeTypeConverters(this IList<JsonConverter> converters, string outputFormat = default, bool localized = false)
     {
-        converters.Add(new DateTimeJsonConverter(outputFormat));
-        converters.Add(new DateTimeOffsetJsonConverter(outputFormat, localized));
+        converters.Add(new SystemTextJsonDateTimeJsonConverter(outputFormat));
+        converters.Add(new SystemTextJsonNullableDateTimeJsonConverter(outputFormat));
+
+        converters.Add(new SystemTextJsonDateTimeOffsetJsonConverter(outputFormat, localized));
+        converters.Add(new SystemTextJsonNullableDateTimeOffsetJsonConverter(outputFormat, localized));
+
+        return converters;
+    }
+
+    /// <summary>
+    /// 添加 long/long? 类型序列化处理
+    /// </summary>
+    /// <remarks></remarks>
+    public static IList<JsonConverter> AddLongTypeConverters(this IList<JsonConverter> converters)
+    {
+        converters.Add(new SystemTextJsonLongToStringJsonConverter());
+        converters.Add(new SystemTextJsonNullableLongToStringJsonConverter());
+
+        return converters;
     }
 }

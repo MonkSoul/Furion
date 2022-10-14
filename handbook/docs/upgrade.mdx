@@ -42,12 +42,17 @@ import Tag from "@site/src/components/Tag.js";
   - &nbsp;<Tag>新增</Tag> `LogMessage` 结构 `UseUtcTimestamp` 字段，解释日志记录时间格式是 `UTC` 还是 `LOCAL` 时间 <sup>4.6.1</sup> [aab0371](https://gitee.com/dotnetchina/Furion/commit/aab0371d6473117e1e602eef1b9841c48d184e84)
   - &nbsp;<Tag>新增</Tag> 事件总线模块重试失败后支持回调 <sup>4.6.1</sup> [#I5UVMV](https://gitee.com/dotnetchina/Furion/issues/I5UVMV)
   - &nbsp;<Tag>新增</Tag> `LoggingMonitor` 支持序列化忽略指定属性名或属性类型 <sup>4.6.1</sup> [81c6343](https://gitee.com/dotnetchina/Furion/commit/81c6343a2ddb3751e72de7c5943048c903c638b4)
+  - &nbsp;<Tag>新增</Tag> **`long` 序列化丢精度的 `JsonConvert` 内置转换器，`.AddLongTypeConverters()`** <sup>4.6.5</sup> [#I5VJHC](https://gitee.com/dotnetchina/Furion/issues/I5VJHC)
+  - &nbsp;<Tag>新增</Tag> `app.EnableBuffering()` 拓展，解决 `Request.Body` 不能重复读问题 <sup>4.6.5</sup>
 
 - **突破性变化**
 
   - &nbsp;<Tag>新增</Tag> **适配 `.NET 6.0.10` 和 `.NET 7 RC2`** <sup>4.6.2</sup> [6bb2fad](https://gitee.com/dotnetchina/Furion/commit/6bb2fadd6600edcebc1539faedba98d4db0e189e)
+  - &nbsp;<Tag>新增</Tag> 内置 `Microsoft.AspNetCore.Mvc.NewtonsoftJson` 拓展，原因是太多人使用了 <sup>4.6.5</sup>
   - &nbsp;<Tag>移除</Tag> `"some log".SetCategory(name)` 拓展方法 <sup>4.6.0</sup> [ec4838c](https://gitee.com/dotnetchina/Furion/commit/ec4838c218ed9c96ba92d7a80fd11539da59ca22)
+  - &nbsp;<Tag>移除</Tag> `DateOnlyJsonConverter` 和 `DateOnlyOffsetJsonConverter` 处理 <sup>4.6.5</sup>
   - &nbsp;<Tag>调整</Tag> **事件总线触发处理程序的逻辑，由过去的 `foreach` 改为 `Parallel.ForEach`，吞吐量提升近 4 倍** <sup>4.6.4</sup> [7384c9c](https://gitee.com/dotnetchina/Furion/commit/7384c9c3efb94883421379828565e61870f1640c)
+  - &nbsp;<Tag>调整</Tag> **`.AddDateFormatString()` 名称为 `.AddDateTimeTypeConverters()`** <sup>4.6.5</sup>
   - &nbsp;<Tag>调整</Tag> **重构日志模块设置上下文数据功能** <sup>4.6.0</sup> [1c198ee](https://gitee.com/dotnetchina/Furion/commit/1c198ee2701e0ca76bca1057df6fce6789344c35)
 
 <details style={{ marginLeft: 50 }}>
@@ -112,7 +117,8 @@ options.AddHttpClient("github", c =>
   - &nbsp;<Tag>修复</Tag> 框架内部所有使用 `.CreateLogger` 创建的日志对象无法应用上下文问题 <sup>4.6.0</sup> [ec4838c](https://gitee.com/dotnetchina/Furion/commit/ec4838c218ed9c96ba92d7a80fd11539da59ca22)
   - &nbsp;<Tag>修复</Tag> 修复远程请求不能在 `Worker Serivce` 中进行构造函数注入，原因是注册为 `Scope` 范围作用域 <sup>4.6.3</sup> [974f835](https://gitee.com/dotnetchina/Furion/commit/974f835ccdcf84bc84dd6f7044589ae2a2e7a57b)
   - &nbsp;<Tag>修复</Tag> **个别服务器的 `SQL Server` 不支持 `TLS 1.2` 协议问题** <sup>4.6.3</sup> [974f835](https://gitee.com/dotnetchina/Furion/commit/974f835ccdcf84bc84dd6f7044589ae2a2e7a57b)
-  - &nbsp;<Tag>修复</Tag> `.ToDictionary()` 拓展不支持 `JObject` 类型问题 <sup>4.6.5</sup>
+  - &nbsp;<Tag>修复</Tag> `.ToDictionary()` 拓展不支持 `JObject` 类型问题 <sup>4.6.5</sup> [#I5VJHC](https://gitee.com/dotnetchina/Furion/issues/I5VJHC)
+  - &nbsp;<Tag>修复</Tag> `LoggingMonitor` 处理 `long` 类型丢精度问题 <sup>4.6.5</sup> [#I5VJHC](https://gitee.com/dotnetchina/Furion/issues/I5VJHC)
 
 - **其他更改**
 
@@ -122,6 +128,7 @@ options.AddHttpClient("github", c =>
 - **文档**
 
   - &nbsp;<Tag>新增</Tag> 远程请求设置客户端生命周期配置文档和新超时配置文档
+  - &nbsp;<Tag>新增</Tag> `JSON` 序列化处理 `long` 类型说明文档
   - &nbsp;<Tag>更新</Tag> 日志记录文档、事件总线文档、数据库入门文档、`JSON` 序列化文档、远程请求文档
 
 ---

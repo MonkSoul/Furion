@@ -267,17 +267,18 @@ services.AddControllersWithViews()
 
 - `System.Text.Json` 方式
 
-```cs showLineNumbers
+```cs showLineNumbers {2,5}
 services.AddControllersWithViews()
         .AddJsonOptions(options =>
         {
-            options.JsonSerializerOptions.Converters.AddDateFormatString("yyyy-MM-dd HH:mm:ss");
+            // 在 4.6.5 之前的版本使用 .AddDateFormatString
+            options.JsonSerializerOptions.Converters.AddDateTimeTypeConverters("yyyy-MM-dd HH:mm:ss");
         });
 ```
 
 :::note 小提示
 
-如果使用使用了 `DateTimeOffset` 类型，那么可以设置 `.AddDateFormatString("yyyy-MM-dd HH:mm:ss", true)` 第二个参数为 `true`，自动转换成本地时间。
+如果使用使用了 `DateTimeOffset` 类型，那么可以设置 `.AddDateTimeTypeConverters("yyyy-MM-dd HH:mm:ss", true)` 第二个参数为 `true`，自动转换成本地时间。
 
 如果使用了 `Mysql` 数据库，且使用了 `Pomelo.EntityFrameworkCore.MySql` 包，那么会出现时区问题，比如少 8 小时，可以尝试配置第二个参数为 `true`。
 
@@ -287,7 +288,7 @@ services.AddControllersWithViews()
 
 - `Newtonsoft.Json` 方式
 
-```cs showLineNumbers
+```cs showLineNumbers {2,4}
 services.AddControllersWithViews()
         .AddNewtonsoftJson(options =>
         {
@@ -446,71 +447,57 @@ public string PropertyName {get; set;}
 
 - `System.Text.Json` 方式
 
-```cs showLineNumbers {4}
+```cs showLineNumbers {2,4}
 services.AddControllersWithViews()
         .AddJsonOptions(options =>
         {
-            options.JsonSerializerOptions.Converters.Add(new LongJsonConverter()); // 配置过长的整数类型返回前端会丢失精度的问题
+            options.JsonSerializerOptions.Converters.AddLongTypeConverters();
         });
 ```
 
-创建 `LongJsonConverter` 类：
-
-```cs showLineNumbers {1,6,13}
-public class LongJsonConverter : JsonConverter<long>
-{
-    public override long Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
-    {
-        // 这里做处理，前端传入的 long 类型可能为 string 类型，或者 number 类型
-        return reader.TokenType == JsonTokenType.String
-                ? long.Parse(reader.GetString())
-                : reader.GetInt64();
-    }
-
-    public override void Write(Utf8JsonWriter writer, long value, JsonSerializerOptions options)
-    {
-        writer.WriteStringValue($"{value}");
-    }
-}
-```
-
-:::note 关于 `long?` 处理
-
-如果类型不是 `long` 而是 `long?`，可修改 `long` 为 `long?` 即可。如果两者都要，那么创建一个 `LongNullableJsonConverter` 类并继承 `JsonConverter<long?>`。
-
-:::
-
 - `Newtonsoft.Json` 方式
 
-```cs showLineNumbers {4}
+```cs showLineNumbers {3}
 .AddNewtonsoftJson(options =>
 {
-     // long类型序列化时转 string ,防止 Javascript 精度溢出
-     options.SerializerSettings.Converters.Add(new LongJsonConverter());
+     options.SerializerSettings.Converters.AddLongTypeConverters();
 })
 ```
 
-创建 `LongJsonConverter` 类：
+:::note 关于 `Dictionary<,>` 类型包含 `long` 处理
 
-```cs showLineNumbers {1,5,10-11}
-public class LongJsonConverter : JsonConverter<long>
+默认情况下，`System.Text.Json` 不支持 `Dictionary<,>` 类型的序列化设置 `Converter` 操作，这个时候可以换成 `Newtonsoft.Json` 处理，如：
+
+```cs showLineNumbers {3}
+.AddNewtonsoftJson(options =>
 {
-    public override void WriteJson(JsonWriter writer, long value, JsonSerializer serializer)
+    options.SerializerSettings.Converters.AddLongTypeConverters();
+})
+```
+
+同时创建 `NewtonsoftJsonSerializerProvider.cs` 文件写入即可：
+
+```cs showLineNumbers
+namespace YourProject.Core;
+
+public class NewtonsoftJsonSerializerProvider : IJsonSerializerProvider, ISingleton
+{
+    public string Serialize(object value, object jsonSerializerOptions = null)
     {
-        serializer.Serialize(writer, value.ToString());
+        return JsonConvert.SerializeObject(value, (jsonSerializerOptions ?? GetSerializerOptions()) as JsonSerializerSettings);
     }
 
-    public override long ReadJson(JsonReader reader, Type objectType, long existingValue, bool hasExistingValue, JsonSerializer serializer)
+    public T Deserialize<T>(string json, object jsonSerializerOptions = null)
     {
-        JToken jt = JValue.ReadFrom(reader);
-        return jt.Value<long>();
+        return JsonConvert.DeserializeObject<T>(json, (jsonSerializerOptions ?? GetSerializerOptions()) as JsonSerializerSettings);
+    }
+
+    public object GetSerializerOptions()
+    {
+        return App.GetOptions<MvcNewtonsoftJsonOptions>()?.SerializerSettings;
     }
 }
 ```
-
-:::note 关于 `long?` 处理
-
-如果类型不是 `long` 而是 `long?`，可修改 `long` 为 `long?` 即可。如果两者都要，那么创建一个 `LongNullableJsonConverter` 类并继承 `JsonConverter<long?>`。
 
 :::
 

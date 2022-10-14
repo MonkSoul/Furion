@@ -21,6 +21,7 @@
 // SOFTWARE.
 
 using Furion;
+using Microsoft.AspNetCore.Http;
 
 namespace Microsoft.AspNetCore.Builder;
 
@@ -83,6 +84,21 @@ public static class AppApplicationBuilderExtensions
         });
 
         return app;
+    }
+
+    /// <summary>
+    /// 启用 Body 重复读功能
+    /// </summary>
+    /// <remarks>须在 app.UseRouting() 之前注册</remarks>
+    /// <param name="app"></param>
+    /// <returns></returns>
+    public static IApplicationBuilder EnableBuffering(this IApplicationBuilder app)
+    {
+        return app.Use(next => context =>
+        {
+            context.Request.EnableBuffering();
+            return next(context);
+        });
     }
 
     /// <summary>

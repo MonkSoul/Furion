@@ -21,42 +21,23 @@
 // SOFTWARE.
 
 using Furion.JsonSerialization;
-using System.Text.Json.Serialization;
 
-namespace System.Text.Json;
+namespace Newtonsoft.Json;
 
 /// <summary>
-/// System.Text.Json 拓展
+/// Newtonsoft.Json 拓展
 /// </summary>
 [SuppressSniffer]
-public static class SystemTextJsonExtensions
+public static class NewtonsoftJsonExtensions
 {
-    /// <summary>
-    /// 添加 DateTime/DateTime?/DateTimeOffset/DateTimeOffset? 类型序列化处理
-    /// </summary>
-    /// <param name="converters"></param>
-    /// <param name="outputFormat"></param>
-    /// <param name="localized">自动转换 DateTimeOffset 为当地时间</param>
-    /// <returns></returns>
-    public static IList<JsonConverter> AddDateTimeTypeConverters(this IList<JsonConverter> converters, string outputFormat = default, bool localized = false)
-    {
-        converters.Add(new SystemTextJsonDateTimeJsonConverter(outputFormat));
-        converters.Add(new SystemTextJsonNullableDateTimeJsonConverter(outputFormat));
-
-        converters.Add(new SystemTextJsonDateTimeOffsetJsonConverter(outputFormat, localized));
-        converters.Add(new SystemTextJsonNullableDateTimeOffsetJsonConverter(outputFormat, localized));
-
-        return converters;
-    }
-
     /// <summary>
     /// 添加 long/long? 类型序列化处理
     /// </summary>
     /// <remarks></remarks>
     public static IList<JsonConverter> AddLongTypeConverters(this IList<JsonConverter> converters)
     {
-        converters.Add(new SystemTextJsonLongToStringJsonConverter());
-        converters.Add(new SystemTextJsonNullableLongToStringJsonConverter());
+        converters.Add(new NewtonsoftJsonLongToStringJsonConverter());
+        converters.Add(new NewtonsoftJsonNullableLongToStringJsonConverter());
 
         return converters;
     }

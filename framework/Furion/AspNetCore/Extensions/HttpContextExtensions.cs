@@ -155,4 +155,19 @@ public static class HttpContextExtensions
     {
         return request.Headers[refererHeaderKey].ToString();
     }
+
+    /// <summary>
+    /// 读取 Body 内容
+    /// </summary>
+    /// <param name="request"></param>
+    /// <returns></returns>
+    public static async Task<string> ReadBodyContentAsync(this HttpRequest request)
+    {
+        request.EnableBuffering();
+
+        using var reader = new StreamReader(request.Body, Encoding.UTF8, true, 1024, true);
+        var body = await reader.ReadToEndAsync();
+        request.Body.Position = 0;
+        return body;
+    }
 }

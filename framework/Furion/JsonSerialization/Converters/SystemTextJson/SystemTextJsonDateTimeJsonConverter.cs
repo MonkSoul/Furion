@@ -29,12 +29,12 @@ namespace Furion.JsonSerialization;
 /// DateTime 类型序列化
 /// </summary>
 [SuppressSniffer]
-public class DateTimeJsonConverter : JsonConverter<DateTime>
+public class SystemTextJsonDateTimeJsonConverter : JsonConverter<DateTime>
 {
     /// <summary>
     /// 默认构造函数
     /// </summary>
-    public DateTimeJsonConverter()
+    public SystemTextJsonDateTimeJsonConverter()
     {
         Format ??= "yyyy-MM-dd HH:mm:ss";
     }
@@ -43,7 +43,7 @@ public class DateTimeJsonConverter : JsonConverter<DateTime>
     /// 构造函数
     /// </summary>
     /// <param name="format"></param>
-    public DateTimeJsonConverter(string format)
+    public SystemTextJsonDateTimeJsonConverter(string format)
     {
         Format = format;
     }
@@ -74,5 +74,58 @@ public class DateTimeJsonConverter : JsonConverter<DateTime>
     public override void Write(Utf8JsonWriter writer, DateTime value, JsonSerializerOptions options)
     {
         writer.WriteStringValue(value.ToString(Format));
+    }
+}
+
+/// <summary>
+/// DateTime? 类型序列化
+/// </summary>
+[SuppressSniffer]
+public class SystemTextJsonNullableDateTimeJsonConverter : JsonConverter<DateTime?>
+{
+    /// <summary>
+    /// 默认构造函数
+    /// </summary>
+    public SystemTextJsonNullableDateTimeJsonConverter()
+    {
+        Format ??= "yyyy-MM-dd HH:mm:ss";
+    }
+
+    /// <summary>
+    /// 构造函数
+    /// </summary>
+    /// <param name="format"></param>
+    public SystemTextJsonNullableDateTimeJsonConverter(string format)
+    {
+        Format = format;
+    }
+
+    /// <summary>
+    /// 时间格式化格式
+    /// </summary>
+    public string Format { get; private set; }
+
+    /// <summary>
+    /// 反序列化
+    /// </summary>
+    /// <param name="reader"></param>
+    /// <param name="typeToConvert"></param>
+    /// <param name="options"></param>
+    /// <returns></returns>
+    public override DateTime? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+    {
+        return Convert.ToDateTime(reader.GetString());
+    }
+
+    /// <summary>
+    /// 序列化
+    /// </summary>
+    /// <param name="writer"></param>
+    /// <param name="value"></param>
+    /// <param name="options"></param>
+    public override void Write(Utf8JsonWriter writer, DateTime? value, JsonSerializerOptions options)
+    {
+        if (value == null) writer.WriteNullValue();
+        else writer.WriteStringValue(value.Value.ToString(Format));
     }
 }

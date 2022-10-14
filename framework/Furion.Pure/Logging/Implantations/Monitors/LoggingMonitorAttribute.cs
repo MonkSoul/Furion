@@ -674,11 +674,16 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter, IOr
     {
         try
         {
-            var result = Newtonsoft.Json.JsonConvert.SerializeObject(obj, new JsonSerializerSettings()
+            // 序列化默认配置
+            var jsonSerializerSettings = new JsonSerializerSettings()
             {
                 ContractResolver = new IgnorePropertiesContractResolver(GetIgnorePropertyNames(monitorMethod), GetIgnorePropertyTypes(monitorMethod)),
                 ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
-            });
+            };
+            // 解决 long 精度问题
+            jsonSerializerSettings.Converters.AddLongTypeConverters();
+
+            var result = Newtonsoft.Json.JsonConvert.SerializeObject(obj, jsonSerializerSettings);
 
             succeed = true;
             return result;
