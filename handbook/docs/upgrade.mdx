@@ -24,10 +24,11 @@ import Tag from "@site/src/components/Tag.js";
 
 :::
 
-## v4.6.4（当前版本）
+## v4.6.5（当前版本）
 
 :::important 版本细节
 
+- `v4.6.5` 版本细节：[https://gitee.com/dotnetchina/Furion/issues/I5VPD1](https://gitee.com/dotnetchina/Furion/issues/I5VPD1) <sup>2022.10.14</sup>
 - `v4.6.4` 版本细节：[https://gitee.com/dotnetchina/Furion/issues/I5VIAQ](https://gitee.com/dotnetchina/Furion/issues/I5VIAQ) <sup>2022.10.13</sup>
 - `v4.6.3` 版本细节：[https://gitee.com/dotnetchina/Furion/issues/I5V99T](https://gitee.com/dotnetchina/Furion/issues/I5V99T) <sup>2022.10.12</sup>
 - `v4.6.2` 版本细节：[https://gitee.com/dotnetchina/Furion/issues/I5V6UE](https://gitee.com/dotnetchina/Furion/issues/I5V6UE) <sup>2022.10.12</sup>
@@ -2209,7 +2210,7 @@ app.UseVirtualPath(app =>
 
 - **其他更改**
 
-  - &nbsp;<Tag>移除</Tag> `ToPagedList` 泛型约束 [d0244d](https://gitee.com/dotnetchina/Furion/commit/d0244dc33a0e5236158cdcdff21d086e00a42ee7)
+  - &nbsp;<Tag>移除</Tag> ~~`ToPagedList` 泛型约束~~ [d0244d](https://gitee.com/dotnetchina/Furion/commit/d0244dc33a0e5236158cdcdff21d086e00a42ee7)
 
 - **文档**
 
@@ -2252,7 +2253,7 @@ app.UseVirtualPath(app =>
 - **其他更改**
 
   - &nbsp;<Tag>更新</Tag> `InjectionAttribute` 代码 [!435](https://gitee.com/dotnetchina/Furion/pulls/435)
-  - &nbsp;<Tag>移除</Tag> `ToPagedList` 泛型约束 [d0244d](https://gitee.com/dotnetchina/Furion/commit/d0244dc33a0e5236158cdcdff21d086e00a42ee7)
+  - &nbsp;<Tag>移除</Tag> ~~`ToPagedList` 泛型约束~~ [d0244d](https://gitee.com/dotnetchina/Furion/commit/d0244dc33a0e5236158cdcdff21d086e00a42ee7)
 
 - **文档**
 
@@ -2307,8 +2308,7 @@ app.UseVirtualPath(app =>
 
 - **突破性变化**
 
-  - &nbsp;<Tag>移除</Tag> `Scoped` 所有带返回值方法 [656da87](https://gitee.com/dotnetchina/Furion/commit/656da87a667c2da7d82425cdcd47146e99602d65)
-  - &nbsp;<Tag>调整</Tag> **在 `ConfigureService` 中调用 `App.GetOptions<>()` 获取配置逻辑** [afa4ac3](https://gitee.com/dotnetchina/Furion/commit/afa4ac347152ccac37bd1d0f9af1e8ffb665a662)
+  - &nbsp;<Tag>移除</Tag> ~~`Scoped` 所有带返回值方法~~ [656da87](https://gitee.com/dotnetchina/Furion/commit/656da87a667c2da7d82425cdcd47146e99602d65) - &nbsp;<Tag>调整</Tag> **在 `ConfigureService` 中调用 `App.GetOptions<>()` 获取配置逻辑** [afa4ac3](https://gitee.com/dotnetchina/Furion/commit/afa4ac347152ccac37bd1d0f9af1e8ffb665a662)
 
 > 在过去，很多开发者总是喜欢在 `Startup.cs` 配置服务的 `ConfigureService` 方法中解析服务，这样导致内存存在溢出风险，GC 无法回收。
 > 正确的方式是尽可能的避免 `ConfigureService` 中解析服务。**如果需要在【启动时】获取 `配置选项`，请使用 `App.GetConfig<TOptions>(路径, true)` 代替 `App.GetOptions<TOption>`**。
@@ -2345,8 +2345,8 @@ app.UseVirtualPath(app =>
 - **突破性变化**
 
   - &nbsp;<Tag>新增</Tag> `Oops.Retry()` 重试策略功能至新类：`Retry.Invoke()` [6a7bbd0](https://gitee.com/dotnetchina/Furion/commit/6a7bbd0b30a653b9a42d340a63520485aa6bbfa4)
-  - &nbsp;<Tag>移除</Tag> `IHttpContextAccessor.SigninToSwagger()` 拓展，请使用 `IHttpContextAccessor.HttpContext.SigninToSwagger()`，退出也一样
-  - &nbsp;<Tag>移除</Tag> 全局处理 `Request Body` 重复读处理 `Request.EnableBuffering()` [d92c24b](https://gitee.com/dotnetchina/Furion/commit/d92c24bdb43bfb01643007ebb6a4ee42a5c738e9)
+  - &nbsp;<Tag>移除</Tag> ~~`IHttpContextAccessor.SigninToSwagger()` 拓展~~，请使用 `IHttpContextAccessor.HttpContext.SigninToSwagger()`，退出也一样
+  - &nbsp;<Tag>移除</Tag> ~~全局处理 `Request Body` 重复读处理 `Request.EnableBuffering()`~~ [d92c24b](https://gitee.com/dotnetchina/Furion/commit/d92c24bdb43bfb01643007ebb6a4ee42a5c738e9)
 
 - **问题修复**
 
@@ -2538,8 +2538,8 @@ namespace Furion.UnifyResult
 - **突破性变化**
 
   - &nbsp;<Tag>升级</Tag> **框架依赖 `SDK` 为 `.NET 5.0.8` 版本**
-  - &nbsp;<Tag>移除</Tag> `Db.GetNewDbContext()` 静态方法 [#I400BK](https://gitee.com/dotnetchina/Furion/issues/I400BK)
-  - &nbsp;<Tag>移除</Tag> 数据库模块时态表拓展支持 [#I405HI](https://gitee.com/dotnetchina/Furion/issues/I405HI)
+  - &nbsp;<Tag>移除</Tag> ~~`Db.GetNewDbContext()` 静态方法~~ [#I400BK](https://gitee.com/dotnetchina/Furion/issues/I400BK)
+  - &nbsp;<Tag>移除</Tag> ~~数据库模块时态表拓展支持~~ [#I405HI](https://gitee.com/dotnetchina/Furion/issues/I405HI)
   - &nbsp;<Tag>调整</Tag> `IJsonSerializerProvider` 接口参数，新增 `inherit` 参数 [#I3ZQU5](https://gitee.com/dotnetchina/Furion/issues/I3ZQU5)
   - &nbsp;<Tag>调整</Tag> `AppSettings` 配置的 `LogEntityFrameworkCoreSqlExecuteCommand` 名称为 `OutputOriginalSqlExecuteLog` [#I40VVE](https://gitee.com/dotnetchina/Furion/issues/I40VVE)
 
