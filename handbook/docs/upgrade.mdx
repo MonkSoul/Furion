@@ -49,8 +49,8 @@ import Tag from "@site/src/components/Tag.js";
 
   - &nbsp;<Tag>新增</Tag> **适配 `.NET 6.0.10` 和 `.NET 7 RC2`** <sup>4.6.2</sup> [6bb2fad](https://gitee.com/dotnetchina/Furion/commit/6bb2fadd6600edcebc1539faedba98d4db0e189e)
   - &nbsp;<Tag>新增</Tag> 内置 `Microsoft.AspNetCore.Mvc.NewtonsoftJson` 拓展，原因是太多人使用了 <sup>4.6.5</sup> [aded58d](https://gitee.com/dotnetchina/Furion/commit/aded58d0bc587d1a1844382c66ec1ab3de96be7c)
-  - &nbsp;<Tag>移除</Tag> `"some log".SetCategory(name)` 拓展方法 <sup>4.6.0</sup> [ec4838c](https://gitee.com/dotnetchina/Furion/commit/ec4838c218ed9c96ba92d7a80fd11539da59ca22)
-  - &nbsp;<Tag>移除</Tag> `DateOnlyJsonConverter` 和 `DateOnlyOffsetJsonConverter` 处理 <sup>4.6.5</sup> [aded58d](https://gitee.com/dotnetchina/Furion/commit/aded58d0bc587d1a1844382c66ec1ab3de96be7c)
+  - &nbsp;<Tag>移除</Tag> ~~`"some log".SetCategory(name)` 拓展方法~~ <sup>4.6.0</sup> [ec4838c](https://gitee.com/dotnetchina/Furion/commit/ec4838c218ed9c96ba92d7a80fd11539da59ca22)
+  - &nbsp;<Tag>移除</Tag> ~~`DateOnlyJsonConverter` 和 `DateOnlyOffsetJsonConverter` 处理~~ <sup>4.6.5</sup> [aded58d](https://gitee.com/dotnetchina/Furion/commit/aded58d0bc587d1a1844382c66ec1ab3de96be7c)
   - &nbsp;<Tag>调整</Tag> **事件总线触发处理程序的逻辑，由过去的 `foreach` 改为 `Parallel.ForEach`，吞吐量提升近 4 倍** <sup>4.6.4</sup> [7384c9c](https://gitee.com/dotnetchina/Furion/commit/7384c9c3efb94883421379828565e61870f1640c)
   - &nbsp;<Tag>调整</Tag> **`.AddDateFormatString()` 名称为 `.AddDateTimeTypeConverters()`** <sup>4.6.5</sup> [aded58d](https://gitee.com/dotnetchina/Furion/commit/aded58d0bc587d1a1844382c66ec1ab3de96be7c)
   - &nbsp;<Tag>调整</Tag> **重构日志模块设置上下文数据功能** <sup>4.6.0</sup> [1c198ee](https://gitee.com/dotnetchina/Furion/commit/1c198ee2701e0ca76bca1057df6fce6789344c35)
@@ -84,7 +84,7 @@ _logger.LogInformation("我是一个日志 {id}", 20);
   </div>
 </details>
 
-- - &nbsp;<Tag>移除</Tag> **远程请求 `.SetTimeout` 和 `[Timeout]` 配置方法，采用全局统一配置** <sup>4.6.4</sup> [7384c9c](https://gitee.com/dotnetchina/Furion/commit/7384c9c3efb94883421379828565e61870f1640c)
+- - &nbsp;<Tag>移除</Tag> ~~**远程请求 `.SetTimeout` 和 `[Timeout]` 配置方法，采用全局统一配置**~~ <sup>4.6.4</sup> [7384c9c](https://gitee.com/dotnetchina/Furion/commit/7384c9c3efb94883421379828565e61870f1640c)
 
 <details style={{ marginLeft: 50 }}>
   <summary>查看更改</summary>
@@ -170,7 +170,7 @@ options.AddHttpClient("github", c =>
 
   - &nbsp;<Tag>调整</Tag> **😊 `Furion` 框架文档地址为 [https://furion.baiqian.ltd](https://furion.baiqian.ltd)** <sup>4.5.4</sup> [2e3d80e](https://gitee.com/dotnetchina/Furion/commit/2e3d80ec0be830c33923ef9953ff504528120f06)
   - &nbsp;<Tag>调整</Tag> `LoggingMonitor` 底层逻辑，移除原来的 `.ScopeContext` 存储监听信息设计 <sup>4.5.2</sup> [#I5TWC1](https://gitee.com/dotnetchina/Furion/issues/I5TWC1)
-  - &nbsp;<Tag>移除</Tag> **主机未启动时构建服务的操作权限，此操作会导致内存激增，受影响方法： `App.GetOptions` 系列和 `App.GetService` 和 `Scoped.Create`** <sup>4.5.4</sup> [#I5U0A4](https://gitee.com/dotnetchina/Furion/issues/I5U0A4) [8129693](https://gitee.com/dotnetchina/Furion/commit/812969357a60d0b73becf105e6b77b46113b3800)
+  - &nbsp;<Tag>移除</Tag> ~~**主机未启动时构建服务的操作权限，此操作会导致内存激增，受影响方法： `App.GetOptions` 系列和 `App.GetService` 和 `Scoped.Create`**~~ <sup>4.5.4</sup> [#I5U0A4](https://gitee.com/dotnetchina/Furion/issues/I5U0A4) [8129693](https://gitee.com/dotnetchina/Furion/commit/812969357a60d0b73becf105e6b77b46113b3800)
 
 <details style={{ marginLeft: 50 }}>
   <summary>查看更改</summary>
@@ -547,7 +547,7 @@ services.AddMonitorLogging(options =>
   - &nbsp;<Tag>调整</Tag> 框架适配 **`.NET 6.0.9` 和 `.NET 7.0 RC1`** [be5b40](https://gitee.com/dotnetchina/Furion/commit/be5b4098bae2153f8d49cf9797e454afde0d0aab) [1eee77b](https://gitee.com/dotnetchina/Furion/commit/1eee77bff0954336dcc5402a09a3195667bb80f2)
   - &nbsp;<Tag>调整</Tag> 远程请求 `.SetBodyBytes` 为 `.SetFiles` [#I5PMS5](https://gitee.com/dotnetchina/Furion/issues/I5PMS5) [#I5PIYI](https://gitee.com/dotnetchina/Furion/issues/I5PIYI)
   - &nbsp;<Tag>调整</Tag> `FS.InitialContentTypeProvider()` 名称为 `FS.GetFileExtensionContentTypeProvider()` [5fafc84](https://gitee.com/dotnetchina/Furion/commit/5fafc8477a4d213d16db92cf030f409c758fab95)
-  - &nbsp;<Tag>移除</Tag> 远程请求 `[BodyBytes]` 设计，采用 `HttpFile` 方式 [#I5PMS5](https://gitee.com/dotnetchina/Furion/issues/I5PMS5) [#I5PIYI](https://gitee.com/dotnetchina/Furion/issues/I5PIYI)
+  - &nbsp;<Tag>移除</Tag> ~~远程请求 `[BodyBytes]` 设计，采用 `HttpFile` 方式~~ [#I5PMS5](https://gitee.com/dotnetchina/Furion/issues/I5PMS5) [#I5PIYI](https://gitee.com/dotnetchina/Furion/issues/I5PIYI)
 
 <details style={{ marginLeft: 50 }}>
   <summary>查看更改</summary>
@@ -914,8 +914,8 @@ public interface IUnitOfWork
 - **突破性变化**
 
   - &nbsp;<Tag>新增</Tag> `Furion.Xunit` 拓展包，正式实现 `Xunit` 单元测试完整支持 `Furion` [063a034e](https://gitee.com/dotnetchina/Furion/commit/063a034edd089e88d501af4c09251611476fd238)
-  - &nbsp;<Tag>移除</Tag> `Furion.Extras.DatabaseAccessor.SqlSugar` 拓展插件中的 `[SqlSugarUnitOfWork]` 工作单元特性，将使用通用工作单元替换，**[查看最新实现文档](./tran.mdx#92631-自动管理)**
-  - &nbsp;<Tag>移除</Tag> `Inject.Create()` 方法，再也不需要了，框架提供了无敌强大的 `Serve.Run()` 静默启动方式 [200848e](https://gitee.com/dotnetchina/Furion/commit/200848eda8c2e419c0b5be83f7768a257f3c88bd)
+  - &nbsp;<Tag>移除</Tag> ~~`Furion.Extras.DatabaseAccessor.SqlSugar` 拓展插件中的 `[SqlSugarUnitOfWork]` 工作单元特性，将使用通用工作单元替换**~~ [查看最新实现文档](./tran.mdx#92631-自动管理)**
+  - &nbsp;<Tag>移除</Tag> ~~`Inject.Create()` 方法，再也不需要了，框架提供了无敌强大的 `Serve.Run()` 静默启动方式~~ [200848e](https://gitee.com/dotnetchina/Furion/commit/200848eda8c2e419c0b5be83f7768a257f3c88bd)
   - &nbsp;<Tag>调整</Tag> `Serve.Run` 的 `ConfigureConfiguration` 方法参数，由 `configuration => {}` 改为 `(environment, configuration) => {}` [83c97bb](https://gitee.com/dotnetchina/Furion/commit/83c97bb5a19d6fc4e51cfe05f635675d26067d45)
 
 <details style={{ marginLeft: 50 }}>
@@ -1209,7 +1209,7 @@ _logger.ScopeContext(new LogContext {
 
   - &nbsp;<Tag>优化</Tag> **日志模块，内置写入控制台、文件、数据库功能，再也无需引入第三方日志了！[日志源码](https://gitee.com/dotnetchina/Furion/tree/v4/framework/Furion/Logging)**
   - &nbsp;<Tag>调整</Tag> **`TP.Wrapper` 规范化日志模板算法，由过去的 `[属性]` 改为 `##属性##`，解决 `JSON` 内容冲突问题 [394ecec](https://gitee.com/dotnetchina/Furion/commit/394ecec28629aee9945480155d502418d0b7a8f8)**
-  - &nbsp;<Tag>移除</Tag> **未来 `Furion.Extras.Logging.Serilog` 拓展将不再继续维护，因为 `Furion` 有强大的日志组件了！**
+  - &nbsp;<Tag>移除</Tag> ~~**未来 `Furion.Extras.Logging.Serilog` 拓展将不再继续维护，因为 `Furion` 有强大的日志组件了！**~~
 
 - **问题修复**
 
