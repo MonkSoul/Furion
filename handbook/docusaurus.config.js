@@ -8,7 +8,7 @@ module.exports = {
   favicon: "img/favicon.ico",
   organizationName: "Baiqian Co.,Ltd",
   projectName: "Furion",
-  scripts: ["/script/baidutongji.js"],
+  scripts: [],
   themeConfig: {
     docs: {
       sidebar: {
@@ -144,7 +144,7 @@ module.exports = {
           items: [
             {
               label: "入门",
-              to: "docs/get-start",
+              to: "docs/serverun",
             },
             {
               label: "指南",
