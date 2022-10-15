@@ -52,19 +52,19 @@ function Sponsor() {
       style={{
         margin: "0.5em",
         display: "block",
-        textAlign: "center",
         borderBottom: "1px solid #dedede",
         paddingBottom: "0.2em",
         clear: "both",
       }}
     >
-      {sponsors.map(({ picture, url, title }, i) =>
+      {sponsors.map(({ picture, url, title, top }, i) =>
         show ? (
           <SponsorItem
             key={url}
             title={title}
             url={url}
             picture={picture}
+            top={top}
             last={sponsors.length - 1 == i}
           />
         ) : (
@@ -74,6 +74,7 @@ function Sponsor() {
             url={url}
             picture={picture}
             i={i}
+            top={top}
             last={sponsors.length - 1 == i}
           />
         )
@@ -118,7 +119,7 @@ function Sponsor() {
   );
 }
 
-function SponsorItem({ picture, url, last, title }) {
+function SponsorItem({ picture, url, last, title, top }) {
   return (
     <a
       href={url}
@@ -129,12 +130,19 @@ function SponsorItem({ picture, url, last, title }) {
         marginBottom: last ? null : "0.5em",
         position: "relative",
         alignItems: "center",
+        boxSizing: "border-box",
+        border: top ? "2px solid rgb(255, 176, 46)" : undefined,
       }}
     >
       <img
         src={useBaseUrl(picture)}
         style={{ display: "block", width: "100%" }}
       />
+      {top && (
+        <span style={{ position: "absolute", zIndex: 10, top: -16, right: -8 }}>
+          👑
+        </span>
+      )}
       <span
         style={{
           position: "absolute",
@@ -153,7 +161,20 @@ function SponsorItem({ picture, url, last, title }) {
   );
 }
 
-function SponsorItemSmart({ picture, url, last, title, i }) {
+function SponsorItemSmart({ picture, url, last, title, i, top }) {
+  if (top) {
+    return (
+      <SponsorItem
+        key={url}
+        title={title}
+        url={url}
+        picture={picture}
+        top={top}
+        last={last}
+      />
+    );
+  }
+
   return (
     <a
       href={url}
@@ -162,11 +183,19 @@ function SponsorItemSmart({ picture, url, last, title, i }) {
       style={{
         display: "inline-block",
         position: "relative",
-        width: 130,
-        marginRight: i % 2 != 0 ? 0 : 8,
+        width: 138,
+        marginRight: i % 2 == 0 ? 0 : 8,
+        position: "relative",
+        boxSizing: "border-box",
+        border: top ? "2px solid rgb(255, 176, 46)" : undefined,
       }}
     >
-      <img src={useBaseUrl(picture)} style={{ display: "block", width: 130 }} />
+      <img src={useBaseUrl(picture)} style={{ display: "block", width: 138 }} />
+      {top && (
+        <span style={{ position: "absolute", zIndex: 10, top: -16, right: -8 }}>
+          👑
+        </span>
+      )}
     </a>
   );
 }
