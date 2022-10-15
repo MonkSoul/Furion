@@ -7,7 +7,7 @@ const sponsors = [
   },
   {
     title: "CoreShop 移动端/小程序商城系统",
-    picture: "img/coreshop_ad.png",
+    picture: "img/coreshop.gif",
     url: "https://www.coreshop.cn?from=furion",
     top: false,
   },

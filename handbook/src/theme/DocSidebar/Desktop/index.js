@@ -146,7 +146,7 @@ function SponsorItem({ picture, url, last, title, top }) {
           padding: "0 5px",
         }}
       >
-        赞助商广告
+        广告
       </span>
     </a>
   );
