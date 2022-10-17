@@ -9,15 +9,21 @@ import {
   IconLive,
   IconSetting
 } from "@douyinfe/semi-icons";
+import styled from "styled-components";
+
+const Sider = styled(Layout.Sider)`
+  background-color: var(--semi-color-bg-1);
+`;
+
+const StyledNav = styled(Nav)`
+  height: 100%;
+`;
 
 function HomeSider() {
-  const { Sider } = Layout;
-
   return (
-    <Sider style={{ backgroundColor: "var(--semi-color-bg-1)" }}>
-      <Nav
+    <Sider>
+      <StyledNav
         defaultSelectedKeys={["Home"]}
-        style={{ maxWidth: 220, height: "100%" }}
         items={[
           { itemKey: "Home", text: "首页", icon: <IconHome size="large" /> },
           {
