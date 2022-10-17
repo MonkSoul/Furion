@@ -1,0 +1,11 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\FurionApi.EntityFramework.Core\FurionApi.EntityFramework.Core.csproj" />
+	</ItemGroup>
+
+</Project>

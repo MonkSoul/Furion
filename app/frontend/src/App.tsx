@@ -16,18 +16,29 @@ import {
   Nav,
   Skeleton
 } from "@douyinfe/semi-ui";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { HelloApi } from "./shared/api-services";
+import { getAPI } from "./shared/axios-utils";
 
 function App() {
   const { Header, Footer, Sider, Content } = Layout;
+  const [hello, setHello] = useState<string | undefined | null>();
 
+  // 切换亮色/暗色模式
   const [mode, setMode] = useState("semi-always-light");
-
   const switchMode = () => {
     const newMode =
       mode === "semi-always-dark" ? "semi-always-light" : "semi-always-dark";
     setMode(newMode);
   };
+
+  useEffect(() => {
+    getAPI(HelloApi)
+      .apiHelloSayPost()
+      .then((res) => {
+        setHello(res.data.data);
+      });
+  }, []);
 
   return (
     <Layout
@@ -153,6 +164,7 @@ function App() {
               <p>Hi, Bytedance dance dance.</p>
               <p>Hi, Bytedance dance dance.</p>
             </Skeleton>
+            {hello}
           </div>
         </Content>
         <Footer
