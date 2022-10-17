@@ -3,17 +3,12 @@
  */
 
 import { Layout } from "@douyinfe/semi-ui";
-import styled from "styled-components";
 import useAppState from "../../shared/states/app.state";
-import HomeContent from "./components/content";
-import HomeFooter from "./components/footer";
-import HomeHeader from "./components/header";
-import HomeSider from "./components/sider";
-
-const StyledLayout = styled(Layout)`
-  border: 1px solid var(--semi-color-border);
-  height: 100vh;
-`;
+import HomeContent from "./content";
+import HomeFooter from "./footer";
+import HomeHeader from "./header";
+import HomeSider from "./sider";
+import { StyledLayout } from "./styles";
 
 function Home() {
   // 读取全局状态

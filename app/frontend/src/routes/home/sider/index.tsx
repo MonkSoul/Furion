@@ -1,7 +1,6 @@
 /**
  * 首页侧边栏菜单
  */
-import { Layout, Nav } from "@douyinfe/semi-ui";
 
 import {
   IconHistogram,
@@ -9,15 +8,7 @@ import {
   IconLive,
   IconSetting
 } from "@douyinfe/semi-icons";
-import styled from "styled-components";
-
-const Sider = styled(Layout.Sider)`
-  background-color: var(--semi-color-bg-1);
-`;
-
-const StyledNav = styled(Nav)`
-  height: 100%;
-`;
+import { Sider, StyledNav } from "./styles";
 
 function HomeSider() {
   return (

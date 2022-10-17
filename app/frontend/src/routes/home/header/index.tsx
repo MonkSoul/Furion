@@ -10,19 +10,9 @@ import {
   IconMoon,
   IconSetting
 } from "@douyinfe/semi-icons";
-import { Avatar, Button, Layout, Nav } from "@douyinfe/semi-ui";
-import { ButtonProps } from "@douyinfe/semi-ui/lib/es/button";
-import styled from "styled-components";
+import { Avatar, Nav } from "@douyinfe/semi-ui";
 import useAppState from "../../../shared/states/app.state";
-
-const Header = styled(Layout.Header)`
-  background-color: var(--semi-color-bg-1);
-`;
-
-const NavButton = styled(Button)<ButtonProps>`
-  color: var(--semi-color-text-2) !important;
-  margin-right: 12px;
-`;
+import { Header, NavButton } from "./styles";
 
 function HomeHeader() {
   const { switchMode } = useAppState();
