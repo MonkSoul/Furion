@@ -1,19 +1,15 @@
-/**
- * 首页侧边栏菜单
- */
-
 import {
   IconHistogram,
   IconHome,
   IconLive,
   IconSetting
 } from "@douyinfe/semi-icons";
-import { Sider, StyledNav } from "./styles";
+import { Sider, StyledNav as Nav } from "./styles";
 
 function HomeSider() {
   return (
     <Sider>
-      <StyledNav
+      <Nav
         defaultSelectedKeys={["Home"]}
         items={[
           { itemKey: "Home", text: "首页", icon: <IconHome size="large" /> },

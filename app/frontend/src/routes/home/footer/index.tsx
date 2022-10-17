@@ -1,7 +1,3 @@
-/**
- * 首页底部导航条
- */
-
 import { Footer, Logo, Span } from "./styles";
 
 function HomeFooter() {

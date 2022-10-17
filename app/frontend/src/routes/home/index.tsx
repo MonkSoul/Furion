@@ -1,28 +1,24 @@
-/**
- * 首页布局
- */
-
 import { Layout } from "@douyinfe/semi-ui";
 import useAppState from "../../shared/states/app.state";
-import HomeContent from "./content";
-import HomeFooter from "./footer";
-import HomeHeader from "./header";
-import HomeSider from "./sider";
-import { StyledLayout } from "./styles";
+import { default as Content } from "./content";
+import { default as Footer } from "./footer";
+import { default as Header } from "./header";
+import { default as Sider } from "./sider";
+import { Container } from "./styles";
 
 function Home() {
   // 读取全局状态
   const { mode } = useAppState();
 
   return (
-    <StyledLayout className={mode}>
-      <HomeSider />
+    <Container className={mode}>
+      <Sider />
       <Layout>
-        <HomeHeader />
-        <HomeContent />
-        <HomeFooter />
+        <Header />
+        <Content />
+        <Footer />
       </Layout>
-    </StyledLayout>
+    </Container>
   );
 }
 

@@ -1,12 +1,8 @@
-/**
- * 首页内容
- */
-
 import { Skeleton } from "@douyinfe/semi-ui";
 import { useEffect, useState } from "react";
 import { HelloApi } from "../../../shared/api-services";
 import { getAPI } from "../../../shared/axios-utils";
-import { Container, Content, StyledBreadcrumb } from "./styles";
+import { Container, Content, StyledBreadcrumb as Breadcrumb } from "./styles";
 
 function HomeContent() {
   const [hello, setHello] = useState<string | undefined | null>();
@@ -21,7 +17,7 @@ function HomeContent() {
 
   return (
     <Content>
-      <StyledBreadcrumb
+      <Breadcrumb
         routes={["首页", "当这个页面标题很长时需要省略", "上一页", "详情页"]}
       />
       <Container>

@@ -1,7 +1,3 @@
-/**
- * 首页顶部菜单
- */
-
 import {
   IconBell,
   IconHelpCircle,
