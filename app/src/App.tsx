@@ -172,11 +172,11 @@ function App() {
           >
             <IconBytedanceLogo size="large" style={{ marginRight: "8px" }} />
             <span>
-              Copyright (c) 2020-2022 百小僧, Baiqian Co.,Ltd and Contributors.{" "}
+              Copyright (c) 2020-2022 百小僧, Baiqian Co.,Ltd and Contributors.
             </span>
           </span>
           <span>
-            <span>v0.0.1-alpha</span>
+            <span>v0.1.0-alpha</span>
           </span>
         </Footer>
       </Layout>
