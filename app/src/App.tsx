@@ -5,6 +5,7 @@ import {
   IconHistogram,
   IconHome,
   IconLive,
+  IconMoon,
   IconSetting
 } from "@douyinfe/semi-icons";
 import {
@@ -15,12 +16,22 @@ import {
   Nav,
   Skeleton
 } from "@douyinfe/semi-ui";
-import "./App.css";
+import { useState } from "react";
 
 function App() {
   const { Header, Footer, Sider, Content } = Layout;
+
+  const [mode, setMode] = useState("semi-always-light");
+
+  const switchMode = () => {
+    const newMode =
+      mode === "semi-always-dark" ? "semi-always-light" : "semi-always-dark";
+    setMode(newMode);
+  };
+
   return (
     <Layout
+      className={mode}
       style={{ border: "1px solid var(--semi-color-border)", height: "100vh" }}
     >
       <Sider style={{ backgroundColor: "var(--semi-color-bg-1)" }}>
@@ -80,6 +91,15 @@ function App() {
             />
             <Nav.Footer>
               <Button
+                onClick={switchMode}
+                theme="borderless"
+                icon={<IconMoon size="large" />}
+                style={{
+                  color: "var(--semi-color-text-2)",
+                  marginRight: "12px",
+                }}
+              />
+              <Button
                 theme="borderless"
                 icon={<IconBell size="large" />}
                 style={{
@@ -96,7 +116,7 @@ function App() {
                 }}
               />
               <Avatar color="orange" size="small">
-                YJ
+                F
               </Avatar>
             </Nav.Footer>
           </Nav>
@@ -151,11 +171,12 @@ function App() {
             }}
           >
             <IconBytedanceLogo size="large" style={{ marginRight: "8px" }} />
-            <span>Copyright © 2019 ByteDance. All Rights Reserved. </span>
+            <span>
+              Copyright (c) 2020-2022 百小僧, Baiqian Co.,Ltd and Contributors.{" "}
+            </span>
           </span>
           <span>
-            <span style={{ marginRight: "24px" }}>平台客服</span>
-            <span>反馈建议</span>
+            <span>v0.0.1-alpha</span>
           </span>
         </Footer>
       </Layout>
