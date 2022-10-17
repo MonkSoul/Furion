@@ -10,3 +10,15 @@
 - UI 框架：`Semi.Design`
 - 请求组件：`Axios`
 - 样式组件：`Styled-Components`
+
+### `Visual Studio` 插件列表
+
+- `Error Lens`
+- `ESLint`
+- `filesize`
+- `Git Graph`
+- `GitLens — Git supercharged`
+- `import Cost`
+- `Prettier - Code formatter`
+- `React Style Helper`
+- `vscode-styled-components`
