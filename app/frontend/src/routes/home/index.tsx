@@ -12,7 +12,7 @@ import HomeSider from "./components/sider";
 
 const StyledLayout = styled(Layout)`
   border: 1px solid var(--semi-color-border);
-  height: "100vh";
+  height: 100vh;
 `;
 
 function Home() {
@@ -20,10 +20,7 @@ function Home() {
   const { mode } = useAppState();
 
   return (
-    <StyledLayout
-      className={mode}
-      style={{ border: "1px solid var(--semi-color-border)", height: "100vh" }}
-    >
+    <StyledLayout className={mode}>
       <HomeSider />
       <Layout>
         <HomeHeader />
