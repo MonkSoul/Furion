@@ -1,18 +1,21 @@
 import { Skeleton } from "@douyinfe/semi-ui";
 import { useEffect, useState } from "react";
 import { HelloApi } from "../../../shared/api-services";
-import { getAPI } from "../../../shared/axios-utils";
+import { feature, getAPI } from "../../../shared/axios-utils";
 import { Container, Content, StyledBreadcrumb as Breadcrumb } from "./styles";
 
 function HomeContent() {
   const [hello, setHello] = useState<string | undefined | null>();
 
   useEffect(() => {
-    getAPI(HelloApi)
-      .apiHelloSayPost()
-      .then((res) => {
+    const loadHello = async () => {
+      const [err, res] = await feature(getAPI(HelloApi).apiHelloSayPost());
+      if (!err) {
         setHello(res.data.data);
-      });
+      }
+    };
+
+    loadHello();
   }, []);
 
   return (
