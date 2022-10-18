@@ -22,7 +22,7 @@ public class LoginAppService : IDynamicApiController
         , LoginInput input)
     {
         if (!(input.UserName.Trim() == "furion" && input.Password.Trim() == "furion"))
-            throw Oops.Oh(ErrorCodes.T1000);
+            throw Oops.Bah(ErrorCodes.T1000);
 
         var publicUser = new PublicUser
         {
