@@ -4,5 +4,23 @@
         <name>FurionApi.Application</name>
     </assembly>
     <members>
+        <member name="T:FurionApi.Application.LoginAppService">
+            <summary>
+            登录服务
+            </summary>
+        </member>
+        <member name="M:FurionApi.Application.LoginAppService.Post(Microsoft.AspNetCore.Http.IHttpContextAccessor,FurionApi.Application.LoginInput)">
+            <summary>
+            登录
+            </summary>
+            <param name="_httpContextAccessor"></param>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="T:FurionApi.Application.PublicUser">
+            <summary>
+            公开的用户信息
+            </summary>
+        </member>
     </members>
 </doc>
