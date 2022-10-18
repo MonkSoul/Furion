@@ -1,5 +1,4 @@
-import { IconHelpCircle } from "@douyinfe/semi-icons";
-import { Checkbox, Form, Tooltip } from "@douyinfe/semi-ui";
+import { Form, Tooltip } from "@douyinfe/semi-ui";
 import { useNavigate } from "react-router-dom";
 import { ReactComponent as IconLogin } from "../../shared/assets/images/login.svg";
 import {
@@ -9,6 +8,7 @@ import {
   LoginCard,
   LoginContainer,
   LoginTitle,
+  PasswordTip,
   StyledDivider,
   StyledRow,
   Submit,
@@ -56,9 +56,7 @@ function LoginForm() {
               required: true,
               extra: (
                 <Tooltip content="密码长度不少于6位">
-                  <IconHelpCircle
-                    style={{ color: "var(--semi-color-text-2)" }}
-                  />
+                  <PasswordTip />
                 </Tooltip>
               ),
             }}
@@ -72,7 +70,9 @@ function LoginForm() {
             ]}
             showClear
           />
-          <Checkbox value="false">记住我</Checkbox>
+          <Form.Checkbox value="false" field="rememberMe" noLabel>
+            记住我
+          </Form.Checkbox>
           <Submit htmlType="submit" block size="large" type="secondary">
             登录
           </Submit>

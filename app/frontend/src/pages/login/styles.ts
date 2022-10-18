@@ -1,3 +1,4 @@
+import { IconHelpCircle } from "@douyinfe/semi-icons";
 import { Button, Card, Col, Divider, Row } from "@douyinfe/semi-ui";
 import { ButtonProps } from "@douyinfe/semi-ui/lib/es/button";
 import styled from "styled-components";
@@ -80,4 +81,8 @@ export const StyledDivider = styled(Divider)`
   & span {
     font-weight: normal !important;
   }
+`;
+
+export const PasswordTip = styled(IconHelpCircle)`
+  color: var(--semi-color-text-2);
 `;
