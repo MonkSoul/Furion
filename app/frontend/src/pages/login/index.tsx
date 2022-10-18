@@ -29,16 +29,23 @@ function Login() {
 function LoginForm() {
   const navigate = useNavigate();
 
+  const submitHandle = (values: Record<string, any>) => {
+    console.log(values);
+    navigate("/");
+  };
+
   return (
     <LoginContainer span={16}>
       <LoginCard>
         <LoginTitle>欢迎使用 Furion</LoginTitle>
-        <Form layout="vertical">
+        <Form layout="vertical" onSubmit={submitHandle}>
           <Form.Input
             size="large"
             field="userName"
-            label="用户名"
+            label={{ text: "账号", required: true }}
             placeholder="手机号/电子邮箱/用户名"
+            rules={[{ required: true, message: "账号不能为空" }]}
+            showClear
           />
           <Form.Input
             mode="password"
@@ -46,8 +53,9 @@ function LoginForm() {
             field="password"
             label={{
               text: "密码",
+              required: true,
               extra: (
-                <Tooltip content="详情">
+                <Tooltip content="密码长度不少于6位">
                   <IconHelpCircle
                     style={{ color: "var(--semi-color-text-2)" }}
                   />
@@ -55,14 +63,17 @@ function LoginForm() {
               ),
             }}
             placeholder="请输入密码"
+            rules={[
+              { required: true, message: "密码不能为空" },
+              {
+                min: 6,
+                message: "密码长度不能少于6位",
+              },
+            ]}
+            showClear
           />
           <Checkbox value="false">记住我</Checkbox>
-          <Submit
-            block
-            size="large"
-            type="secondary"
-            onClick={() => navigate("/")}
-          >
+          <Submit htmlType="submit" block size="large" type="secondary">
             登录
           </Submit>
         </Form>
