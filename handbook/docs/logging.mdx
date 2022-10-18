@@ -1313,7 +1313,7 @@ var (logger, scoped) = Log.ScopeContext(new LogContext {
     // ...
 });
 logger.LogInformation("我是一个日志 {id}", 20);
-scope?.Dispose();
+scoped?.Dispose();
 
 // 写法五
 "我是一个日志 {id}".ScopeContext(new LogContext {
