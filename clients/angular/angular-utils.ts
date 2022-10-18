@@ -32,7 +32,7 @@ export const accessTokenKey = "access-token";
 export const refreshAccessTokenKey = `x-${accessTokenKey}`;
 
 // 清除 token
-const clearAccessTokens = () => {
+export const clearAccessTokens = () => {
   window.localStorage.removeItem(accessTokenKey);
   window.localStorage.removeItem(refreshAccessTokenKey);
 
@@ -43,7 +43,7 @@ const clearAccessTokens = () => {
 };
 
 // 错误处理
-const throwError = (message: string) => {
+export const throwError = (message: string) => {
   throw new Error(message);
 };
 
