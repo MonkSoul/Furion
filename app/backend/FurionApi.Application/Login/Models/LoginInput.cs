@@ -4,12 +4,14 @@ namespace FurionApi.Application;
 
 public class LoginInput
 {
+    /// <example>furion</example>
     [Required]
     public string UserName { get; set; }
 
-    [Required]
+    /// <example>furion</example>
+    [Required, MinLength(6)]
     public string Password { get; set; }
 
-    [Required]
+    /// <example>false</example>
     public bool RememberMe { get; set; }
 }

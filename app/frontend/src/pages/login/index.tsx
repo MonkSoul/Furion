@@ -1,6 +1,10 @@
 import { Form, Tooltip } from "@douyinfe/semi-ui";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { LoginApi } from "../../shared/api-services";
 import { ReactComponent as IconLogin } from "../../shared/assets/images/login.svg";
+import { getAPI } from "../../shared/axios-utils";
+import useAuth from "../../shared/hooks/useAuth";
 import {
   BannerContainer,
   BannerTitle,
@@ -28,10 +32,24 @@ function Login() {
 
 function LoginForm() {
   const navigate = useNavigate();
+  const auth = useAuth();
+  const [loading, setLoading] = useState(false);
 
   const submitHandle = (values: Record<string, any>) => {
-    console.log(values);
-    navigate("/");
+    setLoading(true);
+    getAPI(LoginApi)
+      .apiLoginPost({
+        userName: values.userName,
+        password: values.password,
+        rememberMe: values.rememberMe || false,
+      })
+      .then((res) => {
+        const user = res.data.data!;
+        auth.signin(user, () => {
+          navigate("/");
+        });
+      })
+      .finally(() => setLoading(false));
   };
 
   return (
@@ -73,7 +91,13 @@ function LoginForm() {
           <Form.Checkbox value="false" field="rememberMe" noLabel>
             记住我
           </Form.Checkbox>
-          <Submit htmlType="submit" block size="large" type="secondary">
+          <Submit
+            htmlType="submit"
+            block
+            size="large"
+            type="secondary"
+            loading={loading}
+          >
             登录
           </Submit>
         </Form>

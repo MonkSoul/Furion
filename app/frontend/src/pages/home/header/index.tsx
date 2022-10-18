@@ -6,12 +6,14 @@ import {
   IconMoon,
   IconSetting
 } from "@douyinfe/semi-icons";
-import { Avatar, Nav } from "@douyinfe/semi-ui";
+import { Avatar, Dropdown, Nav } from "@douyinfe/semi-ui";
+import useAuth from "../../../shared/hooks/useAuth";
 import useAppState from "../../../shared/states/app.state";
 import { Header, NavButton } from "./styles";
 
 function HomeHeader() {
   const { switchMode } = useAppState();
+  const auth = useAuth();
 
   return (
     <Header>
@@ -34,9 +36,22 @@ function HomeHeader() {
             theme="borderless"
             icon={<IconHelpCircle size="large" />}
           />
-          <Avatar color="orange" size="small">
-            F
-          </Avatar>
+
+          <Dropdown
+            trigger={"click"}
+            position={"bottomLeft"}
+            render={
+              <Dropdown.Menu>
+                <Dropdown.Item onClick={() => auth.signout(() => {})}>
+                  退出系统
+                </Dropdown.Item>
+              </Dropdown.Menu>
+            }
+          >
+            <Avatar color="orange" size="small">
+              F
+            </Avatar>
+          </Dropdown>
         </Nav.Footer>
       </Nav>
     </Header>

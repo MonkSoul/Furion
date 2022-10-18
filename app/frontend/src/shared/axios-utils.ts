@@ -1,10 +1,11 @@
 /**
- * 当前版本：v1.0.6
+ * 当前版本：v1.0.7
  * 使用描述：https://editor.swagger.io 代码生成 typescript-axios 辅组工具库
  * 依赖说明：适配 axios 版本：v0.21.4
  * 视频教程：https://www.bilibili.com/video/BV1EW4y1C71D
  */
 
+import { Toast } from "@douyinfe/semi-ui";
 import globalAxios, { AxiosInstance } from "axios";
 import { Configuration } from "./api-services";
 import { BaseAPI, BASE_PATH } from "./api-services/base";
@@ -24,12 +25,18 @@ export const accessTokenKey = "access-token";
 export const refreshAccessTokenKey = `x-${accessTokenKey}`;
 
 // 清除 token
-const clearAccessTokens = () => {
+export const clearAccessTokens = () => {
   window.localStorage.removeItem(accessTokenKey);
   window.localStorage.removeItem(refreshAccessTokenKey);
 
   // 刷新浏览器
   window.location.reload();
+};
+
+// 错误处理
+export const throwError = (message: string) => {
+  Toast.error(message);
+  throw new Error(message);
 };
 
 /**
@@ -89,12 +96,20 @@ axiosInstance.interceptors.response.use(
 
     // 处理未进行规范化处理的
     if (status >= 400) {
-      throw new Error(res.statusText || "Request Error.");
+      throwError(res.statusText || "Request Error.");
+      return;
     }
 
     // 处理规范化结果错误
     if (serve && serve.hasOwnProperty("errors") && serve.errors) {
-      throw new Error(JSON.stringify(serve.errors || "Request Error."));
+      throwError(
+        !serve.errors
+          ? "Request Error."
+          : typeof serve.errors === "string"
+          ? serve.errors
+          : JSON.stringify(serve.errors)
+      );
+      return;
     }
 
     // 读取响应报文头 token 信息

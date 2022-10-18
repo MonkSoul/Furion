@@ -17,6 +17,15 @@
             <param name="input"></param>
             <returns></returns>
         </member>
+        <member name="P:FurionApi.Application.LoginInput.UserName">
+            <example>furion</example>
+        </member>
+        <member name="P:FurionApi.Application.LoginInput.Password">
+            <example>furion</example>
+        </member>
+        <member name="P:FurionApi.Application.LoginInput.RememberMe">
+            <example>false</example>
+        </member>
         <member name="T:FurionApi.Application.PublicUser">
             <summary>
             公开的用户信息

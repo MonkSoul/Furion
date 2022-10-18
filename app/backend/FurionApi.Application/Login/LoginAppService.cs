@@ -1,5 +1,6 @@
 ﻿using Furion.DataEncryption;
 using Furion.FriendlyException;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,6 +9,7 @@ namespace FurionApi.Application;
 /// <summary>
 /// 登录服务
 /// </summary>
+[AllowAnonymous]
 public class LoginAppService : IDynamicApiController
 {
     /// <summary>
@@ -19,7 +21,7 @@ public class LoginAppService : IDynamicApiController
     public async Task<PublicUser> Post([FromServices] IHttpContextAccessor _httpContextAccessor
         , LoginInput input)
     {
-        if (input.UserName.Trim() != "furion" && input.Password.Trim() != "furion")
+        if (!(input.UserName.Trim() == "furion" && input.Password.Trim() == "furion"))
             throw Oops.Oh(ErrorCodes.T1000);
 
         var publicUser = new PublicUser

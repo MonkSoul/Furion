@@ -11,7 +11,7 @@ public class Startup : AppStartup
     public void ConfigureServices(IServiceCollection services)
     {
         services.AddConsoleFormatter();
-        services.AddJwt<JwtHandler>();
+        services.AddJwt<JwtHandler>(enableGlobalAuthorize: true);
 
         services.AddCorsAccessor();
 
