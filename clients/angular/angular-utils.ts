@@ -1,5 +1,5 @@
 /**
- * 当前版本：v1.0.6
+ * 当前版本：v1.0.7
  * 使用描述：https://editor.swagger.io 代码生成 typescript-angular 辅组工具库
  */
 
@@ -41,6 +41,12 @@ const clearAccessTokens = () => {
 
   // 这里可以添加清除更多 Key =========================================
 };
+
+// 错误处理
+const throwError = (message: string) => {
+  throw new Error(message);
+};
+
 /**
  * 定义客户端请求拦截器
  */
@@ -115,12 +121,20 @@ export class ClientHttpInterceptor implements HttpInterceptor {
 
             // 处理未进行规范化处理的
             if (status >= 400) {
-              throw new Error(res.statusText || "Request Error.");
+              throwError(res.statusText || "Request Error.");
+              return;
             }
 
             // 处理规范化结果错误
             if (serve && serve.hasOwnProperty("errors") && serve.errors) {
-              throw new Error(JSON.stringify(serve.errors || "Request Error."));
+              throwError(
+                !serve.errors
+                  ? "Request Error."
+                  : typeof serve.errors === "string"
+                  ? serve.errors
+                  : JSON.stringify(serve.errors)
+              );
+              return;
             }
 
             // 读取响应报文头 token 信息
