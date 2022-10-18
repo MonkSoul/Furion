@@ -841,14 +841,14 @@ public interface IHttp : IHttpDispatchProxy
 
     // 全局拦截，类中每一个方法都会触发
     [Interceptor(InterceptorTypes.Response)]
-    static void OnResponsing1(HttpClien client, HttpResponseMessage res)
+    static void OnResponsing1(HttpClient client, HttpResponseMessage res)
     {
 
     }
 
     // 全局拦截，类中每一个方法都会触发
     [Interceptor(InterceptorTypes.Response)]
-    static void OnResponsing2(HttpClien client, HttpResponseMessage res)
+    static void OnResponsing2(HttpClient client, HttpResponseMessage res)
     {
 
     }
