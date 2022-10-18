@@ -68,7 +68,7 @@ function LoginForm() {
         </Form>
         <Support>
           <StyledDivider margin="12px" align="center">
-            v0.1.0
+            v0.1.0-alpha
           </StyledDivider>
         </Support>
       </LoginCard>
