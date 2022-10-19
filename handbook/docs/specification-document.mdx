@@ -1393,7 +1393,7 @@ public class YourRESTfulResult<T>
 
 - **定义 `IUnifyResultProvider` 实现类，并贴特性 `[UnifyModel(typeof(YourRESTfulResult<>))]`**
 
-```cs showLineNumbers  {15-16,24,35,46,58}
+```cs showLineNumbers  {15-16,24,36,48,61}
 using Furion.DataValidation;
 using Furion.DependencyInjection;
 using Furion.UnifyResult.Internal;
@@ -1419,7 +1419,8 @@ namespace YourProject.UnifyResult
         /// <returns></returns>
         public IActionResult OnException(ExceptionContext context, ExceptionMetadata metadata)
         {
-            return new JsonResult(YourRESTfulResult(metadata.StatusCode, data: metadata.Data, errors: metadata.Errors));
+            return new JsonResult(YourRESTfulResult(metadata.StatusCode, data: metadata.Data, errors: metadata.Errors)
+                , UnifyContext.GetSerializerSettings(context)); // 当前行仅限 Furion 4.6.6+ 使用
         }
 
         /// <summary>
@@ -1430,7 +1431,8 @@ namespace YourProject.UnifyResult
         /// <returns></returns>
         public IActionResult OnSucceeded(ActionExecutedContext context, object data)
         {
-            return new JsonResult(YourRESTfulResult(StatusCodes.Status200OK, true, data));
+            return new JsonResult(YourRESTfulResult(StatusCodes.Status200OK, true, data)
+                , UnifyContext.GetSerializerSettings(context)); // 当前行仅限 Furion 4.6.6+ 使用
         }
 
         /// <summary>
@@ -1441,7 +1443,8 @@ namespace YourProject.UnifyResult
         /// <returns></returns>
         public IActionResult OnValidateFailed(ActionExecutingContext context, ValidationMetadata metadata)
         {
-            return new JsonResult(YourRESTfulResult(metadata.StatusCode ?? StatusCodes.Status400BadRequest, data: metadata.Data, errors: metadata.ValidationResult));
+            return new JsonResult(YourRESTfulResult(metadata.StatusCode ?? StatusCodes.Status400BadRequest, data: metadata.Data, errors: metadata.ValidationResult)
+                , UnifyContext.GetSerializerSettings(context)); // 当前行仅限 Furion 4.6.6+ 使用
         }
 
         /// <summary>
@@ -1624,14 +1627,67 @@ public class TestUnifyProvider : IDynamicApiController
 
 ### 6.8.1 针对特别控制器或方法配置序列化选项
 
-很少开发者注意到 `new JsonResult(data)` 实际上有第二个参数的，也就是 `new JsonResult(data, serializerSettings)`，那么可以根据自己的逻辑传递第二个参数，如果不传递则采用全局配置的序列化选项。如：
+很少开发者注意到 `new JsonResult(data)` 实际上有第二个参数的，也就是 `new JsonResult(data, serializerSettings)`，那么可以根据自己的逻辑传递第二个参数，如果不传递则采用全局配置的序列化选项。
 
-```cs showLineNumbers {3}
-public IActionResult OnSucceeded(ActionExecutedContext context, object data)
+`Furion` 框架提供两种处理方式：
+
+第一种：手动 `new JsonResult` 对象并设置 `serializerSettings` 参数
+
+```cs showLineNumbers {1,4,13-16}
+[NonUnify]
+public IActionResult SpecialApi()
 {
-    return new JsonResult(data, new JsonSerializerOptions { ... });
+    return new JsonResult(new YourRESTfulResult<object>
+    {
+        StatusCode = 200,
+        Succeeded = true,
+        Data = new
+        {
+            Name = "Furion"
+        },
+        Timestamp = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds()
+    }, new JsonSerializerOptions
+    {
+        PropertyNamingPolicy = null
+    });
 }
 ```
+
+第二种：通过 `services.AddUnifyJsonOptions` 配置多个序列化选项 **推荐**
+
+:::important 版本说明
+
+以下内容仅限 `Furion 4.6.6 +` 版本使用。
+
+:::
+
+在 `Startup.cs` 中注册一套新的规则：
+
+```cs showLineNumbers {1}
+services.AddUnifyJsonOptions("special", new JsonSerializerOptions // 如果使用 Newtonsoft.Json => new JsonSerializerSettings
+{
+    PropertyNamingPolicy = null
+});
+```
+
+代码使用：
+
+```cs showLineNumbers {1}
+[UnifySerializerSetting("special")]
+public object SpecialApi()
+{
+    return new
+    {
+      Name = "Furion"
+    }
+}
+```
+
+:::warning 特别提醒
+
+目前 `Swagger` 暂未提供个别的接口自定义 `schema` 序列化选项。
+
+:::
 
 ## 6.9 反馈与建议
 

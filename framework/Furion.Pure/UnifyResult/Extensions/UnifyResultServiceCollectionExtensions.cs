@@ -139,4 +139,35 @@ public static class UnifyResultServiceCollectionExtensions
 
         return services;
     }
+
+    /// <summary>
+    /// 添加规范化序列化配置
+    /// </summary>
+    /// <param name="mvcBuilder"></param>
+    /// <param name="providerName"></param>
+    /// <param name="serializerSettings"></param>
+    /// <returns></returns>
+    public static IMvcBuilder AddUnifyJsonOptions(this IMvcBuilder mvcBuilder, string providerName, object serializerSettings)
+    {
+        mvcBuilder.Services.AddUnifyJsonOptions(providerName, serializerSettings);
+
+        return mvcBuilder;
+    }
+
+    /// <summary>
+    /// 添加规范化序列化配置
+    /// </summary>
+    /// <param name="services"></param>
+    /// <param name="providerName"></param>
+    /// <param name="serializerSettings"></param>
+    /// <returns></returns>
+    public static IServiceCollection AddUnifyJsonOptions(this IServiceCollection services, string providerName, object serializerSettings)
+    {
+        if (string.IsNullOrWhiteSpace(providerName)) throw new ArgumentNullException(nameof(providerName));
+
+        // 添加或替换规范化序列化配置
+        UnifyContext.UnifySerializerSettings.AddOrUpdate(providerName, _ => serializerSettings, (_, _) => serializerSettings);
+
+        return services;
+    }
 }

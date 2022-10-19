@@ -42,7 +42,8 @@ public class RESTfulResultProvider : IUnifyResultProvider
     /// <returns></returns>
     public IActionResult OnException(ExceptionContext context, ExceptionMetadata metadata)
     {
-        return new JsonResult(RESTfulResult(metadata.StatusCode, data: metadata.Data, errors: metadata.Errors)); // JsonResult 第二个参数可配置独立的序列化属性
+        return new JsonResult(RESTfulResult(metadata.StatusCode, data: metadata.Data, errors: metadata.Errors)
+            , UnifyContext.GetSerializerSettings(context));
     }
 
     /// <summary>
@@ -53,7 +54,8 @@ public class RESTfulResultProvider : IUnifyResultProvider
     /// <returns></returns>
     public IActionResult OnSucceeded(ActionExecutedContext context, object data)
     {
-        return new JsonResult(RESTfulResult(StatusCodes.Status200OK, true, data)); // JsonResult 第二个参数可配置独立的序列化属性
+        return new JsonResult(RESTfulResult(StatusCodes.Status200OK, true, data)
+            , UnifyContext.GetSerializerSettings(context));
     }
 
     /// <summary>
@@ -64,7 +66,8 @@ public class RESTfulResultProvider : IUnifyResultProvider
     /// <returns></returns>
     public IActionResult OnValidateFailed(ActionExecutingContext context, ValidationMetadata metadata)
     {
-        return new JsonResult(RESTfulResult(metadata.StatusCode ?? StatusCodes.Status400BadRequest, data: metadata.Data, errors: metadata.ValidationResult)); // JsonResult 第二个参数可配置独立的序列化属性
+        return new JsonResult(RESTfulResult(metadata.StatusCode ?? StatusCodes.Status400BadRequest, data: metadata.Data, errors: metadata.ValidationResult)
+            , UnifyContext.GetSerializerSettings(context));
     }
 
     /// <summary>
@@ -104,7 +107,7 @@ public class RESTfulResultProvider : IUnifyResultProvider
     /// <param name="data"></param>
     /// <param name="errors"></param>
     /// <returns></returns>
-    private static RESTfulResult<object> RESTfulResult(int statusCode, bool succeeded = default, object data = default, object errors = default)
+    public static RESTfulResult<object> RESTfulResult(int statusCode, bool succeeded = default, object data = default, object errors = default)
     {
         return new RESTfulResult<object>
         {

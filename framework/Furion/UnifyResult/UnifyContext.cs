@@ -61,6 +61,11 @@ public static class UnifyContext
     internal static ConcurrentDictionary<string, UnifyMetadata> UnifyProviders = new();
 
     /// <summary>
+    /// 规范化序列化配置
+    /// </summary>
+    public static ConcurrentDictionary<string, object> UnifySerializerSettings = new();
+
+    /// <summary>
     /// 获取异常元数据
     /// </summary>
     /// <param name="context"></param>
@@ -186,6 +191,26 @@ public static class UnifyContext
         // 否则只有里面的才设置为 200
         else if (unifyResultSettings.Return200StatusCodes.Contains(statusCode)) context.Response.StatusCode = 200;
         else { }
+    }
+
+    /// <summary>
+    /// 获取序列化配置
+    /// </summary>
+    /// <param name="context"></param>
+    /// <returns></returns>
+    public static object GetSerializerSettings(FilterContext context)
+    {
+        // 获取控制器信息
+        if (context.ActionDescriptor is not ControllerActionDescriptor actionDescriptor) return null;
+
+        // 获取序列化配置
+        var unifySerializerSettingAttribute = actionDescriptor.MethodInfo.GetFoundAttribute<UnifySerializerSettingAttribute>(true);
+        if (unifySerializerSettingAttribute == null || string.IsNullOrWhiteSpace(unifySerializerSettingAttribute.Name)) return null;
+
+        // 解析全局配置
+        var succeed = UnifySerializerSettings.TryGetValue(unifySerializerSettingAttribute.Name, out var serializerSettings);
+
+        return succeed ? serializerSettings : null;
     }
 
     /// <summary>

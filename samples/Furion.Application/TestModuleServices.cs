@@ -2,6 +2,7 @@
 using Furion.RemoteRequest;
 using Furion.RemoteRequest.Extensions;
 using Furion.UnifyResult;
+using System.Text.Json;
 
 namespace Furion.Application;
 
@@ -142,5 +143,32 @@ public class TestModuleServices : IDynamicApiController
 
         await fileStream.DisposeAsync();
         return fileName;
+    }
+
+    [NonUnify]
+    public IActionResult SpecialApi()
+    {
+        return new JsonResult(new RESTfulResult<object>
+        {
+            StatusCode = 200,
+            Succeeded = true,
+            Data = new
+            {
+                Name = "Furion"
+            },
+            Timestamp = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds()
+        }, new JsonSerializerOptions
+        {
+            PropertyNamingPolicy = null
+        });
+    }
+
+    [UnifySerializerSetting("special")]
+    public object SpecialApi2()
+    {
+        return new
+        {
+            Name = "Furion"
+        };
     }
 }
