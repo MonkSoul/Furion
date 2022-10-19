@@ -10,7 +10,7 @@ import CollapseButton from "@theme/DocSidebar/Desktop/CollapseButton";
 import Content from "@theme/DocSidebar/Desktop/Content";
 import Logo from "@theme/Logo";
 import clsx from "clsx";
-import React, { useState } from "react";
+import React from "react";
 import sponsors from "../../../data/sponsor";
 import styles from "./styles.module.css";
 
@@ -35,8 +35,20 @@ function DocSidebarDesktop({ path, sidebar, onCollapse, isHidden }) {
   );
 }
 
+function randomNum(minNum, maxNum) {
+  switch (arguments.length) {
+    case 1:
+      return parseInt(Math.random() * minNum + 1, 10);
+    case 2:
+      return parseInt(Math.random() * (maxNum - minNum + 1) + minNum, 10);
+    default:
+      return 0;
+  }
+}
+
 function Sponsor() {
-  const [show, setShow] = useState(true);
+  const topIndex = randomNum(0, sponsors.length - 1);
+  const topData = sponsors[topIndex];
 
   return (
     <div
@@ -48,28 +60,25 @@ function Sponsor() {
         clear: "both",
       }}
     >
-      {sponsors.map(({ picture, url, title, top }, i) =>
-        show ? (
-          <SponsorItem
-            key={url}
-            title={title}
-            url={url}
-            picture={picture}
-            top={top}
-            last={sponsors.length - 1 == i}
-          />
-        ) : (
+      <SponsorItem
+        title={topData.title}
+        url={topData.url}
+        picture={topData.picture}
+        top={true}
+        last={false}
+      />
+
+      {sponsors
+        .filter((item, i) => i !== topIndex)
+        .map(({ picture, url, title }, i) => (
           <SponsorItemSmart
             key={url}
             title={title}
             url={url}
             picture={picture}
             i={i}
-            top={top}
-            last={sponsors.length - 1 == i}
           />
-        )
-      )}
+        ))}
       <div
         style={{
           display: "flex",
@@ -78,28 +87,11 @@ function Sponsor() {
           padding: "5px 0",
         }}
       >
-        <span
-          style={{
-            color: "#999",
-            fontSize: 13,
-            fontWeight: "bold",
-            cursor: "pointer",
-            userSelect: "none",
-          }}
-          onClick={() => setShow((s) => !s)}
-        >
-          {show ? (
-            <>
-              <b style={{ color: "#723cff" }}>开</b>|关
-            </>
-          ) : (
-            <>
-              开|<b style={{ color: "#723cff" }}>关</b>
-            </>
-          )}
+        <span style={{ fontSize: 12, color: "#ccc" }}>
+          置顶广告采用随机方式
         </span>
         <a
-          href="mailto:monksoul@outlook.com"
+          href="/docs/donate#153-赞助商广告"
           style={{ color: "#723cff", fontSize: 13, fontWeight: "bold" }}
           title="monksoul@outlook.com"
         >
@@ -146,26 +138,13 @@ function SponsorItem({ picture, url, last, title, top }) {
           padding: "0 5px",
         }}
       >
-        广告
+        赞助商
       </span>
     </a>
   );
 }
 
-function SponsorItemSmart({ picture, url, last, title, i, top }) {
-  if (top) {
-    return (
-      <SponsorItem
-        key={url}
-        title={title}
-        url={url}
-        picture={picture}
-        top={top}
-        last={last}
-      />
-    );
-  }
-
+function SponsorItemSmart({ picture, url, title, i }) {
   return (
     <a
       href={url}
@@ -174,19 +153,16 @@ function SponsorItemSmart({ picture, url, last, title, i, top }) {
       style={{
         display: "inline-block",
         position: "relative",
-        width: 138,
-        marginRight: i % 2 == 0 ? 0 : 8,
+        width: "48.5%",
+        marginRight: i % 2 !== 0 ? 0 : 8,
         position: "relative",
         boxSizing: "border-box",
-        border: top ? "2px solid rgb(255, 176, 46)" : undefined,
       }}
     >
-      <img src={useBaseUrl(picture)} style={{ display: "block", width: 138 }} />
-      {top && (
-        <span style={{ position: "absolute", zIndex: 10, top: -16, right: -8 }}>
-          👑
-        </span>
-      )}
+      <img
+        src={useBaseUrl(picture)}
+        style={{ display: "block", width: "100%" }}
+      />
     </a>
   );
 }
