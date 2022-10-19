@@ -35,6 +35,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Primitives;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using System.Diagnostics;
 using System.Logging;
 using System.Reflection;
@@ -677,11 +678,22 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter, IOr
             // 序列化默认配置
             var jsonSerializerSettings = new JsonSerializerSettings()
             {
+                // 解决属性忽略问题
                 ContractResolver = new IgnorePropertiesContractResolver(GetIgnorePropertyNames(monitorMethod), GetIgnorePropertyTypes(monitorMethod)),
+
+                // 解决循环引用问题
                 ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+
+                // 解决 DateTimeOffset 序列化/反序列化问题
+                MetadataPropertyHandling = MetadataPropertyHandling.Ignore,
+                DateParseHandling = DateParseHandling.None,
             };
+
             // 解决 long 精度问题
             jsonSerializerSettings.Converters.AddLongTypeConverters();
+
+            // 解决 DateTimeOffset 序列化/反序列化问题
+            jsonSerializerSettings.Converters.Add(new IsoDateTimeConverter { DateTimeStyles = Globalization.DateTimeStyles.AssumeUniversal });
 
             var result = Newtonsoft.Json.JsonConvert.SerializeObject(obj, jsonSerializerSettings);
 

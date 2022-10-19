@@ -507,6 +507,25 @@ public class NewtonsoftJsonSerializerProvider : IJsonSerializerProvider, ISingle
 
 :::
 
+### 23.5.13 `DateTimeOffset` 反序列化异常
+
+以下处理只针对 `Newtonsoft.Json`，数据为 `0001-01-01 00:00:00` 的情形下反序列化为 `DateTimeOffset` 类型报错问题。
+
+- `System.Text.Json` 方式
+
+无需配置
+
+- `Newtonsoft.Json` 方式
+
+```cs showLineNumbers {3-5}
+.AddNewtonsoftJson(options =>
+{
+    options.SerializerSettings.MetadataPropertyHandling = MetadataPropertyHandling.Ignore;
+    options.SerializerSettings.DateParseHandling = DateParseHandling.None;
+    options.SerializerSettings.Converters.Add(new IsoDateTimeConverter { DateTimeStyles = DateTimeStyles.AssumeUniversal });
+});
+```
+
 ## 23.6 `DataTable`、`DataSet`、`Tuple` 元组等序列化问题
 
 由于默认 `Furion` 采用 `System.Text.Json` 进行序列化，但是不支持复杂类型，如 `DataTable` 、 `DataSet`、`Tuple` 元组，所以需要更换成 `NewtonsoftJson` 即可，见 [JSON 序列化 - 23.5.1 自定义序列化提供器](./json-serialization#2351-自定义序列化提供器)
