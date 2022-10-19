@@ -63,7 +63,7 @@ public static class UnifyContext
     /// <summary>
     /// 规范化序列化配置
     /// </summary>
-    public static ConcurrentDictionary<string, object> UnifySerializerSettings = new();
+    internal static ConcurrentDictionary<string, object> UnifySerializerSettings = new();
 
     /// <summary>
     /// 获取异常元数据
