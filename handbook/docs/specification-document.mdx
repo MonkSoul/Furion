@@ -1625,13 +1625,15 @@ public class TestUnifyProvider : IDynamicApiController
 }
 ```
 
-### 6.8.1 针对特别控制器或方法配置序列化选项
+## 6.9 针对特定控制器或特定方法配置序列化选项
 
 很少开发者注意到 `new JsonResult(data)` 实际上有第二个参数的，也就是 `new JsonResult(data, serializerSettings)`，那么可以根据自己的逻辑传递第二个参数，如果不传递则采用全局配置的序列化选项。
 
-`Furion` 框架提供两种处理方式：
+`Furion` 框架提供两种处理方式。
 
-第一种：手动 `new JsonResult` 对象并设置 `serializerSettings` 参数
+### 6.9.1 通过 `JsonResult` 设置第二个参数
+
+这种方式比较原始化，代码比较繁杂，也不利于维护。
 
 ```cs showLineNumbers {1,4,13-16}
 [NonUnify]
@@ -1653,7 +1655,7 @@ public IActionResult SpecialApi()
 }
 ```
 
-第二种：通过 `services.AddUnifyJsonOptions` 配置多个序列化选项 **推荐**
+### 6.9.2 注册多套序列化配置选项 **推荐**
 
 :::important 版本说明
 
@@ -1689,7 +1691,7 @@ public object SpecialApi()
 
 :::
 
-## 6.9 反馈与建议
+## 6.10 反馈与建议
 
 :::note 与我们交流
 

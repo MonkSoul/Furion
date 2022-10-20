@@ -24,18 +24,18 @@ Param(
     #[string]$UseDatabaseNames
 )
 
-$FurTools = "Furion Tools v4.6.5";
+$FurTools = "Furion Tools v4.6.6";
 
 # 输出信息
 $copyright = @"
 // -----------------------------------------------------------------------------
-//  ______          _               _______          _     
-// |  ____|        (_)             |__   __|        | |    
-// | |__ _   _ _ __ _  ___  _ __      | | ___   ___ | |___ 
+//  ______          _               _______          _
+// |  ____|        (_)             |__   __|        | |
+// | |__ _   _ _ __ _  ___  _ __      | | ___   ___ | |___
 // |  __| | | | '__| |/ _ \| '_ \     | |/ _ \ / _ \| / __|
 // | |  | |_| | |  | | (_) | | | |    | | (_) | (_) | \__ \
 // |_|   \__,_|_|  |_|\___/|_| |_|    |_|\___/ \___/|_|___/
-//                                                         
+//
 // -----------------------------------------------------------------------------
 "@;
 
@@ -155,7 +155,7 @@ if($options -eq "G")
 
         # 销毁数据库链接
         $conn.Dispose();
-    
+
         $rowCount = $ds.Tables[0].Rows.Count;
 
         # 填充 Listbox
@@ -173,7 +173,7 @@ if($options -eq "G")
     function loadConnectionSettings($settingsPath){
         # 读取 Web 入口的 appsetting.json 配置的链接字符串
         # -----------------------------------------------------------------------------
-        # [开始] 
+        # [开始]
         # appsetting.json 内容
         $appsetting = Get-Content $settingsPath -raw;
 
@@ -202,7 +202,7 @@ if($options -eq "G")
                $connDic.Add($newValue,$key);
            }
         }
-        # [结束] 
+        # [结束]
         # -----------------------------------------------------------------------------
     }
 
@@ -279,7 +279,7 @@ if($options -eq "G")
 
     # 读取 所有配置文件
     # -----------------------------------------------------------------------------
-    # [开始] 
+    # [开始]
     $jsons = Get-ChildItem $rootPath -Include "*.json" -Recurse;
     for ($i = 0; $i -le $jsons.Count - 1; $i++){
         $json = $jsons[$i];
@@ -287,7 +287,7 @@ if($options -eq "G")
           loadConnectionSettings($json.FullName);
         }
     }
-    # [结束] 
+    # [结束]
     # -----------------------------------------------------------------------------
 
     # 构建加载数据库表按钮
@@ -301,7 +301,7 @@ if($options -eq "G")
         # 保存数据库上下文定位器
         $DbContextLocators = $locatorTextBox.Text;
 
-        Try{   
+        Try{
             Write-Warning "$FurTools 正在加载数据库表和视图......"
             loadDbTable;
             Write-Warning "$FurTools 加载成功！"
@@ -459,7 +459,7 @@ for ($i = 0; $i -le $entityConfigures.Count - 1; $i++){
 # 定义实体文件头模板
 $fileHeader = @"
 // -----------------------------------------------------------------------------
-// Generate By $FurTools                            
+// Generate By $FurTools
 // -----------------------------------------------------------------------------
 
 using Furion.DatabaseAccessor;
@@ -530,7 +530,7 @@ namespace $Namespace
     }
 }
 "@;
-    
+
     # 写入文件
     Set-Content -Path $filePath -Value $finalClass -Encoding utf8;
 
