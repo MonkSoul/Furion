@@ -24,10 +24,11 @@ import Tag from "@site/src/components/Tag.js";
 
 :::
 
-## v4.6.5（当前版本）
+## v4.6.6（当前版本）
 
 :::important 版本细节
 
+- `v4.6.6` 版本细节：[https://gitee.com/dotnetchina/Furion/issues/I5WOIV](https://gitee.com/dotnetchina/Furion/issues/I5WOIV) <sup>2022.10.20</sup>
 - `v4.6.5` 版本细节：[https://gitee.com/dotnetchina/Furion/issues/I5VPD1](https://gitee.com/dotnetchina/Furion/issues/I5VPD1) <sup>2022.10.14</sup>
 - `v4.6.4` 版本细节：[https://gitee.com/dotnetchina/Furion/issues/I5VIAQ](https://gitee.com/dotnetchina/Furion/issues/I5VIAQ) <sup>2022.10.13</sup>
 - `v4.6.3` 版本细节：[https://gitee.com/dotnetchina/Furion/issues/I5V99T](https://gitee.com/dotnetchina/Furion/issues/I5V99T) <sup>2022.10.12</sup>
@@ -45,7 +46,7 @@ import Tag from "@site/src/components/Tag.js";
   - &nbsp;<Tag>新增</Tag> `LoggingMonitor` 支持序列化忽略指定属性名或属性类型 <sup>4.6.1</sup> [81c6343](https://gitee.com/dotnetchina/Furion/commit/81c6343a2ddb3751e72de7c5943048c903c638b4)
   - &nbsp;<Tag>新增</Tag> **`long` 序列化丢精度的 `JsonConvert` 内置转换器，`.AddLongTypeConverters()`** <sup>4.6.5</sup> [#I5VJHC](https://gitee.com/dotnetchina/Furion/issues/I5VJHC) [aded58d](https://gitee.com/dotnetchina/Furion/commit/aded58d0bc587d1a1844382c66ec1ab3de96be7c)
   - &nbsp;<Tag>新增</Tag> `app.EnableBuffering()` 拓展，解决 `Request.Body` 不能重复读问题 <sup>4.6.5</sup> [aded58d](https://gitee.com/dotnetchina/Furion/commit/aded58d0bc587d1a1844382c66ec1ab3de96be7c)
-  - &nbsp;<Tag>新增</Tag> **支持特别接口使用特定的序列化规则** <sup>4.6.7</sup> [797b0bf](https://gitee.com/dotnetchina/Furion/commit/797b0bfe7c702877b1e0f56ee1a97d91fc80c551)
+  - &nbsp;<Tag>新增</Tag> **支持特别接口使用特定的序列化规则** <sup>4.6.6</sup> [797b0bf](https://gitee.com/dotnetchina/Furion/commit/797b0bfe7c702877b1e0f56ee1a97d91fc80c551)
 
 - **突破性变化**
 
@@ -918,7 +919,7 @@ public interface IUnitOfWork
 - **突破性变化**
 
   - &nbsp;<Tag>新增</Tag> `Furion.Xunit` 拓展包，正式实现 `Xunit` 单元测试完整支持 `Furion` [063a034e](https://gitee.com/dotnetchina/Furion/commit/063a034edd089e88d501af4c09251611476fd238)
-  - &nbsp;<Tag>移除</Tag> ~~`Furion.Extras.DatabaseAccessor.SqlSugar` 拓展插件中的 `[SqlSugarUnitOfWork]` 工作单元特性，将使用通用工作单元替换**~~ [查看最新实现文档](./tran.mdx#92631-自动管理)**
+  - &nbsp;<Tag>移除</Tag> ~~`Furion.Extras.DatabaseAccessor.SqlSugar` 拓展插件中的 `[SqlSugarUnitOfWork]` 工作单元特性，将使用通用工作单元替换\*\*~~ [查看最新实现文档](./tran.mdx#92631-自动管理)\*\*
   - &nbsp;<Tag>移除</Tag> ~~`Inject.Create()` 方法，再也不需要了，框架提供了无敌强大的 `Serve.Run()` 静默启动方式~~ [200848e](https://gitee.com/dotnetchina/Furion/commit/200848eda8c2e419c0b5be83f7768a257f3c88bd)
   - &nbsp;<Tag>调整</Tag> `Serve.Run` 的 `ConfigureConfiguration` 方法参数，由 `configuration => {}` 改为 `(environment, configuration) => {}` [83c97bb](https://gitee.com/dotnetchina/Furion/commit/83c97bb5a19d6fc4e51cfe05f635675d26067d45)
 
