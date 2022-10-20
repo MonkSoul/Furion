@@ -116,6 +116,10 @@ public static class SpecificationDocumentBuilder
             return false;
         }
 
+        // 处理贴有 [ApiExplorerSettings(IgnoreApi = true)] 或者 [ApiDescriptionSettings(false)] 特性的接口
+        var apiExplorerSettings = method.GetFoundAttribute<ApiExplorerSettingsAttribute>(true);
+        if (apiExplorerSettings?.IgnoreApi == true) return false;
+
         if (currentGroup == AllGroupsKey)
         {
             return true;
@@ -794,9 +798,6 @@ public static class SpecificationDocumentBuilder
 
         // 如果所在类型不是控制器，则该行为也被忽略
         if (method.ReflectedType != ReflectedType || method.DeclaringType == typeof(object)) return false;
-
-        // 配置了 [ApiExplorerSettings] 特性，且 IgnoreApi 为  true
-        if (method.IsDefined(typeof(ApiExplorerSettingsAttribute), true) && method.GetCustomAttribute<ApiExplorerSettingsAttribute>(true).IgnoreApi) return false;
 
         return true;
     }
