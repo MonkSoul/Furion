@@ -80,6 +80,11 @@ public sealed class EventBusOptionsBuilder
     public bool FuzzyMatch { get; set; } = false;
 
     /// <summary>
+    /// 是否启用执行完成触发 GC 回收
+    /// </summary>
+    public bool GCCollect { get; set; } = true;
+
+    /// <summary>
     /// 是否启用日志记录
     /// </summary>
     public bool LogEnabled { get; set; } = true;

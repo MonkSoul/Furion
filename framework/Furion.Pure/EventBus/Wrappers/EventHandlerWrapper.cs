@@ -66,6 +66,11 @@ internal sealed class EventHandlerWrapper
     internal Regex Pattern { get; set; }
 
     /// <summary>
+    /// 是否启用执行完成触发 GC 回收
+    /// </summary>
+    public bool GCCollect { get; set; }
+
+    /// <summary>
     /// 是否符合条件执行处理程序
     /// </summary>
     /// <remarks>支持正则表达式</remarks>

@@ -464,6 +464,16 @@ public static class App
     }
 
     /// <summary>
+    /// GC 回收默认间隔
+    /// </summary>
+    private const int GC_COLLECT_INTERVAL_SECONDS = 5;
+
+    /// <summary>
+    /// 记录最近 GC 回收时间
+    /// </summary>
+    private static DateTime? LastGCCollectTime { get; set; }
+
+    /// <summary>
     /// 释放所有未托管的对象
     /// </summary>
     public static void DisposeUnmanagedObjects()
@@ -475,6 +485,17 @@ public static class App
                 dsp?.Dispose();
             }
             finally { }
+        }
+
+        // 强制手动回收 GC 内存
+        if (UnmanagedObjects.Any())
+        {
+            var nowTime = DateTime.UtcNow;
+            if ((LastGCCollectTime == null || (nowTime - LastGCCollectTime.Value).TotalSeconds > GC_COLLECT_INTERVAL_SECONDS))
+            {
+                LastGCCollectTime = nowTime;
+                GC.Collect();
+            }
         }
 
         UnmanagedObjects.Clear();

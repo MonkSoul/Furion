@@ -37,6 +37,11 @@ namespace Furion.EventBus;
 internal sealed class EventBusHostedService : BackgroundService
 {
     /// <summary>
+    /// GC 回收默认间隔
+    /// </summary>
+    private const int GC_COLLECT_INTERVAL_SECONDS = 3;
+
+    /// <summary>
     /// 避免由 CLR 的终结器捕获该异常从而终止应用程序，让所有未觉察异常被觉察
     /// </summary>
     internal event EventHandler<UnobservedTaskExceptionEventArgs> UnobservedTaskException;
@@ -82,9 +87,19 @@ internal sealed class EventBusHostedService : BackgroundService
     private bool FuzzyMatch { get; }
 
     /// <summary>
+    /// 是否启用执行完成触发 GC 回收
+    /// </summary>
+    private bool GCCollect { get; }
+
+    /// <summary>
     /// 是否启用日志记录
     /// </summary>
     private bool LogEnabled { get; }
+
+    /// <summary>
+    /// 最近一次收集时间
+    /// </summary>
+    private DateTime? LastGCCollectTime { get; set; }
 
     /// <summary>
     /// 构造函数
@@ -95,6 +110,7 @@ internal sealed class EventBusHostedService : BackgroundService
     /// <param name="eventSubscribers">事件订阅者集合</param>
     /// <param name="useUtcTimestamp">是否使用 Utc 时间</param>
     /// <param name="fuzzyMatch">是否启用模糊匹配事件消息</param>
+    /// <param name="gcCollect">是否启用执行完成触发 GC 回收</param>
     /// <param name="logEnabled">是否启用日志记录</param>
     public EventBusHostedService(ILogger<EventBusService> logger
         , IServiceProvider serviceProvider
@@ -102,6 +118,7 @@ internal sealed class EventBusHostedService : BackgroundService
         , IEnumerable<IEventSubscriber> eventSubscribers
         , bool useUtcTimestamp
         , bool fuzzyMatch
+        , bool gcCollect
         , bool logEnabled)
     {
         _logger = logger;
@@ -111,6 +128,7 @@ internal sealed class EventBusHostedService : BackgroundService
         Executor = serviceProvider.GetService<IEventHandlerExecutor>();
         UseUtcTimestamp = useUtcTimestamp;
         FuzzyMatch = fuzzyMatch;
+        GCCollect = gcCollect;
         LogEnabled = logEnabled;
 
         var bindingAttr = BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly;
@@ -141,7 +159,8 @@ internal sealed class EventBusHostedService : BackgroundService
                         Handler = handler,
                         HandlerMethod = eventHandlerMethod,
                         Attribute = eventSubscribeAttribute,
-                        Pattern = CheckIsSetFuzzyMatch(eventSubscribeAttribute.FuzzyMatch) ? new Regex(eventSubscribeAttribute.EventId, RegexOptions.Singleline) : default
+                        Pattern = CheckIsSetFuzzyMatch(eventSubscribeAttribute.FuzzyMatch) ? new Regex(eventSubscribeAttribute.EventId, RegexOptions.Singleline) : default,
+                        GCCollect = CheckIsSetGCCollect(eventSubscribeAttribute.GCCollect)
                     };
 
                     _eventHandlers.TryAdd(wrapper, wrapper);
@@ -299,6 +318,14 @@ internal sealed class EventBusHostedService : BackgroundService
 
                         await Monitor.OnExecutedAsync(eventHandlerExecutedContext);
                     }
+
+                    // 判断是否执行完成后调用 GC 回收
+                    var nowTime = DateTime.UtcNow;
+                    if (eventHandlerThatShouldRun.GCCollect && (LastGCCollectTime == null || (nowTime - LastGCCollectTime.Value).TotalSeconds > GC_COLLECT_INTERVAL_SECONDS))
+                    {
+                        LastGCCollectTime = nowTime;
+                        GC.Collect();
+                    }
                 }
             }, stoppingToken);
         });
@@ -324,7 +351,8 @@ internal sealed class EventBusHostedService : BackgroundService
                 Attribute = subscribeOperateSource.Attribute,
                 HandlerMethod = subscribeOperateSource.HandlerMethod,
                 Handler = subscribeOperateSource.Handler,
-                Pattern = CheckIsSetFuzzyMatch(subscribeOperateSource.Attribute?.FuzzyMatch) ? new Regex(eventId, RegexOptions.Singleline) : default
+                Pattern = CheckIsSetFuzzyMatch(subscribeOperateSource.Attribute?.FuzzyMatch) ? new Regex(eventId, RegexOptions.Singleline) : default,
+                GCCollect = CheckIsSetGCCollect(subscribeOperateSource.Attribute?.GCCollect)
             };
 
             // 追加到集合中
@@ -363,6 +391,18 @@ internal sealed class EventBusHostedService : BackgroundService
         return fuzzyMatch == null
             ? FuzzyMatch
             : Convert.ToBoolean(fuzzyMatch);
+    }
+
+    /// <summary>
+    /// 检查是否开启执行完成触发 GC 回收
+    /// </summary>
+    /// <param name="gcCollect"></param>
+    /// <returns></returns>
+    private bool CheckIsSetGCCollect(object gcCollect)
+    {
+        return gcCollect == null
+            ? GCCollect
+            : Convert.ToBoolean(gcCollect);
     }
 
     /// <summary>
