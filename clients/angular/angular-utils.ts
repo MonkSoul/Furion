@@ -1,5 +1,5 @@
 /**
- * 当前版本：v1.0.7
+ * 当前版本：v1.1.0
  * 使用描述：https://editor.swagger.io 代码生成 typescript-angular 辅组工具库
  */
 
