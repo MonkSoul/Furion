@@ -380,11 +380,23 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter, IOr
         foreach (var claim in claimsPrincipal.Claims)
         {
             var valueType = claim.ValueType.Replace("http://www.w3.org/2001/XMLSchema#", "");
+            var value = claim.Value;
+
+            // 解析时间戳并转换
+            if (!string.IsNullOrEmpty(value) && (claim.Type == "iat" || claim.Type == "nbf" || claim.Type == "exp"))
+            {
+                var succeed = long.TryParse(value, out var seconds);
+                if (succeed)
+                {
+                    value = $"{value} ({DateTimeOffset.FromUnixTimeSeconds(seconds).ToLocalTime():yyyy-MM-dd HH:mm:ss(zzz) dddd} L)";
+                }
+            }
+
             writer.WriteStartObject();
-            templates.Add($"##{claim.Type} ({valueType})## {claim.Value}");
+            templates.Add($"##{claim.Type} ({valueType})## {value}");
             writer.WriteString("type", claim.Type);
             writer.WriteString("valueType", valueType);
-            writer.WriteString("value", claim.Value);
+            writer.WriteString("value", value);
             writer.WriteEndObject();
         }
         writer.WriteEndArray();
