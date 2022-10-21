@@ -112,21 +112,23 @@ export class ClientHttpInterceptor implements HttpInterceptor {
             const res = event as HttpResponse<any>;
             // 获取状态码和返回数据
             var status = res.status;
-            var serve = res.body;
+
+            // 检查并存储授权信息
+            checkAndStoreAuthentication(res);
 
             // 处理 401
             if (status === 401) {
               clearAccessTokens();
             }
 
-            // 处理未进行规范化处理的
-            if (status >= 400) {
-              throwError(res.statusText || "Request Error.");
-              return;
-            }
-
             // 处理规范化结果错误
+            var serve = res.body;
             if (serve && serve.hasOwnProperty("errors") && serve.errors) {
+              // 处理规范化 401 授权问题
+              if (serve.errors === "401 Unauthorized") {
+                clearAccessTokens();
+              }
+
               throwError(
                 !serve.errors
                   ? "Request Error."
@@ -135,27 +137,6 @@ export class ClientHttpInterceptor implements HttpInterceptor {
                   : JSON.stringify(serve.errors)
               );
               return;
-            }
-
-            // 读取响应报文头 token 信息
-            var accessToken = res.headers.get(accessTokenKey);
-            var refreshAccessToken = res.headers.get(refreshAccessTokenKey);
-
-            // 判断是否是无效 token
-            if (accessToken === "invalid_token") {
-              clearAccessTokens();
-            }
-            // 判断是否存在刷新 token，如果存在则存储在本地
-            else if (
-              refreshAccessToken &&
-              accessToken &&
-              accessToken !== "invalid_token"
-            ) {
-              window.localStorage.setItem(accessTokenKey, accessToken);
-              window.localStorage.setItem(
-                refreshAccessTokenKey,
-                refreshAccessToken
-              );
             }
 
             // 这里编写响应拦截代码 =========================================
@@ -189,6 +170,30 @@ export class ClientHttpInterceptor implements HttpInterceptor {
   ],
 })
 export class ServeModule {}
+
+/**
+ * 检查并存储授权信息
+ * @param res 响应对象
+ */
+export function checkAndStoreAuthentication(res: HttpResponse<any>): void {
+  // 读取响应报文头 token 信息
+  var accessToken = res.headers.get(accessTokenKey);
+  var refreshAccessToken = res.headers.get(refreshAccessTokenKey);
+
+  // 判断是否是无效 token
+  if (accessToken === "invalid_token") {
+    clearAccessTokens();
+  }
+  // 判断是否存在刷新 token，如果存在则存储在本地
+  else if (
+    refreshAccessToken &&
+    accessToken &&
+    accessToken !== "invalid_token"
+  ) {
+    window.localStorage.setItem(accessTokenKey, accessToken);
+    window.localStorage.setItem(refreshAccessTokenKey, refreshAccessToken);
+  }
+}
 
 /**
  * 包装 Promise 并返回 [Error, any]

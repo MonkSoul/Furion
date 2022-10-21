@@ -126,6 +126,8 @@ options.AddHttpClient("github", c =>
   - &nbsp;<Tag>修复</Tag> `LoggingMonitor` 处理 `long` 类型丢精度问题 <sup>4.6.5</sup> [#I5VJHC](https://gitee.com/dotnetchina/Furion/issues/I5VJHC) [aded58d](https://gitee.com/dotnetchina/Furion/commit/aded58d0bc587d1a1844382c66ec1ab3de96be7c)
   - &nbsp;<Tag>修复</Tag> 动态 `WebAPI` 在 `class` 类型上贴 `[ApiDescriptionSettings(true)]` 导致接口 `404` 问题 <sup>4.6.7</sup> [#I5WQ18](https://gitee.com/dotnetchina/Furion/issues/I5WQ18)
   - &nbsp;<Tag>修复</Tag> 超高频率下发送事件总线消息，但是 `GC` 来不及回收导致内存和 `CPU` 爆掉问题 <sup>4.6.8</sup> [dbc7935](https://gitee.com/dotnetchina/Furion/commit/dbc7935618ff60d7f41d82c0d49042cd189e58b9)
+  - &nbsp;<Tag>修复</Tag> `JWT` 模块自动刷新 `Token` 到达临界值时导致 `401` 文件 <sup>4.6.8</sup> [#I5WXHZ](https://gitee.com/dotnetchina/Furion/issues/I5WXHZ)
+  - &nbsp;<Tag>修复</Tag> 自动生成 `vue/react/angular` 客户端工具库错误处理授权问题 <sup>4.6.8</sup> [#I5WXHZ](https://gitee.com/dotnetchina/Furion/issues/I5WXHZ)
 
 - **其他更改**
 
@@ -138,7 +140,7 @@ options.AddHttpClient("github", c =>
   - &nbsp;<Tag>新增</Tag> `JSON` 序列化处理 `long` 类型说明文档
   - &nbsp;<Tag>新增</Tag> `JSON` 反序列化 `DateTimeOffset` 类型个别格式出错问题
   - &nbsp;<Tag>新增</Tag> 规范化结果支持特定接口配置独立序列化配置文档
-  - &nbsp;<Tag>更新</Tag> 日志记录文档、事件总线文档、数据库入门文档、`JSON` 序列化文档、远程请求文档
+  - &nbsp;<Tag>更新</Tag> 日志记录文档、事件总线文档、数据库入门文档、`JSON` 序列化文档、远程请求文档、安全授权文档
 
 ---
 

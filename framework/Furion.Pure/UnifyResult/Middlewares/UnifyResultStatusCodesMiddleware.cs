@@ -61,6 +61,14 @@ public class UnifyResultStatusCodesMiddleware
         // 处理规范化结果
         if (!UnifyContext.CheckStatusCodeNonUnify(context, out var unifyResult))
         {
+            // 解决刷新 Token 时间和 Token 时间相近问题
+            if (context.Response.StatusCode == StatusCodes.Status401Unauthorized
+                && context.Response.Headers.ContainsKey("access-token")
+                && context.Response.Headers.ContainsKey("x-access-token"))
+            {
+                context.Response.StatusCode = StatusCodes.Status403Forbidden;
+            }
+
             await unifyResult.OnResponseStatusCodes(context, context.Response.StatusCode, context.RequestServices.GetService<IOptions<UnifyResultSettingsOptions>>()?.Value);
         }
     }

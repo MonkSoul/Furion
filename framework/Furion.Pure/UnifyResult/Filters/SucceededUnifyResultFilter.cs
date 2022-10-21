@@ -21,6 +21,7 @@
 // SOFTWARE.
 
 using Furion.DataValidation;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.Filters;
@@ -67,7 +68,17 @@ public class SucceededUnifyResultFilter : IAsyncActionFilter, IOrderedFilter
                 if (!UnifyContext.CheckStatusCodeNonUnify(context.HttpContext, out var unifyRes))
                 {
                     var httpContext = context.HttpContext;
-                    await unifyRes.OnResponseStatusCodes(httpContext, statusCodeResult.StatusCode.Value, httpContext.RequestServices.GetService<IOptions<UnifyResultSettingsOptions>>()?.Value);
+                    var statusCode = statusCodeResult.StatusCode.Value;
+
+                    // 解决刷新 Token 时间和 Token 时间相近问题
+                    if (statusCodeResult.StatusCode.Value == StatusCodes.Status401Unauthorized
+                        && httpContext.Response.Headers.ContainsKey("access-token")
+                        && httpContext.Response.Headers.ContainsKey("x-access-token"))
+                    {
+                        httpContext.Response.StatusCode = statusCode = StatusCodes.Status403Forbidden;
+                    }
+
+                    await unifyRes.OnResponseStatusCodes(httpContext, statusCode, httpContext.RequestServices.GetService<IOptions<UnifyResultSettingsOptions>>()?.Value);
                 }
 
                 return;

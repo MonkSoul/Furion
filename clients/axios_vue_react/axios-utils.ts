@@ -1,5 +1,5 @@
 /**
- * 当前版本：v1.0.7
+ * 当前版本：v1.1.0
  * 使用描述：https://editor.swagger.io 代码生成 typescript-axios 辅组工具库
  * 依赖说明：适配 axios 版本：v0.21.4
  * 视频教程：https://www.bilibili.com/video/BV1EW4y1C71D
@@ -96,23 +96,17 @@ axiosInstance.interceptors.request.use(
 // axios 响应拦截
 axiosInstance.interceptors.response.use(
   (res) => {
-    // 获取状态码和返回数据
-    var status = res.status;
-    var serve = res.data;
-
-    // 处理 401
-    if (status === 401) {
-      clearAccessTokens();
-    }
-
-    // 处理未进行规范化处理的
-    if (status >= 400) {
-      throwError(res.statusText || "Request Error.");
-      return;
-    }
+    // 检查并存储授权信息
+    checkAndStoreAuthentication(res);
 
     // 处理规范化结果错误
+    const serve = res.data;
     if (serve && serve.hasOwnProperty("errors") && serve.errors) {
+      // 处理规范化 401 授权问题
+      if (serve.errors === "401 Unauthorized") {
+        clearAccessTokens();
+      }
+
       throwError(
         !serve.errors
           ? "Request Error."
@@ -123,24 +117,6 @@ axiosInstance.interceptors.response.use(
       return;
     }
 
-    // 读取响应报文头 token 信息
-    var accessToken = res.headers[accessTokenKey];
-    var refreshAccessToken = res.headers[refreshAccessTokenKey];
-
-    // 判断是否是无效 token
-    if (accessToken === "invalid_token") {
-      clearAccessTokens();
-    }
-    // 判断是否存在刷新 token，如果存在则存储在本地
-    else if (
-      refreshAccessToken &&
-      accessToken &&
-      accessToken !== "invalid_token"
-    ) {
-      window.localStorage.setItem(accessTokenKey, accessToken);
-      window.localStorage.setItem(refreshAccessTokenKey, refreshAccessToken);
-    }
-
     // 这里编写响应拦截代码 =========================================
 
     return res;
@@ -148,7 +124,15 @@ axiosInstance.interceptors.response.use(
   (error) => {
     // 处理响应错误
     if (error.response) {
-      if (error.response.status === 401) {
+      // 获取响应对象并解析状态码
+      const res = error.response;
+      const status: number = res.status;
+
+      // 检查并存储授权信息
+      checkAndStoreAuthentication(res);
+
+      // 检查 401 权限
+      if (status === 401) {
         clearAccessTokens();
       }
     }
@@ -158,6 +142,30 @@ axiosInstance.interceptors.response.use(
     return Promise.reject(error);
   }
 );
+
+/**
+ * 检查并存储授权信息
+ * @param res 响应对象
+ */
+export function checkAndStoreAuthentication(res: any): void {
+  // 读取响应报文头 token 信息
+  var accessToken = res.headers[accessTokenKey];
+  var refreshAccessToken = res.headers[refreshAccessTokenKey];
+
+  // 判断是否是无效 token
+  if (accessToken === "invalid_token") {
+    clearAccessTokens();
+  }
+  // 判断是否存在刷新 token，如果存在则存储在本地
+  else if (
+    refreshAccessToken &&
+    accessToken &&
+    accessToken !== "invalid_token"
+  ) {
+    window.localStorage.setItem(accessTokenKey, accessToken);
+    window.localStorage.setItem(refreshAccessTokenKey, refreshAccessToken);
+  }
+}
 
 /**
  * 包装 Promise 并返回 [Error, any]

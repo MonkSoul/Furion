@@ -390,109 +390,15 @@ Authorization: Bearer 你的token
 X-Authorization: Bearer 你的刷新token
 ```
 
-这里简单贴出使用 `axios` 自动刷新 `token` 拦截配置示例：
+`Furion` 框架提供了 `vue/react/angular` 客户端请求参考代码：**[https://gitee.com/dotnetchina/Furion/tree/v4/clients](https://gitee.com/dotnetchina/Furion/tree/v4/clients)**
 
-**[查看完整代码 - https://gitee.com/dotnetchina/Furion/tree/v4/clients/axios_vue_react](https://gitee.com/dotnetchina/Furion/tree/v4/clients/axios_vue_react)**
-
-:::important 小建议
+:::tip 小建议
 
 建议使用自动生成 `Vue/React/Angular` 代理方式：[5.6 Vue/React/Angular 接口代理](./clientapi.mdx)
 
 :::
 
-```js showLineNumbers {14,19,41}
-// token 键定义
-const accessTokenKey = "access-token";
-const refreshAccessTokenKey = `x-${accessTokenKey}`;
-
-// 清除 token
-const clearAccessTokens = () => {
-  window.localStorage.removeItem(accessTokenKey);
-  window.localStorage.removeItem(refreshAccessTokenKey);
-};
-
-/**
- * axios 默认实例
- */
-export const axiosInstance: AxiosInstance = globalAxios;
-
-// 这里可以配置 axios 更多选项 =========================================
-
-// axios 请求拦截
-axiosInstance.interceptors.request.use(
-  (conf) => {
-    // 将 token 添加到请求报文头中
-    conf.headers!["Authorization"] = `Bearer ${window.localStorage.getItem(
-      accessTokenKey
-    )}`;
-    conf.headers!["X-Authorization"] = `Bearer ${window.localStorage.getItem(
-      refreshAccessTokenKey
-    )}`;
-
-    // 这里编写请求拦截代码 =========================================
-
-    return conf;
-  },
-  (error) => {
-    // 这里编写请求错误代码
-
-    return Promise.reject(error);
-  }
-);
-
-// axios 响应拦截
-axiosInstance.interceptors.response.use(
-  (res) => {
-    // 获取状态码和返回数据
-    var status = res.status;
-    var serve = res.data;
-
-    // 处理 401
-    if (status === 401) {
-      clearAccessTokens();
-    }
-
-    // 处理未进行规范化处理的
-    if (status >= 400) {
-      throw new Error(res.statusText || "Request Error.");
-    }
-
-    // 处理规范化结果错误
-    if (serve && serve.hasOwnProperty("errors") && serve.errors) {
-      throw new Error(JSON.stringify(serve.errors || "Request Error."));
-    }
-
-    // 读取响应报文头 token 信息
-    var accessToken = res.headers[accessTokenKey];
-    var refreshAccessToken = res.headers[refreshAccessTokenKey];
-
-    // 判断是否是无效 token
-    if (accessToken === "invalid_token") {
-      clearAccessTokens();
-    }
-    // 判断是否存在刷新 token，如果存在则存储在本地
-    else if (
-      refreshAccessToken &&
-      accessToken &&
-      accessToken !== "invalid_token"
-    ) {
-      window.localStorage.setItem(accessTokenKey, accessToken);
-      window.localStorage.setItem(refreshAccessTokenKey, refreshAccessToken);
-    }
-
-    // 这里编写响应拦截代码 =========================================
-
-    return res;
-  },
-  (error) => {
-    // 这里编写响应错误代码
-
-    return Promise.reject(error);
-  }
-);
-```
-
-:::important 特别注意
+:::important 其他补充
 
 在正常开发中，`refreshToken` 无需每次请求携带，而是 `accessToken` 即将过期之后携带即可。可以在客户端自行判断 `accessToken` 是否即将过期。
 
