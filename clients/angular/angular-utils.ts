@@ -25,7 +25,7 @@ import { environment } from "./environments/environment";
  */
 export const serveConfig = new Configuration({
   basePath: !environment.production
-    ? "http://localhost:5000" // 开发环境服务器接口地址
+    ? "https://localhost:44342" // 开发环境服务器接口地址
     : "https://furion.icu", // 生产环境服务器接口地址
 });
 
