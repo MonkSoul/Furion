@@ -84,6 +84,33 @@ function Sponsor() {
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
+        }}
+      >
+        <a href="https://gitee.com/dotnetchina/Furion/stargazers">
+          <img
+            src="https://gitee.com/dotnetchina/Furion/badge/star.svg?theme=gvp"
+            alt="star"
+          ></img>
+        </a>
+        <a href="https://gitee.com/dotnetchina/Furion">
+          <img
+            src="https://gitee.com/dotnetchina/Furion/widgets/widget_5.svg"
+            alt="Fork me on Gitee"
+            height={20}
+          ></img>
+        </a>
+        <a href="https://gitee.com/dotnetchina/Furion/members">
+          <img
+            src="https://gitee.com/dotnetchina/Furion/badge/fork.svg?theme=gvp"
+            alt="fork"
+          ></img>
+        </a>
+      </div>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
           padding: "5px 0",
         }}
       >

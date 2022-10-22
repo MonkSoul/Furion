@@ -53,7 +53,7 @@ import Tag from "@site/src/components/Tag.js";
 
 - **突破性变化**
 
-  - &nbsp;<Tag>新增</Tag> **适配 `.NET 6.0.10` 和 `.NET 7 RC2`** <sup>4.6.2</sup> [6bb2fad](https://gitee.com/dotnetchina/Furion/commit/6bb2fadd6600edcebc1539faedba98d4db0e189e)
+  - &nbsp;<Tag>升级</Tag> **适配 `.NET 6.0.10` 和 `.NET 7 RC2`** <sup>4.6.2</sup> [6bb2fad](https://gitee.com/dotnetchina/Furion/commit/6bb2fadd6600edcebc1539faedba98d4db0e189e)
   - &nbsp;<Tag>新增</Tag> 内置 `Microsoft.AspNetCore.Mvc.NewtonsoftJson` 拓展，原因是太多人使用了 <sup>4.6.5</sup> [aded58d](https://gitee.com/dotnetchina/Furion/commit/aded58d0bc587d1a1844382c66ec1ab3de96be7c)
   - &nbsp;<Tag>移除</Tag> ~~`"some log".SetCategory(name)` 拓展方法~~ <sup>4.6.0</sup> [ec4838c](https://gitee.com/dotnetchina/Furion/commit/ec4838c218ed9c96ba92d7a80fd11539da59ca22)
   - &nbsp;<Tag>移除</Tag> ~~`DateOnlyJsonConverter` 和 `DateOnlyOffsetJsonConverter` 处理~~ <sup>4.6.5</sup> [aded58d](https://gitee.com/dotnetchina/Furion/commit/aded58d0bc587d1a1844382c66ec1ab3de96be7c)
@@ -125,7 +125,7 @@ options.AddHttpClient("github", c =>
   - &nbsp;<Tag>修复</Tag> **个别服务器的 `SQL Server` 不支持 `TLS 1.2` 协议问题** <sup>4.6.3</sup> [974f835](https://gitee.com/dotnetchina/Furion/commit/974f835ccdcf84bc84dd6f7044589ae2a2e7a57b)
   - &nbsp;<Tag>修复</Tag> `.ToDictionary()` 拓展不支持 `JObject` 类型问题 <sup>4.6.5</sup> [#I5VJHC](https://gitee.com/dotnetchina/Furion/issues/I5VJHC) [a11bf8d](https://github.com/MonkSoul/Furion/commit/a11bf8d8b6bb90b41b8394d8bca35aa3539239e6)
   - &nbsp;<Tag>修复</Tag> `LoggingMonitor` 处理 `long` 类型丢精度问题 <sup>4.6.5</sup> [#I5VJHC](https://gitee.com/dotnetchina/Furion/issues/I5VJHC) [aded58d](https://gitee.com/dotnetchina/Furion/commit/aded58d0bc587d1a1844382c66ec1ab3de96be7c)
-  - &nbsp;<Tag>修复</Tag> 动态 `WebAPI` 在 `class` 类型上贴 `[ApiDescriptionSettings(true)]` 导致接口 `404` 问题 <sup>4.6.7</sup> [#I5WQ18](https://gitee.com/dotnetchina/Furion/issues/I5WQ18)
+  - &nbsp;<Tag>修复</Tag> 动态 `WebAPI` 在 `class` 类型上贴 `[ApiDescriptionSettings(false)]` 导致接口 `404` 问题 <sup>4.6.7</sup> [#I5WQ18](https://gitee.com/dotnetchina/Furion/issues/I5WQ18)
   - &nbsp;<Tag>修复</Tag> 超高频率下发送事件总线消息，但是 `GC` 来不及回收导致内存和 `CPU` 爆掉问题 <sup>4.6.8</sup> [dbc7935](https://gitee.com/dotnetchina/Furion/commit/dbc7935618ff60d7f41d82c0d49042cd189e58b9)
   - &nbsp;<Tag>修复</Tag> **`JWT` 模块自动刷新 `Token` 达到临界值时导致自动刷新失败，并返回错误的 `401` 状态码** <sup>4.6.8</sup> [#I5WXHZ](https://gitee.com/dotnetchina/Furion/issues/I5WXHZ)
   - &nbsp;<Tag>修复</Tag> 自动生成 `vue/react/angular` 客户端工具库错误处理 `Token` 问题 <sup>4.6.8</sup> [#I5WXHZ](https://gitee.com/dotnetchina/Furion/issues/I5WXHZ)
@@ -527,16 +527,16 @@ services.AddMonitorLogging(options =>
 
 :::important 版本细节
 
-- `v4.4.9` 版本细节：[https://gitee.com/dotnetchina/Furion/issues/I5SP37](https://gitee.com/dotnetchina/Furion/issues/I5SP37)
-- `v4.4.8` 版本细节：[https://gitee.com/dotnetchina/Furion/issues/I5SKUE](https://gitee.com/dotnetchina/Furion/issues/I5SKUE)
-- `v4.4.7` 版本细节：[https://gitee.com/dotnetchina/Furion/issues/I5SEFE](https://gitee.com/dotnetchina/Furion/issues/I5SEFE)
-- `v4.4.6` 版本细节：[https://gitee.com/dotnetchina/Furion/issues/I5RSFD](https://gitee.com/dotnetchina/Furion/issues/I5RSFD)
-- `v4.4.5` 版本细节：[https://gitee.com/dotnetchina/Furion/issues/I5RHQX](https://gitee.com/dotnetchina/Furion/issues/I5RHQX)
-- `v4.4.4` 版本细节：[https://gitee.com/dotnetchina/Furion/issues/I5R5TI](https://gitee.com/dotnetchina/Furion/issues/I5R5TI)
-- `v4.4.3` 版本细节：[https://gitee.com/dotnetchina/Furion/issues/I5QVH3](https://gitee.com/dotnetchina/Furion/issues/I5QVH3)
-- `v4.4.2` 版本细节：[https://gitee.com/dotnetchina/Furion/issues/I5QDHX](https://gitee.com/dotnetchina/Furion/issues/I5QDHX)
-- `v4.4.1` 版本细节：[https://gitee.com/dotnetchina/Furion/issues/I5Q3SX](https://gitee.com/dotnetchina/Furion/issues/I5Q3SX)
-- `v4.4.0` 版本细节：[https://gitee.com/dotnetchina/Furion/issues/I5PQHR](https://gitee.com/dotnetchina/Furion/issues/I5PQHR)
+- `v4.4.9` 版本细节：[https://gitee.com/dotnetchina/Furion/issues/I5SP37](https://gitee.com/dotnetchina/Furion/issues/I5SP37) <sup>2022.09.23</sup>
+- `v4.4.8` 版本细节：[https://gitee.com/dotnetchina/Furion/issues/I5SKUE](https://gitee.com/dotnetchina/Furion/issues/I5SKUE) <sup>2022.09.22</sup>
+- `v4.4.7` 版本细节：[https://gitee.com/dotnetchina/Furion/issues/I5SEFE](https://gitee.com/dotnetchina/Furion/issues/I5SEFE) <sup>2022.09.21</sup>
+- `v4.4.6` 版本细节：[https://gitee.com/dotnetchina/Furion/issues/I5RSFD](https://gitee.com/dotnetchina/Furion/issues/I5RSFD) <sup>2022.09.19</sup>
+- `v4.4.5` 版本细节：[https://gitee.com/dotnetchina/Furion/issues/I5RHQX](https://gitee.com/dotnetchina/Furion/issues/I5RHQX) <sup>2022.09.16</sup>
+- `v4.4.4` 版本细节：[https://gitee.com/dotnetchina/Furion/issues/I5R5TI](https://gitee.com/dotnetchina/Furion/issues/I5R5TI) <sup>2022.09.15</sup>
+- `v4.4.3` 版本细节：[https://gitee.com/dotnetchina/Furion/issues/I5QVH3](https://gitee.com/dotnetchina/Furion/issues/I5QVH3) <sup>2022.09.13</sup>
+- `v4.4.2` 版本细节：[https://gitee.com/dotnetchina/Furion/issues/I5QDHX](https://gitee.com/dotnetchina/Furion/issues/I5QDHX) <sup>2022.09.08</sup>
+- `v4.4.1` 版本细节：[https://gitee.com/dotnetchina/Furion/issues/I5Q3SX](https://gitee.com/dotnetchina/Furion/issues/I5Q3SX) <sup>2022.09.07</sup>
+- `v4.4.0` 版本细节：[https://gitee.com/dotnetchina/Furion/issues/I5PQHR](https://gitee.com/dotnetchina/Furion/issues/I5PQHR) <sup>2022.09.05</sup>
 
 :::
 
@@ -715,8 +715,8 @@ var (stream, encoding) = await "https://www.furion.icu/".GetAsStreamAsync();
 
 :::important 版本细节
 
-- `v4.3.9` 版本细节：[https://gitee.com/dotnetchina/Furion/issues/I5PIWD](https://gitee.com/dotnetchina/Furion/issues/I5PIWD)
-- `v4.3.8` 版本细节：[https://gitee.com/dotnetchina/Furion/issues/I5PCXK](https://gitee.com/dotnetchina/Furion/issues/I5PCXK)
+- `v4.3.9` 版本细节：[https://gitee.com/dotnetchina/Furion/issues/I5PIWD](https://gitee.com/dotnetchina/Furion/issues/I5PIWD) <sup>2022.09.03</sup>
+- `v4.3.8` 版本细节：[https://gitee.com/dotnetchina/Furion/issues/I5PCXK](https://gitee.com/dotnetchina/Furion/issues/I5PCXK) <sup>2022.09.02</sup>
 
 :::
 
