@@ -33,9 +33,6 @@ export const clearAccessTokens = () => {
   window.localStorage.removeItem(accessTokenKey);
   window.localStorage.removeItem(refreshAccessTokenKey);
 
-  // 刷新浏览器
-  window.location.reload();
-
   // 这里可以添加清除更多 Key =========================================
 };
 

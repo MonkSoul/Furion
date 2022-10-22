@@ -5,12 +5,14 @@
 
 import {
   HttpClientModule,
+  HttpErrorResponse,
   HttpEvent,
   HttpHandler,
   HttpHeaders,
   HttpInterceptor,
   HttpRequest,
   HttpResponse,
+  HttpResponseBase,
   HTTP_INTERCEPTORS
 } from "@angular/common/http";
 import { Injectable, NgModule } from "@angular/core";
@@ -23,7 +25,7 @@ import { environment } from "./environments/environment";
  */
 export const serveConfig = new Configuration({
   basePath: !environment.production
-    ? "https://localhost:44316" // 开发环境服务器接口地址
+    ? "http://localhost:5000" // 开发环境服务器接口地址
     : "https://furion.icu", // 生产环境服务器接口地址
 });
 
@@ -35,9 +37,6 @@ export const refreshAccessTokenKey = `x-${accessTokenKey}`;
 export const clearAccessTokens = () => {
   window.localStorage.removeItem(accessTokenKey);
   window.localStorage.removeItem(refreshAccessTokenKey);
-
-  // 刷新浏览器
-  window.location.reload();
 
   // 这里可以添加清除更多 Key =========================================
 };
@@ -110,16 +109,9 @@ export class ClientHttpInterceptor implements HttpInterceptor {
         (event) => {
           if (event instanceof HttpResponse) {
             const res = event as HttpResponse<any>;
-            // 获取状态码和返回数据
-            var status = res.status;
 
             // 检查并存储授权信息
             checkAndStoreAuthentication(res);
-
-            // 处理 401
-            if (status === 401) {
-              clearAccessTokens();
-            }
 
             // 处理规范化结果错误
             var serve = res.body;
@@ -143,6 +135,20 @@ export class ClientHttpInterceptor implements HttpInterceptor {
           }
         },
         (error) => {
+          if (error instanceof HttpErrorResponse) {
+            // 获取响应对象并解析状态码
+            const res = error as HttpErrorResponse;
+            const status = res.status;
+
+            // 检查并存储授权信息
+            checkAndStoreAuthentication(res);
+
+            // 检查 401 权限
+            if (status === 401) {
+              clearAccessTokens();
+            }
+          }
+
           // 这里编写响应错误代码
         }
       ),
@@ -175,7 +181,7 @@ export class ServeModule {}
  * 检查并存储授权信息
  * @param res 响应对象
  */
-export function checkAndStoreAuthentication(res: HttpResponse<any>): void {
+export function checkAndStoreAuthentication(res: HttpResponseBase): void {
   // 读取响应报文头 token 信息
   var accessToken = res.headers.get(accessTokenKey);
   var refreshAccessToken = res.headers.get(refreshAccessTokenKey);
