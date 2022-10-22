@@ -84,7 +84,7 @@ function Banner() {
           <div className="furion-get-start-btn">
             <Link className="furion-get-start" to={useBaseUrl("docs/serverun")}>
               入门指南
-              <span className="furion-version">v4.6.7</span>
+              <span className="furion-version">v4.6.8</span>
             </Link>
             <Link
               className="furion-try-demo"
@@ -374,7 +374,7 @@ function WhoUse() {
           <h1>他们都在用</h1>
           <p>
             Furion
-            已在全球超过385万个项目中使用。从小型企业到企业的解决方案及知名企业。他们在简单软件和复杂管理系统的开发方面都信任我们。
+            已在全球超过387万个项目中使用。从小型企业到企业的解决方案及知名企业。他们在简单软件和复杂管理系统的开发方面都信任我们。
           </p>
           <a
             className="furion-get-start"
