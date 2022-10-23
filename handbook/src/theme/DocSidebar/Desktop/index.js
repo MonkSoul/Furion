@@ -79,7 +79,7 @@ function Sponsor() {
             i={i}
           />
         ))}
-      <div
+      {/* <div
         style={{
           display: "flex",
           justifyContent: "space-between",
@@ -105,7 +105,7 @@ function Sponsor() {
             alt="fork"
           ></img>
         </a>
-      </div>
+      </div> */}
       <div
         style={{
           display: "flex",
