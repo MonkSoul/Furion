@@ -612,7 +612,7 @@
   font-size: 120px;
   position: relative;
   top: 0;
-  color: rgb(33, 27, 80);
+  color: transparent;
 }
 
 .outBox li:nth-child(1) {
