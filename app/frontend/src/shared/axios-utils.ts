@@ -44,8 +44,6 @@ export const throwError = (message: string) => {
  */
 export const axiosInstance: AxiosInstance = globalAxios;
 
-// 这里可以配置 axios 更多选项 =========================================
-
 // axios 请求拦截
 axiosInstance.interceptors.request.use(
   (conf) => {
@@ -73,16 +71,12 @@ axiosInstance.interceptors.request.use(
       }
     }
 
-    // 这里编写请求拦截代码 =========================================
-
     return conf;
   },
   (error) => {
     // 处理请求错误
     if (error.request) {
     }
-
-    // 这里编写请求错误代码
 
     return Promise.reject(error);
   }
@@ -112,8 +106,6 @@ axiosInstance.interceptors.response.use(
       return;
     }
 
-    // 这里编写响应拦截代码 =========================================
-
     return res;
   },
   (error) => {
@@ -131,8 +123,6 @@ axiosInstance.interceptors.response.use(
         clearAccessTokens();
       }
     }
-
-    // 这里编写响应错误代码
 
     return Promise.reject(error);
   }
