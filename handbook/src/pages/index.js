@@ -38,8 +38,12 @@ function Home() {
 }
 
 function Banner() {
+  const date = new Date();
   return (
     <div className="furion-banner">
+      {date.getMonth() + 1 === 10 && date.getDate() === 24 && (
+        <HappyProgrammer />
+      )}
       <div className="furion-banner-container">
         <div className="furion-banner-item">
           <div className="furion-banner-project">
@@ -183,7 +187,7 @@ function Gitee() {
             className={"furion-log-jiao" + (isDarkTheme ? " dark" : "")}
           ></div>
           <div className="furion-log-number">
-            <div style={{ color: "#1fd898" }}>3,879,364</div>
+            <div style={{ color: "#1fd898" }}>3,880,542</div>
             <span className={isDarkTheme ? " dark" : ""}>Downloads</span>
           </div>
         </div>
@@ -556,6 +560,19 @@ function Bifa() {
 
 function Wzi(props) {
   return <div className="furion-wzi">{props.children}</div>;
+}
+
+function HappyProgrammer() {
+  return (
+    <div class="outBox">
+      <ul>
+        <li>1</li>
+        <li>0</li>
+        <li>2</li>
+        <li>4</li>
+      </ul>
+    </div>
+  );
 }
 
 export default Home;
