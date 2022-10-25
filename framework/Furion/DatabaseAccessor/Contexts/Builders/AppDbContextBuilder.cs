@@ -140,9 +140,10 @@ internal static class AppDbContextBuilder
             ConfigureEntityTableName(type, appDbContextAttribute, entityTypeBuilder, dbContext, dbContextType);
         }
 
-        // 如果未启用多租户支持或租户设置为OnDatabase 或 OnSchema 方案，则忽略多租户字段，另外还需要排除多租户数据库上下文定位器
+        // 如果未启用多租户支持或租户设置为OnDatabase 或 OnSchema 方案，则忽略多租户字段，另外还需要排除多租户数据库上下文定位器，还要排除没有继承 PrivateEntityBase<> 类型的
         if (dbContextLocator != typeof(MultiTenantDbContextLocator)
             && (!typeof(IPrivateMultiTenant).IsAssignableFrom(dbContextType) || typeof(IMultiTenantOnDatabase).IsAssignableFrom(dbContextType) || typeof(IMultiTenantOnSchema).IsAssignableFrom(dbContextType))
+            && type.HasImplementedRawGeneric(typeof(PrivateEntityBase<>))
             && type.GetProperty(Db.OnTableTenantId) != null)
         {
             entityTypeBuilder.Ignore(Db.OnTableTenantId);
