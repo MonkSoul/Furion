@@ -289,7 +289,7 @@ namespace FurionWorkers
 
 `Furion` 框架为 `BackgroundService` 提供了定时任务的支持。
 
-### 26.4.1 间隔执行方式
+### 25.4.1 间隔执行方式
 
 ```cs showLineNumbers  {7,18,20,30}
 namespace WorkerService;
@@ -327,7 +327,7 @@ public class Worker : BackgroundService
 }
 ```
 
-### 26.4.2 `Cron` 表达式执行方式
+### 25.4.2 `Cron` 表达式执行方式
 
 ```cs showLineNumbers  {9,14,21,23,32}
 using Furion.TimeCrontab;
@@ -361,6 +361,57 @@ public class Worker : BackgroundService
                 await Task.CompletedTask;
             }, stoppingToken);
 
+            await Task.Delay(_crontab.GetSleepMilliseconds(DateTime.UtcNow), stoppingToken);
+        }
+    }
+}
+```
+
+### 25.4.3 实现 `串行` 操作
+
+默认情况下，定时任务都是采用 `并行` 的方式，也就是不会等待上一次任务完成，如果需要等待上一次任务完成，可以修改为 `串行` 方式：
+
+```cs showLineNumbers {11,23-24,30,37-38,40}
+using Furion.TimeCrontab;
+
+namespace WorkerService;
+
+public class Worker : BackgroundService
+{
+    private readonly ILogger<Worker> _logger;
+
+    private readonly Crontab _crontab;
+
+    private bool _isLock = false;
+
+    public Worker(ILogger<Worker> logger)
+    {
+        _logger = logger;
+        _crontab = Crontab.Parse("* * * * * *", CronStringFormat.WithSeconds);
+    }
+
+    protected override async Task ExecuteAsync(CancellationToken stoppingToken)
+    {
+        while (!stoppingToken.IsCancellationRequested)
+        {
+            if (_isLock) goto next;
+            _isLock = true;
+
+            var taskFactory = new TaskFactory(System.Threading.Tasks.TaskScheduler.Current);
+            var task = await taskFactory.StartNew(async () =>
+            {
+                // 模拟耗时操作
+                await Task.Delay(2000);
+
+                _logger.LogInformation("Worker running at: {time}", DateTimeOffset.Now);
+
+                await Task.CompletedTask;
+            }, stoppingToken);
+
+            // 等待任务完成
+            await task.ContinueWith(task => _isLock = false);
+
+        next:
             await Task.Delay(_crontab.GetSleepMilliseconds(DateTime.UtcNow), stoppingToken);
         }
     }
@@ -468,7 +519,7 @@ namespace FurionWorkers
 sc.exe create FurionWorkerServices binPath= C:\FurionWorker\FurionWorker.exe
 ```
 
-注意`=`后面要有一个空格  
+注意`=`后面要有一个空格
 创建成功后可通过 `sc.exe query FurionWorkerServices` 查看服务状态。
 
 - **第五步**
