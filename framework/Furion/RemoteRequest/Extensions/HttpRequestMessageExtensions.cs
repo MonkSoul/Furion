@@ -21,6 +21,8 @@
 // SOFTWARE.
 
 using Furion.ClayObject.Extensions;
+using Furion.Extensions;
+using System.Text;
 
 namespace System.Net.Http;
 
@@ -44,8 +46,7 @@ public static class HttpRequestMessageExtensions
         var finalRequestUrl = httpRequest.RequestUri?.OriginalString ?? string.Empty;
 
         // 拼接
-        var urlParameters = queries.Where(u => u.Value != null)
-                        .Select(u => $"{u.Key}={(isEncode ? Uri.EscapeDataString(u.Value?.ToString() ?? string.Empty) : (u.Value?.ToString() ?? string.Empty))}");
+        var urlParameters = ExpandQueries(queries, isEncode);
         finalRequestUrl += $"{(finalRequestUrl.IndexOf("?") > -1 ? "&" : "?")}{string.Join("&", urlParameters)}";
 
         // 重新设置地址
@@ -63,5 +64,53 @@ public static class HttpRequestMessageExtensions
         if (queries == null) return;
 
         httpRequest.AppendQueries(queries.ToDictionary(), isEncode);
+    }
+
+    /// <summary>
+    /// 展开 Url 参数
+    /// </summary>
+    /// <param name="queries"></param>
+    /// <param name="isEncode"></param>
+    /// <returns></returns>
+    private static IEnumerable<string> ExpandQueries(IDictionary<string, object> queries, bool isEncode = true)
+    {
+        var items = new List<string>();
+
+        foreach (var (key, value) in queries)
+        {
+            var paramBuilder = new StringBuilder();
+            paramBuilder.Append(key);
+            paramBuilder.Append('=');
+
+            var type = value?.GetType();
+            if (type == null) items.Add(paramBuilder.ToString());
+            // 处理基元类型
+            else if (type.IsRichPrimitive()
+                && (!type.IsArray || type == typeof(string)))
+            {
+                paramBuilder.Append(isEncode ? Uri.EscapeDataString(value.ToString()) : value.ToString());
+                items.Add(paramBuilder.ToString());
+            }
+            // 处理集合类型
+            else if (type.IsArray
+                || (typeof(IEnumerable).IsAssignableFrom(type)
+                    && type.IsGenericType && type.GenericTypeArguments.Length == 1))
+            {
+                var valueList = ((IEnumerable)value)?.Cast<object>();
+
+                // 这里不进行递归，只处理一级
+                foreach (var val in valueList)
+                {
+                    var childBuilder = new StringBuilder();
+                    childBuilder.Append(key);
+                    childBuilder.Append('=');
+                    childBuilder.Append(isEncode ? Uri.EscapeDataString(val.ToString()) : val.ToString());
+                    items.Add(childBuilder.ToString());
+                }
+            }
+            else throw new InvalidOperationException("Unsupported type.");
+        }
+
+        return items;
     }
 }

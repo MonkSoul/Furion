@@ -85,6 +85,20 @@ public static class DictionaryExtensions
             return jsonElement.ToObject() as IDictionary<string, object>;
         }
 
+        var valueType = input.GetType();
+
+        // 处理基元类型，集合类型
+        if (valueType.IsRichPrimitive()
+            || valueType.IsArray
+            || (typeof(IEnumerable).IsAssignableFrom(valueType)
+                && valueType.IsGenericType))
+        {
+            return new Dictionary<string, object>()
+            {
+                { "data",input }
+            };
+        }
+
         // 剩下的当对象处理
         var properties = input.GetType().GetProperties();
         var fields = input.GetType().GetFields();

@@ -163,10 +163,21 @@ public class HttpDispatchProxy : AspectDispatchProxy, IDispatchProxy
             var queryStringAttribute = item.Parameter.GetCustomAttribute<QueryStringAttribute>();
             if (item.Value != null)
             {
+                var valueType = item.Value.GetType();
+
                 // 处理基元类型
-                if (item.Value.GetType().IsRichPrimitive())
+                if (valueType.IsRichPrimitive()
+                    && (!valueType.IsArray || valueType == typeof(string)))
                 {
                     parameterQueries.Add(queryStringAttribute.Alias ?? item.Name, item.Value);
+                }
+                // 处理集合类型
+                else if (valueType.IsArray
+                    || (typeof(IEnumerable).IsAssignableFrom(valueType)
+                        && valueType.IsGenericType && valueType.GenericTypeArguments.Length == 1))
+                {
+                    var valueList = ((IEnumerable)item.Value)?.Cast<object>();
+                    parameterQueries.Add(queryStringAttribute.Alias ?? item.Name, valueList);
                 }
                 // 处理类类型
                 else
