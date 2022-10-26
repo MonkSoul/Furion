@@ -375,6 +375,8 @@ public class JobWorker : ISpareTimeWorker
 }
 ```
 
+**需要在 `Startup.cs` 中注册 `services.AddTaskScheduler()`**
+
 ## 26.6 自定义下次执行时间
 
 有些时候我们需要进行一些业务逻辑，比如数据库查询等操作返回下一次执行时间，这个时候我们可以通过高级自定义方式。
