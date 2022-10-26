@@ -1093,7 +1093,7 @@ public class ValuesController : Controller
 
 ```cs showLineNumbers {4,10}
 // 配置默认 HttpClient
-options.AddHttpClient(string.Empty, c => 
+options.AddHttpClient(string.Empty, c =>
 {
     c.Timeout = TimeSpan.FromMinutes(2);
 });
@@ -1367,7 +1367,51 @@ var result = "https://api.facebook.com".GetAsync().GetAwaiter().GetResult();
 await HttpRequestPart.Default.SetRequestUrl("https://www.baidu.com").GetAsStringAsync();
 ```
 
-## 19.11 反馈与建议
+## 19.11 关闭 `Http` 请求日志
+
+在 `Furion` 框架底层中，`HttpClient` 对象默认通过 `IHttpClientFactory` 创建的，只要发送请求就会自动打印日志，如：
+
+```bash showLineNumbers {13-22}
+info: 2022-10-26 11:38:16(+08:00) 星期三 L System.Logging.EventBusService[0] #1
+      EventBus Hosted Service is running.
+info: 2022-10-26 11:38:17(+08:00) 星期三 L Microsoft.Hosting.Lifetime[14] #1
+      Now listening on: https://localhost:5001
+info: 2022-10-26 11:38:17(+08:00) 星期三 L Microsoft.Hosting.Lifetime[14] #1
+      Now listening on: http://localhost:5000
+info: 2022-10-26 11:38:17(+08:00) 星期三 L Microsoft.Hosting.Lifetime[0] #1
+      Application started. Press Ctrl+C to shut down.
+info: 2022-10-26 11:38:17(+08:00) 星期三 L Microsoft.Hosting.Lifetime[0] #1
+      Hosting environment: Development
+info: 2022-10-26 11:38:17(+08:00) 星期三 L Microsoft.Hosting.Lifetime[0] #1
+      Content root path: D:\Workplaces\OpenSources\Furion\samples\Furion.Web.Entry\
+info: 2022-10-26 11:39:00(+08:00) 星期三 L System.Net.Http.HttpClient.Default.LogicalHandler[100] #8
+      Start processing HTTP request GET https://www.baidu.com/
+info: 2022-10-26 11:39:00(+08:00) 星期三 L System.Net.Http.HttpClient.Default.ClientHandler[100] #8
+      Sending HTTP request GET https://www.baidu.com/
+info: 2022-10-26 11:39:00(+08:00) 星期三 L System.Net.Http.HttpClient.Default.ClientHandler[101] #6
+      Received HTTP response headers after 288.0665ms - 200
+info: 2022-10-26 11:39:00(+08:00) 星期三 L System.Net.Http.HttpClient.Default.LogicalHandler[101] #6
+      End processing HTTP request after 326.1497ms - 200
+info: 2022-10-26 11:39:04(+08:00) 星期三 L System.Net.Http.HttpClient.Default.LogicalHandler[100] #3
+      Start processing HTTP request GET https://www.baidu.com/
+```
+
+如需关闭只需在 `appsettings.json` 和 `appsettings.Development.json` 中添加 `System.Net.Http.HttpClient` 日志类别过滤即可，如：
+
+```json showLineNumbers {2,7}
+{
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft.AspNetCore": "Warning",
+      "Microsoft.EntityFrameworkCore": "Information",
+      "System.Net.Http.HttpClient": "Warning"
+    }
+  }
+}
+```
+
+## 19.12 反馈与建议
 
 :::note 与我们交流
 

@@ -1383,7 +1383,27 @@ public TestAppService: ITestAppService, IDisposable
 }
 ```
 
-## 18.11 反馈与建议
+## 18.11 关闭 `.NET Core` 底层的日志
+
+默认情况下，`.NET Core` 底层默认输出了很多日志，如需关闭只需在 `appsettings.json` 和 `appsettings.Development.json` 中添加 `"命名空间/日志类别":"最低日志级别"` 日志类别过滤即可，如：
+
+```json showLineNumbers {2,7-8}
+{
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft.AspNetCore": "Warning",
+      "Microsoft.EntityFrameworkCore": "Information",
+      "System.Net.Http.HttpClient": "Warning",
+      "命名空间/日志类别": "Warning"
+    }
+  }
+}
+```
+
+小提醒：过滤 `.NET Core` 底层日志最低日志级别通常设置为 `Warning`。
+
+## 18.12 反馈与建议
 
 :::note 与我们交流
 
