@@ -334,7 +334,7 @@ public sealed class RabbitMQEventSourceStorer : IEventSourceStorer, IDisposable
             var eventSource = JsonSerializer.Deserialize<ChannelEventSource>(stringEventSource);
 
             // 写入内存管道存储器
-            _channel.Writer.TryWrite(eventSource);
+            _channel.Writer.WriteAsync(eventSource);
 
             // 确认该消息已被消费
             _model.BasicAck(ea.DeliveryTag, false);
@@ -619,8 +619,9 @@ public class KafkaEventSourceStore : IEventSourceStorer, IDisposable
         {
             // 反序列化消息
             var eventSource = JsonConvert.DeserializeObject<ChannelEventSource>(cr.Message.Value);
+
             // 写入内存管道存储器
-            _channel.Writer.TryWrite(eventSource);
+            _channel.Writer.WriteAsync(eventSource);
         };
 
         // 启动消费者
