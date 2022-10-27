@@ -21,6 +21,7 @@
 // SOFTWARE.
 
 using Microsoft.Extensions.Logging;
+using System.Diagnostics;
 
 namespace Furion.Logging;
 
@@ -31,15 +32,6 @@ namespace Furion.Logging;
 [SuppressSniffer]
 public sealed class DatabaseLogger : ILogger
 {
-    /// <summary>
-    /// 排除日志分类名
-    /// </summary>
-    /// <remarks>避免数据库日志死循环</remarks>
-    private static readonly string[] ExcludesOfLogCategoryName = new string[]
-    {
-        "Microsoft.EntityFrameworkCore"
-    };
-
     /// <summary>
     /// 记录器类别名称
     /// </summary>
@@ -107,9 +99,6 @@ public sealed class DatabaseLogger : ILogger
         // 判断日志级别是否有效
         if (!IsEnabled(logLevel)) return;
 
-        // 排除数据库自身日志
-        if (ExcludesOfLogCategoryName.Any(u => _logName.StartsWith(u))) return;
-
         // 检查日志格式化器
         if (formatter == null) throw new ArgumentNullException(nameof(formatter));
 
@@ -132,6 +121,10 @@ public sealed class DatabaseLogger : ILogger
 
         // 空检查
         if (logMsg.Message is null) return;
+
+        // 解决数据库日志提供程序中也输出日志导致写入递归问题（对性能存在一定影响）
+        var stackTrace = new StackTrace(4);
+        if (stackTrace.GetFrames().Any(u => typeof(IDatabaseLoggingWriter).IsAssignableFrom(u.GetMethod()?.DeclaringType))) return;
 
         // 写入日志队列
         _databaseLoggerProvider.WriteToQueue(logMsg);
