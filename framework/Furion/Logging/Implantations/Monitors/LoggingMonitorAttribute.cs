@@ -266,9 +266,9 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter, IOr
         var osDescription = RuntimeInformation.OSDescription;
         var osArchitecture = RuntimeInformation.OSArchitecture.ToString();
         var frameworkDescription = RuntimeInformation.FrameworkDescription;
-        writer.WriteString("osDescription", osDescription);
-        writer.WriteString("osArchitecture", osArchitecture);
-        writer.WriteString("frameworkDescription", frameworkDescription);
+        writer.WriteString(nameof(osDescription), osDescription);
+        writer.WriteString(nameof(osArchitecture), osArchitecture);
+        writer.WriteString(nameof(frameworkDescription), frameworkDescription);
 
         // 获取异常对象情况
         var exception = resultContext.Exception;
