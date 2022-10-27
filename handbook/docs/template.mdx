@@ -52,9 +52,9 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 ```bash showLineNumbers
 // EFCore
-dotnet new --install Furion.Template.Mvc::4.6.9
+dotnet new --install Furion.Template.Api::4.7.0
 // SqlSugar
-dotnet new --install Furion.SqlSugar.Template.Mvc::4.6.9
+dotnet new --install Furion.SqlSugar.Template.Api::4.7.0
 ```
 
 :::tip `SqlSugar` 脚手架基本使用
@@ -68,7 +68,7 @@ dotnet new --install Furion.SqlSugar.Template.Mvc::4.6.9
 ## 2.2.3 使用脚手架
 
 ```bash showLineNumbers
-dotnet new furionmvc -n 项目名称
+dotnet new furionapi -n 项目名称
 ```
 
 这样就可以生成项目代码了，**生成之后推荐将所有的 `nuget` 包更新到最新版本。**
@@ -92,7 +92,7 @@ dotnet new furionmvc -n 项目名称
 只需要重新安装最新版替换即可，如：
 
 ```bash showLineNumbers
-dotnet new --install Furion.Template.Mvc::2.x.x
+dotnet new --install Furion.Template.Api::4.7.0
 ```
 
 不带版本号总是安装最新的版本。
