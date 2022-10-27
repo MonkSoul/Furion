@@ -39,6 +39,7 @@ using Newtonsoft.Json.Converters;
 using System.Diagnostics;
 using System.Logging;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Security.Claims;
 using System.Text;
 using System.Text.Json;
@@ -261,6 +262,14 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter, IOr
         timeOperation.Stop();
         writer.WriteNumber("timeOperationElapsedMilliseconds", timeOperation.ElapsedMilliseconds);
 
+        // 获取系统信息
+        var osDescription = RuntimeInformation.OSDescription;
+        var osArchitecture = RuntimeInformation.OSArchitecture.ToString();
+        var frameworkDescription = RuntimeInformation.FrameworkDescription;
+        writer.WriteString("osDescription", osDescription);
+        writer.WriteString("osArchitecture", osArchitecture);
+        writer.WriteString("frameworkDescription", frameworkDescription);
+
         // 获取异常对象情况
         var exception = resultContext.Exception;
         if (exception == null)
@@ -300,6 +309,10 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter, IOr
             , $"##服务端 IP 地址## {localIPv4}"
             , $"##服务端运行环境## {environment}"
             , $"##执行耗时## {timeOperation.ElapsedMilliseconds}ms"
+            ,"━━━━━━━━━━━━━━━  系统信息 ━━━━━━━━━━━━━━━"
+            , $"##系统名称## {osDescription}"
+            , $"##系统架构## {osArchitecture}"
+            , $"##.NET 运行时版本## {frameworkDescription}"
         };
 
         // 添加 JWT 授权信息日志模板
