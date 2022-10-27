@@ -185,7 +185,7 @@ public class JWTEncryption
         {
             distributedCache?.SetString(blacklistRefreshKey, nowTime.Ticks.ToString(), new DistributedCacheEntryOptions
             {
-                AbsoluteExpiration = DateTimeOffset.FromUnixTimeSeconds(refreshTokenObj.GetPayloadValue<long>(JwtRegisteredClaimNames.Exp))
+                AbsoluteExpiration = DateTimeOffset.FromUnixTimeMilliseconds(refreshTokenObj.GetPayloadValue<long>(JwtRegisteredClaimNames.Exp))
             });
         }
 
@@ -411,18 +411,18 @@ public class JWTEncryption
 
         if (!payload.ContainsKey(JwtRegisteredClaimNames.Iat))
         {
-            payload.Add(JwtRegisteredClaimNames.Iat, datetimeOffset.ToUnixTimeSeconds());
+            payload.Add(JwtRegisteredClaimNames.Iat, datetimeOffset.ToUnixTimeMilliseconds());
         }
 
         if (!payload.ContainsKey(JwtRegisteredClaimNames.Nbf))
         {
-            payload.Add(JwtRegisteredClaimNames.Nbf, datetimeOffset.ToUnixTimeSeconds());
+            payload.Add(JwtRegisteredClaimNames.Nbf, datetimeOffset.ToUnixTimeMilliseconds());
         }
 
         if (!payload.ContainsKey(JwtRegisteredClaimNames.Exp))
         {
             var minute = expiredTime ?? jwtSettings?.ExpiredTime ?? 20;
-            payload.Add(JwtRegisteredClaimNames.Exp, DateTimeOffset.UtcNow.AddMinutes(minute).ToUnixTimeSeconds());
+            payload.Add(JwtRegisteredClaimNames.Exp, DateTimeOffset.UtcNow.AddMinutes(minute).ToUnixTimeMilliseconds());
         }
 
         if (!payload.ContainsKey(JwtRegisteredClaimNames.Iss))

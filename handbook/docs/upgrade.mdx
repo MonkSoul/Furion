@@ -34,6 +34,10 @@ import Tag from "@site/src/components/Tag.js";
 
   - &nbsp;<Tag>新增</Tag> 日志模块时间格式化默认输出 `毫秒` 部分，针对并发比较高的场景 <sup>4.7.0</sup> [c0dc36c](https://gitee.com/dotnetchina/Furion/commit/c0dc36c4a2294596cbf3f5cdbdb2589c447bf746)
 
+- **问题修复**
+
+  - &nbsp;<Tag>修复</Tag> 生成 `JWT Token` 时间戳和自动刷新逻辑在高并发下检查有效性不够精确问题，原因是时间戳丢掉了毫秒部分 <sup>4.7.0</sup>
+
 - **文档**
 
   - &nbsp;<Tag>更新</Tag> 日志记录文档、定时任务文档
