@@ -116,7 +116,7 @@ public class RESTfulResultProvider : IUnifyResultProvider
             Data = data,
             Errors = errors,
             Extras = UnifyContext.Take(),
-            Timestamp = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds()
+            Timestamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds()
         };
     }
 }

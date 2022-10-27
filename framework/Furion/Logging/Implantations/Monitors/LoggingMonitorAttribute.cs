@@ -388,7 +388,7 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter, IOr
                 var succeed = long.TryParse(value, out var seconds);
                 if (succeed)
                 {
-                    value = $"{value} ({DateTimeOffset.FromUnixTimeMilliseconds(seconds).ToLocalTime():yyyy-MM-dd HH:mm:ss:ffff(zzz) dddd} L)";
+                    value = $"{value} ({DateTimeOffset.FromUnixTimeSeconds(seconds).ToLocalTime():yyyy-MM-dd HH:mm:ss:ffff(zzz) dddd} L)";
                 }
             }
 
