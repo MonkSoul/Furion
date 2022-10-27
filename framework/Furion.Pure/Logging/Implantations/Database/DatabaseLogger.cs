@@ -125,8 +125,8 @@ public sealed class DatabaseLogger : ILogger
         // 判断是否忽略循环输出日志，解决数据库日志提供程序中也输出日志导致写入递归问题
         if (_options.IgnoreReferenceLoop)
         {
-            var stackTrace = new StackTrace(4);
-            if (stackTrace.GetFrames().Any(u => typeof(IDatabaseLoggingWriter).IsAssignableFrom(u.GetMethod()?.DeclaringType))) return;
+            var stackTrace = new StackTrace();
+            if (stackTrace.GetFrames().Any(u => u.HasMethod() && typeof(IDatabaseLoggingWriter).IsAssignableFrom(u.GetMethod().DeclaringType))) return;
         }
 
         // 写入日志队列
