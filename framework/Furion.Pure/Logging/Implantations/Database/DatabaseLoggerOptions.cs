@@ -70,4 +70,10 @@ public sealed class DatabaseLoggerOptions
     /// 是否启用日志上下文
     /// </summary>
     public bool IncludeScopes { get; set; } = true;
+
+    /// <summary>
+    /// 忽略日志循环输出
+    /// </summary>
+    /// <remarks>对性能有些许影响</remarks>
+    public bool IgnoreReferenceLoop { get; set; } = true;
 }

@@ -122,9 +122,12 @@ public sealed class DatabaseLogger : ILogger
         // 空检查
         if (logMsg.Message is null) return;
 
-        // 解决数据库日志提供程序中也输出日志导致写入递归问题（对性能存在一定影响）
-        var stackTrace = new StackTrace(4);
-        if (stackTrace.GetFrames().Any(u => typeof(IDatabaseLoggingWriter).IsAssignableFrom(u.GetMethod()?.DeclaringType))) return;
+        // 判断是否忽略循环输出日志，解决数据库日志提供程序中也输出日志导致写入递归问题
+        if (_options.IgnoreReferenceLoop)
+        {
+            var stackTrace = new StackTrace(4);
+            if (stackTrace.GetFrames().Any(u => typeof(IDatabaseLoggingWriter).IsAssignableFrom(u.GetMethod()?.DeclaringType))) return;
+        }
 
         // 写入日志队列
         _databaseLoggerProvider.WriteToQueue(logMsg);

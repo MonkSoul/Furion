@@ -1403,7 +1403,24 @@ public TestAppService: ITestAppService, IDisposable
 
 小提醒：过滤 `.NET Core` 底层日志最低日志级别通常设置为 `Warning`。
 
-## 18.12 反馈与建议
+## 18.12 关于数据库日志循环输出日志
+
+微软提供的 `EFCore` 或者第三方 `ORM` 本身操作数据库时自带日志输出，这就会导致 `IDatabaseLoggingWriter` 的 `Write` 死循环，解决这个问题有以下方法：
+
+1. 创建新的数据库操作实例并关闭日志
+2. 更新到 `Furion 4.7.0+` 版本 **（推荐）**
+3. 自行根据业务逻辑过滤
+
+**如不存在该问题可关闭框架自带死循环检测功能（对性能有提升作用）**：
+
+```cs showLineNumbers {3}
+services.AddDatabaseLogging<DatabaseLoggingWriter>(options =>
+{
+    options.IgnoreReferenceLoop = false;
+});
+```
+
+## 18.13 反馈与建议
 
 :::note 与我们交流
 

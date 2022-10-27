@@ -501,6 +501,11 @@
               "type": "string",
               "description": "日期格式化",
               "default": "yyyy-MM-dd HH:mm:ss(zzz) dddd"
+            },
+            "IgnoreReferenceLoop": {
+              "type": "boolean",
+              "description": "忽略日志循环输出",
+              "default": true
             }
           }
         },
