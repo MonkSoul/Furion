@@ -156,6 +156,7 @@ function SponsorItem({ picture, url, last, title, top }) {
       <img
         src={useBaseUrl(picture)}
         style={{ display: "block", width: "100%" }}
+        loading="lazy"
       />
       {top && (
         <span style={{ position: "absolute", zIndex: 10, top: -16, right: -8 }}>
@@ -198,6 +199,7 @@ function SponsorItemSmart({ picture, url, title, i }) {
       <img
         src={useBaseUrl(picture)}
         style={{ display: "block", width: "100%" }}
+        loading="lazy"
       />
     </a>
   );
