@@ -20,6 +20,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+using Furion;
 using Furion.DataValidation;
 using Furion.FriendlyException;
 using Furion.Logging;
@@ -266,9 +267,14 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter, IOr
         var osDescription = RuntimeInformation.OSDescription;
         var osArchitecture = RuntimeInformation.OSArchitecture.ToString();
         var frameworkDescription = RuntimeInformation.FrameworkDescription;
+        var basicFrameworkDescription = typeof(App).Assembly.GetName();
+        var basicFramework = basicFrameworkDescription.Name;
+        var basicFrameworkVersion = basicFrameworkDescription.Version.ToString();
         writer.WriteString(nameof(osDescription), osDescription);
         writer.WriteString(nameof(osArchitecture), osArchitecture);
         writer.WriteString(nameof(frameworkDescription), frameworkDescription);
+        writer.WriteString(nameof(basicFramework), basicFramework);
+        writer.WriteString(nameof(basicFrameworkVersion), basicFrameworkVersion);
 
         // 获取异常对象情况
         var exception = resultContext.Exception;
@@ -312,7 +318,8 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter, IOr
             ,"━━━━━━━━━━━━━━━  系统信息 ━━━━━━━━━━━━━━━"
             , $"##系统名称## {osDescription}"
             , $"##系统架构## {osArchitecture}"
-            , $"##.NET 运行时版本## {frameworkDescription}"
+            , $"##基础框架## {basicFramework} v{basicFrameworkVersion}"
+            , $"##.NET 架构## {frameworkDescription}"
         };
 
         // 添加 JWT 授权信息日志模板
