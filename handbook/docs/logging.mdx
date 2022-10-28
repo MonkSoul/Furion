@@ -334,7 +334,7 @@ services.AddConsoleFormatter(options =>
 ```cs showLineNumbers {1,3}
 services.AddConsoleFormatter(options =>
 {
-    options.DateFormat = "yyyy-MM-dd HH:mm:ss.fffffff(zzz) dddd";
+    options.DateFormat = "yyyy-MM-dd HH:mm:ss.fffffff zzz dddd";
 });
 ```
 
@@ -614,7 +614,7 @@ services.AddFileLogging("template-obj.log", options =>
 ```cs showLineNumbers {1,3}
 services.AddFileLogging("application.log", options =>
 {
-    options.DateFormat = "yyyy-MM-dd HH:mm:ss.fffffff(zzz) dddd";
+    options.DateFormat = "yyyy-MM-dd HH:mm:ss.fffffff zzz dddd";
 });
 ```
 
