@@ -78,6 +78,8 @@ public class SucceededUnifyResultFilter : IAsyncActionFilter, IOrderedFilter
                         httpContext.Response.StatusCode = statusCode = StatusCodes.Status403Forbidden;
                     }
 
+                    // 如果 Response 已经完成输出，则禁止写入
+                    if (httpContext.Response.HasStarted) return;
                     await unifyRes.OnResponseStatusCodes(httpContext, statusCode, httpContext.RequestServices.GetService<IOptions<UnifyResultSettingsOptions>>()?.Value);
                 }
 

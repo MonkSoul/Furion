@@ -56,6 +56,9 @@ public static class L
         var httpContext = App.HttpContext;
         if (httpContext == null) return;
 
+        // 如果 Response 已经完成输出，则禁止写入
+        if (httpContext.Response.HasStarted) return;
+
         httpContext.Response.Cookies.Append(
             CookieRequestCultureProvider.DefaultCookieName,
             CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(culture)),
