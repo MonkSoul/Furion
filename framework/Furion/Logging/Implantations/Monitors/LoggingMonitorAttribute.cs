@@ -269,7 +269,7 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter, IOr
         var frameworkDescription = RuntimeInformation.FrameworkDescription;
         var basicFrameworkDescription = typeof(App).Assembly.GetName();
         var basicFramework = basicFrameworkDescription.Name;
-        var basicFrameworkVersion = basicFrameworkDescription.Version.ToString();
+        var basicFrameworkVersion = basicFrameworkDescription.Version?.ToString();
         writer.WriteString(nameof(osDescription), osDescription);
         writer.WriteString(nameof(osArchitecture), osArchitecture);
         writer.WriteString(nameof(frameworkDescription), frameworkDescription);
