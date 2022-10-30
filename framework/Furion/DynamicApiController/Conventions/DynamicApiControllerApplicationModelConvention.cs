@@ -378,9 +378,12 @@ internal sealed class DynamicApiControllerApplicationModelConvention : IApplicat
             var ActionEndTemplate = parameterRouteTemplate != null ? (parameterRouteTemplate.ActionEndTemplates.Count == 0 ? null : string.Join("/", parameterRouteTemplate.ActionEndTemplates)) : null;
 
             // 判断是否定义了控制器路由，如果定义，则不拼接控制器路由
+            var actionRouteTemplate = string.IsNullOrWhiteSpace(action.ActionName)
+                || (action.Controller.Selectors[0].AttributeRouteModel?.Template?.Contains("[action]") ?? false) ? null : "[action]";
+
             template = string.IsNullOrWhiteSpace(controllerRouteTemplate)
-                 ? $"{(string.IsNullOrWhiteSpace(module) ? "/" : $"{module}/")}{ActionStartTemplate}/{(string.IsNullOrWhiteSpace(action.ActionName) ? null : "[action]")}/{ActionEndTemplate}"
-                 : $"{controllerRouteTemplate}/{(string.IsNullOrWhiteSpace(module) ? null : $"{module}/")}{ActionStartTemplate}/{(string.IsNullOrWhiteSpace(action.ActionName) ? null : "[action]")}/{ActionEndTemplate}";
+                 ? $"{(string.IsNullOrWhiteSpace(module) ? "/" : $"{module}/")}{ActionStartTemplate}/{actionRouteTemplate}/{ActionEndTemplate}"
+                 : $"{controllerRouteTemplate}/{(string.IsNullOrWhiteSpace(module) ? null : $"{module}/")}{ActionStartTemplate}/{actionRouteTemplate}/{ActionEndTemplate}";
         }
 
         AttributeRouteModel actionAttributeRouteModel = null;
