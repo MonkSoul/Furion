@@ -1,7 +1,7 @@
 ---
 id: object-mapper
 title: 13. 对象数据映射
-sidebar_label: 13. 对象数据映射 Mapper
+sidebar_label: 13. 对象数据映射 (Mapper)
 ---
 
 :::important 使用 `Mapster` 以外的拓展说明
@@ -18,7 +18,7 @@ sidebar_label: 13. 对象数据映射 Mapper
 
 在过去，我们需要将一个对象的值转换到另一个对象中，我们需要这样做，如：
 
-```cs showLineNumbers 
+```cs showLineNumbers
 var entity = repository.Find(1);
 
 var dto = new Dto();
@@ -46,7 +46,7 @@ dto.IdCard = entity.IdCard.Replace("1234", "****");
 
 ### 13.3.1 快速入门
 
-```cs showLineNumbers 
+```cs showLineNumbers
 var entity = repository.Find(1);
 var dto = entity.Adapt<Dto>();
 ```
@@ -83,7 +83,7 @@ namespace Furion.Application
 
 `Mapster` 除了提供 `Adapt` 拓展方法以外，同时还提供依赖注入的方式。
 
-```cs showLineNumbers 
+```cs showLineNumbers
 public  Person(IMapper mapper)
 {
   var dto =  _mapper.Map<Dto>(entity);
@@ -96,7 +96,7 @@ public  Person(IMapper mapper)
 
 正常的操作：
 
-```cs showLineNumbers 
+```cs showLineNumbers
 var destinations = context.Sources
         .Select(p => new Destination {
             Id = p.Id,
@@ -109,7 +109,7 @@ var destinations = context.Sources
 
 使用 `Mapster` 之后：
 
-```cs showLineNumbers 
+```cs showLineNumbers
  var destinations = context.Sources.ProjectToType<Destination>().ToList();
 ```
 
@@ -117,7 +117,7 @@ var destinations = context.Sources
 
 `Furion` 提供全局默认映射配置选项 `TypeAdapterConfig.GlobalSettings.Default`，可在 `Startup` 中配置即可，如：
 
-```cs showLineNumbers 
+```cs showLineNumbers
 TypeAdapterConfig.GlobalSettings.Default
     .PreserveReference(true);
 ```
