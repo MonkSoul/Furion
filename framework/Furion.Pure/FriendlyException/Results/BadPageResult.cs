@@ -107,6 +107,10 @@ public class BadPageResult : StatusCodeResult
                          .Replace($"@{{{nameof(Base64Icon)}}}", Base64Icon); ;
 
         var httpContext = context.HttpContext;
+
+        // 如果 Response 已经完成输出，则禁止写入
+        if (httpContext.Response.HasStarted) return;
+
         httpContext.Response.Body.WriteAsync(Encoding.UTF8.GetBytes(content));
     }
 }
