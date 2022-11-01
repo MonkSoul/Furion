@@ -202,7 +202,7 @@ internal static class Penetrates
                 if (scope != null && scope is LogContext context)
                 {
                     if (logMsg.Context == null) logMsg.Context = context;
-                    else logMsg.Context = logMsg.Context?.SetRange(context.Properties);
+                    else logMsg.Context = logMsg.Context.SetRange(context.Properties);
                 }
             }, null);
         }

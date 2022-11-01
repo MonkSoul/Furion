@@ -40,6 +40,31 @@ import Tag from "@site/src/components/Tag.js";
   - &nbsp;<Tag>新增</Tag> 写入数据库日志死循环输出检测机制 <sup>4.7.0</sup> [30dea0c](https://gitee.com/dotnetchina/Furion/commit/30dea0cebf8a946bea670fa0d2f82cde8321b847)
   - &nbsp;<Tag>新增</Tag> `LoggingMonitor` 输出 `系统信息`，`.NET 架构` 和 `基础框架` <sup>4.7.1</sup> [aeda902](https://gitee.com/dotnetchina/Furion/commit/aeda90259ef0684bff6308e2f387d89ac9081d37)
 
+- **突破性变化**
+
+  - &nbsp;<Tag>调整</Tag> **`LogContext` 类型的所有方法至 `Furion.Logging` 命名空间下，解决空异常问题** <sup>4.7.3</sup> [#I5YOT3](https://gitee.com/dotnetchina/Furion/issues/I5YOT3)
+
+<details style={{ marginLeft: 50 }}>
+  <summary>查看更改</summary>
+  <div>
+
+由：
+
+```cs showLineNumbers
+var value = logContext.Get("Key");
+```
+
+改为：
+
+```cs showLineNumbers {1}
+using Furion.Logging;
+
+var value = logContext.Get("Key");
+```
+
+  </div>
+</details>
+
 - **问题修复**
 
   - &nbsp;<Tag>修复</Tag> **生成 `JWT Token` 时间戳和自动刷新逻辑在高并发下检查有效性不够精确问题，原因是时间戳丢掉了毫秒部分** <sup>4.7.0</sup> [3c0c017](https://gitee.com/dotnetchina/Furion/commit/3c0c017ca43c9043bb5806b2951a5bcc7d571142)
