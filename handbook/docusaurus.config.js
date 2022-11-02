@@ -123,7 +123,7 @@ module.exports = {
           activeBasePath: "docs/case",
         },
         {
-          label: "支持💖",
+          label: "赞助",
           position: "right",
           to: "docs/donate",
           activeBasePath: "docs/donate",

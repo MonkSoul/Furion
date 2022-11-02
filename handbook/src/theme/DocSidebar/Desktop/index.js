@@ -10,7 +10,7 @@ import CollapseButton from "@theme/DocSidebar/Desktop/CollapseButton";
 import Content from "@theme/DocSidebar/Desktop/Content";
 import Logo from "@theme/Logo";
 import clsx from "clsx";
-import React from "react";
+import React, { useState } from "react";
 import sponsors from "../../../data/sponsor";
 import styles from "./styles.module.css";
 
@@ -19,6 +19,8 @@ function DocSidebarDesktop({ path, sidebar, onCollapse, isHidden }) {
     navbar: { hideOnScroll },
     hideableSidebar,
   } = useThemeConfig();
+  const [show, setShow] = useState(true);
+
   return (
     <div
       className={clsx(
@@ -28,7 +30,35 @@ function DocSidebarDesktop({ path, sidebar, onCollapse, isHidden }) {
       )}
     >
       {hideOnScroll && <Logo tabIndex={-1} className={styles.sidebarLogo} />}
-      <Sponsor />
+      {show && (
+        <>
+          <Sponsor />
+          <span
+            style={{
+              margin: "0 auto",
+              display: "inline-block",
+              position: "relative",
+              top: 5,
+              marginTop: -28,
+              cursor: "pointer",
+              borderRadius: "50%",
+              width: 28,
+              height: 28,
+              minWidth: 28,
+              minHeight: 28,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              boxSizing: "border-box",
+              border: "1px solid #dedede",
+              userSelect: "none",
+            }}
+            onClick={() => setShow((s) => !s)}
+          >
+            💖
+          </span>
+        </>
+      )}
       <Content path={path} sidebar={sidebar} />
       {hideableSidebar && <CollapseButton onClick={onCollapse} />}
     </div>
@@ -118,11 +148,11 @@ function Sponsor() {
           置顶广告采用随机方式
         </span>
         <a
-          href="/docs/donate#153-赞助商广告"
+          href="/docs/donate"
           style={{ color: "#723cff", fontSize: 13, fontWeight: "bold" }}
           title="monksoul@outlook.com"
         >
-          💖成为赞助商
+          成为赞助商
         </a>
       </div>
     </div>

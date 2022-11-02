@@ -3,19 +3,47 @@ import {
   ThemeClassNames
 } from "@docusaurus/theme-common";
 import { useNavbarMobileSidebar } from "@docusaurus/theme-common/internal";
+import useBaseUrl from "@docusaurus/useBaseUrl";
 import DocSidebarItems from "@theme/DocSidebarItems";
 import clsx from "clsx";
-import React from "react";
-
-import useBaseUrl from "@docusaurus/useBaseUrl";
+import React, { useState } from "react";
 import sponsors from "../../../data/sponsor";
 
 // eslint-disable-next-line react/function-component-definition
 const DocSidebarMobileSecondaryMenu = ({ sidebar, path }) => {
   const mobileSidebar = useNavbarMobileSidebar();
+  const [show, setShow] = useState(true);
   return (
     <>
-      <Sponsor />
+      {show && (
+        <>
+          <Sponsor />
+          <span
+            style={{
+              margin: "0 auto",
+              display: "inline-block",
+              position: "relative",
+              top: 5,
+              marginTop: -28,
+              cursor: "pointer",
+              borderRadius: "50%",
+              width: 28,
+              height: 28,
+              minWidth: 28,
+              minHeight: 28,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              boxSizing: "border-box",
+              border: "1px solid #dedede",
+              userSelect: "none",
+            }}
+            onClick={() => setShow((s) => !s)}
+          >
+            💖
+          </span>
+        </>
+      )}
       <ul className={clsx(ThemeClassNames.docs.docSidebarMenu, "menu__list")}>
         <DocSidebarItems
           items={sidebar}
@@ -127,11 +155,11 @@ function Sponsor() {
           置顶广告采用随机方式
         </span>
         <a
-          href="/docs/donate#153-赞助商广告"
+          href="/docs/donate"
           style={{ color: "#723cff", fontSize: 13, fontWeight: "bold" }}
           title="monksoul@outlook.com"
         >
-          💖成为赞助商
+          成为赞助商
         </a>
       </div>
     </div>
