@@ -510,7 +510,7 @@ public sealed partial class HttpRequestPart
 
         // 构建请求对象
         var request = new HttpRequestMessage(Method, RequestUrl);
-        request.AppendQueries(Queries, EncodeUrl);
+        request.AppendQueries(Queries, EncodeUrl, IgnoreNullValueQueries);
 
         // 设置请求报文头
         if (Headers != null)

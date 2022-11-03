@@ -77,4 +77,9 @@ public class HttpMethodBaseAttribute : Attribute
     /// 是否对 Url 进行 Uri.EscapeDataString
     /// </summary>
     public bool WithEncodeUrl { get; set; } = true;
+
+    /// <summary>
+    /// 忽略值为 null 的 Url 参数
+    /// </summary>
+    public bool IgnoreNullValueQueries { get; set; }
 }

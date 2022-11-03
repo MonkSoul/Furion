@@ -171,4 +171,17 @@ public class TestModuleServices : IDynamicApiController
             Name = "Furion"
         };
     }
+
+    public async Task 测试Url参数空值情况()
+    {
+        var obj = new
+        {
+            id = 1,
+            name = default(string),
+            age = 30
+        };
+
+        var res = await "https://furion.icu".SetQueries(obj).GetAsync();
+        var res2 = await "https://furion.icu".SetQueries(obj, true).GetAsync();
+    }
 }

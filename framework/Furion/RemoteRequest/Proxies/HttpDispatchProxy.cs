@@ -124,7 +124,7 @@ public class HttpDispatchProxy : AspectDispatchProxy, IDispatchProxy
         SetHeaders(method, parameters, httpRequestPart);
 
         // 设置 Url 地址参数
-        SetQueries(parameters, httpRequestPart);
+        SetQueries(parameters, httpRequestPart, httpMethodBase.IgnoreNullValueQueries);
 
         // 设置 Body 信息
         SetBody(parameters, httpRequestPart);
@@ -153,7 +153,8 @@ public class HttpDispatchProxy : AspectDispatchProxy, IDispatchProxy
     /// </summary>
     /// <param name="parameters"></param>
     /// <param name="httpRequestPart"></param>
-    private static void SetQueries(IEnumerable<MethodParameterInfo> parameters, HttpRequestPart httpRequestPart)
+    /// <param name="ignoreNullValue"></param>
+    private static void SetQueries(IEnumerable<MethodParameterInfo> parameters, HttpRequestPart httpRequestPart, bool ignoreNullValue)
     {
         // 配置 Url 地址参数
         var queryParameters = parameters.Where(u => u.Parameter.IsDefined(typeof(QueryStringAttribute), true));
@@ -186,7 +187,9 @@ public class HttpDispatchProxy : AspectDispatchProxy, IDispatchProxy
                 }
             }
         }
-        httpRequestPart.SetQueries(parameterQueries);
+
+        // 设置 Url 参数
+        httpRequestPart.SetQueries(parameterQueries, ignoreNullValue);
     }
 
     /// <summary>

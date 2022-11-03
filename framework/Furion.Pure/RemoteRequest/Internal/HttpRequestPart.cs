@@ -64,6 +64,11 @@ public sealed partial class HttpRequestPart
     public IDictionary<string, object> Queries { get; private set; }
 
     /// <summary>
+    /// 忽略值为 null 的 Url 参数
+    /// </summary>
+    public bool IgnoreNullValueQueries { get; private set; }
+
+    /// <summary>
     /// 客户端名称
     /// </summary>
     public string ClientName { get; private set; }

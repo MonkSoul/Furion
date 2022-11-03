@@ -91,10 +91,11 @@ public static class RemoteRequestStringExtensions
     /// </summary>
     /// <param name="requestUrl"></param>
     /// <param name="queries"></param>
+    /// <param name="ignoreNullValue"></param>
     /// <returns></returns>
-    public static HttpRequestPart SetQueries(this string requestUrl, IDictionary<string, object> queries)
+    public static HttpRequestPart SetQueries(this string requestUrl, IDictionary<string, object> queries, bool ignoreNullValue = false)
     {
-        return HttpRequestPart.Default().SetRequestUrl(requestUrl).SetQueries(queries);
+        return HttpRequestPart.Default().SetRequestUrl(requestUrl).SetQueries(queries, ignoreNullValue);
     }
 
     /// <summary>
@@ -102,10 +103,11 @@ public static class RemoteRequestStringExtensions
     /// </summary>
     /// <param name="requestUrl"></param>
     /// <param name="queries"></param>
+    /// <param name="ignoreNullValue"></param>
     /// <returns></returns>
-    public static HttpRequestPart SetQueries(this string requestUrl, object queries)
+    public static HttpRequestPart SetQueries(this string requestUrl, object queries, bool ignoreNullValue = false)
     {
-        return HttpRequestPart.Default().SetRequestUrl(requestUrl).SetQueries(queries);
+        return HttpRequestPart.Default().SetRequestUrl(requestUrl).SetQueries(queries, ignoreNullValue);
     }
 
     /// <summary>

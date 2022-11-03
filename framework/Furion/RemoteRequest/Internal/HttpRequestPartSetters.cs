@@ -106,10 +106,12 @@ public sealed partial class HttpRequestPart
     /// 设置 URL 参数
     /// </summary>
     /// <param name="queries"></param>
+    /// <param name="ignoreNullValue"></param>
     /// <returns></returns>
-    public HttpRequestPart SetQueries(IDictionary<string, object> queries)
+    public HttpRequestPart SetQueries(IDictionary<string, object> queries, bool ignoreNullValue = false)
     {
         if (queries != null) Queries = queries;
+        IgnoreNullValueQueries = ignoreNullValue;
         return this;
     }
 
@@ -117,10 +119,11 @@ public sealed partial class HttpRequestPart
     /// 设置 URL 参数
     /// </summary>
     /// <param name="queries"></param>
+    /// <param name="ignoreNullValue"></param>
     /// <returns></returns>
-    public HttpRequestPart SetQueries(object queries)
+    public HttpRequestPart SetQueries(object queries, bool ignoreNullValue = false)
     {
-        return SetQueries(queries.ToDictionary());
+        return SetQueries(queries.ToDictionary(), ignoreNullValue);
     }
 
     /// <summary>

@@ -38,7 +38,8 @@ public static class HttpRequestMessageExtensions
     /// <param name="httpRequest"></param>
     /// <param name="queries"></param>
     /// <param name="isEncode"></param>
-    public static void AppendQueries(this HttpRequestMessage httpRequest, IDictionary<string, object> queries, bool isEncode = true)
+    /// <param name="ignoreNullValue"></param>
+    public static void AppendQueries(this HttpRequestMessage httpRequest, IDictionary<string, object> queries, bool isEncode = true, bool ignoreNullValue = false)
     {
         if (queries == null || queries.Count == 0) return;
 
@@ -46,7 +47,7 @@ public static class HttpRequestMessageExtensions
         var finalRequestUrl = httpRequest.RequestUri?.OriginalString ?? string.Empty;
 
         // 拼接
-        var urlParameters = ExpandQueries(queries, isEncode);
+        var urlParameters = ExpandQueries(queries, isEncode, ignoreNullValue);
         finalRequestUrl += $"{(finalRequestUrl.IndexOf("?") > -1 ? "&" : "?")}{string.Join("&", urlParameters)}";
 
         // 重新设置地址
@@ -71,13 +72,17 @@ public static class HttpRequestMessageExtensions
     /// </summary>
     /// <param name="queries"></param>
     /// <param name="isEncode"></param>
+    /// <param name="ignoreNullValue"></param>
     /// <returns></returns>
-    private static IEnumerable<string> ExpandQueries(IDictionary<string, object> queries, bool isEncode = true)
+    private static IEnumerable<string> ExpandQueries(IDictionary<string, object> queries, bool isEncode = true, bool ignoreNullValue = false)
     {
         var items = new List<string>();
 
         foreach (var (key, value) in queries)
         {
+            // 处理忽略 null 值问题
+            if (ignoreNullValue && value == null) continue;
+
             var paramBuilder = new StringBuilder();
             paramBuilder.Append(key);
             paramBuilder.Append('=');
