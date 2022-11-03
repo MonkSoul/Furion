@@ -34,6 +34,7 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 using Swashbuckle.AspNetCore.SwaggerUI;
 using System.Collections.Concurrent;
 using System.Reflection;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Xml.Linq;
 using System.Xml.XPath;
@@ -580,8 +581,23 @@ public static class SpecificationDocumentBuilder
         var thisAssembly = thisType.Assembly;
 
         // 自定义 Swagger 首页
-        var customIndex = $"{Reflect.GetAssemblyName(thisAssembly)}{thisType.Namespace.Replace(nameof(Furion), string.Empty)}.Assets.{(App.Settings.InjectMiniProfiler != true ? "index" : "index-mini-profiler")}.html";
-        swaggerUIOptions.IndexStream = () => thisAssembly.GetManifestResourceStream(customIndex);
+        var customIndex = $"{Reflect.GetAssemblyName(thisAssembly)}{thisType.Namespace.Replace(nameof(Furion), string.Empty)}.Assets.{(_appSettings.InjectMiniProfiler != true ? "index" : "index-mini-profiler")}.html";
+        swaggerUIOptions.IndexStream = () =>
+        {
+            StringBuilder htmlBuilder;
+
+            using (var stream = thisAssembly.GetManifestResourceStream(customIndex))
+            {
+                using var reader = new StreamReader(stream);
+                htmlBuilder = new StringBuilder(reader.ReadToEnd());
+            }
+
+            // 解决二级虚拟目录 MiniProfiler 丢失问题
+            htmlBuilder.Replace("%(VirtualPath)", _appSettings.VirtualPath);
+
+            var byteArray = Encoding.UTF8.GetBytes(htmlBuilder.ToString());
+            return new MemoryStream(byteArray);
+        };
 
         // 添加登录信息配置
         var additionals = _specificationDocumentSettings.LoginInfo;
