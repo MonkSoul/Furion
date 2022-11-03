@@ -24,10 +24,11 @@ import Tag from "@site/src/components/Tag.js";
 
 :::
 
-## v4.7.2（当前版本）
+## v4.7.3（当前版本）
 
 :::important 版本细节
 
+- `v4.7.3` 版本细节：[https://gitee.com/dotnetchina/Furion/issues/I5Z9TI](https://gitee.com/dotnetchina/Furion/issues/I5Z9TI) <sup>2022.11.03</sup>
 - `v4.7.2` 版本细节：[https://gitee.com/dotnetchina/Furion/issues/I5YG48](https://gitee.com/dotnetchina/Furion/issues/I5YG48) <sup>2022.10.30</sup>
 - `v4.7.1` 版本细节：[https://gitee.com/dotnetchina/Furion/issues/I5Y6U3](https://gitee.com/dotnetchina/Furion/issues/I5Y6U3) <sup>2022.10.28</sup>
 - `v4.7.0` 版本细节：[https://gitee.com/dotnetchina/Furion/issues/I5Y04N](https://gitee.com/dotnetchina/Furion/issues/I5Y04N) <sup>2022.10.27</sup>
@@ -52,7 +53,7 @@ import Tag from "@site/src/components/Tag.js";
 由：
 
 ```cs showLineNumbers
-var value = logContext.Get("Key");
+var value = logContext.Get("Key");  // 过去如果 logContext == null 报错
 ```
 
 改为：
@@ -60,7 +61,7 @@ var value = logContext.Get("Key");
 ```cs showLineNumbers {1}
 using Furion.Logging;
 
-var value = logContext.Get("Key");
+var value = logContext.Get("Key");  // 新版本不会报错，且 value = null
 ```
 
   </div>

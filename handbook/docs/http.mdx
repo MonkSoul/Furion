@@ -220,7 +220,7 @@ await "https://www.furion.icu/get".SetQueries(new {
     id = 1,
     name = "Furion",
     nullValue = default(object)
-});
+}, true);   // 设置 true 则忽略 null 值
 ```
 
 最终输出格式为：`https://www.furion.icu/get?id=1&name=Furion`。
