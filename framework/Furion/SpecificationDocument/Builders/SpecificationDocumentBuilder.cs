@@ -286,8 +286,8 @@ public static class SpecificationDocumentBuilder
         // 文档展开设置
         swaggerUIOptions.DocExpansion(_specificationDocumentSettings.DocExpansionState.Value);
 
-        // 注入 MiniProfiler 组件
-        InjectMiniProfilerPlugin(swaggerUIOptions);
+        // 自定义 Swagger 首页
+        CustomizeIndex(swaggerUIOptions);
 
         // 配置多语言和自动登录token
         AddDefaultInterceptor(swaggerUIOptions);
@@ -571,30 +571,39 @@ public static class SpecificationDocumentBuilder
     }
 
     /// <summary>
-    /// 注入 MiniProfiler 插件
+    /// 自定义 Swagger 首页
     /// </summary>
     /// <param name="swaggerUIOptions"></param>
-    private static void InjectMiniProfilerPlugin(SwaggerUIOptions swaggerUIOptions)
+    private static void CustomizeIndex(SwaggerUIOptions swaggerUIOptions)
     {
-        // 启用 MiniProfiler 组件
         var thisType = typeof(SpecificationDocumentBuilder);
         var thisAssembly = thisType.Assembly;
 
-        // 自定义 Swagger 首页
+        // 判断是否启用 MiniProfile
         var customIndex = $"{Reflect.GetAssemblyName(thisAssembly)}{thisType.Namespace.Replace(nameof(Furion), string.Empty)}.Assets.{(_appSettings.InjectMiniProfiler != true ? "index" : "index-mini-profiler")}.html";
         swaggerUIOptions.IndexStream = () =>
         {
             StringBuilder htmlBuilder;
+            // 自定义首页模板参数
+            var indexArguments = new Dictionary<string, string>
+            {
+                {"%(VirtualPath)", _appSettings.VirtualPath }    // 解决二级虚拟目录 MiniProfiler 丢失问题
+            };
 
+            // 读取文件内容
             using (var stream = thisAssembly.GetManifestResourceStream(customIndex))
             {
                 using var reader = new StreamReader(stream);
                 htmlBuilder = new StringBuilder(reader.ReadToEnd());
             }
 
-            // 解决二级虚拟目录 MiniProfiler 丢失问题
-            htmlBuilder.Replace("%(VirtualPath)", _appSettings.VirtualPath);
+            // 替换模板参数
+            foreach (var (template, value) in indexArguments)
+            {
+                htmlBuilder.Replace(template, value);
+            }
 
+            // 返回新的内存流
             var byteArray = Encoding.UTF8.GetBytes(htmlBuilder.ToString());
             return new MemoryStream(byteArray);
         };
