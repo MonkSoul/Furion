@@ -119,7 +119,35 @@ set ASPNETCORE_ENVIRONMENT=Production
 
 <img src={useBaseUrl("img/iis3.png")} />
 
-## 34.1.5 反馈与建议
+## 34.1.5 `IIS` 回收问题和配置
+
+通过 `IIS` 部署 `.NET Core` 应用程序，如果启动了系统日志，就会发现经常出现 `Application is shutting down...` 的日志，代表 `IIS` 回收了应用程序池。
+
+对于一个长期在线的网站来说，这是非常不合理的，所以我们可以通过以下配置让 `IIS` 进行长时间不访问便回收的机制。
+
+---
+
+配置步骤如下：
+
+1. 打开 `IIS` 并点击左侧树根节点（计算机名称）并点击右侧的 `Configuration Editor`（配置编辑器）
+
+<img src={useBaseUrl("img/iis6.png")} />
+
+2. 在 `Section`（节）选择 `system.applicationHost/applicationPools` 并设置 `startMode` 为 `AlwaysRunning`，之后点击 `Apply` 保存。
+
+<img src={useBaseUrl("img/iis7.png")} />
+
+3. 点击左侧树根节点（计算机名称）下的 `Application Pools` 并点击最右侧的 `Set Appliation Pool Defaults...`（设置应用程序池默认配置...）
+
+<img src={useBaseUrl("img/iis8.png")} />
+
+4. 设置 `Idle Time-out (minutes)`（闲置超时（分钟）为 `0`
+
+<img src={useBaseUrl("img/iis9.png")} />
+
+这样即可解决 `IIS` 回收问题。
+
+## 34.1.6 反馈与建议
 
 :::note 与我们交流
 
