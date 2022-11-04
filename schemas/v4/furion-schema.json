@@ -1907,7 +1907,7 @@
         },
         "VirtualPath": {
           "type": "string",
-          "description": "【部署】二级虚拟目录",
+          "description": "【部署】二级虚拟目录，需以 / 开头",
           "default": ""
         },
         "IgnoreConfigurationFiles": {
