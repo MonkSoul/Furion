@@ -1422,7 +1422,35 @@ info: 2022-10-26 11:39:04(+08:00) 星期三 L System.Net.Http.HttpClient.Default
 }
 ```
 
-## 19.12 反馈与建议
+## 19.12 获取 `Cookies`
+
+:::important 版本说明
+
+以下内容仅限 `Furion 4.7.4 +` 版本使用。
+
+:::
+
+- 字符串方式
+
+```cs showLineNumbers {2}
+var response = await "https://www.furion.icu/".GetAsync();
+var cookies = response.GetCookies();
+```
+
+- 代理方式
+
+```cs showLineNumbers {4,8}
+public interface IHttp : IHttpDispatchProxy
+{
+    [Get("https://www.furion.icu/")]
+    Task<HttpResponseMessage> GetAsync();
+}
+
+var response = await _http.GetAsync();
+var cookies = response.GetCookies();
+```
+
+## 19.13 反馈与建议
 
 :::note 与我们交流
 

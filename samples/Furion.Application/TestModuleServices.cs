@@ -184,4 +184,21 @@ public class TestModuleServices : IDynamicApiController
         var res = await "https://furion.icu".SetQueries(obj).GetAsync();
         var res2 = await "https://furion.icu".SetQueries(obj, true).GetAsync();
     }
+
+    [HttpGet]
+    public string WithCookies([FromServices] IHttpContextAccessor contextAccessor)
+    {
+        contextAccessor.HttpContext.Response.Cookies.Append("name", "百小僧");
+        contextAccessor.HttpContext.Response.Cookies.Append("age", "30");
+
+        return "Furion";
+    }
+
+    public async Task<Dictionary<string, string>> 测试远程请求Cookies()
+    {
+        var response = await "https://localhost:5001/api/test-module/with-cookies".GetAsync();
+        var cookies = response.GetCookies();
+
+        return cookies;
+    }
 }

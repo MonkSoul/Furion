@@ -112,6 +112,12 @@ int affected = q.BatchUpdate(new Item { Description = "Updated" }, updateColumns
 
 ## 9.9.4 `EFCore 7` 内置批量操作
 
+:::caution 非微软支持数据库适配问题
+
+如果使用的是非微软支持的数据库，如 `Oracle`，`MySQL`，`PostgreSQL` 等，可能适配 `EFCore 7` 不及时会出现找不到方法异常。
+
+:::
+
 [https://docs.microsoft.com/zh-cn/ef/core/what-is-new/ef-core-7.0/whatsnew#executeupdate-and-executedelete-bulk-updates](https://docs.microsoft.com/zh-cn/ef/core/what-is-new/ef-core-7.0/whatsnew#executeupdate-and-executedelete-bulk-updates)
 
 ```cs showLineNumbers {2,7}
