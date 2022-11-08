@@ -23,7 +23,14 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+		<None Remove="applicationsettings.json" />
 		<None Remove="FurionBlazorApi.Application.xml" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Content Include="applicationsettings.json">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
 	</ItemGroup>
 
 	<ItemGroup>
