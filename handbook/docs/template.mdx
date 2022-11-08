@@ -8,7 +8,7 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 :::caution 4.7.5+ 版本说明
 
-`Furion 4.7.5+` 版本之后脚手架默认创建 `.NET7` 版本，如需 `.NET6/.NET5` 可查看底部文档。
+`Furion 4.7.5+` 版本之后脚手架默认创建 `.NET7` 版本，如需 `.NET6/.NET5` 可安装 `v4.7.3` 及之前版本创建即可，也可以查看底部更改文档。
 
 :::
 
@@ -123,7 +123,25 @@ dotnet new --install Furion.Template.Api::4.7.5
 
 自 `Furion 4.7.5+` 版本开始，框架只提供了 `.NET7+` 版本脚手架，如需使用 `.NET6` 版本，可创建之后执行下面步骤：
 
-替换 `<TargetFramework>net7.0</TargetFramework>` 为 `<TargetFramework>net6.0</TargetFramework>`
+1. 替换 `<TargetFramework>net7.0</TargetFramework>` 为 `<TargetFramework>net6.0</TargetFramework>`
+
+2. 如果使用的是 `EFCore` 版本则需要将启动层的 `Microsoft.EntityFrameworkCore.Tools` 版本改为 `6.0.11` 版本，如编辑启动层的 `Web.Entry.csproj`：
+
+```xml showLineNumbers {1}
+<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.0">
+	<PrivateAssets>all</PrivateAssets>
+	<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+</PackageReference>
+```
+
+改为：
+
+```xml showLineNumbers {1}
+<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.11">
+	<PrivateAssets>all</PrivateAssets>
+	<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+</PackageReference>
+```
 
 ## 2.2.8 使用 `.NET5` 脚手架
 
