@@ -229,7 +229,7 @@ public class RedisEventSourceStorer : IEventSourceStorer
 
 最后，在注册 `EventBus` 服务中替换默认 `IEventSourceStorer`：
 
-```cs showLineNumbers  {4-8}
+```cs showLineNumbers  {4-8,11,13}
 services.AddEventBus(builder =>
 {
     // 替换事件源存储器
@@ -238,6 +238,15 @@ services.AddEventBus(builder =>
         var redisClient = serviceProvider.GetService<IRedisClient>();
         return new RedisEventSourceStorer(redisClient);
     });
+
+    // Furion 4.7.6 版本新增 ReplaceStorerOrFallback ，可在自定义事件源存储器初始失败时回退到默认值
+    builder.ReplaceStorerOrFallback(() => new YourEventSourceStorer());
+    // 支持 IServiceProvider 参数
+    builder.ReplaceStorerOrFallback(serviceProvider =>
+    {
+        return new YourEventSourceStorer();
+    });
+
 });
 ```
 

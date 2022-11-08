@@ -174,6 +174,57 @@ public sealed class EventBusOptionsBuilder
     }
 
     /// <summary>
+    /// 替换事件源存储器（如果初始化失败则回退为默认的）
+    /// </summary>
+    /// <param name="createStorer"></param>
+    /// <returns></returns>
+    /// <exception cref="ArgumentNullException"></exception>
+    public EventBusOptionsBuilder ReplaceStorerOrFallback(Func<IEventSourceStorer> createStorer)
+    {
+        // 空检查
+        if (createStorer == null) throw new ArgumentNullException(nameof(createStorer));
+
+        try
+        {
+            // 创建事件源存储器
+            var storer = createStorer.Invoke();
+
+            // 替换事件源存储器
+            ReplaceStorer(_ => storer);
+        }
+        catch { }
+
+        return this;
+    }
+
+    /// <summary>
+    /// 替换事件源存储器（如果初始化失败则回退为默认的）
+    /// </summary>
+    /// <param name="createStorer"></param>
+    /// <returns></returns>
+    /// <exception cref="ArgumentNullException"></exception>
+    public EventBusOptionsBuilder ReplaceStorerOrFallback(Func<IServiceProvider, IEventSourceStorer> createStorer)
+    {
+        // 空检查
+        if (createStorer == null) throw new ArgumentNullException(nameof(createStorer));
+
+        // 替换事件源存储器
+        ReplaceStorer(serviceProvider =>
+        {
+            try
+            {
+                return createStorer.Invoke(serviceProvider);
+            }
+            catch
+            {
+                return new ChannelEventSourceStorer(ChannelCapacity);
+            }
+        });
+
+        return this;
+    }
+
+    /// <summary>
     /// 注册事件处理程序监视器
     /// </summary>
     /// <typeparam name="TEventHandlerMonitor">实现自 <see cref="IEventHandlerMonitor"/></typeparam>
