@@ -24,7 +24,7 @@ import Tag from "@site/src/components/Tag.js";
 
 :::
 
-## v4.7.5（当前版本 `.NET7`）
+## v4.7.6（当前版本 `.NET7`）
 
 :::caution .NET7 发布
 
@@ -53,9 +53,29 @@ import Tag from "@site/src/components/Tag.js";
 
 - **突破性变化**
 
-  - &nbsp;<Tag>升级</Tag> **适配 `.NET 6.0.11` 和 `.NET 7`** <sup>4.7.5</sup> [7df3195](https://gitee.com/dotnetchina/Furion/commit/7df31951cc565327ae101d416551c6de3afa401b)
-  - &nbsp;<Tag>升级</Tag> **所有脚手架至 `.NET 7`** <sup>4.7.5</sup> [7df3195](https://gitee.com/dotnetchina/Furion/commit/7df31951cc565327ae101d416551c6de3afa401b)
-  - &nbsp;<Tag>调整</Tag> **`LogContext` 类型的所有方法至 `Furion.Logging` 命名空间下，解决空异常问题** <sup>4.7.3</sup> [#I5YOT3](https://gitee.com/dotnetchina/Furion/issues/I5YOT3)
+  - &nbsp;<Tag>新增</Tag> **所有脚手架支持 `-f` 指定 `.NET` 版本** <sup>4.7.6</sup> [#I603AZ](https://gitee.com/dotnetchina/Furion/issues/I603AZ)
+
+<details style={{ marginLeft: 50 }}>
+  <summary>查看更改</summary>
+  <div>
+
+```bash showLineNumbers {2,5,8}
+# 创建 .NET5 版本
+dotnet new furionapi -n 项目名称 -f net5
+
+# 创建 .NET6 版本
+dotnet new furionapi -n 项目名称 -f net6
+
+# 创建 .NET7 版本
+dotnet new furionapi -n 项目名称 -f net7
+```
+
+  </div>
+</details>
+
+- - &nbsp;<Tag>升级</Tag> **适配 `.NET 6.0.11` 和 `.NET 7`** <sup>4.7.5</sup> [7df3195](https://gitee.com/dotnetchina/Furion/commit/7df31951cc565327ae101d416551c6de3afa401b)
+- - &nbsp;<Tag>升级</Tag> **所有脚手架至 `.NET 7`** <sup>4.7.5</sup> [7df3195](https://gitee.com/dotnetchina/Furion/commit/7df31951cc565327ae101d416551c6de3afa401b)
+- - &nbsp;<Tag>调整</Tag> **`LogContext` 类型的所有方法至 `Furion.Logging` 命名空间下，解决空异常问题** <sup>4.7.3</sup> [#I5YOT3](https://gitee.com/dotnetchina/Furion/issues/I5YOT3)
 
 <details style={{ marginLeft: 50 }}>
   <summary>查看更改</summary>
@@ -96,7 +116,7 @@ var value = logContext.Get("Key");  // 新版本不会报错，且 value = null
 
   - &nbsp;<Tag>新增</Tag> `IIS` 回收问题解决方案文档
   - &nbsp;<Tag>新增</Tag> 远程请求获取 `Cookies` 文档
-  - &nbsp;<Tag>更新</Tag> 日志记录文档、定时任务文档、远程请求文档
+  - &nbsp;<Tag>更新</Tag> 日志记录文档、定时任务文档、远程请求文档、脚手架文档
 
 ---
 

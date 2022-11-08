@@ -6,12 +6,6 @@ sidebar_label: 2.2 官方脚手架
 
 import useBaseUrl from "@docusaurus/useBaseUrl";
 
-:::caution 4.7.5+ 版本说明
-
-`Furion 4.7.5+` 版本之后脚手架默认创建 `.NET7` 版本，如需 `.NET6/.NET5` 可安装 `v4.7.3` 及之前版本创建即可，也可以查看底部更改文档。
-
-:::
-
 :::important 特别说明
 
 **脚手架不是安装在项目中的！** 而是通过 `CMD` 或 `PowerShell` 安装到操作系统中的。
@@ -58,9 +52,9 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 ```bash showLineNumbers
 // EFCore
-dotnet new --install Furion.Template.Api::4.7.5
+dotnet new --install Furion.Template.Api::4.7.6
 // SqlSugar
-dotnet new --install Furion.SqlSugar.Template.Api::4.7.5
+dotnet new --install Furion.SqlSugar.Template.Api::4.7.6
 ```
 
 :::tip `SqlSugar` 脚手架基本使用
@@ -73,21 +67,33 @@ dotnet new --install Furion.SqlSugar.Template.Api::4.7.5
 
 ## 2.2.3 使用脚手架
 
-```bash showLineNumbers
-dotnet new furionapi -n 项目名称
+```bash showLineNumbers {1,4-6,9-11}
+dotnet new furionapi -n 项目名称 -f .NET版本
+
+# EFCore：支持创建 .NET5-7 版本
+dotnet new furionapi -n MyProject -f net5
+dotnet new furionapi -n MyProject -f net6
+dotnet new furionapi -n MyProject -f net7
+
+# SqlSugar：支持创建 .NET5-7 版本
+dotnet new fsapi -n MyProject -f net5
+dotnet new fsapi -n MyProject -f net6
+dotnet new fsapi -n MyProject -f net7
 ```
 
 这样就可以生成项目代码了，**生成之后推荐将所有的 `nuget` 包更新到最新版本。**
 
-:::tip 关于项目名称
+:::tip 关于项目名称和 `.NET` 版本
 
 通过脚手架生成的项目名称不能包含 `短横线` 等特殊字符，如有该需求，可在生成之后通过 `Visual Studio` 进行手动修改。
+
+`-f` 版本参数所有选项：`net5`，`net6`，`net7`。
 
 :::
 
 :::important 特别提醒
 
-`furionmvc` 对应的是上面列表的 `关键字`，我们也可以通过 `dotnet new --list` 查看。
+`furionapi` 对应的是上面列表的 `关键字`，我们也可以通过 `dotnet new --list` 查看。
 
 想了解更多可以使用 `dotnet new 关键字 --help` 查看更多参数。
 
@@ -98,7 +104,7 @@ dotnet new furionapi -n 项目名称
 只需要重新安装最新版替换即可，如：
 
 ```bash showLineNumbers
-dotnet new --install Furion.Template.Api::4.7.5
+dotnet new --install Furion.Template.Api::4.7.6
 ```
 
 不带版本号总是安装最新的版本。
@@ -119,97 +125,7 @@ dotnet new --install Furion.Template.Api::4.7.5
 - `Microsoft.CodeAnalysis.Workspaces.MSBuild`
 - `Microsoft.VisualStudio.Web.CodeGeneration.Design`
 
-## 2.2.7 使用 `.NET6` 脚手架
-
-自 `Furion 4.7.5+` 版本开始，框架只提供了 `.NET7+` 版本脚手架，如需使用 `.NET6` 版本，可创建之后执行下面步骤：
-
-1. 替换 `<TargetFramework>net7.0</TargetFramework>` 为 `<TargetFramework>net6.0</TargetFramework>`
-
-2. 如果使用的是 `EFCore` 版本则需要将启动层的 `Microsoft.EntityFrameworkCore.Tools` 版本改为 `6.0.11` 版本，如编辑启动层的 `Web.Entry.csproj`：
-
-```xml showLineNumbers {1}
-<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.0">
-	<PrivateAssets>all</PrivateAssets>
-	<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-</PackageReference>
-```
-
-改为：
-
-```xml showLineNumbers {1}
-<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.11">
-	<PrivateAssets>all</PrivateAssets>
-	<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-</PackageReference>
-```
-
-## 2.2.8 使用 `.NET5` 脚手架
-
-目前 `Furion` 只提供了 `.NET6+` 版本脚手架，如需使用 `.NET5` 版本，可创建之后执行下面步骤：
-
-1. 替换 `<TargetFramework>net6.0</TargetFramework>` 为 `<TargetFramework>net5.0</TargetFramework>`
-
-2. 编辑所有层 `.csproj` 文件并添加 `<LangVersion>10.0</LangVersion>`，如：
-
-```xml showLineNumbers {3}
-<PropertyGroup>
-	<TargetFramework>net5.0</TargetFramework>
-    <LangVersion>10.0</LangVersion>
-    <!-- 其他配置 -->
-</PropertyGroup>
-```
-
-3. 如果使用的是 `EFCore` 版本则需要将启动层的 `Microsoft.EntityFrameworkCore.Tools` 版本改为 `5.0.17` 版本，如编辑启动层的 `Web.Entry.csproj`：
-
-```xml showLineNumbers {1}
-<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.7">
-	<PrivateAssets>all</PrivateAssets>
-	<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-</PackageReference>
-```
-
-改为：
-
-```xml showLineNumbers {1}
-<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="5.0.17">
-	<PrivateAssets>all</PrivateAssets>
-	<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-</PackageReference>
-```
-
-4. 在启动层添加 `Startup.cs` 文件
-
-```cs showLineNumbers
-namespace YourProject.Web.Entry;    // 你的项目命名空间
-
-public class Startup
-{
-    public Startup(IConfiguration configuration)
-    {
-        Configuration = configuration;
-    }
-
-    public IConfiguration Configuration { get; }
-
-    public void ConfigureServices(IServiceCollection services)
-    {
-    }
-
-    public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
-    {
-    }
-}
-```
-
-5. 修改 `Program.cs` 为：
-
-```cs showLineNumbers {3}
-using YourProject.Web.Entry;
-
-Serve.Run<Startup>(RunOptions.Default);
-```
-
-## 2.2.9 搭建脚手架
+## 2.2.7 搭建脚手架
 
 脚手架可以极大的提高我们搭建新项目的速度，推荐两篇文章给大家学习：
 
@@ -221,7 +137,7 @@ Serve.Run<Startup>(RunOptions.Default);
 
 [Furion 脚手架源码](https://gitee.com/dotnetchina/Furion/tree/v4/templates)
 
-## 2.2.10 反馈与建议
+## 2.2.8 反馈与建议
 
 :::note 与我们交流
 
