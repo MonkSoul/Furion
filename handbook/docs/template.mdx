@@ -6,6 +6,12 @@ sidebar_label: 2.2 官方脚手架
 
 import useBaseUrl from "@docusaurus/useBaseUrl";
 
+:::caution 4.7.5+ 版本说明
+
+`Furion 4.7.5+` 版本之后脚手架默认创建 `.NET7` 版本，如需 `.NET6/.NET5` 可查看底部文档。
+
+:::
+
 :::important 特别说明
 
 **脚手架不是安装在项目中的！** 而是通过 `CMD` 或 `PowerShell` 安装到操作系统中的。
@@ -52,9 +58,9 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 ```bash showLineNumbers
 // EFCore
-dotnet new --install Furion.Template.Api::4.7.3
+dotnet new --install Furion.Template.Api::4.7.5
 // SqlSugar
-dotnet new --install Furion.SqlSugar.Template.Api::4.7.3
+dotnet new --install Furion.SqlSugar.Template.Api::4.7.5
 ```
 
 :::tip `SqlSugar` 脚手架基本使用
@@ -92,7 +98,7 @@ dotnet new furionapi -n 项目名称
 只需要重新安装最新版替换即可，如：
 
 ```bash showLineNumbers
-dotnet new --install Furion.Template.Api::4.7.3
+dotnet new --install Furion.Template.Api::4.7.5
 ```
 
 不带版本号总是安装最新的版本。
@@ -113,9 +119,15 @@ dotnet new --install Furion.Template.Api::4.7.3
 - `Microsoft.CodeAnalysis.Workspaces.MSBuild`
 - `Microsoft.VisualStudio.Web.CodeGeneration.Design`
 
-## 2.2.7 使用 `.NET5` 脚手架
+## 2.2.7 使用 `.NET6` 脚手架
 
-目前 `Furion` 只提供了 `.NET6+` 版本脚手架，如需使用 `.NET` 版本，可创建之后执行下面步骤：
+自 `Furion 4.7.5+` 版本开始，框架只提供了 `.NET7+` 版本脚手架，如需使用 `.NET6` 版本，可创建之后执行下面步骤：
+
+替换 `<TargetFramework>net7.0</TargetFramework>` 为 `<TargetFramework>net6.0</TargetFramework>`
+
+## 2.2.8 使用 `.NET5` 脚手架
+
+目前 `Furion` 只提供了 `.NET6+` 版本脚手架，如需使用 `.NET5` 版本，可创建之后执行下面步骤：
 
 1. 替换 `<TargetFramework>net6.0</TargetFramework>` 为 `<TargetFramework>net5.0</TargetFramework>`
 
@@ -179,7 +191,7 @@ using YourProject.Web.Entry;
 Serve.Run<Startup>(RunOptions.Default);
 ```
 
-## 2.2.8 搭建脚手架
+## 2.2.9 搭建脚手架
 
 脚手架可以极大的提高我们搭建新项目的速度，推荐两篇文章给大家学习：
 
@@ -191,7 +203,7 @@ Serve.Run<Startup>(RunOptions.Default);
 
 [Furion 脚手架源码](https://gitee.com/dotnetchina/Furion/tree/v4/templates)
 
-## 2.2.9 反馈与建议
+## 2.2.10 反馈与建议
 
 :::note 与我们交流
 
