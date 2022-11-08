@@ -1,17 +1,23 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net7.0</TargetFramework>
-    <NoWarn>1701;1702;1591</NoWarn>
-    <DocumentationFile>FurionRazor.Web.Core.xml</DocumentationFile>
-  </PropertyGroup>
+	<PropertyGroup Condition="'$(net5)' == 'True' ">
+		<TargetFramework>net5.0</TargetFramework>
+		<LangVersion>10.0</LangVersion>
+		<NoWarn>1701;1702;1591</NoWarn>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <None Remove="FurionRazor.Web.Core.xml" />
-  </ItemGroup>
+	<PropertyGroup Condition="'$(net6)' == 'True' ">
+		<TargetFramework>net6.0</TargetFramework>
+		<NoWarn>1701;1702;1591</NoWarn>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\FurionRazor.Application\FurionRazor.Application.csproj" />
-  </ItemGroup>
+	<PropertyGroup Condition="'$(net7)' == 'True' ">
+		<TargetFramework>net7.0</TargetFramework>
+		<NoWarn>1701;1702;1591</NoWarn>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\FurionRazor.Application\FurionRazor.Application.csproj" />
+	</ItemGroup>
 
 </Project>
