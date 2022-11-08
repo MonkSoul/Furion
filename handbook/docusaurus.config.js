@@ -72,6 +72,12 @@ module.exports = {
             },
           ],
         },
+        {
+          to: "docs/net6-to-net7",
+          activeBasePath: "docs/net6-to-net7",
+          label: ".NET7🚀",
+          position: "left",
+        },
         // {
         //   label: "视频",
         //   position: "right",
