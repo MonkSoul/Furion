@@ -59,7 +59,7 @@
         {
           "condition": "(framework != \"net5\")",
           "exclude": [
-            "FurionApi.Web.Entry/Startup.cs"
+            "FurionApp.Web.Entry/Startup.cs"
           ]
         }
       ]

@@ -4,24 +4,17 @@
 		<TargetFramework>net5.0</TargetFramework>
 		<LangVersion>10.0</LangVersion>
 		<NoWarn>1701;1702;1591</NoWarn>
-		<DocumentationFile>FurionMvc.Core.xml</DocumentationFile>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(net6)' == 'True' ">
 		<TargetFramework>net6.0</TargetFramework>
 		<NoWarn>1701;1702;1591</NoWarn>
-		<DocumentationFile>FurionMvc.Core.xml</DocumentationFile>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(net7)' == 'True' ">
 		<TargetFramework>net7.0</TargetFramework>
 		<NoWarn>1701;1702;1591</NoWarn>
-		<DocumentationFile>FurionMvc.Core.xml</DocumentationFile>
 	</PropertyGroup>
-
-	<ItemGroup>
-		<None Remove="FurionMvc.Core.xml" />
-	</ItemGroup>
 
 	<ItemGroup>
 		<PackageReference Include="Furion" Version="4.7.5" />
