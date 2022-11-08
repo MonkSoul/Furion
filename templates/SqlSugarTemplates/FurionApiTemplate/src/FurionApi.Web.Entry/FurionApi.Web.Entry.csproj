@@ -1,21 +1,24 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
-	<PropertyGroup>
+	<PropertyGroup Condition="'$(net5)' == 'True' ">
+		<TargetFramework>net5.0</TargetFramework>
+		<LangVersion>10.0</LangVersion>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<SatelliteResourceLanguages>en-US</SatelliteResourceLanguages>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(net6)' == 'True' ">
+		<TargetFramework>net6.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<SatelliteResourceLanguages>en-US</SatelliteResourceLanguages>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(net7)' == 'True' ">
 		<TargetFramework>net7.0</TargetFramework>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<SatelliteResourceLanguages>en-US</SatelliteResourceLanguages>
 	</PropertyGroup>
 
-	<ItemGroup>
-		<Compile Remove="Controllers\**" />
-		<Compile Remove="wwwroot\**" />
-		<Content Remove="Controllers\**" />
-		<Content Remove="wwwroot\**" />
-		<EmbeddedResource Remove="Controllers\**" />
-		<EmbeddedResource Remove="wwwroot\**" />
-		<None Remove="Controllers\**" />
-		<None Remove="wwwroot\**" />
-	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\FurionApi.Web.Core\FurionApi.Web.Core.csproj" />
 	</ItemGroup>
