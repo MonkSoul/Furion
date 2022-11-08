@@ -13,5 +13,51 @@
     "type": "project"
   },
   "sourceName": "FurionBlazor",
-  "preferNameDirectory": true
+  "preferNameDirectory": true,
+  "symbols": {
+    "framework": {
+      "type": "parameter",
+      "datatype": "choice",
+      "choices": [
+        {
+          "choice": "net5",
+          "description": ".NET5 脚手架"
+        },
+        {
+          "choice": "net6",
+          "description": ".NET6 脚手架"
+        },
+        {
+          "choice": "net7",
+          "description": ".NET7 脚手架"
+        }
+      ],
+      "defaultValue": "net7",
+      "description": "选择要创建的 .NET5-7 脚手架"
+    },
+    "net5": {
+      "type": "computed",
+      "value": "(framework == \"net5\")"
+    },
+    "net6": {
+      "type": "computed",
+      "value": "(framework == \"net6\")"
+    },
+    "net7": {
+      "type": "computed",
+      "value": "(framework == \"net7\")"
+    }
+  },
+  "sources": [
+    {
+      "modifiers": [
+        {
+          "condition": "(framework != \"net5\")",
+          "exclude": [
+            "FurionApi.Web.Entry/Startup.cs"
+          ]
+        }
+      ]
+    }
+  ]
 }
