@@ -1,15 +1,20 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net7.0</TargetFramework>
-  </PropertyGroup>
+	<PropertyGroup Condition="'$(net5)' == 'True' ">
+		<TargetFramework>net5.0</TargetFramework>
+		<LangVersion>10.0</LangVersion>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <None Remove="sqlsettings.json" />
-  </ItemGroup>
+	<PropertyGroup Condition="'$(net6)' == 'True' ">
+		<TargetFramework>net6.0</TargetFramework>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\FurionApi.Core\FurionApi.Core.csproj" />
-  </ItemGroup>
+	<PropertyGroup Condition="'$(net7)' == 'True' ">
+		<TargetFramework>net7.0</TargetFramework>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\FurionApi.Core\FurionApi.Core.csproj" />
+	</ItemGroup>
 
 </Project>
