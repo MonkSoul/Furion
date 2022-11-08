@@ -59,6 +59,9 @@ public static class EventBusServiceCollectionExtensions
         // 注册内部服务
         services.AddInternalService(eventBusOptionsBuilder);
 
+        // 构建事件总线服务
+        eventBusOptionsBuilder.Build(services);
+
         // 通过工厂模式创建
         services.AddHostedService(serviceProvider =>
         {
@@ -79,9 +82,6 @@ public static class EventBusServiceCollectionExtensions
 
             return eventBusHostedService;
         });
-
-        // 构建事件总线服务
-        eventBusOptionsBuilder.Build(services);
 
         return services;
     }

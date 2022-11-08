@@ -67,41 +67,6 @@ internal sealed class EventBusHostedService : BackgroundService
     private readonly ConcurrentDictionary<EventHandlerWrapper, EventHandlerWrapper> _eventHandlers = new();
 
     /// <summary>
-    /// 事件处理程序监视器
-    /// </summary>
-    private IEventHandlerMonitor Monitor { get; }
-
-    /// <summary>
-    /// 事件处理程序执行器
-    /// </summary>
-    private IEventHandlerExecutor Executor { get; }
-
-    /// <summary>
-    /// 是否使用 UTC 时间
-    /// </summary>
-    private bool UseUtcTimestamp { get; }
-
-    /// <summary>
-    /// 是否启用模糊匹配事件消息
-    /// </summary>
-    private bool FuzzyMatch { get; }
-
-    /// <summary>
-    /// 是否启用执行完成触发 GC 回收
-    /// </summary>
-    private bool GCCollect { get; }
-
-    /// <summary>
-    /// 是否启用日志记录
-    /// </summary>
-    private bool LogEnabled { get; }
-
-    /// <summary>
-    /// 最近一次收集时间
-    /// </summary>
-    private DateTime? LastGCCollectTime { get; set; }
-
-    /// <summary>
     /// 构造函数
     /// </summary>
     /// <param name="logger">日志对象</param>
@@ -170,6 +135,41 @@ internal sealed class EventBusHostedService : BackgroundService
     }
 
     /// <summary>
+    /// 事件处理程序监视器
+    /// </summary>
+    private IEventHandlerMonitor Monitor { get; }
+
+    /// <summary>
+    /// 事件处理程序执行器
+    /// </summary>
+    private IEventHandlerExecutor Executor { get; }
+
+    /// <summary>
+    /// 是否使用 UTC 时间
+    /// </summary>
+    private bool UseUtcTimestamp { get; }
+
+    /// <summary>
+    /// 是否启用模糊匹配事件消息
+    /// </summary>
+    private bool FuzzyMatch { get; }
+
+    /// <summary>
+    /// 是否启用执行完成触发 GC 回收
+    /// </summary>
+    private bool GCCollect { get; }
+
+    /// <summary>
+    /// 是否启用日志记录
+    /// </summary>
+    private bool LogEnabled { get; }
+
+    /// <summary>
+    /// 最近一次收集时间
+    /// </summary>
+    private DateTime? LastGCCollectTime { get; set; }
+
+    /// <summary>
     /// 执行后台任务
     /// </summary>
     /// <param name="stoppingToken">后台主机服务停止时取消任务 Token</param>
@@ -193,7 +193,7 @@ internal sealed class EventBusHostedService : BackgroundService
     }
 
     /// <summary>
-    /// 后台调用事件处理程序
+    /// 后台调用处理程序
     /// </summary>
     /// <param name="stoppingToken">后台主机服务停止时取消任务 Token</param>
     /// <returns><see cref="Task"/> 实例</returns>
@@ -235,7 +235,7 @@ internal sealed class EventBusHostedService : BackgroundService
         // 创建共享上下文数据对象
         var properties = new Dictionary<object, object>();
 
-        // 通过并行方式提高吞吐量
+        // 通过并行方式提高吞吐量并解决 Thread.Sleep 问题
         Parallel.ForEach(eventHandlersThatShouldRun, (eventHandlerThatShouldRun) =>
         {
             // 创建新的线程执行
@@ -275,7 +275,7 @@ internal sealed class EventBusHostedService : BackgroundService
                             ? null
                             : _serviceProvider.GetService(eventSubscribeAttribute.FallbackPolicy) as IEventFallbackPolicy;
 
-                        // 执行重试
+                        // 调用事件处理程序并配置出错执行重试
                         await Retry.InvokeAsync(async () =>
                         {
                             await eventHandlerThatShouldRun.Handler!(eventHandlerExecutingContext);
