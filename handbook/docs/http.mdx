@@ -1368,14 +1368,37 @@ var result = await "https://api.facebook.com/"
 
 `Furion` 框架内部默认不提供同步请求操作，建议总是使用异步的方式请求。如在不能使用异步的情况下，可自行转换为同步执行。如：
 
-```cs showLineNumbers
+- 字符串拓展方式：
+
+```cs showLineNumbers {1,4}
 var result = "https://api.facebook.com".GetAsync().GetAwaiter().GetResult();
+
+// 如果不考虑 Task 异常捕获，可以直接 .Result
+var result = "https://api.facebook.com".GetAsync().Result;
+```
+
+- 代理方式
+
+```cs showLineNumbers {8,11}
+public interface IHttp : IHttpDispatchProxy
+{
+    [Get("https://api.facebook.com")]
+    Task<HttpResponseMessage> GetAsync();
+}
+
+// 同步调用
+var result = _http.GetAsync().GetAwaiter().GetResult();
+
+// 如果不考虑 Task 异常捕获，可以直接 .Result
+var result = _http.GetAsync().Result;
 ```
 
 ## 19.10 静态 `Default` 方式构建
 
+这种方式比字符串拓展好，避免了直接在字符串上拓展。
+
 ```cs showLineNumbers
-await HttpRequestPart.Default.SetRequestUrl("https://www.baidu.com").GetAsStringAsync();
+await HttpRequestPart.Default().SetRequestUrl("https://www.baidu.com").GetAsStringAsync();
 ```
 
 ## 19.11 关闭 `Http` 请求日志

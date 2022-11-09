@@ -50,12 +50,15 @@ function DocSidebarDesktop({ path, sidebar, onCollapse, isHidden }) {
               alignItems: "center",
               justifyContent: "center",
               boxSizing: "border-box",
-              border: "1px solid #dedede",
               userSelect: "none",
+              fontSize: 12,
+              backgroundColor: "#3fbbfe",
+              color: "#fff",
+              fontWeight: "bold",
             }}
             onClick={() => setShow((s) => !s)}
           >
-            💖
+            收
           </span>
         </>
       )}
