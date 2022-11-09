@@ -1227,6 +1227,80 @@ services.AddMonitorLogging(options =>
 
 <img src={useBaseUrl("img/hl1.png")} />
 
+### 18.6.7 将 `LoggingMonitor` 写入数据库
+
+1. 注册 `.AddDatabaseLogging<>` 服务：
+
+```cs showLineNumbers {1,3,5}
+services.AddDatabaseLogging<DatabaseLoggingWriter>(options =>
+{
+    options.WriteFilter = (logMsg) =>
+    {
+        return logMsg.LogName == "System.Logging.LoggingMonitor";
+    };
+});
+```
+
+2. 写入数据库
+
+```cs showLineNumbers {1,5,8,12}
+using Furion.Logging;
+
+namespace Your.Core;
+
+public class DatabaseLoggingWriter : IDatabaseLoggingWriter
+{
+    // 任何数据库 ORM 注入。。。
+    public DatabaseLoggingWriter()
+    {
+    }
+
+    public void Write(LogMessage logMsg, bool flush)
+    {
+        // 将 logMsg 的属性一一插入到数据库中~
+    }
+}
+```
+
+:::tip 单个 `DatabaseLoggingWriter` 情况
+
+如果已经全局注册了：
+
+```cs showLineNumbers
+services.AddDatabaseLogging<DatabaseLoggingWriter>();   // 注意这里没有过滤 logName
+```
+
+且不想多注册一个数据库日志服务，那么只需要在代码中过滤即可：
+
+```cs showLineNumbers {1,5,8,12,15}
+using Furion.Logging;
+
+namespace Your.Core;
+
+public class DatabaseLoggingWriter : IDatabaseLoggingWriter
+{
+    // 任何数据库 ORM 注入。。。
+    public DatabaseLoggingWriter()
+    {
+    }
+
+    public void Write(LogMessage logMsg, bool flush)
+    {
+        // 将 logMsg 的属性一一插入到数据库中~
+        if(logMsg.LogName == "System.Logging.LoggingMonitor")
+        {
+            // 写入审计表数据库
+        }
+        else
+        {
+            // 写入其他表数据库
+        }
+    }
+}
+```
+
+:::
+
 ## 18.7 打印日志到 `Swagger` 中
 
 在 `Furion` 框架中默认集成了 `MiniProfiler` 组件并与 `Swagger` 进行了结合，如需打印日志或调试代码，只需调用以下方法即可：
