@@ -952,7 +952,7 @@ public interface IHttp : IHttpDispatchProxy
 
 :::tip `Furion 4.4.0+` 版本
 
-如果使用 `Furion 4.4.0+` 版本，请使用以下的 `HttpFile` 替代 `[BodyBytes]` 操作。
+如果使用 `Furion 4.4.0+` 版本，请使用以下的 `HttpFile` 替代 `[BodyBytes]` 操作。请求有额外参数时HttpFile必须设置fileName值。
 
 :::
 
@@ -961,6 +961,10 @@ public interface IHttp : IHttpDispatchProxy
 {
     [Post("https://www.furion.icu/upload", ContentType = "multipart/form-data")]
     Task<HttpResponseMessage> PostXXXAsync(HttpFile file);
+
+
+    [Post("https://www.furion.icu/upload", ContentType = "multipart/form-data")]
+    Task<HttpResponseMessage> PostXXXAsync(HttpFile file, [Body("multipart/form-data")]User user);
 
     // 支持多个文件
     [Post("https://www.furion.icu/upload", ContentType = "multipart/form-data")]
