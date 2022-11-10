@@ -127,10 +127,8 @@ public static class HostBuilderExtensions
             // 创建组件实例
             var component = Activator.CreateInstance(context.ComponentType) as IWebComponent;
 
-
             // 调用
             component.Load(hostBuilder, context);
-
         }
 
 #endif

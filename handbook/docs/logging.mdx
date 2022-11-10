@@ -642,7 +642,7 @@ info: 2022-09-28 02:02:22(+08:00) 星期三 Microsoft.Hosting.Lifetime[0] #1
 ```cs showLineNumbers {1,5,8,12}
 using Furion.Logging;
 
-namespace Your.Core;
+namespace YourProject.Core;
 
 public class DatabaseLoggingWriter : IDatabaseLoggingWriter
 {
@@ -1041,7 +1041,7 @@ services.AddMonitorLogging(options =>
 ```cs showLineNumbers {14-18}
 using Furion.Logging;
 
-namespace Your.Core;
+namespace YourProject.Core;
 
 public class DatabaseLoggingWriter : IDatabaseLoggingWriter
 {
@@ -1246,7 +1246,7 @@ services.AddDatabaseLogging<DatabaseLoggingWriter>(options =>
 ```cs showLineNumbers {1,5,8,12}
 using Furion.Logging;
 
-namespace Your.Core;
+namespace YourProject.Core;
 
 public class DatabaseLoggingWriter : IDatabaseLoggingWriter
 {
@@ -1275,7 +1275,7 @@ services.AddDatabaseLogging<DatabaseLoggingWriter>();   // 注意这里没有过
 ```cs showLineNumbers {1,5,8,12,15}
 using Furion.Logging;
 
-namespace Your.Core;
+namespace YourProject.Core;
 
 public class DatabaseLoggingWriter : IDatabaseLoggingWriter
 {

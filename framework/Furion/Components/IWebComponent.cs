@@ -41,6 +41,7 @@ public interface IWebComponent : IComponent
     /// <param name="componentContext">组件上下文</param>
     void Load(WebApplicationBuilder builder, ComponentContext componentContext);
 #else
+
     /// <summary>
     /// 装置 Web 应用构建器
     /// </summary>
@@ -48,5 +49,6 @@ public interface IWebComponent : IComponent
     /// <param name="builder"><see cref="IWebHostBuilder"/></param>
     /// <param name="componentContext">组件上下文</param>
     void Load(IWebHostBuilder builder, ComponentContext componentContext);
+
 #endif
 }
