@@ -27,6 +27,8 @@ namespace Furion.TaskScheduler;
 /// <summary>
 /// 配置定时任务特性
 /// </summary>
+/// <remarks>TaskScheduler 将于2022年12月31日移除，请使用 Scheduler 替代</remarks>
+[Obsolete("The <TaskScheduler> will be removed on December 31, 2022. Please use the <Scheduler> instead.")]
 [SuppressSniffer, AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
 public class SpareTimeAttribute : Attribute
 {

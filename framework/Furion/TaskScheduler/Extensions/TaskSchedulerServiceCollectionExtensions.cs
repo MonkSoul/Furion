@@ -30,6 +30,8 @@ namespace Microsoft.Extensions.DependencyInjection;
 /// <summary>
 /// 任务调度类服务拓展
 /// </summary>
+/// <remarks>TaskScheduler 将于2022年12月31日移除，请使用 Scheduler 替代</remarks>
+[Obsolete("The <TaskScheduler> will be removed on December 31, 2022. Please use the <Scheduler> instead.")]
 [SuppressSniffer]
 public static class TaskSchedulerServiceCollectionExtensions
 {
@@ -38,6 +40,8 @@ public static class TaskSchedulerServiceCollectionExtensions
     /// </summary>
     /// <param name="services"></param>
     /// <returns></returns>
+    /// <remarks>TaskScheduler 将于2022年12月31日移除，请使用 Scheduler 替代</remarks>
+    [Obsolete("The <TaskScheduler> will be removed on December 31, 2022. Please use the <Scheduler> instead.")]
     public static IServiceCollection AddTaskScheduler(this IServiceCollection services)
     {
         // 查找所有贴了 [SpareTime] 特性的方法，并且含有一个参数，参数为 SpareTimer 类型

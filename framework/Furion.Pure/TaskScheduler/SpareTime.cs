@@ -30,6 +30,8 @@ namespace Furion.TaskScheduler;
 /// <summary>
 /// 后台任务静态类
 /// </summary>
+/// <remarks>TaskScheduler 将于2022年12月31日移除，请使用 Scheduler 替代</remarks>
+[Obsolete("The <TaskScheduler> will be removed on December 31, 2022. Please use the <Scheduler> instead.")]
 [SuppressSniffer]
 public static class SpareTime
 {
@@ -43,6 +45,8 @@ public static class SpareTime
     /// <param name="startNow"></param>
     /// <param name="cancelInNoneNextTime"></param>
     /// <param name="executeType"></param>
+    /// <remarks>TaskScheduler 将于2022年12月31日移除，请使用 Scheduler 替代</remarks>
+    [Obsolete("The <TaskScheduler> will be removed on December 31, 2022. Please use the <Scheduler> instead.")]
     public static void Do(double interval, Action<SpareTimer, long> doWhat = default, string workerName = default, string description = default, bool startNow = true, bool cancelInNoneNextTime = true, SpareTimeExecuteTypes executeType = SpareTimeExecuteTypes.Parallel)
     {
         Do(() => interval, doWhat, workerName, description, startNow, cancelInNoneNextTime, executeType, true);
@@ -59,7 +63,8 @@ public static class SpareTime
     /// <param name="cancelInNoneNextTime"></param>
     /// <param name="executeType"></param>
     /// <param name="onlyInspect">无关紧要的参数（用于检查器，外部不可用）</param>
-    ///
+    /// <remarks>TaskScheduler 将于2022年12月31日移除，请使用 Scheduler 替代</remarks>
+    [Obsolete("The <TaskScheduler> will be removed on December 31, 2022. Please use the <Scheduler> instead.")]
     public static void Do(double interval, Func<SpareTimer, long, Task> doWhat = default, string workerName = default, string description = default, bool startNow = true, bool cancelInNoneNextTime = true, SpareTimeExecuteTypes executeType = SpareTimeExecuteTypes.Parallel, bool onlyInspect = false)
     {
         Do(() => interval, doWhat, workerName, description, startNow, cancelInNoneNextTime, executeType, true, onlyInspect);
@@ -73,6 +78,8 @@ public static class SpareTime
     /// <param name="interval"></param>
     /// <param name="cancelInNoneNextTime"></param>
     /// <param name="executeType"></param>
+    /// <remarks>TaskScheduler 将于2022年12月31日移除，请使用 Scheduler 替代</remarks>
+    [Obsolete("The <TaskScheduler> will be removed on December 31, 2022. Please use the <Scheduler> instead.")]
     public static void DoIt(Action doWhat = default, double interval = 30, bool cancelInNoneNextTime = true, SpareTimeExecuteTypes executeType = SpareTimeExecuteTypes.Parallel)
     {
         if (doWhat == null) return;
@@ -88,6 +95,8 @@ public static class SpareTime
     /// <param name="interval"></param>
     /// <param name="cancelInNoneNextTime"></param>
     /// <param name="executeType"></param>
+    /// <remarks>TaskScheduler 将于2022年12月31日移除，请使用 Scheduler 替代</remarks>
+    [Obsolete("The <TaskScheduler> will be removed on December 31, 2022. Please use the <Scheduler> instead.")]
     public static void DoIt(Func<Task> doWhat = default, double interval = 30, bool cancelInNoneNextTime = true, SpareTimeExecuteTypes executeType = SpareTimeExecuteTypes.Parallel)
     {
         if (doWhat == null) return;
@@ -105,6 +114,8 @@ public static class SpareTime
     /// <param name="startNow"></param>
     /// <param name="cancelInNoneNextTime"></param>
     /// <param name="executeType"></param>
+    /// <remarks>TaskScheduler 将于2022年12月31日移除，请使用 Scheduler 替代</remarks>
+    [Obsolete("The <TaskScheduler> will be removed on December 31, 2022. Please use the <Scheduler> instead.")]
     public static void DoOnce(double interval, Action<SpareTimer, long> doWhat = default, string workerName = default, string description = default, bool startNow = true, bool cancelInNoneNextTime = true, SpareTimeExecuteTypes executeType = SpareTimeExecuteTypes.Parallel)
     {
         Do(() => interval, doWhat, workerName, description, startNow, cancelInNoneNextTime, executeType, false);
@@ -120,6 +131,8 @@ public static class SpareTime
     /// <param name="startNow"></param>
     /// <param name="cancelInNoneNextTime"></param>
     /// <param name="executeType"></param>
+    /// <remarks>TaskScheduler 将于2022年12月31日移除，请使用 Scheduler 替代</remarks>
+    [Obsolete("The <TaskScheduler> will be removed on December 31, 2022. Please use the <Scheduler> instead.")]
     public static void DoOnce(double interval, Func<SpareTimer, long, Task> doWhat = default, string workerName = default, string description = default, bool startNow = true, bool cancelInNoneNextTime = true, SpareTimeExecuteTypes executeType = SpareTimeExecuteTypes.Parallel)
     {
         Do(() => interval, doWhat, workerName, description, startNow, cancelInNoneNextTime, executeType, false);
@@ -136,6 +149,8 @@ public static class SpareTime
     /// <param name="cancelInNoneNextTime"></param>
     /// <param name="cronFormat">配置 Cron 表达式格式化</param>
     /// <param name="executeType"></param>
+    /// <remarks>TaskScheduler 将于2022年12月31日移除，请使用 Scheduler 替代</remarks>
+    [Obsolete("The <TaskScheduler> will be removed on December 31, 2022. Please use the <Scheduler> instead.")]
     public static void Do(string expression, Action<SpareTimer, long> doWhat = default, string workerName = default, string description = default, bool startNow = true, bool cancelInNoneNextTime = true, CronFormat? cronFormat = default, SpareTimeExecuteTypes executeType = SpareTimeExecuteTypes.Parallel)
     {
         Do(() => GetCronNextOccurrence(expression, cronFormat), doWhat, workerName, description, startNow, cancelInNoneNextTime, executeType);
@@ -152,6 +167,8 @@ public static class SpareTime
     /// <param name="cancelInNoneNextTime"></param>
     /// <param name="cronFormat">配置 Cron 表达式格式化</param>
     /// <param name="executeType"></param>
+    /// <remarks>TaskScheduler 将于2022年12月31日移除，请使用 Scheduler 替代</remarks>
+    [Obsolete("The <TaskScheduler> will be removed on December 31, 2022. Please use the <Scheduler> instead.")]
     public static void Do(string expression, Func<SpareTimer, long, Task> doWhat = default, string workerName = default, string description = default, bool startNow = true, bool cancelInNoneNextTime = true, CronFormat? cronFormat = default, SpareTimeExecuteTypes executeType = SpareTimeExecuteTypes.Parallel)
     {
         Do(() => GetCronNextOccurrence(expression, cronFormat), doWhat, workerName, description, startNow, cancelInNoneNextTime, executeType);
@@ -167,6 +184,8 @@ public static class SpareTime
     /// <param name="startNow"></param>
     /// <param name="cancelInNoneNextTime">在下一个空时间取消任务</param>
     /// <param name="executeType"></param>
+    /// <remarks>TaskScheduler 将于2022年12月31日移除，请使用 Scheduler 替代</remarks>
+    [Obsolete("The <TaskScheduler> will be removed on December 31, 2022. Please use the <Scheduler> instead.")]
     public static void Do(Func<DateTimeOffset?> nextTimeHandler, Action<SpareTimer, long> doWhat = default, string workerName = default, string description = default, bool startNow = true, bool cancelInNoneNextTime = true, SpareTimeExecuteTypes executeType = SpareTimeExecuteTypes.Parallel)
     {
         Do(nextTimeHandler, async (s, i) =>
@@ -186,6 +205,8 @@ public static class SpareTime
     /// <param name="startNow"></param>
     /// <param name="cancelInNoneNextTime">在下一个空时间取消任务</param>
     /// <param name="executeType"></param>
+    /// <remarks>TaskScheduler 将于2022年12月31日移除，请使用 Scheduler 替代</remarks>
+    [Obsolete("The <TaskScheduler> will be removed on December 31, 2022. Please use the <Scheduler> instead.")]
     public static void Do(Func<DateTimeOffset?> nextTimeHandler, Func<SpareTimer, long, Task> doWhat = default, string workerName = default, string description = default, bool startNow = true, bool cancelInNoneNextTime = true, SpareTimeExecuteTypes executeType = SpareTimeExecuteTypes.Parallel)
     {
         if (doWhat == null) return;
@@ -258,6 +279,8 @@ public static class SpareTime
     /// <param name="cancelInNoneNextTime"></param>
     /// <param name="executeType"></param>
     /// <param name="continued">是否持续执行</param>
+    /// <remarks>TaskScheduler 将于2022年12月31日移除，请使用 Scheduler 替代</remarks>
+    [Obsolete("The <TaskScheduler> will be removed on December 31, 2022. Please use the <Scheduler> instead.")]
     public static void Do(Func<double> intervalHandler, Action<SpareTimer, long> doWhat = default, string workerName = default, string description = default, bool startNow = true, bool cancelInNoneNextTime = true, SpareTimeExecuteTypes executeType = SpareTimeExecuteTypes.Parallel, bool continued = true)
     {
         Do(intervalHandler, async (s, i) =>
@@ -279,6 +302,8 @@ public static class SpareTime
     /// <param name="executeType"></param>
     /// <param name="continued">是否持续执行</param>
     /// <param name="onlyInspect">无关紧要的参数（用于检查器，外部不可用）</param>
+    /// <remarks>TaskScheduler 将于2022年12月31日移除，请使用 Scheduler 替代</remarks>
+    [Obsolete("The <TaskScheduler> will be removed on December 31, 2022. Please use the <Scheduler> instead.")]
     public static void Do(Func<double> intervalHandler, Func<SpareTimer, long, Task> doWhat = default, string workerName = default, string description = default, bool startNow = true, bool cancelInNoneNextTime = true, SpareTimeExecuteTypes executeType = SpareTimeExecuteTypes.Parallel, bool continued = true, bool onlyInspect = false)
     {
         if (doWhat == null) return;
@@ -404,6 +429,8 @@ public static class SpareTime
     /// <param name="doWhat"></param>
     /// <param name="stoppingToken"></param>
     /// <returns></returns>
+    /// <remarks>TaskScheduler 将于2022年12月31日移除，请使用 Scheduler 替代</remarks>
+    [Obsolete("The <TaskScheduler> will be removed on December 31, 2022. Please use the <Scheduler> instead.")]
     public static Task DoAsync(int interval, Action doWhat, CancellationToken stoppingToken)
     {
         return DoAsync(() => interval, doWhat, stoppingToken);
@@ -417,6 +444,8 @@ public static class SpareTime
     /// <param name="doWhat"></param>
     /// <param name="stoppingToken"></param>
     /// <returns></returns>
+    /// <remarks>TaskScheduler 将于2022年12月31日移除，请使用 Scheduler 替代</remarks>
+    [Obsolete("The <TaskScheduler> will be removed on December 31, 2022. Please use the <Scheduler> instead.")]
     public static Task DoAsync(int interval, Func<Task> doWhat, CancellationToken stoppingToken)
     {
         return DoAsync(() => interval, doWhat, stoppingToken);
@@ -430,6 +459,8 @@ public static class SpareTime
     /// <param name="doWhat"></param>
     /// <param name="stoppingToken"></param>
     /// <returns></returns>
+    /// <remarks>TaskScheduler 将于2022年12月31日移除，请使用 Scheduler 替代</remarks>
+    [Obsolete("The <TaskScheduler> will be removed on December 31, 2022. Please use the <Scheduler> instead.")]
     public static Task DoAsync(Func<int> intervalHandler, Action doWhat, CancellationToken stoppingToken)
     {
         return DoAsync(intervalHandler, async () =>
@@ -447,6 +478,8 @@ public static class SpareTime
     /// <param name="doWhat"></param>
     /// <param name="stoppingToken"></param>
     /// <returns></returns>
+    /// <remarks>TaskScheduler 将于2022年12月31日移除，请使用 Scheduler 替代</remarks>
+    [Obsolete("The <TaskScheduler> will be removed on December 31, 2022. Please use the <Scheduler> instead.")]
     public static async Task DoAsync(Func<int> intervalHandler, Func<Task> doWhat, CancellationToken stoppingToken)
     {
         if (doWhat == null) return;
@@ -470,6 +503,8 @@ public static class SpareTime
     /// <param name="stoppingToken"></param>
     /// <param name="cronFormat"></param>
     /// <returns></returns>
+    /// <remarks>TaskScheduler 将于2022年12月31日移除，请使用 Scheduler 替代</remarks>
+    [Obsolete("The <TaskScheduler> will be removed on December 31, 2022. Please use the <Scheduler> instead.")]
     public static Task DoAsync(string expression, Action doWhat, CancellationToken stoppingToken, CronFormat? cronFormat = default)
     {
         return DoAsync(() => GetCronNextOccurrence(expression, cronFormat), doWhat, stoppingToken);
@@ -484,6 +519,8 @@ public static class SpareTime
     /// <param name="stoppingToken"></param>
     /// <param name="cronFormat"></param>
     /// <returns></returns>
+    /// <remarks>TaskScheduler 将于2022年12月31日移除，请使用 Scheduler 替代</remarks>
+    [Obsolete("The <TaskScheduler> will be removed on December 31, 2022. Please use the <Scheduler> instead.")]
     public static Task DoAsync(string expression, Func<Task> doWhat, CancellationToken stoppingToken, CronFormat? cronFormat = default)
     {
         return DoAsync(() => GetCronNextOccurrence(expression, cronFormat), doWhat, stoppingToken);
@@ -497,6 +534,8 @@ public static class SpareTime
     /// <param name="doWhat"></param>
     /// <param name="stoppingToken"></param>
     /// <returns></returns>
+    /// <remarks>TaskScheduler 将于2022年12月31日移除，请使用 Scheduler 替代</remarks>
+    [Obsolete("The <TaskScheduler> will be removed on December 31, 2022. Please use the <Scheduler> instead.")]
     public static Task DoAsync(Func<DateTimeOffset?> nextTimeHandler, Action doWhat, CancellationToken stoppingToken)
     {
         return DoAsync(nextTimeHandler, async () =>
@@ -514,6 +553,8 @@ public static class SpareTime
     /// <param name="doWhat"></param>
     /// <param name="stoppingToken"></param>
     /// <returns></returns>
+    /// <remarks>TaskScheduler 将于2022年12月31日移除，请使用 Scheduler 替代</remarks>
+    [Obsolete("The <TaskScheduler> will be removed on December 31, 2022. Please use the <Scheduler> instead.")]
     public static async Task DoAsync(Func<DateTimeOffset?> nextTimeHandler, Func<Task> doWhat, CancellationToken stoppingToken)
     {
         if (doWhat == null) return;
@@ -540,6 +581,8 @@ public static class SpareTime
     /// 开始某个任务
     /// </summary>
     /// <param name="workerName"></param>
+    /// <remarks>TaskScheduler 将于2022年12月31日移除，请使用 Scheduler 替代</remarks>
+    [Obsolete("The <TaskScheduler> will be removed on December 31, 2022. Please use the <Scheduler> instead.")]
     public static void Start(string workerName)
     {
         if (string.IsNullOrWhiteSpace(workerName)) throw new ArgumentNullException(workerName);
@@ -569,6 +612,8 @@ public static class SpareTime
     /// </summary>
     /// <param name="workerName"></param>
     /// <param name="isFaild"></param>
+    /// <remarks>TaskScheduler 将于2022年12月31日移除，请使用 Scheduler 替代</remarks>
+    [Obsolete("The <TaskScheduler> will be removed on December 31, 2022. Please use the <Scheduler> instead.")]
     public static void Stop(string workerName, bool isFaild = false)
     {
         if (string.IsNullOrWhiteSpace(workerName)) throw new ArgumentNullException(nameof(workerName));
@@ -594,6 +639,8 @@ public static class SpareTime
     /// 取消某个任务
     /// </summary>
     /// <param name="workerName"></param>
+    /// <remarks>TaskScheduler 将于2022年12月31日移除，请使用 Scheduler 替代</remarks>
+    [Obsolete("The <TaskScheduler> will be removed on December 31, 2022. Please use the <Scheduler> instead.")]
     public static void Cancel(string workerName)
     {
         if (string.IsNullOrWhiteSpace(workerName)) throw new ArgumentNullException(nameof(workerName));
@@ -616,6 +663,8 @@ public static class SpareTime
     /// <summary>
     /// 销毁所有任务
     /// </summary>
+    /// <remarks>TaskScheduler 将于2022年12月31日移除，请使用 Scheduler 替代</remarks>
+    [Obsolete("The <TaskScheduler> will be removed on December 31, 2022. Please use the <Scheduler> instead.")]
     public static void Dispose()
     {
         if (!WorkerRecords.Any()) return;
@@ -630,6 +679,8 @@ public static class SpareTime
     /// 获取所有任务列表
     /// </summary>
     /// <returns></returns>
+    /// <remarks>TaskScheduler 将于2022年12月31日移除，请使用 Scheduler 替代</remarks>
+    [Obsolete("The <TaskScheduler> will be removed on December 31, 2022. Please use the <Scheduler> instead.")]
     public static IEnumerable<SpareTimer> GetWorkers()
     {
         return WorkerRecords.Select(u => u.Value.Timer);
@@ -640,6 +691,8 @@ public static class SpareTime
     /// </summary>
     /// <param name="workerName"></param>
     /// <returns></returns>
+    /// <remarks>TaskScheduler 将于2022年12月31日移除，请使用 Scheduler 替代</remarks>
+    [Obsolete("The <TaskScheduler> will be removed on December 31, 2022. Please use the <Scheduler> instead.")]
     public static SpareTimer GetWorker(string workerName)
     {
         if (string.IsNullOrWhiteSpace(workerName)) throw new ArgumentNullException(nameof(workerName));
@@ -653,6 +706,8 @@ public static class SpareTime
     /// <param name="expression"></param>
     /// <param name="cronFormat"></param>
     /// <returns></returns>
+    /// <remarks>TaskScheduler 将于2022年12月31日移除，请使用 Scheduler 替代</remarks>
+    [Obsolete("The <TaskScheduler> will be removed on December 31, 2022. Please use the <Scheduler> instead.")]
     public static DateTimeOffset? GetCronNextOccurrence(string expression, CronFormat? cronFormat = default)
     {
         // 支持从配置模板读取
