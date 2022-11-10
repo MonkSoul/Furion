@@ -507,7 +507,32 @@ public class NewtonsoftJsonSerializerProvider : IJsonSerializerProvider, ISingle
 
 :::
 
-### 23.5.13 `DateTimeOffset` 反序列化异常
+### 23.5.13 `DateOnly` 和 `TimeOnly` 类型处理
+
+在 `.NET6+` 添加了 `DateOnly` 和 `TimeOnly` 类型，`Furion 4.7.8+` 提供了支持。
+
+- `System.Text.Json` 方式
+
+```cs showLineNumbers {2,4-5}
+services.AddControllersWithViews()
+        .AddJsonOptions(options =>
+        {
+            options.JsonSerializerOptions.Converters.AddDateOnlyConverters();   // DateOnly
+            options.JsonSerializerOptions.Converters.AddTimeOnlyConverters();   // TimeOnly
+        });
+```
+
+- `Newtonsoft.Json` 方式
+
+```cs showLineNumbers {3-4}
+.AddNewtonsoftJson(options =>
+{
+        options.JsonSerializerOptions.Converters.AddDateOnlyConverters();   // DateOnly
+        options.JsonSerializerOptions.Converters.AddTimeOnlyConverters();   // TimeOnly
+})
+```
+
+### 23.5.14 `DateTimeOffset` 反序列化异常
 
 以下处理只针对 `Newtonsoft.Json`，数据为 `0001-01-01 00:00:00` 的情形下反序列化为 `DateTimeOffset` 类型报错：
 

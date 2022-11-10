@@ -55,6 +55,7 @@ import Tag from "@site/src/components/Tag.js";
   - &nbsp;<Tag>新增</Tag> 远程请求 `.GetCookies()` 和 `.GetSetCookies()` 拓展方法 <sup>4.7.5</sup> [#I5ZY1L](https://gitee.com/dotnetchina/Furion/issues/I5ZY1L)
   - &nbsp;<Tag>新增</Tag> 事件总线 `.ReplaceStorerOrFallback` 自定义事件源存储器方法，可在自定义初始失败时回退到默认值 <sup>4.7.6</sup> [#I602NU](https://gitee.com/dotnetchina/Furion/issues/I602NU)
   - &nbsp;<Tag>新增</Tag> `LoggingMonitor` 输出 `启动信息`，`Cookies` 和 `请求端源` 信息 <sup>4.7.7</sup> [3037b04](https://gitee.com/dotnetchina/Furion/commit/3037b04cac8cfa70d6e7f1dba62d48362f75e778)
+  - &nbsp;<Tag>新增</Tag> `JSON` 序列化 `DateOnly` 和 `TimeOnly` 类型转换器：`.AddDateOnlyConverters()` 和 `.AddTimeOnlyConverters()` <sup>4.7.8</sup> [!657](https://gitee.com/dotnetchina/Furion/pulls/657)
 
 - **突破性变化**
 
@@ -124,6 +125,7 @@ var value = logContext.Get("Key");  // 新版本不会报错，且 value = null
   - &nbsp;<Tag>新增</Tag> `IIS` 回收问题解决方案文档
   - &nbsp;<Tag>新增</Tag> 远程请求获取 `Cookies` 文档
   - &nbsp;<Tag>新增</Tag> `LoggingMonitor` 写入数据库文档
+  - &nbsp;<Tag>新增</Tag> JSON 序列化 `DateOnly` 和 `TimeOnly` 类型处理文档
   - &nbsp;<Tag>更新</Tag> 日志记录文档、定时任务文档、远程请求文档、脚手架文档
 
 ---

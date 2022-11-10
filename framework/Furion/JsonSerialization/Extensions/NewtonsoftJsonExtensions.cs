@@ -41,4 +41,32 @@ public static class NewtonsoftJsonExtensions
 
         return converters;
     }
+
+#if !NET5_0
+    /// <summary>
+    /// 添加 DateOnly/DateOnly? 类型序列化处理
+    /// </summary>
+    /// <param name="converters"></param>
+    /// <returns></returns>
+    public static IList<JsonConverter> AddDateOnlyConverters(this IList<JsonConverter> converters)
+    {
+        converters.Add(new NewtonsoftJsonDateOnlyJsonConverter());
+        converters.Add(new NewtonsoftJsonNullableDateOnlyJsonConverter());
+
+        return converters;
+    }
+
+    /// <summary>
+    /// 添加 TimeOnly/TimeOnly? 类型序列化处理
+    /// </summary>
+    /// <param name="converters"></param>
+    /// <returns></returns>
+    public static IList<JsonConverter> AddTimeOnlyConverters(this IList<JsonConverter> converters)
+    {
+        converters.Add(new NewtonsoftJsonTimeOnlyJsonConverter());
+        converters.Add(new NewtonsoftJsonNullableTimeOnlyJsonConverter());
+
+        return converters;
+    }
+#endif
 }

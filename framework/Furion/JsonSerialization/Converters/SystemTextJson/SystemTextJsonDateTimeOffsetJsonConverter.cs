@@ -33,7 +33,7 @@ namespace Furion.JsonSerialization;
 public class SystemTextJsonDateTimeOffsetJsonConverter : JsonConverter<DateTimeOffset>
 {
     /// <summary>
-    /// 默认构造函数
+    /// 构造函数
     /// </summary>
     public SystemTextJsonDateTimeOffsetJsonConverter()
     {
@@ -68,7 +68,7 @@ public class SystemTextJsonDateTimeOffsetJsonConverter : JsonConverter<DateTimeO
     /// <summary>
     /// 是否输出为为当地时间
     /// </summary>
-    public bool Localized { get; set; } = false;
+    public bool Localized { get; private set; } = false;
 
     /// <summary>
     /// 反序列化
@@ -103,7 +103,7 @@ public class SystemTextJsonDateTimeOffsetJsonConverter : JsonConverter<DateTimeO
 public class SystemTextJsonNullableDateTimeOffsetJsonConverter : JsonConverter<DateTimeOffset?>
 {
     /// <summary>
-    /// 默认构造函数
+    /// 构造函数
     /// </summary>
     public SystemTextJsonNullableDateTimeOffsetJsonConverter()
     {
@@ -138,7 +138,7 @@ public class SystemTextJsonNullableDateTimeOffsetJsonConverter : JsonConverter<D
     /// <summary>
     /// 是否输出为为当地时间
     /// </summary>
-    public bool Localized { get; set; } = false;
+    public bool Localized { get; private set; } = false;
 
     /// <summary>
     /// 反序列化

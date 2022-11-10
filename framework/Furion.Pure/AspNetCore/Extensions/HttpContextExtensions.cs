@@ -167,7 +167,7 @@ public static class HttpContextExtensions
 
         using var reader = new StreamReader(request.Body, Encoding.UTF8, true, 1024, true);
         var body = await reader.ReadToEndAsync();
-        request.Body.Position = 0;
+        request.Body.Seek(0, SeekOrigin.Begin);
         return body;
     }
 }
