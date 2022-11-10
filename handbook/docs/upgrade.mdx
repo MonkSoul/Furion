@@ -53,7 +53,7 @@ import Tag from "@site/src/components/Tag.js";
   - &nbsp;<Tag>新增</Tag> 远程请求 `.SetQueries(obj, ignoreNullValue)` 重载方法 <sup>4.7.3</sup> [#I5Z8KC](https://gitee.com/dotnetchina/Furion/issues/I5Z8KC)
   - &nbsp;<Tag>新增</Tag> 远程请求 `.GetCookies()` 和 `.GetSetCookies()` 拓展方法 <sup>4.7.5</sup> [#I5ZY1L](https://gitee.com/dotnetchina/Furion/issues/I5ZY1L)
   - &nbsp;<Tag>新增</Tag> 事件总线 `.ReplaceStorerOrFallback` 自定义事件源存储器方法，可在自定义初始失败时回退到默认值 <sup>4.7.6</sup> [#I602NU](https://gitee.com/dotnetchina/Furion/issues/I602NU)
-  - &nbsp;<Tag>新增</Tag> `LoggingMonitor` 输出 `启动信息`，`Cookies` 信息 <sup>4.7.7</sup>
+  - &nbsp;<Tag>新增</Tag> `LoggingMonitor` 输出 `启动信息`，`Cookies` 信息 <sup>4.7.7</sup> [3037b04](https://gitee.com/dotnetchina/Furion/commit/3037b04cac8cfa70d6e7f1dba62d48362f75e778)
 
 - **突破性变化**
 
@@ -110,7 +110,7 @@ var value = logContext.Get("Key");  // 新版本不会报错，且 value = null
   - &nbsp;<Tag>修复</Tag> `L.SetCulture("zh-CN");` 在 `Response` 已完成写入时设置出现异常问题 <sup>4.7.2</sup> [#I5YBHL](https://gitee.com/dotnetchina/Furion/issues/I5YBHL)
   - &nbsp;<Tag>修复</Tag> 动态 `WebAPI` 在类上配置 `[Route]` 特性且包含 `[action]` 模板导致生成错误接口路径 <sup>4.7.2</sup> [#I5YEZQ](https://gitee.com/dotnetchina/Furion/issues/I5YEZQ)
   - &nbsp;<Tag>修复</Tag> 启用二级虚拟目录 `AppSettings:VirtualPath` 导致 `swagger` 的 `miniprofile` 加载失败 <sup>4.7.3</sup> [#I5Z8RM](https://gitee.com/dotnetchina/Furion/issues/I5Z8RM)
-  - &nbsp;<Tag>修复</Tag> `LoggingMonitor` 监听带有 `[FromServices]` 的方法参数或接口类型参数出错 <sup>4.7.7</sup>
+  - &nbsp;<Tag>修复</Tag> `LoggingMonitor` 监听带有 `[FromServices]` 的方法参数或接口类型参数出错 <sup>4.7.7</sup> [3037b04](https://gitee.com/dotnetchina/Furion/commit/3037b04cac8cfa70d6e7f1dba62d48362f75e778)
 
 - **其他更改**
 
