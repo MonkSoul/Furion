@@ -60,4 +60,32 @@ public static class SystemTextJsonExtensions
 
         return converters;
     }
+
+
+#if !NET5_0
+    /// <summary>
+    /// 添加 DateOnly/DateOnly? 类型序列化处理
+    /// </summary>
+    /// <param name="converters"></param>
+    /// <returns></returns>
+    public static IList<JsonConverter> AddDateOnlyConverters(this IList<JsonConverter> converters)
+    {
+        converters.Add(new SystemTextJsonDateOnlyJsonConverter());
+        converters.Add(new SystemTextJsonNullableDateOnlyJsonConverter());
+
+        return converters;
+    }
+    /// <summary>
+    /// 添加 TimeOnly/TimeOnly? 类型序列化处理
+    /// </summary>
+    /// <param name="converters"></param>
+    /// <returns></returns>
+    public static IList<JsonConverter> AddTimeOnlyConverters(this IList<JsonConverter> converters)
+    {
+        converters.Add(new SystemTextJsonTimeOnlyJsonConverter());
+        converters.Add(new SystemTextJsonNullableTimeOnlyJsonConverter());
+
+        return converters;
+    }
+#endif
 }
