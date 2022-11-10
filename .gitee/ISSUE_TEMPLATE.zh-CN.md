@@ -65,11 +65,12 @@
 
 - [x] Sqlite
 - [ ] SqlServer
-- [ ] Mysql
+- [ ] MySQL
 - [ ] Oracle
-- [ ] PGSql
+- [ ] PostgreSQL
 - [ ] Firebird
 - [ ] Cosmos
+- [ ] InMemoryDatabase
 
 ---
 
