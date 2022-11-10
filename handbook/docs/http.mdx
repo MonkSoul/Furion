@@ -952,11 +952,11 @@ public interface IHttp : IHttpDispatchProxy
 
 :::tip `Furion 4.4.0+` 版本
 
-如果使用 `Furion 4.4.0+` 版本，请使用以下的 `HttpFile` 替代 `[BodyBytes]` 操作。请求有额外参数时HttpFile必须设置fileName值。
+如果使用 `Furion 4.4.0+` 版本，请使用以下的 `HttpFile` 替代 `[BodyBytes]` 操作。请求有额外参数时 `HttpFile` 必须设置 `fileName` 值。
 
 :::
 
-```cs showLineNumbers {3-4,7-8,11-12}
+```cs showLineNumbers {3-4,7-8,11-12,15-16}
 public interface IHttp : IHttpDispatchProxy
 {
     [Post("https://www.furion.icu/upload", ContentType = "multipart/form-data")]
