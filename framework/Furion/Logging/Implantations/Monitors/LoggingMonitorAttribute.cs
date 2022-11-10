@@ -494,7 +494,8 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter, IOr
             var name = parameter.Name;
             var parameterType = parameter.ParameterType;
 
-            if (parameterType.IsInterface || parameterType.IsDefined(typeof(FromServicesAttribute), false)) continue;
+            // 排除标记 [FromServices] 的解析
+            if (parameterType.IsDefined(typeof(FromServicesAttribute), false)) continue;
 
             _ = parameterValues.TryGetValue(name, out var value);
             writer.WriteStartObject();
