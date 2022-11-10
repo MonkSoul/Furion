@@ -56,6 +56,7 @@ import Tag from "@site/src/components/Tag.js";
   - &nbsp;<Tag>新增</Tag> 事件总线 `.ReplaceStorerOrFallback` 自定义事件源存储器方法，可在自定义初始失败时回退到默认值 <sup>4.7.6</sup> [#I602NU](https://gitee.com/dotnetchina/Furion/issues/I602NU)
   - &nbsp;<Tag>新增</Tag> `LoggingMonitor` 输出 `启动信息`，`Cookies` 和 `请求端源` 信息 <sup>4.7.7</sup> [3037b04](https://gitee.com/dotnetchina/Furion/commit/3037b04cac8cfa70d6e7f1dba62d48362f75e778)
   - &nbsp;<Tag>新增</Tag> `JSON` 序列化 `DateOnly` 和 `TimeOnly` 类型转换器：`.AddDateOnlyConverters()` 和 `.AddTimeOnlyConverters()` <sup>4.7.8</sup> [!657](https://gitee.com/dotnetchina/Furion/pulls/657)
+  - &nbsp;<Tag>新增</Tag> `HttpContext.ReadBodyContentAsync()` 拓展方法重复读取 `Body` 内容 <sup>4.7.8</sup> [#I60IYU](https://gitee.com/dotnetchina/Furion/issues/I60IYU)
 
 - **突破性变化**
 
@@ -113,6 +114,7 @@ var value = logContext.Get("Key");  // 新版本不会报错，且 value = null
   - &nbsp;<Tag>修复</Tag> 动态 `WebAPI` 在类上配置 `[Route]` 特性且包含 `[action]` 模板导致生成错误接口路径 <sup>4.7.2</sup> [#I5YEZQ](https://gitee.com/dotnetchina/Furion/issues/I5YEZQ)
   - &nbsp;<Tag>修复</Tag> 启用二级虚拟目录 `AppSettings:VirtualPath` 导致 `swagger` 的 `miniprofile` 加载失败 <sup>4.7.3</sup> [#I5Z8RM](https://gitee.com/dotnetchina/Furion/issues/I5Z8RM)
   - &nbsp;<Tag>修复</Tag> `LoggingMonitor` 监听带有 `[FromServices]` 的方法参数或接口类型参数出错 <sup>4.7.7</sup> [3037b04](https://gitee.com/dotnetchina/Furion/commit/3037b04cac8cfa70d6e7f1dba62d48362f75e778)
+  - &nbsp;<Tag>修复</Tag> `HttpRequest` 通过 `.ReadBodyContentAsync()` 读取不到 `Body` 问题 <sup>4.7.8</sup> [#I60IYU](https://gitee.com/dotnetchina/Furion/issues/I60IYU)
 
 - **其他更改**
 
@@ -126,6 +128,7 @@ var value = logContext.Get("Key");  // 新版本不会报错，且 value = null
   - &nbsp;<Tag>新增</Tag> 远程请求获取 `Cookies` 文档
   - &nbsp;<Tag>新增</Tag> `LoggingMonitor` 写入数据库文档
   - &nbsp;<Tag>新增</Tag> JSON 序列化 `DateOnly` 和 `TimeOnly` 类型处理文档
+  - &nbsp;<Tag>新增</Tag> `HttpContext` 读取 `Body` 内容文档
   - &nbsp;<Tag>更新</Tag> 日志记录文档、定时任务文档、远程请求文档、脚手架文档
 
 ---

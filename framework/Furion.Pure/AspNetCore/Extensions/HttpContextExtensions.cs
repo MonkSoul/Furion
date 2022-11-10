@@ -159,15 +159,27 @@ public static class HttpContextExtensions
     /// <summary>
     /// 读取 Body 内容
     /// </summary>
+    /// <param name="httpContext"></param>
+    /// <remarks>需先在 Startup 的 Configure 中注册 app.EnableBuffering()</remarks>
+    /// <returns></returns>
+    public static async Task<string> ReadBodyContentAsync(this HttpContext httpContext)
+    {
+        if (httpContext == null) return default;
+        return await httpContext.Request.ReadBodyContentAsync();
+    }
+
+    /// <summary>
+    /// 读取 Body 内容
+    /// </summary>
     /// <param name="request"></param>
+    /// <remarks>需先在 Startup 的 Configure 中注册 app.EnableBuffering()</remarks>
     /// <returns></returns>
     public static async Task<string> ReadBodyContentAsync(this HttpRequest request)
     {
-        request.EnableBuffering();
+        request.Body.Seek(0, SeekOrigin.Begin);
 
         using var reader = new StreamReader(request.Body, Encoding.UTF8, true, 1024, true);
         var body = await reader.ReadToEndAsync();
-        request.Body.Seek(0, SeekOrigin.Begin);
         return body;
     }
 }

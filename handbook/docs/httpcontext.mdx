@@ -146,7 +146,58 @@ app.UseForwardedHeaders();
 httpContext.SetTokensOfResponseHeaders("token", "刷新token");
 ```
 
-## 5.2.4 反馈与建议
+## 5.2.4 读取 `Body` 内容（重复读）
+
+:::important 版本说明
+
+以下内容仅限 `Furion 4.7.8 +` 版本使用。
+
+:::
+
+默认情况下，`ASP.NET Core` 不支持重复读取 `Body` 内容，`Furion` 框架提供了拓展方法，需要按照以下步骤操作：
+
+1. **在 `Startup.cs` 的 `Configure` 启用 `Body` 重复度功能**：
+
+- `.NET5` 版本：
+
+```cs showLineNumbers {1,4}
+public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+{
+    // ...
+    app.EnableBuffering();
+    app.UseRouting();
+    // ....
+}
+```
+
+- `.NET6+` 版本：
+
+```cs showLineNumbers {7}
+var builder = WebApplication.CreateBuilder(args).Inject();
+// ...
+var app = builder.Build();
+// ...
+app.UseInject();
+
+app.EnableBuffering();
+app.MapControllers();
+
+app.Run();
+```
+
+注意：`app.EnableBuffering()` 必须在 `app.UseRouting()` 或 `app.MapControllers()` 之前注册。
+
+2. **使用 `HttpContext` 或 `HttpRequest` 拓展 `.ReadBodyContentAsync()` 即可**。
+
+```cs showLineNumbers {2,5}
+// HttpContext 拓展
+var body = httpContext.ReadBodyContentAsync();
+
+// HttpRequest 拓展
+var body = httpContext.Request.ReadBodyContentAsync();
+```
+
+## 5.2.5 反馈与建议
 
 :::note 与我们交流
 
