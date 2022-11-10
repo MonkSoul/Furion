@@ -31,6 +31,27 @@ namespace Furion.JsonSerialization;
 public class NewtonsoftJsonTimeOnlyJsonConverter : JsonConverter<TimeOnly>
 {
     /// <summary>
+    /// 
+    /// </summary>
+    public NewtonsoftJsonTimeOnlyJsonConverter()
+    {
+        Format ??= "HH:mm:ss";
+    }
+
+    /// <summary>
+    /// 构造函数
+    /// </summary>
+    /// <param name="format"></param>
+    public NewtonsoftJsonTimeOnlyJsonConverter(string format)
+    {
+        Format = format;
+    }
+
+    /// <summary>
+    /// 时间格式化格式
+    /// </summary>
+    public string Format { get; private set; }
+    /// <summary>
     /// 反序列化
     /// </summary>
     /// <param name="reader"></param>
@@ -52,7 +73,7 @@ public class NewtonsoftJsonTimeOnlyJsonConverter : JsonConverter<TimeOnly>
     /// <param name="serializer"></param>
     public override void WriteJson(JsonWriter writer, TimeOnly value, JsonSerializer serializer)
     {
-        serializer.Serialize(writer, value.ToString("HH:mm:ss"));
+        serializer.Serialize(writer, value.ToString(Format));
     }
 }
 /// <summary>
@@ -60,6 +81,27 @@ public class NewtonsoftJsonTimeOnlyJsonConverter : JsonConverter<TimeOnly>
 /// </summary>
 public class NewtonsoftJsonNullableTimeOnlyJsonConverter : JsonConverter<TimeOnly?>
 {
+    /// <summary>
+    /// 
+    /// </summary>
+    public NewtonsoftJsonNullableTimeOnlyJsonConverter()
+    {
+        Format ??= "HH:mm:ss";
+    }
+
+    /// <summary>
+    /// 构造函数
+    /// </summary>
+    /// <param name="format"></param>
+    public NewtonsoftJsonNullableTimeOnlyJsonConverter(string format)
+    {
+        Format = format;
+    }
+
+    /// <summary>
+    /// 时间格式化格式
+    /// </summary>
+    public string Format { get; private set; }
     /// <summary>
     /// 反序列化
     /// </summary>
@@ -82,7 +124,8 @@ public class NewtonsoftJsonNullableTimeOnlyJsonConverter : JsonConverter<TimeOnl
     /// <param name="serializer"></param>
     public override void WriteJson(JsonWriter writer, TimeOnly? value, JsonSerializer serializer)
     {
-        serializer.Serialize(writer, value.HasValue ? value.Value.ToString("HH:mm:ss") : "");
+        if (value == null) writer.WriteNull();
+        else serializer.Serialize(writer, value.Value.ToString(Format));
     }
 }
 #endif

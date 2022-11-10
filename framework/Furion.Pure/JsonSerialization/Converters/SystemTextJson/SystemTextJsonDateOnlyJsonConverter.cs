@@ -51,7 +51,7 @@ public class SystemTextJsonDateOnlyJsonConverter : JsonConverter<DateOnly>
     }
 
     /// <summary>
-    /// 时间格式化格式
+    /// 日期格式化格式
     /// </summary>
     public string Format { get; private set; }
 
@@ -103,7 +103,7 @@ public class SystemTextJsonNullableDateOnlyJsonConverter : JsonConverter<DateOnl
     }
 
     /// <summary>
-    /// 时间格式化格式
+    /// 日期格式化格式
     /// </summary>
     public string Format { get; private set; }
 

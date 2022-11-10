@@ -31,6 +31,27 @@ namespace Furion.JsonSerialization;
 public class NewtonsoftJsonDateOnlyJsonConverter : JsonConverter<DateOnly>
 {
     /// <summary>
+    /// 
+    /// </summary>
+    public NewtonsoftJsonDateOnlyJsonConverter()
+    {
+        Format ??= "yyyy-MM-dd";
+    }
+
+    /// <summary>
+    /// 构造函数
+    /// </summary>
+    /// <param name="format"></param>
+    public NewtonsoftJsonDateOnlyJsonConverter(string format)
+    {
+        Format = format;
+    }
+
+    /// <summary>
+    /// 日期格式化格式
+    /// </summary>
+    public string Format { get; private set; }
+    /// <summary>
     /// 反序列化
     /// </summary>
     /// <param name="reader"></param>
@@ -52,7 +73,7 @@ public class NewtonsoftJsonDateOnlyJsonConverter : JsonConverter<DateOnly>
     /// <param name="serializer"></param>
     public override void WriteJson(JsonWriter writer, DateOnly value, JsonSerializer serializer)
     {
-        serializer.Serialize(writer, value.ToString("yyyy-MM-dd"));
+        serializer.Serialize(writer, value.ToString(Format));
     }
 }
 /// <summary>
@@ -60,6 +81,27 @@ public class NewtonsoftJsonDateOnlyJsonConverter : JsonConverter<DateOnly>
 /// </summary>
 public class NewtonsoftJsonNullableDateOnlyJsonConverter : JsonConverter<DateOnly?>
 {
+    /// <summary>
+    /// 
+    /// </summary>
+    public NewtonsoftJsonNullableDateOnlyJsonConverter()
+    {
+        Format ??= "yyyy-MM-dd";
+    }
+
+    /// <summary>
+    /// 构造函数
+    /// </summary>
+    /// <param name="format"></param>
+    public NewtonsoftJsonNullableDateOnlyJsonConverter(string format)
+    {
+        Format = format;
+    }
+
+    /// <summary>
+    /// 日期格式化格式
+    /// </summary>
+    public string Format { get; private set; }
     /// <summary>
     /// 反序列化
     /// </summary>
@@ -82,7 +124,8 @@ public class NewtonsoftJsonNullableDateOnlyJsonConverter : JsonConverter<DateOnl
     /// <param name="serializer"></param>
     public override void WriteJson(JsonWriter writer, DateOnly? value, JsonSerializer serializer)
     {
-        serializer.Serialize(writer, value.HasValue ? value.Value.ToString("yyyy-MM-dd") : "");
+        if (value == null) writer.WriteNull();
+        else serializer.Serialize(writer, value.Value.ToString(Format));
     }
 }
 #endif
