@@ -185,7 +185,7 @@ public class TestModuleServices : IDynamicApiController
         var res2 = await "https://furion.icu".SetQueries(obj, true).GetAsync();
     }
 
-    [HttpGet]
+    [HttpGet, LoggingMonitor]
     public string WithCookies([FromServices] IHttpContextAccessor contextAccessor)
     {
         contextAccessor.HttpContext.Response.Cookies.Append("name", "百小僧");

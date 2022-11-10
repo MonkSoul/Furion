@@ -239,13 +239,14 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter, IOr
         var refererUrl = Uri.UnescapeDataString(httpRequest.GetRefererUrlAddress());
         writer.WriteString(nameof(refererUrl), refererUrl);
 
-        // 服务器环境
-        var environment = httpContext.RequestServices.GetRequiredService<IWebHostEnvironment>().EnvironmentName;
-        writer.WriteString(nameof(environment), environment);
-
         // 客户端浏览器信息
         var userAgent = httpRequest.Headers["User-Agent"];
         writer.WriteString(nameof(userAgent), userAgent);
+
+        // 请求来源（swagger还是其他）
+        var requestFrom = httpRequest.Headers["request-from"].ToString();
+        requestFrom = string.IsNullOrWhiteSpace(requestFrom) ? "client" : requestFrom;
+        writer.WriteString(nameof(requestFrom), requestFrom);
 
         // 获取方法参数
         var parameterValues = context.ActionArguments;
@@ -257,11 +258,19 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter, IOr
         var authorization = httpRequest.Headers["Authorization"].ToString();
         writer.WriteString("requestHeaderAuthorization", authorization);
 
+        // 获取请求 cookies 信息
+        var requestHeaderCookies = Uri.UnescapeDataString(httpRequest.Headers["cookie"].ToString());
+        writer.WriteString(nameof(requestHeaderCookies), requestHeaderCookies);
+
         // 计算接口执行时间
         var timeOperation = Stopwatch.StartNew();
         var resultContext = await next();
         timeOperation.Stop();
         writer.WriteNumber("timeOperationElapsedMilliseconds", timeOperation.ElapsedMilliseconds);
+
+        // 获取响应 cookies 信息
+        var responseHeaderCookies = Uri.UnescapeDataString(resultContext.HttpContext.Response.Headers["Set-Cookie"].ToString());
+        writer.WriteString(nameof(responseHeaderCookies), responseHeaderCookies);
 
         // 获取系统信息
         var osDescription = RuntimeInformation.OSDescription;
@@ -275,6 +284,23 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter, IOr
         writer.WriteString(nameof(frameworkDescription), frameworkDescription);
         writer.WriteString(nameof(basicFramework), basicFramework);
         writer.WriteString(nameof(basicFrameworkVersion), basicFrameworkVersion);
+
+        // 获取启动信息
+        var entryAssemblyName = Assembly.GetEntryAssembly().GetName().Name;
+        writer.WriteString(nameof(entryAssemblyName), entryAssemblyName);
+
+        // 获取进程信息
+        var process = Process.GetCurrentProcess();
+        var processName = process.ProcessName;
+        writer.WriteString(nameof(processName), processName);
+
+        // 获取部署程序
+        var deployServer = processName == entryAssemblyName ? "Kestrel" : processName;
+        writer.WriteString(nameof(deployServer), deployServer);
+
+        // 服务器环境
+        var environment = httpContext.RequestServices.GetRequiredService<IWebHostEnvironment>().EnvironmentName;
+        writer.WriteString(nameof(environment), environment);
 
         // 获取异常对象情况
         var exception = resultContext.Exception;
@@ -310,16 +336,24 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter, IOr
             , $"##请求方式## {httpMethod}"
             , $"##请求地址## {requestUrl}"
             , $"##来源地址## {refererUrl}"
+            , $"##请求端源## {requestFrom}"
             , $"##浏览器标识## {userAgent}"
             , $"##客户端 IP 地址## {remoteIPv4}"
             , $"##服务端 IP 地址## {localIPv4}"
-            , $"##服务端运行环境## {environment}"
             , $"##执行耗时## {timeOperation.ElapsedMilliseconds}ms"
+            ,"━━━━━━━━━━━━━━━  Cookies ━━━━━━━━━━━━━━━"
+            , $"##请求端## {requestHeaderCookies}"
+            , $"##响应端## {responseHeaderCookies}"
             ,"━━━━━━━━━━━━━━━  系统信息 ━━━━━━━━━━━━━━━"
             , $"##系统名称## {osDescription}"
             , $"##系统架构## {osArchitecture}"
             , $"##基础框架## {basicFramework} v{basicFrameworkVersion}"
             , $"##.NET 架构## {frameworkDescription}"
+            ,"━━━━━━━━━━━━━━━  启动信息 ━━━━━━━━━━━━━━━"
+            , $"##运行环境## {environment}"
+            , $"##启动程序集## {entryAssemblyName}"
+            , $"##进程名称## {processName}"
+            , $"##托管程序## {deployServer}"
         };
 
         // 添加 JWT 授权信息日志模板
@@ -458,8 +492,11 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter, IOr
         foreach (var parameter in parameters)
         {
             var name = parameter.Name;
-            _ = parameterValues.TryGetValue(name, out var value);
             var parameterType = parameter.ParameterType;
+
+            if (parameterType.IsInterface || parameterType.IsDefined(typeof(FromServicesAttribute), false)) continue;
+
+            _ = parameterValues.TryGetValue(name, out var value);
             writer.WriteStartObject();
             writer.WriteString("name", name);
             writer.WriteString("type", HandleGenericType(parameterType));
