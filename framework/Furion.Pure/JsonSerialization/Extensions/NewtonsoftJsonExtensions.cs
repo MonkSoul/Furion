@@ -42,7 +42,7 @@ public static class NewtonsoftJsonExtensions
         return converters;
     }
 
-#if !NET5_0
+
     /// <summary>
     /// 添加 DateOnly/DateOnly? 类型序列化处理
     /// </summary>
@@ -50,9 +50,10 @@ public static class NewtonsoftJsonExtensions
     /// <returns></returns>
     public static IList<JsonConverter> AddDateOnlyConverters(this IList<JsonConverter> converters)
     {
+#if !NET5_0
         converters.Add(new NewtonsoftJsonDateOnlyJsonConverter());
         converters.Add(new NewtonsoftJsonNullableDateOnlyJsonConverter());
-
+#endif
         return converters;
     }
 
@@ -63,10 +64,10 @@ public static class NewtonsoftJsonExtensions
     /// <returns></returns>
     public static IList<JsonConverter> AddTimeOnlyConverters(this IList<JsonConverter> converters)
     {
+#if !NET5_0
         converters.Add(new NewtonsoftJsonTimeOnlyJsonConverter());
         converters.Add(new NewtonsoftJsonNullableTimeOnlyJsonConverter());
-
+#endif
         return converters;
     }
-#endif
 }
