@@ -204,7 +204,20 @@ public class HttpDispatchProxy : AspectDispatchProxy, IDispatchProxy
         if (bodyParameter != null)
         {
             var bodyAttribute = bodyParameter.Parameter.GetCustomAttribute<BodyAttribute>(true);
-            httpRequestPart.SetBody(bodyParameter.Value, bodyAttribute.ContentType, Encoding.GetEncoding(bodyAttribute.Encoding));
+            object value;
+
+            // 处理值类型，基元类型
+            if (bodyParameter.Parameter.ParameterType.IsValueType || bodyParameter.Parameter.ParameterType.IsPrimitive)
+            {
+                value = new Dictionary<string, string>
+                {
+                    { bodyParameter.Parameter.Name, bodyParameter.Value?.ToString()}
+                };
+            }
+            // 对象类型
+            else value = bodyParameter.Value;
+
+            httpRequestPart.SetBody(value, bodyAttribute.ContentType, Encoding.GetEncoding(bodyAttribute.Encoding));
         }
 
         // 查找所有 HttpFile 和 HttpFile 集合类型的参数
