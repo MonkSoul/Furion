@@ -146,7 +146,7 @@ PS C:\Users\bqrjsoft\Desktop\pms>
 
 `pm2` 部署也提供了非常简单的 `json` 配置方式，部署更简单，拓展性更强，不需要每次重复输入命令，如在项目启动项目下添加 `pm2.json`，并设置文件属性 `内容` 为 `始终复制`：
 
-```json showLineNumbers {3,15,16} title="PMS/Web.Entry/pm2.json"
+```json showLineNumbers {3,15,16,19} title="PMS/Web.Entry/pm2.json"
 {
   "apps": {
     "name": "唯一标识",
@@ -165,7 +165,7 @@ PS C:\Users\bqrjsoft\Desktop\pms>
       "--urls=http://*:5001"
     ],
     "env": {
-      "ASPNETCORE_ENVIRONMENT": "Development"
+      "ASPNETCORE_ENVIRONMENT": "Production"
     }
   }
 }
