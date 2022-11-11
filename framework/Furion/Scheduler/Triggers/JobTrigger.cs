@@ -26,7 +26,7 @@ namespace Furion.Scheduler;
 /// 作业触发器基类
 /// </summary>
 [SuppressSniffer]
-public class JobTrigger
+public abstract class JobTrigger
 {
     /// <summary>
     /// 作业 Id

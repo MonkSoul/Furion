@@ -30,21 +30,18 @@ namespace Furion.Scheduler;
 internal static class SchedulerExtensions
 {
     /// <summary>
-    /// 简单的对象映射
+    /// 对象映射
     /// </summary>
-    /// <remarks>简单类型映射，仅限内部使用</remarks>
-    /// <typeparam name="TSource"></typeparam>
     /// <typeparam name="TTarget"></typeparam>
     /// <param name="source"></param>
     /// <param name="target"></param>
     /// <returns></returns>
-    internal static TTarget SimpleMapTo<TSource, TTarget>(this TSource source, object target = default)
-        where TSource : class
+    internal static TTarget MapTo<TTarget>(this object source, object target = default)
         where TTarget : class
     {
         if (source == null) return default;
 
-        var sourceType = typeof(TSource);
+        var sourceType = source.GetType();
         var targetType = typeof(TTarget);
         var bindFlags = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic;
 

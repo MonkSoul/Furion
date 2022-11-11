@@ -82,7 +82,7 @@ public sealed class JobBuilder : JobDetail
     /// <returns></returns>
     public static JobBuilder From(JobDetail jobDetail)
     {
-        var jobBuilder = jobDetail.SimpleMapTo<JobDetail, JobBuilder>();
+        var jobBuilder = jobDetail.MapTo<JobBuilder>();
         return jobBuilder;
     }
 
@@ -191,7 +191,7 @@ public sealed class JobBuilder : JobDetail
             throw new ArgumentNullException(nameof(JobId));
         }
 
-        var jobDetail = this.SimpleMapTo<JobBuilder, JobDetail>();
+        var jobDetail = this.MapTo<JobDetail>();
         return jobDetail;
     }
 }

@@ -26,25 +26,42 @@ namespace Furion.Scheduler;
 /// 作业调度计划
 /// </summary>
 [SuppressSniffer]
-public class JobScheduler
+public sealed partial class JobScheduler : IJobScheduler
 {
+    /// <summary>
+    /// 构造函数
+    /// </summary>
+    /// <param name="jobDetail">作业信息</param>
+    /// <param name="jobTriggers">作业触发器集合</param>
+    internal JobScheduler(JobDetail jobDetail, Dictionary<string, JobTrigger> jobTriggers)
+    {
+        JobId = jobDetail.JobId;
+        JobDetail = jobDetail;
+        JobTriggers = jobTriggers;
+    }
+
     /// <summary>
     /// 作业 Id
     /// </summary>
-    internal string JobId { get; set; }
+    internal string JobId { get; private set; }
 
     /// <summary>
     /// 作业信息
     /// </summary>
-    internal JobDetail JobDetail { get; set; }
+    internal JobDetail JobDetail { get; private set; }
 
     /// <summary>
     /// 作业触发器集合
     /// </summary>
-    internal Dictionary<string, JobTrigger> JobTriggers { get; set; } = new();
+    internal Dictionary<string, JobTrigger> JobTriggers { get; private set; } = new();
 
     /// <summary>
     /// 作业处理程序实例
     /// </summary>
     internal IJob JobHandler { get; set; }
+
+    /// <summary>
+    /// 作业调度计划工厂
+    /// </summary>
+    internal ISchedulerFactory Factory { get; set; }
 }

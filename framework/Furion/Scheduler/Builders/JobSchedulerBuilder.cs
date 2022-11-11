@@ -28,13 +28,15 @@ namespace Furion.Scheduler;
 /// 作业调度计划构建器
 /// </summary>
 [SuppressSniffer]
-public sealed class JobSchedulerBuilder : JobScheduler
+public sealed class JobSchedulerBuilder
 {
     /// <summary>
     /// 构造函数
     /// </summary>
-    private JobSchedulerBuilder()
+    /// <param name="jobBuilder">作业信息构建器</param>
+    private JobSchedulerBuilder(JobBuilder jobBuilder)
     {
+        JobBuilder = jobBuilder;
     }
 
     /// <summary>
@@ -64,11 +66,7 @@ public sealed class JobSchedulerBuilder : JobScheduler
         if (jobBuilder == null) throw new ArgumentNullException(nameof(jobBuilder));
 
         // 创建作业调度计划构建器
-        var jobSchedulerBuilder = new JobSchedulerBuilder()
-        {
-            JobId = jobBuilder.JobId,
-            JobBuilder = jobBuilder,
-        };
+        var jobSchedulerBuilder = new JobSchedulerBuilder(jobBuilder);
 
         // 批量添加触发器
         if (triggerBuilders != null && triggerBuilders.Length > 0)
@@ -84,9 +82,14 @@ public sealed class JobSchedulerBuilder : JobScheduler
             {
                 // 创建作业触发器并添加到当前作业触发器构建器中
                 var jobTriggerBuilder = JobTriggerBuilder.Create(jobTriggerAttribute.RuntimeTriggerType)
-                     .WithArgs(jobTriggerAttribute.RuntimeTriggerArgs)
-                     .SetTriggerId(jobTriggerAttribute.TriggerId)
-                     .SetDescription(jobTriggerAttribute.Description);
+                    .WithArgs(jobTriggerAttribute.RuntimeTriggerArgs)
+                    .SetTriggerId(jobTriggerAttribute.TriggerId)
+                    .SetDescription(jobTriggerAttribute.Description)
+                    .SetMaxNumberOfRuns(jobTriggerAttribute.MaxNumberOfRuns)
+                    .SetMaxNumberOfErrors(jobTriggerAttribute.MaxNumberOfErrors)
+                    .SetNumRetries(jobTriggerAttribute.NumRetries)
+                    .SetRetryTimeout(jobTriggerAttribute.RetryTimeout)
+                    .SetLogExecution(jobTriggerAttribute.LogExecution);
 
                 jobSchedulerBuilder.JobTriggerBuilders.Add(jobTriggerBuilder);
             }
@@ -102,9 +105,10 @@ public sealed class JobSchedulerBuilder : JobScheduler
     /// <returns><see cref="JobSchedulerBuilder"/></returns>
     public static JobSchedulerBuilder From(JobScheduler jobScheduler)
     {
-        var jobSchedulerBuilder = jobScheduler.SimpleMapTo<JobScheduler, JobSchedulerBuilder>();
-        jobSchedulerBuilder.JobBuilder = JobBuilder.From(jobScheduler.JobDetail);
-        jobSchedulerBuilder.JobTriggerBuilders = jobScheduler.JobTriggers.Select(t => JobTriggerBuilder.From(t.Value)).ToList();
+        var jobSchedulerBuilder = new JobSchedulerBuilder(JobBuilder.From(jobScheduler.JobDetail))
+        {
+            JobTriggerBuilders = jobScheduler.JobTriggers.Select(t => JobTriggerBuilder.From(t.Value)).ToList()
+        };
 
         return jobSchedulerBuilder;
     }
@@ -141,7 +145,7 @@ public sealed class JobSchedulerBuilder : JobScheduler
         // 构建作业触发器
         var jobTriggers = new Dictionary<string, JobTrigger>();
 
-        // 遍历作业触发器集合
+        // 遍历作业触发器构建器集合
         for (var i = 0; i < JobTriggerBuilders.Count; i++)
         {
             var jobTriggerBuilder = JobTriggerBuilders[i];
@@ -159,11 +163,9 @@ public sealed class JobSchedulerBuilder : JobScheduler
             if (!succeed) throw new InvalidOperationException($"The TriggerId of <{jobTrigger.TriggerId}> already exists.");
         }
 
-        JobId = jobDetail.JobId;
-        JobDetail = jobDetail;
-        JobTriggers = jobTriggers;
+        // 创建作业调度计划
+        var jobScheduler = new JobScheduler(jobDetail, jobTriggers);
 
-        var jobScheduler = this.SimpleMapTo<JobSchedulerBuilder, JobScheduler>();
         return jobScheduler;
     }
 }

@@ -29,9 +29,14 @@ namespace Furion.Scheduler;
 public enum PersistenceBehavior : uint
 {
     /// <summary>
+    /// 追加
+    /// </summary>
+    Append = 0,
+
+    /// <summary>
     /// 更新
     /// </summary>
-    Update = 0,
+    Update = 1,
 
     /// <summary>
     /// 删除

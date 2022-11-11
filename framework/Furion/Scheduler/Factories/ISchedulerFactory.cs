@@ -25,7 +25,7 @@ namespace Furion.Scheduler;
 /// <summary>
 /// 作业调度计划工厂服务
 /// </summary>
-public interface ISchedulerFactory
+public partial interface ISchedulerFactory
 {
     /// <summary>
     /// 初始化作业调度计划
@@ -39,7 +39,7 @@ public interface ISchedulerFactory
     /// </summary>
     /// <param name="checkTime">检查时间</param>
     /// <returns></returns>
-    IEnumerable<JobScheduler> GetJobSchedulersThatShouldRun(DateTime checkTime);
+    IEnumerable<IJobScheduler> GetJobSchedulersThatShouldRun(DateTime checkTime);
 
     /// <summary>
     /// 等待作业调度后台服务被唤醒
@@ -58,5 +58,6 @@ public interface ISchedulerFactory
     /// </summary>
     /// <param name="jobDetail">作业信息</param>
     /// <param name="jobTrigger">作业触发器</param>
-    void Record(JobDetail jobDetail, JobTrigger jobTrigger);
+    /// <param name="behavior">作业持久化行为</param>
+    void Record(JobDetail jobDetail, JobTrigger jobTrigger, PersistenceBehavior behavior = PersistenceBehavior.Update);
 }

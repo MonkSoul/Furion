@@ -29,7 +29,7 @@ namespace Furion.Scheduler;
 /// <summary>
 /// 作业调度工厂默认实现类
 /// </summary>
-internal sealed class SchedulerFactory : ISchedulerFactory, IDisposable
+internal sealed partial class SchedulerFactory : ISchedulerFactory, IDisposable
 {
     /// <summary>
     /// 服务提供器
@@ -126,16 +126,22 @@ internal sealed class SchedulerFactory : ISchedulerFactory, IDisposable
                     var succeed = _jobSchedulers.TryRemove(jobScheduler.JobId, out _);
 
                     // 输出移除日志
-                    if (succeed) _logger.Log(LogLevel.Warning, "The JobScheduler of <{jobId}> has removed.", new[] { jobSchedulerBuilder.JobId });
-                    else _logger.Log(LogLevel.Warning, "The JobScheduler of <{jobId}> remove failed.", new[] { jobSchedulerBuilder.JobId });
+                    var args = new[] { jobSchedulerBuilder.JobBuilder.JobId };
+                    if (succeed) _logger.Log(LogLevel.Warning, "The JobScheduler of <{jobId}> has removed.", args);
+                    else _logger.Log(LogLevel.Warning, "The JobScheduler of <{jobId}> remove failed.", args);
                 }
             }
 
             // 获取更新后的作业调度计划
             var jobSchedulerForUpdated = jobSchedulerBuilder.Build();
 
+            // 存储作业调度计划工厂
+            jobSchedulerForUpdated.Factory = this;
+
             // 实例化作业处理程序
-            jobSchedulerForUpdated.JobHandler = _serviceProvider.GetService(jobSchedulerForUpdated.JobDetail.RuntimeJobType) as IJob;
+            var jobType = jobSchedulerForUpdated.JobDetail.RuntimeJobType;
+            jobSchedulerForUpdated.JobHandler = (_serviceProvider.GetService(jobType)
+                ?? ActivatorUtilities.CreateInstance(_serviceProvider, jobType)) as IJob;
 
             // 初始化作业触发器下一次执行时间
             foreach (var jobTriggerForUpdated in jobSchedulerForUpdated.JobTriggers.Values)
@@ -158,7 +164,7 @@ internal sealed class SchedulerFactory : ISchedulerFactory, IDisposable
     /// </summary>
     /// <param name="checkTime">检查时间</param>
     /// <returns></returns>
-    public IEnumerable<JobScheduler> GetJobSchedulersThatShouldRun(DateTime checkTime)
+    public IEnumerable<IJobScheduler> GetJobSchedulersThatShouldRun(DateTime checkTime)
     {
         bool triggerShouldRun(JobTrigger t) => t.InternalShouldRun(checkTime);
 
@@ -166,14 +172,10 @@ internal sealed class SchedulerFactory : ISchedulerFactory, IDisposable
         var jobSchedulersThatShouldRun = _jobSchedulers.Values
                 .Where(s => s.JobHandler != null
                     && s.JobTriggers.Values.Any(triggerShouldRun))
-                .Select(s => new JobScheduler
+                .Select(s => new JobScheduler(s.JobDetail, s.JobTriggers.Values.Where(triggerShouldRun).ToDictionary(t => t.TriggerId, t => t))
                 {
-                    JobId = s.JobId,
-                    JobDetail = s.JobDetail,
+                    Factory = this,
                     JobHandler = s.JobHandler,
-                    JobTriggers = s.JobTriggers.Values
-                        .Where(triggerShouldRun)
-                        .ToDictionary(t => t.TriggerId, t => t),
                 });
 
         return jobSchedulersThatShouldRun;
@@ -225,7 +227,8 @@ internal sealed class SchedulerFactory : ISchedulerFactory, IDisposable
     /// </summary>
     /// <param name="jobDetail">作业信息</param>
     /// <param name="jobTrigger">作业触发器</param>
-    public void Record(JobDetail jobDetail, JobTrigger jobTrigger)
+    /// <param name="behavior">作业持久化行为</param>
+    public void Record(JobDetail jobDetail, JobTrigger jobTrigger, PersistenceBehavior behavior = PersistenceBehavior.Update)
     {
         // 空检查
         if (Persistence == null) return;
@@ -239,7 +242,8 @@ internal sealed class SchedulerFactory : ISchedulerFactory, IDisposable
                 var context = new PersistenceContext(jobDetail.JobId
                     , jobTrigger.TriggerId
                     , jobDetail
-                    , jobTrigger);
+                    , jobTrigger
+                    , behavior);
 
                 _persistenceMessageQueue.Add(context);
                 return;

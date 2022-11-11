@@ -35,7 +35,7 @@ public sealed class SchedulerOptionsBuilder
     /// <summary>
     /// 作业调度计划构建器集合
     /// </summary>
-    private readonly ConcurrentDictionary<string, JobSchedulerBuilder> _jobSchedulerBuilders = new();
+    private readonly List<JobSchedulerBuilder> _jobSchedulerBuilders = new();
 
     /// <summary>
     /// 作业处理程序监视器
@@ -73,7 +73,7 @@ public sealed class SchedulerOptionsBuilder
     public bool LogEnabled { get; set; } = true;
 
     /// <summary>
-    /// 注册作业
+    /// 添加作业
     /// </summary>
     /// <param name="jobSchedulerBuilder">作业调度程序构建器</param>
     /// <returns><see cref="SchedulerOptionsBuilder"/></returns>
@@ -82,17 +82,14 @@ public sealed class SchedulerOptionsBuilder
         // 空检查
         if (jobSchedulerBuilder == null) throw new ArgumentNullException(nameof(jobSchedulerBuilder));
 
-        // 将作业调度计划添加到集合中
-        var succeed = _jobSchedulerBuilders.TryAdd(jobSchedulerBuilder.JobId, jobSchedulerBuilder);
-
-        // 检查 Id 重复
-        if (!succeed) throw new InvalidOperationException($"The JobId of <{jobSchedulerBuilder.JobId}> already exists.");
+        // 将作业调度计划构建器添加到集合中
+        _jobSchedulerBuilders.Add(jobSchedulerBuilder);
 
         return this;
     }
 
     /// <summary>
-    /// 注册作业
+    /// 添加作业
     /// </summary>
     /// <param name="jobBuilder">作业信息构建器</param>
     /// <param name="triggerBuilders">作业触发器构建器集合</param>
@@ -103,7 +100,20 @@ public sealed class SchedulerOptionsBuilder
     }
 
     /// <summary>
-    /// 注册作业
+    /// 添加作业
+    /// </summary>
+    /// <typeparam name="TJob"><see cref="IJob"/> 实现类型</typeparam>
+    /// <param name="triggerBuilders">作业触发器构建器集合</param>
+    /// <returns><see cref="SchedulerOptionsBuilder"/></returns>
+    public SchedulerOptionsBuilder AddJob<TJob>(params JobTriggerBuilder[] triggerBuilders)
+         where TJob : class, IJob
+    {
+        return AddJob(JobSchedulerBuilder.Create(JobBuilder.Create<TJob>()
+            , triggerBuilders));
+    }
+
+    /// <summary>
+    /// 添加作业
     /// </summary>
     /// <typeparam name="TJob"><see cref="IJob"/> 实现类型</typeparam>
     /// <param name="jobId">作业 Id</param>
@@ -117,7 +127,7 @@ public sealed class SchedulerOptionsBuilder
     }
 
     /// <summary>
-    /// 注册作业
+    /// 添加作业
     /// </summary>
     /// <typeparam name="TJob"><see cref="IJob"/> 实现类型</typeparam>
     /// <param name="jobId">作业 Id</param>
@@ -175,15 +185,29 @@ public sealed class SchedulerOptionsBuilder
     {
         var jobSchedulers = new ConcurrentDictionary<string, JobScheduler>();
 
-        // 构建作业调度计划和注册作业处理程序类型
-        foreach (var (jobId, jobSchedulerBuilder) in _jobSchedulerBuilders)
+        // 遍历作业信息构建器集合
+        for (var i = 0; i < _jobSchedulerBuilders.Count; i++)
         {
-            var jobScheduler = jobSchedulerBuilder.Build();
-            var jobType = jobScheduler.JobDetail.RuntimeJobType;
+            var jobSchedulerBuilder = _jobSchedulerBuilders[i];
 
-            _ = jobSchedulers.TryAdd(jobId, jobScheduler);
+            // 获取作业信息构建器
+            var jobBuilder = jobSchedulerBuilder.JobBuilder;
+
+            // 配置默认 JobId
+            if (string.IsNullOrWhiteSpace(jobBuilder.JobId))
+            {
+                jobBuilder.SetJobId($"job{i + 1}");
+            }
+
+            // 构建作业调度计划并添加到集合中
+            var jobScheduler = jobSchedulerBuilder.Build();
+            var succeed = jobSchedulers.TryAdd(jobBuilder.JobId, jobScheduler);
+
+            // 检查 作业 Id 重复
+            if (!succeed) throw new InvalidOperationException($"The JobId of <{jobBuilder.JobId}> already exists.");
 
             // 注册作业处理程序为单例
+            var jobType = jobScheduler.JobDetail.RuntimeJobType;
             services.TryAddSingleton(jobType, jobType);
         }
 

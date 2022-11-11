@@ -23,41 +23,38 @@
 namespace Furion.Scheduler;
 
 /// <summary>
-/// 作业调度计划工厂服务
+/// 作业调度计划接口
 /// </summary>
-public partial interface ISchedulerFactory
+public interface IJobScheduler
 {
     /// <summary>
-    /// 初始化作业调度计划
+    /// 获取作业调度计划构建器
     /// </summary>
-    /// <param name="stoppingToken">后台主机服务停止时取消任务 Token</param>
-    /// <returns><see cref="Task"/></returns>
-    Task InitializeAsync(CancellationToken stoppingToken = default);
+    /// <returns><see cref="JobScheduler"/></returns>
+    JobSchedulerBuilder GetBuilder();
 
     /// <summary>
-    /// 查找所有符合触发的作业调度计划
+    /// 启动作业
     /// </summary>
-    /// <param name="checkTime">检查时间</param>
-    /// <returns></returns>
-    IEnumerable<IJobScheduler> GetJobSchedulersThatShouldRun(DateTime checkTime);
+    void Start();
 
     /// <summary>
-    /// 等待作业调度后台服务被唤醒
+    /// 暂停作业
     /// </summary>
-    /// <param name="stoppingToken">后台主机服务停止时取消任务 Token</param>
-    /// <returns><see cref="Task"/></returns>
-    Task WaitForWakeUpAsync(CancellationToken stoppingToken = default);
+    void Pause();
 
     /// <summary>
-    /// 强制唤醒作业调度后台服务
+    /// 启动作业触发器
     /// </summary>
-    void ForceWakeUp();
+    void StartTrigger(string jobTriggerId);
 
     /// <summary>
-    /// 记录作业执行状态
+    /// 暂停作业触发器
     /// </summary>
-    /// <param name="jobDetail">作业信息</param>
-    /// <param name="jobTrigger">作业触发器</param>
-    /// <param name="behavior">作业持久化行为</param>
-    void Record(JobDetail jobDetail, JobTrigger jobTrigger, PersistenceBehavior behavior = PersistenceBehavior.Update);
+    void PauseTrigger(string jobTriggerId);
+
+    /// <summary>
+    /// 强制触发持久化操作
+    /// </summary>
+    void ForcePersist();
 }

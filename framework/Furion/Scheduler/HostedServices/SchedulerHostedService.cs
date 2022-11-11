@@ -129,10 +129,11 @@ internal sealed class SchedulerHostedService : BackgroundService
         foreach (var jobSchedulerThatShouldRun in jobSchedulersThatShouldRun)
         {
             // 解构参数
-            var jobId = jobSchedulerThatShouldRun.JobId;
-            var jobDetail = jobSchedulerThatShouldRun.JobDetail;
-            var jobHandler = jobSchedulerThatShouldRun.JobHandler;
-            var jobTriggersThatShouldRun = jobSchedulerThatShouldRun.JobTriggers;
+            var jobScheduler = (JobScheduler)jobSchedulerThatShouldRun;
+            var jobId = jobScheduler.JobId;
+            var jobDetail = jobScheduler.JobDetail;
+            var jobHandler = jobScheduler.JobHandler;
+            var jobTriggersThatShouldRun = jobScheduler.JobTriggers;
 
             // 逐条遍历所有符合触发的作业触发器
             foreach (var jobTriggerThatShouldRun in jobTriggersThatShouldRun)
@@ -149,7 +150,7 @@ internal sealed class SchedulerHostedService : BackgroundService
                 // 记录运行信息和计算下一个触发时间及休眠时间
                 jobTrigger.Increment();
 
-                // 记录执行状态
+                // 记录执行信息并通知作业持久化器
                 _schedulerFactory.Record(jobDetail, jobTrigger);
 
                 // 记录作业执行信息
@@ -195,7 +196,7 @@ internal sealed class SchedulerHostedService : BackgroundService
                             // 设置触发器状态为就绪状态
                             jobTrigger.SetStatus(JobTriggerStatus.Ready);
 
-                            // 记录执行状态
+                            // 记录执行信息并通知作业持久化器
                             _schedulerFactory.Record(jobDetail, jobTrigger);
                         }
                         catch (Exception ex)
@@ -203,7 +204,7 @@ internal sealed class SchedulerHostedService : BackgroundService
                             // 记录错误信息，包含错误次数和运行状态
                             jobTrigger.IncrementErrors();
 
-                            // 记录执行状态
+                            // 记录执行信息并通知作业持久化器
                             _schedulerFactory.Record(jobDetail, jobTrigger);
 
                             // 输出异常日志
@@ -277,7 +278,7 @@ internal sealed class SchedulerHostedService : BackgroundService
             // 记录作业执行信息
             LogExecution(jobDetail, jobTrigger, checkTime);
 
-            // 记录执行状态
+            // 记录执行信息并通知作业持久化器
             _schedulerFactory.Record(jobDetail, jobTrigger);
 
             return true;

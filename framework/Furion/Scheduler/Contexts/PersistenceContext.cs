@@ -35,15 +35,18 @@ public sealed class PersistenceContext
     /// <param name="jobTriggerId">作业触发器 Id</param>
     /// <param name="jobDetail">作业信息</param>
     /// <param name="jobTrigger">作业触发器</param>
+    /// <param name="behavior">作业持久化行为</param>
     internal PersistenceContext(string jobId
         , string jobTriggerId
         , JobDetail jobDetail
-        , JobTrigger jobTrigger)
+        , JobTrigger jobTrigger
+        , PersistenceBehavior behavior)
     {
         JobId = jobId;
         JobTriggerId = jobTriggerId;
         JobDetail = jobDetail;
         JobTrigger = jobTrigger;
+        Behavior = behavior;
     }
 
     /// <summary>
@@ -65,4 +68,9 @@ public sealed class PersistenceContext
     /// 作业触发器
     /// </summary>
     public JobTrigger JobTrigger { get; }
+
+    /// <summary>
+    /// 作业持久化行为
+    /// </summary>
+    public PersistenceBehavior Behavior { get; }
 }

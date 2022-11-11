@@ -105,7 +105,7 @@ public sealed class JobTriggerBuilder : JobTrigger
     /// <returns></returns>
     public static JobTriggerBuilder From(JobTrigger jobTrigger)
     {
-        var jobTriggerBuilder = jobTrigger.SimpleMapTo<JobTrigger, JobTriggerBuilder>();
+        var jobTriggerBuilder = jobTrigger.MapTo<JobTriggerBuilder>();
         return jobTriggerBuilder;
     }
 
@@ -310,6 +310,21 @@ public sealed class JobTriggerBuilder : JobTrigger
     }
 
     /// <summary>
+    /// 隐藏触发器公开方法
+    /// </summary>
+    /// <param name="startAt"></param>
+    /// <returns></returns>
+    /// <exception cref="NotImplementedException"></exception>
+    internal new DateTime GetNextOccurrence(DateTime startAt) => throw new NotImplementedException();
+
+    /// <summary>
+    /// 隐藏触发器公开方法
+    /// </summary>
+    /// <param name="checkTime">受检时间</param>
+    /// <returns><see cref="bool"/></returns>
+    internal new bool ShouldRun(DateTime checkTime) => throw new NotImplementedException();
+
+    /// <summary>
     /// 构建 <see cref="JobTrigger"/> 对象
     /// </summary>
     /// <param name="jobId">作业 Id</param>
@@ -332,7 +347,7 @@ public sealed class JobTriggerBuilder : JobTrigger
             ? Activator.CreateInstance(RuntimeTriggerType!)
             : Activator.CreateInstance(RuntimeTriggerType!, RuntimeTriggerArgs));
 
-        var jobTrigger = this.SimpleMapTo<JobTriggerBuilder, JobTrigger>(triggerObject);
+        var jobTrigger = this.MapTo<JobTrigger>(triggerObject);
         return jobTrigger;
     }
 }
