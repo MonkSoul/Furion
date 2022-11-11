@@ -24,18 +24,19 @@ import Tag from "@site/src/components/Tag.js";
 
 :::
 
-## v4.7.7（当前版本）
+## v4.7.9（当前版本）
 
 :::caution .NET7 发布
 
 **🚀🎉🔥 2022 年 11 月 08 日，微软发布了 .NET7 首个正式版。**
 
-`Furion` 第一时间完成了适配，**`v4` 版本开始一套代码支持 `.NET5-.NET7-N`，支持所有 `Furion` 版本升级**。
+`Furion` 第一时间完成了适配，**`v4` 版本开始一套代码支持 `.NET5-.NET7/N`，支持所有 `Furion` 版本升级**。
 
 :::
 
 :::important 版本细节
 
+- `v4.7.9` 版本细节：[https://gitee.com/dotnetchina/Furion/issues/I60MFK](https://gitee.com/dotnetchina/Furion/issues/I60MFK) <sup>2022.11.11</sup>
 - `v4.7.7` 版本细节：[https://gitee.com/dotnetchina/Furion/issues/I60GZ8](https://gitee.com/dotnetchina/Furion/issues/I60GZ8) <sup>2022.11.10</sup>
 - `v4.7.6` 版本细节：[https://gitee.com/dotnetchina/Furion/issues/I60591](https://gitee.com/dotnetchina/Furion/issues/I60591) <sup>2022.11.08</sup>
 - `v4.7.5` 版本细节：[https://gitee.com/dotnetchina/Furion/issues/I600R4](https://gitee.com/dotnetchina/Furion/issues/I600R4) <sup>2022.11.08</sup>
@@ -55,8 +56,8 @@ import Tag from "@site/src/components/Tag.js";
   - &nbsp;<Tag>新增</Tag> 远程请求 `.GetCookies()` 和 `.GetSetCookies()` 拓展方法 <sup>4.7.5</sup> [#I5ZY1L](https://gitee.com/dotnetchina/Furion/issues/I5ZY1L)
   - &nbsp;<Tag>新增</Tag> 事件总线 `.ReplaceStorerOrFallback` 自定义事件源存储器方法，可在自定义初始失败时回退到默认值 <sup>4.7.6</sup> [#I602NU](https://gitee.com/dotnetchina/Furion/issues/I602NU)
   - &nbsp;<Tag>新增</Tag> `LoggingMonitor` 输出 `启动信息`，`Cookies` 和 `请求端源` 信息 <sup>4.7.7</sup> [3037b04](https://gitee.com/dotnetchina/Furion/commit/3037b04cac8cfa70d6e7f1dba62d48362f75e778)
-  - &nbsp;<Tag>新增</Tag> `JSON` 序列化 `DateOnly` 和 `TimeOnly` 类型转换器：`.AddDateOnlyConverters()` 和 `.AddTimeOnlyConverters()` <sup>4.7.8</sup> [!657](https://gitee.com/dotnetchina/Furion/pulls/657)
-  - &nbsp;<Tag>新增</Tag> `HttpContext.ReadBodyContentAsync()` 拓展方法重复读取 `Body` 内容 <sup>4.7.8</sup> [#I60IYU](https://gitee.com/dotnetchina/Furion/issues/I60IYU)
+  - &nbsp;<Tag>新增</Tag> **`JSON` 序列化 `DateOnly` 和 `TimeOnly` 类型转换器：`.AddDateOnlyConverters()` 和 `.AddTimeOnlyConverters()`** <sup>4.7.9</sup> [!657](https://gitee.com/dotnetchina/Furion/pulls/657) [47a5fcb](https://gitee.com/dotnetchina/Furion/commit/47a5fcbe9dbcff4fb35addc178d2715dbb3544a2)
+  - &nbsp;<Tag>新增</Tag> **`HttpContext.ReadBodyContentAsync()` 拓展方法重复读取 `Body` 内容** <sup>4.7.9</sup> [#I60IYU](https://gitee.com/dotnetchina/Furion/issues/I60IYU)
 
 - **突破性变化**
 
@@ -105,7 +106,7 @@ var value = logContext.Get("Key");  // 新版本不会报错，且 value = null
   </div>
 </details>
 
-- - &nbsp;<Tag>调整</Tag> **旧版本定时任务为 `弃用` 状态（一周内发布新版），如需取消警告在 `.csproj` 中添加 `<NoWarn>0618</NoWarn>`** <sup>4.7.8</sup> [0ff3ac0](https://gitee.com/dotnetchina/Furion/commit/0ff3ac0fcc54c510ce444b80e9f83eb2c81dc9ba)
+- - &nbsp;<Tag>调整</Tag> **旧版本定时任务为 `弃用` 状态（一周内发布新版），如需取消警告在 `.csproj` 中添加 `<NoWarn>0618</NoWarn>`** <sup>4.7.9</sup> [0ff3ac0](https://gitee.com/dotnetchina/Furion/commit/0ff3ac0fcc54c510ce444b80e9f83eb2c81dc9ba)
 
 - **问题修复**
 
@@ -116,7 +117,7 @@ var value = logContext.Get("Key");  // 新版本不会报错，且 value = null
   - &nbsp;<Tag>修复</Tag> 动态 `WebAPI` 在类上配置 `[Route]` 特性且包含 `[action]` 模板导致生成错误接口路径 <sup>4.7.2</sup> [#I5YEZQ](https://gitee.com/dotnetchina/Furion/issues/I5YEZQ)
   - &nbsp;<Tag>修复</Tag> 启用二级虚拟目录 `AppSettings:VirtualPath` 导致 `swagger` 的 `miniprofile` 加载失败 <sup>4.7.3</sup> [#I5Z8RM](https://gitee.com/dotnetchina/Furion/issues/I5Z8RM)
   - &nbsp;<Tag>修复</Tag> `LoggingMonitor` 监听带有 `[FromServices]` 的方法参数或接口类型参数出错 <sup>4.7.7</sup> [3037b04](https://gitee.com/dotnetchina/Furion/commit/3037b04cac8cfa70d6e7f1dba62d48362f75e778)
-  - &nbsp;<Tag>修复</Tag> `HttpRequest` 通过 `.ReadBodyContentAsync()` 读取不到 `Body` 问题 <sup>4.7.8</sup> [#I60IYU](https://gitee.com/dotnetchina/Furion/issues/I60IYU)
+  - &nbsp;<Tag>修复</Tag> `HttpRequest` 通过 `.ReadBodyContentAsync()` 读取不到 `Body` 问题 <sup>4.7.9</sup> [#I60IYU](https://gitee.com/dotnetchina/Furion/issues/I60IYU)
 
 - **其他更改**
 
@@ -131,7 +132,13 @@ var value = logContext.Get("Key");  // 新版本不会报错，且 value = null
   - &nbsp;<Tag>新增</Tag> `LoggingMonitor` 写入数据库文档
   - &nbsp;<Tag>新增</Tag> JSON 序列化 `DateOnly` 和 `TimeOnly` 类型处理文档
   - &nbsp;<Tag>新增</Tag> `HttpContext` 读取 `Body` 内容文档
+  - &nbsp;<Tag>新增</Tag> `PM2` 配置文件 `json` 部署文档
   - &nbsp;<Tag>更新</Tag> 日志记录文档、定时任务文档、远程请求文档、脚手架文档
+
+- **特别贡献**
+
+  - [@YaChengMu](https://gitee.com/YaChengMu)：[!657](https://gitee.com/dotnetchina/Furion/pulls/657)
+  - [@LiuDanK](https://gitee.com/LiuDanK_admin)：[#I60MP2](https://gitee.com/dotnetchina/Furion/issues/I60MP2)
 
 ---
 

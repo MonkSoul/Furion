@@ -142,6 +142,38 @@ PS C:\Users\bqrjsoft\Desktop\pms>
 
 :::
 
+### 34.6.3.4 `json` 配置/启动方式
+
+`pm2` 部署也提供了非常简单的 `json` 配置方式，部署更简单，拓展性更强，不需要每次重复输入命令，如在项目启动项目下添加 `pm2.json`，并设置文件属性 `内容` 为 `始终复制`：
+
+```json showLineNumbers {3,15,16} title="PMS/Web.Entry/pm2.json"
+{
+  "apps": {
+    "name": "唯一标识",
+    "script": "dotnet",
+    "exec_mode": "fork",
+    "error_file": "logs/err.log",
+    "out_file": "logs/out.log",
+    "merge_logs": true,
+    "log_date_format": "YYYY-MM-DD HH:mm:ss",
+    "min_uptime": "60s",
+    "max_restarts": 30,
+    "autorestart": true,
+    "restart_delay": "60",
+    "args": [
+      "PMS.Web.Entry.dll",
+      "--urls=http://*:5001"
+    ]
+  }
+}
+```
+
+在发布后的文件目录下打开终端执行：
+
+```bash showLineNumbers
+pm2 start pm2.json
+```
+
 ## 34.6.4 `pm2` 常见操作
 
 ### 34.6.4.1 实时监听运行状态
