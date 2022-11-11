@@ -105,6 +105,8 @@ var value = logContext.Get("Key");  // 新版本不会报错，且 value = null
   </div>
 </details>
 
+- - &nbsp;<Tag>调整</Tag> **旧版本定时任务为 `弃用` 状态（一周内发布新版），如需取消警告在 `.csproj` 中添加 `<NoWarn>0618</NoWarn>`** <sup>4.7.8</sup> [0ff3ac0](https://gitee.com/dotnetchina/Furion/commit/0ff3ac0fcc54c510ce444b80e9f83eb2c81dc9ba)
+
 - **问题修复**
 
   - &nbsp;<Tag>修复</Tag> **生成 `JWT Token` 时间戳和自动刷新逻辑在高并发下检查有效性不够精确问题，原因是时间戳丢掉了毫秒部分** <sup>4.7.0</sup> [3c0c017](https://gitee.com/dotnetchina/Furion/commit/3c0c017ca43c9043bb5806b2951a5bcc7d571142)
