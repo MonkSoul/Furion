@@ -73,7 +73,7 @@ internal sealed partial class SchedulerFactory
         }
 
         // 检查 作业 Id 重复
-        if (!_jobSchedulers.ContainsKey(jobBuilder.JobId)) throw new InvalidOperationException($"The JobId of <{jobBuilder.JobId}> already exists.");
+        if (_jobSchedulers.ContainsKey(jobBuilder.JobId)) throw new InvalidOperationException($"The JobId of <{jobBuilder.JobId}> already exists.");
 
         // 构建作业调度计划并添加到集合中
         var jobScheduler = jobSchedulerBuilder.Build();
