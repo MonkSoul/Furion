@@ -57,4 +57,16 @@ public interface IJobScheduler
     /// 强制触发持久化操作
     /// </summary>
     void ForcePersist();
+
+    /// <summary>
+    /// 添加作业触发器
+    /// </summary>
+    /// <param name="jobTriggerBuilder">作业触发器构建器</param>
+    void AddTrigger(JobTriggerBuilder jobTriggerBuilder);
+
+    /// <summary>
+    /// 删除作业触发器
+    /// </summary>
+    /// <param name="jobTriggerId"></param>
+    void RemoveTrigger(string jobTriggerId);
 }

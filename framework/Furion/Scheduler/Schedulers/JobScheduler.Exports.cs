@@ -123,4 +123,48 @@ public sealed partial class JobScheduler
             Factory?.Record(JobDetail, jobTrigger);
         }
     }
+
+    /// <summary>
+    /// 添加作业触发器
+    /// </summary>
+    /// <param name="jobTriggerBuilder">作业触发器构建器</param>
+    public void AddTrigger(JobTriggerBuilder jobTriggerBuilder)
+    {
+        // 配置默认 TriggerId
+        if (string.IsNullOrWhiteSpace(jobTriggerBuilder.TriggerId))
+        {
+            jobTriggerBuilder.SetTriggerId($"{JobDetail.JobId}_trigger{JobTriggers.Count + 1}");
+        }
+
+        var jobTrigger = jobTriggerBuilder.Build(JobDetail.JobId);
+        var succeed = JobTriggers.TryAdd(jobTrigger.TriggerId, jobTrigger);
+
+        // 作业触发器 Id 唯一检查
+        if (!succeed) throw new InvalidOperationException($"The TriggerId of <{jobTrigger.TriggerId}> already exists.");
+
+        // 通知作业调度服务强制刷新
+        Factory.ForceRefresh();
+
+        // 记录执行信息并通知作业持久化器
+        Factory?.Record(JobDetail, jobTrigger, PersistenceBehavior.AppendTrigger);
+    }
+
+    /// <summary>
+    /// 删除作业触发器
+    /// </summary>
+    /// <param name="jobTriggerId"></param>
+    public void RemoveTrigger(string jobTriggerId)
+    {
+        var succeed = JobTriggers.TryGetValue(jobTriggerId, out var jobTrigger);
+        if (succeed)
+        {
+            JobTriggers.Remove(jobTriggerId);
+
+            // 记录执行信息并通知作业持久化器
+            Factory?.Record(JobDetail, jobTrigger, PersistenceBehavior.RemoveTrigger);
+
+            // 通知作业调度服务强制刷新
+            Factory.ForceRefresh();
+        }
+    }
 }

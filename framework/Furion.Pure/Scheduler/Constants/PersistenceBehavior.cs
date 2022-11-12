@@ -29,17 +29,32 @@ namespace Furion.Scheduler;
 public enum PersistenceBehavior : uint
 {
     /// <summary>
-    /// 追加
+    /// 追加作业
     /// </summary>
-    Append = 0,
+    AppendJob = 0,
 
     /// <summary>
-    /// 更新
+    /// 更新作业
     /// </summary>
-    Update = 1,
+    UpdateJob = 1,
 
     /// <summary>
-    /// 删除
+    /// 删除作业
     /// </summary>
-    Deleted = 2
+    RemoveJob = 2,
+
+    /// <summary>
+    /// 追加作业触发器
+    /// </summary>
+    AppendTrigger = 3,
+
+    /// <summary>
+    /// 更新作业触发器
+    /// </summary>
+    UpdateTrigger = 4,
+
+    /// <summary>
+    /// 删除作业触发器
+    /// </summary>
+    RemoveTrigger = 5
 }

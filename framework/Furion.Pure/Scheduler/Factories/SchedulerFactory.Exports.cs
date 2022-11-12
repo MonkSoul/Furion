@@ -33,7 +33,7 @@ internal sealed partial class SchedulerFactory
     /// 查找所有作业调度计划
     /// </summary>
     /// <returns></returns>
-    public IEnumerable<IJobScheduler> GetJobSchedulers()
+    public IEnumerable<IJobScheduler> GetJobs()
     {
         return _jobSchedulers.Values;
     }
@@ -43,7 +43,7 @@ internal sealed partial class SchedulerFactory
     /// </summary>
     /// <param name="jobId"></param>
     /// <returns></returns>
-    public IJobScheduler GetJobScheduler(string jobId)
+    public IJobScheduler GetJob(string jobId)
     {
         // 空检查
         if (string.IsNullOrWhiteSpace(jobId)) throw new ArgumentNullException(nameof(jobId));
@@ -91,7 +91,7 @@ internal sealed partial class SchedulerFactory
             jobTrigger.NextRunTime = jobTrigger.IncrementNextRunTime();
 
             // 记录执行信息并通知作业持久化器
-            Record(jobScheduler.JobDetail, jobTrigger, PersistenceBehavior.Append);
+            Record(jobScheduler.JobDetail, jobTrigger, PersistenceBehavior.AppendJob);
         }
 
         // 追加到集合中
@@ -171,7 +171,7 @@ internal sealed partial class SchedulerFactory
         foreach (var jobTrigger in jobScheduler.JobTriggers.Values)
         {
             // 记录执行信息并通知作业持久化器
-            Record(jobScheduler.JobDetail, jobTrigger, PersistenceBehavior.Deleted);
+            Record(jobScheduler.JobDetail, jobTrigger, PersistenceBehavior.RemoveJob);
         }
 
         // 通知作业调度服务强制刷新

@@ -12,18 +12,25 @@ public class JobServices : IDynamicApiController
     }
     public void StartJob(string jobId)
     {
-        var jobScheduler = _schedulerFactory.GetJobScheduler(jobId);
+        var jobScheduler = _schedulerFactory.GetJob(jobId);
         jobScheduler?.Start();
     }
 
     public void PauseJob(string jobId)
     {
-        var jobScheduler = _schedulerFactory.GetJobScheduler(jobId);
+        var jobScheduler = _schedulerFactory.GetJob(jobId);
         jobScheduler?.Pause();
     }
 
-    public void AddJob(string jobId)
+    public void AddJob([FromQuery] string jobId)
     {
-        _schedulerFactory.AddJob<TestJob>(jobId, Trigger.Period(10000));
+        if (!string.IsNullOrWhiteSpace(jobId))
+        {
+            _schedulerFactory.AddJob<TestJob>(jobId, Trigger.Period(10000));
+        }
+        else
+        {
+            _schedulerFactory.AddJob<TestJob>(Trigger.Period(10000));
+        }
     }
 }

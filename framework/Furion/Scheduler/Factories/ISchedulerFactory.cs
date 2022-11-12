@@ -59,5 +59,5 @@ public partial interface ISchedulerFactory
     /// <param name="jobDetail">作业信息</param>
     /// <param name="jobTrigger">作业触发器</param>
     /// <param name="behavior">作业持久化行为</param>
-    void Record(JobDetail jobDetail, JobTrigger jobTrigger, PersistenceBehavior behavior = PersistenceBehavior.Update);
+    void Record(JobDetail jobDetail, JobTrigger jobTrigger, PersistenceBehavior behavior = PersistenceBehavior.UpdateTrigger);
 }

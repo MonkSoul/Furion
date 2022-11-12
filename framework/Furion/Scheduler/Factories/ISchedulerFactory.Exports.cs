@@ -31,14 +31,14 @@ public partial interface ISchedulerFactory
     /// 查找所有作业调度计划
     /// </summary>
     /// <returns></returns>
-    IEnumerable<IJobScheduler> GetJobSchedulers();
+    IEnumerable<IJobScheduler> GetJobs();
 
     /// <summary>
     /// 获取作业调度计划
     /// </summary>
     /// <param name="jobId"></param>
     /// <returns></returns>
-    IJobScheduler GetJobScheduler(string jobId);
+    IJobScheduler GetJob(string jobId);
 
     /// <summary>
     /// 添加作业

@@ -42,7 +42,7 @@ public sealed class JobSchedulerBuilder
     /// <summary>
     /// 标记作业调度计划持久化行为
     /// </summary>
-    internal PersistenceBehavior Behavior { get; set; } = PersistenceBehavior.Update;
+    internal PersistenceBehavior Behavior { get; set; } = PersistenceBehavior.UpdateJob;
 
     /// <summary>
     /// 作业信息构建器
@@ -119,7 +119,7 @@ public sealed class JobSchedulerBuilder
     /// <returns></returns>
     public JobSchedulerBuilder Update()
     {
-        Behavior = PersistenceBehavior.Update;
+        Behavior = PersistenceBehavior.UpdateJob;
         return this;
     }
 
@@ -129,7 +129,7 @@ public sealed class JobSchedulerBuilder
     /// <returns></returns>
     public JobSchedulerBuilder Deleted()
     {
-        Behavior = PersistenceBehavior.Deleted;
+        Behavior = PersistenceBehavior.RemoveJob;
         return this;
     }
 
