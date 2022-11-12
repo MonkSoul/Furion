@@ -1,4 +1,4 @@
-using Furion.Scheduler;
+using Furion.Schedule;
 
 namespace Furion.Application;
 
@@ -12,14 +12,14 @@ public class JobServices : IDynamicApiController
     }
     public void StartJob(string jobId)
     {
-        var jobScheduler = _schedulerFactory.GetJob(jobId);
-        jobScheduler?.Start();
+        var scheduler = _schedulerFactory.GetJob(jobId);
+        scheduler?.Start();
     }
 
     public void PauseJob(string jobId)
     {
-        var jobScheduler = _schedulerFactory.GetJob(jobId);
-        jobScheduler?.Pause();
+        var scheduler = _schedulerFactory.GetJob(jobId);
+        scheduler?.Pause();
     }
 
     public void AddJob([FromQuery] string jobId)

@@ -1,5 +1,5 @@
 ﻿using Furion.Application;
-using Furion.Scheduler;
+using Furion.Schedule;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
@@ -54,7 +54,7 @@ public sealed class Startup : AppStartup
         services.AddFromConvertBinding();
 
         // 新版本定时任务测试
-        services.AddScheduler(options =>
+        services.AddSchedule(options =>
         {
             options.AddJob<TestJob>(Trigger.Cron("* * * * *"), Trigger.Period(5000));
 

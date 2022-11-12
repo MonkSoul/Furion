@@ -1,4 +1,4 @@
-﻿using Furion.Scheduler;
+﻿using Furion.Schedule;
 using Microsoft.Extensions.Logging;
 
 namespace Furion.Application;

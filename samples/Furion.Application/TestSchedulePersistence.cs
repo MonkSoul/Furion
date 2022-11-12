@@ -1,4 +1,4 @@
-﻿using Furion.Scheduler;
+﻿using Furion.Schedule;
 using Microsoft.Extensions.Logging;
 
 namespace Furion.Application;
@@ -12,7 +12,7 @@ public class TestSchedulerPersistence : ISchedulerPersistence
         _logger = logger;
     }
 
-    public void Load(JobSchedulerBuilder builder)
+    public void Load(SchedulerBuilder builder)
     {
         builder.JobBuilder.SetDescription("测试作业描述");
         builder.JobTriggerBuilders.ForEach(b =>

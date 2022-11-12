@@ -1,0 +1,95 @@
+﻿// MIT License
+//
+// Copyright (c) 2020-2022 百小僧, Baiqian Co.,Ltd and Contributors
+//
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in all
+// copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// SOFTWARE.
+
+namespace Furion.Schedule;
+
+/// <summary>
+/// 作业触发器特性基类
+/// </summary>
+[SuppressSniffer, AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
+public abstract class JobTriggerAttribute : Attribute
+{
+    /// <summary>
+    /// 构造函数
+    /// </summary>
+    /// <param name="triggerType">作业触发器类型</param>
+    /// <param name="args">作业触发器参数</param>
+    public JobTriggerAttribute(Type triggerType, params object[] args)
+    {
+        RuntimeTriggerType = triggerType;
+        RuntimeTriggerArgs = args;
+    }
+
+    /// <summary>
+    /// 作业触发器 Id
+    /// </summary>
+    public string TriggerId { get; set; }
+
+    /// <summary>
+    /// 描述信息
+    /// </summary>
+    public string Description { get; set; }
+
+    /// <summary>
+    /// 最大触发次数
+    /// </summary>
+    /// <remarks>
+    /// <para>0：不限制</para>
+    /// <para>n：N 次</para>
+    /// </remarks>
+    public long MaxNumberOfRuns { get; set; }
+
+    /// <summary>
+    /// 最大出错次数
+    /// </summary>
+    /// <remarks>
+    /// <para>0：不限制</para>
+    /// <para>n：N 次</para>
+    /// </remarks>
+    public long MaxNumberOfErrors { get; set; }
+
+    /// <summary>
+    /// 重试次数
+    /// </summary>
+    public int NumRetries { get; set; } = 0;
+
+    /// <summary>
+    /// 重试间隔时间
+    /// </summary>
+    /// <remarks>默认1000毫秒</remarks>
+    public int RetryTimeout { get; set; } = 1000;
+
+    /// <summary>
+    /// 是否输出作业执行日志
+    /// </summary>
+    public bool LogExecution { get; set; } = false;
+
+    /// <summary>
+    /// 作业触发器运行时类型
+    /// </summary>
+    internal Type RuntimeTriggerType { get; set; }
+
+    /// <summary>
+    /// 作业触发器运行时参数
+    /// </summary>
+    internal object[] RuntimeTriggerArgs { get; set; }
+}
