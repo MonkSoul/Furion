@@ -17,12 +17,12 @@ const sponsors = [
     url: "https://www.firstui.cn?from=furion",
     top: false,
   },
-  {
-    title: "JNPF 基于代码生成器的 .NET 框架",
-    picture: "img/jnpfsoft.png",
-    url: "https://dotnet.jnpfsoft.com/login?from=furion",
-    top: false,
-  },
+  // {
+  //   title: "JNPF 基于代码生成器的 .NET 框架",
+  //   picture: "img/jnpfsoft.png",
+  //   url: "https://dotnet.jnpfsoft.com/login?from=furion",
+  //   top: false,
+  // },
   {
     title: "Layui-Vue 开源前端 UI 框架",
     picture: "img/layui.png",
