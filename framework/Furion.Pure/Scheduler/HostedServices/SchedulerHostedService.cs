@@ -24,7 +24,6 @@ using Furion.FriendlyException;
 using Furion.Templates;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 
 namespace Furion.Scheduler;
 
@@ -90,11 +89,11 @@ internal sealed class SchedulerHostedService : BackgroundService
     /// <returns><see cref="Task"/> 实例</returns>
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        _logger.Log(LogLevel.Information, "Scheduler Hosted Service is running.");
+        _logger.LogInformation("Scheduler Hosted Service is running.");
 
         // 注册后台主机服务停止监听
         stoppingToken.Register(() =>
-           _logger.Log(LogLevel.Debug, $"Scheduler Hosted Service is stopping."));
+           _logger.LogDebug($"Scheduler Hosted Service is stopping."));
 
         // 初始化
         await _schedulerFactory.InitializeAsync(stoppingToken);
@@ -106,7 +105,7 @@ internal sealed class SchedulerHostedService : BackgroundService
             await BackgroundProcessing(stoppingToken);
         }
 
-        _logger.Log(LogLevel.Critical, $"Scheduler Hosted Service is stopped.");
+        _logger.LogCritical($"Scheduler Hosted Service is stopped.");
     }
 
     /// <summary>
@@ -208,7 +207,7 @@ internal sealed class SchedulerHostedService : BackgroundService
                             _schedulerFactory.Record(jobDetail, jobTrigger);
 
                             // 输出异常日志
-                            _logger.Log(LogLevel.Error, "Error occurred executing {jobId} {jobTriggerId}<{jobTrigger}>.", new[] { jobId, jobTriggerId, jobTrigger.ToString() }, ex);
+                            _logger.LogError(ex, "Error occurred executing {jobId} {jobTriggerId}<{jobTrigger}>.", jobId, jobTriggerId, jobTrigger.ToString());
 
                             // 标记异常
                             executionException = new InvalidOperationException(string.Format("Error occurred executing {0} {1}<{2}>.", jobId, jobTriggerId, jobTrigger.ToString()), ex);
@@ -298,28 +297,25 @@ internal sealed class SchedulerHostedService : BackgroundService
 
         Parallel.For(0, 1, _ =>
         {
-            _logger.Log(LogLevel.Information
-                , TP.Wrapper("JobExecution", jobDetail.Description ?? jobDetail.JobType, new[]
-                    {
-                        $"##JobId## {jobDetail.JobId}"
-                        , $"##JobType## {jobDetail.JobType}"
-                        , $"##Concurrent## {jobDetail.Concurrent}"
-                        , $"##CheckTime## {checkTime}"
-                        , "━━━━━━━━━━━━  JobTrigger ━━━━━━━━━━━━"
-                        , $"##TriggerId## {jobTrigger.TriggerId}"
-                        , $"##TriggerType## {jobTrigger.TriggerType}"
-                        , $"##TriggerArgs## {jobTrigger.Args}"
-                        , $"##Status## {jobTrigger.Status}"
-                        , $"##LastRunTime## {jobTrigger.LastRunTime}"
-                        , $"##NextRunTime## {jobTrigger.NextRunTime}"
-                        , $"##NumberOfRuns## {jobTrigger.NumberOfRuns}"
-                        , $"##MaxNumberOfRuns## {jobTrigger.MaxNumberOfRuns}"
-                        , $"##NumberOfErrors## {jobTrigger.NumberOfErrors}"
-                        , $"##MaxNumberOfRuns## {jobTrigger.MaxNumberOfErrors}"
-                        , $"##Description## {jobTrigger.Description??jobTrigger.ToString()}"
-                    }
-                )
-            );
+            _logger.LogInformation(TP.Wrapper("JobExecution", jobDetail.Description ?? jobDetail.JobType, new[]
+            {
+                $"##JobId## {jobDetail.JobId}"
+                , $"##JobType## {jobDetail.JobType}"
+                , $"##Concurrent## {jobDetail.Concurrent}"
+                , $"##CheckTime## {checkTime}"
+                , "━━━━━━━━━━━━  JobTrigger ━━━━━━━━━━━━"
+                , $"##TriggerId## {jobTrigger.TriggerId}"
+                , $"##TriggerType## {jobTrigger.TriggerType}"
+                , $"##TriggerArgs## {jobTrigger.Args}"
+                , $"##Status## {jobTrigger.Status}"
+                , $"##LastRunTime## {jobTrigger.LastRunTime}"
+                , $"##NextRunTime## {jobTrigger.NextRunTime}"
+                , $"##NumberOfRuns## {jobTrigger.NumberOfRuns}"
+                , $"##MaxNumberOfRuns## {jobTrigger.MaxNumberOfRuns}"
+                , $"##NumberOfErrors## {jobTrigger.NumberOfErrors}"
+                , $"##MaxNumberOfRuns## {jobTrigger.MaxNumberOfErrors}"
+                , $"##Description## {jobTrigger.Description??jobTrigger.ToString()}"
+            }));
         });
     }
 }

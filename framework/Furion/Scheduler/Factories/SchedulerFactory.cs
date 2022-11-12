@@ -21,7 +21,6 @@
 // SOFTWARE.
 
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using System.Collections.Concurrent;
 
 namespace Furion.Scheduler;
@@ -104,7 +103,7 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory, IDisposable
     public Task InitializeAsync(CancellationToken stoppingToken = default)
     {
         // 输出作业调度初始化日志
-        _logger.Log(LogLevel.Debug, "Schedule Hosted Service is Initializing.");
+        _logger.LogDebug("Schedule Hosted Service is Initializing.");
 
         // 逐条初始化作业调度计划处理程序
         foreach (var jobScheduler in _jobSchedulers.Values)
@@ -127,8 +126,8 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory, IDisposable
 
                     // 输出移除日志
                     var args = new[] { jobSchedulerBuilder.JobBuilder.JobId };
-                    if (succeed) _logger.Log(LogLevel.Warning, "The JobScheduler of <{jobId}> has removed.", args);
-                    else _logger.Log(LogLevel.Warning, "The JobScheduler of <{jobId}> remove failed.", args);
+                    if (succeed) _logger.LogWarning("The JobScheduler of <{jobId}> has removed.", args);
+                    else _logger.LogWarning("The JobScheduler of <{jobId}> remove failed.", args);
                 }
             }
 
@@ -154,7 +153,7 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory, IDisposable
         }
 
         // 输出作业调度初始化日志
-        _logger.Log(LogLevel.Debug, "Schedule Hosted Service initialization completed.");
+        _logger.LogDebug("Schedule Hosted Service initialization completed.");
 
         return Task.CompletedTask;
     }
@@ -189,14 +188,14 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory, IDisposable
     public async Task WaitForWakeUpAsync(CancellationToken stoppingToken = default)
     {
         // 输出作业调度服务进入休眠日志
-        _logger.Log(LogLevel.Debug, "Schedule Hosted Service enters hibernation.");
+        _logger.LogDebug("Schedule Hosted Service enters hibernation.");
 
         // 创建关联 Token
         _delayCancellationTokenSource = CancellationTokenSource.CreateLinkedTokenSource(stoppingToken);
 
         // 监听休眠被取消
         _delayCancellationTokenSource.Token.Register(() =>
-           _logger.Log(LogLevel.Warning, "Schedule Hosted Service cancels hibernation."));
+           _logger.LogWarning("Schedule Hosted Service cancels hibernation."));
 
         // 获取作业调度计划总休眠时间
         var sleepMilliseconds = GetSleepMilliseconds();
@@ -324,7 +323,7 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory, IDisposable
             }
             catch (Exception ex)
             {
-                _logger.Log(LogLevel.Error, "Schedule Hosted Service persist failed.", null, ex);
+                _logger.LogError(ex, "Schedule Hosted Service persist failed.");
             }
         }
     }

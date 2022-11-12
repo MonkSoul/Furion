@@ -30,6 +30,49 @@ namespace Furion.Scheduler;
 public interface ISchedulerLogger
 {
     /// <summary>
+    /// 记录 Information 日志
+    /// </summary>
+    /// <param name="message">消息</param>
+    /// <param name="args">参数</param>
+    void LogInformation(string message, params object[] args);
+
+    /// <summary>
+    /// 记录 Trace 日志
+    /// </summary>
+    /// <param name="message">消息</param>
+    /// <param name="args">参数</param>
+    void LogTrace(string message, params object[] args);
+
+    /// <summary>
+    /// 记录 Debug 日志
+    /// </summary>
+    /// <param name="message">消息</param>
+    /// <param name="args">参数</param>
+    void LogDebug(string message, params object[] args);
+
+    /// <summary>
+    /// 记录 Warning 日志
+    /// </summary>
+    /// <param name="message">消息</param>
+    /// <param name="args">参数</param>
+    void LogWarning(string message, params object[] args);
+
+    /// <summary>
+    /// 记录 Critical 日志
+    /// </summary>
+    /// <param name="message">消息</param>
+    /// <param name="args">参数</param>
+    void LogCritical(string message, params object[] args);
+
+    /// <summary>
+    /// 记录 Error 日志
+    /// </summary>
+    /// <param name="ex">异常消息</param>
+    /// <param name="message">消息</param>
+    /// <param name="args">参数</param>
+    void LogError(Exception ex, string message, params object[] args);
+
+    /// <summary>
     /// 记录日志
     /// </summary>
     /// <param name="logLevel">日志级别</param>

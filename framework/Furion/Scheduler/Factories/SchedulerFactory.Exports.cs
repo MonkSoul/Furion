@@ -21,7 +21,6 @@
 // SOFTWARE.
 
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 
 namespace Furion.Scheduler;
 
@@ -99,7 +98,7 @@ internal sealed partial class SchedulerFactory
         _ = _jobSchedulers.TryAdd(jobBuilder.JobId, jobScheduler);
 
         // 输出日志
-        _logger.Log(LogLevel.Information, "The JobScheduler of <{jobId}> successfully added to the schedule.", new[] { jobBuilder.JobId });
+        _logger.LogInformation("The JobScheduler of <{jobId}> successfully added to the schedule.", jobBuilder.JobId);
     }
 
     /// <summary>
@@ -173,6 +172,6 @@ internal sealed partial class SchedulerFactory
         }
 
         // 输出日志
-        _logger.Log(LogLevel.Information, "The JobScheduler of <{jobId}> has removed.", new[] { jobId });
+        _logger.LogInformation("The JobScheduler of <{jobId}> has removed.", jobId);
     }
 }

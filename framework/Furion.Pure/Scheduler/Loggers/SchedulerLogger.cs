@@ -54,6 +54,67 @@ internal class SchedulerLogger : ISchedulerLogger
     private bool LogEnabled { get; }
 
     /// <summary>
+    /// 记录 Information 日志
+    /// </summary>
+    /// <param name="message">消息</param>
+    /// <param name="args">参数</param>
+    public void LogInformation(string message, params object[] args)
+    {
+        Log(LogLevel.Information, message, args);
+    }
+
+    /// <summary>
+    /// 记录 Trace 日志
+    /// </summary>
+    /// <param name="message">消息</param>
+    /// <param name="args">参数</param>
+    public void LogTrace(string message, params object[] args)
+    {
+        Log(LogLevel.Trace, message, args);
+    }
+
+    /// <summary>
+    /// 记录 Debug 日志
+    /// </summary>
+    /// <param name="message">消息</param>
+    /// <param name="args">参数</param>
+    public void LogDebug(string message, params object[] args)
+    {
+        Log(LogLevel.Debug, message, args);
+    }
+
+    /// <summary>
+    /// 记录 Warning 日志
+    /// </summary>
+    /// <param name="message">消息</param>
+    /// <param name="args">参数</param>
+    public void LogWarning(string message, params object[] args)
+    {
+        Log(LogLevel.Warning, message, args);
+    }
+
+    /// <summary>
+    /// 记录 Critical 日志
+    /// </summary>
+    /// <param name="message">消息</param>
+    /// <param name="args">参数</param>
+    public void LogCritical(string message, params object[] args)
+    {
+        Log(LogLevel.Critical, message, args);
+    }
+
+    /// <summary>
+    /// 记录 Error 日志
+    /// </summary>
+    /// <param name="ex">异常消息</param>
+    /// <param name="message">消息</param>
+    /// <param name="args">参数</param>
+    public void LogError(Exception ex, string message, params object[] args)
+    {
+        Log(LogLevel.Error, message, args, ex);
+    }
+
+    /// <summary>
     /// 记录日志
     /// </summary>
     /// <param name="logLevel">日志级别</param>
