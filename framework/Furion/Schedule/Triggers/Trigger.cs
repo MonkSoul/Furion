@@ -35,10 +35,10 @@ public static class Trigger
     /// 创建新的作业周期（间隔）触发器构建器
     /// </summary>
     /// <param name="interval">间隔（毫秒）</param>
-    /// <returns><see cref="JobTriggerBuilder"/></returns>
-    public static JobTriggerBuilder Period(int interval)
+    /// <returns><see cref="TriggerBuilder"/></returns>
+    public static TriggerBuilder Period(int interval)
     {
-        return JobTriggerBuilder.Period(interval);
+        return TriggerBuilder.Period(interval);
     }
 
     /// <summary>
@@ -46,9 +46,9 @@ public static class Trigger
     /// </summary>
     /// <param name="schedule">Cron 表达式</param>
     /// <param name="format">Cron 表达式格式化类型，默认 <see cref="CronStringFormat.Default"/></param>
-    /// <returns><see cref="JobTriggerBuilder"/></returns>
-    public static JobTriggerBuilder Cron(string schedule, CronStringFormat format = CronStringFormat.Default)
+    /// <returns><see cref="TriggerBuilder"/></returns>
+    public static TriggerBuilder Cron(string schedule, CronStringFormat format = CronStringFormat.Default)
     {
-        return JobTriggerBuilder.Cron(schedule, format);
+        return TriggerBuilder.Cron(schedule, format);
     }
 }

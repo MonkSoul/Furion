@@ -12,7 +12,7 @@ public class TestSchedulerPersistence : ISchedulerPersistence
         _logger = logger;
     }
 
-    public void Load(SchedulerBuilder builder)
+    public void Preload(SchedulerBuilder builder)
     {
         builder.JobBuilder.SetDescription("测试作业描述");
         builder.TriggerBuilders.ForEach(b =>
@@ -23,6 +23,6 @@ public class TestSchedulerPersistence : ISchedulerPersistence
 
     public void Persist(PersistenceContext context)
     {
-        _logger.LogInformation("{jobId} {jobTriggerId} {status}", context.JobId, context.JobTriggerId, context.JobTrigger.Status);
+        _logger.LogInformation("{jobId} {triggerId} {status}", context.JobId, context.TriggerId, context.Trigger.Status);
     }
 }

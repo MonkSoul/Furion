@@ -31,7 +31,7 @@ public interface ISchedulerPersistence
     /// 加载持久化数据
     /// </summary>
     /// <param name="builder">作业调度计划构建器</param>
-    void Load(SchedulerBuilder builder);
+    void Preload(SchedulerBuilder builder);
 
     /// <summary>
     /// 将作业调度集合持久化

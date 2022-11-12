@@ -32,10 +32,10 @@ internal static class ScheduleExtensions
     /// <summary>
     /// 对象映射
     /// </summary>
-    /// <typeparam name="TTarget"></typeparam>
-    /// <param name="source"></param>
-    /// <param name="target"></param>
-    /// <returns></returns>
+    /// <typeparam name="TTarget">目标类型</typeparam>
+    /// <param name="source">源对象</param>
+    /// <param name="target">目标类型对象</param>
+    /// <returns>目标类型对象</returns>
     internal static TTarget MapTo<TTarget>(this object source, object target = default)
         where TTarget : class
     {

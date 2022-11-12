@@ -51,14 +51,14 @@ public partial interface ISchedulerFactory
     /// </summary>
     /// <param name="jobBuilder">作业信息构建器</param>
     /// <param name="triggerBuilders">作业触发器构建器集合</param>
-    void AddJob(JobBuilder jobBuilder, params JobTriggerBuilder[] triggerBuilders);
+    void AddJob(JobBuilder jobBuilder, params TriggerBuilder[] triggerBuilders);
 
     /// <summary>
     /// 添加作业
     /// </summary>
     /// <typeparam name="TJob"><see cref="IJob"/> 实现类型</typeparam>
     /// <param name="triggerBuilders">作业触发器构建器集合</param>
-    void AddJob<TJob>(params JobTriggerBuilder[] triggerBuilders)
+    void AddJob<TJob>(params TriggerBuilder[] triggerBuilders)
         where TJob : class, IJob;
 
     /// <summary>
@@ -67,7 +67,7 @@ public partial interface ISchedulerFactory
     /// <typeparam name="TJob"><see cref="IJob"/> 实现类型</typeparam>
     /// <param name="jobId">作业 Id</param>
     /// <param name="triggerBuilders">作业触发器构建器集合</param>
-    void AddJob<TJob>(string jobId, params JobTriggerBuilder[] triggerBuilders)
+    void AddJob<TJob>(string jobId, params TriggerBuilder[] triggerBuilders)
         where TJob : class, IJob;
 
     /// <summary>
@@ -77,7 +77,7 @@ public partial interface ISchedulerFactory
     /// <param name="jobId">作业 Id</param>
     /// <param name="concurrent">是否采用并发执行</param>
     /// <param name="triggerBuilders">作业触发器构建器集合</param>
-    void AddJob<TJob>(string jobId, bool concurrent, params JobTriggerBuilder[] triggerBuilders)
+    void AddJob<TJob>(string jobId, bool concurrent, params TriggerBuilder[] triggerBuilders)
         where TJob : class, IJob;
 
     /// <summary>

@@ -42,20 +42,20 @@ internal sealed partial class Scheduler
     public void Start()
     {
         var changeCount = 0;
-        foreach (var (_, jobTrigger) in JobTriggers)
+        foreach (var (_, trigger) in Triggers)
         {
-            if (jobTrigger.Status != TriggerStatus.Pause) continue;
+            if (trigger.Status != TriggerStatus.Pause) continue;
 
-            jobTrigger.SetStatus(TriggerStatus.Ready);
-            jobTrigger.IncrementNextRunTime();
+            trigger.SetStatus(TriggerStatus.Ready);
+            trigger.IncrementNextRunTime();
             changeCount++;
 
             // 记录执行信息并通知作业持久化器
-            Factory?.Record(JobDetail, jobTrigger);
+            Factory?.Record(JobDetail, trigger);
         }
 
         // 通知作业调度服务强制刷新
-        if (changeCount > 0) Factory.ForceRefresh();
+        if (changeCount > 0) Factory.WakeupAsync();
     }
 
     /// <summary>
@@ -64,52 +64,54 @@ internal sealed partial class Scheduler
     public void Pause()
     {
         var changeCount = 0;
-        foreach (var (_, jobTrigger) in JobTriggers)
+        foreach (var (_, trigger) in Triggers)
         {
-            jobTrigger.SetStatus(TriggerStatus.Pause);
+            trigger.SetStatus(TriggerStatus.Pause);
             changeCount++;
 
             // 记录执行信息并通知作业持久化器
-            Factory?.Record(JobDetail, jobTrigger);
+            Factory?.Record(JobDetail, trigger);
         }
 
         // 通知作业调度服务强制刷新
-        if (changeCount > 0) Factory.ForceRefresh();
+        if (changeCount > 0) Factory.WakeupAsync();
     }
 
     /// <summary>
     /// 启动作业触发器
     /// </summary>
-    public void StartTrigger(string jobTriggerId)
+    /// <param name="triggerId">作业触发器 Id</param>
+    public void StartTrigger(string triggerId)
     {
-        var jobTrigger = JobTriggers.SingleOrDefault(u => u.Key == jobTriggerId).Value;
-        if (jobTrigger == default || jobTrigger.Status != TriggerStatus.Pause) return;
+        var trigger = Triggers.SingleOrDefault(u => u.Key == triggerId).Value;
+        if (trigger == default || trigger.Status != TriggerStatus.Pause) return;
 
-        jobTrigger.SetStatus(TriggerStatus.Ready);
-        jobTrigger.IncrementNextRunTime();
+        trigger.SetStatus(TriggerStatus.Ready);
+        trigger.IncrementNextRunTime();
 
         // 通知作业调度服务强制刷新
-        Factory.ForceRefresh();
+        Factory.WakeupAsync();
 
         // 记录执行信息并通知作业持久化器
-        Factory?.Record(JobDetail, jobTrigger);
+        Factory?.Record(JobDetail, trigger);
     }
 
     /// <summary>
     /// 暂停作业触发器
     /// </summary>
-    public void PauseTrigger(string jobTriggerId)
+    /// <param name="triggerId">作业触发器 Id</param>
+    public void PauseTrigger(string triggerId)
     {
-        var jobTrigger = JobTriggers.SingleOrDefault(u => u.Key == jobTriggerId).Value;
-        if (jobTrigger == default) return;
+        var trigger = Triggers.SingleOrDefault(u => u.Key == triggerId).Value;
+        if (trigger == default) return;
 
-        jobTrigger.SetStatus(TriggerStatus.Pause);
+        trigger.SetStatus(TriggerStatus.Pause);
 
         // 通知作业调度服务强制刷新
-        Factory.ForceRefresh();
+        Factory.WakeupAsync();
 
         // 记录执行信息并通知作业持久化器
-        Factory?.Record(JobDetail, jobTrigger);
+        Factory?.Record(JobDetail, trigger);
     }
 
     /// <summary>
@@ -117,54 +119,54 @@ internal sealed partial class Scheduler
     /// </summary>
     public void ForcePersist()
     {
-        foreach (var (_, jobTrigger) in JobTriggers)
+        foreach (var (_, trigger) in Triggers)
         {
             // 记录执行信息并通知作业持久化器
-            Factory?.Record(JobDetail, jobTrigger);
+            Factory?.Record(JobDetail, trigger);
         }
     }
 
     /// <summary>
     /// 添加作业触发器
     /// </summary>
-    /// <param name="jobTriggerBuilder">作业触发器构建器</param>
-    public void AddTrigger(JobTriggerBuilder jobTriggerBuilder)
+    /// <param name="triggerBuilder">作业触发器构建器</param>
+    public void AddTrigger(TriggerBuilder triggerBuilder)
     {
         // 配置默认 TriggerId
-        if (string.IsNullOrWhiteSpace(jobTriggerBuilder.TriggerId))
+        if (string.IsNullOrWhiteSpace(triggerBuilder.TriggerId))
         {
-            jobTriggerBuilder.SetTriggerId($"{JobDetail.JobId}_trigger{JobTriggers.Count + 1}");
+            triggerBuilder.SetTriggerId($"{JobDetail.JobId}_trigger{Triggers.Count + 1}");
         }
 
-        var jobTrigger = jobTriggerBuilder.Build(JobDetail.JobId);
-        var succeed = JobTriggers.TryAdd(jobTrigger.TriggerId, jobTrigger);
+        var trigger = triggerBuilder.Build(JobDetail.JobId);
+        var succeed = Triggers.TryAdd(trigger.TriggerId, trigger);
 
         // 作业触发器 Id 唯一检查
-        if (!succeed) throw new InvalidOperationException($"The TriggerId of <{jobTrigger.TriggerId}> already exists.");
+        if (!succeed) throw new InvalidOperationException($"The TriggerId of <{trigger.TriggerId}> already exists.");
 
         // 通知作业调度服务强制刷新
-        Factory.ForceRefresh();
+        Factory.WakeupAsync();
 
         // 记录执行信息并通知作业持久化器
-        Factory?.Record(JobDetail, jobTrigger, PersistenceBehavior.AppendTrigger);
+        Factory?.Record(JobDetail, trigger, PersistenceBehavior.AppendTrigger);
     }
 
     /// <summary>
     /// 删除作业触发器
     /// </summary>
-    /// <param name="jobTriggerId"></param>
-    public void RemoveTrigger(string jobTriggerId)
+    /// <param name="triggerId">作业触发器 Id</param>
+    public void RemoveTrigger(string triggerId)
     {
-        var succeed = JobTriggers.TryGetValue(jobTriggerId, out var jobTrigger);
+        var succeed = Triggers.TryGetValue(triggerId, out var trigger);
         if (succeed)
         {
-            JobTriggers.Remove(jobTriggerId);
+            Triggers.Remove(triggerId);
 
             // 记录执行信息并通知作业持久化器
-            Factory?.Record(JobDetail, jobTrigger, PersistenceBehavior.RemoveTrigger);
+            Factory?.Record(JobDetail, trigger, PersistenceBehavior.RemoveTrigger);
 
             // 通知作业调度服务强制刷新
-            Factory.ForceRefresh();
+            Factory.WakeupAsync();
         }
     }
 }

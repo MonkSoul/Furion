@@ -30,45 +30,47 @@ namespace Furion.Schedule;
 /// 作业触发器构建器
 /// </summary>
 [SuppressSniffer]
-public sealed class JobTriggerBuilder : JobTrigger
+public sealed class TriggerBuilder : JobTrigger
 {
     /// <summary>
     /// 构造函数
     /// </summary>
-    private JobTriggerBuilder()
+    private TriggerBuilder()
     {
     }
 
     /// <summary>
-    /// 创建新的作业周期（间隔）触发器构建器
+    /// 创建作业周期（间隔）触发器构建器
     /// </summary>
     /// <param name="interval">间隔（毫秒）</param>
-    /// <returns><see cref="JobTriggerBuilder"/></returns>
-    public static JobTriggerBuilder Period(int interval)
+    /// <returns><see cref="TriggerBuilder"/></returns>
+    public static TriggerBuilder Period(int interval)
     {
-        return Create(typeof(PeriodTrigger)).WithArgs(new object[] { interval });
+        return Create(typeof(PeriodTrigger))
+            .WithArgs(new object[] { interval });
     }
 
     /// <summary>
-    /// 创建新的作业 Cron 触发器构建器
+    /// 创建作业 Cron 触发器构建器
     /// </summary>
     /// <param name="schedule">Cron 表达式</param>
     /// <param name="format">Cron 表达式格式化类型，默认 <see cref="CronStringFormat.Default"/></param>
-    /// <returns><see cref="JobTriggerBuilder"/></returns>
-    public static JobTriggerBuilder Cron(string schedule, CronStringFormat format = CronStringFormat.Default)
+    /// <returns><see cref="TriggerBuilder"/></returns>
+    public static TriggerBuilder Cron(string schedule, CronStringFormat format = CronStringFormat.Default)
     {
-        return Create(typeof(CronTrigger)).WithArgs(new object[] { schedule, (int)format });
+        return Create(typeof(CronTrigger))
+            .WithArgs(new object[] { schedule, (int)format });
     }
 
     /// <summary>
     /// 创建作业触发器构建器
     /// </summary>
-    /// <typeparam name="TJobTrigger"><see cref="JobTrigger"/> 派生类</typeparam>
-    /// <returns><see cref="JobTriggerBuilder"/></returns>
-    public static JobTriggerBuilder Create<TJobTrigger>()
-        where TJobTrigger : JobTrigger
+    /// <typeparam name="TTrigger"><see cref="JobTrigger"/> 派生类</typeparam>
+    /// <returns><see cref="TriggerBuilder"/></returns>
+    public static TriggerBuilder Create<TTrigger>()
+        where TTrigger : JobTrigger
     {
-        return Create(typeof(TJobTrigger));
+        return Create(typeof(TTrigger));
     }
 
     /// <summary>
@@ -77,33 +79,29 @@ public sealed class JobTriggerBuilder : JobTrigger
     /// <param name="assemblyName">作业触发器类型所在程序集 Name</param>
     /// <param name="triggerTypeFullName">作业触发器类型 FullName</param>
     /// <returns><see cref="JobBuilder"/></returns>
-    public static JobTriggerBuilder Create(string assemblyName, string triggerTypeFullName)
+    public static TriggerBuilder Create(string assemblyName, string triggerTypeFullName)
     {
-        // 创建作业触发器构建器
-        var jobTriggerBuilder = new JobTriggerBuilder().SetTriggerType(assemblyName, triggerTypeFullName);
-
-        return jobTriggerBuilder;
+        return new TriggerBuilder()
+            .SetTriggerType(assemblyName, triggerTypeFullName);
     }
 
     /// <summary>
     /// 创建新的作业触发器构建器
     /// </summary>
     /// <param name="triggerType"><see cref="JobTrigger"/> 派生类</param>
-    /// <returns><see cref="JobTriggerBuilder"/></returns>
-    public static JobTriggerBuilder Create(Type triggerType)
+    /// <returns><see cref="TriggerBuilder"/></returns>
+    public static TriggerBuilder Create(Type triggerType)
     {
-        // 创建作业触发器构建器
-        var jobTriggerBuilder = new JobTriggerBuilder().SetTriggerType(triggerType);
-
-        return jobTriggerBuilder;
+        return new TriggerBuilder()
+            .SetTriggerType(triggerType);
     }
 
     /// <summary>
     /// 设置作业触发器参数
     /// </summary>
     /// <param name="args">作业触发器参数</param>
-    /// <returns><see cref="JobTriggerBuilder"/></returns>
-    public JobTriggerBuilder WithArgs(object[] args)
+    /// <returns><see cref="TriggerBuilder"/></returns>
+    public TriggerBuilder WithArgs(object[] args)
     {
         Args = args == null || args.Length == 0
             ? null
@@ -119,7 +117,7 @@ public sealed class JobTriggerBuilder : JobTrigger
     /// <param name="triggerId">作业触发器 Id</param>
     /// <returns><see cref="JobBuilder"/></returns>
     /// <exception cref="ArgumentNullException"></exception>
-    public JobTriggerBuilder SetTriggerId(string triggerId)
+    public TriggerBuilder SetTriggerId(string triggerId)
     {
         TriggerId = triggerId;
 
@@ -131,12 +129,12 @@ public sealed class JobTriggerBuilder : JobTrigger
     /// </summary>
     /// <param name="assemblyName">作业触发器所在程序集 Name</param>
     /// <param name="triggerTypeFullName">作业触发器 FullName</param>
-    /// <returns><see cref="JobTriggerBuilder"/></returns>
-    public JobTriggerBuilder SetTriggerType(string assemblyName, string triggerTypeFullName)
+    /// <returns><see cref="TriggerBuilder"/></returns>
+    public TriggerBuilder SetTriggerType(string assemblyName, string triggerTypeFullName)
     {
         // 空检查
-        if (!string.IsNullOrWhiteSpace(assemblyName)) throw new ArgumentNullException(nameof(assemblyName));
-        if (!string.IsNullOrWhiteSpace(triggerTypeFullName)) throw new ArgumentNullException(nameof(triggerTypeFullName));
+        if (string.IsNullOrWhiteSpace(assemblyName)) throw new ArgumentNullException(nameof(assemblyName));
+        if (string.IsNullOrWhiteSpace(triggerTypeFullName)) throw new ArgumentNullException(nameof(triggerTypeFullName));
 
         // 加载 GAC 全局应用程序缓存中的程序集及类型
         var triggerType = Assembly.Load(assemblyName).GetType(triggerTypeFullName);
@@ -148,20 +146,16 @@ public sealed class JobTriggerBuilder : JobTrigger
     /// 设置作业类型
     /// </summary>
     /// <param name="triggerType">作业触发器类型</param>
-    /// <returns><see cref="JobTriggerBuilder"/></returns>
-    public JobTriggerBuilder SetTriggerType(Type triggerType)
+    /// <returns><see cref="TriggerBuilder"/></returns>
+    public TriggerBuilder SetTriggerType(Type triggerType)
     {
         // 检查 triggerType 类型是否派生自 JobTrigger
-        if (!typeof(JobTrigger).IsAssignableFrom(triggerType) || triggerType.IsInterface)
-        {
-            throw new InvalidOperationException("The <TriggerType> is not a valid JobTrigger type.");
-        }
+        if (!typeof(JobTrigger).IsAssignableFrom(triggerType)
+            || triggerType.IsInterface
+            || triggerType.IsAbstract) throw new InvalidOperationException("The <TriggerType> is not a valid JobTrigger type.");
 
         // 最多只能包含一个构造函数
-        if (triggerType.GetConstructors().Length > 1)
-        {
-            throw new InvalidOperationException("The <TriggerType> can contain at most one constructor.");
-        }
+        if (triggerType.GetConstructors().Length > 1) throw new InvalidOperationException("The <TriggerType> can contain at most one constructor.");
 
         AssemblyName = triggerType.Assembly.GetName().Name;
         TriggerType = triggerType.FullName;
@@ -174,8 +168,8 @@ public sealed class JobTriggerBuilder : JobTrigger
     /// 设置描述信息
     /// </summary>
     /// <param name="description">描述信息</param>
-    /// <returns><see cref="JobTriggerBuilder"/></returns>
-    public JobTriggerBuilder SetDescription(string description)
+    /// <returns><see cref="TriggerBuilder"/></returns>
+    public TriggerBuilder SetDescription(string description)
     {
         Description = description;
 
@@ -186,8 +180,8 @@ public sealed class JobTriggerBuilder : JobTrigger
     /// 设置起始时间
     /// </summary>
     /// <param name="startTime">起始时间</param>
-    /// <returns><see cref="JobTriggerBuilder"/></returns>
-    public JobTriggerBuilder SetStartTime(DateTime? startTime)
+    /// <returns><see cref="TriggerBuilder"/></returns>
+    public TriggerBuilder SetStartTime(DateTime? startTime)
     {
         StartTime = startTime;
 
@@ -198,8 +192,8 @@ public sealed class JobTriggerBuilder : JobTrigger
     /// 设置结束时间
     /// </summary>
     /// <param name="endTime">结束时间</param>
-    /// <returns><see cref="JobTriggerBuilder"/></returns>
-    public JobTriggerBuilder SetEndTime(DateTime? endTime)
+    /// <returns><see cref="TriggerBuilder"/></returns>
+    public TriggerBuilder SetEndTime(DateTime? endTime)
     {
         EndTime = endTime;
 
@@ -210,8 +204,8 @@ public sealed class JobTriggerBuilder : JobTrigger
     /// 设置触发次数
     /// </summary>
     /// <param name="numberOfRuns">触发次数</param>
-    /// <returns><see cref="JobTriggerBuilder"/></returns>
-    public JobTriggerBuilder SetNumberOfRuns(long numberOfRuns)
+    /// <returns><see cref="TriggerBuilder"/></returns>
+    public TriggerBuilder SetNumberOfRuns(long numberOfRuns)
     {
         NumberOfRuns = numberOfRuns;
 
@@ -226,8 +220,8 @@ public sealed class JobTriggerBuilder : JobTrigger
     /// <para>0：不限制</para>
     /// <para>>n：N 次</para>
     /// </remarks>
-    /// <returns><see cref="JobTriggerBuilder"/></returns>
-    public JobTriggerBuilder SetMaxNumberOfRuns(long maxNumberOfRuns)
+    /// <returns><see cref="TriggerBuilder"/></returns>
+    public TriggerBuilder SetMaxNumberOfRuns(long maxNumberOfRuns)
     {
         MaxNumberOfRuns = maxNumberOfRuns;
 
@@ -238,8 +232,8 @@ public sealed class JobTriggerBuilder : JobTrigger
     /// 设置出错次数
     /// </summary>
     /// <param name="numberOfErrors">出错次数</param>
-    /// <returns><see cref="JobTriggerBuilder"/></returns>
-    public JobTriggerBuilder SetNumberOfErrors(long numberOfErrors)
+    /// <returns><see cref="TriggerBuilder"/></returns>
+    public TriggerBuilder SetNumberOfErrors(long numberOfErrors)
     {
         NumberOfErrors = numberOfErrors;
 
@@ -254,8 +248,8 @@ public sealed class JobTriggerBuilder : JobTrigger
     /// <para>0：不限制</para>
     /// <para>n：N 次</para>
     /// </remarks>
-    /// <returns><see cref="JobTriggerBuilder"/></returns>
-    public JobTriggerBuilder SetMaxNumberOfErrors(long maxNumberOfErrors)
+    /// <returns><see cref="TriggerBuilder"/></returns>
+    public TriggerBuilder SetMaxNumberOfErrors(long maxNumberOfErrors)
     {
         MaxNumberOfErrors = maxNumberOfErrors;
 
@@ -266,8 +260,8 @@ public sealed class JobTriggerBuilder : JobTrigger
     /// 设置重试次数
     /// </summary>
     /// <param name="numRetries">重试次数</param>
-    /// <returns><see cref="JobTriggerBuilder"/></returns>
-    public JobTriggerBuilder SetNumRetries(int numRetries)
+    /// <returns><see cref="TriggerBuilder"/></returns>
+    public TriggerBuilder SetNumRetries(int numRetries)
     {
         NumRetries = numRetries;
 
@@ -278,8 +272,8 @@ public sealed class JobTriggerBuilder : JobTrigger
     /// 设置重试间隔时间
     /// </summary>
     /// <param name="retryTimeout">重试间隔时间</param>
-    /// <returns><see cref="JobTriggerBuilder"/></returns>
-    public JobTriggerBuilder SetRetryTimeout(int retryTimeout)
+    /// <returns><see cref="TriggerBuilder"/></returns>
+    public TriggerBuilder SetRetryTimeout(int retryTimeout)
     {
         RetryTimeout = retryTimeout;
 
@@ -291,7 +285,7 @@ public sealed class JobTriggerBuilder : JobTrigger
     /// </summary>
     /// <param name="logExecution">是否输出作业执行日志</param>
     /// <returns><see cref="JobBuilder"/></returns>
-    public JobTriggerBuilder SetLogExecution(bool logExecution)
+    public TriggerBuilder SetLogExecution(bool logExecution)
     {
         LogExecution = logExecution;
 
@@ -314,14 +308,13 @@ public sealed class JobTriggerBuilder : JobTrigger
     internal new bool ShouldRun(DateTime checkTime) => throw new NotImplementedException();
 
     /// <summary>
-    /// 将 <see cref="JobTrigger"/> 转换成 <see cref="JobTrigger"/>
+    /// 将 <see cref="JobTrigger"/> 转换成 <see cref="TriggerBuilder"/>
     /// </summary>
-    /// <param name="jobTrigger"></param>
+    /// <param name="trigger"></param>
     /// <returns></returns>
-    internal static JobTriggerBuilder From(JobTrigger jobTrigger)
+    internal static TriggerBuilder From(JobTrigger trigger)
     {
-        var jobTriggerBuilder = jobTrigger.MapTo<JobTriggerBuilder>();
-        return jobTriggerBuilder;
+        return trigger.MapTo<TriggerBuilder>();
     }
 
     /// <summary>
@@ -332,10 +325,7 @@ public sealed class JobTriggerBuilder : JobTrigger
     internal JobTrigger Build(string jobId)
     {
         // 空检查
-        if (string.IsNullOrWhiteSpace(jobId))
-        {
-            throw new ArgumentNullException(nameof(jobId));
-        }
+        if (string.IsNullOrWhiteSpace(jobId)) throw new ArgumentNullException(nameof(jobId));
 
         JobId = jobId;
 
@@ -343,11 +333,10 @@ public sealed class JobTriggerBuilder : JobTrigger
         var withArgs = !(RuntimeTriggerArgs == null || RuntimeTriggerArgs.Length == 0);
 
         // 反射创建作业触发器对象
-        var triggerObject = (!withArgs
+        var triggerInstance = (!withArgs
             ? Activator.CreateInstance(RuntimeTriggerType!)
             : Activator.CreateInstance(RuntimeTriggerType!, RuntimeTriggerArgs));
 
-        var jobTrigger = this.MapTo<JobTrigger>(triggerObject);
-        return jobTrigger;
+        return this.MapTo<JobTrigger>(triggerInstance);
     }
 }

@@ -23,15 +23,15 @@
 namespace Furion.Schedule;
 
 /// <summary>
-/// 作业执行程序
+/// 作业处理程序
 /// </summary>
-public interface IJob : IInternalJob
+public interface IJob
 {
     /// <summary>
     /// 具体处理逻辑
     /// </summary>
-    /// <param name="context">作业上下文</param>
-    /// <param name="cancellationToken">取消任务 Token</param>
+    /// <param name="context">作业执行上下文</param>
+    /// <param name="stoppingToken">取消任务 Token</param>
     /// <returns><see cref="Task"/></returns>
-    Task ExecuteAsync(JobHandlerExecutingContext context, CancellationToken cancellationToken);
+    Task ExecuteAsync(JobHandlerExecutingContext context, CancellationToken stoppingToken);
 }

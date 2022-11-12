@@ -46,12 +46,14 @@ public interface IScheduler
     /// <summary>
     /// 启动作业触发器
     /// </summary>
-    void StartTrigger(string jobTriggerId);
+    /// <param name="triggerId">作业触发器 Id</param>
+    void StartTrigger(string triggerId);
 
     /// <summary>
     /// 暂停作业触发器
     /// </summary>
-    void PauseTrigger(string jobTriggerId);
+    /// <param name="triggerId">作业触发器 Id</param>
+    void PauseTrigger(string triggerId);
 
     /// <summary>
     /// 强制触发持久化操作
@@ -61,12 +63,12 @@ public interface IScheduler
     /// <summary>
     /// 添加作业触发器
     /// </summary>
-    /// <param name="jobTriggerBuilder">作业触发器构建器</param>
-    void AddTrigger(JobTriggerBuilder jobTriggerBuilder);
+    /// <param name="triggerBuilder">作业触发器构建器</param>
+    void AddTrigger(TriggerBuilder triggerBuilder);
 
     /// <summary>
     /// 删除作业触发器
     /// </summary>
-    /// <param name="jobTriggerId"></param>
-    void RemoveTrigger(string jobTriggerId);
+    /// <param name="triggerId">作业触发器 Id</param>
+    void RemoveTrigger(string triggerId);
 }

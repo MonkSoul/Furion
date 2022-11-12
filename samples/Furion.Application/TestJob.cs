@@ -14,7 +14,7 @@ public class TestJob : IJob
 
     public async Task ExecuteAsync(JobHandlerExecutingContext context, CancellationToken cancellationToken)
     {
-        _logger.LogWarning("{Description} {JobId} {JobTrigger}", context.JobDetail.Description, context.JobId, context.JobTrigger);
+        _logger.LogWarning("{Description} {JobId} {JobTrigger}", context.JobDetail.Description, context.JobId, context.Trigger);
         await Task.CompletedTask;
     }
 }

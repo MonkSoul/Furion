@@ -86,19 +86,19 @@ internal sealed partial class SchedulerFactory
             ?? ActivatorUtilities.CreateInstance(_serviceProvider, jobType)) as IJob;
 
         // 初始化作业触发器下一次执行时间
-        foreach (var jobTrigger in scheduler.JobTriggers.Values)
+        foreach (var trigger in scheduler.Triggers.Values)
         {
-            jobTrigger.NextRunTime = jobTrigger.IncrementNextRunTime();
+            trigger.NextRunTime = trigger.IncrementNextRunTime();
 
             // 记录执行信息并通知作业持久化器
-            Record(scheduler.JobDetail, jobTrigger, PersistenceBehavior.AppendJob);
+            Record(scheduler.JobDetail, trigger, PersistenceBehavior.AppendJob);
         }
 
         // 追加到集合中
         _ = _schedulers.TryAdd(jobBuilder.JobId, scheduler);
 
         // 通知作业调度服务强制刷新
-        ForceRefresh();
+        WakeupAsync();
 
         // 输出日志
         _logger.LogInformation("The Scheduler of <{jobId}> successfully added to the schedule.", jobBuilder.JobId);
@@ -109,7 +109,7 @@ internal sealed partial class SchedulerFactory
     /// </summary>
     /// <param name="jobBuilder">作业信息构建器</param>
     /// <param name="triggerBuilders">作业触发器构建器集合</param>
-    public void AddJob(JobBuilder jobBuilder, params JobTriggerBuilder[] triggerBuilders)
+    public void AddJob(JobBuilder jobBuilder, params TriggerBuilder[] triggerBuilders)
     {
         AddJob(SchedulerBuilder.Create(jobBuilder, triggerBuilders));
     }
@@ -119,7 +119,7 @@ internal sealed partial class SchedulerFactory
     /// </summary>
     /// <typeparam name="TJob"><see cref="IJob"/> 实现类型</typeparam>
     /// <param name="triggerBuilders">作业触发器构建器集合</param>
-    public void AddJob<TJob>(params JobTriggerBuilder[] triggerBuilders)
+    public void AddJob<TJob>(params TriggerBuilder[] triggerBuilders)
         where TJob : class, IJob
     {
         AddJob(SchedulerBuilder.Create(JobBuilder.Create<TJob>()
@@ -132,7 +132,7 @@ internal sealed partial class SchedulerFactory
     /// <typeparam name="TJob"><see cref="IJob"/> 实现类型</typeparam>
     /// <param name="jobId">作业 Id</param>
     /// <param name="triggerBuilders">作业触发器构建器集合</param>
-    public void AddJob<TJob>(string jobId, params JobTriggerBuilder[] triggerBuilders)
+    public void AddJob<TJob>(string jobId, params TriggerBuilder[] triggerBuilders)
         where TJob : class, IJob
     {
         AddJob(SchedulerBuilder.Create(JobBuilder.Create<TJob>().SetJobId(jobId)
@@ -146,7 +146,7 @@ internal sealed partial class SchedulerFactory
     /// <param name="jobId">作业 Id</param>
     /// <param name="concurrent">是否采用并发执行</param>
     /// <param name="triggerBuilders">作业触发器构建器集合</param>
-    public void AddJob<TJob>(string jobId, bool concurrent, params JobTriggerBuilder[] triggerBuilders)
+    public void AddJob<TJob>(string jobId, bool concurrent, params TriggerBuilder[] triggerBuilders)
         where TJob : class, IJob
     {
         AddJob(SchedulerBuilder.Create(JobBuilder.Create<TJob>().SetJobId(jobId).SetConcurrent(concurrent)
@@ -168,14 +168,14 @@ internal sealed partial class SchedulerFactory
         _schedulers.TryRemove(jobId, out var scheduler);
 
         // 逐条通知作业持久化器
-        foreach (var jobTrigger in scheduler.JobTriggers.Values)
+        foreach (var trigger in scheduler.Triggers.Values)
         {
             // 记录执行信息并通知作业持久化器
-            Record(scheduler.JobDetail, jobTrigger, PersistenceBehavior.RemoveJob);
+            Record(scheduler.JobDetail, trigger, PersistenceBehavior.RemoveJob);
         }
 
         // 通知作业调度服务强制刷新
-        ForceRefresh();
+        WakeupAsync();
 
         // 输出日志
         _logger.LogInformation("The Scheduler of <{jobId}> has removed.", jobId);

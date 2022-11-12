@@ -32,20 +32,20 @@ public sealed class PersistenceContext
     /// 构造函数
     /// </summary>
     /// <param name="jobId">作业 Id</param>
-    /// <param name="jobTriggerId">作业触发器 Id</param>
+    /// <param name="triggerId">作业触发器 Id</param>
     /// <param name="jobDetail">作业信息</param>
-    /// <param name="jobTrigger">作业触发器</param>
+    /// <param name="trigger">作业触发器</param>
     /// <param name="behavior">作业持久化行为</param>
     internal PersistenceContext(string jobId
-        , string jobTriggerId
+        , string triggerId
         , JobDetail jobDetail
-        , JobTrigger jobTrigger
+        , JobTrigger trigger
         , PersistenceBehavior behavior)
     {
         JobId = jobId;
-        JobTriggerId = jobTriggerId;
+        TriggerId = triggerId;
         JobDetail = jobDetail;
-        JobTrigger = jobTrigger;
+        Trigger = trigger;
         Behavior = behavior;
     }
 
@@ -57,7 +57,7 @@ public sealed class PersistenceContext
     /// <summary>
     /// 作业触发器 Id
     /// </summary>
-    public string JobTriggerId { get; }
+    public string TriggerId { get; }
 
     /// <summary>
     /// 作业信息
@@ -67,7 +67,7 @@ public sealed class PersistenceContext
     /// <summary>
     /// 作业触发器
     /// </summary>
-    public JobTrigger JobTrigger { get; }
+    public JobTrigger Trigger { get; }
 
     /// <summary>
     /// 作业持久化行为

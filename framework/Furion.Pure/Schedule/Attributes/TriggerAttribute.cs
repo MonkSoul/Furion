@@ -26,14 +26,14 @@ namespace Furion.Schedule;
 /// 作业触发器特性基类
 /// </summary>
 [SuppressSniffer, AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
-public abstract class JobTriggerAttribute : Attribute
+public abstract class TriggerAttribute : Attribute
 {
     /// <summary>
     /// 构造函数
     /// </summary>
     /// <param name="triggerType">作业触发器类型</param>
     /// <param name="args">作业触发器参数</param>
-    public JobTriggerAttribute(Type triggerType, params object[] args)
+    public TriggerAttribute(Type triggerType, params object[] args)
     {
         RuntimeTriggerType = triggerType;
         RuntimeTriggerArgs = args;

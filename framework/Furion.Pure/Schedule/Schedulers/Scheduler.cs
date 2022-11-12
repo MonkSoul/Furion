@@ -31,12 +31,12 @@ internal sealed partial class Scheduler : IScheduler
     /// 构造函数
     /// </summary>
     /// <param name="jobDetail">作业信息</param>
-    /// <param name="jobTriggers">作业触发器集合</param>
-    internal Scheduler(JobDetail jobDetail, Dictionary<string, JobTrigger> jobTriggers)
+    /// <param name="triggers">作业触发器集合</param>
+    internal Scheduler(JobDetail jobDetail, Dictionary<string, JobTrigger> triggers)
     {
         JobId = jobDetail.JobId;
         JobDetail = jobDetail;
-        JobTriggers = jobTriggers;
+        Triggers = triggers;
     }
 
     /// <summary>
@@ -52,7 +52,7 @@ internal sealed partial class Scheduler : IScheduler
     /// <summary>
     /// 作业触发器集合
     /// </summary>
-    internal Dictionary<string, JobTrigger> JobTriggers { get; private set; } = new();
+    internal Dictionary<string, JobTrigger> Triggers { get; private set; } = new();
 
     /// <summary>
     /// 作业处理程序实例

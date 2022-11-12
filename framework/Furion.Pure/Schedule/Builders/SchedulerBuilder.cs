@@ -52,7 +52,7 @@ public sealed class SchedulerBuilder
     /// <summary>
     /// 作业触发器构建器集合
     /// </summary>
-    public List<JobTriggerBuilder> TriggerBuilders { get; private set; } = new();
+    public List<TriggerBuilder> TriggerBuilders { get; private set; } = new();
 
     /// <summary>
     /// 创建作业调度程序构建器
@@ -60,7 +60,7 @@ public sealed class SchedulerBuilder
     /// <param name="jobBuilder">作业信息构建器</param>
     /// <param name="triggerBuilders">作业触发器构建器集合</param>
     /// <returns><see cref="SchedulerBuilder"/></returns>
-    public static SchedulerBuilder Create(JobBuilder jobBuilder, params JobTriggerBuilder[] triggerBuilders)
+    public static SchedulerBuilder Create(JobBuilder jobBuilder, params TriggerBuilder[] triggerBuilders)
     {
         // 空检查
         if (jobBuilder == null) throw new ArgumentNullException(nameof(jobBuilder));
@@ -74,24 +74,25 @@ public sealed class SchedulerBuilder
             schedulerBuilder.TriggerBuilders.AddRange(triggerBuilders);
         }
 
-        // 判断是否扫描 IJob 实现类 [JobTrigger] 特性触发器
+        // 判断是否扫描 IJob 实现类 [Trigger] 特性触发器
         if (jobBuilder.ScanTriggers)
         {
-            var jobTriggerAttributes = jobBuilder.RuntimeJobType.GetCustomAttributes<JobTriggerAttribute>(true);
-            foreach (var jobTriggerAttribute in jobTriggerAttributes)
+            var triggerAttributes = jobBuilder.RuntimeJobType.GetCustomAttributes<TriggerAttribute>(true);
+
+            foreach (var triggerAttribute in triggerAttributes)
             {
                 // 创建作业触发器并添加到当前作业触发器构建器中
-                var jobTriggerBuilder = JobTriggerBuilder.Create(jobTriggerAttribute.RuntimeTriggerType)
-                    .WithArgs(jobTriggerAttribute.RuntimeTriggerArgs)
-                    .SetTriggerId(jobTriggerAttribute.TriggerId)
-                    .SetDescription(jobTriggerAttribute.Description)
-                    .SetMaxNumberOfRuns(jobTriggerAttribute.MaxNumberOfRuns)
-                    .SetMaxNumberOfErrors(jobTriggerAttribute.MaxNumberOfErrors)
-                    .SetNumRetries(jobTriggerAttribute.NumRetries)
-                    .SetRetryTimeout(jobTriggerAttribute.RetryTimeout)
-                    .SetLogExecution(jobTriggerAttribute.LogExecution);
+                var triggerBuilder = TriggerBuilder.Create(triggerAttribute.RuntimeTriggerType)
+                    .WithArgs(triggerAttribute.RuntimeTriggerArgs)
+                    .SetTriggerId(triggerAttribute.TriggerId)
+                    .SetDescription(triggerAttribute.Description)
+                    .SetMaxNumberOfRuns(triggerAttribute.MaxNumberOfRuns)
+                    .SetMaxNumberOfErrors(triggerAttribute.MaxNumberOfErrors)
+                    .SetNumRetries(triggerAttribute.NumRetries)
+                    .SetRetryTimeout(triggerAttribute.RetryTimeout)
+                    .SetLogExecution(triggerAttribute.LogExecution);
 
-                schedulerBuilder.TriggerBuilders.Add(jobTriggerBuilder);
+                schedulerBuilder.TriggerBuilders.Add(triggerBuilder);
             }
         }
 
@@ -112,7 +113,7 @@ public sealed class SchedulerBuilder
     /// 标记作业调度计划为删除行为
     /// </summary>
     /// <returns></returns>
-    public SchedulerBuilder Deleted()
+    public SchedulerBuilder Removed()
     {
         Behavior = PersistenceBehavior.RemoveJob;
         return this;
@@ -125,12 +126,10 @@ public sealed class SchedulerBuilder
     /// <returns><see cref="SchedulerBuilder"/></returns>
     internal static SchedulerBuilder From(Scheduler scheduler)
     {
-        var schedulerBuilder = new SchedulerBuilder(JobBuilder.From(scheduler.JobDetail))
+        return new SchedulerBuilder(JobBuilder.From(scheduler.JobDetail))
         {
-            TriggerBuilders = scheduler.JobTriggers.Select(t => JobTriggerBuilder.From(t.Value)).ToList()
+            TriggerBuilders = scheduler.Triggers.Select(t => TriggerBuilder.From(t.Value)).ToList()
         };
-
-        return schedulerBuilder;
     }
 
     /// <summary>
@@ -143,29 +142,27 @@ public sealed class SchedulerBuilder
         var jobDetail = JobBuilder.Build();
 
         // 构建作业触发器
-        var jobTriggers = new Dictionary<string, JobTrigger>();
+        var triggers = new Dictionary<string, JobTrigger>();
 
         // 遍历作业触发器构建器集合
         for (var i = 0; i < TriggerBuilders.Count; i++)
         {
-            var jobTriggerBuilder = TriggerBuilders[i];
+            var triggerBuilder = TriggerBuilders[i];
 
             // 配置默认 TriggerId
-            if (string.IsNullOrWhiteSpace(jobTriggerBuilder.TriggerId))
+            if (string.IsNullOrWhiteSpace(triggerBuilder.TriggerId))
             {
-                jobTriggerBuilder.SetTriggerId($"{jobDetail.JobId}_trigger{i + 1}");
+                triggerBuilder.SetTriggerId($"{jobDetail.JobId}_trigger{i + 1}");
             }
 
-            var jobTrigger = jobTriggerBuilder.Build(jobDetail.JobId);
-            var succeed = jobTriggers.TryAdd(jobTrigger.TriggerId, jobTrigger);
+            var trigger = triggerBuilder.Build(jobDetail.JobId);
+            var succeed = triggers.TryAdd(trigger.TriggerId, trigger);
 
             // 作业触发器 Id 唯一检查
-            if (!succeed) throw new InvalidOperationException($"The TriggerId of <{jobTrigger.TriggerId}> already exists.");
+            if (!succeed) throw new InvalidOperationException($"The TriggerId of <{trigger.TriggerId}> already exists.");
         }
 
         // 创建作业调度计划
-        var scheduler = new Scheduler(jobDetail, jobTriggers);
-
-        return scheduler;
+        return new Scheduler(jobDetail, triggers);
     }
 }

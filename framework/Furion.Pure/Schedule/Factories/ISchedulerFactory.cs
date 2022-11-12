@@ -28,36 +28,37 @@ namespace Furion.Schedule;
 public partial interface ISchedulerFactory
 {
     /// <summary>
-    /// 初始化作业调度计划
+    /// 作业调度器初始化
     /// </summary>
-    /// <param name="stoppingToken">后台主机服务停止时取消任务 Token</param>
+    /// <remarks>常用于初始化</remarks>
+    /// <param name="stoppingToken">取消任务 Token</param>
     /// <returns><see cref="Task"/></returns>
-    Task InitializeAsync(CancellationToken stoppingToken = default);
+    Task PreloadAsync(CancellationToken stoppingToken = default);
 
     /// <summary>
-    /// 查找所有符合触发的作业调度计划
+    /// 查找下一个触发的作业调度计划
     /// </summary>
-    /// <param name="checkTime">检查时间</param>
-    /// <returns></returns>
-    IEnumerable<IScheduler> GetSchedulersThatShouldRun(DateTime checkTime);
+    /// <param name="startAt">起始时间</param>
+    /// <returns><see cref="IEnumerable{IScheduler}"/></returns>
+    IEnumerable<IScheduler> GetNextSchedulers(DateTime startAt);
 
     /// <summary>
-    /// 等待作业调度后台服务被唤醒
+    /// 作业调度器进入休眠状态
     /// </summary>
-    /// <param name="stoppingToken">后台主机服务停止时取消任务 Token</param>
+    /// <param name="stoppingToken">取消任务 Token</param>
     /// <returns><see cref="Task"/></returns>
-    Task WaitForWakeUpAsync(CancellationToken stoppingToken = default);
+    Task SleepAsync(CancellationToken stoppingToken = default);
 
     /// <summary>
-    /// 强制唤醒作业调度后台服务
+    /// 作业调度器被强制唤醒
     /// </summary>
-    void ForceRefresh();
+    void WakeupAsync();
 
     /// <summary>
-    /// 记录作业执行状态
+    /// 记录作业调度计划状态
     /// </summary>
     /// <param name="jobDetail">作业信息</param>
-    /// <param name="jobTrigger">作业触发器</param>
+    /// <param name="trigger">作业触发器</param>
     /// <param name="behavior">作业持久化行为</param>
-    void Record(JobDetail jobDetail, JobTrigger jobTrigger, PersistenceBehavior behavior = PersistenceBehavior.UpdateTrigger);
+    void Record(JobDetail jobDetail, JobTrigger trigger, PersistenceBehavior behavior = PersistenceBehavior.UpdateTrigger);
 }

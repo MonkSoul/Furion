@@ -89,7 +89,7 @@ public sealed class ScheduleOptionsBuilder
     /// <param name="jobBuilder">作业信息构建器</param>
     /// <param name="triggerBuilders">作业触发器构建器集合</param>
     /// <returns><see cref="ScheduleOptionsBuilder"/></returns>
-    public ScheduleOptionsBuilder AddJob(JobBuilder jobBuilder, params JobTriggerBuilder[] triggerBuilders)
+    public ScheduleOptionsBuilder AddJob(JobBuilder jobBuilder, params TriggerBuilder[] triggerBuilders)
     {
         return AddJob(SchedulerBuilder.Create(jobBuilder, triggerBuilders));
     }
@@ -100,7 +100,7 @@ public sealed class ScheduleOptionsBuilder
     /// <typeparam name="TJob"><see cref="IJob"/> 实现类型</typeparam>
     /// <param name="triggerBuilders">作业触发器构建器集合</param>
     /// <returns><see cref="ScheduleOptionsBuilder"/></returns>
-    public ScheduleOptionsBuilder AddJob<TJob>(params JobTriggerBuilder[] triggerBuilders)
+    public ScheduleOptionsBuilder AddJob<TJob>(params TriggerBuilder[] triggerBuilders)
          where TJob : class, IJob
     {
         return AddJob(SchedulerBuilder.Create(JobBuilder.Create<TJob>()
@@ -114,7 +114,7 @@ public sealed class ScheduleOptionsBuilder
     /// <param name="jobId">作业 Id</param>
     /// <param name="triggerBuilders">作业触发器构建器集合</param>
     /// <returns><see cref="ScheduleOptionsBuilder"/></returns>
-    public ScheduleOptionsBuilder AddJob<TJob>(string jobId, params JobTriggerBuilder[] triggerBuilders)
+    public ScheduleOptionsBuilder AddJob<TJob>(string jobId, params TriggerBuilder[] triggerBuilders)
          where TJob : class, IJob
     {
         return AddJob(SchedulerBuilder.Create(JobBuilder.Create<TJob>().SetJobId(jobId)
@@ -129,7 +129,7 @@ public sealed class ScheduleOptionsBuilder
     /// <param name="concurrent">是否采用并发执行</param>
     /// <param name="triggerBuilders">作业触发器构建器集合</param>
     /// <returns><see cref="ScheduleOptionsBuilder"/></returns>
-    public ScheduleOptionsBuilder AddJob<TJob>(string jobId, bool concurrent, params JobTriggerBuilder[] triggerBuilders)
+    public ScheduleOptionsBuilder AddJob<TJob>(string jobId, bool concurrent, params TriggerBuilder[] triggerBuilders)
          where TJob : class, IJob
     {
         return AddJob(SchedulerBuilder.Create(JobBuilder.Create<TJob>().SetJobId(jobId).SetConcurrent(concurrent)

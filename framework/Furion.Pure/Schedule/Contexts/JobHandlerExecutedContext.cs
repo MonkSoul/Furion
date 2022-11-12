@@ -32,16 +32,16 @@ public sealed class JobHandlerExecutedContext : JobHandlerContext
     /// 构造函数
     /// </summary>
     /// <param name="jobId">作业 Id</param>
-    /// <param name="jobTriggerId">作业触发器 Id</param>
+    /// <param name="triggerId">作业触发器 Id</param>
     /// <param name="jobDetail">作业信息</param>
-    /// <param name="jobTrigger">作业触发器</param>
+    /// <param name="trigger">作业触发器</param>
     /// <param name="checkTime">作业调度服务检查时间</param>
     internal JobHandlerExecutedContext(string jobId
-        , string jobTriggerId
+        , string triggerId
         , JobDetail jobDetail
-        , JobTrigger jobTrigger
+        , JobTrigger trigger
         , DateTime checkTime)
-        : base(jobId, jobTriggerId, jobDetail, jobTrigger, checkTime)
+        : base(jobId, triggerId, jobDetail, trigger, checkTime)
     {
     }
 

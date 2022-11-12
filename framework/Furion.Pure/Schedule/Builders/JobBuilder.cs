@@ -38,7 +38,7 @@ public sealed class JobBuilder : JobDetail
     }
 
     /// <summary>
-    /// 创建新的作业构建器
+    /// 创建作业信息构建器
     /// </summary>
     /// <typeparam name="TJob"><see cref="IJob"/> 实现类型</typeparam>
     /// <returns><see cref="JobBuilder"/></returns>
@@ -49,30 +49,26 @@ public sealed class JobBuilder : JobDetail
     }
 
     /// <summary>
-    /// 创建新的作业构建器
+    /// 创建作业信息构建器
     /// </summary>
     /// <param name="assemblyName">作业类型所在程序集 Name</param>
     /// <param name="jobTypeFullName">作业类型 FullName</param>
     /// <returns><see cref="JobBuilder"/></returns>
     public static JobBuilder Create(string assemblyName, string jobTypeFullName)
     {
-        // 初始化作业信息构建器类型
-        var builder = new JobBuilder().SetJobType(assemblyName, jobTypeFullName);
-
-        return builder;
+        return new JobBuilder()
+            .SetJobType(assemblyName, jobTypeFullName);
     }
 
     /// <summary>
-    /// 创建新的作业构建器
+    /// 创建作业信息构建器
     /// </summary>
     /// <param name="jobType">作业类型</param>
     /// <returns><see cref="JobBuilder"/></returns>
     public static JobBuilder Create(Type jobType)
     {
-        // 初始化作业信息构建器类型
-        var builder = new JobBuilder().SetJobType(jobType);
-
-        return builder;
+        return new JobBuilder()
+            .SetJobType(jobType);
     }
 
     /// <summary>
@@ -84,10 +80,7 @@ public sealed class JobBuilder : JobDetail
     public JobBuilder SetJobId(string jobId)
     {
         // 空检查
-        if (string.IsNullOrWhiteSpace(jobId))
-        {
-            throw new ArgumentNullException(nameof(jobId));
-        }
+        if (string.IsNullOrWhiteSpace(jobId)) throw new ArgumentNullException(nameof(jobId));
 
         JobId = jobId;
 
@@ -103,11 +96,12 @@ public sealed class JobBuilder : JobDetail
     public JobBuilder SetJobType(string assemblyName, string jobTypeFullName)
     {
         // 空检查
-        if (!string.IsNullOrWhiteSpace(assemblyName)) throw new ArgumentNullException(nameof(assemblyName));
-        if (!string.IsNullOrWhiteSpace(jobTypeFullName)) throw new ArgumentNullException(nameof(jobTypeFullName));
+        if (string.IsNullOrWhiteSpace(assemblyName)) throw new ArgumentNullException(nameof(assemblyName));
+        if (string.IsNullOrWhiteSpace(jobTypeFullName)) throw new ArgumentNullException(nameof(jobTypeFullName));
 
         // 加载 GAC 全局应用程序缓存中的程序集及类型
-        var jobType = Assembly.Load(assemblyName).GetType(jobTypeFullName);
+        var jobType = Assembly.Load(assemblyName)
+            .GetType(jobTypeFullName);
 
         return SetJobType(jobType);
     }
@@ -120,10 +114,9 @@ public sealed class JobBuilder : JobDetail
     public JobBuilder SetJobType(Type jobType)
     {
         // 检查 jobType 类型是否实现 IJob 接口
-        if (!typeof(IJob).IsAssignableFrom(jobType) || jobType.IsInterface)
-        {
-            throw new InvalidOperationException("The <jobType> does not implement IJob interface.");
-        }
+        if (!typeof(IJob).IsAssignableFrom(jobType)
+            || jobType.IsInterface
+            || jobType.IsAbstract) throw new InvalidOperationException("The <jobType> does not implement IJob interface.");
 
         AssemblyName = jobType.Assembly.GetName().Name;
         JobType = jobType.FullName;
@@ -157,9 +150,9 @@ public sealed class JobBuilder : JobDetail
     }
 
     /// <summary>
-    /// 设置是否扫描 IJob 实现类 [JobTrigger] 特性触发器
+    /// 设置是否扫描 IJob 实现类 [Trigger] 特性触发器
     /// </summary>
-    /// <param name="scanTriggers">是否扫描 IJob 实现类 [JobTrigger] 特性触发器</param>
+    /// <param name="scanTriggers">是否扫描 IJob 实现类 [Trigger] 特性触发器</param>
     /// <returns><see cref="JobBuilder"/></returns>
     public JobBuilder SetScanTriggers(bool scanTriggers)
     {
@@ -175,8 +168,7 @@ public sealed class JobBuilder : JobDetail
     /// <returns></returns>
     internal static JobBuilder From(JobDetail jobDetail)
     {
-        var jobBuilder = jobDetail.MapTo<JobBuilder>();
-        return jobBuilder;
+        return jobDetail.MapTo<JobBuilder>();
     }
 
     /// <summary>
@@ -186,12 +178,8 @@ public sealed class JobBuilder : JobDetail
     internal JobDetail Build()
     {
         // 空检查
-        if (string.IsNullOrWhiteSpace(JobId))
-        {
-            throw new ArgumentNullException(nameof(JobId));
-        }
+        if (string.IsNullOrWhiteSpace(JobId)) throw new ArgumentNullException(nameof(JobId));
 
-        var jobDetail = this.MapTo<JobDetail>();
-        return jobDetail;
+        return this.MapTo<JobDetail>();
     }
 }
