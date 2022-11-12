@@ -64,7 +64,7 @@ public abstract class JobTrigger
     /// <summary>
     /// 作业触发器状态
     /// </summary>
-    public JobTriggerStatus Status { get; internal set; } = JobTriggerStatus.Ready;
+    public TriggerStatus Status { get; internal set; } = TriggerStatus.Ready;
 
     /// <summary>
     /// 起始时间
@@ -164,7 +164,7 @@ public abstract class JobTrigger
     internal void Increment()
     {
         // 阻塞状态并没有实际执行，此时忽略次数递增
-        if (Status != JobTriggerStatus.Blocked)
+        if (Status != TriggerStatus.Blocked)
         {
             NumberOfRuns++;
         }
@@ -191,16 +191,16 @@ public abstract class JobTrigger
         NumberOfErrors++;
 
         // 如果错误次数大于最大错误数，则表示该触发器是奔溃状态
-        if (MaxNumberOfErrors > 0 && NumberOfErrors >= MaxNumberOfErrors) SetStatus(JobTriggerStatus.Panic);
+        if (MaxNumberOfErrors > 0 && NumberOfErrors >= MaxNumberOfErrors) SetStatus(TriggerStatus.Panic);
         // 否则是就绪（错误状态）
-        else SetStatus(JobTriggerStatus.ErrorToReady);
+        else SetStatus(TriggerStatus.ErrorToReady);
     }
 
     /// <summary>
     /// 设置作业触发器状态
     /// </summary>
     /// <param name="status"></param>
-    internal void SetStatus(JobTriggerStatus status)
+    internal void SetStatus(TriggerStatus status)
     {
         if (Status == status) return;
         Status = status;
@@ -214,10 +214,10 @@ public abstract class JobTrigger
     internal bool InternalShouldRun(DateTime checkTime)
     {
         // 状态检查
-        if (Status != JobTriggerStatus.Ready
-            && Status != JobTriggerStatus.ErrorToReady
-            && Status != JobTriggerStatus.Running
-            && Status != JobTriggerStatus.Blocked)  // 本该执行但是没有执行
+        if (Status != TriggerStatus.Ready
+            && Status != TriggerStatus.ErrorToReady
+            && Status != TriggerStatus.Running
+            && Status != TriggerStatus.Blocked)  // 本该执行但是没有执行
         {
             return false;
         }
@@ -225,35 +225,35 @@ public abstract class JobTrigger
         // 开始时间检查
         if (StartTime != null && StartTime.Value > checkTime)
         {
-            SetStatus(JobTriggerStatus.Backlog);
+            SetStatus(TriggerStatus.Backlog);
             return false;
         }
 
         // 结束时间检查
         if (EndTime != null && EndTime.Value < checkTime)
         {
-            SetStatus(JobTriggerStatus.Archived);
+            SetStatus(TriggerStatus.Archived);
             return false;
         }
 
         // 下一次运行时间空判断
         if (NextRunTime == null)
         {
-            SetStatus(JobTriggerStatus.None);
+            SetStatus(TriggerStatus.None);
             return false;
         }
 
         // 最大次数判断
         if (MaxNumberOfRuns > 0 && NumberOfRuns >= MaxNumberOfRuns)
         {
-            SetStatus(JobTriggerStatus.Overrun);
+            SetStatus(TriggerStatus.Overrun);
             return false;
         }
 
         // 最大错误数判断
         if (MaxNumberOfErrors > 0 && NumberOfErrors >= MaxNumberOfErrors)
         {
-            SetStatus(JobTriggerStatus.Panic);
+            SetStatus(TriggerStatus.Panic);
             return false;
         }
 

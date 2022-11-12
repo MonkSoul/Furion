@@ -144,7 +144,7 @@ internal sealed class ScheduleHostedService : BackgroundService
                 if (CheckIsBlocked(jobDetail, jobTrigger, checkTime)) continue;
 
                 // 设置触发器状态为运行状态
-                jobTrigger.SetStatus(JobTriggerStatus.Running);
+                jobTrigger.SetStatus(TriggerStatus.Running);
 
                 // 记录运行信息和计算下一个触发时间及休眠时间
                 jobTrigger.Increment();
@@ -193,7 +193,7 @@ internal sealed class ScheduleHostedService : BackgroundService
                             }
 
                             // 设置触发器状态为就绪状态
-                            jobTrigger.SetStatus(JobTriggerStatus.Ready);
+                            jobTrigger.SetStatus(TriggerStatus.Ready);
 
                             // 记录执行信息并通知作业持久化器
                             _schedulerFactory.Record(jobDetail, jobTrigger);
@@ -269,7 +269,7 @@ internal sealed class ScheduleHostedService : BackgroundService
         else
         {
             // 设置触发器状态为阻塞状态
-            jobTrigger.SetStatus(JobTriggerStatus.Blocked);
+            jobTrigger.SetStatus(TriggerStatus.Blocked);
 
             // 记录运行信息和计算下一个触发时间及休眠时间（忽略执行次数）
             jobTrigger.Increment();

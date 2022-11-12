@@ -44,9 +44,9 @@ internal sealed partial class Scheduler
         var changeCount = 0;
         foreach (var (_, jobTrigger) in JobTriggers)
         {
-            if (jobTrigger.Status != JobTriggerStatus.Pause) continue;
+            if (jobTrigger.Status != TriggerStatus.Pause) continue;
 
-            jobTrigger.SetStatus(JobTriggerStatus.Ready);
+            jobTrigger.SetStatus(TriggerStatus.Ready);
             jobTrigger.IncrementNextRunTime();
             changeCount++;
 
@@ -66,7 +66,7 @@ internal sealed partial class Scheduler
         var changeCount = 0;
         foreach (var (_, jobTrigger) in JobTriggers)
         {
-            jobTrigger.SetStatus(JobTriggerStatus.Pause);
+            jobTrigger.SetStatus(TriggerStatus.Pause);
             changeCount++;
 
             // 记录执行信息并通知作业持久化器
@@ -83,9 +83,9 @@ internal sealed partial class Scheduler
     public void StartTrigger(string jobTriggerId)
     {
         var jobTrigger = JobTriggers.SingleOrDefault(u => u.Key == jobTriggerId).Value;
-        if (jobTrigger == default || jobTrigger.Status != JobTriggerStatus.Pause) return;
+        if (jobTrigger == default || jobTrigger.Status != TriggerStatus.Pause) return;
 
-        jobTrigger.SetStatus(JobTriggerStatus.Ready);
+        jobTrigger.SetStatus(TriggerStatus.Ready);
         jobTrigger.IncrementNextRunTime();
 
         // 通知作业调度服务强制刷新
@@ -103,7 +103,7 @@ internal sealed partial class Scheduler
         var jobTrigger = JobTriggers.SingleOrDefault(u => u.Key == jobTriggerId).Value;
         if (jobTrigger == default) return;
 
-        jobTrigger.SetStatus(JobTriggerStatus.Pause);
+        jobTrigger.SetStatus(TriggerStatus.Pause);
 
         // 通知作业调度服务强制刷新
         Factory.ForceRefresh();
