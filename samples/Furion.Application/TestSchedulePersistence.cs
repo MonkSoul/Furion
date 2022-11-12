@@ -15,7 +15,7 @@ public class TestSchedulerPersistence : ISchedulerPersistence
     public void Load(SchedulerBuilder builder)
     {
         builder.JobBuilder.SetDescription("测试作业描述");
-        builder.JobTriggerBuilders.ForEach(b =>
+        builder.TriggerBuilders.ForEach(b =>
         {
             b.SetDescription("测试触发器描述");
         });

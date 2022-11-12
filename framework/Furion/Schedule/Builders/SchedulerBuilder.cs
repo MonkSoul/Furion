@@ -52,7 +52,7 @@ public sealed class SchedulerBuilder
     /// <summary>
     /// 作业触发器构建器集合
     /// </summary>
-    public List<JobTriggerBuilder> JobTriggerBuilders { get; private set; } = new();
+    public List<JobTriggerBuilder> TriggerBuilders { get; private set; } = new();
 
     /// <summary>
     /// 创建作业调度程序构建器
@@ -71,7 +71,7 @@ public sealed class SchedulerBuilder
         // 批量添加触发器
         if (triggerBuilders != null && triggerBuilders.Length > 0)
         {
-            schedulerBuilder.JobTriggerBuilders.AddRange(triggerBuilders);
+            schedulerBuilder.TriggerBuilders.AddRange(triggerBuilders);
         }
 
         // 判断是否扫描 IJob 实现类 [JobTrigger] 特性触发器
@@ -91,7 +91,7 @@ public sealed class SchedulerBuilder
                     .SetRetryTimeout(jobTriggerAttribute.RetryTimeout)
                     .SetLogExecution(jobTriggerAttribute.LogExecution);
 
-                schedulerBuilder.JobTriggerBuilders.Add(jobTriggerBuilder);
+                schedulerBuilder.TriggerBuilders.Add(jobTriggerBuilder);
             }
         }
 
@@ -127,7 +127,7 @@ public sealed class SchedulerBuilder
     {
         var schedulerBuilder = new SchedulerBuilder(JobBuilder.From(scheduler.JobDetail))
         {
-            JobTriggerBuilders = scheduler.JobTriggers.Select(t => JobTriggerBuilder.From(t.Value)).ToList()
+            TriggerBuilders = scheduler.JobTriggers.Select(t => JobTriggerBuilder.From(t.Value)).ToList()
         };
 
         return schedulerBuilder;
@@ -146,9 +146,9 @@ public sealed class SchedulerBuilder
         var jobTriggers = new Dictionary<string, JobTrigger>();
 
         // 遍历作业触发器构建器集合
-        for (var i = 0; i < JobTriggerBuilders.Count; i++)
+        for (var i = 0; i < TriggerBuilders.Count; i++)
         {
-            var jobTriggerBuilder = JobTriggerBuilders[i];
+            var jobTriggerBuilder = TriggerBuilders[i];
 
             // 配置默认 TriggerId
             if (string.IsNullOrWhiteSpace(jobTriggerBuilder.TriggerId))
