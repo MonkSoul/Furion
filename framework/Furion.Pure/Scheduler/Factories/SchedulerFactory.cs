@@ -67,18 +67,15 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory, IDisposable
     /// <param name="serviceProvider">服务提供器</param>
     /// <param name="logger">日志对象</param>
     /// <param name="jobSchedulers">作业调度计划集合</param>
-    /// <param name="defaultSleepMilliseconds">缺省休眠时间</param>
     public SchedulerFactory(IServiceProvider serviceProvider
         , ISchedulerLogger logger
-        , ConcurrentDictionary<string, JobScheduler> jobSchedulers
-        , int defaultSleepMilliseconds)
+        , ConcurrentDictionary<string, JobScheduler> jobSchedulers)
     {
         _serviceProvider = serviceProvider;
         _logger = logger;
         _jobSchedulers = jobSchedulers;
 
         Persistence = _serviceProvider.GetService<ISchedulerPersistence>();
-        DefaultSleepMilliseconds = defaultSleepMilliseconds;
 
         // 创建长时间运行的后台任务，并将记录消息队列中数据写入持久化中
         _processQueueTask = Task.Factory.StartNew(state => ((SchedulerFactory)state).ProcessQueue()
@@ -89,11 +86,6 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory, IDisposable
     /// 持久化服务
     /// </summary>
     private ISchedulerPersistence Persistence { get; }
-
-    /// <summary>
-    /// 缺省休眠时间
-    /// </summary>
-    private int DefaultSleepMilliseconds { get; }
 
     /// <summary>
     /// 初始化作业调度计划
@@ -201,7 +193,7 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory, IDisposable
         var sleepMilliseconds = GetSleepMilliseconds();
         var delay = sleepMilliseconds != null
             ? sleepMilliseconds.Value
-            : DefaultSleepMilliseconds;
+            : long.MaxValue;
 
         try
         {
@@ -215,7 +207,7 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory, IDisposable
     /// 强制唤醒作业调度后台服务
     /// </summary>
     /// <returns><see cref="Task"/></returns>
-    public void ForceWakeUp()
+    public void ForceRefresh()
     {
         _delayCancellationTokenSource?.Cancel(false);
         _delayCancellationTokenSource = null;

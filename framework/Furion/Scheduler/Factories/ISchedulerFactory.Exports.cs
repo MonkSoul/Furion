@@ -84,5 +84,12 @@ public partial interface ISchedulerFactory
     /// 删除作业
     /// </summary>
     /// <param name="jobId">作业 Id</param>
-    void RemoveJob<TJob>(string jobId);
+    void RemoveJob(string jobId);
+
+    /// <summary>
+    /// 检查作业是否存在
+    /// </summary>
+    /// <param name="jobId">作业 Id</param>
+    /// <param name="jobScheduler">作业调度计划</param>
+    bool ContainsJob(string jobId, out IJobScheduler jobScheduler);
 }

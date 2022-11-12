@@ -51,7 +51,7 @@ public partial interface ISchedulerFactory
     /// <summary>
     /// 强制唤醒作业调度后台服务
     /// </summary>
-    void ForceWakeUp();
+    void ForceRefresh();
 
     /// <summary>
     /// 记录作业执行状态

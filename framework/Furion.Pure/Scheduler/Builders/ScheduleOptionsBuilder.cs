@@ -58,11 +58,6 @@ public sealed class SchedulerOptionsBuilder
     public bool UseUtcTimestamp { get; set; } = false;
 
     /// <summary>
-    /// 缺省休眠时间
-    /// </summary>
-    public int DefaultSleepMilliseconds { get; set; } = 1000;
-
-    /// <summary>
     /// 未察觉任务异常事件处理程序
     /// </summary>
     public EventHandler<UnobservedTaskExceptionEventArgs> UnobservedTaskExceptionHandler { get; set; }

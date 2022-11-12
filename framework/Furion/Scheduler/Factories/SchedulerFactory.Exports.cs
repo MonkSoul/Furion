@@ -46,7 +46,7 @@ internal sealed partial class SchedulerFactory
     public IJobScheduler GetJobScheduler(string jobId)
     {
         // 空检查
-        if (!string.IsNullOrWhiteSpace(jobId)) throw new ArgumentNullException(nameof(jobId));
+        if (string.IsNullOrWhiteSpace(jobId)) throw new ArgumentNullException(nameof(jobId));
 
         return _jobSchedulers.TryGetValue(jobId, out var jobScheduler)
             ? jobScheduler
@@ -96,6 +96,9 @@ internal sealed partial class SchedulerFactory
 
         // 追加到集合中
         _ = _jobSchedulers.TryAdd(jobBuilder.JobId, jobScheduler);
+
+        // 通知作业调度服务强制刷新
+        ForceRefresh();
 
         // 输出日志
         _logger.LogInformation("The JobScheduler of <{jobId}> successfully added to the schedule.", jobBuilder.JobId);
@@ -154,7 +157,7 @@ internal sealed partial class SchedulerFactory
     /// 删除作业
     /// </summary>
     /// <param name="jobId">作业 Id</param>
-    public void RemoveJob<TJob>(string jobId)
+    public void RemoveJob(string jobId)
     {
         // 空检查
         if (string.IsNullOrWhiteSpace(jobId))
@@ -171,7 +174,23 @@ internal sealed partial class SchedulerFactory
             Record(jobScheduler.JobDetail, jobTrigger, PersistenceBehavior.Deleted);
         }
 
+        // 通知作业调度服务强制刷新
+        ForceRefresh();
+
         // 输出日志
         _logger.LogInformation("The JobScheduler of <{jobId}> has removed.", jobId);
+    }
+
+    /// <summary>
+    /// 检查作业是否存在
+    /// </summary>
+    /// <param name="jobId">作业 Id</param>
+    /// <param name="jobScheduler">作业调度计划</param>
+    public bool ContainsJob(string jobId, out IJobScheduler jobScheduler)
+    {
+        var isExist = _jobSchedulers.TryGetValue(jobId, out var value);
+        jobScheduler = isExist ? value : default;
+
+        return isExist;
     }
 }

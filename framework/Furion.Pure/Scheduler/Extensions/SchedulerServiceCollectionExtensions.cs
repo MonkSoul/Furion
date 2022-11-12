@@ -104,8 +104,7 @@ public static class SchedulerServiceCollectionExtensions
         services.AddSingleton<ISchedulerFactory>(serviceProvider =>
         {
             var schedulerFactory = ActivatorUtilities.CreateInstance<SchedulerFactory>(serviceProvider
-                , jobSchedulers
-                , schedulerOptionsBuilder.DefaultSleepMilliseconds);
+                , jobSchedulers);
 
             return schedulerFactory;
         });

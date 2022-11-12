@@ -41,15 +41,21 @@ public sealed partial class JobScheduler
     /// </summary>
     public void Start()
     {
+        var changeCount = 0;
         foreach (var (_, jobTrigger) in JobTriggers)
         {
             if (jobTrigger.Status != JobTriggerStatus.Pause) continue;
 
             jobTrigger.SetStatus(JobTriggerStatus.Ready);
+            jobTrigger.IncrementNextRunTime();
+            changeCount++;
 
             // 记录执行信息并通知作业持久化器
             Factory?.Record(JobDetail, jobTrigger);
         }
+
+        // 通知作业调度服务强制刷新
+        if (changeCount > 0) Factory.ForceRefresh();
     }
 
     /// <summary>
@@ -57,13 +63,18 @@ public sealed partial class JobScheduler
     /// </summary>
     public void Pause()
     {
+        var changeCount = 0;
         foreach (var (_, jobTrigger) in JobTriggers)
         {
             jobTrigger.SetStatus(JobTriggerStatus.Pause);
+            changeCount++;
 
             // 记录执行信息并通知作业持久化器
             Factory?.Record(JobDetail, jobTrigger);
         }
+
+        // 通知作业调度服务强制刷新
+        if (changeCount > 0) Factory.ForceRefresh();
     }
 
     /// <summary>
@@ -75,6 +86,10 @@ public sealed partial class JobScheduler
         if (jobTrigger == default || jobTrigger.Status != JobTriggerStatus.Pause) return;
 
         jobTrigger.SetStatus(JobTriggerStatus.Ready);
+        jobTrigger.IncrementNextRunTime();
+
+        // 通知作业调度服务强制刷新
+        Factory.ForceRefresh();
 
         // 记录执行信息并通知作业持久化器
         Factory?.Record(JobDetail, jobTrigger);
@@ -89,6 +104,9 @@ public sealed partial class JobScheduler
         if (jobTrigger == default) return;
 
         jobTrigger.SetStatus(JobTriggerStatus.Pause);
+
+        // 通知作业调度服务强制刷新
+        Factory.ForceRefresh();
 
         // 记录执行信息并通知作业持久化器
         Factory?.Record(JobDetail, jobTrigger);
