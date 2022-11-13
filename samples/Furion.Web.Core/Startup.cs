@@ -2,6 +2,7 @@
 using Furion.Schedule;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System.Text.Json;
@@ -56,7 +57,7 @@ public sealed class Startup : AppStartup
         // 新版本定时任务测试
         services.AddSchedule(options =>
         {
-            options.AddJob<TestJob>(Triggers.Cron("* * * * *"), Triggers.Period(5000));
+            options.AddJob<TestJob>(Triggers.Minutely(), Triggers.Period(5000));
 
             // 持久化
             //options.AddPersistence<TestSchedulerPersistence>();
