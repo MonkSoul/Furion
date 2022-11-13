@@ -30,16 +30,16 @@ public interface IJobHandlerMonitor
     /// <summary>
     /// 作业处理程序执行前
     /// </summary>
-    /// <param name="context">上下文</param>
-    /// <param name="cancellationToken">取消任务 Token</param>
+    /// <param name="context">作业处理程序执行前上下文</param>
+    /// <param name="stoppingToken">取消任务 Token</param>
     /// <returns><see cref="Task"/> 实例</returns>
-    Task OnExecutingAsync(JobHandlerExecutingContext context, CancellationToken cancellationToken);
+    Task OnExecutingAsync(JobHandlerExecutingContext context, CancellationToken stoppingToken);
 
     /// <summary>
     /// 作业处理程序执行后
     /// </summary>
-    /// <param name="context">上下文</param>
-    /// <param name="cancellationToken">取消任务 Token</param>
+    /// <param name="context">作业处理程序执行后上下文</param>
+    /// <param name="stoppingToken">取消任务 Token</param>
     /// <returns><see cref="Task"/> 实例</returns>
-    Task OnExecutedAsync(JobHandlerExecutedContext context, CancellationToken cancellationToken);
+    Task OnExecutedAsync(JobHandlerExecutedContext context, CancellationToken stoppingToken);
 }
