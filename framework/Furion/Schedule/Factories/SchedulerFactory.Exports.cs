@@ -139,7 +139,7 @@ internal sealed partial class SchedulerFactory
     /// <summary>
     /// 添加作业
     /// </summary>
-    /// <typeparam name="TJob"><see cref="IJob"/> 实现类</typeparam>
+    /// <typeparam name="TJob"><see cref="IJob"/> 实现类型</typeparam>
     /// <param name="triggerBuilders">作业触发器构建器集合</param>
     /// <param name="scheduler">作业调度计划</param>
     /// <remarks><see cref="bool"/></remarks>
@@ -152,7 +152,7 @@ internal sealed partial class SchedulerFactory
     /// <summary>
     /// 添加作业
     /// </summary>
-    /// <typeparam name="TJob"><see cref="IJob"/> 实现类</typeparam>
+    /// <typeparam name="TJob"><see cref="IJob"/> 实现类型</typeparam>
     /// <param name="jobId">作业 Id</param>
     /// <param name="triggerBuilders">作业触发器构建器集合</param>
     /// <param name="scheduler">作业调度计划</param>
@@ -167,7 +167,7 @@ internal sealed partial class SchedulerFactory
     /// 添加作业
     /// </summary>
     /// <typeparam name="TJob"></typeparam>
-    /// <param name="jobId"><see cref="IJob"/></param>
+    /// <param name="jobId"><see cref="IJob"/> 实现类型</param>
     /// <param name="concurrent">是否采用并发执行</param>
     /// <param name="triggerBuilders">作业触发器构建器集合</param>
     /// <param name="scheduler">作业调度计划</param>
