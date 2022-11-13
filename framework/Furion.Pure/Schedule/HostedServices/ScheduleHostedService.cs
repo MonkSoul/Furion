@@ -118,14 +118,14 @@ internal sealed class ScheduleHostedService : BackgroundService
         // 获取当前时间作为检查时间
         var checkTime = DateTime.UtcNow;
 
-        // 查找所有符合触发的作业调度计划
-        var schedulersThatShouldRun = _schedulerFactory.GetNextRunJobs(checkTime);
+        // 查找所有符合触发的作业
+        var nextRunJobs = _schedulerFactory.GetNextRunJobs(checkTime);
 
         // 创建一个任务工厂并保证执行任务都使用当前的计划程序
         var taskFactory = new TaskFactory(System.Threading.Tasks.TaskScheduler.Current);
 
         // 逐条遍历所有作业调度计划集合
-        foreach (var schedulerThatShouldRun in schedulersThatShouldRun)
+        foreach (var schedulerThatShouldRun in nextRunJobs)
         {
             // 解构参数
             var scheduler = (Scheduler)schedulerThatShouldRun;
@@ -146,10 +146,10 @@ internal sealed class ScheduleHostedService : BackgroundService
                 // 设置触发器状态为运行状态
                 trigger.SetStatus(TriggerStatus.Running);
 
-                // 记录运行信息和计算下一个触发时间及休眠时间
+                // 记录运行信息和计算下一个触发时间
                 trigger.Increment();
 
-                // 记录执行信息并通知作业持久化器
+                // 记录作业调度计划状态
                 _schedulerFactory.Shorthand(jobDetail, trigger);
 
                 // 记录作业执行信息
@@ -195,7 +195,7 @@ internal sealed class ScheduleHostedService : BackgroundService
                             // 设置触发器状态为就绪状态
                             trigger.SetStatus(TriggerStatus.Ready);
 
-                            // 记录执行信息并通知作业持久化器
+                            // 记录作业调度计划状态
                             _schedulerFactory.Shorthand(jobDetail, trigger);
                         }
                         catch (Exception ex)
@@ -203,7 +203,7 @@ internal sealed class ScheduleHostedService : BackgroundService
                             // 记录错误信息，包含错误次数和运行状态
                             trigger.IncrementErrors();
 
-                            // 记录执行信息并通知作业持久化器
+                            // 记录作业调度计划状态
                             _schedulerFactory.Shorthand(jobDetail, trigger);
 
                             // 输出异常日志
@@ -224,7 +224,13 @@ internal sealed class ScheduleHostedService : BackgroundService
                         finally
                         {
                             // 标记上一个触发器阻塞已完成
-                            if (!jobDetail.Concurrent) jobDetail.Blocked = false;
+                            if (!jobDetail.Concurrent)
+                            {
+                                jobDetail.Blocked = false;
+
+                                // 记录作业调度计划状态
+                                _schedulerFactory.Shorthand(jobDetail, trigger, PersistenceBehavior.UpdateJob);
+                            }
 
                             // 调用执行后监视器
                             if (Monitor != default)
@@ -244,7 +250,7 @@ internal sealed class ScheduleHostedService : BackgroundService
             }
         }
 
-        // 等待作业调度后台服务被唤醒
+        // 作业调度器进入休眠状态
         await _schedulerFactory.SleepAsync(stoppingToken);
     }
 
@@ -264,6 +270,10 @@ internal sealed class ScheduleHostedService : BackgroundService
         if (!jobDetail.Blocked)
         {
             jobDetail.Blocked = true;
+
+            // 记录作业调度计划状态
+            _schedulerFactory.Shorthand(jobDetail, trigger, PersistenceBehavior.UpdateJob);
+
             return false;
         }
         else
@@ -271,13 +281,13 @@ internal sealed class ScheduleHostedService : BackgroundService
             // 设置触发器状态为阻塞状态
             trigger.SetStatus(TriggerStatus.Blocked);
 
-            // 记录运行信息和计算下一个触发时间及休眠时间（忽略执行次数）
+            // 记录运行信息和计算下一个触发时间
             trigger.Increment();
 
             // 记录作业执行信息
             LogExecution(jobDetail, trigger, checkTime);
 
-            // 记录执行信息并通知作业持久化器
+            // 记录作业调度计划状态
             _schedulerFactory.Shorthand(jobDetail, trigger);
 
             return true;
@@ -307,6 +317,7 @@ internal sealed class ScheduleHostedService : BackgroundService
                 , $"##TriggerId## {trigger.TriggerId}"
                 , $"##TriggerType## {trigger.TriggerType}"
                 , $"##TriggerArgs## {trigger.Args}"
+                , $"##StartNow## {trigger.StartNow}"
                 , $"##Status## {trigger.Status}"
                 , $"##LastRunTime## {trigger.LastRunTime}"
                 , $"##NextRunTime## {trigger.NextRunTime}"

@@ -145,6 +145,9 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory, IDisposable
             foreach (var triggerForUpdated in schedulerForUpdated.Triggers.Values)
             {
                 triggerForUpdated.NextRunTime = triggerForUpdated.GetNextRunTime();
+
+                // 记录作业调度计划状态
+                Shorthand(schedulerForUpdated.JobDetail, triggerForUpdated);
             }
 
             // 更新内存作业调度计划集合
