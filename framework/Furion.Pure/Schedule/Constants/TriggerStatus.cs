@@ -83,5 +83,10 @@ public enum TriggerStatus : uint
     /// 空
     /// </summary>
     /// <remarks>下一次执行时间为 null</remarks>
-    None = 9
+    None = 9,
+
+    /// <summary>
+    /// 未启动
+    /// </summary>
+    NotStart = 10,
 }

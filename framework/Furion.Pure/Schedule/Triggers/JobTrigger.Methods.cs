@@ -104,6 +104,13 @@ public abstract partial class JobTrigger
     /// <returns><see cref="bool"/></returns>
     internal bool InternalShouldRun(DateTime startAt)
     {
+        // 检查是否立即启动
+        if (StartNow == false)
+        {
+            SetStatus(TriggerStatus.NotStart);
+            return false;
+        }
+
         // 状态检查
         if (Status != TriggerStatus.Ready
             && Status != TriggerStatus.ErrorToReady

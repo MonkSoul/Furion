@@ -38,6 +38,7 @@ internal sealed partial class Scheduler
             if (trigger.Status != TriggerStatus.Pause) continue;
 
             trigger.SetStatus(TriggerStatus.Ready);
+            trigger.StartNow = true;
             trigger.GetNextRunTime();
             changeCount++;
 
@@ -78,6 +79,7 @@ internal sealed partial class Scheduler
         if (trigger == default || trigger.Status != TriggerStatus.Pause) return;
 
         trigger.SetStatus(TriggerStatus.Ready);
+        trigger.StartNow = true;
         trigger.GetNextRunTime();
 
         // 通知作业调度服务强制刷新

@@ -301,6 +301,11 @@ public sealed class TriggerBuilder : JobTrigger
     {
         StartNow = startNow;
 
+        if (startNow == false && Status != TriggerStatus.NotStart)
+        {
+            Status = TriggerStatus.NotStart;
+        }
+
         return this;
     }
 
