@@ -78,9 +78,12 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory, IDisposable
 
         Persistence = _serviceProvider.GetService<ISchedulerPersistence>();
 
-        // 创建长时间运行的后台任务，并将记录消息队列中数据写入持久化中
-        _processQueueTask = Task.Factory.StartNew(state => ((SchedulerFactory)state).ProcessQueue()
-            , this, TaskCreationOptions.LongRunning);
+        if (Persistence != null)
+        {
+            // 创建长时间运行的后台任务，并将记录消息队列中数据写入持久化中
+            _processQueueTask = Task.Factory.StartNew(state => ((SchedulerFactory)state).ProcessQueue()
+                , this, TaskCreationOptions.LongRunning);
+        }
     }
 
     /// <summary>
@@ -198,7 +201,7 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory, IDisposable
         var sleepMilliseconds = GetSleepMilliseconds();
         var delay = sleepMilliseconds != null
             ? sleepMilliseconds.Value
-            : long.MaxValue;
+            : -1;
 
         try
         {
@@ -263,7 +266,7 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory, IDisposable
             CancelSleep();
 
             // 设置 1.5秒的缓冲时间，避免还有消息没有完成持久化
-            _processQueueTask.Wait(1500);
+            _processQueueTask?.Wait(1500);
         }
         catch (TaskCanceledException) { }
         catch (AggregateException ex) when (ex.InnerExceptions.Count == 1 && ex.InnerExceptions[0] is TaskCanceledException) { }
@@ -312,9 +315,6 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory, IDisposable
     /// </summary>
     private void ProcessQueue()
     {
-        // 空检查
-        if (Persistence == null) return;
-
         foreach (var context in _persistenceMessageQueue.GetConsumingEnumerable())
         {
             try
