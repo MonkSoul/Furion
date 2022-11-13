@@ -33,21 +33,25 @@ internal sealed partial class Scheduler
     public void Start()
     {
         var changeCount = 0;
+
+        // 逐条启用所有作业触发器
         foreach (var (_, trigger) in Triggers)
         {
+            trigger.StartNow = true;
+
+            // 如果不是暂停状态，则跳过
             if (trigger.Status != TriggerStatus.Pause) continue;
 
             trigger.SetStatus(TriggerStatus.Ready);
-            trigger.StartNow = true;
             trigger.GetNextRunTime();
             changeCount++;
 
-            // 记录执行信息并通知作业持久化器
+            // 记录作业调度计划状态
             Factory?.Shorthand(JobDetail, trigger);
         }
 
-        // 通知作业调度服务强制刷新
-        if (changeCount > 0) Factory.CancelSleep();
+        // 取消作业调度器休眠状态（强制唤醒）
+        if (changeCount > 0) Factory?.CancelSleep();
     }
 
     /// <summary>
@@ -56,110 +60,145 @@ internal sealed partial class Scheduler
     public void Pause()
     {
         var changeCount = 0;
+
+        // 逐条暂停所有作业触发器
         foreach (var (_, trigger) in Triggers)
         {
             trigger.SetStatus(TriggerStatus.Pause);
             changeCount++;
 
-            // 记录执行信息并通知作业持久化器
+            // 记录作业调度计划状态
             Factory?.Shorthand(JobDetail, trigger);
         }
 
-        // 通知作业调度服务强制刷新
-        if (changeCount > 0) Factory.CancelSleep();
+        // 取消作业调度器休眠状态（强制唤醒）
+        if (changeCount > 0) Factory?.CancelSleep();
     }
 
     /// <summary>
-    /// 启动作业触发器
+    /// 启动作业单个触发器
     /// </summary>
     /// <param name="triggerId">作业触发器 Id</param>
     public void StartTrigger(string triggerId)
     {
+        // 空检查
+        if (string.IsNullOrWhiteSpace(triggerId)) throw new ArgumentNullException(nameof(triggerId));
+
         var trigger = Triggers.SingleOrDefault(u => u.Key == triggerId).Value;
-        if (trigger == default || trigger.Status != TriggerStatus.Pause) return;
+        if (trigger == default) return;
+
+        trigger.StartNow = true;
+
+        // 如果不是暂停状态，则终止执行
+        if (trigger.Status != TriggerStatus.Pause) return;
 
         trigger.SetStatus(TriggerStatus.Ready);
-        trigger.StartNow = true;
         trigger.GetNextRunTime();
 
-        // 通知作业调度服务强制刷新
-        Factory.CancelSleep();
-
-        // 记录执行信息并通知作业持久化器
+        // 记录作业调度计划状态
         Factory?.Shorthand(JobDetail, trigger);
+
+        // 取消作业调度器休眠状态（强制唤醒）
+        Factory?.CancelSleep();
     }
 
     /// <summary>
-    /// 暂停作业触发器
+    /// 暂停作业单个触发器
     /// </summary>
     /// <param name="triggerId">作业触发器 Id</param>
     public void PauseTrigger(string triggerId)
     {
+        // 空检查
+        if (string.IsNullOrWhiteSpace(triggerId)) throw new ArgumentNullException(nameof(triggerId));
+
         var trigger = Triggers.SingleOrDefault(u => u.Key == triggerId).Value;
         if (trigger == default) return;
 
         trigger.SetStatus(TriggerStatus.Pause);
 
-        // 通知作业调度服务强制刷新
-        Factory.CancelSleep();
-
-        // 记录执行信息并通知作业持久化器
+        // 记录作业调度计划状态
         Factory?.Shorthand(JobDetail, trigger);
-    }
 
-    /// <summary>
-    /// 强制触发持久化操作
-    /// </summary>
-    public void ForcePersist()
-    {
-        foreach (var (_, trigger) in Triggers)
-        {
-            // 记录执行信息并通知作业持久化器
-            Factory?.Shorthand(JobDetail, trigger);
-        }
+        // 取消作业调度器休眠状态（强制唤醒）
+        Factory?.CancelSleep();
     }
 
     /// <summary>
     /// 添加作业触发器
     /// </summary>
     /// <param name="triggerBuilder">作业触发器构建器</param>
-    public void AddTrigger(TriggerBuilder triggerBuilder)
+    /// <param name="trigger">作业触发器</param>
+    /// <returns><see cref="bool"/></returns>
+    public bool TryAddTrigger(TriggerBuilder triggerBuilder, out JobTrigger trigger)
     {
+        // 空检查
+        if (triggerBuilder == null) throw new ArgumentNullException(nameof(triggerBuilder));
+
         // 配置默认 TriggerId
         if (string.IsNullOrWhiteSpace(triggerBuilder.TriggerId))
         {
             triggerBuilder.SetTriggerId($"{JobDetail.JobId}_trigger{Triggers.Count + 1}");
         }
 
-        var trigger = triggerBuilder.Build(JobDetail.JobId);
-        var succeed = Triggers.TryAdd(trigger.TriggerId, trigger);
+        // 构建作业触发器
+        var internalTrigger = triggerBuilder.Build(JobDetail.JobId);
+        var succeed = Triggers.TryAdd(internalTrigger.TriggerId, internalTrigger);
 
-        // 作业触发器 Id 唯一检查
-        if (!succeed) throw new InvalidOperationException($"The TriggerId of <{trigger.TriggerId}> already exists.");
+        if (!succeed)
+        {
+            trigger = default;
+            return succeed;
+        }
 
-        // 通知作业调度服务强制刷新
-        Factory.CancelSleep();
+        // 记录作业调度计划状态
+        Factory?.Shorthand(JobDetail, internalTrigger, PersistenceBehavior.AppendTrigger);
 
-        // 记录执行信息并通知作业持久化器
-        Factory?.Shorthand(JobDetail, trigger, PersistenceBehavior.AppendTrigger);
+        // 取消作业调度器休眠状态（强制唤醒）
+        Factory?.CancelSleep();
+
+        trigger = internalTrigger;
+        return succeed;
     }
 
     /// <summary>
     /// 删除作业触发器
     /// </summary>
     /// <param name="triggerId">作业触发器 Id</param>
-    public void RemoveTrigger(string triggerId)
+    /// <param name="trigger">作业触发器</param>
+    /// <returns><see cref="bool"/></returns>
+    public bool TryRemoveTrigger(string triggerId, out JobTrigger trigger)
     {
-        var succeed = Triggers.TryGetValue(triggerId, out var trigger);
-        if (succeed)
+        // 空检查
+        if (string.IsNullOrWhiteSpace(triggerId)) throw new ArgumentNullException(nameof(triggerId));
+
+        var succeed = Triggers.TryGetValue(triggerId, out var internalTrigger);
+        if (!succeed)
         {
-            Triggers.Remove(triggerId);
+            trigger = default;
+            return succeed;
+        }
 
-            // 记录执行信息并通知作业持久化器
-            Factory?.Shorthand(JobDetail, trigger, PersistenceBehavior.RemoveTrigger);
+        Triggers.Remove(triggerId);
 
-            // 通知作业调度服务强制刷新
-            Factory.CancelSleep();
+        // 记录作业调度计划状态
+        Factory?.Shorthand(JobDetail, internalTrigger, PersistenceBehavior.RemoveTrigger);
+
+        // 取消作业调度器休眠状态（强制唤醒）
+        Factory?.CancelSleep();
+
+        trigger = internalTrigger;
+        return succeed;
+    }
+
+    /// <summary>
+    /// 强制触发持久化记录
+    /// </summary>
+    public void Persist()
+    {
+        foreach (var (_, trigger) in Triggers)
+        {
+            // 记录作业调度计划状态
+            Factory?.Shorthand(JobDetail, trigger);
         }
     }
 }

@@ -38,31 +38,35 @@ public interface IScheduler
     void Pause();
 
     /// <summary>
-    /// 启动作业触发器
+    /// 启动作业单个触发器
     /// </summary>
     /// <param name="triggerId">作业触发器 Id</param>
     void StartTrigger(string triggerId);
 
     /// <summary>
-    /// 暂停作业触发器
+    /// 暂停作业单个触发器
     /// </summary>
     /// <param name="triggerId">作业触发器 Id</param>
     void PauseTrigger(string triggerId);
 
     /// <summary>
-    /// 强制触发持久化操作
-    /// </summary>
-    void ForcePersist();
-
-    /// <summary>
     /// 添加作业触发器
     /// </summary>
     /// <param name="triggerBuilder">作业触发器构建器</param>
-    void AddTrigger(TriggerBuilder triggerBuilder);
+    /// <param name="trigger">作业触发器</param>
+    /// <returns><see cref="bool"/></returns>
+    bool TryAddTrigger(TriggerBuilder triggerBuilder, out JobTrigger trigger);
 
     /// <summary>
     /// 删除作业触发器
     /// </summary>
     /// <param name="triggerId">作业触发器 Id</param>
-    void RemoveTrigger(string triggerId);
+    /// <param name="trigger">作业触发器</param>
+    /// <returns><see cref="bool"/></returns>
+    bool TryRemoveTrigger(string triggerId, out JobTrigger trigger);
+
+    /// <summary>
+    /// 强制触发持久化记录
+    /// </summary>
+    void Persist();
 }
