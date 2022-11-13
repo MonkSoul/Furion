@@ -155,11 +155,11 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory, IDisposable
     }
 
     /// <summary>
-    /// 查找下一个触发的作业调度计划
+    /// 查找下一个触发的作业
     /// </summary>
     /// <param name="startAt">起始时间</param>
     /// <returns><see cref="IEnumerable{IScheduler}"/></returns>
-    public IEnumerable<IScheduler> GetNextRunSchedulers(DateTime startAt)
+    public IEnumerable<IScheduler> GetNextRunJobs(DateTime startAt)
     {
         // 定义静态内部函数用于委托检查
         bool triggerShouldRun(JobTrigger t) => t.InternalShouldRun(startAt);
@@ -205,8 +205,7 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory, IDisposable
             // 进入休眠状态
             await Task.Delay(TimeSpan.FromMilliseconds(delay), _sleepCancellationTokenSource.Token);
         }
-        catch (TaskCanceledException) { }
-        catch (AggregateException ex) when (ex.InnerExceptions.Count == 1 && ex.InnerExceptions[0] is TaskCanceledException) { }
+        catch { }
     }
 
     /// <summary>

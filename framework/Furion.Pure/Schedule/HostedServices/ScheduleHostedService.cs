@@ -119,7 +119,7 @@ internal sealed class ScheduleHostedService : BackgroundService
         var checkTime = DateTime.UtcNow;
 
         // 查找所有符合触发的作业调度计划
-        var schedulersThatShouldRun = _schedulerFactory.GetNextRunSchedulers(checkTime);
+        var schedulersThatShouldRun = _schedulerFactory.GetNextRunJobs(checkTime);
 
         // 创建一个任务工厂并保证执行任务都使用当前的计划程序
         var taskFactory = new TaskFactory(System.Threading.Tasks.TaskScheduler.Current);

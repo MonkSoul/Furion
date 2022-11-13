@@ -12,13 +12,13 @@ public class JobServices : IDynamicApiController
     }
     public void StartJob(string jobId)
     {
-        var scheduler = _schedulerFactory.GetJob(jobId);
+        _ = _schedulerFactory.TryGetJob(jobId, out var scheduler);
         scheduler?.Start();
     }
 
     public void PauseJob(string jobId)
     {
-        var scheduler = _schedulerFactory.GetJob(jobId);
+        _ = _schedulerFactory.TryGetJob(jobId, out var scheduler);
         scheduler?.Pause();
     }
 
@@ -26,11 +26,11 @@ public class JobServices : IDynamicApiController
     {
         if (!string.IsNullOrWhiteSpace(jobId))
         {
-            _schedulerFactory.AddJob<TestJob>(jobId, Triggers.Period(10000));
+            _schedulerFactory.TryAddJob<TestJob>(jobId, new[] { Triggers.Period(10000) }, out _);
         }
         else
         {
-            _schedulerFactory.AddJob<TestJob>(Triggers.Period(10000));
+            _schedulerFactory.TryAddJob<TestJob>(new[] { Triggers.Period(10000) }, out _);
         }
     }
 }

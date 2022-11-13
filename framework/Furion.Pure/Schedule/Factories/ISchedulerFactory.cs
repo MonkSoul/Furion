@@ -36,11 +36,11 @@ public partial interface ISchedulerFactory
     Task PreloadAsync(CancellationToken stoppingToken = default);
 
     /// <summary>
-    /// 查找下一个触发的作业调度计划
+    /// 查找下一个触发的作业
     /// </summary>
     /// <param name="startAt">起始时间</param>
     /// <returns><see cref="IEnumerable{IScheduler}"/></returns>
-    IEnumerable<IScheduler> GetNextRunSchedulers(DateTime startAt);
+    IEnumerable<IScheduler> GetNextRunJobs(DateTime startAt);
 
     /// <summary>
     /// 作业调度器进入休眠状态
