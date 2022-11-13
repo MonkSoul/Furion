@@ -48,7 +48,7 @@ internal sealed class CronTrigger : JobTrigger
     /// 计算下一个触发时间
     /// </summary>
     /// <param name="startAt">起始时间</param>
-    /// <returns><see cref="DateTime"/>?</returns>
+    /// <returns><see cref="DateTime"/></returns>
     public override DateTime GetNextOccurrence(DateTime startAt)
     {
         return Crontab.GetNextOccurrence(startAt);

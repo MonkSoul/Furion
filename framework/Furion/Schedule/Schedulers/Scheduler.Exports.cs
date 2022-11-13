@@ -47,7 +47,7 @@ internal sealed partial class Scheduler
             if (trigger.Status != TriggerStatus.Pause) continue;
 
             trigger.SetStatus(TriggerStatus.Ready);
-            trigger.IncrementNextRunTime();
+            trigger.GetNextRunTime();
             changeCount++;
 
             // 记录执行信息并通知作业持久化器
@@ -87,7 +87,7 @@ internal sealed partial class Scheduler
         if (trigger == default || trigger.Status != TriggerStatus.Pause) return;
 
         trigger.SetStatus(TriggerStatus.Ready);
-        trigger.IncrementNextRunTime();
+        trigger.GetNextRunTime();
 
         // 通知作业调度服务强制刷新
         Factory.WakeupAsync();

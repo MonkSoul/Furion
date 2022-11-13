@@ -56,7 +56,7 @@ public sealed class Startup : AppStartup
         // 新版本定时任务测试
         services.AddSchedule(options =>
         {
-            options.AddJob<TestJob>(Trigger.Cron("* * * * *"), Trigger.Period(5000));
+            options.AddJob<TestJob>(Triggers.Cron("* * * * *"), Triggers.Period(5000));
 
             // 持久化
             //options.AddPersistence<TestSchedulerPersistence>();

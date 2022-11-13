@@ -144,43 +144,45 @@ public abstract class JobTrigger
     /// 计算下一个触发时间
     /// </summary>
     /// <param name="startAt">起始时间</param>
-    /// <returns><see cref="DateTime"/>?</returns>
+    /// <returns><see cref="DateTime"/></returns>
     public virtual DateTime GetNextOccurrence(DateTime startAt) => throw new NotImplementedException();
 
     /// <summary>
     /// 执行条件检查
     /// </summary>
-    /// <param name="checkTime">受检时间</param>
+    /// <param name="startAt">起始时间</param>
     /// <returns><see cref="bool"/></returns>
-    public virtual bool ShouldRun(DateTime checkTime)
+    public virtual bool ShouldRun(DateTime startAt)
     {
-        return NextRunTime.Value <= checkTime
+        return NextRunTime.Value <= startAt
             && LastRunTime != NextRunTime;
     }
 
     /// <summary>
-    /// 记录运行信息和计算下一个触发时间及休眠时间
+    /// 记录运行信息和计算下一个触发时间
     /// </summary>
     internal void Increment()
     {
-        // 阻塞状态并没有实际执行，此时忽略次数递增
+        // 阻塞状态并没有实际执行，此时忽略次数递增和最近运行时间赋值
         if (Status != TriggerStatus.Blocked)
         {
             NumberOfRuns++;
+            LastRunTime = NextRunTime;
         }
 
-        LastRunTime = NextRunTime;
-        NextRunTime = IncrementNextRunTime();
+        NextRunTime = GetNextRunTime();
     }
 
     /// <summary>
     /// 计算下一次运行时间
     /// </summary>
     /// <returns></returns>
-    internal DateTime? IncrementNextRunTime()
+    internal DateTime? GetNextRunTime()
     {
-        var startAt = GetInitialTime();
-        return startAt == null ? null : GetNextOccurrence(startAt.Value);
+        var startAt = GetStartAt();
+        return startAt == null
+            ? null
+            : GetNextOccurrence(startAt.Value);
     }
 
     /// <summary>
@@ -209,9 +211,9 @@ public abstract class JobTrigger
     /// <summary>
     /// 执行条件检查（内部检查）
     /// </summary>
-    /// <param name="checkTime">受检时间</param>
+    /// <param name="startAt">起始时间</param>
     /// <returns><see cref="bool"/></returns>
-    internal bool InternalShouldRun(DateTime checkTime)
+    internal bool InternalShouldRun(DateTime startAt)
     {
         // 状态检查
         if (Status != TriggerStatus.Ready
@@ -223,14 +225,14 @@ public abstract class JobTrigger
         }
 
         // 开始时间检查
-        if (StartTime != null && StartTime.Value > checkTime)
+        if (StartTime != null && StartTime.Value > startAt)
         {
             SetStatus(TriggerStatus.Backlog);
             return false;
         }
 
         // 结束时间检查
-        if (EndTime != null && EndTime.Value < checkTime)
+        if (EndTime != null && EndTime.Value < startAt)
         {
             SetStatus(TriggerStatus.Archived);
             return false;
@@ -258,15 +260,14 @@ public abstract class JobTrigger
         }
 
         // 调用派生类 ShouldRun 方法
-        return ShouldRun(checkTime);
+        return ShouldRun(startAt);
     }
 
     /// <summary>
     /// 获取触发器初始化时间
     /// </summary>
-    /// <remarks>用于启动时计算最初 <see cref="NextRunTime"/></remarks>
     /// <returns><see cref="DateTime"/> 或者 null</returns>
-    private DateTime? GetInitialTime()
+    private DateTime? GetStartAt()
     {
         var nowTime = DateTime.UtcNow;
         if (StartTime == null)

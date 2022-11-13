@@ -138,7 +138,7 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory, IDisposable
             // 初始化作业触发器下一次执行时间
             foreach (var triggerForUpdated in schedulerForUpdated.Triggers.Values)
             {
-                triggerForUpdated.NextRunTime = triggerForUpdated.IncrementNextRunTime();
+                triggerForUpdated.NextRunTime = triggerForUpdated.GetNextRunTime();
             }
 
             // 更新内存作业调度计划集合

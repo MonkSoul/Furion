@@ -25,41 +25,16 @@ using Furion.TimeCrontab;
 namespace Furion.Schedule;
 
 /// <summary>
-/// Cron 表达式作业触发器
+/// 每小时开始作业触发器特性
 /// </summary>
-internal sealed class CronTrigger : JobTrigger
+[SuppressSniffer, AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
+public sealed class HourlyAttribute : CronAttribute
 {
     /// <summary>
     /// 构造函数
     /// </summary>
-    /// <param name="schedule">Cron 表达式</param>
-    /// <param name="format">Cron 表达式格式化类型</param>
-    public CronTrigger(string schedule, int format)
+    public HourlyAttribute()
+        : base("0 * * * *", CronStringFormat.Default)
     {
-        Crontab = Crontab.Parse(schedule, (CronStringFormat)format);
-    }
-
-    /// <summary>
-    /// <see cref="Crontab"/> 对象
-    /// </summary>
-    private Crontab Crontab { get; }
-
-    /// <summary>
-    /// 计算下一个触发时间
-    /// </summary>
-    /// <param name="startAt">起始时间</param>
-    /// <returns><see cref="DateTime"/></returns>
-    public override DateTime GetNextOccurrence(DateTime startAt)
-    {
-        return Crontab.GetNextOccurrence(startAt);
-    }
-
-    /// <summary>
-    /// 作业触发器转字符串输出
-    /// </summary>
-    /// <returns><see cref="string"/></returns>
-    public override string ToString()
-    {
-        return $"{Description} {Crontab}";
     }
 }

@@ -88,7 +88,7 @@ internal sealed partial class SchedulerFactory
         // 初始化作业触发器下一次执行时间
         foreach (var trigger in scheduler.Triggers.Values)
         {
-            trigger.NextRunTime = trigger.IncrementNextRunTime();
+            trigger.NextRunTime = trigger.GetNextRunTime();
 
             // 记录执行信息并通知作业持久化器
             Record(scheduler.JobDetail, trigger, PersistenceBehavior.AppendJob);

@@ -25,30 +25,16 @@ using Furion.TimeCrontab;
 namespace Furion.Schedule;
 
 /// <summary>
-/// 作业触发器静态类
+/// 每秒作业触发器特性
 /// </summary>
-/// <remarks>主要用于简化代码调用</remarks>
-[SuppressSniffer]
-public static class Trigger
+[SuppressSniffer, AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
+public sealed class SecondlyAttribute : CronAttribute
 {
     /// <summary>
-    /// 创建新的作业周期（间隔）触发器构建器
+    /// 构造函数
     /// </summary>
-    /// <param name="interval">间隔（毫秒）</param>
-    /// <returns><see cref="TriggerBuilder"/></returns>
-    public static TriggerBuilder Period(int interval)
+    public SecondlyAttribute()
+        : base("* * * * * *", CronStringFormat.WithSeconds)
     {
-        return TriggerBuilder.Period(interval);
-    }
-
-    /// <summary>
-    /// 创建新的作业 Cron 触发器构建器
-    /// </summary>
-    /// <param name="schedule">Cron 表达式</param>
-    /// <param name="format">Cron 表达式格式化类型，默认 <see cref="CronStringFormat.Default"/></param>
-    /// <returns><see cref="TriggerBuilder"/></returns>
-    public static TriggerBuilder Cron(string schedule, CronStringFormat format = CronStringFormat.Default)
-    {
-        return TriggerBuilder.Cron(schedule, format);
     }
 }

@@ -26,11 +26,11 @@ public class JobServices : IDynamicApiController
     {
         if (!string.IsNullOrWhiteSpace(jobId))
         {
-            _schedulerFactory.AddJob<TestJob>(jobId, Trigger.Period(10000));
+            _schedulerFactory.AddJob<TestJob>(jobId, Triggers.Period(10000));
         }
         else
         {
-            _schedulerFactory.AddJob<TestJob>(Trigger.Period(10000));
+            _schedulerFactory.AddJob<TestJob>(Triggers.Period(10000));
         }
     }
 }

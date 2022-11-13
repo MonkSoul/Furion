@@ -28,7 +28,7 @@ namespace Furion.Schedule;
 /// Cron 表达式作业触发器特性
 /// </summary>
 [SuppressSniffer, AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
-public sealed class CronAttribute : TriggerAttribute
+public class CronAttribute : TriggerAttribute
 {
     /// <summary>
     /// 构造函数
