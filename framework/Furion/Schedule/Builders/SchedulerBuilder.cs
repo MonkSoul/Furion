@@ -75,7 +75,7 @@ public sealed class SchedulerBuilder
         }
 
         // 判断是否扫描 IJob 实现类 [Trigger] 特性触发器
-        if (jobBuilder.ScanTriggers)
+        if (jobBuilder.IncludeAnnotations)
         {
             var triggerAttributes = jobBuilder.RuntimeJobType.GetCustomAttributes<TriggerAttribute>(true);
 

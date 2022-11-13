@@ -168,11 +168,11 @@ public sealed class JobBuilder : JobDetail
     /// <summary>
     /// 设置是否扫描 IJob 实现类 [Trigger] 特性触发器
     /// </summary>
-    /// <param name="scanTriggers">是否扫描 IJob 实现类 [Trigger] 特性触发器</param>
+    /// <param name="includeAnnotations">是否扫描 IJob 实现类 [Trigger] 特性触发器</param>
     /// <returns><see cref="JobBuilder"/></returns>
-    public JobBuilder SetScanTriggers(bool scanTriggers)
+    public JobBuilder SetIncludeAnnotations(bool includeAnnotations)
     {
-        ScanTriggers = scanTriggers;
+        IncludeAnnotations = includeAnnotations;
 
         return this;
     }

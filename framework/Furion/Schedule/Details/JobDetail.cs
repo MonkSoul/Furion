@@ -64,7 +64,7 @@ public class JobDetail
     /// <summary>
     /// 是否扫描 IJob 实现类 [JobTrigger] 特性触发器
     /// </summary>
-    public bool ScanTriggers { get; internal set; } = false;
+    public bool IncludeAnnotations { get; internal set; } = false;
 
     /// <summary>
     /// 标记其他触发器正在执行
