@@ -40,7 +40,7 @@ public partial interface ISchedulerFactory
     /// </summary>
     /// <param name="startAt">起始时间</param>
     /// <returns><see cref="IEnumerable{IScheduler}"/></returns>
-    IEnumerable<IScheduler> GetNextSchedulers(DateTime startAt);
+    IEnumerable<IScheduler> GetNextRunSchedulers(DateTime startAt);
 
     /// <summary>
     /// 作业调度器进入休眠状态
@@ -50,9 +50,9 @@ public partial interface ISchedulerFactory
     Task SleepAsync(CancellationToken stoppingToken = default);
 
     /// <summary>
-    /// 作业调度器被强制唤醒
+    /// 取消作业调度器休眠状态（强制唤醒）
     /// </summary>
-    void WakeupAsync();
+    void CancelSleep();
 
     /// <summary>
     /// 记录作业调度计划状态
@@ -60,5 +60,7 @@ public partial interface ISchedulerFactory
     /// <param name="jobDetail">作业信息</param>
     /// <param name="trigger">作业触发器</param>
     /// <param name="behavior">作业持久化行为</param>
-    void Record(JobDetail jobDetail, JobTrigger trigger, PersistenceBehavior behavior = PersistenceBehavior.UpdateTrigger);
+    void Shorthand(JobDetail jobDetail
+        , JobTrigger trigger
+        , PersistenceBehavior behavior = PersistenceBehavior.UpdateTrigger);
 }

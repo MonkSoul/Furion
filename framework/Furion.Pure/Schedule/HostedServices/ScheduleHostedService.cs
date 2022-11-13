@@ -119,7 +119,7 @@ internal sealed class ScheduleHostedService : BackgroundService
         var checkTime = DateTime.UtcNow;
 
         // 查找所有符合触发的作业调度计划
-        var schedulersThatShouldRun = _schedulerFactory.GetNextSchedulers(checkTime);
+        var schedulersThatShouldRun = _schedulerFactory.GetNextRunSchedulers(checkTime);
 
         // 创建一个任务工厂并保证执行任务都使用当前的计划程序
         var taskFactory = new TaskFactory(System.Threading.Tasks.TaskScheduler.Current);
@@ -150,7 +150,7 @@ internal sealed class ScheduleHostedService : BackgroundService
                 trigger.Increment();
 
                 // 记录执行信息并通知作业持久化器
-                _schedulerFactory.Record(jobDetail, trigger);
+                _schedulerFactory.Shorthand(jobDetail, trigger);
 
                 // 记录作业执行信息
                 LogExecution(jobDetail, trigger, checkTime);
@@ -196,7 +196,7 @@ internal sealed class ScheduleHostedService : BackgroundService
                             trigger.SetStatus(TriggerStatus.Ready);
 
                             // 记录执行信息并通知作业持久化器
-                            _schedulerFactory.Record(jobDetail, trigger);
+                            _schedulerFactory.Shorthand(jobDetail, trigger);
                         }
                         catch (Exception ex)
                         {
@@ -204,7 +204,7 @@ internal sealed class ScheduleHostedService : BackgroundService
                             trigger.IncrementErrors();
 
                             // 记录执行信息并通知作业持久化器
-                            _schedulerFactory.Record(jobDetail, trigger);
+                            _schedulerFactory.Shorthand(jobDetail, trigger);
 
                             // 输出异常日志
                             _logger.LogError(ex, "Error occurred executing {jobId} {triggerId}<{trigger}>.", jobId, triggerId, trigger.ToString());
@@ -278,7 +278,7 @@ internal sealed class ScheduleHostedService : BackgroundService
             LogExecution(jobDetail, trigger, checkTime);
 
             // 记录执行信息并通知作业持久化器
-            _schedulerFactory.Record(jobDetail, trigger);
+            _schedulerFactory.Shorthand(jobDetail, trigger);
 
             return true;
         }

@@ -28,12 +28,6 @@ namespace Furion.Schedule;
 public interface IScheduler
 {
     /// <summary>
-    /// 获取作业调度计划构建器
-    /// </summary>
-    /// <returns><see cref="Scheduler"/></returns>
-    SchedulerBuilder GetBuilder();
-
-    /// <summary>
     /// 启动作业
     /// </summary>
     void Start();

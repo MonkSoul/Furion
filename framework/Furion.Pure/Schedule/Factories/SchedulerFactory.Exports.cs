@@ -91,14 +91,14 @@ internal sealed partial class SchedulerFactory
             trigger.NextRunTime = trigger.GetNextRunTime();
 
             // 记录执行信息并通知作业持久化器
-            Record(scheduler.JobDetail, trigger, PersistenceBehavior.AppendJob);
+            Shorthand(scheduler.JobDetail, trigger, PersistenceBehavior.AppendJob);
         }
 
         // 追加到集合中
         _ = _schedulers.TryAdd(jobBuilder.JobId, scheduler);
 
         // 通知作业调度服务强制刷新
-        WakeupAsync();
+        CancelSleep();
 
         // 输出日志
         _logger.LogInformation("The Scheduler of <{jobId}> successfully added to the schedule.", jobBuilder.JobId);
@@ -171,11 +171,11 @@ internal sealed partial class SchedulerFactory
         foreach (var trigger in scheduler.Triggers.Values)
         {
             // 记录执行信息并通知作业持久化器
-            Record(scheduler.JobDetail, trigger, PersistenceBehavior.RemoveJob);
+            Shorthand(scheduler.JobDetail, trigger, PersistenceBehavior.RemoveJob);
         }
 
         // 通知作业调度服务强制刷新
-        WakeupAsync();
+        CancelSleep();
 
         // 输出日志
         _logger.LogInformation("The Scheduler of <{jobId}> has removed.", jobId);

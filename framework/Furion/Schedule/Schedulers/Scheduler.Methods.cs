@@ -28,15 +28,6 @@ namespace Furion.Schedule;
 internal sealed partial class Scheduler
 {
     /// <summary>
-    /// 获取作业调度计划构建器
-    /// </summary>
-    /// <returns><see cref="Scheduler"/></returns>
-    public SchedulerBuilder GetBuilder()
-    {
-        return SchedulerBuilder.From(this);
-    }
-
-    /// <summary>
     /// 启动作业
     /// </summary>
     public void Start()
@@ -51,11 +42,11 @@ internal sealed partial class Scheduler
             changeCount++;
 
             // 记录执行信息并通知作业持久化器
-            Factory?.Record(JobDetail, trigger);
+            Factory?.Shorthand(JobDetail, trigger);
         }
 
         // 通知作业调度服务强制刷新
-        if (changeCount > 0) Factory.WakeupAsync();
+        if (changeCount > 0) Factory.CancelSleep();
     }
 
     /// <summary>
@@ -70,11 +61,11 @@ internal sealed partial class Scheduler
             changeCount++;
 
             // 记录执行信息并通知作业持久化器
-            Factory?.Record(JobDetail, trigger);
+            Factory?.Shorthand(JobDetail, trigger);
         }
 
         // 通知作业调度服务强制刷新
-        if (changeCount > 0) Factory.WakeupAsync();
+        if (changeCount > 0) Factory.CancelSleep();
     }
 
     /// <summary>
@@ -90,10 +81,10 @@ internal sealed partial class Scheduler
         trigger.GetNextRunTime();
 
         // 通知作业调度服务强制刷新
-        Factory.WakeupAsync();
+        Factory.CancelSleep();
 
         // 记录执行信息并通知作业持久化器
-        Factory?.Record(JobDetail, trigger);
+        Factory?.Shorthand(JobDetail, trigger);
     }
 
     /// <summary>
@@ -108,10 +99,10 @@ internal sealed partial class Scheduler
         trigger.SetStatus(TriggerStatus.Pause);
 
         // 通知作业调度服务强制刷新
-        Factory.WakeupAsync();
+        Factory.CancelSleep();
 
         // 记录执行信息并通知作业持久化器
-        Factory?.Record(JobDetail, trigger);
+        Factory?.Shorthand(JobDetail, trigger);
     }
 
     /// <summary>
@@ -122,7 +113,7 @@ internal sealed partial class Scheduler
         foreach (var (_, trigger) in Triggers)
         {
             // 记录执行信息并通知作业持久化器
-            Factory?.Record(JobDetail, trigger);
+            Factory?.Shorthand(JobDetail, trigger);
         }
     }
 
@@ -145,10 +136,10 @@ internal sealed partial class Scheduler
         if (!succeed) throw new InvalidOperationException($"The TriggerId of <{trigger.TriggerId}> already exists.");
 
         // 通知作业调度服务强制刷新
-        Factory.WakeupAsync();
+        Factory.CancelSleep();
 
         // 记录执行信息并通知作业持久化器
-        Factory?.Record(JobDetail, trigger, PersistenceBehavior.AppendTrigger);
+        Factory?.Shorthand(JobDetail, trigger, PersistenceBehavior.AppendTrigger);
     }
 
     /// <summary>
@@ -163,10 +154,10 @@ internal sealed partial class Scheduler
             Triggers.Remove(triggerId);
 
             // 记录执行信息并通知作业持久化器
-            Factory?.Record(JobDetail, trigger, PersistenceBehavior.RemoveTrigger);
+            Factory?.Shorthand(JobDetail, trigger, PersistenceBehavior.RemoveTrigger);
 
             // 通知作业调度服务强制刷新
-            Factory.WakeupAsync();
+            Factory.CancelSleep();
         }
     }
 }

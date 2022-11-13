@@ -293,6 +293,18 @@ public sealed class TriggerBuilder : JobTrigger
     }
 
     /// <summary>
+    /// 设置是否立即启动
+    /// </summary>
+    /// <param name="startNow">是否立即启动</param>
+    /// <returns><see cref="TriggerBuilder"/></returns>
+    public TriggerBuilder SetStartNow(bool startNow)
+    {
+        StartNow = startNow;
+
+        return this;
+    }
+
+    /// <summary>
     /// 隐藏触发器公开方法
     /// </summary>
     /// <param name="startAt"></param>

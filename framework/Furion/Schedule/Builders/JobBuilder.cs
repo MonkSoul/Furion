@@ -88,6 +88,22 @@ public sealed class JobBuilder : JobDetail
     }
 
     /// <summary>
+    /// 设置作业组名称
+    /// </summary>
+    /// <param name="groupName">作业组名称</param>
+    /// <returns><see cref="JobBuilder"/></returns>
+    /// <exception cref="ArgumentNullException"></exception>
+    public JobBuilder SetGroupName(string groupName)
+    {
+        // 空检查
+        if (string.IsNullOrWhiteSpace(groupName)) throw new ArgumentNullException(nameof(groupName));
+
+        GroupName = groupName;
+
+        return this;
+    }
+
+    /// <summary>
     /// 设置作业类型
     /// </summary>
     /// <param name="assemblyName">作业类型所在程序集 Name</param>

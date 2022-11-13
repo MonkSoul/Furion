@@ -34,6 +34,11 @@ public class JobDetail
     public string JobId { get; internal set; }
 
     /// <summary>
+    /// 作业组名称
+    /// </summary>
+    public string GroupName { get; internal set; }
+
+    /// <summary>
     /// 作业处理程序类型
     /// </summary>
     /// <remarks>存储的是类型的 FullName</remarks>

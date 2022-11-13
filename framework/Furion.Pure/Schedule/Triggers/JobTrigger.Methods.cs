@@ -66,6 +66,8 @@ public abstract partial class JobTrigger
     /// <returns></returns>
     internal DateTime? GetNextRunTime()
     {
+        if (StartNow == false) return null;
+
         var startAt = GetStartAt();
         return startAt == null
             ? null

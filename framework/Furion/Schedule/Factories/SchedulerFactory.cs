@@ -43,13 +43,14 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory, IDisposable
     /// <summary>
     /// 长时间运行的后台任务
     /// </summary>
-    /// <remarks>实现不间断写入</remarks>
+    /// <remarks>实现任务执行状态持久化</remarks>
     private readonly Task _processQueueTask;
 
     /// <summary>
-    /// 作业调度后台服务休眠 Token
+    /// 作业调度器休眠 Token
     /// </summary>
-    private CancellationTokenSource _delayCancellationTokenSource;
+    /// <remarks>用于取消休眠状态（唤醒）</remarks>
+    private CancellationTokenSource _sleepCancellationTokenSource;
 
     /// <summary>
     /// 作业调度计划集合
@@ -95,10 +96,10 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory, IDisposable
     /// <returns><see cref="Task"/></returns>
     public Task PreloadAsync(CancellationToken stoppingToken = default)
     {
-        // 输出作业调度初始化日志
-        _logger.LogDebug("Schedule Hosted Service is Initializing.");
+        // 输出作业调度度初始化日志
+        _logger.LogDebug("Schedule Hosted Service is preloading.");
 
-        // 逐条初始化作业调度计划处理程序
+        // 逐条初始化作业调度计划
         foreach (var scheduler in _schedulers.Values)
         {
             // 获取作业调度计划构建器
@@ -114,13 +115,15 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory, IDisposable
                 if (schedulerBuilder != null
                     && schedulerBuilder.Behavior == PersistenceBehavior.RemoveJob)
                 {
-                    // 从内存中移除
+                    // 从内存集合中移除
                     var succeed = _schedulers.TryRemove(scheduler.JobId, out _);
 
                     // 输出移除日志
                     var args = new[] { schedulerBuilder.JobBuilder.JobId };
                     if (succeed) _logger.LogWarning("The Scheduler of <{jobId}> has removed.", args);
                     else _logger.LogWarning("The Scheduler of <{jobId}> remove failed.", args);
+
+                    continue;
                 }
             }
 
@@ -135,7 +138,7 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory, IDisposable
             schedulerForUpdated.JobHandler = (_serviceProvider.GetService(jobType)
                 ?? ActivatorUtilities.CreateInstance(_serviceProvider, jobType)) as IJob;
 
-            // 初始化作业触发器下一次执行时间
+            // 逐条初始化作业触发器初始化下一次执行时间
             foreach (var triggerForUpdated in schedulerForUpdated.Triggers.Values)
             {
                 triggerForUpdated.NextRunTime = triggerForUpdated.GetNextRunTime();
@@ -146,7 +149,7 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory, IDisposable
         }
 
         // 输出作业调度初始化日志
-        _logger.LogDebug("Schedule Hosted Service initialization completed.");
+        _logger.LogDebug("Schedule Hosted Service preload completed.");
 
         return Task.CompletedTask;
     }
@@ -156,12 +159,13 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory, IDisposable
     /// </summary>
     /// <param name="startAt">起始时间</param>
     /// <returns><see cref="IEnumerable{IScheduler}"/></returns>
-    public IEnumerable<IScheduler> GetNextSchedulers(DateTime startAt)
+    public IEnumerable<IScheduler> GetNextRunSchedulers(DateTime startAt)
     {
+        // 定义静态内部函数用于委托检查
         bool triggerShouldRun(JobTrigger t) => t.InternalShouldRun(startAt);
 
         // 查找所有符合执行的作业调度计划
-        var nextSchedulers = _schedulers.Values
+        var nextRunSchedulers = _schedulers.Values
                 .Where(s => s.JobHandler != null
                     && s.Triggers.Values.Any(triggerShouldRun))
                 .Select(s => new Scheduler(s.JobDetail, s.Triggers.Values.Where(triggerShouldRun).ToDictionary(t => t.TriggerId, t => t))
@@ -170,7 +174,7 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory, IDisposable
                     JobHandler = s.JobHandler,
                 });
 
-        return nextSchedulers;
+        return nextRunSchedulers;
     }
 
     /// <summary>
@@ -180,14 +184,14 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory, IDisposable
     /// <returns><see cref="Task"/></returns>
     public async Task SleepAsync(CancellationToken stoppingToken = default)
     {
-        // 输出作业调度服务进入休眠日志
+        // 输出作业调度器进入休眠日志
         _logger.LogDebug("Schedule Hosted Service enters hibernation.");
 
-        // 创建关联 Token
-        _delayCancellationTokenSource = CancellationTokenSource.CreateLinkedTokenSource(stoppingToken);
+        // 创建作业调度器任务关联 Token
+        _sleepCancellationTokenSource = CancellationTokenSource.CreateLinkedTokenSource(stoppingToken);
 
         // 监听休眠被取消
-        _delayCancellationTokenSource.Token.Register(() =>
+        _sleepCancellationTokenSource.Token.Register(() =>
            _logger.LogWarning("Schedule Hosted Service cancels hibernation."));
 
         // 获取作业调度计划总休眠时间
@@ -199,18 +203,19 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory, IDisposable
         try
         {
             // 进入休眠状态
-            await Task.Delay(TimeSpan.FromMilliseconds(delay), _delayCancellationTokenSource.Token);
+            await Task.Delay(TimeSpan.FromMilliseconds(delay), _sleepCancellationTokenSource.Token);
         }
-        catch { }
+        catch (TaskCanceledException) { }
+        catch (AggregateException ex) when (ex.InnerExceptions.Count == 1 && ex.InnerExceptions[0] is TaskCanceledException) { }
     }
 
     /// <summary>
-    /// 作业调度器被强制唤醒
+    /// 取消作业调度器休眠状态（强制唤醒）
     /// </summary>
-    public void WakeupAsync()
+    public void CancelSleep()
     {
-        _delayCancellationTokenSource?.Cancel(false);
-        _delayCancellationTokenSource = null;
+        _sleepCancellationTokenSource?.Cancel(false);
+        _sleepCancellationTokenSource = null;
     }
 
     /// <summary>
@@ -219,7 +224,9 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory, IDisposable
     /// <param name="jobDetail">作业信息</param>
     /// <param name="trigger">作业触发器</param>
     /// <param name="behavior">作业持久化行为</param>
-    public void Record(JobDetail jobDetail, JobTrigger trigger, PersistenceBehavior behavior = PersistenceBehavior.UpdateTrigger)
+    public void Shorthand(JobDetail jobDetail
+        , JobTrigger trigger
+        , PersistenceBehavior behavior = PersistenceBehavior.UpdateTrigger)
     {
         // 空检查
         if (Persistence == null) return;
@@ -253,9 +260,8 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory, IDisposable
 
         try
         {
-            // 取消休眠任务
-            _delayCancellationTokenSource?.Cancel(false);
-            _delayCancellationTokenSource = null;
+            // 取消作业调度器休眠状态（强制唤醒）
+            CancelSleep();
 
             // 设置 1.5秒的缓冲时间，避免还有消息没有完成持久化
             _processQueueTask.Wait(1500);
@@ -303,15 +309,18 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory, IDisposable
     }
 
     /// <summary>
-    /// 将记录消息持久化
+    /// 将作业调度计划记录持久化
     /// </summary>
     private void ProcessQueue()
     {
+        // 空检查
+        if (Persistence == null) return;
+
         foreach (var context in _persistenceMessageQueue.GetConsumingEnumerable())
         {
             try
             {
-                Persistence?.Persist(context);
+                Persistence.Persist(context);
             }
             catch (Exception ex)
             {

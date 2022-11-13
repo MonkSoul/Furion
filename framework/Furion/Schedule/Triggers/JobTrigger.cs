@@ -131,6 +131,11 @@ public abstract partial class JobTrigger
     public bool LogExecution { get; internal set; } = false;
 
     /// <summary>
+    /// 是否立即启动
+    /// </summary>
+    public bool StartNow { get; internal set; } = true;
+
+    /// <summary>
     /// 作业触发器运行时类型
     /// </summary>
     internal Type RuntimeTriggerType { get; set; }

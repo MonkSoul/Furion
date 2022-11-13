@@ -90,7 +90,8 @@ public sealed class SchedulerBuilder
                     .SetMaxNumberOfErrors(triggerAttribute.MaxNumberOfErrors)
                     .SetNumRetries(triggerAttribute.NumRetries)
                     .SetRetryTimeout(triggerAttribute.RetryTimeout)
-                    .SetLogExecution(triggerAttribute.LogExecution);
+                    .SetLogExecution(triggerAttribute.LogExecution)
+                    .SetStartNow(triggerAttribute.StartNow);
 
                 schedulerBuilder.TriggerBuilders.Add(triggerBuilder);
             }
