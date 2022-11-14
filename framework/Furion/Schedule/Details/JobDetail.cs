@@ -26,7 +26,7 @@ namespace Furion.Schedule;
 /// 作业信息
 /// </summary>
 [SuppressSniffer]
-public class JobDetail
+public partial class JobDetail
 {
     /// <summary>
     /// 作业 Id
@@ -73,7 +73,17 @@ public class JobDetail
     public bool Blocked { get; internal set; } = false;
 
     /// <summary>
+    /// 作业额外数据
+    /// </summary>
+    public string Properties { get; internal set; } = "{}";
+
+    /// <summary>
     /// 作业处理程序运行时类型
     /// </summary>
     internal Type RuntimeJobType { get; set; }
+
+    /// <summary>
+    /// 作业额外数据运行时实例
+    /// </summary>
+    internal Dictionary<string, object> RuntimeProperties { get; set; } = new();
 }

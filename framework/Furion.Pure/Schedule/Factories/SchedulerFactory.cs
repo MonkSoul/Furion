@@ -113,45 +113,10 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory, IDisposable
             {
                 // 加载持久化数据
                 Persistence.Preload(schedulerBuilder);
-
-                // 处理从持久化中删除情况
-                if (schedulerBuilder != null
-                    && schedulerBuilder.Behavior == PersistenceBehavior.RemoveJob)
-                {
-                    // 从内存集合中移除
-                    var succeed = _schedulers.TryRemove(scheduler.JobId, out _);
-
-                    // 输出移除日志
-                    var args = new[] { schedulerBuilder.JobBuilder.JobId };
-                    if (succeed) _logger.LogWarning("The Scheduler of <{jobId}> has removed.", args);
-                    else _logger.LogWarning("The Scheduler of <{jobId}> remove failed.", args);
-
-                    continue;
-                }
             }
 
-            // 获取更新后的作业调度计划
-            var schedulerForUpdated = schedulerBuilder.Build();
-
-            // 存储作业调度计划工厂
-            schedulerForUpdated.Factory = this;
-
-            // 实例化作业处理程序
-            var jobType = schedulerForUpdated.JobDetail.RuntimeJobType;
-            schedulerForUpdated.JobHandler = (_serviceProvider.GetService(jobType)
-                ?? ActivatorUtilities.CreateInstance(_serviceProvider, jobType)) as IJob;
-
-            // 逐条初始化作业触发器初始化下一次执行时间
-            foreach (var triggerForUpdated in schedulerForUpdated.Triggers.Values)
-            {
-                triggerForUpdated.NextRunTime = triggerForUpdated.GetNextRunTime();
-
-                // 记录作业调度计划状态
-                Shorthand(schedulerForUpdated.JobDetail, triggerForUpdated);
-            }
-
-            // 更新内存作业调度计划集合
-            _schedulers.TryUpdate(schedulerForUpdated.JobId, schedulerForUpdated, scheduler);
+            // 更新内存中的作业调度计划
+            if (TryUpdateScheduler(schedulerBuilder, scheduler, out var _) == ScheduleResult.RemoveSucceed) continue;
         }
 
         // 输出作业调度初始化日志
@@ -273,6 +238,66 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory, IDisposable
         }
         catch (TaskCanceledException) { }
         catch (AggregateException ex) when (ex.InnerExceptions.Count == 1 && ex.InnerExceptions[0] is TaskCanceledException) { }
+    }
+
+    /// <summary>
+    /// 更新内容中的调度计划
+    /// </summary>
+    /// <param name="schedulerBuilder">作业调度计划构建器</param>
+    /// <param name="scheduler">作业调度计划</param>
+    /// <param name="newScheduler">新的作业调度计划</param>
+    /// <returns><see cref="ScheduleResult"/></returns>
+    private ScheduleResult TryUpdateScheduler(SchedulerBuilder schedulerBuilder, Scheduler scheduler, out IScheduler newScheduler)
+    {
+        // 获取更新后的作业调度计划
+        var schedulerForUpdated = schedulerBuilder.Build();
+
+        // 处理从持久化中删除情况
+        if (schedulerBuilder != null
+            && schedulerBuilder.Behavior == PersistenceBehavior.RemoveJob)
+        {
+            // 从内存集合中移除
+            var succeed = _schedulers.TryRemove(scheduler.JobId, out _);
+
+            // 输出移除日志
+            var args = new[] { schedulerBuilder.JobBuilder.JobId };
+            newScheduler = null;
+
+            if (succeed)
+            {
+                _logger.LogWarning("The Scheduler of <{jobId}> has removed.", args);
+
+                return ScheduleResult.RemoveSucceed;
+            }
+            else
+            {
+                _logger.LogWarning("The Scheduler of <{jobId}> remove failed.", args);
+                return ScheduleResult.Fail;
+            }
+        }
+
+        // 存储作业调度计划工厂
+        schedulerForUpdated.Factory = this;
+
+        // 实例化作业处理程序
+        var jobType = schedulerForUpdated.JobDetail.RuntimeJobType;
+        schedulerForUpdated.JobHandler = (_serviceProvider.GetService(jobType)
+            ?? ActivatorUtilities.CreateInstance(_serviceProvider, jobType)) as IJob;
+
+        // 逐条初始化作业触发器初始化下一次执行时间
+        foreach (var triggerForUpdated in schedulerForUpdated.Triggers.Values)
+        {
+            triggerForUpdated.NextRunTime = triggerForUpdated.GetNextRunTime();
+
+            // 记录作业调度计划状态
+            Shorthand(schedulerForUpdated.JobDetail, triggerForUpdated);
+        }
+
+        // 更新内存作业调度计划集合
+        _schedulers.TryUpdate(schedulerForUpdated.JobId, schedulerForUpdated, scheduler);
+
+        newScheduler = schedulerForUpdated;
+        return ScheduleResult.Succeed;
     }
 
     /// <summary>

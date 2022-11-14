@@ -44,7 +44,12 @@ public enum ScheduleResult
     Succeed = 2,
 
     /// <summary>
+    /// 删除成功
+    /// </summary>
+    RemoveSucceed = 3,
+
+    /// <summary>
     /// 失败
     /// </summary>
-    Fail = 3
+    Fail = 4
 }

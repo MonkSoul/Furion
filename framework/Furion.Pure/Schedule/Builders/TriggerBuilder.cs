@@ -310,19 +310,19 @@ public sealed class TriggerBuilder : JobTrigger
     }
 
     /// <summary>
-    /// 隐藏触发器公开方法
+    /// 隐藏作业触发器公开方法
     /// </summary>
     /// <param name="startAt"></param>
     /// <returns></returns>
     /// <exception cref="NotImplementedException"></exception>
-    internal new DateTime GetNextOccurrence(DateTime startAt) => throw new NotImplementedException();
+    public new DateTime GetNextOccurrence(DateTime startAt) => throw new NotImplementedException();
 
     /// <summary>
-    /// 隐藏触发器公开方法
+    /// 隐藏作业触发器公开方法
     /// </summary>
     /// <param name="checkTime">受检时间</param>
     /// <returns><see cref="bool"/></returns>
-    internal new bool ShouldRun(DateTime checkTime) => throw new NotImplementedException();
+    public new bool ShouldRun(DateTime checkTime) => throw new NotImplementedException();
 
     /// <summary>
     /// 将 <see cref="JobTrigger"/> 转换成 <see cref="TriggerBuilder"/>

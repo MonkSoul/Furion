@@ -21,6 +21,7 @@
 // SOFTWARE.
 
 using System.Reflection;
+using System.Text.Json;
 
 namespace Furion.Schedule;
 
@@ -178,6 +179,63 @@ public sealed class JobBuilder : JobDetail
     }
 
     /// <summary>
+    /// 设置作业额外数据
+    /// </summary>
+    /// <param name="properties">作业额外数据</param>
+    /// <remarks>必须是 Dictionary{string, object} 类型序列化的结果</remarks>
+    /// <returns><see cref="JobBuilder"/></returns>
+    public JobBuilder SetProperties(string properties)
+    {
+        if (string.IsNullOrWhiteSpace(properties)) properties = "{}";
+
+        var runtimeProperties = JsonSerializer.Deserialize<Dictionary<string, object>>(properties); // 无需任何反序列化配置
+        RuntimeProperties = runtimeProperties;
+
+        return this;
+    }
+
+    /// <summary>
+    /// 添加作业额外数据
+    /// </summary>
+    /// <param name="key">键</param>
+    /// <param name="value">值</param>
+    /// <returns><see cref="JobBuilder"/></returns>
+    public new JobBuilder AddProperty(string key, object value)
+    {
+        return base.AddProperty(key, value) as JobBuilder;
+    }
+
+    /// <summary>
+    /// 添加或更新作业额外数据
+    /// </summary>
+    /// <param name="key">键</param>
+    /// <param name="value">值</param>
+    /// <returns><see cref="JobBuilder"/></returns>
+    public new JobBuilder AddOrUpdateProperty(string key, object value)
+    {
+        return base.AddOrUpdateProperty(key, value) as JobBuilder;
+    }
+
+    /// <summary>
+    /// 删除作业额外数据
+    /// </summary>
+    /// <param name="key">键</param>
+    /// <returns><see cref="JobBuilder"/></returns>
+    public new JobBuilder RemoveProperty(string key)
+    {
+        return base.RemoveProperty(key) as JobBuilder;
+    }
+
+    /// <summary>
+    /// 清空作业额外数据
+    /// </summary>
+    /// <returns><see cref="JobBuilder"/></returns>
+    public new JobBuilder ClearProperties()
+    {
+        return base.ClearProperties() as JobBuilder;
+    }
+
+    /// <summary>
     /// 将 <see cref="JobDetail"/> 转换成 <see cref="JobBuilder"/>
     /// </summary>
     /// <param name="jobDetail"></param>
@@ -186,6 +244,21 @@ public sealed class JobBuilder : JobDetail
     {
         return jobDetail.MapTo<JobBuilder>();
     }
+
+    /// <summary>
+    /// 隐藏作业信息公开方法
+    /// </summary>
+    /// <param name="key">键</param>
+    /// <returns><see cref="object"/></returns>
+    public new object GetProperty(string key) => throw new NotImplementedException();
+
+    /// <summary>
+    /// 隐藏作业信息公开方法
+    /// </summary>
+    /// <typeparam name="T">结果泛型类型</typeparam>
+    /// <param name="key">键</param>
+    /// <returns>T 类型</returns>
+    public new T GetProperty<T>(string key) => throw new NotImplementedException();
 
     /// <summary>
     /// 构建 <see cref="JobDetail"/> 对象
