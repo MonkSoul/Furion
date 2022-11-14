@@ -34,7 +34,7 @@ public sealed partial class Crontab
     public static readonly Crontab Secondly = Parse("* * * * * *", CronStringFormat.WithSeconds);
 
     /// <summary>
-    /// 表示每分钟的 <see cref="Crontab"/> 对象
+    /// 表示每分钟的开始的 <see cref="Crontab"/> 对象
     /// </summary>
     public static readonly Crontab Minutely = Parse("* * * * *", CronStringFormat.Default);
 

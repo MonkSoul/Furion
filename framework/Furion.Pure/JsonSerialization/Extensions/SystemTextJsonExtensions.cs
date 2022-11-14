@@ -61,7 +61,6 @@ public static class SystemTextJsonExtensions
         return converters;
     }
 
-
     /// <summary>
     /// 添加 DateOnly/DateOnly? 类型序列化处理
     /// </summary>
@@ -89,5 +88,4 @@ public static class SystemTextJsonExtensions
 #endif
         return converters;
     }
-
 }
