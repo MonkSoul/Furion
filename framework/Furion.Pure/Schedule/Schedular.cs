@@ -1,4 +1,4 @@
-// MIT License
+﻿// MIT License
 //
 // Copyright (c) 2020-2022 百小僧, Baiqian Co.,Ltd and Contributors
 //
@@ -20,22 +20,30 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-namespace Furion.RemoteRequest;
+namespace Furion.Schedule;
 
 /// <summary>
-/// 远程请求静态类
+/// 作业调度器静态类
 /// </summary>
 [SuppressSniffer]
-public static class Http
+public static class Schedular
 {
     /// <summary>
-    /// 获取远程请求代理
+    /// 获取作业调度计划工厂
     /// </summary>
-    /// <typeparam name="THttpDispatchProxy">远程请求代理对象</typeparam>
-    /// <returns><see cref="GetHttpProxy{THttpDispatchProxy}"/></returns>
-    public static THttpDispatchProxy GetHttpProxy<THttpDispatchProxy>()
-        where THttpDispatchProxy : class, IHttpDispatchProxy
+    /// <returns><see cref="ISchedulerFactory"/></returns>
+    public static ISchedulerFactory GetFactory()
     {
-        return App.GetService<THttpDispatchProxy>(App.RootServices);
+        return App.GetService<ISchedulerFactory>(App.RootServices);
+    }
+
+    /// <summary>
+    /// 获取作业
+    /// </summary>
+    /// <param name="jobId">作业 Id</param>
+    /// <returns><see cref="IScheduler"/></returns>
+    public static IScheduler GetJob(string jobId)
+    {
+        return GetFactory()?.GetJob(jobId);
     }
 }

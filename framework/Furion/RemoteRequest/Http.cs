@@ -31,11 +31,11 @@ public static class Http
     /// <summary>
     /// 获取远程请求代理
     /// </summary>
-    /// <param name="serviceProvider"></param>
-    /// <returns>IHttpDispatchProxy</returns>
-    public static THttpDispatchProxy GetHttpProxy<THttpDispatchProxy>(IServiceProvider serviceProvider = default)
+    /// <typeparam name="THttpDispatchProxy">远程请求代理对象</typeparam>
+    /// <returns><see cref="GetHttpProxy{THttpDispatchProxy}"/></returns>
+    public static THttpDispatchProxy GetHttpProxy<THttpDispatchProxy>()
         where THttpDispatchProxy : class, IHttpDispatchProxy
     {
-        return App.GetService<THttpDispatchProxy>(serviceProvider);
+        return App.GetService<THttpDispatchProxy>(App.RootServices);
     }
 }

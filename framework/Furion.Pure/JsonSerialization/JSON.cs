@@ -31,11 +31,10 @@ public static class JSON
     /// <summary>
     /// 获取 JSON 序列化提供器
     /// </summary>
-    /// <param name="serviceProvider"></param>
     /// <returns></returns>
-    public static IJsonSerializerProvider GetJsonSerializer(IServiceProvider serviceProvider = default)
+    public static IJsonSerializerProvider GetJsonSerializer()
     {
-        return App.GetService<IJsonSerializerProvider>(serviceProvider ?? App.RootServices);
+        return App.GetService<IJsonSerializerProvider>(App.RootServices);
     }
 
     /// <summary>
@@ -43,11 +42,10 @@ public static class JSON
     /// </summary>
     /// <param name="value"></param>
     /// <param name="jsonSerializerOptions"></param>
-    /// <param name="serviceProvider"></param>
     /// <returns></returns>
-    public static string Serialize(object value, object jsonSerializerOptions = default, IServiceProvider serviceProvider = default)
+    public static string Serialize(object value, object jsonSerializerOptions = default)
     {
-        return GetJsonSerializer(serviceProvider).Serialize(value, jsonSerializerOptions);
+        return GetJsonSerializer().Serialize(value, jsonSerializerOptions);
     }
 
     /// <summary>
@@ -56,22 +54,20 @@ public static class JSON
     /// <typeparam name="T"></typeparam>
     /// <param name="json"></param>
     /// <param name="jsonSerializerOptions"></param>
-    /// <param name="serviceProvider"></param>
     /// <returns></returns>
-    public static T Deserialize<T>(string json, object jsonSerializerOptions = default, IServiceProvider serviceProvider = default)
+    public static T Deserialize<T>(string json, object jsonSerializerOptions = default)
     {
-        return GetJsonSerializer(serviceProvider).Deserialize<T>(json, jsonSerializerOptions);
+        return GetJsonSerializer().Deserialize<T>(json, jsonSerializerOptions);
     }
 
     /// <summary>
     /// 获取 JSON 配置选项
     /// </summary>
     /// <typeparam name="TOptions"></typeparam>
-    /// <param name="serviceProvider"></param>
     /// <returns></returns>
-    public static TOptions GetSerializerOptions<TOptions>(IServiceProvider serviceProvider = default)
+    public static TOptions GetSerializerOptions<TOptions>()
         where TOptions : class
     {
-        return GetJsonSerializer(serviceProvider).GetSerializerOptions() as TOptions;
+        return GetJsonSerializer().GetSerializerOptions() as TOptions;
     }
 }
