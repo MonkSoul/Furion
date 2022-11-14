@@ -133,12 +133,42 @@ internal sealed partial class Scheduler
     }
 
     /// <summary>
+    /// 查找作业触发器
+    /// </summary>
+    /// <param name="triggerId">作业触发器 Id</param>
+    /// <param name="trigger">作业触发器</param>
+    /// <returns><see cref="ScheduleResult"/></returns>
+    public ScheduleResult TryGetTrigger(string triggerId, out JobTrigger trigger)
+    {
+        // 空检查
+        if (string.IsNullOrWhiteSpace(triggerId)) throw new ArgumentNullException(nameof(triggerId));
+
+        var succeed = Triggers.TryGetValue(triggerId, out var internalTrigger);
+        trigger = internalTrigger;
+
+        return succeed
+            ? ScheduleResult.Succeed
+            : ScheduleResult.NotFound;
+    }
+
+    /// <summary>
+    /// 查找作业触发器
+    /// </summary>
+    /// <param name="triggerId">作业触发器 Id</param>
+    /// <returns><see cref="JobTrigger"/></returns>
+    public JobTrigger GetTrigger(string triggerId)
+    {
+        _ = TryGetTrigger(triggerId, out var trigger);
+        return trigger;
+    }
+
+    /// <summary>
     /// 添加作业触发器
     /// </summary>
     /// <param name="triggerBuilder">作业触发器构建器</param>
     /// <param name="trigger">作业触发器</param>
-    /// <returns><see cref="bool"/></returns>
-    public bool TryAddTrigger(TriggerBuilder triggerBuilder, out JobTrigger trigger)
+    /// <returns><see cref="ScheduleResult"/></returns>
+    public ScheduleResult TryAddTrigger(TriggerBuilder triggerBuilder, out JobTrigger trigger)
     {
         // 空检查
         if (triggerBuilder == null) throw new ArgumentNullException(nameof(triggerBuilder));
@@ -156,7 +186,7 @@ internal sealed partial class Scheduler
         if (!succeed)
         {
             trigger = default;
-            return succeed;
+            return ScheduleResult.Fail;
         }
 
         // 记录作业调度计划状态
@@ -166,7 +196,7 @@ internal sealed partial class Scheduler
         Factory?.CancelSleep();
 
         trigger = internalTrigger;
-        return succeed;
+        return ScheduleResult.Succeed;
     }
 
     /// <summary>
@@ -183,17 +213,18 @@ internal sealed partial class Scheduler
     /// </summary>
     /// <param name="triggerId">作业触发器 Id</param>
     /// <param name="trigger">作业触发器</param>
-    /// <returns><see cref="bool"/></returns>
-    public bool TryRemoveTrigger(string triggerId, out JobTrigger trigger)
+    /// <returns><see cref="ScheduleResult"/></returns>
+    public ScheduleResult TryRemoveTrigger(string triggerId, out JobTrigger trigger)
     {
         // 空检查
         if (string.IsNullOrWhiteSpace(triggerId)) throw new ArgumentNullException(nameof(triggerId));
 
-        var succeed = Triggers.TryGetValue(triggerId, out var internalTrigger);
-        if (!succeed)
+        // 检查作业 Id 是否存在
+        var scheduleResult = TryGetTrigger(triggerId, out var internalTrigger);
+        if (scheduleResult != ScheduleResult.Succeed)
         {
             trigger = default;
-            return succeed;
+            return scheduleResult;
         }
 
         Triggers.Remove(triggerId);
@@ -205,7 +236,7 @@ internal sealed partial class Scheduler
         Factory?.CancelSleep();
 
         trigger = internalTrigger;
-        return succeed;
+        return ScheduleResult.Succeed;
     }
 
     /// <summary>
@@ -227,5 +258,15 @@ internal sealed partial class Scheduler
             // 记录作业调度计划状态
             Factory?.Shorthand(JobDetail, trigger);
         }
+    }
+
+    /// <summary>
+    /// 检查作业触发器是否存在
+    /// </summary>
+    /// <param name="triggerId">作业触发器 Id</param>
+    /// <returns><see cref="bool"/></returns>
+    public bool ContainsTrigger(string triggerId)
+    {
+        return TryGetTrigger(triggerId, out _) == ScheduleResult.Succeed;
     }
 }

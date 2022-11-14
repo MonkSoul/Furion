@@ -56,12 +56,27 @@ public interface IScheduler
     void PauseTrigger(string triggerId);
 
     /// <summary>
+    /// 查找作业触发器
+    /// </summary>
+    /// <param name="triggerId">作业触发器 Id</param>
+    /// <param name="trigger">作业触发器</param>
+    /// <returns><see cref="ScheduleResult"/></returns>
+    ScheduleResult TryGetTrigger(string triggerId, out JobTrigger trigger);
+
+    /// <summary>
+    /// 查找作业触发器
+    /// </summary>
+    /// <param name="triggerId">作业触发器 Id</param>
+    /// <returns><see cref="JobTrigger"/></returns>
+    JobTrigger GetTrigger(string triggerId);
+
+    /// <summary>
     /// 添加作业触发器
     /// </summary>
     /// <param name="triggerBuilder">作业触发器构建器</param>
     /// <param name="trigger">作业触发器</param>
-    /// <returns><see cref="bool"/></returns>
-    bool TryAddTrigger(TriggerBuilder triggerBuilder, out JobTrigger trigger);
+    /// <returns><see cref="ScheduleResult"/></returns>
+    ScheduleResult TryAddTrigger(TriggerBuilder triggerBuilder, out JobTrigger trigger);
 
     /// <summary>
     /// 添加作业触发器
@@ -74,8 +89,8 @@ public interface IScheduler
     /// </summary>
     /// <param name="triggerId">作业触发器 Id</param>
     /// <param name="trigger">作业触发器</param>
-    /// <returns><see cref="bool"/></returns>
-    bool TryRemoveTrigger(string triggerId, out JobTrigger trigger);
+    /// <returns><see cref="ScheduleResult"/></returns>
+    ScheduleResult TryRemoveTrigger(string triggerId, out JobTrigger trigger);
 
     /// <summary>
     /// 删除作业触发器

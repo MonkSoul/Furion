@@ -38,8 +38,8 @@ public partial interface ISchedulerFactory
     /// </summary>
     /// <param name="jobId">作业 Id</param>
     /// <param name="scheduler">作业调度计划</param>
-    /// <returns><see cref="bool"/></returns>
-    bool TryGetJob(string jobId, out IScheduler scheduler);
+    /// <returns><see cref="ScheduleResult"/></returns>
+    ScheduleResult TryGetJob(string jobId, out IScheduler scheduler);
 
     /// <summary>
     /// 获取作业
@@ -53,8 +53,8 @@ public partial interface ISchedulerFactory
     /// </summary>
     /// <param name="schedulerBuilder">作业调度计划构建器</param>
     /// <param name="scheduler">作业调度计划</param>
-    /// <returns><see cref="bool"/></returns>
-    bool TryAddJob(SchedulerBuilder schedulerBuilder, out IScheduler scheduler);
+    /// <returns><see cref="ScheduleResult"/></returns>
+    ScheduleResult TryAddJob(SchedulerBuilder schedulerBuilder, out IScheduler scheduler);
 
     /// <summary>
     /// 添加作业
@@ -68,8 +68,8 @@ public partial interface ISchedulerFactory
     /// <param name="jobBuilder">作业信息构建器</param>
     /// <param name="triggerBuilders">作业触发器构建器集合</param>
     /// <param name="scheduler">作业调度计划</param>
-    /// <returns><see cref="bool"/></returns>
-    bool TryAddJob(JobBuilder jobBuilder, TriggerBuilder[] triggerBuilders, out IScheduler scheduler);
+    /// <returns><see cref="ScheduleResult"/></returns>
+    ScheduleResult TryAddJob(JobBuilder jobBuilder, TriggerBuilder[] triggerBuilders, out IScheduler scheduler);
 
     /// <summary>
     /// 添加作业
@@ -84,8 +84,8 @@ public partial interface ISchedulerFactory
     /// <typeparam name="TJob"><see cref="IJob"/> 实现类型</typeparam>
     /// <param name="triggerBuilders">作业触发器构建器集合</param>
     /// <param name="scheduler">作业调度计划</param>
-    /// <remarks><see cref="bool"/></remarks>
-    bool TryAddJob<TJob>(TriggerBuilder[] triggerBuilders, out IScheduler scheduler)
+    /// <remarks><see cref="ScheduleResult"/></remarks>
+    ScheduleResult TryAddJob<TJob>(TriggerBuilder[] triggerBuilders, out IScheduler scheduler)
         where TJob : class, IJob;
 
     /// <summary>
@@ -103,8 +103,8 @@ public partial interface ISchedulerFactory
     /// <param name="jobId">作业 Id</param>
     /// <param name="triggerBuilders">作业触发器构建器集合</param>
     /// <param name="scheduler">作业调度计划</param>
-    /// <returns><see cref="bool"/></returns>
-    bool TryAddJob<TJob>(string jobId, TriggerBuilder[] triggerBuilders, out IScheduler scheduler)
+    /// <returns><see cref="ScheduleResult"/></returns>
+    ScheduleResult TryAddJob<TJob>(string jobId, TriggerBuilder[] triggerBuilders, out IScheduler scheduler)
         where TJob : class, IJob;
 
     /// <summary>
@@ -124,8 +124,8 @@ public partial interface ISchedulerFactory
     /// <param name="concurrent">是否采用并发执行</param>
     /// <param name="triggerBuilders">作业触发器构建器集合</param>
     /// <param name="scheduler">作业调度计划</param>
-    /// <returns><see cref="bool"/></returns>
-    bool TryAddJob<TJob>(string jobId, bool concurrent, TriggerBuilder[] triggerBuilders, out IScheduler scheduler)
+    /// <returns><see cref="ScheduleResult"/></returns>
+    ScheduleResult TryAddJob<TJob>(string jobId, bool concurrent, TriggerBuilder[] triggerBuilders, out IScheduler scheduler)
         where TJob : class, IJob;
 
     /// <summary>
@@ -143,8 +143,8 @@ public partial interface ISchedulerFactory
     /// </summary>
     /// <param name="jobId">作业 Id</param>
     /// <param name="scheduler">作业调度计划</param>
-    /// <returns><see cref="bool"/></returns>
-    bool TryRemoveJob(string jobId, out IScheduler scheduler);
+    /// <returns><see cref="ScheduleResult"/></returns>
+    ScheduleResult TryRemoveJob(string jobId, out IScheduler scheduler);
 
     /// <summary>
     /// 删除作业
