@@ -301,6 +301,29 @@ internal sealed partial class SchedulerFactory
     }
 
     /// <summary>
+    /// 删除作业
+    /// </summary>
+    /// <param name="scheduler">作业调度计划</param>
+    /// <returns><see cref="ScheduleResult"/></returns>
+    public ScheduleResult TryRemoveJob(IScheduler scheduler)
+    {
+        // 空检查
+        if (scheduler == null) throw new ArgumentNullException(nameof(scheduler));
+
+        var internalScheduler = (Scheduler)scheduler;
+        return TryRemoveJob(internalScheduler.JobId, out _);
+    }
+
+    /// <summary>
+    /// 删除作业
+    /// </summary>
+    /// <param name="scheduler">作业调度计划</param>
+    public void RemoveJob(IScheduler scheduler)
+    {
+        _ = TryRemoveJob(scheduler);
+    }
+
+    /// <summary>
     /// 检查作业是否存在
     /// </summary>
     /// <param name="jobId">作业 Id</param>
@@ -308,5 +331,99 @@ internal sealed partial class SchedulerFactory
     public bool ContainsJob(string jobId)
     {
         return TryGetJob(jobId, out _) == ScheduleResult.Succeed;
+    }
+
+    /// <summary>
+    /// 启动所有作业
+    /// </summary>
+    public void StartAll()
+    {
+        var schedulers = GetJobs();
+
+        foreach (var scheduler in schedulers)
+        {
+            scheduler.Start();
+        }
+    }
+
+    /// <summary>
+    /// 暂停所有作业
+    /// </summary>
+    public void PauseAll()
+    {
+        var schedulers = GetJobs();
+
+        foreach (var scheduler in schedulers)
+        {
+            scheduler.Pause();
+        }
+    }
+
+    /// <summary>
+    /// 删除所有作业
+    /// </summary>
+    public void RemoveAll()
+    {
+        var schedulers = GetJobs();
+
+        foreach (var scheduler in schedulers)
+        {
+            scheduler.Remove();
+        }
+    }
+
+    /// <summary>
+    /// 查找所有作业组作业
+    /// </summary>
+    /// <param name="group">作业组名称</param>
+    /// <returns><see cref="IEnumerable{IScheduler}"/></returns>
+    public IEnumerable<IScheduler> GetGroupJobs(string group)
+    {
+        // 空检查
+        if (string.IsNullOrWhiteSpace(group)) throw new ArgumentNullException(nameof(group));
+
+        return _schedulers.Values.Where(u => u.GroupName == group);
+    }
+
+    /// <summary>
+    /// 启动所有作业组作业
+    /// </summary>
+    /// <param name="group">作业组名称</param>
+    public void StartGroup(string group)
+    {
+        var schedulers = GetGroupJobs(group);
+
+        foreach (var scheduler in schedulers)
+        {
+            scheduler.Start();
+        }
+    }
+
+    /// <summary>
+    /// 暂停所有作业组作业
+    /// </summary>
+    /// <param name="group">作业组名称</param>
+    public void PauseGroup(string group)
+    {
+        var schedulers = GetGroupJobs(group);
+
+        foreach (var scheduler in schedulers)
+        {
+            scheduler.Pause();
+        }
+    }
+
+    /// <summary>
+    /// 删除所有作业组作业
+    /// </summary>
+    /// <param name="group">作业组名称</param>
+    public void RemoveGroup(string group)
+    {
+        var schedulers = GetGroupJobs(group);
+
+        foreach (var scheduler in schedulers)
+        {
+            scheduler.Remove();
+        }
     }
 }

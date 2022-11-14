@@ -153,9 +153,62 @@ public partial interface ISchedulerFactory
     void RemoveJob(string jobId);
 
     /// <summary>
+    /// 删除作业
+    /// </summary>
+    /// <param name="scheduler">作业调度计划</param>
+    /// <returns><see cref="ScheduleResult"/></returns>
+    ScheduleResult TryRemoveJob(IScheduler scheduler);
+
+    /// <summary>
+    /// 删除作业
+    /// </summary>
+    /// <param name="scheduler">作业调度计划</param>
+    void RemoveJob(IScheduler scheduler);
+
+    /// <summary>
     /// 检查作业是否存在
     /// </summary>
     /// <param name="jobId">作业 Id</param>
     /// <returns><see cref="bool"/></returns>
     bool ContainsJob(string jobId);
+
+    /// <summary>
+    /// 启动所有作业
+    /// </summary>
+    void StartAll();
+
+    /// <summary>
+    /// 暂停所有作业
+    /// </summary>
+    void PauseAll();
+
+    /// <summary>
+    /// 删除所有作业
+    /// </summary>
+    void RemoveAll();
+
+    /// <summary>
+    /// 查找所有作业组作业
+    /// </summary>
+    /// <param name="group">作业组名称</param>
+    /// <returns><see cref="IEnumerable{IScheduler}"/></returns>
+    IEnumerable<IScheduler> GetGroupJobs(string group);
+
+    /// <summary>
+    /// 启动所有作业组作业
+    /// </summary>
+    /// <param name="group">作业组名称</param>
+    void StartGroup(string group);
+
+    /// <summary>
+    /// 暂停所有作业组作业
+    /// </summary>
+    /// <param name="group">作业组名称</param>
+    void PauseGroup(string group);
+
+    /// <summary>
+    /// 删除所有作业组作业
+    /// </summary>
+    /// <param name="group">作业组名称</param>
+    void RemoveGroup(string group);
 }

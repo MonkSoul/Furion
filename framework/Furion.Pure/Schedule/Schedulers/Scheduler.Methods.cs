@@ -269,4 +269,25 @@ internal sealed partial class Scheduler
     {
         return TryGetTrigger(triggerId, out _) == ScheduleResult.Succeed;
     }
+
+    /// <summary>
+    /// 将当前作业调度计划从调度器中删除
+    /// </summary>
+    /// <param name="scheduler">作业调度计划</param>
+    /// <remarks><see cref="ScheduleResult"/></remarks>
+    public ScheduleResult TryRemove(out IScheduler scheduler)
+    {
+        scheduler = this;
+
+        var scheduleResult = Factory?.TryRemoveJob(this);
+        return scheduleResult == null ? ScheduleResult.Fail : scheduleResult.Value;
+    }
+
+    /// <summary>
+    /// 将当前作业调度计划从调度器中删除
+    /// </summary>
+    public void Remove()
+    {
+        _ = TryRemove(out _);
+    }
 }

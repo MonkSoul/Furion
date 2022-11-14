@@ -102,4 +102,23 @@ public interface IScheduler
     /// 强制触发持久化记录
     /// </summary>
     void Persist();
+
+    /// <summary>
+    /// 检查作业触发器是否存在
+    /// </summary>
+    /// <param name="triggerId">作业触发器 Id</param>
+    /// <returns><see cref="bool"/></returns>
+    bool ContainsTrigger(string triggerId);
+
+    /// <summary>
+    /// 将当前作业调度计划从调度器中删除
+    /// </summary>
+    /// <param name="scheduler">作业调度计划</param>
+    /// <remarks><see cref="ScheduleResult"/></remarks>
+    ScheduleResult TryRemove(out IScheduler scheduler);
+
+    /// <summary>
+    /// 将当前作业调度计划从调度器中删除
+    /// </summary>
+    void Remove();
 }

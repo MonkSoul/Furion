@@ -114,7 +114,7 @@ public sealed class SchedulerBuilder
     /// 标记作业调度计划为删除行为
     /// </summary>
     /// <returns></returns>
-    public SchedulerBuilder Removed()
+    public SchedulerBuilder Remove()
     {
         Behavior = PersistenceBehavior.RemoveJob;
         return this;
