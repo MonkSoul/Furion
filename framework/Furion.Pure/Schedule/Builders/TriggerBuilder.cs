@@ -344,6 +344,9 @@ public sealed class TriggerBuilder : JobTrigger
         // 空检查
         if (string.IsNullOrWhiteSpace(jobId)) throw new ArgumentNullException(nameof(jobId));
 
+        // 检查 StartTime 和 EndTime 的关系，StartTime 不能大于 EndTime
+        if (StartTime != null && EndTime != null && StartTime.Value > EndTime.Value) throw new InvalidOperationException("The start time cannot be greater than the end time.");
+
         JobId = jobId;
 
         // 判断是否带参数
