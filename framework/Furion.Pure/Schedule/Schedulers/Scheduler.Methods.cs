@@ -28,6 +28,15 @@ namespace Furion.Schedule;
 internal sealed partial class Scheduler
 {
     /// <summary>
+    /// 将作业调度计划转换为构建器
+    /// </summary>
+    /// <returns><see cref="SchedulerBuilder"/></returns>
+    public SchedulerBuilder ToBuilder()
+    {
+        return SchedulerBuilder.From(this);
+    }
+
+    /// <summary>
     /// 启动作业
     /// </summary>
     public void Start()
@@ -161,6 +170,15 @@ internal sealed partial class Scheduler
     }
 
     /// <summary>
+    /// 添加作业触发器
+    /// </summary>
+    /// <param name="triggerBuilder">作业触发器构建器</param>
+    public void AddTrigger(TriggerBuilder triggerBuilder)
+    {
+        _ = TryAddTrigger(triggerBuilder, out _);
+    }
+
+    /// <summary>
     /// 删除作业触发器
     /// </summary>
     /// <param name="triggerId">作业触发器 Id</param>
@@ -188,6 +206,15 @@ internal sealed partial class Scheduler
 
         trigger = internalTrigger;
         return succeed;
+    }
+
+    /// <summary>
+    /// 删除作业触发器
+    /// </summary>
+    /// <param name="triggerId">作业触发器 Id</param>
+    public void RemoveTrigger(string triggerId)
+    {
+        _ = TryRemoveTrigger(triggerId, out _);
     }
 
     /// <summary>

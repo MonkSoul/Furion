@@ -28,6 +28,12 @@ namespace Furion.Schedule;
 public interface IScheduler
 {
     /// <summary>
+    /// 将作业调度计划转换为构建器
+    /// </summary>
+    /// <returns><see cref="SchedulerBuilder"/></returns>
+    SchedulerBuilder ToBuilder();
+
+    /// <summary>
     /// 启动作业
     /// </summary>
     void Start();
@@ -58,12 +64,24 @@ public interface IScheduler
     bool TryAddTrigger(TriggerBuilder triggerBuilder, out JobTrigger trigger);
 
     /// <summary>
+    /// 添加作业触发器
+    /// </summary>
+    /// <param name="triggerBuilder">作业触发器构建器</param>
+    void AddTrigger(TriggerBuilder triggerBuilder);
+
+    /// <summary>
     /// 删除作业触发器
     /// </summary>
     /// <param name="triggerId">作业触发器 Id</param>
     /// <param name="trigger">作业触发器</param>
     /// <returns><see cref="bool"/></returns>
     bool TryRemoveTrigger(string triggerId, out JobTrigger trigger);
+
+    /// <summary>
+    /// 删除作业触发器
+    /// </summary>
+    /// <param name="triggerId">作业触发器 Id</param>
+    void RemoveTrigger(string triggerId);
 
     /// <summary>
     /// 强制触发持久化记录
