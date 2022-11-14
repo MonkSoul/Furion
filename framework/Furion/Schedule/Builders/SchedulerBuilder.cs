@@ -121,6 +121,27 @@ public sealed class SchedulerBuilder
     }
 
     /// <summary>
+    /// 获取作业信息构建器
+    /// </summary>
+    /// <returns><see cref="JobBuilder"/></returns>
+    public JobBuilder GetDetail()
+    {
+        return JobBuilder;
+    }
+
+    /// <summary>
+    /// 获取作业触发器构建器
+    /// </summary>
+    /// <returns><see cref="TriggerBuilder"/></returns>
+    public TriggerBuilder GetTrigger(string triggerId)
+    {
+        // 空检查
+        if (string.IsNullOrWhiteSpace(triggerId)) throw new ArgumentNullException(nameof(triggerId));
+
+        return TriggerBuilders.SingleOrDefault(t => t.TriggerId == triggerId);
+    }
+
+    /// <summary>
     /// 将 <see cref="Scheduler"/> 转换成 <see cref="SchedulerBuilder"/>
     /// </summary>
     /// <param name="scheduler">作业调度计划</param>
