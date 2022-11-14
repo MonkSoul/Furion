@@ -34,6 +34,18 @@ public interface IScheduler
     SchedulerBuilder ToBuilder();
 
     /// <summary>
+    /// 获取作业信息构建器
+    /// </summary>
+    /// <returns><see cref="JobBuilder"/></returns>
+    JobBuilder GetDetailBuilder();
+
+    /// <summary>
+    /// 获取作业触发器构建器
+    /// </summary>
+    /// <returns><see cref="TriggerBuilder"/></returns>
+    TriggerBuilder GetTriggerBuilder(string triggerId);
+
+    /// <summary>
     /// 启动作业
     /// </summary>
     void Start();
@@ -83,6 +95,20 @@ public interface IScheduler
     /// </summary>
     /// <param name="triggerBuilder">作业触发器构建器</param>
     void AddTrigger(TriggerBuilder triggerBuilder);
+
+    /// <summary>
+    /// 更新作业触发器
+    /// </summary>
+    /// <param name="triggerBuilder">作业触发器构建器</param>
+    /// <param name="trigger">作业触发器</param>
+    /// <returns><see cref="ScheduleResult"/></returns>
+    ScheduleResult TryUpdateTrigger(TriggerBuilder triggerBuilder, out JobTrigger trigger);
+
+    /// <summary>
+    /// 更新作业触发器
+    /// </summary>
+    /// <param name="triggerBuilder">作业触发器构建器</param>
+    void UpdateTrigger(TriggerBuilder triggerBuilder);
 
     /// <summary>
     /// 删除作业触发器

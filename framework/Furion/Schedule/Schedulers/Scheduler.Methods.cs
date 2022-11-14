@@ -37,6 +37,34 @@ internal sealed partial class Scheduler
     }
 
     /// <summary>
+    /// 获取作业信息构建器
+    /// </summary>
+    /// <returns><see cref="JobBuilder"/></returns>
+    public JobBuilder GetDetailBuilder()
+    {
+        return JobBuilder.From(JobDetail);
+    }
+
+    /// <summary>
+    /// 获取作业触发器构建器
+    /// </summary>
+    /// <returns><see cref="TriggerBuilder"/></returns>
+    public TriggerBuilder GetTriggerBuilder(string triggerId)
+    {
+        // 空检查
+        if (string.IsNullOrWhiteSpace(triggerId)) throw new ArgumentNullException(nameof(triggerId));
+
+        // 检查作业触发器 Id 是否存在
+        var scheduleResult = TryGetTrigger(triggerId, out var internalTrigger);
+        if (scheduleResult != ScheduleResult.Succeed)
+        {
+            return TriggerBuilder.From(internalTrigger);
+        }
+
+        return null;
+    }
+
+    /// <summary>
     /// 启动作业
     /// </summary>
     public void Start()
@@ -209,6 +237,54 @@ internal sealed partial class Scheduler
     }
 
     /// <summary>
+    /// 更新作业触发器
+    /// </summary>
+    /// <param name="triggerBuilder">作业触发器构建器</param>
+    /// <param name="trigger">作业触发器</param>
+    /// <returns><see cref="ScheduleResult"/></returns>
+    public ScheduleResult TryUpdateTrigger(TriggerBuilder triggerBuilder, out JobTrigger trigger)
+    {
+        // 空检查
+        if (triggerBuilder == null) throw new ArgumentNullException(nameof(triggerBuilder));
+
+        var triggerId = triggerBuilder.TriggerId;
+        if (string.IsNullOrWhiteSpace(triggerId)) throw new ArgumentException(nameof(triggerId));
+
+        // 检查作业触发器 Id 是否存在
+        var scheduleResult = TryGetTrigger(triggerId, out _);
+        if (scheduleResult != ScheduleResult.Succeed)
+        {
+            trigger = default;
+            return scheduleResult;
+        }
+
+        // 从当前作业触发器中移除
+        Triggers.Remove(triggerId);
+
+        // 添加新的作业触发器
+        var internalTrigger = triggerBuilder.Build(JobDetail.JobId);
+        internalTrigger.NextRunTime = internalTrigger.GetNextRunTime();
+
+        // 记录作业调度计划状态
+        Factory?.Shorthand(JobDetail, internalTrigger);
+
+        // 取消作业调度器休眠状态（强制唤醒）
+        Factory?.CancelSleep();
+
+        trigger = internalTrigger;
+        return ScheduleResult.Succeed;
+    }
+
+    /// <summary>
+    /// 更新作业触发器
+    /// </summary>
+    /// <param name="triggerBuilder">作业触发器构建器</param>
+    public void UpdateTrigger(TriggerBuilder triggerBuilder)
+    {
+        _ = TryUpdateTrigger(triggerBuilder, out _);
+    }
+
+    /// <summary>
     /// 删除作业触发器
     /// </summary>
     /// <param name="triggerId">作业触发器 Id</param>
@@ -219,7 +295,7 @@ internal sealed partial class Scheduler
         // 空检查
         if (string.IsNullOrWhiteSpace(triggerId)) throw new ArgumentNullException(nameof(triggerId));
 
-        // 检查作业 Id 是否存在
+        // 检查作业触发器 Id 是否存在
         var scheduleResult = TryGetTrigger(triggerId, out var internalTrigger);
         if (scheduleResult != ScheduleResult.Succeed)
         {
