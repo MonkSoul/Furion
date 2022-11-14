@@ -55,10 +55,17 @@ public partial interface ISchedulerFactory
     void CancelSleep();
 
     /// <summary>
-    /// 将作业信息/触发器运行数据写入持久化
+    /// 将作业信息运行数据写入持久化
+    /// </summary>
+    /// <param name="jobDetail">作业信息</param>
+    /// <param name="behavior">作业持久化行为</param>
+    void Shorthand(JobDetail jobDetail, PersistenceBehavior behavior = PersistenceBehavior.Updated);
+
+    /// <summary>
+    /// 将作业触发器运行数据写入持久化
     /// </summary>
     /// <param name="jobDetail">作业信息</param>
     /// <param name="trigger">作业触发器</param>
     /// <param name="behavior">作业持久化行为</param>
-    void Shorthand(JobDetail jobDetail, JobTrigger trigger = null, PersistenceBehavior behavior = PersistenceBehavior.Updated);
+    void Shorthand(JobDetail jobDetail, JobTrigger trigger, PersistenceBehavior behavior = PersistenceBehavior.Updated);
 }

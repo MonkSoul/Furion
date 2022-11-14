@@ -185,12 +185,22 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory, IDisposable
     }
 
     /// <summary>
-    /// 将作业信息/触发器运行数据写入持久化
+    /// 将作业信息运行数据写入持久化
+    /// </summary>
+    /// <param name="jobDetail">作业信息</param>
+    /// <param name="behavior">作业持久化行为</param>
+    public void Shorthand(JobDetail jobDetail, PersistenceBehavior behavior = PersistenceBehavior.Updated)
+    {
+        Shorthand(jobDetail, null, behavior);
+    }
+
+    /// <summary>
+    /// 将作业触发器运行数据写入持久化
     /// </summary>
     /// <param name="jobDetail">作业信息</param>
     /// <param name="trigger">作业触发器</param>
     /// <param name="behavior">作业持久化行为</param>
-    public void Shorthand(JobDetail jobDetail, JobTrigger trigger = null, PersistenceBehavior behavior = PersistenceBehavior.Updated)
+    public void Shorthand(JobDetail jobDetail, JobTrigger trigger, PersistenceBehavior behavior = PersistenceBehavior.Updated)
     {
         if (trigger == null) jobDetail.UpdatedTime = DateTime.UtcNow;
         else trigger.UpdatedTime = DateTime.UtcNow;

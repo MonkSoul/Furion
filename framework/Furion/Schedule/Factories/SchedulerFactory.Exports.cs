@@ -122,7 +122,7 @@ internal sealed partial class SchedulerFactory
         }
 
         // 将作业信息运行数据写入持久化
-        Shorthand(internalScheduler.JobDetail, null, PersistenceBehavior.Appended);
+        Shorthand(internalScheduler.JobDetail, PersistenceBehavior.Appended);
 
         // 将作业触发器运行信息写入持久化
         foreach (var trigger in internalScheduler.Triggers.Values)
@@ -293,7 +293,7 @@ internal sealed partial class SchedulerFactory
             if (succeed)
             {
                 // 将作业信息运行数据写入持久化
-                Shorthand(internalScheduler.JobDetail, null, PersistenceBehavior.Removed);
+                Shorthand(internalScheduler.JobDetail, PersistenceBehavior.Removed);
 
                 // 逐条将作业触发器运行数据写入持久化
                 foreach (var removedTrigger in internalScheduler.Triggers.Values)
@@ -383,7 +383,7 @@ internal sealed partial class SchedulerFactory
         }
 
         // 将作业信息运行数据写入持久化
-        Shorthand(internalScheduler.JobDetail, null, PersistenceBehavior.Removed);
+        Shorthand(internalScheduler.JobDetail, PersistenceBehavior.Removed);
 
         // 逐条初始化作业触发器初始化下一次执行时间
         foreach (var removedTrigger in internalScheduler.Triggers.Values)
