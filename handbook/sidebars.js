@@ -340,5 +340,9 @@ module.exports = {
       type: "doc",
       id: "global/log",
     },
+    {
+      type: "doc",
+      id: "global/schedular",
+    },
   ],
 };
