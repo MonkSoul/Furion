@@ -56,6 +56,17 @@ internal sealed partial class SchedulerFactory
     }
 
     /// <summary>
+    /// 获取作业
+    /// </summary>
+    /// <param name="jobId">作业 Id</param>
+    /// <returns><see cref="IScheduler"/></returns>
+    public IScheduler GetJob(string jobId)
+    {
+        _ = TryGetJob(jobId, out var scheduler);
+        return scheduler;
+    }
+
+    /// <summary>
     /// 添加作业
     /// </summary>
     /// <param name="schedulerBuilder">作业调度计划构建器</param>
@@ -127,6 +138,15 @@ internal sealed partial class SchedulerFactory
     /// <summary>
     /// 添加作业
     /// </summary>
+    /// <param name="schedulerBuilder">作业调度计划构建器</param>
+    public void AddJob(SchedulerBuilder schedulerBuilder)
+    {
+        _ = TryAddJob(schedulerBuilder, out var _);
+    }
+
+    /// <summary>
+    /// 添加作业
+    /// </summary>
     /// <param name="jobBuilder">作业信息构建器</param>
     /// <param name="triggerBuilders">作业触发器构建器集合</param>
     /// <param name="scheduler">作业调度计划</param>
@@ -134,6 +154,16 @@ internal sealed partial class SchedulerFactory
     public bool TryAddJob(JobBuilder jobBuilder, TriggerBuilder[] triggerBuilders, out IScheduler scheduler)
     {
         return TryAddJob(SchedulerBuilder.Create(jobBuilder, triggerBuilders), out scheduler);
+    }
+
+    /// <summary>
+    /// 添加作业
+    /// </summary>
+    /// <param name="jobBuilder">作业信息构建器</param>
+    /// <param name="triggerBuilders">作业触发器构建器集合</param>
+    public void AddJob(JobBuilder jobBuilder, TriggerBuilder[] triggerBuilders)
+    {
+        _ = TryAddJob(jobBuilder, triggerBuilders, out var _);
     }
 
     /// <summary>
@@ -153,6 +183,17 @@ internal sealed partial class SchedulerFactory
     /// 添加作业
     /// </summary>
     /// <typeparam name="TJob"><see cref="IJob"/> 实现类型</typeparam>
+    /// <param name="triggerBuilders">作业触发器构建器集合</param>
+    public void AddJob<TJob>(TriggerBuilder[] triggerBuilders)
+         where TJob : class, IJob
+    {
+        _ = TryAddJob<TJob>(triggerBuilders, out var _);
+    }
+
+    /// <summary>
+    /// 添加作业
+    /// </summary>
+    /// <typeparam name="TJob"><see cref="IJob"/> 实现类型</typeparam>
     /// <param name="jobId">作业 Id</param>
     /// <param name="triggerBuilders">作业触发器构建器集合</param>
     /// <param name="scheduler">作业调度计划</param>
@@ -161,6 +202,18 @@ internal sealed partial class SchedulerFactory
          where TJob : class, IJob
     {
         return TryAddJob(SchedulerBuilder.Create(JobBuilder.Create<TJob>().SetJobId(jobId), triggerBuilders), out scheduler);
+    }
+
+    /// <summary>
+    /// 添加作业
+    /// </summary>
+    /// <typeparam name="TJob"><see cref="IJob"/> 实现类型</typeparam>
+    /// <param name="jobId">作业 Id</param>
+    /// <param name="triggerBuilders">作业触发器构建器集合</param>
+    public void AddJob<TJob>(string jobId, TriggerBuilder[] triggerBuilders)
+         where TJob : class, IJob
+    {
+        _ = TryAddJob<TJob>(jobId, triggerBuilders, out var _);
     }
 
     /// <summary>
@@ -178,6 +231,19 @@ internal sealed partial class SchedulerFactory
         return TryAddJob(SchedulerBuilder.Create(JobBuilder.Create<TJob>()
             .SetJobId(jobId)
             .SetConcurrent(concurrent), triggerBuilders), out scheduler);
+    }
+
+    /// <summary>
+    /// 添加作业
+    /// </summary>
+    /// <typeparam name="TJob"></typeparam>
+    /// <param name="jobId"><see cref="IJob"/> 实现类型</param>
+    /// <param name="concurrent">是否采用并发执行</param>
+    /// <param name="triggerBuilders">作业触发器构建器集合</param>
+    public void AddJob<TJob>(string jobId, bool concurrent, TriggerBuilder[] triggerBuilders)
+         where TJob : class, IJob
+    {
+        _ = TryAddJob<TJob>(jobId, concurrent, triggerBuilders, out var _);
     }
 
     /// <summary>
@@ -212,6 +278,15 @@ internal sealed partial class SchedulerFactory
 
         scheduler = internalScheduler;
         return succeed;
+    }
+
+    /// <summary>
+    /// 删除作业
+    /// </summary>
+    /// <param name="jobId">作业 Id</param>
+    public void RemoveJob(string jobId)
+    {
+        _ = TryRemoveJob(jobId, out var _);
     }
 
     /// <summary>
