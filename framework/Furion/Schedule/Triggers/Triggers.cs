@@ -57,7 +57,7 @@ public static class Triggers
     /// <returns></returns>
     public static TriggerBuilder Secondly()
     {
-        return Cron("* * * * * *", CronStringFormat.WithSeconds);
+        return Cron("@secondly");
     }
 
     /// <summary>
@@ -66,7 +66,7 @@ public static class Triggers
     /// <returns></returns>
     public static TriggerBuilder Minutely()
     {
-        return Cron("* * * * *", CronStringFormat.Default);
+        return Cron("@minutely");
     }
 
     /// <summary>
@@ -75,7 +75,7 @@ public static class Triggers
     /// <returns></returns>
     public static TriggerBuilder Hourly()
     {
-        return Cron("0 * * * *", CronStringFormat.Default);
+        return Cron("@hourly");
     }
 
     /// <summary>
@@ -84,7 +84,7 @@ public static class Triggers
     /// <returns></returns>
     public static TriggerBuilder Daily()
     {
-        return Cron("0 0 * * *", CronStringFormat.Default);
+        return Cron("@daily");
     }
 
     /// <summary>
@@ -93,7 +93,7 @@ public static class Triggers
     /// <returns></returns>
     public static TriggerBuilder Monthly()
     {
-        return Cron("0 0 1 * *", CronStringFormat.Default);
+        return Cron("@monthly");
     }
 
     /// <summary>
@@ -102,7 +102,7 @@ public static class Triggers
     /// <returns></returns>
     public static TriggerBuilder Weekly()
     {
-        return Cron("0 0 * * 0", CronStringFormat.Default);
+        return Cron("@weekly");
     }
 
     /// <summary>
@@ -111,6 +111,6 @@ public static class Triggers
     /// <returns></returns>
     public static TriggerBuilder Yearly()
     {
-        return Cron("0 0 1 1 *", CronStringFormat.Default);
+        return Cron("@yearly");
     }
 }

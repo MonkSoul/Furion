@@ -59,6 +59,37 @@ public sealed partial class Crontab
     /// <exception cref="TimeCrontabException"></exception>
     public static Crontab Parse(string expression, CronStringFormat format = CronStringFormat.Default)
     {
+        // 处理 Macro 表达式
+        if (expression.StartsWith('@'))
+        {
+            switch (expression)
+            {
+                case "@secondly":
+                    return Secondly;
+
+                case "@minutely":
+                    return Minutely;
+
+                case "@hourly":
+                    return Hourly;
+
+                case "@daily":
+                    return Daily;
+
+                case "@monthly":
+                    return Monthly;
+
+                case "@weekly":
+                    return Weekly;
+
+                case "@yearly":
+                    return Yearly;
+
+                default:
+                    break;
+            }
+        }
+
         return new Crontab
         {
             Format = format,

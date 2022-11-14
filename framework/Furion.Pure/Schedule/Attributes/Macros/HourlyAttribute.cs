@@ -20,8 +20,6 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-using Furion.TimeCrontab;
-
 namespace Furion.Schedule;
 
 /// <summary>
@@ -34,7 +32,7 @@ public sealed class HourlyAttribute : CronAttribute
     /// 构造函数
     /// </summary>
     public HourlyAttribute()
-        : base("0 * * * *", CronStringFormat.Default)
+        : base("@hourly")
     {
     }
 }

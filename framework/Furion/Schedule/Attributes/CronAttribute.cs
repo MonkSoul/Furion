@@ -35,7 +35,7 @@ public class CronAttribute : TriggerAttribute
     /// </summary>
     /// <param name="schedule">Cron 表达式</param>
     /// <param name="format">Cron 表达式格式化类型</param>
-    public CronAttribute(string schedule, CronStringFormat format)
+    public CronAttribute(string schedule, CronStringFormat format = CronStringFormat.Default)
         : base(typeof(CronTrigger)
             , schedule, (int)format)
     {
