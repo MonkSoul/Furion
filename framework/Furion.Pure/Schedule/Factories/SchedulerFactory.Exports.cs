@@ -43,8 +43,8 @@ internal sealed partial class SchedulerFactory
     /// </summary>
     /// <param name="jobId">作业 Id</param>
     /// <param name="scheduler">作业调度计划</param>
-    /// <returns><see cref="bool"/></returns>
-    public bool TryGetJob(string jobId, out IScheduler scheduler)
+    /// <returns><see cref="ScheduleResult"/></returns>
+    public ScheduleResult TryGetJob(string jobId, out IScheduler scheduler)
     {
         // 空检查
         if (string.IsNullOrWhiteSpace(jobId)) throw new ArgumentNullException(nameof(jobId));
@@ -52,7 +52,9 @@ internal sealed partial class SchedulerFactory
         var succeed = _schedulers.TryGetValue(jobId, out var internalScheduler);
         scheduler = internalScheduler;
 
-        return succeed;
+        return succeed
+            ? ScheduleResult.Succeed
+            : ScheduleResult.NotFound;
     }
 
     /// <summary>
@@ -71,8 +73,8 @@ internal sealed partial class SchedulerFactory
     /// </summary>
     /// <param name="schedulerBuilder">作业调度计划构建器</param>
     /// <param name="scheduler">作业调度计划</param>
-    /// <returns><see cref="bool"/></returns>
-    public bool TryAddJob(SchedulerBuilder schedulerBuilder, out IScheduler scheduler)
+    /// <returns><see cref="ScheduleResult"/></returns>
+    public ScheduleResult TryAddJob(SchedulerBuilder schedulerBuilder, out IScheduler scheduler)
     {
         // 空检查
         if (schedulerBuilder == null) throw new ArgumentNullException(nameof(schedulerBuilder));
@@ -87,11 +89,11 @@ internal sealed partial class SchedulerFactory
         }
 
         // 检查作业 Id 是否存在
-        var isExist = TryGetJob(jobBuilder.JobId, out _);
-        if (isExist)
+        var scheduleResult = TryGetJob(jobBuilder.JobId, out _);
+        if (scheduleResult != ScheduleResult.Succeed)
         {
             scheduler = default;
-            return false;
+            return scheduleResult;
         }
 
         // 构建作业调度计划
@@ -116,7 +118,7 @@ internal sealed partial class SchedulerFactory
         if (!succeed)
         {
             scheduler = default;
-            return succeed;
+            return ScheduleResult.Fail;
         }
 
         // 记录作业调度计划状态
@@ -132,7 +134,7 @@ internal sealed partial class SchedulerFactory
         _logger.LogInformation("The Scheduler of <{jobId}> successfully added to the schedule.", jobBuilder.JobId);
 
         scheduler = internalScheduler;
-        return succeed;
+        return ScheduleResult.Succeed;
     }
 
     /// <summary>
@@ -150,8 +152,8 @@ internal sealed partial class SchedulerFactory
     /// <param name="jobBuilder">作业信息构建器</param>
     /// <param name="triggerBuilders">作业触发器构建器集合</param>
     /// <param name="scheduler">作业调度计划</param>
-    /// <returns><see cref="bool"/></returns>
-    public bool TryAddJob(JobBuilder jobBuilder, TriggerBuilder[] triggerBuilders, out IScheduler scheduler)
+    /// <returns><see cref="ScheduleResult"/></returns>
+    public ScheduleResult TryAddJob(JobBuilder jobBuilder, TriggerBuilder[] triggerBuilders, out IScheduler scheduler)
     {
         return TryAddJob(SchedulerBuilder.Create(jobBuilder, triggerBuilders), out scheduler);
     }
@@ -172,8 +174,8 @@ internal sealed partial class SchedulerFactory
     /// <typeparam name="TJob"><see cref="IJob"/> 实现类型</typeparam>
     /// <param name="triggerBuilders">作业触发器构建器集合</param>
     /// <param name="scheduler">作业调度计划</param>
-    /// <remarks><see cref="bool"/></remarks>
-    public bool TryAddJob<TJob>(TriggerBuilder[] triggerBuilders, out IScheduler scheduler)
+    /// <remarks><see cref="ScheduleResult"/></remarks>
+    public ScheduleResult TryAddJob<TJob>(TriggerBuilder[] triggerBuilders, out IScheduler scheduler)
          where TJob : class, IJob
     {
         return TryAddJob(SchedulerBuilder.Create(JobBuilder.Create<TJob>(), triggerBuilders), out scheduler);
@@ -197,8 +199,8 @@ internal sealed partial class SchedulerFactory
     /// <param name="jobId">作业 Id</param>
     /// <param name="triggerBuilders">作业触发器构建器集合</param>
     /// <param name="scheduler">作业调度计划</param>
-    /// <returns><see cref="bool"/></returns>
-    public bool TryAddJob<TJob>(string jobId, TriggerBuilder[] triggerBuilders, out IScheduler scheduler)
+    /// <returns><see cref="ScheduleResult"/></returns>
+    public ScheduleResult TryAddJob<TJob>(string jobId, TriggerBuilder[] triggerBuilders, out IScheduler scheduler)
          where TJob : class, IJob
     {
         return TryAddJob(SchedulerBuilder.Create(JobBuilder.Create<TJob>().SetJobId(jobId), triggerBuilders), out scheduler);
@@ -224,8 +226,8 @@ internal sealed partial class SchedulerFactory
     /// <param name="concurrent">是否采用并发执行</param>
     /// <param name="triggerBuilders">作业触发器构建器集合</param>
     /// <param name="scheduler">作业调度计划</param>
-    /// <returns><see cref="bool"/></returns>
-    public bool TryAddJob<TJob>(string jobId, bool concurrent, TriggerBuilder[] triggerBuilders, out IScheduler scheduler)
+    /// <returns><see cref="ScheduleResult"/></returns>
+    public ScheduleResult TryAddJob<TJob>(string jobId, bool concurrent, TriggerBuilder[] triggerBuilders, out IScheduler scheduler)
          where TJob : class, IJob
     {
         return TryAddJob(SchedulerBuilder.Create(JobBuilder.Create<TJob>()
@@ -251,17 +253,26 @@ internal sealed partial class SchedulerFactory
     /// </summary>
     /// <param name="jobId">作业 Id</param>
     /// <param name="scheduler">作业调度计划</param>
-    /// <returns><see cref="bool"/></returns>
-    public bool TryRemoveJob(string jobId, out IScheduler scheduler)
+    /// <returns><see cref="ScheduleResult"/></returns>
+    public ScheduleResult TryRemoveJob(string jobId, out IScheduler scheduler)
     {
         // 空检查
         if (string.IsNullOrWhiteSpace(jobId)) throw new ArgumentNullException(nameof(jobId));
 
+        // 检查作业 Id 是否存在
+        var scheduleResult = TryGetJob(jobId, out _);
+        if (scheduleResult != ScheduleResult.Succeed)
+        {
+            scheduler = default;
+            return scheduleResult;
+        }
+
+        // 从集合中移除
         var succeed = _schedulers.TryRemove(jobId, out var internalScheduler);
         if (!succeed)
         {
             scheduler = default;
-            return succeed;
+            return ScheduleResult.Fail;
         }
 
         // 记录作业调度计划状态
@@ -277,7 +288,7 @@ internal sealed partial class SchedulerFactory
         _logger.LogInformation("The Scheduler of <{jobId}> has removed.", jobId);
 
         scheduler = internalScheduler;
-        return succeed;
+        return ScheduleResult.Succeed;
     }
 
     /// <summary>
@@ -296,6 +307,6 @@ internal sealed partial class SchedulerFactory
     /// <returns><see cref="bool"/></returns>
     public bool ContainsJob(string jobId)
     {
-        return TryGetJob(jobId, out _);
+        return TryGetJob(jobId, out _) == ScheduleResult.Succeed;
     }
 }
