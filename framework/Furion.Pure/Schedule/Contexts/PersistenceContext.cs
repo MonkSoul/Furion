@@ -26,26 +26,18 @@ namespace Furion.Schedule;
 /// 作业调度持久化上下文
 /// </summary>
 [SuppressSniffer]
-public sealed class PersistenceContext
+public class PersistenceContext
 {
     /// <summary>
     /// 构造函数
     /// </summary>
-    /// <param name="jobId">作业 Id</param>
-    /// <param name="triggerId">作业触发器 Id</param>
     /// <param name="jobDetail">作业信息</param>
-    /// <param name="trigger">作业触发器</param>
     /// <param name="behavior">作业持久化行为</param>
-    internal PersistenceContext(string jobId
-        , string triggerId
-        , JobDetail jobDetail
-        , JobTrigger trigger
+    internal PersistenceContext(JobDetail jobDetail
         , PersistenceBehavior behavior)
     {
-        JobId = jobId;
-        TriggerId = triggerId;
+        JobId = jobDetail.JobId;
         JobDetail = jobDetail;
-        Trigger = trigger;
         Behavior = behavior;
     }
 
@@ -55,22 +47,21 @@ public sealed class PersistenceContext
     public string JobId { get; }
 
     /// <summary>
-    /// 作业触发器 Id
-    /// </summary>
-    public string TriggerId { get; }
-
-    /// <summary>
     /// 作业信息
     /// </summary>
     public JobDetail JobDetail { get; }
 
     /// <summary>
-    /// 作业触发器
-    /// </summary>
-    public JobTrigger Trigger { get; }
-
-    /// <summary>
     /// 作业持久化行为
     /// </summary>
     public PersistenceBehavior Behavior { get; }
+
+    /// <summary>
+    /// 生成 Sql 语句
+    /// </summary>
+    /// <returns></returns>
+    public string CreateSql()
+    {
+        return string.Empty;
+    }
 }

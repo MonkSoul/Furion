@@ -20,8 +20,6 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-using System.Text.Json;
-
 namespace Furion.Schedule;
 
 /// <summary>
@@ -69,7 +67,7 @@ public partial class JobDetail
         if (string.IsNullOrWhiteSpace(key)) throw new ArgumentNullException(nameof(key));
 
         RuntimeProperties.TryAdd(key, value);
-        Properties = JsonSerializer.Serialize(RuntimeProperties);   // 无需任何序列化配置
+        Properties = Penetrates.Serialize(RuntimeProperties);
 
         return this;
     }
@@ -88,7 +86,7 @@ public partial class JobDetail
         if (RuntimeProperties.ContainsKey(key)) RuntimeProperties[key] = value;
         else RuntimeProperties.TryAdd(key, value);
 
-        Properties = JsonSerializer.Serialize(RuntimeProperties);   // 无需任何序列化配置
+        Properties = Penetrates.Serialize(RuntimeProperties);
 
         return this;
     }
@@ -106,7 +104,7 @@ public partial class JobDetail
         if (RuntimeProperties.ContainsKey(key))
         {
             RuntimeProperties.Remove(key);
-            Properties = JsonSerializer.Serialize(RuntimeProperties);   // 无需任何序列化配置
+            Properties = Penetrates.Serialize(RuntimeProperties);
         }
 
         return this;
@@ -119,7 +117,7 @@ public partial class JobDetail
     public JobDetail ClearProperties()
     {
         RuntimeProperties.Clear();
-        Properties = JsonSerializer.Serialize(RuntimeProperties);   // 无需任何序列化配置
+        Properties = Penetrates.Serialize(RuntimeProperties);
 
         return this;
     }

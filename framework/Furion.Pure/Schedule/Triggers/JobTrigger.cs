@@ -136,6 +136,11 @@ public abstract partial class JobTrigger
     public bool StartNow { get; internal set; } = true;
 
     /// <summary>
+    /// 作业触发器更新时间
+    /// </summary>
+    public DateTime? UpdatedTime { get; internal set; } = DateTime.UtcNow;
+
+    /// <summary>
     /// 作业触发器运行时类型
     /// </summary>
     internal Type RuntimeTriggerType { get; set; }

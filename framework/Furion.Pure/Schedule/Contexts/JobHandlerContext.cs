@@ -30,19 +30,15 @@ public abstract class JobHandlerContext
     /// <summary>
     /// 构造函数
     /// </summary>
-    /// <param name="jobId">作业 Id</param>
-    /// <param name="triggerId">作业触发器 Id</param>
     /// <param name="jobDetail">作业信息</param>
     /// <param name="trigger">作业触发器</param>
     /// <param name="checkTime">作业调度服务检查时间</param>
-    internal JobHandlerContext(string jobId
-        , string triggerId
-        , JobDetail jobDetail
+    internal JobHandlerContext(JobDetail jobDetail
         , JobTrigger trigger
         , DateTime checkTime)
     {
-        JobId = jobId;
-        TriggerId = triggerId;
+        JobId = jobDetail.JobId;
+        TriggerId = trigger.TriggerId;
         JobDetail = jobDetail;
         Trigger = trigger;
         CheckTime = checkTime;

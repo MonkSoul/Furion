@@ -139,6 +139,20 @@ public partial interface ISchedulerFactory
         where TJob : class, IJob;
 
     /// <summary>
+    /// 更新作业
+    /// </summary>
+    /// <param name="schedulerBuilder">作业调度计划构建器</param>
+    /// <param name="newScheduler">新的作业调度计划</param>
+    /// <returns><see cref="ScheduleResult"/></returns>
+    ScheduleResult TryUpdateJob(SchedulerBuilder schedulerBuilder, out IScheduler newScheduler);
+
+    /// <summary>
+    /// 更新作业
+    /// </summary>
+    /// <param name="schedulerBuilder">作业调度计划构建器</param>
+    void UpdateJob(SchedulerBuilder schedulerBuilder);
+
+    /// <summary>
     /// 删除作业
     /// </summary>
     /// <param name="jobId">作业 Id</param>

@@ -108,15 +108,11 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory, IDisposable
             // 获取作业调度计划构建器
             var schedulerBuilder = SchedulerBuilder.From(scheduler);
 
-            // 判断是否配置了持久化服务
-            if (Persistence != null)
-            {
-                // 加载持久化数据
-                Persistence.Preload(schedulerBuilder);
-            }
+            // 加载持久化数据
+            Persistence?.Preload(schedulerBuilder);
 
             // 更新内存中的作业调度计划
-            if (TryUpdateScheduler(schedulerBuilder, scheduler, out var _) == ScheduleResult.RemoveSucceed) continue;
+            if (TryUpdateJob(schedulerBuilder, out var _) == ScheduleResult.Removed) continue;
         }
 
         // 输出作业调度初始化日志
@@ -189,15 +185,14 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory, IDisposable
     }
 
     /// <summary>
-    /// 记录作业调度计划状态
+    /// 将作业信息运行数据写入持久化
     /// </summary>
     /// <param name="jobDetail">作业信息</param>
-    /// <param name="trigger">作业触发器</param>
     /// <param name="behavior">作业持久化行为</param>
-    public void Shorthand(JobDetail jobDetail
-        , JobTrigger trigger
-        , PersistenceBehavior behavior = PersistenceBehavior.UpdateTrigger)
+    public void Shorthand(JobDetail jobDetail, PersistenceBehavior behavior = PersistenceBehavior.Updated)
     {
+        jobDetail.UpdatedTime = DateTime.UtcNow;
+
         // 空检查
         if (Persistence == null) return;
 
@@ -207,9 +202,37 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory, IDisposable
             try
             {
                 // 创建持久化上下文
-                var context = new PersistenceContext(jobDetail.JobId
-                    , trigger.TriggerId
-                    , jobDetail
+                var context = new PersistenceContext(jobDetail, behavior);
+
+                _persistenceMessageQueue.Add(context);
+                return;
+            }
+            catch (InvalidOperationException) { }
+        }
+    }
+
+    /// <summary>
+    /// 将作业触发器运行数据写入持久化
+    /// </summary>
+    /// <param name="jobDetail">作业信息</param>
+    /// <param name="trigger">作业触发器</param>
+    /// <param name="behavior">作业持久化行为</param>
+    public void ShorthandTrigger(JobDetail jobDetail
+        , JobTrigger trigger
+        , PersistenceBehavior behavior = PersistenceBehavior.Updated)
+    {
+        trigger.UpdatedTime = DateTime.UtcNow;
+
+        // 空检查
+        if (Persistence == null) return;
+
+        // 只有队列可持续入队才写入
+        if (!_persistenceMessageQueue.IsAddingCompleted)
+        {
+            try
+            {
+                // 创建持久化上下文
+                var context = new PersistenceTriggerContext(jobDetail
                     , trigger
                     , behavior);
 
@@ -238,66 +261,6 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory, IDisposable
         }
         catch (TaskCanceledException) { }
         catch (AggregateException ex) when (ex.InnerExceptions.Count == 1 && ex.InnerExceptions[0] is TaskCanceledException) { }
-    }
-
-    /// <summary>
-    /// 更新内容中的调度计划
-    /// </summary>
-    /// <param name="schedulerBuilder">作业调度计划构建器</param>
-    /// <param name="scheduler">作业调度计划</param>
-    /// <param name="newScheduler">新的作业调度计划</param>
-    /// <returns><see cref="ScheduleResult"/></returns>
-    private ScheduleResult TryUpdateScheduler(SchedulerBuilder schedulerBuilder, Scheduler scheduler, out IScheduler newScheduler)
-    {
-        // 获取更新后的作业调度计划
-        var schedulerForUpdated = schedulerBuilder.Build();
-
-        // 处理从持久化中删除情况
-        if (schedulerBuilder != null
-            && schedulerBuilder.Behavior == PersistenceBehavior.RemoveJob)
-        {
-            // 从内存集合中移除
-            var succeed = _schedulers.TryRemove(scheduler.JobId, out _);
-
-            // 输出移除日志
-            var args = new[] { schedulerBuilder.JobBuilder.JobId };
-            newScheduler = null;
-
-            if (succeed)
-            {
-                _logger.LogWarning("The Scheduler of <{jobId}> has removed.", args);
-
-                return ScheduleResult.RemoveSucceed;
-            }
-            else
-            {
-                _logger.LogWarning("The Scheduler of <{jobId}> remove failed.", args);
-                return ScheduleResult.Fail;
-            }
-        }
-
-        // 存储作业调度计划工厂
-        schedulerForUpdated.Factory = this;
-
-        // 实例化作业处理程序
-        var jobType = schedulerForUpdated.JobDetail.RuntimeJobType;
-        schedulerForUpdated.JobHandler = (_serviceProvider.GetService(jobType)
-            ?? ActivatorUtilities.CreateInstance(_serviceProvider, jobType)) as IJob;
-
-        // 逐条初始化作业触发器初始化下一次执行时间
-        foreach (var triggerForUpdated in schedulerForUpdated.Triggers.Values)
-        {
-            triggerForUpdated.NextRunTime = triggerForUpdated.GetNextRunTime();
-
-            // 记录作业调度计划状态
-            Shorthand(schedulerForUpdated.JobDetail, triggerForUpdated);
-        }
-
-        // 更新内存作业调度计划集合
-        _schedulers.TryUpdate(schedulerForUpdated.JobId, schedulerForUpdated, scheduler);
-
-        newScheduler = schedulerForUpdated;
-        return ScheduleResult.Succeed;
     }
 
     /// <summary>
@@ -347,7 +310,13 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory, IDisposable
         {
             try
             {
-                Persistence.Persist(context);
+                // 作业触发器持久化
+                if (context is PersistenceTriggerContext triggerContext)
+                {
+                    Persistence.PersistTrigger(triggerContext);
+                }
+                // 作业信息持久化
+                else Persistence.Persist(context);
             }
             catch (Exception ex)
             {

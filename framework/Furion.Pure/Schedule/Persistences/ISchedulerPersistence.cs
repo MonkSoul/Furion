@@ -34,8 +34,14 @@ public interface ISchedulerPersistence
     void Preload(SchedulerBuilder builder);
 
     /// <summary>
-    /// 将作业调度集合持久化
+    /// 将作业信息持久化
     /// </summary>
     /// <param name="context">持久化上下文</param>
     void Persist(PersistenceContext context);
+
+    /// <summary>
+    /// 将作业触发器持久化
+    /// </summary>
+    /// <param name="context">持久化上下文</param>
+    void PersistTrigger(PersistenceTriggerContext context);
 }

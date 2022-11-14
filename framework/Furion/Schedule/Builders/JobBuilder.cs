@@ -21,7 +21,6 @@
 // SOFTWARE.
 
 using System.Reflection;
-using System.Text.Json;
 
 namespace Furion.Schedule;
 
@@ -188,7 +187,7 @@ public sealed class JobBuilder : JobDetail
     {
         if (string.IsNullOrWhiteSpace(properties)) properties = "{}";
 
-        var runtimeProperties = JsonSerializer.Deserialize<Dictionary<string, object>>(properties); // 无需任何反序列化配置
+        var runtimeProperties = Penetrates.Deserialize<Dictionary<string, object>>(properties);
         RuntimeProperties = runtimeProperties;
 
         return this;
@@ -236,16 +235,6 @@ public sealed class JobBuilder : JobDetail
     }
 
     /// <summary>
-    /// 将 <see cref="JobDetail"/> 转换成 <see cref="JobBuilder"/>
-    /// </summary>
-    /// <param name="jobDetail"></param>
-    /// <returns></returns>
-    internal static JobBuilder From(JobDetail jobDetail)
-    {
-        return jobDetail.MapTo<JobBuilder>();
-    }
-
-    /// <summary>
     /// 隐藏作业信息公开方法
     /// </summary>
     /// <param name="key">键</param>
@@ -259,6 +248,16 @@ public sealed class JobBuilder : JobDetail
     /// <param name="key">键</param>
     /// <returns>T 类型</returns>
     public new T GetProperty<T>(string key) => throw new NotImplementedException();
+
+    /// <summary>
+    /// 将 <see cref="JobDetail"/> 转换成 <see cref="JobBuilder"/>
+    /// </summary>
+    /// <param name="jobDetail"></param>
+    /// <returns></returns>
+    internal static JobBuilder From(JobDetail jobDetail)
+    {
+        return jobDetail.MapTo<JobBuilder>();
+    }
 
     /// <summary>
     /// 构建 <see cref="JobDetail"/> 对象

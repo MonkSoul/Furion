@@ -31,7 +31,7 @@ internal sealed partial class Scheduler
     /// 将作业调度计划转换为构建器
     /// </summary>
     /// <returns><see cref="SchedulerBuilder"/></returns>
-    public SchedulerBuilder ToBuilder()
+    public SchedulerBuilder GetBuilder()
     {
         return SchedulerBuilder.From(this);
     }
@@ -42,26 +42,26 @@ internal sealed partial class Scheduler
     /// <returns><see cref="JobBuilder"/></returns>
     public JobBuilder GetDetailBuilder()
     {
-        return JobBuilder.From(JobDetail);
+        return GetBuilder().GetDetail();
+    }
+
+    /// <summary>
+    /// 获取作业触发器构建器集合
+    /// </summary>
+    /// <returns><see cref="List{TriggerBuilder}"/></returns>
+    public List<TriggerBuilder> GetTriggerBuilders()
+    {
+        return GetBuilder().GetTriggers();
     }
 
     /// <summary>
     /// 获取作业触发器构建器
     /// </summary>
+    /// <param name="triggerId">作业触发器 Id</param>
     /// <returns><see cref="TriggerBuilder"/></returns>
     public TriggerBuilder GetTriggerBuilder(string triggerId)
     {
-        // 空检查
-        if (string.IsNullOrWhiteSpace(triggerId)) throw new ArgumentNullException(nameof(triggerId));
-
-        // 检查作业触发器 Id 是否存在
-        var scheduleResult = TryGetTrigger(triggerId, out var internalTrigger);
-        if (scheduleResult != ScheduleResult.Succeed)
-        {
-            return TriggerBuilder.From(internalTrigger);
-        }
-
-        return null;
+        return GetBuilder().GetTrigger(triggerId);
     }
 
     /// <summary>
@@ -83,8 +83,8 @@ internal sealed partial class Scheduler
             trigger.GetNextRunTime();
             changeCount++;
 
-            // 记录作业调度计划状态
-            Factory?.Shorthand(JobDetail, trigger);
+            // 将作业触发器运行数据写入持久化
+            Factory?.ShorthandTrigger(JobDetail, trigger);
         }
 
         // 取消作业调度器休眠状态（强制唤醒）
@@ -104,8 +104,8 @@ internal sealed partial class Scheduler
             trigger.SetStatus(TriggerStatus.Pause);
             changeCount++;
 
-            // 记录作业调度计划状态
-            Factory?.Shorthand(JobDetail, trigger);
+            // 将作业触发器运行数据写入持久化
+            Factory?.ShorthandTrigger(JobDetail, trigger);
         }
 
         // 取消作业调度器休眠状态（强制唤醒）
@@ -132,8 +132,8 @@ internal sealed partial class Scheduler
         trigger.SetStatus(TriggerStatus.Ready);
         trigger.GetNextRunTime();
 
-        // 记录作业调度计划状态
-        Factory?.Shorthand(JobDetail, trigger);
+        // 将作业触发器运行数据写入持久化
+        Factory?.ShorthandTrigger(JobDetail, trigger);
 
         // 取消作业调度器休眠状态（强制唤醒）
         Factory?.CancelSleep();
@@ -153,11 +153,47 @@ internal sealed partial class Scheduler
 
         trigger.SetStatus(TriggerStatus.Pause);
 
-        // 记录作业调度计划状态
-        Factory?.Shorthand(JobDetail, trigger);
+        // 将作业触发器运行数据写入持久化
+        Factory?.ShorthandTrigger(JobDetail, trigger);
 
         // 取消作业调度器休眠状态（强制唤醒）
         Factory?.CancelSleep();
+    }
+
+    /// <summary>
+    /// 更新作业信息
+    /// </summary>
+    /// <param name="jobBuilder">作业信息构建器</param>
+    /// <param name="jobDetail">作业信息</param>
+    /// <returns><see cref="ScheduleResult"/></returns>
+    public ScheduleResult TryUpdateDetail(JobBuilder jobBuilder, out JobDetail jobDetail)
+    {
+        // 空检查
+        if (jobBuilder == null) throw new ArgumentNullException(nameof(jobBuilder));
+
+        // 构建新的作业信息
+        var internalJobDetail = jobBuilder.Build();
+        JobId = internalJobDetail.JobId;
+        GroupName = internalJobDetail.GroupName;
+        JobDetail = internalJobDetail;
+
+        // 将作业信息运行数据写入持久化
+        Factory?.Shorthand(JobDetail);
+
+        // 取消作业调度器休眠状态（强制唤醒）
+        Factory?.CancelSleep();
+
+        jobDetail = internalJobDetail;
+        return ScheduleResult.Succeed;
+    }
+
+    /// <summary>
+    /// 更新作业信息
+    /// </summary>
+    /// <param name="jobBuilder">作业信息构建器</param>
+    public void UpdateDetail(JobBuilder jobBuilder)
+    {
+        _ = TryUpdateDetail(jobBuilder, out _);
     }
 
     /// <summary>
@@ -214,11 +250,11 @@ internal sealed partial class Scheduler
         if (!succeed)
         {
             trigger = default;
-            return ScheduleResult.Fail;
+            return ScheduleResult.Failed;
         }
 
-        // 记录作业调度计划状态
-        Factory?.Shorthand(JobDetail, internalTrigger, PersistenceBehavior.AppendTrigger);
+        // 将作业触发器运行数据写入持久化
+        Factory?.ShorthandTrigger(JobDetail, internalTrigger, PersistenceBehavior.Appended);
 
         // 取消作业调度器休眠状态（强制唤醒）
         Factory?.CancelSleep();
@@ -258,15 +294,13 @@ internal sealed partial class Scheduler
             return scheduleResult;
         }
 
-        // 从当前作业触发器中移除
-        Triggers.Remove(triggerId);
-
         // 添加新的作业触发器
         var internalTrigger = triggerBuilder.Build(JobDetail.JobId);
         internalTrigger.NextRunTime = internalTrigger.GetNextRunTime();
+        Triggers[triggerId] = internalTrigger;
 
-        // 记录作业调度计划状态
-        Factory?.Shorthand(JobDetail, internalTrigger);
+        // 将作业触发器运行数据写入持久化
+        Factory?.ShorthandTrigger(JobDetail, internalTrigger);
 
         // 取消作业调度器休眠状态（强制唤醒）
         Factory?.CancelSleep();
@@ -305,8 +339,8 @@ internal sealed partial class Scheduler
 
         Triggers.Remove(triggerId);
 
-        // 记录作业调度计划状态
-        Factory?.Shorthand(JobDetail, internalTrigger, PersistenceBehavior.RemoveTrigger);
+        // 将作业触发器运行数据写入持久化
+        Factory?.ShorthandTrigger(JobDetail, internalTrigger, PersistenceBehavior.Removed);
 
         // 取消作业调度器休眠状态（强制唤醒）
         Factory?.CancelSleep();
@@ -329,10 +363,13 @@ internal sealed partial class Scheduler
     /// </summary>
     public void Persist()
     {
+        // 将作业信息运行数据写入持久化
+        Factory?.Shorthand(JobDetail);
+
+        // 逐条将作业触发器运行数据写入持久化
         foreach (var (_, trigger) in Triggers)
         {
-            // 记录作业调度计划状态
-            Factory?.Shorthand(JobDetail, trigger);
+            Factory?.ShorthandTrigger(JobDetail, trigger);
         }
     }
 
@@ -356,7 +393,7 @@ internal sealed partial class Scheduler
         scheduler = this;
 
         var scheduleResult = Factory?.TryRemoveJob(this);
-        return scheduleResult == null ? ScheduleResult.Fail : scheduleResult.Value;
+        return scheduleResult == null ? ScheduleResult.Failed : scheduleResult.Value;
     }
 
     /// <summary>

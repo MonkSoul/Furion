@@ -42,17 +42,17 @@ public sealed class SchedulerBuilder
     /// <summary>
     /// 标记作业调度计划持久化行为
     /// </summary>
-    internal PersistenceBehavior Behavior { get; set; } = PersistenceBehavior.UpdateJob;
+    internal PersistenceBehavior Behavior { get; set; } = PersistenceBehavior.Updated;
 
     /// <summary>
     /// 作业信息构建器
     /// </summary>
-    public JobBuilder JobBuilder { get; private set; }
+    internal JobBuilder JobBuilder { get; private set; }
 
     /// <summary>
     /// 作业触发器构建器集合
     /// </summary>
-    public List<TriggerBuilder> TriggerBuilders { get; private set; } = new();
+    internal List<TriggerBuilder> TriggerBuilders { get; private set; } = new();
 
     /// <summary>
     /// 创建作业调度程序构建器
@@ -106,7 +106,7 @@ public sealed class SchedulerBuilder
     /// <returns></returns>
     public SchedulerBuilder Update()
     {
-        Behavior = PersistenceBehavior.UpdateJob;
+        Behavior = PersistenceBehavior.Updated;
         return this;
     }
 
@@ -116,7 +116,7 @@ public sealed class SchedulerBuilder
     /// <returns></returns>
     public SchedulerBuilder Remove()
     {
-        Behavior = PersistenceBehavior.RemoveJob;
+        Behavior = PersistenceBehavior.Removed;
         return this;
     }
 
@@ -127,6 +127,15 @@ public sealed class SchedulerBuilder
     public JobBuilder GetDetail()
     {
         return JobBuilder;
+    }
+
+    /// <summary>
+    /// 获取作业触发器构建器集合
+    /// </summary>
+    /// <returns><see cref="List{TriggerBuilder}"/></returns>
+    public List<TriggerBuilder> GetTriggers()
+    {
+        return TriggerBuilders;
     }
 
     /// <summary>

@@ -31,7 +31,7 @@ public interface IScheduler
     /// 将作业调度计划转换为构建器
     /// </summary>
     /// <returns><see cref="SchedulerBuilder"/></returns>
-    SchedulerBuilder ToBuilder();
+    SchedulerBuilder GetBuilder();
 
     /// <summary>
     /// 获取作业信息构建器
@@ -40,8 +40,15 @@ public interface IScheduler
     JobBuilder GetDetailBuilder();
 
     /// <summary>
+    /// 获取作业触发器构建器集合
+    /// </summary>
+    /// <returns><see cref="List{TriggerBuilder}"/></returns>
+    List<TriggerBuilder> GetTriggerBuilders();
+
+    /// <summary>
     /// 获取作业触发器构建器
     /// </summary>
+    /// <param name="triggerId">作业触发器 Id</param>
     /// <returns><see cref="TriggerBuilder"/></returns>
     TriggerBuilder GetTriggerBuilder(string triggerId);
 
@@ -66,6 +73,20 @@ public interface IScheduler
     /// </summary>
     /// <param name="triggerId">作业触发器 Id</param>
     void PauseTrigger(string triggerId);
+
+    /// <summary>
+    /// 更新作业信息
+    /// </summary>
+    /// <param name="jobBuilder">作业信息构建器</param>
+    /// <param name="jobDetail">作业信息</param>
+    /// <returns><see cref="ScheduleResult"/></returns>
+    ScheduleResult TryUpdateDetail(JobBuilder jobBuilder, out JobDetail jobDetail);
+
+    /// <summary>
+    /// 更新作业信息
+    /// </summary>
+    /// <param name="jobBuilder">作业信息构建器</param>
+    void UpdateDetail(JobBuilder jobBuilder);
 
     /// <summary>
     /// 查找作业触发器

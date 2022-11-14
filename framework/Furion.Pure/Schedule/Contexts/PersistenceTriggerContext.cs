@@ -23,33 +23,33 @@
 namespace Furion.Schedule;
 
 /// <summary>
-/// 作业调度器操作结果
+/// 作业调度持久化触发器上下文
 /// </summary>
 [SuppressSniffer]
-public enum ScheduleResult
+public sealed class PersistenceTriggerContext : PersistenceContext
 {
     /// <summary>
-    /// 不存在
+    /// 构造函数
     /// </summary>
-    NotFound = 0,
+    /// <param name="jobDetail">作业信息</param>
+    /// <param name="trigger">作业触发器</param>
+    /// <param name="behavior">作业持久化行为</param>
+    internal PersistenceTriggerContext(JobDetail jobDetail
+        , JobTrigger trigger
+        , PersistenceBehavior behavior)
+        : base(jobDetail, behavior)
+    {
+        TriggerId = trigger.TriggerId;
+        Trigger = trigger;
+    }
 
     /// <summary>
-    /// 已存在
+    /// 作业触发器 Id
     /// </summary>
-    Exists = 1,
+    public string TriggerId { get; }
 
     /// <summary>
-    /// 成功
+    /// 作业触发器
     /// </summary>
-    Succeed = 2,
-
-    /// <summary>
-    /// 删除成功
-    /// </summary>
-    Removed = 3,
-
-    /// <summary>
-    /// 失败
-    /// </summary>
-    Failed = 4
+    public JobTrigger Trigger { get; }
 }

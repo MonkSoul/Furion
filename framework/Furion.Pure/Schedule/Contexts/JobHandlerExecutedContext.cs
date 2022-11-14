@@ -31,17 +31,13 @@ public sealed class JobHandlerExecutedContext : JobHandlerContext
     /// <summary>
     /// 构造函数
     /// </summary>
-    /// <param name="jobId">作业 Id</param>
-    /// <param name="triggerId">作业触发器 Id</param>
     /// <param name="jobDetail">作业信息</param>
     /// <param name="trigger">作业触发器</param>
     /// <param name="checkTime">作业调度服务检查时间</param>
-    internal JobHandlerExecutedContext(string jobId
-        , string triggerId
-        , JobDetail jobDetail
+    internal JobHandlerExecutedContext(JobDetail jobDetail
         , JobTrigger trigger
         , DateTime checkTime)
-        : base(jobId, triggerId, jobDetail, trigger, checkTime)
+        : base(jobDetail, trigger, checkTime)
     {
     }
 

@@ -14,8 +14,8 @@ public class TestSchedulerPersistence : ISchedulerPersistence
 
     public void Preload(SchedulerBuilder builder)
     {
-        builder.JobBuilder.SetDescription("测试作业描述");
-        builder.TriggerBuilders.ForEach(b =>
+        builder.GetDetail().SetDescription("测试作业描述");
+        builder.GetTriggers().ForEach(b =>
         {
             b.SetDescription("测试触发器描述");
         });
@@ -23,6 +23,11 @@ public class TestSchedulerPersistence : ISchedulerPersistence
 
     public void Persist(PersistenceContext context)
     {
-        _logger.LogInformation("{jobId} {triggerId} {status}", context.JobId, context.TriggerId, context.Trigger.Status);
+        _logger.LogInformation("{behavior}：{jobId} {updatedTime}", context.Behavior, context.JobId, context.JobDetail.UpdatedTime);
+    }
+
+    public void PersistTrigger(PersistenceTriggerContext context)
+    {
+        _logger.LogInformation("{behavior}：{jobId} {triggerId} {status} {updatedTime}", context.Behavior, context.JobId, context.TriggerId, context.Trigger.Status, context.Trigger.UpdatedTime);
     }
 }

@@ -20,36 +20,32 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+using System.Text.Json;
+
 namespace Furion.Schedule;
 
 /// <summary>
-/// 作业调度器操作结果
+/// 常量、公共方法配置类
 /// </summary>
-[SuppressSniffer]
-public enum ScheduleResult
+internal static class Penetrates
 {
     /// <summary>
-    /// 不存在
+    /// 序列化对象
     /// </summary>
-    NotFound = 0,
+    /// <param name="obj">对象</param>
+    /// <returns><see cref="string"/></returns>
+    internal static string Serialize(object obj)
+    {
+        return JsonSerializer.Serialize(obj);
+    }
 
     /// <summary>
-    /// 已存在
+    /// 反序列化对象
     /// </summary>
-    Exists = 1,
-
-    /// <summary>
-    /// 成功
-    /// </summary>
-    Succeed = 2,
-
-    /// <summary>
-    /// 删除成功
-    /// </summary>
-    Removed = 3,
-
-    /// <summary>
-    /// 失败
-    /// </summary>
-    Failed = 4
+    /// <param name="json">JSON 字符串</param>
+    /// <returns>T</returns>
+    internal static T Deserialize<T>(string json)
+    {
+        return JsonSerializer.Deserialize<T>(json);
+    }
 }

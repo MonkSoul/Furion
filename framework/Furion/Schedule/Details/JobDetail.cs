@@ -78,6 +78,11 @@ public partial class JobDetail
     public string Properties { get; internal set; } = "{}";
 
     /// <summary>
+    /// 作业更新时间
+    /// </summary>
+    public DateTime? UpdatedTime { get; internal set; } = DateTime.UtcNow;
+
+    /// <summary>
     /// 作业处理程序运行时类型
     /// </summary>
     internal Type RuntimeJobType { get; set; }

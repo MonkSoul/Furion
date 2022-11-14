@@ -149,8 +149,8 @@ internal sealed class ScheduleHostedService : BackgroundService
                 // 记录运行信息和计算下一个触发时间
                 trigger.Increment();
 
-                // 记录作业调度计划状态
-                _schedulerFactory.Shorthand(jobDetail, trigger);
+                // 将作业触发器运行数据写入持久化
+                _schedulerFactory.ShorthandTrigger(jobDetail, trigger);
 
                 // 记录作业执行信息
                 LogExecution(jobDetail, trigger, checkTime);
@@ -162,7 +162,7 @@ internal sealed class ScheduleHostedService : BackgroundService
                     taskFactory.StartNew(async () =>
                     {
                         // 创建执行前上下文
-                        var jobHandlerExecutingContext = new JobHandlerExecutingContext(jobId, triggerId, jobDetail, trigger, checkTime)
+                        var jobHandlerExecutingContext = new JobHandlerExecutingContext(jobDetail, trigger, checkTime)
                         {
                             ExecutingTime = UseUtcTimestamp ? DateTime.UtcNow : DateTime.Now
                         };
@@ -195,16 +195,16 @@ internal sealed class ScheduleHostedService : BackgroundService
                             // 设置触发器状态为就绪状态
                             trigger.SetStatus(TriggerStatus.Ready);
 
-                            // 记录作业调度计划状态
-                            _schedulerFactory.Shorthand(jobDetail, trigger);
+                            // 将作业触发器运行数据写入持久化
+                            _schedulerFactory.ShorthandTrigger(jobDetail, trigger);
                         }
                         catch (Exception ex)
                         {
                             // 记录错误信息，包含错误次数和运行状态
                             trigger.IncrementErrors();
 
-                            // 记录作业调度计划状态
-                            _schedulerFactory.Shorthand(jobDetail, trigger);
+                            // 将作业触发器运行数据写入持久化
+                            _schedulerFactory.ShorthandTrigger(jobDetail, trigger);
 
                             // 输出异常日志
                             _logger.LogError(ex, "Error occurred executing {jobId} {triggerId}<{trigger}>.", jobId, triggerId, trigger.ToString());
@@ -227,16 +227,13 @@ internal sealed class ScheduleHostedService : BackgroundService
                             if (!jobDetail.Concurrent)
                             {
                                 jobDetail.Blocked = false;
-
-                                // 记录作业调度计划状态
-                                _schedulerFactory.Shorthand(jobDetail, trigger, PersistenceBehavior.UpdateJob);
                             }
 
                             // 调用执行后监视器
                             if (Monitor != default)
                             {
                                 // 创建执行后上下文
-                                var jobHandlerExecutedContext = new JobHandlerExecutedContext(jobId, triggerId, jobDetail, trigger, checkTime)
+                                var jobHandlerExecutedContext = new JobHandlerExecutedContext(jobDetail, trigger, checkTime)
                                 {
                                     ExecutedTime = UseUtcTimestamp ? DateTime.UtcNow : DateTime.Now,
                                     Exception = executionException
@@ -244,6 +241,9 @@ internal sealed class ScheduleHostedService : BackgroundService
 
                                 await Monitor.OnExecutedAsync(jobHandlerExecutedContext, stoppingToken);
                             }
+
+                            // 将作业信息运行数据写入持久化
+                            _schedulerFactory.Shorthand(jobDetail);
                         }
                     }, stoppingToken);
                 });
@@ -271,8 +271,8 @@ internal sealed class ScheduleHostedService : BackgroundService
         {
             jobDetail.Blocked = true;
 
-            // 记录作业调度计划状态
-            _schedulerFactory.Shorthand(jobDetail, trigger, PersistenceBehavior.UpdateJob);
+            // 将作业信息运行数据写入持久化
+            _schedulerFactory.Shorthand(jobDetail);
 
             return false;
         }
@@ -287,8 +287,8 @@ internal sealed class ScheduleHostedService : BackgroundService
             // 记录作业执行信息
             LogExecution(jobDetail, trigger, checkTime);
 
-            // 记录作业调度计划状态
-            _schedulerFactory.Shorthand(jobDetail, trigger);
+            // 将作业触发器运行数据写入持久化
+            _schedulerFactory.ShorthandTrigger(jobDetail, trigger);
 
             return true;
         }
