@@ -84,7 +84,7 @@ internal sealed partial class Scheduler
             changeCount++;
 
             // 将作业触发器运行数据写入持久化
-            Factory?.ShorthandTrigger(JobDetail, trigger);
+            Factory?.Shorthand(JobDetail, trigger);
         }
 
         // 取消作业调度器休眠状态（强制唤醒）
@@ -105,7 +105,7 @@ internal sealed partial class Scheduler
             changeCount++;
 
             // 将作业触发器运行数据写入持久化
-            Factory?.ShorthandTrigger(JobDetail, trigger);
+            Factory?.Shorthand(JobDetail, trigger);
         }
 
         // 取消作业调度器休眠状态（强制唤醒）
@@ -133,7 +133,7 @@ internal sealed partial class Scheduler
         trigger.GetNextRunTime();
 
         // 将作业触发器运行数据写入持久化
-        Factory?.ShorthandTrigger(JobDetail, trigger);
+        Factory?.Shorthand(JobDetail, trigger);
 
         // 取消作业调度器休眠状态（强制唤醒）
         Factory?.CancelSleep();
@@ -154,7 +154,7 @@ internal sealed partial class Scheduler
         trigger.SetStatus(TriggerStatus.Pause);
 
         // 将作业触发器运行数据写入持久化
-        Factory?.ShorthandTrigger(JobDetail, trigger);
+        Factory?.Shorthand(JobDetail, trigger);
 
         // 取消作业调度器休眠状态（强制唤醒）
         Factory?.CancelSleep();
@@ -254,7 +254,7 @@ internal sealed partial class Scheduler
         }
 
         // 将作业触发器运行数据写入持久化
-        Factory?.ShorthandTrigger(JobDetail, internalTrigger, PersistenceBehavior.Appended);
+        Factory?.Shorthand(JobDetail, internalTrigger, PersistenceBehavior.Appended);
 
         // 取消作业调度器休眠状态（强制唤醒）
         Factory?.CancelSleep();
@@ -300,7 +300,7 @@ internal sealed partial class Scheduler
         Triggers[triggerId] = internalTrigger;
 
         // 将作业触发器运行数据写入持久化
-        Factory?.ShorthandTrigger(JobDetail, internalTrigger);
+        Factory?.Shorthand(JobDetail, internalTrigger);
 
         // 取消作业调度器休眠状态（强制唤醒）
         Factory?.CancelSleep();
@@ -340,7 +340,7 @@ internal sealed partial class Scheduler
         Triggers.Remove(triggerId);
 
         // 将作业触发器运行数据写入持久化
-        Factory?.ShorthandTrigger(JobDetail, internalTrigger, PersistenceBehavior.Removed);
+        Factory?.Shorthand(JobDetail, internalTrigger, PersistenceBehavior.Removed);
 
         // 取消作业调度器休眠状态（强制唤醒）
         Factory?.CancelSleep();
@@ -369,7 +369,7 @@ internal sealed partial class Scheduler
         // 逐条将作业触发器运行数据写入持久化
         foreach (var (_, trigger) in Triggers)
         {
-            Factory?.ShorthandTrigger(JobDetail, trigger);
+            Factory?.Shorthand(JobDetail, trigger);
         }
     }
 

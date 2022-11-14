@@ -122,12 +122,12 @@ internal sealed partial class SchedulerFactory
         }
 
         // 将作业信息运行数据写入持久化
-        Shorthand(internalScheduler.JobDetail, PersistenceBehavior.Appended);
+        Shorthand(internalScheduler.JobDetail, null, PersistenceBehavior.Appended);
 
         // 将作业触发器运行信息写入持久化
         foreach (var trigger in internalScheduler.Triggers.Values)
         {
-            ShorthandTrigger(internalScheduler.JobDetail, trigger, PersistenceBehavior.Appended);
+            Shorthand(internalScheduler.JobDetail, trigger, PersistenceBehavior.Appended);
         }
 
         // 取消作业调度器休眠状态（强制唤醒）
@@ -293,12 +293,12 @@ internal sealed partial class SchedulerFactory
             if (succeed)
             {
                 // 将作业信息运行数据写入持久化
-                Shorthand(internalScheduler.JobDetail, PersistenceBehavior.Removed);
+                Shorthand(internalScheduler.JobDetail, null, PersistenceBehavior.Removed);
 
                 // 逐条将作业触发器运行数据写入持久化
                 foreach (var removedTrigger in internalScheduler.Triggers.Values)
                 {
-                    ShorthandTrigger(internalScheduler.JobDetail, removedTrigger, PersistenceBehavior.Removed);
+                    Shorthand(internalScheduler.JobDetail, removedTrigger, PersistenceBehavior.Removed);
                 }
 
                 _logger.LogWarning("The Scheduler of <{jobId}> has removed.", args);
@@ -339,7 +339,7 @@ internal sealed partial class SchedulerFactory
         // 逐条将作业触发器运行数据写入持久化
         foreach (var triggerForUpdated in schedulerForUpdated.Triggers.Values)
         {
-            ShorthandTrigger(schedulerForUpdated.JobDetail, triggerForUpdated);
+            Shorthand(schedulerForUpdated.JobDetail, triggerForUpdated);
         }
 
         newScheduler = schedulerForUpdated;
@@ -383,13 +383,13 @@ internal sealed partial class SchedulerFactory
         }
 
         // 将作业信息运行数据写入持久化
-        Shorthand(internalScheduler.JobDetail, PersistenceBehavior.Removed);
+        Shorthand(internalScheduler.JobDetail, null, PersistenceBehavior.Removed);
 
         // 逐条初始化作业触发器初始化下一次执行时间
         foreach (var removedTrigger in internalScheduler.Triggers.Values)
         {
             // 将作业触发器运行数据写入持久化
-            ShorthandTrigger(internalScheduler.JobDetail, removedTrigger, PersistenceBehavior.Removed);
+            Shorthand(internalScheduler.JobDetail, removedTrigger, PersistenceBehavior.Removed);
         }
 
         // 取消作业调度器休眠状态（强制唤醒）

@@ -185,43 +185,15 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory, IDisposable
     }
 
     /// <summary>
-    /// 将作业信息运行数据写入持久化
-    /// </summary>
-    /// <param name="jobDetail">作业信息</param>
-    /// <param name="behavior">作业持久化行为</param>
-    public void Shorthand(JobDetail jobDetail, PersistenceBehavior behavior = PersistenceBehavior.Updated)
-    {
-        jobDetail.UpdatedTime = DateTime.UtcNow;
-
-        // 空检查
-        if (Persistence == null) return;
-
-        // 只有队列可持续入队才写入
-        if (!_persistenceMessageQueue.IsAddingCompleted)
-        {
-            try
-            {
-                // 创建持久化上下文
-                var context = new PersistenceContext(jobDetail, behavior);
-
-                _persistenceMessageQueue.Add(context);
-                return;
-            }
-            catch (InvalidOperationException) { }
-        }
-    }
-
-    /// <summary>
-    /// 将作业触发器运行数据写入持久化
+    /// 将作业信息/触发器运行数据写入持久化
     /// </summary>
     /// <param name="jobDetail">作业信息</param>
     /// <param name="trigger">作业触发器</param>
     /// <param name="behavior">作业持久化行为</param>
-    public void ShorthandTrigger(JobDetail jobDetail
-        , JobTrigger trigger
-        , PersistenceBehavior behavior = PersistenceBehavior.Updated)
+    public void Shorthand(JobDetail jobDetail, JobTrigger trigger = null, PersistenceBehavior behavior = PersistenceBehavior.Updated)
     {
-        trigger.UpdatedTime = DateTime.UtcNow;
+        if (trigger == null) jobDetail.UpdatedTime = DateTime.UtcNow;
+        else trigger.UpdatedTime = DateTime.UtcNow;
 
         // 空检查
         if (Persistence == null) return;
@@ -232,9 +204,9 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory, IDisposable
             try
             {
                 // 创建持久化上下文
-                var context = new PersistenceTriggerContext(jobDetail
-                    , trigger
-                    , behavior);
+                var context = trigger == null ?
+                    new PersistenceContext(jobDetail, behavior)
+                    : new PersistenceTriggerContext(jobDetail, trigger, behavior);
 
                 _persistenceMessageQueue.Add(context);
                 return;

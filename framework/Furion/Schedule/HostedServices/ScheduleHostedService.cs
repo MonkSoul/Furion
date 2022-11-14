@@ -150,7 +150,7 @@ internal sealed class ScheduleHostedService : BackgroundService
                 trigger.Increment();
 
                 // 将作业触发器运行数据写入持久化
-                _schedulerFactory.ShorthandTrigger(jobDetail, trigger);
+                _schedulerFactory.Shorthand(jobDetail, trigger);
 
                 // 记录作业执行信息
                 LogExecution(jobDetail, trigger, checkTime);
@@ -196,7 +196,7 @@ internal sealed class ScheduleHostedService : BackgroundService
                             trigger.SetStatus(TriggerStatus.Ready);
 
                             // 将作业触发器运行数据写入持久化
-                            _schedulerFactory.ShorthandTrigger(jobDetail, trigger);
+                            _schedulerFactory.Shorthand(jobDetail, trigger);
                         }
                         catch (Exception ex)
                         {
@@ -204,7 +204,7 @@ internal sealed class ScheduleHostedService : BackgroundService
                             trigger.IncrementErrors();
 
                             // 将作业触发器运行数据写入持久化
-                            _schedulerFactory.ShorthandTrigger(jobDetail, trigger);
+                            _schedulerFactory.Shorthand(jobDetail, trigger);
 
                             // 输出异常日志
                             _logger.LogError(ex, "Error occurred executing {jobId} {triggerId}<{trigger}>.", jobId, triggerId, trigger.ToString());
@@ -288,7 +288,7 @@ internal sealed class ScheduleHostedService : BackgroundService
             LogExecution(jobDetail, trigger, checkTime);
 
             // 将作业触发器运行数据写入持久化
-            _schedulerFactory.ShorthandTrigger(jobDetail, trigger);
+            _schedulerFactory.Shorthand(jobDetail, trigger);
 
             return true;
         }
