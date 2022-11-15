@@ -29,6 +29,16 @@ namespace Furion.Schedule;
 public abstract class TriggerAttribute : Attribute
 {
     /// <summary>
+    /// 私有开始时间
+    /// </summary>
+    private string _startTime;
+
+    /// <summary>
+    /// 私有结束时间
+    /// </summary>
+    private string _endTime;
+
+    /// <summary>
     /// 构造函数
     /// </summary>
     /// <param name="triggerType">作业触发器类型</param>
@@ -48,6 +58,38 @@ public abstract class TriggerAttribute : Attribute
     /// 描述信息
     /// </summary>
     public string Description { get; set; }
+
+    /// <summary>
+    /// 起始时间
+    /// </summary>
+    public string StartTime
+    {
+        get { return _startTime; }
+        set
+        {
+            _startTime = value;
+
+            // 解析运行时开始时间
+            if (string.IsNullOrWhiteSpace(value)) RuntimeStartTime = null;
+            else RuntimeStartTime = Convert.ToDateTime(value);
+        }
+    }
+
+    /// <summary>
+    /// 结束时间
+    /// </summary>
+    public string EndTime
+    {
+        get { return _endTime; }
+        set
+        {
+            _endTime = value;
+
+            // 解析运行时结束时间
+            if (string.IsNullOrWhiteSpace(value)) RuntimeEndTime = null;
+            else RuntimeEndTime = Convert.ToDateTime(value);
+        }
+    }
 
     /// <summary>
     /// 最大触发次数
@@ -87,6 +129,16 @@ public abstract class TriggerAttribute : Attribute
     /// 是否立即启动
     /// </summary>
     public bool StartNow { get; set; } = true;
+
+    /// <summary>
+    /// 起始时间
+    /// </summary>
+    internal DateTime? RuntimeStartTime { get; set; }
+
+    /// <summary>
+    /// 结束时间
+    /// </summary>
+    internal DateTime? RuntimeEndTime { get; set; }
 
     /// <summary>
     /// 作业触发器运行时类型

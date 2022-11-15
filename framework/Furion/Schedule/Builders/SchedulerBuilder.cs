@@ -91,6 +91,8 @@ public sealed class SchedulerBuilder
                     .SetNumRetries(triggerAttribute.NumRetries)
                     .SetRetryTimeout(triggerAttribute.RetryTimeout)
                     .SetLogExecution(triggerAttribute.LogExecution)
+                    .SetStartTime(triggerAttribute.RuntimeStartTime)
+                    .SetEndTime(triggerAttribute.RuntimeEndTime)
                     .SetStartNow(triggerAttribute.StartNow);
 
                 schedulerBuilder.TriggerBuilders.Add(triggerBuilder);
