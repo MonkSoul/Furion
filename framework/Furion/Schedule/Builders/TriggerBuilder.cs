@@ -107,6 +107,26 @@ public sealed class TriggerBuilder : JobTrigger
     }
 
     /// <summary>
+    /// 克隆作业触发器构建器
+    /// </summary>
+    /// <param name="fromTriggerBuilder">被克隆的作业触发器构建器</param>
+    /// <returns><see cref="TriggerBuilder"/></returns>
+    public static TriggerBuilder Clone(TriggerBuilder fromTriggerBuilder)
+    {
+        return Create(fromTriggerBuilder.RuntimeTriggerType)
+                     .WithArgs(fromTriggerBuilder.RuntimeTriggerArgs)
+                     .SetDescription(fromTriggerBuilder.Description)
+                     .SetStartTime(fromTriggerBuilder.StartTime)
+                     .SetEndTime(fromTriggerBuilder.EndTime)
+                     .SetMaxNumberOfRuns(fromTriggerBuilder.MaxNumberOfRuns)
+                     .SetMaxNumberOfErrors(fromTriggerBuilder.MaxNumberOfErrors)
+                     .SetNumRetries(fromTriggerBuilder.NumRetries)
+                     .SetRetryTimeout(fromTriggerBuilder.RetryTimeout)
+                     .SetLogExecution(fromTriggerBuilder.LogExecution)
+                     .SetStartNow(fromTriggerBuilder.StartNow);
+    }
+
+    /// <summary>
     /// 设置作业触发器 Id
     /// </summary>
     /// <param name="triggerId">作业触发器 Id</param>

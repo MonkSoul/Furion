@@ -12,13 +12,15 @@ public class TestSchedulerPersistence : ISchedulerPersistence
         _logger = logger;
     }
 
-    public void Preload(SchedulerBuilder builder)
+    public SchedulerBuilder Preload(SchedulerBuilder builder)
     {
         builder.GetDetail().SetDescription("测试作业描述");
         builder.GetTriggers().ForEach(b =>
         {
             b.SetDescription("测试触发器描述");
         });
+
+        return builder;
     }
 
     public void Persist(PersistenceContext context)

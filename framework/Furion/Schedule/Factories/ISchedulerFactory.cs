@@ -30,10 +30,7 @@ public partial interface ISchedulerFactory
     /// <summary>
     /// 作业调度器初始化
     /// </summary>
-    /// <remarks>常用于初始化</remarks>
-    /// <param name="stoppingToken">取消任务 Token</param>
-    /// <returns><see cref="Task"/></returns>
-    Task PreloadAsync(CancellationToken stoppingToken = default);
+    void Preload();
 
     /// <summary>
     /// 查找下一个触发的作业
