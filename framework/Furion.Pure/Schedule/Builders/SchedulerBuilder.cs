@@ -103,10 +103,37 @@ public sealed class SchedulerBuilder
     }
 
     /// <summary>
+    /// 克隆作业调度计划构建器（被标记为新增）
+    /// </summary>
+    /// <param name="fromSchedulerBuilder">被克隆的作业调度计划构建器</param>
+    /// <returns><see cref="ScheduleOptionsBuilder"/></returns>
+    public static SchedulerBuilder Clone(SchedulerBuilder fromSchedulerBuilder)
+    {
+        // 空检查
+        if (fromSchedulerBuilder == null) throw new ArgumentNullException(nameof(fromSchedulerBuilder));
+
+        return new SchedulerBuilder(JobBuilder.Clone(fromSchedulerBuilder.JobBuilder))
+        {
+            TriggerBuilders = fromSchedulerBuilder.TriggerBuilders.Select(t => TriggerBuilder.Clone(t)).ToList(),
+            Behavior = PersistenceBehavior.Appended
+        };
+    }
+
+    /// <summary>
+    /// 标记作业调度计划为新增行为
+    /// </summary>
+    /// <returns></returns>
+    public SchedulerBuilder Appended()
+    {
+        Behavior = PersistenceBehavior.Appended;
+        return this;
+    }
+
+    /// <summary>
     /// 标记作业调度计划为更新行为
     /// </summary>
     /// <returns></returns>
-    public SchedulerBuilder Update()
+    public SchedulerBuilder Updated()
     {
         Behavior = PersistenceBehavior.Updated;
         return this;
@@ -116,7 +143,7 @@ public sealed class SchedulerBuilder
     /// 标记作业调度计划为删除行为
     /// </summary>
     /// <returns></returns>
-    public SchedulerBuilder Remove()
+    public SchedulerBuilder Removed()
     {
         Behavior = PersistenceBehavior.Removed;
         return this;

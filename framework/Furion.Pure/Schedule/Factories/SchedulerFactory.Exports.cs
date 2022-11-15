@@ -247,8 +247,20 @@ internal sealed partial class SchedulerFactory
 
         var jobId = schedulerBuilder.JobBuilder.JobId;
 
-        // 空检查
-        if (string.IsNullOrEmpty(schedulerBuilder.JobBuilder.JobId)) throw new ArgumentNullException(nameof(jobId));
+        // 如果标记为更新或删除的作业调度计划构建器必须包含 Id
+        if ((schedulerBuilder.Behavior == PersistenceBehavior.Updated || schedulerBuilder.Behavior == PersistenceBehavior.Removed)
+            && string.IsNullOrWhiteSpace(jobId)) throw new ArgumentNullException(nameof(jobId));
+
+        // 处理从持久化中删除情况
+        if (schedulerBuilder.Behavior == PersistenceBehavior.Removed)
+        {
+            return TryRemoveJob(jobId, out newScheduler);
+        }
+        // 处理从持久化中添加情况
+        else if (schedulerBuilder.Behavior == PersistenceBehavior.Appended)
+        {
+            return TryAddJob(schedulerBuilder, out newScheduler);
+        }
 
         // 查找作业
         var scheduleResult = TryGetJob(jobId, out var scheduler);
@@ -258,41 +270,8 @@ internal sealed partial class SchedulerFactory
             return scheduleResult;
         }
 
-        var internalScheduler = (Scheduler)scheduler;
-
         // 获取更新后的作业调度计划
         var schedulerForUpdated = schedulerBuilder.Build(_schedulers.Count);
-
-        // 处理从持久化中删除情况
-        if (schedulerBuilder.Behavior == PersistenceBehavior.Removed)
-        {
-            // 从内存集合中移除
-            var succeed = _schedulers.TryRemove(jobId, out _);
-
-            // 输出移除日志
-            var args = new[] { schedulerBuilder.JobBuilder.JobId };
-            newScheduler = null;
-
-            if (succeed)
-            {
-                // 将作业信息运行数据写入持久化
-                Shorthand(internalScheduler.JobDetail, PersistenceBehavior.Removed);
-
-                // 逐条将作业触发器运行数据写入持久化
-                foreach (var removedTrigger in internalScheduler.Triggers.Values)
-                {
-                    Shorthand(internalScheduler.JobDetail, removedTrigger, PersistenceBehavior.Removed);
-                }
-
-                _logger.LogWarning("The Scheduler of <{jobId}> has removed.", args);
-                return ScheduleResult.Removed;
-            }
-            else
-            {
-                _logger.LogWarning("The Scheduler of <{jobId}> remove failed.", args);
-                return ScheduleResult.Failed;
-            }
-        }
 
         // 存储作业调度计划工厂
         schedulerForUpdated.Factory = this;
@@ -309,7 +288,7 @@ internal sealed partial class SchedulerFactory
         }
 
         // 更新内存作业调度计划集合
-        var updateSucceed = _schedulers.TryUpdate(internalScheduler.JobId, schedulerForUpdated, internalScheduler);
+        var updateSucceed = _schedulers.TryUpdate(jobId, schedulerForUpdated, (Scheduler)scheduler);
         if (!updateSucceed)
         {
             newScheduler = null;

@@ -94,10 +94,7 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory, IDisposable
     /// <summary>
     /// 作业调度器初始化
     /// </summary>
-    /// <remarks>常用于初始化</remarks>
-    /// <param name="stoppingToken">取消任务 Token</param>
-    /// <returns><see cref="Task"/></returns>
-    public Task PreloadAsync(CancellationToken stoppingToken = default)
+    public void Preload()
     {
         // 输出作业调度度初始化日志
         _logger.LogDebug("Schedule Hosted Service is preloading.");
@@ -109,16 +106,14 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory, IDisposable
             var schedulerBuilder = SchedulerBuilder.From(scheduler);
 
             // 加载持久化数据
-            Persistence?.Preload(schedulerBuilder);
+            var newSchedulerBuilder = Persistence?.Preload(schedulerBuilder) ?? schedulerBuilder;
 
             // 更新内存中的作业调度计划
-            if (TryUpdateJob(schedulerBuilder, out var _) == ScheduleResult.Removed) continue;
+            _ = TryUpdateJob(newSchedulerBuilder, out _);
         }
 
         // 输出作业调度初始化日志
         _logger.LogDebug("Schedule Hosted Service preload completed.");
-
-        return Task.CompletedTask;
     }
 
     /// <summary>

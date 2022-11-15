@@ -95,8 +95,8 @@ internal sealed class ScheduleHostedService : BackgroundService
         stoppingToken.Register(() =>
            _logger.LogDebug($"Schedule Hosted Service is stopping."));
 
-        // 初始化
-        await _schedulerFactory.PreloadAsync(stoppingToken);
+        // 作业调度器初始化
+        _schedulerFactory.Preload();
 
         // 监听服务是否取消
         while (!stoppingToken.IsCancellationRequested)

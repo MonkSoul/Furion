@@ -82,6 +82,21 @@ public sealed class JobBuilder : JobDetail
     }
 
     /// <summary>
+    /// 克隆作业信息构建器
+    /// </summary>
+    /// <param name="fromJobBuilder">被克隆的作业信息构建器</param>
+    /// <returns><see cref="JobBuilder"/></returns>
+    public static JobBuilder Clone(JobBuilder fromJobBuilder)
+    {
+        return Create(fromJobBuilder.RuntimeJobType)
+                     .SetGroupName(fromJobBuilder.GroupName)
+                     .SetDescription(fromJobBuilder.Description)
+                     .SetConcurrent(fromJobBuilder.Concurrent)
+                     .SetIncludeAnnotations(fromJobBuilder.IncludeAnnotations)
+                     .SetProperties(fromJobBuilder.Properties);
+    }
+
+    /// <summary>
     /// 设置作业 Id
     /// </summary>
     /// <param name="jobId">作业 Id</param>
