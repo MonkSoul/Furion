@@ -20,6 +20,8 @@ public class TestSchedulerPersistence : ISchedulerPersistence
             b.SetDescription("测试触发器描述");
         });
 
+        _logger.LogInformation(builder.ConvertToJSON());
+
         return builder;
     }
 

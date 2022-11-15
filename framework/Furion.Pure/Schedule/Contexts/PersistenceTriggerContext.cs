@@ -54,32 +54,32 @@ public sealed class PersistenceTriggerContext : PersistenceContext
     public JobTrigger Trigger { get; }
 
     /// <summary>
-    /// 生成 Sql 语句
+    /// 转换成 Sql 语句
     /// </summary>
     /// <param name="tableName">数据库表名</param>
     /// <param name="naming">命名法</param>
     /// <returns><see cref="string"/></returns>
-    public new string GenerateSQL(string tableName, NamingConventions naming = NamingConventions.CamelCase)
+    public new string ConvertToSQL(string tableName, NamingConventions naming = NamingConventions.Pascal)
     {
-        return Trigger.GenerateSQL(tableName, Behavior, naming);
+        return Trigger.ConvertToSQL(tableName, Behavior, naming);
     }
 
     /// <summary>
-    /// 生成 JSON 语句
+    /// 转换成 JSON 语句
     /// </summary>
     /// <param name="naming">命名法</param>
     /// <returns><see cref="string"/></returns>
-    public new string GenerateJSON(NamingConventions naming = NamingConventions.CamelCase)
+    public new string ConvertToJSON(NamingConventions naming = NamingConventions.Pascal)
     {
-        return Trigger.GenerateJSON(naming);
+        return Trigger.ConvertToJSON(naming);
     }
 
     /// <summary>
-    /// 生成 Monitor 字符串
+    /// 转换成 Monitor 字符串
     /// </summary>
     /// <returns><see cref="string"/></returns>
-    public new string GenerateMonitor()
+    public new string ConvertToMonitor()
     {
-        return Trigger.GenerateMonitor();
+        return Trigger.ConvertToMonitor();
     }
 }

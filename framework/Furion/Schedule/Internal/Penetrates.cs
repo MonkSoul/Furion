@@ -91,7 +91,7 @@ internal static class Penetrates
     /// <param name="propertyName"></param>
     /// <param name="naming"></param>
     /// <returns></returns>
-    internal static string GetNaming(string propertyName, NamingConventions naming = NamingConventions.CamelCase)
+    internal static string GetNaming(string propertyName, NamingConventions naming = NamingConventions.Pascal)
     {
         var words = SplitToWords(propertyName);
         var tempWords = new List<string>();

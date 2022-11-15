@@ -270,6 +270,7 @@ internal sealed partial class SchedulerFactory
             return scheduleResult;
         }
 
+        // 记录更新时间
         var updatedTime = DateTime.UtcNow;
 
         // 获取更新后的作业调度计划

@@ -57,32 +57,32 @@ public class PersistenceContext
     public PersistenceBehavior Behavior { get; }
 
     /// <summary>
-    /// 生成 Sql 语句
+    /// 转换成 Sql 语句
     /// </summary>
     /// <param name="tableName">数据库表名</param>
     /// <param name="naming">命名法</param>
     /// <returns><see cref="string"/></returns>
-    public string GenerateSQL(string tableName, NamingConventions naming = NamingConventions.CamelCase)
+    public string ConvertToSQL(string tableName, NamingConventions naming = NamingConventions.Pascal)
     {
-        return JobDetail.GenerateSQL(tableName, Behavior, naming);
+        return JobDetail.ConvertToSQL(tableName, Behavior, naming);
     }
 
     /// <summary>
-    /// 生成 JSON 语句
+    /// 转换成 JSON 语句
     /// </summary>
     /// <param name="naming">命名法</param>
     /// <returns><see cref="string"/></returns>
-    public string GenerateJSON(NamingConventions naming = NamingConventions.CamelCase)
+    public string ConvertToJSON(NamingConventions naming = NamingConventions.Pascal)
     {
-        return JobDetail.GenerateJSON(naming);
+        return JobDetail.ConvertToJSON(naming);
     }
 
     /// <summary>
-    /// 生成 Monitor 字符串
+    /// 转换成 Monitor 字符串
     /// </summary>
     /// <returns><see cref="string"/></returns>
-    public string GenerateMonitor()
+    public string ConvertToMonitor()
     {
-        return JobDetail.GenerateMonitor();
+        return JobDetail.ConvertToMonitor();
     }
 }

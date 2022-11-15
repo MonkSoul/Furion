@@ -266,6 +266,35 @@ public sealed class SchedulerBuilder
     }
 
     /// <summary>
+    /// 转换成 JSON 字符串
+    /// </summary>
+    /// <param name="naming">命名法</param>
+    /// <returns><see cref="string"/></returns>
+    public string ConvertToJSON(NamingConventions naming = NamingConventions.Pascal)
+    {
+        return Penetrates.Write(writer =>
+        {
+            writer.WriteStartObject();
+
+            // 输出 JobDetail
+            writer.WritePropertyName(Penetrates.GetNaming(nameof(JobDetail), naming));
+            writer.WriteRawValue(JobBuilder.ConvertToJSON(naming));
+
+            // 输出 JobTrigger
+            writer.WritePropertyName(Penetrates.GetNaming(nameof(JobTrigger), naming));
+
+            writer.WriteStartArray();
+            foreach (var triggerBuilder in TriggerBuilders)
+            {
+                writer.WriteRawValue(triggerBuilder.ConvertToJSON(naming));
+            }
+            writer.WriteEndArray();
+
+            writer.WriteEndObject();
+        });
+    }
+
+    /// <summary>
     /// 将 <see cref="Scheduler"/> 转换成 <see cref="SchedulerBuilder"/>
     /// </summary>
     /// <param name="scheduler">作业调度计划</param>

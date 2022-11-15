@@ -179,7 +179,7 @@ public abstract partial class JobTrigger
     /// <remarks>避免多次反射</remarks>
     /// <param name="naming">命名法</param>
     /// <returns></returns>
-    private string[] ColumnNames(NamingConventions naming = NamingConventions.CamelCase)
+    private string[] ColumnNames(NamingConventions naming = NamingConventions.Pascal)
     {
         _columnNames ??= new[]
         {
@@ -223,13 +223,13 @@ public abstract partial class JobTrigger
     }
 
     /// <summary>
-    /// 生成 Sql 语句
+    /// 转换成 Sql 语句
     /// </summary>
     /// <param name="tableName">数据库表名</param>
     /// <param name="behavior">持久化行为</param>
     /// <param name="naming">命名法</param>
     /// <returns><see cref="string"/></returns>
-    public string GenerateSQL(string tableName, PersistenceBehavior behavior, NamingConventions naming = NamingConventions.CamelCase)
+    public string ConvertToSQL(string tableName, PersistenceBehavior behavior, NamingConventions naming = NamingConventions.Pascal)
     {
         // 这里不采用反射生成
         var columnNames = ColumnNames(naming);
@@ -314,11 +314,11 @@ WHERE [{columnNames[0]}] = '{TriggerId}' AND [{columnNames[1]}] = '{JobId}';";
     }
 
     /// <summary>
-    /// 生成 JSON 字符串
+    /// 转换成 JSON 字符串
     /// </summary>
     /// <param name="naming">命名法</param>
     /// <returns><see cref="string"/></returns>
-    public string GenerateJSON(NamingConventions naming = NamingConventions.CamelCase)
+    public string ConvertToJSON(NamingConventions naming = NamingConventions.Pascal)
     {
         return Penetrates.Write(writer =>
         {
@@ -349,10 +349,10 @@ WHERE [{columnNames[0]}] = '{TriggerId}' AND [{columnNames[1]}] = '{JobId}';";
     }
 
     /// <summary>
-    /// 生成 Monitor 字符串
+    /// 转换成 Monitor 字符串
     /// </summary>
     /// <returns><see cref="string"/></returns>
-    public string GenerateMonitor()
+    public string ConvertToMonitor()
     {
         return TP.Wrapper("JobTrigger", Description ?? TriggerType, new[]
         {

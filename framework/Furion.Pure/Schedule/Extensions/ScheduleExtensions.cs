@@ -35,8 +35,9 @@ internal static class ScheduleExtensions
     /// <typeparam name="TTarget">目标类型</typeparam>
     /// <param name="source">源对象</param>
     /// <param name="target">目标类型对象</param>
+    /// <param name="ignoreNullValue">忽略空值</param>
     /// <returns>目标类型对象</returns>
-    internal static TTarget MapTo<TTarget>(this object source, object target = default)
+    internal static TTarget MapTo<TTarget>(this object source, object target = default, bool ignoreNullValue = false)
         where TTarget : class
     {
         if (source == null) return default;
@@ -58,6 +59,10 @@ internal static class ScheduleExtensions
             if (sourceProperty == null) continue;
 
             var value = sourceProperty.GetValue(source);
+
+            // 忽略空值控制
+            if (ignoreNullValue && value == null) continue;
+
             property.SetValue(target, value);
         }
 

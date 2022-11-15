@@ -364,4 +364,14 @@ internal sealed partial class Scheduler
     {
         _ = TryRemove();
     }
+
+    /// <summary>
+    /// 转换成 JSON 字符串
+    /// </summary>
+    /// <param name="naming">命名法</param>
+    /// <returns><see cref="string"/></returns>
+    public string ConvertToJSON(NamingConventions naming = NamingConventions.Pascal)
+    {
+        return GetBuilder().ConvertToJSON(naming);
+    }
 }

@@ -378,28 +378,6 @@ public sealed class TriggerBuilder : JobTrigger
     public new bool ShouldRun(DateTime checkTime) => throw new NotImplementedException();
 
     /// <summary>
-    /// 隐藏作业触发器信息公开方法
-    /// </summary>
-    /// <param name="tableName">数据库表名</param>
-    /// <param name="behavior">持久化行为</param>
-    /// <param name="naming">命名法</param>
-    /// <returns><see cref="string"/></returns>
-    public new string GenerateSQL(string tableName, PersistenceBehavior behavior, NamingConventions naming = NamingConventions.CamelCase) => throw new NotImplementedException();
-
-    /// <summary>
-    /// 隐藏作业触发器公开方法
-    /// </summary>
-    /// <param name="naming">命名法</param>
-    /// <returns><see cref="string"/></returns>
-    public new string GenerateJSON(NamingConventions naming = NamingConventions.CamelCase) => throw new NotImplementedException();
-
-    /// <summary>
-    /// 隐藏作业信息公开方法
-    /// </summary>
-    /// <returns><see cref="string"/></returns>
-    public new string GenerateMonitor() => throw new NotImplementedException();
-
-    /// <summary>
     /// 构建 <see cref="JobTrigger"/> 对象
     /// </summary>
     /// <param name="jobId">作业 Id</param>

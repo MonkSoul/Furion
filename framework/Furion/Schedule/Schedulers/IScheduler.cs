@@ -167,4 +167,11 @@ public interface IScheduler
     /// 将当前作业调度计划从调度器中删除
     /// </summary>
     void Remove();
+
+    /// <summary>
+    /// 转换成 JSON 字符串
+    /// </summary>
+    /// <param name="naming">命名法</param>
+    /// <returns><see cref="string"/></returns>
+    string ConvertToJSON(NamingConventions naming = NamingConventions.Pascal);
 }
