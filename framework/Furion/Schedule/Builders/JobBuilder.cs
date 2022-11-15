@@ -76,7 +76,7 @@ public sealed class JobBuilder : JobDetail
     /// </summary>
     /// <param name="jobDetail"></param>
     /// <returns></returns>
-    internal static JobBuilder From(JobDetail jobDetail)
+    public static JobBuilder From(JobDetail jobDetail)
     {
         return jobDetail.MapTo<JobBuilder>();
     }
