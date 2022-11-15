@@ -314,4 +314,40 @@ WHERE [{columnNames[0]}] = '{TriggerId}' AND [{columnNames[1]}] = '{JobId}';";
         }
         return string.Empty;
     }
+
+    /// <summary>
+    /// 生成 JSON 字符串
+    /// </summary>
+    /// <param name="naming">命名法</param>
+    /// <returns><see cref="string"/></returns>
+    public string GenerateJSON(NamingConventions naming = NamingConventions.CamelCase)
+    {
+        return Penetrates.Write(writer =>
+        {
+            writer.WriteStartObject();
+
+            writer.WriteString(Penetrates.GetNaming(nameof(TriggerId), naming), TriggerId);
+            writer.WriteString(Penetrates.GetNaming(nameof(JobId), naming), JobId);
+            writer.WriteString(Penetrates.GetNaming(nameof(TriggerType), naming), TriggerType);
+            writer.WriteString(Penetrates.GetNaming(nameof(AssemblyName), naming), AssemblyName);
+            writer.WriteString(Penetrates.GetNaming(nameof(Args), naming), Args);
+            writer.WriteString(Penetrates.GetNaming(nameof(Description), naming), Description);
+            writer.WriteNumber(Penetrates.GetNaming(nameof(Status), naming), (int)Status);
+            writer.WriteString(Penetrates.GetNaming(nameof(StartTime), naming), StartTime != null ? StartTime.Value.ToString("o") : null);
+            writer.WriteString(Penetrates.GetNaming(nameof(EndTime), naming), EndTime != null ? EndTime.Value.ToString("o") : null);
+            writer.WriteString(Penetrates.GetNaming(nameof(LastRunTime), naming), LastRunTime != null ? LastRunTime.Value.ToString("o") : null);
+            writer.WriteString(Penetrates.GetNaming(nameof(NextRunTime), naming), NextRunTime != null ? NextRunTime.Value.ToString("o") : null);
+            writer.WriteNumber(Penetrates.GetNaming(nameof(NumberOfRuns), naming), NumberOfRuns);
+            writer.WriteNumber(Penetrates.GetNaming(nameof(MaxNumberOfRuns), naming), MaxNumberOfRuns);
+            writer.WriteNumber(Penetrates.GetNaming(nameof(NumberOfErrors), naming), NumberOfErrors);
+            writer.WriteNumber(Penetrates.GetNaming(nameof(MaxNumberOfErrors), naming), MaxNumberOfErrors);
+            writer.WriteNumber(Penetrates.GetNaming(nameof(NumRetries), naming), NumRetries);
+            writer.WriteNumber(Penetrates.GetNaming(nameof(RetryTimeout), naming), RetryTimeout);
+            writer.WriteBoolean(Penetrates.GetNaming(nameof(LogExecution), naming), LogExecution);
+            writer.WriteBoolean(Penetrates.GetNaming(nameof(StartNow), naming), StartNow);
+            writer.WriteString(Penetrates.GetNaming(nameof(UpdatedTime), naming), UpdatedTime != null ? UpdatedTime.Value.ToString("o") : null);
+
+            writer.WriteEndObject();
+        });
+    }
 }

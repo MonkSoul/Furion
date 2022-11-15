@@ -63,4 +63,14 @@ public sealed class PersistenceTriggerContext : PersistenceContext
     {
         return Trigger.GenerateSQL(tableName, Behavior, naming);
     }
+
+    /// <summary>
+    /// 生成 JSON 语句
+    /// </summary>
+    /// <param name="naming">命名法</param>
+    /// <returns><see cref="string"/></returns>
+    public new string GenerateJSON(NamingConventions naming = NamingConventions.CamelCase)
+    {
+        return Trigger.GenerateJSON(naming);
+    }
 }

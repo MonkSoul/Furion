@@ -400,6 +400,13 @@ public sealed class TriggerBuilder : JobTrigger
     public new string GenerateSQL(string tableName, PersistenceBehavior behavior, NamingConventions naming = NamingConventions.CamelCase) => throw new NotImplementedException();
 
     /// <summary>
+    /// 隐藏作业触发器公开方法
+    /// </summary>
+    /// <param name="naming">命名法</param>
+    /// <returns><see cref="string"/></returns>
+    public new string GenerateJSON(NamingConventions naming = NamingConventions.CamelCase) => throw new NotImplementedException();
+
+    /// <summary>
     /// 构建 <see cref="JobTrigger"/> 对象
     /// </summary>
     /// <param name="jobId">作业 Id</param>

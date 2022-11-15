@@ -33,7 +33,7 @@ namespace Furion.Logging;
 public static class LogMessageExtensions
 {
     /// <summary>
-    /// 高性能写入日志模板
+    /// 高性能创建 JSON 对象字符串
     /// </summary>
     /// <param name="_"><see cref="LogMessage"/></param>
     /// <param name="writeAction"></param>
@@ -55,7 +55,7 @@ public static class LogMessageExtensions
     }
 
     /// <summary>
-    /// 高性能写入数组日志模板
+    /// 高性能创建 JSON 数组字符串
     /// </summary>
     /// <param name="logMsg"><see cref="LogMessage"/></param>
     /// <param name="writeAction"></param>

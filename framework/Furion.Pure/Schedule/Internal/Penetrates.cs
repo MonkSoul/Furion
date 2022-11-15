@@ -20,6 +20,8 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+using System.Text;
+using System.Text.Encodings.Web;
 using System.Text.Json;
 using System.Text.RegularExpressions;
 
@@ -119,5 +121,27 @@ internal static class Penetrates
     internal static string GetSqlValueOrNull(object obj)
     {
         return obj == null ? "NULL" : $"'{obj}'";
+    }
+
+    /// <summary>
+    /// 高性能创建 JSON 字符串
+    /// </summary>
+    /// <param name="writeAction"></param>
+    /// <returns></returns>
+    internal static string Write(Action<Utf8JsonWriter> writeAction)
+    {
+        using var stream = new MemoryStream();
+        using var writer = new Utf8JsonWriter(stream, new JsonWriterOptions
+        {
+            Indented = true,
+            // 解决中文乱码问题
+            Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping
+        });
+
+        writeAction?.Invoke(writer);
+
+        writer.Flush();
+
+        return Encoding.UTF8.GetString(stream.ToArray());
     }
 }

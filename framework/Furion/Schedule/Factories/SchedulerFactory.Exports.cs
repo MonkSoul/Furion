@@ -270,8 +270,11 @@ internal sealed partial class SchedulerFactory
             return scheduleResult;
         }
 
+        var updatedTime = DateTime.UtcNow;
+
         // 获取更新后的作业调度计划
         var schedulerForUpdated = schedulerBuilder.Build(_schedulers.Count);
+        schedulerForUpdated.JobDetail.UpdatedTime = updatedTime;
 
         // 存储作业调度计划工厂
         schedulerForUpdated.Factory = this;
@@ -285,6 +288,7 @@ internal sealed partial class SchedulerFactory
         foreach (var triggerForUpdated in schedulerForUpdated.Triggers.Values)
         {
             triggerForUpdated.NextRunTime = triggerForUpdated.GetNextRunTime();
+            triggerForUpdated.UpdatedTime = updatedTime;
         }
 
         // 更新内存作业调度计划集合

@@ -285,6 +285,13 @@ public sealed class JobBuilder : JobDetail
     public new string GenerateSQL(string tableName, PersistenceBehavior behavior, NamingConventions naming = NamingConventions.CamelCase) => throw new NotImplementedException();
 
     /// <summary>
+    /// 隐藏作业信息公开方法
+    /// </summary>
+    /// <param name="naming">命名法</param>
+    /// <returns><see cref="string"/></returns>
+    public new string GenerateJSON(NamingConventions naming = NamingConventions.CamelCase) => throw new NotImplementedException();
+
+    /// <summary>
     /// 构建 <see cref="JobDetail"/> 对象
     /// </summary>
     /// <returns><see cref="JobDetail"/></returns>

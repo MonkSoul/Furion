@@ -66,4 +66,14 @@ public class PersistenceContext
     {
         return JobDetail.GenerateSQL(tableName, Behavior, naming);
     }
+
+    /// <summary>
+    /// 生成 JSON 语句
+    /// </summary>
+    /// <param name="naming">命名法</param>
+    /// <returns><see cref="string"/></returns>
+    public string GenerateJSON(NamingConventions naming = NamingConventions.CamelCase)
+    {
+        return JobDetail.GenerateJSON(naming);
+    }
 }

@@ -220,4 +220,29 @@ WHERE [{columnNames[0]}] = '{JobId}';";
         }
         return string.Empty;
     }
+
+    /// <summary>
+    /// 生成 JSON 字符串
+    /// </summary>
+    /// <param name="naming">命名法</param>
+    /// <returns><see cref="string"/></returns>
+    public string GenerateJSON(NamingConventions naming = NamingConventions.CamelCase)
+    {
+        return Penetrates.Write(writer =>
+        {
+            writer.WriteStartObject();
+
+            writer.WriteString(Penetrates.GetNaming(nameof(JobId), naming), JobId);
+            writer.WriteString(Penetrates.GetNaming(nameof(GroupName), naming), GroupName);
+            writer.WriteString(Penetrates.GetNaming(nameof(JobType), naming), JobType);
+            writer.WriteString(Penetrates.GetNaming(nameof(AssemblyName), naming), AssemblyName);
+            writer.WriteString(Penetrates.GetNaming(nameof(Description), naming), Description);
+            writer.WriteBoolean(Penetrates.GetNaming(nameof(Concurrent), naming), Concurrent);
+            writer.WriteBoolean(Penetrates.GetNaming(nameof(IncludeAnnotations), naming), IncludeAnnotations);
+            writer.WriteString(Penetrates.GetNaming(nameof(Properties), naming), Properties);
+            writer.WriteString(Penetrates.GetNaming(nameof(UpdatedTime), naming), UpdatedTime != null ? UpdatedTime.Value.ToString("o") : null);
+
+            writer.WriteEndObject();
+        });
+    }
 }

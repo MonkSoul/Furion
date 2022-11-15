@@ -70,6 +70,7 @@ internal sealed partial class Scheduler
     public void Start()
     {
         var changeCount = 0;
+        var updatedTime = DateTime.UtcNow;
 
         // 逐条启用所有作业触发器
         foreach (var (_, trigger) in Triggers)
@@ -81,6 +82,7 @@ internal sealed partial class Scheduler
 
             trigger.SetStatus(TriggerStatus.Ready);
             trigger.NextRunTime = trigger.GetNextRunTime();
+            trigger.UpdatedTime = updatedTime;
             changeCount++;
 
             // 将作业触发器运行数据写入持久化
@@ -97,11 +99,13 @@ internal sealed partial class Scheduler
     public void Pause()
     {
         var changeCount = 0;
+        var updatedTime = DateTime.UtcNow;
 
         // 逐条暂停所有作业触发器
         foreach (var (_, trigger) in Triggers)
         {
             trigger.SetStatus(TriggerStatus.Pause);
+            trigger.UpdatedTime = updatedTime;
             changeCount++;
 
             // 将作业触发器运行数据写入持久化
@@ -127,6 +131,7 @@ internal sealed partial class Scheduler
         if (trigger.Status != TriggerStatus.Pause) return;
 
         trigger.SetStatus(TriggerStatus.Ready);
+        trigger.UpdatedTime = DateTime.UtcNow;
         trigger.NextRunTime = trigger.GetNextRunTime();
 
         // 将作业触发器运行数据写入持久化
@@ -146,6 +151,7 @@ internal sealed partial class Scheduler
         if (trigger == null) return;
 
         trigger.SetStatus(TriggerStatus.Pause);
+        trigger.UpdatedTime = DateTime.UtcNow;
 
         // 将作业触发器运行数据写入持久化
         Factory.Shorthand(JobDetail, trigger);
