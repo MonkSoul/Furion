@@ -91,7 +91,6 @@ public sealed class SchedulerBuilder
                     .SetMaxNumberOfErrors(triggerAttribute.MaxNumberOfErrors)
                     .SetNumRetries(triggerAttribute.NumRetries)
                     .SetRetryTimeout(triggerAttribute.RetryTimeout)
-                    .SetLogExecution(triggerAttribute.LogExecution)
                     .SetStartTime(triggerAttribute.RuntimeStartTime)
                     .SetEndTime(triggerAttribute.RuntimeEndTime)
                     .SetStartNow(triggerAttribute.StartNow);

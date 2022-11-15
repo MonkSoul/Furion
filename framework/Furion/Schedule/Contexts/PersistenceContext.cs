@@ -76,4 +76,13 @@ public class PersistenceContext
     {
         return JobDetail.GenerateJSON(naming);
     }
+
+    /// <summary>
+    /// 生成 Monitor 字符串
+    /// </summary>
+    /// <returns><see cref="string"/></returns>
+    public string GenerateMonitor()
+    {
+        return JobDetail.GenerateMonitor();
+    }
 }

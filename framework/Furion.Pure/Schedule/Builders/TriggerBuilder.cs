@@ -122,7 +122,6 @@ public sealed class TriggerBuilder : JobTrigger
                      .SetMaxNumberOfErrors(fromTriggerBuilder.MaxNumberOfErrors)
                      .SetNumRetries(fromTriggerBuilder.NumRetries)
                      .SetRetryTimeout(fromTriggerBuilder.RetryTimeout)
-                     .SetLogExecution(fromTriggerBuilder.LogExecution)
                      .SetStartNow(fromTriggerBuilder.StartNow);
     }
 
@@ -347,18 +346,6 @@ public sealed class TriggerBuilder : JobTrigger
     }
 
     /// <summary>
-    /// 设置是否是否输出作业执行日志
-    /// </summary>
-    /// <param name="logExecution">是否输出作业执行日志</param>
-    /// <returns><see cref="JobBuilder"/></returns>
-    public TriggerBuilder SetLogExecution(bool logExecution)
-    {
-        LogExecution = logExecution;
-
-        return this;
-    }
-
-    /// <summary>
     /// 设置是否立即启动
     /// </summary>
     /// <param name="startNow">是否立即启动</param>
@@ -405,6 +392,12 @@ public sealed class TriggerBuilder : JobTrigger
     /// <param name="naming">命名法</param>
     /// <returns><see cref="string"/></returns>
     public new string GenerateJSON(NamingConventions naming = NamingConventions.CamelCase) => throw new NotImplementedException();
+
+    /// <summary>
+    /// 隐藏作业信息公开方法
+    /// </summary>
+    /// <returns><see cref="string"/></returns>
+    public new string GenerateMonitor() => throw new NotImplementedException();
 
     /// <summary>
     /// 构建 <see cref="JobTrigger"/> 对象

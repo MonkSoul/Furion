@@ -20,6 +20,8 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+using Furion.Templates;
+
 namespace Furion.Schedule;
 
 /// <summary>
@@ -243,6 +245,26 @@ WHERE [{columnNames[0]}] = '{JobId}';";
             writer.WriteString(Penetrates.GetNaming(nameof(UpdatedTime), naming), UpdatedTime != null ? UpdatedTime.Value.ToString("o") : null);
 
             writer.WriteEndObject();
+        });
+    }
+
+    /// <summary>
+    /// 生成 Monitor 字符串
+    /// </summary>
+    /// <returns><see cref="string"/></returns>
+    public string GenerateMonitor()
+    {
+        return TP.Wrapper("JobDetail", Description ?? JobType, new[]
+        {
+            $"##JobId## {JobId}"
+            , $"##GroupName## {GroupName}"
+            , $"##JobType## {JobType}"
+            , $"##AssemblyName## {AssemblyName}"
+            , $"##Description## {Description}"
+            , $"##Concurrent## {Concurrent}"
+            , $"##IncludeAnnotations## {IncludeAnnotations}"
+            , $"##Properties## {Properties}"
+            , $"##UpdatedTime## {UpdatedTime}"
         });
     }
 }

@@ -121,11 +121,6 @@ public abstract class TriggerAttribute : Attribute
     public int RetryTimeout { get; set; } = 1000;
 
     /// <summary>
-    /// 是否输出作业执行日志
-    /// </summary>
-    public bool LogExecution { get; set; } = false;
-
-    /// <summary>
     /// 是否立即启动
     /// </summary>
     public bool StartNow { get; set; } = true;

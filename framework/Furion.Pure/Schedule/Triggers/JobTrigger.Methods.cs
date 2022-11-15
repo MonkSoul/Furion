@@ -20,6 +20,8 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+using Furion.Templates;
+
 namespace Furion.Schedule;
 
 /// <summary>
@@ -198,7 +200,6 @@ public abstract partial class JobTrigger
             , Penetrates.GetNaming(nameof(MaxNumberOfErrors), naming)
             , Penetrates.GetNaming(nameof(NumRetries), naming)
             , Penetrates.GetNaming(nameof(RetryTimeout), naming)
-            , Penetrates.GetNaming(nameof(LogExecution), naming)
             , Penetrates.GetNaming(nameof(StartNow), naming)
             , Penetrates.GetNaming(nameof(UpdatedTime), naming)
         };
@@ -261,7 +262,6 @@ public abstract partial class JobTrigger
 [{columnNames[16]}],
 [{columnNames[17]}],
 [{columnNames[18]}],
-[{columnNames[19]}]
 )
 VALUES(
 '{TriggerId}',
@@ -281,7 +281,6 @@ VALUES(
 {MaxNumberOfErrors},
 {NumRetries},
 {RetryTimeout},
-{(LogExecution ? 1 : 0)},
 {(StartNow ? 1 : 0)},
 {Penetrates.GetSqlValueOrNull(UpdatedTime)}
 );";
@@ -307,9 +306,8 @@ SET [{columnNames[0]}] = '{TriggerId}',
 [{columnNames[14]}] = {MaxNumberOfErrors},
 [{columnNames[15]}] = {NumRetries},
 [{columnNames[16]}] = {RetryTimeout},
-[{columnNames[17]}] = {(LogExecution ? 1 : 0)},
-[{columnNames[18]}] = {(StartNow ? 1 : 0)},
-[{columnNames[19]}] = {Penetrates.GetSqlValueOrNull(UpdatedTime)}
+[{columnNames[17]}] = {(StartNow ? 1 : 0)},
+[{columnNames[18]}] = {Penetrates.GetSqlValueOrNull(UpdatedTime)}
 WHERE [{columnNames[0]}] = '{TriggerId}' AND [{columnNames[1]}] = '{JobId}';";
         }
         return string.Empty;
@@ -343,11 +341,40 @@ WHERE [{columnNames[0]}] = '{TriggerId}' AND [{columnNames[1]}] = '{JobId}';";
             writer.WriteNumber(Penetrates.GetNaming(nameof(MaxNumberOfErrors), naming), MaxNumberOfErrors);
             writer.WriteNumber(Penetrates.GetNaming(nameof(NumRetries), naming), NumRetries);
             writer.WriteNumber(Penetrates.GetNaming(nameof(RetryTimeout), naming), RetryTimeout);
-            writer.WriteBoolean(Penetrates.GetNaming(nameof(LogExecution), naming), LogExecution);
             writer.WriteBoolean(Penetrates.GetNaming(nameof(StartNow), naming), StartNow);
             writer.WriteString(Penetrates.GetNaming(nameof(UpdatedTime), naming), UpdatedTime != null ? UpdatedTime.Value.ToString("o") : null);
 
             writer.WriteEndObject();
+        });
+    }
+
+    /// <summary>
+    /// 生成 Monitor 字符串
+    /// </summary>
+    /// <returns><see cref="string"/></returns>
+    public string GenerateMonitor()
+    {
+        return TP.Wrapper("JobTrigger", Description ?? TriggerType, new[]
+        {
+            $"##TriggerId## {TriggerId}"
+            , $"##JobId## {JobId}"
+            , $"##TriggerType## {TriggerType}"
+            , $"##AssemblyName## {AssemblyName}"
+            , $"##Args## {Args}"
+            , $"##Description## {Description}"
+            , $"##Status## {Status}"
+            , $"##StartTime## {StartTime}"
+            , $"##EndTime## {EndTime}"
+            , $"##LastRunTime## {LastRunTime}"
+            , $"##NextRunTime## {NextRunTime}"
+            , $"##NumberOfRuns## {NumberOfRuns}"
+            , $"##MaxNumberOfRuns## {MaxNumberOfRuns}"
+            , $"##NumberOfErrors## {NumberOfErrors}"
+            , $"##MaxNumberOfErrors## {MaxNumberOfErrors}"
+            , $"##NumRetries## {NumRetries}"
+            , $"##RetryTimeout## {RetryTimeout}"
+            , $"##StartNow## {StartNow}"
+            , $"##UpdatedTime## {UpdatedTime}"
         });
     }
 }

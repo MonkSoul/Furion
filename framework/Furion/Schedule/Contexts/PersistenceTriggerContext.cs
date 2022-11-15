@@ -73,4 +73,13 @@ public sealed class PersistenceTriggerContext : PersistenceContext
     {
         return Trigger.GenerateJSON(naming);
     }
+
+    /// <summary>
+    /// 生成 Monitor 字符串
+    /// </summary>
+    /// <returns><see cref="string"/></returns>
+    public new string GenerateMonitor()
+    {
+        return Trigger.GenerateMonitor();
+    }
 }

@@ -292,6 +292,12 @@ public sealed class JobBuilder : JobDetail
     public new string GenerateJSON(NamingConventions naming = NamingConventions.CamelCase) => throw new NotImplementedException();
 
     /// <summary>
+    /// 隐藏作业信息公开方法
+    /// </summary>
+    /// <returns><see cref="string"/></returns>
+    public new string GenerateMonitor() => throw new NotImplementedException();
+
+    /// <summary>
     /// 构建 <see cref="JobDetail"/> 对象
     /// </summary>
     /// <returns><see cref="JobDetail"/></returns>

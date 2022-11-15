@@ -21,7 +21,6 @@
 // SOFTWARE.
 
 using Furion.FriendlyException;
-using Furion.Templates;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
@@ -152,9 +151,6 @@ internal sealed class ScheduleHostedService : BackgroundService
                 // 将作业触发器运行数据写入持久化
                 _schedulerFactory.Shorthand(jobDetail, trigger);
 
-                // 记录作业执行信息
-                LogExecution(jobDetail, trigger, checkTime);
-
                 // 通过并发执行提高吞吐量并解决 Thread.Sleep 问题
                 Parallel.For(0, 1, _ =>
                 {
@@ -271,9 +267,6 @@ internal sealed class ScheduleHostedService : BackgroundService
         {
             jobDetail.Blocked = true;
 
-            // 记录作业执行信息
-            LogExecution(jobDetail, trigger, checkTime);
-
             // 将作业信息运行数据写入持久化
             _schedulerFactory.Shorthand(jobDetail);
 
@@ -287,52 +280,10 @@ internal sealed class ScheduleHostedService : BackgroundService
             // 记录运行信息和计算下一个触发时间
             trigger.Increment();
 
-            // 记录作业执行信息
-            LogExecution(jobDetail, trigger, checkTime);
-
             // 将作业触发器运行数据写入持久化
             _schedulerFactory.Shorthand(jobDetail, trigger);
 
             return true;
         }
-    }
-
-    /// <summary>
-    /// 记录作业执行信息
-    /// </summary>
-    /// <param name="jobDetail">作业信息</param>
-    /// <param name="trigger">作业触发器</param>
-    /// <param name="checkTime">检查时间</param>
-    private void LogExecution(JobDetail jobDetail, JobTrigger trigger, DateTime checkTime)
-    {
-        // 判断是否输出作业执行日志
-        if (!trigger.LogExecution) return;
-
-        Parallel.For(0, 1, _ =>
-        {
-            _logger.LogInformation(TP.Wrapper("JobExecution", jobDetail.Description ?? jobDetail.JobType, new[]
-            {
-                $"##JobId## {jobDetail.JobId}"
-                , $"##GroupName## {jobDetail.GroupName}"
-                , $"##JobType## {jobDetail.JobType}"
-                , $"##Concurrent## {jobDetail.Concurrent}"
-                , $"##IncludeAnnotations## {jobDetail.IncludeAnnotations}"
-                , $"##Blocked## {jobDetail.Blocked}"
-                , $"##CheckTime## {checkTime}"
-                , "━━━━━━━━━━━━  JobTrigger ━━━━━━━━━━━━"
-                , $"##TriggerId## {trigger.TriggerId}"
-                , $"##TriggerType## {trigger.TriggerType}"
-                , $"##TriggerArgs## {trigger.Args}"
-                , $"##StartNow## {trigger.StartNow}"
-                , $"##Status## {trigger.Status}"
-                , $"##LastRunTime## {trigger.LastRunTime}"
-                , $"##NextRunTime## {trigger.NextRunTime}"
-                , $"##NumberOfRuns## {trigger.NumberOfRuns}"
-                , $"##MaxNumberOfRuns## {trigger.MaxNumberOfRuns}"
-                , $"##NumberOfErrors## {trigger.NumberOfErrors}"
-                , $"##MaxNumberOfRuns## {trigger.MaxNumberOfErrors}"
-                , $"##Description## {trigger.Description??trigger.ToString()}"
-            }));
-        });
     }
 }
