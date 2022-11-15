@@ -59,8 +59,8 @@ public sealed class PersistenceTriggerContext : PersistenceContext
     /// <param name="tableName">数据库表名</param>
     /// <param name="naming">命名法</param>
     /// <returns><see cref="string"/></returns>
-    public new string CreateSql(string tableName, NamingConventions naming = NamingConventions.CamelCase)
+    public new string GenerateSQL(string tableName, NamingConventions naming = NamingConventions.CamelCase)
     {
-        return Trigger.CreateSql(tableName, Behavior, naming);
+        return Trigger.GenerateSQL(tableName, Behavior, naming);
     }
 }

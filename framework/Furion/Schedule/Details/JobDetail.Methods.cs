@@ -167,7 +167,7 @@ public partial class JobDetail
     /// <param name="behavior">持久化行为</param>
     /// <param name="naming">命名法</param>
     /// <returns><see cref="string"/></returns>
-    public string CreateSql(string tableName, PersistenceBehavior behavior, NamingConventions naming = NamingConventions.CamelCase)
+    public string GenerateSQL(string tableName, PersistenceBehavior behavior, NamingConventions naming = NamingConventions.CamelCase)
     {
         // 这里不采用反射生成
         var columnNames = ColumnNames(naming);

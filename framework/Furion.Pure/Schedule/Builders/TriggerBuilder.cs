@@ -397,7 +397,7 @@ public sealed class TriggerBuilder : JobTrigger
     /// <param name="behavior">持久化行为</param>
     /// <param name="naming">命名法</param>
     /// <returns><see cref="string"/></returns>
-    public new string CreateSql(string tableName, PersistenceBehavior behavior, NamingConventions naming = NamingConventions.CamelCase) => throw new NotImplementedException();
+    public new string GenerateSQL(string tableName, PersistenceBehavior behavior, NamingConventions naming = NamingConventions.CamelCase) => throw new NotImplementedException();
 
     /// <summary>
     /// 构建 <see cref="JobTrigger"/> 对象
