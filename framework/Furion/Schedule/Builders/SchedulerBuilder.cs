@@ -79,11 +79,12 @@ public sealed class SchedulerBuilder
         {
             var triggerAttributes = jobBuilder.RuntimeJobType.GetCustomAttributes<TriggerAttribute>(true);
 
+            // 遍历所有作业触发器特性并添加到集合中
             foreach (var triggerAttribute in triggerAttributes)
             {
                 // 创建作业触发器并添加到当前作业触发器构建器中
                 var triggerBuilder = TriggerBuilder.Create(triggerAttribute.RuntimeTriggerType)
-                    .WithArgs(triggerAttribute.RuntimeTriggerArgs)
+                    .SetArgs(triggerAttribute.RuntimeTriggerArgs)
                     .SetTriggerId(triggerAttribute.TriggerId)
                     .SetDescription(triggerAttribute.Description)
                     .SetMaxNumberOfRuns(triggerAttribute.MaxNumberOfRuns)
@@ -159,6 +160,21 @@ public sealed class SchedulerBuilder
     }
 
     /// <summary>
+    /// 更新作业触发器构建器
+    /// </summary>
+    /// <param name="jobBuilder">作业触发器构建器</param>
+    /// <returns><see cref="SchedulerBuilder"/></returns>
+    public SchedulerBuilder UpdateDetail(JobBuilder jobBuilder)
+    {
+        // 空检查
+        if (jobBuilder == null) throw new ArgumentNullException(nameof(jobBuilder));
+
+        JobBuilder = jobBuilder;
+
+        return this;
+    }
+
+    /// <summary>
     /// 获取作业触发器构建器集合
     /// </summary>
     /// <returns><see cref="List{TriggerBuilder}"/></returns>
@@ -177,6 +193,77 @@ public sealed class SchedulerBuilder
         if (string.IsNullOrWhiteSpace(triggerId)) throw new ArgumentNullException(nameof(triggerId));
 
         return TriggerBuilders.SingleOrDefault(t => t.TriggerId == triggerId);
+    }
+
+    /// <summary>
+    /// 添加作业触发器构建器
+    /// </summary>
+    /// <param name="triggerBuilder">作业触发器</param>
+    /// <returns><see cref="SchedulerBuilder"/></returns>
+    public SchedulerBuilder AddTrigger(TriggerBuilder triggerBuilder)
+    {
+        // 空检查
+        if (triggerBuilder == null) throw new ArgumentNullException(nameof(triggerBuilder));
+
+        TriggerBuilders.Add(triggerBuilder);
+
+        return this;
+    }
+
+    /// <summary>
+    /// 更新作业触发器构建器
+    /// </summary>
+    /// <param name="triggerBuilder">作业触发器构建器</param>
+    /// <returns><see cref="SchedulerBuilder"/></returns>
+    public SchedulerBuilder UpdateTrigger(TriggerBuilder triggerBuilder)
+    {
+        // 空检查
+        if (triggerBuilder == null) throw new ArgumentNullException(nameof(triggerBuilder));
+
+        var internalTriggerBuilder = GetTrigger(triggerBuilder.TriggerId);
+        if (internalTriggerBuilder == null) return this;
+
+        // 删除原来的再添加新的
+        RemoveTrigger(triggerBuilder.TriggerId, out _)
+            .AddTrigger(internalTriggerBuilder);
+
+        return this;
+    }
+
+    /// <summary>
+    /// 删除作业触发器构建器
+    /// </summary>
+    /// <param name="triggerBuilder">作业触发器构建器</param>
+    /// <returns><see cref="SchedulerBuilder"/></returns>
+    public SchedulerBuilder RemoveTrigger(TriggerBuilder triggerBuilder)
+    {
+        // 空检查
+        if (triggerBuilder == null) throw new ArgumentNullException(nameof(triggerBuilder));
+
+        RemoveTrigger(triggerBuilder.TriggerId, out _);
+
+        return this;
+    }
+
+    /// <summary>
+    /// 删除作业触发器构建器
+    /// </summary>
+    /// <param name="triggerId">作业触发器 Id</param>
+    /// <param name="triggerBuilder">作业触发器构建器</param>
+    /// <returns><see cref="SchedulerBuilder"/></returns>
+    public SchedulerBuilder RemoveTrigger(string triggerId, out TriggerBuilder triggerBuilder)
+    {
+        var internalTriggerBuilder = GetTrigger(triggerId);
+        if (internalTriggerBuilder == null)
+        {
+            triggerBuilder = null;
+            return this;
+        }
+
+        triggerBuilder = internalTriggerBuilder;
+        TriggerBuilders.Remove(internalTriggerBuilder);
+
+        return this;
     }
 
     /// <summary>

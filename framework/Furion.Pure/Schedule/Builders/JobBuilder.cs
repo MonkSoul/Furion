@@ -212,8 +212,24 @@ public sealed class JobBuilder : JobDetail
     {
         if (string.IsNullOrWhiteSpace(properties)) properties = "{}";
 
-        var runtimeProperties = Penetrates.Deserialize<Dictionary<string, object>>(properties);
-        RuntimeProperties = runtimeProperties;
+        Properties = properties;
+        RuntimeProperties = Penetrates.Deserialize<Dictionary<string, object>>(properties);
+
+        return this;
+    }
+
+    /// <summary>
+    /// 设置作业额外数据
+    /// </summary>
+    /// <param name="properties">作业额外数据</param>
+    /// <remarks>必须是 Dictionary{string, object} 类型序列化的结果</remarks>
+    /// <returns><see cref="JobBuilder"/></returns>
+    public JobBuilder SetProperties(Dictionary<string, object> properties)
+    {
+        properties ??= new();
+
+        Properties = Penetrates.Serialize(properties);
+        RuntimeProperties = properties;
 
         return this;
     }

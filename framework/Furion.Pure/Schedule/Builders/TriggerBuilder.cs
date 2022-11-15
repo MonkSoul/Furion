@@ -47,7 +47,7 @@ public sealed class TriggerBuilder : JobTrigger
     public static TriggerBuilder Period(int interval)
     {
         return Create(typeof(PeriodTrigger))
-            .WithArgs(new object[] { interval });
+            .SetArgs(new object[] { interval });
     }
 
     /// <summary>
@@ -59,7 +59,7 @@ public sealed class TriggerBuilder : JobTrigger
     public static TriggerBuilder Cron(string schedule, CronStringFormat format = CronStringFormat.Default)
     {
         return Create(typeof(CronTrigger))
-            .WithArgs(new object[] { schedule, (int)format });
+            .SetArgs(new object[] { schedule, (int)format });
     }
 
     /// <summary>
@@ -114,7 +114,7 @@ public sealed class TriggerBuilder : JobTrigger
     public static TriggerBuilder Clone(TriggerBuilder fromTriggerBuilder)
     {
         return Create(fromTriggerBuilder.RuntimeTriggerType)
-                     .WithArgs(fromTriggerBuilder.RuntimeTriggerArgs)
+                     .SetArgs(fromTriggerBuilder.RuntimeTriggerArgs)
                      .SetDescription(fromTriggerBuilder.Description)
                      .SetStartTime(fromTriggerBuilder.StartTime)
                      .SetEndTime(fromTriggerBuilder.EndTime)
@@ -184,7 +184,7 @@ public sealed class TriggerBuilder : JobTrigger
     /// </summary>
     /// <param name="args">作业触发器参数</param>
     /// <returns><see cref="TriggerBuilder"/></returns>
-    public TriggerBuilder WithArgs(object[] args)
+    public TriggerBuilder SetArgs(object[] args)
     {
         Args = args == null || args.Length == 0
             ? null
@@ -401,17 +401,18 @@ public sealed class TriggerBuilder : JobTrigger
         if (string.IsNullOrWhiteSpace(jobId)) throw new ArgumentNullException(nameof(jobId));
 
         // 检查 StartTime 和 EndTime 的关系，StartTime 不能大于 EndTime
-        if (StartTime != null && EndTime != null && StartTime.Value > EndTime.Value) throw new InvalidOperationException("The start time cannot be greater than the end time.");
+        if (StartTime != null && EndTime != null
+            && StartTime.Value > EndTime.Value) throw new InvalidOperationException("The start time cannot be greater than the end time.");
 
         JobId = jobId;
 
         // 判断是否带参数
-        var withArgs = !(RuntimeTriggerArgs == null || RuntimeTriggerArgs.Length == 0);
+        var hasArgs = !(RuntimeTriggerArgs == null || RuntimeTriggerArgs.Length == 0);
 
         // 反射创建作业触发器对象
-        var triggerInstance = (!withArgs
-            ? Activator.CreateInstance(RuntimeTriggerType!)
-            : Activator.CreateInstance(RuntimeTriggerType!, RuntimeTriggerArgs));
+        var triggerInstance = (!hasArgs
+            ? Activator.CreateInstance(type: RuntimeTriggerType)
+            : Activator.CreateInstance(RuntimeTriggerType, RuntimeTriggerArgs));
 
         return this.MapTo<JobTrigger>(triggerInstance);
     }

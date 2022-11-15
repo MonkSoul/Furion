@@ -149,7 +149,7 @@ internal sealed partial class SchedulerFactory
     /// </summary>
     /// <param name="jobBuilder">作业信息构建器</param>
     /// <param name="triggerBuilders">作业触发器构建器集合</param>
-    public void AddJob(JobBuilder jobBuilder, TriggerBuilder[] triggerBuilders)
+    public void AddJob(JobBuilder jobBuilder, params TriggerBuilder[] triggerBuilders)
     {
         _ = TryAddJob(jobBuilder, triggerBuilders, out var _);
     }
@@ -172,7 +172,7 @@ internal sealed partial class SchedulerFactory
     /// </summary>
     /// <typeparam name="TJob"><see cref="IJob"/> 实现类型</typeparam>
     /// <param name="triggerBuilders">作业触发器构建器集合</param>
-    public void AddJob<TJob>(TriggerBuilder[] triggerBuilders)
+    public void AddJob<TJob>(params TriggerBuilder[] triggerBuilders)
          where TJob : class, IJob
     {
         _ = TryAddJob<TJob>(triggerBuilders, out var _);
@@ -198,7 +198,7 @@ internal sealed partial class SchedulerFactory
     /// <typeparam name="TJob"><see cref="IJob"/> 实现类型</typeparam>
     /// <param name="jobId">作业 Id</param>
     /// <param name="triggerBuilders">作业触发器构建器集合</param>
-    public void AddJob<TJob>(string jobId, TriggerBuilder[] triggerBuilders)
+    public void AddJob<TJob>(string jobId, params TriggerBuilder[] triggerBuilders)
          where TJob : class, IJob
     {
         _ = TryAddJob<TJob>(jobId, triggerBuilders, out var _);
@@ -228,7 +228,7 @@ internal sealed partial class SchedulerFactory
     /// <param name="jobId"><see cref="IJob"/> 实现类型</param>
     /// <param name="concurrent">是否采用并发执行</param>
     /// <param name="triggerBuilders">作业触发器构建器集合</param>
-    public void AddJob<TJob>(string jobId, bool concurrent, TriggerBuilder[] triggerBuilders)
+    public void AddJob<TJob>(string jobId, bool concurrent, params TriggerBuilder[] triggerBuilders)
          where TJob : class, IJob
     {
         _ = TryAddJob<TJob>(jobId, concurrent, triggerBuilders, out var _);
