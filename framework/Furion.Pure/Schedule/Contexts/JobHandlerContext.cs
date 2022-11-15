@@ -68,4 +68,27 @@ public abstract class JobHandlerContext
     /// 作业调度服务检查时间
     /// </summary>
     public DateTime CheckTime { get; }
+
+    /// <summary>
+    /// 转换成 JSON 字符串
+    /// </summary>
+    /// <param name="naming">命名法</param>
+    /// <returns><see cref="string"/></returns>
+    public string ConvertToJSON(NamingConventions naming = NamingConventions.Pascal)
+    {
+        return Penetrates.Write(writer =>
+        {
+            writer.WriteStartObject();
+
+            // 输出 JobDetail
+            writer.WritePropertyName(Penetrates.GetNaming(nameof(JobDetail), naming));
+            writer.WriteRawValue(JobDetail.ConvertToJSON(naming));
+
+            // 输出 JobTrigger
+            writer.WritePropertyName(Penetrates.GetNaming(nameof(JobTrigger), naming));
+            writer.WriteRawValue(Trigger.ConvertToJSON(naming));
+
+            writer.WriteEndObject();
+        });
+    }
 }
