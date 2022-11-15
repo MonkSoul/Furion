@@ -97,6 +97,25 @@ public sealed class JobBuilder : JobDetail
     }
 
     /// <summary>
+    /// 从目标值填充数据到作业构建器
+    /// </summary>
+    /// <param name="value">目标值</param>
+    /// <param name="ignoreNullValue">忽略空值</param>
+    /// <returns><see cref="JobBuilder"/></returns>
+    public JobBuilder LoadFrom(object value, bool ignoreNullValue = false)
+    {
+        if (value == null) return this;
+
+        var valueType = value.GetType();
+        if (valueType.IsInterface
+            || valueType.IsValueType
+            || valueType.IsEnum
+            || valueType.IsArray) throw new InvalidOperationException(nameof(value));
+
+        return value.MapTo<JobBuilder>(this, ignoreNullValue);
+    }
+
+    /// <summary>
     /// 设置作业 Id
     /// </summary>
     /// <param name="jobId">作业 Id</param>

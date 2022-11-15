@@ -126,6 +126,25 @@ public sealed class TriggerBuilder : JobTrigger
     }
 
     /// <summary>
+    /// 从目标值填充数据到作业触发器构建器
+    /// </summary>
+    /// <param name="value">目标值</param>
+    /// <param name="ignoreNullValue">忽略空值</param>
+    /// <returns><see cref="JobBuilder"/></returns>
+    public TriggerBuilder LoadFrom(object value, bool ignoreNullValue = false)
+    {
+        if (value == null) return this;
+
+        var valueType = value.GetType();
+        if (valueType.IsInterface
+            || valueType.IsValueType
+            || valueType.IsEnum
+            || valueType.IsArray) throw new InvalidOperationException(nameof(value));
+
+        return value.MapTo<TriggerBuilder>(this, ignoreNullValue);
+    }
+
+    /// <summary>
     /// 设置作业触发器 Id
     /// </summary>
     /// <param name="triggerId">作业触发器 Id</param>
