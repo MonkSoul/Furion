@@ -28,6 +28,15 @@ namespace Furion.Schedule;
 public partial class JobDetail
 {
     /// <summary>
+    /// 获取作业所有额外数据
+    /// </summary>
+    /// <returns><see cref="Dictionary{String,Object}"/></returns>
+    public Dictionary<string, object> GetProperties()
+    {
+        return RuntimeProperties;
+    }
+
+    /// <summary>
     /// 获取作业额外数据
     /// </summary>
     /// <param name="key">键</param>

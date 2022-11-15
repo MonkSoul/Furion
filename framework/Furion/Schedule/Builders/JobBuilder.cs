@@ -203,19 +203,6 @@ public sealed class JobBuilder : JobDetail
     }
 
     /// <summary>
-    /// 设置是否标记其他作业正在执行
-    /// </summary>
-    /// <param name="blocked">标记其他作业正在执行</param>
-    /// <remarks>当 Concurrent 为 false 时有效，也就是串行执行</remarks>
-    /// <returns><see cref="JobBuilder"/></returns>
-    public JobBuilder SetBlocked(bool blocked)
-    {
-        Blocked = blocked;
-
-        return this;
-    }
-
-    /// <summary>
     /// 设置作业额外数据
     /// </summary>
     /// <param name="properties">作业额外数据</param>
@@ -271,21 +258,6 @@ public sealed class JobBuilder : JobDetail
     {
         return base.ClearProperties() as JobBuilder;
     }
-
-    /// <summary>
-    /// 隐藏作业信息公开方法
-    /// </summary>
-    /// <param name="key">键</param>
-    /// <returns><see cref="object"/></returns>
-    public new object GetProperty(string key) => throw new NotImplementedException();
-
-    /// <summary>
-    /// 隐藏作业信息公开方法
-    /// </summary>
-    /// <typeparam name="T">结果泛型类型</typeparam>
-    /// <param name="key">键</param>
-    /// <returns>T 类型</returns>
-    public new T GetProperty<T>(string key) => throw new NotImplementedException();
 
     /// <summary>
     /// 构建 <see cref="JobDetail"/> 对象

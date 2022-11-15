@@ -67,12 +67,6 @@ public partial class JobDetail
     public bool IncludeAnnotations { get; internal set; } = false;
 
     /// <summary>
-    /// 标记其他作业正在执行
-    /// </summary>
-    /// <remarks>当 <see cref="Concurrent"/> 为 false 时有效，也就是串行执行</remarks>
-    public bool Blocked { get; internal set; } = false;
-
-    /// <summary>
     /// 作业额外数据
     /// </summary>
     public string Properties { get; internal set; } = "{}";
@@ -81,6 +75,12 @@ public partial class JobDetail
     /// 作业更新时间
     /// </summary>
     public DateTime? UpdatedTime { get; internal set; } = DateTime.UtcNow;
+
+    /// <summary>
+    /// 标记其他作业正在执行
+    /// </summary>
+    /// <remarks>当 <see cref="Concurrent"/> 为 false 时有效，也就是串行执行</remarks>
+    internal bool Blocked { get; set; } = false;
 
     /// <summary>
     /// 作业处理程序运行时类型
