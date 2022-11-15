@@ -167,6 +167,46 @@ public abstract partial class JobTrigger
     }
 
     /// <summary>
+    /// 数据库列名
+    /// </summary>
+    private string[] _columnNames { get; set; }
+
+    /// <summary>
+    /// 获取数据库列名
+    /// </summary>
+    /// <remarks>避免多次反射</remarks>
+    /// <param name="naming">命名法</param>
+    /// <returns></returns>
+    private string[] ColumnNames(NamingConventions naming = NamingConventions.CamelCase)
+    {
+        _columnNames ??= new[]
+        {
+            Penetrates.GetNaming(nameof(TriggerId), naming)    // 第一个是标识，禁止移动位置
+            , Penetrates.GetNaming(nameof(JobId), naming)   // 第二个是作业标识，禁止移动位置
+            , Penetrates.GetNaming(nameof(TriggerType), naming)
+            , Penetrates.GetNaming(nameof(AssemblyName), naming)
+            , Penetrates.GetNaming(nameof(Args), naming)
+            , Penetrates.GetNaming(nameof(Description), naming)
+            , Penetrates.GetNaming(nameof(Status), naming)
+            , Penetrates.GetNaming(nameof(StartTime), naming)
+            , Penetrates.GetNaming(nameof(EndTime), naming)
+            , Penetrates.GetNaming(nameof(LastRunTime), naming)
+            , Penetrates.GetNaming(nameof(NextRunTime), naming)
+            , Penetrates.GetNaming(nameof(NumberOfRuns), naming)
+            , Penetrates.GetNaming(nameof(MaxNumberOfRuns), naming)
+            , Penetrates.GetNaming(nameof(NumberOfErrors), naming)
+            , Penetrates.GetNaming(nameof(MaxNumberOfErrors), naming)
+            , Penetrates.GetNaming(nameof(NumRetries), naming)
+            , Penetrates.GetNaming(nameof(RetryTimeout), naming)
+            , Penetrates.GetNaming(nameof(LogExecution), naming)
+            , Penetrates.GetNaming(nameof(StartNow), naming)
+            , Penetrates.GetNaming(nameof(UpdatedTime), naming)
+        };
+
+        return _columnNames;
+    }
+
+    /// <summary>
     /// 获取触发器初始化时间
     /// </summary>
     /// <returns><see cref="DateTime"/> 或者 null</returns>
@@ -179,5 +219,99 @@ public abstract partial class JobTrigger
             else return EndTime.Value < nowTime ? null : nowTime;
         }
         else return StartTime.Value < nowTime ? nowTime : StartTime.Value;
+    }
+
+    /// <summary>
+    /// 生成 Sql 语句
+    /// </summary>
+    /// <param name="tableName">数据库表名</param>
+    /// <param name="behavior">持久化行为</param>
+    /// <param name="naming">命名法</param>
+    /// <returns><see cref="string"/></returns>
+    public string CreateSql(string tableName, PersistenceBehavior behavior, NamingConventions naming = NamingConventions.CamelCase)
+    {
+        // 这里不采用反射生成
+        var columnNames = ColumnNames(naming);
+
+        // 生成删除 SQL
+        if (behavior == PersistenceBehavior.Removed)
+        {
+            return $"DELETE FROM {tableName} WHERE [{columnNames[0]}] = '{TriggerId}' AND [{columnNames[1]}] = '{JobId}';";
+        }
+        // 生成新增 SQL
+        else if (behavior == PersistenceBehavior.Appended)
+        {
+            return $@"INSERT INTO {tableName}(
+[{columnNames[0]}],
+[{columnNames[1]}],
+[{columnNames[2]}],
+[{columnNames[3]}],
+[{columnNames[4]}],
+[{columnNames[5]}],
+[{columnNames[6]}],
+[{columnNames[7]}],
+[{columnNames[8]}],
+[{columnNames[9]}],
+[{columnNames[10]}],
+[{columnNames[11]}],
+[{columnNames[12]}],
+[{columnNames[13]}],
+[{columnNames[14]}],
+[{columnNames[15]}],
+[{columnNames[16]}],
+[{columnNames[17]}],
+[{columnNames[18]}],
+[{columnNames[19]}]
+)
+VALUES(
+'{TriggerId}',
+'{JobId}',
+'{TriggerType}',
+'{AssemblyName}',
+{Penetrates.GetSqlValueOrNull(Args)},
+{Penetrates.GetSqlValueOrNull(Description)},
+{((int)Status)},
+{Penetrates.GetSqlValueOrNull(StartTime)},
+{Penetrates.GetSqlValueOrNull(EndTime)},
+{Penetrates.GetSqlValueOrNull(LastRunTime)},
+{Penetrates.GetSqlValueOrNull(NextRunTime)},
+{NumberOfRuns},
+{MaxNumberOfRuns},
+{NumberOfErrors},
+{MaxNumberOfErrors},
+{NumRetries},
+{RetryTimeout},
+{(LogExecution ? 1 : 0)},
+{(StartNow ? 1 : 0)},
+{Penetrates.GetSqlValueOrNull(UpdatedTime)}
+);";
+        }
+        // 生成更新 SQL
+        else if (behavior == PersistenceBehavior.Updated)
+        {
+            return $@"UPDATE {tableName}
+SET [{columnNames[0]}] = '{TriggerId}',
+[{columnNames[1]}] = '{JobId}',
+[{columnNames[2]}] = '{TriggerType}',
+[{columnNames[3]}] = '{AssemblyName}',
+[{columnNames[4]}] = {Penetrates.GetSqlValueOrNull(Args)},
+[{columnNames[5]}] = {Penetrates.GetSqlValueOrNull(Description)},
+[{columnNames[6]}] = {((int)Status)},
+[{columnNames[7]}] = {Penetrates.GetSqlValueOrNull(StartTime)},
+[{columnNames[8]}] = {Penetrates.GetSqlValueOrNull(EndTime)},
+[{columnNames[9]}] = {Penetrates.GetSqlValueOrNull(LastRunTime)},
+[{columnNames[10]}] = {Penetrates.GetSqlValueOrNull(NextRunTime)},
+[{columnNames[11]}] = {NumberOfRuns},
+[{columnNames[12]}] = {MaxNumberOfRuns},
+[{columnNames[13]}] = {NumberOfErrors},
+[{columnNames[14]}] = {MaxNumberOfErrors},
+[{columnNames[15]}] = {NumRetries},
+[{columnNames[16]}] = {RetryTimeout},
+[{columnNames[17]}] = {(LogExecution ? 1 : 0)},
+[{columnNames[18]}] = {(StartNow ? 1 : 0)},
+[{columnNames[19]}] = {Penetrates.GetSqlValueOrNull(UpdatedTime)}
+WHERE [{columnNames[0]}] = '{TriggerId}' AND [{columnNames[1]}] = '{JobId}';";
+        }
+        return string.Empty;
     }
 }

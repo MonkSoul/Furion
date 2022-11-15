@@ -23,44 +23,27 @@
 namespace Furion.Schedule;
 
 /// <summary>
-/// 作业调度持久化触发器上下文
+/// 命名转换器
 /// </summary>
+/// <remarks>用于生成持久化 SQL 语句</remarks>
 [SuppressSniffer]
-public sealed class PersistenceTriggerContext : PersistenceContext
+public enum NamingConventions
 {
     /// <summary>
-    /// 构造函数
+    /// 驼峰命名法
     /// </summary>
-    /// <param name="jobDetail">作业信息</param>
-    /// <param name="trigger">作业触发器</param>
-    /// <param name="behavior">作业持久化行为</param>
-    internal PersistenceTriggerContext(JobDetail jobDetail
-        , JobTrigger trigger
-        , PersistenceBehavior behavior)
-        : base(jobDetail, behavior)
-    {
-        TriggerId = trigger.TriggerId;
-        Trigger = trigger;
-    }
+    /// <remarks>第一个单词首字母小写</remarks>
+    CamelCase = 0,
 
     /// <summary>
-    /// 作业触发器 Id
+    /// 帕斯卡命名法
     /// </summary>
-    public string TriggerId { get; }
+    /// <remarks>第一个单词首字母大写</remarks>
+    Pascal = 1,
 
     /// <summary>
-    /// 作业触发器
+    /// 下划线命名法
     /// </summary>
-    public JobTrigger Trigger { get; }
-
-    /// <summary>
-    /// 生成 Sql 语句
-    /// </summary>
-    /// <param name="tableName">数据库表名</param>
-    /// <param name="naming">命名法</param>
-    /// <returns><see cref="string"/></returns>
-    public new string CreateSql(string tableName, NamingConventions naming = NamingConventions.CamelCase)
-    {
-        return Trigger.CreateSql(tableName, Behavior, naming);
-    }
+    /// <remarks>每次单词使用下划线连接且首字母都是小写</remarks>
+    UnderScoreCase = 2
 }

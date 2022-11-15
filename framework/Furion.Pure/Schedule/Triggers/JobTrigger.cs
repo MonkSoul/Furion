@@ -29,14 +29,14 @@ namespace Furion.Schedule;
 public abstract partial class JobTrigger
 {
     /// <summary>
-    /// 作业 Id
-    /// </summary>
-    public string JobId { get; internal set; }
-
-    /// <summary>
     /// 作业触发器 Id
     /// </summary>
     public string TriggerId { get; internal set; }
+
+    /// <summary>
+    /// 作业 Id
+    /// </summary>
+    public string JobId { get; internal set; }
 
     /// <summary>
     /// 作业触发器类型

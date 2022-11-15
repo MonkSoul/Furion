@@ -21,6 +21,7 @@
 // SOFTWARE.
 
 using System.Text.Json;
+using System.Text.RegularExpressions;
 
 namespace Furion.Schedule;
 
@@ -47,5 +48,76 @@ internal static class Penetrates
     internal static T Deserialize<T>(string json)
     {
         return JsonSerializer.Deserialize<T>(json);
+    }
+
+    /// <summary>
+    /// 将属性名切割成多个单词
+    /// </summary>
+    /// <param name="propertyName">属性名</param>
+    /// <returns>单词数组</returns>
+    internal static string[] SplitToWords(string propertyName)
+    {
+        if (propertyName == null) return Array.Empty<string>();
+
+        if (string.IsNullOrWhiteSpace(propertyName)) return new string[] { propertyName };
+        if (propertyName.Length == 1) return new string[] { propertyName };
+
+        return Regex.Split(propertyName, @"(?=\p{Lu}\p{Ll})|(?<=\p{Ll})(?=\p{Lu})")
+            .Where(u => u.Length > 0)
+            .ToArray();
+    }
+
+    /// <summary>
+    /// 设置字符串首字母大/小写
+    /// </summary>
+    /// <param name="str">字符串</param>
+    /// <param name="isUpper">是否大写</param>
+    /// <returns><see cref="string"/></returns>
+    internal static string SetFirstLetterCase(string str, bool isUpper = true)
+    {
+        if (string.IsNullOrWhiteSpace(str)) return str;
+
+        var firstLetter = str.First().ToString();
+        return string.Concat(isUpper
+            ? firstLetter.ToUpper()
+            : firstLetter.ToLower(), str.AsSpan(1));
+    }
+
+    /// <summary>
+    /// 根据属性名获取指定的命名法
+    /// </summary>
+    /// <param name="propertyName"></param>
+    /// <param name="naming"></param>
+    /// <returns></returns>
+    internal static string GetNaming(string propertyName, NamingConventions naming = NamingConventions.CamelCase)
+    {
+        var words = SplitToWords(propertyName);
+        var tempWords = new List<string>();
+
+        foreach (var word in words)
+        {
+            switch (naming)
+            {
+                case NamingConventions.CamelCase:
+                    tempWords.Add(SetFirstLetterCase(word));
+                    continue;
+                case NamingConventions.Pascal:
+                case NamingConventions.UnderScoreCase:
+                    tempWords.Add(SetFirstLetterCase(word, false));
+                    continue;
+            }
+        }
+
+        return string.Join(naming == NamingConventions.UnderScoreCase ? "_" : string.Empty, tempWords);
+    }
+
+    /// <summary>
+    /// 获取 SQL 的值
+    /// </summary>
+    /// <param name="obj"></param>
+    /// <returns></returns>
+    internal static string GetSqlValueOrNull(object obj)
+    {
+        return obj == null ? "NULL" : $"'{obj}'";
     }
 }

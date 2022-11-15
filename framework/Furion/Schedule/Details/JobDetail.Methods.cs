@@ -130,4 +130,94 @@ public partial class JobDetail
 
         return this;
     }
+
+    /// <summary>
+    /// 数据库列名
+    /// </summary>
+    private string[] _columnNames { get; set; }
+
+    /// <summary>
+    /// 获取数据库列名
+    /// </summary>
+    /// <remarks>避免多次反射</remarks>
+    /// <param name="naming">命名法</param>
+    /// <returns></returns>
+    private string[] ColumnNames(NamingConventions naming = NamingConventions.CamelCase)
+    {
+        _columnNames ??= new[]
+        {
+            Penetrates.GetNaming(nameof(JobId), naming) // 第一个是标识，禁止移动位置
+            , Penetrates.GetNaming(nameof(GroupName), naming)
+            , Penetrates.GetNaming(nameof(JobType), naming)
+            , Penetrates.GetNaming(nameof(AssemblyName), naming)
+            , Penetrates.GetNaming(nameof(Description), naming)
+            , Penetrates.GetNaming(nameof(Concurrent), naming)
+            , Penetrates.GetNaming(nameof(IncludeAnnotations), naming)
+            , Penetrates.GetNaming(nameof(Properties), naming)
+            , Penetrates.GetNaming(nameof(UpdatedTime), naming)
+        };
+
+        return _columnNames;
+    }
+
+    /// <summary>
+    /// 生成 Sql 语句
+    /// </summary>
+    /// <param name="tableName">数据库表名</param>
+    /// <param name="behavior">持久化行为</param>
+    /// <param name="naming">命名法</param>
+    /// <returns><see cref="string"/></returns>
+    public string CreateSql(string tableName, PersistenceBehavior behavior, NamingConventions naming = NamingConventions.CamelCase)
+    {
+        // 这里不采用反射生成
+        var columnNames = ColumnNames(naming);
+
+        // 生成删除 SQL
+        if (behavior == PersistenceBehavior.Removed)
+        {
+            return $"DELETE FROM {tableName} WHERE [{columnNames[0]}] = '{JobId}';";
+        }
+        // 生成新增 SQL
+        else if (behavior == PersistenceBehavior.Appended)
+        {
+            return $@"INSERT INTO {tableName}(
+[{columnNames[0]}],
+[{columnNames[1]}],
+[{columnNames[2]}],
+[{columnNames[3]}],
+[{columnNames[4]}],
+[{columnNames[5]}],
+[{columnNames[6]}],
+[{columnNames[7]}],
+[{columnNames[8]}]
+)
+VALUES(
+'{JobId}',
+{Penetrates.GetSqlValueOrNull(GroupName)},
+'{JobType}',
+'{AssemblyName}',
+{Penetrates.GetSqlValueOrNull(Description)},
+{(Concurrent ? 1 : 0)},
+{(IncludeAnnotations ? 1 : 0)},
+{Penetrates.GetSqlValueOrNull(Properties)},
+{Penetrates.GetSqlValueOrNull(UpdatedTime)}
+);";
+        }
+        // 生成更新 SQL
+        else if (behavior == PersistenceBehavior.Updated)
+        {
+            return $@"UPDATE {tableName}
+SET [{columnNames[0]}] = '{JobId}',
+[{columnNames[1]}] = {Penetrates.GetSqlValueOrNull(GroupName)},
+[{columnNames[2]}] = '{JobType}',
+[{columnNames[3]}] = '{AssemblyName}',
+[{columnNames[4]}] = {Penetrates.GetSqlValueOrNull(Description)},
+[{columnNames[5]}] = {(Concurrent ? 1 : 0)},
+[{columnNames[6]}] = {(IncludeAnnotations ? 1 : 0)},
+[{columnNames[7]}] = {Penetrates.GetSqlValueOrNull(Properties)},
+[{columnNames[8]}] = {Penetrates.GetSqlValueOrNull(UpdatedTime)}
+WHERE [{columnNames[0]}] = '{JobId}';";
+        }
+        return string.Empty;
+    }
 }

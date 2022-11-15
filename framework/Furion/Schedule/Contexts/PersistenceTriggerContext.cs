@@ -52,4 +52,15 @@ public sealed class PersistenceTriggerContext : PersistenceContext
     /// 作业触发器
     /// </summary>
     public JobTrigger Trigger { get; }
+
+    /// <summary>
+    /// 生成 Sql 语句
+    /// </summary>
+    /// <param name="tableName">数据库表名</param>
+    /// <param name="naming">命名法</param>
+    /// <returns><see cref="string"/></returns>
+    public new string CreateSql(string tableName, NamingConventions naming = NamingConventions.CamelCase)
+    {
+        return Trigger.CreateSql(tableName, Behavior, naming);
+    }
 }

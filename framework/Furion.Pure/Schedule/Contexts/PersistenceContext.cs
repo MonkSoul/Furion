@@ -59,9 +59,11 @@ public class PersistenceContext
     /// <summary>
     /// 生成 Sql 语句
     /// </summary>
-    /// <returns></returns>
-    public string CreateSql()
+    /// <param name="tableName">数据库表名</param>
+    /// <param name="naming">命名法</param>
+    /// <returns><see cref="string"/></returns>
+    public string CreateSql(string tableName, NamingConventions naming = NamingConventions.CamelCase)
     {
-        return string.Empty;
+        return JobDetail.CreateSql(tableName, Behavior, naming);
     }
 }
