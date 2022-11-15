@@ -28,7 +28,7 @@ namespace Furion.Schedule;
 internal sealed partial class Scheduler
 {
     /// <summary>
-    /// 将作业调度计划转换为构建器
+    /// 获取作业调度计划构建器
     /// </summary>
     /// <returns><see cref="SchedulerBuilder"/></returns>
     public SchedulerBuilder GetBuilder()
@@ -40,9 +40,9 @@ internal sealed partial class Scheduler
     /// 获取作业信息构建器
     /// </summary>
     /// <returns><see cref="JobBuilder"/></returns>
-    public JobBuilder GetDetailBuilder()
+    public JobBuilder GetJobBuilder()
     {
-        return GetBuilder().GetDetail();
+        return GetBuilder().GetJobBuilder();
     }
 
     /// <summary>
@@ -51,7 +51,7 @@ internal sealed partial class Scheduler
     /// <returns><see cref="List{TriggerBuilder}"/></returns>
     public List<TriggerBuilder> GetTriggerBuilders()
     {
-        return GetBuilder().GetTriggers();
+        return GetBuilder().GetTriggerBuilders();
     }
 
     /// <summary>
@@ -61,7 +61,7 @@ internal sealed partial class Scheduler
     /// <returns><see cref="TriggerBuilder"/></returns>
     public TriggerBuilder GetTriggerBuilder(string triggerId)
     {
-        return GetBuilder().GetTrigger(triggerId);
+        return GetBuilder().GetTriggerBuilder(triggerId);
     }
 
     /// <summary>
@@ -80,15 +80,15 @@ internal sealed partial class Scheduler
             if (trigger.Status != TriggerStatus.Pause) continue;
 
             trigger.SetStatus(TriggerStatus.Ready);
-            trigger.GetNextRunTime();
+            trigger.NextRunTime = trigger.GetNextRunTime();
             changeCount++;
 
             // 将作业触发器运行数据写入持久化
-            Factory?.Shorthand(JobDetail, trigger);
+            Factory.Shorthand(JobDetail, trigger);
         }
 
         // 取消作业调度器休眠状态（强制唤醒）
-        if (changeCount > 0) Factory?.CancelSleep();
+        if (changeCount > 0) Factory.CancelSleep();
     }
 
     /// <summary>
@@ -105,11 +105,11 @@ internal sealed partial class Scheduler
             changeCount++;
 
             // 将作业触发器运行数据写入持久化
-            Factory?.Shorthand(JobDetail, trigger);
+            Factory.Shorthand(JobDetail, trigger);
         }
 
         // 取消作业调度器休眠状态（强制唤醒）
-        if (changeCount > 0) Factory?.CancelSleep();
+        if (changeCount > 0) Factory.CancelSleep();
     }
 
     /// <summary>
@@ -118,11 +118,8 @@ internal sealed partial class Scheduler
     /// <param name="triggerId">作业触发器 Id</param>
     public void StartTrigger(string triggerId)
     {
-        // 空检查
-        if (string.IsNullOrWhiteSpace(triggerId)) throw new ArgumentNullException(nameof(triggerId));
-
-        var trigger = Triggers.SingleOrDefault(u => u.Key == triggerId).Value;
-        if (trigger == default) return;
+        var trigger = GetTrigger(triggerId);
+        if (trigger == null) return;
 
         trigger.StartNow = true;
 
@@ -130,13 +127,13 @@ internal sealed partial class Scheduler
         if (trigger.Status != TriggerStatus.Pause) return;
 
         trigger.SetStatus(TriggerStatus.Ready);
-        trigger.GetNextRunTime();
+        trigger.NextRunTime = trigger.GetNextRunTime();
 
         // 将作业触发器运行数据写入持久化
-        Factory?.Shorthand(JobDetail, trigger);
+        Factory.Shorthand(JobDetail, trigger);
 
         // 取消作业调度器休眠状态（强制唤醒）
-        Factory?.CancelSleep();
+        Factory.CancelSleep();
     }
 
     /// <summary>
@@ -145,19 +142,16 @@ internal sealed partial class Scheduler
     /// <param name="triggerId">作业触发器 Id</param>
     public void PauseTrigger(string triggerId)
     {
-        // 空检查
-        if (string.IsNullOrWhiteSpace(triggerId)) throw new ArgumentNullException(nameof(triggerId));
-
-        var trigger = Triggers.SingleOrDefault(u => u.Key == triggerId).Value;
-        if (trigger == default) return;
+        var trigger = GetTrigger(triggerId);
+        if (trigger == null) return;
 
         trigger.SetStatus(TriggerStatus.Pause);
 
         // 将作业触发器运行数据写入持久化
-        Factory?.Shorthand(JobDetail, trigger);
+        Factory.Shorthand(JobDetail, trigger);
 
         // 取消作业调度器休眠状态（强制唤醒）
-        Factory?.CancelSleep();
+        Factory.CancelSleep();
     }
 
     /// <summary>
@@ -171,20 +165,18 @@ internal sealed partial class Scheduler
         // 空检查
         if (jobBuilder == null) throw new ArgumentNullException(nameof(jobBuilder));
 
-        // 构建新的作业信息
-        var internalJobDetail = jobBuilder.Build();
-        JobId = internalJobDetail.JobId;
-        GroupName = internalJobDetail.GroupName;
-        JobDetail = internalJobDetail;
+        var schedulerBuilder = GetBuilder();
+        schedulerBuilder.UpdateJobBuilder(jobBuilder);
 
-        // 将作业信息运行数据写入持久化
-        Factory?.Shorthand(JobDetail);
+        var scheduleResult = Factory.TryUpdateJob(schedulerBuilder, out var scheduler);
+        if (scheduleResult != ScheduleResult.Succeed)
+        {
+            jobDetail = null;
+            return scheduleResult;
+        }
 
-        // 取消作业调度器休眠状态（强制唤醒）
-        Factory?.CancelSleep();
-
-        jobDetail = internalJobDetail;
-        return ScheduleResult.Succeed;
+        jobDetail = ((Scheduler)scheduler).JobDetail;
+        return scheduleResult;
     }
 
     /// <summary>
@@ -237,30 +229,18 @@ internal sealed partial class Scheduler
         // 空检查
         if (triggerBuilder == null) throw new ArgumentNullException(nameof(triggerBuilder));
 
-        // 配置默认 TriggerId
-        if (string.IsNullOrWhiteSpace(triggerBuilder.TriggerId))
+        var schedulerBuilder = GetBuilder();
+        schedulerBuilder.AddTriggerBuilder(triggerBuilder);
+
+        var scheduleResult = Factory.TryUpdateJob(schedulerBuilder, out var scheduler);
+        if (scheduleResult != ScheduleResult.Succeed)
         {
-            triggerBuilder.SetTriggerId($"{JobDetail.JobId}_trigger{Triggers.Count + 1}");
+            trigger = null;
+            return scheduleResult;
         }
 
-        // 构建作业触发器
-        var internalTrigger = triggerBuilder.Build(JobDetail.JobId);
-        var succeed = Triggers.TryAdd(internalTrigger.TriggerId, internalTrigger);
-
-        if (!succeed)
-        {
-            trigger = default;
-            return ScheduleResult.Failed;
-        }
-
-        // 将作业触发器运行数据写入持久化
-        Factory?.Shorthand(JobDetail, internalTrigger, PersistenceBehavior.Appended);
-
-        // 取消作业调度器休眠状态（强制唤醒）
-        Factory?.CancelSleep();
-
-        trigger = internalTrigger;
-        return ScheduleResult.Succeed;
+        trigger = scheduler.GetTrigger(triggerBuilder.TriggerId);
+        return scheduleResult;
     }
 
     /// <summary>
@@ -283,30 +263,18 @@ internal sealed partial class Scheduler
         // 空检查
         if (triggerBuilder == null) throw new ArgumentNullException(nameof(triggerBuilder));
 
-        var triggerId = triggerBuilder.TriggerId;
-        if (string.IsNullOrWhiteSpace(triggerId)) throw new ArgumentException(nameof(triggerId));
+        var schedulerBuilder = GetBuilder();
+        schedulerBuilder.UpdateTriggerBuilder(triggerBuilder);
 
-        // 检查作业触发器 Id 是否存在
-        var scheduleResult = TryGetTrigger(triggerId, out _);
+        var scheduleResult = Factory.TryUpdateJob(schedulerBuilder, out var scheduler);
         if (scheduleResult != ScheduleResult.Succeed)
         {
-            trigger = default;
+            trigger = null;
             return scheduleResult;
         }
 
-        // 添加新的作业触发器
-        var internalTrigger = triggerBuilder.Build(JobDetail.JobId);
-        internalTrigger.NextRunTime = internalTrigger.GetNextRunTime();
-        Triggers[triggerId] = internalTrigger;
-
-        // 将作业触发器运行数据写入持久化
-        Factory?.Shorthand(JobDetail, internalTrigger);
-
-        // 取消作业调度器休眠状态（强制唤醒）
-        Factory?.CancelSleep();
-
-        trigger = internalTrigger;
-        return ScheduleResult.Succeed;
+        trigger = scheduler.GetTrigger(triggerBuilder.TriggerId);
+        return scheduleResult;
     }
 
     /// <summary>
@@ -326,27 +294,18 @@ internal sealed partial class Scheduler
     /// <returns><see cref="ScheduleResult"/></returns>
     public ScheduleResult TryRemoveTrigger(string triggerId, out JobTrigger trigger)
     {
-        // 空检查
-        if (string.IsNullOrWhiteSpace(triggerId)) throw new ArgumentNullException(nameof(triggerId));
+        var schedulerBuilder = GetBuilder();
+        schedulerBuilder.RemoveTriggerBuilder(triggerId, out var triggerBuilder);
 
-        // 检查作业触发器 Id 是否存在
-        var scheduleResult = TryGetTrigger(triggerId, out var internalTrigger);
+        var scheduleResult = Factory.TryUpdateJob(schedulerBuilder, out _);
         if (scheduleResult != ScheduleResult.Succeed)
         {
-            trigger = default;
+            trigger = null;
             return scheduleResult;
         }
 
-        Triggers.Remove(triggerId);
-
-        // 将作业触发器运行数据写入持久化
-        Factory?.Shorthand(JobDetail, internalTrigger, PersistenceBehavior.Removed);
-
-        // 取消作业调度器休眠状态（强制唤醒）
-        Factory?.CancelSleep();
-
-        trigger = internalTrigger;
-        return ScheduleResult.Succeed;
+        trigger = triggerBuilder.Build(JobId);
+        return scheduleResult;
     }
 
     /// <summary>
@@ -364,12 +323,12 @@ internal sealed partial class Scheduler
     public void Persist()
     {
         // 将作业信息运行数据写入持久化
-        Factory?.Shorthand(JobDetail);
+        Factory.Shorthand(JobDetail);
 
         // 逐条将作业触发器运行数据写入持久化
         foreach (var (_, trigger) in Triggers)
         {
-            Factory?.Shorthand(JobDetail, trigger);
+            Factory.Shorthand(JobDetail, trigger);
         }
     }
 
@@ -386,14 +345,10 @@ internal sealed partial class Scheduler
     /// <summary>
     /// 将当前作业调度计划从调度器中删除
     /// </summary>
-    /// <param name="scheduler">作业调度计划</param>
     /// <remarks><see cref="ScheduleResult"/></remarks>
-    public ScheduleResult TryRemove(out IScheduler scheduler)
+    public ScheduleResult TryRemove()
     {
-        scheduler = this;
-
-        var scheduleResult = Factory?.TryRemoveJob(this);
-        return scheduleResult == null ? ScheduleResult.Failed : scheduleResult.Value;
+        return Factory.TryRemoveJob(this);
     }
 
     /// <summary>
@@ -401,6 +356,6 @@ internal sealed partial class Scheduler
     /// </summary>
     public void Remove()
     {
-        _ = TryRemove(out _);
+        _ = TryRemove();
     }
 }

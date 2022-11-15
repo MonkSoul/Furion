@@ -105,11 +105,9 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory, IDisposable
             // 获取作业调度计划构建器
             var schedulerBuilder = SchedulerBuilder.From(scheduler);
 
-            // 加载持久化数据
-            var newSchedulerBuilder = Persistence?.Preload(schedulerBuilder) ?? schedulerBuilder;
-
-            // 更新内存中的作业调度计划
-            _ = TryUpdateJob(newSchedulerBuilder, out _);
+            // 加载持久化数据并更新到内存中
+            _ = TryUpdateJob(Persistence?.Preload(schedulerBuilder)
+                ?? schedulerBuilder, out _);
         }
 
         // 输出作业调度初始化日志
@@ -160,7 +158,7 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory, IDisposable
         var sleepMilliseconds = GetSleepMilliseconds();
         var delay = sleepMilliseconds != null
             ? sleepMilliseconds.Value
-            : -1;
+            : -1;   // -1 标识无穷值休眠
 
         try
         {
@@ -251,6 +249,7 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory, IDisposable
 
         // 获取当前时间作为检查时间
         var nowTime = DateTime.UtcNow;
+
         // 采用 DateTimeKind.Unspecified 转换当前时间并忽略毫秒之后部分（用于减少误差）
         var checkTime = new DateTime(nowTime.Year
             , nowTime.Month
@@ -297,7 +296,8 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory, IDisposable
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Schedule Hosted Service persist failed.");
+                if (context is PersistenceTriggerContext triggerContext) _logger.LogError(ex, "Persistence of <{triggerId}> trigger of <{jobId}> job failed.", triggerContext.TriggerId, triggerContext.JobId);
+                else _logger.LogError(ex, "The JobDetail of <{jobId}> persist failed.", context.JobId);
             }
         }
     }

@@ -142,9 +142,9 @@ public partial interface ISchedulerFactory
     /// 更新作业
     /// </summary>
     /// <param name="schedulerBuilder">作业调度计划构建器</param>
-    /// <param name="newScheduler">新的作业调度计划</param>
+    /// <param name="scheduler">新的作业调度计划</param>
     /// <returns><see cref="ScheduleResult"/></returns>
-    ScheduleResult TryUpdateJob(SchedulerBuilder schedulerBuilder, out IScheduler newScheduler);
+    ScheduleResult TryUpdateJob(SchedulerBuilder schedulerBuilder, out IScheduler scheduler);
 
     /// <summary>
     /// 更新作业
@@ -225,4 +225,14 @@ public partial interface ISchedulerFactory
     /// </summary>
     /// <param name="group">作业组名称</param>
     void RemoveGroup(string group);
+
+    /// <summary>
+    /// 强制触发持久化记录（全部）
+    /// </summary>
+    void PersistAll();
+
+    /// <summary>
+    /// 强制触发持久化记录（特定组）
+    /// </summary>
+    void PersistGroup(string group);
 }

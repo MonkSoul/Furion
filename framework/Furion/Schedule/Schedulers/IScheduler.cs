@@ -28,7 +28,7 @@ namespace Furion.Schedule;
 public interface IScheduler
 {
     /// <summary>
-    /// 将作业调度计划转换为构建器
+    /// 获取作业调度计划构建器
     /// </summary>
     /// <returns><see cref="SchedulerBuilder"/></returns>
     SchedulerBuilder GetBuilder();
@@ -37,7 +37,7 @@ public interface IScheduler
     /// 获取作业信息构建器
     /// </summary>
     /// <returns><see cref="JobBuilder"/></returns>
-    JobBuilder GetDetailBuilder();
+    JobBuilder GetJobBuilder();
 
     /// <summary>
     /// 获取作业触发器构建器集合
@@ -160,9 +160,8 @@ public interface IScheduler
     /// <summary>
     /// 将当前作业调度计划从调度器中删除
     /// </summary>
-    /// <param name="scheduler">作业调度计划</param>
     /// <remarks><see cref="ScheduleResult"/></remarks>
-    ScheduleResult TryRemove(out IScheduler scheduler);
+    ScheduleResult TryRemove();
 
     /// <summary>
     /// 将当前作业调度计划从调度器中删除

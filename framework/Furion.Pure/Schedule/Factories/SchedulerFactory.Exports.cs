@@ -64,7 +64,7 @@ internal sealed partial class SchedulerFactory
     /// <returns><see cref="IScheduler"/></returns>
     public IScheduler GetJob(string jobId)
     {
-        _ = TryGetJob(jobId, out var scheduler);
+        _ = TryGetJob(jobId, out IScheduler scheduler);
         return scheduler;
     }
 
@@ -90,7 +90,7 @@ internal sealed partial class SchedulerFactory
         internalScheduler.JobHandler = (_serviceProvider.GetService(jobType)
             ?? ActivatorUtilities.CreateInstance(_serviceProvider, jobType)) as IJob;
 
-        // 初始化作业触发器下一次执行时间
+        // 初始化作业触发器下一次运行时间
         foreach (var trigger in internalScheduler.Triggers.Values)
         {
             trigger.NextRunTime = trigger.GetNextRunTime();
@@ -108,9 +108,9 @@ internal sealed partial class SchedulerFactory
         Shorthand(internalScheduler.JobDetail, PersistenceBehavior.Appended);
 
         // 将作业触发器运行信息写入持久化
-        foreach (var trigger in internalScheduler.Triggers.Values)
+        foreach (var internalTrigger in internalScheduler.Triggers.Values)
         {
-            Shorthand(internalScheduler.JobDetail, trigger, PersistenceBehavior.Appended);
+            Shorthand(internalScheduler.JobDetail, internalTrigger, PersistenceBehavior.Appended);
         }
 
         // 取消作业调度器休眠状态（强制唤醒）
@@ -238,9 +238,9 @@ internal sealed partial class SchedulerFactory
     /// 更新作业
     /// </summary>
     /// <param name="schedulerBuilder">作业调度计划构建器</param>
-    /// <param name="newScheduler">新的作业调度计划</param>
+    /// <param name="scheduler">新的作业调度计划</param>
     /// <returns><see cref="ScheduleResult"/></returns>
-    public ScheduleResult TryUpdateJob(SchedulerBuilder schedulerBuilder, out IScheduler newScheduler)
+    public ScheduleResult TryUpdateJob(SchedulerBuilder schedulerBuilder, out IScheduler scheduler)
     {
         // 空检查
         if (schedulerBuilder == null) throw new AbandonedMutexException(nameof(schedulerBuilder));
@@ -254,19 +254,19 @@ internal sealed partial class SchedulerFactory
         // 处理从持久化中删除情况
         if (schedulerBuilder.Behavior == PersistenceBehavior.Removed)
         {
-            return TryRemoveJob(jobId, out newScheduler);
+            return TryRemoveJob(jobId, out scheduler);
         }
         // 处理从持久化中添加情况
         else if (schedulerBuilder.Behavior == PersistenceBehavior.Appended)
         {
-            return TryAddJob(schedulerBuilder, out newScheduler);
+            return TryAddJob(schedulerBuilder, out scheduler);
         }
 
         // 查找作业
-        var scheduleResult = TryGetJob(jobId, out var scheduler);
+        var scheduleResult = TryGetJob(jobId, out var internalScheduler);
         if (scheduleResult != ScheduleResult.Succeed)
         {
-            newScheduler = default;
+            scheduler = default;
             return scheduleResult;
         }
 
@@ -288,10 +288,10 @@ internal sealed partial class SchedulerFactory
         }
 
         // 更新内存作业调度计划集合
-        var updateSucceed = _schedulers.TryUpdate(jobId, schedulerForUpdated, (Scheduler)scheduler);
+        var updateSucceed = _schedulers.TryUpdate(jobId, schedulerForUpdated, (Scheduler)internalScheduler);
         if (!updateSucceed)
         {
-            newScheduler = null;
+            scheduler = null;
             return ScheduleResult.Failed;
         }
 
@@ -304,7 +304,7 @@ internal sealed partial class SchedulerFactory
             Shorthand(schedulerForUpdated.JobDetail, triggerForUpdated);
         }
 
-        newScheduler = schedulerForUpdated;
+        scheduler = schedulerForUpdated;
         return ScheduleResult.Succeed;
     }
 
@@ -325,9 +325,6 @@ internal sealed partial class SchedulerFactory
     /// <returns><see cref="ScheduleResult"/></returns>
     public ScheduleResult TryRemoveJob(string jobId, out IScheduler scheduler)
     {
-        // 空检查
-        if (string.IsNullOrWhiteSpace(jobId)) throw new ArgumentNullException(nameof(jobId));
-
         // 检查作业 Id 是否存在
         var scheduleResult = TryGetJob(jobId, out _);
         if (scheduleResult != ScheduleResult.Succeed)
@@ -337,7 +334,7 @@ internal sealed partial class SchedulerFactory
         }
 
         // 从集合中移除
-        var succeed = _schedulers.TryRemove(jobId, out var internalScheduler);
+        var succeed = _schedulers.TryRemove(jobId, out var schedulerForRemoved);
         if (!succeed)
         {
             scheduler = default;
@@ -345,13 +342,13 @@ internal sealed partial class SchedulerFactory
         }
 
         // 将作业信息运行数据写入持久化
-        Shorthand(internalScheduler.JobDetail, PersistenceBehavior.Removed);
+        Shorthand(schedulerForRemoved.JobDetail, PersistenceBehavior.Removed);
 
         // 逐条初始化作业触发器初始化下一次执行时间
-        foreach (var removedTrigger in internalScheduler.Triggers.Values)
+        foreach (var triggerForRemoved in schedulerForRemoved.Triggers.Values)
         {
             // 将作业触发器运行数据写入持久化
-            Shorthand(internalScheduler.JobDetail, removedTrigger, PersistenceBehavior.Removed);
+            Shorthand(schedulerForRemoved.JobDetail, triggerForRemoved, PersistenceBehavior.Removed);
         }
 
         // 取消作业调度器休眠状态（强制唤醒）
@@ -360,7 +357,7 @@ internal sealed partial class SchedulerFactory
         // 输出日志
         _logger.LogInformation("The Scheduler of <{jobId}> has removed.", jobId);
 
-        scheduler = internalScheduler;
+        scheduler = schedulerForRemoved;
         return ScheduleResult.Succeed;
     }
 
@@ -455,7 +452,7 @@ internal sealed partial class SchedulerFactory
         // 空检查
         if (string.IsNullOrWhiteSpace(group)) throw new ArgumentNullException(nameof(group));
 
-        return _schedulers.Values.Where(u => u.GroupName == group);
+        return _schedulers.Values.Where(u => !string.IsNullOrWhiteSpace(u.GroupName) && u.GroupName == group);
     }
 
     /// <summary>
@@ -497,6 +494,32 @@ internal sealed partial class SchedulerFactory
         foreach (var scheduler in schedulers)
         {
             scheduler.Remove();
+        }
+    }
+
+    /// <summary>
+    /// 强制触发持久化记录（全部）
+    /// </summary>
+    public void PersistAll()
+    {
+        var schedulers = GetJobs();
+
+        foreach (var scheduler in schedulers)
+        {
+            scheduler.Persist();
+        }
+    }
+
+    /// <summary>
+    /// 强制触发持久化记录（特定组）
+    /// </summary>
+    public void PersistGroup(string group)
+    {
+        var schedulers = GetGroupJobs(group);
+
+        foreach (var scheduler in schedulers)
+        {
+            scheduler.Persist();
         }
     }
 }
