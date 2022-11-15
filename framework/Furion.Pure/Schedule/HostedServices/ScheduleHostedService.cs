@@ -271,6 +271,9 @@ internal sealed class ScheduleHostedService : BackgroundService
         {
             jobDetail.Blocked = true;
 
+            // 记录作业执行信息
+            LogExecution(jobDetail, trigger, checkTime);
+
             // 将作业信息运行数据写入持久化
             _schedulerFactory.Shorthand(jobDetail);
 
@@ -310,8 +313,11 @@ internal sealed class ScheduleHostedService : BackgroundService
             _logger.LogInformation(TP.Wrapper("JobExecution", jobDetail.Description ?? jobDetail.JobType, new[]
             {
                 $"##JobId## {jobDetail.JobId}"
+                , $"##GroupName## {jobDetail.GroupName}"
                 , $"##JobType## {jobDetail.JobType}"
                 , $"##Concurrent## {jobDetail.Concurrent}"
+                , $"##IncludeAnnotations## {jobDetail.IncludeAnnotations}"
+                , $"##Blocked## {jobDetail.Blocked}"
                 , $"##CheckTime## {checkTime}"
                 , "━━━━━━━━━━━━  JobTrigger ━━━━━━━━━━━━"
                 , $"##TriggerId## {trigger.TriggerId}"

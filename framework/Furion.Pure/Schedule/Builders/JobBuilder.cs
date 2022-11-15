@@ -72,6 +72,16 @@ public sealed class JobBuilder : JobDetail
     }
 
     /// <summary>
+    /// 将 <see cref="JobDetail"/> 转换成 <see cref="JobBuilder"/>
+    /// </summary>
+    /// <param name="jobDetail"></param>
+    /// <returns></returns>
+    internal static JobBuilder From(JobDetail jobDetail)
+    {
+        return jobDetail.MapTo<JobBuilder>();
+    }
+
+    /// <summary>
     /// 设置作业 Id
     /// </summary>
     /// <param name="jobId">作业 Id</param>
@@ -178,6 +188,19 @@ public sealed class JobBuilder : JobDetail
     }
 
     /// <summary>
+    /// 设置是否标记其他作业正在执行
+    /// </summary>
+    /// <param name="blocked">标记其他作业正在执行</param>
+    /// <remarks>当 Concurrent 为 false 时有效，也就是串行执行</remarks>
+    /// <returns><see cref="JobBuilder"/></returns>
+    public JobBuilder SetBlocked(bool blocked)
+    {
+        Blocked = blocked;
+
+        return this;
+    }
+
+    /// <summary>
     /// 设置作业额外数据
     /// </summary>
     /// <param name="properties">作业额外数据</param>
@@ -248,16 +271,6 @@ public sealed class JobBuilder : JobDetail
     /// <param name="key">键</param>
     /// <returns>T 类型</returns>
     public new T GetProperty<T>(string key) => throw new NotImplementedException();
-
-    /// <summary>
-    /// 将 <see cref="JobDetail"/> 转换成 <see cref="JobBuilder"/>
-    /// </summary>
-    /// <param name="jobDetail"></param>
-    /// <returns></returns>
-    internal static JobBuilder From(JobDetail jobDetail)
-    {
-        return jobDetail.MapTo<JobBuilder>();
-    }
 
     /// <summary>
     /// 构建 <see cref="JobDetail"/> 对象

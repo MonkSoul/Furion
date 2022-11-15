@@ -97,18 +97,13 @@ public sealed class TriggerBuilder : JobTrigger
     }
 
     /// <summary>
-    /// 设置作业触发器参数
+    /// 将 <see cref="JobTrigger"/> 转换成 <see cref="TriggerBuilder"/>
     /// </summary>
-    /// <param name="args">作业触发器参数</param>
-    /// <returns><see cref="TriggerBuilder"/></returns>
-    public TriggerBuilder WithArgs(object[] args)
+    /// <param name="trigger"></param>
+    /// <returns></returns>
+    public static TriggerBuilder From(JobTrigger trigger)
     {
-        Args = args == null || args.Length == 0
-            ? null
-            : JsonSerializer.Serialize(args);
-        RuntimeTriggerArgs = args;
-
-        return this;
+        return trigger.MapTo<TriggerBuilder>();
     }
 
     /// <summary>
@@ -152,14 +147,29 @@ public sealed class TriggerBuilder : JobTrigger
         // 检查 triggerType 类型是否派生自 JobTrigger
         if (!typeof(JobTrigger).IsAssignableFrom(triggerType)
             || triggerType.IsInterface
-            || triggerType.IsAbstract) throw new InvalidOperationException("The <TriggerType> is not a valid JobTrigger type.");
+            || triggerType.IsAbstract) throw new InvalidOperationException("The <triggerType> is not a valid JobTrigger type.");
 
         // 最多只能包含一个构造函数
-        if (triggerType.GetConstructors().Length > 1) throw new InvalidOperationException("The <TriggerType> can contain at most one constructor.");
+        if (triggerType.GetConstructors().Length > 1) throw new InvalidOperationException("The <triggerType> can contain at most one constructor.");
 
         AssemblyName = triggerType.Assembly.GetName().Name;
         TriggerType = triggerType.FullName;
         RuntimeTriggerType = triggerType;
+
+        return this;
+    }
+
+    /// <summary>
+    /// 设置作业触发器参数
+    /// </summary>
+    /// <param name="args">作业触发器参数</param>
+    /// <returns><see cref="TriggerBuilder"/></returns>
+    public TriggerBuilder WithArgs(object[] args)
+    {
+        Args = args == null || args.Length == 0
+            ? null
+            : JsonSerializer.Serialize(args);
+        RuntimeTriggerArgs = args;
 
         return this;
     }
@@ -172,6 +182,18 @@ public sealed class TriggerBuilder : JobTrigger
     public TriggerBuilder SetDescription(string description)
     {
         Description = description;
+
+        return this;
+    }
+
+    /// <summary>
+    /// 设置作业触发器状态
+    /// </summary>
+    /// <param name="status">作业触发器状态</param>
+    /// <returns><see cref="TriggerBuilder"/></returns>
+    public new TriggerBuilder SetStatus(TriggerStatus status)
+    {
+        Status = status;
 
         return this;
     }
@@ -196,6 +218,30 @@ public sealed class TriggerBuilder : JobTrigger
     public TriggerBuilder SetEndTime(DateTime? endTime)
     {
         EndTime = endTime;
+
+        return this;
+    }
+
+    /// <summary>
+    /// 设置最近运行时间
+    /// </summary>
+    /// <param name="lastRunTime">最近运行时间</param>
+    /// <returns><see cref="TriggerBuilder"/></returns>
+    public TriggerBuilder SetLastRunTime(DateTime? lastRunTime)
+    {
+        LastRunTime = lastRunTime;
+
+        return this;
+    }
+
+    /// <summary>
+    /// 设置下一次运行时间
+    /// </summary>
+    /// <param name="nextRunTime">下一次运行时间</param>
+    /// <returns><see cref="TriggerBuilder"/></returns>
+    public TriggerBuilder SetNextRunTime(DateTime? nextRunTime)
+    {
+        NextRunTime = nextRunTime;
 
         return this;
     }
@@ -323,16 +369,6 @@ public sealed class TriggerBuilder : JobTrigger
     /// <param name="checkTime">受检时间</param>
     /// <returns><see cref="bool"/></returns>
     public new bool ShouldRun(DateTime checkTime) => throw new NotImplementedException();
-
-    /// <summary>
-    /// 将 <see cref="JobTrigger"/> 转换成 <see cref="TriggerBuilder"/>
-    /// </summary>
-    /// <param name="trigger"></param>
-    /// <returns></returns>
-    internal static TriggerBuilder From(JobTrigger trigger)
-    {
-        return trigger.MapTo<TriggerBuilder>();
-    }
 
     /// <summary>
     /// 构建 <see cref="JobTrigger"/> 对象

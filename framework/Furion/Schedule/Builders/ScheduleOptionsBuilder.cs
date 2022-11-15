@@ -181,25 +181,14 @@ public sealed class ScheduleOptionsBuilder
         var schedulers = new ConcurrentDictionary<string, Scheduler>();
 
         // 遍历作业信息构建器集合
-        for (var i = 0; i < _schedulerBuilders.Count; i++)
+        foreach (var schedulerBuilder in _schedulerBuilders)
         {
-            var schedulerBuilder = _schedulerBuilders[i];
-
-            // 获取作业信息构建器
-            var jobBuilder = schedulerBuilder.JobBuilder;
-
-            // 配置默认 JobId
-            if (string.IsNullOrWhiteSpace(jobBuilder.JobId))
-            {
-                jobBuilder.SetJobId($"job{i + 1}");
-            }
+            // 构建作业调度计划并添加到集合中
+            var scheduler = schedulerBuilder.Build(_schedulerBuilders.Count);
+            var succeed = schedulers.TryAdd(scheduler.JobId, scheduler);
 
             // 检查 作业 Id 重复
-            if (schedulers.ContainsKey(jobBuilder.JobId)) throw new InvalidOperationException($"The JobId of <{jobBuilder.JobId}> already exists.");
-
-            // 构建作业调度计划并添加到集合中
-            var scheduler = schedulerBuilder.Build();
-            _ = schedulers.TryAdd(jobBuilder.JobId, scheduler);
+            if (!succeed) throw new InvalidOperationException($"The JobId of <{scheduler.JobId}> already exists.");
 
             // 注册作业处理程序为单例
             var jobType = scheduler.JobDetail.RuntimeJobType;

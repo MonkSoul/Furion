@@ -79,25 +79,8 @@ internal sealed partial class SchedulerFactory
         // 空检查
         if (schedulerBuilder == null) throw new ArgumentNullException(nameof(schedulerBuilder));
 
-        // 获取作业信息构建器
-        var jobBuilder = schedulerBuilder.JobBuilder;
-
-        // 配置默认 JobId
-        if (string.IsNullOrWhiteSpace(jobBuilder.JobId))
-        {
-            jobBuilder.SetJobId($"job{_schedulers.Count + 1}");
-        }
-
-        // 检查作业 Id 是否存在
-        var scheduleResult = TryGetJob(jobBuilder.JobId, out _);
-        if (scheduleResult != ScheduleResult.Succeed)
-        {
-            scheduler = default;
-            return scheduleResult;
-        }
-
         // 构建作业调度计划
-        var internalScheduler = schedulerBuilder.Build();
+        var internalScheduler = schedulerBuilder.Build(_schedulers.Count);
 
         // 存储作业调度计划工厂
         internalScheduler.Factory = this;
@@ -114,7 +97,7 @@ internal sealed partial class SchedulerFactory
         }
 
         // 追加到集合中
-        var succeed = _schedulers.TryAdd(jobBuilder.JobId, internalScheduler);
+        var succeed = _schedulers.TryAdd(internalScheduler.JobId, internalScheduler);
         if (!succeed)
         {
             scheduler = default;
@@ -134,7 +117,7 @@ internal sealed partial class SchedulerFactory
         CancelSleep();
 
         // 输出日志
-        _logger.LogInformation("The Scheduler of <{jobId}> successfully added to the schedule.", jobBuilder.JobId);
+        _logger.LogInformation("The Scheduler of <{jobId}> successfully added to the schedule.", internalScheduler.JobId);
 
         scheduler = internalScheduler;
         return ScheduleResult.Succeed;
@@ -278,7 +261,7 @@ internal sealed partial class SchedulerFactory
         var internalScheduler = (Scheduler)scheduler;
 
         // 获取更新后的作业调度计划
-        var schedulerForUpdated = schedulerBuilder.Build();
+        var schedulerForUpdated = schedulerBuilder.Build(_schedulers.Count);
 
         // 处理从持久化中删除情况
         if (schedulerBuilder.Behavior == PersistenceBehavior.Removed)

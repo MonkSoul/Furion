@@ -67,7 +67,7 @@ public partial class JobDetail
     public bool IncludeAnnotations { get; internal set; } = false;
 
     /// <summary>
-    /// 标记其他触发器正在执行
+    /// 标记其他作业正在执行
     /// </summary>
     /// <remarks>当 <see cref="Concurrent"/> 为 false 时有效，也就是串行执行</remarks>
     public bool Blocked { get; internal set; } = false;

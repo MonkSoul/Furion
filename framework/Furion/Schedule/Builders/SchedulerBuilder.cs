@@ -168,9 +168,16 @@ public sealed class SchedulerBuilder
     /// <summary>
     /// 构建 <see cref="Scheduler"/> 对象
     /// </summary>
+    /// <param name="total">当前作业调度计划总量</param>
     /// <returns><see cref="Scheduler"/></returns>
-    internal Scheduler Build()
+    internal Scheduler Build(int total)
     {
+        // 配置默认 JobId
+        if (string.IsNullOrWhiteSpace(JobBuilder.JobId))
+        {
+            JobBuilder.SetJobId($"job{total + 1}");
+        }
+
         // 构建作业信息和作业触发器
         var jobDetail = JobBuilder.Build();
 
