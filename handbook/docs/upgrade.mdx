@@ -50,6 +50,124 @@ import Tag from "@site/src/components/Tag.js";
 
 ---
 
+## v4.7.9（当前版本）
+
+:::caution .NET7 发布
+
+**🚀🎉🔥 2022 年 11 月 08 日，微软发布了 .NET7 首个正式版。**
+
+`Furion` 第一时间完成了适配，**`v4` 版本开始一套代码支持 `.NET5-.NET7/N`，支持所有 `Furion` 版本升级**。
+
+:::
+
+:::important 版本细节
+
+- `v4.7.9` 版本细节：[https://gitee.com/dotnetchina/Furion/issues/I60MFK](https://gitee.com/dotnetchina/Furion/issues/I60MFK) <sup>2022.11.11</sup>
+- `v4.7.7` 版本细节：[https://gitee.com/dotnetchina/Furion/issues/I60GZ8](https://gitee.com/dotnetchina/Furion/issues/I60GZ8) <sup>2022.11.10</sup>
+- `v4.7.6` 版本细节：[https://gitee.com/dotnetchina/Furion/issues/I60591](https://gitee.com/dotnetchina/Furion/issues/I60591) <sup>2022.11.08</sup>
+- `v4.7.5` 版本细节：[https://gitee.com/dotnetchina/Furion/issues/I600R4](https://gitee.com/dotnetchina/Furion/issues/I600R4) <sup>2022.11.08</sup>
+- `v4.7.3` 版本细节：[https://gitee.com/dotnetchina/Furion/issues/I5Z9TI](https://gitee.com/dotnetchina/Furion/issues/I5Z9TI) <sup>2022.11.03</sup>
+- `v4.7.2` 版本细节：[https://gitee.com/dotnetchina/Furion/issues/I5YG48](https://gitee.com/dotnetchina/Furion/issues/I5YG48) <sup>2022.10.30</sup>
+- `v4.7.1` 版本细节：[https://gitee.com/dotnetchina/Furion/issues/I5Y6U3](https://gitee.com/dotnetchina/Furion/issues/I5Y6U3) <sup>2022.10.28</sup>
+- `v4.7.0` 版本细节：[https://gitee.com/dotnetchina/Furion/issues/I5Y04N](https://gitee.com/dotnetchina/Furion/issues/I5Y04N) <sup>2022.10.27</sup>
+
+:::
+
+- **新特性**
+
+  - &nbsp;<Tag>新增</Tag> 日志模块时间格式化默认输出 `毫秒` 部分，针对并发比较高的场景 <sup>4.7.0</sup> [c0dc36c](https://gitee.com/dotnetchina/Furion/commit/c0dc36c4a2294596cbf3f5cdbdb2589c447bf746)
+  - &nbsp;<Tag>新增</Tag> 写入数据库日志死循环输出检测机制 <sup>4.7.0</sup> [30dea0c](https://gitee.com/dotnetchina/Furion/commit/30dea0cebf8a946bea670fa0d2f82cde8321b847)
+  - &nbsp;<Tag>新增</Tag> `LoggingMonitor` 输出 `系统信息`，`.NET 架构` 和 `基础框架` <sup>4.7.1</sup> [aeda902](https://gitee.com/dotnetchina/Furion/commit/aeda90259ef0684bff6308e2f387d89ac9081d37)
+  - &nbsp;<Tag>新增</Tag> 远程请求 `.SetQueries(obj, ignoreNullValue)` 重载方法 <sup>4.7.3</sup> [#I5Z8KC](https://gitee.com/dotnetchina/Furion/issues/I5Z8KC)
+  - &nbsp;<Tag>新增</Tag> 远程请求 `.GetCookies()` 和 `.GetSetCookies()` 拓展方法 <sup>4.7.5</sup> [#I5ZY1L](https://gitee.com/dotnetchina/Furion/issues/I5ZY1L)
+  - &nbsp;<Tag>新增</Tag> 事件总线 `.ReplaceStorerOrFallback` 自定义事件源存储器方法，可在自定义初始失败时回退到默认值 <sup>4.7.6</sup> [#I602NU](https://gitee.com/dotnetchina/Furion/issues/I602NU)
+  - &nbsp;<Tag>新增</Tag> `LoggingMonitor` 输出 `启动信息`，`Cookies` 和 `请求端源` 信息 <sup>4.7.7</sup> [3037b04](https://gitee.com/dotnetchina/Furion/commit/3037b04cac8cfa70d6e7f1dba62d48362f75e778)
+  - &nbsp;<Tag>新增</Tag> **`JSON` 序列化 `DateOnly` 和 `TimeOnly` 类型转换器：`.AddDateOnlyConverters()` 和 `.AddTimeOnlyConverters()`** <sup>4.7.9</sup> [!657](https://gitee.com/dotnetchina/Furion/pulls/657) [47a5fcb](https://gitee.com/dotnetchina/Furion/commit/47a5fcbe9dbcff4fb35addc178d2715dbb3544a2)
+  - &nbsp;<Tag>新增</Tag> **`HttpContext.ReadBodyContentAsync()` 拓展方法重复读取 `Body` 内容** <sup>4.7.9</sup> [#I60IYU](https://gitee.com/dotnetchina/Furion/issues/I60IYU)
+
+- **突破性变化**
+
+  - &nbsp;<Tag>新增</Tag> **所有脚手架支持 `-f` 指定 `.NET` 版本** <sup>4.7.6</sup> [#I603AZ](https://gitee.com/dotnetchina/Furion/issues/I603AZ)
+
+<details style={{ marginLeft: 50 }}>
+  <summary>查看更改</summary>
+  <div>
+
+```bash showLineNumbers {2,5,8}
+# 创建 .NET5 版本
+dotnet new furionapi -n 项目名称 -f net5
+
+# 创建 .NET6 版本
+dotnet new furionapi -n 项目名称 -f net6
+
+# 创建 .NET7 版本
+dotnet new furionapi -n 项目名称 -f net7
+```
+
+  </div>
+</details>
+
+- - &nbsp;<Tag>升级</Tag> **适配 `.NET 6.0.11` 和 `.NET 7`** <sup>4.7.5</sup> [7df3195](https://gitee.com/dotnetchina/Furion/commit/7df31951cc565327ae101d416551c6de3afa401b)
+- - &nbsp;<Tag>升级</Tag> **所有脚手架至 `.NET 7`** <sup>4.7.5</sup> [7df3195](https://gitee.com/dotnetchina/Furion/commit/7df31951cc565327ae101d416551c6de3afa401b)
+- - &nbsp;<Tag>调整</Tag> **`LogContext` 类型的所有方法至 `Furion.Logging` 命名空间下，解决空异常问题** <sup>4.7.3</sup> [#I5YOT3](https://gitee.com/dotnetchina/Furion/issues/I5YOT3)
+
+<details style={{ marginLeft: 50 }}>
+  <summary>查看更改</summary>
+  <div>
+
+由：
+
+```cs showLineNumbers
+var value = logContext.Get("Key");  // 过去如果 logContext == null 报错
+```
+
+改为：
+
+```cs showLineNumbers {1}
+using Furion.Logging;
+
+var value = logContext.Get("Key");  // 新版本不会报错，且 value = null
+```
+
+  </div>
+</details>
+
+- - &nbsp;<Tag>调整</Tag> **旧版本定时任务为 `弃用` 状态（一周内发布新版），如需取消警告在 `.csproj` 中添加 `<NoWarn>0618</NoWarn>`** <sup>4.7.9</sup> [0ff3ac0](https://gitee.com/dotnetchina/Furion/commit/0ff3ac0fcc54c510ce444b80e9f83eb2c81dc9ba)
+
+- **问题修复**
+
+  - &nbsp;<Tag>修复</Tag> **生成 `JWT Token` 时间戳和自动刷新逻辑在高并发下检查有效性不够精确问题，原因是时间戳丢掉了毫秒部分** <sup>4.7.0</sup> [3c0c017](https://gitee.com/dotnetchina/Furion/commit/3c0c017ca43c9043bb5806b2951a5bcc7d571142)
+  - &nbsp;<Tag>修复</Tag> **在 `IDatabaseLoggingWriter` 实现类中输出日志导致死循环问题** <sup>4.7.0</sup> [30dea0c](https://gitee.com/dotnetchina/Furion/commit/30dea0cebf8a946bea670fa0d2f82cde8321b847)
+  - &nbsp;<Tag>修复</Tag> 规范化结果 `OnResponseStatusCodes` 方法在 `Response` 已完成写入时设置出现异常问题 <sup>4.7.2</sup> [#I5YBHL](https://gitee.com/dotnetchina/Furion/issues/I5YBHL)
+  - &nbsp;<Tag>修复</Tag> `L.SetCulture("zh-CN");` 在 `Response` 已完成写入时设置出现异常问题 <sup>4.7.2</sup> [#I5YBHL](https://gitee.com/dotnetchina/Furion/issues/I5YBHL)
+  - &nbsp;<Tag>修复</Tag> 动态 `WebAPI` 在类上配置 `[Route]` 特性且包含 `[action]` 模板导致生成错误接口路径 <sup>4.7.2</sup> [#I5YEZQ](https://gitee.com/dotnetchina/Furion/issues/I5YEZQ)
+  - &nbsp;<Tag>修复</Tag> 启用二级虚拟目录 `AppSettings:VirtualPath` 导致 `swagger` 的 `miniprofile` 加载失败 <sup>4.7.3</sup> [#I5Z8RM](https://gitee.com/dotnetchina/Furion/issues/I5Z8RM)
+  - &nbsp;<Tag>修复</Tag> `LoggingMonitor` 监听带有 `[FromServices]` 的方法参数或接口类型参数出错 <sup>4.7.7</sup> [3037b04](https://gitee.com/dotnetchina/Furion/commit/3037b04cac8cfa70d6e7f1dba62d48362f75e778)
+  - &nbsp;<Tag>修复</Tag> `HttpRequest` 通过 `.ReadBodyContentAsync()` 读取不到 `Body` 问题 <sup>4.7.9</sup> [#I60IYU](https://gitee.com/dotnetchina/Furion/issues/I60IYU)
+
+- **其他更改**
+
+  - &nbsp;<Tag>更新</Tag> `JSON Schema` 配置，新增日志更多参数提醒 <sup>4.7.0</sup> [74bee56](https://gitee.com/dotnetchina/Furion/commit/74bee56ce2a6d305c3825d72e42f6dcaff102aaf)
+  - &nbsp;<Tag>调整</Tag> 日志记录时间格式默认输出带 `7位` 的毫秒值 <sup>4.7.1</sup> [aeda902](https://gitee.com/dotnetchina/Furion/commit/aeda90259ef0684bff6308e2f387d89ac9081d37)
+  - &nbsp;<Tag>调整</Tag> 所有脚手架默认启用 `单文件/独立部署` 配置 <sup>4.7.7</sup> [1277f53](https://gitee.com/dotnetchina/Furion/commit/1277f53085833001d241c713b1ec4b8e0a27843e)
+
+- **文档**
+
+  - &nbsp;<Tag>新增</Tag> `IIS` 回收问题解决方案文档
+  - &nbsp;<Tag>新增</Tag> 远程请求获取 `Cookies` 文档
+  - &nbsp;<Tag>新增</Tag> `LoggingMonitor` 写入数据库文档
+  - &nbsp;<Tag>新增</Tag> JSON 序列化 `DateOnly` 和 `TimeOnly` 类型处理文档
+  - &nbsp;<Tag>新增</Tag> `HttpContext` 读取 `Body` 内容文档
+  - &nbsp;<Tag>新增</Tag> `PM2` 配置文件 `json` 部署文档
+  - &nbsp;<Tag>更新</Tag> 日志记录文档、定时任务文档、远程请求文档、脚手架文档
+
+- **特别贡献**
+
+  - [@YaChengMu](https://gitee.com/YaChengMu)：[!657](https://gitee.com/dotnetchina/Furion/pulls/657)
+  - [@LiuDanK](https://gitee.com/LiuDanK_admin)：[#I60MP2](https://gitee.com/dotnetchina/Furion/issues/I60MP2)
+
+---
+
 ## v4.6.9（已发布）
 
 :::important 版本细节
