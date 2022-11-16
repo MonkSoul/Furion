@@ -23,7 +23,7 @@
 namespace Furion.Schedule;
 
 /// <summary>
-/// 作业调度计划工厂服务
+/// 作业计划工厂服务
 /// </summary>
 public partial interface ISchedulerFactory
 {
@@ -37,7 +37,7 @@ public partial interface ISchedulerFactory
     /// 获取作业
     /// </summary>
     /// <param name="jobId">作业 Id</param>
-    /// <param name="scheduler">作业调度计划</param>
+    /// <param name="scheduler">作业计划</param>
     /// <returns><see cref="ScheduleResult"/></returns>
     ScheduleResult TryGetJob(string jobId, out IScheduler scheduler);
 
@@ -51,15 +51,15 @@ public partial interface ISchedulerFactory
     /// <summary>
     /// 添加作业
     /// </summary>
-    /// <param name="schedulerBuilder">作业调度计划构建器</param>
-    /// <param name="scheduler">作业调度计划</param>
+    /// <param name="schedulerBuilder">作业计划构建器</param>
+    /// <param name="scheduler">作业计划</param>
     /// <returns><see cref="ScheduleResult"/></returns>
     ScheduleResult TryAddJob(SchedulerBuilder schedulerBuilder, out IScheduler scheduler);
 
     /// <summary>
     /// 添加作业
     /// </summary>
-    /// <param name="schedulerBuilder">作业调度计划构建器</param>
+    /// <param name="schedulerBuilder">作业计划构建器</param>
     void AddJob(SchedulerBuilder schedulerBuilder);
 
     /// <summary>
@@ -67,7 +67,7 @@ public partial interface ISchedulerFactory
     /// </summary>
     /// <param name="jobBuilder">作业信息构建器</param>
     /// <param name="triggerBuilders">作业触发器构建器集合</param>
-    /// <param name="scheduler">作业调度计划</param>
+    /// <param name="scheduler">作业计划</param>
     /// <returns><see cref="ScheduleResult"/></returns>
     ScheduleResult TryAddJob(JobBuilder jobBuilder, TriggerBuilder[] triggerBuilders, out IScheduler scheduler);
 
@@ -83,7 +83,7 @@ public partial interface ISchedulerFactory
     /// </summary>
     /// <typeparam name="TJob"><see cref="IJob"/> 实现类型</typeparam>
     /// <param name="triggerBuilders">作业触发器构建器集合</param>
-    /// <param name="scheduler">作业调度计划</param>
+    /// <param name="scheduler">作业计划</param>
     /// <remarks><see cref="ScheduleResult"/></remarks>
     ScheduleResult TryAddJob<TJob>(TriggerBuilder[] triggerBuilders, out IScheduler scheduler)
         where TJob : class, IJob;
@@ -102,7 +102,7 @@ public partial interface ISchedulerFactory
     /// <typeparam name="TJob"><see cref="IJob"/> 实现类型</typeparam>
     /// <param name="jobId">作业 Id</param>
     /// <param name="triggerBuilders">作业触发器构建器集合</param>
-    /// <param name="scheduler">作业调度计划</param>
+    /// <param name="scheduler">作业计划</param>
     /// <returns><see cref="ScheduleResult"/></returns>
     ScheduleResult TryAddJob<TJob>(string jobId, TriggerBuilder[] triggerBuilders, out IScheduler scheduler)
         where TJob : class, IJob;
@@ -123,7 +123,7 @@ public partial interface ISchedulerFactory
     /// <param name="jobId"><see cref="IJob"/> 实现类型</param>
     /// <param name="concurrent">是否采用并发执行</param>
     /// <param name="triggerBuilders">作业触发器构建器集合</param>
-    /// <param name="scheduler">作业调度计划</param>
+    /// <param name="scheduler">作业计划</param>
     /// <returns><see cref="ScheduleResult"/></returns>
     ScheduleResult TryAddJob<TJob>(string jobId, bool concurrent, TriggerBuilder[] triggerBuilders, out IScheduler scheduler)
         where TJob : class, IJob;
@@ -141,22 +141,22 @@ public partial interface ISchedulerFactory
     /// <summary>
     /// 更新作业
     /// </summary>
-    /// <param name="schedulerBuilder">作业调度计划构建器</param>
-    /// <param name="scheduler">新的作业调度计划</param>
+    /// <param name="schedulerBuilder">作业计划构建器</param>
+    /// <param name="scheduler">新的作业计划</param>
     /// <returns><see cref="ScheduleResult"/></returns>
     ScheduleResult TryUpdateJob(SchedulerBuilder schedulerBuilder, out IScheduler scheduler);
 
     /// <summary>
     /// 更新作业
     /// </summary>
-    /// <param name="schedulerBuilder">作业调度计划构建器</param>
+    /// <param name="schedulerBuilder">作业计划构建器</param>
     void UpdateJob(SchedulerBuilder schedulerBuilder);
 
     /// <summary>
     /// 删除作业
     /// </summary>
     /// <param name="jobId">作业 Id</param>
-    /// <param name="scheduler">作业调度计划</param>
+    /// <param name="scheduler">作业计划</param>
     /// <returns><see cref="ScheduleResult"/></returns>
     ScheduleResult TryRemoveJob(string jobId, out IScheduler scheduler);
 
@@ -169,14 +169,14 @@ public partial interface ISchedulerFactory
     /// <summary>
     /// 删除作业
     /// </summary>
-    /// <param name="scheduler">作业调度计划</param>
+    /// <param name="scheduler">作业计划</param>
     /// <returns><see cref="ScheduleResult"/></returns>
     ScheduleResult TryRemoveJob(IScheduler scheduler);
 
     /// <summary>
     /// 删除作业
     /// </summary>
-    /// <param name="scheduler">作业调度计划</param>
+    /// <param name="scheduler">作业计划</param>
     void RemoveJob(IScheduler scheduler);
 
     /// <summary>
@@ -227,12 +227,12 @@ public partial interface ISchedulerFactory
     void RemoveGroup(string group);
 
     /// <summary>
-    /// 强制触发持久化记录（全部）
+    /// 强制触发作业持久化记录（全部）
     /// </summary>
     void PersistAll();
 
     /// <summary>
-    /// 强制触发持久化记录（特定组）
+    /// 强制触发作业持久化记录（特定组）
     /// </summary>
     void PersistGroup(string group);
 }

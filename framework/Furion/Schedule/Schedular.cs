@@ -29,7 +29,7 @@ namespace Furion.Schedule;
 public static class Schedular
 {
     /// <summary>
-    /// 获取作业调度计划工厂
+    /// 获取作业计划工厂
     /// </summary>
     /// <returns><see cref="ISchedulerFactory"/></returns>
     public static ISchedulerFactory GetFactory()

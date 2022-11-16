@@ -27,7 +27,7 @@ using Microsoft.Extensions.Hosting;
 namespace Furion.Schedule;
 
 /// <summary>
-/// 作业调度后台主机服务
+/// 作业调度器后台主机服务
 /// </summary>
 internal sealed class ScheduleHostedService : BackgroundService
 {
@@ -37,12 +37,12 @@ internal sealed class ScheduleHostedService : BackgroundService
     internal event EventHandler<UnobservedTaskExceptionEventArgs> UnobservedTaskException;
 
     /// <summary>
-    /// 日志对象
+    /// 作业调度器日志服务
     /// </summary>
     private readonly IScheduleLogger _logger;
 
     /// <summary>
-    /// 作业调度工厂
+    /// 作业计划工厂服务
     /// </summary>
     private readonly ISchedulerFactory _schedulerFactory;
 
@@ -50,8 +50,8 @@ internal sealed class ScheduleHostedService : BackgroundService
     /// 构造函数
     /// </summary>
     /// <param name="serviceProvider">服务提供器</param>
-    /// <param name="logger">日志对象</param>
-    /// <param name="schedulerFactory">作业调度工厂</param>
+    /// <param name="logger">作业调度器日志服务</param>
+    /// <param name="schedulerFactory">作业计划工厂服务</param>
     /// <param name="useUtcTimestamp">是否使用 Utc 时间</param>
     public ScheduleHostedService(IServiceProvider serviceProvider
         , IScheduleLogger logger
@@ -123,7 +123,7 @@ internal sealed class ScheduleHostedService : BackgroundService
         // 创建一个任务工厂并保证执行任务都使用当前的计划程序
         var taskFactory = new TaskFactory(System.Threading.Tasks.TaskScheduler.Current);
 
-        // 逐条遍历所有作业调度计划集合
+        // 逐条遍历所有作业计划集合
         foreach (var schedulerThatShouldRun in nextRunJobs)
         {
             // 解构参数
@@ -142,7 +142,7 @@ internal sealed class ScheduleHostedService : BackgroundService
                 // 处理串行执行逻辑（默认并行执行）
                 if (CheckIsBlocked(jobDetail, trigger, checkTime)) continue;
 
-                // 设置触发器状态为运行状态
+                // 设置作业触发器状态为运行状态
                 trigger.SetStatus(TriggerStatus.Running);
 
                 // 记录运行信息和计算下一个触发时间

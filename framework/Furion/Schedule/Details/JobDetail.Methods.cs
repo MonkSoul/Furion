@@ -39,7 +39,7 @@ public partial class JobDetail
     }
 
     /// <summary>
-    /// 获取作业额外数据
+    /// 获取作业信息额外数据
     /// </summary>
     /// <param name="key">键</param>
     /// <returns><see cref="object"/></returns>
@@ -54,7 +54,7 @@ public partial class JobDetail
     }
 
     /// <summary>
-    /// 获取作业额外数据
+    /// 获取作业信息额外数据
     /// </summary>
     /// <typeparam name="T">结果泛型类型</typeparam>
     /// <param name="key">键</param>
@@ -67,7 +67,7 @@ public partial class JobDetail
     }
 
     /// <summary>
-    /// 添加作业额外数据
+    /// 添加作业信息额外数据
     /// </summary>
     /// <param name="key">键</param>
     /// <param name="value">值</param>
@@ -84,7 +84,7 @@ public partial class JobDetail
     }
 
     /// <summary>
-    /// 添加或更新作业额外数据
+    /// 添加或更新作业信息额外数据
     /// </summary>
     /// <param name="key">键</param>
     /// <param name="value">值</param>
@@ -103,7 +103,7 @@ public partial class JobDetail
     }
 
     /// <summary>
-    /// 删除作业额外数据
+    /// 删除作业信息额外数据
     /// </summary>
     /// <param name="key">键</param>
     /// <returns><see cref="JobDetail"/></returns>
@@ -122,7 +122,7 @@ public partial class JobDetail
     }
 
     /// <summary>
-    /// 清空作业额外数据
+    /// 清空作业信息额外数据
     /// </summary>
     /// <returns><see cref="JobDetail"/></returns>
     public JobDetail ClearProperties()

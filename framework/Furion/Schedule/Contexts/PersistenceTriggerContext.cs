@@ -23,7 +23,7 @@
 namespace Furion.Schedule;
 
 /// <summary>
-/// 作业调度持久化触发器上下文
+/// 作业触发器持久化上下文
 /// </summary>
 [SuppressSniffer]
 public sealed class PersistenceTriggerContext : PersistenceContext

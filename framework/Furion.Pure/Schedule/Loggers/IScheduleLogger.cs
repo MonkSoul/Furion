@@ -25,7 +25,7 @@ using Microsoft.Extensions.Logging;
 namespace Furion.Schedule;
 
 /// <summary>
-/// 作业调度日志接口
+/// 作业调度器日志服务
 /// </summary>
 public interface IScheduleLogger
 {

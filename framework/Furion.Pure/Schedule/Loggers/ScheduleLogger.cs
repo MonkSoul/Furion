@@ -26,7 +26,7 @@ using System.Logging;
 namespace Furion.Schedule;
 
 /// <summary>
-/// 作业调度日志默认实现类
+/// 作业调度器日志默认实现类
 /// </summary>
 internal class ScheduleLogger : IScheduleLogger
 {

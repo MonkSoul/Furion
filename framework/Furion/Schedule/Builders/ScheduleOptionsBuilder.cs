@@ -27,13 +27,13 @@ using System.Collections.Concurrent;
 namespace Furion.Schedule;
 
 /// <summary>
-/// 作业调度配置选项构建器
+/// 作业调度器配置选项构建器
 /// </summary>
 [SuppressSniffer]
 public sealed class ScheduleOptionsBuilder
 {
     /// <summary>
-    /// 作业调度计划构建器集合
+    /// 作业计划构建器集合
     /// </summary>
     private readonly List<SchedulerBuilder> _schedulerBuilders = new();
 
@@ -77,7 +77,7 @@ public sealed class ScheduleOptionsBuilder
         // 空检查
         if (schedulerBuilder == null) throw new ArgumentNullException(nameof(schedulerBuilder));
 
-        // 将作业调度计划构建器添加到集合中
+        // 将作业计划构建器添加到集合中
         _schedulerBuilders.Add(schedulerBuilder);
 
         return this;
@@ -173,9 +173,9 @@ public sealed class ScheduleOptionsBuilder
     }
 
     /// <summary>
-    /// 构建配置选项
+    /// 构建作业调度器配置选项
     /// </summary>
-    /// <param name="services">服务集合对象</param>
+    /// <param name="services"><see cref="IServiceCollection"/></param>
     internal ConcurrentDictionary<string, Scheduler> Build(IServiceCollection services)
     {
         var schedulers = new ConcurrentDictionary<string, Scheduler>();
@@ -183,7 +183,7 @@ public sealed class ScheduleOptionsBuilder
         // 遍历作业信息构建器集合
         foreach (var schedulerBuilder in _schedulerBuilders)
         {
-            // 构建作业调度计划并添加到集合中
+            // 构建作业计划并添加到集合中
             var scheduler = schedulerBuilder.Build(_schedulerBuilders.Count);
             var succeed = schedulers.TryAdd(scheduler.JobId, scheduler);
 

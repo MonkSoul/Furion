@@ -67,7 +67,7 @@ public partial class JobDetail
     public bool IncludeAnnotations { get; internal set; } = false;
 
     /// <summary>
-    /// 作业额外数据
+    /// 作业信息额外数据
     /// </summary>
     public string Properties { get; internal set; } = "{}";
 
@@ -88,7 +88,7 @@ public partial class JobDetail
     internal Type RuntimeJobType { get; set; }
 
     /// <summary>
-    /// 作业额外数据运行时实例
+    /// 作业信息额外数据运行时实例
     /// </summary>
     internal Dictionary<string, object> RuntimeProperties { get; set; } = new();
 }

@@ -30,19 +30,19 @@ public interface ISchedulerPersistence
     /// <summary>
     /// 加载持久化数据
     /// </summary>
-    /// <param name="builder">作业调度计划构建器</param>
+    /// <param name="builder">作业计划构建器</param>
     /// <returns><see cref="SchedulerBuilder"/></returns>
     SchedulerBuilder Preload(SchedulerBuilder builder);
 
     /// <summary>
-    /// 将作业信息持久化
+    /// 作业信息更改通知
     /// </summary>
-    /// <param name="context">持久化上下文</param>
-    void Persist(PersistenceContext context);
+    /// <param name="context">作业信息持久化上下文</param>
+    void OnChanged(PersistenceContext context);
 
     /// <summary>
-    /// 将作业触发器持久化
+    /// 作业触发器更改通知
     /// </summary>
-    /// <param name="context">持久化上下文</param>
-    void PersistTrigger(PersistenceTriggerContext context);
+    /// <param name="context">作业触发器持久化上下文</param>
+    void OnTriggerChanged(PersistenceTriggerContext context);
 }

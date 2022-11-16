@@ -26,7 +26,7 @@ using System.Collections.Concurrent;
 namespace Furion.Schedule;
 
 /// <summary>
-/// 作业调度工厂默认实现类
+/// 作业计划工厂默认实现类
 /// </summary>
 internal sealed partial class SchedulerFactory : ISchedulerFactory, IDisposable
 {
@@ -36,14 +36,14 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory, IDisposable
     private readonly IServiceProvider _serviceProvider;
 
     /// <summary>
-    /// 日志对象
+    /// 作业调度器日志服务
     /// </summary>
     private readonly IScheduleLogger _logger;
 
     /// <summary>
     /// 长时间运行的后台任务
     /// </summary>
-    /// <remarks>实现任务执行状态持久化</remarks>
+    /// <remarks>实现作业运行消息持久化</remarks>
     private readonly Task _processQueueTask;
 
     /// <summary>
@@ -53,12 +53,12 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory, IDisposable
     private CancellationTokenSource _sleepCancellationTokenSource;
 
     /// <summary>
-    /// 作业调度计划集合
+    /// 作业计划集合
     /// </summary>
     private readonly ConcurrentDictionary<string, Scheduler> _schedulers = new();
 
     /// <summary>
-    /// 持久化记录消息队列（线程安全）
+    /// 作业持久化记录消息队列（线程安全）
     /// </summary>
     private readonly BlockingCollection<PersistenceContext> _persistenceMessageQueue = new(1024);
 
@@ -66,8 +66,8 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory, IDisposable
     /// 构造函数
     /// </summary>
     /// <param name="serviceProvider">服务提供器</param>
-    /// <param name="logger">日志对象</param>
-    /// <param name="schedulers">作业调度计划集合</param>
+    /// <param name="logger">作业调度器日志服务</param>
+    /// <param name="schedulers">作业计划集合</param>
     public SchedulerFactory(IServiceProvider serviceProvider
         , IScheduleLogger logger
         , ConcurrentDictionary<string, Scheduler> schedulers)
@@ -80,14 +80,14 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory, IDisposable
 
         if (Persistence != null)
         {
-            // 创建长时间运行的后台任务，并将记录消息队列中数据写入持久化中
+            // 创建长时间运行的后台任务，并将作业运行消息写入持久化中
             _processQueueTask = Task.Factory.StartNew(state => ((SchedulerFactory)state).ProcessQueue()
                 , this, TaskCreationOptions.LongRunning);
         }
     }
 
     /// <summary>
-    /// 持久化服务
+    /// 作业调度持久化服务
     /// </summary>
     private ISchedulerPersistence Persistence { get; }
 
@@ -99,10 +99,10 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory, IDisposable
         // 输出作业调度度初始化日志
         _logger.LogDebug("Schedule Hosted Service is preloading.");
 
-        // 逐条初始化作业调度计划
+        // 逐条初始化作业计划
         foreach (var scheduler in _schedulers.Values)
         {
-            // 获取作业调度计划构建器
+            // 获取作业计划构建器
             var schedulerBuilder = SchedulerBuilder.From(scheduler);
 
             // 加载持久化数据并更新到内存中
@@ -110,7 +110,7 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory, IDisposable
                 ?? schedulerBuilder, out _);
         }
 
-        // 输出作业调度初始化日志
+        // 输出作业调度器初始化日志
         _logger.LogDebug("Schedule Hosted Service preload completed.");
     }
 
@@ -124,7 +124,7 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory, IDisposable
         // 定义静态内部函数用于委托检查
         bool triggerShouldRun(JobTrigger t) => t.InternalShouldRun(startAt);
 
-        // 查找所有符合执行的作业调度计划
+        // 查找所有符合执行的作业计划
         var nextRunSchedulers = _schedulers.Values
                 .Where(s => s.JobHandler != null
                     && s.Triggers.Values.Any(triggerShouldRun))
@@ -138,7 +138,7 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory, IDisposable
     }
 
     /// <summary>
-    /// 作业调度器进入休眠状态
+    /// 使作业调度器进入休眠状态
     /// </summary>
     /// <param name="stoppingToken">取消任务 Token</param>
     /// <returns><see cref="Task"/></returns>
@@ -154,7 +154,7 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory, IDisposable
         _sleepCancellationTokenSource.Token.Register(() =>
            _logger.LogWarning("Schedule Hosted Service cancels hibernation."));
 
-        // 获取作业调度计划总休眠时间
+        // 获取作业调度器总休眠时间
         var sleepMilliseconds = GetSleepMilliseconds();
         var delay = sleepMilliseconds != null
             ? sleepMilliseconds.Value
@@ -206,7 +206,7 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory, IDisposable
         {
             try
             {
-                // 创建持久化上下文
+                // 创建作业信息/触发器持久化上下文
                 var context = trigger == null ?
                     new PersistenceContext(jobDetail, behavior)
                     : new PersistenceTriggerContext(jobDetail, trigger, behavior);
@@ -223,7 +223,7 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory, IDisposable
     /// </summary>
     public void Dispose()
     {
-        // 标记记录消息队列停止写入
+        // 标记作业持久化记录消息队列停止写入
         _persistenceMessageQueue.CompleteAdding();
 
         try
@@ -239,9 +239,9 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory, IDisposable
     }
 
     /// <summary>
-    /// 获取作业调度计划总休眠时间
+    /// 获取作业调度器总休眠时间
     /// </summary>
-    /// <returns></returns>
+    /// <returns><see cref="double"/></returns>
     private double? GetSleepMilliseconds()
     {
         // 空检查
@@ -259,7 +259,7 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory, IDisposable
             , nowTime.Second
             , nowTime.Millisecond);
 
-        // 获取所有作业调度计划下一批执行时间
+        // 获取所有作业计划下一批执行时间
         var nextRunTimes = _schedulers.Values
             .SelectMany(u => u.Triggers.Values
                 .Where(t => t.NextRunTime != null && t.NextRunTime.Value >= checkTime)
@@ -278,7 +278,7 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory, IDisposable
     }
 
     /// <summary>
-    /// 将作业调度计划记录持久化
+    /// 监听作业计划变更并调用持久化方法
     /// </summary>
     private void ProcessQueue()
     {
@@ -286,13 +286,13 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory, IDisposable
         {
             try
             {
-                // 作业触发器持久化
+                // 作业触发器更改通知
                 if (context is PersistenceTriggerContext triggerContext)
                 {
-                    Persistence.PersistTrigger(triggerContext);
+                    Persistence.OnTriggerChanged(triggerContext);
                 }
-                // 作业信息持久化
-                else Persistence.Persist(context);
+                // 作业信息更改通知
+                else Persistence.OnChanged(context);
             }
             catch (Exception ex)
             {

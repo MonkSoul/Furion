@@ -126,12 +126,12 @@ public abstract class TriggerAttribute : Attribute
     public bool StartNow { get; set; } = true;
 
     /// <summary>
-    /// 起始时间
+    /// 作业触发器运行时起始时间
     /// </summary>
     internal DateTime? RuntimeStartTime { get; set; }
 
     /// <summary>
-    /// 结束时间
+    /// 作业触发器运行时结束时间
     /// </summary>
     internal DateTime? RuntimeEndTime { get; set; }
 

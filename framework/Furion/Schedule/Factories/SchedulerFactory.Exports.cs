@@ -25,7 +25,7 @@ using Microsoft.Extensions.DependencyInjection;
 namespace Furion.Schedule;
 
 /// <summary>
-/// 作业调度工厂默认实现类
+/// 作业计划工厂默认实现类
 /// </summary>
 internal sealed partial class SchedulerFactory
 {
@@ -42,7 +42,7 @@ internal sealed partial class SchedulerFactory
     /// 获取作业
     /// </summary>
     /// <param name="jobId">作业 Id</param>
-    /// <param name="scheduler">作业调度计划</param>
+    /// <param name="scheduler">作业计划</param>
     /// <returns><see cref="ScheduleResult"/></returns>
     public ScheduleResult TryGetJob(string jobId, out IScheduler scheduler)
     {
@@ -71,18 +71,18 @@ internal sealed partial class SchedulerFactory
     /// <summary>
     /// 添加作业
     /// </summary>
-    /// <param name="schedulerBuilder">作业调度计划构建器</param>
-    /// <param name="scheduler">作业调度计划</param>
+    /// <param name="schedulerBuilder">作业计划构建器</param>
+    /// <param name="scheduler">作业计划</param>
     /// <returns><see cref="ScheduleResult"/></returns>
     public ScheduleResult TryAddJob(SchedulerBuilder schedulerBuilder, out IScheduler scheduler)
     {
         // 空检查
         if (schedulerBuilder == null) throw new ArgumentNullException(nameof(schedulerBuilder));
 
-        // 构建作业调度计划
+        // 构建作业计划
         var internalScheduler = schedulerBuilder.Build(_schedulers.Count);
 
-        // 存储作业调度计划工厂
+        // 存储作业计划工厂
         internalScheduler.Factory = this;
 
         // 实例化作业处理程序
@@ -126,7 +126,7 @@ internal sealed partial class SchedulerFactory
     /// <summary>
     /// 添加作业
     /// </summary>
-    /// <param name="schedulerBuilder">作业调度计划构建器</param>
+    /// <param name="schedulerBuilder">作业计划构建器</param>
     public void AddJob(SchedulerBuilder schedulerBuilder)
     {
         _ = TryAddJob(schedulerBuilder, out var _);
@@ -137,7 +137,7 @@ internal sealed partial class SchedulerFactory
     /// </summary>
     /// <param name="jobBuilder">作业信息构建器</param>
     /// <param name="triggerBuilders">作业触发器构建器集合</param>
-    /// <param name="scheduler">作业调度计划</param>
+    /// <param name="scheduler">作业计划</param>
     /// <returns><see cref="ScheduleResult"/></returns>
     public ScheduleResult TryAddJob(JobBuilder jobBuilder, TriggerBuilder[] triggerBuilders, out IScheduler scheduler)
     {
@@ -159,7 +159,7 @@ internal sealed partial class SchedulerFactory
     /// </summary>
     /// <typeparam name="TJob"><see cref="IJob"/> 实现类型</typeparam>
     /// <param name="triggerBuilders">作业触发器构建器集合</param>
-    /// <param name="scheduler">作业调度计划</param>
+    /// <param name="scheduler">作业计划</param>
     /// <remarks><see cref="ScheduleResult"/></remarks>
     public ScheduleResult TryAddJob<TJob>(TriggerBuilder[] triggerBuilders, out IScheduler scheduler)
          where TJob : class, IJob
@@ -184,7 +184,7 @@ internal sealed partial class SchedulerFactory
     /// <typeparam name="TJob"><see cref="IJob"/> 实现类型</typeparam>
     /// <param name="jobId">作业 Id</param>
     /// <param name="triggerBuilders">作业触发器构建器集合</param>
-    /// <param name="scheduler">作业调度计划</param>
+    /// <param name="scheduler">作业计划</param>
     /// <returns><see cref="ScheduleResult"/></returns>
     public ScheduleResult TryAddJob<TJob>(string jobId, TriggerBuilder[] triggerBuilders, out IScheduler scheduler)
          where TJob : class, IJob
@@ -211,7 +211,7 @@ internal sealed partial class SchedulerFactory
     /// <param name="jobId"><see cref="IJob"/> 实现类型</param>
     /// <param name="concurrent">是否采用并发执行</param>
     /// <param name="triggerBuilders">作业触发器构建器集合</param>
-    /// <param name="scheduler">作业调度计划</param>
+    /// <param name="scheduler">作业计划</param>
     /// <returns><see cref="ScheduleResult"/></returns>
     public ScheduleResult TryAddJob<TJob>(string jobId, bool concurrent, TriggerBuilder[] triggerBuilders, out IScheduler scheduler)
          where TJob : class, IJob
@@ -237,8 +237,8 @@ internal sealed partial class SchedulerFactory
     /// <summary>
     /// 更新作业
     /// </summary>
-    /// <param name="schedulerBuilder">作业调度计划构建器</param>
-    /// <param name="scheduler">新的作业调度计划</param>
+    /// <param name="schedulerBuilder">作业计划构建器</param>
+    /// <param name="scheduler">新的作业计划</param>
     /// <returns><see cref="ScheduleResult"/></returns>
     public ScheduleResult TryUpdateJob(SchedulerBuilder schedulerBuilder, out IScheduler scheduler)
     {
@@ -247,7 +247,7 @@ internal sealed partial class SchedulerFactory
 
         var jobId = schedulerBuilder.JobBuilder.JobId;
 
-        // 如果标记为更新或删除的作业调度计划构建器必须包含 Id
+        // 如果标记为更新或删除的作业计划构建器必须包含 Id
         if ((schedulerBuilder.Behavior == PersistenceBehavior.Updated || schedulerBuilder.Behavior == PersistenceBehavior.Removed)
             && string.IsNullOrWhiteSpace(jobId)) throw new ArgumentNullException(nameof(jobId));
 
@@ -273,11 +273,11 @@ internal sealed partial class SchedulerFactory
         // 记录更新时间
         var updatedTime = DateTime.UtcNow;
 
-        // 获取更新后的作业调度计划
+        // 获取更新后的作业计划
         var schedulerForUpdated = schedulerBuilder.Build(_schedulers.Count);
         schedulerForUpdated.JobDetail.UpdatedTime = updatedTime;
 
-        // 存储作业调度计划工厂
+        // 存储作业计划工厂
         schedulerForUpdated.Factory = this;
 
         // 实例化作业处理程序
@@ -292,7 +292,7 @@ internal sealed partial class SchedulerFactory
             triggerForUpdated.UpdatedTime = updatedTime;
         }
 
-        // 更新内存作业调度计划集合
+        // 更新内存作业计划集合
         var updateSucceed = _schedulers.TryUpdate(jobId, schedulerForUpdated, (Scheduler)internalScheduler);
         if (!updateSucceed)
         {
@@ -316,7 +316,7 @@ internal sealed partial class SchedulerFactory
     /// <summary>
     /// 更新作业
     /// </summary>
-    /// <param name="schedulerBuilder">作业调度计划构建器</param>
+    /// <param name="schedulerBuilder">作业计划构建器</param>
     public void UpdateJob(SchedulerBuilder schedulerBuilder)
     {
         _ = TryUpdateJob(schedulerBuilder, out var _);
@@ -326,7 +326,7 @@ internal sealed partial class SchedulerFactory
     /// 删除作业
     /// </summary>
     /// <param name="jobId">作业 Id</param>
-    /// <param name="scheduler">作业调度计划</param>
+    /// <param name="scheduler">作业计划</param>
     /// <returns><see cref="ScheduleResult"/></returns>
     public ScheduleResult TryRemoveJob(string jobId, out IScheduler scheduler)
     {
@@ -378,7 +378,7 @@ internal sealed partial class SchedulerFactory
     /// <summary>
     /// 删除作业
     /// </summary>
-    /// <param name="scheduler">作业调度计划</param>
+    /// <param name="scheduler">作业计划</param>
     /// <returns><see cref="ScheduleResult"/></returns>
     public ScheduleResult TryRemoveJob(IScheduler scheduler)
     {
@@ -392,7 +392,7 @@ internal sealed partial class SchedulerFactory
     /// <summary>
     /// 删除作业
     /// </summary>
-    /// <param name="scheduler">作业调度计划</param>
+    /// <param name="scheduler">作业计划</param>
     public void RemoveJob(IScheduler scheduler)
     {
         _ = TryRemoveJob(scheduler);
@@ -503,7 +503,7 @@ internal sealed partial class SchedulerFactory
     }
 
     /// <summary>
-    /// 强制触发持久化记录（全部）
+    /// 强制触发作业持久化记录（全部）
     /// </summary>
     public void PersistAll()
     {
@@ -516,7 +516,7 @@ internal sealed partial class SchedulerFactory
     }
 
     /// <summary>
-    /// 强制触发持久化记录（特定组）
+    /// 强制触发作业持久化记录（特定组）
     /// </summary>
     public void PersistGroup(string group)
     {

@@ -97,7 +97,7 @@ public sealed class JobBuilder : JobDetail
     }
 
     /// <summary>
-    /// 从目标值填充数据到作业构建器
+    /// 从目标值填充到作业信息构建器
     /// </summary>
     /// <param name="value">目标值</param>
     /// <param name="ignoreNullValue">忽略空值</param>
@@ -222,9 +222,9 @@ public sealed class JobBuilder : JobDetail
     }
 
     /// <summary>
-    /// 设置作业额外数据
+    /// 设置作业信息额外数据
     /// </summary>
-    /// <param name="properties">作业额外数据</param>
+    /// <param name="properties">作业信息额外数据</param>
     /// <remarks>必须是 Dictionary{string, object} 类型序列化的结果</remarks>
     /// <returns><see cref="JobBuilder"/></returns>
     public JobBuilder SetProperties(string properties)
@@ -238,9 +238,9 @@ public sealed class JobBuilder : JobDetail
     }
 
     /// <summary>
-    /// 设置作业额外数据
+    /// 设置作业信息额外数据
     /// </summary>
-    /// <param name="properties">作业额外数据</param>
+    /// <param name="properties">作业信息额外数据</param>
     /// <remarks>必须是 Dictionary{string, object} 类型序列化的结果</remarks>
     /// <returns><see cref="JobBuilder"/></returns>
     public JobBuilder SetProperties(Dictionary<string, object> properties)
@@ -254,7 +254,7 @@ public sealed class JobBuilder : JobDetail
     }
 
     /// <summary>
-    /// 添加作业额外数据
+    /// 添加作业信息额外数据
     /// </summary>
     /// <param name="key">键</param>
     /// <param name="value">值</param>
@@ -265,7 +265,7 @@ public sealed class JobBuilder : JobDetail
     }
 
     /// <summary>
-    /// 添加或更新作业额外数据
+    /// 添加或更新作业信息额外数据
     /// </summary>
     /// <param name="key">键</param>
     /// <param name="value">值</param>
@@ -276,7 +276,7 @@ public sealed class JobBuilder : JobDetail
     }
 
     /// <summary>
-    /// 删除作业额外数据
+    /// 删除作业信息额外数据
     /// </summary>
     /// <param name="key">键</param>
     /// <returns><see cref="JobBuilder"/></returns>
@@ -286,7 +286,7 @@ public sealed class JobBuilder : JobDetail
     }
 
     /// <summary>
-    /// 清空作业额外数据
+    /// 清空作业信息额外数据
     /// </summary>
     /// <returns><see cref="JobBuilder"/></returns>
     public new JobBuilder ClearProperties()

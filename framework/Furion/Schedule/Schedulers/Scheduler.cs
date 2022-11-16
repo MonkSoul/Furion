@@ -23,7 +23,7 @@
 namespace Furion.Schedule;
 
 /// <summary>
-/// 作业调度计划
+/// 作业计划
 /// </summary>
 internal sealed partial class Scheduler : IScheduler
 {
@@ -66,7 +66,7 @@ internal sealed partial class Scheduler : IScheduler
     internal IJob JobHandler { get; set; }
 
     /// <summary>
-    /// 作业调度计划工厂
+    /// 作业计划工厂
     /// </summary>
     internal ISchedulerFactory Factory { get; set; }
 }

@@ -25,7 +25,7 @@ using System.Reflection;
 namespace Furion.Schedule;
 
 /// <summary>
-/// 作业调度计划构建器
+/// 作业计划构建器
 /// </summary>
 [SuppressSniffer]
 public sealed class SchedulerBuilder
@@ -40,7 +40,7 @@ public sealed class SchedulerBuilder
     }
 
     /// <summary>
-    /// 标记作业调度计划持久化行为
+    /// 标记作业持久化行为
     /// </summary>
     internal PersistenceBehavior Behavior { get; set; } = PersistenceBehavior.Updated;
 
@@ -65,7 +65,7 @@ public sealed class SchedulerBuilder
         // 空检查
         if (jobBuilder == null) throw new ArgumentNullException(nameof(jobBuilder));
 
-        // 创建作业调度计划构建器
+        // 创建作业计划构建器
         var schedulerBuilder = new SchedulerBuilder(jobBuilder);
 
         // 批量添加触发器
@@ -103,9 +103,9 @@ public sealed class SchedulerBuilder
     }
 
     /// <summary>
-    /// 克隆作业调度计划构建器（被标记为新增）
+    /// 克隆作业计划构建器（被标记为新增）
     /// </summary>
-    /// <param name="fromSchedulerBuilder">被克隆的作业调度计划构建器</param>
+    /// <param name="fromSchedulerBuilder">被克隆的作业计划构建器</param>
     /// <returns><see cref="ScheduleOptionsBuilder"/></returns>
     public static SchedulerBuilder Clone(SchedulerBuilder fromSchedulerBuilder)
     {
@@ -120,7 +120,7 @@ public sealed class SchedulerBuilder
     }
 
     /// <summary>
-    /// 标记作业调度计划为新增行为
+    /// 标记作业计划为新增行为
     /// </summary>
     /// <returns></returns>
     public SchedulerBuilder Appended()
@@ -130,7 +130,7 @@ public sealed class SchedulerBuilder
     }
 
     /// <summary>
-    /// 标记作业调度计划为更新行为
+    /// 标记作业计划为更新行为
     /// </summary>
     /// <returns></returns>
     public SchedulerBuilder Updated()
@@ -140,7 +140,7 @@ public sealed class SchedulerBuilder
     }
 
     /// <summary>
-    /// 标记作业调度计划为删除行为
+    /// 标记作业计划为删除行为
     /// </summary>
     /// <returns></returns>
     public SchedulerBuilder Removed()
@@ -150,7 +150,7 @@ public sealed class SchedulerBuilder
     }
 
     /// <summary>
-    /// 获取作业信息构建器
+    /// 获取作业计划信息构建器
     /// </summary>
     /// <returns><see cref="JobBuilder"/></returns>
     public JobBuilder GetJobBuilder()
@@ -159,7 +159,7 @@ public sealed class SchedulerBuilder
     }
 
     /// <summary>
-    /// 更新作业触发器构建器
+    /// 更新作业计划触发器构建器
     /// </summary>
     /// <param name="jobBuilder">作业触发器构建器</param>
     /// <returns><see cref="SchedulerBuilder"/></returns>
@@ -174,7 +174,7 @@ public sealed class SchedulerBuilder
     }
 
     /// <summary>
-    /// 获取作业触发器构建器集合
+    /// 获取作业计划触发器构建器集合
     /// </summary>
     /// <returns><see cref="List{TriggerBuilder}"/></returns>
     public List<TriggerBuilder> GetTriggerBuilders()
@@ -183,7 +183,7 @@ public sealed class SchedulerBuilder
     }
 
     /// <summary>
-    /// 获取作业触发器构建器
+    /// 获取作业计划触发器构建器
     /// </summary>
     /// <returns><see cref="TriggerBuilder"/></returns>
     public TriggerBuilder GetTriggerBuilder(string triggerId)
@@ -195,7 +195,7 @@ public sealed class SchedulerBuilder
     }
 
     /// <summary>
-    /// 添加作业触发器构建器
+    /// 添加作业计划触发器构建器
     /// </summary>
     /// <param name="triggerBuilder">作业触发器</param>
     /// <returns><see cref="SchedulerBuilder"/></returns>
@@ -210,7 +210,7 @@ public sealed class SchedulerBuilder
     }
 
     /// <summary>
-    /// 更新作业触发器构建器
+    /// 更新作业计划触发器构建器
     /// </summary>
     /// <param name="triggerBuilder">作业触发器构建器</param>
     /// <returns><see cref="SchedulerBuilder"/></returns>
@@ -230,7 +230,7 @@ public sealed class SchedulerBuilder
     }
 
     /// <summary>
-    /// 删除作业触发器构建器
+    /// 删除作业计划触发器构建器
     /// </summary>
     /// <param name="triggerBuilder">作业触发器构建器</param>
     /// <returns><see cref="SchedulerBuilder"/></returns>
@@ -245,7 +245,7 @@ public sealed class SchedulerBuilder
     }
 
     /// <summary>
-    /// 删除作业触发器构建器
+    /// 删除作业计划触发器构建器
     /// </summary>
     /// <param name="triggerId">作业触发器 Id</param>
     /// <param name="triggerBuilder">作业触发器构建器</param>
@@ -297,7 +297,7 @@ public sealed class SchedulerBuilder
     /// <summary>
     /// 将 <see cref="Scheduler"/> 转换成 <see cref="SchedulerBuilder"/>
     /// </summary>
-    /// <param name="scheduler">作业调度计划</param>
+    /// <param name="scheduler">作业计划</param>
     /// <returns><see cref="SchedulerBuilder"/></returns>
     internal static SchedulerBuilder From(Scheduler scheduler)
     {
@@ -310,7 +310,7 @@ public sealed class SchedulerBuilder
     /// <summary>
     /// 构建 <see cref="Scheduler"/> 对象
     /// </summary>
-    /// <param name="total">当前作业调度计划总量</param>
+    /// <param name="total">当前作业计划总量</param>
     /// <returns><see cref="Scheduler"/></returns>
     internal Scheduler Build(int total)
     {
@@ -344,7 +344,7 @@ public sealed class SchedulerBuilder
             if (!succeed) throw new InvalidOperationException($"The TriggerId of <{trigger.TriggerId}> already exists.");
         }
 
-        // 创建作业调度计划
+        // 创建作业计划
         return new Scheduler(jobDetail, triggers);
     }
 }

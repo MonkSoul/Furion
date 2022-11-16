@@ -25,7 +25,7 @@ using Furion.Schedule;
 namespace Microsoft.Extensions.DependencyInjection;
 
 /// <summary>
-/// Scheduler 模块服务拓展
+/// Schedule 模块服务拓展
 /// </summary>
 [SuppressSniffer]
 public static class ScheduleServiceCollectionExtensions
@@ -33,12 +33,12 @@ public static class ScheduleServiceCollectionExtensions
     /// <summary>
     /// 添加 Schedule 模块注册
     /// </summary>
-    /// <param name="services">服务集合对象</param>
-    /// <param name="configureOptionsBuilder">作业调度配置选项构建器委托</param>
-    /// <returns>服务集合实例</returns>
+    /// <param name="services"><see cref="IServiceCollection"/></param>
+    /// <param name="configureOptionsBuilder">作业调度器配置选项构建器委托</param>
+    /// <returns><see cref="IServiceCollection"/></returns>
     public static IServiceCollection AddSchedule(this IServiceCollection services, Action<ScheduleOptionsBuilder> configureOptionsBuilder)
     {
-        // 创建初始定时任务配置选项构建器
+        // 创建初始作业调度器配置选项构建器
         var scheduleOptionsBuilder = new ScheduleOptionsBuilder();
         configureOptionsBuilder.Invoke(scheduleOptionsBuilder);
 
@@ -48,21 +48,21 @@ public static class ScheduleServiceCollectionExtensions
     /// <summary>
     /// 添加 Schedule 模块注册
     /// </summary>
-    /// <param name="services">服务集合对象</param>
-    /// <param name="scheduleOptionsBuilder">定时任务配置选项构建器</param>
-    /// <returns>服务集合实例</returns>
+    /// <param name="services"><see cref="IServiceCollection"/></param>
+    /// <param name="scheduleOptionsBuilder">作业调度器配置选项构建器</param>
+    /// <returns><see cref="IServiceCollection"/></returns>
     public static IServiceCollection AddSchedule(this IServiceCollection services, ScheduleOptionsBuilder scheduleOptionsBuilder = default)
     {
-        // 初始化作业调度配置项
+        // 初始化作业调度器配置选项
         scheduleOptionsBuilder ??= new ScheduleOptionsBuilder();
 
         // 注册内部服务
         services.AddInternalService(scheduleOptionsBuilder);
 
-        // 注册作业调度后台主机服务
+        // 注册作业调度器后台主机服务
         services.AddHostedService(serviceProvider =>
         {
-            // 创建作业调度后台服务对象
+            // 创建作业调度器后台主机对象
             var scheduleHostedService = ActivatorUtilities.CreateInstance<ScheduleHostedService>(
                 serviceProvider
                 , scheduleOptionsBuilder.UseUtcTimestamp);
@@ -83,15 +83,15 @@ public static class ScheduleServiceCollectionExtensions
     /// <summary>
     /// 注册内部服务
     /// </summary>
-    /// <param name="services">服务集合对象</param>
-    /// <param name="scheduleOptionsBuilder">作业调度配置选项构建器</param>
-    /// <returns>服务集合实例</returns>
+    /// <param name="services"><see cref="IServiceCollection"/></param>
+    /// <param name="scheduleOptionsBuilder">作业调度器配置选项构建器</param>
+    /// <returns><see cref="IServiceCollection"/></returns>
     private static IServiceCollection AddInternalService(this IServiceCollection services, ScheduleOptionsBuilder scheduleOptionsBuilder)
     {
-        // 构建作业调度服务
+        // 构建作业调度器配置选项
         var schedulers = scheduleOptionsBuilder.Build(services);
 
-        // 注册作业调度日志服务
+        // 注册作业调度器日志服务
         services.AddSingleton<IScheduleLogger>(serviceProvider =>
         {
             var scheduleLogger = ActivatorUtilities.CreateInstance<ScheduleLogger>(serviceProvider
@@ -100,7 +100,7 @@ public static class ScheduleServiceCollectionExtensions
             return scheduleLogger;
         });
 
-        // 注册作业调度工厂服务
+        // 注册作业计划工厂服务
         services.AddSingleton<ISchedulerFactory>(serviceProvider =>
         {
             var schedulerFactory = ActivatorUtilities.CreateInstance<SchedulerFactory>(serviceProvider

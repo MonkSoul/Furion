@@ -23,12 +23,12 @@
 namespace Furion.Schedule;
 
 /// <summary>
-/// 作业调度计划
+/// 作业计划
 /// </summary>
 internal sealed partial class Scheduler
 {
     /// <summary>
-    /// 获取作业调度计划构建器
+    /// 获取作业计划构建器
     /// </summary>
     /// <returns><see cref="SchedulerBuilder"/></returns>
     public SchedulerBuilder GetBuilder()
@@ -37,7 +37,7 @@ internal sealed partial class Scheduler
     }
 
     /// <summary>
-    /// 获取作业信息构建器
+    /// 获取作业计划信息构建器
     /// </summary>
     /// <returns><see cref="JobBuilder"/></returns>
     public JobBuilder GetJobBuilder()
@@ -46,7 +46,7 @@ internal sealed partial class Scheduler
     }
 
     /// <summary>
-    /// 获取作业触发器构建器集合
+    /// 获取作业计划触发器构建器集合
     /// </summary>
     /// <returns><see cref="List{TriggerBuilder}"/></returns>
     public List<TriggerBuilder> GetTriggerBuilders()
@@ -55,7 +55,7 @@ internal sealed partial class Scheduler
     }
 
     /// <summary>
-    /// 获取作业触发器构建器
+    /// 获取作业计划触发器构建器
     /// </summary>
     /// <param name="triggerId">作业触发器 Id</param>
     /// <returns><see cref="TriggerBuilder"/></returns>
@@ -65,7 +65,7 @@ internal sealed partial class Scheduler
     }
 
     /// <summary>
-    /// 启动作业
+    /// 启动作业计划
     /// </summary>
     public void Start()
     {
@@ -94,7 +94,7 @@ internal sealed partial class Scheduler
     }
 
     /// <summary>
-    /// 暂停作业
+    /// 暂停作业计划
     /// </summary>
     public void Pause()
     {
@@ -117,7 +117,7 @@ internal sealed partial class Scheduler
     }
 
     /// <summary>
-    /// 启动作业单个触发器
+    /// 启动作业计划单个触发器
     /// </summary>
     /// <param name="triggerId">作业触发器 Id</param>
     public void StartTrigger(string triggerId)
@@ -142,7 +142,7 @@ internal sealed partial class Scheduler
     }
 
     /// <summary>
-    /// 暂停作业单个触发器
+    /// 暂停作业计划单个触发器
     /// </summary>
     /// <param name="triggerId">作业触发器 Id</param>
     public void PauseTrigger(string triggerId)
@@ -161,7 +161,7 @@ internal sealed partial class Scheduler
     }
 
     /// <summary>
-    /// 更新作业信息
+    /// 更新作业计划信息
     /// </summary>
     /// <param name="jobBuilder">作业信息构建器</param>
     /// <param name="jobDetail">作业信息</param>
@@ -186,7 +186,7 @@ internal sealed partial class Scheduler
     }
 
     /// <summary>
-    /// 更新作业信息
+    /// 更新作业计划信息
     /// </summary>
     /// <param name="jobBuilder">作业信息构建器</param>
     public void UpdateDetail(JobBuilder jobBuilder)
@@ -195,7 +195,7 @@ internal sealed partial class Scheduler
     }
 
     /// <summary>
-    /// 查找作业触发器
+    /// 查找作业计划触发器
     /// </summary>
     /// <param name="triggerId">作业触发器 Id</param>
     /// <param name="trigger">作业触发器</param>
@@ -214,7 +214,7 @@ internal sealed partial class Scheduler
     }
 
     /// <summary>
-    /// 查找作业触发器
+    /// 查找作业计划触发器
     /// </summary>
     /// <param name="triggerId">作业触发器 Id</param>
     /// <returns><see cref="JobTrigger"/></returns>
@@ -225,7 +225,7 @@ internal sealed partial class Scheduler
     }
 
     /// <summary>
-    /// 添加作业触发器
+    /// 添加作业计划触发器
     /// </summary>
     /// <param name="triggerBuilder">作业触发器构建器</param>
     /// <param name="trigger">作业触发器</param>
@@ -250,7 +250,7 @@ internal sealed partial class Scheduler
     }
 
     /// <summary>
-    /// 添加作业触发器
+    /// 添加作业计划触发器
     /// </summary>
     /// <param name="triggerBuilder">作业触发器构建器</param>
     public void AddTrigger(TriggerBuilder triggerBuilder)
@@ -259,7 +259,7 @@ internal sealed partial class Scheduler
     }
 
     /// <summary>
-    /// 更新作业触发器
+    /// 更新作业计划触发器
     /// </summary>
     /// <param name="triggerBuilder">作业触发器构建器</param>
     /// <param name="trigger">作业触发器</param>
@@ -284,7 +284,7 @@ internal sealed partial class Scheduler
     }
 
     /// <summary>
-    /// 更新作业触发器
+    /// 更新作业计划触发器
     /// </summary>
     /// <param name="triggerBuilder">作业触发器构建器</param>
     public void UpdateTrigger(TriggerBuilder triggerBuilder)
@@ -293,7 +293,7 @@ internal sealed partial class Scheduler
     }
 
     /// <summary>
-    /// 删除作业触发器
+    /// 删除作业计划触发器
     /// </summary>
     /// <param name="triggerId">作业触发器 Id</param>
     /// <param name="trigger">作业触发器</param>
@@ -315,7 +315,7 @@ internal sealed partial class Scheduler
     }
 
     /// <summary>
-    /// 删除作业触发器
+    /// 删除作业计划触发器
     /// </summary>
     /// <param name="triggerId">作业触发器 Id</param>
     public void RemoveTrigger(string triggerId)
@@ -324,7 +324,7 @@ internal sealed partial class Scheduler
     }
 
     /// <summary>
-    /// 强制触发持久化记录
+    /// 强制触发作业持久化记录
     /// </summary>
     public void Persist()
     {
@@ -339,7 +339,7 @@ internal sealed partial class Scheduler
     }
 
     /// <summary>
-    /// 检查作业触发器是否存在
+    /// 检查作业计划触发器是否存在
     /// </summary>
     /// <param name="triggerId">作业触发器 Id</param>
     /// <returns><see cref="bool"/></returns>
@@ -349,7 +349,7 @@ internal sealed partial class Scheduler
     }
 
     /// <summary>
-    /// 将当前作业调度计划从调度器中删除
+    /// 将当前作业计划从调度器中删除
     /// </summary>
     /// <remarks><see cref="ScheduleResult"/></remarks>
     public ScheduleResult TryRemove()
@@ -358,7 +358,7 @@ internal sealed partial class Scheduler
     }
 
     /// <summary>
-    /// 将当前作业调度计划从调度器中删除
+    /// 将当前作业计划从调度器中删除
     /// </summary>
     public void Remove()
     {
