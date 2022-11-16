@@ -173,6 +173,10 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory, IDisposable
         {
             // 进入休眠状态
             await Task.Delay(TimeSpan.FromMilliseconds(delay), _sleepCancellationTokenSource.Token);
+
+            // 如果正常休眠解释则释放任务取消 Token
+            _sleepCancellationTokenSource?.Dispose();
+            _sleepCancellationTokenSource = null;
         }
         catch { }
     }
@@ -183,6 +187,9 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory, IDisposable
     public void CancelSleep()
     {
         _sleepCancellationTokenSource?.Cancel(false);
+
+        // 释放任务取消 Token
+        _sleepCancellationTokenSource?.Dispose();
         _sleepCancellationTokenSource = null;
     }
 
