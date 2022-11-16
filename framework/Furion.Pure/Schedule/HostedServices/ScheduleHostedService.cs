@@ -262,7 +262,7 @@ internal sealed class ScheduleHostedService : BackgroundService
         // 如果是并行执行则跳过
         if (jobDetail.Concurrent) return false;
 
-        // 处理串行执行逻辑
+        // 标记当前作业已经有触发器正在执行
         if (!jobDetail.Blocked)
         {
             jobDetail.Blocked = true;
@@ -270,11 +270,9 @@ internal sealed class ScheduleHostedService : BackgroundService
             // 将作业信息运行数据写入持久化
             _schedulerFactory.Shorthand(jobDetail);
 
-            // 输出阻塞日志
-            _logger.LogWarning("{checkTime}: The <{triggerId}> trigger of job <{jobId}> failed to execute as scheduled due to blocking.", checkTime, trigger.TriggerId, jobDetail.JobId);
-
             return false;
         }
+        // 标记当前作业的当前触发器【本该执行未执行】
         else
         {
             // 设置触发器状态为阻塞状态
@@ -285,6 +283,9 @@ internal sealed class ScheduleHostedService : BackgroundService
 
             // 将作业触发器运行数据写入持久化
             _schedulerFactory.Shorthand(jobDetail, trigger);
+
+            // 输出阻塞日志
+            _logger.LogWarning("{checkTime}: The <{triggerId}> trigger of job <{jobId}> failed to execute as scheduled due to blocking.", checkTime, trigger.TriggerId, jobDetail.JobId);
 
             return true;
         }
