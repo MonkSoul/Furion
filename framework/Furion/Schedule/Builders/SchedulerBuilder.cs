@@ -165,10 +165,7 @@ public sealed class SchedulerBuilder
     /// <returns><see cref="SchedulerBuilder"/></returns>
     public SchedulerBuilder UpdateJobBuilder(JobBuilder jobBuilder)
     {
-        // 空检查
-        if (jobBuilder == null) throw new ArgumentNullException(nameof(jobBuilder));
-
-        JobBuilder = jobBuilder;
+        JobBuilder = jobBuilder ?? throw new ArgumentNullException(nameof(jobBuilder));
 
         return this;
     }
@@ -317,7 +314,7 @@ public sealed class SchedulerBuilder
         // 配置默认 JobId
         if (string.IsNullOrWhiteSpace(JobBuilder.JobId))
         {
-            JobBuilder.SetJobId($"job{total + 1}");
+            JobBuilder.SetJobId($"job{total}");
         }
 
         // 构建作业信息和作业触发器
