@@ -26,6 +26,12 @@ import Tag from "@site/src/components/Tag.js";
 
 ## v4.8.0（未发布，全新定时任务）
 
+:::important 版本细节
+
+敬请期待。
+
+:::
+
 - **新特性**
 
   - &nbsp;<Tag>新增</Tag> **🎉 全新的定时任务模块** <sup>4.8.0</sup> [查看源码](https://gitee.com/dotnetchina/Furion/tree/v4/framework/Furion/Schedule)
@@ -33,10 +39,26 @@ import Tag from "@site/src/components/Tag.js";
   - &nbsp;<Tag>新增</Tag> `Serve.Run` 模式的 `.ConfigureServices` 方法 <sup>4.8.0</sup> [023391b](https://gitee.com/dotnetchina/Furion/commit/023391b428f4239d926c3abb6cb0e2b92a0d738a)
   - &nbsp;<Tag>新增</Tag> `Serve.Run()` 的 `additional` 参数 <sup>4.8.0</sup> [023391b](https://gitee.com/dotnetchina/Furion/commit/023391b428f4239d926c3abb6cb0e2b92a0d738a)
 
+<details style={{ marginLeft: 50 }}>
+  <summary>查看更改</summary>
+  <div>
+
+极速入门现在可以便捷注册服务，写测试例子的时候非常有用，无需编写 `Startup.cs`。
+
+```cs showLineNumbers {1}
+Serve.Run(additional: services =>
+{
+    services.AddRemoteRequest();
+});
+```
+
+  </div>
+</details>
+
 - **突破性变化**
 
-  - &nbsp;<Tag>移除</Tag> `JSON` 静态类所有方法的 `serviceProvider` 参数 <sup>4.8.0</sup> [962fb16](https://gitee.com/dotnetchina/Furion/commit/962fb167aa13c689b688035bef26dcac73d3fca4)
-  - &nbsp;<Tag>移除</Tag> `Http` 静态类所有方法的 `serviceProvider` 参数 <sup>4.8.0</sup> [962fb16](https://gitee.com/dotnetchina/Furion/commit/962fb167aa13c689b688035bef26dcac73d3fca4)
+  - &nbsp;<Tag>移除</Tag> `JSON` 静态类所有方法的 `serviceProvider` 参数（无破坏） <sup>4.8.0</sup> [962fb16](https://gitee.com/dotnetchina/Furion/commit/962fb167aa13c689b688035bef26dcac73d3fca4)
+  - &nbsp;<Tag>移除</Tag> `Http` 静态类所有方法的 `serviceProvider` 参数（无破坏） <sup>4.8.0</sup> [962fb16](https://gitee.com/dotnetchina/Furion/commit/962fb167aa13c689b688035bef26dcac73d3fca4)
 
 - **问题修复**
 
@@ -45,7 +67,7 @@ import Tag from "@site/src/components/Tag.js";
 - **文档**
 
   - &nbsp;<Tag>新增</Tag> **新版本定时任务文档**
-  - &nbsp;<Tag>新增</Tag> `Schedular` 静态类文档
+  - &nbsp;<Tag>新增</Tag> `Schedular` 全局静态类文档
   - &nbsp;<Tag>更新</Tag> `Serve.Run()` 入门文档文档
 
 ---
