@@ -53,18 +53,25 @@ public static class Serve
     /// <param name="silence">静默启动</param>
     /// <param name="logging">静默启动日志状态，默认 false</param>
     /// <param name="args">启动参数</param>
-    public static void Run(string urls = default, bool silence = false, bool logging = false, string[] args = default)
+    /// <param name="additional">配置额外服务</param>
+    public static void Run(string urls = default
+        , bool silence = false
+        , bool logging = false
+        , string[] args = default
+        , Action<IServiceCollection> additional = default)
     {
 #if !NET5_0
         Run(RunOptions.Default
             .WithArgs(args)
             .Silence(silence, logging)
+            .ConfigureServices(additional)
             .AddComponent<ServeServiceComponent>()
             .UseComponent<ServeApplicationComponent>(), urls);
 #else
         Run((LegacyRunOptions.Default
             .WithArgs(args)
             .Silence(silence, logging)
+            .ConfigureServices(additional)
             .AddComponent<ServeServiceComponent>())
             .UseComponent<ServeApplicationComponent>(), urls);
 #endif
@@ -167,6 +174,12 @@ public static class Serve
             webHostBuilder = options?.ActionWebDefaultsBuilder?.Invoke(webHostBuilder) ?? webHostBuilder;
         });
 
+        builder = builder.ConfigureServices(services =>
+        {
+            // 调用自定义配置服务
+            options?.ActionServices?.Invoke(services);
+        });
+
         // 调用自定义配置
         builder = options?.ActionBuilder?.Invoke(builder) ?? builder;
 
@@ -219,6 +232,12 @@ public static class Serve
                 }
             });
         }
+
+        builder = builder.ConfigureServices(services =>
+        {
+            // 调用自定义配置服务
+            options?.ActionServices?.Invoke(services);
+        });
 
         // 调用自定义配置
         builder = options?.ActionBuilder?.Invoke(builder) ?? builder;
@@ -292,6 +311,9 @@ public static class Serve
         {
             builder.WebHost.UseUrls(startUrls);
         }
+
+        // 调用自定义配置服务
+        options?.ActionServices?.Invoke(builder.Services);
 
         // 调用自定义配置
         options?.ActionBuilder?.Invoke(builder);

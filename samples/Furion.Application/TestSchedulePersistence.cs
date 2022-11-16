@@ -25,12 +25,12 @@ public class TestSchedulerPersistence : ISchedulerPersistence
         return builder;
     }
 
-    public void Persist(PersistenceContext context)
+    public void OnChanged(PersistenceContext context)
     {
         _logger.LogInformation("{behavior}：{jobId} {updatedTime}", context.Behavior, context.JobId, context.JobDetail.UpdatedTime);
     }
 
-    public void PersistTrigger(PersistenceTriggerContext context)
+    public void OnTriggerChanged(PersistenceTriggerContext context)
     {
         _logger.LogInformation("{behavior}：{jobId} {triggerId} {status} {updatedTime}", context.Behavior, context.JobId, context.TriggerId, context.Trigger.Status, context.Trigger.UpdatedTime);
     }

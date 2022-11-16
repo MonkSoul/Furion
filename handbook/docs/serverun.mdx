@@ -205,7 +205,22 @@ Serve.Run(RunOptions.Default.ConfigureBuilder(builder =>
 
 :::
 
-### 2.0.7.2 自定义配置
+### 2.0.7.2 最小服务注册
+
+:::important 版本说明
+
+以下内容仅限 `Furion 4.8.0 +` 版本使用。
+
+:::
+
+```cs showLineNumbers {1}
+Serve.Run(additional: services =>
+{
+    services.AddRemoteRequest();
+});
+```
+
+### 2.0.7.3 自定义配置
 
 传入 `RunOptions` 对象相当于自由定义和控制，也就是除了默认集成了 `Furion` 以外，没有注册任何功能。
 
@@ -256,7 +271,7 @@ public class XXXWebComponent : IWebComponent
 }
 ```
 
-### 2.0.7.3 `Serve.Run` 和 `Startup` 最佳组合
+### 2.0.7.4 `Serve.Run` 和 `Startup` 最佳组合
 
 默认情况下 `Serve.Run()` 内置了 `跨域`，`控制器`，`路由`，`规范化结果`、`静态文件` 服务/中间件。适合快速开始项目和编写测试代码。
 
@@ -314,7 +329,7 @@ public class Startup : AppStartup
 
 :::
 
-### 2.0.7.4 更多配置
+### 2.0.7.5 更多配置
 
 如配置 `WebHost`...
 

@@ -22,6 +22,7 @@
 
 using Furion;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
 namespace System;
@@ -96,6 +97,16 @@ public sealed class LegacyRunOptions : GenericRunOptions
     public override LegacyRunOptions ConfigureBuilder(Func<IHostBuilder, IHostBuilder> configureAction)
     {
         return base.ConfigureBuilder(configureAction) as LegacyRunOptions;
+    }
+
+    /// <summary>
+    /// 配置 <see cref="IServiceCollection"/>
+    /// </summary>
+    /// <param name="configureAction"></param>
+    /// <returns><see cref="LegacyRunOptions"/></returns>
+    public override LegacyRunOptions ConfigureServices(Action<IServiceCollection> configureAction)
+    {
+        return base.ConfigureServices(configureAction) as LegacyRunOptions;
     }
 
     /// <summary>

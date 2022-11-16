@@ -25,6 +25,7 @@ using Furion;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 #else
 
@@ -130,6 +131,17 @@ public sealed class RunOptions
     public RunOptions ConfigureBuilder(Action<WebApplicationBuilder> configureAction)
     {
         ActionBuilder = configureAction;
+        return this;
+    }
+
+    /// <summary>
+    /// 配置 <see cref="IServiceCollection"/>
+    /// </summary>
+    /// <param name="configureAction"></param>
+    /// <returns><see cref="RunOptions"/></returns>
+    public RunOptions ConfigureServices(Action<IServiceCollection> configureAction)
+    {
+        ActionServices = configureAction;
         return this;
     }
 
@@ -309,6 +321,11 @@ public sealed class RunOptions
     /// <see cref="WebApplicationOptions"/>
     /// </summary>
     internal WebApplicationOptions Options { get; set; }
+
+    /// <summary>
+    /// 自定义 <see cref="IServiceCollection"/> 委托
+    /// </summary>
+    internal Action<IServiceCollection> ActionServices { get; set; }
 
     /// <summary>
     /// 自定义 <see cref="WebApplicationBuilder"/> 委托

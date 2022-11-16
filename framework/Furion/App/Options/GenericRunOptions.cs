@@ -21,6 +21,7 @@
 // SOFTWARE.
 
 using Furion;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
 namespace System;
@@ -72,6 +73,17 @@ public class GenericRunOptions
     public virtual GenericRunOptions ConfigureBuilder(Func<IHostBuilder, IHostBuilder> configureAction)
     {
         ActionBuilder = configureAction;
+        return this;
+    }
+
+    /// <summary>
+    /// 配置 <see cref="IServiceCollection"/>
+    /// </summary>
+    /// <param name="configureAction"></param>
+    /// <returns><see cref="GenericRunOptions"/></returns>
+    public virtual GenericRunOptions ConfigureServices(Action<IServiceCollection> configureAction)
+    {
+        ActionServices = configureAction;
         return this;
     }
 
@@ -153,6 +165,11 @@ public class GenericRunOptions
     /// 自定义 <see cref="IHostBuilder"/> 委托
     /// </summary>
     internal Func<IHostBuilder, IHostBuilder> ActionBuilder { get; set; }
+
+    /// <summary>
+    /// 自定义 <see cref="IServiceCollection"/> 委托
+    /// </summary>
+    internal Action<IServiceCollection> ActionServices { get; set; }
 
     /// <summary>
     /// 自定义 <see cref="InjectOptions"/> 委托
