@@ -300,24 +300,16 @@ if (err) {
 
 console.log("api request completed.");
 ```
-:::tip 关于 `关于文件流下载` 
 
-```ts showLineNumbers {1,3}
-import { getAPI, feature } from "../axios-utils"; // 注意项目的路径
+:::tip 关于 `关于文件流下载`
 
-const [err, res] = await feature(getAPI(SystemAPI, { responseType: 'blob' }).apiGetXXX());// 文件流下载必须添加 { responseType: 'blob' }才能返回格式正确的数据
+对于文件流下载可能存在下载文件过大的情况，这时候需要添加 `options` 参数 `responseType: "blob"` 解决，如：
 
-if (err) {
-  console.log(err);
-} else {
-  var data = res.data.data!;
-}
-
-console.log("api request completed.");
+```ts showLineNumbers {1}
+getAPI(SystemAPI, { responseType: "blob" }).apiGetXXX();
 ```
 
 :::
-
 
 ### 5.6.5.2 `Angular` 中使用
 
