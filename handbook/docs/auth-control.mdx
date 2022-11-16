@@ -77,6 +77,8 @@ services.AddJwt();
 // services.AddJwt<JwtHandler>(enableGlobalAuthorize:true);
 ```
 
+**注：如果项目使用了 `services.AddSignalR();` 服务，那么该服务必须在 `services.AddJwt` 之后注册。**
+
 :::note 额外补充
 
 默认 `JwtHandler` 代码：
