@@ -270,6 +270,9 @@ internal sealed class ScheduleHostedService : BackgroundService
             // 将作业信息运行数据写入持久化
             _schedulerFactory.Shorthand(jobDetail);
 
+            // 输出阻塞日志
+            _logger.LogWarning("{checkTime} The <{triggerId}> trigger of job <{jobId}> failed to execute as scheduled due to blocking.", checkTime, trigger.TriggerId, jobDetail.JobId);
+
             return false;
         }
         else
