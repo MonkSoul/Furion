@@ -53,6 +53,16 @@ internal static class Penetrates
     }
 
     /// <summary>
+    /// 获取当前时间
+    /// </summary>
+    /// <param name="useUtcTimestamp">是否使用 UTC 时间</param>
+    /// <returns><see cref="DateTime"/></returns>
+    internal static DateTime GetNowTime(bool useUtcTimestamp)
+    {
+        return useUtcTimestamp ? DateTime.UtcNow : DateTime.Now;
+    }
+
+    /// <summary>
     /// 将属性名切割成多个单词
     /// </summary>
     /// <param name="propertyName">属性名</param>

@@ -70,7 +70,7 @@ internal sealed partial class Scheduler
     public void Start()
     {
         var changeCount = 0;
-        var updatedTime = DateTime.UtcNow;
+        var updatedTime = Penetrates.GetNowTime(UseUtcTimestamp);
 
         // 逐条启用所有作业触发器
         foreach (var (_, trigger) in Triggers)
@@ -81,7 +81,7 @@ internal sealed partial class Scheduler
             if (trigger.Status != TriggerStatus.Pause) continue;
 
             trigger.SetStatus(TriggerStatus.Ready);
-            trigger.NextRunTime = trigger.GetNextRunTime();
+            trigger.NextRunTime = trigger.GetNextRunTime(UseUtcTimestamp);
             trigger.UpdatedTime = updatedTime;
             changeCount++;
 
@@ -99,7 +99,7 @@ internal sealed partial class Scheduler
     public void Pause()
     {
         var changeCount = 0;
-        var updatedTime = DateTime.UtcNow;
+        var updatedTime = Penetrates.GetNowTime(UseUtcTimestamp);
 
         // 逐条暂停所有作业触发器
         foreach (var (_, trigger) in Triggers)
@@ -131,8 +131,8 @@ internal sealed partial class Scheduler
         if (trigger.Status != TriggerStatus.Pause) return;
 
         trigger.SetStatus(TriggerStatus.Ready);
-        trigger.UpdatedTime = DateTime.UtcNow;
-        trigger.NextRunTime = trigger.GetNextRunTime();
+        trigger.UpdatedTime = Penetrates.GetNowTime(UseUtcTimestamp);
+        trigger.NextRunTime = trigger.GetNextRunTime(UseUtcTimestamp);
 
         // 将作业触发器运行数据写入持久化
         Factory.Shorthand(JobDetail, trigger);
@@ -151,7 +151,7 @@ internal sealed partial class Scheduler
         if (trigger == null) return;
 
         trigger.SetStatus(TriggerStatus.Pause);
-        trigger.UpdatedTime = DateTime.UtcNow;
+        trigger.UpdatedTime = Penetrates.GetNowTime(UseUtcTimestamp);
 
         // 将作业触发器运行数据写入持久化
         Factory.Shorthand(JobDetail, trigger);

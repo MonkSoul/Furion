@@ -12,7 +12,7 @@ public class TestJob : IJob
         _logger = logger;
     }
 
-    public async Task ExecuteAsync(JobHandlerExecutingContext context, CancellationToken cancellationToken)
+    public async Task ExecuteAsync(JobExecutingContext context, CancellationToken stoppingToken)
     {
         var jobDetail = context.JobDetail;
 

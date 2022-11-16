@@ -133,7 +133,7 @@ public abstract partial class JobTrigger
     /// <summary>
     /// 作业触发器更新时间
     /// </summary>
-    public DateTime? UpdatedTime { get; internal set; } = DateTime.UtcNow;
+    public DateTime? UpdatedTime { get; internal set; }
 
     /// <summary>
     /// 作业触发器运行时类型

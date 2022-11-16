@@ -68,15 +68,18 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory, IDisposable
     /// <param name="serviceProvider">服务提供器</param>
     /// <param name="logger">作业调度器日志服务</param>
     /// <param name="schedulers">作业计划集合</param>
+    /// <param name="useUtcTimestamp">是否使用 UTC 时间</param>
     public SchedulerFactory(IServiceProvider serviceProvider
         , IScheduleLogger logger
-        , ConcurrentDictionary<string, Scheduler> schedulers)
+        , ConcurrentDictionary<string, Scheduler> schedulers
+        , bool useUtcTimestamp)
     {
         _serviceProvider = serviceProvider;
         _logger = logger;
         _schedulers = schedulers;
 
         Persistence = _serviceProvider.GetService<ISchedulerPersistence>();
+        UseUtcTimestamp = useUtcTimestamp;
 
         if (Persistence != null)
         {
@@ -85,6 +88,11 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory, IDisposable
                 , this, TaskCreationOptions.LongRunning);
         }
     }
+
+    /// <summary>
+    /// 是否使用 UTC 时间
+    /// </summary>
+    internal bool UseUtcTimestamp { get; }
 
     /// <summary>
     /// 作业调度持久化服务
@@ -131,6 +139,7 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory, IDisposable
                 .Select(s => new Scheduler(s.JobDetail, s.Triggers.Values.Where(triggerShouldRun).ToDictionary(t => t.TriggerId, t => t))
                 {
                     Factory = this,
+                    UseUtcTimestamp = UseUtcTimestamp,
                     JobHandler = s.JobHandler,
                 });
 
@@ -195,8 +204,10 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory, IDisposable
     /// <param name="behavior">作业持久化行为</param>
     public void Shorthand(JobDetail jobDetail, JobTrigger trigger, PersistenceBehavior behavior = PersistenceBehavior.Updated)
     {
-        if (trigger == null) jobDetail.UpdatedTime = DateTime.UtcNow;
-        else trigger.UpdatedTime = DateTime.UtcNow;
+        // 设置更新时间
+        var nowTime = Penetrates.GetNowTime(UseUtcTimestamp);
+        if (trigger == null) jobDetail.UpdatedTime = nowTime;
+        else trigger.UpdatedTime = nowTime;
 
         // 空检查
         if (Persistence == null) return;
@@ -248,7 +259,7 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory, IDisposable
         if (!_schedulers.Any()) return null;
 
         // 获取当前时间作为检查时间
-        var nowTime = DateTime.UtcNow;
+        var nowTime = Penetrates.GetNowTime(UseUtcTimestamp);
 
         // 采用 DateTimeKind.Unspecified 转换当前时间并忽略毫秒之后部分（用于减少误差）
         var checkTime = new DateTime(nowTime.Year

@@ -69,4 +69,9 @@ internal sealed partial class Scheduler : IScheduler
     /// 作业计划工厂
     /// </summary>
     internal ISchedulerFactory Factory { get; set; }
+
+    /// <summary>
+    /// 是否使用 UTC 时间
+    /// </summary>
+    internal bool UseUtcTimestamp { get; set; }
 }

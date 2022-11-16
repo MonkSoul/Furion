@@ -115,7 +115,7 @@ internal sealed class ScheduleHostedService : BackgroundService
     private async Task BackgroundProcessing(CancellationToken stoppingToken)
     {
         // 获取当前时间作为检查时间
-        var checkTime = DateTime.UtcNow;
+        var checkTime = Penetrates.GetNowTime(UseUtcTimestamp);
 
         // 查找所有符合触发的作业
         var nextRunJobs = _schedulerFactory.GetNextRunJobs(checkTime);
@@ -146,7 +146,7 @@ internal sealed class ScheduleHostedService : BackgroundService
                 trigger.SetStatus(TriggerStatus.Running);
 
                 // 记录运行信息和计算下一个触发时间
-                trigger.Increment();
+                trigger.Increment(UseUtcTimestamp);
 
                 // 将作业触发器运行数据写入持久化
                 _schedulerFactory.Shorthand(jobDetail, trigger);
@@ -157,10 +157,10 @@ internal sealed class ScheduleHostedService : BackgroundService
                     // 创建新的线程执行
                     taskFactory.StartNew(async () =>
                     {
-                        // 创建执行前上下文
-                        var jobHandlerExecutingContext = new JobHandlerExecutingContext(jobDetail, trigger, checkTime)
+                        // 创建作业执行前上下文
+                        var jobExecutingContext = new JobExecutingContext(jobDetail, trigger, checkTime)
                         {
-                            ExecutingTime = UseUtcTimestamp ? DateTime.UtcNow : DateTime.Now
+                            ExecutingTime = Penetrates.GetNowTime(UseUtcTimestamp)
                         };
 
                         // 执行异常对象
@@ -171,7 +171,7 @@ internal sealed class ScheduleHostedService : BackgroundService
                             // 调用执行前监视器
                             if (Monitor != default)
                             {
-                                await Monitor.OnExecutingAsync(jobHandlerExecutingContext, stoppingToken);
+                                await Monitor.OnExecutingAsync(jobExecutingContext, stoppingToken);
                             }
 
                             // 判断是否自定义了执行器
@@ -180,12 +180,12 @@ internal sealed class ScheduleHostedService : BackgroundService
                                 // 调用作业处理程序并配置出错执行重试
                                 await Retry.InvokeAsync(async () =>
                                 {
-                                    await jobHandler.ExecuteAsync(jobHandlerExecutingContext, stoppingToken);
+                                    await jobHandler.ExecuteAsync(jobExecutingContext, stoppingToken);
                                 }, trigger.NumRetries, trigger.RetryTimeout);
                             }
                             else
                             {
-                                await Executor.ExecuteAsync(jobHandlerExecutingContext, jobHandler, stoppingToken);
+                                await Executor.ExecuteAsync(jobExecutingContext, jobHandler, stoppingToken);
                             }
 
                             // 设置触发器状态为就绪状态
@@ -228,14 +228,14 @@ internal sealed class ScheduleHostedService : BackgroundService
                             // 调用执行后监视器
                             if (Monitor != default)
                             {
-                                // 创建执行后上下文
-                                var jobHandlerExecutedContext = new JobHandlerExecutedContext(jobDetail, trigger, checkTime)
+                                // 创建作业执行后上下文
+                                var jobExecutedContext = new JobExecutedContext(jobDetail, trigger, checkTime)
                                 {
-                                    ExecutedTime = UseUtcTimestamp ? DateTime.UtcNow : DateTime.Now,
+                                    ExecutedTime = Penetrates.GetNowTime(UseUtcTimestamp),
                                     Exception = executionException
                                 };
 
-                                await Monitor.OnExecutedAsync(jobHandlerExecutedContext, stoppingToken);
+                                await Monitor.OnExecutedAsync(jobExecutedContext, stoppingToken);
                             }
 
                             // 将作业信息运行数据写入持久化
@@ -278,7 +278,7 @@ internal sealed class ScheduleHostedService : BackgroundService
             trigger.SetStatus(TriggerStatus.Blocked);
 
             // 记录运行信息和计算下一个触发时间
-            trigger.Increment();
+            trigger.Increment(UseUtcTimestamp);
 
             // 将作业触发器运行数据写入持久化
             _schedulerFactory.Shorthand(jobDetail, trigger);

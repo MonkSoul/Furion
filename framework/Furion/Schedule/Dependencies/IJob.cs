@@ -33,5 +33,5 @@ public interface IJob
     /// <param name="context">作业执行前上下文</param>
     /// <param name="stoppingToken">取消任务 Token</param>
     /// <returns><see cref="Task"/></returns>
-    Task ExecuteAsync(JobHandlerExecutingContext context, CancellationToken stoppingToken);
+    Task ExecuteAsync(JobExecutingContext context, CancellationToken stoppingToken);
 }

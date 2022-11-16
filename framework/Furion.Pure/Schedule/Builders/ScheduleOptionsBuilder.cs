@@ -53,14 +53,14 @@ public sealed class ScheduleOptionsBuilder
     private Type _schedulerPersistence;
 
     /// <summary>
-    /// 是否使用 UTC 时间戳，默认 false
-    /// </summary>
-    public bool UseUtcTimestamp { get; set; } = false;
-
-    /// <summary>
     /// 未察觉任务异常事件处理程序
     /// </summary>
     public EventHandler<UnobservedTaskExceptionEventArgs> UnobservedTaskExceptionHandler { get; set; }
+
+    /// <summary>
+    /// 是否使用 UTC 时间，默认 false
+    /// </summary>
+    public bool UseUtcTimestamp { get; set; } = false;
 
     /// <summary>
     /// 是否启用日志记录

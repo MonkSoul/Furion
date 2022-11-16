@@ -23,10 +23,10 @@
 namespace Furion.Schedule;
 
 /// <summary>
-/// 作业处理程序执行前上下文
+/// 作业执行前上下文
 /// </summary>
 [SuppressSniffer]
-public sealed class JobHandlerExecutingContext : JobHandlerContext
+public sealed class JobExecutingContext : JobExecutionContext
 {
     /// <summary>
     /// 构造函数
@@ -34,7 +34,7 @@ public sealed class JobHandlerExecutingContext : JobHandlerContext
     /// <param name="jobDetail">作业信息</param>
     /// <param name="trigger">作业触发器</param>
     /// <param name="checkTime">作业调度服务检查时间</param>
-    internal JobHandlerExecutingContext(JobDetail jobDetail
+    internal JobExecutingContext(JobDetail jobDetail
         , JobTrigger trigger
         , DateTime checkTime)
         : base(jobDetail, trigger, checkTime)

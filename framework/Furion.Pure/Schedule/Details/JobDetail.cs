@@ -74,7 +74,7 @@ public partial class JobDetail
     /// <summary>
     /// 作业更新时间
     /// </summary>
-    public DateTime? UpdatedTime { get; internal set; } = DateTime.UtcNow;
+    public DateTime? UpdatedTime { get; internal set; }
 
     /// <summary>
     /// 标记其他作业正在执行

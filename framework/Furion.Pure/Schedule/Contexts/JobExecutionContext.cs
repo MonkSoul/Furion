@@ -23,9 +23,9 @@
 namespace Furion.Schedule;
 
 /// <summary>
-/// 作业处理程序上下文
+/// 作业执行上下文基类
 /// </summary>
-public abstract class JobHandlerContext
+public abstract class JobExecutionContext
 {
     /// <summary>
     /// 构造函数
@@ -33,7 +33,7 @@ public abstract class JobHandlerContext
     /// <param name="jobDetail">作业信息</param>
     /// <param name="trigger">作业触发器</param>
     /// <param name="checkTime">作业调度服务检查时间</param>
-    internal JobHandlerContext(JobDetail jobDetail
+    internal JobExecutionContext(JobDetail jobDetail
         , JobTrigger trigger
         , DateTime checkTime)
     {
@@ -41,7 +41,7 @@ public abstract class JobHandlerContext
         TriggerId = trigger.TriggerId;
         JobDetail = jobDetail;
         Trigger = trigger;
-        CheckTime = checkTime;
+        OccurrenceTime = checkTime;
     }
 
     /// <summary>
@@ -65,9 +65,9 @@ public abstract class JobHandlerContext
     public JobTrigger Trigger { get; }
 
     /// <summary>
-    /// 作业调度服务检查时间
+    /// 作业计划触发时间
     /// </summary>
-    public DateTime CheckTime { get; }
+    public DateTime OccurrenceTime { get; }
 
     /// <summary>
     /// 转换成 JSON 字符串

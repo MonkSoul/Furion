@@ -104,7 +104,8 @@ public static class ScheduleServiceCollectionExtensions
         services.AddSingleton<ISchedulerFactory>(serviceProvider =>
         {
             var schedulerFactory = ActivatorUtilities.CreateInstance<SchedulerFactory>(serviceProvider
-                , schedulers);
+                , schedulers
+                , scheduleOptionsBuilder.UseUtcTimestamp);
 
             return schedulerFactory;
         });

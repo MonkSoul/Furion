@@ -50,7 +50,8 @@ public abstract partial class JobTrigger
     /// <summary>
     /// 记录运行信息和计算下一个触发时间
     /// </summary>
-    internal void Increment()
+    /// <param name="useUtcTimestamp">是否使用 UTC 时间</param>
+    internal void Increment(bool useUtcTimestamp)
     {
         // 阻塞状态并没有实际执行，此时忽略次数递增和最近运行时间赋值
         if (Status != TriggerStatus.Blocked)
@@ -59,14 +60,15 @@ public abstract partial class JobTrigger
             LastRunTime = NextRunTime;
         }
 
-        NextRunTime = GetNextRunTime();
+        NextRunTime = GetNextRunTime(useUtcTimestamp);
     }
 
     /// <summary>
     /// 计算下一次运行时间
     /// </summary>
-    /// <returns></returns>
-    internal DateTime? GetNextRunTime()
+    /// <param name="useUtcTimestamp">是否使用 UTC 时间</param>
+    /// <returns><see cref="DateTime"/></returns>
+    internal DateTime? GetNextRunTime(bool useUtcTimestamp)
     {
         // 如果未启动或不是正常的触发器状态，则返回 null
         if (StartNow == false || (Status != TriggerStatus.Ready
@@ -75,9 +77,9 @@ public abstract partial class JobTrigger
             && Status != TriggerStatus.Blocked)) return null;
 
         // 如果已经设置了 NextRunTime 且其值大于当前时间，则返回当前 NextRunTime（可能因为其他方式修改了改值导致触发时间不是精准计算的时间）
-        if (NextRunTime != null && NextRunTime.Value > DateTime.UtcNow) return NextRunTime;
+        if (NextRunTime != null && NextRunTime.Value > Penetrates.GetNowTime(useUtcTimestamp)) return NextRunTime;
 
-        var startAt = GetStartAt();
+        var startAt = GetStartAt(useUtcTimestamp);
         return startAt == null
             ? null
             : GetNextOccurrence(startAt.Value);
@@ -210,10 +212,11 @@ public abstract partial class JobTrigger
     /// <summary>
     /// 获取触发器初始化时间
     /// </summary>
+    /// <param name="useUtcTimestamp">是否使用 UTC 时间</param>
     /// <returns><see cref="DateTime"/> 或者 null</returns>
-    private DateTime? GetStartAt()
+    private DateTime? GetStartAt(bool useUtcTimestamp)
     {
-        var nowTime = DateTime.UtcNow;
+        var nowTime = Penetrates.GetNowTime(useUtcTimestamp);
         if (StartTime == null)
         {
             if (EndTime == null) return nowTime;

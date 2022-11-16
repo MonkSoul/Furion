@@ -64,7 +64,7 @@ internal sealed partial class SchedulerFactory
     /// <returns><see cref="IScheduler"/></returns>
     public IScheduler GetJob(string jobId)
     {
-        _ = TryGetJob(jobId, out IScheduler scheduler);
+        _ = TryGetJob(jobId, out var scheduler);
         return scheduler;
     }
 
@@ -84,6 +84,7 @@ internal sealed partial class SchedulerFactory
 
         // 存储作业计划工厂
         internalScheduler.Factory = this;
+        internalScheduler.UseUtcTimestamp = UseUtcTimestamp;
 
         // 实例化作业处理程序
         var jobType = internalScheduler.JobDetail.RuntimeJobType;
@@ -93,7 +94,7 @@ internal sealed partial class SchedulerFactory
         // 初始化作业触发器下一次运行时间
         foreach (var trigger in internalScheduler.Triggers.Values)
         {
-            trigger.NextRunTime = trigger.GetNextRunTime();
+            trigger.NextRunTime = trigger.GetNextRunTime(UseUtcTimestamp);
         }
 
         // 追加到集合中
@@ -271,7 +272,7 @@ internal sealed partial class SchedulerFactory
         }
 
         // 记录更新时间
-        var updatedTime = DateTime.UtcNow;
+        var updatedTime = Penetrates.GetNowTime(UseUtcTimestamp);
 
         // 获取更新后的作业计划
         var schedulerForUpdated = schedulerBuilder.Build(_schedulers.Count);
@@ -279,6 +280,7 @@ internal sealed partial class SchedulerFactory
 
         // 存储作业计划工厂
         schedulerForUpdated.Factory = this;
+        schedulerForUpdated.UseUtcTimestamp = UseUtcTimestamp;
 
         // 实例化作业处理程序
         var jobType = schedulerForUpdated.JobDetail.RuntimeJobType;
@@ -288,7 +290,7 @@ internal sealed partial class SchedulerFactory
         // 逐条初始化作业触发器初始化下一次执行时间
         foreach (var triggerForUpdated in schedulerForUpdated.Triggers.Values)
         {
-            triggerForUpdated.NextRunTime = triggerForUpdated.GetNextRunTime();
+            triggerForUpdated.NextRunTime = triggerForUpdated.GetNextRunTime(UseUtcTimestamp);
             triggerForUpdated.UpdatedTime = updatedTime;
         }
 
