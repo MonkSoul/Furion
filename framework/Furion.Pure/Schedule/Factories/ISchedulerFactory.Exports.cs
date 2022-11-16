@@ -119,8 +119,8 @@ public partial interface ISchedulerFactory
     /// <summary>
     /// 添加作业
     /// </summary>
-    /// <typeparam name="TJob"></typeparam>
-    /// <param name="jobId"><see cref="IJob"/> 实现类型</param>
+    /// <typeparam name="TJob"><see cref="IJob"/> 实现类型</typeparam>
+    /// <param name="jobId">作业 Id</param>
     /// <param name="concurrent">是否采用并发执行</param>
     /// <param name="triggerBuilders">作业触发器构建器集合</param>
     /// <param name="scheduler">作业计划</param>
@@ -131,11 +131,31 @@ public partial interface ISchedulerFactory
     /// <summary>
     /// 添加作业
     /// </summary>
-    /// <typeparam name="TJob"></typeparam>
-    /// <param name="jobId"><see cref="IJob"/> 实现类型</param>
+    /// <typeparam name="TJob"><see cref="IJob"/> 实现类型</typeparam>
+    /// <param name="jobId">作业 Id</param>
     /// <param name="concurrent">是否采用并发执行</param>
     /// <param name="triggerBuilders">作业触发器构建器集合</param>
     void AddJob<TJob>(string jobId, bool concurrent, params TriggerBuilder[] triggerBuilders)
+        where TJob : class, IJob;
+
+    /// <summary>
+    /// 添加作业
+    /// </summary>
+    /// <typeparam name="TJob"><see cref="IJob"/> 实现类型</typeparam>
+    /// <param name="concurrent">是否采用并发执行</param>
+    /// <param name="triggerBuilders">作业触发器构建器集合</param>
+    /// <param name="scheduler">作业计划</param>
+    /// <returns><see cref="ScheduleResult"/></returns>
+    ScheduleResult TryAddJob<TJob>(bool concurrent, TriggerBuilder[] triggerBuilders, out IScheduler scheduler)
+        where TJob : class, IJob;
+
+    /// <summary>
+    /// 添加作业
+    /// </summary>
+    /// <typeparam name="TJob"><see cref="IJob"/> 实现类型</typeparam>
+    /// <param name="concurrent">是否采用并发执行</param>
+    /// <param name="triggerBuilders">作业触发器构建器集合</param>
+    void AddJob<TJob>(bool concurrent, params TriggerBuilder[] triggerBuilders)
         where TJob : class, IJob;
 
     /// <summary>

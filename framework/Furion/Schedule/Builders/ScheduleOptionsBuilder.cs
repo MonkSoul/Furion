@@ -137,6 +137,20 @@ public sealed class ScheduleOptionsBuilder
     }
 
     /// <summary>
+    /// 添加作业
+    /// </summary>
+    /// <typeparam name="TJob"><see cref="IJob"/> 实现类型</typeparam>
+    /// <param name="concurrent">是否采用并发执行</param>
+    /// <param name="triggerBuilders">作业触发器构建器集合</param>
+    /// <returns><see cref="ScheduleOptionsBuilder"/></returns>
+    public ScheduleOptionsBuilder AddJob<TJob>(bool concurrent, params TriggerBuilder[] triggerBuilders)
+         where TJob : class, IJob
+    {
+        return AddJob(SchedulerBuilder.Create(JobBuilder.Create<TJob>().SetConcurrent(concurrent)
+            , triggerBuilders));
+    }
+
+    /// <summary>
     /// 注册作业处理程序监视器
     /// </summary>
     /// <typeparam name="TJobHandlerMonitor">实现自 <see cref="IJobHandlerMonitor"/></typeparam>
