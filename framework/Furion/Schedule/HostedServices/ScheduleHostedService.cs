@@ -271,7 +271,7 @@ internal sealed class ScheduleHostedService : BackgroundService
             _schedulerFactory.Shorthand(jobDetail);
 
             // 输出阻塞日志
-            _logger.LogWarning("{checkTime} The <{triggerId}> trigger of job <{jobId}> failed to execute as scheduled due to blocking.", checkTime, trigger.TriggerId, jobDetail.JobId);
+            _logger.LogWarning("{checkTime}: The <{triggerId}> trigger of job <{jobId}> failed to execute as scheduled due to blocking.", checkTime, trigger.TriggerId, jobDetail.JobId);
 
             return false;
         }
