@@ -71,6 +71,12 @@ internal sealed class EventHandlerWrapper
     public bool GCCollect { get; set; }
 
     /// <summary>
+    /// 排序
+    /// </summary>
+    /// <remarks>数值越大的先执行</remarks>
+    public int Order { get; set; } = 0;
+
+    /// <summary>
     /// 是否符合条件执行处理程序
     /// </summary>
     /// <remarks>支持正则表达式</remarks>

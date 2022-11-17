@@ -90,4 +90,10 @@ public sealed class EventSubscribeAttribute : Attribute
     /// </summary>
     /// <remarks>如果没有注册，必须通过 options.AddFallbackPolicy(type) 注册</remarks>
     public Type FallbackPolicy { get; set; }
+
+    /// <summary>
+    /// 排序
+    /// </summary>
+    /// <remarks>数值越大的先执行</remarks>
+    public int Order { get; set; } = 0;
 }

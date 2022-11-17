@@ -125,7 +125,8 @@ internal sealed class EventBusHostedService : BackgroundService
                         HandlerMethod = eventHandlerMethod,
                         Attribute = eventSubscribeAttribute,
                         Pattern = CheckIsSetFuzzyMatch(eventSubscribeAttribute.FuzzyMatch) ? new Regex(eventSubscribeAttribute.EventId, RegexOptions.Singleline) : default,
-                        GCCollect = CheckIsSetGCCollect(eventSubscribeAttribute.GCCollect)
+                        GCCollect = CheckIsSetGCCollect(eventSubscribeAttribute.GCCollect),
+                        Order = eventSubscribeAttribute.Order
                     };
 
                     _eventHandlers.TryAdd(wrapper, wrapper);
@@ -219,7 +220,7 @@ internal sealed class EventBusHostedService : BackgroundService
         }
 
         // 查找事件 Id 匹配的事件处理程序
-        var eventHandlersThatShouldRun = _eventHandlers.Keys.Where(t => t.ShouldRun(eventSource.EventId));
+        var eventHandlersThatShouldRun = _eventHandlers.Where(t => t.Key.ShouldRun(eventSource.EventId)).OrderByDescending(u => u.Value.Order).Select(u => u.Key);
 
         // 空订阅
         if (!eventHandlersThatShouldRun.Any())
@@ -343,7 +344,7 @@ internal sealed class EventBusHostedService : BackgroundService
         // 确保事件订阅 Id 和传入的特性 EventId 一致
         if (subscribeOperateSource.Attribute != null && subscribeOperateSource.Attribute.EventId != eventId) throw new InvalidOperationException("Ensure that the <eventId> is consistent with the <EventId> attribute of the EventSubscribeAttribute object.");
 
-        // 处理新增
+        // 处理动态新增
         if (subscribeOperateSource.Operate == EventSubscribeOperates.Append)
         {
             var wrapper = new EventHandlerWrapper(eventId)
@@ -352,7 +353,8 @@ internal sealed class EventBusHostedService : BackgroundService
                 HandlerMethod = subscribeOperateSource.HandlerMethod,
                 Handler = subscribeOperateSource.Handler,
                 Pattern = CheckIsSetFuzzyMatch(subscribeOperateSource.Attribute?.FuzzyMatch) ? new Regex(eventId, RegexOptions.Singleline) : default,
-                GCCollect = CheckIsSetGCCollect(subscribeOperateSource.Attribute?.GCCollect)
+                GCCollect = CheckIsSetGCCollect(subscribeOperateSource.Attribute?.GCCollect),
+                Order = subscribeOperateSource.Attribute?.Order ?? 0
             };
 
             // 追加到集合中
@@ -364,7 +366,7 @@ internal sealed class EventBusHostedService : BackgroundService
                 Log(LogLevel.Information, "Subscriber with event ID <{EventId}> was appended successfully.", new[] { eventId });
             }
         }
-        // 处理删除
+        // 处理动态删除
         else if (subscribeOperateSource.Operate == EventSubscribeOperates.Remove)
         {
             // 删除所有匹配事件 Id 的处理程序
