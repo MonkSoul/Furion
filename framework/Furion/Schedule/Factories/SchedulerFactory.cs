@@ -161,7 +161,12 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory, IDisposable
 
         // 监听休眠被取消
         _sleepCancellationTokenSource.Token.Register(() =>
-           _logger.LogWarning("Schedule Hosted Service cancels hibernation."));
+        {
+            _logger.LogWarning("Schedule Hosted Service cancels hibernation.");
+
+            // 通知 GC 垃圾回收器立即回收
+            GC.Collect();
+        });
 
         // 获取作业调度器总休眠时间
         var sleepMilliseconds = GetSleepMilliseconds();
