@@ -114,6 +114,12 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter, IOr
     public Type[] IgnorePropertyTypes { get; set; }
 
     /// <summary>
+    /// JSON 输出格式化
+    /// </summary>
+    /// <remarks>bool 类型，默认输出</remarks>
+    public object JsonIndented { get; set; } = null;
+
+    /// <summary>
     /// 配置信息
     /// </summary>
     private LoggingMonitorSettings Settings { get; set; }
@@ -189,13 +195,19 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter, IOr
             return;
         }
 
-        // 创建 json 写入器
-        using var stream = new MemoryStream();
-        using var writer = new Utf8JsonWriter(stream, Settings.JsonWriterOptions);
-        writer.WriteStartObject();
-
         // 获取全局 LoggingMonitorMethod 配置
         var monitorMethod = Settings.MethodsSettings.FirstOrDefault(m => m.FullName.Equals(methodFullName, StringComparison.OrdinalIgnoreCase));
+
+        // 创建 json 写入器
+        using var stream = new MemoryStream();
+        var jsonWriterOptions = Settings.JsonWriterOptions;
+
+        // 配置 JSON 格式化行为，是否美化
+        jsonWriterOptions.Indented = CheckIsSetJsonIndented(monitorMethod);
+
+        // 创建 JSON 写入器
+        using var writer = new Utf8JsonWriter(stream, jsonWriterOptions);
+        writer.WriteStartObject();
 
         // 创建日志上下文
         var logContext = new LogContext();
@@ -787,6 +799,18 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter, IOr
         return WithReturnValue == null
             ? (monitorMethod?.WithReturnValue ?? Settings.WithReturnValue)
             : Convert.ToBoolean(WithReturnValue);
+    }
+
+    /// <summary>
+    /// 检查是否开启 JSON 格式化
+    /// </summary>
+    /// <param name="monitorMethod"></param>
+    /// <returns></returns>
+    private bool CheckIsSetJsonIndented(LoggingMonitorMethod monitorMethod)
+    {
+        return JsonIndented == null
+            ? (monitorMethod?.JsonIndented ?? Settings.JsonIndented)
+            : Convert.ToBoolean(JsonIndented);
     }
 
     /// <summary>

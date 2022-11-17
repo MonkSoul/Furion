@@ -568,6 +568,11 @@
                 "All"
               ]
             },
+            "JsonIndented": {
+              "description": "配置是否格式化 JSON，默认 false",
+              "type": "boolean",
+              "default": false
+            },
             "MethodsSettings": {
               "description": "配置监听方法更多信息",
               "type": "array",
@@ -589,6 +594,11 @@
                     "description": "配置返回值字符串阈值，默认 0",
                     "type": "number",
                     "default": 0
+                  },
+                  "JsonIndented": {
+                    "description": "配置是否格式化 JSON，默认 false",
+                    "type": "boolean",
+                    "default": false
                   }
                 }
               }

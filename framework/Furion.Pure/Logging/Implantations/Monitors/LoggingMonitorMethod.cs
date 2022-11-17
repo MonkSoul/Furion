@@ -60,4 +60,9 @@ public sealed class LoggingMonitorMethod
     /// 配置序列化忽略的属性类型
     /// </summary>
     public Type[] IgnorePropertyTypes { get; set; }
+
+    /// <summary>
+    /// JSON 输出格式化
+    /// </summary>
+    public bool JsonIndented { get; set; } = false;
 }

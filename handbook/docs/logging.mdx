@@ -320,6 +320,8 @@ services.AddConsoleFormatter(options =>
 services.AddConsoleFormatter(options =>
 {
     options.MessageFormat = LoggerFormatter.Json;
+    // Furion 4.8.0+ 新增 JSON 美化输出
+    options.MessageFormat = LoggerFormatter.JsonIndented;
 });
 ```
 
@@ -576,6 +578,8 @@ services.AddFileLogging("mytemplate.log", options =>
 services.AddFileLogging("mytemplate.log", options =>
 {
     options.MessageFormat = LoggerFormatter.Json;
+    // Furion 4.8.0+ 新增 JSON 美化输出
+    options.MessageFormat = LoggerFormatter.JsonIndented;
 });
 ```
 
@@ -788,6 +792,8 @@ services.AddDatabaseLogging<DatabaseLoggingWriter>(options =>
 services.AddDatabaseLogging<DatabaseLoggingWriter>(options =>
 {
     options.MessageFormat = LoggerFormatter.Json;
+    // Furion 4.8.0+ 新增 JSON 美化输出
+    options.MessageFormat = LoggerFormatter.JsonIndented;
 });
 ```
 
@@ -894,6 +900,7 @@ public class TestLoggerServices : IDynamicApiController
   - `WithReturnValue`：是否包含返回值打印，`bool` 类型，默认 `true`，`Furion 4.3.9+ 有效`
   - `ReturnValueThreshold`：配置返回值字符串阈值，`int` 类型，默认 `0` 全量输出，`Furion 4.3.9+ 有效`
   - `JsonBehavior`：配置 `LoggingMonitor` `Json` 输出行为，默认 `None`，`Furion 4.5.2+` 有效
+  - `JsonIndented`：配置 `LoggingMonitor` `Json` 格式化行为，`bool` 类型，默认 `false`，`Furion 4.8.0+` 有效
 
 输出日志为：
 
@@ -963,12 +970,14 @@ services.AddMonitorLogging();   // 默认读取 Logging:Monitor 下配置，支�
       "WithReturnValue": true, // 配置是否包含返回值，默认 `true`，Furion 4.3.9+ 有效
       "ReturnValueThreshold": 0, // 配置返回值字符串阈值，默认 0，全量输出，Furion 4.3.9+ 有效
       "JsonBehavior": "None", // 配置 LoggingMonitor Json 输出行为，默认 None，Furion 4.5.2+ 有效
+      "JsonIndented": false, // 配置 LoggingMonitor Json 格式化行为，默认 false，Furion 4.8.2+ 有效
       "MethodsSettings": [
         // 配置被监视方法更多信息，Furion 4.3.9+ 有效
         {
           "FullName": "Furion.Application.TestLoggerServices.MethodName", // 方法完全限定名
           "WithReturnValue": true, // 配置是否包含返回值，默认 `true`，Furion 4.3.9+ 有效
-          "ReturnValueThreshold": 0 // 配置返回值字符串阈值，默认 0，全量输出，Furion 4.3.9+ 有效
+          "ReturnValueThreshold": 0, // 配置返回值字符串阈值，默认 0，全量输出，Furion 4.3.9+ 有效
+          "JsonIndented": false // 配置 LoggingMonitor Json 格式化行为，默认 false，Furion 4.8.2+ 有效
         }
       ]
     }
@@ -1019,15 +1028,18 @@ services.AddMonitorLogging(jsonKey: "YourKey:Monitor");
 
 1. 全局/局部启用 `Json` 输出配置
 
-```cs showLineNumbers {4,8}
+```cs showLineNumbers {4,9}
 // 全局
 services.AddMonitorLogging(options =>
 {
     options.JsonBehavior = Furion.Logging.JsonBehavior.OnlyJson;
+    options.JsonIndented = true;    // 是否美化 JSON，Furion 4.8.0+ 版本有效
 });
 
 // 局部
 [LoggingMonitor(JsonBehavior = Furion.Logging.JsonBehavior.OnlyJson)]
+// 是否美化 JSON，Furion 4.8.0+ 版本有效
+[LoggingMonitor(JsonBehavior = Furion.Logging.JsonBehavior.OnlyJson, JsonIndented = true)]
 ```
 
 :::note 关于 `JsonBehavior`
