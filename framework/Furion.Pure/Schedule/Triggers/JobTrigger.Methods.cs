@@ -115,10 +115,13 @@ public partial class JobTrigger
     /// <returns><see cref="bool"/></returns>
     internal bool IsNormalStatus()
     {
-        return !(Status != TriggerStatus.Ready
-            && Status != TriggerStatus.ErrorToReady
-            && Status != TriggerStatus.Running
-            && Status != TriggerStatus.Blocked);     // 本该执行但是没有执行
+        return Status != TriggerStatus.Backlog
+            && Status != TriggerStatus.Pause
+            && Status != TriggerStatus.Archived
+            && Status != TriggerStatus.Panic
+            && Status != TriggerStatus.Overrun
+            && Status != TriggerStatus.None
+            && Status != TriggerStatus.NotStart;
     }
 
     /// <summary>
