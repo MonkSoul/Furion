@@ -22,7 +22,7 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 1. 定义事件订阅者 `ToDoEventSubscriber`：
 
-```cs showLineNumbers  {2,10-11,19-21,28-30,32,36-38,44-48}
+```cs showLineNumbers  {2,10-11,19-21,28-30,32,36-38,44-48,54-56}
 // 实现 IEventSubscriber 接口
 public class ToDoEventSubscriber : IEventSubscriber
 {
@@ -66,10 +66,18 @@ public class ToDoEventSubscriber : IEventSubscriber
         await Task.CompletedTask;
     }
 
-    // 支持多种异常重试配置，4.2.10+ 版本支持
+    // 支持多种异常重试配置，Furion 4.2.10+ 版本支持
     [EventSubscribe("test:error", NumRetries = 3)]
     [EventSubscribe("test:error", NumRetries = 3, RetryTimeout = 1000)] // 重试间隔时间
     [EventSubscribe("test:error", NumRetries = 3, ExceptionTypes = new[] { typeof(ArgumentException) })]    // 特定类型异常才重试
+    public async Task ExceptionHandler(EventHandlerExecutingContext context)
+    {
+        var eventId = context.Source.EventId;
+        await Task.CompletedTask;
+    }
+
+    // 支持简单 Order 编排，Furion 4.8.0+ 版本支持
+    [EventSubscribe("test:order", Order = 1)]
     public async Task ExceptionHandler(EventHandlerExecutingContext context)
     {
         var eventId = context.Source.EventId;
