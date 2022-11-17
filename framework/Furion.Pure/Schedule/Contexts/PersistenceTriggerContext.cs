@@ -75,6 +75,29 @@ public sealed class PersistenceTriggerContext : PersistenceContext
     }
 
     /// <summary>
+    /// 转换作业计划成 JSON 语句
+    /// </summary>
+    /// <param name="naming">命名法</param>
+    /// <returns><see cref="string"/></returns>
+    public string ConvertAllToJSON(NamingConventions naming = NamingConventions.Pascal)
+    {
+        return Penetrates.Write(writer =>
+        {
+            writer.WriteStartObject();
+
+            // 输出 JobDetail
+            writer.WritePropertyName(Penetrates.GetNaming(nameof(JobDetail), naming));
+            writer.WriteRawValue(JobDetail.ConvertToJSON(naming));
+
+            // 输出 JobTrigger
+            writer.WritePropertyName(Penetrates.GetNaming(nameof(Trigger), naming));
+            writer.WriteRawValue(Trigger.ConvertToJSON(naming));
+
+            writer.WriteEndObject();
+        });
+    }
+
+    /// <summary>
     /// 转换成 Monitor 字符串
     /// </summary>
     /// <returns><see cref="string"/></returns>
