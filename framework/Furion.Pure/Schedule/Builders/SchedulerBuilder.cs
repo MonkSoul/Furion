@@ -109,10 +109,10 @@ public sealed class SchedulerBuilder
     /// <returns><see cref="SchedulerBuilder"/></returns>
     public static SchedulerBuilder From(string json)
     {
-        var schedulerSerialization = Penetrates.Deserialize<SchedulerSerialization>(json);
-        return new SchedulerBuilder(JobBuilder.From(schedulerSerialization.JobDetail))
+        var schedulerModel = Penetrates.Deserialize<SchedulerModel>(json);
+        return new SchedulerBuilder(JobBuilder.From(schedulerModel.JobDetail))
         {
-            TriggerBuilders = schedulerSerialization.Triggers.Select(t => TriggerBuilder.From(t)).ToList()
+            TriggerBuilders = schedulerModel.Triggers.Select(t => TriggerBuilder.From(t)).ToList()
         };
     }
 

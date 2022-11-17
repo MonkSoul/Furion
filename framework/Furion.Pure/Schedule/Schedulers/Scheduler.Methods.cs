@@ -28,6 +28,20 @@ namespace Furion.Schedule;
 internal sealed partial class Scheduler
 {
     /// <summary>
+    /// 返回可公开访问的作业计划模型
+    /// </summary>
+    /// <remarks>常用于接口返回或序列化操作</remarks>
+    /// <returns><see cref="SchedulerModel"/></returns>
+    public SchedulerModel GetModel()
+    {
+        return new SchedulerModel
+        {
+            JobDetail = JobDetail,
+            Triggers = Triggers.Values.ToArray()
+        };
+    }
+
+    /// <summary>
     /// 获取作业计划构建器
     /// </summary>
     /// <returns><see cref="SchedulerBuilder"/></returns>

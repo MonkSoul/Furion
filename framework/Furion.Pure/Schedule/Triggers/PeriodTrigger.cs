@@ -33,6 +33,9 @@ internal sealed class PeriodTrigger : JobTrigger
     /// <param name="interval">间隔（毫秒）</param>
     public PeriodTrigger(int interval)
     {
+        // 最低运行毫秒数为 100ms
+        if (interval < 100) throw new InvalidOperationException($"The interval cannot be less than 100ms, but the value is <{interval}ms>.");
+
         Interval = interval;
     }
 

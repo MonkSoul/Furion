@@ -8,7 +8,7 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 :::warning v2.20+ 版本说明
 
-**在 `Furion v2.20+` 版本后采用 [Jaina](https://gitee.com/dotnetchina/Jaina) 事件总线替换原有的 `EventBus`**，**😶[查看新文档](./event-bus)**
+**在 `Furion v2.20+` 版本采用 [Jaina](https://gitee.com/dotnetchina/Jaina) 事件总线替换原有的 `EventBus`**，**😶[查看新文档](./event-bus)**
 
 :::
 
@@ -74,7 +74,7 @@ public class UserChangeSubscribeHandler : ISubscribeHandler
 
 定义好订阅处理程序后，我们就可以在程序任何地方进行广播消息，事件总线会自动根据 `消息 Id` 触发对应的处理程序方法：
 
-```cs showLineNumbers 
+```cs showLineNumbers
 MessageCenter.Send("create:user", new User {}); // => 打印：我是create:user
 
 MessageCenter.Send("delete:user", new User {}); // => 打印：我是delete:user
@@ -87,7 +87,7 @@ MessageCenter.Send("remove:user", new User {}); // => 打印：我是remove:user
 
 在某些特殊情况下，可能只需要订阅一次即可。所以，在 `Furion` 框架中，为了更简便的订阅消息，也提供了 `MessageCenter.Subscribe<T>` 静态方法，如：
 
-```cs showLineNumbers 
+```cs showLineNumbers
 MessageCenter.Subscribe<User>("create:user", (i,p) => {
     // do something。。。
 });
@@ -97,7 +97,7 @@ MessageCenter.Subscribe<User>("create:user", (i,p) => {
 
 默认情况下，事件总线总是采用新线程方式执行，但是我们可以配置为同步方式，如：
 
-```cs showLineNumbers 
+```cs showLineNumbers
 MessageCenter.Send("create:user", isSync: true);
 ```
 

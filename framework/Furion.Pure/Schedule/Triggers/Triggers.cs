@@ -41,6 +41,16 @@ public static class Triggers
     }
 
     /// <summary>
+    /// 创建作业周期（间隔）触发器构建器
+    /// </summary>
+    /// <param name="interval">间隔（秒）</param>
+    /// <returns><see cref="TriggerBuilder"/></returns>
+    public static TriggerBuilder PeriodSeconds(int interval)
+    {
+        return TriggerBuilder.PeriodSeconds(interval);
+    }
+
+    /// <summary>
     /// 创建作业 Cron 触发器构建器
     /// </summary>
     /// <param name="schedule">Cron 表达式</param>

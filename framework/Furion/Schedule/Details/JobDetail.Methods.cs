@@ -134,19 +134,13 @@ public partial class JobDetail
     }
 
     /// <summary>
-    /// 数据库列名
-    /// </summary>
-    private string[] _columnNames;
-
-    /// <summary>
     /// 获取数据库列名
     /// </summary>
     /// <remarks>避免多次反射</remarks>
-    /// <param name="naming">命名法</param>
     /// <returns></returns>
     private string[] ColumnNames(NamingConventions naming = NamingConventions.Pascal)
     {
-        _columnNames ??= new[]
+        return new[]
         {
             Penetrates.GetNaming(nameof(JobId), naming) // 第一个是标识，禁止移动位置
             , Penetrates.GetNaming(nameof(GroupName), naming)
@@ -158,8 +152,6 @@ public partial class JobDetail
             , Penetrates.GetNaming(nameof(Properties), naming)
             , Penetrates.GetNaming(nameof(UpdatedTime), naming)
         };
-
-        return _columnNames;
     }
 
     /// <summary>

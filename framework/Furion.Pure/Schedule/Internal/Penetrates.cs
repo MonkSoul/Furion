@@ -133,22 +133,27 @@ internal static class Penetrates
     /// <summary>
     /// 根据属性名获取指定的命名法
     /// </summary>
-    /// <param name="propertyName"></param>
-    /// <param name="naming"></param>
-    /// <returns></returns>
+    /// <param name="propertyName">属性名</param>
+    /// <param name="naming">命名法</param>
+    /// <returns><see cref="bool"/></returns>
     internal static string GetNaming(string propertyName, NamingConventions naming = NamingConventions.Pascal)
     {
         var words = SplitToWords(propertyName);
         var tempWords = new List<string>();
 
-        foreach (var word in words)
+        // 遍历每一个单词
+        for (var i = 0; i < words.Length; i++)
         {
+            var word = words[i];
+
             switch (naming)
             {
                 case NamingConventions.CamelCase:
                     tempWords.Add(SetFirstLetterCase(word));
                     continue;
                 case NamingConventions.Pascal:
+                    tempWords.Add(SetFirstLetterCase(word, i != 0));
+                    continue;
                 case NamingConventions.UnderScoreCase:
                     tempWords.Add(SetFirstLetterCase(word, false));
                     continue;
@@ -161,8 +166,8 @@ internal static class Penetrates
     /// <summary>
     /// 获取 SQL 的值
     /// </summary>
-    /// <param name="obj"></param>
-    /// <returns></returns>
+    /// <param name="obj">对象值</param>
+    /// <returns><see cref="string"/></returns>
     internal static string GetSqlValueOrNull(object obj)
     {
         return obj == null ? "NULL" : $"'{obj}'";
@@ -171,8 +176,8 @@ internal static class Penetrates
     /// <summary>
     /// 高性能创建 JSON 字符串
     /// </summary>
-    /// <param name="writeAction"></param>
-    /// <returns></returns>
+    /// <param name="writeAction"><see cref="Utf8JsonWriter"/></param>
+    /// <returns><see cref="string"/></returns>
     internal static string Write(Action<Utf8JsonWriter> writeAction)
     {
         using var stream = new MemoryStream();

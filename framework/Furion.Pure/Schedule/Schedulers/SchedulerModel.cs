@@ -25,10 +25,11 @@ using System.Text.Json.Serialization;
 namespace Furion.Schedule;
 
 /// <summary>
-/// 作业计划序列化
+/// 作业计划模型
 /// </summary>
+/// <remarks>常用于接口返回或序列化操作</remarks>
 [SuppressSniffer]
-public sealed class SchedulerSerialization
+public sealed class SchedulerModel
 {
     /// <summary>
     /// 作业信息

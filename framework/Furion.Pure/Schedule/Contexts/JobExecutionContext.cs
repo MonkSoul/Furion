@@ -85,7 +85,7 @@ public abstract class JobExecutionContext
             writer.WriteRawValue(JobDetail.ConvertToJSON(naming));
 
             // 输出 JobTrigger
-            writer.WritePropertyName(Penetrates.GetNaming(nameof(JobTrigger), naming));
+            writer.WritePropertyName(Penetrates.GetNaming(nameof(Trigger), naming));
             writer.WriteRawValue(Trigger.ConvertToJSON(naming));
 
             writer.WriteEndObject();

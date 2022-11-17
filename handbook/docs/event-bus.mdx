@@ -8,7 +8,13 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 :::warning v2.20 以下版本说明
 
-**在 `Furion v2.20+` 版本后采用 [Jaina](https://gitee.com/dotnetchina/Jaina) 事件总线替换原有的 `EventBus`**，[查看旧文档](./event-bus-old)
+**在 `Furion v2.20+` 版本采用 [Jaina](https://gitee.com/dotnetchina/Jaina) 事件总线替换原有的 `EventBus`**，[查看旧文档](./event-bus-old)
+
+:::
+
+:::important 版本说明
+
+以下内容仅限 `Furion 2.20.0 +` 版本使用。
 
 :::
 
@@ -1058,7 +1064,11 @@ public class ToDoEventSubscriber : IEventSubscriber, IDisposable
 }
 ```
 
-## 22.15 使用第三方事件总线 `CAP` 示例
+## 22.15 IIS 部署回收设置
+
+如果在项目中使用了事件总线且部署到 `IIS` 中，那么需要设置 `IIS` 禁止回收，避免事件总线服务进入休眠，[点击查看 `IIS` 回收问题解决方案](./deploy-iis#3415-iis-%E5%9B%9E%E6%94%B6%E9%97%AE%E9%A2%98%E5%92%8C%E9%85%8D%E7%BD%AE)
+
+## 22.16 使用第三方事件总线 `CAP` 示例
 
 ```cs showLineNumbers {1,5}
 builder.Services.AddCap(options =>
@@ -1068,7 +1078,7 @@ builder.Services.AddCap(options =>
 }).AddSubscriberAssembly(App.Assemblies.ToArray());
 ```
 
-## 22.16 反馈与建议
+## 22.17 反馈与建议
 
 :::note 与我们交流
 
