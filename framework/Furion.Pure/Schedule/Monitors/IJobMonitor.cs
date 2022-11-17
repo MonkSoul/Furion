@@ -23,17 +23,23 @@
 namespace Furion.Schedule;
 
 /// <summary>
-/// 作业处理程序执行器
+/// 作业处理程序监视器
 /// </summary>
-public interface IJobHandlerExecutor
+public interface IJobMonitor
 {
     /// <summary>
-    /// 执行作业处理程序
+    /// 作业处理程序执行前
     /// </summary>
-    /// <remarks>在这里可以实现超时控制，失败重试控制等等</remarks>
     /// <param name="context">作业处理程序执行前上下文</param>
-    /// <param name="jobHandler">作业处理程序</param>
     /// <param name="stoppingToken">取消任务 Token</param>
     /// <returns><see cref="Task"/> 实例</returns>
-    Task ExecuteAsync(JobExecutingContext context, IJob jobHandler, CancellationToken stoppingToken);
+    Task OnExecutingAsync(JobExecutingContext context, CancellationToken stoppingToken);
+
+    /// <summary>
+    /// 作业处理程序执行后
+    /// </summary>
+    /// <param name="context">作业处理程序执行后上下文</param>
+    /// <param name="stoppingToken">取消任务 Token</param>
+    /// <returns><see cref="Task"/> 实例</returns>
+    Task OnExecutedAsync(JobExecutedContext context, CancellationToken stoppingToken);
 }

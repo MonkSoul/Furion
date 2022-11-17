@@ -40,12 +40,12 @@ public sealed class ScheduleOptionsBuilder
     /// <summary>
     /// 作业处理程序监视器
     /// </summary>
-    private Type _jobHandlerMonitor;
+    private Type _jobMonitor;
 
     /// <summary>
     /// 作业处理程序执行器
     /// </summary>
-    private Type _jobHandlerExecutor;
+    private Type _jobExecutor;
 
     /// <summary>
     /// 作业调度持久化器
@@ -153,24 +153,24 @@ public sealed class ScheduleOptionsBuilder
     /// <summary>
     /// 注册作业处理程序监视器
     /// </summary>
-    /// <typeparam name="TJobHandlerMonitor">实现自 <see cref="IJobHandlerMonitor"/></typeparam>
+    /// <typeparam name="TJobMonitor">实现自 <see cref="IJobMonitor"/></typeparam>
     /// <returns><see cref="ScheduleOptionsBuilder"/> 实例</returns>
-    public ScheduleOptionsBuilder AddMonitor<TJobHandlerMonitor>()
-        where TJobHandlerMonitor : class, IJobHandlerMonitor
+    public ScheduleOptionsBuilder AddMonitor<TJobMonitor>()
+        where TJobMonitor : class, IJobMonitor
     {
-        _jobHandlerMonitor = typeof(TJobHandlerMonitor);
+        _jobMonitor = typeof(TJobMonitor);
         return this;
     }
 
     /// <summary>
     /// 注册作业处理程序执行器
     /// </summary>
-    /// <typeparam name="TJobHandlerExecutor">实现自 <see cref="IJobHandlerExecutor"/></typeparam>
+    /// <typeparam name="TJobExecutor">实现自 <see cref="IJobExecutor"/></typeparam>
     /// <returns><see cref="ScheduleOptionsBuilder"/> 实例</returns>
-    public ScheduleOptionsBuilder AddExecutor<TJobHandlerExecutor>()
-        where TJobHandlerExecutor : class, IJobHandlerExecutor
+    public ScheduleOptionsBuilder AddExecutor<TJobExecutor>()
+        where TJobExecutor : class, IJobExecutor
     {
-        _jobHandlerExecutor = typeof(TJobHandlerExecutor);
+        _jobExecutor = typeof(TJobExecutor);
         return this;
     }
 
@@ -210,15 +210,15 @@ public sealed class ScheduleOptionsBuilder
         }
 
         // 注册作业监视器
-        if (_jobHandlerMonitor != default)
+        if (_jobMonitor != default)
         {
-            services.AddSingleton(typeof(IJobHandlerMonitor), _jobHandlerMonitor);
+            services.AddSingleton(typeof(IJobMonitor), _jobMonitor);
         }
 
         // 注册作业执行器
-        if (_jobHandlerExecutor != default)
+        if (_jobExecutor != default)
         {
-            services.AddSingleton(typeof(IJobHandlerExecutor), _jobHandlerExecutor);
+            services.AddSingleton(typeof(IJobExecutor), _jobExecutor);
         }
 
         // 注册作业调度持久化器

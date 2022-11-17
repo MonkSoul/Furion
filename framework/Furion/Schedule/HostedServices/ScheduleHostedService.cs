@@ -61,20 +61,20 @@ internal sealed class ScheduleHostedService : BackgroundService
         _logger = logger;
         _schedulerFactory = schedulerFactory;
 
-        Monitor = serviceProvider.GetService<IJobHandlerMonitor>();
-        Executor = serviceProvider.GetService<IJobHandlerExecutor>();
+        Monitor = serviceProvider.GetService<IJobMonitor>();
+        Executor = serviceProvider.GetService<IJobExecutor>();
         UseUtcTimestamp = useUtcTimestamp;
     }
 
     /// <summary>
     /// 作业处理程序监视器
     /// </summary>
-    private IJobHandlerMonitor Monitor { get; }
+    private IJobMonitor Monitor { get; }
 
     /// <summary>
     /// 作业处理程序执行器
     /// </summary>
-    private IJobHandlerExecutor Executor { get; }
+    private IJobExecutor Executor { get; }
 
     /// <summary>
     /// 是否使用 UTC 时间
