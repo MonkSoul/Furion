@@ -39,9 +39,10 @@ public partial class JobTrigger
     /// <summary>
     /// 执行条件检查
     /// </summary>
+    /// <param name="jobDetail">作业信息</param>
     /// <param name="startAt">起始时间</param>
     /// <returns><see cref="bool"/></returns>
-    public virtual bool ShouldRun(DateTime startAt)
+    public virtual bool ShouldRun(JobDetail jobDetail, DateTime startAt)
     {
         return NextRunTime.Value <= startAt
             && LastRunTime != NextRunTime;
@@ -109,12 +110,31 @@ public partial class JobTrigger
     }
 
     /// <summary>
+    /// 是否是正常触发器状态
+    /// </summary>
+    /// <returns><see cref="bool"/></returns>
+    internal bool IsNormalStatus()
+    {
+        return !(Status != TriggerStatus.Ready
+            && Status != TriggerStatus.ErrorToReady
+            && Status != TriggerStatus.Running
+            && Status != TriggerStatus.Blocked);     // 本该执行但是没有执行
+    }
+
+    /// <summary>
     /// 执行条件检查（内部检查）
     /// </summary>
+    /// <param name="jobDetail">作业信息</param>
     /// <param name="startAt">起始时间</param>
     /// <returns><see cref="bool"/></returns>
-    internal bool InternalShouldRun(DateTime startAt)
+    internal bool InternalShouldRun(JobDetail jobDetail, DateTime startAt)
     {
+        // 检查作业信息运行时类型
+        if (jobDetail.RuntimeJobType == null)
+        {
+            return false;
+        }
+
         // 检查作业触发器运行时类型
         if (RuntimeTriggerType == null)
         {
@@ -130,10 +150,7 @@ public partial class JobTrigger
         }
 
         // 状态检查
-        if (Status != TriggerStatus.Ready
-            && Status != TriggerStatus.ErrorToReady
-            && Status != TriggerStatus.Running
-            && Status != TriggerStatus.Blocked)  // 本该执行但是没有执行
+        if (!IsNormalStatus())
         {
             return false;
         }
@@ -174,7 +191,7 @@ public partial class JobTrigger
         }
 
         // 调用派生类 ShouldRun 方法
-        return ShouldRun(startAt);
+        return ShouldRun(jobDetail, startAt);
     }
 
     /// <summary>

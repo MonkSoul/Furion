@@ -130,13 +130,13 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory, IDisposable
     public IEnumerable<IScheduler> GetNextRunJobs(DateTime startAt)
     {
         // 定义静态内部函数用于委托检查
-        bool triggerShouldRun(JobTrigger t) => t.InternalShouldRun(startAt);
+        bool triggerShouldRun(Scheduler s, JobTrigger t) => t.InternalShouldRun(s.JobDetail, startAt);
 
         // 查找所有符合执行的作业计划
         var nextRunSchedulers = _schedulers.Values
-                .Where(s => s.JobDetail.InternalShouldRun(s.JobHandler)
-                    && s.Triggers.Values.Any(triggerShouldRun))
-                .Select(s => new Scheduler(s.JobDetail, s.Triggers.Values.Where(triggerShouldRun).ToDictionary(t => t.TriggerId, t => t))
+                .Where(s => s.JobDetail.RuntimeJobType != null && s.JobHandler != null
+                    && s.Triggers.Values.Any(t => triggerShouldRun(s, t)))
+                .Select(s => new Scheduler(s.JobDetail, s.Triggers.Values.Where(t => triggerShouldRun(s, t)).ToDictionary(t => t.TriggerId, t => t))
                 {
                     Factory = this,
                     UseUtcTimestamp = UseUtcTimestamp,
@@ -270,8 +270,9 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory, IDisposable
 
         // 获取所有作业计划下一批执行时间
         var nextRunTimes = _schedulers.Values
+            .Where(s => s.JobDetail.RuntimeJobType != null && s.JobHandler != null)
             .SelectMany(u => u.Triggers.Values
-                .Where(t => t.NextRunTime != null && t.NextRunTime.Value >= checkTime)
+                .Where(t => t.IsNormalStatus() && t.NextRunTime != null && t.NextRunTime.Value >= checkTime)
                 .Select(t => t.NextRunTime.Value));
 
         // 空检查

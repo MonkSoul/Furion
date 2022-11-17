@@ -437,9 +437,10 @@ public sealed class TriggerBuilder : JobTrigger
     /// <summary>
     /// 隐藏作业触发器公开方法
     /// </summary>
+    /// <param name="jobDetail">作业信息</param>
     /// <param name="startAt">起始时间</param>
     /// <returns><see cref="bool"/></returns>
-    public new bool ShouldRun(DateTime startAt) => throw new NotImplementedException();
+    public new bool ShouldRun(JobDetail jobDetail, DateTime startAt) => throw new NotImplementedException();
 
     /// <summary>
     /// 构建 <see cref="JobTrigger"/> 对象
