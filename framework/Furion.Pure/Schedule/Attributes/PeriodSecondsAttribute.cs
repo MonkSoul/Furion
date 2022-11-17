@@ -23,18 +23,17 @@
 namespace Furion.Schedule;
 
 /// <summary>
-/// 毫秒周期（间隔）作业触发器特性
+/// 秒周期（间隔）作业触发器特性
 /// </summary>
 [SuppressSniffer, AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
-public class PeriodAttribute : TriggerAttribute
+public class PeriodSecondsAttribute : PeriodAttribute
 {
     /// <summary>
     /// 构造函数
     /// </summary>
-    /// <param name="interval">间隔（毫秒）</param>
-    public PeriodAttribute(int interval)
-        : base(typeof(PeriodTrigger)
-            , interval)
+    /// <param name="interval">间隔（秒）</param>
+    public PeriodSecondsAttribute(int interval)
+        : base(interval * 1000)
     {
     }
 }

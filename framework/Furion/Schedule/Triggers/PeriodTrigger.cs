@@ -23,7 +23,7 @@
 namespace Furion.Schedule;
 
 /// <summary>
-/// 周期（间隔）作业触发器
+/// 毫秒周期（间隔）作业触发器
 /// </summary>
 internal sealed class PeriodTrigger : JobTrigger
 {
