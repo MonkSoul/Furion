@@ -1,7 +1,7 @@
 ---
 id: job
 title: 26. 定时任务/后台任务
-sidebar_label: 26. 定时任务/后台任务
+sidebar_label: 26. 定时任务 (Schedule)
 ---
 
 :::warning 4.8.0 以下版本说明
@@ -496,9 +496,9 @@ info: 2022-11-17 17:39:09.1133162 +08:00 星期四 L MyJob[0] #3
 
 ### 26.2.5 运行时（动态）操作作业
 
-有时候，我们需要在运行时对作业动态的增加，更新，删除等操作，如动态添加每分钟执行：
+有时候，我们需要在运行时对作业动态的增加，更新，删除等操作，如动态添加作业：
 
-1. 注册 `services.AddSchedule()`` 服务
+1. 注册 `services.AddSchedule()` 服务
 
 ```cs showLineNumbers {2,5}
 // 可以完全动态操作，只需要注册服务即可
@@ -531,7 +531,7 @@ public class YourService: IYourService
 
 3. 查看作业执行结果
 
-```bash showLineNumbers {4,6,8,10,20}
+```bash showLineNumbers {2,4,6,8,10,20}
 warn: 2022-11-17 17:54:35.2654513 +08:00 星期四 L System.Logging.ScheduleService[0] #5
       Schedule Hosted Service cancels hibernation.
 info: 2022-11-17 17:54:35.2670018 +08:00 星期四 L System.Logging.ScheduleService[0] #5
