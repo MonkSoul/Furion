@@ -74,11 +74,21 @@ public sealed class JobBuilder : JobDetail
     /// <summary>
     /// 将 <see cref="JobDetail"/> 转换成 <see cref="JobBuilder"/>
     /// </summary>
-    /// <param name="jobDetail"></param>
-    /// <returns></returns>
+    /// <param name="jobDetail">作业信息</param>
+    /// <returns><see cref="JobBuilder"/></returns>
     public static JobBuilder From(JobDetail jobDetail)
     {
         return jobDetail.MapTo<JobBuilder>();
+    }
+
+    /// <summary>
+    /// 将 JSON 字符串转换成 <see cref="JobBuilder"/>
+    /// </summary>
+    /// <param name="json">JSON 字符串</param>
+    /// <returns><see cref="JobBuilder"/></returns>
+    public static JobBuilder From(string json)
+    {
+        return From(Penetrates.Deserialize<JobDetail>(json));
     }
 
     /// <summary>
@@ -302,6 +312,11 @@ public sealed class JobBuilder : JobDetail
     {
         // 空检查
         if (string.IsNullOrWhiteSpace(JobId)) throw new ArgumentNullException(nameof(JobId));
+
+        // 检查类型
+        if (!string.IsNullOrWhiteSpace(AssemblyName)
+            && !string.IsNullOrWhiteSpace(JobType)
+            && RuntimeJobType == null) SetJobType(AssemblyName, JobType);
 
         return this.MapTo<JobDetail>();
     }

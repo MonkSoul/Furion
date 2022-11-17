@@ -33,13 +33,28 @@ namespace Furion.Schedule;
 internal static class Penetrates
 {
     /// <summary>
+    /// 获取默认的序列化对象
+    /// </summary>
+    /// <returns><see cref="JsonSerializerOptions"/></returns>
+    internal static JsonSerializerOptions GetDefaultJsonSerializerOptions()
+    {
+        return new JsonSerializerOptions
+        {
+            PropertyNameCaseInsensitive = true,
+            ReadCommentHandling = JsonCommentHandling.Skip,
+            Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
+            AllowTrailingCommas = true
+        };
+    }
+
+    /// <summary>
     /// 序列化对象
     /// </summary>
     /// <param name="obj">对象</param>
     /// <returns><see cref="string"/></returns>
     internal static string Serialize(object obj)
     {
-        return JsonSerializer.Serialize(obj);
+        return JsonSerializer.Serialize(obj, GetDefaultJsonSerializerOptions());
     }
 
     /// <summary>
@@ -49,7 +64,7 @@ internal static class Penetrates
     /// <returns>T</returns>
     internal static T Deserialize<T>(string json)
     {
-        return JsonSerializer.Deserialize<T>(json);
+        return JsonSerializer.Deserialize<T>(json, GetDefaultJsonSerializerOptions());
     }
 
     /// <summary>
@@ -60,6 +75,26 @@ internal static class Penetrates
     internal static DateTime GetNowTime(bool useUtcTimestamp)
     {
         return useUtcTimestamp ? DateTime.UtcNow : DateTime.Now;
+    }
+
+    /// <summary>
+    /// 获取当前时间（Unspecified）格式
+    /// </summary>
+    /// <param name="useUtcTimestamp">是否使用 UTC 时间</param>
+    /// <returns><see cref="DateTime"/></returns>
+    internal static DateTime GetUnspecifiedNowTime(bool useUtcTimestamp)
+    {
+        // 获取当前时间作为检查时间
+        var nowTime = GetNowTime(useUtcTimestamp);
+
+        // 采用 DateTimeKind.Unspecified 转换当前时间并忽略毫秒之后部分（用于减少误差）
+        return new DateTime(nowTime.Year
+            , nowTime.Month
+            , nowTime.Day
+            , nowTime.Hour
+            , nowTime.Minute
+            , nowTime.Second
+            , nowTime.Millisecond);
     }
 
     /// <summary>

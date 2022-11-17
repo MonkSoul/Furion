@@ -20,73 +20,25 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+using System.Text.Json.Serialization;
+
 namespace Furion.Schedule;
 
 /// <summary>
-/// 作业触发器状态
+/// 作业计划序列化
 /// </summary>
 [SuppressSniffer]
-public enum TriggerStatus : uint
+public sealed class SchedulerSerialization
 {
     /// <summary>
-    /// 积压
+    /// 作业信息
     /// </summary>
-    /// <remarks>起始时间大于当前时间</remarks>
-    Backlog = 0,
+    [JsonInclude]
+    public JobDetail JobDetail { get; internal set; }
 
     /// <summary>
-    /// 就绪
+    /// 作业触发器
     /// </summary>
-    Ready = 1,
-
-    /// <summary>
-    /// 正在运行
-    /// </summary>
-    Running = 2,
-
-    /// <summary>
-    /// 暂停
-    /// </summary>
-    Pause = 3,
-
-    /// <summary>
-    /// 阻塞
-    /// </summary>
-    /// <remarks>本该执行但是没有执行</remarks>
-    Blocked = 4,
-
-    /// <summary>
-    /// 就绪（此前执行失败）
-    /// </summary>
-    /// <remarks>运行错误当并未超出最大错误数，进入下一轮就绪</remarks>
-    ErrorToReady = 5,
-
-    /// <summary>
-    /// 归档
-    /// </summary>
-    /// <remarks>结束时间小于当前时间</remarks>
-    Archived = 6,
-
-    /// <summary>
-    /// 崩溃
-    /// </summary>
-    /// <remarks>错误次数超出了最大错误数</remarks>
-    Panic = 7,
-
-    /// <summary>
-    /// 超限
-    /// </summary>
-    /// <remarks>运行次数超出了最大限制</remarks>
-    Overrun = 8,
-
-    /// <summary>
-    /// 空
-    /// </summary>
-    /// <remarks>下一次执行时间为 null 或 触发器类型为 null</remarks>
-    None = 9,
-
-    /// <summary>
-    /// 未启动
-    /// </summary>
-    NotStart = 10,
+    [JsonInclude]
+    public JobTrigger[] Triggers { get; internal set; }
 }

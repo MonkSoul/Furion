@@ -134,7 +134,7 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory, IDisposable
 
         // 查找所有符合执行的作业计划
         var nextRunSchedulers = _schedulers.Values
-                .Where(s => s.JobHandler != null
+                .Where(s => s.JobDetail.InternalShouldRun(s.JobHandler)
                     && s.Triggers.Values.Any(triggerShouldRun))
                 .Select(s => new Scheduler(s.JobDetail, s.Triggers.Values.Where(triggerShouldRun).ToDictionary(t => t.TriggerId, t => t))
                 {
@@ -266,16 +266,7 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory, IDisposable
         if (!_schedulers.Any()) return null;
 
         // 获取当前时间作为检查时间
-        var nowTime = Penetrates.GetNowTime(UseUtcTimestamp);
-
-        // 采用 DateTimeKind.Unspecified 转换当前时间并忽略毫秒之后部分（用于减少误差）
-        var checkTime = new DateTime(nowTime.Year
-            , nowTime.Month
-            , nowTime.Day
-            , nowTime.Hour
-            , nowTime.Minute
-            , nowTime.Second
-            , nowTime.Millisecond);
+        var checkTime = Penetrates.GetUnspecifiedNowTime(UseUtcTimestamp);
 
         // 获取所有作业计划下一批执行时间
         var nextRunTimes = _schedulers.Values

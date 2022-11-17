@@ -27,7 +27,7 @@ namespace Furion.Schedule;
 /// <summary>
 /// 作业触发器基类
 /// </summary>
-public abstract partial class JobTrigger
+public partial class JobTrigger
 {
     /// <summary>
     /// 计算下一个触发时间
@@ -115,6 +115,13 @@ public abstract partial class JobTrigger
     /// <returns><see cref="bool"/></returns>
     internal bool InternalShouldRun(DateTime startAt)
     {
+        // 检查作业触发器运行时类型
+        if (RuntimeTriggerType == null)
+        {
+            SetStatus(TriggerStatus.None);
+            return false;
+        }
+
         // 检查是否立即启动
         if (StartNow == false)
         {

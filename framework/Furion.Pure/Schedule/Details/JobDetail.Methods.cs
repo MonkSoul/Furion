@@ -30,6 +30,27 @@ namespace Furion.Schedule;
 public partial class JobDetail
 {
     /// <summary>
+    /// 执行条件检查（内部检查）
+    /// </summary>
+    /// <returns><see cref="bool"/></returns>
+    internal bool InternalShouldRun(IJob jobHandler)
+    {
+        // 检查作业信息运行时类型
+        if (RuntimeJobType == null)
+        {
+            return false;
+        }
+
+        // 检查作业实例
+        if (jobHandler == null)
+        {
+            return false;
+        }
+
+        return true;
+    }
+
+    /// <summary>
     /// 获取作业所有额外数据
     /// </summary>
     /// <returns><see cref="Dictionary{String,Object}"/></returns>

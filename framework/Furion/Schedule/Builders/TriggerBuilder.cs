@@ -78,7 +78,7 @@ public sealed class TriggerBuilder : JobTrigger
     /// </summary>
     /// <param name="assemblyName">作业触发器类型所在程序集 Name</param>
     /// <param name="triggerTypeFullName">作业触发器类型 FullName</param>
-    /// <returns><see cref="JobBuilder"/></returns>
+    /// <returns><see cref="TriggerBuilder"/></returns>
     public static TriggerBuilder Create(string assemblyName, string triggerTypeFullName)
     {
         return new TriggerBuilder()
@@ -99,11 +99,21 @@ public sealed class TriggerBuilder : JobTrigger
     /// <summary>
     /// 将 <see cref="JobTrigger"/> 转换成 <see cref="TriggerBuilder"/>
     /// </summary>
-    /// <param name="trigger"></param>
-    /// <returns></returns>
+    /// <param name="trigger">作业触发器</param>
+    /// <returns><see cref="TriggerBuilder"/></returns>
     public static TriggerBuilder From(JobTrigger trigger)
     {
         return trigger.MapTo<TriggerBuilder>();
+    }
+
+    /// <summary>
+    /// 将 JSON 字符串转换成 <see cref="TriggerBuilder"/>
+    /// </summary>
+    /// <param name="json">JSON 字符串</param>
+    /// <returns><see cref="TriggerBuilder"/></returns>
+    public static TriggerBuilder From(string json)
+    {
+        return From(Penetrates.Deserialize<JobTrigger>(json));
     }
 
     /// <summary>
@@ -130,7 +140,7 @@ public sealed class TriggerBuilder : JobTrigger
     /// </summary>
     /// <param name="value">目标值</param>
     /// <param name="ignoreNullValue">忽略空值</param>
-    /// <returns><see cref="JobBuilder"/></returns>
+    /// <returns><see cref="TriggerBuilder"/></returns>
     public TriggerBuilder LoadFrom(object value, bool ignoreNullValue = false)
     {
         if (value == null) return this;
@@ -148,8 +158,7 @@ public sealed class TriggerBuilder : JobTrigger
     /// 设置作业触发器 Id
     /// </summary>
     /// <param name="triggerId">作业触发器 Id</param>
-    /// <returns><see cref="JobBuilder"/></returns>
-    /// <exception cref="ArgumentNullException"></exception>
+    /// <returns><see cref="TriggerBuilder"/></returns>
     public TriggerBuilder SetTriggerId(string triggerId)
     {
         TriggerId = triggerId;
@@ -202,11 +211,47 @@ public sealed class TriggerBuilder : JobTrigger
     /// </summary>
     /// <param name="args">作业触发器参数</param>
     /// <returns><see cref="TriggerBuilder"/></returns>
+    public TriggerBuilder SetArgs(string args)
+    {
+        // 空检查
+        if (string.IsNullOrWhiteSpace(args) || args == "[]") args = null;
+
+        Args = args;
+
+        if (args == null) return this;
+
+        var jsonArray = Penetrates.Deserialize<object[]>(args);
+        var runtimeArgs = new object[jsonArray.Length];
+
+        for (var i = 0; i < jsonArray.Length; i++)
+        {
+            var ele = (JsonElement)jsonArray[i];
+            runtimeArgs[i] = ele.ValueKind switch
+            {
+                JsonValueKind.String => ele.GetString(),
+                JsonValueKind.True => true,
+                JsonValueKind.False => false,
+                JsonValueKind.Null => null,
+                JsonValueKind.Number => ele.GetInt32(),
+                _ => throw new ArgumentException("Only int32, boolean, string and null types are supported as parameters.")
+            };
+        }
+
+        RuntimeTriggerArgs = runtimeArgs;
+
+        return this;
+    }
+
+    /// <summary>
+    /// 设置作业触发器参数
+    /// </summary>
+    /// <param name="args">作业触发器参数</param>
+    /// <returns><see cref="TriggerBuilder"/></returns>
     public TriggerBuilder SetArgs(object[] args)
     {
         Args = args == null || args.Length == 0
             ? null
-            : JsonSerializer.Serialize(args);
+            : Penetrates.Serialize(args);
         RuntimeTriggerArgs = args;
 
         return this;
@@ -384,7 +429,7 @@ public sealed class TriggerBuilder : JobTrigger
     /// <summary>
     /// 隐藏作业触发器公开方法
     /// </summary>
-    /// <param name="startAt"></param>
+    /// <param name="startAt">起始时间</param>
     /// <returns></returns>
     /// <exception cref="NotImplementedException"></exception>
     public new DateTime GetNextOccurrence(DateTime startAt) => throw new NotImplementedException();
@@ -392,9 +437,9 @@ public sealed class TriggerBuilder : JobTrigger
     /// <summary>
     /// 隐藏作业触发器公开方法
     /// </summary>
-    /// <param name="checkTime">受检时间</param>
+    /// <param name="startAt">起始时间</param>
     /// <returns><see cref="bool"/></returns>
-    public new bool ShouldRun(DateTime checkTime) => throw new NotImplementedException();
+    public new bool ShouldRun(DateTime startAt) => throw new NotImplementedException();
 
     /// <summary>
     /// 构建 <see cref="JobTrigger"/> 对象
@@ -405,6 +450,14 @@ public sealed class TriggerBuilder : JobTrigger
     {
         // 空检查
         if (string.IsNullOrWhiteSpace(jobId)) throw new ArgumentNullException(nameof(jobId));
+
+        // 检查类型
+        if (!string.IsNullOrWhiteSpace(AssemblyName)
+            && !string.IsNullOrWhiteSpace(TriggerType)
+            && RuntimeTriggerType == null) SetTriggerType(AssemblyName, TriggerType);
+
+        // 检查参数
+        if (!string.IsNullOrWhiteSpace(Args) && RuntimeTriggerArgs == null) SetArgs(Args);
 
         // 检查 StartTime 和 EndTime 的关系，StartTime 不能大于 EndTime
         if (StartTime != null && EndTime != null

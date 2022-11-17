@@ -88,8 +88,11 @@ internal sealed partial class SchedulerFactory
 
         // 实例化作业处理程序
         var jobType = internalScheduler.JobDetail.RuntimeJobType;
-        internalScheduler.JobHandler = (_serviceProvider.GetService(jobType)
+        if (jobType != null)
+        {
+            internalScheduler.JobHandler = (_serviceProvider.GetService(jobType)
             ?? ActivatorUtilities.CreateInstance(_serviceProvider, jobType)) as IJob;
+        }
 
         // 初始化作业触发器下一次运行时间
         foreach (var trigger in internalScheduler.Triggers.Values)
@@ -311,8 +314,11 @@ internal sealed partial class SchedulerFactory
 
         // 实例化作业处理程序
         var jobType = schedulerForUpdated.JobDetail.RuntimeJobType;
-        schedulerForUpdated.JobHandler = (_serviceProvider.GetService(jobType)
+        if (jobType != null)
+        {
+            schedulerForUpdated.JobHandler = (_serviceProvider.GetService(jobType)
             ?? ActivatorUtilities.CreateInstance(_serviceProvider, jobType)) as IJob;
+        }
 
         // 逐条初始化作业触发器初始化下一次执行时间
         foreach (var triggerForUpdated in schedulerForUpdated.Triggers.Values)

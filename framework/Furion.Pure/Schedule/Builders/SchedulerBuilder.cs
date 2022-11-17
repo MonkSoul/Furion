@@ -103,6 +103,20 @@ public sealed class SchedulerBuilder
     }
 
     /// <summary>
+    /// 将 JSON 字符串转换成 <see cref="SchedulerBuilder"/>
+    /// </summary>
+    /// <param name="json">JSON 字符串</param>
+    /// <returns><see cref="SchedulerBuilder"/></returns>
+    public static SchedulerBuilder From(string json)
+    {
+        var schedulerSerialization = Penetrates.Deserialize<SchedulerSerialization>(json);
+        return new SchedulerBuilder(JobBuilder.From(schedulerSerialization.JobDetail))
+        {
+            TriggerBuilders = schedulerSerialization.Triggers.Select(t => TriggerBuilder.From(t)).ToList()
+        };
+    }
+
+    /// <summary>
     /// 克隆作业计划构建器（被标记为新增）
     /// </summary>
     /// <param name="fromSchedulerBuilder">被克隆的作业计划构建器</param>
