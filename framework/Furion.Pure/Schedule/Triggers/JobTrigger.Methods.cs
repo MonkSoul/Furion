@@ -197,7 +197,7 @@ public partial class JobTrigger
     /// <summary>
     /// 数据库列名
     /// </summary>
-    private string[] _columnNames { get; set; }
+    private string[] _columnNames;
 
     /// <summary>
     /// 获取数据库列名
@@ -258,7 +258,7 @@ public partial class JobTrigger
     /// <returns><see cref="string"/></returns>
     public string ConvertToSQL(string tableName, PersistenceBehavior behavior, NamingConventions naming = NamingConventions.Pascal)
     {
-        // 这里不采用反射生成
+        // 不使用反射生成，为了使顺序可控，生成 SQL 可控，性能损耗最小
         var columnNames = ColumnNames(naming);
 
         // 生成删除 SQL
@@ -358,10 +358,10 @@ WHERE [{columnNames[0]}] = '{TriggerId}' AND [{columnNames[1]}] = '{JobId}';";
             writer.WriteString(Penetrates.GetNaming(nameof(Args), naming), Args);
             writer.WriteString(Penetrates.GetNaming(nameof(Description), naming), Description);
             writer.WriteNumber(Penetrates.GetNaming(nameof(Status), naming), (int)Status);
-            writer.WriteString(Penetrates.GetNaming(nameof(StartTime), naming), StartTime != null ? StartTime.Value.ToString("o") : null);
-            writer.WriteString(Penetrates.GetNaming(nameof(EndTime), naming), EndTime != null ? EndTime.Value.ToString("o") : null);
-            writer.WriteString(Penetrates.GetNaming(nameof(LastRunTime), naming), LastRunTime != null ? LastRunTime.Value.ToString("o") : null);
-            writer.WriteString(Penetrates.GetNaming(nameof(NextRunTime), naming), NextRunTime != null ? NextRunTime.Value.ToString("o") : null);
+            writer.WriteString(Penetrates.GetNaming(nameof(StartTime), naming), StartTime?.ToString("o"));
+            writer.WriteString(Penetrates.GetNaming(nameof(EndTime), naming), EndTime?.ToString("o"));
+            writer.WriteString(Penetrates.GetNaming(nameof(LastRunTime), naming), LastRunTime?.ToString("o"));
+            writer.WriteString(Penetrates.GetNaming(nameof(NextRunTime), naming), NextRunTime?.ToString("o"));
             writer.WriteNumber(Penetrates.GetNaming(nameof(NumberOfRuns), naming), NumberOfRuns);
             writer.WriteNumber(Penetrates.GetNaming(nameof(MaxNumberOfRuns), naming), MaxNumberOfRuns);
             writer.WriteNumber(Penetrates.GetNaming(nameof(NumberOfErrors), naming), NumberOfErrors);
@@ -369,7 +369,7 @@ WHERE [{columnNames[0]}] = '{TriggerId}' AND [{columnNames[1]}] = '{JobId}';";
             writer.WriteNumber(Penetrates.GetNaming(nameof(NumRetries), naming), NumRetries);
             writer.WriteNumber(Penetrates.GetNaming(nameof(RetryTimeout), naming), RetryTimeout);
             writer.WriteBoolean(Penetrates.GetNaming(nameof(StartNow), naming), StartNow);
-            writer.WriteString(Penetrates.GetNaming(nameof(UpdatedTime), naming), UpdatedTime != null ? UpdatedTime.Value.ToString("o") : null);
+            writer.WriteString(Penetrates.GetNaming(nameof(UpdatedTime), naming), UpdatedTime?.ToString("o"));
 
             writer.WriteEndObject();
         });

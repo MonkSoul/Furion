@@ -136,7 +136,7 @@ public partial class JobDetail
     /// <summary>
     /// 数据库列名
     /// </summary>
-    private string[] _columnNames { get; set; }
+    private string[] _columnNames;
 
     /// <summary>
     /// 获取数据库列名
@@ -242,7 +242,7 @@ WHERE [{columnNames[0]}] = '{JobId}';";
             writer.WriteBoolean(Penetrates.GetNaming(nameof(Concurrent), naming), Concurrent);
             writer.WriteBoolean(Penetrates.GetNaming(nameof(IncludeAnnotations), naming), IncludeAnnotations);
             writer.WriteString(Penetrates.GetNaming(nameof(Properties), naming), Properties);
-            writer.WriteString(Penetrates.GetNaming(nameof(UpdatedTime), naming), UpdatedTime != null ? UpdatedTime.Value.ToString("o") : null);
+            writer.WriteString(Penetrates.GetNaming(nameof(UpdatedTime), naming), UpdatedTime?.ToString("o"));
 
             writer.WriteEndObject();
         });
