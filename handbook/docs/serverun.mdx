@@ -506,7 +506,7 @@ Serve.Run(GenericRunOptions.Default
 
 - **Winform**
 
-```cs showLineNumbers {3,8,10-11}
+```cs showLineNumbers {3,9}
 namespace WinFormsApp2;
 
 internal static class Program
@@ -514,6 +514,7 @@ internal static class Program
     [STAThread]
     static void Main()
     {
+        // 如果在 4.8.0 之前版本无返回值
         var host = Serve.Run(silence: true);   // 静默启动
 
         ApplicationConfiguration.Initialize();
@@ -524,10 +525,8 @@ internal static class Program
 
 - **WPF**
 
-```cs showLineNumbers {7,9,13,16-22}
+```cs showLineNumbers {79,12,15-22}
 using Microsoft.Extensions.Hosting;
-using System;
-using System.Windows;
 
 namespace WpfApp1;
 
@@ -537,11 +536,13 @@ public partial class App : Application
 
     public App()
     {
+        // 如果在 4.8.0 之前版本无返回值
         _host = Serve.Run(silence: true);
     }
 
     protected override void OnExit(ExitEventArgs e)
     {
+        // 停止服务并释放
         _host.StopAsync();
         _host.Dispose();
 
