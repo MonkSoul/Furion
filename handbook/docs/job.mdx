@@ -629,7 +629,91 @@ info: 2022-11-18 10:29:16.3504029 +08:00 星期五 L MyJob[0] #14
 
 ## 26.1.3 作业信息 `JobDetail` 及构建器
 
-紧急编写中，将在 2022 年 11 月 21 日前完成，别催！
+### 26.1.3.1 关于作业信息
+
+框架提供了 `JobDetail` 类型来描述作业信息，`JobDetail` 类型提供以下**只读属性**：
+
+| 属性名               | 属性类型    | 默认值  | 说明                                                                 |
+| -------------------- | ----------- | ------- | -------------------------------------------------------------------- |
+| `JobId`              | `string`    |         | 作业 `Id`                                                            |
+| `GroupName`          | `string`    |         | 作业组名称                                                           |
+| `JobType`            | `string`    |         | 作业处理程序类型，存储的是类型的 `FullName`                          |
+| `AssemblyName`       | `string`    |         | 作业处理程序类型所在程序集，存储的是程序集 `Name`                    |
+| `Description`        | `string`    |         | 描述信息                                                             |
+| `Concurrent`         | `bool`      | `true`  | 描述信息，如果设置为 `false`，那么使用 `串行` 执行                   |
+| `IncludeAnnotations` | `bool`      | `false` | 是否扫描 `IJob` 实现类 `[Trigger]` 特性触发器                        |
+| `Properties`         | `string`    | `"{}"`  | 作业信息额外数据，由 `Dictionary<string, object>` 序列化成字符串存储 |
+| `UpdatedTime`        | `DateTime?` |         | 作业更新时间                                                         |
+
+### 26.1.3.2 关于作业信息构建器
+
+作业信息 `JobDetail` 是作业调度模块提供运行时的**只读类型**，那么我们该如何创建或变更 `JobDetail` 呢？
+
+`JobBuilder` 是作业调度模块提供可用来生成运行时 `JobDetail` 的类型，这样做的好处可避免外部直接修改运行时 `JobDetail` 数据，还能实现任何修改动作监听，也能避免多线程抢占情况。
+
+作业调度模块提供了多种方式用来创建 `JobBuilder` 对象。
+
+1. **通过 `Create` 静态方法创建**
+
+```cs showLineNumbers {2,5,8}
+// 根据 IJob 实现类类型创建
+var jobBuilder = JobBuilder.Create<MyJob>();
+
+// 根据 Type 类型创建
+var jobBuilder = JobBuilder.Create(typeof(MyJob));
+
+// 根据程序集名称和类型完全限定名（FullName）创建
+var jobBuilder = JobBuilder.Create("YourProject", "YourProject.MyJob");
+```
+
+2. **通过 `JobDetail` 类型创建**
+
+这种方式常用于在运行时更新作业信息。
+
+```cs showLineNumbers
+var jobBuilder = JobBuilder.From(jobDetail);
+```
+
+3. **通过 `JSON` 字符串创建**
+
+该方式非常灵活，可从配置文件，`JSON` 字符串，或其他能够返回 `JSON` 字符串的地方创建。
+
+```cs showLineNumbers {2-12}
+var jobBuilder = JobBuilder.From(@"
+{
+    ""jobId"": ""job1"",
+    ""groupName"": null,
+    ""jobType"": ""Furion.Application.TestJob"",
+    ""assemblyName"": ""Furion.Application"",
+    ""description"": null,
+    ""concurrent"": true,
+    ""includeAnnotations"": false,
+    ""properties"": ""{}"",
+    ""updatedTime"": ""2022-11-17T09:25:47.0471107+08:00""
+}");
+```
+
+如果使用的是 `.NET7`，可使用 `"""` 避免转义，如：
+
+```cs showLineNumbers {2-12}
+var jobBuilder = JobBuilder.From("""
+{
+    "jobId": "job1",
+    "groupName": null,
+    "jobType": "Furion.Application.TestJob",
+    "assemblyName": "Furion.Application",
+    "description": null,
+    "concurrent": true,
+    "includeAnnotations": false,
+    "properties": "{}",
+    "updatedTime": "2022-11-17T09:25:47.0471107+08:00"
+}""");
+```
+
+4. 还可以通过 `Clone` 静态方法克隆创建
+
+```cs showLineNumbers
+```
 
 ## 26.1.4 作业处理程序 `IJob`
 

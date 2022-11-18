@@ -78,7 +78,13 @@ public sealed class JobBuilder : JobDetail
     /// <returns><see cref="JobBuilder"/></returns>
     public static JobBuilder From(JobDetail jobDetail)
     {
-        return jobDetail.MapTo<JobBuilder>();
+        var jobBuilder = jobDetail.MapTo<JobBuilder>();
+
+        // 初始化运行时作业类型和额外数据
+        jobBuilder.SetJobType(jobBuilder.AssemblyName, jobBuilder.JobType)
+            .SetProperties(jobBuilder.Properties);
+
+        return jobBuilder;
     }
 
     /// <summary>
@@ -98,7 +104,7 @@ public sealed class JobBuilder : JobDetail
     /// <returns><see cref="JobBuilder"/></returns>
     public static JobBuilder Clone(JobBuilder fromJobBuilder)
     {
-        return Create(fromJobBuilder.RuntimeJobType)
+        return Create(fromJobBuilder.AssemblyName, fromJobBuilder.JobType)
                      .SetGroupName(fromJobBuilder.GroupName)
                      .SetDescription(fromJobBuilder.Description)
                      .SetConcurrent(fromJobBuilder.Concurrent)
@@ -116,13 +122,20 @@ public sealed class JobBuilder : JobDetail
     {
         if (value == null) return this;
 
+        // 排除枚举类型，接口类型，数组类型，值类型
         var valueType = value.GetType();
         if (valueType.IsInterface
             || valueType.IsValueType
             || valueType.IsEnum
             || valueType.IsArray) throw new InvalidOperationException(nameof(value));
 
-        return value.MapTo<JobBuilder>(this, ignoreNullValue);
+        var jobBuilder = value.MapTo<JobBuilder>(this, ignoreNullValue);
+
+        // 初始化运行时作业类型和额外数据
+        jobBuilder.SetJobType(jobBuilder.AssemblyName, jobBuilder.JobType)
+            .SetProperties(jobBuilder.Properties);
+
+        return jobBuilder;
     }
 
     /// <summary>
@@ -133,9 +146,6 @@ public sealed class JobBuilder : JobDetail
     /// <exception cref="ArgumentNullException"></exception>
     public JobBuilder SetJobId(string jobId)
     {
-        // 空检查
-        if (string.IsNullOrWhiteSpace(jobId)) throw new ArgumentNullException(nameof(jobId));
-
         JobId = jobId;
 
         return this;
@@ -149,9 +159,6 @@ public sealed class JobBuilder : JobDetail
     /// <exception cref="ArgumentNullException"></exception>
     public JobBuilder SetGroupName(string groupName)
     {
-        // 空检查
-        if (string.IsNullOrWhiteSpace(groupName)) throw new ArgumentNullException(nameof(groupName));
-
         GroupName = groupName;
 
         return this;
@@ -165,15 +172,21 @@ public sealed class JobBuilder : JobDetail
     /// <returns><see cref="JobBuilder"/></returns>
     public JobBuilder SetJobType(string assemblyName, string jobTypeFullName)
     {
-        // 空检查
-        if (string.IsNullOrWhiteSpace(assemblyName)) throw new ArgumentNullException(nameof(assemblyName));
-        if (string.IsNullOrWhiteSpace(jobTypeFullName)) throw new ArgumentNullException(nameof(jobTypeFullName));
+        AssemblyName = assemblyName;
+        JobType = jobTypeFullName;
 
-        // 加载 GAC 全局应用程序缓存中的程序集及类型
-        var jobType = Assembly.Load(assemblyName)
-            .GetType(jobTypeFullName);
+        // 只有 assemblyName 和 jobTypeFullName 同时存在才创建类型
+        if (!string.IsNullOrWhiteSpace(assemblyName)
+            && !string.IsNullOrWhiteSpace(jobTypeFullName))
+        {
+            // 加载 GAC 全局应用程序缓存中的程序集及类型
+            var jobType = Assembly.Load(assemblyName)
+                .GetType(jobTypeFullName);
 
-        return SetJobType(jobType);
+            return SetJobType(jobType);
+        }
+
+        return this;
     }
 
     /// <summary>
@@ -183,6 +196,9 @@ public sealed class JobBuilder : JobDetail
     /// <returns><see cref="JobBuilder"/></returns>
     public JobBuilder SetJobType(Type jobType)
     {
+        // 不做 null 检查
+        if (jobType == null) return this;
+
         // 检查 jobType 类型是否实现 IJob 接口
         if (!typeof(IJob).IsAssignableFrom(jobType)
             || jobType.IsInterface

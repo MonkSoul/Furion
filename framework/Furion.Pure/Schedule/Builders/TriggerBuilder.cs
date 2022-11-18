@@ -113,7 +113,13 @@ public sealed class TriggerBuilder : Trigger
     /// <returns><see cref="TriggerBuilder"/></returns>
     public static TriggerBuilder From(Trigger trigger)
     {
-        return trigger.MapTo<TriggerBuilder>();
+        var triggerBuilder = trigger.MapTo<TriggerBuilder>();
+
+        // 初始化运行时作业触发器类型和参数
+        triggerBuilder.SetTriggerType(triggerBuilder.AssemblyName, triggerBuilder.TriggerType)
+            .SetArgs(triggerBuilder.Args);
+
+        return triggerBuilder;
     }
 
     /// <summary>
@@ -133,8 +139,8 @@ public sealed class TriggerBuilder : Trigger
     /// <returns><see cref="TriggerBuilder"/></returns>
     public static TriggerBuilder Clone(TriggerBuilder fromTriggerBuilder)
     {
-        return Create(fromTriggerBuilder.RuntimeTriggerType)
-                     .SetArgs(fromTriggerBuilder.RuntimeTriggerArgs)
+        return Create(fromTriggerBuilder.AssemblyName, fromTriggerBuilder.TriggerType)
+                     .SetArgs(fromTriggerBuilder.Args)
                      .SetDescription(fromTriggerBuilder.Description)
                      .SetStartTime(fromTriggerBuilder.StartTime)
                      .SetEndTime(fromTriggerBuilder.EndTime)
@@ -155,13 +161,20 @@ public sealed class TriggerBuilder : Trigger
     {
         if (value == null) return this;
 
+        // 排除枚举类型，接口类型，数组类型，值类型
         var valueType = value.GetType();
         if (valueType.IsInterface
             || valueType.IsValueType
             || valueType.IsEnum
             || valueType.IsArray) throw new InvalidOperationException(nameof(value));
 
-        return value.MapTo<TriggerBuilder>(this, ignoreNullValue);
+        var triggerBuilder = value.MapTo<TriggerBuilder>(this, ignoreNullValue);
+
+        // 初始化运行时作业触发器类型和参数
+        triggerBuilder.SetTriggerType(triggerBuilder.AssemblyName, triggerBuilder.TriggerType)
+            .SetArgs(triggerBuilder.Args);
+
+        return triggerBuilder;
     }
 
     /// <summary>
@@ -177,30 +190,40 @@ public sealed class TriggerBuilder : Trigger
     }
 
     /// <summary>
-    /// 设置作业类型
+    /// 设置作业触发器类型
     /// </summary>
     /// <param name="assemblyName">作业触发器所在程序集 Name</param>
     /// <param name="triggerTypeFullName">作业触发器 FullName</param>
     /// <returns><see cref="TriggerBuilder"/></returns>
     public TriggerBuilder SetTriggerType(string assemblyName, string triggerTypeFullName)
     {
-        // 空检查
-        if (string.IsNullOrWhiteSpace(assemblyName)) throw new ArgumentNullException(nameof(assemblyName));
-        if (string.IsNullOrWhiteSpace(triggerTypeFullName)) throw new ArgumentNullException(nameof(triggerTypeFullName));
+        AssemblyName = assemblyName;
+        TriggerType = triggerTypeFullName;
 
-        // 加载 GAC 全局应用程序缓存中的程序集及类型
-        var triggerType = Assembly.Load(assemblyName).GetType(triggerTypeFullName);
+        // 只有 assemblyName 和 triggerTypeFullName 同时存在才创建类型
+        if (!string.IsNullOrWhiteSpace(assemblyName)
+            && !string.IsNullOrWhiteSpace(triggerTypeFullName))
+        {
+            // 加载 GAC 全局应用程序缓存中的程序集及类型
+            var triggerType = Assembly.Load(assemblyName)
+                .GetType(triggerTypeFullName);
 
-        return SetTriggerType(triggerType);
+            return SetTriggerType(triggerType);
+        }
+
+        return this;
     }
 
     /// <summary>
-    /// 设置作业类型
+    /// 设置作业触发器类型
     /// </summary>
     /// <param name="triggerType">作业触发器类型</param>
     /// <returns><see cref="TriggerBuilder"/></returns>
     public TriggerBuilder SetTriggerType(Type triggerType)
     {
+        // 不做 null 检查
+        if (triggerType == null) return this;
+
         // 检查 triggerType 类型是否派生自 Trigger
         if (!typeof(Trigger).IsAssignableFrom(triggerType)
             || triggerType.IsInterface
