@@ -144,7 +144,7 @@ public partial class JobDetail
     /// </summary>
     /// <remarks>避免多次反射</remarks>
     /// <returns>string[]</returns>
-    private string[] ColumnNames(NamingConventions naming = NamingConventions.Pascal)
+    private string[] ColumnNames(NamingConventions naming = NamingConventions.CamelCase)
     {
         // 如果字典中已经存在过，则直接返回
         var contains = _namingColumnNames.TryGetValue(naming, out var columnNames);
@@ -175,7 +175,7 @@ public partial class JobDetail
     /// <param name="behavior">持久化行为</param>
     /// <param name="naming">命名法</param>
     /// <returns><see cref="string"/></returns>
-    public string ConvertToSQL(string tableName, PersistenceBehavior behavior, NamingConventions naming = NamingConventions.Pascal)
+    public string ConvertToSQL(string tableName, PersistenceBehavior behavior, NamingConventions naming = NamingConventions.CamelCase)
     {
         // 这里不采用反射生成
         var columnNames = ColumnNames(naming);
@@ -234,7 +234,7 @@ WHERE [{columnNames[0]}] = '{JobId}';";
     /// </summary>
     /// <param name="naming">命名法</param>
     /// <returns><see cref="string"/></returns>
-    public string ConvertToJSON(NamingConventions naming = NamingConventions.Pascal)
+    public string ConvertToJSON(NamingConventions naming = NamingConventions.CamelCase)
     {
         return Penetrates.Write(writer =>
         {
@@ -257,20 +257,21 @@ WHERE [{columnNames[0]}] = '{JobId}';";
     /// <summary>
     /// 转换成 Monitor 字符串
     /// </summary>
+    /// <param name="naming">命名法</param>
     /// <returns><see cref="string"/></returns>
-    public string ConvertToMonitor()
+    public string ConvertToMonitor(NamingConventions naming = NamingConventions.CamelCase)
     {
-        return TP.Wrapper("JobDetail", Description ?? JobType, new[]
+        return TP.Wrapper(nameof(JobDetail), Description ?? JobType, new[]
         {
-            $"##JobId## {JobId}"
-            , $"##GroupName## {GroupName}"
-            , $"##JobType## {JobType}"
-            , $"##AssemblyName## {AssemblyName}"
-            , $"##Description## {Description}"
-            , $"##Concurrent## {Concurrent}"
-            , $"##IncludeAnnotations## {IncludeAnnotations}"
-            , $"##Properties## {Properties}"
-            , $"##UpdatedTime## {UpdatedTime}"
+            $"##{Penetrates.GetNaming(nameof(JobId), naming)}## {JobId}"
+            , $"##{Penetrates.GetNaming(nameof(GroupName), naming)}## {GroupName}"
+            , $"##{Penetrates.GetNaming(nameof(JobType), naming)}## {JobType}"
+            , $"##{Penetrates.GetNaming(nameof(AssemblyName), naming)}## {AssemblyName}"
+            , $"##{Penetrates.GetNaming(nameof(Description), naming)}## {Description}"
+            , $"##{Penetrates.GetNaming(nameof(Concurrent), naming)}## {Concurrent}"
+            , $"##{Penetrates.GetNaming(nameof(IncludeAnnotations), naming)}## {IncludeAnnotations}"
+            , $"##{Penetrates.GetNaming(nameof(Properties), naming)}## {Properties}"
+            , $"##{Penetrates.GetNaming(nameof(UpdatedTime), naming)}## {UpdatedTime}"
         });
     }
 }

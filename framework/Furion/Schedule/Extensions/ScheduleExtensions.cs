@@ -55,8 +55,25 @@ internal static class ScheduleExtensions
         // 遍历实例属性并设置
         foreach (var property in targetProperties)
         {
-            var sourceProperty = sourceType.GetProperty(property.Name, bindFlags);
-            if (sourceProperty == null) continue;
+            var propertyName = property.Name;
+
+            // 下面代码使用 ”套娃“ 方式~~
+            // 查找 CamelCase 属性命名
+            var sourceProperty = sourceType.GetProperty(Penetrates.GetNaming(propertyName, NamingConventions.CamelCase), bindFlags);
+            if (sourceProperty == null)
+            {
+                // 查找 Pascal 属性命名
+                sourceProperty = sourceType.GetProperty(Penetrates.GetNaming(propertyName, NamingConventions.Pascal), bindFlags);
+                if (sourceProperty == null)
+                {
+                    // 查找 UnderScoreCase 属性命名
+                    sourceProperty = sourceType.GetProperty(Penetrates.GetNaming(propertyName, NamingConventions.UnderScoreCase), bindFlags);
+                    if (sourceProperty == null)
+                    {
+                        continue;
+                    }
+                }
+            }
 
             var value = sourceProperty.GetValue(source);
 

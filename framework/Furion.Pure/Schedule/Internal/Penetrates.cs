@@ -136,7 +136,7 @@ internal static class Penetrates
     /// <param name="propertyName">属性名</param>
     /// <param name="naming">命名法</param>
     /// <returns><see cref="bool"/></returns>
-    internal static string GetNaming(string propertyName, NamingConventions naming = NamingConventions.Pascal)
+    internal static string GetNaming(string propertyName, NamingConventions naming = NamingConventions.CamelCase)
     {
         var words = SplitToWords(propertyName);
         var tempWords = new List<string>();
@@ -148,12 +148,15 @@ internal static class Penetrates
 
             switch (naming)
             {
+                // 第一个单词首字母小写
                 case NamingConventions.CamelCase:
-                    tempWords.Add(SetFirstLetterCase(word));
-                    continue;
-                case NamingConventions.Pascal:
                     tempWords.Add(SetFirstLetterCase(word, i != 0));
                     continue;
+                // 每一个单词首字母大写
+                case NamingConventions.Pascal:
+                    tempWords.Add(SetFirstLetterCase(word));
+                    continue;
+                // 每次单词使用下划线连接且首字母都是小写
                 case NamingConventions.UnderScoreCase:
                     tempWords.Add(SetFirstLetterCase(word, false));
                     continue;

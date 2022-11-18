@@ -375,7 +375,7 @@ public class MyJob : IJob
         var trigger = context.Trigger;
 
         _logger.LogInformation(jobDetail.ConvertToSQL("作业信息表名", PersistenceBehavior.Appended));  // 输出新增语句
-        _logger.LogInformation(trigger.ConvertToSQL("作业触发器表名", PersistenceBehavior.Removed, NamingConventions.CamelCase));    // 输出删除语句
+        _logger.LogInformation(trigger.ConvertToSQL("作业触发器表名", PersistenceBehavior.Removed, NamingConventions.Pascal));    // 输出删除语句
         _logger.LogInformation(trigger.ConvertToSQL("作业触发器表名", PersistenceBehavior.Updated, NamingConventions.UnderScoreCase));    // 输出更新语句
 
         await Task.CompletedTask;
@@ -710,10 +710,54 @@ var jobBuilder = JobBuilder.From("""
 }""");
 ```
 
-4. 还可以通过 `Clone` 静态方法克隆创建
+:::important 关于属性名匹配规则
+
+支持 `CamelCase（驼峰命名法）`，`Pascal（帕斯卡命名法）` 命名方式。
+
+**不支持 `UnderScoreCase（下划线命名法）`** ，如 `"include_annotations": true`
+
+:::
+
+4. **还可以通过 `Clone` 静态方法从一个 `JobBuilder` 创建**
 
 ```cs showLineNumbers
+var jobBuilder = JobBuilder.Clone(formJobBuilder);
 ```
+
+:::important 克隆说明
+
+克隆操作只会克隆 `AssemblyName`，`JobType`，`GroupName`，`Description`，`Concurrent`，`IncludeAnnotations`，`Properties`。
+
+**不会克隆 `JobId`，`UpdatedTime`。**
+
+:::
+
+5. **还可以通过 `LoadFrom` 实例方法填充当前的 `JobBuilder`**
+
+比如可以传递匿名类型，类类型：
+
+```cs showLineNumbers {2,9,14}
+// 会覆盖所有相同的值
+jobBuilder.LoadFrom(new
+{
+      Description = "我是描述",
+      Concurrent = false
+});
+
+// 支持多个填充，还可以配置跳过 null 值覆盖
+jobBuilder.LoadFrom(new
+{
+      Description = "我是另外一个描述",
+      Concurrent = false,
+      IncludeAnnotations = default(object)      // 会跳过赋值
+}, ignoreNullValue: true);
+```
+
+:::important 关于属性名匹配规则
+
+支持 `CamelCase（驼峰命名法）`，`Pascal（帕斯卡命名法）` 和 `UnderScoreCase（下划线命名法）` 命名方式。
+
+:::
 
 ## 26.1.4 作业处理程序 `IJob`
 

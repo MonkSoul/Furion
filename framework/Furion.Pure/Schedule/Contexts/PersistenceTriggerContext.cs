@@ -59,7 +59,7 @@ public sealed class PersistenceTriggerContext : PersistenceContext
     /// <param name="tableName">数据库表名</param>
     /// <param name="naming">命名法</param>
     /// <returns><see cref="string"/></returns>
-    public new string ConvertToSQL(string tableName, NamingConventions naming = NamingConventions.Pascal)
+    public new string ConvertToSQL(string tableName, NamingConventions naming = NamingConventions.CamelCase)
     {
         return Trigger.ConvertToSQL(tableName, Behavior, naming);
     }
@@ -69,7 +69,7 @@ public sealed class PersistenceTriggerContext : PersistenceContext
     /// </summary>
     /// <param name="naming">命名法</param>
     /// <returns><see cref="string"/></returns>
-    public new string ConvertToJSON(NamingConventions naming = NamingConventions.Pascal)
+    public new string ConvertToJSON(NamingConventions naming = NamingConventions.CamelCase)
     {
         return Trigger.ConvertToJSON(naming);
     }
@@ -79,7 +79,7 @@ public sealed class PersistenceTriggerContext : PersistenceContext
     /// </summary>
     /// <param name="naming">命名法</param>
     /// <returns><see cref="string"/></returns>
-    public string ConvertAllToJSON(NamingConventions naming = NamingConventions.Pascal)
+    public string ConvertAllToJSON(NamingConventions naming = NamingConventions.CamelCase)
     {
         return Penetrates.Write(writer =>
         {
@@ -100,9 +100,10 @@ public sealed class PersistenceTriggerContext : PersistenceContext
     /// <summary>
     /// 转换成 Monitor 字符串
     /// </summary>
+    /// <param name="naming">命名法</param>
     /// <returns><see cref="string"/></returns>
-    public new string ConvertToMonitor()
+    public new string ConvertToMonitor(NamingConventions naming = NamingConventions.CamelCase)
     {
-        return Trigger.ConvertToMonitor();
+        return Trigger.ConvertToMonitor(naming);
     }
 }

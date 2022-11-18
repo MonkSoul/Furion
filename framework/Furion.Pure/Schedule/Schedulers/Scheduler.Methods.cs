@@ -384,7 +384,7 @@ internal sealed partial class Scheduler
     /// </summary>
     /// <param name="naming">命名法</param>
     /// <returns><see cref="string"/></returns>
-    public string ConvertToJSON(NamingConventions naming = NamingConventions.Pascal)
+    public string ConvertToJSON(NamingConventions naming = NamingConventions.CamelCase)
     {
         return GetBuilder().ConvertToJSON(naming);
     }

@@ -208,7 +208,7 @@ public partial class Trigger
     /// </summary>
     /// <param name="naming">命名法</param>
     /// <returns>string[]</returns>
-    private string[] ColumnNames(NamingConventions naming = NamingConventions.Pascal)
+    private string[] ColumnNames(NamingConventions naming = NamingConventions.CamelCase)
     {
         // 如果字典中已经存在过，则直接返回
         var contains = _namingColumnNames.TryGetValue(naming, out var columnNames);
@@ -265,7 +265,7 @@ public partial class Trigger
     /// <param name="behavior">持久化行为</param>
     /// <param name="naming">命名法</param>
     /// <returns><see cref="string"/></returns>
-    public string ConvertToSQL(string tableName, PersistenceBehavior behavior, NamingConventions naming = NamingConventions.Pascal)
+    public string ConvertToSQL(string tableName, PersistenceBehavior behavior, NamingConventions naming = NamingConventions.CamelCase)
     {
         // 不使用反射生成，为了使顺序可控，生成 SQL 可控，性能损耗最小
         var columnNames = ColumnNames(naming);
@@ -354,7 +354,7 @@ WHERE [{columnNames[0]}] = '{TriggerId}' AND [{columnNames[1]}] = '{JobId}';";
     /// </summary>
     /// <param name="naming">命名法</param>
     /// <returns><see cref="string"/></returns>
-    public string ConvertToJSON(NamingConventions naming = NamingConventions.Pascal)
+    public string ConvertToJSON(NamingConventions naming = NamingConventions.CamelCase)
     {
         return Penetrates.Write(writer =>
         {
@@ -387,30 +387,31 @@ WHERE [{columnNames[0]}] = '{TriggerId}' AND [{columnNames[1]}] = '{JobId}';";
     /// <summary>
     /// 转换成 Monitor 字符串
     /// </summary>
+    /// <param name="naming">命名法</param>
     /// <returns><see cref="string"/></returns>
-    public string ConvertToMonitor()
+    public string ConvertToMonitor(NamingConventions naming = NamingConventions.CamelCase)
     {
-        return TP.Wrapper("Trigger", Description ?? TriggerType, new[]
+        return TP.Wrapper(nameof(Trigger), Description ?? TriggerType, new[]
         {
-            $"##TriggerId## {TriggerId}"
-            , $"##JobId## {JobId}"
-            , $"##TriggerType## {TriggerType}"
-            , $"##AssemblyName## {AssemblyName}"
-            , $"##Args## {Args}"
-            , $"##Description## {Description}"
-            , $"##Status## {Status}"
-            , $"##StartTime## {StartTime}"
-            , $"##EndTime## {EndTime}"
-            , $"##LastRunTime## {LastRunTime}"
-            , $"##NextRunTime## {NextRunTime}"
-            , $"##NumberOfRuns## {NumberOfRuns}"
-            , $"##MaxNumberOfRuns## {MaxNumberOfRuns}"
-            , $"##NumberOfErrors## {NumberOfErrors}"
-            , $"##MaxNumberOfErrors## {MaxNumberOfErrors}"
-            , $"##NumRetries## {NumRetries}"
-            , $"##RetryTimeout## {RetryTimeout}"
-            , $"##StartNow## {StartNow}"
-            , $"##UpdatedTime## {UpdatedTime}"
+            $"##{Penetrates.GetNaming(nameof(TriggerId), naming)}## {TriggerId}"
+            , $"##{Penetrates.GetNaming(nameof(JobId), naming)}## {JobId}"
+            , $"##{Penetrates.GetNaming(nameof(TriggerType), naming)}## {TriggerType}"
+            , $"##{Penetrates.GetNaming(nameof(AssemblyName), naming)}## {AssemblyName}"
+            , $"##{Penetrates.GetNaming(nameof(Args), naming)}## {Args}"
+            , $"##{Penetrates.GetNaming(nameof(Description), naming)}## {Description}"
+            , $"##{Penetrates.GetNaming(nameof(Status), naming)}## {Status}"
+            , $"##{Penetrates.GetNaming(nameof(StartTime), naming)}## {StartTime}"
+            , $"##{Penetrates.GetNaming(nameof(EndTime), naming)}## {EndTime}"
+            , $"##{Penetrates.GetNaming(nameof(LastRunTime), naming)}## {LastRunTime}"
+            , $"##{Penetrates.GetNaming(nameof(NextRunTime), naming)}## {NextRunTime}"
+            , $"##{Penetrates.GetNaming(nameof(NumberOfRuns), naming)}## {NumberOfRuns}"
+            , $"##{Penetrates.GetNaming(nameof(MaxNumberOfRuns), naming)}## {MaxNumberOfRuns}"
+            , $"##{Penetrates.GetNaming(nameof(NumberOfErrors), naming)}## {NumberOfErrors}"
+            , $"##{Penetrates.GetNaming(nameof(MaxNumberOfErrors), naming)}## {MaxNumberOfErrors}"
+            , $"##{Penetrates.GetNaming(nameof(NumRetries), naming)}## {NumRetries}"
+            , $"##{Penetrates.GetNaming(nameof(RetryTimeout), naming)}## {RetryTimeout}"
+            , $"##{Penetrates.GetNaming(nameof(StartNow), naming)}## {StartNow}"
+            , $"##{Penetrates.GetNaming(nameof(UpdatedTime), naming)}## {UpdatedTime}"
         });
     }
 }

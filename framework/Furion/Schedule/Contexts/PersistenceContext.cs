@@ -62,7 +62,7 @@ public class PersistenceContext
     /// <param name="tableName">数据库表名</param>
     /// <param name="naming">命名法</param>
     /// <returns><see cref="string"/></returns>
-    public string ConvertToSQL(string tableName, NamingConventions naming = NamingConventions.Pascal)
+    public string ConvertToSQL(string tableName, NamingConventions naming = NamingConventions.CamelCase)
     {
         return JobDetail.ConvertToSQL(tableName, Behavior, naming);
     }
@@ -72,7 +72,7 @@ public class PersistenceContext
     /// </summary>
     /// <param name="naming">命名法</param>
     /// <returns><see cref="string"/></returns>
-    public string ConvertToJSON(NamingConventions naming = NamingConventions.Pascal)
+    public string ConvertToJSON(NamingConventions naming = NamingConventions.CamelCase)
     {
         return JobDetail.ConvertToJSON(naming);
     }
@@ -80,9 +80,10 @@ public class PersistenceContext
     /// <summary>
     /// 转换成 Monitor 字符串
     /// </summary>
+    /// <param name="naming">命名法</param>
     /// <returns><see cref="string"/></returns>
-    public string ConvertToMonitor()
+    public string ConvertToMonitor(NamingConventions naming = NamingConventions.CamelCase)
     {
-        return JobDetail.ConvertToMonitor();
+        return JobDetail.ConvertToMonitor(naming);
     }
 }

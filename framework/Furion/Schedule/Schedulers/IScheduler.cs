@@ -180,5 +180,5 @@ public interface IScheduler
     /// </summary>
     /// <param name="naming">命名法</param>
     /// <returns><see cref="string"/></returns>
-    string ConvertToJSON(NamingConventions naming = NamingConventions.Pascal);
+    string ConvertToJSON(NamingConventions naming = NamingConventions.CamelCase);
 }

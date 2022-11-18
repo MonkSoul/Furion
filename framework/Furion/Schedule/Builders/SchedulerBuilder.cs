@@ -281,7 +281,7 @@ public sealed class SchedulerBuilder
     /// </summary>
     /// <param name="naming">命名法</param>
     /// <returns><see cref="string"/></returns>
-    public string ConvertToJSON(NamingConventions naming = NamingConventions.Pascal)
+    public string ConvertToJSON(NamingConventions naming = NamingConventions.CamelCase)
     {
         return Penetrates.Write(writer =>
         {

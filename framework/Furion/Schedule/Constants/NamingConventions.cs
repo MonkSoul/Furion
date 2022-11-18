@@ -38,7 +38,7 @@ public enum NamingConventions
     /// <summary>
     /// 帕斯卡命名法
     /// </summary>
-    /// <remarks>第一个单词首字母大写</remarks>
+    /// <remarks>每一个单词首字母大写</remarks>
     Pascal = 1,
 
     /// <summary>
