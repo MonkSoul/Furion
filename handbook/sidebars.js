@@ -171,8 +171,9 @@ module.exports = {
       id: "process-service",
     },
     {
-      type: "doc",
-      id: "job",
+      type: "category",
+      label: "26. 定时任务 (Schedule)",
+      items: ["job", "cron"],
     },
     {
       type: "doc",

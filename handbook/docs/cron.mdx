@@ -1,0 +1,230 @@
+---
+id: cron
+title: 26.2 Cron 表达式
+sidebar_label: 26.2 Cron 表达式
+---
+
+import useBaseUrl from "@docusaurus/useBaseUrl";
+
+:::warning 4.8.0 以下版本说明
+
+在 `Furion 4.8.0+` 版本采用 [TimeCrontab](https://gitee.com/dotnetchina/TimeCrontab) 作为 `Cron` 表达式解析。
+
+:::
+
+:::important 版本说明
+
+以下内容仅限 `Furion 4.8.0 +` 版本使用。
+
+:::
+
+## 26.2.1 关于 `Cron` 表达式
+
+`Cron` 表达式是一个字符串，字符串以 `5` 或 `6` 个空格隔开，分为 `6` 或 `7` 个域，每一个域代表一个含义，`Cron` 表达式通常是作为实现定时任务的基石。
+
+<img src={useBaseUrl("img/cron.png")} />
+
+## 26.2.2 快速入门
+
+### 26.2.2.1 常规格式
+
+**常规格式**：分 时 天 月 周
+
+```cs showLineNumbers
+var crontab = Crontab.Parse("* * * * *");
+var nextOccurrence = crontab.GetNextOccurrence(DateTime.Now);
+```
+
+### 26.2.2.2 支持年份
+
+**支持年份**：分 时 天 月 周 年
+
+```cs showLineNumbers
+var crontab = Crontab.Parse("* * * * * *", CronStringFormat.WithYears);
+var nextOccurrence = crontab.GetNextOccurrence(DateTime.Now);
+```
+
+### 26.2.2.3 支持秒数
+
+**支持秒数**：秒 分 时 天 月 周
+
+```cs showLineNumbers
+var crontab = Crontab.Parse("* * * * * *", CronStringFormat.WithSeconds);
+var nextOccurrence = crontab.GetNextOccurrence(DateTime.Now);
+```
+
+### 26.2.2.4 支持秒和年
+
+**支持秒和年**：秒 分 时 天 月 周 年
+
+```cs showLineNumbers
+var crontab = Crontab.Parse("* * * * * * *", CronStringFormat.WithSecondsAndYears);
+var nextOccurrence = crontab.GetNextOccurrence(DateTime.Now);
+```
+
+### 26.2.2.5 `Macro` 标识符和静态属性
+
+为了方便常见的 `Cron` 表达式，如 `每天`，`每月`，`每小时` 等等，所以提供了 `Macro` 标识符和静态属性：
+
+```cs showLineNumbers
+// macro 字符串
+var secondly = Crontab.Parse("@secondly");    // 每秒
+var minutely = Crontab.Parse("@minutely");    // 每分钟
+var hourly = Crontab.Parse("@hourly");    // 每小时
+var daily = Crontab.Parse("@daily");  // 每天 00:00:00
+var monthly = Crontab.Parse("@monthly");  // 每月 1 号 00:00:00
+var weekly = Crontab.Parse("@weekly");    // 每周日 00：00：00
+var yearly = Crontab.Parse("@yearly");    // 每年 1 月 1 号 00:00:00
+
+// 静态属性
+var secondly = Crontab.Secondly;    // 每秒
+var minutely = Crontab.Minutely;    // 每分钟
+var hourly = Crontab.Hourly;    // 每小时
+var daily = Crontab.Daily;  // 每天 00:00:00
+var monthly = Crontab.Monthly;  // 每月 1 号 00:00:00
+var weekly = Crontab.Weekly;    // 每周日 00：00：00
+var yearly = Crontab.Yearly;    // 每年 1 月 1 号 00:00:00
+```
+
+## 26.2.3 `Cron` 各字段说明
+
+| 字段                                | 允许值              | 允许特别符号     | 格式化                                                                   |
+| ----------------------------------- | ------------------- | ---------------- | ------------------------------------------------------------------------ |
+| 秒 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   | `0-59`              | `\* , - /`       | `CronStringFormat.WithSeconds` 或 `CronStringFormat.WithSecondsAndYears` |
+| 分钟 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | `0-59`              | `\* , - /`       | `ALL`                                                                    |
+| 小时 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | `0-23`              | `\* , - /`       | `ALL`                                                                    |
+| 天 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   | `1-31`              | `\* , - / ? L W` | `ALL`                                                                    |
+| 月份 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | `1-12` or `JAN-DEC` | `\* , - /`       | `ALL`                                                                    |
+| 星期 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | `0-6` or `SUN-SAT`  | `\* , - / ? L #` | `ALL`                                                                    |
+| 年份 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | `0001–9999`         | `\* , - /`       | `CronStringFormat.WithYears` 或 `CronStringFormat.WithSecondsAndYears`   |
+
+- `*`：表示匹配该域的任意值，假如在 `分钟` 域使用 `*`，即表示每分钟都会触发事件。
+- `?`：只能用在 `天` 和 `星期` 两个域。它也匹配域的任意值，但实际不会。因为 `天` 和 `星期` 会相互影响。例如想在 `每月的20日` 触发调度，不管 20 日到底是星期几，则只能使用如下写法：`13 13 15 20 * ?`, 其中最后一位只能用 `?`，而不能使用 `*`，如果使用 `*` 表示不管星期几都会触发，实际上并不是这样。
+- `-`：表示范围，例如在 `分钟` 域使用 `5-20`，表示从 `5分` 到`20分钟` 每分钟触发一次。
+- `/`：表示起始时间开始触发，然后每隔固定时间触发一次，例如在 `分钟` 域使用 `5/20`，则意味着 `5分钟` 触发一次，而 `25，45` 等分别触发一次。
+- `,`：表示列出枚举值。例如：在 `分钟` 域使用 `5,20`，则意味着在 `第5` 和 `第20分钟` 分别触发一次。
+- `L`：表示最后，只能出现在 `星期` 和 `月份` 域，如果在 `星期` 域使用 `5L`，意味着在 `最后的一个星期四` 触发。
+- `W`：表示有效工作日(周一到周五),只能出现在 `天` 域，系统将在离指定日期的最近的有效工作日触发事件。例如：在 `天` 使用 `5W`，如果 `5日是星期六，则将在最近的工作日：星期五，即 4日 触发`。如果 `5日是星期天，则在6日(周一)触发`；如果 `5日在星期一到星期五中的一天，则就在 5日 触发`。另外一点，`W` 的最近寻找不会跨过月份。
+- `LW`：这两个字符可以连用，表示在某个月最后一个工作日，即最后一个非周六周末的日期。
+- `#`：用于确定每个月第几个星期几，只能出现在 `星期` 域。例如在 `4#2`，表示某月的第二个星期三。
+
+## 26.2.4 `CronStringFormat` 格式化
+
+默认情况下，`Cron` 表达式不支持 `秒` 和 `年` 的，如有需求，可配置 `CronStringFormat` 枚举参数。
+
+- `CronStringFormat` 提供以下枚举值：
+  - `CronStringFormat.Default`：默认格式，书写顺序：`分 时 天 月 周`
+  - `CronStringFormat.WithYears`：带年份格式，书写顺序：`分 时 天 月 周 年`
+  - `CronStringFormat.WithSeconds`：带秒格式，书写顺序：`秒 分 时 天 月 周`
+  - `CronStringFormat.WithSecondsAndYears`：带秒和年格式，书写顺序：`秒 分 时 天 月 周 年`
+
+## 26.2.5 在线生成 `Cron` 表达式
+
+对于大多数开发者来说，编写 `Cron` 表达式是有难度的，所以推荐使用在线 `Cron` 表达式生成器。
+
+[https://cron.qqe2.com/](https://cron.qqe2.com/)
+
+## 26.2.6 实现简单定时任务
+
+通过 `Cron` 表达式解析和 `while` 循环可以实现简单的定时任务。
+
+### 26.2.6.1 `while` + `Task` 方式
+
+```cs showLineNumbers {2,5,10,15}
+// 阻塞方式
+var crontab = Crontab.Parse("* * * * * *", CronStringFormat.WithSeconds);
+while(true)
+{
+    Thread.Sleep(crontab.GetSleepMilliseconds(DateTime.Now));
+    Console.WriteLine(DateTime.Now.ToString("G"));
+}
+
+// 无阻塞方式
+var crontab = Crontab.Parse("* * * * * *", CronStringFormat.WithSeconds);
+Task.Factory.StartNew(async () =>
+{
+    while (true)
+    {
+        await Task.Delay(crontab.GetSleepMilliseconds(DateTime.Now));
+        Console.WriteLine(DateTime.Now.ToString("G"));
+    }
+}, TaskCreationOptions.LongRunning);
+```
+
+### 26.2.6.2 `BackgroundService` 方式
+
+```cs showLineNumbers {1,8,13,20-21,30}
+using Furion.TimeCrontab;
+
+namespace WorkerService;
+
+public class Worker : BackgroundService
+{
+    private readonly ILogger<Worker> _logger;
+    private readonly Crontab _crontab;
+
+    public Worker(ILogger<Worker> logger)
+    {
+        _logger = logger;
+        _crontab = Crontab.Parse("* * * * * *", CronStringFormat.WithSeconds);
+    }
+
+    protected override async Task ExecuteAsync(CancellationToken stoppingToken)
+    {
+        while (!stoppingToken.IsCancellationRequested)
+        {
+            var taskFactory = new TaskFactory(System.Threading.Tasks.TaskScheduler.Current);
+            await taskFactory.StartNew(async () =>
+            {
+                // 你的业务代码写到这里面
+
+                _logger.LogInformation("Worker running at: {time}", DateTime.Now);
+
+                await Task.CompletedTask;
+            }, stoppingToken);
+
+            await Task.Delay(_crontab.GetSleepMilliseconds(DateTime.Now), stoppingToken);
+        }
+    }
+}
+```
+
+## 26.2.7 `Crontab` 对象属性和方法
+
+```cs showLineNumbers {1,4,13,24}
+// 实例属性
+var format = crontab.Format;  // 获取当前格式化配置
+
+// 静态属性
+var secondly = Crontab.Secondly;    // 每秒
+var minutely = Crontab.Minutely;    // 每分钟
+var hourly = Crontab.Hourly;    // 每小时
+var daily = Crontab.Daily;  // 每天 00:00:00
+var monthly = Crontab.Monthly;  // 每月 1 号 00:00:00
+var weekly = Crontab.Weekly;    // 每周日 00：00：00
+var yearly = Crontab.Yearly;    // 每年 1 月 1 号 00:00:00
+
+// 实例方法
+// 获取下一个执行时间
+var nextOccurrence = crontab.GetNextOccurrence(起始时间);
+var nextOccurrence = crontab.GetNewDbContext(起始时间, 结束时间);
+// 获取特定时间所有执行执行时间
+var nextOccurrences = crontab.GetNextOccurrences(起始时间, 结束时间);
+// 获取当前时间和下一个发生时间相差毫秒数
+var sleepMilliseconds = crontab.GetSleepMilliseconds(起始时间);
+// 将 crontab 对象转换成 cron 表达式
+var expression = crontab.ToString();
+
+// 静态方法
+// 解析表达式
+var crontab = Crontab.Parse("表达式", CronStringFormat.Default);  // 转换表达式为 Crontab 对象
+var crontab = Crontab.TryParse("表达式", CronStringFormat.Default);  // 转换表达式为 Crontab 对象
+```
+
+## 26.2.8 反馈与建议
+
+:::note 与我们交流
+
+给 Furion 提 [Issue](https://gitee.com/dotnetchina/Furion/issues/new?issue)。
+
+:::
