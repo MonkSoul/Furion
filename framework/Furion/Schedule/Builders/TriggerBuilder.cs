@@ -227,15 +227,15 @@ public sealed class TriggerBuilder : Trigger
         if (string.IsNullOrWhiteSpace(args) || args == "[]") args = null;
 
         Args = args;
-
         if (args == null) return this;
 
-        var jsonArray = Penetrates.Deserialize<object[]>(args);
-        var runtimeArgs = new object[jsonArray.Length];
+        var jsonObjectArray = Penetrates.Deserialize<object[]>(args);
+        var runtimeArgs = new object[jsonObjectArray.Length];
 
-        for (var i = 0; i < jsonArray.Length; i++)
+        // 解决反序列化 object 类型被转换成了 JsonElement 类型
+        for (var i = 0; i < jsonObjectArray.Length; i++)
         {
-            runtimeArgs[i] = Penetrates.GetJsonElementValue(jsonArray[i]);
+            runtimeArgs[i] = Penetrates.GetJsonElementValue(jsonObjectArray[i]);
         }
 
         RuntimeTriggerArgs = runtimeArgs;
