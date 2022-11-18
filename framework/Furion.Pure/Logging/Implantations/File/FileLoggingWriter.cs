@@ -113,7 +113,17 @@ internal class FileLoggingWriter
             var logDirName = Path.GetDirectoryName(baseFileName);
 
             // 如果没有配置文件路径则默认放置根目录
-            if (string.IsNullOrEmpty(logDirName)) logDirName = Directory.GetCurrentDirectory();
+            if (string.IsNullOrEmpty(logDirName))
+            {
+                logDirName = Directory.GetCurrentDirectory();
+
+                // 解决使用 Windows Services 部署后日志写到 C:\Windows\System32 目录下
+                if (logDirName.Contains("System32", StringComparison.OrdinalIgnoreCase)
+                    && logDirName.Contains("Windows", StringComparison.OrdinalIgnoreCase))
+                {
+                    logDirName = AppContext.BaseDirectory;
+                }
+            }
 
             // 在当前目录下根据文件通配符查找所有匹配的文件
             var logFiles = Directory.Exists(logDirName)
