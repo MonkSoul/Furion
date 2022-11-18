@@ -151,6 +151,12 @@ public partial class Trigger
     public bool StartNow { get; internal set; } = true;
 
     /// <summary>
+    /// 是否启动时执行一次
+    /// </summary>
+    [JsonInclude]
+    public bool RunOnStart { get; internal set; } = false;
+
+    /// <summary>
     /// 作业触发器更新时间
     /// </summary>
     [JsonInclude]

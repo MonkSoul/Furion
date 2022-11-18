@@ -290,6 +290,7 @@ info: 2022-11-17 17:13:41.0480946 +08:00 星期四 L MyJob[0] #5
         "numRetries": 0,
         "retryTimeout": 1000,
         "startNow": true,
+        "runOnStart": fals,
         "updatedTime": "2022-11-17T17:13:41.0250214+08:00"
       }
       }
@@ -354,6 +355,7 @@ info: 2022-11-17 17:17:15.0503546 +08:00 星期四 L MyJob[0] #3
         "num_retries": 0,
         "retry_timeout": 1000,
         "start_now": true,
+        "run_on_start": false,
         "updated_time": "2022-11-17T17:17:15.0109612+08:00"
       }
 ```
@@ -385,7 +387,7 @@ public class MyJob : IJob
 
 查看作业打印结果：
 
-```sql showLineNumbers {2,25,27}
+```sql showLineNumbers {2,25,28}
 info: 2022-11-17 17:35:11.1085426 +08:00 星期四 L MyJob[0] #9
       INSERT INTO 作业信息表名(
             [jobId],
@@ -410,10 +412,12 @@ info: 2022-11-17 17:35:11.1085426 +08:00 星期四 L MyJob[0] #9
             '2022/11/17 17:35:11'
       );
 info: 2022-11-17 17:35:11.1150444 +08:00 星期四 L MyJob[0] #9
-      DELETE FROM 作业触发器表名 WHERE [TriggerId] = 'job1_trigger1' AND [JobId] = 'job1';
+      DELETE FROM 作业触发器表名
+      WHERE [TriggerId] = 'job1_trigger1' AND [JobId] = 'job1';
 info: 2022-11-17 17:35:11.1190961 +08:00 星期四 L MyJob[0] #9
       UPDATE 作业触发器表名
-            SET [trigger_id] = 'job1_trigger1',
+      SET
+            [trigger_id] = 'job1_trigger1',
             [job_id] = 'job1',
             [trigger_type] = 'Furion.Schedule.CronTrigger',
             [assembly_name] = 'Furion',
@@ -431,6 +435,7 @@ info: 2022-11-17 17:35:11.1190961 +08:00 星期四 L MyJob[0] #9
             [num_retries] = 0,
             [retry_timeout] = 1000,
             [start_now] = 1,
+            [run_on_start] = 0,
             [updated_time] = '2022/11/17 17:35:11'
       WHERE [trigger_id] = 'job1_trigger1' AND [job_id] = 'job1';
 ```
@@ -498,6 +503,7 @@ info: 2022-11-17 17:39:09.1133162 +08:00 星期四 L MyJob[0] #3
       ┣ NumRetries：               0
       ┣ RetryTimeout：             1000
       ┣ StartNow：                 True
+      ┣ RunOnStart：               False
       ┣ UpdatedTime：              2022/11/17 17:39:09
       ┗━━━━━━━━━━━  Trigger ━━━━━━━━━━━
 ```

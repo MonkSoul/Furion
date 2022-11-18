@@ -148,7 +148,8 @@ public sealed class TriggerBuilder : Trigger
                      .SetMaxNumberOfErrors(fromTriggerBuilder.MaxNumberOfErrors)
                      .SetNumRetries(fromTriggerBuilder.NumRetries)
                      .SetRetryTimeout(fromTriggerBuilder.RetryTimeout)
-                     .SetStartNow(fromTriggerBuilder.StartNow);
+                     .SetStartNow(fromTriggerBuilder.StartNow)
+                     .SetRunOnStart(fromTriggerBuilder.RunOnStart);
     }
 
     /// <summary>
@@ -457,6 +458,18 @@ public sealed class TriggerBuilder : Trigger
         {
             Status = TriggerStatus.NotStart;
         }
+
+        return this;
+    }
+
+    /// <summary>
+    /// 设置是否启动时执行一次
+    /// </summary>
+    /// <param name="runOnStart">是否启动时执行一次</param>
+    /// <returns><see cref="TriggerBuilder"/></returns>
+    public TriggerBuilder SetRunOnStart(bool runOnStart)
+    {
+        RunOnStart = runOnStart;
 
         return this;
     }

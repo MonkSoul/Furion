@@ -88,6 +88,18 @@ public partial class Trigger
     }
 
     /// <summary>
+    /// 检查是否启动时执行一次并返回下一次执行时间
+    /// </summary>
+    /// <param name="useUtcTimestamp">是否使用 UTC 时间</param>
+    /// <returns><see cref="DateTime"/></returns>
+    internal DateTime? CheckRunOnStarAndReturnNextRunTime(bool useUtcTimestamp)
+    {
+        return !(StartNow && RunOnStart)
+              ? GetNextRunTime(useUtcTimestamp)
+              : Penetrates.GetNowTime(useUtcTimestamp).AddSeconds(-1);
+    }
+
+    /// <summary>
     /// 记录错误信息，包含错误次数和运行状态
     /// </summary>
     internal void IncrementErrors()
@@ -235,6 +247,7 @@ public partial class Trigger
             , Penetrates.GetNaming(nameof(NumRetries), naming)
             , Penetrates.GetNaming(nameof(RetryTimeout), naming)
             , Penetrates.GetNaming(nameof(StartNow), naming)
+            , Penetrates.GetNaming(nameof(RunOnStart), naming)
             , Penetrates.GetNaming(nameof(UpdatedTime), naming)
         };
         _ = _namingColumnNames.TryAdd(naming, nameColumnNames);
@@ -298,7 +311,8 @@ WHERE [{columnNames[0]}] = '{TriggerId}' AND [{columnNames[1]}] = '{JobId}';";
     [{columnNames[15]}],
     [{columnNames[16]}],
     [{columnNames[17]}],
-    [{columnNames[18]}]
+    [{columnNames[18]}],
+    [{columnNames[19]}]
 )
 VALUES(
     '{TriggerId}',
@@ -319,6 +333,7 @@ VALUES(
     {NumRetries},
     {RetryTimeout},
     {(StartNow ? 1 : 0)},
+    {(RunOnStart ? 1 : 0)},
     {Penetrates.GetSqlValueOrNull(UpdatedTime)}
 );";
         }
@@ -345,7 +360,8 @@ SET
     [{columnNames[15]}] = {NumRetries},
     [{columnNames[16]}] = {RetryTimeout},
     [{columnNames[17]}] = {(StartNow ? 1 : 0)},
-    [{columnNames[18]}] = {Penetrates.GetSqlValueOrNull(UpdatedTime)}
+    [{columnNames[18]}] = {(RunOnStart ? 1 : 0)},
+    [{columnNames[19]}] = {Penetrates.GetSqlValueOrNull(UpdatedTime)}
 WHERE [{columnNames[0]}] = '{TriggerId}' AND [{columnNames[1]}] = '{JobId}';";
         }
         return string.Empty;
@@ -380,6 +396,7 @@ WHERE [{columnNames[0]}] = '{TriggerId}' AND [{columnNames[1]}] = '{JobId}';";
             writer.WriteNumber(Penetrates.GetNaming(nameof(NumRetries), naming), NumRetries);
             writer.WriteNumber(Penetrates.GetNaming(nameof(RetryTimeout), naming), RetryTimeout);
             writer.WriteBoolean(Penetrates.GetNaming(nameof(StartNow), naming), StartNow);
+            writer.WriteBoolean(Penetrates.GetNaming(nameof(RunOnStart), naming), RunOnStart);
             writer.WriteString(Penetrates.GetNaming(nameof(UpdatedTime), naming), UpdatedTime?.ToString("o"));
 
             writer.WriteEndObject();
@@ -413,6 +430,7 @@ WHERE [{columnNames[0]}] = '{TriggerId}' AND [{columnNames[1]}] = '{JobId}';";
             , $"##{Penetrates.GetNaming(nameof(NumRetries), naming)}## {NumRetries}"
             , $"##{Penetrates.GetNaming(nameof(RetryTimeout), naming)}## {RetryTimeout}"
             , $"##{Penetrates.GetNaming(nameof(StartNow), naming)}## {StartNow}"
+            , $"##{Penetrates.GetNaming(nameof(RunOnStart), naming)}## {RunOnStart}"
             , $"##{Penetrates.GetNaming(nameof(UpdatedTime), naming)}## {UpdatedTime}"
         });
     }

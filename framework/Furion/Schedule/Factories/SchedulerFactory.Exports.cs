@@ -97,7 +97,7 @@ internal sealed partial class SchedulerFactory
         // 初始化作业触发器下一次运行时间
         foreach (var trigger in internalScheduler.Triggers.Values)
         {
-            trigger.NextRunTime = trigger.GetNextRunTime(UseUtcTimestamp);
+            trigger.NextRunTime = trigger.CheckRunOnStarAndReturnNextRunTime(UseUtcTimestamp);
         }
 
         // 追加到集合中

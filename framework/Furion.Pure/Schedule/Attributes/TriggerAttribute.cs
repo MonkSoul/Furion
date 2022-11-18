@@ -126,6 +126,11 @@ public abstract class TriggerAttribute : Attribute
     public bool StartNow { get; set; } = true;
 
     /// <summary>
+    /// 是否启动时执行一次
+    /// </summary>
+    public bool RunOnStart { get; set; } = false;
+
+    /// <summary>
     /// 作业触发器运行时起始时间
     /// </summary>
     internal DateTime? RuntimeStartTime { get; set; }

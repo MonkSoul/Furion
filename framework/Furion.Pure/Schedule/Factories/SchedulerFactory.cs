@@ -114,8 +114,16 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory, IDisposable
             var schedulerBuilder = SchedulerBuilder.From(scheduler);
 
             // 加载持久化数据并更新到内存中
-            _ = TryUpdateJob(Persistence?.Preload(schedulerBuilder)
-                ?? schedulerBuilder, out _);
+            if (TryUpdateJob(Persistence?.Preload(schedulerBuilder) ?? schedulerBuilder, out var schedulerForUpdated) == ScheduleResult.Succeed
+                  && schedulerBuilder.Behavior == PersistenceBehavior.Updated)
+            {
+                // 处理启动时执行一次情况
+                var internalScheduler = (Scheduler)schedulerForUpdated;
+                foreach (var (_, trigger) in internalScheduler.Triggers)
+                {
+                    trigger.NextRunTime = trigger.CheckRunOnStarAndReturnNextRunTime(UseUtcTimestamp);
+                }
+            }
         }
 
         // 输出作业调度器初始化日志

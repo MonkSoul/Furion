@@ -93,7 +93,8 @@ public sealed class SchedulerBuilder
                     .SetRetryTimeout(triggerAttribute.RetryTimeout)
                     .SetStartTime(triggerAttribute.RuntimeStartTime)
                     .SetEndTime(triggerAttribute.RuntimeEndTime)
-                    .SetStartNow(triggerAttribute.StartNow);
+                    .SetStartNow(triggerAttribute.StartNow)
+                    .SetRunOnStart(triggerAttribute.RunOnStart);
 
                 schedulerBuilder.TriggerBuilders.Add(triggerBuilder);
             }

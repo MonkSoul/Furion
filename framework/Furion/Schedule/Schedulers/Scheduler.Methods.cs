@@ -83,28 +83,14 @@ internal sealed partial class Scheduler
     /// </summary>
     public void Start()
     {
-        var changeCount = 0;
-        var updatedTime = Penetrates.GetNowTime(UseUtcTimestamp);
-
         // 逐条启用所有作业触发器
-        foreach (var (_, trigger) in Triggers)
+        foreach (var triggerId in Triggers.Keys)
         {
-            trigger.StartNow = true;
-
-            // 如果不是暂停状态，则跳过
-            if (trigger.Status != TriggerStatus.Pause) continue;
-
-            trigger.SetStatus(TriggerStatus.Ready);
-            trigger.NextRunTime = trigger.GetNextRunTime(UseUtcTimestamp);
-            trigger.UpdatedTime = updatedTime;
-            changeCount++;
-
-            // 将作业触发器运行数据写入持久化
-            Factory.Shorthand(JobDetail, trigger);
+            StartTrigger(triggerId, false);
         }
 
         // 取消作业调度器休眠状态（强制唤醒）
-        if (changeCount > 0) Factory.CancelSleep();
+        Factory.CancelSleep();
     }
 
     /// <summary>
@@ -112,29 +98,22 @@ internal sealed partial class Scheduler
     /// </summary>
     public void Pause()
     {
-        var changeCount = 0;
-        var updatedTime = Penetrates.GetNowTime(UseUtcTimestamp);
-
         // 逐条暂停所有作业触发器
-        foreach (var (_, trigger) in Triggers)
+        foreach (var triggerId in Triggers.Keys)
         {
-            trigger.SetStatus(TriggerStatus.Pause);
-            trigger.UpdatedTime = updatedTime;
-            changeCount++;
-
-            // 将作业触发器运行数据写入持久化
-            Factory.Shorthand(JobDetail, trigger);
+            PauseTrigger(triggerId, false);
         }
 
         // 取消作业调度器休眠状态（强制唤醒）
-        if (changeCount > 0) Factory.CancelSleep();
+        Factory.CancelSleep();
     }
 
     /// <summary>
     /// 启动作业计划单个触发器
     /// </summary>
     /// <param name="triggerId">作业触发器 Id</param>
-    public void StartTrigger(string triggerId)
+    /// <param name="immediately">使作业调度器立即载入</param>
+    public void StartTrigger(string triggerId, bool immediately = true)
     {
         var trigger = GetTrigger(triggerId);
         if (trigger == null) return;
@@ -146,20 +125,21 @@ internal sealed partial class Scheduler
 
         trigger.SetStatus(TriggerStatus.Ready);
         trigger.UpdatedTime = Penetrates.GetNowTime(UseUtcTimestamp);
-        trigger.NextRunTime = trigger.GetNextRunTime(UseUtcTimestamp);
+        trigger.NextRunTime = trigger.CheckRunOnStarAndReturnNextRunTime(UseUtcTimestamp);
 
         // 将作业触发器运行数据写入持久化
         Factory.Shorthand(JobDetail, trigger);
 
         // 取消作业调度器休眠状态（强制唤醒）
-        Factory.CancelSleep();
+        if (immediately) Factory.CancelSleep();
     }
 
     /// <summary>
     /// 暂停作业计划单个触发器
     /// </summary>
     /// <param name="triggerId">作业触发器 Id</param>
-    public void PauseTrigger(string triggerId)
+    /// <param name="immediately">使作业调度器立即载入</param>
+    public void PauseTrigger(string triggerId, bool immediately = true)
     {
         var trigger = GetTrigger(triggerId);
         if (trigger == null) return;
@@ -171,7 +151,7 @@ internal sealed partial class Scheduler
         Factory.Shorthand(JobDetail, trigger);
 
         // 取消作业调度器休眠状态（强制唤醒）
-        Factory.CancelSleep();
+        if (immediately) Factory.CancelSleep();
     }
 
     /// <summary>
@@ -260,6 +240,9 @@ internal sealed partial class Scheduler
         }
 
         trigger = scheduler.GetTrigger(triggerBuilder.TriggerId);
+        // 处理启动时执行一次情况
+        trigger.NextRunTime = trigger.CheckRunOnStarAndReturnNextRunTime(UseUtcTimestamp);
+
         return scheduleResult;
     }
 
