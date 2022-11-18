@@ -54,26 +54,27 @@ public static class Serve
     /// <param name="logging">静默启动日志状态，默认 false</param>
     /// <param name="args">启动参数</param>
     /// <param name="additional">配置额外服务</param>
-    public static void Run(string urls = default
+    /// <returns><see cref="IHost"/></returns>
+    public static IHost Run(string urls = default
         , bool silence = false
         , bool logging = false
         , string[] args = default
         , Action<IServiceCollection> additional = default)
     {
 #if !NET5_0
-        Run(RunOptions.Default
-            .WithArgs(args)
-            .Silence(silence, logging)
-            .ConfigureServices(additional)
-            .AddComponent<ServeServiceComponent>()
-            .UseComponent<ServeApplicationComponent>(), urls);
+        return Run(RunOptions.Default
+             .WithArgs(args)
+             .Silence(silence, logging)
+             .ConfigureServices(additional)
+             .AddComponent<ServeServiceComponent>()
+             .UseComponent<ServeApplicationComponent>(), urls);
 #else
-        Run((LegacyRunOptions.Default
-            .WithArgs(args)
-            .Silence(silence, logging)
-            .ConfigureServices(additional)
-            .AddComponent<ServeServiceComponent>())
-            .UseComponent<ServeApplicationComponent>(), urls);
+        return Run((LegacyRunOptions.Default
+             .WithArgs(args)
+             .Silence(silence, logging)
+             .ConfigureServices(additional)
+             .AddComponent<ServeServiceComponent>())
+             .UseComponent<ServeApplicationComponent>(), urls);
 #endif
     }
 
@@ -85,12 +86,13 @@ public static class Serve
     /// <param name="silence">静默启动</param>
     /// <param name="logging">静默启动日志状态，默认 false</param>
     /// <param name="args">启动参数</param>
-    public static void Run(Action<IServiceCollection> additional, string urls = default
+    /// <returns><see cref="IHost"/></returns>
+    public static IHost Run(Action<IServiceCollection> additional, string urls = default
         , bool silence = false
         , bool logging = false
         , string[] args = default)
     {
-        Run(urls, silence, logging, args, additional);
+        return Run(urls, silence, logging, args, additional);
     }
 
     /// <summary>
@@ -99,9 +101,10 @@ public static class Serve
     /// <remarks>未包含 Web 基础功能，需手动注册服务/中间件</remarks>
     /// <param name="options">配置选项</param>
     /// <param name="urls">默认 5000/5001 端口</param>
-    public static void Run(LegacyRunOptions options, string urls = default)
+    /// <returns><see cref="IHost"/></returns>
+    public static IHost Run(LegacyRunOptions options, string urls = default)
     {
-        Run<FakeStartup>(options, urls);
+        return Run<FakeStartup>(options, urls);
     }
 
     /// <summary>
@@ -111,7 +114,8 @@ public static class Serve
     /// <typeparam name="TStartup">启动 Startup 类</typeparam>
     /// <param name="options">配置选项</param>
     /// <param name="urls">默认 5000/5001 端口</param>
-    public static void Run<TStartup>(LegacyRunOptions options, string urls = default)
+    /// <returns><see cref="IHost"/></returns>
+    public static IHost Run<TStartup>(LegacyRunOptions options, string urls = default)
         where TStartup : class
     {
         // 获取命令行参数
@@ -199,22 +203,28 @@ public static class Serve
         // 调用自定义配置
         builder = options?.ActionBuilder?.Invoke(builder) ?? builder;
 
+        // 构建主机
+        var app = builder.Build();
+
         // 是否静默启动
         if (!options.IsSilence)
         {
-            builder.Build().Run();
+            app.Run();
         }
         else
         {
-            builder.Build().Start();
+            app.Start();
         }
+
+        return app;
     }
 
     /// <summary>
     /// 启动泛型通用主机
     /// </summary>
     /// <param name="options">配置选项</param>
-    public static void Run(GenericRunOptions options)
+    /// <returns><see cref="IHost"/></returns>
+    public static IHost Run(GenericRunOptions options)
     {
         // 获取命令行参数
         var args = options.Args ?? Environment.GetCommandLineArgs().Skip(1).ToArray();
@@ -258,15 +268,20 @@ public static class Serve
         // 调用自定义配置
         builder = options?.ActionBuilder?.Invoke(builder) ?? builder;
 
+        // 构建主机
+        var app = builder.Build();
+
         // 是否静默启动
         if (!options.IsSilence)
         {
-            builder.Build().Run();
+            app.Run();
         }
         else
         {
-            builder.Build().Start();
+            app.Start();
         }
+
+        return app;
     }
 
 #if !NET5_0
@@ -276,7 +291,8 @@ public static class Serve
     /// <remarks>未包含 Web 基础功能，需手动注册服务/中间件</remarks>
     /// <param name="options">配置选项</param>
     /// <param name="urls">默认 5000/5001 端口</param>
-    public static void Run(RunOptions options, string urls = default)
+    /// <returns><see cref="IHost"/></returns>
+    public static IHost Run(RunOptions options, string urls = default)
     {
         // 获取命令行参数
         var args = options.Args ?? Environment.GetCommandLineArgs().Skip(1).ToArray();
@@ -334,7 +350,7 @@ public static class Serve
         // 调用自定义配置
         options?.ActionBuilder?.Invoke(builder);
 
-        // 初始化 WebApplication
+        // 构建主机
         var app = builder.Build();
 
         // 注册应用中间件组件
@@ -358,6 +374,8 @@ public static class Serve
         {
             app.Start();
         }
+
+        return app;
     }
 #endif
 }
