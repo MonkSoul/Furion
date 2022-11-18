@@ -78,6 +78,22 @@ public static class Serve
     }
 
     /// <summary>
+    /// 启动默认 Web 主机，含最基础的 Web 注册
+    /// </summary>
+    /// <param name="additional">配置额外服务</param>
+    /// <param name="urls">默认 5000/5001 端口</param>
+    /// <param name="silence">静默启动</param>
+    /// <param name="logging">静默启动日志状态，默认 false</param>
+    /// <param name="args">启动参数</param>
+    public static void Run(Action<IServiceCollection> additional, string urls = default
+        , bool silence = false
+        , bool logging = false
+        , string[] args = default)
+    {
+        Run(urls, silence, logging, args, additional);
+    }
+
+    /// <summary>
     /// 启动泛型 Web 主机
     /// </summary>
     /// <remarks>未包含 Web 基础功能，需手动注册服务/中间件</remarks>

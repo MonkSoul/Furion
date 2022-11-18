@@ -213,8 +213,14 @@ Serve.Run(RunOptions.Default.ConfigureBuilder(builder =>
 
 :::
 
-```cs showLineNumbers {1}
+```cs showLineNumbers {1,7}
 Serve.Run(additional: services =>
+{
+    services.AddRemoteRequest();
+});
+
+// 还可以省去 additional
+Serve.Run(services =>
 {
     services.AddRemoteRequest();
 });

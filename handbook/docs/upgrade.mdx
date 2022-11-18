@@ -64,8 +64,14 @@ import Tag from "@site/src/components/Tag.js";
 
 极速入门现在可以便捷注册服务，写测试例子的时候非常有用，无需编写 `Startup.cs`。
 
-```cs showLineNumbers {1}
+```cs showLineNumbers {1,7}
 Serve.Run(additional: services =>
+{
+    services.AddRemoteRequest();
+});
+
+// 还可以省去 additional
+Serve.Run(services =>
 {
     services.AddRemoteRequest();
 });
