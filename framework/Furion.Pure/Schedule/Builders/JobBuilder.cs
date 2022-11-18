@@ -242,7 +242,16 @@ public sealed class JobBuilder : JobDetail
         if (string.IsNullOrWhiteSpace(properties)) properties = "{}";
 
         Properties = properties;
-        RuntimeProperties = Penetrates.Deserialize<Dictionary<string, object>>(properties);
+        var jsonDictionary = Penetrates.Deserialize<Dictionary<string, object>>(properties);
+
+        // 解决反序列化 object 类型被转换成了 JsonElement 类型
+        var newDictionary = new Dictionary<string, object>(jsonDictionary.Count);
+        foreach (var key in jsonDictionary.Keys)
+        {
+            newDictionary[key] = Penetrates.GetJsonElementValue(jsonDictionary[key]);
+        }
+
+        RuntimeProperties = newDictionary;
 
         return this;
     }

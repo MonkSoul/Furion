@@ -202,7 +202,7 @@ internal static class Penetrates
     /// <returns><see cref="object"/></returns>
     internal static object GetJsonElementValue(object value)
     {
-        if (value is not JsonElement ele) return value;
+        if (value == null || value is not JsonElement ele) return value;
 
         // 处理 Array 类型的值
         if (ele.ValueKind == JsonValueKind.Array)
