@@ -21,13 +21,14 @@
 // SOFTWARE.
 
 using Furion.Templates;
+using System.Collections.Concurrent;
 
 namespace Furion.Schedule;
 
 /// <summary>
 /// 作业触发器基类
 /// </summary>
-public partial class JobTrigger
+public partial class Trigger
 {
     /// <summary>
     /// 计算下一个触发时间
@@ -102,7 +103,7 @@ public partial class JobTrigger
     /// <summary>
     /// 设置作业触发器状态
     /// </summary>
-    /// <param name="status"></param>
+    /// <param name="status"><see cref="TriggerStatus"/></param>
     internal void SetStatus(TriggerStatus status)
     {
         if (Status == status) return;
@@ -198,13 +199,23 @@ public partial class JobTrigger
     }
 
     /// <summary>
+    /// 带命名规则的数据库列名
+    /// </summary>
+    private readonly ConcurrentDictionary<NamingConventions, string[]> _namingColumnNames = new();
+
+    /// <summary>
     /// 获取数据库列名
     /// </summary>
     /// <param name="naming">命名法</param>
-    /// <returns></returns>
+    /// <returns>string[]</returns>
     private string[] ColumnNames(NamingConventions naming = NamingConventions.Pascal)
     {
-        return new[]
+        // 如果字典中已经存在过，则直接返回
+        var contains = _namingColumnNames.TryGetValue(naming, out var columnNames);
+        if (contains) return columnNames;
+
+        // 否则创建新的
+        var nameColumnNames = new[]
         {
             Penetrates.GetNaming(nameof(TriggerId), naming)    // 第一个是标识，禁止移动位置
             , Penetrates.GetNaming(nameof(JobId), naming)   // 第二个是作业标识，禁止移动位置
@@ -226,6 +237,9 @@ public partial class JobTrigger
             , Penetrates.GetNaming(nameof(StartNow), naming)
             , Penetrates.GetNaming(nameof(UpdatedTime), naming)
         };
+        _ = _namingColumnNames.TryAdd(naming, nameColumnNames);
+
+        return nameColumnNames;
     }
 
     /// <summary>
@@ -376,7 +390,7 @@ WHERE [{columnNames[0]}] = '{TriggerId}' AND [{columnNames[1]}] = '{JobId}';";
     /// <returns><see cref="string"/></returns>
     public string ConvertToMonitor()
     {
-        return TP.Wrapper("JobTrigger", Description ?? TriggerType, new[]
+        return TP.Wrapper("Trigger", Description ?? TriggerType, new[]
         {
             $"##TriggerId## {TriggerId}"
             , $"##JobId## {JobId}"

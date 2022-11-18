@@ -35,7 +35,7 @@ public sealed class JobExecutedContext : JobExecutionContext
     /// <param name="trigger">作业触发器</param>
     /// <param name="checkTime">作业调度服务检查时间</param>
     internal JobExecutedContext(JobDetail jobDetail
-        , JobTrigger trigger
+        , Trigger trigger
         , DateTime checkTime)
         : base(jobDetail, trigger, checkTime)
     {

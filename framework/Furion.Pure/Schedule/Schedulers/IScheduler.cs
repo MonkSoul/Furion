@@ -101,14 +101,14 @@ public interface IScheduler
     /// <param name="triggerId">作业触发器 Id</param>
     /// <param name="trigger">作业触发器</param>
     /// <returns><see cref="ScheduleResult"/></returns>
-    ScheduleResult TryGetTrigger(string triggerId, out JobTrigger trigger);
+    ScheduleResult TryGetTrigger(string triggerId, out Trigger trigger);
 
     /// <summary>
     /// 查找作业计划触发器
     /// </summary>
     /// <param name="triggerId">作业触发器 Id</param>
-    /// <returns><see cref="JobTrigger"/></returns>
-    JobTrigger GetTrigger(string triggerId);
+    /// <returns><see cref="Trigger"/></returns>
+    Trigger GetTrigger(string triggerId);
 
     /// <summary>
     /// 添加作业计划触发器
@@ -116,7 +116,7 @@ public interface IScheduler
     /// <param name="triggerBuilder">作业触发器构建器</param>
     /// <param name="trigger">作业触发器</param>
     /// <returns><see cref="ScheduleResult"/></returns>
-    ScheduleResult TryAddTrigger(TriggerBuilder triggerBuilder, out JobTrigger trigger);
+    ScheduleResult TryAddTrigger(TriggerBuilder triggerBuilder, out Trigger trigger);
 
     /// <summary>
     /// 添加作业计划触发器
@@ -130,7 +130,7 @@ public interface IScheduler
     /// <param name="triggerBuilder">作业触发器构建器</param>
     /// <param name="trigger">作业触发器</param>
     /// <returns><see cref="ScheduleResult"/></returns>
-    ScheduleResult TryUpdateTrigger(TriggerBuilder triggerBuilder, out JobTrigger trigger);
+    ScheduleResult TryUpdateTrigger(TriggerBuilder triggerBuilder, out Trigger trigger);
 
     /// <summary>
     /// 更新作业计划触发器
@@ -144,7 +144,7 @@ public interface IScheduler
     /// <param name="triggerId">作业触发器 Id</param>
     /// <param name="trigger">作业触发器</param>
     /// <returns><see cref="ScheduleResult"/></returns>
-    ScheduleResult TryRemoveTrigger(string triggerId, out JobTrigger trigger);
+    ScheduleResult TryRemoveTrigger(string triggerId, out Trigger trigger);
 
     /// <summary>
     /// 删除作业计划触发器

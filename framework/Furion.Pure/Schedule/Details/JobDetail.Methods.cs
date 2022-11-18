@@ -21,6 +21,7 @@
 // SOFTWARE.
 
 using Furion.Templates;
+using System.Collections.Concurrent;
 
 namespace Furion.Schedule;
 
@@ -134,13 +135,23 @@ public partial class JobDetail
     }
 
     /// <summary>
+    /// 带命名规则的数据库列名
+    /// </summary>
+    private readonly ConcurrentDictionary<NamingConventions, string[]> _namingColumnNames = new();
+
+    /// <summary>
     /// 获取数据库列名
     /// </summary>
     /// <remarks>避免多次反射</remarks>
-    /// <returns></returns>
+    /// <returns>string[]</returns>
     private string[] ColumnNames(NamingConventions naming = NamingConventions.Pascal)
     {
-        return new[]
+        // 如果字典中已经存在过，则直接返回
+        var contains = _namingColumnNames.TryGetValue(naming, out var columnNames);
+        if (contains) return columnNames;
+
+        // 否则创建新的
+        var nameColumnNames = new[]
         {
             Penetrates.GetNaming(nameof(JobId), naming) // 第一个是标识，禁止移动位置
             , Penetrates.GetNaming(nameof(GroupName), naming)
@@ -152,6 +163,9 @@ public partial class JobDetail
             , Penetrates.GetNaming(nameof(Properties), naming)
             , Penetrates.GetNaming(nameof(UpdatedTime), naming)
         };
+        _ = _namingColumnNames.TryAdd(naming, nameColumnNames);
+
+        return nameColumnNames;
     }
 
     /// <summary>

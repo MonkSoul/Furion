@@ -70,7 +70,7 @@ public partial class JobDetail
     public bool Concurrent { get; internal set; } = true;
 
     /// <summary>
-    /// 是否扫描 IJob 实现类 [JobTrigger] 特性触发器
+    /// 是否扫描 IJob 实现类 [Trigger] 特性触发器
     /// </summary>
     [JsonInclude]
     public bool IncludeAnnotations { get; internal set; } = false;

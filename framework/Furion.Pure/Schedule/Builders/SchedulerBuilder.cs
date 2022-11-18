@@ -291,8 +291,8 @@ public sealed class SchedulerBuilder
             writer.WritePropertyName(Penetrates.GetNaming(nameof(JobDetail), naming));
             writer.WriteRawValue(JobBuilder.ConvertToJSON(naming));
 
-            // 输出 JobTrigger
-            writer.WritePropertyName(Penetrates.GetNaming(nameof(JobTrigger), naming));
+            // 输出 Trigger
+            writer.WritePropertyName(Penetrates.GetNaming(nameof(Trigger), naming));
 
             writer.WriteStartArray();
             foreach (var triggerBuilder in TriggerBuilders)
@@ -335,7 +335,7 @@ public sealed class SchedulerBuilder
         var jobDetail = JobBuilder.Build();
 
         // 构建作业触发器
-        var triggers = new Dictionary<string, JobTrigger>();
+        var triggers = new Dictionary<string, Trigger>();
 
         // 遍历作业触发器构建器集合
         for (var i = 0; i < TriggerBuilders.Count; i++)

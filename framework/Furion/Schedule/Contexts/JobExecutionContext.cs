@@ -34,7 +34,7 @@ public abstract class JobExecutionContext
     /// <param name="trigger">作业触发器</param>
     /// <param name="checkTime">作业调度服务检查时间</param>
     internal JobExecutionContext(JobDetail jobDetail
-        , JobTrigger trigger
+        , Trigger trigger
         , DateTime checkTime)
     {
         JobId = jobDetail.JobId;
@@ -62,7 +62,7 @@ public abstract class JobExecutionContext
     /// <summary>
     /// 作业触发器
     /// </summary>
-    public JobTrigger Trigger { get; }
+    public Trigger Trigger { get; }
 
     /// <summary>
     /// 作业计划触发时间
@@ -84,7 +84,7 @@ public abstract class JobExecutionContext
             writer.WritePropertyName(Penetrates.GetNaming(nameof(JobDetail), naming));
             writer.WriteRawValue(JobDetail.ConvertToJSON(naming));
 
-            // 输出 JobTrigger
+            // 输出 Trigger
             writer.WritePropertyName(Penetrates.GetNaming(nameof(Trigger), naming));
             writer.WriteRawValue(Trigger.ConvertToJSON(naming));
 

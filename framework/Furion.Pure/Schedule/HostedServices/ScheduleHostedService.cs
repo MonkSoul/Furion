@@ -257,7 +257,7 @@ internal sealed class ScheduleHostedService : BackgroundService
     /// <param name="trigger">作业触发器</param>
     /// <param name="checkTime">检查时间</param>
     /// <returns>返回 true 是串行执行，则阻塞并进入下一轮，返回 false 则继续执行</returns>
-    private bool CheckIsBlocked(JobDetail jobDetail, JobTrigger trigger, DateTime checkTime)
+    private bool CheckIsBlocked(JobDetail jobDetail, Trigger trigger, DateTime checkTime)
     {
         // 如果是并行执行则跳过
         if (jobDetail.Concurrent) return false;

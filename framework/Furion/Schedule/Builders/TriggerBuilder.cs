@@ -30,7 +30,7 @@ namespace Furion.Schedule;
 /// 作业触发器构建器
 /// </summary>
 [SuppressSniffer]
-public sealed class TriggerBuilder : JobTrigger
+public sealed class TriggerBuilder : Trigger
 {
     /// <summary>
     /// 构造函数
@@ -76,10 +76,10 @@ public sealed class TriggerBuilder : JobTrigger
     /// <summary>
     /// 创建作业触发器构建器
     /// </summary>
-    /// <typeparam name="TTrigger"><see cref="JobTrigger"/> 派生类</typeparam>
+    /// <typeparam name="TTrigger"><see cref="Trigger"/> 派生类</typeparam>
     /// <returns><see cref="TriggerBuilder"/></returns>
     public static TriggerBuilder Create<TTrigger>()
-        where TTrigger : JobTrigger
+        where TTrigger : Trigger
     {
         return Create(typeof(TTrigger));
     }
@@ -99,7 +99,7 @@ public sealed class TriggerBuilder : JobTrigger
     /// <summary>
     /// 创建新的作业触发器构建器
     /// </summary>
-    /// <param name="triggerType"><see cref="JobTrigger"/> 派生类</param>
+    /// <param name="triggerType"><see cref="Trigger"/> 派生类</param>
     /// <returns><see cref="TriggerBuilder"/></returns>
     public static TriggerBuilder Create(Type triggerType)
     {
@@ -108,11 +108,11 @@ public sealed class TriggerBuilder : JobTrigger
     }
 
     /// <summary>
-    /// 将 <see cref="JobTrigger"/> 转换成 <see cref="TriggerBuilder"/>
+    /// 将 <see cref="Trigger"/> 转换成 <see cref="TriggerBuilder"/>
     /// </summary>
     /// <param name="trigger">作业触发器</param>
     /// <returns><see cref="TriggerBuilder"/></returns>
-    public static TriggerBuilder From(JobTrigger trigger)
+    public static TriggerBuilder From(Trigger trigger)
     {
         return trigger.MapTo<TriggerBuilder>();
     }
@@ -124,7 +124,7 @@ public sealed class TriggerBuilder : JobTrigger
     /// <returns><see cref="TriggerBuilder"/></returns>
     public static TriggerBuilder From(string json)
     {
-        return From(Penetrates.Deserialize<JobTrigger>(json));
+        return From(Penetrates.Deserialize<Trigger>(json));
     }
 
     /// <summary>
@@ -202,10 +202,10 @@ public sealed class TriggerBuilder : JobTrigger
     /// <returns><see cref="TriggerBuilder"/></returns>
     public TriggerBuilder SetTriggerType(Type triggerType)
     {
-        // 检查 triggerType 类型是否派生自 JobTrigger
-        if (!typeof(JobTrigger).IsAssignableFrom(triggerType)
+        // 检查 triggerType 类型是否派生自 Trigger
+        if (!typeof(Trigger).IsAssignableFrom(triggerType)
             || triggerType.IsInterface
-            || triggerType.IsAbstract) throw new InvalidOperationException("The <triggerType> is not a valid JobTrigger type.");
+            || triggerType.IsAbstract) throw new InvalidOperationException("The <triggerType> is not a valid Trigger type.");
 
         // 最多只能包含一个构造函数
         if (triggerType.GetConstructors().Length > 1) throw new InvalidOperationException("The <triggerType> can contain at most one constructor.");
@@ -454,11 +454,11 @@ public sealed class TriggerBuilder : JobTrigger
     public new bool ShouldRun(JobDetail jobDetail, DateTime startAt) => throw new NotImplementedException();
 
     /// <summary>
-    /// 构建 <see cref="JobTrigger"/> 对象
+    /// 构建 <see cref="Trigger"/> 对象
     /// </summary>
     /// <param name="jobId">作业 Id</param>
-    /// <returns><see cref="JobTrigger"/></returns>
-    internal JobTrigger Build(string jobId)
+    /// <returns><see cref="Trigger"/></returns>
+    internal Trigger Build(string jobId)
     {
         // 空检查
         if (string.IsNullOrWhiteSpace(jobId)) throw new ArgumentNullException(nameof(jobId));
@@ -485,6 +485,6 @@ public sealed class TriggerBuilder : JobTrigger
             ? Activator.CreateInstance(type: RuntimeTriggerType)
             : Activator.CreateInstance(RuntimeTriggerType, RuntimeTriggerArgs));
 
-        return this.MapTo<JobTrigger>(triggerInstance);
+        return this.MapTo<Trigger>(triggerInstance);
     }
 }

@@ -130,7 +130,7 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory, IDisposable
     public IEnumerable<IScheduler> GetNextRunJobs(DateTime startAt)
     {
         // 定义静态内部函数用于委托检查
-        bool triggerShouldRun(Scheduler s, JobTrigger t) => t.InternalShouldRun(s.JobDetail, startAt);
+        bool triggerShouldRun(Scheduler s, Trigger t) => t.InternalShouldRun(s.JobDetail, startAt);
 
         // 查找所有符合执行的作业计划
         var nextRunSchedulers = _schedulers.Values
@@ -214,7 +214,7 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory, IDisposable
     /// <param name="jobDetail">作业信息</param>
     /// <param name="trigger">作业触发器</param>
     /// <param name="behavior">作业持久化行为</param>
-    public void Shorthand(JobDetail jobDetail, JobTrigger trigger, PersistenceBehavior behavior = PersistenceBehavior.Updated)
+    public void Shorthand(JobDetail jobDetail, Trigger trigger, PersistenceBehavior behavior = PersistenceBehavior.Updated)
     {
         // 设置更新时间
         var nowTime = Penetrates.GetNowTime(UseUtcTimestamp);

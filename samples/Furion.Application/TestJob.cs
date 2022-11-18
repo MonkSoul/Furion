@@ -19,7 +19,7 @@ public class TestJob : IJob
         var count = jobDetail.GetProperty<int>("count") + 1;
         jobDetail.AddOrUpdateProperty(nameof(count), count);
 
-        _logger.LogWarning("{Description} {JobId} {JobTrigger} {count}", jobDetail.Description, context.JobId, context.Trigger, count);
+        _logger.LogWarning("{Description} {JobId} {Trigger} {count}", jobDetail.Description, context.JobId, context.Trigger, count);
         await Task.CompletedTask;
     }
 }

@@ -26,7 +26,7 @@ namespace Furion.Schedule;
 /// 秒周期（间隔）作业触发器特性
 /// </summary>
 [SuppressSniffer, AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
-public class PeriodSecondsAttribute : PeriodAttribute
+public sealed class PeriodSecondsAttribute : PeriodAttribute
 {
     /// <summary>
     /// 构造函数

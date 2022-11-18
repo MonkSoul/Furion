@@ -35,7 +35,7 @@ public sealed class PersistenceTriggerContext : PersistenceContext
     /// <param name="trigger">作业触发器</param>
     /// <param name="behavior">作业持久化行为</param>
     internal PersistenceTriggerContext(JobDetail jobDetail
-        , JobTrigger trigger
+        , Trigger trigger
         , PersistenceBehavior behavior)
         : base(jobDetail, behavior)
     {
@@ -51,7 +51,7 @@ public sealed class PersistenceTriggerContext : PersistenceContext
     /// <summary>
     /// 作业触发器
     /// </summary>
-    public JobTrigger Trigger { get; }
+    public Trigger Trigger { get; }
 
     /// <summary>
     /// 转换成 Sql 语句
@@ -89,7 +89,7 @@ public sealed class PersistenceTriggerContext : PersistenceContext
             writer.WritePropertyName(Penetrates.GetNaming(nameof(JobDetail), naming));
             writer.WriteRawValue(JobDetail.ConvertToJSON(naming));
 
-            // 输出 JobTrigger
+            // 输出 Trigger
             writer.WritePropertyName(Penetrates.GetNaming(nameof(Trigger), naming));
             writer.WriteRawValue(Trigger.ConvertToJSON(naming));
 

@@ -214,7 +214,7 @@ internal sealed partial class Scheduler
     /// <param name="triggerId">作业触发器 Id</param>
     /// <param name="trigger">作业触发器</param>
     /// <returns><see cref="ScheduleResult"/></returns>
-    public ScheduleResult TryGetTrigger(string triggerId, out JobTrigger trigger)
+    public ScheduleResult TryGetTrigger(string triggerId, out Trigger trigger)
     {
         // 空检查
         if (string.IsNullOrWhiteSpace(triggerId)) throw new ArgumentNullException(nameof(triggerId));
@@ -231,8 +231,8 @@ internal sealed partial class Scheduler
     /// 查找作业计划触发器
     /// </summary>
     /// <param name="triggerId">作业触发器 Id</param>
-    /// <returns><see cref="JobTrigger"/></returns>
-    public JobTrigger GetTrigger(string triggerId)
+    /// <returns><see cref="Trigger"/></returns>
+    public Trigger GetTrigger(string triggerId)
     {
         _ = TryGetTrigger(triggerId, out var trigger);
         return trigger;
@@ -244,7 +244,7 @@ internal sealed partial class Scheduler
     /// <param name="triggerBuilder">作业触发器构建器</param>
     /// <param name="trigger">作业触发器</param>
     /// <returns><see cref="ScheduleResult"/></returns>
-    public ScheduleResult TryAddTrigger(TriggerBuilder triggerBuilder, out JobTrigger trigger)
+    public ScheduleResult TryAddTrigger(TriggerBuilder triggerBuilder, out Trigger trigger)
     {
         // 空检查
         if (triggerBuilder == null) throw new ArgumentNullException(nameof(triggerBuilder));
@@ -278,7 +278,7 @@ internal sealed partial class Scheduler
     /// <param name="triggerBuilder">作业触发器构建器</param>
     /// <param name="trigger">作业触发器</param>
     /// <returns><see cref="ScheduleResult"/></returns>
-    public ScheduleResult TryUpdateTrigger(TriggerBuilder triggerBuilder, out JobTrigger trigger)
+    public ScheduleResult TryUpdateTrigger(TriggerBuilder triggerBuilder, out Trigger trigger)
     {
         // 空检查
         if (triggerBuilder == null) throw new ArgumentNullException(nameof(triggerBuilder));
@@ -312,7 +312,7 @@ internal sealed partial class Scheduler
     /// <param name="triggerId">作业触发器 Id</param>
     /// <param name="trigger">作业触发器</param>
     /// <returns><see cref="ScheduleResult"/></returns>
-    public ScheduleResult TryRemoveTrigger(string triggerId, out JobTrigger trigger)
+    public ScheduleResult TryRemoveTrigger(string triggerId, out Trigger trigger)
     {
         var schedulerBuilder = GetBuilder();
         schedulerBuilder.RemoveTriggerBuilder(triggerId, out var triggerBuilder);

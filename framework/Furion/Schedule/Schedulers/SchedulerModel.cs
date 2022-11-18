@@ -41,5 +41,5 @@ public sealed class SchedulerModel
     /// 作业触发器
     /// </summary>
     [JsonInclude]
-    public JobTrigger[] Triggers { get; internal set; }
+    public Trigger[] Triggers { get; internal set; }
 }
