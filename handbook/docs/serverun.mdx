@@ -507,36 +507,45 @@ Serve.Run(GenericRunOptions.Default
 - **Winform**
 
 ```cs showLineNumbers {3,8,10-11}
-namespace WinFormsApp2
-{
-    internal static class Program
-    {
-        [STAThread]
-        static void Main()
-        {
-            Serve.Run(silence: true);   // 静默启动
+namespace WinFormsApp2;
 
-            ApplicationConfiguration.Initialize();
-            Application.Run(new Form1());
-        }
+internal static class Program
+{
+    [STAThread]
+    static void Main()
+    {
+        var host = Serve.Run(silence: true);   // 静默启动
+
+        ApplicationConfiguration.Initialize();
+        Application.Run(new Form1());
     }
 }
 ```
 
 - **WPF**
 
-```cs showLineNumbers {6,8,10}
+```cs showLineNumbers {7,9,13,16-22}
+using Microsoft.Extensions.Hosting;
 using System;
 using System.Windows;
 
-namespace WpfApp1
+namespace WpfApp1;
+
+public partial class App : Application
 {
-    public partial class App : Application
+    private readonly IHost _host;
+
+    public App()
     {
-        public App()
-        {
-            Serve.Run(silence: true);   // 静默启动
-        }
+        _host = Serve.Run(silence: true);
+    }
+
+    protected override void OnExit(ExitEventArgs e)
+    {
+        _host.StopAsync();
+        _host.Dispose();
+
+        base.OnExit(e);
     }
 }
 ```

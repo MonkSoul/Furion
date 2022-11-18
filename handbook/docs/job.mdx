@@ -683,7 +683,7 @@ var jobBuilder = JobBuilder.From(@"
 {
     ""jobId"": ""job1"",
     ""groupName"": null,
-    ""jobType"": ""Furion.Application.TestJob"",
+    ""jobType"": ""Furion.Application.MyJob"",
     ""assemblyName"": ""Furion.Application"",
     ""description"": null,
     ""concurrent"": true,
@@ -700,7 +700,7 @@ var jobBuilder = JobBuilder.From("""
 {
     "jobId": "job1",
     "groupName": null,
-    "jobType": "Furion.Application.TestJob",
+    "jobType": "Furion.Application.MyJob",
     "assemblyName": "Furion.Application",
     "description": null,
     "concurrent": true,
@@ -763,12 +763,256 @@ jobBuilder.LoadFrom(new
 
 `JobBuilder` 提供了和 `JobDetail` 完全匹配的 `Set[属性名]` 方法来配置作业信息各个属性，如：
 
-```cs showLineNumbers
+```cs showLineNumbers {3,16}
+services.AddSchedule(options =>
+{
+    var jobBuilder = JobBuilder.Create<MyJob>()
+        .SetJobId("job1")   // 作业 Id
+        .SetGroupName("group1") // 作业组名称
+        .SetJobType("Furion.Application", "Furion.Application.MyJob") // 作业类型，支持多个重载
+        .SetJobType<MyJob>()    // 作业类型，支持多个重载
+        .SetJobType(typeof(MyJob))  // 作业类型，支持多个重载
+        .SetDescription("这是一段描述")   // 作业描述
+        .SetConcurrent(false)   // 并行还是串行方式，false 为 串行
+        .SetIncludeAnnotations(true)    // 是否扫描 IJob 类型的触发器特性，true 为 扫描
+        .SetProperties("{}")    // 作业额外数据 Dictionary<string, object> 类型序列化，支持多个重载
+        .SetProperties(new Dictionary<string, object> { { "name", "Furion" } })  // 作业类型额外数据，支持多个重载，推荐！！！
+        ;
+
+    options.AddJob(jobBuilder, Triggers.PeriodSeconds(5));
+});
 ```
+
+### 26.1.3.4 作业信息/构建器额外数据
+
+有时候我们需要在作业运行的时候添加一些额外数据，或者实现多个触发器共享数据，经常用于 `串行` 执行中，后面一个触发器需等待前一个触发器完成。
+
+```cs showLineNumbers {13-14,16}
+public class MyJob : IJob
+{
+    private readonly ILogger<MyJob> _logger;
+    public MyJob(ILogger<MyJob> logger)
+    {
+        _logger = logger;
+    }
+
+    public async Task ExecuteAsync(JobExecutingContext context, CancellationToken stoppingToken)
+    {
+        var jobDetail = context.JobDetail;
+
+        var count = jobDetail.GetProperty<int>("count");
+        jobDetail.AddOrUpdateProperty("count", count + 1);  // 递增 count
+
+        _logger.LogInformation($"{context.JobId} {context.TriggerId} {context.OccurrenceTime} {context.Trigger} {count}");
+
+        await Task.CompletedTask;
+    }
+}
+```
+
+查看作业运行日志：
+
+```bash showLineNumbers {2,4,6,8,10}
+info: 2022-11-18 16:48:35.8308170 +08:00 星期五 L ConsoleApp32.MyJob[0] #5
+      job1 job1_trigger1 2022/11/18 16:48:35  5000ms 0
+info: 2022-11-18 16:48:40.8437231 +08:00 星期五 L ConsoleApp32.MyJob[0] #8
+      job1 job1_trigger1 2022/11/18 16:48:40  5000ms 1
+info: 2022-11-18 16:48:45.8471287 +08:00 星期五 L ConsoleApp32.MyJob[0] #15
+      job1 job1_trigger1 2022/11/18 16:48:45  5000ms 2
+info: 2022-11-18 16:48:50.8607141 +08:00 星期五 L ConsoleApp32.MyJob[0] #15
+      job1 job1_trigger1 2022/11/18 16:48:50  5000ms 3
+info: 2022-11-18 16:48:55.8645520 +08:00 星期五 L ConsoleApp32.MyJob[0] #14
+      job1 job1_trigger1 2022/11/18 16:48:55  5000ms 4
+```
+
+作业调度模块为 `JobDetail` 和 `JobBuilder` 提供了多个方法操作额外数据：
+
+```cs showLineNumbers {2,5,8,11,14,17,20}
+// 查看所有额外数据
+var properties = jobDetail.GetProperties();
+
+// 查看单个额外数据，返回 object
+var value = jobBuilder.GetProperty("key");
+
+// 查看单个额外数据泛型
+var value = jobDetail.GetProperty<int>("key");
+
+// 添加新的额外数据，支持链式操作，如果键已存在，则跳过
+jobDetail.AddProperty("key", "Furion").AddProperty("key1", 2);
+
+// 添加或更新额外数据，支持链式操作，不存在则新增，存在则替换，推荐
+jobDetail.AddOrUpdateProperty("key", "Furion").AddOrUpdateProperty("key1", 2);
+
+// 删除某个额外数据，支持链式操作，如果 key 不存在则跳过
+jobDetail.RemoveProperty("key").RemoveProperty("key1");
+
+// 清空所有额外数据
+jobDetail.ClearProperties();
+```
+
+:::important 作业额外数据类型支持
+
+作业额外数据每一项的值只支持 `int32`，`string`，`bool`，`null` 或它们组成的数组类型。
+
+:::
 
 ## 26.1.4 作业处理程序 `IJob`
 
-紧急编写中，将在 2022 年 11 月 21 日前完成，别催！
+作业处理程序是作业具体执行的业务逻辑代码，通常由程序员编写，作业处理程序必须实现 `IJob` 接口。
+
+### 26.1.4.1 如何定义
+
+```cs showLineNumbers {1,3,5}
+public class MyJob : IJob
+{
+    public async Task ExecuteAsync(JobExecutingContext context, CancellationToken stoppingToken)
+    {
+        // your code...
+    }
+}
+```
+
+### 26.1.4.2 依赖注入
+
+实现 `IJob` 的作业处理程序类型默认注册为 `单例`，**那么只要是单例的服务，皆可以通过构造函数注入**，如：`ILogger<>`，`IConfiguration`。
+
+```cs showLineNumbers {3-4,6-7}
+public class MyJob : IJob
+{
+    private readonly ILogger<MyJob> _logger;
+    private readonly IConfiguration _configuration;
+
+    public MyJob(ILogger<MyJob> logger
+        , IConfiguration configuration)
+    {
+        _logger = logger;
+        _configuration = configuration;
+    }
+
+    public async Task ExecuteAsync(JobExecutingContext context, CancellationToken stoppingToken)
+    {
+        _logger.LogInformation($"{context.JobId} {context.TriggerId} {context.OccurrenceTime} {context.Trigger} {count}");
+
+        await Task.CompletedTask;
+    }
+}
+```
+
+- **如果是非单例的接口，如瞬时或范围服务，可通过 `IServiceProvder` 创建**
+
+```cs showLineNumbers {5,9,18-19}
+public class MyJob : IJob
+{
+    private readonly ILogger<MyJob> _logger;
+    private readonly IConfiguration _configuration;
+    private readonly IServiceProvider _serviceProvider;
+
+    public MyJob(ILogger<MyJob> logger
+        , IConfiguration configuration
+        , IServiceProvider serviceProvider)
+    {
+        _logger = logger;
+        _configuration = configuration;
+        _serviceProvider = serviceProvider;
+    }
+
+    public async Task ExecuteAsync(JobExecutingContext context, CancellationToken stoppingToken)
+    {
+        using var serviceScope = _serviceProvider.CreateScope();
+        var repository = serviceScope.ServiceProvider.GetService<IRepository<User>>();
+
+        _logger.LogInformation($"{context.JobId} {context.TriggerId} {context.OccurrenceTime} {context.Trigger}");
+
+        await Task.CompletedTask;
+    }
+}
+```
+
+- **针对高频定时任务，比如每秒执行一次，或者更频繁的任务**
+
+为了避免频繁创建作用域和销毁作用域，可创建长范围的作用域。
+
+```cs showLineNumbers {1,5,13,18,25,27}
+public class MyJob : IJob, IDisposable
+{
+    private readonly ILogger<MyJob> _logger;
+    private readonly IConfiguration _configuration;
+    private readonly IServiceScope _serviceScope;
+
+    public MyJob(ILogger<MyJob> logger
+        , IConfiguration configuration
+        , IServiceProvider serviceProvider)
+    {
+        _logger = logger;
+        _configuration = configuration;
+        _serviceScope = serviceProvider.CreateScope();
+    }
+
+    public async Task ExecuteAsync(JobExecutingContext context, CancellationToken stoppingToken)
+    {
+        var repository = _serviceScope.ServiceProvider.GetService<IRepository<User>>();
+
+        _logger.LogInformation($"{context.JobId} {context.TriggerId} {context.OccurrenceTime} {context.Trigger}");
+
+        await Task.CompletedTask;
+    }
+
+    public void Dispose()
+    {
+        _serviceScope?.Dispose();
+    }
+}
+```
+
+### 26.1.4.3 `JobExecutingContext` 上下文
+
+`JobExecutingContext` 上下文作为 `ExecuteAsync` 方法的第一个参数，提供了以下几个运行时信息：
+
+- `JobExecutingContext` 属性列表：
+  - `JobId`：作业 `Id`
+  - `TriggerId`：当前触发器 `Id`
+  - `JobDetail`：作业信息
+  - `Trigger`：作业触发器
+  - `OccurrenceTime`：调度器检查时间，最准确的记录时间
+  - `ExecutingTime`：实际执行时间（可能存在误差）
+- `JobExecutingContext` 方法列表：
+  - `.ConvertToJSON(naming)`：将作业计划转换成 `JSON` 字符串
+
+### 26.1.4.4 作业被取消处理
+
+一下情况下，作业被临时暂停或取消，但作业处理程序还未处理完成，这个时候我们可以选择取消还是继续执行，如果选择同步取消：
+
+```cs showLineNumbers {1,13,18}
+public class MyJob : IJob
+{
+    private readonly ILogger<MyJob> _logger;
+
+    public MyJob(ILogger<MyJob> logger)
+    {
+        _logger = logger;
+    }
+
+    public async Task ExecuteAsync(JobExecutingContext context, CancellationToken stoppingToken)
+    {
+       // 创建任务关联取消 Token
+        var cancellationTokenSource = CancellationTokenSource.CreateLinkedTokenSource(stoppingToken);
+
+        try
+        {
+            // 传递给异步服务
+            await todo.SomeMethodAsync(cancellationTokenSource.Token);
+        }
+        catch (Exception ex)
+        {
+            // ...
+        }
+
+        _logger.LogInformation($"{context.JobId} {context.TriggerId} {context.OccurrenceTime} {context.Trigger}");
+    }
+}
+```
+
+这样当作业被取消时，`SomeMethodAsync` 也会同步取消。
 
 ## 26.1.5 作业触发器 `Trigger` 及构建器
 
