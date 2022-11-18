@@ -192,6 +192,17 @@ public sealed class JobBuilder : JobDetail
     /// <summary>
     /// 设置作业类型
     /// </summary>
+    /// <typeparam name="TJob"><see cref="IJob"/> 实现类类型</typeparam>
+    /// <returns><see cref="JobBuilder"/></returns>
+    public JobBuilder SetJobType<TJob>()
+        where TJob : IJob
+    {
+        return SetJobType(typeof(TJob));
+    }
+
+    /// <summary>
+    /// 设置作业类型
+    /// </summary>
     /// <param name="jobType">作业类型</param>
     /// <returns><see cref="JobBuilder"/></returns>
     public JobBuilder SetJobType(Type jobType)

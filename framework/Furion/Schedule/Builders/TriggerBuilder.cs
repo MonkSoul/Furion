@@ -217,6 +217,17 @@ public sealed class TriggerBuilder : Trigger
     /// <summary>
     /// 设置作业触发器类型
     /// </summary>
+    /// <typeparam name="TTrigger"><see cref="Trigger"/> 派生类类型</typeparam>
+    /// <returns><see cref="TriggerBuilder"/></returns>
+    public TriggerBuilder SetJobType<TTrigger>()
+        where TTrigger : Trigger
+    {
+        return SetTriggerType(typeof(TTrigger));
+    }
+
+    /// <summary>
+    /// 设置作业触发器类型
+    /// </summary>
     /// <param name="triggerType">作业触发器类型</param>
     /// <returns><see cref="TriggerBuilder"/></returns>
     public TriggerBuilder SetTriggerType(Type triggerType)
