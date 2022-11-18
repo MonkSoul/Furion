@@ -1,12 +1,12 @@
 ---
 id: job
-title: 26.1 分布式调度作业
-sidebar_label: 26.1 分布式调度作业
+title: 26.1 调度作业
+sidebar_label: 26.1 调度作业
 ---
 
 :::caution 当前文档还未发布
 
-**当前文档还在编写中，只完成了 50%，将在 2022 年 11 月 21 日前完成。**
+**当前文档还在编写中，只完成了 55%，将在 2022 年 11 月 21 日前完成。**
 
 :::
 
@@ -388,50 +388,50 @@ public class MyJob : IJob
 ```sql showLineNumbers {2,25,27}
 info: 2022-11-17 17:35:11.1085426 +08:00 星期四 L MyJob[0] #9
       INSERT INTO 作业信息表名(
-      [jobId],
-      [groupName],
-      [jobType],
-      [assemblyName],
-      [description],
-      [concurrent],
-      [includeAnnotations],
-      [properties],
-      [updatedTime]
+            [jobId],
+            [groupName],
+            [jobType],
+            [assemblyName],
+            [description],
+            [concurrent],
+            [includeAnnotations],
+            [properties],
+            [updatedTime]
       )
       VALUES(
-      'job1',
-      NULL,
-      'MyJob',
-      'ConsoleApp32',
-      NULL,
-      0,
-      0,
-      '{}',
-      '2022/11/17 17:35:11'
+            'job1',
+            NULL,
+            'MyJob',
+            'ConsoleApp32',
+            NULL,
+            0,
+            0,
+            '{}',
+            '2022/11/17 17:35:11'
       );
 info: 2022-11-17 17:35:11.1150444 +08:00 星期四 L MyJob[0] #9
       DELETE FROM 作业触发器表名 WHERE [TriggerId] = 'job1_trigger1' AND [JobId] = 'job1';
 info: 2022-11-17 17:35:11.1190961 +08:00 星期四 L MyJob[0] #9
       UPDATE 作业触发器表名
-      SET [trigger_id] = 'job1_trigger1',
-      [job_id] = 'job1',
-      [trigger_type] = 'Furion.Schedule.CronTrigger',
-      [assembly_name] = 'Furion',
-      [args] = '["@secondly",0]',
-      [description] = NULL,
-      [status] = 2,
-      [start_time] = NULL,
-      [end_time] = NULL,
-      [last_run_time] = '2022/11/17 17:35:11',
-      [next_run_time] = '2022/11/17 17:35:12',
-      [number_of_runs] = 1,
-      [max_number_of_runs] = 0,
-      [number_of_errors] = 0,
-      [max_number_of_errors] = 0,
-      [num_retries] = 0,
-      [retry_timeout] = 1000,
-      [start_now] = 1,
-      [updated_time] = '2022/11/17 17:35:11'
+            SET [trigger_id] = 'job1_trigger1',
+            [job_id] = 'job1',
+            [trigger_type] = 'Furion.Schedule.CronTrigger',
+            [assembly_name] = 'Furion',
+            [args] = '["@secondly",0]',
+            [description] = NULL,
+            [status] = 2,
+            [start_time] = NULL,
+            [end_time] = NULL,
+            [last_run_time] = '2022/11/17 17:35:11',
+            [next_run_time] = '2022/11/17 17:35:12',
+            [number_of_runs] = 1,
+            [max_number_of_runs] = 0,
+            [number_of_errors] = 0,
+            [max_number_of_errors] = 0,
+            [num_retries] = 0,
+            [retry_timeout] = 1000,
+            [start_now] = 1,
+            [updated_time] = '2022/11/17 17:35:11'
       WHERE [trigger_id] = 'job1_trigger1' AND [job_id] = 'job1';
 ```
 
@@ -856,6 +856,121 @@ jobDetail.ClearProperties();
 
 :::
 
+### 26.1.3.5 多种格式字符串输出
+
+`JobDetail` 和 `JobBuilder` 都提供了多种将自身转换成特定格式的字符串。
+
+1. **转换成 `JSON` 字符串**
+
+```cs showLineNumbers
+var json = jobDetail.ConvertToJSON();
+```
+
+字符串打印如下：
+
+```json showLineNumbers
+{
+  "jobId": "job1",
+  "groupName": null,
+  "jobType": "Furion.Application.MyJob",
+  "assemblyName": "Furion.Application",
+  "description": null,
+  "concurrent": true,
+  "includeAnnotations": false,
+  "properties": "{}",
+  "updatedTime": "2022-11-18T22:56:47.4149299+08:00"
+}
+```
+
+2. **转换成 `SQL` 字符串**
+
+```cs showLineNumbers {2,7,12}
+// 输出新增 SQL，使用 CamelCase 属性命名
+var insertSql = jobDetail.ConvertToSQL("tbName"
+      , PersistenceBehavior.Appended
+      , NamingConventions.CamelCase);
+
+// 输出删除 SQL，使用 Pascal 属性命名
+var deleteSql = jobDetail.ConvertToSQL("tbName"
+      , PersistenceBehavior.Removed
+      , NamingConventions.Pascal);
+
+// 输出更新 SQL，使用 UnderScoreCase 属性命名
+var updateSql = jobDetail.ConvertToSQL("tbName"
+      , PersistenceBehavior.Updated
+      , NamingConventions.UnderScoreCase);
+```
+
+字符串打印如下：
+
+```sql showLineNumbers {2,26,30}
+-- 新增语句
+INSERT INTO tbName(
+      [jobId],
+      [groupName],
+      [jobType],
+      [assemblyName],
+      [description],
+      [concurrent],
+      [includeAnnotations],
+      [properties],
+      [updatedTime]
+)
+VALUES(
+      'job1',
+      NULL,
+      'ConsoleApp13.MyJob',
+      'ConsoleApp13',
+      NULL,
+      1,
+      0,
+      '{}',
+      '2022/11/18 23:16:18'
+);
+
+-- 删除语句
+DELETE FROM tbName
+WHERE [JobId] = 'job1';
+
+-- 更新语句
+UPDATE tbName
+SET
+      [job_id] = 'job1',
+      [group_name] = NULL,
+      [job_type] = 'ConsoleApp13.MyJob',
+      [assembly_name] = 'ConsoleApp13',
+      [description] = NULL,
+      [concurrent] = 1,
+      [include_annotations] = 0,
+      [properties] = '{}',
+      [updated_time] = '2022/11/18 23:16:18'
+WHERE [job_id] = 'job1';
+```
+
+3. **转换成 `Monitor` 字符串**
+
+```cs showLineNumbers
+var monitor = jobDetail.ConvertToMonitor();
+```
+
+字符串打印如下：
+
+```bash showLineNumbers
+┏━━━━━━━━━━━  JobDetail ━━━━━━━━━━━
+┣ ConsoleApp13.MyJob
+┣
+┣ jobId：                     job1
+┣ groupName：
+┣ jobType：                   Furion.Application.MyJob
+┣ assemblyName：              Furion.Application
+┣ description：
+┣ concurrent：                True
+┣ includeAnnotations：        False
+┣ properties：                {}
+┣ updatedTime：               2022/11/18 23:26:47
+┗━━━━━━━━━━━  JobDetail ━━━━━━━━━━━
+```
+
 ## 26.1.4 作业处理程序 `IJob`
 
 作业处理程序是作业具体执行的业务逻辑代码，通常由程序员编写，作业处理程序必须实现 `IJob` 接口。
@@ -968,14 +1083,14 @@ public class MyJob : IJob, IDisposable
 
 `JobExecutingContext` 上下文作为 `ExecuteAsync` 方法的第一个参数，提供了以下几个运行时信息：
 
-- `JobExecutingContext` 属性列表：
+- **`JobExecutingContext` 属性列表**
   - `JobId`：作业 `Id`
   - `TriggerId`：当前触发器 `Id`
   - `JobDetail`：作业信息
   - `Trigger`：作业触发器
   - `OccurrenceTime`：调度器检查时间，最准确的记录时间
   - `ExecutingTime`：实际执行时间（可能存在误差）
-- `JobExecutingContext` 方法列表：
+- **`JobExecutingContext` 方法列表**
   - `.ConvertToJSON(naming)`：将作业计划转换成 `JSON` 字符串
 
 ### 26.1.4.4 作业被取消处理
@@ -1022,19 +1137,19 @@ public class MyJob : IJob
 
 紧急编写中，将在 2022 年 11 月 21 日前完成，别催！
 
-## 26.1.7 作业计划工厂 `ISchedulerFactory`
+## 26.1.7 作业调度器 `ScheduleOptionsBuilder`
 
 紧急编写中，将在 2022 年 11 月 21 日前完成，别催！
 
-## 26.1.8 作业监视器 `IJobMonitor`
+## 26.1.8 作业计划工厂 `ISchedulerFactory`
 
 紧急编写中，将在 2022 年 11 月 21 日前完成，别催！
 
-## 26.1.9 作业执行器 `IJobExecutor`
+## 26.1.9 作业监视器 `IJobMonitor`
 
 紧急编写中，将在 2022 年 11 月 21 日前完成，别催！
 
-## 26.1.10 作业格式化输出
+## 26.1.10 作业执行器 `IJobExecutor`
 
 紧急编写中，将在 2022 年 11 月 21 日前完成，别催！
 

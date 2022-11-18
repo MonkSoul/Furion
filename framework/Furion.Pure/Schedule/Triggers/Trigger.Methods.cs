@@ -273,77 +273,79 @@ public partial class Trigger
         // 生成删除 SQL
         if (behavior == PersistenceBehavior.Removed)
         {
-            return $"DELETE FROM {tableName} WHERE [{columnNames[0]}] = '{TriggerId}' AND [{columnNames[1]}] = '{JobId}';";
+            return $@"DELETE FROM {tableName}
+WHERE [{columnNames[0]}] = '{TriggerId}' AND [{columnNames[1]}] = '{JobId}';";
         }
         // 生成新增 SQL
         else if (behavior == PersistenceBehavior.Appended)
         {
             return $@"INSERT INTO {tableName}(
-[{columnNames[0]}],
-[{columnNames[1]}],
-[{columnNames[2]}],
-[{columnNames[3]}],
-[{columnNames[4]}],
-[{columnNames[5]}],
-[{columnNames[6]}],
-[{columnNames[7]}],
-[{columnNames[8]}],
-[{columnNames[9]}],
-[{columnNames[10]}],
-[{columnNames[11]}],
-[{columnNames[12]}],
-[{columnNames[13]}],
-[{columnNames[14]}],
-[{columnNames[15]}],
-[{columnNames[16]}],
-[{columnNames[17]}],
-[{columnNames[18]}],
+    [{columnNames[0]}],
+    [{columnNames[1]}],
+    [{columnNames[2]}],
+    [{columnNames[3]}],
+    [{columnNames[4]}],
+    [{columnNames[5]}],
+    [{columnNames[6]}],
+    [{columnNames[7]}],
+    [{columnNames[8]}],
+    [{columnNames[9]}],
+    [{columnNames[10]}],
+    [{columnNames[11]}],
+    [{columnNames[12]}],
+    [{columnNames[13]}],
+    [{columnNames[14]}],
+    [{columnNames[15]}],
+    [{columnNames[16]}],
+    [{columnNames[17]}],
+    [{columnNames[18]}]
 )
 VALUES(
-'{TriggerId}',
-'{JobId}',
-'{TriggerType}',
-'{AssemblyName}',
-{Penetrates.GetSqlValueOrNull(Args)},
-{Penetrates.GetSqlValueOrNull(Description)},
-{((int)Status)},
-{Penetrates.GetSqlValueOrNull(StartTime)},
-{Penetrates.GetSqlValueOrNull(EndTime)},
-{Penetrates.GetSqlValueOrNull(LastRunTime)},
-{Penetrates.GetSqlValueOrNull(NextRunTime)},
-{NumberOfRuns},
-{MaxNumberOfRuns},
-{NumberOfErrors},
-{MaxNumberOfErrors},
-{NumRetries},
-{RetryTimeout},
-{(StartNow ? 1 : 0)},
-{Penetrates.GetSqlValueOrNull(UpdatedTime)}
+    '{TriggerId}',
+    '{JobId}',
+    '{TriggerType}',
+    '{AssemblyName}',
+    {Penetrates.GetSqlValueOrNull(Args)},
+    {Penetrates.GetSqlValueOrNull(Description)},
+    {((int)Status)},
+    {Penetrates.GetSqlValueOrNull(StartTime)},
+    {Penetrates.GetSqlValueOrNull(EndTime)},
+    {Penetrates.GetSqlValueOrNull(LastRunTime)},
+    {Penetrates.GetSqlValueOrNull(NextRunTime)},
+    {NumberOfRuns},
+    {MaxNumberOfRuns},
+    {NumberOfErrors},
+    {MaxNumberOfErrors},
+    {NumRetries},
+    {RetryTimeout},
+    {(StartNow ? 1 : 0)},
+    {Penetrates.GetSqlValueOrNull(UpdatedTime)}
 );";
         }
         // 生成更新 SQL
         else if (behavior == PersistenceBehavior.Updated)
         {
             return $@"UPDATE {tableName}
-SET [{columnNames[0]}] = '{TriggerId}',
-[{columnNames[1]}] = '{JobId}',
-[{columnNames[2]}] = '{TriggerType}',
-[{columnNames[3]}] = '{AssemblyName}',
-[{columnNames[4]}] = {Penetrates.GetSqlValueOrNull(Args)},
-[{columnNames[5]}] = {Penetrates.GetSqlValueOrNull(Description)},
-[{columnNames[6]}] = {((int)Status)},
-[{columnNames[7]}] = {Penetrates.GetSqlValueOrNull(StartTime)},
-[{columnNames[8]}] = {Penetrates.GetSqlValueOrNull(EndTime)},
-[{columnNames[9]}] = {Penetrates.GetSqlValueOrNull(LastRunTime)},
-[{columnNames[10]}] = {Penetrates.GetSqlValueOrNull(NextRunTime)},
-[{columnNames[11]}] = {NumberOfRuns},
-[{columnNames[12]}] = {MaxNumberOfRuns},
-[{columnNames[13]}] = {NumberOfErrors},
-[{columnNames[14]}] = {MaxNumberOfErrors},
-[{columnNames[15]}] = {NumRetries},
-[{columnNames[16]}] = {RetryTimeout},
-[{columnNames[17]}] = {(StartNow ? 1 : 0)},
-[{columnNames[18]}] = {Penetrates.GetSqlValueOrNull(UpdatedTime)}
+SET
+    [{columnNames[0]}] = '{TriggerId}',
+    [{columnNames[1]}] = '{JobId}',
+    [{columnNames[2]}] = '{TriggerType}',
+    [{columnNames[3]}] = '{AssemblyName}',
+    [{columnNames[4]}] = {Penetrates.GetSqlValueOrNull(Args)},
+    [{columnNames[5]}] = {Penetrates.GetSqlValueOrNull(Description)},
+    [{columnNames[6]}] = {((int)Status)},
+    [{columnNames[7]}] = {Penetrates.GetSqlValueOrNull(StartTime)},
+    [{columnNames[8]}] = {Penetrates.GetSqlValueOrNull(EndTime)},
+    [{columnNames[9]}] = {Penetrates.GetSqlValueOrNull(LastRunTime)},
+    [{columnNames[10]}] = {Penetrates.GetSqlValueOrNull(NextRunTime)},
+    [{columnNames[11]}] = {NumberOfRuns},
+    [{columnNames[12]}] = {MaxNumberOfRuns},
+    [{columnNames[13]}] = {NumberOfErrors},
+    [{columnNames[14]}] = {MaxNumberOfErrors},
+    [{columnNames[15]}] = {NumRetries},
+    [{columnNames[16]}] = {RetryTimeout},
+    [{columnNames[17]}] = {(StartNow ? 1 : 0)},
+    [{columnNames[18]}] = {Penetrates.GetSqlValueOrNull(UpdatedTime)}
 WHERE [{columnNames[0]}] = '{TriggerId}' AND [{columnNames[1]}] = '{JobId}';";
         }
         return string.Empty;

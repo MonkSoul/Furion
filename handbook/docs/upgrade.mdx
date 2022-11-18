@@ -153,12 +153,14 @@ services.AddMonitorLogging(options =>
 
 - **突破性变化**
 
+  - &nbsp;<Tag>调整</Tag> **旧版本定时任务为 `弃用` 状态（2022 年 12 月 31 日彻底删除），如需取消警告在 `.csproj` 中添加 `<NoWarn>0618</NoWarn>`** <sup>4.8.0</sup> [旧版本文档](/docs/job-old)
   - &nbsp;<Tag>移除</Tag> `JSON` 静态类所有方法的 `serviceProvider` 参数（无破坏） <sup>4.8.0</sup> [962fb16](https://gitee.com/dotnetchina/Furion/commit/962fb167aa13c689b688035bef26dcac73d3fca4)
   - &nbsp;<Tag>移除</Tag> `Http` 静态类所有方法的 `serviceProvider` 参数（无破坏） <sup>4.8.0</sup> [962fb16](https://gitee.com/dotnetchina/Furion/commit/962fb167aa13c689b688035bef26dcac73d3fca4)
 
 - **问题修复**
 
   - &nbsp;<Tag>修复</Tag> 从 `.NET6/7` 降级回 `.NET5` 找不到 `.AddDateOnlyConverters()` 和 `.AddTimeOnlyConverters()` 拓展方法问题 <sup>4.8.0</sup> [cdddf8d](https://gitee.com/dotnetchina/Furion/commit/cdddf8dbf628abb85e0816335ebae6bee96f6dc1)
+  - &nbsp;<Tag>修复</Tag> `ASP.NET Core` 部署在 `Windows Services` 下文件日志根目录是：`C:\Windows\System32` 问题 <sup>4.8.0</sup> [d0e46b4](https://gitee.com/dotnetchina/Furion/commit/d0e46b4b1d52502b769d8f6998ff2c00fcb1d528)
 
 - **文档**
 

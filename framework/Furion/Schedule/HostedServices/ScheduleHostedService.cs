@@ -188,7 +188,7 @@ internal sealed class ScheduleHostedService : BackgroundService
                                 await Executor.ExecuteAsync(jobExecutingContext, jobHandler, stoppingToken);
                             }
 
-                            // 设置触发器状态为就绪状态
+                            // 设置作业触发器状态为就绪状态
                             trigger.SetStatus(TriggerStatus.Ready);
 
                             // 将作业触发器运行数据写入持久化
@@ -275,7 +275,7 @@ internal sealed class ScheduleHostedService : BackgroundService
         // 标记当前作业的当前触发器【本该执行未执行】
         else
         {
-            // 设置触发器状态为阻塞状态
+            // 设置作业触发器状态为阻塞状态
             trigger.SetStatus(TriggerStatus.Blocked);
 
             // 记录运行信息和计算下一个触发时间

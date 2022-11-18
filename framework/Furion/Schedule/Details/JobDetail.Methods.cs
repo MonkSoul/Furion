@@ -183,47 +183,49 @@ public partial class JobDetail
         // 生成删除 SQL
         if (behavior == PersistenceBehavior.Removed)
         {
-            return $"DELETE FROM {tableName} WHERE [{columnNames[0]}] = '{JobId}';";
+            return $@"DELETE FROM {tableName}
+WHERE [{columnNames[0]}] = '{JobId}';";
         }
         // 生成新增 SQL
         else if (behavior == PersistenceBehavior.Appended)
         {
             return $@"INSERT INTO {tableName}(
-[{columnNames[0]}],
-[{columnNames[1]}],
-[{columnNames[2]}],
-[{columnNames[3]}],
-[{columnNames[4]}],
-[{columnNames[5]}],
-[{columnNames[6]}],
-[{columnNames[7]}],
-[{columnNames[8]}]
+    [{columnNames[0]}],
+    [{columnNames[1]}],
+    [{columnNames[2]}],
+    [{columnNames[3]}],
+    [{columnNames[4]}],
+    [{columnNames[5]}],
+    [{columnNames[6]}],
+    [{columnNames[7]}],
+    [{columnNames[8]}]
 )
 VALUES(
-'{JobId}',
-{Penetrates.GetSqlValueOrNull(GroupName)},
-'{JobType}',
-'{AssemblyName}',
-{Penetrates.GetSqlValueOrNull(Description)},
-{(Concurrent ? 1 : 0)},
-{(IncludeAnnotations ? 1 : 0)},
-{Penetrates.GetSqlValueOrNull(Properties)},
-{Penetrates.GetSqlValueOrNull(UpdatedTime)}
+    '{JobId}',
+    {Penetrates.GetSqlValueOrNull(GroupName)},
+    '{JobType}',
+    '{AssemblyName}',
+    {Penetrates.GetSqlValueOrNull(Description)},
+    {(Concurrent ? 1 : 0)},
+    {(IncludeAnnotations ? 1 : 0)},
+    {Penetrates.GetSqlValueOrNull(Properties)},
+    {Penetrates.GetSqlValueOrNull(UpdatedTime)}
 );";
         }
         // 生成更新 SQL
         else if (behavior == PersistenceBehavior.Updated)
         {
             return $@"UPDATE {tableName}
-SET [{columnNames[0]}] = '{JobId}',
-[{columnNames[1]}] = {Penetrates.GetSqlValueOrNull(GroupName)},
-[{columnNames[2]}] = '{JobType}',
-[{columnNames[3]}] = '{AssemblyName}',
-[{columnNames[4]}] = {Penetrates.GetSqlValueOrNull(Description)},
-[{columnNames[5]}] = {(Concurrent ? 1 : 0)},
-[{columnNames[6]}] = {(IncludeAnnotations ? 1 : 0)},
-[{columnNames[7]}] = {Penetrates.GetSqlValueOrNull(Properties)},
-[{columnNames[8]}] = {Penetrates.GetSqlValueOrNull(UpdatedTime)}
+SET
+    [{columnNames[0]}] = '{JobId}',
+    [{columnNames[1]}] = {Penetrates.GetSqlValueOrNull(GroupName)},
+    [{columnNames[2]}] = '{JobType}',
+    [{columnNames[3]}] = '{AssemblyName}',
+    [{columnNames[4]}] = {Penetrates.GetSqlValueOrNull(Description)},
+    [{columnNames[5]}] = {(Concurrent ? 1 : 0)},
+    [{columnNames[6]}] = {(IncludeAnnotations ? 1 : 0)},
+    [{columnNames[7]}] = {Penetrates.GetSqlValueOrNull(Properties)},
+    [{columnNames[8]}] = {Penetrates.GetSqlValueOrNull(UpdatedTime)}
 WHERE [{columnNames[0]}] = '{JobId}';";
         }
         return string.Empty;
