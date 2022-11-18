@@ -194,4 +194,44 @@ internal static class Penetrates
 
         return Encoding.UTF8.GetString(stream.ToArray());
     }
+
+    /// <summary>
+    /// 获取 JsonElement 实际的值
+    /// </summary>
+    /// <param name="value">对象值</param>
+    /// <returns><see cref="object"/></returns>
+    internal static object GetJsonElementValue(object value)
+    {
+        if (value is not JsonElement ele) return value;
+
+        // 处理 Array 类型的值
+        if (ele.ValueKind == JsonValueKind.Array)
+        {
+            var arrEle = ele.EnumerateArray();
+            var length = ele.GetArrayLength();
+            var arr = new object[length];
+
+            var i = 0;
+            foreach (var item in arrEle)
+            {
+                arr[i] = GetJsonElementValue(item);
+                i++;
+            }
+
+            return arr;
+        }
+
+        // 处理单个值
+        object actValue = ele.ValueKind switch
+        {
+            JsonValueKind.String => ele.GetString(),
+            JsonValueKind.True => true,
+            JsonValueKind.False => false,
+            JsonValueKind.Null => null,
+            JsonValueKind.Number => ele.GetInt32(),
+            _ => throw new ArgumentException("Only int, string, boolean and null types or array types constructed by them are supported.")
+        };
+
+        return actValue;
+    }
 }

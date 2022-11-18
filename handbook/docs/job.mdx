@@ -109,7 +109,7 @@ services.AddSchedule(options =>
 {
     options.AddJob<MyJob>(Triggers.Minutely()   // 每分钟开始
      , Triggers.Period(5000)   // 每 5 秒，也可以使用 Triggers.PeriodSeconds(5)
-     , Triggers.Cron("3,7,8 * * * * ?", Furion.TimeCrontab.CronStringFormat.WithSeconds));  // 每分钟第 3/7/8 秒
+     , Triggers.Cron("3,7,8 * * * * ?", CronStringFormat.WithSeconds));  // 每分钟第 3/7/8 秒
 });
 ```
 
@@ -469,7 +469,7 @@ info: 2022-11-17 17:39:09.1086517 +08:00 星期四 L MyJob[0] #3
       ┣ UpdatedTime：               2022/11/17 17:39:09
       ┗━━━━━━━━━━━  JobDetail ━━━━━━━━━━━
 info: 2022-11-17 17:39:09.1133162 +08:00 星期四 L MyJob[0] #3
-      ┏━━━━━━━━━━━  JobTrigger ━━━━━━━━━━━
+      ┏━━━━━━━━━━━  Trigger ━━━━━━━━━━━
       ┣ Furion.Schedule.CronTrigger
       ┣
       ┣ TriggerId：                job1_trigger1
@@ -491,7 +491,7 @@ info: 2022-11-17 17:39:09.1133162 +08:00 星期四 L MyJob[0] #3
       ┣ RetryTimeout：             1000
       ┣ StartNow：                 True
       ┣ UpdatedTime：              2022/11/17 17:39:09
-      ┗━━━━━━━━━━━  JobTrigger ━━━━━━━━━━━
+      ┗━━━━━━━━━━━  Trigger ━━━━━━━━━━━
 ```
 
 ### 26.2.5 运行时（动态）操作作业
@@ -558,4 +558,63 @@ info: 2022-11-17 17:54:43.0288486 +08:00 星期四 L MyJob[0] #18
       动态作业 Id 动态作业 Id_trigger1 2022/11/17 17:54:43  * * * * * *
 info: 2022-11-17 17:54:44.0092455 +08:00 星期四 L MyJob[0] #15
       动态作业 Id 动态作业 Id_trigger1 2022/11/17 17:54:44  * * * * * *
+```
+
+### 26.2.7 作业触发器特性
+
+默认情况下，框架不会扫描 `IJob` 实现类的作业触发器特性，但可以设置作业的 `IncludeAnnotations` 进行启用。
+
+1. 启用 `IncludeAnnotations` 扫描
+
+```cs showLineNumbers {3}
+services.AddSchedule(options =>
+{
+    options.AddJob(JobBuilder.Create<MyJob>().SetIncludeAnnotations(true)
+        , Triggers.PeriodSeconds(5));
+});
+```
+
+2. 在 `MyJob` 中添加多个作业触发器特性
+
+```cs showLineNumbers {1-2}
+[Minutely]
+[Cron("3,7,8 * * * * ?", CronStringFormat.WithSeconds)]
+public class MyJob : IJob
+{
+    private readonly ILogger<MyJob> _logger;
+    public MyJob(ILogger<MyJob> logger)
+    {
+        _logger = logger;
+    }
+
+    public async Task ExecuteAsync(JobExecutingContext context, CancellationToken stoppingToken)
+    {
+        _logger.LogInformation($"{context.JobId} {context.TriggerId} {context.OccurrenceTime} {context.Trigger}");
+
+        await Task.CompletedTask;
+    }
+}
+```
+
+3. 查看作业执行结果
+
+```bash showLineNumbers {2,4,6,8,10,12,14,16,18}
+info: 2022-11-18 10:28:56.3382585 +08:00 星期五 L MyJob[0] #14
+      job1 job1_trigger1 2022/11/18 10:28:56  5000ms
+info: 2022-11-18 10:29:00.0219493 +08:00 星期五 L MyJob[0] #5
+      job1 job1_trigger2 2022/11/18 10:29:00  * * * * *
+info: 2022-11-18 10:29:01.3318716 +08:00 星期五 L MyJob[0] #14
+      job1 job1_trigger1 2022/11/18 10:29:01  5000ms
+info: 2022-11-18 10:29:03.0127992 +08:00 星期五 L MyJob[0] #16
+      job1 job1_trigger3 2022/11/18 10:29:03  3,7,8 * * * * ?
+info: 2022-11-18 10:29:06.3457728 +08:00 星期五 L MyJob[0] #16
+      job1 job1_trigger1 2022/11/18 10:29:06  5000ms
+info: 2022-11-18 10:29:07.0318919 +08:00 星期五 L MyJob[0] #14
+      job1 job1_trigger3 2022/11/18 10:29:07  3,7,8 * * * * ?
+info: 2022-11-18 10:29:08.0141479 +08:00 星期五 L MyJob[0] #8
+      job1 job1_trigger3 2022/11/18 10:29:08  3,7,8 * * * * ?
+info: 2022-11-18 10:29:11.3468100 +08:00 星期五 L MyJob[0] #16
+      job1 job1_trigger1 2022/11/18 10:29:11  5000ms
+info: 2022-11-18 10:29:16.3504029 +08:00 星期五 L MyJob[0] #14
+      job1 job1_trigger1 2022/11/18 10:29:16  5000ms
 ```

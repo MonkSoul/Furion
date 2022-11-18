@@ -22,7 +22,6 @@
 
 using Furion.TimeCrontab;
 using System.Reflection;
-using System.Text.Json;
 
 namespace Furion.Schedule;
 
@@ -236,16 +235,7 @@ public sealed class TriggerBuilder : Trigger
 
         for (var i = 0; i < jsonArray.Length; i++)
         {
-            var ele = (JsonElement)jsonArray[i];
-            runtimeArgs[i] = ele.ValueKind switch
-            {
-                JsonValueKind.String => ele.GetString(),
-                JsonValueKind.True => true,
-                JsonValueKind.False => false,
-                JsonValueKind.Null => null,
-                JsonValueKind.Number => ele.GetInt32(),
-                _ => throw new ArgumentException("Only int32, boolean, string and null types are supported as parameters.")
-            };
+            runtimeArgs[i] = Penetrates.GetJsonElementValue(jsonArray[i]);
         }
 
         RuntimeTriggerArgs = runtimeArgs;
