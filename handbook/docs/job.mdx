@@ -14,7 +14,7 @@ sidebar_label: 26.1 调度作业
 
 :::warning 4.8.0 以下版本说明
 
-**在 `Furion 4.8.0+` 版本采用 [Sundial](https://gitee.com/dotnetchina/Sundial) 定时任务替换原有的 `TaskScheduler`**，[查看旧文档](./job-old)
+**在 `Furion 4.8.0+` 版本采用 [Sundial](https://gitee.com/dotnetchina/Sundial) 定时任务替换原有的 `TaskScheduler`**，[查看旧文档](/docs/job-old)
 
 :::
 
@@ -65,7 +65,7 @@ services.AddSchedule(options =>
 
 3. 查看作业执行结果
 
-```bash showLineNumbers
+```bash showLineNumbers {2,4,6,8,10,12}
 info: 2022-11-17 16:23:56.0166669 +08:00 星期四 L MyJob[0] #16
       job1 job1_trigger1 2022/11/17 16:23:56  * * * * * *
 info: 2022-11-17 16:23:57.0125960 +08:00 星期四 L MyJob[0] #17
@@ -93,7 +93,7 @@ services.AddSchedule(options =>
 
 查看作业执行结果：
 
-```bash showLineNumbers
+```bash showLineNumbers  {2,4,6,8,10,12}
 info: 2022-11-17 16:25:44.0339177 +08:00 星期四 L MyJob[0] #3
       myjob myjob_trigger1 2022/11/17 16:25:44  * * * * * *
 info: 2022-11-17 16:25:45.0064838 +08:00 星期四 L MyJob[0] #14
