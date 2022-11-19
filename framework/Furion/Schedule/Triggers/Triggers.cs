@@ -31,7 +31,7 @@ namespace Furion.Schedule;
 public static class Triggers
 {
     /// <summary>
-    /// 创建作业周期（间隔）触发器构建器
+    /// 创建毫秒周期（间隔）作业触发器构建器
     /// </summary>
     /// <param name="interval">间隔（毫秒）</param>
     /// <returns><see cref="TriggerBuilder"/></returns>
@@ -41,7 +41,7 @@ public static class Triggers
     }
 
     /// <summary>
-    /// 创建作业周期（间隔）触发器构建器
+    /// 创建秒周期（间隔）作业触发器构建器
     /// </summary>
     /// <param name="interval">间隔（秒）</param>
     /// <returns><see cref="TriggerBuilder"/></returns>
@@ -51,7 +51,7 @@ public static class Triggers
     }
 
     /// <summary>
-    /// 创建作业 Cron 触发器构建器
+    /// 创建 Cron 表达式作业触发器构建器
     /// </summary>
     /// <param name="schedule">Cron 表达式</param>
     /// <param name="format">Cron 表达式格式化类型，默认 <see cref="CronStringFormat.Default"/></param>
@@ -62,7 +62,7 @@ public static class Triggers
     }
 
     /// <summary>
-    /// 创建作业每秒触发器构建器
+    /// 创建每秒开始作业触发器构建器
     /// </summary>
     /// <returns></returns>
     public static TriggerBuilder Secondly()
@@ -71,7 +71,7 @@ public static class Triggers
     }
 
     /// <summary>
-    /// 创建作业每分钟的开始触发器构建器
+    /// 创建每分钟开始作业触发器构建器
     /// </summary>
     /// <returns></returns>
     public static TriggerBuilder Minutely()
@@ -80,7 +80,7 @@ public static class Triggers
     }
 
     /// <summary>
-    /// 创建作业每小时开始触发器构建器
+    /// 创建每小时开始作业触发器构建器
     /// </summary>
     /// <returns></returns>
     public static TriggerBuilder Hourly()
@@ -89,7 +89,7 @@ public static class Triggers
     }
 
     /// <summary>
-    /// 创建作业每天（午夜）开始触发器构建器
+    /// 创建每天（午夜）开始作业触发器构建器
     /// </summary>
     /// <returns></returns>
     public static TriggerBuilder Daily()
@@ -98,7 +98,7 @@ public static class Triggers
     }
 
     /// <summary>
-    /// 创建作业每月1号（午夜）开始触发器构建器
+    /// 创建每月1号（午夜）开始作业触发器构建器
     /// </summary>
     /// <returns></returns>
     public static TriggerBuilder Monthly()
@@ -107,7 +107,7 @@ public static class Triggers
     }
 
     /// <summary>
-    /// 创建作业每周日（午夜）开始触发器构建器
+    /// 创建每周日（午夜）开始作业触发器构建器
     /// </summary>
     /// <returns></returns>
     public static TriggerBuilder Weekly()
@@ -116,7 +116,7 @@ public static class Triggers
     }
 
     /// <summary>
-    /// 创建每年1月1号（午夜）开始触发器构建器
+    /// 创建每年1月1号（午夜）开始作业触发器构建器
     /// </summary>
     /// <returns></returns>
     public static TriggerBuilder Yearly()
