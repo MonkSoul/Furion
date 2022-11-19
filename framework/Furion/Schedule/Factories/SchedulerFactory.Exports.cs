@@ -339,9 +339,13 @@ internal sealed partial class SchedulerFactory
         Shorthand(schedulerForUpdated.JobDetail);
 
         // 逐条将作业触发器运行数据写入持久化
-        foreach (var triggerForUpdated in schedulerForUpdated.Triggers.Values)
+        foreach (var (triggerId, triggerForUpdated) in schedulerForUpdated.Triggers)
         {
-            Shorthand(schedulerForUpdated.JobDetail, triggerForUpdated);
+            Shorthand(schedulerForUpdated.JobDetail, triggerForUpdated
+                // 如果作业触发器之前就存在，则记录为更新，否则为新增
+                , internalScheduler.TryGetTrigger(triggerId, out _) == ScheduleResult.Succeed
+                    ? PersistenceBehavior.Updated
+                    : PersistenceBehavior.Appended);
         }
 
         scheduler = schedulerForUpdated;
