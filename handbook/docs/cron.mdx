@@ -68,18 +68,18 @@ var nextOccurrence = crontab.GetNextOccurrence(DateTime.Now);
 
 ```cs showLineNumbers {1,10}
 // macro 字符串
-var secondly = Crontab.Parse("@secondly");    // 每秒
-var minutely = Crontab.Parse("@minutely");    // 每分钟
-var hourly = Crontab.Parse("@hourly");    // 每小时
+var secondly = Crontab.Parse("@secondly");    // 每秒 .0000000
+var minutely = Crontab.Parse("@minutely");    // 每分钟 00
+var hourly = Crontab.Parse("@hourly");    // 每小时 00:00
 var daily = Crontab.Parse("@daily");  // 每天 00:00:00
 var monthly = Crontab.Parse("@monthly");  // 每月 1 号 00:00:00
 var weekly = Crontab.Parse("@weekly");    // 每周日 00：00：00
 var yearly = Crontab.Parse("@yearly");    // 每年 1 月 1 号 00:00:00
 
 // 静态属性
-var secondly = Crontab.Secondly;    // 每秒
-var minutely = Crontab.Minutely;    // 每分钟
-var hourly = Crontab.Hourly;    // 每小时
+var secondly = Crontab.Secondly;    // 每秒 .0000000
+var minutely = Crontab.Minutely;    // 每分钟 00
+var hourly = Crontab.Hourly;    // 每小时 00:00
 var daily = Crontab.Daily;  // 每天 00:00:00
 var monthly = Crontab.Monthly;  // 每月 1 号 00:00:00
 var weekly = Crontab.Weekly;    // 每周日 00：00：00
@@ -202,9 +202,9 @@ public class Worker : BackgroundService
 var format = crontab.Format;  // 获取当前格式化配置
 
 // 静态属性
-var secondly = Crontab.Secondly;    // 每秒
-var minutely = Crontab.Minutely;    // 每分钟
-var hourly = Crontab.Hourly;    // 每小时
+var secondly = Crontab.Secondly;    // 每秒 .0000000
+var minutely = Crontab.Minutely;    // 每分钟 00
+var hourly = Crontab.Hourly;    // 每小时 00:00
 var daily = Crontab.Daily;  // 每天 00:00:00
 var monthly = Crontab.Monthly;  // 每月 1 号 00:00:00
 var weekly = Crontab.Weekly;    // 每周日 00：00：00
