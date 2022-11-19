@@ -133,8 +133,10 @@ public partial class Trigger
             && Status != TriggerStatus.Archived
             && Status != TriggerStatus.Panic
             && Status != TriggerStatus.Overrun
-            && Status != TriggerStatus.None
-            && Status != TriggerStatus.NotStart;
+            && Status != TriggerStatus.Unoccupied
+            && Status != TriggerStatus.NotStart
+            && Status != TriggerStatus.Unknown
+            && Status != TriggerStatus.Unhandled;
     }
 
     /// <summary>
@@ -148,13 +150,14 @@ public partial class Trigger
         // 检查作业信息运行时类型
         if (jobDetail.RuntimeJobType == null)
         {
+            SetStatus(TriggerStatus.Unhandled);
             return false;
         }
 
         // 检查作业触发器运行时类型
         if (RuntimeTriggerType == null)
         {
-            SetStatus(TriggerStatus.None);
+            SetStatus(TriggerStatus.Unknown);
             return false;
         }
 
@@ -188,7 +191,7 @@ public partial class Trigger
         // 下一次运行时间空判断
         if (NextRunTime == null)
         {
-            SetStatus(TriggerStatus.None);
+            SetStatus(TriggerStatus.Unoccupied);
             return false;
         }
 

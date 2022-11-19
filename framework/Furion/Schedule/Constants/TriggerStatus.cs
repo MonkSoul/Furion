@@ -56,7 +56,7 @@ public enum TriggerStatus : uint
     Blocked = 4,
 
     /// <summary>
-    /// 就绪（此前执行失败）
+    /// 由失败进入就绪
     /// </summary>
     /// <remarks>运行错误当并未超出最大错误数，进入下一轮就绪</remarks>
     ErrorToReady = 5,
@@ -80,13 +80,25 @@ public enum TriggerStatus : uint
     Overrun = 8,
 
     /// <summary>
-    /// 空
+    /// 无触发时间
     /// </summary>
-    /// <remarks>下一次执行时间为 null 或 触发器类型为 null</remarks>
-    None = 9,
+    /// <remarks>下一次执行时间为 null </remarks>
+    Unoccupied = 9,
 
     /// <summary>
     /// 未启动
     /// </summary>
     NotStart = 10,
+
+    /// <summary>
+    /// 未知作业触发器
+    /// </summary>
+    /// <remarks>作业触发器运行时类型为 null</remarks>
+    Unknown = 11,
+
+    /// <summary>
+    /// 未知作业处理程序
+    /// </summary>
+    /// <remarks>作业处理程序类型运行时类型为 null</remarks>
+    Unhandled = 12
 }
