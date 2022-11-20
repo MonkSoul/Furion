@@ -6,7 +6,7 @@ sidebar_label: 26.1 调度作业
 
 :::caution 当前文档还未发布
 
-**当前文档还在编写中，已完成了 60%，将在 2022 年 11 月 21 日完成。**
+**当前文档还在编写中，已完成了 65%，将在 2022 年 11 月 21 日完成。**
 
 :::
 
@@ -653,7 +653,7 @@ info: 2022-11-18 10:29:16.3504029 +08:00 星期五 L MyJob[0] #14
 
 ### 26.1.3.2 关于作业信息构建器
 
-作业信息 `JobDetail` 是作业调度模块提供运行时的**只读类型**，那么我们该如何创建或变更 `JobDetail` 呢？
+作业信息 `JobDetail` 是作业调度模块提供运行时的**只读类型**，那么我们该如何创建或变更 `JobDetail` 对象呢？
 
 `JobBuilder` 是作业调度模块提供可用来生成运行时 `JobDetail` 的类型，这样做的好处可避免外部直接修改运行时 `JobDetail` 数据，还能实现任何修改动作监听，也能避免多线程抢占情况。
 
@@ -727,7 +727,7 @@ var jobBuilder = JobBuilder.From("""
 4. **还可以通过 `Clone` 静态方法从一个 `JobBuilder` 创建**
 
 ```cs showLineNumbers
-var jobBuilder = JobBuilder.Clone(formJobBuilder);
+var jobBuilder = JobBuilder.Clone(fromJobBuilder);
 ```
 
 :::important 克隆说明
@@ -1186,7 +1186,141 @@ public class MyJob : IJob
 
 ### 26.1.5.3 关于作业触发器构建器
 
-### 26.1.5.4 内置作业触发器
+作业触发器 `Trigger` 是作业调度模块提供运行时的**只读类型**，那么我们该如何创建或变更 `Trigger` 对象呢？
+
+`TriggerBuilder` 是作业调度模块提供可用来生成运行时 `Trigger` 的类型，这样做的好处可避免外部直接修改运行时 `Trigger` 数据，还能实现任何修改动作监听，也能避免多线程抢占情况。
+
+作业调度模块提供了多种方式用来创建 `TriggerBuilder` 对象。
+
+1. **通过 `Create` 静态方法创建**
+
+```cs showLineNumbers {2,5,8}
+// 根据 Trigger 派生类类型创建
+var triggerBuilder = TriggerBuilder.Create<PeriodTrigger>();
+
+// 根据 Type 类型创建
+var triggerBuilder = TriggerBuilder.Create(typeof(PeriodTrigger));
+
+// 根据程序集名称和类型完全限定名（FullName）创建
+var triggerBuilder = TriggerBuilder.Create("Furion", "Furion.Schedule.PeriodTrigger");
+```
+
+2. **通过 `Trigger` 类型创建**
+
+这种方式常用于在运行时更新作业触发器。
+
+```cs showLineNumbers
+var triggerBuilder = TriggerBuilder.From(trigger);
+```
+
+3. **通过 `JSON` 字符串创建**
+
+该方式非常灵活，可从配置文件，`JSON` 字符串，或其他能够返回 `JSON` 字符串的地方创建。
+
+```cs showLineNumbers {2-23}
+var triggerBuilder = TriggerBuilder.From(@"
+{
+    ""triggerId"": ""job1_trigger1"",
+    ""jobId"": ""job1"",
+    ""triggerType"": ""Furion.Schedule.PeriodSecondsTrigger"",
+    ""assemblyName"": ""Furion"",
+    ""args"": ""[5]"",
+    ""description"": null,
+    ""status"": 2,
+    ""startTime"": null,
+    ""endTime"": null,
+    ""lastRunTime"": ""2022-11-20T18:31:56.6859410+08:00"",
+    ""nextRunTime"": ""2022-11-20T18:32:01.7233546+08:00"",
+    ""numberOfRuns"": 1,
+    ""maxNumberOfRuns"": 0,
+    ""numberOfErrors"": 0,
+    ""maxNumberOfErrors"": 0,
+    ""numRetries"": 0,
+    ""retryTimeout"": 1000,
+    ""startNow"": true,
+    ""runOnStart"": false,
+    ""updatedTime"": ""2022-11-20T18:31:56.7233630+08:00""
+}");
+```
+
+如果使用的是 `.NET7`，可使用 `"""` 避免转义，如：
+
+```cs showLineNumbers {2-23}
+var triggerBuilder = TriggerBuilder.From("""
+{
+    "triggerId": "job1_trigger1",
+    "jobId": "job1",
+    "triggerType": "Furion.Schedule.PeriodSecondsTrigger",
+    "assemblyName": "Furion",
+    "args": "[5]",
+    "description": null,
+    "status": 2,
+    "startTime": null,
+    "endTime": null,
+    "lastRunTime": "2022-11-20T18:31:56.6859410+08:00",
+    "nextRunTime": "2022-11-20T18:32:01.7233546+08:00",
+    "numberOfRuns": 1,
+    "maxNumberOfRuns": 0,
+    "numberOfErrors": 0,
+    "maxNumberOfErrors": 0,
+    "numRetries": 0,
+    "retryTimeout": 1000,
+    "startNow": true,
+    "runOnStart": false,
+    "updatedTime": "2022-11-20T18:31:56.7233630+08:00"
+}""");
+```
+
+:::important 关于属性名匹配规则
+
+支持 `CamelCase（驼峰命名法）`，`Pascal（帕斯卡命名法）` 命名方式。
+
+**不支持 `UnderScoreCase（下划线命名法）`** ，如 `"include_annotations": true`
+
+:::
+
+4. **还可以通过 `Clone` 静态方法从一个 `TriggerBuilder` 创建**
+
+```cs showLineNumbers
+var triggerBuilder = TriggerBuilder.Clone(fromTriggerBuilder);
+```
+
+:::important 克隆说明
+
+克隆操作只会克隆 `AssemblyName`，`TriggerType`，`Args`，`Description`，`StartTime`，`EndTime`，`MaxNumberOfRuns`，`MaxNumberOfErrors`，`NumRetries`，`RetryTimeout`，`StartNow`，`RunOnStart`。
+
+**不会克隆 `TriggerId`，`JobId`，`Status`，`LastRunTime`，`NextRunTime`，`NumberOfRuns`，`NumberOfErrors`，`UpdatedTime`。**
+
+:::
+
+5. **还可以通过 `LoadFrom` 实例方法填充当前的 `TriggerBuilder`**
+
+比如可以传递匿名类型，类类型：
+
+```cs showLineNumbers {2,9,14}
+// 会覆盖所有相同的值
+triggerBuilder.LoadFrom(new
+{
+      Description = "我是描述",
+      StartTime = DateTime.Now
+});
+
+// 支持多个填充，还可以配置跳过 null 值覆盖
+triggerBuilder.LoadFrom(new
+{
+      Description = "我是另外一个描述",
+      StartTime = DateTime.Now,
+      LastRunTime = default(DateTime?)      // 会跳过赋值
+}, ignoreNullValue: true);
+```
+
+:::important 关于属性名匹配规则
+
+支持 `CamelCase（驼峰命名法）`，`Pascal（帕斯卡命名法）` 和 `UnderScoreCase（下划线命名法）` 命名方式。
+
+:::
+
+### 26.1.5.4 内置作业触发器构建器
 
 ### 26.1.5.5 自定义作业触发器
 

@@ -238,6 +238,7 @@ public sealed class TriggerBuilder : Trigger
 
         // 检查 triggerType 类型是否派生自 Trigger
         if (!typeof(Trigger).IsAssignableFrom(triggerType)
+            || triggerType == typeof(Trigger)
             || triggerType.IsInterface
             || triggerType.IsAbstract) throw new InvalidOperationException("The <triggerType> is not a valid Trigger type.");
 
