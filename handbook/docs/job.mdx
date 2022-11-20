@@ -584,7 +584,7 @@ info: 2022-11-17 17:54:44.0092455 +08:00 星期四 L MyJob[0] #15
 services.AddSchedule(options =>
 {
     options.AddJob(JobBuilder.Create<MyJob>().SetIncludeAnnotations(true)
-        , Triggers.PeriodSeconds(5));
+        , Triggers.PeriodSeconds(5));     // 这里可传可不传，传了则会自动载入特性和这里配置的作业触发器
 });
 ```
 
