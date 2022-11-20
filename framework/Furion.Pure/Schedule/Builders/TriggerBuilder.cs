@@ -45,8 +45,7 @@ public sealed class TriggerBuilder : Trigger
     /// <returns><see cref="TriggerBuilder"/></returns>
     public static TriggerBuilder Period(int interval)
     {
-        return Create(typeof(PeriodTrigger))
-            .SetArgs(new object[] { interval });
+        return Create<PeriodTrigger>(interval);
     }
 
     /// <summary>
@@ -56,8 +55,7 @@ public sealed class TriggerBuilder : Trigger
     /// <returns><see cref="TriggerBuilder"/></returns>
     public static TriggerBuilder PeriodSeconds(int interval)
     {
-        return Create(typeof(PeriodSecondsTrigger))
-            .SetArgs(new object[] { interval });
+        return Create<PeriodSecondsTrigger>(interval);
     }
 
     /// <summary>
@@ -68,8 +66,7 @@ public sealed class TriggerBuilder : Trigger
     /// <returns><see cref="TriggerBuilder"/></returns>
     public static TriggerBuilder Cron(string schedule, CronStringFormat format = CronStringFormat.Default)
     {
-        return Create(typeof(CronTrigger))
-            .SetArgs(new object[] { schedule, (int)format });
+        return Create<CronTrigger>(schedule, (int)format);
     }
 
     /// <summary>
@@ -81,6 +78,18 @@ public sealed class TriggerBuilder : Trigger
         where TTrigger : Trigger
     {
         return Create(typeof(TTrigger));
+    }
+
+    /// <summary>
+    /// 创建作业触发器构建器
+    /// </summary>
+    /// <typeparam name="TTrigger"><see cref="Trigger"/> 派生类</typeparam>
+    /// <param name="args">作业触发器参数</param>
+    /// <returns><see cref="TriggerBuilder"/></returns>
+    public static TriggerBuilder Create<TTrigger>(params object[] args)
+        where TTrigger : Trigger
+    {
+        return Create<TTrigger>().SetArgs(args);
     }
 
     /// <summary>
@@ -98,12 +107,35 @@ public sealed class TriggerBuilder : Trigger
     /// <summary>
     /// 创建新的作业触发器构建器
     /// </summary>
+    /// <param name="assemblyName">作业触发器类型所在程序集 Name</param>
+    /// <param name="triggerTypeFullName">作业触发器类型 FullName</param>
+    /// <param name="args">作业触发器参数</param>
+    /// <returns><see cref="TriggerBuilder"/></returns>
+    public static TriggerBuilder Create(string assemblyName, string triggerTypeFullName, params object[] args)
+    {
+        return Create(assemblyName, triggerTypeFullName).SetArgs(args);
+    }
+
+    /// <summary>
+    /// 创建新的作业触发器构建器
+    /// </summary>
     /// <param name="triggerType"><see cref="Trigger"/> 派生类</param>
     /// <returns><see cref="TriggerBuilder"/></returns>
     public static TriggerBuilder Create(Type triggerType)
     {
         return new TriggerBuilder()
             .SetTriggerType(triggerType);
+    }
+
+    /// <summary>
+    /// 创建新的作业触发器构建器
+    /// </summary>
+    /// <param name="triggerType"><see cref="Trigger"/> 派生类</param>
+    /// <param name="args">作业触发器参数</param>
+    /// <returns><see cref="TriggerBuilder"/></returns>
+    public static TriggerBuilder Create(Type triggerType, params object[] args)
+    {
+        return Create(triggerType).SetArgs(args);
     }
 
     /// <summary>
@@ -220,7 +252,7 @@ public sealed class TriggerBuilder : Trigger
     /// </summary>
     /// <typeparam name="TTrigger"><see cref="Trigger"/> 派生类类型</typeparam>
     /// <returns><see cref="TriggerBuilder"/></returns>
-    public TriggerBuilder SetJobType<TTrigger>()
+    public TriggerBuilder SetTriggerType<TTrigger>()
         where TTrigger : Trigger
     {
         return SetTriggerType(typeof(TTrigger));
@@ -284,7 +316,7 @@ public sealed class TriggerBuilder : Trigger
     /// </summary>
     /// <param name="args">作业触发器参数</param>
     /// <returns><see cref="TriggerBuilder"/></returns>
-    public TriggerBuilder SetArgs(object[] args)
+    public TriggerBuilder SetArgs(params object[] args)
     {
         Args = args == null || args.Length == 0
             ? null

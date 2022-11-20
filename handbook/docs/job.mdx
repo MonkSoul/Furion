@@ -6,7 +6,7 @@ sidebar_label: 26.1 调度作业
 
 :::caution 当前文档还未发布
 
-**当前文档还在编写中，已完成了 65%，将在 2022 年 11 月 21 日完成。**
+**当前文档还在编写中，已完成了 70%，将在 2022 年 11 月 21 日完成。**
 
 :::
 
@@ -1322,11 +1322,549 @@ triggerBuilder.LoadFrom(new
 
 ### 26.1.5.4 内置作业触发器构建器
 
+为了方便快速实现作业触发器，作业调度模块内置了 `Period（间隔）` 和 `Cron（表达式）` 作业触发器，可通过 `TriggerBuilder` 类型或 `Triggers` 静态类创建。
+
+- **`TriggerBuilder` 方式**
+
+```c showLineNumbers {2,5,8}
+// 创建毫秒周期（间隔）作业触发器构建器
+var triggerBuilder = TriggerBuilder.Period(5000);
+
+// 创建秒周期（间隔）作业触发器构建器
+var triggerBuilder = TriggerBuilder.PeriodSeconds(5);
+
+// 创建 Cron 表达式作业触发器构建器
+var triggerBuilder = TriggerBuilder.Cron("* * * * *", CronStringFormat.Default);
+```
+
+- **`Triggers` 方式，推荐**
+
+`Triggers` 具备 `TriggerBuilder` 所有的静态方法，另外还添加了不少更加便捷的静态方法。
+
+```cs showLineNumbers {2,5,8,11,14,17,20,23,26,29}
+// 创建毫秒周期（间隔）作业触发器构建器
+var triggerBuilder = Triggers.Period(5000);
+
+// 创建秒周期（间隔）作业触发器构建器
+var triggerBuilder = Triggers.PeriodSeconds(5);
+
+// 创建 Cron 表达式作业触发器构建器
+var triggerBuilder = Triggers.Cron("* * * * *", CronStringFormat.Default);
+
+// 创建每秒开始作业触发器构建器
+var triggerBuilder = Triggers.Secondly();
+
+// 创建每分钟开始作业触发器构建器
+var triggerBuilder = Triggers.Minutely();
+
+// 创建每小时开始作业触发器构建器
+var triggerBuilder = Triggers.Hourly();
+
+// 创建每天（午夜）开始作业触发器构建器
+var triggerBuilder = Triggers.Daily();
+
+// 创建每月1号（午夜）开始作业触发器构建器
+var triggerBuilder = Triggers.Monthly();
+
+// 创建每周日（午夜）开始作业触发器构建器
+var triggerBuilder = Triggers.Weekly();
+
+// 创建每年1月1号（午夜）开始作业触发器构建器
+var triggerBuilder = Triggers.Yearly();
+```
+
 ### 26.1.5.5 自定义作业触发器
 
-### 26.1.5.6 设置作业触发器构建器
+除了使用作业调度模块提供了 `PeriodTrigger` 和 `CronTrigger` 以外，可自定义作业触发器，只需要继承 `Trigger` 并重写 `GetNextOccurrence` 方法即可，如实现一个间隔两秒的作业触发器。
 
-### 26.1.5.7 多种格式字符串输出
+```cs showLineNumbers {1,3,5}
+public class TwiceSecondTrigger : Trigger
+{
+    public override DateTime GetNextOccurrence(DateTime startAt)
+    {
+        return startAt.AddSeconds(2);
+    }
+}
+```
+
+之后可通过 `Triggers.Create` 或 `Triggers.Create` 创建即可：
+
+```cs showLineNumbers {3}
+services.AddSchedule(options =>
+{
+    options.AddJob<MyJob>(Triggers.Create<TwiceSecondTrigger>());
+});
+```
+
+查看作业执行结果：
+
+```bash showLineNumbers {2,4,6,8,10,12}
+info: 2022-11-20 21:13:02.4726416 +08:00 星期日 L ConsoleApp13.MyJob[0] #9
+      job1 job1_trigger1 2022/11/20 21:13:02 ConsoleApp13.TwiceSecondTrigger
+info: 2022-11-20 21:13:04.4591328 +08:00 星期日 L ConsoleApp13.MyJob[0] #6
+      job1 job1_trigger1 2022/11/20 21:13:04 ConsoleApp13.TwiceSecondTrigger
+info: 2022-11-20 21:13:06.4677716 +08:00 星期日 L ConsoleApp13.MyJob[0] #4
+      job1 job1_trigger1 2022/11/20 21:13:06 ConsoleApp13.TwiceSecondTrigger
+info: 2022-11-20 21:13:08.4726987 +08:00 星期日 L ConsoleApp13.MyJob[0] #14
+      job1 job1_trigger1 2022/11/20 21:13:08 ConsoleApp13.TwiceSecondTrigger
+info: 2022-11-20 21:13:10.4827028 +08:00 星期日 L ConsoleApp13.MyJob[0] #9
+      job1 job1_trigger1 2022/11/20 21:13:10 ConsoleApp13.TwiceSecondTrigger
+info: 2022-11-20 21:13:12.4936247 +08:00 星期日 L ConsoleApp13.MyJob[0] #14
+      job1 job1_trigger1 2022/11/20 21:13:12 ConsoleApp13.TwiceSecondTrigger
+```
+
+另外，自定义作业触发器还支持传递参数：
+
+:::important 参数特别说明
+
+如果自定义作业触发器包含参数，那么**必须满足以下两个条件**：
+
+- **参数必须通过唯一的构造函数传入，有且最多只能拥有一个构造函数**
+- **参数的类型只能是 `int`，`string`，`bool`，`null` 或由它们组成的数组类型**
+
+:::
+
+```cs showLineNumbers {1,3,5,8,12}
+public class SomeSecondTrigger : Trigger
+{
+    public SomeSecondTrigger(int seconds) // 支持多个参数
+    {
+        Seconds = seconds;
+    }
+
+    private int Seconds { get; }
+
+    public override DateTime GetNextOccurrence(DateTime startAt)
+    {
+        return startAt.AddSeconds(Seconds);
+    }
+}
+```
+
+之后可通过 `Triggers.Create` 或 `Triggers.Create` 创建并传入参数。
+
+```cs showLineNumbers {3}
+services.AddSchedule(options =>
+{
+    options.AddJob<MyJob>(Triggers.Create<SomeSecondTrigger>(3)); // 3 秒执行一次
+});
+```
+
+查看作业执行结果：
+
+```bash showLineNumbers {2,4,6,8,10,12}
+info: 2022-11-20 21:33:46.3074692 +08:00 星期日 L ConsoleApp13.MyJob[0] #4
+      job1 job1_trigger1 2022/11/20 21:33:46 ConsoleApp13.SomeSecondTrigger
+info: 2022-11-20 21:33:49.3101667 +08:00 星期日 L ConsoleApp13.MyJob[0] #6
+      job1 job1_trigger1 2022/11/20 21:33:49 ConsoleApp13.SomeSecondTrigger
+info: 2022-11-20 21:33:52.3222046 +08:00 星期日 L ConsoleApp13.MyJob[0] #8
+      job1 job1_trigger1 2022/11/20 21:33:52 ConsoleApp13.SomeSecondTrigger
+info: 2022-11-20 21:33:55.3270737 +08:00 星期日 L ConsoleApp13.MyJob[0] #4
+      job1 job1_trigger1 2022/11/20 21:33:55 ConsoleApp13.SomeSecondTrigger
+info: 2022-11-20 21:33:58.3293727 +08:00 星期日 L ConsoleApp13.MyJob[0] #6
+      job1 job1_trigger1 2022/11/20 21:33:58 ConsoleApp13.SomeSecondTrigger
+info: 2022-11-20 21:34:01.3472296 +08:00 星期日 L ConsoleApp13.MyJob[0] #4
+      job1 job1_trigger1 2022/11/20 21:34:01 ConsoleApp13.SomeSecondTrigger
+```
+
+自定义作业触发器除了可重写 `GetNextOccurrence` 方法之后，还提供了 `ShouldRun` 和 `ToString` 方法可重写，如：
+
+```cs showLineNumbers {15,22,24}
+public class SomeSecondTrigger : Trigger
+{
+    public SomeSecondTrigger(int seconds)
+    {
+        Seconds = seconds;
+    }
+
+    private int Seconds { get; }
+
+    public override DateTime GetNextOccurrence(DateTime startAt)
+    {
+        return startAt.AddSeconds(Seconds);
+    }
+
+    public override bool ShouldRun(JobDetail jobDetail, DateTime startAt)
+    {
+        // 在这里进一步控制，如果返回 false，则作业触发器跳过执行
+
+        return base.ShouldRun(jobDetail, startAt);
+    }
+
+    public override string ToString()
+    {
+        return $"自定义递增 {Seconds}s 触发器";
+    }
+}
+```
+
+推荐重写 `GetNextRunTime` 和 `ToString` 方法即可，如果重写了 `ToString` 方法，那么可以通过 $`{trigger}` 输出，如：
+
+```cs showLineNumbers {11}
+public class MyJob : IJob
+{
+    private readonly ILogger<MyJob> _logger;
+    public MyJob(ILogger<MyJob> logger)
+    {
+        _logger = logger;
+    }
+
+    public async Task ExecuteAsync(JobExecutingContext context, CancellationToken stoppingToken)
+    {
+        _logger.LogInformation($"{context.JobId} {context.TriggerId} {context.OccurrenceTime} {context.Trigger}");
+        await Task.CompletedTask;
+    }
+}
+```
+
+查看作业执行结果：
+
+```bash showLineNumbers {2,4}
+info: 2022-11-20 21:43:07.4570694 +08:00 星期日 L ConsoleApp13.MyJob[0] #4
+      job1 job1_trigger1 2022/11/20 21:43:07 自定义递增 3s 触发器
+info: 2022-11-20 21:43:10.4629078 +08:00 星期日 L ConsoleApp13.MyJob[0] #9
+      job1 job1_trigger1 2022/11/20 21:43:10 自定义递增 3s 触发器
+```
+
+### 26.1.5.6 作业触发器特性
+
+如果 `JobBuilder` 配置了 `IncludeAnnotations` 参数且为 `true`，那么将会自动解析 `IJob` 的实现类型的所有继承 `TriggerAttribute` 的特性，目前作业调度模块内置了以下作业触发器特性：
+
+- `[Period(5000)]`：毫秒周期（间隔）作业触发器特性
+- `[PeriodSeconds(5)]`：秒周期（间隔）作业触发器特性
+- `[Cron("* * * * *", CronStringFormat.Default]`：Cron 表达式作业触发器特性
+- `[Secondly]`：每秒开始作业触发器特性
+- `[Minutely]`：每分钟开始作业触发器特性
+- `[Hourly]`：每小时开始作业触发器特性
+- `[Daily]`：每天（午夜）开始作业触发器特性
+- `[Monthly]`：每月 1 号（午夜）开始作业触发器特性
+- `[Weekly]`：每周日（午夜）开始作业触发器特性
+- `[Yearly]`：每年 1 月 1 号（午夜）开始作业触发器特性
+
+使用如下：
+
+```cs showLineNumbers {3,6}
+services.AddSchedule(options =>
+{
+    options.AddJob(JobBuilder.Create<MyJob>().SetIncludeAnnotations(true));
+
+    // 也支持自定义配置 + 特性扫描
+    options.AddJob(JobBuilder.Create<MyJob>().SetIncludeAnnotations(true)
+                  , Triggers.PeriodSeconds(5));
+});
+```
+
+```cs showLineNumbers {1-3}
+[Minutely]
+[PeriodSeconds(5)]
+[Cron("* * * * *")]
+public class MyJob : IJob
+{
+    private readonly ILogger<MyJob> _logger;
+    public MyJob(ILogger<MyJob> logger)
+    {
+        _logger = logger;
+    }
+
+    public async Task ExecuteAsync(JobExecutingContext context, CancellationToken stoppingToken)
+    {
+        _logger.LogInformation($"{context.JobId} {context.TriggerId} {context.OccurrenceTime} {context.Trigger}");
+        await Task.CompletedTask;
+    }
+}
+```
+
+查看作业执行结果：
+
+```bash showLineNumbers {2,4,6,8,10}
+info: 2022-11-20 22:10:54.5027217 +08:00 星期日 L ConsoleApp13.MyJob[0] #9
+      job1 job1_trigger2 2022/11/20 22:10:54  5000ms
+info: 2022-11-20 22:10:59.4948832 +08:00 星期日 L ConsoleApp13.MyJob[0] #9
+      job1 job1_trigger2 2022/11/20 22:10:59  5000ms
+info: 2022-11-20 22:11:00.0353681 +08:00 星期日 L ConsoleApp13.MyJob[0] #6
+      job1 job1_trigger3 2022/11/20 22:11:00  * * * * *
+info: 2022-11-20 22:11:00.0372492 +08:00 星期日 L ConsoleApp13.MyJob[0] #8
+      job1 job1_trigger1 2022/11/20 22:11:00  * * * * *
+info: 2022-11-20 22:11:04.5094807 +08:00 星期日 L ConsoleApp13.MyJob[0] #8
+      job1 job1_trigger2 2022/11/20 22:11:04  5000ms
+```
+
+-----
+
+**除了使用内置特性，我们还可以自定义作业触发器特性**，如：
+
+```cs showLineNumbers {1,2,5}
+[AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
+public class SomeSecondAttribute : TriggerAttribute
+{
+    public SomeSecondAttribute(int seconds)
+        : base(typeof(SomeSecondTrigger), seconds)
+    {
+    }
+}
+```
+
+使用如下：
+
+```cs showLineNumbers {1}
+[SomeSecond(3)]
+public class MyJob : IJob
+{
+    private readonly ILogger<MyJob> _logger;
+    public MyJob(ILogger<MyJob> logger)
+    {
+        _logger = logger;
+    }
+
+    public async Task ExecuteAsync(JobExecutingContext context, CancellationToken stoppingToken)
+    {
+        _logger.LogInformation($"{context.JobId} {context.TriggerId} {context.OccurrenceTime} {context.Trigger}");
+        await Task.CompletedTask;
+    }
+}
+```
+
+查看作业执行结果：
+
+```bash showLineNumbers {2,4,6,8,10}
+info: 2022-11-20 22:16:22.0933295 +08:00 星期日 L ConsoleApp13.MyJob[0] #9
+      job1 job1_trigger1 2022/11/20 22:16:22 自定义递增 3s 触发器
+info: 2022-11-20 22:16:25.0823563 +08:00 星期日 L ConsoleApp13.MyJob[0] #8
+      job1 job1_trigger1 2022/11/20 22:16:25 自定义递增 3s 触发器
+info: 2022-11-20 22:16:28.0910993 +08:00 星期日 L ConsoleApp13.MyJob[0] #6
+      job1 job1_trigger1 2022/11/20 22:16:28 自定义递增 3s 触发器
+info: 2022-11-20 22:16:31.0937955 +08:00 星期日 L ConsoleApp13.MyJob[0] #9
+      job1 job1_trigger1 2022/11/20 22:16:31 自定义递增 3s 触发器
+info: 2022-11-20 22:16:34.1034905 +08:00 星期日 L ConsoleApp13.MyJob[0] #6
+      job1 job1_trigger1 2022/11/20 22:16:34 自定义递增 3s 触发器
+```
+
+----
+
+**作业触发器特性还提供了多个属性配置**，如：
+
+- `TriggerId`：作业触发器 Id，`string` 类型
+- `Description`：描述信息，`string` 类型
+- `StartTime`：起始时间，`string` 类型
+- `EndTime`：结束时间，`string` 类型
+- `MaxNumberOfRuns`：最大触发次数，`long` 类型，`0`：不限制；`n`：N 次
+- `MaxNumberOfErrors`：最大出错次数，`long` 类型，`0`：不限制；`n`：N 次
+- `NumRetries`：重试次数，`int` 类型，默认值 `0`
+- `RetryTimeout`：重试间隔时间，`int` 类型，默认值 `1000`
+- `StartNow`：是否立即启动，`bool` 类型，默认值 `true`
+- `RunOnStart`：是否启动时执行一次，`bool` 类型，默认值 `false`
+
+使用如下：
+
+```cs showLineNumbers {1}
+[PeriodSeconds(5, TriggerId = "trigger1", Description = "这是一段描述")]
+public class MyJob : IJob
+{
+```
+
+### 26.1.5.7 设置作业触发器构建器
+
+`TriggerBuilder` 提供了和 `Trigger` 完全匹配的 `Set[属性名]` 方法来配置作业触发器各个属性，如：
+
+```cs showLineNumbers {3,26}
+ services.AddSchedule(options =>
+ {
+     var triggerBuilder = Triggers.Period(5000)
+         .SetTriggerId("trigger1")   // 作业触发器 Id
+         .SetTriggerType("Furion", "Furion.Schedule.PeriodTrigger")  // 作业触发器类型，支持多个重载
+         .SetTriggerType<PeriodTrigger>()    // 作业触发器类型，支持多个重载
+         .SetTriggerType(typeof(PeriodTrigger))  // 作业触发器类型，支持多个重载
+         .SetArgs("[5000]")  // 作业触发器参数，支持多个重载
+         .SetArgs(5000)   // 作业触发器参数，支持多个重载
+         .SetDescription("作业触发器描述")  // 作业触发器描述
+         .SetStatus(TriggerStatus.Ready) // 作业触发器状态
+         .SetStartTime(DateTime.Now) // 作业触发器起始时间
+         .SetEndTime(DateTime.Now.AddMonths(1)) // 作业触发器结束时间
+         .SetLastRunTime(DateTime.Now.AddSeconds(-5))    // 作业触发器最近运行时间
+         .SetNextRunTime(DateTime.Now.AddSeconds(5)) // 作业触发器下一次运行时间
+         .SetNumberOfRuns(1) // 作业触发器触发次数
+         .SetMaxNumberOfRuns(100)    // 作业触发器最大触发器次数
+         .SetNumberOfErrors(1)   // 作业触发器出错次数
+         .SetMaxNumberOfErrors(100)  // 作业触发器最大出错次数
+         .SetNumRetries(3)   // 作业触发器出错重试次数
+         .SetRetryTimeout(1000)  // 作业触发器重试间隔时间
+         .SetStartNow(true)  // 作业触发器是否立即启动
+         .SetRunOnStart(false)    // 作业触发器是否启动时执行一次
+         ;
+
+     options.AddJob<MyJob>(triggerBuilder);
+ });
+```
+
+### 26.1.5.8 多种格式字符串输出
+
+`Trigger` 和 `TriggerBuilder` 都提供了多种将自身转换成特定格式的字符串。
+
+1. **转换成 `JSON` 字符串**
+
+```cs showLineNumbers
+var json = trigger.ConvertToJSON();
+```
+
+字符串打印如下：
+
+```json showLineNumbers
+{
+      "triggerId": "job1_trigger1",
+      "jobId": "job1",
+      "triggerType": "Furion.Schedule.PeriodSecondsTrigger",
+      "assemblyName": "Furion",
+      "args": "[5]",
+      "description": null,
+      "status": 2,
+      "startTime": null,
+      "endTime": null,
+      "lastRunTime": "2022-11-20T22:25:03.8176033+08:00",
+      "nextRunTime": "2022-11-20T22:25:08.8385903+08:00",
+      "numberOfRuns": 1,
+      "maxNumberOfRuns": 0,
+      "numberOfErrors": 0,
+      "maxNumberOfErrors": 0,
+      "numRetries": 0,
+      "retryTimeout": 1000,
+      "startNow": true,
+      "runOnStart": false,
+      "updatedTime": "2022-11-20T22:25:03.8386511+08:00"
+}
+```
+
+2. **转换成 `SQL` 字符串**
+
+```cs showLineNumbers {2,7,12}
+// 输出新增 SQL，使用 CamelCase 属性命名
+var insertSql = trigger.ConvertToSQL("tbName"
+      , PersistenceBehavior.Appended
+      , NamingConventions.CamelCase);
+
+// 输出删除 SQL，使用 Pascal 属性命名
+var deleteSql = trigger.ConvertToSQL("tbName"
+      , PersistenceBehavior.Removed
+      , NamingConventions.Pascal);
+
+// 输出更新 SQL，使用 UnderScoreCase 属性命名
+var updateSql = trigger.ConvertToSQL("tbName"
+      , PersistenceBehavior.Updated
+      , NamingConventions.UnderScoreCase);
+```
+
+字符串打印如下：
+
+```sql showLineNumbers {2,48,52}
+-- 新增语句
+INSERT INTO tbName(
+      [triggerId],
+      [jobId],
+      [triggerType],
+      [assemblyName],
+      [args],
+      [description],
+      [status],
+      [startTime],
+      [endTime],
+      [lastRunTime],
+      [nextRunTime],
+      [numberOfRuns],
+      [maxNumberOfRuns],
+      [numberOfErrors],
+      [maxNumberOfErrors],
+      [numRetries],
+      [retryTimeout],
+      [startNow],
+      [runOnStart],
+      [updatedTime]
+)
+VALUES(
+      'job1_trigger1',
+      'job1',
+      'Furion.Schedule.PeriodSecondsTrigger',
+      'Furion',
+      '[5]',
+      NULL,
+      2,
+      NULL,
+      NULL,
+      '2022/11/20 22:27:47',
+      '2022/11/20 22:27:52',
+      1,
+      0,
+      0,
+      0,
+      0,
+      1000,
+      1,
+      0,
+      '2022/11/20 22:27:47'
+);
+
+-- 删除语句
+DELETE FROM tbName
+WHERE [TriggerId] = 'job1_trigger1' AND [JobId] = 'job1';
+
+-- 更新语句
+UPDATE tbName
+SET
+      [trigger_id] = 'job1_trigger1',
+      [job_id] = 'job1',
+      [trigger_type] = 'Furion.Schedule.PeriodSecondsTrigger',
+      [assembly_name] = 'Furion',
+      [args] = '[5]',
+      [description] = NULL,
+      [status] = 2,
+      [start_time] = NULL,
+      [end_time] = NULL,
+      [last_run_time] = '2022/11/20 22:27:47',
+      [next_run_time] = '2022/11/20 22:27:52',
+      [number_of_runs] = 1,
+      [max_number_of_runs] = 0,
+      [number_of_errors] = 0,
+      [max_number_of_errors] = 0,
+      [num_retries] = 0,
+      [retry_timeout] = 1000,
+      [start_now] = 1,
+      [run_on_start] = 0,
+      [updated_time] = '2022/11/20 22:27:47'
+WHERE [trigger_id] = 'job1_trigger1' AND [job_id] = 'job1';
+```
+
+3. **转换成 `Monitor` 字符串**
+
+```cs showLineNumbers
+var monitor = trigger.ConvertToMonitor();
+```
+
+字符串打印如下：
+
+```bash showLineNumbers
+┏━━━━━━━━━━━  Trigger ━━━━━━━━━━━
+┣ Furion.Schedule.PeriodSecondsTrigger
+┣
+┣ triggerId：                job1_trigger1
+┣ jobId：                    job1
+┣ triggerType：              Furion.Schedule.PeriodSecondsTrigger
+┣ assemblyName：             Furion
+┣ args：                     [5]
+┣ description：
+┣ status：                   Running
+┣ startTime：
+┣ endTime：
+┣ lastRunTime：              2022/11/20 22:30:41
+┣ nextRunTime：              2022/11/20 22:30:46
+┣ numberOfRuns：             1
+┣ maxNumberOfRuns：          0
+┣ numberOfErrors：           0
+┣ maxNumberOfErrors：        0
+┣ numRetries：               0
+┣ retryTimeout：             1000
+┣ startNow：                 True
+┣ runOnStart：               False
+┣ updatedTime：              2022/11/20 22:30:41
+┗━━━━━━━━━━━  Trigger ━━━━━━━━━━━
+```
 
 ## 26.1.6 作业计划 `Scheduler` 及构建器
 
