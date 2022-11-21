@@ -78,7 +78,7 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory, IDisposable
         _logger = logger;
         _schedulers = schedulers;
 
-        Persistence = _serviceProvider.GetService<ISchedulerPersistence>();
+        Persistence = _serviceProvider.GetService<IJobPersistence>();
         UseUtcTimestamp = useUtcTimestamp;
 
         if (Persistence != null)
@@ -97,7 +97,7 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory, IDisposable
     /// <summary>
     /// 作业调度持久化服务
     /// </summary>
-    private ISchedulerPersistence Persistence { get; }
+    private IJobPersistence Persistence { get; }
 
     /// <summary>
     /// 作业调度器初始化

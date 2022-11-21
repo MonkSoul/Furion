@@ -25,7 +25,7 @@ namespace Furion.Schedule;
 /// <summary>
 /// 作业调度持久化器
 /// </summary>
-public interface ISchedulerPersistence
+public interface IJobPersistence
 {
     /// <summary>
     /// 加载持久化数据

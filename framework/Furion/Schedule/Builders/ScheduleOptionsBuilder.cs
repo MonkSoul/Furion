@@ -50,7 +50,7 @@ public sealed class ScheduleOptionsBuilder
     /// <summary>
     /// 作业调度持久化器
     /// </summary>
-    private Type _schedulerPersistence;
+    private Type _jobPersistence;
 
     /// <summary>
     /// 未察觉任务异常事件处理程序
@@ -177,12 +177,12 @@ public sealed class ScheduleOptionsBuilder
     /// <summary>
     /// 注册作业调度持久化器
     /// </summary>
-    /// <typeparam name="TSchedulerPersistence">实现自 <see cref="ISchedulerPersistence"/></typeparam>
+    /// <typeparam name="TJobPersistence">实现自 <see cref="IJobPersistence"/></typeparam>
     /// <returns><see cref="ScheduleOptionsBuilder"/> 实例</returns>
-    public ScheduleOptionsBuilder AddPersistence<TSchedulerPersistence>()
-        where TSchedulerPersistence : class, ISchedulerPersistence
+    public ScheduleOptionsBuilder AddPersistence<TJobPersistence>()
+        where TJobPersistence : class, IJobPersistence
     {
-        _schedulerPersistence = typeof(TSchedulerPersistence);
+        _jobPersistence = typeof(TJobPersistence);
         return this;
     }
 
@@ -222,9 +222,9 @@ public sealed class ScheduleOptionsBuilder
         }
 
         // 注册作业调度持久化器
-        if (_schedulerPersistence != default)
+        if (_jobPersistence != default)
         {
-            services.AddSingleton(typeof(ISchedulerPersistence), _schedulerPersistence);
+            services.AddSingleton(typeof(IJobPersistence), _jobPersistence);
         }
 
         return schedulers;

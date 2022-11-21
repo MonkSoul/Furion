@@ -6,7 +6,7 @@ sidebar_label: 26.1 调度作业
 
 :::caution 当前文档还未发布
 
-**当前文档还在编写中，已完成了 75%，将在 2022 年 11 月 21 日完成。**
+**当前文档还在编写中，已完成了 80%，将在 2022 年 11 月 21 日完成。**
 
 :::
 
@@ -2064,9 +2064,119 @@ schedulerBuilder.Updated();
 schedulerBuilder.Removed();
 ```
 
-## 26.1.7 作业调度器 `ScheduleOptionsBuilder`
+### 26.1.6.4 多种格式字符串输出
 
-紧急编写中，将在 2022 年 11 月 21 日完成，别催！
+`Scheduler` 和 `SchedulerBuilder` 都提供了多种将自身转换成特定格式的字符串。
+
+1. **转换成 `JSON` 字符串**
+
+```cs showLineNumbers
+var json = schedulerBuilder.ConvertToJSON();
+```
+
+字符串打印如下：
+
+```json showLineNumbers {2,13}
+{
+  "jobDetail": {
+    "jobId": "job1",
+    "groupName": null,
+    "jobType": "Furion.Application.MyJob",
+    "assemblyName": "Furion.Application",
+    "description": null,
+    "concurrent": true,
+    "includeAnnotations": false,
+    "properties": "{}",
+    "updatedTime": "2022-11-17T09:25:47.0471107+08:00"
+  },
+  "triggers": [
+    {
+      "triggerId": "job1_trigger1",
+      "jobId": null,
+      "triggerType": "Furion.Schedule.PeriodSecondsTrigger",
+      "assemblyName": "Furion",
+      "args": "[5]",
+      "description": null,
+      "status": 2,
+      "startTime": null,
+      "endTime": null,
+      "lastRunTime": "2022-11-20T18:31:56.6859410+08:00",
+      "nextRunTime": "2022-11-20T18:32:01.7233546+08:00",
+      "numberOfRuns": 1,
+      "maxNumberOfRuns": 0,
+      "numberOfErrors": 0,
+      "maxNumberOfErrors": 0,
+      "numRetries": 0,
+      "retryTimeout": 1000,
+      "startNow": true,
+      "runOnStart": false,
+      "updatedTime": "2022-11-20T18:31:56.7233630+08:00"
+    }
+  ]
+}
+```
+
+## 26.1.7 作业调度器 `ScheduleOptionsBuilder` 配置选项
+
+### 26.1.7.1 关于 `ScheduleOptionsBuilder`
+
+`ScheduleOptionsBuilder` 配置选项主要是用来初始化调度作业服务和作业调度器相关配置的。只作为 `services.AddSchedule` 服务注册的配置参数，如：
+
+```cs showLineNumbers {2,8-9}
+// 通过委托的方式配置
+services.AddSchedule(options =>
+{
+      // options 类型为 ScheduleOptionsBuilder
+});
+
+// 自行创建对象实例方式配置
+var scheduleOptionsBuilder = new ScheduleOptionsBuilder();
+services.AddSchedule(scheduleOptionsBuilder);
+```
+
+### 26.1.7.2 `ScheduleOptionsBuilder` 内置属性和方法
+
+- **内置属性配置**
+
+```cs showLineNumbers {4,7,10}
+services.AddSchedule(options =>
+{
+      // 是否使用 UTC 时间，该配置主要用来作为作业调度器检查时间格式的依据
+      options.UseUtcTimestamp = false;
+
+      // 是否输出作业调度器日志
+      options.LogEnabled = true;
+
+      // 定义未捕获的异常，通常是 Task 异常
+      options.UnobservedTaskExceptionHandler = (obj, args) =>
+      {
+      };
+});
+```
+
+- **内置方法配置**
+
+```cs showLineNumbers {4-9,12,15,18}
+services.AddSchedule(options =>
+{
+      // 添加作业
+      options.AddJob(schedulerBuilder);
+      options.AddJob(jobBuilder, triggerBuilder, ...);
+      options.AddJob<MyJob>(triggerBuilder, ...);
+      options.AddJob<MyJob>("作业 Id", triggerBuilder, ...);
+      options.AddJob<MyJob>("作业 Id", concurrent: true, triggerBuilder, ...);
+      options.AddJob<MyJob>(concurrent: true, triggerBuilder, ...);
+
+      // 添加作业执行监视器
+      options.AddMonitor<YourJobMonitor>();
+
+      // 添加作业执行器
+      options.AddExecutor<YourJobMonitor>();
+
+      // 添加作业持久化器
+      options.AddPersistence<YourJobPersistence>();
+});
+```
 
 ## 26.1.8 作业监视器 `IJobMonitor`
 
@@ -2084,7 +2194,7 @@ schedulerBuilder.Removed();
 
 紧急编写中，将在 2022 年 11 月 21 日完成，别催！
 
-## 26.1.12 作业持久化同步
+## 26.1.12 作业持久化器 `IJobPersistence`
 
 紧急编写中，将在 2022 年 11 月 21 日完成，别催！
 
