@@ -91,7 +91,7 @@ public sealed class Retry
                 {
                     if (finalThrow)
                     {
-                        await fallbackPolicy?.Invoke(ex);
+                        if (fallbackPolicy != null) await fallbackPolicy.Invoke(ex);
                         throw;
                     }
                     else return;
@@ -102,7 +102,7 @@ public sealed class Retry
                 {
                     if (finalThrow)
                     {
-                        await fallbackPolicy?.Invoke(ex);
+                        if (fallbackPolicy != null) await fallbackPolicy.Invoke(ex);
                         throw;
                     }
                     else return;
