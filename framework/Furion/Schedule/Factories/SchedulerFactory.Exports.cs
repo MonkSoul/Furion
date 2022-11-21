@@ -89,7 +89,7 @@ internal sealed partial class SchedulerFactory
         if (schedulerBuilder == null) throw new ArgumentNullException(nameof(schedulerBuilder));
 
         // 构建作业计划
-        var internalScheduler = schedulerBuilder.Build(_schedulers.Count);
+        var internalScheduler = schedulerBuilder.Build(_schedulers.Count + 1);
 
         // 存储作业计划工厂
         internalScheduler.Factory = this;
@@ -114,6 +114,8 @@ internal sealed partial class SchedulerFactory
         if (!succeed)
         {
             scheduler = default;
+            _logger.LogWarning("The JobId of <{JobId}> already exists.", internalScheduler.JobId);
+
             return ScheduleResult.Failed;
         }
 

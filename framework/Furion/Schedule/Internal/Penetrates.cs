@@ -104,8 +104,10 @@ internal static class Penetrates
     /// <returns>单词数组</returns>
     internal static string[] SplitToWords(string propertyName)
     {
+        // 空检查
         if (propertyName == null) return Array.Empty<string>();
 
+        // 处理包含空白问题
         if (string.IsNullOrWhiteSpace(propertyName)) return new string[] { propertyName };
         if (propertyName.Length == 1) return new string[] { propertyName };
 
@@ -122,9 +124,13 @@ internal static class Penetrates
     /// <returns><see cref="string"/></returns>
     internal static string SetFirstLetterCase(string str, bool isUpper = true)
     {
+        // 空检查
         if (string.IsNullOrWhiteSpace(str)) return str;
 
+        // 获取首个字母
         var firstLetter = str.First().ToString();
+
+        // 拼接最终返回字符串
         return string.Concat(isUpper
             ? firstLetter.ToUpper()
             : firstLetter.ToLower(), str.AsSpan(1));
@@ -167,11 +173,12 @@ internal static class Penetrates
     }
 
     /// <summary>
-    /// 获取 SQL 的值
+    /// 获取非数值类型 SQL 的值
     /// </summary>
+    /// <remarks>如果为 null 输出 NULL，否则输出 '值'</remarks>
     /// <param name="obj">对象值</param>
     /// <returns><see cref="string"/></returns>
-    internal static string GetSqlValueOrNull(object obj)
+    internal static string GetNoNumberSqlValueOrNull(object obj)
     {
         return obj == null ? "NULL" : $"'{obj}'";
     }
@@ -217,6 +224,7 @@ internal static class Penetrates
             var i = 0;
             foreach (var item in arrEle)
             {
+                // 递归处理
                 arr[i] = GetJsonElementValue(item);
                 i++;
             }
@@ -230,7 +238,7 @@ internal static class Penetrates
             JsonValueKind.String => ele.GetString(),
             JsonValueKind.True => true,
             JsonValueKind.False => false,
-            JsonValueKind.Null => null,
+            JsonValueKind.Null => default,
             JsonValueKind.Number => ele.GetInt32(),
             _ => throw new ArgumentException("Only int, string, boolean and null types or array types constructed by them are supported.")
         };

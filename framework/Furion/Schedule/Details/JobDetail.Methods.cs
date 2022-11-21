@@ -202,14 +202,14 @@ WHERE [{columnNames[0]}] = '{JobId}';";
 )
 VALUES(
     '{JobId}',
-    {Penetrates.GetSqlValueOrNull(GroupName)},
+    {Penetrates.GetNoNumberSqlValueOrNull(GroupName)},
     '{JobType}',
     '{AssemblyName}',
-    {Penetrates.GetSqlValueOrNull(Description)},
+    {Penetrates.GetNoNumberSqlValueOrNull(Description)},
     {(Concurrent ? 1 : 0)},
     {(IncludeAnnotations ? 1 : 0)},
-    {Penetrates.GetSqlValueOrNull(Properties)},
-    {Penetrates.GetSqlValueOrNull(UpdatedTime)}
+    {Penetrates.GetNoNumberSqlValueOrNull(Properties)},
+    {Penetrates.GetNoNumberSqlValueOrNull(UpdatedTime)}
 );";
         }
         // 生成更新 SQL
@@ -218,14 +218,14 @@ VALUES(
             return $@"UPDATE {tableName}
 SET
     [{columnNames[0]}] = '{JobId}',
-    [{columnNames[1]}] = {Penetrates.GetSqlValueOrNull(GroupName)},
+    [{columnNames[1]}] = {Penetrates.GetNoNumberSqlValueOrNull(GroupName)},
     [{columnNames[2]}] = '{JobType}',
     [{columnNames[3]}] = '{AssemblyName}',
-    [{columnNames[4]}] = {Penetrates.GetSqlValueOrNull(Description)},
+    [{columnNames[4]}] = {Penetrates.GetNoNumberSqlValueOrNull(Description)},
     [{columnNames[5]}] = {(Concurrent ? 1 : 0)},
     [{columnNames[6]}] = {(IncludeAnnotations ? 1 : 0)},
-    [{columnNames[7]}] = {Penetrates.GetSqlValueOrNull(Properties)},
-    [{columnNames[8]}] = {Penetrates.GetSqlValueOrNull(UpdatedTime)}
+    [{columnNames[7]}] = {Penetrates.GetNoNumberSqlValueOrNull(Properties)},
+    [{columnNames[8]}] = {Penetrates.GetNoNumberSqlValueOrNull(UpdatedTime)}
 WHERE [{columnNames[0]}] = '{JobId}';";
         }
         return string.Empty;

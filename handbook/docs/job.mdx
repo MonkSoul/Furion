@@ -2359,7 +2359,71 @@ fail: 2022-11-21 14:10:36.7446968 +08:00 星期一 L ConsoleApp32.YourJobMonitor
 
 作业计划工厂提供了程序运行时操作作业调度器，作业计划等诸多方法。
 
+`ISchedulerFactory` 被注册为单例服务，允许在任何可依赖注入的服务获取，如：
 
+```cs showLineNumbers {4,9}
+public class YourService: IYourService
+{
+    private readonly ISchedulerFactory _schedulerFactory;
+    public YourService(ISchedulerFactory schedulerFactory)
+    {
+        _schedulerFactory = schedulerFactory;
+    }
+
+    public void SomeMethod([FromServices]ISchedulerFactory schedulerFactory)
+    {
+    }
+}
+```
+
+### 26.1.10.1 查找所有作业
+
+```cs showLineNumbers {2,5}
+// 返回的是 IScheduler 集合，不能访问 JobDetail 和 Triggers 属性
+var jobs = _schedulerFactory.GetJobs();
+
+// 返回的是 SchedulerModel 集合，可以访问 JobDetail 和 Triggers 属性
+var jobsOfModesl = _schedulerFactory.GetJobsOfModels();
+```
+
+### 26.1.10.2 查找下一个触发的作业
+
+```cs showLineNumbers {2,5}
+// 返回的是 IScheduler 集合，不能访问 JobDetail 和 Triggers 属性
+var nextRunJobs = _schedulerFactory.GetNextRunJobs(DateTime.Now);
+
+// 返回的是 SchedulerModel 集合，可以访问 JobDetail 和 Triggers 属性
+var nextRunJobsOfModels = _schedulerFactory.GetNextRunJobsOfModels(DateTime.Now);
+```
+
+### 26.1.10.3 获取单个作业
+
+```cs showLineNumbers {2,5}
+// 返回 ScheduleResult 类型，如果存在返回 ScheduleResult.Succeed，否则返回 ScheduleResult.NotFound
+var scheduleResult = _schedulerFactory.TryGetJob("job1", out var scheduler);
+
+// 返回 IScheduler 类型
+var scheduler = _schedulerFactory.GetJob("job1");
+```
+
+### 26.1.10.4 添加作业
+
+```cs showLineNumbers {2,5}
+// 返回 ScheduleResult 类型，如果添加成功返回 ScheduleResult.Succeed，否则返回 ScheduleResult.Faild
+var scheduleResult = _schedulerFactory.TryAddJob(schedulerBuilder, out IScheduler scheduler);
+
+// 无返回值，无错误
+_schedulerFactory.AddJob(schedulerBuilder);
+```
+
+作业添加成功或失败分别输出日志：
+
+```bash showLineNumbers {2,4}
+info: 2022-11-21 16:24:03.5834532 +08:00 星期一 L System.Logging.ScheduleService[0] #8
+      The Scheduler of <job1> successfully added to the schedule.
+warn: 2022-11-21 16:24:03.5876747 +08:00 星期一 L System.Logging.ScheduleService[0] #8
+      The JobId of <job1> already exists.
+```
 
 ## 26.1.11 作业计划 `IScheduler`
 

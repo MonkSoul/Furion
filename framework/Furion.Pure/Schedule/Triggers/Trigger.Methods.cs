@@ -322,13 +322,13 @@ VALUES(
     '{JobId}',
     '{TriggerType}',
     '{AssemblyName}',
-    {Penetrates.GetSqlValueOrNull(Args)},
-    {Penetrates.GetSqlValueOrNull(Description)},
+    {Penetrates.GetNoNumberSqlValueOrNull(Args)},
+    {Penetrates.GetNoNumberSqlValueOrNull(Description)},
     {((int)Status)},
-    {Penetrates.GetSqlValueOrNull(StartTime)},
-    {Penetrates.GetSqlValueOrNull(EndTime)},
-    {Penetrates.GetSqlValueOrNull(LastRunTime)},
-    {Penetrates.GetSqlValueOrNull(NextRunTime)},
+    {Penetrates.GetNoNumberSqlValueOrNull(StartTime)},
+    {Penetrates.GetNoNumberSqlValueOrNull(EndTime)},
+    {Penetrates.GetNoNumberSqlValueOrNull(LastRunTime)},
+    {Penetrates.GetNoNumberSqlValueOrNull(NextRunTime)},
     {NumberOfRuns},
     {MaxNumberOfRuns},
     {NumberOfErrors},
@@ -337,7 +337,7 @@ VALUES(
     {RetryTimeout},
     {(StartNow ? 1 : 0)},
     {(RunOnStart ? 1 : 0)},
-    {Penetrates.GetSqlValueOrNull(UpdatedTime)}
+    {Penetrates.GetNoNumberSqlValueOrNull(UpdatedTime)}
 );";
         }
         // 生成更新 SQL
@@ -349,13 +349,13 @@ SET
     [{columnNames[1]}] = '{JobId}',
     [{columnNames[2]}] = '{TriggerType}',
     [{columnNames[3]}] = '{AssemblyName}',
-    [{columnNames[4]}] = {Penetrates.GetSqlValueOrNull(Args)},
-    [{columnNames[5]}] = {Penetrates.GetSqlValueOrNull(Description)},
+    [{columnNames[4]}] = {Penetrates.GetNoNumberSqlValueOrNull(Args)},
+    [{columnNames[5]}] = {Penetrates.GetNoNumberSqlValueOrNull(Description)},
     [{columnNames[6]}] = {((int)Status)},
-    [{columnNames[7]}] = {Penetrates.GetSqlValueOrNull(StartTime)},
-    [{columnNames[8]}] = {Penetrates.GetSqlValueOrNull(EndTime)},
-    [{columnNames[9]}] = {Penetrates.GetSqlValueOrNull(LastRunTime)},
-    [{columnNames[10]}] = {Penetrates.GetSqlValueOrNull(NextRunTime)},
+    [{columnNames[7]}] = {Penetrates.GetNoNumberSqlValueOrNull(StartTime)},
+    [{columnNames[8]}] = {Penetrates.GetNoNumberSqlValueOrNull(EndTime)},
+    [{columnNames[9]}] = {Penetrates.GetNoNumberSqlValueOrNull(LastRunTime)},
+    [{columnNames[10]}] = {Penetrates.GetNoNumberSqlValueOrNull(NextRunTime)},
     [{columnNames[11]}] = {NumberOfRuns},
     [{columnNames[12]}] = {MaxNumberOfRuns},
     [{columnNames[13]}] = {NumberOfErrors},
@@ -364,7 +364,7 @@ SET
     [{columnNames[16]}] = {RetryTimeout},
     [{columnNames[17]}] = {(StartNow ? 1 : 0)},
     [{columnNames[18]}] = {(RunOnStart ? 1 : 0)},
-    [{columnNames[19]}] = {Penetrates.GetSqlValueOrNull(UpdatedTime)}
+    [{columnNames[19]}] = {Penetrates.GetNoNumberSqlValueOrNull(UpdatedTime)}
 WHERE [{columnNames[0]}] = '{TriggerId}' AND [{columnNames[1]}] = '{JobId}';";
         }
         return string.Empty;
