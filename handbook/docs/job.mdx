@@ -574,7 +574,7 @@ info: 2022-11-17 17:54:44.0092455 +08:00 星期四 L MyJob[0] #15
       动态作业 Id 动态作业 Id_trigger1 2022/11/17 17:54:44  * * * * * *
 ```
 
-### 26.1.2.7 作业触发器特性
+### 26.1.2.6 作业触发器特性
 
 默认情况下，框架不会扫描 `IJob` 实现类的作业触发器特性，但可以设置作业的 `IncludeAnnotations` 进行启用。
 
@@ -2234,7 +2234,7 @@ info: 2022-11-21 13:41:49.2249096 +08:00 星期一 L ConsoleApp32.YourJobMonitor
       执行之后：job1 job1_trigger1
 ```
 
-### 26.1.8.2 关于参数 `JobExecutionContext`
+### 26.1.8.1 关于参数 `JobExecutionContext`
 
 `IJobMonitor` 提供的 `OnExecutingAsync` 和 `OnExecutedAsync` 接口方法都包含一个 `context` 参数，前者是 `JobExecutingContext`，后者是 `JobExecutedContext`，它们都有一个共同的基类 `JobExecutionContext`。
 
