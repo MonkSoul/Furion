@@ -132,7 +132,7 @@ internal sealed partial class SchedulerFactory
         CancelSleep();
 
         // 输出日志
-        _logger.LogInformation("The Scheduler of <{jobId}> successfully added to the schedule.", internalScheduler.JobId);
+        _logger.LogInformation("The Scheduler of <{JobId}> successfully added to the schedule.", internalScheduler.JobId);
 
         scheduler = internalScheduler;
         return ScheduleResult.Succeed;
@@ -309,8 +309,14 @@ internal sealed partial class SchedulerFactory
         if (scheduleResult != ScheduleResult.Succeed)
         {
             scheduler = default;
+
+            // 输出日志
+            _logger.LogWarning("The Scheduler of <{jobId}> is not found.", jobId);
             return scheduleResult;
         }
+
+        // 原始作业计划
+        var originScheduler = (Scheduler)internalScheduler;
 
         // 记录更新时间
         var updatedTime = Penetrates.GetNowTime(UseUtcTimestamp);
@@ -339,25 +345,54 @@ internal sealed partial class SchedulerFactory
         }
 
         // 更新内存作业计划集合
-        var updateSucceed = _schedulers.TryUpdate(jobId, schedulerForUpdated, (Scheduler)internalScheduler);
+        var updateSucceed = _schedulers.TryUpdate(jobId, schedulerForUpdated, originScheduler);
         if (!updateSucceed)
         {
             scheduler = null;
+
+            // 输出日志
+            _logger.LogWarning("The Scheduler of <{jobId}> update failed.", jobId);
             return ScheduleResult.Failed;
         }
 
         // 将作业信息运行数据写入持久化
         Shorthand(schedulerForUpdated.JobDetail);
 
-        // 逐条将作业触发器运行数据写入持久化
+        // 逐条将作业触发器运行数据写入持久化（处理作业触发器被删除情况）
+        var triggerIdsOfRemoved = new List<string>();
+        foreach (var (triggerId, triggerForOrigin) in originScheduler.Triggers)
+        {
+            // 处理作业触发器被删除的情况
+            if (!schedulerForUpdated.Triggers.TryGetValue(triggerId, out _))
+            {
+                triggerIdsOfRemoved.Add(triggerId);
+                Shorthand(schedulerForUpdated.JobDetail, triggerForOrigin, PersistenceBehavior.Removed);
+                continue;
+            }
+        }
+
+        // 逐条将作业触发器运行数据写入持久化（处理作业触发器被新增/更新情况）
         foreach (var (triggerId, triggerForUpdated) in schedulerForUpdated.Triggers)
         {
-            Shorthand(schedulerForUpdated.JobDetail, triggerForUpdated
-                // 如果作业触发器之前就存在，则记录为更新，否则为新增
-                , internalScheduler.TryGetTrigger(triggerId, out _) == ScheduleResult.Succeed
-                    ? PersistenceBehavior.Updated
-                    : PersistenceBehavior.Appended);
+            // 排除已被删除的作业触发器 Id
+            if (triggerIdsOfRemoved.Contains(triggerId)) continue;
+
+            // 处理作业触发器新增的情况
+            if (!originScheduler.Triggers.TryGetValue(triggerId, out _))
+            {
+                Shorthand(schedulerForUpdated.JobDetail, triggerForUpdated, PersistenceBehavior.Appended);
+                continue;
+            }
+
+            // 处理作业触发器被更新情况
+            Shorthand(schedulerForUpdated.JobDetail, triggerForUpdated, PersistenceBehavior.Updated);
         }
+
+        // 取消作业调度器休眠状态（强制唤醒）
+        CancelSleep();
+
+        // 输出日志
+        _logger.LogInformation("The Scheduler of <{JobId}> successfully updated to the schedule.", schedulerForUpdated.JobId);
 
         scheduler = schedulerForUpdated;
         return ScheduleResult.Succeed;
@@ -385,6 +420,9 @@ internal sealed partial class SchedulerFactory
         if (scheduleResult != ScheduleResult.Succeed)
         {
             scheduler = default;
+
+            // 输出日志
+            _logger.LogWarning("The Scheduler of <{jobId}> is not found.", jobId);
             return scheduleResult;
         }
 
@@ -393,6 +431,9 @@ internal sealed partial class SchedulerFactory
         if (!succeed)
         {
             scheduler = default;
+
+            // 输出日志
+            _logger.LogWarning("The Scheduler of <{jobId}> remove failed.", jobId);
             return ScheduleResult.Failed;
         }
 
@@ -410,7 +451,7 @@ internal sealed partial class SchedulerFactory
         CancelSleep();
 
         // 输出日志
-        _logger.LogInformation("The Scheduler of <{jobId}> has removed.", jobId);
+        _logger.LogInformation("The Scheduler of <{jobId}> successfully removed to the schedule.", jobId);
 
         scheduler = schedulerForRemoved;
         return ScheduleResult.Succeed;

@@ -2408,6 +2408,8 @@ var scheduler = _schedulerFactory.GetJob("job1");
 
 ### 26.1.10.4 添加作业
 
+- **通过 `SchedulerBuilder` 方式**
+
 ```cs showLineNumbers {2,5}
 // 返回 ScheduleResult 类型，如果添加成功返回 ScheduleResult.Succeed，否则返回 ScheduleResult.Faild
 var scheduleResult = _schedulerFactory.TryAddJob(schedulerBuilder, out IScheduler scheduler);
@@ -2423,6 +2425,131 @@ info: 2022-11-21 16:24:03.5834532 +08:00 星期一 L System.Logging.ScheduleServ
       The Scheduler of <job1> successfully added to the schedule.
 warn: 2022-11-21 16:24:03.5876747 +08:00 星期一 L System.Logging.ScheduleService[0] #8
       The JobId of <job1> already exists.
+```
+
+- **通过 `JobBuilder` + `TriggerBuilder` 方式**
+
+```cs showLineNumbers {2,7}
+// 返回 ScheduleResult 类型，如果添加成功返回 ScheduleResult.Succeed，否则返回 ScheduleResult.Faild
+var schedulerResult = _schedulerFactory.TryAddJob(JobBuilder.Create<MyJob>()
+            , new[] { Triggers.PeriodSeconds(10) }
+            , out var scheduler);
+
+// 无返回值，无错误
+_schedulerFactory.AddJob(JobBuilder.Create<MyJob>()
+            , Triggers.PeriodSeconds(10));
+```
+
+作业添加成功或失败分别输出日志：
+
+```bash showLineNumbers {2,4}
+info: 2022-11-21 16:24:03.5834532 +08:00 星期一 L System.Logging.ScheduleService[0] #8
+      The Scheduler of <job1> successfully added to the schedule.
+warn: 2022-11-21 16:24:03.5876747 +08:00 星期一 L System.Logging.ScheduleService[0] #8
+      The JobId of <job1> already exists.
+```
+
+- **通过 `IJob` 泛型方式**
+
+```cs showLineNumbers {2,6}
+// 返回 ScheduleResult 类型，如果添加成功返回 ScheduleResult.Succeed，否则返回 ScheduleResult.Faild
+var schedulerResult = _schedulerFactory.TryAddJob<MyJob>(new[] { Triggers.PeriodSeconds(10) }
+        , out var scheduler);
+
+// 无返回值，无错误
+_schedulerFactory.AddJob<MyJob>(Triggers.PeriodSeconds(10));
+```
+
+作业添加成功或失败分别输出日志：
+
+```bash showLineNumbers {2,4}
+info: 2022-11-21 16:24:03.5834532 +08:00 星期一 L System.Logging.ScheduleService[0] #8
+      The Scheduler of <job1> successfully added to the schedule.
+warn: 2022-11-21 16:24:03.5876747 +08:00 星期一 L System.Logging.ScheduleService[0] #8
+      The JobId of <job1> already exists.
+```
+
+- **通过 `IJob` 泛型 + `JobId` 方式**
+
+```cs showLineNumbers {2,6}
+// 返回 ScheduleResult 类型，如果添加成功返回 ScheduleResult.Succeed，否则返回 ScheduleResult.Faild
+var schedulerResult = _schedulerFactory.TryAddJob<MyJob>("job1", new[] { Triggers.PeriodSeconds(10) }
+        , out var scheduler);
+
+// 无返回值，无错误
+_schedulerFactory.AddJob<MyJob>("job1", Triggers.PeriodSeconds(10));
+```
+
+作业添加成功或失败分别输出日志：
+
+```bash showLineNumbers {2,4}
+info: 2022-11-21 16:24:03.5834532 +08:00 星期一 L System.Logging.ScheduleService[0] #8
+      The Scheduler of <job1> successfully added to the schedule.
+warn: 2022-11-21 16:24:03.5876747 +08:00 星期一 L System.Logging.ScheduleService[0] #8
+      The JobId of <job1> already exists.
+```
+
+- **通过 `IJob` 泛型 + `JobId` + `Concurrent` 方式**
+
+```cs showLineNumbers {2,7}
+// 返回 ScheduleResult 类型，如果添加成功返回 ScheduleResult.Succeed，否则返回 ScheduleResult.Faild
+var schedulerResult = _schedulerFactory.TryAddJob<MyJob>("job1", concurrent: true
+        , new[] { Triggers.PeriodSeconds(10) }
+        , out var scheduler);
+
+// 无返回值，无错误
+_schedulerFactory.AddJob<MyJob>("job1", concurrent: true
+        , Triggers.PeriodSeconds(10));
+```
+
+作业添加成功或失败分别输出日志：
+
+```bash showLineNumbers {2,4}
+info: 2022-11-21 16:24:03.5834532 +08:00 星期一 L System.Logging.ScheduleService[0] #8
+      The Scheduler of <job1> successfully added to the schedule.
+warn: 2022-11-21 16:24:03.5876747 +08:00 星期一 L System.Logging.ScheduleService[0] #8
+      The JobId of <job1> already exists.
+```
+
+- **通过 `IJob` 泛型 + `Concurrent` 方式**
+
+```cs showLineNumbers {2,7}
+// 返回 ScheduleResult 类型，如果添加成功返回 ScheduleResult.Succeed，否则返回 ScheduleResult.Faild
+var schedulerResult = _schedulerFactory.TryAddJob<MyJob>(concurrent: true
+        , new[] { Triggers.PeriodSeconds(10) }
+        , out var scheduler);
+
+// 无返回值，无错误
+_schedulerFactory.AddJob<MyJob>(concurrent: true
+        , Triggers.PeriodSeconds(10));
+```
+
+作业添加成功或失败分别输出日志：
+
+```bash showLineNumbers {2,4}
+info: 2022-11-21 16:24:03.5834532 +08:00 星期一 L System.Logging.ScheduleService[0] #8
+      The Scheduler of <job1> successfully added to the schedule.
+warn: 2022-11-21 16:24:03.5876747 +08:00 星期一 L System.Logging.ScheduleService[0] #8
+      The JobId of <job1> already exists.
+```
+
+### 26.1.10.5 更新作业
+
+- **通过 `SchedulerBuilder` 方式**
+
+```cs showLineNumbers {2,5}
+// 返回 ScheduleResult 类型，如果添加成功返回 ScheduleResult.Succeed，否则返回 ScheduleResult.Faild
+var scheduleResult = _schedulerFactory.TryUpdateJob(schedulerBuilder, out IScheduler scheduler);
+
+// 无返回值，无错误
+_schedulerFactory.UpdateJob(schedulerBuilder);
+```
+
+作业添加成功或失败分别输出日志：
+
+```bash showLineNumbers {2,4}
+info: 2022-11-21 18:13:13.0098096 +08:00 星期一 L System.Logging.ScheduleService[0] #14
+      The Scheduler of <job1> successfully updated to the schedule.
 ```
 
 ## 26.1.11 作业计划 `IScheduler`
