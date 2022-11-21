@@ -42,7 +42,7 @@ public sealed class SchedulerBuilder
     /// <summary>
     /// 标记作业持久化行为
     /// </summary>
-    internal PersistenceBehavior Behavior { get; set; } = PersistenceBehavior.Updated;
+    internal PersistenceBehavior Behavior { get; set; } = PersistenceBehavior.Appended;
 
     /// <summary>
     /// 作业信息构建器
@@ -66,7 +66,10 @@ public sealed class SchedulerBuilder
         if (jobBuilder == null) throw new ArgumentNullException(nameof(jobBuilder));
 
         // 创建作业计划构建器
-        var schedulerBuilder = new SchedulerBuilder(jobBuilder);
+        var schedulerBuilder = new SchedulerBuilder(jobBuilder)
+        {
+            Behavior = PersistenceBehavior.Appended
+        };
 
         // 批量添加触发器
         if (triggerBuilders != null && triggerBuilders.Length > 0)
@@ -104,6 +107,20 @@ public sealed class SchedulerBuilder
     }
 
     /// <summary>
+    /// 将 <see cref="Scheduler"/> 转换成 <see cref="SchedulerBuilder"/>
+    /// </summary>
+    /// <param name="scheduler">作业计划</param>
+    /// <returns><see cref="SchedulerBuilder"/></returns>
+    internal static SchedulerBuilder From(Scheduler scheduler)
+    {
+        return new SchedulerBuilder(JobBuilder.From(scheduler.JobDetail))
+        {
+            TriggerBuilders = scheduler.Triggers.Select(t => TriggerBuilder.From(t.Value)).ToList(),
+            Behavior = PersistenceBehavior.Updated
+        };
+    }
+
+    /// <summary>
     /// 将 JSON 字符串转换成 <see cref="SchedulerBuilder"/>
     /// </summary>
     /// <param name="json">JSON 字符串</param>
@@ -113,7 +130,8 @@ public sealed class SchedulerBuilder
         var schedulerModel = Penetrates.Deserialize<SchedulerModel>(json);
         return new SchedulerBuilder(JobBuilder.From(schedulerModel.JobDetail))
         {
-            TriggerBuilders = schedulerModel.Triggers.Select(t => TriggerBuilder.From(t)).ToList()
+            TriggerBuilders = schedulerModel.Triggers.Select(t => TriggerBuilder.From(t)).ToList(),
+            Behavior = PersistenceBehavior.Appended
         };
     }
 
@@ -209,7 +227,7 @@ public sealed class SchedulerBuilder
     /// <summary>
     /// 添加作业计划触发器构建器
     /// </summary>
-    /// <param name="triggerBuilder">作业触发器</param>
+    /// <param name="triggerBuilder">作业触发器构建器</param>
     /// <returns><see cref="SchedulerBuilder"/></returns>
     public SchedulerBuilder AddTriggerBuilder(TriggerBuilder triggerBuilder)
     {
@@ -217,6 +235,24 @@ public sealed class SchedulerBuilder
         if (triggerBuilder == null) throw new ArgumentNullException(nameof(triggerBuilder));
 
         TriggerBuilders.Add(triggerBuilder);
+
+        return this;
+    }
+
+    /// <summary>
+    /// 添加作业计划触发器构建器
+    /// </summary>
+    /// <param name="triggerBuilders">作业触发器构建器</param>
+    /// <returns><see cref="SchedulerBuilder"/></returns>
+    public SchedulerBuilder AddTriggerBuilders(params TriggerBuilder[] triggerBuilders)
+    {
+        // 空检查
+        if (triggerBuilders == null || triggerBuilders.Length == 0) return this;
+
+        foreach (var triggerBuilder in triggerBuilders)
+        {
+            AddTriggerBuilder(triggerBuilder);
+        }
 
         return this;
     }
@@ -242,6 +278,24 @@ public sealed class SchedulerBuilder
     }
 
     /// <summary>
+    /// 更新作业计划触发器构建器
+    /// </summary>
+    /// <param name="triggerBuilders">作业触发器构建器</param>
+    /// <returns><see cref="SchedulerBuilder"/></returns>
+    public SchedulerBuilder UpdateTriggerBuilders(params TriggerBuilder[] triggerBuilders)
+    {
+        // 空检查
+        if (triggerBuilders == null || triggerBuilders.Length == 0) return this;
+
+        foreach (var triggerBuilder in triggerBuilders)
+        {
+            UpdateTriggerBuilder(triggerBuilder);
+        }
+
+        return this;
+    }
+
+    /// <summary>
     /// 删除作业计划触发器构建器
     /// </summary>
     /// <param name="triggerBuilder">作业触发器构建器</param>
@@ -252,6 +306,24 @@ public sealed class SchedulerBuilder
         if (triggerBuilder == null) throw new ArgumentNullException(nameof(triggerBuilder));
 
         RemoveTriggerBuilder(triggerBuilder.TriggerId, out _);
+
+        return this;
+    }
+
+    /// <summary>
+    /// 删除作业计划触发器构建器
+    /// </summary>
+    /// <param name="triggerBuilders">作业触发器构建器</param>
+    /// <returns><see cref="SchedulerBuilder"/></returns>
+    public SchedulerBuilder RemoveTriggerBuilders(params TriggerBuilder[] triggerBuilders)
+    {
+        // 空检查
+        if (triggerBuilders == null || triggerBuilders.Length == 0) return this;
+
+        foreach (var triggerBuilder in triggerBuilders)
+        {
+            RemoveTriggerBuilder(triggerBuilder);
+        }
 
         return this;
     }
@@ -278,6 +350,34 @@ public sealed class SchedulerBuilder
     }
 
     /// <summary>
+    /// 删除作业计划触发器构建器
+    /// </summary>
+    /// <param name="triggerIds">作业触发器 Id</param>
+    /// <returns><see cref="SchedulerBuilder"/></returns>
+    public SchedulerBuilder RemoveTriggerBuilders(params string[] triggerIds)
+    {
+        // 空检查
+        if (triggerIds == null || triggerIds.Length == 0) return this;
+
+        foreach (var triggerId in triggerIds)
+        {
+            RemoveTriggerBuilder(triggerId, out _);
+        }
+
+        return this;
+    }
+
+    /// <summary>
+    /// 清空作业计划触发器构建器
+    /// </summary>
+    /// <returns><see cref="SchedulerBuilder"/></returns>
+    public SchedulerBuilder ClearTriggerBuilders()
+    {
+        TriggerBuilders.Clear();
+        return this;
+    }
+
+    /// <summary>
     /// 转换成 JSON 字符串
     /// </summary>
     /// <param name="naming">命名法</param>
@@ -292,8 +392,8 @@ public sealed class SchedulerBuilder
             writer.WritePropertyName(Penetrates.GetNaming(nameof(JobDetail), naming));
             writer.WriteRawValue(JobBuilder.ConvertToJSON(naming));
 
-            // 输出 Trigger
-            writer.WritePropertyName(Penetrates.GetNaming(nameof(Trigger), naming));
+            // 输出 Triggers
+            writer.WritePropertyName(Penetrates.GetNaming(nameof(Triggers), naming));
 
             writer.WriteStartArray();
             foreach (var triggerBuilder in TriggerBuilders)
@@ -304,19 +404,6 @@ public sealed class SchedulerBuilder
 
             writer.WriteEndObject();
         });
-    }
-
-    /// <summary>
-    /// 将 <see cref="Scheduler"/> 转换成 <see cref="SchedulerBuilder"/>
-    /// </summary>
-    /// <param name="scheduler">作业计划</param>
-    /// <returns><see cref="SchedulerBuilder"/></returns>
-    internal static SchedulerBuilder From(Scheduler scheduler)
-    {
-        return new SchedulerBuilder(JobBuilder.From(scheduler.JobDetail))
-        {
-            TriggerBuilders = scheduler.Triggers.Select(t => TriggerBuilder.From(t.Value)).ToList()
-        };
     }
 
     /// <summary>
@@ -339,14 +426,15 @@ public sealed class SchedulerBuilder
         var triggers = new Dictionary<string, Trigger>();
 
         // 遍历作业触发器构建器集合
-        for (var i = 0; i < TriggerBuilders.Count; i++)
+        var count = TriggerBuilders.Count;
+        for (var i = 0; i < count; i++)
         {
             var triggerBuilder = TriggerBuilders[i];
 
             // 配置默认 TriggerId
             if (string.IsNullOrWhiteSpace(triggerBuilder.TriggerId))
             {
-                triggerBuilder.SetTriggerId($"{jobDetail.JobId}_trigger{i + 1}");
+                triggerBuilder.SetTriggerId($"{jobDetail.JobId}_trigger{count + i}");
             }
 
             var trigger = triggerBuilder.Build(jobDetail.JobId);
