@@ -26,7 +26,7 @@ using System.Collections.Concurrent;
 namespace Furion.Schedule;
 
 /// <summary>
-/// 作业计划工厂默认实现类
+/// 作业计划工厂默认实现类（内部服务）
 /// </summary>
 internal sealed partial class SchedulerFactory : ISchedulerFactory, IDisposable
 {
@@ -152,6 +152,16 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory, IDisposable
                 });
 
         return nextRunSchedulers;
+    }
+
+    /// <summary>
+    /// 查找下一个触发的作业并转换成 <see cref="SchedulerModel"/>
+    /// </summary>
+    /// <param name="startAt">起始时间</param>
+    /// <returns><see cref="IEnumerable{SchedulerModel}"/></returns>
+    public IEnumerable<SchedulerModel> GetNextRunJobsOfModels(DateTime startAt)
+    {
+        return GetNextRunJobs(startAt).Select(s => s.GetModel());
     }
 
     /// <summary>

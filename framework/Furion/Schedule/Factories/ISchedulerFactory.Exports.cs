@@ -34,6 +34,12 @@ public partial interface ISchedulerFactory
     IEnumerable<IScheduler> GetJobs();
 
     /// <summary>
+    /// 查找所有作业并转换成 <see cref="SchedulerModel"/>
+    /// </summary>
+    /// <returns><see cref="IEnumerable{SchedulerModel}"/></returns>
+    IEnumerable<SchedulerModel> GetJobsOfModels();
+
+    /// <summary>
     /// 获取作业
     /// </summary>
     /// <param name="jobId">作业 Id</param>

@@ -39,6 +39,15 @@ internal sealed partial class SchedulerFactory
     }
 
     /// <summary>
+    /// 查找所有作业并转换成 <see cref="SchedulerModel"/>
+    /// </summary>
+    /// <returns><see cref="IEnumerable{SchedulerModel}"/></returns>
+    public IEnumerable<SchedulerModel> GetJobsOfModels()
+    {
+        return GetJobs().Select(s => s.GetModel());
+    }
+
+    /// <summary>
     /// 获取作业
     /// </summary>
     /// <param name="jobId">作业 Id</param>

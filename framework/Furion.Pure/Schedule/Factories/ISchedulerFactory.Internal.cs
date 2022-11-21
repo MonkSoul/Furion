@@ -23,7 +23,7 @@
 namespace Furion.Schedule;
 
 /// <summary>
-/// 作业计划工厂服务
+/// 作业计划工厂服务（内部服务）
 /// </summary>
 public partial interface ISchedulerFactory
 {
@@ -38,6 +38,13 @@ public partial interface ISchedulerFactory
     /// <param name="startAt">起始时间</param>
     /// <returns><see cref="IEnumerable{IScheduler}"/></returns>
     IEnumerable<IScheduler> GetNextRunJobs(DateTime startAt);
+
+    /// <summary>
+    /// 查找下一个触发的作业并转换成 <see cref="SchedulerModel"/>
+    /// </summary>
+    /// <param name="startAt">起始时间</param>
+    /// <returns><see cref="IEnumerable{SchedulerModel}"/></returns>
+    IEnumerable<SchedulerModel> GetNextRunJobsOfModels(DateTime startAt);
 
     /// <summary>
     /// 使作业调度器进入休眠状态
