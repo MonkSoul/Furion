@@ -6,7 +6,7 @@ sidebar_label: 26.1 调度作业
 
 :::caution 当前文档还未发布
 
-**当前文档还在编写中，已完成了 80%，将在 2022 年 11 月 21 日完成。**
+**当前文档还在编写中，已完成了 85%，将在 2022 年 11 月 21 日完成。**
 
 :::
 
@@ -2547,10 +2547,80 @@ _schedulerFactory.UpdateJob(schedulerBuilder);
 
 作业添加成功或失败分别输出日志：
 
-```bash showLineNumbers {2,4}
+```bash showLineNumbers {2,4,6}
 info: 2022-11-21 18:13:13.0098096 +08:00 星期一 L System.Logging.ScheduleService[0] #14
       The Scheduler of <job1> successfully updated to the schedule.
+warn: 2022-11-21 18:13:18.0098096 +08:00 星期一 L System.Logging.ScheduleService[0] #14
+      The Scheduler of <job1> is not found.
+warn: 2022-11-21 18:13:23.0098096 +08:00 星期一 L System.Logging.ScheduleService[0] #14
+      The Scheduler of <job1> update failed.
 ```
+
+:::tip 关于更新作业的背后行为
+
+默认情况下，更新作业需要传递 `SchedulerBuilder` 对象，这个对象可通过 `GetJob(jobId)` 获取，如：
+
+```cs showLineNumbers
+var schedulerBuilder = _schedulerFactory.GetJob("jobId")?.GetBuilder();
+```
+
+此时它的内部 `Behavior` 属性被标记为 `PersistenceBehavior.Updated`，也就是更新状态，那么对于这个构建器的任何操作都会标记为 `更新` 操作。
+
+如果通过 `.Appended()` 或 `.Removed()` 方法标记之后，那么它的操作行为就发生变化了。
+
+- **如果被标记为 `.Appended()`**，如：
+
+```cs showLineNumbers
+schedulerBuilder.Appended();
+```
+
+那么它将进行 `新增` 操作，也就是内部会调用 `TryAddJob(schedulerBuilder)` 操作。
+
+- **如果被标记为 `.Removed()`**，如：
+
+```cs showLineNumbers
+schedulerBuilder.Removed();
+```
+
+那么它将进行 `删除` 操作，也就是内部会调用 `TryRemoveJob(schedulerBuilder)` 操作。
+
+比如以下的代码实则是 `新增` 或 `删除` 操作：
+
+```cs showLineNumbers {3,7}
+// 实际做新增操作
+var scheduleResult = _schedulerFactory.TryUpdateJob(
+      SchedulerBuilder.Create(JobBuilder.Create<MyJob>())); // Create 方法默认标记为 Appended
+
+// 实际做删除操作
+var schedulerBuilder = _schedulerFactory.GetJob("jobId")?.GetBuilder();
+var scheduleResult = _schedulerFactory.TryUpdateJob(schedulerBuilder.Removed()); // 标记为 Removed
+```
+
+:::
+
+### 26.1.10.6 删除作业
+
+### 26.1.10.7 检查作业是否存在
+
+### 26.1.10.8 启动所有作业
+
+### 26.1.10.9 暂停所有作业
+
+### 26.1.10.10 删除所有作业
+
+### 26.1.10.11 查看作业组所有作业
+
+### 26.1.10.12 启动作业组所有作业
+
+### 26.1.10.13 暂停作业组所有做业
+
+### 26.1.10.14 删除作业组所有作业
+
+### 26.1.10.15 检查作业组作业是否存在
+
+### 26.1.10.16 强制触发所有作业持久化
+
+### 26.1.10.16 强制触发作业组所有作业持久化
 
 ## 26.1.11 作业计划 `IScheduler`
 

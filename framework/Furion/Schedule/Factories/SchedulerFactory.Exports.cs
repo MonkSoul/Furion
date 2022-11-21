@@ -539,7 +539,7 @@ internal sealed partial class SchedulerFactory
     }
 
     /// <summary>
-    /// 查找所有作业组作业
+    /// 查找作业组所有作业
     /// </summary>
     /// <param name="group">作业组名称</param>
     /// <returns><see cref="IEnumerable{IScheduler}"/></returns>
@@ -552,7 +552,17 @@ internal sealed partial class SchedulerFactory
     }
 
     /// <summary>
-    /// 启动所有作业组作业
+    /// 查找作业组所有作业并转换成 <see cref="SchedulerModel"/>
+    /// </summary>
+    /// <param name="group">作业组名称</param>
+    /// <returns><see cref="IEnumerable{SchedulerModel}"/></returns>
+    public IEnumerable<SchedulerModel> GetGroupJobsOfModels(string group)
+    {
+        return GetGroupJobs(group).Select(s => s.GetModel());
+    }
+
+    /// <summary>
+    /// 启动作业组所有作业
     /// </summary>
     /// <param name="group">作业组名称</param>
     public void StartGroup(string group)
@@ -566,7 +576,7 @@ internal sealed partial class SchedulerFactory
     }
 
     /// <summary>
-    /// 暂停所有作业组作业
+    /// 暂停作业组所有作业
     /// </summary>
     /// <param name="group">作业组名称</param>
     public void PauseGroup(string group)
@@ -580,7 +590,7 @@ internal sealed partial class SchedulerFactory
     }
 
     /// <summary>
-    /// 删除所有作业组作业
+    /// 删除作业组所有作业
     /// </summary>
     /// <param name="group">作业组名称</param>
     public void RemoveGroup(string group)
@@ -594,7 +604,28 @@ internal sealed partial class SchedulerFactory
     }
 
     /// <summary>
-    /// 强制触发作业持久化记录（全部）
+    /// 检查作业组作业是否存在
+    /// </summary>
+    /// <param name="group">作业组名称</param>
+    /// <param name="jobId">作业 Id</param>
+    /// <returns><see cref="bool"/></returns>
+    public bool ContainsJob(string group, string jobId)
+    {
+        // 空检查
+        if (string.IsNullOrWhiteSpace(group)) throw new ArgumentNullException(nameof(group));
+
+        var scheduleResult = TryGetJob(jobId, out var scheduler);
+        if (scheduleResult != ScheduleResult.Succeed) return false;
+
+        // 判断作业组是否相等
+        var internalScheduler = (Scheduler)scheduler;
+        if (internalScheduler.JobDetail.GroupName != group) return false;
+
+        return true;
+    }
+
+    /// <summary>
+    /// 强制触发所有作业持久化记录
     /// </summary>
     public void PersistAll()
     {
@@ -607,7 +638,7 @@ internal sealed partial class SchedulerFactory
     }
 
     /// <summary>
-    /// 强制触发作业持久化记录（特定组）
+    /// 强制触发作业组所有作业持久化记录
     /// </summary>
     public void PersistGroup(string group)
     {
