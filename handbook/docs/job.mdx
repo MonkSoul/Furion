@@ -2180,11 +2180,180 @@ services.AddSchedule(options =>
 
 ## 26.1.8 作业监视器 `IJobMonitor`
 
-紧急编写中，将在 2022 年 11 月 21 日完成，别催！
+调度作业服务提供了 `IJobMonitor` 监视器接口，实现该接口可以监视所有作业处理程序执行事件，包括 `执行之前、执行之后，执行异常`。
+
+如添加 `YourJobMonitor`：
+
+```cs showLineNumbers  {1,9,15}
+public class YourJobMonitor : IJobMonitor
+{
+    private readonly ILogger<YourJobMonitor> _logger;
+    public YourJobMonitor(ILogger<YourJobMonitor> logger)
+    {
+        _logger = logger;
+    }
+
+    public Task OnExecutingAsync(JobExecutingContext context, CancellationToken stoppingToken)
+    {
+        _logger.LogInformation("执行之前：{JobId} {TriggerId}", context.JobId, context.TriggerId);
+        return Task.CompletedTask;
+    }
+
+    public Task OnExecutedAsync(JobExecutedContext context, CancellationToken stoppingToken)
+    {
+        _logger.LogInformation("执行之后：{JobId} {TriggerId}", context.JobId, context.TriggerId);
+
+        if (context.Exception != null)
+        {
+            _logger.LogError(context.Exception, "执行出错啦：{JobId} {TriggerId}", context.JobId, context.TriggerId);
+        }
+
+        return Task.CompletedTask;
+    }
+}
+```
+
+最后，在注册 `Schedule` 服务中注册 `YourJobMonitor`：
+
+```cs showLineNumbers  {4}
+services.AddSchedule(options =>
+{
+    // 添加作业执行监视器
+    builder.AddMonitor<YourJobMonitor>();
+});
+```
+
+执行结果如下：
+
+```bash showLineNumbers {2,6}
+info: 2022-11-21 13:41:49.2144716 +08:00 星期一 L ConsoleApp32.YourJobMonitor[0] #9
+      执行之前：job1 job1_trigger1
+info: 2022-11-21 13:41:49.2216598 +08:00 星期一 L ConsoleApp32.MyJob[0] #9
+      job1 job1_trigger1 2022/11/21 13:41:49  5000ms
+info: 2022-11-21 13:41:49.2249096 +08:00 星期一 L ConsoleApp32.YourJobMonitor[0] #9
+      执行之后：job1 job1_trigger1
+```
+
+### 26.1.8.2 关于参数 `JobExecutionContext`
+
+`IJobMonitor` 提供的 `OnExecutingAsync` 和 `OnExecutedAsync` 接口方法都包含一个 `context` 参数，前者是 `JobExecutingContext`，后者是 `JobExecutedContext`，它们都有一个共同的基类 `JobExecutionContext`。
+
+`JobExecutionContext` 提供了以下公共属性和公共方法:
+
+- **`JobExecutionContext` 属性列表**
+  - `JobId`：作业 `Id`
+  - `TriggerId`：当前触发器 `Id`
+  - `JobDetail`：作业信息
+  - `Trigger`：作业触发器
+  - `OccurrenceTime`：调度器检查时间，最准确的记录时间
+- **`JobExecutionContext` 方法列表**
+  - `.ConvertToJSON(naming)`：将作业计划转换成 `JSON` 字符串
+
+<p></p>
+
+- **`JobExecutingContext`** 在基类基础上拓展了 `ExecutingTime` 属性：
+  - `ExecutingTime`：执行前时间
+- **`JobExecutedContext`** 则在基类基础上拓展了 `ExecutedTime` 和 `Exception` 属性：
+  - `ExecutedTime`：执行后时间
+  - `Exception`：执行异常
 
 ## 26.1.9 作业执行器 `IJobExecutor`
 
-紧急编写中，将在 2022 年 11 月 21 日完成，别催！
+调度作业服务提供了 `IJobExecutor` 执行器接口，可以让开发者自定义作业处理函数执行策略，如 `超时控制，失败重试、熔断等等`。
+
+如添加 `YourJobExecutor`：
+
+```cs showLineNumbers  {1,3,6-9}
+public class YourJobExecutor : IJobExecutor
+{
+    public async Task ExecuteAsync(JobExecutingContext context, IJob jobHandler, CancellationToken stoppingToken)
+    {
+        // 实现失败重试策略，如失败重试 3 次
+        await Retry.InvokeAsync(async () =>
+        {
+            await jobHandler.ExecuteAsync(context, stoppingToken);
+        }, 3, 1000);
+    }
+}
+```
+
+接着模拟 `MyJob` 执行出错：
+
+```cs showLineNumbers {1,14}
+public class MyJob : IJob
+{
+    private readonly ILogger<MyJob> _logger;
+
+    public MyJob(ILogger<MyJob> logger)
+    {
+        _logger = logger;
+    }
+
+    public async Task ExecuteAsync(JobExecutingContext context, CancellationToken stoppingToken)
+    {
+        _logger.LogInformation($"{context.JobId} {context.TriggerId} {context.OccurrenceTime} {context.Trigger}");
+
+        throw new Exception("模拟出错");
+
+        await Task.CompletedTask;
+    }
+}
+```
+
+最后，在注册 `Schedule` 服务中注册 `YourJobExecutor`：
+
+```cs showLineNumbers  {5}
+services.AddSchedule(options =>
+{
+      options.AddMonitor<YourJobMonitor>();
+      // 添加作业执行器
+      options.AddExecutor<YourJobExecutor>();
+      options.AddJob<MyJob>(Triggers.PeriodSeconds(10));
+});
+```
+
+执行结果如下：
+
+```bash showLineNumbers {2,5-10,24,26}
+info: 2022-11-21 14:10:33.3382344 +08:00 星期一 L ConsoleApp32.YourJobMonitor[0] #14
+      执行之前：job1 job1_trigger1
+info: 2022-11-21 14:10:33.3447855 +08:00 星期一 L ConsoleApp32.MyJob[0] #14
+      job1 job1_trigger1 2022/11/21 14:10:33  10000ms
+info: 2022-11-21 14:10:34.4217342 +08:00 星期一 L ConsoleApp32.MyJob[0] #14
+      job1 job1_trigger1 2022/11/21 14:10:33  10000ms
+info: 2022-11-21 14:10:35.4952165 +08:00 星期一 L ConsoleApp32.MyJob[0] #14
+      job1 job1_trigger1 2022/11/21 14:10:33  10000ms
+info: 2022-11-21 14:10:36.5719440 +08:00 星期一 L ConsoleApp32.MyJob[0] #14
+      job1 job1_trigger1 2022/11/21 14:10:33  10000ms
+fail: 2022-11-21 14:10:36.7388113 +08:00 星期一 L System.Logging.ScheduleService[0] #14
+      Error occurred executing job1 job1_trigger1< 10000ms>.
+      ++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+      System.Exception: 模拟出错
+         at ConsoleApp32.MyJob.ExecuteAsync(JobExecutingContext context, CancellationToken stoppingToken) in D:\Workplaces\Study\CSharp\ConsoleApp32\ConsoleApp32\MyJob.cs:line 19
+         at ConsoleApp32.YourJobExecutor.<>c__DisplayClass0_0.<<ExecuteAsync>b__0>d.MoveNext() in D:\Workplaces\Study\CSharp\ConsoleApp32\ConsoleApp32\YourJobExecutor.cs:line 18
+      --- End of stack trace from previous location ---
+         at Furion.FriendlyException.Retry.InvokeAsync(Func`1 action, Int32 numRetries, Int32 retryTimeout, Boolean finalThrow, Type[] exceptionTypes, Func`2 fallbackPolicy) in D:\Workplaces\OpenSources\Furion\framework\Furion\FriendlyException\Retry.cs:line 84
+         at Furion.FriendlyException.Retry.InvokeAsync(Func`1 action, Int32 numRetries, Int32 retryTimeout, Boolean finalThrow, Type[] exceptionTypes, Func`2 fallbackPolicy) in D:\Workplaces\OpenSources\Furion\framework\Furion\FriendlyException\Retry.cs:line 95
+         at ConsoleApp32.YourJobExecutor.ExecuteAsync(JobExecutingContext context, IJob jobHandler, CancellationToken stoppingToken) in D:\Workplaces\Study\CSharp\ConsoleApp32\ConsoleApp32\YourJobExecutor.cs:line 16
+         at Furion.Schedule.ScheduleHostedService.<>c__DisplayClass16_2.<<BackgroundProcessing>b__1>d.MoveNext() in D:\Workplaces\OpenSources\Furion\framework\Furion\Schedule\HostedServices\ScheduleHostedService.cs:line 188
+      ++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+info: 2022-11-21 14:10:36.7413303 +08:00 星期一 L ConsoleApp32.YourJobMonitor[0] #14
+      执行之后：job1 job1_trigger1
+fail: 2022-11-21 14:10:36.7446968 +08:00 星期一 L ConsoleApp32.YourJobMonitor[0] #14
+      执行出错啦：job1 job1_trigger1
+      ++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+      System.InvalidOperationException: Error occurred executing job1 job1_trigger1< 10000ms>.
+       ---> System.Exception: 模拟出错
+         at ConsoleApp32.MyJob.ExecuteAsync(JobExecutingContext context, CancellationToken stoppingToken) in D:\Workplaces\Study\CSharp\ConsoleApp32\ConsoleApp32\MyJob.cs:line 19
+         at ConsoleApp32.YourJobExecutor.<>c__DisplayClass0_0.<<ExecuteAsync>b__0>d.MoveNext() in D:\Workplaces\Study\CSharp\ConsoleApp32\ConsoleApp32\YourJobExecutor.cs:line 18
+      --- End of stack trace from previous location ---
+         at Furion.FriendlyException.Retry.InvokeAsync(Func`1 action, Int32 numRetries, Int32 retryTimeout, Boolean finalThrow, Type[] exceptionTypes, Func`2 fallbackPolicy) in D:\Workplaces\OpenSources\Furion\framework\Furion\FriendlyException\Retry.cs:line 84
+         at Furion.FriendlyException.Retry.InvokeAsync(Func`1 action, Int32 numRetries, Int32 retryTimeout, Boolean finalThrow, Type[] exceptionTypes, Func`2 fallbackPolicy) in D:\Workplaces\OpenSources\Furion\framework\Furion\FriendlyException\Retry.cs:line 95
+         at ConsoleApp32.YourJobExecutor.ExecuteAsync(JobExecutingContext context, IJob jobHandler, CancellationToken stoppingToken) in D:\Workplaces\Study\CSharp\ConsoleApp32\ConsoleApp32\YourJobExecutor.cs:line 16
+         at Furion.Schedule.ScheduleHostedService.<>c__DisplayClass16_2.<<BackgroundProcessing>b__1>d.MoveNext() in D:\Workplaces\OpenSources\Furion\framework\Furion\Schedule\HostedServices\ScheduleHostedService.cs:line 188
+         --- End of inner exception stack trace ---
+      ++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+```
 
 ## 26.1.10 作业计划工厂 `ISchedulerFactory`
 
