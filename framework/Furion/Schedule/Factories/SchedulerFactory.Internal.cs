@@ -180,7 +180,7 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory, IDisposable
         // 监听休眠被取消
         _sleepCancellationTokenSource.Token.Register(() =>
         {
-            _logger.LogWarning("Schedule Hosted Service cancels hibernation.");
+            _logger.LogWarning("Schedule Hosted Service cancels hibernation and GC.Collect().");
 
             // 通知 GC 垃圾回收器立即回收
             GC.Collect();
@@ -329,8 +329,8 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory, IDisposable
             }
             catch (Exception ex)
             {
-                if (context is PersistenceTriggerContext triggerContext) _logger.LogError(ex, "Persistence of <{triggerId}> trigger of <{jobId}> job failed.", triggerContext.TriggerId, triggerContext.JobId);
-                else _logger.LogError(ex, "The JobDetail of <{jobId}> persist failed.", context.JobId);
+                if (context is PersistenceTriggerContext triggerContext) _logger.LogError(ex, "Persistence of <{TriggerId}> trigger of <{JobId}> job failed.", triggerContext.TriggerId, triggerContext.JobId);
+                else _logger.LogError(ex, "The JobDetail of <{JobId}> persist failed.", context.JobId);
             }
         }
     }

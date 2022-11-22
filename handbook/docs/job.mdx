@@ -2545,7 +2545,7 @@ var scheduleResult = _schedulerFactory.TryUpdateJob(schedulerBuilder, out ISched
 _schedulerFactory.UpdateJob(schedulerBuilder);
 ```
 
-作业添加成功或失败分别输出日志：
+作业更新成功或失败分别输出日志：
 
 ```bash showLineNumbers {2,4,6}
 info: 2022-11-21 18:13:13.0098096 +08:00 星期一 L System.Logging.ScheduleService[0] #14
@@ -2599,6 +2599,27 @@ var scheduleResult = _schedulerFactory.TryUpdateJob(schedulerBuilder.Removed());
 :::
 
 ### 26.1.10.6 删除作业
+
+- **通过 `JobId` 方式**
+
+```cs showLineNumbers {2,5}
+// 返回 ScheduleResult 类型，如果添加成功返回 ScheduleResult.Succeed，否则返回 ScheduleResult.Faild 或者 ScheduleResult.NotFound
+var schedulerResult = _schedulerFactory.TryRemoveJob("job1", out var scheduler);
+
+// 无返回值，无错误
+_schedulerFactory.RemoveJob("job1");
+```
+
+作业删除成功或失败分别输出日志：
+
+```bash showLineNumbers {2,4,6}
+info: 2022-11-22 09:25:17.4763941 +08:00 星期二 L System.Logging.ScheduleService[0] #4
+      The Scheduler of <job1> successfully removed to the schedule.
+warn: 2022-11-22 09:28:56.2241923 +08:00 星期二 L System.Logging.ScheduleService[0] #9
+      The Scheduler of <job12> is not found.
+warn: 2022-11-22 09:29:01.2241923 +08:00 星期二 L System.Logging.ScheduleService[0] #9
+      The Scheduler of <job1> remove failed.
+```
 
 ### 26.1.10.7 检查作业是否存在
 
