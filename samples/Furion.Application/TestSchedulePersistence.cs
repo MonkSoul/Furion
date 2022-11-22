@@ -3,7 +3,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Furion.Application;
 
-public class TestSchedulerPersistence : ISchedulerPersistence
+public class TestSchedulerPersistence : IJobPersistence
 {
     private readonly ILogger<TestSchedulerPersistence> _logger;
 

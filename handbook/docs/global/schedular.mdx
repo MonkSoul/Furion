@@ -10,13 +10,24 @@ sidebar_label: 17. Schedular 静态类
 
 :::
 
-## 17.1 获取作业调度计划工厂
+## 17.1 启动调度作业服务
+
+该功能仅限不能通过 `services.AddXXX` 方式使用，比如控制台，`Winfrom/WPF` 等。
+
+```cs showLineNumbers {1,3}
+IDisposable dispose =  Schedular.Run(options =>
+{
+    options.AddJob<MyJob>(Triggers.Secondly());
+});
+```
+
+## 17.2 获取作业调度计划工厂
 
 ```cs showLineNumbers
 var schedulerFactory = Schedular.GetFactory();
 ```
 
-## 17.2 获取作业
+## 17.3 获取作业
 
 ```cs showLineNumbers
 var scheduler = Schedular.GetJob("作业 Id");

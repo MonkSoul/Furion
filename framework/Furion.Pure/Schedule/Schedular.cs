@@ -20,6 +20,9 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+
 namespace Furion.Schedule;
 
 /// <summary>
@@ -29,12 +32,55 @@ namespace Furion.Schedule;
 public static class Schedular
 {
     /// <summary>
+    /// 初始化 Schedule 服务
+    /// </summary>
+    /// <remarks>仅限不能依赖注入的服务使用</remarks>
+    /// <param name="configureOptionsBuilder">作业调度器配置选项构建器委托</param>
+    /// <returns><see cref="IDisposable"/></returns>
+    public static IDisposable Run(Action<ScheduleOptionsBuilder> configureOptionsBuilder)
+    {
+        // 创建初始作业调度器配置选项构建器
+        var scheduleOptionsBuilder = new ScheduleOptionsBuilder();
+        configureOptionsBuilder.Invoke(scheduleOptionsBuilder);
+
+        return Run(scheduleOptionsBuilder);
+    }
+
+    /// <summary>
+    /// 初始化 Schedule 服务
+    /// </summary>
+    /// <remarks>仅限不能依赖注入的服务使用</remarks>
+    /// <param name="scheduleOptionsBuilder">作业调度器配置选项构建器</param>
+    public static IDisposable Run(ScheduleOptionsBuilder scheduleOptionsBuilder = default)
+    {
+        // 创建服务集合
+        var services = new ServiceCollection();
+
+        // 注册初始服务
+        services.AddConsoleFormatter();
+
+        // 注册 Schedule 服务
+        services.AddSchedule(scheduleOptionsBuilder);
+
+        // 构建服务并解析 ScheduleHostedService
+        var serviceProvider = services.BuildServiceProvider();
+        var scheduleHostedService = serviceProvider.GetServices<IHostedService>()
+            .Single(s => s.GetType().Name == nameof(ScheduleHostedService));
+
+        // 启动服务
+        var cancellationTokenSource = new CancellationTokenSource();
+        scheduleHostedService.StartAsync(cancellationTokenSource.Token);
+
+        return serviceProvider;
+    }
+
+    /// <summary>
     /// 获取作业计划工厂
     /// </summary>
     /// <returns><see cref="ISchedulerFactory"/></returns>
     public static ISchedulerFactory GetFactory()
     {
-        return App.GetService<ISchedulerFactory>(App.RootServices);
+        return App.GetRequiredService<ISchedulerFactory>(App.RootServices);
     }
 
     /// <summary>
@@ -44,6 +90,6 @@ public static class Schedular
     /// <returns><see cref="IScheduler"/></returns>
     public static IScheduler GetJob(string jobId)
     {
-        return GetFactory()?.GetJob(jobId);
+        return GetFactory().GetJob(jobId);
     }
 }
