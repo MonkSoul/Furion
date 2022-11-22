@@ -2383,11 +2383,11 @@ public class YourService: IYourService
 var jobs = _schedulerFactory.GetJobs();
 
 // 返回的是 SchedulerModel 集合，可以访问 JobDetail 和 Triggers 属性
-var jobsOfModesl = _schedulerFactory.GetJobsOfModels();
+var jobsOfModels = _schedulerFactory.GetJobsOfModels();
 
 // 还可以通过 group 查找
 var jobs = _schedulerFactory.GetJobs("group1");
-var jobsOfModesl = _schedulerFactory.GetJobsOfModels("group1");
+var jobsOfModels = _schedulerFactory.GetJobsOfModels("group1");
 ```
 
 ### 26.1.10.2 查找下一个触发的作业
