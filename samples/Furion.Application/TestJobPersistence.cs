@@ -12,7 +12,7 @@ public class TestJobPersistence : IJobPersistence
         _logger = logger;
     }
 
-    public SchedulerBuilder Preload(SchedulerBuilder builder)
+    public SchedulerBuilder Preload(string jobId, SchedulerBuilder builder)
     {
         builder.GetJobBuilder().SetDescription("测试作业描述");
         builder.GetTriggerBuilders().ForEach(b =>

@@ -81,6 +81,9 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory
         Persistence = _serviceProvider.GetService<IJobPersistence>();
         UseUtcTimestamp = useUtcTimestamp;
 
+        // 初始化作业调度器休眠 Token
+        CreateCancellationTokenSource();
+
         if (Persistence != null)
         {
             // 创建长时间运行的后台任务，并将作业运行消息写入持久化中
@@ -107,9 +110,6 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory
         // 输出作业调度度初始化日志
         _logger.LogDebug("Schedule Hosted Service is preloading.");
 
-        // 初始化作业调度器休眠 Token
-        CreateCancellationTokenSource();
-
         // 逐条初始化作业计划
         foreach (var scheduler in _schedulers.Values)
         {
@@ -117,7 +117,7 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory
             var schedulerBuilder = SchedulerBuilder.From(scheduler);
 
             // 加载持久化数据并更新到内存中
-            if (TryUpdateJob(Persistence?.Preload(schedulerBuilder) ?? schedulerBuilder, out var schedulerForUpdated) == ScheduleResult.Succeed
+            if (TryUpdateJob(Persistence?.Preload(scheduler.JobId, schedulerBuilder) ?? schedulerBuilder, out var schedulerForUpdated) == ScheduleResult.Succeed
                   && schedulerBuilder.Behavior == PersistenceBehavior.Updated)
             {
                 // 处理启动时执行一次情况

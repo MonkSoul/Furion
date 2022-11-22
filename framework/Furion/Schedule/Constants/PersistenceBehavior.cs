@@ -29,7 +29,7 @@ namespace Furion.Schedule;
 public enum PersistenceBehavior : uint
 {
     /// <summary>
-    /// 追加
+    /// 添加
     /// </summary>
     Appended = 0,
 

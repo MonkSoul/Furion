@@ -678,6 +678,9 @@ var jobBuilder = JobBuilder.Create("YourProject", "YourProject.MyJob");
 
 ```cs showLineNumbers
 var jobBuilder = JobBuilder.From(jobDetail);
+
+//也可以通过以下方式
+var jobBuilder = jobDetail.GetBuilder();
 ```
 
 3. **通过 `JSON` 字符串创建**
@@ -1212,6 +1215,9 @@ var triggerBuilder = TriggerBuilder.Create("Furion", "Furion.Schedule.PeriodTrig
 
 ```cs showLineNumbers
 var triggerBuilder = TriggerBuilder.From(trigger);
+
+//也可以通过以下方式
+var triggerBuilder = trigger.GetBuilder();
 ```
 
 3. **通过 `JSON` 字符串创建**
@@ -2935,6 +2941,64 @@ var json scheduler.ConvertToJSON();
 ```
 
 ## 26.1.12 作业持久化器 `IJobPersistence`
+
+### 26.1.12.1 关于作业持久化器
+
+作业持久化器指的是可以通过存储介质如数据库中加载作业信息到内存中，又可以将内存中作业调度器的作业信息实时同步回存储介质中。
+
+### 26.1.12.2 实现作业持久化器
+
+调度作业服务提供了非常简单的 `IJobPersistence` 接口，只需实现该接口即可实现持久化，如实现数据库持久化
+
+```cs showLineNumbers {1,3,8,11,13,17,19}
+public class DbJobPersistence : IJobPersistence
+{
+    public SchedulerBuilder Preload(string jobId, SchedulerBuilder builder)
+    {
+        // 如果是更新操作，则 return builder.Updated();
+        // 如果是新增操作，则 return builder.Appended();
+        // 如果是删除操作，则 return builder.Removed();
+        return builder.Updated();
+    }
+
+    public void OnChanged(PersistenceContext context)
+    {
+        var sql = context.ConvertToSQL("job_detail");
+        // 这里执行 sql 即可
+    }
+
+    public void OnTriggerChanged(PersistenceTriggerContext context)
+    {
+        var sql = context.ConvertToSQL("job_trigger");
+        // 这里执行 sql 即可
+    }
+}
+```
+
+之后在 `Startup.cs` 中注册即可：
+
+```cs showLineNumbers {3}
+services.AddSchedule(options =>
+{
+      options.AddPersistence<DbJobPersistence>();
+});
+```
+
+可能有些开发者看到这里一脸不解，持久化不应该这么简单啊！其实就是这么简单....
+
+### 26.1.12.3 `IJobPersistence` 详细说明
+
+紧急编写中，将在 2022 年 11 月 23 日完成，别催！
+
+### 26.1.12.4 各类数据库创建数据库表语句
+
+紧急编写中，将在 2022 年 11 月 23 日完成，别催！
+
+### 26.1.12.5 `EFCore` 持久化示例
+
+紧急编写中，将在 2022 年 11 月 23 日完成，别催！
+
+### 26.1.12.6 `SqlSugar` 持久化示例
 
 紧急编写中，将在 2022 年 11 月 23 日完成，别催！
 

@@ -30,9 +30,10 @@ public interface IJobPersistence
     /// <summary>
     /// 加载持久化数据
     /// </summary>
+    /// <param name="jobId">作业 Id</param>
     /// <param name="builder">作业计划构建器</param>
     /// <returns><see cref="SchedulerBuilder"/></returns>
-    SchedulerBuilder Preload(SchedulerBuilder builder);
+    SchedulerBuilder Preload(string jobId, SchedulerBuilder builder);
 
     /// <summary>
     /// 作业信息更改通知
