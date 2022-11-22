@@ -115,7 +115,7 @@ internal sealed class ScheduleHostedService : BackgroundService
     private async Task BackgroundProcessing(CancellationToken stoppingToken)
     {
         // 获取当前时间作为检查时间
-        var checkTime = Penetrates.GetUnspecifiedNowTime(UseUtcTimestamp);
+        var checkTime = Penetrates.GetNowTime(UseUtcTimestamp);
 
         // 查找所有符合触发的作业
         var nextRunJobs = _schedulerFactory.GetNextRunJobs(checkTime);

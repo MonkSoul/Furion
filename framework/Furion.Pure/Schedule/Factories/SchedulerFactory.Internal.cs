@@ -304,7 +304,7 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory, IDisposable
         if (!_schedulers.Any()) return null;
 
         // 获取当前时间作为检查时间
-        var checkTime = Penetrates.GetUnspecifiedNowTime(UseUtcTimestamp);
+        var checkTime = Penetrates.GetNowTime(UseUtcTimestamp);
 
         // 获取所有作业计划下一批执行时间
         var nextRunTimes = _schedulers.Values
