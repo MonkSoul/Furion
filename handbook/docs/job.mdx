@@ -2706,7 +2706,7 @@ info: 2022-11-22 11:04:23.0797010 +08:00 星期二 L System.Logging.ScheduleServ
       The Scheduler of <job1> successfully removed to the schedule.
 ```
 
-### 26.1.10.16 强制唤醒作业调度器
+### 26.1.10.11 强制唤醒作业调度器
 
 正常情况下，作业调度器会自动管理休眠和唤醒，但一些特殊情况下需要强制唤醒作业调度器，可通过以下方式：
 
@@ -2721,7 +2721,7 @@ warn: 2022-11-22 11:04:23.0726721 +08:00 星期二 L System.Logging.ScheduleServ
       Schedule Hosted Service cancels hibernation and GC.Collect().
 ```
 
-### 26.1.10.17 强制触发所有作业持久化
+### 26.1.10.12 强制触发所有作业持久化
 
 此操作会强制触发作业持久化器 `IJobPersistence` 的 `OnChanged` 和 `OnTriggerChanged` 方法，并标记作业持久化行为为 `PersistenceBehavior.Updated`。
 
