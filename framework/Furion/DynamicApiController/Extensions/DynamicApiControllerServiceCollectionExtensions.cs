@@ -87,7 +87,7 @@ public static class DynamicApiControllerServiceCollectionExtensions
         services.Configure<MvcOptions>(options =>
         {
             // 添加应用模型转换器
-            options.Conventions.Add(new DynamicApiControllerApplicationModelConvention());
+            options.Conventions.Add(new DynamicApiControllerApplicationModelConvention(services));
         });
 
         return services;

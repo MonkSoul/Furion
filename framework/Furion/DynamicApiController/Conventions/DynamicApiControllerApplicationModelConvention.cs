@@ -28,6 +28,7 @@ using Microsoft.AspNetCore.Mvc.ActionConstraints;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.Routing;
+using Microsoft.Extensions.DependencyInjection;
 using System.Collections.Concurrent;
 using System.Reflection;
 using System.Text.RegularExpressions;
@@ -50,10 +51,17 @@ internal sealed class DynamicApiControllerApplicationModelConvention : IApplicat
     private readonly Regex _nameVersionRegex;
 
     /// <summary>
+    /// 服务集合
+    /// </summary>
+    private readonly IServiceCollection _services;
+
+    /// <summary>
     /// 构造函数
     /// </summary>
-    public DynamicApiControllerApplicationModelConvention()
+    /// <param name="services">服务集合</param>
+    public DynamicApiControllerApplicationModelConvention(IServiceCollection services)
     {
+        _services = services;
         _dynamicApiControllerSettings = App.GetConfig<DynamicApiControllerSettingsOptions>("DynamicApiControllerSettings", true);
         LoadVerbToHttpMethodsConfigure();
         _nameVersionRegex = new Regex(@"V(?<version>[0-9_]+$)");
@@ -335,8 +343,10 @@ internal sealed class DynamicApiControllerApplicationModelConvention : IApplicat
             // 如果是文件类型，则跳过
             if (typeof(IFormFile).IsAssignableFrom(parameterType) || typeof(IFormFileCollection).IsAssignableFrom(parameterType)) continue;
 
-            // 处理 .NET7 接口问题
-            if (parameterType.IsInterface && !parameterModel.Attributes.Any(u => typeof(IBindingSourceMetadata).IsAssignableFrom(u.GetType())))
+            // 处理 .NET7 接口问题，同时支持 .NET5/6 无需贴 [FromServices] 操作
+            if (parameterType.IsInterface
+                && !parameterModel.Attributes.Any(u => typeof(IBindingSourceMetadata).IsAssignableFrom(u.GetType()))
+                && _services.Any(s => s.ServiceType.Name == parameterType.Name))
             {
                 parameterModel.BindingInfo = BindingInfo.GetBindingInfo(new[] { new FromServicesAttribute() });
                 continue;
