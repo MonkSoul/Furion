@@ -337,11 +337,12 @@ ASALocalRun/
 # Local History for Visual Studio
 .localhistory/
 
-# BeatPulse healthcheck temp database 
+# BeatPulse healthcheck temp database
 healthchecksdb
 
 # NodeJS node_modules
 handbook/node_modules
+handbook/build
 
 # Ignore project some folders
 framework/**/*.xml

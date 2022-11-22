@@ -12,7 +12,7 @@ sidebar_label: 17. Schedular 静态类
 
 ## 17.1 启动调度作业服务
 
-该功能仅限不能通过 `services.AddXXX` 方式使用，比如控制台，`Winfrom/WPF` 等。
+该功能 **建议** 仅限不能通过 `services.AddXXX` 方式使用，比如控制台，`Winfrom/WPF` 等。
 
 ```cs showLineNumbers {1,3}
 IDisposable dispose =  Schedular.Run(options =>
@@ -20,6 +20,26 @@ IDisposable dispose =  Schedular.Run(options =>
     options.AddJob<MyJob>(Triggers.Secondly());
 });
 ```
+
+这种方式有一个隐藏的巨大隐藏 “骚操作”：**可以在任何地方创建作业调度服务，多次调用可以创建多个作业调度器。**
+
+:::tip 推荐使用 `Serve.Run()` 或 `Serve.RunGeneric()` 方式替代
+
+`Furion` 框架提供了 `Serve.Run()` 方式支持跨平台使用，还能支持注册更多服务，如：
+
+```cs showLineNumbers {1,3,5}
+Serve.Run(services =>
+{
+    services.AddSchedule(options =>
+    {
+        options.Add<MyJob>(Triggers.Secondly());
+    });
+})
+```
+
+如无需 `Web` 功能，可通过 `Serve.RunGeneric` 替代 `Serve.Run`。
+
+:::
 
 ## 17.2 获取作业调度计划工厂
 
