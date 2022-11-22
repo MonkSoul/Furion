@@ -83,14 +83,16 @@ internal sealed partial class Scheduler
     /// </summary>
     public void Start()
     {
+        var changed = 0;
+
         // 逐条启用所有作业触发器
         foreach (var triggerId in Triggers.Keys)
         {
-            StartTrigger(triggerId, false);
+            if (StartTrigger(triggerId, false)) changed++;
         }
 
         // 取消作业调度器休眠状态（强制唤醒）
-        Factory.CancelSleep();
+        if (changed > 0) Factory.CancelSleep();
     }
 
     /// <summary>
@@ -98,14 +100,16 @@ internal sealed partial class Scheduler
     /// </summary>
     public void Pause()
     {
+        var changed = 0;
+
         // 逐条暂停所有作业触发器
         foreach (var triggerId in Triggers.Keys)
         {
-            PauseTrigger(triggerId, false);
+            if (PauseTrigger(triggerId, false)) changed++;
         }
 
         // 取消作业调度器休眠状态（强制唤醒）
-        Factory.CancelSleep();
+        if (changed > 0) Factory.CancelSleep();
     }
 
     /// <summary>
@@ -113,15 +117,16 @@ internal sealed partial class Scheduler
     /// </summary>
     /// <param name="triggerId">作业触发器 Id</param>
     /// <param name="immediately">使作业调度器立即载入</param>
-    public void StartTrigger(string triggerId, bool immediately = true)
+    /// <returns><see cref="bool"/></returns>
+    public bool StartTrigger(string triggerId, bool immediately = true)
     {
         var trigger = GetTrigger(triggerId);
-        if (trigger == null) return;
+        if (trigger == null) return false;
 
         trigger.StartNow = true;
 
         // 如果不是暂停状态，则终止执行
-        if (trigger.Status != TriggerStatus.Pause) return;
+        if (trigger.Status != TriggerStatus.Pause) return false;
 
         trigger.SetStatus(TriggerStatus.Ready);
         trigger.UpdatedTime = Penetrates.GetNowTime(UseUtcTimestamp);
@@ -135,6 +140,8 @@ internal sealed partial class Scheduler
 
         // 输出日志
         Logger.LogInformation("The <{triggerId}> trigger for scheduler of <{jobId}> successfully started to the schedule.", triggerId, JobId);
+
+        return true;
     }
 
     /// <summary>
@@ -142,10 +149,14 @@ internal sealed partial class Scheduler
     /// </summary>
     /// <param name="triggerId">作业触发器 Id</param>
     /// <param name="immediately">使作业调度器立即载入</param>
-    public void PauseTrigger(string triggerId, bool immediately = true)
+    /// <returns><see cref="bool"/></returns>
+    public bool PauseTrigger(string triggerId, bool immediately = true)
     {
         var trigger = GetTrigger(triggerId);
-        if (trigger == null) return;
+        if (trigger == null) return false;
+
+        // 如果状态已经时暂停状态，则不操作
+        if (trigger.Status == TriggerStatus.Pause) return false;
 
         trigger.SetStatus(TriggerStatus.Pause);
         trigger.UpdatedTime = Penetrates.GetNowTime(UseUtcTimestamp);
@@ -158,6 +169,8 @@ internal sealed partial class Scheduler
 
         // 输出日志
         Logger.LogInformation("The <{triggerId}> trigger for scheduler of <{jobId}> successfully paused to the schedule.", triggerId, JobId);
+
+        return true;
     }
 
     /// <summary>

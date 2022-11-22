@@ -74,14 +74,16 @@ public interface IScheduler
     /// </summary>
     /// <param name="triggerId">作业触发器 Id</param>
     /// <param name="immediately">使作业调度器立即载入</param>
-    void StartTrigger(string triggerId, bool immediately = true);
+    /// <returns><see cref="bool"/></returns>
+    bool StartTrigger(string triggerId, bool immediately = true);
 
     /// <summary>
     /// 暂停作业计划单个触发器
     /// </summary>
     /// <param name="triggerId">作业触发器 Id</param>
     /// <param name="immediately">使作业调度器立即载入</param>
-    void PauseTrigger(string triggerId, bool immediately = true);
+    /// <returns><see cref="bool"/></returns>
+    bool PauseTrigger(string triggerId, bool immediately = true);
 
     /// <summary>
     /// 更新作业计划信息
