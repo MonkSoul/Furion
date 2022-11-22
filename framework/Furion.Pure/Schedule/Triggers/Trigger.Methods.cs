@@ -50,6 +50,15 @@ public partial class Trigger
     }
 
     /// <summary>
+    /// 获取作业触发器构建器
+    /// </summary>
+    /// <returns><see cref="TriggerBuilder"/></returns>
+    public TriggerBuilder GetBuilder()
+    {
+        return TriggerBuilder.From(this);
+    }
+
+    /// <summary>
     /// 记录运行信息和计算下一个触发时间
     /// </summary>
     /// <param name="useUtcTimestamp">是否使用 UTC 时间</param>

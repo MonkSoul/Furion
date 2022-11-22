@@ -28,7 +28,7 @@ namespace Furion.Schedule;
 /// <summary>
 /// 作业计划工厂默认实现类（内部服务）
 /// </summary>
-internal sealed partial class SchedulerFactory : ISchedulerFactory, IDisposable
+internal sealed partial class SchedulerFactory : ISchedulerFactory
 {
     /// <summary>
     /// 服务提供器
@@ -107,6 +107,9 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory, IDisposable
         // 输出作业调度度初始化日志
         _logger.LogDebug("Schedule Hosted Service is preloading.");
 
+        // 初始化作业调度器休眠 Token
+        CreateCancellationTokenSource();
+
         // 逐条初始化作业计划
         foreach (var scheduler in _schedulers.Values)
         {
@@ -179,24 +182,10 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory, IDisposable
     /// <summary>
     /// 使作业调度器进入休眠状态
     /// </summary>
-    /// <param name="stoppingToken">取消任务 Token</param>
-    /// <returns><see cref="Task"/></returns>
-    public async Task SleepAsync(CancellationToken stoppingToken = default)
+    public async Task SleepAsync()
     {
         // 输出作业调度器进入休眠日志
         _logger.LogDebug("Schedule Hosted Service enters hibernation.");
-
-        // 创建作业调度器任务关联 Token
-        _sleepCancellationTokenSource = CancellationTokenSource.CreateLinkedTokenSource(stoppingToken);
-
-        // 监听休眠被取消
-        _sleepCancellationTokenSource.Token.Register(() =>
-        {
-            _logger.LogWarning("Schedule Hosted Service cancels hibernation and GC.Collect().");
-
-            // 通知 GC 垃圾回收器立即回收
-            GC.Collect();
-        });
 
         // 获取作业调度器总休眠时间
         var sleepMilliseconds = GetSleepMilliseconds();
@@ -207,16 +196,13 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory, IDisposable
         try
         {
             // 进入休眠状态
-            if (_sleepCancellationTokenSource?.Token != null)   // 解决刚好执行到这个位置但 _sleepCancellationTokenSource 被取消的情况
-            {
-                await Task.Delay(TimeSpan.FromMilliseconds(delay), _sleepCancellationTokenSource.Token);
-            }
-
-            // 如果正常休眠解释则释放任务取消 Token
-            _sleepCancellationTokenSource?.Dispose();
-            _sleepCancellationTokenSource = null;
+            await Task.Delay(TimeSpan.FromMilliseconds(delay), _sleepCancellationTokenSource.Token);
         }
-        catch { }
+        catch
+        {
+            // 重新初始化作业调度器休眠 Token
+            CreateCancellationTokenSource();
+        }
     }
 
     /// <summary>
@@ -224,11 +210,10 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory, IDisposable
     /// </summary>
     public void CancelSleep()
     {
-        _sleepCancellationTokenSource?.Cancel(false);
+        if (!_sleepCancellationTokenSource.IsCancellationRequested) _sleepCancellationTokenSource.Cancel();
 
-        // 释放任务取消 Token
-        _sleepCancellationTokenSource?.Dispose();
-        _sleepCancellationTokenSource = null;
+        // 重新初始化作业调度器休眠 Token
+        CreateCancellationTokenSource();
     }
 
     /// <summary>
@@ -284,8 +269,9 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory, IDisposable
 
         try
         {
-            // 取消作业调度器休眠状态（强制唤醒）
-            CancelSleep();
+            // 取消当前任务并释放作业调度器取消 Token
+            if (!_sleepCancellationTokenSource.IsCancellationRequested) _sleepCancellationTokenSource.Cancel();
+            _sleepCancellationTokenSource.Dispose();
 
             // 设置 1.5秒的缓冲时间，避免还有消息没有完成持久化
             _processQueueTask?.Wait(1500);
@@ -348,5 +334,25 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory, IDisposable
                 else _logger.LogError(ex, "The JobDetail of <{JobId}> persist failed.", context.JobId);
             }
         }
+    }
+
+    /// <summary>
+    /// 创建新的作业调度器休眠 Token
+    /// </summary>
+    private void CreateCancellationTokenSource()
+    {
+        _sleepCancellationTokenSource?.Dispose();
+
+        // 初始化作业调度器休眠 Token
+        _sleepCancellationTokenSource = new CancellationTokenSource();
+
+        // 监听休眠被取消
+        _sleepCancellationTokenSource.Token.Register(() =>
+        {
+            _logger.LogWarning("Schedule Hosted Service cancels hibernation and GC.Collect().");
+
+            // 通知 GC 垃圾回收器立即回收
+            GC.Collect();
+        });
     }
 }

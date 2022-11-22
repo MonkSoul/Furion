@@ -157,11 +157,6 @@ public interface IScheduler
     void RemoveTrigger(string triggerId);
 
     /// <summary>
-    /// 强制触发作业持久化记录
-    /// </summary>
-    void Persist();
-
-    /// <summary>
     /// 检查作业计划触发器是否存在
     /// </summary>
     /// <param name="triggerId">作业触发器 Id</param>
@@ -178,6 +173,11 @@ public interface IScheduler
     /// 将当前作业计划从调度器中删除
     /// </summary>
     void Remove();
+
+    /// <summary>
+    /// 强制触发作业持久化记录
+    /// </summary>
+    void Persist();
 
     /// <summary>
     /// 转换成 JSON 字符串

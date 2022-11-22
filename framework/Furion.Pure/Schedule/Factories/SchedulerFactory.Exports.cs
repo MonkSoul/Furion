@@ -372,7 +372,13 @@ internal sealed partial class SchedulerFactory
             if (!schedulerForUpdated.Triggers.TryGetValue(triggerId, out _))
             {
                 triggerIdsOfRemoved.Add(triggerId);
+
+                // 将作业触发器运行数据写入持久化
                 Shorthand(schedulerForUpdated.JobDetail, triggerForOrigin, PersistenceBehavior.Removed);
+
+                // 输出日志
+                _logger.LogInformation("The <{triggerId}> trigger for scheduler of <{jobId}> successfully removed to the schedule.", triggerId, jobId);
+
                 continue;
             }
         }
@@ -386,11 +392,16 @@ internal sealed partial class SchedulerFactory
             // 处理作业触发器新增的情况
             if (!originScheduler.Triggers.TryGetValue(triggerId, out _))
             {
+                // 将作业触发器运行数据写入持久化
                 Shorthand(schedulerForUpdated.JobDetail, triggerForUpdated, PersistenceBehavior.Appended);
+
+                // 输出日志
+                _logger.LogInformation("The <{triggerId}> trigger for scheduler of <{jobId}> successfully added to the schedule.", triggerId, jobId);
+
                 continue;
             }
 
-            // 处理作业触发器被更新情况
+            // 将作业触发器运行数据写入持久化
             Shorthand(schedulerForUpdated.JobDetail, triggerForUpdated, PersistenceBehavior.Updated);
         }
 

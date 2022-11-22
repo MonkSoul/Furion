@@ -51,9 +51,7 @@ public partial interface ISchedulerFactory
     /// <summary>
     /// 使作业调度器进入休眠状态
     /// </summary>
-    /// <param name="stoppingToken">取消任务 Token</param>
-    /// <returns><see cref="Task"/></returns>
-    Task SleepAsync(CancellationToken stoppingToken = default);
+    Task SleepAsync();
 
     /// <summary>
     /// 取消作业调度器休眠状态（强制唤醒）

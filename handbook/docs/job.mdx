@@ -6,7 +6,7 @@ sidebar_label: 26.1 调度作业
 
 :::caution 当前文档还未发布
 
-**当前文档还在编写中，已完成了 95%，将在 2022 年 11 月 21 日完成。**
+**当前文档还在编写中，已完成了 95%，将在 2022 年 11 月 23 日完成。**
 
 :::
 
@@ -2420,7 +2420,7 @@ var scheduler = _schedulerFactory.GetJob("job1");
 
 ```cs showLineNumbers {2,5}
 // 返回 ScheduleResult 类型，如果添加成功返回 ScheduleResult.Succeed，否则返回 ScheduleResult.Faild
-var scheduleResult = _schedulerFactory.TryAddJob(schedulerBuilder, out IScheduler scheduler);
+var scheduleResult = _schedulerFactory.TryAddJob(schedulerBuilder, out var scheduler);
 
 // 无返回值，无错误
 _schedulerFactory.AddJob(schedulerBuilder);
@@ -2547,7 +2547,7 @@ warn: 2022-11-21 16:24:03.5876747 +08:00 星期一 L System.Logging.ScheduleServ
 
 ```cs showLineNumbers {2,5}
 // 返回 ScheduleResult 类型，如果添加成功返回 ScheduleResult.Succeed，否则返回 ScheduleResult.Faild
-var scheduleResult = _schedulerFactory.TryUpdateJob(schedulerBuilder, out IScheduler scheduler);
+var scheduleResult = _schedulerFactory.TryUpdateJob(schedulerBuilder, out var scheduler);
 
 // 无返回值，无错误
 _schedulerFactory.UpdateJob(schedulerBuilder);
@@ -2784,6 +2784,15 @@ var triggerBuilder = scheduler.GetTriggerBuilder("trigger1");
 scheduler.Start();
 ```
 
+作业调度器输出日志：
+
+```bash showLineNumbers {2,4}
+info: 2022-11-22 17:38:16.2612604 +08:00 星期二 L System.Logging.ScheduleService[0] #15
+      The <job1_trigger1> trigger for scheduler of <job1> successfully started to the schedule.
+warn: 2022-11-22 17:38:16.2636849 +08:00 星期二 L System.Logging.ScheduleService[0] #15
+      Schedule Hosted Service cancels hibernation and GC.Collect().
+```
+
 ### 26.1.11.8 暂停当前作业
 
 ```cs showLineNumbers
@@ -2801,21 +2810,145 @@ warn: 2022-11-22 15:34:39.5682460 +08:00 星期二 L System.Logging.ScheduleServ
       Schedule Hosted Service cancels hibernation and GC.Collect().
 ```
 
+### 26.1.11.9 启动作业特定触发器
+
+```cs showLineNumbers
+scheduler.StartTrigger("triggerId");
+```
+
+### 26.1.11.10 暂停作业特定触发器
+
+```cs showLineNumbers
+scheduler.PauseTrigger("triggerId");
+```
+
+### 26.1.11.11 更新作业信息
+
+```cs showLineNumbers {2,5}
+// 返回 ScheduleResult 类型，如果添加成功返回 ScheduleResult.Succeed，否则返回 ScheduleResult.Faild
+var schedulerResult = scheduler.TryUpdateDetail(jobBuilder, out var jobDetail);
+
+// 无返回值，无错误
+scheduler.UpdateDetail(jobBuilder);
+```
+
+### 26.1.11.12 获取作业单个触发器
+
+```cs showLineNumbers {2,5}
+// 返回 ScheduleResult 类型，如果存在返回 ScheduleResult.Succeed，否则返回 ScheduleResult.NotFound
+var scheduleResult = scheduler.TryGetTrigger("trigger1", out var trigger);
+
+// 返回 Trigger 类型
+var trigger = scheduler.GetTrigger("trigger1");
+```
+
+### 26.1.11.13 添加作业单个触发器
+
+```cs showLineNumbers {2,5}
+// 返回 ScheduleResult 类型，如果添加成功返回 ScheduleResult.Succeed，否则返回 ScheduleResult.Faild
+var schedulerResult = scheduler.TryAddTrigger(triggerBuilder, out var trigger);
+
+// 无返回值，无错误
+scheduler.AddTrigger(triggerBuilder);
+```
+
+### 26.1.11.14 删除作业单个触发器
+
+```cs showLineNumbers {2,5}
+// 返回 ScheduleResult 类型，如果添加成功返回 ScheduleResult.Succeed，否则返回 ScheduleResult.Faild 或 ScheduleResult.NotFound
+var schedulerResult = scheduler.TryRemoveTrigger("trigger1", out var trigger);
+
+// 无返回值，无错误
+scheduler.RemoveTrigger(triggerBuilder);
+```
+
+### 26.1.11.15 判断作业是否包含特定触发器
+
+```cs showLineNumbers
+var isExist = scheduler.ContainsTrigger("trigger1");
+```
+
+### 26.1.11.16 删除当前作业
+
+```cs showLineNumbers
+// 返回 ScheduleResult 类型，如果添加成功返回 ScheduleResult.Succeed，否则返回 ScheduleResult.Faild
+var schedulerResult = scheduler.TryRemove();
+
+// 无返回值，无错误
+scheduler.Remove();
+```
+
+### 26.1.11.17 强制触发所有作业持久化
+
+此操作会强制触发作业持久化器 `IJobPersistence` 的 `OnChanged` 和 `OnTriggerChanged` 方法，并标记作业持久化行为为 `PersistenceBehavior.Updated`。
+
+```cs showLineNumbers {1}
+scheduler.Persist();
+```
+
+### 26.1.11.18 输出 `JSON` 字符串
+
+```cs showLineNumbers
+var json scheduler.ConvertToJSON();
+```
+
+输出结果为：
+
+```json showLineNumbers {2,13}
+{
+  "jobDetail": {
+    "jobId": "job1",
+    "groupName": null,
+    "jobType": "Furion.Application.MyJob",
+    "assemblyName": "Furion.Application",
+    "description": null,
+    "concurrent": true,
+    "includeAnnotations": false,
+    "properties": "{}",
+    "updatedTime": "2022-11-17T09:25:47.0471107+08:00"
+  },
+  "triggers": [
+    {
+      "triggerId": "job1_trigger1",
+      "jobId": null,
+      "triggerType": "Furion.Schedule.PeriodSecondsTrigger",
+      "assemblyName": "Furion",
+      "args": "[5]",
+      "description": null,
+      "status": 2,
+      "startTime": null,
+      "endTime": null,
+      "lastRunTime": "2022-11-20T18:31:56.6859410+08:00",
+      "nextRunTime": "2022-11-20T18:32:01.7233546+08:00",
+      "numberOfRuns": 1,
+      "maxNumberOfRuns": 0,
+      "numberOfErrors": 0,
+      "maxNumberOfErrors": 0,
+      "numRetries": 0,
+      "retryTimeout": 1000,
+      "startNow": true,
+      "runOnStart": false,
+      "updatedTime": "2022-11-20T18:31:56.7233630+08:00"
+    }
+  ]
+}
+```
+
 ## 26.1.12 作业持久化器 `IJobPersistence`
 
-紧急编写中，将在 2022 年 11 月 21 日完成，别催！
+紧急编写中，将在 2022 年 11 月 23 日完成，别催！
 
 ## 26.1.13 作业集群控制
 
-紧急编写中，将在 2022 年 11 月 21 日完成，别催！
+紧急编写中，将在 2022 年 11 月 23 日完成，别催！
 
 ## 26.1.14 如何部署
 
-紧急编写中，将在 2022 年 11 月 21 日完成，别催！
+紧急编写中，将在 2022 年 11 月 23 日完成，别催！
 
 ## 26.1.15 常见问题
 
-紧急编写中，将在 2022 年 11 月 21 日完成，别催！
+紧急编写中，将在 2022 年 11 月 23 日完成，别催！
 
 ## 26.1.15 反馈与建议
 

@@ -139,7 +139,7 @@ internal sealed partial class Scheduler
         if (immediately) Factory.CancelSleep();
 
         // 输出日志
-        Logger.LogInformation("The <{triggerId}> trigger for scheduler of <{jobId}> successfully started to the schedule.", triggerId, JobId);
+        Logger.LogInformation("The <{triggerId}> trigger for scheduler of <{JobId}> successfully started to the schedule.", triggerId, JobId);
 
         return true;
     }
@@ -168,7 +168,7 @@ internal sealed partial class Scheduler
         if (immediately) Factory.CancelSleep();
 
         // 输出日志
-        Logger.LogInformation("The <{triggerId}> trigger for scheduler of <{jobId}> successfully paused to the schedule.", triggerId, JobId);
+        Logger.LogInformation("The <{triggerId}> trigger for scheduler of <{JobId}> successfully paused to the schedule.", triggerId, JobId);
 
         return true;
     }
@@ -358,21 +358,6 @@ internal sealed partial class Scheduler
     }
 
     /// <summary>
-    /// 强制触发作业持久化记录
-    /// </summary>
-    public void Persist()
-    {
-        // 将作业信息运行数据写入持久化
-        Factory.Shorthand(JobDetail);
-
-        // 逐条将作业触发器运行数据写入持久化
-        foreach (var (_, trigger) in Triggers)
-        {
-            Factory.Shorthand(JobDetail, trigger);
-        }
-    }
-
-    /// <summary>
     /// 检查作业计划触发器是否存在
     /// </summary>
     /// <param name="triggerId">作业触发器 Id</param>
@@ -397,6 +382,21 @@ internal sealed partial class Scheduler
     public void Remove()
     {
         _ = TryRemove();
+    }
+
+    /// <summary>
+    /// 强制触发作业持久化记录
+    /// </summary>
+    public void Persist()
+    {
+        // 将作业信息运行数据写入持久化
+        Factory.Shorthand(JobDetail);
+
+        // 逐条将作业触发器运行数据写入持久化
+        foreach (var (_, trigger) in Triggers)
+        {
+            Factory.Shorthand(JobDetail, trigger);
+        }
     }
 
     /// <summary>

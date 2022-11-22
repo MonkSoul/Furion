@@ -104,6 +104,9 @@ internal sealed class ScheduleHostedService : BackgroundService
             await BackgroundProcessing(stoppingToken);
         }
 
+        // 释放作业计划工厂
+        _schedulerFactory.Dispose();
+
         _logger.LogCritical($"Schedule Hosted Service is stopped.");
     }
 
@@ -250,7 +253,7 @@ internal sealed class ScheduleHostedService : BackgroundService
         }
 
         // 作业调度器进入休眠状态
-        await _schedulerFactory.SleepAsync(stoppingToken);
+        await _schedulerFactory.SleepAsync();
     }
 
     /// <summary>

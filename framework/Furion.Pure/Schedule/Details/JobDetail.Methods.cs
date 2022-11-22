@@ -135,6 +135,24 @@ public partial class JobDetail
     }
 
     /// <summary>
+    /// 获取作业信息构建器
+    /// </summary>
+    /// <returns><see cref="JobBuilder"/></returns>
+    public JobBuilder GetBuilder()
+    {
+        return JobBuilder.From(this);
+    }
+
+    /// <summary>
+    /// 作业新增转字符串输出
+    /// </summary>
+    /// <returns><see cref="string"/></returns>
+    public override string ToString()
+    {
+        return $"<{JobId}> {Description}";
+    }
+
+    /// <summary>
     /// 带命名规则的数据库列名
     /// </summary>
     private readonly ConcurrentDictionary<NamingConventions, string[]> _namingColumnNames = new();

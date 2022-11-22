@@ -25,7 +25,7 @@ namespace Furion.Schedule;
 /// <summary>
 /// 作业计划工厂服务
 /// </summary>
-public partial interface ISchedulerFactory
+public partial interface ISchedulerFactory : IDisposable
 {
     /// <summary>
     /// 查找所有作业
