@@ -335,6 +335,13 @@ internal sealed class DynamicApiControllerApplicationModelConvention : IApplicat
             // 如果是文件类型，则跳过
             if (typeof(IFormFile).IsAssignableFrom(parameterType) || typeof(IFormFileCollection).IsAssignableFrom(parameterType)) continue;
 
+            // 处理 .NET7 接口问题
+            if (parameterType.IsInterface && !parameterModel.Attributes.Any(u => typeof(IBindingSourceMetadata).IsAssignableFrom(u.GetType())))
+            {
+                parameterModel.BindingInfo = BindingInfo.GetBindingInfo(new[] { new FromServicesAttribute() });
+                continue;
+            }
+
             parameterModel.BindingInfo = BindingInfo.GetBindingInfo(new[] { new FromBodyAttribute() });
         }
     }

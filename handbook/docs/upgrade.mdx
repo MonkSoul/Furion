@@ -174,6 +174,7 @@ services.AddMonitorLogging(options =>
 
   - &nbsp;<Tag>修复</Tag> 从 `.NET6/7` 降级回 `.NET5` 找不到 `.AddDateOnlyConverters()` 和 `.AddTimeOnlyConverters()` 拓展方法问题 <sup>4.8.0</sup> [cdddf8d](https://gitee.com/dotnetchina/Furion/commit/cdddf8dbf628abb85e0816335ebae6bee96f6dc1)
   - &nbsp;<Tag>修复</Tag> `Retry.InvokeAsync` 方法如果不传入 `fallbackPolicy` 参数报空异常问题 <sup>4.8.0</sup> [21af847](https://gitee.com/dotnetchina/Furion/commit/21af847b02ae6044d344450620fa4e549480e387)
+  - &nbsp;<Tag>修复</Tag> 动态 `WebAPI` 不支持在 `.NET7` 不声明 `[FromServices]` 自动注入问题 <sup>4.8.0</sup> [#I62HP1](https://gitee.com/dotnetchina/Furion/issues/I62HP1)
 
 - **文档**
 
