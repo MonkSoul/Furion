@@ -116,7 +116,7 @@ public sealed class SchedulerBuilder
         return new SchedulerBuilder(JobBuilder.From(scheduler.JobDetail))
         {
             TriggerBuilders = scheduler.Triggers.Select(t => TriggerBuilder.From(t.Value)).ToList(),
-            Behavior = PersistenceBehavior.Appended
+            Behavior = PersistenceBehavior.Updated
         };
     }
 
