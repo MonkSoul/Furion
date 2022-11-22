@@ -36,15 +36,17 @@ public partial interface ISchedulerFactory
     /// 查找下一个触发的作业
     /// </summary>
     /// <param name="startAt">起始时间</param>
+    /// <param name="group">作业组名称</param>
     /// <returns><see cref="IEnumerable{IScheduler}"/></returns>
-    IEnumerable<IScheduler> GetNextRunJobs(DateTime startAt);
+    IEnumerable<IScheduler> GetNextRunJobs(DateTime startAt, string group = default);
 
     /// <summary>
     /// 查找下一个触发的作业并转换成 <see cref="SchedulerModel"/>
     /// </summary>
     /// <param name="startAt">起始时间</param>
+    /// <param name="group">作业组名称</param>
     /// <returns><see cref="IEnumerable{SchedulerModel}"/></returns>
-    IEnumerable<SchedulerModel> GetNextRunJobsOfModels(DateTime startAt);
+    IEnumerable<SchedulerModel> GetNextRunJobsOfModels(DateTime startAt, string group = default);
 
     /// <summary>
     /// 使作业调度器进入休眠状态

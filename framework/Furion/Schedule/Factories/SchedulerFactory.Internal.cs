@@ -21,7 +21,6 @@
 // SOFTWARE.
 
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using System.Collections.Concurrent;
 
 namespace Furion.Schedule;
@@ -135,23 +134,33 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory, IDisposable
     /// 查找下一个触发的作业
     /// </summary>
     /// <param name="startAt">起始时间</param>
+    /// <param name="group">作业组名称</param>
     /// <returns><see cref="IEnumerable{IScheduler}"/></returns>
-    public IEnumerable<IScheduler> GetNextRunJobs(DateTime startAt)
+    public IEnumerable<IScheduler> GetNextRunJobs(DateTime startAt, string group = default)
     {
         // 定义静态内部函数用于委托检查
         bool triggerShouldRun(Scheduler s, Trigger t) => t.InternalShouldRun(s.JobDetail, startAt);
 
+        // 创建查询构建器
+        var queryBuilder = _schedulers.Values
+                 .Where(s => s.JobDetail.RuntimeJobType != null && s.JobHandler != null
+                     && s.Triggers.Values.Any(t => triggerShouldRun(s, t)));
+
+        // 判断作业组名称是否存在
+        if (!string.IsNullOrWhiteSpace(group))
+        {
+            queryBuilder = queryBuilder.Where(s => s.GroupName == group);
+        }
+
         // 查找所有符合执行的作业计划
-        var nextRunSchedulers = _schedulers.Values
-                .Where(s => s.JobDetail.RuntimeJobType != null && s.JobHandler != null
-                    && s.Triggers.Values.Any(t => triggerShouldRun(s, t)))
-                .Select(s => new Scheduler(s.JobDetail, s.Triggers.Values.Where(t => triggerShouldRun(s, t)).ToDictionary(t => t.TriggerId, t => t))
-                {
-                    Factory = this,
-                    Logger = _logger,
-                    UseUtcTimestamp = UseUtcTimestamp,
-                    JobHandler = s.JobHandler,
-                });
+        var nextRunSchedulers = queryBuilder
+            .Select(s => new Scheduler(s.JobDetail, s.Triggers.Values.Where(t => triggerShouldRun(s, t)).ToDictionary(t => t.TriggerId, t => t))
+            {
+                Factory = this,
+                Logger = _logger,
+                UseUtcTimestamp = UseUtcTimestamp,
+                JobHandler = s.JobHandler,
+            });
 
         return nextRunSchedulers;
     }
@@ -160,10 +169,11 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory, IDisposable
     /// 查找下一个触发的作业并转换成 <see cref="SchedulerModel"/>
     /// </summary>
     /// <param name="startAt">起始时间</param>
+    /// <param name="group">作业组名称</param>
     /// <returns><see cref="IEnumerable{SchedulerModel}"/></returns>
-    public IEnumerable<SchedulerModel> GetNextRunJobsOfModels(DateTime startAt)
+    public IEnumerable<SchedulerModel> GetNextRunJobsOfModels(DateTime startAt, string group = default)
     {
-        return GetNextRunJobs(startAt).Select(s => s.GetModel());
+        return GetNextRunJobs(startAt, group).Select(s => s.GetModel());
     }
 
     /// <summary>
@@ -197,7 +207,10 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory, IDisposable
         try
         {
             // 进入休眠状态
-            await Task.Delay(TimeSpan.FromMilliseconds(delay), _sleepCancellationTokenSource.Token);
+            if (_sleepCancellationTokenSource?.Token != null)   // 解决刚好执行到这个位置但 _sleepCancellationTokenSource 被取消的情况
+            {
+                await Task.Delay(TimeSpan.FromMilliseconds(delay), _sleepCancellationTokenSource.Token);
+            }
 
             // 如果正常休眠解释则释放任务取消 Token
             _sleepCancellationTokenSource?.Dispose();

@@ -30,14 +30,16 @@ public partial interface ISchedulerFactory
     /// <summary>
     /// 查找所有作业
     /// </summary>
+    /// <param name="group">作业组名称</param>
     /// <returns><see cref="IEnumerable{IScheduler}"/></returns>
-    IEnumerable<IScheduler> GetJobs();
+    IEnumerable<IScheduler> GetJobs(string group = default);
 
     /// <summary>
     /// 查找所有作业并转换成 <see cref="SchedulerModel"/>
     /// </summary>
+    /// <param name="group">作业组名称</param>
     /// <returns><see cref="IEnumerable{SchedulerModel}"/></returns>
-    IEnumerable<SchedulerModel> GetJobsOfModels();
+    IEnumerable<SchedulerModel> GetJobsOfModels(string group = default);
 
     /// <summary>
     /// 获取作业
@@ -209,71 +211,31 @@ public partial interface ISchedulerFactory
     /// 检查作业是否存在
     /// </summary>
     /// <param name="jobId">作业 Id</param>
+    /// <param name="group">作业组名称</param>
     /// <returns><see cref="bool"/></returns>
-    bool ContainsJob(string jobId);
+    bool ContainsJob(string jobId, string group = default);
 
     /// <summary>
     /// 启动所有作业
     /// </summary>
-    void StartAll();
+    /// <param name="group">作业组名称</param>
+    void StartAll(string group = default);
 
     /// <summary>
     /// 暂停所有作业
     /// </summary>
-    void PauseAll();
+    /// <param name="group">作业组名称</param>
+    void PauseAll(string group = default);
 
     /// <summary>
     /// 删除所有作业
     /// </summary>
-    void RemoveAll();
-
-    /// <summary>
-    /// 查找作业组所有作业
-    /// </summary>
     /// <param name="group">作业组名称</param>
-    /// <returns><see cref="IEnumerable{IScheduler}"/></returns>
-    IEnumerable<IScheduler> GetGroupJobs(string group);
-
-    /// <summary>
-    /// 查找作业组所有作业并转换成 <see cref="SchedulerModel"/>
-    /// </summary>
-    /// <param name="group">作业组名称</param>
-    /// <returns><see cref="IEnumerable{SchedulerModel}"/></returns>
-    IEnumerable<SchedulerModel> GetGroupJobsOfModels(string group);
-
-    /// <summary>
-    /// 启动作业组所有作业
-    /// </summary>
-    /// <param name="group">作业组名称</param>
-    void StartGroup(string group);
-
-    /// <summary>
-    /// 暂停作业组所有作业
-    /// </summary>
-    /// <param name="group">作业组名称</param>
-    void PauseGroup(string group);
-
-    /// <summary>
-    /// 删除作业组所有作业
-    /// </summary>
-    /// <param name="group">作业组名称</param>
-    void RemoveGroup(string group);
-
-    /// <summary>
-    /// 检查作业组作业是否存在
-    /// </summary>
-    /// <param name="group">作业组名称</param>
-    /// <param name="jobId">作业 Id</param>
-    /// <returns><see cref="bool"/></returns>
-    bool ContainsJob(string group, string jobId);
+    void RemoveAll(string group = default);
 
     /// <summary>
     /// 强制触发所有作业持久化记录
     /// </summary>
-    void PersistAll();
-
-    /// <summary>
-    /// 强制触发作业组所有作业持久化记录
-    /// </summary>
-    void PersistGroup(string group);
+    /// <param name="group">作业组名称</param>
+    void PersistAll(string group = default);
 }

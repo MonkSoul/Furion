@@ -6,7 +6,7 @@ sidebar_label: 26.1 调度作业
 
 :::caution 当前文档还未发布
 
-**当前文档还在编写中，已完成了 85%，将在 2022 年 11 月 21 日完成。**
+**当前文档还在编写中，已完成了 90%，将在 2022 年 11 月 21 日完成。**
 
 :::
 
@@ -2378,22 +2378,30 @@ public class YourService: IYourService
 
 ### 26.1.10.1 查找所有作业
 
-```cs showLineNumbers {2,5}
+```cs showLineNumbers {2,5,8-9}
 // 返回的是 IScheduler 集合，不能访问 JobDetail 和 Triggers 属性
 var jobs = _schedulerFactory.GetJobs();
 
 // 返回的是 SchedulerModel 集合，可以访问 JobDetail 和 Triggers 属性
 var jobsOfModesl = _schedulerFactory.GetJobsOfModels();
+
+// 还可以通过 group 查找
+var jobs = _schedulerFactory.GetJobs("group1");
+var jobsOfModesl = _schedulerFactory.GetJobsOfModels("group1");
 ```
 
 ### 26.1.10.2 查找下一个触发的作业
 
-```cs showLineNumbers {2,5}
+```cs showLineNumbers {2,5,8,9}
 // 返回的是 IScheduler 集合，不能访问 JobDetail 和 Triggers 属性
 var nextRunJobs = _schedulerFactory.GetNextRunJobs(DateTime.Now);
 
 // 返回的是 SchedulerModel 集合，可以访问 JobDetail 和 Triggers 属性
 var nextRunJobsOfModels = _schedulerFactory.GetNextRunJobsOfModels(DateTime.Now);
+
+// 还可以通过 group 查找
+var nextRunJobs = _schedulerFactory.GetNextRunJobs("group1");
+var nextRunJobsOfModels = _schedulerFactory.GetNextRunJobsOfModels("group1");
 ```
 
 ### 26.1.10.3 获取单个作业
@@ -2633,29 +2641,96 @@ warn: 2022-11-22 09:29:01.2241923 +08:00 星期二 L System.Logging.ScheduleServ
 
 ### 26.1.10.7 检查作业是否存在
 
-```cs showLineNumbers
+```cs showLineNumbers {1,4}
 var isExist = _schedulerFactory.ContainsJob("job1");
+
+// 还可以通过 group 查找
+var isExist = _schedulerFactory.ContainsJob("job1", "group1");
 ```
 
 ### 26.1.10.8 启动所有作业
 
+```cs showLineNumbers {1,4}
+_schedulerFactory.StartAll();
+
+// 还可以通过 group 启动
+_schedulerFactory.StartAll("group1");
+```
+
+作业调度器输出日志：
+
+```bash showLineNumbers {2,4}
+info: 2022-11-22 10:48:55.9619596 +08:00 星期二 L System.Logging.ScheduleService[0] #16
+      The <job1_trigger1> trigger for scheduler of <job1> successfully started to the schedule.
+warn: 2022-11-22 10:48:56.0131304 +08:00 星期二 L System.Logging.ScheduleService[0] #16
+      Schedule Hosted Service cancels hibernation and GC.Collect().
+```
+
 ### 26.1.10.9 暂停所有作业
+
+```cs showLineNumbers {1,4}
+ _schedulerFactory.PauseAll();
+
+// 还可以通过 group 暂停
+ _schedulerFactory.PauseAll("group1");
+```
+
+作业调度器输出日志：
+
+```bash showLineNumbers {4,6}
+info: 2022-11-22 11:01:52.0008851 +08:00 星期二 L ConsoleApp32.MyJob[0] #10
+      job1 job1_trigger1 2022/11/22 11:01:51  5000ms
+info: 2022-11-22 11:01:54.5265246 +08:00 星期二 L System.Logging.ScheduleService[0] #15
+      The <job1_trigger1> trigger for scheduler of <job1> successfully paused to the schedule.
+warn: 2022-11-22 11:01:54.5535267 +08:00 星期二 L System.Logging.ScheduleService[0] #15
+      Schedule Hosted Service cancels hibernation and GC.Collect().
+```
 
 ### 26.1.10.10 删除所有作业
 
-### 26.1.10.11 查看作业组所有作业
+```cs showLineNumbers {1,4}
+ _schedulerFactory.RemoveAll();
 
-### 26.1.10.12 启动作业组所有作业
+// 还可以通过 group 删除
+ _schedulerFactory.RemoveAll("group1");
+```
 
-### 26.1.10.13 暂停作业组所有做业
+作业调度器输出日志：
 
-### 26.1.10.14 删除作业组所有作业
+```bash showLineNumbers {4,6}
+info: 2022-11-22 11:04:19.4838792 +08:00 星期二 L ConsoleApp32.MyJob[0] #14
+      job1 job1_trigger1 2022/11/22 11:04:19  5000ms
+warn: 2022-11-22 11:04:23.0726721 +08:00 星期二 L System.Logging.ScheduleService[0] #9
+      Schedule Hosted Service cancels hibernation and GC.Collect().
+info: 2022-11-22 11:04:23.0797010 +08:00 星期二 L System.Logging.ScheduleService[0] #9
+      The Scheduler of <job1> successfully removed to the schedule.
+```
 
-### 26.1.10.15 检查作业组作业是否存在
+### 26.1.10.16 强制唤醒作业调度器
 
-### 26.1.10.16 强制触发所有作业持久化
+正常情况下，作业调度器会自动管理休眠和唤醒，但一些特殊情况下需要强制唤醒作业调度器，可通过以下方式：
 
-### 26.1.10.17 强制触发作业组所有作业持久化
+```cs showLineNumbers
+_schedulerFactory.CancelSleep();
+```
+
+作业调度器输出日志：
+
+```bash showLineNumbers {2}
+warn: 2022-11-22 11:04:23.0726721 +08:00 星期二 L System.Logging.ScheduleService[0] #9
+      Schedule Hosted Service cancels hibernation and GC.Collect().
+```
+
+### 26.1.10.17 强制触发所有作业持久化
+
+此操作会强制触发作业持久化器 `IJobPersistence` 的 `OnChanged` 和 `OnTriggerChanged` 方法，并标记作业持久化行为为 `PersistenceBehavior.Updated`。
+
+```cs showLineNumbers {1,4}
+_schedulerFactory.PersistAll();
+
+// 还可以通过 group 控制
+ _schedulerFactory.PersistAll("group1");
+```
 
 ## 26.1.11 作业计划 `IScheduler`
 
