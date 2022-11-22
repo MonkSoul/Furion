@@ -2870,7 +2870,7 @@ var isExist = scheduler.ContainsTrigger("trigger1");
 
 ### 26.1.11.16 删除当前作业
 
-```cs showLineNumbers
+```cs showLineNumbers {2,5}
 // 返回 ScheduleResult 类型，如果添加成功返回 ScheduleResult.Succeed，否则返回 ScheduleResult.Faild
 var schedulerResult = scheduler.TryRemove();
 
