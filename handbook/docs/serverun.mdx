@@ -213,14 +213,26 @@ Serve.Run(RunOptions.Default.ConfigureBuilder(builder =>
 
 :::
 
-```cs showLineNumbers {1,7}
+```cs showLineNumbers {1,7,13,19}
 Serve.Run(additional: services =>
+{
+    services.AddRemoteRequest();
+});
+
+// 通用泛型主机方式
+Serve.RunGeneric(additional: services =>
 {
     services.AddRemoteRequest();
 });
 
 // 还可以省去 additional
 Serve.Run(services =>
+{
+    services.AddRemoteRequest();
+});
+
+// 通用泛型主机方式
+Serve.RunGeneric(services =>
 {
     services.AddRemoteRequest();
 });

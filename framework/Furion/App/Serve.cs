@@ -69,11 +69,11 @@ public static class Serve
              .AddComponent<ServeServiceComponent>()
              .UseComponent<ServeApplicationComponent>(), urls);
 #else
-        return Run((LegacyRunOptions.Default
+        return Run(LegacyRunOptions.Default
              .WithArgs(args)
              .Silence(silence, logging)
              .ConfigureServices(additional)
-             .AddComponent<ServeServiceComponent>())
+             .AddComponent<ServeServiceComponent>()
              .UseComponent<ServeApplicationComponent>(), urls);
 #endif
     }
@@ -93,6 +93,41 @@ public static class Serve
         , string[] args = default)
     {
         return Run(urls, silence, logging, args, additional);
+    }
+
+    /// <summary>
+    /// 启动通用泛型主机
+    /// </summary>
+    /// <param name="silence">静默启动</param>
+    /// <param name="logging">静默启动日志状态，默认 false</param>
+    /// <param name="args">启动参数</param>
+    /// <param name="additional">配置额外服务</param>
+    /// <returns><see cref="IHost"/></returns>
+    public static IHost RunGeneric(bool silence = false
+        , bool logging = false
+        , string[] args = default
+        , Action<IServiceCollection> additional = default)
+    {
+        return Run(GenericRunOptions.Default
+             .WithArgs(args)
+             .Silence(silence, logging)
+             .ConfigureServices(additional));
+    }
+
+    /// <summary>
+    /// 启动通用泛型主机
+    /// </summary>
+    /// <param name="additional">配置额外服务</param>
+    /// <param name="silence">静默启动</param>
+    /// <param name="logging">静默启动日志状态，默认 false</param>
+    /// <param name="args">启动参数</param>
+    /// <returns><see cref="IHost"/></returns>
+    public static IHost RunGeneric(Action<IServiceCollection> additional
+        , bool silence = false
+        , bool logging = false
+        , string[] args = default)
+    {
+        return RunGeneric(silence, logging, args, additional);
     }
 
     /// <summary>
