@@ -198,7 +198,7 @@ public sealed class ScheduleOptionsBuilder
         foreach (var schedulerBuilder in _schedulerBuilders)
         {
             // 构建作业计划并添加到集合中
-            var scheduler = schedulerBuilder.Build(_schedulerBuilders.Count);
+            var scheduler = schedulerBuilder.Build(schedulers.Count + 1);
             var succeed = schedulers.TryAdd(scheduler.JobId, scheduler);
 
             // 检查 作业 Id 重复

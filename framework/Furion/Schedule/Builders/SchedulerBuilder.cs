@@ -409,14 +409,14 @@ public sealed class SchedulerBuilder
     /// <summary>
     /// 构建 <see cref="Scheduler"/> 对象
     /// </summary>
-    /// <param name="total">当前作业计划总量</param>
+    /// <param name="sequence">如果未指定作业 Id 的递增序号，可能存在冲突</param>
     /// <returns><see cref="Scheduler"/></returns>
-    internal Scheduler Build(int total)
+    internal Scheduler Build(int sequence)
     {
         // 配置默认 JobId
         if (string.IsNullOrWhiteSpace(JobBuilder.JobId))
         {
-            JobBuilder.SetJobId($"job{total}");
+            JobBuilder.SetJobId($"job{sequence}");
         }
 
         // 构建作业信息和作业触发器

@@ -120,7 +120,7 @@ internal sealed class ScheduleHostedService : BackgroundService
         // 查找所有符合触发的作业
         var nextRunJobs = _schedulerFactory.GetNextRunJobs(checkTime);
 
-        // 输出日检查信息
+        // 输出作业调度器检查信息
         _logger.LogDebug("Schedule Hosted Service is checking on <{checkTime}> and finds <{Count}> schedulers that should be run.", checkTime, nextRunJobs.Count());
 
         // 创建一个任务工厂并保证执行任务都使用当前的计划程序

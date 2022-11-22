@@ -2610,6 +2610,16 @@ var schedulerResult = _schedulerFactory.TryRemoveJob("job1", out var scheduler);
 _schedulerFactory.RemoveJob("job1");
 ```
 
+- **通过 `IScheduler` 方式**
+
+```cs showLineNumbers {2,5}
+// 返回 ScheduleResult 类型，如果添加成功返回 ScheduleResult.Succeed，否则返回 ScheduleResult.Faild 或者 ScheduleResult.NotFound
+var schedulerResult = _schedulerFactory.TryRemoveJob(scheduler);
+
+// 无返回值，无错误
+_schedulerFactory.RemoveJob(scheduler);
+```
+
 作业删除成功或失败分别输出日志：
 
 ```bash showLineNumbers {2,4,6}
@@ -2622,6 +2632,10 @@ warn: 2022-11-22 09:29:01.2241923 +08:00 星期二 L System.Logging.ScheduleServ
 ```
 
 ### 26.1.10.7 检查作业是否存在
+
+```cs showLineNumbers
+var isExist = _schedulerFactory.ContainsJob("job1");
+```
 
 ### 26.1.10.8 启动所有作业
 

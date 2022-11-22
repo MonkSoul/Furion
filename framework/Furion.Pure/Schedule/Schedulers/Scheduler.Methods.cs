@@ -132,6 +132,9 @@ internal sealed partial class Scheduler
 
         // 取消作业调度器休眠状态（强制唤醒）
         if (immediately) Factory.CancelSleep();
+
+        // 输出日志
+        Logger.LogInformation("The <{triggerId}> trigger for scheduler of <{jobId}> successfully started to the schedule.", triggerId, JobId);
     }
 
     /// <summary>
@@ -152,6 +155,9 @@ internal sealed partial class Scheduler
 
         // 取消作业调度器休眠状态（强制唤醒）
         if (immediately) Factory.CancelSleep();
+
+        // 输出日志
+        Logger.LogInformation("The <{triggerId}> trigger for scheduler of <{jobId}> successfully paused to the schedule.", triggerId, JobId);
     }
 
     /// <summary>
@@ -165,9 +171,11 @@ internal sealed partial class Scheduler
         // 空检查
         if (jobBuilder == null) throw new ArgumentNullException(nameof(jobBuilder));
 
+        // 获取作业信息构建器
         var schedulerBuilder = GetBuilder();
         schedulerBuilder.UpdateJobBuilder(jobBuilder);
 
+        // 更新作业
         var scheduleResult = Factory.TryUpdateJob(schedulerBuilder, out var scheduler);
         if (scheduleResult != ScheduleResult.Succeed)
         {
@@ -229,9 +237,11 @@ internal sealed partial class Scheduler
         // 空检查
         if (triggerBuilder == null) throw new ArgumentNullException(nameof(triggerBuilder));
 
+        // 添加作业触发器构建器
         var schedulerBuilder = GetBuilder();
         schedulerBuilder.AddTriggerBuilder(triggerBuilder);
 
+        // 更新作业
         var scheduleResult = Factory.TryUpdateJob(schedulerBuilder, out var scheduler);
         if (scheduleResult != ScheduleResult.Succeed)
         {
@@ -239,10 +249,8 @@ internal sealed partial class Scheduler
             return scheduleResult;
         }
 
+        // 返回新的作业触发器
         trigger = scheduler.GetTrigger(triggerBuilder.TriggerId);
-        // 处理启动时执行一次情况
-        trigger.NextRunTime = trigger.CheckRunOnStarAndReturnNextRunTime(UseUtcTimestamp);
-
         return scheduleResult;
     }
 
@@ -266,9 +274,11 @@ internal sealed partial class Scheduler
         // 空检查
         if (triggerBuilder == null) throw new ArgumentNullException(nameof(triggerBuilder));
 
+        // 更新作业触发器构建器
         var schedulerBuilder = GetBuilder();
         schedulerBuilder.UpdateTriggerBuilder(triggerBuilder);
 
+        // 更新作业
         var scheduleResult = Factory.TryUpdateJob(schedulerBuilder, out var scheduler);
         if (scheduleResult != ScheduleResult.Succeed)
         {
@@ -276,6 +286,7 @@ internal sealed partial class Scheduler
             return scheduleResult;
         }
 
+        // 返回更新后的作业触发器
         trigger = scheduler.GetTrigger(triggerBuilder.TriggerId);
         return scheduleResult;
     }
@@ -297,9 +308,21 @@ internal sealed partial class Scheduler
     /// <returns><see cref="ScheduleResult"/></returns>
     public ScheduleResult TryRemoveTrigger(string triggerId, out Trigger trigger)
     {
+        // 删除作业触发器构建器
         var schedulerBuilder = GetBuilder();
         schedulerBuilder.RemoveTriggerBuilder(triggerId, out var triggerBuilder);
 
+        // 空检查
+        if (triggerBuilder == null)
+        {
+            // 输出日志
+            Logger.LogWarning("The <{triggerId}> trigger for scheduler of <{jobId}> is not found.", triggerId, JobId);
+
+            trigger = default;
+            return ScheduleResult.NotFound;
+        }
+
+        // 更新作业
         var scheduleResult = Factory.TryUpdateJob(schedulerBuilder, out _);
         if (scheduleResult != ScheduleResult.Succeed)
         {
@@ -307,6 +330,7 @@ internal sealed partial class Scheduler
             return scheduleResult;
         }
 
+        // 返回删除后的作业触发器
         trigger = triggerBuilder.Build(JobId);
         return scheduleResult;
     }

@@ -94,6 +94,7 @@ internal sealed partial class SchedulerFactory
         // 存储作业计划工厂
         internalScheduler.Factory = this;
         internalScheduler.UseUtcTimestamp = UseUtcTimestamp;
+        internalScheduler.Logger = _logger;
 
         // 实例化作业处理程序
         var jobType = internalScheduler.JobDetail.RuntimeJobType;
@@ -322,12 +323,13 @@ internal sealed partial class SchedulerFactory
         var updatedTime = Penetrates.GetNowTime(UseUtcTimestamp);
 
         // 获取更新后的作业计划
-        var schedulerForUpdated = schedulerBuilder.Build(_schedulers.Count);
+        var schedulerForUpdated = schedulerBuilder.Build(_schedulers.Count + 1);
         schedulerForUpdated.JobDetail.UpdatedTime = updatedTime;
 
         // 存储作业计划工厂
         schedulerForUpdated.Factory = this;
         schedulerForUpdated.UseUtcTimestamp = UseUtcTimestamp;
+        schedulerForUpdated.Logger = _logger;
 
         // 实例化作业处理程序
         var jobType = schedulerForUpdated.JobDetail.RuntimeJobType;

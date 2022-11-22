@@ -21,6 +21,7 @@
 // SOFTWARE.
 
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using System.Collections.Concurrent;
 
 namespace Furion.Schedule;
@@ -147,6 +148,7 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory, IDisposable
                 .Select(s => new Scheduler(s.JobDetail, s.Triggers.Values.Where(t => triggerShouldRun(s, t)).ToDictionary(t => t.TriggerId, t => t))
                 {
                     Factory = this,
+                    Logger = _logger,
                     UseUtcTimestamp = UseUtcTimestamp,
                     JobHandler = s.JobHandler,
                 });
