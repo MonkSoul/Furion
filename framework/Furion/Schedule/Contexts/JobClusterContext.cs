@@ -20,8 +20,6 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-using System.Reflection;
-
 namespace Furion.Schedule;
 
 /// <summary>
@@ -36,10 +34,7 @@ public sealed class JobClusterContext
     /// <param name="clusterId">作业集群 Id</param>
     internal JobClusterContext(string clusterId)
     {
-        // 将当前启动程序集的名称作为集群 Id
-        ClusterId = !string.IsNullOrWhiteSpace(clusterId)
-            ? clusterId
-            : Assembly.GetEntryAssembly().GetName().Name;
+        ClusterId = clusterId;
     }
 
     /// <summary>

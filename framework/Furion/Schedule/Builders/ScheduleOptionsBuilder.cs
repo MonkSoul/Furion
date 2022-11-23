@@ -23,6 +23,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using System.Collections.Concurrent;
+using System.Reflection;
 
 namespace Furion.Schedule;
 
@@ -252,6 +253,11 @@ public sealed class ScheduleOptionsBuilder
         // 注册作业集群服务
         if (_jobClusterServer != default)
         {
+            // 初始化集群 Id
+            ClusterId = !string.IsNullOrWhiteSpace(ClusterId)
+                ? ClusterId
+                : Assembly.GetEntryAssembly()?.GetName()?.Name ?? "cluster1";
+
             services.AddSingleton(typeof(IJobClusterServer), _jobClusterServer);
         }
 
