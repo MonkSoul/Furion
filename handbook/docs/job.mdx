@@ -641,17 +641,17 @@ info: 2022-11-18 10:29:16.3504029 +08:00 星期五 L MyJob[0] #14
 
 框架提供了 `JobDetail` 类型来描述作业信息，`JobDetail` 类型提供以下**只读属性**：
 
-| 属性名               | 属性类型    | 默认值  | 说明                                                                 |
-| -------------------- | ----------- | ------- | -------------------------------------------------------------------- |
-| `JobId`              | `string`    |         | 作业 `Id`                                                            |
-| `GroupName`          | `string`    |         | 作业组名称                                                           |
-| `JobType`            | `string`    |         | 作业处理程序类型，存储的是类型的 `FullName`                          |
-| `AssemblyName`       | `string`    |         | 作业处理程序类型所在程序集，存储的是程序集 `Name`                    |
-| `Description`        | `string`    |         | 描述信息                                                             |
-| `Concurrent`         | `bool`      | `true`  | 如果设置为 `false`，那么使用 `串行` 执行                   |
-| `IncludeAnnotations` | `bool`      | `false` | 是否扫描 `IJob` 实现类 `[Trigger]` 特性触发器                        |
-| `Properties`         | `string`    | `"{}"`  | 作业信息额外数据，由 `Dictionary<string, object>` 序列化成字符串存储 |
-| `UpdatedTime`        | `DateTime?` |         | 作业更新时间                                                         |
+| 属性名               | 属性类型    | 默认值  | 说明                                                                     |
+| -------------------- | ----------- | ------- | ------------------------------------------------------------------------ |
+| `JobId`              | `string`    |         | 作业 `Id`                                                                |
+| `GroupName`          | `string`    |         | 作业组名称                                                               |
+| `JobType`            | `string`    |         | 作业处理程序类型，存储的是类型的 `FullName`                              |
+| `AssemblyName`       | `string`    |         | 作业处理程序类型所在程序集，存储的是程序集 `Name`                        |
+| `Description`        | `string`    |         | 描述信息                                                                 |
+| `Concurrent`         | `bool`      | `true`  | 作业执行方式，如果设置为 `false`，那么使用 `串行` 执行，否则 `并行` 执行 |
+| `IncludeAnnotations` | `bool`      | `false` | 是否扫描 `IJob` 实现类 `[Trigger]` 特性触发器                            |
+| `Properties`         | `string`    | `"{}"`  | 作业信息额外数据，由 `Dictionary<string, object>` 序列化成字符串存储     |
+| `UpdatedTime`        | `DateTime?` |         | 作业更新时间                                                             |
 
 ### 26.1.3.2 关于作业信息构建器
 
@@ -3130,7 +3130,7 @@ public void OnTriggerChanged(PersistenceTriggerContext context)
 }
 ```
 
-### 26.1.12.4 各类数据库创建数据库表语句
+### 26.1.12.4 各类数据库创建作业持久化表语句
 
 <Tabs
   defaultValue="Sqlite"
@@ -3139,11 +3139,31 @@ public void OnTriggerChanged(PersistenceTriggerContext context)
       label: "Sqlite",
       value: "Sqlite",
     },
+    {
+      label: "SqlServer",
+      value: "SqlServer",
+    },
+    {
+      label: "MySQL",
+      value: "MySQL",
+    },
+    {
+      label: "PostgreSQL",
+      value: "PostgreSQL",
+    },
+    {
+      label: "Oracle",
+      value: "Oracle",
+    },
+    {
+      label: "Firebird",
+      value: "Firebird",
+    }
   ]}
 >
   <TabItem value="Sqlite">
 
-**可自行调整列命名规则**
+**可自行调整列命名规则。**
 
 ```sql showLineNumbers {1,14}
 CREATE TABLE "JobDetails" (
@@ -3181,6 +3201,239 @@ CREATE TABLE "JobTriggers" (
     "StartNow" INTEGER NOT NULL,
     "RunOnStart" INTEGER NOT NULL,
     "UpdatedTime" TEXT NULL
+);
+```
+
+  </TabItem>
+  <TabItem value="SqlServer">
+
+**可自行调整列命名规则。**
+
+```sql showLineNumbers {1,16}
+CREATE TABLE [JobDetails] (
+    [Id] int NOT NULL IDENTITY,
+    [JobId] nvarchar(max) NOT NULL,
+    [GroupName] nvarchar(max) NULL,
+    [JobType] nvarchar(max) NULL,
+    [AssemblyName] nvarchar(max) NULL,
+    [Description] nvarchar(max) NULL,
+    [Concurrent] bit NOT NULL,
+    [IncludeAnnotations] bit NOT NULL,
+    [Properties] nvarchar(max) NULL,
+    [UpdatedTime] datetime2 NULL,
+    CONSTRAINT [PK_JobDetails] PRIMARY KEY ([Id])
+);
+GO
+
+CREATE TABLE [JobTriggers] (
+    [Id] int NOT NULL IDENTITY,
+    [TriggerId] nvarchar(max) NOT NULL,
+    [JobId] nvarchar(max) NOT NULL,
+    [TriggerType] nvarchar(max) NULL,
+    [AssemblyName] nvarchar(max) NULL,
+    [Args] nvarchar(max) NULL,
+    [Description] nvarchar(max) NULL,
+    [Status] bigint NOT NULL,
+    [StartTime] datetime2 NULL,
+    [EndTime] datetime2 NULL,
+    [LastRunTime] datetime2 NULL,
+    [NextRunTime] datetime2 NULL,
+    [NumberOfRuns] bigint NOT NULL,
+    [MaxNumberOfRuns] bigint NOT NULL,
+    [NumberOfErrors] bigint NOT NULL,
+    [MaxNumberOfErrors] bigint NOT NULL,
+    [NumRetries] int NOT NULL,
+    [RetryTimeout] int NOT NULL,
+    [StartNow] bit NOT NULL,
+    [RunOnStart] bit NOT NULL,
+    [UpdatedTime] datetime2 NULL,
+    CONSTRAINT [PK_JobTriggers] PRIMARY KEY ([Id])
+);
+```
+
+  </TabItem>
+  <TabItem value="MySQL">
+
+**可自行调整列命名规则。**
+
+```sql showLineNumbers {3,17}
+ALTER DATABASE CHARACTER SET utf8mb4;
+
+CREATE TABLE `JobDetails` (
+    `Id` int NOT NULL AUTO_INCREMENT,
+    `JobId` longtext CHARACTER SET utf8mb4 NOT NULL,
+    `GroupName` longtext CHARACTER SET utf8mb4 NULL,
+    `JobType` longtext CHARACTER SET utf8mb4 NULL,
+    `AssemblyName` longtext CHARACTER SET utf8mb4 NULL,
+    `Description` longtext CHARACTER SET utf8mb4 NULL,
+    `Concurrent` tinyint(1) NOT NULL,
+    `IncludeAnnotations` tinyint(1) NOT NULL,
+    `Properties` longtext CHARACTER SET utf8mb4 NULL,
+    `UpdatedTime` datetime(6) NULL,
+    CONSTRAINT `PK_JobDetails` PRIMARY KEY (`Id`)
+) CHARACTER SET=utf8mb4;
+
+CREATE TABLE `JobTriggers` (
+    `Id` int NOT NULL AUTO_INCREMENT,
+    `TriggerId` longtext CHARACTER SET utf8mb4 NOT NULL,
+    `JobId` longtext CHARACTER SET utf8mb4 NOT NULL,
+    `TriggerType` longtext CHARACTER SET utf8mb4 NULL,
+    `AssemblyName` longtext CHARACTER SET utf8mb4 NULL,
+    `Args` longtext CHARACTER SET utf8mb4 NULL,
+    `Description` longtext CHARACTER SET utf8mb4 NULL,
+    `Status` int unsigned NOT NULL,
+    `StartTime` datetime(6) NULL,
+    `EndTime` datetime(6) NULL,
+    `LastRunTime` datetime(6) NULL,
+    `NextRunTime` datetime(6) NULL,
+    `NumberOfRuns` bigint NOT NULL,
+    `MaxNumberOfRuns` bigint NOT NULL,
+    `NumberOfErrors` bigint NOT NULL,
+    `MaxNumberOfErrors` bigint NOT NULL,
+    `NumRetries` int NOT NULL,
+    `RetryTimeout` int NOT NULL,
+    `StartNow` tinyint(1) NOT NULL,
+    `RunOnStart` tinyint(1) NOT NULL,
+    `UpdatedTime` datetime(6) NULL,
+    CONSTRAINT `PK_JobTriggers` PRIMARY KEY (`Id`)
+) CHARACTER SET=utf8mb4;
+```
+
+  </TabItem>
+  <TabItem value="PostgreSQL">
+
+**可自行调整列命名规则。**
+
+```sql showLineNumbers {1,15}
+CREATE TABLE "JobDetails" (
+    "Id" integer GENERATED BY DEFAULT AS IDENTITY,
+    "JobId" text NOT NULL,
+    "GroupName" text NULL,
+    "JobType" text NULL,
+    "AssemblyName" text NULL,
+    "Description" text NULL,
+    "Concurrent" boolean NOT NULL,
+    "IncludeAnnotations" boolean NOT NULL,
+    "Properties" text NULL,
+    "UpdatedTime" timestamp with time zone NULL,
+    CONSTRAINT "PK_JobDetails" PRIMARY KEY ("Id")
+);
+
+CREATE TABLE "JobTriggers" (
+    "Id" integer GENERATED BY DEFAULT AS IDENTITY,
+    "TriggerId" text NOT NULL,
+    "JobId" text NOT NULL,
+    "TriggerType" text NULL,
+    "AssemblyName" text NULL,
+    "Args" text NULL,
+    "Description" text NULL,
+    "Status" bigint NOT NULL,
+    "StartTime" timestamp with time zone NULL,
+    "EndTime" timestamp with time zone NULL,
+    "LastRunTime" timestamp with time zone NULL,
+    "NextRunTime" timestamp with time zone NULL,
+    "NumberOfRuns" bigint NOT NULL,
+    "MaxNumberOfRuns" bigint NOT NULL,
+    "NumberOfErrors" bigint NOT NULL,
+    "MaxNumberOfErrors" bigint NOT NULL,
+    "NumRetries" integer NOT NULL,
+    "RetryTimeout" integer NOT NULL,
+    "StartNow" boolean NOT NULL,
+    "RunOnStart" boolean NOT NULL,
+    "UpdatedTime" timestamp with time zone NULL,
+    CONSTRAINT "PK_JobTriggers" PRIMARY KEY ("Id")
+);
+```
+
+  </TabItem>
+  <TabItem value="Oracle">
+
+**可自行调整列命名规则。**
+
+```sql showLineNumbers {1,15}
+CREATE TABLE "JobDetails" (
+    "Id" NUMBER(10) GENERATED BY DEFAULT ON NULL AS IDENTITY NOT NULL,
+    "JobId" NVARCHAR2(2000) NOT NULL,
+    "GroupName" NVARCHAR2(2000),
+    "JobType" NVARCHAR2(2000),
+    "AssemblyName" NVARCHAR2(2000),
+    "Description" NVARCHAR2(2000),
+    "Concurrent" NUMBER(1) NOT NULL,
+    "IncludeAnnotations" NUMBER(1) NOT NULL,
+    "Properties" NVARCHAR2(2000),
+    "UpdatedTime" TIMESTAMP(7),
+    CONSTRAINT "PK_JobDetails" PRIMARY KEY ("Id")
+);
+
+CREATE TABLE "JobTriggers" (
+    "Id" NUMBER(10) GENERATED BY DEFAULT ON NULL AS IDENTITY NOT NULL,
+    "TriggerId" NVARCHAR2(2000) NOT NULL,
+    "JobId" NVARCHAR2(2000) NOT NULL,
+    "TriggerType" NVARCHAR2(2000),
+    "AssemblyName" NVARCHAR2(2000),
+    "Args" NVARCHAR2(2000),
+    "Description" NVARCHAR2(2000),
+    "Status" NUMBER(10) NOT NULL,
+    "StartTime" TIMESTAMP(7),
+    "EndTime" TIMESTAMP(7),
+    "LastRunTime" TIMESTAMP(7),
+    "NextRunTime" TIMESTAMP(7),
+    "NumberOfRuns" NUMBER(19) NOT NULL,
+    "MaxNumberOfRuns" NUMBER(19) NOT NULL,
+    "NumberOfErrors" NUMBER(19) NOT NULL,
+    "MaxNumberOfErrors" NUMBER(19) NOT NULL,
+    "NumRetries" NUMBER(10) NOT NULL,
+    "RetryTimeout" NUMBER(10) NOT NULL,
+    "StartNow" NUMBER(1) NOT NULL,
+    "RunOnStart" NUMBER(1) NOT NULL,
+    "UpdatedTime" TIMESTAMP(7),
+    CONSTRAINT "PK_JobTriggers" PRIMARY KEY ("Id")
+);
+```
+
+  </TabItem>
+  <TabItem value="Firebird">
+
+**可自行调整列命名规则。**
+
+```sql showLineNumbers {1,15}
+CREATE TABLE "JobDetails" (
+    "Id" INTEGER GENERATED BY DEFAULT AS IDENTITY NOT NULL,
+    "JobId" BLOB SUB_TYPE TEXT NOT NULL,
+    "GroupName" BLOB SUB_TYPE TEXT,
+    "JobType" BLOB SUB_TYPE TEXT,
+    "AssemblyName" BLOB SUB_TYPE TEXT,
+    "Description" BLOB SUB_TYPE TEXT,
+    "Concurrent" BOOLEAN NOT NULL,
+    "IncludeAnnotations" BOOLEAN NOT NULL,
+    "Properties" BLOB SUB_TYPE TEXT,
+    "UpdatedTime" TIMESTAMP,
+    CONSTRAINT "PK_JobDetails" PRIMARY KEY ("Id")
+);
+
+CREATE TABLE "JobTriggers" (
+    "Id" INTEGER GENERATED BY DEFAULT AS IDENTITY NOT NULL,
+    "TriggerId" BLOB SUB_TYPE TEXT NOT NULL,
+    "JobId" BLOB SUB_TYPE TEXT NOT NULL,
+    "TriggerType" BLOB SUB_TYPE TEXT,
+    "AssemblyName" BLOB SUB_TYPE TEXT,
+    "Args" BLOB SUB_TYPE TEXT,
+    "Description" BLOB SUB_TYPE TEXT,
+    "Status" BIGINT NOT NULL,
+    "StartTime" TIMESTAMP,
+    "EndTime" TIMESTAMP,
+    "LastRunTime" TIMESTAMP,
+    "NextRunTime" TIMESTAMP,
+    "NumberOfRuns" BIGINT NOT NULL,
+    "MaxNumberOfRuns" BIGINT NOT NULL,
+    "NumberOfErrors" BIGINT NOT NULL,
+    "MaxNumberOfErrors" BIGINT NOT NULL,
+    "NumRetries" INTEGER NOT NULL,
+    "RetryTimeout" INTEGER NOT NULL,
+    "StartNow" BOOLEAN NOT NULL,
+    "RunOnStart" BOOLEAN NOT NULL,
+    "UpdatedTime" TIMESTAMP,
+    CONSTRAINT "PK_JobTriggers" PRIMARY KEY ("Id")
 );
 ```
 
