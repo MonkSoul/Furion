@@ -59,6 +59,15 @@ public partial class Trigger
     }
 
     /// <summary>
+    /// 作业触发器转字符串输出
+    /// </summary>
+    /// <returns><see cref="string"/></returns>
+    public override string ToString()
+    {
+        return $"<{JobId} {TriggerId}> {Description}";
+    }
+
+    /// <summary>
     /// 记录运行信息和计算下一个触发时间
     /// </summary>
     /// <param name="useUtcTimestamp">是否使用 UTC 时间</param>

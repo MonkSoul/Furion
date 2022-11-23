@@ -144,7 +144,7 @@ public partial class JobDetail
     }
 
     /// <summary>
-    /// 作业新增转字符串输出
+    /// 作业信息转字符串输出
     /// </summary>
     /// <returns><see cref="string"/></returns>
     public override string ToString()

@@ -6,7 +6,7 @@ sidebar_label: 26.1 调度作业
 
 :::caution 当前文档还未发布
 
-**当前文档还在编写中，已完成了 95%，将在 2022 年 11 月 23 日完成。**
+**当前文档还在编写中，已完成了 97%，将在 2022 年 11 月 23 日完成。**
 
 :::
 
@@ -981,6 +981,16 @@ var monitor = jobDetail.ConvertToMonitor();
 ┗━━━━━━━━━━━  JobDetail ━━━━━━━━━━━
 ```
 
+4. **简要字符串输出**
+
+```cs showLineNumbers
+var str = jobDetail.ToString();
+```
+
+```bash showLineNumbers
+<job1> 这是一段描述
+```
+
 ## 26.1.4 作业处理程序 `IJob`
 
 作业处理程序是作业具体执行的业务逻辑代码，通常由程序员编写，作业处理程序必须实现 `IJob` 接口。
@@ -1870,6 +1880,18 @@ var monitor = trigger.ConvertToMonitor();
 ┣ runOnStart：               False
 ┣ updatedTime：              2022/11/20 22:30:41
 ┗━━━━━━━━━━━  Trigger ━━━━━━━━━━━
+```
+
+4. **简要字符串输出**
+
+```cs showLineNumbers
+var str = trigger.ToString();
+```
+
+```bash showLineNumbers
+<job3 job3_trigger1> 这是一段描述
+<job2 job2_trigger1> 这是一段描述 * * * * * *
+<job1 job1_trigger1> 这是一段描述 5000ms
 ```
 
 ## 26.1.6 作业计划 `Scheduler` 及构建器
@@ -2948,7 +2970,7 @@ var json scheduler.ConvertToJSON();
 
 ### 26.1.12.2 实现作业持久化器
 
-调度作业服务提供了非常简单的 `IJobPersistence` 接口，只需实现该接口即可实现持久化，如实现数据库持久化
+调度作业服务提供了非常简单的 `IJobPersistence` 接口，只需实现该接口即可实现持久化，如实现数据库持久化：
 
 ```cs showLineNumbers {1,3,8,11,13,17,19}
 public class DbJobPersistence : IJobPersistence
@@ -2988,17 +3010,125 @@ services.AddSchedule(options =>
 
 ### 26.1.12.3 `IJobPersistence` 详细说明
 
-紧急编写中，将在 2022 年 11 月 23 日完成，别催！
+`IJobPersistence` 接口提供了以下三个方法：
+
+- **`Preload`：作业调度器服务启动时调用，通常用来同步持久化数据到内存中。**
+
+在作业调度器服务启动时会自动遍历程序中已注册的作业计划，然后逐条调用该方法，开发者可以在这里通过 `SchedulerBuilder` 修改 `Scheduler` 数据，之后**返回 `SchedulerBuilder` 的持久化行为**。
+
+`SchedulerBuilder` 提供 `Updated()`，`Appended()` 和 `Removed()` 来作为标记，通常标记为 `Updated()`，也就是更新操作。
+
+```cs showLineNumbers {3,8,12-13,16}
+public SchedulerBuilder Preload(string jobId, SchedulerBuilder builder)
+{
+      // 比如这里修改作业信息描述
+      builder.GetJobBuilder()
+             .SetDescription("这是描述~~");
+
+      // 还可以修改触发器
+      builder.GetTriggerBuilder("trigger1")
+             .SetDescription("这是触发器描述~~");
+
+      // 还可以通过数据库查询返回填充 😎
+      builder.GetJobBuilder()
+             .LoadFrom(dbJobDetail); // dbJobDetail 表示根据 jobId 查询数据库返回的对象
+
+      // 标记从其他地方更新，比如数据库
+      return builder.Updated();
+}
+```
+
+如果存储介质（如数据库）已经删除该作业，开发者可以标记为 `Removed()`，这样该作业会从内存中移除。
+
+```cs showLineNumbers {3,6}
+public SchedulerBuilder Preload(string jobId, SchedulerBuilder builder)
+{
+      // 比如这里根据 jobId 查询数据库已经确认数据不存在了
+
+      // 标记从其他地方移除
+      return builder.Removed();
+}
+```
+
+如果存储介质（如数据库）新增了新作业但内存中不存在，开发者可以标记为 `Append()`，这样该作业会添加到内存中。
+
+```cs showLineNumbers {4,6,8,11}
+public SchedulerBuilder Preload(string jobId, SchedulerBuilder builder)
+{
+      // 比如在这里动态创建作业计划构建器
+      var newBuilder = SchedulerBuilder.Create<MyJob>(Triggers.Minutely());
+      // 还可以克隆一个
+      var newBuilder = SchedulerBuilder.Clone(builder);
+      // 还可以读取配置文件/JSON
+      var newBuilder = SchedulerBuilder.From(json);
+
+      // 返回新的作业计划构建器并标记为新增
+      return newBuilder.Appended();
+}
+```
+
+- **`OnChanged`：作业计划 `Scheduler` 的 `JobDetail` 变化时调用。**
+
+只要作业计划有任何变化都将触发该方法，该方法有一个 `PersistenceContext` 类型的参数 `context`，`PersistenceContext` 包含以下成员：
+
+- **`PersistenceContext` 属性列表**
+  - `JobId`：作业 `Id`，`string` 类型
+  - `JobDetail`：作业信息，`JobDetail` 类型
+  - `Behavior`：持久化行为，`PersistenceBehavior` 枚举类型，包含 `Appended`，`Updated` 和 `Removed` 三个枚举成员
+- **`PersistenceContext` 方法列表**
+  - `ConvertToSQL`：将 `PersistenceContext` 转换成 `SQL` 字符串，`Behavior` 属性值不同，生成的 `SQL` 不同
+  - `ConvertToJSON`：将 `PersistenceContext` 转换成 `JSON` 字符串
+  - `ConvertToMonitor`：将 `PersistenceContext` 转换成 `Monitor` 字符串
+  - `ToString`：将 `PersistenceContext` 转换成 `简要` 字符串
+  - `GetNaming`：提供将特定字符串输出不同的命名规则字符串
+
+```cs showLineNumbers {4,6,8,10}
+public void OnChanged(PersistenceContext context)
+{
+      // 输出 CamelCase（驼峰命名法）SQL 语句，默认值
+      var sql = context.ConvertToSQL("job_detail");
+      // 输出 Pascal（帕斯卡命名法） SQL 语句
+      var sql = context.ConvertToSQL("job_detail", NamingConventions.Pascal);
+      // 输出 UnderScoreCase（下划线命名法） SQL 语句
+      var sql = context.ConvertToSQL("job_detail", NamingConventions.UnderScoreCase);
+
+      // 你要做的只是执行 SQL 了！！！ 😎
+}
+```
+
+- **`OnTriggerChanged`：作业计划 `Scheduler` 的触发器 `Trigger` 变化时调用。**
+
+只要作业计划**触发器**有任何变化都将触发该方法，该方法有一个 `PersistenceTriggerContext` 类型的参数 `context`，`PersistenceTriggerContext` 继承自 `PersistenceContext`：
+
+- **`PersistenceTriggerContext` 属性列表**
+  - `JobId`：作业 `Id`，`string` 类型
+  - `JobDetail`：作业信息，`JobDetail` 类型
+  - `TriggerId`：作业触发器 `Id`，`string` 类型
+  - `Trigger`：作业触发器，`Trigger` 类型
+  - `Behavior`：持久化行为，`PersistenceBehavior` 枚举类型，包含 `Appended`，`Updated` 和 `Removed` 三个枚举成员
+- **`PersistenceTriggerContext` 方法列表**
+  - `ConvertToSQL`：将 `PersistenceTriggerContext` 转换成 `SQL` 字符串，`Behavior` 属性值不同，生成的 `SQL` 不同
+  - `ConvertToJSON`：将 `PersistenceTriggerContext` 转换成 `JSON` 字符串，只包含 `Trigger`
+  - `ConvertAllToJSON`：将 `PersistenceTriggerContext` 转换成 `JSON` 字符串，包含 `JobDetail` 和 `Trigger`
+  - `ConvertToMonitor`：将 `PersistenceTriggerContext` 转换成 `Monitor` 字符串
+  - `ToString`：将 `PersistenceTriggerContext` 转换成 `简要` 字符串
+  - `GetNaming`：提供将特定字符串输出不同的命名规则字符串
+
+```cs showLineNumbers {4,6,8,10}
+public void OnTriggerChanged(PersistenceTriggerContext context)
+{
+      // 输出 CamelCase（驼峰命名法）SQL 语句，默认值
+      var sql = context.ConvertToSQL("job_trigger");
+      // 输出 Pascal（帕斯卡命名法） SQL 语句
+      var sql = context.ConvertToSQL("job_trigger", NamingConventions.Pascal);
+      // 输出 UnderScoreCase（下划线命名法） SQL 语句
+      var sql = context.ConvertToSQL("job_trigger", NamingConventions.UnderScoreCase);
+
+      // 你要做的只是执行 SQL 了！！！ 😎
+}
+```
 
 ### 26.1.12.4 各类数据库创建数据库表语句
-
-紧急编写中，将在 2022 年 11 月 23 日完成，别催！
-
-### 26.1.12.5 `EFCore` 持久化示例
-
-紧急编写中，将在 2022 年 11 月 23 日完成，别催！
-
-### 26.1.12.6 `SqlSugar` 持久化示例
 
 紧急编写中，将在 2022 年 11 月 23 日完成，别催！
 

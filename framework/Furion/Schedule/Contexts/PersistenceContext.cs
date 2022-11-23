@@ -86,4 +86,27 @@ public class PersistenceContext
     {
         return JobDetail.ConvertToMonitor(naming);
     }
+
+    /// <summary>
+    /// 根据不同的命名法返回属性名
+    /// </summary>
+    /// <param name="propertyName">属性名</param>
+    /// <param name="naming">命名法</param>
+    /// <returns><see cref="string"/></returns>
+    public string GetNaming(string propertyName, NamingConventions naming = NamingConventions.CamelCase)
+    {
+        // 空检查
+        if (!string.IsNullOrWhiteSpace(propertyName)) return propertyName;
+
+        return Penetrates.GetNaming(propertyName, naming);
+    }
+
+    /// <summary>
+    /// 作业信息持久化上下文转字符串输出
+    /// </summary>
+    /// <returns></returns>
+    public override string ToString()
+    {
+        return $"{JobDetail} <{Behavior}>";
+    }
 }

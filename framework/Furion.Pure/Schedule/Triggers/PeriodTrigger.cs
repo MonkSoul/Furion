@@ -61,6 +61,6 @@ public class PeriodTrigger : Trigger
     /// <returns><see cref="string"/></returns>
     public override string ToString()
     {
-        return $"<{TriggerId}> {Description} {Interval}ms";
+        return $"<{JobId} {TriggerId}> {Description} {Interval}ms";
     }
 }

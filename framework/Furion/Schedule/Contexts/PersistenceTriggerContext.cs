@@ -106,4 +106,13 @@ public sealed class PersistenceTriggerContext : PersistenceContext
     {
         return Trigger.ConvertToMonitor(naming);
     }
+
+    /// <summary>
+    /// 作业触发器持久化上下文转字符串输出
+    /// </summary>
+    /// <returns></returns>
+    public override string ToString()
+    {
+        return $"{JobDetail} {Trigger} <{Behavior}>";
+    }
 }

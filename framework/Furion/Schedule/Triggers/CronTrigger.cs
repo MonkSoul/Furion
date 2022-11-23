@@ -61,6 +61,6 @@ public class CronTrigger : Trigger
     /// <returns><see cref="string"/></returns>
     public override string ToString()
     {
-        return $"<{TriggerId}> {Description} {Crontab}";
+        return $"<{JobId} {TriggerId}> {Description} {Crontab}";
     }
 }
