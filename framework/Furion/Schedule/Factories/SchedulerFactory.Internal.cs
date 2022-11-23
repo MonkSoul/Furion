@@ -47,7 +47,7 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory
     private readonly Task _processQueueTask;
 
     /// <summary>
-    /// 作业调度器休眠 Token
+    /// 作业调度器取消休眠 Token
     /// </summary>
     /// <remarks>用于取消休眠状态（唤醒）</remarks>
     private CancellationTokenSource _sleepCancellationTokenSource;
@@ -81,7 +81,7 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory
         Persistence = _serviceProvider.GetService<IJobPersistence>();
         UseUtcTimestamp = useUtcTimestamp;
 
-        // 初始化作业调度器休眠 Token
+        // 初始化作业调度器取消休眠 Token
         CreateCancellationTokenSource();
 
         if (Persistence != null)
@@ -200,7 +200,7 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory
         }
         catch
         {
-            // 重新初始化作业调度器休眠 Token
+            // 重新初始化作业调度器取消休眠 Token
             CreateCancellationTokenSource();
         }
     }
@@ -212,7 +212,7 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory
     {
         if (!_sleepCancellationTokenSource.IsCancellationRequested) _sleepCancellationTokenSource.Cancel();
 
-        // 重新初始化作业调度器休眠 Token
+        // 重新初始化作业调度器取消休眠 Token
         CreateCancellationTokenSource();
     }
 
@@ -269,7 +269,7 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory
 
         try
         {
-            // 取消当前任务并释放作业调度器取消 Token
+            // 取消当前任务并释放作业调度器取消休眠 Token
             if (!_sleepCancellationTokenSource.IsCancellationRequested) _sleepCancellationTokenSource.Cancel();
             _sleepCancellationTokenSource.Dispose();
 
@@ -337,7 +337,7 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory
     }
 
     /// <summary>
-    /// 创建新的作业调度器休眠 Token
+    /// 创建新的作业调度器取消休眠 Token
     /// </summary>
     private void CreateCancellationTokenSource()
     {

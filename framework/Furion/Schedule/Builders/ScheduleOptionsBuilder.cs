@@ -53,6 +53,11 @@ public sealed class ScheduleOptionsBuilder
     private Type _jobPersistence;
 
     /// <summary>
+    /// 作业集群服务
+    /// </summary>
+    private Type _jobClusterServer;
+
+    /// <summary>
     /// 未察觉任务异常事件处理程序
     /// </summary>
     public EventHandler<UnobservedTaskExceptionEventArgs> UnobservedTaskExceptionHandler { get; set; }
@@ -66,6 +71,11 @@ public sealed class ScheduleOptionsBuilder
     /// 是否启用日志记录
     /// </summary>
     public bool LogEnabled { get; set; } = true;
+
+    /// <summary>
+    /// 作业集群 Id
+    /// </summary>
+    public string ClusterId { get; set; } = string.Empty;
 
     /// <summary>
     /// 添加作业
@@ -187,6 +197,18 @@ public sealed class ScheduleOptionsBuilder
     }
 
     /// <summary>
+    /// 注册作业集群服务
+    /// </summary>
+    /// <typeparam name="TJobClusterServer">实现自 <see cref="IJobClusterServer"/></typeparam>
+    /// <returns><see cref="ScheduleOptionsBuilder"/> 实例</returns>
+    public ScheduleOptionsBuilder AddClusterServer<TJobClusterServer>()
+        where TJobClusterServer : class, IJobClusterServer
+    {
+        _jobClusterServer = typeof(TJobClusterServer);
+        return this;
+    }
+
+    /// <summary>
     /// 构建作业调度器配置选项
     /// </summary>
     /// <param name="services"><see cref="IServiceCollection"/></param>
@@ -225,6 +247,12 @@ public sealed class ScheduleOptionsBuilder
         if (_jobPersistence != default)
         {
             services.AddSingleton(typeof(IJobPersistence), _jobPersistence);
+        }
+
+        // 注册作业集群服务
+        if (_jobClusterServer != default)
+        {
+            services.AddSingleton(typeof(IJobClusterServer), _jobClusterServer);
         }
 
         return schedulers;

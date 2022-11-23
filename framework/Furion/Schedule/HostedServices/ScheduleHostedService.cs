@@ -53,17 +53,22 @@ internal sealed class ScheduleHostedService : BackgroundService
     /// <param name="logger">作业调度器日志服务</param>
     /// <param name="schedulerFactory">作业计划工厂服务</param>
     /// <param name="useUtcTimestamp">是否使用 Utc 时间</param>
+    /// <param name="clusterId">作业集群 Id</param>
     public ScheduleHostedService(IServiceProvider serviceProvider
         , IScheduleLogger logger
         , ISchedulerFactory schedulerFactory
-        , bool useUtcTimestamp)
+        , bool useUtcTimestamp
+        , string clusterId)
     {
         _logger = logger;
         _schedulerFactory = schedulerFactory;
 
         Monitor = serviceProvider.GetService<IJobMonitor>();
         Executor = serviceProvider.GetService<IJobExecutor>();
+        ClusterServer = serviceProvider.GetService<IJobClusterServer>();
+
         UseUtcTimestamp = useUtcTimestamp;
+        ClusterId = clusterId;
     }
 
     /// <summary>
@@ -77,9 +82,32 @@ internal sealed class ScheduleHostedService : BackgroundService
     private IJobExecutor Executor { get; }
 
     /// <summary>
+    /// 作业集群服务
+    /// </summary>
+    private IJobClusterServer ClusterServer { get; }
+
+    /// <summary>
     /// 是否使用 UTC 时间
     /// </summary>
     private bool UseUtcTimestamp { get; }
+
+    /// <summary>
+    /// 作业集群 Id
+    /// </summary>
+    private string ClusterId { get; }
+
+    /// <summary>
+    /// 监听作业调度服务启动
+    /// </summary>
+    /// <param name="cancellationToken">后台主机服务停止时取消任务 Token</param>
+    /// <returns><see cref="Task"/></returns>
+    public override Task StartAsync(CancellationToken cancellationToken)
+    {
+        // 作业集群启动通知
+        ClusterServer?.Start(new(ClusterId));
+
+        return base.StartAsync(cancellationToken);
+    }
 
     /// <summary>
     /// 执行后台任务
@@ -93,6 +121,9 @@ internal sealed class ScheduleHostedService : BackgroundService
         // 注册后台主机服务停止监听
         stoppingToken.Register(() =>
            _logger.LogDebug($"Schedule Hosted Service is stopping."));
+
+        // 等待作业集群指示
+        await WaitingClusterAsync();
 
         // 作业调度器初始化
         _schedulerFactory.Preload();
@@ -257,6 +288,30 @@ internal sealed class ScheduleHostedService : BackgroundService
     }
 
     /// <summary>
+    /// 监听作业调度服务停止
+    /// </summary>
+    /// <param name="cancellationToken">后台主机服务停止时取消任务 Token</param>
+    /// <returns><see cref="Task"/></returns>
+    public override Task StopAsync(CancellationToken cancellationToken)
+    {
+        // 作业集群停止通知
+        ClusterServer?.Stop(new(ClusterId));
+
+        return base.StopAsync(cancellationToken);
+    }
+
+    /// <summary>
+    /// 监听作业调度器对象销毁
+    /// </summary>
+    public override void Dispose()
+    {
+        // 作业集群宕机通知
+        ClusterServer?.Crash(new(ClusterId));
+
+        base.Dispose();
+    }
+
+    /// <summary>
     /// 检查是否是串行执行
     /// </summary>
     /// <param name="jobDetail">作业信息</param>
@@ -295,5 +350,24 @@ internal sealed class ScheduleHostedService : BackgroundService
 
             return true;
         }
+    }
+
+    /// <summary>
+    /// 等待作业集群指示
+    /// </summary>
+    /// <returns><see cref="Task"/></returns>
+    private async Task WaitingClusterAsync()
+    {
+        // 空检查
+        if (ClusterServer == null) return;
+
+        // 输出作业集群进入等待日志
+        _logger.LogInformation("The job cluster of <{ClusterId}> service has been enabled, waiting for instructions.", ClusterId);
+
+        // 等待作业集群服务返回消息
+        await ClusterServer.WaitingForAsync(new(ClusterId));
+
+        // 输出作业集群可正常工作日志
+        _logger.LogWarning("The job cluster of <{ClusterId}> service has been enabled, and the current job scheduler can work normally.", ClusterId);
     }
 }

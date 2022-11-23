@@ -65,7 +65,8 @@ public static class ScheduleServiceCollectionExtensions
             // 创建作业调度器后台主机对象
             var scheduleHostedService = ActivatorUtilities.CreateInstance<ScheduleHostedService>(
                 serviceProvider
-                , scheduleOptionsBuilder.UseUtcTimestamp);
+                , scheduleOptionsBuilder.UseUtcTimestamp
+                , scheduleOptionsBuilder.ClusterId);
 
             // 订阅未察觉任务异常事件
             var unobservedTaskExceptionHandler = scheduleOptionsBuilder.UnobservedTaskExceptionHandler;

@@ -4,14 +4,6 @@ title: 26.1 调度作业
 sidebar_label: 26.1 调度作业
 ---
 
-:::caution 当前文档还未发布
-
-**当前文档还在编写中，已完成了 99%，将在 2022 年 11 月 23 日完成。**
-
-:::
-
----
-
 :::warning 4.8.0 以下版本说明
 
 **在 `Furion 4.8.0+` 版本采用 [Sundial](https://gitee.com/dotnetchina/Sundial) 定时任务替换原有的 `TaskScheduler`**，[查看旧文档](/docs/job-old)
@@ -3832,7 +3824,123 @@ public class JobTrigger
 
 ## 26.1.13 作业集群控制
 
-紧急编写中，将在 2022 年 11 月 23 日完成，别催！
+框架提供简单的集群功能，但并不能达到负载均衡的效果，而仅仅提供了故障转移的功能，当一个服务的作业调度器宕机时，另一个服务的作业调度器会启动。
+
+### 26.1.13.1 实现集群故障转移
+
+1. **创建 `JobClusterServer` 类并实现 `IJobClusterServer`**
+
+```cs showLineNumbers {1,9,21-37,46,55,65}
+public class JobClusterServer : IJobClusterServer
+{
+    /// <summary>
+    /// 当前作业调度器启动通知
+    /// </summary>
+    /// <param name="context">作业集群服务上下文</param>
+    public void Start(JobClusterContext context)
+    {
+        // 在作业集群表中，如果 clusterId 不存在，则新增一条（否则更新一条），并设置 status 为 ClusterStatus.Waiting
+    }
+
+    /// <summary>
+    /// 等待被唤醒
+    /// </summary>
+    /// <param name="context">作业集群服务上下文</param>
+    /// <returns><see cref="Task"/></returns>
+    public async Task WaitingForAsync(JobClusterContext context)
+    {
+        var clusterId = context.ClusterId;
+
+        while (true)
+        {
+            try
+            {
+                // 在这里查询数据库，根据以下两种情况处理
+                // 1) 如果作业集群表已有 status 为 ClusterStatus.Working 则继续循环
+                // 2) 如果作业集群表中还没有其他服务或只有自己，则插入一条集群服务或调用 await WorkNowAsync(clusterId); 之后 return;
+                // 3) 如果作业集群表中没有 status 为 ClusterStatus.Working 的，调用 await WorkNowAsync(clusterId); 之后 return;
+
+                await WorkNowAsync(clusterId);
+                return;
+            }
+            catch { }
+
+            // 控制集群心跳频率
+            await Task.Delay(3000);
+        }
+    }
+
+    /// <summary>
+    /// 当前作业调度器停止通知
+    /// </summary>
+    /// <param name="context">作业集群服务上下文</param>
+    public void Stop(JobClusterContext context)
+    {
+        // 在作业集群表中，更新 clusterId 的 status 为 ClusterStatus.Crashed
+    }
+
+    /// <summary>
+    /// 当前作业调度器宕机
+    /// </summary>
+    /// <param name="context">作业集群服务上下文</param>
+    public void Crash(JobClusterContext context)
+    {
+        // 在作业集群表中，更新 clusterId 的 status 为 ClusterStatus.Crashed
+    }
+
+    /// <summary>
+    /// 指示集群可以工作
+    /// </summary>
+    /// <param name="clusterId">集群 Id</param>
+    /// <returns></returns>
+    private Task WorkNowAsync(string clusterId)
+    {
+        // 在作业集群表中，更新 clusterId 的 status 为 ClusterStatus.Working
+
+        return Task.CompletedTask;
+    }
+}
+```
+
+2. **注册集群服务**
+
+```cs showLineNumbers {3-4}
+services.AddSchedule(options =>
+{
+      options.ClusterId = "cluster1";
+      options.AddClusterServer<JobClusterServer>();
+});
+```
+
+3. **作业集群输出日志**
+
+```bash showLineNumbers {4,6,8,12}
+info: 2022-11-23 14:08:35.4253321 +08:00 星期三 L System.Logging.ScheduleService[0] #1
+      Schedule Hosted Service is running.
+info: 2022-11-23 14:08:35.4391070 +08:00 星期三 L System.Logging.ScheduleService[0] #1
+      The job cluster of <cluster1> service has been enabled, waiting for instructions.
+warn: 2022-11-23 14:08:38.4590092 +08:00 星期三 L System.Logging.ScheduleService[0] #8
+      The job cluster of <cluster1> service has been enabled, and the current job scheduler can work normally.
+warn: 2022-11-23 14:08:38.4823786 +08:00 星期三 L System.Logging.ScheduleService[0] #8
+      Schedule Hosted Service cancels hibernation and GC.Collect().
+info: 2022-11-23 14:08:38.4909379 +08:00 星期三 L System.Logging.ScheduleService[0] #8
+      The Scheduler of <job1> successfully updated to the schedule.
+info: 2022-11-23 14:08:43.5211812 +08:00 星期三 L ConsoleApp32.MyJob[0] #15
+      <job1>   <job1 job1_trigger1>  5000ms 2022/11/23 14:08:43
+```
+
+### 26.1.13.2 作业集群数据库表设计
+
+只需包含 `Id`，`ClusterId`，`Description`，`Status`，`UpdatedTime` 字段即可，其中 `Status` 是 `ClusterStatus` 枚举类型。
+
+- **`ClusterStatus`** 包含以下枚举成员
+  - `Crashed`：宕机
+  - `Working`：正常工作
+  - `Waiting`：等待被唤醒，默认值
+
+### 26.1.13.3 如何实现负载均衡
+
+框架只提供了简单的故障转移的集群功能，如需实现负载均衡，可通过 `TCP/IP` 套接字实现，这里看后续需求，如果需求大，就把完整的负载均衡例子补上。
 
 ## 26.1.14 `ScheduleServe` 静态类
 
