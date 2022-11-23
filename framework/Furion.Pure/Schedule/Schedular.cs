@@ -26,10 +26,10 @@ using Microsoft.Extensions.Hosting;
 namespace Furion.Schedule;
 
 /// <summary>
-/// 作业调度器静态类
+/// 调度作业服务静态类
 /// </summary>
 [SuppressSniffer]
-public static class Schedular
+public static class ScheduleServe
 {
     /// <summary>
     /// 初始化 Schedule 服务
@@ -73,7 +73,14 @@ public static class Schedular
 
         return serviceProvider;
     }
+}
 
+/// <summary>
+/// 作业调度器静态类
+/// </summary>
+[SuppressSniffer]
+public static class Schedular
+{
     /// <summary>
     /// 获取作业计划工厂
     /// </summary>
