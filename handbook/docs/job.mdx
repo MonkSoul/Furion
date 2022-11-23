@@ -25,6 +25,8 @@ sidebar_label: 26.1 调度作业
 :::
 
 import useBaseUrl from "@docusaurus/useBaseUrl";
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
 
 ## 26.1.1 关于调度作业
 
@@ -3130,21 +3132,105 @@ public void OnTriggerChanged(PersistenceTriggerContext context)
 
 ### 26.1.12.4 各类数据库创建数据库表语句
 
-紧急编写中，将在 2022 年 11 月 23 日完成，别催！
+<Tabs
+  defaultValue="Sqlite"
+  values={[
+    {
+      label: "Sqlite",
+      value: "Sqlite",
+    },
+  ]}
+>
+  <TabItem value="Sqlite">
+
+**可自行调整列命名规则**
+
+```sql showLineNumbers {1,14}
+CREATE TABLE "JobDetails" (
+    "Id" INTEGER NOT NULL CONSTRAINT "PK_JobDetails" PRIMARY KEY AUTOINCREMENT,
+    "JobId" TEXT NOT NULL,
+    "GroupName" TEXT NULL,
+    "JobType" TEXT NULL,
+    "AssemblyName" TEXT NULL,
+    "Description" TEXT NULL,
+    "Concurrent" INTEGER NOT NULL,
+    "IncludeAnnotations" INTEGER NOT NULL,
+    "Properties" TEXT NULL,
+    "UpdatedTime" TEXT NULL
+);
+
+CREATE TABLE "JobTriggers" (
+    "Id" INTEGER NOT NULL CONSTRAINT "PK_JobTriggers" PRIMARY KEY AUTOINCREMENT,
+    "TriggerId" TEXT NOT NULL,
+    "JobId" TEXT NOT NULL,
+    "TriggerType" TEXT NULL,
+    "AssemblyName" TEXT NULL,
+    "Args" TEXT NULL,
+    "Description" TEXT NULL,
+    "Status" INTEGER NOT NULL,
+    "StartTime" TEXT NULL,
+    "EndTime" TEXT NULL,
+    "LastRunTime" TEXT NULL,
+    "NextRunTime" TEXT NULL,
+    "NumberOfRuns" INTEGER NOT NULL,
+    "MaxNumberOfRuns" INTEGER NOT NULL,
+    "NumberOfErrors" INTEGER NOT NULL,
+    "MaxNumberOfErrors" INTEGER NOT NULL,
+    "NumRetries" INTEGER NOT NULL,
+    "RetryTimeout" INTEGER NOT NULL,
+    "StartNow" INTEGER NOT NULL,
+    "RunOnStart" INTEGER NOT NULL,
+    "UpdatedTime" TEXT NULL
+);
+```
+
+  </TabItem>
+</Tabs>
 
 ## 26.1.13 作业集群控制
 
 紧急编写中，将在 2022 年 11 月 23 日完成，别催！
 
-## 26.1.14 如何部署
+## 26.1.14 `ScheduleServe` 静态类
+
+该功能 **建议** 仅限不能通过 `services.AddXXX` 方式使用，比如控制台，`Winfrom/WPF` 等。
+
+```cs showLineNumbers {1,3}
+IDisposable dispose =  ScheduleServe.Run(options =>
+{
+    options.AddJob<MyJob>(Triggers.Secondly());
+});
+```
+
+这种方式有一个隐藏的巨大隐藏 “骚操作”：**可以在任何地方创建作业调度服务，多次调用可以创建多个作业调度器。**
+
+:::tip 推荐使用 `Serve.Run()` 或 `Serve.RunGeneric()` 方式替代
+
+`Furion` 框架提供了 `Serve.Run()` 方式支持跨平台使用，还能支持注册更多服务，如：
+
+```cs showLineNumbers {1,3,5}
+Serve.Run(services =>
+{
+    services.AddSchedule(options =>
+    {
+        options.Add<MyJob>(Triggers.Secondly());
+    });
+})
+```
+
+如无需 `Web` 功能，可通过 `Serve.RunGeneric` 替代 `Serve.Run`。
+
+:::
+
+## 26.1.15 如何部署
 
 紧急编写中，将在 2022 年 11 月 23 日完成，别催！
 
-## 26.1.15 常见问题
+## 26.1.16 常见问题
 
 紧急编写中，将在 2022 年 11 月 23 日完成，别催！
 
-## 26.1.15 反馈与建议
+## 26.1.17 反馈与建议
 
 :::note 与我们交流
 
