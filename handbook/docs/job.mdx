@@ -2966,9 +2966,15 @@ var json scheduler.ConvertToJSON();
 
 调度作业服务提供了非常简单的 `IJobPersistence` 接口，只需实现该接口即可实现持久化，如实现数据库持久化：
 
-```cs showLineNumbers {1,3,8,11,13,17,19}
+```cs showLineNumbers {1,3,9,17,23}
 public class DbJobPersistence : IJobPersistence
 {
+    public IEnumerable<SchedulerBuilder> Preload()
+    {
+        // 作业调度服务启动时运行时初始化
+        return Array.Empty<SchedulerBuilder>();
+    }
+
     public SchedulerBuilder OnLoaded(string jobId, SchedulerBuilder builder)
     {
         // 如果是更新操作，则 return builder.Updated();
@@ -3029,7 +3035,7 @@ public IEnumerable<SchedulerBuilder> Preload()
 
 `SchedulerBuilder` 提供 `Updated()`，`Appended()` 和 `Removed()` 来作为标记，通常标记为 `Updated()`，也就是更新操作。
 
-```cs showLineNumbers {3,8,12-13,16}
+```cs showLineNumbers {4,8,12-13,16}
 public SchedulerBuilder OnLoaded(string jobId, SchedulerBuilder builder)
 {
       // 比如这里修改作业信息描述
