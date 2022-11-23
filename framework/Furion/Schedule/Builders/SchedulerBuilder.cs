@@ -20,8 +20,6 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-using System.Reflection;
-
 namespace Furion.Schedule;
 
 /// <summary>
@@ -80,27 +78,7 @@ public sealed class SchedulerBuilder
         // 判断是否扫描 IJob 实现类 [Trigger] 特性触发器
         if (jobBuilder.IncludeAnnotations)
         {
-            var triggerAttributes = jobBuilder.RuntimeJobType.GetCustomAttributes<TriggerAttribute>(true);
-
-            // 遍历所有作业触发器特性并添加到集合中
-            foreach (var triggerAttribute in triggerAttributes)
-            {
-                // 创建作业触发器并添加到当前作业触发器构建器中
-                var triggerBuilder = TriggerBuilder.Create(triggerAttribute.RuntimeTriggerType)
-                    .SetArgs(triggerAttribute.RuntimeTriggerArgs)
-                    .SetTriggerId(triggerAttribute.TriggerId)
-                    .SetDescription(triggerAttribute.Description)
-                    .SetMaxNumberOfRuns(triggerAttribute.MaxNumberOfRuns)
-                    .SetMaxNumberOfErrors(triggerAttribute.MaxNumberOfErrors)
-                    .SetNumRetries(triggerAttribute.NumRetries)
-                    .SetRetryTimeout(triggerAttribute.RetryTimeout)
-                    .SetStartTime(triggerAttribute.RuntimeStartTime)
-                    .SetEndTime(triggerAttribute.RuntimeEndTime)
-                    .SetStartNow(triggerAttribute.StartNow)
-                    .SetRunOnStart(triggerAttribute.RunOnStart);
-
-                schedulerBuilder.TriggerBuilders.Add(triggerBuilder);
-            }
+            schedulerBuilder.TriggerBuilders.AddRange(jobBuilder.RuntimeJobType.ScanTriggers());
         }
 
         return schedulerBuilder;

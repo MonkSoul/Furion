@@ -2969,7 +2969,7 @@ var json scheduler.ConvertToJSON();
 ```cs showLineNumbers {1,3,8,11,13,17,19}
 public class DbJobPersistence : IJobPersistence
 {
-    public SchedulerBuilder Preload(string jobId, SchedulerBuilder builder)
+    public SchedulerBuilder OnLoaded(string jobId, SchedulerBuilder builder)
     {
         // 如果是更新操作，则 return builder.Updated();
         // 如果是新增操作，则 return builder.Appended();
@@ -3004,16 +3004,33 @@ services.AddSchedule(options =>
 
 ### 26.1.12.3 `IJobPersistence` 详细说明
 
-`IJobPersistence` 接口提供了以下三个方法：
+`IJobPersistence` 接口提供了以下四个方法：
 
-- **`Preload`：作业调度器服务启动时调用，通常用来同步持久化数据到内存中。**
+- **`Preload`：作业调度服务启动时调用，可在这里动态创建作业计划构建器并返回。**
+
+```cs showLineNumbers {1,4,10}
+public IEnumerable<SchedulerBuilder> Preload()
+{
+      // 这里可以扫描程序集动态创建返回
+      return App.EffectiveTypes.Where(t => t.IsJobType())
+                               .Select(t => SchedulerBuilder.Create(JobBuilder.Create(t), t.ScanTriggers()));
+
+      // 也可以手动返回
+      return new[]
+      {
+            SchedulerBuilder.Create(JobBuilder.Create<MyJob>(), Triggers.Minutely())
+      }
+}
+```
+
+- **`OnLoaded`：作业计划加载完成通知，通常用来同步存储介质（如数据库）数据到内存中。**
 
 在作业调度器服务启动时会自动遍历程序中已注册的作业计划，然后逐条调用该方法，开发者可以在这里通过 `SchedulerBuilder` 修改 `Scheduler` 数据，之后**返回 `SchedulerBuilder` 的持久化行为**。
 
 `SchedulerBuilder` 提供 `Updated()`，`Appended()` 和 `Removed()` 来作为标记，通常标记为 `Updated()`，也就是更新操作。
 
 ```cs showLineNumbers {3,8,12-13,16}
-public SchedulerBuilder Preload(string jobId, SchedulerBuilder builder)
+public SchedulerBuilder OnLoaded(string jobId, SchedulerBuilder builder)
 {
       // 比如这里修改作业信息描述
       builder.GetJobBuilder()
@@ -3035,7 +3052,7 @@ public SchedulerBuilder Preload(string jobId, SchedulerBuilder builder)
 如果存储介质（如数据库）已经删除该作业，开发者可以标记为 `Removed()`，这样该作业会从内存中移除。
 
 ```cs showLineNumbers {3,6}
-public SchedulerBuilder Preload(string jobId, SchedulerBuilder builder)
+public SchedulerBuilder OnLoaded(string jobId, SchedulerBuilder builder)
 {
       // 比如这里根据 jobId 查询数据库已经确认数据不存在了
 
@@ -3047,7 +3064,7 @@ public SchedulerBuilder Preload(string jobId, SchedulerBuilder builder)
 如果存储介质（如数据库）新增了新作业但内存中不存在，开发者可以标记为 `Append()`，这样该作业会添加到内存中。
 
 ```cs showLineNumbers {4,6,8,11}
-public SchedulerBuilder Preload(string jobId, SchedulerBuilder builder)
+public SchedulerBuilder OnLoaded(string jobId, SchedulerBuilder builder)
 {
       // 比如在这里动态创建作业计划构建器
       var newBuilder = SchedulerBuilder.Create<MyJob>(Triggers.Minutely());

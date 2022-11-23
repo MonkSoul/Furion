@@ -211,9 +211,7 @@ public sealed class JobBuilder : JobDetail
         if (jobType == null) return this;
 
         // 检查 jobType 类型是否实现 IJob 接口
-        if (!typeof(IJob).IsAssignableFrom(jobType)
-            || jobType.IsInterface
-            || jobType.IsAbstract) throw new InvalidOperationException("The <jobType> does not implement IJob interface.");
+        if (!jobType.IsJobType()) throw new InvalidOperationException("The <jobType> does not implement IJob interface.");
 
         AssemblyName = jobType.Assembly.GetName().Name;
         JobType = jobType.FullName;

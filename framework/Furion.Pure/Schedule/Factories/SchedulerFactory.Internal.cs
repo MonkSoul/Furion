@@ -110,14 +110,29 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory
         // 输出作业调度度初始化日志
         _logger.LogDebug("Schedule Hosted Service is preloading.");
 
+        // 装载初始作业计划
+        var initialSchedulerBuilders = Persistence?.Preload();
+        if (initialSchedulerBuilders != null && initialSchedulerBuilders.Any())
+        {
+            // 逐条遍历并新增到内存中
+            foreach (var schedulerBuilder in initialSchedulerBuilders)
+            {
+                var initialScheduler = schedulerBuilder.Build(_schedulers.Count + 1);
+                var succeed = _schedulers.TryAdd(initialScheduler.JobId, initialScheduler);
+
+                // 检查重复性
+                if (!succeed) throw new InvalidOperationException($"The JobId of <{initialScheduler.JobId}> already exists.");
+            }
+        }
+
         // 逐条初始化作业计划
         foreach (var scheduler in _schedulers.Values)
         {
             // 获取作业计划构建器
             var schedulerBuilder = SchedulerBuilder.From(scheduler);
 
-            // 加载持久化数据并更新到内存中
-            if (TryUpdateJob(Persistence?.Preload(scheduler.JobId, schedulerBuilder) ?? schedulerBuilder, out var schedulerForUpdated) == ScheduleResult.Succeed
+            // 作业计划加载完成通知
+            if (TryUpdateJob(Persistence?.OnLoaded(scheduler.JobId, schedulerBuilder) ?? schedulerBuilder, out var schedulerForUpdated) == ScheduleResult.Succeed
                   && schedulerBuilder.Behavior == PersistenceBehavior.Updated)
             {
                 // 处理启动时执行一次情况

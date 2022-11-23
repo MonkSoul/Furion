@@ -27,8 +27,65 @@ namespace Furion.Schedule;
 /// <summary>
 /// Schedule 模块拓展类
 /// </summary>
-internal static class ScheduleExtensions
+[SuppressSniffer]
+public static class ScheduleExtensions
 {
+    /// <summary>
+    /// 判断类型是否时 IJob 实现类型
+    /// </summary>
+    /// <param name="jobType">类型</param>
+    /// <returns><see cref="bool"/></returns>
+    public static bool IsJobType(this Type jobType)
+    {
+        // 检查 jobType 类型是否实现 IJob 接口
+        if (!typeof(IJob).IsAssignableFrom(jobType)
+            || jobType.IsInterface
+            || jobType.IsAbstract) return false;
+
+        return true;
+    }
+
+    /// <summary>
+    /// 扫描作业类型触发器特性
+    /// </summary>
+    /// <param name="jobType">作业类型</param>
+    /// <returns><see cref="TriggerBuilder"/>[]</returns>
+    public static TriggerBuilder[] ScanTriggers(this Type jobType)
+    {
+        // 空检查
+        if (jobType == null) throw new ArgumentNullException(nameof(jobType));
+
+        // 检查 jobType 类型是否实现 IJob 接口
+        if (!jobType.IsJobType()) throw new InvalidOperationException("The <jobType> does not implement IJob interface.");
+
+        // 扫描所有 [Trigger] 特性
+        var triggerAttributes = jobType.GetCustomAttributes<TriggerAttribute>(true);
+
+        var triggerBuilders = new List<TriggerBuilder>();
+
+        // 遍历所有作业触发器特性并添加到集合中
+        foreach (var triggerAttribute in triggerAttributes)
+        {
+            // 创建作业触发器并添加到当前作业触发器构建器中
+            var triggerBuilder = TriggerBuilder.Create(triggerAttribute.RuntimeTriggerType)
+                .SetArgs(triggerAttribute.RuntimeTriggerArgs)
+                .SetTriggerId(triggerAttribute.TriggerId)
+                .SetDescription(triggerAttribute.Description)
+                .SetMaxNumberOfRuns(triggerAttribute.MaxNumberOfRuns)
+                .SetMaxNumberOfErrors(triggerAttribute.MaxNumberOfErrors)
+                .SetNumRetries(triggerAttribute.NumRetries)
+                .SetRetryTimeout(triggerAttribute.RetryTimeout)
+                .SetStartTime(triggerAttribute.RuntimeStartTime)
+                .SetEndTime(triggerAttribute.RuntimeEndTime)
+                .SetStartNow(triggerAttribute.StartNow)
+                .SetRunOnStart(triggerAttribute.RunOnStart);
+
+            triggerBuilders.Add(triggerBuilder);
+        }
+
+        return triggerBuilders.ToArray();
+    }
+
     /// <summary>
     /// 对象映射
     /// </summary>
