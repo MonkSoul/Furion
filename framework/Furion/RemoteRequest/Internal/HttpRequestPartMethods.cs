@@ -423,6 +423,8 @@ public sealed partial class HttpRequestPart
 
         // 读取响应流
         var stream = await response.Content.ReadAsStreamAsync(cancellationToken);
+        stream.Position = 0;
+
         return (stream, encoding);
     }
 
