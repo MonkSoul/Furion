@@ -6,7 +6,7 @@ sidebar_label: 26.1 调度作业
 
 :::caution 当前文档还未发布
 
-**当前文档还在编写中，已完成了 97%，将在 2022 年 11 月 23 日完成。**
+**当前文档还在编写中，已完成了 99%，将在 2022 年 11 月 23 日完成。**
 
 :::
 
@@ -3158,6 +3158,14 @@ public void OnTriggerChanged(PersistenceTriggerContext context)
     {
       label: "Firebird",
       value: "Firebird",
+    },
+    {
+      label: "EFCore",
+      value: "EFCore",
+    },
+    {
+      label: "SqlSugar",
+      value: "SqlSugar",
     }
   ]}
 >
@@ -3438,6 +3446,388 @@ CREATE TABLE "JobTriggers" (
 ```
 
   </TabItem>
+  <TabItem value="EFCore">
+
+**可自行调整列命名规则。**
+
+```cs showLineNumbers {1,56}
+public class JobDetail
+{
+    [Key]
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+    public int Id { get; set; }
+
+    /// <summary>
+    /// 作业 Id
+    /// </summary>
+    public string JobId { get; set; }
+
+    /// <summary>
+    /// 作业组名称
+    /// </summary>
+    public string? GroupName { get; set; }
+
+    /// <summary>
+    /// 作业处理程序类型
+    /// </summary>
+    /// <remarks>存储的是类型的 FullName</remarks>
+    public string? JobType { get; set; }
+
+    /// <summary>
+    /// 作业处理程序类型所在程序集
+    /// </summary>
+    /// <remarks>存储的是程序集 Name</remarks>
+    public string? AssemblyName { get; set; }
+
+    /// <summary>
+    /// 描述信息
+    /// </summary>
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// 是否采用并发执行
+    /// </summary>
+    /// <remarks>如果设置为 false，那么使用串行执行</remarks>
+    public bool Concurrent { get; set; } = true;
+
+    /// <summary>
+    /// 是否扫描 IJob 实现类 [Trigger] 特性触发器
+    /// </summary>
+    public bool IncludeAnnotations { get; set; } = false;
+
+    /// <summary>
+    /// 作业信息额外数据
+    /// </summary>
+    public string? Properties { get; set; } = "{}";
+
+    /// <summary>
+    /// 作业更新时间
+    /// </summary>
+    public DateTime? UpdatedTime { get; set; }
+}
+
+public class JobTrigger
+{
+    [Key]
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+    public int Id { get; set; }
+
+    /// <summary>
+    /// 作业触发器 Id
+    /// </summary>
+    public string TriggerId { get; set; }
+
+    /// <summary>
+    /// 作业 Id
+    /// </summary>
+    public string JobId { get; set; }
+
+    /// <summary>
+    /// 作业触发器类型
+    /// </summary>
+    /// <remarks>存储的是类型的 FullName</remarks>
+    public string? TriggerType { get; set; }
+
+    /// <summary>
+    /// 作业触发器类型所在程序集
+    /// </summary>
+    /// <remarks>存储的是程序集 Name</remarks>
+    public string? AssemblyName { get; set; }
+
+    /// <summary>
+    /// 作业触发器参数
+    /// </summary>
+    /// <remarks>运行时将反序列化为 object[] 类型并作为构造函数参数</remarks>
+    public string? Args { get; set; }
+
+    /// <summary>
+    /// 描述信息
+    /// </summary>
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// 作业触发器状态
+    /// </summary>
+    public TriggerStatus Status { get; set; } = TriggerStatus.Ready;
+
+    /// <summary>
+    /// 起始时间
+    /// </summary>
+    public DateTime? StartTime { get; set; }
+
+    /// <summary>
+    /// 结束时间
+    /// </summary>
+    public DateTime? EndTime { get; set; }
+
+    /// <summary>
+    /// 最近运行时间
+    /// </summary>
+    public DateTime? LastRunTime { get; set; }
+
+    /// <summary>
+    /// 下一次运行时间
+    /// </summary>
+    public DateTime? NextRunTime { get; set; }
+
+    /// <summary>
+    /// 触发次数
+    /// </summary>
+    public long NumberOfRuns { get; set; }
+
+    /// <summary>
+    /// 最大触发次数
+    /// </summary>
+    /// <remarks>
+    /// <para>0：不限制</para>
+    /// <para>n：N 次</para>
+    /// </remarks>
+    public long MaxNumberOfRuns { get; set; }
+
+    /// <summary>
+    /// 出错次数
+    /// </summary>
+    public long NumberOfErrors { get; set; }
+
+    /// <summary>
+    /// 最大出错次数
+    /// </summary>
+    /// <remarks>
+    /// <para>0：不限制</para>
+    /// <para>n：N 次</para>
+    /// </remarks>
+    public long MaxNumberOfErrors { get; set; }
+
+    /// <summary>
+    /// 重试次数
+    /// </summary>
+    public int NumRetries { get; set; } = 0;
+
+    /// <summary>
+    /// 重试间隔时间
+    /// </summary>
+    /// <remarks>默认1000毫秒</remarks>
+    public int RetryTimeout { get; set; } = 1000;
+
+    /// <summary>
+    /// 是否立即启动
+    /// </summary>
+    public bool StartNow { get; set; } = true;
+
+    /// <summary>
+    /// 是否启动时执行一次
+    /// </summary>
+    public bool RunOnStart { get; set; } = false;
+
+    /// <summary>
+    /// 作业触发器更新时间
+    /// </summary>
+    public DateTime? UpdatedTime { get; set; }
+}
+```
+
+  </TabItem>
+  <TabItem value="SqlSugar">
+
+**可自行调整列命名规则。**
+
+```cs showLineNumbers {2,66}
+[SugarTable("JobDetail", "作业信息表")]
+public class JobDetail
+{
+    /// <summary>
+    /// Id
+    /// </summary>
+    [SugarColumn(ColumnDescription = "Id", IsPrimaryKey = true, IsIdentity = true)]
+    public virtual long Id { get; set; }
+
+    /// <summary>
+    /// 作业 Id
+    /// </summary>
+    [SugarColumn(ColumnDescription = "作业Id")]
+    public virtual string JobId { get; set; }
+
+    /// <summary>
+    /// 组名称
+    /// </summary>
+    [SugarColumn(ColumnDescription = "组名称")]
+    public string? GroupName { get; set; }
+
+    /// <summary>
+    /// 作业类型 FullName
+    /// </summary>
+    [SugarColumn(ColumnDescription = "作业类型")]
+    public string? JobType { get; set; }
+
+    /// <summary>
+    /// 程序集 Name
+    /// </summary>
+    [SugarColumn(ColumnDescription = "程序集")]
+    public string? AssemblyName { get; set; }
+
+    /// <summary>
+    /// 描述信息
+    /// </summary>
+    [SugarColumn(ColumnDescription = "描述信息")]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// 是否并行执行
+    /// </summary>
+    [SugarColumn(ColumnDescription = "是否并行执行")]
+    public bool Concurrent { get; set; } = true;
+
+    /// <summary>
+    /// 是否扫描特性触发器
+    /// </summary>
+    [SugarColumn(ColumnDescription = "是否扫描特性触发器")]
+    public bool IncludeAnnotations { get; set; } = false;
+
+    /// <summary>
+    /// 额外数据
+    /// </summary>
+    [SugarColumn(ColumnDescription = "额外数据", ColumnDataType = "longtext,text,clob")]
+    public string? Properties { get; set; } = "{}";
+
+    /// <summary>
+    /// 更新时间
+    /// </summary>
+    [SugarColumn(ColumnDescription = "更新时间")]
+    public DateTime? UpdatedTime { get; set; }
+}
+
+[SugarTable("JobTrigger", "作业触发器表")]
+public class JobTrigger
+{
+    /// <summary>
+    /// Id
+    /// </summary>
+    [SugarColumn(ColumnDescription = "Id", IsPrimaryKey = true, IsIdentity = true)]
+    public virtual long Id { get; set; }
+
+    /// <summary>
+    /// 触发器 Id
+    /// </summary>
+    [SugarColumn(ColumnDescription = "触发器Id")]
+    public virtual string TriggerId { get; set; }
+
+    /// <summary>
+    /// 作业 Id
+    /// </summary>
+    [SugarColumn(ColumnDescription = "作业Id")]
+    public virtual string JobId { get; set; }
+
+    /// <summary>
+    /// 触发器类型 FullName
+    /// </summary>
+    [SugarColumn(ColumnDescription = "触发器类型")]
+    public string? TriggerType { get; set; }
+
+    /// <summary>
+    /// 程序集 Name
+    /// </summary>
+    [SugarColumn(ColumnDescription = "程序集")]
+    public string? AssemblyName { get; set; }
+
+    /// <summary>
+    /// 参数
+    /// </summary>
+    [SugarColumn(ColumnDescription = "参数")]
+    public string? Args { get; set; }
+
+    /// <summary>
+    /// 描述信息
+    /// </summary>
+    [SugarColumn(ColumnDescription = "描述信息"8)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// 状态
+    /// </summary>
+    [SugarColumn(ColumnDescription = "状态")]
+    public TriggerStatus Status { get; set; } = TriggerStatus.Ready;
+
+    /// <summary>
+    /// 起始时间
+    /// </summary>
+    [SugarColumn(ColumnDescription = "起始时间")]
+    public DateTime? StartTime { get; set; }
+
+    /// <summary>
+    /// 结束时间
+    /// </summary>
+    [SugarColumn(ColumnDescription = "结束时间")]
+    public DateTime? EndTime { get; set; }
+
+    /// <summary>
+    /// 最近运行时间
+    /// </summary>
+    [SugarColumn(ColumnDescription = "最近运行时间")]
+    public DateTime? LastRunTime { get; set; }
+
+    /// <summary>
+    /// 下一次运行时间
+    /// </summary>
+    [SugarColumn(ColumnDescription = "下一次运行时间")]
+    public DateTime? NextRunTime { get; set; }
+
+    /// <summary>
+    /// 触发次数
+    /// </summary>
+    [SugarColumn(ColumnDescription = "触发次数")]
+    public long NumberOfRuns { get; set; }
+
+    /// <summary>
+    /// 最大触发次数（0:不限制，n:N次）
+    /// </summary>
+    [SugarColumn(ColumnDescription = "最大触发次数")]
+    public long MaxNumberOfRuns { get; set; }
+
+    /// <summary>
+    /// 出错次数
+    /// </summary>
+    [SugarColumn(ColumnDescription = "出错次数")]
+    public long NumberOfErrors { get; set; }
+
+    /// <summary>
+    /// 最大出错次数（0:不限制，n:N次）
+    /// </summary>
+    [SugarColumn(ColumnDescription = "最大出错次数")]
+    public long MaxNumberOfErrors { get; set; }
+
+    /// <summary>
+    /// 重试次数
+    /// </summary>
+    [SugarColumn(ColumnDescription = "重试次数")]
+    public int NumRetries { get; set; }
+
+    /// <summary>
+    /// 重试间隔时间（ms）
+    /// </summary>
+    [SugarColumn(ColumnDescription = "重试间隔时间(ms)")]
+    public int RetryTimeout { get; set; } = 1000;
+
+    /// <summary>
+    /// 是否立即启动
+    /// </summary>
+    [SugarColumn(ColumnDescription = "是否立即启动")]
+    public bool StartNow { get; set; } = true;
+
+    /// <summary>
+    /// 是否启动时执行一次
+    /// </summary>
+    [SugarColumn(ColumnDescription = "是否启动时执行一次")]
+    public bool RunOnStart { get; set; } = false;
+
+    /// <summary>
+    /// 更新时间
+    /// </summary>
+    [SugarColumn(ColumnDescription = "更新时间")]
+    public DateTime? UpdatedTime { get; set; }
+}
+```
+
+  </TabItem>
 </Tabs>
 
 ## 26.1.13 作业集群控制
@@ -3477,11 +3867,32 @@ Serve.Run(services =>
 
 ## 26.1.15 如何部署
 
-紧急编写中，将在 2022 年 11 月 23 日完成，别催！
+如果在项目中使用了定时任务且部署到 `IIS` 中，那么需要设置 `IIS` 禁止回收，[点击查看 `IIS` 回收问题解决方案](/docs/deploy-iis#3415-iis-%E5%9B%9E%E6%94%B6%E9%97%AE%E9%A2%98%E5%92%8C%E9%85%8D%E7%BD%AE)
+
+:::warning 部署建议
+
+建议定时任务采用 `Worker Service` 独立部署方式，不应依托 `Web` 项目进程中。[查看【 Worker Service】章节](/docs/process-service.mdx)
+
+:::
 
 ## 26.1.16 常见问题
 
-紧急编写中，将在 2022 年 11 月 23 日完成，别催！
+### 26.1.16.1 作业触发时间存在偏差
+
+通常我们会在 `IJob` 实现类型中获取当前时间，但是这个时间可能存在着极小的误差，如：
+
+```cs showLineNumbers {5,8}
+public class MyJob : IJob
+{
+    public async Task ExecuteAsync(JobExecutingContext context, CancellationToken stoppingToken)
+    {
+        var nowTime = DateTime.Now; // 此时的时间未必是真实触发时间，因为还包含创建线程，初始化等等时间
+
+        // 正确的做法是
+        var nowTime = context.OccurrenceTime;
+    }
+}
+```
 
 ## 26.1.17 反馈与建议
 
