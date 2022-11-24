@@ -40,7 +40,7 @@ public sealed class SchedulerBuilder
     /// <summary>
     /// 标记作业持久化行为
     /// </summary>
-    internal PersistenceBehavior Behavior { get; set; } = PersistenceBehavior.Appended;
+    public PersistenceBehavior Behavior { get; internal set; } = PersistenceBehavior.Appended;
 
     /// <summary>
     /// 作业信息构建器

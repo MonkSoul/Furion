@@ -34,22 +34,27 @@ public enum ScheduleResult
     NotFound = 0,
 
     /// <summary>
+    /// 未指定作业 Id
+    /// </summary>
+    NotIdentify = 1,
+
+    /// <summary>
     /// 已存在
     /// </summary>
-    Exists = 1,
+    Exists = 2,
 
     /// <summary>
     /// 成功
     /// </summary>
-    Succeed = 2,
+    Succeed = 3,
 
     /// <summary>
     /// 删除成功
     /// </summary>
-    Removed = 3,
+    Removed = 4,
 
     /// <summary>
     /// 失败
     /// </summary>
-    Failed = 4
+    Failed = 5
 }

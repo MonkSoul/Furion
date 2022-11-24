@@ -290,13 +290,20 @@ internal sealed partial class SchedulerFactory
     public ScheduleResult TryUpdateJob(SchedulerBuilder schedulerBuilder, out IScheduler scheduler)
     {
         // 空检查
-        if (schedulerBuilder == null) throw new AbandonedMutexException(nameof(schedulerBuilder));
+        if (schedulerBuilder == null) throw new ArgumentNullException(nameof(schedulerBuilder));
 
         var jobId = schedulerBuilder.JobBuilder.JobId;
 
         // 如果标记为更新或删除的作业计划构建器必须包含 Id
         if ((schedulerBuilder.Behavior == PersistenceBehavior.Updated || schedulerBuilder.Behavior == PersistenceBehavior.Removed)
-            && string.IsNullOrWhiteSpace(jobId)) throw new ArgumentNullException(nameof(jobId));
+            && string.IsNullOrWhiteSpace(jobId))
+        {
+            scheduler = default;
+
+            // 输出日志
+            _logger.LogWarning("The Scheduler is no identity specified.");
+            return ScheduleResult.NotIdentify;
+        }
 
         // 处理从持久化中删除情况
         if (schedulerBuilder.Behavior == PersistenceBehavior.Removed)

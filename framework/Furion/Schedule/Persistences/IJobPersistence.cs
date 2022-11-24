@@ -34,12 +34,11 @@ public interface IJobPersistence
     IEnumerable<SchedulerBuilder> Preload();
 
     /// <summary>
-    /// 作业计划加载完成通知
+    /// 作业计划初始化通知
     /// </summary>
-    /// <param name="jobId">作业 Id</param>
     /// <param name="builder">作业计划构建器</param>
     /// <returns><see cref="SchedulerBuilder"/></returns>
-    SchedulerBuilder OnLoaded(string jobId, SchedulerBuilder builder);
+    SchedulerBuilder OnLoading(SchedulerBuilder builder);
 
     /// <summary>
     /// 作业信息更改通知

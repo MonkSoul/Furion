@@ -21,8 +21,6 @@
 // SOFTWARE.
 
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
-using System.Collections.Concurrent;
 using System.Reflection;
 
 namespace Furion.Schedule;
@@ -213,25 +211,9 @@ public sealed class ScheduleOptionsBuilder
     /// 构建作业调度器配置选项
     /// </summary>
     /// <param name="services"><see cref="IServiceCollection"/></param>
-    internal ConcurrentDictionary<string, Scheduler> Build(IServiceCollection services)
+    /// <remarks><see cref="IEnumerable{SchedulerBuilder}"/></remarks>
+    internal IList<SchedulerBuilder> Build(IServiceCollection services)
     {
-        var schedulers = new ConcurrentDictionary<string, Scheduler>();
-
-        // 遍历作业信息构建器集合
-        foreach (var schedulerBuilder in _schedulerBuilders)
-        {
-            // 构建作业计划并添加到集合中
-            var scheduler = schedulerBuilder.Build(schedulers.Count + 1);
-            var succeed = schedulers.TryAdd(scheduler.JobId, scheduler);
-
-            // 检查 作业 Id 重复
-            if (!succeed) throw new InvalidOperationException($"The JobId of <{scheduler.JobId}> already exists.");
-
-            // 注册作业处理程序为单例
-            var jobType = scheduler.JobDetail.RuntimeJobType;
-            services.TryAddSingleton(jobType, jobType);
-        }
-
         // 注册作业监视器
         if (_jobMonitor != default)
         {
@@ -261,6 +243,6 @@ public sealed class ScheduleOptionsBuilder
             services.AddSingleton(typeof(IJobClusterServer), _jobClusterServer);
         }
 
-        return schedulers;
+        return _schedulerBuilders;
     }
 }

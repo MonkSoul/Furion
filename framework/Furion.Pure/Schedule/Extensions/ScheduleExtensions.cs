@@ -46,6 +46,42 @@ public static class ScheduleExtensions
     }
 
     /// <summary>
+    /// 扫描类型集合并创建作业计划构建器集合
+    /// </summary>
+    /// <param name="jobTypes">作业类型集合</param>
+    /// <returns><see cref="SchedulerBuilder"/></returns>
+    /// <exception cref="InvalidOperationException"></exception>
+    public static IEnumerable<SchedulerBuilder> ScanToBuilders(this IEnumerable<Type> jobTypes)
+    {
+        return jobTypes.Where(t => t.IsJobType()).Select(t => t.ScanToBuilder());
+    }
+
+    /// <summary>
+    /// 扫描类型并创建作业计划构建器
+    /// </summary>
+    /// <param name="jobType">作业类型</param>
+    /// <returns><see cref="SchedulerBuilder"/></returns>
+    /// <exception cref="InvalidOperationException"></exception>
+    public static SchedulerBuilder ScanToBuilder(this Type jobType)
+    {
+        // 扫描触发器构建器
+        var triggerBuilders = jobType.ScanTriggers();
+
+        // 检查类型是否贴有 [JobBuilder] 特性
+        if (!jobType.IsDefined(typeof(JobDetailAttribute), true)) throw new InvalidOperationException($"The <{jobType.Name}> has no [JobDetail] attribute.");
+
+        var jobDetailAttribute = jobType.GetCustomAttribute<JobDetailAttribute>(true);
+
+        // 创建作业计划构建器返回
+        return SchedulerBuilder.Create(JobBuilder.Create(jobType)
+                .SetJobId(jobDetailAttribute.JobId)
+                .SetGroupName(jobDetailAttribute.GroupName)
+                .SetDescription(jobDetailAttribute.Description)
+                .SetConcurrent(jobDetailAttribute.Concurrent)
+            , triggerBuilders);
+    }
+
+    /// <summary>
     /// 扫描作业类型触发器特性
     /// </summary>
     /// <param name="jobType">作业类型</param>
@@ -56,7 +92,7 @@ public static class ScheduleExtensions
         if (jobType == null) throw new ArgumentNullException(nameof(jobType));
 
         // 检查 jobType 类型是否实现 IJob 接口
-        if (!jobType.IsJobType()) throw new InvalidOperationException("The <jobType> does not implement IJob interface.");
+        if (!jobType.IsJobType()) throw new InvalidOperationException($"The <{jobType.Name}> does not implement IJob interface.");
 
         // 扫描所有 [Trigger] 特性
         var triggerAttributes = jobType.GetCustomAttributes<TriggerAttribute>(true);

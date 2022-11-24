@@ -63,7 +63,7 @@ public partial class JobDetail
     public string Description { get; internal set; }
 
     /// <summary>
-    /// 是否采用并发执行
+    /// 是否采用并行执行
     /// </summary>
     /// <remarks>如果设置为 false，那么使用串行执行</remarks>
     [JsonInclude]

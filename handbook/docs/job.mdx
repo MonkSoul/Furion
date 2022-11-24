@@ -860,7 +860,39 @@ jobDetail.ClearProperties();
 
 :::
 
-### 26.1.3.5 多种格式字符串输出
+### 26.1.3.5 作业信息特性
+
+作业信息特性是为了方便运行时或启动时快速创建作业计划构建器而提供的，可在启动时或运行时通过以下方式创建：
+
+```cs showLineNumbers
+var schedulerBuilder = typeof(MyJob).ScanToBuilder();
+```
+
+也可以用于作业持久化 `Preload` 初始化时使用：
+
+```cs showLineNumbers {1,4-5,8}
+public IEnumerable<SchedulerBuilder> Preload()
+{
+      // 扫描所有类型并创建
+      return App.EffectiveTypes.Where(t => t.IsJobType())
+                              .Select(t => t.ScanToBuilder());
+
+      // 还可以更简单~~
+      return App.EffectiveTypes.ScanToBuilders();
+}
+```
+
+使用如下：
+
+```cs showLineNumbers {1,2}
+[JobDetail("job1")]
+[PeriodSeconds(5, TriggerId = "trigger1")]
+public class MyJob : IJob
+{
+}
+```
+
+### 26.1.3.6 多种格式字符串输出
 
 `JobDetail` 和 `JobBuilder` 都提供了多种将自身转换成特定格式的字符串。
 
@@ -2987,12 +3019,12 @@ public class DbJobPersistence : IJobPersistence
         return Array.Empty<SchedulerBuilder>();
     }
 
-    public SchedulerBuilder OnLoaded(string jobId, SchedulerBuilder builder)
+    public SchedulerBuilder OnLoading(SchedulerBuilder builder)
     {
         // 如果是更新操作，则 return builder.Updated();
         // 如果是新增操作，则 return builder.Appended();
         // 如果是删除操作，则 return builder.Removed();
-        return builder.Updated();
+        return builder;
     }
 
     public void OnChanged(PersistenceContext context)
@@ -3026,12 +3058,19 @@ services.AddSchedule(options =>
 
 - **`Preload`：作业调度服务启动时调用，可在这里动态创建作业计划构建器并返回。**
 
-```cs showLineNumbers {1,4,10}
+```cs showLineNumbers {1,4,8,12,17}
 public IEnumerable<SchedulerBuilder> Preload()
 {
       // 这里可以扫描程序集动态创建返回
       return App.EffectiveTypes.Where(t => t.IsJobType())
                                .Select(t => SchedulerBuilder.Create(JobBuilder.Create(t), t.ScanTriggers()));
+
+      // 如果类型贴有 [JobDetail] 特性，还可以一键扫描返回
+      return App.EffectiveTypes.Where(t => t.IsJobType())
+                               .Select(t => t.ScanToBuilder());
+
+      // 还可以更简单~~
+      return App.EffectiveTypes.ScanToBuilders();
 
       // 也可以手动返回
       return new[]
@@ -3041,14 +3080,14 @@ public IEnumerable<SchedulerBuilder> Preload()
 }
 ```
 
-- **`OnLoaded`：作业计划加载完成通知，通常用来同步存储介质（如数据库）数据到内存中。**
+- **`OnLoading`：作业计划初始化通知，通常在这里进一步修改初始化作业计划构建器。**
 
-在作业调度器服务启动时会自动遍历程序中已注册的作业计划，然后逐条调用该方法，开发者可以在这里通过 `SchedulerBuilder` 修改 `Scheduler` 数据，之后**返回 `SchedulerBuilder` 的持久化行为**。
+在作业调度器服务启动时会遍历程序中所有作业计划构建器，然后逐条调用该方法，开发者可以在这里进一步修改作业计划构建器数据，之后**选择性返回 `SchedulerBuilder` 的持久化行为**。
 
-`SchedulerBuilder` 提供 `Updated()`，`Appended()` 和 `Removed()` 来作为标记，通常标记为 `Updated()`，也就是更新操作。
+`SchedulerBuilder` 提供 `Updated()`，`Appended()` 和 `Removed()` 来作为持久化行为标记，通常标记为 `Appended()`，也就是新增操作（默认值）。
 
 ```cs showLineNumbers {4,8,12-13,16}
-public SchedulerBuilder OnLoaded(string jobId, SchedulerBuilder builder)
+public SchedulerBuilder OnLoading(SchedulerBuilder builder)
 {
       // 比如这里修改作业信息描述
       builder.GetJobBuilder()
@@ -3063,14 +3102,14 @@ public SchedulerBuilder OnLoaded(string jobId, SchedulerBuilder builder)
              .LoadFrom(dbJobDetail); // dbJobDetail 表示根据 jobId 查询数据库返回的对象
 
       // 标记从其他地方更新，比如数据库
-      return builder.Updated();
+      return builder;
 }
 ```
 
 如果存储介质（如数据库）已经删除该作业，开发者可以标记为 `Removed()`，这样该作业会从内存中移除。
 
 ```cs showLineNumbers {3,6}
-public SchedulerBuilder OnLoaded(string jobId, SchedulerBuilder builder)
+public SchedulerBuilder OnLoading(SchedulerBuilder builder)
 {
       // 比如这里根据 jobId 查询数据库已经确认数据不存在了
 
@@ -3079,10 +3118,10 @@ public SchedulerBuilder OnLoaded(string jobId, SchedulerBuilder builder)
 }
 ```
 
-如果存储介质（如数据库）新增了新作业但内存中不存在，开发者可以标记为 `Append()`，这样该作业会添加到内存中。
+如果存储介质（如数据库）新增了新作业但内存中不存在，开发者可以标记为 `Append()`，这样该作业会添加到内存中，**但原有的 `builder` 就会被丢弃**。
 
 ```cs showLineNumbers {4,6,8,11}
-public SchedulerBuilder OnLoaded(string jobId, SchedulerBuilder builder)
+public SchedulerBuilder OnLoading(SchedulerBuilder builder)
 {
       // 比如在这里动态创建作业计划构建器
       var newBuilder = SchedulerBuilder.Create<MyJob>(Triggers.Minutely());
@@ -3512,7 +3551,7 @@ public class JobDetail
     public string? Description { get; set; }
 
     /// <summary>
-    /// 是否采用并发执行
+    /// 是否采用并行执行
     /// </summary>
     /// <remarks>如果设置为 false，那么使用串行执行</remarks>
     public bool Concurrent { get; set; } = true;

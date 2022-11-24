@@ -57,6 +57,8 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory
     /// </summary>
     private readonly ConcurrentDictionary<string, Scheduler> _schedulers = new();
 
+    private readonly IList<SchedulerBuilder> _schedulerBuilders;
+
     /// <summary>
     /// 作业持久化记录消息队列（线程安全）
     /// </summary>
@@ -67,16 +69,16 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory
     /// </summary>
     /// <param name="serviceProvider">服务提供器</param>
     /// <param name="logger">作业调度器日志服务</param>
-    /// <param name="schedulers">作业计划集合</param>
+    /// <param name="schedulerBuilders">初始作业计划构建集合</param>
     /// <param name="useUtcTimestamp">是否使用 UTC 时间</param>
     public SchedulerFactory(IServiceProvider serviceProvider
         , IScheduleLogger logger
-        , ConcurrentDictionary<string, Scheduler> schedulers
+        , IList<SchedulerBuilder> schedulerBuilders
         , bool useUtcTimestamp)
     {
         _serviceProvider = serviceProvider;
         _logger = logger;
-        _schedulers = schedulers;
+        _schedulerBuilders = schedulerBuilders;
 
         Persistence = _serviceProvider.GetService<IJobPersistence>();
         UseUtcTimestamp = useUtcTimestamp;
@@ -111,38 +113,19 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory
         _logger.LogDebug("Schedule Hosted Service is preloading.");
 
         // 装载初始作业计划
-        var initialSchedulerBuilders = Persistence?.Preload();
-        if (initialSchedulerBuilders != null && initialSchedulerBuilders.Any())
+        var initialSchedulerBuilders = _schedulerBuilders.Concat(Persistence?.Preload() ?? Array.Empty<SchedulerBuilder>());
+        if (initialSchedulerBuilders.Any())
         {
             // 逐条遍历并新增到内存中
             foreach (var schedulerBuilder in initialSchedulerBuilders)
             {
-                var initialScheduler = schedulerBuilder.Build(_schedulers.Count + 1);
-                var succeed = _schedulers.TryAdd(initialScheduler.JobId, initialScheduler);
-
-                // 检查重复性
-                if (!succeed) throw new InvalidOperationException($"The JobId of <{initialScheduler.JobId}> already exists.");
+                _ = TryUpdateJob(Persistence?.OnLoading(schedulerBuilder) ?? schedulerBuilder, out _);
             }
         }
 
-        // 逐条初始化作业计划
-        foreach (var scheduler in _schedulers.Values)
-        {
-            // 获取作业计划构建器
-            var schedulerBuilder = SchedulerBuilder.From(scheduler);
-
-            // 作业计划加载完成通知
-            if (TryUpdateJob(Persistence?.OnLoaded(scheduler.JobId, schedulerBuilder) ?? schedulerBuilder, out var schedulerForUpdated) == ScheduleResult.Succeed
-                  && schedulerBuilder.Behavior == PersistenceBehavior.Updated)
-            {
-                // 处理启动时执行一次情况
-                var internalScheduler = (Scheduler)schedulerForUpdated;
-                foreach (var (_, trigger) in internalScheduler.Triggers)
-                {
-                    trigger.NextRunTime = trigger.CheckRunOnStarAndReturnNextRunTime(UseUtcTimestamp);
-                }
-            }
-        }
+        // 释放引用内存并立即回收GC
+        _schedulerBuilders.Clear();
+        GC.Collect();
 
         // 输出作业调度器初始化日志
         _logger.LogDebug("Schedule Hosted Service preload completed.");

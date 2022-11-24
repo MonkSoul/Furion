@@ -90,7 +90,7 @@ public static class ScheduleServiceCollectionExtensions
     private static IServiceCollection AddInternalService(this IServiceCollection services, ScheduleOptionsBuilder scheduleOptionsBuilder)
     {
         // 构建作业调度器配置选项
-        var schedulers = scheduleOptionsBuilder.Build(services);
+        var schedulerBuilders = scheduleOptionsBuilder.Build(services);
 
         // 注册作业调度器日志服务
         services.AddSingleton<IScheduleLogger>(serviceProvider =>
@@ -105,7 +105,7 @@ public static class ScheduleServiceCollectionExtensions
         services.AddSingleton<ISchedulerFactory>(serviceProvider =>
         {
             var schedulerFactory = ActivatorUtilities.CreateInstance<SchedulerFactory>(serviceProvider
-                , schedulers
+                , schedulerBuilders
                 , scheduleOptionsBuilder.UseUtcTimestamp);
 
             return schedulerFactory;
