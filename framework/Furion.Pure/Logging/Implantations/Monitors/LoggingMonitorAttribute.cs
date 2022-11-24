@@ -151,6 +151,13 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter, IOr
             return;
         }
 
+        // 判断是否自定义了日志筛选器，如果是则检查是否符合条件
+        if (LoggingMonitorSettings.InternalWriteFilter?.Invoke(context) == false)
+        {
+            _ = await next();
+            return;
+        }
+
         // 获取方法完整名称
         var methodFullName = controllerActionDescriptor.ControllerTypeInfo.FullName + "." + actionMethod.Name;
 
@@ -186,13 +193,6 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter, IOr
                     return;
                 }
             }
-        }
-
-        // 判断是否自定义了日志筛选器，如果是则检查是否符合条件
-        if (LoggingMonitorSettings.InternalWriteFilter?.Invoke(context) == false)
-        {
-            _ = await next();
-            return;
         }
 
         // 获取全局 LoggingMonitorMethod 配置

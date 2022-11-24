@@ -64,13 +64,13 @@ public static class LoggingServiceCollectionExtensions
         // 添加外部配置
         configure?.Invoke(settings);
 
+        // 配置日志过滤器
+        LoggingMonitorSettings.InternalWriteFilter = settings.WriteFilter;
+
         // 如果配置 GlobalEnabled = false 且 IncludeOfMethods 和 ExcludeOfMethods 都为空，则不注册服务
         if (settings.GlobalEnabled == false
             && settings.IncludeOfMethods.Length == 0
             && settings.ExcludeOfMethods.Length == 0) return services;
-
-        // 配置日志过滤器
-        LoggingMonitorSettings.InternalWriteFilter = settings.WriteFilter;
 
         // 注册日志监视器过滤器
         services.AddMvcFilter(new LoggingMonitorAttribute(settings));
