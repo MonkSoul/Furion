@@ -68,6 +68,26 @@ internal static class Penetrates
     }
 
     /// <summary>
+    /// 获取当前时间（Unspecified）格式
+    /// </summary>
+    /// <param name="useUtcTimestamp">是否使用 UTC 时间</param>
+    /// <returns><see cref="DateTime"/></returns>
+    internal static DateTime GetUnspecifiedNowTime(bool useUtcTimestamp)
+    {
+        // 获取当前时间作为检查时间
+        var nowTime = GetNowTime(useUtcTimestamp);
+
+        // 采用 DateTimeKind.Unspecified 转换当前时间并忽略毫秒之后部分（用于减少误差）
+        return new DateTime(nowTime.Year
+            , nowTime.Month
+            , nowTime.Day
+            , nowTime.Hour
+            , nowTime.Minute
+            , nowTime.Second
+            , nowTime.Millisecond);
+    }
+
+    /// <summary>
     /// 获取当前时间
     /// </summary>
     /// <param name="useUtcTimestamp">是否使用 UTC 时间</param>
