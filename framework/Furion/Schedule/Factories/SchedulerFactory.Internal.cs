@@ -110,16 +110,20 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory
     public void Preload()
     {
         // 输出作业调度度初始化日志
-        _logger.LogDebug("Schedule Hosted Service is preloading.");
+        _logger.LogInformation("Schedule Hosted Service is preloading.");
 
         // 装载初始作业计划
         var initialSchedulerBuilders = _schedulerBuilders.Concat(Persistence?.Preload() ?? Array.Empty<SchedulerBuilder>());
+
+        // 如果作业调度器中包含作业计划构建器
         if (initialSchedulerBuilders.Any())
         {
             // 逐条遍历并新增到内存中
             foreach (var schedulerBuilder in initialSchedulerBuilders)
             {
-                _ = TryUpdateJob(Persistence?.OnLoading(schedulerBuilder) ?? schedulerBuilder, out _);
+                _ = TryUpdateJob(Persistence?.OnLoading(schedulerBuilder) ?? schedulerBuilder
+                    , out _
+                    , false);
             }
         }
 
@@ -127,8 +131,11 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory
         _schedulerBuilders.Clear();
         GC.Collect();
 
+        // 取消作业调度器休眠状态（强制唤醒）
+        if (!_schedulers.IsEmpty) CancelSleep();
+
         // 输出作业调度器初始化日志
-        _logger.LogDebug("Schedule Hosted Service preload completed.");
+        _logger.LogInformation("Schedule Hosted Service preload completed, and a total of <{Count}> schedulers are added.", _schedulers.Count);
     }
 
     /// <summary>
