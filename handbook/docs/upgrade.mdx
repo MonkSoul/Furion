@@ -167,7 +167,7 @@ services.AddMonitorLogging(options =>
   </div>
 </details>
 
-- - &nbsp;<Tag>新增</Tag> 日志模块是否输出 `TraceId`，同一个请求的日志 `TraceId` 一致 <sup>4.8.1.3</sup> [#I62VGG](https://gitee.com/dotnetchina/Furion/issues/I62VGG)
+- - &nbsp;<Tag>新增</Tag> **日志模块是否输出 `TraceId`，同一个请求的日志 `TraceId` 一致** <sup>4.8.1.3</sup> [#I62VGG](https://gitee.com/dotnetchina/Furion/issues/I62VGG)
 
 <details style={{ marginLeft: 50 }}>
   <summary>查看变化</summary>
@@ -234,7 +234,7 @@ info: 2022-11-24 14:35:16.0373384 +08:00 星期四 L Furion.Application.TestLogg
   - &nbsp;<Tag>修复</Tag> 动态 `WebAPI` 不支持在 `.NET7` 不声明 `[FromServices]` 自动注入问题 <sup>4.8.0</sup> [#I62HP1](https://gitee.com/dotnetchina/Furion/issues/I62HP1)
   - &nbsp;<Tag>修复</Tag> 远程请求 `GetAsStreamAsync()` 报 `System.InvalidOperationException: Response Content-Length mismatch` 异常问题 <sup>4.8.1</sup> [#I62QY4](https://gitee.com/dotnetchina/Furion/issues/I62QY4)
   - &nbsp;<Tag>修复</Tag> `LoggingMonitor` 配置 `WriteFilter` 不起作用问题 <sup>4.8.1.2</sup> [#I62P52](https://gitee.com/dotnetchina/Furion/issues/I62P52) [90bcfda](https://gitee.com/dotnetchina/Furion/commit/90bcfda4e3af24df399cc6bdb5c558c2bbed2536)
-  - &nbsp;<Tag>修复</Tag> `EFCore` 个别关系型数据库 `PostgreSQL/SqlServer/MySql` 出现短暂不能连接问题 <sup>4.8.1.3</sup>
+  - &nbsp;<Tag>修复</Tag> `EFCore` 个别关系型数据库 `PostgreSQL/SqlServer/MySql` 出现短暂不能连接问题 <sup>4.8.1.3</sup> [2c530ef](https://gitee.com/dotnetchina/Furion/commit/2c530ef3886327b572ffaa9a7ad43be5e629e854)
 
 - **文档**
 
