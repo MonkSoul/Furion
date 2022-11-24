@@ -68,10 +68,12 @@ public static class ScheduleExtensions
         var triggerBuilders = jobType.ScanTriggers();
 
         // 检查类型是否贴有 [JobBuilder] 特性
-        if (!jobType.IsDefined(typeof(JobDetailAttribute), true)) throw new InvalidOperationException($"The <{jobType.Name}> has no [JobDetail] attribute.");
+        if (!jobType.IsDefined(typeof(JobDetailAttribute), true))
+        {
+            return SchedulerBuilder.Create(JobBuilder.Create(jobType), triggerBuilders);
+        }
 
         var jobDetailAttribute = jobType.GetCustomAttribute<JobDetailAttribute>(true);
-
         // 创建作业计划构建器返回
         return SchedulerBuilder.Create(JobBuilder.Create(jobType)
                 .SetJobId(jobDetailAttribute.JobId)
