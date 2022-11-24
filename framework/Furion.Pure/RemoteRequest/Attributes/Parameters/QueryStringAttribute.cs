@@ -39,13 +39,20 @@ public class QueryStringAttribute : ParameterBaseAttribute
     /// 构造函数
     /// </summary>
     /// <param name="alias"></param>
-    public QueryStringAttribute(string alias)
+    /// <param name="format"></param>
+    public QueryStringAttribute(string alias, string format = null)
     {
         Alias = alias;
+        Format = format;
     }
 
     /// <summary>
     /// 参数别名
     /// </summary>
     public string Alias { get; set; }
+
+    /// <summary>
+    /// 格式化
+    /// </summary>
+    public string Format { get; set; }
 }
