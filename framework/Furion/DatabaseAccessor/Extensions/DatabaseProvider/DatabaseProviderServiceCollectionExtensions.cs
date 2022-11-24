@@ -303,9 +303,24 @@ public static class DatabaseProviderServiceCollectionExtensions
     static DatabaseProviderServiceCollectionExtensions()
     {
         DatabaseProviderUseMethodCollection = new ConcurrentDictionary<string, (MethodInfo, object)>();
-        MigrationsAssemblyAction = options => options.GetType()
-            .GetMethod("MigrationsAssembly")
-            .Invoke(options, new[] { Db.MigrationAssemblyName });
+        MigrationsAssemblyAction = options =>
+        {
+            var optionsType = options.GetType();
+
+            optionsType.GetMethod("MigrationsAssembly")
+                   .Invoke(options, new[] { Db.MigrationAssemblyName });
+
+            // 解决 MySQL/SqlServer/PostgreSQL 有时候出现短暂连接失败问题
+            var enableRetryOnFailureMethod = optionsType.GetMethod("EnableRetryOnFailure", new[]
+            {
+                typeof(int),typeof(TimeSpan),typeof(IEnumerable<int>)
+            });
+
+            enableRetryOnFailureMethod?.Invoke(options, new object[]
+            {
+                5,TimeSpan.FromSeconds(30),new int[] { 2 }
+            });
+        };
     }
 
     /// <summary>
