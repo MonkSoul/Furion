@@ -168,9 +168,14 @@ public class HttpDispatchProxy : AspectDispatchProxy, IDispatchProxy
 
                 // 处理基元类型
                 if (valueType.IsRichPrimitive()
-                    && (!valueType.IsArray || valueType == typeof(string)))
+                    && ((!valueType.IsArray && valueType != typeof(DateTime)) || valueType == typeof(string)))
                 {
                     parameterQueries.Add(queryStringAttribute.Alias ?? item.Name, item.Value);
+                }
+                // 处理时间类型
+                else if (valueType == typeof(DateTime))
+                {
+                    parameterQueries.Add(queryStringAttribute.Alias ?? item.Name, ((DateTime)item.Value).ToString(queryStringAttribute.Format));
                 }
                 // 处理集合类型
                 else if (valueType.IsArray
