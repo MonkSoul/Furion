@@ -17,7 +17,7 @@ public class TestJobPersistence : IJobPersistence
         return Array.Empty<SchedulerBuilder>();
     }
 
-    public SchedulerBuilder OnLoaded(string jobId, SchedulerBuilder builder)
+    public SchedulerBuilder OnLoading(SchedulerBuilder builder)
     {
         builder.GetJobBuilder().SetDescription("测试作业描述");
         builder.GetTriggerBuilders().ForEach(b =>
