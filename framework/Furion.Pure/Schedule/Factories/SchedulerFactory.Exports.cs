@@ -86,8 +86,9 @@ internal sealed partial class SchedulerFactory
     /// </summary>
     /// <param name="schedulerBuilder">作业计划构建器</param>
     /// <param name="scheduler">作业计划</param>
+    /// <param name="immediately">使作业调度器立即载入</param>
     /// <returns><see cref="ScheduleResult"/></returns>
-    public ScheduleResult TryAddJob(SchedulerBuilder schedulerBuilder, out IScheduler scheduler)
+    public ScheduleResult TryAddJob(SchedulerBuilder schedulerBuilder, out IScheduler scheduler, bool immediately = true)
     {
         // 空检查
         if (schedulerBuilder == null) throw new ArgumentNullException(nameof(schedulerBuilder));
@@ -134,7 +135,7 @@ internal sealed partial class SchedulerFactory
         }
 
         // 取消作业调度器休眠状态（强制唤醒）
-        CancelSleep();
+        if (immediately) CancelSleep();
 
         // 输出日志
         _logger.LogInformation("The Scheduler of <{JobId}> successfully added to the schedule.", internalScheduler.JobId);
@@ -158,10 +159,11 @@ internal sealed partial class SchedulerFactory
     /// <param name="jobBuilder">作业信息构建器</param>
     /// <param name="triggerBuilders">作业触发器构建器集合</param>
     /// <param name="scheduler">作业计划</param>
+    /// <param name="immediately">使作业调度器立即载入</param>
     /// <returns><see cref="ScheduleResult"/></returns>
-    public ScheduleResult TryAddJob(JobBuilder jobBuilder, TriggerBuilder[] triggerBuilders, out IScheduler scheduler)
+    public ScheduleResult TryAddJob(JobBuilder jobBuilder, TriggerBuilder[] triggerBuilders, out IScheduler scheduler, bool immediately = true)
     {
-        return TryAddJob(SchedulerBuilder.Create(jobBuilder, triggerBuilders), out scheduler);
+        return TryAddJob(SchedulerBuilder.Create(jobBuilder, triggerBuilders), out scheduler, immediately);
     }
 
     /// <summary>
@@ -180,11 +182,12 @@ internal sealed partial class SchedulerFactory
     /// <typeparam name="TJob"><see cref="IJob"/> 实现类型</typeparam>
     /// <param name="triggerBuilders">作业触发器构建器集合</param>
     /// <param name="scheduler">作业计划</param>
+    /// <param name="immediately">使作业调度器立即载入</param>
     /// <remarks><see cref="ScheduleResult"/></remarks>
-    public ScheduleResult TryAddJob<TJob>(TriggerBuilder[] triggerBuilders, out IScheduler scheduler)
+    public ScheduleResult TryAddJob<TJob>(TriggerBuilder[] triggerBuilders, out IScheduler scheduler, bool immediately = true)
          where TJob : class, IJob
     {
-        return TryAddJob(SchedulerBuilder.Create(JobBuilder.Create<TJob>(), triggerBuilders), out scheduler);
+        return TryAddJob(SchedulerBuilder.Create(JobBuilder.Create<TJob>(), triggerBuilders), out scheduler, immediately);
     }
 
     /// <summary>
@@ -205,11 +208,14 @@ internal sealed partial class SchedulerFactory
     /// <param name="jobId">作业 Id</param>
     /// <param name="triggerBuilders">作业触发器构建器集合</param>
     /// <param name="scheduler">作业计划</param>
+    /// <param name="immediately">使作业调度器立即载入</param>
     /// <returns><see cref="ScheduleResult"/></returns>
-    public ScheduleResult TryAddJob<TJob>(string jobId, TriggerBuilder[] triggerBuilders, out IScheduler scheduler)
+    public ScheduleResult TryAddJob<TJob>(string jobId, TriggerBuilder[] triggerBuilders, out IScheduler scheduler, bool immediately = true)
          where TJob : class, IJob
     {
-        return TryAddJob(SchedulerBuilder.Create(JobBuilder.Create<TJob>().SetJobId(jobId), triggerBuilders), out scheduler);
+        return TryAddJob(SchedulerBuilder.Create(
+            JobBuilder.Create<TJob>()
+                               .SetJobId(jobId), triggerBuilders), out scheduler, immediately);
     }
 
     /// <summary>
@@ -232,13 +238,14 @@ internal sealed partial class SchedulerFactory
     /// <param name="concurrent">是否采用并发执行</param>
     /// <param name="triggerBuilders">作业触发器构建器集合</param>
     /// <param name="scheduler">作业计划</param>
+    /// <param name="immediately">使作业调度器立即载入</param>
     /// <returns><see cref="ScheduleResult"/></returns>
-    public ScheduleResult TryAddJob<TJob>(string jobId, bool concurrent, TriggerBuilder[] triggerBuilders, out IScheduler scheduler)
+    public ScheduleResult TryAddJob<TJob>(string jobId, bool concurrent, TriggerBuilder[] triggerBuilders, out IScheduler scheduler, bool immediately = true)
          where TJob : class, IJob
     {
         return TryAddJob(SchedulerBuilder.Create(JobBuilder.Create<TJob>()
             .SetJobId(jobId)
-            .SetConcurrent(concurrent), triggerBuilders), out scheduler);
+            .SetConcurrent(concurrent), triggerBuilders), out scheduler, immediately);
     }
 
     /// <summary>
@@ -261,12 +268,14 @@ internal sealed partial class SchedulerFactory
     /// <param name="concurrent">是否采用并发执行</param>
     /// <param name="triggerBuilders">作业触发器构建器集合</param>
     /// <param name="scheduler">作业计划</param>
+    /// <param name="immediately">使作业调度器立即载入</param>
     /// <returns><see cref="ScheduleResult"/></returns>
-    public ScheduleResult TryAddJob<TJob>(bool concurrent, TriggerBuilder[] triggerBuilders, out IScheduler scheduler)
+    public ScheduleResult TryAddJob<TJob>(bool concurrent, TriggerBuilder[] triggerBuilders, out IScheduler scheduler, bool immediately = true)
          where TJob : class, IJob
     {
-        return TryAddJob(SchedulerBuilder.Create(JobBuilder.Create<TJob>()
-            .SetConcurrent(concurrent), triggerBuilders), out scheduler);
+        return TryAddJob(SchedulerBuilder.Create(
+            JobBuilder.Create<TJob>()
+                               .SetConcurrent(concurrent), triggerBuilders), out scheduler, immediately);
     }
 
     /// <summary>
@@ -286,8 +295,9 @@ internal sealed partial class SchedulerFactory
     /// </summary>
     /// <param name="schedulerBuilder">作业计划构建器</param>
     /// <param name="scheduler">新的作业计划</param>
+    /// <param name="immediately">使作业调度器立即载入</param>
     /// <returns><see cref="ScheduleResult"/></returns>
-    public ScheduleResult TryUpdateJob(SchedulerBuilder schedulerBuilder, out IScheduler scheduler)
+    public ScheduleResult TryUpdateJob(SchedulerBuilder schedulerBuilder, out IScheduler scheduler, bool immediately = true)
     {
         // 空检查
         if (schedulerBuilder == null) throw new ArgumentNullException(nameof(schedulerBuilder));
@@ -308,12 +318,12 @@ internal sealed partial class SchedulerFactory
         // 处理从持久化中删除情况
         if (schedulerBuilder.Behavior == PersistenceBehavior.Removed)
         {
-            return TryRemoveJob(jobId, out scheduler);
+            return TryRemoveJob(jobId, out scheduler, immediately);
         }
         // 处理从持久化中添加情况
         else if (schedulerBuilder.Behavior == PersistenceBehavior.Appended)
         {
-            return TryAddJob(schedulerBuilder, out scheduler);
+            return TryAddJob(schedulerBuilder, out scheduler, immediately);
         }
 
         // 查找作业
@@ -413,7 +423,7 @@ internal sealed partial class SchedulerFactory
         }
 
         // 取消作业调度器休眠状态（强制唤醒）
-        CancelSleep();
+        if (immediately) CancelSleep();
 
         // 输出日志
         _logger.LogInformation("The Scheduler of <{JobId}> successfully updated to the schedule.", schedulerForUpdated.JobId);
@@ -436,8 +446,9 @@ internal sealed partial class SchedulerFactory
     /// </summary>
     /// <param name="jobId">作业 Id</param>
     /// <param name="scheduler">作业计划</param>
+    /// <param name="immediately">使作业调度器立即载入</param>
     /// <returns><see cref="ScheduleResult"/></returns>
-    public ScheduleResult TryRemoveJob(string jobId, out IScheduler scheduler)
+    public ScheduleResult TryRemoveJob(string jobId, out IScheduler scheduler, bool immediately = true)
     {
         // 检查作业 Id 是否存在
         var scheduleResult = TryGetJob(jobId, out _);
@@ -472,7 +483,7 @@ internal sealed partial class SchedulerFactory
         }
 
         // 取消作业调度器休眠状态（强制唤醒）
-        CancelSleep();
+        if (immediately) CancelSleep();
 
         // 输出日志
         _logger.LogInformation("The Scheduler of <{jobId}> successfully removed to the schedule.", jobId);
@@ -494,14 +505,15 @@ internal sealed partial class SchedulerFactory
     /// 删除作业
     /// </summary>
     /// <param name="scheduler">作业计划</param>
+    /// <param name="immediately">使作业调度器立即载入</param>
     /// <returns><see cref="ScheduleResult"/></returns>
-    public ScheduleResult TryRemoveJob(IScheduler scheduler)
+    public ScheduleResult TryRemoveJob(IScheduler scheduler, bool immediately = true)
     {
         // 空检查
         if (scheduler == null) throw new ArgumentNullException(nameof(scheduler));
 
         var internalScheduler = (Scheduler)scheduler;
-        return TryRemoveJob(internalScheduler.JobId, out _);
+        return TryRemoveJob(internalScheduler.JobId, out _, immediately);
     }
 
     /// <summary>
