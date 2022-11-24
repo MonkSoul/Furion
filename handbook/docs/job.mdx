@@ -2287,7 +2287,7 @@ public class YourJobMonitor : IJobMonitor
 services.AddSchedule(options =>
 {
     // 添加作业执行监视器
-    builder.AddMonitor<YourJobMonitor>();
+    options.AddMonitor<YourJobMonitor>();
 });
 ```
 
