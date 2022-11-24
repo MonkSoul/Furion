@@ -1,6 +1,6 @@
 {
   "name": "furion",
-  "version": "v4.8.1.3",
+  "version": "v4.8.1.4",
   "private": true,
   "scripts": {
     "docusaurus": "docusaurus",
