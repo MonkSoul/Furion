@@ -389,6 +389,39 @@ WHERE [{columnNames[0]}] = '{TriggerId}' AND [{columnNames[1]}] = '{JobId}';";
     }
 
     /// <summary>
+    /// 转换成 Sql 新增语句
+    /// </summary>
+    /// <param name="tableName">数据库表名</param>
+    /// <param name="naming">命名法</param>
+    /// <returns><see cref="string"/></returns>
+    public string ConvertToInsertSQL(string tableName, NamingConventions naming = NamingConventions.CamelCase)
+    {
+        return ConvertToSQL(tableName, PersistenceBehavior.Appended, naming);
+    }
+
+    /// <summary>
+    /// 转换成 Sql 更新语句
+    /// </summary>
+    /// <param name="tableName">数据库表名</param>
+    /// <param name="naming">命名法</param>
+    /// <returns><see cref="string"/></returns>
+    public string ConvertToUpdateSQL(string tableName, NamingConventions naming = NamingConventions.CamelCase)
+    {
+        return ConvertToSQL(tableName, PersistenceBehavior.Updated, naming);
+    }
+
+    /// <summary>
+    /// 转换成 Sql 删除语句
+    /// </summary>
+    /// <param name="tableName">数据库表名</param>
+    /// <param name="naming">命名法</param>
+    /// <returns><see cref="string"/></returns>
+    public string ConvertToDeleteSQL(string tableName, NamingConventions naming = NamingConventions.CamelCase)
+    {
+        return ConvertToSQL(tableName, PersistenceBehavior.Removed, naming);
+    }
+
+    /// <summary>
     /// 转换成 JSON 字符串
     /// </summary>
     /// <param name="naming">命名法</param>

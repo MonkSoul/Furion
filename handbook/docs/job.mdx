@@ -888,21 +888,27 @@ var json = jobDetail.ConvertToJSON();
 
 2. **转换成 `SQL` 字符串**
 
-```cs showLineNumbers {2,7,12}
+```cs showLineNumbers {2,6,9,13,16,20}
 // 输出新增 SQL，使用 CamelCase 属性命名
 var insertSql = jobDetail.ConvertToSQL("tbName"
       , PersistenceBehavior.Appended
       , NamingConventions.CamelCase);
+// 更便捷拓展
+var insertSql = jobDetail.ConvertToInsertSQL("tbName", NamingConventions.CamelCase);
 
 // 输出删除 SQL，使用 Pascal 属性命名
 var deleteSql = jobDetail.ConvertToSQL("tbName"
       , PersistenceBehavior.Removed
       , NamingConventions.Pascal);
+// 更便捷拓展
+var deleteSql = jobDetail.ConvertToDeleteSQL("tbName", NamingConventions.Pascal);
 
 // 输出更新 SQL，使用 UnderScoreCase 属性命名
 var updateSql = jobDetail.ConvertToSQL("tbName"
       , PersistenceBehavior.Updated
       , NamingConventions.UnderScoreCase);
+// 更便捷拓展
+var updateSql = jobDetail.ConvertToUpdateSQL("tbName", NamingConventions.UnderScoreCase);
 ```
 
 字符串打印如下：
@@ -1745,21 +1751,27 @@ var json = trigger.ConvertToJSON();
 
 2. **转换成 `SQL` 字符串**
 
-```cs showLineNumbers {2,7,12}
+```cs showLineNumbers {2,6,9,13,16,20}
 // 输出新增 SQL，使用 CamelCase 属性命名
 var insertSql = trigger.ConvertToSQL("tbName"
       , PersistenceBehavior.Appended
       , NamingConventions.CamelCase);
+// 更便捷拓展
+var insertSql = trigger.ConvertToInsertSQL("tbName", NamingConventions.CamelCase);
 
 // 输出删除 SQL，使用 Pascal 属性命名
 var deleteSql = trigger.ConvertToSQL("tbName"
       , PersistenceBehavior.Removed
       , NamingConventions.Pascal);
+// 更便捷拓展
+var deleteSql = trigger.ConvertToDeleteSQL("tbName", NamingConventions.Pascal);
 
 // 输出更新 SQL，使用 UnderScoreCase 属性命名
 var updateSql = trigger.ConvertToSQL("tbName"
       , PersistenceBehavior.Updated
       , NamingConventions.UnderScoreCase);
+// 更便捷拓展
+var updateSql = trigger.ConvertToUpdateSQL("tbName", NamingConventions.UnderScoreCase);
 ```
 
 字符串打印如下：
