@@ -894,6 +894,23 @@ public IEnumerable<SchedulerBuilder> Preload()
 }
 ```
 
+-----
+
+**作业信息特性还提供了多个属性配置**，如：
+
+- `JobId`：作业信息 Id，`string` 类型
+- `GroupName`：作业组名称，`string` 类型
+- `Description`：描述信息，`string` 类型
+- `Concurrent`：是否采用并行执行，`bool` 类型，如果设置为 `false`，那么使用 `串行` 执行
+
+使用如下：
+
+```cs showLineNumbers {1}
+[JobDetail("jobId", Concurrent = false, Description = "这是一段描述")]
+public class MyJob : IJob
+{
+```
+
 ### 26.1.3.6 多种格式字符串输出
 
 `JobDetail` 和 `JobBuilder` 都提供了多种将自身转换成特定格式的字符串。
@@ -2802,7 +2819,7 @@ _schedulerFactory.PersistAll();
 
 ## 26.1.11 作业计划 `IScheduler`
 
-作业计划 `Scheduler` 的默认实现接口时 `IScheduler`，该接口主要用来操作当前（单个）作业。
+作业计划 `Scheduler` 的默认实现接口是 `IScheduler`，该接口主要用来操作当前（单个）作业。
 
 ### 26.1.11.1 获取 `IScheduler` 实例
 
