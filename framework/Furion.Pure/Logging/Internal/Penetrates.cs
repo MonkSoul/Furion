@@ -21,6 +21,7 @@
 // SOFTWARE.
 
 using Microsoft.Extensions.Logging;
+using System.Diagnostics;
 using System.Text;
 
 namespace Furion.Logging;
@@ -34,6 +35,15 @@ internal static class Penetrates
     /// 异常分隔符
     /// </summary>
     private const string EXCEPTION_SEPARATOR = "++++++++++++++++++++++++++++++++++++++++++++++++++++++++";
+
+    /// <summary>
+    /// 获取请求跟踪 Id
+    /// </summary>
+    /// <returns></returns>
+    internal static string GetTraceId()
+    {
+        return Activity.Current?.Id ?? App.HttpContext?.TraceIdentifier;
+    }
 
     /// <summary>
     /// 从配置文件中加载配置并创建文件日志记录器提供程序
@@ -57,9 +67,13 @@ internal static class Penetrates
         var fileLoggerOptions = new FileLoggerOptions
         {
             Append = fileLoggerSettings.Append,
-            MinimumLevel = fileLoggerSettings.MinimumLevel,
             FileSizeLimitBytes = fileLoggerSettings.FileSizeLimitBytes,
-            MaxRollingFiles = fileLoggerSettings.MaxRollingFiles
+            MaxRollingFiles = fileLoggerSettings.MaxRollingFiles,
+            MinimumLevel = fileLoggerSettings.MinimumLevel,
+            UseUtcTimestamp = fileLoggerSettings.UseUtcTimestamp,
+            DateFormat = fileLoggerSettings.DateFormat,
+            IncludeScopes = fileLoggerSettings.IncludeScopes,
+            WithTraceId = fileLoggerSettings.WithTraceId
         };
 
         // 处理自定义配置
@@ -88,6 +102,11 @@ internal static class Penetrates
         var databaseLoggerOptions = new DatabaseLoggerOptions
         {
             MinimumLevel = databaseLoggerSettings?.MinimumLevel ?? LogLevel.Trace,
+            UseUtcTimestamp = databaseLoggerSettings.UseUtcTimestamp,
+            DateFormat = databaseLoggerSettings.DateFormat,
+            IncludeScopes = databaseLoggerSettings.IncludeScopes,
+            IgnoreReferenceLoop = databaseLoggerSettings.IgnoreReferenceLoop,
+            WithTraceId = databaseLoggerSettings.WithTraceId
         };
 
         // 处理自定义配置
@@ -104,11 +123,13 @@ internal static class Penetrates
     /// <param name="dateFormat"></param>
     /// <param name="disableColors"></param>
     /// <param name="isConsole"></param>
+    /// <param name="withTraceId"></param>
     /// <returns></returns>
     internal static string OutputStandardMessage(LogMessage logMsg
         , string dateFormat = "o"
         , bool isConsole = false
-        , bool disableColors = true)
+        , bool disableColors = true
+        , bool withTraceId = false)
     {
         // 空检查
         if (logMsg.Message is null) return null;
@@ -134,6 +155,13 @@ internal static class Penetrates
         formatString.Append(']');
         formatString.Append(' ');
         formatString.Append($"#{logMsg.ThreadId}");
+        if (withTraceId && !string.IsNullOrWhiteSpace(logMsg.TraceId))
+        {
+            formatString.Append(' ');
+            _ = AppendWithColor(formatString, $"'{logMsg.TraceId}'", disableConsoleColor
+                ? new ConsoleColors(null, null)
+                : new ConsoleColors(ConsoleColor.Gray, ConsoleColor.Black));
+        }
         formatString.AppendLine();
 
         // 对日志内容进行缩进对齐处理

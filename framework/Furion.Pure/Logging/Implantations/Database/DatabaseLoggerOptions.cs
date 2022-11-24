@@ -76,4 +76,9 @@ public sealed class DatabaseLoggerOptions
     /// </summary>
     /// <remarks>对性能有些许影响</remarks>
     public bool IgnoreReferenceLoop { get; set; } = true;
+
+    /// <summary>
+    /// 显示跟踪/请求 Id
+    /// </summary>
+    public bool WithTraceId { get; set; } = false;
 }

@@ -62,7 +62,7 @@ import Tag from "@site/src/components/Tag.js";
   - &nbsp;<Tag>新增</Tag> **`Serve.Run()` 的 `additional` 参数** <sup>4.8.0</sup> [023391b](https://gitee.com/dotnetchina/Furion/commit/023391b428f4239d926c3abb6cb0e2b92a0d738a)
 
 <details style={{ marginLeft: 50 }}>
-  <summary>查看更改</summary>
+  <summary>查看变化</summary>
   <div>
 
 极速入门现在可以便捷注册服务，写测试例子的时候非常有用，无需编写 `Startup.cs`。
@@ -98,7 +98,7 @@ Serve.RunGeneric(services =>
 - - &nbsp;<Tag>新增</Tag> `Serve.Run` 主机返回值 `IHost` <sup>4.8.0</sup> [#I61XHV](https://gitee.com/dotnetchina/Furion/issues/I61XHV)
 
 <details style={{ marginLeft: 50 }}>
-  <summary>查看更改</summary>
+  <summary>查看变化</summary>
   <div>
 
 在 `Winfom/WPF` 应用程序中，我们希望关闭窗体或退出应用程序时，能够关闭 `Serve` 主机：
@@ -131,7 +131,7 @@ public partial class App : Application
 - - &nbsp;<Tag>新增</Tag> `LoggingMonitor` 的 `JsonIndented` 配置，可配置是否美化 `JSON` <sup>4.8.0</sup> [7b9268c](https://gitee.com/dotnetchina/Furion/commit/7b9268cc2428b5ee6cc5ed259e5c45a6830bddb1)
 
 <details style={{ marginLeft: 50 }}>
-  <summary>查看更改</summary>
+  <summary>查看变化</summary>
   <div>
 
 默认情况下，配置输出 `JSON` 格式化 `LoggerFormatter.Json` 会浓缩到一行显示。
@@ -162,6 +162,60 @@ services.AddMonitorLogging(options =>
 {
     options.JsonIndented = true;
 });
+```
+
+  </div>
+</details>
+
+- - &nbsp;<Tag>新增</Tag> 日志模块是否输出 `TraceId`，同一个请求的日志 `TraceId` 一致 <sup>4.8.1.3</sup> [#I62VGG](https://gitee.com/dotnetchina/Furion/issues/I62VGG)
+
+<details style={{ marginLeft: 50 }}>
+  <summary>查看变化</summary>
+  <div>
+
+在生产环境中，日志的输出是非常频繁的，但是很难从日志文件中判断哪些日志是属于同一个请求输出的，所以新增 `WithTraceId` 配置。
+
+```cs showLineNumbers {2,4,8,10,14,16,20,22}
+// 控制台日志
+services.AddConsoleFormatter(options =>
+{
+    options.WithTraceId = true;
+});
+
+// 文件日志
+services.AddFileLogging("mytemplate.log", options =>
+{
+    options.WithTraceId = true;
+});
+
+// 数据库日志
+services.AddDatabaseLogging<DatabaseLoggingWriter>(options =>
+{
+    options.WithTraceId = true;
+});
+```
+
+输出日志如下：
+
+```bash showLineNumbers {15,17}
+info: 2022-11-24 14:34:55.1717549 +08:00 星期四 L System.Logging.EventBusService[0] #1
+      EventBus Hosted Service is running.
+info: 2022-11-24 14:34:55.2504015 +08:00 星期四 L System.Logging.ScheduleService[0] #1
+      Schedule Hosted Service is running.
+info: 2022-11-24 14:34:56.4280796 +08:00 星期四 L Microsoft.Hosting.Lifetime[14] #1
+      Now listening on: https://localhost:5001
+info: 2022-11-24 14:34:56.4331170 +08:00 星期四 L Microsoft.Hosting.Lifetime[14] #1
+      Now listening on: http://localhost:5000
+info: 2022-11-24 14:34:56.4384567 +08:00 星期四 L Microsoft.Hosting.Lifetime[0] #1
+      Application started. Press Ctrl+C to shut down.
+info: 2022-11-24 14:34:56.4408766 +08:00 星期四 L Microsoft.Hosting.Lifetime[0] #1
+      Hosting environment: Development
+info: 2022-11-24 14:34:56.4427659 +08:00 星期四 L Microsoft.Hosting.Lifetime[0] #1
+      Content root path: D:\Workplaces\OpenSources\Furion\samples\Furion.Web.Entry
+info: 2022-11-24 14:35:06.8507338 +08:00 Thursday L Furion.Application.TestLoggerServices[0] #17 '00-48df9ac5c8280de2f301faa44a23a10c-b75678d9f3883b0b-00'
+      我是一个日志 20
+info: 2022-11-24 14:35:16.0373384 +08:00 星期四 L Furion.Application.TestLoggerServices[0] #17 '00-ff4fb15d6ff41a0411784e66400f0dfd-962bc25eff788b25-00'
+      我是一个日志 20
 ```
 
   </div>
@@ -230,7 +284,7 @@ services.AddMonitorLogging(options =>
   - &nbsp;<Tag>新增</Tag> **所有脚手架支持 `-f` 指定 `.NET` 版本** <sup>4.7.6</sup> [#I603AZ](https://gitee.com/dotnetchina/Furion/issues/I603AZ)
 
 <details style={{ marginLeft: 50 }}>
-  <summary>查看更改</summary>
+  <summary>查看变化</summary>
   <div>
 
 ```bash showLineNumbers {2,5,8}
@@ -252,7 +306,7 @@ dotnet new furionapi -n 项目名称 -f net7
 - - &nbsp;<Tag>调整</Tag> **`LogContext` 类型的所有方法至 `Furion.Logging` 命名空间下，解决空异常问题** <sup>4.7.3</sup> [#I5YOT3](https://gitee.com/dotnetchina/Furion/issues/I5YOT3)
 
 <details style={{ marginLeft: 50 }}>
-  <summary>查看更改</summary>
+  <summary>查看变化</summary>
   <div>
 
 由：
@@ -347,7 +401,7 @@ var value = logContext.Get("Key");  // 新版本不会报错，且 value = null
   - &nbsp;<Tag>调整</Tag> **重构日志模块设置上下文数据功能** <sup>4.6.0</sup> [1c198ee](https://gitee.com/dotnetchina/Furion/commit/1c198ee2701e0ca76bca1057df6fce6789344c35)
 
 <details style={{ marginLeft: 50 }}>
-  <summary>查看更改</summary>
+  <summary>查看变化</summary>
   <div>
 
 由于过去版本设置日志上下文有多线程异常和堆内存溢出风险，所以重新设计了日志上下文的写法。
@@ -378,7 +432,7 @@ _logger.LogInformation("我是一个日志 {id}", 20);
 - - &nbsp;<Tag>移除</Tag> ~~**远程请求 `.SetTimeout` 和 `[Timeout]` 配置方法，采用全局统一配置**~~ <sup>4.6.4</sup> [7384c9c](https://gitee.com/dotnetchina/Furion/commit/7384c9c3efb94883421379828565e61870f1640c)
 
 <details style={{ marginLeft: 50 }}>
-  <summary>查看更改</summary>
+  <summary>查看变化</summary>
   <div>
 
 默认情况下，`HttpClient` 请求超时时间为 `100秒`，可根据实际情况进行设置：
@@ -474,7 +528,7 @@ options.AddHttpClient("github", c =>
   - &nbsp;<Tag>移除</Tag> ~~**主机未启动时构建服务的操作权限，此操作会导致内存激增，受影响方法： `App.GetOptions` 系列和 `App.GetService` 和 `Scoped.Create`**~~ <sup>4.5.4</sup> [#I5U0A4](https://gitee.com/dotnetchina/Furion/issues/I5U0A4) [8129693](https://gitee.com/dotnetchina/Furion/commit/812969357a60d0b73becf105e6b77b46113b3800)
 
 <details style={{ marginLeft: 50 }}>
-  <summary>查看更改</summary>
+  <summary>查看变化</summary>
   <div>
 
 近期发现许多开发者在主机还未启动时解析服务，这是非常不正确的行为，会导致启动时内存激增甚至溢出，常见的错误有：
@@ -521,7 +575,7 @@ options.AddHttpClient("github", c =>
 - 1. **支持日志配置 `JSON` 格式化输出**
 
 <details style={{ marginLeft: 50 }}>
-  <summary>查看更改</summary>
+  <summary>查看变化</summary>
   <div>
 
 ```cs showLineNumbers {2,4,8,10,14,16}
@@ -550,7 +604,7 @@ services.AddDatabaseLogging<DatabaseLoggingWriter>(options =>
 - 2. **支持 `LoggingMonitor` 输出 `JSON` 格式**
 
 <details style={{ marginLeft: 50 }}>
-  <summary>查看更改</summary>
+  <summary>查看变化</summary>
   <div>
 
 1. 全局/局部启用 `Json` 输出配置
@@ -704,7 +758,7 @@ public class DatabaseLoggingWriter : IDatabaseLoggingWriter
 - 3. **支持远程请求上传文件 `Stream` 流**
 
 <details style={{ marginLeft: 50 }}>
-  <summary>查看更改</summary>
+  <summary>查看变化</summary>
   <div>
 
 1. 单文件上传
@@ -789,7 +843,7 @@ await fileStream.DisposeAsync();
 - 4. **`LoggingMonitor` 全局过滤**
 
 <details style={{ marginLeft: 50 }}>
-  <summary>查看更改</summary>
+  <summary>查看变化</summary>
   <div>
 
 ```cs showLineNumbers showLineNumbers {1,3,10}
@@ -851,7 +905,7 @@ services.AddMonitorLogging(options =>
   - &nbsp;<Tag>移除</Tag> ~~远程请求 `[BodyBytes]` 设计，采用 `HttpFile` 方式~~ [#I5PMS5](https://gitee.com/dotnetchina/Furion/issues/I5PMS5) [#I5PIYI](https://gitee.com/dotnetchina/Furion/issues/I5PIYI)
 
 <details style={{ marginLeft: 50 }}>
-  <summary>查看更改</summary>
+  <summary>查看变化</summary>
   <div>
 
 ```cs showLineNumbers {3-4,7-8,11-12}
@@ -886,7 +940,7 @@ var res = await "https://www.furion.icu/upload".SetContentType("multipart/form-d
 - - &nbsp;<Tag>调整</Tag> 所有的 `AddInject` 和 `UseInject` 参数设计 [#I5QCF0](https://gitee.com/dotnetchina/Furion/issues/I5QCF0)
 
 <details style={{ marginLeft: 50 }}>
-  <summary>查看更改</summary>
+  <summary>查看变化</summary>
   <div>
 
 ```cs showLineNumbers {3,5}
@@ -926,7 +980,7 @@ public void ConfigureServices(IServiceCollection services)
 - - &nbsp;<Tag>调整</Tag> **远程请求所有 `xxxAsStreamAsync` 返回值** [#I5QVEB](https://gitee.com/dotnetchina/Furion/issues/I5QVEB)
 
 <details style={{ marginLeft: 50 }}>
-  <summary>查看更改</summary>
+  <summary>查看变化</summary>
   <div>
 
 由：
@@ -947,7 +1001,7 @@ var (stream, encoding) = await "https://www.furion.icu/".GetAsStreamAsync();
 - - &nbsp;<Tag>新增</Tag> <Tag>调整</Tag> ** `.Inject()` 支持配置更多参数，开放底层更多权限** <sup>4.4.9</sup> [1182283](https://gitee.com/dotnetchina/Furion/commit/1182283f6303b2d73ae4c82cdbc8b5b705d90030)
 
 <details style={{ marginLeft: 50 }}>
-  <summary>查看更改</summary>
+  <summary>查看变化</summary>
   <div>
 
 ```cs showLineNumbers {1}
@@ -1025,7 +1079,7 @@ var (stream, encoding) = await "https://www.furion.icu/".GetAsStreamAsync();
   - &nbsp;<Tag>新增</Tag> `LoggingMonitor` 可配置 `MethodsSettings` 更多信息 [#I5PFJ1](https://gitee.com/dotnetchina/Furion/issues/I5PFJ1) [#I5PFOW](https://gitee.com/dotnetchina/Furion/issues/I5PFOW)
 
 <details style={{ marginLeft: 50 }}>
-  <summary>查看更改</summary>
+  <summary>查看变化</summary>
   <div>
 
 ```cs showLineNumbers {2,4,6}
@@ -1052,7 +1106,7 @@ public class XXXWebComponent : IWebComponent
   - &nbsp;<Tag>调整</Tag> **远程请求 `请求拦截`、`响应拦截` 和 `异常拦截` 委托签名，新增 `HttpClient` 参数** [#I5OWBO](https://gitee.com/dotnetchina/Furion/issues/I5OWBO)
 
 <details style={{ marginLeft: 50 }}>
-  <summary>查看更改</summary>
+  <summary>查看变化</summary>
   <div>
 
 ```cs showLineNumbers {2,7,12}
@@ -1114,7 +1168,7 @@ static void OnException(HttpClient client, HttpResponseMessage res, string error
   - &nbsp;<Tag>调整</Tag> `Scoped.Create(async (f,s) => {})` 异步创建作用域方法名称为 `CreateAsync`，避免一些情况下无法区分，**同步方法不变** [#I5N9XY](https://gitee.com/dotnetchina/Furion/issues/I5N9XY)
 
 <details style={{ marginLeft: 50 }}>
-  <summary>查看更改</summary>
+  <summary>查看变化</summary>
   <div>
 
 由：
@@ -1141,7 +1195,7 @@ await Scoped.CreateAsync(async (f, s) => {});
 - - &nbsp;<Tag>调整</Tag> **工作单元 `IUnitOfWork` 所有方法参数类型，由 `ActionExecutingContext` 和 `ActionExecutedContext` 改为 `FilterContext`** [#I5MHX5](https://gitee.com/dotnetchina/Furion/issues/I5MHX5)
 
 <details style={{ marginLeft: 50 }}>
-  <summary>查看更改</summary>
+  <summary>查看变化</summary>
   <div>
 
 ```cs showLineNumbers {3,5,7,9}
@@ -1220,7 +1274,7 @@ public interface IUnitOfWork
   - &nbsp;<Tag>调整</Tag> `Serve.Run` 的 `ConfigureConfiguration` 方法参数，由 `configuration => {}` 改为 `(environment, configuration) => {}` [83c97bb](https://gitee.com/dotnetchina/Furion/commit/83c97bb5a19d6fc4e51cfe05f635675d26067d45)
 
 <details style={{ marginLeft: 50 }}>
-  <summary>查看更改</summary>
+  <summary>查看变化</summary>
   <div>
 
 ```cs showLineNumbers {2,6}
@@ -1271,7 +1325,7 @@ Serve.Run(RunOptions.Default.ConfigureConfiguration((environment, configuration)
 **启用静默模式可以实现无阻塞方式执行程序，而且还能体验完整的 `Furion` 功能。**
 
 <details style={{ marginLeft: 50 }}>
-  <summary>查看更改</summary>
+  <summary>查看变化</summary>
   <div>
 
 :::tip 大革命
@@ -1307,7 +1361,7 @@ Serve.Run(GenericRunOptions.DefaultSilence);
 2. 强大的 `Furion.Xunit` 单元测试、集成测试
 
 <details style={{ marginLeft: 50 }}>
-  <summary>查看更改</summary>
+  <summary>查看变化</summary>
   <div>
 
 :::tip 大革命
@@ -1379,7 +1433,7 @@ public class UnitTest1
 3. 开放底层规范化文档分组接口，使得集成第三方 `Swagger UI` 更加容易，如集成 `IGeekFan.AspNetCore.Knife4jUI` 拓展：
 
 <details style={{ marginLeft: 50 }}>
-  <summary>查看更改</summary>
+  <summary>查看变化</summary>
   <div>
 
 :::note 安装包
@@ -1525,7 +1579,7 @@ _logger.ScopeContext(new LogContext {
 1. **极易使用且强大的日志模块**
 
 <details style={{ marginLeft: 50 }}>
-  <summary>查看更改</summary>
+  <summary>查看变化</summary>
   <div>
 
 ```cs showLineNumbers
@@ -1544,7 +1598,7 @@ services.AddDatabaseLogging<DatabaseLoggingWriter>();
 2. **强大的 `[LoggingMonitor]` 调试日志**
 
 <details style={{ marginLeft: 50 }}>
-  <summary>查看更改</summary>
+  <summary>查看变化</summary>
   <div>
 
 ```cs showLineNumbers {1,7}
@@ -1684,7 +1738,7 @@ public class TestLoggerServices : IDynamicApiController
   - &nbsp;<Tag>调整</Tag> **`.AddDb<>` 和 `.AddDbPool<>` 自定义委托参数签名，由 `Action<DbContextOptionsBuilder>` 改为：`Action<IServiceProvider, DbContextOptionsBuilder>`**
 
 <details style={{ marginLeft: 50 }}>
-  <summary>查看更改</summary>
+  <summary>查看变化</summary>
   <div>
 
 ```cs showLineNumbers {2,5}
@@ -1726,7 +1780,7 @@ options.AddDbPool<TDbContext>(DbProvider.MySql, (services, opt)=> {
 1. **新增 `JSON Schema` 支持，所有 `.json` 文件支持智能提示和验证**
 
 <details style={{ marginLeft: 50 }}>
-  <summary>查看更改</summary>
+  <summary>查看变化</summary>
   <div>
 
 ```json showLineNumbers {2}
@@ -1759,7 +1813,7 @@ options.AddDbPool<TDbContext>(DbProvider.MySql, (services, opt)=> {
 3. **`Sql` 代理支持返回单个类类型参数**
 
 <details style={{ marginLeft: 50 }}>
-  <summary>查看更改</summary>
+  <summary>查看变化</summary>
   <div>
 
 ```cs showLineNumbers {7-9}
@@ -1781,7 +1835,7 @@ public interface ISql : ISqlDispatchProxy
 4. **`Sql` 代理支持返回 `ValueTuple` 单个类类型参数**
 
 <details style={{ marginLeft: 50 }}>
-  <summary>查看更改</summary>
+  <summary>查看变化</summary>
   <div>
 
 ```cs showLineNumbers {3-6}
@@ -1800,7 +1854,7 @@ public interface ISql : ISqlDispatchProxy
 5. **支持 `Minimal API` 应用**
 
 <details style={{ marginLeft: 50 }}>
-  <summary>查看更改</summary>
+  <summary>查看变化</summary>
   <div>
 
 **[了解 `Minimal API` 应用](https://docs.microsoft.com/zh-cn/aspnet/core/fundamentals/minimal-apis?view=aspnetcore-6.0)**
@@ -1883,7 +1937,7 @@ app.Run();
 1. **极速入门**
 
 <details style={{ marginLeft: 50 }}>
-  <summary>查看更改</summary>
+  <summary>查看变化</summary>
   <div>
 
 ```cs showLineNumbers title="Program.cs" {3,6}
@@ -1909,7 +1963,7 @@ public class HelloService
 2. **内置错误页**
 
 <details style={{ marginLeft: 50 }}>
-  <summary>查看更改</summary>
+  <summary>查看变化</summary>
   <div>
 
 ```cs showLineNumbers{1,7}
@@ -1932,7 +1986,7 @@ public IActionResult Add(Person person)
 3. **`Swagger` 支持 `Markdown`**
 
 <details style={{ marginLeft: 50 }}>
-  <summary>查看更改</summary>
+  <summary>查看变化</summary>
   <div>
 
 ````cs showLineNumbers {4-62}
@@ -2054,7 +2108,7 @@ public void MarkdownTest()
 1. **事件总线 `Id` 支持枚举类型**
 
 <details style={{ marginLeft: 50 }}>
-  <summary>查看更改</summary>
+  <summary>查看变化</summary>
   <div>
 
 ```cs showLineNumbers {7,10}
@@ -2078,7 +2132,7 @@ public async Task EventHandler2(EventHandlerExecutingContext context)
 2. **事件总线发布支持更简单调用**
 
 <details style={{ marginLeft: 50 }}>
-  <summary>查看更改</summary>
+  <summary>查看变化</summary>
   <div>
 
 ```cs showLineNumbers {5,6}
@@ -2096,7 +2150,7 @@ await _eventPublisher.PublishAsync(YourEnum.Some); // 也支持枚举
 3. **选项支持属性自定义配置 `Key`**
 
 <details style={{ marginLeft: 50 }}>
-  <summary>查看更改</summary>
+  <summary>查看变化</summary>
   <div>
 
 ```json showLineNumbers {4}
@@ -2124,7 +2178,7 @@ public class AppInfoOptions : IConfigurableOptions
 4. **日志规范化模板**
 
 <details style={{ marginLeft: 50 }}>
-  <summary>查看更改</summary>
+  <summary>查看变化</summary>
   <div>
 
 ```cs showLineNumbers {2}
@@ -2194,7 +2248,7 @@ Console.WriteLine(template);
 1. **启用 `All Groups` 分组功能**
 
 <details style={{ marginLeft: 50 }}>
-  <summary>查看更改</summary>
+  <summary>查看变化</summary>
   <div>
 
 有时候我们为了更好的对接口进行归类，配置了 `Swagger` 多个分组的功能，但这样也对生成客户端请求代码造成了困扰，所以添加了新的配置：
@@ -2213,7 +2267,7 @@ Console.WriteLine(template);
 2. **接口过时控制**
 
 <details style={{ marginLeft: 50 }}>
-  <summary>查看更改</summary>
+  <summary>查看变化</summary>
   <div>
 
 当我们某个接口已经过时，提示尽早调用最新接口，只需要在方法上面贴 `[Obsolete]` 即可，如：
@@ -2240,7 +2294,7 @@ public string Other()
 3. **单一接口更多描述**
 
 <details style={{ marginLeft: 50 }}>
-  <summary>查看更改</summary>
+  <summary>查看变化</summary>
   <div>
 
 在该版本新增了 `[ApiDescriptionSettings]` 的 `Description` 属性，支持定义更多描述，如：
@@ -2301,7 +2355,7 @@ public string add()
   - ❤️️️️ **根据文件名获取 `MIME` 或 `Content-Type` 类型**
 
 <details style={{ marginLeft: 50 }}>
-  <summary>查看更改</summary>
+  <summary>查看变化</summary>
   <div>
 
 ```cs showLineNumbers
@@ -2332,7 +2386,7 @@ var success = FS.TryGetContentType("image.png", out var contentType);  // image/
 - ❤️️️️ **支持代码注释继承，Swagger 文档注释也支持**
 
 <details style={{ marginLeft: 50 }}>
-  <summary>查看更改</summary>
+  <summary>查看变化</summary>
   <div>
 
 ```cs showLineNumbers {1,4,10}
@@ -2448,7 +2502,7 @@ public interface ITestInheritdoc
 1. 新增动态 `WebApi` 支持小驼峰路径，如 `GetMyName` -> `getMyName`：
 
 <details style={{ marginLeft: 50 }}>
-  <summary>查看更改</summary>
+  <summary>查看变化</summary>
   <div>
 
 ```json showLineNumbers
@@ -2467,7 +2521,7 @@ public interface ITestInheritdoc
 2. 支持 `.NET6 WebApplication` 模式二级虚拟目录配置：
 
 <details style={{ marginLeft: 50 }}>
-  <summary>查看更改</summary>
+  <summary>查看变化</summary>
   <div>
 
 ```cs showLineNumbers  {title="Progame.cs"}
@@ -2679,7 +2733,7 @@ app.UseVirtualPath(app =>
   - &nbsp;<Tag>调整</Tag> `IJsonSerializerProvider` 接口参数，去掉 `inherit` 参数 [a55603b](https://gitee.com/dotnetchina/Furion/commit/a55603bf7ed109296375dbeffc31591a6f8f8e49)
 
 <details style={{ marginLeft: 50 }}>
-  <summary>查看更改</summary>
+  <summary>查看变化</summary>
   <div>
 
 :::important 新版本自定义规范化结果

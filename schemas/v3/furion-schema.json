@@ -466,6 +466,11 @@
               "type": "string",
               "description": "日期格式化",
               "default": "yyyy-MM-dd HH:mm:ss(zzz) dddd"
+            },
+            "WithTraceId": {
+              "type": "boolean",
+              "description": "是否显示跟踪 Id",
+              "default": false
             }
           }
         },
@@ -506,6 +511,11 @@
               "type": "boolean",
               "description": "忽略日志循环输出",
               "default": true
+            },
+            "WithTraceId": {
+              "type": "boolean",
+              "description": "是否显示跟踪 Id",
+              "default": false
             }
           }
         },

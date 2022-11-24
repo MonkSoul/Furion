@@ -56,4 +56,24 @@ public sealed class FileLoggerSettings
     /// 最低日志记录级别
     /// </summary>
     public LogLevel MinimumLevel { get; set; } = LogLevel.Trace;
+
+    /// <summary>
+    /// 是否使用 UTC 时间戳，默认 false
+    /// </summary>
+    public bool UseUtcTimestamp { get; set; }
+
+    /// <summary>
+    /// 日期格式化
+    /// </summary>
+    public string DateFormat { get; set; } = "yyyy-MM-dd HH:mm:ss.fffffff zzz dddd";
+
+    /// <summary>
+    /// 是否启用日志上下文
+    /// </summary>
+    public bool IncludeScopes { get; set; } = true;
+
+    /// <summary>
+    /// 显示跟踪/请求 Id
+    /// </summary>
+    public bool WithTraceId { get; set; } = false;
 }

@@ -105,7 +105,7 @@ public sealed class FileLogger : ILogger
         var message = formatter(state, exception);
 
         var logDateTime = _options.UseUtcTimestamp ? DateTime.UtcNow : DateTime.Now;
-        var logMsg = new LogMessage(_logName, logLevel, eventId, message, exception, null, state, logDateTime, Environment.CurrentManagedThreadId, _options.UseUtcTimestamp);
+        var logMsg = new LogMessage(_logName, logLevel, eventId, message, exception, null, state, logDateTime, Environment.CurrentManagedThreadId, _options.UseUtcTimestamp, Penetrates.GetTraceId());
 
         // 设置日志上下文
         logMsg = Penetrates.SetLogContext(_fileLoggerProvider.ScopeProvider, logMsg, _options.IncludeScopes);
@@ -116,7 +116,7 @@ public sealed class FileLogger : ILogger
         // 设置日志消息模板
         logMsg.Message = _options.MessageFormat != null
             ? _options.MessageFormat(logMsg)
-            : Penetrates.OutputStandardMessage(logMsg, _options.DateFormat);
+            : Penetrates.OutputStandardMessage(logMsg, _options.DateFormat, withTraceId: _options.WithTraceId);
 
         // 空检查
         if (logMsg.Message is null) return;

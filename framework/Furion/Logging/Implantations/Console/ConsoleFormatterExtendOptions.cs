@@ -60,4 +60,9 @@ public sealed class ConsoleFormatterExtendOptions : ConsoleFormatterOptions
     /// 自定义格式化日志处理程序
     /// </summary>
     public Action<LogMessage, IExternalScopeProvider, TextWriter, string, ConsoleFormatterExtendOptions> WriteHandler { get; set; }
+
+    /// <summary>
+    /// 显示跟踪/请求 Id
+    /// </summary>
+    public bool WithTraceId { get; set; } = false;
 }

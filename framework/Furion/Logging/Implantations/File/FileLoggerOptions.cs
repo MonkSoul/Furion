@@ -48,6 +48,11 @@ public sealed class FileLoggerOptions
     public int MaxRollingFiles { get; set; } = 0;
 
     /// <summary>
+    /// 最低日志记录级别
+    /// </summary>
+    public LogLevel MinimumLevel { get; set; } = LogLevel.Trace;
+
+    /// <summary>
     /// 是否使用 UTC 时间戳，默认 false
     /// </summary>
     public bool UseUtcTimestamp { get; set; }
@@ -61,11 +66,6 @@ public sealed class FileLoggerOptions
     /// 自定义日志筛选器
     /// </summary>
     public Func<LogMessage, bool> WriteFilter { get; set; }
-
-    /// <summary>
-    /// 最低日志记录级别
-    /// </summary>
-    public LogLevel MinimumLevel { get; set; } = LogLevel.Trace;
 
     /// <summary>
     /// 自定义日志文件名格式化程序（规则）
@@ -100,4 +100,9 @@ public sealed class FileLoggerOptions
     /// 是否启用日志上下文
     /// </summary>
     public bool IncludeScopes { get; set; } = true;
+
+    /// <summary>
+    /// 显示跟踪/请求 Id
+    /// </summary>
+    public bool WithTraceId { get; set; } = false;
 }
