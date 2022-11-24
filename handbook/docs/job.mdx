@@ -1164,7 +1164,7 @@ public class MyJob : IJob
     public async Task ExecuteAsync(JobExecutingContext context, CancellationToken stoppingToken)
     {
        // 创建任务关联取消 Token
-        var cancellationTokenSource = CancellationTokenSource.CreateLinkedTokenSource(stoppingToken);
+        using var cancellationTokenSource = CancellationTokenSource.CreateLinkedTokenSource(stoppingToken);
 
         try
         {
