@@ -1582,7 +1582,7 @@ info: 2022-11-20 21:43:10.4629078 +08:00 星期日 L ConsoleApp13.MyJob[0] #9
 
 - `[Period(5000)]`：毫秒周期（间隔）作业触发器特性
 - `[PeriodSeconds(5)]`：秒周期（间隔）作业触发器特性
-- `[Cron("* * * * *", CronStringFormat.Default]`：Cron 表达式作业触发器特性
+- `[Cron("* * * * *", CronStringFormat.Default)]`：Cron 表达式作业触发器特性
 - `[Secondly]`：每秒开始作业触发器特性
 - `[Minutely]`：每分钟开始作业触发器特性
 - `[Hourly]`：每小时开始作业触发器特性
@@ -3806,7 +3806,7 @@ public class JobTrigger
     /// <summary>
     /// 描述信息
     /// </summary>
-    [SugarColumn(ColumnDescription = "描述信息"8)]
+    [SugarColumn(ColumnDescription = "描述信息")]
     public string? Description { get; set; }
 
     /// <summary>
