@@ -39,10 +39,19 @@ public class QueryStringAttribute : ParameterBaseAttribute
     /// 构造函数
     /// </summary>
     /// <param name="alias"></param>
-    /// <param name="format"></param>
-    public QueryStringAttribute(string alias, string format = null)
+    public QueryStringAttribute(string alias)
     {
         Alias = alias;
+    }
+
+    /// <summary>
+    /// 构造函数
+    /// </summary>
+    /// <param name="alias"></param>
+    /// <param name="format"></param>
+    public QueryStringAttribute(string alias, string format)
+        : this(alias)
+    {
         Format = format;
     }
 
@@ -52,7 +61,7 @@ public class QueryStringAttribute : ParameterBaseAttribute
     public string Alias { get; set; }
 
     /// <summary>
-    /// 格式化
+    /// 时间类型参数格式化
     /// </summary>
     public string Format { get; set; }
 }

@@ -862,11 +862,23 @@ jobDetail.ClearProperties();
 
 ### 26.1.3.5 作业信息特性
 
-作业信息特性是为了方便运行时或启动时快速创建作业计划构建器而提供的，可在启动时或运行时通过以下方式创建：
+作业信息特性 `[JobDetail]` 是为了方便运行时或启动时快速创建作业计划构建器而提供的，可在启动时或运行时通过以下方式创建，如：
+
+```cs showLineNumbers {1}
+[JobDetail("job1")]
+[PeriodSeconds(5, TriggerId = "trigger1")]
+public class MyJob : IJob
+{
+}
+```
+
+- **手动扫描并创建作业计划构建器**
 
 ```cs showLineNumbers
 var schedulerBuilder = typeof(MyJob).ScanToBuilder();
 ```
+
+- **通过程序集类型扫描批量创建作业计划构建器**
 
 也可以用于作业持久化 `Preload` 初始化时使用：
 
@@ -879,16 +891,6 @@ public IEnumerable<SchedulerBuilder> Preload()
 
       // 还可以更简单~~
       return App.EffectiveTypes.ScanToBuilders();
-}
-```
-
-使用如下：
-
-```cs showLineNumbers {1,2}
-[JobDetail("job1")]
-[PeriodSeconds(5, TriggerId = "trigger1")]
-public class MyJob : IJob
-{
 }
 ```
 

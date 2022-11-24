@@ -166,16 +166,22 @@ public class HttpDispatchProxy : AspectDispatchProxy, IDispatchProxy
             {
                 var valueType = item.Value.GetType();
 
+                // 处理时间类型
+                if (valueType == typeof(DateTime)
+                    || valueType == typeof(DateTimeOffset)
+                    || Nullable.GetUnderlyingType(valueType) == typeof(DateTime)    // DateTime?
+                    || Nullable.GetUnderlyingType(valueType) == typeof(DateTimeOffset)) // DateTimeOffset?
+                {
+                    dynamic actValue = item.Value;
+                    parameterQueries.Add(queryStringAttribute.Alias ?? item.Name, actValue.ToString(queryStringAttribute.Format));
+
+                    continue;
+                }
                 // 处理基元类型
-                if (valueType.IsRichPrimitive()
-                    && ((!valueType.IsArray && valueType != typeof(DateTime)) || valueType == typeof(string)))
+                else if (valueType.IsRichPrimitive()
+                     && (!valueType.IsArray || valueType == typeof(string)))
                 {
                     parameterQueries.Add(queryStringAttribute.Alias ?? item.Name, item.Value);
-                }
-                // 处理时间类型
-                else if (valueType == typeof(DateTime))
-                {
-                    parameterQueries.Add(queryStringAttribute.Alias ?? item.Name, ((DateTime)item.Value).ToString(queryStringAttribute.Format));
                 }
                 // 处理集合类型
                 else if (valueType.IsArray

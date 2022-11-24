@@ -56,6 +56,7 @@ import Tag from "@site/src/components/Tag.js";
   - &nbsp;<Tag>新增</Tag> 事件总线支持简单的 `Order` 编排规则 <sup>4.8.0</sup> [833c0d4](https://gitee.com/dotnetchina/Furion/commit/833c0d4d069bca5f5304aa21cb32c7f902c20c69)
   - &nbsp;<Tag>新增</Tag> 远程请求代理模式对于基元类型参数支持自动获取参数名 <sup>4.8.0</sup> [#I60OT6](https://gitee.com/dotnetchina/Furion/issues/I60OT6)
   - &nbsp;<Tag>新增</Tag> 动态 `WebAPI` 自动识别方法的接口参数是否是服务，如果是自动添加 `[FromServices]` 特性 <sup>4.8.0</sup> [fae60a9](https://gitee.com/dotnetchina/Furion/commit/fae60a9c3097ec19ac2b3cd75ce1710ccd3e9294)
+  - &nbsp;<Tag>新增</Tag> 远程请求 `[QueryString]` 特性添加时间格式化 `Format` 属性 <sup>4.8.1.2</sup> [!670](https://gitee.com/dotnetchina/Furion/pulls/670)
   - &nbsp;<Tag>新增</Tag> `Serve.Run` 模式的 `.ConfigureServices` 方法 <sup>4.8.0</sup> [023391b](https://gitee.com/dotnetchina/Furion/commit/023391b428f4239d926c3abb6cb0e2b92a0d738a)
   - &nbsp;<Tag>新增</Tag> `Serve.RunGeneric` 通用泛型主机方法 <sup>4.8.0</sup> [6865f3d](https://gitee.com/dotnetchina/Furion/commit/6865f3d3d890ee3c90901eaa949ad058d34b477d)
   - &nbsp;<Tag>新增</Tag> **`Serve.Run()` 的 `additional` 参数** <sup>4.8.0</sup> [023391b](https://gitee.com/dotnetchina/Furion/commit/023391b428f4239d926c3abb6cb0e2b92a0d738a)
@@ -178,7 +179,7 @@ services.AddMonitorLogging(options =>
   - &nbsp;<Tag>修复</Tag> `Retry.InvokeAsync` 方法如果不传入 `fallbackPolicy` 参数报空异常问题 <sup>4.8.0</sup> [21af847](https://gitee.com/dotnetchina/Furion/commit/21af847b02ae6044d344450620fa4e549480e387)
   - &nbsp;<Tag>修复</Tag> 动态 `WebAPI` 不支持在 `.NET7` 不声明 `[FromServices]` 自动注入问题 <sup>4.8.0</sup> [#I62HP1](https://gitee.com/dotnetchina/Furion/issues/I62HP1)
   - &nbsp;<Tag>修复</Tag> 远程请求 `GetAsStreamAsync()` 报 `System.InvalidOperationException: Response Content-Length mismatch` 异常问题 <sup>4.8.1</sup> [#I62QY4](https://gitee.com/dotnetchina/Furion/issues/I62QY4)
-  - &nbsp;<Tag>修复</Tag> `LoggingMonitor` 配置 `WriteFilter` 不起作用问题 <sup>4.8.1.1</sup> [#I62P52](https://gitee.com/dotnetchina/Furion/issues/I62P52) [90bcfda](https://gitee.com/dotnetchina/Furion/commit/90bcfda4e3af24df399cc6bdb5c558c2bbed2536)
+  - &nbsp;<Tag>修复</Tag> `LoggingMonitor` 配置 `WriteFilter` 不起作用问题 <sup>4.8.1.2</sup> [#I62P52](https://gitee.com/dotnetchina/Furion/issues/I62P52) [90bcfda](https://gitee.com/dotnetchina/Furion/commit/90bcfda4e3af24df399cc6bdb5c558c2bbed2536)
 
 - **文档**
 
