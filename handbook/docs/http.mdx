@@ -4,6 +4,25 @@ title: 19. 远程请求
 sidebar_label: 19. 远程请求 (HttpClient)
 ---
 
+import Tag from "@site/src/components/Tag.js";
+
+<details>
+  <summary>📝 模块更新日志</summary>
+  <div>
+<div>
+
+- **新特性**
+
+  - &nbsp;<Tag>新增</Tag> 远程请求 `[QueryString]` 特性添加时间格式化 `Format` 属性 <sup>4.8.1.2</sup> <sup style={{color:"gray"}}>⏱️2022.11.24</sup> [!670](https://gitee.com/dotnetchina/Furion/pulls/670)
+
+- **文档**
+
+  - &nbsp;<Tag>新增</Tag> 远程请求 `[QueryString]` 配置时间类型 `Format` 格式化文档 <sup>4.8.1.2</sup> <sup style={{color:"gray"}}>⏱️2022.11.25</sup> [!673](https://gitee.com/dotnetchina/Furion/pulls/673)
+
+</div>
+  </div>
+</details>
+
 :::important 版本说明
 
 以下内容仅限 `Furion 1.16.0 +` 版本使用。
@@ -599,7 +618,7 @@ public interface IHttp : IHttpDispatchProxy
 
 ### 19.5.4 设置 `URL` 地址参数
 
-```cs showLineNumbers  {4,7,10,13}
+```cs showLineNumbers  {4,7,10,13,17,21,25}
 public interface IHttp : IHttpDispatchProxy
 {
     [Get("https://www.furion.icu/get/{id}?name={name}")]
@@ -614,9 +633,11 @@ public interface IHttp : IHttpDispatchProxy
     [Get("https://www.furion.icu/get")]
     Task<HttpResponseMessage> GetXXXAsync([QueryString]int id, [QueryString("别名")]string name);
 
+    // Furion 4.8.1.4 新增 [QueryString(Format)] 配置时间类型格式化
     [Get("https://www.furion.icu/get")]
     Task<HttpResponseMessage> GetXXXAsync([QueryString(Format = "yyyy-MM-dd HH:mm:ss")] DateTime queryStartTime, [QueryString(Format = "yyyy-MM-dd HH:mm:ss")] DateTime queryEndTime);
 
+    // Furion 4.8.1.4 新增 [QueryString(Format)] 配置时间类型格式化
     [Get("https://www.furion.icu/get")]
     Task<HttpResponseMessage> GetXXXAsync([QueryString(Format = "yyyy-MM-dd HH:mm:ss")] DateTimeOffset queryStartTime, [QueryString(Format = "yyyy-MM-dd HH:mm:ss")] DateTimeOffset queryEndTime);
 
