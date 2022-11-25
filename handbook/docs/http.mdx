@@ -614,6 +614,12 @@ public interface IHttp : IHttpDispatchProxy
     [Get("https://www.furion.icu/get")]
     Task<HttpResponseMessage> GetXXXAsync([QueryString]int id, [QueryString("别名")]string name);
 
+    [Get("https://www.furion.icu/get")]
+    Task<HttpResponseMessage> GetXXXAsync([QueryString(Format = "yyyy-MM-dd HH:mm:ss")] DateTime queryStartTime, [QueryString(Format = "yyyy-MM-dd HH:mm:ss")] DateTime queryEndTime);
+
+    [Get("https://www.furion.icu/get")]
+    Task<HttpResponseMessage> GetXXXAsync([QueryString(Format = "yyyy-MM-dd HH:mm:ss")] DateTimeOffset queryStartTime, [QueryString(Format = "yyyy-MM-dd HH:mm:ss")] DateTimeOffset queryEndTime);
+
     // Furion 4.7.3 新增 IgnoreNullValueQueries 配置忽略空值
     [Get("https://www.furion.icu/get", IgnoreNullValueQueries = true)]
     Task<HttpResponseMessage> GetXXXAsync([QueryString]int id, [QueryString]string name, [QueryString]string nullValue);
