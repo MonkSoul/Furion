@@ -181,7 +181,8 @@ public sealed class TriggerBuilder : Trigger
                      .SetNumRetries(fromTriggerBuilder.NumRetries)
                      .SetRetryTimeout(fromTriggerBuilder.RetryTimeout)
                      .SetStartNow(fromTriggerBuilder.StartNow)
-                     .SetRunOnStart(fromTriggerBuilder.RunOnStart);
+                     .SetRunOnStart(fromTriggerBuilder.RunOnStart)
+                     .SetResetOnlyOnce(fromTriggerBuilder.ResetOnlyOnce);
     }
 
     /// <summary>
@@ -489,6 +490,7 @@ public sealed class TriggerBuilder : Trigger
 
         if (startNow == false && Status != TriggerStatus.NotStart)
         {
+            NextRunTime = null;
             Status = TriggerStatus.NotStart;
         }
 
@@ -503,6 +505,18 @@ public sealed class TriggerBuilder : Trigger
     public TriggerBuilder SetRunOnStart(bool runOnStart)
     {
         RunOnStart = runOnStart;
+
+        return this;
+    }
+
+    /// <summary>
+    /// 设置是否在启动时重置最大触发次数等于一次的作业
+    /// </summary>
+    /// <param name="resetOnlyOnce">是否在启动时重置最大触发次数等于一次的作业</param>
+    /// <returns><see cref="TriggerBuilder"/></returns>
+    public TriggerBuilder SetResetOnlyOnce(bool resetOnlyOnce)
+    {
+        ResetOnlyOnce = resetOnlyOnce;
 
         return this;
     }

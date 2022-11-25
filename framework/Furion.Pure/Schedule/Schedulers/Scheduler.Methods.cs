@@ -131,6 +131,7 @@ internal sealed partial class Scheduler
         trigger.SetStatus(TriggerStatus.Ready);
         trigger.UpdatedTime = Penetrates.GetNowTime(UseUtcTimestamp);
         trigger.NextRunTime = trigger.CheckRunOnStarAndReturnNextRunTime(UseUtcTimestamp);
+        trigger.ResetMaxNumberOfRunsEqualOnceOnStart(UseUtcTimestamp);
 
         // 将作业触发器运行数据写入持久化
         Factory.Shorthand(JobDetail, trigger);

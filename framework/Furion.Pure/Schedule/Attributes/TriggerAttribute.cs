@@ -131,6 +131,12 @@ public abstract class TriggerAttribute : Attribute
     public bool RunOnStart { get; set; } = false;
 
     /// <summary>
+    /// 是否在启动时重置最大触发次数等于一次的作业
+    /// </summary>
+    /// <remarks>解决因持久化数据已完成一次触发但启动时不再执行的问题</remarks>
+    public bool ResetOnlyOnce { get; set; } = true;
+
+    /// <summary>
     /// 作业触发器运行时起始时间
     /// </summary>
     internal DateTime? RuntimeStartTime { get; set; }

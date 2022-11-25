@@ -113,6 +113,7 @@ internal sealed partial class SchedulerFactory
         foreach (var trigger in internalScheduler.Triggers.Values)
         {
             trigger.NextRunTime = trigger.CheckRunOnStarAndReturnNextRunTime(UseUtcTimestamp);
+            trigger.ResetMaxNumberOfRunsEqualOnceOnStart(UseUtcTimestamp);
         }
 
         // 追加到集合中

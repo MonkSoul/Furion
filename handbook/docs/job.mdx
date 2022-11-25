@@ -4,6 +4,29 @@ title: 26.1 调度作业
 sidebar_label: 26.1 调度作业
 ---
 
+import Tag from "@site/src/components/Tag.js";
+
+<details>
+  <summary>📝 模块更新日志</summary>
+  <div>
+<div>
+
+- **新特性**
+
+  - &nbsp;<Tag>新增</Tag> **作业触发器 `ResetOnlyOnce` 属性，支持只运行一次的作业重新启动服务重复执行** <sup>4.8.1.5</sup> <sup style={{color:"gray"}}>⏱️2022.11.25</sup>
+
+- **问题修复**
+
+  - &nbsp;<Tag>修复</Tag> 作业触发器不符合下一次执行规律但 `NextRunTime` 不为 `null` 情况 <sup>4.8.1.5</sup> <sup style={{color:"gray"}}>⏱️2022.11.25</sup>
+
+- **文档**
+
+  - &nbsp;<Tag>新增</Tag> 作业触发器 `ResetOnlyOnce` 文档 <sup>4.8.1.5</sup> <sup style={{color:"gray"}}>⏱️2022.11.25</sup>
+
+</div>
+  </div>
+</details>
+
 :::warning 4.8.0 以下版本说明
 
 **在 `Furion 4.8.0+` 版本采用 [Sundial](https://gitee.com/dotnetchina/Sundial) 定时任务替换原有的 `TaskScheduler`**，[查看旧文档](/docs/job-old)
@@ -284,7 +307,8 @@ info: 2022-11-17 17:13:41.0480946 +08:00 星期四 L MyJob[0] #5
         "numRetries": 0,
         "retryTimeout": 1000,
         "startNow": true,
-        "runOnStart": fals,
+        "runOnStart": false,
+        "resetOnlyOnce": true,
         "updatedTime": "2022-11-17T17:13:41.0250214+08:00"
       }
       }
@@ -316,7 +340,7 @@ public class MyJob : IJob
 
 查看作业打印结果：
 
-```json showLineNumbers {2-12,14-34}
+```json showLineNumbers {2-12,14-35}
 info: 2022-11-17 17:17:15.0441407 +08:00 星期四 L MyJob[0] #3
       {
         "jobId": "job1",
@@ -350,6 +374,7 @@ info: 2022-11-17 17:17:15.0503546 +08:00 星期四 L MyJob[0] #3
         "retry_timeout": 1000,
         "start_now": true,
         "run_on_start": false,
+        "reset_only_once": true,
         "updated_time": "2022-11-17T17:17:15.0109612+08:00"
       }
 ```
@@ -430,6 +455,7 @@ info: 2022-11-17 17:35:11.1190961 +08:00 星期四 L MyJob[0] #9
             [retry_timeout] = 1000,
             [start_now] = 1,
             [run_on_start] = 0,
+            [reset_only_once] = 1,
             [updated_time] = '2022/11/17 17:35:11'
       WHERE [trigger_id] = 'job1_trigger1' AND [job_id] = 'job1';
 ```
@@ -498,6 +524,7 @@ info: 2022-11-17 17:39:09.1133162 +08:00 星期四 L MyJob[0] #3
       ┣ RetryTimeout：             1000
       ┣ StartNow：                 True
       ┣ RunOnStart：               False
+      ┣ ResetOnlyOnce：            True
       ┣ UpdatedTime：              2022/11/17 17:39:09
       ┗━━━━━━━━━━━  Trigger ━━━━━━━━━━━
 ```
@@ -894,7 +921,7 @@ public IEnumerable<SchedulerBuilder> Preload()
 }
 ```
 
------
+---
 
 **作业信息特性还提供了多个属性配置**，如：
 
@@ -1227,6 +1254,7 @@ public class MyJob : IJob
 | `RetryTimeout`      | `int`           | `1000`  | 重试间隔时间，毫秒单位                                               |
 | `StartNow`          | `bool`          | `true`  | 是否立即启动                                                         |
 | `RunOnStart`        | `bool`          | `false` | 是否启动时执行一次                                                   |
+| `ResetOnlyOnce`     | `bool`          | `true`  | 是否在启动时重置最大触发次数等于一次的作业                           |
 | `UpdatedTime`       | `DateTime?`     |         | 作业触发器更新时间                                                   |
 
 ### 26.1.5.2 作业触发器状态
@@ -1285,7 +1313,7 @@ var triggerBuilder = trigger.GetBuilder();
 
 该方式非常灵活，可从配置文件，`JSON` 字符串，或其他能够返回 `JSON` 字符串的地方创建。
 
-```cs showLineNumbers {2-23}
+```cs showLineNumbers {2-24}
 var triggerBuilder = TriggerBuilder.From(@"
 {
     ""triggerId"": ""job1_trigger1"",
@@ -1306,13 +1334,14 @@ var triggerBuilder = TriggerBuilder.From(@"
     ""retryTimeout"": 1000,
     ""startNow"": true,
     ""runOnStart"": false,
+    ""resetOnlyOnce"": true,
     ""updatedTime"": ""2022-11-20T18:31:56.7233630+08:00""
 }");
 ```
 
 如果使用的是 `.NET7`，可使用 `"""` 避免转义，如：
 
-```cs showLineNumbers {2-23}
+```cs showLineNumbers {2-24}
 var triggerBuilder = TriggerBuilder.From("""
 {
     "triggerId": "job1_trigger1",
@@ -1333,6 +1362,7 @@ var triggerBuilder = TriggerBuilder.From("""
     "retryTimeout": 1000,
     "startNow": true,
     "runOnStart": false,
+    "resetOnlyOnce": true,
     "updatedTime": "2022-11-20T18:31:56.7233630+08:00"
 }
 """);
@@ -1354,7 +1384,7 @@ var triggerBuilder = TriggerBuilder.Clone(fromTriggerBuilder);
 
 :::important 克隆说明
 
-克隆操作只会克隆 `AssemblyName`，`TriggerType`，`Args`，`Description`，`StartTime`，`EndTime`，`MaxNumberOfRuns`，`MaxNumberOfErrors`，`NumRetries`，`RetryTimeout`，`StartNow`，`RunOnStart`。
+克隆操作只会克隆 `AssemblyName`，`TriggerType`，`Args`，`Description`，`StartTime`，`EndTime`，`MaxNumberOfRuns`，`MaxNumberOfErrors`，`NumRetries`，`RetryTimeout`，`StartNow`，`RunOnStart`，`ResetOnlyOnce`。
 
 **不会克隆 `TriggerId`，`JobId`，`Status`，`LastRunTime`，`NextRunTime`，`NumberOfRuns`，`NumberOfErrors`，`UpdatedTime`。**
 
@@ -1720,6 +1750,7 @@ info: 2022-11-20 22:16:34.1034905 +08:00 星期日 L ConsoleApp13.MyJob[0] #6
 - `RetryTimeout`：重试间隔时间，`int` 类型，默认值 `1000`
 - `StartNow`：是否立即启动，`bool` 类型，默认值 `true`
 - `RunOnStart`：是否启动时执行一次，`bool` 类型，默认值 `false`
+- `ResetOnlyOnce`：是否在启动时重置最大触发次数等于一次的作业，`bool` 类型，默认值 `true`
 
 使用如下：
 
@@ -1733,7 +1764,7 @@ public class MyJob : IJob
 
 `TriggerBuilder` 提供了和 `Trigger` 完全匹配的 `Set[属性名]` 方法来配置作业触发器各个属性，如：
 
-```cs showLineNumbers {3,26}
+```cs showLineNumbers {3,27}
  services.AddSchedule(options =>
  {
      var triggerBuilder = Triggers.Period(5000)
@@ -1757,6 +1788,7 @@ public class MyJob : IJob
          .SetRetryTimeout(1000)  // 作业触发器重试间隔时间
          .SetStartNow(true)  // 作业触发器是否立即启动
          .SetRunOnStart(false)    // 作业触发器是否启动时执行一次
+         .SetResetOnlyOnce(true)    // 作业触发器是否在启动时重置最大触发次数等于一次的作业
          ;
 
      options.AddJob<MyJob>(triggerBuilder);
@@ -1796,6 +1828,7 @@ var json = trigger.ConvertToJSON();
   "retryTimeout": 1000,
   "startNow": true,
   "runOnStart": false,
+  "resetOnlyOnce": true,
   "updatedTime": "2022-11-20T22:25:03.8386511+08:00"
 }
 ```
@@ -1827,7 +1860,7 @@ var updateSql = trigger.ConvertToUpdateSQL("tbName", NamingConventions.UnderScor
 
 字符串打印如下：
 
-```sql showLineNumbers {2,48,52}
+```sql showLineNumbers {2,50,54}
 -- 新增语句
 INSERT INTO tbName(
       [triggerId],
@@ -1849,6 +1882,7 @@ INSERT INTO tbName(
       [retryTimeout],
       [startNow],
       [runOnStart],
+      [resetOnlyOnce],
       [updatedTime]
 )
 VALUES(
@@ -1871,6 +1905,7 @@ VALUES(
       1000,
       1,
       0,
+      1,
       '2022/11/20 22:27:47'
 );
 
@@ -1900,6 +1935,7 @@ SET
       [retry_timeout] = 1000,
       [start_now] = 1,
       [run_on_start] = 0,
+      [reset_only_once] = 1,
       [updated_time] = '2022/11/20 22:27:47'
 WHERE [trigger_id] = 'job1_trigger1' AND [job_id] = 'job1';
 ```
@@ -1935,6 +1971,7 @@ var monitor = trigger.ConvertToMonitor();
 ┣ retryTimeout：             1000
 ┣ startNow：                 True
 ┣ runOnStart：               False
+┣ resetOnlyOnce：            True
 ┣ updatedTime：              2022/11/20 22:30:41
 ┗━━━━━━━━━━━  Trigger ━━━━━━━━━━━
 ```
@@ -2020,6 +2057,7 @@ var schedulerBuilder = SchedulerBuilder.From(@"
             ""retryTimeout"": 1000,
             ""startNow"": true,
             ""runOnStart"": false,
+            ""resetOnlyOnce"": true,
             ""updatedTime"": ""2022-11-20T18:31:56.7233630+08:00""
         }
     ]
@@ -2068,6 +2106,7 @@ var schedulerBuilder = SchedulerBuilder.From("""
             "retryTimeout": 1000,
             "startNow": true,
             "runOnStart": false,
+            "resetOnlyOnce": true,
             "updatedTime": "2022-11-20T18:31:56.7233630+08:00"
         }
     ]
@@ -2195,6 +2234,7 @@ var json = schedulerBuilder.ConvertToJSON();
       "retryTimeout": 1000,
       "startNow": true,
       "runOnStart": false,
+      "resetOnlyOnce": true,
       "updatedTime": "2022-11-20T18:31:56.7233630+08:00"
     }
   ]
@@ -3013,6 +3053,7 @@ var json scheduler.ConvertToJSON();
       "retryTimeout": 1000,
       "startNow": true,
       "runOnStart": false,
+      "resetOnlyOnce": true,
       "updatedTime": "2022-11-20T18:31:56.7233630+08:00"
     }
   ]
@@ -3293,6 +3334,7 @@ CREATE TABLE "JobTriggers" (
     "RetryTimeout" INTEGER NOT NULL,
     "StartNow" INTEGER NOT NULL,
     "RunOnStart" INTEGER NOT NULL,
+    "ResetOnlyOnce" INTEGER NOT NULL,
     "UpdatedTime" TEXT NULL
 );
 ```
@@ -3339,6 +3381,7 @@ CREATE TABLE [JobTriggers] (
     [RetryTimeout] int NOT NULL,
     [StartNow] bit NOT NULL,
     [RunOnStart] bit NOT NULL,
+    [ResetOnlyOnce] bit NOT NULL,
     [UpdatedTime] datetime2 NULL,
     CONSTRAINT [PK_JobTriggers] PRIMARY KEY ([Id])
 );
@@ -3387,6 +3430,7 @@ CREATE TABLE `JobTriggers` (
     `RetryTimeout` int NOT NULL,
     `StartNow` tinyint(1) NOT NULL,
     `RunOnStart` tinyint(1) NOT NULL,
+    `ResetOnlyOnce` tinyint(1) NOT NULL,
     `UpdatedTime` datetime(6) NULL,
     CONSTRAINT `PK_JobTriggers` PRIMARY KEY (`Id`)
 ) CHARACTER SET=utf8mb4;
@@ -3433,6 +3477,7 @@ CREATE TABLE "JobTriggers" (
     "RetryTimeout" integer NOT NULL,
     "StartNow" boolean NOT NULL,
     "RunOnStart" boolean NOT NULL,
+    "ResetOnlyOnce" boolean NOT NULL,
     "UpdatedTime" timestamp with time zone NULL,
     CONSTRAINT "PK_JobTriggers" PRIMARY KEY ("Id")
 );
@@ -3479,6 +3524,7 @@ CREATE TABLE "JobTriggers" (
     "RetryTimeout" NUMBER(10) NOT NULL,
     "StartNow" NUMBER(1) NOT NULL,
     "RunOnStart" NUMBER(1) NOT NULL,
+    "ResetOnlyOnce" NUMBER(1) NOT NULL,
     "UpdatedTime" TIMESTAMP(7),
     CONSTRAINT "PK_JobTriggers" PRIMARY KEY ("Id")
 );
@@ -3525,6 +3571,7 @@ CREATE TABLE "JobTriggers" (
     "RetryTimeout" INTEGER NOT NULL,
     "StartNow" BOOLEAN NOT NULL,
     "RunOnStart" BOOLEAN NOT NULL,
+    "ResetOnlyOnce" BOOLEAN NOT NULL,
     "UpdatedTime" TIMESTAMP,
     CONSTRAINT "PK_JobTriggers" PRIMARY KEY ("Id")
 );
@@ -3703,6 +3750,12 @@ public class JobTrigger
     /// 是否启动时执行一次
     /// </summary>
     public bool RunOnStart { get; set; } = false;
+
+    /// <summary>
+    /// 是否在启动时重置最大触发次数等于一次的作业
+    /// </summary>
+    /// <remarks>解决因持久化数据已完成一次触发但启动时不再执行的问题</remarks>
+    public bool ResetOnlyOnce { get; set; } = true;
 
     /// <summary>
     /// 作业触发器更新时间
@@ -3903,6 +3956,13 @@ public class JobTrigger
     /// </summary>
     [SugarColumn(ColumnDescription = "是否启动时执行一次")]
     public bool RunOnStart { get; set; } = false;
+
+    /// <summary>
+    /// 是否在启动时重置最大触发次数等于一次的作业
+    /// </summary>
+    /// <remarks>解决因持久化数据已完成一次触发但启动时不再执行的问题</remarks>
+    [SugarColumn(ColumnDescription = "是否在启动时重置最大触发次数等于一次的作业")]
+    public bool ResetOnlyOnce { get; set; } = true;
 
     /// <summary>
     /// 更新时间

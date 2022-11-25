@@ -183,7 +183,7 @@ internal sealed class ScheduleHostedService : BackgroundService
                 trigger.SetStatus(TriggerStatus.Running);
 
                 // 记录运行信息和计算下一个触发时间
-                trigger.Increment(UseUtcTimestamp);
+                trigger.Increment(jobDetail, checkTime, UseUtcTimestamp);
 
                 // 将作业触发器运行数据写入持久化
                 _schedulerFactory.Shorthand(jobDetail, trigger);
@@ -234,7 +234,7 @@ internal sealed class ScheduleHostedService : BackgroundService
                         catch (Exception ex)
                         {
                             // 记录错误信息，包含错误次数和运行状态
-                            trigger.IncrementErrors();
+                            trigger.IncrementErrors(jobDetail, checkTime);
 
                             // 将作业触发器运行数据写入持久化
                             _schedulerFactory.Shorthand(jobDetail, trigger);
@@ -340,7 +340,7 @@ internal sealed class ScheduleHostedService : BackgroundService
             trigger.SetStatus(TriggerStatus.Blocked);
 
             // 记录运行信息和计算下一个触发时间
-            trigger.Increment(UseUtcTimestamp);
+            trigger.Increment(jobDetail, checkTime, UseUtcTimestamp);
 
             // 将作业触发器运行数据写入持久化
             _schedulerFactory.Shorthand(jobDetail, trigger);

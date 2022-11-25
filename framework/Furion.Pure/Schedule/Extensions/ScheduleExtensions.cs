@@ -116,7 +116,8 @@ public static class ScheduleExtensions
                 .SetStartTime(triggerAttribute.RuntimeStartTime)
                 .SetEndTime(triggerAttribute.RuntimeEndTime)
                 .SetStartNow(triggerAttribute.StartNow)
-                .SetRunOnStart(triggerAttribute.RunOnStart);
+                .SetRunOnStart(triggerAttribute.RunOnStart)
+                .SetResetOnlyOnce(triggerAttribute.ResetOnlyOnce);
 
             triggerBuilders.Add(triggerBuilder);
         }

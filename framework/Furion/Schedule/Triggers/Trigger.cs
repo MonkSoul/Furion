@@ -157,6 +157,13 @@ public partial class Trigger
     public bool RunOnStart { get; internal set; } = false;
 
     /// <summary>
+    /// 是否在启动时重置最大触发次数等于一次的作业
+    /// </summary>
+    /// <remarks>解决因持久化数据已完成一次触发但启动时不再执行的问题</remarks>
+    [JsonInclude]
+    public bool ResetOnlyOnce { get; internal set; } = true;
+
+    /// <summary>
     /// 作业触发器更新时间
     /// </summary>
     [JsonInclude]
