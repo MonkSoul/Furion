@@ -22,6 +22,7 @@ import Tag from "@site/src/components/Tag.js";
 - **文档**
 
   - &nbsp;<Tag>新增</Tag> 作业触发器 `ResetOnlyOnce` 文档 <sup>4.8.1.5</sup> <sup style={{color:"gray"}}>⏱️2022.11.25</sup> [a8be728](https://gitee.com/dotnetchina/Furion/commit/a8be728eac986ebc5f44718b08c67aaee8b89dc6)
+  - &nbsp;<Tag>新增</Tag> **通过 `Roslyn` 动态编译代码创建 `IJob` 类型文档** <sup>4.8.1.5</sup> <sup style={{color:"gray"}}>⏱️2022.11.25</sup>
 
 </div>
   </div>
@@ -1226,6 +1227,108 @@ public class MyJob : IJob
 ```
 
 这样当作业被取消时，`SomeMethodAsync` 也会同步取消。
+
+### 26.1.4.5 使用 `Roslyn/Natasha` 动态创建
+
+按照程序开发的正常思维，理应先在代码中创建作业处理程序类型，但我们可以借助 `Roslyn` 动态编译 `C#` 代码。
+
+1. **编辑启动项目 `.csproj` 文件，添加 `<PreserveCompilationContext>true</PreserveCompilationContext>`**
+
+```xml showLineNumbers {3}
+<PropertyGroup>
+      <TargetFramework>net7.0</TargetFramework>
+      <PreserveCompilationContext>true</PreserveCompilationContext>
+</PropertyGroup>
+```
+
+2. **安装 `DotNetCore.Natasha.CSharp` 拓展包**
+
+[DotNetCore.Natasha.CSharp](https://github.com/dotnetcore/Natasha) 是国人基于 `Roslyn` 开发的非常强大的动态编译 `C#` 库。
+
+```bash showLineNumbers
+dotnet add package DotNetCore.Natasha.CSharp
+```
+
+3. **根据字符串创建 `IJob` 类型**
+
+```cs showLineNumbers {2,4,9-31,35}
+// 初始化
+NatashaInitializer.Preheating();
+// 创建程序集（可自定义编写程序集名称）
+var oop = new AssemblyCSharpBuilder("JobAssembly");
+oop.Domain = DomainManagement.Random();
+
+// 添加代码
+oop.Add(@"
+using Furion.Schedule;
+using Microsoft.Extensions.Logging;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
+
+namespace YourProject;
+
+public class MyJob : IJob
+{
+    private readonly ILogger<MyJob> _logger;
+
+    public MyJob(ILogger<MyJob> logger)
+    {
+        _logger = logger;
+    }
+
+    public async Task ExecuteAsync(JobExecutingContext context, CancellationToken stoppingToken)
+    {
+        _logger.LogInformation($""{context.JobDetail} {context.Trigger} {context.OccurrenceTime} {context.JobDetail.AssemblyName} {context.JobDetail.JobType}"");
+        await Task.CompletedTask;
+    }
+}
+");
+
+// 生成运行时 MyJob 类型
+var jobType = oop.GetTypeFromShortName("MyJob");
+```
+
+4. **注册作业**
+
+```cs showLineNumbers {3}
+services.AddSchedule(options =>
+{
+      options.AddJob(JobBuilder.Create(jobType)
+            , Triggers.PeriodSeconds(5));
+});
+```
+
+查看作业执行日志：
+
+```bash showLineNumbers {12,14,16,18}
+info: 2022-11-25 13:45:49.0150463 +08:00 星期五 L System.Logging.ScheduleService[0] #1
+      Schedule Hosted Service is running.
+info: 2022-11-25 13:45:49.0208313 +08:00 星期五 L System.Logging.ScheduleService[0] #1
+      Schedule Hosted Service is preloading.
+info: 2022-11-25 13:45:49.0406977 +08:00 星期五 L System.Logging.ScheduleService[0] #1
+      The Scheduler of <job1> successfully added to the schedule.
+warn: 2022-11-25 13:45:49.0803822 +08:00 星期五 L System.Logging.ScheduleService[0] #1
+      Schedule Hosted Service cancels hibernation and GC.Collect().
+info: 2022-11-25 13:45:49.0969060 +08:00 星期五 L System.Logging.ScheduleService[0] #1
+      Schedule Hosted Service preload completed, and a total of <1> schedulers are added.
+info: 2022-11-25 13:45:54.0695285 +08:00 星期五 L YourProject.MyJob[0] #13
+      <job1>  <job1 job1_trigger1>  5000ms 2022/11/25 13:45:54 JobAssembly YourProject.MyJob
+info: 2022-11-25 13:45:59.0700268 +08:00 星期五 L YourProject.MyJob[0] #12
+      <job1>  <job1 job1_trigger1>  5000ms 2022/11/25 13:45:59 JobAssembly YourProject.MyJob
+info: 2022-11-25 13:46:04.0854646 +08:00 星期五 L YourProject.MyJob[0] #11
+      <job1>  <job1 job1_trigger1>  5000ms 2022/11/25 13:46:04 JobAssembly YourProject.MyJob
+info: 2022-11-25 13:46:09.0924123 +08:00 星期五 L YourProject.MyJob[0] #9
+      <job1>  <job1 job1_trigger1>  5000ms 2022/11/25 13:46:09 JobAssembly YourProject.MyJob
+```
+
+**惊不惊喜，意外意外~**。
+
+:::tip 小知识
+
+通过 `Roslyn` 的方式支持创建 `IJob`，`JobDetail`，`Trigger`，`Scheduler` 哦，自行测试。😊
+
+:::
 
 ## 26.1.5 作业触发器 `Trigger` 及构建器
 
