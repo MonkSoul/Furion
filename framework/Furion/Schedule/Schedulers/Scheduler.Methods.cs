@@ -120,24 +120,31 @@ internal sealed partial class Scheduler
     /// <returns><see cref="bool"/></returns>
     public bool StartTrigger(string triggerId, bool immediately = true)
     {
-        var trigger = GetTrigger(triggerId);
-        if (trigger == null) return false;
+        // 获取作业触发器构建器
+        var schedulerBuilder = GetBuilder();
+        var triggerBuilder = schedulerBuilder.GetTriggerBuilder(triggerId);
 
-        trigger.StartNow = true;
+        // 空检查
+        if (triggerBuilder == null)
+        {
+            // 输出日志
+            Logger.LogWarning("The <{triggerId}> trigger for scheduler of <{jobId}> is not found.", triggerId, JobId);
 
-        // 如果不是暂停状态，则终止执行
-        if (trigger.Status != TriggerStatus.Pause) return false;
+            return false;
+        }
 
-        trigger.SetStatus(TriggerStatus.Ready);
-        trigger.UpdatedTime = Penetrates.GetNowTime(UseUtcTimestamp);
-        trigger.NextRunTime = trigger.CheckRunOnStarAndReturnNextRunTime(UseUtcTimestamp);
-        trigger.ResetMaxNumberOfRunsEqualOnceOnStart(UseUtcTimestamp);
+        triggerBuilder.StartNow = true;
+        triggerBuilder.SetStatus(TriggerStatus.Ready);
 
-        // 将作业触发器运行数据写入持久化
-        Factory.Shorthand(JobDetail, trigger);
+        // 更新作业触发器构建器
+        schedulerBuilder.UpdateTriggerBuilder(triggerBuilder);
 
-        // 取消作业调度器休眠状态（强制唤醒）
-        if (immediately) Factory.CancelSleep();
+        // 更新作业
+        var scheduleResult = Factory.TryUpdateJob(schedulerBuilder, out _, immediately);
+        if (scheduleResult != ScheduleResult.Succeed)
+        {
+            return false;
+        }
 
         // 输出日志
         Logger.LogInformation("The <{triggerId}> trigger for scheduler of <{JobId}> successfully started to the schedule.", triggerId, JobId);
@@ -153,20 +160,30 @@ internal sealed partial class Scheduler
     /// <returns><see cref="bool"/></returns>
     public bool PauseTrigger(string triggerId, bool immediately = true)
     {
-        var trigger = GetTrigger(triggerId);
-        if (trigger == null) return false;
+        // 获取作业触发器构建器
+        var schedulerBuilder = GetBuilder();
+        var triggerBuilder = schedulerBuilder.GetTriggerBuilder(triggerId);
 
-        // 如果状态已经时暂停状态，则不操作
-        if (trigger.Status == TriggerStatus.Pause) return false;
+        // 空检查
+        if (triggerBuilder == null)
+        {
+            // 输出日志
+            Logger.LogWarning("The <{triggerId}> trigger for scheduler of <{jobId}> is not found.", triggerId, JobId);
 
-        trigger.SetStatus(TriggerStatus.Pause);
-        trigger.UpdatedTime = Penetrates.GetNowTime(UseUtcTimestamp);
+            return false;
+        }
 
-        // 将作业触发器运行数据写入持久化
-        Factory.Shorthand(JobDetail, trigger);
+        triggerBuilder.SetStatus(TriggerStatus.Pause);
 
-        // 取消作业调度器休眠状态（强制唤醒）
-        if (immediately) Factory.CancelSleep();
+        // 更新作业触发器构建器
+        schedulerBuilder.UpdateTriggerBuilder(triggerBuilder);
+
+        // 更新作业
+        var scheduleResult = Factory.TryUpdateJob(schedulerBuilder, out _, immediately);
+        if (scheduleResult != ScheduleResult.Succeed)
+        {
+            return false;
+        }
 
         // 输出日志
         Logger.LogInformation("The <{triggerId}> trigger for scheduler of <{JobId}> successfully paused to the schedule.", triggerId, JobId);

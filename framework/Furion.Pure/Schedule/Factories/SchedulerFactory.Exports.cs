@@ -105,6 +105,7 @@ internal sealed partial class SchedulerFactory
         var jobType = internalScheduler.JobDetail.RuntimeJobType;
         if (jobType != null)
         {
+            internalScheduler.JobHandler = null;
             internalScheduler.JobHandler = (_serviceProvider.GetService(jobType)
             ?? ActivatorUtilities.CreateInstance(_serviceProvider, jobType)) as IJob;
         }
@@ -114,6 +115,7 @@ internal sealed partial class SchedulerFactory
         {
             trigger.NextRunTime = trigger.CheckRunOnStarAndReturnNextRunTime(UseUtcTimestamp);
             trigger.ResetMaxNumberOfRunsEqualOnceOnStart(UseUtcTimestamp);
+            trigger.CheckNextOccurrence(internalScheduler.JobDetail, Penetrates.GetUnspecifiedNowTime(UseUtcTimestamp));
         }
 
         // 追加到集合中
@@ -347,6 +349,7 @@ internal sealed partial class SchedulerFactory
         // 获取更新后的作业计划
         var schedulerForUpdated = schedulerBuilder.Build(_schedulers.Count + 1);
         schedulerForUpdated.JobDetail.UpdatedTime = updatedTime;
+        schedulerForUpdated.JobDetail.Blocked = false;
 
         // 存储作业计划工厂
         schedulerForUpdated.Factory = this;
@@ -357,6 +360,7 @@ internal sealed partial class SchedulerFactory
         var jobType = schedulerForUpdated.JobDetail.RuntimeJobType;
         if (jobType != null)
         {
+            schedulerForUpdated.JobHandler = null;
             schedulerForUpdated.JobHandler = (_serviceProvider.GetService(jobType)
             ?? ActivatorUtilities.CreateInstance(_serviceProvider, jobType)) as IJob;
         }
@@ -365,6 +369,8 @@ internal sealed partial class SchedulerFactory
         foreach (var triggerForUpdated in schedulerForUpdated.Triggers.Values)
         {
             triggerForUpdated.NextRunTime = triggerForUpdated.GetNextRunTime(UseUtcTimestamp);
+            triggerForUpdated.CheckNextOccurrence(schedulerForUpdated.JobDetail, Penetrates.GetUnspecifiedNowTime(UseUtcTimestamp));
+
             triggerForUpdated.UpdatedTime = updatedTime;
         }
 

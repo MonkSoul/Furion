@@ -215,10 +215,15 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory
     /// </summary>
     public void CancelSleep()
     {
-        if (!_sleepCancellationTokenSource.IsCancellationRequested) _sleepCancellationTokenSource.Cancel();
-
-        // 重新初始化作业调度器取消休眠 Token
-        CreateCancellationTokenSource();
+        try
+        {
+            _sleepCancellationTokenSource.Cancel(true);
+        }
+        catch
+        {
+            // 重新初始化作业调度器取消休眠 Token
+            CreateCancellationTokenSource();
+        }
     }
 
     /// <summary>

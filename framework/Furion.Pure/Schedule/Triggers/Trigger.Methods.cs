@@ -256,7 +256,7 @@ public partial class Trigger
         // 下一次运行时间空判断
         if (NextRunTime == null)
         {
-            SetStatus(TriggerStatus.Unoccupied);
+            if (IsNormalStatus()) SetStatus(TriggerStatus.Unoccupied);
             return false;
         }
 

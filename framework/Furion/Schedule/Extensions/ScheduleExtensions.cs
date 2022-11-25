@@ -132,8 +132,9 @@ public static class ScheduleExtensions
     /// <param name="source">源对象</param>
     /// <param name="target">目标类型对象</param>
     /// <param name="ignoreNullValue">忽略空值</param>
+    /// <param name="ignorePropertyNames">忽略属性名</param>
     /// <returns>目标类型对象</returns>
-    internal static TTarget MapTo<TTarget>(this object source, object target = default, bool ignoreNullValue = false)
+    internal static TTarget MapTo<TTarget>(this object source, object target = default, bool ignoreNullValue = false, string[] ignorePropertyNames = default)
         where TTarget : class
     {
         if (source == null) return default;
@@ -153,20 +154,41 @@ public static class ScheduleExtensions
         {
             var propertyName = property.Name;
 
+            // 多种属性命名解析
+            var camelCasePropertyName = Penetrates.GetNaming(propertyName, NamingConventions.CamelCase);
+            var pascalPropertyName = Penetrates.GetNaming(propertyName, NamingConventions.Pascal);
+            var underScoreCasePropertyName = Penetrates.GetNaming(propertyName, NamingConventions.UnderScoreCase);
+
+            // 处理忽略属性问题
+            if (ignorePropertyNames != null && ignorePropertyNames.Length > 0)
+            {
+                if (ignorePropertyNames.Contains(propertyName, StringComparer.OrdinalIgnoreCase)
+                    || ignorePropertyNames.Contains(camelCasePropertyName, StringComparer.OrdinalIgnoreCase)
+                    || ignorePropertyNames.Contains(pascalPropertyName, StringComparer.OrdinalIgnoreCase)
+                    || ignorePropertyNames.Contains(underScoreCasePropertyName, StringComparer.OrdinalIgnoreCase))
+                {
+                    continue;
+                }
+            }
+
             // 下面代码使用 ”套娃“ 方式~~
-            // 查找 CamelCase 属性命名
-            var sourceProperty = sourceType.GetProperty(Penetrates.GetNaming(propertyName, NamingConventions.CamelCase), bindFlags);
+            var sourceProperty = sourceType.GetProperty(propertyName, bindFlags);
             if (sourceProperty == null)
             {
-                // 查找 Pascal 属性命名
-                sourceProperty = sourceType.GetProperty(Penetrates.GetNaming(propertyName, NamingConventions.Pascal), bindFlags);
+                // 查找 CamelCase 属性命名
+                sourceProperty = sourceType.GetProperty(camelCasePropertyName, bindFlags);
                 if (sourceProperty == null)
                 {
-                    // 查找 UnderScoreCase 属性命名
-                    sourceProperty = sourceType.GetProperty(Penetrates.GetNaming(propertyName, NamingConventions.UnderScoreCase), bindFlags);
+                    // 查找 Pascal 属性命名
+                    sourceProperty = sourceType.GetProperty(pascalPropertyName, bindFlags);
                     if (sourceProperty == null)
                     {
-                        continue;
+                        // 查找 UnderScoreCase 属性命名
+                        sourceProperty = sourceType.GetProperty(underScoreCasePropertyName, bindFlags);
+                        if (sourceProperty == null)
+                        {
+                            continue;
+                        }
                     }
                 }
             }
