@@ -105,7 +105,7 @@ internal sealed partial class SchedulerFactory
         var jobType = internalScheduler.JobDetail.RuntimeJobType;
         if (jobType != null)
         {
-            internalScheduler.JobHandler = null;
+            internalScheduler.JobHandler = null;    // 释放引用
             internalScheduler.JobHandler = (_serviceProvider.GetService(jobType)
             ?? ActivatorUtilities.CreateInstance(_serviceProvider, jobType)) as IJob;
         }
@@ -466,7 +466,7 @@ internal sealed partial class SchedulerFactory
         var jobType = schedulerForUpdated.JobDetail.RuntimeJobType;
         if (jobType != null)
         {
-            schedulerForUpdated.JobHandler = null;
+            schedulerForUpdated.JobHandler = null;  // 释放引用
             schedulerForUpdated.JobHandler = (_serviceProvider.GetService(jobType)
             ?? ActivatorUtilities.CreateInstance(_serviceProvider, jobType)) as IJob;
         }

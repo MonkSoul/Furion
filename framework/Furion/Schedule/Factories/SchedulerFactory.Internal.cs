@@ -217,6 +217,7 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory
     {
         try
         {
+            // 取消休眠，如果存在错误立即抛出
             _sleepCancellationTokenSource.Cancel(true);
         }
         catch

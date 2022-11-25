@@ -2390,7 +2390,7 @@ services.AddSchedule(options =>
 
 - **内置方法配置**
 
-```cs showLineNumbers {4-9,12,15,18}
+```cs showLineNumbers {4-13,16,19,22}
 services.AddSchedule(options =>
 {
       // 添加作业
@@ -2400,6 +2400,10 @@ services.AddSchedule(options =>
       options.AddJob<MyJob>("作业 Id", triggerBuilder, ...);
       options.AddJob<MyJob>("作业 Id", concurrent: true, triggerBuilder, ...);
       options.AddJob<MyJob>(concurrent: true, triggerBuilder, ...);
+      options.AddJob(typeof(MyJob), triggerBuilder, ...);
+      options.AddJob(typeof(MyJob), "作业 Id", triggerBuilder, ...);
+      options.AddJob(typeof(MyJob), "作业 Id", concurrent: true, triggerBuilder, ...);
+      options.AddJob(typeof(MyJob), concurrent: true, triggerBuilder, ...);
 
       // 添加作业执行监视器
       options.AddMonitor<YourJobMonitor>();
@@ -2773,6 +2777,46 @@ info: 2022-11-21 16:24:03.5834532 +08:00 星期一 L System.Logging.ScheduleServ
       The Scheduler of <job1> successfully added to the schedule.
 warn: 2022-11-21 16:24:03.5876747 +08:00 星期一 L System.Logging.ScheduleService[0] #8
       The JobId of <job1> already exists.
+```
+
+- **还有其他更多重载方式**
+
+```cs showLineNumbers {1,5,8,13,17,23,28,33}
+_schedulerFactory.TryAddJob(typeof(MyJob)
+            , new[] { Triggers.PeriodSeconds(10) }
+            , out var scheduler);
+
+_schedulerFactory.AddJob(typeof(MyJob)
+            , Triggers.PeriodSeconds(10));
+
+_schedulerFactory.TryAddJob(typeof(MyJob)
+            , "作业 Id"
+            , new[] { Triggers.PeriodSeconds(10) }
+            , out var scheduler);
+
+_schedulerFactory.AddJob(typeof(MyJob)
+            , "作业 Id"
+            , Triggers.PeriodSeconds(10));
+
+_schedulerFactory.TryAddJob(typeof(MyJob)
+            , "作业 Id"
+            , true
+            , new[] { Triggers.PeriodSeconds(10) }
+            , out var scheduler);
+
+_schedulerFactory.AddJob(typeof(MyJob)
+            , "作业 Id"
+            , true
+            , Triggers.PeriodSeconds(10));
+
+_schedulerFactory.TryAddJob(typeof(MyJob)
+            , true
+            , new[] { Triggers.PeriodSeconds(10) }
+            , out var scheduler);
+
+_schedulerFactory.AddJob(typeof(MyJob)
+            , true
+            , Triggers.PeriodSeconds(10));
 ```
 
 ### 26.1.10.5 更新作业
