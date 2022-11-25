@@ -22,7 +22,7 @@ import Tag from "@site/src/components/Tag.js";
 - **文档**
 
   - &nbsp;<Tag>新增</Tag> 作业触发器 `ResetOnlyOnce` 文档 <sup>4.8.1.5</sup> <sup style={{color:"gray"}}>⏱️2022.11.25</sup> [a8be728](https://gitee.com/dotnetchina/Furion/commit/a8be728eac986ebc5f44718b08c67aaee8b89dc6)
-  - &nbsp;<Tag>新增</Tag> **通过 `Roslyn` 动态编译代码创建 `IJob` 类型文档** <sup>4.8.1.5</sup> <sup style={{color:"gray"}}>⏱️2022.11.25</sup>
+  - &nbsp;<Tag>新增</Tag> **通过 `Roslyn` 动态编译代码创建 `IJob` 类型文档** <sup>4.8.1.5</sup> <sup style={{color:"gray"}}>⏱️2022.11.25</sup> [2c5e5be](https://gitee.com/dotnetchina/Furion/commit/2c5e5befc7a335d6ef0e75eea0061aee1e4dd061)
 
 </div>
   </div>
@@ -1291,12 +1291,17 @@ var jobType = oop.GetTypeFromShortName("MyJob");
 
 4. **注册作业**
 
-```cs showLineNumbers {3}
+```cs showLineNumbers {4,9}
+// 可以在启动的时候添加
 services.AddSchedule(options =>
 {
       options.AddJob(JobBuilder.Create(jobType)
             , Triggers.PeriodSeconds(5));
 });
+
+// 也可以完全在运行时添加（常用）
+_schedulerFactory.AddJob(JobBuilder.Create(jobType)
+            , Triggers.PeriodSeconds(5));
 ```
 
 查看作业执行日志：
