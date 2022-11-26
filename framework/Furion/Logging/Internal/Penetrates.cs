@@ -42,7 +42,7 @@ internal static class Penetrates
     /// <returns></returns>
     internal static string GetTraceId()
     {
-        return Activity.Current?.Id ?? App.HttpContext?.TraceIdentifier;
+        return Activity.Current?.Id ?? (InternalApp.RootServices == null ? default : App.HttpContext?.TraceIdentifier);
     }
 
     /// <summary>
