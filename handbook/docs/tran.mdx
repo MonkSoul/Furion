@@ -308,6 +308,41 @@ using (var scope = new TransactionScope(TransactionScopeOption.Required, new Tra
   </TabItem>
 </Tabs>
 
+### 9.26.3.3 `EnableRetryOnFailure` 错误处理
+
+:::caution 特别注意
+
+如果使用的是 `EFCore` 数据库且启用了 `EnableRetryOnFailure()` 功能，那么 `[UnitOfWork]` 将抛出以下错误：
+
+```bash showLineNumbers
+InvalidOperationException: The configured execution strategy 'SqlServerRetryingExecutionStrategy' does not support user-initiated transactions.
+Use the execution strategy returned by 'DbContext.Database.CreateExecutionStrategy()' to execute all the operations in the transaction as a retriable unit.
+```
+
+这时候需手动事务，并创建执行策略：`CreateExecutionStrategy`，详情请参考官方说明：[https://learn.microsoft.com/zh-cn/ef/core/miscellaneous/connection-resiliency](https://learn.microsoft.com/zh-cn/ef/core/miscellaneous/connection-resiliency)
+
+```cs showLineNumbers {2,4,8,16}
+using var db = new BloggingContext();
+var strategy = db.Database.CreateExecutionStrategy();
+
+strategy.Execute(
+    () =>
+    {
+        using var context = new BloggingContext();
+        using var transaction = context.Database.BeginTransaction();
+
+        context.Blogs.Add(new Blog { Url = "http://blogs.msdn.com/dotnet" });
+        context.SaveChanges();
+
+        context.Blogs.Add(new Blog { Url = "http://blogs.msdn.com/visualstudio" });
+        context.SaveChanges();
+
+        transaction.Commit();
+    });
+```
+
+:::
+
 ## 9.26.4 工作单元特性说明
 
 ### 9.26.4.1 `[UnitOfWork]` 特性

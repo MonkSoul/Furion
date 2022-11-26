@@ -310,16 +310,17 @@ public static class DatabaseProviderServiceCollectionExtensions
             optionsType.GetMethod("MigrationsAssembly")
                    .Invoke(options, new[] { Db.MigrationAssemblyName });
 
-            // 解决 MySQL/SqlServer/PostgreSQL 有时候出现短暂连接失败问题
-            var enableRetryOnFailureMethod = optionsType.GetMethod("EnableRetryOnFailure", new[]
-            {
-                typeof(int),typeof(TimeSpan),typeof(IEnumerable<int>)
-            });
+            // 解决 MySQL/SqlServer/PostgreSQL 有时候出现短暂连接失败问题（v4.8.1.7 版本关闭）
+            // https://learn.microsoft.com/zh-cn/ef/core/miscellaneous/connection-resiliency
+            //var enableRetryOnFailureMethod = optionsType.GetMethod("EnableRetryOnFailure", new[]
+            //{
+            //    typeof(int),typeof(TimeSpan),typeof(IEnumerable<int>)
+            //});
 
-            enableRetryOnFailureMethod?.Invoke(options, new object[]
-            {
-                5,TimeSpan.FromSeconds(30),new int[] { 2 }
-            });
+            //enableRetryOnFailureMethod?.Invoke(options, new object[]
+            //{
+            //    5,TimeSpan.FromSeconds(30),new int[] { 2 }
+            //});
         };
     }
 
