@@ -110,7 +110,7 @@ public sealed class PersistenceTriggerContext : PersistenceContext
     /// <summary>
     /// 作业触发器持久化上下文转字符串输出
     /// </summary>
-    /// <returns></returns>
+    /// <returns><see cref="String"/></returns>
     public override string ToString()
     {
         return $"{JobDetail} {Trigger} <{Behavior}>";

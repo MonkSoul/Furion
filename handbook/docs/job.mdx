@@ -14,6 +14,7 @@ import Tag from "@site/src/components/Tag.js";
 - **新特性**
 
   - &nbsp;<Tag>新增</Tag> **作业触发器 `ResetOnlyOnce` 属性，支持只运行一次的作业重新启动服务重复执行** <sup>4.8.1.5</sup> <sup>⏱️2022.11.25</sup> [a8be728](https://gitee.com/dotnetchina/Furion/commit/a8be728eac986ebc5f44718b08c67aaee8b89dc6)
+  - &nbsp;<Tag>新增</Tag> 动态作业处理程序委托支持 <sup>4.8.1.8</sup> <sup>⏱️2022.11.27</sup>
 
 - **问题修复**
 
@@ -685,7 +686,7 @@ info: 2022-11-18 10:29:16.3504029 +08:00 星期五 L MyJob[0] #14
 
 1. **通过 `Create` 静态方法创建**
 
-```cs showLineNumbers {2,5,8}
+```cs showLineNumbers {2,5,8,11}
 // 根据 IJob 实现类类型创建
 var jobBuilder = JobBuilder.Create<MyJob>();
 
@@ -694,6 +695,12 @@ var jobBuilder = JobBuilder.Create(typeof(MyJob));
 
 // 根据程序集名称和类型完全限定名（FullName）创建
 var jobBuilder = JobBuilder.Create("YourProject", "YourProject.MyJob");
+
+// 通过委托创造动态作业
+var jobBuilder = JoBuilder.Create((s, c, t) =>
+{
+      // ....
+});
 ```
 
 2. **通过 `JobDetail` 类型创建**
@@ -797,7 +804,7 @@ jobBuilder.LoadFrom(new
 
 `JobBuilder` 提供了和 `JobDetail` 完全匹配的 `Set[属性名]` 方法来配置作业信息各个属性，如：
 
-```cs showLineNumbers {3,16}
+```cs showLineNumbers {3,20}
 services.AddSchedule(options =>
 {
     var jobBuilder = JobBuilder.Create<MyJob>()
@@ -811,6 +818,10 @@ services.AddSchedule(options =>
         .SetIncludeAnnotations(true)    // 是否扫描 IJob 类型的触发器特性，true 为 扫描
         .SetProperties("{}")    // 作业额外数据 Dictionary<string, object> 类型序列化，支持多个重载
         .SetProperties(new Dictionary<string, object> { { "name", "Furion" } })  // 作业类型额外数据，支持多个重载，推荐！！！
+        .SetDynamicHandler((s, c, t) => {
+            s.Logger().LogInformation($"{c}");
+            return Task.CompletedTask;
+        })  // 动态委托处理程序
         ;
 
     options.AddJob(jobBuilder, Triggers.PeriodSeconds(5));
@@ -1193,6 +1204,7 @@ public class MyJob : IJob, IDisposable
   - `ExecutingTime`：实际执行时间（可能存在误差）
 - **`JobExecutingContext` 方法列表**
   - `.ConvertToJSON(naming)`：将作业计划转换成 `JSON` 字符串
+  - `.ToString()`：输出为字符串
 
 ### 26.1.4.4 作业被取消处理
 
@@ -2391,7 +2403,7 @@ services.AddSchedule(options =>
 
 - **内置方法配置**
 
-```cs showLineNumbers {4-13,16,19,22}
+```cs showLineNumbers {4-17,20,23,26}
 services.AddSchedule(options =>
 {
       // 添加作业
@@ -2405,6 +2417,10 @@ services.AddSchedule(options =>
       options.AddJob(typeof(MyJob), "作业 Id", triggerBuilder, ...);
       options.AddJob(typeof(MyJob), "作业 Id", concurrent: true, triggerBuilder, ...);
       options.AddJob(typeof(MyJob), concurrent: true, triggerBuilder, ...);
+      options.AddJob((s, c, t) => {}, triggerBuilder, ...);
+      options.AddJob((s, c, t) => {}, "作业 Id", triggerBuilder, ...);
+      options.AddJob((s, c, t) => {}, "作业 Id", concurrent: true, triggerBuilder, ...);
+      options.AddJob((s, c, t) => {}, concurrent: true, triggerBuilder, ...);
 
       // 添加作业执行监视器
       options.AddMonitor<YourJobMonitor>();
@@ -2782,42 +2798,23 @@ warn: 2022-11-21 16:24:03.5876747 +08:00 星期一 L System.Logging.ScheduleServ
 
 - **还有其他更多重载方式**
 
-```cs showLineNumbers {1,5,8,13,17,23,28,33}
-_schedulerFactory.TryAddJob(typeof(MyJob)
-            , new[] { Triggers.PeriodSeconds(10) }
-            , out var scheduler);
-
-_schedulerFactory.AddJob(typeof(MyJob)
-            , Triggers.PeriodSeconds(10));
-
-_schedulerFactory.TryAddJob(typeof(MyJob)
-            , "作业 Id"
-            , new[] { Triggers.PeriodSeconds(10) }
-            , out var scheduler);
-
-_schedulerFactory.AddJob(typeof(MyJob)
-            , "作业 Id"
-            , Triggers.PeriodSeconds(10));
-
-_schedulerFactory.TryAddJob(typeof(MyJob)
-            , "作业 Id"
-            , true
-            , new[] { Triggers.PeriodSeconds(10) }
-            , out var scheduler);
-
-_schedulerFactory.AddJob(typeof(MyJob)
-            , "作业 Id"
-            , true
-            , Triggers.PeriodSeconds(10));
-
-_schedulerFactory.TryAddJob(typeof(MyJob)
-            , true
-            , new[] { Triggers.PeriodSeconds(10) }
-            , out var scheduler);
-
-_schedulerFactory.AddJob(typeof(MyJob)
-            , true
-            , Triggers.PeriodSeconds(10));
+```cs showLineNumbers {1,9}
+_schedulerFactory.TryAddJob(typeof(MyJob), new[] { Triggers.PeriodSeconds(10) }, out var scheduler);
+_schedulerFactory.AddJob(typeof(MyJob), Triggers.PeriodSeconds(10));
+_schedulerFactory.TryAddJob(typeof(MyJob), "作业 Id", new[] { Triggers.PeriodSeconds(10) }, out var scheduler);
+_schedulerFactory.AddJob(typeof(MyJob), "作业 Id", Triggers.PeriodSeconds(10));
+_schedulerFactory.TryAddJob(typeof(MyJob), "作业 Id", true, new[] { Triggers.PeriodSeconds(10) }, out var scheduler);
+_schedulerFactory.AddJob(typeof(MyJob), "作业 Id", true, Triggers.PeriodSeconds(10));
+_schedulerFactory.TryAddJob(typeof(MyJob), true, new[] { Triggers.PeriodSeconds(10) }, out var scheduler);
+_schedulerFactory.AddJob(typeof(MyJob), true, Triggers.PeriodSeconds(10));
+_schedulerFactory.TryAddJob((s, c, t) => {}, new[] { Triggers.PeriodSeconds(10) }, out var scheduler);
+_schedulerFactory.AddJob((s, c, t) => {}, Triggers.PeriodSeconds(10));
+_schedulerFactory.TryAddJob((s, c, t) => {}, "作业 Id", new[] { Triggers.PeriodSeconds(10) }, out var scheduler);
+_schedulerFactory.AddJob((s, c, t) => {}, "作业 Id", Triggers.PeriodSeconds(10));
+_schedulerFactory.TryAddJob((s, c, t) => {}, "作业 Id", true, new[] { Triggers.PeriodSeconds(10) }, out var scheduler);
+_schedulerFactory.AddJob((s, c, t) => {}, "作业 Id", true, Triggers.PeriodSeconds(10));
+_schedulerFactory.TryAddJob((s, c, t) => {}, true, new[] { Triggers.PeriodSeconds(10) }, out var scheduler);
+_schedulerFactory.AddJob((s, c, t) => {}, true, Triggers.PeriodSeconds(10));
 ```
 
 ### 26.1.10.5 更新作业

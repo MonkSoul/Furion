@@ -72,6 +72,17 @@ public sealed class JobBuilder : JobDetail
     }
 
     /// <summary>
+    /// 创建作业信息构建器
+    /// </summary>
+    /// <param name="dynamicHandler">运行时动态作业处理程序</param>
+    /// <returns><see cref="JobBuilder"/></returns>
+    public static JobBuilder Create(Func<IServiceProvider, JobExecutingContext, CancellationToken, Task> dynamicHandler)
+    {
+        return Create<DynamicJob>()
+            .SetDynamicHandler(dynamicHandler);
+    }
+
+    /// <summary>
     /// 将 <see cref="JobDetail"/> 转换成 <see cref="JobBuilder"/>
     /// </summary>
     /// <param name="jobDetail">作业信息</param>
@@ -252,6 +263,18 @@ public sealed class JobBuilder : JobDetail
     public JobBuilder SetIncludeAnnotations(bool includeAnnotations)
     {
         IncludeAnnotations = includeAnnotations;
+
+        return this;
+    }
+
+    /// <summary>
+    /// 设置运行时动态作业处理程序
+    /// </summary>
+    /// <param name="dynamicHandler">运行时动态作业处理程序</param>
+    /// <returns><see cref="JobBuilder"/></returns>
+    public JobBuilder SetDynamicHandler(Func<IServiceProvider, JobExecutingContext, CancellationToken, Task> dynamicHandler)
+    {
+        DynamicHandler = dynamicHandler;
 
         return this;
     }

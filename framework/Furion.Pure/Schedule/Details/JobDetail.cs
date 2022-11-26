@@ -102,4 +102,9 @@ public partial class JobDetail
     /// 作业信息额外数据运行时实例
     /// </summary>
     internal Dictionary<string, object> RuntimeProperties { get; set; } = new();
+
+    /// <summary>
+    /// 运行时动态作业处理程序
+    /// </summary>
+    internal Func<IServiceProvider, JobExecutingContext, CancellationToken, Task> DynamicHandler { get; set; }
 }

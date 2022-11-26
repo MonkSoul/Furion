@@ -91,4 +91,13 @@ public abstract class JobExecutionContext
             writer.WriteEndObject();
         });
     }
+
+    /// <summary>
+    /// 作业执行上下文转字符串输出输出
+    /// </summary>
+    /// <returns><see cref="string"/></returns>
+    public override string ToString()
+    {
+        return $"{JobDetail} {Trigger} {OccurrenceTime}";
+    }
 }

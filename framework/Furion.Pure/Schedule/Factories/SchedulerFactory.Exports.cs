@@ -209,6 +209,19 @@ internal sealed partial class SchedulerFactory
     /// <summary>
     /// 添加作业
     /// </summary>
+    /// <param name="dynamicHandler">运行时动态作业处理程序</param>
+    /// <param name="triggerBuilders">作业触发器构建器集合</param>
+    /// <param name="scheduler">作业计划</param>
+    /// <param name="immediately">使作业调度器立即载入</param>
+    /// <remarks><see cref="ScheduleResult"/></remarks>
+    public ScheduleResult TryAddJob(Func<IServiceProvider, JobExecutingContext, CancellationToken, Task> dynamicHandler, TriggerBuilder[] triggerBuilders, out IScheduler scheduler, bool immediately = true)
+    {
+        return TryAddJob(SchedulerBuilder.Create(JobBuilder.Create(dynamicHandler), triggerBuilders), out scheduler, immediately);
+    }
+
+    /// <summary>
+    /// 添加作业
+    /// </summary>
     /// <typeparam name="TJob"><see cref="IJob"/> 实现类型</typeparam>
     /// <param name="triggerBuilders">作业触发器构建器集合</param>
     public void AddJob<TJob>(params TriggerBuilder[] triggerBuilders)
@@ -225,6 +238,16 @@ internal sealed partial class SchedulerFactory
     public void AddJob(Type jobType, params TriggerBuilder[] triggerBuilders)
     {
         _ = TryAddJob(jobType, triggerBuilders, out var _);
+    }
+
+    /// <summary>
+    /// 添加作业
+    /// </summary>
+    /// <param name="dynamicHandler">运行时动态作业处理程序</param>
+    /// <param name="triggerBuilders">作业触发器构建器集合</param>
+    public void AddJob(Func<IServiceProvider, JobExecutingContext, CancellationToken, Task> dynamicHandler, params TriggerBuilder[] triggerBuilders)
+    {
+        _ = TryAddJob(dynamicHandler, triggerBuilders, out var _);
     }
 
     /// <summary>
@@ -263,6 +286,22 @@ internal sealed partial class SchedulerFactory
     /// <summary>
     /// 添加作业
     /// </summary>
+    /// <param name="dynamicHandler">运行时动态作业处理程序</param>
+    /// <param name="jobId">作业 Id</param>
+    /// <param name="triggerBuilders">作业触发器构建器集合</param>
+    /// <param name="scheduler">作业计划</param>
+    /// <param name="immediately">使作业调度器立即载入</param>
+    /// <returns><see cref="ScheduleResult"/></returns>
+    public ScheduleResult TryAddJob(Func<IServiceProvider, JobExecutingContext, CancellationToken, Task> dynamicHandler, string jobId, TriggerBuilder[] triggerBuilders, out IScheduler scheduler, bool immediately = true)
+    {
+        return TryAddJob(SchedulerBuilder.Create(
+            JobBuilder.Create(dynamicHandler)
+                               .SetJobId(jobId), triggerBuilders), out scheduler, immediately);
+    }
+
+    /// <summary>
+    /// 添加作业
+    /// </summary>
     /// <typeparam name="TJob"><see cref="IJob"/> 实现类型</typeparam>
     /// <param name="jobId">作业 Id</param>
     /// <param name="triggerBuilders">作业触发器构建器集合</param>
@@ -281,6 +320,17 @@ internal sealed partial class SchedulerFactory
     public void AddJob(Type jobType, string jobId, params TriggerBuilder[] triggerBuilders)
     {
         _ = TryAddJob(jobType, jobId, triggerBuilders, out var _);
+    }
+
+    /// <summary>
+    /// 添加作业
+    /// </summary>
+    /// <param name="dynamicHandler">运行时动态作业处理程序</param>
+    /// <param name="jobId">作业 Id</param>
+    /// <param name="triggerBuilders">作业触发器构建器集合</param>
+    public void AddJob(Func<IServiceProvider, JobExecutingContext, CancellationToken, Task> dynamicHandler, string jobId, params TriggerBuilder[] triggerBuilders)
+    {
+        _ = TryAddJob(dynamicHandler, jobId, triggerBuilders, out var _);
     }
 
     /// <summary>
@@ -321,6 +371,23 @@ internal sealed partial class SchedulerFactory
     /// <summary>
     /// 添加作业
     /// </summary>
+    /// <param name="dynamicHandler">运行时动态作业处理程序</param>
+    /// <param name="jobId">作业 Id</param>
+    /// <param name="concurrent">是否采用并发执行</param>
+    /// <param name="triggerBuilders">作业触发器构建器集合</param>
+    /// <param name="scheduler">作业计划</param>
+    /// <param name="immediately">使作业调度器立即载入</param>
+    /// <returns><see cref="ScheduleResult"/></returns>
+    public ScheduleResult TryAddJob(Func<IServiceProvider, JobExecutingContext, CancellationToken, Task> dynamicHandler, string jobId, bool concurrent, TriggerBuilder[] triggerBuilders, out IScheduler scheduler, bool immediately = true)
+    {
+        return TryAddJob(SchedulerBuilder.Create(JobBuilder.Create(dynamicHandler)
+            .SetJobId(jobId)
+            .SetConcurrent(concurrent), triggerBuilders), out scheduler, immediately);
+    }
+
+    /// <summary>
+    /// 添加作业
+    /// </summary>
     /// <typeparam name="TJob"><see cref="IJob"/> 实现类型</typeparam>
     /// <param name="jobId">作业 Id</param>
     /// <param name="concurrent">是否采用并发执行</param>
@@ -341,6 +408,18 @@ internal sealed partial class SchedulerFactory
     public void AddJob(Type jobType, string jobId, bool concurrent, params TriggerBuilder[] triggerBuilders)
     {
         _ = TryAddJob(jobType, jobId, concurrent, triggerBuilders, out var _);
+    }
+
+    /// <summary>
+    /// 添加作业
+    /// </summary>
+    /// <param name="dynamicHandler">运行时动态作业处理程序</param>
+    /// <param name="jobId">作业 Id</param>
+    /// <param name="concurrent">是否采用并发执行</param>
+    /// <param name="triggerBuilders">作业触发器构建器集合</param>
+    public void AddJob(Func<IServiceProvider, JobExecutingContext, CancellationToken, Task> dynamicHandler, string jobId, bool concurrent, params TriggerBuilder[] triggerBuilders)
+    {
+        _ = TryAddJob(dynamicHandler, jobId, concurrent, triggerBuilders, out var _);
     }
 
     /// <summary>
@@ -379,6 +458,22 @@ internal sealed partial class SchedulerFactory
     /// <summary>
     /// 添加作业
     /// </summary>
+    /// <param name="dynamicHandler">运行时动态作业处理程序</param>
+    /// <param name="concurrent">是否采用并发执行</param>
+    /// <param name="triggerBuilders">作业触发器构建器集合</param>
+    /// <param name="scheduler">作业计划</param>
+    /// <param name="immediately">使作业调度器立即载入</param>
+    /// <returns><see cref="ScheduleResult"/></returns>
+    public ScheduleResult TryAddJob(Func<IServiceProvider, JobExecutingContext, CancellationToken, Task> dynamicHandler, bool concurrent, TriggerBuilder[] triggerBuilders, out IScheduler scheduler, bool immediately = true)
+    {
+        return TryAddJob(SchedulerBuilder.Create(
+            JobBuilder.Create(dynamicHandler)
+                               .SetConcurrent(concurrent), triggerBuilders), out scheduler, immediately);
+    }
+
+    /// <summary>
+    /// 添加作业
+    /// </summary>
     /// <typeparam name="TJob"><see cref="IJob"/> 实现类型</typeparam>
     /// <param name="concurrent">是否采用并发执行</param>
     /// <param name="triggerBuilders">作业触发器构建器集合</param>
@@ -397,6 +492,17 @@ internal sealed partial class SchedulerFactory
     public void AddJob(Type jobType, bool concurrent, params TriggerBuilder[] triggerBuilders)
     {
         _ = TryAddJob(jobType, concurrent, triggerBuilders, out var _);
+    }
+
+    /// <summary>
+    /// 添加作业
+    /// </summary>
+    /// <param name="dynamicHandler">运行时动态作业处理程序</param>
+    /// <param name="concurrent">是否采用并发执行</param>
+    /// <param name="triggerBuilders">作业触发器构建器集合</param>
+    public void AddJob(Func<IServiceProvider, JobExecutingContext, CancellationToken, Task> dynamicHandler, bool concurrent, params TriggerBuilder[] triggerBuilders)
+    {
+        _ = TryAddJob(dynamicHandler, concurrent, triggerBuilders, out var _);
     }
 
     /// <summary>
