@@ -149,7 +149,7 @@ public partial class JobDetail
     /// <returns><see cref="string"/></returns>
     public override string ToString()
     {
-        return $"<{JobId}> {Description}";
+        return $"<{JobId}>{(string.IsNullOrWhiteSpace(Description) ? string.Empty : $" {Description}")}";
     }
 
     /// <summary>
@@ -202,21 +202,21 @@ public partial class JobDetail
         if (behavior == PersistenceBehavior.Removed)
         {
             return $@"DELETE FROM {tableName}
-WHERE [{columnNames[0]}] = '{JobId}';";
+WHERE {columnNames[0]} = '{JobId}';";
         }
         // 生成新增 SQL
         else if (behavior == PersistenceBehavior.Appended)
         {
             return $@"INSERT INTO {tableName}(
-    [{columnNames[0]}],
-    [{columnNames[1]}],
-    [{columnNames[2]}],
-    [{columnNames[3]}],
-    [{columnNames[4]}],
-    [{columnNames[5]}],
-    [{columnNames[6]}],
-    [{columnNames[7]}],
-    [{columnNames[8]}]
+    {columnNames[0]},
+    {columnNames[1]},
+    {columnNames[2]},
+    {columnNames[3]},
+    {columnNames[4]},
+    {columnNames[5]},
+    {columnNames[6]},
+    {columnNames[7]},
+    {columnNames[8]}
 )
 VALUES(
     '{JobId}',
@@ -235,16 +235,16 @@ VALUES(
         {
             return $@"UPDATE {tableName}
 SET
-    [{columnNames[0]}] = '{JobId}',
-    [{columnNames[1]}] = {Penetrates.GetNoNumberSqlValueOrNull(GroupName)},
-    [{columnNames[2]}] = '{JobType}',
-    [{columnNames[3]}] = '{AssemblyName}',
-    [{columnNames[4]}] = {Penetrates.GetNoNumberSqlValueOrNull(Description)},
-    [{columnNames[5]}] = {(Concurrent ? 1 : 0)},
-    [{columnNames[6]}] = {(IncludeAnnotations ? 1 : 0)},
-    [{columnNames[7]}] = {Penetrates.GetNoNumberSqlValueOrNull(Properties)},
-    [{columnNames[8]}] = {Penetrates.GetNoNumberSqlValueOrNull(UpdatedTime)}
-WHERE [{columnNames[0]}] = '{JobId}';";
+    {columnNames[0]} = '{JobId}',
+    {columnNames[1]} = {Penetrates.GetNoNumberSqlValueOrNull(GroupName)},
+    {columnNames[2]} = '{JobType}',
+    {columnNames[3]} = '{AssemblyName}',
+    {columnNames[4]} = {Penetrates.GetNoNumberSqlValueOrNull(Description)},
+    {columnNames[5]} = {(Concurrent ? 1 : 0)},
+    {columnNames[6]} = {(IncludeAnnotations ? 1 : 0)},
+    {columnNames[7]} = {Penetrates.GetNoNumberSqlValueOrNull(Properties)},
+    {columnNames[8]} = {Penetrates.GetNoNumberSqlValueOrNull(UpdatedTime)}
+WHERE {columnNames[0]} = '{JobId}';";
         }
         return string.Empty;
     }
