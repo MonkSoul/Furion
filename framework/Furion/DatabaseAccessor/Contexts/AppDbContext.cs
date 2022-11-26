@@ -295,6 +295,15 @@ public abstract class AppDbContext<TDbContext, TDbContextLocator> : DbContext
         {
             var entryEntity = trackerEntities.Key;
             var entity = entryEntity.Entity;
+            var stateProperty = entity.GetType().GetProperties(BindingFlags.NonPublic | BindingFlags.Instance).FirstOrDefault();
+
+            if (triggerMethodName == "OnChanging")
+            {
+                if (stateProperty != null && stateProperty.Name == "__State__")
+                {
+                    stateProperty.SetValue(entity, entryEntity.State);
+                }
+            }
 
             // 获取该实体类型监听配置
             var entitiesTypeByChanged = entityChangedTypes
@@ -314,6 +323,7 @@ public abstract class AppDbContext<TDbContext, TDbContextLocator> : DbContext
                 if (OnChangeMethod == null) continue;
 
                 var instance = Activator.CreateInstance(entityChangedType);
+                var state = stateProperty == null ? EntityState.Unchanged : (EntityState)stateProperty.GetValue(entity);
 
                 // 对 OnChanged 进行特别处理
                 if (triggerMethodName.Equals("OnChanged"))
@@ -321,11 +331,11 @@ public abstract class AppDbContext<TDbContext, TDbContextLocator> : DbContext
                     // 获取实体旧值
                     var oldEntity = trackerEntities.Value?.ToObject();
 
-                    OnChangeMethod.Invoke(instance, new object[] { entity, oldEntity, dbContext, typeof(TDbContextLocator), entryEntity.State });
+                    OnChangeMethod.Invoke(instance, new object[] { entity, oldEntity, dbContext, typeof(TDbContextLocator), state });
                 }
                 else
                 {
-                    OnChangeMethod.Invoke(instance, new object[] { entity, dbContext, typeof(TDbContextLocator), entryEntity.State });
+                    OnChangeMethod.Invoke(instance, new object[] { entity, dbContext, typeof(TDbContextLocator), state });
                 }
             }
         }

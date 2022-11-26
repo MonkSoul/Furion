@@ -20,6 +20,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -206,4 +207,9 @@ public abstract class PrivateEntityBase<TKey> : IPrivateEntity
     [Newtonsoft.Json.JsonIgnore]
     [System.Text.Json.Serialization.JsonIgnore]
     public virtual Guid? TenantId { get; set; }
+
+    /// <summary>
+    /// 内部跟踪状态
+    /// </summary>
+    internal EntityState __State__ { get; set; }
 }

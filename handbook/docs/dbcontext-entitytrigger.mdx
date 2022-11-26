@@ -4,6 +4,21 @@ title: 9.25. 实体数据监听器
 sidebar_label: 9.25. 实体数据监听器
 ---
 
+import Tag from "@site/src/components/Tag.js";
+
+<details>
+  <summary>📝 模块更新日志</summary>
+  <div>
+<div>
+
+- **问题修复**
+
+  - &nbsp;<Tag>修复</Tag> `EFCore` 实体监听器 `IEntityChangedListener` 问题 <sup>4.8.1.7</sup> <sup>⏱️2022.11.26</sup> [#I61CTI](https://gitee.com/dotnetchina/Furion/issues/I61CTI)
+
+</div>
+  </div>
+</details>
+
 ## 9.25.1 实体数据监听器
 
 在最新的 `Furion` 的 `1.1.6+` 版本中，新增了 `IEntityChangedListener` 实体数据监听接口，可以监听 `EFCore` 任何实体表 `增删改` 操作。
@@ -37,6 +52,16 @@ namespace Furion.EntityFramework.Core
 ```
 
 ### 9.25.3.2 监听特定实体数据
+
+:::caution 特别注意
+
+如果实体没有直接或间接继承 `Entity` 或者 `EntityBase`，那么需要在实体中添加 `__State__` 非公开属性，如：
+
+```cs
+internal EntityState __State__ { get; set; }
+```
+
+:::
 
 ```cs showLineNumbers  {9,30-41}
 using Furion.DatabaseAccessor;
