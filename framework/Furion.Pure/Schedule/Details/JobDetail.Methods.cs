@@ -195,19 +195,43 @@ public partial class JobDetail
     /// <returns><see cref="string"/></returns>
     public string ConvertToSQL(string tableName, PersistenceBehavior behavior, NamingConventions naming = NamingConventions.CamelCase)
     {
-        // 这里不采用反射生成
+        // 判断是否自定义了 SQL 输出程序
+        if (JobDetailOptions.ConvertToSQLConfigure != null)
+        {
+            return JobDetailOptions.ConvertToSQLConfigure(tableName, ColumnNames(naming), this, behavior, naming);
+        }
+
+        // 生成新增 SQL
+        if (behavior == PersistenceBehavior.Appended)
+        {
+            return ConvertToInsertSQL(tableName, naming);
+        }
+        // 生成更新 SQL
+        else if (behavior == PersistenceBehavior.Updated)
+        {
+            return ConvertToUpdateSQL(tableName, naming);
+        }
+        // 生成删除 SQL
+        else if (behavior == PersistenceBehavior.Removed)
+        {
+            return ConvertToDeleteSQL(tableName, naming);
+        }
+
+        return string.Empty;
+    }
+
+    /// <summary>
+    /// 转换成 Sql 新增语句
+    /// </summary>
+    /// <param name="tableName">数据库表名</param>
+    /// <param name="naming">命名法</param>
+    /// <returns><see cref="string"/></returns>
+    public string ConvertToInsertSQL(string tableName, NamingConventions naming = NamingConventions.CamelCase)
+    {
+        // 不使用反射生成，为了使顺序可控，生成 SQL 可控，性能损耗最小
         var columnNames = ColumnNames(naming);
 
-        // 生成删除 SQL
-        if (behavior == PersistenceBehavior.Removed)
-        {
-            return $@"DELETE FROM {tableName}
-WHERE {columnNames[0]} = '{JobId}';";
-        }
-        // 生成新增 SQL
-        else if (behavior == PersistenceBehavior.Appended)
-        {
-            return $@"INSERT INTO {tableName}(
+        return $@"INSERT INTO {tableName}(
     {columnNames[0]},
     {columnNames[1]},
     {columnNames[2]},
@@ -229,11 +253,20 @@ VALUES(
     {Penetrates.GetNoNumberSqlValueOrNull(Properties)},
     {Penetrates.GetNoNumberSqlValueOrNull(UpdatedTime)}
 );";
-        }
-        // 生成更新 SQL
-        else if (behavior == PersistenceBehavior.Updated)
-        {
-            return $@"UPDATE {tableName}
+    }
+
+    /// <summary>
+    /// 转换成 Sql 更新语句
+    /// </summary>
+    /// <param name="tableName">数据库表名</param>
+    /// <param name="naming">命名法</param>
+    /// <returns><see cref="string"/></returns>
+    public string ConvertToUpdateSQL(string tableName, NamingConventions naming = NamingConventions.CamelCase)
+    {
+        // 不使用反射生成，为了使顺序可控，生成 SQL 可控，性能损耗最小
+        var columnNames = ColumnNames(naming);
+
+        return $@"UPDATE {tableName}
 SET
     {columnNames[0]} = '{JobId}',
     {columnNames[1]} = {Penetrates.GetNoNumberSqlValueOrNull(GroupName)},
@@ -245,30 +278,6 @@ SET
     {columnNames[7]} = {Penetrates.GetNoNumberSqlValueOrNull(Properties)},
     {columnNames[8]} = {Penetrates.GetNoNumberSqlValueOrNull(UpdatedTime)}
 WHERE {columnNames[0]} = '{JobId}';";
-        }
-        return string.Empty;
-    }
-
-    /// <summary>
-    /// 转换成 Sql 新增语句
-    /// </summary>
-    /// <param name="tableName">数据库表名</param>
-    /// <param name="naming">命名法</param>
-    /// <returns><see cref="string"/></returns>
-    public string ConvertToInsertSQL(string tableName, NamingConventions naming = NamingConventions.CamelCase)
-    {
-        return ConvertToSQL(tableName, PersistenceBehavior.Appended, naming);
-    }
-
-    /// <summary>
-    /// 转换成 Sql 更新语句
-    /// </summary>
-    /// <param name="tableName">数据库表名</param>
-    /// <param name="naming">命名法</param>
-    /// <returns><see cref="string"/></returns>
-    public string ConvertToUpdateSQL(string tableName, NamingConventions naming = NamingConventions.CamelCase)
-    {
-        return ConvertToSQL(tableName, PersistenceBehavior.Updated, naming);
     }
 
     /// <summary>
@@ -279,7 +288,11 @@ WHERE {columnNames[0]} = '{JobId}';";
     /// <returns><see cref="string"/></returns>
     public string ConvertToDeleteSQL(string tableName, NamingConventions naming = NamingConventions.CamelCase)
     {
-        return ConvertToSQL(tableName, PersistenceBehavior.Removed, naming);
+        // 不使用反射生成，为了使顺序可控，生成 SQL 可控，性能损耗最小
+        var columnNames = ColumnNames(naming);
+
+        return $@"DELETE FROM {tableName}
+WHERE {columnNames[0]} = '{JobId}';";
     }
 
     /// <summary>

@@ -77,6 +77,16 @@ public sealed class ScheduleOptionsBuilder
     public string ClusterId { get; set; } = string.Empty;
 
     /// <summary>
+    /// 作业信息配置选项
+    /// </summary>
+    public JobDetailOptions JobDetail { get; } = new();
+
+    /// <summary>
+    /// 作业触发器配置选项
+    /// </summary>
+    public TriggerOptions Trigger { get; } = new();
+
+    /// <summary>
     /// 添加作业
     /// </summary>
     /// <param name="schedulerBuilder">作业调度程序构建器</param>
