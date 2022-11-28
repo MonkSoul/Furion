@@ -187,13 +187,14 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory
     /// <summary>
     /// 使作业调度器进入休眠状态
     /// </summary>
-    public async Task SleepAsync()
+    /// <param name="startAt">起始时间</param>
+    public async Task SleepAsync(DateTime startAt)
     {
         // 输出作业调度器进入休眠日志
         _logger.LogDebug("Schedule Hosted Service enters hibernation.");
 
         // 获取作业调度器总休眠时间
-        var sleepMilliseconds = GetSleepMilliseconds();
+        var sleepMilliseconds = GetSleepMilliseconds(startAt);
         var delay = sleepMilliseconds != null
             ? sleepMilliseconds.Value
             : -1;   // -1 标识无穷值休眠
@@ -294,20 +295,18 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory
     /// <summary>
     /// 获取作业调度器总休眠时间
     /// </summary>
+    /// <param name="startAt">起始时间</param>
     /// <returns><see cref="double"/></returns>
-    private double? GetSleepMilliseconds()
+    private double? GetSleepMilliseconds(DateTime startAt)
     {
         // 空检查
         if (!_schedulers.Any()) return null;
-
-        // 获取当前时间作为检查时间
-        var checkTime = Penetrates.GetUnspecifiedNowTime(UseUtcTimestamp);
 
         // 获取所有作业计划下一批执行时间
         var nextRunTimes = _schedulers.Values
             .Where(s => s.JobDetail.RuntimeJobType != null && s.JobHandler != null)
             .SelectMany(u => u.Triggers.Values
-                .Where(t => t.IsNormalStatus() && t.NextRunTime != null && t.NextRunTime.Value >= checkTime)
+                .Where(t => t.IsNormalStatus() && t.NextRunTime != null && t.NextRunTime.Value >= startAt)
                 .Select(t => t.NextRunTime.Value));
 
         // 空检查
@@ -317,7 +316,7 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory
         var earliestTriggerTime = nextRunTimes.Min();
 
         // 计算总休眠时间
-        var sleepMilliseconds = (earliestTriggerTime - checkTime).TotalMilliseconds;
+        var sleepMilliseconds = (earliestTriggerTime - startAt).TotalMilliseconds;
 
         return sleepMilliseconds;
     }

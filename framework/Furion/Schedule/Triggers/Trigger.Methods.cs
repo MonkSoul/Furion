@@ -70,8 +70,8 @@ public partial class Trigger
     /// <summary>
     /// 重置启动时最大触发次数等于一次的作业触发器
     /// </summary>
-    /// <param name="useUtcTimestamp">是否使用 UTC 时间</param>
-    internal void ResetMaxNumberOfRunsEqualOnceOnStart(bool useUtcTimestamp)
+    /// <param name="startAt">起始时间</param>
+    internal void ResetMaxNumberOfRunsEqualOnceOnStart(DateTime startAt)
     {
         if (StartNow
             && ResetOnlyOnce
@@ -80,7 +80,7 @@ public partial class Trigger
         {
             NumberOfRuns = 0;
             SetStatus(TriggerStatus.Ready);
-            NextRunTime = CheckRunOnStarAndReturnNextRunTime(useUtcTimestamp);
+            NextRunTime = CheckRunOnStarAndReturnNextRunTime(startAt);
 
             if (MaxNumberOfErrors > 0 && NumberOfErrors >= MaxNumberOfErrors)
             {
@@ -94,8 +94,7 @@ public partial class Trigger
     /// </summary>
     /// <param name="jobDetail">作业信息</param>
     /// <param name="startAt">起始时间</param>
-    /// <param name="useUtcTimestamp">是否使用 UTC 时间</param>
-    internal void Increment(JobDetail jobDetail, DateTime startAt, bool useUtcTimestamp)
+    internal void Increment(JobDetail jobDetail, DateTime startAt)
     {
         // 阻塞状态并没有实际执行，此时忽略次数递增和最近运行时间赋值
         if (Status != TriggerStatus.Blocked)
@@ -105,7 +104,7 @@ public partial class Trigger
         }
 
         // 检查下一次执行信息
-        if (CheckNextOccurrence(jobDetail, startAt)) NextRunTime = GetNextRunTime(useUtcTimestamp);
+        if (CheckNextOccurrence(jobDetail, startAt)) NextRunTime = GetNextRunTime(startAt);
     }
 
     /// <summary>
@@ -124,9 +123,9 @@ public partial class Trigger
     /// <summary>
     /// 计算下一次运行时间
     /// </summary>
-    /// <param name="useUtcTimestamp">是否使用 UTC 时间</param>
+    /// <param name="startAt">起始时间</param>
     /// <returns><see cref="DateTime"/></returns>
-    internal DateTime? GetNextRunTime(bool useUtcTimestamp)
+    internal DateTime? GetNextRunTime(DateTime startAt)
     {
         // 如果未启动或不是正常的触发器状态，则返回 null
         if (StartNow == false || (Status != TriggerStatus.Ready
@@ -135,24 +134,24 @@ public partial class Trigger
             && Status != TriggerStatus.Blocked)) return null;
 
         // 如果已经设置了 NextRunTime 且其值大于当前时间，则返回当前 NextRunTime（可能因为其他方式修改了改值导致触发时间不是精准计算的时间）
-        if (NextRunTime != null && NextRunTime.Value > Penetrates.GetNowTime(useUtcTimestamp)) return NextRunTime;
+        if (NextRunTime != null && NextRunTime.Value > startAt) return NextRunTime;
 
-        var startAt = GetStartAt(useUtcTimestamp);
-        return startAt == null
+        var baseTime = GetStartAt(startAt);
+        return baseTime == null
             ? null
-            : GetNextOccurrence(startAt.Value);
+            : GetNextOccurrence(baseTime.Value);
     }
 
     /// <summary>
     /// 检查是否启动时执行一次并返回下一次执行时间
     /// </summary>
-    /// <param name="useUtcTimestamp">是否使用 UTC 时间</param>
+    /// <param name="startAt">起始时间</param>
     /// <returns><see cref="DateTime"/></returns>
-    internal DateTime? CheckRunOnStarAndReturnNextRunTime(bool useUtcTimestamp)
+    internal DateTime? CheckRunOnStarAndReturnNextRunTime(DateTime startAt)
     {
         return !(StartNow && RunOnStart)
-              ? GetNextRunTime(useUtcTimestamp)
-              : Penetrates.GetNowTime(useUtcTimestamp).AddSeconds(-1);
+              ? GetNextRunTime(startAt)
+              : startAt.AddSeconds(-1);
     }
 
     /// <summary>
@@ -324,17 +323,16 @@ public partial class Trigger
     /// <summary>
     /// 获取触发器初始化时间
     /// </summary>
-    /// <param name="useUtcTimestamp">是否使用 UTC 时间</param>
+    /// <param name="startAt"></param>
     /// <returns><see cref="DateTime"/> 或者 null</returns>
-    private DateTime? GetStartAt(bool useUtcTimestamp)
+    private DateTime? GetStartAt(DateTime startAt)
     {
-        var nowTime = Penetrates.GetNowTime(useUtcTimestamp);
         if (StartTime == null)
         {
-            if (EndTime == null) return nowTime;
-            else return EndTime.Value < nowTime ? null : nowTime;
+            if (EndTime == null) return startAt;
+            else return EndTime.Value < startAt ? null : startAt;
         }
-        else return StartTime.Value < nowTime ? nowTime : StartTime.Value;
+        else return StartTime.Value < startAt ? startAt : StartTime.Value;
     }
 
     /// <summary>

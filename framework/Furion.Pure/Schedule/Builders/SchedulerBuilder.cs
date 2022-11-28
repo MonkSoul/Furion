@@ -404,15 +404,12 @@ public sealed class SchedulerBuilder
         var triggers = new Dictionary<string, Trigger>();
 
         // 遍历作业触发器构建器集合
-        var count = TriggerBuilders.Count;
-        for (var i = 0; i < count; i++)
+        foreach (var triggerBuilder in TriggerBuilders)
         {
-            var triggerBuilder = TriggerBuilders[i];
-
             // 配置默认 TriggerId
             if (string.IsNullOrWhiteSpace(triggerBuilder.TriggerId))
             {
-                triggerBuilder.SetTriggerId($"{jobDetail.JobId}_trigger{count + i}");
+                triggerBuilder.SetTriggerId($"{jobDetail.JobId}_trigger{triggers.Count + 1}");
             }
 
             var trigger = triggerBuilder.Build(jobDetail.JobId);

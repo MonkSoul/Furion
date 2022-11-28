@@ -161,7 +161,7 @@ public sealed partial class Crontab
     public TimeSpan GetSleepMilliseconds(DateTime baseTime)
     {
         // 采用 DateTimeKind.Unspecified 转换当前时间并忽略毫秒之后部分
-        var unspecifiedCheckTime = new DateTime(baseTime.Year
+        var startAt = new DateTime(baseTime.Year
             , baseTime.Month
             , baseTime.Day
             , baseTime.Hour
@@ -170,7 +170,7 @@ public sealed partial class Crontab
             , baseTime.Millisecond);
 
         // 计算总休眠时间
-        var sleepMilliseconds = (GetNextOccurrence(unspecifiedCheckTime) - unspecifiedCheckTime).TotalMilliseconds;
+        var sleepMilliseconds = (GetNextOccurrence(startAt) - startAt).TotalMilliseconds;
 
         return TimeSpan.FromMilliseconds(sleepMilliseconds);
     }

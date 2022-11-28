@@ -110,12 +110,15 @@ internal sealed partial class SchedulerFactory
             ?? ActivatorUtilities.CreateInstance(_serviceProvider, jobType)) as IJob;
         }
 
+        // 当前时间
+        var startAt = Penetrates.GetNowTime(UseUtcTimestamp);
+
         // 初始化作业触发器下一次运行时间
         foreach (var trigger in internalScheduler.Triggers.Values)
         {
-            trigger.NextRunTime = trigger.CheckRunOnStarAndReturnNextRunTime(UseUtcTimestamp);
-            trigger.ResetMaxNumberOfRunsEqualOnceOnStart(UseUtcTimestamp);
-            trigger.CheckNextOccurrence(internalScheduler.JobDetail, Penetrates.GetUnspecifiedNowTime(UseUtcTimestamp));
+            trigger.NextRunTime = trigger.CheckRunOnStarAndReturnNextRunTime(startAt);
+            trigger.ResetMaxNumberOfRunsEqualOnceOnStart(startAt);
+            trigger.CheckNextOccurrence(internalScheduler.JobDetail, startAt);
         }
 
         // 追加到集合中
@@ -555,12 +558,8 @@ internal sealed partial class SchedulerFactory
         // 原始作业计划
         var originScheduler = (Scheduler)internalScheduler;
 
-        // 记录更新时间
-        var updatedTime = Penetrates.GetNowTime(UseUtcTimestamp);
-
         // 获取更新后的作业计划
         var schedulerForUpdated = schedulerBuilder.Build(_schedulers.Count + 1);
-        schedulerForUpdated.JobDetail.UpdatedTime = updatedTime;
         schedulerForUpdated.JobDetail.Blocked = false;
 
         // 存储作业计划工厂
@@ -577,13 +576,14 @@ internal sealed partial class SchedulerFactory
             ?? ActivatorUtilities.CreateInstance(_serviceProvider, jobType)) as IJob;
         }
 
+        // 当前时间
+        var startAt = Penetrates.GetNowTime(UseUtcTimestamp);
+
         // 逐条初始化作业触发器初始化下一次执行时间
         foreach (var triggerForUpdated in schedulerForUpdated.Triggers.Values)
         {
-            triggerForUpdated.NextRunTime = triggerForUpdated.GetNextRunTime(UseUtcTimestamp);
-            triggerForUpdated.CheckNextOccurrence(schedulerForUpdated.JobDetail, Penetrates.GetUnspecifiedNowTime(UseUtcTimestamp));
-
-            triggerForUpdated.UpdatedTime = updatedTime;
+            triggerForUpdated.NextRunTime = triggerForUpdated.GetNextRunTime(startAt);
+            triggerForUpdated.CheckNextOccurrence(schedulerForUpdated.JobDetail, startAt);
         }
 
         // 更新内存作业计划集合

@@ -149,13 +149,13 @@ internal sealed class ScheduleHostedService : BackgroundService
     private async Task BackgroundProcessing(CancellationToken stoppingToken)
     {
         // 获取当前时间作为检查时间
-        var checkTime = Penetrates.GetUnspecifiedNowTime(UseUtcTimestamp);
+        var startAt = Penetrates.GetNowTime(UseUtcTimestamp);
 
         // 查找所有符合触发的作业
-        var nextRunJobs = _schedulerFactory.GetNextRunJobs(checkTime);
+        var nextRunJobs = _schedulerFactory.GetNextRunJobs(startAt);
 
         // 输出作业调度器检查信息
-        _logger.LogDebug("Schedule Hosted Service is checking on <{checkTime}> and finds <{Count}> schedulers that should be run.", checkTime, nextRunJobs.Count());
+        _logger.LogDebug("Schedule Hosted Service is checking on <{startAt}> and finds <{Count}> schedulers that should be run.", startAt, nextRunJobs.Count());
 
         // 创建一个任务工厂并保证执行任务都使用当前的计划程序
         var taskFactory = new TaskFactory(System.Threading.Tasks.TaskScheduler.Current);
@@ -177,13 +177,13 @@ internal sealed class ScheduleHostedService : BackgroundService
                 var (triggerId, trigger) = triggerThatShouldRun;
 
                 // 处理串行执行逻辑（默认并行执行）
-                if (CheckIsBlocked(jobDetail, trigger, checkTime)) continue;
+                if (CheckIsBlocked(jobDetail, trigger, startAt)) continue;
 
                 // 设置作业触发器状态为运行状态
                 trigger.SetStatus(TriggerStatus.Running);
 
                 // 记录运行信息和计算下一个触发时间
-                trigger.Increment(jobDetail, checkTime, UseUtcTimestamp);
+                trigger.Increment(jobDetail, startAt);
 
                 // 将作业触发器运行数据写入持久化
                 _schedulerFactory.Shorthand(jobDetail, trigger);
@@ -195,7 +195,7 @@ internal sealed class ScheduleHostedService : BackgroundService
                     taskFactory.StartNew(async () =>
                     {
                         // 创建作业执行前上下文
-                        var jobExecutingContext = new JobExecutingContext(jobDetail, trigger, checkTime)
+                        var jobExecutingContext = new JobExecutingContext(jobDetail, trigger, startAt)
                         {
                             ExecutingTime = Penetrates.GetNowTime(UseUtcTimestamp)
                         };
@@ -234,7 +234,7 @@ internal sealed class ScheduleHostedService : BackgroundService
                         catch (Exception ex)
                         {
                             // 记录错误信息，包含错误次数和运行状态
-                            trigger.IncrementErrors(jobDetail, checkTime);
+                            trigger.IncrementErrors(jobDetail, startAt);
 
                             // 将作业触发器运行数据写入持久化
                             _schedulerFactory.Shorthand(jobDetail, trigger);
@@ -266,7 +266,7 @@ internal sealed class ScheduleHostedService : BackgroundService
                             if (Monitor != default)
                             {
                                 // 创建作业执行后上下文
-                                var jobExecutedContext = new JobExecutedContext(jobDetail, trigger, checkTime)
+                                var jobExecutedContext = new JobExecutedContext(jobDetail, trigger, startAt)
                                 {
                                     ExecutedTime = Penetrates.GetNowTime(UseUtcTimestamp),
                                     Exception = executionException
@@ -284,7 +284,7 @@ internal sealed class ScheduleHostedService : BackgroundService
         }
 
         // 作业调度器进入休眠状态
-        await _schedulerFactory.SleepAsync();
+        await _schedulerFactory.SleepAsync(startAt);
     }
 
     /// <summary>
@@ -316,9 +316,9 @@ internal sealed class ScheduleHostedService : BackgroundService
     /// </summary>
     /// <param name="jobDetail">作业信息</param>
     /// <param name="trigger">作业触发器</param>
-    /// <param name="checkTime">检查时间</param>
+    /// <param name="startAt">检查时间</param>
     /// <returns>返回 true 是串行执行，则阻塞并进入下一轮，返回 false 则继续执行</returns>
-    private bool CheckIsBlocked(JobDetail jobDetail, Trigger trigger, DateTime checkTime)
+    private bool CheckIsBlocked(JobDetail jobDetail, Trigger trigger, DateTime startAt)
     {
         // 如果是并行执行则跳过
         if (jobDetail.Concurrent) return false;
@@ -340,13 +340,13 @@ internal sealed class ScheduleHostedService : BackgroundService
             trigger.SetStatus(TriggerStatus.Blocked);
 
             // 记录运行信息和计算下一个触发时间
-            trigger.Increment(jobDetail, checkTime, UseUtcTimestamp);
+            trigger.Increment(jobDetail, startAt);
 
             // 将作业触发器运行数据写入持久化
             _schedulerFactory.Shorthand(jobDetail, trigger);
 
             // 输出阻塞日志
-            _logger.LogWarning("{checkTime}: The <{triggerId}> trigger of job <{jobId}> failed to execute as scheduled due to blocking.", checkTime, trigger.TriggerId, jobDetail.JobId);
+            _logger.LogWarning("{startAt}: The <{triggerId}> trigger of job <{jobId}> failed to execute as scheduled due to blocking.", startAt, trigger.TriggerId, jobDetail.JobId);
 
             return true;
         }

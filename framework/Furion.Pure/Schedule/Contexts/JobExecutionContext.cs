@@ -32,16 +32,16 @@ public abstract class JobExecutionContext
     /// </summary>
     /// <param name="jobDetail">作业信息</param>
     /// <param name="trigger">作业触发器</param>
-    /// <param name="checkTime">作业调度服务检查时间</param>
+    /// <param name="startAt">作业调度服务检查时间</param>
     internal JobExecutionContext(JobDetail jobDetail
         , Trigger trigger
-        , DateTime checkTime)
+        , DateTime startAt)
     {
         JobId = jobDetail.JobId;
         TriggerId = trigger.TriggerId;
         JobDetail = jobDetail;
         Trigger = trigger;
-        OccurrenceTime = checkTime;
+        OccurrenceTime = startAt;
     }
 
     /// <summary>
