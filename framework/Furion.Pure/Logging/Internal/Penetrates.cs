@@ -58,7 +58,8 @@ internal static class Penetrates
         if (string.IsNullOrWhiteSpace(key)) return default;
 
         // 加载配置文件中指定节点
-        var fileLoggerSettings = App.GetConfig<FileLoggerSettings>(key);
+        var fileLoggerSettings = App.GetConfig<FileLoggerSettings>(key)
+            ?? new FileLoggerSettings();
 
         // 如果配置为空或者文件名为空，则添加文件日志记录器服务
         if (string.IsNullOrWhiteSpace(fileLoggerSettings?.FileName)) return default;
@@ -96,12 +97,13 @@ internal static class Penetrates
         if (string.IsNullOrWhiteSpace(key)) return default;
 
         // 加载配置文件中指定节点
-        var databaseLoggerSettings = App.GetConfig<DatabaseLoggerSettings>(key);
+        var databaseLoggerSettings = App.GetConfig<DatabaseLoggerSettings>(key)
+            ?? new DatabaseLoggerSettings();
 
         // 创建数据库日志记录器配置选项
         var databaseLoggerOptions = new DatabaseLoggerOptions
         {
-            MinimumLevel = databaseLoggerSettings?.MinimumLevel ?? LogLevel.Trace,
+            MinimumLevel = databaseLoggerSettings.MinimumLevel,
             UseUtcTimestamp = databaseLoggerSettings.UseUtcTimestamp,
             DateFormat = databaseLoggerSettings.DateFormat,
             IncludeScopes = databaseLoggerSettings.IncludeScopes,

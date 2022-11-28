@@ -4,6 +4,25 @@ title: 18. 日志记录
 sidebar_label: 18. 日志记录
 ---
 
+import Tag from "@site/src/components/Tag.js";
+
+<details>
+  <summary>📝 模块更新日志</summary>
+  <div>
+<div>
+
+- **问题修复**
+
+  - &nbsp;<Tag>修复</Tag> 日志模块因 `v4.8.0+` 版本导致写入数据库日志空异常问题 <sup>4.8.2.1</sup> <sup>⏱️2022.11.28</sup>
+
+- **其他更改**
+
+  - &nbsp;<Tag>调整</Tag> `LoggingMonitor` 解析授权逻辑，如果接口是未授权操作则不打印授权信息 <sup>4.8.2.1</sup> <sup>⏱️2022.11.28</sup> [#I63D2E](https://gitee.com/dotnetchina/Furion/issues/I63D2E)
+
+</div>
+  </div>
+</details>
+
 import useBaseUrl from "@docusaurus/useBaseUrl";
 
 ## 18.1 关于日志

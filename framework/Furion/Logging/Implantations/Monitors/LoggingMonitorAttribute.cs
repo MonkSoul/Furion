@@ -22,10 +22,12 @@
 
 using Furion;
 using Furion.DataValidation;
+using Furion.Extensions;
 using Furion.FriendlyException;
 using Furion.Logging;
 using Furion.Templates;
 using Furion.UnifyResult;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -266,10 +268,6 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter, IOr
         // 获取授权用户
         var user = httpContext.User;
 
-        // token 信息
-        var authorization = httpRequest.Headers["Authorization"].ToString();
-        writer.WriteString("requestHeaderAuthorization", authorization);
-
         // 获取请求 cookies 信息
         var requestHeaderCookies = Uri.UnescapeDataString(httpRequest.Headers["cookie"].ToString());
         writer.WriteString(nameof(requestHeaderCookies), requestHeaderCookies);
@@ -279,6 +277,24 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter, IOr
         var resultContext = await next();
         timeOperation.Stop();
         writer.WriteNumber("timeOperationElapsedMilliseconds", timeOperation.ElapsedMilliseconds);
+
+        // token 信息
+        // 判断是否是授权访问
+        var isAuth = actionMethod.GetFoundAttribute<AllowAnonymousAttribute>(true) == null
+            && resultContext.HttpContext.User != null
+            && resultContext.HttpContext.User.Identity.IsAuthenticated;
+
+        // 获取响应头信息
+        var accessToken = resultContext.HttpContext.Response.Headers["access-token"].ToString();
+        var refreshToken = resultContext.HttpContext.Response.Headers["x-access-token"].ToString();
+        refreshToken = string.IsNullOrWhiteSpace(refreshToken) ? refreshToken : "Bearer " + refreshToken;
+
+        var authorization = string.IsNullOrWhiteSpace(accessToken)
+            ? httpRequest.Headers["Authorization"].ToString()
+            : "Bearer " + accessToken;
+
+        writer.WriteString("accessToken", isAuth ? authorization : default);
+        writer.WriteString("refreshAccessToken", isAuth ? refreshToken : default);
 
         // 获取响应 cookies 信息
         var responseHeaderCookies = Uri.UnescapeDataString(resultContext.HttpContext.Response.Headers["Set-Cookie"].ToString());
@@ -368,8 +384,12 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter, IOr
             , $"##托管程序## {deployServer}"
         };
 
-        // 添加 JWT 授权信息日志模板
-        monitorItems.AddRange(GenerateAuthorizationTemplate(writer, user, authorization));
+        // 如果用户实际授权才打印
+        if (isAuth)
+        {
+            // 添加 JWT 授权信息日志模板
+            monitorItems.AddRange(GenerateAuthorizationTemplate(writer, user, authorization));
+        }
 
         // 添加请求参数信息日志模板
         monitorItems.AddRange(GenerateParameterTemplate(writer, parameterValues, actionMethod, httpRequest.Headers["Content-Type"], monitorMethod));
