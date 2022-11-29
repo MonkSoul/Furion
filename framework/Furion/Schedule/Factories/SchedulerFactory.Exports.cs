@@ -153,10 +153,17 @@ internal sealed partial class SchedulerFactory
     /// <summary>
     /// 添加作业
     /// </summary>
-    /// <param name="schedulerBuilder">作业计划构建器</param>
-    public void AddJob(SchedulerBuilder schedulerBuilder)
+    /// <param name="schedulerBuilders">作业计划构建器集合</param>
+    public void AddJob(params SchedulerBuilder[] schedulerBuilders)
     {
-        _ = TryAddJob(schedulerBuilder, out var _);
+        // 空检查
+        if (schedulerBuilders == null || schedulerBuilders.Length == 0) throw new ArgumentNullException(nameof(schedulerBuilders));
+
+        // 逐条将作业计划构建器添加到集合中
+        foreach (var schedulerBuilder in schedulerBuilders)
+        {
+            _ = TryAddJob(schedulerBuilder, out var _);
+        }
     }
 
     /// <summary>

@@ -13,6 +13,7 @@ import Tag from "@site/src/components/Tag.js";
 
 - **新特性**
 
+  - &nbsp;<Tag>新增</Tag> 定时任务批量添加 `SchedulerBuilder` 作业功能 <sup>4.8.2.4</sup> <sup>⏱️2022.11.29</sup>
   - &nbsp;<Tag>新增</Tag> 定时任务 `BuildSqlType` 配置，可设置生成不同数据库类型的 `SQL` 语句 <sup>4.8.2.3</sup> <sup>⏱️2022.11.29</sup> [293f9bc](https://gitee.com/dotnetchina/Furion/commit/293f9bce34fc4f70eacae1043ed697d31da88409) [!675](https://gitee.com/dotnetchina/Furion/pulls/675)
   - &nbsp;<Tag>新增</Tag> `JobDetail` 和 `Trigger` 自定义 `ConvertToSQL` 输出 `SQL` 配置 <sup>4.8.2</sup> <sup>⏱️2022.11.27</sup> [0bb9d8f](https://gitee.com/dotnetchina/Furion/commit/0bb9d8f1f3606af145b44c2984b87fdc020f02e1)
   - &nbsp;<Tag>新增</Tag> **作业触发器 `ResetOnlyOnce` 属性，支持只运行一次的作业重新启动服务重复执行** <sup>4.8.1.5</sup> <sup>⏱️2022.11.25</sup> [a8be728](https://gitee.com/dotnetchina/Furion/commit/a8be728eac986ebc5f44718b08c67aaee8b89dc6)
@@ -608,11 +609,17 @@ info: 2022-11-17 17:54:44.0092455 +08:00 星期四 L MyJob[0] #15
 
 1. 启用 `IncludeAnnotations` 扫描
 
-```cs showLineNumbers {3}
+```cs showLineNumbers {3,7,10}
 services.AddSchedule(options =>
 {
     options.AddJob(JobBuilder.Create<MyJob>().SetIncludeAnnotations(true)
         , Triggers.PeriodSeconds(5));     // 这里可传可不传，传了则会自动载入特性和这里配置的作业触发器
+
+    // 还可以更简单~~
+    options.AddJob(typeof(MyJob).ScanToBuilder());
+
+    // 还可以批量新增 Furion 4.8.2.4+
+    options.AddJob(App.EffectiveTypes.ScanToBuilders().ToArray())
 });
 ```
 
@@ -2242,7 +2249,7 @@ services.AddSchedule(options =>
 
 该方式非常灵活，可从配置文件，`JSON` 字符串，或其他能够返回 `JSON` 字符串的地方创建。
 
-```cs showLineNumbers {1,3,14,42}
+```cs showLineNumbers {1,3,14,43}
 var schedulerBuilder = SchedulerBuilder.From(@"
 {
     ""jobDetail"": {
@@ -2491,7 +2498,7 @@ services.AddSchedule(options =>
       // 是否输出作业调度器日志
       options.LogEnabled = true;
 
-      // 配置输出 SQL 的数据库类型
+      // 配置输出 SQL 的数据库类型，Furion 4.8.2.3+
       options.BuildSqlType = SqlTypes.SqlServer;
 
       // 定义未捕获的异常，通常是 Task 异常
@@ -2503,11 +2510,12 @@ services.AddSchedule(options =>
 
 - **内置方法配置**
 
-```cs showLineNumbers {4-17,20,23,26}
+```cs showLineNumbers {4-18,21,24,27,30,36}
 services.AddSchedule(options =>
 {
       // 添加作业
       options.AddJob(schedulerBuilder);
+      options.AddJob(schedulerBuilder, schedulerBuilder1, ...); // Furion 4.8.2.4+
       options.AddJob(jobBuilder, triggerBuilder, ...);
       options.AddJob<MyJob>(triggerBuilder, ...);
       options.AddJob<MyJob>("作业 Id", triggerBuilder, ...);
@@ -2530,6 +2538,18 @@ services.AddSchedule(options =>
 
       // 添加作业持久化器
       options.AddPersistence<YourJobPersistence>();
+
+      // 自定义 JobDetail SQL 输出
+      options.JobDetail.ConvertToSQL = (tableName, columnNames, jobDetail, behavior, naming) =>
+      {
+            // ...
+      };
+
+      // 自定义 Trigger SQL 输出
+      options.Trigger.ConvertToSQL = (tableName, columnNames, trigger, behavior, naming) =>
+      {
+            // ...
+      };
 });
 ```
 
@@ -2898,7 +2918,8 @@ warn: 2022-11-21 16:24:03.5876747 +08:00 星期一 L System.Logging.ScheduleServ
 
 - **还有其他更多重载方式**
 
-```cs showLineNumbers {1,9}
+```cs showLineNumbers {1,10}
+// Type 类型方式
 _schedulerFactory.TryAddJob(typeof(MyJob), new[] { Triggers.PeriodSeconds(10) }, out var scheduler);
 _schedulerFactory.AddJob(typeof(MyJob), Triggers.PeriodSeconds(10));
 _schedulerFactory.TryAddJob(typeof(MyJob), "作业 Id", new[] { Triggers.PeriodSeconds(10) }, out var scheduler);
@@ -2907,6 +2928,7 @@ _schedulerFactory.TryAddJob(typeof(MyJob), "作业 Id", true, new[] { Triggers.P
 _schedulerFactory.AddJob(typeof(MyJob), "作业 Id", true, Triggers.PeriodSeconds(10));
 _schedulerFactory.TryAddJob(typeof(MyJob), true, new[] { Triggers.PeriodSeconds(10) }, out var scheduler);
 _schedulerFactory.AddJob(typeof(MyJob), true, Triggers.PeriodSeconds(10));
+// 委托方式
 _schedulerFactory.TryAddJob((s, c, t) => {}, new[] { Triggers.PeriodSeconds(10) }, out var scheduler);
 _schedulerFactory.AddJob((s, c, t) => {}, Triggers.PeriodSeconds(10));
 _schedulerFactory.TryAddJob((s, c, t) => {}, "作业 Id", new[] { Triggers.PeriodSeconds(10) }, out var scheduler);
@@ -3514,7 +3536,7 @@ public void OnTriggerChanged(PersistenceTriggerContext context)
 ```cs showLineNumbers {4}
 services.AddSchedule(options =>
 {
-      // 配置输出 SQL 的数据库类型
+      // 配置输出 SQL 的数据库类型，Furion 4.8.2.3+
       options.BuildSqlType = SqlTypes.SqlServer;
 });
 ```

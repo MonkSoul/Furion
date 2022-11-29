@@ -109,15 +109,18 @@ public sealed class ScheduleOptionsBuilder
     /// <summary>
     /// 添加作业
     /// </summary>
-    /// <param name="schedulerBuilder">作业调度程序构建器</param>
+    /// <param name="schedulerBuilders">作业调度程序构建器集合</param>
     /// <returns><see cref="ScheduleOptionsBuilder"/></returns>
-    public ScheduleOptionsBuilder AddJob(SchedulerBuilder schedulerBuilder)
+    public ScheduleOptionsBuilder AddJob(params SchedulerBuilder[] schedulerBuilders)
     {
         // 空检查
-        if (schedulerBuilder == null) throw new ArgumentNullException(nameof(schedulerBuilder));
+        if (schedulerBuilders == null || schedulerBuilders.Length == 0) throw new ArgumentNullException(nameof(schedulerBuilders));
 
-        // 将作业计划构建器添加到集合中
-        _schedulerBuilders.Add(schedulerBuilder);
+        // 逐条将作业计划构建器添加到集合中
+        foreach (var schedulerBuilder in schedulerBuilders)
+        {
+            _schedulerBuilders.Add(schedulerBuilder);
+        }
 
         return this;
     }

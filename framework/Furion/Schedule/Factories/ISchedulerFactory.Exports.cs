@@ -68,8 +68,8 @@ public partial interface ISchedulerFactory : IDisposable
     /// <summary>
     /// 添加作业
     /// </summary>
-    /// <param name="schedulerBuilder">作业计划构建器</param>
-    void AddJob(SchedulerBuilder schedulerBuilder);
+    /// <param name="schedulerBuilders">作业计划构建器集合</param>
+    void AddJob(params SchedulerBuilder[] schedulerBuilders);
 
     /// <summary>
     /// 添加作业
