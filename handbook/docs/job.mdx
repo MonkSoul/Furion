@@ -13,6 +13,7 @@ import Tag from "@site/src/components/Tag.js";
 
 - **新特性**
 
+  - &nbsp;<Tag>新增</Tag> **定时任务 `Triggers` 所有带 `At` 的 `Cron` 表达式触发器构建器及特性** <sup>4.8.2.5</sup> <sup>⏱️2022.11.29</sup> [#I63PLR](https://gitee.com/dotnetchina/Sundial/issues/I63PLR)
   - &nbsp;<Tag>新增</Tag> 定时任务批量添加 `SchedulerBuilder` 作业功能 <sup>4.8.2.4</sup> <sup>⏱️2022.11.29</sup> [5faa67b](https://gitee.com/dotnetchina/Furion/commit/5faa67b7817459cb0ee0add86a6e53c17ff51a05)
   - &nbsp;<Tag>新增</Tag> 定时任务 `BuildSqlType` 配置，可设置生成不同数据库类型的 `SQL` 语句 <sup>4.8.2.3</sup> <sup>⏱️2022.11.29</sup> [293f9bc](https://gitee.com/dotnetchina/Furion/commit/293f9bce34fc4f70eacae1043ed697d31da88409) [!675](https://gitee.com/dotnetchina/Furion/pulls/675)
   - &nbsp;<Tag>新增</Tag> `JobDetail` 和 `Trigger` 自定义 `ConvertToSQL` 输出 `SQL` 配置 <sup>4.8.2</sup> <sup>⏱️2022.11.27</sup> [0bb9d8f](https://gitee.com/dotnetchina/Furion/commit/0bb9d8f1f3606af145b44c2984b87fdc020f02e1)
@@ -1617,36 +1618,72 @@ var triggerBuilder = TriggerBuilder.Cron("* * * * *", CronStringFormat.Default);
 
 `Triggers` 具备 `TriggerBuilder` 所有的静态方法，另外还添加了不少更加便捷的静态方法。
 
-```cs showLineNumbers {2,5,8,11,14,17,20,23,26,29}
+```cs showLineNumbers {1-20,22-65}
 // 创建毫秒周期（间隔）作业触发器构建器
 var triggerBuilder = Triggers.Period(5000);
-
 // 创建秒周期（间隔）作业触发器构建器
 var triggerBuilder = Triggers.PeriodSeconds(5);
-
 // 创建 Cron 表达式作业触发器构建器
 var triggerBuilder = Triggers.Cron("* * * * *", CronStringFormat.Default);
-
 // 创建每秒开始作业触发器构建器
 var triggerBuilder = Triggers.Secondly();
-
 // 创建每分钟开始作业触发器构建器
 var triggerBuilder = Triggers.Minutely();
-
 // 创建每小时开始作业触发器构建器
 var triggerBuilder = Triggers.Hourly();
-
 // 创建每天（午夜）开始作业触发器构建器
 var triggerBuilder = Triggers.Daily();
-
 // 创建每月1号（午夜）开始作业触发器构建器
 var triggerBuilder = Triggers.Monthly();
-
 // 创建每周日（午夜）开始作业触发器构建器
 var triggerBuilder = Triggers.Weekly();
-
 // 创建每年1月1号（午夜）开始作业触发器构建器
 var triggerBuilder = Triggers.Yearly();
+
+// Furion 4.8.2.5+ 更多 Macro At
+// 每第 3 秒
+var triggerBuilder = Triggers.SecondlyAt(3);
+// 每第 3，5，6 秒
+var triggerBuilder = Triggers.SecondlyAt(3, 5, 6);
+
+// 每分钟第 3 秒
+var triggerBuilder = Triggers.MinutelyAt(3);
+// 每分钟第 3，5，6 秒
+var triggerBuilder = Triggers.MinutelyAt(3, 5, 6);
+
+// 每小时第 3 分钟
+var triggerBuilder = Triggers.HourlyAt(3);
+// 每小时第 3，5，6 分钟
+var triggerBuilder = Triggers.HourlyAt(3, 5, 6);
+
+// 每天第 3 小时正（点）
+var triggerBuilder = Triggers.DailyAt(3);
+// 每天第 3，5，6 小时正（点）
+var triggerBuilder = Triggers.DailyAt(3, 5, 6);
+
+// 每月第 3 天零点正
+var triggerBuilder = Triggers.MonthlyAt(3);
+// 每月第 3，5，6 天零点正
+var triggerBuilder = Triggers.MonthlyAt(3, 5, 6);
+
+// 每周星期 3 零点正
+var triggerBuilder = Triggers.WeeklyAt(3);
+var triggerBuilder = Triggers.WeeklyAt("WED");  // SUN（星期天），MON，TUE，WED，THU，FRI，SAT
+// 每周星期 3，5，6 零点正
+var triggerBuilder = Triggers.WeeklyAt(3, 5, 6);
+var triggerBuilder = Triggers.WeeklyAt("WED", "FRI", "SAT");
+// 还支持混合
+var triggerBuilder = Triggers.WeeklyAt(3, "FRI", 6);
+
+// 每年第 3 月 1 日零点正
+var triggerBuilder = Triggers.YearlyAt(3);
+var triggerBuilder = Triggers.YearlyAt("MAR");  // JAN（一月），FEB，MAR，APR，MAY，JUN，JUL，AUG，SEP，OCT，NOV，DEC
+// 每年第 3，5，6 月 1 日零点正
+var triggerBuilder = Triggers.YearlyAt(3);
+var triggerBuilder = Triggers.YearlyAt(3, 5, 6);
+var triggerBuilder = Triggers.YearlyAt("MAR", "MAY", "JUN");
+// 还支持混合
+var triggerBuilder = Triggers.YearlyAt(3, "MAY", 6);
 ```
 
 ### 26.1.5.5 自定义作业触发器
@@ -1816,6 +1853,13 @@ info: 2022-11-20 21:43:10.4629078 +08:00 星期日 L ConsoleApp13.MyJob[0] #9
 - `[Monthly]`：每月 1 号（午夜）开始作业触发器特性
 - `[Weekly]`：每周日（午夜）开始作业触发器特性
 - `[Yearly]`：每年 1 月 1 号（午夜）开始作业触发器特性
+- `[SecondlyAt]`：特定秒开始作业触发器特性
+- `[MinutelyAt]`：每分钟特定秒开始作业触发器特性
+- `[HourlyAt]`：每小时特定分钟开始作业触发器特性
+- `[DailyAt]`：每天特定小时开始作业触发器特性
+- `[MonthlyAt]`：每月特定天（午夜）开始作业触发器特性
+- `[WeeklyAt]`：每周特定星期几（午夜）开始作业触发器特性
+- `[YearlyAt]`：每年特定月1号（午夜）开始作业触发器特性
 
 使用如下：
 

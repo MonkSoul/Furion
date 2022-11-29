@@ -168,12 +168,36 @@ public static class Triggers
     }
 
     /// <summary>
+    /// 创建指定特定秒开始作业触发器构建器
+    /// </summary>
+    /// <returns><see cref="TriggerBuilder"/></returns>
+    public static TriggerBuilder SecondlyAt(params int[] fields)
+    {
+        // 空检查
+        if (fields == null || fields.Length == 0) throw new ArgumentNullException(nameof(fields));
+
+        return Cron($"{string.Join(',', fields)} * * * * *", CronStringFormat.WithSeconds);
+    }
+
+    /// <summary>
     /// 创建每分钟开始作业触发器构建器
     /// </summary>
     /// <returns><see cref="TriggerBuilder"/></returns>
     public static TriggerBuilder Minutely()
     {
         return Cron("@minutely");
+    }
+
+    /// <summary>
+    /// 创建每分钟特定秒开始作业触发器构建器
+    /// </summary>
+    /// <returns><see cref="TriggerBuilder"/></returns>
+    public static TriggerBuilder MinutelyAt(params int[] fields)
+    {
+        // 空检查
+        if (fields == null || fields.Length == 0) throw new ArgumentNullException(nameof(fields));
+
+        return Cron($"{string.Join(',', fields)} * * * * *", CronStringFormat.WithSeconds);
     }
 
     /// <summary>
@@ -186,12 +210,36 @@ public static class Triggers
     }
 
     /// <summary>
+    /// 创建每小时特定分钟开始作业触发器构建器
+    /// </summary>
+    /// <returns><see cref="TriggerBuilder"/></returns>
+    public static TriggerBuilder HourlyAt(params int[] fields)
+    {
+        // 空检查
+        if (fields == null || fields.Length == 0) throw new ArgumentNullException(nameof(fields));
+
+        return Cron($"{string.Join(',', fields)} * * * *", CronStringFormat.Default);
+    }
+
+    /// <summary>
     /// 创建每天（午夜）开始作业触发器构建器
     /// </summary>
     /// <returns><see cref="TriggerBuilder"/></returns>
     public static TriggerBuilder Daily()
     {
         return Cron("@daily");
+    }
+
+    /// <summary>
+    /// 创建每天特定小时开始作业触发器构建器
+    /// </summary>
+    /// <returns><see cref="TriggerBuilder"/></returns>
+    public static TriggerBuilder DailyAt(params int[] fields)
+    {
+        // 空检查
+        if (fields == null || fields.Length == 0) throw new ArgumentNullException(nameof(fields));
+
+        return Cron($"0 {string.Join(',', fields)} * * *", CronStringFormat.Default);
     }
 
     /// <summary>
@@ -204,6 +252,18 @@ public static class Triggers
     }
 
     /// <summary>
+    /// 创建每月特定天（午夜）开始作业触发器构建器
+    /// </summary>
+    /// <returns><see cref="TriggerBuilder"/></returns>
+    public static TriggerBuilder MonthlyAt(params int[] fields)
+    {
+        // 空检查
+        if (fields == null || fields.Length == 0) throw new ArgumentNullException(nameof(fields));
+
+        return Cron($"0 0 {string.Join(',', fields)} * *", CronStringFormat.Default);
+    }
+
+    /// <summary>
     /// 创建每周日（午夜）开始作业触发器构建器
     /// </summary>
     /// <returns><see cref="TriggerBuilder"/></returns>
@@ -213,11 +273,87 @@ public static class Triggers
     }
 
     /// <summary>
+    /// 创建每周特定星期几（午夜）开始作业触发器构建器
+    /// </summary>
+    /// <returns><see cref="TriggerBuilder"/></returns>
+    public static TriggerBuilder WeeklyAt(params int[] fields)
+    {
+        // 空检查
+        if (fields == null || fields.Length == 0) throw new ArgumentNullException(nameof(fields));
+
+        return Cron($"0 0 * * {string.Join(',', fields)}", CronStringFormat.Default);
+    }
+
+    /// <summary>
+    /// 创建每周特定星期几（午夜）开始作业触发器构建器
+    /// </summary>
+    /// <returns><see cref="TriggerBuilder"/></returns>
+    public static TriggerBuilder WeeklyAt(params string[] fields)
+    {
+        // 空检查
+        if (fields == null || fields.Length == 0) throw new ArgumentNullException(nameof(fields));
+
+        return Cron($"0 0 * * {string.Join(',', fields)}", CronStringFormat.Default);
+    }
+
+    /// <summary>
+    /// 创建每周特定星期几（午夜）开始作业触发器构建器
+    /// </summary>
+    /// <returns><see cref="TriggerBuilder"/></returns>
+    public static TriggerBuilder WeeklyAt(params object[] fields)
+    {
+        // 空检查
+        if (fields == null || fields.Length == 0) throw new ArgumentNullException(nameof(fields));
+        // 检查 fields 只能是 int 和字符串类型
+        if (fields.Any(f => f.GetType() != typeof(int) && f.GetType() != typeof(string))) throw new InvalidOperationException("Invalid Cron expression.");
+
+        return Cron($"0 0 * * {string.Join(',', fields)}", CronStringFormat.Default);
+    }
+
+    /// <summary>
     /// 创建每年1月1号（午夜）开始作业触发器构建器
     /// </summary>
     /// <returns><see cref="TriggerBuilder"/></returns>
     public static TriggerBuilder Yearly()
     {
         return Cron("@yearly");
+    }
+
+    /// <summary>
+    /// 创建每年特定月1号（午夜）开始作业触发器构建器
+    /// </summary>
+    /// <returns><see cref="TriggerBuilder"/></returns>
+    public static TriggerBuilder YearlyAt(params int[] fields)
+    {
+        // 空检查
+        if (fields == null || fields.Length == 0) throw new ArgumentNullException(nameof(fields));
+
+        return Cron($"0 0 1 {string.Join(',', fields)} *", CronStringFormat.Default);
+    }
+
+    /// <summary>
+    /// 创建每年特定月1号（午夜）开始作业触发器构建器
+    /// </summary>
+    /// <returns><see cref="TriggerBuilder"/></returns>
+    public static TriggerBuilder YearlyAt(params string[] fields)
+    {
+        // 空检查
+        if (fields == null || fields.Length == 0) throw new ArgumentNullException(nameof(fields));
+
+        return Cron($"0 0 1 {string.Join(',', fields)} *", CronStringFormat.Default);
+    }
+
+    /// <summary>
+    /// 创建每年特定月1号（午夜）开始作业触发器构建器
+    /// </summary>
+    /// <returns><see cref="TriggerBuilder"/></returns>
+    public static TriggerBuilder YearlyAt(params object[] fields)
+    {
+        // 空检查
+        if (fields == null || fields.Length == 0) throw new ArgumentNullException(nameof(fields));
+        // 检查 fields 只能是 int 和字符串类型
+        if (fields.Any(f => f.GetType() != typeof(int) && f.GetType() != typeof(string))) throw new InvalidOperationException("Invalid Cron expression.");
+
+        return Cron($"0 0 1 {string.Join(',', fields)} *", CronStringFormat.Default);
     }
 }
