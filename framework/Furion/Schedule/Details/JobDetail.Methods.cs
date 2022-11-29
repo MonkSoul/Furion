@@ -243,13 +243,13 @@ public partial class JobDetail
     {columnNames[8]}
 )
 VALUES(
-    '{JobId}',
+    {Penetrates.GetNoNumberSqlValueOrNull(JobId)},
     {Penetrates.GetNoNumberSqlValueOrNull(GroupName)},
-    '{JobType}',
-    '{AssemblyName}',
+    {Penetrates.GetNoNumberSqlValueOrNull(JobType)},
+    {Penetrates.GetNoNumberSqlValueOrNull(AssemblyName)},
     {Penetrates.GetNoNumberSqlValueOrNull(Description)},
-    {(Concurrent ? 1 : 0)},
-    {(IncludeAnnotations ? 1 : 0)},
+    {Penetrates.GetBooleanSqlValue(Concurrent)},
+    {Penetrates.GetBooleanSqlValue(IncludeAnnotations)},
     {Penetrates.GetNoNumberSqlValueOrNull(Properties)},
     {Penetrates.GetNoNumberSqlValueOrNull(UpdatedTime)}
 );";
@@ -268,16 +268,16 @@ VALUES(
 
         return $@"UPDATE {tableName}
 SET
-    {columnNames[0]} = '{JobId}',
+    {columnNames[0]} = {Penetrates.GetNoNumberSqlValueOrNull(JobId)},
     {columnNames[1]} = {Penetrates.GetNoNumberSqlValueOrNull(GroupName)},
-    {columnNames[2]} = '{JobType}',
-    {columnNames[3]} = '{AssemblyName}',
+    {columnNames[2]} = {Penetrates.GetNoNumberSqlValueOrNull(JobType)},
+    {columnNames[3]} = {Penetrates.GetNoNumberSqlValueOrNull(AssemblyName)},
     {columnNames[4]} = {Penetrates.GetNoNumberSqlValueOrNull(Description)},
-    {columnNames[5]} = {(Concurrent ? 1 : 0)},
-    {columnNames[6]} = {(IncludeAnnotations ? 1 : 0)},
+    {columnNames[5]} = {Penetrates.GetBooleanSqlValue(Concurrent)},
+    {columnNames[6]} = {Penetrates.GetBooleanSqlValue(IncludeAnnotations)},
     {columnNames[7]} = {Penetrates.GetNoNumberSqlValueOrNull(Properties)},
     {columnNames[8]} = {Penetrates.GetNoNumberSqlValueOrNull(UpdatedTime)}
-WHERE {columnNames[0]} = '{JobId}';";
+WHERE {columnNames[0]} = {Penetrates.GetNoNumberSqlValueOrNull(JobId)};";
     }
 
     /// <summary>
@@ -292,7 +292,7 @@ WHERE {columnNames[0]} = '{JobId}';";
         var columnNames = ColumnNames(naming);
 
         return $@"DELETE FROM {tableName}
-WHERE {columnNames[0]} = '{JobId}';";
+WHERE {columnNames[0]} = {Penetrates.GetNoNumberSqlValueOrNull(JobId)};";
     }
 
     /// <summary>

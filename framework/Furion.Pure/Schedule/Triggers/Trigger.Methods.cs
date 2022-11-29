@@ -404,10 +404,10 @@ public partial class Trigger
     {columnNames[20]}
 )
 VALUES(
-    '{TriggerId}',
-    '{JobId}',
-    '{TriggerType}',
-    '{AssemblyName}',
+    {Penetrates.GetNoNumberSqlValueOrNull(TriggerId)},
+    {Penetrates.GetNoNumberSqlValueOrNull(JobId)},
+    {Penetrates.GetNoNumberSqlValueOrNull(TriggerType)},
+    {Penetrates.GetNoNumberSqlValueOrNull(AssemblyName)},
     {Penetrates.GetNoNumberSqlValueOrNull(Args)},
     {Penetrates.GetNoNumberSqlValueOrNull(Description)},
     {((int)Status)},
@@ -421,9 +421,9 @@ VALUES(
     {MaxNumberOfErrors},
     {NumRetries},
     {RetryTimeout},
-    {(StartNow ? 1 : 0)},
-    {(RunOnStart ? 1 : 0)},
-    {(ResetOnlyOnce ? 1 : 0)},
+    {Penetrates.GetBooleanSqlValue(StartNow)},
+    {Penetrates.GetBooleanSqlValue(RunOnStart)},
+    {Penetrates.GetBooleanSqlValue(ResetOnlyOnce)},
     {Penetrates.GetNoNumberSqlValueOrNull(UpdatedTime)}
 );";
     }
@@ -441,10 +441,10 @@ VALUES(
 
         return $@"UPDATE {tableName}
 SET
-    {columnNames[0]} = '{TriggerId}',
-    {columnNames[1]} = '{JobId}',
-    {columnNames[2]} = '{TriggerType}',
-    {columnNames[3]} = '{AssemblyName}',
+    {columnNames[0]} = {Penetrates.GetNoNumberSqlValueOrNull(TriggerId)},
+    {columnNames[1]} = {Penetrates.GetNoNumberSqlValueOrNull(JobId)},
+    {columnNames[2]} = {Penetrates.GetNoNumberSqlValueOrNull(TriggerType)},
+    {columnNames[3]} = {Penetrates.GetNoNumberSqlValueOrNull(AssemblyName)},
     {columnNames[4]} = {Penetrates.GetNoNumberSqlValueOrNull(Args)},
     {columnNames[5]} = {Penetrates.GetNoNumberSqlValueOrNull(Description)},
     {columnNames[6]} = {((int)Status)},
@@ -458,11 +458,11 @@ SET
     {columnNames[14]} = {MaxNumberOfErrors},
     {columnNames[15]} = {NumRetries},
     {columnNames[16]} = {RetryTimeout},
-    {columnNames[17]} = {(StartNow ? 1 : 0)},
-    {columnNames[18]} = {(RunOnStart ? 1 : 0)},
-    {columnNames[19]} = {(ResetOnlyOnce ? 1 : 0)},
+    {columnNames[17]} = {Penetrates.GetBooleanSqlValue(StartNow)},
+    {columnNames[18]} = {Penetrates.GetBooleanSqlValue(RunOnStart)},
+    {columnNames[19]} = {Penetrates.GetBooleanSqlValue(ResetOnlyOnce)},
     {columnNames[20]} = {Penetrates.GetNoNumberSqlValueOrNull(UpdatedTime)}
-WHERE {columnNames[0]} = '{TriggerId}' AND {columnNames[1]} = '{JobId}';";
+WHERE {columnNames[0]} = {Penetrates.GetNoNumberSqlValueOrNull(TriggerId)} AND {columnNames[1]} = {Penetrates.GetNoNumberSqlValueOrNull(JobId)};";
     }
 
     /// <summary>
@@ -477,7 +477,7 @@ WHERE {columnNames[0]} = '{TriggerId}' AND {columnNames[1]} = '{JobId}';";
         var columnNames = ColumnNames(naming);
 
         return $@"DELETE FROM {tableName}
-WHERE {columnNames[0]} = '{TriggerId}' AND {columnNames[1]} = '{JobId}';";
+WHERE {columnNames[0]} = {Penetrates.GetNoNumberSqlValueOrNull(TriggerId)} AND {columnNames[1]} = {Penetrates.GetNoNumberSqlValueOrNull(JobId)};";
     }
 
     /// <summary>

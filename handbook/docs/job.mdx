@@ -13,6 +13,7 @@ import Tag from "@site/src/components/Tag.js";
 
 - **新特性**
 
+  - &nbsp;<Tag>新增</Tag> 定时任务 `BuildSqlType` 配置，可设置生成不同数据库类型的 `SQL` 语句 <sup>4.8.2.3</sup> <sup>⏱️2022.11.29</sup>
   - &nbsp;<Tag>新增</Tag> `JobDetail` 和 `Trigger` 自定义 `ConvertToSQL` 输出 `SQL` 配置 <sup>4.8.2</sup> <sup>⏱️2022.11.27</sup> [0bb9d8f](https://gitee.com/dotnetchina/Furion/commit/0bb9d8f1f3606af145b44c2984b87fdc020f02e1)
   - &nbsp;<Tag>新增</Tag> **作业触发器 `ResetOnlyOnce` 属性，支持只运行一次的作业重新启动服务重复执行** <sup>4.8.1.5</sup> <sup>⏱️2022.11.25</sup> [a8be728](https://gitee.com/dotnetchina/Furion/commit/a8be728eac986ebc5f44718b08c67aaee8b89dc6)
   - &nbsp;<Tag>新增</Tag> 动态作业处理程序委托支持 <sup>4.8.1.8</sup> <sup>⏱️2022.11.27</sup> [e02266c](https://gitee.com/dotnetchina/Furion/commit/e02266c44187dbc2b416abe1ca4112ce13c89180)
@@ -2481,7 +2482,7 @@ services.AddSchedule(scheduleOptionsBuilder);
 
 - **内置属性配置**
 
-```cs showLineNumbers {4,7,10}
+```cs showLineNumbers {4,7,10,13}
 services.AddSchedule(options =>
 {
       // 是否使用 UTC 时间，该配置主要用来作为作业调度器检查时间格式的依据
@@ -2489,6 +2490,9 @@ services.AddSchedule(options =>
 
       // 是否输出作业调度器日志
       options.LogEnabled = true;
+
+      // 配置输出 SQL 的数据库类型
+      options.BuildSqlType = SqlTypes.SqlServer;
 
       // 定义未捕获的异常，通常是 Task 异常
       options.UnobservedTaskExceptionHandler = (obj, args) =>
@@ -3502,6 +3506,20 @@ public void OnTriggerChanged(PersistenceTriggerContext context)
       // 你要做的只是执行 SQL 了！！！ 😎
 }
 ```
+
+:::tip 小知识
+
+默认情况下，生成的 `SQL` 属于标准 `SQL` 语句，但未必适合所有数据库类型，所以我们可以指定 `BuildSqlType` 来生成特定数据库的语句，如：
+
+```cs showLineNumbers {4}
+services.AddSchedule(options =>
+{
+      // 配置输出 SQL 的数据库类型
+      options.BuildSqlType = SqlTypes.SqlServer;
+});
+```
+
+:::
 
 ### 26.1.12.4 各类数据库创建作业持久化表语句
 

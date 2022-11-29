@@ -87,6 +87,26 @@ public sealed class ScheduleOptionsBuilder
     public TriggerOptions Trigger { get; } = new();
 
     /// <summary>
+    /// 生成 SQL 的类型
+    /// </summary>
+    public SqlTypes BuilSqlType
+    {
+        get
+        {
+            return InternalBuildSqlType;
+        }
+        set
+        {
+            InternalBuildSqlType = value;
+        }
+    }
+
+    /// <summary>
+    /// 内部生成 SQL 的类型
+    /// </summary>
+    internal static SqlTypes InternalBuildSqlType { get; private set; } = SqlTypes.Standard;
+
+    /// <summary>
     /// 添加作业
     /// </summary>
     /// <param name="schedulerBuilder">作业调度程序构建器</param>

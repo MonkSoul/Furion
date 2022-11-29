@@ -170,7 +170,21 @@ internal static class Penetrates
     /// <returns><see cref="string"/></returns>
     internal static string GetNoNumberSqlValueOrNull(object obj)
     {
-        return obj == null ? "NULL" : $"'{obj}'";
+        return obj == null ? "NULL" : $"{(ScheduleOptionsBuilder.InternalBuildSqlType == SqlTypes.SqlServer ? "N" : string.Empty)}'{obj}'";
+    }
+
+    /// <summary>
+    /// 获取 Boolean 类型 SQL 值
+    /// </summary>
+    /// <param name="value"><see cref="bool"/></param>
+    /// <returns></returns>
+    internal static string GetBooleanSqlValue(bool value)
+    {
+        // 处理 PostgreSQL 和 Firebird 数据库
+        var isPostgreSQLOrFirebird = ScheduleOptionsBuilder.InternalBuildSqlType == SqlTypes.PostgresSQL || ScheduleOptionsBuilder.InternalBuildSqlType == SqlTypes.Firebird;
+
+        if (value) return isPostgreSQLOrFirebird ? "TRUE" : "1";
+        else return isPostgreSQLOrFirebird ? "FALSE" : "0";
     }
 
     /// <summary>
