@@ -196,7 +196,7 @@ bool isSingleFileEnviroment = App.SingleFileEnvironment;
 
 :::
 
-```cs
+```cs showLineNumbers
 var cmdConfig = App.GetCommandLineConfiguration(args);
 cmdConfig.TryGet("参数", out var value);
 ```
@@ -209,7 +209,7 @@ cmdConfig.TryGet("参数", out var value);
 
 :::
 
-```cs
+```cs showLineNumbers
 var threadId = App.GetThreadId();
 ```
 
@@ -221,6 +221,21 @@ var threadId = App.GetThreadId();
 
 :::
 
-```cs
+```cs showLineNumbers
 var traceId = App.GetTraceId();
+```
+
+## 1.26 获取代码执行耗时
+
+:::important 版本说明
+
+以下内容仅限 `Furion 4.8.2.4 +` 版本使用。
+
+:::
+
+```cs showLineNumbers
+var elapsedMilliseconds = App.GetExecutionTime(() =>
+{
+    Console.WriteLine("Hello, Furion");
+});
 ```

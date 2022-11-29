@@ -283,6 +283,23 @@ public static class App
     }
 
     /// <summary>
+    /// 获取一段代码执行耗时
+    /// </summary>
+    /// <param name="action">委托</param>
+    /// <returns><see cref="long"/></returns>
+    public static long GetExecutionTime(Action action)
+    {
+        // 空检查
+        if (action == null) throw new ArgumentNullException(nameof(action));
+
+        // 计算接口执行时间
+        var timeOperation = Stopwatch.StartNew();
+        action();
+        timeOperation.Stop();
+        return timeOperation.ElapsedMilliseconds;
+    }
+
+    /// <summary>
     /// 打印验证信息到 MiniProfiler
     /// </summary>
     /// <param name="category">分类</param>
