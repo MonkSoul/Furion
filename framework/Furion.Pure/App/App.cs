@@ -33,6 +33,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using StackExchange.Profiling;
 using System.Collections.Concurrent;
+using System.Diagnostics;
 using System.Reflection;
 using System.Security.Claims;
 
@@ -261,6 +262,24 @@ public static class App
         commandLineConfiguration.Load();
 
         return commandLineConfiguration;
+    }
+
+    /// <summary>
+    /// 获取当前线程 Id
+    /// </summary>
+    /// <returns></returns>
+    public static int GetThreadId()
+    {
+        return Environment.CurrentManagedThreadId;
+    }
+
+    /// <summary>
+    /// 获取当前请求 TraceId
+    /// </summary>
+    /// <returns></returns>
+    public static string GetTraceId()
+    {
+        return Activity.Current?.Id ?? (InternalApp.RootServices == null ? default : App.HttpContext?.TraceIdentifier);
     }
 
     /// <summary>
