@@ -23,17 +23,19 @@
 namespace Furion.Schedule;
 
 /// <summary>
-/// 特定秒开始作业触发器特性
+/// Cron 表达式 Macro 作业触发器特性
 /// </summary>
-[SecondlyAtAttribute, AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
-public sealed class SecondlyAtAttribute : MacroAtAttribute
+[SuppressSniffer, AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
+public class MacroAtAttribute : TriggerAttribute
 {
     /// <summary>
     /// 构造函数
     /// </summary>
+    /// <param name="macro">Macro 符号</param>
     /// <param name="fields">字段值</param>
-    public SecondlyAtAttribute(params object[] fields)
-        : base("@secondly", fields)
+    public MacroAtAttribute(string macro, params object[] fields)
+        : base(typeof(MacroAtTrigger)
+            , macro, fields)
     {
     }
 }

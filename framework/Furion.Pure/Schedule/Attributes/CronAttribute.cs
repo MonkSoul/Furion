@@ -40,17 +40,4 @@ public class CronAttribute : TriggerAttribute
             , schedule, (int)format)
     {
     }
-
-    /// <summary>
-    /// 构造函数
-    /// </summary>
-    /// <param name="schedule">Cron 表达式</param>
-    /// <param name="format">Cron 表达式格式化类型</param>
-    /// <param name="fields">字段值</param>
-    public CronAttribute(string schedule, CronStringFormat format = CronStringFormat.Default, params object[] fields)
-        : this(schedule, format)
-    {
-        // 检查字段合法性
-        Penetrates.CheckCronFieldsNotNullOrEmpty(fields);
-    }
 }

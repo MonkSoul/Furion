@@ -20,22 +20,20 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-using Furion.TimeCrontab;
-
 namespace Furion.Schedule;
 
 /// <summary>
 /// 每周特定星期几（午夜）开始作业触发器特性
 /// </summary>
 [SuppressSniffer, AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
-public sealed class WeeklyAtAttribute : CronAttribute
+public sealed class WeeklyAtAttribute : MacroAtAttribute
 {
     /// <summary>
     /// 构造函数
     /// </summary>
     /// <param name="fields">字段值</param>
     public WeeklyAtAttribute(params object[] fields)
-        : base($"0 0 * * {string.Join(',', fields)}", CronStringFormat.Default, fields)
+        : base("@weekly", fields)
     {
     }
 }

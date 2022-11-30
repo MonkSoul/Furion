@@ -20,22 +20,20 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-using Furion.TimeCrontab;
-
 namespace Furion.Schedule;
 
 /// <summary>
 /// 特定秒开始作业触发器特性
 /// </summary>
 [SecondlyAtAttribute, AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
-public sealed class SecondlyAtAttribute : CronAttribute
+public sealed class SecondlyAtAttribute : MacroAtAttribute
 {
     /// <summary>
     /// 构造函数
     /// </summary>
     /// <param name="fields">字段值</param>
-    public SecondlyAtAttribute(params int[] fields)
-        : base($"{string.Join(',', fields)} * * * * *", CronStringFormat.WithSeconds, fields)
+    public SecondlyAtAttribute(params object[] fields)
+        : base("@secondly", fields)
     {
     }
 }
