@@ -62,4 +62,9 @@ public sealed partial class Crontab
     /// 表示每年1月1号（午夜）开始的 <see cref="Crontab"/> 对象
     /// </summary>
     public static readonly Crontab Yearly = Parse("0 0 1 1 *", CronStringFormat.Default);
+
+    /// <summary>
+    /// 表示每周一至周五（午夜）开始的 <see cref="Crontab"/> 对象
+    /// </summary>
+    public static readonly Crontab Workday = Parse("0 0 * * 1-5", CronStringFormat.Default);
 }

@@ -259,7 +259,7 @@ internal static class Penetrates
         // 空检查
         if (fields == null || fields.Length == 0) throw new ArgumentNullException(nameof(fields));
 
-        // 检查 fields 只能是 int 和字符串类型
-        if (fields.Any(f => f.GetType() != typeof(int) && f.GetType() != typeof(string))) throw new InvalidOperationException("Invalid Cron expression.");
+        // 检查 fields 只能是 int，string 和非 null 类型
+        if (fields.Any(f => f == null || (f.GetType() != typeof(int) && f.GetType() != typeof(string)))) throw new InvalidOperationException("Invalid Cron expression.");
     }
 }
