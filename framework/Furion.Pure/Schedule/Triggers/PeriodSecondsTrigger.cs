@@ -36,4 +36,13 @@ public sealed class PeriodSecondsTrigger : PeriodTrigger
         : base(interval * 1000)
     {
     }
+
+    /// <summary>
+    /// 作业触发器转字符串输出
+    /// </summary>
+    /// <returns><see cref="string"/></returns>
+    public override string ToString()
+    {
+        return $"<{JobId} {TriggerId}> {Interval / 1000}s{(string.IsNullOrWhiteSpace(Description) ? string.Empty : $" {Description}")}";
+    }
 }

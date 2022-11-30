@@ -148,6 +148,16 @@ public static class Triggers
     }
 
     /// <summary>
+    /// 创建分钟周期（间隔）作业触发器构建器
+    /// </summary>
+    /// <param name="interval">间隔（分钟）</param>
+    /// <returns><see cref="TriggerBuilder"/></returns>
+    public static TriggerBuilder PeriodMinutes(int interval)
+    {
+        return TriggerBuilder.PeriodMinutes(interval);
+    }
+
+    /// <summary>
     /// 创建 Cron 表达式作业触发器构建器
     /// </summary>
     /// <param name="schedule">Cron 表达式</param>
@@ -156,6 +166,17 @@ public static class Triggers
     public static TriggerBuilder Cron(string schedule, CronStringFormat format = CronStringFormat.Default)
     {
         return TriggerBuilder.Cron(schedule, format);
+    }
+
+    /// <summary>
+    /// 创建 Cron 表达式 Macro 作业触发器构建器
+    /// </summary>
+    /// <param name="macro">Macro 符号</param>
+    /// <param name="fields">字段值</param>
+    /// <returns><see cref="TriggerBuilder"/></returns>
+    public static TriggerBuilder MacroAt(string macro, params object[] fields)
+    {
+        return TriggerBuilder.MacroAt(macro, fields);
     }
 
     /// <summary>
@@ -298,16 +319,5 @@ public static class Triggers
     public static TriggerBuilder Workday()
     {
         return Cron("@workday");
-    }
-
-    /// <summary>
-    /// 创建 Cron 表达式作业触发器构建器
-    /// </summary>
-    /// <param name="macro">Macro 符号</param>
-    /// <param name="fields">字段值</param>
-    /// <returns><see cref="TriggerBuilder"/></returns>
-    private static TriggerBuilder MacroAt(string macro, params object[] fields)
-    {
-        return Create<MacroAtTrigger>(macro, fields);
     }
 }

@@ -43,7 +43,7 @@ public class PeriodTrigger : Trigger
     /// <summary>
     /// 间隔（毫秒）
     /// </summary>
-    private int Interval { get; }
+    protected int Interval { get; }
 
     /// <summary>
     /// 计算下一个触发时间

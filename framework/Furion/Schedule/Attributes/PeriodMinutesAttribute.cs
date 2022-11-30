@@ -23,44 +23,17 @@
 namespace Furion.Schedule;
 
 /// <summary>
-/// 毫秒周期（间隔）作业触发器
+/// 分钟周期（间隔）作业触发器特性
 /// </summary>
-[SuppressSniffer]
-public class PeriodTrigger : Trigger
+[SuppressSniffer, AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
+public sealed class PeriodMinutesAttribute : PeriodAttribute
 {
     /// <summary>
     /// 构造函数
     /// </summary>
-    /// <param name="interval">间隔（毫秒）</param>
-    public PeriodTrigger(int interval)
+    /// <param name="interval">间隔（分钟）</param>
+    public PeriodMinutesAttribute(int interval)
+        : base(interval * 1000 * 60)
     {
-        // 最低运行毫秒数为 100ms
-        if (interval < 100) throw new InvalidOperationException($"The interval cannot be less than 100ms, but the value is <{interval}ms>.");
-
-        Interval = interval;
-    }
-
-    /// <summary>
-    /// 间隔（毫秒）
-    /// </summary>
-    protected int Interval { get; }
-
-    /// <summary>
-    /// 计算下一个触发时间
-    /// </summary>
-    /// <param name="startAt">起始时间</param>
-    /// <returns><see cref="DateTime"/></returns>
-    public override DateTime GetNextOccurrence(DateTime startAt)
-    {
-        return startAt.AddMilliseconds(Interval);
-    }
-
-    /// <summary>
-    /// 作业触发器转字符串输出
-    /// </summary>
-    /// <returns><see cref="string"/></returns>
-    public override string ToString()
-    {
-        return $"<{JobId} {TriggerId}> {Interval}ms{(string.IsNullOrWhiteSpace(Description) ? string.Empty : $" {Description}")}";
     }
 }

@@ -13,6 +13,7 @@ import Tag from "@site/src/components/Tag.js";
 
 - **新特性**
 
+  - &nbsp;<Tag>新增</Tag> 定时任务间隔分钟作业触发器 `Triggers.PeriodMinutes(5)` 和 `[PeriodMinutes(5)]` 特性 <sup>4.8.2.8</sup> <sup>⏱️2022.12.01</sup>
   - &nbsp;<Tag>新增</Tag> 定时任务工作日作业触发器 `Triggers.Workday()` 和 `[Workday]` 特性 <sup>4.8.2.6</sup> <sup>⏱️2022.11.30</sup> [28b2d20](https://gitee.com/dotnetchina/Furion/commit/28b2d20b3f6034a4cdf5827576c34412315fbb15)
   - &nbsp;<Tag>新增</Tag> 定时任务作业校对功能，可对误差进行校正 <sup>4.8.2.6</sup> <sup>⏱️2022.11.30</sup> [f725a25](https://gitee.com/dotnetchina/Furion/commit/f725a252e6a89f9dea6489d4e54452077b1935e5)
   - &nbsp;<Tag>新增</Tag> **定时任务 `Triggers` 所有带 `At` 的 `Cron` 表达式触发器构建器及特性** <sup>4.8.2.5</sup> <sup>⏱️2022.11.29</sup> [#I63PLR](https://gitee.com/dotnetchina/Sundial/issues/I63PLR)
@@ -148,7 +149,7 @@ info: 2022-11-17 16:25:49.0070855 +08:00 星期四 L MyJob[0] #16
 services.AddSchedule(options =>
 {
     options.AddJob<MyJob>(Triggers.Minutely()   // 每分钟开始
-     , Triggers.Period(5000)   // 每 5 秒，也可以使用 Triggers.PeriodSeconds(5)
+     , Triggers.Period(5000)   // 每 5 秒，也可以使用 Triggers.PeriodSeconds(5)，也可以使用 Triggers.PeriodMinutes(5)
      , Triggers.Cron("3,7,8 * * * * ?", CronStringFormat.WithSeconds));  // 每分钟第 3/7/8 秒
 });
 ```
@@ -1609,28 +1610,38 @@ triggerBuilder.LoadFrom(new
 
 - **`TriggerBuilder` 方式**
 
-```c showLineNumbers {2,5,8}
+```c showLineNumbers {2,5,8,11,13}
 // 创建毫秒周期（间隔）作业触发器构建器
 var triggerBuilder = TriggerBuilder.Period(5000);
 
 // 创建秒周期（间隔）作业触发器构建器
 var triggerBuilder = TriggerBuilder.PeriodSeconds(5);
 
+// 创建分钟周期（间隔）作业触发器构建器
+var triggerBuilder = TriggerBuilder.PeriodMinutes(5);
+
 // 创建 Cron 表达式作业触发器构建器
 var triggerBuilder = TriggerBuilder.Cron("* * * * *", CronStringFormat.Default);
+
+// 创建 Cron 表达式 Macro 作业触发器构建器
+var triggerBuilder = TriggerBuilder.MacroAt("@secondly", 1, 3, 5);
 ```
 
 - **`Triggers` 方式，推荐**
 
 `Triggers` 具备 `TriggerBuilder` 所有的静态方法，另外还添加了不少更加便捷的静态方法。
 
-```cs showLineNumbers {1-22,24-67}
+```cs showLineNumbers {1-26,28-71}
 // 创建毫秒周期（间隔）作业触发器构建器
 var triggerBuilder = Triggers.Period(5000);
 // 创建秒周期（间隔）作业触发器构建器
 var triggerBuilder = Triggers.PeriodSeconds(5);
+// 创建分钟周期（间隔）作业触发器构建器
+var triggerBuilder = Triggers.PeriodMinutes(5);
 // 创建 Cron 表达式作业触发器构建器
 var triggerBuilder = Triggers.Cron("* * * * *", CronStringFormat.Default);
+// 创建 Cron 表达式 Macro 作业触发器构建器
+var triggerBuilder = Triggers.MacroAt("@secondly", 1, 3, 5);
 // 创建每秒开始作业触发器构建器
 var triggerBuilder = Triggers.Secondly();
 // 创建每分钟开始作业触发器构建器
@@ -1853,7 +1864,9 @@ info: 2022-11-20 21:43:10.4629078 +08:00 星期日 L ConsoleApp13.MyJob[0] #9
 
 - `[Period(5000)]`：毫秒周期（间隔）作业触发器特性
 - `[PeriodSeconds(5)]`：秒周期（间隔）作业触发器特性
+- `[PeriodMinutes(5)]`：分钟周期（间隔）作业触发器特性
 - `[Cron("* * * * *", CronStringFormat.Default)]`：Cron 表达式作业触发器特性
+- `[MacroAt("@secondly", 1, 3, 5)]`：Cron 表达式 Macro 作业触发器特性
 - `[Secondly]`：每秒开始作业触发器特性
 - `[Minutely]`：每分钟开始作业触发器特性
 - `[Hourly]`：每小时开始作业触发器特性
