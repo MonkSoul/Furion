@@ -21,6 +21,9 @@
 - [ ] Razor Pages
 - [ ] Blazor Server
 - [ ] MinApp
+- [ ] WinForm
+- [ ] WPF
+- [ ] Console
 
 ---
 
