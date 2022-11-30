@@ -62,41 +62,49 @@ public sealed partial class Crontab
         // 处理 Macro 表达式
         if (expression.StartsWith('@'))
         {
-            switch (expression)
+            return expression switch
             {
-                case "@secondly":
-                    return Secondly;
-
-                case "@minutely":
-                    return Minutely;
-
-                case "@hourly":
-                    return Hourly;
-
-                case "@daily":
-                    return Daily;
-
-                case "@monthly":
-                    return Monthly;
-
-                case "@weekly":
-                    return Weekly;
-
-                case "@yearly":
-                    return Yearly;
-
-                case "@workday":
-                    return Workday;
-
-                default:
-                    break;
-            }
+                "@secondly" => Secondly,
+                "@minutely" => Minutely,
+                "@hourly" => Hourly,
+                "@daily" => Daily,
+                "@monthly" => Monthly,
+                "@weekly" => Weekly,
+                "@yearly" => Yearly,
+                "@workday" => Workday,
+                _ => throw new NotImplementedException(),
+            };
         }
 
         return new Crontab
         {
             Format = format,
             Parsers = ParseToDictionary(expression, format)
+        };
+    }
+
+    /// <summary>
+    /// 解析 Cron Macro 符号并转换成 <see cref="Crontab"/> 对象
+    /// </summary>
+    /// <param name="macro">Macro 符号</param>
+    /// <param name="fields">字段值</param>
+    /// <returns><see cref="Crontab"/></returns>
+    /// <exception cref="TimeCrontabException"></exception>
+    public static Crontab ParseAt(string macro, params object[] fields)
+    {
+        // 空检查
+        if (string.IsNullOrWhiteSpace(macro)) throw new ArgumentNullException(nameof(macro));
+
+        return macro switch
+        {
+            "@secondly" => SecondlyAt(fields),
+            "@minutely" => MinutelyAt(fields),
+            "@hourly" => HourlyAt(fields),
+            "@daily" => DailyAt(fields),
+            "@monthly" => MonthlyAt(fields),
+            "@weekly" => WeeklyAt(fields),
+            "@yearly" => YearlyAt(fields),
+            _ => throw new NotImplementedException(),
         };
     }
 

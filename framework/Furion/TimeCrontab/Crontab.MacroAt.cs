@@ -19,7 +19,7 @@ public sealed partial class Crontab
     /// </summary>
     /// <param name="fields">字段值</param>
     /// <returns><see cref="Crontab"/></returns>
-    public static Crontab SecondlyAt(params int[] fields)
+    public static Crontab SecondlyAt(params object[] fields)
     {
         // 检查字段合法性
         CheckFieldsNotNullOrEmpty(fields);
@@ -32,7 +32,7 @@ public sealed partial class Crontab
     /// </summary>
     /// <param name="fields">字段值</param>
     /// <returns><see cref="Crontab"/></returns>
-    public static Crontab MinutelyAt(params int[] fields)
+    public static Crontab MinutelyAt(params object[] fields)
     {
         // 检查字段合法性
         CheckFieldsNotNullOrEmpty(fields);
@@ -45,7 +45,7 @@ public sealed partial class Crontab
     /// </summary>
     /// <param name="fields">字段值</param>
     /// <returns><see cref="Crontab"/></returns>
-    public static Crontab HourlyAt(params int[] fields)
+    public static Crontab HourlyAt(params object[] fields)
     {
         // 检查字段合法性
         CheckFieldsNotNullOrEmpty(fields);
@@ -58,7 +58,7 @@ public sealed partial class Crontab
     /// </summary>
     /// <param name="fields">字段值</param>
     /// <returns><see cref="Crontab"/></returns>
-    public static Crontab DailyAt(params int[] fields)
+    public static Crontab DailyAt(params object[] fields)
     {
         // 检查字段合法性
         CheckFieldsNotNullOrEmpty(fields);
@@ -71,7 +71,7 @@ public sealed partial class Crontab
     /// </summary>
     /// <param name="fields">字段值</param>
     /// <returns><see cref="Crontab"/></returns>
-    public static Crontab MonthlyAt(params int[] fields)
+    public static Crontab MonthlyAt(params object[] fields)
     {
         // 检查字段合法性
         CheckFieldsNotNullOrEmpty(fields);

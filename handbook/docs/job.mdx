@@ -1619,7 +1619,7 @@ var triggerBuilder = TriggerBuilder.Cron("* * * * *", CronStringFormat.Default);
 
 `Triggers` 具备 `TriggerBuilder` 所有的静态方法，另外还添加了不少更加便捷的静态方法。
 
-```cs showLineNumbers {1-20,22-65}
+```cs showLineNumbers {1-22,24-67}
 // 创建毫秒周期（间隔）作业触发器构建器
 var triggerBuilder = Triggers.Period(5000);
 // 创建秒周期（间隔）作业触发器构建器
@@ -1640,6 +1640,8 @@ var triggerBuilder = Triggers.Monthly();
 var triggerBuilder = Triggers.Weekly();
 // 创建每年1月1号（午夜）开始作业触发器构建器
 var triggerBuilder = Triggers.Yearly();
+// 创建每周一至周五（午夜）开始作业触发器构建器
+var triggerBuilder = Triggers.Workday();
 
 // Furion 4.8.2.5+ 更多 Macro At
 // 每第 3 秒
@@ -1854,6 +1856,7 @@ info: 2022-11-20 21:43:10.4629078 +08:00 星期日 L ConsoleApp13.MyJob[0] #9
 - `[Monthly]`：每月 1 号（午夜）开始作业触发器特性
 - `[Weekly]`：每周日（午夜）开始作业触发器特性
 - `[Yearly]`：每年 1 月 1 号（午夜）开始作业触发器特性
+- `[Workday]`：每周一至周五（午夜）开始触发器特性
 - `[SecondlyAt]`：特定秒开始作业触发器特性
 - `[MinutelyAt]`：每分钟特定秒开始作业触发器特性
 - `[HourlyAt]`：每小时特定分钟开始作业触发器特性

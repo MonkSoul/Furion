@@ -311,4 +311,13 @@ public static class Triggers
 
         return Cron($"0 0 1 {string.Join(',', fields)} *", CronStringFormat.Default);
     }
+
+    /// <summary>
+    /// 创建每周一至周五（午夜）开始作业触发器构建器
+    /// </summary>
+    /// <returns><see cref="TriggerBuilder"/></returns>
+    public static TriggerBuilder Workday()
+    {
+        return Cron("@workday");
+    }
 }
