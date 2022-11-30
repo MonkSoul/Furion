@@ -27,7 +27,6 @@ namespace Furion.Schedule;
 /// <summary>
 /// Cron 表达式 Macro 作业触发器
 /// </summary>
-[SuppressSniffer]
 internal sealed class MacroAtTrigger : Trigger
 {
     /// <summary>
