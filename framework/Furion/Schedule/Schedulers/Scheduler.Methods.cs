@@ -426,4 +426,16 @@ internal sealed partial class Scheduler
     {
         return GetBuilder().ConvertToJSON(naming);
     }
+
+    /// <summary>
+    /// 校对作业计划
+    /// </summary>
+    public void Collate()
+    {
+        if (Factory.TryUpdateJob(GetBuilder(), out _) == ScheduleResult.Succeed)
+        {
+            // 输出日志
+            Logger.LogInformation("The scheduler of <{JobId}> successfully collated to the schedule.", JobId);
+        }
+    }
 }

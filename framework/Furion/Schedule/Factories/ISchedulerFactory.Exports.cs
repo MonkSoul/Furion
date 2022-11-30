@@ -399,4 +399,10 @@ public partial interface ISchedulerFactory : IDisposable
     /// </summary>
     /// <param name="group">作业组名称</param>
     void PersistAll(string group = default);
+
+    /// <summary>
+    /// 校对作业计划
+    /// </summary>
+    /// <param name="group">作业组名称</param>
+    void CollateAll(string group = default);
 }

@@ -827,4 +827,18 @@ internal sealed partial class SchedulerFactory
             scheduler.Persist();
         }
     }
+
+    /// <summary>
+    /// 校对作业计划
+    /// </summary>
+    /// <param name="group">作业组名称</param>
+    public void CollateAll(string group = default)
+    {
+        var schedulers = GetJobs(group);
+
+        foreach (var scheduler in schedulers)
+        {
+            scheduler.Collate();
+        }
+    }
 }

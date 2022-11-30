@@ -33,10 +33,9 @@ public sealed class MinutelyAtAttribute : CronAttribute
     /// <summary>
     /// 构造函数
     /// </summary>
+    /// <param name="fields">字段值</param>
     public MinutelyAtAttribute(params int[] fields)
-        : base($"{string.Join(',', fields)} * * * * *", CronStringFormat.WithSeconds)
+        : base($"{string.Join(',', fields)} * * * * *", CronStringFormat.WithSeconds, fields)
     {
-        // 空检查
-        if (fields == null || fields.Length == 0) throw new ArgumentNullException(nameof(fields));
     }
 }

@@ -33,32 +33,9 @@ public sealed class YearlyAtAttribute : CronAttribute
     /// <summary>
     /// 构造函数
     /// </summary>
-    public YearlyAtAttribute(params int[] fields)
-        : base($"0 0 1 {string.Join(',', fields)} *", CronStringFormat.Default)
-    {
-        // 空检查
-        if (fields == null || fields.Length == 0) throw new ArgumentNullException(nameof(fields));
-    }
-
-    /// <summary>
-    /// 构造函数
-    /// </summary>
-    public YearlyAtAttribute(params string[] fields)
-        : base($"0 0 1 {string.Join(',', fields)} *", CronStringFormat.Default)
-    {
-        // 空检查
-        if (fields == null || fields.Length == 0) throw new ArgumentNullException(nameof(fields));
-    }
-
-    /// <summary>
-    /// 构造函数
-    /// </summary>
+    /// <param name="fields">字段值</param>
     public YearlyAtAttribute(params object[] fields)
-        : base($"0 0 1 {string.Join(',', fields)} *", CronStringFormat.Default)
+        : base($"0 0 1 {string.Join(',', fields)} *", CronStringFormat.Default, fields)
     {
-        // 空检查
-        if (fields == null || fields.Length == 0) throw new ArgumentNullException(nameof(fields));
-        // 检查 fields 只能是 int 和字符串类型
-        if (fields.Any(f => f.GetType() != typeof(int) && f.GetType() != typeof(string))) throw new InvalidOperationException("Invalid Cron expression.");
     }
 }

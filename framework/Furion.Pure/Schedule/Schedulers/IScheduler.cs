@@ -185,4 +185,9 @@ public interface IScheduler
     /// <param name="naming">命名法</param>
     /// <returns><see cref="string"/></returns>
     string ConvertToJSON(NamingConventions naming = NamingConventions.CamelCase);
+
+    /// <summary>
+    /// 校对作业计划
+    /// </summary>
+    void Collate();
 }

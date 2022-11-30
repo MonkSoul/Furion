@@ -249,4 +249,17 @@ internal static class Penetrates
 
         return actValue;
     }
+
+    /// <summary>
+    /// 检查 Cron 表达式 字段域 非 Null 非空数组
+    /// </summary>
+    /// <param name="fields">字段值</param>
+    internal static void CheckCronFieldsNotNullOrEmpty(params object[] fields)
+    {
+        // 空检查
+        if (fields == null || fields.Length == 0) throw new ArgumentNullException(nameof(fields));
+
+        // 检查 fields 只能是 int 和字符串类型
+        if (fields.Any(f => f.GetType() != typeof(int) && f.GetType() != typeof(string))) throw new InvalidOperationException("Invalid Cron expression.");
+    }
 }
