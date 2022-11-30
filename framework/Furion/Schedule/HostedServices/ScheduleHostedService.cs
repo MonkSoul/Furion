@@ -152,16 +152,16 @@ internal sealed class ScheduleHostedService : BackgroundService
         var startAt = Penetrates.GetNowTime(UseUtcTimestamp);
 
         // 查找所有符合触发的作业
-        var nextRunJobs = _schedulerFactory.GetNextRunJobs(startAt);
+        var currentRunJobs = _schedulerFactory.GetCurrentRunJobs(startAt);
 
         // 输出作业调度器检查信息
-        _logger.LogDebug("Schedule Hosted Service is checking on <{startAt}> and finds <{Count}> schedulers that should be run.", startAt, nextRunJobs.Count());
+        _logger.LogDebug("Schedule Hosted Service is checking on <{startAt}> and finds <{Count}> schedulers that should be run.", startAt, currentRunJobs.Count());
 
         // 创建一个任务工厂并保证执行任务都使用当前的计划程序
         var taskFactory = new TaskFactory(System.Threading.Tasks.TaskScheduler.Current);
 
         // 逐条遍历所有作业计划集合
-        foreach (var schedulerThatShouldRun in nextRunJobs)
+        foreach (var schedulerThatShouldRun in currentRunJobs)
         {
             // 解构参数
             var scheduler = (Scheduler)schedulerThatShouldRun;

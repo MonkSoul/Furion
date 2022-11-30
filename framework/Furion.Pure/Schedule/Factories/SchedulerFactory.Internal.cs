@@ -139,12 +139,12 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory
     }
 
     /// <summary>
-    /// 查找下一个触发的作业
+    /// 查找即将触发的作业
     /// </summary>
     /// <param name="startAt">起始时间</param>
     /// <param name="group">作业组名称</param>
     /// <returns><see cref="IEnumerable{IScheduler}"/></returns>
-    public IEnumerable<IScheduler> GetNextRunJobs(DateTime startAt, string group = default)
+    public IEnumerable<IScheduler> GetCurrentRunJobs(DateTime startAt, string group = default)
     {
         // 定义静态内部函数用于委托检查
         bool triggerShouldRun(Scheduler s, Trigger t) => t.InternalShouldRun(s.JobDetail, startAt);
@@ -161,7 +161,7 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory
         }
 
         // 查找所有符合执行的作业计划
-        var nextRunSchedulers = queryBuilder
+        var currentRunSchedulers = queryBuilder
             .Select(s => new Scheduler(s.JobDetail, s.Triggers.Values.Where(t => triggerShouldRun(s, t)).ToDictionary(t => t.TriggerId, t => t))
             {
                 Factory = this,
@@ -170,18 +170,18 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory
                 JobHandler = s.JobHandler,
             });
 
-        return nextRunSchedulers;
+        return currentRunSchedulers;
     }
 
     /// <summary>
-    /// 查找下一个触发的作业并转换成 <see cref="SchedulerModel"/>
+    /// 查找即将触发的作业并转换成 <see cref="SchedulerModel"/>
     /// </summary>
     /// <param name="startAt">起始时间</param>
     /// <param name="group">作业组名称</param>
     /// <returns><see cref="IEnumerable{SchedulerModel}"/></returns>
-    public IEnumerable<SchedulerModel> GetNextRunJobsOfModels(DateTime startAt, string group = default)
+    public IEnumerable<SchedulerModel> GetCurrentRunJobsOfModels(DateTime startAt, string group = default)
     {
-        return GetNextRunJobs(startAt, group).Select(s => s.GetModel());
+        return GetCurrentRunJobs(startAt, group).Select(s => s.GetModel());
     }
 
     /// <summary>

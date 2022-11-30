@@ -42,6 +42,22 @@ public partial interface ISchedulerFactory : IDisposable
     IEnumerable<SchedulerModel> GetJobsOfModels(string group = default);
 
     /// <summary>
+    /// 查找下一个触发的作业
+    /// </summary>
+    /// <param name="startAt">起始时间</param>
+    /// <param name="group">作业组名称</param>
+    /// <returns><see cref="IEnumerable{IScheduler}"/></returns>
+    IEnumerable<IScheduler> GetNextRunJobs(DateTime startAt, string group = default);
+
+    /// <summary>
+    /// 查找下一个触发的作业并转换成 <see cref="SchedulerModel"/>
+    /// </summary>
+    /// <param name="startAt">起始时间</param>
+    /// <param name="group">作业组名称</param>
+    /// <returns><see cref="IEnumerable{SchedulerModel}"/></returns>
+    IEnumerable<SchedulerModel> GetNextRunJobsOfModels(DateTime startAt, string group = default);
+
+    /// <summary>
     /// 获取作业
     /// </summary>
     /// <param name="jobId">作业 Id</param>

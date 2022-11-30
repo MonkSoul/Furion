@@ -2814,9 +2814,7 @@ var jobs = _schedulerFactory.GetJobs("group1");
 var jobsOfModels = _schedulerFactory.GetJobsOfModels("group1");
 ```
 
-### 26.1.10.2 查找下一个即将触发的作业
-
-**此方法由内部调用，应用层项目基本用不了，主要提供给想自定义作业调度器功能的开发者。**
+### 26.1.10.2 查找下一个触发的作业
 
 ```cs showLineNumbers {2,5,8,9}
 // 返回的是 IScheduler 集合，不能访问 JobDetail 和 Triggers 属性

@@ -52,6 +52,52 @@ internal sealed partial class SchedulerFactory
     }
 
     /// <summary>
+    /// 查找下一个触发的作业
+    /// </summary>
+    /// <param name="startAt">起始时间</param>
+    /// <param name="group">作业组名称</param>
+    /// <returns><see cref="IEnumerable{IScheduler}"/></returns>
+    public IEnumerable<IScheduler> GetNextRunJobs(DateTime startAt, string group = default)
+    {
+        // 采用 DateTimeKind.Unspecified 转换当前时间并忽略毫秒之后部分（用于减少误差）
+        var unspecifiedStartAt = new DateTime(startAt.Year
+            , startAt.Month
+            , startAt.Day
+            , startAt.Hour
+            , startAt.Minute
+            , startAt.Second
+            , startAt.Millisecond);
+
+        // 创建查询构建器
+        var queryBuilder = _schedulers.Values
+                 .Where(s => s.JobDetail.RuntimeJobType != null && s.JobHandler != null
+                     && s.Triggers.Values.Any(t => t.IsNormalStatus() && t.NextRunTime != null && t.NextRunTime.Value >= unspecifiedStartAt));
+
+        // 判断作业组名称是否存在
+        if (!string.IsNullOrWhiteSpace(group))
+        {
+            queryBuilder = queryBuilder.Where(s => s.GroupName == group);
+        }
+
+        // 查找所有下一次执行的作业计划
+        var nextRunSchedulers = queryBuilder
+            .Select(s => new Scheduler(s.JobDetail, s.Triggers));
+
+        return nextRunSchedulers;
+    }
+
+    /// <summary>
+    /// 查找下一个触发的作业并转换成 <see cref="SchedulerModel"/>
+    /// </summary>
+    /// <param name="startAt">起始时间</param>
+    /// <param name="group">作业组名称</param>
+    /// <returns><see cref="IEnumerable{SchedulerModel}"/></returns>
+    public IEnumerable<SchedulerModel> GetNextRunJobsOfModels(DateTime startAt, string group = default)
+    {
+        return GetNextRunJobs(startAt, group).Select(s => s.GetModel());
+    }
+
+    /// <summary>
     /// 获取作业
     /// </summary>
     /// <param name="jobId">作业 Id</param>
