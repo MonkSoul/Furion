@@ -137,9 +137,15 @@ public partial class Trigger
         if (NextRunTime != null && NextRunTime.Value > startAt) return NextRunTime;
 
         var baseTime = GetStartAt(startAt);
-        return baseTime == null
-            ? null
-            : GetNextOccurrence(baseTime.Value);
+        if (baseTime == null) return null;
+
+        // 获取下一次执行时间
+        var nextRunTime = GetNextOccurrence(baseTime.Value);
+
+        // 控制误差在 100ms 以内
+        return nextRunTime.Millisecond > 100
+            ? nextRunTime.AddMilliseconds(-100)
+            : nextRunTime;
     }
 
     /// <summary>
