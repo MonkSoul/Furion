@@ -38,6 +38,17 @@ public sealed class SchedulerBuilder
     }
 
     /// <summary>
+    /// 构造函数
+    /// </summary>
+    /// <param name="jobBuilder">作业信息构建器</param>
+    /// <param name="triggerBuilders">作业触发器构建器集合</param>
+    private SchedulerBuilder(JobBuilder jobBuilder, List<TriggerBuilder> triggerBuilders)
+    {
+        JobBuilder = jobBuilder;
+        TriggerBuilders = triggerBuilders;
+    }
+
+    /// <summary>
     /// 标记作业持久化行为
     /// </summary>
     public PersistenceBehavior Behavior { get; internal set; } = PersistenceBehavior.Appended;
@@ -64,10 +75,7 @@ public sealed class SchedulerBuilder
         if (jobBuilder == null) throw new ArgumentNullException(nameof(jobBuilder));
 
         // 创建作业计划构建器
-        var schedulerBuilder = new SchedulerBuilder(jobBuilder)
-        {
-            Behavior = PersistenceBehavior.Appended
-        };
+        var schedulerBuilder = new SchedulerBuilder(jobBuilder);
 
         // 批量添加触发器
         if (triggerBuilders != null && triggerBuilders.Length > 0)
@@ -81,7 +89,7 @@ public sealed class SchedulerBuilder
             schedulerBuilder.TriggerBuilders.AddRange(jobBuilder.RuntimeJobType.ScanTriggers());
         }
 
-        return schedulerBuilder;
+        return schedulerBuilder.Appended();
     }
 
     /// <summary>
@@ -91,11 +99,9 @@ public sealed class SchedulerBuilder
     /// <returns><see cref="SchedulerBuilder"/></returns>
     internal static SchedulerBuilder From(Scheduler scheduler)
     {
-        return new SchedulerBuilder(JobBuilder.From(scheduler.JobDetail))
-        {
-            TriggerBuilders = scheduler.Triggers.Select(t => TriggerBuilder.From(t.Value)).ToList(),
-            Behavior = PersistenceBehavior.Updated
-        };
+        return new SchedulerBuilder(JobBuilder.From(scheduler.JobDetail)
+            , scheduler.Triggers.Select(t => TriggerBuilder.From(t.Value)).ToList())
+            .Updated();
     }
 
     /// <summary>
@@ -105,12 +111,12 @@ public sealed class SchedulerBuilder
     /// <returns><see cref="SchedulerBuilder"/></returns>
     public static SchedulerBuilder From(string json)
     {
+        // 反序列化成 SchedulerModel 类型
         var schedulerModel = Penetrates.Deserialize<SchedulerModel>(json);
-        return new SchedulerBuilder(JobBuilder.From(schedulerModel.JobDetail))
-        {
-            TriggerBuilders = schedulerModel.Triggers.Select(t => TriggerBuilder.From(t)).ToList(),
-            Behavior = PersistenceBehavior.Appended
-        };
+
+        return new SchedulerBuilder(JobBuilder.From(schedulerModel.JobDetail)
+            , schedulerModel.Triggers.Select(t => TriggerBuilder.From(t).Appended()).ToList())
+            .Appended();
     }
 
     /// <summary>
@@ -123,41 +129,9 @@ public sealed class SchedulerBuilder
         // 空检查
         if (fromSchedulerBuilder == null) throw new ArgumentNullException(nameof(fromSchedulerBuilder));
 
-        return new SchedulerBuilder(JobBuilder.Clone(fromSchedulerBuilder.JobBuilder))
-        {
-            TriggerBuilders = fromSchedulerBuilder.TriggerBuilders.Select(t => TriggerBuilder.Clone(t)).ToList(),
-            Behavior = PersistenceBehavior.Appended
-        };
-    }
-
-    /// <summary>
-    /// 标记作业计划为新增行为
-    /// </summary>
-    /// <returns></returns>
-    public SchedulerBuilder Appended()
-    {
-        Behavior = PersistenceBehavior.Appended;
-        return this;
-    }
-
-    /// <summary>
-    /// 标记作业计划为更新行为
-    /// </summary>
-    /// <returns></returns>
-    public SchedulerBuilder Updated()
-    {
-        Behavior = PersistenceBehavior.Updated;
-        return this;
-    }
-
-    /// <summary>
-    /// 标记作业计划为删除行为
-    /// </summary>
-    /// <returns></returns>
-    public SchedulerBuilder Removed()
-    {
-        Behavior = PersistenceBehavior.Removed;
-        return this;
+        return new SchedulerBuilder(JobBuilder.Clone(fromSchedulerBuilder.JobBuilder)
+            , fromSchedulerBuilder.TriggerBuilders.Select(t => TriggerBuilder.Clone(t)).ToList())
+            .Appended();
     }
 
     /// <summary>
@@ -227,10 +201,7 @@ public sealed class SchedulerBuilder
         // 空检查
         if (triggerBuilders == null || triggerBuilders.Length == 0) return this;
 
-        foreach (var triggerBuilder in triggerBuilders)
-        {
-            AddTriggerBuilder(triggerBuilder);
-        }
+        TriggerBuilders.AddRange(triggerBuilders);
 
         return this;
     }
@@ -385,6 +356,36 @@ public sealed class SchedulerBuilder
     }
 
     /// <summary>
+    /// 标记作业计划为新增行为
+    /// </summary>
+    /// <returns><see cref="SchedulerBuilder"/></returns>
+    public SchedulerBuilder Appended()
+    {
+        Behavior = PersistenceBehavior.Appended;
+        return this;
+    }
+
+    /// <summary>
+    /// 标记作业计划为更新行为
+    /// </summary>
+    /// <returns><see cref="SchedulerBuilder"/></returns>
+    public SchedulerBuilder Updated()
+    {
+        Behavior = PersistenceBehavior.Updated;
+        return this;
+    }
+
+    /// <summary>
+    /// 标记作业计划为删除行为
+    /// </summary>
+    /// <returns><see cref="SchedulerBuilder"/></returns>
+    public SchedulerBuilder Removed()
+    {
+        Behavior = PersistenceBehavior.Removed;
+        return this;
+    }
+
+    /// <summary>
     /// 构建 <see cref="Scheduler"/> 对象
     /// </summary>
     /// <param name="sequence">如果未指定作业 Id 的递增序号，可能存在冲突</param>
@@ -410,6 +411,12 @@ public sealed class SchedulerBuilder
             if (string.IsNullOrWhiteSpace(triggerBuilder.TriggerId))
             {
                 triggerBuilder.SetTriggerId($"{jobDetail.JobId}_trigger{triggers.Count + 1}");
+            }
+
+            // 处理作业被标记删除的情况
+            if (Behavior == PersistenceBehavior.Removed)
+            {
+                triggerBuilder.Removed();
             }
 
             var trigger = triggerBuilder.Build(jobDetail.JobId);

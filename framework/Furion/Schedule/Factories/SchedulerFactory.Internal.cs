@@ -57,6 +57,9 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory
     /// </summary>
     private readonly ConcurrentDictionary<string, Scheduler> _schedulers = new();
 
+    /// <summary>
+    /// 作业计划构建器集合
+    /// </summary>
     private readonly IList<SchedulerBuilder> _schedulerBuilders;
 
     /// <summary>
@@ -105,6 +108,11 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory
     private IJobPersistence Persistence { get; }
 
     /// <summary>
+    /// 标识 Preload 是否初始化完成
+    /// </summary>
+    private bool PreloadCompleted { get; set; } = false;
+
+    /// <summary>
     /// 作业调度器初始化
     /// </summary>
     public void Preload()
@@ -121,11 +129,14 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory
             // 逐条遍历并新增到内存中
             foreach (var schedulerBuilder in initialSchedulerBuilders)
             {
-                _ = TryUpdateJob(Persistence?.OnLoading(schedulerBuilder) ?? schedulerBuilder
+                _ = TrySaveJob(Persistence?.OnLoading(schedulerBuilder) ?? schedulerBuilder
                     , out _
                     , false);
             }
         }
+
+        // 标记当前方法初始化完成
+        PreloadCompleted = true;
 
         // 释放引用内存并立即回收GC
         _schedulerBuilders.Clear();
@@ -364,5 +375,32 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory
             // 通知 GC 垃圾回收器立即回收
             GC.Collect();
         });
+    }
+
+    /// <summary>
+    /// 获取作业
+    /// </summary>
+    /// <param name="jobId">作业 Id</param>
+    /// <param name="showLog">是否显示日志</param>
+    /// <param name="scheduler">作业计划</param>
+    /// <returns><see cref="ScheduleResult"/></returns>
+    private ScheduleResult TryGetJob(string jobId, bool showLog, out Scheduler scheduler)
+    {
+        // 空检查
+        if (string.IsNullOrWhiteSpace(jobId))
+        {
+            scheduler = default;
+            if (showLog) _logger.LogWarning("The Scheduler is no identity specified.");
+            return ScheduleResult.NotIdentify;
+        }
+
+        var succeed = _schedulers.TryGetValue(jobId, out var originScheduler);
+        if (!succeed && showLog) _logger.LogWarning("The Scheduler of <{jobId}> is not found.", jobId);
+
+        scheduler = originScheduler;
+
+        return succeed
+            ? ScheduleResult.Succeed
+            : ScheduleResult.NotFound;
     }
 }

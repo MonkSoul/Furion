@@ -105,15 +105,10 @@ internal sealed partial class SchedulerFactory
     /// <returns><see cref="ScheduleResult"/></returns>
     public ScheduleResult TryGetJob(string jobId, out IScheduler scheduler)
     {
-        // 空检查
-        if (string.IsNullOrWhiteSpace(jobId)) throw new ArgumentNullException(nameof(jobId));
+        var scheduleResult = TryGetJob(jobId, false, out var originScheduler);
+        scheduler = originScheduler;
 
-        var succeed = _schedulers.TryGetValue(jobId, out var internalScheduler);
-        scheduler = internalScheduler;
-
-        return succeed
-            ? ScheduleResult.Succeed
-            : ScheduleResult.NotFound;
+        return scheduleResult;
     }
 
     /// <summary>
@@ -128,6 +123,147 @@ internal sealed partial class SchedulerFactory
     }
 
     /// <summary>
+    /// 保存作业
+    /// </summary>
+    /// <param name="schedulerBuilder">作业计划构建器</param>
+    /// <param name="scheduler">作业计划</param>
+    /// <param name="immediately">使作业调度器立即载入</param>
+    /// <returns><see cref="ScheduleResult"/></returns>
+    public ScheduleResult TrySaveJob(SchedulerBuilder schedulerBuilder, out IScheduler scheduler, bool immediately = true)
+    {
+        // 空检查
+        if (schedulerBuilder == null) throw new ArgumentNullException(nameof(schedulerBuilder));
+
+        // 解析作业计划构建器状态
+        var isAppended = schedulerBuilder.Behavior == PersistenceBehavior.Appended;
+        var isUpdated = schedulerBuilder.Behavior == PersistenceBehavior.Updated;
+        var isRemoved = schedulerBuilder.Behavior == PersistenceBehavior.Removed;
+
+        Scheduler originScheduler = default;
+        // 获取作业 Id
+        var jobId = schedulerBuilder.JobBuilder.JobId;
+
+        // 检查更新或删除是否包含作业 Id 且作业调度器中存在该作业
+        if (PreloadCompleted && (isUpdated || isRemoved))
+        {
+            // 查找作业
+            var scheduleResult = TryGetJob(jobId, true, out originScheduler);
+            if (scheduleResult != ScheduleResult.Succeed)
+            {
+                scheduler = default;
+                return scheduleResult;
+            }
+        }
+
+        // 处理 Preload 标记为删除且作业 Id 为空情况
+        if (!PreloadCompleted && isRemoved && string.IsNullOrWhiteSpace(jobId))
+        {
+            scheduler = default;
+
+            // 输出作业
+            _logger.LogWarning("Empty identity scheduler has been removed.");
+            return ScheduleResult.Succeed;
+        }
+
+        // 构建新的作业计划
+        var newScheduler = schedulerBuilder.Build(_schedulers.Count + 1);
+
+        // 处理新增和更新作业情况
+        if (isAppended || isUpdated)
+        {
+            // 初始化作业内部信息
+            newScheduler.JobDetail.Blocked = false;
+            newScheduler.Factory = this;
+            newScheduler.UseUtcTimestamp = UseUtcTimestamp;
+            newScheduler.Logger = _logger;
+
+            // 实例化作业处理程序
+            var jobType = newScheduler.JobDetail.RuntimeJobType;
+            if (jobType != null)
+            {
+                newScheduler.JobHandler = null;    // 释放引用
+                newScheduler.JobHandler = (_serviceProvider.GetService(jobType)
+                    ?? ActivatorUtilities.CreateInstance(_serviceProvider, jobType)) as IJob;
+            }
+
+            // 获取当前时间用来计算触发器下一次触发时间
+            var startAt = Penetrates.GetNowTime(UseUtcTimestamp);
+
+            // 更新作业触发器下一次运行时间
+            foreach (var trigger in newScheduler.Triggers.Values)
+            {
+                // 处理作业触发器删除情况
+                if (trigger.Behavior == PersistenceBehavior.Removed) continue;
+
+                // 计算下一次触发时间
+                trigger.NextRunTime = trigger.CheckRunOnStartAndReturnNextRunTime(startAt);
+
+                // 处理作业触发器新增情况
+                if (trigger.Behavior == PersistenceBehavior.Appended)
+                {
+                    trigger.ResetMaxNumberOfRunsEqualOnceOnStart(startAt);
+                }
+
+                // 检查作业触发器状态
+                trigger.CheckNextOccurrence(newScheduler.JobDetail, startAt);
+            }
+
+            // 将作业计划添加或更新到内存中
+            var succeed = !PreloadCompleted || isAppended
+                ? _schedulers.TryAdd(newScheduler.JobId, newScheduler)
+                : _schedulers.TryUpdate(newScheduler.JobId, newScheduler, originScheduler);
+
+            if (!succeed)
+            {
+                scheduler = default;
+
+                // 输出日志
+                if (!PreloadCompleted || isAppended)
+                {
+                    _logger.LogWarning("The Scheduler of <{JobId}> already exists.", newScheduler.JobId);
+                }
+                else
+                {
+                    _logger.LogWarning("The Scheduler of <{JobId}> updated failed.", newScheduler.JobId);
+                }
+
+                return ScheduleResult.Failed;
+            }
+        }
+        else
+        {
+            // 将作业计划从内存中移除
+            var succeed = _schedulers.TryRemove(newScheduler.JobId, out originScheduler);
+            if (!succeed)
+            {
+                scheduler = default;
+
+                // 输出日志
+                _logger.LogWarning("The Scheduler of <{JobId}> removed failed.", newScheduler.JobId);
+                return ScheduleResult.Failed;
+            }
+        }
+
+        // 将作业信息运行数据写入持久化
+        Shorthand(newScheduler.JobDetail, schedulerBuilder.Behavior);
+
+        // 获取最终返回的作业计划
+        var finalScheduler = isRemoved ? originScheduler : newScheduler;
+
+        // 将作业触发器运行信息写入持久化
+        foreach (var trigger in finalScheduler.Triggers.Values)
+        {
+            Shorthand(finalScheduler.JobDetail, trigger, trigger.Behavior);
+        }
+
+        // 取消作业调度器休眠状态（强制唤醒）
+        if (immediately) CancelSleep();
+
+        scheduler = finalScheduler;
+        return ScheduleResult.Succeed;
+    }
+
+    /// <summary>
     /// 添加作业
     /// </summary>
     /// <param name="schedulerBuilder">作业计划构建器</param>
@@ -136,64 +272,14 @@ internal sealed partial class SchedulerFactory
     /// <returns><see cref="ScheduleResult"/></returns>
     public ScheduleResult TryAddJob(SchedulerBuilder schedulerBuilder, out IScheduler scheduler, bool immediately = true)
     {
-        // 空检查
-        if (schedulerBuilder == null) throw new ArgumentNullException(nameof(schedulerBuilder));
-
-        // 构建作业计划
-        var internalScheduler = schedulerBuilder.Build(_schedulers.Count + 1);
-
-        // 存储作业计划工厂
-        internalScheduler.Factory = this;
-        internalScheduler.UseUtcTimestamp = UseUtcTimestamp;
-        internalScheduler.Logger = _logger;
-
-        // 实例化作业处理程序
-        var jobType = internalScheduler.JobDetail.RuntimeJobType;
-        if (jobType != null)
+        var scheduleResult = TrySaveJob(schedulerBuilder?.Appended(), out scheduler, immediately);
+        if (scheduleResult == ScheduleResult.Succeed)
         {
-            internalScheduler.JobHandler = null;    // 释放引用
-            internalScheduler.JobHandler = (_serviceProvider.GetService(jobType)
-            ?? ActivatorUtilities.CreateInstance(_serviceProvider, jobType)) as IJob;
+            // 输出日志
+            _logger.LogInformation("The Scheduler of <{JobId}> successfully added to the schedule.", ((Scheduler)scheduler).JobId);
         }
 
-        // 当前时间
-        var startAt = Penetrates.GetNowTime(UseUtcTimestamp);
-
-        // 初始化作业触发器下一次运行时间
-        foreach (var trigger in internalScheduler.Triggers.Values)
-        {
-            trigger.NextRunTime = trigger.CheckRunOnStarAndReturnNextRunTime(startAt);
-            trigger.ResetMaxNumberOfRunsEqualOnceOnStart(startAt);
-            trigger.CheckNextOccurrence(internalScheduler.JobDetail, startAt);
-        }
-
-        // 追加到集合中
-        var succeed = _schedulers.TryAdd(internalScheduler.JobId, internalScheduler);
-        if (!succeed)
-        {
-            scheduler = default;
-            _logger.LogWarning("The JobId of <{JobId}> already exists.", internalScheduler.JobId);
-
-            return ScheduleResult.Failed;
-        }
-
-        // 将作业信息运行数据写入持久化
-        Shorthand(internalScheduler.JobDetail, PersistenceBehavior.Appended);
-
-        // 将作业触发器运行信息写入持久化
-        foreach (var internalTrigger in internalScheduler.Triggers.Values)
-        {
-            Shorthand(internalScheduler.JobDetail, internalTrigger, PersistenceBehavior.Appended);
-        }
-
-        // 取消作业调度器休眠状态（强制唤醒）
-        if (immediately) CancelSleep();
-
-        // 输出日志
-        _logger.LogInformation("The Scheduler of <{JobId}> successfully added to the schedule.", internalScheduler.JobId);
-
-        scheduler = internalScheduler;
-        return ScheduleResult.Succeed;
+        return scheduleResult;
     }
 
     /// <summary>
@@ -570,138 +656,14 @@ internal sealed partial class SchedulerFactory
     /// <returns><see cref="ScheduleResult"/></returns>
     public ScheduleResult TryUpdateJob(SchedulerBuilder schedulerBuilder, out IScheduler scheduler, bool immediately = true)
     {
-        // 空检查
-        if (schedulerBuilder == null) throw new ArgumentNullException(nameof(schedulerBuilder));
-
-        var jobId = schedulerBuilder.JobBuilder.JobId;
-
-        // 如果标记为更新或删除的作业计划构建器必须包含 Id
-        if ((schedulerBuilder.Behavior == PersistenceBehavior.Updated || schedulerBuilder.Behavior == PersistenceBehavior.Removed)
-            && string.IsNullOrWhiteSpace(jobId))
+        var scheduleResult = TrySaveJob(schedulerBuilder?.Updated(), out scheduler, immediately);
+        if (scheduleResult == ScheduleResult.Succeed)
         {
-            scheduler = default;
-
             // 输出日志
-            _logger.LogWarning("The Scheduler is no identity specified.");
-            return ScheduleResult.NotIdentify;
+            _logger.LogInformation("The Scheduler of <{JobId}> successfully updated to the schedule.", ((Scheduler)scheduler).JobId);
         }
 
-        // 处理从持久化中删除情况
-        if (schedulerBuilder.Behavior == PersistenceBehavior.Removed)
-        {
-            return TryRemoveJob(jobId, out scheduler, immediately);
-        }
-        // 处理从持久化中添加情况
-        else if (schedulerBuilder.Behavior == PersistenceBehavior.Appended)
-        {
-            return TryAddJob(schedulerBuilder, out scheduler, immediately);
-        }
-
-        // 查找作业
-        var scheduleResult = TryGetJob(jobId, out var internalScheduler);
-        if (scheduleResult != ScheduleResult.Succeed)
-        {
-            scheduler = default;
-
-            // 输出日志
-            _logger.LogWarning("The Scheduler of <{jobId}> is not found.", jobId);
-            return scheduleResult;
-        }
-
-        // 原始作业计划
-        var originScheduler = (Scheduler)internalScheduler;
-
-        // 获取更新后的作业计划
-        var schedulerForUpdated = schedulerBuilder.Build(_schedulers.Count + 1);
-        schedulerForUpdated.JobDetail.Blocked = false;
-
-        // 存储作业计划工厂
-        schedulerForUpdated.Factory = this;
-        schedulerForUpdated.UseUtcTimestamp = UseUtcTimestamp;
-        schedulerForUpdated.Logger = _logger;
-
-        // 实例化作业处理程序
-        var jobType = schedulerForUpdated.JobDetail.RuntimeJobType;
-        if (jobType != null)
-        {
-            schedulerForUpdated.JobHandler = null;  // 释放引用
-            schedulerForUpdated.JobHandler = (_serviceProvider.GetService(jobType)
-            ?? ActivatorUtilities.CreateInstance(_serviceProvider, jobType)) as IJob;
-        }
-
-        // 当前时间
-        var startAt = Penetrates.GetNowTime(UseUtcTimestamp);
-
-        // 逐条初始化作业触发器初始化下一次执行时间
-        foreach (var triggerForUpdated in schedulerForUpdated.Triggers.Values)
-        {
-            triggerForUpdated.NextRunTime = triggerForUpdated.GetNextRunTime(startAt);
-            triggerForUpdated.CheckNextOccurrence(schedulerForUpdated.JobDetail, startAt);
-        }
-
-        // 更新内存作业计划集合
-        var updateSucceed = _schedulers.TryUpdate(jobId, schedulerForUpdated, originScheduler);
-        if (!updateSucceed)
-        {
-            scheduler = null;
-
-            // 输出日志
-            _logger.LogWarning("The Scheduler of <{jobId}> update failed.", jobId);
-            return ScheduleResult.Failed;
-        }
-
-        // 将作业信息运行数据写入持久化
-        Shorthand(schedulerForUpdated.JobDetail);
-
-        // 逐条将作业触发器运行数据写入持久化（处理作业触发器被删除情况）
-        var triggerIdsOfRemoved = new List<string>();
-        foreach (var (triggerId, triggerForOrigin) in originScheduler.Triggers)
-        {
-            // 处理作业触发器被删除的情况
-            if (!schedulerForUpdated.Triggers.TryGetValue(triggerId, out _))
-            {
-                triggerIdsOfRemoved.Add(triggerId);
-
-                // 将作业触发器运行数据写入持久化
-                Shorthand(schedulerForUpdated.JobDetail, triggerForOrigin, PersistenceBehavior.Removed);
-
-                // 输出日志
-                _logger.LogInformation("The <{triggerId}> trigger for scheduler of <{jobId}> successfully removed to the schedule.", triggerId, jobId);
-
-                continue;
-            }
-        }
-
-        // 逐条将作业触发器运行数据写入持久化（处理作业触发器被新增/更新情况）
-        foreach (var (triggerId, triggerForUpdated) in schedulerForUpdated.Triggers)
-        {
-            // 排除已被删除的作业触发器 Id
-            if (triggerIdsOfRemoved.Contains(triggerId)) continue;
-
-            // 处理作业触发器新增的情况
-            if (!originScheduler.Triggers.TryGetValue(triggerId, out _))
-            {
-                // 将作业触发器运行数据写入持久化
-                Shorthand(schedulerForUpdated.JobDetail, triggerForUpdated, PersistenceBehavior.Appended);
-
-                // 输出日志
-                _logger.LogInformation("The <{triggerId}> trigger for scheduler of <{jobId}> successfully added to the schedule.", triggerId, jobId);
-
-                continue;
-            }
-
-            // 将作业触发器运行数据写入持久化
-            Shorthand(schedulerForUpdated.JobDetail, triggerForUpdated, PersistenceBehavior.Updated);
-        }
-
-        // 取消作业调度器休眠状态（强制唤醒）
-        if (immediately) CancelSleep();
-
-        // 输出日志
-        _logger.LogInformation("The Scheduler of <{JobId}> successfully updated to the schedule.", schedulerForUpdated.JobId);
-
-        scheduler = schedulerForUpdated;
-        return ScheduleResult.Succeed;
+        return scheduleResult;
     }
 
     /// <summary>
@@ -722,46 +684,16 @@ internal sealed partial class SchedulerFactory
     /// <returns><see cref="ScheduleResult"/></returns>
     public ScheduleResult TryRemoveJob(string jobId, out IScheduler scheduler, bool immediately = true)
     {
-        // 检查作业 Id 是否存在
-        var scheduleResult = TryGetJob(jobId, out _);
+        // 查找作业
+        var scheduleResult = TryGetJob(jobId, true, out var originScheduler);
         if (scheduleResult != ScheduleResult.Succeed)
         {
             scheduler = default;
-
-            // 输出日志
-            _logger.LogWarning("The Scheduler of <{jobId}> is not found.", jobId);
             return scheduleResult;
         }
 
-        // 从集合中移除
-        var succeed = _schedulers.TryRemove(jobId, out var schedulerForRemoved);
-        if (!succeed)
-        {
-            scheduler = default;
-
-            // 输出日志
-            _logger.LogWarning("The Scheduler of <{jobId}> remove failed.", jobId);
-            return ScheduleResult.Failed;
-        }
-
-        // 将作业信息运行数据写入持久化
-        Shorthand(schedulerForRemoved.JobDetail, PersistenceBehavior.Removed);
-
-        // 逐条初始化作业触发器初始化下一次执行时间
-        foreach (var triggerForRemoved in schedulerForRemoved.Triggers.Values)
-        {
-            // 将作业触发器运行数据写入持久化
-            Shorthand(schedulerForRemoved.JobDetail, triggerForRemoved, PersistenceBehavior.Removed);
-        }
-
-        // 取消作业调度器休眠状态（强制唤醒）
-        if (immediately) CancelSleep();
-
-        // 输出日志
-        _logger.LogInformation("The Scheduler of <{jobId}> successfully removed to the schedule.", jobId);
-
-        scheduler = schedulerForRemoved;
-        return ScheduleResult.Succeed;
+        scheduler = originScheduler;
+        return TryRemoveJob(originScheduler, immediately);
     }
 
     /// <summary>
@@ -781,11 +713,14 @@ internal sealed partial class SchedulerFactory
     /// <returns><see cref="ScheduleResult"/></returns>
     public ScheduleResult TryRemoveJob(IScheduler scheduler, bool immediately = true)
     {
-        // 空检查
-        if (scheduler == null) throw new ArgumentNullException(nameof(scheduler));
+        var scheduleResult = TrySaveJob(scheduler?.GetBuilder()?.Removed(), out _, immediately);
+        if (scheduleResult == ScheduleResult.Succeed)
+        {
+            // 输出日志
+            _logger.LogInformation("The Scheduler of <{JobId}> successfully removed to the schedule.", ((Scheduler)scheduler).JobId);
+        }
 
-        var internalScheduler = (Scheduler)scheduler;
-        return TryRemoveJob(internalScheduler.JobId, out _, immediately);
+        return scheduleResult;
     }
 
     /// <summary>
@@ -805,14 +740,12 @@ internal sealed partial class SchedulerFactory
     /// <returns><see cref="bool"/></returns>
     public bool ContainsJob(string jobId, string group = default)
     {
-        var scheduleResult = TryGetJob(jobId, out var scheduler);
-        if (scheduleResult != ScheduleResult.Succeed) return false;
+        if (TryGetJob(jobId, false, out var originScheduler) != ScheduleResult.Succeed) return false;
 
         // 检查作业组名称
         if (!string.IsNullOrWhiteSpace(group))
         {
-            var internalScheduler = (Scheduler)scheduler;
-            if (internalScheduler.JobDetail.GroupName != group) return false;
+            if (originScheduler.JobDetail.GroupName != group) return false;
         }
 
         return true;

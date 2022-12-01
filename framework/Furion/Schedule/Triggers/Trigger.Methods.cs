@@ -80,7 +80,7 @@ public partial class Trigger
         {
             NumberOfRuns = 0;
             SetStatus(TriggerStatus.Ready);
-            NextRunTime = CheckRunOnStarAndReturnNextRunTime(startAt);
+            NextRunTime = CheckRunOnStartAndReturnNextRunTime(startAt);
 
             if (MaxNumberOfErrors > 0 && NumberOfErrors >= MaxNumberOfErrors)
             {
@@ -153,7 +153,7 @@ public partial class Trigger
     /// </summary>
     /// <param name="startAt">起始时间</param>
     /// <returns><see cref="DateTime"/></returns>
-    internal DateTime? CheckRunOnStarAndReturnNextRunTime(DateTime startAt)
+    internal DateTime? CheckRunOnStartAndReturnNextRunTime(DateTime startAt)
     {
         return !(StartNow && RunOnStart)
               ? GetNextRunTime(startAt)

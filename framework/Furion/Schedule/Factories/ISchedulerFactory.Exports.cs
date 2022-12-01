@@ -73,6 +73,15 @@ public partial interface ISchedulerFactory : IDisposable
     IScheduler GetJob(string jobId);
 
     /// <summary>
+    /// 保存作业
+    /// </summary>
+    /// <param name="schedulerBuilder">作业计划构建器</param>
+    /// <param name="scheduler">作业计划</param>
+    /// <param name="immediately">使作业调度器立即载入</param>
+    /// <returns><see cref="ScheduleResult"/></returns>
+    ScheduleResult TrySaveJob(SchedulerBuilder schedulerBuilder, out IScheduler scheduler, bool immediately = true);
+
+    /// <summary>
     /// 添加作业
     /// </summary>
     /// <param name="schedulerBuilder">作业计划构建器</param>
