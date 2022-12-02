@@ -20,47 +20,33 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+using System.Diagnostics.CodeAnalysis;
+
 namespace Furion.Schedule;
 
 /// <summary>
-/// 毫秒周期（间隔）作业触发器
+/// 支持重复 Key 的字典比较器
 /// </summary>
-[SuppressSniffer]
-public class PeriodTrigger : Trigger
+internal class RepeatKeyEqualityComparer : IEqualityComparer<JobBuilder>
 {
     /// <summary>
-    /// 构造函数
+    /// 相等比较
     /// </summary>
-    /// <param name="interval">间隔（毫秒）</param>
-    public PeriodTrigger(int interval)
+    /// <param name="x"><see cref="JobBuilder"/></param>
+    /// <param name="y"><see cref="JobBuilder"/></param>
+    /// <returns><see cref="bool"/></returns>
+    public bool Equals(JobBuilder x, JobBuilder y)
     {
-        // 最低运行毫秒数为 100ms
-        if (interval < 100) throw new InvalidOperationException($"The interval cannot be less than 100ms, but the value is <{interval}ms>.");
-
-        Interval = interval;
+        return x != y;
     }
 
     /// <summary>
-    /// 间隔（毫秒）
+    /// 获取哈希值
     /// </summary>
-    protected int Interval { get; }
-
-    /// <summary>
-    /// 计算下一个触发时间
-    /// </summary>
-    /// <param name="startAt">起始时间</param>
-    /// <returns><see cref="DateTime"/></returns>
-    public override DateTime GetNextOccurrence(DateTime startAt)
+    /// <param name="obj"><see cref="string"/></param>
+    /// <returns><see cref="int"/></returns>
+    public int GetHashCode([DisallowNull] JobBuilder obj)
     {
-        return startAt.AddMilliseconds(Interval);
-    }
-
-    /// <summary>
-    /// 作业触发器转字符串输出
-    /// </summary>
-    /// <returns><see cref="string"/></returns>
-    public override string ToString()
-    {
-        return $"<{JobId} {TriggerId}> {Interval}ms{(string.IsNullOrWhiteSpace(Description) ? string.Empty : $" {Description}")} {NumberOfRuns}ts";
+        return obj.GetHashCode();
     }
 }

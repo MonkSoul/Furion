@@ -93,6 +93,17 @@ public sealed class TriggerBuilder : Trigger
     /// <summary>
     /// 创建作业触发器构建器
     /// </summary>
+    /// <param name="triggerId">作业触发器 Id</param>
+    /// <returns><see cref="JobBuilder"/></returns>
+    public static TriggerBuilder Create(string triggerId)
+    {
+        return new TriggerBuilder()
+            .SetTriggerId(triggerId);
+    }
+
+    /// <summary>
+    /// 创建作业触发器构建器
+    /// </summary>
     /// <typeparam name="TTrigger"><see cref="Trigger"/> 派生类</typeparam>
     /// <returns><see cref="TriggerBuilder"/></returns>
     public static TriggerBuilder Create<TTrigger>()
@@ -122,7 +133,8 @@ public sealed class TriggerBuilder : Trigger
     public static TriggerBuilder Create(string assemblyName, string triggerTypeFullName)
     {
         return new TriggerBuilder()
-            .SetTriggerType(assemblyName, triggerTypeFullName);
+            .SetTriggerType(assemblyName, triggerTypeFullName)
+            .Appended();
     }
 
     /// <summary>
@@ -145,7 +157,8 @@ public sealed class TriggerBuilder : Trigger
     public static TriggerBuilder Create(Type triggerType)
     {
         return new TriggerBuilder()
-            .SetTriggerType(triggerType);
+            .SetTriggerType(triggerType)
+            .Appended();
     }
 
     /// <summary>
@@ -172,7 +185,7 @@ public sealed class TriggerBuilder : Trigger
         triggerBuilder.SetTriggerType(triggerBuilder.AssemblyName, triggerBuilder.TriggerType)
             .SetArgs(triggerBuilder.Args);
 
-        return triggerBuilder;
+        return triggerBuilder.Updated();
     }
 
     /// <summary>
@@ -182,7 +195,7 @@ public sealed class TriggerBuilder : Trigger
     /// <returns><see cref="TriggerBuilder"/></returns>
     public static TriggerBuilder From(string json)
     {
-        return From(Penetrates.Deserialize<Trigger>(json));
+        return From(Penetrates.Deserialize<Trigger>(json)).Appended();
     }
 
     /// <summary>
@@ -539,6 +552,36 @@ public sealed class TriggerBuilder : Trigger
     {
         ResetOnlyOnce = resetOnlyOnce;
 
+        return this;
+    }
+
+    /// <summary>
+    /// 标记作业触发器计划为新增行为
+    /// </summary>
+    /// <returns><see cref="TriggerBuilder"/></returns>
+    public TriggerBuilder Appended()
+    {
+        Behavior = PersistenceBehavior.Appended;
+        return this;
+    }
+
+    /// <summary>
+    /// 标记作业触发器计划为更新行为
+    /// </summary>
+    /// <returns><see cref="TriggerBuilder"/></returns>
+    public TriggerBuilder Updated()
+    {
+        Behavior = PersistenceBehavior.Updated;
+        return this;
+    }
+
+    /// <summary>
+    /// 标记作业触发器为删除行为
+    /// </summary>
+    /// <returns><see cref="TriggerBuilder"/></returns>
+    public TriggerBuilder Removed()
+    {
+        Behavior = PersistenceBehavior.Removed;
         return this;
     }
 

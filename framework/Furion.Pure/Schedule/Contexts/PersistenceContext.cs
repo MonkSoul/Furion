@@ -107,6 +107,6 @@ public class PersistenceContext
     /// <returns><see cref="string"/></returns>
     public override string ToString()
     {
-        return $"{JobDetail} <{Behavior}>";
+        return $"{JobDetail} [{Behavior}]";
     }
 }

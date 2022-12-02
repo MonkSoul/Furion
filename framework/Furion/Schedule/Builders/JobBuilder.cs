@@ -40,6 +40,17 @@ public sealed class JobBuilder : JobDetail
     /// <summary>
     /// 创建作业信息构建器
     /// </summary>
+    /// <param name="jobId">作业 Id</param>
+    /// <returns><see cref="JobBuilder"/></returns>
+    public static JobBuilder Create(string jobId)
+    {
+        return new JobBuilder()
+            .SetJobId(jobId);
+    }
+
+    /// <summary>
+    /// 创建作业信息构建器
+    /// </summary>
     /// <typeparam name="TJob"><see cref="IJob"/> 实现类型</typeparam>
     /// <returns><see cref="JobBuilder"/></returns>
     public static JobBuilder Create<TJob>()

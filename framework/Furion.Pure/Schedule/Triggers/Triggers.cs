@@ -31,6 +31,68 @@ namespace Furion.Schedule;
 public static class Triggers
 {
     /// <summary>
+    /// 创建毫秒周期（间隔）作业触发器构建器
+    /// </summary>
+    /// <param name="interval">间隔（毫秒）</param>
+    /// <returns><see cref="TriggerBuilder"/></returns>
+    public static TriggerBuilder Period(int interval)
+    {
+        return TriggerBuilder.Period(interval);
+    }
+
+    /// <summary>
+    /// 创建秒周期（间隔）作业触发器构建器
+    /// </summary>
+    /// <param name="interval">间隔（秒）</param>
+    /// <returns><see cref="TriggerBuilder"/></returns>
+    public static TriggerBuilder PeriodSeconds(int interval)
+    {
+        return TriggerBuilder.PeriodSeconds(interval);
+    }
+
+    /// <summary>
+    /// 创建分钟周期（间隔）作业触发器构建器
+    /// </summary>
+    /// <param name="interval">间隔（分钟）</param>
+    /// <returns><see cref="TriggerBuilder"/></returns>
+    public static TriggerBuilder PeriodMinutes(int interval)
+    {
+        return TriggerBuilder.PeriodMinutes(interval);
+    }
+
+    /// <summary>
+    /// 创建 Cron 表达式作业触发器构建器
+    /// </summary>
+    /// <param name="schedule">Cron 表达式</param>
+    /// <param name="format">Cron 表达式格式化类型，默认 <see cref="CronStringFormat.Default"/></param>
+    /// <returns><see cref="TriggerBuilder"/></returns>
+    public static TriggerBuilder Cron(string schedule, CronStringFormat format = CronStringFormat.Default)
+    {
+        return TriggerBuilder.Cron(schedule, format);
+    }
+
+    /// <summary>
+    /// 创建 Cron 表达式 Macro 作业触发器构建器
+    /// </summary>
+    /// <param name="macro">Macro 符号</param>
+    /// <param name="fields">字段值</param>
+    /// <returns><see cref="TriggerBuilder"/></returns>
+    public static TriggerBuilder MacroAt(string macro, params object[] fields)
+    {
+        return TriggerBuilder.MacroAt(macro, fields);
+    }
+
+    /// <summary>
+    /// 创建作业触发器构建器
+    /// </summary>
+    /// <param name="triggerId">作业触发器 Id</param>
+    /// <returns><see cref="JobBuilder"/></returns>
+    public static TriggerBuilder Create(string triggerId)
+    {
+        return TriggerBuilder.Create(triggerId);
+    }
+
+    /// <summary>
     /// 创建作业触发器构建器
     /// </summary>
     /// <typeparam name="TTrigger"><see cref="Trigger"/> 派生类</typeparam>
@@ -125,58 +187,6 @@ public static class Triggers
     public static TriggerBuilder Clone(TriggerBuilder fromTriggerBuilder)
     {
         return TriggerBuilder.Clone(fromTriggerBuilder);
-    }
-
-    /// <summary>
-    /// 创建毫秒周期（间隔）作业触发器构建器
-    /// </summary>
-    /// <param name="interval">间隔（毫秒）</param>
-    /// <returns><see cref="TriggerBuilder"/></returns>
-    public static TriggerBuilder Period(int interval)
-    {
-        return TriggerBuilder.Period(interval);
-    }
-
-    /// <summary>
-    /// 创建秒周期（间隔）作业触发器构建器
-    /// </summary>
-    /// <param name="interval">间隔（秒）</param>
-    /// <returns><see cref="TriggerBuilder"/></returns>
-    public static TriggerBuilder PeriodSeconds(int interval)
-    {
-        return TriggerBuilder.PeriodSeconds(interval);
-    }
-
-    /// <summary>
-    /// 创建分钟周期（间隔）作业触发器构建器
-    /// </summary>
-    /// <param name="interval">间隔（分钟）</param>
-    /// <returns><see cref="TriggerBuilder"/></returns>
-    public static TriggerBuilder PeriodMinutes(int interval)
-    {
-        return TriggerBuilder.PeriodMinutes(interval);
-    }
-
-    /// <summary>
-    /// 创建 Cron 表达式作业触发器构建器
-    /// </summary>
-    /// <param name="schedule">Cron 表达式</param>
-    /// <param name="format">Cron 表达式格式化类型，默认 <see cref="CronStringFormat.Default"/></param>
-    /// <returns><see cref="TriggerBuilder"/></returns>
-    public static TriggerBuilder Cron(string schedule, CronStringFormat format = CronStringFormat.Default)
-    {
-        return TriggerBuilder.Cron(schedule, format);
-    }
-
-    /// <summary>
-    /// 创建 Cron 表达式 Macro 作业触发器构建器
-    /// </summary>
-    /// <param name="macro">Macro 符号</param>
-    /// <param name="fields">字段值</param>
-    /// <returns><see cref="TriggerBuilder"/></returns>
-    public static TriggerBuilder MacroAt(string macro, params object[] fields)
-    {
-        return TriggerBuilder.MacroAt(macro, fields);
     }
 
     /// <summary>

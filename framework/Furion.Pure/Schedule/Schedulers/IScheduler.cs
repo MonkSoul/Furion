@@ -41,49 +41,47 @@ public interface IScheduler
     SchedulerBuilder GetBuilder();
 
     /// <summary>
-    /// 获取作业计划信息构建器
+    /// 获取作业信息构建器
     /// </summary>
     /// <returns><see cref="JobBuilder"/></returns>
     JobBuilder GetJobBuilder();
 
     /// <summary>
-    /// 获取作业计划触发器构建器集合
+    /// 获取作业触发器构建器集合
     /// </summary>
     /// <returns><see cref="List{TriggerBuilder}"/></returns>
-    List<TriggerBuilder> GetTriggerBuilders();
+    IReadOnlyList<TriggerBuilder> GetTriggerBuilders();
 
     /// <summary>
-    /// 获取作业计划触发器构建器
+    /// 获取作业触发器构建器
     /// </summary>
     /// <param name="triggerId">作业触发器 Id</param>
     /// <returns><see cref="TriggerBuilder"/></returns>
     TriggerBuilder GetTriggerBuilder(string triggerId);
 
     /// <summary>
-    /// 启动作业计划
-    /// </summary>
-    void Start();
-
-    /// <summary>
-    /// 暂停作业计划
-    /// </summary>
-    void Pause();
-
-    /// <summary>
-    /// 启动作业计划单个触发器
+    /// 查找作业触发器
     /// </summary>
     /// <param name="triggerId">作业触发器 Id</param>
-    /// <param name="immediately">使作业调度器立即载入</param>
-    /// <returns><see cref="bool"/></returns>
-    bool StartTrigger(string triggerId, bool immediately = true);
+    /// <param name="trigger">作业触发器</param>
+    /// <returns><see cref="ScheduleResult"/></returns>
+    ScheduleResult TryGetTrigger(string triggerId, out Trigger trigger);
 
     /// <summary>
-    /// 暂停作业计划单个触发器
+    /// 查找作业触发器
     /// </summary>
     /// <param name="triggerId">作业触发器 Id</param>
-    /// <param name="immediately">使作业调度器立即载入</param>
-    /// <returns><see cref="bool"/></returns>
-    bool PauseTrigger(string triggerId, bool immediately = true);
+    /// <returns><see cref="Trigger"/></returns>
+    Trigger GetTrigger(string triggerId);
+
+    /// <summary>
+    /// 保存作业触发器
+    /// </summary>
+    /// <param name="triggerBuilder">作业触发器构建器</param>
+    /// <param name="trigger">作业触发器</param>
+    /// <param name="immediately">是否立即通知作业调度器重新载入</param>
+    /// <returns><see cref="ScheduleResult"/></returns>
+    ScheduleResult TrySaveTrigger(TriggerBuilder triggerBuilder, out Trigger trigger, bool immediately = true);
 
     /// <summary>
     /// 更新作业计划信息
@@ -94,28 +92,13 @@ public interface IScheduler
     ScheduleResult TryUpdateDetail(JobBuilder jobBuilder, out JobDetail jobDetail);
 
     /// <summary>
-    /// 更新作业计划信息
+    /// 更新作业信息
     /// </summary>
     /// <param name="jobBuilder">作业信息构建器</param>
     void UpdateDetail(JobBuilder jobBuilder);
 
     /// <summary>
-    /// 查找作业计划触发器
-    /// </summary>
-    /// <param name="triggerId">作业触发器 Id</param>
-    /// <param name="trigger">作业触发器</param>
-    /// <returns><see cref="ScheduleResult"/></returns>
-    ScheduleResult TryGetTrigger(string triggerId, out Trigger trigger);
-
-    /// <summary>
-    /// 查找作业计划触发器
-    /// </summary>
-    /// <param name="triggerId">作业触发器 Id</param>
-    /// <returns><see cref="Trigger"/></returns>
-    Trigger GetTrigger(string triggerId);
-
-    /// <summary>
-    /// 添加作业计划触发器
+    /// 添加作业触发器
     /// </summary>
     /// <param name="triggerBuilder">作业触发器构建器</param>
     /// <param name="trigger">作业触发器</param>
@@ -123,13 +106,13 @@ public interface IScheduler
     ScheduleResult TryAddTrigger(TriggerBuilder triggerBuilder, out Trigger trigger);
 
     /// <summary>
-    /// 添加作业计划触发器
+    /// 添加作业触发器
     /// </summary>
-    /// <param name="triggerBuilder">作业触发器构建器</param>
-    void AddTrigger(TriggerBuilder triggerBuilder);
+    /// <param name="triggerBuilders">作业触发器构建器</param>
+    void AddTrigger(params TriggerBuilder[] triggerBuilders);
 
     /// <summary>
-    /// 更新作业计划触发器
+    /// 更新作业触发器
     /// </summary>
     /// <param name="triggerBuilder">作业触发器构建器</param>
     /// <param name="trigger">作业触发器</param>
@@ -137,13 +120,13 @@ public interface IScheduler
     ScheduleResult TryUpdateTrigger(TriggerBuilder triggerBuilder, out Trigger trigger);
 
     /// <summary>
-    /// 更新作业计划触发器
+    /// 更新作业触发器
     /// </summary>
-    /// <param name="triggerBuilder">作业触发器构建器</param>
-    void UpdateTrigger(TriggerBuilder triggerBuilder);
+    /// <param name="triggerBuilders">作业触发器构建器</param>
+    void UpdateTrigger(params TriggerBuilder[] triggerBuilders);
 
     /// <summary>
-    /// 删除作业计划触发器
+    /// 删除作业触发器
     /// </summary>
     /// <param name="triggerId">作业触发器 Id</param>
     /// <param name="trigger">作业触发器</param>
@@ -151,17 +134,10 @@ public interface IScheduler
     ScheduleResult TryRemoveTrigger(string triggerId, out Trigger trigger);
 
     /// <summary>
-    /// 删除作业计划触发器
+    /// 删除作业触发器
     /// </summary>
     /// <param name="triggerId">作业触发器 Id</param>
     void RemoveTrigger(string triggerId);
-
-    /// <summary>
-    /// 检查作业计划触发器是否存在
-    /// </summary>
-    /// <param name="triggerId">作业触发器 Id</param>
-    /// <returns><see cref="bool"/></returns>
-    bool ContainsTrigger(string triggerId);
 
     /// <summary>
     /// 将当前作业计划从调度器中删除
@@ -175,9 +151,48 @@ public interface IScheduler
     void Remove();
 
     /// <summary>
+    /// 检查作业触发器是否存在
+    /// </summary>
+    /// <param name="triggerId">作业触发器 Id</param>
+    /// <returns><see cref="bool"/></returns>
+    bool ContainsTrigger(string triggerId);
+
+    /// <summary>
+    /// 启动作业触发器
+    /// </summary>
+    /// <param name="triggerId">作业触发器 Id</param>
+    /// <param name="immediately">是否立即通知作业调度器重新载入</param>
+    /// <returns><see cref="bool"/></returns>
+    bool StartTrigger(string triggerId, bool immediately = true);
+
+    /// <summary>
+    /// 暂停作业触发器
+    /// </summary>
+    /// <param name="triggerId">作业触发器 Id</param>
+    /// <param name="immediately">是否立即通知作业调度器重新载入</param>
+    /// <returns><see cref="bool"/></returns>
+    bool PauseTrigger(string triggerId, bool immediately = true);
+
+    /// <summary>
     /// 强制触发作业持久化记录
     /// </summary>
     void Persist();
+
+    /// <summary>
+    /// 启动作业
+    /// </summary>
+    void Start();
+
+    /// <summary>
+    /// 暂停作业
+    /// </summary>
+    void Pause();
+
+    /// <summary>
+    /// 校对作业
+    /// </summary>
+    /// <param name="immediately">是否立即通知作业调度器重新载入</param>
+    void Collate(bool immediately = true);
 
     /// <summary>
     /// 转换成 JSON 字符串
@@ -185,9 +200,4 @@ public interface IScheduler
     /// <param name="naming">命名法</param>
     /// <returns><see cref="string"/></returns>
     string ConvertToJSON(NamingConventions naming = NamingConventions.CamelCase);
-
-    /// <summary>
-    /// 校对作业计划
-    /// </summary>
-    void Collate();
 }

@@ -33,11 +33,11 @@ public sealed class JobExecutedContext : JobExecutionContext
     /// </summary>
     /// <param name="jobDetail">作业信息</param>
     /// <param name="trigger">作业触发器</param>
-    /// <param name="startAt">作业调度服务检查时间</param>
+    /// <param name="occurrenceTime">作业计划触发时间</param>
     internal JobExecutedContext(JobDetail jobDetail
         , Trigger trigger
-        , DateTime startAt)
-        : base(jobDetail, trigger, startAt)
+        , DateTime occurrenceTime)
+        : base(jobDetail, trigger, occurrenceTime)
     {
     }
 

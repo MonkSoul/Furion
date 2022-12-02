@@ -116,11 +116,11 @@ internal sealed class ScheduleHostedService : BackgroundService
     /// <returns><see cref="Task"/> 实例</returns>
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        _logger.LogInformation("Schedule Hosted Service is running.");
+        _logger.LogInformation("Schedule hosted service is running.");
 
         // 注册后台主机服务停止监听
         stoppingToken.Register(() =>
-           _logger.LogDebug($"Schedule Hosted Service is stopping."));
+           _logger.LogDebug($"Schedule hosted service is stopping."));
 
         // 等待作业集群指示
         await WaitingClusterAsync();
@@ -138,7 +138,7 @@ internal sealed class ScheduleHostedService : BackgroundService
         // 释放作业计划工厂
         _schedulerFactory.Dispose();
 
-        _logger.LogCritical($"Schedule Hosted Service is stopped.");
+        _logger.LogCritical($"Schedule hosted service is stopped.");
     }
 
     /// <summary>
@@ -152,19 +152,18 @@ internal sealed class ScheduleHostedService : BackgroundService
         var startAt = Penetrates.GetNowTime(UseUtcTimestamp);
 
         // 查找所有符合触发的作业
-        var currentRunJobs = _schedulerFactory.GetCurrentRunJobs(startAt);
+        var currentRunJobs = _schedulerFactory.GetCurrentRunJobs(startAt) as IEnumerable<Scheduler>;
 
         // 输出作业调度器检查信息
-        _logger.LogDebug("Schedule Hosted Service is checking on <{startAt}> and finds <{Count}> schedulers that should be run.", startAt, currentRunJobs.Count());
+        _logger.LogDebug("Schedule hosted service is checking on <{startAt}> and finds <{Count}> schedulers that should be run.", startAt, currentRunJobs.Count());
 
         // 创建一个任务工厂并保证执行任务都使用当前的计划程序
         var taskFactory = new TaskFactory(System.Threading.Tasks.TaskScheduler.Current);
 
-        // 逐条遍历所有作业计划集合
-        foreach (var schedulerThatShouldRun in currentRunJobs)
+        // 通过并行方式提高吞吐量并解决 Thread.Sleep 问题
+        Parallel.ForEach(currentRunJobs, scheduler =>
         {
             // 解构参数
-            var scheduler = (Scheduler)schedulerThatShouldRun;
             var jobId = scheduler.JobId;
             var jobDetail = scheduler.JobDetail;
             var jobHandler = scheduler.JobHandler;
@@ -183,6 +182,7 @@ internal sealed class ScheduleHostedService : BackgroundService
                 trigger.SetStatus(TriggerStatus.Running);
 
                 // 记录运行信息和计算下一个触发时间
+                var occurrenceTime = trigger.NextRunTime.Value;
                 trigger.Increment(jobDetail, startAt);
 
                 // 将作业触发器运行数据写入持久化
@@ -195,7 +195,7 @@ internal sealed class ScheduleHostedService : BackgroundService
                     taskFactory.StartNew(async () =>
                     {
                         // 创建作业执行前上下文
-                        var jobExecutingContext = new JobExecutingContext(jobDetail, trigger, startAt)
+                        var jobExecutingContext = new JobExecutingContext(jobDetail, trigger, occurrenceTime)
                         {
                             ExecutingTime = Penetrates.GetNowTime(UseUtcTimestamp)
                         };
@@ -226,7 +226,7 @@ internal sealed class ScheduleHostedService : BackgroundService
                             }
 
                             // 设置作业触发器状态为就绪状态
-                            trigger.SetStatus(TriggerStatus.Ready);
+                            if (trigger.CheckAndFixNextOccurrence(jobDetail, startAt)) trigger.SetStatus(TriggerStatus.Ready);
 
                             // 将作业触发器运行数据写入持久化
                             _schedulerFactory.Shorthand(jobDetail, trigger);
@@ -266,7 +266,7 @@ internal sealed class ScheduleHostedService : BackgroundService
                             if (Monitor != default)
                             {
                                 // 创建作业执行后上下文
-                                var jobExecutedContext = new JobExecutedContext(jobDetail, trigger, startAt)
+                                var jobExecutedContext = new JobExecutedContext(jobDetail, trigger, occurrenceTime)
                                 {
                                     ExecutedTime = Penetrates.GetNowTime(UseUtcTimestamp),
                                     Exception = executionException
@@ -281,7 +281,7 @@ internal sealed class ScheduleHostedService : BackgroundService
                     }, stoppingToken);
                 });
             }
-        }
+        });
 
         // 作业调度器进入休眠状态
         await _schedulerFactory.SleepAsync(startAt);

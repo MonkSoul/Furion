@@ -51,7 +51,7 @@ internal sealed partial class Scheduler
     }
 
     /// <summary>
-    /// 获取作业计划信息构建器
+    /// 获取作业信息构建器
     /// </summary>
     /// <returns><see cref="JobBuilder"/></returns>
     public JobBuilder GetJobBuilder()
@@ -60,16 +60,16 @@ internal sealed partial class Scheduler
     }
 
     /// <summary>
-    /// 获取作业计划触发器构建器集合
+    /// 获取作业触发器构建器集合
     /// </summary>
     /// <returns><see cref="List{TriggerBuilder}"/></returns>
-    public List<TriggerBuilder> GetTriggerBuilders()
+    public IReadOnlyList<TriggerBuilder> GetTriggerBuilders()
     {
         return GetBuilder().GetTriggerBuilders();
     }
 
     /// <summary>
-    /// 获取作业计划触发器构建器
+    /// 获取作业触发器构建器
     /// </summary>
     /// <param name="triggerId">作业触发器 Id</param>
     /// <returns><see cref="TriggerBuilder"/></returns>
@@ -79,116 +79,85 @@ internal sealed partial class Scheduler
     }
 
     /// <summary>
-    /// 启动作业计划
-    /// </summary>
-    public void Start()
-    {
-        var changed = 0;
-
-        // 逐条启用所有作业触发器
-        foreach (var triggerId in Triggers.Keys)
-        {
-            if (StartTrigger(triggerId, false)) changed++;
-        }
-
-        // 取消作业调度器休眠状态（强制唤醒）
-        if (changed > 0) Factory.CancelSleep();
-    }
-
-    /// <summary>
-    /// 暂停作业计划
-    /// </summary>
-    public void Pause()
-    {
-        var changed = 0;
-
-        // 逐条暂停所有作业触发器
-        foreach (var triggerId in Triggers.Keys)
-        {
-            if (PauseTrigger(triggerId, false)) changed++;
-        }
-
-        // 取消作业调度器休眠状态（强制唤醒）
-        if (changed > 0) Factory.CancelSleep();
-    }
-
-    /// <summary>
-    /// 启动作业计划单个触发器
+    /// 查找作业触发器
     /// </summary>
     /// <param name="triggerId">作业触发器 Id</param>
-    /// <param name="immediately">使作业调度器立即载入</param>
-    /// <returns><see cref="bool"/></returns>
-    public bool StartTrigger(string triggerId, bool immediately = true)
+    /// <param name="trigger">作业触发器</param>
+    /// <returns><see cref="ScheduleResult"/></returns>
+    public ScheduleResult TryGetTrigger(string triggerId, out Trigger trigger)
     {
-        // 获取作业触发器构建器
-        var schedulerBuilder = GetBuilder();
-        var triggerBuilder = schedulerBuilder.GetTriggerBuilder(triggerId);
+        return InternalTryGetTrigger(triggerId, out trigger);
+    }
 
+    /// <summary>
+    /// 查找作业触发器
+    /// </summary>
+    /// <param name="triggerId">作业触发器 Id</param>
+    /// <returns><see cref="Trigger"/></returns>
+    public Trigger GetTrigger(string triggerId)
+    {
+        _ = TryGetTrigger(triggerId, out var trigger);
+        return trigger;
+    }
+
+    /// <summary>
+    /// 保存作业触发器
+    /// </summary>
+    /// <param name="triggerBuilder">作业触发器构建器</param>
+    /// <param name="trigger">作业触发器</param>
+    /// <param name="immediately">是否立即通知作业调度器重新载入</param>
+    /// <returns><see cref="ScheduleResult"/></returns>
+    public ScheduleResult TrySaveTrigger(TriggerBuilder triggerBuilder, out Trigger trigger, bool immediately = true)
+    {
         // 空检查
-        if (triggerBuilder == null)
-        {
-            // 输出日志
-            Logger.LogWarning("The <{triggerId}> trigger for scheduler of <{jobId}> is not found.", triggerId, JobId);
+        if (triggerBuilder == null) throw new ArgumentNullException(nameof(triggerBuilder));
 
-            return false;
+        // 解析作业触发器构建器状态
+        var isUpdated = triggerBuilder.Behavior == PersistenceBehavior.Updated;
+        var isRemoved = triggerBuilder.Behavior == PersistenceBehavior.Removed;
+
+        // 原始作业触发器
+        Trigger originTrigger = default;
+
+        // 获取作业触发器 Id
+        var triggerId = triggerBuilder.TriggerId;
+
+        // 检查更新和删除作业触发器时是否正确配置作业触发器 Id 及检查作业触发器是否存在
+        if (isUpdated || isRemoved)
+        {
+            // 查找作业触发器
+            var scheduleResult = InternalTryGetTrigger(triggerId, out originTrigger, true);
+            if (scheduleResult != ScheduleResult.Succeed)
+            {
+                trigger = default;
+                return scheduleResult;
+            }
         }
 
-        triggerBuilder.StartNow = true;
-        triggerBuilder.SetStatus(TriggerStatus.Ready);
+        // 构建新的作业触发器
+        var newTrigger = triggerBuilder.Build(JobId);
+        triggerId = newTrigger.TriggerId;
 
-        // 更新作业触发器构建器
+        // 获取作业触发器构建器
+        var schedulerBuilder = GetBuilder();
         schedulerBuilder.UpdateTriggerBuilder(triggerBuilder);
 
         // 更新作业
-        var scheduleResult = Factory.TryUpdateJob(schedulerBuilder, out _, immediately);
-        if (scheduleResult != ScheduleResult.Succeed)
+        if (Factory.TryUpdateJob(schedulerBuilder, out _, immediately) != ScheduleResult.Succeed)
         {
-            return false;
+            trigger = null;
+            return ScheduleResult.Failed;
         }
 
-        // 输出日志
-        Logger.LogInformation("The <{triggerId}> trigger for scheduler of <{JobId}> successfully started to the schedule.", triggerId, JobId);
-
-        return true;
-    }
-
-    /// <summary>
-    /// 暂停作业计划单个触发器
-    /// </summary>
-    /// <param name="triggerId">作业触发器 Id</param>
-    /// <param name="immediately">使作业调度器立即载入</param>
-    /// <returns><see cref="bool"/></returns>
-    public bool PauseTrigger(string triggerId, bool immediately = true)
-    {
-        // 获取作业触发器构建器
-        var schedulerBuilder = GetBuilder();
-        var triggerBuilder = schedulerBuilder.GetTriggerBuilder(triggerId);
-
-        // 空检查
-        if (triggerBuilder == null)
+        if (isRemoved)
         {
-            // 输出日志
-            Logger.LogWarning("The <{triggerId}> trigger for scheduler of <{jobId}> is not found.", triggerId, JobId);
-
-            return false;
+            trigger = originTrigger;
+            return ScheduleResult.Succeed;
         }
-
-        triggerBuilder.SetStatus(TriggerStatus.Pause);
-
-        // 更新作业触发器构建器
-        schedulerBuilder.UpdateTriggerBuilder(triggerBuilder);
-
-        // 更新作业
-        var scheduleResult = Factory.TryUpdateJob(schedulerBuilder, out _, immediately);
-        if (scheduleResult != ScheduleResult.Succeed)
+        else
         {
-            return false;
+            return InternalTryGetTrigger(triggerId, out trigger, true);
         }
-
-        // 输出日志
-        Logger.LogInformation("The <{triggerId}> trigger for scheduler of <{JobId}> successfully paused to the schedule.", triggerId, JobId);
-
-        return true;
     }
 
     /// <summary>
@@ -214,12 +183,12 @@ internal sealed partial class Scheduler
             return scheduleResult;
         }
 
-        jobDetail = ((Scheduler)scheduler).JobDetail;
+        jobDetail = (scheduler as Scheduler).JobDetail;
         return scheduleResult;
     }
 
     /// <summary>
-    /// 更新作业计划信息
+    /// 更新作业信息
     /// </summary>
     /// <param name="jobBuilder">作业信息构建器</param>
     public void UpdateDetail(JobBuilder jobBuilder)
@@ -228,161 +197,75 @@ internal sealed partial class Scheduler
     }
 
     /// <summary>
-    /// 查找作业计划触发器
-    /// </summary>
-    /// <param name="triggerId">作业触发器 Id</param>
-    /// <param name="trigger">作业触发器</param>
-    /// <returns><see cref="ScheduleResult"/></returns>
-    public ScheduleResult TryGetTrigger(string triggerId, out Trigger trigger)
-    {
-        // 空检查
-        if (string.IsNullOrWhiteSpace(triggerId)) throw new ArgumentNullException(nameof(triggerId));
-
-        var succeed = Triggers.TryGetValue(triggerId, out var internalTrigger);
-        trigger = internalTrigger;
-
-        return succeed
-            ? ScheduleResult.Succeed
-            : ScheduleResult.NotFound;
-    }
-
-    /// <summary>
-    /// 查找作业计划触发器
-    /// </summary>
-    /// <param name="triggerId">作业触发器 Id</param>
-    /// <returns><see cref="Trigger"/></returns>
-    public Trigger GetTrigger(string triggerId)
-    {
-        _ = TryGetTrigger(triggerId, out var trigger);
-        return trigger;
-    }
-
-    /// <summary>
-    /// 添加作业计划触发器
+    /// 添加作业触发器
     /// </summary>
     /// <param name="triggerBuilder">作业触发器构建器</param>
     /// <param name="trigger">作业触发器</param>
     /// <returns><see cref="ScheduleResult"/></returns>
     public ScheduleResult TryAddTrigger(TriggerBuilder triggerBuilder, out Trigger trigger)
     {
-        // 空检查
-        if (triggerBuilder == null) throw new ArgumentNullException(nameof(triggerBuilder));
-
-        // 添加作业触发器构建器
-        var schedulerBuilder = GetBuilder();
-        schedulerBuilder.AddTriggerBuilder(triggerBuilder);
-
-        // 更新作业
-        var scheduleResult = Factory.TryUpdateJob(schedulerBuilder, out var scheduler);
-        if (scheduleResult != ScheduleResult.Succeed)
-        {
-            trigger = null;
-            return scheduleResult;
-        }
-
-        // 返回新的作业触发器
-        trigger = scheduler.GetTrigger(triggerBuilder.TriggerId);
-        return scheduleResult;
+        return TrySaveTrigger(triggerBuilder?.Appended(), out trigger);
     }
 
     /// <summary>
-    /// 添加作业计划触发器
+    /// 添加作业触发器
     /// </summary>
-    /// <param name="triggerBuilder">作业触发器构建器</param>
-    public void AddTrigger(TriggerBuilder triggerBuilder)
+    /// <param name="triggerBuilders">作业触发器构建器</param>
+    public void AddTrigger(params TriggerBuilder[] triggerBuilders)
     {
-        _ = TryAddTrigger(triggerBuilder, out _);
+        // 空检查
+        if (triggerBuilders == null) throw new ArgumentNullException(nameof(triggerBuilders));
+
+        foreach (var triggerBuilder in triggerBuilders)
+        {
+            _ = TryAddTrigger(triggerBuilder, out _);
+        }
     }
 
     /// <summary>
-    /// 更新作业计划触发器
+    /// 更新作业触发器
     /// </summary>
     /// <param name="triggerBuilder">作业触发器构建器</param>
     /// <param name="trigger">作业触发器</param>
     /// <returns><see cref="ScheduleResult"/></returns>
     public ScheduleResult TryUpdateTrigger(TriggerBuilder triggerBuilder, out Trigger trigger)
     {
-        // 空检查
-        if (triggerBuilder == null) throw new ArgumentNullException(nameof(triggerBuilder));
-
-        // 更新作业触发器构建器
-        var schedulerBuilder = GetBuilder();
-        schedulerBuilder.UpdateTriggerBuilder(triggerBuilder);
-
-        // 更新作业
-        var scheduleResult = Factory.TryUpdateJob(schedulerBuilder, out var scheduler);
-        if (scheduleResult != ScheduleResult.Succeed)
-        {
-            trigger = null;
-            return scheduleResult;
-        }
-
-        // 返回更新后的作业触发器
-        trigger = scheduler.GetTrigger(triggerBuilder.TriggerId);
-        return scheduleResult;
+        return TrySaveTrigger(triggerBuilder?.Updated(), out trigger);
     }
 
     /// <summary>
-    /// 更新作业计划触发器
+    /// 更新作业触发器
     /// </summary>
-    /// <param name="triggerBuilder">作业触发器构建器</param>
-    public void UpdateTrigger(TriggerBuilder triggerBuilder)
+    /// <param name="triggerBuilders">作业触发器构建器</param>
+    public void UpdateTrigger(params TriggerBuilder[] triggerBuilders)
     {
-        _ = TryUpdateTrigger(triggerBuilder, out _);
+        // 空检查
+        if (triggerBuilders == null) throw new ArgumentNullException(nameof(triggerBuilders));
+
+        foreach (var triggerBuilder in triggerBuilders)
+        {
+            _ = TryUpdateTrigger(triggerBuilder, out _);
+        }
     }
 
     /// <summary>
-    /// 删除作业计划触发器
+    /// 删除作业触发器
     /// </summary>
     /// <param name="triggerId">作业触发器 Id</param>
     /// <param name="trigger">作业触发器</param>
     /// <returns><see cref="ScheduleResult"/></returns>
     public ScheduleResult TryRemoveTrigger(string triggerId, out Trigger trigger)
     {
-        // 删除作业触发器构建器
-        var schedulerBuilder = GetBuilder();
-        schedulerBuilder.RemoveTriggerBuilder(triggerId, out var triggerBuilder);
-
-        // 空检查
-        if (triggerBuilder == null)
-        {
-            // 输出日志
-            Logger.LogWarning("The <{triggerId}> trigger for scheduler of <{jobId}> is not found.", triggerId, JobId);
-
-            trigger = default;
-            return ScheduleResult.NotFound;
-        }
-
-        // 更新作业
-        var scheduleResult = Factory.TryUpdateJob(schedulerBuilder, out _);
-        if (scheduleResult != ScheduleResult.Succeed)
-        {
-            trigger = null;
-            return scheduleResult;
-        }
-
-        // 返回删除后的作业触发器
-        trigger = triggerBuilder.Build(JobId);
-        return scheduleResult;
+        return TrySaveTrigger(TriggerBuilder.Create(triggerId).Removed(), out trigger);
     }
 
     /// <summary>
-    /// 删除作业计划触发器
+    /// 删除作业触发器
     /// </summary>
     /// <param name="triggerId">作业触发器 Id</param>
     public void RemoveTrigger(string triggerId)
     {
         _ = TryRemoveTrigger(triggerId, out _);
-    }
-
-    /// <summary>
-    /// 检查作业计划触发器是否存在
-    /// </summary>
-    /// <param name="triggerId">作业触发器 Id</param>
-    /// <returns><see cref="bool"/></returns>
-    public bool ContainsTrigger(string triggerId)
-    {
-        return TryGetTrigger(triggerId, out _) == ScheduleResult.Succeed;
     }
 
     /// <summary>
@@ -403,6 +286,59 @@ internal sealed partial class Scheduler
     }
 
     /// <summary>
+    /// 检查作业触发器是否存在
+    /// </summary>
+    /// <param name="triggerId">作业触发器 Id</param>
+    /// <returns><see cref="bool"/></returns>
+    public bool ContainsTrigger(string triggerId)
+    {
+        return InternalTryGetTrigger(triggerId, out _) == ScheduleResult.Succeed;
+    }
+
+    /// <summary>
+    /// 启动作业触发器
+    /// </summary>
+    /// <param name="triggerId">作业触发器 Id</param>
+    /// <param name="immediately">是否立即通知作业调度器重新载入</param>
+    /// <returns><see cref="bool"/></returns>
+    public bool StartTrigger(string triggerId, bool immediately = true)
+    {
+        var triggerBuilder = GetTriggerBuilder(triggerId);
+        if (triggerBuilder != null) triggerBuilder.StartNow = true;
+        triggerBuilder?.SetStatus(TriggerStatus.Ready);
+
+        var succeed = TrySaveTrigger(triggerBuilder?.Updated(), out _, immediately) == ScheduleResult.Succeed;
+        if (succeed)
+        {
+            // 输出日志
+            Logger.LogInformation("The <{triggerId}> trigger for scheduler of <{JobId}> successfully started to the schedule.", triggerId, JobId);
+        }
+
+        return succeed;
+    }
+
+    /// <summary>
+    /// 暂停作业触发器
+    /// </summary>
+    /// <param name="triggerId">作业触发器 Id</param>
+    /// <param name="immediately">是否立即通知作业调度器重新载入</param>
+    /// <returns><see cref="bool"/></returns>
+    public bool PauseTrigger(string triggerId, bool immediately = true)
+    {
+        var triggerBuilder = GetTriggerBuilder(triggerId);
+        triggerBuilder?.SetStatus(TriggerStatus.Pause);
+
+        var succeed = TrySaveTrigger(triggerBuilder?.Updated(), out _, immediately) == ScheduleResult.Succeed;
+        if (succeed)
+        {
+            // 输出日志
+            Logger.LogInformation("The <{triggerId}> trigger for scheduler of <{JobId}> successfully paused to the schedule.", triggerId, JobId);
+        }
+
+        return succeed;
+    }
+
+    /// <summary>
     /// 强制触发作业持久化记录
     /// </summary>
     public void Persist()
@@ -411,9 +347,59 @@ internal sealed partial class Scheduler
         Factory.Shorthand(JobDetail);
 
         // 逐条将作业触发器运行数据写入持久化
-        foreach (var (_, trigger) in Triggers)
+        foreach (var trigger in Triggers.Values)
         {
             Factory.Shorthand(JobDetail, trigger);
+        }
+
+        // 输出日志
+        Logger.LogInformation("The scheduler of <{JobId}> successfully persisted to the schedule.", JobId);
+    }
+
+    /// <summary>
+    /// 启动作业
+    /// </summary>
+    public void Start()
+    {
+        var changed = 0;
+
+        // 逐条启用所有作业触发器
+        foreach (var triggerId in Triggers.Keys)
+        {
+            if (StartTrigger(triggerId, false)) changed++;
+        }
+
+        // 取消作业调度器休眠状态（强制唤醒）
+        if (changed > 0) Factory.CancelSleep();
+    }
+
+    /// <summary>
+    /// 暂停作业
+    /// </summary>
+    public void Pause()
+    {
+        var changed = 0;
+
+        // 逐条暂停所有作业触发器
+        foreach (var triggerId in Triggers.Keys)
+        {
+            if (PauseTrigger(triggerId, false)) changed++;
+        }
+
+        // 取消作业调度器休眠状态（强制唤醒）
+        if (changed > 0) Factory.CancelSleep();
+    }
+
+    /// <summary>
+    /// 校对作业
+    /// </summary>
+    /// <param name="immediately">是否立即通知作业调度器重新载入</param>
+    public void Collate(bool immediately = true)
+    {
+        if (Factory.TryUpdateJob(GetBuilder().Updated(), out _, immediately) == ScheduleResult.Succeed)
+        {
+            // 输出日志
+            Logger.LogInformation("The scheduler of <{JobId}> successfully collated to the schedule.", JobId);
         }
     }
 
@@ -428,14 +414,37 @@ internal sealed partial class Scheduler
     }
 
     /// <summary>
-    /// 校对作业计划
+    /// 内部获取作业触发器
     /// </summary>
-    public void Collate()
+    /// <param name="triggerId">作业触发器 Id</param>
+    /// <param name="trigger">作业触发器</param>
+    /// <param name="showLog">是否显示日志</param>
+    /// <returns><see cref="ScheduleResult"/></returns>
+    private ScheduleResult InternalTryGetTrigger(string triggerId, out Trigger trigger, bool showLog = false)
     {
-        if (Factory.TryUpdateJob(GetBuilder(), out _) == ScheduleResult.Succeed)
+        // 空检查
+        if (string.IsNullOrWhiteSpace(triggerId))
         {
             // 输出日志
-            Logger.LogInformation("The scheduler of <{JobId}> successfully collated to the schedule.", JobId);
+            if (showLog) Logger.LogWarning("Empty identity trigger.");
+
+            trigger = default;
+            return ScheduleResult.NotIdentify;
         }
+
+        // 查找作业
+        var succeed = Triggers.TryGetValue(triggerId, out var originTrigger);
+
+        if (!succeed)
+        {
+            // 输出日志
+            if (showLog) Logger.LogWarning(message: "The <{triggerId}> trigger for scheduler of <{JobId}> is not found.", triggerId, JobId);
+
+            trigger = default;
+            return ScheduleResult.NotFound;
+        }
+
+        trigger = originTrigger;
+        return ScheduleResult.Succeed;
     }
 }
