@@ -324,7 +324,7 @@ info: 2022-12-02 18:00:59.4140802 +08:00 星期五 L MyJob[0] #13
         "jobType": "MyJob",
         "assemblyName": "ConsoleApp32",
         "description": null,
-        "concurrent": false,
+        "concurrent": true,
         "includeAnnotations": false,
         "properties": "{}",
         "updatedTime": "2022-12-02 18:00:59.390"
@@ -386,7 +386,7 @@ info: 2022-12-02 18:02:10.7923360 +08:00 星期五 L MyJob[0] #8
         "jobType": "MyJob",
         "assemblyName": "ConsoleApp32",
         "description": null,
-        "concurrent": false,
+        "concurrent": true,
         "includeAnnotations": false,
         "properties": "{}",
         "updatedTime": "2022-12-02 18:02:10.774"
@@ -463,7 +463,7 @@ info: 2022-12-02 18:03:11.8543760 +08:00 星期五 L MyJob[0] #13
           'MyJob',
           'ConsoleApp32',
           NULL,
-          0,
+          1,
           0,
           '{}',
           '2022-12-02 18:03:11.836'
@@ -531,7 +531,7 @@ info: 2022-12-02 18:04:06.2833095 +08:00 星期五 L MyJob[0] #8
       ┣ jobType：                   MyJob
       ┣ assemblyName：              ConsoleApp32
       ┣ description：
-      ┣ concurrent：                False
+      ┣ concurrent：                True
       ┣ includeAnnotations：        False
       ┣ properties：                {}
       ┣ updatedTime：               2022-12-02 18:04:06.254
@@ -767,17 +767,16 @@ var jobBuilder = jobDetail.GetBuilder();
 该方式非常灵活，可从配置文件，`JSON` 字符串，或其他能够返回 `JSON` 字符串的地方创建。
 
 ```cs showLineNumbers {2-12}
-var jobBuilder = JobBuilder.From(@"
-{
-    ""jobId"": ""job1"",
-    ""groupName"": null,
-    ""jobType"": ""Furion.Application.MyJob"",
-    ""assemblyName"": ""Furion.Application"",
-    ""description"": null,
-    ""concurrent"": true,
-    ""includeAnnotations"": false,
-    ""properties"": ""{}"",
-    ""updatedTime"": ""2022-11-17T09:25:47.0471107+08:00""
+var jobBuilder = JobBuilder.From(@"{
+	""jobId"": ""job1"",
+	""groupName"": null,
+	""jobType"": ""MyJob"",
+	""assemblyName"": ""ConsoleApp13"",
+	""description"": null,
+	""concurrent"": true,
+	""includeAnnotations"": false,
+	""properties"": ""{}"",
+	""updatedTime"": null
 }");
 ```
 
@@ -786,15 +785,15 @@ var jobBuilder = JobBuilder.From(@"
 ```cs showLineNumbers {2-12}
 var jobBuilder = JobBuilder.From("""
 {
-    "jobId": "job1",
-    "groupName": null,
-    "jobType": "Furion.Application.MyJob",
-    "assemblyName": "Furion.Application",
-    "description": null,
-    "concurrent": true,
-    "includeAnnotations": false,
-    "properties": "{}",
-    "updatedTime": "2022-11-17T09:25:47.0471107+08:00"
+	"jobId": "job1",
+	"groupName": null,
+	"jobType": "MyJob",
+	"assemblyName": "ConsoleApp13",
+	"description": null,
+	"concurrent": true,
+	"includeAnnotations": false,
+	"properties": "{}",
+	"updatedTime": "2022-12-02 18:00:59.390"
 }
 """);
 ```

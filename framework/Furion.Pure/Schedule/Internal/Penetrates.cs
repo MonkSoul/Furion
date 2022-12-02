@@ -38,13 +38,18 @@ internal static class Penetrates
     /// <returns><see cref="JsonSerializerOptions"/></returns>
     internal static JsonSerializerOptions GetDefaultJsonSerializerOptions()
     {
-        return new JsonSerializerOptions
+        var jsonSerializerOptions = new JsonSerializerOptions
         {
             PropertyNameCaseInsensitive = true,
             ReadCommentHandling = JsonCommentHandling.Skip,
             Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
-            AllowTrailingCommas = true
+            AllowTrailingCommas = true,
         };
+
+        // 处理时间类型
+        jsonSerializerOptions.Converters.Add(new DateTimeJsonConverter());
+
+        return jsonSerializerOptions;
     }
 
     /// <summary>
