@@ -247,51 +247,51 @@ public sealed class ScheduleOptionsBuilder
     /// <summary>
     /// 添加作业
     /// </summary>
-    /// <param name="dynamicHandler">运行时动态作业处理程序</param>
+    /// <param name="dynamicExecuteAsync">运行时动态作业执行逻辑</param>
     /// <param name="triggerBuilders">作业触发器构建器集合</param>
     /// <returns><see cref="ScheduleOptionsBuilder"/></returns>
-    public ScheduleOptionsBuilder AddJob(Func<IServiceProvider, JobExecutingContext, CancellationToken, Task> dynamicHandler, params TriggerBuilder[] triggerBuilders)
+    public ScheduleOptionsBuilder AddJob(Func<IServiceProvider, JobExecutingContext, CancellationToken, Task> dynamicExecuteAsync, params TriggerBuilder[] triggerBuilders)
     {
-        return AddJob(SchedulerBuilder.Create(JobBuilder.Create(dynamicHandler), triggerBuilders));
+        return AddJob(SchedulerBuilder.Create(JobBuilder.Create(dynamicExecuteAsync), triggerBuilders));
     }
 
     /// <summary>
     /// 添加作业
     /// </summary>
-    /// <param name="dynamicHandler">运行时动态作业处理程序</param>
+    /// <param name="dynamicExecuteAsync">运行时动态作业执行逻辑</param>
     /// <param name="jobId">作业 Id</param>
     /// <param name="triggerBuilders">作业触发器构建器集合</param>
     /// <returns><see cref="ScheduleOptionsBuilder"/></returns>
-    public ScheduleOptionsBuilder AddJob(Func<IServiceProvider, JobExecutingContext, CancellationToken, Task> dynamicHandler, string jobId, params TriggerBuilder[] triggerBuilders)
+    public ScheduleOptionsBuilder AddJob(Func<IServiceProvider, JobExecutingContext, CancellationToken, Task> dynamicExecuteAsync, string jobId, params TriggerBuilder[] triggerBuilders)
     {
-        return AddJob(SchedulerBuilder.Create(JobBuilder.Create(dynamicHandler).SetJobId(jobId)
+        return AddJob(SchedulerBuilder.Create(JobBuilder.Create(dynamicExecuteAsync).SetJobId(jobId)
             , triggerBuilders));
     }
 
     /// <summary>
     /// 添加作业
     /// </summary>
-    /// <param name="dynamicHandler">运行时动态作业处理程序</param>
+    /// <param name="dynamicExecuteAsync">运行时动态作业执行逻辑</param>
     /// <param name="jobId">作业 Id</param>
     /// <param name="concurrent">是否采用并发执行</param>
     /// <param name="triggerBuilders">作业触发器构建器集合</param>
     /// <returns><see cref="ScheduleOptionsBuilder"/></returns>
-    public ScheduleOptionsBuilder AddJob(Func<IServiceProvider, JobExecutingContext, CancellationToken, Task> dynamicHandler, string jobId, bool concurrent, params TriggerBuilder[] triggerBuilders)
+    public ScheduleOptionsBuilder AddJob(Func<IServiceProvider, JobExecutingContext, CancellationToken, Task> dynamicExecuteAsync, string jobId, bool concurrent, params TriggerBuilder[] triggerBuilders)
     {
-        return AddJob(SchedulerBuilder.Create(JobBuilder.Create(dynamicHandler).SetJobId(jobId).SetConcurrent(concurrent)
+        return AddJob(SchedulerBuilder.Create(JobBuilder.Create(dynamicExecuteAsync).SetJobId(jobId).SetConcurrent(concurrent)
             , triggerBuilders));
     }
 
     /// <summary>
     /// 添加作业
     /// </summary>
-    /// <param name="dynamicHandler">运行时动态作业处理程序</param>
+    /// <param name="dynamicExecuteAsync">运行时动态作业执行逻辑</param>
     /// <param name="concurrent">是否采用并发执行</param>
     /// <param name="triggerBuilders">作业触发器构建器集合</param>
     /// <returns><see cref="ScheduleOptionsBuilder"/></returns>
-    public ScheduleOptionsBuilder AddJob(Func<IServiceProvider, JobExecutingContext, CancellationToken, Task> dynamicHandler, bool concurrent, params TriggerBuilder[] triggerBuilders)
+    public ScheduleOptionsBuilder AddJob(Func<IServiceProvider, JobExecutingContext, CancellationToken, Task> dynamicExecuteAsync, bool concurrent, params TriggerBuilder[] triggerBuilders)
     {
-        return AddJob(SchedulerBuilder.Create(JobBuilder.Create(dynamicHandler).SetConcurrent(concurrent)
+        return AddJob(SchedulerBuilder.Create(JobBuilder.Create(dynamicExecuteAsync).SetConcurrent(concurrent)
             , triggerBuilders));
     }
 

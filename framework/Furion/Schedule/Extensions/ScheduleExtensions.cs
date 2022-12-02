@@ -37,9 +37,9 @@ public static class ScheduleExtensions
     /// </summary>
     /// <param name="serviceProvider"><see cref="IServiceProvider"/></param>
     /// <returns><see cref="ILogger"/></returns>
-    public static ILogger Logger(this IServiceProvider serviceProvider)
+    public static ILogger GetLogger(this IServiceProvider serviceProvider)
     {
-        return serviceProvider.GetRequiredService<ILogger<DynamicJob>>();
+        return serviceProvider.GetRequiredService<ILogger<System.Logging.DynamicJob>>();
     }
 
     /// <summary>

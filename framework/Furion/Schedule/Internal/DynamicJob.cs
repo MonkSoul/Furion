@@ -49,9 +49,9 @@ internal sealed class DynamicJob : IJob
     /// <returns><see cref="Task"/></returns>
     public async Task ExecuteAsync(JobExecutingContext context, CancellationToken stoppingToken)
     {
-        var jobHandler = context.JobDetail.DynamicHandler;
-        if (jobHandler == null) return;
+        var dynamicExecuteAsync = context.JobDetail.DynamicExecuteAsync;
+        if (dynamicExecuteAsync == null) return;
 
-        await context.JobDetail.DynamicHandler(_serviceProvider, context, stoppingToken);
+        await dynamicExecuteAsync(_serviceProvider, context, stoppingToken);
     }
 }

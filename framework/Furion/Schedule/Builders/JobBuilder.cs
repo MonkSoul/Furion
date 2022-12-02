@@ -85,12 +85,12 @@ public sealed class JobBuilder : JobDetail
     /// <summary>
     /// 创建作业信息构建器
     /// </summary>
-    /// <param name="dynamicHandler">运行时动态作业处理程序</param>
+    /// <param name="dynamicExecuteAsync">运行时动态作业执行逻辑</param>
     /// <returns><see cref="JobBuilder"/></returns>
-    public static JobBuilder Create(Func<IServiceProvider, JobExecutingContext, CancellationToken, Task> dynamicHandler)
+    public static JobBuilder Create(Func<IServiceProvider, JobExecutingContext, CancellationToken, Task> dynamicExecuteAsync)
     {
         return Create<DynamicJob>()
-            .SetDynamicHandler(dynamicHandler);
+            .SetDynamicExecuteAsync(dynamicExecuteAsync);
     }
 
     /// <summary>
@@ -279,13 +279,13 @@ public sealed class JobBuilder : JobDetail
     }
 
     /// <summary>
-    /// 设置运行时动态作业处理程序
+    /// 设置运行时动态作业执行逻辑
     /// </summary>
-    /// <param name="dynamicHandler">运行时动态作业处理程序</param>
+    /// <param name="dynamicExecuteAsync">运行时动态作业执行逻辑</param>
     /// <returns><see cref="JobBuilder"/></returns>
-    public JobBuilder SetDynamicHandler(Func<IServiceProvider, JobExecutingContext, CancellationToken, Task> dynamicHandler)
+    public JobBuilder SetDynamicExecuteAsync(Func<IServiceProvider, JobExecutingContext, CancellationToken, Task> dynamicExecuteAsync)
     {
-        DynamicHandler = dynamicHandler;
+        DynamicExecuteAsync = dynamicExecuteAsync;
 
         return this;
     }
