@@ -43,7 +43,7 @@ internal static class Penetrates
             PropertyNameCaseInsensitive = true,
             ReadCommentHandling = JsonCommentHandling.Skip,
             Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
-            AllowTrailingCommas = true,
+            AllowTrailingCommas = true
         };
 
         // 处理时间类型
