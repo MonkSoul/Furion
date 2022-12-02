@@ -61,6 +61,6 @@ public sealed class MacroAtTrigger : Trigger
     /// <returns><see cref="string"/></returns>
     public override string ToString()
     {
-        return $"<{JobId} {TriggerId}> {Crontab}{(string.IsNullOrWhiteSpace(Description) ? string.Empty : $" {Description}")}";
+        return $"<{JobId} {TriggerId}> {Crontab}{(string.IsNullOrWhiteSpace(Description) ? string.Empty : $" {Description}")} {NumberOfRuns}t";
     }
 }

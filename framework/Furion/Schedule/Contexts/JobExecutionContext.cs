@@ -32,16 +32,16 @@ public abstract class JobExecutionContext
     /// </summary>
     /// <param name="jobDetail">作业信息</param>
     /// <param name="trigger">作业触发器</param>
-    /// <param name="startAt">作业调度服务检查时间</param>
+    /// <param name="occurrenceTime">作业计划触发时间</param>
     internal JobExecutionContext(JobDetail jobDetail
         , Trigger trigger
-        , DateTime startAt)
+        , DateTime occurrenceTime)
     {
         JobId = jobDetail.JobId;
         TriggerId = trigger.TriggerId;
         JobDetail = jobDetail;
         Trigger = trigger;
-        OccurrenceTime = startAt;
+        OccurrenceTime = occurrenceTime;
     }
 
     /// <summary>
@@ -98,6 +98,6 @@ public abstract class JobExecutionContext
     /// <returns><see cref="string"/></returns>
     public override string ToString()
     {
-        return $"{JobDetail} {Trigger} {OccurrenceTime}";
+        return $"{JobDetail} {Trigger} {OccurrenceTime:yyyy-MM-dd HH:mm:ss.fff}{(Trigger.NextRunTime == null ? "" : $" -> {Trigger.NextRunTime.Value:yyyy-MM-dd HH:mm:ss.fff}")}";
     }
 }

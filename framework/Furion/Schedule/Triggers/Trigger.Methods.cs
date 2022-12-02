@@ -64,7 +64,7 @@ public partial class Trigger
     /// <returns><see cref="string"/></returns>
     public override string ToString()
     {
-        return $"<{JobId} {TriggerId}>{(string.IsNullOrWhiteSpace(Description) ? string.Empty : $" {Description}")}";
+        return $"<{JobId} {TriggerId}>{(string.IsNullOrWhiteSpace(Description) ? string.Empty : $" {Description}")} {NumberOfRuns}t";
     }
 
     /// <summary>
@@ -104,7 +104,7 @@ public partial class Trigger
         }
 
         // 检查下一次执行信息
-        if (CheckNextOccurrence(jobDetail, startAt)) NextRunTime = GetNextRunTime(startAt);
+        if (CheckAndFixNextOccurrence(jobDetail, startAt)) NextRunTime = GetNextRunTime(startAt);
     }
 
     /// <summary>
@@ -117,7 +117,7 @@ public partial class Trigger
         NumberOfErrors++;
 
         // 检查下一次执行信息
-        if (CheckNextOccurrence(jobDetail, startAt)) SetStatus(TriggerStatus.ErrorToReady);
+        if (CheckAndFixNextOccurrence(jobDetail, startAt)) SetStatus(TriggerStatus.ErrorToReady);
     }
 
     /// <summary>
@@ -193,12 +193,12 @@ public partial class Trigger
     }
 
     /// <summary>
-    /// 检查下一次执行信息
+    /// 检查下一次执行信息并修正 <see cref="NextRunTime"/> 和 <see cref="Status"/>
     /// </summary>
     /// <param name="jobDetail">作业信息</param>
     /// <param name="startAt">起始时间</param>
     /// <returns><see cref="bool"/></returns>
-    internal bool CheckNextOccurrence(JobDetail jobDetail, DateTime startAt)
+    internal bool CheckAndFixNextOccurrence(JobDetail jobDetail, DateTime startAt)
     {
         // 检查作业信息运行时类型
         if (jobDetail.RuntimeJobType == null)
@@ -269,15 +269,28 @@ public partial class Trigger
     }
 
     /// <summary>
-    /// 执行条件检查（内部检查）
+    /// 下一次可执行检查
+    /// </summary>
+    /// <param name="startAt">起始时间</param>
+    /// <returns><see cref="bool"/></returns>
+    internal bool NextShouldRun(DateTime startAt)
+    {
+        return IsNormalStatus()
+            && NextRunTime != null
+            && NextRunTime.Value >= startAt;
+    }
+
+    /// <summary>
+    /// 当前可执行检查
     /// </summary>
     /// <param name="jobDetail">作业信息</param>
     /// <param name="startAt">起始时间</param>
     /// <returns><see cref="bool"/></returns>
-    internal bool InternalShouldRun(JobDetail jobDetail, DateTime startAt)
+    internal bool CurrentShouldRun(JobDetail jobDetail, DateTime startAt)
     {
-        // 调用派生类 ShouldRun 方法
-        return CheckNextOccurrence(jobDetail, startAt) && ShouldRun(jobDetail, startAt);
+        return CheckAndFixNextOccurrence(jobDetail, startAt)
+            // 调用派生类 ShouldRun 方法
+            && ShouldRun(jobDetail, startAt);
     }
 
     /// <summary>

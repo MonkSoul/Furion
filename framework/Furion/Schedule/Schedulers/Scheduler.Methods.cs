@@ -116,7 +116,7 @@ internal sealed partial class Scheduler
     /// 启动作业计划单个触发器
     /// </summary>
     /// <param name="triggerId">作业触发器 Id</param>
-    /// <param name="immediately">使作业调度器立即载入</param>
+    /// <param name="immediately">是否立即通知作业调度器重新载入</param>
     /// <returns><see cref="bool"/></returns>
     public bool StartTrigger(string triggerId, bool immediately = true)
     {
@@ -156,7 +156,7 @@ internal sealed partial class Scheduler
     /// 暂停作业计划单个触发器
     /// </summary>
     /// <param name="triggerId">作业触发器 Id</param>
-    /// <param name="immediately">使作业调度器立即载入</param>
+    /// <param name="immediately">是否立即通知作业调度器重新载入</param>
     /// <returns><see cref="bool"/></returns>
     public bool PauseTrigger(string triggerId, bool immediately = true)
     {

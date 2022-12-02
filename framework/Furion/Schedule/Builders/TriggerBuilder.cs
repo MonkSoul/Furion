@@ -93,6 +93,17 @@ public sealed class TriggerBuilder : Trigger
     /// <summary>
     /// 创建作业触发器构建器
     /// </summary>
+    /// <param name="triggerId">作业触发器 Id</param>
+    /// <returns><see cref="JobBuilder"/></returns>
+    public static TriggerBuilder Create(string triggerId)
+    {
+        return new TriggerBuilder()
+            .SetTriggerId(triggerId);
+    }
+
+    /// <summary>
+    /// 创建作业触发器构建器
+    /// </summary>
     /// <typeparam name="TTrigger"><see cref="Trigger"/> 派生类</typeparam>
     /// <returns><see cref="TriggerBuilder"/></returns>
     public static TriggerBuilder Create<TTrigger>()

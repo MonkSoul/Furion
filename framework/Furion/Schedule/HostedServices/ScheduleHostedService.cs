@@ -152,7 +152,7 @@ internal sealed class ScheduleHostedService : BackgroundService
         var startAt = Penetrates.GetNowTime(UseUtcTimestamp);
 
         // 查找所有符合触发的作业
-        var currentRunJobs = _schedulerFactory.GetCurrentRunJobs(startAt);
+        var currentRunJobs = _schedulerFactory.GetCurrentRunJobs(startAt) as IEnumerable<Scheduler>;
 
         // 输出作业调度器检查信息
         _logger.LogDebug("Schedule Hosted Service is checking on <{startAt}> and finds <{Count}> schedulers that should be run.", startAt, currentRunJobs.Count());
@@ -161,10 +161,9 @@ internal sealed class ScheduleHostedService : BackgroundService
         var taskFactory = new TaskFactory(System.Threading.Tasks.TaskScheduler.Current);
 
         // 逐条遍历所有作业计划集合
-        foreach (var schedulerThatShouldRun in currentRunJobs)
+        foreach (var scheduler in currentRunJobs)
         {
             // 解构参数
-            var scheduler = (Scheduler)schedulerThatShouldRun;
             var jobId = scheduler.JobId;
             var jobDetail = scheduler.JobDetail;
             var jobHandler = scheduler.JobHandler;
@@ -183,6 +182,7 @@ internal sealed class ScheduleHostedService : BackgroundService
                 trigger.SetStatus(TriggerStatus.Running);
 
                 // 记录运行信息和计算下一个触发时间
+                var occurrenceTime = trigger.NextRunTime.Value;
                 trigger.Increment(jobDetail, startAt);
 
                 // 将作业触发器运行数据写入持久化
@@ -195,7 +195,7 @@ internal sealed class ScheduleHostedService : BackgroundService
                     taskFactory.StartNew(async () =>
                     {
                         // 创建作业执行前上下文
-                        var jobExecutingContext = new JobExecutingContext(jobDetail, trigger, startAt)
+                        var jobExecutingContext = new JobExecutingContext(jobDetail, trigger, occurrenceTime)
                         {
                             ExecutingTime = Penetrates.GetNowTime(UseUtcTimestamp)
                         };
@@ -266,7 +266,7 @@ internal sealed class ScheduleHostedService : BackgroundService
                             if (Monitor != default)
                             {
                                 // 创建作业执行后上下文
-                                var jobExecutedContext = new JobExecutedContext(jobDetail, trigger, startAt)
+                                var jobExecutedContext = new JobExecutedContext(jobDetail, trigger, occurrenceTime)
                                 {
                                     ExecutedTime = Penetrates.GetNowTime(UseUtcTimestamp),
                                     Exception = executionException

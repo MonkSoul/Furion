@@ -66,6 +66,16 @@ public sealed class SchedulerBuilder
     /// <summary>
     /// 创建作业调度程序构建器
     /// </summary>
+    /// <param name="jobId">作业 Id</param>
+    /// <returns><see cref="SchedulerBuilder"/></returns>
+    public static SchedulerBuilder Create(string jobId)
+    {
+        return Create(JobBuilder.Create(jobId));
+    }
+
+    /// <summary>
+    /// 创建作业调度程序构建器
+    /// </summary>
     /// <param name="jobBuilder">作业信息构建器</param>
     /// <param name="triggerBuilders">作业触发器构建器集合</param>
     /// <returns><see cref="SchedulerBuilder"/></returns>
@@ -388,14 +398,14 @@ public sealed class SchedulerBuilder
     /// <summary>
     /// 构建 <see cref="Scheduler"/> 对象
     /// </summary>
-    /// <param name="sequence">如果未指定作业 Id 的递增序号，可能存在冲突</param>
+    /// <param name="count">作业调度器中当前作业计划总量</param>
     /// <returns><see cref="Scheduler"/></returns>
-    internal Scheduler Build(int sequence)
+    internal Scheduler Build(int count)
     {
         // 配置默认 JobId
         if (string.IsNullOrWhiteSpace(JobBuilder.JobId))
         {
-            JobBuilder.SetJobId($"job{sequence}");
+            JobBuilder.SetJobId($"job{count + 1}");
         }
 
         // 构建作业信息和作业触发器
