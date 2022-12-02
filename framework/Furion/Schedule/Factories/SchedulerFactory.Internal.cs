@@ -118,7 +118,7 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory
     public void Preload()
     {
         // 输出作业调度度初始化日志
-        _logger.LogInformation("Schedule Hosted Service is preloading.");
+        _logger.LogInformation("Schedule hosted service is preloading.");
 
         // 装载初始作业计划
         var initialSchedulerBuilders = _schedulerBuilders.Concat(Persistence?.Preload() ?? Array.Empty<SchedulerBuilder>());
@@ -143,7 +143,7 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory
         GC.Collect();
 
         // 输出作业调度器初始化日志
-        _logger.LogInformation("Schedule Hosted Service preload completed, and a total of <{Count}> schedulers are added.", _schedulers.Count);
+        _logger.LogInformation("Schedule hosted service preload completed, and a total of <{Count}> schedulers are added.", _schedulers.Count);
     }
 
     /// <summary>
@@ -189,7 +189,7 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory
     public async Task SleepAsync(DateTime startAt)
     {
         // 输出作业调度器进入休眠日志
-        _logger.LogDebug("Schedule Hosted Service enters hibernation.");
+        _logger.LogDebug("Schedule hosted service enters hibernation.");
 
         // 获取作业调度器总休眠时间
         var sleepMilliseconds = GetSleepMilliseconds(startAt);
@@ -356,7 +356,7 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory
         // 监听休眠被取消
         _sleepCancellationTokenSource.Token.Register(() =>
         {
-            _logger.LogWarning("Schedule Hosted Service cancels hibernation and GC.Collect().");
+            _logger.LogWarning("Schedule hosted service cancels hibernation and GC.Collect().");
 
             // 通知 GC 垃圾回收器立即回收
             GC.Collect();
@@ -391,7 +391,7 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory
             || (!string.IsNullOrWhiteSpace(group) && originScheduler.JobDetail.GroupName != group))
         {
             // 输出日志
-            if (showLog) _logger.LogWarning(message: "The Scheduler of <{jobId}> is not found.", jobId);
+            if (showLog) _logger.LogWarning(message: "The scheduler of <{jobId}> is not found.", jobId);
 
             scheduler = default;
             return ScheduleResult.NotFound;

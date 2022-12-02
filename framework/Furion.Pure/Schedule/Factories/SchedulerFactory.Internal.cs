@@ -57,6 +57,9 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory
     /// </summary>
     private readonly ConcurrentDictionary<string, Scheduler> _schedulers = new();
 
+    /// <summary>
+    /// 作业计划构建器集合
+    /// </summary>
     private readonly IList<SchedulerBuilder> _schedulerBuilders;
 
     /// <summary>
@@ -105,12 +108,17 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory
     private IJobPersistence Persistence { get; }
 
     /// <summary>
+    /// 标识 Preload 是否初始化完成
+    /// </summary>
+    private bool PreloadCompleted { get; set; } = false;
+
+    /// <summary>
     /// 作业调度器初始化
     /// </summary>
     public void Preload()
     {
         // 输出作业调度度初始化日志
-        _logger.LogInformation("Schedule Hosted Service is preloading.");
+        _logger.LogInformation("Schedule hosted service is preloading.");
 
         // 装载初始作业计划
         var initialSchedulerBuilders = _schedulerBuilders.Concat(Persistence?.Preload() ?? Array.Empty<SchedulerBuilder>());
@@ -121,21 +129,21 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory
             // 逐条遍历并新增到内存中
             foreach (var schedulerBuilder in initialSchedulerBuilders)
             {
-                _ = TryUpdateJob(Persistence?.OnLoading(schedulerBuilder) ?? schedulerBuilder
+                _ = TrySaveJob(Persistence?.OnLoading(schedulerBuilder) ?? schedulerBuilder
                     , out _
                     , false);
             }
         }
 
+        // 标记当前方法初始化完成
+        PreloadCompleted = true;
+
         // 释放引用内存并立即回收GC
         _schedulerBuilders.Clear();
         GC.Collect();
 
-        // 取消作业调度器休眠状态（强制唤醒）
-        if (!_schedulers.IsEmpty) CancelSleep();
-
         // 输出作业调度器初始化日志
-        _logger.LogInformation("Schedule Hosted Service preload completed, and a total of <{Count}> schedulers are added.", _schedulers.Count);
+        _logger.LogInformation("Schedule hosted service preload completed, and a total of <{Count}> schedulers are added.", _schedulers.Count);
     }
 
     /// <summary>
@@ -147,28 +155,18 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory
     public IEnumerable<IScheduler> GetCurrentRunJobs(DateTime startAt, string group = default)
     {
         // 定义静态内部函数用于委托检查
-        bool triggerShouldRun(Scheduler s, Trigger t) => t.InternalShouldRun(s.JobDetail, startAt);
+        bool triggerShouldRun(Scheduler s, Trigger t) => t.CurrentShouldRun(s.JobDetail, startAt);
 
-        // 创建查询构建器
-        var queryBuilder = _schedulers.Values
-                 .Where(s => s.JobDetail.RuntimeJobType != null && s.JobHandler != null
-                     && s.Triggers.Values.Any(t => triggerShouldRun(s, t)));
-
-        // 判断作业组名称是否存在
-        if (!string.IsNullOrWhiteSpace(group))
-        {
-            queryBuilder = queryBuilder.Where(s => s.GroupName == group);
-        }
-
-        // 查找所有符合执行的作业计划
-        var currentRunSchedulers = queryBuilder
-            .Select(s => new Scheduler(s.JobDetail, s.Triggers.Values.Where(t => triggerShouldRun(s, t)).ToDictionary(t => t.TriggerId, t => t))
-            {
-                Factory = this,
-                Logger = _logger,
-                UseUtcTimestamp = UseUtcTimestamp,
-                JobHandler = s.JobHandler,
-            });
+        // 查找所有即将触发的作业计划
+        var currentRunSchedulers = (GetJobs(group, true) as IEnumerable<Scheduler>)
+                 .Where(s => s.Triggers.Values.Any(t => triggerShouldRun(s, t)))
+                 .Select(s => new Scheduler(s.JobDetail, s.Triggers.Values.Where(t => triggerShouldRun(s, t)).ToDictionary(t => t.TriggerId, t => t))
+                 {
+                     Factory = this,
+                     Logger = _logger,
+                     UseUtcTimestamp = UseUtcTimestamp,
+                     JobHandler = s.JobHandler,
+                 });
 
         return currentRunSchedulers;
     }
@@ -191,7 +189,7 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory
     public async Task SleepAsync(DateTime startAt)
     {
         // 输出作业调度器进入休眠日志
-        _logger.LogDebug("Schedule Hosted Service enters hibernation.");
+        _logger.LogDebug("Schedule hosted service enters hibernation.");
 
         // 获取作业调度器总休眠时间
         var sleepMilliseconds = GetSleepMilliseconds(startAt);
@@ -248,8 +246,8 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory
     {
         // 设置更新时间
         var nowTime = Penetrates.GetNowTime(UseUtcTimestamp);
-        if (trigger == null) jobDetail.UpdatedTime = nowTime;
-        else trigger.UpdatedTime = nowTime;
+        jobDetail.UpdatedTime = nowTime;
+        if (trigger != null) trigger.UpdatedTime = nowTime;
 
         // 空检查
         if (Persistence == null) return;
@@ -303,10 +301,9 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory
         if (!_schedulers.Any()) return null;
 
         // 获取所有作业计划下一批执行时间
-        var nextRunTimes = _schedulers.Values
-            .Where(s => s.JobDetail.RuntimeJobType != null && s.JobHandler != null)
+        var nextRunTimes = (GetJobs(active: true) as IEnumerable<Scheduler>)
             .SelectMany(u => u.Triggers.Values
-                .Where(t => t.IsNormalStatus() && t.NextRunTime != null && t.NextRunTime.Value >= startAt)
+                .Where(t => t.NextShouldRun(startAt))
                 .Select(t => t.NextRunTime.Value));
 
         // 空检查
@@ -359,10 +356,48 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory
         // 监听休眠被取消
         _sleepCancellationTokenSource.Token.Register(() =>
         {
-            _logger.LogWarning("Schedule Hosted Service cancels hibernation and GC.Collect().");
+            _logger.LogWarning("Schedule hosted service cancels hibernation and GC.Collect().");
 
             // 通知 GC 垃圾回收器立即回收
             GC.Collect();
         });
+    }
+
+    /// <summary>
+    /// 内部获取作业
+    /// </summary>
+    /// <param name="jobId">作业 Id</param>
+    /// <param name="scheduler">作业计划</param>
+    /// <param name="showLog">是否显示日志</param>
+    /// <param name="group">作业组名称</param>
+    /// <returns><see cref="ScheduleResult"/></returns>
+    private ScheduleResult InternalTryGetJob(string jobId, out Scheduler scheduler, bool showLog = false, string group = default)
+    {
+        // 空检查
+        if (string.IsNullOrWhiteSpace(jobId))
+        {
+            // 输出日志
+            if (showLog) _logger.LogWarning("Empty identity scheduler.");
+
+            scheduler = default;
+            return ScheduleResult.NotIdentify;
+        }
+
+        // 查找作业
+        var succeed = _schedulers.TryGetValue(jobId, out var originScheduler);
+
+        // 检查作业组名称
+        if (!succeed
+            || (!string.IsNullOrWhiteSpace(group) && originScheduler.JobDetail.GroupName != group))
+        {
+            // 输出日志
+            if (showLog) _logger.LogWarning(message: "The scheduler of <{jobId}> is not found.", jobId);
+
+            scheduler = default;
+            return ScheduleResult.NotFound;
+        }
+
+        scheduler = originScheduler;
+        return ScheduleResult.Succeed;
     }
 }

@@ -170,6 +170,11 @@ public partial class Trigger
     public DateTime? UpdatedTime { get; internal set; }
 
     /// <summary>
+    /// 标记作业触发器持久化行为
+    /// </summary>
+    internal PersistenceBehavior Behavior { get; set; } = PersistenceBehavior.Appended;
+
+    /// <summary>
     /// 作业触发器运行时类型
     /// </summary>
     internal Type RuntimeTriggerType { get; set; }

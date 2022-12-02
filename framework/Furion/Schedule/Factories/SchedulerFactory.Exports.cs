@@ -231,11 +231,11 @@ internal sealed partial class SchedulerFactory
                 // 输出日志
                 if (!PreloadCompleted || isAppended)
                 {
-                    _logger.LogWarning("The Scheduler of <{jobId}> already exists.", jobId);
+                    _logger.LogWarning("The scheduler of <{jobId}> already exists.", jobId);
                 }
                 else
                 {
-                    _logger.LogWarning("The Scheduler of <{jobId}> updated failed.", jobId);
+                    _logger.LogWarning("The scheduler of <{jobId}> updated failed.", jobId);
                 }
 
                 scheduler = default;
@@ -246,6 +246,9 @@ internal sealed partial class SchedulerFactory
             foreach (var trigger in triggersThatRemoved)
             {
                 Shorthand(newScheduler.JobDetail, trigger, trigger.Behavior);
+
+                // 输出日志
+                _logger.LogInformation("The <{TriggerId}> trigger for scheduler of <{jobId}> successfully removed to the schedule.", trigger.TriggerId, jobId);
             }
 
             // 清空引用
@@ -258,7 +261,7 @@ internal sealed partial class SchedulerFactory
             if (!succeed)
             {
                 // 输出日志
-                _logger.LogWarning("The Scheduler of <{jobId}> removed failed.", jobId);
+                _logger.LogWarning("The scheduler of <{jobId}> removed failed.", jobId);
 
                 scheduler = default;
                 return ScheduleResult.Failed;
@@ -272,17 +275,21 @@ internal sealed partial class SchedulerFactory
         var finalScheduler = isRemoved ? originScheduler : newScheduler;
 
         // 将作业触发器运行信息写入持久化
-        foreach (var trigger in finalScheduler.Triggers.Values)
+        foreach (var (triggerId, trigger) in finalScheduler.Triggers)
         {
             Shorthand(finalScheduler.JobDetail, trigger, trigger.Behavior);
+
+            // 输出日志
+            var triggerOperation = Penetrates.SetFirstLetterCase(trigger.Behavior.ToString(), false);
+            _logger.LogInformation("The <{triggerId}> trigger for scheduler of <{jobId}> successfully {triggerOperation} to the schedule.", triggerId, jobId, triggerOperation);
         }
 
         // 取消作业调度器休眠状态（强制唤醒）
         if (immediately) CancelSleep();
 
         // 输出日志
-        var operation = Penetrates.SetFirstLetterCase(schedulerBuilder.Behavior.ToString(), false);
-        _logger.LogInformation("The Scheduler of <{JobId}> successfully {operation} to the schedule.", jobId, operation);
+        var jobOperation = Penetrates.SetFirstLetterCase(schedulerBuilder.Behavior.ToString(), false);
+        _logger.LogInformation("The scheduler of <{JobId}> successfully {jobOperation} to the schedule.", jobId, jobOperation);
 
         scheduler = finalScheduler;
         return ScheduleResult.Succeed;

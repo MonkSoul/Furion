@@ -116,11 +116,11 @@ internal sealed class ScheduleHostedService : BackgroundService
     /// <returns><see cref="Task"/> 实例</returns>
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        _logger.LogInformation("Schedule Hosted Service is running.");
+        _logger.LogInformation("Schedule hosted service is running.");
 
         // 注册后台主机服务停止监听
         stoppingToken.Register(() =>
-           _logger.LogDebug($"Schedule Hosted Service is stopping."));
+           _logger.LogDebug($"Schedule hosted service is stopping."));
 
         // 等待作业集群指示
         await WaitingClusterAsync();
@@ -138,7 +138,7 @@ internal sealed class ScheduleHostedService : BackgroundService
         // 释放作业计划工厂
         _schedulerFactory.Dispose();
 
-        _logger.LogCritical($"Schedule Hosted Service is stopped.");
+        _logger.LogCritical($"Schedule hosted service is stopped.");
     }
 
     /// <summary>
@@ -155,7 +155,7 @@ internal sealed class ScheduleHostedService : BackgroundService
         var currentRunJobs = _schedulerFactory.GetCurrentRunJobs(startAt) as IEnumerable<Scheduler>;
 
         // 输出作业调度器检查信息
-        _logger.LogDebug("Schedule Hosted Service is checking on <{startAt}> and finds <{Count}> schedulers that should be run.", startAt, currentRunJobs.Count());
+        _logger.LogDebug("Schedule hosted service is checking on <{startAt}> and finds <{Count}> schedulers that should be run.", startAt, currentRunJobs.Count());
 
         // 创建一个任务工厂并保证执行任务都使用当前的计划程序
         var taskFactory = new TaskFactory(System.Threading.Tasks.TaskScheduler.Current);
