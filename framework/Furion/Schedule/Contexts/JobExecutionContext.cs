@@ -98,6 +98,6 @@ public abstract class JobExecutionContext
     /// <returns><see cref="string"/></returns>
     public override string ToString()
     {
-        return $"{JobDetail} {Trigger} {OccurrenceTime:yyyy-MM-dd HH:mm:ss.fff}{(Trigger.NextRunTime == null ? "" : $" -> {Trigger.NextRunTime.Value:yyyy-MM-dd HH:mm:ss.fff}")}";
+        return $"{JobDetail} {Trigger} {OccurrenceTime:yyyy-MM-dd HH:mm:ss.fff}{(Trigger.NextRunTime == null ? $" [{Trigger.Status}]" : $" -> {Trigger.NextRunTime.Value:yyyy-MM-dd HH:mm:ss.fff}")}";
     }
 }

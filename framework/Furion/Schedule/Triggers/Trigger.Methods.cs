@@ -64,7 +64,7 @@ public partial class Trigger
     /// <returns><see cref="string"/></returns>
     public override string ToString()
     {
-        return $"<{JobId} {TriggerId}>{(string.IsNullOrWhiteSpace(Description) ? string.Empty : $" {Description}")} {NumberOfRuns}t";
+        return $"<{JobId} {TriggerId}>{(string.IsNullOrWhiteSpace(Description) ? string.Empty : $" {Description}")} {NumberOfRuns}ts";
     }
 
     /// <summary>
@@ -228,6 +228,7 @@ public partial class Trigger
         if (StartTime != null && StartTime.Value > startAt)
         {
             SetStatus(TriggerStatus.Backlog);
+            NextRunTime = null;
             return false;
         }
 
@@ -235,6 +236,7 @@ public partial class Trigger
         if (EndTime != null && EndTime.Value < startAt)
         {
             SetStatus(TriggerStatus.Archived);
+            NextRunTime = null;
             return false;
         }
 
@@ -242,6 +244,7 @@ public partial class Trigger
         if (MaxNumberOfRuns > 0 && NumberOfRuns >= MaxNumberOfRuns)
         {
             SetStatus(TriggerStatus.Overrun);
+            NextRunTime = null;
             return false;
         }
 
@@ -249,6 +252,7 @@ public partial class Trigger
         if (MaxNumberOfErrors > 0 && NumberOfErrors >= MaxNumberOfErrors)
         {
             SetStatus(TriggerStatus.Panic);
+            NextRunTime = null;
             return false;
         }
 

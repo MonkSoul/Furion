@@ -160,8 +160,8 @@ internal sealed class ScheduleHostedService : BackgroundService
         // 创建一个任务工厂并保证执行任务都使用当前的计划程序
         var taskFactory = new TaskFactory(System.Threading.Tasks.TaskScheduler.Current);
 
-        // 逐条遍历所有作业计划集合
-        foreach (var scheduler in currentRunJobs)
+        // 通过并行方式提高吞吐量并解决 Thread.Sleep 问题
+        Parallel.ForEach(currentRunJobs, scheduler =>
         {
             // 解构参数
             var jobId = scheduler.JobId;
@@ -226,7 +226,7 @@ internal sealed class ScheduleHostedService : BackgroundService
                             }
 
                             // 设置作业触发器状态为就绪状态
-                            trigger.SetStatus(TriggerStatus.Ready);
+                            if (trigger.CheckAndFixNextOccurrence(jobDetail, startAt)) trigger.SetStatus(TriggerStatus.Ready);
 
                             // 将作业触发器运行数据写入持久化
                             _schedulerFactory.Shorthand(jobDetail, trigger);
@@ -281,7 +281,7 @@ internal sealed class ScheduleHostedService : BackgroundService
                     }, stoppingToken);
                 });
             }
-        }
+        });
 
         // 作业调度器进入休眠状态
         await _schedulerFactory.SleepAsync(startAt);

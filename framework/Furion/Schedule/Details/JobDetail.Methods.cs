@@ -149,7 +149,7 @@ public partial class JobDetail
     /// <returns><see cref="string"/></returns>
     public override string ToString()
     {
-        return $"<{JobId}>{(string.IsNullOrWhiteSpace(Description) ? string.Empty : $" {Description}")}";
+        return $"<{JobId}>{(string.IsNullOrWhiteSpace(Description) ? string.Empty : $" {Description}")} [{(Concurrent ? "C" : "S")}]";
     }
 
     /// <summary>
