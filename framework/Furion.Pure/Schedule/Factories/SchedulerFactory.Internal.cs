@@ -118,7 +118,7 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory
     public void Preload()
     {
         // 输出作业调度度初始化日志
-        _logger.LogInformation("Schedule hosted service is preloading.");
+        _logger.LogInformation("Schedule hosted service is preloading......");
 
         // 装载初始作业计划
         var initialSchedulerBuilders = _schedulerBuilders.Concat(Persistence?.Preload() ?? Array.Empty<SchedulerBuilder>());
@@ -143,7 +143,7 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory
         GC.Collect();
 
         // 输出作业调度器初始化日志
-        _logger.LogInformation("Schedule hosted service preload completed, and a total of <{Count}> schedulers are added.", _schedulers.Count);
+        _logger.LogWarning("Schedule hosted service preload completed, and a total of <{Count}> schedulers are appended.", _schedulers.Count);
     }
 
     /// <summary>

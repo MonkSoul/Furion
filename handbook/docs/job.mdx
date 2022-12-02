@@ -70,7 +70,7 @@ import TabItem from "@theme/TabItem";
 
 1. 定义作业处理程序 `MyJob`：
 
-```cs showLineNumbers {1,9}
+```cs showLineNumbers {1,9,11}
 public class MyJob : IJob
 {
     private readonly ILogger<MyJob> _logger;
@@ -79,10 +79,10 @@ public class MyJob : IJob
         _logger = logger;
     }
 
-    public async Task ExecuteAsync(JobExecutingContext context, CancellationToken stoppingToken)
+    public Task ExecuteAsync(JobExecutingContext context, CancellationToken stoppingToken)
     {
-        _logger.LogInformation($"{context.JobId} {context.TriggerId} {context.OccurrenceTime} {context.Trigger}");
-        await Task.CompletedTask;
+        _logger.LogInformation($"{context}");
+        return Task.CompletedTask;
     }
 }
 ```
@@ -99,19 +99,35 @@ services.AddSchedule(options =>
 
 3. 查看作业执行结果
 
-```bash showLineNumbers {2,4,6,8,10,12}
-info: 2022-11-17 16:23:56.0166669 +08:00 星期四 L MyJob[0] #16
-      job1 job1_trigger1 2022/11/17 16:23:56  * * * * * *
-info: 2022-11-17 16:23:57.0125960 +08:00 星期四 L MyJob[0] #17
-      job1 job1_trigger1 2022/11/17 16:23:57  * * * * * *
-info: 2022-11-17 16:23:58.0120379 +08:00 星期四 L MyJob[0] #16
-      job1 job1_trigger1 2022/11/17 16:23:58  * * * * * *
-info: 2022-11-17 16:23:59.0071986 +08:00 星期四 L MyJob[0] #5
-      job1 job1_trigger1 2022/11/17 16:23:59  * * * * * *
-info: 2022-11-17 16:24:00.0196813 +08:00 星期四 L MyJob[0] #16
-      job1 job1_trigger1 2022/11/17 16:24:00  * * * * * *
-info: 2022-11-17 16:24:01.0305799 +08:00 星期四 L MyJob[0] #17
-      job1 job1_trigger1 2022/11/17 16:24:01  * * * * * *
+```bash showLineNumbers {6,8,10,12,14,16,18}
+info: 2022-12-02 16:51:33.5032989 +08:00 星期五 L System.Logging.ScheduleService[0] #1
+      Schedule hosted service is running.
+info: 2022-12-02 16:51:33.5180669 +08:00 星期五 L System.Logging.ScheduleService[0] #1
+      Schedule hosted service is preloading......
+info: 2022-12-02 16:51:34.1452041 +08:00 星期五 L System.Logging.ScheduleService[0] #1
+      The <job1_trigger1> trigger for scheduler of <job1> successfully appended to the schedule.
+info: 2022-12-02 16:51:34.1541701 +08:00 星期五 L System.Logging.ScheduleService[0] #1
+      The scheduler of <job1> successfully appended to the schedule.
+warn: 2022-12-02 16:51:34.1748401 +08:00 星期五 L System.Logging.ScheduleService[0] #1
+      Schedule hosted service preload completed, and a total of <1> schedulers are appended.
+info: 2022-12-02 16:51:35.0712571 +08:00 星期五 L MyJob[0] #4
+      <job1> [C] <job1 job1_trigger1> * * * * * * 1ts 2022-12-02 16:51:35.000 -> 2022-12-02 16:51:36.000
+info: 2022-12-02 16:51:36.0317375 +08:00 星期五 L MyJob[0] #14
+      <job1> [C] <job1 job1_trigger1> * * * * * * 2ts 2022-12-02 16:51:36.000 -> 2022-12-02 16:51:37.000
+info: 2022-12-02 16:51:37.0125007 +08:00 星期五 L MyJob[0] #9
+      <job1> [C] <job1 job1_trigger1> * * * * * * 3ts 2022-12-02 16:51:37.000 -> 2022-12-02 16:51:38.000
+info: 2022-12-02 16:51:38.0179920 +08:00 星期五 L MyJob[0] #8
+      <job1> [C] <job1 job1_trigger1> * * * * * * 4ts 2022-12-02 16:51:38.000 -> 2022-12-02 16:51:39.000
+```
+
+`JobExecutionContext` 重写了 `ToString()` 方法并提供以下几种格式：
+
+```bash showLineNumbers {2,5}
+# 持续运行格式
+<作业Id> [并行C/串行S] <作业Id 触发器Id> 触发器字符串 触发器描述 触发次数ts 触发时间 -> 下一次触发时间
+
+# 触发停止格式
+<作业Id> [并行C/串行S] <作业Id 触发器Id> 触发器字符串 触发器描述 触发次数ts 触发时间 [触发器终止状态]
 ```
 
 ### 26.1.2.1 指定作业 `Id`
@@ -127,19 +143,23 @@ services.AddSchedule(options =>
 
 查看作业执行结果：
 
-```bash showLineNumbers  {2,4,6,8,10,12}
-info: 2022-11-17 16:25:44.0339177 +08:00 星期四 L MyJob[0] #3
-      myjob myjob_trigger1 2022/11/17 16:25:44  * * * * * *
-info: 2022-11-17 16:25:45.0064838 +08:00 星期四 L MyJob[0] #14
-      myjob myjob_trigger1 2022/11/17 16:25:45  * * * * * *
-info: 2022-11-17 16:25:46.0186243 +08:00 星期四 L MyJob[0] #15
-      myjob myjob_trigger1 2022/11/17 16:25:46  * * * * * *
-info: 2022-11-17 16:25:47.0175115 +08:00 星期四 L MyJob[0] #16
-      myjob myjob_trigger1 2022/11/17 16:25:47  * * * * * *
-info: 2022-11-17 16:25:48.0304982 +08:00 星期四 L MyJob[0] #15
-      myjob myjob_trigger1 2022/11/17 16:25:48  * * * * * *
-info: 2022-11-17 16:25:49.0070855 +08:00 星期四 L MyJob[0] #16
-      myjob myjob_trigger1 2022/11/17 16:25:49  * * * * * *
+```bash showLineNumbers {6,8,12,14,16}
+info: 2022-12-02 17:15:43.3024818 +08:00 星期五 L System.Logging.ScheduleService[0] #1
+      Schedule hosted service is running.
+info: 2022-12-02 17:15:43.3107918 +08:00 星期五 L System.Logging.ScheduleService[0] #1
+      Schedule hosted service is preloading......
+info: 2022-12-02 17:15:43.9498664 +08:00 星期五 L System.Logging.ScheduleService[0] #1
+      The <myjob_trigger1> trigger for scheduler of <myjob> successfully appended to the schedule.
+info: 2022-12-02 17:15:43.9532894 +08:00 星期五 L System.Logging.ScheduleService[0] #1
+      The scheduler of <myjob> successfully appended to the schedule.
+warn: 2022-12-02 17:15:43.9941565 +08:00 星期五 L System.Logging.ScheduleService[0] #1
+      Schedule hosted service preload completed, and a total of <1> schedulers are appended.
+info: 2022-12-02 17:15:44.1230353 +08:00 星期五 L MyJob[0] #6
+      <myjob> [C] <myjob myjob_trigger1> * * * * * * 1ts 2022-12-02 17:15:44.000 -> 2022-12-02 17:15:45.000
+info: 2022-12-02 17:15:45.0854893 +08:00 星期五 L MyJob[0] #9
+      <myjob> [C] <myjob myjob_trigger1> * * * * * * 2ts 2022-12-02 17:15:45.000 -> 2022-12-02 17:15:46.000
+info: 2022-12-02 17:15:46.0100813 +08:00 星期五 L MyJob[0] #13
+      <myjob> [C] <myjob myjob_trigger1> * * * * * * 3ts 2022-12-02 17:15:46.000 -> 2022-12-02 17:15:47.000
 ```
 
 ### 26.1.2.2 多个作业触发器
@@ -150,40 +170,46 @@ info: 2022-11-17 16:25:49.0070855 +08:00 星期四 L MyJob[0] #16
 services.AddSchedule(options =>
 {
     options.AddJob<MyJob>(Triggers.Minutely()   // 每分钟开始
-     , Triggers.Period(5000)   // 每 5 秒，也可以使用 Triggers.PeriodSeconds(5)，也可以使用 Triggers.PeriodMinutes(5)
+     , Triggers.Period(5000)   // 每 5 秒，也可以使用 Triggers.PeriodSeconds(5)，也可以使用 Triggers.PeriodMinutes(5) 表示 5 分钟一次
      , Triggers.Cron("3,7,8 * * * * ?", CronStringFormat.WithSeconds));  // 每分钟第 3/7/8 秒
 });
 ```
 
 查看作业执行结果：
 
-```cs showLineNumbers {2,10,14,18,20}
-info: 2022-11-17 16:45:40.5258191 +08:00 星期四 L MyJob[0] #14
-      job1 job1_trigger2 2022/11/17 16:45:40  5000ms
-info: 2022-11-17 16:45:45.5281473 +08:00 星期四 L MyJob[0] #3
-      job1 job1_trigger2 2022/11/17 16:45:45  5000ms
-info: 2022-11-17 16:45:50.5378417 +08:00 星期四 L MyJob[0] #8
-      job1 job1_trigger2 2022/11/17 16:45:50  5000ms
-info: 2022-11-17 16:45:55.5436499 +08:00 星期四 L MyJob[0] #3
-      job1 job1_trigger2 2022/11/17 16:45:55  5000ms
-info: 2022-11-17 16:46:00.0253985 +08:00 星期四 L MyJob[0] #14
-      job1 job1_trigger1 2022/11/17 16:46:00  * * * * *
-info: 2022-11-17 16:46:00.5494676 +08:00 星期四 L MyJob[0] #16
-      job1 job1_trigger2 2022/11/17 16:46:00  5000ms
-info: 2022-11-17 16:46:03.0238143 +08:00 星期四 L MyJob[0] #15
-      job1 job1_trigger3 2022/11/17 16:46:03  3,7,8 * * * * ?
-info: 2022-11-17 16:46:05.5629293 +08:00 星期四 L MyJob[0] #14
-      job1 job1_trigger2 2022/11/17 16:46:05  5000ms
-info: 2022-11-17 16:46:07.0169836 +08:00 星期四 L MyJob[0] #15
-      job1 job1_trigger3 2022/11/17 16:46:07  3,7,8 * * * * ?
-info: 2022-11-17 16:46:08.0128756 +08:00 星期四 L MyJob[0] #14
-      job1 job1_trigger3 2022/11/17 16:46:08  3,7,8 * * * * ?
-info: 2022-11-17 16:46:10.5731138 +08:00 星期四 L MyJob[0] #8
-      job1 job1_trigger2 2022/11/17 16:46:10  5000ms
-info: 2022-11-17 16:46:15.5841547 +08:00 星期四 L MyJob[0] #15
-      job1 job1_trigger2 2022/11/17 16:46:15  5000ms
-info: 2022-11-17 16:46:20.5866898 +08:00 星期四 L MyJob[0] #8
-      job1 job1_trigger2 2022/11/17 16:46:20  5000ms
+```cs showLineNumbers {6,8,10,12,16,18,20,24,26}
+info: 2022-12-02 17:18:53.3593518 +08:00 星期五 L System.Logging.ScheduleService[0] #1
+      Schedule hosted service is running.
+info: 2022-12-02 17:18:53.3663583 +08:00 星期五 L System.Logging.ScheduleService[0] #1
+      Schedule hosted service is preloading......
+info: 2022-12-02 17:18:54.0381456 +08:00 星期五 L System.Logging.ScheduleService[0] #1
+      The <job1_trigger1> trigger for scheduler of <job1> successfully appended to the schedule.
+info: 2022-12-02 17:18:54.0708796 +08:00 星期五 L System.Logging.ScheduleService[0] #1
+      The <job1_trigger2> trigger for scheduler of <job1> successfully appended to the schedule.
+info: 2022-12-02 17:18:54.0770193 +08:00 星期五 L System.Logging.ScheduleService[0] #1
+      The <job1_trigger3> trigger for scheduler of <job1> successfully appended to the schedule.
+info: 2022-12-02 17:18:54.0800017 +08:00 星期五 L System.Logging.ScheduleService[0] #1
+      The scheduler of <job1> successfully appended to the schedule.
+warn: 2022-12-02 17:18:54.1206816 +08:00 星期五 L System.Logging.ScheduleService[0] #1
+      Schedule hosted service preload completed, and a total of <1> schedulers are appended.
+info: 2022-12-02 17:18:59.0040452 +08:00 星期五 L MyJob[0] #9
+      <job1> [C] <job1 job1_trigger2> 5000ms 1ts 2022-12-02 17:18:58.927 -> 2022-12-02 17:19:03.944
+info: 2022-12-02 17:19:00.0440142 +08:00 星期五 L MyJob[0] #15
+      <job1> [C] <job1 job1_trigger1> * * * * * 1ts 2022-12-02 17:19:00.000 -> 2022-12-02 17:20:00.000
+info: 2022-12-02 17:19:03.0149075 +08:00 星期五 L MyJob[0] #6
+      <job1> [C] <job1 job1_trigger3> 3,7,8 * * * * ? 1ts 2022-12-02 17:19:03.000 -> 2022-12-02 17:19:07.000
+info: 2022-12-02 17:19:03.9519350 +08:00 星期五 L MyJob[0] #15
+      <job1> [C] <job1 job1_trigger2> 5000ms 2ts 2022-12-02 17:19:03.944 -> 2022-12-02 17:19:08.919
+info: 2022-12-02 17:19:07.0116797 +08:00 星期五 L MyJob[0] #4
+      <job1> [C] <job1 job1_trigger3> 3,7,8 * * * * ? 2ts 2022-12-02 17:19:07.000 -> 2022-12-02 17:19:08.000
+info: 2022-12-02 17:19:08.0078132 +08:00 星期五 L MyJob[0] #15
+      <job1> [C] <job1 job1_trigger3> 3,7,8 * * * * ? 3ts 2022-12-02 17:19:08.000 -> 2022-12-02 17:20:03.000
+info: 2022-12-02 17:19:08.9298393 +08:00 星期五 L MyJob[0] #14
+      <job1> [C] <job1 job1_trigger2> 5000ms 3ts 2022-12-02 17:19:08.919 -> 2022-12-02 17:19:13.897
+info: 2022-12-02 17:19:13.9056247 +08:00 星期五 L MyJob[0] #8
+      <job1> [C] <job1 job1_trigger2> 5000ms 4ts 2022-12-02 17:19:13.897 -> 2022-12-02 17:19:18.872
+info: 2022-12-02 17:19:18.8791123 +08:00 星期五 L MyJob[0] #12
+      <job1> [C] <job1 job1_trigger2> 5000ms 5ts 2022-12-02 17:19:18.872 -> 2022-12-02 17:19:23.846
 ```
 
 ### 26.1.2.3 `串行` 执行
@@ -216,29 +242,27 @@ public class MyJob : IJob
 
 查看作业执行结果：
 
-```cs showLineNumbers {2,8,14,20}
-info: 2022-11-17 16:57:49.0898900 +08:00 星期四 L MyJob[0] #8
-      job1 job1_trigger1 2022/11/17 16:57:49  * * * * * *
-warn: 2022-11-17 16:57:50.0322409 +08:00 星期四 L System.Logging.ScheduleService[0] #8
-      11/17/2022 16:57:50: The <job1_trigger1> trigger of job <job1> failed to execute as scheduled due to blocking.
-warn: 2022-11-17 16:57:51.0099629 +08:00 星期四 L System.Logging.ScheduleService[0] #8
-      11/17/2022 16:57:51: The <job1_trigger1> trigger of job <job1> failed to execute as scheduled due to blocking.
-info: 2022-11-17 16:57:52.0192847 +08:00 星期四 L MyJob[0] #8
-      job1 job1_trigger1 2022/11/17 16:57:52  * * * * * *
-warn: 2022-11-17 16:57:53.0159256 +08:00 星期四 L System.Logging.ScheduleService[0] #8
-      11/17/2022 16:57:53: The <job1_trigger1> trigger of job <job1> failed to execute as scheduled due to blocking.
-warn: 2022-11-17 16:57:54.0101172 +08:00 星期四 L System.Logging.ScheduleService[0] #8
-      11/17/2022 16:57:54: The <job1_trigger1> trigger of job <job1> failed to execute as scheduled due to blocking.
-info: 2022-11-17 16:57:55.0038536 +08:00 星期四 L MyJob[0] #13
-      job1 job1_trigger1 2022/11/17 16:57:55  * * * * * *
-warn: 2022-11-17 16:57:56.0158085 +08:00 星期四 L System.Logging.ScheduleService[0] #16
-      11/17/2022 16:57:56: The <job1_trigger1> trigger of job <job1> failed to execute as scheduled due to blocking.
-warn: 2022-11-17 16:57:57.0276842 +08:00 星期四 L System.Logging.ScheduleService[0] #16
-      11/17/2022 16:57:57: The <job1_trigger1> trigger of job <job1> failed to execute as scheduled due to blocking.
-info: 2022-11-17 16:57:58.0100972 +08:00 星期四 L MyJob[0] #13
-      job1 job1_trigger1 2022/11/17 16:57:58  * * * * * *
-warn: 2022-11-17 16:57:59.0149137 +08:00 星期四 L System.Logging.ScheduleService[0] #13
-      11/17/2022 16:57:59: The <job1_trigger1> trigger of job <job1> failed to execute as scheduled due to blocking.
+```cs showLineNumbers {6,8,12,14,16,18,20}
+info: 2022-12-02 17:23:27.3726863 +08:00 星期五 L System.Logging.ScheduleService[0] #1
+      Schedule hosted service is running.
+info: 2022-12-02 17:23:27.3830366 +08:00 星期五 L System.Logging.ScheduleService[0] #1
+      Schedule hosted service is preloading......
+info: 2022-12-02 17:23:27.9083148 +08:00 星期五 L System.Logging.ScheduleService[0] #1
+      The <job1_trigger1> trigger for scheduler of <job1> successfully appended to the schedule.
+info: 2022-12-02 17:23:27.9184699 +08:00 星期五 L System.Logging.ScheduleService[0] #1
+      The scheduler of <job1> successfully appended to the schedule.
+warn: 2022-12-02 17:23:27.9740028 +08:00 星期五 L System.Logging.ScheduleService[0] #1
+      Schedule hosted service preload completed, and a total of <1> schedulers are appended.
+info: 2022-12-02 17:23:28.0638789 +08:00 星期五 L MyJob[0] #9
+      <job1> [S] <job1 job1_trigger1> * * * * * * 1ts 2022-12-02 17:23:28.000 -> 2022-12-02 17:23:29.000
+warn: 2022-12-02 17:23:29.1119269 +08:00 星期五 L System.Logging.ScheduleService[0] #9
+      12/02/2022 17:23:29: The <job1_trigger1> trigger of job <job1> failed to execute as scheduled due to blocking.
+warn: 2022-12-02 17:23:30.0090551 +08:00 星期五 L System.Logging.ScheduleService[0] #9
+      12/02/2022 17:23:30: The <job1_trigger1> trigger of job <job1> failed to execute as scheduled due to blocking.
+info: 2022-12-02 17:23:31.0121694 +08:00 星期五 L MyJob[0] #9
+      <job1> [S] <job1 job1_trigger1> * * * * * * 2ts 2022-12-02 17:23:31.000 -> 2022-12-02 17:23:32.000
+warn: 2022-12-02 17:23:32.0243646 +08:00 星期五 L System.Logging.ScheduleService[0] #9
+      12/02/2022 17:23:32: The <job1_trigger1> trigger of job <job1> failed to execute as scheduled due to blocking.
 ```
 
 默认情况下，使用 `串行` 执行但因为耗时导致**触发时间到了但实际未能执行**会默认输出 `warn` 警告日志，如需关闭只需要：
@@ -254,16 +278,16 @@ services.AddSchedule(options =>
 查看作业执行结果：
 
 ```bash showLineNumbers {2,4,6,8,10}
-info: 2022-11-17 17:02:28.0559602 +08:00 星期四 L MyJob[0] #5
-      job1 job1_trigger1 2022/11/17 17:02:28  * * * * * *
-info: 2022-11-17 17:02:31.0183238 +08:00 星期四 L MyJob[0] #8
-      job1 job1_trigger1 2022/11/17 17:02:31  * * * * * *
-info: 2022-11-17 17:02:34.0130555 +08:00 星期四 L MyJob[0] #13
-      job1 job1_trigger1 2022/11/17 17:02:34  * * * * * *
-info: 2022-11-17 17:02:37.0040306 +08:00 星期四 L MyJob[0] #15
-      job1 job1_trigger1 2022/11/17 17:02:37  * * * * * *
-info: 2022-11-17 17:02:39.0142346 +08:00 星期四 L MyJob[0] #15
-      job1 job1_trigger1 2022/11/17 17:02:39  * * * * * *
+info: 2022-12-02 17:27:13.1136450 +08:00 星期五 L MyJob[0] #12
+      <job1> [S] <job1 job1_trigger1> * * * * * * 1ts 2022-12-02 17:27:13.000 -> 2022-12-02 17:27:14.000
+info: 2022-12-02 17:27:16.0092433 +08:00 星期五 L MyJob[0] #8
+      <job1> [S] <job1 job1_trigger1> * * * * * * 2ts 2022-12-02 17:27:16.000 -> 2022-12-02 17:27:17.000
+info: 2022-12-02 17:27:19.0092363 +08:00 星期五 L MyJob[0] #6
+      <job1> [S] <job1 job1_trigger1> * * * * * * 3ts 2022-12-02 17:27:19.000 -> 2022-12-02 17:27:20.000
+info: 2022-12-02 17:27:22.0183594 +08:00 星期五 L MyJob[0] #9
+      <job1> [S] <job1 job1_trigger1> * * * * * * 4ts 2022-12-02 17:27:22.000 -> 2022-12-02 17:27:23.000
+info: 2022-12-02 17:27:25.0152323 +08:00 星期五 L MyJob[0] #4
+      <job1> [S] <job1 job1_trigger1> * * * * * * 5ts 2022-12-02 17:27:25.000 -> 2022-12-02 17:27:26.000
 ```
 
 ### 26.1.2.4 打印作业完整信息
@@ -292,7 +316,7 @@ public class MyJob : IJob
 查看作业打印结果：
 
 ```json showLineNumbers {3,14}
-info: 2022-11-17 17:13:41.0480946 +08:00 星期四 L MyJob[0] #5
+info: 2022-12-02 18:00:59.4140802 +08:00 星期五 L MyJob[0] #13
       {
         "jobDetail": {
         "jobId": "job1",
@@ -303,20 +327,20 @@ info: 2022-11-17 17:13:41.0480946 +08:00 星期四 L MyJob[0] #5
         "concurrent": false,
         "includeAnnotations": false,
         "properties": "{}",
-        "updatedTime": "2022-11-17T17:13:41.0247430+08:00"
+        "updatedTime": "2022-12-02 18:00:59.390"
       },
         "trigger": {
         "triggerId": "job1_trigger1",
         "jobId": "job1",
-        "triggerType": "Furion.Schedule.CronTrigger",
+        "triggerType": "Furion.Schedule.PeriodSecondsTrigger",
         "assemblyName": "Furion",
-        "args": "[\"@secondly\",0]",
+        "args": "[5]",
         "description": null,
         "status": 2,
         "startTime": null,
         "endTime": null,
-        "lastRunTime": "2022-11-17T17:13:41.0000000",
-        "nextRunTime": "2022-11-17T17:13:42.0000000",
+        "lastRunTime": "2022-12-02 18:00:59.326",
+        "nextRunTime": "2022-12-02 18:01:04.358",
         "numberOfRuns": 1,
         "maxNumberOfRuns": 0,
         "numberOfErrors": 0,
@@ -326,14 +350,14 @@ info: 2022-11-17 17:13:41.0480946 +08:00 星期四 L MyJob[0] #5
         "startNow": true,
         "runOnStart": false,
         "resetOnlyOnce": true,
-        "updatedTime": "2022-11-17T17:13:41.0250214+08:00"
+        "updatedTime": "2022-12-02 18:00:59.390"
       }
       }
 ```
 
 - **第二种：输出单独的作业 `JSON` 信息：`jobDetail.ConvertToJSON()` 或 `trigger.ConvertToJSON()`**
 
-```cs showLineNumbers {11-12,14-15}
+```cs showLineNumbers {11-12}
 public class MyJob : IJob
 {
     private readonly ILogger<MyJob> _logger;
@@ -344,11 +368,8 @@ public class MyJob : IJob
 
     public async Task ExecuteAsync(JobExecutingContext context, CancellationToken stoppingToken)
     {
-        var jobDetail = context.JobDetail;
-        var trigger = context.Trigger;
-
-        _logger.LogInformation(jobDetail.ConvertToJSON());
-        _logger.LogInformation(trigger.ConvertToJSON(NamingConventions.UnderScoreCase));    // 支持三种属性名输出规则
+        _logger.LogInformation(context.JobDetail.ConvertToJSON());
+        _logger.LogInformation(context.Trigger.ConvertToJSON(NamingConventions.UnderScoreCase));    // 支持三种属性名输出规则
 
         await Task.CompletedTask;
     }
@@ -358,7 +379,7 @@ public class MyJob : IJob
 查看作业打印结果：
 
 ```json showLineNumbers {2-12,14-35}
-info: 2022-11-17 17:17:15.0441407 +08:00 星期四 L MyJob[0] #3
+info: 2022-12-02 18:02:10.7923360 +08:00 星期五 L MyJob[0] #8
       {
         "jobId": "job1",
         "groupName": null,
@@ -368,21 +389,21 @@ info: 2022-11-17 17:17:15.0441407 +08:00 星期四 L MyJob[0] #3
         "concurrent": false,
         "includeAnnotations": false,
         "properties": "{}",
-        "updatedTime": "2022-11-17T17:17:15.0103913+08:00"
+        "updatedTime": "2022-12-02 18:02:10.774"
       }
-info: 2022-11-17 17:17:15.0503546 +08:00 星期四 L MyJob[0] #3
+info: 2022-12-02 18:02:10.8008708 +08:00 星期五 L MyJob[0] #8
       {
         "trigger_id": "job1_trigger1",
         "job_id": "job1",
-        "trigger_type": "Furion.Schedule.CronTrigger",
+        "trigger_type": "Furion.Schedule.PeriodSecondsTrigger",
         "assembly_name": "Furion",
-        "args": "[\"@secondly\",0]",
+        "args": "[5]",
         "description": null,
         "status": 2,
         "start_time": null,
         "end_time": null,
-        "last_run_time": "2022-11-17T17:17:15.0000000",
-        "next_run_time": "2022-11-17T17:17:16.0000000",
+        "last_run_time": "2022-12-02 18:02:10.727",
+        "next_run_time": "2022-12-02 18:02:15.733",
         "number_of_runs": 1,
         "max_number_of_runs": 0,
         "number_of_errors": 0,
@@ -392,7 +413,7 @@ info: 2022-11-17 17:17:15.0503546 +08:00 星期四 L MyJob[0] #3
         "start_now": true,
         "run_on_start": false,
         "reset_only_once": true,
-        "updated_time": "2022-11-17T17:17:15.0109612+08:00"
+        "updated_time": "2022-12-02 18:02:10.774"
       }
 ```
 
@@ -424,62 +445,62 @@ public class MyJob : IJob
 查看作业打印结果：
 
 ```sql showLineNumbers {2,25,28}
-info: 2022-11-17 17:35:11.1085426 +08:00 星期四 L MyJob[0] #9
+info: 2022-12-02 18:03:11.8543760 +08:00 星期五 L MyJob[0] #13
       INSERT INTO 作业信息表名(
-            [jobId],
-            [groupName],
-            [jobType],
-            [assemblyName],
-            [description],
-            [concurrent],
-            [includeAnnotations],
-            [properties],
-            [updatedTime]
+          jobId,
+          groupName,
+          jobType,
+          assemblyName,
+          description,
+          concurrent,
+          includeAnnotations,
+          properties,
+          updatedTime
       )
       VALUES(
-            'job1',
-            NULL,
-            'MyJob',
-            'ConsoleApp32',
-            NULL,
-            0,
-            0,
-            '{}',
-            '2022/11/17 17:35:11'
+          'job1',
+          NULL,
+          'MyJob',
+          'ConsoleApp32',
+          NULL,
+          0,
+          0,
+          '{}',
+          '2022-12-02 18:03:11.836'
       );
-info: 2022-11-17 17:35:11.1150444 +08:00 星期四 L MyJob[0] #9
+info: 2022-12-02 18:03:11.8636268 +08:00 星期五 L MyJob[0] #13
       DELETE FROM 作业触发器表名
-      WHERE [TriggerId] = 'job1_trigger1' AND [JobId] = 'job1';
-info: 2022-11-17 17:35:11.1190961 +08:00 星期四 L MyJob[0] #9
+      WHERE TriggerId = 'job1_trigger1' AND JobId = 'job1';
+info: 2022-12-02 18:03:11.8669134 +08:00 星期五 L MyJob[0] #13
       UPDATE 作业触发器表名
       SET
-            [trigger_id] = 'job1_trigger1',
-            [job_id] = 'job1',
-            [trigger_type] = 'Furion.Schedule.CronTrigger',
-            [assembly_name] = 'Furion',
-            [args] = '["@secondly",0]',
-            [description] = NULL,
-            [status] = 2,
-            [start_time] = NULL,
-            [end_time] = NULL,
-            [last_run_time] = '2022/11/17 17:35:11',
-            [next_run_time] = '2022/11/17 17:35:12',
-            [number_of_runs] = 1,
-            [max_number_of_runs] = 0,
-            [number_of_errors] = 0,
-            [max_number_of_errors] = 0,
-            [num_retries] = 0,
-            [retry_timeout] = 1000,
-            [start_now] = 1,
-            [run_on_start] = 0,
-            [reset_only_once] = 1,
-            [updated_time] = '2022/11/17 17:35:11'
-      WHERE [trigger_id] = 'job1_trigger1' AND [job_id] = 'job1';
+          trigger_id = 'job1_trigger1',
+          job_id = 'job1',
+          trigger_type = 'Furion.Schedule.PeriodSecondsTrigger',
+          assembly_name = 'Furion',
+          args = '[5]',
+          description = NULL,
+          status = 2,
+          start_time = NULL,
+          end_time = NULL,
+          last_run_time = '2022-12-02 18:03:11.778',
+          next_run_time = '2022-12-02 18:03:16.794',
+          number_of_runs = 1,
+          max_number_of_runs = 0,
+          number_of_errors = 0,
+          max_number_of_errors = 0,
+          num_retries = 0,
+          retry_timeout = 1000,
+          start_now = 1,
+          run_on_start = 0,
+          reset_only_once = 1,
+          updated_time = '2022-12-02 18:03:11.836'
+      WHERE trigger_id = 'job1_trigger1' AND job_id = 'job1';
 ```
 
 - **第四种：输出单独的作业 `Monitor` 信息：`jobDetail.ConvertToMonitor()` 或 `trigger.ConvertToMonitor()`**
 
-```cs showLineNumbers {11-12,14-15}
+```cs showLineNumbers {11-12}
 public class MyJob : IJob
 {
     private readonly ILogger<MyJob> _logger;
@@ -490,11 +511,8 @@ public class MyJob : IJob
 
     public async Task ExecuteAsync(JobExecutingContext context, CancellationToken stoppingToken)
     {
-        var jobDetail = context.JobDetail;
-        var trigger = context.Trigger;
-
-        _logger.LogInformation(jobDetail.ConvertToMonitor());
-        _logger.LogInformation(trigger.ConvertToMonitor());
+        _logger.LogInformation(context.JobDetail.ConvertToMonitor());
+        _logger.LogInformation(context.Trigger.ConvertToMonitor());
 
         await Task.CompletedTask;
     }
@@ -504,45 +522,45 @@ public class MyJob : IJob
 查看作业打印结果：
 
 ```bash showLineNumbers {2,16}
-info: 2022-11-17 17:39:09.1086517 +08:00 星期四 L MyJob[0] #3
+info: 2022-12-02 18:04:06.2833095 +08:00 星期五 L MyJob[0] #8
       ┏━━━━━━━━━━━  JobDetail ━━━━━━━━━━━
       ┣ MyJob
       ┣
-      ┣ JobId：                     job1
-      ┣ GroupName：
-      ┣ JobType：                   MyJob
-      ┣ AssemblyName：              ConsoleApp32
-      ┣ Description：
-      ┣ Concurrent：                False
-      ┣ IncludeAnnotations：        False
-      ┣ Properties：                {}
-      ┣ UpdatedTime：               2022/11/17 17:39:09
+      ┣ jobId：                     job1
+      ┣ groupName：
+      ┣ jobType：                   MyJob
+      ┣ assemblyName：              ConsoleApp32
+      ┣ description：
+      ┣ concurrent：                False
+      ┣ includeAnnotations：        False
+      ┣ properties：                {}
+      ┣ updatedTime：               2022-12-02 18:04:06.254
       ┗━━━━━━━━━━━  JobDetail ━━━━━━━━━━━
-info: 2022-11-17 17:39:09.1133162 +08:00 星期四 L MyJob[0] #3
+info: 2022-12-02 18:04:06.2868205 +08:00 星期五 L MyJob[0] #8
       ┏━━━━━━━━━━━  Trigger ━━━━━━━━━━━
-      ┣ Furion.Schedule.CronTrigger
+      ┣ Furion.Schedule.PeriodSecondsTrigger
       ┣
-      ┣ TriggerId：                job1_trigger1
-      ┣ JobId：                    job1
-      ┣ TriggerType：              Furion.Schedule.CronTrigger
-      ┣ AssemblyName：             Furion
-      ┣ Args：                     ["@secondly",0]
-      ┣ Description：
-      ┣ Status：                   Running
-      ┣ StartTime：
-      ┣ EndTime：
-      ┣ LastRunTime：              2022/11/17 17:39:09
-      ┣ NextRunTime：              2022/11/17 17:39:10
-      ┣ NumberOfRuns：             1
-      ┣ MaxNumberOfRuns：          0
-      ┣ NumberOfErrors：           0
-      ┣ MaxNumberOfErrors：        0
-      ┣ NumRetries：               0
-      ┣ RetryTimeout：             1000
-      ┣ StartNow：                 True
-      ┣ RunOnStart：               False
-      ┣ ResetOnlyOnce：            True
-      ┣ UpdatedTime：              2022/11/17 17:39:09
+      ┣ triggerId：                job1_trigger1
+      ┣ jobId：                    job1
+      ┣ triggerType：              Furion.Schedule.PeriodSecondsTrigger
+      ┣ assemblyName：             Furion
+      ┣ args：                     [5]
+      ┣ description：
+      ┣ status：                   Running
+      ┣ startTime：
+      ┣ endTime：
+      ┣ lastRunTime：              2022-12-02 18:04:06.189
+      ┣ nextRunTime：              2022-12-02 18:04:11.212
+      ┣ numberOfRuns：             1
+      ┣ maxNumberOfRuns：          0
+      ┣ numberOfErrors：           0
+      ┣ maxNumberOfErrors：        0
+      ┣ numRetries：               0
+      ┣ retryTimeout：             1000
+      ┣ startNow：                 True
+      ┣ runOnStart：               False
+      ┣ resetOnlyOnce：            True
+      ┣ updatedTime：              2022-12-02 18:04:06.254
       ┗━━━━━━━━━━━  Trigger ━━━━━━━━━━━
 ```
 
@@ -583,33 +601,31 @@ public class YourService: IYourService
 
 3. 查看作业执行结果
 
-```bash showLineNumbers {2,4,6,8,10,20}
-warn: 2022-11-17 17:54:35.2654513 +08:00 星期四 L System.Logging.ScheduleService[0] #5
-      Schedule Hosted Service cancels hibernation.
-info: 2022-11-17 17:54:35.2670018 +08:00 星期四 L System.Logging.ScheduleService[0] #5
-      The Scheduler of <动态作业 Id> successfully added to the schedule.
-info: 2022-11-17 17:54:36.0834925 +08:00 星期四 L MyJob[0] #5
-      job1 job1_trigger1 2022/11/17 17:54:36  5000ms
-info: 2022-11-17 17:54:36.0911692 +08:00 星期四 L MyJob[0] #3
-      动态作业 Id 动态作业 Id_trigger1 2022/11/17 17:54:36  * * * * * *
-info: 2022-11-17 17:54:37.0146251 +08:00 星期四 L MyJob[0] #18
-      动态作业 Id 动态作业 Id_trigger1 2022/11/17 17:54:37  * * * * * *
-info: 2022-11-17 17:54:38.0071504 +08:00 星期四 L MyJob[0] #16
-      动态作业 Id 动态作业 Id_trigger1 2022/11/17 17:54:38  * * * * * *
-info: 2022-11-17 17:54:39.0140840 +08:00 星期四 L MyJob[0] #17
-      动态作业 Id 动态作业 Id_trigger1 2022/11/17 17:54:39  * * * * * *
-info: 2022-11-17 17:54:40.0173240 +08:00 星期四 L MyJob[0] #16
-      动态作业 Id 动态作业 Id_trigger1 2022/11/17 17:54:40  * * * * * *
-info: 2022-11-17 17:54:41.0249043 +08:00 星期四 L MyJob[0] #16
-      动态作业 Id 动态作业 Id_trigger1 2022/11/17 17:54:41  * * * * * *
-info: 2022-11-17 17:54:41.0550205 +08:00 星期四 L MyJob[0] #15
-      job1 job1_trigger1 2022/11/17 17:54:41  5000ms
-info: 2022-11-17 17:54:42.0171271 +08:00 星期四 L MyJob[0] #15
-      动态作业 Id 动态作业 Id_trigger1 2022/11/17 17:54:42  * * * * * *
-info: 2022-11-17 17:54:43.0288486 +08:00 星期四 L MyJob[0] #18
-      动态作业 Id 动态作业 Id_trigger1 2022/11/17 17:54:43  * * * * * *
-info: 2022-11-17 17:54:44.0092455 +08:00 星期四 L MyJob[0] #15
-      动态作业 Id 动态作业 Id_trigger1 2022/11/17 17:54:44  * * * * * *
+```bash showLineNumbers {6,8,12,14,16,18,22,24}
+info: 2022-12-02 18:07:33.7799062 +08:00 星期五 L System.Logging.ScheduleService[0] #1
+      Schedule hosted service is running.
+info: 2022-12-02 18:07:33.7971487 +08:00 星期五 L System.Logging.ScheduleService[0] #1
+      Schedule hosted service is preloading......
+info: 2022-12-02 18:07:33.8751390 +08:00 星期五 L System.Logging.ScheduleService[0] #1
+      The <job1_trigger1> trigger for scheduler of <job1> successfully appended to the schedule.
+info: 2022-12-02 18:07:33.8805159 +08:00 星期五 L System.Logging.ScheduleService[0] #1
+      The scheduler of <job1> successfully appended to the schedule.
+warn: 2022-12-02 18:07:33.9013656 +08:00 星期五 L System.Logging.ScheduleService[0] #1
+      Schedule hosted service preload completed, and a total of <1> schedulers are appended.
+info: 2022-12-02 18:07:38.9241031 +08:00 星期五 L MyJob[0] #9
+      <job1> [C] <job1 job1_trigger1> 5s 1ts 2022-12-02 18:07:38.813 -> 2022-12-02 18:07:43.863
+info: 2022-12-02 18:07:43.0865787 +08:00 星期五 L System.Logging.ScheduleService[0] #16
+      The <动态作业 Id_trigger1> trigger for scheduler of <动态作业 Id> successfully appended to the schedule.
+warn: 2022-12-02 18:07:43.0894163 +08:00 星期五 L System.Logging.ScheduleService[0] #16
+      Schedule hosted service cancels hibernation and GC.Collect().
+info: 2022-12-02 18:07:43.1129824 +08:00 星期五 L System.Logging.ScheduleService[0] #16
+      The scheduler of <动态作业 Id> successfully appended to the schedule.
+info: 2022-12-02 18:07:43.8810686 +08:00 星期五 L MyJob[0] #17
+      <job1> [C] <job1 job1_trigger1> 5s 2ts 2022-12-02 18:07:43.863 -> 2022-12-02 18:07:48.848
+info: 2022-12-02 18:07:44.0104025 +08:00 星期五 L MyJob[0] #16
+      <动态作业 Id> [C] <动态作业 Id 动态作业 Id_trigger1> * * * * * * 1ts 2022-12-02 18:07:44.000 -> 2022-12-02 18:07:45.000
+info: 2022-12-02 18:07:45.0092441 +08:00 星期五 L MyJob[0] #8
+      <动态作业 Id> [C] <动态作业 Id 动态作业 Id_trigger1> * * * * * * 2ts 2022-12-02 18:07:45.000 -> 2022-12-02 18:07:46.000
 ```
 
 ### 26.1.2.6 作业触发器特性
@@ -647,8 +663,7 @@ public class MyJob : IJob
 
     public async Task ExecuteAsync(JobExecutingContext context, CancellationToken stoppingToken)
     {
-        _logger.LogInformation($"{context.JobId} {context.TriggerId} {context.OccurrenceTime} {context.Trigger}");
-
+        _logger.LogInformation($"{context}");
         await Task.CompletedTask;
     }
 }
@@ -656,25 +671,35 @@ public class MyJob : IJob
 
 3. 查看作业执行结果
 
-```bash showLineNumbers {2,4,6,8,10,12,14,16,18}
-info: 2022-11-18 10:28:56.3382585 +08:00 星期五 L MyJob[0] #14
-      job1 job1_trigger1 2022/11/18 10:28:56  5000ms
-info: 2022-11-18 10:29:00.0219493 +08:00 星期五 L MyJob[0] #5
-      job1 job1_trigger2 2022/11/18 10:29:00  * * * * *
-info: 2022-11-18 10:29:01.3318716 +08:00 星期五 L MyJob[0] #14
-      job1 job1_trigger1 2022/11/18 10:29:01  5000ms
-info: 2022-11-18 10:29:03.0127992 +08:00 星期五 L MyJob[0] #16
-      job1 job1_trigger3 2022/11/18 10:29:03  3,7,8 * * * * ?
-info: 2022-11-18 10:29:06.3457728 +08:00 星期五 L MyJob[0] #16
-      job1 job1_trigger1 2022/11/18 10:29:06  5000ms
-info: 2022-11-18 10:29:07.0318919 +08:00 星期五 L MyJob[0] #14
-      job1 job1_trigger3 2022/11/18 10:29:07  3,7,8 * * * * ?
-info: 2022-11-18 10:29:08.0141479 +08:00 星期五 L MyJob[0] #8
-      job1 job1_trigger3 2022/11/18 10:29:08  3,7,8 * * * * ?
-info: 2022-11-18 10:29:11.3468100 +08:00 星期五 L MyJob[0] #16
-      job1 job1_trigger1 2022/11/18 10:29:11  5000ms
-info: 2022-11-18 10:29:16.3504029 +08:00 星期五 L MyJob[0] #14
-      job1 job1_trigger1 2022/11/18 10:29:16  5000ms
+```bash showLineNumbers {6,8,10,12,16,18,20,24,26}
+info: 2022-12-02 18:12:56.4199663 +08:00 星期五 L System.Logging.ScheduleService[0] #1
+      Schedule hosted service is running.
+info: 2022-12-02 18:12:56.4287962 +08:00 星期五 L System.Logging.ScheduleService[0] #1
+      Schedule hosted service is preloading......
+info: 2022-12-02 18:12:56.6149505 +08:00 星期五 L System.Logging.ScheduleService[0] #1
+      The <job1_trigger1> trigger for scheduler of <job1> successfully appended to the schedule.
+info: 2022-12-02 18:12:56.6205117 +08:00 星期五 L System.Logging.ScheduleService[0] #1
+      The <job1_trigger2> trigger for scheduler of <job1> successfully appended to the schedule.
+info: 2022-12-02 18:12:56.6266132 +08:00 星期五 L System.Logging.ScheduleService[0] #1
+      The <job1_trigger3> trigger for scheduler of <job1> successfully appended to the schedule.
+info: 2022-12-02 18:12:56.6291006 +08:00 星期五 L System.Logging.ScheduleService[0] #1
+      The scheduler of <job1> successfully appended to the schedule.
+warn: 2022-12-02 18:12:56.6454334 +08:00 星期五 L System.Logging.ScheduleService[0] #1
+      Schedule hosted service preload completed, and a total of <1> schedulers are appended.
+info: 2022-12-02 18:13:00.0842828 +08:00 星期五 L MyJob[0] #15
+      <job1> [C] <job1 job1_trigger2> * * * * * 1ts 2022-12-02 18:13:00.000 -> 2022-12-02 18:14:00.000
+info: 2022-12-02 18:13:01.5260220 +08:00 星期五 L MyJob[0] #16
+      <job1> [C] <job1 job1_trigger1> 5s 1ts 2022-12-02 18:13:01.494 -> 2022-12-02 18:13:06.492
+info: 2022-12-02 18:13:03.0076111 +08:00 星期五 L MyJob[0] #6
+      <job1> [C] <job1 job1_trigger3> 3,7,8 * * * * ? 1ts 2022-12-02 18:13:03.000 -> 2022-12-02 18:13:07.000
+info: 2022-12-02 18:13:06.4954400 +08:00 星期五 L MyJob[0] #13
+      <job1> [C] <job1 job1_trigger1> 5s 2ts 2022-12-02 18:13:06.492 -> 2022-12-02 18:13:11.463
+info: 2022-12-02 18:13:07.0180453 +08:00 星期五 L MyJob[0] #6
+      <job1> [C] <job1 job1_trigger3> 3,7,8 * * * * ? 2ts 2022-12-02 18:13:07.000 -> 2022-12-02 18:13:08.000
+info: 2022-12-02 18:13:08.0114292 +08:00 星期五 L MyJob[0] #13
+      <job1> [C] <job1 job1_trigger3> 3,7,8 * * * * ? 3ts 2022-12-02 18:13:08.000 -> 2022-12-02 18:14:03.000
+info: 2022-12-02 18:13:11.4774564 +08:00 星期五 L MyJob[0] #16
+      <job1> [C] <job1 job1_trigger1> 5s 3ts 2022-12-02 18:13:11.463 -> 2022-12-02 18:13:16.445
 ```
 
 ## 26.1.3 作业信息 `JobDetail` 及构建器
@@ -1882,7 +1907,7 @@ info: 2022-11-20 21:43:10.4629078 +08:00 星期日 L ConsoleApp13.MyJob[0] #9
 - `[DailyAt]`：每天特定小时开始作业触发器特性
 - `[MonthlyAt]`：每月特定天（午夜）开始作业触发器特性
 - `[WeeklyAt]`：每周特定星期几（午夜）开始作业触发器特性
-- `[YearlyAt]`：每年特定月1号（午夜）开始作业触发器特性
+- `[YearlyAt]`：每年特定月 1 号（午夜）开始作业触发器特性
 
 使用如下：
 

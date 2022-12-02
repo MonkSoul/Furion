@@ -64,7 +64,7 @@ public partial class Trigger
     /// <returns><see cref="string"/></returns>
     public override string ToString()
     {
-        return $"<{JobId} {TriggerId}>{(string.IsNullOrWhiteSpace(Description) ? string.Empty : $" {Description}")} {NumberOfRuns}ts";
+        return $"<{JobId} {TriggerId}>{(string.IsNullOrWhiteSpace(Description) ? string.Empty : $" {Description.GetMaxLengthString()}")} {NumberOfRuns}ts";
     }
 
     /// <summary>
@@ -434,10 +434,10 @@ VALUES(
     {Penetrates.GetNoNumberSqlValueOrNull(Args)},
     {Penetrates.GetNoNumberSqlValueOrNull(Description)},
     {((int)Status)},
-    {Penetrates.GetNoNumberSqlValueOrNull(StartTime)},
-    {Penetrates.GetNoNumberSqlValueOrNull(EndTime)},
-    {Penetrates.GetNoNumberSqlValueOrNull(LastRunTime)},
-    {Penetrates.GetNoNumberSqlValueOrNull(NextRunTime)},
+    {Penetrates.GetNoNumberSqlValueOrNull(StartTime.ToUnspecifiedString())},
+    {Penetrates.GetNoNumberSqlValueOrNull(EndTime.ToUnspecifiedString())},
+    {Penetrates.GetNoNumberSqlValueOrNull(LastRunTime.ToUnspecifiedString())},
+    {Penetrates.GetNoNumberSqlValueOrNull(NextRunTime.ToUnspecifiedString())},
     {NumberOfRuns},
     {MaxNumberOfRuns},
     {NumberOfErrors},
@@ -447,7 +447,7 @@ VALUES(
     {Penetrates.GetBooleanSqlValue(StartNow)},
     {Penetrates.GetBooleanSqlValue(RunOnStart)},
     {Penetrates.GetBooleanSqlValue(ResetOnlyOnce)},
-    {Penetrates.GetNoNumberSqlValueOrNull(UpdatedTime)}
+    {Penetrates.GetNoNumberSqlValueOrNull(UpdatedTime.ToUnspecifiedString())}
 );";
     }
 
@@ -471,10 +471,10 @@ SET
     {columnNames[4]} = {Penetrates.GetNoNumberSqlValueOrNull(Args)},
     {columnNames[5]} = {Penetrates.GetNoNumberSqlValueOrNull(Description)},
     {columnNames[6]} = {((int)Status)},
-    {columnNames[7]} = {Penetrates.GetNoNumberSqlValueOrNull(StartTime)},
-    {columnNames[8]} = {Penetrates.GetNoNumberSqlValueOrNull(EndTime)},
-    {columnNames[9]} = {Penetrates.GetNoNumberSqlValueOrNull(LastRunTime)},
-    {columnNames[10]} = {Penetrates.GetNoNumberSqlValueOrNull(NextRunTime)},
+    {columnNames[7]} = {Penetrates.GetNoNumberSqlValueOrNull(StartTime.ToUnspecifiedString())},
+    {columnNames[8]} = {Penetrates.GetNoNumberSqlValueOrNull(EndTime.ToUnspecifiedString())},
+    {columnNames[9]} = {Penetrates.GetNoNumberSqlValueOrNull(LastRunTime.ToUnspecifiedString())},
+    {columnNames[10]} = {Penetrates.GetNoNumberSqlValueOrNull(NextRunTime.ToUnspecifiedString())},
     {columnNames[11]} = {NumberOfRuns},
     {columnNames[12]} = {MaxNumberOfRuns},
     {columnNames[13]} = {NumberOfErrors},
@@ -484,7 +484,7 @@ SET
     {columnNames[17]} = {Penetrates.GetBooleanSqlValue(StartNow)},
     {columnNames[18]} = {Penetrates.GetBooleanSqlValue(RunOnStart)},
     {columnNames[19]} = {Penetrates.GetBooleanSqlValue(ResetOnlyOnce)},
-    {columnNames[20]} = {Penetrates.GetNoNumberSqlValueOrNull(UpdatedTime)}
+    {columnNames[20]} = {Penetrates.GetNoNumberSqlValueOrNull(UpdatedTime.ToUnspecifiedString())}
 WHERE {columnNames[0]} = {Penetrates.GetNoNumberSqlValueOrNull(TriggerId)} AND {columnNames[1]} = {Penetrates.GetNoNumberSqlValueOrNull(JobId)};";
     }
 
@@ -521,10 +521,10 @@ WHERE {columnNames[0]} = {Penetrates.GetNoNumberSqlValueOrNull(TriggerId)} AND {
             writer.WriteString(Penetrates.GetNaming(nameof(Args), naming), Args);
             writer.WriteString(Penetrates.GetNaming(nameof(Description), naming), Description);
             writer.WriteNumber(Penetrates.GetNaming(nameof(Status), naming), (int)Status);
-            writer.WriteString(Penetrates.GetNaming(nameof(StartTime), naming), StartTime?.ToString("o"));
-            writer.WriteString(Penetrates.GetNaming(nameof(EndTime), naming), EndTime?.ToString("o"));
-            writer.WriteString(Penetrates.GetNaming(nameof(LastRunTime), naming), LastRunTime?.ToString("o"));
-            writer.WriteString(Penetrates.GetNaming(nameof(NextRunTime), naming), NextRunTime?.ToString("o"));
+            writer.WriteString(Penetrates.GetNaming(nameof(StartTime), naming), StartTime.ToUnspecifiedString());
+            writer.WriteString(Penetrates.GetNaming(nameof(EndTime), naming), EndTime.ToUnspecifiedString());
+            writer.WriteString(Penetrates.GetNaming(nameof(LastRunTime), naming), LastRunTime.ToUnspecifiedString());
+            writer.WriteString(Penetrates.GetNaming(nameof(NextRunTime), naming), NextRunTime.ToUnspecifiedString());
             writer.WriteNumber(Penetrates.GetNaming(nameof(NumberOfRuns), naming), NumberOfRuns);
             writer.WriteNumber(Penetrates.GetNaming(nameof(MaxNumberOfRuns), naming), MaxNumberOfRuns);
             writer.WriteNumber(Penetrates.GetNaming(nameof(NumberOfErrors), naming), NumberOfErrors);
@@ -534,7 +534,7 @@ WHERE {columnNames[0]} = {Penetrates.GetNoNumberSqlValueOrNull(TriggerId)} AND {
             writer.WriteBoolean(Penetrates.GetNaming(nameof(StartNow), naming), StartNow);
             writer.WriteBoolean(Penetrates.GetNaming(nameof(RunOnStart), naming), RunOnStart);
             writer.WriteBoolean(Penetrates.GetNaming(nameof(ResetOnlyOnce), naming), ResetOnlyOnce);
-            writer.WriteString(Penetrates.GetNaming(nameof(UpdatedTime), naming), UpdatedTime?.ToString("o"));
+            writer.WriteString(Penetrates.GetNaming(nameof(UpdatedTime), naming), UpdatedTime.ToUnspecifiedString());
 
             writer.WriteEndObject();
         });
@@ -556,10 +556,10 @@ WHERE {columnNames[0]} = {Penetrates.GetNoNumberSqlValueOrNull(TriggerId)} AND {
             , $"##{Penetrates.GetNaming(nameof(Args), naming)}## {Args}"
             , $"##{Penetrates.GetNaming(nameof(Description), naming)}## {Description}"
             , $"##{Penetrates.GetNaming(nameof(Status), naming)}## {Status}"
-            , $"##{Penetrates.GetNaming(nameof(StartTime), naming)}## {StartTime}"
-            , $"##{Penetrates.GetNaming(nameof(EndTime), naming)}## {EndTime}"
-            , $"##{Penetrates.GetNaming(nameof(LastRunTime), naming)}## {LastRunTime}"
-            , $"##{Penetrates.GetNaming(nameof(NextRunTime), naming)}## {NextRunTime}"
+            , $"##{Penetrates.GetNaming(nameof(StartTime), naming)}## {StartTime.ToUnspecifiedString()}"
+            , $"##{Penetrates.GetNaming(nameof(EndTime), naming)}## {EndTime.ToUnspecifiedString()}"
+            , $"##{Penetrates.GetNaming(nameof(LastRunTime), naming)}## {LastRunTime.ToUnspecifiedString()}"
+            , $"##{Penetrates.GetNaming(nameof(NextRunTime), naming)}## {NextRunTime.ToUnspecifiedString()}"
             , $"##{Penetrates.GetNaming(nameof(NumberOfRuns), naming)}## {NumberOfRuns}"
             , $"##{Penetrates.GetNaming(nameof(MaxNumberOfRuns), naming)}## {MaxNumberOfRuns}"
             , $"##{Penetrates.GetNaming(nameof(NumberOfErrors), naming)}## {NumberOfErrors}"
@@ -569,7 +569,7 @@ WHERE {columnNames[0]} = {Penetrates.GetNoNumberSqlValueOrNull(TriggerId)} AND {
             , $"##{Penetrates.GetNaming(nameof(StartNow), naming)}## {StartNow}"
             , $"##{Penetrates.GetNaming(nameof(RunOnStart), naming)}## {RunOnStart}"
             , $"##{Penetrates.GetNaming(nameof(ResetOnlyOnce), naming)}## {ResetOnlyOnce}"
-            , $"##{Penetrates.GetNaming(nameof(UpdatedTime), naming)}## {UpdatedTime}"
+            , $"##{Penetrates.GetNaming(nameof(UpdatedTime), naming)}## {UpdatedTime.ToUnspecifiedString()}"
         });
     }
 }

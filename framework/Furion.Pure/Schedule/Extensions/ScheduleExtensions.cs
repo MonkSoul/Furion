@@ -215,4 +215,37 @@ public static class ScheduleExtensions
 
         return target as TTarget;
     }
+
+    /// <summary>
+    /// 将时间输出 Unspecified 格式字符串
+    /// </summary>
+    /// <param name="dateTime"><see cref="DateTime"/></param>
+    /// <returns><see cref="string"/></returns>
+    internal static string ToUnspecifiedString(this DateTime dateTime)
+    {
+        return dateTime.ToString("yyyy-MM-dd HH:mm:ss.fff");
+    }
+
+    /// <summary>
+    /// 将时间输出 Unspecified 格式字符串
+    /// </summary>
+    /// <param name="dateTime"><see cref="DateTime"/></param>
+    /// <returns><see cref="string"/></returns>
+    internal static string ToUnspecifiedString(this DateTime? dateTime)
+    {
+        return dateTime?.ToUnspecifiedString();
+    }
+
+    /// <summary>
+    /// 字符串长度裁剪（不准确）
+    /// </summary>
+    /// <param name="str"><see cref="string"/></param>
+    /// <param name="maxLength">长度，默认值 6</param>
+    /// <returns><see cref="string"/></returns>
+    internal static string GetMaxLengthString(this string str, int maxLength = 6)
+    {
+        if (str == null) return default;
+
+        return str.Length > maxLength ? str[..maxLength] + "..." : str;
+    }
 }

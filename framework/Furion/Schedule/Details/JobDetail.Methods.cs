@@ -149,7 +149,7 @@ public partial class JobDetail
     /// <returns><see cref="string"/></returns>
     public override string ToString()
     {
-        return $"<{JobId}>{(string.IsNullOrWhiteSpace(Description) ? string.Empty : $" {Description}")} [{(Concurrent ? "C" : "S")}]";
+        return $"<{JobId}>{(string.IsNullOrWhiteSpace(Description) ? string.Empty : $" {Description.GetMaxLengthString()}")} [{(Concurrent ? "C" : "S")}]";
     }
 
     /// <summary>
@@ -251,7 +251,7 @@ VALUES(
     {Penetrates.GetBooleanSqlValue(Concurrent)},
     {Penetrates.GetBooleanSqlValue(IncludeAnnotations)},
     {Penetrates.GetNoNumberSqlValueOrNull(Properties)},
-    {Penetrates.GetNoNumberSqlValueOrNull(UpdatedTime)}
+    {Penetrates.GetNoNumberSqlValueOrNull(UpdatedTime.ToUnspecifiedString())}
 );";
     }
 
@@ -276,7 +276,7 @@ SET
     {columnNames[5]} = {Penetrates.GetBooleanSqlValue(Concurrent)},
     {columnNames[6]} = {Penetrates.GetBooleanSqlValue(IncludeAnnotations)},
     {columnNames[7]} = {Penetrates.GetNoNumberSqlValueOrNull(Properties)},
-    {columnNames[8]} = {Penetrates.GetNoNumberSqlValueOrNull(UpdatedTime)}
+    {columnNames[8]} = {Penetrates.GetNoNumberSqlValueOrNull(UpdatedTime.ToUnspecifiedString())}
 WHERE {columnNames[0]} = {Penetrates.GetNoNumberSqlValueOrNull(JobId)};";
     }
 
@@ -314,7 +314,7 @@ WHERE {columnNames[0]} = {Penetrates.GetNoNumberSqlValueOrNull(JobId)};";
             writer.WriteBoolean(Penetrates.GetNaming(nameof(Concurrent), naming), Concurrent);
             writer.WriteBoolean(Penetrates.GetNaming(nameof(IncludeAnnotations), naming), IncludeAnnotations);
             writer.WriteString(Penetrates.GetNaming(nameof(Properties), naming), Properties);
-            writer.WriteString(Penetrates.GetNaming(nameof(UpdatedTime), naming), UpdatedTime?.ToString("o"));
+            writer.WriteString(Penetrates.GetNaming(nameof(UpdatedTime), naming), UpdatedTime.ToUnspecifiedString());
 
             writer.WriteEndObject();
         });
@@ -337,7 +337,7 @@ WHERE {columnNames[0]} = {Penetrates.GetNoNumberSqlValueOrNull(JobId)};";
             , $"##{Penetrates.GetNaming(nameof(Concurrent), naming)}## {Concurrent}"
             , $"##{Penetrates.GetNaming(nameof(IncludeAnnotations), naming)}## {IncludeAnnotations}"
             , $"##{Penetrates.GetNaming(nameof(Properties), naming)}## {Properties}"
-            , $"##{Penetrates.GetNaming(nameof(UpdatedTime), naming)}## {UpdatedTime}"
+            , $"##{Penetrates.GetNaming(nameof(UpdatedTime), naming)}## {UpdatedTime.ToUnspecifiedString()}"
         });
     }
 }

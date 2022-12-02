@@ -111,7 +111,14 @@ public static class Serve
         return Run(GenericRunOptions.Default
              .WithArgs(args)
              .Silence(silence, logging)
-             .ConfigureServices(additional));
+             .ConfigureServices(services =>
+             {
+                 // 控制台日志美化
+                 services.AddConsoleFormatter();
+
+                 // 调用自定义配置
+                 additional?.Invoke(services);
+             }));
     }
 
     /// <summary>

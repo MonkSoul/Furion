@@ -43,6 +43,6 @@ public sealed class PeriodMinutesTrigger : PeriodTrigger
     /// <returns><see cref="string"/></returns>
     public override string ToString()
     {
-        return $"<{JobId} {TriggerId}> {Interval / (1000 * 60)}m{(string.IsNullOrWhiteSpace(Description) ? string.Empty : $" {Description}")} {NumberOfRuns}ts";
+        return $"<{JobId} {TriggerId}> {Interval / (1000 * 60)}m{(string.IsNullOrWhiteSpace(Description) ? string.Empty : $" {Description.GetMaxLengthString()}")} {NumberOfRuns}ts";
     }
 }
