@@ -265,6 +265,12 @@ warn: 2022-12-02 17:23:32.0243646 +08:00 星期五 L System.Logging.ScheduleServ
       12/02/2022 17:23:32: The <job1_trigger1> trigger of job <job1> failed to execute as scheduled due to blocking.
 ```
 
+:::caution `串行` 执行规则说明
+
+`串行` 执行如果遇到上一次作业还未完成那么它会等到下一次触发时间到了再执行，以此重复。
+
+:::
+
 默认情况下，使用 `串行` 执行但因为耗时导致**触发时间到了但实际未能执行**会默认输出 `warn` 警告日志，如需关闭只需要：
 
 ```cs showLineNumbers {3}
@@ -814,17 +820,17 @@ var jobBuilder = JobBuilder.Clone(fromJobBuilder);
 
 :::important 克隆说明
 
-克隆操作只会克隆 `AssemblyName`，`JobType`，`GroupName`，`Description`，`Concurrent`，`IncludeAnnotations`，`Properties`。
+克隆操作只会克隆 `AssemblyName`，`JobType`，`GroupName`，`Description`，`Concurrent`，`IncludeAnnotations`，`Properties`，`DynamicExecuteAsync`（动态作业）。
 
-**不会克隆 `JobId`，`UpdatedTime`。**
+- **不会克隆 `JobId`，`UpdatedTime`。**
 
 :::
 
 5. **还可以通过 `LoadFrom` 实例方法填充当前的 `JobBuilder`**
 
-比如可以传递匿名类型，类类型：
+比如可以传递匿名类型，类类型，字典 `Dictionary<string, object>` 类型：
 
-```cs showLineNumbers {2,9,14}
+```cs showLineNumbers {2,9,14,17,22,25}
 // 会覆盖所有相同的值
 jobBuilder.LoadFrom(new
 {
@@ -839,6 +845,22 @@ jobBuilder.LoadFrom(new
       Concurrent = false,
       IncludeAnnotations = default(object)      // 会跳过赋值
 }, ignoreNullValue: true);
+
+// 支持忽略特定属性名映射
+jobBuilder.LoadFrom(new
+{
+      Description = "我是另外一个描述",
+      Concurrent = false,
+      IncludeAnnotations = default(object)      // 会跳过赋值
+}, ignorePropertyNames: new[]{ "description" });
+
+// 支持字典类型
+jobBuilder.LoadFrom(new Dictionary<string, object>
+{
+      {"Description", "这是新的描述" },
+      {"include_annotations", false },
+      {"updatedTime", DateTime.Now }
+})
 ```
 
 :::important 关于属性名匹配规则
@@ -865,8 +887,8 @@ services.AddSchedule(options =>
         .SetIncludeAnnotations(true)    // 是否扫描 IJob 类型的触发器特性，true 为 扫描
         .SetProperties("{}")    // 作业额外数据 Dictionary<string, object> 类型序列化，支持多个重载
         .SetProperties(new Dictionary<string, object> { { "name", "Furion" } })  // 作业类型额外数据，支持多个重载，推荐！！！
-        .SetDynamicHandler((s, c, t) => {
-            s.Logger().LogInformation($"{c}");
+        .SetDynamicExecuteAsync((serviceProvider, context, stoppingToken) => {
+            serviceProvider.GetLogger().LogInformation($"{context}");
             return Task.CompletedTask;
         })  // 动态委托处理程序
         ;
@@ -877,7 +899,7 @@ services.AddSchedule(options =>
 
 ### 26.1.3.4 作业信息/构建器额外数据
 
-有时候我们需要在作业运行的时候添加一些额外数据，或者实现多个触发器共享数据，经常用于 `串行` 执行中，后面一个触发器需等待前一个触发器完成。
+有时候我们需要在作业运行的时候添加一些额外数据，或者实现多个触发器共享数据，经常用于 `串行` 执行中（`并行` 也同样工作），后面一个触发器需等待前一个触发器完成。
 
 ```cs showLineNumbers {13-14,16}
 public class MyJob : IJob

@@ -131,7 +131,8 @@ public sealed class JobBuilder : JobDetail
                      .SetDescription(fromJobBuilder.Description)
                      .SetConcurrent(fromJobBuilder.Concurrent)
                      .SetIncludeAnnotations(fromJobBuilder.IncludeAnnotations)
-                     .SetProperties(fromJobBuilder.Properties);
+                     .SetProperties(fromJobBuilder.Properties)
+                     .SetDynamicExecuteAsync(fromJobBuilder.DynamicExecuteAsync);
     }
 
     /// <summary>
@@ -139,8 +140,9 @@ public sealed class JobBuilder : JobDetail
     /// </summary>
     /// <param name="value">目标值</param>
     /// <param name="ignoreNullValue">忽略空值</param>
+    /// <param name="ignorePropertyNames">忽略属性名</param>
     /// <returns><see cref="JobBuilder"/></returns>
-    public JobBuilder LoadFrom(object value, bool ignoreNullValue = false)
+    public JobBuilder LoadFrom(object value, bool ignoreNullValue = false, string[] ignorePropertyNames = default)
     {
         if (value == null) return this;
 
@@ -151,7 +153,7 @@ public sealed class JobBuilder : JobDetail
             || valueType.IsEnum
             || valueType.IsArray) throw new InvalidOperationException(nameof(value));
 
-        var jobBuilder = value.MapTo<JobBuilder>(this, ignoreNullValue);
+        var jobBuilder = value.MapTo<JobBuilder>(this, ignoreNullValue, ignorePropertyNames);
 
         // 初始化运行时作业类型和额外数据
         jobBuilder.SetJobType(jobBuilder.AssemblyName, jobBuilder.JobType)

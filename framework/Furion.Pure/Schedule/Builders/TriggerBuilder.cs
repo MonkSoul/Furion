@@ -224,8 +224,9 @@ public sealed class TriggerBuilder : Trigger
     /// </summary>
     /// <param name="value">目标值</param>
     /// <param name="ignoreNullValue">忽略空值</param>
+    /// <param name="ignorePropertyNames">忽略属性名</param>
     /// <returns><see cref="TriggerBuilder"/></returns>
-    public TriggerBuilder LoadFrom(object value, bool ignoreNullValue = false)
+    public TriggerBuilder LoadFrom(object value, bool ignoreNullValue = false, string[] ignorePropertyNames = default)
     {
         if (value == null) return this;
 
@@ -236,7 +237,7 @@ public sealed class TriggerBuilder : Trigger
             || valueType.IsEnum
             || valueType.IsArray) throw new InvalidOperationException(nameof(value));
 
-        var triggerBuilder = value.MapTo<TriggerBuilder>(this, ignoreNullValue);
+        var triggerBuilder = value.MapTo<TriggerBuilder>(this, ignoreNullValue, ignorePropertyNames);
 
         // 初始化运行时作业触发器类型和参数
         triggerBuilder.SetTriggerType(triggerBuilder.AssemblyName, triggerBuilder.TriggerType)

@@ -145,15 +145,6 @@ public sealed class SchedulerBuilder
     }
 
     /// <summary>
-    /// 获取作业计划构建器
-    /// </summary>
-    /// <returns><see cref="SchedulerBuilder"/></returns>
-    public SchedulerBuilder GetBuilder()
-    {
-        return this;
-    }
-
-    /// <summary>
     /// 获取作业信息构建器
     /// </summary>
     /// <returns><see cref="JobBuilder"/></returns>

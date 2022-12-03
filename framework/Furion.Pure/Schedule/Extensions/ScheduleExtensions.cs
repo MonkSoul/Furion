@@ -159,14 +159,20 @@ public static class ScheduleExtensions
         var constructors = targetType.GetConstructors(bindFlags);
         target ??= constructors.Length == 0 ? Activator.CreateInstance<TTarget>() : constructors[0].Invoke(null);
 
+        // 获取目标类型所有属性
         var targetProperties = targetType.GetProperties(bindFlags);
+
+        // 支持对象和 Dictionary<string, object> 类型
+        var sourcePropertyValues = source is Dictionary<string, object> sourceDic
+            ? sourceDic
+            : sourceType.GetProperties(bindFlags)
+                        .ToDictionary(u => u.Name, u => u.GetValue(source));
 
         // 遍历实例属性并设置
         foreach (var property in targetProperties)
         {
-            var propertyName = property.Name;
-
             // 多种属性命名解析
+            var propertyName = property.Name;
             var camelCasePropertyName = Penetrates.GetNaming(propertyName, NamingConventions.CamelCase);
             var pascalPropertyName = Penetrates.GetNaming(propertyName, NamingConventions.Pascal);
             var underScoreCasePropertyName = Penetrates.GetNaming(propertyName, NamingConventions.UnderScoreCase);
@@ -183,29 +189,13 @@ public static class ScheduleExtensions
                 }
             }
 
-            // 下面代码使用 ”套娃“ 方式~~
-            var sourceProperty = sourceType.GetProperty(propertyName, bindFlags);
-            if (sourceProperty == null)
-            {
-                // 查找 CamelCase 属性命名
-                sourceProperty = sourceType.GetProperty(camelCasePropertyName, bindFlags);
-                if (sourceProperty == null)
-                {
-                    // 查找 Pascal 属性命名
-                    sourceProperty = sourceType.GetProperty(pascalPropertyName, bindFlags);
-                    if (sourceProperty == null)
-                    {
-                        // 查找 UnderScoreCase 属性命名
-                        sourceProperty = sourceType.GetProperty(underScoreCasePropertyName, bindFlags);
-                        if (sourceProperty == null)
-                        {
-                            continue;
-                        }
-                    }
-                }
-            }
-
-            var value = sourceProperty.GetValue(source);
+            // 穷举方式获取值
+            object value;
+            if (sourcePropertyValues.ContainsKey(propertyName)) value = sourcePropertyValues[propertyName];
+            else if (sourcePropertyValues.ContainsKey(camelCasePropertyName)) value = sourcePropertyValues[camelCasePropertyName];
+            else if (sourcePropertyValues.ContainsKey(pascalPropertyName)) value = sourcePropertyValues[pascalPropertyName];
+            else if (sourcePropertyValues.ContainsKey(underScoreCasePropertyName)) value = sourcePropertyValues[underScoreCasePropertyName];
+            else continue;
 
             // 忽略空值控制
             if (ignoreNullValue && value == null) continue;
