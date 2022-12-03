@@ -26,7 +26,7 @@ namespace Furion.Schedule;
 /// 特定秒开始作业触发器特性
 /// </summary>
 [SecondlyAtAttribute, AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
-public sealed class SecondlyAtAttribute : MacroAtAttribute
+public sealed class SecondlyAtAttribute : CronAttribute
 {
     /// <summary>
     /// 构造函数

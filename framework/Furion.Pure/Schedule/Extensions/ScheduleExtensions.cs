@@ -79,7 +79,7 @@ public static class ScheduleExtensions
         // 扫描触发器构建器
         var triggerBuilders = jobType.ScanTriggers();
 
-        // 检查类型是否贴有 [JobBuilder] 特性
+        // 检查类型是否贴有 [JobDetail] 特性
         if (!jobType.IsDefined(typeof(JobDetailAttribute), true))
         {
             return SchedulerBuilder.Create(JobBuilder.Create(jobType), triggerBuilders);

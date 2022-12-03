@@ -170,7 +170,7 @@ info: 2022-12-02 17:15:46.0100813 +08:00 星期五 L MyJob[0] #13
 services.AddSchedule(options =>
 {
     options.AddJob<MyJob>(Triggers.Minutely()   // 每分钟开始
-     , Triggers.Period(5000)   // 每 5 秒，也可以使用 Triggers.PeriodSeconds(5)，也可以使用 Triggers.PeriodMinutes(5) 表示 5 分钟一次
+     , Triggers.Period(5000)   // 每 5 秒，还支持 Triggers.PeriodSeconds(5)，Triggers.PeriodMinutes(5)，Triggers.PeriodHours(5)
      , Triggers.Cron("3,7,8 * * * * ?", CronStringFormat.WithSeconds));  // 每分钟第 3/7/8 秒
 });
 ```
@@ -890,7 +890,7 @@ services.AddSchedule(options =>
         .SetDynamicExecuteAsync((serviceProvider, context, stoppingToken) => {
             serviceProvider.GetLogger().LogInformation($"{context}");
             return Task.CompletedTask;
-        })  // 动态委托处理程序
+        })  // 动态委托处理程序，一旦设置了此委托，那么优先级将大于 MyJob 的 ExecuteAsync
         ;
 
     options.AddJob(jobBuilder, Triggers.PeriodSeconds(5));
@@ -917,7 +917,7 @@ public class MyJob : IJob
         var count = jobDetail.GetProperty<int>("count");
         jobDetail.AddOrUpdateProperty("count", count + 1);  // 递增 count
 
-        _logger.LogInformation($"{context.JobId} {context.TriggerId} {context.OccurrenceTime} {context.Trigger} {count}");
+        _logger.LogInformation($"count: {count} {context}");
 
         await Task.CompletedTask;
     }
@@ -926,22 +926,30 @@ public class MyJob : IJob
 
 查看作业运行日志：
 
-```bash showLineNumbers {2,4,6,8,10}
-info: 2022-11-18 16:48:35.8308170 +08:00 星期五 L ConsoleApp32.MyJob[0] #5
-      job1 job1_trigger1 2022/11/18 16:48:35  5000ms 0
-info: 2022-11-18 16:48:40.8437231 +08:00 星期五 L ConsoleApp32.MyJob[0] #8
-      job1 job1_trigger1 2022/11/18 16:48:40  5000ms 1
-info: 2022-11-18 16:48:45.8471287 +08:00 星期五 L ConsoleApp32.MyJob[0] #15
-      job1 job1_trigger1 2022/11/18 16:48:45  5000ms 2
-info: 2022-11-18 16:48:50.8607141 +08:00 星期五 L ConsoleApp32.MyJob[0] #15
-      job1 job1_trigger1 2022/11/18 16:48:50  5000ms 3
-info: 2022-11-18 16:48:55.8645520 +08:00 星期五 L ConsoleApp32.MyJob[0] #14
-      job1 job1_trigger1 2022/11/18 16:48:55  5000ms 4
+```bash showLineNumbers {12,14,16,18}
+info: 2022-12-03 23:16:46.5150228 +08:00 星期六 L System.Logging.ScheduleService[0] #1
+      Schedule hosted service is running.
+info: 2022-12-03 23:16:46.5197497 +08:00 星期六 L System.Logging.ScheduleService[0] #1
+      Schedule hosted service is preloading......
+info: 2022-12-03 23:16:46.6987703 +08:00 星期六 L System.Logging.ScheduleService[0] #1
+      The <job1_trigger1> trigger for scheduler of <job1> successfully appended to the schedule.
+info: 2022-12-03 23:16:46.7003295 +08:00 星期六 L System.Logging.ScheduleService[0] #1
+      The scheduler of <job1> successfully appended to the schedule.
+warn: 2022-12-03 23:16:46.7248216 +08:00 星期六 L System.Logging.ScheduleService[0] #1
+      Schedule hosted service preload completed, and a total of <1> schedulers are appended.
+info: 2022-12-03 23:16:51.7013640 +08:00 星期六 L MyJob[0] #8
+      count: 0 <job1> [C] <job1 job1_trigger1> 5s 1ts 2022-12-03 23:16:51.663 -> 2022-12-03 23:16:56.656
+info: 2022-12-03 23:16:56.6768044 +08:00 星期六 L MyJob[0] #9
+      count: 1 <job1> [C] <job1 job1_trigger1> 5s 2ts 2022-12-03 23:16:56.656 -> 2022-12-03 23:17:01.635
+info: 2022-12-03 23:17:01.6454604 +08:00 星期六 L MyJob[0] #8
+      count: 2 <job1> [C] <job1 job1_trigger1> 5s 3ts 2022-12-03 23:17:01.635 -> 2022-12-03 23:17:06.608
+info: 2022-12-03 23:17:06.6247917 +08:00 星期六 L MyJob[0] #6
+      count: 3 <job1> [C] <job1 job1_trigger1> 5s 4ts 2022-12-03 23:17:06.608 -> 2022-12-03 23:17:11.586
 ```
 
 作业调度模块为 `JobDetail` 和 `JobBuilder` 提供了多个方法操作额外数据：
 
-```cs showLineNumbers {2,5,8,11,14,17,20}
+```cs showLineNumbers {2,5,8,11,14,17,20,23}
 // 查看所有额外数据
 var properties = jobDetail.GetProperties();
 
@@ -956,6 +964,9 @@ jobDetail.AddProperty("key", "Furion").AddProperty("key1", 2);
 
 // 添加或更新额外数据，支持链式操作，不存在则新增，存在则替换，推荐
 jobDetail.AddOrUpdateProperty("key", "Furion").AddOrUpdateProperty("key1", 2);
+
+// 还可以通过委托的方式：如果键不存在则插入 count = newValue，否则更新为 value（旧值）+1
+jobDetail.AddOrUpdateProperty("count", newValue, value => value + 1);
 
 // 删除某个额外数据，支持链式操作，如果 key 不存在则跳过
 jobDetail.RemoveProperty("key").RemoveProperty("key1");

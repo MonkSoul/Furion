@@ -61,6 +61,16 @@ public static class Triggers
     }
 
     /// <summary>
+    /// 创建小时周期（间隔）作业触发器构建器
+    /// </summary>
+    /// <param name="interval">间隔（小时）</param>
+    /// <returns><see cref="TriggerBuilder"/></returns>
+    public static TriggerBuilder PeriodHours(int interval)
+    {
+        return TriggerBuilder.PeriodHours(interval);
+    }
+
+    /// <summary>
     /// 创建 Cron 表达式作业触发器构建器
     /// </summary>
     /// <param name="schedule">Cron 表达式</param>
@@ -72,14 +82,14 @@ public static class Triggers
     }
 
     /// <summary>
-    /// 创建 Cron 表达式 Macro 作业触发器构建器
+    /// 创建 Cron 表达式作业触发器构建器
     /// </summary>
-    /// <param name="macro">Macro 符号</param>
-    /// <param name="fields">字段值</param>
+    /// <param name="schedule">Cron 表达式</param>
+    /// <param name="args">动态参数类型，支持 <see cref="int"/> 和 object[]</param>
     /// <returns><see cref="TriggerBuilder"/></returns>
-    public static TriggerBuilder MacroAt(string macro, params object[] fields)
+    internal static TriggerBuilder Cron(string schedule, object args)
     {
-        return TriggerBuilder.MacroAt(macro, fields);
+        return TriggerBuilder.Cron(schedule, args);
     }
 
     /// <summary>
@@ -205,7 +215,7 @@ public static class Triggers
     /// <returns><see cref="TriggerBuilder"/></returns>
     public static TriggerBuilder SecondlyAt(params object[] fields)
     {
-        return MacroAt("@secondly", fields);
+        return Cron("@secondly", fields);
     }
 
     /// <summary>
@@ -224,7 +234,7 @@ public static class Triggers
     /// <returns><see cref="TriggerBuilder"/></returns>
     public static TriggerBuilder MinutelyAt(params object[] fields)
     {
-        return MacroAt("@minutely", fields);
+        return Cron("@minutely", fields);
     }
 
     /// <summary>
@@ -243,7 +253,7 @@ public static class Triggers
     /// <returns><see cref="TriggerBuilder"/></returns>
     public static TriggerBuilder HourlyAt(params object[] fields)
     {
-        return MacroAt("@hourly", fields);
+        return Cron("@hourly", fields);
     }
 
     /// <summary>
@@ -262,7 +272,7 @@ public static class Triggers
     /// <returns><see cref="TriggerBuilder"/></returns>
     public static TriggerBuilder DailyAt(params object[] fields)
     {
-        return MacroAt("@daily", fields);
+        return Cron("@daily", fields);
     }
 
     /// <summary>
@@ -281,7 +291,7 @@ public static class Triggers
     /// <returns><see cref="TriggerBuilder"/></returns>
     public static TriggerBuilder MonthlyAt(params object[] fields)
     {
-        return MacroAt("@monthly", fields);
+        return Cron("@monthly", fields);
     }
 
     /// <summary>
@@ -300,7 +310,7 @@ public static class Triggers
     /// <returns><see cref="TriggerBuilder"/></returns>
     public static TriggerBuilder WeeklyAt(params object[] fields)
     {
-        return MacroAt("@weekly", fields);
+        return Cron("@weekly", fields);
     }
 
     /// <summary>
@@ -319,7 +329,7 @@ public static class Triggers
     /// <returns><see cref="TriggerBuilder"/></returns>
     public static TriggerBuilder YearlyAt(params object[] fields)
     {
-        return MacroAt("@yearly", fields);
+        return Cron("@yearly", fields);
     }
 
     /// <summary>

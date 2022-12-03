@@ -177,8 +177,11 @@ internal sealed partial class SchedulerFactory
             newScheduler.UseUtcTimestamp = UseUtcTimestamp;
             newScheduler.Logger = _logger;
 
-            // 实例化作业处理程序
-            var runtimeJobType = newScheduler.JobDetail.RuntimeJobType;
+            // 实例化作业处理程序，如果设置了动态委托作业，优先使用
+            var runtimeJobType = newScheduler.JobDetail.DynamicExecuteAsync == null
+                ? newScheduler.JobDetail.RuntimeJobType
+                : typeof(DynamicJob);
+
             if (runtimeJobType != null)
             {
                 newScheduler.JobHandler = null;    // 释放引用

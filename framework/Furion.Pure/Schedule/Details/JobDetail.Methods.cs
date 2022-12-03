@@ -88,15 +88,21 @@ public partial class JobDetail
     /// 添加或更新作业信息额外数据
     /// </summary>
     /// <param name="key">键</param>
-    /// <param name="value">值</param>
+    /// <param name="newValue">新值</param>
+    /// <param name="updateAction">更新委托，如果传递了该参数，那么键存在使则使用该参数的返回值</param>
     /// <returns><see cref="JobDetail"/></returns>
-    public JobDetail AddOrUpdateProperty(string key, object value)
+    public JobDetail AddOrUpdateProperty<T>(string key, T newValue, Func<T, object> updateAction = default)
     {
         // 空检查
         if (string.IsNullOrWhiteSpace(key)) throw new ArgumentNullException(nameof(key));
 
-        if (RuntimeProperties.ContainsKey(key)) RuntimeProperties[key] = value;
-        else RuntimeProperties.TryAdd(key, value);
+        if (RuntimeProperties.ContainsKey(key))
+        {
+            RuntimeProperties[key] = updateAction == null
+                ? newValue
+                : updateAction((T)RuntimeProperties[key]);
+        }
+        else RuntimeProperties.TryAdd(key, newValue);
 
         Properties = Penetrates.Serialize(RuntimeProperties);
 

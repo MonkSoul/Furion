@@ -34,10 +34,25 @@ public class CronTrigger : Trigger
     /// 构造函数
     /// </summary>
     /// <param name="schedule">Cron 表达式</param>
-    /// <param name="format">Cron 表达式格式化类型</param>
-    public CronTrigger(string schedule, int format)
+    /// <param name="args">动态参数类型，支持 <see cref="int"/>，<see cref="CronStringFormat"/> 和 object[]</param>
+    public CronTrigger(string schedule, object args)
     {
-        Crontab = Crontab.Parse(schedule, (CronStringFormat)format);
+        // 处理 int 转 CronStringFormat
+        if (args is int formatValue)
+        {
+            Crontab = Crontab.Parse(schedule, (CronStringFormat)formatValue);
+        }
+        // 处理 CronStringFormat
+        if (args is CronStringFormat format)
+        {
+            Crontab = Crontab.Parse(schedule, format);
+        }
+        // 处理 Macro At
+        else if (args is object[] fields)
+        {
+            Crontab = Crontab.ParseAt(schedule, fields);
+        }
+        else throw new NotImplementedException();
     }
 
     /// <summary>

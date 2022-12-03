@@ -26,7 +26,7 @@ namespace Furion.Schedule;
 /// 每天特定小时开始作业触发器特性
 /// </summary>
 [SuppressSniffer, AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
-public sealed class DailyAtAttribute : MacroAtAttribute
+public sealed class DailyAtAttribute : CronAttribute
 {
     /// <summary>
     /// 构造函数
