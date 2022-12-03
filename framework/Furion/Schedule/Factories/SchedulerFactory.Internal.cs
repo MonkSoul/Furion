@@ -123,15 +123,26 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory
         // 装载初始作业计划
         var initialSchedulerBuilders = _schedulerBuilders.Concat(Persistence?.Preload() ?? Array.Empty<SchedulerBuilder>());
 
+        // 标记是否初始化成功
+        var preloadSucceed = true;
+
         // 如果作业调度器中包含作业计划构建器
         if (initialSchedulerBuilders.Any())
         {
-            // 逐条遍历并新增到内存中
-            foreach (var schedulerBuilder in initialSchedulerBuilders)
+            try
             {
-                _ = TrySaveJob(Persistence?.OnLoading(schedulerBuilder) ?? schedulerBuilder
-                    , out _
-                    , false);
+                // 逐条遍历并新增到内存中
+                foreach (var schedulerBuilder in initialSchedulerBuilders)
+                {
+                    _ = TrySaveJob(Persistence?.OnLoading(schedulerBuilder) ?? schedulerBuilder
+                        , out _
+                        , false);
+                }
+            }
+            catch (Exception ex)
+            {
+                preloadSucceed = false;
+                _logger.LogError(ex, "Schedule hosted service preload failed, and a total of <0> schedulers are appended.");
             }
         }
 
@@ -143,7 +154,7 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory
         GC.Collect();
 
         // 输出作业调度器初始化日志
-        _logger.LogWarning("Schedule hosted service preload completed, and a total of <{Count}> schedulers are appended.", _schedulers.Count);
+        if (preloadSucceed) _logger.LogWarning("Schedule hosted service preload completed, and a total of <{Count}> schedulers are appended.", _schedulers.Count);
     }
 
     /// <summary>
