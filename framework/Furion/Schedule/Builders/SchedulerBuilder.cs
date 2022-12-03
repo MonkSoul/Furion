@@ -20,6 +20,8 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+using System.Reflection;
+
 namespace Furion.Schedule;
 
 /// <summary>
@@ -94,8 +96,15 @@ public sealed class SchedulerBuilder
         }
 
         // 判断是否扫描 IJob 实现类 [Trigger] 特性触发器
-        if (jobBuilder.IncludeAnnotations)
+        if (jobBuilder.IncludeAnnotations && jobBuilder.RuntimeJobType != null)
         {
+            // 检查类型是否贴有 [JobDetail] 特性
+            if (jobBuilder.RuntimeJobType.IsDefined(typeof(JobDetailAttribute), true))
+            {
+                // 这里加载之后忽略空值
+                jobBuilder.LoadFrom(jobBuilder.RuntimeJobType.GetCustomAttribute<JobDetailAttribute>(true), true);
+            }
+
             schedulerBuilder.TriggerBuilders.AddRange(jobBuilder.RuntimeJobType.ScanTriggers());
         }
 
