@@ -1064,13 +1064,13 @@ var json = jobDetail.ConvertToJSON();
 {
   "jobId": "job1",
   "groupName": null,
-  "jobType": "Furion.Application.MyJob",
-  "assemblyName": "Furion.Application",
+  "jobType": "MyJob",
+  "assemblyName": "ConsoleApp13",
   "description": null,
   "concurrent": true,
   "includeAnnotations": false,
   "properties": "{}",
-  "updatedTime": "2022-11-18T22:56:47.4149299+08:00"
+  "updatedTime": "2022-12-04 11:51:00.483"
 }
 ```
 
@@ -1101,48 +1101,46 @@ var updateSql = jobDetail.ConvertToUpdateSQL("tbName", NamingConventions.UnderSc
 
 字符串打印如下：
 
-```sql showLineNumbers {2,26,30}
+```sql showLineNumbers {2,25,28}
 -- 新增语句
 INSERT INTO tbName(
-      [jobId],
-      [groupName],
-      [jobType],
-      [assemblyName],
-      [description],
-      [concurrent],
-      [includeAnnotations],
-      [properties],
-      [updatedTime]
+      jobId,
+      groupName,
+      jobType,
+      assemblyName,
+      description,
+      concurrent,
+      includeAnnotations,
+      properties,
+      updatedTime
 )
 VALUES(
       'job1',
       NULL,
-      'ConsoleApp13.MyJob',
+      'MyJob',
       'ConsoleApp13',
       NULL,
       1,
       0,
       '{}',
-      '2022/11/18 23:16:18'
+      '2022-12-04 11:53:05.489'
 );
-
 -- 删除语句
 DELETE FROM tbName
-WHERE [JobId] = 'job1';
-
+WHERE JobId = 'job1';
 -- 更新语句
 UPDATE tbName
 SET
-      [job_id] = 'job1',
-      [group_name] = NULL,
-      [job_type] = 'ConsoleApp13.MyJob',
-      [assembly_name] = 'ConsoleApp13',
-      [description] = NULL,
-      [concurrent] = 1,
-      [include_annotations] = 0,
-      [properties] = '{}',
-      [updated_time] = '2022/11/18 23:16:18'
-WHERE [job_id] = 'job1';
+      job_id = 'job1',
+      group_name = NULL,
+      job_type = 'MyJob',
+      assembly_name = 'ConsoleApp13',
+      description = NULL,
+      concurrent = 1,
+      include_annotations = 0,
+      properties = '{}',
+      updated_time = '2022-12-04 11:53:05.489'
+WHERE job_id = 'job1';
 ```
 
 3. **转换成 `Monitor` 字符串**
@@ -1155,17 +1153,17 @@ var monitor = jobDetail.ConvertToMonitor();
 
 ```bash showLineNumbers
 ┏━━━━━━━━━━━  JobDetail ━━━━━━━━━━━
-┣ ConsoleApp13.MyJob
+┣ MyJob
 ┣
 ┣ jobId：                     job1
 ┣ groupName：
-┣ jobType：                   Furion.Application.MyJob
-┣ assemblyName：              Furion.Application
+┣ jobType：                   MyJob
+┣ assemblyName：              ConsoleApp13
 ┣ description：
 ┣ concurrent：                True
 ┣ includeAnnotations：        False
 ┣ properties：                {}
-┣ updatedTime：               2022/11/18 23:26:47
+┣ updatedTime：               2022-12-04 11:55:11.186
 ┗━━━━━━━━━━━  JobDetail ━━━━━━━━━━━
 ```
 
@@ -1175,8 +1173,10 @@ var monitor = jobDetail.ConvertToMonitor();
 var str = jobDetail.ToString();
 ```
 
+字符串打印如下：
+
 ```bash showLineNumbers
-<job1> 这是一段描述
+<job1> 这是一段描述 [C]
 ```
 
 ### 26.1.3.7 自定义 `SQL` 输出配置
@@ -1217,10 +1217,10 @@ services.AddSchedule(options =>
   - `tableName`：数据库表名称，`string` 类型
   - `columnNames`：数据库列名：`string[]` 类型，只能通过 `索引` 获取
   - `jobDetail`：作业信息 `JobDetail` 对象
-  - `behavior`：持久化 `PersistenceBehavior` 类型，用于标记新增，更新还是删除操作
+  - `behavior`：持久化 `PersistenceBehavior` 类型，用于标记 `新增`，`更新`还是 `删除` 操作
   - `naming`：命名法 `NamingConventions` 类型，包含 `CamelCase（驼峰命名法）`，`Pascal（帕斯卡命名法）` 和 `UnderScoreCase（下划线命名法）`
 
-:::important 注意事项
+:::caution 注意事项
 
 如果在该委托方法中调用 `jobDetail.ConvertToSQL(..)` 方法会导致死循环。
 
