@@ -1217,12 +1217,12 @@ services.AddSchedule(options =>
   - `tableName`：数据库表名称，`string` 类型
   - `columnNames`：数据库列名：`string[]` 类型，只能通过 `索引` 获取
   - `jobDetail`：作业信息 `JobDetail` 对象
-  - `behavior`：持久化 `PersistenceBehavior` 类型，用于标记 `新增`，`更新`还是 `删除` 操作
+  - `behavior`：持久化 `PersistenceBehavior` 类型，用于标记 `新增`，`更新` 还是 `删除` 操作
   - `naming`：命名法 `NamingConventions` 类型，包含 `CamelCase（驼峰命名法）`，`Pascal（帕斯卡命名法）` 和 `UnderScoreCase（下划线命名法）`
 
 :::caution 注意事项
 
-如果在该委托方法中调用 `jobDetail.ConvertToSQL(..)` 方法会导致死循环。
+如果在该自定义 `SQL` 输出方法中调用 `jobDetail.ConvertToSQL(..)` 会导致死循环。
 
 :::
 
