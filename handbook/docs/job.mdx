@@ -2315,31 +2315,31 @@ public class MyJob : IJob
 });
 ```
 
-查看作业初始化日志：
+查看作业调度器初始化日志：
 
 ```cs showLineNumbers {6,8,10,16,18}
-info: 2022-12-04 18:12:18.2994443 +08:00 星期日 L System.Logging.ScheduleService[0] #1
+info: 2022-12-04 18:29:22.3997873 +08:00 星期日 L System.Logging.ScheduleService[0] #1
       Schedule hosted service is running.
-info: 2022-12-04 18:12:18.4270065 +08:00 星期日 L System.Logging.ScheduleService[0] #1
+info: 2022-12-04 18:29:22.4045304 +08:00 星期日 L System.Logging.ScheduleService[0] #1
       Schedule hosted service is preloading...
-info: 2022-12-04 18:12:18.6856015 +08:00 星期日 L System.Logging.ScheduleService[0] #1
+info: 2022-12-04 18:29:22.5473237 +08:00 星期日 L System.Logging.ScheduleService[0] #1
       The <trigger3> trigger for scheduler of <job1> successfully removed to the schedule.
-info: 2022-12-04 18:12:18.7046120 +08:00 星期日 L System.Logging.ScheduleService[0] #1
+info: 2022-12-04 18:29:22.5504289 +08:00 星期日 L System.Logging.ScheduleService[0] #1
       The <trigger1> trigger for scheduler of <job1> successfully appended to the schedule.
-info: 2022-12-04 18:12:18.7103519 +08:00 星期日 L System.Logging.ScheduleService[0] #1
+info: 2022-12-04 18:29:22.5521396 +08:00 星期日 L System.Logging.ScheduleService[0] #1
       The <trigger2> trigger for scheduler of <job1> successfully appended and updated to the schedule.
-info: 2022-12-04 18:12:18.7188629 +08:00 星期日 L System.Logging.ScheduleService[0] #1
+info: 2022-12-04 18:29:22.5535657 +08:00 星期日 L System.Logging.ScheduleService[0] #1
       The scheduler of <job1> successfully appended to the schedule.
-warn: 2022-12-04 18:12:18.7611411 +08:00 星期日 L System.Logging.ScheduleService[0] #1
+warn: 2022-12-04 18:29:22.5896298 +08:00 星期日 L System.Logging.ScheduleService[0] #1
       Schedule hosted service preload completed, and a total of <1> schedulers are appended.
-info: 2022-12-04 18:12:23.6776731 +08:00 星期日 L MyJob[0] #9
-      <job1 trigger2> 5s 1ts
-info: 2022-12-04 18:12:23.6937290 +08:00 星期日 L MyJob[0] #6
-      <job1 trigger1> 5s 1ts
-info: 2022-12-04 18:12:28.6548791 +08:00 星期日 L MyJob[0] #9
-      <job1 trigger1> 5s 2ts
-info: 2022-12-04 18:12:28.6677613 +08:00 星期日 L MyJob[0] #8
-      <job1 trigger2> 5s 2ts
+info: 2022-12-04 18:29:27.5981907 +08:00 星期日 L MyJob[0] #14
+      <job1> [C] <job1 trigger2> 5s 1ts 2022-12-04 18:29:27.507 -> 2022-12-04 18:29:32.500
+info: 2022-12-04 18:29:27.6002420 +08:00 星期日 L MyJob[0] #15
+      <job1> [C] <job1 trigger1> 5s 1ts 2022-12-04 18:29:27.507 -> 2022-12-04 18:29:32.500
+info: 2022-12-04 18:29:32.5850223 +08:00 星期日 L MyJob[0] #12
+      <job1> [C] <job1 trigger2> 5s 2ts 2022-12-04 18:29:32.500 -> 2022-12-04 18:29:37.548
+info: 2022-12-04 18:29:32.6034646 +08:00 星期日 L MyJob[0] #8
+      <job1> [C] <job1 trigger1> 5s 2ts 2022-12-04 18:29:32.500 -> 2022-12-04 18:29:37.548
 ```
 
 ### 26.1.5.9 多种格式字符串输出
