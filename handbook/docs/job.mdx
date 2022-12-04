@@ -103,7 +103,7 @@ services.AddSchedule(options =>
 info: 2022-12-02 16:51:33.5032989 +08:00 星期五 L System.Logging.ScheduleService[0] #1
       Schedule hosted service is running.
 info: 2022-12-02 16:51:33.5180669 +08:00 星期五 L System.Logging.ScheduleService[0] #1
-      Schedule hosted service is preloading......
+      Schedule hosted service is preloading...
 info: 2022-12-02 16:51:34.1452041 +08:00 星期五 L System.Logging.ScheduleService[0] #1
       The <job1_trigger1> trigger for scheduler of <job1> successfully appended to the schedule.
 info: 2022-12-02 16:51:34.1541701 +08:00 星期五 L System.Logging.ScheduleService[0] #1
@@ -147,7 +147,7 @@ services.AddSchedule(options =>
 info: 2022-12-02 17:15:43.3024818 +08:00 星期五 L System.Logging.ScheduleService[0] #1
       Schedule hosted service is running.
 info: 2022-12-02 17:15:43.3107918 +08:00 星期五 L System.Logging.ScheduleService[0] #1
-      Schedule hosted service is preloading......
+      Schedule hosted service is preloading...
 info: 2022-12-02 17:15:43.9498664 +08:00 星期五 L System.Logging.ScheduleService[0] #1
       The <myjob_trigger1> trigger for scheduler of <myjob> successfully appended to the schedule.
 info: 2022-12-02 17:15:43.9532894 +08:00 星期五 L System.Logging.ScheduleService[0] #1
@@ -181,7 +181,7 @@ services.AddSchedule(options =>
 info: 2022-12-02 17:18:53.3593518 +08:00 星期五 L System.Logging.ScheduleService[0] #1
       Schedule hosted service is running.
 info: 2022-12-02 17:18:53.3663583 +08:00 星期五 L System.Logging.ScheduleService[0] #1
-      Schedule hosted service is preloading......
+      Schedule hosted service is preloading...
 info: 2022-12-02 17:18:54.0381456 +08:00 星期五 L System.Logging.ScheduleService[0] #1
       The <job1_trigger1> trigger for scheduler of <job1> successfully appended to the schedule.
 info: 2022-12-02 17:18:54.0708796 +08:00 星期五 L System.Logging.ScheduleService[0] #1
@@ -246,7 +246,7 @@ public class MyJob : IJob
 info: 2022-12-02 17:23:27.3726863 +08:00 星期五 L System.Logging.ScheduleService[0] #1
       Schedule hosted service is running.
 info: 2022-12-02 17:23:27.3830366 +08:00 星期五 L System.Logging.ScheduleService[0] #1
-      Schedule hosted service is preloading......
+      Schedule hosted service is preloading...
 info: 2022-12-02 17:23:27.9083148 +08:00 星期五 L System.Logging.ScheduleService[0] #1
       The <job1_trigger1> trigger for scheduler of <job1> successfully appended to the schedule.
 info: 2022-12-02 17:23:27.9184699 +08:00 星期五 L System.Logging.ScheduleService[0] #1
@@ -611,7 +611,7 @@ public class YourService: IYourService
 info: 2022-12-02 18:07:33.7799062 +08:00 星期五 L System.Logging.ScheduleService[0] #1
       Schedule hosted service is running.
 info: 2022-12-02 18:07:33.7971487 +08:00 星期五 L System.Logging.ScheduleService[0] #1
-      Schedule hosted service is preloading......
+      Schedule hosted service is preloading...
 info: 2022-12-02 18:07:33.8751390 +08:00 星期五 L System.Logging.ScheduleService[0] #1
       The <job1_trigger1> trigger for scheduler of <job1> successfully appended to the schedule.
 info: 2022-12-02 18:07:33.8805159 +08:00 星期五 L System.Logging.ScheduleService[0] #1
@@ -681,7 +681,7 @@ public class MyJob : IJob
 info: 2022-12-02 18:12:56.4199663 +08:00 星期五 L System.Logging.ScheduleService[0] #1
       Schedule hosted service is running.
 info: 2022-12-02 18:12:56.4287962 +08:00 星期五 L System.Logging.ScheduleService[0] #1
-      Schedule hosted service is preloading......
+      Schedule hosted service is preloading...
 info: 2022-12-02 18:12:56.6149505 +08:00 星期五 L System.Logging.ScheduleService[0] #1
       The <job1_trigger1> trigger for scheduler of <job1> successfully appended to the schedule.
 info: 2022-12-02 18:12:56.6205117 +08:00 星期五 L System.Logging.ScheduleService[0] #1
@@ -930,7 +930,7 @@ public class MyJob : IJob
 info: 2022-12-03 23:16:46.5150228 +08:00 星期六 L System.Logging.ScheduleService[0] #1
       Schedule hosted service is running.
 info: 2022-12-03 23:16:46.5197497 +08:00 星期六 L System.Logging.ScheduleService[0] #1
-      Schedule hosted service is preloading......
+      Schedule hosted service is preloading...
 info: 2022-12-03 23:16:46.6987703 +08:00 星期六 L System.Logging.ScheduleService[0] #1
       The <job1_trigger1> trigger for scheduler of <job1> successfully appended to the schedule.
 info: 2022-12-03 23:16:46.7003295 +08:00 星期六 L System.Logging.ScheduleService[0] #1
@@ -1228,21 +1228,36 @@ services.AddSchedule(options =>
 
 ## 26.1.4 作业处理程序 `IJob`
 
-作业处理程序是作业具体执行的业务逻辑代码，通常由程序员编写，作业处理程序必须实现 `IJob` 接口。
+作业处理程序是作业符合触发时间执行的业务逻辑代码，通常由程序员编写，作业处理程序需实现 `IJob` 接口。
 
 ### 26.1.4.1 如何定义
 
 ```cs showLineNumbers {1,3,5}
 public class MyJob : IJob
 {
-    public async Task ExecuteAsync(JobExecutingContext context, CancellationToken stoppingToken)
+    public Task ExecuteAsync(JobExecutingContext context, CancellationToken stoppingToken)
     {
         // your code...
     }
 }
 ```
 
-### 26.1.4.2 依赖注入
+### 26.1.4.2 `JobExecutingContext` 上下文
+
+`JobExecutingContext` 上下文作为 `ExecuteAsync` 方法的第一个参数，包含以下运行时信息：
+
+- **`JobExecutingContext` 属性列表**
+  - `JobId`：作业 `Id`
+  - `TriggerId`：当前触发器 `Id`
+  - `JobDetail`：作业信息
+  - `Trigger`：作业触发器
+  - `OccurrenceTime`：作业计划触发时间，最准确的记录时间
+  - `ExecutingTime`：实际执行时间（可能存在误差）
+- **`JobExecutingContext` 方法列表**
+  - `.ConvertToJSON(naming)`：将上下文转换成 `JSON` 字符串
+  - `.ToString()`：输出为字符串
+
+### 26.1.4.3 依赖注入
 
 实现 `IJob` 的作业处理程序类型默认注册为 `单例`，**那么只要是单例的服务，皆可以通过构造函数注入**，如：`ILogger<>`，`IConfiguration`。
 
@@ -1261,14 +1276,13 @@ public class MyJob : IJob
 
     public async Task ExecuteAsync(JobExecutingContext context, CancellationToken stoppingToken)
     {
-        _logger.LogInformation($"{context.JobId} {context.TriggerId} {context.OccurrenceTime} {context.Trigger} {count}");
-
+        _logger.LogInformation($"{context} {_configuration["key"]}");
         await Task.CompletedTask;
     }
 }
 ```
 
-- **如果是非单例的接口，如瞬时或范围服务，可通过 `IServiceProvder` 创建**
+- **如果是非 `单例` 的接口，如 `瞬时` 或 `范围` 服务，可通过 `IServiceProvder` 创建**
 
 ```cs showLineNumbers {5,9,18-19}
 public class MyJob : IJob
@@ -1291,8 +1305,7 @@ public class MyJob : IJob
         using var serviceScope = _serviceProvider.CreateScope();
         var repository = serviceScope.ServiceProvider.GetService<IRepository<User>>();
 
-        _logger.LogInformation($"{context.JobId} {context.TriggerId} {context.OccurrenceTime} {context.Trigger}");
-
+        _logger.LogInformation($"{context} {_configuration["key"]}");
         await Task.CompletedTask;
     }
 }
@@ -1321,9 +1334,9 @@ public class MyJob : IJob, IDisposable
     public async Task ExecuteAsync(JobExecutingContext context, CancellationToken stoppingToken)
     {
         var repository = _serviceScope.ServiceProvider.GetService<IRepository<User>>();
+        var user = await repository.GetAsync(1);
 
-        _logger.LogInformation($"{context.JobId} {context.TriggerId} {context.OccurrenceTime} {context.Trigger}");
-
+        _logger.LogInformation($"{context} {_configuration["key"]}");
         await Task.CompletedTask;
     }
 
@@ -1334,56 +1347,74 @@ public class MyJob : IJob, IDisposable
 }
 ```
 
-### 26.1.4.3 `JobExecutingContext` 上下文
+### 26.1.4.4 动态作业 `DynamicJob`
 
-`JobExecutingContext` 上下文作为 `ExecuteAsync` 方法的第一个参数，提供了以下几个运行时信息：
+框架提供了便捷的动态作业 `DynamicJob` 类型，可通过 `Func<IServiceProvider, JobExecutingContext, CancellationToken, Task>` 委托传入，无需创建 `IJob` 实现类型。
 
-- **`JobExecutingContext` 属性列表**
-  - `JobId`：作业 `Id`
-  - `TriggerId`：当前触发器 `Id`
-  - `JobDetail`：作业信息
-  - `Trigger`：作业触发器
-  - `OccurrenceTime`：调度器检查时间，最准确的记录时间
-  - `ExecutingTime`：实际执行时间（可能存在误差）
-- **`JobExecutingContext` 方法列表**
-  - `.ConvertToJSON(naming)`：将作业计划转换成 `JSON` 字符串
-  - `.ToString()`：输出为字符串
+框架还为委托的第一个参数 `IServiceProvder` 提供了 `.GetLogger()` 拓展方法，方便快速获取 `ILogger<System.Logging.DynamicJob>` 日志对象实例。
 
-### 26.1.4.4 作业被取消处理
-
-一般情况下，作业被临时暂停或取消，但作业处理程序还未处理完成，这个时候我们可以选择取消还是继续执行，如果选择同步取消：
-
-```cs showLineNumbers {1,13,18}
-public class MyJob : IJob
+```cs showLineNumbers {2,9,18,26}
+// 通过 JobBuilder 创建
+var jobBuilder = JoBuilder.Create((serviceProvider, context, stoppingToken) =>
 {
-    private readonly ILogger<MyJob> _logger;
+      serviceProvider.GetLogger().LogInformation($"{context}");
+      return Task.CompletedTask;
+});
 
-    public MyJob(ILogger<MyJob> logger)
-    {
-        _logger = logger;
-    }
+// 通过 jobBuilder 方法 SetDynamicExecuteAsync 创建
+jobBuilder.SetDynamicExecuteAsync((serviceProvider, context, stoppingToken) =>
+{
+      serviceProvider.GetLogger().LogInformation($"{context}");
+      return Task.CompletedTask;
+});
 
-    public async Task ExecuteAsync(JobExecutingContext context, CancellationToken stoppingToken)
-    {
-       // 创建任务关联取消 Token
-        using var cancellationTokenSource = CancellationTokenSource.CreateLinkedTokenSource(stoppingToken);
+// 通过 AddJob 创建
+service.AddSchedule(options =>
+{
+      options.AddJob((serviceProvider, context, stoppingToken) =>
+      {
+            serviceProvider.GetLogger().LogInformation($"{context}");
+            return Task.CompletedTask;
+      }, Triggers.PeriodSeconds(5));
+});
 
-        try
-        {
-            // 传递给异步服务
-            await todo.SomeMethodAsync(cancellationTokenSource.Token);
-        }
-        catch (Exception ex)
-        {
-            // ...
-        }
-
-        _logger.LogInformation($"{context.JobId} {context.TriggerId} {context.OccurrenceTime} {context.Trigger}");
-    }
-}
+// 通过 ISchedulerFactory 创建
+_schedulerFactory.AddJob((serviceProvider, context, stoppingToken) =>
+{
+      serviceProvider.GetLogger().LogInformation($"{context}");
+      return Task.CompletedTask;
+}, Triggers.PeriodSeconds(5));
 ```
 
-这样当作业被取消时，`SomeMethodAsync` 也会同步取消。
+动态作业执行结果：
+
+```bash showLineNumbers {6,8,10,11,13}
+info: 2022-12-04 12:26:18.6562296 +08:00 星期日 L System.Logging.ScheduleService[0] #1
+      Schedule hosted service is running.
+info: 2022-12-04 12:26:18.6618404 +08:00 星期日 L System.Logging.ScheduleService[0] #1
+      Schedule hosted service is preloading...
+info: 2022-12-04 12:26:18.8727764 +08:00 星期日 L System.Logging.ScheduleService[0] #1
+      The <job1_trigger1> trigger for scheduler of <job1> successfully appended to the schedule.
+info: 2022-12-04 12:26:18.8745765 +08:00 星期日 L System.Logging.ScheduleService[0] #1
+      The scheduler of <job1> successfully appended to the schedule.
+warn: 2022-12-04 12:26:18.9013540 +08:00 星期日 L System.Logging.ScheduleService[0] #1
+      Schedule hosted service preload completed, and a total of <1> schedulers are appended.
+info: 2022-12-04 12:26:23.8753926 +08:00 星期日 L System.Logging.DynamicJob[0] #6
+      <job1> [C] <job1 job1_trigger1> 5s 1ts 2022-12-04 12:26:23.837 -> 2022-12-04 12:26:28.835
+info: 2022-12-04 12:26:28.8686474 +08:00 星期日 L System.Logging.DynamicJob[0] #6
+      <job1> [C] <job1 job1_trigger1> 5s 2ts 2022-12-04 12:26:28.835 -> 2022-12-04 12:26:33.823
+info: 2022-12-04 12:26:33.8531796 +08:00 星期日 L System.Logging.DynamicJob[0] #13
+      <job1> [C] <job1 job1_trigger1> 5s 3ts 2022-12-04 12:26:33.823 -> 2022-12-04 12:26:38.820
+```
+
+:::tip 动态作业和普通作业的区别
+
+- 动态作业处理程序类型是：`DynamicJob` 类型
+- 动态作业提供的 `.GetLogger()` 拓展输出日志类型是：`System.Logging.DynamicJob`
+- 如果普通作业同时设置了 `SetJobType` 和 `SetDynamicExecuteAsync`，那么优先作为动态作业执行。
+- 动态作业无法将 `Func<..>` 进行序列化持久化存储，需在内存（`IJobPersistence.OnLoading`）中重新赋值
+
+:::
 
 ### 26.1.4.5 使用 `Roslyn/Natasha` 动态创建
 
@@ -1408,12 +1439,14 @@ dotnet add package DotNetCore.Natasha.CSharp
 
 3. **根据字符串创建 `IJob` 类型**
 
-```cs showLineNumbers {2,4,9-31,35}
+```cs showLineNumbers {2,4,10-34,37}
 // 初始化
 NatashaInitializer.Preheating();
 // 创建程序集（可自定义编写程序集名称）
-var oop = new AssemblyCSharpBuilder("JobAssembly");
-oop.Domain = DomainManagement.Random();
+var oop = new AssemblyCSharpBuilder("JobAssembly")
+{
+    Domain = DomainManagement.Random()
+};
 
 // 添加代码
 oop.Add(@"
@@ -1436,7 +1469,7 @@ public class MyJob : IJob
 
     public async Task ExecuteAsync(JobExecutingContext context, CancellationToken stoppingToken)
     {
-        _logger.LogInformation($""{context.JobDetail} {context.Trigger} {context.OccurrenceTime} {context.JobDetail.AssemblyName} {context.JobDetail.JobType}"");
+        _logger.LogInformation($""我是 Roslyn 方式创建的：{context}"");
         await Task.CompletedTask;
     }
 }
@@ -1452,36 +1485,34 @@ var jobType = oop.GetTypeFromShortName("MyJob");
 // 可以在启动的时候添加
 services.AddSchedule(options =>
 {
-      options.AddJob(JobBuilder.Create(jobType)
+     options.AddJob(jobType
             , Triggers.PeriodSeconds(5));
 });
 
 // 也可以完全在运行时添加（常用）
-_schedulerFactory.AddJob(JobBuilder.Create(jobType)
+_schedulerFactory.AddJob(jobType
             , Triggers.PeriodSeconds(5));
 ```
 
 查看作业执行日志：
 
-```bash showLineNumbers {12,14,16,18}
-info: 2022-11-25 13:45:49.0150463 +08:00 星期五 L System.Logging.ScheduleService[0] #1
-      Schedule Hosted Service is running.
-info: 2022-11-25 13:45:49.0208313 +08:00 星期五 L System.Logging.ScheduleService[0] #1
-      Schedule Hosted Service is preloading.
-info: 2022-11-25 13:45:49.0406977 +08:00 星期五 L System.Logging.ScheduleService[0] #1
-      The Scheduler of <job1> successfully added to the schedule.
-warn: 2022-11-25 13:45:49.0803822 +08:00 星期五 L System.Logging.ScheduleService[0] #1
-      Schedule Hosted Service cancels hibernation and GC.Collect().
-info: 2022-11-25 13:45:49.0969060 +08:00 星期五 L System.Logging.ScheduleService[0] #1
-      Schedule Hosted Service preload completed, and a total of <1> schedulers are added.
-info: 2022-11-25 13:45:54.0695285 +08:00 星期五 L YourProject.MyJob[0] #13
-      <job1>  <job1 job1_trigger1>  5000ms 2022/11/25 13:45:54 JobAssembly YourProject.MyJob
-info: 2022-11-25 13:45:59.0700268 +08:00 星期五 L YourProject.MyJob[0] #12
-      <job1>  <job1 job1_trigger1>  5000ms 2022/11/25 13:45:59 JobAssembly YourProject.MyJob
-info: 2022-11-25 13:46:04.0854646 +08:00 星期五 L YourProject.MyJob[0] #11
-      <job1>  <job1 job1_trigger1>  5000ms 2022/11/25 13:46:04 JobAssembly YourProject.MyJob
-info: 2022-11-25 13:46:09.0924123 +08:00 星期五 L YourProject.MyJob[0] #9
-      <job1>  <job1 job1_trigger1>  5000ms 2022/11/25 13:46:09 JobAssembly YourProject.MyJob
+```bash showLineNumbers {6,8,10,12,14,16}
+info: 2022-12-04 12:38:00.6249410 +08:00 星期日 L System.Logging.ScheduleService[0] #1
+      Schedule hosted service is running.
+info: 2022-12-04 12:38:00.6294089 +08:00 星期日 L System.Logging.ScheduleService[0] #1
+      Schedule hosted service is preloading...
+info: 2022-12-04 12:38:00.7496005 +08:00 星期日 L System.Logging.ScheduleService[0] #1
+      The <job1_trigger1> trigger for scheduler of <job1> successfully appended to the schedule.
+info: 2022-12-04 12:38:00.7514579 +08:00 星期日 L System.Logging.ScheduleService[0] #1
+      The scheduler of <job1> successfully appended to the schedule.
+warn: 2022-12-04 12:38:00.7836777 +08:00 星期日 L System.Logging.ScheduleService[0] #1
+      Schedule hosted service preload completed, and a total of <1> schedulers are appended.
+info: 2022-12-04 12:38:05.7389682 +08:00 星期日 L YourProject.MyJob[0] #6
+      我是 Roslyn 方式创建的：<job1> [C] <job1 job1_trigger1> 5s 1ts 2022-12-04 12:38:05.713 -> 2022-12-04 12:38:10.692
+info: 2022-12-04 12:38:10.7108416 +08:00 星期日 L YourProject.MyJob[0] #11
+      我是 Roslyn 方式创建的：<job1> [C] <job1 job1_trigger1> 5s 2ts 2022-12-04 12:38:10.692 -> 2022-12-04 12:38:15.673
+info: 2022-12-04 12:38:15.6925578 +08:00 星期日 L YourProject.MyJob[0] #11
+      我是 Roslyn 方式创建的：<job1> [C] <job1 job1_trigger1> 5s 3ts 2022-12-04 12:38:15.673 -> 2022-12-04 12:38:20.656
 ```
 
 **惊不惊喜，意外意外~**。
@@ -1491,6 +1522,70 @@ info: 2022-11-25 13:46:09.0924123 +08:00 星期五 L YourProject.MyJob[0] #9
 通过 `Roslyn` 的方式支持创建 `IJob`，`JobDetail`，`Trigger`，`Scheduler` 哦，自行测试。😊
 
 :::
+
+### 26.1.4.6 作业调度器被取消处理
+
+一般情况下，作业调度器意外关闭或手动关闭，但作业处理程序异步操作还未处理完成，这个时候我们可以选择取消还是继续执行，如果选择取消：
+
+```cs showLineNumbers {15,19,23,30}
+public class MyJob : IJob
+{
+    private readonly ILogger<MyJob> _logger;
+    public MyJob(ILogger<MyJob> logger)
+    {
+        _logger = logger;
+    }
+
+    public async Task ExecuteAsync(JobExecutingContext context, CancellationToken stoppingToken)
+    {
+        _logger.LogInformation($"{context}");
+
+        try
+        {
+            await SomeMethodAsync(stoppingToken);
+        }
+        catch (TaskCanceledException)
+        {
+            _logger.LogWarning("作业被取消了~");
+        }
+        catch (AggregateException ex) when (ex.InnerExceptions.Count == 1 && ex.InnerExceptions[0] is TaskCanceledException)
+        {
+            _logger.LogWarning("作业被取消了~");
+        }
+    }
+
+    private async Task SomeMethodAsync(CancellationToken stoppingToken)
+    {
+        // 模拟耗时
+        await Task.Delay(1000 * 60 * 60, stoppingToken);
+    }
+}
+```
+
+这样当作业调度器被关闭时，`SomeMethodAsync` 如果未处理完成也会取消操作。
+
+```bash showLineNumbers {14,16,18,20}
+info: 2022-12-04 12:49:00.2636929 +08:00 星期日 L System.Logging.ScheduleService[0] #1
+      Schedule hosted service is running.
+info: 2022-12-04 12:49:00.2686096 +08:00 星期日 L System.Logging.ScheduleService[0] #1
+      Schedule hosted service is preloading...
+info: 2022-12-04 12:49:00.4252737 +08:00 星期日 L System.Logging.ScheduleService[0] #1
+      The <job1_trigger1> trigger for scheduler of <job1> successfully appended to the schedule.
+info: 2022-12-04 12:49:00.4266075 +08:00 星期日 L System.Logging.ScheduleService[0] #1
+      The scheduler of <job1> successfully appended to the schedule.
+warn: 2022-12-04 12:49:00.4468654 +08:00 星期日 L System.Logging.ScheduleService[0] #1
+      Schedule hosted service preload completed, and a total of <1> schedulers are appended.
+info: 2022-12-04 12:49:05.4397629 +08:00 星期日 L MyJob[0] #4
+      <job1> [C] <job1 job1_trigger1> 5s 1ts 2022-12-04 12:49:05.390 -> 2022-12-04 12:49:10.393
+info: 2022-12-04 12:49:08.6301592 +08:00 星期日 L Microsoft.Hosting.Lifetime[0] #14
+      Application is shutting down...
+warn: 2022-12-04 12:49:08.7247004 +08:00 星期日 L MyJob[0] #6
+      作业被取消了~
+warn: 2022-12-04 12:49:10.4257861 +08:00 星期日 L System.Logging.ScheduleService[0] #6
+      Schedule hosted service cancels hibernation and GC.Collect().
+crit: 2022-12-04 12:49:10.4360088 +08:00 星期日 L System.Logging.ScheduleService[0] #6
+      Schedule hosted service is stopped.
+```
 
 ## 26.1.5 作业触发器 `Trigger` 及构建器
 

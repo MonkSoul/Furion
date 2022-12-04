@@ -118,7 +118,7 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory
     public void Preload()
     {
         // 输出作业调度度初始化日志
-        _logger.LogInformation("Schedule hosted service is preloading......");
+        _logger.LogInformation("Schedule hosted service is preloading...");
 
         // 标记是否初始化成功
         var preloadSucceed = true;
