@@ -43,7 +43,7 @@ public class CronTrigger : Trigger
             Crontab = Crontab.Parse(schedule, (CronStringFormat)formatValue);
         }
         // 处理 CronStringFormat
-        if (args is CronStringFormat format)
+        else if (args is CronStringFormat format)
         {
             Crontab = Crontab.Parse(schedule, format);
         }

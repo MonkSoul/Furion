@@ -860,7 +860,7 @@ jobBuilder.LoadFrom(new Dictionary<string, object>
       {"Description", "这是新的描述" },
       {"include_annotations", false },
       {"updatedTime", DateTime.Now }
-})
+});
 ```
 
 :::important 关于属性名匹配规则
@@ -1647,15 +1647,27 @@ crit: 2022-12-04 12:49:10.4360088 +08:00 星期日 L System.Logging.ScheduleServ
 
 1. **通过 `Create` 静态方法创建**
 
-```cs showLineNumbers {2,5,8}
+```cs showLineNumbers {2,5,8,11,14,17,20}
+// 根据作业触发器 Id 创建
+var triggerBuilder = TriggerBuilder.Create("trigger1");
+
 // 根据 Trigger 派生类类型创建
 var triggerBuilder = TriggerBuilder.Create<PeriodTrigger>();
+
+// 根据 Trigger 派生类类型 + 构造函数参数创建
+var triggerBuilder = TriggerBuilder.Create<CronTrigger>("* * * * *", CronStringFormat.Default);
+
+// 根据程序集名称和类型完全限定名（FullName）创建
+var triggerBuilder = TriggerBuilder.Create("Furion", "Furion.Schedule.PeriodTrigger");
+
+// 根据程序集名称和类型完全限定名（FullName） + 构造函数参数创建
+var triggerBuilder = TriggerBuilder.Create("Furion", "Furion.Schedule.PeriodTrigger", 1000);
 
 // 根据 Type 类型创建
 var triggerBuilder = TriggerBuilder.Create(typeof(PeriodTrigger));
 
-// 根据程序集名称和类型完全限定名（FullName）创建
-var triggerBuilder = TriggerBuilder.Create("Furion", "Furion.Schedule.PeriodTrigger");
+// 根据 Type 类型 + 构造函数参数创建
+var triggerBuilder = TriggerBuilder.Create(typeof(CronTrigger), "* * * * *", CronStringFormat.Default);
 ```
 
 2. **通过 `Trigger` 类型创建**
@@ -1674,56 +1686,58 @@ var triggerBuilder = trigger.GetBuilder();
 该方式非常灵活，可从配置文件，`JSON` 字符串，或其他能够返回 `JSON` 字符串的地方创建。
 
 ```cs showLineNumbers {2-24}
-var triggerBuilder = TriggerBuilder.From(@"
+var triggerBuilder = Triggers.From(@"
 {
-    ""triggerId"": ""job1_trigger1"",
-    ""triggerType"": ""Furion.Schedule.PeriodSecondsTrigger"",
-    ""assemblyName"": ""Furion"",
-    ""args"": ""[5]"",
-    ""description"": null,
-    ""status"": 2,
-    ""startTime"": null,
-    ""endTime"": null,
-    ""lastRunTime"": ""2022-11-20T18:31:56.6859410+08:00"",
-    ""nextRunTime"": ""2022-11-20T18:32:01.7233546+08:00"",
-    ""numberOfRuns"": 1,
-    ""maxNumberOfRuns"": 0,
-    ""numberOfErrors"": 0,
-    ""maxNumberOfErrors"": 0,
-    ""numRetries"": 0,
-    ""retryTimeout"": 1000,
-    ""startNow"": true,
-    ""runOnStart"": false,
-    ""resetOnlyOnce"": true,
-    ""updatedTime"": ""2022-11-20T18:31:56.7233630+08:00""
+	""triggerId"": ""job1_trigger1"",
+	""jobId"": ""job1"",
+	""triggerType"": ""Furion.Schedule.CronTrigger"",
+	""assemblyName"": ""Furion"",
+	""args"": ""[\""* * * * *\"",0]"",
+	""description"": null,
+	""status"": 1,
+	""startTime"": null,
+	""endTime"": null,
+	""lastRunTime"": ""2022-12-04 16:13:00.000"",
+	""nextRunTime"": null,
+	""numberOfRuns"": 1,
+	""maxNumberOfRuns"": 0,
+	""numberOfErrors"": 0,
+	""maxNumberOfErrors"": 0,
+	""numRetries"": 0,
+	""retryTimeout"": 1000,
+	""startNow"": true,
+	""runOnStart"": false,
+	""resetOnlyOnce"": true,
+	""updatedTime"": ""2022-12-04 16:13:00.045""
 }");
 ```
 
 如果使用的是 `.NET7`，可使用 `"""` 避免转义，如：
 
 ```cs showLineNumbers {2-24}
-var triggerBuilder = TriggerBuilder.From("""
+var triggerBuilder = Triggers.From("""
 {
-    "triggerId": "job1_trigger1",
-    "triggerType": "Furion.Schedule.PeriodSecondsTrigger",
-    "assemblyName": "Furion",
-    "args": "[5]",
-    "description": null,
-    "status": 2,
-    "startTime": null,
-    "endTime": null,
-    "lastRunTime": "2022-11-20T18:31:56.6859410+08:00",
-    "nextRunTime": "2022-11-20T18:32:01.7233546+08:00",
-    "numberOfRuns": 1,
-    "maxNumberOfRuns": 0,
-    "numberOfErrors": 0,
-    "maxNumberOfErrors": 0,
-    "numRetries": 0,
-    "retryTimeout": 1000,
-    "startNow": true,
-    "runOnStart": false,
-    "resetOnlyOnce": true,
-    "updatedTime": "2022-11-20T18:31:56.7233630+08:00"
+      "triggerId": "job1_trigger1",
+      "jobId": "job1",
+      "triggerType": "Furion.Schedule.CronTrigger",
+      "assemblyName": "Furion",
+      "args": "[\"* * * * *\",0]",
+      "description": null,
+      "status": 8,
+      "startTime": null,
+      "endTime": null,
+      "lastRunTime": "2022-12-04 16:13:00.000",
+      "nextRunTime": null,
+      "numberOfRuns": 1,
+      "maxNumberOfRuns": 0,
+      "numberOfErrors": 0,
+      "maxNumberOfErrors": 0,
+      "numRetries": 0,
+      "retryTimeout": 1000,
+      "startNow": true,
+      "runOnStart": false,
+      "resetOnlyOnce": true,
+      "updatedTime": "2022-12-04 16:13:00.045"
 }
 """);
 ```
@@ -1752,9 +1766,9 @@ var triggerBuilder = TriggerBuilder.Clone(fromTriggerBuilder);
 
 5. **还可以通过 `LoadFrom` 实例方法填充当前的 `TriggerBuilder`**
 
-比如可以传递匿名类型，类类型：
+比如可以传递匿名类型，类类型，字典 `Dictionary<string, object>` 类型：
 
-```cs showLineNumbers {2,9,14}
+```cs showLineNumbers {2,9,16,23}
 // 会覆盖所有相同的值
 triggerBuilder.LoadFrom(new
 {
@@ -1766,9 +1780,22 @@ triggerBuilder.LoadFrom(new
 triggerBuilder.LoadFrom(new
 {
       Description = "我是另外一个描述",
-      StartTime = DateTime.Now,
-      LastRunTime = default(DateTime?)      // 会跳过赋值
+      StartTime = default(object),
 }, ignoreNullValue: true);
+
+// 支持忽略特定属性名映射
+triggerBuilder.LoadFrom(new
+{
+      Description = "我是另外一个描述",
+      TriggerId = "trigger1"
+}, ignorePropertyNames: new[]{ "description" });
+
+// 支持字典类型
+triggerBuilder.LoadFrom(new Dictionary<string, object>
+{
+      {"Description", "这是新的描述" },
+      {"updatedTime", DateTime.Now }
+});
 ```
 
 :::important 关于属性名匹配规则
