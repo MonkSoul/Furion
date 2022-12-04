@@ -63,9 +63,9 @@ public static class ScheduleExtensions
     /// <param name="jobTypes">作业类型集合</param>
     /// <returns><see cref="SchedulerBuilder"/></returns>
     /// <exception cref="InvalidOperationException"></exception>
-    public static IEnumerable<SchedulerBuilder> ScanToBuilders(this IEnumerable<Type> jobTypes)
+    public static SchedulerBuilder[] ScanToBuilders(this IEnumerable<Type> jobTypes)
     {
-        return jobTypes.Where(t => t.IsJobType()).Select(t => t.ScanToBuilder());
+        return jobTypes.Where(t => t.IsJobType()).Select(t => t.ScanToBuilder()).ToArray();
     }
 
     /// <summary>

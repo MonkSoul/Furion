@@ -284,6 +284,12 @@ internal sealed partial class SchedulerFactory
 
             // 输出日志
             var triggerOperation = Penetrates.SetFirstLetterCase(trigger.Behavior.ToString(), false);
+            // 处理作业调度器初始化未完成时做更新操作情况
+            if (!PreloadCompleted && trigger.Behavior == PersistenceBehavior.Updated)
+            {
+                triggerOperation = "appended and updated";
+            }
+
             _logger.LogInformation("The <{triggerId}> trigger for scheduler of <{jobId}> successfully {triggerOperation} to the schedule.", triggerId, jobId, triggerOperation);
         }
 
