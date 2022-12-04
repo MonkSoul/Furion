@@ -49,36 +49,6 @@ public sealed class TriggerBuilder : Trigger
     }
 
     /// <summary>
-    /// 创建秒周期（间隔）作业触发器构建器
-    /// </summary>
-    /// <param name="interval">间隔（秒）</param>
-    /// <returns><see cref="TriggerBuilder"/></returns>
-    public static TriggerBuilder PeriodSeconds(int interval)
-    {
-        return Period(interval * 1000);
-    }
-
-    /// <summary>
-    /// 创建分钟周期（间隔）作业触发器构建器
-    /// </summary>
-    /// <param name="interval">间隔（分钟）</param>
-    /// <returns><see cref="TriggerBuilder"/></returns>
-    public static TriggerBuilder PeriodMinutes(int interval)
-    {
-        return Period(interval * 1000 * 60);
-    }
-
-    /// <summary>
-    /// 创建小时周期（间隔）作业触发器构建器
-    /// </summary>
-    /// <param name="interval">间隔（小时）</param>
-    /// <returns><see cref="TriggerBuilder"/></returns>
-    public static TriggerBuilder PeriodHours(int interval)
-    {
-        return Period(interval * 1000 * 60 * 60);
-    }
-
-    /// <summary>
     /// 创建 Cron 表达式作业触发器构建器
     /// </summary>
     /// <param name="schedule">Cron 表达式</param>

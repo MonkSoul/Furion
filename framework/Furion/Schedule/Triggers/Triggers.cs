@@ -47,7 +47,7 @@ public static class Triggers
     /// <returns><see cref="TriggerBuilder"/></returns>
     public static TriggerBuilder PeriodSeconds(int interval)
     {
-        return TriggerBuilder.PeriodSeconds(interval);
+        return Period(interval * 1000);
     }
 
     /// <summary>
@@ -57,7 +57,7 @@ public static class Triggers
     /// <returns><see cref="TriggerBuilder"/></returns>
     public static TriggerBuilder PeriodMinutes(int interval)
     {
-        return TriggerBuilder.PeriodMinutes(interval);
+        return Period(interval * 1000 * 60);
     }
 
     /// <summary>
@@ -67,7 +67,7 @@ public static class Triggers
     /// <returns><see cref="TriggerBuilder"/></returns>
     public static TriggerBuilder PeriodHours(int interval)
     {
-        return TriggerBuilder.PeriodHours(interval);
+        return Period(interval * 1000 * 60 * 60);
     }
 
     /// <summary>
