@@ -2615,10 +2615,10 @@ var schedulerBuilder = SchedulerBuilder.Create(typeof(MyJob), "job1", Triggers.P
 var schedulerBuilder = SchedulerBuilder.Create(typeof(MyJob), "job1", true, Triggers.PeriodSeconds(5), Triggers.Minutely());
 
 // 通过委托方式
-var schedulerBuilder = SchedulerBuilder.Create((serviceProvider, context, stoppingToken, Task) => {}, Triggers.PeriodSeconds(5), Triggers.Minutely());
-var schedulerBuilder = SchedulerBuilder.Create((serviceProvider, context, stoppingToken, Task) => {}, true, Triggers.PeriodSeconds(5), Triggers.Minutely());
-var schedulerBuilder = SchedulerBuilder.Create((serviceProvider, context, stoppingToken, Task) => {}, "job1", Triggers.PeriodSeconds(5), Triggers.Minutely());
-var schedulerBuilder = SchedulerBuilder.Create((serviceProvider, context, stoppingToken, Task) => {}, "job1", true, Triggers.PeriodSeconds(5), Triggers.Minutely());
+var schedulerBuilder = SchedulerBuilder.Create((serviceProvider, context, stoppingToken) => {}, Triggers.PeriodSeconds(5), Triggers.Minutely());
+var schedulerBuilder = SchedulerBuilder.Create((serviceProvider, context, stoppingToken) => {}, true, Triggers.PeriodSeconds(5), Triggers.Minutely());
+var schedulerBuilder = SchedulerBuilder.Create((serviceProvider, context, stoppingToken) => {}, "job1", Triggers.PeriodSeconds(5), Triggers.Minutely());
+var schedulerBuilder = SchedulerBuilder.Create((serviceProvider, context, stoppingToken) => {}, "job1", true, Triggers.PeriodSeconds(5), Triggers.Minutely());
 
 // 通过 JobBuilder 和 0 或 N 个 TriggerBuilder 创建
 var schedulerBuilder = SchedulerBuilder.Create(
@@ -3253,18 +3253,25 @@ fail: 2022-12-05 14:36:49.6714485 +08:00 星期一 L System.Logging.ScheduleServ
 
 作业计划工厂提供了程序运行时操作作业调度器，作业计划等诸多方法。
 
-`ISchedulerFactory` 被注册为单例服务，允许在任何可依赖注入的服务获取，如：
+`ISchedulerFactory` 被注册为 `单例` 服务，允许在任何可依赖注入的服务获取，如：
 
-```cs showLineNumbers {4,9}
+```cs showLineNumbers {4,8,11,16}
 public class YourService: IYourService
 {
     private readonly ISchedulerFactory _schedulerFactory;
     public YourService(ISchedulerFactory schedulerFactory)
     {
         _schedulerFactory = schedulerFactory;
+
+        // 也可以通过 App.GetService<ISchedulerFactory>() 获取
     }
 
     public void SomeMethod([FromServices]ISchedulerFactory schedulerFactory)
+    {
+    }
+
+    // .NET7+ 或 Furion 4.8.0+
+    public void SomeMethod(ISchedulerFactory schedulerFactory)
     {
     }
 }
@@ -3272,218 +3279,65 @@ public class YourService: IYourService
 
 ### 26.1.10.1 查找所有作业
 
-```cs showLineNumbers {2,5,8-9}
-// 返回的是 IScheduler 集合，不能访问 JobDetail 和 Triggers 属性
+```cs showLineNumbers {1,5,9,13}
+// 查找所有作业，包括 JobType == null 的非有效作业
 var jobs = _schedulerFactory.GetJobs();
-
-// 返回的是 SchedulerModel 集合，可以访问 JobDetail 和 Triggers 属性
 var jobsOfModels = _schedulerFactory.GetJobsOfModels();
 
-// 还可以通过 group 查找
+// 查找特定分组的作业，包括 JobType == null 的非有效作业
 var jobs = _schedulerFactory.GetJobs("group1");
 var jobsOfModels = _schedulerFactory.GetJobsOfModels("group1");
+
+// 查找所有作业，仅 JobType != null 有效作业
+var jobs = _schedulerFactory.GetJobs(active: true);
+var jobsOfModels = _schedulerFactory.GetJobsOfModels(active: true);
+
+// 查找特定分组的作业，仅 JobType != null 有效作业
+var jobs = _schedulerFactory.GetJobs("group1", true);
+var jobsOfModels = _schedulerFactory.GetJobsOfModels("group1", true);
 ```
 
-### 26.1.10.2 查找下一个触发的作业
+### 26.1.10.2 查找下一批触发的作业
 
-```cs showLineNumbers {2,5,8,9}
-// 返回的是 IScheduler 集合，不能访问 JobDetail 和 Triggers 属性
+```cs showLineNumbers {1,5}
+// 查找下一批触发的作业
 var nextRunJobs = _schedulerFactory.GetNextRunJobs(DateTime.Now);
-
-// 返回的是 SchedulerModel 集合，可以访问 JobDetail 和 Triggers 属性
 var nextRunJobsOfModels = _schedulerFactory.GetNextRunJobsOfModels(DateTime.Now);
 
-// 还可以通过 group 查找
-var nextRunJobs = _schedulerFactory.GetNextRunJobs("group1");
-var nextRunJobsOfModels = _schedulerFactory.GetNextRunJobsOfModels("group1");
+// 查找特定分组下一批触发的作业
+var nextRunJobs = _schedulerFactory.GetNextRunJobs(DateTime.Now, "group1");
+var nextRunJobsOfModels = _schedulerFactory.GetNextRunJobsOfModels(DateTime.Now, "group1");
 ```
 
 ### 26.1.10.3 获取单个作业
 
-```cs showLineNumbers {2,5}
-// 返回 ScheduleResult 类型，如果存在返回 ScheduleResult.Succeed，否则返回 ScheduleResult.NotFound
-var scheduleResult = _schedulerFactory.TryGetJob("job1", out var scheduler);
+```cs showLineNumbers {1,6}
+// 返回 ScheduleResult 类型
+var scheduleResult = _schedulerFactory.TryGetJob("job1", out var scheduler); // 如果存在返回 => ScheduleResult.Succeed
+var scheduleResult = _schedulerFactory.TryGetJob("not_found", out var scheduler); // => ScheduleResult.NotFound
+var scheduleResult = _schedulerFactory.TryGetJob("", out var scheduler); // => ScheduleResult.NotIdentify
 
 // 返回 IScheduler 类型
-var scheduler = _schedulerFactory.GetJob("job1");
+var scheduler = _schedulerFactory.GetJob("job1"); // 如果存在返回 IScheduler
+var scheduler = _schedulerFactory.GetJob("not_found"); // => null
+var scheduler = _schedulerFactory.GetJob(""); // => null
 ```
 
-### 26.1.10.4 添加作业
+### 26.1.10.4 保存作业
 
-- **通过 `SchedulerBuilder` 方式**
+保存作业是框架提供强大且简单的方法，支持 `新增`，`编辑`，`删除` 作业，也就是三大操作都可以直接通过此方法直接操作。
 
-```cs showLineNumbers {2,5}
-// 返回 ScheduleResult 类型，如果添加成功返回 ScheduleResult.Succeed，否则返回 ScheduleResult.Faild
-var scheduleResult = _schedulerFactory.TryAddJob(schedulerBuilder, out var scheduler);
+```cs showLineNumbers
+// 返回 ScheduleResult 类型
+var scheduleResult = _schedulerFactory.TrySaveJob(schedulerBuilder, out var scheduler);
 
-// 无返回值，无错误
-_schedulerFactory.AddJob(schedulerBuilder);
+// 无返回值，支持多个
+_schedulerFactory.SaveJob(schedulerBuilder1, schedulerBuilder2, ...)
 ```
 
-作业添加成功或失败分别输出日志：
+:::tip 关于保存作业的背后行为
 
-```bash showLineNumbers {2,4}
-info: 2022-11-21 16:24:03.5834532 +08:00 星期一 L System.Logging.ScheduleService[0] #8
-      The Scheduler of <job1> successfully added to the schedule.
-warn: 2022-11-21 16:24:03.5876747 +08:00 星期一 L System.Logging.ScheduleService[0] #8
-      The JobId of <job1> already exists.
-```
-
-- **通过 `JobBuilder` + `TriggerBuilder` 方式**
-
-```cs showLineNumbers {2,7}
-// 返回 ScheduleResult 类型，如果添加成功返回 ScheduleResult.Succeed，否则返回 ScheduleResult.Faild
-var schedulerResult = _schedulerFactory.TryAddJob(JobBuilder.Create<MyJob>()
-            , new[] { Triggers.PeriodSeconds(10) }
-            , out var scheduler);
-
-// 无返回值，无错误
-_schedulerFactory.AddJob(JobBuilder.Create<MyJob>()
-            , Triggers.PeriodSeconds(10));
-```
-
-作业添加成功或失败分别输出日志：
-
-```bash showLineNumbers {2,4}
-info: 2022-11-21 16:24:03.5834532 +08:00 星期一 L System.Logging.ScheduleService[0] #8
-      The Scheduler of <job1> successfully added to the schedule.
-warn: 2022-11-21 16:24:03.5876747 +08:00 星期一 L System.Logging.ScheduleService[0] #8
-      The JobId of <job1> already exists.
-```
-
-- **通过 `IJob` 泛型方式**
-
-```cs showLineNumbers {2,6}
-// 返回 ScheduleResult 类型，如果添加成功返回 ScheduleResult.Succeed，否则返回 ScheduleResult.Faild
-var schedulerResult = _schedulerFactory.TryAddJob<MyJob>(new[] { Triggers.PeriodSeconds(10) }
-        , out var scheduler);
-
-// 无返回值，无错误
-_schedulerFactory.AddJob<MyJob>(Triggers.PeriodSeconds(10));
-```
-
-作业添加成功或失败分别输出日志：
-
-```bash showLineNumbers {2,4}
-info: 2022-11-21 16:24:03.5834532 +08:00 星期一 L System.Logging.ScheduleService[0] #8
-      The Scheduler of <job1> successfully added to the schedule.
-warn: 2022-11-21 16:24:03.5876747 +08:00 星期一 L System.Logging.ScheduleService[0] #8
-      The JobId of <job1> already exists.
-```
-
-- **通过 `IJob` 泛型 + `JobId` 方式**
-
-```cs showLineNumbers {2,6}
-// 返回 ScheduleResult 类型，如果添加成功返回 ScheduleResult.Succeed，否则返回 ScheduleResult.Faild
-var schedulerResult = _schedulerFactory.TryAddJob<MyJob>("job1", new[] { Triggers.PeriodSeconds(10) }
-        , out var scheduler);
-
-// 无返回值，无错误
-_schedulerFactory.AddJob<MyJob>("job1", Triggers.PeriodSeconds(10));
-```
-
-作业添加成功或失败分别输出日志：
-
-```bash showLineNumbers {2,4}
-info: 2022-11-21 16:24:03.5834532 +08:00 星期一 L System.Logging.ScheduleService[0] #8
-      The Scheduler of <job1> successfully added to the schedule.
-warn: 2022-11-21 16:24:03.5876747 +08:00 星期一 L System.Logging.ScheduleService[0] #8
-      The JobId of <job1> already exists.
-```
-
-- **通过 `IJob` 泛型 + `JobId` + `Concurrent` 方式**
-
-```cs showLineNumbers {2,7}
-// 返回 ScheduleResult 类型，如果添加成功返回 ScheduleResult.Succeed，否则返回 ScheduleResult.Faild
-var schedulerResult = _schedulerFactory.TryAddJob<MyJob>("job1", concurrent: true
-        , new[] { Triggers.PeriodSeconds(10) }
-        , out var scheduler);
-
-// 无返回值，无错误
-_schedulerFactory.AddJob<MyJob>("job1", concurrent: true
-        , Triggers.PeriodSeconds(10));
-```
-
-作业添加成功或失败分别输出日志：
-
-```bash showLineNumbers {2,4}
-info: 2022-11-21 16:24:03.5834532 +08:00 星期一 L System.Logging.ScheduleService[0] #8
-      The Scheduler of <job1> successfully added to the schedule.
-warn: 2022-11-21 16:24:03.5876747 +08:00 星期一 L System.Logging.ScheduleService[0] #8
-      The JobId of <job1> already exists.
-```
-
-- **通过 `IJob` 泛型 + `Concurrent` 方式**
-
-```cs showLineNumbers {2,7}
-// 返回 ScheduleResult 类型，如果添加成功返回 ScheduleResult.Succeed，否则返回 ScheduleResult.Faild
-var schedulerResult = _schedulerFactory.TryAddJob<MyJob>(concurrent: true
-        , new[] { Triggers.PeriodSeconds(10) }
-        , out var scheduler);
-
-// 无返回值，无错误
-_schedulerFactory.AddJob<MyJob>(concurrent: true
-        , Triggers.PeriodSeconds(10));
-```
-
-作业添加成功或失败分别输出日志：
-
-```bash showLineNumbers {2,4}
-info: 2022-11-21 16:24:03.5834532 +08:00 星期一 L System.Logging.ScheduleService[0] #8
-      The Scheduler of <job1> successfully added to the schedule.
-warn: 2022-11-21 16:24:03.5876747 +08:00 星期一 L System.Logging.ScheduleService[0] #8
-      The JobId of <job1> already exists.
-```
-
-- **还有其他更多重载方式**
-
-```cs showLineNumbers {1,10}
-// Type 类型方式
-_schedulerFactory.TryAddJob(typeof(MyJob), new[] { Triggers.PeriodSeconds(10) }, out var scheduler);
-_schedulerFactory.AddJob(typeof(MyJob), Triggers.PeriodSeconds(10));
-_schedulerFactory.TryAddJob(typeof(MyJob), "作业 Id", new[] { Triggers.PeriodSeconds(10) }, out var scheduler);
-_schedulerFactory.AddJob(typeof(MyJob), "作业 Id", Triggers.PeriodSeconds(10));
-_schedulerFactory.TryAddJob(typeof(MyJob), "作业 Id", true, new[] { Triggers.PeriodSeconds(10) }, out var scheduler);
-_schedulerFactory.AddJob(typeof(MyJob), "作业 Id", true, Triggers.PeriodSeconds(10));
-_schedulerFactory.TryAddJob(typeof(MyJob), true, new[] { Triggers.PeriodSeconds(10) }, out var scheduler);
-_schedulerFactory.AddJob(typeof(MyJob), true, Triggers.PeriodSeconds(10));
-// 委托方式
-_schedulerFactory.TryAddJob((s, c, t) => {}, new[] { Triggers.PeriodSeconds(10) }, out var scheduler);
-_schedulerFactory.AddJob((s, c, t) => {}, Triggers.PeriodSeconds(10));
-_schedulerFactory.TryAddJob((s, c, t) => {}, "作业 Id", new[] { Triggers.PeriodSeconds(10) }, out var scheduler);
-_schedulerFactory.AddJob((s, c, t) => {}, "作业 Id", Triggers.PeriodSeconds(10));
-_schedulerFactory.TryAddJob((s, c, t) => {}, "作业 Id", true, new[] { Triggers.PeriodSeconds(10) }, out var scheduler);
-_schedulerFactory.AddJob((s, c, t) => {}, "作业 Id", true, Triggers.PeriodSeconds(10));
-_schedulerFactory.TryAddJob((s, c, t) => {}, true, new[] { Triggers.PeriodSeconds(10) }, out var scheduler);
-_schedulerFactory.AddJob((s, c, t) => {}, true, Triggers.PeriodSeconds(10));
-```
-
-### 26.1.10.5 更新作业
-
-- **通过 `SchedulerBuilder` 方式**
-
-```cs showLineNumbers {2,5}
-// 返回 ScheduleResult 类型，如果添加成功返回 ScheduleResult.Succeed，否则返回 ScheduleResult.Faild
-var scheduleResult = _schedulerFactory.TryUpdateJob(schedulerBuilder, out var scheduler);
-
-// 无返回值，无错误
-_schedulerFactory.UpdateJob(schedulerBuilder);
-```
-
-作业更新成功或失败分别输出日志：
-
-```bash showLineNumbers {2,4,6}
-info: 2022-11-21 18:13:13.0098096 +08:00 星期一 L System.Logging.ScheduleService[0] #14
-      The Scheduler of <job1> successfully updated to the schedule.
-warn: 2022-11-21 18:13:18.0098096 +08:00 星期一 L System.Logging.ScheduleService[0] #14
-      The Scheduler of <job1> is not found.
-warn: 2022-11-21 18:13:23.0098096 +08:00 星期一 L System.Logging.ScheduleService[0] #14
-      The Scheduler of <job1> update failed.
-```
-
-:::tip 关于更新作业的背后行为
-
-默认情况下，更新作业需要传递 `SchedulerBuilder` 对象，这个对象可通过 `GetJob(jobId)` 获取，如：
+默认情况下，保存作业需要传递 `SchedulerBuilder` 对象，这个对象可通过 `GetJob(jobId)` 获取，如：
 
 ```cs showLineNumbers
 var schedulerBuilder = _schedulerFactory.GetJob("jobId")?.GetBuilder();
@@ -3493,70 +3347,112 @@ var schedulerBuilder = _schedulerFactory.GetJob("jobId")?.GetBuilder();
 
 如果通过 `.Appended()` 或 `.Removed()` 方法标记之后，那么它的操作行为就发生变化了。
 
-- **如果被标记为 `.Appended()`**，如：
+- **如果被标记为 `.Appended()`**，那么它将进行 `新增` 操作。如：
 
 ```cs showLineNumbers
 schedulerBuilder.Appended();
 ```
 
-那么它将进行 `新增` 操作，也就是内部会调用 `TryAddJob(schedulerBuilder)` 操作。
-
-- **如果被标记为 `.Removed()`**，如：
+- **如果被标记为 `.Removed()`**，那么它将进行 `删除` 操作。如：
 
 ```cs showLineNumbers
 schedulerBuilder.Removed();
 ```
 
-那么它将进行 `删除` 操作，也就是内部会调用 `TryRemoveJob(schedulerBuilder)` 操作。
+比如以下的代码实则是 `新增` 或 `删除` 或 `更新` 操作：
 
-比如以下的代码实则是 `新增` 或 `删除` 操作：
-
-```cs showLineNumbers {3,7}
+```cs showLineNumbers {1,4,8}
 // 实际做新增操作
-var scheduleResult = _schedulerFactory.TryUpdateJob(
-      SchedulerBuilder.Create(JobBuilder.Create<MyJob>())); // Create 方法默认标记为 Appended
+var scheduleResult = _schedulerFactory.TrySaveJob(SchedulerBuilder.Create<MyJob>(), out var scheduler); // Create 方法默认标记为 Appended
 
 // 实际做删除操作
 var schedulerBuilder = _schedulerFactory.GetJob("jobId")?.GetBuilder();
-var scheduleResult = _schedulerFactory.TryUpdateJob(schedulerBuilder.Removed()); // 标记为 Removed
+var scheduleResult = _schedulerFactory.TrySaveJob(schedulerBuilder?.Removed(), out var scheduler); // 标记为 Removed
+
+// 实际做更新操作
+var scheduleResult = _schedulerFactory.TrySaveJob(SchedulerBuilder.Create<MyJob>().Updated(), out var scheduler); // Create 方法默认标记为 Appended，但调用 Updated() 方法
 ```
+
+另外，作业触发器 `Trigger` 也具备相同的行为。
 
 :::
 
-### 26.1.10.6 删除作业
+### 26.1.10.5 添加作业
 
-- **通过 `JobId` 方式**
+框架提供了非常多的重载方法添加作业，如：
 
-```cs showLineNumbers {2,5}
-// 返回 ScheduleResult 类型，如果添加成功返回 ScheduleResult.Succeed，否则返回 ScheduleResult.Faild 或者 ScheduleResult.NotFound
-var schedulerResult = _schedulerFactory.TryRemoveJob("job1", out var scheduler);
+```cs showLineNumbers {1,5,9,22,35}
+// SchedulerBuilder 方式
+var scheduleResult = _schedulerFactory.TryAddJob(schedulerBuilder, out var scheduler);
+_schedulerFactory.AddJob(schedulerBuilder1, schedulerBuilder2, ...);
 
-// 无返回值，无错误
-_schedulerFactory.RemoveJob("job1");
+// JobBuilder + TriggerBuilders 方式
+var scheduleResult = _schedulerFactory.TryAddJob(jobBuilder, new[] { triggerBuilder1, triggerBuilder2, ...}, out var scheduler);
+_schedulerFactory.TryAddJob(jobBuilder, triggerBuilder1, triggerBuilder2, ...);
+
+// 泛型方式
+var scheduleResult = _schedulerFactory.TryAddJob<MyJob>(new[] { triggerBuilder1, triggerBuilder2, ...}, out var scheduler);
+_schedulerFactory.AddJob<MyJob>(triggerBuilder1, triggerBuilder2, ...);
+// 支持配置作业 Id
+var scheduleResult = _schedulerFactory.TryAddJob<MyJob>("job1", new[] { triggerBuilder1, triggerBuilder2, ...}, out var scheduler);
+_schedulerFactory.AddJob<MyJob>("job1", triggerBuilder1, triggerBuilder2, ...);
+// 支持配置作业 Id + 串行/并行
+var scheduleResult = _schedulerFactory.TryAddJob<MyJob>("job1", true, new[] { triggerBuilder1, triggerBuilder2, ...}, out var scheduler);
+_schedulerFactory.AddJob<MyJob>("job1", true, triggerBuilder1, triggerBuilder2, ...);
+// 支持配置 串行/ 并行
+var scheduleResult = _schedulerFactory.TryAddJob<MyJob>(true, new[] { triggerBuilder1, triggerBuilder2, ...}, out var scheduler);
+_schedulerFactory.AddJob<MyJob>(true, triggerBuilder1, triggerBuilder2, ...);
+
+// 类型方式
+var scheduleResult = _schedulerFactory.TryAddJob(typeof(MyJob), new[] { triggerBuilder1, triggerBuilder2, ...}, out var scheduler);
+_schedulerFactory.AddJob(typeof(MyJob), triggerBuilder1, triggerBuilder2, ...);
+// 支持配置作业 Id
+var scheduleResult = _schedulerFactory.TryAddJob(typeof(MyJob), "job1", new[] { triggerBuilder1, triggerBuilder2, ...}, out var scheduler);
+_schedulerFactory.AddJob(typeof(MyJob), "job1", triggerBuilder1, triggerBuilder2, ...);
+// 支持配置作业 Id + 串行/并行
+var scheduleResult = _schedulerFactory.TryAddJob(typeof(MyJob), "job1", true, new[] { triggerBuilder1, triggerBuilder2, ...}, out var scheduler);
+_schedulerFactory.AddJob(typeof(MyJob), "job1", true, triggerBuilder1, triggerBuilder2, ...);
+// 支持配置 串行/ 并行
+var scheduleResult = _schedulerFactory.TryAddJob(typeof(MyJob), true, new[] { triggerBuilder1, triggerBuilder2, ...}, out var scheduler);
+_schedulerFactory.AddJob(typeof(MyJob), true, triggerBuilder1, triggerBuilder2, ...);
+
+// 动态作业委托方式
+var scheduleResult = _schedulerFactory.TryAddJob((serviceProvider, context, stoppingToken) => { }, new[] { triggerBuilder1, triggerBuilder2, ...}, out var scheduler);
+_schedulerFactory.AddJob((serviceProvider, context, stoppingToken) => { }, triggerBuilder1, triggerBuilder2, ...);
+// 支持配置作业 Id
+var scheduleResult = _schedulerFactory.TryAddJob((serviceProvider, context, stoppingToken) => { }, "job1", new[] { triggerBuilder1, triggerBuilder2, ...}, out var scheduler);
+_schedulerFactory.AddJob((serviceProvider, context, stoppingToken) => { }, "job1", triggerBuilder1, triggerBuilder2, ...);
+// 支持配置作业 Id + 串行/并行
+var scheduleResult = _schedulerFactory.TryAddJob((serviceProvider, context, stoppingToken) => { }, "job1", true, new[] { triggerBuilder1, triggerBuilder2, ...}, out var scheduler);
+_schedulerFactory.AddJob((serviceProvider, context, stoppingToken) => { }, "job1", true, triggerBuilder1, triggerBuilder2, ...);
+// 支持配置 串行/ 并行
+var scheduleResult = _schedulerFactory.TryAddJob((serviceProvider, context, stoppingToken) => { }, true, new[] { triggerBuilder1, triggerBuilder2, ...}, out var scheduler);
+_schedulerFactory.AddJob((serviceProvider, context, stoppingToken) => { }, true, triggerBuilder1, triggerBuilder2, ...);
 ```
 
-- **通过 `IScheduler` 方式**
+### 26.1.10.6 更新作业
 
-```cs showLineNumbers {2,5}
-// 返回 ScheduleResult 类型，如果添加成功返回 ScheduleResult.Succeed，否则返回 ScheduleResult.Faild 或者 ScheduleResult.NotFound
-var schedulerResult = _schedulerFactory.TryRemoveJob(scheduler);
+```cs showLineNumbers
+// 返回 ScheduleResult 方式
+var scheduleResult = _schedulerFactory.TryUpdateJob(schedulerBuilder, out var scheduler);
 
-// 无返回值，无错误
-_schedulerFactory.RemoveJob(scheduler);
+// 无返回值方式
+_schedulerFactory.UpdateJob(schedulerBuilder1, schedulerBuilder2, ...);
 ```
 
-作业删除成功或失败分别输出日志：
+### 26.1.10.7 删除作业
 
-```bash showLineNumbers {2,4,6}
-info: 2022-11-22 09:25:17.4763941 +08:00 星期二 L System.Logging.ScheduleService[0] #4
-      The Scheduler of <job1> successfully removed to the schedule.
-warn: 2022-11-22 09:28:56.2241923 +08:00 星期二 L System.Logging.ScheduleService[0] #9
-      The Scheduler of <job12> is not found.
-warn: 2022-11-22 09:29:01.2241923 +08:00 星期二 L System.Logging.ScheduleService[0] #9
-      The Scheduler of <job1> remove failed.
+```cs showLineNumbers
+// 返回 ScheduleResult 方式
+var scheduleResult = _schedulerFactory.TryRemoveJob("job1", out var scheduler);
+var scheduleResult = _schedulerFactory.TryRemoveJob(scheduler);
+
+// 无返回值方式
+_schedulerFactory.RemoveJob("job1", "job2", ...);
+_schedulerFactory.RemoveJob(scheduler1, scheduler2, ...);
 ```
 
-### 26.1.10.7 检查作业是否存在
+### 26.1.10.8 检查作业是否存在
 
 ```cs showLineNumbers {1,4}
 var isExist = _schedulerFactory.ContainsJob("job1");
@@ -3565,7 +3461,7 @@ var isExist = _schedulerFactory.ContainsJob("job1");
 var isExist = _schedulerFactory.ContainsJob("job1", "group1");
 ```
 
-### 26.1.10.8 启动所有作业
+### 26.1.10.9 启动所有作业
 
 ```cs showLineNumbers {1,4}
 _schedulerFactory.StartAll();
@@ -3574,90 +3470,48 @@ _schedulerFactory.StartAll();
 _schedulerFactory.StartAll("group1");
 ```
 
-作业调度器输出日志：
-
-```bash showLineNumbers {2,4}
-info: 2022-11-22 10:48:55.9619596 +08:00 星期二 L System.Logging.ScheduleService[0] #16
-      The <job1_trigger1> trigger for scheduler of <job1> successfully started to the schedule.
-warn: 2022-11-22 10:48:56.0131304 +08:00 星期二 L System.Logging.ScheduleService[0] #16
-      Schedule Hosted Service cancels hibernation and GC.Collect().
-```
-
-### 26.1.10.9 暂停所有作业
+### 26.1.10.10 暂停所有作业
 
 ```cs showLineNumbers {1,4}
  _schedulerFactory.PauseAll();
 
-// 还可以通过 group 暂停
+// 还可以通过 group 操作
  _schedulerFactory.PauseAll("group1");
 ```
 
-作业调度器输出日志：
-
-```bash showLineNumbers {4,6}
-info: 2022-11-22 11:01:52.0008851 +08:00 星期二 L ConsoleApp32.MyJob[0] #10
-      job1 job1_trigger1 2022/11/22 11:01:51  5000ms
-info: 2022-11-22 11:01:54.5265246 +08:00 星期二 L System.Logging.ScheduleService[0] #15
-      The <job1_trigger1> trigger for scheduler of <job1> successfully paused to the schedule.
-warn: 2022-11-22 11:01:54.5535267 +08:00 星期二 L System.Logging.ScheduleService[0] #15
-      Schedule Hosted Service cancels hibernation and GC.Collect().
-```
-
-### 26.1.10.10 删除所有作业
+### 26.1.10.11 删除所有作业
 
 ```cs showLineNumbers {1,4}
  _schedulerFactory.RemoveAll();
 
-// 还可以通过 group 删除
+// 还可以通过 group 操作
  _schedulerFactory.RemoveAll("group1");
 ```
 
-作业调度器输出日志：
-
-```bash showLineNumbers {4,6}
-info: 2022-11-22 11:04:19.4838792 +08:00 星期二 L ConsoleApp32.MyJob[0] #14
-      job1 job1_trigger1 2022/11/22 11:04:19  5000ms
-warn: 2022-11-22 11:04:23.0726721 +08:00 星期二 L System.Logging.ScheduleService[0] #9
-      Schedule Hosted Service cancels hibernation and GC.Collect().
-info: 2022-11-22 11:04:23.0797010 +08:00 星期二 L System.Logging.ScheduleService[0] #9
-      The Scheduler of <job1> successfully removed to the schedule.
-```
-
-### 26.1.10.11 强制唤醒作业调度器
-
-正常情况下，作业调度器会自动管理休眠和唤醒，但一些特殊情况下需要强制唤醒作业调度器（比如调度器假死了，被回收了。。。），可通过以下方式：
-
-```cs showLineNumbers
-_schedulerFactory.CancelSleep();
-```
-
-作业调度器输出日志：
-
-```bash showLineNumbers {2}
-warn: 2022-11-22 11:04:23.0726721 +08:00 星期二 L System.Logging.ScheduleService[0] #9
-      Schedule Hosted Service cancels hibernation and GC.Collect().
-```
-
-### 26.1.10.12 强制触发所有作业持久化
-
-此操作会强制触发作业持久化器 `IJobPersistence` 的 `OnChanged` 和 `OnTriggerChanged` 方法，并标记作业持久化行为为 `PersistenceBehavior.Updated`。
+### 26.1.10.12 强制触发所有作业持久化操作
 
 ```cs showLineNumbers {1,4}
-_schedulerFactory.PersistAll();
+ _schedulerFactory.PersistAll();
 
-// 还可以通过 group 控制
+// 还可以通过 group 操作
  _schedulerFactory.PersistAll("group1");
 ```
 
 ### 26.1.10.13 校对所有作业
 
-有时候因为一些不确定的因素导致作业出现了极小的误差甚至停止执行，这时候可以通过校对作业进行修正。
-
 ```cs showLineNumbers {1,4}
-_schedulerFactory.CollateAll();
+ _schedulerFactory.CollateAll();
 
-// 还可以通过 group 控制
+// 还可以通过 group 操作
  _schedulerFactory.CollateAll("group1");
+```
+
+### 26.1.10.14 强制唤醒作业调度器
+
+正常情况下，作业调度器会自动管理 `CPU` 休眠和唤醒，但一些特殊情况下需要强制唤醒作业调度器（比如调度器假死了，被回收了...），可通过以下方式：
+
+```cs showLineNumbers
+_schedulerFactory.CancelSleep();
 ```
 
 ## 26.1.11 作业计划 `IScheduler`

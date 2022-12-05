@@ -314,6 +314,22 @@ internal sealed partial class SchedulerFactory
     }
 
     /// <summary>
+    /// 保存作业
+    /// </summary>
+    /// <param name="schedulerBuilders">作业计划构建器集合</param>
+    public void SaveJob(params SchedulerBuilder[] schedulerBuilders)
+    {
+        // 空检查
+        if (schedulerBuilders == null || schedulerBuilders.Length == 0) throw new ArgumentNullException(nameof(schedulerBuilders));
+
+        // 逐条将作业计划构建器保存到作业计划计划中
+        foreach (var schedulerBuilder in schedulerBuilders)
+        {
+            _ = TrySaveJob(schedulerBuilder, out var _);
+        }
+    }
+
+    /// <summary>
     /// 添加作业
     /// </summary>
     /// <param name="schedulerBuilder">作业计划构建器</param>
@@ -334,7 +350,7 @@ internal sealed partial class SchedulerFactory
         // 空检查
         if (schedulerBuilders == null || schedulerBuilders.Length == 0) throw new ArgumentNullException(nameof(schedulerBuilders));
 
-        // 逐条将作业计划构建器添加到集合中
+        // 逐条将作业计划构建器保存到作业计划计划中
         foreach (var schedulerBuilder in schedulerBuilders)
         {
             _ = TryAddJob(schedulerBuilder, out var _);
@@ -687,10 +703,17 @@ internal sealed partial class SchedulerFactory
     /// <summary>
     /// 更新作业
     /// </summary>
-    /// <param name="schedulerBuilder">作业计划构建器</param>
-    public void UpdateJob(SchedulerBuilder schedulerBuilder)
+    /// <param name="schedulerBuilders">作业计划构建器集合</param>
+    public void UpdateJob(params SchedulerBuilder[] schedulerBuilders)
     {
-        _ = TryUpdateJob(schedulerBuilder, out var _);
+        // 空检查
+        if (schedulerBuilders == null || schedulerBuilders.Length == 0) throw new ArgumentNullException(nameof(schedulerBuilders));
+
+        // 逐条将作业计划构建器保存到作业计划计划中
+        foreach (var schedulerBuilder in schedulerBuilders)
+        {
+            _ = TryUpdateJob(schedulerBuilder, out var _);
+        }
     }
 
     /// <summary>
@@ -710,10 +733,13 @@ internal sealed partial class SchedulerFactory
     /// <summary>
     /// 删除作业
     /// </summary>
-    /// <param name="jobId">作业 Id</param>
-    public void RemoveJob(string jobId)
+    /// <param name="jobIds">作业 Id 集合</param>
+    public void RemoveJob(params string[] jobIds)
     {
-        _ = TryRemoveJob(jobId, out var _);
+        foreach (var jobId in jobIds)
+        {
+            _ = TryRemoveJob(jobId, out var _);
+        }
     }
 
     /// <summary>
@@ -730,10 +756,13 @@ internal sealed partial class SchedulerFactory
     /// <summary>
     /// 删除作业
     /// </summary>
-    /// <param name="scheduler">作业计划</param>
-    public void RemoveJob(IScheduler scheduler)
+    /// <param name="schedulers">作业计划集合</param>
+    public void RemoveJob(params IScheduler[] schedulers)
     {
-        _ = TryRemoveJob(scheduler);
+        foreach (var scheduler in schedulers)
+        {
+            _ = TryRemoveJob(scheduler);
+        }
     }
 
     /// <summary>
@@ -804,7 +833,7 @@ internal sealed partial class SchedulerFactory
     }
 
     /// <summary>
-    /// 校对作业计划
+    /// 校对所有作业
     /// </summary>
     /// <param name="group">作业组名称</param>
     public void CollateAll(string group = default)

@@ -84,6 +84,12 @@ public partial interface ISchedulerFactory : IDisposable
     ScheduleResult TrySaveJob(SchedulerBuilder schedulerBuilder, out IScheduler scheduler, bool immediately = true);
 
     /// <summary>
+    /// 保存作业
+    /// </summary>
+    /// <param name="schedulerBuilders">作业计划构建器集合</param>
+    void SaveJob(params SchedulerBuilder[] schedulerBuilders);
+
+    /// <summary>
     /// 添加作业
     /// </summary>
     /// <param name="schedulerBuilder">作业计划构建器</param>
@@ -363,8 +369,8 @@ public partial interface ISchedulerFactory : IDisposable
     /// <summary>
     /// 更新作业
     /// </summary>
-    /// <param name="schedulerBuilder">作业计划构建器</param>
-    void UpdateJob(SchedulerBuilder schedulerBuilder);
+    /// <param name="schedulerBuilders">作业计划构建器集合</param>
+    void UpdateJob(params SchedulerBuilder[] schedulerBuilders);
 
     /// <summary>
     /// 删除作业
@@ -378,8 +384,8 @@ public partial interface ISchedulerFactory : IDisposable
     /// <summary>
     /// 删除作业
     /// </summary>
-    /// <param name="jobId">作业 Id</param>
-    void RemoveJob(string jobId);
+    /// <param name="jobIds">作业 Id 集合</param>
+    void RemoveJob(params string[] jobIds);
 
     /// <summary>
     /// 删除作业
@@ -392,8 +398,8 @@ public partial interface ISchedulerFactory : IDisposable
     /// <summary>
     /// 删除作业
     /// </summary>
-    /// <param name="scheduler">作业计划</param>
-    void RemoveJob(IScheduler scheduler);
+    /// <param name="schedulers">作业计划集合</param>
+    void RemoveJob(params IScheduler[] schedulers);
 
     /// <summary>
     /// 检查作业是否存在
@@ -428,7 +434,7 @@ public partial interface ISchedulerFactory : IDisposable
     void PersistAll(string group = default);
 
     /// <summary>
-    /// 校对作业计划
+    /// 校对所有作业
     /// </summary>
     /// <param name="group">作业组名称</param>
     void CollateAll(string group = default);
