@@ -53,7 +53,7 @@ public sealed class SchedulerBuilder
     /// <summary>
     /// 标记作业持久化行为
     /// </summary>
-    public PersistenceBehavior Behavior { get; internal set; } = PersistenceBehavior.Appended;
+    internal PersistenceBehavior Behavior { get; private set; } = PersistenceBehavior.Appended;
 
     /// <summary>
     /// 作业信息构建器
@@ -73,6 +73,157 @@ public sealed class SchedulerBuilder
     public static SchedulerBuilder Create(string jobId)
     {
         return Create(JobBuilder.Create(jobId));
+    }
+
+    /// <summary>
+    /// 创建作业计划构建器
+    /// </summary>
+    /// <typeparam name="TJob"><see cref="IJob"/> 实现类型</typeparam>
+    /// <param name="triggerBuilders">作业触发器构建器集合</param>
+    /// <returns><see cref="SchedulerBuilder"/></returns>
+    public static SchedulerBuilder Create<TJob>(params TriggerBuilder[] triggerBuilders)
+        where TJob : class, IJob
+    {
+        return Create(JobBuilder.Create<TJob>(), triggerBuilders);
+    }
+
+    /// <summary>
+    /// 创建作业计划构建器
+    /// </summary>
+    /// <typeparam name="TJob"><see cref="IJob"/> 实现类型</typeparam>
+    /// <param name="jobId">作业 Id</param>
+    /// <param name="triggerBuilders">作业触发器构建器集合</param>
+    /// <returns><see cref="SchedulerBuilder"/></returns>
+    public static SchedulerBuilder Create<TJob>(string jobId, params TriggerBuilder[] triggerBuilders)
+        where TJob : class, IJob
+    {
+        return Create(JobBuilder.Create<TJob>().SetJobId(jobId), triggerBuilders);
+    }
+
+    /// <summary>
+    /// 创建作业计划构建器
+    /// </summary>
+    /// <typeparam name="TJob"><see cref="IJob"/> 实现类型</typeparam>
+    /// <param name="concurrent">是否采用并发执行</param>
+    /// <param name="triggerBuilders">作业触发器构建器集合</param>
+    /// <returns><see cref="SchedulerBuilder"/></returns>
+    public static SchedulerBuilder Create<TJob>(bool concurrent, params TriggerBuilder[] triggerBuilders)
+        where TJob : class, IJob
+    {
+        return Create(JobBuilder.Create<TJob>().SetConcurrent(concurrent), triggerBuilders);
+    }
+
+    /// <summary>
+    /// 创建作业计划构建器
+    /// </summary>
+    /// <typeparam name="TJob"><see cref="IJob"/> 实现类型</typeparam>
+    /// <param name="jobId">作业 Id</param>
+    /// <param name="concurrent">是否采用并发执行</param>
+    /// <param name="triggerBuilders">作业触发器构建器集合</param>
+    /// <returns><see cref="SchedulerBuilder"/></returns>
+    public static SchedulerBuilder Create<TJob>(string jobId, bool concurrent, params TriggerBuilder[] triggerBuilders)
+        where TJob : class, IJob
+    {
+        return Create(JobBuilder.Create<TJob>().SetJobId(jobId).SetConcurrent(concurrent), triggerBuilders);
+    }
+
+    /// <summary>
+    /// 创建作业计划构建器
+    /// </summary>
+    /// <param name="jobType"><see cref="IJob"/> 实现类型</param>
+    /// <param name="triggerBuilders">作业触发器构建器集合</param>
+    /// <returns><see cref="SchedulerBuilder"/></returns>
+    public static SchedulerBuilder Create(Type jobType, params TriggerBuilder[] triggerBuilders)
+    {
+        return Create(JobBuilder.Create(jobType), triggerBuilders);
+    }
+
+    /// <summary>
+    /// 创建作业计划构建器
+    /// </summary>
+    /// <param name="jobType"><see cref="IJob"/> 实现类型</param>
+    /// <param name="jobId">作业 Id</param>
+    /// <param name="triggerBuilders">作业触发器构建器集合</param>
+    /// <returns><see cref="SchedulerBuilder"/></returns>
+    public static SchedulerBuilder Create(Type jobType, string jobId, params TriggerBuilder[] triggerBuilders)
+    {
+        return Create(JobBuilder.Create(jobType).SetJobId(jobId), triggerBuilders);
+    }
+
+    /// <summary>
+    /// 创建作业计划构建器
+    /// </summary>
+    /// <param name="jobType"><see cref="IJob"/> 实现类型</param>
+    /// <param name="concurrent">是否采用并发执行</param>
+    /// <param name="triggerBuilders">作业触发器构建器集合</param>
+    /// <returns><see cref="SchedulerBuilder"/></returns>
+    public static SchedulerBuilder Create(Type jobType, bool concurrent, params TriggerBuilder[] triggerBuilders)
+    {
+        return Create(JobBuilder.Create(jobType).SetConcurrent(concurrent), triggerBuilders);
+    }
+
+    /// <summary>
+    /// 创建作业计划构建器
+    /// </summary>
+    /// <param name="jobType"><see cref="IJob"/> 实现类型</param>
+    /// <param name="jobId">作业 Id</param>
+    /// <param name="concurrent">是否采用并发执行</param>
+    /// <param name="triggerBuilders">作业触发器构建器集合</param>
+    /// <returns><see cref="SchedulerBuilder"/></returns>
+    public static SchedulerBuilder Create(Type jobType, string jobId, bool concurrent, params TriggerBuilder[] triggerBuilders)
+    {
+        return Create(JobBuilder.Create(jobType).SetJobId(jobId).SetConcurrent(concurrent), triggerBuilders);
+    }
+
+    /// <summary>
+    /// 创建作业计划构建器
+    /// </summary>
+    /// <param name="dynamicExecuteAsync">运行时动态作业执行逻辑</param>
+    /// <param name="triggerBuilders">作业触发器构建器集合</param>
+    /// <returns><see cref="SchedulerBuilder"/></returns>
+    public static SchedulerBuilder Create(Func<IServiceProvider, JobExecutingContext, CancellationToken, Task> dynamicExecuteAsync, params TriggerBuilder[] triggerBuilders)
+    {
+        return Create(JobBuilder.Create(dynamicExecuteAsync), triggerBuilders);
+    }
+
+    /// <summary>
+    /// 创建作业计划构建器
+    /// </summary>
+    /// <param name="dynamicExecuteAsync">运行时动态作业执行逻辑</param>
+    /// <param name="jobId">作业 Id</param>
+    /// <param name="triggerBuilders">作业触发器构建器集合</param>
+    /// <returns><see cref="SchedulerBuilder"/></returns>
+    public static SchedulerBuilder Create(Func<IServiceProvider, JobExecutingContext, CancellationToken, Task> dynamicExecuteAsync, string jobId, params TriggerBuilder[] triggerBuilders)
+    {
+        return Create(JobBuilder.Create(dynamicExecuteAsync).SetJobId(jobId)
+            , triggerBuilders);
+    }
+
+    /// <summary>
+    /// 创建作业计划构建器
+    /// </summary>
+    /// <param name="dynamicExecuteAsync">运行时动态作业执行逻辑</param>
+    /// <param name="jobId">作业 Id</param>
+    /// <param name="concurrent">是否采用并发执行</param>
+    /// <param name="triggerBuilders">作业触发器构建器集合</param>
+    /// <returns><see cref="SchedulerBuilder"/></returns>
+    public static SchedulerBuilder Create(Func<IServiceProvider, JobExecutingContext, CancellationToken, Task> dynamicExecuteAsync, string jobId, bool concurrent, params TriggerBuilder[] triggerBuilders)
+    {
+        return Create(JobBuilder.Create(dynamicExecuteAsync).SetJobId(jobId).SetConcurrent(concurrent)
+            , triggerBuilders);
+    }
+
+    /// <summary>
+    /// 创建作业计划构建器
+    /// </summary>
+    /// <param name="dynamicExecuteAsync">运行时动态作业执行逻辑</param>
+    /// <param name="concurrent">是否采用并发执行</param>
+    /// <param name="triggerBuilders">作业触发器构建器集合</param>
+    /// <returns><see cref="SchedulerBuilder"/></returns>
+    public static SchedulerBuilder Create(Func<IServiceProvider, JobExecutingContext, CancellationToken, Task> dynamicExecuteAsync, bool concurrent, params TriggerBuilder[] triggerBuilders)
+    {
+        return Create(JobBuilder.Create(dynamicExecuteAsync).SetConcurrent(concurrent)
+            , triggerBuilders);
     }
 
     /// <summary>
@@ -121,6 +272,16 @@ public sealed class SchedulerBuilder
         return new SchedulerBuilder(JobBuilder.From(scheduler.JobDetail)
             , scheduler.Triggers.Select(t => TriggerBuilder.From(t.Value)).ToList())
             .Updated();
+    }
+
+    /// <summary>
+    /// 将 <see cref="IScheduler"/> 转换成 <see cref="SchedulerBuilder"/>
+    /// </summary>
+    /// <param name="scheduler">作业计划</param>
+    /// <returns><see cref="SchedulerBuilder"/></returns>
+    public static SchedulerBuilder From(IScheduler scheduler)
+    {
+        return scheduler.GetBuilder();
     }
 
     /// <summary>
@@ -187,13 +348,18 @@ public sealed class SchedulerBuilder
     /// 更新作业触发器构建器
     /// </summary>
     /// <param name="jobBuilder">作业触发器构建器</param>
+    /// <param name="replace">是否完全替换为新的</param>
     /// <returns><see cref="SchedulerBuilder"/></returns>
-    public SchedulerBuilder UpdateJobBuilder(JobBuilder jobBuilder)
+    public SchedulerBuilder UpdateJobBuilder(JobBuilder jobBuilder, bool replace = false)
     {
         // 空检查
         if (jobBuilder == null) throw new ArgumentNullException(nameof(jobBuilder));
 
-        jobBuilder.MapTo<JobBuilder>(JobBuilder);
+        jobBuilder.MapTo<JobBuilder>(JobBuilder, !replace);
+
+        // 初始化运行时作业类型和额外数据
+        JobBuilder.SetJobType(JobBuilder.AssemblyName, JobBuilder.JobType)
+            .SetProperties(JobBuilder.Properties);
 
         return this;
     }
@@ -220,8 +386,9 @@ public sealed class SchedulerBuilder
     /// 更新作业触发器构建器
     /// </summary>
     /// <param name="triggerBuilders">作业触发器构建器</param>
+    /// <param name="replace">是否完全替换为新的</param>
     /// <returns><see cref="SchedulerBuilder"/></returns>
-    public SchedulerBuilder UpdateTriggerBuilder(params TriggerBuilder[] triggerBuilders)
+    public SchedulerBuilder UpdateTriggerBuilder(TriggerBuilder[] triggerBuilders, bool replace = false)
     {
         // 空检查
         if (triggerBuilders == null) throw new ArgumentNullException(nameof(triggerBuilders));
@@ -231,11 +398,25 @@ public sealed class SchedulerBuilder
             var originTriggerBuilder = GetTriggerBuilder(triggerBuilder?.TriggerId);
             if (originTriggerBuilder != null)
             {
-                triggerBuilder.MapTo<TriggerBuilder>(originTriggerBuilder);
+                triggerBuilder.MapTo<TriggerBuilder>(originTriggerBuilder, !replace);
+
+                // 初始化运行时作业类型和额外数据
+                triggerBuilder.SetTriggerType(triggerBuilder.AssemblyName, triggerBuilder.TriggerType)
+                    .SetArgs(triggerBuilder.Args);
             }
         }
 
         return this;
+    }
+
+    /// <summary>
+    /// 更新作业触发器构建器
+    /// </summary>
+    /// <param name="triggerBuilders">作业触发器构建器</param>
+    /// <returns><see cref="SchedulerBuilder"/></returns>
+    public SchedulerBuilder UpdateTriggerBuilder(params TriggerBuilder[] triggerBuilders)
+    {
+        return UpdateTriggerBuilder(triggerBuilders, false);
     }
 
     /// <summary>
@@ -260,7 +441,7 @@ public sealed class SchedulerBuilder
     /// 清空作业触发器构建器
     /// </summary>
     /// <returns><see cref="SchedulerBuilder"/></returns>
-    public SchedulerBuilder Clear()
+    public SchedulerBuilder ClearTriggerBuilders()
     {
         TriggerBuilders.ForEach(t => t.Removed());
 
@@ -377,7 +558,7 @@ public sealed class SchedulerBuilder
             var succeed = triggers.TryAdd(trigger.TriggerId, trigger);
 
             // 作业触发器 Id 唯一检查
-            if (!succeed) throw new InvalidOperationException($"The TriggerId of <{trigger.TriggerId}> already exists.");
+            if (!succeed) throw new InvalidOperationException($"The <{trigger.TriggerId}> trigger for scheduler of <{jobDetail.JobId}> already exists.");
         }
 
         // 创建作业计划

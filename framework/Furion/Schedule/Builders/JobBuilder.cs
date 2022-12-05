@@ -347,12 +347,14 @@ public sealed class JobBuilder : JobDetail
     /// <summary>
     /// 添加或更新作业信息额外数据
     /// </summary>
+    /// <typeparam name="T">值类型</typeparam>
     /// <param name="key">键</param>
-    /// <param name="value">值</param>
-    /// <returns><see cref="JobBuilder"/></returns>
-    public new JobBuilder AddOrUpdateProperty(string key, object value)
+    /// <param name="newValue">新值</param>
+    /// <param name="updateAction">更新委托，如果传递了该参数，那么键存在使则使用该参数的返回值</param>
+    /// <returns><see cref="JobDetail"/></returns>
+    public new JobBuilder AddOrUpdateProperty<T>(string key, T newValue, Func<T, object> updateAction = default)
     {
-        return base.AddOrUpdateProperty(key, value) as JobBuilder;
+        return base.AddOrUpdateProperty(key, newValue, updateAction) as JobBuilder;
     }
 
     /// <summary>
@@ -383,10 +385,9 @@ public sealed class JobBuilder : JobDetail
         // 空检查
         if (string.IsNullOrWhiteSpace(JobId)) throw new ArgumentNullException(nameof(JobId));
 
-        // 检查类型
-        if (!string.IsNullOrWhiteSpace(AssemblyName)
-            && !string.IsNullOrWhiteSpace(JobType)
-            && RuntimeJobType == null) SetJobType(AssemblyName, JobType);
+        // 避免类型还未初始化，强制检查一次
+        SetJobType(AssemblyName, JobType);
+        SetProperties(Properties);
 
         return this.MapTo<JobDetail>();
     }

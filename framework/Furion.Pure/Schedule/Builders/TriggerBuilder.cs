@@ -592,13 +592,9 @@ public sealed class TriggerBuilder : Trigger
         // 空检查
         if (string.IsNullOrWhiteSpace(jobId)) throw new ArgumentNullException(nameof(jobId));
 
-        // 检查类型
-        if (!string.IsNullOrWhiteSpace(AssemblyName)
-            && !string.IsNullOrWhiteSpace(TriggerType)
-            && RuntimeTriggerType == null) SetTriggerType(AssemblyName, TriggerType);
-
-        // 检查参数
-        if (!string.IsNullOrWhiteSpace(Args) && RuntimeTriggerArgs == null) SetArgs(Args);
+        // 避免类型还未初始化，强制检查一次
+        SetTriggerType(AssemblyName, TriggerType);
+        SetArgs(Args);
 
         // 检查 StartTime 和 EndTime 的关系，StartTime 不能大于 EndTime
         if (StartTime != null && EndTime != null

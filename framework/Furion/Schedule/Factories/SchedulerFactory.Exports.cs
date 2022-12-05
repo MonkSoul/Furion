@@ -153,7 +153,7 @@ internal sealed partial class SchedulerFactory
             && string.IsNullOrWhiteSpace(jobId))
         {
             // 输出日志
-            _logger.LogWarning("Empty identity scheduler has been removed.");
+            _logger.LogWarning("The empty identity scheduler successfully removed to the schedule.");
 
             scheduler = default;
             return ScheduleResult.Succeed;
@@ -259,15 +259,19 @@ internal sealed partial class SchedulerFactory
         }
         else
         {
-            // 将作业计划从内存中移除
-            var succeed = _schedulers.TryRemove(jobId, out originScheduler);
-            if (!succeed)
+            // 只有初始化成功才会执行此操作
+            if (PreloadCompleted)
             {
-                // 输出日志
-                _logger.LogWarning("The scheduler of <{jobId}> removed failed.", jobId);
+                // 将作业计划从内存中移除
+                var succeed = _schedulers.TryRemove(jobId, out originScheduler);
+                if (!succeed)
+                {
+                    // 输出日志
+                    _logger.LogWarning("The scheduler of <{jobId}> removed failed.", jobId);
 
-                scheduler = default;
-                return ScheduleResult.Failed;
+                    scheduler = default;
+                    return ScheduleResult.Failed;
+                }
             }
         }
 
@@ -275,7 +279,7 @@ internal sealed partial class SchedulerFactory
         Shorthand(newScheduler.JobDetail, schedulerBuilder.Behavior);
 
         // 获取最终返回的作业计划
-        var finalScheduler = isRemoved ? originScheduler : newScheduler;
+        var finalScheduler = isRemoved ? originScheduler ?? newScheduler : newScheduler;
 
         // 将作业触发器运行信息写入持久化
         foreach (var (triggerId, trigger) in finalScheduler.Triggers)
@@ -298,6 +302,11 @@ internal sealed partial class SchedulerFactory
 
         // 输出日志
         var jobOperation = Penetrates.SetFirstLetterCase(schedulerBuilder.Behavior.ToString(), false);
+        // 处理作业调度器初始化未完成时做更新操作情况
+        if (!PreloadCompleted && isUpdated)
+        {
+            jobOperation = "appended and updated";
+        }
         _logger.LogInformation("The scheduler of <{JobId}> successfully {jobOperation} to the schedule.", jobId, jobOperation);
 
         scheduler = finalScheduler;
@@ -366,7 +375,7 @@ internal sealed partial class SchedulerFactory
     public ScheduleResult TryAddJob<TJob>(TriggerBuilder[] triggerBuilders, out IScheduler scheduler, bool immediately = true)
          where TJob : class, IJob
     {
-        return TryAddJob(SchedulerBuilder.Create(JobBuilder.Create<TJob>(), triggerBuilders), out scheduler, immediately);
+        return TryAddJob(SchedulerBuilder.Create<TJob>(triggerBuilders), out scheduler, immediately);
     }
 
     /// <summary>
@@ -379,7 +388,7 @@ internal sealed partial class SchedulerFactory
     /// <remarks><see cref="ScheduleResult"/></remarks>
     public ScheduleResult TryAddJob(Type jobType, TriggerBuilder[] triggerBuilders, out IScheduler scheduler, bool immediately = true)
     {
-        return TryAddJob(SchedulerBuilder.Create(JobBuilder.Create(jobType), triggerBuilders), out scheduler, immediately);
+        return TryAddJob(SchedulerBuilder.Create(jobType, triggerBuilders), out scheduler, immediately);
     }
 
     /// <summary>
@@ -392,7 +401,7 @@ internal sealed partial class SchedulerFactory
     /// <remarks><see cref="ScheduleResult"/></remarks>
     public ScheduleResult TryAddJob(Func<IServiceProvider, JobExecutingContext, CancellationToken, Task> dynamicExecuteAsync, TriggerBuilder[] triggerBuilders, out IScheduler scheduler, bool immediately = true)
     {
-        return TryAddJob(SchedulerBuilder.Create(JobBuilder.Create(dynamicExecuteAsync), triggerBuilders), out scheduler, immediately);
+        return TryAddJob(SchedulerBuilder.Create(dynamicExecuteAsync, triggerBuilders), out scheduler, immediately);
     }
 
     /// <summary>
@@ -438,9 +447,7 @@ internal sealed partial class SchedulerFactory
     public ScheduleResult TryAddJob<TJob>(string jobId, TriggerBuilder[] triggerBuilders, out IScheduler scheduler, bool immediately = true)
          where TJob : class, IJob
     {
-        return TryAddJob(SchedulerBuilder.Create(
-            JobBuilder.Create<TJob>()
-                               .SetJobId(jobId), triggerBuilders), out scheduler, immediately);
+        return TryAddJob(SchedulerBuilder.Create<TJob>(jobId, triggerBuilders), out scheduler, immediately);
     }
 
     /// <summary>
@@ -454,9 +461,7 @@ internal sealed partial class SchedulerFactory
     /// <returns><see cref="ScheduleResult"/></returns>
     public ScheduleResult TryAddJob(Type jobType, string jobId, TriggerBuilder[] triggerBuilders, out IScheduler scheduler, bool immediately = true)
     {
-        return TryAddJob(SchedulerBuilder.Create(
-            JobBuilder.Create(jobType)
-                               .SetJobId(jobId), triggerBuilders), out scheduler, immediately);
+        return TryAddJob(SchedulerBuilder.Create(jobType, jobId, triggerBuilders), out scheduler, immediately);
     }
 
     /// <summary>
@@ -470,9 +475,7 @@ internal sealed partial class SchedulerFactory
     /// <returns><see cref="ScheduleResult"/></returns>
     public ScheduleResult TryAddJob(Func<IServiceProvider, JobExecutingContext, CancellationToken, Task> dynamicExecuteAsync, string jobId, TriggerBuilder[] triggerBuilders, out IScheduler scheduler, bool immediately = true)
     {
-        return TryAddJob(SchedulerBuilder.Create(
-            JobBuilder.Create(dynamicExecuteAsync)
-                               .SetJobId(jobId), triggerBuilders), out scheduler, immediately);
+        return TryAddJob(SchedulerBuilder.Create(dynamicExecuteAsync, jobId, triggerBuilders), out scheduler, immediately);
     }
 
     /// <summary>
@@ -522,9 +525,7 @@ internal sealed partial class SchedulerFactory
     public ScheduleResult TryAddJob<TJob>(string jobId, bool concurrent, TriggerBuilder[] triggerBuilders, out IScheduler scheduler, bool immediately = true)
          where TJob : class, IJob
     {
-        return TryAddJob(SchedulerBuilder.Create(JobBuilder.Create<TJob>()
-            .SetJobId(jobId)
-            .SetConcurrent(concurrent), triggerBuilders), out scheduler, immediately);
+        return TryAddJob(SchedulerBuilder.Create<TJob>(jobId, concurrent, triggerBuilders), out scheduler, immediately);
     }
 
     /// <summary>
@@ -539,9 +540,7 @@ internal sealed partial class SchedulerFactory
     /// <returns><see cref="ScheduleResult"/></returns>
     public ScheduleResult TryAddJob(Type jobType, string jobId, bool concurrent, TriggerBuilder[] triggerBuilders, out IScheduler scheduler, bool immediately = true)
     {
-        return TryAddJob(SchedulerBuilder.Create(JobBuilder.Create(jobType)
-            .SetJobId(jobId)
-            .SetConcurrent(concurrent), triggerBuilders), out scheduler, immediately);
+        return TryAddJob(SchedulerBuilder.Create(jobType, jobId, concurrent, triggerBuilders), out scheduler, immediately);
     }
 
     /// <summary>
@@ -556,9 +555,7 @@ internal sealed partial class SchedulerFactory
     /// <returns><see cref="ScheduleResult"/></returns>
     public ScheduleResult TryAddJob(Func<IServiceProvider, JobExecutingContext, CancellationToken, Task> dynamicExecuteAsync, string jobId, bool concurrent, TriggerBuilder[] triggerBuilders, out IScheduler scheduler, bool immediately = true)
     {
-        return TryAddJob(SchedulerBuilder.Create(JobBuilder.Create(dynamicExecuteAsync)
-            .SetJobId(jobId)
-            .SetConcurrent(concurrent), triggerBuilders), out scheduler, immediately);
+        return TryAddJob(SchedulerBuilder.Create(dynamicExecuteAsync, jobId, concurrent, triggerBuilders), out scheduler, immediately);
     }
 
     /// <summary>
@@ -610,9 +607,7 @@ internal sealed partial class SchedulerFactory
     public ScheduleResult TryAddJob<TJob>(bool concurrent, TriggerBuilder[] triggerBuilders, out IScheduler scheduler, bool immediately = true)
          where TJob : class, IJob
     {
-        return TryAddJob(SchedulerBuilder.Create(
-            JobBuilder.Create<TJob>()
-                               .SetConcurrent(concurrent), triggerBuilders), out scheduler, immediately);
+        return TryAddJob(SchedulerBuilder.Create<TJob>(concurrent, triggerBuilders), out scheduler, immediately);
     }
 
     /// <summary>
@@ -626,9 +621,7 @@ internal sealed partial class SchedulerFactory
     /// <returns><see cref="ScheduleResult"/></returns>
     public ScheduleResult TryAddJob(Type jobType, bool concurrent, TriggerBuilder[] triggerBuilders, out IScheduler scheduler, bool immediately = true)
     {
-        return TryAddJob(SchedulerBuilder.Create(
-            JobBuilder.Create(jobType)
-                               .SetConcurrent(concurrent), triggerBuilders), out scheduler, immediately);
+        return TryAddJob(SchedulerBuilder.Create(jobType, concurrent, triggerBuilders), out scheduler, immediately);
     }
 
     /// <summary>
@@ -642,9 +635,7 @@ internal sealed partial class SchedulerFactory
     /// <returns><see cref="ScheduleResult"/></returns>
     public ScheduleResult TryAddJob(Func<IServiceProvider, JobExecutingContext, CancellationToken, Task> dynamicExecuteAsync, bool concurrent, TriggerBuilder[] triggerBuilders, out IScheduler scheduler, bool immediately = true)
     {
-        return TryAddJob(SchedulerBuilder.Create(
-            JobBuilder.Create(dynamicExecuteAsync)
-                               .SetConcurrent(concurrent), triggerBuilders), out scheduler, immediately);
+        return TryAddJob(SchedulerBuilder.Create(dynamicExecuteAsync, concurrent, triggerBuilders), out scheduler, immediately);
     }
 
     /// <summary>

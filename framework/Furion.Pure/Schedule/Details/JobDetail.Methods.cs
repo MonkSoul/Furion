@@ -87,6 +87,7 @@ public partial class JobDetail
     /// <summary>
     /// 添加或更新作业信息额外数据
     /// </summary>
+    /// <typeparam name="T">值类型</typeparam>
     /// <param name="key">键</param>
     /// <param name="newValue">新值</param>
     /// <param name="updateAction">更新委托，如果传递了该参数，那么键存在使则使用该参数的返回值</param>

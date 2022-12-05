@@ -2317,7 +2317,7 @@ public class MyJob : IJob
 
 查看作业调度器初始化日志：
 
-```cs showLineNumbers {6,8,10,16,18}
+```bash showLineNumbers {6,8,10,16,18}
 info: 2022-12-04 18:29:22.3997873 +08:00 星期日 L System.Logging.ScheduleService[0] #1
       Schedule hosted service is running.
 info: 2022-12-04 18:29:22.4045304 +08:00 星期日 L System.Logging.ScheduleService[0] #1
@@ -2590,76 +2590,96 @@ services.AddSchedule(options =>
 
 ### 26.1.6.2 关于作业计划构建器
 
-作业计划 `Scheduler` 是作业调度模块提供运行时的**只读类型**，那么我们该如何创建或变更 `Scheduler` 对象呢？
+作业计划 `Scheduler` 是框架提供运行时的**内部只读类型**，那么我们该如何创建或变更 `Scheduler` 对象呢？
 
-`SchedulerBuilder` 是作业调度模块提供可用来生成运行时 `Scheduler` 的类型，这样做的好处可避免外部直接修改运行时 `Scheduler` 数据，还能实现任何修改动作监听，也能避免多线程抢占情况。
+`SchedulerBuilder` 是框架提供可用来生成运行时 `Scheduler` 的类型，这样做的好处可避免外部直接修改运行时 `Scheduler` 数据，还能实现任何修改动作监听，也能避免多线程抢占情况。
 
 作业调度模块提供了多种方式用来创建 `SchedulerBuilder` 对象。
 
 1. **通过 `Create` 静态方法创建**
 
-```cs showLineNumbers {2,9}
-// 创建作业计划必须传入 JoBuilder 和 0或1个以上的 TiggerBuilder
+```cs showLineNumbers {1,4,10,16,22}
+// 通过作业 Id 创建
+var schedulerBuilder = SchedulerBuilder.Create("job1");
+
+// 通过泛型方式
+var schedulerBuilder = SchedulerBuilder.Create<MyJob>(Triggers.PeriodSeconds(5), Triggers.Minutely());
+var schedulerBuilder = SchedulerBuilder.Create<MyJob>(true, Triggers.PeriodSeconds(5), Triggers.Minutely());
+var schedulerBuilder = SchedulerBuilder.Create<MyJob>("job1", Triggers.PeriodSeconds(5), Triggers.Minutely());
+var schedulerBuilder = SchedulerBuilder.Create<MyJob>("job1", true, Triggers.PeriodSeconds(5), Triggers.Minutely());
+
+// 通过类型方式
+var schedulerBuilder = SchedulerBuilder.Create(typeof(MyJob), Triggers.PeriodSeconds(5), Triggers.Minutely());
+var schedulerBuilder = SchedulerBuilder.Create(typeof(MyJob), true, Triggers.PeriodSeconds(5), Triggers.Minutely());
+var schedulerBuilder = SchedulerBuilder.Create(typeof(MyJob), "job1", Triggers.PeriodSeconds(5), Triggers.Minutely());
+var schedulerBuilder = SchedulerBuilder.Create(typeof(MyJob), "job1", true, Triggers.PeriodSeconds(5), Triggers.Minutely());
+
+// 通过委托方式
+var schedulerBuilder = SchedulerBuilder.Create((serviceProvider, context, stoppingToken, Task) => {}, Triggers.PeriodSeconds(5), Triggers.Minutely());
+var schedulerBuilder = SchedulerBuilder.Create((serviceProvider, context, stoppingToken, Task) => {}, true, Triggers.PeriodSeconds(5), Triggers.Minutely());
+var schedulerBuilder = SchedulerBuilder.Create((serviceProvider, context, stoppingToken, Task) => {}, "job1", Triggers.PeriodSeconds(5), Triggers.Minutely());
+var schedulerBuilder = SchedulerBuilder.Create((serviceProvider, context, stoppingToken, Task) => {}, "job1", true, Triggers.PeriodSeconds(5), Triggers.Minutely());
+
+// 通过 JobBuilder 和 0 或 N 个 TriggerBuilder 创建
 var schedulerBuilder = SchedulerBuilder.Create(
             JobBuilder.Create<MyJob>()
             , Triggers.PeriodSeconds(5), Triggers.Minutely());
-
-// 添加到作业调度器中
-services.AddSchedule(options =>
-{
-      options.AddJob(schedulerBuilder);
-});
 ```
 
-2. **通过 `JSON` 字符串创建**
+2. **通过 `IScheduler` 接口创建**
+
+这种方式常用于在运行时更新作业信息。
+
+```cs showLineNumbers
+var schedulerBuilder = SchedulerBuilder.From(scheduler);
+
+//也可以通过以下方式
+var schedulerBuilder = scheduler.GetBuilder();
+```
+
+3. **通过 `JSON` 字符串创建**
 
 该方式非常灵活，可从配置文件，`JSON` 字符串，或其他能够返回 `JSON` 字符串的地方创建。
 
-```cs showLineNumbers {1,3,14,43}
+```cs showLineNumbers {1,3,14}
 var schedulerBuilder = SchedulerBuilder.From(@"
 {
-    ""jobDetail"": {
-        ""jobId"": ""job1"",
-        ""groupName"": null,
-        ""jobType"": ""ConsoleApp32.MyJob"",
-        ""assemblyName"": ""ConsoleApp32"",
-        ""description"": null,
-        ""concurrent"": true,
-        ""includeAnnotations"": false,
-        ""properties"": ""{}"",
-        ""updatedTime"": ""2022-11-17T09:25:47.0471107+08:00""
-    },
-    ""triggers"": [
-        {
-            ""triggerId"": ""job1_trigger1"",
-            ""triggerType"": ""Furion.Schedule.PeriodSecondsTrigger"",
-            ""assemblyName"": ""Furion"",
-            ""args"": ""[5]"",
-            ""description"": null,
-            ""status"": 2,
-            ""startTime"": null,
-            ""endTime"": null,
-            ""lastRunTime"": ""2022-11-20T18:31:56.6859410+08:00"",
-            ""nextRunTime"": ""2022-11-20T18:32:01.7233546+08:00"",
-            ""numberOfRuns"": 1,
-            ""maxNumberOfRuns"": 0,
-            ""numberOfErrors"": 0,
-            ""maxNumberOfErrors"": 0,
-            ""numRetries"": 0,
-            ""retryTimeout"": 1000,
-            ""startNow"": true,
-            ""runOnStart"": false,
-            ""resetOnlyOnce"": true,
-            ""updatedTime"": ""2022-11-20T18:31:56.7233630+08:00""
-        }
-    ]
-}");
-
-// 添加到作业调度器中
-services.AddSchedule(options =>
-{
-      options.AddJob(schedulerBuilder);
-});
+	""jobDetail"": {
+		""jobId"": ""job1"",
+		""groupName"": null,
+		""jobType"": ""MyJob"",
+		""assemblyName"": ""ConsoleApp32"",
+		""description"": null,
+		""concurrent"": true,
+		""includeAnnotations"": false,
+		""properties"": ""{}"",
+		""updatedTime"": ""2022-12-04 11:51:00.483""
+	},
+	""triggers"": [{
+		""triggerId"": ""job1_trigger1"",
+		""jobId"": ""job1"",
+		""triggerType"": ""Furion.Schedule.PeriodTrigger"",
+		""assemblyName"": ""Furion"",
+		""args"": ""[5000]"",
+		""description"": null,
+		""status"": 2,
+		""startTime"": null,
+		""endTime"": null,
+		""lastRunTime"": ""2022-12-04 17:52:34.768"",
+		""nextRunTime"": ""2022-12-04 17:52:39.769"",
+		""numberOfRuns"": 1,
+		""maxNumberOfRuns"": 0,
+		""numberOfErrors"": 0,
+		""maxNumberOfErrors"": 0,
+		""numRetries"": 0,
+		""retryTimeout"": 1000,
+		""startNow"": true,
+		""runOnStart"": false,
+		""resetOnlyOnce"": true,
+		""updatedTime"": ""2022-12-04 17:52:34.803""
+	}]
+}
+");
 ```
 
 如果使用的是 `.NET7`，可使用 `"""` 避免转义，如：
@@ -2667,29 +2687,29 @@ services.AddSchedule(options =>
 ```cs showLineNumbers {1,3,14}
 var schedulerBuilder = SchedulerBuilder.From("""
 {
-    "jobDetail": {
-        "jobId": "job1",
-        "groupName": null,
-        "jobType": "Furion.Application.MyJob",
-        "assemblyName": "Furion.Application",
-        "description": null,
-        "concurrent": true,
-        "includeAnnotations": false,
-        "properties": "{}",
-        "updatedTime": "2022-11-17T09:25:47.0471107+08:00"
-    },
-    "triggers": [
-        {
+      "jobDetail": {
+            "jobId": "job1",
+            "groupName": null,
+            "jobType": "MyJob",
+            "assemblyName": "ConsoleApp32",
+            "description": null,
+            "concurrent": true,
+            "includeAnnotations": false,
+            "properties": "{}",
+            "updatedTime": "2022-12-04 11:51:00.483"
+      },
+      "triggers": [{
             "triggerId": "job1_trigger1",
-            "triggerType": "Furion.Schedule.PeriodSecondsTrigger",
+            "jobId": "job1",
+            "triggerType": "Furion.Schedule.PeriodTrigger",
             "assemblyName": "Furion",
-            "args": "[5]",
+            "args": "[5000]",
             "description": null,
             "status": 2,
             "startTime": null,
             "endTime": null,
-            "lastRunTime": "2022-11-20T18:31:56.6859410+08:00",
-            "nextRunTime": "2022-11-20T18:32:01.7233546+08:00",
+            "lastRunTime": "2022-12-04 17:52:34.768",
+            "nextRunTime": "2022-12-04 17:52:39.769",
             "numberOfRuns": 1,
             "maxNumberOfRuns": 0,
             "numberOfErrors": 0,
@@ -2699,9 +2719,8 @@ var schedulerBuilder = SchedulerBuilder.From("""
             "startNow": true,
             "runOnStart": false,
             "resetOnlyOnce": true,
-            "updatedTime": "2022-11-20T18:31:56.7233630+08:00"
-        }
-    ]
+            "updatedTime": "2022-12-04 17:52:34.803"
+      }]
 }
 """);
 ```
@@ -2714,7 +2733,7 @@ var schedulerBuilder = SchedulerBuilder.From("""
 
 :::
 
-3. **还可以通过 `Clone` 静态方法从一个 `SchedulerBuilder` 创建**
+4. **还可以通过 `Clone` 静态方法从一个 `SchedulerBuilder` 创建**
 
 ```cs showLineNumbers
 var schedulerBuilder = SchedulerBuilder.Clone(fromSchedulerBuilder);
@@ -2722,67 +2741,92 @@ var schedulerBuilder = SchedulerBuilder.Clone(fromSchedulerBuilder);
 
 :::important 克隆说明
 
-克隆操作将克隆 `JobBuilder` 和 `TriggerBuilders`，同时 `Behavior` 会被标记为 `PersistenceBehavior.Appended`。
+克隆操作将克隆 `JobBuilder` 和 `TriggerBuilders`，同时持久化行为会被标记为 `Appended`。
 
 :::
 
 ### 26.1.6.3 设置作业计划构建器
 
-`Scheduler` 提供了多个方法操作 `JobBuilder` 和 `TriggerBuilder`，如：
+`SchedulerBuilder` 提供了多个方法操作 `JobBuilder` 和 `TriggerBuilder`，如：
 
-```cs showLineNumbers {2,5,8,11,14,16-17,20,22-23,26,28,30-33,36}
-// 获取当前的作业信息构建器
+```cs showLineNumbers
+// 获取作业信息构建器
 var jobBuilder = schedulerBuilder.GetJobBuilder();
 
-// 更新当前作业信息构建器
-schedulerBuilder.UpdateJobBuilder(jobBuilder.SetDescription("新的描述"));
-
-// 获取所有的作业触发器构建器集合
+// 获取所有作业触发器构建器
 var triggerBuilders = schedulerBuilder.GetTriggerBuilders();
 
 // 获取单个作业触发器构建器
 var triggerBuilder = schedulerBuilder.GetTriggerBuilder("job1_trigger1");
+var triggerBuilder = schedulerBuilder.GetTriggerBuilder("not_found_trigger_id"); // => null
 
-// 新增作业触发器构建器
-schedulerBuilder.AddTriggerBuilder(Triggers.Minutely());
-// 也支持链式添加或添加多个
-schedulerBuilder.AddTriggerBuilder(Triggers.Minutely()).AddTriggerBuilder(Trigger.Hourly());
-schedulerBuilder.AddTriggerBuilders(Trigger.Minutely(), Trigger.Hourly());
+// 更新作业信息构建器
+schedulerBuilder.UpdateJobBuilder(jobBuilder);
+// 如果通过 .GetJobBuilder() 方式获取，那么可直接更新，无需调用 .UpdateJobBuilder(jobBuilder);
+schedulerBuilder.UpdateJobBuilder(newJobBuilder, replace: true);
+
+// 添加作业触发器构建器
+schedulerBuilder.AddTriggerBuilder(triggerBuilder1, triggerBuilder2, ...);
 
 // 更新作业触发器构建器
-schedulerBuilder.UpdateTriggerBuilder(triggerBuilder.SetDescription("新的触发器描述"));
-// 也支持链式更新或更新多个
-schedulerBuilder.UpdateTriggerBuilder(triggerBuilder1).UpdateTriggerBuilder(triggerBuilder2);
-schedulerBuilder.UpdateTriggerBuilders(triggerBuilder1, triggerBuilder2);
+schedulerBuilder.UpdateTriggerBuilder(triggerBuilder1, triggerBuilder2, ...);
+// 还可以选择覆盖更新还是不覆盖
+schedulerBuilder.UpdateTriggerBuilder(new[] { triggerBuilder1, triggerBuilder2, ... }, replace: true);
 
-// 删除作业触发器构建器
-schedulerBuilder.RemoveTriggerBuilder(triggerBuilder);
-// 可以根据作业触发器 Id 删除
-schedulerBuilder.RemoveTriggerBuilder("job1_trigger1", out var builder);
-// 也支持链式删除或删除多个
-schedulerBuilder.RemoveTriggerBuilder(triggerBuilder1).RemoveTriggerBuilder(triggerBuilder2);
-schedulerBuilder.RemoveTriggerBuilders(triggerBuilder1, triggerBuilder2);
-schedulerBuilder.RemoveTriggerBuilder("job1_trigger1", out var triggerBuilder).RemoveTriggerBuilder("job1_trigger2", out _);
-schedulerBuilder.RemoveTriggerBuilder("job1_trigger1", "job1_trigger2");
+// 删除作业触发器构建器，注意不是真的删除，而是标记为 Removed 删除状态
+schedulerBuilder.RemoveTriggerBuilder("trigger1", "trigger2", ...);
 
-// 清空所有作业触发器构建器
+// 清除所有作业触发器构建器，注意不是真的删除，而是标记为 Removed 删除状态
 schedulerBuilder.ClearTriggerBuilders();
+
+// 输出为 JSON 格式
+var json = schedulerBuilder.ConvertToJSON();
+var json = schedulerBuilder.ConvertToJSON(NamingConventions.CamelCase);
+
+// 将作业计划构建器转换成可枚举的 Dictionary<JobBuilder, TriggerBuilder>
+foreach(var (jobBuilder, triggerBuilder) in schedulerBuilder.GetEnumerable())
+{
+      // ....
+}
 ```
 
-除了提供上面的 `CURD` 操作以外，还提供了可以更改 `SchedulerBuilder` 的**持久化行为**的方法，如：
+### 26.1.6.4 作业计划构建器持久化方法
 
-```cs showLineNumbers
-// 标记当前作业计划构建器为新增状态
-schedulerBuilder.Appended();  // 默认值
-// 标记当前作业计划构建器为更新状态
-schedulerBuilder.Updated();
-// 标记当前作业计划构建器为删除状态
-schedulerBuilder.Removed();
+作业计划构建器 `SchedulerBuilder` 提供了三个标记作业持久化行为的方法：
+
+- `Appended()`：标记作业计划构建器是新增的，届时生成的 `SQL` 是 `INSERT` 语句
+- `Updated()`：标记作业计划构建器已被更新，届时生成的 `SQL` 是 `Updated` 语句，如果标记为此操作，那么当前作业调度器初始化时将新增至内存中
+- `Removed()`：标记作业计划构建器已被删除，届时生成的 `SQL` 是 `Deleted` 语句，如果标记为此操作，那么当前作业调度器初始化时将不会添加至调度器中
+
+```cs showLineNumbers {3-5}
+services.AddSchedule(options =>
+{
+    options.AddJob(SchedulerBuilder.Create<MyJob>("job1").Appended()
+        , SchedulerBuilder.Create<MyJob>("job2").Updated()
+        , SchedulerBuilder.Create<MyJob>("job3").Removed());
+});
 ```
 
-### 26.1.6.4 多种格式字符串输出
+查看作业调度器初始化日志：
 
-`Scheduler` 和 `SchedulerBuilder` 都提供了多种将自身转换成特定格式的字符串。
+```bash showLineNumbers {6,8,10,12}
+info: 2022-12-05 12:14:42.8481157 +08:00 星期一 L System.Logging.ScheduleService[0] #1
+      Schedule hosted service is running.
+info: 2022-12-05 12:14:42.8597028 +08:00 星期一 L System.Logging.ScheduleService[0] #1
+      Schedule hosted service is preloading...
+info: 2022-12-05 12:14:42.9360896 +08:00 星期一 L System.Logging.ScheduleService[0] #1
+      The scheduler of <job1> successfully appended to the schedule.
+info: 2022-12-05 12:14:42.9471072 +08:00 星期一 L System.Logging.ScheduleService[0] #1
+      The scheduler of <job2> successfully appended and updated to the schedule.
+info: 2022-12-05 12:14:42.9562673 +08:00 星期一 L System.Logging.ScheduleService[0] #1
+      The scheduler of <job3> successfully removed to the schedule.
+warn: 2022-12-05 12:14:42.9748930 +08:00 星期一 L System.Logging.ScheduleService[0] #1
+      Schedule hosted service preload completed, and a total of <2> schedulers are appended.
+```
+
+### 26.1.6.5 多种格式字符串输出
+
+`Scheduler/IScheduler` 和 `SchedulerBuilder` 都提供了多种将自身转换成特定格式的字符串。
 
 1. **转换成 `JSON` 字符串**
 
@@ -2797,27 +2841,27 @@ var json = schedulerBuilder.ConvertToJSON();
   "jobDetail": {
     "jobId": "job1",
     "groupName": null,
-    "jobType": "Furion.Application.MyJob",
-    "assemblyName": "Furion.Application",
+    "jobType": "MyJob",
+    "assemblyName": "ConsoleApp32",
     "description": null,
     "concurrent": true,
     "includeAnnotations": false,
     "properties": "{}",
-    "updatedTime": "2022-11-17T09:25:47.0471107+08:00"
+    "updatedTime": "2022-12-04 11:51:00.483"
   },
   "triggers": [
     {
       "triggerId": "job1_trigger1",
-      "jobId": null,
-      "triggerType": "Furion.Schedule.PeriodSecondsTrigger",
+      "jobId": "job1",
+      "triggerType": "Furion.Schedule.PeriodTrigger",
       "assemblyName": "Furion",
-      "args": "[5]",
+      "args": "[5000]",
       "description": null,
       "status": 2,
       "startTime": null,
       "endTime": null,
-      "lastRunTime": "2022-11-20T18:31:56.6859410+08:00",
-      "nextRunTime": "2022-11-20T18:32:01.7233546+08:00",
+      "lastRunTime": "2022-12-04 17:52:34.768",
+      "nextRunTime": "2022-12-04 17:52:39.769",
       "numberOfRuns": 1,
       "maxNumberOfRuns": 0,
       "numberOfErrors": 0,
@@ -2827,7 +2871,7 @@ var json = schedulerBuilder.ConvertToJSON();
       "startNow": true,
       "runOnStart": false,
       "resetOnlyOnce": true,
-      "updatedTime": "2022-11-20T18:31:56.7233630+08:00"
+      "updatedTime": "2022-12-04 17:52:34.803"
     }
   ]
 }
