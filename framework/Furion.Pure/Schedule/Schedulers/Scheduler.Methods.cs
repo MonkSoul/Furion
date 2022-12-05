@@ -79,6 +79,24 @@ internal sealed partial class Scheduler
     }
 
     /// <summary>
+    /// 查找作业信息
+    /// </summary>
+    /// <returns><see cref="JobDetail"/></returns>
+    public JobDetail GetJobDetail()
+    {
+        return JobDetail;
+    }
+
+    /// <summary>
+    /// 查找作业触发器集合
+    /// </summary>
+    /// <returns><see cref="IEnumerable{Trigger}"/></returns>
+    public IEnumerable<Trigger> GetTriggers()
+    {
+        return Triggers.Values;
+    }
+
+    /// <summary>
     /// 查找作业触发器
     /// </summary>
     /// <param name="triggerId">作业触发器 Id</param>
@@ -157,6 +175,22 @@ internal sealed partial class Scheduler
         else
         {
             return InternalTryGetTrigger(triggerId, out trigger, true);
+        }
+    }
+
+    /// <summary>
+    /// 保存作业触发器
+    /// </summary>
+    /// <param name="triggerBuilders">作业触发器构建器集合</param>
+    public void SaveTrigger(params TriggerBuilder[] triggerBuilders)
+    {
+        // 空检查
+        if (triggerBuilders == null || triggerBuilders.Length == 0) throw new ArgumentNullException(nameof(triggerBuilders));
+
+        // 逐条将作业触发器构建器保存到作业计划中
+        foreach (var triggerBuilder in triggerBuilders)
+        {
+            _ = TrySaveTrigger(triggerBuilder, out var _);
         }
     }
 

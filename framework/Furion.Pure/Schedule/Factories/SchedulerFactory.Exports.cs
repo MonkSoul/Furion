@@ -335,7 +335,7 @@ internal sealed partial class SchedulerFactory
         // 空检查
         if (schedulerBuilders == null || schedulerBuilders.Length == 0) throw new ArgumentNullException(nameof(schedulerBuilders));
 
-        // 逐条将作业计划构建器保存到作业计划计划中
+        // 逐条将作业计划构建器保存到作业计划中
         foreach (var schedulerBuilder in schedulerBuilders)
         {
             _ = TrySaveJob(schedulerBuilder, out var _);
@@ -363,7 +363,7 @@ internal sealed partial class SchedulerFactory
         // 空检查
         if (schedulerBuilders == null || schedulerBuilders.Length == 0) throw new ArgumentNullException(nameof(schedulerBuilders));
 
-        // 逐条将作业计划构建器保存到作业计划计划中
+        // 逐条将作业计划构建器保存到作业计划中
         foreach (var schedulerBuilder in schedulerBuilders)
         {
             _ = TryAddJob(schedulerBuilder, out var _);
@@ -722,7 +722,7 @@ internal sealed partial class SchedulerFactory
         // 空检查
         if (schedulerBuilders == null || schedulerBuilders.Length == 0) throw new ArgumentNullException(nameof(schedulerBuilders));
 
-        // 逐条将作业计划构建器保存到作业计划计划中
+        // 逐条将作业计划构建器保存到作业计划中
         foreach (var schedulerBuilder in schedulerBuilders)
         {
             _ = TryUpdateJob(schedulerBuilder, out var _);

@@ -60,6 +60,18 @@ public interface IScheduler
     TriggerBuilder GetTriggerBuilder(string triggerId);
 
     /// <summary>
+    /// 查找作业信息
+    /// </summary>
+    /// <returns><see cref="JobDetail"/></returns>
+    JobDetail GetJobDetail();
+
+    /// <summary>
+    /// 查找作业触发器集合
+    /// </summary>
+    /// <returns><see cref="IEnumerable{Trigger}"/></returns>
+    IEnumerable<Trigger> GetTriggers();
+
+    /// <summary>
     /// 查找作业触发器
     /// </summary>
     /// <param name="triggerId">作业触发器 Id</param>
@@ -82,6 +94,12 @@ public interface IScheduler
     /// <param name="immediately">是否立即通知作业调度器重新载入</param>
     /// <returns><see cref="ScheduleResult"/></returns>
     ScheduleResult TrySaveTrigger(TriggerBuilder triggerBuilder, out Trigger trigger, bool immediately = true);
+
+    /// <summary>
+    /// 保存作业触发器
+    /// </summary>
+    /// <param name="triggerBuilders">作业触发器构建器集合</param>
+    void SaveTrigger(params TriggerBuilder[] triggerBuilders);
 
     /// <summary>
     /// 更新作业计划信息

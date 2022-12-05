@@ -385,25 +385,23 @@ public sealed class SchedulerBuilder
     /// <summary>
     /// 更新作业触发器构建器
     /// </summary>
-    /// <param name="triggerBuilders">作业触发器构建器</param>
+    /// <param name="triggerBuilder">作业触发器构建器</param>
     /// <param name="replace">是否完全替换为新的</param>
     /// <returns><see cref="SchedulerBuilder"/></returns>
-    public SchedulerBuilder UpdateTriggerBuilder(TriggerBuilder[] triggerBuilders, bool replace = false)
+    public SchedulerBuilder UpdateTriggerBuilder(TriggerBuilder triggerBuilder, bool replace = false)
     {
         // 空检查
-        if (triggerBuilders == null) throw new ArgumentNullException(nameof(triggerBuilders));
+        if (triggerBuilder == null) throw new ArgumentNullException(nameof(triggerBuilder));
 
-        foreach (var triggerBuilder in triggerBuilders)
+        // 获取原来的作业触发器构建器
+        var originTriggerBuilder = GetTriggerBuilder(triggerBuilder?.TriggerId);
+        if (originTriggerBuilder != null)
         {
-            var originTriggerBuilder = GetTriggerBuilder(triggerBuilder?.TriggerId);
-            if (originTriggerBuilder != null)
-            {
-                triggerBuilder.MapTo<TriggerBuilder>(originTriggerBuilder, !replace);
+            triggerBuilder.MapTo<TriggerBuilder>(originTriggerBuilder, !replace);
 
-                // 初始化运行时作业类型和额外数据
-                triggerBuilder.SetTriggerType(triggerBuilder.AssemblyName, triggerBuilder.TriggerType)
-                    .SetArgs(triggerBuilder.Args);
-            }
+            // 初始化运行时作业类型和额外数据
+            originTriggerBuilder.SetTriggerType(originTriggerBuilder.AssemblyName, originTriggerBuilder.TriggerType)
+                .SetArgs(originTriggerBuilder.Args);
         }
 
         return this;
@@ -416,7 +414,15 @@ public sealed class SchedulerBuilder
     /// <returns><see cref="SchedulerBuilder"/></returns>
     public SchedulerBuilder UpdateTriggerBuilder(params TriggerBuilder[] triggerBuilders)
     {
-        return UpdateTriggerBuilder(triggerBuilders, false);
+        // 空检查
+        if (triggerBuilders == null) throw new ArgumentNullException(nameof(triggerBuilders));
+
+        foreach (var triggerBuilder in triggerBuilders)
+        {
+            UpdateTriggerBuilder(triggerBuilder, false);
+        }
+
+        return this;
     }
 
     /// <summary>
