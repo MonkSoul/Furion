@@ -145,6 +145,19 @@ internal sealed partial class SchedulerFactory
                 scheduler = default;
                 return scheduleResult;
             }
+
+            // 原作业计划触发器被清空的问题
+            if (originScheduler.Triggers.Count > 0 && schedulerBuilder.TriggerBuilders.Count == 0)
+            {
+                // 将作业触发器运行信息写入持久化
+                foreach (var (triggerId, trigger) in originScheduler.Triggers)
+                {
+                    Shorthand(originScheduler.JobDetail, trigger, PersistenceBehavior.Removed);
+
+                    // 输出日志
+                    _logger.LogInformation("The <{triggerId}> trigger for scheduler of <{jobId}> successfully removed to the schedule.", triggerId, jobId);
+                }
+            }
         }
 
         // 检查删除作业且不指定作业 Id 的情况，此操作仅在作业调度器未完成初始化时工作
