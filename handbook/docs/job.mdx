@@ -2919,7 +2919,7 @@ services.AddSchedule(options =>
       {
       });
 
-      // 配置作业信息 Trigger 相关配置，如配置自定义 SQL 输出
+      // 配置作业触发器 Trigger 相关配置，如配置自定义 SQL 输出
       options.Trigger.ConvertToSQL((tableName, columnNames, trigger, behavior, naming) =>
       {
       });
@@ -2984,17 +2984,17 @@ public class YourJobMonitor : IJobMonitor
 
     public Task OnExecutingAsync(JobExecutingContext context, CancellationToken stoppingToken)
     {
-        _logger.LogInformation("执行之前：{JobId} {TriggerId}", context.JobId, context.TriggerId);
+        _logger.LogInformation("执行之前：{context}", context);
         return Task.CompletedTask;
     }
 
     public Task OnExecutedAsync(JobExecutedContext context, CancellationToken stoppingToken)
     {
-        _logger.LogInformation("执行之后：{JobId} {TriggerId}", context.JobId, context.TriggerId);
+        _logger.LogInformation("执行之后：{context}", context);
 
         if (context.Exception != null)
         {
-            _logger.LogError(context.Exception, "执行出错啦：{JobId} {TriggerId}", context.JobId, context.TriggerId);
+            _logger.LogError(context.Exception, "执行出错啦：{context}", context);
         }
 
         return Task.CompletedTask;
@@ -3014,13 +3014,112 @@ services.AddSchedule(options =>
 
 执行结果如下：
 
-```bash showLineNumbers {2,6}
-info: 2022-11-21 13:41:49.2144716 +08:00 星期一 L ConsoleApp32.YourJobMonitor[0] #9
-      执行之前：job1 job1_trigger1
-info: 2022-11-21 13:41:49.2216598 +08:00 星期一 L ConsoleApp32.MyJob[0] #9
-      job1 job1_trigger1 2022/11/21 13:41:49  5000ms
-info: 2022-11-21 13:41:49.2249096 +08:00 星期一 L ConsoleApp32.YourJobMonitor[0] #9
-      执行之后：job1 job1_trigger1
+```bash showLineNumbers {12,16,26,28}
+info: 2022-12-05 14:09:47.2337395 +08:00 星期一 L System.Logging.ScheduleService[0] #1
+      Schedule hosted service is running.
+info: 2022-12-05 14:09:47.2401561 +08:00 星期一 L System.Logging.ScheduleService[0] #1
+      Schedule hosted service is preloading...
+info: 2022-12-05 14:09:47.2780446 +08:00 星期一 L System.Logging.ScheduleService[0] #1
+      The <job1_trigger1> trigger for scheduler of <job1> successfully appended to the schedule.
+info: 2022-12-05 14:09:47.2810119 +08:00 星期一 L System.Logging.ScheduleService[0] #1
+      The scheduler of <job1> successfully appended to the schedule.
+warn: 2022-12-05 14:09:47.2941716 +08:00 星期一 L System.Logging.ScheduleService[0] #1
+      Schedule hosted service preload completed, and a total of <1> schedulers are appended.
+info: 2022-12-05 14:09:52.3190129 +08:00 星期一 L ConsoleApp32.YourJobMonitor[0] #4
+      执行之前：<job1> [C] <job1 job1_trigger1> 5s 1ts 2022-12-05 14:09:52.241 -> 2022-12-05 14:09:57.260
+info: 2022-12-05 14:09:52.3240208 +08:00 星期一 L MyJob[0] #4
+      <job1> [C] <job1 job1_trigger1> 5s 1ts 2022-12-05 14:09:52.241 -> 2022-12-05 14:09:57.260
+fail: 2022-12-05 14:09:52.5253398 +08:00 星期一 L System.Logging.ScheduleService[0] #4
+      Error occurred executing <job1> [C] <job1 job1_trigger1> 5s 1ts 2022-12-05 14:09:52.241 -> 2022-12-05 14:09:57.260.
+      ++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+      System.Exception: 模拟出错
+         at MyJob.ExecuteAsync(JobExecutingContext context, CancellationToken stoppingToken) in D:\Workplaces\Study\CSharp\ConsoleApp32\ConsoleApp32\Program.cs:line 28
+         at Furion.Schedule.ScheduleHostedService.<>c__DisplayClass23_3.<<BackgroundProcessing>b__3>d.MoveNext() in D:\Workplaces\OpenSources\Furion\framework\Furion\Schedule\HostedServices\ScheduleHostedService.cs:line 220
+      --- End of stack trace from previous location ---
+         at Furion.FriendlyException.Retry.InvokeAsync(Func`1 action, Int32 numRetries, Int32 retryTimeout, Boolean finalThrow, Type[] exceptionTypes, Func`2 fallbackPolicy, Action`2 retryAction) in D:\Workplaces\OpenSources\Furion\framework\Furion\FriendlyException\Retry.cs:line 87
+         at Furion.Schedule.ScheduleHostedService.<>c__DisplayClass23_2.<<BackgroundProcessing>b__2>d.MoveNext() in D:\Workplaces\OpenSources\Furion\framework\Furion\Schedule\HostedServices\ScheduleHostedService.cs:line 218
+      ++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+info: 2022-12-05 14:09:52.5288429 +08:00 星期一 L ConsoleApp32.YourJobMonitor[0] #4
+      执行之后：<job1> [C] <job1 job1_trigger1> 5s 1ts 2022-12-05 14:09:52.241 -> 2022-12-05 14:09:57.260
+fail: 2022-12-05 14:09:52.5318526 +08:00 星期一 L ConsoleApp32.YourJobMonitor[0] #4
+      执行出错啦：<job1> [C] <job1 job1_trigger1> 5s 1ts 2022-12-05 14:09:52.241 -> 2022-12-05 14:09:57.260
+      ++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+      System.InvalidOperationException: Error occurred executing <job1> [C] <job1 job1_trigger1> 5s 1ts 2022-12-05 14:09:52.241 -> 2022-12-05 14:09:57.260.
+       ---> System.Exception: 模拟出错
+         at MyJob.ExecuteAsync(JobExecutingContext context, CancellationToken stoppingToken) in D:\Workplaces\Study\CSharp\ConsoleApp32\ConsoleApp32\Program.cs:line 28
+         at Furion.Schedule.ScheduleHostedService.<>c__DisplayClass23_3.<<BackgroundProcessing>b__3>d.MoveNext() in D:\Workplaces\OpenSources\Furion\framework\Furion\Schedule\HostedServices\ScheduleHostedService.cs:line 220
+      --- End of stack trace from previous location ---
+         at Furion.FriendlyException.Retry.InvokeAsync(Func`1 action, Int32 numRetries, Int32 retryTimeout, Boolean finalThrow, Type[] exceptionTypes, Func`2 fallbackPolicy, Action`2 retryAction) in D:\Workplaces\OpenSources\Furion\framework\Furion\FriendlyException\Retry.cs:line 87
+         at Furion.Schedule.ScheduleHostedService.<>c__DisplayClass23_2.<<BackgroundProcessing>b__2>d.MoveNext() in D:\Workplaces\OpenSources\Furion\framework\Furion\Schedule\HostedServices\ScheduleHostedService.cs:line 218
+         --- End of inner exception stack trace ---
+      ++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+```
+
+**还可以设置执行失败重试，如：**
+
+```cs showLineNumbers {3}
+services.AddSchedule(options =>
+{
+      options.AddJob<MyJob>(Triggers.PeriodSeconds(5).SetNumRetries(3));      // 重试 3 次
+      options.AddMonitor<YourJobMonitor>();
+});
+```
+
+执行结果如下：
+
+```bash showLineNumbers {12,16,20,24,28,39,41}
+info: 2022-12-05 14:25:15.9316915 +08:00 星期一 L System.Logging.ScheduleService[0] #1
+      Schedule hosted service is running.
+info: 2022-12-05 14:25:15.9391765 +08:00 星期一 L System.Logging.ScheduleService[0] #1
+      Schedule hosted service is preloading...
+info: 2022-12-05 14:25:15.9737767 +08:00 星期一 L System.Logging.ScheduleService[0] #1
+      The <job1_trigger1> trigger for scheduler of <job1> successfully appended to the schedule.
+info: 2022-12-05 14:25:15.9754882 +08:00 星期一 L System.Logging.ScheduleService[0] #1
+      The scheduler of <job1> successfully appended to the schedule.
+warn: 2022-12-05 14:25:15.9892059 +08:00 星期一 L System.Logging.ScheduleService[0] #1
+      Schedule hosted service preload completed, and a total of <1> schedulers are appended.
+info: 2022-12-05 14:25:21.0056685 +08:00 星期一 L ConsoleApp32.YourJobMonitor[0] #4
+      执行之前：<job1> [C] <job1 job1_trigger1> 5s 1ts 2022-12-05 14:25:20.937 -> 2022-12-05 14:25:25.949
+info: 2022-12-05 14:25:21.0140485 +08:00 星期一 L MyJob[0] #4
+      <job1> [C] <job1 job1_trigger1> 5s 1ts 2022-12-05 14:25:20.937 -> 2022-12-05 14:25:25.949
+warn: 2022-12-05 14:25:21.0754973 +08:00 星期一 L System.Logging.ScheduleService[0] #4
+      Retrying 1/3 times for <job1> [C] <job1 job1_trigger1> 5s 1ts 2022-12-05 14:25:20.937 -> 2022-12-05 14:25:25.949
+info: 2022-12-05 14:25:22.0935914 +08:00 星期一 L MyJob[0] #4
+      <job1> [C] <job1 job1_trigger1> 5s 1ts 2022-12-05 14:25:20.937 -> 2022-12-05 14:25:25.949
+warn: 2022-12-05 14:25:22.1574937 +08:00 星期一 L System.Logging.ScheduleService[0] #4
+      Retrying 2/3 times for <job1> [C] <job1 job1_trigger1> 5s 1ts 2022-12-05 14:25:20.937 -> 2022-12-05 14:25:25.949
+info: 2022-12-05 14:25:23.1666732 +08:00 星期一 L MyJob[0] #4
+      <job1> [C] <job1 job1_trigger1> 5s 1ts 2022-12-05 14:25:20.937 -> 2022-12-05 14:25:25.949
+warn: 2022-12-05 14:25:23.2213212 +08:00 星期一 L System.Logging.ScheduleService[0] #4
+      Retrying 3/3 times for <job1> [C] <job1 job1_trigger1> 5s 1ts 2022-12-05 14:25:20.937 -> 2022-12-05 14:25:25.949
+info: 2022-12-05 14:25:24.2337356 +08:00 星期一 L MyJob[0] #4
+      <job1> [C] <job1 job1_trigger1> 5s 1ts 2022-12-05 14:25:20.937 -> 2022-12-05 14:25:25.949
+fail: 2022-12-05 14:25:24.3832385 +08:00 星期一 L System.Logging.ScheduleService[0] #4
+      Error occurred executing <job1> [C] <job1 job1_trigger1> 5s 1ts 2022-12-05 14:25:20.937 -> 2022-12-05 14:25:25.949.
+      ++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+      System.Exception: 模拟出错
+         at MyJob.ExecuteAsync(JobExecutingContext context, CancellationToken stoppingToken) in D:\Workplaces\Study\CSharp\ConsoleApp32\ConsoleApp32\Program.cs:line 28
+         at Furion.Schedule.ScheduleHostedService.<>c__DisplayClass23_3.<<BackgroundProcessing>b__3>d.MoveNext() in D:\Workplaces\OpenSources\Furion\framework\Furion\Schedule\HostedServices\ScheduleHostedService.cs:line 220
+      --- End of stack trace from previous location ---
+         at Furion.FriendlyException.Retry.InvokeAsync(Func`1 action, Int32 numRetries, Int32 retryTimeout, Boolean finalThrow, Type[] exceptionTypes, Func`2 fallbackPolicy, Action`2 retryAction) in D:\Workplaces\OpenSources\Furion\framework\Furion\FriendlyException\Retry.cs:line 99
+         at Furion.FriendlyException.Retry.InvokeAsync(Func`1 action, Int32 numRetries, Int32 retryTimeout, Boolean finalThrow, Type[] exceptionTypes, Func`2 fallbackPolicy, Action`2 retryAction) in D:\Workplaces\OpenSources\Furion\framework\Furion\FriendlyException\Retry.cs:line 110
+         at Furion.Schedule.ScheduleHostedService.<>c__DisplayClass23_2.<<BackgroundProcessing>b__2>d.MoveNext() in D:\Workplaces\OpenSources\Furion\framework\Furion\Schedule\HostedServices\ScheduleHostedService.cs:line 218
+      ++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+info: 2022-12-05 14:25:24.3857991 +08:00 星期一 L ConsoleApp32.YourJobMonitor[0] #4
+      执行之后：<job1> [C] <job1 job1_trigger1> 5s 1ts 2022-12-05 14:25:20.937 -> 2022-12-05 14:25:25.949
+fail: 2022-12-05 14:25:24.3888126 +08:00 星期一 L ConsoleApp32.YourJobMonitor[0] #4
+      执行出错啦：<job1> [C] <job1 job1_trigger1> 5s 1ts 2022-12-05 14:25:20.937 -> 2022-12-05 14:25:25.949
+      ++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+      System.InvalidOperationException: Error occurred executing <job1> [C] <job1 job1_trigger1> 5s 1ts 2022-12-05 14:25:20.937 -> 2022-12-05 14:25:25.949.
+       ---> System.Exception: 模拟出错
+         at MyJob.ExecuteAsync(JobExecutingContext context, CancellationToken stoppingToken) in D:\Workplaces\Study\CSharp\ConsoleApp32\ConsoleApp32\Program.cs:line 28
+         at Furion.Schedule.ScheduleHostedService.<>c__DisplayClass23_3.<<BackgroundProcessing>b__3>d.MoveNext() in D:\Workplaces\OpenSources\Furion\framework\Furion\Schedule\HostedServices\ScheduleHostedService.cs:line 220
+      --- End of stack trace from previous location ---
+         at Furion.FriendlyException.Retry.InvokeAsync(Func`1 action, Int32 numRetries, Int32 retryTimeout, Boolean finalThrow, Type[] exceptionTypes, Func`2 fallbackPolicy, Action`2 retryAction) in D:\Workplaces\OpenSources\Furion\framework\Furion\FriendlyException\Retry.cs:line 99
+         at Furion.FriendlyException.Retry.InvokeAsync(Func`1 action, Int32 numRetries, Int32 retryTimeout, Boolean finalThrow, Type[] exceptionTypes, Func`2 fallbackPolicy, Action`2 retryAction) in D:\Workplaces\OpenSources\Furion\framework\Furion\FriendlyException\Retry.cs:line 110
+         at Furion.Schedule.ScheduleHostedService.<>c__DisplayClass23_2.<<BackgroundProcessing>b__2>d.MoveNext() in D:\Workplaces\OpenSources\Furion\framework\Furion\Schedule\HostedServices\ScheduleHostedService.cs:line 218
+         --- End of inner exception stack trace ---
+      ++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 ```
 
 ### 26.1.8.1 关于参数 `JobExecutionContext`
@@ -3034,9 +3133,10 @@ info: 2022-11-21 13:41:49.2249096 +08:00 星期一 L ConsoleApp32.YourJobMonitor
   - `TriggerId`：当前触发器 `Id`
   - `JobDetail`：作业信息
   - `Trigger`：作业触发器
-  - `OccurrenceTime`：调度器检查时间，最准确的记录时间
+  - `OccurrenceTime`：**作业计划触发时间，最准确的记录时间**
 - **`JobExecutionContext` 方法列表**
   - `.ConvertToJSON(naming)`：将作业计划转换成 `JSON` 字符串
+  - `.ToString()`：将作业执行信息输出为简要字符串
 
 <p></p>
 

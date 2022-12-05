@@ -128,7 +128,7 @@ internal static class Penetrates
     /// <param name="withTraceId"></param>
     /// <returns></returns>
     internal static string OutputStandardMessage(LogMessage logMsg
-        , string dateFormat = "o"
+        , string dateFormat = "yyyy-MM-dd HH:mm:ss.fffffff zzz dddd"
         , bool isConsole = false
         , bool disableColors = true
         , bool withTraceId = false)

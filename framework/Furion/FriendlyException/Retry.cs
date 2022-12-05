@@ -20,8 +20,6 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-using System.Diagnostics;
-
 namespace Furion.FriendlyException;
 
 /// <summary>
@@ -39,7 +37,14 @@ public sealed class Retry
     /// <param name="finalThrow">是否最终抛异常</param>
     /// <param name="exceptionTypes">异常类型,可多个</param>
     /// <param name="fallbackPolicy">重试失败回调</param>
-    public static void Invoke(Action action, int numRetries, int retryTimeout = 1000, bool finalThrow = true, Type[] exceptionTypes = default, Action<Exception> fallbackPolicy = default)
+    /// <param name="retryAction">重试时调用方法</param>
+    public static void Invoke(Action action
+        , int numRetries
+        , int retryTimeout = 1000
+        , bool finalThrow = true
+        , Type[] exceptionTypes = default
+        , Action<Exception> fallbackPolicy = default
+        , Action<int, int> retryAction = default)
     {
         if (action == null) throw new ArgumentNullException(nameof(action));
 
@@ -52,7 +57,7 @@ public sealed class Retry
         {
             fallbackPolicy?.Invoke(ex);
             await Task.CompletedTask;
-        }).GetAwaiter().GetResult();
+        }, retryAction).GetAwaiter().GetResult();
     }
 
     /// <summary>
@@ -64,8 +69,15 @@ public sealed class Retry
     /// <param name="finalThrow">是否最终抛异常</param>
     /// <param name="exceptionTypes">异常类型,可多个</param>
     /// <param name="fallbackPolicy">重试失败回调</param>
-    /// <returns></returns>
-    public static async Task InvokeAsync(Func<Task> action, int numRetries, int retryTimeout = 1000, bool finalThrow = true, Type[] exceptionTypes = default, Func<Exception, Task> fallbackPolicy = default)
+    /// <param name="retryAction">重试时调用方法</param>
+    /// <returns><see cref="Task"/></returns>
+    public static async Task InvokeAsync(Func<Task> action
+        , int numRetries
+        , int retryTimeout = 1000
+        , bool finalThrow = true
+        , Type[] exceptionTypes = default
+        , Func<Exception, Task> fallbackPolicy = default
+        , Action<int, int> retryAction = default)
     {
         if (action == null) throw new ArgumentNullException(nameof(action));
 
@@ -75,6 +87,9 @@ public sealed class Retry
             await action();
             return;
         }
+
+        // 存储总的重试次数
+        var totalNumRetries = numRetries;
 
         // 不断重试
         while (true)
@@ -108,10 +123,8 @@ public sealed class Retry
                     else return;
                 }
 
-                if (Debugger.IsAttached)
-                {
-                    Debug.WriteLine($"You can retry {numRetries} more times.");
-                }
+                // 重试调用委托
+                retryAction?.Invoke(totalNumRetries, totalNumRetries - numRetries);
 
                 // 如果可重试异常数大于 0，则间隔指定时间后继续执行
                 if (retryTimeout > 0) await Task.Delay(retryTimeout);

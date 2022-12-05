@@ -128,9 +128,9 @@ public struct LogMessage
     /// <summary>
     /// 重写默认输出
     /// </summary>
-    /// <returns></returns>
+    /// <returns><see cref="string"/></returns>
     public override string ToString()
     {
-        return Message;
+        return Penetrates.OutputStandardMessage(this);
     }
 }

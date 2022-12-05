@@ -218,7 +218,14 @@ internal sealed class ScheduleHostedService : BackgroundService
                                 await Retry.InvokeAsync(async () =>
                                 {
                                     await jobHandler.ExecuteAsync(jobExecutingContext, stoppingToken);
-                                }, trigger.NumRetries, trigger.RetryTimeout);
+                                }
+                                , trigger.NumRetries
+                                , trigger.RetryTimeout
+                                , retryAction: (total, current) =>
+                                {
+                                    // 输出重试日志
+                                    _logger.LogWarning("Retrying {current}/{total} times for {jobExecutingContext}", current, total, jobExecutingContext);
+                                });
                             }
                             else
                             {
@@ -240,10 +247,10 @@ internal sealed class ScheduleHostedService : BackgroundService
                             _schedulerFactory.Shorthand(jobDetail, trigger);
 
                             // 输出异常日志
-                            _logger.LogError(ex, "Error occurred executing {jobId} {triggerId}<{trigger}>.", jobId, triggerId, trigger.ToString());
+                            _logger.LogError(ex, "Error occurred executing {jobExecutingContext}.", jobExecutingContext);
 
                             // 标记异常
-                            executionException = new InvalidOperationException(string.Format("Error occurred executing {0} {1}<{2}>.", jobId, triggerId, trigger.ToString()), ex);
+                            executionException = new InvalidOperationException(string.Format("Error occurred executing {0}.", jobExecutingContext.ToString()), ex);
 
                             // 捕获 Task 任务异常信息并统计所有异常
                             if (UnobservedTaskException != default)
