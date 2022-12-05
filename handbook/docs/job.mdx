@@ -2881,7 +2881,7 @@ var json = schedulerBuilder.ConvertToJSON();
 
 ### 26.1.7.1 关于 `ScheduleOptionsBuilder`
 
-`ScheduleOptionsBuilder` 配置选项主要是用来初始化调度作业服务和作业调度器相关配置的。只作为 `services.AddSchedule` 服务注册的配置参数，如：
+`ScheduleOptionsBuilder` 配置选项主要是用来初始化作业调度器及相关服务配置的。只作为 `services.AddSchedule` 服务注册的配置参数，如：
 
 ```cs showLineNumbers {2,8-9}
 // 通过委托的方式配置
@@ -2899,7 +2899,7 @@ services.AddSchedule(scheduleOptionsBuilder);
 
 - **内置属性配置**
 
-```cs showLineNumbers {4,7,10,13}
+```cs showLineNumbers {4,7,10,13,16,21,26}
 services.AddSchedule(options =>
 {
       // 是否使用 UTC 时间，该配置主要用来作为作业调度器检查时间格式的依据
@@ -2908,8 +2908,21 @@ services.AddSchedule(options =>
       // 是否输出作业调度器日志
       options.LogEnabled = true;
 
+      // 配置集群 Id，默认值为启动程序集的名称
+      options.ClusterId = "cluster1";
+
       // 配置输出 SQL 的数据库类型，Furion 4.8.2.3+
       options.BuildSqlType = SqlTypes.SqlServer;
+
+      // 配置作业信息 JobDetail 相关配置，如配置自定义 SQL 输出
+      options.JobDetail.ConvertToSQL((tableName, columnNames, jobDetail, behavior, naming) =>
+      {
+      });
+
+      // 配置作业信息 Trigger 相关配置，如配置自定义 SQL 输出
+      options.Trigger.ConvertToSQL((tableName, columnNames, trigger, behavior, naming) =>
+      {
+      });
 
       // 定义未捕获的异常，通常是 Task 异常
       options.UnobservedTaskExceptionHandler = (obj, args) =>
@@ -2920,7 +2933,7 @@ services.AddSchedule(options =>
 
 - **内置方法配置**
 
-```cs showLineNumbers {4-18,21,24,27,30,36}
+```cs showLineNumbers {4-18,21,24,27,30}
 services.AddSchedule(options =>
 {
       // 添加作业
@@ -2935,10 +2948,10 @@ services.AddSchedule(options =>
       options.AddJob(typeof(MyJob), "作业 Id", triggerBuilder, ...);
       options.AddJob(typeof(MyJob), "作业 Id", concurrent: true, triggerBuilder, ...);
       options.AddJob(typeof(MyJob), concurrent: true, triggerBuilder, ...);
-      options.AddJob((s, c, t) => {}, triggerBuilder, ...);
-      options.AddJob((s, c, t) => {}, "作业 Id", triggerBuilder, ...);
-      options.AddJob((s, c, t) => {}, "作业 Id", concurrent: true, triggerBuilder, ...);
-      options.AddJob((s, c, t) => {}, concurrent: true, triggerBuilder, ...);
+      options.AddJob((serviceProvider, context, stoppingToken) => {}, triggerBuilder, ...);
+      options.AddJob((serviceProvider, context, stoppingToken) => {}, "作业 Id", triggerBuilder, ...);
+      options.AddJob((serviceProvider, context, stoppingToken) => {}, "作业 Id", concurrent: true, triggerBuilder, ...);
+      options.AddJob((serviceProvider, context, stoppingToken) => {}, concurrent: true, triggerBuilder, ...);
 
       // 添加作业执行监视器
       options.AddMonitor<YourJobMonitor>();
@@ -2949,17 +2962,8 @@ services.AddSchedule(options =>
       // 添加作业持久化器
       options.AddPersistence<YourJobPersistence>();
 
-      // 自定义 JobDetail SQL 输出
-      options.JobDetail.ConvertToSQL = (tableName, columnNames, jobDetail, behavior, naming) =>
-      {
-            // ...
-      };
-
-      // 自定义 Trigger SQL 输出
-      options.Trigger.ConvertToSQL = (tableName, columnNames, trigger, behavior, naming) =>
-      {
-            // ...
-      };
+      // 注册作业集群服务
+      options.AddClusterServer<YourClusterServer>();
 });
 ```
 
