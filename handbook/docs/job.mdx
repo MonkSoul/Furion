@@ -3152,95 +3152,100 @@ fail: 2022-12-05 14:25:24.3888126 +08:00 星期一 L ConsoleApp32.YourJobMonitor
 
 如添加 `YourJobExecutor`：
 
-```cs showLineNumbers  {1,3,6-9}
+```cs showLineNumbers {1,12,14,17-20}
 public class YourJobExecutor : IJobExecutor
 {
+    private readonly ILogger<YourJobExecutor> _logger;
+    public YourJobExecutor(ILogger<YourJobExecutor> logger)
+    {
+        _logger = logger;
+    }
+
     public async Task ExecuteAsync(JobExecutingContext context, IJob jobHandler, CancellationToken stoppingToken)
     {
         // 实现失败重试策略，如失败重试 3 次
         await Retry.InvokeAsync(async () =>
         {
             await jobHandler.ExecuteAsync(context, stoppingToken);
-        }, 3, 1000);
+        }, 3, 1000
+        // 每次重试输出日志
+        , retryAction: (total, times) =>
+        {
+            _logger.LogWarning("Retrying {current}/{times} times for {context}", times, total, context);
+        });
     }
 }
 ```
 
 接着模拟 `MyJob` 执行出错：
 
-```cs showLineNumbers {1,14}
+```cs showLineNumbers {1,13}
 public class MyJob : IJob
 {
     private readonly ILogger<MyJob> _logger;
-
     public MyJob(ILogger<MyJob> logger)
     {
         _logger = logger;
     }
 
-    public async Task ExecuteAsync(JobExecutingContext context, CancellationToken stoppingToken)
+    public Task ExecuteAsync(JobExecutingContext context, CancellationToken stoppingToken)
     {
-        _logger.LogInformation($"{context.JobId} {context.TriggerId} {context.OccurrenceTime} {context.Trigger}");
+        _logger.LogInformation($"{context}");
 
         throw new Exception("模拟出错");
-
-        await Task.CompletedTask;
+        return Task.CompletedTask;
     }
 }
 ```
 
 最后，在注册 `Schedule` 服务中注册 `YourJobExecutor`：
 
-```cs showLineNumbers  {5}
+```cs showLineNumbers {4}
 services.AddSchedule(options =>
 {
-      options.AddMonitor<YourJobMonitor>();
       // 添加作业执行器
       options.AddExecutor<YourJobExecutor>();
-      options.AddJob<MyJob>(Triggers.PeriodSeconds(10));
 });
 ```
 
 执行结果如下：
 
-```bash showLineNumbers {2,5-10,24,26}
-info: 2022-11-21 14:10:33.3382344 +08:00 星期一 L ConsoleApp32.YourJobMonitor[0] #14
-      执行之前：job1 job1_trigger1
-info: 2022-11-21 14:10:33.3447855 +08:00 星期一 L ConsoleApp32.MyJob[0] #14
-      job1 job1_trigger1 2022/11/21 14:10:33  10000ms
-info: 2022-11-21 14:10:34.4217342 +08:00 星期一 L ConsoleApp32.MyJob[0] #14
-      job1 job1_trigger1 2022/11/21 14:10:33  10000ms
-info: 2022-11-21 14:10:35.4952165 +08:00 星期一 L ConsoleApp32.MyJob[0] #14
-      job1 job1_trigger1 2022/11/21 14:10:33  10000ms
-info: 2022-11-21 14:10:36.5719440 +08:00 星期一 L ConsoleApp32.MyJob[0] #14
-      job1 job1_trigger1 2022/11/21 14:10:33  10000ms
-fail: 2022-11-21 14:10:36.7388113 +08:00 星期一 L System.Logging.ScheduleService[0] #14
-      Error occurred executing job1 job1_trigger1< 10000ms>.
+```bash showLineNumbers {14,18,22}
+info: 2022-12-05 14:36:41.2085688 +08:00 星期一 L System.Logging.ScheduleService[0] #1
+      Schedule hosted service is running.
+info: 2022-12-05 14:36:41.2162510 +08:00 星期一 L System.Logging.ScheduleService[0] #1
+      Schedule hosted service is preloading...
+info: 2022-12-05 14:36:41.2885816 +08:00 星期一 L System.Logging.ScheduleService[0] #1
+      The <job1_trigger1> trigger for scheduler of <job1> successfully appended to the schedule.
+info: 2022-12-05 14:36:41.2912130 +08:00 星期一 L System.Logging.ScheduleService[0] #1
+      The scheduler of <job1> successfully appended to the schedule.
+warn: 2022-12-05 14:36:41.3102057 +08:00 星期一 L System.Logging.ScheduleService[0] #1
+      Schedule hosted service preload completed, and a total of <1> schedulers are appended.
+info: 2022-12-05 14:36:46.3329097 +08:00 星期一 L MyJob[0] #13
+      <job1> [C] <job1 job1_trigger1> 5s 1ts 2022-12-05 14:36:46.249 -> 2022-12-05 14:36:51.274
+warn: 2022-12-05 14:36:46.3910063 +08:00 星期一 L ConsoleApp32.YourJobExecutor[0] #13
+      Retrying 1/3 times for <job1> [C] <job1 job1_trigger1> 5s 1ts 2022-12-05 14:36:46.249 -> 2022-12-05 14:36:51.274
+info: 2022-12-05 14:36:47.4014898 +08:00 星期一 L MyJob[0] #13
+      <job1> [C] <job1 job1_trigger1> 5s 1ts 2022-12-05 14:36:46.249 -> 2022-12-05 14:36:51.274
+warn: 2022-12-05 14:36:47.4471172 +08:00 星期一 L ConsoleApp32.YourJobExecutor[0] #13
+      Retrying 2/3 times for <job1> [C] <job1 job1_trigger1> 5s 1ts 2022-12-05 14:36:46.249 -> 2022-12-05 14:36:51.274
+info: 2022-12-05 14:36:48.4539737 +08:00 星期一 L MyJob[0] #13
+      <job1> [C] <job1 job1_trigger1> 5s 1ts 2022-12-05 14:36:46.249 -> 2022-12-05 14:36:51.274
+warn: 2022-12-05 14:36:48.4880918 +08:00 星期一 L ConsoleApp32.YourJobExecutor[0] #13
+      Retrying 3/3 times for <job1> [C] <job1 job1_trigger1> 5s 1ts 2022-12-05 14:36:46.249 -> 2022-12-05 14:36:51.274
+info: 2022-12-05 14:36:49.4984333 +08:00 星期一 L MyJob[0] #13
+      <job1> [C] <job1 job1_trigger1> 5s 1ts 2022-12-05 14:36:46.249 -> 2022-12-05 14:36:51.274
+fail: 2022-12-05 14:36:49.6714485 +08:00 星期一 L System.Logging.ScheduleService[0] #13
+      Error occurred executing <job1> [C] <job1 job1_trigger1> 5s 1ts 2022-12-05 14:36:46.249 -> 2022-12-05 14:36:51.274.
       ++++++++++++++++++++++++++++++++++++++++++++++++++++++++
       System.Exception: 模拟出错
-         at ConsoleApp32.MyJob.ExecuteAsync(JobExecutingContext context, CancellationToken stoppingToken) in D:\Workplaces\Study\CSharp\ConsoleApp32\ConsoleApp32\MyJob.cs:line 19
-         at ConsoleApp32.YourJobExecutor.<>c__DisplayClass0_0.<<ExecuteAsync>b__0>d.MoveNext() in D:\Workplaces\Study\CSharp\ConsoleApp32\ConsoleApp32\YourJobExecutor.cs:line 18
+         at MyJob.ExecuteAsync(JobExecutingContext context, CancellationToken stoppingToken) in D:\Workplaces\Study\CSharp\ConsoleApp32\ConsoleApp32\Program.cs:line 31
+         at ConsoleApp32.YourJobExecutor.<>c__DisplayClass2_0.<<ExecuteAsync>b__0>d.MoveNext() in D:\Workplaces\Study\CSharp\ConsoleApp32\ConsoleApp32\YourJobExecutor.cs:line 20
       --- End of stack trace from previous location ---
-         at Furion.FriendlyException.Retry.InvokeAsync(Func`1 action, Int32 numRetries, Int32 retryTimeout, Boolean finalThrow, Type[] exceptionTypes, Func`2 fallbackPolicy) in D:\Workplaces\OpenSources\Furion\framework\Furion\FriendlyException\Retry.cs:line 84
-         at Furion.FriendlyException.Retry.InvokeAsync(Func`1 action, Int32 numRetries, Int32 retryTimeout, Boolean finalThrow, Type[] exceptionTypes, Func`2 fallbackPolicy) in D:\Workplaces\OpenSources\Furion\framework\Furion\FriendlyException\Retry.cs:line 95
-         at ConsoleApp32.YourJobExecutor.ExecuteAsync(JobExecutingContext context, IJob jobHandler, CancellationToken stoppingToken) in D:\Workplaces\Study\CSharp\ConsoleApp32\ConsoleApp32\YourJobExecutor.cs:line 16
-         at Furion.Schedule.ScheduleHostedService.<>c__DisplayClass16_2.<<BackgroundProcessing>b__1>d.MoveNext() in D:\Workplaces\OpenSources\Furion\framework\Furion\Schedule\HostedServices\ScheduleHostedService.cs:line 188
-      ++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-info: 2022-11-21 14:10:36.7413303 +08:00 星期一 L ConsoleApp32.YourJobMonitor[0] #14
-      执行之后：job1 job1_trigger1
-fail: 2022-11-21 14:10:36.7446968 +08:00 星期一 L ConsoleApp32.YourJobMonitor[0] #14
-      执行出错啦：job1 job1_trigger1
-      ++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-      System.InvalidOperationException: Error occurred executing job1 job1_trigger1< 10000ms>.
-       ---> System.Exception: 模拟出错
-         at ConsoleApp32.MyJob.ExecuteAsync(JobExecutingContext context, CancellationToken stoppingToken) in D:\Workplaces\Study\CSharp\ConsoleApp32\ConsoleApp32\MyJob.cs:line 19
-         at ConsoleApp32.YourJobExecutor.<>c__DisplayClass0_0.<<ExecuteAsync>b__0>d.MoveNext() in D:\Workplaces\Study\CSharp\ConsoleApp32\ConsoleApp32\YourJobExecutor.cs:line 18
-      --- End of stack trace from previous location ---
-         at Furion.FriendlyException.Retry.InvokeAsync(Func`1 action, Int32 numRetries, Int32 retryTimeout, Boolean finalThrow, Type[] exceptionTypes, Func`2 fallbackPolicy) in D:\Workplaces\OpenSources\Furion\framework\Furion\FriendlyException\Retry.cs:line 84
-         at Furion.FriendlyException.Retry.InvokeAsync(Func`1 action, Int32 numRetries, Int32 retryTimeout, Boolean finalThrow, Type[] exceptionTypes, Func`2 fallbackPolicy) in D:\Workplaces\OpenSources\Furion\framework\Furion\FriendlyException\Retry.cs:line 95
-         at ConsoleApp32.YourJobExecutor.ExecuteAsync(JobExecutingContext context, IJob jobHandler, CancellationToken stoppingToken) in D:\Workplaces\Study\CSharp\ConsoleApp32\ConsoleApp32\YourJobExecutor.cs:line 16
-         at Furion.Schedule.ScheduleHostedService.<>c__DisplayClass16_2.<<BackgroundProcessing>b__1>d.MoveNext() in D:\Workplaces\OpenSources\Furion\framework\Furion\Schedule\HostedServices\ScheduleHostedService.cs:line 188
-         --- End of inner exception stack trace ---
+         at Furion.FriendlyException.Retry.InvokeAsync(Func`1 action, Int32 numRetries, Int32 retryTimeout, Boolean finalThrow, Type[] exceptionTypes, Func`2 fallbackPolicy, Action`2 retryAction) in D:\Workplaces\OpenSources\Furion\framework\Furion\FriendlyException\Retry.cs:line 99
+         at Furion.FriendlyException.Retry.InvokeAsync(Func`1 action, Int32 numRetries, Int32 retryTimeout, Boolean finalThrow, Type[] exceptionTypes, Func`2 fallbackPolicy, Action`2 retryAction) in D:\Workplaces\OpenSources\Furion\framework\Furion\FriendlyException\Retry.cs:line 110
+         at ConsoleApp32.YourJobExecutor.ExecuteAsync(JobExecutingContext context, IJob jobHandler, CancellationToken stoppingToken) in D:\Workplaces\Study\CSharp\ConsoleApp32\ConsoleApp32\YourJobExecutor.cs:line 18
+         at Furion.Schedule.ScheduleHostedService.<>c__DisplayClass23_2.<<BackgroundProcessing>b__2>d.MoveNext() in D:\Workplaces\OpenSources\Furion\framework\Furion\Schedule\HostedServices\ScheduleHostedService.cs:line 232
       ++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 ```
 

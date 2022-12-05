@@ -221,10 +221,10 @@ internal sealed class ScheduleHostedService : BackgroundService
                                 }
                                 , trigger.NumRetries
                                 , trigger.RetryTimeout
-                                , retryAction: (total, current) =>
+                                , retryAction: (total, times) =>
                                 {
                                     // 输出重试日志
-                                    _logger.LogWarning("Retrying {current}/{total} times for {jobExecutingContext}", current, total, jobExecutingContext);
+                                    _logger.LogWarning("Retrying {times}/{total} times for {jobExecutingContext}", times, total, jobExecutingContext);
                                 });
                             }
                             else
