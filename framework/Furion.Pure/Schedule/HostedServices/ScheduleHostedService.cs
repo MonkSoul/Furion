@@ -369,12 +369,12 @@ internal sealed class ScheduleHostedService : BackgroundService
         if (ClusterServer == null) return;
 
         // 输出作业集群进入等待日志
-        _logger.LogInformation("The job cluster of <{ClusterId}> service has been enabled, waiting for instructions.", ClusterId);
+        _logger.LogInformation("The job cluster of <{ClusterId}> service has been enabled, and waiting for instructions.", ClusterId);
 
         // 等待作业集群服务返回消息
         await ClusterServer.WaitingForAsync(new(ClusterId));
 
         // 输出作业集群可正常工作日志
-        _logger.LogWarning("The job cluster of <{ClusterId}> service has been enabled, and the current job scheduler can work normally.", ClusterId);
+        _logger.LogWarning("The job cluster of <{ClusterId}> service worked now, and the current schedule hosted service will be preload.", ClusterId);
     }
 }

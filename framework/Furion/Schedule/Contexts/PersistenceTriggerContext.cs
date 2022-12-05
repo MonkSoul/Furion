@@ -113,6 +113,6 @@ public sealed class PersistenceTriggerContext : PersistenceContext
     /// <returns><see cref="String"/></returns>
     public override string ToString()
     {
-        return $"{JobDetail} {Trigger} [{Behavior}]";
+        return $"{JobDetail} {Trigger} [{Behavior}]{(Trigger.NextRunTime == null ? $" [{Trigger.Status}]" : $" -> {Trigger.NextRunTime.ToUnspecifiedString()}")}";
     }
 }
