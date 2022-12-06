@@ -1414,7 +1414,7 @@ info: 2022-12-04 12:26:33.8531796 +08:00 星期日 L System.Logging.DynamicJob[0
 :::tip 动态作业和普通作业的区别
 
 - 动态作业处理程序类型是：`DynamicJob` 类型
-- 动态作业提供的 `.GetLogger()` 拓展输出日志类型是：`System.Logging.DynamicJob`
+- 动态作业提供的 `.GetLogger()` 拓展输出日志类别是：`System.Logging.DynamicJob`
 - 如果普通作业同时设置了 `SetJobType` 和 `SetDynamicExecuteAsync`，那么优先作为动态作业执行。
 - 动态作业无法将 `Func<..>` 进行序列化持久化存储，需在内存（`IJobPersistence.OnLoading`）中重新赋值
 
