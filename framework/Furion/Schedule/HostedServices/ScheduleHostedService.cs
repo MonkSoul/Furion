@@ -347,13 +347,14 @@ internal sealed class ScheduleHostedService : BackgroundService
             trigger.SetStatus(TriggerStatus.Blocked);
 
             // 记录运行信息和计算下一个触发时间
+            var occurrenceTime = trigger.NextRunTime.Value;
             trigger.Increment(jobDetail, startAt);
 
             // 将作业触发器运行数据写入持久化
             _schedulerFactory.Shorthand(jobDetail, trigger);
 
             // 输出阻塞日志
-            _logger.LogWarning("{startAt}: The <{triggerId}> trigger of job <{jobId}> failed to execute as scheduled due to blocking.", startAt, trigger.TriggerId, jobDetail.JobId);
+            _logger.LogWarning("{occurrenceTime}: The <{triggerId}> trigger of job <{jobId}> failed to execute as scheduled due to blocking.", occurrenceTime, trigger.TriggerId, jobDetail.JobId);
 
             return true;
         }
