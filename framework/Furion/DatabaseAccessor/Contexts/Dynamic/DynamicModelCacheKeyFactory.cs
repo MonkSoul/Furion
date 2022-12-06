@@ -46,7 +46,7 @@ public class DynamicModelCacheKeyFactory : IModelCacheKeyFactory
         Interlocked.Increment(ref cacheKey);
     }
 
-#if NET5_0 || NETCOREAPP3_1
+#if NET5_0
 
     /// <summary>
     /// 更新模型缓存

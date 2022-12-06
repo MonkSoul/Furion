@@ -20,7 +20,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#if !NET5_0 && !NETCOREAPP3_1
+#if !NET5_0
 using Furion;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -35,7 +35,7 @@ using Microsoft.AspNetCore.Hosting;
 
 namespace System;
 
-#if !NET5_0 && !NETCOREAPP3_1
+#if !NET5_0
 /// <summary>
 /// <see cref="WebApplication"/> 方式配置选项
 /// </summary>
@@ -55,7 +55,7 @@ public sealed class RunOptions
     {
     }
 
-#if !NET5_0 && !NETCOREAPP3_1
+#if !NET5_0
     /// <summary>
     /// 默认配置
     /// </summary>
@@ -111,7 +111,7 @@ public sealed class RunOptions
 
 #endif
 
-#if !NET5_0 && !NETCOREAPP3_1
+#if !NET5_0
     /// <summary>
     /// 配置 <see cref="WebApplicationOptions"/>
     /// </summary>

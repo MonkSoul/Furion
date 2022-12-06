@@ -80,7 +80,7 @@ public static class AppServiceCollectionExtensions
         var configureOptions = new AddInjectOptions();
         configure?.Invoke(configureOptions);
 
-#if !NET5_0 && !NETCOREAPP3_1
+#if !NET5_0
         services.AddEndpointsApiExplorer();
 #endif
         services.AddSpecificationDocuments(AddInjectOptions.SwaggerGenConfigure)

@@ -117,7 +117,7 @@ public static class HostBuilderExtensions
     /// <returns><see cref="IWebHostBuilder"/></returns>
     public static IWebHostBuilder AddWebComponent(this IWebHostBuilder hostBuilder, Type componentType, object options = default)
     {
-#if NET5_0 || NETCOREAPP3_1
+#if NET5_0
         // 创建组件依赖链
         var componentContextLinkList = Penetrates.CreateDependLinkList(componentType, options);
 

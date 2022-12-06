@@ -20,7 +20,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#if !NET5_0 && !NETCOREAPP3_1
+#if !NET5_0 
 using System.Text.Json;
 using System.Text.Json.Serialization;
 

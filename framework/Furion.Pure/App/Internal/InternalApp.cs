@@ -166,7 +166,7 @@ internal static class InternalApp
     internal static void AddJsonFiles(IConfigurationBuilder configurationBuilder, IHostEnvironment hostEnvironment)
     {
         // 获取根配置
-#if !NET5_0 && !NETCOREAPP3_1
+#if !NET5_0
         var configuration = configurationBuilder is ConfigurationManager
             ? (configurationBuilder as ConfigurationManager)
             : configurationBuilder.Build();

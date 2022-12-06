@@ -31,7 +31,7 @@ namespace Microsoft.EntityFrameworkCore.Query;
 /// </summary>
 internal class SqlServer2008OffsetToRowNumberConvertVisitor : ExpressionVisitor
 {
-#if !NET5_0 && !NETCOREAPP3_1
+#if !NET5_0
     /// <summary>
     /// 筛选列访问器
     /// </summary>
@@ -70,7 +70,7 @@ internal class SqlServer2008OffsetToRowNumberConvertVisitor : ExpressionVisitor
         if (!typeof(ColumnExpression).IsAssignableFrom(method?.ReturnType))
             throw new InvalidOperationException("SelectExpression.GenerateOuterColumn() is not found.");
 
-#if !NET5_0 && !NETCOREAPP3_1
+#if !NET5_0
         TableReferenceExpressionType = method.GetParameters().First().ParameterType;
         GenerateOuterColumnAccessor = method;
 #else
@@ -140,7 +140,7 @@ internal class SqlServer2008OffsetToRowNumberConvertVisitor : ExpressionVisitor
 
         var subQuery = (SelectExpression)selectExpression.Tables[0];
         var projection = new RowNumberExpression(Array.Empty<SqlExpression>(), rowOrderings, oldOffset.TypeMapping);
-#if !NET5_0 && !NETCOREAPP3_1
+#if !NET5_0
         var left = GenerateOuterColumnAccessor.Invoke(subQuery
             , new object[]
             {

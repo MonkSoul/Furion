@@ -44,9 +44,7 @@ internal static class Penetrates
                .AddSupportedCultures(localizationSettings.SupportedCultures)
                .AddSupportedUICultures(localizationSettings.SupportedCultures);
 
-#if !NETCOREAPP3_1
         // 自动根据客户端浏览器的语言实现多语言机制
         requestLocalization.ApplyCurrentCultureToResponseHeaders = true;
-#endif
     }
 }

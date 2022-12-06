@@ -49,7 +49,7 @@ public static class NewtonsoftJsonExtensions
     /// <returns></returns>
     public static IList<JsonConverter> AddDateOnlyConverters(this IList<JsonConverter> converters)
     {
-#if !NET5_0 && !NETCOREAPP3_1
+#if !NET5_0
         converters.Add(new NewtonsoftJsonDateOnlyJsonConverter());
         converters.Add(new NewtonsoftJsonNullableDateOnlyJsonConverter());
 #endif
@@ -63,7 +63,7 @@ public static class NewtonsoftJsonExtensions
     /// <returns></returns>
     public static IList<JsonConverter> AddTimeOnlyConverters(this IList<JsonConverter> converters)
     {
-#if !NET5_0 && !NETCOREAPP3_1
+#if !NET5_0
         converters.Add(new NewtonsoftJsonTimeOnlyJsonConverter());
         converters.Add(new NewtonsoftJsonNullableTimeOnlyJsonConverter());
 #endif
