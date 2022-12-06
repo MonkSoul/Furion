@@ -45,9 +45,6 @@ public static class LocalizationApplicationBuilderExtensions
         var requestLocalization = new RequestLocalizationOptions();
         Penetrates.SetRequestLocalization(requestLocalization, localizationSettings);
 
-        // 将当前语言输出到请求报文头
-        requestLocalization.ApplyCurrentCultureToResponseHeaders = true;
-
         // 设置多语言请求中间件
         app.UseRequestLocalization(requestLocalization);
 

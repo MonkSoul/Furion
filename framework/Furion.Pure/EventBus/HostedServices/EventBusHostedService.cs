@@ -111,7 +111,7 @@ internal sealed class EventBusHostedService : BackgroundService
             foreach (var eventHandlerMethod in eventHandlerMethods)
             {
                 // 将方法转换成 Func<EventHandlerExecutingContext, Task> 委托
-                var handler = eventHandlerMethod.CreateDelegate<Func<EventHandlerExecutingContext, Task>>(eventSubscriber);
+                var handler = (Func<EventHandlerExecutingContext, Task>)eventHandlerMethod.CreateDelegate(typeof(Func<EventHandlerExecutingContext, Task>), eventSubscriber);
 
                 // 处理同一个事件处理程序支持多个事件 Id 情况
                 var eventSubscribeAttributes = eventHandlerMethod.GetCustomAttributes<EventSubscribeAttribute>(false);

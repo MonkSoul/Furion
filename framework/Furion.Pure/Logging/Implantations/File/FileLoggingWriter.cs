@@ -304,7 +304,7 @@ internal class FileLoggingWriter
             // 遍历所有需要删除的文件
             foreach (var rollingFile in dropFiles)
             {
-                var removeSucceed = _fileLoggerProvider._rollingFileNames.TryRemove(rollingFile);
+                var removeSucceed = _fileLoggerProvider._rollingFileNames.TryRemove(rollingFile.Key, out _);
                 if (!removeSucceed) continue;
 
                 // 执行删除
