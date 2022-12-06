@@ -117,7 +117,7 @@ namespace FurionWorkers
         {
             while (!stoppingToken.IsCancellationRequested)
             {
-                _logger.LogInformation("Worker running at: {time}", DateTimeOffset.Now);
+                _logger.LogInformation("Worker running at: {time}", DateTime.Now);
                 await Task.Delay(1000, stoppingToken);
             }
         }
@@ -197,7 +197,7 @@ namespace FurionWorkers
         {
             while (!stoppingToken.IsCancellationRequested)
             {
-                _logger.LogInformation("Worker running at: {time}", DateTimeOffset.Now);
+                _logger.LogInformation("Worker running at: {time}", DateTime.Now);
                 await Task.Delay(1000, stoppingToken);
             }
         }
@@ -321,7 +321,7 @@ public class Worker : BackgroundService
             {
                 // 你的业务代码写到这里面
 
-                _logger.LogInformation("Worker running at: {time}", DateTimeOffset.Now);
+                _logger.LogInformation("Worker running at: {time}", DateTime.Now);
 
                 await Task.CompletedTask;
 
@@ -368,12 +368,12 @@ public class Worker : BackgroundService
             {
                 // 你的业务代码写到这里面
 
-                _logger.LogInformation("Worker running at: {time}", DateTimeOffset.Now);
+                _logger.LogInformation("Worker running at: {time}", DateTime.Now);
 
                 await Task.CompletedTask;
             }, stoppingToken);
 
-            await Task.Delay(_crontab.GetSleepMilliseconds(DateTime.UtcNow), stoppingToken);
+            await Task.Delay(_crontab.GetSleepMilliseconds(DateTime.Now), stoppingToken);
         }
     }
 }
@@ -415,7 +415,7 @@ public class Worker : BackgroundService
                 // 模拟耗时操作
                 await Task.Delay(2000);
 
-                _logger.LogInformation("Worker running at: {time}", DateTimeOffset.Now);
+                _logger.LogInformation("Worker running at: {time}", DateTime.Now);
 
                 await Task.CompletedTask;
             }, stoppingToken);
@@ -424,7 +424,7 @@ public class Worker : BackgroundService
             await task.ContinueWith(task => _isLock = false);
 
         next:
-            await Task.Delay(_crontab.GetSleepMilliseconds(DateTime.UtcNow), stoppingToken);
+            await Task.Delay(_crontab.GetSleepMilliseconds(DateTime.Now), stoppingToken);
         }
     }
 }
