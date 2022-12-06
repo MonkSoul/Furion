@@ -42,8 +42,12 @@ public static class ILoggingBuilderExtensions
     {
         configure ??= (options) => { };
 
+#if !NETCOREAPP3_1
         return builder.AddConsole(options => options.FormatterName = "console-format")
                       .AddConsoleFormatter<ConsoleFormatterExtend, ConsoleFormatterExtendOptions>(configure);
+#else
+        return builder;
+#endif
     }
 
     /// <summary>
