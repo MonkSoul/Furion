@@ -32,7 +32,7 @@ namespace System;
 /// <remarks>注意，此时 Furion 还未载入</remarks>
 public interface IWebComponent : IComponent
 {
-#if !NET5_0
+#if !NET5_0 && !NETCOREAPP3_1
     /// <summary>
     /// 装置 Web 应用构建器
     /// </summary>

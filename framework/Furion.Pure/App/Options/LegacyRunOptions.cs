@@ -94,7 +94,7 @@ public sealed class LegacyRunOptions : GenericRunOptions
     /// </summary>
     /// <param name="configureAction">配置委托</param>
     /// <returns><see cref="LegacyRunOptions"/></returns>
-    public override LegacyRunOptions ConfigureBuilder(Func<IHostBuilder, IHostBuilder> configureAction)
+    public new LegacyRunOptions ConfigureBuilder(Func<IHostBuilder, IHostBuilder> configureAction)
     {
         return base.ConfigureBuilder(configureAction) as LegacyRunOptions;
     }
@@ -104,7 +104,7 @@ public sealed class LegacyRunOptions : GenericRunOptions
     /// </summary>
     /// <param name="configureAction"></param>
     /// <returns><see cref="LegacyRunOptions"/></returns>
-    public override LegacyRunOptions ConfigureServices(Action<IServiceCollection> configureAction)
+    public new LegacyRunOptions ConfigureServices(Action<IServiceCollection> configureAction)
     {
         return base.ConfigureServices(configureAction) as LegacyRunOptions;
     }
@@ -114,7 +114,7 @@ public sealed class LegacyRunOptions : GenericRunOptions
     /// </summary>
     /// <param name="configureAction">配置委托</param>
     /// <returns><see cref="LegacyRunOptions"/></returns>
-    public override LegacyRunOptions ConfigureInject(Action<IHostBuilder, InjectOptions> configureAction)
+    public new LegacyRunOptions ConfigureInject(Action<IHostBuilder, InjectOptions> configureAction)
     {
         return base.ConfigureInject(configureAction) as LegacyRunOptions;
     }
@@ -124,7 +124,8 @@ public sealed class LegacyRunOptions : GenericRunOptions
     /// </summary>
     /// <typeparam name="TComponent">组件类型</typeparam>
     /// <returns></returns>
-    public override LegacyRunOptions AddComponent<TComponent>()
+    public new LegacyRunOptions AddComponent<TComponent>()
+        where TComponent : class, IServiceComponent, new()
     {
         return base.AddComponent<TComponent>() as LegacyRunOptions;
     }
@@ -136,7 +137,8 @@ public sealed class LegacyRunOptions : GenericRunOptions
     /// <typeparam name="TComponentOptions"></typeparam>
     /// <param name="options">组件参数</param>
     /// <returns></returns>
-    public override LegacyRunOptions AddComponent<TComponent, TComponentOptions>(TComponentOptions options)
+    public new LegacyRunOptions AddComponent<TComponent, TComponentOptions>(TComponentOptions options)
+        where TComponent : class, IServiceComponent, new()
     {
         return base.AddComponent<TComponent, TComponentOptions>(options) as LegacyRunOptions;
     }
@@ -147,7 +149,7 @@ public sealed class LegacyRunOptions : GenericRunOptions
     /// <param name="componentType">组件类型</param>
     /// <param name="options">组件参数</param>
     /// <returns></returns>
-    public override LegacyRunOptions AddComponent(Type componentType, object options)
+    public new LegacyRunOptions AddComponent(Type componentType, object options)
     {
         return base.AddComponent(componentType, options) as LegacyRunOptions;
     }
@@ -235,7 +237,7 @@ public sealed class LegacyRunOptions : GenericRunOptions
     /// <param name="silence">静默启动</param>
     /// <param name="logging">静默启动日志状态，默认 false</param>
     /// <returns></returns>
-    public override LegacyRunOptions Silence(bool silence = true, bool logging = false)
+    public new LegacyRunOptions Silence(bool silence = true, bool logging = false)
     {
         return base.Silence(silence, logging) as LegacyRunOptions;
     }
@@ -245,7 +247,7 @@ public sealed class LegacyRunOptions : GenericRunOptions
     /// </summary>
     /// <param name="args">启动参数</param>
     /// <returns></returns>
-    public override LegacyRunOptions WithArgs(string[] args)
+    public new LegacyRunOptions WithArgs(string[] args)
     {
         return base.WithArgs(args) as LegacyRunOptions;
     }

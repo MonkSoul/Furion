@@ -160,7 +160,7 @@ public static class OptionsBuilderExtensions
         // 绑定配置
         optionsBuilder.Bind(configurationSection, binderOptions =>
         {
-#if !NET5_0
+#if !NET5_0 && !NETCOREAPP3_1
             binderOptions.ErrorOnUnknownConfiguration = optionsBuilderAttribute?.ErrorOnUnknownConfiguration ?? false;
 #endif
             binderOptions.BindNonPublicProperties = optionsBuilderAttribute?.BindNonPublicProperties ?? false;

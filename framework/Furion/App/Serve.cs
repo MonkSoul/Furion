@@ -61,7 +61,7 @@ public static class Serve
         , string[] args = default
         , Action<IServiceCollection> additional = default)
     {
-#if !NET5_0
+#if !NET5_0 && !NETCOREAPP3_1
         return Run(RunOptions.Default
              .WithArgs(args)
              .Silence(silence, logging)
@@ -326,7 +326,7 @@ public static class Serve
         return app;
     }
 
-#if !NET5_0
+#if !NET5_0 && !NETCOREAPP3_1
     /// <summary>
     /// 启动 WebApplication 主机
     /// </summary>

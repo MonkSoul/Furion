@@ -31,7 +31,7 @@ namespace Microsoft.AspNetCore.Builder;
 /// </summary>
 public static class AppWebApplicationBuilderExtensions
 {
-#if !NET5_0
+#if !NET5_0 && !NETCOREAPP3_1
     /// <summary>
     /// Web 应用注入
     /// </summary>
