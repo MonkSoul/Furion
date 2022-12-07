@@ -486,7 +486,7 @@ $entityConfigure = @"
 $classRegex = "public\s+partial\s+class\s+(?<table>\w+)";
 
 # 获取类属性正则表达式
-$propRegex = "public\s+partial\s+class\s+(?<table>\w+)\n*[\s\S]*?\{(?<content>[\s\S]*)\}\n*[\s\S]*\}";
+$propRegex = "(namespace\s+.+\n*[\s\S]*?\{\n*[\s\S]*?public\s+partial\s+class\s+(?<table>\w+)\n*[\s\S]*?\{(?<content>[\s\S]*)\}\n*[\s\S]*\})|(namespace\s+.+;\n*[\s\S]*?public\s+partial\s+class\s+(?<table>\w+)\n*[\s\S]*?\{(?<content>[\s\S]*)\}?\n*[\s\S]*\})";
 
 #递归获取 生成的所有临时实体文件
 $files = Get-ChildItem $TempOutputDir -Include *.cs -recurse
@@ -507,7 +507,7 @@ for ($i = 0; $i -le $files.Count - 1; $i++){
     $entityContent = Get-Content $filePath -raw;
 
     # 获取类属性定义
-    $propsContent = [regex]::Match($entityContent, $propRegex).Groups.Value[2];
+    $propsContent = [regex]::Match($entityContent, $propRegex).Groups["content"].value;
 
     $extents = " : IEntity<$DbContextLocators>";
     $newPropsContent = $propsContent;
@@ -522,13 +522,10 @@ for ($i = 0; $i -le $files.Count - 1; $i++){
     # 生成继承关系和文件头
     $finalClass = $fileHeader +  @"
 
-namespace $Namespace
-{
-    public partial class $fileName$extents
-    {
-    $newPropsContent
-    }
-}
+namespace $Namespace;
+
+public partial class $fileName$extents
+{$newPropsContent}
 "@;
 
     # 写入文件
