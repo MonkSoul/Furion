@@ -3,13 +3,13 @@
 	<PropertyGroup>
 		<TargetFrameworks>net5.0;net6.0;net7.0</TargetFrameworks>
 		<OutputType>Exe</OutputType>
-		<version>4.8.2.11</version>
+		<version>4.8.2.12</version>
 		<ToolCommandName>furion</ToolCommandName>
 		<Description>Furion 工具链</Description>
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Furion.Tools.CommandLine" Version="4.8.2.11" />
+		<PackageReference Include="Furion.Tools.CommandLine" Version="4.8.2.12" />
 	</ItemGroup>
 
 </Project>
