@@ -1,4 +1,4 @@
-﻿// MIT License
+// MIT License
 //
 // Copyright (c) 2020-2022 百小僧, Baiqian Co.,Ltd and Contributors
 //
@@ -42,14 +42,7 @@ internal static class Penetrates
     /// <returns></returns>
     internal static string GetTraceId()
     {
-        try
-        {
-            return Activity.Current?.Id ?? (InternalApp.RootServices == null ? default : App.HttpContext?.TraceIdentifier);
-        }
-        catch
-        {
-            return default;
-        }
+        return Activity.Current?.Id ?? (InternalApp.RootServices == null ? default : App.HttpContext?.TraceIdentifier);
     }
 
     /// <summary>
