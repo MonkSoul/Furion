@@ -93,7 +93,20 @@ public static class App
     /// <summary>
     /// 获取请求上下文
     /// </summary>
-    public static HttpContext HttpContext => RootServices?.GetService<IHttpContextAccessor>()?.HttpContext;
+    public static HttpContext HttpContext
+    {
+        get
+        {
+            try
+            {
+                return RootServices?.GetService<IHttpContextAccessor>()?.HttpContext;
+            }
+            catch
+            {
+                return default;
+            }
+        }
+    }
 
     /// <summary>
     /// 获取请求上下文用户
