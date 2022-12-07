@@ -395,16 +395,28 @@ internal sealed partial class Scheduler
     /// </summary>
     public void Start()
     {
-        var changed = 0;
-
         // 逐条启用所有作业触发器
-        foreach (var triggerId in Triggers.Keys)
+        foreach (var (_, trigger) in Triggers)
         {
-            if (StartTrigger(triggerId, false)) changed++;
+            // 启动内存作业触发器后更新
+            trigger.StartNow = true;
+            trigger.SetStatus(TriggerStatus.Ready);
         }
 
+        // 更新作业
+        if (Factory.TryUpdateJob(GetBuilder().Updated(), out _, false) != ScheduleResult.Succeed)
+        {
+            // 输出日志
+            Logger.LogWarning("The scheduler of <{JobId}> started failed.", JobId);
+
+            return;
+        }
+
+        // 输出日志
+        Logger.LogInformation("The scheduler of <{JobId}> successfully started to the schedule.", JobId);
+
         // 取消作业调度器休眠状态（强制唤醒）
-        if (changed > 0) Factory.CancelSleep();
+        Factory.CancelSleep();
     }
 
     /// <summary>
@@ -412,16 +424,27 @@ internal sealed partial class Scheduler
     /// </summary>
     public void Pause()
     {
-        var changed = 0;
-
         // 逐条暂停所有作业触发器
-        foreach (var triggerId in Triggers.Keys)
+        foreach (var (_, trigger) in Triggers)
         {
-            if (PauseTrigger(triggerId, false)) changed++;
+            // 暂停内存作业触发器后更新
+            trigger.SetStatus(TriggerStatus.Pause);
         }
 
+        // 更新作业
+        if (Factory.TryUpdateJob(GetBuilder().Updated(), out _, false) != ScheduleResult.Succeed)
+        {
+            // 输出日志
+            Logger.LogWarning("The scheduler of <{JobId}> paused failed.", JobId);
+
+            return;
+        }
+
+        // 输出日志
+        Logger.LogInformation("The scheduler of <{JobId}> successfully paused to the schedule.", JobId);
+
         // 取消作业调度器休眠状态（强制唤醒）
-        if (changed > 0) Factory.CancelSleep();
+        Factory.CancelSleep();
     }
 
     /// <summary>
