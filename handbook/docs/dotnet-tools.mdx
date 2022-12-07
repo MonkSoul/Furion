@@ -638,7 +638,68 @@ var machineName = Environment.MachineName;
 // 等等。。。。。
 ```
 
-## 37.7 反馈与建议
+## 37.7 集成 `Spectre.Console`
+
+`Spectre.Console` 是 `.NET/C#` 平台非常优秀的控制台应用程序 `UI` 框架库，提供非常多开箱可用且非常好看的 `UI` 组件。官网地址：[https://spectreconsole.net/](https://spectreconsole.net/)
+
+使用非常简单，只需要通过 `Nuget` 安装 `Spectre.Console.Cli` 拓展包即可。
+
+```bash showLineNumbers
+dotnet add package Spectre.Console.Cli
+```
+
+之后在控制台输出带下划线红色的 `Hello` 和 `world!`：
+
+```cs showLineNumbers {1,7}
+using Spectre.Console;
+
+public static class Program
+{
+    public static void Main(string[] args)
+    {
+        AnsiConsole.Markup("[underline red]Hello[/] World!");
+    }
+}
+```
+
+:::tip `Spectre.Console` 和 `Spectre.Console.Cli` 区别
+
+`Spectre.Console` 是不包含 `args` 命令行参数解析的，但作为一个 `tools` 工具对于解析 `args` 参数显得非常重要，所以推荐安装 `Spectre.Console.Cli`。
+
+如果安装了 `Spectre.Console.Cli` 之后则无需安装 `Furion.Tools.CommandLine` 拓展包了。
+
+:::
+
+下面是 `Spectre.Console` 的 `UI` 组件 预览图：
+
+<img src={useBaseUrl("img/cli1.png")} />
+
+## 37.8 集成 `CliWrap`
+
+`CliWrap` 同样也是 `.NET/C#` 平台非常优秀的执行本地命令的库，可通过该库实现 `CMD/Powershell` 命令执行，非常强大。仓库地址：[https://github.com/Tyrrrz/CliWrap](https://github.com/Tyrrrz/CliWrap)
+
+使用非常简单，只需要通过 `Nuget` 安装 `Spectre.Console.Cli` 拓展包即可。
+
+```bash showLineNumbers
+dotnet add package CliWrap
+```
+
+比如执行 `git commit -m "my commit"` 操作：
+
+```cs showLineNumbers
+// 字符串参数方式
+var cmd = Cli.Wrap("git")
+    .WithArguments("commit -m \"my commit\"");
+
+// 数组参数方式
+var cmd = Cli.Wrap("git")
+    .WithArguments(new[] {"commit", "-m", "my commit"});
+
+// 执行命令
+var result = cmd.ExecuteAsync();
+```
+
+## 37.9 反馈与建议
 
 :::note 与我们交流
 

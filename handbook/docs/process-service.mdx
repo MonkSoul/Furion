@@ -285,11 +285,11 @@ namespace FurionWorkers
 }
 ```
 
-## 25.4 实现定时任务
+## 25.4 实现简单定时任务
 
 :::tip 小建议
 
-建议使用 【[26.1 调度作业](/docs/job)】 章节内容实现强大的分布式定时任务。
+**强烈建议使用 【[26.1 调度作业](/docs/job)】 章节内容实现强大的分布式定时任务。**
 
 :::
 
@@ -297,7 +297,7 @@ namespace FurionWorkers
 
 ### 25.4.1 间隔执行方式
 
-```cs showLineNumbers  {7,18,20,30}
+```cs showLineNumbers  {7,18,20-29}
 namespace WorkerService;
 
 public class Worker : BackgroundService
@@ -315,8 +315,9 @@ public class Worker : BackgroundService
     {
         while (!stoppingToken.IsCancellationRequested)
         {
-            var taskFactory = new TaskFactory(System.Threading.Tasks.TaskScheduler.Current);
+            await Task.Delay(delay, stoppingToken);
 
+            var taskFactory = new TaskFactory(System.Threading.Tasks.TaskScheduler.Current);
             await taskFactory.StartNew(async () =>
             {
                 // 你的业务代码写到这里面
@@ -326,8 +327,6 @@ public class Worker : BackgroundService
                 await Task.CompletedTask;
 
             }, stoppingToken);
-
-            await Task.Delay(delay, stoppingToken);
         }
     }
 }
@@ -341,7 +340,7 @@ public class Worker : BackgroundService
 
 :::
 
-```cs showLineNumbers  {9,14,21,23,32}
+```cs showLineNumbers  {9,14,21,23-31}
 using Furion.TimeCrontab;
 
 namespace WorkerService;
@@ -362,8 +361,9 @@ public class Worker : BackgroundService
     {
         while (!stoppingToken.IsCancellationRequested)
         {
-            var taskFactory = new TaskFactory(System.Threading.Tasks.TaskScheduler.Current);
+            await Task.Delay(_crontab.GetSleepMilliseconds(DateTime.Now), stoppingToken);
 
+            var taskFactory = new TaskFactory(System.Threading.Tasks.TaskScheduler.Current);
             await taskFactory.StartNew(async () =>
             {
                 // 你的业务代码写到这里面
@@ -372,12 +372,18 @@ public class Worker : BackgroundService
 
                 await Task.CompletedTask;
             }, stoppingToken);
-
-            await Task.Delay(_crontab.GetSleepMilliseconds(DateTime.Now), stoppingToken);
         }
     }
 }
 ```
+
+:::caution `BackgroundService` 方式实现定时任务注意事项
+
+通过这种方式只是简单的实现定时任务，但~~**不能对线程和时间进行精准控制，可能存在一些不执行或者重复执行等问题**~~。
+
+**所以，强烈建议使用 【[26.1 调度作业](/docs/job)】 章节内容实现强大的分布式定时任务。**
+
+:::
 
 ### 25.4.3 实现 `串行` 操作
 
