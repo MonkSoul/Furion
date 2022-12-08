@@ -58,7 +58,7 @@ public static class App
     /// <summary>
     /// 全局配置选项
     /// </summary>
-    public static IConfiguration Configuration => TryCatch(() => InternalApp.Configuration.Reload(), new ConfigurationBuilder().Build());
+    public static IConfiguration Configuration => CatchOrDefault(() => InternalApp.Configuration.Reload(), new ConfigurationBuilder().Build());
 
     /// <summary>
     /// 获取Web主机环境，如，是否是开发环境，生产环境等
@@ -93,7 +93,7 @@ public static class App
     /// <summary>
     /// 获取请求上下文
     /// </summary>
-    public static HttpContext HttpContext => TryCatch(() => RootServices?.GetService<IHttpContextAccessor>()?.HttpContext);
+    public static HttpContext HttpContext => CatchOrDefault(() => RootServices?.GetService<IHttpContextAccessor>()?.HttpContext);
 
     /// <summary>
     /// 获取请求上下文用户
@@ -544,7 +544,7 @@ public static class App
     /// <param name="action">获取对象委托</param>
     /// <param name="defaultValue">默认值</param>
     /// <returns>T</returns>
-    private static T TryCatch<T>(Func<T> action, T defaultValue = null)
+    private static T CatchOrDefault<T>(Func<T> action, T defaultValue = null)
         where T : class
     {
         try
