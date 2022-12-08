@@ -20,26 +20,11 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-using Microsoft.AspNetCore.Mvc.Localization;
-using System.Linq.Expressions;
-
-namespace Microsoft.Extensions.Localization;
+namespace System.Logging;
 
 /// <summary>
-/// <see cref="IStringLocalizer"/> 和 <see cref="IHtmlLocalizer"/> 拓展
+/// TaskQueue 日志拓展默认分类名
 /// </summary>
-[SuppressSniffer]
-public static class ILocalizerExtensions
+internal sealed class TaskQueueService
 {
-    /// <summary>
-    /// 根据实体类属性名获取对应的多语言配置
-    /// </summary>
-    /// <typeparam name="TResource">通常命名为 SharedResource </typeparam>
-    /// <param name="stringLocalizer"><see cref="IStringLocalizer"/></param>
-    /// <param name="propertyExpression">属性表达式</param>
-    /// <returns></returns>
-    public static LocalizedString GetString<TResource>(this IStringLocalizer stringLocalizer, Expression<Func<TResource, string>> propertyExpression)
-    {
-        return stringLocalizer[(propertyExpression.Body as MemberExpression).Member.Name];
-    }
 }

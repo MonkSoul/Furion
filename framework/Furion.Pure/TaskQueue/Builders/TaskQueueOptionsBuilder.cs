@@ -20,26 +20,32 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-using Microsoft.AspNetCore.Mvc.Localization;
-using System.Linq.Expressions;
+using Microsoft.Extensions.DependencyInjection;
 
-namespace Microsoft.Extensions.Localization;
+namespace Furion.TaskQueue;
 
 /// <summary>
-/// <see cref="IStringLocalizer"/> 和 <see cref="IHtmlLocalizer"/> 拓展
+/// 任务队列配置选项构建器
 /// </summary>
 [SuppressSniffer]
-public static class ILocalizerExtensions
+public sealed class TaskQueueOptionsBuilder
 {
     /// <summary>
-    /// 根据实体类属性名获取对应的多语言配置
+    /// 默认内置任务队列内存通道容量
     /// </summary>
-    /// <typeparam name="TResource">通常命名为 SharedResource </typeparam>
-    /// <param name="stringLocalizer"><see cref="IStringLocalizer"/></param>
-    /// <param name="propertyExpression">属性表达式</param>
-    /// <returns></returns>
-    public static LocalizedString GetString<TResource>(this IStringLocalizer stringLocalizer, Expression<Func<TResource, string>> propertyExpression)
+    /// <remarks>超过 n 条待处理消息，第 n+1 条将进入等待，默认为 3000</remarks>
+    public int ChannelCapacity { get; set; } = 3000;
+
+    /// <summary>
+    /// 未察觉任务异常事件处理程序
+    /// </summary>
+    public EventHandler<UnobservedTaskExceptionEventArgs> UnobservedTaskExceptionHandler { get; set; }
+
+    /// <summary>
+    /// 构建任务配置选项
+    /// </summary>
+    /// <param name="services">服务集合对象</param>
+    internal void Build(IServiceCollection services)
     {
-        return stringLocalizer[(propertyExpression.Body as MemberExpression).Member.Name];
     }
 }

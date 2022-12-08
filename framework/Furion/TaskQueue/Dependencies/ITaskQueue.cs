@@ -20,26 +20,32 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-using Microsoft.AspNetCore.Mvc.Localization;
-using System.Linq.Expressions;
-
-namespace Microsoft.Extensions.Localization;
+namespace Furion.TaskQueue;
 
 /// <summary>
-/// <see cref="IStringLocalizer"/> 和 <see cref="IHtmlLocalizer"/> 拓展
+/// 任务队列接口
 /// </summary>
-[SuppressSniffer]
-public static class ILocalizerExtensions
+public interface ITaskQueue
 {
     /// <summary>
-    /// 根据实体类属性名获取对应的多语言配置
+    /// 任务项入队
     /// </summary>
-    /// <typeparam name="TResource">通常命名为 SharedResource </typeparam>
-    /// <param name="stringLocalizer"><see cref="IStringLocalizer"/></param>
-    /// <param name="propertyExpression">属性表达式</param>
-    /// <returns></returns>
-    public static LocalizedString GetString<TResource>(this IStringLocalizer stringLocalizer, Expression<Func<TResource, string>> propertyExpression)
-    {
-        return stringLocalizer[(propertyExpression.Body as MemberExpression).Member.Name];
-    }
+    /// <param name="taskHandler">任务处理委托</param>
+    /// <param name="delay">延迟时间</param>
+    void Enqueue(Action taskHandler, int delay = 0);
+
+    /// <summary>
+    /// 任务项入队
+    /// </summary>
+    /// <param name="taskHandler">任务处理委托</param>
+    /// <param name="delay">延迟时间</param>
+    /// <returns><see cref="ValueTask"/></returns>
+    ValueTask EnqueueAsync(Func<CancellationToken, ValueTask> taskHandler, int delay = 0);
+
+    /// <summary>
+    /// 任务项出队
+    /// </summary>
+    /// <param name="cancellationToken">取消任务 Token</param>
+    /// <returns><see cref="ValueTask"/></returns>
+    ValueTask<Func<CancellationToken, ValueTask>> DequeueAsync(CancellationToken cancellationToken);
 }

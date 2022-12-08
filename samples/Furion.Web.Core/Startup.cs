@@ -57,10 +57,10 @@ public sealed class Startup : AppStartup
         services.AddSchedule(options =>
         {
             options.AddJob<TestJob>(Triggers.Minutely(), Triggers.Period(5000));
-
-            // 持久化
-            //options.AddPersistence<TestSchedulerPersistence>();
         });
+
+        // 新版本任务队列
+        services.AddTaskQueue();
     }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
