@@ -32,8 +32,8 @@ public static class TaskQueued
     /// 任务项入队
     /// </summary>
     /// <param name="taskHandler">任务处理委托</param>
-    /// <param name="delay">延迟时间</param>
-    public static void Enqueue(Action taskHandler, int delay = 0)
+    /// <param name="delay">延迟时间（毫秒）</param>
+    public static void Enqueue(Action<IServiceProvider> taskHandler, int delay = 0)
     {
         var taskQueue = App.GetRequiredService<ITaskQueue>(App.RootServices);
         taskQueue.Enqueue(taskHandler, delay);
@@ -43,9 +43,9 @@ public static class TaskQueued
     /// 任务项入队
     /// </summary>
     /// <param name="taskHandler">任务处理委托</param>
-    /// <param name="delay">延迟时间</param>
+    /// <param name="delay">延迟时间（毫秒）</param>
     /// <returns><see cref="ValueTask"/></returns>
-    public static async ValueTask EnqueueAsync(Func<CancellationToken, ValueTask> taskHandler, int delay = 0)
+    public static async ValueTask EnqueueAsync(Func<IServiceProvider, CancellationToken, ValueTask> taskHandler, int delay = 0)
     {
         var taskQueue = App.GetRequiredService<ITaskQueue>(App.RootServices);
         await taskQueue.EnqueueAsync(taskHandler, delay);

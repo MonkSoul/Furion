@@ -10,30 +10,48 @@ public class TestTaskQueue : IDynamicApiController
         _taskQueue = taskQueue;
     }
 
-    public void 测试同步入队()
+    /// <summary>
+    /// 同步入队
+    /// </summary>
+    public void SyncTask()
     {
-        _taskQueue.Enqueue(() =>
+        _taskQueue.Enqueue(provider =>
         {
             Console.WriteLine("我是同步的");
         });
+    }
 
-        _taskQueue.Enqueue(() =>
+    /// <summary>
+    /// 同步入队，延迟 3 秒触发
+    /// </summary>
+    public void SyncTask2()
+    {
+        _taskQueue.Enqueue(provider =>
         {
-            Console.WriteLine("我是同步延迟3秒");
+            Console.WriteLine("我是同步的，但我延迟了 3 秒");
         }, 3000);
     }
 
-    public async Task 测试异步入队()
+    /// <summary>
+    /// 异步入队
+    /// </summary>
+    public async Task AsyncTask()
     {
-        await _taskQueue.EnqueueAsync(async (token) =>
+        await _taskQueue.EnqueueAsync(async (provider, token) =>
         {
             Console.WriteLine("我是异步的");
             await ValueTask.CompletedTask;
         });
+    }
 
-        await _taskQueue.EnqueueAsync(async (token) =>
+    /// <summary>
+    /// 异步入队
+    /// </summary>
+    public async Task AsyncTask2()
+    {
+        await _taskQueue.EnqueueAsync(async (_, _) =>
         {
-            Console.WriteLine("我是异步的延迟3秒");
+            Console.WriteLine("我是异步的，但我延迟了 3 秒");
             await ValueTask.CompletedTask;
         }, 3000);
     }

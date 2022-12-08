@@ -173,7 +173,7 @@ module.exports = {
     {
       type: "category",
       label: "26. 定时任务 (Schedule)",
-      items: ["job", "cron"],
+      items: ["job", "cron", "task-queue"],
     },
     {
       type: "doc",
@@ -344,6 +344,10 @@ module.exports = {
     {
       type: "doc",
       id: "global/schedular",
+    },
+    {
+      type: "doc",
+      id: "global/taskqueued",
     },
   ],
 };

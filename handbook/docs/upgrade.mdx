@@ -24,7 +24,7 @@ import Tag from "@site/src/components/Tag.js";
 
 :::
 
-## v4.8.2（当前版本，全新定时任务）
+## v4.8.3（当前版本，全新定时任务）
 
 <img src={useBaseUrl("img/domyself.png")} />
 
@@ -44,6 +44,7 @@ import Tag from "@site/src/components/Tag.js";
 
 :::important 版本细节
 
+- `v4.8.3` 版本细节：[https://gitee.com/dotnetchina/Furion/issues/I657O5](https://gitee.com/dotnetchina/Furion/issues/I657O5) <sup>2022.12.08</sup>
 - `v4.8.2` 版本细节：[https://gitee.com/dotnetchina/Furion/issues/I63CTP](https://gitee.com/dotnetchina/Furion/issues/I63CTP) <sup>2022.11.27</sup>
 - `v4.8.1` 版本细节：[https://gitee.com/dotnetchina/Furion/issues/I62RX3](https://gitee.com/dotnetchina/Furion/issues/I62RX3) <sup>2022.11.24</sup>
 - `v4.8.0` 版本细节：[https://gitee.com/dotnetchina/Furion/issues/I62NZV](https://gitee.com/dotnetchina/Furion/issues/I62NZV) <sup>2022.11.23</sup>
@@ -54,6 +55,7 @@ import Tag from "@site/src/components/Tag.js";
 
   - &nbsp;<Tag>新增</Tag> **🎉 [全新的定时任务模块](/docs/job)** <sup>4.8.0</sup> 【[查看源码](https://gitee.com/dotnetchina/Furion/tree/v4/framework/Furion/Schedule)】
   - &nbsp;<Tag>新增</Tag> **🎉 [全新的 `Cron` 表达式模块](/docs/cron)** <sup>4.8.0</sup> 【[查看源码](https://gitee.com/dotnetchina/Furion/tree/v4/framework/Furion/TimeCrontab)】
+  - &nbsp;<Tag>新增</Tag> **🎉 [全新的任务队列模块](/docs/task-queue)** <sup>4.8.3</sup> 【[查看源码](https://gitee.com/dotnetchina/Furion/tree/v4/framework/Furion/TaskQueue)】
   - &nbsp;<Tag>新增</Tag> 定时任务间隔分钟作业触发器 `Triggers.PeriodMinutes(5)` 和 `[PeriodMinutes(5)]` 特性 <sup>4.8.2.8</sup> <sup>⏱️2022.12.01</sup> [8e1f06f](https://gitee.com/dotnetchina/Furion/commit/8e1f06fa2161ee2bf8bcea29af8aaa5a60ef9db9)
   - &nbsp;<Tag>新增</Tag> 定时任务工作日作业触发器 `Triggers.Workday()` 和 `[Workday]` 特性 <sup>4.8.2.6</sup> <sup>⏱️2022.11.30</sup> [28b2d20](https://gitee.com/dotnetchina/Furion/commit/28b2d20b3f6034a4cdf5827576c34412315fbb15)
   - &nbsp;<Tag>新增</Tag> 定时任务作业校对功能，可对误差进行校正 <sup>4.8.2.6</sup> <sup>⏱️2022.11.30</sup> [f725a25](https://gitee.com/dotnetchina/Furion/commit/f725a252e6a89f9dea6489d4e54452077b1935e5)
@@ -270,7 +272,9 @@ info: 2022-11-24 14:35:16.0373384 +08:00 星期四 L Furion.Application.TestLogg
 
   - &nbsp;<Tag>新增</Tag> **[新版本定时任务文档](/docs/job)**
   - &nbsp;<Tag>新增</Tag> **[Cron 表达式解析文档](/docs/cron)**
+  - &nbsp;<Tag>新增</Tag> **[任务队列文档](/docs/task-queue)**
   - &nbsp;<Tag>新增</Tag> [Schedular](/docs/global/schedular) 全局静态类文档
+  - &nbsp;<Tag>新增</Tag> [TaskQueued](/docs/global/taskqueued) 全局静态类文档
   - &nbsp;<Tag>新增</Tag> 作业触发器 `ResetOnlyOnce` 文档 <sup>4.8.1.5</sup> <sup>⏱️2022.11.25</sup> [a8be728](https://gitee.com/dotnetchina/Furion/commit/a8be728eac986ebc5f44718b08c67aaee8b89dc6)
   - &nbsp;<Tag>新增</Tag> **通过 `Roslyn` 动态编译代码创建 `IJob` 类型文档** <sup>4.8.1.5</sup> <sup>⏱️2022.11.25</sup> [2c5e5be](https://gitee.com/dotnetchina/Furion/commit/2c5e5befc7a335d6ef0e75eea0061aee1e4dd061)
   - &nbsp;<Tag>新增</Tag> 自定义 `JobDetail` 和 `Trigger` 输出 `SQL` 文档 <sup>4.8.2</sup> <sup>⏱️2022.11.27</sup> [0bb9d8f](https://gitee.com/dotnetchina/Furion/commit/0bb9d8f1f3606af145b44c2984b87fdc020f02e1)

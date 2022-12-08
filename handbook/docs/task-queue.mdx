@@ -1,0 +1,173 @@
+---
+id: task-queue
+title: 26.3 任务队列
+sidebar_label: 26.3 任务队列 ✨
+---
+
+import useBaseUrl from "@docusaurus/useBaseUrl";
+
+:::important 版本说明
+
+以下内容仅限 `Furion 4.8.3 +` 版本使用。
+
+:::
+
+:::tip 小知识
+
+任务队列可取代旧版本定时任务的 `SpareTime.DoIt()` 和 `SpareTime.DoOnce` 功能。
+
+:::
+
+## 26.3.1 关于任务队列
+
+任务队列常用于管理后台工作，**通常这些后台工作在主线程响应之外，不会对主线程或当前线程响应阻塞**。任务队列的一个显著特定就是它是一个队列，入队的顺序决定它出队执行的先后。
+
+任务队列使用 `Channel` + `Task` + `ThreadPool（线程池）` 实现，入队/出队速度非常快，吞吐量极高，内存和 `CPU` 占用计划忽略不计。
+
+任务队列应用场景：对于可能需长时间运行的任务，或不是那么及时的需要立即反馈的任务。
+
+## 26.3.2 入门指南
+
+任务队列使用非常简单，只需要注册 `services.AddTaskQueue()` 服务，之后通过依赖注入 `ITaskQueue` 或通过 `TaskQueued` 静态类使用即可，
+
+**1. 注册 `TaskQueue` 服务**
+
+```cs showLineNumbers
+services.AddTaskQueue();
+```
+
+**2. 使用 `ITaskQueue` 服务**
+
+```cs showLineNumbers {1,8,18,24,34,32,38,46,53,61,68}
+using Furion.TaskQueue;
+
+namespace Your.Application;
+
+public class YourService : IYourService
+{
+    private readonly ITaskQueue _taskQueue;
+    public YourService(ITaskQueue taskQueue)
+    {
+        _taskQueue = taskQueue;
+    }
+
+    /// <summary>
+    /// 同步入队
+    /// </summary>
+    public void SyncTask()
+    {
+        _taskQueue.Enqueue(provider =>
+        {
+            Console.WriteLine("我是同步的");
+        });
+
+        // 如无需使用 provider 参数，可用 _ 替代
+        _taskQueue.Enqueue(_ => {});
+    }
+
+    /// <summary>
+    /// 同步入队，延迟 3 秒触发
+    /// </summary>
+    public void SyncTask2()
+    {
+        _taskQueue.Enqueue(provider =>
+        {
+            Console.WriteLine("我是同步的，但我延迟了 3 秒");
+        }, 3000);
+
+        // 如无需使用 provider 参数，可用 _ 替代
+        _taskQueue.Enqueue(_ => {}, 3000);
+    }
+
+    /// <summary>
+    /// 异步入队
+    /// </summary>
+    public async Task AsyncTask()
+    {
+        await _taskQueue.EnqueueAsync(async (provider, token) =>
+        {
+            Console.WriteLine("我是异步的");
+            await ValueTask.CompletedTask;
+        });
+
+        // 如无需使用 provider 和 token 参数，可用 _ 替代
+        await _taskQueue.EnqueueAsync(async (_, _) => {});
+    }
+
+    /// <summary>
+    /// 异步入队
+    /// </summary>
+    public async Task AsyncTask2()
+    {
+        await _taskQueue.EnqueueAsync(async (provider, token) =>
+        {
+            Console.WriteLine("我是异步的，但我延迟了 3 秒");
+            await ValueTask.CompletedTask;
+        }, 3000);
+
+        // 如无需使用 provider 和 token 参数，可用 _ 替代
+        await _taskQueue.EnqueueAsync(asyn (_, _) => {}, 3000);
+    }
+}
+```
+
+## 26.3.3 `TaskQueued` 静态类
+
+框架还提供了 `TaskQueued` 静态类可在任何线程中操作，如：
+
+```cs showLineNumbers {2,5}
+// 同步入队
+TaskQueued.Enqueue((provider) => {}, [delay]);
+
+// 异步入队
+await TaskQueued.EnqueueAsynce(async (provider, token) => {}, [delay]);
+```
+
+## 26.3.4 在处理程序中使用服务
+
+如果在任务队列处理程序中使用了外部的服务，如：
+
+```cs showLineNumbers {4,17}
+public class YourService : IYourService
+{
+    private readonly ITaskQueue _taskQueue;
+    private readonly ILogger<YourService> _logger
+
+    public YourService(ITaskQueue taskQueue
+    , ILogger<YourService> logger)
+    {
+        _taskQueue = taskQueue;
+        _logger = logger;
+    }
+
+    public void SyncTask()
+    {
+        _taskQueue.Enqueue(provider =>
+        {
+            _logger.LogInformation("我使用了外部的 logger");
+        });
+    }
+}
+```
+
+那么需要注意的是，**如果使用的外部服务是 **`单例`**服务，那么无需任何处理，但如果使用的服务属于 `瞬时` 或 `范围` 作用域，那么需要创建作用域**，如：
+
+```cs showLineNumbers {3-5,7-8}
+_taskQueue.Enqueue(provider =>
+{
+    // Repository 注册为范围，需创建作用域
+    using var scoped = provider.CreateScope();
+    var repository = scoped.ServiceProvider.GetService<IRepository<User>>();
+
+    // Logger 注册为单例，可以直接使用
+    _logger.LogInformation("我使用了外部的 logger");
+});
+```
+
+## 26.3.5 反馈与建议
+
+:::note 与我们交流
+
+给 Furion 提 [Issue](https://gitee.com/dotnetchina/Furion/issues/new?issue)。
+
+:::

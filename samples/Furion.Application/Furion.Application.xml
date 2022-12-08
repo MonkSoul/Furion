@@ -626,6 +626,26 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:Furion.Application.TestTaskQueue.SyncTask">
+            <summary>
+            同步入队
+            </summary>
+        </member>
+        <member name="M:Furion.Application.TestTaskQueue.SyncTask2">
+            <summary>
+            同步入队，延迟 3 秒触发
+            </summary>
+        </member>
+        <member name="M:Furion.Application.TestTaskQueue.AsyncTask">
+            <summary>
+            异步入队
+            </summary>
+        </member>
+        <member name="M:Furion.Application.TestTaskQueue.AsyncTask2">
+            <summary>
+            异步入队
+            </summary>
+        </member>
         <member name="P:Furion.Application.MyResult`1.Data">
             <summary>
             数据

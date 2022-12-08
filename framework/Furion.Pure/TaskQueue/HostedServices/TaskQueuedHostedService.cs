@@ -43,6 +43,11 @@ internal sealed class TaskQueueHostedService : BackgroundService
     private readonly ILogger<TaskQueueService> _logger;
 
     /// <summary>
+    /// 服务提供器
+    /// </summary>
+    private readonly IServiceProvider _serviceProvider;
+
+    /// <summary>
     /// 后台任务队列
     /// </summary>
     private readonly ITaskQueue _taskQueue;
@@ -51,11 +56,14 @@ internal sealed class TaskQueueHostedService : BackgroundService
     /// 构造函数
     /// </summary>
     /// <param name="logger">日志对象</param>
+    /// <param name="serviceProvider">服务提供器</param>
     /// <param name="taskQueue">后台任务队列</param>
     public TaskQueueHostedService(ILogger<TaskQueueService> logger
+        , IServiceProvider serviceProvider
         , ITaskQueue taskQueue)
     {
         _logger = logger;
+        _serviceProvider = serviceProvider;
         _taskQueue = taskQueue;
     }
 
@@ -95,7 +103,7 @@ internal sealed class TaskQueueHostedService : BackgroundService
         try
         {
             // 调用任务处理委托
-            await taskHandler(stoppingToken);
+            await taskHandler(_serviceProvider, stoppingToken);
         }
         catch (Exception ex)
         {

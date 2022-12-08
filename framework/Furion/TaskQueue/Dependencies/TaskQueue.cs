@@ -32,7 +32,7 @@ internal sealed partial class TaskQueue : ITaskQueue
     /// <summary>
     /// 队列通道
     /// </summary>
-    private readonly Channel<Func<CancellationToken, ValueTask>> _queue;
+    private readonly Channel<Func<IServiceProvider, CancellationToken, ValueTask>> _queue;
 
     /// <summary>
     /// 构造函数
@@ -47,15 +47,15 @@ internal sealed partial class TaskQueue : ITaskQueue
         };
 
         // 创建有限容量通道
-        _queue = Channel.CreateBounded<Func<CancellationToken, ValueTask>>(boundedChannelOptions);
+        _queue = Channel.CreateBounded<Func<IServiceProvider, CancellationToken, ValueTask>>(boundedChannelOptions);
     }
 
     /// <summary>
     /// 任务项入队
     /// </summary>
     /// <param name="taskHandler">任务处理委托</param>
-    /// <param name="delay">延迟时间</param>
-    public void Enqueue(Action taskHandler, int delay = 0)
+    /// <param name="delay">延迟时间（毫秒）</param>
+    public void Enqueue(Action<IServiceProvider> taskHandler, int delay = 0)
     {
         // 空检查
         if (taskHandler == default)
@@ -63,9 +63,9 @@ internal sealed partial class TaskQueue : ITaskQueue
             throw new ArgumentNullException(nameof(taskHandler));
         }
 
-        _ = EnqueueAsync(_ =>
+        _ = EnqueueAsync((serviceProvider, token) =>
           {
-              taskHandler();
+              taskHandler(serviceProvider);
               return ValueTask.CompletedTask;
           }, delay);
     }
@@ -74,9 +74,9 @@ internal sealed partial class TaskQueue : ITaskQueue
     /// 任务项入队
     /// </summary>
     /// <param name="taskHandler">任务处理委托</param>
-    /// <param name="delay">延迟时间</param>
+    /// <param name="delay">延迟时间（毫秒）</param>
     /// <returns><see cref="ValueTask"/></returns>
-    public async ValueTask EnqueueAsync(Func<CancellationToken, ValueTask> taskHandler, int delay = 0)
+    public async ValueTask EnqueueAsync(Func<IServiceProvider, CancellationToken, ValueTask> taskHandler, int delay = 0)
     {
         // 空检查
         if (taskHandler == default)
@@ -85,14 +85,14 @@ internal sealed partial class TaskQueue : ITaskQueue
         }
 
         // 写入管道队列
-        await _queue.Writer.WriteAsync(async (cancellationToken) =>
+        await _queue.Writer.WriteAsync(async (serviceProvider, cancellationToken) =>
         {
             if (delay > 0)
             {
                 await Task.Delay(delay, cancellationToken);
             }
 
-            await taskHandler(cancellationToken);
+            await taskHandler(serviceProvider, cancellationToken);
         });
     }
 
@@ -101,7 +101,7 @@ internal sealed partial class TaskQueue : ITaskQueue
     /// </summary>
     /// <param name="cancellationToken">取消任务 Token</param>
     /// <returns><see cref="ValueTask"/></returns>
-    public async ValueTask<Func<CancellationToken, ValueTask>> DequeueAsync(CancellationToken cancellationToken)
+    public async ValueTask<Func<IServiceProvider, CancellationToken, ValueTask>> DequeueAsync(CancellationToken cancellationToken)
     {
         // 读取管道队列
         var taskHandler = await _queue.Reader.ReadAsync(cancellationToken);

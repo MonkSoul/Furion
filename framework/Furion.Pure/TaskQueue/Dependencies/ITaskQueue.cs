@@ -31,21 +31,21 @@ public interface ITaskQueue
     /// 任务项入队
     /// </summary>
     /// <param name="taskHandler">任务处理委托</param>
-    /// <param name="delay">延迟时间</param>
-    void Enqueue(Action taskHandler, int delay = 0);
+    /// <param name="delay">延迟时间（毫秒）</param>
+    void Enqueue(Action<IServiceProvider> taskHandler, int delay = 0);
 
     /// <summary>
     /// 任务项入队
     /// </summary>
     /// <param name="taskHandler">任务处理委托</param>
-    /// <param name="delay">延迟时间</param>
+    /// <param name="delay">延迟时间（毫秒）</param>
     /// <returns><see cref="ValueTask"/></returns>
-    ValueTask EnqueueAsync(Func<CancellationToken, ValueTask> taskHandler, int delay = 0);
+    ValueTask EnqueueAsync(Func<IServiceProvider, CancellationToken, ValueTask> taskHandler, int delay = 0);
 
     /// <summary>
     /// 任务项出队
     /// </summary>
     /// <param name="cancellationToken">取消任务 Token</param>
     /// <returns><see cref="ValueTask"/></returns>
-    ValueTask<Func<CancellationToken, ValueTask>> DequeueAsync(CancellationToken cancellationToken);
+    ValueTask<Func<IServiceProvider, CancellationToken, ValueTask>> DequeueAsync(CancellationToken cancellationToken);
 }
