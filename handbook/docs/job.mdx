@@ -13,6 +13,7 @@ import Tag from "@site/src/components/Tag.js";
 
 - **新特性**
 
+  - &nbsp;<Tag>新增</Tag> **定时任务 `IScheduler` 对象每次操作后自动刷新和提供手动刷新 `Reload()` 方法** <sup>4.8.3.3</sup> <sup>⏱️2022.12.09</sup> [#I65EQ1](https://gitee.com/dotnetchina/Furion/issues/I65EQ1#note_15047484_link)
   - &nbsp;<Tag>新增</Tag> 定时任务间隔分钟作业触发器 `Triggers.PeriodMinutes(5)` 和 `[PeriodMinutes(5)]` 特性 <sup>4.8.2.8</sup> <sup>⏱️2022.12.01</sup> [8e1f06f](https://gitee.com/dotnetchina/Furion/commit/8e1f06fa2161ee2bf8bcea29af8aaa5a60ef9db9)
   - &nbsp;<Tag>新增</Tag> 定时任务工作日作业触发器 `Triggers.Workday()` 和 `[Workday]` 特性 <sup>4.8.2.6</sup> <sup>⏱️2022.11.30</sup> [28b2d20](https://gitee.com/dotnetchina/Furion/commit/28b2d20b3f6034a4cdf5827576c34412315fbb15)
   - &nbsp;<Tag>新增</Tag> 定时任务作业校对功能，可对误差进行校正 <sup>4.8.2.6</sup> <sup>⏱️2022.11.30</sup> [f725a25](https://gitee.com/dotnetchina/Furion/commit/f725a252e6a89f9dea6489d4e54452077b1935e5)
@@ -3728,7 +3729,24 @@ scheduler.Start();
 scheduler.Collate();
 ```
 
-### 26.1.11.22 转换成 `JSON` 格式
+### 26.1.11.22 强制刷新当前作业
+
+:::important 版本说明
+
+以下内容仅限 `Furion 4.8.0 +` 版本使用。
+
+:::
+
+通常情况下我们通过 `_schedulerFactory.GetJob("jobId")` 获取到作业之后，然后对这个作业进行操作，但操作之后这个对象并不能同步更改。
+
+所以在 `Furion 4.8.3.3+` 版本之后，`IScheduler` 任何操作都将自动调用 `Reload()` 方法刷新变量。
+
+```cs showLineNumbers
+// 也可以自己手动强制刷新（通常不需要调用下面代码~~）
+scheduler.Reload();
+```
+
+### 26.1.11.23 转换成 `JSON` 格式
 
 ```cs showLineNumbers
 var json = scheduler.ConvertToJSON();

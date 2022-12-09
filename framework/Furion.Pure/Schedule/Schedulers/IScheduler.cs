@@ -213,6 +213,11 @@ public interface IScheduler
     void Collate(bool immediately = true);
 
     /// <summary>
+    /// 刷新作业计划
+    /// </summary>
+    void Reload();
+
+    /// <summary>
     /// 转换成 JSON 字符串
     /// </summary>
     /// <param name="naming">命名法</param>

@@ -174,10 +174,15 @@ internal sealed partial class Scheduler
         if (isRemoved)
         {
             trigger = originTrigger;
+
+            // 刷新作业
+            Reload();
             return ScheduleResult.Succeed;
         }
         else
         {
+            // 刷新作业
+            Reload();
             return InternalTryGetTrigger(triggerId, out trigger, true);
         }
     }
@@ -222,6 +227,9 @@ internal sealed partial class Scheduler
         }
 
         jobDetail = (scheduler as Scheduler).JobDetail;
+
+        // 刷新作业
+        Reload();
         return scheduleResult;
     }
 
@@ -416,6 +424,9 @@ internal sealed partial class Scheduler
             return;
         }
 
+        // 刷新作业
+        Reload();
+
         // 输出日志
         Logger.LogInformation("The scheduler of <{JobId}> successfully started to the schedule.", JobId);
 
@@ -444,6 +455,9 @@ internal sealed partial class Scheduler
             return;
         }
 
+        // 刷新作业
+        Reload();
+
         // 输出日志
         Logger.LogInformation("The scheduler of <{JobId}> successfully paused to the schedule.", JobId);
 
@@ -459,9 +473,28 @@ internal sealed partial class Scheduler
     {
         if (Factory.TryUpdateJob(GetBuilder().Updated(), out _, immediately) == ScheduleResult.Succeed)
         {
+            // 刷新作业
+            Reload();
+
             // 输出日志
             Logger.LogInformation("The scheduler of <{JobId}> successfully collated to the schedule.", JobId);
         }
+    }
+
+    /// <summary>
+    /// 刷新作业计划
+    /// </summary>
+    public void Reload()
+    {
+        if (Factory.TryGetJob(JobId, out var scheduler) != ScheduleResult.Succeed)
+        {
+            // 输出日志
+            Logger.LogWarning("The scheduler of <{JobId}> is not found.", JobId);
+
+            return;
+        }
+
+        _ = scheduler.MapTo<Scheduler>(this);
     }
 
     /// <summary>
@@ -498,7 +531,7 @@ internal sealed partial class Scheduler
         if (scheduleResult != ScheduleResult.Succeed)
         {
             // 输出日志
-            if (showLog) Logger.LogWarning(message: "The scheduler of <{JobId}> is not found.", JobId);
+            if (showLog) Logger.LogWarning("The scheduler of <{JobId}> is not found.", JobId);
 
             trigger = default;
             return ScheduleResult.NotFound;
@@ -510,7 +543,7 @@ internal sealed partial class Scheduler
         if (!succeed)
         {
             // 输出日志
-            if (showLog) Logger.LogWarning(message: "The <{triggerId}> trigger for scheduler of <{JobId}> is not found.", triggerId, JobId);
+            if (showLog) Logger.LogWarning("The <{triggerId}> trigger for scheduler of <{JobId}> is not found.", triggerId, JobId);
 
             trigger = default;
             return ScheduleResult.NotFound;
