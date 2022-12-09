@@ -769,6 +769,13 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter, IOr
     /// <returns></returns>
     private string TrySerializeObject(object obj, LoggingMonitorMethod monitorMethod, out bool succeed)
     {
+        // 排除 IQueryable<> 泛型
+        if (obj != null && obj.GetType().HasImplementedRawGeneric(typeof(IQueryable<>)))
+        {
+            succeed = true;
+            return "{}";
+        }
+
         try
         {
             // 序列化默认配置
@@ -799,7 +806,7 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter, IOr
         catch
         {
             succeed = true;
-            return "<Error Serialize>";
+            return "{}";
         }
     }
 

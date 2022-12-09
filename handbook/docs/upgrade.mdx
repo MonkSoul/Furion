@@ -248,6 +248,7 @@ info: 2022-11-24 14:35:16.0373384 +08:00 星期四 L Furion.Application.TestLogg
 
 - **问题修复**
 
+  - &nbsp;<Tag>修复</Tag> `LoggingMonitor` 序列化 `IQueryable<>` 或 `OData` 返回值类型出现死循环问题 <sup>4.8.3.4</sup> <sup>⏱️2022.12.10</sup>
   - &nbsp;<Tag>修复</Tag> 定时任务通过 `scheduler.RemoveTrigger(triggerId)` 报异常问题 <sup>4.8.3.3</sup> <sup>⏱️2022.12.09</sup> [#I65EQ1](https://gitee.com/dotnetchina/Furion/issues/I65EQ1#note_15047484_link)
   - &nbsp;<Tag>修复</Tag> 定时任务作业触发器配置了 `EndTime` 和 `StartTime` 之后 `Status` 没有对应上 <sup>4.8.3.1</sup> <sup>⏱️2022.12.09</sup> [52a5506](https://gitee.com/dotnetchina/Furion/commit/52a5506c2fda7c31df01b2e90af7ad6b0c5f94aa)
   - &nbsp;<Tag>修复</Tag> 定时任务通过 `scheduler.AddTrigger(triggerBuilder)` 无效的问题 <sup>4.8.3.1</sup> <sup>⏱️2022.12.09</sup> [#I65EQ1](https://gitee.com/dotnetchina/Furion/issues/I65EQ1)
