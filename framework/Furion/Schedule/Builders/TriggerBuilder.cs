@@ -606,9 +606,11 @@ public sealed class TriggerBuilder : Trigger
         var hasArgs = !(RuntimeTriggerArgs == null || RuntimeTriggerArgs.Length == 0);
 
         // 反射创建作业触发器对象
-        var triggerInstance = (!hasArgs
-            ? Activator.CreateInstance(type: RuntimeTriggerType)
-            : Activator.CreateInstance(RuntimeTriggerType, RuntimeTriggerArgs));
+        var triggerInstance = RuntimeTriggerType != null
+            ? ((!hasArgs
+                ? Activator.CreateInstance(RuntimeTriggerType)
+                : Activator.CreateInstance(RuntimeTriggerType, RuntimeTriggerArgs)))
+            : null;
 
         return this.MapTo<Trigger>(triggerInstance);
     }
