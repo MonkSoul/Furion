@@ -29,7 +29,8 @@ import Tag from "@site/src/components/Tag.js";
 
 - **问题修复**
 
-  - &nbsp;<Tag>修复</Tag> 通过 `scheduler.AddTrigger(triggerBuilder)` 无效的问题 <sup>4.8.3.1</sup> <sup>⏱️2022.12.09</sup> [#I65EQ1](https://gitee.com/dotnetchina/Furion/issues/I65EQ1)
+  - &nbsp;<Tag>修复</Tag> 定时任务作业触发器配置了 `EndTime` 和 `StartTime` 之后 `Status` 没有对应上 <sup>4.8.3.1</sup> <sup>⏱️2022.12.09</sup>
+  - &nbsp;<Tag>修复</Tag> 定时任务通过 `scheduler.AddTrigger(triggerBuilder)` 无效的问题 <sup>4.8.3.1</sup> <sup>⏱️2022.12.09</sup> [#I65EQ1](https://gitee.com/dotnetchina/Furion/issues/I65EQ1)
   - &nbsp;<Tag>修复</Tag> 作业拥有多个触发器时暂停作业后依然存在个别未暂停的清空（并发问题） <sup>4.8.2.12</sup> <sup>⏱️2022.12.07</sup> [#I655W9](https://gitee.com/dotnetchina/Furion/issues/I655W9)
   - &nbsp;<Tag>修复</Tag> 作业触发器不符合下一次执行规律但 `NextRunTime` 不为 `null` 情况 <sup>4.8.1.5</sup> <sup>⏱️2022.11.25</sup> [a8be728](https://gitee.com/dotnetchina/Furion/commit/a8be728eac986ebc5f44718b08c67aaee8b89dc6)
   - &nbsp;<Tag>修复</Tag> 运行时启动/暂停作业无效问题 <sup>4.8.1.6</sup> <sup>⏱️2022.11.25</sup> [#I6368M](https://gitee.com/dotnetchina/Furion/issues/I6368M)

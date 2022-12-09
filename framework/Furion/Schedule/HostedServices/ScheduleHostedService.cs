@@ -233,7 +233,7 @@ internal sealed class ScheduleHostedService : BackgroundService
                             }
 
                             // 设置作业触发器状态为就绪状态
-                            if (trigger.CheckAndFixNextOccurrence(jobDetail, startAt)) trigger.SetStatus(TriggerStatus.Ready);
+                            if (trigger.CheckAndFixNextOccurrence(jobDetail)) trigger.SetStatus(TriggerStatus.Ready);
 
                             // 将作业触发器运行数据写入持久化
                             _schedulerFactory.Shorthand(jobDetail, trigger);

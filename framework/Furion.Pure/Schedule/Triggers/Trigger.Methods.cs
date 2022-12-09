@@ -103,8 +103,10 @@ public partial class Trigger
             LastRunTime = NextRunTime;
         }
 
+        NextRunTime = GetNextRunTime(startAt);
+
         // 检查下一次执行信息
-        if (CheckAndFixNextOccurrence(jobDetail, startAt)) NextRunTime = GetNextRunTime(startAt);
+        CheckAndFixNextOccurrence(jobDetail);
     }
 
     /// <summary>
@@ -117,7 +119,7 @@ public partial class Trigger
         NumberOfErrors++;
 
         // 检查下一次执行信息
-        if (CheckAndFixNextOccurrence(jobDetail, startAt)) SetStatus(TriggerStatus.ErrorToReady);
+        if (CheckAndFixNextOccurrence(jobDetail)) SetStatus(TriggerStatus.ErrorToReady);
     }
 
     /// <summary>
@@ -196,9 +198,8 @@ public partial class Trigger
     /// 检查下一次执行信息并修正 <see cref="NextRunTime"/> 和 <see cref="Status"/>
     /// </summary>
     /// <param name="jobDetail">作业信息</param>
-    /// <param name="startAt">起始时间</param>
     /// <returns><see cref="bool"/></returns>
-    internal bool CheckAndFixNextOccurrence(JobDetail jobDetail, DateTime startAt)
+    internal bool CheckAndFixNextOccurrence(JobDetail jobDetail)
     {
         // 检查作业信息运行时类型
         if (jobDetail.RuntimeJobType == null)
@@ -225,7 +226,7 @@ public partial class Trigger
         }
 
         // 开始时间检查
-        if (StartTime != null && StartTime.Value > startAt)
+        if (StartTime != null && NextRunTime != null && StartTime.Value > NextRunTime.Value)
         {
             SetStatus(TriggerStatus.Backlog);
             NextRunTime = null;
@@ -233,7 +234,7 @@ public partial class Trigger
         }
 
         // 结束时间检查
-        if (EndTime != null && EndTime.Value < startAt)
+        if (EndTime != null && NextRunTime != null && EndTime.Value < NextRunTime.Value)
         {
             SetStatus(TriggerStatus.Archived);
             NextRunTime = null;
@@ -292,7 +293,7 @@ public partial class Trigger
     /// <returns><see cref="bool"/></returns>
     internal bool CurrentShouldRun(JobDetail jobDetail, DateTime startAt)
     {
-        return CheckAndFixNextOccurrence(jobDetail, startAt)
+        return CheckAndFixNextOccurrence(jobDetail)
             // 调用派生类 ShouldRun 方法
             && ShouldRun(jobDetail, startAt);
     }

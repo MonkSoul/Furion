@@ -233,7 +233,7 @@ internal sealed partial class SchedulerFactory
                 }
 
                 // 检查下一次执行信息并修正 NextRunTime 和 Status
-                trigger.CheckAndFixNextOccurrence(newScheduler.JobDetail, nowTime);
+                trigger.CheckAndFixNextOccurrence(newScheduler.JobDetail);
                 trigger.UpdatedTime = nowTime;
             }
 
