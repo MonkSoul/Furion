@@ -128,7 +128,7 @@ public class YourService : IYourService
 TaskQueued.Enqueue((provider) => {}, [delay]);
 
 // 异步入队
-await TaskQueued.EnqueueAsynce(async (provider, token) => {}, [delay]);
+await TaskQueued.EnqueueAsync(async (provider, token) => {}, [delay]);
 ```
 
 ## 26.3.5 在处理程序中使用服务
