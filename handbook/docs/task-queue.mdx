@@ -106,7 +106,7 @@ public class YourService : IYourService
         }, 3000);
 
         // 如无需使用 provider 和 token 参数，可用 _ 替代
-        await _taskQueue.EnqueueAsync(asyn (_, _) => {}, 3000);
+        await _taskQueue.EnqueueAsync(async (_, _) => {}, 3000);
     }
 }
 ```
