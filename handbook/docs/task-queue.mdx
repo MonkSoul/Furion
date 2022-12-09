@@ -26,7 +26,15 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 任务队列应用场景：**对于可能需长时间运行的任务，或不是那么及时的需要立即反馈的任务。**比如发送邮件，发送短信等等。
 
-## 26.3.2 入门指南
+## 26.3.2 与事件总线的区别
+
+事件总线基于消息通讯，任务队列最显著的特点就是将操作依次加入队列，然后按照入队的顺序出队去执行。
+
+前者（事件总线）是无序的，**只有完全匹配的消息 `Id` 才会触发执行操作，否则处于 “静待” 状态。**
+
+而后者（任务队列）则是将**可能耗时且一定会执行的操作放到队列中，之后依次出队执行**。
+
+## 26.3.3 入门指南
 
 任务队列使用非常简单，只需要注册 `services.AddTaskQueue()` 服务，之后通过依赖注入 `ITaskQueue` 服务或通过 `TaskQueued` 静态类使用即可，
 
@@ -111,7 +119,7 @@ public class YourService : IYourService
 }
 ```
 
-## 26.3.3 `TaskQueued` 静态类
+## 26.3.4 `TaskQueued` 静态类
 
 框架还提供了 `TaskQueued` 静态类可在任何线程中操作，如：
 
@@ -123,7 +131,7 @@ TaskQueued.Enqueue((provider) => {}, [delay]);
 await TaskQueued.EnqueueAsynce(async (provider, token) => {}, [delay]);
 ```
 
-## 26.3.4 在处理程序中使用服务
+## 26.3.5 在处理程序中使用服务
 
 如果在任务队列处理程序中使用了外部的服务，如：
 
@@ -164,7 +172,7 @@ _taskQueue.Enqueue(provider =>
 });
 ```
 
-## 26.3.5 反馈与建议
+## 26.3.6 反馈与建议
 
 :::note 与我们交流
 
