@@ -131,6 +131,7 @@ internal sealed partial class Scheduler
         if (triggerBuilder == null) throw new ArgumentNullException(nameof(triggerBuilder));
 
         // 解析作业触发器构建器状态
+        var isAppended = triggerBuilder.Behavior == PersistenceBehavior.Appended;
         var isUpdated = triggerBuilder.Behavior == PersistenceBehavior.Updated;
         var isRemoved = triggerBuilder.Behavior == PersistenceBehavior.Removed;
 
@@ -158,7 +159,10 @@ internal sealed partial class Scheduler
 
         // 获取作业触发器构建器
         var schedulerBuilder = GetBuilder();
-        schedulerBuilder.UpdateTriggerBuilder(triggerBuilder);
+        if (isAppended) schedulerBuilder.AddTriggerBuilder(triggerBuilder);
+        else if (isUpdated) schedulerBuilder.UpdateTriggerBuilder(triggerBuilder);
+        else if (isRemoved) schedulerBuilder.RemoveTriggerBuilder(triggerId);
+        else { }
 
         // 更新作业
         if (Factory.TryUpdateJob(schedulerBuilder, out _, immediately) != ScheduleResult.Succeed)
@@ -489,8 +493,19 @@ internal sealed partial class Scheduler
             return ScheduleResult.NotIdentify;
         }
 
+        // 查找内存最新的作业信息
+        var scheduleResult = Factory.TryGetJob(JobId, out var scheduler);
+        if (scheduleResult != ScheduleResult.Succeed)
+        {
+            // 输出日志
+            if (showLog) Logger.LogWarning(message: "The scheduler of <{JobId}> is not found.", JobId);
+
+            trigger = default;
+            return ScheduleResult.NotFound;
+        }
+
         // 查找作业
-        var succeed = Triggers.TryGetValue(triggerId, out var originTrigger);
+        var succeed = (scheduler as Scheduler).Triggers.TryGetValue(triggerId, out var originTrigger);
 
         if (!succeed)
         {
