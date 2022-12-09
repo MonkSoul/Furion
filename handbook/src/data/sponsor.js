@@ -29,11 +29,17 @@ const sponsors = [
     url: "http://www.layui-vue.com?from=furion",
     top: false,
   },
-  // {
-  //   title: "ProcessOn：在线流程图思维导图工具",
-  //   picture: "img/processon1.png",
-  //   url: "https://www.processon.com?from=furion",
-  // },
+  {
+    title: "工作服定制T恤  一件起订来图定做",
+    picture: "img/weishen.jpg",
+    url: "https://eshan.tmall.com?from=furion",
+    top: false,
+  },
+  {
+    title: "ProcessOn：在线流程图思维导图工具",
+    picture: "img/processon1.png",
+    url: "https://www.processon.com?from=furion",
+  },
   // {
   //   title: "Rust 语言圣经",
   //   picture: "img/rust.png",

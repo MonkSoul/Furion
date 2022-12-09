@@ -100,24 +100,27 @@ internal sealed class TaskQueueHostedService : BackgroundService
         // 出队
         var taskHandler = await _taskQueue.DequeueAsync(stoppingToken);
 
-        try
+        Parallel.For(0, 1, async _ =>
         {
-            // 调用任务处理委托
-            await taskHandler(_serviceProvider, stoppingToken);
-        }
-        catch (Exception ex)
-        {
-            // 输出异常日志
-            _logger.LogError(ex, "Error occurred executing {TaskHandler}.", taskHandler?.ToString());
-
-            // 捕获 Task 任务异常信息并统计所有异常
-            if (UnobservedTaskException != default)
+            try
             {
-                var args = new UnobservedTaskExceptionEventArgs(
-                    ex as AggregateException ?? new AggregateException(ex));
-
-                UnobservedTaskException.Invoke(this, args);
+                // 调用任务处理委托
+                await taskHandler(_serviceProvider, stoppingToken);
             }
-        }
+            catch (Exception ex)
+            {
+                // 输出异常日志
+                _logger.LogError(ex, "Error occurred executing {TaskHandler}.", taskHandler?.ToString());
+
+                // 捕获 Task 任务异常信息并统计所有异常
+                if (UnobservedTaskException != default)
+                {
+                    var args = new UnobservedTaskExceptionEventArgs(
+                        ex as AggregateException ?? new AggregateException(ex));
+
+                    UnobservedTaskException.Invoke(this, args);
+                }
+            }
+        });
     }
 }

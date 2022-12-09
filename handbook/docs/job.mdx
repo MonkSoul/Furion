@@ -3733,13 +3733,13 @@ scheduler.Collate();
 
 :::important 版本说明
 
-以下内容仅限 `Furion 4.8.0 +` 版本使用。
+以下内容仅限 `Furion 4.8.3.3 +` 版本使用。
 
 :::
 
-通常情况下我们通过 `_schedulerFactory.GetJob("jobId")` 获取到作业之后，然后对这个作业进行操作，但操作之后这个对象并不能同步更改。
+通常情况下我们通过 `_schedulerFactory.GetJob("jobId")` 获取到作业之后，然后对这个作业进行操作，**但操作之后这个对象并不能同步更改，需要反复调用 `GetJob` 方法。**。
 
-所以在 `Furion 4.8.3.3+` 版本之后，`IScheduler` 任何操作都将自动调用 `Reload()` 方法刷新变量。
+所以在 `Furion 4.8.3.3+` 版本之后，**`IScheduler` 任何操作都将自动调用 `Reload()` 方法刷新变量**。
 
 ```cs showLineNumbers
 // 也可以自己手动强制刷新（通常不需要调用下面代码~~）
