@@ -76,9 +76,6 @@ public sealed class ServeApplicationComponent : IApplicationComponent
         // 401，403 规范化结果
         app.UseUnifyResultStatusCodes();
 
-        // Https 重定向
-        app.UseHttpsRedirection();
-
         // 配置静态
         app.UseStaticFiles();
 
