@@ -4918,7 +4918,7 @@ Serve.RunGeneric(services =>
 
 ## 26.1.16 常见问题
 
-### 26.1.16.1 作业触发时间存在偏差
+### 26.1.16.1 作业处理程序中获取当前时间存在偏差
 
 通常我们会在 `IJob` 实现类型中获取当前时间，但是这个时间可能存在着极小的误差，如：
 
@@ -4933,6 +4933,34 @@ public class MyJob : IJob
         var nowTime = context.OccurrenceTime;
     }
 }
+```
+
+### 26.1.16.2 作业触发器参数序列化/反序列化
+
+框架提供了 `Schedular` 静态类方法：`Serialize/Deserialize` 可对作业触发器参数 `object[]` 类型进行序列化和反序列化操作，通常在开发定时任务管理后台时非常有用。如：
+
+```cs showLineNumbers {1,5}
+// 序列化，方便组合 `UI` 不同输入框作业触发器参数
+var args = new object[] { "* * * * * *", CronStringFormat.WithSeconds };
+var stringArgs = Schedular.Serialize(args);
+
+// 反序列化，方便拆开作业触发器参数在 `UI` 不同列展示
+var stringArgs = "[\"* * * * *\",0]";
+var args = Schedular.Deserialize<object[]>(stringArgs);
+```
+
+### 26.1.16.3 作业信息额外数据序列化/反序列化
+
+框架提供了 `Schedular` 静态类方法：`Serialize/Deserialize` 可对作业信息额外是数据 `Dictionary<string, object>` 类型进行序列化和反序列化操作，通常在开发定时任务管理后台时非常有用。如：
+
+```cs showLineNumbers {1,5}
+// 序列化，方便组合 `UI` 不同输入框作业信息额外数据
+var jobData = new Dictionary<string, object> { { "name", "Furion" } };
+var stringJobData = Schedular.Serialize(jobData);
+
+// 反序列化，方便拆开作业作业信息额外数据在 `UI` 不同列展示
+var stringJobData = "{\"name\":\"Furion\"}";
+var args = Schedular.Deserialize<Dictionary<string, object>>(stringJobData);
 ```
 
 ## 26.1.17 反馈与建议

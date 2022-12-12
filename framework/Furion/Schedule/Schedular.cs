@@ -99,4 +99,26 @@ public static class Schedular
     {
         return GetFactory().GetJob(jobId);
     }
+
+    /// <summary>
+    /// 序列化对象
+    /// </summary>
+    /// <remarks>主要用于作业触发器参数，作业信息额外数据序列化</remarks>
+    /// <param name="obj">对象</param>
+    /// <returns><see cref="string"/></returns>
+    public static string Serialize(object obj)
+    {
+        return Penetrates.Serialize(obj);
+    }
+
+    /// <summary>
+    /// 反序列化对象
+    /// </summary>
+    /// <remarks>主要用于作业触发器参数，作业信息额外数据序列化</remarks>
+    /// <param name="json">JSON 字符串</param>
+    /// <returns>T</returns>
+    public static T Deserialize<T>(string json)
+    {
+        return Penetrates.Deserialize<T>(json);
+    }
 }
