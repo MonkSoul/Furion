@@ -52,3 +52,27 @@ var schedulerFactory = Schedular.GetFactory();
 ```cs showLineNumbers
 var scheduler = Schedular.GetJob("作业 Id");
 ```
+
+## 17.3 序列化作业触发器参数或作业信息额外数据
+
+```cs showLineNumbers {1,5}
+// 作业触发器参数
+var args = new object[] { "* * * * * *", CronStringFormat.WithSeconds };
+var stringArgs = Schedular.Serialize(args);
+
+// 作业额外数据
+var jobData = new Dictionary<string, object> { { "name", "Furion" } };
+var stringJobData = Schedular.Serialize(jobData);
+```
+
+## 17.3 反序列化作业触发器参数或作业信息额外数据
+
+```cs showLineNumbers {1,5}
+// 作业触发器参数
+var stringArgs = "[\"* * * * *\",0]";
+var args = Schedular.Deserialize<object[]>(stringArgs);
+
+// 作业额外数据
+var stringJobData = "{\"name\":\"Furion\"}";
+var args = Schedular.Deserialize<Dictionary<string, object>>(stringJobData);
+```

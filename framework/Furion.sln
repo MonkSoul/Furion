@@ -38,7 +38,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Furion.TestProject", "..\te
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Furion.Xunit", "Furion.Xunit\Furion.Xunit.csproj", "{C447D8F5-615F-44F2-8826-2B3EB2409EF5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Furion.Pure.Xunit", "Furion.Pure.Xunit\Furion.Pure.Xunit.csproj", "{F0759A86-8D57-4053-BC38-BED2BF2FE431}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Furion.Pure.Xunit", "Furion.Pure.Xunit\Furion.Pure.Xunit.csproj", "{F0759A86-8D57-4053-BC38-BED2BF2FE431}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
