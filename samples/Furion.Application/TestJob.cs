@@ -14,12 +14,7 @@ public class TestJob : IJob
 
     public async Task ExecuteAsync(JobExecutingContext context, CancellationToken stoppingToken)
     {
-        var jobDetail = context.JobDetail;
-
-        var count = jobDetail.GetProperty<int>("count") + 1;
-        jobDetail.AddOrUpdateProperty(nameof(count), count);
-
-        _logger.LogWarning("{Description} {JobId} {Trigger} {count}", jobDetail.Description, context.JobId, context.Trigger, count);
+        _logger.LogWarning($"{context}");
         await Task.CompletedTask;
     }
 }
