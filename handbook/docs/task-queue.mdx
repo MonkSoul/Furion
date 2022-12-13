@@ -119,6 +119,12 @@ public class YourService : IYourService
 }
 ```
 
+:::important 注意事项
+
+框架内置了一套简单的错误策略机制，也就是如果任务执行失败会默认重试 `3` 次，每次间隔 `1秒`，该策略配置暂不对外公开。
+
+:::
+
 ## 26.3.4 `TaskQueued` 静态类
 
 框架还提供了 `TaskQueued` 静态类可在任何线程中操作，如：
@@ -172,7 +178,22 @@ _taskQueue.Enqueue(provider =>
 });
 ```
 
-## 26.3.6 反馈与建议
+## 26.3.6 订阅执行任务意外异常
+
+任务处理程序使用的是 `Task` 对象进行创建并执行，但可能存在一些意外且难以捕获的异常，这时候可以通过以下方式订阅：
+
+```cs showLineNumbers  {4}
+services.AddTaskQueue(builder =>
+{
+    // 订阅 TaskQueue 未捕获异常
+    builder.UnobservedTaskExceptionHandler = (obj, args) =>
+    {
+        // ....
+    };
+});
+```
+
+## 26.3.7 反馈与建议
 
 :::note 与我们交流
 

@@ -55,4 +55,12 @@ public class TestTaskQueue : IDynamicApiController
             await ValueTask.CompletedTask;
         }, 3000);
     }
+
+    public void 测试异常()
+    {
+        _taskQueue.Enqueue(provider =>
+        {
+            throw new Exception("我出错了");
+        });
+    }
 }

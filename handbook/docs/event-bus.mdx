@@ -877,6 +877,8 @@ public class ToDoEventSubscriber : IEventSubscriber
 
 ## 22.9 订阅执行任务意外异常
 
+事件处理程序使用的是 `Task` 对象进行创建并执行，但可能存在一些意外且难以捕获的异常，这时候可以通过以下方式订阅：
+
 ```cs showLineNumbers  {4}
 services.AddEventBus(builder =>
 {

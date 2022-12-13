@@ -20,6 +20,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+using Furion.FriendlyException;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System.Logging;
@@ -104,8 +105,19 @@ internal sealed class TaskQueueHostedService : BackgroundService
         {
             try
             {
-                // 调用任务处理委托
-                await taskHandler(_serviceProvider, stoppingToken);
+                // 调用任务处理程序并配置出错执行重试
+                await Retry.InvokeAsync(async () =>
+                {
+                    // 调用任务处理委托
+                    await taskHandler(_serviceProvider, stoppingToken);
+                }
+                , 3
+                , 1000
+                , retryAction: (total, times) =>
+                {
+                    // 输出重试日志
+                    _logger.LogWarning("Retrying {times}/{total} times for {TaskHandler}", times, total, taskHandler?.ToString());
+                });
             }
             catch (Exception ex)
             {
