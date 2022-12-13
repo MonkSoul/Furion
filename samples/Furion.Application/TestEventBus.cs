@@ -33,7 +33,7 @@ public class TestEventBus : IDynamicApiController
         await _eventPublisher.PublishAsync("13434563233");
     }
 
-    // 发送电话
+    // 发送错误
     public async Task SendError()
     {
         await _eventPublisher.PublishAsync("test:error");
