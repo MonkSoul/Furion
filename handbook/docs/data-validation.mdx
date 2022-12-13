@@ -4,6 +4,21 @@ title: 8. 数据校验
 sidebar_label: 8. 数据校验
 ---
 
+import Tag from "@site/src/components/Tag.js";
+
+<details>
+  <summary>📝 模块更新日志</summary>
+  <div>
+<div>
+
+- **新特性**
+
+  - &nbsp;<Tag>新增</Tag> `ValidationTypes` 更多常见验证格式（`手机机身码类型`，`统一社会信用代码`，`GUID/UUID`，`base64`） <sup>4.8.3.6</sup> <sup>⏱️2022.12.13</sup>
+
+</div>
+  </div>
+</details>
+
 import useBaseUrl from "@docusaurus/useBaseUrl";
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -426,7 +441,11 @@ namespace Furion.Application
 - `MP3`：Mp3 格式类型
 - `Flash`：Flash 格式类型
 - `Video`：视频文件格式类型
-- `Html`：`Html` 标签格式
+- `Html`：`Html` 标签格式类型
+- `IMEI`：手机机身码类型
+- `SocialCreditCode`：统一社会信用代码类型
+- `GUID_OR_UUID`：`GUID` 或 `UUID` 类型
+- `Base64`：`base64` 格式类型
 
 **使用示例**
 
@@ -648,6 +667,10 @@ public string Password { get; set; }
 - `Flash`：**The value is not a flash type.**
 - `Video`：**The value is not a video type.**
 - `Html`：**The value is not a html type.**
+- `IMEI`：**The value is not a IMEI type.**
+- `SocialCreditCode`：**The value is not a social credit code type.**
+- `GUID_OR_UUID`：**The value is not a GUID or UUID type.**
+- `Base64`：**The value is not a base64 type.**
 
 我们可以通过创建继承 `IValidationMessageTypeProvider` 验证消息提供器类型，或通过 `appsettings.json` 配置。
 

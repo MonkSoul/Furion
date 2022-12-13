@@ -327,4 +327,28 @@ public enum ValidationTypes
     /// </summary>
     [Description("Html 标签格式"), ValidationItemMetadata(@"<(\w+)[^>]*>(.*?<\/\1>)?", "The value is not a html tag.")]
     Html,
+
+    /// <summary>
+    /// 手机机身码
+    /// </summary>
+    [Description("手机机身码"), ValidationItemMetadata(@"^\d{15,17}$", "The value is not a IMEI type.")]
+    IMEI,
+
+    /// <summary>
+    /// 统一社会信用代码
+    /// </summary>
+    [Description("统一社会信用代码"), ValidationItemMetadata(@"^[0-9A-HJ-NPQRTUWXY]{2}\d{6}[0-9A-HJ-NPQRTUWXY]{10}$", "The value is not a social credit code type.")]
+    SocialCreditCode,
+
+    /// <summary>
+    /// GUID 或者 UUID
+    /// </summary>
+    [Description("GUID 或者 UUID"), ValidationItemMetadata(@"^[a-f\d]{4}(?:[a-f\d]{4}-){4}[a-f\d]{12}$", "The value is not a GUID or UUID type.")]
+    GUID_OR_UUID,
+
+    /// <summary>
+    /// base64 格式
+    /// </summary>
+    [Description("base64 格式"), ValidationItemMetadata(@"^\s*data:(?:[a-z]+\/[a-z0-9-+.]+(?:;[a-z-]+=[a-z0-9-]+)?)?(?:;base64)?,([a-z0-9!$&',()*+;=\-._~:@/?%\s]*?)\s*$", "The value is not a base64 type.")]
+    Base64
 }
