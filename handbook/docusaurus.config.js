@@ -108,7 +108,7 @@ module.exports = {
           position: "right",
           items: [
             {
-              label: "Gitee",
+              label: "Gitee（主库）",
               href: "https://gitee.com/dotnetchina/Furion",
             },
             {
@@ -157,7 +157,7 @@ module.exports = {
               to: "docs/serverun",
             },
             {
-              label: "指南",
+              label: "手册",
               to: "docs",
             },
           ],
