@@ -13,6 +13,7 @@ import Tag from "@site/src/components/Tag.js";
 
 - **新特性**
 
+  - &nbsp;<Tag>新增</Tag> 定时任务配置选项 `options.JobDetail.LogEnabled` 配置，可自动输出执行日志 <sup>4.8.3.7</sup> <sup>⏱️2022.12.14</sup> [58d2c20](https://gitee.com/dotnetchina/Furion/commit/58d2c20de05dc458b206863f7814e89866e7522b)
   - &nbsp;<Tag>新增</Tag> **定时任务 `IScheduler` 对象每次操作后自动刷新和提供手动刷新 `Reload()` 方法** <sup>4.8.3.3</sup> <sup>⏱️2022.12.09</sup> [#I65EQ1](https://gitee.com/dotnetchina/Furion/issues/I65EQ1#note_15047484_link)
   - &nbsp;<Tag>新增</Tag> 定时任务间隔分钟作业触发器 `Triggers.PeriodMinutes(5)` 和 `[PeriodMinutes(5)]` 特性 <sup>4.8.2.8</sup> <sup>⏱️2022.12.01</sup> [8e1f06f](https://gitee.com/dotnetchina/Furion/commit/8e1f06fa2161ee2bf8bcea29af8aaa5a60ef9db9)
   - &nbsp;<Tag>新增</Tag> 定时任务工作日作业触发器 `Triggers.Workday()` 和 `[Workday]` 特性 <sup>4.8.2.6</sup> <sup>⏱️2022.11.30</sup> [28b2d20](https://gitee.com/dotnetchina/Furion/commit/28b2d20b3f6034a4cdf5827576c34412315fbb15)
@@ -1234,6 +1235,68 @@ services.AddSchedule(options =>
 如果在该自定义 `SQL` 输出方法中调用 `jobDetail.ConvertToSQL(..)` 会导致死循环。
 
 :::
+
+### 26.1.3.8 启用作业执行日志输出
+
+:::important 版本说明
+
+以下内容仅限 `Furion 4.8.3.7 +` 版本使用。
+
+:::
+
+通常我们需要在 `IJob` 实现类中输出作业触发日志，如 `_logger.LogInformation($"{context}");`
+
+```cs showLineNumbers {11}
+public class MyJob : IJob
+{
+    private readonly ILogger<MyJob> _logger;
+    public MyJob(ILogger<MyJob> logger)
+    {
+        _logger = logger;
+    }
+
+    public Task ExecuteAsync(JobExecutingContext context, CancellationToken stoppingToken)
+    {
+        _logger.LogInformation($"{context}");
+        return Task.CompletedTask;
+    }
+}
+```
+
+**但这样的 `范式代码` 几乎每一个 `IJob` 实现类都可能输出**，所以在 `Furion 4.8.3.7+` 版本提供了更便捷的配置，无需每一个 `IJob` 编写 `_logger.LogInformation($"{context}");`。
+
+配置启用如下：
+
+```cs showLineNumbers {3}
+services.AddSchedule(options =>
+{
+    options.JobDetail.LogEnabled = true;  // 默认 false
+});
+```
+
+之后 `MyJob` 可以更加精简了，日志类别自动设置为 `MyJob` 类型完整限定名。
+
+```cs showLineNumbers {5}
+public class MyJob : IJob
+{
+    public Task ExecuteAsync(JobExecutingContext context, CancellationToken stoppingToken)
+    {
+        // 这里写业务逻辑即可，无需调用 _logger.LogInformation($"{context}");
+        return Task.CompletedTask;
+    }
+}
+```
+
+作业执行日志如下：
+
+```bash showLineNumbers {1,3,5}
+info: 2022-12-14 11:56:12.3963326 +08:00 星期三 L Furion.Application.MyJob[0] #4
+      <job1> [C] <job1 job1_trigger2> 5s 1ts 2022-12-14 11:56:08.361 -> 2022-12-14 11:56:13.366
+info: 2022-12-14 11:56:13.4100745 +08:00 星期三 L Furion.Application.MyJob[0] #6
+      <job1> [C] <job1 job1_trigger2> 5s 2ts 2022-12-14 11:56:13.366 -> 2022-12-14 11:56:18.376
+info: 2022-12-14 11:56:18.3931380 +08:00 星期三 L Furion.Application.MyJob[0] #9
+      <job1> [C] <job1 job1_trigger2> 5s 3ts 2022-12-14 11:56:18.376 -> 2022-12-14 11:56:23.360
+```
 
 ## 26.1.4 作业处理程序 `IJob`
 
@@ -2908,7 +2971,7 @@ services.AddSchedule(scheduleOptionsBuilder);
 
 - **内置属性配置**
 
-```cs showLineNumbers {4,7,10,13,16,21,26}
+```cs showLineNumbers {4,7,10,13,16,21,24,29}
 services.AddSchedule(options =>
 {
       // 是否使用 UTC 时间，该配置主要用来作为作业调度器检查时间格式的依据
@@ -2927,6 +2990,9 @@ services.AddSchedule(options =>
       options.JobDetail.ConvertToSQL((tableName, columnNames, jobDetail, behavior, naming) =>
       {
       });
+
+      // 启用作业执行日志输出，Furion 4.8.3.7+ 版本支持
+      options.JobDetail.LogEnabled = true;      // 默认 false
 
       // 配置作业触发器 Trigger 相关配置，如配置自定义 SQL 输出
       options.Trigger.ConvertToSQL((tableName, columnNames, trigger, behavior, naming) =>

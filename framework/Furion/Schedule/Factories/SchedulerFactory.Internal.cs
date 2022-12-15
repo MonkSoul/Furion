@@ -173,10 +173,11 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory
                  .Where(s => s.Triggers.Values.Any(t => triggerShouldRun(s, t)))
                  .Select(s => new Scheduler(s.JobDetail, s.Triggers.Values.Where(t => triggerShouldRun(s, t)).ToDictionary(t => t.TriggerId, t => t))
                  {
-                     Factory = this,
-                     Logger = _logger,
-                     UseUtcTimestamp = UseUtcTimestamp,
+                     Factory = s.Factory,
+                     Logger = s.Logger,
+                     UseUtcTimestamp = s.UseUtcTimestamp,
                      JobHandler = s.JobHandler,
+                     JobLogger = s.JobLogger
                  });
 
         return currentRunSchedulers;

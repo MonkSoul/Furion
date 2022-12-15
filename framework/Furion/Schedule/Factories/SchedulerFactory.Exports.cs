@@ -21,6 +21,7 @@
 // SOFTWARE.
 
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 namespace Furion.Schedule;
 
@@ -200,6 +201,15 @@ internal sealed partial class SchedulerFactory
                 newScheduler.JobHandler = null;    // 释放引用
                 newScheduler.JobHandler = (_serviceProvider.GetService(runtimeJobType)
                     ?? ActivatorUtilities.CreateInstance(_serviceProvider, runtimeJobType)) as IJob;
+
+                // 是否启用作业详细执行日志
+                if (JobDetailOptions.InternalLogEnabled)
+                {
+                    // 初始化作业类型日志对象
+                    newScheduler.JobLogger = null;   // 释放引用
+                    newScheduler.JobLogger = _serviceProvider.GetService(
+                        typeof(ILogger<>).MakeGenericType(runtimeJobType)) as ILogger;
+                }
             }
 
             // 存储标记已被删除的触发器
