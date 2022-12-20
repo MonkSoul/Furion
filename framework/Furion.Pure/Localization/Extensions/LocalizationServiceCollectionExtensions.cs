@@ -66,10 +66,10 @@ public static class LocalizationServiceCollectionExtensions
                  });
 
         // 注册请求多语言配置选项
-        services.Configure((Action<RequestLocalizationOptions>)(options =>
+        services.Configure<RequestLocalizationOptions>(options =>
         {
             Penetrates.SetRequestLocalization(options, localizationSettings);
-        }));
+        });
 
         // 处理多语言在 Razor 视图中文乱码问题
         services.AddSingleton(HtmlEncoder.Create(UnicodeRanges.All));

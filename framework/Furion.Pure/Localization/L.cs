@@ -48,8 +48,9 @@ public static class L
     public static IHtmlLocalizer @Html => App.GetService<IHtmlLocalizerFactory>(App.RootServices)?.Create();
 
     /// <summary>
-    /// 设置多语言区域
+    /// 设置当前选择的语言
     /// </summary>
+    /// <remarks>只会影响下一次请求，对当前请求无影响</remarks>
     /// <param name="culture"></param>
     public static void SetCulture(string culture)
     {
