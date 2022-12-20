@@ -61,21 +61,12 @@ public static class Serve
         , string[] args = default
         , Action<IServiceCollection> additional = default)
     {
-#if !NET5_0
         return Run(RunOptions.Default
-             .WithArgs(args)
-             .Silence(silence, logging)
-             .ConfigureServices(additional)
-             .AddComponent<ServeServiceComponent>()
-             .UseComponent<ServeApplicationComponent>(), urls);
-#else
-        return Run(LegacyRunOptions.Default
-             .WithArgs(args)
-             .Silence(silence, logging)
-             .ConfigureServices(additional)
-             .AddComponent<ServeServiceComponent>()
-             .UseComponent<ServeApplicationComponent>(), urls);
-#endif
+                     .WithArgs(args)
+                     .Silence(silence, logging)
+                     .ConfigureServices(additional)
+                     .AddComponent<ServeServiceComponent>()
+                     .UseComponent<ServeApplicationComponent>(), urls);
     }
 
     /// <summary>
