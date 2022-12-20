@@ -5029,6 +5029,10 @@ var stringJobData = "{\"name\":\"Furion\"}";
 var args = Schedular.Deserialize<Dictionary<string, object>>(stringJobData);
 ```
 
+### 26.1.16.3 作业处理程序延迟处理
+
+在作业处理程序中如需使用到延迟线程操作，推荐使用 `Task.Delay` 而不是 `Thread.Sleep`，原因是后者是同步延迟会阻塞线程，而且不能取消。
+
 ## 26.1.17 反馈与建议
 
 :::note 与我们交流
