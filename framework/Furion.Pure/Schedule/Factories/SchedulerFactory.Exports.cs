@@ -188,7 +188,6 @@ internal sealed partial class SchedulerFactory
             newScheduler.JobDetail.UpdatedTime = nowTime;
 
             newScheduler.Factory = this;
-            newScheduler.UseUtcTimestamp = UseUtcTimestamp;
             newScheduler.Logger = _logger;
 
             // 实例化作业处理程序，如果设置了动态委托作业，优先使用
