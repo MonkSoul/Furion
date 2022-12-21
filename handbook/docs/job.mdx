@@ -3417,6 +3417,10 @@ public static async Task WaitAsync(this Task task, TimeSpan timeout)
 
 :::
 
+### 26.1.9.3 更多控制
+
+作业执行器功能远不止于此，通过自定义作业执行器还可以实现分片作业，关联子作业，故障转移，集群等控制。
+
 ## 26.1.10 作业计划工厂 `ISchedulerFactory`
 
 作业计划工厂提供了程序运行时操作作业调度器，作业计划等诸多方法。
