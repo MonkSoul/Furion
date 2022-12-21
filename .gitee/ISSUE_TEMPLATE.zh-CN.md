@@ -11,14 +11,14 @@
 ### .NET SDK 版本号
 
 - [ ] .NET5
-- [x] .NET6
+- [ ] .NET6
 - [ ] .NET7
 
 ---
 
 ### 项目类型
 
-- [x] WebApi
+- [ ] WebApi
 - [ ] Mvc
 - [ ] Razor Pages
 - [ ] Blazor Server
@@ -31,16 +31,16 @@
 
 ### 操作系统和版本
 
-- [x] Windows（版本）
-- [ ] Linux（版本）
-- [ ] MacOS（版本）
-- [ ] 其他（版本）
+- [ ] Windows（版本号？）
+- [ ] Linux（版本号？）
+- [ ] MacOS（版本号？）
+- [ ] 其他（版本号？）
 
 ---
 
 ### 代码环境
 
-- [x] 开发环境（Development）
+- [ ] 开发环境（Development）
 - [ ] 生产环境（Production）
 - [ ] 测试环境（Tests/单元测试/集成测试 ）
 
@@ -70,14 +70,14 @@
 
 请提供安装的 `Nuget` 包版本号。
 
-- [x] Sqlite
-- [ ] SqlServer
-- [ ] MySQL
-- [ ] Oracle
-- [ ] PostgreSQL
-- [ ] Firebird
-- [ ] Cosmos
-- [ ] InMemoryDatabase
+- [ ] Sqlite（包名和版本号？）
+- [ ] SqlServer（包名和版本号？）
+- [ ] MySQL（包名和版本号？）
+- [ ] Oracle（包名和版本号？）
+- [ ] PostgreSQL（包名和版本号？）
+- [ ] Firebird（包名和版本号？）
+- [ ] Cosmos（包名和版本号？）
+- [ ] InMemoryDatabase（包名和版本号？）
 
 ---
 
