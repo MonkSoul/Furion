@@ -87,7 +87,7 @@ public static class TaskQueueServiceCollectionExtensions
     private static IServiceCollection AddInternalService(this IServiceCollection services, TaskQueueOptionsBuilder taskQueueOptionsBuilder)
     {
         // 构建任务队列配置选项
-        taskQueueOptionsBuilder.Build(services);
+        taskQueueOptionsBuilder.Build();
 
         // 注册后台任务队列接口/实例为单例，采用工厂方式创建
         services.AddSingleton<ITaskQueue>(_ =>

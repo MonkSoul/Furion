@@ -44,8 +44,7 @@ public sealed class TaskQueueOptionsBuilder
     /// <summary>
     /// 构建任务配置选项
     /// </summary>
-    /// <param name="services">服务集合对象</param>
-    internal void Build(IServiceCollection services)
+    internal void Build()
     {
     }
 }

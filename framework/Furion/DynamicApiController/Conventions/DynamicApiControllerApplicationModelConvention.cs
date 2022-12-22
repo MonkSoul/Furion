@@ -289,9 +289,8 @@ internal sealed class DynamicApiControllerApplicationModelConvention : IApplicat
             verbKey = (words[0] + words[1]).ToLower();
         }
 
-        var verb = Penetrates.VerbToHttpMethods.ContainsKey(verbKey)
-            ? Penetrates.VerbToHttpMethods[verbKey] ?? _dynamicApiControllerSettings.DefaultHttpMethod.ToUpper()
-            : _dynamicApiControllerSettings.DefaultHttpMethod.ToUpper();
+        var succeed = Penetrates.VerbToHttpMethods.TryGetValue(verbKey, out var verbValue);
+        var verb = succeed ? verbValue : _dynamicApiControllerSettings.DefaultHttpMethod.ToUpper();
 
         // 添加请求约束
         selectorModel.ActionConstraints.Add(new HttpMethodActionConstraint(new[] { verb }));

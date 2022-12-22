@@ -280,7 +280,7 @@ public static class App
     /// <returns></returns>
     public static string GetTraceId()
     {
-        return Activity.Current?.Id ?? (InternalApp.RootServices == null ? default : App.HttpContext?.TraceIdentifier);
+        return Activity.Current?.Id ?? (InternalApp.RootServices == null ? default : HttpContext?.TraceIdentifier);
     }
 
     /// <summary>

@@ -113,8 +113,7 @@ public partial class Trigger
     /// 记录错误信息，包含错误次数和运行状态
     /// </summary>
     /// <param name="jobDetail">作业信息</param>
-    /// <param name="startAt">起始时间</param>
-    internal void IncrementErrors(JobDetail jobDetail, DateTime startAt)
+    internal void IncrementErrors(JobDetail jobDetail)
     {
         NumberOfErrors++;
 
