@@ -91,7 +91,7 @@ public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
 
 - `L.Text[文本]`：转换文本多语言
 - `L.Html[HTML代码, 格式化]`：转换 `Html` 多语言
-- `L.SetCulture(区域码)`：设置当前语言区域，在下一次请求有效
+- `L.SetCulture(区域码)`：设置当前语言区域，默认在下一次请求有效，第二个参数设置 `true` 立即有效
 - `L.GetSelectCulture()`：获取当前的语言区域
 - `L.GetCultures()`：获取系统支持的多语言列表
 - `L.SetCurrentUICulture(区域码)`：运行时设置当前线程语言区域，立即有效，`Furion 4.8.3.10+` 版本有效
