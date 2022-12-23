@@ -54,8 +54,7 @@ public static unsafe class MD5Encryption
     /// <returns></returns>
     public static string Encrypt(string text, bool uppercase = false, bool is16 = false)
     {
-        using var md5Hash = MD5.Create();
-        var data = md5Hash.ComputeHash(Encoding.UTF8.GetBytes(text));
+        var data = MD5.HashData(Encoding.UTF8.GetBytes(text));
 
         var stringBuilder = new StringBuilder();
         for (var i = 0; i < data.Length; i++)
