@@ -474,8 +474,8 @@ public sealed partial class HttpRequestPart
         if (Method == null) throw new NullReferenceException(nameof(Method));
 
         // 创建客户端请求工厂
-        var clientFactory = App.GetService<IHttpClientFactory>(RequestScoped ?? App.RootServices);
-        if (clientFactory == null) throw new InvalidOperationException("Please add `services.AddRemoteRequest()` in Startup.cs.");
+        var clientFactory = App.GetService<IHttpClientFactory>(RequestScoped ?? App.RootServices)
+            ?? throw new InvalidOperationException("Please add `services.AddRemoteRequest()` in Startup.cs.");
 
         // 创建 HttpClient 对象，这里支持自定义
         var clientName = ClientName ?? string.Empty;

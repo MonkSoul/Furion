@@ -115,7 +115,7 @@ internal sealed class ScheduleHostedService : BackgroundService
     /// </summary>
     /// <param name="stoppingToken">后台主机服务停止时取消任务 Token</param>
     /// <returns><see cref="Task"/> 实例</returns>
-    protected override async Task ExecuteAsync(CancellationToken stoppingToken)
+    protected async override Task ExecuteAsync(CancellationToken stoppingToken)
     {
         _logger.LogInformation("Schedule hosted service is running.");
 
@@ -243,7 +243,7 @@ internal sealed class ScheduleHostedService : BackgroundService
                         catch (Exception ex)
                         {
                             // 记录错误信息，包含错误次数和运行状态
-                            trigger.IncrementErrors(jobDetail, startAt);
+                            trigger.IncrementErrors(jobDetail);
 
                             // 将作业触发器运行数据写入持久化
                             _schedulerFactory.Shorthand(jobDetail, trigger);

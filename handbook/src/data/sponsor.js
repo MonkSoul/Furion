@@ -6,6 +6,12 @@ const sponsors = [
     top: true,
   },
   {
+    title: "流之云 - 信息化、数字化服务提供商",
+    picture: "img/tpflow.png",
+    url: "https://www.gadmin8.com?from=furion",
+    top: false,
+  },
+  {
     title: "CoreShop 移动端/小程序商城系统",
     picture: "img/coreshop.gif",
     url: "https://www.coreshop.cn?from=furion",

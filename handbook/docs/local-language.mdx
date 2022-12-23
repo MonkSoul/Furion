@@ -4,6 +4,22 @@ title: 21. 全球化和本地化
 sidebar_label: 21. 全球化和本地化（多语言）
 ---
 
+import Tag from "@site/src/components/Tag.js";
+
+<details>
+  <summary>📝 模块更新日志</summary>
+  <div>
+<div>
+
+- **新特性**
+
+  - &nbsp;<Tag>新增</Tag> `L.SetCurrentUICulture(culture)` 和 `L.GetCurrentUICulture()` 静态方法，可在运行时动态修改当前线程区域性 <sup>4.8.3.10</sup> <sup>⏱️2022.12.23</sup> [#I66JWA](https://gitee.com/dotnetchina/Furion/issues/I66JWA)
+  - &nbsp;<Tag>新增</Tag> `L.SetCulture(culture, immediately)` 方法重载，可配置运行时修改多语言立即有效 <sup>4.8.3.10</sup> <sup>⏱️2022.12.23</sup> [#I66JWA](https://gitee.com/dotnetchina/Furion/issues/I66JWA)
+
+</div>
+  </div>
+</details>
+
 import useBaseUrl from "@docusaurus/useBaseUrl";
 
 ## 21.1 全球化和本地化
@@ -75,9 +91,19 @@ public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
 
 - `L.Text[文本]`：转换文本多语言
 - `L.Html[HTML代码, 格式化]`：转换 `Html` 多语言
-- `L.SetCulture(区域码)`：设置当前语言区域
+- `L.SetCulture(区域码)`：设置当前语言区域，默认在下一次请求有效，第二个参数设置 `true` 立即有效
 - `L.GetSelectCulture()`：获取当前的语言区域
 - `L.GetCultures()`：获取系统支持的多语言列表
+- `L.SetCurrentUICulture(区域码)`：运行时设置当前线程语言区域，立即有效，`Furion 4.8.3.10+` 版本有效
+- `L.GetCurrentUICulture()`： 获取当前线程 UI 区域性，`Furion 4.8.3.10+` 版本有效
+
+:::tip 小提示
+
+通过 `L.SetCulture` 实际上是往客户端写入区域 `Cookie` 数据，也就是只对下一次请求有效，如果希望运行时立即有效，可通过 `L.SetCurrentUICulture` 设置或一起设置即可。
+
+也可以直接通过设置 `L.SetCulture(区域码, true)` 立即生效（包含当前请求（线程）和下一次请求）。
+
+:::
 
 ## 21.5 使用例子
 

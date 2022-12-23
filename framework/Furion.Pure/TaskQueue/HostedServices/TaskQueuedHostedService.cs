@@ -73,7 +73,7 @@ internal sealed class TaskQueueHostedService : BackgroundService
     /// </summary>
     /// <param name="stoppingToken">后台主机服务停止时取消任务 Token</param>
     /// <returns>Task</returns>
-    protected override async Task ExecuteAsync(CancellationToken stoppingToken)
+    protected async override Task ExecuteAsync(CancellationToken stoppingToken)
     {
         _logger.LogInformation("TaskQueue hosted service is running.");
 

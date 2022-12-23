@@ -46,6 +46,7 @@ import Tag from "@site/src/components/Tag.js";
 
 - **文档**
 
+  - &nbsp;<Tag>新增</Tag> 作业执行器实现超时文档 <sup>4.8.3.8</sup> <sup>⏱️2022.12.20</sup>
   - &nbsp;<Tag>新增</Tag> 作业触发器 `ResetOnlyOnce` 文档 <sup>4.8.1.5</sup> <sup>⏱️2022.11.25</sup> [a8be728](https://gitee.com/dotnetchina/Furion/commit/a8be728eac986ebc5f44718b08c67aaee8b89dc6)
   - &nbsp;<Tag>新增</Tag> **通过 `Roslyn` 动态编译代码创建 `IJob` 类型文档** <sup>4.8.1.5</sup> <sup>⏱️2022.11.25</sup> [2c5e5be](https://gitee.com/dotnetchina/Furion/commit/2c5e5befc7a335d6ef0e75eea0061aee1e4dd061)
   - &nbsp;<Tag>新增</Tag> 自定义 `JobDetail` 和 `Trigger` 输出 `SQL` 文档 <sup>4.8.2</sup> <sup>⏱️2022.11.27</sup> [0bb9d8f](https://gitee.com/dotnetchina/Furion/commit/0bb9d8f1f3606af145b44c2984b87fdc020f02e1)
@@ -75,6 +76,23 @@ import TabItem from "@theme/TabItem";
 调度作业又称定时任务，顾名思义，定时任务就是在特定的时间或符合某种时间规律自动触发并执行任务。
 
 <img src={useBaseUrl("img/scdr.png")} />
+
+### 26.1.1.1 使用场景
+
+定时任务的应用场景非常广，几乎是每一个软件系统必备功能：
+
+- 叫你起床的闹钟
+- 日历日程提醒
+- 生日纪念日提醒
+- 定时备份数据库
+- 定时清理垃圾数据
+- 定时发送营销信息，邮件
+- 定时上线产品，比如预售产品，双十一活动
+- 定时发送优惠券
+- 定时发布，实现 Devops 功能，如 Jenkins
+- 定时爬虫抓数据
+- 定时导出报表，历史统计，考勤统计
+- ...
 
 ## 26.1.2 快速入门
 
@@ -3046,6 +3064,8 @@ services.AddSchedule(options =>
 
 调度作业服务提供了 `IJobMonitor` 监视器接口，实现该接口可以监视所有作业处理程序执行事件，包括 `执行之前、执行之后，执行异常`。
 
+通过作业监视器可以实现作业完整生命周期控制，还能实现作业执行异常发送短信或邮件通知管理员或项目维护者。
+
 如添加 `YourJobMonitor`：
 
 ```cs showLineNumbers  {1,9,15}
@@ -3223,7 +3243,9 @@ fail: 2022-12-05 14:25:24.3888126 +08:00 星期一 L ConsoleApp32.YourJobMonitor
 
 ## 26.1.9 作业执行器 `IJobExecutor`
 
-调度作业服务提供了 `IJobExecutor` 执行器接口，可以让开发者自定义作业处理函数执行策略，如 `超时控制，失败重试、熔断等等`。
+调度作业服务提供了 `IJobExecutor` 执行器接口，可以让开发者自定义作业处理函数执行策略，如 `超时控制，失败重试等等`。
+
+### 26.1.9.1 实现重试策略
 
 如添加 `YourJobExecutor`：
 
@@ -3323,6 +3345,98 @@ fail: 2022-12-05 14:36:49.6714485 +08:00 星期一 L System.Logging.ScheduleServ
          at Furion.Schedule.ScheduleHostedService.<>c__DisplayClass23_2.<<BackgroundProcessing>b__2>d.MoveNext() in D:\Workplaces\OpenSources\Furion\framework\Furion\Schedule\HostedServices\ScheduleHostedService.cs:line 232
       ++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 ```
+
+### 26.1.9.2 实现超时控制
+
+如添加 `YourJobExecutor`：
+
+```cs showLineNumbers {12}
+public class YourJobExecutor : IJobExecutor
+{
+    private readonly ILogger<YourJobExecutor> _logger;
+    public YourJobExecutor(ILogger<YourJobExecutor> logger)
+    {
+        _logger = logger;
+    }
+
+    public async Task ExecuteAsync(JobExecutingContext context, IJob jobHandler, CancellationToken stoppingToken)
+    {
+        await jobHandler.ExecuteAsync(context, stoppingToken)
+            .WaitAsync(TimeSpan.FromMilliseconds(3000));    // 设置 3 秒超时
+    }
+}
+```
+
+接着模拟 `MyJob` 执行超时：
+
+```cs showLineNumbers {12}
+public class MyJob : IJob
+{
+    private readonly ILogger<MyJob> _logger;
+    public MyJob(ILogger<MyJob> logger)
+    {
+        _logger = logger;
+    }
+
+    public async Task ExecuteAsync(JobExecutingContext context, CancellationToken stoppingToken)
+    {
+        _logger.LogInformation($"{context}");
+        await Task.Delay(6000);     // 模拟耗时 6 秒
+    }
+}
+```
+
+执行结果如下：
+
+```bash showLineNumbers {16}
+info: 2022-12-20 13:57:01.7251541 +08:00 星期二 L System.Logging.ScheduleService[0] #1
+      Schedule hosted service is running.
+info: 2022-12-20 13:57:01.7336016 +08:00 星期二 L System.Logging.ScheduleService[0] #1
+      Schedule hosted service is preloading...
+info: 2022-12-20 13:57:02.2846096 +08:00 星期二 L System.Logging.ScheduleService[0] #1
+      The <job1_trigger1> trigger for scheduler of <job1> successfully appended to the schedule.
+info: 2022-12-20 13:57:02.3448819 +08:00 星期二 L System.Logging.ScheduleService[0] #1
+      The scheduler of <job1> successfully appended to the schedule.
+warn: 2022-12-20 13:57:02.3800053 +08:00 星期二 L System.Logging.ScheduleService[0] #1
+      Schedule hosted service preload completed, and a total of <1> schedulers are appended.
+info: 2022-12-20 13:57:07.3261111 +08:00 星期二 L MyJob[0] #14
+      <job1> [C] <job1 job1_trigger1> 5s 1ts 2022-12-20 13:57:07.240 -> 2022-12-20 13:57:12.260
+fail: 2022-12-20 13:57:10.5743871 +08:00 星期二 L System.Logging.ScheduleService[0] #14
+      Error occurred executing <job1> [C] <job1 job1_trigger1> 5s 1ts 2022-12-20 13:57:07.240 -> 2022-12-20 13:57:12.260.
+      ++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+      System.TimeoutException: The operation has timed out.
+         at YourJobExecutor.ExecuteAsync(JobExecutingContext context, IJob jobHandler, CancellationToken stoppingToken) in D:\Workplaces\Study\CSharp\ConsoleApp32\ConsoleApp32\Program.cs:line 41
+         at Furion.Schedule.ScheduleHostedService.<>c__DisplayClass23_2.<<BackgroundProcessing>b__2>d.MoveNext() in D:\Workplaces\OpenSources\Furion\framework\Furion\Schedule\HostedServices\ScheduleHostedService.cs:line 234
+      ++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+```
+
+:::tip 关于 `WaitAsync` 说明
+
+`WaitAsync` 是 `.NET6+` 新增的 `Task` 拓展方法，如需在 `.NET5` 中支持，可添加以下拓展：
+
+```cs showLineNumbers
+public static async Task WaitAsync(this Task task, TimeSpan timeout)
+{
+      using var timeoutCancellationTokenSource = new CancellationTokenSource();
+      var delayTask = Task.Delay(timeout, timeoutCancellationTokenSource.Token);
+
+      if(await Task.WhenAny(task, delayTask) == task)
+      {
+            timeoutCancellationTokenSource.Cancel();
+            await task;
+      }
+      else
+      {
+            throw new TimeoutException("The operation has timed out.")
+      }
+}
+```
+
+:::
+
+### 26.1.9.3 更多控制
+
+作业执行器功能远不止于此，通过自定义作业执行器还可以实现分片作业，关联子作业，故障转移，集群等控制。
 
 ## 26.1.10 作业计划工厂 `ISchedulerFactory`
 
@@ -5028,6 +5142,10 @@ var stringJobData = Schedular.Serialize(jobData);
 var stringJobData = "{\"name\":\"Furion\"}";
 var args = Schedular.Deserialize<Dictionary<string, object>>(stringJobData);
 ```
+
+### 26.1.16.4 作业处理程序延迟处理
+
+在作业处理程序中如需使用到延迟线程操作，推荐使用 `Task.Delay` 而不是 `Thread.Sleep`，原因是后者是同步延迟会阻塞线程，而且不能取消。
 
 ## 26.1.17 反馈与建议
 

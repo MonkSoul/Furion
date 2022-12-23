@@ -130,8 +130,8 @@ public static class StringRenderExtensions
         if (!template.Contains('.', StringComparison.CurrentCulture)) tmpl = template;
         else tmpl = template.Split('.', StringSplitOptions.RemoveEmptyEntries).First();
 
-        var templateValue = templateData.ContainsKey(tmpl) ? templateData[tmpl] : default;
-        return ResolveTemplateValue(template, templateValue);
+        var succeed = templateData.TryGetValue(tmpl, out var templateValue);
+        return ResolveTemplateValue(template, succeed ? templateValue : default);
     }
 
     /// <summary>

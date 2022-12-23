@@ -159,7 +159,7 @@ public static class App
     /// <returns></returns>
     public static object GetService(Type type, IServiceProvider serviceProvider = default)
     {
-        return (serviceProvider ?? GetServiceProvider(type)).GetService(type);
+        return CatchOrDefault(() => (serviceProvider ?? GetServiceProvider(type)).GetService(type), default);
     }
 
     /// <summary>
@@ -182,7 +182,8 @@ public static class App
     /// <returns></returns>
     public static object GetRequiredService(Type type, IServiceProvider serviceProvider = default)
     {
-        return (serviceProvider ?? GetServiceProvider(type)).GetRequiredService(type);
+        return CatchOrDefault(() => (serviceProvider ?? GetServiceProvider(type)).GetRequiredService(type), default)
+            ?? throw new InvalidOperationException($"There is no service of <{type.Name}> serviceType or the service provider is disposed.");
     }
 
     /// <summary>
@@ -279,7 +280,7 @@ public static class App
     /// <returns></returns>
     public static string GetTraceId()
     {
-        return Activity.Current?.Id ?? (InternalApp.RootServices == null ? default : App.HttpContext?.TraceIdentifier);
+        return Activity.Current?.Id ?? (InternalApp.RootServices == null ? default : HttpContext?.TraceIdentifier);
     }
 
     /// <summary>

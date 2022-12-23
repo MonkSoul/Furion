@@ -27,6 +27,7 @@ using Microsoft.AspNetCore.Mvc.Localization;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Options;
+using System.Globalization;
 using System.Linq.Expressions;
 
 namespace Furion.Localization;
@@ -48,11 +49,15 @@ public static class L
     public static IHtmlLocalizer @Html => App.GetService<IHtmlLocalizerFactory>(App.RootServices)?.Create();
 
     /// <summary>
-    /// 设置多语言区域
+    /// 设置当前选择的语言
     /// </summary>
     /// <param name="culture"></param>
-    public static void SetCulture(string culture)
+    /// <param name="immediately">是否立即对当前线程有效，设置 true 表示立即有效，默认情况下只会影响下一次请求</param>
+    public static void SetCulture(string culture, bool immediately = false)
     {
+        // 是否立即修改当前线程 UI 区域性
+        if (immediately) SetCurrentUICulture(culture);
+
         var httpContext = App.HttpContext;
         if (httpContext == null) return;
 
@@ -78,6 +83,29 @@ public static class L
         // 获取请求特性
         var requestCulture = httpContext.Features.Get<IRequestCultureFeature>();
         return requestCulture.RequestCulture;
+    }
+
+    /// <summary>
+    /// 设置当前线程 UI 区域性
+    /// </summary>
+    /// <param name="culture"></param>
+    /// <remarks>对当前线程（代码）立即有效</remarks>
+    /// <returns></returns>
+    public static void SetCurrentUICulture(string culture)
+    {
+        // https://learn.microsoft.com/zh-cn/dotnet/api/system.globalization.cultureinfo.currentuiculture?view=net-6.0
+        // 修改线程当前的 UI 区域性
+        CultureInfo.CurrentUICulture = new CultureInfo(culture);
+    }
+
+    /// <summary>
+    /// 获取当前线程 UI 区域性
+    /// </summary>
+    /// <returns></returns>
+    public static CultureInfo GetCurrentUICulture()
+    {
+        // https://learn.microsoft.com/zh-cn/dotnet/api/system.globalization.cultureinfo.currentuiculture?view=net-6.0
+        return CultureInfo.CurrentUICulture;
     }
 
     /// <summary>

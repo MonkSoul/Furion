@@ -175,7 +175,6 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory
                  {
                      Factory = s.Factory,
                      Logger = s.Logger,
-                     UseUtcTimestamp = s.UseUtcTimestamp,
                      JobHandler = s.JobHandler,
                      JobLogger = s.JobLogger
                  });

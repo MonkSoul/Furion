@@ -4,6 +4,21 @@ title: 9.19 数据库生成模型
 sidebar_label: 9.19 数据库生成模型 (Db First)
 ---
 
+import Tag from "@site/src/components/Tag.js";
+
+<details>
+  <summary>📝 模块更新日志</summary>
+  <div>
+<div>
+
+- **问题修复**
+
+  - &nbsp;<Tag>修复</Tag> **`cli.ps1` 脚本不支持 `EFCore 7.0` 问题** <sup>4.8.1.12</sup> <sup>⏱️2022.12.07</sup> [!676](https://gitee.com/dotnetchina/Furion/pulls/676)
+
+</div>
+  </div>
+</details>
+
 import useBaseUrl from "@docusaurus/useBaseUrl";
 
 :::tip 视频教程
@@ -64,7 +79,7 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 ### 9.19.2.3 输入 `cli.ps1` 命令
 
-```shell showLineNumbers 
+```shell showLineNumbers
 PM> Show-Command ../tools/cli.ps1
 ```
 
@@ -74,7 +89,7 @@ PM> Show-Command ../tools/cli.ps1
 
 除了采用 `Show-Command` 方式以外，还可以直接执行命令，如：
 
-```shell showLineNumbers 
+```shell showLineNumbers
 &"./tools/cli.ps1" -DbProvider "Microsoft.EntityFrameworkCore.SqlServer" -CoreProject "XXX.Core" -EntryProject "XXX.Web.Entry" -ConnectionName "Default"
 ```
 
@@ -92,7 +107,7 @@ PM> Show-Command ../tools/cli.ps1
 
 如果需要保持和数据库一模一样的命名，则使用 `-UseDatabaseNames` 参数指定，如：
 
-```cs showLineNumbers 
+```cs showLineNumbers
  &"../tools/cli.ps1" -UseDatabaseNames
 ```
 
@@ -104,7 +119,7 @@ PM> Show-Command ../tools/cli.ps1
 
 执行上面命令后，此时 `Cli` 有一个等待输入提示：
 
-```shell showLineNumbers 
+```shell showLineNumbers
 Furion Tools v1.0.0 请键入操作类型：[G] 界面操作，[任意字符] 命令行操作
 Furion Tools v1.0.0 您的输入是:
 ```
@@ -181,7 +196,7 @@ Furion Tools v1.0.0 您的输入是:
 
 最终脚本如下：
 
-```shell showLineNumbers 
+```shell showLineNumbers
 PM> &"../tools/cli.ps1"
 // -----------------------------------------------------------------------------
 //   ______            _______          _
@@ -358,7 +373,7 @@ PM>
 
 `Furion Tools Cli` 支持多个参数配置，使用方法只需要在命令后面添加即可，如：
 
-```shell showLineNumbers 
+```shell showLineNumbers
  &"../tools/cli.ps1" -Context 数据库上下文名 -ConnectionName 连接字符串Key
 ```
 

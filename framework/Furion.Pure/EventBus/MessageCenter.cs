@@ -136,7 +136,7 @@ public static class MessageCenter
     /// <returns></returns>
     private static IEventPublisher GetEventPublisher()
     {
-        return App.GetService<IEventPublisher>(App.RootServices);
+        return App.GetRequiredService<IEventPublisher>(App.RootServices);
     }
 
     /// <summary>
@@ -145,6 +145,6 @@ public static class MessageCenter
     /// <returns></returns>
     private static IEventBusFactory GetEventFactory()
     {
-        return App.GetService<IEventBusFactory>(App.RootServices);
+        return App.GetRequiredService<IEventBusFactory>(App.RootServices);
     }
 }

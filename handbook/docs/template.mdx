@@ -30,12 +30,6 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 ### 2.2.1.2 `Furion + SqlSugar`
 
-:::tip `SqlSugar` 优点
-
-弥补 `EF Core` 上手难度：支持线程安全、支持多库事务、多库兼容、多库查询和多库切换。
-
-:::
-
 |                                                                     模板类型                                                                      | 名称                                      | 版本                                                                                                                                                                                   | 关键词             | 描述                   |
 | :-----------------------------------------------------------------------------------------------------------------------------------------------: | ----------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------ | ---------------------- |
 |       [![nuget](https://shields.io/badge/-Nuget-yellow?cacheSeconds=604800)](https://www.nuget.org/packages/Furion.SqlSugar.Template.Mvc/)        | Furion.SqlSugar.Template.Mvc              | [![nuget](https://img.shields.io/nuget/v/Furion.SqlSugar.Template.Mvc.svg?cacheSeconds=10800)](https://www.nuget.org/packages/Furion.SqlSugar.Template.Mvc/)                           | 👉 **fsmvc**       | Mvc 模板               |
@@ -52,9 +46,9 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 ```bash showLineNumbers
 // EFCore
-dotnet new --install Furion.Template.Api::4.8.3.7
+dotnet new --install Furion.Template.Api::4.8.3.10
 // SqlSugar
-dotnet new --install Furion.SqlSugar.Template.Api::4.8.3.7
+dotnet new --install Furion.SqlSugar.Template.Api::4.8.3.10
 ```
 
 :::tip `SqlSugar` 脚手架基本使用
@@ -104,7 +98,7 @@ dotnet new fsapi -n MyProject -f net7
 只需要重新安装最新版替换即可，如：
 
 ```bash showLineNumbers
-dotnet new --install Furion.Template.Api::4.8.3.7
+dotnet new --install Furion.Template.Api::4.8.3.10
 ```
 
 不带版本号总是安装最新的版本。

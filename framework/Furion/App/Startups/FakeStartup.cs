@@ -26,7 +26,7 @@ using Microsoft.Extensions.DependencyInjection;
 namespace Furion;
 
 /// <summary>
-/// 模拟 Starup，解决不设置 UseStartup 时错误问题
+/// 模拟 Startup，解决 .NET5 下不设置 UseStartup 时出现异常问题
 /// </summary>
 [SuppressSniffer]
 public sealed class FakeStartup
