@@ -67,7 +67,7 @@ internal sealed partial class TaskQueue : ITaskQueue
           {
               taskHandler(serviceProvider);
               return ValueTask.CompletedTask;
-          }, delay);
+          }, delay).AsTask();
     }
 
     /// <summary>
