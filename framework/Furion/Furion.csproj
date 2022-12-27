@@ -7,7 +7,6 @@
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<OpenApiGenerateDocuments>false</OpenApiGenerateDocuments>
-		<NoWarn>0618</NoWarn>
 	</PropertyGroup>
 
 	<ItemGroup>
