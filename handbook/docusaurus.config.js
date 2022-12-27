@@ -10,6 +10,16 @@ module.exports = {
   projectName: "Furion",
   scripts: [],
   themeConfig: {
+    zoom: {
+      selector:
+        ".markdown :not(em) > img,.markdown > img, article img[loading]",
+      background: {
+        light: "rgb(255, 255, 255)",
+        dark: "rgb(50, 50, 50)",
+      },
+      // options you can specify via https://github.com/francoischalifour/medium-zoom#usage
+      config: {},
+    },
     docs: {
       sidebar: {
         hideable: true,
@@ -205,6 +215,8 @@ module.exports = {
           editUrl: "https://gitee.com/dotnetchina/Furion/tree/v4/handbook/",
           showLastUpdateTime: true,
           showLastUpdateAuthor: true,
+          sidebarCollapsible: true,
+          sidebarCollapsed: true,
           // sidebarCollapsible: true,
         },
         blog: {
@@ -217,6 +229,7 @@ module.exports = {
       },
     ],
   ],
+  plugins: [require.resolve("docusaurus-plugin-image-zoom")],
   themes: [
     [
       "@easyops-cn/docusaurus-search-local",

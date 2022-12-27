@@ -5331,6 +5331,13 @@ dns-packet@^5.2.2:
   dependencies:
     "@leichtgewicht/ip-codec" "^2.0.1"
 
+docusaurus-plugin-image-zoom@^0.1.1:
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/docusaurus-plugin-image-zoom/-/docusaurus-plugin-image-zoom-0.1.1.tgz#f5e16ae568f7b74e8a357ee67ea7922521f64539"
+  integrity sha512-cJXo5TKh9OR1gE4B5iS5ovLWYYDFwatqRm00iXFPOaShZG99l5tgkDKgbQPAwSL9wg4I+wz3aMwkOtDhMIpKDQ==
+  dependencies:
+    medium-zoom "^1.0.6"
+
 dom-converter@^0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/dom-converter/-/dom-converter-0.2.0.tgz#6721a9daee2e293682955b6afe416771627bb768"
@@ -6957,6 +6964,11 @@ media-typer@0.3.0:
   version "0.3.0"
   resolved "https://registry.yarnpkg.com/media-typer/-/media-typer-0.3.0.tgz#8710d7af0aa626f8fffa1ce00168545263255748"
   integrity sha1-hxDXrwqmJvj/+hzgAWhUUmMlV0g=
+
+medium-zoom@^1.0.6:
+  version "1.0.8"
+  resolved "https://registry.yarnpkg.com/medium-zoom/-/medium-zoom-1.0.8.tgz#2bd1fbcf2961fa7b0e318fe284462aa9b8608ed2"
+  integrity sha512-CjFVuFq/IfrdqesAXfg+hzlDKu6A2n80ZIq0Kl9kWjoHh9j1N9Uvk5X0/MmN0hOfm5F9YBswlClhcwnmtwz7gA==
 
 memfs@^3.1.2, memfs@^3.4.1:
   version "3.4.1"
