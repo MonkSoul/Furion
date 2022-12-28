@@ -60,6 +60,39 @@ namespace Furion.Web.Entry
 }
 ```
 
+`.Inject()` 方法提供了一个可配置的选项 `InjectOptions`，可以通过该配置配置框架初始化的一些配置，如：
+
+```cs showLineNumbers {1}
+.Inject((builder, options) =>
+{
+    options.AssemblyName = "Furion";    // 配置外部程序集名称
+    options.AutoRegisterBackgroundService = true;   // 是否自动注册 BackgroundService
+
+    options.ConfigurationScanDirectories("目录1", "目录2", ...); // 配置配置文件扫描目录
+    options.IgnoreConfigurationFiles("文件1", "文件2", ...);    // 配置忽略配置文件
+
+    // 配置配置对象
+    options.ConfigureAppConfiguration((context, config) =>
+    {
+    });
+
+    // 配置配置对象（Web）
+    options.ConfigureWebAppConfiguration((context, config) =>
+    {
+    });
+
+    // 配置 ConfigureServices
+    options.ConfigureServices((context, services) =>
+    {
+    });
+
+    // 配置 ConfigureServices（Web）
+    options.ConfigureWebServices((context, services) =>
+    {
+    });
+});
+```
+
 ## 2.4.4 `Startup.ConfigureServices` 使用
 
 ### 2.4.4.1 `AddInject()` 方法
