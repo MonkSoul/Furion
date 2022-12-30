@@ -21,8 +21,10 @@
 // SOFTWARE.
 
 using Furion.Schedule;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
+using Microsoft.Extensions.Hosting;
 
 namespace Microsoft.AspNetCore.Builder;
 
@@ -59,6 +61,10 @@ public static class ScheduleUIExtensions
 
         // 初始化默认值
         options ??= new ScheduleUIOptions();
+
+        // 生产环境关闭
+        if (options.DisableOnProduction
+            && app.ApplicationServices.GetRequiredService<IWebHostEnvironment>().IsProduction()) return app;
 
         // 注册 Schedule 中间件
         app.UseMiddleware<ScheduleUIMiddleware>(new object[]

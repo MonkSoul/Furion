@@ -5125,9 +5125,15 @@ Serve.RunGeneric(services =>
 
 在 `Furion 4.8.4+` 版本内置了一个建议的定时任务看板功能，只需要在 `Startup.cs` 中启用即可，如：
 
-```cs showLineNumbers {2}
+```cs showLineNumbers {2,5}
 app.UseStaticFiles();
 app.UseScheduleUI();
+
+// 还可以配置生产环境关闭
+app.UseScheduleUI(options =>
+{
+    options.DisableOnProduction = true;
+});
 ```
 
 :::tip 中间件说明
@@ -5141,6 +5147,8 @@ app.UseScheduleUI();
 <img src={useBaseUrl("img/job_dash.png")} />
 
 **注意：当前 `Furion 4.8.4+` 版本暂未提供任何自定义功能，包括 `/schedule` 地址配置。**
+
+前端源码地址：[https://gitee.com/dotnetchina/Furion/tree/v4/clients/schedule-dashboard](https://gitee.com/dotnetchina/Furion/tree/v4/clients/schedule-dashboard)
 
 ## 26.1.17 常见问题
 

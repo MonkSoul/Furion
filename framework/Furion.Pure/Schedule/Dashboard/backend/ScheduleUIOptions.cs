@@ -37,4 +37,10 @@ public sealed class ScheduleUIOptions
     /// 启用目录浏览
     /// </summary>
     public bool EnableDirectoryBrowsing { get; set; } = false;
+
+    /// <summary>
+    /// 生产环境关闭
+    /// </summary>
+    /// <remarks>默认 false</remarks>
+    public bool DisableOnProduction { get; set; } = false;
 }
