@@ -27,6 +27,7 @@ using Furion.JsonSerialization;
 using Furion.Templates.Extensions;
 using Furion.VirtualFileServer;
 using System.IO.Compression;
+using System.Net;
 using System.Net.Http.Headers;
 using System.Text;
 
@@ -586,12 +587,13 @@ public sealed partial class HttpRequestPart
         else
         {
             // 读取错误消息
-            var errors = exception == null && response != null
-                ? await response.Content.ReadAsStringAsync(cancellationToken)
-                : exception?.Message;
+            var errors = exception != null
+                ? exception?.Message
+                : response?.ReasonPhrase;
+            var statusCode = (int)(response?.StatusCode ?? HttpStatusCode.InternalServerError);
 
             // 打印失败请求
-            App.PrintToMiniProfiler(MiniProfilerCategory, "Failed", $"[StatusCode: {response?.StatusCode}] {errors}", true);
+            App.PrintToMiniProfiler(MiniProfilerCategory, "Failed", $"[StatusCode: {statusCode}] {errors}", true);
 
             // 抛出异常
             if (ExceptionInterceptors == null || ExceptionInterceptors.Count == 0)
@@ -705,7 +707,16 @@ public sealed partial class HttpRequestPart
                 if (keyValues == null || keyValues.Count == 0) return;
 
                 // 设置内容类型
-                httpContent = new FormUrlEncodedContent(keyValues);
+                if (EncodeUrl)
+                {
+                    httpContent = new FormUrlEncodedContent(keyValues);
+                }
+                else
+                {
+                    var formData = string.Join('&', keyValues.Select(kv => $"{kv.Key}={kv.Value}"));
+                    httpContent = new StringContent(formData, ContentEncoding, ContentType);
+                }
+
                 break;
 
             case "application/xml":
