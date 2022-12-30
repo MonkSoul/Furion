@@ -211,6 +211,9 @@ public class TestModuleServices : IDynamicApiController
             age = 30
         };
 
-        var res = await "https://localhost:5001/test".SetBody(obj, "application/x-www-form-urlencoded").WithEncodeUrl(false).PostAsync();
+        var res = await "https://localhost:5001/test"
+            .SetBody(obj, "application/x-www-form-urlencoded")
+            .WithEncodeUrl(false)
+            .PostAsync();
     }
 }
