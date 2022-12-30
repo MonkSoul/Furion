@@ -147,7 +147,8 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter, IOr
         var actionMethod = controllerActionDescriptor.MethodInfo;
 
         // 如果贴了 [SuppressMonitor] 特性则跳过
-        if (actionMethod.IsDefined(typeof(SuppressMonitorAttribute), true))
+        if (actionMethod.IsDefined(typeof(SuppressMonitorAttribute), true)
+            || actionMethod.DeclaringType.IsDefined(typeof(SuppressMonitorAttribute), true))
         {
             _ = await next();
             return;
