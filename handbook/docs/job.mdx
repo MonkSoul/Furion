@@ -5123,7 +5123,13 @@ Serve.RunGeneric(services =>
 
 :::
 
-在 `Furion 4.8.4+` 版本内置了一个建议的定时任务看板功能，只需要在 `Startup.cs` 中启用即可，如：
+在 `Furion 4.8.4+` 版本内置了一个嵌入的定时任务看板 `UI`，只需要在 `Startup.cs` 中启用即可，如：
+
+:::tip 在 `Sundial` 中使用
+
+如果使用的是 `Sundial` 独立开源项目，只需要安装 `Sundial.Dashboard` 包即可，无需安装 `Sundial`，前者已添加了后者的引用。
+
+:::
 
 ```cs showLineNumbers {2,5}
 app.UseStaticFiles();
@@ -5136,7 +5142,7 @@ app.UseScheduleUI(options =>
 });
 ```
 
-:::tip 中间件说明
+:::caution 中间件说明
 
 `app.UseScheduleUI()` 必须在 `app.UseStaticFiles()` 之后注册，**且当前版本暂未提供任何自定义功能。**
 
