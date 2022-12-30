@@ -20,33 +20,21 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-using System.Diagnostics.CodeAnalysis;
-
 namespace Furion.Schedule;
 
 /// <summary>
-/// 支持重复 Key 的字典比较器
+/// Schedule UI 配置选项
 /// </summary>
-internal class RepeatKeyEqualityComparer : IEqualityComparer<JobDetail>
+[SuppressSniffer]
+public sealed class ScheduleUIOptions
 {
     /// <summary>
-    /// 相等比较
+    /// UI 地址
     /// </summary>
-    /// <param name="x"><see cref="JobDetail"/></param>
-    /// <param name="y"><see cref="JobDetail"/></param>
-    /// <returns><see cref="bool"/></returns>
-    public bool Equals(JobDetail x, JobDetail y)
-    {
-        return x != y;
-    }
+    public string RequestPath { get; set; } = "/schedule";
 
     /// <summary>
-    /// 获取哈希值
+    /// 启用目录浏览
     /// </summary>
-    /// <param name="obj"><see cref="string"/></param>
-    /// <returns><see cref="int"/></returns>
-    public int GetHashCode([DisallowNull] JobDetail obj)
-    {
-        return obj.GetHashCode();
-    }
+    public bool EnableDirectoryBrowsing { get; set; } = false;
 }

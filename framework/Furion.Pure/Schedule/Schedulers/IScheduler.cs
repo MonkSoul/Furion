@@ -223,4 +223,10 @@ public interface IScheduler
     /// <param name="naming">命名法</param>
     /// <returns><see cref="string"/></returns>
     string ConvertToJSON(NamingConventions naming = NamingConventions.CamelCase);
+
+    /// <summary>
+    /// 将作业计划转换成可枚举集合
+    /// </summary>
+    /// <returns><see cref="Dictionary{JobDetail, Trigger}"/></returns>
+    Dictionary<JobDetail, Trigger> GetEnumerable();
 }

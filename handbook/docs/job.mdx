@@ -13,6 +13,7 @@ import Tag from "@site/src/components/Tag.js";
 
 - **新特性**
 
+  - &nbsp;<Tag>新增</Tag> 定时任务 `IScheduler.GetEnumerable()` 方法，可将作业计划转换成可枚举字典 <sup>4.8.4</sup> <sup>⏱️2022.12.30</sup>
   - &nbsp;<Tag>新增</Tag> 定时任务配置选项 `options.JobDetail.LogEnabled` 配置，可自动输出执行日志 <sup>4.8.3.7</sup> <sup>⏱️2022.12.14</sup> [58d2c20](https://gitee.com/dotnetchina/Furion/commit/58d2c20de05dc458b206863f7814e89866e7522b)
   - &nbsp;<Tag>新增</Tag> **定时任务 `IScheduler` 对象每次操作后自动刷新和提供手动刷新 `Reload()` 方法** <sup>4.8.3.3</sup> <sup>⏱️2022.12.09</sup> [#I65EQ1](https://gitee.com/dotnetchina/Furion/issues/I65EQ1#note_15047484_link)
   - &nbsp;<Tag>新增</Tag> 定时任务间隔分钟作业触发器 `Triggers.PeriodMinutes(5)` 和 `[PeriodMinutes(5)]` 特性 <sup>4.8.2.8</sup> <sup>⏱️2022.12.01</sup> [8e1f06f](https://gitee.com/dotnetchina/Furion/commit/8e1f06fa2161ee2bf8bcea29af8aaa5a60ef9db9)
@@ -3931,6 +3932,23 @@ scheduler.Reload();
 ```cs showLineNumbers
 var json = scheduler.ConvertToJSON();
 var json = scheduler.ConvertToJSON(NamingConventions.CamelCase);
+```
+
+### 26.1.11.24 转换成可枚举字典
+
+:::important 版本说明
+
+以下内容仅限 `Furion 4.8.4 +` 版本使用。
+
+:::
+
+通常我们在开发应用时，需要将作业计划信息进行拆解，比如一个作业计划包含两个作业触发器，那么可以通过 `scheduler.GetEnumerable()` 方法生成可枚举字典对象，字典中的项数量等于作业触发器数量。
+
+```cs showLineNumbers {1}
+foreach (var (jobDetail, trigger) in scheduler.GetEnumerable())
+{
+      // ....
+}
 ```
 
 ## 26.1.12 作业持久化器 `IJobPersistence`

@@ -508,6 +508,21 @@ internal sealed partial class Scheduler
     }
 
     /// <summary>
+    /// 将作业计划转换成可枚举集合
+    /// </summary>
+    /// <returns><see cref="Dictionary{JobDetail, Trigger}"/></returns>
+    public Dictionary<JobDetail, Trigger> GetEnumerable()
+    {
+        var enumerable = new Dictionary<JobDetail, Trigger>(new RepeatKeyEqualityComparer());
+        foreach (var (_, trigger) in Triggers)
+        {
+            enumerable.Add(JobDetail, trigger);
+        }
+
+        return enumerable;
+    }
+
+    /// <summary>
     /// 内部获取作业触发器
     /// </summary>
     /// <param name="triggerId">作业触发器 Id</param>

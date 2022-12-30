@@ -27,15 +27,15 @@ namespace Furion.Schedule;
 /// <summary>
 /// 支持重复 Key 的字典比较器
 /// </summary>
-internal class RepeatKeyEqualityComparer : IEqualityComparer<JobBuilder>
+internal class RepeatKeyEqualityComparer : IEqualityComparer<JobDetail>
 {
     /// <summary>
     /// 相等比较
     /// </summary>
-    /// <param name="x"><see cref="JobBuilder"/></param>
-    /// <param name="y"><see cref="JobBuilder"/></param>
+    /// <param name="x"><see cref="JobDetail"/></param>
+    /// <param name="y"><see cref="JobDetail"/></param>
     /// <returns><see cref="bool"/></returns>
-    public bool Equals(JobBuilder x, JobBuilder y)
+    public bool Equals(JobDetail x, JobDetail y)
     {
         return x != y;
     }
@@ -45,7 +45,7 @@ internal class RepeatKeyEqualityComparer : IEqualityComparer<JobBuilder>
     /// </summary>
     /// <param name="obj"><see cref="string"/></param>
     /// <returns><see cref="int"/></returns>
-    public int GetHashCode([DisallowNull] JobBuilder obj)
+    public int GetHashCode([DisallowNull] JobDetail obj)
     {
         return obj.GetHashCode();
     }

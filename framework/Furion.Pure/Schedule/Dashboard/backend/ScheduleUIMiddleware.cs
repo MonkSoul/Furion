@@ -20,33 +20,61 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-using System.Diagnostics.CodeAnalysis;
+using Microsoft.AspNetCore.Http;
 
 namespace Furion.Schedule;
 
 /// <summary>
-/// 支持重复 Key 的字典比较器
+/// Schedule 模块 UI 中间件
 /// </summary>
-internal class RepeatKeyEqualityComparer : IEqualityComparer<JobDetail>
+[SuppressSniffer]
+public sealed class ScheduleUIMiddleware
 {
     /// <summary>
-    /// 相等比较
+    /// 请求委托
     /// </summary>
-    /// <param name="x"><see cref="JobDetail"/></param>
-    /// <param name="y"><see cref="JobDetail"/></param>
-    /// <returns><see cref="bool"/></returns>
-    public bool Equals(JobDetail x, JobDetail y)
+    private readonly RequestDelegate _next;
+
+    /// <summary>
+    /// 构造函数
+    /// </summary>
+    /// <param name="next">请求委托</param>
+    /// <param name="rootPath">API 请求路径</param>
+    public ScheduleUIMiddleware(RequestDelegate next
+        , string rootPath)
     {
-        return x != y;
+        _next = next;
+        ApiRequestPath = rootPath;
     }
 
     /// <summary>
-    /// 获取哈希值
+    /// API 请求路径
     /// </summary>
-    /// <param name="obj"><see cref="string"/></param>
-    /// <returns><see cref="int"/></returns>
-    public int GetHashCode([DisallowNull] JobDetail obj)
+    private string ApiRequestPath { get; set; }
+
+    /// <summary>
+    /// 中间件执行方法
+    /// </summary>
+    /// <param name="context"><see cref="HttpContext"/></param>
+    /// <returns><see cref="Task"/></returns>
+    public async Task InvokeAsync(HttpContext context)
     {
-        return obj.GetHashCode();
+        // 如果不是以 ApiRequestPath 开头，则跳过
+        if (!context.Request.Path.StartsWithSegments(ApiRequestPath))
+        {
+            await _next(context);
+            return;
+        }
+
+        // 获取匹配的路由标识
+        var action = context.Request.Path.Value?[ApiRequestPath.Length..]?.ToLower();
+
+        // 路由匹配
+        switch (action)
+        {
+            case "/get-jobs":
+                await context.Response.WriteAsync("get-jobs");
+                break;
+        }
     }
 }
