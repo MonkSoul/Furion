@@ -79,6 +79,7 @@ public sealed class Startup : AppStartup
         app.UseAppLocalization();
 
         app.UseStaticFiles();
+        app.UseScheduleUI();
 
         app.UseRouting();
 

@@ -21,6 +21,7 @@
 // SOFTWARE.
 
 using Furion.Schedule;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 
 namespace Microsoft.AspNetCore.Builder;
@@ -53,6 +54,9 @@ public static class ScheduleUIExtensions
     /// <returns><see cref="IApplicationBuilder"/></returns>
     public static IApplicationBuilder UseScheduleUI(this IApplicationBuilder app, ScheduleUIOptions options)
     {
+        // 判断是否配置了定时任务服务
+        if (app.ApplicationServices.GetService<ISchedulerFactory>() == null) return app;
+
         // 初始化默认值
         options ??= new ScheduleUIOptions();
 

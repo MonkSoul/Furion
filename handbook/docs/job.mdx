@@ -13,6 +13,7 @@ import Tag from "@site/src/components/Tag.js";
 
 - **新特性**
 
+  - &nbsp;<Tag>新增</Tag> **定时任务 `Dashboard` 看板** <sup>4.8.4</sup> <sup>⏱️2022.12.30</sup>
   - &nbsp;<Tag>新增</Tag> 定时任务 `IScheduler.GetEnumerable()` 方法，可将作业计划转换成可枚举字典 <sup>4.8.4</sup> <sup>⏱️2022.12.30</sup> [4d5235c](https://gitee.com/dotnetchina/Furion/commit/4d5235c37a9ef5e66e92847e65ef9786bcd7387c)
   - &nbsp;<Tag>新增</Tag> 定时任务配置选项 `options.JobDetail.LogEnabled` 配置，可自动输出执行日志 <sup>4.8.3.7</sup> <sup>⏱️2022.12.14</sup> [58d2c20](https://gitee.com/dotnetchina/Furion/commit/58d2c20de05dc458b206863f7814e89866e7522b)
   - &nbsp;<Tag>新增</Tag> **定时任务 `IScheduler` 对象每次操作后自动刷新和提供手动刷新 `Reload()` 方法** <sup>4.8.3.3</sup> <sup>⏱️2022.12.09</sup> [#I65EQ1](https://gitee.com/dotnetchina/Furion/issues/I65EQ1#note_15047484_link)
@@ -5114,9 +5115,36 @@ Serve.RunGeneric(services =>
 
 :::
 
-## 26.1.16 常见问题
+## 26.1.16 `Dashboard` 看板功能
 
-### 26.1.16.1 作业处理程序中获取当前时间存在偏差
+:::important 版本说明
+
+以下内容仅限 `Furion 4.8.4 +` 版本使用。
+
+:::
+
+在 `Furion 4.8.4+` 版本内置了一个建议的定时任务看板功能，只需要在 `Startup.cs` 中启用即可，如：
+
+```cs showLineNumbers {2}
+app.UseStaticFiles();
+app.UseScheduleUI();
+```
+
+:::tip 中间件说明
+
+`app.UseScheduleUI()` 必须在 `app.UseStaticFiles()` 之后注册，**且当前版本暂未提供任何自定义功能。**
+
+:::
+
+接着打开浏览器并访问 `/schedule` 地址即可：
+
+<img src={useBaseUrl("img/job_dash.png")} />
+
+**注意：当前 `Furion 4.8.4+` 版本暂未提供任何自定义功能，包括 `/schedule` 地址配置。**
+
+## 26.1.17 常见问题
+
+### 26.1.17.1 作业处理程序中获取当前时间存在偏差
 
 通常我们会在 `IJob` 实现类型中获取当前时间，但是这个时间可能存在着极小的误差，如：
 
@@ -5133,7 +5161,7 @@ public class MyJob : IJob
 }
 ```
 
-### 26.1.16.2 作业触发器参数序列化/反序列化
+### 26.1.17.2 作业触发器参数序列化/反序列化
 
 框架提供了 `Schedular` 静态类方法：`Serialize/Deserialize` 可对作业触发器参数 `object[]` 类型进行序列化和反序列化操作，通常在开发定时任务管理后台时非常有用。如：
 
@@ -5147,7 +5175,7 @@ var stringArgs = "[\"* * * * *\",0]";
 var args = Schedular.Deserialize<object[]>(stringArgs);
 ```
 
-### 26.1.16.3 作业信息额外数据序列化/反序列化
+### 26.1.17.3 作业信息额外数据序列化/反序列化
 
 框架提供了 `Schedular` 静态类方法：`Serialize/Deserialize` 可对作业信息额外是数据 `Dictionary<string, object>` 类型进行序列化和反序列化操作，通常在开发定时任务管理后台时非常有用。如：
 
@@ -5161,11 +5189,11 @@ var stringJobData = "{\"name\":\"Furion\"}";
 var args = Schedular.Deserialize<Dictionary<string, object>>(stringJobData);
 ```
 
-### 26.1.16.4 作业处理程序延迟处理
+### 26.1.17.4 作业处理程序延迟处理
 
 在作业处理程序中如需使用到延迟线程操作，推荐使用 `Task.Delay` 而不是 `Thread.Sleep`，原因是后者是同步延迟会阻塞线程，而且不能取消。
 
-## 26.1.17 反馈与建议
+## 26.1.18 反馈与建议
 
 :::note 与我们交流
 

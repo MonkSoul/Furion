@@ -79,6 +79,9 @@ public sealed class ServeApplicationComponent : IApplicationComponent
         // 配置静态
         app.UseStaticFiles();
 
+        // 注册定时任务 UI
+        app.UseScheduleUI();
+
         // 配置路由
         app.UseRouting();
 
