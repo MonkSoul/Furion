@@ -46,14 +46,14 @@ public sealed class ScheduleUIMiddleware
     /// </summary>
     /// <param name="next">请求委托</param>
     /// <param name="schedulerFactory">作业计划工厂</param>
-    /// <param name="rootPath">API 请求路径</param>
+    /// <param name="apiRequestPath">API 请求路径</param>
     public ScheduleUIMiddleware(RequestDelegate next
         , ISchedulerFactory schedulerFactory
-        , string rootPath)
+        , string apiRequestPath)
     {
         _next = next;
         _schedulerFactory = schedulerFactory;
-        ApiRequestPath = rootPath;
+        ApiRequestPath = apiRequestPath;
     }
 
     /// <summary>
