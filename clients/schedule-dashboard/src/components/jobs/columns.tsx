@@ -10,6 +10,9 @@ import useFetch from "use-http";
 import { JobDetail } from "../../types";
 import apiconfig from "./apiconfig";
 
+/**
+ * 表格列配置
+ */
 const columns: ColumnProps<JobDetail>[] = [
   {
     title: "JobId",

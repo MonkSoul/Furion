@@ -8,13 +8,17 @@ import {
   Descriptions,
   Divider,
   Dropdown,
+  InputNumber,
   Popconfirm,
   Table,
   Tag,
   Toast
 } from "@douyinfe/semi-ui";
 import { Data } from "@douyinfe/semi-ui/lib/es/descriptions";
-import { ExpandedRowRender } from "@douyinfe/semi-ui/lib/es/table/interface";
+import {
+  ExpandedRowRender,
+  OnRow
+} from "@douyinfe/semi-ui/lib/es/table/interface";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import useFetch from "use-http/dist/cjs/useFetch";
 import { JobDetail, Scheduler } from "../../types";
@@ -35,6 +39,11 @@ export default function Jobs() {
    * 作业状态
    */
   const [jobs, setJobs] = useState<Scheduler[]>([]);
+
+  /**
+   * 刷新频次
+   */
+  const [rate, setRate] = useState(300);
 
   /**
    * 初始化请求配置
@@ -102,12 +111,12 @@ export default function Jobs() {
   useEffect(() => {
     const timer = setInterval(() => {
       loadJobs();
-    }, 300);
+    }, rate);
 
     return () => {
       clearInterval(timer);
     };
-  }, []);
+  }, [rate]);
 
   /**
    * 展开行渲染
@@ -206,21 +215,49 @@ export default function Jobs() {
     [jobs]
   );
 
+  const handleRow: OnRow<JobDetail> = (jobDetail, index) => {
+    // 给偶数行设置斑马纹
+    if (index! % 2 === 0) {
+      return {
+        style: {
+          background: "var(--semi-color-fill-0)",
+        },
+      };
+    } else {
+      return {};
+    }
+  };
+
   return (
-    <Table
-      rowKey="jobId"
-      columns={columns}
-      dataSource={data}
-      expandedRowRender={expandRowRender}
-      pagination={false}
-      rowExpandable={(jobDetail) =>
-        !!(
-          jobDetail?.jobId &&
-          jobs.find((u) => u.jobDetail?.jobId === jobDetail?.jobId)?.triggers
-            ?.length !== 0
-        )
-      }
-    />
+    <div>
+      <InputNumber
+        formatter={(value) => `${value}`.replace(/\D/g, "")}
+        onNumberChange={(number) => console.log(number)}
+        min={300}
+        value={rate}
+        onChange={(v) => setRate(Number(v))}
+        max={Number.MAX_SAFE_INTEGER}
+        insetLabel={"列表刷新频率"}
+        step={100}
+        style={{ float: "right", margin: 5 }}
+      />
+      <Table
+        style={{ clear: "both" }}
+        rowKey="jobId"
+        columns={columns}
+        dataSource={data}
+        onRow={handleRow}
+        expandedRowRender={expandRowRender}
+        pagination={false}
+        rowExpandable={(jobDetail) =>
+          !!(
+            jobDetail?.jobId &&
+            jobs.find((u) => u.jobDetail?.jobId === jobDetail?.jobId)?.triggers
+              ?.length !== 0
+          )
+        }
+      />
+    </div>
   );
 }
 
@@ -247,10 +284,12 @@ function RenderValue(props: { prop: string; value: any }) {
     /**
      * 处理最近运行时间
      */
-    return (
+    return value ? (
       <Tag color="grey" type="light">
         {value}
       </Tag>
+    ) : (
+      <span></span>
     );
   } else if (prop === "numberOfRuns") {
     /**
