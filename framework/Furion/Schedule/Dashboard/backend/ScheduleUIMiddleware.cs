@@ -192,6 +192,7 @@ public sealed class ScheduleUIMiddleware
     /// <returns><see cref="string"/></returns>
     private static string SerializeToJson(object obj)
     {
+        // 初始化默认序列化选项
         var jsonSerializerOptions = Penetrates.GetDefaultJsonSerializerOptions();
         jsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
 

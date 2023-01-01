@@ -57,6 +57,7 @@ public sealed class Startup : AppStartup
         services.AddSchedule(options =>
         {
             options.AddJob<TestJob>(Triggers.Minutely(), Triggers.Period(5000));
+            options.AddJob<TestJob>(Triggers.Hourly());
         });
 
         // 新版本任务队列
