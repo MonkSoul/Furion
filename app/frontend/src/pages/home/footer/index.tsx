@@ -6,7 +6,7 @@ function HomeFooter() {
       <Span>
         <Logo size="large" />
         <span>
-          Copyright (c) 2020-2022 百小僧, Baiqian Co.,Ltd and Contributors.
+          Copyright (c) 2020-2023 百小僧, Baiqian Co.,Ltd and Contributors.
         </span>
       </Span>
       <span>

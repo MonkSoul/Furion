@@ -257,34 +257,34 @@
             </summary>
             <remarks>
             # 先知 / Furion ([探索版](https://gitee.com/dotnetchina/Furion/tree/experimental/))
-            
+
                 一个应用程序框架，您可以将它集成到任何.NET/C# 应用程序中。
-            
+
             An application framework that you can integrate into any.NET/C# application.
-            
+
             ## 安装 / Installation
-            
+
             - [Package Manager] (https://www.nuget.org/packages/Furion)
-            
+
             ```powershell
             Install-Package Furion
             ```
-            
+
             - [.NET CLI] (https://www.nuget.org/packages/Furion)
-            
+
             ```powershell
             dotnet add package Furion
             ```
-            
+
             ## 例子 / Examples
-            
+
             我们在[主页](https://furion.baiqian.ltd)上有不少例子，这是让您入门的第一个：
-            
+
             We have several examples [on the website] (https://furion.baiqian.ltd). Here is the first one to get you started:
-            
+
             ```cs
             Serve.Run();
-            
+
                 [DynamicApiController]
                 public class HelloService
                 {
@@ -294,35 +294,35 @@
                     }
                 }
             ```
-            
+
             打开浏览器访问 `https://localhost:5001`。
-            
+
             Open browser access `https://localhost:5001`.
-            
+
             ## 文档 / Documentation
-            
+
             您可以在[主页] (https://furion.baiqian.ltd)或[备份主页](https://furion.icu)找到 Furion 文档。
-            
+
             You can find the Furion documentation[on the website](https://furion.baiqian.ltd) or [on the backup website](https://furion.icu).
-            
+
             ## 贡献 / Contributing
-            
+
             该存储库的主要目的是继续发展 Furion 核心，使其更快、更易于使用。 Furion 的开发在[Gitee](https://gitee.com/dotnetchina/Furion) 上公开进行，我们感谢社区贡献错误修复和改进。
-            
+
             阅读[贡献指南] (https://furion.baiqian.ltd/docs/contribute)内容，了解如何参与改进 Furion。
-            
+
             The main purpose of this repository is to continue evolving Furion core, making it faster and easier to use.Development of Furion happens in the open on[Gitee] (https://gitee.com/dotnetchina/Furion), and we are grateful to the community for contributing bugfixes and improvements.
-            
+
             Read[contribution documents] (https://furion.baiqian.ltd/docs/contribute) to learn how you can take part in improving Furion.
-            
+
             ## 许可证 / License
-            
+
             Furion 采用[MIT](https://gitee.com/dotnetchina/Furion/blob/v4/LICENSE) 开源许可证。
-            
+
             Furion uses the[MIT] (https://gitee.com/dotnetchina/Furion/blob/v4/LICENSE) open source license.
-            
+
             ```
-            Copyright(c) 2020-2022 百小僧, Baiqian Co., Ltd.
+            Copyright(c) 2020-2023 百小僧, Baiqian Co., Ltd.
             Furion is licensed under Mulan PSL v2.
             You can use this software according to the terms andconditions of the Mulan PSL v2.
             You may obtain a copy of Mulan PSL v2 at:
@@ -330,7 +330,7 @@
             THIS SOFTWARE IS PROVIDED ON AN "AS IS" BASIS, WITHOUTWARRANTIES OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO NON-INFRINGEMENT, MERCHANTABILITY OR FIT FOR A PARTICULAR PURPOSE.
             See the Mulan PSL v2 for more details.
             ```
-            
+
             </remarks>
             <returns></returns>
         </member>
@@ -340,12 +340,12 @@
             </summary>
             <remarks>
             # 测试 `Markdown` 注释
-            
+
             ![](https://localhost:44316/images/logo.png)
-            
+
             ```cs
             Serve.Run();
-            
+
             [DynamicApiController
             public class HelloService
             {
@@ -355,20 +355,20 @@
                 }
             }
             ```
-            
+
             功能还不错！！！
-            
+
             | 商品         | 价格     | # 其他 |
             |--------------|-----------|------------|
             | Juicy Apples | 1.99      | *7*        |
             | Bananas      | **1.89**  | 5234       |
             | Bananas      | **1.89**  | 5234       |
             | Bananas      | **1.89**  | 5234       |
-            
+
             -----
-            
+
             # Furion 探索版
-            
+
             > 在过去一年，实现 `Furion` 从无到有，编写文档已逾百万字，过程心酸开源人自知。
             >
             > 这一路日夜兼程，嘲讽批评常伴眼耳，即便辛苦无奈、想过放弃，但为了那微不足道的存在感依然努力着。
@@ -378,22 +378,22 @@
             > 在 《[开源指北] (https://gitee.com/opensource-guide/comments/)》中，我曾说道：“开源如同人的脸，好坏一面便知，缺点可能会受到嘲讽批评，优点也会收获赞扬尊重。别担心，他们正在塑造更好的你。”
             >
             > 所以，这一次重新起航，重塑 `Furion` 重塑自己。也许未来在某个 IT 圈但凡有人谈起 `.NET` 还能瞟到 `Furion` 的身影。
-            
+
             ---
-            
+
             🎉 探索 Furion 未来更多可能性，实现无第三方依赖的版本，所有模块功能按需安装，按需加载。
-            
+
             - 作者：[百小僧] (https://gitee.com/monksoul)
             - 日期：2021 年 08 月 30 日
-            
+
             ## 环境
-            
+
             - IDE ：[Microsoft Visual Studio Enterprise 2022 Preview(64 位) 版本 17.0.0 Preview 3.1] (https://visualstudio.microsoft.com/zh-hans/vs/preview/)
             - SDK ：[.NET SDK 6] (https://dotnet.microsoft.com/download/dotnet/6.0)
             - 语言：[C# 10](https://docs.microsoft.com/zh-cn/dotnet/csharp/whats-new/csharp-10)
-            
+
             ## 包说明
-            
+
             - `Furion.Core`：无第三方依赖，可在 `.NET 6` 所有项目类型中运行。
             - `Furion`：内部依赖 `Furion.Core` 且无第三方依赖，**聚焦 `Web` 应用**，采用共享框架 `<FrameworkReference Include="Microsoft.AspNetCore.App" />` 模式
              </remarks>

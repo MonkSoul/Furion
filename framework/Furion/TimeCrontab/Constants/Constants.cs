@@ -1,6 +1,6 @@
 // MIT License
 //
-// Copyright (c) 2020-2022 °ÙÐ¡É®, Baiqian Co.,Ltd and Contributors
+// Copyright (c) 2020-2023 ï¿½ï¿½Ð¡É®, Baiqian Co.,Ltd and Contributors
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -23,12 +23,12 @@
 namespace Furion.TimeCrontab;
 
 /// <summary>
-/// TimeCrontab Ä£¿é³£Á¿
+/// TimeCrontab Ä£ï¿½é³£ï¿½ï¿½
 /// </summary>
 internal static class Constants
 {
     /// <summary>
-    /// Cron ×Ö¶ÎÖÖÀà×î´óÖµ
+    /// Cron ï¿½Ö¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Öµ
     /// </summary>
     internal static readonly Dictionary<CrontabFieldKind, int> MaximumDateTimeValues = new()
     {
@@ -42,7 +42,7 @@ internal static class Constants
     };
 
     /// <summary>
-    /// Cron ×Ö¶ÎÖÖÀà×î´óÖµ
+    /// Cron ï¿½Ö¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Öµ
     /// </summary>
     internal static readonly Dictionary<CrontabFieldKind, int> MinimumDateTimeValues = new()
     {
@@ -56,7 +56,7 @@ internal static class Constants
     };
 
     /// <summary>
-    /// Cron ²»Í¬¸ñÊ½»¯ÀàÐÍ×Ö¶ÎÊýÁ¿
+    /// Cron ï¿½ï¿½Í¬ï¿½ï¿½Ê½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¶ï¿½ï¿½ï¿½ï¿½ï¿½
     /// </summary>
     internal static readonly Dictionary<CronStringFormat, int> ExpectedFieldCounts = new()
     {
@@ -67,9 +67,9 @@ internal static class Constants
     };
 
     /// <summary>
-    /// ÅäÖÃ C# ÖÐ <see cref="DayOfWeek"/> Ã¶¾ÙÔªËØÖµ
+    /// ï¿½ï¿½ï¿½ï¿½ C# ï¿½ï¿½ <see cref="DayOfWeek"/> Ã¶ï¿½ï¿½Ôªï¿½ï¿½Öµ
     /// </summary>
-    /// <remarks>Ö÷Òª½â¾ö C# ÖÐ¸ÃÀàÐÍºÍ Cron ÐÇÆÚ×Ö¶ÎÓò²»¶ÔÓ¦ÎÊÌâ</remarks>
+    /// <remarks>ï¿½ï¿½Òªï¿½ï¿½ï¿½ C# ï¿½Ð¸ï¿½ï¿½ï¿½ï¿½Íºï¿½ Cron ï¿½ï¿½ï¿½ï¿½ï¿½Ö¶ï¿½ï¿½ò²»¶ï¿½Ó¦ï¿½ï¿½ï¿½ï¿½</remarks>
     internal static readonly Dictionary<DayOfWeek, int> CronDays = new()
     {
         { DayOfWeek.Sunday, 0 },
@@ -82,7 +82,7 @@ internal static class Constants
     };
 
     /// <summary>
-    /// ¶¨Òå Cron ÐÇÆÚ×Ö¶ÎÓòÖµÖ§³ÖµÄÐÇÆÚÓ¢ÎÄËõÐ´
+    /// ï¿½ï¿½ï¿½ï¿½ Cron ï¿½ï¿½ï¿½ï¿½ï¿½Ö¶ï¿½ï¿½ï¿½ÖµÖ§ï¿½Öµï¿½ï¿½ï¿½ï¿½ï¿½Ó¢ï¿½ï¿½ï¿½ï¿½Ð´
     /// </summary>
     internal static readonly Dictionary<string, int> Days = new()
     {
@@ -96,7 +96,7 @@ internal static class Constants
     };
 
     /// <summary>
-    /// ¶¨Òå Cron ÔÂ×Ö¶ÎÓòÖµÖ§³ÖµÄÐÇÆÚÓ¢ÎÄËõÐ´
+    /// ï¿½ï¿½ï¿½ï¿½ Cron ï¿½ï¿½ï¿½Ö¶ï¿½ï¿½ï¿½ÖµÖ§ï¿½Öµï¿½ï¿½ï¿½ï¿½ï¿½Ó¢ï¿½ï¿½ï¿½ï¿½Ð´
     /// </summary>
     internal static readonly Dictionary<string, int> Months = new()
     {

@@ -1,6 +1,6 @@
 // MIT License
 //
-// Copyright (c) 2020-2022 ╟ып║и╝, Baiqian Co.,Ltd and Contributors
+// Copyright (c) 2020-2023 О©╫О©╫п║и╝, Baiqian Co.,Ltd and Contributors
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -25,55 +25,55 @@ using Microsoft.Extensions.Logging;
 namespace Furion.Logging;
 
 /// <summary>
-/// нд╪Чхуж╬╪гб╪фВеДжця║оН
+/// О©╫д╪О©╫О©╫О©╫ж╬О©╫О©╫б╪О©╫О©╫О©╫О©╫О©╫О©╫я║О©╫О©╫
 /// </summary>
 [SuppressSniffer]
 public sealed class FileLoggerSettings
 {
     /// <summary>
-    /// хуж╬нд╪ЧмЙуШб╥╬╤╩Рнд╪ЧцШё╛мф╪Ж .log вВн╙мьу╧цШ
+    /// О©╫О©╫ж╬О©╫д╪О©╫О©╫О©╫О©╫О©╫б╥О©╫О©╫О©╫О©╫О©╫д╪О©╫О©╫О©╫О©╫О©╫О©╫ф╪О©╫ .log О©╫О©╫н╙О©╫О©╫у╧О©╫О©╫
     /// </summary>
     public string FileName { get; set; } = null;
 
     /// <summary>
-    /// в╥╪с╣╫ря╢Фтзхуж╬нд╪Ч╩Р╦╡╦гкЭцг
+    /// в╥О©╫с╣О©╫О©╫я╢О©╫О©╫О©╫О©╫О©╫ж╬О©╫д╪О©╫О©╫Р╦╡╦О©╫О©╫О©╫О©╫О©╫
     /// </summary>
     public bool Append { get; set; } = true;
 
     /// <summary>
-    /// ©ьжфц©р╩╦Жхуж╬нд╪ЧвН╢С╢Ф╢╒╢Сп║ё╛д╛хончочжф
+    /// О©╫О©╫О©╫О©╫ц©р╩О©╫О©╫О©╫О©╫ж╬О©╫д╪О©╫О©╫О©╫О©╫Ф╢╒О©╫О©╫п║О©╫О©╫д╛О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫
     /// </summary>
-    /// <remarks>хГ╧Шж╦╤╗ак╦цж╣ё╛дгц╢хуж╬нд╪Ч╢Сп║Ё╛ЁЖак╦цеДжц╬м╩А╢╢╫╗╣дхуж╬нд╪Чё╛пб╢╢╫╗╣дхуж╬нд╪ЧцЭцШ╧ФтРё╨нд╪ЧцШ+[╣щтЖпР╨е].log</remarks>
+    /// <remarks>О©╫О©╫О©╫ж╦О©╫О©╫О©╫к╦О©╫ж╣О©╫О©╫О©╫О©╫ц╢О©╫О©╫ж╬О©╫д╪О©╫О©╫О©╫п║О©╫О©╫О©╫О©╫О©╫к╦О©╫О©╫О©╫О©╫ц╬м╩А╢╢О©╫О©╫О©╫О©╫О©╫О©╫ж╬О©╫д╪О©╫О©╫О©╫О©╫б╢О©╫О©╫О©╫О©╫О©╫О©╫О©╫ж╬О©╫д╪О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫д╪О©╫О©╫О©╫+[О©╫О©╫О©╫О©╫О©╫О©╫О©╫].log</remarks>
     public long FileSizeLimitBytes { get; set; } = 0;
 
     /// <summary>
-    /// ©ьжфвН╢С╢╢╫╗╣дхуж╬нд╪ЧйЩа©ё╛д╛хончочжфё╛еД╨о <see cref="FileSizeLimitBytes"/> й╧сц
+    /// О©╫О©╫О©╫О©╫О©╫О©╫С╢╢╫О©╫О©╫О©╫О©╫О©╫ж╬О©╫д╪О©╫О©╫О©╫О©╫О©╫О©╫О©╫д╛О©╫О©╫О©╫О©╫О©╫О©╫О©╫фёО©╫О©╫О©╫О©╫ <see cref="FileSizeLimitBytes"/> й╧О©╫О©╫
     /// </summary>
-    /// <remarks>хГ╧Шж╦╤╗ак╦цж╣ё╛дгц╢Ё╛ЁЖ╦цж╣╫╚╢свНЁУхуж╬нд╪Чжп╢см╥п╢хК╦╡╦г</remarks>
+    /// <remarks>О©╫О©╫О©╫ж╦О©╫О©╫О©╫к╦О©╫ж╣О©╫О©╫О©╫О©╫ц╢О©╫О©╫О©╫О©╫О©╫О©╫ж╣О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ж╬О©╫д╪О©╫О©╫п╢О©╫м╥п╢О©╫К╦╡О©╫О©╫</remarks>
     public int MaxRollingFiles { get; set; } = 0;
 
     /// <summary>
-    /// вН╣мхуж╬╪гб╪╪╤╠П
+    /// О©╫О©╫О©╫О©╫О©╫ж╬О©╫О©╫б╪О©╫О©╫О©╫О©╫
     /// </summary>
     public LogLevel MinimumLevel { get; set; } = LogLevel.Trace;
 
     /// <summary>
-    /// йг╥Яй╧сц UTC й╠╪Д╢аё╛д╛хо false
+    /// О©╫г╥О©╫й╧О©╫О©╫ UTC й╠О©╫О©╫О©╫О©╫О©╫д╛О©╫О©╫ false
     /// </summary>
     public bool UseUtcTimestamp { get; set; }
 
     /// <summary>
-    /// хуфз╦Яй╫╩╞
+    /// О©╫О©╫О©╫з╦О©╫й╫О©╫О©╫
     /// </summary>
     public string DateFormat { get; set; } = "yyyy-MM-dd HH:mm:ss.fffffff zzz dddd";
 
     /// <summary>
-    /// йг╥ЯфТсцхуж╬иообнд
+    /// О©╫г╥О©╫О©╫О©╫О©╫О©╫О©╫О©╫ж╬О©╫О©╫О©╫О©╫О©╫О©╫
     /// </summary>
     public bool IncludeScopes { get; set; } = true;
 
     /// <summary>
-    /// отй╬╦Звы/гКгС Id
+    /// О©╫О©╫й╬О©╫О©╫О©╫О©╫/О©╫О©╫О©╫О©╫ Id
     /// </summary>
     public bool WithTraceId { get; set; } = false;
 }

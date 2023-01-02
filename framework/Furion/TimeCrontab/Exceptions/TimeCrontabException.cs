@@ -1,6 +1,6 @@
 // MIT License
 //
-// Copyright (c) 2020-2022 百小僧, Baiqian Co.,Ltd and Contributors
+// Copyright (c) 2020-2023 锟斤拷小僧, Baiqian Co.,Ltd and Contributors
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -23,13 +23,13 @@
 namespace Furion.TimeCrontab;
 
 /// <summary>
-/// TimeCrontab 模块异常类
+/// TimeCrontab 模锟斤拷锟届常锟斤拷
 /// </summary>
 [SuppressSniffer]
 public sealed class TimeCrontabException : Exception
 {
     /// <summary>
-    /// 构造函数
+    /// 锟斤拷锟届函锟斤拷
     /// </summary>
     public TimeCrontabException()
         : base()
@@ -37,19 +37,19 @@ public sealed class TimeCrontabException : Exception
     }
 
     /// <summary>
-    /// 构造函数
+    /// 锟斤拷锟届函锟斤拷
     /// </summary>
-    /// <param name="message">异常消息</param>
+    /// <param name="message">锟届常锟斤拷息</param>
     public TimeCrontabException(string message)
         : base(message)
     {
     }
 
     /// <summary>
-    /// 构造函数
+    /// 锟斤拷锟届函锟斤拷
     /// </summary>
-    /// <param name="message">异常消息</param>
-    /// <param name="innerException">内部异常</param>
+    /// <param name="message">锟届常锟斤拷息</param>
+    /// <param name="innerException">锟节诧拷锟届常</param>
     public TimeCrontabException(string message, Exception innerException)
         : base(message, innerException)
     {

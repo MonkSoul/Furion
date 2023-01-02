@@ -1,6 +1,6 @@
 // MIT License
 //
-// Copyright (c) 2020-2022 百小僧, Baiqian Co.,Ltd and Contributors
+// Copyright (c) 2020-2023 百小僧, Baiqian Co.,Ltd and Contributors
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -20,7 +20,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#if !NET5_0 
+#if !NET5_0
 using Microsoft.AspNetCore.Builder;
 #endif
 
@@ -43,7 +43,7 @@ public static class SerilogHostingExtensions
     /// <param name="hostBuilder"></param>
     /// <param name="configAction"></param>
     /// <returns>IWebHostBuilder</returns>
-#if !NET5_0 
+#if !NET5_0
     [Obsolete("Prefer UseSerilog() on IHostBuilder")]
 #endif
 
@@ -109,7 +109,7 @@ public static class SerilogHostingExtensions
         return builder;
     }
 
-#if !NET5_0 
+#if !NET5_0
     /// <summary>
     /// 添加默认日志拓展
     /// </summary>
