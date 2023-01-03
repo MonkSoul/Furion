@@ -1,3 +1,5 @@
+import { Trigger } from "./trigger";
+
 /**
  * 作业信息类型
  */
@@ -42,4 +44,8 @@ export declare interface JobDetail {
    * 作业更新时间
    */
   updatedTime?: string | null;
+  /**
+   * 触发器列表
+   */
+  triggers?: Trigger[] | null;
 }

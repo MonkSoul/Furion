@@ -4,11 +4,70 @@ import {
   IconRestart,
   IconStop
 } from "@douyinfe/semi-icons";
-import { Dropdown, Popconfirm, Tag, Toast } from "@douyinfe/semi-ui";
+import {
+  Descriptions,
+  Divider,
+  Dropdown,
+  Popconfirm,
+  Popover,
+  Tag,
+  Toast
+} from "@douyinfe/semi-ui";
+import { Data } from "@douyinfe/semi-ui/lib/es/descriptions";
 import { ColumnProps } from "@douyinfe/semi-ui/lib/es/table/interface";
 import useFetch from "use-http";
-import { JobDetail } from "../../types";
+import { JobDetail, Trigger } from "../../types";
 import apiconfig from "./apiconfig";
+
+const style = {
+  padding: "10px",
+};
+
+/**
+ * 获取触发器简要渲染
+ * @param trigger
+ * @returns
+ */
+function getData(trigger: Trigger): Data[] {
+  return [
+    {
+      key: "TriggerId",
+      value: (
+        <span style={{ textDecoration: "underline", fontWeight: "bold" }}>
+          {trigger.triggerId || ""}
+        </span>
+      ),
+    },
+    {
+      key: "LastRunTime",
+      value: trigger.lastRunTime ? (
+        <Tag color="grey" type="light">
+          {trigger.lastRunTime}
+        </Tag>
+      ) : (
+        <span></span>
+      ),
+    },
+    {
+      key: "NextRunTime",
+      value: trigger.nextRunTime ? (
+        <Tag color="light-green" type="solid">
+          {trigger.nextRunTime}
+        </Tag>
+      ) : (
+        <span></span>
+      ),
+    },
+    {
+      key: "NumberOfRuns",
+      value: (
+        <Tag color="green" type="light">
+          {trigger.numberOfRuns || 0}
+        </Tag>
+      ),
+    },
+  ];
+}
 
 /**
  * 表格列配置
@@ -19,9 +78,26 @@ const columns: ColumnProps<JobDetail>[] = [
     dataIndex: "jobId",
     render: (text, jobDetail, index) => {
       return (
-        <span style={{ textDecoration: "underline", fontWeight: "bold" }}>
-          {text}
-        </span>
+        <Popover
+          content={
+            <div style={style}>
+              {jobDetail.triggers?.map((t, i) => (
+                <>
+                  <Descriptions key={t.triggerId} data={getData(t)} />
+                  {i !== jobDetail.triggers?.length! - 1 && (
+                    <Divider margin="8px" />
+                  )}
+                </>
+              ))}
+            </div>
+          }
+          position="right"
+          showArrow
+        >
+          <span style={{ textDecoration: "underline", fontWeight: "bold" }}>
+            {text}
+          </span>
+        </Popover>
       );
     },
   },

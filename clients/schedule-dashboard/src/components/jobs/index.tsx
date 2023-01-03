@@ -16,7 +16,8 @@ import {
   Table,
   Tag,
   Timeline,
-  Toast
+  Toast,
+  Typography
 } from "@douyinfe/semi-ui";
 import { Data } from "@douyinfe/semi-ui/lib/es/descriptions";
 import {
@@ -103,7 +104,9 @@ export default function Jobs() {
     if (!jobs || jobs.length === 0) return jobDetails;
 
     for (const scheduler of jobs) {
-      jobDetails.push(scheduler.jobDetail!);
+      let jobDetail = scheduler.jobDetail!;
+      jobDetail.triggers = scheduler.triggers;
+      jobDetails.push(jobDetail);
     }
 
     return jobDetails;
@@ -280,6 +283,7 @@ function RenderValue(props: { prop: string; value: any; trigger: Trigger }) {
   const { prop, value, trigger } = props;
   const [visible, setVisible] = useState(false);
   const [timelines, setTimelines] = useState<TriggerTimeline[]>([]);
+  const { Text } = Typography;
 
   /**
    * 初始化请求配置
@@ -398,6 +402,20 @@ function RenderValue(props: { prop: string; value: any; trigger: Trigger }) {
         {value?.toString() || ""}
       </span>
     );
+  } else if (prop === "args") {
+    /**
+     * 处理参数类型
+     */
+    preview = value ? (
+      <Text mark>{value?.toString() || ""}</Text>
+    ) : (
+      <span></span>
+    );
+  } else if (prop === "triggerType") {
+    /**
+     * 处理触发器类型
+     */
+    preview = <span>{value?.toString() || ""}</span>;
   } else preview = <span>{value?.toString() || ""}</span>;
 
   return (
@@ -411,11 +429,17 @@ function RenderValue(props: { prop: string; value: any; trigger: Trigger }) {
         onCancel={handleCancel}
         closeOnEsc={true}
       >
-        <Timeline mode="alternate">
+        <Timeline mode="center">
           {timelines.map((timeline, i) => (
             <Timeline.Item
               key={timeline.numberOfRuns!}
-              time={timeline.lastRunTime}
+              time={
+                <>
+                  <Tag color="grey" type="light">
+                    {timeline.lastRunTime}
+                  </Tag>
+                </>
+              }
             >
               第{" "}
               <Tag color="green" type="light">
