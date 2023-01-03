@@ -73,7 +73,7 @@ module.exports = {
           position: "left",
           items: [
             {
-              label: "📝 查看日志（v4.8.4.2）",
+              label: "📝 查看日志（v4.8.4.3）",
               href: "/docs/upgrade",
             },
             {
