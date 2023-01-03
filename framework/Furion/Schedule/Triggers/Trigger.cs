@@ -183,4 +183,10 @@ public partial class Trigger
     /// 作业触发器运行时参数
     /// </summary>
     internal object[] RuntimeTriggerArgs { get; set; }
+
+    /// <summary>
+    /// 作业触发器最近运行记录
+    /// </summary>
+    /// <remarks>默认只保存 10 条</remarks>
+    internal Queue<TriggerTimeline> Timelines { get; set; } = new();
 }

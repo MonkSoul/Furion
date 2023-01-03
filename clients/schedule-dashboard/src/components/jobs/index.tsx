@@ -1,17 +1,21 @@
 import {
+  IconCalendarClock,
   IconDelete,
   IconMore,
   IconRestart,
   IconStop
 } from "@douyinfe/semi-icons";
 import {
+  Button,
   Descriptions,
   Divider,
   Dropdown,
   InputNumber,
+  Modal,
   Popconfirm,
   Table,
   Tag,
+  Timeline,
   Toast
 } from "@douyinfe/semi-ui";
 import { Data } from "@douyinfe/semi-ui/lib/es/descriptions";
@@ -21,7 +25,7 @@ import {
 } from "@douyinfe/semi-ui/lib/es/table/interface";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import useFetch from "use-http/dist/cjs/useFetch";
-import { JobDetail, Scheduler } from "../../types";
+import { JobDetail, Scheduler, Trigger, TriggerTimeline } from "../../types";
 import apiconfig from "./apiconfig";
 import columns from "./columns";
 
@@ -133,7 +137,13 @@ export default function Jobs() {
         for (const prop in trigger) {
           triggerItem.push({
             key: prop.charAt(0).toUpperCase() + prop.slice(1),
-            value: <RenderValue prop={prop} value={trigger[prop]} />,
+            value: (
+              <RenderValue
+                prop={prop}
+                value={trigger[prop]}
+                trigger={trigger}
+              />
+            ),
             ovalue: trigger[prop],
           } as Data);
         }
@@ -266,14 +276,56 @@ export default function Jobs() {
  * @param props
  * @returns
  */
-function RenderValue(props: { prop: string; value: any }) {
-  const { prop, value } = props;
+function RenderValue(props: { prop: string; value: any; trigger: Trigger }) {
+  const { prop, value, trigger } = props;
+  const [visible, setVisible] = useState(false);
+  const [timelines, setTimelines] = useState<TriggerTimeline[]>([]);
+
+  /**
+   * 初始化请求配置
+   */
+  const { post, response, loading } = useFetch(
+    apiconfig.hostAddress,
+    apiconfig.options
+  );
+
+  const showDialog = () => {
+    setVisible(true);
+    getTimelines(trigger.jobId!, trigger.triggerId!);
+  };
+  const handleOk = () => {
+    setVisible(false);
+  };
+  const handleCancel = () => {
+    setVisible(false);
+  };
+  const handleAfterClose = () => {};
+
+  /**
+   * 操作作业触发器
+   */
+  const getTimelines = async (jobid: string, triggerid: string) => {
+    const data = await post(
+      "/operate-trigger?jobid=" +
+        jobid +
+        "&triggerid=" +
+        triggerid +
+        "&action=timelines"
+    );
+
+    if (response.ok) setTimelines(data);
+  };
+
+  /**
+   * 构建预览节点
+   */
+  let preview = <span>{value?.toString() || ""}</span>;
 
   /**
    * 处理下一次运行时间
    */
   if (prop === "nextRunTime") {
-    return value ? (
+    preview = value ? (
       <Tag color="light-green" type="solid">
         {value}
       </Tag>
@@ -284,10 +336,20 @@ function RenderValue(props: { prop: string; value: any }) {
     /**
      * 处理最近运行时间
      */
-    return value ? (
-      <Tag color="grey" type="light">
-        {value}
-      </Tag>
+    preview = value ? (
+      <>
+        <Tag color="grey" type="light" style={{ verticalAlign: "middle" }}>
+          {value}
+        </Tag>
+        <Button
+          size="small"
+          icon={<IconCalendarClock />}
+          style={{ marginLeft: 5, verticalAlign: "middle", fontSize: 12 }}
+          onClick={showDialog}
+        >
+          记录
+        </Button>
+      </>
     ) : (
       <span></span>
     );
@@ -295,7 +357,7 @@ function RenderValue(props: { prop: string; value: any }) {
     /**
      * 处理运行次数
      */
-    return (
+    preview = (
       <Tag color="green" type="light">
         {value}
       </Tag>
@@ -304,7 +366,7 @@ function RenderValue(props: { prop: string; value: any }) {
     /**
      * 处理错误次数
      */
-    return (
+    preview = (
       <Tag color="red" type="ghost">
         {value}
       </Tag>
@@ -313,7 +375,7 @@ function RenderValue(props: { prop: string; value: any }) {
     /**
      * 处理状态
      */
-    return <StatusText value={Number(value)} />;
+    preview = <StatusText value={Number(value)} />;
   } else if (
     prop === "startNow" ||
     prop === "runOnStart" ||
@@ -322,7 +384,7 @@ function RenderValue(props: { prop: string; value: any }) {
     /**
      * 处理 bool 类型
      */
-    return (
+    preview = (
       <Tag color="blue" type="ghost">
         {value === true ? "是" : "否"}
       </Tag>
@@ -331,12 +393,41 @@ function RenderValue(props: { prop: string; value: any }) {
     /**
      * 处理触发器和作业 Id
      */
-    return (
+    preview = (
       <span style={{ textDecoration: "underline", fontWeight: "bold" }}>
         {value?.toString() || ""}
       </span>
     );
-  } else return <span>{value?.toString() || ""}</span>;
+  } else preview = <span>{value?.toString() || ""}</span>;
+
+  return (
+    <>
+      {preview}
+      <Modal
+        title={trigger.triggerId + " 最近运行记录"}
+        visible={visible}
+        onOk={handleOk}
+        afterClose={handleAfterClose} //>=1.16.0
+        onCancel={handleCancel}
+        closeOnEsc={true}
+      >
+        <Timeline mode="alternate">
+          {timelines.map((timeline, i) => (
+            <Timeline.Item
+              key={timeline.numberOfRuns!}
+              time={timeline.lastRunTime}
+            >
+              第{" "}
+              <Tag color="green" type="light">
+                {timeline.numberOfRuns}
+              </Tag>{" "}
+              次运行
+            </Timeline.Item>
+          ))}
+        </Timeline>
+      </Modal>
+    </>
+  );
 }
 
 /**
