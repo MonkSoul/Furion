@@ -11,13 +11,15 @@ import {
   Popconfirm,
   Popover,
   Tag,
-  Toast
+  Toast,
+  Tooltip
 } from "@douyinfe/semi-ui";
 import { Data } from "@douyinfe/semi-ui/lib/es/descriptions";
 import { ColumnProps } from "@douyinfe/semi-ui/lib/es/table/interface";
 import useFetch from "use-http";
 import { JobDetail, Trigger } from "../../types";
 import apiconfig from "./apiconfig";
+import StatusText from "./state-text";
 
 const style = {
   padding: "10px",
@@ -37,6 +39,10 @@ function getData(trigger: Trigger): Data[] {
           {trigger.triggerId || ""}
         </span>
       ),
+    },
+    {
+      key: "Status",
+      value: <StatusText value={Number(trigger.status)} />,
     },
     {
       key: "LastRunTime",
@@ -82,12 +88,12 @@ const columns: ColumnProps<JobDetail>[] = [
           content={
             <div style={style}>
               {jobDetail.triggers?.map((t, i) => (
-                <>
-                  <Descriptions key={t.triggerId} data={getData(t)} />
+                <div key={t.triggerId}>
+                  <Descriptions data={getData(t)} />
                   {i !== jobDetail.triggers?.length! - 1 && (
                     <Divider margin="8px" />
                   )}
-                </>
+                </div>
               ))}
             </div>
           }
@@ -124,13 +130,21 @@ const columns: ColumnProps<JobDetail>[] = [
     align: "center",
     render: (text, jobDetail, index) => {
       return jobDetail.concurrent === true ? (
-        <Tag color="red" type="light">
-          并行
-        </Tag>
+        <Tooltip content={"默认执行方式，不会等待上一次任务完成"}>
+          <Tag color="red" type="light">
+            并行
+          </Tag>
+        </Tooltip>
       ) : (
-        <Tag color="red" type="solid">
-          串行
-        </Tag>
+        <Tooltip
+          content={
+            "如果上一次任务未完成，则进入阻塞状态，并在下一次触发时间尝试执行"
+          }
+        >
+          <Tag color="red" type="solid">
+            串行
+          </Tag>
+        </Tooltip>
       );
     },
   },

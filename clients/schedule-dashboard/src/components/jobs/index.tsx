@@ -10,7 +10,6 @@ import {
   Descriptions,
   Divider,
   Dropdown,
-  InputNumber,
   Modal,
   Popconfirm,
   Table,
@@ -24,11 +23,13 @@ import {
   ExpandedRowRender,
   OnRow
 } from "@douyinfe/semi-ui/lib/es/table/interface";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useContext, useEffect, useMemo, useState } from "react";
 import useFetch from "use-http/dist/cjs/useFetch";
 import { JobDetail, Scheduler, Trigger, TriggerTimeline } from "../../types";
 import apiconfig from "./apiconfig";
 import columns from "./columns";
+import GlobalContext from "./context";
+import StatusText from "./state-text";
 
 const style = {
   boxShadow: "var(--semi-shadow-elevated)",
@@ -44,11 +45,7 @@ export default function Jobs() {
    * 作业状态
    */
   const [jobs, setJobs] = useState<Scheduler[]>([]);
-
-  /**
-   * 刷新频次
-   */
-  const [rate, setRate] = useState(300);
+  const { rate } = useContext(GlobalContext);
 
   /**
    * 初始化请求配置
@@ -242,35 +239,21 @@ export default function Jobs() {
   };
 
   return (
-    <div>
-      <InputNumber
-        formatter={(value) => `${value}`.replace(/\D/g, "")}
-        onNumberChange={(number) => console.log(number)}
-        min={300}
-        value={rate}
-        onChange={(v) => setRate(Number(v))}
-        max={Number.MAX_SAFE_INTEGER}
-        insetLabel={"列表刷新频率"}
-        step={100}
-        style={{ float: "right", margin: 5 }}
-      />
-      <Table
-        style={{ clear: "both" }}
-        rowKey="jobId"
-        columns={columns}
-        dataSource={data}
-        onRow={handleRow}
-        expandedRowRender={expandRowRender}
-        pagination={false}
-        rowExpandable={(jobDetail) =>
-          !!(
-            jobDetail?.jobId &&
-            jobs.find((u) => u.jobDetail?.jobId === jobDetail?.jobId)?.triggers
-              ?.length !== 0
-          )
-        }
-      />
-    </div>
+    <Table
+      rowKey="jobId"
+      columns={columns}
+      dataSource={data}
+      onRow={handleRow}
+      expandedRowRender={expandRowRender}
+      pagination={false}
+      rowExpandable={(jobDetail) =>
+        !!(
+          jobDetail?.jobId &&
+          jobs.find((u) => u.jobDetail?.jobId === jobDetail?.jobId)?.triggers
+            ?.length !== 0
+        )
+      }
+    />
   );
 }
 
@@ -451,53 +434,5 @@ function RenderValue(props: { prop: string; value: any; trigger: Trigger }) {
         </Timeline>
       </Modal>
     </>
-  );
-}
-
-/**
- * 触发器状态
- * @param props
- * @returns
- */
-function StatusText(props: { value: number }) {
-  const { value } = props;
-
-  const text: string = useMemo(() => {
-    switch (value) {
-      case 0:
-        return "积压";
-      case 1:
-        return "就绪";
-      case 2:
-        return "运行";
-      case 3:
-        return "暂停";
-      case 4:
-        return "阻塞";
-      case 5:
-        return "就绪*";
-      case 6:
-        return "归档";
-      case 7:
-        return "奔溃";
-      case 8:
-        return "超限";
-      case 9:
-        return "无触发时间";
-      case 10:
-        return "初始未启动";
-      case 11:
-        return "未知触发器";
-      case 12:
-        return "未知处理程序";
-      default:
-        return "";
-    }
-  }, [value]);
-
-  return (
-    <Tag color="light-blue" type="light">
-      {text}
-    </Tag>
   );
 }
