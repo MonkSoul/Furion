@@ -318,8 +318,8 @@ public partial class Trigger
     {
         Timelines ??= new();
 
-        if (Timelines.Count > 10)
-            Timelines.Dequeue();
+        // 只保留十条记录
+        if (Timelines.Count >= 10) Timelines.Dequeue();
 
         Timelines.Enqueue(new TriggerTimeline
         {
