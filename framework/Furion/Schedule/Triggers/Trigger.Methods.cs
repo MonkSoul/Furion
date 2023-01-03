@@ -1,6 +1,6 @@
 ﻿// MIT License
 //
-// Copyright (c) 2020-2022 百小僧, Baiqian Co.,Ltd and Contributors
+// Copyright (c) 2020-2023 百小僧, Baiqian Co.,Ltd and Contributors
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -59,6 +59,15 @@ public partial class Trigger
     }
 
     /// <summary>
+    /// 获取作业触发器最近运行时间
+    /// </summary>
+    /// <returns></returns>
+    public IEnumerable<TriggerTimeline> GetTimelines()
+    {
+        return Timelines.OrderByDescending(u => u.LastRunTime).ToList();
+    }
+
+    /// <summary>
     /// 作业触发器转字符串输出
     /// </summary>
     /// <returns><see cref="string"/></returns>
@@ -101,6 +110,9 @@ public partial class Trigger
         {
             NumberOfRuns++;
             LastRunTime = NextRunTime;
+
+            // 将最近运行时间加入队列中
+            AddToTimeline(LastRunTime.Value, NumberOfRuns);
         }
 
         NextRunTime = GetNextRunTime(startAt);
@@ -295,6 +307,25 @@ public partial class Trigger
         return CheckAndFixNextOccurrence(jobDetail)
             // 调用派生类 ShouldRun 方法
             && ShouldRun(jobDetail, startAt);
+    }
+
+    /// <summary>
+    /// 记录作业触发器运行时间线
+    /// </summary>
+    /// <param name="lastRuntime">最近运行时间</param>
+    /// <param name="numberOfRuns">运行次数</param>
+    internal void AddToTimeline(DateTime lastRuntime, long numberOfRuns)
+    {
+        Timelines ??= new();
+
+        // 只保留十条记录
+        if (Timelines.Count >= 10) Timelines.Dequeue();
+
+        Timelines.Enqueue(new TriggerTimeline
+        {
+            LastRunTime = lastRuntime,
+            NumberOfRuns = numberOfRuns
+        });
     }
 
     /// <summary>

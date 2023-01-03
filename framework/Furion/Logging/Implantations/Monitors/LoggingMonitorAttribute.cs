@@ -1,6 +1,6 @@
 // MIT License
 //
-// Copyright (c) 2020-2022 百小僧, Baiqian Co.,Ltd and Contributors
+// Copyright (c) 2020-2023 百小僧, Baiqian Co.,Ltd and Contributors
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -147,7 +147,8 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter, IOr
         var actionMethod = controllerActionDescriptor.MethodInfo;
 
         // 如果贴了 [SuppressMonitor] 特性则跳过
-        if (actionMethod.IsDefined(typeof(SuppressMonitorAttribute), true))
+        if (actionMethod.IsDefined(typeof(SuppressMonitorAttribute), true)
+            || actionMethod.DeclaringType.IsDefined(typeof(SuppressMonitorAttribute), true))
         {
             _ = await next();
             return;

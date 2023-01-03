@@ -1,6 +1,6 @@
 ﻿// MIT License
 //
-// Copyright (c) 2020-2022 百小僧, Baiqian Co.,Ltd and Contributors
+// Copyright (c) 2020-2023 百小僧, Baiqian Co.,Ltd and Contributors
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -183,4 +183,10 @@ public partial class Trigger
     /// 作业触发器运行时参数
     /// </summary>
     internal object[] RuntimeTriggerArgs { get; set; }
+
+    /// <summary>
+    /// 作业触发器最近运行记录
+    /// </summary>
+    /// <remarks>默认只保存 10 条</remarks>
+    internal Queue<TriggerTimeline> Timelines { get; set; } = new();
 }

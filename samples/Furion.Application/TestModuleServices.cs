@@ -201,4 +201,19 @@ public class TestModuleServices : IDynamicApiController
 
         return cookies;
     }
+
+    public async Task 测试中文编码问题()
+    {
+        var obj = new
+        {
+            id = 1,
+            name = "百小僧",
+            age = 30
+        };
+
+        var res = await "https://localhost:5001/test"
+            .SetBody(obj, "application/x-www-form-urlencoded")
+            .WithEncodeUrl(false)
+            .PostAsync();
+    }
 }

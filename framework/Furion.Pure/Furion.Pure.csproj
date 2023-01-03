@@ -2,7 +2,7 @@
 
 	<PropertyGroup>
 		<TargetFrameworks>net5.0;net6.0;net7.0</TargetFrameworks>
-		<Version>4.8.3.10</Version>
+		<Version>4.8.4.5</Version>
 		<Description>让 .NET 开发更简单，更通用，更流行。</Description>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 		<ImplicitUsings>enable</ImplicitUsings>
@@ -11,12 +11,14 @@
 
 	<ItemGroup>
 		<None Remove="FriendlyException\Assets\error.html" />
+		<None Remove="Schedule\Dashboard\frontend\**\*" />
 		<None Remove="SpecificationDocument\Assets\index-mini-profiler.html" />
 		<None Remove="SpecificationDocument\Assets\index.html" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<EmbeddedResource Include="FriendlyException\Assets\error.html" />
+		<EmbeddedResource Include="Schedule\Dashboard\frontend\**\*" />
 		<EmbeddedResource Include="SpecificationDocument\Assets\index-mini-profiler.html" />
 		<EmbeddedResource Include="SpecificationDocument\Assets\index.html" />
 	</ItemGroup>
@@ -26,19 +28,19 @@
 	</ItemGroup>
 
 	<ItemGroup Condition=" '$(TargetFramework)' == 'net5.0' ">
-		<PackageReference Include="Furion.Pure.Extras.DependencyModel.CodeAnalysis" Version="4.8.3.10" />
+		<PackageReference Include="Furion.Pure.Extras.DependencyModel.CodeAnalysis" Version="4.8.4.5" />
 		<PackageReference Include="MiniProfiler.AspNetCore.Mvc" Version="4.2.22" />
 		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
 	</ItemGroup>
 
 	<ItemGroup Condition=" '$(TargetFramework)' == 'net6.0' ">
-		<PackageReference Include="Furion.Pure.Extras.DependencyModel.CodeAnalysis" Version="4.8.3.10" />
+		<PackageReference Include="Furion.Pure.Extras.DependencyModel.CodeAnalysis" Version="4.8.4.5" />
 		<PackageReference Include="MiniProfiler.AspNetCore.Mvc" Version="4.2.22" />
 		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
 	</ItemGroup>
 
 	<ItemGroup Condition=" '$(TargetFramework)' == 'net7.0' ">
-		<PackageReference Include="Furion.Pure.Extras.DependencyModel.CodeAnalysis" Version="4.8.3.10" />
+		<PackageReference Include="Furion.Pure.Extras.DependencyModel.CodeAnalysis" Version="4.8.4.5" />
 		<PackageReference Include="MiniProfiler.AspNetCore.Mvc" Version="4.2.22" />
 		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
 	</ItemGroup>

@@ -1,6 +1,6 @@
 ﻿// MIT License
 //
-// Copyright (c) 2020-2022 百小僧, Baiqian Co.,Ltd and Contributors
+// Copyright (c) 2020-2023 百小僧, Baiqian Co.,Ltd and Contributors
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -505,6 +505,21 @@ internal sealed partial class Scheduler
     public string ConvertToJSON(NamingConventions naming = NamingConventions.CamelCase)
     {
         return GetBuilder().ConvertToJSON(naming);
+    }
+
+    /// <summary>
+    /// 将作业计划转换成可枚举集合
+    /// </summary>
+    /// <returns><see cref="Dictionary{JobDetail, Trigger}"/></returns>
+    public Dictionary<JobDetail, Trigger> GetEnumerable()
+    {
+        var enumerable = new Dictionary<JobDetail, Trigger>(new RepeatKeyEqualityComparer());
+        foreach (var (_, trigger) in Triggers)
+        {
+            enumerable.Add(JobDetail, trigger);
+        }
+
+        return enumerable;
     }
 
     /// <summary>

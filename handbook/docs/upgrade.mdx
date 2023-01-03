@@ -24,7 +24,7 @@ import Tag from "@site/src/components/Tag.js";
 
 :::
 
-## v4.8.3（当前版本，全新定时任务）
+## v4.8.4（当前版本，全新定时任务）
 
 <img src={useBaseUrl("img/domyself.png")} />
 
@@ -44,6 +44,7 @@ import Tag from "@site/src/components/Tag.js";
 
 :::important 版本细节
 
+- `v4.8.4` 版本细节：[https://gitee.com/dotnetchina/Furion/issues/I68573](https://gitee.com/dotnetchina/Furion/issues/I68573) <sup>2022.12.30</sup>
 - `v4.8.3` 版本细节：[https://gitee.com/dotnetchina/Furion/issues/I657O5](https://gitee.com/dotnetchina/Furion/issues/I657O5) <sup>2022.12.08</sup>
 - `v4.8.2` 版本细节：[https://gitee.com/dotnetchina/Furion/issues/I63CTP](https://gitee.com/dotnetchina/Furion/issues/I63CTP) <sup>2022.11.27</sup>
 - `v4.8.1` 版本细节：[https://gitee.com/dotnetchina/Furion/issues/I62RX3](https://gitee.com/dotnetchina/Furion/issues/I62RX3) <sup>2022.11.24</sup>
@@ -56,6 +57,10 @@ import Tag from "@site/src/components/Tag.js";
   - &nbsp;<Tag>新增</Tag> **🎉 [全新的定时任务模块](/docs/job)** <sup>4.8.0</sup> 【[查看源码](https://gitee.com/dotnetchina/Furion/tree/v4/framework/Furion/Schedule)】
   - &nbsp;<Tag>新增</Tag> **🎉 [全新的 `Cron` 表达式模块](/docs/cron)** <sup>4.8.0</sup> 【[查看源码](https://gitee.com/dotnetchina/Furion/tree/v4/framework/Furion/TimeCrontab)】
   - &nbsp;<Tag>新增</Tag> **🎉 [全新的任务队列模块](/docs/task-queue)** <sup>4.8.3</sup> 【[查看源码](https://gitee.com/dotnetchina/Furion/tree/v4/framework/Furion/TaskQueue)】
+  - &nbsp;<Tag>新增</Tag> 定时任务 `Dashboard` 查看作业触发器最近运行记录功能 <sup>4.8.4.3</sup> <sup>⏱️2023.01.03</sup> [e7d24d8](https://gitee.com/dotnetchina/Furion/commit/e7d24d84bcc448b0a13f8e0b76328669261af44b)
+  - &nbsp;<Tag>新增</Tag> 定时任务作业触发器 `trigger.GetTimelines()` 获取最近 `10` 条运行记录列表 <sup>4.8.4.3</sup> <sup>⏱️2023.01.03</sup> [e7d24d8](https://gitee.com/dotnetchina/Furion/commit/e7d24d84bcc448b0a13f8e0b76328669261af44b)
+  - &nbsp;<Tag>新增</Tag> **定时任务 `Dashboard` 看板** <sup>4.8.4</sup> <sup>⏱️2022.12.30</sup> [d3f9669](https://gitee.com/dotnetchina/Furion/commit/d3f966921dfa757c12c2bd071fb19fc166a2f24e)
+  - &nbsp;<Tag>新增</Tag> 定时任务 `IScheduler.GetEnumerable()` 方法，可将作业计划转换成可枚举字典 <sup>4.8.4</sup> <sup>⏱️2022.12.30</sup> [4d5235c](https://gitee.com/dotnetchina/Furion/commit/4d5235c37a9ef5e66e92847e65ef9786bcd7387c)
   - &nbsp;<Tag>新增</Tag> `L.SetCurrentUICulture(culture)` 和 `L.GetCurrentUICulture()` 静态方法，可在运行时动态修改当前线程区域性 <sup>4.8.3.10</sup> <sup>⏱️2022.12.23</sup> [#I66JWA](https://gitee.com/dotnetchina/Furion/issues/I66JWA)
   - &nbsp;<Tag>新增</Tag> `L.SetCulture(culture, immediately)` 方法重载，可配置运行时修改多语言立即有效 <sup>4.8.3.10</sup> <sup>⏱️2022.12.23</sup> [#I66JWA](https://gitee.com/dotnetchina/Furion/issues/I66JWA)
   - &nbsp;<Tag>新增</Tag> 定时任务配置选项 `options.JobDetail.LogEnabled` 配置，可自动输出执行日志 <sup>4.8.3.7</sup> <sup>⏱️2022.12.14</sup> [58d2c20](https://gitee.com/dotnetchina/Furion/commit/58d2c20de05dc458b206863f7814e89866e7522b)
@@ -252,6 +257,9 @@ info: 2022-11-24 14:35:16.0373384 +08:00 星期四 L Furion.Application.TestLogg
 
 - **问题修复**
 
+  - &nbsp;<Tag>修复</Tag> 定时任务使用 `Furion.Pure` 包访问 `Dashboard` 出现 `404` 问题 <sup>4.8.4.2</sup> <sup>⏱️2023.01.02</sup> [21977b7](https://gitee.com/dotnetchina/Furion/commit/21977b70ef84fd674bb306ab86ef032f7f28c7a7)
+  - &nbsp;<Tag>修复</Tag> 在类中贴 `[SuppressMonitor]` 特性但 `LoggingMonitor` 依然输出问题 <sup>4.8.4</sup> <sup>⏱️2022.12.30</sup> [#I6882I](https://gitee.com/dotnetchina/Furion/issues/I6882I)
+  - &nbsp;<Tag>修复</Tag> 远程请求配置 `WithEncodeUrl(false)` 对 `application/x-www-form-urlencoded` 请求类型无效 <sup>4.8.4</sup> <sup>⏱️2022.12.30</sup> [#I682DX](https://gitee.com/dotnetchina/Furion/issues/I682DX)
   - &nbsp;<Tag>修复</Tag> `LoggingMonitor` 序列化 `IQueryable<>` 或 `OData` 返回值类型出现死循环问题 <sup>4.8.3.4</sup> <sup>⏱️2022.12.10</sup> [7e8c9d0](https://gitee.com/dotnetchina/Furion/commit/7e8c9d0e3910c4d0cfa18a7a15cbe8415d34dd66)
   - &nbsp;<Tag>修复</Tag> 定时任务通过 `scheduler.RemoveTrigger(triggerId)` 报异常问题 <sup>4.8.3.3</sup> <sup>⏱️2022.12.09</sup> [#I65EQ1](https://gitee.com/dotnetchina/Furion/issues/I65EQ1#note_15047484_link)
   - &nbsp;<Tag>修复</Tag> 定时任务作业触发器配置了 `EndTime` 和 `StartTime` 之后 `Status` 没有对应上 <sup>4.8.3.1</sup> <sup>⏱️2022.12.09</sup> [52a5506](https://gitee.com/dotnetchina/Furion/commit/52a5506c2fda7c31df01b2e90af7ad6b0c5f94aa)

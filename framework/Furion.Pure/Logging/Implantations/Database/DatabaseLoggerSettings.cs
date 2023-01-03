@@ -1,6 +1,6 @@
 // MIT License
 //
-// Copyright (c) 2020-2022 °ÙÐ¡É®, Baiqian Co.,Ltd and Contributors
+// Copyright (c) 2020-2023 ï¿½ï¿½Ð¡É®, Baiqian Co.,Ltd and Contributors
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -25,44 +25,44 @@ using Microsoft.Extensions.Logging;
 namespace Furion.Logging;
 
 /// <summary>
-/// Êý¾Ý¿âÈÕÖ¾¼ÇÂ¼Æ÷ÅäÖÃÑ¡Ïî
+/// ï¿½ï¿½ï¿½Ý¿ï¿½ï¿½ï¿½Ö¾ï¿½ï¿½Â¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñ¡ï¿½ï¿½
 /// </summary>
 [SuppressSniffer]
 public sealed class DatabaseLoggerSettings
 {
     /// <summary>
-    /// ×îµÍÈÕÖ¾¼ÇÂ¼¼¶±ð
+    /// ï¿½ï¿½ï¿½ï¿½ï¿½Ö¾ï¿½ï¿½Â¼ï¿½ï¿½ï¿½ï¿½
     /// </summary>
     public LogLevel MinimumLevel { get; set; } = LogLevel.Trace;
 
     /// <summary>
-    /// ×Ô¶¨ÒåÈÕÖ¾É¸Ñ¡Æ÷
+    /// ï¿½Ô¶ï¿½ï¿½ï¿½ï¿½ï¿½Ö¾É¸Ñ¡ï¿½ï¿½
     /// </summary>
     public Func<LogMessage, bool> WriteFilter { get; set; }
 
     /// <summary>
-    /// ÊÇ·ñÊ¹ÓÃ UTC Ê±¼ä´Á£¬Ä¬ÈÏ false
+    /// ï¿½Ç·ï¿½Ê¹ï¿½ï¿½ UTC Ê±ï¿½ï¿½ï¿½ï¿½ï¿½Ä¬ï¿½ï¿½ false
     /// </summary>
     public bool UseUtcTimestamp { get; set; }
 
     /// <summary>
-    /// ÈÕÆÚ¸ñÊ½»¯
+    /// ï¿½ï¿½ï¿½Ú¸ï¿½Ê½ï¿½ï¿½
     /// </summary>
     public string DateFormat { get; set; } = "yyyy-MM-dd HH:mm:ss.fffffff zzz dddd";
 
     /// <summary>
-    /// ÊÇ·ñÆôÓÃÈÕÖ¾ÉÏÏÂÎÄ
+    /// ï¿½Ç·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     /// </summary>
     public bool IncludeScopes { get; set; } = true;
 
     /// <summary>
-    /// ºöÂÔÈÕÖ¾Ñ­»·Êä³ö
+    /// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¾Ñ­ï¿½ï¿½ï¿½ï¿½ï¿½
     /// </summary>
-    /// <remarks>¶ÔÐÔÄÜÓÐÐ©ÐíÓ°Ïì</remarks>
+    /// <remarks>ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð©ï¿½ï¿½Ó°ï¿½ï¿½</remarks>
     public bool IgnoreReferenceLoop { get; set; } = true;
 
     /// <summary>
-    /// ÏÔÊ¾¸ú×Ù/ÇëÇó Id
+    /// ï¿½ï¿½Ê¾ï¿½ï¿½ï¿½ï¿½/ï¿½ï¿½ï¿½ï¿½ Id
     /// </summary>
     public bool WithTraceId { get; set; } = false;
 }
