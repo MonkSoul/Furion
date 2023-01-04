@@ -79,7 +79,7 @@ public sealed class ScheduleUIMiddleware
         var action = context.Request.Path.Value?[ApiRequestPath.Length..]?.ToLower();
 
         // 允许跨域，设置返回 json
-        context.Response.ContentType = "application/json";
+        context.Response.ContentType = "application/json; charset=utf-8";
         context.Response.Headers["Access-Control-Allow-Origin"] = "*";
         context.Response.Headers["Access-Control-Allow-Headers"] = "*";
 
