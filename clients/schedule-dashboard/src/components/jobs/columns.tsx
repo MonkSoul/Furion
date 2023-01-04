@@ -1,8 +1,6 @@
 import {
   IconDelete,
-  IconMore,
-  IconRestart,
-  IconStop
+  IconMore, IconPlayCircle, IconStop
 } from "@douyinfe/semi-icons";
 import {
   Descriptions,
@@ -16,6 +14,7 @@ import {
 } from "@douyinfe/semi-ui";
 import { Data } from "@douyinfe/semi-ui/lib/es/descriptions";
 import { ColumnProps } from "@douyinfe/semi-ui/lib/es/table/interface";
+import Paragraph from "@douyinfe/semi-ui/lib/es/typography/paragraph";
 import useFetch from "use-http";
 import { JobDetail, Trigger } from "../../types";
 import apiconfig from "./apiconfig";
@@ -100,9 +99,14 @@ const columns: ColumnProps<JobDetail>[] = [
           position="right"
           showArrow
         >
-          <span style={{ textDecoration: "underline", fontWeight: "bold" }}>
+          <Paragraph
+            copyable
+            underline
+            strong
+            style={{ display: "inline-block" }}
+          >
             {text}
-          </span>
+          </Paragraph>
         </Popover>
       );
     },
@@ -114,6 +118,14 @@ const columns: ColumnProps<JobDetail>[] = [
   {
     title: "Description",
     dataIndex: "description",
+    render: (text, jobDetail, index) => {
+      const value: string = text || "";
+      return (
+        <Tooltip content={text}>
+          {value.length >= 8 ? value.substring(0, 8) + "..." : value}
+        </Tooltip>
+      );
+    },
   },
   {
     title: "JobType",
@@ -175,6 +187,7 @@ const columns: ColumnProps<JobDetail>[] = [
   {
     title: "",
     dataIndex: "operate",
+    width: 50,
     render: (text, jobDetail, index) => <Operation jobid={jobDetail.jobId} />,
   },
 ];
@@ -220,7 +233,7 @@ function Operation(props: { jobid?: string | null }) {
       render={
         <Dropdown.Menu>
           <Dropdown.Item onClick={() => callAction("start")}>
-            <IconRestart size="extra-large" /> 启动
+            <IconPlayCircle size="extra-large" /> 启动
           </Dropdown.Item>
           <Dropdown.Item onClick={() => callAction("pause")}>
             <IconStop size="extra-large" /> 暂停

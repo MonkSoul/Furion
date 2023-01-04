@@ -1,8 +1,9 @@
 import {
+  IconActivity,
   IconCalendarClock,
   IconDelete,
   IconMore,
-  IconRestart,
+  IconPlayCircle,
   IconStop
 } from "@douyinfe/semi-icons";
 import {
@@ -16,6 +17,7 @@ import {
   Tag,
   Timeline,
   Toast,
+  Tooltip,
   Typography
 } from "@douyinfe/semi-ui";
 import { Data } from "@douyinfe/semi-ui/lib/es/descriptions";
@@ -23,6 +25,7 @@ import {
   ExpandedRowRender,
   OnRow
 } from "@douyinfe/semi-ui/lib/es/table/interface";
+import Paragraph from "@douyinfe/semi-ui/lib/es/typography/paragraph";
 import { useCallback, useContext, useEffect, useMemo, useState } from "react";
 import useFetch from "use-http/dist/cjs/useFetch";
 import { JobDetail, Scheduler, Trigger, TriggerTimeline } from "../../types";
@@ -163,7 +166,32 @@ export default function Jobs() {
                 index
               }
             >
-              <div style={{ marginTop: 3, marginRight: 5, textAlign: "right" }}>
+              <div
+                style={{
+                  marginTop: 3,
+                  marginRight: 5,
+                  marginLeft: 5,
+                  display: "flex",
+                  justifyContent: "space-between",
+                }}
+              >
+                {Number((expandData[6] as any).ovalue) === 3 ? (
+                  <Tooltip content="启动">
+                    <IconPlayCircle
+                      style={{ color: "red", cursor: "pointer" }}
+                      size="large"
+                      onClick={() =>
+                        callAction(
+                          (expandData[1] as any).ovalue!.toString(),
+                          (expandData[0] as any).ovalue!.toString(),
+                          "start"
+                        )
+                      }
+                    />
+                  </Tooltip>
+                ) : (
+                  <span></span>
+                )}
                 <Dropdown
                   render={
                     <Dropdown.Menu>
@@ -176,7 +204,7 @@ export default function Jobs() {
                           )
                         }
                       >
-                        <IconRestart size="extra-large" /> 启动
+                        <IconPlayCircle size="extra-large" /> 启动
                       </Dropdown.Item>
                       <Dropdown.Item
                         onClick={() =>
@@ -211,7 +239,7 @@ export default function Jobs() {
                     </Dropdown.Menu>
                   }
                 >
-                  <IconMore style={{ cursor: "pointer" }} />
+                  <IconMore style={{ cursor: "pointer" }} size="large" />
                 </Dropdown>
               </div>
 
@@ -265,42 +293,16 @@ export default function Jobs() {
 function RenderValue(props: { prop: string; value: any; trigger: Trigger }) {
   const { prop, value, trigger } = props;
   const [visible, setVisible] = useState(false);
-  const [timelines, setTimelines] = useState<TriggerTimeline[]>([]);
   const { Text } = Typography;
-
-  /**
-   * 初始化请求配置
-   */
-  const { post, response, loading } = useFetch(
-    apiconfig.hostAddress,
-    apiconfig.options
-  );
 
   const showDialog = () => {
     setVisible(true);
-    getTimelines(trigger.jobId!, trigger.triggerId!);
   };
   const handleOk = () => {
     setVisible(false);
   };
   const handleCancel = () => {
     setVisible(false);
-  };
-  const handleAfterClose = () => {};
-
-  /**
-   * 操作作业触发器
-   */
-  const getTimelines = async (jobid: string, triggerid: string) => {
-    const data = await post(
-      "/operate-trigger?jobid=" +
-        jobid +
-        "&triggerid=" +
-        triggerid +
-        "&action=timelines"
-    );
-
-    if (response.ok) setTimelines(data);
   };
 
   /**
@@ -345,9 +347,11 @@ function RenderValue(props: { prop: string; value: any; trigger: Trigger }) {
      * 处理运行次数
      */
     preview = (
-      <Tag color="green" type="light">
-        {value}
-      </Tag>
+      <>
+        <Tag color="green" type="light">
+          {value}
+        </Tag>
+      </>
     );
   } else if (prop === "numberOfErrors") {
     /**
@@ -381,18 +385,30 @@ function RenderValue(props: { prop: string; value: any; trigger: Trigger }) {
      * 处理触发器和作业 Id
      */
     preview = (
-      <span style={{ textDecoration: "underline", fontWeight: "bold" }}>
+      <Paragraph copyable underline strong style={{ display: "inline-block" }}>
         {value?.toString() || ""}
-      </span>
+      </Paragraph>
     );
   } else if (prop === "args") {
     /**
      * 处理参数类型
      */
     preview = value ? (
-      <Text mark>{value?.toString() || ""}</Text>
+      <Paragraph copyable mark style={{ display: "inline-block" }}>
+        {value?.toString() || ""}
+      </Paragraph>
     ) : (
       <span></span>
+    );
+  } else if (prop === "description") {
+    /**
+     * 处理描述
+     */
+    const text: string = value || "";
+    preview = (
+      <Tooltip content={value}>
+        {text.length >= 14 ? text.substring(0, 14) + "..." : text}
+      </Tooltip>
     );
   } else if (prop === "triggerType") {
     /**
@@ -404,35 +420,93 @@ function RenderValue(props: { prop: string; value: any; trigger: Trigger }) {
   return (
     <>
       {preview}
-      <Modal
-        title={trigger.triggerId + " 最近运行记录"}
+      <LogPanel
+        trigger={trigger}
         visible={visible}
-        onOk={handleOk}
-        afterClose={handleAfterClose} //>=1.16.0
-        onCancel={handleCancel}
-        closeOnEsc={true}
-      >
-        <Timeline mode="center">
-          {timelines.map((timeline, i) => (
-            <Timeline.Item
-              key={timeline.numberOfRuns!}
-              time={
-                <>
-                  <Tag color="grey" type="light">
-                    {timeline.lastRunTime}
-                  </Tag>
-                </>
-              }
-            >
-              第{" "}
-              <Tag color="green" type="light">
-                {timeline.numberOfRuns}
-              </Tag>{" "}
-              次运行
-            </Timeline.Item>
-          ))}
-        </Timeline>
-      </Modal>
+        handleOk={handleOk}
+        handleCancel={handleCancel}
+      />
     </>
+  );
+}
+
+function LogPanel(props: {
+  trigger: Trigger;
+  visible: boolean;
+  handleOk: VoidFunction;
+  handleCancel: VoidFunction;
+}) {
+  const { trigger, visible, handleOk, handleCancel } = props;
+  const [timelines, setTimelines] = useState<TriggerTimeline[]>([]);
+
+  /**
+   * 初始化请求配置
+   */
+  const { post, response, loading } = useFetch(
+    apiconfig.hostAddress,
+    apiconfig.options
+  );
+
+  /**
+   * 操作作业触发器
+   */
+  const getTimelines = async (jobid: string, triggerid: string) => {
+    const data = await post(
+      "/operate-trigger?jobid=" +
+        jobid +
+        "&triggerid=" +
+        triggerid +
+        "&action=timelines"
+    );
+
+    if (response.ok) setTimelines(data);
+  };
+
+  /**
+   * 初始化
+   */
+  useEffect(() => {
+    getTimelines(trigger.jobId!, trigger.triggerId!);
+  }, [trigger]);
+
+  return (
+    <Modal
+      title={
+        <span>
+          <Tag size="large" color="green" type="light">
+            {trigger.triggerId}
+          </Tag>{" "}
+          最近运行记录 <StatusText value={Number(trigger.status)} />
+        </span>
+      }
+      visible={visible}
+      onOk={handleOk}
+      onCancel={handleCancel}
+      closeOnEsc={true}
+    >
+      <Timeline mode="center">
+        {timelines.map((timeline, i) => (
+          <Timeline.Item
+            key={timeline.numberOfRuns!}
+            time={
+              <>
+                <Tag color="grey" type="light">
+                  {timeline.lastRunTime}
+                </Tag>
+              </>
+            }
+            dot={
+              i === 0 ? <IconActivity style={{ color: "green" }} /> : undefined
+            }
+          >
+            第{" "}
+            <Tag color="green" type="light">
+              {timeline.numberOfRuns}
+            </Tag>{" "}
+            次运行
+          </Timeline.Item>
+        ))}
+      </Timeline>
+    </Modal>
   );
 }

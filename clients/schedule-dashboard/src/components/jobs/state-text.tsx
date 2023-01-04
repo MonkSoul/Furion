@@ -22,7 +22,7 @@ export default function StatusText(props: { value: number }) {
       case 4:
         return "阻塞";
       case 5:
-        return "就绪*";
+        return "就绪 *";
       case 6:
         return "归档";
       case 7:
@@ -48,51 +48,51 @@ export default function StatusText(props: { value: number }) {
         <div>
           <Space vertical>
             <Space>
-              <Tag color="light-blue" type="light">
+              <Tag color={value === 0 ? "green" : "light-blue"} type="light">
                 积压: 0
               </Tag>
-              <Tag color="light-blue" type="light">
+              <Tag color={value === 1 ? "green" : "light-blue"} type="light">
                 就绪: 1
               </Tag>
-              <Tag color="light-blue" type="light">
+              <Tag color={value === 2 ? "green" : "light-blue"} type="light">
                 运行: 2
               </Tag>
             </Space>
             <Space>
-              <Tag color="light-blue" type="light">
+              <Tag color={value === 3 ? "green" : "light-blue"} type="light">
                 暂停: 3
               </Tag>
-              <Tag color="light-blue" type="light">
+              <Tag color={value === 4 ? "green" : "light-blue"} type="light">
                 阻塞: 4
               </Tag>
-              <Tag color="light-blue" type="light">
-                就绪*: 5
+              <Tag color={value === 5 ? "green" : "light-blue"} type="light">
+                就绪 *: 5
               </Tag>
             </Space>
             <Space>
-              <Tag color="light-blue" type="light">
+              <Tag color={value === 6 ? "green" : "light-blue"} type="light">
                 归档: 6
               </Tag>
-              <Tag color="light-blue" type="light">
+              <Tag color={value === 7 ? "green" : "light-blue"} type="light">
                 崩溃: 7
               </Tag>
-              <Tag color="light-blue" type="light">
+              <Tag color={value === 8 ? "green" : "light-blue"} type="light">
                 超限: 8
               </Tag>
             </Space>
             <Space>
-              <Tag color="light-blue" type="light">
+              <Tag color={value === 9 ? "green" : "light-blue"} type="light">
                 无触发时间: 9
               </Tag>
-              <Tag color="light-blue" type="light">
+              <Tag color={value === 10 ? "green" : "light-blue"} type="light">
                 初始未启动: 10
               </Tag>
-              <Tag color="light-blue" type="light">
+              <Tag color={value === 11 ? "green" : "light-blue"} type="light">
                 未知触发器: 11
               </Tag>
             </Space>
             <Space>
-              <Tag color="light-blue" type="light">
+              <Tag color={value === 12 ? "green" : "light-blue"} type="light">
                 未知处理程序: 12
               </Tag>
             </Space>
@@ -102,7 +102,10 @@ export default function StatusText(props: { value: number }) {
       position="right"
       showArrow
     >
-      <Tag color="light-blue" type="light">
+      <Tag
+        color={value === 3 ? "red" : "light-blue"}
+        type={value === 3 ? "solid" : "light"}
+      >
         {text}
       </Tag>
     </Popover>
