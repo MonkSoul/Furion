@@ -1,6 +1,6 @@
 // MIT License
 //
-// Copyright (c) 2020-2023 ��Сɮ, Baiqian Co.,Ltd and Contributors
+// Copyright (c) 2020-2023 百小僧, Baiqian Co.,Ltd and Contributors
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -25,44 +25,39 @@ using Microsoft.Extensions.Logging;
 namespace Furion.Logging;
 
 /// <summary>
-/// ���ݿ���־��¼������ѡ��
+/// 数据库日志配置类
 /// </summary>
 [SuppressSniffer]
 public sealed class DatabaseLoggerSettings
 {
     /// <summary>
-    /// �����־��¼����
+    /// 最低日志记录级别
     /// </summary>
     public LogLevel MinimumLevel { get; set; } = LogLevel.Trace;
 
     /// <summary>
-    /// �Զ�����־ɸѡ��
-    /// </summary>
-    public Func<LogMessage, bool> WriteFilter { get; set; }
-
-    /// <summary>
-    /// �Ƿ�ʹ�� UTC ʱ�����Ĭ�� false
+    /// 是否使用 UTC 时间戳，默认 false
     /// </summary>
     public bool UseUtcTimestamp { get; set; }
 
     /// <summary>
-    /// ���ڸ�ʽ��
+    /// 日期格式化
     /// </summary>
     public string DateFormat { get; set; } = "yyyy-MM-dd HH:mm:ss.fffffff zzz dddd";
 
     /// <summary>
-    /// �Ƿ�������־������
+    /// 是否启用日志上下文
     /// </summary>
     public bool IncludeScopes { get; set; } = true;
 
     /// <summary>
-    /// ������־ѭ�����
+    /// 忽略日志循环输出
     /// </summary>
-    /// <remarks>��������Щ��Ӱ��</remarks>
+    /// <remarks>对性能有些许影响</remarks>
     public bool IgnoreReferenceLoop { get; set; } = true;
 
     /// <summary>
-    /// ��ʾ����/���� Id
+    /// 显示跟踪/请求 Id
     /// </summary>
     public bool WithTraceId { get; set; } = false;
 }

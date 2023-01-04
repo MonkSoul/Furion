@@ -55,14 +55,11 @@ internal static class Penetrates
     {
         // 检查 Key 是否存在
         var key = configuraionKey?.Invoke();
-        if (string.IsNullOrWhiteSpace(key)) return default;
+        if (string.IsNullOrWhiteSpace(key)) return new FileLoggerProvider("application.log", new FileLoggerOptions());
 
         // 加载配置文件中指定节点
         var fileLoggerSettings = App.GetConfig<FileLoggerSettings>(key)
             ?? new FileLoggerSettings();
-
-        // 如果配置为空或者文件名为空，则添加文件日志记录器服务
-        if (string.IsNullOrWhiteSpace(fileLoggerSettings?.FileName)) return default;
 
         // 创建文件日志记录器配置选项
         var fileLoggerOptions = new FileLoggerOptions
@@ -81,7 +78,7 @@ internal static class Penetrates
         configure?.Invoke(fileLoggerOptions);
 
         // 创建文件日志记录器提供程序
-        return new FileLoggerProvider(fileLoggerSettings.FileName, fileLoggerOptions);
+        return new FileLoggerProvider(fileLoggerSettings.FileName ?? "application.log", fileLoggerOptions);
     }
 
     /// <summary>
@@ -94,7 +91,7 @@ internal static class Penetrates
     {
         // 检查 Key 是否存在
         var key = configuraionKey?.Invoke();
-        if (string.IsNullOrWhiteSpace(key)) return default;
+        if (string.IsNullOrWhiteSpace(key)) return new DatabaseLoggerProvider(new DatabaseLoggerOptions());
 
         // 加载配置文件中指定节点
         var databaseLoggerSettings = App.GetConfig<DatabaseLoggerSettings>(key)

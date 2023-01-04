@@ -1,6 +1,6 @@
 // MIT License
 //
-// Copyright (c) 2020-2023 ��Сɮ, Baiqian Co.,Ltd and Contributors
+// Copyright (c) 2020-2023 百小僧, Baiqian Co.,Ltd and Contributors
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -25,55 +25,55 @@ using Microsoft.Extensions.Logging;
 namespace Furion.Logging;
 
 /// <summary>
-/// �ļ���־��¼������ѡ��
+/// 文件日志配置类
 /// </summary>
 [SuppressSniffer]
 public sealed class FileLoggerSettings
 {
     /// <summary>
-    /// ��־�ļ�����·�����ļ������Ƽ� .log ��Ϊ��չ��
+    /// 日志文件完整路径或文件名，推荐 .log 作为拓展名
     /// </summary>
-    public string FileName { get; set; } = null;
+    public string FileName { get; set; } = "application.log";
 
     /// <summary>
-    /// ׷�ӵ��Ѵ�����־�ļ��򸲸�����
+    /// 追加到已存在日志文件或覆盖它们
     /// </summary>
     public bool Append { get; set; } = true;
 
     /// <summary>
-    /// ����ÿһ����־�ļ����洢��С��Ĭ��������
+    /// 控制每一个日志文件最大存储大小，默认无限制，单位是 B，也就是 1024 才等于 1KB
     /// </summary>
-    /// <remarks>���ָ���˸�ֵ����ô��־�ļ���С�����˸����þͻᴴ������־�ļ����´�������־�ļ����������ļ���+[�������].log</remarks>
+    /// <remarks>如果指定了该值，那么日志文件大小超出了该配置就会创建的日志文件，新创建的日志文件命名规则：文件名+[递增序号].log</remarks>
     public long FileSizeLimitBytes { get; set; } = 0;
 
     /// <summary>
-    /// ������󴴽�����־�ļ�������Ĭ�������ƣ���� <see cref="FileSizeLimitBytes"/> ʹ��
+    /// 控制最大创建的日志文件数量，默认无限制，配合 <see cref="FileSizeLimitBytes"/> 使用
     /// </summary>
-    /// <remarks>���ָ���˸�ֵ����ô������ֵ���������־�ļ��д�ͷд�븲��</remarks>
+    /// <remarks>如果指定了该值，那么超出该值将从最初日志文件中从头写入覆盖</remarks>
     public int MaxRollingFiles { get; set; } = 0;
 
     /// <summary>
-    /// �����־��¼����
+    /// 最低日志记录级别
     /// </summary>
     public LogLevel MinimumLevel { get; set; } = LogLevel.Trace;
 
     /// <summary>
-    /// �Ƿ�ʹ�� UTC ʱ�����Ĭ�� false
+    /// 是否使用 UTC 时间戳，默认 false
     /// </summary>
     public bool UseUtcTimestamp { get; set; }
 
     /// <summary>
-    /// ���ڸ�ʽ��
+    /// 日期格式化
     /// </summary>
     public string DateFormat { get; set; } = "yyyy-MM-dd HH:mm:ss.fffffff zzz dddd";
 
     /// <summary>
-    /// �Ƿ�������־������
+    /// 是否启用日志上下文
     /// </summary>
     public bool IncludeScopes { get; set; } = true;
 
     /// <summary>
-    /// ��ʾ����/���� Id
+    /// 显示跟踪/请求 Id
     /// </summary>
     public bool WithTraceId { get; set; } = false;
 }
