@@ -771,7 +771,7 @@ info: 2022-12-02 18:13:11.4774564 +08:00 星期五 L MyJob[0] #16
 
 ```cs showLineNumbers {2,5,8,11,14}
 // 根据作业 Id 创建
-var jobBuilder = JoBuilder.Create("job1");
+var jobBuilder = JobBuilder.Create("job1");
 
 // 根据 IJob 实现类类型创建
 var jobBuilder = JobBuilder.Create<MyJob>();
@@ -783,7 +783,7 @@ var jobBuilder = JobBuilder.Create("YourProject", "YourProject.MyJob");
 var jobBuilder = JobBuilder.Create(typeof(MyJob));
 
 // 通过委托创造动态作业
-var jobBuilder = JoBuilder.Create((serviceProvider, context, stoppingToken) =>
+var jobBuilder = JobBuilder.Create((serviceProvider, context, stoppingToken) =>
 {
       serviceProvider.GetLogger().LogInformation($"{context}");
       return Task.CompletedTask;
@@ -1450,7 +1450,7 @@ public class MyJob : IJob, IDisposable
 
 ```cs showLineNumbers {2,9,18,26}
 // 通过 JobBuilder 创建
-var jobBuilder = JoBuilder.Create((serviceProvider, context, stoppingToken) =>
+var jobBuilder = JobBuilder.Create((serviceProvider, context, stoppingToken) =>
 {
       serviceProvider.GetLogger().LogInformation($"{context}");
       return Task.CompletedTask;
