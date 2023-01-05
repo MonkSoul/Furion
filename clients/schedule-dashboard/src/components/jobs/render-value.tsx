@@ -209,20 +209,41 @@ function LogPanel(props: {
       onCancel={handleCancel}
       closeOnEsc={true}
       zIndex={10000000000}
+      width={640}
     >
       <Timeline mode="center">
         {timelines.map((timeline, i) => (
           <Timeline.Item
-            key={timeline.numberOfRuns!}
+            key={i}
             time={
-              <>
-                <Tag color="grey" type="light">
-                  {timeline.lastRunTime}
-                </Tag>
-              </>
+              <div style={{ display: "flex", justifyContent: "flex-end" }}>
+                <Tooltip content={"LastRunTime"} zIndex={10000000002}>
+                  <Tag color="grey" type="light">
+                    {timeline.lastRunTime}
+                  </Tag>
+                </Tooltip>
+                <span style={{ padding: "0 3px" }}>-{">"}</span>
+                {timeline.nextRunTime ? (
+                  <Tooltip content={"NextRunTime"} zIndex={10000000002}>
+                    <Tag
+                      color={"light-green"}
+                      type={i === 0 ? "solid" : "light"}
+                    >
+                      {timeline.nextRunTime}
+                    </Tag>
+                  </Tooltip>
+                ) : (
+                  <StatusText value={Number(timeline.status)} />
+                )}
+              </div>
             }
             dot={
               i === 0 ? <IconActivity style={{ color: "green" }} /> : undefined
+            }
+            extra={
+              <span>
+                {trigger.triggerType || ""}: {trigger.args || ""}
+              </span>
             }
           >
             第{" "}

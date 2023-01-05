@@ -235,6 +235,7 @@ public sealed class TriggerBuilder : Trigger
     {
         TriggerId = triggerId;
 
+        UpdatedProperties.TryAdd(nameof(TriggerId), nameof(TriggerId));
         return this;
     }
 
@@ -260,6 +261,8 @@ public sealed class TriggerBuilder : Trigger
             return SetTriggerType(triggerType);
         }
 
+        UpdatedProperties.TryAdd(nameof(AssemblyName), nameof(AssemblyName));
+        UpdatedProperties.TryAdd(nameof(TriggerType), nameof(TriggerType));
         return this;
     }
 
@@ -297,6 +300,8 @@ public sealed class TriggerBuilder : Trigger
         TriggerType = triggerType.FullName;
         RuntimeTriggerType = triggerType;
 
+        UpdatedProperties.TryAdd(nameof(AssemblyName), nameof(AssemblyName));
+        UpdatedProperties.TryAdd(nameof(TriggerType), nameof(TriggerType));
         return this;
     }
 
@@ -324,6 +329,7 @@ public sealed class TriggerBuilder : Trigger
 
         RuntimeTriggerArgs = runtimeArgs;
 
+        UpdatedProperties.TryAdd(nameof(Args), nameof(Args));
         return this;
     }
 
@@ -339,6 +345,7 @@ public sealed class TriggerBuilder : Trigger
             : Penetrates.Serialize(args);
         RuntimeTriggerArgs = args;
 
+        UpdatedProperties.TryAdd(nameof(Args), nameof(Args));
         return this;
     }
 
@@ -351,6 +358,7 @@ public sealed class TriggerBuilder : Trigger
     {
         Description = description;
 
+        UpdatedProperties.TryAdd(nameof(Description), nameof(Description));
         return this;
     }
 
@@ -363,6 +371,7 @@ public sealed class TriggerBuilder : Trigger
     {
         Status = status;
 
+        UpdatedProperties.TryAdd(nameof(Status), nameof(Status));
         return this;
     }
 
@@ -375,6 +384,7 @@ public sealed class TriggerBuilder : Trigger
     {
         StartTime = startTime;
 
+        UpdatedProperties.TryAdd(nameof(StartTime), nameof(StartTime));
         return this;
     }
 
@@ -387,6 +397,7 @@ public sealed class TriggerBuilder : Trigger
     {
         EndTime = endTime;
 
+        UpdatedProperties.TryAdd(nameof(EndTime), nameof(EndTime));
         return this;
     }
 
@@ -399,6 +410,7 @@ public sealed class TriggerBuilder : Trigger
     {
         LastRunTime = lastRunTime;
 
+        UpdatedProperties.TryAdd(nameof(LastRunTime), nameof(LastRunTime));
         return this;
     }
 
@@ -411,6 +423,7 @@ public sealed class TriggerBuilder : Trigger
     {
         NextRunTime = nextRunTime;
 
+        UpdatedProperties.TryAdd(nameof(NextRunTime), nameof(NextRunTime));
         return this;
     }
 
@@ -423,6 +436,7 @@ public sealed class TriggerBuilder : Trigger
     {
         NumberOfRuns = numberOfRuns;
 
+        UpdatedProperties.TryAdd(nameof(NumberOfRuns), nameof(NumberOfRuns));
         return this;
     }
 
@@ -439,6 +453,7 @@ public sealed class TriggerBuilder : Trigger
     {
         MaxNumberOfRuns = maxNumberOfRuns;
 
+        UpdatedProperties.TryAdd(nameof(MaxNumberOfRuns), nameof(MaxNumberOfRuns));
         return this;
     }
 
@@ -451,6 +466,7 @@ public sealed class TriggerBuilder : Trigger
     {
         NumberOfErrors = numberOfErrors;
 
+        UpdatedProperties.TryAdd(nameof(NumberOfErrors), nameof(NumberOfErrors));
         return this;
     }
 
@@ -467,6 +483,7 @@ public sealed class TriggerBuilder : Trigger
     {
         MaxNumberOfErrors = maxNumberOfErrors;
 
+        UpdatedProperties.TryAdd(nameof(MaxNumberOfErrors), nameof(MaxNumberOfErrors));
         return this;
     }
 
@@ -479,6 +496,7 @@ public sealed class TriggerBuilder : Trigger
     {
         NumRetries = numRetries;
 
+        UpdatedProperties.TryAdd(nameof(NumRetries), nameof(NumRetries));
         return this;
     }
 
@@ -491,6 +509,7 @@ public sealed class TriggerBuilder : Trigger
     {
         RetryTimeout = retryTimeout;
 
+        UpdatedProperties.TryAdd(nameof(RetryTimeout), nameof(RetryTimeout));
         return this;
     }
 
@@ -505,10 +524,11 @@ public sealed class TriggerBuilder : Trigger
 
         if (startNow == false && Status != TriggerStatus.NotStart)
         {
-            NextRunTime = null;
-            Status = TriggerStatus.NotStart;
+            SetNextRunTime(null);
+            SetStatus(TriggerStatus.NotStart);
         }
 
+        UpdatedProperties.TryAdd(nameof(StartNow), nameof(StartNow));
         return this;
     }
 
@@ -521,6 +541,7 @@ public sealed class TriggerBuilder : Trigger
     {
         RunOnStart = runOnStart;
 
+        UpdatedProperties.TryAdd(nameof(RunOnStart), nameof(RunOnStart));
         return this;
     }
 
@@ -533,6 +554,7 @@ public sealed class TriggerBuilder : Trigger
     {
         ResetOnlyOnce = resetOnlyOnce;
 
+        UpdatedProperties.TryAdd(nameof(ResetOnlyOnce), nameof(ResetOnlyOnce));
         return this;
     }
 
@@ -583,6 +605,11 @@ public sealed class TriggerBuilder : Trigger
     public new bool ShouldRun(JobDetail jobDetail, DateTime startAt) => throw new NotImplementedException();
 
     /// <summary>
+    /// 记录已更新属性
+    /// </summary>
+    internal Dictionary<string, string> UpdatedProperties { get; set; } = new();
+
+    /// <summary>
     /// 构建 <see cref="Trigger"/> 对象
     /// </summary>
     /// <param name="jobId">作业 Id</param>
@@ -601,6 +628,7 @@ public sealed class TriggerBuilder : Trigger
             && StartTime.Value > EndTime.Value) throw new InvalidOperationException("The start time cannot be greater than the end time.");
 
         JobId = jobId;
+        UpdatedProperties.TryAdd(nameof(JobId), nameof(JobId));
 
         // 判断是否带参数
         var hasArgs = !(RuntimeTriggerArgs == null || RuntimeTriggerArgs.Length == 0);

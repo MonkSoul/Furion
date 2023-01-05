@@ -146,7 +146,10 @@ public static class ScheduleExtensions
     /// <param name="ignoreNullValue">忽略空值</param>
     /// <param name="ignorePropertyNames">忽略属性名</param>
     /// <returns>目标类型对象</returns>
-    internal static TTarget MapTo<TTarget>(this object source, object target = default, bool ignoreNullValue = false, string[] ignorePropertyNames = default)
+    internal static TTarget MapTo<TTarget>(this object source
+        , object target = default
+        , bool ignoreNullValue = false
+        , string[] ignorePropertyNames = default)
         where TTarget : class
     {
         if (source == null) return default;

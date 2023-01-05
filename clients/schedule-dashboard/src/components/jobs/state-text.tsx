@@ -57,6 +57,7 @@ export default function StatusText(props: { value: number }) {
       }
       position="right"
       showArrow
+      zIndex={10000000001}
     >
       <Tag
         color={value === 3 ? "red" : "light-blue"}

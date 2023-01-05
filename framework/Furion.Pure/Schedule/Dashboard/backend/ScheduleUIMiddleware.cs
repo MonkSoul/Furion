@@ -75,6 +75,13 @@ public sealed class ScheduleUIMiddleware
             return;
         }
 
+        // 只处理 GET/POST 请求
+        if (context.Request.Method.ToUpper() != "GET" && context.Request.Method.ToUpper() != "POST")
+        {
+            await _next(context);
+            return;
+        }
+
         // 获取匹配的路由标识
         var action = context.Request.Path.Value?[ApiRequestPath.Length..]?.ToLower();
 

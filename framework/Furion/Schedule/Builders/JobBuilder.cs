@@ -172,6 +172,7 @@ public sealed class JobBuilder : JobDetail
     {
         JobId = jobId;
 
+        UpdatedProperties.TryAdd(nameof(JobId), nameof(JobId));
         return this;
     }
 
@@ -185,6 +186,7 @@ public sealed class JobBuilder : JobDetail
     {
         GroupName = groupName;
 
+        UpdatedProperties.TryAdd(nameof(GroupName), nameof(GroupName));
         return this;
     }
 
@@ -210,6 +212,8 @@ public sealed class JobBuilder : JobDetail
             return SetJobType(jobType);
         }
 
+        UpdatedProperties.TryAdd(nameof(AssemblyName), nameof(AssemblyName));
+        UpdatedProperties.TryAdd(nameof(JobType), nameof(JobType));
         return this;
     }
 
@@ -241,6 +245,8 @@ public sealed class JobBuilder : JobDetail
         JobType = jobType.FullName;
         RuntimeJobType = jobType;
 
+        UpdatedProperties.TryAdd(nameof(AssemblyName), nameof(AssemblyName));
+        UpdatedProperties.TryAdd(nameof(JobType), nameof(JobType));
         return this;
     }
 
@@ -253,6 +259,7 @@ public sealed class JobBuilder : JobDetail
     {
         Description = description;
 
+        UpdatedProperties.TryAdd(nameof(Description), nameof(Description));
         return this;
     }
 
@@ -265,6 +272,7 @@ public sealed class JobBuilder : JobDetail
     {
         Concurrent = concurrent;
 
+        UpdatedProperties.TryAdd(nameof(Concurrent), nameof(Concurrent));
         return this;
     }
 
@@ -277,6 +285,7 @@ public sealed class JobBuilder : JobDetail
     {
         IncludeAnnotations = includeAnnotations;
 
+        UpdatedProperties.TryAdd(nameof(IncludeAnnotations), nameof(IncludeAnnotations));
         return this;
     }
 
@@ -314,6 +323,7 @@ public sealed class JobBuilder : JobDetail
 
         RuntimeProperties = newDictionary;
 
+        UpdatedProperties.TryAdd(nameof(Properties), nameof(Properties));
         return this;
     }
 
@@ -330,6 +340,7 @@ public sealed class JobBuilder : JobDetail
         Properties = Penetrates.Serialize(properties);
         RuntimeProperties = properties;
 
+        UpdatedProperties.TryAdd(nameof(Properties), nameof(Properties));
         return this;
     }
 
@@ -341,6 +352,7 @@ public sealed class JobBuilder : JobDetail
     /// <returns><see cref="JobBuilder"/></returns>
     public new JobBuilder AddProperty(string key, object value)
     {
+        UpdatedProperties.TryAdd(nameof(Properties), nameof(Properties));
         return base.AddProperty(key, value) as JobBuilder;
     }
 
@@ -354,6 +366,7 @@ public sealed class JobBuilder : JobDetail
     /// <returns><see cref="JobDetail"/></returns>
     public new JobBuilder AddOrUpdateProperty<T>(string key, T newValue, Func<T, object> updateAction = default)
     {
+        UpdatedProperties.TryAdd(nameof(Properties), nameof(Properties));
         return base.AddOrUpdateProperty(key, newValue, updateAction) as JobBuilder;
     }
 
@@ -364,6 +377,7 @@ public sealed class JobBuilder : JobDetail
     /// <returns><see cref="JobBuilder"/></returns>
     public new JobBuilder RemoveProperty(string key)
     {
+        UpdatedProperties.TryAdd(nameof(Properties), nameof(Properties));
         return base.RemoveProperty(key) as JobBuilder;
     }
 
@@ -373,8 +387,14 @@ public sealed class JobBuilder : JobDetail
     /// <returns><see cref="JobBuilder"/></returns>
     public new JobBuilder ClearProperties()
     {
+        UpdatedProperties.TryAdd(nameof(Properties), nameof(Properties));
         return base.ClearProperties() as JobBuilder;
     }
+
+    /// <summary>
+    /// 记录已更新属性
+    /// </summary>
+    internal Dictionary<string, string> UpdatedProperties { get; set; } = new();
 
     /// <summary>
     /// 构建 <see cref="JobDetail"/> 对象
