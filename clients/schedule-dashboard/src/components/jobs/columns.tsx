@@ -1,6 +1,8 @@
 import {
   IconDelete,
-  IconMore, IconPlayCircle, IconStop
+  IconMore,
+  IconPlayCircle,
+  IconStop
 } from "@douyinfe/semi-icons";
 import {
   Descriptions,
@@ -18,11 +20,20 @@ import Paragraph from "@douyinfe/semi-ui/lib/es/typography/paragraph";
 import useFetch from "use-http";
 import { JobDetail, Trigger } from "../../types";
 import apiconfig from "./apiconfig";
-import StatusText from "./state-text";
+import RenderValue from "./render-value";
 
 const style = {
   padding: "10px",
 };
+
+const showProps = [
+  "triggerId",
+  "description",
+  "status",
+  "lastRunTime",
+  "nextRunTime",
+  "numberOfRuns",
+];
 
 /**
  * 获取触发器简要渲染
@@ -30,48 +41,17 @@ const style = {
  * @returns
  */
 function getData(trigger: Trigger): Data[] {
-  return [
-    {
-      key: "TriggerId",
+  var data: Data[] = [];
+  for (const prop of showProps) {
+    data.push({
+      key: prop.charAt(0).toUpperCase() + prop.slice(1),
       value: (
-        <span style={{ textDecoration: "underline", fontWeight: "bold" }}>
-          {trigger.triggerId || ""}
-        </span>
+        <RenderValue prop={prop} value={trigger[prop]} trigger={trigger} />
       ),
-    },
-    {
-      key: "Status",
-      value: <StatusText value={Number(trigger.status)} />,
-    },
-    {
-      key: "LastRunTime",
-      value: trigger.lastRunTime ? (
-        <Tag color="grey" type="light">
-          {trigger.lastRunTime}
-        </Tag>
-      ) : (
-        <span></span>
-      ),
-    },
-    {
-      key: "NextRunTime",
-      value: trigger.nextRunTime ? (
-        <Tag color="light-green" type="solid">
-          {trigger.nextRunTime}
-        </Tag>
-      ) : (
-        <span></span>
-      ),
-    },
-    {
-      key: "NumberOfRuns",
-      value: (
-        <Tag color="green" type="light">
-          {trigger.numberOfRuns || 0}
-        </Tag>
-      ),
-    },
-  ];
+    });
+  }
+
+  return data;
 }
 
 /**
