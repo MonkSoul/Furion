@@ -102,7 +102,8 @@ public static class FS
         fileExtensionProvider.Mappings[".php4"] = "application/x-httpd-php";
         fileExtensionProvider.Mappings[".phtml"] = "application/x-httpd-php";
         fileExtensionProvider.Mappings[".pcd"] = "image/x-photo-cd";
-
+        fileExtensionProvider.Mappings[".bcmap"] = "application/octet-stream";
+        fileExtensionProvider.Mappings[".properties"] = "application/octet-stream";
         return fileExtensionProvider;
     }
 }
