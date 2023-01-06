@@ -24,7 +24,7 @@ public class HelloService
 }
 ```
 
-Open browser access `https://localhost:5001` or `http://localhost:5000`.
+Open browser access `http://localhost:5000`.
 
 ## Documentation
 

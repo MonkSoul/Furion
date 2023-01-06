@@ -24,7 +24,7 @@ public class HelloService
 }
 ```
 
-打开浏览器访问 `https://localhost:5001` 或 `http://localhost:5000`。
+打开浏览器访问 `http://localhost:5000`。
 
 ## 文档
 
