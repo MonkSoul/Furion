@@ -296,6 +296,9 @@ internal sealed class ScheduleHostedService : BackgroundService
                             {
                                 jobLogger?.LogError(executionException, "{jobExecutingContext}", jobExecutingContext);
                             }
+
+                            // 记录作业触发器运行信息
+                            trigger.RecordTimeline();
                         }
                     }, stoppingToken);
                 });

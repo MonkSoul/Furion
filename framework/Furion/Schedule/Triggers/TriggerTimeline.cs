@@ -41,4 +41,22 @@ public sealed class TriggerTimeline
     /// </summary>
     [JsonInclude]
     public DateTime? LastRunTime { get; internal set; }
+
+    /// <summary>
+    /// 下一次运行时间
+    /// </summary>
+    [JsonInclude]
+    public DateTime? NextRunTime { get; internal set; }
+
+    /// <summary>
+    /// 作业触发器状态
+    /// </summary>
+    [JsonInclude]
+    public TriggerStatus Status { get; internal set; }
+
+
+    /// <summary>
+    /// 新增时间
+    /// </summary>
+    internal DateTime CreatedTime { get; set; }
 }

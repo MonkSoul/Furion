@@ -505,8 +505,8 @@ public sealed class TriggerBuilder : Trigger
 
         if (startNow == false && Status != TriggerStatus.NotStart)
         {
-            NextRunTime = null;
-            Status = TriggerStatus.NotStart;
+            SetNextRunTime(null);
+            SetStatus(TriggerStatus.NotStart);
         }
 
         return this;

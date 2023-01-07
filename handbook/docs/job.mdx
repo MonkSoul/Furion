@@ -35,6 +35,7 @@ import Tag from "@site/src/components/Tag.js";
 
 - **问题修复**
 
+  - &nbsp;<Tag>修复</Tag> 定时任务停止作业触发器后运行记录不能写入最新记录问题 <sup>4.8.4.8</sup> <sup>⏱️2023.01.05</sup> [d4c553f](https://gitee.com/dotnetchina/Furion/commit/d4c553fb9b0037ab29942ccc2a25a386fc28c1db)
   - &nbsp;<Tag>修复</Tag> 定时任务使用 `Furion.Pure` 包访问 `Dashboard` 出现 `404` 问题 <sup>4.8.4.2</sup> <sup>⏱️2023.01.02</sup> [21977b7](https://gitee.com/dotnetchina/Furion/commit/21977b70ef84fd674bb306ab86ef032f7f28c7a7)
   - &nbsp;<Tag>修复</Tag> 定时任务通过 `scheduler.RemoveTrigger(triggerId)` 报异常问题 <sup>4.8.3.3</sup> <sup>⏱️2022.12.09</sup> [#I65EQ1](https://gitee.com/dotnetchina/Furion/issues/I65EQ1#note_15047484_link)
   - &nbsp;<Tag>修复</Tag> 定时任务作业触发器配置了 `EndTime` 和 `StartTime` 之后 `Status` 没有对应上 <sup>4.8.3.1</sup> <sup>⏱️2022.12.09</sup> [52a5506](https://gitee.com/dotnetchina/Furion/commit/52a5506c2fda7c31df01b2e90af7ad6b0c5f94aa)
@@ -771,7 +772,7 @@ info: 2022-12-02 18:13:11.4774564 +08:00 星期五 L MyJob[0] #16
 
 ```cs showLineNumbers {2,5,8,11,14}
 // 根据作业 Id 创建
-var jobBuilder = JoBuilder.Create("job1");
+var jobBuilder = JobBuilder.Create("job1");
 
 // 根据 IJob 实现类类型创建
 var jobBuilder = JobBuilder.Create<MyJob>();
@@ -783,7 +784,7 @@ var jobBuilder = JobBuilder.Create("YourProject", "YourProject.MyJob");
 var jobBuilder = JobBuilder.Create(typeof(MyJob));
 
 // 通过委托创造动态作业
-var jobBuilder = JoBuilder.Create((serviceProvider, context, stoppingToken) =>
+var jobBuilder = JobBuilder.Create((serviceProvider, context, stoppingToken) =>
 {
       serviceProvider.GetLogger().LogInformation($"{context}");
       return Task.CompletedTask;
@@ -1450,7 +1451,7 @@ public class MyJob : IJob, IDisposable
 
 ```cs showLineNumbers {2,9,18,26}
 // 通过 JobBuilder 创建
-var jobBuilder = JoBuilder.Create((serviceProvider, context, stoppingToken) =>
+var jobBuilder = JobBuilder.Create((serviceProvider, context, stoppingToken) =>
 {
       serviceProvider.GetLogger().LogInformation($"{context}");
       return Task.CompletedTask;

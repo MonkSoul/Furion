@@ -16,4 +16,14 @@ export declare interface TriggerTimeline {
    * 触发次数
    */
   numberOfRuns?: number | null;
+
+  /**
+   * 下一次运行时间
+   */
+  nextRunTime?: string | null;
+
+  /**
+   * 作业触发器状态
+   */
+  status?: number | null;
 }

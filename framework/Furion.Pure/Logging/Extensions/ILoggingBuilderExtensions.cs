@@ -58,7 +58,7 @@ public static class ILoggingBuilderExtensions
         // 注册文件日志记录器提供器
         builder.Services.Add(ServiceDescriptor.Singleton<ILoggerProvider, FileLoggerProvider>((serviceProvider) =>
         {
-            return new FileLoggerProvider(fileName, append);
+            return new FileLoggerProvider(fileName ?? "application.log", append);
         }));
 
         return builder;
@@ -79,7 +79,7 @@ public static class ILoggingBuilderExtensions
             var options = new FileLoggerOptions();
             configure?.Invoke(options);
 
-            return new FileLoggerProvider(fileName, options);
+            return new FileLoggerProvider(fileName ?? "application.log", options);
         }));
 
         return builder;
@@ -105,16 +105,10 @@ public static class ILoggingBuilderExtensions
     /// <returns><see cref="ILoggingBuilder"/></returns>
     public static ILoggingBuilder AddFile(this ILoggingBuilder builder, Func<string> configuraionKey, Action<FileLoggerOptions> configure = default)
     {
-        // 创建文件日志记录器提供程序
-        var fileLoggerProvider = Penetrates.CreateFromConfiguration(configuraionKey, configure);
-
-        // 如果从配置文件中加载配置失败，则跳过注册
-        if (fileLoggerProvider == default) return builder;
-
         // 注册文件日志记录器提供器
         builder.Services.AddSingleton<ILoggerProvider, FileLoggerProvider>((serviceProvider) =>
         {
-            return fileLoggerProvider;
+            return Penetrates.CreateFromConfiguration(configuraionKey, configure);
         });
 
         return builder;
@@ -133,22 +127,25 @@ public static class ILoggingBuilderExtensions
         // 注册数据库日志写入器
         builder.Services.TryAddTransient<TDatabaseLoggingWriter, TDatabaseLoggingWriter>();
 
-        var options = new DatabaseLoggerOptions();
-        configure?.Invoke(options);
-
-        // 数据库日志记录器提供程序
-        var databaseLoggerProvider = new DatabaseLoggerProvider(options);
+        DatabaseLoggerProvider databaseLoggerProvider = null;
 
         // 注册数据库日志记录器提供器
         builder.Services.Add(ServiceDescriptor.Singleton<ILoggerProvider, DatabaseLoggerProvider>((serviceProvider) =>
         {
+            var options = new DatabaseLoggerOptions();
+            configure?.Invoke(options);
+
+            // 数据库日志记录器提供程序
+            var instance = new DatabaseLoggerProvider(options);
+            databaseLoggerProvider ??= instance;
+
             // 解决数据库写入器中循环引用数据库仓储问题
             if (databaseLoggerProvider._serviceScope == null)
             {
                 databaseLoggerProvider.SetServiceProvider(serviceProvider, typeof(TDatabaseLoggingWriter));
             }
 
-            return databaseLoggerProvider;
+            return instance;
         }));
 
         return builder;
@@ -182,22 +179,22 @@ public static class ILoggingBuilderExtensions
         // 注册数据库日志写入器
         builder.Services.TryAddTransient<TDatabaseLoggingWriter, TDatabaseLoggingWriter>();
 
-        // 创建数据库日志记录器提供程序
-        var databaseLoggerProvider = Penetrates.CreateFromConfiguration(configuraionKey, configure);
-
-        // 如果从配置文件中加载配置失败，则跳过注册
-        if (databaseLoggerProvider == default) return builder;
+        DatabaseLoggerProvider databaseLoggerProvider = null;
 
         // 注册数据库日志记录器提供器
         builder.Services.AddSingleton<ILoggerProvider, DatabaseLoggerProvider>((serviceProvider) =>
         {
+            // 创建数据库日志记录器提供程序
+            var instance = Penetrates.CreateFromConfiguration(configuraionKey, configure);
+            databaseLoggerProvider ??= instance;
+
             // 解决数据库写入器中循环引用数据库仓储问题
             if (databaseLoggerProvider._serviceScope == null)
             {
                 databaseLoggerProvider.SetServiceProvider(serviceProvider, typeof(TDatabaseLoggingWriter));
             }
 
-            return databaseLoggerProvider;
+            return instance;
         });
 
         return builder;

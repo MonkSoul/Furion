@@ -40,7 +40,7 @@ public static class ILoggerFactoryExtensions
     public static ILoggerFactory AddFile(this ILoggerFactory factory, string fileName, bool append = true)
     {
         // 添加文件日志记录器提供程序
-        factory.AddProvider(new FileLoggerProvider(fileName, append));
+        factory.AddProvider(new FileLoggerProvider(fileName ?? "application.log", append));
 
         return factory;
     }
@@ -58,7 +58,7 @@ public static class ILoggerFactoryExtensions
         configure?.Invoke(options);
 
         // 添加文件日志记录器提供程序
-        factory.AddProvider(new FileLoggerProvider(fileName, options));
+        factory.AddProvider(new FileLoggerProvider(fileName ?? "application.log", options));
 
         return factory;
     }
@@ -83,14 +83,8 @@ public static class ILoggerFactoryExtensions
     /// <returns><see cref="ILoggerFactory"/></returns>
     public static ILoggerFactory AddFile(this ILoggerFactory factory, Func<string> configuraionKey, Action<FileLoggerOptions> configure = default)
     {
-        // 创建文件日志记录器提供程序
-        var fileLoggerProvider = Penetrates.CreateFromConfiguration(configuraionKey, configure);
-
-        // 如果从配置文件中加载配置失败，则跳过注册
-        if (fileLoggerProvider == default) return factory;
-
         // 添加文件日志记录器提供程序
-        factory.AddProvider(fileLoggerProvider);
+        factory.AddProvider(Penetrates.CreateFromConfiguration(configuraionKey, configure));
 
         return factory;
     }
@@ -152,9 +146,6 @@ public static class ILoggerFactoryExtensions
     {
         // 创建数据库日志记录器提供程序
         var databaseLoggerProvider = Penetrates.CreateFromConfiguration(configuraionKey, configure);
-
-        // 如果从配置文件中加载配置失败，则跳过注册
-        if (databaseLoggerProvider == default) return factory;
 
         // 解决数据库写入器中循环引用数据库仓储问题
         if (databaseLoggerProvider._serviceScope == null)

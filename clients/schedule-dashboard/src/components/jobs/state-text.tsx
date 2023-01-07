@@ -1,5 +1,21 @@
 import { Popover, Space, Tag } from "@douyinfe/semi-ui";
-import { useMemo } from "react";
+import { ReactNode } from "react";
+
+const status = {
+  "0": "积压",
+  "1": "就绪",
+  "2": "运行",
+  "3": "暂停",
+  "4": "阻塞",
+  "5": "就绪 *",
+  "6": "归档",
+  "7": "崩溃",
+  "8": "超限",
+  "9": "无触发时间",
+  "10": "初始未启动",
+  "11": "未知触发器",
+  "12": "未知处理程序",
+};
 
 /**
  * 触发器状态
@@ -9,102 +25,59 @@ import { useMemo } from "react";
 export default function StatusText(props: { value: number }) {
   const { value } = props;
 
-  const text: string = useMemo(() => {
-    switch (value) {
-      case 0:
-        return "积压";
-      case 1:
-        return "就绪";
-      case 2:
-        return "运行";
-      case 3:
-        return "暂停";
-      case 4:
-        return "阻塞";
-      case 5:
-        return "就绪*";
-      case 6:
-        return "归档";
-      case 7:
-        return "奔溃";
-      case 8:
-        return "超限";
-      case 9:
-        return "无触发时间";
-      case 10:
-        return "初始未启动";
-      case 11:
-        return "未知触发器";
-      case 12:
-        return "未知处理程序";
-      default:
-        return "";
+  const createTagStatus = () => {
+    var count = Object.keys(status).length;
+    var lines = Math.ceil(count / 3);
+    const list: ReactNode[] = [];
+    for (let i = 0; i < lines; i++) {
+      var begin = (i + 1) * 3 - 3;
+      var end = Math.min(count, begin + 3);
+      var items: ReactNode[] = [];
+
+      for (let j = begin; j < end; j++) {
+        items.push(
+          <TagText key={j} current={value} value={j}>
+            {(status as any)[j.toString()]}
+          </TagText>
+        );
+      }
+
+      list.push(<Space key={i}>{items}</Space>);
     }
-  }, [value]);
+
+    return list;
+  };
 
   return (
     <Popover
       content={
         <div>
-          <Space vertical>
-            <Space>
-              <Tag color="light-blue" type="light">
-                积压: 0
-              </Tag>
-              <Tag color="light-blue" type="light">
-                就绪: 1
-              </Tag>
-              <Tag color="light-blue" type="light">
-                运行: 2
-              </Tag>
-            </Space>
-            <Space>
-              <Tag color="light-blue" type="light">
-                暂停: 3
-              </Tag>
-              <Tag color="light-blue" type="light">
-                阻塞: 4
-              </Tag>
-              <Tag color="light-blue" type="light">
-                就绪*: 5
-              </Tag>
-            </Space>
-            <Space>
-              <Tag color="light-blue" type="light">
-                归档: 6
-              </Tag>
-              <Tag color="light-blue" type="light">
-                崩溃: 7
-              </Tag>
-              <Tag color="light-blue" type="light">
-                超限: 8
-              </Tag>
-            </Space>
-            <Space>
-              <Tag color="light-blue" type="light">
-                无触发时间: 9
-              </Tag>
-              <Tag color="light-blue" type="light">
-                初始未启动: 10
-              </Tag>
-              <Tag color="light-blue" type="light">
-                未知触发器: 11
-              </Tag>
-            </Space>
-            <Space>
-              <Tag color="light-blue" type="light">
-                未知处理程序: 12
-              </Tag>
-            </Space>
-          </Space>
+          <Space vertical>{createTagStatus()}</Space>
         </div>
       }
       position="right"
       showArrow
+      zIndex={10000000001}
     >
-      <Tag color="light-blue" type="light">
-        {text}
+      <Tag
+        color={value === 3 ? "red" : "light-blue"}
+        type={value === 3 ? "solid" : "light"}
+      >
+        {(status as any)[value.toString()]}
       </Tag>
     </Popover>
+  );
+}
+
+function TagText(props: {
+  current: number;
+  value: number;
+  children: ReactNode;
+}) {
+  const { value, children, current } = props;
+  return (
+    <Tag color={current === value ? "green" : "light-blue"} type="light">
+      {children}: {value}
+    </Tag>
   );
 }

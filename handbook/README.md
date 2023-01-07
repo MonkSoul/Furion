@@ -3,7 +3,7 @@
 ### 本地运行
 
 ```bash
-npm run install
+npm install
 
 npm run start
 ```
