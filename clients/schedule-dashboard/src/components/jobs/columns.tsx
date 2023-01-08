@@ -61,6 +61,7 @@ const columns: ColumnProps<JobDetail>[] = [
   {
     title: "JobId",
     dataIndex: "jobId",
+    width: 120,
     render: (text, jobDetail, index) => {
       return (
         <Popover

@@ -209,7 +209,7 @@ function LogPanel(props: {
       onCancel={handleCancel}
       closeOnEsc={true}
       zIndex={10000000000}
-      width={600}
+      width={640}
     >
       <Timeline mode="center">
         {timelines.map((timeline, i) => (
