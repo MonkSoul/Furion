@@ -4,6 +4,21 @@ title: 7. 友好异常处理
 sidebar_label: 7. 友好异常处理
 ---
 
+import Tag from "@site/src/components/Tag.js";
+
+<details>
+  <summary>📝 模块更新日志</summary>
+  <div>
+<div>
+
+- **新特性**
+
+  - &nbsp;<Tag>新增</Tag> `BadPageResult.Status401Unauthorized` 等常见状态码 `401,403,404,500` 静态属性 <sup>4.8.4.11</sup> <sup>⏱️2023.01.09</sup> [#I69KQF](https://gitee.com/dotnetchina/Furion/issues/I69KQF)
+
+</div>
+  </div>
+</details>
+
 import useBaseUrl from "@docusaurus/useBaseUrl";
 
 ## 7.1 什么是异常
@@ -611,13 +626,20 @@ public IActionResult Add(Person person)
 
 <img src={useBaseUrl("img/er1.png")} />
 
-- `BadPageResult` 更多配置
-  - 构造函数 `statusCode`：状态码，`int` 类，默认 400
+- `BadPageResult` 实例属性和方法
+  - 构造函数 `statusCode`：状态码，`int` 类，默认 `400`
   - `Title`：页面标题，`string` 类型，默认 `ModelState Invalid`
   - `Description`：页面描述，`string` 类型，默认 `User data verification failed. Please input it correctly.`
   - `Code`：详细错误代码，`string` 类型，支持 `代码`，默认空字符串
   - `CodeLang`：详细错误代码语言，`string` 类型，默认 `json`
   - `Base64Icon`：页面图标，`string` 类型，带默认值，自定义必须是 `base64` 格式图标
+  - `ToString()`：将对象转换成 `HTML` 字符串
+  - `ToByteArray()` 方法，可将对象转换成 `byte[]` 数组，通常使用 `Respose.Body.WriteAsync` 写入。
+- `BadPageResult` 静态属性
+  - `Status401Unauthorized`：输出常规 `401` 状态码视图结果
+  - `Status403Forbidden`：输出常规 `403` 状态码视图结果
+  - `Status404NotFound`：输出常规 `404` 状态码视图结果
+  - `Status500InternalServerError`：输出常规 `500` 状态码视图结果
 
 ## 7.17 反馈与建议
 

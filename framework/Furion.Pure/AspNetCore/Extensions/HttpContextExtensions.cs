@@ -20,6 +20,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+using Furion.FriendlyException;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using System.Text;
 
@@ -181,5 +182,17 @@ public static class HttpContextExtensions
         using var reader = new StreamReader(request.Body, Encoding.UTF8, true, 1024, true);
         var body = await reader.ReadToEndAsync();
         return body;
+    }
+
+    /// <summary>
+    /// 将 <see cref="BadPageResult"/> 写入响应流中
+    /// </summary>
+    /// <param name="httpResponse"><see cref="HttpResponse"/></param>
+    /// <param name="badPageResult"><see cref="BadPageResult"/></param>
+    /// <param name="cancellationToken"><see cref="CancellationToken"/></param>
+    /// <returns></returns>
+    public static async ValueTask WriteAsync(this HttpResponse httpResponse, BadPageResult badPageResult, CancellationToken cancellationToken = default)
+    {
+        await httpResponse.Body.WriteAsync(badPageResult.ToByteArray(), cancellationToken);
     }
 }
