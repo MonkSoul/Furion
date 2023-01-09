@@ -169,7 +169,7 @@ public sealed partial class Crontab
     /// </summary>
     /// <param name="baseTime">起始时间</param>
     /// <returns></returns>
-    public TimeSpan GetSleepMilliseconds(DateTime baseTime)
+    public double GetSleepMilliseconds(DateTime baseTime)
     {
         // 采用 DateTimeKind.Unspecified 转换当前时间并忽略毫秒之后部分
         var startAt = new DateTime(baseTime.Year
@@ -181,9 +181,17 @@ public sealed partial class Crontab
             , baseTime.Millisecond);
 
         // 计算总休眠时间
-        var sleepMilliseconds = (GetNextOccurrence(startAt) - startAt).TotalMilliseconds;
+        return (GetNextOccurrence(startAt) - startAt).TotalMilliseconds;
+    }
 
-        return TimeSpan.FromMilliseconds(sleepMilliseconds);
+    /// <summary>
+    /// 计算距离下一个发生时间相差时间戳
+    /// </summary>
+    /// <param name="baseTime">起始时间</param>
+    /// <returns></returns>
+    public TimeSpan GetSleepTimeSpan(DateTime baseTime)
+    {
+        return TimeSpan.FromMilliseconds(GetSleepMilliseconds(baseTime));
     }
 
     /// <summary>
