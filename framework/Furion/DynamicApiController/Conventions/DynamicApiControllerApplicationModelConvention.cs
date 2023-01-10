@@ -292,7 +292,7 @@ internal sealed class DynamicApiControllerApplicationModelConvention : IApplicat
     {
         var selectorModel = action.Selectors[0];
         // 跳过已配置请求谓词特性的配置
-        if (selectorModel.ActionConstraints.Count > 0) return;
+        if (selectorModel.ActionConstraints.Any(u => u is HttpMethodActionConstraint)) return;
 
         // 解析请求谓词
         var words = action.ActionMethod.Name.SplitCamelCase();
