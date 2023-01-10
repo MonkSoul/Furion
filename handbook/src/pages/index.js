@@ -84,7 +84,7 @@ function Banner() {
           <div className="furion-get-start-btn">
             <Link className="furion-get-start" to={useBaseUrl("docs/serverun")}>
               入门指南
-              <span className="furion-version">v4.8.4.11</span>
+              <span className="furion-version">v4.8.4.12</span>
             </Link>
             <Link
               className="furion-try-demo"
@@ -159,7 +159,7 @@ function Gitee() {
             className={"furion-log-jiao" + (isDarkTheme ? " dark" : "")}
           ></div>
           <div className="furion-log-number">
-            <div style={{ color: "#723cff" }}>10000 +</div>
+            <div style={{ color: "#723cff" }}>11000 +</div>
             <span className={isDarkTheme ? " dark" : ""}>Stars</span>
           </div>
         </div>
@@ -183,7 +183,7 @@ function Gitee() {
             className={"furion-log-jiao" + (isDarkTheme ? " dark" : "")}
           ></div>
           <div className="furion-log-number">
-            <div style={{ color: "#1fd898" }}>5,552,345</div>
+            <div style={{ color: "#1fd898" }}>5,565,839</div>
             <span className={isDarkTheme ? " dark" : ""}>Downloads</span>
           </div>
         </div>
@@ -374,7 +374,7 @@ function WhoUse() {
           <h1>他们都在用</h1>
           <p>
             Furion
-            已在全球超过555万个项目中使用。从小型企业到企业的解决方案及知名企业。他们在简单软件和复杂管理系统的开发方面都信任我们。
+            已在全球超过556万个项目中使用。从小型企业到企业的解决方案及知名企业。他们在简单软件和复杂管理系统的开发方面都信任我们。
           </p>
           <a
             className="furion-get-start"
@@ -537,7 +537,7 @@ function Bifa() {
     <div className="furion-bifa">
       <div className="furion-wzi-title">
         <b>Furion</b>
-        历经两年打磨
+        历经三年打磨
       </div>
       <Wzi>网友笔伐过</Wzi>
       <Wzi>用户捧杀过</Wzi>
