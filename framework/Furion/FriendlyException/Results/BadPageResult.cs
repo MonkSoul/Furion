@@ -21,6 +21,7 @@
 // SOFTWARE.
 
 using Furion.Reflection;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Text;
 
@@ -75,6 +76,50 @@ public class BadPageResult : StatusCodeResult
     public string CodeLang { get; set; } = "json";
 
     /// <summary>
+    /// 返回通用 401 错误页
+    /// </summary>
+    public static BadPageResult Status401Unauthorized => new(StatusCodes.Status401Unauthorized)
+    {
+        Title = "401 Unauthorized",
+        Code = "401 Unauthorized",
+        Description = "",
+        CodeLang = "txt"
+    };
+
+    /// <summary>
+    /// 返回通用 403 错误页
+    /// </summary>
+    public static BadPageResult Status403Forbidden => new(StatusCodes.Status403Forbidden)
+    {
+        Title = "403 Forbidden",
+        Code = "403 Forbidden",
+        Description = "",
+        CodeLang = "txt"
+    };
+
+    /// <summary>
+    /// 返回通用 404 错误页
+    /// </summary>
+    public static BadPageResult Status404NotFound => new(StatusCodes.Status404NotFound)
+    {
+        Title = "404 Not Found",
+        Code = "404 Not Found",
+        Description = "",
+        CodeLang = "txt"
+    };
+
+    /// <summary>
+    /// 返回通用 500 错误页
+    /// </summary>
+    public static BadPageResult Status500InternalServerError => new(StatusCodes.Status500InternalServerError)
+    {
+        Title = "500 Internal Server Error",
+        Code = "500 Internal Server Error",
+        Description = "",
+        CodeLang = "txt"
+    };
+
+    /// <summary>
     /// 重写返回结果
     /// </summary>
     /// <param name="context"></param>
@@ -82,6 +127,19 @@ public class BadPageResult : StatusCodeResult
     {
         base.ExecuteResult(context);
 
+        var httpContext = context.HttpContext;
+
+        // 如果 Response 已经完成输出，则禁止写入
+        if (httpContext.Response.HasStarted) return;
+        httpContext.Response.Body.WriteAsync(ToByteArray());
+    }
+
+    /// <summary>
+    /// 将 <see cref="BadPageResult"/> 转换成字符串
+    /// </summary>
+    /// <returns><see cref="string"/></returns>
+    public override string ToString()
+    {
         // 获取当前类型信息
         var thisType = typeof(BadPageResult);
         var thisAssembly = thisType.Assembly;
@@ -104,13 +162,17 @@ public class BadPageResult : StatusCodeResult
                          .Replace($"@{{{nameof(StatusCode)}}}", StatusCode.ToString())
                          .Replace($"@{{{nameof(Code)}}}", Code)
                          .Replace($"@{{{nameof(CodeLang)}}}", CodeLang)
-                         .Replace($"@{{{nameof(Base64Icon)}}}", Base64Icon); ;
+                         .Replace($"@{{{nameof(Base64Icon)}}}", Base64Icon);
 
-        var httpContext = context.HttpContext;
+        return content;
+    }
 
-        // 如果 Response 已经完成输出，则禁止写入
-        if (httpContext.Response.HasStarted) return;
-
-        httpContext.Response.Body.WriteAsync(Encoding.UTF8.GetBytes(content));
+    /// <summary>
+    /// 将 <see cref="BadPageResult"/> 转换成字节数组
+    /// </summary>
+    /// <returns><see cref="byte"/></returns>
+    public byte[] ToByteArray()
+    {
+        return Encoding.UTF8.GetBytes(ToString());
     }
 }

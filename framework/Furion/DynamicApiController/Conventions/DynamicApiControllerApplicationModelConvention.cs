@@ -247,23 +247,38 @@ internal sealed class DynamicApiControllerApplicationModelConvention : IApplicat
     /// <returns></returns>
     private (bool IsLowercaseRoute, bool IsKeepName, bool IsLowerCamelCase) ConfigureActionName(ActionModel action, ApiDescriptionSettingsAttribute apiDescriptionSettings, ApiDescriptionSettingsAttribute controllerApiDescriptionSettings)
     {
-        var (Name, IsLowercaseRoute, IsKeepName, IsLowerCamelCase) = ConfigureControllerAndActionName(apiDescriptionSettings, action.ActionMethod.Name, _dynamicApiControllerSettings.AbandonActionAffixes, (tempName) =>
-          {
-              // 处理动作方法名称谓词
-              if (!CheckIsKeepVerb(apiDescriptionSettings, controllerApiDescriptionSettings))
-              {
-                  var words = tempName.SplitCamelCase();
-                  var verbKey = words.First().ToLower();
-                  // 处理类似 getlist,getall 多个单词
-                  if (words.Length > 1 && Penetrates.VerbToHttpMethods.ContainsKey((words[0] + words[1]).ToLower()))
-                  {
-                      tempName = tempName[(words[0] + words[1]).Length..];
-                  }
-                  else if (Penetrates.VerbToHttpMethods.ContainsKey(verbKey)) tempName = tempName[verbKey.Length..];
-              }
+        // 判断是否贴有 [ActionName]
+        string actionName = null;
 
-              return tempName;
-          }, controllerApiDescriptionSettings);
+        // 判断是否贴有 [ActionName] 且 Name 不为 null
+        var actionNameAttribute = action.ActionMethod.IsDefined(typeof(ActionNameAttribute), true)
+        ? action.ActionMethod.GetCustomAttribute<ActionNameAttribute>(true)
+        : null;
+
+        if (actionNameAttribute?.Name != null)
+        {
+            actionName = actionNameAttribute.Name;
+        }
+
+        var (Name, IsLowercaseRoute, IsKeepName, IsLowerCamelCase) = ConfigureControllerAndActionName(apiDescriptionSettings, action.ActionMethod.Name
+            , _dynamicApiControllerSettings.AbandonActionAffixes
+            , (tempName) =>
+            {
+                // 处理动作方法名称谓词
+                if (!CheckIsKeepVerb(apiDescriptionSettings, controllerApiDescriptionSettings))
+                {
+                    var words = tempName.SplitCamelCase();
+                    var verbKey = words.First().ToLower();
+                    // 处理类似 getlist,getall 多个单词
+                    if (words.Length > 1 && Penetrates.VerbToHttpMethods.ContainsKey((words[0] + words[1]).ToLower()))
+                    {
+                        tempName = tempName[(words[0] + words[1]).Length..];
+                    }
+                    else if (Penetrates.VerbToHttpMethods.ContainsKey(verbKey)) tempName = tempName[verbKey.Length..];
+                }
+
+                return tempName;
+            }, controllerApiDescriptionSettings, actionName);
         action.ActionName = Name;
 
         return (IsLowercaseRoute, IsKeepName, IsLowerCamelCase);
@@ -277,7 +292,7 @@ internal sealed class DynamicApiControllerApplicationModelConvention : IApplicat
     {
         var selectorModel = action.Selectors[0];
         // 跳过已配置请求谓词特性的配置
-        if (selectorModel.ActionConstraints.Count > 0) return;
+        if (selectorModel.ActionConstraints.Any(u => u is HttpMethodActionConstraint)) return;
 
         // 解析请求谓词
         var words = action.ActionMethod.Name.SplitCamelCase();
@@ -560,16 +575,21 @@ internal sealed class DynamicApiControllerApplicationModelConvention : IApplicat
     /// <param name="affixes"></param>
     /// <param name="configure"></param>
     /// <param name="controllerApiDescriptionSettings"></param>
+    /// <param name="actionName">针对 [ActionName] 特性和 [HttpMethod] 特性处理</param>
     /// <returns></returns>
-    private (string Name, bool IsLowercaseRoute, bool IsKeepName, bool IsLowerCamelCase) ConfigureControllerAndActionName(ApiDescriptionSettingsAttribute apiDescriptionSettings, string orignalName, string[] affixes, Func<string, string> configure, ApiDescriptionSettingsAttribute controllerApiDescriptionSettings = default)
+    private (string Name, bool IsLowercaseRoute, bool IsKeepName, bool IsLowerCamelCase) ConfigureControllerAndActionName(ApiDescriptionSettingsAttribute apiDescriptionSettings
+        , string orignalName
+        , string[] affixes
+        , Func<string, string> configure
+        , ApiDescriptionSettingsAttribute controllerApiDescriptionSettings = default
+        , string actionName = default)
     {
         // 获取版本号
         var apiVersion = apiDescriptionSettings?.Version;
         var isKeepName = false;
 
-        // 解析控制器名称
         // 判断是否有自定义名称
-        var tempName = apiDescriptionSettings?.Name;
+        var tempName = actionName ?? apiDescriptionSettings?.Name;
         if (string.IsNullOrWhiteSpace(tempName))
         {
             // 处理版本号

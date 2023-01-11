@@ -4,6 +4,21 @@ title: 26.3 任务队列
 sidebar_label: 26.3 任务队列 ✨
 ---
 
+import Tag from "@site/src/components/Tag.js";
+
+<details>
+  <summary>📝 模块更新日志</summary>
+  <div>
+<div>
+
+- **新特性**
+
+  - &nbsp;<Tag>新增</Tag> `Enqueue/EnqueueAsync` 支持 `Cron` 表达式 实例重载方法 <sup>4.8.4.10</sup> <sup>⏱️2023.01.09</sup> [#I69HM4](https://gitee.com/dotnetchina/Furion/issues/I69HM4)
+
+</div>
+  </div>
+</details>
+
 import useBaseUrl from "@docusaurus/useBaseUrl";
 
 :::important 版本说明
@@ -46,7 +61,7 @@ services.AddTaskQueue();
 
 **2. 使用 `ITaskQueue` 服务**
 
-```cs showLineNumbers {1,8,18,24,34,32,38,46,53,61,68}
+```cs showLineNumbers {1,8,18,24,34,32,38,46,53,61,68,76,79,90,94}
 using Furion.TaskQueue;
 
 namespace Your.Application;
@@ -103,7 +118,7 @@ public class YourService : IYourService
     }
 
     /// <summary>
-    /// 异步入队
+    /// 异步入队，延迟 3 秒触发
     /// </summary>
     public async Task AsyncTask2()
     {
@@ -115,6 +130,35 @@ public class YourService : IYourService
 
         // 如无需使用 provider 和 token 参数，可用 _ 替代
         await _taskQueue.EnqueueAsync(async (_, _) => {}, 3000);
+    }
+
+    /// <summary>
+    /// 同步入队，支持 Cron 表达式延迟
+    /// </summary>
+    public void SyncTask3()
+    {
+        _taskQueue.Enqueue(provider =>
+        {
+            Console.WriteLine("Cron ...");
+        }, "* * * * *");
+
+        // 如无需使用 provider 参数，可用 _ 替代
+        _taskQueue.Enqueue(_ => {}, "* * * * *", CronStringFormat.Default);
+    }
+
+    /// <summary>
+    /// 异步入队，支持 Cron 表达式延迟
+    /// </summary>
+    public async Task AsyncTask3()
+    {
+        await _taskQueue.EnqueueAsync(async (provider, token) =>
+        {
+            Console.WriteLine("Cron ...");
+            await ValueTask.CompletedTask;
+        }, "* * * * *");
+
+        // 如无需使用 provider 和 token 参数，可用 _ 替代
+        await _taskQueue.EnqueueAsync(async (_, _) => {}, "* * * * *", CronStringFormat.Default);
     }
 }
 ```

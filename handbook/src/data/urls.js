@@ -174,6 +174,11 @@ const urls = [
     text: "Layui Vue",
     title: "Layui - Vue 开源前端 UI 框架",
   },
+  {
+    url: "https://www.gadmin8.com/",
+    text: "流之云",
+    title: "流之云 - 信息化、数字化服务提供商",
+  },
 ];
 
 export default urls;

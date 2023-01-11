@@ -21,6 +21,7 @@ import useFetch from "use-http";
 import { JobDetail, Trigger } from "../../types";
 import apiconfig from "./apiconfig";
 import RenderValue from "./render-value";
+import StatusText from "./state-text";
 
 const style = {
   padding: "10px",
@@ -61,33 +62,43 @@ const columns: ColumnProps<JobDetail>[] = [
   {
     title: "JobId",
     dataIndex: "jobId",
+    width: 150,
     render: (text, jobDetail, index) => {
       return (
-        <Popover
-          content={
-            <div style={style}>
-              {jobDetail.triggers?.map((t, i) => (
-                <div key={t.triggerId}>
-                  <Descriptions data={getData(t)} />
-                  {i !== jobDetail.triggers?.length! - 1 && (
-                    <Divider margin="8px" />
-                  )}
-                </div>
-              ))}
-            </div>
-          }
-          position="right"
-          showArrow
-        >
-          <Paragraph
-            copyable
-            underline
-            strong
-            style={{ display: "inline-block" }}
+        <>
+          <Popover
+            content={
+              <div style={style}>
+                {jobDetail.triggers?.map((t, i) => (
+                  <div key={t.triggerId}>
+                    <Descriptions data={getData(t)} />
+                    {i !== jobDetail.triggers?.length! - 1 && (
+                      <Divider margin="8px" />
+                    )}
+                  </div>
+                ))}
+              </div>
+            }
+            position="right"
+            showArrow
           >
-            {text}
-          </Paragraph>
-        </Popover>
+            <Paragraph
+              copyable
+              underline
+              strong
+              style={{ display: "inline-block" }}
+            >
+              {text}
+            </Paragraph>
+          </Popover>
+          {(jobDetail.triggers?.length || 0) > 0 &&
+            jobDetail.triggers?.filter((u) => u.status === 3).length ===
+              jobDetail.triggers?.length && (
+              <span style={{ marginLeft: 5 }}>
+                <StatusText value={3} />
+              </span>
+            )}
+        </>
       );
     },
   },

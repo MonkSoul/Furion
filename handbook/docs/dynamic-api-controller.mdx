@@ -4,6 +4,25 @@ title: 5.1 动态 WebAPI
 sidebar_label: 5.1 动态 WebAPI
 ---
 
+import Tag from "@site/src/components/Tag.js";
+
+<details>
+  <summary>📝 模块更新日志</summary>
+  <div>
+<div>
+
+- **新特性**
+
+  - &nbsp;<Tag>新增</Tag> 动态 `WebAPI` 方法支持通过 `[ActionName(名称)]` 和 `[HttpMethod(Name=名称)]` 指定路由名称 <sup>4.8.4.12</sup> <sup>⏱️2023.01.10</sup> [#I69AOJ](https://gitee.com/dotnetchina/Furion/issues/I69AOJ) [f699540](https://gitee.com/dotnetchina/Furion/commit/f699540989e688f25597c509249e024ec014dc4e)
+
+- **问题修复**
+
+  - &nbsp;<Tag>修复</Tag> 动态 `WebAPI` 配置 `[Consumes]` 特性后 `Swagger` 不显示问题 <sup>4.8.4.12</sup> <sup>⏱️2023.01.10</sup> [daf25f8](https://gitee.com/dotnetchina/Furion/commit/daf25f8c91a24904381d3536c0c8825ef833e9c9)
+
+</div>
+  </div>
+</details>
+
 import useBaseUrl from "@docusaurus/useBaseUrl";
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -996,7 +1015,7 @@ public object Method1([RouteConstraint(":min(10)")] int id)
 
 `Name` 参数可以覆盖动态 `WebAPI` 自动生成的控制器或动作方法名称。如：
 
-```cs showLineNumbers  {5,8}
+```cs showLineNumbers  {5,8,14,20}
 using Furion.DynamicApiController;
 
 namespace Furion.Application
@@ -1006,6 +1025,18 @@ namespace Furion.Application
     {
         [ApiDescriptionSettings(Name = "MyGet")]
         public string Get()
+        {
+            return nameof(Furion);
+        }
+
+        [ActionName("MyTest")]  // Furion 4.8.4.12+ 支持
+        public string Test()
+        {
+            return nameof(Furion);
+        }
+
+        [HttpGet(Name = "MyTest")]  // Furion 4.8.4.12+ 支持，此配置有效的前提是控制器贴有 [Route] 特性
+        public string Test2()
         {
             return nameof(Furion);
         }

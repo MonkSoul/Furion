@@ -13,6 +13,7 @@ import Tag from "@site/src/components/Tag.js";
 
 - **新特性**
 
+  - &nbsp;<Tag>新增</Tag> `crontab.GetSleepTimeSpan(baseTime)` 实例方法 <sup>4.8.4.10</sup> <sup>⏱️2023.01.09</sup> [#I69HM4](https://gitee.com/dotnetchina/Furion/issues/I69HM4)
   - &nbsp;<Tag>新增</Tag> `Crontab.ParseAt(..)` 静态方法 <sup>4.8.2.6</sup> <sup>⏱️2022.11.30</sup> [035cc23](https://gitee.com/dotnetchina/Furion/commit/035cc23a20045e9673a1406b94e72030f5f18375)
   - &nbsp;<Tag>新增</Tag> `Crontab` 所有 `Macro At` 静态方法 <sup>4.8.2.6</sup> <sup>⏱️2022.11.30</sup> [a15b69d](https://gitee.com/dotnetchina/Furion/commit/a15b69d0eeb4bdc8d0ec042cfec22ff0049dc89f)
   - &nbsp;<Tag>新增</Tag> `Crontab.Workday` 表示周一至周五的 `Macro` 静态属性 <sup>4.8.2.6</sup> <sup>⏱️2022.11.30</sup> [a15b69d](https://gitee.com/dotnetchina/Furion/commit/a15b69d0eeb4bdc8d0ec042cfec22ff0049dc89f)
@@ -264,7 +265,7 @@ public class Worker : BackgroundService
 
 ## 26.2.7 `Crontab` 对象属性和方法
 
-```cs showLineNumbers {1,4,14,25}
+```cs showLineNumbers {1,4,14,27}
 // 实例属性
 var format = crontab.Format;  // 获取当前格式化配置
 
@@ -286,6 +287,8 @@ var nextOccurrence = crontab.GetNewDbContext(起始时间, 结束时间);
 var nextOccurrences = crontab.GetNextOccurrences(起始时间, 结束时间);
 // 获取当前时间和下一个发生时间相差毫秒数
 var sleepMilliseconds = crontab.GetSleepMilliseconds(起始时间);
+// 获取当前时间和下一个发生时间相差时间戳
+var sleepTimeSpan = crontab.GetSleepTimeSpan(起始时间); // Furion 4.8.4.10+ 版本有效
 // 将 crontab 对象转换成 cron 表达式
 var expression = crontab.ToString();
 

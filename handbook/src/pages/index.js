@@ -47,7 +47,7 @@ function Banner() {
             <span
               style={{ fontSize: 14, fontWeight: "normal", color: "#8759ff" }}
             >
-              [fu:rɪən]
+              [ˈfjʊəriən]
             </span>
           </div>
           <div style={{ color: "#82aaff", position: "relative", fontSize: 14 }}>
@@ -84,7 +84,7 @@ function Banner() {
           <div className="furion-get-start-btn">
             <Link className="furion-get-start" to={useBaseUrl("docs/serverun")}>
               入门指南
-              <span className="furion-version">v4.8.4.8</span>
+              <span className="furion-version">v4.8.4.13</span>
             </Link>
             <Link
               className="furion-try-demo"
@@ -159,7 +159,7 @@ function Gitee() {
             className={"furion-log-jiao" + (isDarkTheme ? " dark" : "")}
           ></div>
           <div className="furion-log-number">
-            <div style={{ color: "#723cff" }}>10000 +</div>
+            <div style={{ color: "#723cff" }}>11000 +</div>
             <span className={isDarkTheme ? " dark" : ""}>Stars</span>
           </div>
         </div>
@@ -183,7 +183,7 @@ function Gitee() {
             className={"furion-log-jiao" + (isDarkTheme ? " dark" : "")}
           ></div>
           <div className="furion-log-number">
-            <div style={{ color: "#1fd898" }}>5,548,143</div>
+            <div style={{ color: "#1fd898" }}>5,615,238</div>
             <span className={isDarkTheme ? " dark" : ""}>Downloads</span>
           </div>
         </div>
@@ -373,8 +373,8 @@ function WhoUse() {
           <div></div>
           <h1>他们都在用</h1>
           <p>
-            Furion
-            已在全球超过554万个项目中使用。从小型企业到企业的解决方案及知名企业。他们在简单软件和复杂管理系统的开发方面都信任我们。
+            Furion 已在 Nuget
+            平台超561万次下载。从小型企业到企业的解决方案及知名企业。他们在简单软件和复杂管理系统的开发方面都信任我们。
           </p>
           <a
             className="furion-get-start"
@@ -398,7 +398,7 @@ function Links() {
         友情链接
       </p>
       <h1 className={"furion-big-title" + (isDarkTheme ? " dark" : "")}>
-        它们一样是优秀的项目/网站
+        她们一样是优秀的项目/网站
       </h1>
       <div className="furion-links-content">
         {urls.map((item, i) => (
@@ -537,7 +537,7 @@ function Bifa() {
     <div className="furion-bifa">
       <div className="furion-wzi-title">
         <b>Furion</b>
-        历经两年打磨
+        历经三年打磨
       </div>
       <Wzi>网友笔伐过</Wzi>
       <Wzi>用户捧杀过</Wzi>
