@@ -349,9 +349,6 @@ internal sealed partial class Scheduler
     /// <returns><see cref="bool"/></returns>
     public bool StartTrigger(string triggerId, bool immediately = true)
     {
-        // 如果状态已经是正常状态，则不做操作
-        if (GetTrigger(triggerId)?.IsNormalStatus() == true) return true;
-
         var triggerBuilder = GetTriggerBuilder(triggerId);
         if (triggerBuilder != null) triggerBuilder.StartNow = true;
         triggerBuilder?.SetStatus(TriggerStatus.Ready);
@@ -374,9 +371,6 @@ internal sealed partial class Scheduler
     /// <returns><see cref="bool"/></returns>
     public bool PauseTrigger(string triggerId, bool immediately = true)
     {
-        // 如果状态已经是暂停状态，则不做操作
-        if (GetTrigger(triggerId)?.Status == TriggerStatus.Pause) return true;
-
         var triggerBuilder = GetTriggerBuilder(triggerId);
         triggerBuilder?.SetStatus(TriggerStatus.Pause);
 
