@@ -410,12 +410,16 @@ internal sealed partial class Scheduler
     /// </summary>
     public void Start()
     {
+        // 获取当前时间用来计算触发器下一次触发时间
+        var nowTime = Penetrates.GetNowTime(UseUtcTimestamp);
+
         // 逐条启用所有作业触发器
         foreach (var (_, trigger) in Triggers)
         {
             // 启动内存作业触发器后更新
             trigger.StartNow = true;
             trigger.SetStatus(TriggerStatus.Ready);
+            trigger.NextRunTime = trigger.GetNextRunTime(nowTime);
         }
 
         // 更新作业
