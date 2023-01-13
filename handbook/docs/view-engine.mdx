@@ -90,6 +90,26 @@ Hello Furion
 
 ### 17.3.4 强类型模板
 
+- **类型定义**
+
+```cs showLineNumbers {1}
+namespace YourProject;
+
+public class TestModel
+{
+    public string Name { get; set; }
+    public int[] Items { get; set; }
+}
+```
+
+:::warning 注意事项
+
+强类型的模型必须具有 `namespace` 命名空间定义。
+
+:::
+
+- **使用强类型**
+
 ```cs showLineNumbers
 var result = _viewEngine.RunCompile(@"
 Hello @Model.Name
