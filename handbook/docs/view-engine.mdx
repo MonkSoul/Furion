@@ -13,6 +13,7 @@ import Tag from "@site/src/components/Tag.js";
 
 - **新特性**
 
+  - &nbsp;<Tag>新增</Tag> 视图引擎支持无命名空间的强类型 <sup>4.8.4.16</sup> <sup>⏱️2023.01.15</sup> [#I6ABN3](https://gitee.com/dotnetchina/Furion/issues/I6ABN3) [#I6A7SI](https://gitee.com/dotnetchina/Furion/issues/I6A7SI)
   - &nbsp;<Tag>新增</Tag> 视图引擎支持匿名类型模型带集合类型属性 `@foreach` 遍历 <sup>4.8.4.15</sup> <sup>⏱️2023.01.13</sup> [#I6A7SI](https://gitee.com/dotnetchina/Furion/issues/I6A7SI)
 
 </div>
@@ -93,7 +94,7 @@ Hello Furion
 - **类型定义**
 
 ```cs showLineNumbers {1}
-namespace YourProject;
+namespace YourProject;  // Furion 4.8.4.16+ 支持无命名空间写法
 
 public class TestModel
 {
@@ -101,12 +102,6 @@ public class TestModel
     public int[] Items { get; set; }
 }
 ```
-
-:::warning 注意事项
-
-强类型的模型必须具有 `namespace` 命名空间定义。
-
-:::
 
 - **使用强类型**
 
