@@ -13,6 +13,7 @@ import sponsors from "../../../data/sponsor";
 const DocSidebarMobileSecondaryMenu = ({ sidebar, path }) => {
   const mobileSidebar = useNavbarMobileSidebar();
   const [show, setShow] = useState(true);
+
   return (
     <>
       {show && (
