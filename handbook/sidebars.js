@@ -13,7 +13,6 @@ module.exports = {
         "course",
         "target",
         "position",
-        // "pillar-of-humiliation"
       ],
     },
     {

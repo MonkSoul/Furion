@@ -57,6 +57,8 @@ import Tag from "@site/src/components/Tag.js";
   - &nbsp;<Tag>新增</Tag> **🎉 [全新的定时任务模块](/docs/job)** <sup>4.8.0</sup> 【[查看源码](https://gitee.com/dotnetchina/Furion/tree/v4/framework/Furion/Schedule)】
   - &nbsp;<Tag>新增</Tag> **🎉 [全新的 `Cron` 表达式模块](/docs/cron)** <sup>4.8.0</sup> 【[查看源码](https://gitee.com/dotnetchina/Furion/tree/v4/framework/Furion/TimeCrontab)】
   - &nbsp;<Tag>新增</Tag> **🎉 [全新的任务队列模块](/docs/task-queue)** <sup>4.8.3</sup> 【[查看源码](https://gitee.com/dotnetchina/Furion/tree/v4/framework/Furion/TaskQueue)】
+  - &nbsp;<Tag>新增</Tag> 视图引擎支持无命名空间的强类型 <sup>4.8.4.16</sup> <sup>⏱️2023.01.15</sup> [#I6ABN3](https://gitee.com/dotnetchina/Furion/issues/I6ABN3) [#I6A7SI](https://gitee.com/dotnetchina/Furion/issues/I6A7SI) [076bb17](https://gitee.com/dotnetchina/Furion/commit/076bb1781ab1a31b5b6a42a56910909b3528d25e)
+  - &nbsp;<Tag>新增</Tag> 视图引擎支持匿名类型模型带集合类型属性 `@foreach` 遍历 <sup>4.8.4.15</sup> <sup>⏱️2023.01.13</sup> [#I6A7SI](https://gitee.com/dotnetchina/Furion/issues/I6A7SI)
   - &nbsp;<Tag>新增</Tag> `Swagger` 支持复制路由地址功能 <sup>4.8.4.13</sup> <sup>⏱️2023.01.11</sup> [#I5VNJI](https://gitee.com/dotnetchina/Furion/issues/I5VNJI)
   - &nbsp;<Tag>新增</Tag> 动态 `WebAPI` 方法支持通过 `[ActionName(名称)]` 和 `[HttpMethod(Name=名称)]` 指定路由名称 <sup>4.8.4.12</sup> <sup>⏱️2023.01.10</sup> [#I69AOJ](https://gitee.com/dotnetchina/Furion/issues/I69AOJ) [f699540](https://gitee.com/dotnetchina/Furion/commit/f699540989e688f25597c509249e024ec014dc4e)
   - &nbsp;<Tag>新增</Tag> `BadPageResult.Status401Unauthorized` 等常见状态码 `401,403,404,500` 静态属性 <sup>4.8.4.11</sup> <sup>⏱️2023.01.09</sup> [#I69KQF](https://gitee.com/dotnetchina/Furion/issues/I69KQF)
@@ -263,6 +265,7 @@ info: 2022-11-24 14:35:16.0373384 +08:00 星期四 L Furion.Application.TestLogg
 
 - **问题修复**
 
+  - &nbsp;<Tag>修复</Tag> 定时任务 `StartAll` 出现个别作业显示 `无触发时间` 的状态 <sup>4.8.4.14</sup> <sup>⏱️2023.01.12</sup> [#I6A08X](https://gitee.com/dotnetchina/Furion/issues/I6A08X)
   - &nbsp;<Tag>修复</Tag> 动态 `WebAPI` 配置 `[Consumes]` 特性后 `Swagger` 不显示问题 <sup>4.8.4.12</sup> <sup>⏱️2023.01.10</sup> [daf25f8](https://gitee.com/dotnetchina/Furion/commit/daf25f8c91a24904381d3536c0c8825ef833e9c9)
   - &nbsp;<Tag>修复</Tag> 定时任务停止作业触发器后运行记录不能写入最新记录问题 <sup>4.8.4.8</sup> <sup>⏱️2023.01.05</sup> [d4c553f](https://gitee.com/dotnetchina/Furion/commit/d4c553fb9b0037ab29942ccc2a25a386fc28c1db)
   - &nbsp;<Tag>修复</Tag> 数据库日志注册在一些特殊情况下丢失日志上下文问题 <sup>4.8.4.6</sup> <sup>⏱️2023.01.04</sup> [#I68PDF](https://gitee.com/dotnetchina/Furion/issues/I68PDF)

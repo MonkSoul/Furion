@@ -114,7 +114,14 @@ public class ViewEngineOptionsBuilder : IViewEngineOptionsBuilder
     /// <returns></returns>
     private string RenderTypeName(Type type)
     {
-        var result = type.Namespace + "." + type.Name;
+        IList<string> elements = new List<string>()
+        {
+            type.Namespace,
+            RenderDeclaringType(type.DeclaringType),
+            type.Name
+        };
+
+        var result = string.Join(".", elements.Where(e => !string.IsNullOrWhiteSpace(e)));
 
         if (result.Contains('`'))
         {
@@ -127,5 +134,22 @@ public class ViewEngineOptionsBuilder : IViewEngineOptionsBuilder
         }
 
         return result + "<" + string.Join(",", type.GenericTypeArguments.Select(RenderTypeName)) + ">";
+    }
+
+    private string RenderDeclaringType(Type type)
+    {
+        if (type == null)
+        {
+            return null;
+        }
+
+        var parent = RenderDeclaringType(type.DeclaringType);
+
+        if (string.IsNullOrWhiteSpace(parent))
+        {
+            return type.Name;
+        }
+
+        return parent + "." + type.Name;
     }
 }

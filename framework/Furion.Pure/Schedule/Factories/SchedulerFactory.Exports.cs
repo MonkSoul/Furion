@@ -189,6 +189,7 @@ internal sealed partial class SchedulerFactory
 
             newScheduler.Factory = this;
             newScheduler.Logger = _logger;
+            newScheduler.UseUtcTimestamp = UseUtcTimestamp;
 
             // 实例化作业处理程序，如果设置了动态委托作业，优先使用
             var runtimeJobType = newScheduler.JobDetail.DynamicExecuteAsync == null

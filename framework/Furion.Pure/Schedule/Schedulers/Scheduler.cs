@@ -78,6 +78,11 @@ internal sealed partial class Scheduler : IScheduler
     internal IScheduleLogger Logger { get; set; }
 
     /// <summary>
+    /// 是否使用 UTC 时间
+    /// </summary>
+    internal bool UseUtcTimestamp { get; set; }
+
+    /// <summary>
     /// 作业处理类型日志服务
     /// </summary>
     internal ILogger JobLogger { get; set; }

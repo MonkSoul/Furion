@@ -76,20 +76,21 @@ public class AnonymousTypeWrapper : DynamicObject
         }
 
         var isEnumerable = typeof(IEnumerable).IsAssignableFrom(type);
-
         if (isEnumerable && result is not string)
         {
-            result = ((IEnumerable<object>)result)
-                    .Select(e =>
-                    {
-                        if (e.IsAnonymous())
-                        {
-                            return new AnonymousTypeWrapper(e);
-                        }
+            var actType = type.IsArray ? type.GetElementType() : type.GenericTypeArguments[0];
+            var list = Activator.CreateInstance(typeof(List<>).MakeGenericType(actType));
+            var addMethod = list.GetType().GetMethod("Add");
 
-                        return e;
-                    })
-                    .ToList();
+            var data = result as IEnumerable;
+            foreach (var item in data)
+            {
+                addMethod.Invoke(list, new object[] {
+                    item.IsAnonymous() ? new AnonymousTypeWrapper(item) : item
+                });
+            }
+
+            result = list;
         }
 
         return true;

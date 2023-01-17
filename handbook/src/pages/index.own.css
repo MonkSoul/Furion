@@ -23,3 +23,16 @@
 .menu__list-item .navbar__link:hover {
   color: #743dff;
 }
+
+.footer__logo {
+  background-color: #fff !important;
+}
+
+#announcementBar-2 {
+  text-align: center;
+  padding: 0.6em;
+  background-color: #182c61;
+  font-size: 14px;
+  color: yellow;
+  position: relative;
+}
