@@ -54,5 +54,5 @@ public sealed partial class SqlExecutePart
     /// <summary>
     /// 设置服务提供器
     /// </summary>
-    public IServiceProvider ContextScoped { get; private set; } = App.HttpContext?.RequestServices;
+    public IServiceProvider ContextScoped { get; private set; }
 }

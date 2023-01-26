@@ -159,7 +159,7 @@ public static class App
     /// <returns></returns>
     public static object GetService(Type type, IServiceProvider serviceProvider = default)
     {
-        return CatchOrDefault(() => (serviceProvider ?? GetServiceProvider(type)).GetService(type), default);
+        return (serviceProvider ?? GetServiceProvider(type)).GetService(type);
     }
 
     /// <summary>
@@ -182,8 +182,7 @@ public static class App
     /// <returns></returns>
     public static object GetRequiredService(Type type, IServiceProvider serviceProvider = default)
     {
-        return CatchOrDefault(() => (serviceProvider ?? GetServiceProvider(type)).GetRequiredService(type), default)
-            ?? throw new InvalidOperationException($"There is no service of <{type.Name}> serviceType or the service provider is disposed.");
+        return (serviceProvider ?? GetServiceProvider(type)).GetRequiredService(type);
     }
 
     /// <summary>

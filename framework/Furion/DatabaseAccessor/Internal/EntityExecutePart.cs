@@ -51,5 +51,5 @@ public sealed partial class EntityExecutePart<TEntity>
     /// <summary>
     /// 数据库上下文执行作用域
     /// </summary>
-    public IServiceProvider ContextScoped { get; private set; } = App.HttpContext?.RequestServices;
+    public IServiceProvider ContextScoped { get; private set; }
 }
