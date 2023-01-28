@@ -106,10 +106,10 @@ public static class ILoggingBuilderExtensions
     public static ILoggingBuilder AddFile(this ILoggingBuilder builder, Func<string> configuraionKey, Action<FileLoggerOptions> configure = default)
     {
         // 注册文件日志记录器提供器
-        builder.Services.AddSingleton<ILoggerProvider, FileLoggerProvider>((serviceProvider) =>
+        builder.Services.Add(ServiceDescriptor.Singleton<ILoggerProvider, FileLoggerProvider>((serviceProvider) =>
         {
             return Penetrates.CreateFromConfiguration(configuraionKey, configure);
-        });
+        }));
 
         return builder;
     }
@@ -182,7 +182,7 @@ public static class ILoggingBuilderExtensions
         DatabaseLoggerProvider databaseLoggerProvider = null;
 
         // 注册数据库日志记录器提供器
-        builder.Services.AddSingleton<ILoggerProvider, DatabaseLoggerProvider>((serviceProvider) =>
+        builder.Services.Add(ServiceDescriptor.Singleton<ILoggerProvider, DatabaseLoggerProvider>((serviceProvider) =>
         {
             // 创建数据库日志记录器提供程序
             var instance = Penetrates.CreateFromConfiguration(configuraionKey, configure);
@@ -195,7 +195,7 @@ public static class ILoggingBuilderExtensions
             }
 
             return instance;
-        });
+        }));
 
         return builder;
     }
