@@ -37,7 +37,7 @@ public sealed class FileLogger : ILogger
     private readonly string _logName;
 
     /// <summary>
-    /// 文件记录器提供器
+    /// 文件日志记录器提供器
     /// </summary>
     private readonly FileLoggerProvider _fileLoggerProvider;
 
@@ -50,7 +50,7 @@ public sealed class FileLogger : ILogger
     /// 构造函数
     /// </summary>
     /// <param name="logName">记录器类别名称</param>
-    /// <param name="fileLoggerProvider">文件记录器提供器</param>
+    /// <param name="fileLoggerProvider">文件日志记录器提供器</param>
     public FileLogger(string logName, FileLoggerProvider fileLoggerProvider)
     {
         _logName = logName;

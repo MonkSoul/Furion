@@ -38,7 +38,7 @@ public sealed class DatabaseLogger : ILogger
     private readonly string _logName;
 
     /// <summary>
-    /// 数据库记录器提供器
+    /// 数据库日志记录器提供器
     /// </summary>
     private readonly DatabaseLoggerProvider _databaseLoggerProvider;
 
@@ -51,7 +51,7 @@ public sealed class DatabaseLogger : ILogger
     /// 构造函数
     /// </summary>
     /// <param name="logName">记录器类别名称</param>
-    /// <param name="databaseLoggerProvider">数据库记录器提供器</param>
+    /// <param name="databaseLoggerProvider">数据库日志记录器提供器</param>
     public DatabaseLogger(string logName, DatabaseLoggerProvider databaseLoggerProvider)
     {
         _logName = logName;
