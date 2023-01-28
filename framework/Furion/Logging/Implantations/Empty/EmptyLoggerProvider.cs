@@ -53,7 +53,7 @@ public sealed class EmptyLoggerProvider : ILoggerProvider
     /// <remarks>控制日志消息队列</remarks>
     public void Dispose()
     {
-        // 清空数据库日志记录器
+        // 清空空日志记录器
         _emptyLoggers.Clear();
     }
 }
