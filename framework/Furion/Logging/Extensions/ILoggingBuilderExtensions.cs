@@ -1,6 +1,6 @@
 ﻿// MIT License
 //
-// Copyright (c) 2020-2023 百小僧, Baiqian Co.,Ltd and Contributors
+// Copyright (c) 2020-present 百小僧, Baiqian Co.,Ltd and Contributors
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -23,6 +23,7 @@
 using Furion.Logging;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using System.Diagnostics;
 
 namespace Microsoft.Extensions.Logging;
 
@@ -106,10 +107,10 @@ public static class ILoggingBuilderExtensions
     public static ILoggingBuilder AddFile(this ILoggingBuilder builder, Func<string> configuraionKey, Action<FileLoggerOptions> configure = default)
     {
         // 注册文件日志记录器提供器
-        builder.Services.AddSingleton<ILoggerProvider, FileLoggerProvider>((serviceProvider) =>
+        builder.Services.Add(ServiceDescriptor.Singleton<ILoggerProvider, FileLoggerProvider>((serviceProvider) =>
         {
             return Penetrates.CreateFromConfiguration(configuraionKey, configure);
-        });
+        }));
 
         return builder;
     }
@@ -127,25 +128,24 @@ public static class ILoggingBuilderExtensions
         // 注册数据库日志写入器
         builder.Services.TryAddTransient<TDatabaseLoggingWriter, TDatabaseLoggingWriter>();
 
-        DatabaseLoggerProvider databaseLoggerProvider = null;
-
         // 注册数据库日志记录器提供器
-        builder.Services.Add(ServiceDescriptor.Singleton<ILoggerProvider, DatabaseLoggerProvider>((serviceProvider) =>
+        builder.Services.Add(ServiceDescriptor.Singleton<ILoggerProvider>((serviceProvider) =>
         {
+            // 解决在 IDatabaseLoggingWriter 实现类直接注册仓储导致死循环的问题
+            var stackTrace = new System.Diagnostics.StackTrace();
+            if (stackTrace.GetFrames().Any(u => u.HasMethod() && u.GetMethod().Name == "ResolveDbContext"))
+            {
+                return new EmptyLoggerProvider();
+            }
+
             var options = new DatabaseLoggerOptions();
             configure?.Invoke(options);
 
             // 数据库日志记录器提供程序
-            var instance = new DatabaseLoggerProvider(options);
-            databaseLoggerProvider ??= instance;
+            var databaseLoggerProvider = new DatabaseLoggerProvider(options);
+            databaseLoggerProvider.SetServiceProvider(serviceProvider, typeof(TDatabaseLoggingWriter));
 
-            // 解决数据库写入器中循环引用数据库仓储问题
-            if (databaseLoggerProvider._serviceScope == null)
-            {
-                databaseLoggerProvider.SetServiceProvider(serviceProvider, typeof(TDatabaseLoggingWriter));
-            }
-
-            return instance;
+            return databaseLoggerProvider;
         }));
 
         return builder;
@@ -179,23 +179,22 @@ public static class ILoggingBuilderExtensions
         // 注册数据库日志写入器
         builder.Services.TryAddTransient<TDatabaseLoggingWriter, TDatabaseLoggingWriter>();
 
-        DatabaseLoggerProvider databaseLoggerProvider = null;
-
         // 注册数据库日志记录器提供器
-        builder.Services.AddSingleton<ILoggerProvider, DatabaseLoggerProvider>((serviceProvider) =>
+        builder.Services.Add(ServiceDescriptor.Singleton<ILoggerProvider>((serviceProvider) =>
         {
-            // 创建数据库日志记录器提供程序
-            var instance = Penetrates.CreateFromConfiguration(configuraionKey, configure);
-            databaseLoggerProvider ??= instance;
-
-            // 解决数据库写入器中循环引用数据库仓储问题
-            if (databaseLoggerProvider._serviceScope == null)
+            // 解决在 IDatabaseLoggingWriter 实现类直接注册仓储导致死循环的问题
+            var stackTrace = new System.Diagnostics.StackTrace();
+            if (stackTrace.GetFrames().Any(u => u.HasMethod() && u.GetMethod().Name == "ResolveDbContext"))
             {
-                databaseLoggerProvider.SetServiceProvider(serviceProvider, typeof(TDatabaseLoggingWriter));
+                return new EmptyLoggerProvider();
             }
 
-            return instance;
-        });
+            // 创建数据库日志记录器提供程序
+            var databaseLoggerProvider = Penetrates.CreateFromConfiguration(configuraionKey, configure);
+            databaseLoggerProvider.SetServiceProvider(serviceProvider, typeof(TDatabaseLoggingWriter));
+
+            return databaseLoggerProvider;
+        }));
 
         return builder;
     }

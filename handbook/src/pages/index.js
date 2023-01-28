@@ -5,7 +5,6 @@ import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
 import Layout from "@theme/Layout";
 import components from "@theme/MDXComponents";
 import React from "react";
-import contributors from "../data/contributors";
 import urls from "../data/urls";
 import DockerIcon from "./docker.svg";
 import "./index.css";
@@ -47,7 +46,8 @@ function Banner() {
             <span
               style={{ fontSize: 14, fontWeight: "normal", color: "#8759ff" }}
             >
-              [ˈfjʊəriən]
+              [ˈfjʊəriən] <span style={{ opacity: 0.4, fontSize: 12 }}>|</span>{" "}
+              [ˈfjʊriən]
             </span>
           </div>
           <div style={{ color: "#82aaff", position: "relative", fontSize: 14 }}>
@@ -84,7 +84,7 @@ function Banner() {
           <div className="furion-get-start-btn">
             <Link className="furion-get-start" to={useBaseUrl("docs/serverun")}>
               入门指南
-              <span className="furion-version">v4.8.4.16</span>
+              <span className="furion-version">v4.8.5</span>
             </Link>
             <Link
               className="furion-try-demo"
@@ -183,97 +183,10 @@ function Gitee() {
             className={"furion-log-jiao" + (isDarkTheme ? " dark" : "")}
           ></div>
           <div className="furion-log-number">
-            <div style={{ color: "#1fd898" }}>5,640,407</div>
+            <div style={{ color: "#1fd898" }}>5,797,517</div>
             <span className={isDarkTheme ? " dark" : ""}>Downloads</span>
           </div>
         </div>
-      </div>
-    </div>
-  );
-}
-
-function Remark() {
-  const { colorMode, setLightTheme, setDarkTheme } = useColorMode();
-  const isDarkTheme = colorMode === "dark";
-  return (
-    <div className="furion-content">
-      <p className={"furion-small-title" + (isDarkTheme ? " dark" : "")}>
-        大量使用者测评
-      </p>
-      <h1 className={"furion-big-title" + (isDarkTheme ? " dark" : "")}>
-        来听听他们是怎么说的
-      </h1>
-      <div className="furion-remark">
-        <div className="furion-remark-item">
-          <div className="furion-remark-p">
-            <h1>理想和现实</h1>
-            <p className={isDarkTheme ? " dark" : undefined}>
-              作者的技术是我接触.NET程序员中最好的一个，代码的质量，文档的质量都是一等一的。
-            </p>
-          </div>
-          <div className="furion-remark-p">
-            <h1>kesshei</h1>
-            <p className={isDarkTheme ? " dark" : undefined}>
-              强烈支持，因为有你们，.net 会走的更远。
-            </p>
-          </div>
-          <div className="furion-remark-p">
-            <h1>逆天的蝈蝈</h1>
-            <p className={isDarkTheme ? " dark" : undefined}>
-              非常优秀的开源作品，点赞支持
-            </p>
-          </div>
-        </div>
-        <div className="furion-remark-item">
-          <div className="furion-remark-p">
-            <h1>张芸溪</h1>
-            <p className={isDarkTheme ? " dark" : undefined}>
-              大概看了一下，觉得项目非常棒。core生态一定能火
-            </p>
-          </div>
-          <div className="furion-remark-p">
-            <h1>赖皮小鳄鱼</h1>
-            <p className={isDarkTheme ? " dark" : undefined}>
-              作者好棒，支持国内.net！
-            </p>
-          </div>
-          <div className="furion-remark-p">
-            <h1>gudufy</h1>
-            <p className={isDarkTheme ? " dark" : undefined}>
-              做得非常棒，打算基于你的框架做一个基本的后台管理出来，供大家快速开发中小型项目。
-            </p>
-          </div>
-        </div>
-        <div className="furion-remark-item">
-          <div className="furion-remark-p">
-            <h1>ThinkCoder</h1>
-            <p className={isDarkTheme ? " dark" : undefined}>
-              文档写的真不错，代码质量也非常高，注释非常完善，赞一个。
-            </p>
-          </div>
-          <div className="furion-remark-p">
-            <h1>liuina</h1>
-            <p className={isDarkTheme ? " dark" : undefined}>
-              期待文档写完的那一天，绝对惊艳四座。
-            </p>
-          </div>
-          <div className="furion-remark-p">
-            <h1>weiyu.xiao</h1>
-            <p className={isDarkTheme ? " dark" : undefined}>
-              很不错的项目，对快速搭建健壮的技术架构，帮助业务成功很有帮助。
-            </p>
-          </div>
-        </div>
-      </div>
-      <div>
-        <a
-          href="https://github.com/MonkSoul/Furion/issues/39"
-          target="_blank"
-          className="furion-get-start"
-          style={{ margin: 0 }}
-        >
-          想看更多评论？
-        </a>
       </div>
     </div>
   );
@@ -374,7 +287,7 @@ function WhoUse() {
           <h1>他们都在用</h1>
           <p>
             Furion 已在 Nuget
-            平台超564万次下载。从小型企业到企业的解决方案及知名企业。他们在简单软件和复杂管理系统的开发方面都信任我们。
+            平台超579万次下载。从小型企业到企业的解决方案及知名企业。他们在简单软件和复杂管理系统的开发方面都信任我们。
           </p>
           <a
             className="furion-get-start"
@@ -405,48 +318,6 @@ function Links() {
           <a href={item.url} key={i} target="_blank" title={item.title}>
             {item.text}
           </a>
-        ))}
-      </div>
-    </div>
-  );
-}
-
-function Contributor() {
-  const { colorMode, setLightTheme, setDarkTheme } = useColorMode();
-  const isDarkTheme = colorMode === "dark";
-
-  return (
-    <div className="furion-contributors">
-      <p className={"furion-small-title" + (isDarkTheme ? " dark" : "")}>
-        框架贡献者
-      </p>
-      <h1 className={"furion-big-title" + (isDarkTheme ? " dark" : "")}>
-        没有你们所有人，Furion 不可能做到这一点
-      </h1>
-      <div className="furion-contributors-list">
-        {contributors.map((c, i) => (
-          <div
-            className={"furion-contributor-item" + (isDarkTheme ? " dark" : "")}
-            key={i}
-          >
-            {!c.extra ? (
-              ""
-            ) : (
-              <div className="furion-contributor-extra">{c.extra}</div>
-            )}
-            <a
-              href={c.link}
-              target="_blank"
-              title={"点击查看 " + c.author + " 开源主页"}
-            >
-              <img
-                src={c.photo}
-                alt={c.author + " 头像"}
-                title={"点击查看 " + c.author + " 开源主页"}
-              />
-              <div>{c.author}</div>
-            </a>
-          </div>
         ))}
       </div>
     </div>

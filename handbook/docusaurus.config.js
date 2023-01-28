@@ -67,7 +67,7 @@ module.exports = {
           position: "left",
           items: [
             {
-              label: "📝 查看日志（v4.8.4.16）",
+              label: "📝 查看日志（v4.8.5）",
               href: "/docs/upgrade",
             },
             {
@@ -76,12 +76,12 @@ module.exports = {
             },
           ],
         },
-        {
-          to: "docs/net6-to-net7",
-          activeBasePath: "docs/net6-to-net7",
-          label: ".NET7🚀",
-          position: "left",
-        },
+        // {
+        //   to: "docs/net6-to-net7",
+        //   activeBasePath: "docs/net6-to-net7",
+        //   label: ".NET7🚀",
+        //   position: "left",
+        // },
         {
           label: "源码",
           position: "right",
@@ -162,7 +162,7 @@ module.exports = {
           ],
         },
       ],
-      copyright: `Copyright © 2020-${new Date().getFullYear()} 百小僧, Baiqian Co.,Ltd and Contributors.`,
+      copyright: `Copyright © 2020-present 百小僧, Baiqian Co.,Ltd and Contributors.`,
       logo: {
         src: "img/chinadotnet.png",
         href: "https://gitee.com/dotnetchina",

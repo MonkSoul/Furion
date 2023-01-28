@@ -1,6 +1,6 @@
 ﻿// MIT License
 //
-// Copyright (c) 2020-2023 百小僧, Baiqian Co.,Ltd and Contributors
+// Copyright (c) 2020-present 百小僧, Baiqian Co.,Ltd and Contributors
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -121,7 +121,7 @@ public sealed class DatabaseLoggerProvider : ILoggerProvider, ISupportExternalSc
         try
         {
             // 设置 1.5秒的缓冲时间，避免还有日志消息没有完成写入文件中
-            _processQueueTask.Wait(1500);
+            _processQueueTask?.Wait(1500);
         }
         catch (TaskCanceledException) { }
         catch (AggregateException ex) when (ex.InnerExceptions.Count == 1 && ex.InnerExceptions[0] is TaskCanceledException) { }

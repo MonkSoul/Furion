@@ -2,7 +2,7 @@ module.exports = {
   docs: [
     {
       type: "category",
-      label: "1. 序言",
+      label: "1. 附录",
       items: [
         "introduce",
         "author",
@@ -13,6 +13,7 @@ module.exports = {
         "course",
         "target",
         "position",
+        "whyfurion",
       ],
     },
     {

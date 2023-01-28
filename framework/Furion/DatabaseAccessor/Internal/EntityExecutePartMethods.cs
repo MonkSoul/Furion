@@ -1,6 +1,6 @@
 ﻿// MIT License
 //
-// Copyright (c) 2020-2023 百小僧, Baiqian Co.,Ltd and Contributors
+// Copyright (c) 2020-present 百小僧, Baiqian Co.,Ltd and Contributors
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -795,7 +795,7 @@ public sealed partial class EntityExecutePart<TEntity>
     private IPrivateRepository<TEntity> GetRepository()
     {
         // 判断是否在非 Web 中执行
-        if (ContextScoped == null) throw new InvalidOperationException("Entity Extensions：It is detected that it is executed in a non Web environment. Please create the scope and pass `.SetContextScoped(serviceProvider)` incoming.");
+        if (ContextScoped == null && App.HttpContext?.RequestServices == null) throw new InvalidOperationException("Entity Extensions：It is detected that it is executed in a non Web environment. Please create the scope and pass `.SetContextScoped(serviceProvider)` incoming.");
 
         return Db.GetRepository<TEntity>(DbContextLocator, ContextScoped);
     }
