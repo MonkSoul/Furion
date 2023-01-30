@@ -34,10 +34,12 @@ public sealed class JobExecutingContext : JobExecutionContext
     /// <param name="jobDetail">作业信息</param>
     /// <param name="trigger">作业触发器</param>
     /// <param name="occurrenceTime">作业计划触发时间</param>
+    /// <param name="runId">当前作业触发器触发的唯一标识</param>
     internal JobExecutingContext(JobDetail jobDetail
         , Trigger trigger
-        , DateTime occurrenceTime)
-        : base(jobDetail, trigger, occurrenceTime)
+        , DateTime occurrenceTime
+        , Guid runId)
+        : base(jobDetail, trigger, occurrenceTime, runId)
     {
     }
 
