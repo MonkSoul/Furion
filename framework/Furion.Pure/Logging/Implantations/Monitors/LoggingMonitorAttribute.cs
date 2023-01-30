@@ -665,9 +665,13 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter, IOr
         var returnTypeName = HandleGenericType(method.ReturnType);
         var finalReturnTypeName = HandleGenericType(finalReturnType);
 
+        // 获取请求返回的响应状态码
+        var httpStatusCode = resultContext.HttpContext.Response.StatusCode;
+
         templates.AddRange(new[]
         {
             $"━━━━━━━━━━━━━━━  返回信息 ━━━━━━━━━━━━━━━"
+            , $"##HTTP响应状态码## {httpStatusCode}"
             , $"##原始类型## {returnTypeName}"
             , $"##最终类型## {finalReturnTypeName}"
             , $"##最终返回值## {displayValue}"
@@ -676,6 +680,7 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter, IOr
         writer.WritePropertyName("returnInformation");
         writer.WriteStartObject();
         writer.WriteString("type", finalReturnTypeName);
+        writer.WriteNumber(nameof(httpStatusCode), httpStatusCode);
         writer.WriteString("actType", returnTypeName);
         writer.WritePropertyName("value");
         if (succeed && method.ReturnType != typeof(void) && returnValue != null)
