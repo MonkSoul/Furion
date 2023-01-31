@@ -300,6 +300,19 @@ public static class App
     }
 
     /// <summary>
+    /// 获取服务注册的生命周期类型
+    /// </summary>
+    /// <param name="serviceType"></param>
+    /// <returns></returns>
+    public static ServiceLifetime? GetServiceLifetime(Type serviceType)
+    {
+        var serviceDescriptor = InternalApp.InternalServices
+            .FirstOrDefault(u => u.ServiceType == (serviceType.IsGenericType ? serviceType.GetGenericTypeDefinition() : serviceType));
+
+        return serviceDescriptor?.Lifetime;
+    }
+
+    /// <summary>
     /// 打印验证信息到 MiniProfiler
     /// </summary>
     /// <param name="category">分类</param>

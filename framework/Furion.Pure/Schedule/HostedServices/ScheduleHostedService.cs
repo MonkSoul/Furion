@@ -196,8 +196,11 @@ internal sealed class ScheduleHostedService : BackgroundService
                     // 创建新的线程执行
                     taskFactory.StartNew(async () =>
                     {
+                        // 创建唯一的作业运行标识
+                        var runId = Guid.NewGuid();
+
                         // 创建作业执行前上下文
-                        var jobExecutingContext = new JobExecutingContext(jobDetail, trigger, occurrenceTime)
+                        var jobExecutingContext = new JobExecutingContext(jobDetail, trigger, occurrenceTime, runId)
                         {
                             ExecutingTime = Penetrates.GetNowTime(UseUtcTimestamp)
                         };
@@ -275,7 +278,7 @@ internal sealed class ScheduleHostedService : BackgroundService
                             if (Monitor != default)
                             {
                                 // 创建作业执行后上下文
-                                var jobExecutedContext = new JobExecutedContext(jobDetail, trigger, occurrenceTime)
+                                var jobExecutedContext = new JobExecutedContext(jobDetail, trigger, occurrenceTime, runId)
                                 {
                                     ExecutedTime = Penetrates.GetNowTime(UseUtcTimestamp),
                                     Exception = executionException
