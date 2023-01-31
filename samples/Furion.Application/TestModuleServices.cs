@@ -2,6 +2,8 @@
 using Furion.RemoteRequest;
 using Furion.RemoteRequest.Extensions;
 using Furion.UnifyResult;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using System.Text.Json;
 
 namespace Furion.Application;
@@ -215,5 +217,13 @@ public class TestModuleServices : IDynamicApiController
             .SetBody(obj, "application/x-www-form-urlencoded")
             .WithEncodeUrl(false)
             .PostAsync();
+    }
+
+    public ServiceLifetime? 测试服务生命周期()
+    {
+        var d = App.GetServiceLifetime(typeof(IConfiguration));
+        var c = App.GetServiceLifetime(typeof(IRepository<Person>));
+
+        return d | c;
     }
 }
