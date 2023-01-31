@@ -1,3 +1,4 @@
+using Microsoft.Extensions.Configuration;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -11,11 +12,15 @@ public class SampleTests
     private readonly ITestOutputHelper Output;
 
     private readonly ISystemService _sysService;
+    private readonly IConfiguration _configuration;
 
-    public SampleTests(ITestOutputHelper tempOutput, ISystemService sysService)
+    public SampleTests(ITestOutputHelper tempOutput
+        , ISystemService sysService
+        , IConfiguration configuration)
     {
         Output = tempOutput;
         _sysService = sysService;
+        _configuration = configuration;
     }
 
     [Fact]
