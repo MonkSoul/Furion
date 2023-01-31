@@ -100,7 +100,23 @@ public class XunitTestCollectionRunnerWithAssemblyFixture : XunitTestCollectionR
             // 循环所有接口参数并进行服务解析
             foreach (var parameter in parameters)
             {
-                combinedFixtures.TryAdd(parameter.ParameterType, serviceScope.ServiceProvider.GetService(parameter.ParameterType));
+                var serviceType = parameter.ParameterType;
+                object serviceInstance;
+
+                // 获取服务注册生命周期
+                var serviceLifetime = App.GetServiceLifetime(serviceType);
+                // 如果是单例，直接从根服务解析
+                if (serviceLifetime == ServiceLifetime.Singleton)
+                {
+                    serviceInstance = App.RootServices.GetService(serviceType);
+                }
+                // 否则通过作用域解析
+                else
+                {
+                    serviceInstance = serviceScope.ServiceProvider.GetService(parameter.ParameterType);
+                }
+
+                combinedFixtures.TryAdd(parameter.ParameterType, serviceInstance);
             }
         }
 
