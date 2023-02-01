@@ -771,6 +771,14 @@ public class DatabaseLoggingWriter : IDatabaseLoggingWriter
 }
 ```
 
+:::caution 注意事项
+
+在 `Furion 4.8.5.4` 版本之前，如果在 `DatabaseLoggingWriter` 中注入 `ILogger<>` 对象将会导致死循环，原因是 `IDatabaseLoggingWriter` 本身就是日志输出的最终介质，如果这里还输出日志，将导致递归初始化日志实例。
+
+但在 `Furion 4.8.5.4+` 版本之后，如果注入了 `ILogger<>` 实例，那么将强制性将实例化对象为 `EmptyLogger` 对象，但调用其输出日志方法将不会有任何效果，如：`logger.LogInformation("...")`;
+
+:::
+
 你没看错，就这么简单！！
 
 - **基础使用**
