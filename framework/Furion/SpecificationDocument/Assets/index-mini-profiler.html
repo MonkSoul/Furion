@@ -1,4 +1,4 @@
-﻿<!-- HTML for static distribution bundle build -->
+<!-- HTML for static distribution bundle build -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -414,6 +414,7 @@
                                     success: function (res) {
                                         if (res.toString() === "200") {
                                             loginForm.style.display = "none";
+                                            defaultResponseInterceptor(res);
                                             initSwaggerUI(configObject, oauthConfigObject);
                                         }
                                         else {
