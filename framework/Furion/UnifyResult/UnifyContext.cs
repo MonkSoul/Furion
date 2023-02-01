@@ -229,7 +229,8 @@ public static class UnifyContext
         var isSkip = !EnabledUnifyHandler
               || method.GetRealReturnType().HasImplementedRawGeneric(unityMetadata.ResultType)
               || method.CustomAttributes.Any(x => typeof(NonUnifyAttribute).IsAssignableFrom(x.AttributeType) || typeof(ProducesResponseTypeAttribute).IsAssignableFrom(x.AttributeType) || typeof(IApiResponseMetadataProvider).IsAssignableFrom(x.AttributeType))
-              || method.ReflectedType.IsDefined(typeof(NonUnifyAttribute), true);
+              || method.ReflectedType.IsDefined(typeof(NonUnifyAttribute), true)
+              || method.DeclaringType.Assembly.GetName().Name.StartsWith("Microsoft.AspNetCore.OData");
 
         if (!isWebRequest)
         {
@@ -258,7 +259,8 @@ public static class UnifyContext
                 || (
                         !method.CustomAttributes.Any(x => typeof(ProducesResponseTypeAttribute).IsAssignableFrom(x.AttributeType) || typeof(IApiResponseMetadataProvider).IsAssignableFrom(x.AttributeType))
                         && method.ReflectedType.IsDefined(typeof(NonUnifyAttribute), true)
-                    );
+                    )
+                || method.DeclaringType.Assembly.GetName().Name.StartsWith("Microsoft.AspNetCore.OData");
 
         unifyResult = isSkip ? null : App.RootServices.GetService(unityMetadata.ProviderType) as IUnifyResultProvider;
         return unifyResult == null || isSkip;

@@ -97,6 +97,9 @@ internal static class Penetrates
         // 本地静态方法
         static bool Function(Type type)
         {
+            // 排除 OData 控制器
+            if (type.Assembly.GetName().Name.StartsWith("Microsoft.AspNetCore.OData")) return false;
+
             // 不能是非公开、基元类型、值类型、抽象类、接口、泛型类
             if (!type.IsPublic || type.IsPrimitive || type.IsValueType || type.IsAbstract || type.IsInterface || type.IsGenericType) return false;
 
