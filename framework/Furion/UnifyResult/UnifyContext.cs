@@ -281,7 +281,9 @@ public static class UnifyContext
         // 判断是否跳过规范化处理
         var isSkip = !EnabledUnifyHandler
                 || context.GetMetadata<NonUnifyAttribute>() != null
-                || endpointFeature?.Endpoint?.Metadata?.GetMetadata<NonUnifyAttribute>() != null;
+                || endpointFeature?.Endpoint?.Metadata?.GetMetadata<NonUnifyAttribute>() != null
+                || context.Request.Headers["accept"].ToString().Contains("odata.metadata=", StringComparison.OrdinalIgnoreCase)
+                || context.Request.Headers["accept"].ToString().Contains("odata.streaming=", StringComparison.OrdinalIgnoreCase);
 
         if (isSkip == true) unifyResult = null;
         else
