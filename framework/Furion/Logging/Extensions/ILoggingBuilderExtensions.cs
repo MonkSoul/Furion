@@ -133,7 +133,10 @@ public static class ILoggingBuilderExtensions
         {
             // 解决在 IDatabaseLoggingWriter 实现类直接注册仓储导致死循环的问题
             var stackTrace = new System.Diagnostics.StackTrace();
-            if (stackTrace.GetFrames().Any(u => u.HasMethod() && u.GetMethod().Name == "ResolveDbContext"))
+            var frames = stackTrace.GetFrames();
+
+            if (frames.Any(u => u.HasMethod() && u.GetMethod().Name == "ResolveDbContext")
+            || frames.Count(u => u.HasMethod() && u.GetMethod().Name.StartsWith("<AddDatabase>")) > 1)
             {
                 return new EmptyLoggerProvider();
             }
@@ -184,7 +187,10 @@ public static class ILoggingBuilderExtensions
         {
             // 解决在 IDatabaseLoggingWriter 实现类直接注册仓储导致死循环的问题
             var stackTrace = new System.Diagnostics.StackTrace();
-            if (stackTrace.GetFrames().Any(u => u.HasMethod() && u.GetMethod().Name == "ResolveDbContext"))
+            var frames = stackTrace.GetFrames();
+
+            if (frames.Any(u => u.HasMethod() && u.GetMethod().Name == "ResolveDbContext")
+            || frames.Count(u => u.HasMethod() && u.GetMethod().Name.StartsWith("<AddDatabase>")) > 1)
             {
                 return new EmptyLoggerProvider();
             }

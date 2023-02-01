@@ -17,6 +17,7 @@ import Tag from "@site/src/components/Tag.js";
 
 - **问题修复**
 
+  - &nbsp;<Tag>修复</Tag> 在数据库日志的 `IDatabaseLoggingWriter` 实现类中依赖注入 `ILogger<>` 导致死循环 <sup>4.8.5.4</sup> <sup>⏱️2023.02.01</sup> [#I6C6QU](https://gitee.com/dotnetchina/Furion/issues/I6C6QU)
   - &nbsp;<Tag>修复</Tag> 数据库日志提供程序在应用程序终止时出现空异常问题 <sup>4.8.5</sup> <sup>⏱️2023.01.28</sup> [#I6AZ8Y](https://gitee.com/dotnetchina/Furion/issues/I6AZ8Y)
   - &nbsp;<Tag>修复</Tag> 数据库日志注册在一些特殊情况下丢失日志上下文问题 <sup>4.8.4.6</sup> <sup>⏱️2023.01.04</sup> [#I68PDF](https://gitee.com/dotnetchina/Furion/issues/I68PDF)
   - &nbsp;<Tag>修复</Tag> 在类中贴 `[SuppressMonitor]` 特性但 `LoggingMonitor` 依然输出问题 <sup>4.8.4</sup> <sup>⏱️2022.12.30</sup> [#I6882I](https://gitee.com/dotnetchina/Furion/issues/I6882I)
