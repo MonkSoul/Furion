@@ -1,4 +1,4 @@
-﻿<!-- HTML for static distribution bundle build -->
+<!-- HTML for static distribution bundle build -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -294,7 +294,17 @@
             xhr.onreadystatechange = function () {
                 if (xhr.readyState == 4 && xhr.status == 200) {
                     let obj = JSON.parse(xhr.response);
-                    params.success(obj);
+                    let headers = xhr.getAllResponseHeaders();
+                    let arr = headers.trim().split(/[\r\n]+/);
+                    let headerMap = {};
+                    arr.forEach(function (line) {
+                        let parts = line.split(': ');
+                        let header = parts.shift();
+                        let value = parts.join(': ');
+                        headerMap[header] = value;
+                    });
+
+                    params.success(obj, headerMap);
                 } else if (xhr.readyState == 4 && xhr.status >= 400) {
                     params.error(xhr);
                 }
@@ -383,7 +393,7 @@
                 sendRequest({
                     method: "POST",
                     url: loginObject.checkUrl,
-                    success: function (res) {
+                    success: function (res, headerMap) {
                         if (res.toString() === "200") {
                             loginForm.style.display = "none";
                             initSwaggerUI(configObject, oauthConfigObject);
@@ -410,9 +420,10 @@
                                         userName: userName.value.trim(),
                                         password: password.value.trim()
                                     },
-                                    success: function (res) {
+                                    success: function (res, headerMap) {
                                         if (res.toString() === "200") {
                                             loginForm.style.display = "none";
+                                            defaultResponseInterceptor(res, headerMap);
                                             initSwaggerUI(configObject, oauthConfigObject);
                                         }
                                         else {
