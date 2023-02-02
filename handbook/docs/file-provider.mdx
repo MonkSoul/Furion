@@ -160,7 +160,7 @@ public IActionResult FileDownload()
 [HttpGet, NonUnify]
 public IActionResult FileDownload()
 {
-    return new FileStreamResult(byte数组, "application/octet-stream") {
+    return new FileContentResult(byte数组, "application/octet-stream") {
         FileDownloadName = fileName // 配置文件下载显示名
     };
 }
