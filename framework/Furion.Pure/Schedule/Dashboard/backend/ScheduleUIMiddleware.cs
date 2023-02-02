@@ -32,6 +32,13 @@ namespace Furion.Schedule;
 public sealed class ScheduleUIMiddleware
 {
     /// <summary>
+    /// 固定请求路径
+    /// </summary>
+    internal const string REQUEST_PATH = "/schedule";
+
+    private const string API_REQUEST_PATH = $"{REQUEST_PATH}/api";
+
+    /// <summary>
     /// 请求委托
     /// </summary>
     private readonly RequestDelegate _next;
@@ -46,20 +53,12 @@ public sealed class ScheduleUIMiddleware
     /// </summary>
     /// <param name="next">请求委托</param>
     /// <param name="schedulerFactory">作业计划工厂</param>
-    /// <param name="apiRequestPath">API 请求路径</param>
     public ScheduleUIMiddleware(RequestDelegate next
-        , ISchedulerFactory schedulerFactory
-        , string apiRequestPath)
+        , ISchedulerFactory schedulerFactory)
     {
         _next = next;
         _schedulerFactory = schedulerFactory;
-        ApiRequestPath = apiRequestPath;
     }
-
-    /// <summary>
-    /// API 请求路径
-    /// </summary>
-    private string ApiRequestPath { get; set; }
 
     /// <summary>
     /// 中间件执行方法
@@ -68,8 +67,8 @@ public sealed class ScheduleUIMiddleware
     /// <returns><see cref="Task"/></returns>
     public async Task InvokeAsync(HttpContext context)
     {
-        // 如果不是以 ApiRequestPath 开头，则跳过
-        if (!context.Request.Path.StartsWithSegments(ApiRequestPath))
+        // 如果不是以 API_REQUEST_PATH 开头，则跳过
+        if (!context.Request.Path.StartsWithSegments(API_REQUEST_PATH))
         {
             await _next(context);
             return;
@@ -83,7 +82,7 @@ public sealed class ScheduleUIMiddleware
         }
 
         // 获取匹配的路由标识
-        var action = context.Request.Path.Value?[ApiRequestPath.Length..]?.ToLower();
+        var action = context.Request.Path.Value?[API_REQUEST_PATH.Length..]?.ToLower();
 
         // 允许跨域，设置返回 json
         context.Response.ContentType = "application/json; charset=utf-8";

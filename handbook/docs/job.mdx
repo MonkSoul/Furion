@@ -13,6 +13,7 @@ import Tag from "@site/src/components/Tag.js";
 
 - **新特性**
 
+  - &nbsp;<Tag>新增</Tag> 定时任务 `Dashboard` 可自定义入口地址 `/schedule` <sup>4.8.5.6</sup> <sup>⏱️2023.02.02</sup>
   - &nbsp;<Tag>新增</Tag> 定时任务执行上下文 `RunId` 属性，用于标识单次作业触发器执行 <sup>4.8.5.1</sup> <sup>⏱️2023.01.30</sup> [1aac470](https://gitee.com/dotnetchina/Furion/commit/1aac4707d270cb0fe66eab67490d946029a9e41d)
   - &nbsp;<Tag>新增</Tag> 定时任务 `Dashboard` 查看作业触发器最近运行记录功能 <sup>4.8.4.3</sup> <sup>⏱️2023.01.03</sup> [e7d24d8](https://gitee.com/dotnetchina/Furion/commit/e7d24d84bcc448b0a13f8e0b76328669261af44b)
   - &nbsp;<Tag>新增</Tag> 定时任务作业触发器 `trigger.GetTimelines()` 获取最近 `10` 条运行记录列表 <sup>4.8.4.3</sup> <sup>⏱️2023.01.03</sup> [e7d24d8](https://gitee.com/dotnetchina/Furion/commit/e7d24d84bcc448b0a13f8e0b76328669261af44b)
@@ -5158,21 +5159,21 @@ app.UseScheduleUI();
 // 还可以配置生产环境关闭
 app.UseScheduleUI(options =>
 {
+    // 此操作暂提供 URL 重写功能，也就是会自动跳转
+    options.RequestPath = "/custom-job";  // Furion 4.8.5.6+ 版本支持，必须以 / 开头且不以 / 结尾
     options.DisableOnProduction = true;
 });
 ```
 
 :::caution 中间件说明
 
-`app.UseScheduleUI()` 必须在 `app.UseStaticFiles()` 之后注册，**且当前版本暂未提供任何自定义功能。**
+`app.UseScheduleUI()` 必须在 `app.UseStaticFiles()` 之后注册。
 
 :::
 
 接着打开浏览器并访问 `/schedule` 地址即可：
 
 <img src={useBaseUrl("img/job_dash.png")} />
-
-**注意：当前 `Furion 4.8.4+` 版本暂未提供任何自定义功能，包括 `/schedule` 地址配置。**
 
 前端源码地址：[https://gitee.com/dotnetchina/Furion/tree/v4/clients/schedule-dashboard](https://gitee.com/dotnetchina/Furion/tree/v4/clients/schedule-dashboard)
 
