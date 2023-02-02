@@ -424,8 +424,8 @@
                                     success: function (res, headerMap) {
                                         if (res.toString() === "200") {
                                             loginForm.style.display = "none";
-                                            defaultResponseInterceptor({ headers: headerMap });
                                             initSwaggerUI(configObject, oauthConfigObject);
+                                            defaultResponseInterceptor({ headers: headerMap });
                                         }
                                         else {
                                             loginError.innerHTML = "Invalid UserName or Password.";
