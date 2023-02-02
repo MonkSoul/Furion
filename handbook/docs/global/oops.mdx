@@ -62,3 +62,15 @@ Oops.Retry(() => {
 throw Oops.Bah("用户名或密码错误");
 throw Oops.Bah(1000);
 ```
+
+## 4.7 设置响应状态码
+
+```cs showLineNumbers
+throw Oops.Oh("错误了").StatusCode(502);
+```
+
+## 4.8 携带额外数据
+
+```cs showLineNumbers
+throw Oops.Oh("错误了").WithData(new Model {});
+```
