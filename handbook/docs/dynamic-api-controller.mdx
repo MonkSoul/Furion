@@ -20,7 +20,7 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
   <summary>查看变化</summary>
   <div>
 
-```cs showLineNumbers
+```cs showLineNumbers {8,19,36}
 using Furion.DynamicApiController;
 using Microsoft.AspNetCore.Mvc;
 
@@ -777,6 +777,61 @@ namespace Furion.Application
 动作方法不能同时贴 `[Route]` 和 `[HttpMethod]` 特性，只能二取一。
 
 :::
+
+---
+
+在 `Furion 4.8.5.7+` 版本提供更加强大的路由组合方式：
+
+```cs showLineNumbers {8,19,36}
+using Furion.DynamicApiController;
+using Microsoft.AspNetCore.Mvc;
+
+namespace WebApplication38;
+
+[Route("api/[controller]")]
+[Route("api2/[controller]")]
+public class Test1Service : IDynamicApiController
+{
+    [HttpGet("test")]
+    [HttpPost]
+    [AcceptVerbs("PUT", "PATCH")]
+    public async Task GetTestName()
+    {
+        await Task.CompletedTask;
+    }
+}
+
+public class Test2Service : IDynamicApiController
+{
+    [HttpGet("/root/test")]
+    [HttpGet("test")]
+    [HttpGet(Name = "other-test")]
+    [HttpGet("template-test", Name = "other-test")]
+    [HttpPost]
+    [AcceptVerbs("PUT", "PATCH")]
+    public async Task GetTestName()
+    {
+        await Task.CompletedTask;
+    }
+}
+
+[Route("api/[controller]")]
+[Route("api2/[controller]/second")]
+[Route("api3/[controller]/three")]
+public class Test3Service : IDynamicApiController
+{
+    [HttpGet]
+    [HttpGet("get/[action]")]
+    [HttpPost]
+    [HttpPost("post/cus-version")]
+    public string GetVersion()
+    {
+        return "1.0.0";
+    }
+}
+```
+
+<img src={useBaseUrl("img/dy10.png")} />
 
 ### 5.1.8.10 支持版本控制
 
