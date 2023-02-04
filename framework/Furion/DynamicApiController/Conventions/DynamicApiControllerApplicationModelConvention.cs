@@ -382,55 +382,73 @@ internal sealed class DynamicApiControllerApplicationModelConvention : IApplicat
     /// <param name="hasApiControllerAttribute"></param>
     private void ConfigureActionRouteAttribute(ActionModel action, ApiDescriptionSettingsAttribute apiDescriptionSettings, ApiDescriptionSettingsAttribute controllerApiDescriptionSettings, bool isLowercaseRoute, bool isKeepName, bool isLowerCamelCase, bool hasApiControllerAttribute)
     {
-        var selectorModel = action.Selectors[0];
-        // 跳过已配置路由特性的配置
-        if (selectorModel.AttributeRouteModel != null) return;
-
-        // 读取模块
-        var module = apiDescriptionSettings?.Module;
-
-        string template;
-        string controllerRouteTemplate = null;
-        // 如果动作方法名称为空、参数值为空，且无需保留谓词，则只生成控制器路由模板
-        if (action.ActionName.Length == 0 && !isKeepName && action.Parameters.Count == 0)
+        foreach (var selectorModel in action.Selectors)
         {
-            template = GenerateControllerRouteTemplate(action.Controller, controllerApiDescriptionSettings);
+            // 跳过已配置路由特性的配置
+            if (selectorModel.AttributeRouteModel != null)
+            {
+                // 1. 如果控制器自定义了 [Route] 特性，则跳过
+                if (action.ActionMethod.DeclaringType.IsDefined(typeof(RouteAttribute), true))
+                {
+                    if (string.IsNullOrWhiteSpace(selectorModel.AttributeRouteModel.Template)
+                        && !string.IsNullOrWhiteSpace(selectorModel.AttributeRouteModel.Name))
+                    {
+                        selectorModel.AttributeRouteModel.Template = selectorModel.AttributeRouteModel.Name;
+                    }
+
+                    continue;
+                }
+
+                // 2. 如果方法自定义路由模板且以 `/` 开头，则跳过
+                if (!string.IsNullOrWhiteSpace(selectorModel.AttributeRouteModel.Template) && selectorModel.AttributeRouteModel.Template.StartsWith("/")) continue;
+            }
+
+            // 读取模块
+            var module = apiDescriptionSettings?.Module;
+
+            string template;
+            string controllerRouteTemplate = null;
+            // 如果动作方法名称为空、参数值为空，且无需保留谓词，则只生成控制器路由模板
+            if (action.ActionName.Length == 0 && !isKeepName && action.Parameters.Count == 0)
+            {
+                template = GenerateControllerRouteTemplate(action.Controller, controllerApiDescriptionSettings);
+            }
+            else
+            {
+                // 生成参数路由模板
+                var parameterRouteTemplate = GenerateParameterRouteTemplates(action, isLowercaseRoute, isLowerCamelCase, hasApiControllerAttribute);
+
+                // 生成控制器模板
+                controllerRouteTemplate = GenerateControllerRouteTemplate(action.Controller, controllerApiDescriptionSettings, parameterRouteTemplate);
+
+                // 拼接动作方法路由模板
+                var ActionStartTemplate = parameterRouteTemplate != null ? (parameterRouteTemplate.ActionStartTemplates.Count == 0 ? null : string.Join("/", parameterRouteTemplate.ActionStartTemplates)) : null;
+                var ActionEndTemplate = parameterRouteTemplate != null ? (parameterRouteTemplate.ActionEndTemplates.Count == 0 ? null : string.Join("/", parameterRouteTemplate.ActionEndTemplates)) : null;
+
+                // 判断是否定义了控制器路由，如果定义，则不拼接控制器路由
+                var actionRouteTemplate = string.IsNullOrWhiteSpace(action.ActionName)
+                    || (action.Controller.Selectors[0].AttributeRouteModel?.Template?.Contains("[action]") ?? false) ? null : (selectorModel?.AttributeRouteModel?.Template ?? selectorModel?.AttributeRouteModel?.Name ?? "[action]");
+
+                template = string.IsNullOrWhiteSpace(controllerRouteTemplate)
+                     ? $"{(string.IsNullOrWhiteSpace(module) ? "/" : $"{module}/")}{ActionStartTemplate}/{actionRouteTemplate}/{ActionEndTemplate}"
+                     : $"{controllerRouteTemplate}/{(string.IsNullOrWhiteSpace(module) ? null : $"{module}/")}{ActionStartTemplate}/{actionRouteTemplate}/{ActionEndTemplate}";
+            }
+
+            AttributeRouteModel actionAttributeRouteModel = null;
+            if (!string.IsNullOrWhiteSpace(template))
+            {
+                // 处理多个斜杆问题
+                template = Regex.Replace(isLowercaseRoute ? template.ToLower() : isLowerCamelCase ? template.ToLowerCamelCase() : template, @"\/{2,}", "/");
+
+                // 生成路由
+                actionAttributeRouteModel = string.IsNullOrWhiteSpace(template) ? null : new AttributeRouteModel(new RouteAttribute(template));
+            }
+
+            // 拼接路由
+            selectorModel.AttributeRouteModel = string.IsNullOrWhiteSpace(controllerRouteTemplate)
+                ? (actionAttributeRouteModel == null ? null : AttributeRouteModel.CombineAttributeRouteModel(action.Controller.Selectors[0].AttributeRouteModel, actionAttributeRouteModel))
+                : actionAttributeRouteModel;
         }
-        else
-        {
-            // 生成参数路由模板
-            var parameterRouteTemplate = GenerateParameterRouteTemplates(action, isLowercaseRoute, isLowerCamelCase, hasApiControllerAttribute);
-
-            // 生成控制器模板
-            controllerRouteTemplate = GenerateControllerRouteTemplate(action.Controller, controllerApiDescriptionSettings, parameterRouteTemplate);
-
-            // 拼接动作方法路由模板
-            var ActionStartTemplate = parameterRouteTemplate != null ? (parameterRouteTemplate.ActionStartTemplates.Count == 0 ? null : string.Join("/", parameterRouteTemplate.ActionStartTemplates)) : null;
-            var ActionEndTemplate = parameterRouteTemplate != null ? (parameterRouteTemplate.ActionEndTemplates.Count == 0 ? null : string.Join("/", parameterRouteTemplate.ActionEndTemplates)) : null;
-
-            // 判断是否定义了控制器路由，如果定义，则不拼接控制器路由
-            var actionRouteTemplate = string.IsNullOrWhiteSpace(action.ActionName)
-                || (action.Controller.Selectors[0].AttributeRouteModel?.Template?.Contains("[action]") ?? false) ? null : "[action]";
-
-            template = string.IsNullOrWhiteSpace(controllerRouteTemplate)
-                 ? $"{(string.IsNullOrWhiteSpace(module) ? "/" : $"{module}/")}{ActionStartTemplate}/{actionRouteTemplate}/{ActionEndTemplate}"
-                 : $"{controllerRouteTemplate}/{(string.IsNullOrWhiteSpace(module) ? null : $"{module}/")}{ActionStartTemplate}/{actionRouteTemplate}/{ActionEndTemplate}";
-        }
-
-        AttributeRouteModel actionAttributeRouteModel = null;
-        if (!string.IsNullOrWhiteSpace(template))
-        {
-            // 处理多个斜杆问题
-            template = Regex.Replace(isLowercaseRoute ? template.ToLower() : isLowerCamelCase ? template.ToLowerCamelCase() : template, @"\/{2,}", "/");
-
-            // 生成路由
-            actionAttributeRouteModel = string.IsNullOrWhiteSpace(template) ? null : new AttributeRouteModel(new RouteAttribute(template));
-        }
-
-        // 拼接路由
-        selectorModel.AttributeRouteModel = string.IsNullOrWhiteSpace(controllerRouteTemplate)
-            ? (actionAttributeRouteModel == null ? null : AttributeRouteModel.CombineAttributeRouteModel(action.Controller.Selectors[0].AttributeRouteModel, actionAttributeRouteModel))
-            : actionAttributeRouteModel;
     }
 
     /// <summary>

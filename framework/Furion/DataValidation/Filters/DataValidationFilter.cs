@@ -90,6 +90,7 @@ public sealed class DataValidationFilter : IAsyncActionFilter, IOrderedFilter
             method.IsDefined(nonValidationAttributeType, true) ||
             method.DeclaringType.IsDefined(nonValidationAttributeType, true) ||
             modelState.IsValid ||
+            method.DeclaringType.Assembly.GetName().Name.StartsWith("Microsoft.AspNetCore.OData") ||
             context.Result != null)
         {
             await CallUnHandleResult(context, next, actionDescriptor, method);

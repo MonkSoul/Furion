@@ -5,6 +5,7 @@ sidebar_label: 5.1 动态 WebAPI
 ---
 
 import Tag from "@site/src/components/Tag.js";
+import useBaseUrl from "@docusaurus/useBaseUrl";
 
 <details>
   <summary>📝 模块更新日志</summary>
@@ -13,7 +14,67 @@ import Tag from "@site/src/components/Tag.js";
 
 - **新特性**
 
-  - &nbsp;<Tag>新增</Tag> 动态 `WebAPI` 方法支持通过 `[ActionName(名称)]` 和 `[HttpMethod(Name=名称)]` 指定路由名称 <sup>4.8.4.12</sup> <sup>⏱️2023.01.10</sup> [#I69AOJ](https://gitee.com/dotnetchina/Furion/issues/I69AOJ) [f699540](https://gitee.com/dotnetchina/Furion/commit/f699540989e688f25597c509249e024ec014dc4e)
+  - &nbsp;<Tag>新增</Tag> **动态 `WebAPI` 支持更加强大的路由组合功能** <sup>4.8.5.7</sup> <sup>⏱️2023.02.03</sup> [#I6CLPT](https://gitee.com/dotnetchina/Furion/issues/I6CLPT)
+
+<details style={{ marginLeft: 50 }}>
+  <summary>查看变化</summary>
+  <div>
+
+```cs showLineNumbers {8,19,36}
+using Furion.DynamicApiController;
+using Microsoft.AspNetCore.Mvc;
+
+namespace WebApplication38;
+
+[Route("api/[controller]")]
+[Route("api2/[controller]")]
+public class Test1Service : IDynamicApiController
+{
+    [HttpGet("test")]
+    [HttpPost]
+    [AcceptVerbs("PUT", "PATCH")]
+    public async Task GetTestName()
+    {
+        await Task.CompletedTask;
+    }
+}
+
+public class Test2Service : IDynamicApiController
+{
+    [HttpGet("/root/test")]
+    [HttpGet("test")]
+    [HttpGet(Name = "other-test")]
+    [HttpGet("template-test", Name = "other-test")]
+    [HttpPost]
+    [AcceptVerbs("PUT", "PATCH")]
+    public async Task GetTestName()
+    {
+        await Task.CompletedTask;
+    }
+}
+
+[Route("api/[controller]")]
+[Route("api2/[controller]/second")]
+[Route("api3/[controller]/three")]
+public class Test3Service : IDynamicApiController
+{
+    [HttpGet]
+    [HttpGet("get/[action]")]
+    [HttpPost]
+    [HttpPost("post/cus-version")]
+    public string GetVersion()
+    {
+        return "1.0.0";
+    }
+}
+```
+
+<img src={useBaseUrl("img/dy10.png")} />
+
+  </div>
+</details>
+
+- - &nbsp;<Tag>新增</Tag> 动态 `WebAPI` 方法支持通过 `[ActionName(名称)]` 和 `[HttpMethod(Name=名称)]` 指定路由名称 <sup>4.8.4.12</sup> <sup>⏱️2023.01.10</sup> [#I69AOJ](https://gitee.com/dotnetchina/Furion/issues/I69AOJ) [f699540](https://gitee.com/dotnetchina/Furion/commit/f699540989e688f25597c509249e024ec014dc4e)
 
 - **问题修复**
 
@@ -23,7 +84,6 @@ import Tag from "@site/src/components/Tag.js";
   </div>
 </details>
 
-import useBaseUrl from "@docusaurus/useBaseUrl";
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
 
@@ -717,6 +777,61 @@ namespace Furion.Application
 动作方法不能同时贴 `[Route]` 和 `[HttpMethod]` 特性，只能二取一。
 
 :::
+
+---
+
+在 `Furion 4.8.5.7+` 版本提供更加强大的路由组合方式：
+
+```cs showLineNumbers {8,19,36}
+using Furion.DynamicApiController;
+using Microsoft.AspNetCore.Mvc;
+
+namespace WebApplication38;
+
+[Route("api/[controller]")]
+[Route("api2/[controller]")]
+public class Test1Service : IDynamicApiController
+{
+    [HttpGet("test")]
+    [HttpPost]
+    [AcceptVerbs("PUT", "PATCH")]
+    public async Task GetTestName()
+    {
+        await Task.CompletedTask;
+    }
+}
+
+public class Test2Service : IDynamicApiController
+{
+    [HttpGet("/root/test")]
+    [HttpGet("test")]
+    [HttpGet(Name = "other-test")]
+    [HttpGet("template-test", Name = "other-test")]
+    [HttpPost]
+    [AcceptVerbs("PUT", "PATCH")]
+    public async Task GetTestName()
+    {
+        await Task.CompletedTask;
+    }
+}
+
+[Route("api/[controller]")]
+[Route("api2/[controller]/second")]
+[Route("api3/[controller]/three")]
+public class Test3Service : IDynamicApiController
+{
+    [HttpGet]
+    [HttpGet("get/[action]")]
+    [HttpPost]
+    [HttpPost("post/cus-version")]
+    public string GetVersion()
+    {
+        return "1.0.0";
+    }
+}
+```
+
+<img src={useBaseUrl("img/dy10.png")} />
 
 ### 5.1.8.10 支持版本控制
 

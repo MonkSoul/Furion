@@ -29,9 +29,10 @@ namespace Furion.Schedule;
 public sealed class ScheduleUIOptions
 {
     /// <summary>
-    /// UI 地址
+    /// UI 入口地址
     /// </summary>
-    public string RequestPath { get; set; } = "/schedule";
+    /// <remarks>需以 / 开头，结尾不包含 / </remarks>
+    public string RequestPath { get; set; } = ScheduleUIMiddleware.REQUEST_PATH;
 
     /// <summary>
     /// 启用目录浏览
