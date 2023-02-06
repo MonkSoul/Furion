@@ -512,7 +512,10 @@ public sealed partial class HttpRequestPart
         RequestUrl = RequestUrl.Render(Templates, true);
 
         // 构建请求对象
-        var request = new HttpRequestMessage(Method, RequestUrl);
+        var request = new HttpRequestMessage(Method, RequestUrl)
+        {
+            Version = new Version(HttpVersion)
+        };
         request.AppendQueries(Queries, EncodeUrl, IgnoreNullValueQueries);
 
         // 设置请求报文头
@@ -552,14 +555,14 @@ public sealed partial class HttpRequestPart
 
         try
         {
-            if (RetryPolicy == null) response = await httpClient.SendAsync(request, cancellationToken);
+            if (RetryPolicy == null) response = await httpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, cancellationToken);
             else
             {
                 // 失败重试
                 await Retry.InvokeAsync(async () =>
                 {
                     // 发送请求
-                    response = await httpClient.SendAsync(request, cancellationToken);
+                    response = await httpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, cancellationToken);
                 }, RetryPolicy.Value.NumRetries, RetryPolicy.Value.RetryTimeout);
             }
         }

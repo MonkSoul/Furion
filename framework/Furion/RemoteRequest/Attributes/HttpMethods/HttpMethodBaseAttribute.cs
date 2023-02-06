@@ -82,4 +82,9 @@ public class HttpMethodBaseAttribute : Attribute
     /// 忽略值为 null 的 Url 参数
     /// </summary>
     public bool IgnoreNullValueQueries { get; set; }
+
+    /// <summary>
+    /// Http 版本
+    /// </summary>
+    public string HttpVersion { get; set; } = "1.1";
 }
