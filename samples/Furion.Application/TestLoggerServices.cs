@@ -2,6 +2,7 @@
 using Furion.Logging;
 using Furion.Logging.Extensions;
 using Microsoft.Extensions.Logging;
+using System.ComponentModel;
 
 namespace Furion.Application;
 
@@ -180,5 +181,12 @@ public class TestLoggerServices : IDynamicApiController
             Id = 10,
             Bytes = File.ReadAllBytes("image.png")
         };
+    }
+
+    [LoggingMonitor(Title = "这是一段标题", JsonBehavior = JsonBehavior.OnlyJson, JsonIndented = true)]
+    [DisplayName("这是名称")]
+    public void 测试显示名称()
+    {
+
     }
 }

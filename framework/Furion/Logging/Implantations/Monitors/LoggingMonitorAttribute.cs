@@ -39,6 +39,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Primitives;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Logging;
 using System.Reflection;
@@ -211,6 +212,7 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter, IOr
         // 创建 JSON 写入器
         using var writer = new Utf8JsonWriter(stream, jsonWriterOptions);
         writer.WriteStartObject();
+        writer.WriteString("title", Title);
 
         // 创建日志上下文
         var logContext = new LogContext();
@@ -229,6 +231,12 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter, IOr
         // 调用呈现链名称
         var displayName = controllerActionDescriptor.DisplayName;
         writer.WriteString(nameof(displayName), displayName);
+
+        // [DisplayName] 特性
+        var displayNameAttribute = actionMethod.IsDefined(typeof(DisplayNameAttribute), true)
+            ? actionMethod.GetCustomAttribute<DisplayNameAttribute>(true)
+            : default;
+        writer.WriteString("displayTitle", displayNameAttribute?.DisplayName);
 
         // 获取 HttpContext 和 HttpRequest 对象
         var httpContext = context.HttpContext;
@@ -355,6 +363,7 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter, IOr
         {
             $"##控制器名称## {controllerActionDescriptor.ControllerTypeInfo.Name}"
             , $"##操作名称## {actionMethod.Name}"
+            , $"##显示名称## {displayNameAttribute?.DisplayName}"
             , $"##路由信息## [area]: {areaName}; [controller]: {controllerName}; [action]: {actionName}"
             , $"##请求方式## {httpMethod}"
             , $"##请求地址## {requestUrl}"
