@@ -555,14 +555,14 @@ public sealed partial class HttpRequestPart
 
         try
         {
-            if (RetryPolicy == null) response = await httpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, cancellationToken);
+            if (RetryPolicy == null) response = await httpClient.SendAsync(request, cancellationToken);
             else
             {
                 // 失败重试
                 await Retry.InvokeAsync(async () =>
                 {
                     // 发送请求
-                    response = await httpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, cancellationToken);
+                    response = await httpClient.SendAsync(request, cancellationToken);
                 }, RetryPolicy.Value.NumRetries, RetryPolicy.Value.RetryTimeout);
             }
         }
