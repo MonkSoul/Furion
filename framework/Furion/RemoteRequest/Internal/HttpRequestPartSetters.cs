@@ -331,4 +331,15 @@ public sealed partial class HttpRequestPart
         EncodeUrl = encodeUrl;
         return this;
     }
+
+    /// <summary>
+    /// 设置 Http 版本
+    /// </summary>
+    /// <param name="version"></param>
+    /// <returns></returns>
+    public HttpRequestPart SetHttpVersion(string version)
+    {
+        HttpVersion = version;
+        return this;
+    }
 }

@@ -17,8 +17,8 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Furion" Version="4.8.5.7" />
-		<PackageReference Include="Furion.Extras.ObjectMapper.Mapster" Version="4.8.5.7" />
+		<PackageReference Include="Furion" Version="4.8.5.9" />
+		<PackageReference Include="Furion.Extras.ObjectMapper.Mapster" Version="4.8.5.9" />
 	</ItemGroup>
 
 </Project>

@@ -168,6 +168,17 @@ public static class RemoteRequestStringExtensions
     }
 
     /// <summary>
+    /// 设置 Http Version
+    /// </summary>
+    /// <param name="requestUrl"></param>
+    /// <param name="version"></param>
+    /// <returns></returns>
+    public static HttpRequestPart SetHttpVersion(this string requestUrl, string version)
+    {
+        return HttpRequestPart.Default().SetRequestUrl(requestUrl).SetHttpVersion(version);
+    }
+
+    /// <summary>
     /// 设置文件
     /// </summary>
     /// <param name="requestUrl"></param>

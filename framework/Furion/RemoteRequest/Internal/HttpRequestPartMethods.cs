@@ -512,7 +512,10 @@ public sealed partial class HttpRequestPart
         RequestUrl = RequestUrl.Render(Templates, true);
 
         // 构建请求对象
-        var request = new HttpRequestMessage(Method, RequestUrl);
+        var request = new HttpRequestMessage(Method, RequestUrl)
+        {
+            Version = new Version(HttpVersion)
+        };
         request.AppendQueries(Queries, EncodeUrl, IgnoreNullValueQueries);
 
         // 设置请求报文头

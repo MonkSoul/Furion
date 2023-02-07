@@ -152,4 +152,9 @@ public sealed partial class HttpRequestPart
     /// 是否对 Url 进行 Uri.EscapeDataString
     /// </summary>
     public bool EncodeUrl { get; private set; } = true;
+
+    /// <summary>
+    /// 设置 Http 请求版本
+    /// </summary>
+    public string HttpVersion { get; private set; } = "1.1";
 }

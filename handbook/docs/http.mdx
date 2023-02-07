@@ -13,10 +13,13 @@ import Tag from "@site/src/components/Tag.js";
 
 - **新特性**
 
+  - &nbsp;<Tag>新增</Tag> 远程请求配置 `SetHttpVersion(version)` 配置，可配置 `HTTP` 请求版本，默认为 `1.1` <sup>4.8.5.8</sup> <sup>⏱️2023.02.06</sup> [#I6D64H](https://gitee.com/dotnetchina/Furion/issues/I6D64H)
   - &nbsp;<Tag>新增</Tag> 远程请求 `[QueryString]` 特性添加时间格式化 `Format` 属性 <sup>4.8.1.2</sup> <sup>⏱️2022.11.24</sup> [!670](https://gitee.com/dotnetchina/Furion/pulls/670)
 
 - **问题修复**
 
+  - &nbsp;<Tag>修复</Tag> 由于 [#I6D64H](https://gitee.com/dotnetchina/Furion/issues/I6D64H) 导致远程请求出现 `Specified method is not supported.` 问题 <sup>4.8.5.9</sup> <sup>⏱️2023.02.07</sup> [#I6DEEE](https://gitee.com/dotnetchina/Furion/issues/I6DEEE) [#I6D64H](https://gitee.com/dotnetchina/Furion/issues/I6D64H)
+  - &nbsp;<Tag>修复</Tag> 优化远程请求 `ReadAsStringAsync` 底层方法，尝试修复 `Error while copying content to a stream.` 错误 <sup>4.8.5.8</sup> <sup>⏱️2023.02.06</sup> [#I6D64H](https://gitee.com/dotnetchina/Furion/issues/I6D64H)
   - &nbsp;<Tag>修复</Tag> 远程请求配置 `WithEncodeUrl(false)` 对 `application/x-www-form-urlencoded` 请求类型无效 <sup>4.8.4</sup> <sup>⏱️2022.12.30</sup> [#I682DX](https://gitee.com/dotnetchina/Furion/issues/I682DX)
 
 - **文档**
@@ -551,6 +554,14 @@ var res = await "https://www.furion.icu".WithGZip().GetAsync();
 var res = await "https://www.furion.icu".WithEncodeUrl(false).GetAsync();
 ```
 
+### 19.4.25 设置 `HTTP` 版本
+
+可解决一些 `HTTP` 和 `HTTPS` 请求问题。
+
+```cs showLineNumbers
+var res = await "https://www.furion.icu".SetHttpVersion("1.0").GetAsync();  // Furion 4.8.5.8+ 支持
+```
+
 ## 19.5 `IHttpDispatchProxy` 代理方式
 
 ### 19.5.1 支持多种代理方式
@@ -1064,6 +1075,18 @@ public interface IHttp : IHttpDispatchProxy
 public interface IHttp : IHttpDispatchProxy
 {
     [Post("https://www.furion.icu", WithEncodeUrl = false)]
+    Task<HttpResponseMessage> PostXXXAsync([Body]User user);
+}
+```
+
+### 19.5.20 设置 `HTTP` 版本
+
+可解决一些 `HTTP` 和 `HTTPS` 请求问题。
+
+```cs showLineNumbers
+public interface IHttp : IHttpDispatchProxy
+{
+    [Post("https://www.furion.icu", HttpVersion = "1.1")]
     Task<HttpResponseMessage> PostXXXAsync([Body]User user);
 }
 ```
