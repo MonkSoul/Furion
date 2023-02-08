@@ -13,7 +13,7 @@ import Tag from "@site/src/components/Tag.js";
 
 - **新特性**
 
-  - &nbsp;<Tag>新增</Tag> **多语言支持 `.json` 文件配置方式（推荐）** <sup>4.8.6</sup> <sup>⏱️2023.02.08</sup> [#I6DL71](https://gitee.com/dotnetchina/Furion/issues/I6DL71)
+  - &nbsp;<Tag>新增</Tag> **多语言支持 `.json` 文件配置方式（推荐）** <sup>4.8.6</sup> <sup>⏱️2023.02.08</sup> [#I6DL71](https://gitee.com/dotnetchina/Furion/issues/I6DL71) [#I5DXKP](https://gitee.com/dotnetchina/Furion/issues/I5DXKP)
   - &nbsp;<Tag>新增</Tag> `L.SetCurrentUICulture(culture)` 和 `L.GetCurrentUICulture()` 静态方法，可在运行时动态修改当前线程区域性 <sup>4.8.3.10</sup> <sup>⏱️2022.12.23</sup> [#I66JWA](https://gitee.com/dotnetchina/Furion/issues/I66JWA)
   - &nbsp;<Tag>新增</Tag> `L.SetCulture(culture, immediately)` 方法重载，可配置运行时修改多语言立即有效 <sup>4.8.3.10</sup> <sup>⏱️2022.12.23</sup> [#I66JWA](https://gitee.com/dotnetchina/Furion/issues/I66JWA)
 
@@ -94,8 +94,10 @@ public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
 
 `Furion` 框架主要通过 `L` 静态类完成多语言转换，该静态类有以下属性和方法：
 
-- `L.Text[文本]`：转换文本多语言
-- `L.Html[HTML代码, 格式化]`：转换 `Html` 多语言
+- **`L.Text[文本]`**：转换文本多语言
+- **`L.Html[HTML代码, 格式化]`**：转换 `Html` 多语言
+- `L.TextOf<T>()[文本]`：转换文本多语言，使用该方式那么资源文件需使用完整类型限定名，Furion 4.8.6+ 支持
+- `L.HtmlOf<T>()[HTML代码, 格式化]`：转换 `Html` 多语言，使用该方式那么资源文件需使用完整类型限定名，Furion 4.8.6+ 支持
 - `L.SetCulture(区域码)`：设置当前语言区域，默认在下一次请求有效，第二个参数设置 `true` 立即有效
 - `L.GetSelectCulture()`：获取当前的语言区域
 - `L.GetCultures()`：获取系统支持的多语言列表
@@ -397,7 +399,7 @@ L.Text["Furion"];   // => 如果设置为英文，但是没有文件，则直接
 
 :::tip 小知识
 
-**集成第三方多语言库除了注册服务和文件后缀名有区别，其他用法一模一样（包括配置，用法等）**，也就是任何时候替换成第三方都可以，业务使用代码无需更改。
+**集成第三方多语言库除了注册服务和文件后缀名有区别，其他用法一模一样（包括全局配置，用法等）**，也就是任何时候替换成第三方都可以，业务使用代码无需更改。
 
 :::
 
