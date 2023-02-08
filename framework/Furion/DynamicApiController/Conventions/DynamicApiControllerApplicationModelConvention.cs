@@ -412,6 +412,10 @@ internal sealed class DynamicApiControllerApplicationModelConvention : IApplicat
             if (action.ActionName.Length == 0 && !isKeepName && action.Parameters.Count == 0)
             {
                 template = GenerateControllerRouteTemplate(action.Controller, controllerApiDescriptionSettings);
+                if (!string.IsNullOrWhiteSpace(selectorModel.AttributeRouteModel?.Template))
+                {
+                    template = $"{template}/{selectorModel.AttributeRouteModel?.Template}";
+                }
             }
             else
             {
@@ -428,6 +432,11 @@ internal sealed class DynamicApiControllerApplicationModelConvention : IApplicat
                 // 判断是否定义了控制器路由，如果定义，则不拼接控制器路由
                 var actionRouteTemplate = string.IsNullOrWhiteSpace(action.ActionName)
                     || (action.Controller.Selectors[0].AttributeRouteModel?.Template?.Contains("[action]") ?? false) ? null : (selectorModel?.AttributeRouteModel?.Template ?? selectorModel?.AttributeRouteModel?.Name ?? "[action]");
+
+                if (!string.IsNullOrWhiteSpace(selectorModel.AttributeRouteModel?.Template))
+                {
+                    actionRouteTemplate = $"{actionRouteTemplate}/{selectorModel.AttributeRouteModel?.Template}";
+                }
 
                 template = string.IsNullOrWhiteSpace(controllerRouteTemplate)
                      ? $"{(string.IsNullOrWhiteSpace(module) ? "/" : $"{module}/")}{ActionStartTemplate}/{actionRouteTemplate}/{ActionEndTemplate}"
