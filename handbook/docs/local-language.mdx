@@ -13,8 +13,13 @@ import Tag from "@site/src/components/Tag.js";
 
 - **新特性**
 
+  - &nbsp;<Tag>新增</Tag> **多语言支持 `.json` 文件配置方式（推荐）** <sup>4.8.6</sup> <sup>⏱️2023.02.08</sup> [#I6DL71](https://gitee.com/dotnetchina/Furion/issues/I6DL71)
   - &nbsp;<Tag>新增</Tag> `L.SetCurrentUICulture(culture)` 和 `L.GetCurrentUICulture()` 静态方法，可在运行时动态修改当前线程区域性 <sup>4.8.3.10</sup> <sup>⏱️2022.12.23</sup> [#I66JWA](https://gitee.com/dotnetchina/Furion/issues/I66JWA)
   - &nbsp;<Tag>新增</Tag> `L.SetCulture(culture, immediately)` 方法重载，可配置运行时修改多语言立即有效 <sup>4.8.3.10</sup> <sup>⏱️2022.12.23</sup> [#I66JWA](https://gitee.com/dotnetchina/Furion/issues/I66JWA)
+
+- **文档**
+
+  - &nbsp;<Tag>新增</Tag> **多语言 `.json` 配置方式文档**
 
 </div>
   </div>
@@ -226,7 +231,7 @@ L.Text["没找到"];   // => 如果设置为英文，但是没有文件，则直
 
 :::tip 自定义资源文件名或存放程序集
 
-默认情况下，资源文件名必须以 `Lang` 开头，且只能放在启动层，如果需要自定义，添加配置文件即可
+默认情况下，资源文件名必须以 `Lang` 开头，且默认放在启动层，如果需要自定义，添加配置文件即可
 
 ```json showLineNumbers
 {
@@ -305,7 +310,98 @@ L.SetCulture("en-US");  // en-US 也可以通过前端传递过来，这样就�
 
 相关文档说明 [https://docs.microsoft.com/zh-cn/dotnet/api/system.globalization.cultureinfo?view=net-6.0](https://docs.microsoft.com/zh-cn/dotnet/api/system.globalization.cultureinfo?view=net-6.0)
 
-## 21.11 `Json` 或 `数据库` 多语言实现
+## 21.11 基于 `JSON` 文件多语言
+
+:::important 版本说明
+
+以下内容仅限 `Furion 4.8.6 +` 版本使用。
+
+:::
+
+在默认情况下，微软推荐使用 `.resx` 文件格式作为多语言配置文件格式，**但此方式无法在运行时进行修改**，所以社区更多使用的是 `.json` 文件格式作为多语言配置，可在运行时动态修改。
+
+---
+
+**`Furion` 框架默认不提供 `json` 多语言配置功能，但非常容易集成第三方多语言库**，在这里推荐：[https://github.com/hishamco/My.Extensions.Localization.Json](https://github.com/hishamco/My.Extensions.Localization.Json)。集成步骤如下：
+
+**1. 安装 `My.Extensions.Localization.Json` 拓展，通常安装在 `XXX.Web.Core` 层**
+
+```bash showLineNumbers
+dotnet add package My.Extensions.Localization.Json
+```
+
+**2. 在 `Startup.cs` 中注册服务**
+
+```cs showLineNumbers {4-8,19}
+public void ConfigureServices(IServiceCollection services)
+{
+    services.AddControllersWithViews()
+            .AddAppLocalization(settings =>
+            {
+                // 集成第三方 json 配置
+                services.AddJsonLocalization(options => options.ResourcesPath = settings.ResourcesPath);
+            });  // 注册多语言
+}
+
+public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+{
+    if (env.IsDevelopment())
+    {
+        app.UseDeveloperExceptionPage();
+    }
+
+    // 配置多语言，必须在 路由注册之前
+    app.UseAppLocalization();
+
+    app.UseStaticFiles();
+    app.UseRouting();
+
+    // 其他中间件
+}
+```
+
+:::important 特别注意
+
+`app.UseAppLocalization();` 必须在 `app.UseRouting();` 之前注册。
+
+:::
+
+**3. 在 `Resources` 文件夹中添加 `json文件` 即可，资源文件命名规则：`Lang.区域码.json`，如：`Lang.en-US.json`。**
+
+<img src={useBaseUrl("img/dyy1.png")} />
+
+<img src={useBaseUrl("img/dyy2.png")} />
+
+:::tip 自定义资源文件名或存放程序集
+
+默认情况下，资源文件名必须以 `Lang` 开头，且默认放在启动层，如果需要自定义，添加配置文件即可
+
+```json showLineNumbers
+{
+  "LocalizationSettings": {
+    "LanguageFilePrefix": "MyLang"
+    // "AssemblyName": "你的其他层程序集名称"
+  }
+}
+```
+
+之后，就可以：`MyLang.区域码.json`。
+
+:::
+
+**4. 在代码中使用**
+
+```cs showLineNumbers
+L.Text["Furion"];   // => 如果设置为英文，但是没有文件，则直接输出 “Furion”
+```
+
+:::tip 小知识
+
+**集成第三方多语言库除了注册服务和文件后缀名有区别，其他用法一模一样（包括配置，用法等）**，也就是任何时候替换成第三方都可以，业务使用代码无需更改。
+
+:::
+
+## 21.12 多语言其他实现
 
 在 `asp.net core 本地化` 文档中微软推荐了三个拓展开源项目：[https://docs.microsoft.com/zh-cn/aspnet/core/fundamentals/localization-extensibility?view=aspnetcore-6.0#localization-resources](https://docs.microsoft.com/zh-cn/aspnet/core/fundamentals/localization-extensibility?view=aspnetcore-6.0#localization-resources)
 
@@ -313,7 +409,7 @@ L.SetCulture("en-US");  // en-US 也可以通过前端传递过来，这样就�
 
 <img src={useBaseUrl("img/lang6.png")} />
 
-## 21.12 区域码列表
+## 21.13 区域码列表
 
 - af 公用荷兰语
 - af-ZA 公用荷兰语 - 南非
@@ -517,7 +613,7 @@ L.SetCulture("en-US");  // en-US 也可以通过前端传递过来，这样就�
 - vi 越南
 - vi-VN 越南 -越南
 
-## 21.13 反馈与建议
+## 21.14 反馈与建议
 
 :::note 与我们交流
 

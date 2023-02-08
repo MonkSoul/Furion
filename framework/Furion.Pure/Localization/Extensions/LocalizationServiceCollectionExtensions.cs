@@ -38,11 +38,12 @@ public static class LocalizationServiceCollectionExtensions
     /// <summary>
     /// 配置多语言服务
     /// </summary>
-    /// <param name="mvcBuilde"></param>
+    /// <param name="mvcBuilder"></param>
+    /// <param name="customizeConfigure">如果传入该参数，则使用自定义多语言机制</param>
     /// <returns></returns>
-    public static IMvcBuilder AddAppLocalization(this IMvcBuilder mvcBuilde)
+    public static IMvcBuilder AddAppLocalization(this IMvcBuilder mvcBuilder, Action<LocalizationSettingsOptions> customizeConfigure = default)
     {
-        var services = mvcBuilde.Services;
+        var services = mvcBuilder.Services;
 
         // 添加多语言配置选项
         services.AddConfigurableOptions<LocalizationSettingsOptions>();
@@ -50,15 +51,20 @@ public static class LocalizationServiceCollectionExtensions
         // 获取多语言配置选项
         var localizationSettings = App.GetConfig<LocalizationSettingsOptions>("LocalizationSettings", true);
 
-        // 注册多语言服务
-        services.AddLocalization(options =>
+        // 注册默认多语言服务
+        if (customizeConfigure == null)
         {
-            if (!string.IsNullOrWhiteSpace(localizationSettings.ResourcesPath))
-                options.ResourcesPath = localizationSettings.ResourcesPath;
-        });
+            services.AddLocalization(options =>
+            {
+                if (!string.IsNullOrWhiteSpace(localizationSettings.ResourcesPath))
+                    options.ResourcesPath = localizationSettings.ResourcesPath;
+            });
+        }
+        // 使用自定义
+        else customizeConfigure.Invoke(localizationSettings);
 
         // 配置视图多语言和验证多语言
-        mvcBuilde.AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix)
+        mvcBuilder.AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix)
                  .AddDataAnnotationsLocalization(options =>
                  {
                      options.DataAnnotationLocalizerProvider = (type, factory) =>
@@ -74,6 +80,6 @@ public static class LocalizationServiceCollectionExtensions
         // 处理多语言在 Razor 视图中文乱码问题
         services.AddSingleton(HtmlEncoder.Create(UnicodeRanges.All));
 
-        return mvcBuilde;
+        return mvcBuilder;
     }
 }
