@@ -23,13 +23,13 @@
 namespace Furion.TimeCrontab;
 
 /// <summary>
-/// TimeCrontab ģ���쳣��
+/// TimeCrontab 模块异常类
 /// </summary>
 [SuppressSniffer]
 public sealed class TimeCrontabException : Exception
 {
     /// <summary>
-    /// ���캯��
+    /// 构造函数
     /// </summary>
     public TimeCrontabException()
         : base()
@@ -37,19 +37,19 @@ public sealed class TimeCrontabException : Exception
     }
 
     /// <summary>
-    /// ���캯��
+    /// 构造函数
     /// </summary>
-    /// <param name="message">�쳣��Ϣ</param>
+    /// <param name="message">异常消息</param>
     public TimeCrontabException(string message)
         : base(message)
     {
     }
 
     /// <summary>
-    /// ���캯��
+    /// 构造函数
     /// </summary>
-    /// <param name="message">�쳣��Ϣ</param>
-    /// <param name="innerException">�ڲ��쳣</param>
+    /// <param name="message">异常消息</param>
+    /// <param name="innerException">内部异常</param>
     public TimeCrontabException(string message, Exception innerException)
         : base(message, innerException)
     {
