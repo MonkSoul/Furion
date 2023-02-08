@@ -116,6 +116,20 @@ public interface IScheduler
     void UpdateDetail(JobBuilder jobBuilder);
 
     /// <summary>
+    /// 更新作业计划信息
+    /// </summary>
+    /// <param name="jobBuilderAction">作业信息构建器委托</param>
+    /// <param name="jobDetail">作业信息</param>
+    /// <returns><see cref="ScheduleResult"/></returns>
+    ScheduleResult TryUpdateDetail(Action<JobBuilder> jobBuilderAction, out JobDetail jobDetail);
+
+    /// <summary>
+    /// 更新作业信息
+    /// </summary>
+    /// <param name="jobBuilderAction">作业信息构建器委托</param>
+    void UpdateDetail(Action<JobBuilder> jobBuilderAction);
+
+    /// <summary>
     /// 添加作业触发器
     /// </summary>
     /// <param name="triggerBuilder">作业触发器构建器</param>
@@ -142,6 +156,22 @@ public interface IScheduler
     /// </summary>
     /// <param name="triggerBuilders">作业触发器构建器</param>
     void UpdateTrigger(params TriggerBuilder[] triggerBuilders);
+
+    /// <summary>
+    /// 更新作业触发器
+    /// </summary>
+    /// <param name="triggerId">作业触发器 Id</param>
+    /// <param name="triggerBuilderAction">作业触发器构建器委托</param>
+    /// <param name="trigger">作业触发器</param>
+    /// <returns><see cref="ScheduleResult"/></returns>
+    ScheduleResult TryUpdateTrigger(string triggerId, Action<TriggerBuilder> triggerBuilderAction, out Trigger trigger);
+
+    /// <summary>
+    /// 更新作业触发器
+    /// </summary>
+    /// <param name="triggerId">作业触发器 Id</param>
+    /// <param name="triggerBuilderAction">作业触发器构建器委托</param>
+    void UpdateTrigger(string triggerId, Action<TriggerBuilder> triggerBuilderAction);
 
     /// <summary>
     /// 删除作业触发器

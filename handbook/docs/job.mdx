@@ -13,23 +13,64 @@ import Tag from "@site/src/components/Tag.js";
 
 - **新特性**
 
-  - &nbsp;<Tag>新增</Tag> 定时任务 `Dashboard` 可自定义入口地址 `/schedule` <sup>4.8.5.6</sup> <sup>⏱️2023.02.02</sup> [c5639f5](https://gitee.com/dotnetchina/Furion/commit/c5639f5b8d1ae5164bf812540aeb98f90487e855)
-  - &nbsp;<Tag>新增</Tag> 定时任务执行上下文 `RunId` 属性，用于标识单次作业触发器执行 <sup>4.8.5.1</sup> <sup>⏱️2023.01.30</sup> [1aac470](https://gitee.com/dotnetchina/Furion/commit/1aac4707d270cb0fe66eab67490d946029a9e41d)
-  - &nbsp;<Tag>新增</Tag> 定时任务 `Dashboard` 查看作业触发器最近运行记录功能 <sup>4.8.4.3</sup> <sup>⏱️2023.01.03</sup> [e7d24d8](https://gitee.com/dotnetchina/Furion/commit/e7d24d84bcc448b0a13f8e0b76328669261af44b)
-  - &nbsp;<Tag>新增</Tag> 定时任务作业触发器 `trigger.GetTimelines()` 获取最近 `10` 条运行记录列表 <sup>4.8.4.3</sup> <sup>⏱️2023.01.03</sup> [e7d24d8](https://gitee.com/dotnetchina/Furion/commit/e7d24d84bcc448b0a13f8e0b76328669261af44b)
-  - &nbsp;<Tag>新增</Tag> **定时任务 `Dashboard` 看板** <sup>4.8.4</sup> <sup>⏱️2022.12.30</sup> [d3f9669](https://gitee.com/dotnetchina/Furion/commit/d3f966921dfa757c12c2bd071fb19fc166a2f24e)
-  - &nbsp;<Tag>新增</Tag> 定时任务 `IScheduler.GetEnumerable()` 方法，可将作业计划转换成可枚举字典 <sup>4.8.4</sup> <sup>⏱️2022.12.30</sup> [4d5235c](https://gitee.com/dotnetchina/Furion/commit/4d5235c37a9ef5e66e92847e65ef9786bcd7387c)
-  - &nbsp;<Tag>新增</Tag> 定时任务配置选项 `options.JobDetail.LogEnabled` 配置，可自动输出执行日志 <sup>4.8.3.7</sup> <sup>⏱️2022.12.14</sup> [58d2c20](https://gitee.com/dotnetchina/Furion/commit/58d2c20de05dc458b206863f7814e89866e7522b)
-  - &nbsp;<Tag>新增</Tag> **定时任务 `IScheduler` 对象每次操作后自动刷新和提供手动刷新 `Reload()` 方法** <sup>4.8.3.3</sup> <sup>⏱️2022.12.09</sup> [#I65EQ1](https://gitee.com/dotnetchina/Furion/issues/I65EQ1#note_15047484_link)
-  - &nbsp;<Tag>新增</Tag> 定时任务间隔分钟作业触发器 `Triggers.PeriodMinutes(5)` 和 `[PeriodMinutes(5)]` 特性 <sup>4.8.2.8</sup> <sup>⏱️2022.12.01</sup> [8e1f06f](https://gitee.com/dotnetchina/Furion/commit/8e1f06fa2161ee2bf8bcea29af8aaa5a60ef9db9)
-  - &nbsp;<Tag>新增</Tag> 定时任务工作日作业触发器 `Triggers.Workday()` 和 `[Workday]` 特性 <sup>4.8.2.6</sup> <sup>⏱️2022.11.30</sup> [28b2d20](https://gitee.com/dotnetchina/Furion/commit/28b2d20b3f6034a4cdf5827576c34412315fbb15)
-  - &nbsp;<Tag>新增</Tag> 定时任务作业校对功能，可对误差进行校正 <sup>4.8.2.6</sup> <sup>⏱️2022.11.30</sup> [f725a25](https://gitee.com/dotnetchina/Furion/commit/f725a252e6a89f9dea6489d4e54452077b1935e5)
-  - &nbsp;<Tag>新增</Tag> **定时任务 `Triggers` 所有带 `At` 的 `Cron` 表达式触发器构建器及特性** <sup>4.8.2.5</sup> <sup>⏱️2022.11.29</sup> [#I63PLR](https://gitee.com/dotnetchina/Sundial/issues/I63PLR)
-  - &nbsp;<Tag>新增</Tag> 定时任务批量添加 `SchedulerBuilder` 作业功能 <sup>4.8.2.4</sup> <sup>⏱️2022.11.29</sup> [5faa67b](https://gitee.com/dotnetchina/Furion/commit/5faa67b7817459cb0ee0add86a6e53c17ff51a05)
-  - &nbsp;<Tag>新增</Tag> 定时任务 `BuildSqlType` 配置，可设置生成不同数据库类型的 `SQL` 语句 <sup>4.8.2.3</sup> <sup>⏱️2022.11.29</sup> [293f9bc](https://gitee.com/dotnetchina/Furion/commit/293f9bce34fc4f70eacae1043ed697d31da88409) [!675](https://gitee.com/dotnetchina/Furion/pulls/675)
-  - &nbsp;<Tag>新增</Tag> `JobDetail` 和 `Trigger` 自定义 `ConvertToSQL` 输出 `SQL` 配置 <sup>4.8.2</sup> <sup>⏱️2022.11.27</sup> [0bb9d8f](https://gitee.com/dotnetchina/Furion/commit/0bb9d8f1f3606af145b44c2984b87fdc020f02e1)
-  - &nbsp;<Tag>新增</Tag> **作业触发器 `ResetOnlyOnce` 属性，支持只运行一次的作业重新启动服务重复执行** <sup>4.8.1.5</sup> <sup>⏱️2022.11.25</sup> [a8be728](https://gitee.com/dotnetchina/Furion/commit/a8be728eac986ebc5f44718b08c67aaee8b89dc6)
-  - &nbsp;<Tag>新增</Tag> 动态作业处理程序委托支持 <sup>4.8.1.8</sup> <sup>⏱️2022.11.27</sup> [e02266c](https://gitee.com/dotnetchina/Furion/commit/e02266c44187dbc2b416abe1ca4112ce13c89180)
+  - &nbsp;<Tag>新增</Tag> 定时任务 `IScheduler.[Try]UpdateDetail(builder => {})` 和 `IScheduler.[Try]UpdateTrigger(triggerId, builder => {})` 重载方法 <sup>4.8.6</sup> <sup>⏱️2023.02.08</sup>
+
+<details style={{ marginLeft: 50 }}>
+  <summary>查看变化</summary>
+  <div>
+
+- 更新作业信息
+
+```cs showLineNumbers {2,8}
+// 返回 ScheduleResult 类型
+var scheduleResult = Scheduler.TryUpdateDetail(jobBuilder =>
+{
+      jobBuilder.SetDescription("~~~");
+}, out var jobDetail);
+
+// 无返回值
+scheduler.UpdateDetail(jobBuilder =>
+{
+      jobBuilder.SetDescription("~~~");
+});
+```
+
+- 更新作业触发器
+
+```cs showLineNumbers {2,8}
+// 返回 ScheduleResult 类型
+var scheduleResult = scheduler.TryUpdateTrigger("triggerId", triggerBuilder =>
+{
+      triggerBuilder.SetDescription("~~");
+}, out var trigger);
+
+// 无返回值
+scheduler.UpdateTrigger("triggerId", triggerBuilder =>
+{
+      triggerBuilder.SetDescription("~~");
+});
+```
+
+  </div>
+</details>
+
+- - &nbsp;<Tag>新增</Tag> 定时任务 `Dashboard` 可自定义入口地址 `/schedule` <sup>4.8.5.6</sup> <sup>⏱️2023.02.02</sup> [c5639f5](https://gitee.com/dotnetchina/Furion/commit/c5639f5b8d1ae5164bf812540aeb98f90487e855)
+- - &nbsp;<Tag>新增</Tag> 定时任务执行上下文 `RunId` 属性，用于标识单次作业触发器执行 <sup>4.8.5.1</sup> <sup>⏱️2023.01.30</sup> [1aac470](https://gitee.com/dotnetchina/Furion/commit/1aac4707d270cb0fe66eab67490d946029a9e41d)
+- - &nbsp;<Tag>新增</Tag> 定时任务 `Dashboard` 查看作业触发器最近运行记录功能 <sup>4.8.4.3</sup> <sup>⏱️2023.01.03</sup> [e7d24d8](https://gitee.com/dotnetchina/Furion/commit/e7d24d84bcc448b0a13f8e0b76328669261af44b)
+- - &nbsp;<Tag>新增</Tag> 定时任务作业触发器 `trigger.GetTimelines()` 获取最近 `10` 条运行记录列表 <sup>4.8.4.3</sup> <sup>⏱️2023.01.03</sup> [e7d24d8](https://gitee.com/dotnetchina/Furion/commit/e7d24d84bcc448b0a13f8e0b76328669261af44b)
+- - &nbsp;<Tag>新增</Tag> **定时任务 `Dashboard` 看板** <sup>4.8.4</sup> <sup>⏱️2022.12.30</sup> [d3f9669](https://gitee.com/dotnetchina/Furion/commit/d3f966921dfa757c12c2bd071fb19fc166a2f24e)
+- - &nbsp;<Tag>新增</Tag> 定时任务 `IScheduler.GetEnumerable()` 方法，可将作业计划转换成可枚举字典 <sup>4.8.4</sup> <sup>⏱️2022.12.30</sup> [4d5235c](https://gitee.com/dotnetchina/Furion/commit/4d5235c37a9ef5e66e92847e65ef9786bcd7387c)
+- - &nbsp;<Tag>新增</Tag> 定时任务配置选项 `options.JobDetail.LogEnabled` 配置，可自动输出执行日志 <sup>4.8.3.7</sup> <sup>⏱️2022.12.14</sup> [58d2c20](https://gitee.com/dotnetchina/Furion/commit/58d2c20de05dc458b206863f7814e89866e7522b)
+- - &nbsp;<Tag>新增</Tag> **定时任务 `IScheduler` 对象每次操作后自动刷新和提供手动刷新 `Reload()` 方法** <sup>4.8.3.3</sup> <sup>⏱️2022.12.09</sup> [#I65EQ1](https://gitee.com/dotnetchina/Furion/issues/I65EQ1#note_15047484_link)
+- - &nbsp;<Tag>新增</Tag> 定时任务间隔分钟作业触发器 `Triggers.PeriodMinutes(5)` 和 `[PeriodMinutes(5)]` 特性 <sup>4.8.2.8</sup> <sup>⏱️2022.12.01</sup> [8e1f06f](https://gitee.com/dotnetchina/Furion/commit/8e1f06fa2161ee2bf8bcea29af8aaa5a60ef9db9)
+- - &nbsp;<Tag>新增</Tag> 定时任务工作日作业触发器 `Triggers.Workday()` 和 `[Workday]` 特性 <sup>4.8.2.6</sup> <sup>⏱️2022.11.30</sup> [28b2d20](https://gitee.com/dotnetchina/Furion/commit/28b2d20b3f6034a4cdf5827576c34412315fbb15)
+- - &nbsp;<Tag>新增</Tag> 定时任务作业校对功能，可对误差进行校正 <sup>4.8.2.6</sup> <sup>⏱️2022.11.30</sup> [f725a25](https://gitee.com/dotnetchina/Furion/commit/f725a252e6a89f9dea6489d4e54452077b1935e5)
+- - &nbsp;<Tag>新增</Tag> **定时任务 `Triggers` 所有带 `At` 的 `Cron` 表达式触发器构建器及特性** <sup>4.8.2.5</sup> <sup>⏱️2022.11.29</sup> [#I63PLR](https://gitee.com/dotnetchina/Sundial/issues/I63PLR)
+- - &nbsp;<Tag>新增</Tag> 定时任务批量添加 `SchedulerBuilder` 作业功能 <sup>4.8.2.4</sup> <sup>⏱️2022.11.29</sup> [5faa67b](https://gitee.com/dotnetchina/Furion/commit/5faa67b7817459cb0ee0add86a6e53c17ff51a05)
+- - &nbsp;<Tag>新增</Tag> 定时任务 `BuildSqlType` 配置，可设置生成不同数据库类型的 `SQL` 语句 <sup>4.8.2.3</sup> <sup>⏱️2022.11.29</sup> [293f9bc](https://gitee.com/dotnetchina/Furion/commit/293f9bce34fc4f70eacae1043ed697d31da88409) [!675](https://gitee.com/dotnetchina/Furion/pulls/675)
+- - &nbsp;<Tag>新增</Tag> `JobDetail` 和 `Trigger` 自定义 `ConvertToSQL` 输出 `SQL` 配置 <sup>4.8.2</sup> <sup>⏱️2022.11.27</sup> [0bb9d8f](https://gitee.com/dotnetchina/Furion/commit/0bb9d8f1f3606af145b44c2984b87fdc020f02e1)
+- - &nbsp;<Tag>新增</Tag> **作业触发器 `ResetOnlyOnce` 属性，支持只运行一次的作业重新启动服务重复执行** <sup>4.8.1.5</sup> <sup>⏱️2022.11.25</sup> [a8be728](https://gitee.com/dotnetchina/Furion/commit/a8be728eac986ebc5f44718b08c67aaee8b89dc6)
+- - &nbsp;<Tag>新增</Tag> 动态作业处理程序委托支持 <sup>4.8.1.8</sup> <sup>⏱️2022.11.27</sup> [e02266c](https://gitee.com/dotnetchina/Furion/commit/e02266c44187dbc2b416abe1ca4112ce13c89180)
 
 - **突破性变化**
 
@@ -3842,12 +3883,26 @@ var scheduleResult = scheduler.TrySaveTrigger(Trigggers.PeriodSeconds(5).Updated
 
 ### 26.1.11.10 更新作业信息
 
-```cs showLineNumbers
+```cs showLineNumbers {2,5,9,16}
 // 返回 ScheduleResult 类型
 var scheduleResult = scheduler.TryUpdateDetail(jobBuilder, out var jobDetail);
 
-// 无返回值，支持多个
-scheduler.UpdateDetail(jobBuilder)
+// 无返回值
+scheduler.UpdateDetail(jobBuilder);
+
+// Furion 4.8.6+ 支持
+// 返回 ScheduleResult 类型
+var scheduleResult = Scheduler.TryUpdateDetail(jobBuilder =>
+{
+      jobBuilder.SetDescription("~~~");
+}, out var jobDetail);
+
+// Furion 4.8.6+ 支持
+// 无返回值
+scheduler.UpdateDetail(jobBuilder =>
+{
+      jobBuilder.SetDescription("~~~");
+});
 ```
 
 ### 26.1.11.11 添加作业触发器
@@ -3862,12 +3917,26 @@ scheduler.AddTrigger(triggerBuilder1, triggerBuilder2, ...);
 
 ### 26.1.11.12 更新作业触发器
 
-```cs showLineNumbers
+```cs showLineNumbers {2,5,9,16}
 // 返回 ScheduleResult 类型
 var scheduleResult = scheduler.TryUpdateTrigger(triggerBuilder, out var trigger);
 
 // 无返回值，支持多个
 scheduler.UpdateTrigger(triggerBuilder1, triggerBuilder2, ...);
+
+// Furion 4.8.6+ 支持
+// 返回 ScheduleResult 类型
+var scheduleResult = scheduler.TryUpdateTrigger("triggerId", triggerBuilder =>
+{
+      triggerBuilder.SetDescription("~~");
+}, out var trigger);
+
+// Furion 4.8.6+ 支持
+// 无返回值
+scheduler.UpdateTrigger("triggerId", triggerBuilder =>
+{
+      triggerBuilder.SetDescription("~~");
+});
 ```
 
 ### 26.1.11.13 删除作业触发器

@@ -243,6 +243,30 @@ internal sealed partial class Scheduler
     }
 
     /// <summary>
+    /// 更新作业计划信息
+    /// </summary>
+    /// <param name="jobBuilderAction">作业信息构建器委托</param>
+    /// <param name="jobDetail">作业信息</param>
+    /// <returns><see cref="ScheduleResult"/></returns>
+    public ScheduleResult TryUpdateDetail(Action<JobBuilder> jobBuilderAction, out JobDetail jobDetail)
+    {
+        var jobBuilder = GetJobBuilder();
+        jobBuilderAction?.Invoke(jobBuilder);
+        return TryUpdateDetail(jobBuilder, out jobDetail);
+    }
+
+    /// <summary>
+    /// 更新作业信息
+    /// </summary>
+    /// <param name="jobBuilderAction">作业信息构建器委托</param>
+    public void UpdateDetail(Action<JobBuilder> jobBuilderAction)
+    {
+        var jobBuilder = GetJobBuilder();
+        jobBuilderAction?.Invoke(jobBuilder);
+        UpdateDetail(jobBuilder);
+    }
+
+    /// <summary>
     /// 添加作业触发器
     /// </summary>
     /// <param name="triggerBuilder">作业触发器构建器</param>
@@ -292,6 +316,32 @@ internal sealed partial class Scheduler
         {
             _ = TryUpdateTrigger(triggerBuilder, out _);
         }
+    }
+
+    /// <summary>
+    /// 更新作业触发器
+    /// </summary>
+    /// <param name="triggerId">作业触发器 Id</param>
+    /// <param name="triggerBuilderAction">作业触发器构建器委托</param>
+    /// <param name="trigger">作业触发器</param>
+    /// <returns><see cref="ScheduleResult"/></returns>
+    public ScheduleResult TryUpdateTrigger(string triggerId, Action<TriggerBuilder> triggerBuilderAction, out Trigger trigger)
+    {
+        var triggerBuilder = GetTriggerBuilder(triggerId);
+        triggerBuilderAction?.Invoke(triggerBuilder);
+        return TryUpdateTrigger(triggerBuilder, out trigger);
+    }
+
+    /// <summary>
+    /// 更新作业触发器
+    /// </summary>
+    /// <param name="triggerId">作业触发器 Id</param>
+    /// <param name="triggerBuilderAction">作业触发器构建器委托</param>
+    public void UpdateTrigger(string triggerId, Action<TriggerBuilder> triggerBuilderAction)
+    {
+        var triggerBuilder = GetTriggerBuilder(triggerId);
+        triggerBuilderAction?.Invoke(triggerBuilder);
+        UpdateTrigger(triggerBuilder);
     }
 
     /// <summary>
