@@ -168,11 +168,24 @@ public IActionResult FileDownload()
 
 :::note 关于前端获取文件名
 
-如果前端获取不到文件夹，可添加以下配置：
+如果前端获取不到文件，可添加以下配置：
 
 ```cs showLineNumbers
 _httpContextAccessor.HttpContext.Response.Headers.Add("Content-Disposition", $"attachment; filename={文件名}");
 _httpContextAccessor.HttpContext.Response.Headers.Add("Access-Control-Expose-Headers", "Content-Disposition");
+```
+
+如果依然不能解决问题可尝试添加以下配置：
+
+```json showLineNumbers {2,4-5}
+{
+  "CorsAccessorSettings": {
+    "WithExposedHeaders": [
+      "Content-Disposition",
+      "Access-Control-Expose-Headersx-access-token"
+    ]
+  }
+}
 ```
 
 :::
