@@ -144,8 +144,53 @@ public class Test3Service : IDynamicApiController
 - - &nbsp;<Tag>新增</Tag> 审计日志 `LoggingMonitor` 记录 `HTTP` 响应状态码 <sup>4.8.5.2</sup> <sup>⏱️2023.01.30</sup> [abb4cbd](https://gitee.com/dotnetchina/Furion/commit/abb4cbdab9f45f53cad8468352d1c14ac8c54b42)
 - - &nbsp;<Tag>新增</Tag> 定时任务执行上下文 `RunId` 属性，用于标识单次作业触发器执行 <sup>4.8.5.1</sup> <sup>⏱️2023.01.30</sup> [1aac470](https://gitee.com/dotnetchina/Furion/commit/1aac4707d270cb0fe66eab67490d946029a9e41d)
 
+- **突破性变化**
+
+  - &nbsp;<Tag>调整</Tag> **动态 `WebAPI` 生成路由 `[HttpMethod(template)]` 规则** <sup>4.8.5.7</sup> <sup>⏱️2023.02.03</sup> [#I6CLPT](https://gitee.com/dotnetchina/Furion/issues/I6CLPT)
+
+<details style={{ marginLeft: 50 }}>
+  <summary>查看变化</summary>
+  <div>
+
+在过去，`TestMethod` 生成路由为：`/mytest`
+
+```cs showLineNumbers {1,4}
+// 注意这里没有 [Route] 特性
+public class ClassService: IDynamicApiController
+{
+    [HttpPost("mytest")]
+    public void TestMethod()
+    {
+    }
+}
+```
+
+新版本：`TestMethod` 生成路由为：`/api/class/mytest`，`TestMethod2` 生成路由为：`/mytest`。
+
+```cs showLineNumbers {1,4,9}
+// 注意这里没有 [Route] 特性
+public class ClassService: IDynamicApiController
+{
+    [HttpPost("mytest")]
+    public void TestMethod()
+    {
+    }
+
+    [HttpPost("/mytest")]
+    public void TestMethod2()
+    {
+    }
+}
+```
+
+也就是新版本如果不需要自动添加前缀，需在前面添加 `/`，旧版本不需要。
+
+  </div>
+</details>
+
 - **问题修复**
 
+  - &nbsp;<Tag>修复</Tag> 动态 `WebAPI` 自定义 `[HttpMethod(template)]` 之后生成错误路由 <sup>4.8.6.1</sup> <sup>⏱️2023.02.08</sup> [59fe53b](https://gitee.com/dotnetchina/Furion/commit/59fe53b5a9715ed139aff9075cb7fcaad01565b7)
   - &nbsp;<Tag>修复</Tag> 由于 [#I6D64H](https://gitee.com/dotnetchina/Furion/issues/I6D64H) 导致远程请求出现 `Specified method is not supported.` 问题 <sup>4.8.5.9</sup> <sup>⏱️2023.02.07</sup> [#I6DEEE](https://gitee.com/dotnetchina/Furion/issues/I6DEEE) [#I6D64H](https://gitee.com/dotnetchina/Furion/issues/I6D64H)
   - &nbsp;<Tag>修复</Tag> 优化远程请求 `ReadAsStringAsync` 底层方法，尝试修复 `Error while copying content to a stream.` 错误 <sup>4.8.5.8</sup> <sup>⏱️2023.02.06</sup> [#I6D64H](https://gitee.com/dotnetchina/Furion/issues/I6D64H)
   - &nbsp;<Tag>修复</Tag> **规范化结果不支持 `OData` 协议控制器** <sup>4.8.5.5</sup> <sup>⏱️2023.02.01</sup> [!571](https://gitee.com/dotnetchina/Furion/pulls/571)
@@ -158,7 +203,7 @@ public class Test3Service : IDynamicApiController
 - **文档**
 
   - &nbsp;<Tag>新增</Tag> **多语言 `.json` 配置方式文档**
-  - &nbsp;<Tag>更新</Tag> 日志文档、定时任务文档、动态 `WebAPI` 文档，规范化结果文档，`App` 静态类文档，`Oops` 静态类文档、虚拟文件系统文档 [!704](https://gitee.com/dotnetchina/Furion/pulls/704)，远程请求文档
+  - &nbsp;<Tag>更新</Tag> 日志文档、定时任务文档、动态 `WebAPI` 文档，规范化结果文档，`App` 静态类文档，`Oops` 静态类文档、虚拟文件系统文档 [!704](https://gitee.com/dotnetchina/Furion/pulls/704)，远程请求文档，虚拟文件文档
 
 - **贡献者**
 
