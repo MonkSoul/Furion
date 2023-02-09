@@ -88,7 +88,7 @@ public class Test3Service : IDynamicApiController
 
 ```cs showLineNumbers {1,4}
 // 注意这里没有 [Route] 特性
-public class ClassService
+public class ClassService: IDynamicApiController
 {
     [HttpPost("mytest")]
     public void TestMethod()
@@ -101,7 +101,7 @@ public class ClassService
 
 ```cs showLineNumbers {1,4,9}
 // 注意这里没有 [Route] 特性
-public class ClassService
+public class ClassService: IDynamicApiController
 {
     [HttpPost("mytest")]
     public void TestMethod()
