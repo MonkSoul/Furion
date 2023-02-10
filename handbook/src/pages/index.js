@@ -60,8 +60,15 @@ function Banner() {
             <li>MIT 宽松开源协议，商业无需授权</li>
             <li>支持 .NET5/6/7+ 平台，没有历史包袱</li>
             <li>极少依赖，只依赖两个第三方包</li>
-            <li>极速上手，一个 Inject() 完成配置</li>
             <li>代码无侵入性，100% 兼容原生写法</li>
+            <li>
+              <a
+                href={useBaseUrl("docs/whyfurion")}
+                style={{ color: "yellow" }}
+              >
+                了解 「选择 Furion 的十大理由」
+              </a>
+            </li>
           </ul>
           <div className="furion-support-platform">受支持平台：</div>
           <div className="furion-support-icons">
@@ -183,7 +190,7 @@ function Gitee() {
             className={"furion-log-jiao" + (isDarkTheme ? " dark" : "")}
           ></div>
           <div className="furion-log-number">
-            <div style={{ color: "#1fd898" }}>6,071,969</div>
+            <div style={{ color: "#1fd898" }}>6,074,506</div>
             <span className={isDarkTheme ? " dark" : ""}>Downloads</span>
           </div>
         </div>

@@ -21,10 +21,10 @@ module.exports = {
       config: {},
     },
     announcementBar: {
-      id: "v486",
+      id: "v4862",
       content:
-        "🚀 Furion v4.8.6 已正式发布，阅读 <a href='/docs/upgrade'>[更新日志]</a> 或查看 <a href='https://gitee.com/dotnetchina/Furion/issues/I6DQ57' target='_blank'>[本期更新]</a>",
-      backgroundColor: "#317eb9",
+        "🚀 Furion v4.8.6 已正式发布，浏览 <a href='/docs/upgrade'>[更新日志]</a> 或查看 <a href='https://gitee.com/dotnetchina/Furion/issues/I6DQ57' target='_blank'>[本期更新]</a>",
+      backgroundColor: "#723cff",
       textColor: "yellow",
       isCloseable: true,
     },
