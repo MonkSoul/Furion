@@ -433,7 +433,7 @@ internal sealed class DynamicApiControllerApplicationModelConvention : IApplicat
                 var actionRouteTemplate = string.IsNullOrWhiteSpace(action.ActionName)
                     || (action.Controller.Selectors[0].AttributeRouteModel?.Template?.Contains("[action]") ?? false) ? null : (selectorModel?.AttributeRouteModel?.Template ?? selectorModel?.AttributeRouteModel?.Name ?? "[action]");
 
-                if (!string.IsNullOrWhiteSpace(selectorModel.AttributeRouteModel?.Template))
+                if (actionRouteTemplate == null && !string.IsNullOrWhiteSpace(selectorModel.AttributeRouteModel?.Template))
                 {
                     actionRouteTemplate = $"{actionRouteTemplate}/{selectorModel.AttributeRouteModel?.Template}";
                 }
@@ -559,7 +559,7 @@ internal sealed class DynamicApiControllerApplicationModelConvention : IApplicat
                     ? $":{routeConstraint.Constraint}" : routeConstraint.Constraint;
             }
 
-            var template = $"{{{parameterModel.ParameterName}{(canBeNull ? "?" : string.Empty)}{constraint}}}";
+            var template = $"{{{(constraint == ":*" ? "*" : default)}{parameterModel.ParameterName}{(canBeNull ? "?" : string.Empty)}{(constraint == ":*" ? default : constraint)}}}";
             // 如果没有贴路由位置特性，则默认添加到动作方法后面
             if (parameterAttributes.FirstOrDefault(u => u is ApiSeatAttribute) is not ApiSeatAttribute apiSeat)
             {
