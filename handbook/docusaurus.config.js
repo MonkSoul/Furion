@@ -20,6 +20,14 @@ module.exports = {
       // options you can specify via https://github.com/francoischalifour/medium-zoom#usage
       config: {},
     },
+    announcementBar: {
+      id: "v48621",
+      content:
+        "🚀 Furion v4.8.6 已正式发布，浏览 <a href='/docs/upgrade'>[更新日志]</a> 或查看 <a href='https://gitee.com/dotnetchina/Furion/issues/I6DQ57' target='_blank'>[本期更新]</a>",
+      backgroundColor: "#723cff",
+      textColor: "yellow",
+      isCloseable: true,
+    },
     docs: {
       sidebar: {
         hideable: true,
@@ -67,7 +75,7 @@ module.exports = {
           position: "left",
           items: [
             {
-              label: "📝 查看日志（v4.8.6.1）",
+              label: "📝 查看日志（v4.8.6.2）",
               href: "/docs/upgrade",
             },
             {

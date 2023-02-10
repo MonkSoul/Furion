@@ -322,11 +322,19 @@
 
             let qs = objectToString(params.data);
 
+            var accessToken = window.localStorage.getItem(tokenKey);
+
             if (params.method.toUpperCase() == 'GET') {
                 xhr.open('GET', params.url + '?' + qs);
+                if (accessToken) {
+                    xhr.setRequestHeader('Authorization', 'Bearer ' + accessToken);
+                }
                 xhr.send();
             } else if (params.method.toUpperCase() == 'POST') {
                 xhr.open('POST', params.url);
+                if (accessToken) {
+                    xhr.setRequestHeader('Authorization', 'Bearer ' + accessToken);
+                }
                 xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
                 xhr.send(qs);
             }

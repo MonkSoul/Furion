@@ -38,7 +38,7 @@ public class RouteConstraintAttribute : Attribute
     }
 
     /// <summary>
-    /// 参数位置
+    /// 约束表达式
     /// </summary>
     public string Constraint { get; set; }
 }

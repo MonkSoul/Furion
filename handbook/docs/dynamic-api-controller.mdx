@@ -14,6 +14,7 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 - **新特性**
 
+  - &nbsp;<Tag>新增</Tag> 动态 `WebAPI` 支持 `[RouteConstraint(":*")]` 路由约束 <sup>4.8.6.2</sup> <sup>⏱️2023.02.10</sup> [#I6E6JA](https://gitee.com/dotnetchina/Furion/issues/I6E6JA)
   - &nbsp;<Tag>新增</Tag> **动态 `WebAPI` 支持更加强大的路由组合功能** <sup>4.8.5.7</sup> <sup>⏱️2023.02.03</sup> [#I6CLPT](https://gitee.com/dotnetchina/Furion/issues/I6CLPT)
 
 <details style={{ marginLeft: 50 }}>
@@ -1118,24 +1119,25 @@ public object Method1([RouteConstraint(":min(10)")] int id)
 
 `[RouteConstraint]` 支持路由约束符号如下：
 
-| 符号        | 描述                                   | 例子                            |
-| ----------- | -------------------------------------- | ------------------------------- |
-| `alpha`     | 匹配大写或小写拉丁字母字符（a-z、A-Z） | `:alpha`                        |
-| `bool`      | bool 类型                              | `:bool`                         |
-| `datetime`  | DateTime 类型                          | `:datetime`                     |
-| `decimal`   | decimal 类型                           | `:decimal`                      |
-| `double`    | double 类型                            | `:double`                       |
-| `float`     | float 类型                             | `:float`                        |
-| `guid`      | guid 类型                              | `:guid`                         |
-| `int`       | int 类型                               | `:int`                          |
-| `long`      | long 类型                              | `:long`                         |
-| `length`    | 匹配长度（字符串）                     | `:length(6)` 或 `:length(1,20)` |
-| `max`       | 最大值                                 | `:max(10)`                      |
-| `maxlength` | 最大长度（字符串）                     | `:maxlength(10)`                |
-| `min`       | 最小值                                 | `:min(10)`                      |
-| `minlength` | 最小长度（字符串）                     | `:minlength(10)`                |
-| `range`     | 取值范围                               | `:range(10,50)`                 |
-| `regex`     | 正则表达式                             | `:regex(^\d{3}-\d{3}-\d{4}$)`   |
+| 符号        | 描述                                    | 例子                            |
+| ----------- | --------------------------------------- | ------------------------------- |
+| `*`         | 匹配路由 0-n 长度，Furion 4.8.6.2+ 支持 | `:*`                            |
+| `alpha`     | 匹配大写或小写拉丁字母字符（a-z、A-Z）  | `:alpha`                        |
+| `bool`      | bool 类型                               | `:bool`                         |
+| `datetime`  | DateTime 类型                           | `:datetime`                     |
+| `decimal`   | decimal 类型                            | `:decimal`                      |
+| `double`    | double 类型                             | `:double`                       |
+| `float`     | float 类型                              | `:float`                        |
+| `guid`      | guid 类型                               | `:guid`                         |
+| `int`       | int 类型                                | `:int`                          |
+| `long`      | long 类型                               | `:long`                         |
+| `length`    | 匹配长度（字符串）                      | `:length(6)` 或 `:length(1,20)` |
+| `max`       | 最大值                                  | `:max(10)`                      |
+| `maxlength` | 最大长度（字符串）                      | `:maxlength(10)`                |
+| `min`       | 最小值                                  | `:min(10)`                      |
+| `minlength` | 最小长度（字符串）                      | `:minlength(10)`                |
+| `range`     | 取值范围                                | `:range(10,50)`                 |
+| `regex`     | 正则表达式                              | `:regex(^\d{3}-\d{3}-\d{4}$)`   |
 
 ### 5.1.8.18 `小驼峰` 路由路径
 
