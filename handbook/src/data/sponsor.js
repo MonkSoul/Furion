@@ -41,11 +41,11 @@ const sponsors = [
     url: "https://eshan.tmall.com?from=furion",
     top: false,
   },
-  {
-    title: "ProcessOn：在线流程图思维导图工具",
-    picture: "img/processon1.png",
-    url: "https://www.processon.com?from=furion",
-  },
+  // {
+  //   title: "ProcessOn：在线流程图思维导图工具",
+  //   picture: "img/processon1.png",
+  //   url: "https://www.processon.com?from=furion",
+  // },
   // {
   //   title: "Rust 语言圣经",
   //   picture: "img/rust.png",
