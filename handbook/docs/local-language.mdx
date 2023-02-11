@@ -276,6 +276,30 @@ L.SetCulture("en-US");  // en-US 也可以通过前端传递过来，这样就�
 
 <img src={useBaseUrl("img/lang5.gif")} />
 
+### 21.7.4 请求报文头 `Accept-Language` 方式
+
+如果使用第三方工具请求，也可以添加请求报文头方式，如：
+
+```txt showLineNumbers
+Accept-Language: en-US
+```
+
+### 21.7.5 请求报文头 `Cookie` 方式
+
+如果使用第三方工具请求，也可以添加请求报文头方式，如：
+
+```txt showLineNumbers
+Cookie: c%3Den-US%7Cuic%3Den-USen-US
+```
+
+它的明文格式为：`c=en-US|uic=en-US`。
+
+:::caution 注意
+
+这种方式不能使用 `明文`，否则无效。
+
+:::
+
 ## 21.8 依赖注入方式使用
 
 `Furion` 框架也兼容 `.NET Core` 自带的依赖注入方式，如：
