@@ -28,7 +28,7 @@ public class HelloService
 
 ## 文档
 
-您可以在 [主页](https://furion.baiqian.ltd) 或 [备份主页](https://furion.icu) 找到 [Furion](https://gitee.com/dotnetchina/Furion) 文档。
+您可以在 [主页](https://furion.baiqian.ltd) 找到 [Furion](https://gitee.com/dotnetchina/Furion) 文档。
 
 ## 贡献
 

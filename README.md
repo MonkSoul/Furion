@@ -28,7 +28,7 @@ Open browser access `http://localhost:5000`.
 
 ## Documentation
 
-You can find the [Furion](https://gitee.com/dotnetchina/Furion) documentation [on the website](https://furion.baiqian.ltd) or [on the backup website](https://furion.icu).
+You can find the [Furion](https://gitee.com/dotnetchina/Furion) documentation [on the website](https://furion.baiqian.ltd).
 
 ## Contributing
 
