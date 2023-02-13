@@ -221,7 +221,7 @@ L.Text["没找到"];   // => 如果设置为英文，但是没有文件，则直
 
 ### 21.6.1 在 `Resources` 文件夹中创建语言文件
 
-接下来，我们只需要在刚刚的 `Resources` 文件夹中添加 `资源文件` 即可，资源文件命名规则：`Lang.区域码.resx`，如：`Lang.en-US.resx`。
+接下来，我们只需要在刚刚的 `Resources` 文件夹中添加 `.resx` 资源文件即可，资源文件命名规则：`Lang.区域码.resx`，如：`Lang.en-US.resx`。
 
 <img src={useBaseUrl("img/lang2.png")} />
 
@@ -344,11 +344,11 @@ Cookie: c%3Den-US%7Cuic%3Den-USen-US
 
 :::
 
-在默认情况下，微软推荐使用 `.resx` 文件格式作为多语言配置文件格式，**但此方式无法在运行时进行修改**，所以社区更多使用的是 `.json` 文件格式作为多语言配置，可在运行时动态修改。
+在默认情况下，微软推荐使用 `.resx` 资源文件格式作为多语言配置文件格式，**但此方式无法在运行时进行修改**。所以社区更多使用的是 `.json` 文件格式作为多语言配置，可在运行时动态修改。
 
 ---
 
-**`Furion` 框架默认不提供 `json` 多语言配置功能，但非常容易集成第三方多语言库**，在这里推荐：[https://github.com/hishamco/My.Extensions.Localization.Json](https://github.com/hishamco/My.Extensions.Localization.Json)。集成步骤如下：
+**`Furion` 框架默认不提供 `json` 多语言配置功能，但非常容易集成第三方多语言库**，在这里推荐：[https://github.com/hishamco/My.Extensions.Localization.Json](https://github.com/hishamco/My.Extensions.Localization.Json)：
 
 **1. 安装 `My.Extensions.Localization.Json` 拓展，通常安装在 `XXX.Web.Core` 层**
 
@@ -392,7 +392,7 @@ public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
 
 :::
 
-**3. 在 `Resources` 文件夹中添加 `json文件` 即可，资源文件命名规则：`Lang.区域码.json`，如：`Lang.en-US.json`。**
+**3. 在 `Resources` 文件夹中添加 `.json` 文件即可，资源文件命名规则：`Lang.区域码.json`，如：`Lang.en-US.json`。**
 
 <img src={useBaseUrl("img/dyy1.png")} />
 
