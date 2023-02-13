@@ -1482,7 +1482,7 @@ public class DatabaseLoggingWriter : IDatabaseLoggingWriter
 
 通常我们会为每一个接口添加一个唯一名称，比如使用 `[DisplayName]` 特性，方便后续写入日志进行归类。
 
-```cs showLineNumbers {5}
+```cs showLineNumbers {4}
 public class TestService: IDynamicApiController
 {
     [LoggingMonitor]
@@ -1493,7 +1493,7 @@ public class TestService: IDynamicApiController
 }
 ```
 
-那么如果输出为 `JSON` 格式日志将会自动添加 `displayTitle` 键。
+那么如果输出为 `JSON` 格式日志将会自动添加 `displayTitle` 键，值为 `测试方法`。
 
 ## 18.7 打印日志到 `Swagger` 中
 
