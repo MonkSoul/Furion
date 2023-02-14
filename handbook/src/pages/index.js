@@ -132,7 +132,7 @@ public class FurionAppService : IDynamicApiController
     public async Task<RemoteData> GetRemote(string id)
     {
       // highlight-next-line
-        var data = await $"https://www.furion.icu/data?id={id}".GetAsAsync<RemoteData>();
+        var data = await $"https://furion.baiqian.ltd/data?id={id}".GetAsAsync<RemoteData>();
         return data;
     }
 }

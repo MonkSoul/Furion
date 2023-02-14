@@ -1171,26 +1171,26 @@ services.AddMonitorLogging(options =>
 ```cs showLineNumbers {3-4,7-8,11-12}
 public interface IHttp : IHttpDispatchProxy
 {
-    [Post("https://www.furion.icu/upload", ContentType = "multipart/form-data")]
+    [Post("https://furion.baiqian.ltd/upload", ContentType = "multipart/form-data")]
     Task<HttpResponseMessage> PostXXXAsync(HttpFile file);
 
     // 支持多个文件
-    [Post("https://www.furion.icu/upload", ContentType = "multipart/form-data")]
+    [Post("https://furion.baiqian.ltd/upload", ContentType = "multipart/form-data")]
     Task<HttpResponseMessage> PostXXXAsync(HttpFile[] files);
 
     // 支持多个文件
-    [Post("https://www.furion.icu/upload", ContentType = "multipart/form-data")]
+    [Post("https://furion.baiqian.ltd/upload", ContentType = "multipart/form-data")]
     Task<HttpResponseMessage> PostXXXAsync(IList<HttpFile> files);
 }
 ```
 
 ```cs showLineNumbers {3,7}
 // bytes 可以通过 File.ReadAllBytes(文件路径) 获取
-var res = await "https://www.furion.icu/upload".SetContentType("multipart/form-data")
+var res = await "https://furion.baiqian.ltd/upload".SetContentType("multipart/form-data")
                                                .SetFiles(HttpFile.Create("file", bytes, "image.png")).PostAsync();
 
 // 支持多个文件
-var res = await "https://www.furion.icu/upload".SetContentType("multipart/form-data")
+var res = await "https://furion.baiqian.ltd/upload".SetContentType("multipart/form-data")
                                                .SetFiles(HttpFile.CreateMultiple("files", (bytes, "image1.png"), (bytes, "image2.png"))).PostAsync();
 ```
 
@@ -1246,13 +1246,13 @@ public void ConfigureServices(IServiceCollection services)
 由：
 
 ```cs showLineNumbers
-var stream = await "https://www.furion.icu/".GetAsStreamAsync();
+var stream = await "https://furion.baiqian.ltd/".GetAsStreamAsync();
 ```
 
 改为：
 
 ```cs showLineNumbers
-var (stream, encoding) = await "https://www.furion.icu/".GetAsStreamAsync();
+var (stream, encoding) = await "https://furion.baiqian.ltd/".GetAsStreamAsync();
 ```
 
   </div>

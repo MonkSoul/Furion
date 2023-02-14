@@ -12,13 +12,13 @@ sidebar_label: 16. CORS 跨域
 
 ## 16.2 有跨域行为示例
 
-| 当前页面 url                | 被请求页面 url                    | 是否跨域 | 原因                           |
-| --------------------------- | --------------------------------- | -------- | ------------------------------ |
-| http://www.furion.icu/      | http://www.furion.icu/index.html  | 否       | 同源（协议、域名、端口号相同） |
-| http://www.furion.icu/      | https://www.furion.icu/index.html | 跨域     | 协议不同（http/https）         |
-| http://www.furion.icu/      | http://www.baidu.com/             | 跨域     | 主域名不同（chinadot/baidu）   |
-| http://www.furion.icu/      | http://blog.furion.icu/           | 跨域     | 子域名不同（www/blog）         |
-| http://www.furion.icu:8080/ | http://www.furion.icu:7001/       | 跨域     | 端口号不同（8080/7001）        |
+| 当前页面 url                    | 被请求页面 url                        | 是否跨域 | 原因                           |
+| ------------------------------- | ------------------------------------- | -------- | ------------------------------ |
+| http://furion.baiqian.ltd/      | http://furion.baiqian.ltd/index.html  | 否       | 同源（协议、域名、端口号相同） |
+| http://furion.baiqian.ltd/      | https://furion.baiqian.ltd/index.html | 跨域     | 协议不同（http/https）         |
+| http://furion.baiqian.ltd/      | http://www.baidu.com/                 | 跨域     | 主域名不同（chinadot/baidu）   |
+| http://furion.baiqian.ltd/      | http://blog.furion.baiqian.ltd/       | 跨域     | 子域名不同（www/blog）         |
+| http://furion.baiqian.ltd:8080/ | http://furion.baiqian.ltd:7001/       | 跨域     | 端口号不同（8080/7001）        |
 
 ## 16.3 什么是 CORS
 
@@ -27,7 +27,7 @@ sidebar_label: 16. CORS 跨域
 - 是一种 `W3C` 标准，可让服务器放宽相同的源策略。
 - 不是一项安全功能，`CORS` 放宽 `security`。 `API` 不能通过允许 `CORS` 来更安全。 有关详细信息，请参阅 [CORS 工作原理](https://docs.microsoft.com/zh-cn/aspnet/core/security/cors?view=aspnetcore-5.0#how-cors)。
 - 允许服务器明确允许一些跨源请求，同时拒绝其他请求。
-- 比早期的技术（如 JSONP）更安全且更灵活。
+- 比早期的技术（如 `JSONP`）更安全且更灵活。
 
 ## 16.4 如何使用
 
