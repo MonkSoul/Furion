@@ -4,6 +4,21 @@ title: 20. 数据加解密
 sidebar_label: 20. 数据加解密
 ---
 
+import Tag from "@site/src/components/Tag.js";
+
+<details>
+  <summary>📝 模块更新日志</summary>
+  <div>
+<div>
+
+- **新特性**
+
+  - &nbsp;<Tag>新增</Tag> `byte[]` 类型 `MD5` 加密/比较重载方法 <sup>4.8.6.3</sup> <sup>⏱️2023.02.14</sup> [#I6F1NT](https://gitee.com/dotnetchina/Furion/issues/I6F1NT)
+
+</div>
+  </div>
+</details>
+
 ## 20.1 数据加解密
 
 由于现在的互联网越具发达，数据成为了我们生活的一部分，当然也带来了很多数据安全性的问题，比如用户密码明文存储，用户信息明文存在在浏览器 `cookies` 中等等不安全操作。
@@ -34,6 +49,11 @@ var md5Hash = MD5Encryption.Encrypt("百小僧", true);
 
 // 输出 16位 MD5 加密，Furion 4.2.6+ 版本
 var md5Hash16 = MD5Encryption.Encrypt("百小僧", is16: true);
+
+// Furion 4.8.6.3+ 版本支持 byte[] 类型，如文件加密
+var bytes = File.ReadAllBytes("image.png");
+var md5Hash = MD5Encryption.Encrypt(bytes); // 加密
+var isEqual = MD5Encryption.Compare(bytes, md5Hash);  // 比较
 ```
 
 ### 20.3.2 `DESC` 加解密
@@ -138,6 +158,9 @@ using Furion.DataEncryption.Extensions;
 // MD5 加密
 var s = "Furion".ToMD5Encrypt();
 var b = "Furion".ToMD5Compare(s);   // 比较
+// Furion 4.8.6.3+ 支持 bytes
+var b = bytes.ToMD5Encrypt();
+var z = bytes2.ToMD5Compare(bytes);
 
 // AES加解密
 var s = "Furion".ToAESEncrypt("sfdsfdsfdsfdsfdsfdsfdsfdsfdfdsfdsfdfdfdfd");

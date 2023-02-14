@@ -54,6 +54,31 @@ public static class StringEncryptionExtensions
     }
 
     /// <summary>
+    /// 字节数组的 MD5
+    /// </summary>
+    /// <param name="bytes"></param>
+    /// <param name="uppercase">是否输出大写加密，默认 false</param>
+    /// <param name="is16">是否输出 16 位</param>
+    /// <returns>string</returns>
+    public static string ToMD5Encrypt(this byte[] bytes, bool uppercase = false, bool is16 = false)
+    {
+        return MD5Encryption.Encrypt(bytes, uppercase, is16);
+    }
+
+    /// <summary>
+    /// 字节数组的 MD5
+    /// </summary>
+    /// <param name="bytes"></param>
+    /// <param name="hash"></param>
+    /// <param name="uppercase">是否输出大写加密，默认 false</param>
+    /// <param name="is16">是否输出 16 位</param>
+    /// <returns>string</returns>
+    public static bool ToMD5Compare(this byte[] bytes, string hash, bool uppercase = false, bool is16 = false)
+    {
+        return MD5Encryption.Compare(bytes, hash, uppercase, is16);
+    }
+
+    /// <summary>
     /// 字符串 AES 加密
     /// </summary>
     /// <param name="text">需要加密的字符串</param>
