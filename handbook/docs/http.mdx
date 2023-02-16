@@ -668,7 +668,7 @@ public interface IHttp : IHttpDispatchProxy
 
 - **全局配置方式**
 
-```cs showLineNumbers  {1,3-4,14}
+```cs showLineNumbers  {1,3-4,12,15}
 services.AddRemoteRequest(options=>
 {
     // 配置 Github 基本信息
@@ -680,9 +680,10 @@ services.AddRemoteRequest(options=>
     });
 });
 
+[Client("github")]  // 可以在接口中全局使用
 public interface IHttp : IHttpDispatchProxy
 {
-    [Get("get"), Client("github")]
+    [Get("get"), Client("github")]  // 也可以在方法中局部使用
     Task<HttpResponseMessage> GetXXXAsync();
 }
 ```
@@ -1119,7 +1120,14 @@ services.AddRemoteRequest(options=>
 
 - 在 `代理请求` 使用
 
-```cs showLineNumbers
+```cs showLineNumbers {1,7}
+// 在接口定义中使用
+[Client("github")]
+public interface IHttp: IHttpDispatchProxy
+{
+}
+
+// 在方法中使用
 [Get("api/getdata"), Client("github")]
 Task<User> GetData();
 
