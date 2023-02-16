@@ -509,7 +509,7 @@ public sealed partial class HttpRequestPart
         if (string.IsNullOrWhiteSpace(httpClient.BaseAddress?.OriginalString) && string.IsNullOrWhiteSpace(RequestUrl)) throw new NullReferenceException(RequestUrl);
 
         // 处理模板问题
-        RequestUrl = RequestUrl.Render(Templates, true);
+        RequestUrl = RequestUrl.Render(Templates, EncodeUrl);
 
         // 构建请求对象
         var request = new HttpRequestMessage(Method, RequestUrl)
