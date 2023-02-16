@@ -64,7 +64,7 @@ function Banner() {
             <li>
               <a
                 href={useBaseUrl("docs/whyfurion")}
-                style={{ color: "yellow" }}
+                style={{ color: "#fff", textDecoration: "underline" }}
               >
                 了解 「选择 Furion 的十大理由」
               </a>
@@ -91,7 +91,7 @@ function Banner() {
           <div className="furion-get-start-btn">
             <Link className="furion-get-start" to={useBaseUrl("docs/serverun")}>
               入门指南
-              <span className="furion-version">v4.8.6.2</span>
+              <span className="furion-version">v4.8.6.3</span>
             </Link>
             <Link
               className="furion-try-demo"
@@ -132,7 +132,7 @@ public class FurionAppService : IDynamicApiController
     public async Task<RemoteData> GetRemote(string id)
     {
       // highlight-next-line
-        var data = await $"https://www.furion.icu/data?id={id}".GetAsAsync<RemoteData>();
+        var data = await $"https://furion.baiqian.ltd/data?id={id}".GetAsAsync<RemoteData>();
         return data;
     }
 }
@@ -190,7 +190,7 @@ function Gitee() {
             className={"furion-log-jiao" + (isDarkTheme ? " dark" : "")}
           ></div>
           <div className="furion-log-number">
-            <div style={{ color: "#1fd898" }}>6,074,506</div>
+            <div style={{ color: "#1fd898" }}>6,197,967</div>
             <span className={isDarkTheme ? " dark" : ""}>Downloads</span>
           </div>
         </div>
@@ -294,7 +294,7 @@ function WhoUse() {
           <h1>他们都在用</h1>
           <p>
             Furion 已在 Nuget
-            平台超607万次下载。从小型企业到企业的解决方案及知名企业。他们在简单软件和复杂管理系统的开发方面都信任我们。
+            平台超619万次下载。从小型企业到企业的解决方案及知名企业。他们在简单软件和复杂管理系统的开发方面都信任我们。
           </p>
           <a
             className="furion-get-start"

@@ -35,6 +35,7 @@ import Tag from "@site/src/components/Tag.js";
 
 - **新特性**
 
+  - &nbsp;<Tag>新增</Tag> `byte[]` 类型 `MD5` 加密/比较重载方法 <sup>4.8.6.3</sup> <sup>⏱️2023.02.15</sup> [#I6F1NT](https://gitee.com/dotnetchina/Furion/issues/I6F1NT)
   - &nbsp;<Tag>新增</Tag> 动态 `WebAPI` 支持 `[RouteConstraint(":*")]` 路由约束 <sup>4.8.6.2</sup> <sup>⏱️2023.02.10</sup> [#I6E6JA](https://gitee.com/dotnetchina/Furion/issues/I6E6JA)
   - &nbsp;<Tag>新增</Tag> `Swagger` 启用登录后配置 `CheckUrl` 可获取本地存储的 `Authorization` 请求报文头 <sup>4.8.6.2</sup> <sup>⏱️2023.02.10</sup> [#I6E3LB](https://gitee.com/dotnetchina/Furion/issues/I6E3LB)
   - &nbsp;<Tag>新增</Tag> **多语言支持 `.json` 文件配置方式（推荐）** <sup>4.8.6</sup> <sup>⏱️2023.02.08</sup> [#I6DL71](https://gitee.com/dotnetchina/Furion/issues/I6DL71) [#I5DXKP](https://gitee.com/dotnetchina/Furion/issues/I5DXKP)
@@ -148,7 +149,9 @@ public class Test3Service : IDynamicApiController
 
 - **突破性变化**
 
-  - &nbsp;<Tag>调整</Tag> **动态 `WebAPI` 生成路由 `[HttpMethod(template)]` 规则** <sup>4.8.5.7</sup> <sup>⏱️2023.02.03</sup> [#I6CLPT](https://gitee.com/dotnetchina/Furion/issues/I6CLPT)
+  - &nbsp;<Tag>升级</Tag> 适配 `.NET7.0.3` 和 `.NET6.0.14` <sup>4.8.6.3</sup> <sup>⏱️2023.02.15</sup> [eecbf83](https://gitee.com/dotnetchina/Furion/commit/eecbf83b4e3340ec83d54f675f0fe4f6623b0d11)
+
+- - &nbsp;<Tag>调整</Tag> **动态 `WebAPI` 生成路由 `[HttpMethod(template)]` 规则** <sup>4.8.5.7</sup> <sup>⏱️2023.02.03</sup> [#I6CLPT](https://gitee.com/dotnetchina/Furion/issues/I6CLPT)
 
 <details style={{ marginLeft: 50 }}>
   <summary>查看变化</summary>
@@ -194,7 +197,7 @@ public class ClassService: IDynamicApiController
 
   - &nbsp;<Tag>修复</Tag> 动态 `WebAPI` 自定义 `[HttpMethod(template)]` 之后生成错误路由 <sup>4.8.6.1</sup> <sup>⏱️2023.02.08</sup> [59fe53b](https://gitee.com/dotnetchina/Furion/commit/59fe53b5a9715ed139aff9075cb7fcaad01565b7)
   - &nbsp;<Tag>修复</Tag> 由于 [#I6D64H](https://gitee.com/dotnetchina/Furion/issues/I6D64H) 导致远程请求出现 `Specified method is not supported.` 问题 <sup>4.8.5.9</sup> <sup>⏱️2023.02.07</sup> [#I6DEEE](https://gitee.com/dotnetchina/Furion/issues/I6DEEE) [#I6D64H](https://gitee.com/dotnetchina/Furion/issues/I6D64H)
-  - &nbsp;<Tag>修复</Tag> 优化远程请求 `ReadAsStringAsync` 底层方法，尝试修复 `Error while copying content to a stream.` 错误 <sup>4.8.5.8</sup> <sup>⏱️2023.02.06</sup> [#I6D64H](https://gitee.com/dotnetchina/Furion/issues/I6D64H)
+  - &nbsp;<Tag>修复</Tag> ~~优化远程请求 `ReadAsStringAsync` 底层方法，尝试修复 `Error while copying content to a stream.` 错误 <sup>4.8.5.8</sup> <sup>⏱️2023.02.06</sup> [#I6D64H](https://gitee.com/dotnetchina/Furion/issues/I6D64H)~~
   - &nbsp;<Tag>修复</Tag> **规范化结果不支持 `OData` 协议控制器** <sup>4.8.5.5</sup> <sup>⏱️2023.02.01</sup> [!571](https://gitee.com/dotnetchina/Furion/pulls/571)
   - &nbsp;<Tag>修复</Tag> 启用 `Swagger` 登录功能之后不能触发响应拦截器 <sup>4.8.5.5</sup> <sup>⏱️2023.02.01</sup> [#I6C9A2](https://gitee.com/dotnetchina/Furion/issues/I6C9A2) [!702](https://gitee.com/dotnetchina/Furion/pulls/702) [!703](https://gitee.com/dotnetchina/Furion/pulls/703)
   - &nbsp;<Tag>修复</Tag> 在数据库日志的 `IDatabaseLoggingWriter` 实现类中依赖注入 `ILogger<>` 导致死循环 <sup>4.8.5.4</sup> <sup>⏱️2023.02.01</sup> [#I6C6QU](https://gitee.com/dotnetchina/Furion/issues/I6C6QU)
@@ -202,10 +205,14 @@ public class ClassService: IDynamicApiController
   - &nbsp;<Tag>修复</Tag> 数据库日志提供程序在应用程序终止时出现空异常问题 <sup>4.8.5</sup> <sup>⏱️2023.01.28</sup> [#I6AZ8Y](https://gitee.com/dotnetchina/Furion/issues/I6AZ8Y)
   - &nbsp;<Tag>修复</Tag> 实体拓展方式操作数据库出现空异常问题 <sup>4.8.5</sup> <sup>⏱️2023.01.28</sup> [#I6AXU6](https://gitee.com/dotnetchina/Furion/issues/I6AXU6)
 
+- **其他更改**
+
+  - &nbsp;<Tag>调整</Tag> `Serve.Run()` 迷你主机默认添加 `JSON` 中文乱码处理 <sup>4.8.6.3</sup> <sup>⏱️2023.02.15</sup> [86b5f9f](https://gitee.com/dotnetchina/Furion/commit/86b5f9f7c2ace503312bf879dccd7add12bd93c4)
+
 - **文档**
 
   - &nbsp;<Tag>新增</Tag> **多语言 `.json` 配置方式文档**
-  - &nbsp;<Tag>更新</Tag> 日志文档、定时任务文档、动态 `WebAPI` 文档，规范化结果文档，`App` 静态类文档，`Oops` 静态类文档、虚拟文件系统文档 [!704](https://gitee.com/dotnetchina/Furion/pulls/704)，远程请求文档，虚拟文件文档
+  - &nbsp;<Tag>更新</Tag> 日志文档、定时任务文档、动态 `WebAPI` 文档，规范化结果文档，`App` 静态类文档，`Oops` 静态类文档、虚拟文件系统文档 [!704](https://gitee.com/dotnetchina/Furion/pulls/704)，远程请求文档，序列化文档
 
 - **贡献者**
 
@@ -1171,26 +1178,26 @@ services.AddMonitorLogging(options =>
 ```cs showLineNumbers {3-4,7-8,11-12}
 public interface IHttp : IHttpDispatchProxy
 {
-    [Post("https://www.furion.icu/upload", ContentType = "multipart/form-data")]
+    [Post("https://furion.baiqian.ltd/upload", ContentType = "multipart/form-data")]
     Task<HttpResponseMessage> PostXXXAsync(HttpFile file);
 
     // 支持多个文件
-    [Post("https://www.furion.icu/upload", ContentType = "multipart/form-data")]
+    [Post("https://furion.baiqian.ltd/upload", ContentType = "multipart/form-data")]
     Task<HttpResponseMessage> PostXXXAsync(HttpFile[] files);
 
     // 支持多个文件
-    [Post("https://www.furion.icu/upload", ContentType = "multipart/form-data")]
+    [Post("https://furion.baiqian.ltd/upload", ContentType = "multipart/form-data")]
     Task<HttpResponseMessage> PostXXXAsync(IList<HttpFile> files);
 }
 ```
 
 ```cs showLineNumbers {3,7}
 // bytes 可以通过 File.ReadAllBytes(文件路径) 获取
-var res = await "https://www.furion.icu/upload".SetContentType("multipart/form-data")
+var res = await "https://furion.baiqian.ltd/upload".SetContentType("multipart/form-data")
                                                .SetFiles(HttpFile.Create("file", bytes, "image.png")).PostAsync();
 
 // 支持多个文件
-var res = await "https://www.furion.icu/upload".SetContentType("multipart/form-data")
+var res = await "https://furion.baiqian.ltd/upload".SetContentType("multipart/form-data")
                                                .SetFiles(HttpFile.CreateMultiple("files", (bytes, "image1.png"), (bytes, "image2.png"))).PostAsync();
 ```
 
@@ -1246,13 +1253,13 @@ public void ConfigureServices(IServiceCollection services)
 由：
 
 ```cs showLineNumbers
-var stream = await "https://www.furion.icu/".GetAsStreamAsync();
+var stream = await "https://furion.baiqian.ltd/".GetAsStreamAsync();
 ```
 
 改为：
 
 ```cs showLineNumbers
-var (stream, encoding) = await "https://www.furion.icu/".GetAsStreamAsync();
+var (stream, encoding) = await "https://furion.baiqian.ltd/".GetAsStreamAsync();
 ```
 
   </div>
@@ -2458,7 +2465,7 @@ public class AppInfoOptions : IConfigurableOptions
 var template = TP.Wrapper("Furion 框架", "让 .NET 开发更简单，更通用，更流行。",
     "[作者] 百小僧",
     "[当前版本] v3.5.3",
-    "[文档地址] https://furion.icu",
+    "[文档地址] https://furion.baiqian.ltd",
     "[Copyright] 百小僧, Baiqian Co.,Ltd.");
 Console.WriteLine(template);
 ```
@@ -2471,7 +2478,7 @@ Console.WriteLine(template);
 ┣
 ┣ 作者：        百小僧
 ┣ 当前版本：     v3.5.3
-┣ 文档地址：     https://furion.icu
+┣ 文档地址：     https://furion.baiqian.ltd
 ┣ Copyright：   百小僧, Baiqian Co.,Ltd.
 ┗━━━━━━━━━━━  Furion 框架 ━━━━━━━━━━━
 
@@ -4381,7 +4388,7 @@ namespace Furion.UnifyResult
 
 - **其他更改**
 
-  - &nbsp;<Tag>调整</Tag> `Fur` 框架域名为：[https://furion.icu](https://furion.icu)
+  - &nbsp;<Tag>调整</Tag> `Fur` 框架域名为：[https://furion.baiqian.ltd](https://furion.baiqian.ltd)
   - &nbsp;<Tag>调整</Tag> 仓储 `FromSqlRaw` 和 `FromSqlInterpolated` 接口位置
   - &nbsp;<Tag>更新</Tag> 数据加解密性能，[#PR70](https://gitee.com/dotnetchina/Furion/pulls/70)
 

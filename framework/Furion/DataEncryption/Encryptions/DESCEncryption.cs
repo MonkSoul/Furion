@@ -41,11 +41,11 @@ public class DESCEncryption
     public static string Encrypt(string text, string skey, bool uppercase = false)
     {
         using var des = DES.Create();
-        byte[] inputByteArray;
-        inputByteArray = Encoding.Default.GetBytes(text);
+        var inputByteArray = Encoding.Default.GetBytes(text);
 
-        des.Key = Encoding.ASCII.GetBytes(MD5Encryption.Encrypt(skey, uppercase)[..8]);
-        des.IV = Encoding.ASCII.GetBytes(MD5Encryption.Encrypt(skey, uppercase)[..8]);
+        var md5Bytes = Encoding.ASCII.GetBytes(MD5Encryption.Encrypt(skey, uppercase)[..8]);
+        des.Key = md5Bytes;
+        des.IV = md5Bytes;
 
         using var ms = new MemoryStream();
         using var cs = new CryptoStream(ms, des.CreateEncryptor(), CryptoStreamMode.Write);
@@ -72,8 +72,7 @@ public class DESCEncryption
     public static string Decrypt(string hash, string skey, bool uppercase = false)
     {
         using var des = DES.Create();
-        int len;
-        len = hash.Length / 2;
+        var len = hash.Length / 2;
         var inputByteArray = new byte[len];
         int x, i;
 
@@ -83,8 +82,9 @@ public class DESCEncryption
             inputByteArray[x] = (byte)i;
         }
 
-        des.Key = Encoding.ASCII.GetBytes(MD5Encryption.Encrypt(skey, uppercase)[..8]);
-        des.IV = Encoding.ASCII.GetBytes(MD5Encryption.Encrypt(skey, uppercase)[..8]);
+        var md5Bytes = Encoding.ASCII.GetBytes(MD5Encryption.Encrypt(skey, uppercase)[..8]);
+        des.Key = md5Bytes;
+        des.IV = md5Bytes;
 
         using var ms = new MemoryStream();
         using var cs = new CryptoStream(ms, des.CreateDecryptor(), CryptoStreamMode.Write);

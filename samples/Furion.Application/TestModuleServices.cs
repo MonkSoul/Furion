@@ -183,8 +183,8 @@ public class TestModuleServices : IDynamicApiController
             age = 30
         };
 
-        var res = await "https://furion.icu".SetQueries(obj).GetAsync();
-        var res2 = await "https://furion.icu".SetQueries(obj, true).GetAsync();
+        var res = await "https://furion.baiqian.ltd".SetQueries(obj).GetAsync();
+        var res2 = await "https://furion.baiqian.ltd".SetQueries(obj, true).GetAsync();
     }
 
     [HttpGet, LoggingMonitor]

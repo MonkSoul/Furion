@@ -1472,6 +1472,29 @@ public class DatabaseLoggingWriter : IDatabaseLoggingWriter
 
 :::
 
+### 18.6.8 支持 `[DisplayName]` 特性
+
+:::important 版本说明
+
+以下内容仅限 `Furion 4.8.5.10 +` 版本使用。
+
+:::
+
+通常我们会为每一个接口添加一个唯一名称，比如使用 `[DisplayName]` 特性，方便后续写入日志进行归类。
+
+```cs showLineNumbers {4}
+public class TestService: IDynamicApiController
+{
+    [LoggingMonitor]
+    [DisplayName("测试方法")]
+    public void TestMethod()
+    {
+    }
+}
+```
+
+那么如果输出为 `JSON` 格式日志将会自动添加 `displayTitle` 键，值为 `测试方法`。
+
 ## 18.7 打印日志到 `Swagger` 中
 
 在 `Furion` 框架中默认集成了 `MiniProfiler` 组件并与 `Swagger` 进行了结合，如需打印日志或调试代码，只需调用以下方法即可：
@@ -1495,7 +1518,7 @@ StringLoggingPart.Default().SetMessage("这是一个日志").LogInformation();
 var template = TP.Wrapper("Furion 框架", "让 .NET 开发更简单，更通用，更流行。",
     "##作者## 百小僧",
     "##当前版本## v3.5.3",
-    "##文档地址## https://furion.icu",
+    "##文档地址## https://furion.baiqian.ltd",
     "##Copyright## 百小僧, Baiqian Co.,Ltd.");
 
 Console.WriteLine(template);
@@ -1509,7 +1532,7 @@ Console.WriteLine(template);
 ┣
 ┣ 作者：        百小僧
 ┣ 当前版本：     v3.5.3
-┣ 文档地址：     https://furion.icu
+┣ 文档地址：     https://furion.baiqian.ltd
 ┣ Copyright：   百小僧, Baiqian Co.,Ltd.
 ┗━━━━━━━━━━━  Furion 框架 ━━━━━━━━━━━
 

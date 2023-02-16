@@ -112,7 +112,7 @@ Hello @Model.Name
 {
     <p>@item</p>
 }
-", new TestModel
+", new TestModel    // Furion 4.8.4.16+ 支持匿名类型
 {
     Name = "Furion",
     Items = new[] { 3, 1, 2 }
@@ -143,7 +143,7 @@ Hello @Model.Name
 {
     <p>@item</p>
 }
-", new TestModel
+", new TestModel    // Furion 4.8.4.16+ 支持匿名类型
 {
     Name = "Furion",
     Items = new[] { 3, 1, 2 }
@@ -170,7 +170,7 @@ Hello @Model.Name
 {
     <p>@item</p>
 }
-", new TestModel
+", new TestModel    // Furion 4.8.4.16+ 支持匿名类型
 {
     Name = "Furion",
     Items = new[] { 5,6,7,8 }
@@ -368,7 +368,7 @@ var str = "我叫#(Furion:Address)".Render();
 ```json showLineNumbers
 {
   "Furion": {
-    "Address": "https://www.furion.icu"
+    "Address": "https://furion.baiqian.ltd"
   }
 }
 ```

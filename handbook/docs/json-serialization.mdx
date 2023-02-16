@@ -447,7 +447,86 @@ public string PropertyName {get; set;}
 })
 ```
 
-### 23.5.12 `long` 类型序列化时转 `string`
+### 23.5.12 忽略所有 `null` 属性
+
+- `System.Text.Json` 方式
+
+```cs showLineNumbers {4}
+services.AddControllersWithViews()
+        .AddJsonOptions(options =>
+        {
+            options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
+        });
+```
+
+- `Newtonsoft.Json` 方式
+
+```cs showLineNumbers {3}
+.AddNewtonsoftJson(options =>
+{
+        options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
+})
+```
+
+### 23.5.13 忽略所有默认值属性
+
+- `System.Text.Json` 方式
+
+```cs showLineNumbers {4}
+services.AddControllersWithViews()
+        .AddJsonOptions(options =>
+        {
+            options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingDefault;
+        });
+```
+
+- `Newtonsoft.Json` 方式
+
+```cs showLineNumbers {3}
+.AddNewtonsoftJson(options =>
+{
+        options.SerializerSettings.DefaultValueHandling = DefaultValueHandling.Ignore;
+})
+```
+
+### 23.5.14 控制属性序列化顺序
+
+```cs showLineNumbers
+[Newtonsoft.Json.JsonProperty(Order = 0)]    // 针对 Newtonsoft
+[System.Text.Json.Serialization.JsonPropertyOrder(0)] // 针对 System.Text.Json
+public string PropertyName {get; set;}
+```
+
+### 23.5.15 重命名序列化属性
+
+```cs showLineNumbers
+[Newtonsoft.Json.JsonProperty("newName")]    // 针对 Newtonsoft
+[System.Text.Json.Serialization.JsonPropertyName("newName")] // 针对 System.Text.Json
+public string PropertyName {get; set;}
+```
+
+### 23.5.16 `JSON` 字符串缩进
+
+- `System.Text.Json` 方式
+
+```cs showLineNumbers {4}
+services.AddControllersWithViews()
+        .AddJsonOptions(options =>
+        {
+            options.JsonSerializerOptions.WriteIndented = true;
+        });
+```
+
+- `Newtonsoft.Json` 方式
+
+```cs showLineNumbers {3}
+.AddNewtonsoftJson(options =>
+{
+        options.SerializerSettings.Formatting = Newtonsoft.Json.Formatting.Indented;
+})
+```
+
+### 23.5.17 `long` 类型序列化时转 `string`
 
 有时候我们需要将 ` long` 类型序列化时转为 `string` 类型，防止 `JavaScript` 出现精度溢出问题，这个时候可以尝试使用以下方法解决：
 
@@ -507,7 +586,7 @@ public class NewtonsoftJsonSerializerProvider : IJsonSerializerProvider, ISingle
 
 :::
 
-### 23.5.13 `DateOnly` 和 `TimeOnly` 类型序列化支持
+### 23.5.18 `DateOnly` 和 `TimeOnly` 类型序列化支持
 
 在 `.NET6+` 添加了 `DateOnly` 和 `TimeOnly` 类型，`Furion 4.7.9+` 提供了支持。
 
@@ -527,12 +606,12 @@ services.AddControllersWithViews()
 ```cs showLineNumbers {3-4}
 .AddNewtonsoftJson(options =>
 {
-        options.JsonSerializerOptions.Converters.AddDateOnlyConverters();   // DateOnly
-        options.JsonSerializerOptions.Converters.AddTimeOnlyConverters();   // TimeOnly
+        options.SerializerSettings.Converters.AddDateOnlyConverters();   // DateOnly
+        options.SerializerSettings.Converters.AddTimeOnlyConverters();   // TimeOnly
 })
 ```
 
-### 23.5.14 `DateTimeOffset` 反序列化异常
+### 23.5.19 `DateTimeOffset` 反序列化异常
 
 以下处理只针对 `Newtonsoft.Json`，数据为 `0001-01-01 00:00:00` 的情形下反序列化为 `DateTimeOffset` 类型报错：
 
