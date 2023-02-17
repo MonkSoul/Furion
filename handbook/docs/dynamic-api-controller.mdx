@@ -14,7 +14,7 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 - **新特性**
 
-  - &nbsp;<Tag>新增</Tag> **动态 `WebAPI` 自动检查路由是否包含重复参数，如果有自动修正而不是抛异常** <sup>4.8.6.5</sup> <sup>⏱️2023.02.17</sup>
+  - &nbsp;<Tag>新增</Tag> **动态 `WebAPI` 自动检查路由是否包含重复参数，如果有自动修正而不是抛异常** <sup>4.8.6.5</sup> <sup>⏱️2023.02.17</sup> [5f15ea1](https://gitee.com/dotnetchina/Furion/commit/5f15ea1edd2e7793d86dd074ffbbecbebf7f683f)
 
 <details style={{ marginLeft: 50 }}>
   <summary>查看变化</summary>
@@ -35,7 +35,7 @@ public class WithClass : IDynamicApiController
 }
 ```
 
-新版本 `Furion 4.8.6.5+` 修正了该错误，**自动移除后面重复的路由参数且不再抛异常**，也就是最终生成路由为：`/api/with-class/system/role/deptTree/{roleId}}`
+新版本 `Furion 4.8.6.5+` 修正了该错误，**自动移除后面重复的路由参数且不再抛异常**，也就是最终生成路由为：`/api/with-class/system/role/deptTree/{roleId}`
 
   </div>
 </details>
