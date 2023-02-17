@@ -686,6 +686,7 @@ public class Person
     public override string ToString()
     {
         return JsonSerializer.Serialize(this);  // 比如这里做序列化处理
+        // 如果基类中 override，可使用 return JsonSerializer.Serialize<object>(this);
     }
 }
 ```
