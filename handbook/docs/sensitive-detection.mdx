@@ -4,6 +4,21 @@ title: 30. 脱敏处理
 sidebar_label: 30. 脱敏处理
 ---
 
+import Tag from "@site/src/components/Tag.js";
+
+<details>
+  <summary>📝 模块更新日志</summary>
+  <div>
+<div>
+
+- **其他更改**
+
+  - &nbsp;<Tag>调整</Tag> 脱敏处理 `sensitive-words.txt` 嵌入文件支持 `UTF8 BOM` 编码，感谢 [@man119](https://gitee.com/man119) <sup>4.8.6.7</sup> <sup>⏱️2023.02.18</sup> [#I6G1JN](https://gitee.com/dotnetchina/Furion/issues/I6G1JN)
+
+</div>
+  </div>
+</details>
+
 :::important 版本说明
 
 以下内容仅限 `Furion 2.4.4 +` 版本使用。
@@ -35,7 +50,7 @@ public void ConfigureServices(IServiceCollection services)
 
 ### 30.2.2 创建 `sensitive-words.txt` 文件
 
-在 `Web` 启动层项目中创建 `sensitive-words.txt` 文件，**确保采用 `UTF-8` 编码格式且不能带 `BOM 签名` 且设置为嵌入式资源！**🎃
+在 `Web` 启动层项目中创建 `sensitive-words.txt` 文件，**确保采用 `UTF-8` 编码格式（`Furion 4.8.6.7+` 支持 `UTF8 BOM` 编码格式） 且设置为嵌入式资源！**
 
 `sensitive-words.txt` 内容格式为每一行标识一个脱敏词汇：
 
@@ -46,7 +61,7 @@ public void ConfigureServices(IServiceCollection services)
 八嘎
 ```
 
-:::tip 3.8.9+ 版本
+:::tip `Furion 3.8.9+` 版本
 
 在 `Furion 3.8.9+` 版本支持 `|` 分隔符进行分割，也同时支持 `换行` 和 `|` 混用，如：
 
