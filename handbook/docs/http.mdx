@@ -18,6 +18,7 @@ import Tag from "@site/src/components/Tag.js";
 
 - **问题修复**
 
+  - &nbsp;<Tag>修复</Tag> 远程请求代理模式配置了 `WithEncodeUrl = false` 无效问题 <sup>4.8.6.4</sup> <sup>⏱️2023.02.16</sup> [89639ba](https://gitee.com/dotnetchina/Furion/commit/89639ba1db8a7df750d9bca66a887e252622b219)
   - &nbsp;<Tag>修复</Tag> 由于 [#I6D64H](https://gitee.com/dotnetchina/Furion/issues/I6D64H) 导致远程请求出现 `Specified method is not supported.` 问题 <sup>4.8.5.9</sup> <sup>⏱️2023.02.07</sup> [#I6DEEE](https://gitee.com/dotnetchina/Furion/issues/I6DEEE) [#I6D64H](https://gitee.com/dotnetchina/Furion/issues/I6D64H)
   - &nbsp;<Tag>修复</Tag> ~~优化远程请求 `ReadAsStringAsync` 底层方法，尝试修复 `Error while copying content to a stream.` 错误 <sup>4.8.5.8</sup> <sup>⏱️2023.02.06</sup> [#I6D64H](https://gitee.com/dotnetchina/Furion/issues/I6D64H)~~
   - &nbsp;<Tag>修复</Tag> 远程请求配置 `WithEncodeUrl(false)` 对 `application/x-www-form-urlencoded` 请求类型无效 <sup>4.8.4</sup> <sup>⏱️2022.12.30</sup> [#I682DX](https://gitee.com/dotnetchina/Furion/issues/I682DX)
@@ -663,6 +664,34 @@ public interface IHttp : IHttpDispatchProxy
 ```
 
 最终输出格式为：`https://furion.baiqian.ltd/get?id=1&name=Furion`。
+
+:::tip 关于对象类型直接作为模板参数
+
+在对接某些第三方接口的时候可能遇到一种情况，需要把对象序列化或者进行某种处理后作为 `Url` 参数，如：
+
+```cs showLineNumbers {1}
+[Get("https://furion.baiqian.ltd/get?json={p}", WithEncodeUrl = false)]    // 这里将 p 作为模板传入
+Task<HttpResponseMessage> GetXXXAsync(Person p);
+```
+
+如果 `Person` 类型不做任何处理，那么最终传递的是 `Person` 的命名空间：`https://furion.baiqian.ltd/get?json=YourProject.Person`，但这并非是我们的预期。
+
+这个时候我们只需要重写 `Person` 的 `ToString` 方法即可，如：
+
+```cs showLineNumbers {5-8}
+public class Person
+{
+    public string Name { get; set; }
+
+    public override string ToString()
+    {
+        return JsonSerializer.Serialize(this);  // 比如这里做序列化处理
+        // 如果基类中 override，可使用 return JsonSerializer.Serialize<object>(this);
+    }
+}
+```
+
+:::
 
 ### 19.5.5 设置请求客户端
 

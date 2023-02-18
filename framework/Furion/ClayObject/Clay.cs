@@ -389,6 +389,8 @@ public class Clay : DynamicObject
     /// <returns></returns>
     private static dynamic ToValue(XElement element)
     {
+        FixedChineseXElement(element);
+
         var type = (JsonType)Enum.Parse(typeof(JsonType), element.Attribute("type").Value);
         return type switch
         {
@@ -398,6 +400,25 @@ public class Clay : DynamicObject
             JsonType.@object or JsonType.array => new Clay(element, type),
             _ => null,
         };
+    }
+
+    /// <summary>
+    /// 修复带中文键的 Xml
+    /// </summary>
+    /// <param name="xelement"></param>
+    private static void FixedChineseXElement(XElement xelement)
+    {
+        if (xelement == null || xelement.Attribute("type").Value != "object") return;
+
+        var elements = xelement.Elements("{item}item");
+
+        foreach (var element in elements)
+        {
+            var name = element.Attribute("item").Value;
+            var value = element.Value;
+
+            element.ReplaceWith(new XElement(name, CreateTypeAttr(GetJsonType(value)), CreateJsonNode(value)));
+        }
     }
 
     /// <summary>

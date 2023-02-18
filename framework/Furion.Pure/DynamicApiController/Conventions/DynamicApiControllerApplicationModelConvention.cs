@@ -448,6 +448,7 @@ internal sealed class DynamicApiControllerApplicationModelConvention : IApplicat
             {
                 // 处理多个斜杆问题
                 template = Regex.Replace(isLowercaseRoute ? template.ToLower() : isLowerCamelCase ? template.ToLowerCamelCase() : template, @"\/{2,}", "/");
+                template = HandleRouteTemplateRepeat(template);
 
                 // 生成路由
                 actionAttributeRouteModel = string.IsNullOrWhiteSpace(template) ? null : new AttributeRouteModel(new RouteAttribute(template));
@@ -863,5 +864,33 @@ internal sealed class DynamicApiControllerApplicationModelConvention : IApplicat
 
             defaultVerbToHttpMethods.AddOrUpdate(settingsVerbToHttpMethods);
         }
+    }
+
+    /// <summary>
+    /// 处理路由模板重复参数
+    /// </summary>
+    /// <param name="template"></param>
+    /// <returns></returns>
+    private static string HandleRouteTemplateRepeat(string template)
+    {
+        var paths = template.Split('/', StringSplitOptions.RemoveEmptyEntries);
+        var routeParts = new List<string>();
+
+        foreach (var part in paths)
+        {
+            if (!(part.StartsWith("{") && part.EndsWith("}")))
+            {
+                routeParts.Add(part);
+                continue;
+            }
+
+            if (!routeParts.Any(u => u.Equals(part, StringComparison.OrdinalIgnoreCase)))
+            {
+                routeParts.Add(part);
+                continue;
+            }
+        }
+
+        return string.Join('/', routeParts);
     }
 }

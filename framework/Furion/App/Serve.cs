@@ -401,7 +401,7 @@ public static class Serve
         // 是否静默启动
         if (!options.IsSilence)
         {
-            app.Run();
+            app.Run(startUrls);
         }
         else
         {

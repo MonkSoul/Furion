@@ -35,11 +35,37 @@ import Tag from "@site/src/components/Tag.js";
 
 - **新特性**
 
-  - &nbsp;<Tag>新增</Tag> `byte[]` 类型 `MD5` 加密/比较重载方法 <sup>4.8.6.3</sup> <sup>⏱️2023.02.15</sup> [#I6F1NT](https://gitee.com/dotnetchina/Furion/issues/I6F1NT)
-  - &nbsp;<Tag>新增</Tag> 动态 `WebAPI` 支持 `[RouteConstraint(":*")]` 路由约束 <sup>4.8.6.2</sup> <sup>⏱️2023.02.10</sup> [#I6E6JA](https://gitee.com/dotnetchina/Furion/issues/I6E6JA)
-  - &nbsp;<Tag>新增</Tag> `Swagger` 启用登录后配置 `CheckUrl` 可获取本地存储的 `Authorization` 请求报文头 <sup>4.8.6.2</sup> <sup>⏱️2023.02.10</sup> [#I6E3LB](https://gitee.com/dotnetchina/Furion/issues/I6E3LB)
-  - &nbsp;<Tag>新增</Tag> **多语言支持 `.json` 文件配置方式（推荐）** <sup>4.8.6</sup> <sup>⏱️2023.02.08</sup> [#I6DL71](https://gitee.com/dotnetchina/Furion/issues/I6DL71) [#I5DXKP](https://gitee.com/dotnetchina/Furion/issues/I5DXKP)
-  - &nbsp;<Tag>新增</Tag> 定时任务 `IScheduler.[Try]UpdateDetail(builder => {})` 和 `IScheduler.[Try]UpdateTrigger(triggerId, builder => {})` 重载方法 <sup>4.8.6</sup> <sup>⏱️2023.02.08</sup> [6e43a54](https://gitee.com/dotnetchina/Furion/commit/6e43a542f1a7e10bf996c6e0179a40d434d8682e)
+  - &nbsp;<Tag>新增</Tag> **动态 `WebAPI` 自动检查路由是否包含重复参数，如果有自动修正而不是抛异常** <sup>4.8.6.5</sup> <sup>⏱️2023.02.17</sup> [5f15ea1](https://gitee.com/dotnetchina/Furion/commit/5f15ea1edd2e7793d86dd074ffbbecbebf7f683f)
+
+<details style={{ marginLeft: 50 }}>
+  <summary>查看变化</summary>
+  <div>
+
+在 `Furion 4.8.6.5` 之前，下列代码**会抛出异常**：`The route parameter name 'roleid' appears more than one time in the route template.`
+
+**原因是生成的路由包含了多个 `{roleId}`**：`/api/with-class/system/role/deptTree/{roleId}/{roleId}`。
+
+```cs showLineNumbers {3}
+public class WithClass : IDynamicApiController
+{
+    [HttpGet("system/role/deptTree/{roleId}")]  // 过去版本抛异常，Furion 4.8.6.5+ 正常~
+    public string GetResult2(string roleId)
+    {
+        return nameof(Furion);
+    }
+}
+```
+
+新版本 `Furion 4.8.6.5+` 修正了该错误，**自动移除后面重复的路由参数且不再抛异常**，也就是最终生成路由为：`/api/with-class/system/role/deptTree/{roleId}`
+
+  </div>
+</details>
+
+- - &nbsp;<Tag>新增</Tag> `byte[]` 类型 `MD5` 加密/比较重载方法 <sup>4.8.6.3</sup> <sup>⏱️2023.02.15</sup> [#I6F1NT](https://gitee.com/dotnetchina/Furion/issues/I6F1NT)
+- - &nbsp;<Tag>新增</Tag> 动态 `WebAPI` 支持 `[RouteConstraint(":*")]` 路由约束 <sup>4.8.6.2</sup> <sup>⏱️2023.02.10</sup> [#I6E6JA](https://gitee.com/dotnetchina/Furion/issues/I6E6JA)
+- - &nbsp;<Tag>新增</Tag> `Swagger` 启用登录后配置 `CheckUrl` 可获取本地存储的 `Authorization` 请求报文头 <sup>4.8.6.2</sup> <sup>⏱️2023.02.10</sup> [#I6E3LB](https://gitee.com/dotnetchina/Furion/issues/I6E3LB)
+- - &nbsp;<Tag>新增</Tag> **多语言支持 `.json` 文件配置方式（推荐）** <sup>4.8.6</sup> <sup>⏱️2023.02.08</sup> [#I6DL71](https://gitee.com/dotnetchina/Furion/issues/I6DL71) [#I5DXKP](https://gitee.com/dotnetchina/Furion/issues/I5DXKP)
+- - &nbsp;<Tag>新增</Tag> 定时任务 `IScheduler.[Try]UpdateDetail(builder => {})` 和 `IScheduler.[Try]UpdateTrigger(triggerId, builder => {})` 重载方法 <sup>4.8.6</sup> <sup>⏱️2023.02.08</sup> [6e43a54](https://gitee.com/dotnetchina/Furion/commit/6e43a542f1a7e10bf996c6e0179a40d434d8682e)
 
 <details style={{ marginLeft: 50 }}>
   <summary>查看变化</summary>
@@ -195,6 +221,9 @@ public class ClassService: IDynamicApiController
 
 - **问题修复**
 
+  - &nbsp;<Tag>修复</Tag> `Serve.Run(urls: "端口")` 设置端口在 `.NET6/7` 下发布后始终是 `80` 端口问题 <sup>4.8.6.6</sup> <sup>⏱️2023.02.18</sup> [#I6G02W](https://gitee.com/dotnetchina/Furion/issues/I6G02W)
+  - &nbsp;<Tag>修复</Tag> 粘土对象不支持 `中文` 作为 `JSON/XML` 键问题 <sup>4.8.6.6</sup> <sup>⏱️2023.02.18</sup> [4961e01](https://gitee.com/dotnetchina/Furion/commit/4961e01486f604db12a8d8d71f9bd563ed7d7d48)
+  - &nbsp;<Tag>修复</Tag> 远程请求代理模式配置了 `WithEncodeUrl = false` 无效问题 <sup>4.8.6.4</sup> <sup>⏱️2023.02.16</sup> [89639ba](https://gitee.com/dotnetchina/Furion/commit/89639ba1db8a7df750d9bca66a887e252622b219)
   - &nbsp;<Tag>修复</Tag> 动态 `WebAPI` 自定义 `[HttpMethod(template)]` 之后生成错误路由 <sup>4.8.6.1</sup> <sup>⏱️2023.02.08</sup> [59fe53b](https://gitee.com/dotnetchina/Furion/commit/59fe53b5a9715ed139aff9075cb7fcaad01565b7)
   - &nbsp;<Tag>修复</Tag> 由于 [#I6D64H](https://gitee.com/dotnetchina/Furion/issues/I6D64H) 导致远程请求出现 `Specified method is not supported.` 问题 <sup>4.8.5.9</sup> <sup>⏱️2023.02.07</sup> [#I6DEEE](https://gitee.com/dotnetchina/Furion/issues/I6DEEE) [#I6D64H](https://gitee.com/dotnetchina/Furion/issues/I6D64H)
   - &nbsp;<Tag>修复</Tag> ~~优化远程请求 `ReadAsStringAsync` 底层方法，尝试修复 `Error while copying content to a stream.` 错误 <sup>4.8.5.8</sup> <sup>⏱️2023.02.06</sup> [#I6D64H](https://gitee.com/dotnetchina/Furion/issues/I6D64H)~~
