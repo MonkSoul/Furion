@@ -388,7 +388,8 @@ internal sealed class DynamicApiControllerApplicationModelConvention : IApplicat
             if (selectorModel.AttributeRouteModel != null)
             {
                 // 1. 如果控制器自定义了 [Route] 特性，则跳过
-                if (action.ActionMethod.DeclaringType.IsDefined(typeof(RouteAttribute), true))
+                if (action.ActionMethod.DeclaringType.IsDefined(typeof(RouteAttribute), true)
+                    || action.Controller.ControllerType.IsDefined(typeof(RouteAttribute), true))
                 {
                     if (string.IsNullOrWhiteSpace(selectorModel.AttributeRouteModel.Template)
                         && !string.IsNullOrWhiteSpace(selectorModel.AttributeRouteModel.Name))
@@ -873,6 +874,7 @@ internal sealed class DynamicApiControllerApplicationModelConvention : IApplicat
     /// <returns></returns>
     private static string HandleRouteTemplateRepeat(string template)
     {
+        var isStartDiagonal = template.StartsWith("/");
         var paths = template.Split('/', StringSplitOptions.RemoveEmptyEntries);
         var routeParts = new List<string>();
 
@@ -891,6 +893,7 @@ internal sealed class DynamicApiControllerApplicationModelConvention : IApplicat
             }
         }
 
-        return string.Join('/', routeParts);
+        var tmp = string.Join('/', routeParts);
+        return isStartDiagonal ? "/" + tmp : tmp;
     }
 }
