@@ -72,7 +72,13 @@ public class SensitiveDetectionProvider : ISensitiveDetectionProvider
             await readStream.ReadAsync(buffer.AsMemory(0, buffer.Length));
         }
 
-        var content = Encoding.UTF8.GetString(buffer);
+        // 同时兼容 UTF-8 BOM，UTF-8
+        string content;
+        using (var stream = new MemoryStream(buffer))
+        {
+            using var streamReader = new StreamReader(stream, new UTF8Encoding(false));
+            content = streamReader.ReadToEnd();
+        }
 
         // 缓存数据
         await _distributedCache.SetStringAsync(DISTRIBUTED_KEY, content);
