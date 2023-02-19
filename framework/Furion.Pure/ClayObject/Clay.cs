@@ -156,7 +156,7 @@ public class Clay : DynamicObject
     /// <returns></returns>
     public bool IsDefined(string name)
     {
-        return IsObject && (XmlElement.Element(name) != null);
+        return IsObject && ((XmlElement.Element("{item}item") ?? XmlElement.Element(name)) != null);
     }
 
     /// <summary>
@@ -176,7 +176,7 @@ public class Clay : DynamicObject
     /// <returns></returns>
     public bool Delete(string name)
     {
-        var elem = XmlElement.Element(name);
+        var elem = XmlElement.Element("{item}item") ?? XmlElement.Element(name);
         if (elem != null)
         {
             elem.Remove();
@@ -278,7 +278,7 @@ public class Clay : DynamicObject
     {
         return (IsArray)
             ? TryGet(XmlElement.Elements().ElementAtOrDefault((int)indexes[0]), out result)
-            : TryGet(XmlElement.Element((string)indexes[0]), out result);
+            : TryGet(XmlElement.Element("{item}item") ?? XmlElement.Element((string)indexes[0]), out result);
     }
 
     /// <summary>
@@ -291,7 +291,7 @@ public class Clay : DynamicObject
     {
         return (IsArray)
             ? TryGet(XmlElement.Elements().ElementAtOrDefault(int.Parse(binder.Name)), out result)
-            : TryGet(XmlElement.Element(binder.Name), out result);
+            : TryGet(XmlElement.Element("{item}item") ?? XmlElement.Element(binder.Name), out result);
     }
 
     /// <summary>
@@ -389,8 +389,6 @@ public class Clay : DynamicObject
     /// <returns></returns>
     private static dynamic ToValue(XElement element)
     {
-        FixedChineseXElement(element);
-
         var type = (JsonType)Enum.Parse(typeof(JsonType), element.Attribute("type").Value);
         return type switch
         {
@@ -400,25 +398,6 @@ public class Clay : DynamicObject
             JsonType.@object or JsonType.array => new Clay(element, type),
             _ => null,
         };
-    }
-
-    /// <summary>
-    /// 修复带中文键的 Xml
-    /// </summary>
-    /// <param name="xelement"></param>
-    private static void FixedChineseXElement(XElement xelement)
-    {
-        if (xelement == null || xelement.Attribute("type").Value != "object") return;
-
-        var elements = xelement.Elements("{item}item");
-
-        foreach (var element in elements)
-        {
-            var name = element.Attribute("item").Value;
-            var value = element.Value;
-
-            element.ReplaceWith(new XElement(name, CreateTypeAttr(GetJsonType(value)), CreateJsonNode(value)));
-        }
     }
 
     /// <summary>
@@ -569,7 +548,7 @@ public class Clay : DynamicObject
             }
         }
 
-        var element = XmlElement.Element(name);
+        var element = XmlElement.Element("{item}item") ?? XmlElement.Element(name);
         if (element == null)
         {
             XmlElement.Add(new XElement(name, CreateTypeAttr(type), CreateJsonNode(value)));
