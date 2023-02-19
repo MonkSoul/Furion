@@ -222,18 +222,53 @@ public class ClassService: IDynamicApiController
 - **问题修复**
 
   - &nbsp;<Tag>修复</Tag> 动态 `WebAPI` 不支持嵌套继承 `[Route]` 特性问题 <sup>4.8.6.8</sup> <sup>⏱️2023.02.18</sup> [#I6CLPT](https://gitee.com/dotnetchina/Furion/issues/I6CLPT)
-  - &nbsp;<Tag>修复</Tag> `Serve.Run(urls: "端口")` 设置端口在 `.NET6/7` 下发布后始终是 `80` 端口问题 <sup>4.8.6.6</sup> <sup>⏱️2023.02.18</sup> [#I6G02W](https://gitee.com/dotnetchina/Furion/issues/I6G02W)
-  - &nbsp;<Tag>修复</Tag> 粘土对象不支持 `中文` 作为 `JSON/XML` 键问题 <sup>4.8.6.6</sup> <sup>⏱️2023.02.18</sup> [4961e01](https://gitee.com/dotnetchina/Furion/commit/4961e01486f604db12a8d8d71f9bd563ed7d7d48)
-  - &nbsp;<Tag>修复</Tag> 远程请求代理模式配置了 `WithEncodeUrl = false` 无效问题 <sup>4.8.6.4</sup> <sup>⏱️2023.02.16</sup> [89639ba](https://gitee.com/dotnetchina/Furion/commit/89639ba1db8a7df750d9bca66a887e252622b219)
-  - &nbsp;<Tag>修复</Tag> 动态 `WebAPI` 自定义 `[HttpMethod(template)]` 之后生成错误路由 <sup>4.8.6.1</sup> <sup>⏱️2023.02.08</sup> [59fe53b](https://gitee.com/dotnetchina/Furion/commit/59fe53b5a9715ed139aff9075cb7fcaad01565b7)
-  - &nbsp;<Tag>修复</Tag> 由于 [#I6D64H](https://gitee.com/dotnetchina/Furion/issues/I6D64H) 导致远程请求出现 `Specified method is not supported.` 问题 <sup>4.8.5.9</sup> <sup>⏱️2023.02.07</sup> [#I6DEEE](https://gitee.com/dotnetchina/Furion/issues/I6DEEE) [#I6D64H](https://gitee.com/dotnetchina/Furion/issues/I6D64H)
-  - &nbsp;<Tag>修复</Tag> ~~优化远程请求 `ReadAsStringAsync` 底层方法，尝试修复 `Error while copying content to a stream.` 错误 <sup>4.8.5.8</sup> <sup>⏱️2023.02.06</sup> [#I6D64H](https://gitee.com/dotnetchina/Furion/issues/I6D64H)~~
-  - &nbsp;<Tag>修复</Tag> **规范化结果不支持 `OData` 协议控制器** <sup>4.8.5.5</sup> <sup>⏱️2023.02.01</sup> [!571](https://gitee.com/dotnetchina/Furion/pulls/571)
-  - &nbsp;<Tag>修复</Tag> 启用 `Swagger` 登录功能之后不能触发响应拦截器 <sup>4.8.5.5</sup> <sup>⏱️2023.02.01</sup> [#I6C9A2](https://gitee.com/dotnetchina/Furion/issues/I6C9A2) [!702](https://gitee.com/dotnetchina/Furion/pulls/702) [!703](https://gitee.com/dotnetchina/Furion/pulls/703)
-  - &nbsp;<Tag>修复</Tag> 在数据库日志的 `IDatabaseLoggingWriter` 实现类中依赖注入 `ILogger<>` 导致死循环 <sup>4.8.5.4</sup> <sup>⏱️2023.02.01</sup> [#I6C6QU](https://gitee.com/dotnetchina/Furion/issues/I6C6QU)
-  - &nbsp;<Tag>修复</Tag> `Furion.Xunit/Furion.Pure.Xunit` 单元测试依赖注入单例服务时不是同一实例问题 <sup>4.8.5.3</sup> <sup>⏱️2023.01.31</sup> [305511e](https://gitee.com/dotnetchina/Furion/commit/305511ec6322019622c392a23957042d2dcae7fb)
-  - &nbsp;<Tag>修复</Tag> 数据库日志提供程序在应用程序终止时出现空异常问题 <sup>4.8.5</sup> <sup>⏱️2023.01.28</sup> [#I6AZ8Y](https://gitee.com/dotnetchina/Furion/issues/I6AZ8Y)
-  - &nbsp;<Tag>修复</Tag> 实体拓展方式操作数据库出现空异常问题 <sup>4.8.5</sup> <sup>⏱️2023.01.28</sup> [#I6AXU6](https://gitee.com/dotnetchina/Furion/issues/I6AXU6)
+
+<details style={{ marginLeft: 50 }}>
+  <summary>查看变化</summary>
+  <div>
+
+过去版本生成错误重复路由，如：`api/system/SystemDictionary/api/system/SystemDictionary/Add`，现已修正。
+
+```cs showLineNumbers {1,3,16,17}
+public class WithClass : IDynamicApiController
+{
+    [Route("Add")]
+    public void Add()
+    {
+
+    }
+
+    [Route("Edit")]
+    public void Edit()
+    {
+
+    }
+}
+
+[Route("api/system/SystemDictionary")]
+public class SystemService : WithClass
+{
+    public void Some()
+    {
+    }
+}
+```
+
+  </div>
+</details>
+
+- - &nbsp;<Tag>修复</Tag> `Serve.Run(urls: "端口")` 设置端口在 `.NET6/7` 下发布后始终是 `80` 端口问题 <sup>4.8.6.6</sup> <sup>⏱️2023.02.18</sup> [#I6G02W](https://gitee.com/dotnetchina/Furion/issues/I6G02W)
+- - &nbsp;<Tag>修复</Tag> 粘土对象不支持 `中文` 作为 `JSON/XML` 键问题 <sup>4.8.6.6</sup> <sup>⏱️2023.02.18</sup> [4961e01](https://gitee.com/dotnetchina/Furion/commit/4961e01486f604db12a8d8d71f9bd563ed7d7d48)
+- - &nbsp;<Tag>修复</Tag> 远程请求代理模式配置了 `WithEncodeUrl = false` 无效问题 <sup>4.8.6.4</sup> <sup>⏱️2023.02.16</sup> [89639ba](https://gitee.com/dotnetchina/Furion/commit/89639ba1db8a7df750d9bca66a887e252622b219)
+- - &nbsp;<Tag>修复</Tag> 动态 `WebAPI` 自定义 `[HttpMethod(template)]` 之后生成错误路由 <sup>4.8.6.1</sup> <sup>⏱️2023.02.08</sup> [59fe53b](https://gitee.com/dotnetchina/Furion/commit/59fe53b5a9715ed139aff9075cb7fcaad01565b7)
+- - &nbsp;<Tag>修复</Tag> 由于 [#I6D64H](https://gitee.com/dotnetchina/Furion/issues/I6D64H) 导致远程请求出现 `Specified method is not supported.` 问题 <sup>4.8.5.9</sup> <sup>⏱️2023.02.07</sup> [#I6DEEE](https://gitee.com/dotnetchina/Furion/issues/I6DEEE) [#I6D64H](https://gitee.com/dotnetchina/Furion/issues/I6D64H)
+- - &nbsp;<Tag>修复</Tag> ~~优化远程请求 `ReadAsStringAsync` 底层方法，尝试修复 `Error while copying content to a stream.` 错误 <sup>4.8.5.8</sup> <sup>⏱️2023.02.06</sup> [#I6D64H](https://gitee.com/dotnetchina/Furion/issues/I6D64H)~~
+- - &nbsp;<Tag>修复</Tag> **规范化结果不支持 `OData` 协议控制器** <sup>4.8.5.5</sup> <sup>⏱️2023.02.01</sup> [!571](https://gitee.com/dotnetchina/Furion/pulls/571)
+- - &nbsp;<Tag>修复</Tag> 启用 `Swagger` 登录功能之后不能触发响应拦截器 <sup>4.8.5.5</sup> <sup>⏱️2023.02.01</sup> [#I6C9A2](https://gitee.com/dotnetchina/Furion/issues/I6C9A2) [!702](https://gitee.com/dotnetchina/Furion/pulls/702) [!703](https://gitee.com/dotnetchina/Furion/pulls/703)
+- - &nbsp;<Tag>修复</Tag> 在数据库日志的 `IDatabaseLoggingWriter` 实现类中依赖注入 `ILogger<>` 导致死循环 <sup>4.8.5.4</sup> <sup>⏱️2023.02.01</sup> [#I6C6QU](https://gitee.com/dotnetchina/Furion/issues/I6C6QU)
+- - &nbsp;<Tag>修复</Tag> `Furion.Xunit/Furion.Pure.Xunit` 单元测试依赖注入单例服务时不是同一实例问题 <sup>4.8.5.3</sup> <sup>⏱️2023.01.31</sup> [305511e](https://gitee.com/dotnetchina/Furion/commit/305511ec6322019622c392a23957042d2dcae7fb)
+- - &nbsp;<Tag>修复</Tag> 数据库日志提供程序在应用程序终止时出现空异常问题 <sup>4.8.5</sup> <sup>⏱️2023.01.28</sup> [#I6AZ8Y](https://gitee.com/dotnetchina/Furion/issues/I6AZ8Y)
+- - &nbsp;<Tag>修复</Tag> 实体拓展方式操作数据库出现空异常问题 <sup>4.8.5</sup> <sup>⏱️2023.01.28</sup> [#I6AXU6](https://gitee.com/dotnetchina/Furion/issues/I6AXU6)
 
 - **其他更改**
 
