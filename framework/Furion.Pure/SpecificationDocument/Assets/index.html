@@ -252,6 +252,7 @@
             }
             else if (accessToken == "invalid_token") {
                 window.localStorage.removeItem(tokenKey);
+                ui.authActions.logout(["Bearer"]);
             }
 
             return response;
