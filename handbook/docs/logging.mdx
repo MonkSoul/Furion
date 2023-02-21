@@ -1131,13 +1131,16 @@ services.AddMonitorLogging();   // 默认读取 Logging:Monitor 下配置，支�
       "ReturnValueThreshold": 0, // 配置返回值字符串阈值，默认 0，全量输出，Furion 4.3.9+ 有效
       "JsonBehavior": "None", // 配置 LoggingMonitor Json 输出行为，默认 None，Furion 4.5.2+ 有效
       "JsonIndented": false, // 配置 LoggingMonitor Json 格式化行为，默认 false，Furion 4.8.2+ 有效
+      "ContractResolver": "CamelCase", // 配置 LoggingMonitor 序列化属性命名规则，默认 CamelCase，Furion 4.8.6.12+ 有效
       "MethodsSettings": [
         // 配置被监视方法更多信息，Furion 4.3.9+ 有效
         {
           "FullName": "Furion.Application.TestLoggerServices.MethodName", // 方法完全限定名
           "WithReturnValue": true, // 配置是否包含返回值，默认 `true`，Furion 4.3.9+ 有效
           "ReturnValueThreshold": 0, // 配置返回值字符串阈值，默认 0，全量输出，Furion 4.3.9+ 有效
-          "JsonIndented": false // 配置 LoggingMonitor Json 格式化行为，默认 false，Furion 4.8.2+ 有效
+          "JsonIndented": false, // 配置 LoggingMonitor Json 格式化行为，默认 false，Furion 4.8.2+ 有效
+          "JsonBehavior": "None", // 配置 LoggingMonitor Json 输出行为，默认 None，Furion 4.5.2+ 有效
+          "ContractResolver": "CamelCase" // 配置 LoggingMonitor 序列化属性命名规则，默认 CamelCase，Furion 4.8.6.12+ 有效
         }
       ]
     }
