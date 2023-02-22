@@ -65,4 +65,9 @@ public sealed class LoggingMonitorMethod
     /// JSON 输出格式化
     /// </summary>
     public bool JsonIndented { get; set; } = false;
+
+    /// <summary>
+    /// 序列化属性命名规则（返回值）
+    /// </summary>
+    public ContractResolverTypes ContractResolver { get; set; } = ContractResolverTypes.CamelCase;
 }

@@ -1,0 +1,43 @@
+---
+id: net7-to-net8
+title: 2.5 .NET7 升级 .NET8
+sidebar_label: 2.5 .NET7 升级 .NET8 ✨
+---
+
+import useBaseUrl from "@docusaurus/useBaseUrl";
+
+:::caution .NET8 发布
+
+**🚀🎉🔥 2023 年 02 月 22 日，微软发布了 .NET8 首个预览版。**
+
+[https://devblogs.microsoft.com/dotnet/announcing-dotnet-8-preview-1/](https://devblogs.microsoft.com/dotnet/announcing-dotnet-8-preview-1/)
+
+:::
+
+## 2.5.1 升级注意事项
+
+**目前使用 `Furion` 所有版本（0.x-3.x）的用户均可以快速无缝升级至 `Furion v4.x` 版本，只需要做少量更改即可。**
+
+### 2.5.1.1 安装 `.NET8 SDK`
+
+[https://dotnet.microsoft.com/download/dotnet/8.0](https://dotnet.microsoft.com/download/dotnet/8.0)
+
+### 2.5.1.2 编辑 `.csproj` 文件
+
+编辑解决方案所有项目的 `.csproj` 文件，并替换 `<TargetFramework>net7.0</TargetFramework>` 为 `<TargetFramework>net8.0</TargetFramework>`，如：
+
+<img src={useBaseUrl("img/net81.png")} />
+
+当然也可以使用 `Ctrl + F` 全局替换
+
+<img src={useBaseUrl("img/net82.png")} />
+
+### 2.5.1.3 升级 `Nuget` 包
+
+将 `Furion` 所有包升级至 `v4.8.7` 版本，同时 `Microsoft` 所有包升级至 `v 8.0.0-preview.1.*` 版本，如：
+
+<img src={useBaseUrl("img/net75.png")} />
+
+### 2.5.1.4 重新编译整个解决方案
+
+升级完成！！！

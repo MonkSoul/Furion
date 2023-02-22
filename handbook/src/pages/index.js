@@ -58,7 +58,7 @@ function Banner() {
           </div>
           <ul className="furion-banner-spec">
             <li>MIT 宽松开源协议，商业无需授权</li>
-            <li>支持 .NET5/6/7+ 平台，没有历史包袱</li>
+            <li>支持 .NET5/6/7/8+ 平台，没有历史包袱</li>
             <li>极少依赖，只依赖两个第三方包</li>
             <li>代码无侵入性，100% 兼容原生写法</li>
             <li>
@@ -91,7 +91,7 @@ function Banner() {
           <div className="furion-get-start-btn">
             <Link className="furion-get-start" to={useBaseUrl("docs/serverun")}>
               入门指南
-              <span className="furion-version">v4.8.6.10</span>
+              <span className="furion-version">v4.8.7</span>
             </Link>
             <Link
               className="furion-try-demo"
@@ -190,7 +190,7 @@ function Gitee() {
             className={"furion-log-jiao" + (isDarkTheme ? " dark" : "")}
           ></div>
           <div className="furion-log-number">
-            <div style={{ color: "#1fd898" }}>6,276,857</div>
+            <div style={{ color: "#1fd898" }}>6,372,956</div>
             <span className={isDarkTheme ? " dark" : ""}>Downloads</span>
           </div>
         </div>
@@ -294,7 +294,7 @@ function WhoUse() {
           <h1>他们都在用</h1>
           <p>
             Furion 已在 Nuget
-            平台超627万次下载。从小型企业到企业的解决方案及知名企业。他们在简单软件和复杂管理系统的开发方面都信任我们。
+            平台超637万次下载。从小型企业到企业的解决方案及知名企业。他们在简单软件和复杂管理系统的开发方面都信任我们。
           </p>
           <a
             className="furion-get-start"

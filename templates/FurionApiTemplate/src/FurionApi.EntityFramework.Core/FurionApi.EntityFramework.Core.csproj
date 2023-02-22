@@ -13,6 +13,10 @@
 		<TargetFramework>net7.0</TargetFramework>
 	</PropertyGroup>
 
+	<PropertyGroup Condition="'$(net8)' == 'True' ">
+		<TargetFramework>net8.0</TargetFramework>
+	</PropertyGroup>
+
 	<ItemGroup>
 		<ProjectReference Include="..\FurionApi.Core\FurionApi.Core.csproj" />
 	</ItemGroup>

@@ -19,6 +19,12 @@
 		<DocumentationFile>FurionRazorApi.Web.Core.xml</DocumentationFile>
 	</PropertyGroup>
 
+	<PropertyGroup Condition="'$(net8)' == 'True' ">
+		<TargetFramework>net8.0</TargetFramework>
+		<NoWarn>1701;1702;1591</NoWarn>
+		<DocumentationFile>FurionRazorApi.Web.Core.xml</DocumentationFile>
+	</PropertyGroup>
+
 	<ItemGroup>
 		<None Remove="FurionRazorApi.Web.Core.xml" />
 	</ItemGroup>
