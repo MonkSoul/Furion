@@ -6,6 +6,22 @@ sidebar_label: 2.2 官方脚手架
 
 import useBaseUrl from "@docusaurus/useBaseUrl";
 
+
+import Tag from "@site/src/components/Tag.js";
+
+<details>
+  <summary>📝 模块更新日志</summary>
+  <div>
+<div>
+
+- **突破性变化**
+
+  - &nbsp;<Tag>升级</Tag> **脚手架支持创建 `.NET8 Preview.1` 项目** <sup>4.8.7</sup> <sup>⏱️2023.02.22</sup>
+
+</div>
+  </div>
+</details>
+
 :::important 特别说明
 
 **脚手架不是安装在项目中的！** 而是通过 `CMD` 或 `PowerShell` 安装到操作系统中的。
@@ -46,9 +62,9 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 ```bash showLineNumbers
 // EFCore
-dotnet new --install Furion.Template.Api::4.8.6.12
+dotnet new --install Furion.Template.Api::4.8.7
 // SqlSugar
-dotnet new --install Furion.SqlSugar.Template.Api::4.8.6.12
+dotnet new --install Furion.SqlSugar.Template.Api::4.8.7
 ```
 
 :::tip `SqlSugar` 脚手架基本使用
@@ -61,18 +77,20 @@ dotnet new --install Furion.SqlSugar.Template.Api::4.8.6.12
 
 ## 2.2.3 使用脚手架
 
-```bash showLineNumbers {1,4-6,9-11}
+```bash showLineNumbers {1,4-7,10-13}
 dotnet new furionapi -n 项目名称 -f .NET版本
 
-# EFCore：支持创建 .NET5-7 版本
+# EFCore：支持创建 .NET5-8 版本
 dotnet new furionapi -n MyProject -f net5
 dotnet new furionapi -n MyProject -f net6
 dotnet new furionapi -n MyProject -f net7
+dotnet new furionapi -n MyProject -f net8
 
-# SqlSugar：支持创建 .NET5-7 版本
+# SqlSugar：支持创建 .NET5-8 版本
 dotnet new fsapi -n MyProject -f net5
 dotnet new fsapi -n MyProject -f net6
 dotnet new fsapi -n MyProject -f net7
+dotnet new fsapi -n MyProject -f net8
 ```
 
 这样就可以生成项目代码了，**生成之后推荐将所有的 `nuget` 包更新到最新版本。**
@@ -81,7 +99,7 @@ dotnet new fsapi -n MyProject -f net7
 
 通过脚手架生成的项目名称不能包含 `短横线` 等特殊字符，如有该需求，可在生成之后通过 `Visual Studio` 进行手动修改。
 
-`-f` 版本参数所有选项：`net5`，`net6`，`net7`。
+`-f` 版本参数所有选项：`net5`，`net6`，`net7`，`net8`，默认是 `net7`。
 
 :::
 
@@ -98,7 +116,7 @@ dotnet new fsapi -n MyProject -f net7
 只需要重新安装最新版替换即可，如：
 
 ```bash showLineNumbers
-dotnet new --install Furion.Template.Api::4.8.6.12
+dotnet new --install Furion.Template.Api::4.8.7
 ```
 
 不带版本号总是安装最新的版本。

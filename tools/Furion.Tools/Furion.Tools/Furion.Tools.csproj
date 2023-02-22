@@ -1,15 +1,15 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFrameworks>net5.0;net6.0;net7.0</TargetFrameworks>
+		<TargetFrameworks>net5.0;net6.0;net7.0;net8.0</TargetFrameworks>
 		<OutputType>Exe</OutputType>
-		<Version>4.8.6.12</Version>
+		<Version>4.8.7</Version>
 		<ToolCommandName>furion</ToolCommandName>
 		<Description>Furion 工具链</Description>
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Furion.Tools.CommandLine" Version="4.8.6.12" />
+		<PackageReference Include="Furion.Tools.CommandLine" Version="4.8.7" />
 	</ItemGroup>
 
 </Project>
