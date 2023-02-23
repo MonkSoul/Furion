@@ -54,7 +54,6 @@ public sealed class TriggerTimeline
     [JsonInclude]
     public TriggerStatus Status { get; internal set; }
 
-
     /// <summary>
     /// 新增时间
     /// </summary>
