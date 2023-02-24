@@ -80,6 +80,11 @@ public sealed class LoggingMonitorSettings
     public JsonBehavior JsonBehavior { get; set; } = JsonBehavior.None;
 
     /// <summary>
+    /// 配置 序列化属性命名规则（返回值）
+    /// </summary>
+    public ContractResolverTypes ContractResolver { get; set; } = ContractResolverTypes.CamelCase;
+
+    /// <summary>
     /// 配置序列化忽略的属性名称
     /// </summary>
     public string[] IgnorePropertyNames { get; set; }

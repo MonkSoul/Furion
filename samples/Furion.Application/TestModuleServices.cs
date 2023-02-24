@@ -1,9 +1,12 @@
 ﻿using Furion.Application.Persons;
+using Furion.DatabaseAccessor.Extensions;
+using Furion.Logging;
 using Furion.RemoteRequest;
 using Furion.RemoteRequest.Extensions;
 using Furion.UnifyResult;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System.Data;
 using System.Text.Json;
 
 namespace Furion.Application;
@@ -225,5 +228,12 @@ public class TestModuleServices : IDynamicApiController
         var c = App.GetServiceLifetime(typeof(IRepository<Person>));
 
         return d | c;
+    }
+
+    [LoggingMonitor(ContractResolver = ContractResolverTypes.CamelCase)]
+    public DataTable 测试监听日志属性序列化规则()
+    {
+        var d = "select * from person".SqlQuery();
+        return d;
     }
 }

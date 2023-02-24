@@ -21,9 +21,9 @@ module.exports = {
       config: {},
     },
     announcementBar: {
-      id: "v4.8.6.9",
+      id: "v4.8.7",
       content:
-        "🚀 Furion v4.8.6 已正式发布，浏览 <a href='/docs/upgrade'>[更新日志]</a> 或查看 <a href='https://gitee.com/dotnetchina/Furion/issues/I6DQ57' target='_blank'>[本期更新]</a>",
+        "🚀 Furion v4.8.7 已正式发布（适配 .NET8），浏览 <a href='/docs/upgrade'>[更新日志]</a> 或查看 <a href='https://gitee.com/dotnetchina/Furion/issues/I6GVN8' target='_blank'>[本期更新]</a>",
       backgroundColor: "#723cff",
       textColor: "yellow",
       isCloseable: true,
@@ -75,7 +75,7 @@ module.exports = {
           position: "left",
           items: [
             {
-              label: "📝 查看日志（v4.8.6.9）",
+              label: "📝 查看日志（v4.8.7）",
               href: "/docs/upgrade",
             },
             {

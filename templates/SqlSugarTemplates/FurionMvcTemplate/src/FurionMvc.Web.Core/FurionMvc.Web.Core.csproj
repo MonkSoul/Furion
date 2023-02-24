@@ -16,6 +16,11 @@
 		<NoWarn>1701;1702;1591</NoWarn>
 	</PropertyGroup>
 
+	<PropertyGroup Condition="'$(net8)' == 'True' ">
+		<TargetFramework>net8.0</TargetFramework>
+		<NoWarn>1701;1702;1591</NoWarn>
+	</PropertyGroup>
+
 	<ItemGroup>
 		<ProjectReference Include="..\FurionMvc.Application\FurionMvc.Application.csproj" />
 	</ItemGroup>

@@ -252,6 +252,7 @@
             }
             else if (accessToken == "invalid_token") {
                 window.localStorage.removeItem(tokenKey);
+                ui.authActions.logout(["Bearer"]);
             }
 
             return response;
@@ -432,7 +433,7 @@
                                         if (res.toString() === "200") {
                                             loginForm.style.display = "none";
                                             initSwaggerUI(configObject, oauthConfigObject);
-                                            defaultResponseInterceptor(res, headerMap);
+                                            defaultResponseInterceptor({ headers: headerMap });
                                         }
                                         else {
                                             loginError.innerHTML = "Invalid UserName or Password.";

@@ -24,7 +24,37 @@ import Tag from "@site/src/components/Tag.js";
 
 :::
 
-## v4.8.6（当前版本）
+## v4.8.7（当前版本，.NET8）
+
+:::caution `.NET8 Preview.1` 发布
+
+**🚀🎉🔥 2023 年 02 月 22 日，微软发布了 .NET8 首个预览版。**
+
+[https://devblogs.microsoft.com/dotnet/announcing-dotnet-8-preview-1/](https://devblogs.microsoft.com/dotnet/announcing-dotnet-8-preview-1/)
+
+`Furion` 第一时间完成了适配，**`v4` 版本开始一套代码支持 `.NET5-.NET8/N`，支持所有 `Furion` 版本升级**。
+
+:::
+
+:::important 版本细节
+
+- `v4.8.7` 版本细节：[https://gitee.com/dotnetchina/Furion/issues/I6GVN8](https://gitee.com/dotnetchina/Furion/issues/I6GVN8) <sup>2023.02.22</sup>
+
+:::
+
+- **突破性变化**
+
+  - &nbsp;<Tag>升级</Tag> **适配 `.NET8 Preview.1`** <sup>4.8.7</sup> <sup>⏱️2023.02.22</sup>
+  - &nbsp;<Tag>升级</Tag> **脚手架支持创建 `.NET8 Preview.1` 项目** <sup>4.8.7</sup> <sup>⏱️2023.02.22</sup>
+
+- **文档**
+
+  - &nbsp;<Tag>新增</Tag> **[ASP.NET 8 集成](/docs/get-start-net8) 文档**
+  - &nbsp;<Tag>新增</Tag> **[.NET7 升级 .NET8](/docs/net7-to-net8) 文档**
+
+---
+
+## v4.8.6（已发布）
 
 :::important 版本细节
 
@@ -35,6 +65,8 @@ import Tag from "@site/src/components/Tag.js";
 
 - **新特性**
 
+  - &nbsp;<Tag>新增</Tag> 审计日志 `LoggingMonitor` 支持配置序列化属性命名规则 <sup>4.8.6.12</sup> <sup>⏱️2023.02.21</sup> [#I6GPUP](https://gitee.com/dotnetchina/Furion/issues/I6GPUP)
+  - &nbsp;<Tag>新增</Tag> `Swagger` 请求授权失败后自动退出授权状态 <sup>4.8.6.12</sup> <sup>⏱️2023.02.20</sup> [!717](https://gitee.com/dotnetchina/Furion/pulls/717)
   - &nbsp;<Tag>新增</Tag> 粘土对象支持任何字符作为 `JSON/XML` 键 <sup>4.8.6.9</sup> <sup>⏱️2023.02.19</sup> [#note_16329657](https://gitee.com/dotnetchina/Furion/commit/4961e01486f604db12a8d8d71f9bd563ed7d7d48#note_16329657)
   - &nbsp;<Tag>新增</Tag> **动态 `WebAPI` 自动检查路由是否包含重复参数，如果有自动修正而不是抛异常** <sup>4.8.6.5</sup> <sup>⏱️2023.02.17</sup> [5f15ea1](https://gitee.com/dotnetchina/Furion/commit/5f15ea1edd2e7793d86dd074ffbbecbebf7f683f)
 
@@ -222,6 +254,8 @@ public class ClassService: IDynamicApiController
 
 - **问题修复**
 
+  - &nbsp;<Tag>修复</Tag> 规范化结果不带 `mini-profiler` 版本启动登录 `UI` 后不能传递 `headers` 问题 <sup>4.8.6.11</sup> <sup>⏱️2023.02.20</sup> [#I6G8IR](https://gitee.com/dotnetchina/Furion/issues/I6G8IR)
+  - &nbsp;<Tag>修复</Tag> `Serve.Run()` 因 [#I6G02W](https://gitee.com/dotnetchina/Furion/issues/I6G02W) 更改导致不配置端口时出现异常无法启动问题 <sup>4.8.6.10</sup> <sup>⏱️2023.02.20</sup> [#I6G6AR](https://gitee.com/dotnetchina/Furion/issues/I6G6AR)
   - &nbsp;<Tag>修复</Tag> 动态 `WebAPI` 不支持嵌套继承 `[Route]` 特性问题 <sup>4.8.6.8</sup> <sup>⏱️2023.02.18</sup> [#I6CLPT](https://gitee.com/dotnetchina/Furion/issues/I6CLPT)
 
 <details style={{ marginLeft: 50 }}>
@@ -579,7 +613,7 @@ info: 2022-11-24 14:35:16.0373384 +08:00 星期四 L Furion.Application.TestLogg
 
 ---
 
-## v4.7.9（已发布）
+## v4.7.9（已发布，.NET7）
 
 :::caution .NET7 发布
 
@@ -2884,7 +2918,7 @@ app.UseVirtualPath(app =>
 
 ---
 
-## v3.0.0（已发布）
+## v3.0.0（已发布，.NET6）
 
 :::warning v3+ 版本说明
 

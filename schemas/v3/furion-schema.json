@@ -583,6 +583,15 @@
               "type": "boolean",
               "default": false
             },
+            "ContractResolver": {
+              "description": "配置 Json 属性命名规则（返回值）",
+              "type": "string",
+              "default": "CamelCase",
+              "enum": [
+                "CamelCase",
+                "Default"
+              ]
+            },
             "MethodsSettings": {
               "description": "配置监听方法更多信息",
               "type": "array",
@@ -605,10 +614,29 @@
                     "type": "number",
                     "default": 0
                   },
+                  "JsonBehavior": {
+                    "description": "配置 LoggingMonitor Json 输出行为",
+                    "type": "string",
+                    "default": "None",
+                    "enum": [
+                      "None",
+                      "OnlyJson",
+                      "All"
+                    ]
+                  },
                   "JsonIndented": {
                     "description": "配置是否格式化 JSON，默认 false",
                     "type": "boolean",
                     "default": false
+                  },
+                  "ContractResolver": {
+                    "description": "配置 Json 属性命名规则（返回值）",
+                    "type": "string",
+                    "default": "CamelCase",
+                    "enum": [
+                      "CamelCase",
+                      "Default"
+                    ]
                   }
                 }
               }

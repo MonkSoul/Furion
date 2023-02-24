@@ -34,10 +34,14 @@
         {
           "choice": "net7",
           "description": ".NET7 脚手架"
+        },
+        {
+          "choice": "net8",
+          "description": ".NET8 脚手架"
         }
       ],
       "defaultValue": "net7",
-      "description": "选择要创建的 .NET5-7 脚手架"
+      "description": "选择要创建的 .NET5-8 脚手架"
     },
     "net5": {
       "type": "computed",
@@ -50,6 +54,10 @@
     "net7": {
       "type": "computed",
       "value": "(framework == \"net7\")"
+    },
+    "net8": {
+      "type": "computed",
+      "value": "(framework == \"net8\")"
     }
   },
   "sources": [

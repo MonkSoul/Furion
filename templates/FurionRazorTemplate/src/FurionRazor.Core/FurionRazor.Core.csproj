@@ -16,9 +16,14 @@
 		<NoWarn>1701;1702;1591</NoWarn>
 	</PropertyGroup>
 
+	<PropertyGroup Condition="'$(net8)' == 'True' ">
+		<TargetFramework>net8.0</TargetFramework>
+		<NoWarn>1701;1702;1591</NoWarn>
+	</PropertyGroup>
+
 	<ItemGroup>
-		<PackageReference Include="Furion" Version="4.8.6.9" />
-		<PackageReference Include="Furion.Extras.ObjectMapper.Mapster" Version="4.8.6.9" />
+		<PackageReference Include="Furion" Version="4.8.7" />
+		<PackageReference Include="Furion.Extras.ObjectMapper.Mapster" Version="4.8.7" />
 	</ItemGroup>
 
 </Project>

@@ -13,6 +13,7 @@ import Tag from "@site/src/components/Tag.js";
 
 - **新特性**
 
+  - &nbsp;<Tag>新增</Tag> 审计日志 `LoggingMonitor` 支持配置序列化属性命名规则 <sup>4.8.6.12</sup> <sup>⏱️2023.02.21</sup> [#I6GPUP](https://gitee.com/dotnetchina/Furion/issues/I6GPUP)
   - &nbsp;<Tag>新增</Tag> 审计日志 `LoggingMonitor` 支持 `[DisplayName]` 特性解析和 `Title` 属性记录 <sup>4.8.5.10</sup> <sup>⏱️2023.02.07</sup> [#I6DHMF](https://gitee.com/dotnetchina/Furion/issues/I6DHMF)
   - &nbsp;<Tag>新增</Tag> 审计日志 `LoggingMonitor` 记录 `HTTP` 响应状态码 <sup>4.8.5.2</sup> <sup>⏱️2023.01.30</sup> [abb4cbd](https://gitee.com/dotnetchina/Furion/commit/abb4cbdab9f45f53cad8468352d1c14ac8c54b42)
 
@@ -1130,13 +1131,16 @@ services.AddMonitorLogging();   // 默认读取 Logging:Monitor 下配置，支�
       "ReturnValueThreshold": 0, // 配置返回值字符串阈值，默认 0，全量输出，Furion 4.3.9+ 有效
       "JsonBehavior": "None", // 配置 LoggingMonitor Json 输出行为，默认 None，Furion 4.5.2+ 有效
       "JsonIndented": false, // 配置 LoggingMonitor Json 格式化行为，默认 false，Furion 4.8.2+ 有效
+      "ContractResolver": "CamelCase", // 配置 LoggingMonitor 序列化属性命名规则，默认 CamelCase，Furion 4.8.6.12+ 有效
       "MethodsSettings": [
         // 配置被监视方法更多信息，Furion 4.3.9+ 有效
         {
           "FullName": "Furion.Application.TestLoggerServices.MethodName", // 方法完全限定名
           "WithReturnValue": true, // 配置是否包含返回值，默认 `true`，Furion 4.3.9+ 有效
           "ReturnValueThreshold": 0, // 配置返回值字符串阈值，默认 0，全量输出，Furion 4.3.9+ 有效
-          "JsonIndented": false // 配置 LoggingMonitor Json 格式化行为，默认 false，Furion 4.8.2+ 有效
+          "JsonIndented": false, // 配置 LoggingMonitor Json 格式化行为，默认 false，Furion 4.8.2+ 有效
+          "JsonBehavior": "None", // 配置 LoggingMonitor Json 输出行为，默认 None，Furion 4.5.2+ 有效
+          "ContractResolver": "CamelCase" // 配置 LoggingMonitor 序列化属性命名规则，默认 CamelCase，Furion 4.8.6.12+ 有效
         }
       ]
     }
@@ -1375,7 +1379,7 @@ services.AddMonitorLogging(options =>
 [LoggingMonitor(JsonBehavior = JsonBehavior.OnlyJson
     , IgnorePropertyNames = new[] { "Bytes" }
     , IgnorePropertyTypes = new[] { typeof(byte[]) })]
-public object 测试指定忽略指定序列化类型(int id)
+public object MethodName(int id)
 {
     return new
     {
@@ -1494,6 +1498,36 @@ public class TestService: IDynamicApiController
 ```
 
 那么如果输出为 `JSON` 格式日志将会自动添加 `displayTitle` 键，值为 `测试方法`。
+
+### 18.6.9 输出序列化键格式配置（属性大小写）
+
+:::important 版本说明
+
+以下内容仅限 `Furion 4.8.6.12 +` 版本使用。
+
+:::
+
+该功能主要配置序列化时属性名输出规则，**注意此项并不配置 `JSON` 输出规则。**
+
+- **局部配置**
+
+```cs showLineNumbers {1}
+[LoggingMonitor(ContractResolver = ContractResolverTypes.Default)]    // CamelCase 或者 Default，默认是 CamelCase
+public DataTable MethodName()
+{
+    var d = "select * from person".SqlQuery();
+    return d;
+}
+```
+
+- **全局配置**
+
+```cs showLineNumbers {3}
+services.AddMonitorLogging(options =>
+{
+    options.ContractResolver = ContractResolverTypes.Default;   // CamelCase 或者 Default，默认是 CamelCase
+});
+```
 
 ## 18.7 打印日志到 `Swagger` 中
 

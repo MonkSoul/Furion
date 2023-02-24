@@ -123,6 +123,11 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter, IOr
     public object JsonIndented { get; set; } = null;
 
     /// <summary>
+    /// 序列化属性命名规则（返回值）
+    /// </summary>
+    public object ContractResolver { get; set; } = null;
+
+    /// <summary>
     /// 配置信息
     /// </summary>
     private LoggingMonitorSettings Settings { get; set; }
@@ -793,11 +798,15 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter, IOr
 
         try
         {
+            var contractResolver = GetContractResolver(ContractResolver, monitorMethod);
+
             // 序列化默认配置
             var jsonSerializerSettings = new JsonSerializerSettings()
             {
                 // 解决属性忽略问题
-                ContractResolver = new IgnorePropertiesContractResolver(GetIgnorePropertyNames(monitorMethod), GetIgnorePropertyTypes(monitorMethod)),
+                ContractResolver = contractResolver == ContractResolverTypes.CamelCase
+                ? new CamelCasePropertyNamesContractResolverWithIgnoreProperties(GetIgnorePropertyNames(monitorMethod), GetIgnorePropertyTypes(monitorMethod))
+                : new DefaultContractResolverWithIgnoreProperties(GetIgnorePropertyNames(monitorMethod), GetIgnorePropertyTypes(monitorMethod)),
 
                 // 解决循环引用问题
                 ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
@@ -872,6 +881,19 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter, IOr
         return jsonBehavior == null
             ? (monitorMethod?.JsonBehavior ?? Settings.JsonBehavior)
             : (JsonBehavior)jsonBehavior;
+    }
+
+    /// <summary>
+    /// 获取 序列化属性命名规则
+    /// </summary>
+    /// <param name="contractResolver"></param>
+    /// <param name="monitorMethod"></param>
+    /// <returns></returns>
+    private ContractResolverTypes GetContractResolver(object contractResolver, LoggingMonitorMethod monitorMethod)
+    {
+        return contractResolver == null
+            ? (monitorMethod?.ContractResolver ?? Settings.ContractResolver)
+            : (ContractResolverTypes)contractResolver;
     }
 
     /// <summary>

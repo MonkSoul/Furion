@@ -44,12 +44,12 @@ public sealed class LegacyRunOptions : GenericRunOptions
     /// <summary>
     /// 默认配置
     /// </summary>
-    public static new LegacyRunOptions Default { get; } = new LegacyRunOptions();
+    public new static LegacyRunOptions Default { get; } = new LegacyRunOptions();
 
     /// <summary>
     /// 默认配置（带启动参数）
     /// </summary>
-    public static new LegacyRunOptions Main(string[] args)
+    public new static LegacyRunOptions Main(string[] args)
     {
         return Default.WithArgs(args);
     }
@@ -57,12 +57,12 @@ public sealed class LegacyRunOptions : GenericRunOptions
     /// <summary>
     /// 默认配置（静默启动）
     /// </summary>
-    public static new LegacyRunOptions DefaultSilence { get; } = new LegacyRunOptions().Silence();
+    public new static LegacyRunOptions DefaultSilence { get; } = new LegacyRunOptions().Silence();
 
     /// <summary>
     /// 默认配置（静默启动 + 启动参数）
     /// </summary>
-    public static new LegacyRunOptions MainSilence(string[] args)
+    public new static LegacyRunOptions MainSilence(string[] args)
     {
         return DefaultSilence.WithArgs(args);
     }
