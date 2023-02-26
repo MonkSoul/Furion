@@ -350,7 +350,7 @@ var attribute = endpointFeature?.Endpoint?.Metadata?.GetMetadata<YourAttribute>(
 要想上面操作有效，也就是不为 `null`，需要满足以下条件，否则 `endpointFeature` 返回 `null`。
 
 - 启用端点路由 `AddControllers()` 而不是 `AddMvc()`
-- `UseRouting()` 和 `UseEndpoints()` 直接调用你的中间件
+- `UseRouting()` 和 `UseEndpoints()` 之间调用你的中间件
 
 :::
 
