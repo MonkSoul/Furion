@@ -1708,6 +1708,24 @@ public object SpecialApi()
 }
 ```
 
+也可以手动返回 `IActionResult` 方式：
+
+:::important 版本说明
+
+以下内容仅限 `Furion 4.8.7.1 +` 版本使用。
+
+:::
+
+```cs showLineNumbers {3,6}
+public IActionResult SpecialApi()
+{
+  return new JsonResult(new
+  {
+      Name = "Furion"
+  }, UnifyContext.GetSerializerSettings("special"));
+}
+```
+
 :::warning 特别提醒
 
 目前 `Swagger` 暂未提供个别的接口自定义 `schema` 序列化选项。
