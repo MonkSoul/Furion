@@ -21,7 +21,6 @@
 // SOFTWARE.
 
 using Microsoft.Extensions.Logging;
-using System.Diagnostics;
 using System.Text;
 
 namespace Furion.Logging;
@@ -35,15 +34,6 @@ internal static class Penetrates
     /// 异常分隔符
     /// </summary>
     private const string EXCEPTION_SEPARATOR = "++++++++++++++++++++++++++++++++++++++++++++++++++++++++";
-
-    /// <summary>
-    /// 获取请求跟踪 Id
-    /// </summary>
-    /// <returns></returns>
-    internal static string GetTraceId()
-    {
-        return Activity.Current?.Id ?? (InternalApp.RootServices == null ? default : App.HttpContext?.TraceIdentifier);
-    }
 
     /// <summary>
     /// 从配置文件中加载配置并创建文件日志记录器提供程序

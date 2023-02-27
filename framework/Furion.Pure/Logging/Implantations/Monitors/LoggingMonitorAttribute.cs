@@ -259,6 +259,14 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter, IOr
         var httpMethod = httpContext.Request.Method;
         writer.WriteString(nameof(httpMethod), httpMethod);
 
+        // 客户端连接 ID
+        var traceId = App.GetTraceId();
+        writer.WriteString(nameof(traceId), traceId);
+
+        // 线程 Id
+        var threadId = App.GetThreadId();
+        writer.WriteNumber(nameof(threadId), threadId);
+
         // 获取请求的 Url 地址
         var requestUrl = Uri.UnescapeDataString(httpRequest.GetRequestUrlAddress());
         writer.WriteString(nameof(requestUrl), requestUrl);
@@ -270,6 +278,10 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter, IOr
         // 客户端浏览器信息
         var userAgent = httpRequest.Headers["User-Agent"];
         writer.WriteString(nameof(userAgent), userAgent);
+
+        // 客户端请求区域语言
+        var acceptLanguage = httpRequest.Headers["accept-language"];
+        writer.WriteString(nameof(acceptLanguage), acceptLanguage);
 
         // 请求来源（swagger还是其他）
         var requestFrom = httpRequest.Headers["request-from"].ToString();
@@ -375,8 +387,11 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter, IOr
             , $"##来源地址## {refererUrl}"
             , $"##请求端源## {requestFrom}"
             , $"##浏览器标识## {userAgent}"
+            , $"##客户端区域语言## {acceptLanguage}"
             , $"##客户端 IP 地址## {remoteIPv4}"
             , $"##服务端 IP 地址## {localIPv4}"
+            , $"##客户端连接 ID## {traceId}"
+            , $"##服务线程 ID## #{threadId}"
             , $"##执行耗时## {timeOperation.ElapsedMilliseconds}ms"
             ,"━━━━━━━━━━━━━━━  Cookies ━━━━━━━━━━━━━━━"
             , $"##请求端## {requestHeaderCookies}"
@@ -707,6 +722,7 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter, IOr
             else writer.WriteRawValue(displayValue);
         }
         else writer.WriteNullValue();
+
         writer.WriteEndObject();
 
         return templates;
@@ -943,7 +959,7 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter, IOr
                 .Aggregate((previous, current) => previous + current);
 
             // 通过 _ 拼接多个泛型
-            typeName = typeName.Split('`').First() + "_" + prefix;
+            typeName = typeName.Split('`').First() + "<" + prefix + ">";
         }
 
         return typeName;
