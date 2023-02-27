@@ -91,6 +91,12 @@ public class TestLoggerServices : IDynamicApiController
         };
     }
 
+    [LoggingMonitor]
+    public IEnumerable<List<PersonDto>> GetPersons()
+    {
+        return Array.Empty<List<PersonDto>>();
+    }
+
     public int 测试直接抛出异常拦截(int id)
     {
         var c = id / 0;

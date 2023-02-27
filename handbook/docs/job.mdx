@@ -2740,7 +2740,7 @@ var timelines = trigger.GetTimelines();   // => [{numberOfRuns: 2, lastRunTime: 
 
 所谓的作业计划（`Scheduler`）是将作业信息(`JobDetail`），作业触发器（`Trigger`）和作业处理程序（`IJob`）关联起来，并添加到作业调度器中等待调度执行。
 
-作为计划（`Scheduler`）类型对外是不公开的，但提供了对应的 `IScheduler` 接口进行操作。
+作业计划（`Scheduler`）类型对外是不公开的，但提供了对应的 `IScheduler` 接口进行操作。
 
 ### 26.1.6.2 关于作业计划构建器
 
@@ -4122,6 +4122,81 @@ public IEnumerable<SchedulerBuilder> Preload()
       {
             SchedulerBuilder.Create(JobBuilder.Create<MyJob>(), Triggers.Minutely())
       }
+}
+```
+
+这里给出 `SqlSugar` 持久化示例（如果是 `EFCore`，只需要替换成对应的仓储即可）：
+
+```cs showLineNumbers {4,6,25-62,68}
+/// <summary>
+/// 作业持久化（数据库）
+/// </summary>
+public class DbJobPersistence : IJobPersistence, IDisposable
+{
+    private readonly IServiceScope _serviceScope;
+    private readonly ISqlSugarClient _sqlSugarClient;
+    private readonly Repository<SysJobDetails> _jobRepository;
+    private readonly Repository<SysJobTriggers> _triggerRepository;
+
+    public DbJobPersistence(IServiceProvider serviceProvider)
+    {
+        _serviceScope = serviceProvider.CreateScope();
+        var services = _serviceScope.ServiceProvider;
+
+        _sqlSugarClient = services.GetService<ISqlSugarClient>();
+        _jobRepository = services.GetService<Repository<SysJobDetails>>();
+        _triggerRepository = services.GetService<Repository<SysJobTriggers>>();
+    }
+
+    /// <summary>
+    /// 作业调度服务启动时
+    /// </summary>
+    /// <returns></returns>
+    public IEnumerable<SchedulerBuilder> Preload()
+    {
+        // 获取所有定义的作业
+        var allJobs = App.EffectiveTypes.ScanToBuilders();
+
+        // 若数据库不存在任何作业，则直接返回
+        if (!_jobRepository.IsAny(u => true)) return allJobs;
+
+        // 遍历所有定义的作业
+        foreach (var schedulerBuilder in allJobs)
+        {
+            // 获取作业信息构建器
+            var jobBuilder = schedulerBuilder.GetJobBuilder();
+
+            // 加载数据库数据
+            var dbDetail = _jobRepository.GetFirst(u => u.JobId == jobBuilder.JobId);
+            if (dbDetail == null) continue;
+
+            // 同步数据库数据
+            jobBuilder.LoadFrom(dbDetail);
+
+            // 遍历所有作业触发器
+            foreach (var (_, triggerBuilder) in schedulerBuilder.GetEnumerable())
+            {
+                // 加载数据库数据
+                var dbTrigger = _triggerRepository.GetFirst(u => u.JobId == jobBuilder.JobId && u.TriggerId == triggerBuilder.TriggerId);
+                if (dbTrigger == null) continue;
+
+                triggerBuilder.LoadFrom(dbTrigger)
+                              .Updated();   // 标记更新
+            }
+
+            // 标记更新
+            schedulerBuilder.Updated();
+        }
+
+        return allJobs;
+    }
+
+    // ...
+
+    public void Dispose()
+    {
+        _serviceScope?.Dispose();
+    }
 }
 ```
 

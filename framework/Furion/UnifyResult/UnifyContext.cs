@@ -209,7 +209,18 @@ public static class UnifyContext
 
         // 解析全局配置
         var succeed = UnifySerializerSettings.TryGetValue(unifySerializerSettingAttribute.Name, out var serializerSettings);
+        return succeed ? serializerSettings : null;
+    }
 
+    /// <summary>
+    /// 获取序列化配置
+    /// </summary>
+    /// <param name="name"></param>
+    /// <returns></returns>
+    public static object GetSerializerSettings(string name)
+    {
+        // 解析全局配置
+        var succeed = UnifySerializerSettings.TryGetValue(name, out var serializerSettings);
         return succeed ? serializerSettings : null;
     }
 
