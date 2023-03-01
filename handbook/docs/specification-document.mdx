@@ -410,7 +410,47 @@ namespace Furion.Application
 
 <img src={useBaseUrl("img/swagger5.png")} />
 
-### 6.5.8 组中组（标签）
+### 6.5.8 控制器和方法排序
+
+有时候我们需要对控制器或者方法进行排序，框架提供了 `[ApiDescriptionSettings]` 特性的 `Order` 属性，**其值越大排序越靠前**，如：
+
+```cs showLineNumbers {1,9,15,22}
+[ApiDescriptionSettings(Order = 10)]
+public class FurionAppService : IDynamicApiController
+{
+    public string Post()
+    {
+        return nameof(Furion);
+    }
+
+    [ApiDescriptionSettings(Order = 5)]
+    public string Get()
+    {
+        return nameof(Furion);
+    }
+
+    [ApiDescriptionSettings(Order = 4)]
+    public int Get(int id)
+    {
+        return id;
+    }
+}
+
+[ApiDescriptionSettings(Order = 9)]
+public class Furion2AppService : IDynamicApiController
+{
+    // ...
+}
+
+```
+
+:::tip 排序说明
+
+最终输出到 `Swagger` 界面时，`FurionAppService` 比 `Furion2AppService` 靠前，而 `FurionAppService` 中定义的方法排序时：`Get` > `Get(int id)` > `Post`。
+
+:::
+
+### 6.5.9 组中组（标签）
 
 `Tag` 配置主要用于配置 `Swagger` 标签分组信息及合并标签。也就是 `组中组`:
 
@@ -550,7 +590,7 @@ namespace Furion.Application
 
 :::
 
-### 6.5.9 默认展开所有文档
+### 6.5.10 默认展开所有文档
 
 ```json showLineNumbers  {2-4} title="Furion.Web.Entry/appsettings.json"
 {
@@ -570,7 +610,7 @@ namespace Furion.Application
 - `Full`：完全展开
 - `None`：列表式（不展开子类）
 
-### 6.5.10 配置文档标题
+### 6.5.11 配置文档标题
 
 ```json showLineNumbers  {2-4} title="Furion.Web.Entry/appsettings.json"
 {
@@ -584,7 +624,7 @@ namespace Furion.Application
 
 <img src={useBaseUrl("img/swagger7.png")} />
 
-### 6.5.11 授权控制
+### 6.5.12 授权控制
 
 **新版本 `Furion` 已经默认启用了 Bearer Token 授权配置，无需手动配置**，如需手动配置，可手动添加以下类似配置：
 
@@ -618,13 +658,13 @@ namespace Furion.Application
 }
 ```
 
-### 6.5.12 在线测试
+### 6.5.13 在线测试
 
 如下图所示：
 
 <img src={useBaseUrl("img/swagger8.gif")} />
 
-### 6.5.13 性能监视 `MiniProfiler`
+### 6.5.14 性能监视 `MiniProfiler`
 
 规范化文档默认集成了 `MiniProfiler` 第三方性能组件，通过该组件可以方便查看请求性能、异常堆栈、数据库操作等信息。默认在 `Swagger` 首页左上角显示。
 
@@ -638,7 +678,7 @@ namespace Furion.Application
 
 :::
 
-### 6.5.14 定义接口输出类型
+### 6.5.15 定义接口输出类型
 
 ```cs showLineNumbers  {2,8-9}
 using Furion.DynamicApiController;
@@ -662,7 +702,7 @@ namespace Furion.Application
 
 <img src={useBaseUrl("img/fhzlx.png")} />
 
-### 6.5.15 隐藏特定分组
+### 6.5.16 隐藏特定分组
 
 `Furion` 新版本提供了隐藏分组的 `Visible` 配置，设置为 `false` 之后该分组将不显示在规范化文档中，如：
 
@@ -679,11 +719,11 @@ namespace Furion.Application
 }
 ```
 
-### 6.5.16 中文乱码问题
+### 6.5.17 中文乱码问题
 
 默认情况下,`.json` 文件并未采用 `utf-8` 编码，所以如果配置中文分组信息就会出现乱码情况，这时候，只需要修改 `.json` 文件编码为 `utf-8` 即可。
 
-### 6.5.17 生产环境中关闭 `Swagger`
+### 6.5.18 生产环境中关闭 `Swagger`
 
 如果不需要线上环境开启 `Swagger` 功能，只需要在 `appsetting.json` 配置即可：
 
@@ -695,7 +735,7 @@ namespace Furion.Application
 }
 ```
 
-### 6.5.18 设置 `Example Value` 默认值
+### 6.5.19 设置 `Example Value` 默认值
 
 `Swagger` 会自动根据对象类型输入参数添加 `Example Value` 默认值，但是该默认值通常是对象属性的类型字符串或缺省值，如果我们需要自定义这些默认值，只需要添加 `/// <example>默认值</example>` 注释即可。
 
@@ -728,7 +768,7 @@ public int Age { get; set; }
 
 :::
 
-### 6.5.19 自定义 `Swagger` 配置
+### 6.5.20 自定义 `Swagger` 配置
 
 `Furion` 框架除了内置了不少配置以外，还提供了直接配置 `Swagger` Api 的参数，如：
 
@@ -765,7 +805,7 @@ public void ConfigureServices(IServiceCollection services)
 
 ```
 
-### 6.5.20 配置 `Swagger`的 `Schemes`
+### 6.5.21 配置 `Swagger`的 `Schemes`
 
 `Furion` 框架默认只显示名称，如果需要自定义显示规则，只需要添加配置即可。
 
@@ -780,7 +820,7 @@ services.AddControllersWithViews()
         });
 ```
 
-### 6.5.21 自定义 `swagger.json` 路由模板
+### 6.5.22 自定义 `swagger.json` 路由模板
 
 默认情况下，`Furion` 框架会生成统一的分组模板，如：`swagger/{documentName}/swagger.json`，`{documentName}` 会在运行时替换为分组名，如需自定义，配置 `RouteTemplate` 即可：
 
@@ -792,7 +832,7 @@ services.AddControllersWithViews()
 }
 ```
 
-### 6.5.22 关于 `application/x-www-form-urlencoded` 请求
+### 6.5.23 关于 `application/x-www-form-urlencoded` 请求
 
 默认情况下，`Swagger` 并未添加 `application/x-www-form-urlencoded` 支持，如需启用该配置，只需在方法顶部贴 `[Consumes]` 特性即可，如：
 
@@ -815,7 +855,7 @@ public class TestRequest
 
 :::
 
-### 6.5.23 `Swagger` 出现 `CORS` 问题解决
+### 6.5.24 `Swagger` 出现 `CORS` 问题解决
 
 如果 `Swagger` 出现以下错误，如图：
 
@@ -831,7 +871,7 @@ public class TestRequest
 }
 ```
 
-### 6.5.24 `Swagger` 出现默认 `xml` 参数问题解决
+### 6.5.25 `Swagger` 出现默认 `xml` 参数问题解决
 
 **产生此原因有两个必要条件：**
 
@@ -846,11 +886,11 @@ services.AddControllers()
         .AddInjectWithUnifyResult();
 ```
 
-### 6.5.25 `Swagger` 多语言支持
+### 6.5.26 `Swagger` 多语言支持
 
 在 `Furion 2.9.0 + ` 版本已经支持了 `Swagger` 文档地址 `?culture=en-US` 参数多语言转发功能了，也就是 `Swagger` 地址带 `?culture=` 参数将自动添加到每一个请求的 `api` 地址中。
 
-### 6.5.26 自定义逻辑控制 `Swagger` 每一个 `api` 可见性
+### 6.5.27 自定义逻辑控制 `Swagger` 每一个 `api` 可见性
 
 有时候我们需要自定义 `Swagger` 接口可见性，比如根据权限，不同用户类型，各种逻辑控制，如：
 
@@ -876,7 +916,7 @@ services.AddInject(options =>
 });
 ```
 
-### 6.5.27 配置 `MVC` 控制器支持规范化处理
+### 6.5.28 配置 `MVC` 控制器支持规范化处理
 
 ```json showLineNumbers
 {
@@ -886,7 +926,7 @@ services.AddInject(options =>
 }
 ```
 
-### 6.5.28 `Swagger` 刷新记住授权状态
+### 6.5.29 `Swagger` 刷新记住授权状态
 
 默认情况下，`Swagger` 刷新浏览器后，授权状态将被重置，也就是需要重新登录，通过下面代码在 **用户登录成功后** 调用即可：
 
@@ -896,7 +936,7 @@ services.AddInject(options =>
 _httpContextAccessor.HttpContext.SigninToSwagger("传入 token");
 ```
 
-### 6.5.29 带登录的 `Swagger` 文档
+### 6.5.30 带登录的 `Swagger` 文档
 
 :::important 版本说明
 
@@ -966,7 +1006,7 @@ public class HomeController : Controller
 
 <img src={useBaseUrl("img/swgdl.png")} />
 
-## 6.5.30 `inheritdoc` 实现注释继承
+## 6.5.31 `inheritdoc` 实现注释继承
 
 :::important 版本说明
 
@@ -1028,7 +1068,7 @@ namespace Furion.Application
 
 :::
 
-### 6.5.31 启用 `All Groups` 分组功能
+### 6.5.32 启用 `All Groups` 分组功能
 
 :::important 版本说明
 
@@ -1046,7 +1086,7 @@ namespace Furion.Application
 }
 ```
 
-### 6.5.32 接口过时控制
+### 6.5.33 接口过时控制
 
 :::important 版本说明
 
@@ -1072,7 +1112,7 @@ public string Other()
 
 <img src={useBaseUrl("img/swg2.png")} />
 
-### 6.5.33 单一接口更多描述
+### 6.5.34 单一接口更多描述
 
 :::important 版本说明
 
@@ -1092,7 +1132,7 @@ public string add()
 
 <img src={useBaseUrl("img/swg1.png")} />
 
-### 6.5.34 `Swagger` 异常/不能显示/错误处理
+### 6.5.35 `Swagger` 异常/不能显示/错误处理
 
 有时候可能因为错误的配置导致 `Swagger` 不能显示，这时候只需要复制提示的错误 `.json` 链接地址到浏览器中访问即可，如：
 
@@ -1108,7 +1148,7 @@ https://localhost:你的端口/swagger/Default/swagger.json
 
 <img src={useBaseUrl("img/sperr2.png")} />
 
-### 6.5.35 自定义 `Swagger` 的 `SchemaId`
+### 6.5.36 自定义 `Swagger` 的 `SchemaId`
 
 :::important 版本说明
 
@@ -1132,7 +1172,7 @@ public class PersonDto
   - `SchemaId`：自定义 `SchemaId`，字符串类型，只能是 `字母,数字，下划线` 组合
   - `Replace`：是否完全替换，`bool` 类型，默认 `false`，默认是作为前缀拼接，如上面的 `PersonDto` 会生成 `Other_PersonDto`，如果设置为 `true`，则直接使用 `Test_`
 
-### 6.5.36 自定义 `Swagger` 的 `OperationId`
+### 6.5.37 自定义 `Swagger` 的 `OperationId`
 
 :::important 版本说明
 
@@ -1155,7 +1195,7 @@ public class PersonDto
 }
 ```
 
-### 6.5.37 `Swagger` 接口文档支持完整的 `Markdown`
+### 6.5.38 `Swagger` 接口文档支持完整的 `Markdown`
 
 在 `Furion` 最新版中，支持了完整的 `Markdown` 注册，如：
 
@@ -1249,7 +1289,7 @@ public string Hello()
 
 <img src={useBaseUrl("img/mdx.png")} />
 
-### 6.5.38 第三方 `UI` 集成，如 `Knife4jUI`
+### 6.5.39 第三方 `UI` 集成，如 `Knife4jUI`
 
 在 `Furion` 框架中，集成第三方 `SwaggerUI` 非常容易，比如集成 `IGeekFan.AspNetCore.Knife4jUI`：
 
