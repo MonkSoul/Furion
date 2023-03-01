@@ -25,7 +25,7 @@ using Microsoft.OpenApi.Models;
 namespace Furion.SpecificationDocument;
 
 /// <summary>
-/// 规范化稳定安全配置
+/// 规范化文档安全配置
 /// </summary>
 public sealed class SpecificationOpenApiSecurityScheme : OpenApiSecurityScheme
 {

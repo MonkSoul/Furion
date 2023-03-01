@@ -1228,7 +1228,7 @@ public object Method1([RouteConstraint(":min(10)")] int id)
 - `Version`：版本号，`string`，默认 `null`
 - `Groups`：接口分组，可结合 `Swagger` 一起使用，`string[]`，默认 `null`
 - `Tags`：接口标签，可结合 `Swagger` 一起使用，`string[]`，默认 `null`
-- `Order`：配置控制器/动作方法排序
+- `Order`：配置控制器/动作方法排序，数值越大越靠前
 - `LowercaseRoute`：是否采用小写路由，`bool` 类型，默认 `true`
 - `AsLowerCamelCase`：启用小驼峰命名（首字母小写），默认 `false`
 - `Area`：配置区域名称，默认空，**只作用于类中贴**
