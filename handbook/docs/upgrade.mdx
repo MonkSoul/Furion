@@ -44,6 +44,7 @@ import Tag from "@site/src/components/Tag.js";
 
 - **新特性**
 
+  - &nbsp;<Tag>新增</Tag> 监听日志 `LoggingMonitor` 支持对参数贴 `[SuppressMonitor]` 特性跳过记录 <sup>4.8.7.3</sup> <sup>⏱️2023.03.01</sup> [#I6IVGW](https://gitee.com/dotnetchina/Furion/issues/I6IVGW)
   - &nbsp;<Tag>新增</Tag> 监听日志 `LoggingMonitor` 监听 `TraceId`、`ThreadId`、`Accept-Language` <sup>4.8.7.1</sup> <sup>⏱️2023.02.27</sup> [df35201](https://gitee.com/dotnetchina/Furion/commit/df35201622f4d908ab423baff27caef856a23527)
   - &nbsp;<Tag>新增</Tag> 规范化结果 `UnifyContext.GetSerializerSettings(string)` 静态方法 <sup>4.8.7.1</sup> <sup>⏱️2023.02.27</sup> [#I6HM7T](https://gitee.com/dotnetchina/Furion/issues/I6HM7T)
 
@@ -54,6 +55,7 @@ import Tag from "@site/src/components/Tag.js";
 
 - **问题修复**
 
+  - &nbsp;<Tag>修复</Tag> 审计日志 `LoggingMonitor` 对特定参数贴有 `[FromServices]` 特性依旧记录问题 <sup>4.8.7.3</sup> <sup>⏱️2023.03.01</sup>
   - &nbsp;<Tag>修复</Tag> `Swagger` 接口排序同时指定 `Tag` 和 `Order` 之后无效 <sup>4.8.7.2</sup> <sup>⏱️2023.03.01</sup> [#I6IQDI](https://gitee.com/dotnetchina/Furion/issues/I6IQDI)
 
 - **其他更改**

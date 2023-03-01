@@ -547,11 +547,14 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter, IOr
         writer.WriteStartArray();
         foreach (var parameter in parameters)
         {
-            var name = parameter.Name;
-            var parameterType = parameter.ParameterType;
+            // 判断是否禁用记录特定参数
+            if (parameter.IsDefined(typeof(SuppressMonitorAttribute), false)) continue;
 
             // 排除标记 [FromServices] 的解析
-            if (parameterType.IsDefined(typeof(FromServicesAttribute), false)) continue;
+            if (parameter.IsDefined(typeof(FromServicesAttribute), false)) continue;
+
+            var name = parameter.Name;
+            var parameterType = parameter.ParameterType;
 
             _ = parameterValues.TryGetValue(name, out var value);
             writer.WriteStartObject();
