@@ -975,7 +975,38 @@ info: 2022-11-24 14:35:16.0373384 +08:00 星期四 L Furion.Application.TestLogg
       我是一个日志 20
 ```
 
-### 18.5.4 `ILoggerFactory` 方式
+### 18.5.4 关于高频写入存储介质
+
+在一些高频写入存储介质（如数据库）日志的场景，为避免频繁解析服务（创建和销毁链接）和创建作用域导致内存及 `CPU` 飙高，可使用 **类全局作用域** 和所有服务都采取单例的方式：
+
+```cs showLineNumbers {1,3,8-9,14,20-23}
+public class DatabaseLoggingWriter : IDatabaseLoggingWriter, IDisposable
+{
+    private readonly IServiceScope _serviceScope;
+    private readonly IRepository<LogTable> _logRepository;  // 可替换成任何数据库操作库
+
+    public DatabaseLoggingWriter(IServiceProvider serviceProvider)
+    {
+        _serviceScope = serviceProvider.CreateScope();
+        _logRepository = _serviceScope.ServiceProvider.GetRequestService<IRepository<LogTable>>();
+    }
+
+    public void Write(LogMessage logMsg, bool flush)
+    {
+        _logRepository.Insert(.....);
+    }
+
+    /// <summary>
+    /// 释放服务作用域
+    /// </summary>
+    public void Dispose()
+    {
+        _serviceScope.Dispose();
+    }
+}
+```
+
+### 18.5.5 `ILoggerFactory` 方式
 
 `Furion` 也提供了运行时动态创建日志提供器并写入：
 
@@ -997,7 +1028,7 @@ public class ContactModel : PageModel
 }
 ```
 
-### 18.5.5 `ILoggingBuilder` 方式
+### 18.5.6 `ILoggingBuilder` 方式
 
 `Furion` 也提供了原生 `services.AddLogging(builder => {})` 方式配置，如
 
@@ -1012,13 +1043,13 @@ services.AddLogging(builder =>
 });
 ```
 
-### 18.5.6 记录请求日志
+### 18.5.7 记录请求日志
 
 在 `ASP.NET 6` 中，框架默认提供了 `app.UseHttpLogging()` 记录 `HTTP` 请求日志功能，详细了解可查看官方文档 [ASP.NET Core - HTTP 日志记录](https://docs.microsoft.com/zh-cn/aspnet/core/fundamentals/http-logging/?view=aspnetcore-6.0)
 
 当然也可以自定义中间件的方式写，只需要注入 `ILogger<>` 接口即可。
 
-### 18.5.7 `Debug` 和 `Trace` 默认不输出问题
+### 18.5.8 `Debug` 和 `Trace` 默认不输出问题
 
 默认情况下，微软在 `appsettings.json` 和 `appsettings.Development.json` 中配置了 `Default` 日志级别，如需自定义：
 
