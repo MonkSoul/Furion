@@ -6,7 +6,7 @@ module.exports = {
   onBrokenLinks: "throw",
   onBrokenMarkdownLinks: "warn",
   favicon: "img/favicon.ico",
-  organizationName: "Baiqian Co.,Ltd",
+  organizationName: "百签科技（广东）有限公司",
   projectName: "Furion",
   scripts: [],
   themeConfig: {
@@ -170,7 +170,7 @@ module.exports = {
           ],
         },
       ],
-      copyright: `Copyright © 2020-present 百小僧, Baiqian Co.,Ltd and Contributors.`,
+      copyright: `Copyright © 2020-present 百小僧, 百签科技（广东）有限公司 and Contributors.`,
       logo: {
         src: "img/chinadotnet.png",
         href: "https://gitee.com/dotnetchina",
