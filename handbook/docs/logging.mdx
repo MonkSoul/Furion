@@ -13,13 +13,15 @@ import Tag from "@site/src/components/Tag.js";
 
 - **新特性**
 
-  - &nbsp;<Tag>新增</Tag> 监听日志 `LoggingMonitor` 监听 `TraceId`、`ThreadId`、`Accept-Language` <sup>4.8.7.1</sup> <sup>⏱️2023.02.27</sup> [df35201](https://gitee.com/dotnetchina/Furion/commit/df35201622f4d908ab423baff27caef856a23527)
+  - &nbsp;<Tag>新增</Tag> 审计日志 `LoggingMonitor` 支持对参数贴 `[SuppressMonitor]` 特性跳过记录 <sup>4.8.7.3</sup> <sup>⏱️2023.03.01</sup> [#I6IVGW](https://gitee.com/dotnetchina/Furion/issues/I6IVGW)
+  - &nbsp;<Tag>新增</Tag> 审计日志 `LoggingMonitor` 监听 `TraceId`、`ThreadId`、`Accept-Language` <sup>4.8.7.1</sup> <sup>⏱️2023.02.27</sup> [df35201](https://gitee.com/dotnetchina/Furion/commit/df35201622f4d908ab423baff27caef856a23527)
   - &nbsp;<Tag>新增</Tag> 审计日志 `LoggingMonitor` 支持配置序列化属性命名规则 <sup>4.8.6.12</sup> <sup>⏱️2023.02.21</sup> [#I6GPUP](https://gitee.com/dotnetchina/Furion/issues/I6GPUP)
   - &nbsp;<Tag>新增</Tag> 审计日志 `LoggingMonitor` 支持 `[DisplayName]` 特性解析和 `Title` 属性记录 <sup>4.8.5.10</sup> <sup>⏱️2023.02.07</sup> [#I6DHMF](https://gitee.com/dotnetchina/Furion/issues/I6DHMF)
   - &nbsp;<Tag>新增</Tag> 审计日志 `LoggingMonitor` 记录 `HTTP` 响应状态码 <sup>4.8.5.2</sup> <sup>⏱️2023.01.30</sup> [abb4cbd](https://gitee.com/dotnetchina/Furion/commit/abb4cbdab9f45f53cad8468352d1c14ac8c54b42)
 
 - **问题修复**
 
+  - &nbsp;<Tag>修复</Tag> 审计日志 `LoggingMonitor` 对特定参数贴有 `[FromServices]` 特性依旧记录问题 <sup>4.8.7.3</sup> <sup>⏱️2023.03.01</sup> [17b134e](https://gitee.com/dotnetchina/Furion/commit/17b134efd82baa31bff6a0e763f93839c767c364)
   - &nbsp;<Tag>修复</Tag> 在数据库日志的 `IDatabaseLoggingWriter` 实现类中依赖注入 `ILogger<>` 导致死循环 <sup>4.8.5.4</sup> <sup>⏱️2023.02.01</sup> [#I6C6QU](https://gitee.com/dotnetchina/Furion/issues/I6C6QU)
   - &nbsp;<Tag>修复</Tag> 数据库日志提供程序在应用程序终止时出现空异常问题 <sup>4.8.5</sup> <sup>⏱️2023.01.28</sup> [#I6AZ8Y](https://gitee.com/dotnetchina/Furion/issues/I6AZ8Y)
   - &nbsp;<Tag>修复</Tag> 数据库日志注册在一些特殊情况下丢失日志上下文问题 <sup>4.8.4.6</sup> <sup>⏱️2023.01.04</sup> [#I68PDF](https://gitee.com/dotnetchina/Furion/issues/I68PDF)
@@ -30,7 +32,7 @@ import Tag from "@site/src/components/Tag.js";
 
 - **其他更改**
 
-  - &nbsp;<Tag>调整</Tag> 监听日志 `LoggingMonitor` 返回值泛型字符串显示格式 <sup>4.8.7.1</sup> <sup>⏱️2023.02.27</sup> [df35201](https://gitee.com/dotnetchina/Furion/commit/df35201622f4d908ab423baff27caef856a23527)
+  - &nbsp;<Tag>调整</Tag> 审计日志日志 `LoggingMonitor` 返回值泛型字符串显示格式 <sup>4.8.7.1</sup> <sup>⏱️2023.02.27</sup> [df35201](https://gitee.com/dotnetchina/Furion/commit/df35201622f4d908ab423baff27caef856a23527)
   - &nbsp;<Tag>调整</Tag> `LoggingMonitor` 解析授权逻辑，如果接口未授权则不打印授权信息 <sup>4.8.2.1</sup> <sup>⏱️2022.11.28</sup> [#I63D2E](https://gitee.com/dotnetchina/Furion/issues/I63D2E)
 
 </div>
@@ -973,7 +975,38 @@ info: 2022-11-24 14:35:16.0373384 +08:00 星期四 L Furion.Application.TestLogg
       我是一个日志 20
 ```
 
-### 18.5.4 `ILoggerFactory` 方式
+### 18.5.4 关于高频写入存储介质
+
+在一些高频写入存储介质（如数据库）日志的场景，为避免频繁解析服务（创建和销毁链接）和创建作用域导致内存及 `CPU` 飙高，可使用 **类全局作用域** 和所有服务都采取单例的方式：
+
+```cs showLineNumbers {1,3,8-9,14,20-23}
+public class DatabaseLoggingWriter : IDatabaseLoggingWriter, IDisposable
+{
+    private readonly IServiceScope _serviceScope;
+    private readonly IRepository<LogTable> _logRepository;  // 可替换成任何数据库操作库
+
+    public DatabaseLoggingWriter(IServiceProvider serviceProvider)
+    {
+        _serviceScope = serviceProvider.CreateScope();
+        _logRepository = _serviceScope.ServiceProvider.GetRequestService<IRepository<LogTable>>();
+    }
+
+    public void Write(LogMessage logMsg, bool flush)
+    {
+        _logRepository.Insert(.....);
+    }
+
+    /// <summary>
+    /// 释放服务作用域
+    /// </summary>
+    public void Dispose()
+    {
+        _serviceScope.Dispose();
+    }
+}
+```
+
+### 18.5.5 `ILoggerFactory` 方式
 
 `Furion` 也提供了运行时动态创建日志提供器并写入：
 
@@ -995,7 +1028,7 @@ public class ContactModel : PageModel
 }
 ```
 
-### 18.5.5 `ILoggingBuilder` 方式
+### 18.5.6 `ILoggingBuilder` 方式
 
 `Furion` 也提供了原生 `services.AddLogging(builder => {})` 方式配置，如
 
@@ -1010,13 +1043,13 @@ services.AddLogging(builder =>
 });
 ```
 
-### 18.5.6 记录请求日志
+### 18.5.7 记录请求日志
 
 在 `ASP.NET 6` 中，框架默认提供了 `app.UseHttpLogging()` 记录 `HTTP` 请求日志功能，详细了解可查看官方文档 [ASP.NET Core - HTTP 日志记录](https://docs.microsoft.com/zh-cn/aspnet/core/fundamentals/http-logging/?view=aspnetcore-6.0)
 
 当然也可以自定义中间件的方式写，只需要注入 `ILogger<>` 接口即可。
 
-### 18.5.7 `Debug` 和 `Trace` 默认不输出问题
+### 18.5.8 `Debug` 和 `Trace` 默认不输出问题
 
 默认情况下，微软在 `appsettings.json` 和 `appsettings.Development.json` 中配置了 `Default` 日志级别，如需自定义：
 
@@ -1531,6 +1564,24 @@ services.AddMonitorLogging(options =>
 });
 ```
 
+### 18.6.10 跳过特定参数记录
+
+:::important 版本说明
+
+以下内容仅限 `Furion 4.8.7.3 +` 版本使用。
+
+:::
+
+在 `Furion 4.8.7.3+` 版本新增 `[SuppressMonitor]` 特性支持标记参数（支持类型，方法）不被记录，如：
+
+```cs showLineNumbers {2}
+[LoggingMonitor]
+public string GetName([SuppressMonitor]SomeType type, int id)   // type 参数将跳过记录
+{
+    return nameof(Furion);
+}
+```
+
 ## 18.7 打印日志到 `Swagger` 中
 
 在 `Furion` 框架中默认集成了 `MiniProfiler` 组件并与 `Swagger` 进行了结合，如需打印日志或调试代码，只需调用以下方法即可：
@@ -1555,7 +1606,7 @@ var template = TP.Wrapper("Furion 框架", "让 .NET 开发更简单，更通用
     "##作者## 百小僧",
     "##当前版本## v3.5.3",
     "##文档地址## https://furion.baiqian.ltd",
-    "##Copyright## 百小僧, Baiqian Co.,Ltd.");
+    "##Copyright## 百小僧, 百签科技（广东）有限公司");
 
 Console.WriteLine(template);
 ```
@@ -1569,7 +1620,7 @@ Console.WriteLine(template);
 ┣ 作者：        百小僧
 ┣ 当前版本：     v3.5.3
 ┣ 文档地址：     https://furion.baiqian.ltd
-┣ Copyright：   百小僧, Baiqian Co.,Ltd.
+┣ Copyright：   百小僧, 百签科技（广东）有限公司
 ┗━━━━━━━━━━━  Furion 框架 ━━━━━━━━━━━
 
 ```
