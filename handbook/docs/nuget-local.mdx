@@ -1,14 +1,14 @@
 ---
 id: nuget-local
-title: 2.9 Nuget 本地调试包
-sidebar_label: 2.9 Nuget 本地调试包
+title: 2.9 NuGet 本地调试包
+sidebar_label: 2.9 NuGet 本地调试包
 ---
 
 import useBaseUrl from "@docusaurus/useBaseUrl";
 
 ## 2.9.1 关于本地测试包
 
-正常情况下，我们都是通过 `Nuget` 在线平台（Visual Studio 内置的 `Nuget` 包管理器）安装拓展依赖，**但有时候我们不希望发布到 `Nuget` 平台或者只想在本地使用又或者先在本地测试通过再发布。**
+正常情况下，我们都是通过 `NuGet` 在线平台（Visual Studio 内置的 `NuGet` 包管理器）安装拓展依赖，**但有时候我们不希望发布到 `NuGet` 平台或者只想在本地使用又或者先在本地测试通过再发布。**
 
 这样做的好处是：
 
@@ -19,9 +19,9 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 ### 2.9.2.1 测试包命名规则
 
-默认情况下，`Furion` 会根据 `Furion.版本号-beta.Issue编号` 规则生成 `.nupkg` 和 `.snupkg` 包，前者是不包含调试的无符号 `Nuget` 包，后者则是调试符号包（方便 `IDE` 调试用的），如：
+默认情况下，`Furion` 会根据 `Furion.版本号-beta.Issue编号` 规则生成 `.nupkg` 和 `.snupkg` 包，前者是不包含调试的无符号 `NuGet` 包，后者则是调试符号包（方便 `IDE` 调试用的），如：
 
-```showLineNumbers title="D:\Furion_Nuget_Test_Packages"
+```showLineNumbers title="D:\Furion_NuGet_Test_Packages"
 Furion.4.2.3-beta-I5MM3O.nupkg
 Furion.4.2.3-beta-I5MM3O.snupkg
 ```
@@ -30,7 +30,7 @@ Furion.4.2.3-beta-I5MM3O.snupkg
 
 ### 2.9.2.2 配置本地包路径
 
-有了这两个包之后，就可以在本地磁盘中创建文件夹并放进去，如 `D:\Furion_Nuget_Test_Packages`。
+有了这两个包之后，就可以在本地磁盘中创建文件夹并放进去，如 `D:\Furion_NuGet_Test_Packages`。
 
 <img src={useBaseUrl("img/ng1.png")} />
 
@@ -47,7 +47,7 @@ Furion.4.2.3-beta-I5MM3O.snupkg
 如果不使用可视化 `IDE` 配置，可通过下列命令行配置：
 
 ```bash
-dotnet restore "YourProject.Web.Entry/YourProject.Web.Entry.csproj" -s "D:\Furion_Nuget_Test_Packages";
+dotnet restore "YourProject.Web.Entry/YourProject.Web.Entry.csproj" -s "D:\Furion_NuGet_Test_Packages";
 dotnet restore "YourProject.Web.Entry/YourProject.Web.Entry.csproj" -s "https://api.nuget.org/v3/index.json";
 ```
 
@@ -67,7 +67,7 @@ dotnet restore "YourProject.Web.Entry/YourProject.Web.Entry.csproj" -s "https://
 
 <img src={useBaseUrl("img/ng8.png")} />
 
-## 2.9.3 `Visual Studio` 调试 `Nuget` 包
+## 2.9.3 `Visual Studio` 调试 `NuGet` 包
 
 `Furion` 提供了 `.snupkg` 包，在安装 `Furion` 的时候自动下载到本地，如需启用源码调试，只需要启用以下配置即可：
 

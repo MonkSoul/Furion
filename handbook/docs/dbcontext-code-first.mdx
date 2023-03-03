@@ -28,7 +28,7 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 :::important 特别注意
 
-`Furion` 框架默认数据迁移的程序集为：`Furion.Database.Migrations`，所以如果您改了程序集名称或通过 `Nuget` 方式安装的 `Furion` 包，则需要配置迁移程序集名称：
+`Furion` 框架默认数据迁移的程序集为：`Furion.Database.Migrations`，所以如果您改了程序集名称或通过 `NuGet` 方式安装的 `Furion` 包，则需要配置迁移程序集名称：
 
 ```cs showLineNumbers  {4}
 services.AddDatabaseAccessor(options =>
@@ -39,7 +39,7 @@ services.AddDatabaseAccessor(options =>
 
 另外，如果应用中配置了多个数据库上下文，那么所有的 `迁移命令` 都需要指定 `-Context 数据库上下文名称` 参数。如：
 
-```shell showLineNumbers 
+```shell showLineNumbers
 Add-Migration v1.0.0 -Context FurionDbContext
 ```
 
@@ -103,7 +103,7 @@ namespace Furion.Core
 
 ### 9.20.2.4 创建模型版本
 
-```shell showLineNumbers 
+```shell showLineNumbers
 Add-Migration v1.0.0
 ```
 
@@ -115,7 +115,7 @@ Add-Migration v1.0.0
 
 最终命令如下：
 
-```shell showLineNumbers 
+```shell showLineNumbers
 PM> Add-Migration v1.0.0
 Build started...
 Build succeeded.
@@ -133,7 +133,7 @@ PM>
 
 ### 9.20.2.5 更新到数据库
 
-```shell showLineNumbers 
+```shell showLineNumbers
 Update-Database
 ```
 
@@ -143,7 +143,7 @@ Update-Database
 
 如果 `Update-Database` 后面带字符串参数，则会自动还原数据库到指定版本，如：
 
-```shell showLineNumbers 
+```shell showLineNumbers
 Update-Database v0.0.3
 ```
 
@@ -155,11 +155,11 @@ Update-Database v0.0.3
 
 如果模型改变了，重复上面操作即可，如：
 
-```shell showLineNumbers 
+```shell showLineNumbers
 Add-Migration v1.0.1
 ```
 
-```shell showLineNumbers 
+```shell showLineNumbers
 Update-Database
 ```
 
@@ -167,7 +167,7 @@ Update-Database
 
 有些时候，我们没有直接更新数据库的权限，或者怕出问题，我们都会先生成 `Sql` 看看，这时候只需要通过 `Script-Migration` 导出即可，如：
 
-```shell showLineNumbers 
+```shell showLineNumbers
 Script-Migration
 ```
 
@@ -177,7 +177,7 @@ Script-Migration
 
 ### 9.20.5.1 安装 `dotnet ef`
 
-```shell showLineNumbers 
+```shell showLineNumbers
 dotnet tool install --global dotnet-ef --version 5.0.0-rc.2.20475.6
 ```
 
@@ -187,17 +187,17 @@ dotnet tool install --global dotnet-ef --version 5.0.0-rc.2.20475.6
 
 之后进入 `Furion.Database.Migrations` 目录
 
-```shell showLineNumbers 
+```shell showLineNumbers
 cd Furion.Database.Migrations
 ```
 
 ### 9.20.5.3 执行命令
 
-```shell showLineNumbers 
+```shell showLineNumbers
 dotnet ef migrations add v1.0.0 -s "../Furion.Web.Entry"
 ```
 
-```shell showLineNumbers 
+```shell showLineNumbers
 dotnet ef database update -s "../Furion.Web.Entry"
 ```
 
@@ -258,7 +258,7 @@ Build succeeded.
 Microsoft.EntityFrameworkCore.Model.Validation[10400]
       Sensitive data logging is enabled. Log entries and exception messages may include sensitive application data; this mode should only be enabled during development.
 Microsoft.EntityFrameworkCore.Infrastructure[10403]
-      Entity Framework Core 6.0.8 initialized 'DefaultDbContext' using provider 'MySql.EntityFrameworkCore:6.0.4+MySQL8.0.30' with options: SensitiveDataLoggingEnabled DetailedErrorsEnabled MaxPoolSize=100 MigrationsAssembly=Furion.TestMS.Database.Migrations 
+      Entity Framework Core 6.0.8 initialized 'DefaultDbContext' using provider 'MySql.EntityFrameworkCore:6.0.4+MySQL8.0.30' with options: SensitiveDataLoggingEnabled DetailedErrorsEnabled MaxPoolSize=100 MigrationsAssembly=Furion.TestMS.Database.Migrations
 System.InvalidOperationException: Unable to resolve service for type 'Microsoft.EntityFrameworkCore.Storage.TypeMappingSourceDependencies' while attempting to activate 'MySql.EntityFrameworkCore.Storage.Internal.MySQLTypeMappingSource'.
    at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateArgumentCallSites(Type implementationType, CallSiteChain callSiteChain, ParameterInfo[] parameters, Boolean throwIfCallSiteNotFound)
    at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateConstructorCallSite(ResultCache lifetime, Type serviceType, Type implementationType, CallSiteChain callSiteChain)
@@ -303,7 +303,7 @@ System.InvalidOperationException: Unable to resolve service for type 'Microsoft.
    at Microsoft.EntityFrameworkCore.Design.OperationExecutor.OperationBase.<>c__DisplayClass3_0`1.<Execute>b__0()
    at Microsoft.EntityFrameworkCore.Design.OperationExecutor.OperationBase.Execute(Action action)
 Unable to resolve service for type 'Microsoft.EntityFrameworkCore.Storage.TypeMappingSourceDependencies' while attempting to activate 'MySql.EntityFrameworkCore.Storage.Internal.MySQLTypeMappingSource'.
-PM> 
+PM>
 ```
 
 解决办法也很简单，只需要在启动层添加 `MysqlEntityFrameworkDesignTimeServices.cs` 并写入以下内容即可：

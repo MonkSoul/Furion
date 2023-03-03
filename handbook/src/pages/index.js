@@ -293,7 +293,7 @@ function WhoUse() {
           <div></div>
           <h1>他们都在用</h1>
           <p>
-            Furion 已在 Nuget
+            Furion 已在 NuGet
             平台超664万次下载。从小型企业到企业的解决方案及知名企业。他们在简单软件和复杂管理系统的开发方面都信任我们。
           </p>
           <a

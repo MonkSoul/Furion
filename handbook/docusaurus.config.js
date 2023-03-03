@@ -103,7 +103,7 @@ module.exports = {
               href: "https://github.com/MonkSoul/Furion",
             },
             {
-              label: "Nuget",
+              label: "NuGet",
               href: "https://www.nuget.org/profiles/monk.soul",
             },
           ],

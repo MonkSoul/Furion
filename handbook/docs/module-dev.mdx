@@ -33,7 +33,7 @@ sidebar_label: 28. 模块化开发
 {
   "AppSettings": {
     "EnabledReferenceAssemblyScan": true,    // 启用模块化程序集扫描
-    "SupportPackageNamePrefixs": ["Module1", "Module2",...] // 配置通过 Nuget 方式安装的模块化包，如果不是通过 Nuget 方式可不配置
+    "SupportPackageNamePrefixs": ["Module1", "Module2",...] // 配置通过 NuGet 方式安装的模块化包，如果不是通过 NuGet 方式可不配置
     // "ExternalAssemblies": ["plugins/Module1.dll", "plugins/Module2.dll", ...]   // 配置加载网站 plugins 目录下的模块程序集，可不配置
   }
 }
@@ -59,14 +59,14 @@ sidebar_label: 28. 模块化开发
 }
 ```
 
-3. **通过 `Nuget` 方式安装模块**
+3. **通过 `NuGet` 方式安装模块**
 
-如果通过 `Nuget` 方式安装模块，需要配置 `SupportPackageNamePrefixs` 节点，如：
+如果通过 `NuGet` 方式安装模块，需要配置 `SupportPackageNamePrefixs` 节点，如：
 
 ```json showLineNumbers  {3}
 {
   "AppSettings": {
-    "SupportPackageNamePrefixs": ["Nuget包名称", "Nuget包名称",...]
+    "SupportPackageNamePrefixs": ["NuGet包名称", "NuGet包名称",...]
   }
 }
 ```

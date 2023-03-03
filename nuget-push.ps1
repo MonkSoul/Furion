@@ -4,7 +4,7 @@
 Param(
     # 版本号
     [string] $version,
-    # Nuget APIKey
+    # NuGet APIKey
     [string] $apikey
 )
 
@@ -14,7 +14,7 @@ if ($version -eq $null -or $version -eq "")
     return;
 }
 
-Write-Warning "正在发布 framework 目录 Nuget 包......";
+Write-Warning "正在发布 framework 目录 NuGet 包......";
 
 # 查找 .\framework\nupkgs 下所有目录
 cd .\framework\nupkgs;
