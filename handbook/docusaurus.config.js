@@ -91,7 +91,7 @@ module.exports = {
         //   position: "left",
         // },
         {
-          label: "源码",
+          label: "仓库",
           position: "right",
           items: [
             {
