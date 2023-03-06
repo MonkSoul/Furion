@@ -150,12 +150,15 @@ public class HelloService
 
 ## 2.0.7 `Serve.Run()` 更多配置
 
-### 2.0.7.1 配置默认端口
+### 2.0.7.1 配置默认启动地址/端口
 
 默认情况下，创建的 `Web` 主机端口为 `5000/5001` 端口，如需自定义配置，可通过第一个参数配置：
 
 ```cs showLineNumbers
 Serve.Run("https://localhost:8080");
+
+// 或
+Serve.Run(RunOptions.Default, "https://localhost:8080");
 ```
 
 同时也支持 `dotnet run` 和 `dotnet watch run` 指定：
@@ -169,10 +172,17 @@ dotnet watch run --urls https://localhost:8080
 
 也可以通过 `ConfigureBuilder` 方式配置：
 
-```cs showLineNumbers {}
+```cs showLineNumbers {1,7}
+// .NET6+
 Serve.Run(RunOptions.Default.ConfigureBuilder(builder =>
 {
     builder.WebHost.UseUrls("https://localhost:8080");  // 也可以通过 builder.Configuration 读取 urls 配置
+}));
+
+// .NET5
+Serve.Run(RunOptions.ConfigureWebDefaults(webHostBuilder =>
+{
+    return webHostBuilder.UseUrls("https://localhost:8080");
 }));
 ```
 
