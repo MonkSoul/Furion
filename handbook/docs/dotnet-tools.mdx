@@ -151,7 +151,7 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 - `Description`：包工具介绍
 - `ToolCommandName`：包工具关键字，如 `dotnet`、`npm`，后续使用都是通过该关键字使用
 - `PackAsTool`：是否声明为包管理工具，设置 `true`
-- `GeneratePackageOnBuild`：是否编译时自动生成 `.nupkg` 包，方便后续上传到 `Nuget` 平台
+- `GeneratePackageOnBuild`：是否编译时自动生成 `.nupkg` 包，方便后续上传到 `NuGet` 平台
 - `PackageOutputPath`：配置 `.nupkg` 包存储目录，推荐使用 `./nupkg`
 
 ### 37.3.3 安装 `Furion.Tools.CommandLine` 包
@@ -465,16 +465,16 @@ dotnet tool uninstall HelloTools
 
 想了解更多本地打包安装知识查阅官方文档即可：[https://docs.microsoft.com/zh-cn/dotnet/core/tools/local-tools-how-to-use](https://docs.microsoft.com/zh-cn/dotnet/core/tools/local-tools-how-to-use)
 
-## 37.5 发布到 `Nuget` 平台 👏
+## 37.5 发布到 `NuGet` 平台 👏
 
-发布到 `Nuget` 平台非常简单，只需要两个步骤即可：
+发布到 `NuGet` 平台非常简单，只需要两个步骤即可：
 
 - 切换项目 `Debug` 模式到 `Release` 并重新编译项目
-- 在 `Nuget` 平台上传 `nupkg` 文件夹对应 `项目名称.版本号.nupkg` 文件即可：[https://www.nuget.org/packages/manage/upload](https://www.nuget.org/packages/manage/upload)
+- 在 `NuGet` 平台上传 `nupkg` 文件夹对应 `项目名称.版本号.nupkg` 文件即可：[https://www.nuget.org/packages/manage/upload](https://www.nuget.org/packages/manage/upload)
 
-:::tip 上传 Nuget 平台补齐信息
+:::tip 上传 NuGet 平台补齐信息
 
-建议上传到 `Nuget` 平台编辑 `.csproj` 文件补齐以下信息：
+建议上传到 `NuGet` 平台编辑 `.csproj` 文件补齐以下信息：
 
 ```cs showLineNumbers  {13-21}
 <Project Sdk="Microsoft.NET.Sdk">
@@ -513,9 +513,9 @@ dotnet tool uninstall HelloTools
 
 <img src={useBaseUrl("img/ts14.png")} />
 
-发布到 `Nuget` 平台后，别人就可以通过：
+发布到 `NuGet` 平台后，别人就可以通过：
 
-#### ✔ 安装 Nuget 包到本地
+#### ✔ 安装 NuGet 包到本地
 
 ```bash showLineNumbers
 dotnet tool install --global 项目名 --version 版本号
@@ -642,7 +642,7 @@ var machineName = Environment.MachineName;
 
 `Spectre.Console` 是 `.NET/C#` 平台非常优秀的控制台应用程序 `UI` 框架库，提供非常多开箱可用且非常好看的 `UI` 组件。官网地址：[https://spectreconsole.net/](https://spectreconsole.net/)
 
-使用非常简单，只需要通过 `Nuget` 安装 `Spectre.Console.Cli` 拓展包即可。
+使用非常简单，只需要通过 `NuGet` 安装 `Spectre.Console.Cli` 拓展包即可。
 
 ```bash showLineNumbers
 dotnet add package Spectre.Console.Cli
@@ -678,7 +678,7 @@ public static class Program
 
 `CliWrap` 同样也是 `.NET/C#` 平台非常优秀的执行本地命令的库，可通过该库实现 `CMD/Powershell` 命令执行，非常强大。仓库地址：[https://github.com/Tyrrrz/CliWrap](https://github.com/Tyrrrz/CliWrap)
 
-使用非常简单，只需要通过 `Nuget` 安装 `Spectre.Console.Cli` 拓展包即可。
+使用非常简单，只需要通过 `NuGet` 安装 `Spectre.Console.Cli` 拓展包即可。
 
 ```bash showLineNumbers
 dotnet add package CliWrap

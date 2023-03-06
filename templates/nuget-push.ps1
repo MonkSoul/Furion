@@ -1,10 +1,10 @@
 ﻿# 定义参数
 Param(
-    # Nuget APIKey
+    # NuGet APIKey
     [string] $apikey
 )
 
-Write-Warning "正在发布 templates 目录 Nuget 包......";
+Write-Warning "正在发布 templates 目录 NuGet 包......";
 
 # 查找所有 *.nupkg 文件
 $template_nupkgs = Get-ChildItem -Filter *.nupkg;
