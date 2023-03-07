@@ -149,6 +149,14 @@ public class SqlDispatchProxy : AspectDispatchProxy, IDispatchProxy
                     continue;
                 }
 
+                // 处理数组类型
+                if (genericArguments[i].IsArray)
+                {
+                    dynamic itemValue = tupleResult[i];
+                    args[i] = itemValue == null ? null : itemValue.Count > 0 ? itemValue[0] : itemValue;
+                    continue;
+                }
+
                 args[i] = tupleResult[i];
             }
 
@@ -187,7 +195,7 @@ public class SqlDispatchProxy : AspectDispatchProxy, IDispatchProxy
                 // 如果是集合参数
                 if (typeof(IEnumerable).IsAssignableFrom(returnType))
                 {
-                    return @object;
+                    return returnType.IsArray ? ((dynamic)@object).ToArray() : @object;
                 }
 
                 // 否则取第一条
@@ -266,6 +274,14 @@ public class SqlDispatchProxy : AspectDispatchProxy, IDispatchProxy
                     continue;
                 }
 
+                // 处理数组类型
+                if (genericArguments[i].IsArray)
+                {
+                    dynamic itemValue = tupleResult[i];
+                    args[i] = itemValue == null ? null : itemValue.Count > 0 ? itemValue[0] : itemValue;
+                    continue;
+                }
+
                 args[i] = tupleResult[i];
             }
 
@@ -305,7 +321,7 @@ public class SqlDispatchProxy : AspectDispatchProxy, IDispatchProxy
                 // 如果是集合参数
                 if (typeof(IEnumerable).IsAssignableFrom(returnType))
                 {
-                    return (T)@object;
+                    return (T)(returnType.IsArray ? ((dynamic)@object).ToArray() : @object);
                 }
 
                 // 否则取第一条

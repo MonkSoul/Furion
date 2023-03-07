@@ -96,6 +96,8 @@ public static class FS
         fileExtensionProvider.Mappings[".pcd"] = "image/x-photo-cd";
         fileExtensionProvider.Mappings[".bcmap"] = "application/octet-stream";
         fileExtensionProvider.Mappings[".properties"] = "application/octet-stream";
+        fileExtensionProvider.Mappings[".m3u8"] = "application/x-mpegURL";
+        fileExtensionProvider.Mappings[".ts"] = "video/MP2T";
         return fileExtensionProvider;
     }
 }

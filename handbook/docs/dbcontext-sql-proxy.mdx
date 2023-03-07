@@ -4,6 +4,50 @@ title: 9.17 Sql 高级代理
 sidebar_label: 9.17 Sql 高级代理
 ---
 
+import Tag from "@site/src/components/Tag.js";
+
+<details>
+  <summary>📝 模块更新日志</summary>
+  <div>
+<div>
+
+- **新特性**
+
+  - &nbsp;<Tag>新增</Tag> **`Sql` 高级拦截支持返回 `IEnumerable<T>` 和 `T[]` 类型值** <sup>4.8.7.5</sup> <sup>⏱️2023.03.07</sup> [f2ca2d3](https://gitee.com/dotnetchina/Furion/commit/f2ca2d303ea06febcc3a50df56ed03895e43c639)
+
+<details style={{ marginLeft: 50 }}>
+  <summary>查看变化</summary>
+  <div>
+
+过去版本如果**返回对象类型**只支持 `List<T>`，`T` 和 `Tuple<>`，现已支持 `IEnumerable<T>`、`T[]` 和 `Tuple<>` 混合体。
+
+```cs showLineNumbers {4,7,16}
+public interface ISql : ISqlDispatchProxy
+{
+    [SqlExecute("select * from person")]
+    Person[] GetPersons();
+
+    [SqlExecute("select * from person")]
+    IEnumerable<Person> GetPersons2();
+
+    // 更复杂的组合
+    [SqlExecute(@"
+select * from person where id = 1;
+select * from person;
+select * from person where id > 0;
+select * from person where id > 0;
+")]
+    (Person, List<Person>, Person[], IEnumerable<Person>) GetPersons();
+}
+```
+
+  </div>
+</details>
+
+</div>
+  </div>
+</details>
+
 ## 9.17.1 关于 `Sql` 代理
 
 `Sql` 代理是 `Furion` 框架中对 `Sql` 操作一个非常重要的概念，通过这种方式可以大大提高 `Sql` 书写效率，而且后期极易维护。
@@ -322,6 +366,34 @@ public interface ISql : ISqlDispatchProxy
 }
 ```
 
+### 9.17.4.9 返回 `IEnumerable` 或 `Array` 类型
+
+:::important 版本说明
+
+以下内容仅限 `Furion 4.8.7.5 +` 版本使用。
+
+:::
+
+```cs showLineNumbers {4,7,16}
+public interface ISql : ISqlDispatchProxy
+{
+    [SqlExecute("select * from person")]
+    Person[] GetPersons();
+
+    [SqlExecute("select * from person")]
+    IEnumerable<Person> GetPersons2();
+
+    // 更复杂的组合
+    [SqlExecute(@"
+select * from person where id = 1;
+select * from person;
+select * from person where id > 0;
+select * from person where id > 0;
+")]
+    (Person, List<Person>, Person[], IEnumerable<Person>) GetPersons();
+}
+```
+
 ## 9.17.5 `存储过程` 操作
 
 ### 9.17.5.1 返回 `DataTable`
@@ -489,6 +561,29 @@ public interface ISql : ISqlDispatchProxy
     // 自 v3.7.3+ 版本支持返回单个类类型参数
     [SqlProcedure("PROC_Name")]
     Person GetPerson(int id);
+}
+```
+
+### 9.17.5.9 返回 `IEnumerable` 或 `Array` 类型
+
+:::important 版本说明
+
+以下内容仅限 `Furion 4.8.7.5 +` 版本使用。
+
+:::
+
+```cs showLineNumbers {4,7,11}
+public interface ISql : ISqlDispatchProxy
+{
+    [SqlProcedure("PROC_Name")]
+    Person[] GetPersons();
+
+    [SqlProcedure("PROC_Name")]
+    IEnumerable<Person> GetPersons2();
+
+    // 更复杂的组合
+    [SqlProcedure("PROC_Name")]
+    (Person, List<Person>, Person[], IEnumerable<Person>) GetPersons();
 }
 ```
 

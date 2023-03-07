@@ -1,4 +1,5 @@
 ﻿using Furion;
+using Furion.VirtualFileServer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
@@ -31,7 +32,10 @@ public class Startup : AppStartup
             app.UseHsts();
         }
         app.UseHttpsRedirection();
-        app.UseStaticFiles();
+        app.UseStaticFiles(new StaticFileOptions
+        {
+            ContentTypeProvider = FS.GetFileExtensionContentTypeProvider()
+        });
 
         app.UseRouting();
 
