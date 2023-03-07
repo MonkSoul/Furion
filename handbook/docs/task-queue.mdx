@@ -229,7 +229,7 @@ _taskQueue.Enqueue(provider =>
 ```cs showLineNumbers  {4}
 services.AddTaskQueue(builder =>
 {
-    // 订阅 TaskQueue 未捕获异常
+    // 订阅 TaskQueue 捕获异常
     builder.UnobservedTaskExceptionHandler = (obj, args) =>
     {
         // ....
