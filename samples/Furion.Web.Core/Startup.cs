@@ -1,5 +1,6 @@
 ﻿using Furion.Application;
 using Furion.Schedule;
+using Furion.VirtualFileServer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
@@ -80,7 +81,10 @@ public sealed class Startup : AppStartup
         // 配置多语言，必须在 路由注册之前
         app.UseAppLocalization();
 
-        app.UseStaticFiles();
+        app.UseStaticFiles(new StaticFileOptions
+        {
+            ContentTypeProvider = FS.GetFileExtensionContentTypeProvider()
+        });
         app.UseScheduleUI();
 
         app.UseRouting();
