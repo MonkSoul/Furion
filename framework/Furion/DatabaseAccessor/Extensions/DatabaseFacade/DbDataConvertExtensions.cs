@@ -311,7 +311,7 @@ public static class DbDataConvertExtensions
     {
         var isGenericType = returnType.IsGenericType;
         // 获取类型真实返回类型
-        var underlyingType = isGenericType ? returnType.GenericTypeArguments.First() : returnType;
+        var underlyingType = isGenericType ? returnType.GenericTypeArguments.First() : (returnType.IsArray ? returnType.GetElementType() : returnType);
 
         var resultType = typeof(List<>).MakeGenericType(underlyingType);
         var list = Activator.CreateInstance(resultType);
@@ -353,15 +353,19 @@ public static class DbDataConvertExtensions
         }
         else
         {
+            // 二次处理数组类型
+            var isArrayType = underlyingType.IsArray;
+            var actType = isArrayType ? underlyingType.GetElementType() : underlyingType;
+
             // 获取所有的数据列和类公开实例属性
             var dataColumns = dataTable.Columns;
-            var properties = underlyingType.GetProperties(BindingFlags.Public | BindingFlags.Instance);
+            var properties = actType.GetProperties(BindingFlags.Public | BindingFlags.Instance);
             //.Where(p => !p.IsDefined(typeof(NotMappedAttribute), true));  // sql 数据转换无需判断 [NotMapperd] 特性
 
             // 遍历所有行
             foreach (var dataRow in dataRows)
             {
-                var model = Activator.CreateInstance(underlyingType);
+                var model = Activator.CreateInstance(actType);
 
                 // 遍历所有属性并一一赋值
                 foreach (var property in properties)
@@ -402,8 +406,19 @@ public static class DbDataConvertExtensions
                     property.SetValue(model, destValue);
                 }
 
+                // 处理数组类型
+                object pams;
+                if (isArrayType)
+                {
+                    var listType = typeof(List<>).MakeGenericType(actType);
+                    var listArray = Activator.CreateInstance(listType);
+                    listType.GetMethod("Add").Invoke(listArray, new[] { model });
+                    pams = ((dynamic)listArray).ToArray();
+                }
+                else pams = model;
+
                 // 添加到集合中
-                _ = addMethod.Invoke(list, new[] { model });
+                _ = addMethod.Invoke(list, new[] { pams });
             }
         }
 

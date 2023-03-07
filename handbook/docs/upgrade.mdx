@@ -44,10 +44,41 @@ import Tag from "@site/src/components/Tag.js";
 
 - **新特性**
 
-  - &nbsp;<Tag>新增</Tag> `.m3u8` 和 `.ts` 文件类型 `MIME` 支持 <sup>4.8.7.5</sup> <sup>⏱️2023.03.07</sup> [#I6KKEM](https://gitee.com/dotnetchina/Furion/issues/I6KKEM)
-  - &nbsp;<Tag>新增</Tag> 审计日志 `LoggingMonitor` 支持对参数贴 `[SuppressMonitor]` 特性跳过记录 <sup>4.8.7.3</sup> <sup>⏱️2023.03.01</sup> [#I6IVGW](https://gitee.com/dotnetchina/Furion/issues/I6IVGW)
-  - &nbsp;<Tag>新增</Tag> 审计日志 `LoggingMonitor` 监听 `TraceId`、`ThreadId`、`Accept-Language` <sup>4.8.7.1</sup> <sup>⏱️2023.02.27</sup> [df35201](https://gitee.com/dotnetchina/Furion/commit/df35201622f4d908ab423baff27caef856a23527)
-  - &nbsp;<Tag>新增</Tag> 规范化结果 `UnifyContext.GetSerializerSettings(string)` 静态方法 <sup>4.8.7.1</sup> <sup>⏱️2023.02.27</sup> [#I6HM7T](https://gitee.com/dotnetchina/Furion/issues/I6HM7T)
+  - &nbsp;<Tag>新增</Tag> `Sql` 高级拦截支持返回 `IEnumerable<T>` 和 `T[]` 类型值 <sup>4.8.7.5</sup> <sup>⏱️2023.03.07</sup>
+
+<details style={{ marginLeft: 50 }}>
+  <summary>查看变化</summary>
+  <div>
+
+过去版本如果**返回对象类型**只支持 `List<T>`，`T` 和 `Tuple<>`，现已支持 `IEnumerable<T>`、`T[]` 和 `Tuple<>` 混合体。
+
+```cs showLineNumbers {4,7,16}
+public interface ISql : ISqlDispatchProxy
+{
+    [SqlExecute("select * from person")]
+    Person[] GetPersons();
+
+    [SqlExecute("select * from person")]
+    IEnumerable<Person> GetPersons2();
+
+    // 更复杂的组合
+    [SqlExecute(@"
+select * from person where id = 1;
+select * from person;
+select * from person where id > 0;
+select * from person where id > 0;
+")]
+    (Person, List<Person>, Person[], IEnumerable<Person>) GetPersons();
+}
+```
+
+  </div>
+</details>
+
+- - &nbsp;<Tag>新增</Tag> `.m3u8` 和 `.ts` 文件类型 `MIME` 支持 <sup>4.8.7.5</sup> <sup>⏱️2023.03.07</sup> [#I6KKEM](https://gitee.com/dotnetchina/Furion/issues/I6KKEM)
+- - &nbsp;<Tag>新增</Tag> 审计日志 `LoggingMonitor` 支持对参数贴 `[SuppressMonitor]` 特性跳过记录 <sup>4.8.7.3</sup> <sup>⏱️2023.03.01</sup> [#I6IVGW](https://gitee.com/dotnetchina/Furion/issues/I6IVGW)
+- - &nbsp;<Tag>新增</Tag> 审计日志 `LoggingMonitor` 监听 `TraceId`、`ThreadId`、`Accept-Language` <sup>4.8.7.1</sup> <sup>⏱️2023.02.27</sup> [df35201](https://gitee.com/dotnetchina/Furion/commit/df35201622f4d908ab423baff27caef856a23527)
+- - &nbsp;<Tag>新增</Tag> 规范化结果 `UnifyContext.GetSerializerSettings(string)` 静态方法 <sup>4.8.7.1</sup> <sup>⏱️2023.02.27</sup> [#I6HM7T](https://gitee.com/dotnetchina/Furion/issues/I6HM7T)
 
 - **突破性变化**
 
@@ -61,14 +92,14 @@ import Tag from "@site/src/components/Tag.js";
 
 - **其他更改**
 
-  - &nbsp;<Tag>调整</Tag> 脚手架模板，默认启用主流文件类型 `MIME` 支持 <sup>4.8.7.5</sup> <sup>⏱️2023.03.07</sup>
+  - &nbsp;<Tag>调整</Tag> 脚手架模板，默认启用主流文件类型 `MIME` 支持 <sup>4.8.7.5</sup> <sup>⏱️2023.03.07</sup> [e35cdab](https://gitee.com/dotnetchina/Furion/commit/e35cdab592d1a00ff32b08c566c4ed5d6ddcff24)
   - &nbsp;<Tag>调整</Tag> 审计日志 `LoggingMonitor` 返回值泛型字符串显示格式 <sup>4.8.7.1</sup> <sup>⏱️2023.02.27</sup> [df35201](https://gitee.com/dotnetchina/Furion/commit/df35201622f4d908ab423baff27caef856a23527)
 
 - **文档**
 
   - &nbsp;<Tag>新增</Tag> **[ASP.NET 8 集成](/docs/get-start-net8) 文档**
   - &nbsp;<Tag>新增</Tag> **[.NET7 升级 .NET8](/docs/net7-to-net8) 文档**
-  - &nbsp;<Tag>更新</Tag> 定时任务文档、中间件文档、规范化结果文档、动态 `WebAPI` 文档、日志记录文档、事件总线文档、虚拟文件系统文档
+  - &nbsp;<Tag>更新</Tag> 定时任务文档、中间件文档、规范化结果文档、动态 `WebAPI` 文档、日志记录文档、事件总线文档、虚拟文件系统文档、`Sql` 高级代理文档
 
 ---
 
