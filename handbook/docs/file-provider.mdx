@@ -13,6 +13,7 @@ import Tag from "@site/src/components/Tag.js";
 
 - **新特性**
 
+  - &nbsp;<Tag>新增</Tag> `.m3u8` 和 `.ts` 文件类型 `MIME` 支持 <sup>4.8.7.5</sup> <sup>⏱️2023.03.07</sup> [#I6KKEM](https://gitee.com/dotnetchina/Furion/issues/I6KKEM)
   - &nbsp;<Tag>新增</Tag> `*.bcmap` 和 `.properties` 文件类型 `MIME` 支持 <sup>4.8.4.9</sup> <sup>⏱️2023.01.06</sup> [!694](https://gitee.com/dotnetchina/Furion/pulls/694)
 
 </div>
@@ -472,7 +473,32 @@ app.Configuration.Get<WebHostBuilder>().ConfigureKestrel(options =>
 // .NET6 方式同上
 ```
 
-## 31.8 反馈与建议
+## 31.8 特定文件类型（文件后缀）处理
+
+有时我们在服务器静态资源目录下存放如 `.apk`，`.m3u8` 等文件时，通过 `URL` 请求返回 `404 Not Found`，那是因为默认情况下框架未配置此类文件类型 `MIME` 类型。
+
+`Furion` 框架提供了 `400` 多个常见的文件类型 `MIME`，只需要在 `Startup.cs` 或 `Progame.cs` 中注册即可，如：
+
+```cs showLineNumbers {2,3}
+// 为 UseStaticFiles 添加 StaticFileOptions 参数并指定 ContentTypeProvider 属性
+app.UseStaticFiles(new StaticFileOptions {
+  ContentTypeProvider = FS.GetFileExtensionContentTypeProvider()
+});
+```
+
+如果配置了还是出现 `404`，那么可能访问的文件类型的 `MIME` 在 `Furion` 框架中未被包含，这时可自行添加，如：
+
+```cs showLineNumbers {1-2,6}
+var contentTypeProvider = FS.GetFileExtensionContentTypeProvider();
+contentTypeProvider.Mappings[".文件后缀"] = "MIME 类型";    // 注意文件后缀以  . 开头
+// 可多个....
+
+app.UseStaticFiles(new StaticFileOptions {
+  ContentTypeProvider = contentTypeProvider;
+});
+```
+
+## 31.9 反馈与建议
 
 :::note 与我们交流
 
