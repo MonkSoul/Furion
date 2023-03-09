@@ -302,7 +302,13 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory
     private double? GetSleepMilliseconds(DateTime startAt)
     {
         // 空检查
-        if (!_schedulers.Any()) return null;
+        if (!_schedulers.Any())
+        {
+            // 输出作业调度器休眠总时长和唤醒时间日志
+            _logger.LogWarning("Schedule hosted service will sleep until it wakes up.");
+
+            return null;
+        }
 
         // 获取所有作业计划下一批执行时间
         var nextRunTimes = (GetJobs(active: true) as IEnumerable<Scheduler>)
@@ -318,6 +324,9 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory
 
         // 计算总休眠时间
         var sleepMilliseconds = (earliestTriggerTime - startAt).TotalMilliseconds;
+
+        // 输出作业调度器休眠总时长和唤醒时间日志
+        _logger.LogWarning("Schedule hosted service will sleep <{sleepMilliseconds}> milliseconds and be waked up at <{earliestTriggerTime}>.", sleepMilliseconds, earliestTriggerTime.ToUnspecifiedString());
 
         return sleepMilliseconds;
     }
