@@ -806,7 +806,7 @@ services.AddDatabaseLogging<DatabaseLoggingWriter>(options =>
 
 :::important 特别注意
 
-**只有不在 `.AddDatabase` 第一个参数为空才会自动加载配置。**
+**只有 `.AddDatabase` 第一个参数为空才会自动加载配置。**
 
 :::
 
@@ -1138,7 +1138,7 @@ public class TestLoggerServices : IDynamicApiController
 如需全局启用 `LoggingMonitor` 功能，无需在每个控制器或者方法中贴，全局注册如下：
 
 ```cs showLineNumbers
-// 请使用 services.AddMonitorLogging(); 替代，并启用 GlobalEnabled": false
+// 请使用 services.AddMonitorLogging(); 替代，并启用 GlobalEnabled: true
 services.AddMvcFilter<LoggingMonitorAttribute>();
 ```
 

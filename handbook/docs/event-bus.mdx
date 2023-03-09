@@ -889,7 +889,7 @@ public class ToDoEventSubscriber : IEventSubscriber
 ```cs showLineNumbers  {4}
 services.AddEventBus(builder =>
 {
-    // 订阅 EventBus 未捕获异常
+    // 订阅 EventBus 意外未捕获异常
     builder.UnobservedTaskExceptionHandler = (obj, args) =>
     {
         // ....

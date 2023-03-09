@@ -3,8 +3,10 @@
 ### 本地运行
 
 ```bash
+# 安装依赖
 npm install
 
+# 本地浏览
 npm run start
 ```
 

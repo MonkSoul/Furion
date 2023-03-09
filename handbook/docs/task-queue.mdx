@@ -173,12 +173,14 @@ public class YourService : IYourService
 
 框架还提供了 `TaskQueued` 静态类可在任何线程中操作，如：
 
-```cs showLineNumbers {2,5}
+```cs showLineNumbers {2-3,6-7}
 // 同步入队
 TaskQueued.Enqueue((provider) => {}, [delay]);
+TaskQueued.Enqueue((provider) => {}, cronExpression, [format]);
 
 // 异步入队
 await TaskQueued.EnqueueAsync(async (provider, token) => {}, [delay]);
+await TaskQueued.EnqueueAsynce(async (provider, token) => {}, cronExpression, [format]);
 ```
 
 ## 26.3.5 在处理程序中使用服务
@@ -229,7 +231,7 @@ _taskQueue.Enqueue(provider =>
 ```cs showLineNumbers  {4}
 services.AddTaskQueue(builder =>
 {
-    // 订阅 TaskQueue 未捕获异常
+    // 订阅 TaskQueue 意外未捕获异常
     builder.UnobservedTaskExceptionHandler = (obj, args) =>
     {
         // ....
