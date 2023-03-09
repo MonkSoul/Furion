@@ -14,10 +14,12 @@ sidebar_label: 18. TaskQueued 静态类
 
 ```cs showLineNumbers
 TaskQueued.Enqueue((provider) => {}, [delay]);
+TaskQueued.Enqueue((provider) => {}, cronExpression, [format]);
 ```
 
 ## 18.2 异步入队
 
 ```cs showLineNumbers
 await TaskQueued.EnqueueAsynce(async (provider, token) => {}, [delay]);
+await TaskQueued.EnqueueAsynce(async (provider, token) => {}, cronExpression, [format]);
 ```
