@@ -20,6 +20,6 @@ TaskQueued.Enqueue((provider) => {}, cronExpression, [format]);
 ## 18.2 异步入队
 
 ```cs showLineNumbers
-await TaskQueued.EnqueueAsynce(async (provider, token) => {}, [delay]);
-await TaskQueued.EnqueueAsynce(async (provider, token) => {}, cronExpression, [format]);
+await TaskQueued.EnqueueAsync(async (provider, token) => {}, [delay]);
+await TaskQueued.EnqueueAsync(async (provider, token) => {}, cronExpression, [format]);
 ```
