@@ -292,9 +292,9 @@ function LogPanel(props: {
                       ellipsis={{
                         rows: 2,
                         expandable: true,
-                        expandText: "展开结果",
+                        expandText: "展开",
                         collapsible: true,
-                        collapseText: "折叠结果",
+                        collapseText: "折叠",
                       }}
                       style={{ width: 200 }}
                       copyable
