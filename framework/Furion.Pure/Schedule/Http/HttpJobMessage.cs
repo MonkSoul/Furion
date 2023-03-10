@@ -12,54 +12,36 @@
 // 在任何情况下，作者或版权持有人都不对任何索赔、损害或其他责任负责，无论这些追责来自合同、侵权或其它行为中，
 // 还是产生于、源于或有关于本软件以及本软件的使用或其它处置。
 
-using System.Text.Json.Serialization;
-
 namespace Furion.Schedule;
 
 /// <summary>
-/// 作业触发器运行记录
+/// HTTP 作业消息
 /// </summary>
 [SuppressSniffer]
-public sealed class TriggerTimeline
+public sealed class HttpJobMessage
 {
     /// <summary>
-    /// 当前运行次数
+    /// 请求地址
     /// </summary>
-    [JsonInclude]
-    public long NumberOfRuns { get; internal set; }
+    public string RequestUri { get; set; }
 
     /// <summary>
-    /// 最近运行时间
+    /// 请求方法
     /// </summary>
-    [JsonInclude]
-    public DateTime? LastRunTime { get; internal set; }
+    public HttpMethod HttpMedhod { get; set; } = HttpMethod.Get;
 
     /// <summary>
-    /// 下一次运行时间
+    /// 请求报文体
     /// </summary>
-    [JsonInclude]
-    public DateTime? NextRunTime { get; internal set; }
+    public string Body { get; set; }
 
     /// <summary>
-    /// 作业触发器状态
+    /// 请求客户端名称
     /// </summary>
-    [JsonInclude]
-    public TriggerStatus Status { get; internal set; }
+    public string ClientName { get; set; } = nameof(HttpJob);
 
     /// <summary>
-    /// 本次执行结果
+    /// 确保请求成功，否则抛异常
     /// </summary>
-    [JsonInclude]
-    public string Result { get; internal set; }
-
-    /// <summary>
-    /// 执行耗时
-    /// </summary>
-    [JsonInclude]
-    public long ElapsedTime { get; internal set; }
-
-    /// <summary>
-    /// 新增时间
-    /// </summary>
-    internal DateTime CreatedTime { get; set; }
+    public bool EnsureSuccessStatusCode { get; set; } = true;
 }

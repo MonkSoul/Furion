@@ -1,5 +1,12 @@
 import { IconActivity, IconCalendarClock } from "@douyinfe/semi-icons";
-import { Button, Modal, Tag, Timeline, Tooltip } from "@douyinfe/semi-ui";
+import {
+  Button,
+  Modal,
+  Tag,
+  Timeline,
+  Tooltip,
+  Typography
+} from "@douyinfe/semi-ui";
 import Paragraph from "@douyinfe/semi-ui/lib/es/typography/paragraph";
 import { useEffect, useState } from "react";
 import useFetch from "use-http/dist/cjs/useFetch";
@@ -140,6 +147,35 @@ export default function RenderValue(props: {
      * 处理触发器类型
      */
     preview = <span>{value?.toString() || ""}</span>;
+  } else if (prop === "result") {
+    /**
+     * 处理返回结果
+     */
+    preview = (
+      <Typography.Paragraph
+        ellipsis={{
+          rows: 2,
+          expandable: true,
+          collapsible: true,
+          collapseText: "折叠",
+        }}
+        style={{ width: 200 }}
+        copyable
+      >
+        {value?.toString() || ""}
+      </Typography.Paragraph>
+    );
+  } else if (prop === "elapsedTime") {
+    /**
+     * 处理运行耗时
+     */
+    preview = (
+      <>
+        <Tag color="lime" type="light">
+          {value}ms
+        </Tag>
+      </>
+    );
   } else preview = <span>{value?.toString() || ""}</span>;
 
   return (
@@ -155,6 +191,11 @@ export default function RenderValue(props: {
   );
 }
 
+/**
+ * 执行记录
+ * @param props
+ * @returns
+ */
 function LogPanel(props: {
   trigger: Trigger;
   visible: boolean;
@@ -241,16 +282,38 @@ function LogPanel(props: {
               i === 0 ? <IconActivity style={{ color: "green" }} /> : undefined
             }
             extra={
-              <span>
-                {trigger.triggerType || ""}: {trigger.args || ""}
-              </span>
+              <>
+                <span>
+                  {trigger.triggerType || ""}: {trigger.args || ""}
+                </span>
+                {timeline.result && (
+                  <div>
+                    <Typography.Paragraph
+                      ellipsis={{
+                        rows: 2,
+                        expandable: true,
+                        expandText: "展开结果",
+                        collapsible: true,
+                        collapseText: "折叠结果",
+                      }}
+                      style={{ width: 200 }}
+                      copyable
+                    >
+                      {timeline.result}
+                    </Typography.Paragraph>
+                  </div>
+                )}
+              </>
             }
           >
             第{" "}
             <Tag color="green" type="light">
               {timeline.numberOfRuns}
             </Tag>{" "}
-            次运行
+            次运行，耗时{" "}
+            <Tag color="lime" type="light">
+              {timeline.elapsedTime}ms
+            </Tag>
           </Timeline.Item>
         ))}
       </Timeline>

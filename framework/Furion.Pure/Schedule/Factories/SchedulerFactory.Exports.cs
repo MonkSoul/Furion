@@ -704,6 +704,256 @@ internal sealed partial class SchedulerFactory
     }
 
     /// <summary>
+    /// 添加 HTTP 作业
+    /// </summary>
+    /// <param name="buildMessage">构建 HTTP 作业消息委托</param>
+    /// <param name="triggerBuilders">作业触发器构建器集合</param>
+    /// <returns><see cref="ScheduleOptionsBuilder"/></returns>
+    public void AddHttpJob(Action<HttpJobMessage> buildMessage, params TriggerBuilder[] triggerBuilders)
+    {
+        _ = TryAddHttpJob<HttpJob>(buildMessage, triggerBuilders, out var _);
+    }
+
+    /// <summary>
+    /// 添加 HTTP 作业
+    /// </summary>
+    /// <param name="buildMessage">构建 HTTP 作业消息委托</param>
+    /// <param name="triggerBuilders">作业触发器构建器集合</param>
+    /// <param name="scheduler">作业计划</param>
+    /// <param name="immediately">是否立即通知作业调度器重新载入</param>
+    /// <returns><see cref="ScheduleResult"/></returns>
+    public ScheduleResult TryAddHttpJob(Action<HttpJobMessage> buildMessage, TriggerBuilder[] triggerBuilders, out IScheduler scheduler, bool immediately = true)
+    {
+        return TryAddHttpJob<HttpJob>(buildMessage, triggerBuilders, out scheduler, immediately);
+    }
+
+    /// <summary>
+    /// 添加 HTTP 作业
+    /// </summary>
+    /// <typeparam name="TJob"><see cref="IJob"/> 实现类型</typeparam>
+    /// <param name="buildMessage">构建 HTTP 作业消息委托</param>
+    /// <param name="triggerBuilders">作业触发器构建器集合</param>
+    /// <returns><see cref="ScheduleOptionsBuilder"/></returns>
+    public void AddHttpJob<TJob>(Action<HttpJobMessage> buildMessage, params TriggerBuilder[] triggerBuilders)
+        where TJob : class, IJob
+    {
+        _ = TryAddHttpJob<TJob>(buildMessage, triggerBuilders, out var _);
+    }
+
+    /// <summary>
+    /// 添加 HTTP 作业
+    /// </summary>
+    /// <typeparam name="TJob"><see cref="IJob"/> 实现类型</typeparam>
+    /// <param name="buildMessage">构建 HTTP 作业消息委托</param>
+    /// <param name="triggerBuilders">作业触发器构建器集合</param>
+    /// <param name="scheduler">作业计划</param>
+    /// <param name="immediately">是否立即通知作业调度器重新载入</param>
+    /// <returns><see cref="ScheduleResult"/></returns>
+    public ScheduleResult TryAddHttpJob<TJob>(Action<HttpJobMessage> buildMessage, TriggerBuilder[] triggerBuilders, out IScheduler scheduler, bool immediately = true)
+        where TJob : class, IJob
+    {
+        return TryAddHttpJob(buildMessage, SchedulerBuilder.Create<TJob>(triggerBuilders), out scheduler, immediately);
+    }
+
+    /// <summary>
+    /// 添加 HTTP 作业
+    /// </summary>
+    /// <param name="buildMessage">构建 HTTP 作业消息委托</param>
+    /// <param name="jobId">作业 ID</param>
+    /// <param name="triggerBuilders">作业触发器构建器集合</param>
+    /// <returns><see cref="ScheduleOptionsBuilder"/></returns>
+    public void AddHttpJob(Action<HttpJobMessage> buildMessage, string jobId, params TriggerBuilder[] triggerBuilders)
+    {
+        _ = TryAddHttpJob<HttpJob>(buildMessage, jobId, triggerBuilders, out var _);
+    }
+
+    /// <summary>
+    /// 添加 HTTP 作业
+    /// </summary>
+    /// <param name="buildMessage">构建 HTTP 作业消息委托</param>
+    /// <param name="jobId">作业 ID</param>
+    /// <param name="triggerBuilders">作业触发器构建器集合</param>
+    /// <param name="scheduler">作业计划</param>
+    /// <param name="immediately">是否立即通知作业调度器重新载入</param>
+    /// <returns><see cref="ScheduleResult"/></returns>
+    public ScheduleResult TryAddHttpJob(Action<HttpJobMessage> buildMessage, string jobId, TriggerBuilder[] triggerBuilders, out IScheduler scheduler, bool immediately = true)
+    {
+        return TryAddHttpJob<HttpJob>(buildMessage, jobId, triggerBuilders, out scheduler, immediately);
+    }
+
+    /// <summary>
+    /// 添加 HTTP 作业
+    /// </summary>
+    /// <typeparam name="TJob"><see cref="IJob"/> 实现类型</typeparam>
+    /// <param name="buildMessage">构建 HTTP 作业消息委托</param>
+    /// <param name="jobId">作业 ID</param>
+    /// <param name="triggerBuilders">作业触发器构建器集合</param>
+    /// <returns><see cref="ScheduleOptionsBuilder"/></returns>
+    public void AddHttpJob<TJob>(Action<HttpJobMessage> buildMessage, string jobId, params TriggerBuilder[] triggerBuilders)
+        where TJob : class, IJob
+    {
+        _ = TryAddHttpJob<TJob>(buildMessage, jobId, triggerBuilders, out var _);
+    }
+
+    /// <summary>
+    /// 添加 HTTP 作业
+    /// </summary>
+    /// <typeparam name="TJob"><see cref="IJob"/> 实现类型</typeparam>
+    /// <param name="buildMessage">构建 HTTP 作业消息委托</param>
+    /// <param name="jobId">作业 ID</param>
+    /// <param name="triggerBuilders">作业触发器构建器集合</param>
+    /// <param name="scheduler">作业计划</param>
+    /// <param name="immediately">是否立即通知作业调度器重新载入</param>
+    /// <returns><see cref="ScheduleResult"/></returns>
+    public ScheduleResult TryAddHttpJob<TJob>(Action<HttpJobMessage> buildMessage, string jobId, TriggerBuilder[] triggerBuilders, out IScheduler scheduler, bool immediately = true)
+        where TJob : class, IJob
+    {
+        return TryAddHttpJob(buildMessage, SchedulerBuilder.Create<TJob>(jobId, triggerBuilders), out scheduler, immediately);
+    }
+
+    /// <summary>
+    /// 添加 HTTP 作业
+    /// </summary>
+    /// <param name="buildMessage">构建 HTTP 作业消息委托</param>
+    /// <param name="jobId">作业 ID</param>
+    /// <param name="concurrent">是否采用并发执行</param>
+    /// <param name="triggerBuilders">作业触发器构建器集合</param>
+    /// <returns><see cref="ScheduleOptionsBuilder"/></returns>
+    public void AddHttpJob(Action<HttpJobMessage> buildMessage, string jobId, bool concurrent, params TriggerBuilder[] triggerBuilders)
+    {
+        _ = TryAddHttpJob<HttpJob>(buildMessage, jobId, concurrent, triggerBuilders, out var _);
+    }
+
+    /// <summary>
+    /// 添加 HTTP 作业
+    /// </summary>
+    /// <param name="buildMessage">构建 HTTP 作业消息委托</param>
+    /// <param name="jobId">作业 ID</param>
+    /// <param name="concurrent">是否采用并发执行</param>
+    /// <param name="triggerBuilders">作业触发器构建器集合</param>
+    /// <param name="scheduler">作业计划</param>
+    /// <param name="immediately">是否立即通知作业调度器重新载入</param>
+    /// <returns><see cref="ScheduleResult"/></returns>
+    public ScheduleResult TryAddHttpJob(Action<HttpJobMessage> buildMessage, string jobId, bool concurrent, TriggerBuilder[] triggerBuilders, out IScheduler scheduler, bool immediately = true)
+    {
+        return TryAddHttpJob<HttpJob>(buildMessage, jobId, concurrent, triggerBuilders, out scheduler, immediately);
+    }
+
+    /// <summary>
+    /// 添加 HTTP 作业
+    /// </summary>
+    /// <typeparam name="TJob"><see cref="IJob"/> 实现类型</typeparam>
+    /// <param name="buildMessage">构建 HTTP 作业消息委托</param>
+    /// <param name="jobId">作业 ID</param>
+    /// <param name="concurrent">是否采用并发执行</param>
+    /// <param name="triggerBuilders">作业触发器构建器集合</param>
+    /// <returns><see cref="ScheduleOptionsBuilder"/></returns>
+    public void AddHttpJob<TJob>(Action<HttpJobMessage> buildMessage, string jobId, bool concurrent, params TriggerBuilder[] triggerBuilders)
+        where TJob : class, IJob
+    {
+        _ = TryAddHttpJob<TJob>(buildMessage, jobId, concurrent, triggerBuilders, out var _);
+    }
+
+    /// <summary>
+    /// 添加 HTTP 作业
+    /// </summary>
+    /// <typeparam name="TJob"><see cref="IJob"/> 实现类型</typeparam>
+    /// <param name="buildMessage">构建 HTTP 作业消息委托</param>
+    /// <param name="jobId">作业 ID</param>
+    /// <param name="concurrent">是否采用并发执行</param>
+    /// <param name="triggerBuilders">作业触发器构建器集合</param>
+    /// <param name="scheduler">作业计划</param>
+    /// <param name="immediately">是否立即通知作业调度器重新载入</param>
+    /// <returns><see cref="ScheduleResult"/></returns>
+    public ScheduleResult TryAddHttpJob<TJob>(Action<HttpJobMessage> buildMessage, string jobId, bool concurrent, TriggerBuilder[] triggerBuilders, out IScheduler scheduler, bool immediately = true)
+        where TJob : class, IJob
+    {
+        return TryAddHttpJob(buildMessage, SchedulerBuilder.Create<TJob>(jobId, concurrent, triggerBuilders), out scheduler, immediately);
+    }
+
+    /// <summary>
+    /// 添加 HTTP 作业
+    /// </summary>
+    /// <param name="buildMessage">构建 HTTP 作业消息委托</param>
+    /// <param name="concurrent">是否采用并发执行</param>
+    /// <param name="triggerBuilders">作业触发器构建器集合</param>
+    /// <returns><see cref="ScheduleOptionsBuilder"/></returns>
+    public void AddHttpJob(Action<HttpJobMessage> buildMessage, bool concurrent, params TriggerBuilder[] triggerBuilders)
+    {
+        _ = TryAddHttpJob<HttpJob>(buildMessage, concurrent, triggerBuilders, out var _);
+    }
+
+    /// <summary>
+    /// 添加 HTTP 作业
+    /// </summary>
+    /// <param name="buildMessage">构建 HTTP 作业消息委托</param>
+    /// <param name="concurrent">是否采用并发执行</param>
+    /// <param name="triggerBuilders">作业触发器构建器集合</param>
+    /// <param name="scheduler">作业计划</param>
+    /// <param name="immediately">是否立即通知作业调度器重新载入</param>
+    /// <returns><see cref="ScheduleResult"/></returns>
+    public ScheduleResult TryAddHttpJob(Action<HttpJobMessage> buildMessage, bool concurrent, TriggerBuilder[] triggerBuilders, out IScheduler scheduler, bool immediately = true)
+    {
+        return TryAddHttpJob<HttpJob>(buildMessage, concurrent, triggerBuilders, out scheduler, immediately);
+    }
+
+    /// <summary>
+    /// 添加 HTTP 作业
+    /// </summary>
+    /// <typeparam name="TJob"><see cref="IJob"/> 实现类型</typeparam>
+    /// <param name="buildMessage">构建 HTTP 作业消息委托</param>
+    /// <param name="concurrent">是否采用并发执行</param>
+    /// <param name="triggerBuilders">作业触发器构建器集合</param>
+    /// <returns><see cref="ScheduleOptionsBuilder"/></returns>
+    public void AddHttpJob<TJob>(Action<HttpJobMessage> buildMessage, bool concurrent, params TriggerBuilder[] triggerBuilders)
+        where TJob : class, IJob
+    {
+        _ = TryAddHttpJob<TJob>(buildMessage, concurrent, triggerBuilders, out var _);
+    }
+
+    /// <summary>
+    /// 添加 HTTP 作业
+    /// </summary>
+    /// <typeparam name="TJob"><see cref="IJob"/> 实现类型</typeparam>
+    /// <param name="buildMessage">构建 HTTP 作业消息委托</param>
+    /// <param name="concurrent">是否采用并发执行</param>
+    /// <param name="triggerBuilders">作业触发器构建器集合</param>
+    /// <param name="scheduler">作业计划</param>
+    /// <param name="immediately">是否立即通知作业调度器重新载入</param>
+    /// <returns><see cref="ScheduleResult"/></returns>
+    public ScheduleResult TryAddHttpJob<TJob>(Action<HttpJobMessage> buildMessage, bool concurrent, TriggerBuilder[] triggerBuilders, out IScheduler scheduler, bool immediately = true)
+        where TJob : class, IJob
+    {
+        return TryAddHttpJob(buildMessage, SchedulerBuilder.Create<TJob>(concurrent, triggerBuilders), out scheduler, immediately);
+    }
+
+    /// <summary>
+    /// 添加 HTTP 作业
+    /// </summary>
+    /// <param name="buildMessage">构建 HTTP 作业消息委托</param>
+    /// <param name="schedulerBuilder">作业调度程序构建器</param>
+    /// <param name="scheduler">作业计划</param>
+    /// <param name="immediately">是否立即通知作业调度器重新载入</param>
+    /// <returns><see cref="ScheduleResult"/></returns>
+    private ScheduleResult TryAddHttpJob(Action<HttpJobMessage> buildMessage, SchedulerBuilder schedulerBuilder, out IScheduler scheduler, bool immediately = true)
+    {
+        // 空检查
+        if (buildMessage == null) throw new ArgumentNullException(nameof(buildMessage));
+
+        // 空检查
+        if (schedulerBuilder == null) throw new ArgumentNullException(nameof(schedulerBuilder));
+
+        // 创建 HTTP 作业消息
+        var httpJobMessage = new HttpJobMessage();
+        buildMessage?.Invoke(httpJobMessage);
+
+        // 将 HTTP 作业消息序列化并存储起来
+        schedulerBuilder.JobBuilder.AddOrUpdateProperty(nameof(HttpJob), Penetrates.Serialize(httpJobMessage));
+
+        return TryAddJob(schedulerBuilder, out scheduler, immediately);
+    }
+
+    /// <summary>
     /// 更新作业
     /// </summary>
     /// <param name="schedulerBuilder">作业计划构建器</param>

@@ -12,7 +12,8 @@ import {
   Popover,
   Tag,
   Toast,
-  Tooltip
+  Tooltip,
+  Typography
 } from "@douyinfe/semi-ui";
 import { Data } from "@douyinfe/semi-ui/lib/es/descriptions";
 import { ColumnProps } from "@douyinfe/semi-ui/lib/es/table/interface";
@@ -34,6 +35,7 @@ const showProps = [
   "lastRunTime",
   "nextRunTime",
   "numberOfRuns",
+  "elapsedTime",
 ];
 
 /**
@@ -170,6 +172,22 @@ const columns: ColumnProps<JobDetail>[] = [
   {
     title: "Properties",
     dataIndex: "properties",
+    render: (text, jobDetail, index) => {
+      return (
+        <Typography.Paragraph
+          ellipsis={{
+            rows: 2,
+            expandable: true,
+            collapsible: true,
+            collapseText: "折叠",
+          }}
+          style={{ width: 200 }}
+          copyable
+        >
+          {text}
+        </Typography.Paragraph>
+      );
+    },
   },
   {
     title: "UpdatedTime",

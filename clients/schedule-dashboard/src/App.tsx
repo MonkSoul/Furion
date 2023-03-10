@@ -63,7 +63,6 @@ function App() {
                 <Tooltip content={"配置列表数据请求频率"}>
                   <InputNumber
                     formatter={(value) => `${value}`.replace(/\D/g, "")}
-                    onNumberChange={(number) => console.log(number)}
                     min={300}
                     value={rate}
                     onChange={(v) => setRate(Number(v))}

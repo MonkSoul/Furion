@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System.Net.Http;
 using System.Text.Json;
 
 namespace Furion.Web.Core;
@@ -60,11 +61,18 @@ public sealed class Startup : AppStartup
             options.AddJob(JobBuilder.Create<TestJob>().SetDescription("这是定时任务包含多个作业触发器")
                 , Triggers.Minutely(), Triggers.Period(5000).SetDescription("这是作业触发器，间隔 5 秒"));
             options.AddJob<TestJob>(Triggers.Hourly());
+
+            options.AddHttpJob(request =>
+            {
+                request.RequestUri = "https://www.chinadot.net";
+                request.HttpMedhod = HttpMethod.Get;
+            }, Triggers.PeriodSeconds(5));
         });
 
         // 新版本任务队列
         services.AddTaskQueue();
     }
+
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
     {

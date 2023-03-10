@@ -26,4 +26,14 @@ export declare interface TriggerTimeline {
    * 作业触发器状态
    */
   status?: number | null;
+
+  /**
+   * 执行结果
+   */
+  result?: string | null;
+
+  /**
+   * 执行耗时
+   */
+  elapsedTime?: number | null;
 }

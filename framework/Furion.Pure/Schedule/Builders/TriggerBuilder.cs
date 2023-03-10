@@ -529,6 +529,30 @@ public sealed class TriggerBuilder : Trigger
     }
 
     /// <summary>
+    /// 设置本次执行结果
+    /// </summary>
+    /// <param name="result">设置本次执行结果</param>
+    /// <returns><see cref="TriggerBuilder"/></returns>
+    public TriggerBuilder SetResult(string result)
+    {
+        Result = result;
+
+        return this;
+    }
+
+    /// <summary>
+    /// 设置执行耗时
+    /// </summary>
+    /// <param name="elapsedTime">执行耗时</param>
+    /// <returns><see cref="TriggerBuilder"/></returns>
+    public TriggerBuilder SetElapsedTime(long elapsedTime)
+    {
+        ElapsedTime = elapsedTime;
+
+        return this;
+    }
+
+    /// <summary>
     /// 标记作业触发器计划为新增行为
     /// </summary>
     /// <returns><see cref="TriggerBuilder"/></returns>
