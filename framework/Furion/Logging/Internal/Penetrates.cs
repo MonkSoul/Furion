@@ -168,7 +168,7 @@ internal static class Penetrates
     /// <returns></returns>
     private static string PadLeftAlign(string message)
     {
-        var newMessage = string.Join(Environment.NewLine, message.Split(Environment.NewLine)
+        var newMessage = string.Join(Environment.NewLine, message.Split(new[] { Environment.NewLine, "\n" }, StringSplitOptions.None)
                     .Select(line => string.Empty.PadLeft(6, ' ') + line));
 
         return newMessage;
