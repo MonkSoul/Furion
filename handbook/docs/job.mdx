@@ -13,6 +13,9 @@ import Tag from "@site/src/components/Tag.js";
 
 - **新特性**
 
+  - &nbsp;<Tag>新增</Tag> **定时任务 `HTTP` 作业，支持定时请求互联网 `URL` 地址** <sup>4.8.7.7</sup> <sup>⏱️2023.03.11</sup> [01d4466](https://gitee.com/dotnetchina/Furion/commit/01d446620c20e373f198195797896d8c96feeb15)
+  - &nbsp;<Tag>新增</Tag> **定时任务作业触发器 `Trigger` 执行结果 `Result` 和执行耗时 `ElapsedTime` 属性** <sup>4.8.7.7</sup> <sup>⏱️2023.03.11</sup> [01d4466](https://gitee.com/dotnetchina/Furion/commit/01d446620c20e373f198195797896d8c96feeb15)
+  - &nbsp;<Tag>新增</Tag> **定时任务作业看板支持查看作业触发器执行结果 `Result` 和执行耗时 `ElapsedTime` 属性** <sup>4.8.7.7</sup> <sup>⏱️2023.03.11</sup> [01d4466](https://gitee.com/dotnetchina/Furion/commit/01d446620c20e373f198195797896d8c96feeb15)
   - &nbsp;<Tag>新增</Tag> 定时任务休眠时长和唤醒时机日志输出 <sup>4.8.7.6</sup> <sup>⏱️2023.03.08</sup> [#I6LANE](https://gitee.com/dotnetchina/Furion/issues/I6LANE)
   - &nbsp;<Tag>新增</Tag> 定时任务 `IScheduler.[Try]UpdateDetail(builder => {})` 和 `IScheduler.[Try]UpdateTrigger(triggerId, builder => {})` 重载方法 <sup>4.8.6</sup> <sup>⏱️2023.02.08</sup> [6e43a54](https://gitee.com/dotnetchina/Furion/commit/6e43a542f1a7e10bf996c6e0179a40d434d8682e)
 
@@ -79,6 +82,7 @@ scheduler.UpdateTrigger("triggerId", triggerBuilder =>
 
 - **问题修复**
 
+  - &nbsp;<Tag>修复</Tag> 定时任务看板删除不存在的作业触发器出现空异常 <sup>4.8.7.7</sup> <sup>⏱️2023.03.11</sup> [01d4466](https://gitee.com/dotnetchina/Furion/commit/01d446620c20e373f198195797896d8c96feeb15)
   - &nbsp;<Tag>修复</Tag> 定时任务 `StartAll` 出现个别作业显示 `无触发时间` 的状态 <sup>4.8.4.14</sup> <sup>⏱️2023.01.12</sup> [#I6A08X](https://gitee.com/dotnetchina/Furion/issues/I6A08X)
   - &nbsp;<Tag>修复</Tag> 定时任务停止作业触发器后运行记录不能写入最新记录问题 <sup>4.8.4.8</sup> <sup>⏱️2023.01.05</sup> [d4c553f](https://gitee.com/dotnetchina/Furion/commit/d4c553fb9b0037ab29942ccc2a25a386fc28c1db)
   - &nbsp;<Tag>修复</Tag> 定时任务使用 `Furion.Pure` 包访问 `Dashboard` 出现 `404` 问题 <sup>4.8.4.2</sup> <sup>⏱️2023.01.02</sup> [21977b7](https://gitee.com/dotnetchina/Furion/commit/21977b70ef84fd674bb306ab86ef032f7f28c7a7)
@@ -92,6 +96,7 @@ scheduler.UpdateTrigger("triggerId", triggerBuilder =>
 
 - **其他更改**
 
+  - &nbsp;<Tag>调整</Tag> **定时任务查看作业触发器运行记录由保存 `10条` 改为 `5条`** <sup>4.8.7.7</sup> <sup>⏱️2023.03.07</sup> [01d4466](https://gitee.com/dotnetchina/Furion/commit/01d446620c20e373f198195797896d8c96feeb15)
   - &nbsp;<Tag>调整</Tag> 定时任务调度器时间精度，控制持续执行一年误差在 `100ms` 以内 <sup>4.8.2.9</sup> <sup>⏱️2022.12.01</sup> [334d089](https://gitee.com/dotnetchina/Furion/commit/334d08989503bacd8bf2abb2cc87cf2031dc9da6)
   - &nbsp;<Tag>调整</Tag> 定时任务作业计划工厂 `GetNextRunJobs()` 方法逻辑 <sup>4.8.2.7</sup> <sup>⏱️2022.11.30</sup> [#I63VS2](https://gitee.com/dotnetchina/Furion/issues/I63VS2)
 
@@ -435,6 +440,8 @@ info: 2022-12-02 18:00:59.4140802 +08:00 星期五 L MyJob[0] #13
         "startNow": true,
         "runOnStart": false,
         "resetOnlyOnce": true,
+        "result": null,
+        "elapsedTime": 100,
         "updatedTime": "2022-12-02 18:00:59.390"
       }
       }
@@ -463,7 +470,7 @@ public class MyJob : IJob
 
 查看作业打印结果：
 
-```json showLineNumbers {2-12,14-35}
+```json showLineNumbers {2-12,14-37}
 info: 2022-12-02 18:02:10.7923360 +08:00 星期五 L MyJob[0] #8
       {
         "jobId": "job1",
@@ -498,6 +505,8 @@ info: 2022-12-02 18:02:10.8008708 +08:00 星期五 L MyJob[0] #8
         "start_now": true,
         "run_on_start": false,
         "reset_only_once": true,
+        "result": null,
+        "elapsed_time": 100,
         "updated_time": "2022-12-02 18:02:10.774"
       }
 ```
@@ -579,6 +588,8 @@ info: 2022-12-02 18:03:11.8669134 +08:00 星期五 L MyJob[0] #13
           start_now = 1,
           run_on_start = 0,
           reset_only_once = 1,
+          result = NULL,
+          elapsed_time = 100,
           updated_time = '2022-12-02 18:03:11.836'
       WHERE trigger_id = 'job1_trigger1' AND job_id = 'job1';
 ```
@@ -645,6 +656,8 @@ info: 2022-12-02 18:04:06.2868205 +08:00 星期五 L MyJob[0] #8
       ┣ startNow：                 True
       ┣ runOnStart：               False
       ┣ resetOnlyOnce：            True
+      ┣ result：
+      ┣ elapsedTime：              100
       ┣ updatedTime：              2022-12-02 18:04:06.254
       ┗━━━━━━━━━━━  Trigger ━━━━━━━━━━━
 ```
@@ -785,6 +798,59 @@ info: 2022-12-02 18:13:08.0114292 +08:00 星期五 L MyJob[0] #13
       <job1> [C] <job1 job1_trigger3> 3,7,8 * * * * ? 3ts 2022-12-02 18:13:08.000 -> 2022-12-02 18:14:03.000
 info: 2022-12-02 18:13:11.4774564 +08:00 星期五 L MyJob[0] #16
       <job1> [C] <job1 job1_trigger1> 5s 3ts 2022-12-02 18:13:11.463 -> 2022-12-02 18:13:16.445
+```
+
+### 26.1.2.7 `HTTP` 请求作业
+
+:::important 版本说明
+
+以下内容仅限 `Furion 4.8.7.7 +` 版本使用。
+
+:::
+
+`HTTP` 请求作业通常用于定时请求/访问互联网地址。
+
+```cs showLineNumbers {3}
+services.AddSchedule(options =>
+{
+      options.AddHttpJob(request =>
+      {
+            request.RequestUri = "https://www.chinadot.net";
+            request.HttpMedhod = HttpMethod.Get;
+            // request.Body = "{}"; // 设置请求报文体
+      }, Triggers.PeriodSeconds(5));
+});
+```
+
+作业执行日志如下：
+
+```bash showLineNumbers {13-26}
+info: 2023-03-11 11:05:36.3616747 +08:00 星期六 L System.Logging.ScheduleService[0] #1
+      Schedule hosted service is running.
+info: 2023-03-11 11:05:36.3652411 +08:00 星期六 L System.Logging.ScheduleService[0] #1
+      Schedule hosted service is preloading...
+info: 2023-03-11 11:05:36.5172940 +08:00 星期六 L System.Logging.ScheduleService[0] #1
+      The <job1_trigger1> trigger for scheduler of <job1> successfully appended to the schedule.
+info: 2023-03-11 11:05:36.5189296 +08:00 星期六 L System.Logging.ScheduleService[0] #1
+      The scheduler of <job1> successfully appended to the schedule.
+warn: 2023-03-11 11:05:36.5347816 +08:00 星期六 L System.Logging.ScheduleService[0] #1
+      Schedule hosted service preload completed, and a total of <1> schedulers are appended.
+warn: 2023-03-11 11:05:41.5228138 +08:00 星期六 L System.Logging.ScheduleService[0] #15
+      Schedule hosted service will sleep <4970> milliseconds and be waked up at <2023-03-11 11:05:46.486>.
+info: 2023-03-11 11:05:41.5542865 +08:00 星期六 L System.Net.Http.HttpClient.HttpJob.LogicalHandler[100] #9
+      Start processing HTTP request GET https://www.chinadot.net/
+info: 2023-03-11 11:05:41.5589056 +08:00 星期六 L System.Net.Http.HttpClient.HttpJob.ClientHandler[100] #9
+      Sending HTTP request GET https://www.chinadot.net/
+info: 2023-03-11 11:05:44.1305461 +08:00 星期六 L System.Net.Http.HttpClient.HttpJob.ClientHandler[101] #8
+      Received HTTP response headers after 2566.7836ms - 200
+info: 2023-03-11 11:05:44.1343977 +08:00 星期六 L System.Net.Http.HttpClient.HttpJob.LogicalHandler[101] #8
+      End processing HTTP request after 2584.2327ms - 200
+info: 2023-03-11 11:05:48.6475959 +08:00 星期六 L System.Logging.ScheduleService[0] #4
+      Received HTTP response body with a length of <63639> output as follows - 200
+      <!DOCTYPE html><html><head>
+            <title>dotNET China | 让 .NET 开发更简单，更通用，更流行</title>
+      ......
+          </body></html>
 ```
 
 ## 26.1.3 作业信息 `JobDetail` 及构建器
@@ -1728,6 +1794,228 @@ crit: 2022-12-04 12:49:10.4360088 +08:00 星期日 L System.Logging.ScheduleServ
       Schedule hosted service is stopped.
 ```
 
+### 26.1.4.7 设置本次执行结果
+
+:::important 版本说明
+
+以下内容仅限 `Furion 4.8.7.7 +` 版本使用。
+
+:::
+
+有时候我们希望能够记录本次作业触发器触发返回结果，可通过 `context.Result` 进行设置。
+
+也可以通过该值来判断作业是否成功执行，如设置了 `Result` 值但实际发现 `trigger.Result` 为 `null`，那么也就是本次执行未成功。
+
+```cs showLineNumbers {13}
+public class MyJob : IJob
+{
+    private readonly ILogger<MyJob> _logger;
+    public MyJob(ILogger<MyJob> logger)
+    {
+        _logger = logger;
+    }
+
+    public async Task ExecuteAsync(JobExecutingContext context, CancellationToken stoppingToken)
+    {
+        _logger.LogInformation($"{context}");
+
+        context.Result = "执行成功并返回 OK";
+        await Task.CompletedTask;
+    }
+}
+```
+
+### 26.1.4.8 `HTTP` 请求作业
+
+:::important 版本说明
+
+以下内容仅限 `Furion 4.8.7.7 +` 版本使用。
+
+:::
+
+`HTTP` 请求作业通常用于定时请求/访问互联网地址。
+
+```cs showLineNumbers {3}
+services.AddSchedule(options =>
+{
+      options.AddHttpJob(request =>
+      {
+            request.RequestUri = "https://www.chinadot.net";
+            request.HttpMedhod = HttpMethod.Get;
+            // request.Body = "{}"; // 设置请求报文体
+      }, Triggers.PeriodSeconds(5));
+});
+```
+
+作业执行日志如下：
+
+```bash showLineNumbers {13-26}
+info: 2023-03-11 11:05:36.3616747 +08:00 星期六 L System.Logging.ScheduleService[0] #1
+      Schedule hosted service is running.
+info: 2023-03-11 11:05:36.3652411 +08:00 星期六 L System.Logging.ScheduleService[0] #1
+      Schedule hosted service is preloading...
+info: 2023-03-11 11:05:36.5172940 +08:00 星期六 L System.Logging.ScheduleService[0] #1
+      The <job1_trigger1> trigger for scheduler of <job1> successfully appended to the schedule.
+info: 2023-03-11 11:05:36.5189296 +08:00 星期六 L System.Logging.ScheduleService[0] #1
+      The scheduler of <job1> successfully appended to the schedule.
+warn: 2023-03-11 11:05:36.5347816 +08:00 星期六 L System.Logging.ScheduleService[0] #1
+      Schedule hosted service preload completed, and a total of <1> schedulers are appended.
+warn: 2023-03-11 11:05:41.5228138 +08:00 星期六 L System.Logging.ScheduleService[0] #15
+      Schedule hosted service will sleep <4970> milliseconds and be waked up at <2023-03-11 11:05:46.486>.
+info: 2023-03-11 11:05:41.5542865 +08:00 星期六 L System.Net.Http.HttpClient.HttpJob.LogicalHandler[100] #9
+      Start processing HTTP request GET https://www.chinadot.net/
+info: 2023-03-11 11:05:41.5589056 +08:00 星期六 L System.Net.Http.HttpClient.HttpJob.ClientHandler[100] #9
+      Sending HTTP request GET https://www.chinadot.net/
+info: 2023-03-11 11:05:44.1305461 +08:00 星期六 L System.Net.Http.HttpClient.HttpJob.ClientHandler[101] #8
+      Received HTTP response headers after 2566.7836ms - 200
+info: 2023-03-11 11:05:44.1343977 +08:00 星期六 L System.Net.Http.HttpClient.HttpJob.LogicalHandler[101] #8
+      End processing HTTP request after 2584.2327ms - 200
+info: 2023-03-11 11:05:48.6475959 +08:00 星期六 L System.Logging.ScheduleService[0] #4
+      Received HTTP response body with a length of <63639> output as follows - 200
+      <!DOCTYPE html><html><head>
+            <title>dotNET China | 让 .NET 开发更简单，更通用，更流行</title>
+      ......
+          </body></html>
+```
+
+-----
+
+**❤️ 如何自定义 `HTTP` 作业**
+
+默认情况下，`Furion` 框架提供有限的 `HTTP` 配置参数，如果不能满足可自行定义。
+
+1. 自定义 `Http` 参数类：`MyHttpJobMessage`
+
+```cs showLineNumbers {6}
+namespace YourProject.Core;
+
+/// <summary>
+/// HTTP 作业消息
+/// </summary>
+public class MyHttpJobMessage
+{
+    /// <summary>
+    /// 请求地址
+    /// </summary>
+    public string RequestUri { get; set; }
+
+    /// <summary>
+    /// 请求方法
+    /// </summary>
+    public HttpMethod HttpMedhod { get; set; } = HttpMethod.Get;
+
+    /// <summary>
+    /// 请求报文体
+    /// </summary>
+    public string Body { get; set; }
+}
+```
+
+2. 自定义 `Http` 作业处理程序：`MyHttpJob`
+
+```cs showLineNumbers {4,9,39,48,66-67,70,73,79}
+/// <summary>
+/// HTTP 请求作业处理程序
+/// </summary>
+public class MyHttpJob : IJob // 也可以继承内部的 HttpJob 类
+{
+    /// <summary>
+    /// <see cref="HttpClient"/> 创建工厂
+    /// </summary>
+    private readonly IHttpClientFactory _httpClientFactory;
+
+    /// <summary>
+    /// 日志服务
+    /// </summary>
+    private readonly ILogger<MyHttpJob> _logger;
+
+    /// <summary>
+    /// 构造函数
+    /// </summary>
+    /// <param name="httpClientFactory"><see cref="HttpClient"/> 创建工厂</param>
+    /// <param name="logger">日志服务</param>
+    public HttpJob(IHttpClientFactory httpClientFactory
+        , ILogger<MyHttpJob> logger)
+    {
+        _httpClientFactory = httpClientFactory;
+        _logger = logger;
+    }
+
+    /// <summary>
+    /// 具体处理逻辑
+    /// </summary>
+    /// <param name="context">作业执行前上下文</param>
+    /// <param name="stoppingToken">取消任务 Token</param>
+    /// <returns><see cref="Task"/></returns>
+    public async Task ExecuteAsync(JobExecutingContext context, CancellationToken stoppingToken)
+    {
+        var jobDetail = context.JobDetail;
+
+        // 解析 HTTP 请求参数，键名称为类名
+        var httpJobMessage = Penetrates.Deserialize<MyHttpJobMessage>(jobDetail.GetProperty<string>(nameof(MyHttpJob)));
+
+        // 空检查
+        if (httpJobMessage == null || string.IsNullOrWhiteSpace(httpJobMessage.RequestUri))
+        {
+            return;
+        }
+
+        // 创建请求客户端
+        using var httpClient = _httpClientFactory.CreateClient(); // CreateClient 可以传入一个字符串进行全局配置 Client
+
+        // 添加请求报文头 User-Agent
+        httpClient.DefaultRequestHeaders.Add("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.5112.81 Safari/537.36 Edg/104.0.1293.47");
+
+        // 创建请求对象
+        var httpRequestMessage = new HttpRequestMessage(httpJobMessage.HttpMedhod, httpJobMessage.RequestUri);
+
+        // 添加请求报文体，默认只支持发送 application/json 类型
+        if (httpJobMessage.HttpMedhod != HttpMethod.Get
+            && httpJobMessage.HttpMedhod != HttpMethod.Head
+            && !string.IsNullOrWhiteSpace(httpJobMessage.Body))
+        {
+            var stringContent = new StringContent(httpJobMessage.Body, Encoding.UTF8);
+            stringContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+            httpRequestMessage.Content = stringContent;
+        }
+
+        // 更多自定义参数========================
+        // Your Code ....
+
+        // 发送请求并确保成功
+        var httpResponseMessage = await httpClient.SendAsync(httpRequestMessage, stoppingToken);
+
+        // 解析返回值
+        var bodyString = await httpResponseMessage.Content.ReadAsStringAsync(stoppingToken);
+
+        // 输出日志
+        _logger.LogInformation($"Received HTTP response body with a length of <{bodyString.Length}> output as follows - {(int)httpResponseMessage.StatusCode}{Environment.NewLine}{bodyString}");
+
+        // 设置本次执行结果
+        context.Result = Penetrates.Serialize(new
+        {
+            httpResponseMessage.StatusCode,
+            Body = bodyString
+        });
+    }
+}
+```
+
+3. 注册自定义 `Http` 作业
+
+```cs showLineNumbers {4-7}
+services.AddSchedule(options =>
+{
+      // 创建 HTTP 作业消息
+      var httpJobMessage = new YourHttpJobMessage();
+      var jobBuilder = JobBuilder.Create<MyHttpJob>()
+                                       // 添加作业附加信息
+                                       .AddProperty(nameof(MyHttpJob), Schedular.Serialize(httpJobMessage));
+      // 添加作业
+      options.AddJob(jobBuilder, Triggers.PeriodSeconds(5));
+});
+```
+
 ## 26.1.5 作业触发器 `Trigger` 及构建器
 
 ### 26.1.5.1 关于作业触发器
@@ -1756,6 +2044,8 @@ crit: 2022-12-04 12:49:10.4360088 +08:00 星期日 L System.Logging.ScheduleServ
 | `StartNow`          | `bool`          | `true`  | 是否立即启动                                                         |
 | `RunOnStart`        | `bool`          | `false` | 是否启动时执行一次                                                   |
 | `ResetOnlyOnce`     | `bool`          | `true`  | 是否在启动时重置最大触发次数等于一次的作业                           |
+| `Result`            | `string`        |         | 本次执行返回结果，`Furion 4.8.7.7+`                                 |
+| `ElapsedTime`       | `long`          | `0`     | 本次执行耗时，单位 `ms`，`Furion 4.8.7.7+`                          |
 | `UpdatedTime`       | `DateTime?`     |         | 作业触发器更新时间                                                   |
 
 ### 26.1.5.2 作业触发器状态
@@ -1826,7 +2116,7 @@ var triggerBuilder = trigger.GetBuilder();
 
 该方式非常灵活，可从配置文件，`JSON` 字符串，或其他能够返回 `JSON` 字符串的地方创建。
 
-```cs showLineNumbers {2-24}
+```cs showLineNumbers {2-26}
 var triggerBuilder = Triggers.From(@"
 {
 	""triggerId"": ""job1_trigger1"",
@@ -1849,13 +2139,15 @@ var triggerBuilder = Triggers.From(@"
 	""startNow"": true,
 	""runOnStart"": false,
 	""resetOnlyOnce"": true,
+	""result"": null,
+	""elapsedTime"": 100,
 	""updatedTime"": ""2022-12-04 16:13:00.045""
 }");
 ```
 
 如果使用的是 `.NET7`，可使用 `"""` 避免转义，如：
 
-```cs showLineNumbers {2-24}
+```cs showLineNumbers {2-26}
 var triggerBuilder = Triggers.From("""
 {
       "triggerId": "job1_trigger1",
@@ -1878,6 +2170,8 @@ var triggerBuilder = Triggers.From("""
       "startNow": true,
       "runOnStart": false,
       "resetOnlyOnce": true,
+      "result": null,
+      "elapsedTime": 100,
       "updatedTime": "2022-12-04 16:13:00.045"
 }
 """);
@@ -2407,7 +2701,7 @@ public class MyJob : IJob
 
 `TriggerBuilder` 提供了和 `Trigger` 完全匹配的 `Set[属性名]` 方法来配置作业触发器各个属性，如：
 
-```cs showLineNumbers {3,27}
+```cs showLineNumbers {3,29}
  services.AddSchedule(options =>
  {
      var triggerBuilder = Triggers.Period(5000)
@@ -2432,6 +2726,8 @@ public class MyJob : IJob
          .SetStartNow(true)  // 作业触发器是否立即启动
          .SetRunOnStart(false)    // 作业触发器是否启动时执行一次
          .SetResetOnlyOnce(true)    // 作业触发器是否在启动时重置最大触发次数等于一次的作业
+         .SetResult("本次返回结果")    // 作业触发器本次执行返回结果，Furion 4.8.7.7+
+         .SetElapsedTime(100)    // 作业触发器本次执行耗时，Furion 4.8.7.7+
          ;
 
      options.AddJob<MyJob>(triggerBuilder);
@@ -2517,6 +2813,8 @@ var json = trigger.ConvertToJSON();
   "startNow": true,
   "runOnStart": false,
   "resetOnlyOnce": true,
+  "result": null,
+  "elapsedTime": 100,
   "updatedTime": "2022-12-04 17:52:34.803"
 }
 ```
@@ -2548,7 +2846,7 @@ var updateSql = trigger.ConvertToUpdateSQL("tbName", NamingConventions.UnderScor
 
 字符串打印如下：
 
-```sql showLineNumbers {2,49,52}
+```sql showLineNumbers {2,53,56}
 -- 新增操作
 INSERT INTO tbName(
       triggerId,
@@ -2571,6 +2869,8 @@ INSERT INTO tbName(
       startNow,
       runOnStart,
       resetOnlyOnce,
+      result,
+      elapsedTime,
       updatedTime
 )
 VALUES(
@@ -2594,6 +2894,8 @@ VALUES(
       1,
       0,
       1,
+      NULL,
+      100,
       '2022-12-04 17:54:42.754'
 );
 -- 删除操作
@@ -2622,6 +2924,8 @@ SET
       start_now = 1,
       run_on_start = 0,
       reset_only_once = 1,
+      result = NULL,
+      elapsedTime = 100,
       updated_time = '2022-12-04 17:54:42.754'
 WHERE trigger_id = 'job1_trigger1' AND job_id = 'job1';
 ```
@@ -2658,6 +2962,8 @@ var monitor = trigger.ConvertToMonitor();
 ┣ startNow：                 True
 ┣ runOnStart：               False
 ┣ resetOnlyOnce：            True
+┣ result：
+┣ elapsedTime：              100
 ┣ updatedTime：              2022-12-04 17:56:55.413
 ┗━━━━━━━━━━━  Trigger ━━━━━━━━━━━
 ```
@@ -2831,6 +3137,8 @@ var schedulerBuilder = SchedulerBuilder.From(@"
 		""startNow"": true,
 		""runOnStart"": false,
 		""resetOnlyOnce"": true,
+		""result"": null,
+		""elapsedTime"": 100,
 		""updatedTime"": ""2022-12-04 17:52:34.803""
 	}]
 }
@@ -2874,6 +3182,8 @@ var schedulerBuilder = SchedulerBuilder.From("""
             "startNow": true,
             "runOnStart": false,
             "resetOnlyOnce": true,
+            "result": null,
+            "elapsedTime": 10,
             "updatedTime": "2022-12-04 17:52:34.803"
       }]
 }
@@ -3026,6 +3336,8 @@ var json = schedulerBuilder.ConvertToJSON();
       "startNow": true,
       "runOnStart": false,
       "resetOnlyOnce": true,
+      "result": null,
+      "elapsedTime": 100,
       "updatedTime": "2022-12-04 17:52:34.803"
     }
   ]
@@ -3091,7 +3403,7 @@ services.AddSchedule(options =>
 
 - **内置方法配置**
 
-```cs showLineNumbers {4-18,21,24,27,30}
+```cs showLineNumbers {4-18,21-28,31,34,37,40}
 services.AddSchedule(options =>
 {
       // 添加作业
@@ -3110,6 +3422,16 @@ services.AddSchedule(options =>
       options.AddJob((serviceProvider, context, stoppingToken) => {}, "作业 Id", triggerBuilder, ...);
       options.AddJob((serviceProvider, context, stoppingToken) => {}, "作业 Id", concurrent: true, triggerBuilder, ...);
       options.AddJob((serviceProvider, context, stoppingToken) => {}, concurrent: true, triggerBuilder, ...);
+
+      // 添加 HTTP Job，Furion 4.8.7.7+
+      options.AddHttpJob(request => {}, triggerBuilder, ...);
+      options.AddHttpJob(request => {}, "作业 Id", triggerBuilder, ...);
+      options.AddHttpJob(request => {}, "作业 Id", concurrent: true, triggerBuilder, ...);
+      options.AddHttpJob(request => {}, concurrent: true, triggerBuilder, ...);
+      options.AddHttpJob<YourHttpJob>(request => {}, triggerBuilder, ...);
+      options.AddHttpJob<YourHttpJob>(request => {}, "作业 Id", triggerBuilder, ...);
+      options.AddHttpJob<YourHttpJob>(request => {}, "作业 Id", concurrent: true, triggerBuilder, ...);
+      options.AddHttpJob<YourHttpJob>(request => {}, concurrent: true, triggerBuilder, ...);
 
       // 添加作业执行监视器
       options.AddMonitor<YourJobMonitor>();
@@ -3635,7 +3957,7 @@ var scheduleResult = _schedulerFactory.TrySaveJob(SchedulerBuilder.Create<MyJob>
 
 框架提供了非常多的重载方法添加作业，如：
 
-```cs showLineNumbers {1,5,9,22,35}
+```cs showLineNumbers {1,5,9,22,35,48,62}
 // SchedulerBuilder 方式
 var scheduleResult = _schedulerFactory.TryAddJob(schedulerBuilder, out var scheduler);
 _schedulerFactory.AddJob(schedulerBuilder1, schedulerBuilder2, ...);
@@ -3682,6 +4004,33 @@ _schedulerFactory.AddJob((serviceProvider, context, stoppingToken) => { }, "job1
 // 支持配置 串行/ 并行
 var scheduleResult = _schedulerFactory.TryAddJob((serviceProvider, context, stoppingToken) => { }, true, new[] { triggerBuilder1, triggerBuilder2, ...}, out var scheduler);
 _schedulerFactory.AddJob((serviceProvider, context, stoppingToken) => { }, true, triggerBuilder1, triggerBuilder2, ...);
+
+// HTTP 作业，Furion 4.8.7.7+
+// 泛型方式
+var scheduleResult = _schedulerFactory.TryAddHttpJob<MyHttpJob>(request => {}, new[] { triggerBuilder1, triggerBuilder2, ...}, out var scheduler);
+_schedulerFactory.AddHttpJob<MyHttpJob>(request => {}, triggerBuilder1, triggerBuilder2, ...);
+// 支持配置作业 Id
+var scheduleResult = _schedulerFactory.TryAddHttpJob<MyHttpJob>(request => {}, "job1", new[] { triggerBuilder1, triggerBuilder2, ...}, out var scheduler);
+_schedulerFactory.AddHttpJob<MyHttpJob>(request => {}, "job1", triggerBuilder1, triggerBuilder2, ...);
+// 支持配置作业 Id + 串行/并行
+var scheduleResult = _schedulerFactory.TryAddHttpJob<MyHttpJob>(request => {}, "job1", true, new[] { triggerBuilder1, triggerBuilder2, ...}, out var scheduler);
+_schedulerFactory.AddHttpJob<MyHttpJob>(request => {}, "job1", true, triggerBuilder1, triggerBuilder2, ...);
+// 支持配置 串行/ 并行
+var scheduleResult = _schedulerFactory.TryAddHttpJob<MyHttpJob>(request => {}, true, new[] { triggerBuilder1, triggerBuilder2, ...}, out var scheduler);
+_schedulerFactory.AddHttpJob<MyHttpJob>(true, triggerBuilder1, triggerBuilder2, ...);
+
+// 默认方式
+var scheduleResult = _schedulerFactory.TryAddHttpJob(request => {}, new[] { triggerBuilder1, triggerBuilder2, ...}, out var scheduler);
+_schedulerFactory.AddHttpJob(request => {}, triggerBuilder1, triggerBuilder2, ...);
+// 支持配置作业 Id
+var scheduleResult = _schedulerFactory.TryAddHttpJob(request => {}, "job1", new[] { triggerBuilder1, triggerBuilder2, ...}, out var scheduler);
+_schedulerFactory.AddHttpJob(request => {}, "job1", triggerBuilder1, triggerBuilder2, ...);
+// 支持配置作业 Id + 串行/并行
+var scheduleResult = _schedulerFactory.TryAddHttpJob(request => {}, "job1", true, new[] { triggerBuilder1, triggerBuilder2, ...}, out var scheduler);
+_schedulerFactory.AddHttpJob(request => {}, "job1", true, triggerBuilder1, triggerBuilder2, ...);
+// 支持配置 串行/ 并行
+var scheduleResult = _schedulerFactory.TryAddHttpJob(request => {}, true, new[] { triggerBuilder1, triggerBuilder2, ...}, out var scheduler);
+_schedulerFactory.AddHttpJob(request => {}, true, triggerBuilder1, triggerBuilder2, ...);
 ```
 
 ### 26.1.10.6 更新作业
@@ -4418,6 +4767,8 @@ CREATE TABLE "JobTriggers" (
     "StartNow" INTEGER NOT NULL,
     "RunOnStart" INTEGER NOT NULL,
     "ResetOnlyOnce" INTEGER NOT NULL,
+    "Result" TEXT NULL,
+    "ElapsedTime" INTEGER NOT NULL,
     "UpdatedTime" TEXT NULL
 );
 ```
@@ -4465,6 +4816,8 @@ CREATE TABLE [JobTriggers] (
     [StartNow] bit NOT NULL,
     [RunOnStart] bit NOT NULL,
     [ResetOnlyOnce] bit NOT NULL,
+    [Result] nvarchar(max) NULL,
+    [ElapsedTime] bigint NOT NULL,
     [UpdatedTime] datetime2 NULL,
     CONSTRAINT [PK_JobTriggers] PRIMARY KEY ([Id])
 );
@@ -4514,6 +4867,8 @@ CREATE TABLE `JobTriggers` (
     `StartNow` tinyint(1) NOT NULL,
     `RunOnStart` tinyint(1) NOT NULL,
     `ResetOnlyOnce` tinyint(1) NOT NULL,
+    `Result` longtext CHARACTER SET utf8mb4 NULL,
+    `ElapsedTime` bigint NOT NULL,
     `UpdatedTime` datetime(6) NULL,
     CONSTRAINT `PK_JobTriggers` PRIMARY KEY (`Id`)
 ) CHARACTER SET=utf8mb4;
@@ -4561,6 +4916,8 @@ CREATE TABLE "JobTriggers" (
     "StartNow" boolean NOT NULL,
     "RunOnStart" boolean NOT NULL,
     "ResetOnlyOnce" boolean NOT NULL,
+    "Result" text NULL,
+    "ElapsedTime" bigint NOT NULL,
     "UpdatedTime" timestamp with time zone NULL,
     CONSTRAINT "PK_JobTriggers" PRIMARY KEY ("Id")
 );
@@ -4608,6 +4965,8 @@ CREATE TABLE "JobTriggers" (
     "StartNow" NUMBER(1) NOT NULL,
     "RunOnStart" NUMBER(1) NOT NULL,
     "ResetOnlyOnce" NUMBER(1) NOT NULL,
+    "Result" NVARCHAR2(2000),
+    "ElapsedTime" NUMBER(19) NOT NULL,
     "UpdatedTime" TIMESTAMP(7),
     CONSTRAINT "PK_JobTriggers" PRIMARY KEY ("Id")
 );
@@ -4655,6 +5014,8 @@ CREATE TABLE "JobTriggers" (
     "StartNow" BOOLEAN NOT NULL,
     "RunOnStart" BOOLEAN NOT NULL,
     "ResetOnlyOnce" BOOLEAN NOT NULL,
+    "Result" BLOB SUB_TYPE TEXT,
+    "ElapsedTime" BIGINT NOT NULL,
     "UpdatedTime" TIMESTAMP,
     CONSTRAINT "PK_JobTriggers" PRIMARY KEY ("Id")
 );
@@ -4839,6 +5200,16 @@ public class JobTrigger
     /// </summary>
     /// <remarks>解决因持久化数据已完成一次触发但启动时不再执行的问题</remarks>
     public bool ResetOnlyOnce { get; set; } = true;
+
+    /// <summary>
+    /// 本次执行结果
+    /// </summary>
+    public string? Result { get; set; }
+
+    /// <summary>
+    /// 本次执行耗时
+    /// </summary>
+    public long ElapsedTime { get; set; }
 
     /// <summary>
     /// 作业触发器更新时间
@@ -5046,6 +5417,18 @@ public class JobTrigger
     /// <remarks>解决因持久化数据已完成一次触发但启动时不再执行的问题</remarks>
     [SugarColumn(ColumnDescription = "是否在启动时重置最大触发次数等于一次的作业")]
     public bool ResetOnlyOnce { get; set; } = true;
+
+    /// <summary>
+    /// 本次执行结果
+    /// </summary>
+    [SugarColumn(ColumnDescription = "本次执行结果")]
+    public string? Result { get; set; }
+
+    /// <summary>
+    /// 本次执行耗时
+    /// </summary>
+    [SugarColumn(ColumnDescription = "本次执行耗时")]
+    public long ElapsedTime { get; set; }
 
     /// <summary>
     /// 更新时间

@@ -21,7 +21,7 @@ namespace Furion.Schedule;
 /// HTTP 请求作业处理程序
 /// </summary>
 [SuppressSniffer]
-public sealed class HttpJob : IJob
+public class HttpJob : IJob
 {
     /// <summary>
     /// <see cref="HttpClient"/> 创建工厂
@@ -55,7 +55,7 @@ public sealed class HttpJob : IJob
     {
         var jobDetail = context.JobDetail;
 
-        // 获取作业信息
+        // 解析 HTTP 请求参数
         var httpJobMessage = Penetrates.Deserialize<HttpJobMessage>(jobDetail.GetProperty<string>(nameof(HttpJob)));
 
         // 空检查
@@ -83,7 +83,7 @@ public sealed class HttpJob : IJob
             httpRequestMessage.Content = stringContent;
         }
 
-        // 发送请求并确保成功
+        // 发送请求
         var httpResponseMessage = await httpClient.SendAsync(httpRequestMessage, stoppingToken);
 
         // 确保请求成功
@@ -95,8 +95,12 @@ public sealed class HttpJob : IJob
         // 解析返回值
         var bodyString = await httpResponseMessage.Content.ReadAsStringAsync(stoppingToken);
 
+        // 输出日志
+        _logger.LogInformation($"Received HTTP response body with a length of <{bodyString.Length}> output as follows - {(int)httpResponseMessage.StatusCode}{Environment.NewLine}{bodyString}");
+
         // 设置本次执行结果
-        context.Result = Penetrates.Serialize(new {
+        context.Result = Penetrates.Serialize(new 
+        {
             httpResponseMessage.StatusCode,
             Body = bodyString
         });

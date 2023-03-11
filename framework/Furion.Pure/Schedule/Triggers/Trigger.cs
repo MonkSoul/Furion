@@ -162,7 +162,7 @@ public partial class Trigger
     public string Result { get; internal set; }
 
     /// <summary>
-    /// 执行耗时
+    /// 本次执行耗时
     /// </summary>
     [JsonInclude]
     public long ElapsedTime { get; internal set; }

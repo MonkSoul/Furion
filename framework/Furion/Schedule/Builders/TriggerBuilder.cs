@@ -541,9 +541,9 @@ public sealed class TriggerBuilder : Trigger
     }
 
     /// <summary>
-    /// 设置执行耗时
+    /// 设置本次执行耗时
     /// </summary>
-    /// <param name="elapsedTime">执行耗时</param>
+    /// <param name="elapsedTime">本次执行耗时</param>
     /// <returns><see cref="TriggerBuilder"/></returns>
     public TriggerBuilder SetElapsedTime(long elapsedTime)
     {
