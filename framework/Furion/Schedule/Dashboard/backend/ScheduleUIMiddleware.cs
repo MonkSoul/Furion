@@ -177,7 +177,7 @@ public sealed class ScheduleUIMiddleware
                         break;
                     // 移除作业触发器
                     case "remove":
-                        scheduler1.RemoveTrigger(triggerId);
+                        scheduler1?.RemoveTrigger(triggerId);
                         break;
                     // 获取作业触发器最近运行时间
                     case "timelines":

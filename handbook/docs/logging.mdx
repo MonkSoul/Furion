@@ -21,6 +21,7 @@ import Tag from "@site/src/components/Tag.js";
 
 - **问题修复**
 
+  - &nbsp;<Tag>修复</Tag> 日志消息没有处理 `\n` 换行符对齐问题 <sup>4.8.7.6</sup> <sup>⏱️2023.03.10</sup> [759bcc5](https://gitee.com/dotnetchina/Furion/commit/759bcc5dca09017f37a5be6ad2beefad33214fae)
   - &nbsp;<Tag>修复</Tag> 审计日志 `LoggingMonitor` 对特定参数贴有 `[FromServices]` 特性依旧记录问题 <sup>4.8.7.3</sup> <sup>⏱️2023.03.01</sup> [17b134e](https://gitee.com/dotnetchina/Furion/commit/17b134efd82baa31bff6a0e763f93839c767c364)
   - &nbsp;<Tag>修复</Tag> 在数据库日志的 `IDatabaseLoggingWriter` 实现类中依赖注入 `ILogger<>` 导致死循环 <sup>4.8.5.4</sup> <sup>⏱️2023.02.01</sup> [#I6C6QU](https://gitee.com/dotnetchina/Furion/issues/I6C6QU)
   - &nbsp;<Tag>修复</Tag> 数据库日志提供程序在应用程序终止时出现空异常问题 <sup>4.8.5</sup> <sup>⏱️2023.01.28</sup> [#I6AZ8Y](https://gitee.com/dotnetchina/Furion/issues/I6AZ8Y)

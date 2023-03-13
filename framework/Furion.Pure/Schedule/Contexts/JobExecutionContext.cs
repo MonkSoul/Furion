@@ -70,6 +70,11 @@ public abstract class JobExecutionContext
     public Guid RunId { get; }
 
     /// <summary>
+    /// 本次执行结果
+    /// </summary>
+    public string Result { get; set; }
+
+    /// <summary>
     /// 转换成 JSON 字符串
     /// </summary>
     /// <param name="naming">命名法</param>

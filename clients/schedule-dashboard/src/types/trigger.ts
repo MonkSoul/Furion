@@ -87,6 +87,14 @@ export declare interface Trigger {
    */
   resetOnlyOnce?: boolean | null;
   /**
+   * 执行结果
+   */
+  result?: string | null;
+  /**
+   * 执行耗时
+   */
+  elapsedTime?: number | null;
+  /**
    * 作业触发器更新时间
    */
   updatedTime?: string | null;

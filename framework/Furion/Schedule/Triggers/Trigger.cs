@@ -156,6 +156,18 @@ public partial class Trigger
     public bool ResetOnlyOnce { get; internal set; } = true;
 
     /// <summary>
+    /// 本次执行结果
+    /// </summary>
+    [JsonInclude]
+    public string Result { get; internal set; }
+
+    /// <summary>
+    /// 本次执行耗时
+    /// </summary>
+    [JsonInclude]
+    public long ElapsedTime { get; internal set; }
+
+    /// <summary>
     /// 作业触发器更新时间
     /// </summary>
     [JsonInclude]
