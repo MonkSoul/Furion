@@ -14,10 +14,30 @@ import Tag from "@site/src/components/Tag.js";
 - **新特性**
 
   - &nbsp;<Tag>新增</Tag> **定时任务 `HTTP` 作业，支持定时请求互联网 `URL` 地址** <sup>4.8.7.7</sup> <sup>⏱️2023.03.11</sup> [01d4466](https://gitee.com/dotnetchina/Furion/commit/01d446620c20e373f198195797896d8c96feeb15)
-  - &nbsp;<Tag>新增</Tag> **定时任务作业触发器 `Trigger` 执行结果 `Result` 和执行耗时 `ElapsedTime` 属性** <sup>4.8.7.7</sup> <sup>⏱️2023.03.11</sup> [01d4466](https://gitee.com/dotnetchina/Furion/commit/01d446620c20e373f198195797896d8c96feeb15)
-  - &nbsp;<Tag>新增</Tag> **定时任务作业看板支持查看作业触发器执行结果 `Result` 和执行耗时 `ElapsedTime` 属性** <sup>4.8.7.7</sup> <sup>⏱️2023.03.11</sup> [01d4466](https://gitee.com/dotnetchina/Furion/commit/01d446620c20e373f198195797896d8c96feeb15)
-  - &nbsp;<Tag>新增</Tag> 定时任务休眠时长和唤醒时机日志输出 <sup>4.8.7.6</sup> <sup>⏱️2023.03.08</sup> [#I6LANE](https://gitee.com/dotnetchina/Furion/issues/I6LANE)
-  - &nbsp;<Tag>新增</Tag> 定时任务 `IScheduler.[Try]UpdateDetail(builder => {})` 和 `IScheduler.[Try]UpdateTrigger(triggerId, builder => {})` 重载方法 <sup>4.8.6</sup> <sup>⏱️2023.02.08</sup> [6e43a54](https://gitee.com/dotnetchina/Furion/commit/6e43a542f1a7e10bf996c6e0179a40d434d8682e)
+
+<details style={{ marginLeft: 50 }}>
+  <summary>查看变化</summary>
+  <div>
+
+```cs showLineNumbers {3}
+services.AddSchedule(options =>
+{
+      options.AddHttpJob(request =>
+      {
+            request.RequestUri = "https://www.chinadot.net";
+            request.HttpMedhod = HttpMethod.Get;
+            // request.Body = "{}"; // 设置请求报文体
+      }, Triggers.PeriodSeconds(5));
+});
+```
+
+  </div>
+</details>
+
+- - &nbsp;<Tag>新增</Tag> **定时任务作业触发器 `Trigger` 执行结果 `Result` 和执行耗时 `ElapsedTime` 属性** <sup>4.8.7.7</sup> <sup>⏱️2023.03.11</sup> [01d4466](https://gitee.com/dotnetchina/Furion/commit/01d446620c20e373f198195797896d8c96feeb15)
+- - &nbsp;<Tag>新增</Tag> **定时任务作业看板支持查看作业触发器执行结果 `Result` 和执行耗时 `ElapsedTime` 属性** <sup>4.8.7.7</sup> <sup>⏱️2023.03.11</sup> [01d4466](https://gitee.com/dotnetchina/Furion/commit/01d446620c20e373f198195797896d8c96feeb15)
+- - &nbsp;<Tag>新增</Tag> 定时任务休眠时长和唤醒时机日志输出 <sup>4.8.7.6</sup> <sup>⏱️2023.03.08</sup> [#I6LANE](https://gitee.com/dotnetchina/Furion/issues/I6LANE)
+- - &nbsp;<Tag>新增</Tag> 定时任务 `IScheduler.[Try]UpdateDetail(builder => {})` 和 `IScheduler.[Try]UpdateTrigger(triggerId, builder => {})` 重载方法 <sup>4.8.6</sup> <sup>⏱️2023.02.08</sup> [6e43a54](https://gitee.com/dotnetchina/Furion/commit/6e43a542f1a7e10bf996c6e0179a40d434d8682e)
 
 <details style={{ marginLeft: 50 }}>
   <summary>查看变化</summary>
@@ -1460,6 +1480,7 @@ public class MyJob : IJob
   - `Trigger`：作业触发器
   - `OccurrenceTime`：作业计划触发时间，最准确的记录时间
   - `ExecutingTime`：实际执行时间（可能存在误差）
+  - `Result`：设置/读取本次作业执行结果，`Furion 4.8.7.7+` 提供
 - **`JobExecutingContext` 方法列表**
   - `.ConvertToJSON(naming)`：将上下文转换成 `JSON` 字符串
   - `.ToString()`：输出为字符串
@@ -1878,7 +1899,7 @@ info: 2023-03-11 11:05:48.6475959 +08:00 星期六 L System.Logging.ScheduleServ
           </body></html>
 ```
 
------
+---
 
 **❤️ 如何自定义 `HTTP` 作业**
 
@@ -2016,6 +2037,41 @@ services.AddSchedule(options =>
 });
 ```
 
+### 26.1.4.9 设置本次执行结果
+
+:::important 版本说明
+
+以下内容仅限 `Furion 4.8.7.7 +` 版本使用。
+
+:::
+
+在一些特定作业处理程序中，有时候希望输出（记录）本次作业一些返回值，此时可通过 `context.Result` 实现，如：
+
+```cs showLineNumbers{13}
+public class MyJob : IJob
+{
+    private readonly ILogger<MyJob> _logger;
+    public MyJob(ILogger<MyJob> logger)
+    {
+        _logger = logger;
+    }
+
+    public Task ExecuteAsync(JobExecutingContext context, CancellationToken stoppingToken)
+    {
+        _logger.LogInformation($"{context}");
+
+        context.Result = "设置本次执行的值";
+        return Task.CompletedTask;
+    }
+}
+```
+
+:::note `Result` 和 `Properties`
+
+除了通过 `context.Result` 设置作业本次执行结果以外，还可以通过 `jobDetail.AddOrUpdateProperty(key, value)` 的方式设置。区别在于前者会将值同步到 `Trigger` 的 `Result` 中，后者会将值同步在 `JobDetail` 的 `Properties` 中。
+
+:::
+
 ## 26.1.5 作业触发器 `Trigger` 及构建器
 
 ### 26.1.5.1 关于作业触发器
@@ -2044,8 +2100,8 @@ services.AddSchedule(options =>
 | `StartNow`          | `bool`          | `true`  | 是否立即启动                                                         |
 | `RunOnStart`        | `bool`          | `false` | 是否启动时执行一次                                                   |
 | `ResetOnlyOnce`     | `bool`          | `true`  | 是否在启动时重置最大触发次数等于一次的作业                           |
-| `Result`            | `string`        |         | 本次执行返回结果，`Furion 4.8.7.7+`                                 |
-| `ElapsedTime`       | `long`          | `0`     | 本次执行耗时，单位 `ms`，`Furion 4.8.7.7+`                          |
+| `Result`            | `string`        |         | 本次执行返回结果，`Furion 4.8.7.7+`                                  |
+| `ElapsedTime`       | `long`          | `0`     | 本次执行耗时，单位 `ms`，`Furion 4.8.7.7+`                           |
 | `UpdatedTime`       | `DateTime?`     |         | 作业触发器更新时间                                                   |
 
 ### 26.1.5.2 作业触发器状态
