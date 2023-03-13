@@ -3091,11 +3091,21 @@ services.AddSchedule(options =>
 
 :::
 
-在 `Furion 4.8.4.3+` 版本新增了 `GetTimelines()` 方法，可获取内存中作业触发器最近运行的 `10` 条记录，如：
+在 `Furion 4.8.4.3+` 版本新增了 `GetTimelines()` 方法，可获取内存中作业触发器最近运行的 `5` 条记录，如：
 
 ```cs showLineNumbers
 var timelines = trigger.GetTimelines();   // => [{numberOfRuns: 2, lastRunTime: "2023-01-03 14:00:08"}, {numberOfRuns: 1, lastRunTime: "2023-01-03 14:00:03"}, ...]
 ```
+
+`timelines` 返回值为 `IEnumerable<TriggerTimeline>` 类型，其中 `TriggerTimeline` 类型提供以下属性：
+
+- `TriggerTimeline`
+  - `NumberOfRuns`：当前运行次数，`long` 类型
+  - `LastRunTime`：最近运行时间，`DateTime?` 类型
+  - `NextRunTime`：下一次运行时间，`DateTime?` 类型
+  - `Status`：作业触发器状态，`TriggerStatus` 枚举类型
+  - `Result`：本次执行结果，`string` 类型
+  - `ElapsedTime`：本次执行耗时，`long` 类型，单位 `ms`
 
 ## 26.1.6 作业计划 `Scheduler` 及构建器
 
