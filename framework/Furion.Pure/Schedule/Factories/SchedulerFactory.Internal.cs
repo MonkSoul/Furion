@@ -270,6 +270,7 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory
                 return;
             }
             catch (InvalidOperationException) { }
+            catch { }
         }
     }
 
@@ -292,6 +293,7 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory
         }
         catch (TaskCanceledException) { }
         catch (AggregateException ex) when (ex.InnerExceptions.Count == 1 && ex.InnerExceptions[0] is TaskCanceledException) { }
+        catch { }
     }
 
     /// <summary>

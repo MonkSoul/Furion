@@ -117,6 +117,7 @@ public sealed class DatabaseLoggerProvider : ILoggerProvider, ISupportExternalSc
         }
         catch (TaskCanceledException) { }
         catch (AggregateException ex) when (ex.InnerExceptions.Count == 1 && ex.InnerExceptions[0] is TaskCanceledException) { }
+        catch { }
 
         // 清空数据库日志记录器
         _databaseLoggers.Clear();
@@ -140,6 +141,7 @@ public sealed class DatabaseLoggerProvider : ILoggerProvider, ISupportExternalSc
                 return;
             }
             catch (InvalidOperationException) { }
+            catch { }
         }
     }
 
