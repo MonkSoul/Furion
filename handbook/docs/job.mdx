@@ -102,6 +102,7 @@ scheduler.UpdateTrigger("triggerId", triggerBuilder =>
 
 - **问题修复**
 
+  - &nbsp;<Tag>修复</Tag> 定时任务服务在停止进程时会卡住 `30秒` 问题 <sup>4.8.7.8</sup> <sup>⏱️2023.03.13</sup> [#I6MI9I](https://gitee.com/dotnetchina/Furion/issues/I6MI9I) [#I6MHOU](https://gitee.com/dotnetchina/Furion/issues/I6MHOU)
   - &nbsp;<Tag>修复</Tag> 定时任务看板删除不存在的作业触发器出现空异常 <sup>4.8.7.7</sup> <sup>⏱️2023.03.11</sup> [01d4466](https://gitee.com/dotnetchina/Furion/commit/01d446620c20e373f198195797896d8c96feeb15)
   - &nbsp;<Tag>修复</Tag> 定时任务 `StartAll` 出现个别作业显示 `无触发时间` 的状态 <sup>4.8.4.14</sup> <sup>⏱️2023.01.12</sup> [#I6A08X](https://gitee.com/dotnetchina/Furion/issues/I6A08X)
   - &nbsp;<Tag>修复</Tag> 定时任务停止作业触发器后运行记录不能写入最新记录问题 <sup>4.8.4.8</sup> <sup>⏱️2023.01.05</sup> [d4c553f](https://gitee.com/dotnetchina/Furion/commit/d4c553fb9b0037ab29942ccc2a25a386fc28c1db)
@@ -841,6 +842,12 @@ services.AddSchedule(options =>
       }, Triggers.PeriodSeconds(5));
 });
 ```
+
+:::important `System.Net.Http.IHttpClientFactory` 错误
+
+如遇 `Unable to resolve service for type 'System.Net.Http.IHttpClientFactory' while attempting to activate 'Furion.Schedule.HttpJob'.` 错误，请先注册 `servces.AddHttpClient()` 服务。
+
+:::
 
 作业执行日志如下：
 
