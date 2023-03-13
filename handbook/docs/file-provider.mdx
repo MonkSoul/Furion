@@ -149,7 +149,8 @@ app.UseFileServer(new FileServerOptions
 public IActionResult FileDownload()
 {
     string filePath = "这里获取完整的文件下载路径";
-    return new FileStreamResult(new FileStream(filePath, FileMode.Open), "application/octet-stream") {
+    return new FileStreamResult(new FileStream(filePath, FileMode.Open), "application/octet-stream")
+    {
         FileDownloadName = fileName // 配置文件下载显示名
     };
 }
@@ -161,7 +162,8 @@ public IActionResult FileDownload()
 [HttpGet, NonUnify]
 public IActionResult FileDownload()
 {
-    return new FileContentResult(byte数组, "application/octet-stream") {
+    return new FileContentResult(byte数组, "application/octet-stream")
+    {
         FileDownloadName = fileName // 配置文件下载显示名
     };
 }
@@ -203,7 +205,7 @@ _httpContextAccessor.HttpContext.Response.Headers.Add("Access-Control-Expose-Hea
 
 ```cs showLineNumbers  {1,2,18}
 [HttpPost]
-public async Task<IActionResult> UploadFileAsync(IFormFile file)
+public async Task<string> UploadFileAsync(IFormFile file)
 {
     // 如：保存到网站根目录下的 uploads 目录
     var savePath = Path.Combine(App.HostEnvironment.ContentRootPath, "uploads");
@@ -224,8 +226,8 @@ public async Task<IActionResult> UploadFileAsync(IFormFile file)
         await file.CopyToAsync(stream);
     }
 
-    // 在动态 API 直接返回对象即可，无需 OK 和 IActionResult
-    return Ok(new { filename });
+    // 返回文件名（这里可以自由返回更多信息）
+    return filename;
 }
 ```
 
@@ -233,7 +235,7 @@ public async Task<IActionResult> UploadFileAsync(IFormFile file)
 
 ```cs showLineNumbers  {1,2,9,19}
 [HttpPost]
-public async Task UploadFileAsync([FromBody] string fileBase64, string clientFileName)
+public async Task<string> UploadFileAsync([FromBody] string fileBase64, string clientFileName)
 {
     // 如：保存到网站根目录下的 uploads 目录
     var savePath = Path.Combine(App.HostEnvironment.ContentRootPath, "uploads");
@@ -255,8 +257,8 @@ public async Task UploadFileAsync([FromBody] string fileBase64, string clientFil
         await fs.WriteAsync(bytes);
     }
 
-    // 在动态 API 直接返回对象即可，无需 OK 和 IActionResult
-    return Ok(new { fileName });
+    // 返回文件名（这里可以自由返回更多信息）
+    return filename;
 }
 ```
 
@@ -272,7 +274,7 @@ public async Task UploadFileAsync([FromBody] string fileBase64, string clientFil
 
 ```cs showLineNumbers  {1,12}
 [HttpPost]
-public async Task<IActionResult> UploadFileAsync(List<IFormFile> files)
+public async Task<object> UploadFileAsync(List<IFormFile> files)
 {
     // 保存到网站根目录下的 uploads 目录
     var savePath = Path.Combine(App.HostEnvironment.ContentRootPath, "uploads");
@@ -298,8 +300,8 @@ public async Task<IActionResult> UploadFileAsync(List<IFormFile> files)
         }
     }
 
-    // 在动态 API 直接返回对象即可，无需 OK 和 IActionResult
-    return Ok(new { count = files.Count, size });
+    // 这里可自行返回更多信息
+    return new { count = files.Count, size };
 }
 ```
 

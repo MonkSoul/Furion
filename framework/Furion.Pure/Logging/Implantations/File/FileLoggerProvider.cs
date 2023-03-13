@@ -151,6 +151,7 @@ public sealed class FileLoggerProvider : ILoggerProvider, ISupportExternalScope
         }
         catch (TaskCanceledException) { }
         catch (AggregateException ex) when (ex.InnerExceptions.Count == 1 && ex.InnerExceptions[0] is TaskCanceledException) { }
+        catch { }
 
         // 清空文件日志记录器
         _fileLoggers.Clear();
@@ -177,6 +178,7 @@ public sealed class FileLoggerProvider : ILoggerProvider, ISupportExternalScope
                 return;
             }
             catch (InvalidOperationException) { }
+            catch { }
         }
     }
 
