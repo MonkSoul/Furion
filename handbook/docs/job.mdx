@@ -13,6 +13,7 @@ import Tag from "@site/src/components/Tag.js";
 
 - **新特性**
 
+  - &nbsp;<Tag>新增</Tag> 定时任务作业执行上下文 `JobExecutionContext` 服务提供器 `ServiceProvider` 属性 <sup>4.8.7.10</sup> <sup>⏱️2023.03.14</sup>
   - &nbsp;<Tag>新增</Tag> **定时任务 `HTTP` 作业，支持定时请求互联网 `URL` 地址** <sup>4.8.7.7</sup> <sup>⏱️2023.03.11</sup> [01d4466](https://gitee.com/dotnetchina/Furion/commit/01d446620c20e373f198195797896d8c96feeb15)
 
 <details style={{ marginLeft: 50 }}>
@@ -1487,7 +1488,9 @@ public class MyJob : IJob
   - `Trigger`：作业触发器
   - `OccurrenceTime`：作业计划触发时间，最准确的记录时间
   - `ExecutingTime`：实际执行时间（可能存在误差）
+  - `RunId`：本次作业执行唯一 `Id`，`Furion 4.8.5.1+` 提供
   - `Result`：设置/读取本次作业执行结果，`Furion 4.8.7.7+` 提供
+  - `ServiceProvider`：服务提供器，`Furion 4.8.7.10+` 提供
 - **`JobExecutingContext` 方法列表**
   - `.ConvertToJSON(naming)`：将上下文转换成 `JSON` 字符串
   - `.ToString()`：输出为字符串
@@ -3689,6 +3692,9 @@ fail: 2022-12-05 14:25:24.3888126 +08:00 星期一 L ConsoleApp32.YourJobMonitor
   - `JobDetail`：作业信息
   - `Trigger`：作业触发器
   - `OccurrenceTime`：**作业计划触发时间，最准确的记录时间**
+  - `RunId`：本次作业执行唯一 `Id`，`Furion 4.8.5.1+` 提供
+  - `Result`：设置/读取本次作业执行结果，`Furion 4.8.7.7+` 提供
+  - `ServiceProvider`：服务提供器，`Furion 4.8.7.10+` 提供
 - **`JobExecutionContext` 方法列表**
   - `.ConvertToJSON(naming)`：将作业计划转换成 `JSON` 字符串
   - `.ToString()`：将作业执行信息输出为简要字符串

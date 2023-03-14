@@ -41,6 +41,11 @@ internal sealed class ScheduleHostedService : BackgroundService
     private readonly ISchedulerFactory _schedulerFactory;
 
     /// <summary>
+    /// 服务提供器
+    /// </summary>
+    private readonly IServiceProvider _serviceProvider;
+
+    /// <summary>
     /// 构造函数
     /// </summary>
     /// <param name="serviceProvider">服务提供器</param>
@@ -54,6 +59,7 @@ internal sealed class ScheduleHostedService : BackgroundService
         , bool useUtcTimestamp
         , string clusterId)
     {
+        _serviceProvider = serviceProvider;
         _logger = logger;
         _schedulerFactory = schedulerFactory;
 
@@ -195,7 +201,7 @@ internal sealed class ScheduleHostedService : BackgroundService
                         var runId = Guid.NewGuid();
 
                         // 创建作业执行前上下文
-                        var jobExecutingContext = new JobExecutingContext(jobDetail, trigger, occurrenceTime, runId)
+                        var jobExecutingContext = new JobExecutingContext(jobDetail, trigger, occurrenceTime, runId, _serviceProvider)
                         {
                             ExecutingTime = Penetrates.GetNowTime(UseUtcTimestamp)
                         };
@@ -283,7 +289,7 @@ internal sealed class ScheduleHostedService : BackgroundService
                             if (Monitor != default)
                             {
                                 // 创建作业执行后上下文
-                                var jobExecutedContext = new JobExecutedContext(jobDetail, trigger, occurrenceTime, runId)
+                                var jobExecutedContext = new JobExecutedContext(jobDetail, trigger, occurrenceTime, runId, _serviceProvider)
                                 {
                                     ExecutedTime = Penetrates.GetNowTime(UseUtcTimestamp),
                                     Exception = executionException,
