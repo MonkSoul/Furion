@@ -26,10 +26,12 @@ public abstract class JobExecutionContext
     /// <param name="trigger">作业触发器</param>
     /// <param name="occurrenceTime">作业计划触发时间</param>
     /// <param name="runId">当前作业触发器触发的唯一标识</param>
+    /// <param name="serviceProvider">服务提供器</param>
     internal JobExecutionContext(JobDetail jobDetail
         , Trigger trigger
         , DateTime occurrenceTime
-        , Guid runId)
+        , Guid runId
+        , IServiceProvider serviceProvider)
     {
         JobId = jobDetail.JobId;
         TriggerId = trigger.TriggerId;
@@ -37,7 +39,13 @@ public abstract class JobExecutionContext
         Trigger = trigger;
         OccurrenceTime = occurrenceTime;
         RunId = runId;
+        ServiceProvider = serviceProvider;
     }
+
+    /// <summary>
+    /// 服务提供器
+    /// </summary>
+    public IServiceProvider ServiceProvider { get; }
 
     /// <summary>
     /// 作业 Id

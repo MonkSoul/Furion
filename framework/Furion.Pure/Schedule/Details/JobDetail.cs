@@ -98,5 +98,5 @@ public partial class JobDetail
     /// <summary>
     /// 运行时动态作业执行逻辑
     /// </summary>
-    internal Func<IServiceProvider, JobExecutingContext, CancellationToken, Task> DynamicExecuteAsync { get; set; }
+    internal Func<JobExecutingContext, CancellationToken, Task> DynamicExecuteAsync { get; set; }
 }

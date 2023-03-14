@@ -5,8 +5,9 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System.Net.Http;
+using Microsoft.Extensions.Logging;
 using System.Text.Json;
+using System.Threading.Tasks;
 
 namespace Furion.Web.Core;
 
@@ -58,15 +59,21 @@ public sealed class Startup : AppStartup
         // 新版本定时任务测试
         services.AddSchedule(options =>
         {
-            options.AddJob(JobBuilder.Create<TestJob>().SetDescription("这是定时任务包含多个作业触发器")
-                , Triggers.Minutely(), Triggers.Period(5000).SetDescription("这是作业触发器，间隔 5 秒"));
-            options.AddJob<TestJob>(Triggers.Hourly());
+            //options.AddJob(JobBuilder.Create<TestJob>().SetDescription("这是定时任务包含多个作业触发器")
+            //    , Triggers.Minutely(), Triggers.Period(5000).SetDescription("这是作业触发器，间隔 5 秒"));
+            //options.AddJob<TestJob>(Triggers.Hourly());
 
-            options.AddHttpJob(request =>
-            {
-                request.RequestUri = "https://www.chinadot.net";
-                request.HttpMedhod = HttpMethod.Get;
-            }, Triggers.PeriodSeconds(5));
+            //options.AddHttpJob(request =>
+            //{
+            //    request.RequestUri = "https://www.chinadot.net";
+            //    request.HttpMedhod = HttpMethod.Get;
+            //}, Triggers.PeriodSeconds(5));
+
+            //options.AddJob((context, stoppingToken) =>
+            //{
+            //    context.ServiceProvider.GetLogger().LogInformation($"{context}");
+            //    return Task.CompletedTask;
+            //}, Triggers.PeriodSeconds(2));
         });
 
         // 新版本任务队列
