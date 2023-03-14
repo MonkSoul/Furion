@@ -99,13 +99,13 @@ scheduler.UpdateTrigger("triggerId", triggerBuilder =>
 
 - **突破性变化**
 
-  - &nbsp;<Tag>调整</Tag> **定时任务动态作业 `DynamicJob` 委托/方法签名** <sup>4.8.7.10</sup> <sup>⏱️2023.03.14</sup>
+  - &nbsp;<Tag>调整</Tag> **定时任务动态作业 `DynamicJob` 委托/方法签名** <sup>4.8.7.10</sup> <sup>⏱️2023.03.14</sup> [6d56b53](https://gitee.com/dotnetchina/Furion/commit/6d56b531f34c9d616202a6f53c31a10974065d56)
 
 <details style={{ marginLeft: 50 }}>
   <summary>查看变化</summary>
   <div>
 
-为了统一动态作业和普通作业的 `ExecuteAsync` 方法签名，故做出调整。
+减少记忆负担，统一动态作业和普通作业的 `ExecuteAsync` 方法签名，故做出调整。
 
 由：
 
