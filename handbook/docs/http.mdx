@@ -648,7 +648,7 @@ public interface IHttp : IHttpDispatchProxy
 
 调用：
 
-```cs showLineNumbers {1,3,9}
+```cs showLineNumbers {1,3,9,15}
 _http.PostXXXAsync("百小僧", (client, requestMessage) =>
 {
     requestMessage.AppendHeaders(new Dictionary<string , object> {
@@ -661,6 +661,10 @@ _http.PostXXXAsync("百小僧", (client, requestMessage) =>
         Authorization = "Bearer 你的token",
         Others = "其他"
     });
+
+    // 也可以使用原生
+    requestMessage.Headers.TryAddWithoutValidation("Authorization", "Bearer 你的token");
+    requestMessage.Headers.TryAddWithoutValidation("key", "value");
 });
 ```
 
