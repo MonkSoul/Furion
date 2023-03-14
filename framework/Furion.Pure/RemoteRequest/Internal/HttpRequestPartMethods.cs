@@ -511,13 +511,7 @@ public sealed partial class HttpRequestPart
         request.AppendQueries(Queries, EncodeUrl, IgnoreNullValueQueries);
 
         // 设置请求报文头
-        if (Headers != null)
-        {
-            foreach (var header in Headers)
-            {
-                if (header.Value != null) request.Headers.TryAddWithoutValidation(header.Key, header.Value.ToString());
-            }
-        }
+        request.AppendHeaders(Headers);
 
         // 验证模型参数（只作用于 body 类型）
         if (ValidationState.Enabled)

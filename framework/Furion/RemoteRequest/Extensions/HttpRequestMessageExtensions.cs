@@ -110,4 +110,29 @@ public static class HttpRequestMessageExtensions
 
         return items;
     }
+
+    /// <summary>
+    /// 追加请求报文头
+    /// </summary>
+    /// <param name="httpRequest"></param>
+    /// <param name="headers"></param>
+    public static void AppendHeaders(this HttpRequestMessage httpRequest, IDictionary<string, object> headers)
+    {
+        if (headers == null) return;
+
+        foreach (var header in headers)
+        {
+            if (header.Value != null) httpRequest.Headers.TryAddWithoutValidation(header.Key, header.Value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// 追加请求报文头
+    /// </summary>
+    /// <param name="httpRequest"></param>
+    /// <param name="headers"></param>
+    public static void AppendHeaders(this HttpRequestMessage httpRequest, object headers)
+    {
+        httpRequest.AppendHeaders(headers.ToDictionary());
+    }
 }

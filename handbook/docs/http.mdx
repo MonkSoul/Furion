@@ -13,6 +13,7 @@ import Tag from "@site/src/components/Tag.js";
 
 - **新特性**
 
+  - &nbsp;<Tag>新增</Tag> 远程请求 `HttpRequestMessage` 拓展方法 `AppendHeaders` <sup>4.8.7.10</sup> <sup>⏱️2023.03.14</sup> [#I6MVHT](https://gitee.com/dotnetchina/Furion/issues/I6MVHT)
   - &nbsp;<Tag>新增</Tag> 远程请求配置 `SetHttpVersion(version)` 配置，可配置 `HTTP` 请求版本，默认为 `1.1` <sup>4.8.5.8</sup> <sup>⏱️2023.02.06</sup> [#I6D64H](https://gitee.com/dotnetchina/Furion/issues/I6D64H)
   - &nbsp;<Tag>新增</Tag> 远程请求 `[QueryString]` 特性添加时间格式化 `Format` 属性 <sup>4.8.1.2</sup> <sup>⏱️2022.11.24</sup> [!670](https://gitee.com/dotnetchina/Furion/pulls/670)
 
@@ -630,6 +631,37 @@ public interface IHttp : IHttpDispatchProxy
     [Get("https://furion.baiqian.ltd")]
     Task<HttpResponseMessage> GetXXX2Async(int id, string name, [Headers("别名")]string token = default);
 }
+```
+
+-----
+
+**如需动态设置，可使用以下方式（添加参数拦截拦截器）：**
+
+```cs showLineNumbers {5}
+public interface IHttp : IHttpDispatchProxy
+{
+    // 通过参数拦截
+    [Post("https://furion.baiqian.ltd/post")]
+    Task<HttpResponseMessage> PostXXXAsync(string name, [Interceptor(InterceptorTypes.Request)] Action<HttpClient, HttpRequestMessage> action = default);
+}
+```
+
+调用：
+
+```cs showLineNumbers {1,3,9}
+_http.PostXXXAsync("百小僧", (client, requestMessage) =>
+{
+    requestMessage.AppendHeaders(new Dictionary<string , object> {
+        { "Authorization", "Bearer 你的token"},
+        { "X-Authorization", "Bearer 你的刷新token"}
+    });
+
+    // 也支持对象，匿名方式
+    requestMessage.AppendHeaders(new {
+        Authorization = "Bearer 你的token",
+        Others = "其他"
+    });
+});
 ```
 
 ### 19.5.4 设置 `URL` 地址参数
