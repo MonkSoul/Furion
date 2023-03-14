@@ -1110,4 +1110,36 @@ internal sealed partial class SchedulerFactory
             scheduler.Collate();
         }
     }
+
+    /// <summary>
+    /// 立即执行作业
+    /// </summary>
+    /// <param name="jobId">作业 Id</param>
+    /// <returns><see cref="ScheduleResult"/></returns>
+    public ScheduleResult TryRunJob(string jobId)
+    {
+        // 查找作业
+        var scheduleResult = InternalTryGetJob(jobId, out var _, true);
+        if (scheduleResult != ScheduleResult.Succeed)
+        {
+            return scheduleResult;
+        }
+
+        // 添加到待执行集合中
+        _manualRunJobIds.Add(jobId);
+
+        // 取消作业调度器休眠状态（强制唤醒）
+        CancelSleep();
+
+        return ScheduleResult.Succeed;
+    }
+
+    /// <summary>
+    /// 立即执行作业
+    /// </summary>
+    /// <param name="jobId">作业 Id</param>
+    public void RunJob(string jobId)
+    {
+        _ = TryRunJob(jobId);
+    }
 }

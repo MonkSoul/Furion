@@ -60,6 +60,12 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory
     private readonly BlockingCollection<PersistenceContext> _persistenceMessageQueue = new(1024);
 
     /// <summary>
+    /// 不受控的作业 Id 集合
+    /// </summary>
+    /// <remarks>用于实现 立即执行 的作业</remarks>
+    private readonly IList<string> _manualRunJobIds;
+
+    /// <summary>
     /// 构造函数
     /// </summary>
     /// <param name="serviceProvider">服务提供器</param>
@@ -74,6 +80,7 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory
         _serviceProvider = serviceProvider;
         _logger = logger;
         _schedulerBuilders = schedulerBuilders;
+        _manualRunJobIds = new List<string>();
 
         Persistence = _serviceProvider.GetService<IJobPersistence>();
         UseUtcTimestamp = useUtcTimestamp;
@@ -160,8 +167,11 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory
         // 定义静态内部函数用于委托检查
         bool triggerShouldRun(Scheduler s, Trigger t) => t.CurrentShouldRun(s.JobDetail, startAt);
 
+        // 查询分组所有作业计划
+        var jobsOfGroup = (GetJobs(group, true) as IEnumerable<Scheduler>);
+
         // 查找所有即将触发的作业计划
-        var currentRunSchedulers = (GetJobs(group, true) as IEnumerable<Scheduler>)
+        var currentRunSchedulers = jobsOfGroup
                  .Where(s => s.Triggers.Values.Any(t => triggerShouldRun(s, t)))
                  .Select(s => new Scheduler(s.JobDetail, s.Triggers.Values.Where(t => triggerShouldRun(s, t)).ToDictionary(t => t.TriggerId, t => t))
                  {
@@ -172,7 +182,26 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory
                      UseUtcTimestamp = s.UseUtcTimestamp
                  });
 
-        return currentRunSchedulers;
+        // 查看 立即执行 的作业
+        var runtimeJobIds = _manualRunJobIds.ToArray();
+        var manualRunSchedulers = jobsOfGroup
+                .Where(s => runtimeJobIds.Contains(s.JobId))
+                .Select(s => new Scheduler(s.JobDetail, s.Triggers)
+                {
+                    Factory = s.Factory,
+                    Logger = s.Logger,
+                    JobHandler = s.JobHandler,
+                    JobLogger = s.JobLogger,
+                    UseUtcTimestamp = s.UseUtcTimestamp
+                });
+
+        // 合并即将执行的作业
+        var willBeRunJobs = currentRunSchedulers.Concat(manualRunSchedulers);
+
+        // 清空 立即执行 作业 Id 集合
+        _manualRunJobIds.Clear();
+
+        return willBeRunJobs;
     }
 
     /// <summary>
@@ -307,7 +336,7 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory
         if (!_schedulers.Any())
         {
             // 输出作业调度器休眠总时长和唤醒时间日志
-            _logger.LogWarning("Schedule hosted service will sleep until it wakes up.");
+            _logger.LogInformation("Schedule hosted service will sleep until it wakes up.");
 
             return null;
         }
@@ -328,7 +357,7 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory
         var sleepMilliseconds = (earliestTriggerTime - startAt).TotalMilliseconds;
 
         // 输出作业调度器休眠总时长和唤醒时间日志
-        _logger.LogWarning("Schedule hosted service will sleep <{sleepMilliseconds}> milliseconds and be waked up at <{earliestTriggerTime}>.", sleepMilliseconds, earliestTriggerTime.ToUnspecifiedString());
+        _logger.LogInformation("Schedule hosted service will sleep <{sleepMilliseconds}> milliseconds and be waked up at <{earliestTriggerTime}>.", sleepMilliseconds, earliestTriggerTime.ToUnspecifiedString());
 
         return sleepMilliseconds;
     }

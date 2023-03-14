@@ -251,4 +251,9 @@ public interface IScheduler
     /// </summary>
     /// <returns><see cref="Dictionary{JobDetail, Trigger}"/></returns>
     Dictionary<JobDetail, Trigger> GetEnumerable();
+
+    /// <summary>
+    /// 立即执行作业
+    /// </summary>
+    void Run();
 }

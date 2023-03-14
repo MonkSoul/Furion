@@ -606,4 +606,17 @@ public partial interface ISchedulerFactory : IDisposable
     /// </summary>
     /// <param name="group">作业组名称</param>
     void CollateAll(string group = default);
+
+    /// <summary>
+    /// 立即执行作业
+    /// </summary>
+    /// <param name="jobId">作业 Id</param>
+    /// <returns><see cref="ScheduleResult"/></returns>
+    ScheduleResult TryRunJob(string jobId);
+
+    /// <summary>
+    /// 立即执行作业
+    /// </summary>
+    /// <param name="jobId">作业 Id</param>
+    void RunJob(string jobId);
 }

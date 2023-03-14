@@ -33,4 +33,9 @@ public class JobServices : IDynamicApiController
             _schedulerFactory.TryAddJob<TestJob>(new[] { Triggers.Period(10000) }, out _);
         }
     }
+
+    public void RunJob([FromQuery] string jobId) 
+    {
+        _schedulerFactory.RunJob(jobId);
+    }
 }
