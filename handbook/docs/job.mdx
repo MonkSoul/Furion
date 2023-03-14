@@ -4238,7 +4238,7 @@ _schedulerFactory.CancelSleep();
 
 :::
 
-```cs {showLineNumbers}
+```cs showLineNumbers
 // 带返回值
 var scheduleResult = _schedulerFactory.TryRunJob("job1");
 // 不带返回值
@@ -4534,7 +4534,7 @@ foreach (var (jobDetail, trigger) in scheduler.GetEnumerable())
 
 :::
 
-```cs {showLineNumbers}
+```cs showLineNumbers
 scheduler.Run();
 ```
 
