@@ -13,7 +13,7 @@ import Tag from "@site/src/components/Tag.js";
 
 - **新特性**
 
-  - &nbsp;<Tag>新增</Tag> 定时任务作业执行上下文 `JobExecutionContext` 服务提供器 `ServiceProvider` 属性 <sup>4.8.7.10</sup> <sup>⏱️2023.03.14</sup>
+  - &nbsp;<Tag>新增</Tag> 定时任务作业执行上下文 `JobExecutionContext` 服务提供器 `ServiceProvider` 属性 <sup>4.8.7.10</sup> <sup>⏱️2023.03.14</sup> [02586f8](https://gitee.com/dotnetchina/Furion/commit/02586f83edb4f98e4801ae65080c2d6aa5545763)
   - &nbsp;<Tag>新增</Tag> **定时任务 `HTTP` 作业，支持定时请求互联网 `URL` 地址** <sup>4.8.7.7</sup> <sup>⏱️2023.03.11</sup> [01d4466](https://gitee.com/dotnetchina/Furion/commit/01d446620c20e373f198195797896d8c96feeb15)
 
 <details style={{ marginLeft: 50 }}>
@@ -99,7 +99,38 @@ scheduler.UpdateTrigger("triggerId", triggerBuilder =>
 
 - **突破性变化**
 
-  - &nbsp;<Tag>调整</Tag> **定时任务底层所有代码，日志，注释，文档** <sup>4.8.1.10</sup> <sup>⏱️2022.12.05</sup>
+  - &nbsp;<Tag>调整</Tag> **定时任务动态作业 `DynamicJob` 委托/方法签名** <sup>4.8.7.10</sup> <sup>⏱️2023.03.14</sup>
+
+<details style={{ marginLeft: 50 }}>
+  <summary>查看变化</summary>
+  <div>
+
+为了统一动态作业和普通作业的 `ExecuteAsync` 方法签名，故做出调整。
+
+由：
+
+```cs showLineNumbers {1,3}
+options.AddJob((serviceProvider, context, stoppingToken) =>
+{
+      serviceProvider.GetLogger().LogInformation($"{context}");
+      return Task.CompletedTask;
+}, Triggers.PeriodSeconds(5));
+```
+
+调整为：
+
+```cs showLineNumbers {1,3}
+options.AddJob((context, stoppingToken) =>
+{
+      context.ServiceProvider.GetLogger().LogInformation($"{context}");
+      return Task.CompletedTask;
+}, Triggers.PeriodSeconds(5));
+```
+
+  </div>
+</details>
+
+- - &nbsp;<Tag>调整</Tag> **定时任务底层所有代码，日志，注释，文档** <sup>4.8.1.10</sup> <sup>⏱️2022.12.05</sup>
 
 - **问题修复**
 
@@ -923,9 +954,9 @@ var jobBuilder = JobBuilder.Create("YourProject", "YourProject.MyJob");
 var jobBuilder = JobBuilder.Create(typeof(MyJob));
 
 // 通过委托创造动态作业
-var jobBuilder = JobBuilder.Create((serviceProvider, context, stoppingToken) =>
+var jobBuilder = JobBuilder.Create((context, stoppingToken) =>
 {
-      serviceProvider.GetLogger().LogInformation($"{context}");
+      context.ServiceProvider.GetLogger().LogInformation($"{context}");
       return Task.CompletedTask;
 });
 ```
@@ -1060,8 +1091,8 @@ services.AddSchedule(options =>
         .SetIncludeAnnotations(true)    // 是否扫描 IJob 类型的触发器特性，true 为 扫描
         .SetProperties("{}")    // 作业额外数据 Dictionary<string, object> 类型序列化，支持多个重载
         .SetProperties(new Dictionary<string, object> { { "name", "Furion" } })  // 作业类型额外数据，支持多个重载，推荐！！！
-        .SetDynamicExecuteAsync((serviceProvider, context, stoppingToken) => {
-            serviceProvider.GetLogger().LogInformation($"{context}");
+        .SetDynamicExecuteAsync((context, stoppingToken) => {
+            context.ServiceProvider.GetLogger().LogInformation($"{context}");
             return Task.CompletedTask;
         })  // 动态委托处理程序，一旦设置了此委托，那么优先级将大于 MyJob 的 ExecuteAsync
         ;
@@ -1587,39 +1618,39 @@ public class MyJob : IJob, IDisposable
 
 ### 26.1.4.4 动态作业 `DynamicJob`
 
-框架提供了便捷的动态作业 `DynamicJob` 类型，可通过 `Func<IServiceProvider, JobExecutingContext, CancellationToken, Task>` 委托传入，无需创建 `IJob` 实现类型。
+框架提供了便捷的动态作业 `DynamicJob` 类型，可通过 `Func<JobExecutingContext, CancellationToken, Task>` 委托传入，无需创建 `IJob` 实现类型。
 
-框架还为委托的第一个参数 `IServiceProvder` 提供了 `.GetLogger()` 拓展方法，方便快速获取 `ILogger<System.Logging.DynamicJob>` 日志对象实例。
+框架还为 `JobExecutionContext` 属性 `ServiceProvder` 提供了 `.GetLogger()` 拓展方法，方便快速获取 `ILogger<System.Logging.DynamicJob>` 日志对象实例。
 
 ```cs showLineNumbers {2,9,18,26}
 // 通过 JobBuilder 创建
-var jobBuilder = JobBuilder.Create((serviceProvider, context, stoppingToken) =>
+var jobBuilder = JobBuilder.Create((context, stoppingToken) =>
 {
-      serviceProvider.GetLogger().LogInformation($"{context}");
+      context.ServiceProvider.GetLogger().LogInformation($"{context}");
       return Task.CompletedTask;
 });
 
 // 通过 jobBuilder 方法 SetDynamicExecuteAsync 创建
-jobBuilder.SetDynamicExecuteAsync((serviceProvider, context, stoppingToken) =>
+jobBuilder.SetDynamicExecuteAsync((context, stoppingToken) =>
 {
-      serviceProvider.GetLogger().LogInformation($"{context}");
+      context.ServiceProvider.GetLogger().LogInformation($"{context}");
       return Task.CompletedTask;
 });
 
 // 通过 AddJob 创建
 service.AddSchedule(options =>
 {
-      options.AddJob((serviceProvider, context, stoppingToken) =>
+      options.AddJob((context, stoppingToken) =>
       {
-            serviceProvider.GetLogger().LogInformation($"{context}");
+            context.ServiceProvider.GetLogger().LogInformation($"{context}");
             return Task.CompletedTask;
       }, Triggers.PeriodSeconds(5));
 });
 
 // 通过 ISchedulerFactory 创建
-_schedulerFactory.AddJob((serviceProvider, context, stoppingToken) =>
+_schedulerFactory.AddJob((context, stoppingToken) =>
 {
-      serviceProvider.GetLogger().LogInformation($"{context}");
+      context.ServiceProvider.GetLogger().LogInformation($"{context}");
       return Task.CompletedTask;
 }, Triggers.PeriodSeconds(5));
 ```
@@ -3152,10 +3183,10 @@ var schedulerBuilder = SchedulerBuilder.Create(typeof(MyJob), "job1", Triggers.P
 var schedulerBuilder = SchedulerBuilder.Create(typeof(MyJob), "job1", true, Triggers.PeriodSeconds(5), Triggers.Minutely());
 
 // 通过委托方式
-var schedulerBuilder = SchedulerBuilder.Create((serviceProvider, context, stoppingToken) => {}, Triggers.PeriodSeconds(5), Triggers.Minutely());
-var schedulerBuilder = SchedulerBuilder.Create((serviceProvider, context, stoppingToken) => {}, true, Triggers.PeriodSeconds(5), Triggers.Minutely());
-var schedulerBuilder = SchedulerBuilder.Create((serviceProvider, context, stoppingToken) => {}, "job1", Triggers.PeriodSeconds(5), Triggers.Minutely());
-var schedulerBuilder = SchedulerBuilder.Create((serviceProvider, context, stoppingToken) => {}, "job1", true, Triggers.PeriodSeconds(5), Triggers.Minutely());
+var schedulerBuilder = SchedulerBuilder.Create((context, stoppingToken) => {}, Triggers.PeriodSeconds(5), Triggers.Minutely());
+var schedulerBuilder = SchedulerBuilder.Create((context, stoppingToken) => {}, true, Triggers.PeriodSeconds(5), Triggers.Minutely());
+var schedulerBuilder = SchedulerBuilder.Create((context, stoppingToken) => {}, "job1", Triggers.PeriodSeconds(5), Triggers.Minutely());
+var schedulerBuilder = SchedulerBuilder.Create((context, stoppingToken) => {}, "job1", true, Triggers.PeriodSeconds(5), Triggers.Minutely());
 
 // 通过 JobBuilder 和 0 或 N 个 TriggerBuilder 创建
 var schedulerBuilder = SchedulerBuilder.Create(
@@ -3494,10 +3525,10 @@ services.AddSchedule(options =>
       options.AddJob(typeof(MyJob), "作业 Id", triggerBuilder, ...);
       options.AddJob(typeof(MyJob), "作业 Id", concurrent: true, triggerBuilder, ...);
       options.AddJob(typeof(MyJob), concurrent: true, triggerBuilder, ...);
-      options.AddJob((serviceProvider, context, stoppingToken) => {}, triggerBuilder, ...);
-      options.AddJob((serviceProvider, context, stoppingToken) => {}, "作业 Id", triggerBuilder, ...);
-      options.AddJob((serviceProvider, context, stoppingToken) => {}, "作业 Id", concurrent: true, triggerBuilder, ...);
-      options.AddJob((serviceProvider, context, stoppingToken) => {}, concurrent: true, triggerBuilder, ...);
+      options.AddJob((context, stoppingToken) => {}, triggerBuilder, ...);
+      options.AddJob((context, stoppingToken) => {}, "作业 Id", triggerBuilder, ...);
+      options.AddJob((context, stoppingToken) => {}, "作业 Id", concurrent: true, triggerBuilder, ...);
+      options.AddJob((context, stoppingToken) => {}, concurrent: true, triggerBuilder, ...);
 
       // 添加 HTTP Job，Furion 4.8.7.7+
       options.AddHttpJob(request => {}, triggerBuilder, ...);
@@ -4072,17 +4103,17 @@ var scheduleResult = _schedulerFactory.TryAddJob(typeof(MyJob), true, new[] { tr
 _schedulerFactory.AddJob(typeof(MyJob), true, triggerBuilder1, triggerBuilder2, ...);
 
 // 动态作业委托方式
-var scheduleResult = _schedulerFactory.TryAddJob((serviceProvider, context, stoppingToken) => { }, new[] { triggerBuilder1, triggerBuilder2, ...}, out var scheduler);
-_schedulerFactory.AddJob((serviceProvider, context, stoppingToken) => { }, triggerBuilder1, triggerBuilder2, ...);
+var scheduleResult = _schedulerFactory.TryAddJob((context, stoppingToken) => { }, new[] { triggerBuilder1, triggerBuilder2, ...}, out var scheduler);
+_schedulerFactory.AddJob((context, stoppingToken) => { }, triggerBuilder1, triggerBuilder2, ...);
 // 支持配置作业 Id
-var scheduleResult = _schedulerFactory.TryAddJob((serviceProvider, context, stoppingToken) => { }, "job1", new[] { triggerBuilder1, triggerBuilder2, ...}, out var scheduler);
-_schedulerFactory.AddJob((serviceProvider, context, stoppingToken) => { }, "job1", triggerBuilder1, triggerBuilder2, ...);
+var scheduleResult = _schedulerFactory.TryAddJob((context, stoppingToken) => { }, "job1", new[] { triggerBuilder1, triggerBuilder2, ...}, out var scheduler);
+_schedulerFactory.AddJob((context, stoppingToken) => { }, "job1", triggerBuilder1, triggerBuilder2, ...);
 // 支持配置作业 Id + 串行/并行
-var scheduleResult = _schedulerFactory.TryAddJob((serviceProvider, context, stoppingToken) => { }, "job1", true, new[] { triggerBuilder1, triggerBuilder2, ...}, out var scheduler);
-_schedulerFactory.AddJob((serviceProvider, context, stoppingToken) => { }, "job1", true, triggerBuilder1, triggerBuilder2, ...);
+var scheduleResult = _schedulerFactory.TryAddJob((context, stoppingToken) => { }, "job1", true, new[] { triggerBuilder1, triggerBuilder2, ...}, out var scheduler);
+_schedulerFactory.AddJob((context, stoppingToken) => { }, "job1", true, triggerBuilder1, triggerBuilder2, ...);
 // 支持配置 串行/ 并行
-var scheduleResult = _schedulerFactory.TryAddJob((serviceProvider, context, stoppingToken) => { }, true, new[] { triggerBuilder1, triggerBuilder2, ...}, out var scheduler);
-_schedulerFactory.AddJob((serviceProvider, context, stoppingToken) => { }, true, triggerBuilder1, triggerBuilder2, ...);
+var scheduleResult = _schedulerFactory.TryAddJob((context, stoppingToken) => { }, true, new[] { triggerBuilder1, triggerBuilder2, ...}, out var scheduler);
+_schedulerFactory.AddJob((context, stoppingToken) => { }, true, triggerBuilder1, triggerBuilder2, ...);
 
 // HTTP 作业，Furion 4.8.7.7+
 // 泛型方式

@@ -44,7 +44,7 @@ import Tag from "@site/src/components/Tag.js";
 
 - **新特性**
 
-  - &nbsp;<Tag>新增</Tag> 定时任务作业执行上下文 `JobExecutionContext` 服务提供器 `ServiceProvider` 属性 <sup>4.8.7.10</sup> <sup>⏱️2023.03.14</sup>
+  - &nbsp;<Tag>新增</Tag> 定时任务作业执行上下文 `JobExecutionContext` 服务提供器 `ServiceProvider` 属性 <sup>4.8.7.10</sup> <sup>⏱️2023.03.14</sup> [02586f8](https://gitee.com/dotnetchina/Furion/commit/02586f83edb4f98e4801ae65080c2d6aa5545763)
   - &nbsp;<Tag>新增</Tag> **定时任务 `HTTP` 作业，支持定时请求互联网 `URL` 地址** <sup>4.8.7.7</sup> <sup>⏱️2023.03.11</sup> [01d4466](https://gitee.com/dotnetchina/Furion/commit/01d446620c20e373f198195797896d8c96feeb15)
 
 <details style={{ marginLeft: 50 }}>
@@ -107,8 +107,39 @@ select * from person where id > 0;
 
 - **突破性变化**
 
-  - &nbsp;<Tag>升级</Tag> **适配 `.NET8 Preview.1`** <sup>4.8.7</sup> <sup>⏱️2023.02.22</sup>
-  - &nbsp;<Tag>升级</Tag> **脚手架支持创建 `.NET8 Preview.1` 项目** <sup>4.8.7</sup> <sup>⏱️2023.02.22</sup>
+  - &nbsp;<Tag>调整</Tag> **定时任务动态作业 `DynamicJob` 委托/方法签名** <sup>4.8.7.10</sup> <sup>⏱️2023.03.14</sup>
+
+<details style={{ marginLeft: 50 }}>
+  <summary>查看变化</summary>
+  <div>
+
+为了统一动态作业和普通作业的 `ExecuteAsync` 方法签名，故做出调整。
+
+由：
+
+```cs showLineNumbers {1,3}
+options.AddJob((serviceProvider, context, stoppingToken) =>
+{
+      serviceProvider.GetLogger().LogInformation($"{context}");
+      return Task.CompletedTask;
+}, Triggers.PeriodSeconds(5));
+```
+
+调整为：
+
+```cs showLineNumbers {1,3}
+options.AddJob((context, stoppingToken) =>
+{
+      context.ServiceProvider.GetLogger().LogInformation($"{context}");
+      return Task.CompletedTask;
+}, Triggers.PeriodSeconds(5));
+```
+
+  </div>
+</details>
+
+- - &nbsp;<Tag>升级</Tag> **适配 `.NET8 Preview.1`** <sup>4.8.7</sup> <sup>⏱️2023.02.22</sup>
+- - &nbsp;<Tag>升级</Tag> **脚手架支持创建 `.NET8 Preview.1` 项目** <sup>4.8.7</sup> <sup>⏱️2023.02.22</sup>
 
 - **问题修复**
 

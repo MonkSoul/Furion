@@ -20,20 +20,6 @@ namespace Furion.Schedule;
 internal sealed class DynamicJob : IJob
 {
     /// <summary>
-    /// 服务提供器
-    /// </summary>
-    private readonly IServiceProvider _serviceProvider;
-
-    /// <summary>
-    /// 构造函数
-    /// </summary>
-    /// <param name="serviceProvider">服务提供器</param>
-    public DynamicJob(IServiceProvider serviceProvider)
-    {
-        _serviceProvider = serviceProvider;
-    }
-
-    /// <summary>
     /// 具体处理逻辑
     /// </summary>
     /// <param name="context">作业执行前上下文</param>
@@ -44,6 +30,6 @@ internal sealed class DynamicJob : IJob
         var dynamicExecuteAsync = context.JobDetail.DynamicExecuteAsync;
         if (dynamicExecuteAsync == null) return;
 
-        await dynamicExecuteAsync(_serviceProvider, context, stoppingToken);
+        await dynamicExecuteAsync(context, stoppingToken);
     }
 }

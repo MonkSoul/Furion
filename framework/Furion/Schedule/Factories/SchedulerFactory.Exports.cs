@@ -430,7 +430,7 @@ internal sealed partial class SchedulerFactory
     /// <param name="scheduler">作业计划</param>
     /// <param name="immediately">是否立即通知作业调度器重新载入</param>
     /// <remarks><see cref="ScheduleResult"/></remarks>
-    public ScheduleResult TryAddJob(Func<IServiceProvider, JobExecutingContext, CancellationToken, Task> dynamicExecuteAsync, TriggerBuilder[] triggerBuilders, out IScheduler scheduler, bool immediately = true)
+    public ScheduleResult TryAddJob(Func<JobExecutingContext, CancellationToken, Task> dynamicExecuteAsync, TriggerBuilder[] triggerBuilders, out IScheduler scheduler, bool immediately = true)
     {
         return TryAddJob(SchedulerBuilder.Create(dynamicExecuteAsync, triggerBuilders), out scheduler, immediately);
     }
@@ -461,7 +461,7 @@ internal sealed partial class SchedulerFactory
     /// </summary>
     /// <param name="dynamicExecuteAsync">运行时动态作业执行逻辑</param>
     /// <param name="triggerBuilders">作业触发器构建器集合</param>
-    public void AddJob(Func<IServiceProvider, JobExecutingContext, CancellationToken, Task> dynamicExecuteAsync, params TriggerBuilder[] triggerBuilders)
+    public void AddJob(Func<JobExecutingContext, CancellationToken, Task> dynamicExecuteAsync, params TriggerBuilder[] triggerBuilders)
     {
         _ = TryAddJob(dynamicExecuteAsync, triggerBuilders, out var _);
     }
@@ -504,7 +504,7 @@ internal sealed partial class SchedulerFactory
     /// <param name="scheduler">作业计划</param>
     /// <param name="immediately">是否立即通知作业调度器重新载入</param>
     /// <returns><see cref="ScheduleResult"/></returns>
-    public ScheduleResult TryAddJob(Func<IServiceProvider, JobExecutingContext, CancellationToken, Task> dynamicExecuteAsync, string jobId, TriggerBuilder[] triggerBuilders, out IScheduler scheduler, bool immediately = true)
+    public ScheduleResult TryAddJob(Func<JobExecutingContext, CancellationToken, Task> dynamicExecuteAsync, string jobId, TriggerBuilder[] triggerBuilders, out IScheduler scheduler, bool immediately = true)
     {
         return TryAddJob(SchedulerBuilder.Create(dynamicExecuteAsync, jobId, triggerBuilders), out scheduler, immediately);
     }
@@ -538,7 +538,7 @@ internal sealed partial class SchedulerFactory
     /// <param name="dynamicExecuteAsync">运行时动态作业执行逻辑</param>
     /// <param name="jobId">作业 Id</param>
     /// <param name="triggerBuilders">作业触发器构建器集合</param>
-    public void AddJob(Func<IServiceProvider, JobExecutingContext, CancellationToken, Task> dynamicExecuteAsync, string jobId, params TriggerBuilder[] triggerBuilders)
+    public void AddJob(Func<JobExecutingContext, CancellationToken, Task> dynamicExecuteAsync, string jobId, params TriggerBuilder[] triggerBuilders)
     {
         _ = TryAddJob(dynamicExecuteAsync, jobId, triggerBuilders, out var _);
     }
@@ -584,7 +584,7 @@ internal sealed partial class SchedulerFactory
     /// <param name="scheduler">作业计划</param>
     /// <param name="immediately">是否立即通知作业调度器重新载入</param>
     /// <returns><see cref="ScheduleResult"/></returns>
-    public ScheduleResult TryAddJob(Func<IServiceProvider, JobExecutingContext, CancellationToken, Task> dynamicExecuteAsync, string jobId, bool concurrent, TriggerBuilder[] triggerBuilders, out IScheduler scheduler, bool immediately = true)
+    public ScheduleResult TryAddJob(Func<JobExecutingContext, CancellationToken, Task> dynamicExecuteAsync, string jobId, bool concurrent, TriggerBuilder[] triggerBuilders, out IScheduler scheduler, bool immediately = true)
     {
         return TryAddJob(SchedulerBuilder.Create(dynamicExecuteAsync, jobId, concurrent, triggerBuilders), out scheduler, immediately);
     }
@@ -621,7 +621,7 @@ internal sealed partial class SchedulerFactory
     /// <param name="jobId">作业 Id</param>
     /// <param name="concurrent">是否采用并发执行</param>
     /// <param name="triggerBuilders">作业触发器构建器集合</param>
-    public void AddJob(Func<IServiceProvider, JobExecutingContext, CancellationToken, Task> dynamicExecuteAsync, string jobId, bool concurrent, params TriggerBuilder[] triggerBuilders)
+    public void AddJob(Func<JobExecutingContext, CancellationToken, Task> dynamicExecuteAsync, string jobId, bool concurrent, params TriggerBuilder[] triggerBuilders)
     {
         _ = TryAddJob(dynamicExecuteAsync, jobId, concurrent, triggerBuilders, out var _);
     }
@@ -664,7 +664,7 @@ internal sealed partial class SchedulerFactory
     /// <param name="scheduler">作业计划</param>
     /// <param name="immediately">是否立即通知作业调度器重新载入</param>
     /// <returns><see cref="ScheduleResult"/></returns>
-    public ScheduleResult TryAddJob(Func<IServiceProvider, JobExecutingContext, CancellationToken, Task> dynamicExecuteAsync, bool concurrent, TriggerBuilder[] triggerBuilders, out IScheduler scheduler, bool immediately = true)
+    public ScheduleResult TryAddJob(Func<JobExecutingContext, CancellationToken, Task> dynamicExecuteAsync, bool concurrent, TriggerBuilder[] triggerBuilders, out IScheduler scheduler, bool immediately = true)
     {
         return TryAddJob(SchedulerBuilder.Create(dynamicExecuteAsync, concurrent, triggerBuilders), out scheduler, immediately);
     }
@@ -698,7 +698,7 @@ internal sealed partial class SchedulerFactory
     /// <param name="dynamicExecuteAsync">运行时动态作业执行逻辑</param>
     /// <param name="concurrent">是否采用并发执行</param>
     /// <param name="triggerBuilders">作业触发器构建器集合</param>
-    public void AddJob(Func<IServiceProvider, JobExecutingContext, CancellationToken, Task> dynamicExecuteAsync, bool concurrent, params TriggerBuilder[] triggerBuilders)
+    public void AddJob(Func<JobExecutingContext, CancellationToken, Task> dynamicExecuteAsync, bool concurrent, params TriggerBuilder[] triggerBuilders)
     {
         _ = TryAddJob(dynamicExecuteAsync, concurrent, triggerBuilders, out var _);
     }

@@ -173,7 +173,7 @@ public sealed class SchedulerBuilder
     /// <param name="dynamicExecuteAsync">运行时动态作业执行逻辑</param>
     /// <param name="triggerBuilders">作业触发器构建器集合</param>
     /// <returns><see cref="SchedulerBuilder"/></returns>
-    public static SchedulerBuilder Create(Func<IServiceProvider, JobExecutingContext, CancellationToken, Task> dynamicExecuteAsync, params TriggerBuilder[] triggerBuilders)
+    public static SchedulerBuilder Create(Func<JobExecutingContext, CancellationToken, Task> dynamicExecuteAsync, params TriggerBuilder[] triggerBuilders)
     {
         return Create(JobBuilder.Create(dynamicExecuteAsync), triggerBuilders);
     }
@@ -185,7 +185,7 @@ public sealed class SchedulerBuilder
     /// <param name="jobId">作业 Id</param>
     /// <param name="triggerBuilders">作业触发器构建器集合</param>
     /// <returns><see cref="SchedulerBuilder"/></returns>
-    public static SchedulerBuilder Create(Func<IServiceProvider, JobExecutingContext, CancellationToken, Task> dynamicExecuteAsync, string jobId, params TriggerBuilder[] triggerBuilders)
+    public static SchedulerBuilder Create(Func<JobExecutingContext, CancellationToken, Task> dynamicExecuteAsync, string jobId, params TriggerBuilder[] triggerBuilders)
     {
         return Create(JobBuilder.Create(dynamicExecuteAsync).SetJobId(jobId)
             , triggerBuilders);
@@ -199,7 +199,7 @@ public sealed class SchedulerBuilder
     /// <param name="concurrent">是否采用并发执行</param>
     /// <param name="triggerBuilders">作业触发器构建器集合</param>
     /// <returns><see cref="SchedulerBuilder"/></returns>
-    public static SchedulerBuilder Create(Func<IServiceProvider, JobExecutingContext, CancellationToken, Task> dynamicExecuteAsync, string jobId, bool concurrent, params TriggerBuilder[] triggerBuilders)
+    public static SchedulerBuilder Create(Func<JobExecutingContext, CancellationToken, Task> dynamicExecuteAsync, string jobId, bool concurrent, params TriggerBuilder[] triggerBuilders)
     {
         return Create(JobBuilder.Create(dynamicExecuteAsync).SetJobId(jobId).SetConcurrent(concurrent)
             , triggerBuilders);
@@ -212,7 +212,7 @@ public sealed class SchedulerBuilder
     /// <param name="concurrent">是否采用并发执行</param>
     /// <param name="triggerBuilders">作业触发器构建器集合</param>
     /// <returns><see cref="SchedulerBuilder"/></returns>
-    public static SchedulerBuilder Create(Func<IServiceProvider, JobExecutingContext, CancellationToken, Task> dynamicExecuteAsync, bool concurrent, params TriggerBuilder[] triggerBuilders)
+    public static SchedulerBuilder Create(Func<JobExecutingContext, CancellationToken, Task> dynamicExecuteAsync, bool concurrent, params TriggerBuilder[] triggerBuilders)
     {
         return Create(JobBuilder.Create(dynamicExecuteAsync).SetConcurrent(concurrent)
             , triggerBuilders);
