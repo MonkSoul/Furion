@@ -846,28 +846,28 @@ services.AddEventBus(builder =>
 
 ## 22.8 使用有作用域的服务
 
-在 `Furion` 中， `Event Bus` 所有服务均注册为单例，如需使用作用域服务（单例服务可直接注入），可通过依赖注入 `IServiceProvider` 实例并通过 `CreateScope()` 创建一个作用域，如：
+在 `Furion` 中， `Event Bus` 所有服务均注册为单例，如需使用作用域服务（单例服务可直接注入），可通过依赖注入 `IServiceScopeFactory` 实例并通过 `CreateScope()` 创建一个作用域，如：
 
 ```cs showLineNumbers  {5,8,10,13,18-22}
 public class ToDoEventSubscriber : IEventSubscriber
 {
     private readonly ILogger<ToDoEventSubscriber> _logger;
 
-    public ToDoEventSubscriber(IServiceProvider services    // 单例服务可以直接注入
+    public ToDoEventSubscriber(IServiceScopeFactory scopeFactory    // 单例服务可以直接注入
         , ILogger<ToDoEventSubscriber> logger)  // 单例服务可以直接注入
     {
-        Services = services;
+        ScopeFactory = scopeFactory;
         _logger = logger;
         // 避免在这里解析非单例服务
     }
 
-    public IServiceProvider Services { get; }
+    public IServiceScopeFactory ScopeFactory { get; }
 
     [EventSubscribe("ToDo:Create")]
     public async Task CreateToDo(EventHandlerExecutingContext context)
     {
         // 创建新的作用域
-        using var scope = Services.CreateScope();
+        using var scope = ScopeFactory.CreateScope();
 
         // 解析服务
         var scopedProcessingService = scope.ServiceProvider.GetRequiredService<IScopedProcessingService>();
@@ -1048,10 +1048,10 @@ public class ToDoEventSubscriber : IEventSubscriber, IDisposable
     private readonly ILogger<ToDoEventSubscriber> _logger;
     private readonly IServiceScope _serviceScope;
 
-    public ToDoEventSubscriber(IServiceProvider serviceProvider
+    public ToDoEventSubscriber(IServiceScopeFactory scopeFactory
         , ILogger<ToDoEventSubscriber> logger)
     {
-        _serviceScope = serviceProvider.CreateScope();
+        _serviceScope = scopeFactory.CreateScope();
         _logger = logger;
     }
 

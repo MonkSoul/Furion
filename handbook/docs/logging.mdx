@@ -986,9 +986,9 @@ public class DatabaseLoggingWriter : IDatabaseLoggingWriter, IDisposable
     private readonly IServiceScope _serviceScope;
     private readonly IRepository<LogTable> _logRepository;  // 可替换成任何数据库操作库
 
-    public DatabaseLoggingWriter(IServiceProvider serviceProvider)
+    public DatabaseLoggingWriter(IServiceScopeFactory scopeFactory)
     {
-        _serviceScope = serviceProvider.CreateScope();
+        _serviceScope = scopeFactory.CreateScope();
         _logRepository = _serviceScope.ServiceProvider.GetRequestService<IRepository<LogTable>>();
     }
 

@@ -1554,27 +1554,27 @@ public class MyJob : IJob
 }
 ```
 
-- **如果是非 `单例` 的接口，如 `瞬时` 或 `范围` 服务，可通过 `IServiceProvder` 创建**
+- **如果是非 `单例` 的接口，如 `瞬时` 或 `范围` 服务，可通过 `IServiceScopeFactory` 创建**
 
 ```cs showLineNumbers {5,9,18-19}
 public class MyJob : IJob
 {
     private readonly ILogger<MyJob> _logger;
     private readonly IConfiguration _configuration;
-    private readonly IServiceProvider _serviceProvider;
+    private readonly IServiceScopeFactory _scopeFactory;
 
     public MyJob(ILogger<MyJob> logger
         , IConfiguration configuration
-        , IServiceProvider serviceProvider)
+        , IServiceScopeFactory scopeFactory)
     {
         _logger = logger;
         _configuration = configuration;
-        _serviceProvider = serviceProvider;
+        _schedulerFactory = scopeFactory;
     }
 
     public async Task ExecuteAsync(JobExecutingContext context, CancellationToken stoppingToken)
     {
-        using var serviceScope = _serviceProvider.CreateScope();
+        using var serviceScope = _scopeFactory.CreateScope();
         var repository = serviceScope.ServiceProvider.GetService<IRepository<User>>();
 
         _logger.LogInformation($"{context} {_configuration["key"]}");
@@ -1596,11 +1596,11 @@ public class MyJob : IJob, IDisposable
 
     public MyJob(ILogger<MyJob> logger
         , IConfiguration configuration
-        , IServiceProvider serviceProvider)
+        , IServiceScopeFactory scopeFactory)
     {
         _logger = logger;
         _configuration = configuration;
-        _serviceScope = serviceProvider.CreateScope();
+        _serviceScope = scopeFactory.CreateScope();
     }
 
     public async Task ExecuteAsync(JobExecutingContext context, CancellationToken stoppingToken)
@@ -4640,9 +4640,9 @@ public class DbJobPersistence : IJobPersistence, IDisposable
     private readonly Repository<SysJobDetails> _jobRepository;
     private readonly Repository<SysJobTriggers> _triggerRepository;
 
-    public DbJobPersistence(IServiceProvider serviceProvider)
+    public DbJobPersistence(IServiceScopeFactory scopeFactory)
     {
-        _serviceScope = serviceProvider.CreateScope();
+        _serviceScope = scopeFactory.CreateScope();
         var services = _serviceScope.ServiceProvider;
 
         _sqlSugarClient = services.GetService<ISqlSugarClient>();
