@@ -44,6 +44,8 @@ import Tag from "@site/src/components/Tag.js";
 
 - **新特性**
 
+  - &nbsp;<Tag>新增</Tag> 定时任务作业计划/工厂立即执行 `RunJob` 方法 <sup>4.8.7.11</sup> <sup>⏱️2023.03.15</sup> [#I6LD9X](https://gitee.com/dotnetchina/Furion/issues/I6LD9X)
+  - &nbsp;<Tag>新增</Tag> 定时任务看板 `UI` 提供立即执行功能 <sup>4.8.7.11</sup> <sup>⏱️2023.03.15</sup> [#I6LD9X](https://gitee.com/dotnetchina/Furion/issues/I6LD9X)
   - &nbsp;<Tag>新增</Tag> 远程请求 `HttpRequestMessage` 拓展方法 `AppendHeaders` <sup>4.8.7.10</sup> <sup>⏱️2023.03.14</sup> [#I6MVHT](https://gitee.com/dotnetchina/Furion/issues/I6MVHT)
   - &nbsp;<Tag>新增</Tag> 定时任务作业执行上下文 `JobExecutionContext` 服务提供器 `ServiceProvider` 属性 <sup>4.8.7.10</sup> <sup>⏱️2023.03.14</sup> [02586f8](https://gitee.com/dotnetchina/Furion/commit/02586f83edb4f98e4801ae65080c2d6aa5545763)
   - &nbsp;<Tag>新增</Tag> **定时任务 `HTTP` 作业，支持定时请求互联网 `URL` 地址** <sup>4.8.7.7</sup> <sup>⏱️2023.03.11</sup> [01d4466](https://gitee.com/dotnetchina/Furion/commit/01d446620c20e373f198195797896d8c96feeb15)
@@ -152,6 +154,7 @@ options.AddJob((context, stoppingToken) =>
 
 - **其他更改**
 
+  - &nbsp;<Tag>调整</Tag> 定时任务配置选项 `BuilSqlType` 属性命为 `BuildSqlType` <sup>4.8.7.11</sup> <sup>⏱️2023.03.15</sup> [92117b8](https://gitee.com/dotnetchina/Furion/commit/92117b842f7f8bdeb983bf3dac510f713d8410c2)
   - &nbsp;<Tag>调整</Tag> **定时任务查看作业触发器运行记录由保存 `10条` 改为 `5条`** <sup>4.8.7.7</sup> <sup>⏱️2023.03.07</sup> [01d4466](https://gitee.com/dotnetchina/Furion/commit/01d446620c20e373f198195797896d8c96feeb15)
   - &nbsp;<Tag>调整</Tag> 脚手架模板，默认启用主流文件类型 `MIME` 支持 <sup>4.8.7.5</sup> <sup>⏱️2023.03.07</sup> [e35cdab](https://gitee.com/dotnetchina/Furion/commit/e35cdab592d1a00ff32b08c566c4ed5d6ddcff24)
   - &nbsp;<Tag>调整</Tag> 审计日志 `LoggingMonitor` 返回值泛型字符串显示格式 <sup>4.8.7.1</sup> <sup>⏱️2023.02.27</sup> [df35201](https://gitee.com/dotnetchina/Furion/commit/df35201622f4d908ab423baff27caef856a23527)

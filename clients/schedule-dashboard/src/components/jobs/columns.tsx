@@ -2,7 +2,8 @@ import {
   IconDelete,
   IconMore,
   IconPlayCircle,
-  IconStop
+  IconStop,
+  IconVigoLogo
 } from "@douyinfe/semi-icons";
 import {
   Descriptions,
@@ -255,6 +256,9 @@ function Operation(props: { jobid?: string | null }) {
             >
               <IconDelete size="small" /> &nbsp;删除
             </Popconfirm>
+          </Dropdown.Item>
+          <Dropdown.Item onClick={() => callAction("run")}>
+            <IconVigoLogo size="extra-large" /> 立即执行
           </Dropdown.Item>
         </Dropdown.Menu>
       }

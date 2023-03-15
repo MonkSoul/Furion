@@ -185,7 +185,11 @@ internal sealed class ScheduleHostedService : BackgroundService
                 trigger.SetStatus(TriggerStatus.Running);
 
                 // 记录运行信息和计算下一个触发时间
-                var occurrenceTime = trigger.NextRunTime.Value;
+                var occurrenceTime = trigger.NextRunTime == null
+                                            ? startAt
+                                            : (startAt < trigger.NextRunTime.Value
+                                                ? startAt
+                                                : trigger.NextRunTime.Value);
                 trigger.Increment(jobDetail, startAt);
 
                 // 将作业触发器运行数据写入持久化

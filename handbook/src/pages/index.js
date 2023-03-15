@@ -91,7 +91,7 @@ function Banner() {
           <div className="furion-get-start-btn">
             <Link className="furion-get-start" to={useBaseUrl("docs/serverun")}>
               入门指南
-              <span className="furion-version">v4.8.7.10</span>
+              <span className="furion-version">v4.8.7.11</span>
             </Link>
             <Link
               className="furion-try-demo"
@@ -190,7 +190,7 @@ function Gitee() {
             className={"furion-log-jiao" + (isDarkTheme ? " dark" : "")}
           ></div>
           <div className="furion-log-number">
-            <div style={{ color: "#1fd898" }}>6,922,649</div>
+            <div style={{ color: "#1fd898" }}>6,998,648</div>
             <span className={isDarkTheme ? " dark" : ""}>Downloads</span>
           </div>
         </div>
@@ -294,7 +294,7 @@ function WhoUse() {
           <h1>他们都在用</h1>
           <p>
             Furion 已在 NuGet
-            平台超692万次下载。从小型企业到企业的解决方案及知名企业。他们在简单软件和复杂管理系统的开发方面都信任我们。
+            平台超700万次下载。从小型企业到企业的解决方案及知名企业。他们在简单软件和复杂管理系统的开发方面都信任我们。
           </p>
           <a
             className="furion-get-start"

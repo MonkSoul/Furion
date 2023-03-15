@@ -13,6 +13,8 @@ import Tag from "@site/src/components/Tag.js";
 
 - **新特性**
 
+  - &nbsp;<Tag>新增</Tag> 定时任务作业计划/工厂立即执行 `RunJob` 方法 <sup>4.8.7.11</sup> <sup>⏱️2023.03.15</sup> [#I6LD9X](https://gitee.com/dotnetchina/Furion/issues/I6LD9X)
+  - &nbsp;<Tag>新增</Tag> 定时任务看板 `UI` 提供立即执行功能 <sup>4.8.7.11</sup> <sup>⏱️2023.03.15</sup> [#I6LD9X](https://gitee.com/dotnetchina/Furion/issues/I6LD9X)
   - &nbsp;<Tag>新增</Tag> 定时任务作业执行上下文 `JobExecutionContext` 服务提供器 `ServiceProvider` 属性 <sup>4.8.7.10</sup> <sup>⏱️2023.03.14</sup> [02586f8](https://gitee.com/dotnetchina/Furion/commit/02586f83edb4f98e4801ae65080c2d6aa5545763)
   - &nbsp;<Tag>新增</Tag> **定时任务 `HTTP` 作业，支持定时请求互联网 `URL` 地址** <sup>4.8.7.7</sup> <sup>⏱️2023.03.11</sup> [01d4466](https://gitee.com/dotnetchina/Furion/commit/01d446620c20e373f198195797896d8c96feeb15)
 
@@ -149,6 +151,7 @@ options.AddJob((context, stoppingToken) =>
 
 - **其他更改**
 
+  - &nbsp;<Tag>调整</Tag> 定时任务配置选项 `BuilSqlType` 属性命为 `BuildSqlType` <sup>4.8.7.11</sup> <sup>⏱️2023.03.15</sup> [92117b8](https://gitee.com/dotnetchina/Furion/commit/92117b842f7f8bdeb983bf3dac510f713d8410c2)
   - &nbsp;<Tag>调整</Tag> **定时任务查看作业触发器运行记录由保存 `10条` 改为 `5条`** <sup>4.8.7.7</sup> <sup>⏱️2023.03.07</sup> [01d4466](https://gitee.com/dotnetchina/Furion/commit/01d446620c20e373f198195797896d8c96feeb15)
   - &nbsp;<Tag>调整</Tag> 定时任务调度器时间精度，控制持续执行一年误差在 `100ms` 以内 <sup>4.8.2.9</sup> <sup>⏱️2022.12.01</sup> [334d089](https://gitee.com/dotnetchina/Furion/commit/334d08989503bacd8bf2abb2cc87cf2031dc9da6)
   - &nbsp;<Tag>调整</Tag> 定时任务作业计划工厂 `GetNextRunJobs()` 方法逻辑 <sup>4.8.2.7</sup> <sup>⏱️2022.11.30</sup> [#I63VS2](https://gitee.com/dotnetchina/Furion/issues/I63VS2)
@@ -1551,27 +1554,27 @@ public class MyJob : IJob
 }
 ```
 
-- **如果是非 `单例` 的接口，如 `瞬时` 或 `范围` 服务，可通过 `IServiceProvder` 创建**
+- **如果是非 `单例` 的接口，如 `瞬时` 或 `范围` 服务，可通过 `IServiceScopeFactory` 创建**
 
 ```cs showLineNumbers {5,9,18-19}
 public class MyJob : IJob
 {
     private readonly ILogger<MyJob> _logger;
     private readonly IConfiguration _configuration;
-    private readonly IServiceProvider _serviceProvider;
+    private readonly IServiceScopeFactory _scopeFactory;
 
     public MyJob(ILogger<MyJob> logger
         , IConfiguration configuration
-        , IServiceProvider serviceProvider)
+        , IServiceScopeFactory scopeFactory)
     {
         _logger = logger;
         _configuration = configuration;
-        _serviceProvider = serviceProvider;
+        _schedulerFactory = scopeFactory;
     }
 
     public async Task ExecuteAsync(JobExecutingContext context, CancellationToken stoppingToken)
     {
-        using var serviceScope = _serviceProvider.CreateScope();
+        using var serviceScope = _scopeFactory.CreateScope();
         var repository = serviceScope.ServiceProvider.GetService<IRepository<User>>();
 
         _logger.LogInformation($"{context} {_configuration["key"]}");
@@ -1593,11 +1596,11 @@ public class MyJob : IJob, IDisposable
 
     public MyJob(ILogger<MyJob> logger
         , IConfiguration configuration
-        , IServiceProvider serviceProvider)
+        , IServiceScopeFactory scopeFactory)
     {
         _logger = logger;
         _configuration = configuration;
-        _serviceScope = serviceProvider.CreateScope();
+        _serviceScope = scopeFactory.CreateScope();
     }
 
     public async Task ExecuteAsync(JobExecutingContext context, CancellationToken stoppingToken)
@@ -4227,6 +4230,27 @@ _schedulerFactory.StartAll("group1");
 _schedulerFactory.CancelSleep();
 ```
 
+### 26.1.10.15 立即执行作业
+
+:::important 版本说明
+
+以下内容仅限 `Furion 4.8.7.11 +` 版本使用。
+
+:::
+
+```cs showLineNumbers
+// 带返回值
+var scheduleResult = _schedulerFactory.TryRunJob("job1");
+// 不带返回值
+_schedulerFactory.RunJob("job1");
+```
+
+:::important 注意事项
+
+如果作业本身处于 `(Pause)暂停`、`(NotStart)初始化时未启动`、`(Unoccupied)无触发时间` 状态，那么点击 **立即执行** 后将自动转至 `就绪` 状态。
+
+:::
+
 ## 26.1.11 作业计划 `IScheduler`
 
 作业计划 `Scheduler` 的默认实现接口是 `IScheduler`，该接口主要用来操作当前（单个）作业。
@@ -4502,6 +4526,24 @@ foreach (var (jobDetail, trigger) in scheduler.GetEnumerable())
 }
 ```
 
+### 26.1.11.25 立即执行作业
+
+:::important 版本说明
+
+以下内容仅限 `Furion 4.8.7.11 +` 版本使用。
+
+:::
+
+```cs showLineNumbers
+scheduler.Run();
+```
+
+:::important 注意事项
+
+如果作业本身处于 `(Pause)暂停`、`(NotStart)初始化时未启动`、`(Unoccupied)无触发时间` 状态，那么点击 **立即执行** 后将自动转至 `就绪` 状态。
+
+:::
+
 ## 26.1.12 作业持久化器 `IJobPersistence`
 
 ### 26.1.12.1 关于作业持久化器
@@ -4598,9 +4640,9 @@ public class DbJobPersistence : IJobPersistence, IDisposable
     private readonly Repository<SysJobDetails> _jobRepository;
     private readonly Repository<SysJobTriggers> _triggerRepository;
 
-    public DbJobPersistence(IServiceProvider serviceProvider)
+    public DbJobPersistence(IServiceScopeFactory scopeFactory)
     {
-        _serviceScope = serviceProvider.CreateScope();
+        _serviceScope = scopeFactory.CreateScope();
         var services = _serviceScope.ServiceProvider;
 
         _sqlSugarClient = services.GetService<ISqlSugarClient>();

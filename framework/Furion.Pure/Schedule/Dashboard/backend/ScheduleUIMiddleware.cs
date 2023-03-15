@@ -130,6 +130,10 @@ public sealed class ScheduleUIMiddleware
                     case "remove":
                         _schedulerFactory.RemoveJob(jobId);
                         break;
+                    // 立即执行
+                    case "run":
+                        _schedulerFactory.RunJob(jobId);
+                        break;
                 }
 
                 // 输出 JSON

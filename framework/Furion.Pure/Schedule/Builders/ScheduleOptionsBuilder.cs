@@ -81,7 +81,7 @@ public sealed class ScheduleOptionsBuilder
     /// <summary>
     /// 生成 SQL 的类型
     /// </summary>
-    public SqlTypes BuilSqlType
+    public SqlTypes BuildSqlType
     {
         get
         {

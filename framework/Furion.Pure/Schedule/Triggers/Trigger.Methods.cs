@@ -101,7 +101,12 @@ public partial class Trigger
         if (Status != TriggerStatus.Blocked)
         {
             NumberOfRuns++;
-            LastRunTime = NextRunTime;
+            // 处理立即执行的情况
+            LastRunTime = NextRunTime == null
+                ? startAt
+                : (startAt < NextRunTime.Value
+                    ? startAt
+                    : NextRunTime);
         }
 
         NextRunTime = GetNextRunTime(startAt);
