@@ -70,7 +70,7 @@ const columns: ColumnProps<JobDetail>[] = [
   {
     title: "JobId",
     dataIndex: "jobId",
-    width: 150,
+    width: 200,
     render: (text, jobDetail, index) => {
       return (
         <>
@@ -113,6 +113,7 @@ const columns: ColumnProps<JobDetail>[] = [
   {
     title: "GroupName",
     dataIndex: "groupName",
+    width: 150,
   },
   {
     title: "Description",
@@ -125,20 +126,24 @@ const columns: ColumnProps<JobDetail>[] = [
         </Tooltip>
       );
     },
+    width: 250,
   },
   {
     title: "JobType",
     dataIndex: "jobType",
+    width: 250,
   },
   {
     title: "AssemblyName",
     dataIndex: "assemblyName",
+    width: 150,
   },
 
   {
     title: "Concurrent",
     dataIndex: "concurrent",
     align: "center",
+    width: 120,
     render: (text, jobDetail, index) => {
       return jobDetail.concurrent === true ? (
         <Tooltip content={"默认执行方式，不会等待上一次任务完成"}>
@@ -162,6 +167,7 @@ const columns: ColumnProps<JobDetail>[] = [
   {
     title: "IncludeAnnotations",
     dataIndex: "includeAnnotations",
+    width: 180,
     align: "center",
     render: (text, jobDetail, index) => {
       return jobDetail.includeAnnotations === true ? (
@@ -178,6 +184,7 @@ const columns: ColumnProps<JobDetail>[] = [
   {
     title: "Properties",
     dataIndex: "properties",
+    width: 200,
     render: (text, jobDetail, index) => {
       return (
         <Typography.Paragraph
@@ -196,9 +203,15 @@ const columns: ColumnProps<JobDetail>[] = [
     },
   },
   {
+    title: "UpdatedTime",
+    dataIndex: "updatedTime",
+    width: 180,
+  },
+  {
     title: "lastRunTime",
     dataIndex: "lastRunTime",
-    width: 150,
+    width: 200,
+    fixed: "right",
     render: (text, jobDetail, index) => {
       var lastRunTimes =
         jobDetail.triggers
@@ -211,24 +224,50 @@ const columns: ColumnProps<JobDetail>[] = [
           : new Date(Math.max.apply(null, lastRunTimes as any));
 
       return lastRunTime ? (
-        <Tooltip content={dayjs(lastRunTime).format("YYYY/MM/DD HH:mm:ss")}>
-          <Tag color="grey" type="light" style={{ verticalAlign: "middle" }}>
-            {dayjs(lastRunTime).fromNow()}
-          </Tag>
-        </Tooltip>
+        <Tag color="grey" type="light" style={{ verticalAlign: "middle" }}>
+          {dayjs(lastRunTime).format("YYYY/MM/DD HH:mm:ss")} (
+          {dayjs(lastRunTime).fromNow()})
+        </Tag>
       ) : (
         <></>
       );
     },
   },
   {
-    title: "UpdatedTime",
-    dataIndex: "updatedTime",
+    title: "nextRunTime",
+    dataIndex: "nextRunTime",
+    width: 200,
+    fixed: "right",
+    render: (text, jobDetail, index) => {
+      var nextRunTimes =
+        jobDetail.triggers
+          ?.filter((u) => !!u.nextRunTime)
+          ?.map((u) => new Date(u.nextRunTime!)) || [];
+
+      var nextRunTime =
+        nextRunTimes.length === 0
+          ? null
+          : new Date(Math.max.apply(null, nextRunTimes as any));
+
+      return nextRunTime ? (
+        <Tag
+          color="light-green"
+          type="solid"
+          style={{ verticalAlign: "middle" }}
+        >
+          {dayjs(nextRunTime).format("YYYY/MM/DD HH:mm:ss")} (
+          {dayjs(nextRunTime).fromNow()})
+        </Tag>
+      ) : (
+        <></>
+      );
+    },
   },
   {
     title: "",
     dataIndex: "operate",
     width: 50,
+    fixed: "right",
     render: (text, jobDetail, index) => <Operation jobid={jobDetail.jobId} />,
   },
 ];

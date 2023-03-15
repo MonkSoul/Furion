@@ -53,7 +53,7 @@ export default function RenderValue(props: {
   if (prop === "nextRunTime") {
     preview = value ? (
       <Tag color="light-green" type="solid">
-        {value}
+        {value} ({dayjs(value).fromNow()})
       </Tag>
     ) : (
       <span></span>
@@ -64,19 +64,19 @@ export default function RenderValue(props: {
      */
     preview = value ? (
       <>
-        <Tooltip content={value}>
-          <Tag color="grey" type="light" style={{ verticalAlign: "middle" }}>
-            {dayjs(value).fromNow()}
-          </Tag>
-        </Tooltip>
-        <Button
-          size="small"
-          icon={<IconCalendarClock />}
-          style={{ marginLeft: 5, verticalAlign: "middle", fontSize: 12 }}
-          onClick={showDialog}
-        >
-          记录
-        </Button>
+        <Tag color="grey" type="light" style={{ verticalAlign: "middle" }}>
+          {value} ({dayjs(value).fromNow()})
+        </Tag>
+        <div>
+          <Button
+            size="small"
+            icon={<IconCalendarClock />}
+            style={{ verticalAlign: "middle", fontSize: 12, marginTop: 5 }}
+            onClick={showDialog}
+          >
+            记录
+          </Button>
+        </div>
       </>
     ) : (
       <span></span>
