@@ -19,11 +19,16 @@ import {
 import { Data } from "@douyinfe/semi-ui/lib/es/descriptions";
 import { ColumnProps } from "@douyinfe/semi-ui/lib/es/table/interface";
 import Paragraph from "@douyinfe/semi-ui/lib/es/typography/paragraph";
+import dayjs from "dayjs";
+import "dayjs/locale/zh-cn";
+import relativeTime from "dayjs/plugin/relativeTime";
 import useFetch from "use-http";
 import { JobDetail, Trigger } from "../../types";
 import apiconfig from "./apiconfig";
 import RenderValue from "./render-value";
 import StatusText from "./state-text";
+dayjs.extend(relativeTime);
+dayjs.locale("zh-cn");
 
 const style = {
   padding: "10px",
@@ -187,6 +192,32 @@ const columns: ColumnProps<JobDetail>[] = [
         >
           {text}
         </Typography.Paragraph>
+      );
+    },
+  },
+  {
+    title: "lastRunTime",
+    dataIndex: "lastRunTime",
+    width: 150,
+    render: (text, jobDetail, index) => {
+      var lastRunTimes =
+        jobDetail.triggers
+          ?.filter((u) => !!u.lastRunTime)
+          ?.map((u) => new Date(u.lastRunTime!)) || [];
+
+      var lastRunTime =
+        lastRunTimes.length === 0
+          ? null
+          : new Date(Math.max.apply(null, lastRunTimes as any));
+
+      return lastRunTime ? (
+        <Tooltip content={dayjs(lastRunTime).format("YYYY/MM/DD HH:mm:ss")}>
+          <Tag color="grey" type="light" style={{ verticalAlign: "middle" }}>
+            {dayjs(lastRunTime).fromNow()}
+          </Tag>
+        </Tooltip>
+      ) : (
+        <></>
       );
     },
   },

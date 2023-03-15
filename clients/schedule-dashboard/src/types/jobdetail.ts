@@ -48,4 +48,6 @@ export declare interface JobDetail {
    * 触发器列表
    */
   triggers?: Trigger[] | null;
+
+  refreshDate?: Date | null;
 }
