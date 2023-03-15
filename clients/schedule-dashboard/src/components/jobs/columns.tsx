@@ -208,7 +208,7 @@ const columns: ColumnProps<JobDetail>[] = [
     width: 180,
   },
   {
-    title: "lastRunTime",
+    title: "LastRunTime",
     dataIndex: "lastRunTime",
     width: 200,
     fixed: "right",
@@ -234,7 +234,7 @@ const columns: ColumnProps<JobDetail>[] = [
     },
   },
   {
-    title: "nextRunTime",
+    title: "NextRunTime",
     dataIndex: "nextRunTime",
     width: 200,
     fixed: "right",
@@ -247,7 +247,7 @@ const columns: ColumnProps<JobDetail>[] = [
       var nextRunTime =
         nextRunTimes.length === 0
           ? null
-          : new Date(Math.max.apply(null, nextRunTimes as any));
+          : new Date(Math.min.apply(null, nextRunTimes as any));
 
       return nextRunTime ? (
         <Tag
