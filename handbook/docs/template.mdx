@@ -17,6 +17,10 @@ import Tag from "@site/src/components/Tag.js";
 
   - &nbsp;<Tag>升级</Tag> **脚手架支持创建 `.NET8 Preview.1` 项目** <sup>4.8.7</sup> <sup>⏱️2023.02.22</sup>
 
+- **问题修复**
+
+  - &nbsp;<Tag>修复</Tag> `Blazor` 脚手架出现 `blazor.server.js` 不能加载问题（`404`） <sup>4.8.7.13</sup> <sup>⏱️2023.03.16</sup> [#I6NOBQ](https://gitee.com/dotnetchina/Furion/issues/I6NOBQ)
+
 - **其他更改**
 
   - &nbsp;<Tag>调整</Tag> 脚手架模板，默认启用主流文件类型 `MIME` 支持 <sup>4.8.7.5</sup> <sup>⏱️2023.03.07</sup> [e35cdab](https://gitee.com/dotnetchina/Furion/commit/e35cdab592d1a00ff32b08c566c4ed5d6ddcff24)
@@ -65,9 +69,9 @@ import Tag from "@site/src/components/Tag.js";
 
 ```bash showLineNumbers
 // EFCore
-dotnet new --install Furion.Template.Api::4.8.7.12
+dotnet new --install Furion.Template.Api::4.8.7.14
 // SqlSugar
-dotnet new --install Furion.SqlSugar.Template.Api::4.8.7.12
+dotnet new --install Furion.SqlSugar.Template.Api::4.8.7.14
 ```
 
 :::tip `SqlSugar` 脚手架基本使用
@@ -119,7 +123,7 @@ dotnet new fsapi -n MyProject -f net8
 只需要重新安装最新版替换即可，如：
 
 ```bash showLineNumbers
-dotnet new --install Furion.Template.Api::4.8.7.12
+dotnet new --install Furion.Template.Api::4.8.7.14
 ```
 
 不带版本号总是安装最新的版本。

@@ -236,4 +236,13 @@ public class TestModuleServices : IDynamicApiController
         var d = "select * from person".SqlQuery();
         return d;
     }
+
+    public void 测试GUID正则表达式()
+    {
+        var a = "41E3DAF5-6E37-4BCC-9F8E-0D9521E2AA8D".TryValidate(ValidationTypes.GUID_OR_UUID).IsValid;
+        var b = "e155518c-ca1b-443c-9be9-fe90fdab7345".TryValidate(ValidationTypes.GUID_OR_UUID).IsValid;
+        var c = "00000000-0000-0000-0000-000000000000".TryValidate(ValidationTypes.GUID_OR_UUID).IsValid;
+
+        var d = true == a && a == b && a == c;
+    }
 }

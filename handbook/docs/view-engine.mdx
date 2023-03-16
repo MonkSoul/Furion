@@ -373,7 +373,43 @@ var str = "我叫#(Furion:Address)".Render();
 }
 ```
 
-## 17.7 反馈与建议
+## 17.7 格式化规范模板
+
+在 `Furion v3.5.3+` 新增了 `TP.Wrapper(...)` 规范模板，使用如下：
+
+```cs showLineNumbers {2}
+// 生成模板字符串
+var template = TP.Wrapper("Furion 框架", "让 .NET 开发更简单，更通用，更流行。",
+    "##作者## 百小僧",
+    "##当前版本## v3.5.3",
+    "##文档地址## https://furion.baiqian.ltd",
+    "##Copyright## 百小僧, 百签科技（广东）有限公司");
+
+Console.WriteLine(template);
+```
+
+日志打印模板如下：
+
+```bash showLineNumbers
+┏━━━━━━━━━━━  Furion 框架 ━━━━━━━━━━━
+┣ 让 .NET 开发更简单，更通用，更流行。
+┣
+┣ 作者：        百小僧
+┣ 当前版本：     v3.5.3
+┣ 文档地址：     https://furion.baiqian.ltd
+┣ Copyright：   百小僧, 百签科技（广东）有限公司
+┗━━━━━━━━━━━  Furion 框架 ━━━━━━━━━━━
+```
+
+:::tip 关于属性生成
+
+如果列表项以 `##属性名##` 开头，自动生成 `属性名：` 作为行首且自动等宽对齐。
+
+`Furion 3.9.1` 之前版本使用 `[属性名]` 开头。
+
+:::
+
+## 17.8 反馈与建议
 
 :::note 与我们交流
 

@@ -30,10 +30,7 @@ public class Startup : AppStartup
         }
 
         app.UseHttpsRedirection();
-        app.UseStaticFiles(new StaticFileOptions
-        {
-            ContentTypeProvider = FS.GetFileExtensionContentTypeProvider()
-        });
+        app.UseStaticFiles();
 
         app.UseRouting();
 
