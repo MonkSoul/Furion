@@ -335,7 +335,7 @@ public enum ValidationTypes
     /// <summary>
     /// GUID 或者 UUID
     /// </summary>
-    [Description("GUID 或者 UUID"), ValidationItemMetadata(@"^[a-f\d]{4}(?:[a-f\d]{4}-){4}[a-f\d]{12}$", "The value is not a GUID or UUID type.")]
+    [Description("GUID 或者 UUID"), ValidationItemMetadata(@"^[a-fA-F\d]{4}(?:[a-fA-F\d]{4}-){4}[a-fA-F\d]{12}$", "The value is not a GUID or UUID type.")]
     GUID_OR_UUID,
 
     /// <summary>
