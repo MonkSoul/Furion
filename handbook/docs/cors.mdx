@@ -173,7 +173,28 @@ $.ajax({
 }
 ```
 
-## 16.10 反馈与建议
+## 16.10 静态资源跨域问题
+
+有时候我们可能通过前端 `XMLHttpRequest/Ajax/Fetch` 方式加载静态资源，这时可能出现跨域问题，可以通过以下配置解决：
+
+```cs showLineNumbers {1,3,5-7}
+app.UseStaticFiles(new StaticFileOptions
+{
+    OnPrepareResponse = (stf) =>
+    {
+        stf.Context.Response.Headers["Access-Control-Allow-Origin"] = "*";
+        stf.Context.Response.Headers["Access-Control-Allow-Headers"] = "*";
+    }
+});
+```
+
+:::tip 小知识
+
+如果已经注册了 `app.UseStaticFiles()`，则只需要传递 `new StaticFileOptions{ ... }` 参数即可，避免多次注册 `app.UseStaticFiles()`。
+
+:::
+
+## 16.11 反馈与建议
 
 :::note 与我们交流
 
