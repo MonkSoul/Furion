@@ -98,6 +98,7 @@ export default function Jobs() {
     for (const scheduler of jobs) {
       let jobDetail = scheduler.jobDetail!;
       jobDetail.triggers = scheduler.triggers;
+      jobDetail.refreshDate = new Date();
       jobDetails.push(jobDetail);
     }
 

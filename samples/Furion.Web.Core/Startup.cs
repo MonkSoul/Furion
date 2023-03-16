@@ -12,8 +12,10 @@ using System.Threading.Tasks;
 namespace Furion.Web.Core;
 
 [AppStartup(700)]
-public sealed class Startup : AppStartup {
-    public void ConfigureServices(IServiceCollection services) {
+public sealed class Startup : AppStartup
+{
+    public void ConfigureServices(IServiceCollection services)
+    {
         services.AddConsoleFormatter();
 
         // 注册 JWT 授权
@@ -24,11 +26,13 @@ public sealed class Startup : AppStartup {
         services.AddControllersWithViews()
                 // 配置多语言
                 .AddAppLocalization()
-                .AddJsonOptions(options => {
+                .AddJsonOptions(options =>
+                {
                     options.JsonSerializerOptions.Converters.AddDateTimeTypeConverters();
                 })
                 .AddInjectWithUnifyResult()
-                .AddUnifyJsonOptions("special", new JsonSerializerOptions {
+                .AddUnifyJsonOptions("special", new JsonSerializerOptions
+                {
                     PropertyNamingPolicy = null
                 });
 
@@ -36,7 +40,8 @@ public sealed class Startup : AppStartup {
 
         services.AddRemoteRequest();
 
-        services.AddEventBus(options => {
+        services.AddEventBus(options =>
+        {
             options.AddFallbackPolicy<EventFallbackPolicy>();
         });
 
@@ -52,7 +57,8 @@ public sealed class Startup : AppStartup {
         services.AddFromConvertBinding();
 
         // 新版本定时任务测试
-        services.AddSchedule(options => {
+        services.AddSchedule(options =>
+        {
             //options.AddJob(JobBuilder.Create<TestJob>().SetDescription("这是定时任务包含多个作业触发器")
             //    , Triggers.Minutely(), Triggers.Period(5000).SetDescription("这是作业触发器，间隔 5 秒"));
             //options.AddJob<TestJob>(Triggers.Hourly());
@@ -69,7 +75,7 @@ public sealed class Startup : AppStartup {
             //    return Task.CompletedTask;
             //}, Triggers.PeriodSeconds(2));
 
-            options.AddJob<TestJob>(Triggers.PeriodHours(1).SetMaxNumberOfRuns(2));
+            options.AddJob<TestJob>(Triggers.PeriodHours(1).SetMaxNumberOfRuns(2), Triggers.PeriodSeconds(4));
         });
 
         // 新版本任务队列
@@ -77,8 +83,10 @@ public sealed class Startup : AppStartup {
     }
 
 
-    public void Configure(IApplicationBuilder app, IWebHostEnvironment env) {
-        if (env.IsDevelopment()) {
+    public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+    {
+        if (env.IsDevelopment())
+        {
             app.UseDeveloperExceptionPage();
         }
 
@@ -90,7 +98,8 @@ public sealed class Startup : AppStartup {
         // 配置多语言，必须在 路由注册之前
         app.UseAppLocalization();
 
-        app.UseStaticFiles(new StaticFileOptions {
+        app.UseStaticFiles(new StaticFileOptions
+        {
             ContentTypeProvider = FS.GetFileExtensionContentTypeProvider()
         });
         app.UseScheduleUI();
@@ -104,7 +113,8 @@ public sealed class Startup : AppStartup {
 
         app.UseInject();
 
-        app.UseEndpoints(endpoints => {
+        app.UseEndpoints(endpoints =>
+        {
             // 批量注册集线器
             endpoints.MapHubs();
 

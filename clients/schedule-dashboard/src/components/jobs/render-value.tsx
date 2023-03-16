@@ -8,11 +8,16 @@ import {
   Typography
 } from "@douyinfe/semi-ui";
 import Paragraph from "@douyinfe/semi-ui/lib/es/typography/paragraph";
+import dayjs from "dayjs";
+import "dayjs/locale/zh-cn";
+import relativeTime from "dayjs/plugin/relativeTime";
 import { useEffect, useState } from "react";
 import useFetch from "use-http/dist/cjs/useFetch";
 import { Trigger, TriggerTimeline } from "../../types";
 import apiconfig from "./apiconfig";
 import StatusText from "./state-text";
+dayjs.extend(relativeTime);
+dayjs.locale("zh-cn");
 
 /**
  * 渲染触发器属性值
@@ -48,7 +53,7 @@ export default function RenderValue(props: {
   if (prop === "nextRunTime") {
     preview = value ? (
       <Tag color="light-green" type="solid">
-        {value}
+        {value} ({dayjs(value).fromNow()})
       </Tag>
     ) : (
       <span></span>
@@ -60,16 +65,18 @@ export default function RenderValue(props: {
     preview = value ? (
       <>
         <Tag color="grey" type="light" style={{ verticalAlign: "middle" }}>
-          {value}
+          {value} ({dayjs(value).fromNow()})
         </Tag>
-        <Button
-          size="small"
-          icon={<IconCalendarClock />}
-          style={{ marginLeft: 5, verticalAlign: "middle", fontSize: 12 }}
-          onClick={showDialog}
-        >
-          记录
-        </Button>
+        <div>
+          <Button
+            size="small"
+            icon={<IconCalendarClock />}
+            style={{ verticalAlign: "middle", fontSize: 12, marginTop: 5 }}
+            onClick={showDialog}
+          >
+            记录
+          </Button>
+        </div>
       </>
     ) : (
       <span></span>

@@ -1,6 +1,6 @@
 ﻿// MIT 许可证
 //
-// 版权 (c) 2020-present 百小僧, 百签科技（广东）有限公司 和所有贡献者
+// 版权 © 2020-present 百小僧, 百签科技（广东）有限公司 和所有贡献者
 //
 // 特此免费授予任何获得本软件副本和相关文档文件（下称“软件”）的人不受限制地处置该软件的权利，
 // 包括不受限制地使用、复制、修改、合并、发布、分发、转授许可和/或出售该软件副本，
@@ -99,7 +99,7 @@ public class HttpJob : IJob
         _logger.LogInformation($"Received HTTP response body with a length of <{bodyString.Length}> output as follows - {(int)httpResponseMessage.StatusCode}{Environment.NewLine}{bodyString}");
 
         // 设置本次执行结果
-        context.Result = Penetrates.Serialize(new 
+        context.Result = Penetrates.Serialize(new
         {
             httpResponseMessage.StatusCode,
             Body = bodyString
