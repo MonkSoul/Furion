@@ -170,7 +170,7 @@ module.exports = {
           ],
         },
       ],
-      copyright: `版权 (c) 2020-present 百小僧, 百签科技（广东）有限公司 和所有贡献者`,
+      copyright: `版权 © 2020-present 百小僧, 百签科技（广东）有限公司 和所有贡献者`,
       logo: {
         src: "img/chinadotnet.png",
         href: "https://gitee.com/dotnetchina",
