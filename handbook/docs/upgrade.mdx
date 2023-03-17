@@ -147,7 +147,8 @@ options.AddJob((context, stoppingToken) =>
 
 - **问题修复**
 
-  - &nbsp;<Tag>修复</Tag> 定时任务生成 `SQL` 语句没有处理 `'` 转移问题 <sup>4.8.7.15</sup> <sup>⏱️2023.03.17</sup> [#I6NXKA](https://gitee.com/dotnetchina/Furion/issues/I6NXKA)
+  - &nbsp;<Tag>修复</Tag> 启用请求 `Body` 重复读且在授权之前读取导致非 `GET/HEAD/OPTION` 请求异常 <sup>4.8.7.15</sup> <sup>⏱️2023.03.17</sup> [#I6NX9E](https://gitee.com/dotnetchina/Furion/issues/I6NX9E)
+  - &nbsp;<Tag>修复</Tag> 定时任务生成 `SQL` 语句没有处理 `'` 转义问题 <sup>4.8.7.15</sup> <sup>⏱️2023.03.17</sup> [#I6NXKA](https://gitee.com/dotnetchina/Furion/issues/I6NXKA)
   - &nbsp;<Tag>修复</Tag> 数据验证 `ValiationTypes.GUID_OR_UUID` 不支持大写问题 <sup>4.8.7.14</sup> <sup>⏱️2023.03.16</sup> [#I6NP22](https://gitee.com/dotnetchina/Furion/issues/I6NP22)
   - &nbsp;<Tag>修复</Tag> `Blazor` 脚手架出现 `blazor.server.js` 不能加载问题（`404`） <sup>4.8.7.13</sup> <sup>⏱️2023.03.16</sup> [#I6NOBQ](https://gitee.com/dotnetchina/Furion/issues/I6NOBQ)
   - &nbsp;<Tag>修复</Tag> 定时任务服务在停止进程时会卡住 `30秒` 问题 <sup>4.8.7.8</sup> <sup>⏱️2023.03.13</sup> [#I6MI9I](https://gitee.com/dotnetchina/Furion/issues/I6MI9I) [#I6MHOU](https://gitee.com/dotnetchina/Furion/issues/I6MHOU)
@@ -171,6 +172,7 @@ options.AddJob((context, stoppingToken) =>
 
 - **贡献者**
 
+  - lampon ([@lampon](https://gitee.com/lampon)) [!740](https://gitee.com/dotnetchina/Furion/pulls/740)
   - family520 ([@family520](https://gitee.com/family520)) [!739](https://gitee.com/dotnetchina/Furion/pulls/739)
   - kingling ([@kinglinglive](https://gitee.com/kinglinglive)) [!732](https://gitee.com/dotnetchina/Furion/pulls/732) [!729](https://gitee.com/dotnetchina/Furion/pulls/729)
   - ksmy ([@ksmy](https://gitee.com/ksmy)) [!731](https://gitee.com/dotnetchina/Furion/pulls/731)
