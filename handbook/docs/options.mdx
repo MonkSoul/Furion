@@ -90,7 +90,7 @@ namespace Furion.Web.Core
 
 在 `Furion` 框架中，提供了多种读取方式：
 
-- 通过 `App.GetOptions<TOptions>(path)` 读取（**不推荐**）
+- 通过 `App.GetConfig<TOptions>(path)` 读取（**不推荐**）
 - 通过依赖注入以下实例读取：
   - `IOptions<TOptions>`
   - `IOptionsSnapshot<TOptions>`
