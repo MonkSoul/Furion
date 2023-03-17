@@ -50,7 +50,8 @@ public sealed partial class ViewEnginePart
     /// <returns></returns>
     public ViewEnginePart SetTemplateModel(object model)
     {
-        return SetTemplateModel<object>(model);
+        TemplateModel = (model == null ? typeof(object) : model.GetType(), model);
+        return this;
     }
 
     /// <summary>
