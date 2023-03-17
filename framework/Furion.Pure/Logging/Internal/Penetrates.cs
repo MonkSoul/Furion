@@ -13,6 +13,7 @@
 // 还是产生于、源于或有关于本软件以及本软件的使用或其它处置。
 
 using Microsoft.Extensions.Logging;
+using System.Diagnostics;
 using System.Text;
 
 namespace Furion.Logging;
@@ -53,7 +54,8 @@ internal static class Penetrates
             UseUtcTimestamp = fileLoggerSettings.UseUtcTimestamp,
             DateFormat = fileLoggerSettings.DateFormat,
             IncludeScopes = fileLoggerSettings.IncludeScopes,
-            WithTraceId = fileLoggerSettings.WithTraceId
+            WithTraceId = fileLoggerSettings.WithTraceId,
+            WithStackFrame = fileLoggerSettings.WithStackFrame
         };
 
         // 处理自定义配置
@@ -87,7 +89,8 @@ internal static class Penetrates
             DateFormat = databaseLoggerSettings.DateFormat,
             IncludeScopes = databaseLoggerSettings.IncludeScopes,
             IgnoreReferenceLoop = databaseLoggerSettings.IgnoreReferenceLoop,
-            WithTraceId = databaseLoggerSettings.WithTraceId
+            WithTraceId = databaseLoggerSettings.WithTraceId,
+            WithStackFrame = databaseLoggerSettings.WithStackFrame
         };
 
         // 处理自定义配置
@@ -105,12 +108,14 @@ internal static class Penetrates
     /// <param name="disableColors"></param>
     /// <param name="isConsole"></param>
     /// <param name="withTraceId"></param>
+    /// <param name="withStackFrame"></param>
     /// <returns></returns>
     internal static string OutputStandardMessage(LogMessage logMsg
         , string dateFormat = "yyyy-MM-dd HH:mm:ss.fffffff zzz dddd"
         , bool isConsole = false
         , bool disableColors = true
-        , bool withTraceId = false)
+        , bool withTraceId = false
+        , bool withStackFrame = false)
     {
         // 空检查
         if (logMsg.Message is null) return null;
@@ -144,6 +149,22 @@ internal static class Penetrates
                 : new ConsoleColors(ConsoleColor.Gray, ConsoleColor.Black));
         }
         formatString.AppendLine();
+
+        // 输出日志输出所在方法，类型，程序集
+        if (withStackFrame)
+        {
+            var stackTraces = EnhancedStackTrace.Current();
+            var pos = isConsole ? 6 : 5;
+            if (stackTraces.FrameCount > pos)
+            {
+                var targetMethod = stackTraces.Where((u, i) => i == pos).First().MethodInfo;
+                var declaringType = targetMethod.DeclaringType;
+                var targetAssembly = declaringType.Assembly;
+
+                formatString.Append(PadLeftAlign($"[{targetAssembly.GetName().Name}.dll] {targetMethod}"));
+                formatString.AppendLine();
+            }
+        }
 
         // 对日志内容进行缩进对齐处理
         formatString.Append(PadLeftAlign(logMsg.Message));

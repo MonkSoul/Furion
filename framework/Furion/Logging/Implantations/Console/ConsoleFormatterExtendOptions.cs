@@ -57,4 +57,9 @@ public sealed class ConsoleFormatterExtendOptions : ConsoleFormatterOptions
     /// 显示跟踪/请求 Id
     /// </summary>
     public bool WithTraceId { get; set; } = false;
+
+    /// <summary>
+    /// 显示堆栈框架（程序集和方法签名）
+    /// </summary>
+    public bool WithStackFrame { get; set; } = false;
 }
