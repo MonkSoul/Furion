@@ -173,6 +173,9 @@ public static class HttpContextExtensions
 
         using var reader = new StreamReader(request.Body, Encoding.UTF8, true, 1024, true);
         var body = await reader.ReadToEndAsync();
+
+        // 回到顶部，解决此类问题 https://gitee.com/dotnetchina/Furion/issues/I6NX9E
+        request.Body.Seek(0, SeekOrigin.Begin);
         return body;
     }
 

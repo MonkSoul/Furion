@@ -6,6 +6,21 @@ sidebar_label: 5.2 HttpContext
 
 import useBaseUrl from "@docusaurus/useBaseUrl";
 
+import Tag from "@site/src/components/Tag.js";
+
+<details>
+  <summary>📝 模块更新日志</summary>
+  <div>
+<div>
+
+- **问题修复**
+
+  - &nbsp;<Tag>修复</Tag> 启用请求 `Body` 重复读且在授权之前读取导致非 `GET/HEAD/OPTION` 请求异常 <sup>4.8.7.15</sup> <sup>⏱️2023.03.17</sup> [#I6NX9E](https://gitee.com/dotnetchina/Furion/issues/I6NX9E)
+
+</div>
+  </div>
+</details>
+
 ## 5.2.1 关于 `HttpContext`
 
 在 `ASP.NET` 的时代，我们通常通过 `HttpContext` 全局静态类获取请求上下文，但在 `ASP.NET Core` 中，`HttpContext` 是一个非静态的抽象类，无法手动创建，也无法通过静态获取。
@@ -124,14 +139,19 @@ var ipv4 = httpContext.GetRemoteIpAddressToIPv4();
 var ipv6 = httpContext.GetRemoteIpAddressToIPv6();
 ```
 
-:::tip `Nginx` 无法获取正确客户端 `IP` 问题
+:::tip `Nginx/IIS` 无法获取正确客户端 `IP` 问题
 
-如果服务器端使用了 `nginx` 等反向代理工具，可添加以下代码配置：
+如果服务器端使用了 `nginx/iis` 等反向代理工具，可添加以下代码配置：
 
-```cs showLineNumbers title="Startup.cs" {1-4,6-7}
+```cs showLineNumbers title="Startup.cs" {1,3,5-8,12}
 services.Configure<ForwardedHeadersOptions>(options =>
 {
     options.ForwardedHeaders = ForwardedHeaders.All;
+
+    // 若上面配置无效可尝试下列代码，比如在 IIS 中
+    options.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
+    options.KnownNetworks.Clear();
+    options.KnownProxies.Clear();
 });
 
 // 注意在 Configure 最前面配置

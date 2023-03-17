@@ -174,7 +174,7 @@ internal static class Penetrates
     /// <returns><see cref="string"/></returns>
     internal static string GetNoNumberSqlValueOrNull(object obj)
     {
-        return obj == null ? "NULL" : $"{(ScheduleOptionsBuilder.InternalBuildSqlType == SqlTypes.SqlServer ? "N" : string.Empty)}'{obj}'";
+        return obj == null ? "NULL" : $"{(ScheduleOptionsBuilder.InternalBuildSqlType == SqlTypes.SqlServer ? "N" : string.Empty)}'{obj.ToString().Replace("'", "''")}'";
     }
 
     /// <summary>
