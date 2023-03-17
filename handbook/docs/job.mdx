@@ -2002,7 +2002,7 @@ public class MyHttpJob : IJob // 也可以继承内部的 HttpJob 类
     /// </summary>
     /// <param name="httpClientFactory"><see cref="HttpClient"/> 创建工厂</param>
     /// <param name="logger">日志服务</param>
-    public HttpJob(IHttpClientFactory httpClientFactory
+    public MyHttpJob(IHttpClientFactory httpClientFactory
         , ILogger<MyHttpJob> logger)
     {
         _httpClientFactory = httpClientFactory;
