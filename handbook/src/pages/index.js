@@ -213,28 +213,28 @@ function WhoUse() {
           <img
             src={useBaseUrl("img/custom1.png")}
             height="100"
-            style={{ height: 100 }}
+            style={{ height: 100, maxWidth: "100%" }}
           />
         </div>
         <div className="furion-custom-img">
           <img
             src={useBaseUrl("img/custom2.png")}
             height="100"
-            style={{ height: 100 }}
+            style={{ height: 100, maxWidth: "100%" }}
           />
         </div>
         <div className="furion-custom-img">
           <img
             src={useBaseUrl("img/custom3.png")}
             height="100"
-            style={{ height: 100 }}
+            style={{ height: 100, maxWidth: "100%" }}
           />
         </div>
         <div className="furion-custom-img">
           <img
             src={useBaseUrl("img/custom4.jpg")}
             height="100"
-            style={{ height: 100 }}
+            style={{ height: 100, maxWidth: "100%" }}
           />
         </div>
         <div className="furion-custom-img">
@@ -242,7 +242,7 @@ function WhoUse() {
             <img
               src={useBaseUrl("img/custom5.png")}
               height="100"
-              style={{ height: 100 }}
+              style={{ height: 100, maxWidth: "100%" }}
             />
           </a>
         </div>
@@ -251,7 +251,7 @@ function WhoUse() {
             <img
               src={useBaseUrl("img/custom6.png")}
               height="100"
-              style={{ height: 100 }}
+              style={{ height: 100, maxWidth: "100%" }}
             />
           </a>
         </div>
@@ -259,14 +259,14 @@ function WhoUse() {
           <img
             src={useBaseUrl("img/c10.jpg")}
             height="100"
-            style={{ height: 100 }}
+            style={{ height: 100, maxWidth: "100%" }}
           />
         </div>
         <div className="furion-custom-img">
           <img
             src={useBaseUrl("img/jjd.png")}
             height="100"
-            style={{ height: 100 }}
+            style={{ height: 100, maxWidth: "100%" }}
           />
         </div>
         <div className="furion-custom-img">
@@ -274,7 +274,7 @@ function WhoUse() {
             <img
               src={useBaseUrl("img/custom10.png")}
               height="100"
-              style={{ height: 100 }}
+              style={{ height: 100, maxWidth: "100%" }}
             />
           </a>
         </div>
@@ -283,7 +283,7 @@ function WhoUse() {
             <img
               src={useBaseUrl("img/custom11.png")}
               height="100"
-              style={{ height: 100 }}
+              style={{ height: 100, maxWidth: "100%" }}
             />
           </a>
         </div>
