@@ -44,12 +44,69 @@ import Tag from "@site/src/components/Tag.js";
 
 - **新特性**
 
-  - &nbsp;<Tag>新增</Tag> 定时任务看板 `UI` 作业列表 `最近执行时间` 列和优化显示效果 <sup>4.8.7.12</sup> <sup>⏱️2023.03.15</sup> [26462a8](https://gitee.com/dotnetchina/Furion/commit/26462a84e553e39ce4cddd5128833ff732c85f3e) [cb5dd17](https://gitee.com/dotnetchina/Furion/commit/cb5dd17969244987b847fcd96825d28b243a5b9f)
-  - &nbsp;<Tag>新增</Tag> 定时任务作业计划/工厂立即执行 `RunJob` 方法 <sup>4.8.7.11</sup> <sup>⏱️2023.03.15</sup> [#I6LD9X](https://gitee.com/dotnetchina/Furion/issues/I6LD9X)
-  - &nbsp;<Tag>新增</Tag> 定时任务看板 `UI` 提供立即执行功能 <sup>4.8.7.11</sup> <sup>⏱️2023.03.15</sup> [#I6LD9X](https://gitee.com/dotnetchina/Furion/issues/I6LD9X)
-  - &nbsp;<Tag>新增</Tag> 远程请求 `HttpRequestMessage` 拓展方法 `AppendHeaders` <sup>4.8.7.10</sup> <sup>⏱️2023.03.14</sup> [#I6MVHT](https://gitee.com/dotnetchina/Furion/issues/I6MVHT)
-  - &nbsp;<Tag>新增</Tag> 定时任务作业执行上下文 `JobExecutionContext` 服务提供器 `ServiceProvider` 属性 <sup>4.8.7.10</sup> <sup>⏱️2023.03.14</sup> [02586f8](https://gitee.com/dotnetchina/Furion/commit/02586f83edb4f98e4801ae65080c2d6aa5545763)
-  - &nbsp;<Tag>新增</Tag> **定时任务 `HTTP` 作业，支持定时请求互联网 `URL` 地址** <sup>4.8.7.7</sup> <sup>⏱️2023.03.11</sup> [01d4466](https://gitee.com/dotnetchina/Furion/commit/01d446620c20e373f198195797896d8c96feeb15)
+  - &nbsp;<Tag>新增</Tag> **日志配置 `WithStackFrame`，可控制是否输出产生日志的程序集，类型和具体方法** <sup>4.8.7.16</sup> <sup>⏱️2023.03.19</sup> [5ad6ae2](https://gitee.com/dotnetchina/Furion/commit/5ad6ae241d1798ad788e42569a15d68686db4fa1)
+
+<details style={{ marginLeft: 50 }}>
+  <summary>查看变化</summary>
+  <div>
+
+启用 `WithStackFrame` 日志配置后，可输出程序集，类型，方法签名信息。
+
+```cs showLineNumbers {4,10,16}
+// 控制台日志
+services.AddConsoleFormatter(options =>
+{
+    options.WithStackFrame = true;
+});
+
+// 文件日志
+services.AddFileLogging(options =>
+{
+    options.WithStackFrame = true;
+});
+
+// 数据库日志
+services.AddDatabaseLogging(options =>
+{
+    options.WithStackFrame = true;
+});
+```
+
+日志输出如下：
+
+```bash showLineNumbers {2,5,8,11,14,17,20}
+info: 2023-03-17 18:25:06.7988349 +08:00 星期五 L System.Logging.EventBusService[0] #1
+      [Furion.dll] async Task Furion.EventBus.EventBusHostedService.ExecuteAsync(CancellationToken stoppingToken)
+      EventBus hosted service is running.
+info: 2023-03-17 18:25:08.1393952 +08:00 星期五 L Microsoft.Hosting.Lifetime[14] #1
+      [System.Private.CoreLib.dll] void System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start<TStateMachine>(ref TStateMachine stateMachine)
+      Now listening on: https://localhost:5001
+info: 2023-03-17 18:25:08.1620391 +08:00 星期五 L Microsoft.Hosting.Lifetime[14] #1
+      [System.Private.CoreLib.dll] void System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start<TStateMachine>(ref TStateMachine stateMachine)
+      Now listening on: http://localhost:5000
+info: 2023-03-17 18:25:08.1972456 +08:00 星期五 L Microsoft.Hosting.Lifetime[0] #1
+      [Microsoft.Extensions.Hosting.dll] void Microsoft.Extensions.Hosting.Internal.ConsoleLifetime.OnApplicationStarted()
+      Application started. Press Ctrl+C to shut down.
+info: 2023-03-17 18:25:08.2456579 +08:00 星期五 L Microsoft.Hosting.Lifetime[0] #1
+      [Microsoft.Extensions.Hosting.dll] void Microsoft.Extensions.Hosting.Internal.ConsoleLifetime.OnApplicationStarted()
+      Hosting environment: Development
+info: 2023-03-17 18:25:08.2746134 +08:00 星期五 L Microsoft.Hosting.Lifetime[0] #1
+      [System.Private.CoreLib.dll] void System.Threading.CancellationTokenSource.ExecuteCallbackHandlers(bool throwOnFirstException)
+      Content root path: D:\Workplaces\OpenSources\Furion\samples\Furion.Web.Entry
+info: 2023-03-17 18:25:18.1917784 +08:00 星期五 L Furion.Application.TestLoggerServices[0] #16
+      [Furion.Application.dll] void Furion.Application.TestLoggerServices.测试日志()
+      我是一个日志 20
+```
+
+  </div>
+</details>
+
+- - &nbsp;<Tag>新增</Tag> 定时任务看板 `UI` 作业列表 `最近执行时间` 列和优化显示效果 <sup>4.8.7.12</sup> <sup>⏱️2023.03.15</sup> [26462a8](https://gitee.com/dotnetchina/Furion/commit/26462a84e553e39ce4cddd5128833ff732c85f3e) [cb5dd17](https://gitee.com/dotnetchina/Furion/commit/cb5dd17969244987b847fcd96825d28b243a5b9f)
+- - &nbsp;<Tag>新增</Tag> 定时任务作业计划/工厂立即执行 `RunJob` 方法 <sup>4.8.7.11</sup> <sup>⏱️2023.03.15</sup> [#I6LD9X](https://gitee.com/dotnetchina/Furion/issues/I6LD9X)
+- - &nbsp;<Tag>新增</Tag> 定时任务看板 `UI` 提供立即执行功能 <sup>4.8.7.11</sup> <sup>⏱️2023.03.15</sup> [#I6LD9X](https://gitee.com/dotnetchina/Furion/issues/I6LD9X)
+- - &nbsp;<Tag>新增</Tag> 远程请求 `HttpRequestMessage` 拓展方法 `AppendHeaders` <sup>4.8.7.10</sup> <sup>⏱️2023.03.14</sup> [#I6MVHT](https://gitee.com/dotnetchina/Furion/issues/I6MVHT)
+- - &nbsp;<Tag>新增</Tag> 定时任务作业执行上下文 `JobExecutionContext` 服务提供器 `ServiceProvider` 属性 <sup>4.8.7.10</sup> <sup>⏱️2023.03.14</sup> [02586f8](https://gitee.com/dotnetchina/Furion/commit/02586f83edb4f98e4801ae65080c2d6aa5545763)
+- - &nbsp;<Tag>新增</Tag> **定时任务 `HTTP` 作业，支持定时请求互联网 `URL` 地址** <sup>4.8.7.7</sup> <sup>⏱️2023.03.11</sup> [01d4466](https://gitee.com/dotnetchina/Furion/commit/01d446620c20e373f198195797896d8c96feeb15)
 
 <details style={{ marginLeft: 50 }}>
   <summary>查看变化</summary>
@@ -147,8 +204,9 @@ options.AddJob((context, stoppingToken) =>
 
 - **问题修复**
 
-  - &nbsp;<Tag>修复</Tag> 启用请求 `Body` 重复读且在授权之前读取导致非 `GET/HEAD/OPTION` 请求异常 <sup>4.8.7.15</sup> <sup>⏱️2023.03.17</sup> [#I6NX9E](https://gitee.com/dotnetchina/Furion/issues/I6NX9E)
-  - &nbsp;<Tag>修复</Tag> 定时任务生成 `SQL` 语句没有处理 `'` 转义问题 <sup>4.8.7.15</sup> <sup>⏱️2023.03.17</sup> [#I6NXKA](https://gitee.com/dotnetchina/Furion/issues/I6NXKA)
+  - &nbsp;<Tag>修复</Tag> 视图引擎不支持强制转换的 `(object)model` 类型 <sup>4.8.7.16</sup> <sup>⏱️2023.03.18</sup> [#I6O3BD](https://gitee.com/dotnetchina/Furion/issues/I6O3BD)
+  - &nbsp;<Tag>修复</Tag> 启用请求 `Body` 重复读且在授权之前读取导致非 `GET/HEAD/OPTION` 请求异常 <sup>4.8.7.15</sup> <sup>⏱️2023.03.19</sup> [#I6NX9E](https://gitee.com/dotnetchina/Furion/issues/I6NX9E)
+  - &nbsp;<Tag>修复</Tag> 定时任务生成 `SQL` 语句没有处理 `'` 转义问题 <sup>4.8.7.15</sup> <sup>⏱️2023.03.19</sup> [#I6NXKA](https://gitee.com/dotnetchina/Furion/issues/I6NXKA)
   - &nbsp;<Tag>修复</Tag> 数据验证 `ValiationTypes.GUID_OR_UUID` 不支持大写问题 <sup>4.8.7.14</sup> <sup>⏱️2023.03.16</sup> [#I6NP22](https://gitee.com/dotnetchina/Furion/issues/I6NP22)
   - &nbsp;<Tag>修复</Tag> `Blazor` 脚手架出现 `blazor.server.js` 不能加载问题（`404`） <sup>4.8.7.13</sup> <sup>⏱️2023.03.16</sup> [#I6NOBQ](https://gitee.com/dotnetchina/Furion/issues/I6NOBQ)
   - &nbsp;<Tag>修复</Tag> 定时任务服务在停止进程时会卡住 `30秒` 问题 <sup>4.8.7.8</sup> <sup>⏱️2023.03.13</sup> [#I6MI9I](https://gitee.com/dotnetchina/Furion/issues/I6MI9I) [#I6MHOU](https://gitee.com/dotnetchina/Furion/issues/I6MHOU)
@@ -159,6 +217,7 @@ options.AddJob((context, stoppingToken) =>
 
 - **其他更改**
 
+  - &nbsp;<Tag>调整</Tag> 视图引擎默认程序集，追加 `System.Collections` 程序集 <sup>4.8.7.16</sup> <sup>⏱️2023.03.18</sup> [#I6O3BD](https://gitee.com/dotnetchina/Furion/issues/I6O3BD)
   - &nbsp;<Tag>调整</Tag> 定时任务配置选项 `BuilSqlType` 属性命为 `BuildSqlType` <sup>4.8.7.11</sup> <sup>⏱️2023.03.15</sup> [92117b8](https://gitee.com/dotnetchina/Furion/commit/92117b842f7f8bdeb983bf3dac510f713d8410c2)
   - &nbsp;<Tag>调整</Tag> **定时任务查看作业触发器运行记录由保存 `10条` 改为 `5条`** <sup>4.8.7.7</sup> <sup>⏱️2023.03.07</sup> [01d4466](https://gitee.com/dotnetchina/Furion/commit/01d446620c20e373f198195797896d8c96feeb15)
   - &nbsp;<Tag>调整</Tag> 脚手架模板，默认启用主流文件类型 `MIME` 支持 <sup>4.8.7.5</sup> <sup>⏱️2023.03.07</sup> [e35cdab](https://gitee.com/dotnetchina/Furion/commit/e35cdab592d1a00ff32b08c566c4ed5d6ddcff24)

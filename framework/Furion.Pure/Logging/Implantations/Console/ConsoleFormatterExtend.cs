@@ -85,7 +85,8 @@ public sealed class ConsoleFormatterExtend : ConsoleFormatter, IDisposable
                , _formatterOptions.DateFormat
                , true
                , _disableColors
-               , _formatterOptions.WithTraceId);
+               , _formatterOptions.WithTraceId
+               , _formatterOptions.WithStackFrame);
         }
 
         // 空检查

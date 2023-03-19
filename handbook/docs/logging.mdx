@@ -13,11 +13,68 @@ import Tag from "@site/src/components/Tag.js";
 
 - **新特性**
 
-  - &nbsp;<Tag>新增</Tag> 审计日志 `LoggingMonitor` 支持对参数贴 `[SuppressMonitor]` 特性跳过记录 <sup>4.8.7.3</sup> <sup>⏱️2023.03.01</sup> [#I6IVGW](https://gitee.com/dotnetchina/Furion/issues/I6IVGW)
-  - &nbsp;<Tag>新增</Tag> 审计日志 `LoggingMonitor` 监听 `TraceId`、`ThreadId`、`Accept-Language` <sup>4.8.7.1</sup> <sup>⏱️2023.02.27</sup> [df35201](https://gitee.com/dotnetchina/Furion/commit/df35201622f4d908ab423baff27caef856a23527)
-  - &nbsp;<Tag>新增</Tag> 审计日志 `LoggingMonitor` 支持配置序列化属性命名规则 <sup>4.8.6.12</sup> <sup>⏱️2023.02.21</sup> [#I6GPUP](https://gitee.com/dotnetchina/Furion/issues/I6GPUP)
-  - &nbsp;<Tag>新增</Tag> 审计日志 `LoggingMonitor` 支持 `[DisplayName]` 特性解析和 `Title` 属性记录 <sup>4.8.5.10</sup> <sup>⏱️2023.02.07</sup> [#I6DHMF](https://gitee.com/dotnetchina/Furion/issues/I6DHMF)
-  - &nbsp;<Tag>新增</Tag> 审计日志 `LoggingMonitor` 记录 `HTTP` 响应状态码 <sup>4.8.5.2</sup> <sup>⏱️2023.01.30</sup> [abb4cbd](https://gitee.com/dotnetchina/Furion/commit/abb4cbdab9f45f53cad8468352d1c14ac8c54b42)
+  - &nbsp;<Tag>新增</Tag> **日志配置 `WithStackFrame`，可控制是否输出产生日志的程序集，类型和具体方法** <sup>4.8.7.16</sup> <sup>⏱️2023.03.19</sup> [5ad6ae2](https://gitee.com/dotnetchina/Furion/commit/5ad6ae241d1798ad788e42569a15d68686db4fa1)
+
+<details style={{ marginLeft: 50 }}>
+  <summary>查看变化</summary>
+  <div>
+
+启用 `WithStackFrame` 日志配置后，可输出程序集，类型，方法签名信息。
+
+```cs showLineNumbers {4,10,16}
+// 控制台日志
+services.AddConsoleFormatter(options =>
+{
+    options.WithStackFrame = true;
+});
+
+// 文件日志
+services.AddFileLogging(options =>
+{
+    options.WithStackFrame = true;
+});
+
+// 数据库日志
+services.AddDatabaseLogging(options =>
+{
+    options.WithStackFrame = true;
+});
+```
+
+日志输出如下：
+
+```bash showLineNumbers {2,5,8,11,14,17,20}
+info: 2023-03-17 18:25:06.7988349 +08:00 星期五 L System.Logging.EventBusService[0] #1
+      [Furion.dll] async Task Furion.EventBus.EventBusHostedService.ExecuteAsync(CancellationToken stoppingToken)
+      EventBus hosted service is running.
+info: 2023-03-17 18:25:08.1393952 +08:00 星期五 L Microsoft.Hosting.Lifetime[14] #1
+      [System.Private.CoreLib.dll] void System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start<TStateMachine>(ref TStateMachine stateMachine)
+      Now listening on: https://localhost:5001
+info: 2023-03-17 18:25:08.1620391 +08:00 星期五 L Microsoft.Hosting.Lifetime[14] #1
+      [System.Private.CoreLib.dll] void System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start<TStateMachine>(ref TStateMachine stateMachine)
+      Now listening on: http://localhost:5000
+info: 2023-03-17 18:25:08.1972456 +08:00 星期五 L Microsoft.Hosting.Lifetime[0] #1
+      [Microsoft.Extensions.Hosting.dll] void Microsoft.Extensions.Hosting.Internal.ConsoleLifetime.OnApplicationStarted()
+      Application started. Press Ctrl+C to shut down.
+info: 2023-03-17 18:25:08.2456579 +08:00 星期五 L Microsoft.Hosting.Lifetime[0] #1
+      [Microsoft.Extensions.Hosting.dll] void Microsoft.Extensions.Hosting.Internal.ConsoleLifetime.OnApplicationStarted()
+      Hosting environment: Development
+info: 2023-03-17 18:25:08.2746134 +08:00 星期五 L Microsoft.Hosting.Lifetime[0] #1
+      [System.Private.CoreLib.dll] void System.Threading.CancellationTokenSource.ExecuteCallbackHandlers(bool throwOnFirstException)
+      Content root path: D:\Workplaces\OpenSources\Furion\samples\Furion.Web.Entry
+info: 2023-03-17 18:25:18.1917784 +08:00 星期五 L Furion.Application.TestLoggerServices[0] #16
+      [Furion.Application.dll] void Furion.Application.TestLoggerServices.测试日志()
+      我是一个日志 20
+```
+
+  </div>
+</details>
+
+- - &nbsp;<Tag>新增</Tag> 审计日志 `LoggingMonitor` 支持对参数贴 `[SuppressMonitor]` 特性跳过记录 <sup>4.8.7.3</sup> <sup>⏱️2023.03.01</sup> [#I6IVGW](https://gitee.com/dotnetchina/Furion/issues/I6IVGW)
+- - &nbsp;<Tag>新增</Tag> 审计日志 `LoggingMonitor` 监听 `TraceId`、`ThreadId`、`Accept-Language` <sup>4.8.7.1</sup> <sup>⏱️2023.02.27</sup> [df35201](https://gitee.com/dotnetchina/Furion/commit/df35201622f4d908ab423baff27caef856a23527)
+- - &nbsp;<Tag>新增</Tag> 审计日志 `LoggingMonitor` 支持配置序列化属性命名规则 <sup>4.8.6.12</sup> <sup>⏱️2023.02.21</sup> [#I6GPUP](https://gitee.com/dotnetchina/Furion/issues/I6GPUP)
+- - &nbsp;<Tag>新增</Tag> 审计日志 `LoggingMonitor` 支持 `[DisplayName]` 特性解析和 `Title` 属性记录 <sup>4.8.5.10</sup> <sup>⏱️2023.02.07</sup> [#I6DHMF](https://gitee.com/dotnetchina/Furion/issues/I6DHMF)
+- - &nbsp;<Tag>新增</Tag> 审计日志 `LoggingMonitor` 记录 `HTTP` 响应状态码 <sup>4.8.5.2</sup> <sup>⏱️2023.01.30</sup> [abb4cbd](https://gitee.com/dotnetchina/Furion/commit/abb4cbdab9f45f53cad8468352d1c14ac8c54b42)
 
 - **问题修复**
 
@@ -417,7 +474,7 @@ services.AddConsoleFormatter(options =>
 
 :::
 
-在生产环境中，日志的输出是非常频繁的，但是很难从日志文件中判断哪些日志是属于同一个请求输出的，这是启用 `WithTraceId` 配置即可。
+在生产环境中，日志的输出是非常频繁的，但是很难从日志文件中判断哪些日志是属于同一个请求输出的，这时启用 `WithTraceId` 配置即可。
 
 ```cs showLineNumbers {3}
 services.AddConsoleFormatter(options =>
@@ -446,6 +503,49 @@ info: 2022-11-24 14:34:56.4427659 +08:00 星期四 L Microsoft.Hosting.Lifetime[
 info: 2022-11-24 14:35:06.8507338 +08:00 Thursday L Furion.Application.TestLoggerServices[0] #17 '00-48df9ac5c8280de2f301faa44a23a10c-b75678d9f3883b0b-00'
       我是一个日志 20
 info: 2022-11-24 14:35:16.0373384 +08:00 星期四 L Furion.Application.TestLoggerServices[0] #17 '00-ff4fb15d6ff41a0411784e66400f0dfd-962bc25eff788b25-00'
+      我是一个日志 20
+```
+
+- **输出日志 `程序集/类型/方法`**
+
+:::important 版本说明
+
+以下内容仅限 `Furion 4.8.7.16 +` 版本使用。
+
+:::
+
+在生产环境中，有时候我们希望知道这个日志是在哪个程序集，哪个类中哪个方法输出，这时启用 `WithStackFrame` 配置即可。
+
+```cs showLineNumbers {3}
+services.AddConsoleFormatter(options =>
+{
+    options.WithStackFrame = true;
+});
+```
+
+输出日志如下：
+
+```bash showLineNumbers {2,5,8,11,14,17,20}
+info: 2023-03-17 18:25:06.7988349 +08:00 星期五 L System.Logging.EventBusService[0] #1
+      [Furion.dll] async Task Furion.EventBus.EventBusHostedService.ExecuteAsync(CancellationToken stoppingToken)
+      EventBus hosted service is running.
+info: 2023-03-17 18:25:08.1393952 +08:00 星期五 L Microsoft.Hosting.Lifetime[14] #1
+      [System.Private.CoreLib.dll] void System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start<TStateMachine>(ref TStateMachine stateMachine)
+      Now listening on: https://localhost:5001
+info: 2023-03-17 18:25:08.1620391 +08:00 星期五 L Microsoft.Hosting.Lifetime[14] #1
+      [System.Private.CoreLib.dll] void System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start<TStateMachine>(ref TStateMachine stateMachine)
+      Now listening on: http://localhost:5000
+info: 2023-03-17 18:25:08.1972456 +08:00 星期五 L Microsoft.Hosting.Lifetime[0] #1
+      [Microsoft.Extensions.Hosting.dll] void Microsoft.Extensions.Hosting.Internal.ConsoleLifetime.OnApplicationStarted()
+      Application started. Press Ctrl+C to shut down.
+info: 2023-03-17 18:25:08.2456579 +08:00 星期五 L Microsoft.Hosting.Lifetime[0] #1
+      [Microsoft.Extensions.Hosting.dll] void Microsoft.Extensions.Hosting.Internal.ConsoleLifetime.OnApplicationStarted()
+      Hosting environment: Development
+info: 2023-03-17 18:25:08.2746134 +08:00 星期五 L Microsoft.Hosting.Lifetime[0] #1
+      [System.Private.CoreLib.dll] void System.Threading.CancellationTokenSource.ExecuteCallbackHandlers(bool throwOnFirstException)
+      Content root path: D:\Workplaces\OpenSources\Furion\samples\Furion.Web.Entry
+info: 2023-03-17 18:25:18.1917784 +08:00 星期五 L Furion.Application.TestLoggerServices[0] #16
+      [Furion.Application.dll] void Furion.Application.TestLoggerServices.测试日志()
       我是一个日志 20
 ```
 
@@ -721,7 +821,7 @@ info: 2022-09-28 02:02:22(+08:00) 星期三 Microsoft.Hosting.Lifetime[0] #1
 
 :::
 
-在生产环境中，日志的输出是非常频繁的，但是很难从日志文件中判断哪些日志是属于同一个请求输出的，这是启用 `WithTraceId` 配置即可。
+在生产环境中，日志的输出是非常频繁的，但是很难从日志文件中判断哪些日志是属于同一个请求输出的，这时启用 `WithTraceId` 配置即可。
 
 ```cs showLineNumbers {3}
 services.AddFileLogging(options =>
@@ -750,6 +850,49 @@ info: 2022-11-24 14:34:56.4427659 +08:00 星期四 L Microsoft.Hosting.Lifetime[
 info: 2022-11-24 14:35:06.8507338 +08:00 Thursday L Furion.Application.TestLoggerServices[0] #17 '00-48df9ac5c8280de2f301faa44a23a10c-b75678d9f3883b0b-00'
       我是一个日志 20
 info: 2022-11-24 14:35:16.0373384 +08:00 星期四 L Furion.Application.TestLoggerServices[0] #17 '00-ff4fb15d6ff41a0411784e66400f0dfd-962bc25eff788b25-00'
+      我是一个日志 20
+```
+
+- **输出日志 `程序集/类型/方法`**
+
+:::important 版本说明
+
+以下内容仅限 `Furion 4.8.7.16 +` 版本使用。
+
+:::
+
+在生产环境中，有时候我们希望知道这个日志是在哪个程序集，哪个类中哪个方法输出，这时启用 `WithStackFrame` 配置即可。
+
+```cs showLineNumbers {3}
+services.AddFileLogging(options =>
+{
+    options.WithStackFrame = true;
+});
+```
+
+输出日志如下：
+
+```bash showLineNumbers {2,5,8,11,14,17,20}
+info: 2023-03-17 18:25:06.7988349 +08:00 星期五 L System.Logging.EventBusService[0] #1
+      [Furion.dll] async Task Furion.EventBus.EventBusHostedService.ExecuteAsync(CancellationToken stoppingToken)
+      EventBus hosted service is running.
+info: 2023-03-17 18:25:08.1393952 +08:00 星期五 L Microsoft.Hosting.Lifetime[14] #1
+      [System.Private.CoreLib.dll] void System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start<TStateMachine>(ref TStateMachine stateMachine)
+      Now listening on: https://localhost:5001
+info: 2023-03-17 18:25:08.1620391 +08:00 星期五 L Microsoft.Hosting.Lifetime[14] #1
+      [System.Private.CoreLib.dll] void System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start<TStateMachine>(ref TStateMachine stateMachine)
+      Now listening on: http://localhost:5000
+info: 2023-03-17 18:25:08.1972456 +08:00 星期五 L Microsoft.Hosting.Lifetime[0] #1
+      [Microsoft.Extensions.Hosting.dll] void Microsoft.Extensions.Hosting.Internal.ConsoleLifetime.OnApplicationStarted()
+      Application started. Press Ctrl+C to shut down.
+info: 2023-03-17 18:25:08.2456579 +08:00 星期五 L Microsoft.Hosting.Lifetime[0] #1
+      [Microsoft.Extensions.Hosting.dll] void Microsoft.Extensions.Hosting.Internal.ConsoleLifetime.OnApplicationStarted()
+      Hosting environment: Development
+info: 2023-03-17 18:25:08.2746134 +08:00 星期五 L Microsoft.Hosting.Lifetime[0] #1
+      [System.Private.CoreLib.dll] void System.Threading.CancellationTokenSource.ExecuteCallbackHandlers(bool throwOnFirstException)
+      Content root path: D:\Workplaces\OpenSources\Furion\samples\Furion.Web.Entry
+info: 2023-03-17 18:25:18.1917784 +08:00 星期五 L Furion.Application.TestLoggerServices[0] #16
+      [Furion.Application.dll] void Furion.Application.TestLoggerServices.测试日志()
       我是一个日志 20
 ```
 
@@ -944,7 +1087,7 @@ services.AddDatabaseLogging<DatabaseLoggingWriter>(options =>
 
 :::
 
-在生产环境中，日志的输出是非常频繁的，但是很难从日志文件中判断哪些日志是属于同一个请求输出的，这是启用 `WithTraceId` 配置即可。
+在生产环境中，日志的输出是非常频繁的，但是很难从日志文件中判断哪些日志是属于同一个请求输出的，这时启用 `WithTraceId` 配置即可。
 
 ```cs showLineNumbers {3}
 services.AddDatabaseLogging<DatabaseLoggingWriter>(options =>
@@ -973,6 +1116,49 @@ info: 2022-11-24 14:34:56.4427659 +08:00 星期四 L Microsoft.Hosting.Lifetime[
 info: 2022-11-24 14:35:06.8507338 +08:00 Thursday L Furion.Application.TestLoggerServices[0] #17 '00-48df9ac5c8280de2f301faa44a23a10c-b75678d9f3883b0b-00'
       我是一个日志 20
 info: 2022-11-24 14:35:16.0373384 +08:00 星期四 L Furion.Application.TestLoggerServices[0] #17 '00-ff4fb15d6ff41a0411784e66400f0dfd-962bc25eff788b25-00'
+      我是一个日志 20
+```
+
+- **输出日志 `程序集/类型/方法`**
+
+:::important 版本说明
+
+以下内容仅限 `Furion 4.8.7.16 +` 版本使用。
+
+:::
+
+在生产环境中，有时候我们希望知道这个日志是在哪个程序集，哪个类中哪个方法输出，这时启用 `WithStackFrame` 配置即可。
+
+```cs showLineNumbers {3}
+services.AddDatabaseLogging(options =>
+{
+    options.WithStackFrame = true;
+});
+```
+
+输出日志如下：
+
+```bash showLineNumbers {2,5,8,11,14,17,20}
+info: 2023-03-17 18:25:06.7988349 +08:00 星期五 L System.Logging.EventBusService[0] #1
+      [Furion.dll] async Task Furion.EventBus.EventBusHostedService.ExecuteAsync(CancellationToken stoppingToken)
+      EventBus hosted service is running.
+info: 2023-03-17 18:25:08.1393952 +08:00 星期五 L Microsoft.Hosting.Lifetime[14] #1
+      [System.Private.CoreLib.dll] void System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start<TStateMachine>(ref TStateMachine stateMachine)
+      Now listening on: https://localhost:5001
+info: 2023-03-17 18:25:08.1620391 +08:00 星期五 L Microsoft.Hosting.Lifetime[14] #1
+      [System.Private.CoreLib.dll] void System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start<TStateMachine>(ref TStateMachine stateMachine)
+      Now listening on: http://localhost:5000
+info: 2023-03-17 18:25:08.1972456 +08:00 星期五 L Microsoft.Hosting.Lifetime[0] #1
+      [Microsoft.Extensions.Hosting.dll] void Microsoft.Extensions.Hosting.Internal.ConsoleLifetime.OnApplicationStarted()
+      Application started. Press Ctrl+C to shut down.
+info: 2023-03-17 18:25:08.2456579 +08:00 星期五 L Microsoft.Hosting.Lifetime[0] #1
+      [Microsoft.Extensions.Hosting.dll] void Microsoft.Extensions.Hosting.Internal.ConsoleLifetime.OnApplicationStarted()
+      Hosting environment: Development
+info: 2023-03-17 18:25:08.2746134 +08:00 星期五 L Microsoft.Hosting.Lifetime[0] #1
+      [System.Private.CoreLib.dll] void System.Threading.CancellationTokenSource.ExecuteCallbackHandlers(bool throwOnFirstException)
+      Content root path: D:\Workplaces\OpenSources\Furion\samples\Furion.Web.Entry
+info: 2023-03-17 18:25:18.1917784 +08:00 星期五 L Furion.Application.TestLoggerServices[0] #16
+      [Furion.Application.dll] void Furion.Application.TestLoggerServices.测试日志()
       我是一个日志 20
 ```
 

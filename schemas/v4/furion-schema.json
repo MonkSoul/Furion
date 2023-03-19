@@ -471,6 +471,11 @@
               "type": "boolean",
               "description": "是否显示跟踪 Id",
               "default": false
+            },
+            "WithStackFrame": {
+              "type": "boolean",
+              "description": "显示堆栈框架（程序集和方法签名）",
+              "default": false
             }
           }
         },
@@ -515,6 +520,11 @@
             "WithTraceId": {
               "type": "boolean",
               "description": "是否显示跟踪 Id",
+              "default": false
+            },
+            "WithStackFrame": {
+              "type": "boolean",
+              "description": "显示堆栈框架（程序集和方法签名）",
               "default": false
             }
           }
