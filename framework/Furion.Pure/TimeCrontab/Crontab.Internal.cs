@@ -136,6 +136,12 @@ public partial class Crontab
                     return new StepParser(0, steps, kind);
                 }
 
+                // 处理 * 携带意外值
+                if (newParser != string.Empty)
+                {
+                    throw new TimeCrontabException(string.Format("Invalid parser '{0}'.", parser));
+                }
+
                 // 否则，创建 AnyParser 解析器
                 return new AnyParser(kind);
             }

@@ -120,7 +120,7 @@ public sealed partial class Crontab
     }
 
     /// <summary>
-    /// 判断 Cron 表达式是否正确
+    /// 判断 Cron 表达式是否有效
     /// </summary>
     /// <param name="expression">Cron 表达式</param>
     /// <param name="format">Cron 表达式格式化类型</param>
