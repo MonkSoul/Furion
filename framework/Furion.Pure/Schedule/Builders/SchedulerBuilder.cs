@@ -411,7 +411,7 @@ public sealed class SchedulerBuilder
 
         foreach (var triggerBuilder in triggerBuilders)
         {
-            UpdateTriggerBuilder(triggerBuilder, false);
+            UpdateTriggerBuilder(triggerBuilder);
         }
 
         return this;
