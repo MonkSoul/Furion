@@ -120,6 +120,17 @@ public sealed partial class Crontab
     }
 
     /// <summary>
+    /// 判断 Cron 表达式是否正确
+    /// </summary>
+    /// <param name="expression">Cron 表达式</param>
+    /// <param name="format">Cron 表达式格式化类型</param>
+    /// <returns><see cref="Crontab"/></returns>
+    public static bool IsValid(string expression, CronStringFormat format = CronStringFormat.Default)
+    {
+        return TryParse(expression, format) != null;
+    }
+
+    /// <summary>
     /// 获取起始时间下一个发生时间
     /// </summary>
     /// <param name="baseTime">起始时间</param>
