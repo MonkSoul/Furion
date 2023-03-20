@@ -13,10 +13,15 @@ import Tag from "@site/src/components/Tag.js";
 
 - **新特性**
 
+  - &nbsp;<Tag>新增</Tag> `Crontab.IsValid(...)` 静态方法，判断 `Cron` 表达式是否有效 <sup>4.8.7.17</sup> <sup>⏱️2023.03.20</sup> [#I6OHO4](https://gitee.com/dotnetchina/Furion/issues/I6OHO4)
   - &nbsp;<Tag>新增</Tag> `crontab.GetSleepTimeSpan(baseTime)` 实例方法 <sup>4.8.4.10</sup> <sup>⏱️2023.01.09</sup> [#I69HM4](https://gitee.com/dotnetchina/Furion/issues/I69HM4)
   - &nbsp;<Tag>新增</Tag> `Crontab.ParseAt(..)` 静态方法 <sup>4.8.2.6</sup> <sup>⏱️2022.11.30</sup> [035cc23](https://gitee.com/dotnetchina/Furion/commit/035cc23a20045e9673a1406b94e72030f5f18375)
   - &nbsp;<Tag>新增</Tag> `Crontab` 所有 `Macro At` 静态方法 <sup>4.8.2.6</sup> <sup>⏱️2022.11.30</sup> [a15b69d](https://gitee.com/dotnetchina/Furion/commit/a15b69d0eeb4bdc8d0ec042cfec22ff0049dc89f)
   - &nbsp;<Tag>新增</Tag> `Crontab.Workday` 表示周一至周五的 `Macro` 静态属性 <sup>4.8.2.6</sup> <sup>⏱️2022.11.30</sup> [a15b69d](https://gitee.com/dotnetchina/Furion/commit/a15b69d0eeb4bdc8d0ec042cfec22ff0049dc89f)
+
+- **问题修复**
+
+  - &nbsp;<Tag>修复</Tag> `Cron` 表达式 `*` 符号解析器不够严谨，如：`*1111aaaaa` 也被解析为 `*` <sup>4.8.7.17</sup> <sup>⏱️2023.03.20</sup> [#I6OHO4](https://gitee.com/dotnetchina/Furion/issues/I6OHO4)
 
 </div>
   </div>
@@ -297,6 +302,7 @@ var expression = crontab.ToString();
 var crontab = Crontab.Parse("表达式", CronStringFormat.Default);  // 转换表达式为 Crontab 对象
 var crontab = Crontab.TryParse("表达式", CronStringFormat.Default);  // 转换表达式为 Crontab 对象
 var crontab = Crontab.ParseAt("Macro 符号", 1, 3, 5);   // 创建 Macro At Crontab 对象
+var isValid = Crontab.IsValid("表达式", CronStringFormat.Default);  // 判断表达式是否有效，Furion 4.8.7.17+ 支持
 
 // 每第 3 秒
 var crontab = Crontab.SecondlyAt(3);

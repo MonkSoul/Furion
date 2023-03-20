@@ -342,7 +342,7 @@ public sealed class SchedulerBuilder
     /// <param name="jobBuilder">作业触发器构建器</param>
     /// <param name="replace">是否完全替换为新的</param>
     /// <returns><see cref="SchedulerBuilder"/></returns>
-    public SchedulerBuilder UpdateJobBuilder(JobBuilder jobBuilder, bool replace = false)
+    public SchedulerBuilder UpdateJobBuilder(JobBuilder jobBuilder, bool replace = true)
     {
         // 空检查
         if (jobBuilder == null) throw new ArgumentNullException(nameof(jobBuilder));
@@ -380,7 +380,7 @@ public sealed class SchedulerBuilder
     /// <param name="triggerBuilder">作业触发器构建器</param>
     /// <param name="replace">是否完全替换为新的</param>
     /// <returns><see cref="SchedulerBuilder"/></returns>
-    public SchedulerBuilder UpdateTriggerBuilder(TriggerBuilder triggerBuilder, bool replace = false)
+    public SchedulerBuilder UpdateTriggerBuilder(TriggerBuilder triggerBuilder, bool replace = true)
     {
         // 空检查
         if (triggerBuilder == null) throw new ArgumentNullException(nameof(triggerBuilder));
@@ -411,7 +411,7 @@ public sealed class SchedulerBuilder
 
         foreach (var triggerBuilder in triggerBuilders)
         {
-            UpdateTriggerBuilder(triggerBuilder, false);
+            UpdateTriggerBuilder(triggerBuilder);
         }
 
         return this;

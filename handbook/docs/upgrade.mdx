@@ -44,6 +44,7 @@ import Tag from "@site/src/components/Tag.js";
 
 - **新特性**
 
+  - &nbsp;<Tag>新增</Tag> `Crontab.IsValid(...)` 静态方法，判断 `Cron` 表达式是否有效 <sup>4.8.7.17</sup> <sup>⏱️2023.03.20</sup> [#I6OHO4](https://gitee.com/dotnetchina/Furion/issues/I6OHO4)
   - &nbsp;<Tag>新增</Tag> **日志配置 `WithStackFrame`，可控制是否输出产生日志的程序集，类型和具体方法** <sup>4.8.7.16</sup> <sup>⏱️2023.03.19</sup> [5ad6ae2](https://gitee.com/dotnetchina/Furion/commit/5ad6ae241d1798ad788e42569a15d68686db4fa1)
 
 <details style={{ marginLeft: 50 }}>
@@ -97,6 +98,8 @@ info: 2023-03-17 18:25:18.1917784 +08:00 星期五 L Furion.Application.TestLogg
       [Furion.Application.dll] void Furion.Application.TestLoggerServices.测试日志()
       我是一个日志 20
 ```
+
+这样就清楚地知道日志是哪个程序集、哪个类型、哪个方法输出的了。
 
   </div>
 </details>
@@ -204,7 +207,10 @@ options.AddJob((context, stoppingToken) =>
 
 - **问题修复**
 
-  - &nbsp;<Tag>修复</Tag> 视图引擎不支持强制转换的 `(object)model` 类型 <sup>4.8.7.16</sup> <sup>⏱️2023.03.18</sup> [#I6O3BD](https://gitee.com/dotnetchina/Furion/issues/I6O3BD)
+  - &nbsp;<Tag>修复</Tag> 使用达梦数据库执行 `sql` 不能自动修复命令参数前缀 <sup>4.8.7.18</sup> <sup>⏱️2023.03.20</sup> [#I6OK4T](https://gitee.com/dotnetchina/Furion/issues/I6OK4T)
+  - &nbsp;<Tag>修复</Tag> `Cron` 表达式 `*` 符号解析器不够严谨，如：`*1111aaaaa` 也被解析为 `*` <sup>4.8.7.17</sup> <sup>⏱️2023.03.20</sup> [#I6OHO4](https://gitee.com/dotnetchina/Furion/issues/I6OHO4)
+  - &nbsp;<Tag>修复</Tag> 定时任务更新作业 `null` 值默认被跳过问题 <sup>4.8.7.17</sup> <sup>⏱️2023.03.20</sup> [#I6OHO4](https://gitee.com/dotnetchina/Furion/issues/I6OHO4)
+  - &nbsp;<Tag>修复</Tag> 视图引擎不支持强制转换的 `(object)model` 类型 <sup>4.8.7.16</sup> <sup>⏱️2023.03.19</sup> [#I6O3BD](https://gitee.com/dotnetchina/Furion/issues/I6O3BD)
   - &nbsp;<Tag>修复</Tag> 启用请求 `Body` 重复读且在授权之前读取导致非 `GET/HEAD/OPTION` 请求异常 <sup>4.8.7.15</sup> <sup>⏱️2023.03.19</sup> [#I6NX9E](https://gitee.com/dotnetchina/Furion/issues/I6NX9E)
   - &nbsp;<Tag>修复</Tag> 定时任务生成 `SQL` 语句没有处理 `'` 转义问题 <sup>4.8.7.15</sup> <sup>⏱️2023.03.19</sup> [#I6NXKA](https://gitee.com/dotnetchina/Furion/issues/I6NXKA)
   - &nbsp;<Tag>修复</Tag> 数据验证 `ValiationTypes.GUID_OR_UUID` 不支持大写问题 <sup>4.8.7.14</sup> <sup>⏱️2023.03.16</sup> [#I6NP22](https://gitee.com/dotnetchina/Furion/issues/I6NP22)

@@ -548,6 +548,7 @@
   flex-direction: row-reverse;
   justify-content: center;
   padding: 100px 0;
+  overflow-x: hidden;
 }
 
 .furion-wzi {

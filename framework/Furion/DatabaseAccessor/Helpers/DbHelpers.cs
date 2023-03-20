@@ -341,7 +341,9 @@ internal static class DbHelpers
     /// <returns></returns>
     internal static string FixSqlParameterPlaceholder(string providerName, string parameterName, bool isFixed = true)
     {
-        var placeholder = !DbProvider.IsDatabaseFor(providerName, DbProvider.Oracle) ? "@" : ":";
+        // 纠正 Oracle 和 DM 数据库 SQL 命令参数
+        var placeholder = !DbProvider.IsDatabaseFor(providerName, DbProvider.Oracle)
+            && !DbProvider.IsDatabaseFor(providerName, DbProvider.Dm) ? "@" : ":";
         if (parameterName.StartsWith("@") || parameterName.StartsWith(":"))
         {
             parameterName = parameterName[1..];
