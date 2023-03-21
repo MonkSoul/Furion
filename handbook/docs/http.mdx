@@ -428,7 +428,7 @@ await "https://furion.baiqian.ltd/".OnException((client, res, errors) => {
 `Furion` 远程请求默认提供四种返回值类型：
 
 - `HttpResponseMessage`：请求响应消息类型
-- `Stream`：流类型
+- `Stream`：流类型，可用来下载文件
 - `T`：泛型 `T` 类型
 - `String`：字符串类型，也就是直接将网络请求结果内容字符串化
 - `Byte[]`：字节数组类型
@@ -439,7 +439,7 @@ await "https://furion.baiqian.ltd/".OnException((client, res, errors) => {
 // HttpResponseMessage
 var res = await "https://furion.baiqian.ltd/".GetAsync();
 
-// Stream
+// Stream，可用来下载文件
 var (stream, encoding) = await "https://furion.baiqian.ltd/".GetAsStreamAsync();
 
 // T
@@ -1013,7 +1013,7 @@ public interface IHttp : IHttpDispatchProxy
 `Furion` 远程请求默认提供四种返回值类型：
 
 - `HttpResponseMessage`：请求响应消息类型
-- `Stream`：流类型
+- `Stream`：流类型，可用来下载文件
 - `T`：泛型 `T` 类型
 - `String`：字符串类型，也就是直接将网络请求结果内容字符串化
 
@@ -1022,15 +1022,19 @@ public interface IHttp : IHttpDispatchProxy
 ```cs showLineNumbers
 public interface IHttp : IHttpDispatchProxy
 {
+    // HttpResponseMessage
     [Post("https://furion.baiqian.ltd/post")]
     Task<HttpResponseMessage> PostXXXAsync();
 
+    // Stream，可用来下载文件
     [Post("https://furion.baiqian.ltd/post")]
     Task<Stream> PostXXXAsync();
 
+    // T
     [Post("https://furion.baiqian.ltd/post")]
     Task<User> PostXXXAsync();
 
+    // String
     [Post("https://furion.baiqian.ltd/post")]
     Task<string> PostXXXAsync();
 }
