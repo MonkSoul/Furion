@@ -253,7 +253,7 @@ internal sealed class ScheduleHostedService : BackgroundService
                             trigger.Result = jobExecutingContext.Result;
 
                             // 设置作业触发器状态为就绪状态
-                            if (trigger.CheckAndFixNextOccurrence(jobDetail)) trigger.SetStatus(TriggerStatus.Ready);
+                            if (trigger.CheckAndFixNextOccurrence(jobDetail, startAt)) trigger.SetStatus(TriggerStatus.Ready);
 
                             // 将作业触发器运行数据写入持久化
                             _schedulerFactory.Shorthand(jobDetail, trigger);
@@ -261,7 +261,7 @@ internal sealed class ScheduleHostedService : BackgroundService
                         catch (Exception ex)
                         {
                             // 记录错误信息，包含错误次数和运行状态
-                            trigger.IncrementErrors(jobDetail);
+                            trigger.IncrementErrors(jobDetail, startAt);
 
                             // 将作业触发器运行数据写入持久化
                             _schedulerFactory.Shorthand(jobDetail, trigger);

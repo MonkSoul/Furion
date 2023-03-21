@@ -137,6 +137,7 @@ options.AddJob((context, stoppingToken) =>
 
 - **问题修复**
 
+  - &nbsp;<Tag>修复</Tag> 定时任务作业状态为 `积压:0` 和 `归档:6` 时调用立即执行后不能恢复上一次状态 <sup>4.8.7.18</sup> <sup>⏱️2023.03.21</sup> [6f5aae8](https://gitee.com/dotnetchina/Furion/commit/6f5aae8dd1169b7111ff6801111691764b03ba29)
   - &nbsp;<Tag>修复</Tag> 定时任务更新作业 `null` 值默认被跳过问题 <sup>4.8.7.17</sup> <sup>⏱️2023.03.20</sup> [#I6OHO4](https://gitee.com/dotnetchina/Furion/issues/I6OHO4)
   - &nbsp;<Tag>修复</Tag> 定时任务生成 `SQL` 语句没有处理 `'` 转义问题 <sup>4.8.7.15</sup> <sup>⏱️2023.03.19</sup> [#I6NXKA](https://gitee.com/dotnetchina/Furion/issues/I6NXKA)
   - &nbsp;<Tag>修复</Tag> 定时任务服务在停止进程时会卡住 `30秒` 问题 <sup>4.8.7.8</sup> <sup>⏱️2023.03.13</sup> [#I6MI9I](https://gitee.com/dotnetchina/Furion/issues/I6MI9I) [#I6MHOU](https://gitee.com/dotnetchina/Furion/issues/I6MHOU)
@@ -916,6 +917,42 @@ info: 2023-03-11 11:05:48.6475959 +08:00 星期六 L System.Logging.ScheduleServ
             <title>dotNET China | 让 .NET 开发更简单，更通用，更流行</title>
       ......
           </body></html>
+```
+
+### 26.1.2.8 委托方式作业
+
+有时我们需要快速开启新的定时作业**但不考虑后续持久化存储（如数据库存储）**，这时可以使用委托作业方式，如：
+
+```cs showLineNumbers {3-7}
+services.AddSchedule(options =>
+{
+    // 和 IJob 的 ExecuteAsync 方法签名一致
+    options.AddJob((context, stoppingToken) =>
+    {
+        // 可通过 context.ServiceProvider 解析服务；框架提供了 .GetLogger() 拓展方法输出日志
+        context.ServiceProvider.GetLogger().LogInformation($"{context}");
+        return Task.CompletedTask;
+    }, Triggers.PeriodSeconds(5));
+});
+```
+
+作业执行日志如下：
+
+```bash showLineNumbers {6,8,12,14}
+info: 2023-03-21 14:22:34.1910781 +08:00 星期二 L System.Logging.ScheduleService[0] #1
+      Schedule hosted service is running.
+info: 2023-03-21 14:22:34.1967420 +08:00 星期二 L System.Logging.ScheduleService[0] #1
+      Schedule hosted service is preloading...
+info: 2023-03-21 14:22:34.6163320 +08:00 星期二 L System.Logging.ScheduleService[0] #1
+      The <job1_trigger1> trigger for scheduler of <job1> successfully appended to the schedule.
+info: 2023-03-21 14:22:34.6195112 +08:00 星期二 L System.Logging.ScheduleService[0] #1
+      The scheduler of <job1> successfully appended to the schedule.
+warn: 2023-03-21 14:22:34.6398162 +08:00 星期二 L System.Logging.ScheduleService[0] #1
+      Schedule hosted service preload completed, and a total of <1> schedulers are appended.
+info: 2023-03-21 14:22:39.7171392 +08:00 星期二 L System.Logging.DynamicJob[0] #9
+      <job1> [C] <job1 job1_trigger1> 5s 1ts 2023-03-21 14:22:39.575 -> 2023-03-21 14:22:44.623
+info: 2023-03-21 14:22:44.6986483 +08:00 星期二 L System.Logging.DynamicJob[0] #9
+      <job1> [C] <job1 job1_trigger1> 5s 2ts 2023-03-21 14:22:44.623 -> 2023-03-21 14:22:49.657
 ```
 
 ## 26.1.3 作业信息 `JobDetail` 及构建器

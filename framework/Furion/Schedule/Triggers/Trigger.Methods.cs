@@ -112,19 +112,20 @@ public partial class Trigger
         NextRunTime = GetNextRunTime(startAt);
 
         // 检查下一次执行信息
-        CheckAndFixNextOccurrence(jobDetail);
+        CheckAndFixNextOccurrence(jobDetail, startAt);
     }
 
     /// <summary>
     /// 记录错误信息，包含错误次数和运行状态
     /// </summary>
     /// <param name="jobDetail">作业信息</param>
-    internal void IncrementErrors(JobDetail jobDetail)
+    /// <param name="startAt">起始时间</param>
+    internal void IncrementErrors(JobDetail jobDetail, DateTime startAt)
     {
         NumberOfErrors++;
 
         // 检查下一次执行信息
-        if (CheckAndFixNextOccurrence(jobDetail)) SetStatus(TriggerStatus.ErrorToReady);
+        if (CheckAndFixNextOccurrence(jobDetail, startAt)) SetStatus(TriggerStatus.ErrorToReady);
     }
 
     /// <summary>
@@ -203,8 +204,9 @@ public partial class Trigger
     /// 检查下一次执行信息并修正 <see cref="NextRunTime"/> 和 <see cref="Status"/>
     /// </summary>
     /// <param name="jobDetail">作业信息</param>
+    /// <param name="startAt">起始时间</param>
     /// <returns><see cref="bool"/></returns>
-    internal bool CheckAndFixNextOccurrence(JobDetail jobDetail)
+    internal bool CheckAndFixNextOccurrence(JobDetail jobDetail, DateTime startAt)
     {
         // 检查作业信息运行时类型
         if (jobDetail.RuntimeJobType == null)
@@ -231,19 +233,27 @@ public partial class Trigger
         }
 
         // 开始时间检查
-        if (StartTime != null && NextRunTime != null && StartTime.Value > NextRunTime.Value)
+        if (StartTime != null)
         {
-            SetStatus(TriggerStatus.Backlog);
-            NextRunTime = null;
-            return false;
+            var compareTime = NextRunTime != null ? NextRunTime.Value : startAt;
+            if (StartTime.Value > compareTime)
+            {
+                SetStatus(TriggerStatus.Backlog);
+                NextRunTime = null;
+                return false;
+            }
         }
 
         // 结束时间检查
-        if (EndTime != null && NextRunTime != null && EndTime.Value < NextRunTime.Value)
+        if (EndTime != null)
         {
-            SetStatus(TriggerStatus.Archived);
-            NextRunTime = null;
-            return false;
+            var compareTime = NextRunTime != null ? NextRunTime.Value : startAt;
+            if (EndTime.Value < compareTime)
+            {
+                SetStatus(TriggerStatus.Archived);
+                NextRunTime = null;
+                return false;
+            }
         }
 
         // 最大次数判断
@@ -298,7 +308,7 @@ public partial class Trigger
     /// <returns><see cref="bool"/></returns>
     internal bool CurrentShouldRun(JobDetail jobDetail, DateTime startAt)
     {
-        return CheckAndFixNextOccurrence(jobDetail)
+        return CheckAndFixNextOccurrence(jobDetail, startAt)
             // 调用派生类 ShouldRun 方法
             && ShouldRun(jobDetail, startAt);
     }

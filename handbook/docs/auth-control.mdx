@@ -482,7 +482,16 @@ function decryptJWT(token) {
 
 :::
 
-## 15.8 反馈与建议
+## 15.8 关于 `Blazor + WebAPI` 混合授权
+
+一些应用使用了 `Blazor` + `WebAPI` 模板后并启用全局授权，可能会遇到 `401/403` 授权失败的提示，这时只需要在启动层 `YourProject.Web.Entry` 下的 `Pages/_Host.cshtml` 顶部添加以下代码即可：
+
+```cs showLineNumbers
+@using Microsoft.AspNetCore.Authorization;
+@attribute [AllowAnonymous]
+```
+
+## 15.9 反馈与建议
 
 :::note 与我们交流
 
