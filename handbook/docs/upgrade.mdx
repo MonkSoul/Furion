@@ -207,7 +207,7 @@ options.AddJob((context, stoppingToken) =>
 
 - **问题修复**
 
-  - &nbsp;<Tag>修复</Tag> 定时任务作业状态为 `积压:0` 和 `归档:6` 时调用立即执行后不能恢复上一次状态 <sup>4.8.7.18</sup> <sup>⏱️2023.03.21</sup>
+  - &nbsp;<Tag>修复</Tag> 定时任务作业状态为 `积压:0` 和 `归档:6` 时调用立即执行后不能恢复上一次状态 <sup>4.8.7.18</sup> <sup>⏱️2023.03.21</sup> [6f5aae8](https://gitee.com/dotnetchina/Furion/commit/6f5aae8dd1169b7111ff6801111691764b03ba29)
   - &nbsp;<Tag>修复</Tag> 使用达梦数据库执行 `sql` 不能自动修复命令参数前缀 <sup>4.8.7.18</sup> <sup>⏱️2023.03.21</sup> [#I6OK4T](https://gitee.com/dotnetchina/Furion/issues/I6OK4T)
   - &nbsp;<Tag>修复</Tag> `Cron` 表达式 `*` 符号解析器不够严谨，如：`*1111aaaaa` 也被解析为 `*` <sup>4.8.7.17</sup> <sup>⏱️2023.03.20</sup> [#I6OHO4](https://gitee.com/dotnetchina/Furion/issues/I6OHO4)
   - &nbsp;<Tag>修复</Tag> 定时任务更新作业 `null` 值默认被跳过问题 <sup>4.8.7.17</sup> <sup>⏱️2023.03.20</sup> [#I6OHO4](https://gitee.com/dotnetchina/Furion/issues/I6OHO4)
