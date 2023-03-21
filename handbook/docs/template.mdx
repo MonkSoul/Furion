@@ -67,12 +67,55 @@ import Tag from "@site/src/components/Tag.js";
 
 打开 `CMD` 或 `Powershell` 执行模板安装命令（新版本 `--install` 可换成 `install`）：
 
+### 2.2.2.1 `EFCore` 脚手架安装
+
 ```bash showLineNumbers
-// EFCore
+# Mvc 模板
+dotnet new --install Furion.Template.Mvc::4.8.7.17
+# Mvc 模板
 dotnet new --install Furion.Template.Api::4.8.7.17
-// SqlSugar
-dotnet new --install Furion.SqlSugar.Template.Api::4.8.7.17
+# Mvc/WebApi 模板
+dotnet new --install Furion.Template.App::4.8.7.17
+# RazorPages 模板
+dotnet new --install Furion.Template.Razor::4.8.7.17
+# RazorPages/WebApi 模板
+dotnet new --install Furion.Template.RazorWithWebApi::4.8.7.17
+# Blazor 模板
+dotnet new --install Furion.Template.Blazor::4.8.7.17
+# Blazor/WebApi 模板
+dotnet new --install Furion.Template.BlazorWithWebAPI::4.8.7.17
 ```
+
+:::note 最新版安装
+
+不带版本号总是安装最新的版本。
+
+:::
+
+### 2.2.2.2 `SqlSugar` 脚手架安装
+
+```bash showLineNumbers
+# Mvc 模板
+dotnet new --install Furion.SqlSugar.Template.Mvc::4.8.7.17
+# Mvc 模板
+dotnet new --install Furion.SqlSugar.Template.Api::4.8.7.17
+# Mvc/WebApi 模板
+dotnet new --install Furion.SqlSugar.Template.App::4.8.7.17
+# RazorPages 模板
+dotnet new --install Furion.SqlSugar.Template.Razor::4.8.7.17
+# RazorPages/WebApi 模板
+dotnet new --install Furion.SqlSugar.Template.RazorWithWebApi::4.8.7.17
+# Blazor 模板
+dotnet new --install Furion.SqlSugar.Template.Blazor::4.8.7.17
+# Blazor/WebApi 模板
+dotnet new --install Furion.SqlSugar.Template.BlazorWithWebAPI::4.8.7.17
+```
+
+:::note 最新版安装
+
+不带版本号总是安装最新的版本。
+
+:::
 
 :::tip `SqlSugar` 脚手架基本使用
 
@@ -84,8 +127,9 @@ dotnet new --install Furion.SqlSugar.Template.Api::4.8.7.17
 
 ## 2.2.3 使用脚手架
 
-```bash showLineNumbers {1,4-7,10-13}
-dotnet new furionapi -n 项目名称 -f .NET版本
+```bash showLineNumbers {2,5-8,11-14}
+# 命令模板如下
+dotnet new 关键词 -n 项目名称 -f .NET版本
 
 # EFCore：支持创建 .NET5-8 版本
 dotnet new furionapi -n MyProject -f net5
@@ -112,9 +156,9 @@ dotnet new fsapi -n MyProject -f net8
 
 :::important 特别提醒
 
-`furionapi` 对应的是上面列表的 `关键字`，我们也可以通过 `dotnet new --list` 查看。
+`furionapi` 对应的是上面列表的 `关键词`，我们也可以通过 `dotnet new --list` 查看。
 
-想了解更多可以使用 `dotnet new 关键字 --help` 查看更多参数。
+想了解更多可以使用 `dotnet new 关键词 --help` 查看更多参数。
 
 :::
 
@@ -126,7 +170,11 @@ dotnet new fsapi -n MyProject -f net8
 dotnet new --install Furion.Template.Api::4.8.7.17
 ```
 
+:::note 最新版安装
+
 不带版本号总是安装最新的版本。
+
+:::
 
 ## 2.2.5 `Visual Studio` 集成
 
