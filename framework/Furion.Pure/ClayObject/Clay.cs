@@ -28,7 +28,7 @@ namespace Furion.ClayObject;
 /// 粘土对象
 /// </summary>
 [SuppressSniffer]
-public class Clay : DynamicObject
+public class Clay : DynamicObject, IEnumerable
 {
     /// <summary>
     /// 构造函数
@@ -66,6 +66,11 @@ public class Clay : DynamicObject
     /// XML 元素
     /// </summary>
     public XElement XmlElement { get; private set; }
+
+    /// <summary>
+    /// 当 Clay 是 数组类型时的长度
+    /// </summary>
+    public int Length => XmlElement.Elements().Count();
 
     /// <summary>
     /// 创建一个超级类型
@@ -654,6 +659,33 @@ public class Clay : DynamicObject
             }
             return list;
         }
+    }
+
+    /// <summary>
+    /// 初始化粘土对象枚举器
+    /// </summary>
+    /// <returns></returns>
+    public ClayEnumerator GetEnumerator()
+    {
+        return new ClayEnumerator(this);
+    }
+
+    /// <summary>
+    /// 将粘土对象转换成 IEnumerable{T} 对象
+    /// </summary>
+    /// <returns></returns>
+    public IEnumerable<T> AsEnumerator<T>()
+    {
+        return ((IEnumerable)this).Cast<T>();
+    }
+
+    /// <summary>
+    /// 内部粘土对象枚举器
+    /// </summary>
+    /// <returns></returns>
+    IEnumerator IEnumerable.GetEnumerator()
+    {
+        return GetEnumerator();
     }
 
     /// <summary>
