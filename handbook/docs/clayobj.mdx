@@ -13,7 +13,31 @@ import Tag from "@site/src/components/Tag.js";
 
 - **新特性**
 
-  - &nbsp;<Tag>新增</Tag> 粘土对象支持任何字符作为 `JSON/XML` 键 <sup>4.8.6.9</sup> <sup>⏱️2023.02.19</sup> [#note_16329657](https://gitee.com/dotnetchina/Furion/commit/4961e01486f604db12a8d8d71f9bd563ed7d7d48#note_16329657)
+  - &nbsp;<Tag>新增</Tag> **粘土对象可转换成 `IEnumerable<T>` 对象并实现 `Lambda/Linq` 操作** <sup>4.8.7.19</sup> <sup>⏱️2023.03.22</sup> [2b14ed9](https://gitee.com/dotnetchina/Furion/commit/2b14ed9da03699619b1fade6e053f65b77a5b0fe)
+
+<details style={{ marginLeft: 50 }}>
+  <summary>查看变化</summary>
+  <div>
+
+```cs showLineNumbers {3-4,6-12}
+dynamic clay = Clay.Parse("{\"Foo\":\"json\",\"Bar\":100,\"Nest\":{\"Foobar\":true},\"Arr\":[\"NOR\",\"XOR\"]}");
+
+// 将 clay.Arr 转换成 IEnumerable<dynamic>
+IEnumerable<dynamic> query = clay.Arr.AsEnumerator<dynamic>();
+
+// 实现 Lambda/Linq 操作
+var result = query.Where(u => u.StartsWith("N"))
+                  .Select(u => new
+                  {
+                      Name = u
+                  })
+                  .ToList();
+```
+
+  </div>
+</details>
+
+- - &nbsp;<Tag>新增</Tag> 粘土对象支持任何字符作为 `JSON/XML` 键 <sup>4.8.6.9</sup> <sup>⏱️2023.02.19</sup> [#note_16329657](https://gitee.com/dotnetchina/Furion/commit/4961e01486f604db12a8d8d71f9bd563ed7d7d48#note_16329657)
 
 - **问题修复**
 
@@ -46,7 +70,7 @@ import Tag from "@site/src/components/Tag.js";
 
 ## 29.2 `Clay` 对象
 
-`Clay` 对象是继承自 `DynamicObject` 的一个特殊对象，提供了像弱语言一样操作对象的方法及索引。
+`Clay` 对象是继承自 `DynamicObject` 的一个特殊对象，提供了像弱（动态）语言一样操作对象的方法及索引获取方式。
 
 ## 29.3 如何使用
 
@@ -164,7 +188,7 @@ var d = clay.Foooo(); // false;
 
 ### 29.3.7 遍历对象
 
-```cs showLineNumbers
+```cs showLineNumbers {12,18,24,33}
 dynamic clay = Clay.Object(new
 {
     Foo = "json",
@@ -187,6 +211,18 @@ foreach (KeyValuePair<string, dynamic> item in clay)
 {
     Console.WriteLine(item.Key + ":" + item.Value); // Foo:json, Bar: 100, Nest: { "Foobar":true}, Arr:["NOR","XOR"]
 }
+
+// 数组/集合 可使用 Lambda 方式，Furion 4.8.7.19+ 支持
+IEnumerable<dynamic> query = clay.Arr.AsEnumerator<dynamic>();   // 通过 .AsEnumerator<T>() 转换成 IEnumerable<T> 类型
+var result = query.Where(u => u.StartsWith("N"))
+                  .Select(u => new
+                  {
+                      Name = u
+                  })
+                  .ToList();
+
+// 也可以通过原生方法转换成 IEnumerable 对象
+IEnumerable<dynamic> query = ((System.Collections.IEnumerable)clay.Arr).Cast<dynamic>();   // 其中 Cast<T> 的 T 可以时任意类型，比如 Cast<string>();
 ```
 
 ### 29.3.8 转换成具体对象

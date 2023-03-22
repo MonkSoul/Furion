@@ -44,8 +44,32 @@ import Tag from "@site/src/components/Tag.js";
 
 - **新特性**
 
-  - &nbsp;<Tag>新增</Tag> `Crontab.IsValid(...)` 静态方法，判断 `Cron` 表达式是否有效 <sup>4.8.7.17</sup> <sup>⏱️2023.03.20</sup> [#I6OHO4](https://gitee.com/dotnetchina/Furion/issues/I6OHO4)
-  - &nbsp;<Tag>新增</Tag> **日志配置 `WithStackFrame`，可控制是否输出产生日志的程序集，类型和具体方法** <sup>4.8.7.16</sup> <sup>⏱️2023.03.19</sup> [5ad6ae2](https://gitee.com/dotnetchina/Furion/commit/5ad6ae241d1798ad788e42569a15d68686db4fa1)
+  - &nbsp;<Tag>新增</Tag> **粘土对象可转换成 `IEnumerable<T>` 对象并实现 `Lambda/Linq` 操作** <sup>4.8.7.19</sup> <sup>⏱️2023.03.22</sup> [2b14ed9](https://gitee.com/dotnetchina/Furion/commit/2b14ed9da03699619b1fade6e053f65b77a5b0fe)
+
+<details style={{ marginLeft: 50 }}>
+  <summary>查看变化</summary>
+  <div>
+
+```cs showLineNumbers {3-4,6-12}
+dynamic clay = Clay.Parse("{\"Foo\":\"json\",\"Bar\":100,\"Nest\":{\"Foobar\":true},\"Arr\":[\"NOR\",\"XOR\"]}");
+
+// 将 clay.Arr 转换成 IEnumerable<dynamic>
+IEnumerable<dynamic> query = clay.Arr.AsEnumerator<dynamic>();
+
+// 实现 Lambda/Linq 操作
+var result = query.Where(u => u.StartsWith("N"))
+                  .Select(u => new
+                  {
+                      Name = u
+                  })
+                  .ToList();
+```
+
+  </div>
+</details>
+
+- - &nbsp;<Tag>新增</Tag> `Crontab.IsValid(...)` 静态方法，判断 `Cron` 表达式是否有效 <sup>4.8.7.17</sup> <sup>⏱️2023.03.20</sup> [#I6OHO4](https://gitee.com/dotnetchina/Furion/issues/I6OHO4)
+- - &nbsp;<Tag>新增</Tag> **日志配置 `WithStackFrame`，可控制是否输出产生日志的程序集，类型和具体方法** <sup>4.8.7.16</sup> <sup>⏱️2023.03.19</sup> [5ad6ae2](https://gitee.com/dotnetchina/Furion/commit/5ad6ae241d1798ad788e42569a15d68686db4fa1)
 
 <details style={{ marginLeft: 50 }}>
   <summary>查看变化</summary>
