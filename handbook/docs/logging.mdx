@@ -251,7 +251,7 @@ info: Microsoft.Hosting.Lifetime[0]
       Content root path: C:\Workplaces\Furion\samples\Furion.Web.Entry\
 ```
 
-### 18.5.1 控制台输出过滤
+### 18.5.1 日志过滤/筛选
 
 如果希望不输出某些日志类别的日志可以添加以下过滤：
 
@@ -324,7 +324,7 @@ public class WebComponent : IWebComponent
 
 :::
 
-### 18.5.2 控制台日志标准化模板
+### 18.5.2 日志标准化（美化）模板
 
 :::important 版本说明
 
@@ -375,21 +375,19 @@ public class WebComponent : IWebComponent
 输出结果：
 
 ```bash showLineNumbers
-info: 2022-09-27T13:17:33.5958395+08:00 System.Logging.EventBusService[0] #1
-      EventBus Hosted Service is running.
-info: 2022-09-27T13:17:35.1666167+08:00 Microsoft.Hosting.Lifetime[ListeningOnAddress] #1
-      Now listening on: https://localhost:5001
-info: 2022-09-27T13:17:35.1728106+08:00 Microsoft.Hosting.Lifetime[ListeningOnAddress] #1
-      Now listening on: http://localhost:5000
-info: 2022-09-27T13:17:35.1893063+08:00 Microsoft.Hosting.Lifetime[0] #1
+info: 2023-03-23 11:51:02.3757469 +08:00 星期四 L Microsoft.Hosting.Lifetime[14] #1
+      Now listening on: https://localhost:7025
+info: 2023-03-23 11:51:02.4993301 +08:00 星期四 L Microsoft.Hosting.Lifetime[14] #1
+      Now listening on: http://localhost:5217
+info: 2023-03-23 11:51:02.5058785 +08:00 星期四 L Microsoft.Hosting.Lifetime[0] #1
       Application started. Press Ctrl+C to shut down.
-info: 2022-09-27T13:17:35.1941484+08:00 Microsoft.Hosting.Lifetime[0] #1
+info: 2023-03-23 11:51:02.5100496 +08:00 星期四 L Microsoft.Hosting.Lifetime[0] #1
       Hosting environment: Development
-info: 2022-09-27T13:17:35.1996545+08:00 Microsoft.Hosting.Lifetime[0] #1
-      Content root path: D:\Workplaces\OpenSources\Furion\samples\Furion.Web.Entry\
+info: 2023-03-23 11:51:02.5127095 +08:00 星期四 L Microsoft.Hosting.Lifetime[0] #1
+      Content root path: C:\Users\snrcsoft\source\repos\WebApplication1\WebApplication1
 ```
 
-### 18.5.3 自定义控制台日志输出模板
+### 18.5.3 自定义日志模板
 
 ```cs showLineNumbers {1,3,13,15}
 services.AddConsoleFormatter(options =>
@@ -442,7 +440,7 @@ info: 2022-09-28 02:02:22(+08:00) 星期三 Microsoft.Hosting.Lifetime[0] #1
       Content root path: D:\Workplaces\OpenSources\Furion\samples\Furion.Web.Entry\
 ```
 
-### 18.5.5 自定义日志格式化写入
+### 18.5.5 自定义日志输出程序
 
 :::important 版本说明
 
@@ -1189,6 +1187,23 @@ public class DatabaseLoggingWriter : IDatabaseLoggingWriter, IDisposable
 }
 ```
 
+### 18.7.9 关于数据库日志循环输出日志
+
+微软提供的 `EFCore` 或者第三方 `ORM` 本身操作数据库时自带日志输出，这就会导致 `IDatabaseLoggingWriter` 的 `Write` 死循环，解决这个问题有以下方法：
+
+1. 创建新的数据库操作实例并关闭日志
+2. 更新到 `Furion 4.7.0+` 版本 **（推荐）**
+3. 自行根据业务逻辑过滤
+
+**如不存在该问题可关闭框架自带死循环检测功能（对性能有提升作用）**：
+
+```cs showLineNumbers {3}
+services.AddDatabaseLogging<DatabaseLoggingWriter>(options =>
+{
+    options.IgnoreReferenceLoop = false;
+});
+```
+
 ## 18.8 添加日志提供器方式
 
 框架提供了多种添加日志提供器方式，可在应用启动或运行时。
@@ -1827,6 +1842,8 @@ Console.WriteLine(template);
 
 :::
 
+### 18.15.1 添加上下文数据
+
 有时候我们希望为日志提供额外数据，这时候可通过 `.ScopeContext()` 配置，如：
 
 ```cs showLineNumbers {2,8,15,21,25,28}
@@ -1862,6 +1879,8 @@ scoped?.Dispose();
 }).LogInformation();
 ```
 
+### 18.15.2 读取上下文数据
+
 在 `LogMessage` 对象中使用：
 
 ```cs showLineNumbers {1,9,14,16}
@@ -1884,7 +1903,7 @@ public void Write(LogMessage logMsg, bool flush)
 }
 ```
 
-还可以实现共享日志上下文，如：
+### 18.15.3 日志上下文数据共享
 
 ```cs showLineNumbers{1,4,11,25,33}
 public TestAppService: ITestAppService, IDisposable
@@ -1924,7 +1943,7 @@ public TestAppService: ITestAppService, IDisposable
 }
 ```
 
-## 18.16 关闭 `.NET Core` 底层的日志
+## 18.16 关闭 `.NET Core` 底层日志
 
 默认情况下，`.NET Core` 底层默认输出了很多日志，如需关闭只需在 `appsettings.json` 和 `appsettings.Development.json` 中添加 `"命名空间/日志类别":"最低日志级别"` 日志类别过滤即可，如：
 
@@ -1944,24 +1963,7 @@ public TestAppService: ITestAppService, IDisposable
 
 小提醒：过滤 `.NET Core` 底层日志最低日志级别通常设置为 `Warning`。
 
-## 18.17 关于数据库日志循环输出日志
-
-微软提供的 `EFCore` 或者第三方 `ORM` 本身操作数据库时自带日志输出，这就会导致 `IDatabaseLoggingWriter` 的 `Write` 死循环，解决这个问题有以下方法：
-
-1. 创建新的数据库操作实例并关闭日志
-2. 更新到 `Furion 4.7.0+` 版本 **（推荐）**
-3. 自行根据业务逻辑过滤
-
-**如不存在该问题可关闭框架自带死循环检测功能（对性能有提升作用）**：
-
-```cs showLineNumbers {3}
-services.AddDatabaseLogging<DatabaseLoggingWriter>(options =>
-{
-    options.IgnoreReferenceLoop = false;
-});
-```
-
-## 18.18 反馈与建议
+## 18.17 反馈与建议
 
 :::note 与我们交流
 

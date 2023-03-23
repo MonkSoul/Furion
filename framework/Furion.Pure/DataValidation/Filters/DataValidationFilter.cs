@@ -67,6 +67,13 @@ public sealed class DataValidationFilter : IAsyncActionFilter, IOrderedFilter
     /// <returns></returns>
     public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
     {
+        // 排除 WebSocket 请求处理
+        if (context.HttpContext.IsWebSocketRequest())
+        {
+            await next();
+            return;
+        }
+
         // 获取控制器/方法信息
         var actionDescriptor = context.ActionDescriptor as ControllerActionDescriptor;
 

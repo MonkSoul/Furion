@@ -121,8 +121,8 @@ public class BadPageResult : StatusCodeResult
 
         var httpContext = context.HttpContext;
 
-        // 如果 Response 已经完成输出，则禁止写入
-        if (httpContext.Response.HasStarted) return;
+        // 如果 Response 已经完成输出或 WebSocket 请求，则禁止写入
+        if (httpContext.IsWebSocketRequest() || httpContext.Response.HasStarted) return;
         httpContext.Response.Body.WriteAsync(ToByteArray());
     }
 
