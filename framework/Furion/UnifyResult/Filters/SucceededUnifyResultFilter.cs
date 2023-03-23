@@ -50,6 +50,9 @@ public class SucceededUnifyResultFilter : IAsyncActionFilter, IOrderedFilter
         // 执行 Action 并获取结果
         var actionExecutedContext = await next();
 
+        // 排除 WebSocket 请求处理
+        if (actionExecutedContext.HttpContext.IsWebSocketRequest()) return;
+
         // 处理已经含有状态码结果的 Result
         if (actionExecutedContext.Result is IStatusCodeActionResult statusCodeResult && statusCodeResult.StatusCode != null)
         {

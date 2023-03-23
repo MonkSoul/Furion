@@ -132,6 +132,13 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter, IOr
     /// <returns></returns>
     public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
     {
+        // 排除 WebSocket 请求处理
+        if (context.HttpContext.IsWebSocketRequest())
+        {
+            _ = await next();
+            return;
+        }
+
         // 判断是否是 Razor Pages
         var isPageDescriptor = context.ActionDescriptor is CompiledPageActionDescriptor;
 

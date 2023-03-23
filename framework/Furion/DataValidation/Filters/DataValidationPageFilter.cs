@@ -73,6 +73,13 @@ public sealed class DataValidationPageFilter : IAsyncPageFilter, IOrderedFilter
     /// <returns></returns>
     public async Task OnPageHandlerExecutionAsync(PageHandlerExecutingContext context, PageHandlerExecutionDelegate next)
     {
+        // 排除 WebSocket 请求处理
+        if (context.HttpContext.IsWebSocketRequest())
+        {
+            await next.Invoke();
+            return;
+        }
+
         // 跳过验证类型
         var nonValidationAttributeType = typeof(NonValidationAttribute);
         var method = context.HandlerMethod?.MethodInfo;

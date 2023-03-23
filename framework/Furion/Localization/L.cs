@@ -73,8 +73,8 @@ public static class L
         var httpContext = App.HttpContext;
         if (httpContext == null) return;
 
-        // 如果 Response 已经完成输出，则禁止写入
-        if (httpContext.Response.HasStarted) return;
+        // 如果 Response 已经完成输出或者是 WebSocket 请求，则禁止写入
+        if (httpContext.IsWebSocketRequest() || httpContext.Response.HasStarted) return;
 
         httpContext.Response.Cookies.Append(
             CookieRequestCultureProvider.DefaultCookieName,
