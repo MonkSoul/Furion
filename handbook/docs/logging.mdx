@@ -232,17 +232,9 @@ Log.Critical("Critical");
 
 通过字符串拓展方式可以在任何时候方便记录日志，专门为懒人提供的。
 
-## 18.5 配置日志输出介质
-
-:::tip 版本说明
-
-以下小节仅在 `Furion 3.9.0+` 版本提供。
-
-:::
+## 18.5 输出到控制台
 
 在 `ASP.NET Core` 应用程序中，主机启动时默认注册了 `ConsoleLoggerProvider` 提供器，也就是控制台日志输出提供器，所以无需任何注册服务即可在控制台输出。
-
-### 18.5.1 输出到控制台
 
 ```bash showLineNumbers
 info: Furion.EventBus.EventBusHostedService[0]
@@ -259,9 +251,9 @@ info: Microsoft.Hosting.Lifetime[0]
       Content root path: C:\Workplaces\Furion\samples\Furion.Web.Entry\
 ```
 
-如果希望不输出某些日志类别的日志可以添加以下过滤：
+### 18.5.1 控制台输出过滤
 
-- **控制台输出过滤**
+如果希望不输出某些日志类别的日志可以添加以下过滤：
 
 `.NET5` 版本：
 
@@ -332,7 +324,7 @@ public class WebComponent : IWebComponent
 
 :::
 
-- **控制台日志标准化模板**
+### 18.5.2 控制台日志标准化模板
 
 :::important 版本说明
 
@@ -397,7 +389,7 @@ info: 2022-09-27T13:17:35.1996545+08:00 Microsoft.Hosting.Lifetime[0] #1
       Content root path: D:\Workplaces\OpenSources\Furion\samples\Furion.Web.Entry\
 ```
 
-- **自定义控制台日志输出模板**
+### 18.5.3 自定义控制台日志输出模板
 
 ```cs showLineNumbers {1,3,13,15}
 services.AddConsoleFormatter(options =>
@@ -420,7 +412,7 @@ services.AddConsoleFormatter(options =>
 });
 ```
 
-- **自定义日志输出时间格式**
+### 18.5.4 自定义日志输出时间格式
 
 :::important 版本说明
 
@@ -450,13 +442,15 @@ info: 2022-09-28 02:02:22(+08:00) 星期三 Microsoft.Hosting.Lifetime[0] #1
       Content root path: D:\Workplaces\OpenSources\Furion\samples\Furion.Web.Entry\
 ```
 
-- **完整自定义日志格式化写入**
+### 18.5.5 自定义日志格式化写入
 
 :::important 版本说明
 
 以下内容仅限 `Furion 4.5.2 +` 版本使用。
 
 :::
+
+`ASP.NET Core` 和 `Furion` 框架都提供了标准化日志输出，如果对颜色，格式有要求，可使用下列代码进行自定义。
 
 ```cs showLineNumbers {1,3,5}
 services.AddConsoleFormatter(options =>
@@ -468,7 +462,7 @@ services.AddConsoleFormatter(options =>
 });
 ```
 
-- **输出日志 `TraceId/HttpContextId`**
+### 18.5.6 输出日志 `TraceId/HttpContextId`
 
 :::important 版本说明
 
@@ -508,7 +502,7 @@ info: 2022-11-24 14:35:16.0373384 +08:00 星期四 L Furion.Application.TestLogg
       我是一个日志 20
 ```
 
-- **输出日志 `程序集/类型/方法`**
+### 18.5.7 输出日志 `程序集/类型/方法`
 
 :::important 版本说明
 
@@ -551,9 +545,9 @@ info: 2023-03-17 18:25:18.1917784 +08:00 星期五 L Furion.Application.TestLogg
       我是一个日志 20
 ```
 
-### 18.5.2 输出到文件
+## 18.6 输出到文件
 
-- **基础使用**
+### 18.6.1 基础使用
 
 ```cs showLineNumbers {2,5,8}
 // 例子一：启动层根目录输出
@@ -566,7 +560,7 @@ services.AddFileLogging("logs/application.log");
 services.AddFileLogging("application.log", true);
 ```
 
-- **从配置文件读取配置**
+### 18.6.2 从配置文件读取配置
 
 :::important 特别注意
 
@@ -626,7 +620,7 @@ services.AddFileLogging(() => "MyLogger", options =>
 });
 ```
 
-- **自定义日志文件名规则**
+### 18.6.3 自定义日志文件名规则
 
 ```cs showLineNumbers {2,5,14,23}
 // 例子一：支持系统环境变量，如%SystemDrive%，%SystemRoot%
@@ -661,7 +655,7 @@ Array.ForEach(new[] { LogLevel.Information, LogLevel.Warning, LogLevel.Error }, 
 });
 ```
 
-- **日志过滤器/筛选器**
+### 18.6.4 日志过滤器/筛选器
 
 通过日志筛选器可以对日志进行归类写入
 
@@ -693,7 +687,7 @@ services.AddFileLogging("someclass.log", options =>
 });
 ```
 
-- **自定义日志模板**
+### 18.6.5 自定义日志模板
 
 默认情况下，`Furion` 提供了标准的日志输出模板，如：
 
@@ -761,7 +755,7 @@ services.AddFileLogging("mytemplate.log", options =>
 });
 ```
 
-- **日志写入失败处理**
+### 18.6.6 日志写入失败处理
 
 有时候可能因为日志文件被打开或者其他应用程序占用了，那么就会导致日志写入失败，这时候可以进行其他相关处理：
 
@@ -785,7 +779,7 @@ services.AddFileLogging("template-obj.log", options =>
 });
 ```
 
-- **自定义日志输出时间格式**
+### 18.6.7 自定义日志输出时间格式
 
 :::important 版本说明
 
@@ -815,7 +809,7 @@ info: 2022-09-28 02:02:22(+08:00) 星期三 Microsoft.Hosting.Lifetime[0] #1
       Content root path: D:\Workplaces\OpenSources\Furion\samples\Furion.Web.Entry\
 ```
 
-- **输出日志 `TraceId/HttpContextId`**
+### 18.6.8 输出日志 `TraceId/HttpContextId`
 
 :::important 版本说明
 
@@ -855,7 +849,7 @@ info: 2022-11-24 14:35:16.0373384 +08:00 星期四 L Furion.Application.TestLogg
       我是一个日志 20
 ```
 
-- **输出日志 `程序集/类型/方法`**
+### 18.6.9 输出日志 `程序集/类型/方法`
 
 :::important 版本说明
 
@@ -898,7 +892,7 @@ info: 2023-03-17 18:25:18.1917784 +08:00 星期五 L Furion.Application.TestLogg
       我是一个日志 20
 ```
 
-### 18.5.3 输出到数据库/其他存储介质
+## 18.7 输出到数据库/其他存储介质
 
 将日志输出到数据库中也是非常常见的需求，`Furion` 把该功能做到了非常简单，支持任何存储介质。
 
@@ -933,7 +927,7 @@ public class DatabaseLoggingWriter : IDatabaseLoggingWriter
 
 你没看错，就这么简单！！
 
-- **基础使用**
+### 18.7.1 基础使用
 
 ```cs showLineNumbers {2,5}
 // 例子一，默认配置
@@ -948,7 +942,7 @@ services.AddDatabaseLogging<DatabaseLoggingWriter>(options =>
 });
 ```
 
-- **从配置文件中读取**
+### 18.7.2 从配置文件中读取
 
 :::important 特别注意
 
@@ -1009,7 +1003,7 @@ services.AddDatabaseLogging<DatabaseLoggingWriter>(() => "MyLogger", options =>
 });
 ```
 
-- **日志过滤器/筛选器**
+### 18.7.3 日志过滤器/筛选器
 
 通过日志筛选器可以对日志进行归类写入
 
@@ -1041,7 +1035,7 @@ services.AddDatabaseLogging<DatabaseLoggingWriter>(options =>
 });
 ```
 
-- **自定义日志模板**
+### 18.7.4 自定义日志模板
 
 ```cs showLineNumbers {1,3,15,17}
 services.AddDatabaseLogging<DatabaseLoggingWriter>(options =>
@@ -1066,7 +1060,7 @@ services.AddDatabaseLogging<DatabaseLoggingWriter>(options =>
 });
 ```
 
-- **日志写入失败处理**
+### 18.7.5 日志写入失败处理
 
 有时候可能因为数据库连接异常或其他原因连接池满，那么就会导致日志写入失败，这时候可以进行其他相关处理：
 
@@ -1081,7 +1075,7 @@ services.AddDatabaseLogging<DatabaseLoggingWriter>(options =>
 });
 ```
 
-- **输出日志 `TraceId/HttpContextId`**
+### 18.7.6 输出日志 `TraceId/HttpContextId`
 
 :::important 版本说明
 
@@ -1121,7 +1115,7 @@ info: 2022-11-24 14:35:16.0373384 +08:00 星期四 L Furion.Application.TestLogg
       我是一个日志 20
 ```
 
-- **输出日志 `程序集/类型/方法`**
+### 18.7.7 输出日志 `程序集/类型/方法`
 
 :::important 版本说明
 
@@ -1164,7 +1158,7 @@ info: 2023-03-17 18:25:18.1917784 +08:00 星期五 L Furion.Application.TestLogg
       我是一个日志 20
 ```
 
-### 18.5.4 关于高频写入存储介质
+### 18.7.8 关于高频写入存储介质
 
 在一些高频写入存储介质（如数据库）日志的场景，为避免频繁解析服务（创建和销毁链接）和创建作用域导致内存及 `CPU` 飙高，可使用 **类全局作用域** 和所有服务都采取单例的方式：
 
@@ -1195,9 +1189,13 @@ public class DatabaseLoggingWriter : IDatabaseLoggingWriter, IDisposable
 }
 ```
 
-### 18.5.5 `ILoggerFactory` 方式
+## 18.8 添加日志提供器方式
 
-`Furion` 也提供了运行时动态创建日志提供器并写入：
+框架提供了多种添加日志提供器方式，可在应用启动或运行时。
+
+### 18.8.1 `ILoggerFactory` 方式
+
+`Furion` 也提供了运行时动态添加日志提供器并写入：
 
 ```cs showLineNumbers  {5,7-8}
 public class ContactModel : PageModel
@@ -1217,7 +1215,7 @@ public class ContactModel : PageModel
 }
 ```
 
-### 18.5.6 `ILoggingBuilder` 方式
+### 18.8.2 `ILoggingBuilder` 方式
 
 `Furion` 也提供了原生 `services.AddLogging(builder => {})` 方式配置，如
 
@@ -1232,13 +1230,13 @@ services.AddLogging(builder =>
 });
 ```
 
-### 18.5.7 记录请求日志
+## 18.9 记录请求日志
 
 在 `ASP.NET 6` 中，框架默认提供了 `app.UseHttpLogging()` 记录 `HTTP` 请求日志功能，详细了解可查看官方文档 [ASP.NET Core - HTTP 日志记录](https://docs.microsoft.com/zh-cn/aspnet/core/fundamentals/http-logging/?view=aspnetcore-6.0)
 
 当然也可以自定义中间件的方式写，只需要注入 `ILogger<>` 接口即可。
 
-### 18.5.8 `Debug` 和 `Trace` 默认不输出问题
+## 18.10 `Debug` 和 `Trace` 默认不输出问题
 
 默认情况下，微软在 `appsettings.json` 和 `appsettings.Development.json` 中配置了 `Default` 日志级别，如需自定义：
 
@@ -1254,11 +1252,11 @@ services.AddLogging(builder =>
 
 这时候只需要修改 `Default` 为 `Debug` 或 `Trace` 即可，**注意不同环境加载不同的配置文件。开发环境应修改 `appsettings.Development.json` 下的配置。**
 
-## 18.6 `[LoggingMonitor]` 监听日志
+## 18.11 `[LoggingMonitor]` 监听日志
 
 在 `Furion 3.9.1` 版本新增了 `[LoggingMonitor]` 特性，支持在控制器或操作中贴该特性，可以实现强大的请求日志监听，方便测试，如：
 
-### 18.6.1 特性配置
+### 18.11.1 特性配置
 
 ```cs showLineNumbers {1,7}
 using Furion.Logging;
@@ -1322,7 +1320,7 @@ public class TestLoggerServices : IDynamicApiController
 ┗━━━━━━━━━━━  Logging Monitor ━━━━━━━━━━━
 ```
 
-### 18.6.2 全局配置
+### 18.11.2 全局配置
 
 如需全局启用 `LoggingMonitor` 功能，无需在每个控制器或者方法中贴，全局注册如下：
 
@@ -1378,7 +1376,7 @@ services.AddMonitorLogging();   // 默认读取 Logging:Monitor 下配置，支�
 
 如果配置了全局请求监视日志，对个别不需要监视的接口方法只需要贴 `[SuppressMonitor]` 特性即可。
 
-### 18.6.3 更多配置
+### 18.11.3 更多配置
 
 :::important 版本说明
 
@@ -1405,7 +1403,7 @@ services.AddMonitorLogging(options =>
 services.AddMonitorLogging(jsonKey: "YourKey:Monitor");
 ```
 
-### 18.6.4 `JSON` 格式
+### 18.11.4 `JSON` 格式
 
 :::important 版本说明
 
@@ -1561,7 +1559,7 @@ public class DatabaseLoggingWriter : IDatabaseLoggingWriter
 }
 ```
 
-### 18.6.5 全局过滤 `WriteFilter`
+### 18.11.5 全局过滤 `WriteFilter`
 
 :::important 版本说明
 
@@ -1586,7 +1584,7 @@ services.AddMonitorLogging(options =>
 });
 ```
 
-### 18.6.6 输出 `JSON` 支持忽略属性名或属性类型
+### 18.11.6 输出 `JSON` 支持忽略属性名或属性类型
 
 :::important 版本说明
 
@@ -1626,7 +1624,7 @@ services.AddMonitorLogging(options =>
 
 <img src={useBaseUrl("img/hl1.png")} />
 
-### 18.6.7 将 `LoggingMonitor` 写入数据库
+### 18.11.7 将 `LoggingMonitor` 写入数据库
 
 1. 注册 `.AddDatabaseLogging<>` 服务：
 
@@ -1700,7 +1698,7 @@ public class DatabaseLoggingWriter : IDatabaseLoggingWriter
 
 :::
 
-### 18.6.8 支持 `[DisplayName]` 特性
+### 18.11.8 支持 `[DisplayName]` 特性
 
 :::important 版本说明
 
@@ -1723,7 +1721,7 @@ public class TestService: IDynamicApiController
 
 那么如果输出为 `JSON` 格式日志将会自动添加 `displayTitle` 键，值为 `测试方法`。
 
-### 18.6.9 输出序列化键格式配置（属性大小写）
+### 18.11.9 输出序列化键格式配置（属性大小写）
 
 :::important 版本说明
 
@@ -1753,7 +1751,7 @@ services.AddMonitorLogging(options =>
 });
 ```
 
-### 18.6.10 跳过特定参数记录
+### 18.11.10 跳过特定参数记录
 
 :::important 版本说明
 
@@ -1771,7 +1769,7 @@ public string GetName([SuppressMonitor]SomeType type, int id)   // type 参数�
 }
 ```
 
-## 18.7 打印日志到 `Swagger` 中
+## 18.12 打印日志到 `Swagger` 中
 
 在 `Furion` 框架中默认集成了 `MiniProfiler` 组件并与 `Swagger` 进行了结合，如需打印日志或调试代码，只需调用以下方法即可：
 
@@ -1779,13 +1777,13 @@ public string GetName([SuppressMonitor]SomeType type, int id)   // type 参数�
 App.PrintToMiniProfiler("分类", "状态", "要打印的消息");
 ```
 
-## 18.8 静态 `Default()` 方式构建
+## 18.13 静态 `Default()` 方式构建
 
 ```cs showLineNumbers
 StringLoggingPart.Default().SetMessage("这是一个日志").LogInformation();
 ```
 
-## 18.9 规范日志模板
+## 18.14 规范日志模板
 
 在 `Furion v3.5.3+` 新增了 `TP.Wrapper(...)` 规范模板，使用如下：
 
@@ -1821,7 +1819,7 @@ Console.WriteLine(template);
 
 :::
 
-## 18.10 日志上下文
+## 18.15 日志上下文
 
 :::important 版本说明
 
@@ -1926,7 +1924,7 @@ public TestAppService: ITestAppService, IDisposable
 }
 ```
 
-## 18.11 关闭 `.NET Core` 底层的日志
+## 18.16 关闭 `.NET Core` 底层的日志
 
 默认情况下，`.NET Core` 底层默认输出了很多日志，如需关闭只需在 `appsettings.json` 和 `appsettings.Development.json` 中添加 `"命名空间/日志类别":"最低日志级别"` 日志类别过滤即可，如：
 
@@ -1946,7 +1944,7 @@ public TestAppService: ITestAppService, IDisposable
 
 小提醒：过滤 `.NET Core` 底层日志最低日志级别通常设置为 `Warning`。
 
-## 18.12 关于数据库日志循环输出日志
+## 18.17 关于数据库日志循环输出日志
 
 微软提供的 `EFCore` 或者第三方 `ORM` 本身操作数据库时自带日志输出，这就会导致 `IDatabaseLoggingWriter` 的 `Write` 死循环，解决这个问题有以下方法：
 
@@ -1963,7 +1961,7 @@ services.AddDatabaseLogging<DatabaseLoggingWriter>(options =>
 });
 ```
 
-## 18.13 反馈与建议
+## 18.18 反馈与建议
 
 :::note 与我们交流
 

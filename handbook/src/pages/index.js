@@ -46,8 +46,9 @@ function Banner() {
             <span
               style={{ fontSize: 14, fontWeight: "normal", color: "#8759ff" }}
             >
-              [ˈfjʊəriən] <span style={{ opacity: 0.4, fontSize: 12 }}>|</span>{" "}
-              [ˈfjʊriən]
+              [ˈfjʊəriən] <sup style={{ opacity: 0.6 }}>英</sup>{" "}
+              <span style={{ opacity: 0.4, fontSize: 12 }}>|</span> [ˈfjʊriən]{" "}
+              <sup style={{ opacity: 0.6 }}>美</sup>
             </span>
           </div>
           <div style={{ color: "#82aaff", position: "relative", fontSize: 14 }}>
@@ -190,7 +191,7 @@ function Gitee() {
             className={"furion-log-jiao" + (isDarkTheme ? " dark" : "")}
           ></div>
           <div className="furion-log-number">
-            <div style={{ color: "#1fd898" }}>7,137,941</div>
+            <div style={{ color: "#1fd898" }}>7,141,380</div>
             <span className={isDarkTheme ? " dark" : ""}>Downloads</span>
           </div>
         </div>
@@ -294,7 +295,7 @@ function WhoUse() {
           <h1>他们都在用</h1>
           <p>
             Furion 已在 NuGet
-            平台超713万次下载。从小型企业到企业的解决方案及知名企业。他们在简单软件和复杂管理系统的开发方面都信任我们。
+            平台超714万次下载。从小型企业到企业的解决方案及知名企业。他们在简单软件和复杂管理系统的开发方面都信任我们。
           </p>
           <a
             className="furion-get-start"
