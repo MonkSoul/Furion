@@ -1214,6 +1214,153 @@ public object Method1([RouteConstraint(":min(10)")] int id)
 }
 ```
 
+### 5.1.8.19 `application/xml` 报文参数支持
+
+1. 在 `Startup.cs` 中启用 `XML` 请求报文格式支持
+
+```cs showLineNumbers {2-3}
+services.AddControllers()   // .AddControllersWithViews()
+        .AddXmlSerializerFormatters()
+        .AddXmlDataContractSerializerFormatters()
+```
+
+2. 定义实体类型
+
+```cs showLineNumbers
+// 实体类型
+public class People
+{
+    // 基础类型
+    public int Age { get; set; }
+    public string Name { get; set; }
+    public bool IsDeleted { get; set; }
+
+    // 数组类型
+    public string[] Address { get; set; }
+
+    // 集合类型
+    public List<string> Emails { get; set; }
+
+    // 类类型
+    public Child Child { get; set; }
+}
+
+public class Child
+{
+    public string Name { get; set; }
+}
+```
+
+3. 在动态 `WebAPI` 中使用
+
+```cs showLineNumbers {3-4}
+public class XmlDemo : IDynamicApiController
+{
+    //[Consumes("application/xml")] // 如果设置了 [Consumes] 那么就表示只能传递 `accept= application/xml` 格式，不设置则支持多种（XML/JSON)
+    public People Test(People people)
+    {
+        return people;
+    }
+}
+```
+
+:::important `[Consumes]` 和 `[Produces]` 说明
+
+`[Consumes]` 特性是用来定义输入参数格式，对应请求报文的 `accept`，`[Produces]` 特性是用来定义返回值格式，对应响应报文的 `content-type`。
+
+:::
+
+4. `XML` 格式说明及注意事项
+
+支持两种 `XML` 格式报文，如：
+
+:::caution 注意事项
+
+`XML` 标签区分大小写，必须严格对照 `C#` 类型定义声明。
+
+对于集合/数组类型，格式必须遵循下列格式：
+
+```xml showLineNumbers
+<属性名>
+    <C#类型></C#类型>
+</属性名>
+```
+
+如：
+
+```xml showLineNumbers {1,5,9,13,17,21}
+<Strings>
+    <string>monksoul@outlook.com</string>
+    <string>rustln@outlook.com</string>
+</Strings>
+<Ints>
+    <int>1</int>
+    <int>2</int>
+</Ints>
+<Bools>
+    <boolean>true</boolean>
+    <boolean>false</boolean>
+</Bools>
+<Decimals>
+    <decimal>1.0</decimal>
+    <decimal>2.0</decimal>
+</Decimals>
+<Floats>
+    <float>1.0</float>
+    <float>2.0</float>
+</Floats>
+<Childs>
+    <Child>
+      <Name>Furion</Name>
+    </Child>
+</Childs>
+```
+
+:::
+
+- 第一种（常用）
+
+```xml showLineNumbers {1-2}
+<?xml version="1.0" encoding="UTF-8"?>
+<People>
+  <Age>30</Age>
+  <Name>百小僧</Name>
+  <IsDeleted>true</IsDeleted>
+  <Address>
+    <string>广东省中山市</string>
+    <string>广东省珠海市</string>
+  </Address>
+  <Emails>
+    <string>monksoul@outlook.com</string>
+    <string>rustln@outlook.com</string>
+  </Emails>
+  <Child>
+    <Name>Furion</Name>
+  </Child>
+</People>
+```
+
+- 第二种
+
+```xml showLineNumbers {1}
+<People xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Age>30</Age>
+  <Name>百小僧</Name>
+  <IsDeleted>true</IsDeleted>
+  <Address>
+    <string>广东省中山市</string>
+    <string>广东省珠海市</string>
+  </Address>
+  <Emails>
+    <string>monksoul@outlook.com</string>
+    <string>rustln@outlook.com</string>
+  </Emails>
+  <Child>
+    <Name>Furion</Name>
+  </Child>
+</People>
+```
+
 ## 5.1.9 `[ApiDescriptionSettings]`
 
 除了上述 `ASP.NET Core` 提供的配置外，`Furion` 框架还提供了非常强大且灵活的 `[ApiDescriptionSettings]` 特性。
