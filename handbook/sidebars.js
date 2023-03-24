@@ -3,6 +3,10 @@ module.exports = {
     {
       type: "category",
       label: "1. 附录",
+      link: {
+        type: "generated-index",
+        slug: "/category/appendix",
+      },
       items: [
         "introduce",
         "author",
@@ -19,9 +23,13 @@ module.exports = {
     {
       type: "category",
       label: "2. 入门指南",
+      link: {
+        type: "generated-index",
+        slug: "/category/getstart",
+      },
       items: [
         "serverun",
-        "get-start",
+        "get-start-net5",
         "get-start-net6",
         "get-start-net7",
         "get-start-net8",
@@ -40,16 +48,28 @@ module.exports = {
     {
       type: "category",
       label: "3. 应用启动",
+      link: {
+        type: "generated-index",
+        slug: "/category/appstart",
+      },
       items: ["appstartup", "component"],
     },
     {
       type: "category",
+      link: {
+        type: "generated-index",
+        slug: "/category/configuration",
+      },
       label: "4. 配置与选项",
       items: ["configuration", "options"],
     },
     {
       type: "category",
       label: "5. Web 应用开发",
+      link: {
+        type: "generated-index",
+        slug: "/category/web",
+      },
       items: [
         "dynamic-api-controller",
         "httpcontext",
@@ -74,6 +94,10 @@ module.exports = {
     {
       type: "category",
       label: "9. 数据库操作指南（EFCore）",
+      link: {
+        type: "generated-index",
+        slug: "/category/efcore",
+      },
       items: [
         "dbcontext-start",
         "dbcontext",
@@ -110,6 +134,10 @@ module.exports = {
     {
       type: "category",
       label: "10. SqlSugar 或其他 ORM",
+      link: {
+        type: "generated-index",
+        slug: "/category/orm",
+      },
       items: ["sqlsugar", "dapper", "mongodb"],
     },
     {
@@ -175,6 +203,10 @@ module.exports = {
     {
       type: "category",
       label: "26. 定时任务 (Schedule)",
+      link: {
+        type: "generated-index",
+        slug: "/category/job",
+      },
       items: ["job", "cron", "task-queue"],
     },
     {
@@ -208,6 +240,10 @@ module.exports = {
     {
       type: "category",
       label: "34. 托管/部署/发布",
+      link: {
+        type: "generated-index",
+        slug: "/category/deploy",
+      },
       items: [
         "deploy-iis",
         "deploy-docker",
@@ -219,12 +255,20 @@ module.exports = {
     },
     {
       type: "category",
+      link: {
+        type: "generated-index",
+        slug: "/category/devops",
+      },
       label: "35. 持续部署集成",
       items: ["deploy-docker-auto", "devops"],
     },
     {
       type: "category",
       label: "36. 测试指南",
+      link: {
+        type: "generated-index",
+        slug: "/category/test",
+      },
       items: ["unittest", "performance", "benchmark", "bingfa"],
     },
     {
