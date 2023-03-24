@@ -245,35 +245,4 @@ public class TestModuleServices : IDynamicApiController
 
         var d = true == a && a == b && a == c;
     }
-
-    [HttpPost]
-    public async Task<object> UploadFileAsync(IFormFileCollection files)
-    {
-        // 保存到网站根目录下的 uploads 目录
-        var savePath = Path.Combine(App.HostEnvironment.ContentRootPath, "uploads");
-        if (!Directory.Exists(savePath)) Directory.CreateDirectory(savePath);
-
-        // 总上传大小
-        long size = files.Sum(f => f.Length);
-
-        // 遍历所有文件逐一上传
-        foreach (var formFile in files)
-        {
-            if (formFile.Length > 0)
-            {
-                // 避免文件名重复，采用 GUID 生成
-                var fileName = Guid.NewGuid().ToString("N") + Path.GetExtension(formFile.FileName);
-                var filePath = Path.Combine(savePath, fileName);
-
-                // 保存到指定路径
-                using (var stream = System.IO.File.Create(filePath))
-                {
-                    await formFile.CopyToAsync(stream);
-                }
-            }
-        }
-
-        // 这里可自行返回更多信息
-        return new { count = files.Count, size };
-    }
 }
