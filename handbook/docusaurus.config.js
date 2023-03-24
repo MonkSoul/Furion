@@ -52,7 +52,7 @@ module.exports = {
         //   position: "left",
         // },
         {
-          to: "docs",
+          to: "docs/category/appendix",
           activeBasePath: "docs",
           label: "文档",
           position: "left",
@@ -135,11 +135,11 @@ module.exports = {
           items: [
             {
               label: "入门",
-              to: "docs/serverun",
+              to: "docs/category/getstart",
             },
             {
               label: "手册",
-              to: "docs",
+              to: "docs/category/appendix",
             },
           ],
         },
