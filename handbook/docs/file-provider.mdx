@@ -270,11 +270,17 @@ public async Task<string> UploadFileAsync([FromBody] string fileBase64, string c
 
 - **多文件 `List<IFormFile>` 类型参数（存储到硬盘）**
 
+:::tip 参数提示
+
+通常多文件上传用的最多的是 `List<IFormFile> files` 参数，但 `.NET5+` 更推荐使用 `IFormFileCollection  files`。
+
+:::
+
 代码和 `单文件处理一致`，只需 `foreach` 即可。
 
-```cs showLineNumbers  {1,12}
+```cs showLineNumbers  {1-2,12}
 [HttpPost]
-public async Task<object> UploadFileAsync(List<IFormFile> files)
+public async Task<object> UploadFileAsync(List<IFormFile> files)    // 可改为 IFormFileCollection files
 {
     // 保存到网站根目录下的 uploads 目录
     var savePath = Path.Combine(App.HostEnvironment.ContentRootPath, "uploads");
@@ -289,7 +295,7 @@ public async Task<object> UploadFileAsync(List<IFormFile> files)
         if (formFile.Length > 0)
         {
             // 避免文件名重复，采用 GUID 生成
-            var fileName = Guid.NewGuid().ToString("N") + Path.GetExtension(clientFileName);
+            var fileName = Guid.NewGuid().ToString("N") + Path.GetExtension(formFile.FileName);
             var filePath = Path.Combine(savePath, fileName);
 
             // 保存到指定路径
