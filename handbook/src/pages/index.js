@@ -90,15 +90,19 @@ function Banner() {
             </span>
           </div>
           <div className="furion-get-start-btn">
-            <Link className="furion-get-start" to={useBaseUrl("docs/category/getstart")}>
+            <Link
+              className="furion-get-start"
+              to={useBaseUrl("docs/category/getstart")}
+            >
               入门指南
               <span className="furion-version">v4.8.7.20</span>
             </Link>
             <Link
               className="furion-try-demo"
-              to="https://replit.com/@MonkSoul/HelloFurion?v=1#Program.cs"
+              to="https://gitee.com/dotnetchina/Furion"
+              title="Gitee 查看"
             >
-              云上体验
+              Gitee 查看
             </Link>
           </div>
         </div>
@@ -191,7 +195,7 @@ function Gitee() {
             className={"furion-log-jiao" + (isDarkTheme ? " dark" : "")}
           ></div>
           <div className="furion-log-number">
-            <div style={{ color: "#1fd898" }}>7,186,835</div>
+            <div style={{ color: "#1fd898" }}>7,187,787</div>
             <span className={isDarkTheme ? " dark" : ""}>Downloads</span>
           </div>
         </div>

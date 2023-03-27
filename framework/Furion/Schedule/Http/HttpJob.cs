@@ -99,8 +99,7 @@ public class HttpJob : IJob
         _logger.LogInformation($"Received HTTP response body with a length of <{bodyString.Length}> output as follows - {(int)httpResponseMessage.StatusCode}{Environment.NewLine}{bodyString}");
 
         // 设置本次执行结果
-        context.Result = Penetrates.Serialize(new
-        {
+        context.Result = Penetrates.Serialize(new {
             httpResponseMessage.StatusCode,
             Body = bodyString
         });

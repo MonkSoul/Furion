@@ -91,10 +91,11 @@
   text-decoration: none;
   display: inline-block;
   white-space: nowrap;
+
 }
 
 .furion-try-demo {
-  background-color: rgb(33, 176, 145);
+  background-color: rgb(199, 29, 36);
   margin-left: 20px;
 }
 
