@@ -19,42 +19,42 @@ using System.Reflection;
 namespace System;
 
 /// <summary>
-/// 用于原生应用（WinForm/WPF）创建组件（控件）
+/// 用于原生应用（WinForm/WPF）创建窗口
 /// </summary>
 [SuppressSniffer]
 public static class Native
 {
     /// <summary>
-    /// 创建原生应用（WinForm/WPF）组件（控件）
+    /// 创建原生应用（WinForm/WPF）窗口
     /// </summary>
-    /// <typeparam name="TComponent"></typeparam>
+    /// <typeparam name="TWindow"></typeparam>
     /// <param name="parameters"></param>
     /// <returns></returns>
-    public static TComponent CreateInstance<TComponent>(params object[] parameters)
-        where TComponent : class
+    public static TWindow CreateInstance<TWindow>(params object[] parameters)
+        where TWindow : class
     {
-        return CreateInstance(typeof(TComponent), parameters) as TComponent;
+        return CreateInstance(typeof(TWindow), parameters) as TWindow;
     }
 
     /// <summary>
-    /// 创建原生应用（WinForm/WPF）组件（控件）
+    /// 创建原生应用（WinForm/WPF）组件窗口
     /// </summary>
-    /// <param name="componentType"></param>
+    /// <param name="windowType"></param>
     /// <param name="parameters"></param>
     /// <returns></returns>
-    public static object CreateInstance(Type componentType, params object[] parameters)
+    public static object CreateInstance(Type windowType, params object[] parameters)
     {
         // 获取构造函数
-        var constructors = componentType.GetConstructors(BindingFlags.Public | BindingFlags.Instance);
+        var constructors = windowType.GetConstructors(BindingFlags.Public | BindingFlags.Instance);
 
         // 如果构造函数为空，则直接创建返回
         if (constructors.Length == 0)
         {
-            return Activator.CreateInstance(componentType);
+            return Activator.CreateInstance(windowType);
         }
 
         // 检查是否包含多个公开构造函数
-        if (constructors.Length > 1) throw new InvalidOperationException($"Multiple constructors accepting all given argument types have been found in type '{componentType.FullName}'. There should only be one applicable constructor.");
+        if (constructors.Length > 1) throw new InvalidOperationException($"Multiple constructors accepting all given argument types have been found in type '{windowType.FullName}'. There should only be one applicable constructor.");
 
         // 获取唯一构造函数参数
         var parameterInfos = constructors[0].GetParameters();
@@ -96,11 +96,11 @@ public static class Native
             ctorParameters.Add(serviceInstance);
         }
 
-        // 创建实例
-        var component = Activator.CreateInstance(componentType, ctorParameters.Concat(parameters).ToArray());
+        // 创建窗口实例
+        var windowInstance = Activator.CreateInstance(windowType, ctorParameters.Concat(parameters).ToArray());
 
         // 获取  Owner 属性并绑定关闭事件
-        var ownerProperty = componentType.GetProperty("Owner", BindingFlags.Instance | BindingFlags.Public);
+        var ownerProperty = windowType.GetProperty("Owner", BindingFlags.Instance | BindingFlags.Public);
         if (ownerProperty != null
             && (ownerProperty.PropertyType.FullName.StartsWith("System.Windows.Forms.Form") || ownerProperty.PropertyType.FullName.StartsWith("System.Windows.Window")))
         {
@@ -113,10 +113,10 @@ public static class Native
                 serviceScope.Dispose();
             }
 
-            var closedEventInfo = componentType.GetEvent("Closed", BindingFlags.Instance | BindingFlags.Public);
-            closedEventInfo.AddEventHandler(component, new EventHandler((Action<object, EventArgs>)closedHandler));
+            var closedEventInfo = windowType.GetEvent("Closed", BindingFlags.Instance | BindingFlags.Public);
+            closedEventInfo.AddEventHandler(windowInstance, new EventHandler((Action<object, EventArgs>)closedHandler));
         }
 
-        return component;
+        return windowInstance;
     }
 }

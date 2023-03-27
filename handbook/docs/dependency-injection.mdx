@@ -917,7 +917,7 @@ public partial class Form2 : Form, IScoped
 在 `Form1` 中打开 `From2`
 
 ```cs showLineNumbers {3}
-private async void button1_Click(object sender, EventArgs e)
+private void button1_Click(object sender, EventArgs e)
 {
     Native.CreateInstance<Form2>("我是其他参数").ShowDialog();  // new Form2() 改为  Native.CreateInstance<Form2>();
 }
@@ -1029,7 +1029,7 @@ private void Button_Click(object sender, RoutedEventArgs e)
 
 ### 12.14.3 `Native.CreateInstance<T>()` 静态方法
 
-`Furion` 框架提供了 `Native.CreateInstance<T>()` 静态方法可在 `WinForm/WPF` 中创建控件、窗口、组件实例，可替代 `new T()` 操作。
+`Furion` 框架提供了 `Native.CreateInstance<T>()` 静态方法可在 `WinForm/WPF` 中创建窗口实例，可替代 `new T()` 操作。
 
 如果 `T` 类型标记了生命周期接口（`ITransient`，`IScoped`，`ISingleton`），那么便支持构造函数注入服务操作。
 
