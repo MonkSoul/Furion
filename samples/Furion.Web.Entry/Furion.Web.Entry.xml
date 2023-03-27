@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Furion.Web.Entry</name>
+    </assembly>
+    <members>
+        <member name="T:Furion.Web.Entry.Controllers.TestApiController">
+            <summary>
+            控制器层注释
+            </summary>
+        </member>
+        <member name="T:Furion.Web.Entry.SingleFilePublish">
+            <summary>
+            解决单文件发布问题
+            </summary>
+        </member>
+        <member name="M:Furion.Web.Entry.SingleFilePublish.IncludeAssemblies">
+            <summary>
+            解决单文件不能扫描的程序集
+            </summary>
+            <remarks>和 <see cref="M:Furion.Web.Entry.SingleFilePublish.IncludeAssemblyNames"/> 可同时配置</remarks>
+            <returns></returns>
+        </member>
+        <member name="M:Furion.Web.Entry.SingleFilePublish.IncludeAssemblyNames">
+            <summary>
+            解决单文件不能扫描的程序集名称
+            </summary>
+            <remarks>和 <see cref="M:Furion.Web.Entry.SingleFilePublish.IncludeAssemblies"/> 可同时配置</remarks>
+            <returns></returns>
+        </member>
+    </members>
+</doc>
