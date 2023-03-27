@@ -105,10 +105,10 @@ public class XunitTestCollectionRunnerWithAssemblyFixture : XunitTestCollectionR
                 // 否则通过作用域解析
                 else
                 {
-                    serviceInstance = serviceScope.ServiceProvider.GetService(parameter.ParameterType);
+                    serviceInstance = serviceScope.ServiceProvider.GetService(serviceType);
                 }
 
-                combinedFixtures.TryAdd(parameter.ParameterType, serviceInstance);
+                combinedFixtures.TryAdd(serviceType, serviceInstance);
             }
         }
 

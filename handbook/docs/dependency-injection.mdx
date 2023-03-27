@@ -843,9 +843,7 @@ Scoped.Create((factory, scope) => {
 
 - 修改 `Progame.cs` 代码
 
-```cs showLineNumbers {11,14} title="Progame.cs"
-using Furion;
-
+```cs showLineNumbers {9,12} title="Progame.cs"
 namespace WinFormsApp1;
 
 internal static class Program
@@ -864,8 +862,7 @@ internal static class Program
 
 - 使用完整的依赖注入功能
 
-```cs showLineNumbers {7,12-13,17-18,22}
-using Furion;
+```cs showLineNumbers {6,11-12,16-17,21}
 using Furion.DependencyInjection;
 using Microsoft.Extensions.Configuration;
 
@@ -944,8 +941,7 @@ private async void button1_Click(object sender, EventArgs e)
 
 - 修改 `App.xaml.cs` 代码
 
-```cs showLineNumbers {8-11,13-17}
-using Furion;
+```cs showLineNumbers {7-10,12-16}
 using System.Windows;
 
 namespace WpfApp1;

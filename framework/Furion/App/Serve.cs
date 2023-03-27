@@ -40,7 +40,7 @@ public static class Serve
     };
 
     /// <summary>
-    /// 启动原生应用主机
+    /// 启动原生应用（WinForm/WPF）主机
     /// </summary>
     /// <param name="additional"></param>
     public static IHost RunNative(Action<IServiceCollection> additional = default)
@@ -49,6 +49,13 @@ public static class Serve
 
         // 监听主机关闭
         AssemblyLoadContext.Default.Unloading += (ctx) =>
+        {
+            host.StopAsync();
+            host.Dispose();
+        };
+
+        // 未知异常
+        AppDomain.CurrentDomain.UnhandledException += (s, e) =>
         {
             host.StopAsync();
             host.Dispose();
