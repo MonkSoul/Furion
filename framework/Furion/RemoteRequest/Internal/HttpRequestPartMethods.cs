@@ -710,11 +710,13 @@ public sealed partial class HttpRequestPart
 
             case "application/xml":
             case "text/xml":
+            case "text/html":
+            case "text/plain":
                 if (Body != null) httpContent = new StringContent(Body.ToString(), ContentEncoding, ContentType);
                 break;
 
             default:
-                // 其他类型可通过 `HttpRequestMessage` 拦截器设置
+                // 其他类型可通过 HttpRequestMessage 拦截器设置
                 break;
         }
 
