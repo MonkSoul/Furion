@@ -14,6 +14,10 @@ import Tag from "@site/src/components/Tag.js";
   <div>
 <div>
 
+- **新特性**
+
+  - &nbsp;<Tag>新增</Tag> **`WinForm/WPF` 快速注册静态方法：`Serve.RunNative()`** <sup>4.8.7.23</sup> <sup>⏱️2023.03.27</sup>
+
 - **其他更改**
 
   - &nbsp;<Tag>调整</Tag> `Serve.Run()` 迷你主机默认添加 `JSON` 中文乱码处理 <sup>4.8.6.3</sup> <sup>⏱️2023.02.15</sup> [86b5f9f](https://gitee.com/dotnetchina/Furion/commit/86b5f9f7c2ace503312bf879dccd7add12bd93c4)
@@ -547,11 +551,9 @@ Serve.Run(GenericRunOptions.Default
 
 在 `WinForm` 或 `WPF` 中使用，请确保 `Serve.Run()` 在桌面应用程序之前初始化：
 
-- **WinForm**
+### 2.0.10.1 `WinForm` 初始化
 
-```cs showLineNumbers {5,11,14-18}
-using System.Runtime.Loader;
-
+```cs showLineNumbers {3,8}
 namespace WinFormsApp2;
 
 internal static class Program
@@ -559,15 +561,7 @@ internal static class Program
     [STAThread]
     static void Main()
     {
-        // 如果在 4.8.0 之前版本无返回值
-        var host = Serve.Run(silence: true);   // 静默启动
-
-        // 监听关闭事件
-        AssemblyLoadContext.Default.Unloading += (ctx) =>
-        {
-            host.StopAsync();
-            host.Dispose();
-        };
+        Serve.RunNative();  // v4.8.7.23+
 
         ApplicationConfiguration.Initialize();
         Application.Run(new Form1());
@@ -575,45 +569,31 @@ internal static class Program
 }
 ```
 
-- **WPF**
+### 2.0.10.2 `WPF` 初始化
 
-```cs showLineNumbers {79,12,15-22}
-using Microsoft.Extensions.Hosting;
-
+```cs showLineNumbers {3,7}
 namespace WpfApp1;
 
 public partial class App : Application
 {
-    private readonly IHost _host;
-
     public App()
     {
-        // 如果在 4.8.0 之前版本无返回值
-        _host = Serve.Run(silence: true);
-    }
-
-    protected override void OnExit(ExitEventArgs e)
-    {
-        // 停止服务并释放
-        _host.StopAsync();
-        _host.Dispose();
-
-        base.OnExit(e);
+        Serve.RunNative();  // Furion 4.8.7.23+
     }
 }
 ```
 
-### 2.0.10.1 添加更多服务
+### 2.0.10.3 注册服务
 
 如果想注册服务，支持以下两种方式：
 
-- `Serve.Run` 方式
+- `Serve.RunNative` 方式
 
 ```cs showLineNumbers {1,3}
-Serve.Run(services =>
+Serve.RunNative(services =>
 {
     services.AddRemoteRequest();
-}, silence: true);
+});
 ```
 
 - `Startup.cs` 方式
