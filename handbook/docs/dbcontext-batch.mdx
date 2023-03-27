@@ -10,6 +10,12 @@ sidebar_label: 9.9 批量操作
 
 ## 9.9.2 `Zack.EFCore.Batch` 使用
 
+:::important `EFCore` 拦截器说明
+
+使用该第三方拓展库可能不会触发 `EFCore` 的拦截器，如 `DbCommandInterceptor`，`SaveChangesInterceptor`。
+
+:::
+
 ### 9.9.2.1 安装对应的数据库 `NuGet` 包
 
 - `MSSQL`：`Zack.EFCore.Batch.MSSQL`

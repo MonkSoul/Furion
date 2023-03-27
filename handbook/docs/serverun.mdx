@@ -543,13 +543,15 @@ Serve.Run(GenericRunOptions.Default
 
 更多发布命令说明可查阅微软官方文档 [https://docs.microsoft.com/en-us/dotnet/core/tools/dotnet-publish](https://docs.microsoft.com/en-us/dotnet/core/tools/dotnet-publish)
 
-## 2.0.10 在 `Winform/WPF` 桌面中使用
+## 2.0.10 在 `WinForm/WPF` 桌面中使用
 
-在 `Winform` 或 `WPF` 中使用，请确保 `Serve.Run()` 在桌面应用程序之前初始化：
+在 `WinForm` 或 `WPF` 中使用，请确保 `Serve.Run()` 在桌面应用程序之前初始化：
 
-- **Winform**
+- **WinForm**
 
-```cs showLineNumbers {3,9}
+```cs showLineNumbers {5,11,14-18}
+using System.Runtime.Loader;
+
 namespace WinFormsApp2;
 
 internal static class Program
@@ -559,6 +561,13 @@ internal static class Program
     {
         // 如果在 4.8.0 之前版本无返回值
         var host = Serve.Run(silence: true);   // 静默启动
+
+        // 监听关闭事件
+        AssemblyLoadContext.Default.Unloading += (ctx) =>
+        {
+            host.StopAsync();
+            host.Dispose();
+        };
 
         ApplicationConfiguration.Initialize();
         Application.Run(new Form1());
@@ -596,7 +605,18 @@ public partial class App : Application
 
 ### 2.0.10.1 添加更多服务
 
-如果想注册服务，可创建 `YourStartup` 派生自 `AppStartup` 即可，如：
+如果想注册服务，支持以下两种方式：
+
+- `Serve.Run` 方式
+
+```cs showLineNumbers {1,3}
+Serve.Run(services =>
+{
+    services.AddRemoteRequest();
+}, silence: true);
+```
+
+- `Startup.cs` 方式
 
 ```cs showLineNumbers {6,8,10} title="YourStartup.cs"
 using Furion;

@@ -1204,7 +1204,7 @@ public object Method1([RouteConstraint(":min(10)")] int id)
 
 ### 5.1.8.18 `小驼峰` 路由路径
 
-```json showLineNumbers
+```json showLineNumbers {2-5}
 {
   "DynamicApiControllerSettings": {
     "LowercaseRoute": false,
@@ -1276,9 +1276,7 @@ public class XmlDemo : IDynamicApiController
 
 :::caution 注意事项
 
-`XML` 标签区分大小写，必须严格对照 `C#` 类型定义声明。
-
-对于集合/数组类型，格式必须遵循下列格式：
+`XML` 标签区分大小写，必须严格对照 `C#` 类型定义声明。对于集合/数组类型，必须遵循下列格式：
 
 ```xml showLineNumbers
 <属性名>
@@ -1318,7 +1316,7 @@ public class XmlDemo : IDynamicApiController
 
 :::
 
-- 第一种（常用）
+- 第一种（常用格式）
 
 ```xml showLineNumbers {1-2}
 <?xml version="1.0" encoding="UTF-8"?>
@@ -1340,7 +1338,7 @@ public class XmlDemo : IDynamicApiController
 </People>
 ```
 
-- 第二种
+- 第二种（标准格式）
 
 ```xml showLineNumbers {1}
 <People xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">

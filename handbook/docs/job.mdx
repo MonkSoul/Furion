@@ -1283,12 +1283,13 @@ public IEnumerable<SchedulerBuilder> Preload()
 
 使用如下：
 
-```cs showLineNumbers {1-5}
+```cs showLineNumbers {1-6}
 [JobDetail("jobId")]    // 仅作业 Id
 [JobDetail("jobId", "这是一段描述")] // 描述
 [JobDetail("jobId", false)] // 串行
 [JobDetail("jobId", false, "这是一段描述")] // 串行 + 描述
 [JobDetail("jobId", Concurrent = false, Description = "这是一段描述")]
+[JobDetail("jobId", Concurrent = false, Description = "这是一段描述", GroupName = "分组名")]
 public class MyJob : IJob
 {
       // ....
