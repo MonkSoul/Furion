@@ -43,7 +43,7 @@ public static class Serve
     /// 启动原生应用主机
     /// </summary>
     /// <param name="additional"></param>
-    public static void RunNative(Action<IServiceCollection> additional = default)
+    public static IHost RunNative(Action<IServiceCollection> additional = default)
     {
         var host = Run(default, true, false, default, additional);
 
@@ -53,6 +53,8 @@ public static class Serve
             host.StopAsync();
             host.Dispose();
         };
+
+        return host;
     }
 
     /// <summary>

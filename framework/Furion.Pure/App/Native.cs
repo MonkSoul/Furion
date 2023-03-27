@@ -33,4 +33,15 @@ public static class Native
     {
         return ActivatorUtilities.CreateInstance<TComponent>(App.RootServices, parameterss);
     }
+
+    /// <summary>
+    /// 创建原生应用（WinForm/WPF）组件（控件）
+    /// </summary>
+    /// <param name="componentType"></param>
+    /// <param name="parameterss"></param>
+    /// <returns></returns>
+    public static object CreateInstance(Type componentType, params object[] parameterss)
+    {
+        return ActivatorUtilities.CreateInstance(App.RootServices, componentType, parameterss);
+    }
 }

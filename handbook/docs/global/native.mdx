@@ -14,4 +14,6 @@ sidebar_label: 19. Native 静态类
 
 ```cs showLineNumbers
 var form1 = Native.CreateInstance<Form1>();
+
+var form1 = Native.CreateInstance(typeof(Form1)) as Form;
 ```
