@@ -19,6 +19,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using System.Runtime.Loader;
 
 namespace System;
 
@@ -37,6 +38,31 @@ public static class Serve
         , "Microsoft.AspNetCore"
         , "Microsoft.Extensions.Hosting"
     };
+
+    /// <summary>
+    /// 启动原生应用（WinForm/WPF）主机
+    /// </summary>
+    /// <param name="additional"></param>
+    public static IHost RunNative(Action<IServiceCollection> additional = default)
+    {
+        var host = Run(default, true, false, default, additional);
+
+        // 监听主机关闭
+        AssemblyLoadContext.Default.Unloading += (ctx) =>
+        {
+            host.StopAsync();
+            host.Dispose();
+        };
+
+        // 未知异常
+        AppDomain.CurrentDomain.UnhandledException += (s, e) =>
+        {
+            host.StopAsync();
+            host.Dispose();
+        };
+
+        return host;
+    }
 
     /// <summary>
     /// 启动默认 Web 主机，含最基础的 Web 注册

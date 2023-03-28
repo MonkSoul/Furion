@@ -395,5 +395,9 @@ module.exports = {
       type: "doc",
       id: "global/taskqueued",
     },
+    {
+      type: "doc",
+      id: "global/native",
+    },
   ],
 };

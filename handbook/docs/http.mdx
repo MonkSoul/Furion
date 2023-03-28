@@ -1609,7 +1609,18 @@ var response = await _http.GetAsync();
 var cookies = response.GetCookies();
 ```
 
-## 19.13 反馈与建议
+## 19.13 在 `WinForm/WPF` 中使用
+
+远程请求可在 `WinForm/WPF` 中使用，只需要将方法/事件标记为 `async` 即可。
+
+```cs showLineNumbers {1,3}
+private async void button1_Click(object sender, EventArgs e)
+{
+    var result = await "https://furion.baiqian.ltd".GetAsStringAsync();
+}
+```
+
+## 19.14 反馈与建议
 
 :::note 与我们交流
 
