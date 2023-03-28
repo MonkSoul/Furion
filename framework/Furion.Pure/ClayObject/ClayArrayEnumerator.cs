@@ -15,10 +15,10 @@
 namespace Furion.ClayObject;
 
 /// <summary>
-/// 粘土对象枚举器实现类
+/// 粘土对象数组类型枚举器实现类
 /// </summary>
 [SuppressSniffer]
-public sealed class ClayEnumerator : IEnumerator
+public sealed class ClayArrayEnumerator : IEnumerator
 {
     /// <summary>
     /// 粘土对象
@@ -34,7 +34,7 @@ public sealed class ClayEnumerator : IEnumerator
     /// 构造函数
     /// </summary>
     /// <param name="clay">粘土对象</param>
-    public ClayEnumerator(dynamic clay)
+    public ClayArrayEnumerator(dynamic clay)
     {
         _clay = clay;
     }

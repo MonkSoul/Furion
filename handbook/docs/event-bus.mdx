@@ -1087,7 +1087,48 @@ builder.Services.AddCap(options =>
 }).AddSubscriberAssembly(App.Assemblies.ToArray());
 ```
 
-## 22.17 反馈与建议
+## 21.17 在 `WinForm/WPF` 中使用
+
+事件总线支持在 `WinForm/WPF` 中完整的使用。
+
+- 发送事件
+
+```cs showLineNumbers {3}
+private async void button1_Click(object sender, EventArgs e)
+{
+    await _eventPublisher.PublishAsync("update.textbox", textBox1); // 可将 TextBox 控件作为 Payload 传递
+}
+```
+
+- 订阅事件并更新 `UI`
+
+```cs showLineNumbers {7,10,16}
+public class UIEventSubscriber : IEventSubscriber
+{
+    [EventSubscribe("update.textbox")]
+    public async Task UpdateTextBox(EventHandlerExecutingContext context)
+    {
+        // 将 Palload 转 TextBox
+        var textbox = context.Source.Payload as TextBox;
+
+        // 多线程更新 UI 组件（WinForm)
+        textbox?.BeginInvoke(() =>
+        {
+            text.Text = "我是事件总线更新的";
+        });
+
+        // 多线程更新 UI 组件（WPF）
+        textbox?.Dispatcher?.BeginInvoke(() =>
+        {
+            text.Content = " 我是事件总线更新的";
+        });
+
+        await Task.CompletedTask;
+    }
+}
+```
+
+## 22.18 反馈与建议
 
 :::note 与我们交流
 

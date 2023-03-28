@@ -666,9 +666,11 @@ public class Clay : DynamicObject, IEnumerable
     /// 初始化粘土对象枚举器
     /// </summary>
     /// <returns></returns>
-    public ClayEnumerator GetEnumerator()
+    public IEnumerator GetEnumerator()
     {
-        return new ClayEnumerator(this);
+        return IsArray
+            ? new ClayArrayEnumerator(this)
+            : new ClayObjectEnumerator(this);
     }
 
     /// <summary>
