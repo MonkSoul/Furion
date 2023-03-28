@@ -390,7 +390,8 @@ public class Clay : DynamicObject, IEnumerable
         return type switch
         {
             JsonType.boolean => (bool)element,
-            JsonType.number => (double)element,
+            JsonType.number when element.Value.Contains('.') => (double)element,
+            JsonType.number => (long)element,
             JsonType.@string => (string)element,
             JsonType.@object or JsonType.array => new Clay(element, type),
             _ => null,
