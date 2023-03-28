@@ -435,7 +435,102 @@ L.Text["Furion"];   // => 如果设置为英文，但是没有文件，则直接
 
 <img src={useBaseUrl("img/lang6.png")} />
 
-## 21.13 区域码列表
+## 21.13 在 `WinForm/WPF` 中使用
+
+框架提供了完整的多语言在 `WinForm/WPF` 中使用。
+
+### 21.13.1 `WinForm` 中使用
+
+- 注册 `services.AddAppLocalization()` 服务
+
+```cs showLineNumbers {10-13}
+using Microsoft.Extensions.DependencyInjection;
+
+namespace WinFormsApp1;
+
+internal static class Program
+{
+    [STAThread]
+    static void Main()
+    {
+        Serve.RunNative(services =>
+        {
+            services.AddAppLocalization();
+        });
+        ApplicationConfiguration.Initialize();
+        Application.Run(new Form1());
+    }
+}
+```
+
+- 添加 `appsettings.json` 配置文件，并设置属性为 `如果较新则复制`
+
+```json showLineNumbers {2}
+{
+  "LocalizationSettings": {
+    "SupportedCultures": ["zh-CN", "en-US"], // 配置支持的语言列表
+    "DefaultCulture": "zh-CN" // 配置默认语言，如果不配置，取 SupportedCultures 的第一项
+  }
+}
+```
+
+- 添加 `Resources` 文件夹并添加 `Lang.区域码.resx` 资源文件
+
+参考 [21.6.1 在 Resources 文件夹中创建语言文件](./local-language.mdx#2161-在-resources-文件夹中创建语言文件)
+
+- 在代码中使用
+
+```cs showLineNumbers {2,4}
+// 设置当前线程 UI 区域性
+L.SetCurrentUICulture("en-US");
+// 通过 L.Text[Key] 获取
+label1.Text = L.Text["API 接口"];
+```
+
+### 21.13.2 在 `WPF` 中使用
+
+- 注册 `services.AddAppLocalization()` 服务
+
+```cs showLineNumbers {7-10}
+namespace WpfApp1;
+
+public partial class App : Application
+{
+    public App()
+    {
+        Serve.RunNative(services =>
+        {
+            services.AddAppLocalization();
+        });
+    }
+}
+```
+
+- 添加 `appsettings.json` 配置文件，并设置属性为 `如果较新则复制`
+
+```json showLineNumbers {2}
+{
+  "LocalizationSettings": {
+    "SupportedCultures": ["zh-CN", "en-US"], // 配置支持的语言列表
+    "DefaultCulture": "zh-CN" // 配置默认语言，如果不配置，取 SupportedCultures 的第一项
+  }
+}
+```
+
+- 添加 `Resources` 文件夹并添加 `Lang.区域码.resx` 资源文件
+
+参考 [21.6.1 在 Resources 文件夹中创建语言文件](./local-language.mdx#2161-在-resources-文件夹中创建语言文件)
+
+- 在代码中使用
+
+```cs showLineNumbers {2,4}
+// 设置当前线程 UI 区域性
+L.SetCurrentUICulture("en-US");
+// 通过 L.Text[Key] 获取
+label1.Text = L.Text["API 接口"];
+```
+
+## 21.14 区域码列表
 
 - af 公用荷兰语
 - af-ZA 公用荷兰语 - 南非
@@ -639,7 +734,7 @@ L.Text["Furion"];   // => 如果设置为英文，但是没有文件，则直接
 - vi 越南
 - vi-VN 越南 -越南
 
-## 21.14 反馈与建议
+## 21.15 反馈与建议
 
 :::note 与我们交流
 

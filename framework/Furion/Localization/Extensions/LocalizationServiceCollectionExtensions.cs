@@ -35,8 +35,31 @@ public static class LocalizationServiceCollectionExtensions
     /// <returns></returns>
     public static IMvcBuilder AddAppLocalization(this IMvcBuilder mvcBuilder, Action<LocalizationSettingsOptions> customizeConfigure = default)
     {
-        var services = mvcBuilder.Services;
+        // 添加多语言配置选项
+        mvcBuilder.Services.AddAppLocalization(customizeConfigure);
 
+        // 获取多语言配置选项
+        var localizationSettings = App.GetConfig<LocalizationSettingsOptions>("LocalizationSettings", true);
+
+        // 配置视图多语言和验证多语言
+        mvcBuilder.AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix)
+                 .AddDataAnnotationsLocalization(options =>
+                 {
+                     options.DataAnnotationLocalizerProvider = (type, factory) =>
+                         factory.Create(localizationSettings.LanguageFilePrefix, localizationSettings.AssemblyName);
+                 });
+
+        return mvcBuilder;
+    }
+
+    /// <summary>
+    /// 配置多语言服务
+    /// </summary>
+    /// <param name="services"></param>
+    /// <param name="customizeConfigure">如果传入该参数，则使用自定义多语言机制</param>
+    /// <returns></returns>
+    public static IServiceCollection AddAppLocalization(this IServiceCollection services, Action<LocalizationSettingsOptions> customizeConfigure = default)
+    {
         // 添加多语言配置选项
         services.AddConfigurableOptions<LocalizationSettingsOptions>();
 
@@ -55,14 +78,6 @@ public static class LocalizationServiceCollectionExtensions
         // 使用自定义
         else customizeConfigure.Invoke(localizationSettings);
 
-        // 配置视图多语言和验证多语言
-        mvcBuilder.AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix)
-                 .AddDataAnnotationsLocalization(options =>
-                 {
-                     options.DataAnnotationLocalizerProvider = (type, factory) =>
-                         factory.Create(localizationSettings.LanguageFilePrefix, localizationSettings.AssemblyName);
-                 });
-
         // 注册请求多语言配置选项
         services.Configure<RequestLocalizationOptions>(options =>
         {
@@ -72,6 +87,6 @@ public static class LocalizationServiceCollectionExtensions
         // 处理多语言在 Razor 视图中文乱码问题
         services.AddSingleton(HtmlEncoder.Create(UnicodeRanges.All));
 
-        return mvcBuilder;
+        return services;
     }
 }
