@@ -149,7 +149,7 @@ services.AddSchedule(options =>
       options.AddHttpJob(request =>
       {
             request.RequestUri = "https://www.chinadot.net";
-            request.HttpMedhod = HttpMethod.Get;
+            request.HttpMethod = HttpMethod.Get;
             // request.Body = "{}"; // 设置请求报文体
       }, Triggers.PeriodSeconds(5));
 });
@@ -255,6 +255,8 @@ options.AddJob((context, stoppingToken) =>
 
 - **其他更改**
 
+  - &nbsp;<Tag>调整</Tag> 定时任务 `Http` 作业 `HttpMethod` 属性拼写错成 `HttpMedhod` <sup>4.8.7.24</sup> <sup>⏱️2023.03.28</sup> [!756](https://gitee.com/dotnetchina/Furion/pulls/756)
+  - &nbsp;<Tag>调整</Tag> 粘土对象 `number` 类型处理，若含 `.` 转 `double` 类型，否则转 `long` 类型 <sup>4.8.7.24</sup> <sup>⏱️2023.03.28</sup> [e82e883](https://gitee.com/dotnetchina/Furion/commit/e82e883d54282b749390ae5e93df8c3e7acaa97e)
   - &nbsp;<Tag>调整</Tag> 视图引擎默认程序集，追加 `System.Collections` 程序集 <sup>4.8.7.16</sup> <sup>⏱️2023.03.18</sup> [#I6O3BD](https://gitee.com/dotnetchina/Furion/issues/I6O3BD)
   - &nbsp;<Tag>调整</Tag> 定时任务配置选项 `BuilSqlType` 属性命为 `BuildSqlType` <sup>4.8.7.11</sup> <sup>⏱️2023.03.15</sup> [92117b8](https://gitee.com/dotnetchina/Furion/commit/92117b842f7f8bdeb983bf3dac510f713d8410c2)
   - &nbsp;<Tag>调整</Tag> **定时任务查看作业触发器运行记录由保存 `10条` 改为 `5条`** <sup>4.8.7.7</sup> <sup>⏱️2023.03.07</sup> [01d4466](https://gitee.com/dotnetchina/Furion/commit/01d446620c20e373f198195797896d8c96feeb15)
@@ -270,6 +272,7 @@ options.AddJob((context, stoppingToken) =>
 
 - **贡献者**
 
+  - 写意 ([@xjj_0906](https://gitee.com/xjj_0906)) [!756](https://gitee.com/dotnetchina/Furion/pulls/756)
   - lampon ([@lampon](https://gitee.com/lampon)) [!740](https://gitee.com/dotnetchina/Furion/pulls/740)
   - family520 ([@family520](https://gitee.com/family520)) [!739](https://gitee.com/dotnetchina/Furion/pulls/739)
   - kingling ([@kinglinglive](https://gitee.com/kinglinglive)) [!732](https://gitee.com/dotnetchina/Furion/pulls/732) [!729](https://gitee.com/dotnetchina/Furion/pulls/729)

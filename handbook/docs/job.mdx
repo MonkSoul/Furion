@@ -29,7 +29,7 @@ services.AddSchedule(options =>
       options.AddHttpJob(request =>
       {
             request.RequestUri = "https://www.chinadot.net";
-            request.HttpMedhod = HttpMethod.Get;
+            request.HttpMethod = HttpMethod.Get;
             // request.Body = "{}"; // 设置请求报文体
       }, Triggers.PeriodSeconds(5));
 });
@@ -155,6 +155,7 @@ options.AddJob((context, stoppingToken) =>
 
 - **其他更改**
 
+  - &nbsp;<Tag>调整</Tag> 定时任务 `Http` 作业 `HttpMethod` 属性拼写错成 `HttpMedhod` <sup>4.8.7.24</sup> <sup>⏱️2023.03.28</sup> [!756](https://gitee.com/dotnetchina/Furion/pulls/756)
   - &nbsp;<Tag>调整</Tag> 定时任务配置选项 `BuilSqlType` 属性命为 `BuildSqlType` <sup>4.8.7.11</sup> <sup>⏱️2023.03.15</sup> [92117b8](https://gitee.com/dotnetchina/Furion/commit/92117b842f7f8bdeb983bf3dac510f713d8410c2)
   - &nbsp;<Tag>调整</Tag> **定时任务查看作业触发器运行记录由保存 `10条` 改为 `5条`** <sup>4.8.7.7</sup> <sup>⏱️2023.03.07</sup> [01d4466](https://gitee.com/dotnetchina/Furion/commit/01d446620c20e373f198195797896d8c96feeb15)
   - &nbsp;<Tag>调整</Tag> 定时任务调度器时间精度，控制持续执行一年误差在 `100ms` 以内 <sup>4.8.2.9</sup> <sup>⏱️2022.12.01</sup> [334d089](https://gitee.com/dotnetchina/Furion/commit/334d08989503bacd8bf2abb2cc87cf2031dc9da6)
@@ -876,7 +877,7 @@ services.AddSchedule(options =>
       options.AddHttpJob(request =>
       {
             request.RequestUri = "https://www.chinadot.net";
-            request.HttpMedhod = HttpMethod.Get;
+            request.HttpMethod = HttpMethod.Get;
             // request.Body = "{}"; // 设置请求报文体
       }, Triggers.PeriodSeconds(5));
 });
@@ -1947,7 +1948,7 @@ services.AddSchedule(options =>
       options.AddHttpJob(request =>
       {
             request.RequestUri = "https://www.chinadot.net";
-            request.HttpMedhod = HttpMethod.Get;
+            request.HttpMethod = HttpMethod.Get;
             // request.Body = "{}"; // 设置请求报文体
       }, Triggers.PeriodSeconds(5));
 });
@@ -2008,7 +2009,7 @@ public class MyHttpJobMessage
     /// <summary>
     /// 请求方法
     /// </summary>
-    public HttpMethod HttpMedhod { get; set; } = HttpMethod.Get;
+    public HttpMethod HttpMethod { get; set; } = HttpMethod.Get;
 
     /// <summary>
     /// 请求报文体
@@ -2073,11 +2074,11 @@ public class MyHttpJob : IJob // 也可以继承内部的 HttpJob 类
         httpClient.DefaultRequestHeaders.Add("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.5112.81 Safari/537.36 Edg/104.0.1293.47");
 
         // 创建请求对象
-        var httpRequestMessage = new HttpRequestMessage(httpJobMessage.HttpMedhod, httpJobMessage.RequestUri);
+        var httpRequestMessage = new HttpRequestMessage(httpJobMessage.HttpMethod, httpJobMessage.RequestUri);
 
         // 添加请求报文体，默认只支持发送 application/json 类型
-        if (httpJobMessage.HttpMedhod != HttpMethod.Get
-            && httpJobMessage.HttpMedhod != HttpMethod.Head
+        if (httpJobMessage.HttpMethod != HttpMethod.Get
+            && httpJobMessage.HttpMethod != HttpMethod.Head
             && !string.IsNullOrWhiteSpace(httpJobMessage.Body))
         {
             var stringContent = new StringContent(httpJobMessage.Body, Encoding.UTF8);
