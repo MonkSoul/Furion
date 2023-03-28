@@ -149,7 +149,7 @@ services.AddSchedule(options =>
       options.AddHttpJob(request =>
       {
             request.RequestUri = "https://www.chinadot.net";
-            request.HttpMedhod = HttpMethod.Get;
+            request.HttpMethod = HttpMethod.Get;
             // request.Body = "{}"; // 设置请求报文体
       }, Triggers.PeriodSeconds(5));
 });
