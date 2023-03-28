@@ -862,13 +862,13 @@ internal static class Program
 
 - 使用完整的依赖注入功能
 
-```cs showLineNumbers {6,11-12,16-17,21}
+```cs showLineNumbers {11-12,16-17,21}
 using Furion.DependencyInjection;
 using Microsoft.Extensions.Configuration;
 
 namespace WinFormsApp1;
 
-public partial class Form1 : Form, IScoped  // 注册为 IScoped 服务
+public partial class Form1 : Form
 {
     private readonly IConfiguration _configuration;
     private readonly ITest _test;
@@ -894,13 +894,13 @@ public interface ITest
 
 - 打开新窗口 `Form2`
 
-```cs showLineNumbers {6,10,14-15}
+```cs showLineNumbers {10,14-15}
 using Furion.DependencyInjection;
 using Microsoft.Extensions.Configuration;
 
 namespace WinFormsApp1;
 
-public partial class Form2 : Form, IScoped
+public partial class Form2 : Form
 {
     private readonly IConfiguration _configuration;
 
@@ -963,14 +963,14 @@ public partial class App : Application
 
 - 使用完整的依赖注入功能
 
-```cs showLineNumbers {7,12-13,17-18,22}
+```cs showLineNumbers {12-13,17-18,22}
 using Furion.DependencyInjection;
 using Microsoft.Extensions.Configuration;
 using System.Windows;
 
 namespace WpfApp1;
 
-public partial class MainWindow : Window, IScoped   // 注册为 IScoped 服务
+public partial class MainWindow : Window
 {
     private readonly IConfiguration _configuration;
     private readonly ITest _test;
@@ -1003,7 +1003,7 @@ using System.Windows;
 
 namespace WpfApp1;
 
-public partial class Window1 : Window, IScoped
+public partial class Window1 : Window
 {
     private readonly IConfiguration _configuration;
 
@@ -1029,9 +1029,7 @@ private void Button_Click(object sender, RoutedEventArgs e)
 
 ### 12.14.3 `Native.CreateInstance<T>()` 静态方法
 
-`Furion` 框架提供了 `Native.CreateInstance<T>()` 静态方法可在 `WinForm/WPF` 中创建窗口实例，可替代 `new T()` 操作。
-
-如果 `T` 类型标记了生命周期接口（`ITransient`，`IScoped`，`ISingleton`），那么便支持构造函数注入服务操作。
+`Furion` 框架提供了 `Native.CreateInstance<T>()` 静态方法可在 `WinForm/WPF` 中创建窗口实例，可替代 `new T()` 操作，通过此方法创建实例支持构造函数注入服务操作。
 
 ## 12.15 自定义扫描/筛选注册服务
 

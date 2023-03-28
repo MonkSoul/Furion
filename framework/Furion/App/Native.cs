@@ -48,13 +48,10 @@ public static class Native
         var constructors = windowType.GetConstructors(BindingFlags.Public | BindingFlags.Instance);
 
         // 如果构造函数为空，则直接创建返回
-        if (constructors.Length == 0)
-        {
-            return Activator.CreateInstance(windowType);
-        }
+        if (constructors.Length == 0) return Activator.CreateInstance(windowType);
 
         // 检查是否包含多个公开构造函数
-        if (constructors.Length > 1) throw new InvalidOperationException($"Multiple constructors accepting all given argument types have been found in type '{windowType.FullName}'. There should only be one applicable constructor.");
+        if (constructors.Length > 1) throw new InvalidOperationException($"Multiple constructors accepting all given argument types have been found in type '{windowType.Namespace}.{windowType.Name}'. There should only be one applicable constructor.");
 
         // 获取唯一构造函数参数
         var parameterInfos = constructors[0].GetParameters();
@@ -99,10 +96,11 @@ public static class Native
         // 创建窗口实例
         var windowInstance = Activator.CreateInstance(windowType, ctorParameters.Concat(parameters).ToArray());
 
-        // 获取  Owner 属性并绑定关闭事件
+        // 获取 Owner 属性并绑定关闭事件
         var ownerProperty = windowType.GetProperty("Owner", BindingFlags.Instance | BindingFlags.Public);
         if (ownerProperty != null
-            && (ownerProperty.PropertyType.FullName.StartsWith("System.Windows.Forms.Form") || ownerProperty.PropertyType.FullName.StartsWith("System.Windows.Window")))
+            && (ownerProperty.PropertyType.FullName.StartsWith("System.Windows.Forms.Form")
+                || ownerProperty.PropertyType.FullName.StartsWith("System.Windows.Window")))
         {
             var propertyType = ownerProperty.PropertyType;
 
