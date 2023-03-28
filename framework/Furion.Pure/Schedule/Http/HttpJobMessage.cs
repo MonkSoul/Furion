@@ -28,7 +28,7 @@ public sealed class HttpJobMessage
     /// <summary>
     /// 请求方法
     /// </summary>
-    public HttpMethod HttpMedhod { get; set; } = HttpMethod.Get;
+    public HttpMethod HttpMethod { get; set; } = HttpMethod.Get;
 
     /// <summary>
     /// 请求报文体
