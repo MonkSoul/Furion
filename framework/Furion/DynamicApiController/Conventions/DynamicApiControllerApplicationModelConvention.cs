@@ -76,11 +76,11 @@ internal sealed class DynamicApiControllerApplicationModelConvention : IApplicat
             // 判断是否处理 Mvc控制器
             if (typeof(ControllerBase).IsAssignableFrom(controllerType))
             {
-                // 存储排序给 Swagger 使用
-                Penetrates.ControllerOrderCollection.TryAdd(controller.ControllerName, (controllerApiDescriptionSettings?.Tag ?? controller.ControllerName, controllerApiDescriptionSettings?.Order ?? 0));
-
                 if (!_dynamicApiControllerSettings.SupportedMvcController.Value || controller.ApiExplorer?.IsVisible == false)
                 {
+                    // 存储排序给 Swagger 使用
+                    Penetrates.ControllerOrderCollection.TryAdd(controller.ControllerName, (controllerApiDescriptionSettings?.Tag ?? controller.ControllerName, controllerApiDescriptionSettings?.Order ?? 0));
+
                     // 控制器默认处理规范化结果
                     if (UnifyContext.EnabledUnifyHandler)
                     {
