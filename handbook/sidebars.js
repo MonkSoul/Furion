@@ -251,6 +251,7 @@ module.exports = {
         "virtual-deploy",
         "singlefile",
         "pm2",
+        "bs-to-cs"
       ],
     },
     {
