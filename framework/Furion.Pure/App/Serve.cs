@@ -48,9 +48,36 @@ public static class Serve
     /// <param name="args"></param>
     public static IHost RunNative(Action<IServiceCollection> additional = default, bool includeWeb = true, string urls = default, string[] args = default)
     {
-        var host = includeWeb
-            ? Run(urls, true, false, args, additional)
-            : RunGeneric(true, false, args, additional);
+        IRunOptions runOptions = includeWeb
+            // 迷你 Web 主机
+            ? RunOptions.Default.WithArgs(args)
+                     .ConfigureServices(additional)
+                     .AddComponent<ServeServiceComponent>()
+                     .UseComponent<ServeApplicationComponent>()
+            // 泛型主机
+            : GenericRunOptions.Default.WithArgs(args)
+                     .ConfigureServices(additional);
+
+        return RunNative(runOptions, urls);
+    }
+
+    /// <summary>
+    /// 启动原生应用（WinForm/WPF）主机
+    /// </summary>
+    /// <param name="options"></param>
+    /// <param name="urls"></param>
+    public static IHost RunNative(IRunOptions options, string urls = default)
+    {
+        dynamic dynamicOptions = options;
+
+        // 动态配置静默参数
+        bool isSilence = dynamicOptions.IsSilence;
+        IRunOptions runOptions = isSilence
+            ? options
+            : dynamicOptions.Silence(true, false);
+
+        // 创建主机
+        var host = Run(runOptions, urls);
 
         // 监听主机关闭
         AssemblyLoadContext.Default.Unloading += (ctx) =>
@@ -107,6 +134,43 @@ public static class Serve
         , string[] args = default)
     {
         return Run(urls, silence, logging, args, additional);
+    }
+
+    /// <summary>
+    /// 启动主机
+    /// </summary>
+    /// <remarks>通用方法</remarks>
+    /// <param name="options"></param>
+    /// <param name="urls"></param>
+    public static IHost Run(IRunOptions options, string urls = default)
+    {
+        IHost host;
+#if !NET5_0
+        // .NET6+ 主机
+        if (options is RunOptions runOptions)
+        {
+            host = Run(runOptions, urls);
+        }
+#else
+        // .NET5 主机
+        if (options is LegacyRunOptions runOptions)
+        {
+            host = Run(runOptions, urls);
+        }
+#endif
+        // .NET5 主机
+        else if (options is LegacyRunOptions legacyRunOptions)
+        {
+            host = Run(legacyRunOptions, urls);
+        }
+        // 泛型主机
+        else if (options is GenericRunOptions genericRunOptions)
+        {
+            host = Run(genericRunOptions);
+        }
+        else throw new InvalidCastException("Unsupported IRunOptions implementation type.");
+
+        return host;
     }
 
     /// <summary>

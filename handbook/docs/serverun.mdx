@@ -562,7 +562,7 @@ internal static class Program
     [STAThread]
     static void Main()
     {
-        Serve.RunNative();  // v4.8.7.27+
+        Serve.RunNative();  // v4.8.7.28+
 
         ApplicationConfiguration.Initialize();
         Application.Run(new Form1());
@@ -574,12 +574,15 @@ internal static class Program
 
 默认情况下，`Serve.RunNative()` 会启动一个迷你小型 `Web` 主机，默认端口为 `5000`，如无需 `Web` 功能可配置 `includeWeb` 关闭，如：
 
-```cs showLineNumbers {2,5}
-// 关闭 Web 主机功能
+```cs showLineNumbers {2,5,8}
+// 关闭迷你 Web 主机功能
 Serve.RunNative(includeWeb: false);
 
-// 或更换端口
+// 或更换迷你 Web 主机端口
 Serve.RunNative(urls: "http://localhost:8080");
+
+// 还可以完全自定义配置 Web 主机
+Serve.RunNative(RunOptions.Default);
 ```
 
 :::
@@ -602,12 +605,15 @@ public partial class App : Application
 
 默认情况下，`Serve.RunNative()` 会启动一个迷你小型 `Web` 主机，默认端口为 `5000`，如无需 `Web` 功能可配置 `includeWeb` 关闭，如：
 
-```cs showLineNumbers {2,5}
-// 关闭 Web 主机功能
+```cs showLineNumbers {2,5,8}
+// 关闭迷你 Web 主机功能
 Serve.RunNative(includeWeb: false);
 
-// 或更换端口
+// 或更换迷你 Web 主机端口
 Serve.RunNative(urls: "http://localhost:8080");
+
+// 还可以完全自定义配置 Web 主机
+Serve.RunNative(RunOptions.Default);
 ```
 
 :::
@@ -626,6 +632,14 @@ Serve.RunNative(services =>
 ```
 
 - `Startup.cs` 方式
+
+```cs showLineNumbers {2,4}
+// 在迷你 Web 主机基础上自定义
+Serve.RunNative();
+
+// 或完全自定义
+Serve.RunNative(RunOptions.Default);
+```
 
 ```cs showLineNumbers {6,8,10} title="YourStartup.cs"
 using Furion;

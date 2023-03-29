@@ -22,7 +22,7 @@ namespace System;
 /// 泛型主机方式配置选项
 /// </summary>
 [SuppressSniffer]
-public class GenericRunOptions
+public class GenericRunOptions : IRunOptions
 {
     /// <summary>
     /// 内部构造函数

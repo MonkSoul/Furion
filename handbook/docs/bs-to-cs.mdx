@@ -1,0 +1,144 @@
+---
+id: bs-to-cs
+title: 34.7 嵌入 WinForm/WPF 中
+sidebar_label: 34.7 嵌入 WinForm/WPF 中
+---
+
+import useBaseUrl from "@docusaurus/useBaseUrl";
+
+:::important 版本说明
+
+以下内容仅限 `Furion 4.8.7.28 +` 版本使用。
+
+:::
+
+`Furion` 框架灵活的架构模式使得 `Web` 和各客户端（`WinForm/WPF/Console`） 之间的项目迁移变得非常简单，只需要极少数修改即可实现无缝迁移。
+
+本章节提供如何将 `Web` 项目迁移到 `WinForm/WPF` 中。
+
+## 34.7.1 `WinForm/WPF` 项目初始化
+
+1. 初始化 `WinForm/WPF` 配置
+
+```cs showLineNumbers
+Serve.RunNative(RunOptions.Default);
+```
+
+2. 添加 `YourProject.Web.Core` 层引用
+
+```xml showLineNumbers {2}
+<ItemGroup>
+    <ProjectReference Include="..\Your.Web.Core\Furion.Web.Core.csproj" />
+</ItemGroup>
+```
+
+3. 将 `YourProject.Web.Entry` 启动层的 `*.json` 文件、`Views` 目录、`wwwroot` 目录拷贝到 `WinForm/WPF` 项目中
+
+如果有 `*.json` 文件、`Views` 目录、`wwwroot` 目录则拷贝到 `WinForm/WPF` 中
+
+## 34.7.2 配置 `.csproj` 文件
+
+完成上一个步骤后编辑 `WinForm/WPF` 项目文件并进行以下修改。
+
+1. 添加 `<SatelliteResourceLanguages>en-US</SatelliteResourceLanguages>`
+
+```xml showLineNumbers {7}
+<PropertyGroup>
+		<OutputType>WinExe</OutputType>
+		<TargetFramework>net7.0-windows</TargetFramework>
+		<Nullable>enable</Nullable>
+		<UseWindowsForms>true</UseWindowsForms>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<SatelliteResourceLanguages>en-US</SatelliteResourceLanguages>
+	</PropertyGroup>
+```
+
+:::important 带 `Razor/Blazor` 项目
+
+如果 `Web` 项目带 `Razor/Blazor` 视图，那么还需以下操作
+
+2. 禁用 `MvcRazorCompileOnPublish` 和 `RazorCompileOnBuild` 选项
+
+```xml showLineNumbers {7-9}
+<PropertyGroup>
+		<OutputType>WinExe</OutputType>
+		<TargetFramework>net7.0-windows</TargetFramework>
+		<Nullable>enable</Nullable>
+		<UseWindowsForms>true</UseWindowsForms>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<SatelliteResourceLanguages>en-US</SatelliteResourceLanguages>
+		<MvcRazorCompileOnPublish>false</MvcRazorCompileOnPublish>
+		<RazorCompileOnBuild>false</RazorCompileOnBuild>
+	</PropertyGroup>
+```
+
+3. 将 `wwwroot` 和 `Views` 添加到发布目录下
+
+```xml showLineNumbers {2,5}
+<ItemGroup>
+  <Content Include="wwwroot\**\*">
+   <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+  </Content>
+  <Content Include="Views\**\*">
+   <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+  </Content>
+ </ItemGroup>
+```
+
+4. 编辑 `YourProject.Web.Core/Startup.cs` 并启用 `Razor` 运行时编译支持
+
+```cs showLineNumbers {2}
+services.AddControllersWithViews()
+        .AddRazorRuntimeCompilation()
+```
+
+:::
+
+2. 完整的 `.csproj` 文件配置类似这样
+
+```xml showLineNumbers {9-11,14-21,23-25}
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<OutputType>WinExe</OutputType>
+		<TargetFramework>net7.0-windows</TargetFramework>
+		<Nullable>enable</Nullable>
+		<UseWindowsForms>true</UseWindowsForms>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<SatelliteResourceLanguages>en-US</SatelliteResourceLanguages>
+		<MvcRazorCompileOnPublish>false</MvcRazorCompileOnPublish>
+		<RazorCompileOnBuild>false</RazorCompileOnBuild>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<Content Include="wwwroot\**\*">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Views\**\*">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Furion.Web.Core\Furion.Web.Core.csproj" />
+	</ItemGroup>
+
+</Project>
+```
+
+## 34.7.3 待解决问题
+
+目前如果 `Web` 项目类型包含 `Razor/Blazor` 视图，不启用运行时编译视图方式会出现开发/发布环境下找不到视图异常。
+
+解决该问题可从参考链接：
+
+- [https://github.com/dotnet/sdk/blob/main/src/WebSdk/ProjectSystem/Targets/Microsoft.NET.Sdk.Web.ProjectSystem.props](https://github.com/dotnet/sdk/blob/main/src/WebSdk/ProjectSystem/Targets/Microsoft.NET.Sdk.Web.ProjectSystem.props)
+- [https://learn.microsoft.com/zh-cn/aspnet/core/razor-pages/sdk?view=aspnetcore-7.0](https://learn.microsoft.com/zh-cn/aspnet/core/razor-pages/sdk?view=aspnetcore-7.0)
+
+## 34.7.4 反馈与建议
+
+:::note 与我们交流
+
+给 Furion 提 [Issue](https://gitee.com/dotnetchina/Furion/issues/new?issue)。
+
+:::
