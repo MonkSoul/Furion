@@ -38,7 +38,7 @@ namespace System;
 #endif
 
 [SuppressSniffer]
-public sealed class RunOptions
+public sealed class RunOptions : IRunOptions
 {
     /// <summary>
     /// 内部构造函数
