@@ -43,9 +43,14 @@ public static class Serve
     /// 启动原生应用（WinForm/WPF）主机
     /// </summary>
     /// <param name="additional"></param>
-    public static IHost RunNative(Action<IServiceCollection> additional = default)
+    /// <param name="includeWeb"></param>
+    /// <param name="urls"></param>
+    /// <param name="args"></param>
+    public static IHost RunNative(Action<IServiceCollection> additional = default, bool includeWeb = true, string urls = default, string[] args = default)
     {
-        var host = Run(default, true, false, default, additional);
+        var host = includeWeb
+            ? Run(urls, true, false, args, additional)
+            : RunGeneric(true, false, args, additional);
 
         // 监听主机关闭
         AssemblyLoadContext.Default.Unloading += (ctx) =>
@@ -54,7 +59,7 @@ public static class Serve
             host.Dispose();
         };
 
-        // 未知异常
+        // 监听未知异常
         AppDomain.CurrentDomain.UnhandledException += (s, e) =>
         {
             host.StopAsync();

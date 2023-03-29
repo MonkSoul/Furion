@@ -16,6 +16,7 @@ import Tag from "@site/src/components/Tag.js";
 
 - **新特性**
 
+  - &nbsp;<Tag>新增</Tag> `WinForm/WPF` 静态方法 `Serve.RunNative()` 可配置是否启用 `Web` 主机功能 <sup>4.8.7.26</sup> <sup>⏱️2023.03.29</sup> [#I6R97L](https://gitee.com/dotnetchina/Furion/issues/I6R97L)
   - &nbsp;<Tag>新增</Tag> **`WinForm/WPF` 快速注册静态方法：`Serve.RunNative()`** <sup>4.8.7.23</sup> <sup>⏱️2023.03.27</sup> [53d51c3](https://gitee.com/dotnetchina/Furion/commit/53d51c3645f4066f5d68d4726d78e389fd544560)
 
 - **其他更改**
@@ -569,6 +570,20 @@ internal static class Program
 }
 ```
 
+:::tip `Serve.RunNative` 端口占用问题
+
+默认情况下，`Serve.RunNative()` 会启动一个迷你小型 `Web` 主机，默认端口为 `5000`，如无需 `Web` 功能可配置 `includeWeb` 关闭，如：
+
+```cs showLineNumbers {2,5}
+// 关闭 Web 主机功能
+Serve.RunNative(includeWeb: false);
+
+// 或更换端口
+Serve.RunNative(urls: "http://localhost:8080");
+```
+
+:::
+
 ### 2.0.10.2 `WPF` 初始化
 
 ```cs showLineNumbers {3,7}
@@ -582,6 +597,20 @@ public partial class App : Application
     }
 }
 ```
+
+:::tip `Serve.RunNative` 端口占用问题
+
+默认情况下，`Serve.RunNative()` 会启动一个迷你小型 `Web` 主机，默认端口为 `5000`，如无需 `Web` 功能可配置 `includeWeb` 关闭，如：
+
+```cs showLineNumbers {2,5}
+// 关闭 Web 主机功能
+Serve.RunNative(includeWeb: false);
+
+// 或更换端口
+Serve.RunNative(urls: "http://localhost:8080");
+```
+
+:::
 
 ### 2.0.10.3 注册服务
 
