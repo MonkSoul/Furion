@@ -11,6 +11,9 @@ using System.Text.Json;
 
 namespace Furion.Application;
 
+/// <summary>
+/// 测试模块
+/// </summary>
 public class TestModuleServices : IDynamicApiController
 {
     private readonly IHttp _http;

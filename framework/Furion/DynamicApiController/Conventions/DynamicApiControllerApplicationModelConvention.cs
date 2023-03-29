@@ -73,14 +73,14 @@ internal sealed class DynamicApiControllerApplicationModelConvention : IApplicat
             // 解析 [ApiDescriptionSettings] 特性
             var controllerApiDescriptionSettings = controllerType.IsDefined(typeof(ApiDescriptionSettingsAttribute), true) ? controllerType.GetCustomAttribute<ApiDescriptionSettingsAttribute>(true) : default;
 
-            // 存储排序给 Swagger 使用
-            Penetrates.ControllerOrderCollection.TryAdd(controller.ControllerName, (controllerApiDescriptionSettings?.Tag ?? controller.ControllerName, controllerApiDescriptionSettings?.Order ?? 0));
-
             // 判断是否处理 Mvc控制器
             if (typeof(ControllerBase).IsAssignableFrom(controllerType))
             {
                 if (!_dynamicApiControllerSettings.SupportedMvcController.Value || controller.ApiExplorer?.IsVisible == false)
                 {
+                    // 存储排序给 Swagger 使用
+                    Penetrates.ControllerOrderCollection.TryAdd(controller.ControllerName, (controllerApiDescriptionSettings?.Tag ?? controller.ControllerName, controllerApiDescriptionSettings?.Order ?? 0));
+
                     // 控制器默认处理规范化结果
                     if (UnifyContext.EnabledUnifyHandler)
                     {
@@ -114,6 +114,9 @@ internal sealed class DynamicApiControllerApplicationModelConvention : IApplicat
 
         // 配置控制器路由特性
         ConfigureControllerRouteAttribute(controller, controllerApiDescriptionSettings);
+
+        // 存储排序给 Swagger 使用
+        Penetrates.ControllerOrderCollection.TryAdd(controller.ControllerName, (controllerApiDescriptionSettings?.Tag ?? controller.ControllerName, controllerApiDescriptionSettings?.Order ?? 0));
 
         var actions = controller.Actions;
 
