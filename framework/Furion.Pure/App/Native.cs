@@ -14,6 +14,7 @@
 
 using Furion;
 using Microsoft.Extensions.DependencyInjection;
+using System.Net.NetworkInformation;
 using System.Reflection;
 
 namespace System;
@@ -116,5 +117,22 @@ public static class Native
         }
 
         return windowInstance;
+    }
+
+    /// <summary>
+    /// 获取一个空闲端口
+    /// </summary>
+    /// <returns></returns>
+    public static int GetIdlePort()
+    {
+        var random = new Random();
+        var randomPort = random.Next(10000, 65535);
+
+        while (IPGlobalProperties.GetIPGlobalProperties().GetActiveTcpListeners().Any(p => p.Port == randomPort))
+        {
+            randomPort = random.Next(10000, 65535);
+        }
+
+        return randomPort;
     }
 }

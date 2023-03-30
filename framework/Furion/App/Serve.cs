@@ -30,6 +30,19 @@ namespace System;
 public static class Serve
 {
     /// <summary>
+    /// 获取一个空闲端口
+    /// </summary>
+    public static (string Urls, int Port) IdleHost
+    {
+        get
+        {
+            var port = Native.GetIdlePort();
+            var urls = $"http://localhost:{port}";
+            return (urls, port);
+        }
+    }
+
+    /// <summary>
     /// 静默启动排除日志分类名
     /// </summary>
     private static readonly string[] SilenceExcludesOfLogCategoryName = new string[]

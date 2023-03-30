@@ -17,3 +17,9 @@ var form1 = Native.CreateInstance<Form1>();
 
 var form1 = Native.CreateInstance(typeof(Form1)) as Form;
 ```
+
+## 19.2 获取随机空闲端口
+
+```cs showLineNumbers
+var port = Native.GetIdlePort();
+```
