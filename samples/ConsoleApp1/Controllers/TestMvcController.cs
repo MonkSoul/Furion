@@ -1,15 +1,14 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace Furion.Web.Entry.Controllers
+namespace Furion.Web.Entry.Controllers;
+
+//[Route("api/[controller]")]
+public class TestMvcController : Controller
 {
-    //[Route("api/[controller]")]
-    public class TestMvcController : Controller
+    //[HttpGet]
+    [HttpGet("api/test")]
+    public IActionResult Index()
     {
-        //[HttpGet]
-        [HttpGet("api/test")]
-        public IActionResult Index()
-        {
-            return Content("ddd");
-        }
+        return Content("ddd");
     }
 }

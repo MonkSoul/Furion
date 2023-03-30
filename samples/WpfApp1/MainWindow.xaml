@@ -10,6 +10,5 @@
     <Grid>
 
         <Wpf:WebView2 Name="webview" />
-
     </Grid>
 </Window>
