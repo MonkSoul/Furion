@@ -1,7 +1,7 @@
 ---
 id: bs-to-cs
-title: 34.7 嵌入 WinForm/WPF 中
-sidebar_label: 34.7 嵌入 WinForm/WPF 中
+title: 34.7 发布到 WinForm/WPF 中
+sidebar_label: 34.7 发布到 WinForm/WPF 中
 ---
 
 import useBaseUrl from "@docusaurus/useBaseUrl";
@@ -12,19 +12,53 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 :::
 
-`Furion` 框架灵活的架构模式使得 `Web` 和各客户端（`WinForm/WPF/Console`） 之间的项目迁移变得非常简单，只需要极少数修改即可实现无缝迁移。
+`Furion` 框架灵活的架构模式使得 `Web` 和各客户端（`WinForm/WPF/Console`） 项目之间迁移变得非常简单，只需要极少数修改即可实现无缝迁移。
 
-本章节提供如何将 `Web` 项目迁移到 `WinForm/WPF` 中。
+**通过这种方式可以实现类似前端的 `Electron/Tauri` 混合式开发。**
 
-## 34.7.1 `WinForm/WPF` 项目初始化
+本章节提供如何将 `Web` 项目发布（迁移）到 `WinForm/WPF` 中，同样也适合控制台应用程序。
 
-1. 初始化 `WinForm/WPF` 配置
+## 34.7.1 迁移步骤
 
-```cs showLineNumbers
-Serve.RunNative(RunOptions.Default);
+### 34.7.1.1 创建 `WinForm/WPF` 项目
+
+通过 `Visual Studio` 创建 `WinForm/WPF` 项目，同样适合控制台项目。
+
+### 34.7.1.2 初始化 `WinForm/WPF` 配置
+
+- `WinForm` 初始化
+
+```cs showLineNumbers {3,8}
+namespace WinFormsApp1;
+
+internal static class Program
+{
+    [STAThread]
+    static void Main()
+    {
+        Serve.RunNative(RunOptions.Default);
+
+        ApplicationConfiguration.Initialize();
+        Application.Run(new Form1());
+    }
+}
 ```
 
-2. 添加 `YourProject.Web.Core` 层引用
+- `WPF` 初始化
+
+```cs showLineNumbers {3,7}
+namespace WpfApp1;
+
+public partial class App : Application
+{
+    public App()
+    {
+        Serve.RunNative(RunOptions.Default);
+    }
+}
+```
+
+### 34.7.1.3 添加 `YourProject.Web.Core` 层引用
 
 ```xml showLineNumbers {2}
 <ItemGroup>
@@ -32,72 +66,30 @@ Serve.RunNative(RunOptions.Default);
 </ItemGroup>
 ```
 
-3. 将 `YourProject.Web.Entry` 启动层的 `*.json` 文件、`Views` 目录、`wwwroot` 目录拷贝到 `WinForm/WPF` 项目中
+### 34.7.1.4 拷贝 `YourProject.Web.Entry` 内容
 
-如果有 `*.json` 文件、`Views` 目录、`wwwroot` 目录则拷贝到 `WinForm/WPF` 中
+如果有 `YourProject.Web.Entry` 启动层包含 `*.json` 文件、`Controllers`、`Views` 、`wwwroot` 目录则拷贝到 `WinForm/WPF` 中
 
-## 34.7.2 配置 `.csproj` 文件
+<img src={useBaseUrl("img/n1.png")} />
 
-完成上一个步骤后编辑 `WinForm/WPF` 项目文件并进行以下修改。
+## 34.7.2 配置 `WinForm/WPF` 项目文件
 
-1. 添加 `<SatelliteResourceLanguages>en-US</SatelliteResourceLanguages>`
+双击 `WinForm/WPF` 项目进入 `.csproj` 文件编辑。
 
-```xml showLineNumbers {7}
-<PropertyGroup>
-		<OutputType>WinExe</OutputType>
-		<TargetFramework>net7.0-windows</TargetFramework>
-		<Nullable>enable</Nullable>
-		<UseWindowsForms>true</UseWindowsForms>
-		<ImplicitUsings>enable</ImplicitUsings>
-		<SatelliteResourceLanguages>en-US</SatelliteResourceLanguages>
-	</PropertyGroup>
+### 34.7.2.1 修改 `Sdk` 属性
+
+将 `Sdk="Microsoft.NET.Sdk"` 修改为 `Sdk="Microsoft.NET.Sdk.Razor"`
+
+```xml showLineNumbers
+<Project Sdk="Microsoft.NET.Sdk.Razor">
 ```
 
-:::important 带 `Razor/Blazor` 项目
+### 34.7.2.2 添加 `MVC/Razor` 支持
 
-如果 `Web` 项目带 `Razor/Blazor` 视图，那么还需以下操作
+- `WinForm`
 
-2. 禁用 `MvcRazorCompileOnPublish` 和 `RazorCompileOnBuild` 选项
-
-```xml showLineNumbers {7-9}
-<PropertyGroup>
-		<OutputType>WinExe</OutputType>
-		<TargetFramework>net7.0-windows</TargetFramework>
-		<Nullable>enable</Nullable>
-		<UseWindowsForms>true</UseWindowsForms>
-		<ImplicitUsings>enable</ImplicitUsings>
-		<SatelliteResourceLanguages>en-US</SatelliteResourceLanguages>
-		<MvcRazorCompileOnPublish>false</MvcRazorCompileOnPublish>
-		<RazorCompileOnBuild>false</RazorCompileOnBuild>
-	</PropertyGroup>
-```
-
-3. 将 `wwwroot` 和 `Views` 添加到发布目录下
-
-```xml showLineNumbers {2,5}
-<ItemGroup>
-  <Content Include="wwwroot\**\*">
-   <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-  </Content>
-  <Content Include="Views\**\*">
-   <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-  </Content>
- </ItemGroup>
-```
-
-4. 编辑 `YourProject.Web.Core/Startup.cs` 并启用 `Razor` 运行时编译支持
-
-```cs showLineNumbers {2}
-services.AddControllersWithViews()
-        .AddRazorRuntimeCompilation()
-```
-
-:::
-
-2. 完整的 `.csproj` 文件配置类似这样
-
-```xml showLineNumbers {9-11,14-21,23-25}
-<Project Sdk="Microsoft.NET.Sdk">
+```xml showLineNumbers {1,9-10}
+<Project Sdk="Microsoft.NET.Sdk.Razor">
 
 	<PropertyGroup>
 		<OutputType>WinExe</OutputType>
@@ -106,15 +98,64 @@ services.AddControllersWithViews()
 		<UseWindowsForms>true</UseWindowsForms>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<SatelliteResourceLanguages>en-US</SatelliteResourceLanguages>
-		<MvcRazorCompileOnPublish>false</MvcRazorCompileOnPublish>
-		<RazorCompileOnBuild>false</RazorCompileOnBuild>
+		<AddRazorSupportForMvc>true</AddRazorSupportForMvc>
+	</PropertyGroup>
+
+</Project>
+```
+
+- `WPF`
+
+```xml showLineNumbers {1,9-10}
+<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+	<PropertyGroup>
+		<OutputType>WinExe</OutputType>
+		<TargetFramework>net7.0-windows</TargetFramework>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<UseWPF>true</UseWPF>
+		<SatelliteResourceLanguages>en-US</SatelliteResourceLanguages>
+		<AddRazorSupportForMvc>true</AddRazorSupportForMvc>
+	</PropertyGroup>
+
+</Project>
+
+```
+
+### 34.7.2.3 添加 `wwwroot` 静态发布配置
+
+如果 `YourProject.Web.Entry` 包含 `wwwroot` 目录，则添加以下配置，否则跳过。
+
+```xml showLineNumbers
+<ItemGroup>
+	<Content Update="wwwroot\**\*">
+		<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	</Content>
+</ItemGroup>
+```
+
+### 34.7.2.4 完整配置
+
+完整的配置大概如下：
+
+- `WinForm`
+
+```xml showLineNumbers {1,9-10,13-17,19-21}
+<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+	<PropertyGroup>
+		<OutputType>WinExe</OutputType>
+		<TargetFramework>net7.0-windows</TargetFramework>
+		<Nullable>enable</Nullable>
+		<UseWindowsForms>true</UseWindowsForms>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<SatelliteResourceLanguages>en-US</SatelliteResourceLanguages>
+		<AddRazorSupportForMvc>true</AddRazorSupportForMvc>
 	</PropertyGroup>
 
 	<ItemGroup>
-		<Content Include="wwwroot\**\*">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</Content>
-		<Content Include="Views\**\*">
+		<Content Update="wwwroot\**\*">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</Content>
 	</ItemGroup>
@@ -126,14 +167,75 @@ services.AddControllersWithViews()
 </Project>
 ```
 
-## 34.7.3 待解决问题
+- `WPF`
 
-目前如果 `Web` 项目类型包含 `Razor/Blazor` 视图，不启用运行时编译视图方式会出现开发/发布环境下找不到视图异常。
+```xml showLineNumbers {1,9-10,13-17,19-20}
+<Project Sdk="Microsoft.NET.Sdk.Razor">
 
-解决该问题可从参考链接：
+    <PropertyGroup>
+        <OutputType>WinExe</OutputType>
+        <TargetFramework>net7.0-windows</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <UseWPF>true</UseWPF>
+        <SatelliteResourceLanguages>en-US</SatelliteResourceLanguages>
+        <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
+    </PropertyGroup>
 
-- [https://github.com/dotnet/sdk/blob/main/src/WebSdk/ProjectSystem/Targets/Microsoft.NET.Sdk.Web.ProjectSystem.props](https://github.com/dotnet/sdk/blob/main/src/WebSdk/ProjectSystem/Targets/Microsoft.NET.Sdk.Web.ProjectSystem.props)
-- [https://learn.microsoft.com/zh-cn/aspnet/core/razor-pages/sdk?view=aspnetcore-7.0](https://learn.microsoft.com/zh-cn/aspnet/core/razor-pages/sdk?view=aspnetcore-7.0)
+	<ItemGroup>
+		<Content Update="wwwroot\**\*">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Furion.Web.Core\Furion.Web.Core.csproj" />
+	</ItemGroup>
+
+</Project>
+
+```
+
+## 37.7.3 嵌入 `WebView2`
+
+我们可以在 `WinForm/WinForm` 层添加 `Microsoft.Web.WebView2` 包，然后在窗口中添加 `WebView2` 组件，实现类似前端 `Electron.js` 混合开发。
+
+### 37.7.3.1 添加 `WebView2` 拓展
+
+```bash showLineNumbers
+dotnet add package Microsoft.Web.WebView2
+```
+
+### 37.7.3.2 添加 `WebView2` 控件并填充窗口
+
+<img src={useBaseUrl("img/n3.png")} />
+
+### 37.7.3.3 设置 `WebView2` 首页
+
+```cs showLineNumbers {11}
+using System.Windows;
+
+namespace WpfApp1;
+
+public partial class MainWindow : Window
+{
+    public MainWindow()
+    {
+        InitializeComponent();
+
+        webview.Source = new Uri("http://localhost:5000/Home");
+    }
+}
+```
+
+### 34.7.3.4 预览效果
+
+<img src={useBaseUrl("img/n2.png")} />
+
+<br />
+<br />
+
+相关技术文档：[https://learn.microsoft.com/zh-cn/microsoft-edge/webview2/get-started/winforms](https://learn.microsoft.com/zh-cn/microsoft-edge/webview2/get-started/winforms)
 
 ## 34.7.4 反馈与建议
 
