@@ -1,7 +1,7 @@
 ---
 id: bs-to-cs
-title: 34.7 发布到 WinForm/WPF 中
-sidebar_label: 34.7 发布到 WinForm/WPF 中
+title: 34.7 发布桌面程序（WinForm/WPF）
+sidebar_label: 34.7 发布桌面程序（WinForm/WPF）
 ---
 
 import useBaseUrl from "@docusaurus/useBaseUrl";
@@ -88,7 +88,7 @@ public partial class App : Application
 
 - `WinForm`
 
-```xml showLineNumbers {1,9-10}
+```xml showLineNumbers {1,9-11}
 <Project Sdk="Microsoft.NET.Sdk.Razor">
 
 	<PropertyGroup>
@@ -98,6 +98,7 @@ public partial class App : Application
 		<UseWindowsForms>true</UseWindowsForms>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<SatelliteResourceLanguages>en-US</SatelliteResourceLanguages>
+		<PublishReadyToRunComposite>true</PublishReadyToRunComposite>
 		<AddRazorSupportForMvc>true</AddRazorSupportForMvc>
 	</PropertyGroup>
 
@@ -106,7 +107,7 @@ public partial class App : Application
 
 - `WPF`
 
-```xml showLineNumbers {1,9-10}
+```xml showLineNumbers {1,9-11}
 <Project Sdk="Microsoft.NET.Sdk.Razor">
 
 	<PropertyGroup>
@@ -116,6 +117,7 @@ public partial class App : Application
 		<ImplicitUsings>enable</ImplicitUsings>
 		<UseWPF>true</UseWPF>
 		<SatelliteResourceLanguages>en-US</SatelliteResourceLanguages>
+		<PublishReadyToRunComposite>true</PublishReadyToRunComposite>
 		<AddRazorSupportForMvc>true</AddRazorSupportForMvc>
 	</PropertyGroup>
 
@@ -141,7 +143,7 @@ public partial class App : Application
 
 - `WinForm`
 
-```xml showLineNumbers {1,9-10,13-17,19-21}
+```xml showLineNumbers {1,9-11,14-18,20-22}
 <Project Sdk="Microsoft.NET.Sdk.Razor">
 
 	<PropertyGroup>
@@ -151,6 +153,7 @@ public partial class App : Application
 		<UseWindowsForms>true</UseWindowsForms>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<SatelliteResourceLanguages>en-US</SatelliteResourceLanguages>
+		<PublishReadyToRunComposite>true</PublishReadyToRunComposite>
 		<AddRazorSupportForMvc>true</AddRazorSupportForMvc>
 	</PropertyGroup>
 
@@ -169,7 +172,7 @@ public partial class App : Application
 
 - `WPF`
 
-```xml showLineNumbers {1,9-10,13-17,19-20}
+```xml showLineNumbers {1,9-11,14-18,20-22}
 <Project Sdk="Microsoft.NET.Sdk.Razor">
 
     <PropertyGroup>
@@ -179,6 +182,7 @@ public partial class App : Application
         <ImplicitUsings>enable</ImplicitUsings>
         <UseWPF>true</UseWPF>
         <SatelliteResourceLanguages>en-US</SatelliteResourceLanguages>
+		<PublishReadyToRunComposite>true</PublishReadyToRunComposite>
         <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
     </PropertyGroup>
 
@@ -208,9 +212,34 @@ dotnet add package Microsoft.Web.WebView2
 
 ### 37.7.3.2 添加 `WebView2` 控件并填充窗口
 
-<img src={useBaseUrl("img/n3.png")} />
+- `WinForm`
 
-### 37.7.3.3 设置 `WebView2` 首页
+```cs showLineNumbers {8,10-11,14-17}
+namespace WinFormsApp1;
+
+public partial class Form1 : Form
+{
+    public Form1()
+    {
+        InitializeComponent();
+        this.Resize += Form1_Resize;
+
+        webview.Size = this.ClientSize;
+        webview.Source = new Uri("http://localhost:5000/Home");
+    }
+
+    private void Form1_Resize(object? sender, EventArgs e)
+    {
+        webview.Size = this.ClientSize;
+    }
+}
+```
+
+- `WPF`
+
+```xml
+<Wpf:WebView2 Name="webview" />
+```
 
 ```cs showLineNumbers {11}
 using System.Windows;
@@ -228,7 +257,9 @@ public partial class MainWindow : Window
 }
 ```
 
-### 34.7.3.4 预览效果
+### 34.7.3.3 预览效果
+
+<img src={useBaseUrl("img/n4.png")} />
 
 <img src={useBaseUrl("img/n2.png")} />
 
@@ -239,9 +270,53 @@ public partial class MainWindow : Window
 
 - [https://learn.microsoft.com/zh-cn/microsoft-edge/webview2/get-started/winforms](https://learn.microsoft.com/zh-cn/microsoft-edge/webview2/get-started/winforms)
 - [https://learn.microsoft.com/zh-cn/microsoft-edge/webview2/get-started/wpf](https://learn.microsoft.com/zh-cn/microsoft-edge/webview2/get-started/wpf)
+
+## 34.7.4 发布 `WinForm/WPF`
+
+### 34.7.4.1 启动层添加 `SingleFilePublish`
+
+通常桌面软件都是发布为不依赖环境（独立发布），所以在启动层添加 `SingleFilePublish.cs` 文件编辑。
+
+**详细教程可查看 [【34.5 单文件发布】](./singlefile.mdx)**
+
+```cs showLineNumbers {4,6}
+using Furion;
+using System.Reflection;
+
+namespace WinFormsApp1;
+
+public class SingleFilePublish : ISingleFilePublish
+{
+    public Assembly[] IncludeAssemblies()
+    {
+        return Array.Empty<Assembly>();
+    }
+
+    public string[] IncludeAssemblyNames()
+    {
+        return new[]
+        {
+            "Furion.Application",
+            "Furion.Core",
+            "Furion.EntityFramework.Core",
+            "Furion.Web.Core"
+        };
+    }
+}
+
+```
+
+### 34.7.4.2 发布配置
+
+发布可参考以下配置即可。
+
+<img src={useBaseUrl("img/n5.png")} />
+
+相关技术文档：
+
 - [https://blog.csdn.net/xfy18317776108/article/details/122343091](https://blog.csdn.net/xfy18317776108/article/details/122343091)
 
-## 34.7.4 反馈与建议
+## 34.7.6 反馈与建议
 
 :::note 与我们交流
 
