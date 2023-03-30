@@ -11,7 +11,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.1661.34" />
+		<PackageReference Include="Microsoft.Web.WebView2" Version="1.0.1661.34" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -21,13 +21,13 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<None Update="Furion.db">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
+		<ProjectReference Include="..\Furion.Web.Core\Furion.Web.Core.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\Furion.Web.Core\Furion.Web.Core.csproj" />
+		<None Update="Furion.db">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
 	</ItemGroup>
 
 </Project>

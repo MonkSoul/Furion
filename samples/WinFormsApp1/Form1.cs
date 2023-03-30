@@ -5,6 +5,7 @@ namespace WinFormsApp1
         public Form1()
         {
             InitializeComponent();
+            webview.Source = new Uri("http://localhost:5000/Home");
         }
     }
 }
