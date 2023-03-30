@@ -28,32 +28,42 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 - `WinForm` 初始化
 
-```cs showLineNumbers {3,8}
+```cs showLineNumbers {3,8-9}
 namespace WinFormsApp1;
 
 internal static class Program
 {
     [STAThread]
-    static void Main()
+    private static void Main()
     {
-        Serve.RunNative(RunOptions.Default);
+        Serve.RunNative(RunOptions.Default);    // 默认 5000 端口，如果出现占用，推荐使用下面的方式
+        // Serve.RunNative(RunOptions.Default, Serve.IdleHost.Urls);   // 随机端口
 
         ApplicationConfiguration.Initialize();
-        Application.Run(new Form1());
+        Application.Run(Native.CreateInstance<Form1>());
     }
 }
 ```
 
 - `WPF` 初始化
 
-```cs showLineNumbers {3,7}
+```cs showLineNumbers {5,9-10,13-17}
+using System.Windows;
+
 namespace WpfApp1;
 
 public partial class App : Application
 {
     public App()
     {
-        Serve.RunNative(RunOptions.Default);
+        Serve.RunNative(RunOptions.Default);    // 默认 5000 端口，如果出现占用，推荐使用下面的方式
+        // Serve.RunNative(RunOptions.Default, Serve.IdleHost.Urls);   // 随机端口
+    }
+
+    protected override void OnStartup(StartupEventArgs e)
+    {
+        Native.CreateInstance<MainWindow>().Show();
+        base.OnStartup(e);
     }
 }
 ```
@@ -214,18 +224,21 @@ dotnet add package Microsoft.Web.WebView2
 
 - `WinForm`
 
-```cs showLineNumbers {8,10-11,14-17}
+```cs showLineNumbers {8,11,13-14,17-20}
+using Microsoft.AspNetCore.Hosting.Server;
+using Microsoft.Extensions.Hosting;
+
 namespace WinFormsApp1;
 
 public partial class Form1 : Form
 {
-    public Form1()
+    public Form1(IServer server)	// 注入 IServer 服务，获取 Web 启动地址/端口
     {
         InitializeComponent();
-        this.Resize += Form1_Resize;
+        Resize += Form1_Resize;
 
         webview.Size = this.ClientSize;
-        webview.Source = new Uri("http://localhost:5000/Home");
+        webview.Source = new Uri($"{server.GetServerAddress()}/Home");
     }
 
     private void Form1_Resize(object? sender, EventArgs e)
@@ -241,18 +254,19 @@ public partial class Form1 : Form
 <Wpf:WebView2 Name="webview" />
 ```
 
-```cs showLineNumbers {11}
+```cs showLineNumbers {9,12}
+using Microsoft.AspNetCore.Hosting.Server;
+using Microsoft.Extensions.Hosting;
 using System.Windows;
 
 namespace WpfApp1;
 
 public partial class MainWindow : Window
 {
-    public MainWindow()
+    public MainWindow(IServer server)   // 注入 IServer 服务，获取 Web 启动地址/端口
     {
         InitializeComponent();
-
-        webview.Source = new Uri("http://localhost:5000/Home");
+        webview.Source = new Uri($"{server.GetServerAddress()}/Home");
     }
 }
 ```

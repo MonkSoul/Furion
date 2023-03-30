@@ -30,7 +30,7 @@ namespace System;
 public static class Serve
 {
     /// <summary>
-    /// 获取一个空闲端口
+    /// 获取一个空闲 Web 主机地址（端口）
     /// </summary>
     public static (string Urls, int Port) IdleHost
     {

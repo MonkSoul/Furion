@@ -16,7 +16,7 @@ import Tag from "@site/src/components/Tag.js";
 
 - **新特性**
 
-  - &nbsp;<Tag>新增</Tag> `Serve.IdleHost` 静态属性，可获取一个随机空闲 `Web` 主机地址（端口） <sup>4.8.7.29</sup> <sup>⏱️2023.03.30</sup>
+  - &nbsp;<Tag>新增</Tag> `Serve.IdleHost` 静态属性，可获取一个随机空闲 `Web` 主机地址（端口） <sup>4.8.7.29</sup> <sup>⏱️2023.03.30</sup> [e425063](https://gitee.com/dotnetchina/Furion/commit/e4250634246af612f052ec935416ee050b44d22e)
   - &nbsp;<Tag>新增</Tag> `WinForm/WPF` 静态方法 `Serve.RunNative()` 可配置是否启用 `Web` 主机功能 <sup>4.8.7.26</sup> <sup>⏱️2023.03.29</sup> [#I6R97L](https://gitee.com/dotnetchina/Furion/issues/I6R97L)
   - &nbsp;<Tag>新增</Tag> **`WinForm/WPF` 快速注册静态方法：`Serve.RunNative()`** <sup>4.8.7.23</sup> <sup>⏱️2023.03.27</sup> [53d51c3](https://gitee.com/dotnetchina/Furion/commit/53d51c3645f4066f5d68d4726d78e389fd544560)
 
@@ -594,7 +594,7 @@ internal static class Program
 
 默认情况下，`Serve.RunNative()` 会启动一个迷你小型 `Web` 主机，默认端口为 `5000`，如无需 `Web` 功能可配置 `includeWeb` 关闭，如：
 
-```cs showLineNumbers {2,5,8}
+```cs showLineNumbers {2,5,8,11}
 // 关闭迷你 Web 主机功能
 Serve.RunNative(includeWeb: false);
 
@@ -603,6 +603,9 @@ Serve.RunNative(urls: "http://localhost:8080");
 
 // 还可以完全自定义配置 Web 主机
 Serve.RunNative(RunOptions.Default);
+
+// 还可以随机获取一个空闲主机端口（推荐）
+Serve.RunNative(urls: Serve.IdleHost.Urls);
 ```
 
 :::
@@ -625,7 +628,7 @@ public partial class App : Application
 
 默认情况下，`Serve.RunNative()` 会启动一个迷你小型 `Web` 主机，默认端口为 `5000`，如无需 `Web` 功能可配置 `includeWeb` 关闭，如：
 
-```cs showLineNumbers {2,5,8}
+```cs showLineNumbers {2,5,8,11}
 // 关闭迷你 Web 主机功能
 Serve.RunNative(includeWeb: false);
 
@@ -634,6 +637,9 @@ Serve.RunNative(urls: "http://localhost:8080");
 
 // 还可以完全自定义配置 Web 主机
 Serve.RunNative(RunOptions.Default);
+
+// 还可以随机获取一个空闲主机端口（推荐）
+Serve.RunNative(urls: Serve.IdleHost.Urls);
 ```
 
 :::
