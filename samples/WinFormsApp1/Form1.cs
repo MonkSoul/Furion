@@ -11,7 +11,7 @@ public partial class Form1 : Form
         Resize += Form1_Resize;
 
         webview.Size = this.ClientSize;
-        webview.Source = new Uri($"{server.GetServerAddress()}/Home");
+        webview.Source = new Uri(server.GetServerAddress());
     }
 
     private void Form1_Resize(object? sender, EventArgs e)

@@ -28,7 +28,7 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 - `WinForm` 初始化
 
-```cs showLineNumbers {3,8-9}
+```cs showLineNumbers {3,8-9,12}
 namespace WinFormsApp1;
 
 internal static class Program
@@ -44,6 +44,21 @@ internal static class Program
     }
 }
 ```
+
+:::tip 关于 `Web` 主机环境
+
+默认情况下，通过 `WinForm` 启动 `Web` 主机环境总是为 `Production`，但在开发阶段可能会出现配置加载错误问题，这时只需要添加 `ConfigureOptions` 配置即可，如：
+
+```cs showLineNumbers {2,4-5}
+Serve.RunNative(RunOptions.Default
+     .ConfigureOptions(new WebApplicationOptions
+    {
+        // Debugger.IsAttached 可判断释放为 Debug 模式
+        EnvironmentName = Debugger.IsAttached ? "Development" : default
+    }));
+```
+
+:::
 
 - `WPF` 初始化
 
@@ -67,6 +82,21 @@ public partial class App : Application
     }
 }
 ```
+
+:::tip 关于 `Web` 主机环境
+
+默认情况下，通过 `WPF` 启动 `Web` 主机环境总是为 `Production`，但在开发阶段可能会出现配置加载错误问题，这时只需要添加 `ConfigureOptions` 配置即可，如：
+
+```cs showLineNumbers {2,4-5}
+Serve.RunNative(RunOptions.Default
+     .ConfigureOptions(new WebApplicationOptions
+    {
+        // Debugger.IsAttached 可判断释放为 Debug 模式
+        EnvironmentName = Debugger.IsAttached ? "Development" : default
+    }));
+```
+
+:::
 
 ### 34.7.1.3 添加 `YourProject.Web.Core` 层引用
 
@@ -238,7 +268,7 @@ public partial class Form1 : Form
         Resize += Form1_Resize;
 
         webview.Size = this.ClientSize;
-        webview.Source = new Uri($"{server.GetServerAddress()}/Home");
+        webview.Source = new Uri(server.GetServerAddress());
     }
 
     private void Form1_Resize(object? sender, EventArgs e)
@@ -266,7 +296,7 @@ public partial class MainWindow : Window
     public MainWindow(IServer server)   // 注入 IServer 服务，获取 Web 启动地址/端口
     {
         InitializeComponent();
-        webview.Source = new Uri($"{server.GetServerAddress()}/Home");
+        webview.Source = new Uri(server.GetServerAddress());
     }
 }
 ```
@@ -328,6 +358,7 @@ public class SingleFilePublish : ISingleFilePublish
 
 相关技术文档：
 
+- [Furion 示例代码](https://gitee.com/dotnetchina/Furion/tree/v4/samples)
 - [https://blog.csdn.net/xfy18317776108/article/details/122343091](https://blog.csdn.net/xfy18317776108/article/details/122343091)
 
 ## 34.7.5 反馈与建议

@@ -24,7 +24,7 @@ namespace Microsoft.Extensions.Hosting;
 public static class IHostExtensions
 {
     /// <summary>
-    /// 获取主机自动地址
+    /// 获取主机启动地址
     /// </summary>
     /// <param name="host"></param>
     /// <returns></returns>
@@ -36,7 +36,7 @@ public static class IHostExtensions
     }
 
     /// <summary>
-    /// 获取主机自动地址
+    /// 获取主机启动地址
     /// </summary>
     /// <param name="host"></param>
     /// <returns></returns>
@@ -46,7 +46,7 @@ public static class IHostExtensions
     }
 
     /// <summary>
-    /// 获取主机自动地址
+    /// 获取主机启动地址
     /// </summary>
     /// <param name="server"></param>
     /// <returns></returns>
@@ -57,7 +57,7 @@ public static class IHostExtensions
     }
 
     /// <summary>
-    /// 获取主机自动地址
+    /// 获取主机启动地址
     /// </summary>
     /// <param name="server"></param>
     /// <returns></returns>
