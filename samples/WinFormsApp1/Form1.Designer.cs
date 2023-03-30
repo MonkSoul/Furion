@@ -37,9 +37,10 @@
             webview.AllowExternalDrop = true;
             webview.CreationProperties = null;
             webview.DefaultBackgroundColor = Color.White;
-            webview.Location = new Point(12, 12);
+            webview.Location = new Point(0, 0);
+            webview.Margin = new Padding(0);
             webview.Name = "webview";
-            webview.Size = new Size(776, 426);
+            webview.Size = new Size(0, 0);
             webview.TabIndex = 0;
             webview.ZoomFactor = 1D;
             // 
