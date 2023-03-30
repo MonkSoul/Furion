@@ -1,7 +1,7 @@
 ---
 id: bs-to-cs
-title: 34.7 发布到 WinForm/WPF 中
-sidebar_label: 34.7 发布到 WinForm/WPF 中
+title: 34.7 发布桌面程序（WinForm/WPF）
+sidebar_label: 34.7 发布桌面程序（WinForm/WPF）
 ---
 
 import useBaseUrl from "@docusaurus/useBaseUrl";
@@ -28,35 +28,75 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 - `WinForm` 初始化
 
-```cs showLineNumbers {3,8}
+```cs showLineNumbers {3,8-9,12}
 namespace WinFormsApp1;
 
 internal static class Program
 {
     [STAThread]
-    static void Main()
+    private static void Main()
     {
-        Serve.RunNative(RunOptions.Default);
+        Serve.RunNative(RunOptions.Default);    // 默认 5000 端口，如果出现占用，推荐使用下面的方式
+        // Serve.RunNative(RunOptions.Default, Serve.IdleHost.Urls);   // 随机端口
 
         ApplicationConfiguration.Initialize();
-        Application.Run(new Form1());
+        Application.Run(Native.CreateInstance<Form1>());
     }
 }
 ```
 
+:::tip 关于 `Web` 主机环境
+
+默认情况下，通过 `WinForm` 启动 `Web` 主机环境总是为 `Production`，但在开发阶段可能会出现配置加载错误问题，这时只需要添加 `ConfigureOptions` 配置即可，如：
+
+```cs showLineNumbers {2,4-5}
+Serve.RunNative(RunOptions.Default
+     .ConfigureOptions(new WebApplicationOptions
+    {
+        // Debugger.IsAttached 可判断释放为 Debug 模式
+        EnvironmentName = Debugger.IsAttached ? "Development" : default
+    }));
+```
+
+:::
+
 - `WPF` 初始化
 
-```cs showLineNumbers {3,7}
+```cs showLineNumbers {5,9-10,13-17}
+using System.Windows;
+
 namespace WpfApp1;
 
 public partial class App : Application
 {
     public App()
     {
-        Serve.RunNative(RunOptions.Default);
+        Serve.RunNative(RunOptions.Default);    // 默认 5000 端口，如果出现占用，推荐使用下面的方式
+        // Serve.RunNative(RunOptions.Default, Serve.IdleHost.Urls);   // 随机端口
+    }
+
+    protected override void OnStartup(StartupEventArgs e)
+    {
+        Native.CreateInstance<MainWindow>().Show();
+        base.OnStartup(e);
     }
 }
 ```
+
+:::tip 关于 `Web` 主机环境
+
+默认情况下，通过 `WPF` 启动 `Web` 主机环境总是为 `Production`，但在开发阶段可能会出现配置加载错误问题，这时只需要添加 `ConfigureOptions` 配置即可，如：
+
+```cs showLineNumbers {2,4-5}
+Serve.RunNative(RunOptions.Default
+     .ConfigureOptions(new WebApplicationOptions
+    {
+        // Debugger.IsAttached 可判断释放为 Debug 模式
+        EnvironmentName = Debugger.IsAttached ? "Development" : default
+    }));
+```
+
+:::
 
 ### 34.7.1.3 添加 `YourProject.Web.Core` 层引用
 
@@ -88,7 +128,7 @@ public partial class App : Application
 
 - `WinForm`
 
-```xml showLineNumbers {1,9-10}
+```xml showLineNumbers {1,9-11}
 <Project Sdk="Microsoft.NET.Sdk.Razor">
 
 	<PropertyGroup>
@@ -98,6 +138,7 @@ public partial class App : Application
 		<UseWindowsForms>true</UseWindowsForms>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<SatelliteResourceLanguages>en-US</SatelliteResourceLanguages>
+		<PublishReadyToRunComposite>true</PublishReadyToRunComposite>
 		<AddRazorSupportForMvc>true</AddRazorSupportForMvc>
 	</PropertyGroup>
 
@@ -106,7 +147,7 @@ public partial class App : Application
 
 - `WPF`
 
-```xml showLineNumbers {1,9-10}
+```xml showLineNumbers {1,9-11}
 <Project Sdk="Microsoft.NET.Sdk.Razor">
 
 	<PropertyGroup>
@@ -116,6 +157,7 @@ public partial class App : Application
 		<ImplicitUsings>enable</ImplicitUsings>
 		<UseWPF>true</UseWPF>
 		<SatelliteResourceLanguages>en-US</SatelliteResourceLanguages>
+		<PublishReadyToRunComposite>true</PublishReadyToRunComposite>
 		<AddRazorSupportForMvc>true</AddRazorSupportForMvc>
 	</PropertyGroup>
 
@@ -141,7 +183,7 @@ public partial class App : Application
 
 - `WinForm`
 
-```xml showLineNumbers {1,9-10,13-17,19-21}
+```xml showLineNumbers {1,9-11,14-18,20-22}
 <Project Sdk="Microsoft.NET.Sdk.Razor">
 
 	<PropertyGroup>
@@ -151,6 +193,7 @@ public partial class App : Application
 		<UseWindowsForms>true</UseWindowsForms>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<SatelliteResourceLanguages>en-US</SatelliteResourceLanguages>
+		<PublishReadyToRunComposite>true</PublishReadyToRunComposite>
 		<AddRazorSupportForMvc>true</AddRazorSupportForMvc>
 	</PropertyGroup>
 
@@ -169,7 +212,7 @@ public partial class App : Application
 
 - `WPF`
 
-```xml showLineNumbers {1,9-10,13-17,19-20}
+```xml showLineNumbers {1,9-11,14-18,20-22}
 <Project Sdk="Microsoft.NET.Sdk.Razor">
 
     <PropertyGroup>
@@ -179,6 +222,7 @@ public partial class App : Application
         <ImplicitUsings>enable</ImplicitUsings>
         <UseWPF>true</UseWPF>
         <SatelliteResourceLanguages>en-US</SatelliteResourceLanguages>
+		<PublishReadyToRunComposite>true</PublishReadyToRunComposite>
         <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
     </PropertyGroup>
 
@@ -208,27 +252,58 @@ dotnet add package Microsoft.Web.WebView2
 
 ### 37.7.3.2 添加 `WebView2` 控件并填充窗口
 
-<img src={useBaseUrl("img/n3.png")} />
+- `WinForm`
 
-### 37.7.3.3 设置 `WebView2` 首页
+```cs showLineNumbers {8,11,13-14,17-20}
+using Microsoft.AspNetCore.Hosting.Server;
+using Microsoft.Extensions.Hosting;
 
-```cs showLineNumbers {11}
+namespace WinFormsApp1;
+
+public partial class Form1 : Form
+{
+    public Form1(IServer server)	// 注入 IServer 服务，获取 Web 启动地址/端口
+    {
+        InitializeComponent();
+        Resize += Form1_Resize;
+
+        webview.Size = this.ClientSize;
+        webview.Source = new Uri(server.GetServerAddress());
+    }
+
+    private void Form1_Resize(object? sender, EventArgs e)
+    {
+        webview.Size = this.ClientSize;
+    }
+}
+```
+
+- `WPF`
+
+```xml
+<Wpf:WebView2 Name="webview" />
+```
+
+```cs showLineNumbers {9,12}
+using Microsoft.AspNetCore.Hosting.Server;
+using Microsoft.Extensions.Hosting;
 using System.Windows;
 
 namespace WpfApp1;
 
 public partial class MainWindow : Window
 {
-    public MainWindow()
+    public MainWindow(IServer server)   // 注入 IServer 服务，获取 Web 启动地址/端口
     {
         InitializeComponent();
-
-        webview.Source = new Uri("http://localhost:5000/Home");
+        webview.Source = new Uri(server.GetServerAddress());
     }
 }
 ```
 
-### 34.7.3.4 预览效果
+### 34.7.3.3 预览效果
+
+<img src={useBaseUrl("img/n4.png")} />
 
 <img src={useBaseUrl("img/n2.png")} />
 
@@ -238,9 +313,55 @@ public partial class MainWindow : Window
 相关技术文档：
 
 - [https://learn.microsoft.com/zh-cn/microsoft-edge/webview2/get-started/winforms](https://learn.microsoft.com/zh-cn/microsoft-edge/webview2/get-started/winforms)
+- [https://learn.microsoft.com/zh-cn/microsoft-edge/webview2/get-started/wpf](https://learn.microsoft.com/zh-cn/microsoft-edge/webview2/get-started/wpf)
+
+## 34.7.4 发布 `WinForm/WPF`
+
+### 34.7.4.1 启动层添加 `SingleFilePublish`
+
+通常桌面软件都是发布为不依赖环境（独立发布），所以在启动层添加 `SingleFilePublish.cs` 文件编辑。
+
+**详细教程可查看 [【34.5 单文件发布】](./singlefile.mdx)**
+
+```cs showLineNumbers {4,6}
+using Furion;
+using System.Reflection;
+
+namespace WinFormsApp1;
+
+public class SingleFilePublish : ISingleFilePublish
+{
+    public Assembly[] IncludeAssemblies()
+    {
+        return Array.Empty<Assembly>();
+    }
+
+    public string[] IncludeAssemblyNames()
+    {
+        return new[]
+        {
+            "Furion.Application",
+            "Furion.Core",
+            "Furion.EntityFramework.Core",
+            "Furion.Web.Core"
+        };
+    }
+}
+
+```
+
+### 34.7.4.2 发布配置
+
+发布可参考以下配置即可。
+
+<img src={useBaseUrl("img/n5.png")} />
+
+相关技术文档：
+
+- [Furion 示例代码](https://gitee.com/dotnetchina/Furion/tree/v4/samples)
 - [https://blog.csdn.net/xfy18317776108/article/details/122343091](https://blog.csdn.net/xfy18317776108/article/details/122343091)
 
-## 34.7.4 反馈与建议
+## 34.7.5 反馈与建议
 
 :::note 与我们交流
 

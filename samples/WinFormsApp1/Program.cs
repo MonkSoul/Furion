@@ -2,16 +2,12 @@ namespace WinFormsApp1;
 
 internal static class Program
 {
-    /// <summary>
-    ///  The main entry point for the application.
-    /// </summary>
     [STAThread]
-    static void Main()
+    private static void Main()
     {
-        Serve.RunNative(RunOptions.Default);
+        // Serve.RunNative(RunOptions.Default);    // 默认 5000 端口，如果出现占用，推荐使用下面的方式
+        Serve.RunNative(RunOptions.Default, Serve.IdleHost.Urls);   // 随机端口
 
-        // To customize application configuration such as set high DPI settings or default font,
-        // see https://aka.ms/applicationconfiguration.
         ApplicationConfiguration.Initialize();
         Application.Run(Native.CreateInstance<Form1>());
     }
