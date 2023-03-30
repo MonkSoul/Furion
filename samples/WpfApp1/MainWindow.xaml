@@ -9,7 +9,7 @@
         Title="MainWindow" Height="450" Width="800">
     <Grid>
 
-        <Wpf:WebView2 Name="webview" HorizontalAlignment="Center" Height="415" VerticalAlignment="Center" Width="780"/>
+        <Wpf:WebView2 Name="webview" />
 
     </Grid>
 </Window>
