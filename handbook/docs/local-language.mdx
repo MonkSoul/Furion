@@ -17,6 +17,10 @@ import Tag from "@site/src/components/Tag.js";
   - &nbsp;<Tag>新增</Tag> `L.SetCurrentUICulture(culture)` 和 `L.GetCurrentUICulture()` 静态方法，可在运行时动态修改当前线程区域性 <sup>4.8.3.10</sup> <sup>⏱️2022.12.23</sup> [#I66JWA](https://gitee.com/dotnetchina/Furion/issues/I66JWA)
   - &nbsp;<Tag>新增</Tag> `L.SetCulture(culture, immediately)` 方法重载，可配置运行时修改多语言立即有效 <sup>4.8.3.10</sup> <sup>⏱️2022.12.23</sup> [#I66JWA](https://gitee.com/dotnetchina/Furion/issues/I66JWA)
 
+- **其他更改**
+
+  - &nbsp;<Tag>调整</Tag> 多语言中间件 `app.UseAppLocalization()` 添加 `Action<options>` 委托参数 <sup>4.8.7.30</sup> <sup>⏱️2023.03.31</sup> [#I6RUOU](https://gitee.com/dotnetchina/Furion/issues/I6RUOU)
+
 - **文档**
 
   - &nbsp;<Tag>新增</Tag> **多语言 `.json` 配置方式文档**
@@ -530,7 +534,30 @@ L.SetCurrentUICulture("en-US");
 label1.Name = L.Text["API 接口"];
 ```
 
-## 21.14 区域码列表
+## 21.14 关于 `DateTime.Now` 问题
+
+启用了多语言功能之后很有可能会影响 `DateTime.Now` 获取的时间所在的时区，比如设置多语言区域设置为 `en-US`，那么获取的就是国外的时间。所以，**尽可能的使用 `DateTime.UtcNow` 或者 `DateTimeOffset.UtNow` 记录时间**。
+
+当然也可以尝试下面的代码解决，固定时间为北京时间。
+
+```cs showLineNumbers {1,3}
+services.Configure<RequestLocalizationOptions>(options =>
+{
+    options.DefaultRequestCulture.Culture.DateTimeFormat = new CultureInfo("zh-CN").DateTimeFormat;
+});
+```
+
+```cs showLineNumbers {1,3}
+app.UseAppLocalization(options =>
+{
+    options.DefaultRequestCulture.Culture.DateTimeFormat = new CultureInfo("zh-CN").DateTimeFormat;
+});
+```
+
+- 相关 `Issue`：[https://gitee.com/dotnetchina/Furion/issues/I6RUOU](https://gitee.com/dotnetchina/Furion/issues/I6RUOU)
+- 参考资料：[https://dotnetcoretutorials.com/2017/06/22/request-culture-asp-net-core/](https://dotnetcoretutorials.com/2017/06/22/request-culture-asp-net-core/)
+
+## 21.15 区域码列表
 
 - af 公用荷兰语
 - af-ZA 公用荷兰语 - 南非
@@ -734,7 +761,7 @@ label1.Name = L.Text["API 接口"];
 - vi 越南
 - vi-VN 越南 -越南
 
-## 21.15 反馈与建议
+## 21.16 反馈与建议
 
 :::note 与我们交流
 
