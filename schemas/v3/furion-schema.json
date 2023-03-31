@@ -3002,7 +3002,8 @@
         },
         "DefaultCulture": {
           "type": "string",
-          "default": "默认的语言"
+          "description": "默认的语言",
+          "default": ""
         },
         "LanguageFilePrefix": {
           "type": "string",
@@ -3012,6 +3013,11 @@
         "AssemblyName": {
           "type": "string",
           "description": "资源所在程序集名称，默认入口程序集名称"
+        },
+        "DateTimeFormatCulture": {
+          "type": "string",
+          "description": "设置 DateTime 格式化标准语言",
+          "default": ""
         }
       }
     },

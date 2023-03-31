@@ -76,9 +76,14 @@ public static class L
         // 如果 Response 已经完成输出或者是 WebSocket 请求，则禁止写入
         if (httpContext.IsWebSocketRequest() || httpContext.Response.HasStarted) return;
 
+        var cultureInfo = new RequestCulture(culture);
+
+        // 修复 DateTime 问题
+        Penetrates.FixedCultureDateTimeFormat(cultureInfo, App.GetOptions<LocalizationSettingsOptions>()?.DateTimeFormatCulture);
+
         httpContext.Response.Cookies.Append(
             CookieRequestCultureProvider.DefaultCookieName,
-            CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(culture)),
+            CookieRequestCultureProvider.MakeCookieValue(cultureInfo),
             new CookieOptions { Expires = DateTimeOffset.UtcNow.AddYears(1) }
         );
     }
@@ -108,6 +113,10 @@ public static class L
         // https://learn.microsoft.com/zh-cn/dotnet/api/system.globalization.cultureinfo.currentuiculture?view=net-6.0
         // 修改线程当前的 UI 区域性
         CultureInfo.CurrentUICulture = new CultureInfo(culture);
+
+        // 修复 DateTime 问题
+        Penetrates.FixedCultureDateTimeFormat(CultureInfo.CurrentUICulture
+            , App.GetOptions<LocalizationSettingsOptions>()?.DateTimeFormatCulture);
     }
 
     /// <summary>

@@ -49,6 +49,12 @@ public sealed class LocalizationSettingsOptions : IConfigurableOptions<Localizat
     public string AssemblyName { get; set; }
 
     /// <summary>
+    /// 设置 DateTime 格式化标准语言
+    /// </summary>
+    /// <remarks>不设置则自动根据当前语言</remarks>
+    public string DateTimeFormatCulture { get; set; }
+
+    /// <summary>
     /// 选项后期配置
     /// </summary>
     /// <param name="options"></param>
@@ -60,5 +66,6 @@ public sealed class LocalizationSettingsOptions : IConfigurableOptions<Localizat
         DefaultCulture ??= string.Empty;
         LanguageFilePrefix ??= "Lang";
         AssemblyName ??= Reflect.GetAssemblyName(Reflect.GetEntryAssembly());
+        DateTimeFormatCulture ??= string.Empty;
     }
 }
