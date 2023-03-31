@@ -1,4 +1,5 @@
 ﻿using Furion.Xunit;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using Xunit;
 using Xunit.Abstractions;
@@ -11,6 +12,9 @@ public class Startup : TestStartup
 {
     public Startup(IMessageSink messageSink) : base(messageSink)
     {
-        Serve.Run(silence: true);
+        Serve.RunNative(services =>
+        {
+            services.AddRemoteRequest();
+        });
     }
 }

@@ -152,14 +152,14 @@ public class TestProgram : TestStartup
     public TestProgram(IMessageSink messageSink) : base(messageSink)
     {
         // 初始化 Furion
-        Serve.Run(silence: true);
+        Serve.RunNative();
     }
 }
 ```
 
 :::tip 小提示
 
-`TestProgram.cs` 名称可随意，只需要继承 `TestStartup` 类即可。
+`TestProgram.cs` 名称可随意，只需要继承 `TestStartup` 类即可。**但类型必须是 `public` 公开的**。
 
 :::
 
@@ -167,7 +167,19 @@ public class TestProgram : TestStartup
 
 `Furion` 是跨平台、跨项目的开发框架，下面在单元测试中演示 `远程请求` 并请求 `https://www.baidu.com` 数据，并测试是否请求成功。
 
-- 在根目录下添加 `Startup.cs` 启动类，并继承 `AppStartup`:
+`Furion` 提供了以下两种方式注册服务：
+
+- `Serve.RunNative` 方式（**推荐**）
+
+```cs showLineNumbers {1,4}
+Serve.RunNative(services =>
+{
+    // 注册远程服务
+    services.AddRemoteRequest();
+});
+```
+
+- `Startup.cs` 方式
 
 ```cs showLineNumbers {8,13} title="Startup.cs"
 using Furion;

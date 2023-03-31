@@ -95,7 +95,7 @@ function Banner() {
               to={useBaseUrl("docs/category/getstart")}
             >
               入门指南
-              <span className="furion-version">v4.8.7.29</span>
+              <span className="furion-version">v4.8.7.30</span>
             </Link>
             <Link
               className="furion-try-demo"
@@ -195,7 +195,7 @@ function Gitee() {
             className={"furion-log-jiao" + (isDarkTheme ? " dark" : "")}
           ></div>
           <div className="furion-log-number">
-            <div style={{ color: "#1fd898" }}>7,302,907</div>
+            <div style={{ color: "#1fd898" }}>7,306,112</div>
             <span className={isDarkTheme ? " dark" : ""}>Downloads</span>
           </div>
         </div>
