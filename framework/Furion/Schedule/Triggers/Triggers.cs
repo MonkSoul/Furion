@@ -79,7 +79,7 @@ public static class Triggers
     /// <param name="schedule">Cron 表达式</param>
     /// <param name="args">动态参数类型，支持 <see cref="int"/> 和 object[]</param>
     /// <returns><see cref="TriggerBuilder"/></returns>
-    internal static TriggerBuilder Cron(string schedule, object args)
+    public static TriggerBuilder Cron(string schedule, object args)
     {
         return TriggerBuilder.Cron(schedule, args);
     }
@@ -118,7 +118,7 @@ public static class Triggers
     }
 
     /// <summary>
-    /// 创建新的作业触发器构建器
+    /// 创建作业触发器构建器
     /// </summary>
     /// <param name="assemblyName">作业触发器类型所在程序集 Name</param>
     /// <param name="triggerTypeFullName">作业触发器类型 FullName</param>
@@ -129,7 +129,7 @@ public static class Triggers
     }
 
     /// <summary>
-    /// 创建新的作业触发器构建器
+    /// 创建作业触发器构建器
     /// </summary>
     /// <param name="assemblyName">作业触发器类型所在程序集 Name</param>
     /// <param name="triggerTypeFullName">作业触发器类型 FullName</param>
@@ -141,7 +141,7 @@ public static class Triggers
     }
 
     /// <summary>
-    /// 创建新的作业触发器构建器
+    /// 创建作业触发器构建器
     /// </summary>
     /// <param name="triggerType"><see cref="Trigger"/> 派生类</param>
     /// <returns><see cref="TriggerBuilder"/></returns>
@@ -151,7 +151,7 @@ public static class Triggers
     }
 
     /// <summary>
-    /// 创建新的作业触发器构建器
+    /// 创建作业触发器构建器
     /// </summary>
     /// <param name="triggerType"><see cref="Trigger"/> 派生类</param>
     /// <param name="args">作业触发器参数</param>
