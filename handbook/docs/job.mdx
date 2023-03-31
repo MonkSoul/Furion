@@ -13,6 +13,7 @@ import Tag from "@site/src/components/Tag.js";
 
 - **新特性**
 
+  - &nbsp;<Tag>新增</Tag> **定时任务一系列 `.AlterTo` 修改作业触发器触发事件便捷方法** <sup>4.8.7.31</sup> <sup>⏱️2023.03.31</sup> [0349017](https://gitee.com/dotnetchina/Furion/commit/0349017902835bed91041fb3ea1ee987b0a81bbb)
   - &nbsp;<Tag>新增</Tag> 定时任务看板 `UI` 作业列表 `最近执行时间` 列和优化显示效果 <sup>4.8.7.12</sup> <sup>⏱️2023.03.15</sup> [26462a8](https://gitee.com/dotnetchina/Furion/commit/26462a84e553e39ce4cddd5128833ff732c85f3e) [cb5dd17](https://gitee.com/dotnetchina/Furion/commit/cb5dd17969244987b847fcd96825d28b243a5b9f)
   - &nbsp;<Tag>新增</Tag> 定时任务作业计划/工厂立即执行 `RunJob` 方法 <sup>4.8.7.11</sup> <sup>⏱️2023.03.15</sup> [#I6LD9X](https://gitee.com/dotnetchina/Furion/issues/I6LD9X)
   - &nbsp;<Tag>新增</Tag> 定时任务看板 `UI` 提供立即执行功能 <sup>4.8.7.11</sup> <sup>⏱️2023.03.15</sup> [#I6LD9X](https://gitee.com/dotnetchina/Furion/issues/I6LD9X)
@@ -3192,6 +3193,104 @@ var timelines = trigger.GetTimelines();   // => [{numberOfRuns: 2, lastRunTime: 
   - `Status`：作业触发器状态，`TriggerStatus` 枚举类型
   - `Result`：本次执行结果，`string` 类型
   - `ElapsedTime`：本次执行耗时，`long` 类型，单位 `ms`
+
+### 26.1.5.12 更改作业触发器触发时间
+
+:::important 版本说明
+
+以下内容仅限 `Furion 4.8.7.31 +` 版本使用。
+
+:::
+
+如果需要更改作业触发器触发时间通常需要程序员自行组合 `.SetTriggerType<TTrigger>()` 和 `.SetArgs(args)`，但在实际开发中代码非常不直观，所以提供了一些列的 `.AlterTo` 方法，如：
+
+```cs showLineNumbers {1,11,31,76}
+// 间隔 Period 方式
+// 设置毫秒周期（间隔）作业触发器
+triggerBuilder.AlterToPeriod(5000);
+// 设置秒周期（间隔）作业触发器
+triggerBuilder.AlterToPeriodSeconds(5);
+// 设置分钟周期（间隔）作业触发器
+triggerBuilder.AlterToPeriodMinutes(5);
+// 设置小时周期（间隔）作业触发器
+triggerBuilder.AlterToPeriodHours(5);
+
+// Cron 表达式方式
+// 设置 Cron 表达式作业触发器
+triggerBuilder.AlterToCron("* * * * *", CronStringFormat.Default);
+// 设置每秒开始作业触发器
+triggerBuilder.AlterToSecondly();
+// 设置每分钟开始作业触发器
+triggerBuilder.AlterToMinutely();
+// 设置每小时开始作业触发器
+triggerBuilder.AlterToHourly();
+// 设置每天（午夜）开始作业触发器
+triggerBuilder.AlterToDaily();
+// 设置每月1号（午夜）开始作业触发器
+triggerBuilder.AlterToMonthly();
+// 设置每周日（午夜）开始作业触发器
+triggerBuilder.AlterToWeekly();
+// 设置每年1月1号（午夜）开始作业触发器
+triggerBuilder.AlterToYearly();
+// 设置每周一至周五（午夜）开始作业触发器
+triggerBuilder.AlterToWorkday();
+
+// Cron 表达式 Macro At 方式
+// 每第 3 秒
+triggerBuilder.AlterToSecondlyAt(3);
+// 每第 3，5，6 秒
+triggerBuilder.AlterToSecondlyAt(3, 5, 6);
+
+// 每分钟第 3 秒
+triggerBuilder.AlterToMinutelyAt(3);
+// 每分钟第 3，5，6 秒
+triggerBuilder.AlterToMinutelyAt(3, 5, 6);
+
+// 每小时第 3 分钟
+triggerBuilder.AlterToHourlyAt(3);
+// 每小时第 3，5，6 分钟
+triggerBuilder.AlterToHourlyAt(3, 5, 6);
+
+// 每天第 3 小时正（点）
+triggerBuilder.AlterToDailyAt(3);
+// 每天第 3，5，6 小时正（点）
+triggerBuilder.AlterToDailyAt(3, 5, 6);
+
+// 每月第 3 天零点正
+triggerBuilder.AlterToMonthlyAt(3);
+// 每月第 3，5，6 天零点正
+triggerBuilder.AlterToMonthlyAt(3, 5, 6);
+
+// 每周星期 3 零点正
+triggerBuilder.AlterToWeeklyAt(3);
+triggerBuilder.AlterToWeeklyAt("WED");  // SUN（星期天），MON，TUE，WED，THU，FRI，SAT
+// 每周星期 3，5，6 零点正
+triggerBuilder.AlterToWeeklyAt(3, 5, 6);
+triggerBuilder.AlterToWeeklyAt("WED", "FRI", "SAT");
+// 还支持混合
+triggerBuilder.AlterToWeeklyAt(3, "FRI", 6);
+
+// 每年第 3 月 1 日零点正
+triggerBuilder.AlterToYearlyAt(3);
+triggerBuilder.AlterToYearlyAt("MAR");  // JAN（一月），FEB，MAR，APR，MAY，JUN，JUL，AUG，SEP，OCT，NOV，DEC
+// 每年第 3，5，6 月 1 日零点正
+triggerBuilder.AlterToYearlyAt(3);
+triggerBuilder.AlterToYearlyAt(3, 5, 6);
+triggerBuilder.AlterToYearlyAt("MAR", "MAY", "JUN");
+// 还支持混合
+triggerBuilder.AlterToYearlyAt(3, "MAY", 6);
+
+// 设置自定义作业触发器
+// 泛型方式
+trigger.AlterTo<CustomTrigger>();
+trigger.AlterTo<CustomTrigger>(30);
+// 程序集方式
+trigger.AlterTo("YourAssembly", "YourAssembly.CustomTrigger");
+trigger.AlterTo("YourAssembly", "YourAssembly.CustomTrigger", 30);
+//类型方式
+trigger.AlterTo(typeof(CustomTrigger));
+trigger.AlterTo(typeof(CustomTrigger), 30);
+```
 
 ## 26.1.6 作业计划 `Scheduler` 及构建器
 
