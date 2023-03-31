@@ -1,4 +1,6 @@
+using Furion.RemoteRequest.Extensions;
 using Microsoft.Extensions.Configuration;
+using System.Threading.Tasks;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -54,5 +56,12 @@ public class SampleTests
     private static bool IsOdd(int value)
     {
         return value % 2 == 1;
+    }
+
+    [Fact]
+    public async Task TestBaidu()
+    {
+        var res = await "https://www.baidu.com".GetAsync();
+        Assert.True(res.IsSuccessStatusCode);
     }
 }
