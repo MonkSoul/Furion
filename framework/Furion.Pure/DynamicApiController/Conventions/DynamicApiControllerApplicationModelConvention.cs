@@ -623,8 +623,8 @@ internal sealed class DynamicApiControllerApplicationModelConvention : IApplicat
             tempName = name;
             apiVersion ??= version;
 
-            // 清除指定前后缀
-            tempName = tempName.ClearStringAffixes(affixes: affixes);
+            // 清除指定(前)后缀，只处理后缀，解决 ServiceService 的情况
+            tempName = tempName.ClearStringAffixes(1, affixes: affixes);
 
             isKeepName = CheckIsKeepName(controllerApiDescriptionSettings == null ? null : apiDescriptionSettings, controllerApiDescriptionSettings ?? apiDescriptionSettings);
 
