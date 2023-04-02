@@ -169,6 +169,26 @@ public IActionResult FileDownload()
 }
 ```
 
+- `stream` 方式
+
+```cs showLineNumbers {1,4,7-9,11}
+[HttpGet, NonUnify]
+public async Task<IActionResult> FileDownload()
+{
+    var (stream, _) = await "https://furion.baiqian.ltd/img/rm1.png".GetAsStreamAsync();
+
+    // 将 stream 转 byte[]
+    byte[] bytes = new byte[stream.Length];
+    await stream.ReadAsync(bytes);
+    stream.Seek(0, SeekOrigin.Begin);
+
+    return new FileContentResult(bytes, "application/octet-stream")
+    {
+        FileDownloadName = fileName // 配置文件下载显示名
+    };
+}
+```
+
 :::note 关于前端获取文件名
 
 如果前端获取不到文件，可添加以下配置：

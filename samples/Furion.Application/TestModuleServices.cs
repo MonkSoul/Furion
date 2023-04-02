@@ -248,4 +248,9 @@ public class TestModuleServices : IDynamicApiController
 
         var d = true == a && a == b && a == c;
     }
+
+    public async Task 测试远程请求下载文件()
+    {
+        await "https://furion.baiqian.ltd/img/rm1.png".GetToSaveAsync("D:/rm3.png");
+    }
 }

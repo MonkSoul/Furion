@@ -331,6 +331,18 @@ public static class RemoteRequestStringExtensions
     }
 
     /// <summary>
+    /// 发送 GET 请求并将 Stream 保存到本地磁盘
+    /// </summary>
+    /// <param name="requestUrl"></param>
+    /// <param name="path"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public static Task GetToSaveAsync(this string requestUrl, string path, CancellationToken cancellationToken = default)
+    {
+        return HttpRequestPart.Default().SetRequestUrl(requestUrl).GetToSaveAsync(path, cancellationToken);
+    }
+
+    /// <summary>
     /// 发送 GET 请求返回 String
     /// </summary>
     /// <param name="requestUrl"></param>
@@ -384,6 +396,18 @@ public static class RemoteRequestStringExtensions
     public static Task<(Stream Stream, Encoding Encoding)> PostAsStreamAsync(this string requestUrl, CancellationToken cancellationToken = default)
     {
         return HttpRequestPart.Default().SetRequestUrl(requestUrl).PostAsStreamAsync(cancellationToken);
+    }
+
+    /// <summary>
+    /// 发送 POST 请求并将 Stream 保存到本地磁盘
+    /// </summary>
+    /// <param name="requestUrl"></param>
+    /// <param name="path"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public static Task PostToSaveAsync(this string requestUrl, string path, CancellationToken cancellationToken = default)
+    {
+        return HttpRequestPart.Default().SetRequestUrl(requestUrl).PostToSaveAsync(path, cancellationToken);
     }
 
     /// <summary>
@@ -443,6 +467,18 @@ public static class RemoteRequestStringExtensions
     }
 
     /// <summary>
+    /// 发送 PUT 请求并将 Stream 保存到本地磁盘
+    /// </summary>
+    /// <param name="requestUrl"></param>
+    /// <param name="path"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public static Task PutToSaveAsync(this string requestUrl, string path, CancellationToken cancellationToken = default)
+    {
+        return HttpRequestPart.Default().SetRequestUrl(requestUrl).PutToSaveAsync(path, cancellationToken);
+    }
+
+    /// <summary>
     /// 发送 PUT 请求返回 String
     /// </summary>
     /// <param name="requestUrl"></param>
@@ -496,6 +532,18 @@ public static class RemoteRequestStringExtensions
     public static Task<(Stream Stream, Encoding Encoding)> DeleteAsStreamAsync(this string requestUrl, CancellationToken cancellationToken = default)
     {
         return HttpRequestPart.Default().SetRequestUrl(requestUrl).DeleteAsStreamAsync(cancellationToken);
+    }
+
+    /// <summary>
+    /// 发送 DELETE 请求并将 Stream 保存到本地磁盘
+    /// </summary>
+    /// <param name="requestUrl"></param>
+    /// <param name="path"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public static Task DeleteToSaveAsync(this string requestUrl, string path, CancellationToken cancellationToken = default)
+    {
+        return HttpRequestPart.Default().SetRequestUrl(requestUrl).DeleteToSaveAsync(path, cancellationToken);
     }
 
     /// <summary>
@@ -555,6 +603,18 @@ public static class RemoteRequestStringExtensions
     }
 
     /// <summary>
+    /// 发送 PATCH 请求并将 Stream 保存到本地磁盘
+    /// </summary>
+    /// <param name="requestUrl"></param>
+    /// <param name="path"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public static Task PatchToSaveAsync(this string requestUrl, string path, CancellationToken cancellationToken = default)
+    {
+        return HttpRequestPart.Default().SetRequestUrl(requestUrl).PatchToSaveAsync(path, cancellationToken);
+    }
+
+    /// <summary>
     /// 发送 PATCH 请求返回 String
     /// </summary>
     /// <param name="requestUrl"></param>
@@ -608,6 +668,18 @@ public static class RemoteRequestStringExtensions
     public static Task<(Stream Stream, Encoding Encoding)> HeadAsStreamAsync(this string requestUrl, CancellationToken cancellationToken = default)
     {
         return HttpRequestPart.Default().SetRequestUrl(requestUrl).HeadAsStreamAsync(cancellationToken);
+    }
+
+    /// <summary>
+    /// 发送 HEAD 请求并将 Stream 保存到本地磁盘
+    /// </summary>
+    /// <param name="requestUrl"></param>
+    /// <param name="path"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public static Task HeadToSaveAsync(this string requestUrl, string path, CancellationToken cancellationToken = default)
+    {
+        return HttpRequestPart.Default().SetRequestUrl(requestUrl).HeadToSaveAsync(path, cancellationToken);
     }
 
     /// <summary>
