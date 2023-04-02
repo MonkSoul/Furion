@@ -1348,6 +1348,38 @@ ke.global.setAllHeader(
 
 <img src={useBaseUrl("img/kni.jpg")} />
 
+### 6.5.40 添加 `Swagger` 请求响应拦截
+
+有时候我们希望在 `Swagger` 请求之前进行拦截，比如修改 `Url` 参数，添加额外请求头等，又或者想在响应之后打印返回值到控制台或进行其他操作。这时候可以通过以下方式处理，如：
+
+```cs showLineNumbers {1,3,6,8}
+app.UseInject(options =>
+{
+    options.ConfigureSwaggerUI(ui =>
+    {
+        // 请求拦截
+        ui.UseRequestInterceptor("function(request) { return defaultRequestInterceptor(request); }");
+        // 响应拦截
+        ui.UseResponseInterceptor("function(response) { return defaultResponseInterceptor(response); }");
+    });
+});
+```
+
+注意，`UseRequestInterceptor` 和 `UseResponseInterceptor` 代码不能换行且须在 `defaultRequestInterceptor(request)` 和 `defaultResponseInterceptor(response)` 之前编写自定义代码，否则会报错。
+
+下面给出请求添加自定义 `header` 示例：
+
+```cs showLineNumbers {6}
+app.UseInject(options =>
+{
+    options.ConfigureSwaggerUI(ui =>
+    {
+        // 添加请求头 framework: Furion
+        ui.UseRequestInterceptor("function(request) { request.headers['framework']='Furion'; return defaultRequestInterceptor(request); }");
+    });
+});
+```
+
 ## 6.6 `SpecificationDocumentSettings` 配置
 
 除了上述例子外，`Furion` 提供了一些配置选项，如：

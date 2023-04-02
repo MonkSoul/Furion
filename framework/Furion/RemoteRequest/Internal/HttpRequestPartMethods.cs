@@ -14,6 +14,7 @@
 
 using Furion.ClayObject.Extensions;
 using Furion.DataValidation;
+using Furion.Extensions;
 using Furion.FriendlyException;
 using Furion.JsonSerialization;
 using Furion.Templates.Extensions;
@@ -59,6 +60,17 @@ public sealed partial class HttpRequestPart
     public Task<(Stream Stream, Encoding Encoding)> GetAsStreamAsync(CancellationToken cancellationToken = default)
     {
         return SetHttpMethod(HttpMethod.Get).SendAsStreamAsync(cancellationToken);
+    }
+
+    /// <summary>
+    /// 发送 GET 请求并将 Stream 保存到本地磁盘
+    /// </summary>
+    /// <param name="path"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task GetToSaveAsync(string path, CancellationToken cancellationToken = default)
+    {
+        return SetHttpMethod(HttpMethod.Get).SendToSaveAsync(path, cancellationToken);
     }
 
     /// <summary>
@@ -113,6 +125,17 @@ public sealed partial class HttpRequestPart
     }
 
     /// <summary>
+    /// 发送 POST 请求并将 Stream 保存到本地磁盘
+    /// </summary>
+    /// <param name="path"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task PostToSaveAsync(string path, CancellationToken cancellationToken = default)
+    {
+        return SetHttpMethod(HttpMethod.Post).SendToSaveAsync(path, cancellationToken);
+    }
+
+    /// <summary>
     /// 发送 POST 请求返回 String
     /// </summary>
     /// <param name="cancellationToken"></param>
@@ -161,6 +184,17 @@ public sealed partial class HttpRequestPart
     public Task<(Stream Stream, Encoding Encoding)> PutAsStreamAsync(CancellationToken cancellationToken = default)
     {
         return SetHttpMethod(HttpMethod.Put).SendAsStreamAsync(cancellationToken);
+    }
+
+    /// <summary>
+    /// 发送 PUT 请求并将 Stream 保存到本地磁盘
+    /// </summary>
+    /// <param name="path"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task PutToSaveAsync(string path, CancellationToken cancellationToken = default)
+    {
+        return SetHttpMethod(HttpMethod.Put).SendToSaveAsync(path, cancellationToken);
     }
 
     /// <summary>
@@ -215,6 +249,17 @@ public sealed partial class HttpRequestPart
     }
 
     /// <summary>
+    /// 发送 DELETE 请求并将 Stream 保存到本地磁盘
+    /// </summary>
+    /// <param name="path"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task DeleteToSaveAsync(string path, CancellationToken cancellationToken = default)
+    {
+        return SetHttpMethod(HttpMethod.Delete).SendToSaveAsync(path, cancellationToken);
+    }
+
+    /// <summary>
     /// 发送 DELETE 请求返回 String
     /// </summary>
     /// <param name="cancellationToken"></param>
@@ -266,6 +311,17 @@ public sealed partial class HttpRequestPart
     }
 
     /// <summary>
+    /// 发送 PATCH 请求并将 Stream 保存到本地磁盘
+    /// </summary>
+    /// <param name="path"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task PatchToSaveAsync(string path, CancellationToken cancellationToken = default)
+    {
+        return SetHttpMethod(HttpMethod.Patch).SendToSaveAsync(path, cancellationToken);
+    }
+
+    /// <summary>
     /// 发送 Patch 请求返回 String
     /// </summary>
     /// <param name="cancellationToken"></param>
@@ -314,6 +370,17 @@ public sealed partial class HttpRequestPart
     public Task<(Stream Stream, Encoding Encoding)> HeadAsStreamAsync(CancellationToken cancellationToken = default)
     {
         return SetHttpMethod(HttpMethod.Head).SendAsStreamAsync(cancellationToken);
+    }
+
+    /// <summary>
+    /// 发送 HEAD 请求并将 Stream 保存到本地磁盘
+    /// </summary>
+    /// <param name="path"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task HeadToSaveAsync(string path, CancellationToken cancellationToken = default)
+    {
+        return SetHttpMethod(HttpMethod.Head).SendToSaveAsync(path, cancellationToken);
     }
 
     /// <summary>
@@ -419,6 +486,18 @@ public sealed partial class HttpRequestPart
         stream.Position = 0;
 
         return (stream, encoding);
+    }
+
+    /// <summary>
+    /// 发送请求并将流保存到本地磁盘
+    /// </summary>
+    /// <param name="path"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public async Task SendToSaveAsync(string path, CancellationToken cancellationToken = default)
+    {
+        var (stream, _) = await SendAsStreamAsync(cancellationToken);
+        await stream.CopyToSaveAsync(path);
     }
 
     /// <summary>

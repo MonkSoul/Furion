@@ -615,8 +615,8 @@ public static class SpecificationDocumentBuilder
     private static void AddDefaultInterceptor(SwaggerUIOptions swaggerUIOptions)
     {
         // 配置多语言和自动登录token
-        swaggerUIOptions.UseRequestInterceptor("(request) => { return defaultRequestInterceptor(request); }");
-        swaggerUIOptions.UseResponseInterceptor("(response) => { return defaultResponseInterceptor(response); }");
+        swaggerUIOptions.UseRequestInterceptor("function(request) { return defaultRequestInterceptor(request); }");
+        swaggerUIOptions.UseResponseInterceptor("function(response) { return defaultResponseInterceptor(response); }");
     }
 
     /// <summary>

@@ -45,6 +45,7 @@ import Tag from "@site/src/components/Tag.js";
 
 - **新特性**
 
+  - &nbsp;<Tag>新增</Tag> 远程请求 `[HttpMethod]ToSaveAsync` 下载远程文件并保存到磁盘方法 <sup>4.8.7.32</sup> <sup>⏱️2023.04.02</sup> [bfd02c1](https://gitee.com/dotnetchina/Furion/commit/bfd02c1a2ce4229e90fc825fe5657ada59e1892f)
   - &nbsp;<Tag>新增</Tag> **定时任务一系列 `.AlterTo` 修改作业触发器触发事件便捷方法** <sup>4.8.7.31</sup> <sup>⏱️2023.03.31</sup> [0349017](https://gitee.com/dotnetchina/Furion/commit/0349017902835bed91041fb3ea1ee987b0a81bbb)
   - &nbsp;<Tag>新增</Tag> 多语言支持 `DateTime` 时间格式化配置节点 `DateTimeFormatCulture` <sup>4.8.7.31</sup> <sup>⏱️2023.03.31</sup> [#I6RUOU](https://gitee.com/dotnetchina/Furion/issues/I6RUOU)
   - &nbsp;<Tag>新增</Tag> `Serve.IdleHost` 静态属性，可获取一个随机空闲 `Web` 主机地址（端口） <sup>4.8.7.29</sup> <sup>⏱️2023.03.30</sup> [e425063](https://gitee.com/dotnetchina/Furion/commit/e4250634246af612f052ec935416ee050b44d22e)
@@ -239,6 +240,7 @@ options.AddJob((context, stoppingToken) =>
 
 - **问题修复**
 
+  - &nbsp;<Tag>修复</Tag> 动态 `WebAPI` 去除叠词类型命名如 `ServiceService` 前后缀异常问题 <sup>4.8.7.32</sup> <sup>⏱️2023.04.02</sup> [#I6SB3Z](https://gitee.com/dotnetchina/Furion/issues/I6SB3Z)
   - &nbsp;<Tag>修复</Tag> 因 `4.8.7.22` 版本导致动态 `WebAPI` 类型注释丢失问题 <sup>4.8.7.27</sup> <sup>⏱️2023.03.29</sup> [#I6QM23](https://gitee.com/dotnetchina/Furion/issues/I6QM23)
   - &nbsp;<Tag>修复</Tag> 粘土对象遍历对象键值对因 `4.8.7.19` 版本更新导致异常 <sup>4.8.7.25</sup> <sup>⏱️2023.03.28</sup> [#I6R4ZU](https://gitee.com/dotnetchina/Furion/issues/I6R4ZU)
   - &nbsp;<Tag>修复</Tag> `Swagger UI` 不显示 `ControllerBase` 派生类注释 <sup>4.8.7.22</sup> <sup>⏱️2023.03.27</sup> [#I6QM23](https://gitee.com/dotnetchina/Furion/issues/I6QM23)
