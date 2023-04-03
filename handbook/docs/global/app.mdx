@@ -13,6 +13,7 @@ import Tag from "@site/src/components/Tag.js";
 
 - **新特性**
 
+  - &nbsp;<Tag>新增</Tag> `App.GetServices(type)` 和 `App.GetServices<T>()` 获取服务实例集合 <sup>4.8.7.33</sup> <sup>⏱️2023.04.03</sup>
   - &nbsp;<Tag>新增</Tag> `App.GetServiceLifetime(type)` 获取服务注册生命周期类型 <sup>4.8.5.3</sup> <sup>⏱️2023.01.31</sup> [4a573a8](https://gitee.com/dotnetchina/Furion/commit/4a573a8934784b1d7e11f7d1fa3cfa65b5ec2b3a)
   - &nbsp;<Tag>新增</Tag> **`App.GetThreadId()` 和 `App.GetTraceId()` 获取线程 `Id` 和请求 `TraceId`** <sup>4.8.2.4</sup> <sup>⏱️2022.11.29</sup> [910fc1f](https://gitee.com/dotnetchina/Furion/commit/910fc1fbad9e40245c5694f30457cd4d2ca0d630)
   - &nbsp;<Tag>新增</Tag> **`App.GetExecutionTime(() => { /*Your Code*/ })` 获取代码执行耗时** <sup>4.8.2.4</sup> <sup>⏱️2022.11.29</sup> [5ab4b19](https://gitee.com/dotnetchina/Furion/commit/5ab4b19786e53d8934de08fd2f5430fc66c3b9a1)
@@ -93,6 +94,10 @@ var service2 = App.GetService(typeof(TService), [IServiceProvider]);
 
 var service3 = App.GetRequiredService<TService>([IServiceProvider]);
 var service4 = App.GetRequiredService(typeof(TService), [IServiceProvider]);
+
+// Furion 4.8.7.33+ 支持
+var services = App.GetServices<TService>([IServiceProvider]);
+var services = App.GetServices(typeof(TService), [IServiceProvider]);
 ```
 
 ## 1.10 获取选项配置
