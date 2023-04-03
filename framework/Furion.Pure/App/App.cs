@@ -155,6 +155,29 @@ public static class App
     }
 
     /// <summary>
+    /// 获取请求生存周期的服务集合
+    /// </summary>
+    /// <typeparam name="TService"></typeparam>
+    /// <param name="serviceProvider"></param>
+    /// <returns></returns>
+    public static IEnumerable<TService> GetServices<TService>(IServiceProvider serviceProvider = default)
+        where TService : class
+    {
+        return (serviceProvider ?? GetServiceProvider(typeof(TService))).GetServices<TService>();
+    }
+
+    /// <summary>
+    /// 获取请求生存周期的服务集合
+    /// </summary>
+    /// <param name="type"></param>
+    /// <param name="serviceProvider"></param>
+    /// <returns></returns>
+    public static IEnumerable<object> GetServices(Type type, IServiceProvider serviceProvider = default)
+    {
+        return (serviceProvider ?? GetServiceProvider(type)).GetServices(type);
+    }
+
+    /// <summary>
     /// 获取请求生存周期的服务
     /// </summary>
     /// <typeparam name="TService"></typeparam>

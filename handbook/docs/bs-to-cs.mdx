@@ -254,7 +254,7 @@ dotnet add package Microsoft.Web.WebView2
 
 - `WinForm`
 
-```cs showLineNumbers {8,11,13-14,17-20}
+```cs showLineNumbers {8,12-13}
 using Microsoft.AspNetCore.Hosting.Server;
 using Microsoft.Extensions.Hosting;
 
@@ -265,15 +265,9 @@ public partial class Form1 : Form
     public Form1(IServer server)	// 注入 IServer 服务，获取 Web 启动地址/端口
     {
         InitializeComponent();
-        Resize += Form1_Resize;
 
-        webview.Size = this.ClientSize;
+        webview.Dock = DockStyle.Fill;
         webview.Source = new Uri(server.GetServerAddress());
-    }
-
-    private void Form1_Resize(object? sender, EventArgs e)
-    {
-        webview.Size = this.ClientSize;
     }
 }
 ```
@@ -359,9 +353,14 @@ public class SingleFilePublish : ISingleFilePublish
 相关技术文档：
 
 - [Furion 示例代码](https://gitee.com/dotnetchina/Furion/tree/v4/samples)
-- [https://blog.csdn.net/xfy18317776108/article/details/122343091](https://blog.csdn.net/xfy18317776108/article/details/122343091)
 
-## 34.7.5 反馈与建议
+## 34.7.5 打包成 `exe` 或 `msi`
+
+可参考以下文档：
+
+[https://blog.csdn.net/xfy18317776108/article/details/122343091](https://blog.csdn.net/xfy18317776108/article/details/122343091)
+
+## 34.7.6 反馈与建议
 
 :::note 与我们交流
 
