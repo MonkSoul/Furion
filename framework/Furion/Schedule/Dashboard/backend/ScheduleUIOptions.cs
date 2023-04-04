@@ -24,7 +24,7 @@ public sealed class ScheduleUIOptions
     /// UI 入口地址
     /// </summary>
     /// <remarks>需以 / 开头，结尾不包含 / </remarks>
-    public string RequestPath { get; set; } = ScheduleUIMiddleware.REQUEST_PATH;
+    public string RequestPath { get; set; } = "/schedule";
 
     /// <summary>
     /// 启用目录浏览
