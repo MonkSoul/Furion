@@ -70,6 +70,8 @@ public sealed class ScheduleUIMiddleware
     /// <returns><see cref="Task"/></returns>
     public async Task InvokeAsync(HttpContext context)
     {
+        // ================================ 处理静态文件请求 ================================
+
         // 加载静态资源
         if (context.Request.Path.StartsWithSegments(STATIC_FILES_PATH))
         {
