@@ -12,7 +12,9 @@
 // 在任何情况下，作者或版权持有人都不对任何索赔、损害或其他责任负责，无论这些追责来自合同、侵权或其它行为中，
 // 还是产生于、源于或有关于本软件以及本软件的使用或其它处置。
 
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
+using System.Text;
 using System.Text.Json;
 
 namespace Furion.Schedule;
@@ -23,12 +25,7 @@ namespace Furion.Schedule;
 [SuppressSniffer]
 public sealed class ScheduleUIMiddleware
 {
-    /// <summary>
-    /// 固定请求路径
-    /// </summary>
-    internal const string REQUEST_PATH = "/schedule";
-
-    private const string API_REQUEST_PATH = $"{REQUEST_PATH}/api";
+    private const string STATIC_FILES_PATH = "/__schedule__";
 
     /// <summary>
     /// 请求委托
@@ -45,12 +42,26 @@ public sealed class ScheduleUIMiddleware
     /// </summary>
     /// <param name="next">请求委托</param>
     /// <param name="schedulerFactory">作业计划工厂</param>
+    /// <param name="requestPath"></param>
     public ScheduleUIMiddleware(RequestDelegate next
-        , ISchedulerFactory schedulerFactory)
+        , ISchedulerFactory schedulerFactory
+        , string requestPath)
     {
         _next = next;
         _schedulerFactory = schedulerFactory;
+        RequestPath = requestPath;
+        ApiRequestPath = $"{requestPath}/api";
     }
+
+    /// <summary>
+    /// UI 入口地址
+    /// </summary>
+    public string RequestPath { get; }
+
+    /// <summary>
+    /// API 入口地址
+    /// </summary>
+    public string ApiRequestPath { get; }
 
     /// <summary>
     /// 中间件执行方法
@@ -59,8 +70,58 @@ public sealed class ScheduleUIMiddleware
     /// <returns><see cref="Task"/></returns>
     public async Task InvokeAsync(HttpContext context)
     {
+        // ================================ 处理静态文件请求 ================================
+
+        // 加载静态资源
+        if (context.Request.Path.StartsWithSegments(STATIC_FILES_PATH))
+        {
+            var targetPath = context.Request.Path.Value?[STATIC_FILES_PATH.Length..].Replace("/", ".");
+
+            // 获取当前类型所在程序集和对应嵌入式文件路径
+            var currentAssembly = typeof(ScheduleUIExtensions).Assembly;
+            var fileName = $"{currentAssembly.GetName().Name}.Schedule.Dashboard.frontend{targetPath}";
+
+            // 获取静态资源 content-type
+            var contentType = string.Empty;
+            if (fileName.EndsWith(".css")) contentType = "text/css";
+            else if (fileName.EndsWith(".js")) contentType = "text/javascript";
+            else if (fileName.EndsWith(".json")) contentType = "application/json";
+            else if (fileName.EndsWith(".ico")) contentType = "image/vnd.microsoft.icon";
+            else { }
+
+            // 解析嵌入式文件流
+            byte[] buffer;
+            using (var readStream = currentAssembly.GetManifestResourceStream(fileName))
+            {
+                buffer = new byte[readStream.Length];
+                readStream.Read(buffer, 0, buffer.Length);
+            }
+
+            // 处理非配置文件
+            if (!fileName.EndsWith("apiconfig.js"))
+            {
+                context.Response.ContentType = $"{contentType}; charset=utf-8";
+                await context.Response.Body.WriteAsync(buffer);
+                return;
+            }
+
+            // 处理配置文件
+            string content;
+            using (var stream = new MemoryStream(buffer))
+            {
+                using var streamReader = new StreamReader(stream, new UTF8Encoding(false));
+                content = streamReader.ReadToEnd();
+            }
+
+            context.Response.ContentType = $"{contentType}; charset=utf-8";
+            await context.Response.WriteAsync(content.Replace("%(RequestPath)", RequestPath));
+            return;
+        }
+
+        // ================================ 处理 API 请求 ================================
+
         // 如果不是以 API_REQUEST_PATH 开头，则跳过
-        if (!context.Request.Path.StartsWithSegments(API_REQUEST_PATH))
+        if (!context.Request.Path.StartsWithSegments(ApiRequestPath))
         {
             await _next(context);
             return;
@@ -74,7 +135,7 @@ public sealed class ScheduleUIMiddleware
         }
 
         // 获取匹配的路由标识
-        var action = context.Request.Path.Value?[API_REQUEST_PATH.Length..]?.ToLower();
+        var action = context.Request.Path.Value?[ApiRequestPath.Length..]?.ToLower();
 
         // 允许跨域，设置返回 json
         context.Response.ContentType = "application/json; charset=utf-8";

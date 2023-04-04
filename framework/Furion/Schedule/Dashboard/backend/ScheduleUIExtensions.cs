@@ -14,7 +14,6 @@
 
 using Furion.Schedule;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Rewrite;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
@@ -62,16 +61,8 @@ public static class ScheduleUIExtensions
         // 如果路由为空，或者不以 / 开头，或者以 / 结尾，不启动看板
         if (string.IsNullOrWhiteSpace(options.RequestPath) || !options.RequestPath.StartsWith("/") || options.RequestPath.EndsWith("/")) return app;
 
-        // 实现路由重写，配置入口地址
-        if (options.RequestPath != ScheduleUIMiddleware.REQUEST_PATH)
-        {
-            app.UseRewriter(new RewriteOptions()
-                .AddRedirect($"{options.RequestPath[1..]}", $"{ScheduleUIMiddleware.REQUEST_PATH[1..]}")
-                .AddRedirect($"{options.RequestPath[1..]}/(.*)", $"{ScheduleUIMiddleware.REQUEST_PATH[1..]}/$1"));
-        }
-
         // 注册 Schedule 中间件
-        app.UseMiddleware<ScheduleUIMiddleware>();
+        app.UseMiddleware<ScheduleUIMiddleware>(options.RequestPath);
 
         // 获取当前类型所在程序集
         var currentAssembly = typeof(ScheduleUIExtensions).Assembly;
@@ -80,7 +71,7 @@ public static class ScheduleUIExtensions
         app.UseFileServer(new FileServerOptions
         {
             FileProvider = new EmbeddedFileProvider(currentAssembly, $"{currentAssembly.GetName().Name}.Schedule.Dashboard.frontend"),
-            RequestPath = ScheduleUIMiddleware.REQUEST_PATH,  // 内部固定
+            RequestPath = options.RequestPath,
             EnableDirectoryBrowsing = options.EnableDirectoryBrowsing
         });
 
