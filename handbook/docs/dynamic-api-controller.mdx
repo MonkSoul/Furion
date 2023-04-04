@@ -1051,17 +1051,45 @@ public string GetV1()
 
 另外动作方法还支持 `[NonAction]` 标记不是一个有效的控制器或 Action。
 
-:::tip 推荐使用
+```cs showLineNumbers {8,14,20,27}
+public class FurionAppService: IDynamicApiController
+{
+    public string Export()
+    {
+        // ....
+    }
 
-推荐控制器或动作方法设置不导出使用 `[ApiDescriptionSettings(false)]` 特性。该特性默认继承自 `ApiExplorerSettingsAttribute` 类。
+    [ApiDescriptionSettings(false)] // 不在 Swagger 上显示
+    public string NoExport()
+    {
+        // ...
+    }
 
-:::
+    [ApiDescriptionSettings(IgnoreApi = true)]  // 不在 Swagger 上显示
+    public string NoExport2()
+    {
+        // ...
+    }
+
+    [NonAction]     // 不是一个 API
+    public string IsNotAPI()
+    {
+        // ...
+    }
+}
+
+[ApiDescriptionSettings(false)] // 不导出
+public class NoExportServices: IDynamicApiController
+{
+    // ....
+}
+```
 
 ### 5.1.8.12 保持控制器和方法命名
 
 默认情况下，动态 API 会将控制器和方法名输出为 `RESTFul` 风格的路由，如需保留原有设计，只需配置：
 
-```json showLineNumbers
+```json showLineNumbers {2-5}
 {
   "DynamicApiControllerSettings": {
     "KeepName": true,
@@ -1075,7 +1103,7 @@ public string GetV1()
 
 默认情况下，所有的基元类型参数都会贴上 `[FromRoute]` 特性，如果需要将参数调整为 `[FromQuery]` 修饰，只需要在方法上面贴 `[QueryParameters]` 特性即可，如：
 
-```cs showLineNumbers
+```cs showLineNumbers {1}
 [QueryParameters]
 public string Get(int id, string name)
 {
@@ -1087,7 +1115,7 @@ public string Get(int id, string name)
 
 如果不喜欢每个都配置，也可以全局配置（**只会影响基元类型的参数**）：
 
-```json showLineNumbers
+```json showLineNumbers {2-3}
 {
   "DynamicApiControllerSettings": {
     "UrlParameterization": true
