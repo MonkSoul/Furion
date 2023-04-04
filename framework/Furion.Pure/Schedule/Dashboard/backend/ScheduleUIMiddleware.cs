@@ -72,40 +72,30 @@ public sealed class ScheduleUIMiddleware
     {
         // ================================ 处理静态文件请求 ================================
 
-        // 加载静态资源
+        // 处理静态资源加载问题
         if (context.Request.Path.StartsWithSegments(STATIC_FILES_PATH))
         {
-            var targetPath = context.Request.Path.Value?[STATIC_FILES_PATH.Length..].Replace("/", ".");
+            var targetPath = context.Request.Path.Value?[STATIC_FILES_PATH.Length..];
+
+            // 如果不是配置文件直接重定向
+            if (!targetPath.EndsWith("apiconfig.js"))
+            {
+                context.Response.Redirect($"{RequestPath}{targetPath}", true);
+                return;
+            }
 
             // 获取当前类型所在程序集和对应嵌入式文件路径
             var currentAssembly = typeof(ScheduleUIExtensions).Assembly;
-            var fileName = $"{currentAssembly.GetName().Name}.Schedule.Dashboard.frontend{targetPath}";
 
-            // 获取静态资源 content-type
-            var contentType = string.Empty;
-            if (fileName.EndsWith(".css")) contentType = "text/css";
-            else if (fileName.EndsWith(".js")) contentType = "text/javascript";
-            else if (fileName.EndsWith(".json")) contentType = "application/json";
-            else if (fileName.EndsWith(".ico")) contentType = "image/vnd.microsoft.icon";
-            else { }
-
-            // 解析嵌入式文件流
+            // 读取配置文件内容
             byte[] buffer;
-            using (var readStream = currentAssembly.GetManifestResourceStream(fileName))
+            using (var readStream = currentAssembly.GetManifestResourceStream($"{currentAssembly.GetName().Name}.Schedule.Dashboard.frontend.apiconfig.js"))
             {
                 buffer = new byte[readStream.Length];
                 readStream.Read(buffer, 0, buffer.Length);
             }
 
-            // 处理非配置文件
-            if (!fileName.EndsWith("apiconfig.js"))
-            {
-                context.Response.ContentType = $"{contentType}; charset=utf-8";
-                await context.Response.Body.WriteAsync(buffer);
-                return;
-            }
-
-            // 处理配置文件
+            // 替换配置占位符
             string content;
             using (var stream = new MemoryStream(buffer))
             {
@@ -113,7 +103,7 @@ public sealed class ScheduleUIMiddleware
                 content = streamReader.ReadToEnd();
             }
 
-            context.Response.ContentType = $"{contentType}; charset=utf-8";
+            context.Response.ContentType = $"text/javascript; charset=utf-8";
             await context.Response.WriteAsync(content.Replace("%(RequestPath)", RequestPath));
             return;
         }
