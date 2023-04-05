@@ -48,7 +48,7 @@ import Tag from "@site/src/components/Tag.js";
   - &nbsp;<Tag>新增</Tag> 定时任务看板支持完全自定义 `RequestPath` 入口地址功能 <sup>4.8.7.34</sup> <sup>⏱️2023.04.04</sup> [24736f6](https://gitee.com/dotnetchina/Furion/commit/24736f6421dd5aa90289fbb9bc519e6ef55e667f)
   - &nbsp;<Tag>新增</Tag> `App.GetServices(type)` 和 `App.GetServices<T>()` 获取服务实例集合 <sup>4.8.7.33</sup> <sup>⏱️2023.04.03</sup> [c3e9957](https://gitee.com/dotnetchina/Furion/commit/c3e9957fd276920b3a8366eda3e347500334458e)
   - &nbsp;<Tag>新增</Tag> 远程请求 `[HttpMethod]ToSaveAsync` 下载远程文件并保存到磁盘方法 <sup>4.8.7.32</sup> <sup>⏱️2023.04.02</sup> [bfd02c1](https://gitee.com/dotnetchina/Furion/commit/bfd02c1a2ce4229e90fc825fe5657ada59e1892f)
-  - &nbsp;<Tag>新增</Tag> **定时任务一系列 `.AlterTo` 修改作业触发器触发事件便捷方法** <sup>4.8.7.31</sup> <sup>⏱️2023.03.31</sup> [0349017](https://gitee.com/dotnetchina/Furion/commit/0349017902835bed91041fb3ea1ee987b0a81bbb)
+  - &nbsp;<Tag>新增</Tag> **定时任务一系列 `.AlterTo` 修改作业触发器触发时间便捷方法** <sup>4.8.7.31</sup> <sup>⏱️2023.03.31</sup> [0349017](https://gitee.com/dotnetchina/Furion/commit/0349017902835bed91041fb3ea1ee987b0a81bbb)
   - &nbsp;<Tag>新增</Tag> 多语言支持 `DateTime` 时间格式化配置节点 `DateTimeFormatCulture` <sup>4.8.7.31</sup> <sup>⏱️2023.03.31</sup> [#I6RUOU](https://gitee.com/dotnetchina/Furion/issues/I6RUOU)
   - &nbsp;<Tag>新增</Tag> `Serve.IdleHost` 静态属性，可获取一个随机空闲 `Web` 主机地址（端口） <sup>4.8.7.29</sup> <sup>⏱️2023.03.30</sup> [e425063](https://gitee.com/dotnetchina/Furion/commit/e4250634246af612f052ec935416ee050b44d22e)
   - &nbsp;<Tag>新增</Tag> `WinForm/WPF` 静态方法 `Serve.RunNative()` 可配置是否启用 `Web` 主机功能 <sup>4.8.7.26</sup> <sup>⏱️2023.03.29</sup> [#I6R97L](https://gitee.com/dotnetchina/Furion/issues/I6R97L)
@@ -242,6 +242,7 @@ options.AddJob((context, stoppingToken) =>
 
 - **问题修复**
 
+  - &nbsp;<Tag>修复</Tag> 定时任务通过作业 `Id` 删除作业不能删除作业触发器问题 <sup>4.8.7.35</sup> <sup>⏱️2023.04.05</sup> [312ca35](https://gitee.com/dotnetchina/Furion/commit/312ca357cca1e59e1b6cc67ec499bf512f79dd0a)
   - &nbsp;<Tag>修复</Tag> 动态 `WebAPI` 去除叠词类型命名如 `ServiceService` 前后缀异常问题 <sup>4.8.7.32</sup> <sup>⏱️2023.04.02</sup> [#I6SB3Z](https://gitee.com/dotnetchina/Furion/issues/I6SB3Z)
   - &nbsp;<Tag>修复</Tag> 因 `4.8.7.22` 版本导致动态 `WebAPI` 类型注释丢失问题 <sup>4.8.7.27</sup> <sup>⏱️2023.03.29</sup> [#I6QM23](https://gitee.com/dotnetchina/Furion/issues/I6QM23)
   - &nbsp;<Tag>修复</Tag> 粘土对象遍历对象键值对因 `4.8.7.19` 版本更新导致异常 <sup>4.8.7.25</sup> <sup>⏱️2023.03.28</sup> [#I6R4ZU](https://gitee.com/dotnetchina/Furion/issues/I6R4ZU)
