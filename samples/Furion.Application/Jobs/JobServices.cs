@@ -37,8 +37,13 @@ public class JobServices : IDynamicApiController
         }
     }
 
-    public void RunJob([FromQuery] string jobId) 
+    public void RunJob([FromQuery] string jobId)
     {
         _schedulerFactory.RunJob(jobId);
+    }
+
+    public void RemoveJob(string jobId)
+    {
+        _ = _schedulerFactory.TryRemoveJob(jobId, out var _);
     }
 }

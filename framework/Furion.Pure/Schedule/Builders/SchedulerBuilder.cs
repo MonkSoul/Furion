@@ -515,6 +515,10 @@ public sealed class SchedulerBuilder
     public SchedulerBuilder Removed()
     {
         Behavior = PersistenceBehavior.Removed;
+
+        // 标记所有作业触发器持久化为删除状态
+        TriggerBuilders.ForEach(triggerBuilder => triggerBuilder.Removed());
+
         return this;
     }
 

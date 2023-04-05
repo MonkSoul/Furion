@@ -139,6 +139,7 @@ options.AddJob((context, stoppingToken) =>
 
 - **问题修复**
 
+  - &nbsp;<Tag>修复</Tag> 定时任务通过作业 `Id` 删除作业不能删除作业触发器问题 <sup>4.8.7.35</sup> <sup>⏱️2023.04.05</sup>
   - &nbsp;<Tag>修复</Tag> 定时任务作业状态为 `积压:0` 和 `归档:6` 时调用立即执行后不能恢复上一次状态 <sup>4.8.7.18</sup> <sup>⏱️2023.03.21</sup> [6f5aae8](https://gitee.com/dotnetchina/Furion/commit/6f5aae8dd1169b7111ff6801111691764b03ba29)
   - &nbsp;<Tag>修复</Tag> 定时任务更新作业 `null` 值默认被跳过问题 <sup>4.8.7.17</sup> <sup>⏱️2023.03.20</sup> [#I6OHO4](https://gitee.com/dotnetchina/Furion/issues/I6OHO4)
   - &nbsp;<Tag>修复</Tag> 定时任务生成 `SQL` 语句没有处理 `'` 转义问题 <sup>4.8.7.15</sup> <sup>⏱️2023.03.19</sup> [#I6NXKA](https://gitee.com/dotnetchina/Furion/issues/I6NXKA)

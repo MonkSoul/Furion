@@ -2,7 +2,7 @@ import {
   IconDelete,
   IconMore,
   IconPlayCircle,
-  IconStop
+  IconStop,
 } from "@douyinfe/semi-icons";
 import {
   Descriptions,
@@ -11,12 +11,12 @@ import {
   Popconfirm,
   Table,
   Toast,
-  Tooltip
+  Tooltip,
 } from "@douyinfe/semi-ui";
 import { Data } from "@douyinfe/semi-ui/lib/es/descriptions";
 import {
   ExpandedRowRender,
-  OnRow
+  OnRow,
 } from "@douyinfe/semi-ui/lib/es/table/interface";
 import { useCallback, useContext, useEffect, useMemo, useState } from "react";
 import useFetch from "use-http/dist/cjs/useFetch";
@@ -125,6 +125,7 @@ export default function Jobs() {
     (jobDetail, index) => {
       // 查找作业计划
       var scheduler = jobs.find((u) => u.jobDetail?.jobId === jobDetail?.jobId);
+      if (!scheduler) return <></>;
 
       // 构建触发器列表
       const triggerData: Data[][] = [];

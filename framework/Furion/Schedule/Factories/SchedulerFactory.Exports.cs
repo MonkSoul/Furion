@@ -299,6 +299,9 @@ internal sealed partial class SchedulerFactory
         // 将作业触发器运行信息写入持久化
         foreach (var (triggerId, trigger) in finalScheduler.Triggers)
         {
+            // 如果作业已删除标记作业触发器为已删除状态
+            if (isRemoved) trigger.Behavior = PersistenceBehavior.Removed;
+
             Shorthand(finalScheduler.JobDetail, trigger, trigger.Behavior);
 
             // 输出日志
@@ -990,9 +993,16 @@ internal sealed partial class SchedulerFactory
     /// <returns><see cref="ScheduleResult"/></returns>
     public ScheduleResult TryRemoveJob(string jobId, out IScheduler scheduler, bool immediately = true)
     {
-        return TrySaveJob(string.IsNullOrWhiteSpace(jobId)
-            ? default
-            : SchedulerBuilder.Create(jobId).Removed(), out scheduler, immediately);
+        // 查找作业
+        var scheduleResult = InternalTryGetJob(jobId, out var originScheduler, true);
+        if (scheduleResult != ScheduleResult.Succeed)
+        {
+            scheduler = null;
+            return scheduleResult;
+        }
+
+        scheduler = originScheduler;
+        return TryRemoveJob(originScheduler, immediately);
     }
 
     /// <summary>
