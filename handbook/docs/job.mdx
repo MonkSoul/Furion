@@ -158,6 +158,7 @@ options.AddJob((context, stoppingToken) =>
 
 - **其他更改**
 
+  - &nbsp;<Tag>调整</Tag> 定时任务动态委托作业持久化逻辑，采用不触发持久化操作 <sup>4.8.7.36</sup> <sup>⏱️2023.04.06</sup>
   - &nbsp;<Tag>调整</Tag> 定时任务 `Http` 作业 `HttpMethod` 属性拼写错成 `HttpMedhod` <sup>4.8.7.24</sup> <sup>⏱️2023.03.28</sup> [!756](https://gitee.com/dotnetchina/Furion/pulls/756)
   - &nbsp;<Tag>调整</Tag> 定时任务配置选项 `BuilSqlType` 属性命为 `BuildSqlType` <sup>4.8.7.11</sup> <sup>⏱️2023.03.15</sup> [92117b8](https://gitee.com/dotnetchina/Furion/commit/92117b842f7f8bdeb983bf3dac510f713d8410c2)
   - &nbsp;<Tag>调整</Tag> **定时任务查看作业触发器运行记录由保存 `10条` 改为 `5条`** <sup>4.8.7.7</sup> <sup>⏱️2023.03.07</sup> [01d4466](https://gitee.com/dotnetchina/Furion/commit/01d446620c20e373f198195797896d8c96feeb15)
@@ -1729,7 +1730,7 @@ info: 2022-12-04 12:26:33.8531796 +08:00 星期日 L System.Logging.DynamicJob[0
 - 动态作业处理程序类型是：`DynamicJob` 类型
 - 动态作业提供的 `.GetLogger()` 拓展输出日志类别是：`System.Logging.DynamicJob`
 - 如果普通作业同时设置了 `SetJobType` 和 `SetDynamicExecuteAsync`，那么优先作为动态作业执行。
-- 动态作业无法将 `Func<..>` 进行序列化持久化存储，需在内存（`IJobPersistence.OnLoading`）中重新赋值
+- **动态作业无法将 `Func<..>` 进行序列化持久化存储**
 
 :::
 
