@@ -277,6 +277,9 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory
     /// <param name="behavior">作业持久化行为</param>
     public void Shorthand(JobDetail jobDetail, Trigger trigger, PersistenceBehavior behavior = PersistenceBehavior.Updated)
     {
+        // 动态委托作业无需触发持久化操作
+        if (jobDetail.DynamicExecuteAsync != null) return;
+
         // 设置更新时间
         var nowTime = Penetrates.GetNowTime(UseUtcTimestamp);
         jobDetail.UpdatedTime = nowTime;
