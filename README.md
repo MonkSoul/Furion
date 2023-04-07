@@ -36,8 +36,6 @@ The main purpose of this repository is to continue evolving [Furion](https://git
 
 Read [contribution documents](https://furion.baiqian.ltd/docs/contribute) to learn how you can take part in improving [Furion](https://gitee.com/dotnetchina/Furion).
 
-![Contributors](https://contrib.rocks/image?repo=MonkSoul/Furion&max=1000&columns=30&anon=1)
-
 ## License
 
 [Furion](https://gitee.com/dotnetchina/Furion) uses the [MIT](https://gitee.com/dotnetchina/Furion/blob/v4/LICENSE) open source license.

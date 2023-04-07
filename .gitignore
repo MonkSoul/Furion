@@ -346,5 +346,5 @@ handbook/node_modules
 
 # Ignore project some folders
 framework/**/*.xml
-/framework/nupkgs
-/tests/Furion.TestProject/templates
+framework/nupkgs
+tests/Furion.TestProject/templates
