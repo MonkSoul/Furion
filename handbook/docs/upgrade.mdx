@@ -242,6 +242,7 @@ options.AddJob((context, stoppingToken) =>
 
 - **问题修复**
 
+  - &nbsp;<Tag>修复</Tag> 视图引擎模型为匿名泛型集合类型时出现类型转换异常 <sup>4.8.7.38</sup> <sup>⏱️2023.04.07</sup> [!773](https://gitee.com/dotnetchina/Furion/pulls/773)
   - &nbsp;<Tag>修复</Tag> 定时任务通过作业 `Id` 删除作业不能删除作业触发器问题 <sup>4.8.7.35</sup> <sup>⏱️2023.04.05</sup> [312ca35](https://gitee.com/dotnetchina/Furion/commit/312ca357cca1e59e1b6cc67ec499bf512f79dd0a)
   - &nbsp;<Tag>修复</Tag> 动态 `WebAPI` 去除叠词类型命名如 `ServiceService` 前后缀异常问题 <sup>4.8.7.32</sup> <sup>⏱️2023.04.02</sup> [#I6SB3Z](https://gitee.com/dotnetchina/Furion/issues/I6SB3Z)
   - &nbsp;<Tag>修复</Tag> 因 `4.8.7.22` 版本导致动态 `WebAPI` 类型注释丢失问题 <sup>4.8.7.27</sup> <sup>⏱️2023.03.29</sup> [#I6QM23](https://gitee.com/dotnetchina/Furion/issues/I6QM23)
@@ -266,6 +267,7 @@ options.AddJob((context, stoppingToken) =>
 
 - **其他更改**
 
+  - &nbsp;<Tag>调整</Tag> `Blazor` + `WebAPI` 脚手架模板，默认添加授权支持 <sup>4.8.7.37</sup> <sup>⏱️2023.04.07</sup> [#I6OM8O](https://gitee.com/dotnetchina/Furion/issues/I6OM8O) [544f80d](https://gitee.com/dotnetchina/Furion/commit/544f80dbd7c800e28d9c4137e1c3bfc289c14177)
   - &nbsp;<Tag>调整</Tag> 定时任务动态委托作业持久化逻辑，采用不触发持久化操作 <sup>4.8.7.36</sup> <sup>⏱️2023.04.06</sup> [7bb58b6](https://gitee.com/dotnetchina/Furion/commit/7bb58b64407f899d5f7f128da64fa972cf4df61b)
   - &nbsp;<Tag>调整</Tag> 多语言中间件 `app.UseAppLocalization()` 添加 `Action<options>` 委托参数 <sup>4.8.7.30</sup> <sup>⏱️2023.03.31</sup> [#I6RUOU](https://gitee.com/dotnetchina/Furion/issues/I6RUOU)
   - &nbsp;<Tag>调整</Tag> 定时任务 `Http` 作业 `HttpMethod` 属性拼写错成 `HttpMedhod` <sup>4.8.7.24</sup> <sup>⏱️2023.03.28</sup> [!756](https://gitee.com/dotnetchina/Furion/pulls/756)
@@ -286,6 +288,9 @@ options.AddJob((context, stoppingToken) =>
 
 - **贡献者**
 
+  - 拉风的CC ([@LFDCC](https://gitee.com/LFDCC)) [!773](https://gitee.com/dotnetchina/Furion/pulls/773)
+  - 吴伟烈 ([@wuweilie](https://gitee.com/wuweilie)) [!772](https://gitee.com/dotnetchina/Furion/pulls/772)
+  - 缄默 ([@alianyone](https://gitee.com/alianyone)) [!765](https://gitee.com/dotnetchina/Furion/pulls/765)
   - 写意 ([@xjj_0906](https://gitee.com/xjj_0906)) [!756](https://gitee.com/dotnetchina/Furion/pulls/756)
   - lampon ([@lampon](https://gitee.com/lampon)) [!740](https://gitee.com/dotnetchina/Furion/pulls/740)
   - family520 ([@family520](https://gitee.com/family520)) [!739](https://gitee.com/dotnetchina/Furion/pulls/739)

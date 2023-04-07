@@ -18,6 +18,7 @@ import Tag from "@site/src/components/Tag.js";
 
 - **问题修复**
 
+  - &nbsp;<Tag>修复</Tag> 视图引擎模型为匿名泛型集合类型时出现类型转换异常 <sup>4.8.7.38</sup> <sup>⏱️2023.04.07</sup> [!773](https://gitee.com/dotnetchina/Furion/pulls/773)
   - &nbsp;<Tag>修复</Tag> 视图引擎不支持强制转换的 `(object)model` 类型 <sup>4.8.7.16</sup> <sup>⏱️2023.03.19</sup> [#I6O3BD](https://gitee.com/dotnetchina/Furion/issues/I6O3BD)
 
 - **其他更改**
@@ -113,7 +114,7 @@ public class TestModel
 
 - **使用强类型**
 
-```cs showLineNumbers
+```cs showLineNumbers {1,7}
 var result = _viewEngine.RunCompile(@"
 Hello @Model.Name
 @foreach(var item in Model.Items)
@@ -144,7 +145,7 @@ Hello Furion
 
 如，强类型模板：
 
-```cs showLineNumbers
+```cs showLineNumbers {1}
 var result = _viewEngine.RunCompileFromCached(@"
 Hello @Model.Name
 @foreach(var item in Model.Items)
@@ -171,7 +172,7 @@ Hello Furion
 
 如，传入新的数据：
 
-```cs showLineNumbers  {10}
+```cs showLineNumbers  {1,10}
 var result = _viewEngine.RunCompileFromCached(@"
 Hello @Model.Name
 @foreach(var item in Model.Items)
@@ -205,7 +206,7 @@ Hello Furion
 
 比如这里添加 `System.IO` 程序集：
 
-```cs showLineNumbers
+```cs showLineNumbers {3}
 var result = _viewEngine.RunCompileFromCached(@"<div>@System.IO.Path.Combine(""Furion"", ""ViewEngine"")</div>", builderAction: builder =>
             {
                 builder.AddAssemblyReferenceByName("System.IO");
@@ -228,7 +229,7 @@ builder.AddAssemblyReference(Assembly.Load("source")); // 通过元数据引用
 
 ### 17.4.2 添加命名空间
 
-```cs showLineNumbers
+```cs showLineNumbers {3-4}
 var result = _viewEngine.RunCompileFromCached(@"<div>@Path.Combine(""Furion"", ""ViewEngine"")</div>", builderAction: builder =>
             {
                 builder.AddUsing("System.IO");
@@ -286,11 +287,12 @@ var result = _viewEngine.RunCompileFromCached(@"
 
 定义 `CustomModel` 类并继承 `ViewEngineModel` 基类
 
-```cs showLineNumbers  {1}
+```cs showLineNumbers  {1,6}
 public class CustomModel : ViewEngineModel
 {
     public int A { get; set; }
     public string B { get; set; }
+
     public string Decorator(object value)
     {
         return "-=" + value + "=-";
@@ -300,7 +302,7 @@ public class CustomModel : ViewEngineModel
 
 在模板中调用 `Decorator(value)` 方法：
 
-```cs showLineNumbers
+```cs showLineNumbers {1,3,5}
 var content = @"Hello @A, @B, @Decorator(123)";
 
 var template = _viewEngine.Compile<CustomModel>(content);
@@ -363,7 +365,7 @@ Task<IViewEngineTemplate<T>> CompileAsync<T>(string content, Action<IViewEngineO
 
 `Furion` 除了内置视图引擎之外，还支持以下几种模板替换，如：
 
-```cs showLineNumbers
+```cs showLineNumbers {2-4,7}
 // 提供数据模板方式
 var str = "我叫{name}".Render(new Dictionary{ {"name", "Furion"} });
 var str = "我叫{Name}".Render(new { Name = "Furion" });

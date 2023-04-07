@@ -217,7 +217,7 @@ public static class ObjectExtensions
     /// <returns></returns>
     internal static bool IsAnonymous(this object obj)
     {
-        var type = obj.GetType();
+        var type = obj is Type t ? t : obj.GetType();
 
         return Attribute.IsDefined(type, typeof(CompilerGeneratedAttribute), false)
                && type.IsGenericType && type.Name.Contains("AnonymousType")

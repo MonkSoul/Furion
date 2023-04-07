@@ -2,7 +2,7 @@
 
 	<PropertyGroup>
 		<TargetFrameworks>net5.0;net6.0;net7.0;net8.0</TargetFrameworks>
-		<Version>4.8.7.36</Version>
+		<Version>4.8.7.38</Version>
 		<Description>Furion 程序集扫描和代码分析拓展插件。</Description>
 		<ImplicitUsings>enable</ImplicitUsings>
 	</PropertyGroup>
@@ -11,7 +11,6 @@
 		<PackageReference Include="Ben.Demystifier" Version="0.4.1" />
 		<PackageReference Include="Microsoft.AspNetCore.Razor.Language" Version="5.0.17" />
 		<PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.5.0" />
-		<PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="5.0.17" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="5.0.17" />
 		<PackageReference Include="Microsoft.Extensions.DependencyModel" Version="6.0.0" />
 		<PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="5.0.17" />
@@ -22,7 +21,6 @@
 		<PackageReference Include="Ben.Demystifier" Version="0.4.1" />
 		<PackageReference Include="Microsoft.AspNetCore.Razor.Language" Version="6.0.15" />
 		<PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.5.0" />
-		<PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="6.0.15" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="6.0.15" />
 		<PackageReference Include="Microsoft.Extensions.DependencyModel" Version="6.0.0" />
 		<PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.15" />
@@ -33,7 +31,6 @@
 		<PackageReference Include="Ben.Demystifier" Version="0.4.1" />
 		<PackageReference Include="Microsoft.AspNetCore.Razor.Language" Version="6.0.15" />
 		<PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.5.0" />
-		<PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="7.0.4" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="7.0.4" />
 		<PackageReference Include="Microsoft.Extensions.DependencyModel" Version="7.0.0" />
 		<PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="7.0.4" />
@@ -44,7 +41,6 @@
 		<PackageReference Include="Ben.Demystifier" Version="0.4.1" />
 		<PackageReference Include="Microsoft.AspNetCore.Razor.Language" Version="6.0.15" />
 		<PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.5.0" />
-		<PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="8.0.0-preview.2.23153.2" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="8.0.0-preview.2.23128.3" />
 		<PackageReference Include="Microsoft.Extensions.DependencyModel" Version="8.0.0-preview.2.23128.3" />
 		<PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="8.0.0-preview.2.23153.2" />

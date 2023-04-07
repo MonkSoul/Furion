@@ -2,8 +2,10 @@
 using Furion.DynamicApiController;
 using Furion.ViewEngine;
 using Furion.ViewEngine.Extensions;
+
 using System;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Furion.TestProject;
@@ -18,6 +20,37 @@ public class ViewEngineTests : IDynamicApiController
     public ViewEngineTests(IViewEngine viewEngine)
     {
         _viewEngine = viewEngine;
+    }
+
+    /// <summary>
+    /// 集合的泛型类型为匿名类型
+    /// </summary>
+    /// <returns></returns>
+    public async Task<string> TestRunCompile()
+    {
+        var str1 = await _viewEngine.RunCompileAsync(@"
+            Hello @Model.Name
+            @foreach(var item in Model.Items)
+            {
+                <p>@item</p>
+            }
+            @foreach(var item in Model.list)
+            {
+                <p>@item.a</p>
+            }
+        ", new
+        {
+            Name = "Furion",
+            Items = new[] { 3, 1, 2 },
+            ////////////////这里这里
+            list = Enumerable.Range(0, 10).Select(x => new
+            {
+                a = x.ToString(),
+                b = x.ToString(),
+            }).ToList()
+        });
+
+        return str1;
     }
 
     /// <summary>
