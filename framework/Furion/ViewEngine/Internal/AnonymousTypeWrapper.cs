@@ -71,7 +71,14 @@ public class AnonymousTypeWrapper : DynamicObject
         if (isEnumerable && result is not string)
         {
             var actType = type.IsArray ? type.GetElementType() : type.GenericTypeArguments[0];
-            var genericType = actType.CheckAnonymous() ? typeof(List<AnonymousTypeWrapper>) : typeof(List<>).MakeGenericType(actType);
+
+            // https://gitee.com/dotnetchina/Furion/pulls/773
+            // 修复集合的泛型类型为匿名类型时类型转换
+            var genericType = actType.IsAnonymous()
+                ? typeof(List<AnonymousTypeWrapper>)
+                : typeof(List<>).MakeGenericType(actType);
+
+            // 创建集合实例
             var list = Activator.CreateInstance(genericType);
             var addMethod = list.GetType().GetMethod("Add");
 

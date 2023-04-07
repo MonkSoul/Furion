@@ -25,7 +25,6 @@ public class ViewEngineTests : IDynamicApiController
     /// <summary>
     /// 集合的泛型类型为匿名类型
     /// </summary>
-    /// <param name="name"></param>
     /// <returns></returns>
     public async Task<string> TestRunCompile()
     {

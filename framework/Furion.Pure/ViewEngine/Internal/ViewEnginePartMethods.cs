@@ -12,6 +12,7 @@
 // 在任何情况下，作者或版权持有人都不对任何索赔、损害或其他责任负责，无论这些追责来自合同、侵权或其它行为中，
 // 还是产生于、源于或有关于本软件以及本软件的使用或其它处置。
 
+using Furion.Extensions;
 using System.Reflection;
 
 namespace Furion.ViewEngine;
@@ -65,7 +66,7 @@ public sealed partial class ViewEnginePart
         var viewEngineType = viewEngine.GetType();
 
         // 反射获取视图引擎方法
-        var runCompileMethod = TemplateModel.Type == typeof(object)
+        var runCompileMethod = TemplateModel.Type.IsAnonymous() || TemplateModel.Type == typeof(object)
             ? viewEngineType.GetMethods(BindingFlags.Public | BindingFlags.Instance)
                        .First(m => m.Name == methodName && !m.IsGenericMethod)
             : viewEngineType.GetMethods(BindingFlags.Public | BindingFlags.Instance)

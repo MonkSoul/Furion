@@ -217,21 +217,8 @@ public static class ObjectExtensions
     /// <returns></returns>
     internal static bool IsAnonymous(this object obj)
     {
-        var type = obj.GetType();
+        var type = obj is Type t ? t : obj.GetType();
 
-        return Attribute.IsDefined(type, typeof(CompilerGeneratedAttribute), false)
-               && type.IsGenericType && type.Name.Contains("AnonymousType")
-               && (type.Name.StartsWith("<>") || type.Name.StartsWith("VB$"))
-               && type.Attributes.HasFlag(TypeAttributes.NotPublic);
-    }
-
-    /// <summary>
-    /// 判断是否是匿名类型
-    /// </summary>
-    /// <param name="type"></param>
-    /// <returns></returns>
-    internal static bool CheckAnonymous(this Type type)
-    {
         return Attribute.IsDefined(type, typeof(CompilerGeneratedAttribute), false)
                && type.IsGenericType && type.Name.Contains("AnonymousType")
                && (type.Name.StartsWith("<>") || type.Name.StartsWith("VB$"))
