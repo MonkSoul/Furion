@@ -173,12 +173,17 @@ var accessToken = JWTEncryption.Encrypt(new Dictionary<string, object>()
 
 ### 15.2.3 混合身份验证
 
-```cs showLineNumbers {2,7}
-// JWT 和 Cookies 混合身份验证
-services.AddJwt(options =>
+有时候我们一个系统中需要多种混合验证方式，这时候我们需要配置一个**主验证** 方式，所以需要修改 `options.DefaultAuthenticateScheme` 和 `options.DefaultChallengeScheme` 为主验证方式。
+
+如需第二种方式，只需要通过 `[Authorize(JwtBearerDefaults.AuthenticationScheme)]` 贴即可。
+
+- `JWT` 和 `Cookies` 混合身份验证
+
+```cs showLineNumbers {1,3-4,6}
+services.AddJwt<JwtHandler>(options =>
 {
-      options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-      options.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+      options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;    // 更改默认验证为 Cookies
+      options.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;   // 更改默认验证为 Cookies
 })
 .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, options =>
 {
@@ -186,20 +191,31 @@ services.AddJwt(options =>
 });
 ```
 
-:::important 特别注意
+- `JWT` 和 `Windows` 身份验证混合验证
 
-如果启用了混合身份验证后，`WebApi` 需在控制器/Action 中指定 `Scheme` 类型为 `JwtBearerDefaults.AuthenticationScheme`，如：
+```cs showLineNumbers {1,3-4,6}
+services.AddJwt<JwtHandler>(options =>
+{
+    options.DefaultAuthenticateScheme = NegotiateDefaults.AuthenticationScheme; // 更改默认验证为 Windows 身份验证
+    options.DefaultChallengeScheme = NegotiateDefaults.AuthenticationScheme;    // 更改默认验证为 Windows 身份验证
+})
+.AddNegotiate();
+```
 
-```cs showLineNumbers  {1}
+- 应用例子
+
+```cs showLineNumbers {1-2,7-8}
+// 贴了 [Authorize] 则表示应用 JwtBearerDefaults.AuthenticationScheme
 [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
 public class ApiServices : IDynamicApiController
 {
 }
+
+// 不贴则应用主验证，也即是 `DefaultAuthenticateScheme` 设置的
+public class HomeController: Controller
+{
+}
 ```
-
-如果不设置 `Scheme` 那么在混合授权的 `Swagger` 中将默认采用 `Cookie` 方式，也就是授权失败会将整个 `登录页面` 内容返回。
-
-:::
 
 ## 15.3 高级自定义授权
 
@@ -487,7 +503,7 @@ function decryptJWT(token) {
 一些应用使用了 `Blazor` + `WebAPI` 模板后并启用全局授权，可能会遇到 `401/403` 授权失败的提示，这时只需要在启动层 `YourProject.Web.Entry` 下的 `Pages/_Host.cshtml` 顶部添加以下代码即可：
 
 ```cs showLineNumbers
-@using Microsoft.AspNetCore.Authorization;
+@using Microsoft.AspNetCore.Authorization
 @attribute [AllowAnonymous]
 ```
 
