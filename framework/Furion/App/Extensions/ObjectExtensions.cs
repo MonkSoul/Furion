@@ -226,6 +226,19 @@ public static class ObjectExtensions
     }
 
     /// <summary>
+    /// 判断是否是匿名类型
+    /// </summary>
+    /// <param name="type"></param>
+    /// <returns></returns>
+    internal static bool CheckAnonymous(this Type type)
+    {
+        return Attribute.IsDefined(type, typeof(CompilerGeneratedAttribute), false)
+               && type.IsGenericType && type.Name.Contains("AnonymousType")
+               && (type.Name.StartsWith("<>") || type.Name.StartsWith("VB$"))
+               && type.Attributes.HasFlag(TypeAttributes.NotPublic);
+    }
+
+    /// <summary>
     /// 获取所有祖先类型
     /// </summary>
     /// <param name="type"></param>

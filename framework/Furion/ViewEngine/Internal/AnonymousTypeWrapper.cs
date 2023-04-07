@@ -71,7 +71,8 @@ public class AnonymousTypeWrapper : DynamicObject
         if (isEnumerable && result is not string)
         {
             var actType = type.IsArray ? type.GetElementType() : type.GenericTypeArguments[0];
-            var list = Activator.CreateInstance(typeof(List<>).MakeGenericType(actType));
+            var genericType = actType.CheckAnonymous() ? typeof(List<AnonymousTypeWrapper>) : typeof(List<>).MakeGenericType(actType);
+            var list = Activator.CreateInstance(genericType);
             var addMethod = list.GetType().GetMethod("Add");
 
             var data = result as IEnumerable;
