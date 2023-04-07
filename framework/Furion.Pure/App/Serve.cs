@@ -282,7 +282,7 @@ public static class Serve
 
             webHostBuilder = webHostBuilder.Inject(options.ActionWebInject);
 
-            // 解决部分主机不能正确读取 urls 参数命令问题
+            // 配置启动地址和端口
             var startUrls = !string.IsNullOrWhiteSpace(urls) ? urls : webHostBuilder.GetSetting(nameof(urls));
 
             // 自定义启动端口
@@ -468,15 +468,6 @@ public static class Serve
             }
         }
 
-        // 解决部分主机不能正确读取 urls 参数命令问题
-        var startUrls = !string.IsNullOrWhiteSpace(urls) ? urls : builder.Configuration[nameof(urls)];
-
-        // 自定义启动端口
-        if (!string.IsNullOrWhiteSpace(startUrls))
-        {
-            builder.WebHost.UseUrls(startUrls);
-        }
-
         // 调用自定义配置服务
         options?.ActionServices?.Invoke(builder.Services);
 
@@ -501,6 +492,9 @@ public static class Serve
         // 是否静默启动
         if (!options.IsSilence)
         {
+            // 配置启动地址和端口
+            var startUrls = !string.IsNullOrWhiteSpace(urls) ? urls : builder.Configuration[nameof(urls)];
+
             app.Run(string.IsNullOrWhiteSpace(urls) ? null : startUrls);
         }
         else

@@ -1,1 +1,1 @@
-Serve.Run(RunOptions.Default);
+Serve.Run(RunOptions.Default.WithArgs(args));
