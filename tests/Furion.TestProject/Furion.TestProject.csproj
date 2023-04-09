@@ -4,6 +4,7 @@
 		<TargetFramework>net7.0</TargetFramework>
 		<NoWarn>1701;1702;1591</NoWarn>
 		<GenerateDocumentationFile>True</GenerateDocumentationFile>
+		<ImplicitUsings>true</ImplicitUsings>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -14,6 +15,10 @@
 		<ProjectReference Include="..\..\framework\Furion.Extras.Logging.Serilog\Furion.Extras.Logging.Serilog.csproj" />
 		<ProjectReference Include="..\..\framework\Furion.Extras.ObjectMapper.Mapster\Furion.Extras.ObjectMapper.Mapster.csproj" />
 		<ProjectReference Include="..\..\framework\Furion\Furion.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<InternalsVisibleTo Include="Furion.IntegrationTests" />
 	</ItemGroup>
 
 	<ProjectExtensions>

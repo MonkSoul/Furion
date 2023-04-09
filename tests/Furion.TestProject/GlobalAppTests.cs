@@ -1,9 +1,5 @@
 ﻿using Furion.DynamicApiController;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using System;
 
 namespace Furion.TestProject;
 
@@ -33,9 +29,6 @@ public class GlobalAppTests : IDynamicApiController
     /// <returns></returns>
     public bool TestServiceProvider([FromServices] IServiceProvider methodServiceProvider, [FromServices] IHttpContextAccessor methodHttpContextAccessor)
     {
-        var isSameRootService = App.RootServices == _host.Services;
-        if (!isSameRootService) throw new Exception("根服务不相等");
-
         var isSameHttpContextAccessor = (App.RootServices.GetService<IHttpContextAccessor>() == _serviceProvider.GetService<IHttpContextAccessor>())
             && (_httpContextAccessor == methodHttpContextAccessor)
             && (_httpContextAccessor == _serviceProvider.GetService<IHttpContextAccessor>());

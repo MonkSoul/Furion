@@ -4,13 +4,13 @@ using System;
 using Xunit;
 using Xunit.Abstractions;
 
-[assembly: TestFramework("Furion.UnitTests.Startup", "Furion.UnitTests")]
+[assembly: TestFramework("Furion.UnitTests.TestProgram", "Furion.UnitTests")]
 
 namespace Furion.UnitTests;
 
-public class Startup : TestStartup
+public class TestProgram : TestStartup
 {
-    public Startup(IMessageSink messageSink) : base(messageSink)
+    public TestProgram(IMessageSink messageSink) : base(messageSink)
     {
         Serve.RunNative(services =>
         {

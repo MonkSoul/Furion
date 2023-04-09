@@ -629,7 +629,11 @@ public class UnitTest1 : IClassFixture<MyClassFixture>
 
 <img src={useBaseUrl("img/ut14.png")} />
 
-4. 在需要测试的 `Web` 项目启动层添加 `FakeStarup.cs` 类
+4. 配置 `Web` 项目启动层
+
+- `.NET5`
+
+在需要测试的 `Web` 项目启动层添加 `FakeStarup.cs` 类
 
 ```cs showLineNumbers title="FakeStarup.cs"
 namespace WebApplication1;
@@ -640,6 +644,22 @@ namespace WebApplication1;
 public class FakeStartup
 {
 }
+```
+
+- `.NET6+`
+
+（`.NET6+`）编辑 `WebApplication1.csproj`，添加 `<InternalsVisibleTo Include="集成测试项目名称" />`
+
+```xml showLineNumbers {2}
+<ItemGroup>
+    <InternalsVisibleTo Include="TestProject2" />
+</ItemGroup>
+```
+
+（`.NET6+`）编辑 `Program.cs` 添加以下代码：
+
+```cs showLineNumbers
+public partial class Program { }
 ```
 
 5. 编写测试 `Web` 项目接口测试案例
@@ -668,6 +688,12 @@ public class UnitTest1 : IClassFixture<WebApplicationFactory<WebApplication1.Fak
     }
 }
 ```
+
+:::tip `.NET6+` 泛型参数
+
+如果是 `.NET6+(含)`，只需要将 `WebApplicationFactory<WebApplication1.FakeStartup>` 泛型参数改为：`WebApplicationFactory<Program>` 即可。
+
+:::
 
 `/default` 接口对应控制器定义如下：
 
