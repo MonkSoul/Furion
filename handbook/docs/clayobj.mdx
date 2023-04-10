@@ -375,7 +375,7 @@ var undefined = clay["undefined"];  // 抛出 Microsoft.CSharp.RuntimeBinder.Run
 
 这时我们可以配置粘土对象的 `ThrowOnUndefined` 属性行为，**配置 `true` 时获取不存在的 `Key` 抛异常，`false` 表示返回 `null`**。如：
 
-```cs showLineNumbers {1,10,12,22,24,38}
+```cs showLineNumbers {1,10,12,14,25-27,29,40-41,43-46}
 // 方式一，初始化指定 throwOnUndefined: false，所有构造函数和静态初始化方法都有该参数
 dynamic clay = Clay.Object(new
 {
@@ -387,6 +387,8 @@ dynamic clay = Clay.Object(new
     }
 }, throwOnUndefined: false);
 
+var undefined = clay.Undefined; // => null
+
 // 方式二，操作时指定，设置 ThrowOnUndefined 属性
 dynamic clay = Clay.Object(new
 {
@@ -397,7 +399,10 @@ dynamic clay = Clay.Object(new
         Foobar = true
     }
 });
+
+var undefined = clay.Undefined; // 抛出 Microsoft.CSharp.RuntimeBinder.RuntimeBinderExceptionnull
 clay.ThrowOnUndefined = false;
+var undefined = clay.Undefined; // => null
 
 // 方式三，只配置局部对象
 dynamic clay = Clay.Object(new
@@ -411,10 +416,12 @@ dynamic clay = Clay.Object(new
 });
 
 var undefined = clay.Undefined; // 抛出 Microsoft.CSharp.RuntimeBinder.RuntimeBinderException
+var bar = clay.Nest.Bar;    // 抛出 Microsoft.CSharp.RuntimeBinder.RuntimeBinderException
 
 // 设置 Nest 节点不抛异常
 clay.Nest.ThrowOnUndefined = false;
-var bar = clay.Bar; // => null
+var undefined = clay.Undefined; // 抛出 Microsoft.CSharp.RuntimeBinder.RuntimeBinderException
+var bar = clay.Nest.Bar; // => null
 ```
 
 ## 29.4 反馈与建议
