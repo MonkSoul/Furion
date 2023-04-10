@@ -1,7 +1,6 @@
 ﻿using Furion.DataEncryption;
 using Furion.DataEncryption.Extensions;
 using Furion.DynamicApiController;
-using System;
 
 namespace Furion.TestProject;
 

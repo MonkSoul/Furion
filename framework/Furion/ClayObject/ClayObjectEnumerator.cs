@@ -69,7 +69,9 @@ public sealed class ClayObjectEnumerator : IEnumerator
             try
             {
                 var currentXElement = ((XElement)_clay.XmlElement).Elements().ElementAtOrDefault(position);
-                var localName = currentXElement.Name.LocalName;
+                var localName = currentXElement.Name == "{item}item"
+                    ? currentXElement.Attribute("item").Value
+                    : currentXElement.Name.LocalName;
 
                 return new(localName, _clay[localName]);
             }

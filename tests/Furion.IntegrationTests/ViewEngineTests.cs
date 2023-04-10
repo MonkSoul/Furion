@@ -1,8 +1,6 @@
 using Microsoft.AspNetCore.Mvc.Testing;
-using System.Net.Http;
 using System.Text;
 using System.Text.Json;
-using System.Threading.Tasks;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -11,13 +9,13 @@ namespace Furion.IntegrationTests;
 /// <summary>
 /// 视图引擎集成测试
 /// </summary>
-public class ViewEngineTests : IClassFixture<WebApplicationFactory<TestProject.Startup>>
+public class ViewEngineTests : IClassFixture<WebApplicationFactory<Program>>
 {
     private readonly ITestOutputHelper Output;
-    private readonly WebApplicationFactory<TestProject.Startup> _factory;
+    private readonly WebApplicationFactory<Program> _factory;
 
     public ViewEngineTests(ITestOutputHelper tempOutput,
-        WebApplicationFactory<TestProject.Startup> factory)
+        WebApplicationFactory<Program> factory)
     {
         Output = tempOutput;
         _factory = factory;

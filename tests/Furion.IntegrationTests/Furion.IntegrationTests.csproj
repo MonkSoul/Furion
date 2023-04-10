@@ -2,7 +2,7 @@
 
 	<PropertyGroup>
 		<TargetFramework>net7.0</TargetFramework>
-
+		<ImplicitUsings>true</ImplicitUsings>
 		<IsPackable>false</IsPackable>
 	</PropertyGroup>
 

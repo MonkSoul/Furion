@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Mvc.Testing;
-using System.Threading.Tasks;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -8,13 +7,13 @@ namespace Furion.IntegrationTests;
 /// <summary>
 /// 数据加解密集成测试
 /// </summary>
-public class DataEncryptionTests : IClassFixture<WebApplicationFactory<TestProject.Startup>>
+public class DataEncryptionTests : IClassFixture<WebApplicationFactory<Program>>
 {
     private readonly ITestOutputHelper Output;
-    private readonly WebApplicationFactory<TestProject.Startup> _factory;
+    private readonly WebApplicationFactory<Program> _factory;
 
     public DataEncryptionTests(ITestOutputHelper tempOutput,
-        WebApplicationFactory<TestProject.Startup> factory)
+        WebApplicationFactory<Program> factory)
     {
         Output = tempOutput;
         _factory = factory;
