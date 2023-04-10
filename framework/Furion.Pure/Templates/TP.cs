@@ -26,7 +26,7 @@ public static class TP
     /// <summary>
     /// 模板正则表达式对象
     /// </summary>
-    private static readonly Lazy<Regex> _lazyRegex = new(() => new(@"^##(?<prop>.*)?##[:：]?\s*(?<content>.*)"));
+    private static readonly Lazy<Regex> _lazyRegex = new(() => new(@"^##(?<prop>.*)?##[:：]?\s*(?<content>[\s\S]*)"));
 
     /// <summary>
     /// 生成规范日志模板

@@ -33,10 +33,12 @@ public class Clay : DynamicObject, IEnumerable
     /// <summary>
     /// 构造函数
     /// </summary>
-    public Clay()
+    /// <param name="throwOnUndefined">如果设置 false，则读取不存在的值返回 null，默认 true</param>
+    public Clay(bool throwOnUndefined = true)
     {
         XmlElement = new XElement("root", CreateTypeAttr(JsonType.@object));
         jsonType = JsonType.@object;
+        ThrowOnUndefined = throwOnUndefined;
     }
 
     /// <summary>
@@ -44,12 +46,14 @@ public class Clay : DynamicObject, IEnumerable
     /// </summary>
     /// <param name="element"></param>
     /// <param name="type"></param>
-    private Clay(XElement element, JsonType type)
+    /// <param name="throwOnUndefined">如果设置 false，则读取不存在的值返回 null，默认 true</param>
+    private Clay(XElement element, JsonType type, bool throwOnUndefined = true)
     {
         Debug.Assert(type == JsonType.array || type == JsonType.@object);
 
         XmlElement = element;
         jsonType = type;
+        ThrowOnUndefined = throwOnUndefined;
     }
 
     /// <summary>
@@ -73,32 +77,41 @@ public class Clay : DynamicObject, IEnumerable
     public int Length => XmlElement.Elements().Count();
 
     /// <summary>
+    /// 如果未定义则抛出异常
+    /// </summary>
+    /// <remarks>如果设置 false，那么返回 null</remarks>
+    public bool ThrowOnUndefined { get; set; } = true;
+
+    /// <summary>
     /// 创建一个超级类型
     /// </summary>
+    /// <param name="throwOnUndefined">如果设置 false，则读取不存在的值返回 null，默认 true</param>
     /// <returns></returns>
-    public static dynamic Object()
+    public static dynamic Object(bool throwOnUndefined = true)
     {
-        return new Clay();
+        return new Clay(throwOnUndefined);
     }
 
     /// <summary>
     /// 基于现有类型创建一个超级类型
     /// </summary>
     /// <param name="obj"></param>
+    /// <param name="throwOnUndefined">如果设置 false，则读取不存在的值返回 null，默认 true</param>
     /// <returns></returns>
-    public static dynamic Object(object obj)
+    public static dynamic Object(object obj, bool throwOnUndefined = true)
     {
-        return Parse(Serialize(obj));
+        return Parse(Serialize(obj), throwOnUndefined);
     }
 
     /// <summary>
     /// 将 Json 转换成动态类型
     /// </summary>
     /// <param name="json"></param>
+    /// <param name="throwOnUndefined">如果设置 false，则读取不存在的值返回 null，默认 true</param>
     /// <returns></returns>
-    public static dynamic Parse(string json)
+    public static dynamic Parse(string json, bool throwOnUndefined = true)
     {
-        return Parse(json, Encoding.Unicode);
+        return Parse(json, Encoding.Unicode, throwOnUndefined);
     }
 
     /// <summary>
@@ -106,22 +119,24 @@ public class Clay : DynamicObject, IEnumerable
     /// </summary>
     /// <param name="json"></param>
     /// <param name="encoding"></param>
+    /// <param name="throwOnUndefined">如果设置 false，则读取不存在的值返回 null，默认 true</param>
     /// <returns></returns>
-    public static dynamic Parse(string json, Encoding encoding)
+    public static dynamic Parse(string json, Encoding encoding, bool throwOnUndefined = true)
     {
         using var reader = JsonReaderWriterFactory.CreateJsonReader(encoding.GetBytes(json), XmlDictionaryReaderQuotas.Max);
-        return ToValue(XElement.Load(reader));
+        return ToValue(XElement.Load(reader), throwOnUndefined);
     }
 
     /// <summary>
     /// 将 Steam 转换成动态类型
     /// </summary>
     /// <param name="stream"></param>
+    /// <param name="throwOnUndefined">如果设置 false，则读取不存在的值返回 null，默认 true</param>
     /// <returns></returns>
-    public static dynamic Parse(Stream stream)
+    public static dynamic Parse(Stream stream, bool throwOnUndefined = true)
     {
         using var reader = JsonReaderWriterFactory.CreateJsonReader(stream, XmlDictionaryReaderQuotas.Max);
-        return ToValue(XElement.Load(reader));
+        return ToValue(XElement.Load(reader), throwOnUndefined);
     }
 
     /// <summary>
@@ -129,11 +144,12 @@ public class Clay : DynamicObject, IEnumerable
     /// </summary>
     /// <param name="stream"></param>
     /// <param name="encoding"></param>
+    /// <param name="throwOnUndefined">如果设置 false，则读取不存在的值返回 null，默认 true</param>
     /// <returns></returns>
-    public static dynamic Parse(Stream stream, Encoding encoding)
+    public static dynamic Parse(Stream stream, Encoding encoding, bool throwOnUndefined = true)
     {
         using var reader = JsonReaderWriterFactory.CreateJsonReader(stream, encoding, XmlDictionaryReaderQuotas.Max, _ => { });
-        return ToValue(XElement.Load(reader));
+        return ToValue(XElement.Load(reader), throwOnUndefined);
     }
 
     /// <summary>
@@ -153,7 +169,7 @@ public class Clay : DynamicObject, IEnumerable
     /// <returns></returns>
     public bool IsDefined(string name)
     {
-        return IsObject && ((FindItemElement(name) ?? XmlElement.Element(name)) != null);
+        return IsObject && (FindItemElement(name, out _) != null);
     }
 
     /// <summary>
@@ -173,7 +189,7 @@ public class Clay : DynamicObject, IEnumerable
     /// <returns></returns>
     public bool Delete(string name)
     {
-        var elem = FindItemElement(name) ?? XmlElement.Element(name);
+        var elem = FindItemElement(name, out _);
         if (elem != null)
         {
             elem.Remove();
@@ -253,8 +269,8 @@ public class Clay : DynamicObject, IEnumerable
         if (binder.Type == typeof(IEnumerable) || binder.Type == typeof(object[]))
         {
             var ie = (IsArray)
-                ? XmlElement.Elements().Select(x => ToValue(x))
-                : XmlElement.Elements().Select(x => (dynamic)new KeyValuePair<string, object>(x.Name.LocalName, ToValue(x)));
+                ? XmlElement.Elements().Select(x => ToValue(x, ThrowOnUndefined))
+                : XmlElement.Elements().Select(x => (dynamic)new KeyValuePair<string, object>(x.Name.LocalName, ToValue(x, ThrowOnUndefined)));
             result = (binder.Type == typeof(object[])) ? ie.ToArray() : ie;
         }
         else
@@ -274,8 +290,8 @@ public class Clay : DynamicObject, IEnumerable
     public override bool TryGetIndex(GetIndexBinder binder, object[] indexes, out object result)
     {
         return (IsArray)
-            ? TryGet(XmlElement.Elements().ElementAtOrDefault((int)indexes[0]), out result)
-            : TryGet(FindItemElement((string)indexes[0]) ?? XmlElement.Element((string)indexes[0]), out result);
+            ? TryGet(XmlElement.Elements().ElementAtOrDefault((int)indexes[0]), out result, ThrowOnUndefined)
+            : TryGet(FindItemElement((string)indexes[0], out _), out result, ThrowOnUndefined);
     }
 
     /// <summary>
@@ -287,8 +303,8 @@ public class Clay : DynamicObject, IEnumerable
     public override bool TryGetMember(GetMemberBinder binder, out object result)
     {
         return (IsArray)
-            ? TryGet(XmlElement.Elements().ElementAtOrDefault(int.Parse(binder.Name)), out result)
-            : TryGet(FindItemElement(binder.Name) ?? XmlElement.Element(binder.Name), out result);
+            ? TryGet(XmlElement.Elements().ElementAtOrDefault(int.Parse(binder.Name)), out result, ThrowOnUndefined)
+            : TryGet(FindItemElement(binder.Name, out _), out result, ThrowOnUndefined);
     }
 
     /// <summary>
@@ -383,8 +399,9 @@ public class Clay : DynamicObject, IEnumerable
     /// XElement 转动态类型
     /// </summary>
     /// <param name="element"></param>
+    /// <param name="throwOnUndefined">如果设置 false，则读取不存在的值返回 null，默认 true</param>
     /// <returns></returns>
-    private static dynamic ToValue(XElement element)
+    private static dynamic ToValue(XElement element, bool throwOnUndefined = true)
     {
         var type = (JsonType)Enum.Parse(typeof(JsonType), element.Attribute("type").Value);
         return type switch
@@ -393,7 +410,7 @@ public class Clay : DynamicObject, IEnumerable
             JsonType.number when element.Value.Contains('.') => (double)element,
             JsonType.number => (long)element,
             JsonType.@string => (string)element,
-            JsonType.@object or JsonType.array => new Clay(element, type),
+            JsonType.@object or JsonType.array => new Clay(element, type, throwOnUndefined),
             _ => null,
         };
     }
@@ -508,16 +525,17 @@ public class Clay : DynamicObject, IEnumerable
     /// </summary>
     /// <param name="element"></param>
     /// <param name="result"></param>
+    /// <param name="throwOnUndefined"></param>
     /// <returns></returns>
-    private static bool TryGet(XElement element, out object result)
+    private static bool TryGet(XElement element, out object result, bool throwOnUndefined = true)
     {
         if (element == null)
         {
             result = null;
-            return false;
+            return !throwOnUndefined;   // 如果这里返回 true，那么不存在的 Key 不会报错
         }
 
-        result = ToValue(element);
+        result = ToValue(element, throwOnUndefined);
         return true;
     }
 
@@ -546,22 +564,10 @@ public class Clay : DynamicObject, IEnumerable
             }
         }
 
-        XElement element = null;
-        var invalidName = false;
-
-        // 处理保护特殊符号的 Key 设置
-        try
-        {
-            element = FindItemElement(name) ?? XmlElement.Element(name);
-        }
-        catch
-        {
-            invalidName = true;
-        }
-
+        var element = FindItemElement(name, out var isValid);
         if (element == null)
         {
-            if (!invalidName) XmlElement.Add(new XElement(name, CreateTypeAttr(type), CreateJsonNode(value)));
+            if (isValid) XmlElement.Add(new XElement(name, CreateTypeAttr(type), CreateJsonNode(value)));
             else
             {
                 var xmlString = $"<a:item xmlns:a=\"item\" item=\"{name}\" type=\"{type}\"></a:item>";
@@ -617,10 +623,11 @@ public class Clay : DynamicObject, IEnumerable
     /// </summary>
     /// <param name="element"></param>
     /// <param name="elementType"></param>
+    /// <param name="throwOnUndefined">如果设置 false，则读取不存在的值返回 null，默认 true</param>
     /// <returns></returns>
-    private static dynamic DeserializeValue(XElement element, Type elementType)
+    private static dynamic DeserializeValue(XElement element, Type elementType, bool throwOnUndefined = true)
     {
-        var value = ToValue(element);
+        var value = ToValue(element, throwOnUndefined);
 
         if (value is Clay json)
         {
@@ -645,7 +652,7 @@ public class Clay : DynamicObject, IEnumerable
         foreach (var item in XmlElement.Elements())
         {
             if (!dict.TryGetValue(item.Name.LocalName, out var propertyInfo)) continue;
-            var value = Clay.DeserializeValue(item, propertyInfo.PropertyType);
+            var value = Clay.DeserializeValue(item, propertyInfo.PropertyType, ThrowOnUndefined);
             propertyInfo.SetValue(result, value, null);
         }
         return result;
@@ -665,7 +672,7 @@ public class Clay : DynamicObject, IEnumerable
             var index = 0;
             foreach (var item in XmlElement.Elements())
             {
-                array[index++] = Clay.DeserializeValue(item, elemType);
+                array[index++] = Clay.DeserializeValue(item, elemType, ThrowOnUndefined);
             }
             return array;
         }
@@ -675,7 +682,7 @@ public class Clay : DynamicObject, IEnumerable
             dynamic list = Activator.CreateInstance(targetType);
             foreach (var item in XmlElement.Elements())
             {
-                list.Add(Clay.DeserializeValue(item, elemType));
+                list.Add(Clay.DeserializeValue(item, elemType, ThrowOnUndefined));
             }
             return list;
         }
@@ -685,15 +692,24 @@ public class Clay : DynamicObject, IEnumerable
     /// 查找包含 a:item 的节点
     /// </summary>
     /// <param name="name"></param>
+    /// <param name="isValid"></param>
     /// <returns></returns>
-    private XElement FindItemElement(string name)
+    private XElement FindItemElement(string name, out bool isValid)
     {
+        // 校验 Name 是否是合法的
+        var validName = isValid = TryVerifyNCName(name) == null;
+
         var xelement = XmlElement.Elements("{item}item")
             .Where(e => (string)e.Attribute("item") == name)
             .FirstOrDefault();
 
-        return xelement;
+        return xelement ?? (validName ? XmlElement.Element(name) : null);
     }
+
+    /// <summary>
+    /// 校验 Xml 标签格式
+    /// </summary>
+    private static readonly Func<string, Exception> TryVerifyNCName = (Func<string, Exception>)Delegate.CreateDelegate(typeof(Func<string, Exception>), typeof(XmlConvert).GetMethod("TryVerifyNCName", BindingFlags.Static | BindingFlags.NonPublic));
 
     /// <summary>
     /// 初始化粘土对象枚举器
