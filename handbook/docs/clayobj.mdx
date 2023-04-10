@@ -13,6 +13,7 @@ import Tag from "@site/src/components/Tag.js";
 
 - **新特性**
 
+  - &nbsp;<Tag>新增</Tag> **粘土对象可配置访问不存在 `Key` 时是抛异常还是返回 `null`** <sup>4.8.7.40</sup> <sup>⏱️2023.04.10</sup>
   - &nbsp;<Tag>新增</Tag> **粘土对象可转换成 `IEnumerable<T>` 对象并实现 `Lambda/Linq` 操作** <sup>4.8.7.19</sup> <sup>⏱️2023.03.22</sup> [2b14ed9](https://gitee.com/dotnetchina/Furion/commit/2b14ed9da03699619b1fade6e053f65b77a5b0fe)
 
 <details style={{ marginLeft: 50 }}>
@@ -345,6 +346,75 @@ clay.@event = "事件";
 dynamic clay = Clay.Object(new { name = "张三" });
 clay.name = "百小僧";
 Dictionary<string, object> parms = clay.ToDictionary();
+```
+
+### 29.3.14 配置获取不存在 `Key` 行为
+
+:::important 版本说明
+
+以下内容仅限 `Furion 4.8.7.40 +` 版本使用。
+
+:::
+
+默认情况下，如果通过粘土对象获取不存在的值会抛出 `Microsoft.CSharp.RuntimeBinder.RuntimeBinderException` 异常，如：
+
+```cs showLineNumbers {12}
+dynamic clay = Clay.Object(new
+{
+    Foo = "json",
+    Bar = 100,
+    Nest = new
+    {
+        Foobar = true
+    }
+});
+
+// 获取不存在的值
+var undefined = clay["undefined"];  // 抛出 Microsoft.CSharp.RuntimeBinder.RuntimeBinderException 异常
+```
+
+这时我们可以配置粘土对象的 `ThrowOnUndefined` 属性行为，**配置 `true` 时获取不存在的 `Key` 抛异常，`false` 表示返回 `null`**。如：
+
+```cs showLineNumbers {1,10,12,22,24,38}
+// 方式一，初始化指定 throwOnUndefined: false，所有构造函数和静态初始化方法都有该参数
+dynamic clay = Clay.Object(new
+{
+    Foo = "json",
+    Bar = 100,
+    Nest = new
+    {
+        Foobar = true
+    }
+}, throwOnUndefined: false);
+
+// 方式二，操作时指定，设置 ThrowOnUndefined 属性
+dynamic clay = Clay.Object(new
+{
+    Foo = "json",
+    Bar = 100,
+    Nest = new
+    {
+        Foobar = true
+    }
+});
+clay.ThrowOnUndefined = false;
+
+// 方式三，只配置局部对象
+dynamic clay = Clay.Object(new
+{
+    Foo = "json",
+    Bar = 100,
+    Nest = new
+    {
+        Foobar = true
+    }
+});
+
+var undefined = clay.Undefined; // 抛出 Microsoft.CSharp.RuntimeBinder.RuntimeBinderException
+
+// 设置 Nest 节点不抛异常
+clay.Nest.ThrowOnUndefined = true;
+var bar = clay.Bar; // => null
 ```
 
 ## 29.4 反馈与建议
