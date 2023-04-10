@@ -242,6 +242,7 @@ options.AddJob((context, stoppingToken) =>
 
 - **问题修复**
 
+  - &nbsp;<Tag>修复</Tag> 粘土对象不支持运行时动态设置携带特殊字符的 `Key` 键 <sup>4.8.7.39</sup> <sup>⏱️2023.04.10</sup>
   - &nbsp;<Tag>修复</Tag> 视图引擎模型为匿名泛型集合类型时出现类型转换异常 <sup>4.8.7.38</sup> <sup>⏱️2023.04.07</sup> [!773](https://gitee.com/dotnetchina/Furion/pulls/773)
   - &nbsp;<Tag>修复</Tag> 定时任务通过作业 `Id` 删除作业不能删除作业触发器问题 <sup>4.8.7.35</sup> <sup>⏱️2023.04.05</sup> [312ca35](https://gitee.com/dotnetchina/Furion/commit/312ca357cca1e59e1b6cc67ec499bf512f79dd0a)
   - &nbsp;<Tag>修复</Tag> 动态 `WebAPI` 去除叠词类型命名如 `ServiceService` 前后缀异常问题 <sup>4.8.7.32</sup> <sup>⏱️2023.04.02</sup> [#I6SB3Z](https://gitee.com/dotnetchina/Furion/issues/I6SB3Z)
@@ -313,7 +314,7 @@ options.AddJob((context, stoppingToken) =>
 
   - &nbsp;<Tag>新增</Tag> 审计日志 `LoggingMonitor` 支持配置序列化属性命名规则 <sup>4.8.6.12</sup> <sup>⏱️2023.02.21</sup> [#I6GPUP](https://gitee.com/dotnetchina/Furion/issues/I6GPUP)
   - &nbsp;<Tag>新增</Tag> `Swagger` 请求授权失败后自动退出授权状态 <sup>4.8.6.12</sup> <sup>⏱️2023.02.20</sup> [!717](https://gitee.com/dotnetchina/Furion/pulls/717)
-  - &nbsp;<Tag>新增</Tag> 粘土对象支持任何字符作为 `JSON/XML` 键 <sup>4.8.6.9</sup> <sup>⏱️2023.02.19</sup> [#note_16329657](https://gitee.com/dotnetchina/Furion/commit/4961e01486f604db12a8d8d71f9bd563ed7d7d48#note_16329657)
+- - &nbsp;<Tag>新增</Tag> 粘土对象支持任何字符作为 `JSON/XML` 键 <sup>4.8.6.9</sup> <sup>⏱️2023.02.19</sup> [f99aee8](https://gitee.com/dotnetchina/Furion/commit/f99aee8dafddf3cfd148922166abd3998e8eb087) [#note_16329657](https://gitee.com/dotnetchina/Furion/commit/4961e01486f604db12a8d8d71f9bd563ed7d7d48#note_16329657)
   - &nbsp;<Tag>新增</Tag> **动态 `WebAPI` 自动检查路由是否包含重复参数，如果有自动修正而不是抛异常** <sup>4.8.6.5</sup> <sup>⏱️2023.02.17</sup> [5f15ea1](https://gitee.com/dotnetchina/Furion/commit/5f15ea1edd2e7793d86dd074ffbbecbebf7f683f)
 
 <details style={{ marginLeft: 50 }}>

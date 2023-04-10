@@ -153,7 +153,7 @@ public class Clay : DynamicObject, IEnumerable
     /// <returns></returns>
     public bool IsDefined(string name)
     {
-        return IsObject && ((XmlElement.Element("{item}item") ?? XmlElement.Element(name)) != null);
+        return IsObject && ((FindItemElement(name) ?? XmlElement.Element(name)) != null);
     }
 
     /// <summary>
@@ -173,7 +173,7 @@ public class Clay : DynamicObject, IEnumerable
     /// <returns></returns>
     public bool Delete(string name)
     {
-        var elem = XmlElement.Element("{item}item") ?? XmlElement.Element(name);
+        var elem = FindItemElement(name) ?? XmlElement.Element(name);
         if (elem != null)
         {
             elem.Remove();
@@ -275,7 +275,7 @@ public class Clay : DynamicObject, IEnumerable
     {
         return (IsArray)
             ? TryGet(XmlElement.Elements().ElementAtOrDefault((int)indexes[0]), out result)
-            : TryGet(XmlElement.Element("{item}item") ?? XmlElement.Element((string)indexes[0]), out result);
+            : TryGet(FindItemElement((string)indexes[0]) ?? XmlElement.Element((string)indexes[0]), out result);
     }
 
     /// <summary>
@@ -288,7 +288,7 @@ public class Clay : DynamicObject, IEnumerable
     {
         return (IsArray)
             ? TryGet(XmlElement.Elements().ElementAtOrDefault(int.Parse(binder.Name)), out result)
-            : TryGet(XmlElement.Element("{item}item") ?? XmlElement.Element(binder.Name), out result);
+            : TryGet(FindItemElement(binder.Name) ?? XmlElement.Element(binder.Name), out result);
     }
 
     /// <summary>
@@ -546,10 +546,29 @@ public class Clay : DynamicObject, IEnumerable
             }
         }
 
-        var element = XmlElement.Element("{item}item") ?? XmlElement.Element(name);
+        XElement element = null;
+        var invalidName = false;
+
+        // 处理保护特殊符号的 Key 设置
+        try
+        {
+            element = FindItemElement(name) ?? XmlElement.Element(name);
+        }
+        catch
+        {
+            invalidName = true;
+        }
+
         if (element == null)
         {
-            XmlElement.Add(new XElement(name, CreateTypeAttr(type), CreateJsonNode(value)));
+            if (!invalidName) XmlElement.Add(new XElement(name, CreateTypeAttr(type), CreateJsonNode(value)));
+            else
+            {
+                var xmlString = $"<a:item xmlns:a=\"item\" item=\"{name}\" type=\"{type}\"></a:item>";
+                var xEle = XElement.Parse(xmlString);
+                xEle.ReplaceNodes(CreateJsonNode(value));
+                XmlElement.Add(xEle);
+            }
         }
         else
         {
@@ -660,6 +679,20 @@ public class Clay : DynamicObject, IEnumerable
             }
             return list;
         }
+    }
+
+    /// <summary>
+    /// 查找包含 a:item 的节点
+    /// </summary>
+    /// <param name="name"></param>
+    /// <returns></returns>
+    private XElement FindItemElement(string name)
+    {
+        var xelement = XmlElement.Elements("{item}item")
+            .Where(e => (string)e.Attribute("item") == name)
+            .FirstOrDefault();
+
+        return xelement;
     }
 
     /// <summary>
