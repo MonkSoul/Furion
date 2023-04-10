@@ -69,6 +69,8 @@ public sealed class ClayObjectEnumerator : IEnumerator
             try
             {
                 var currentXElement = ((XElement)_clay.XmlElement).Elements().ElementAtOrDefault(position);
+
+                // 获取节点真实标签名
                 var localName = currentXElement.Name == "{item}item"
                     ? currentXElement.Attribute("item").Value
                     : currentXElement.Name.LocalName;

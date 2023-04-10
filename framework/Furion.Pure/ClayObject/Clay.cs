@@ -546,22 +546,13 @@ public class Clay : DynamicObject, IEnumerable
             }
         }
 
-        XElement element = null;
-        var invalidName = false;
-
-        // 处理保护特殊符号的 Key 设置
-        try
-        {
-            element = FindItemElement(name) ?? XmlElement.Element(name);
-        }
-        catch
-        {
-            invalidName = true;
-        }
+        // 校验 Name 是否是合法的
+        var validName = TryVerifyNCName(name) == null;
+        var element = FindItemElement(name) ?? (validName ? XmlElement.Element(name) : null);
 
         if (element == null)
         {
-            if (!invalidName) XmlElement.Add(new XElement(name, CreateTypeAttr(type), CreateJsonNode(value)));
+            if (validName) XmlElement.Add(new XElement(name, CreateTypeAttr(type), CreateJsonNode(value)));
             else
             {
                 var xmlString = $"<a:item xmlns:a=\"item\" item=\"{name}\" type=\"{type}\"></a:item>";
@@ -694,6 +685,11 @@ public class Clay : DynamicObject, IEnumerable
 
         return xelement;
     }
+
+    /// <summary>
+    /// 校验 Xml 标签格式
+    /// </summary>
+    private static readonly Func<string, Exception> TryVerifyNCName = (Func<string, Exception>)Delegate.CreateDelegate(typeof(Func<string, Exception>), typeof(XmlConvert).GetMethod("TryVerifyNCName", BindingFlags.Static | BindingFlags.NonPublic));
 
     /// <summary>
     /// 初始化粘土对象枚举器
