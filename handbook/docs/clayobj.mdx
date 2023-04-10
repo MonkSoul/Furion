@@ -413,7 +413,7 @@ dynamic clay = Clay.Object(new
 var undefined = clay.Undefined; // 抛出 Microsoft.CSharp.RuntimeBinder.RuntimeBinderException
 
 // 设置 Nest 节点不抛异常
-clay.Nest.ThrowOnUndefined = true;
+clay.Nest.ThrowOnUndefined = false;
 var bar = clay.Bar; // => null
 ```
 
