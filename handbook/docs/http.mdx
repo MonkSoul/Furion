@@ -1491,7 +1491,33 @@ services.AddRemoteRequest(options=>
 });
 ```
 
-## 19.8 关于返回值非 `200` 时忽略 `Http状态`
+## 19.8 配置客户端请求代理
+
+```cs showLineNumbers {4,8,10-11,16,18-19}
+services.AddRemoteRequest(options =>
+{
+    // 创建 Web 代理对象
+    var webProxy = new WebProxy(new Uri("http://192.168.31.11:8080"), BypassOnLocal: false);
+
+    // 默认客户端配置
+    options.AddHttpClient(string.Empty)
+            .ConfigurePrimaryHttpMessageHandler(u => new HttpClientHandler
+            {
+                Proxy = webProxy,
+                UseProxy = true
+            });
+
+    // 特定客户端配置
+    options.AddHttpClient("github", c => { /*其他配置*/ })
+           .ConfigurePrimaryHttpMessageHandler(u => new HttpClientHandler
+           {
+               Proxy = webProxy,
+               UseProxy = true
+           });
+});
+```
+
+## 19.9 关于返回值非 `200` 时忽略 `Http状态`
 
 `Furion` 提供了非常方便的请求并且序列化请求结果 `PostAsAsync<T>`
 在 `2.8.8` 及以下版本，当返回结果的 `Http` 状态为非 `200` 时，会直接截断。考虑到请求接口的多样性，在 `2.8.9` 及以上版本增加忽略返回 `Http` 状态，直接序列化结果的方式。
@@ -1515,7 +1541,7 @@ var result = await "https://api.facebook.com/"
 
 :::
 
-## 19.9 关于同步请求
+## 19.10 关于同步请求
 
 `Furion` 框架内部默认不提供同步请求操作，建议总是使用异步的方式请求。如在不能使用异步的情况下，可自行转换为同步执行。如：
 
@@ -1544,7 +1570,7 @@ var result = _http.GetAsync().GetAwaiter().GetResult();
 var result = _http.GetAsync().Result;
 ```
 
-## 19.10 静态 `Default` 方式构建
+## 19.11 静态 `Default` 方式构建
 
 这种方式比字符串拓展好，避免了直接在字符串上拓展。
 
@@ -1552,7 +1578,7 @@ var result = _http.GetAsync().Result;
 await HttpRequestPart.Default().SetRequestUrl("https://www.baidu.com").GetAsStringAsync();
 ```
 
-## 19.11 关闭 `Http` 请求日志
+## 19.12 关闭 `Http` 请求日志
 
 在 `Furion` 框架底层中，`HttpClient` 对象默认通过 `IHttpClientFactory` 创建的，只要发送请求就会自动打印日志，如：
 
@@ -1596,7 +1622,7 @@ info: 2022-10-26 11:39:04(+08:00) 星期三 L System.Net.Http.HttpClient.Default
 }
 ```
 
-## 19.12 获取 `Cookies`
+## 19.13 获取 `Cookies`
 
 :::important 版本说明
 
@@ -1624,7 +1650,7 @@ var response = await _http.GetAsync();
 var cookies = response.GetCookies();
 ```
 
-## 19.13 在 `WinForm/WPF` 中使用
+## 19.14 在 `WinForm/WPF` 中使用
 
 远程请求可在 `WinForm/WPF` 中使用，只需要将方法/事件标记为 `async` 即可。
 
@@ -1635,7 +1661,7 @@ private async void button1_Click(object sender, EventArgs e)
 }
 ```
 
-## 19.14 反馈与建议
+## 19.15 反馈与建议
 
 :::note 与我们交流
 
