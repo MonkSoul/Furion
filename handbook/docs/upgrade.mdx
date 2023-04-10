@@ -45,7 +45,7 @@ import Tag from "@site/src/components/Tag.js";
 
 - **新特性**
 
-  - &nbsp;<Tag>新增</Tag> **粘土对象可配置访问不存在 `Key` 时是抛异常还是返回 `null`** <sup>4.8.7.40</sup> <sup>⏱️2023.04.10</sup>
+  - &nbsp;<Tag>新增</Tag> **粘土对象可配置访问不存在 `Key` 时是抛异常还是返回 `null`** <sup>4.8.7.40</sup> <sup>⏱️2023.04.10</sup> [e994d53](https://gitee.com/dotnetchina/Furion/commit/e994d53b64a825461673f48960df1716be44f192)
   - &nbsp;<Tag>新增</Tag> 定时任务看板支持完全自定义 `RequestPath` 入口地址功能 <sup>4.8.7.34</sup> <sup>⏱️2023.04.04</sup> [24736f6](https://gitee.com/dotnetchina/Furion/commit/24736f6421dd5aa90289fbb9bc519e6ef55e667f)
   - &nbsp;<Tag>新增</Tag> `App.GetServices(type)` 和 `App.GetServices<T>()` 获取服务实例集合 <sup>4.8.7.33</sup> <sup>⏱️2023.04.03</sup> [c3e9957](https://gitee.com/dotnetchina/Furion/commit/c3e9957fd276920b3a8366eda3e347500334458e)
   - &nbsp;<Tag>新增</Tag> 远程请求 `[HttpMethod]ToSaveAsync` 下载远程文件并保存到磁盘方法 <sup>4.8.7.32</sup> <sup>⏱️2023.04.02</sup> [bfd02c1](https://gitee.com/dotnetchina/Furion/commit/bfd02c1a2ce4229e90fc825fe5657ada59e1892f)
@@ -243,6 +243,7 @@ options.AddJob((context, stoppingToken) =>
 
 - **问题修复**
 
+  - &nbsp;<Tag>修复</Tag> `TP.Wrapper` 静态类不能准确识别多行内容问题 <sup>4.8.7.40</sup> <sup>⏱️2023.04.10</sup> [#I6UAC8](https://gitee.com/dotnetchina/Furion/issues/I6UAC8)
   - &nbsp;<Tag>修复</Tag> 粘土对象不支持运行时动态设置携带特殊字符的 `Key` 键 <sup>4.8.7.39</sup> <sup>⏱️2023.04.10</sup> [6572515](https://gitee.com/dotnetchina/Furion/commit/6572515abbd93c4572cc513da4dd5aa497d144d2)
   - &nbsp;<Tag>修复</Tag> 视图引擎模型为匿名泛型集合类型时出现类型转换异常 <sup>4.8.7.38</sup> <sup>⏱️2023.04.07</sup> [!773](https://gitee.com/dotnetchina/Furion/pulls/773)
   - &nbsp;<Tag>修复</Tag> 定时任务通过作业 `Id` 删除作业不能删除作业触发器问题 <sup>4.8.7.35</sup> <sup>⏱️2023.04.05</sup> [312ca35](https://gitee.com/dotnetchina/Furion/commit/312ca357cca1e59e1b6cc67ec499bf512f79dd0a)
