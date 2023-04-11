@@ -198,7 +198,7 @@ var f = clay.Arr.IsDefined(3);  // false
 
 ### 29.3.7 遍历对象
 
-```cs showLineNumbers {12,18,24,33}
+```cs showLineNumbers {12,18,24,33,36}
 dynamic clay = Clay.Object(new
 {
     Foo = "json",
@@ -233,6 +233,9 @@ var result = query.Where(u => u.StartsWith("N"))
 
 // 也可以通过原生方法转换成 IEnumerable 对象
 IEnumerable<dynamic> query = ((System.Collections.IEnumerable)clay.Arr).Cast<dynamic>();   // 其中 Cast<T> 的 T 可以时任意类型，比如 Cast<string>();
+
+// 获取对象所有键或数组所有索引
+IEnumerable<string> keys = clay.GetDynamicMemberNames();
 ```
 
 ### 29.3.8 转换成具体对象
@@ -351,7 +354,7 @@ clay.name = "百小僧";
 Dictionary<string, object> parms = clay.ToDictionary();
 ```
 
-### 29.3.14 配置获取不存在 `Key` 行为
+### 29.3.14 获取不存在 `Key` 处理
 
 :::important 版本说明
 
