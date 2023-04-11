@@ -49,16 +49,22 @@ public static class TP
             stringBuilder.Append($"┣ {description}").AppendLine().Append("┣ ").AppendLine();
         }
 
+        // 添加项
         if (items != null && items.Length > 0)
         {
             var propMaxLength = items.Where(u => _lazyRegex.Value.IsMatch(u))
                 .DefaultIfEmpty(string.Empty)
                 .Max(u => _lazyRegex.Value.Match(u).Groups["prop"].Value.Length);
+
+            // 控制项名称对齐空白占位数
             propMaxLength += (propMaxLength >= 5 ? 10 : 5);
 
+            // 遍历每一项并进行正则表达式匹配
             for (var i = 0; i < items.Length; i++)
             {
                 var item = items[i];
+
+                // 判断是否匹配 ##xxx##
                 if (_lazyRegex.Value.IsMatch(item))
                 {
                     var match = _lazyRegex.Value.Match(item);
@@ -90,9 +96,9 @@ public static class TP
         var coding = Encoding.GetEncoding("gbk");
         var dcount = 0;
 
-        foreach (var ch in str.ToCharArray())
+        foreach (var character in str.ToCharArray())
         {
-            if (coding.GetByteCount(ch.ToString()) == 2)
+            if (coding.GetByteCount(character.ToString()) == 2)
                 dcount++;
         }
 

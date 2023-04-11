@@ -27,8 +27,9 @@ namespace Furion.ClayObject;
 /// <summary>
 /// 粘土对象
 /// </summary>
+/// <remarks>实现动态对象，类似 JavaScript 对象操作</remarks>
 [SuppressSniffer]
-public class Clay : DynamicObject, IEnumerable
+public sealed class Clay : DynamicObject, IEnumerable
 {
     /// <summary>
     /// 构造函数
@@ -44,16 +45,25 @@ public class Clay : DynamicObject, IEnumerable
     /// <summary>
     /// 构造函数
     /// </summary>
-    /// <param name="element"></param>
-    /// <param name="type"></param>
+    /// <param name="element"><see cref="XElement"/></param>
+    /// <param name="type">JSON 类型</param>
     /// <param name="throwOnUndefined">如果设置 false，则读取不存在的值返回 null，默认 true</param>
     private Clay(XElement element, JsonType type, bool throwOnUndefined = true)
     {
+        // 只允许 object 和 array 类型
         Debug.Assert(type == JsonType.array || type == JsonType.@object);
 
         XmlElement = element;
         jsonType = type;
         ThrowOnUndefined = throwOnUndefined;
+    }
+
+    /// <summary>
+    /// JSON 类型
+    /// </summary>
+    private enum JsonType
+    {
+        @string, number, boolean, @object, array, @null
     }
 
     /// <summary>
@@ -67,60 +77,64 @@ public class Clay : DynamicObject, IEnumerable
     public bool IsArray => jsonType == JsonType.array;
 
     /// <summary>
-    /// XML 元素
+    /// 粘土对象 Xml 元数据
     /// </summary>
     public XElement XmlElement { get; private set; }
 
     /// <summary>
-    /// 当 Clay 是 数组类型时的长度
+    /// 当 Clay 时 数组类型时的长度
     /// </summary>
     public int Length => XmlElement.Elements().Count();
 
     /// <summary>
-    /// 如果未定义则抛出异常
+    /// 配置读取不存在 Key 时行为
     /// </summary>
     /// <remarks>如果设置 false，那么返回 null</remarks>
     public bool ThrowOnUndefined { get; set; } = true;
 
     /// <summary>
-    /// 创建一个超级类型
+    /// 创建空的粘土对象
     /// </summary>
     /// <param name="throwOnUndefined">如果设置 false，则读取不存在的值返回 null，默认 true</param>
-    /// <returns></returns>
+    /// <returns><see cref="Clay"/></returns>
     public static dynamic Object(bool throwOnUndefined = true)
     {
         return new Clay(throwOnUndefined);
     }
 
     /// <summary>
-    /// 基于现有类型创建一个超级类型
+    /// 基于现有对象创建粘土对象
     /// </summary>
-    /// <param name="obj"></param>
+    /// <param name="obj">对象</param>
     /// <param name="throwOnUndefined">如果设置 false，则读取不存在的值返回 null，默认 true</param>
-    /// <returns></returns>
+    /// <returns><see cref="Clay"/></returns>
     public static dynamic Object(object obj, bool throwOnUndefined = true)
     {
-        return Parse(Serialize(obj), throwOnUndefined);
+        // 空检查
+        if (obj == null) throw new ArgumentNullException(nameof(obj));
+
+        var json = CreateJsonString(new XStreamingElement("root", CreateTypeAttr(GetJsonType(obj)), CreateJsonNode(obj)));
+        return Parse(json, throwOnUndefined);
     }
 
     /// <summary>
-    /// 将 Json 转换成动态类型
+    /// 基于现有对象创建粘土对象
     /// </summary>
-    /// <param name="json"></param>
+    /// <param name="json">JSON 字符串</param>
     /// <param name="throwOnUndefined">如果设置 false，则读取不存在的值返回 null，默认 true</param>
-    /// <returns></returns>
+    /// <returns><see cref="Clay"/></returns>
     public static dynamic Parse(string json, bool throwOnUndefined = true)
     {
-        return Parse(json, Encoding.Unicode, throwOnUndefined);
+        return Parse(json, Encoding.UTF8, throwOnUndefined);
     }
 
     /// <summary>
-    /// 将 Json 转换成动态类型
+    /// 基于现有对象创建粘土对象
     /// </summary>
-    /// <param name="json"></param>
-    /// <param name="encoding"></param>
+    /// <param name="json">JSON 字符串</param>
+    /// <param name="encoding">编码类型</param>
     /// <param name="throwOnUndefined">如果设置 false，则读取不存在的值返回 null，默认 true</param>
-    /// <returns></returns>
+    /// <returns><see cref="Clay"/></returns>
     public static dynamic Parse(string json, Encoding encoding, bool throwOnUndefined = true)
     {
         using var reader = JsonReaderWriterFactory.CreateJsonReader(encoding.GetBytes(json), XmlDictionaryReaderQuotas.Max);
@@ -128,11 +142,11 @@ public class Clay : DynamicObject, IEnumerable
     }
 
     /// <summary>
-    /// 将 Steam 转换成动态类型
+    /// 基于 Stream 对象创建粘土对象
     /// </summary>
-    /// <param name="stream"></param>
+    /// <param name="stream"><see cref="Stream"/></param>
     /// <param name="throwOnUndefined">如果设置 false，则读取不存在的值返回 null，默认 true</param>
-    /// <returns></returns>
+    /// <returns><see cref="Clay"/></returns>
     public static dynamic Parse(Stream stream, bool throwOnUndefined = true)
     {
         using var reader = JsonReaderWriterFactory.CreateJsonReader(stream, XmlDictionaryReaderQuotas.Max);
@@ -140,12 +154,12 @@ public class Clay : DynamicObject, IEnumerable
     }
 
     /// <summary>
-    /// 将 Steam 转换成动态类型
+    /// 基于 Stream 对象创建粘土对象
     /// </summary>
-    /// <param name="stream"></param>
-    /// <param name="encoding"></param>
+    /// <param name="stream"><see cref="Stream"/></param>
+    /// <param name="encoding">编码类型</param>
     /// <param name="throwOnUndefined">如果设置 false，则读取不存在的值返回 null，默认 true</param>
-    /// <returns></returns>
+    /// <returns><see cref="Clay"/></returns>
     public static dynamic Parse(Stream stream, Encoding encoding, bool throwOnUndefined = true)
     {
         using var reader = JsonReaderWriterFactory.CreateJsonReader(stream, encoding, XmlDictionaryReaderQuotas.Max, _ => { });
@@ -153,79 +167,7 @@ public class Clay : DynamicObject, IEnumerable
     }
 
     /// <summary>
-    /// 序列化对象
-    /// </summary>
-    /// <param name="obj"></param>
-    /// <returns></returns>
-    public static string Serialize(object obj)
-    {
-        return CreateJsonString(new XStreamingElement("root", CreateTypeAttr(GetJsonType(obj)), CreateJsonNode(obj)));
-    }
-
-    /// <summary>
-    /// 是否定义某个键
-    /// </summary>
-    /// <param name="name"></param>
-    /// <returns></returns>
-    public bool IsDefined(string name)
-    {
-        return IsObject && (FindItemElement(name, out _) != null);
-    }
-
-    /// <summary>
-    /// 判断数组索引是否存在
-    /// </summary>
-    /// <param name="index"></param>
-    /// <returns></returns>
-    public bool IsDefined(int index)
-    {
-        return IsArray && (XmlElement.Elements().ElementAtOrDefault(index) != null);
-    }
-
-    /// <summary>
-    /// 删除键
-    /// </summary>
-    /// <param name="name"></param>
-    /// <returns></returns>
-    public bool Delete(string name)
-    {
-        var elem = FindItemElement(name, out _);
-        if (elem != null)
-        {
-            elem.Remove();
-            return true;
-        }
-        else return false;
-    }
-
-    /// <summary>
-    /// 根据索引删除元素
-    /// </summary>
-    /// <param name="index"></param>
-    /// <returns></returns>
-    public bool Delete(int index)
-    {
-        var elem = XmlElement.Elements().ElementAtOrDefault(index);
-        if (elem != null)
-        {
-            elem.Remove();
-            return true;
-        }
-        else return false;
-    }
-
-    /// <summary>
-    /// 反序列化
-    /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <returns></returns>
-    public T Deserialize<T>()
-    {
-        return (T)Deserialize(typeof(T));
-    }
-
-    /// <summary>
-    /// 删除
+    /// 重写动态调用方法实现删除行为
     /// </summary>
     /// <param name="binder"></param>
     /// <param name="args"></param>
@@ -240,7 +182,7 @@ public class Clay : DynamicObject, IEnumerable
     }
 
     /// <summary>
-    /// 判断是否定义
+    /// 重写动态调用成员名称方法实现键是否存在行为
     /// </summary>
     /// <param name="binder"></param>
     /// <param name="args"></param>
@@ -259,7 +201,7 @@ public class Clay : DynamicObject, IEnumerable
     }
 
     /// <summary>
-    /// 支持 Foreach 遍历
+    /// 重写类型转换方法实现粘土对象动态转换
     /// </summary>
     /// <param name="binder"></param>
     /// <param name="result"></param>
@@ -270,7 +212,7 @@ public class Clay : DynamicObject, IEnumerable
         {
             var ie = (IsArray)
                 ? XmlElement.Elements().Select(x => ToValue(x, ThrowOnUndefined))
-                : XmlElement.Elements().Select(x => (dynamic)new KeyValuePair<string, object>(x.Name.LocalName, ToValue(x, ThrowOnUndefined)));
+                : XmlElement.Elements().Select(x => (dynamic)new KeyValuePair<string, object>(x.Name == "{item}item" ? x.Attribute("item").Value : x.Name.LocalName, ToValue(x, ThrowOnUndefined)));
             result = (binder.Type == typeof(object[])) ? ie.ToArray() : ie;
         }
         else
@@ -281,7 +223,7 @@ public class Clay : DynamicObject, IEnumerable
     }
 
     /// <summary>
-    /// 获取索引值
+    /// 重写根据索引获取值的行为
     /// </summary>
     /// <param name="binder"></param>
     /// <param name="indexes"></param>
@@ -291,11 +233,11 @@ public class Clay : DynamicObject, IEnumerable
     {
         return (IsArray)
             ? TryGet(XmlElement.Elements().ElementAtOrDefault((int)indexes[0]), out result, ThrowOnUndefined)
-            : TryGet(FindItemElement((string)indexes[0], out _), out result, ThrowOnUndefined);
+            : TryGet(FindXElement((string)indexes[0], out _), out result, ThrowOnUndefined);
     }
 
     /// <summary>
-    /// 获取成员值
+    /// 重写根据成员名称获取值的行为
     /// </summary>
     /// <param name="binder"></param>
     /// <param name="result"></param>
@@ -304,11 +246,11 @@ public class Clay : DynamicObject, IEnumerable
     {
         return (IsArray)
             ? TryGet(XmlElement.Elements().ElementAtOrDefault(int.Parse(binder.Name)), out result, ThrowOnUndefined)
-            : TryGet(FindItemElement(binder.Name, out _), out result, ThrowOnUndefined);
+            : TryGet(FindXElement(binder.Name, out _), out result, ThrowOnUndefined);
     }
 
     /// <summary>
-    /// 设置索引
+    /// 重写根据索引设置值的行为
     /// </summary>
     /// <param name="binder"></param>
     /// <param name="indexes"></param>
@@ -322,7 +264,7 @@ public class Clay : DynamicObject, IEnumerable
     }
 
     /// <summary>
-    /// 设置成员
+    /// 重写根据成员名称设置值的行为
     /// </summary>
     /// <param name="binder"></param>
     /// <param name="value"></param>
@@ -335,23 +277,23 @@ public class Clay : DynamicObject, IEnumerable
     }
 
     /// <summary>
-    /// 获取动态成员名称
+    /// 重写获取所有动态成员名称行为
     /// </summary>
     /// <returns></returns>
     public override IEnumerable<string> GetDynamicMemberNames()
     {
         return (IsArray)
             ? XmlElement.Elements().Select((x, i) => i.ToString())
-            : XmlElement.Elements().Select(x => x.Name.LocalName);
+            : XmlElement.Elements().Select(x => x.Name == "{item}item" ? x.Attribute("item").Value : x.Name.LocalName);
     }
 
     /// <summary>
-    /// 重写 .ToString()
+    /// 重写转换成字符串方法
     /// </summary>
     /// <returns></returns>
     public override string ToString()
     {
-        // <foo type="null"></foo> is can't serialize. replace to <foo type="null" />
+        // 处理类型为 null 且为双闭合标签
         foreach (var elem in XmlElement.Descendants().Where(x => x.Attribute("type").Value == "null"))
         {
             elem.RemoveNodes();
@@ -360,7 +302,69 @@ public class Clay : DynamicObject, IEnumerable
     }
 
     /// <summary>
-    /// 固化粘土，也就是直接输出对象
+    /// 判断对象键是否存在
+    /// </summary>
+    /// <param name="name"></param>
+    /// <returns></returns>
+    public bool IsDefined(string name)
+    {
+        return IsObject && (FindXElement(name, out _) != null);
+    }
+
+    /// <summary>
+    /// 判断数组索引是否存在
+    /// </summary>
+    /// <param name="index"></param>
+    /// <returns></returns>
+    public bool IsDefined(int index)
+    {
+        return IsArray && (XmlElement.Elements().ElementAtOrDefault(index) != null);
+    }
+
+    /// <summary>
+    /// 根据键删除对象属性
+    /// </summary>
+    /// <param name="name"></param>
+    /// <returns></returns>
+    public bool Delete(string name)
+    {
+        var elem = FindXElement(name, out _);
+        if (elem != null)
+        {
+            elem.Remove();
+            return true;
+        }
+        else return false;
+    }
+
+    /// <summary>
+    /// 根据索引删除数组元素
+    /// </summary>
+    /// <param name="index"></param>
+    /// <returns></returns>
+    public bool Delete(int index)
+    {
+        var elem = XmlElement.Elements().ElementAtOrDefault(index);
+        if (elem != null)
+        {
+            elem.Remove();
+            return true;
+        }
+        else return false;
+    }
+
+    /// <summary>
+    /// 将粘土对象反序列化为特定类型
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <returns></returns>
+    public T Deserialize<T>()
+    {
+        return (T)Deserialize(typeof(T));
+    }
+
+    /// <summary>
+    /// 将粘土对象转换为 object 类型
     /// </summary>
     /// <returns></returns>
     public object Solidify()
@@ -369,7 +373,7 @@ public class Clay : DynamicObject, IEnumerable
     }
 
     /// <summary>
-    /// 固化粘土，也就是直接输出对象
+    /// 将粘土对象转换为特定类型
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <returns></returns>
@@ -379,24 +383,25 @@ public class Clay : DynamicObject, IEnumerable
     }
 
     /// <summary>
-    /// 输出字典类型
+    /// 将粘土对象转换为字典类型
     /// </summary>
     /// <returns></returns>
     public IDictionary<string, object> ToDictionary()
     {
-        return Solidify().ToDictionary();
+        // 数组类型不支持转换成字典
+        if (IsArray) throw new InvalidOperationException("Cannot convert a clay object with JsonType as an array to a dictionary object.");
+
+        var dic = new Dictionary<string, object>();
+        foreach (KeyValuePair<string, dynamic> item in this)
+        {
+            dic[item.Key] = item.Value;
+        }
+
+        return dic;
     }
 
     /// <summary>
-    /// JSON 类型
-    /// </summary>
-    private enum JsonType
-    {
-        @string, number, boolean, @object, array, @null
-    }
-
-    /// <summary>
-    /// XElement 转动态类型
+    /// XElement 对象转换成 C# 对象
     /// </summary>
     /// <param name="element"></param>
     /// <param name="throwOnUndefined">如果设置 false，则读取不存在的值返回 null，默认 true</param>
@@ -443,7 +448,7 @@ public class Clay : DynamicObject, IEnumerable
     }
 
     /// <summary>
-    /// 创建类型属性
+    /// 创建 XElement type 属性
     /// </summary>
     /// <param name="type"></param>
     /// <returns></returns>
@@ -453,7 +458,7 @@ public class Clay : DynamicObject, IEnumerable
     }
 
     /// <summary>
-    /// 创建 JSON 节点
+    /// 创建 XElement 节点值
     /// </summary>
     /// <param name="obj"></param>
     /// <returns></returns>
@@ -509,10 +514,10 @@ public class Clay : DynamicObject, IEnumerable
     private static string CreateJsonString(XStreamingElement element)
     {
         using var ms = new MemoryStream();
-        using var writer = JsonReaderWriterFactory.CreateJsonWriter(ms, Encoding.Unicode);
+        using var writer = JsonReaderWriterFactory.CreateJsonWriter(ms, Encoding.UTF8);
         element.WriteTo(writer);
         writer.Flush();
-        return Encoding.Unicode.GetString(ms.ToArray());
+        return Encoding.UTF8.GetString(ms.ToArray());
     }
 
     /// <summary>
@@ -540,7 +545,7 @@ public class Clay : DynamicObject, IEnumerable
     }
 
     /// <summary>
-    /// 设置值
+    /// 根据键设置对象值
     /// </summary>
     /// <param name="name"></param>
     /// <param name="value"></param>
@@ -564,7 +569,7 @@ public class Clay : DynamicObject, IEnumerable
             }
         }
 
-        var element = FindItemElement(name, out var isValid);
+        var element = FindXElement(name, out var isValid);
         if (element == null)
         {
             if (isValid) XmlElement.Add(new XElement(name, CreateTypeAttr(type), CreateJsonNode(value)));
@@ -586,7 +591,7 @@ public class Clay : DynamicObject, IEnumerable
     }
 
     /// <summary>
-    /// 设置值
+    /// 根据索引设置数组值
     /// </summary>
     /// <param name="index"></param>
     /// <param name="value"></param>
@@ -619,25 +624,6 @@ public class Clay : DynamicObject, IEnumerable
     }
 
     /// <summary>
-    /// 反序列化值
-    /// </summary>
-    /// <param name="element"></param>
-    /// <param name="elementType"></param>
-    /// <param name="throwOnUndefined">如果设置 false，则读取不存在的值返回 null，默认 true</param>
-    /// <returns></returns>
-    private static dynamic DeserializeValue(XElement element, Type elementType, bool throwOnUndefined = true)
-    {
-        var value = ToValue(element, throwOnUndefined);
-
-        if (value is Clay json)
-        {
-            value = json.Deserialize(elementType);
-        }
-
-        return Furion.Extensions.ObjectExtensions.ChangeType(value, elementType);
-    }
-
-    /// <summary>
     /// 反序列化对象
     /// </summary>
     /// <param name="targetType"></param>
@@ -649,17 +635,41 @@ public class Clay : DynamicObject, IEnumerable
             .Where(p => p.CanWrite)
             .ToDictionary(pi => pi.Name, pi => pi);
 
-        foreach (var item in XmlElement.Elements())
+        foreach (var xElement in XmlElement.Elements())
         {
-            if (!dict.TryGetValue(item.Name.LocalName, out var propertyInfo)) continue;
-            var value = Clay.DeserializeValue(item, propertyInfo.PropertyType, ThrowOnUndefined);
+            // 获取节点真实标签名
+            var localName = xElement.Name == "{item}item"
+                ? xElement.Attribute("item").Value
+                : xElement.Name.LocalName;
+
+            if (!dict.TryGetValue(localName, out var propertyInfo)) continue;
+            var value = Clay.DeserializeValue(xElement, propertyInfo.PropertyType, ThrowOnUndefined);
             propertyInfo.SetValue(result, value, null);
         }
         return result;
     }
 
     /// <summary>
-    /// 序列化数组
+    /// 反序列化值
+    /// </summary>
+    /// <param name="element"></param>
+    /// <param name="elementType"></param>
+    /// <param name="throwOnUndefined">如果设置 false，则读取不存在的值返回 null，默认 true</param>
+    /// <returns></returns>
+    private static dynamic DeserializeValue(XElement element, Type elementType, bool throwOnUndefined = true)
+    {
+        var value = ToValue(element, throwOnUndefined);
+
+        if (value is Clay clay)
+        {
+            value = clay.Deserialize(elementType);
+        }
+
+        return Furion.Extensions.ObjectExtensions.ChangeType(value, elementType);
+    }
+
+    /// <summary>
+    /// 反序列化数组
     /// </summary>
     /// <param name="targetType"></param>
     /// <returns></returns>
@@ -689,12 +699,12 @@ public class Clay : DynamicObject, IEnumerable
     }
 
     /// <summary>
-    /// 查找包含 a:item 的节点
+    /// 根据键查找 <see cref="XElement"/> 对象
     /// </summary>
     /// <param name="name"></param>
     /// <param name="isValid"></param>
     /// <returns></returns>
-    private XElement FindItemElement(string name, out bool isValid)
+    private XElement FindXElement(string name, out bool isValid)
     {
         // 校验 Name 是否是合法的
         var validName = isValid = TryVerifyNCName(name) == null;

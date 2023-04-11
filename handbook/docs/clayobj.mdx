@@ -42,6 +42,7 @@ var result = query.Where(u => u.StartsWith("N"))
 
 - **问题修复**
 
+  - &nbsp;<Tag>修复</Tag> 粘土对象转换为 `Dictionary<string, object>` 类型异常 <sup>4.8.7.41</sup> <sup>⏱️2023.04.11</sup> [f96baeb](https://gitee.com/dotnetchina/Furion/commit/f96baebbb06b53fc481ea7925cbbfbcb191f9c10)
   - &nbsp;<Tag>修复</Tag> 粘土对象不支持运行时动态设置携带特殊字符的 `Key` 键 <sup>4.8.7.39</sup> <sup>⏱️2023.04.10</sup> [6572515](https://gitee.com/dotnetchina/Furion/commit/6572515abbd93c4572cc513da4dd5aa497d144d2)
   - &nbsp;<Tag>修复</Tag> 粘土对象遍历对象键值对因 `4.8.7.19` 版本更新导致异常 <sup>4.8.7.25</sup> <sup>⏱️2023.03.28</sup> [#I6R4ZU](https://gitee.com/dotnetchina/Furion/issues/I6R4ZU)
   - &nbsp;<Tag>修复</Tag> 粘土对象不支持 `数字` 作为 `JSON/XML` 键问题 <sup>4.8.6.9</sup> <sup>⏱️2023.02.19</sup> [#note_16329657](https://gitee.com/dotnetchina/Furion/commit/4961e01486f604db12a8d8d71f9bd563ed7d7d48#note_16329657)
@@ -172,9 +173,9 @@ clay("Bar");    // 支持直接通过对象作为方法删除
 clay.Arr(1);    // 支持数组作为方法删除
 ```
 
-### 29.3.6 判断属性是否存在
+### 29.3.6 判断键/索引是否存在
 
-```cs showLineNumbers {1,13-16}
+```cs showLineNumbers {1,13-18}
 dynamic clay = Clay.Object(new
 {
     Foo = "json",
@@ -191,11 +192,13 @@ var a = clay.IsDefined("Foo"); // true
 var b = clay.IsDefined("Foooo"); // false
 var c = clay.Foo(); // true
 var d = clay.Foooo(); // false;
+var e = clay.Arr.IsDefined(0);  // true
+var f = clay.Arr.IsDefined(3);  // false
 ```
 
 ### 29.3.7 遍历对象
 
-```cs showLineNumbers {12,18,24,33}
+```cs showLineNumbers {12,18,24,33,36}
 dynamic clay = Clay.Object(new
 {
     Foo = "json",
@@ -230,6 +233,9 @@ var result = query.Where(u => u.StartsWith("N"))
 
 // 也可以通过原生方法转换成 IEnumerable 对象
 IEnumerable<dynamic> query = ((System.Collections.IEnumerable)clay.Arr).Cast<dynamic>();   // 其中 Cast<T> 的 T 可以时任意类型，比如 Cast<string>();
+
+// 获取对象所有键或数组所有索引
+IEnumerable<string> keys = clay.GetDynamicMemberNames();
 ```
 
 ### 29.3.8 转换成具体对象
@@ -348,7 +354,7 @@ clay.name = "百小僧";
 Dictionary<string, object> parms = clay.ToDictionary();
 ```
 
-### 29.3.14 配置获取不存在 `Key` 行为
+### 29.3.14 获取不存在 `Key` 处理
 
 :::important 版本说明
 

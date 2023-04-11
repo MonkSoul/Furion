@@ -63,12 +63,7 @@ public static class DictionaryExtensions
         // 处理粘土对象
         if (input is Clay clay && clay.IsObject)
         {
-            var dic = new Dictionary<string, object>();
-            foreach (KeyValuePair<string, dynamic> item in (dynamic)clay)
-            {
-                dic.Add(item.Key, item.Value is Clay v ? v.ToDictionary() : item.Value);
-            }
-            return dic;
+            return clay.ToDictionary();
         }
 
         // 处理 JSON 类型
