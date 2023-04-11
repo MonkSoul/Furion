@@ -108,17 +108,17 @@ namespace Furion.Web.Core
 :::
 
 <Tabs
-  defaultValue="App.GetOptions<TOptions>(path)"
+  defaultValue="App.GetConfig<TOptions>(path)"
   values={[
     {
-      label: "App.GetOptions<TOptions>(path)",
-      value: "App.GetOptions<TOptions>(path)",
+      label: "App.GetConfig<TOptions>(path)",
+      value: "App.GetConfig<TOptions>(path)",
     },
     { label: "依赖注入方式", value: "依赖注入方式" },
     { label: "App.GetOptions<TOptions>()", value: "App.GetOptions<TOptions>()" }
   ]}
 >
-  <TabItem value="App.GetOptions<TOptions>(path)">
+  <TabItem value="App.GetConfig<TOptions>(path)">
 
 ```cs showLineNumbers  {13-16}
 using Furion.Application;
