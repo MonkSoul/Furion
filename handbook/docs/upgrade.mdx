@@ -1080,7 +1080,7 @@ options.AddHttpClient("github", c =>
   - &nbsp;<Tag>修复</Tag> 多个 `sql` 共用 `DbParameters` 出现冲突问题 <sup>4.6.0</sup> [#I5UO2H](https://gitee.com/dotnetchina/Furion/issues/I5UO2H)
   - &nbsp;<Tag>修复</Tag> 高频率写入日志导致堆内存溢出的异常问题 <sup>4.6.0</sup> [#I5UJRS](https://gitee.com/dotnetchina/Furion/issues/I5UJRS)
   - &nbsp;<Tag>修复</Tag> 框架内部所有使用 `.CreateLogger` 创建的日志对象无法应用上下文问题 <sup>4.6.0</sup> [ec4838c](https://gitee.com/dotnetchina/Furion/commit/ec4838c218ed9c96ba92d7a80fd11539da59ca22)
-  - &nbsp;<Tag>修复</Tag> 修复远程请求不能在 `Worker Serivce` 中进行构造函数注入，原因是注册为 `Scope` 范围作用域 <sup>4.6.3</sup> [974f835](https://gitee.com/dotnetchina/Furion/commit/974f835ccdcf84bc84dd6f7044589ae2a2e7a57b)
+  - &nbsp;<Tag>修复</Tag> 远程请求不能在 `Worker Serivce` 中进行构造函数注入，原因是注册为 `Scope` 范围作用域 <sup>4.6.3</sup> [974f835](https://gitee.com/dotnetchina/Furion/commit/974f835ccdcf84bc84dd6f7044589ae2a2e7a57b)
   - &nbsp;<Tag>修复</Tag> **个别服务器的 `SQL Server` 不支持 `TLS 1.2` 协议问题** <sup>4.6.3</sup> [974f835](https://gitee.com/dotnetchina/Furion/commit/974f835ccdcf84bc84dd6f7044589ae2a2e7a57b)
   - &nbsp;<Tag>修复</Tag> `.ToDictionary()` 拓展不支持 `JObject` 类型问题 <sup>4.6.5</sup> [#I5VJHC](https://gitee.com/dotnetchina/Furion/issues/I5VJHC) [a11bf8d](https://github.com/MonkSoul/Furion/commit/a11bf8d8b6bb90b41b8394d8bca35aa3539239e6)
   - &nbsp;<Tag>修复</Tag> `LoggingMonitor` 处理 `long` 类型丢精度问题 <sup>4.6.5</sup> [#I5VJHC](https://gitee.com/dotnetchina/Furion/issues/I5VJHC) [aded58d](https://gitee.com/dotnetchina/Furion/commit/aded58d0bc587d1a1844382c66ec1ab3de96be7c)
@@ -1136,7 +1136,7 @@ options.AddHttpClient("github", c =>
   - &nbsp;<Tag>新增</Tag> `LogMessage` 结构类 `LogDateTime`，`ThreadId`，`State` 属性 <sup>4.5.2</sup> [#I5TWC1](https://gitee.com/dotnetchina/Furion/issues/I5TWC1)
   - &nbsp;<Tag>新增</Tag> `LoggingMonitor` 可配置 `JsonWriterOptions` 属性 <sup>4.5.4</sup> [#I5U375](https://gitee.com/dotnetchina/Furion/issues/I5U375)
   - &nbsp;<Tag>新增</Tag> `Log.ScopeContext` 和 `"some log".ScopeContext` 拓展 <sup>4.5.4</sup> [8129693](https://gitee.com/dotnetchina/Furion/commit/812969357a60d0b73becf105e6b77b46113b3800)
-  - &nbsp;<Tag>新增</Tag> 新增 `HttpContext.SetTokensOfResponseHeaders` 拓展 <sup>4.5.7</sup> [3775e65](https://gitee.com/dotnetchina/Furion/commit/3775e659ca13615bc7f65b050fb8540daeed9433)
+  - &nbsp;<Tag>新增</Tag> `HttpContext.SetTokensOfResponseHeaders` 拓展 <sup>4.5.7</sup> [3775e65](https://gitee.com/dotnetchina/Furion/commit/3775e659ca13615bc7f65b050fb8540daeed9433)
   - &nbsp;<Tag>新增</Tag> 新增远程请求支持 `Stream` 文件格式上传 <sup>4.5.8</sup> [#I5UF3I](https://gitee.com/dotnetchina/Furion/issues/I5UF3I)
   - &nbsp;<Tag>新增</Tag> 日志模块可配置是否启用上下文功能 `IncludeScopes` 属性 <sup>4.5.9</sup> [#I5UJRS](https://gitee.com/dotnetchina/Furion/issues/I5UJRS)
   - &nbsp;<Tag>新增</Tag> `LoggingMonitor` 日志筛选 `WriteFilter` 配置 <sup>4.5.9</sup> [6f06f12](https://gitee.com/dotnetchina/Furion/commit/6f06f12b2c115bd181f4832daa7537efe5cb3fe8)
@@ -2188,7 +2188,7 @@ _logger.ScopeContext(new LogContext {
 
 - **问题修复**
 
-  - &nbsp;<Tag>修复</Tag> 修复脱敏模块模型绑定个别情况下空异常问题 [#I5IM5C](https://gitee.com/dotnetchina/Furion/issues/I5IM5C)
+  - &nbsp;<Tag>修复</Tag> 脱敏模块模型绑定个别情况下空异常问题 [#I5IM5C](https://gitee.com/dotnetchina/Furion/issues/I5IM5C)
 
 - **文档**
 
@@ -2324,7 +2324,7 @@ public class TestLoggerServices : IDynamicApiController
 
   - &nbsp;<Tag>调整</Tag> 多语言默认处理逻辑，**允许不配置任何语言**，过去版本会报错 [#I5GRD9](https://gitee.com/dotnetchina/Furion/issues/I5GRD9) [5077c5d](https://gitee.com/dotnetchina/Furion/commit/5077c5dab9ee94733817f55ff8224b853d0001a3)
   - &nbsp;<Tag>更新</Tag> 规范化文档 `Swagger` 性能
-  - &nbsp;<Tag>调整</Tag> 调整 `MongoDB` 仓储 `TDocument` 泛型约束 [3f49055](https://gitee.com/dotnetchina/Furion/commit/3f49055b6b80ef7861f58b0c6feabf5c87a32010)
+  - &nbsp;<Tag>调整</Tag> `MongoDB` 仓储 `TDocument` 泛型约束 [3f49055](https://gitee.com/dotnetchina/Furion/commit/3f49055b6b80ef7861f58b0c6feabf5c87a32010)
 
 - **文档**
 
@@ -2537,7 +2537,7 @@ app.Run();
 
 - **问题修复**
 
-  - &nbsp;<Tag>修复</Tag> 修复默认注册的 `services.AddResponseCaching();` 服务导致 `.axd` 内嵌资源请求错误问题 [!495](https://gitee.com/dotnetchina/Furion/pulls/495)
+  - &nbsp;<Tag>修复</Tag> 默认注册的 `services.AddResponseCaching();` 服务导致 `.axd` 内嵌资源请求错误问题 [!495](https://gitee.com/dotnetchina/Furion/pulls/495)
   - &nbsp;<Tag>修复</Tag> `Oracle` 数据库执行 `sql` 必须要求命令参数和 `sql` 语言参数数量一致 [#I5D057](https://gitee.com/dotnetchina/Furion/issues/I5D057)
   - &nbsp;<Tag>修复</Tag> `IHostService` 类型不能自动注册问题，之前只扫描了 `BackgroundService` 派生类 [968344](https://gitee.com/dotnetchina/Furion/commit/968344aa07348f4c06f914abf7b6f46174633d81)
   - &nbsp;<Tag>修复</Tag> 国产芯片主机不能识别 `dotnet run --urls` 参数问题 [6d4398](https://gitee.com/dotnetchina/Furion/commit/6d43983781e0c41228c4917a242141d011088bdb)
@@ -2955,7 +2955,7 @@ public string add()
   - &nbsp;<Tag>新增</Tag> 根据文件名获取 `Content-Type` 和 `Mime` 类型 [#8f78184](https://gitee.com/dotnetchina/Furion/commit/8f78184f8661830744592c054b65d503346c1b27)
   - &nbsp;<Tag>新增</Tag> 规范化文档支持授权访问 [#32aa3b6](https://gitee.com/dotnetchina/Furion/commit/32aa3b6328d23a5885033837883c7b546e898d43)
   - &nbsp;<Tag>新增</Tag> 代码注释，规范化文档注释 `inheritdoc` 语法支持 ❤️️️️ [#159A6W](https://gitee.com/dotnetchina/Furion/issues/I59A6W)
-  - &nbsp;<Tag>新增</Tag> 新增 `Vue2/3`，`React 16.8+`，`Angular 9+` 前端请求工具库，实现后端 API 代理 [axios-utils](https://gitee.com/dotnetchina/Furion/tree/v4/clients/axios)
+  - &nbsp;<Tag>新增</Tag> `Vue2/3`，`React 16.8+`，`Angular 9+` 前端请求工具库，实现后端 API 代理 [axios-utils](https://gitee.com/dotnetchina/Furion/tree/v4/clients/axios)
 
 - **突破性变化**
 
@@ -3341,7 +3341,7 @@ app.UseVirtualPath(app =>
   - &nbsp;<Tag>修复</Tag> 远程请求默认序列化问题 [a55603b](https://gitee.com/dotnetchina/Furion/commit/a55603bf7ed109296375dbeffc31591a6f8f8e49)
   - &nbsp;<Tag>修复</Tag> 定时任务零点/整点提前一秒触发问题 [#I4321L](https://gitee.com/dotnetchina/Furion/issues/I4321L)
   - &nbsp;<Tag>修复</Tag> 友好异常在子类重写抽象类方法内部抛异常无法获取的问题 [4a4fe1f](https://gitee.com/dotnetchina/Furion/commit/4a4fe1f40e1856ea36a0c0d19ca625d3f7bf95b7)
-  - &nbsp;<Tag>修复</Tag> 修复非 Web 项目抛异常问题 [4a4fe1f](https://gitee.com/dotnetchina/Furion/commit/4a4fe1f40e1856ea36a0c0d19ca625d3f7bf95b7)
+  - &nbsp;<Tag>修复</Tag> 非 `Web` 项目抛异常问题 [4a4fe1f](https://gitee.com/dotnetchina/Furion/commit/4a4fe1f40e1856ea36a0c0d19ca625d3f7bf95b7)
   - &nbsp;<Tag>修复</Tag> 数据库实体模型贴 `[NotMapper]` 特性无效 [#I44MNO](https://gitee.com/dotnetchina/Furion/issues/I44MNO)
 
 - **其他更改**
@@ -3501,7 +3501,7 @@ namespace Furion.UnifyResult
   - &nbsp;<Tag>修复</Tag> 自动扫描接口进行依赖注入获取首个接口错误 bug [#I41D1M](https://gitee.com/dotnetchina/Furion/issues/I41D1M)
   - &nbsp;<Tag>修复</Tag> `IRepository<TEntity>` 没有实现 `IRepository<TEntity, TDbContextLocator>` 问题 [#I41MZP](https://gitee.com/dotnetchina/Furion/issues/I41MZP)
   - &nbsp;<Tag>修复</Tag> 远程请求缺省序列化 bug [#I41PBW](https://gitee.com/dotnetchina/Furion/issues/I41PBW)
-  - &nbsp;<Tag>修复</Tag> 修复 `AppDbContext.Tenant` 多租户空异常问题 [#I421DA](https://gitee.com/dotnetchina/Furion/issues/I421DA)
+  - &nbsp;<Tag>修复</Tag> `AppDbContext.Tenant` 多租户空异常问题 [#I421DA](https://gitee.com/dotnetchina/Furion/issues/I421DA)
   - &nbsp;<Tag>修复</Tag> `Worker Service` 多个 `Worker` 定时任务阻塞问题 [82a79cc](https://gitee.com/dotnetchina/Furion/commit/82a79cce0a3d9b09f4090b7363c3b78327c76846)
   - &nbsp;<Tag>修复</Tag> `Jwt` 自动刷新机制时区处理问题，主要针对国外用户 [#I41UB1](https://gitee.com/dotnetchina/Furion/issues/I41UB1) [82a79cc](https://gitee.com/dotnetchina/Furion/commit/82a79cce0a3d9b09f4090b7363c3b78327c76846)
 
@@ -3558,7 +3558,7 @@ namespace Furion.UnifyResult
   - &nbsp;<Tag>新增</Tag> `Sql 高级代理` 拦截功能 [#I3YHG4](https://gitee.com/dotnetchina/Furion/issues/I3YHG4)
   - &nbsp;<Tag>新增</Tag> 拦截远程请求所有异常处理 [#I3YPDE](https://gitee.com/dotnetchina/Furion/issues/I3YPDE)
   - &nbsp;<Tag>新增</Tag> 远程请求配置 `Timeout` 超时时间 [#I3YPPK](https://gitee.com/dotnetchina/Furion/issues/I3YPPK)
-  - &nbsp;<Tag>新增</Tag> 新增 `RSA` 加密算法 [#I3YZNU](https://gitee.com/dotnetchina/Furion/issues/I3YZNU) [!345](https://gitee.com/dotnetchina/Furion/pulls/345)
+  - &nbsp;<Tag>新增</Tag> `RSA` 加密算法 [#I3YZNU](https://gitee.com/dotnetchina/Furion/issues/I3YZNU) [!345](https://gitee.com/dotnetchina/Furion/pulls/345)
   - &nbsp;<Tag>新增</Tag> `DataTable` 和 `DataSet` 支持不指定强类型返回 [#I3Z6RI](https://gitee.com/dotnetchina/Furion/issues/I3Z6RI)
   - &nbsp;<Tag>新增</Tag> `Sql` 字符串拓展方法设置 `Timeout` 超时时间 [#I3ZKWF](https://gitee.com/dotnetchina/Furion/issues/I3ZKWF)
   - &nbsp;<Tag>新增</Tag> `Sql` 高级代理 `[Timeout]` 特性，设置超时时间 [#I3ZKWF](https://gitee.com/dotnetchina/Furion/issues/I3ZKWF)
@@ -3566,7 +3566,7 @@ namespace Furion.UnifyResult
 - **突破性变化**
 
   - &nbsp;<Tag>移除</Tag> **`FakeDelete` 假删除/软删除所有功能 [#I3XKII](https://gitee.com/dotnetchina/Furion/issues/I3XKII)**
-  - &nbsp;<Tag>移除</Tag> **移除 `PBKDF2` 加密算法 [#I3Z0IO](https://gitee.com/dotnetchina/Furion/issues/I3Z0IO)**
+  - &nbsp;<Tag>移除</Tag> **`PBKDF2` 加密算法 [#I3Z0IO](https://gitee.com/dotnetchina/Furion/issues/I3Z0IO)**
   - &nbsp;<Tag>调整</Tag> **远程请求设置超时时间单位由 `分钟` 改为 `秒` [#I3YPPK](https://gitee.com/dotnetchina/Furion/issues/I3YPPK)**
   - &nbsp;<Tag>调整</Tag> **`IJsonSerializerProvider` 接口参数，新增 `inherit` 参数 [#I3ZQU5](https://gitee.com/dotnetchina/Furion/issues/I3ZQU5)**
   - &nbsp;<Tag>调整</Tag> `[NonAutomatic]` 特性名称为 `[Manual]` [#I3XKKX](https://gitee.com/dotnetchina/Furion/issues/I3XKKX)
@@ -3581,7 +3581,7 @@ namespace Furion.UnifyResult
 
   - &nbsp;<Tag>修复</Tag> 动态 WebAPI 扫描控制器没有屏蔽没有注册的第三方控制器 [#I3Y7TJ](https://gitee.com/dotnetchina/Furion/issues/I3Y7TJ)
   - &nbsp;<Tag>修复</Tag> `AppDbContext` 设置 `TablePrefix` 无效： [#I3Y57Q](https://gitee.com/dotnetchina/Furion/issues/I3Y57Q)
-  - &nbsp;<Tag>修复</Tag> 修复定时任务使用异步委托导致程序终止 bug [#I3XVZ0](https://gitee.com/dotnetchina/Furion/issues/I3XVZ0)
+  - &nbsp;<Tag>修复</Tag> 定时任务使用异步委托导致程序终止 bug [#I3XVZ0](https://gitee.com/dotnetchina/Furion/issues/I3XVZ0)
   - &nbsp;<Tag>修复</Tag> 事件总线一个 `消息id` 对应多个 `Handler` 只触发第一个[#I3XYP0](https://gitee.com/dotnetchina/Furion/issues/I3XYP0)
   - &nbsp;<Tag>修复</Tag> `.ToPagedList()` 分页方法传入小于或等于 0 的页码 [#I3XNAN](https://gitee.com/dotnetchina/Furion/issues/I3XNAN)
   - &nbsp;<Tag>修复</Tag> `JSON` 序列化默认 `DateTimeOffset` 异常 [#I3XMOL](https://gitee.com/dotnetchina/Furion/issues/I3XMOL)
@@ -3591,7 +3591,7 @@ namespace Furion.UnifyResult
   - &nbsp;<Tag>修复</Tag> 数据库命令参数 `DbParameter` 的 `Value` 是 `object` 类型的时候且不指定 [#I3YKM6](https://gitee.com/dotnetchina/Furion/issues/I3YKM6)
   - &nbsp;<Tag>修复</Tag> `Oracle` 数据库存储过程 `游标参数` 报错问题 [#I3ZBYE](https://gitee.com/dotnetchina/Furion/issues/I3ZBYE)
   - &nbsp;<Tag>修复</Tag> `Worker Services` 采用独立发布后无法执行问题 [#I3ZH3X](https://gitee.com/dotnetchina/Furion/issues/I3ZH3X)
-  - &nbsp;<Tag>修复</Tag> 修复远程请求如果无返回值序列化异常问题 [!348](https://gitee.com/dotnetchina/Furion/pulls/348)
+  - &nbsp;<Tag>修复</Tag> 远程请求如果无返回值序列化异常问题 [!348](https://gitee.com/dotnetchina/Furion/pulls/348)
 
 - **其他更改**
 
@@ -3640,7 +3640,7 @@ namespace Furion.UnifyResult
 - **问题修复**
 
   - &nbsp;<Tag>修复</Tag> `App.GetOptionsSnapshot<>` 从根服务解析异常 bug [#I3VS2X](https://gitee.com/dotnetchina/Furion/issues/I3VS2X)
-  - &nbsp;<Tag>修复</Tag> 修复远程请求如果出现异常，返回 `Stream` 为 null 导致异常的问题 [#I3VSTU](https://gitee.com/dotnetchina/Furion/issues/I3VSTU)
+  - &nbsp;<Tag>修复</Tag> 远程请求如果出现异常，返回 `Stream` 为 null 导致异常的问题 [#I3VSTU](https://gitee.com/dotnetchina/Furion/issues/I3VSTU)
   - &nbsp;<Tag>修复</Tag> 如果实体被跟踪后，无法执行删除操作 [#I3W08P](https://gitee.com/dotnetchina/Furion/issues/I3W08P)
 
 - **其他更改**
@@ -3675,7 +3675,7 @@ namespace Furion.UnifyResult
   - &nbsp;<Tag>新增</Tag> 工作单元特性，支持静态类强制性开启共享事务 [#I3S9N8](https://gitee.com/dotnetchina/Furion/issues/I3S9N8)
   - &nbsp;<Tag>新增</Tag> `EFCore` 执行 `sql` 模式打印日志 [#I3SE8X](https://gitee.com/dotnetchina/Furion/issues/I3SE8X)
   - &nbsp;<Tag>新增</Tag> 远程请求支持默认 `HttpClient` 配置 [#I3SI17](https://gitee.com/dotnetchina/Furion/issues/I3SI17)
-  - &nbsp;<Tag>新增</Tag> 新增 `短 ID` 生成功能 [#I3T7JP](https://gitee.com/dotnetchina/Furion/issues/I3T7JP)
+  - &nbsp;<Tag>新增</Tag> `短 ID` 生成功能 [#I3T7JP](https://gitee.com/dotnetchina/Furion/issues/I3T7JP)
   - &nbsp;<Tag>新增</Tag> `[SensitiveDetection]` 支持配置替换敏感词汇 [#I3THIA](https://gitee.com/dotnetchina/Furion/issues/I3THIA)
   - &nbsp;<Tag>新增</Tag> `SpecificationDocumentBuilder.DocumentGroups` 和 `SpecificationDocumentBuilder.CheckApiDescriptionInCurrentGroup(currentGroup, apiDescription)` 公开方法[#I3UDSY](https://gitee.com/dotnetchina/Furion/issues/I3UDSY)
 
@@ -3817,7 +3817,7 @@ namespace Furion.UnifyResult
 
   - &nbsp;<Tag>新增</Tag> `Furion.Extras.DatabaseAccessor.MongoDB` 拓展包支持 [#I3PKST](https://gitee.com/dotnetchina/Furion/issues/I3PKST)
   - &nbsp;<Tag>新增</Tag> 动态粘土类型直接转 `object` 或 `dynamic` 类型 [#I3OY27](https://gitee.com/dotnetchina/Furion/issues/I3OY27)
-  - &nbsp;<Tag>新增</Tag> 新增 `Oops.Retry` 方法，支持设置方法调用失败进行重试 [#I3PJKQ](https://gitee.com/dotnetchina/Furion/issues/I3PJKQ)
+  - &nbsp;<Tag>新增</Tag> `Oops.Retry` 方法，支持设置方法调用失败进行重试 [#I3PJKQ](https://gitee.com/dotnetchina/Furion/issues/I3PJKQ)
   - &nbsp;<Tag>新增</Tag> `JWTSettings` 配置节点 `Algorithm`，用于配置加密算法 [#I3PQGV](https://gitee.com/dotnetchina/Furion/issues/I3PQGV)
   - &nbsp;<Tag>新增</Tag> `repository.EnsureTransaction()` 方法确保工作单元事务有效 [#I3PVF1](https://gitee.com/dotnetchina/Furion/issues/I3PVF1)
 
@@ -3853,7 +3853,7 @@ namespace Furion.UnifyResult
 - **新特性**
 
   - &nbsp;<Tag>新增</Tag> `Clay` 粘土类型，支持让 `C#` 创建一个弱类型对象并操作弱类型 [#I3O2QQ](https://gitee.com/dotnetchina/Furion/issues/I3O2QQ)
-  - &nbsp;<Tag>新增</Tag> 新增 `Scoped.Create` 带返回值重载 [#I3O47J](https://gitee.com/dotnetchina/Furion/issues/I3O47J)
+  - &nbsp;<Tag>新增</Tag> `Scoped.Create` 带返回值重载 [#I3O47J](https://gitee.com/dotnetchina/Furion/issues/I3O47J)
   - &nbsp;<Tag>新增</Tag> 支持 `Scoped.Create()` 一系列方法支持传入作用域工厂 [#I3OAP5](https://gitee.com/dotnetchina/Furion/issues/I3OAP5)
   - &nbsp;<Tag>新增</Tag> 支持事件总线同步执行方式 [#I3OAW2](https://gitee.com/dotnetchina/Furion/issues/I3OAW2)
   - &nbsp;<Tag>新增</Tag> `[DataValidation]` 跳过空字符串和空值验证 [#I3OGEN](https://gitee.com/dotnetchina/Furion/issues/I3OGEN)
@@ -4146,7 +4146,7 @@ namespace Furion.UnifyResult
   - &nbsp;<Tag>优化</Tag> `JSON` 序列化功能，提供统一的抽象接口，方便自由替换 `JSON` 库 [#I39GT9](https://gitee.com/dotnetchina/Furion/issues/I39GT9)
   - &nbsp;<Tag>优化</Tag> 验证失败返回消息模型及规范化接口验证参数 [#I3AFQW](https://gitee.com/dotnetchina/Furion/issues/I3AFQW)
   - &nbsp;<Tag>更新</Tag> 插件式开发热插拔功能，实现动态加载卸载 [#PR200](https://gitee.com/dotnetchina/Furion/pulls/200), 感谢 [@SamWangCoder](https://gitee.com/samwangcoder)
-  - &nbsp;<Tag>移除</Tag> 移除 `JsonSerializerUtility` 静态类及移除属性大写序列化拓展配置 [#I3AFRJ](https://gitee.com/dotnetchina/Furion/issues/I3AFRJ)
+  - &nbsp;<Tag>移除</Tag> `JsonSerializerUtility` 静态类及移除属性大写序列化拓展配置 [#I3AFRJ](https://gitee.com/dotnetchina/Furion/issues/I3AFRJ)
 
 - **问题修复**
 
@@ -4158,7 +4158,7 @@ namespace Furion.UnifyResult
   - &nbsp;<Tag>修复</Tag> `cli.ps1` 不支持新版本 `EFCore` bug [#I3APO9](https://gitee.com/dotnetchina/Furion/issues/I3APO9)
   - &nbsp;<Tag>修复</Tag> `EFCore` 实体配置 `[Table]` 特性无效 bug [#I3BAYH](https://gitee.com/dotnetchina/Furion/issues/I3BAYH)
   - &nbsp;<Tag>修复</Tag> 动态 WebAPI `CheckIsSplitCamelCase` bug [#I3BLKX](https://gitee.com/dotnetchina/Furion/issues/I3BLKX)
-  - &nbsp;<Tag>修复</Tag> 修复动态 WebAPI 配置保留 Action 的 Async 后缀无效问题 [#I3C3DA](https://gitee.com/dotnetchina/Furion/issues/I3C3DA)
+  - &nbsp;<Tag>修复</Tag> 动态 WebAPI 配置保留 Action 的 Async 后缀无效问题 [#I3C3DA](https://gitee.com/dotnetchina/Furion/issues/I3C3DA)
   - &nbsp;<Tag>修复</Tag> `JWT` Token 刷新后旧的刷新 Token 依旧可用 bug [#I3C8ZH](https://gitee.com/dotnetchina/Furion/issues/I3C8ZH)
   - &nbsp;<Tag>修复</Tag> 多语言 `Razor` 视图变量多语言乱码问题 [#I3CBMU](https://gitee.com/dotnetchina/Furion/issues/I3CBMU)
 
@@ -4261,7 +4261,7 @@ namespace Furion.UnifyResult
   - &nbsp;<Tag>更新</Tag> 获取系统环境参数的性能 [#I36SR5](https://gitee.com/dotnetchina/Furion/issues/I36SR5)
   - &nbsp;<Tag>更新</Tag> `Furion` 底层添加 `Mvc` 过滤器代码 [#I36SKA](https://gitee.com/dotnetchina/Furion/issues/I36SKA)
   - &nbsp;<Tag>更新</Tag> 添加默认 `Json` 序列化时间默认时间格式 [#I36SL0](https://gitee.com/dotnetchina/Furion/issues/I36SL0)
-  - &nbsp;<Tag>升级</Tag> 升级 `SqlSugar` 拓展包到 `5.0.2.6` 版本 [#I36SIG](https://gitee.com/dotnetchina/Furion/issues/I36SIG)
+  - &nbsp;<Tag>升级</Tag> `SqlSugar` 拓展包到 `5.0.2.6` 版本 [#I36SIG](https://gitee.com/dotnetchina/Furion/issues/I36SIG)
 
 - **文档变化**
 
@@ -4351,7 +4351,7 @@ namespace Furion.UnifyResult
 
 - **其他更改**
 
-  - &nbsp;<Tag>更新</Tag> 移除 `Sql` 查询结果映射检查 `[NotMapper]` 特性机制 [#I34XD0](https://gitee.com/dotnetchina/Furion/issues/I34XD0)
+  - &nbsp;<Tag>移除</Tag> `Sql` 查询结果映射检查 `[NotMapper]` 特性机制 [#I34XD0](https://gitee.com/dotnetchina/Furion/issues/I34XD0)
   - &nbsp;<Tag>更新</Tag> 依赖注入时排除 `IDynamicApiController` 接口 [#I2ECTG](https://gitee.com/dotnetchina/Furion/issues/I2ECTG)
   - &nbsp;<Tag>更新</Tag> `MD5` 加密性能 [#PR158](https://gitee.com/dotnetchina/Furion/pulls/158)
 
@@ -4511,7 +4511,7 @@ namespace Furion.UnifyResult
   - &nbsp;<Tag>修复</Tag> `SqlScalar` 执行 `sql` 返回 `Nullable` 类型出现转换失败 bug [#I27S2N](https://gitee.com/dotnetchina/Furion/issues/I27S2N)
   - &nbsp;<Tag>修复</Tag> `[UnitOfWork]` 特性异常 bug [#I27MLM](https://gitee.com/dotnetchina/Furion/issues/I27MLM)
   - &nbsp;<Tag>修复</Tag> `sql` 静态执行方式和 `sql` 高级代理无法监听数据库连接状态 bug [#I27M4F](https://gitee.com/dotnetchina/Furion/issues/I27M4F)
-  - &nbsp;<Tag>修复</Tag> 修复更换 Json 序列化库无效 bug，如替换为 `Microsoft.AspNetCore.Mvc.NewtonsoftJson` [#I27M43](https://gitee.com/dotnetchina/Furion/issues/I27M43)
+  - &nbsp;<Tag>修复</Tag> 更换 Json 序列化库无效 bug，如替换为 `Microsoft.AspNetCore.Mvc.NewtonsoftJson` [#I27M43](https://gitee.com/dotnetchina/Furion/issues/I27M43)
   - &nbsp;<Tag>修复</Tag> `Furion Tools` 工具生成模型 bug [#I27XI5](https://gitee.com/dotnetchina/Furion/issues/I27XI5)
   - &nbsp;<Tag>修复</Tag> 软删除没有生效 bug [#I2804I](https://gitee.com/dotnetchina/Furion/issues/I2804I)
   - &nbsp;<Tag>修复</Tag> `Furion Tools` 识别带多个 `\\` 的连接字符串识别 bug [#I280TS](https://gitee.com/dotnetchina/Furion/issues/I280TS)，[#PR91](https://gitee.com/dotnetchina/Furion/pulls/91)
@@ -4542,7 +4542,7 @@ namespace Furion.UnifyResult
 
   - &nbsp;<Tag>答疑</Tag> 希望 `api` 返回的值自动将 null 转为 `''` 或 `[]` [#I286IJ](https://gitee.com/dotnetchina/Furion/issues/I286IJ)
   - &nbsp;<Tag>答疑</Tag> 添加网关功能 [#I27TP7](https://gitee.com/dotnetchina/Furion/issues/I27TP7)，【已关闭】
-  - &nbsp;<Tag>答疑</Tag> 新增 `SqlQuery<T>` 获取单条记录方法 [#I28M1V](https://gitee.com/dotnetchina/Furion/issues/I28M1V)
+  - &nbsp;<Tag>答疑</Tag> `SqlQuery<T>` 获取单条记录方法 [#I28M1V](https://gitee.com/dotnetchina/Furion/issues/I28M1V)
   - &nbsp;<Tag>答疑</Tag> 希望可以提供集成 `Serilog` 例子 [#I282J4](https://gitee.com/dotnetchina/Furion/issues/I282J4)
   - &nbsp;<Tag>答疑</Tag> 如何通过特性配置唯一约束 [#I2891L](https://gitee.com/dotnetchina/Furion/issues/I2891L)
   - &nbsp;<Tag>答疑</Tag> 怎么读取 `appsettings.json` 数组 [#I27WU](https://gitee.com/dotnetchina/Furion/issues/I27WUR)
