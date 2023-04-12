@@ -16,6 +16,7 @@ import Tag from "@site/src/components/Tag.js";
 
 - **新特性**
 
+  - &nbsp;<Tag>新增</Tag> `Serve.GetIdleHost([host])` 静态方法，可获取一个指定主机的 `Web` 地址（端口） <sup>4.8.7.43</sup> <sup>⏱️2023.04.12</sup>
   - &nbsp;<Tag>新增</Tag> `Serve.IdleHost` 静态属性，可获取一个随机空闲 `Web` 主机地址（端口） <sup>4.8.7.29</sup> <sup>⏱️2023.03.30</sup> [e425063](https://gitee.com/dotnetchina/Furion/commit/e4250634246af612f052ec935416ee050b44d22e)
   - &nbsp;<Tag>新增</Tag> `WinForm/WPF` 静态方法 `Serve.RunNative()` 可配置是否启用 `Web` 主机功能 <sup>4.8.7.26</sup> <sup>⏱️2023.03.29</sup> [#I6R97L](https://gitee.com/dotnetchina/Furion/issues/I6R97L)
   - &nbsp;<Tag>新增</Tag> **`WinForm/WPF` 快速注册静态方法：`Serve.RunNative()`** <sup>4.8.7.23</sup> <sup>⏱️2023.03.27</sup> [53d51c3](https://gitee.com/dotnetchina/Furion/commit/53d51c3645f4066f5d68d4726d78e389fd544560)
@@ -252,13 +253,20 @@ Serve.Run(RunOptions.ConfigureWebDefaults(webHostBuilder =>
 
 通过 `Serve.IdleHost` 静态属性可以获取随机的 `Web` 主机地址（端口），如：`http://localhost:随机端口`。
 
-```cs showLineNumbers {1,4-5}
+```cs showLineNumbers {1,4-7,10-13}
 Serve.Run(urls: Serve.IdleHost.Urls);
 
 // 完整返回值
 var idleHost = Serve.IdleHost;
 var port = idleHost.Port;   // => 44322
 var urls = idleHost.Urls;   // => http://localhost:44322
+var ssl_urls = idleHost.SSL_Urls;   // => https://localhost:44322，Furion 4.8.7.43+ 支持
+
+// 指定主机名，Furion 4.8.7.43+ 支持
+var idleHost = Serve.GetIdleHost("furion.baiqian.ltd"); // 不传参数默认 localhost
+var port = idleHost.Port;   // => 44322
+var urls = idleHost.Urls;   // => http://furion.baiqian.ltd:44322
+var ssl_urls = idleHost.SSL_Urls;   // => https://furion.baiqian.ltd:44322
 ```
 
 ### 2.0.7.2 便捷服务注册

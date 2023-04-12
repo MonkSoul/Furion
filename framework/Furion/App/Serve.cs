@@ -32,14 +32,20 @@ public static class Serve
     /// <summary>
     /// 获取一个空闲 Web 主机地址（端口）
     /// </summary>
-    public static (string Urls, int Port) IdleHost
+    public static (string Urls, int Port, string SSL_Urls) IdleHost => GetIdleHost();
+
+    /// <summary>
+    /// 获取一个空闲 Web 主机地址（端口）
+    /// </summary>
+    /// <param name="host">主机地址</param>
+    public static (string Urls, int Port, string SSL_Urls) GetIdleHost(string host = default)
     {
-        get
-        {
-            var port = Native.GetIdlePort();
-            var urls = $"http://localhost:{port}";
-            return (urls, port);
-        }
+        host = string.IsNullOrWhiteSpace(host) ? "localhost" : host.Trim();
+
+        var port = Native.GetIdlePort();
+        var urls = $"http://${host}:{port}";
+        var ssl_urls = $"https://${host}:{port}";
+        return (urls, port, ssl_urls);
     }
 
     /// <summary>
