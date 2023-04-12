@@ -12,6 +12,8 @@
 // 在任何情况下，作者或版权持有人都不对任何索赔、损害或其他责任负责，无论这些追责来自合同、侵权或其它行为中，
 // 还是产生于、源于或有关于本软件以及本软件的使用或其它处置。
 
+using Furion.RemoteRequest;
+
 namespace System.Net.Http;
 
 /// <summary>
@@ -40,7 +42,8 @@ public static class HttpResponseMessageExtensions
         // 读取响应报文中的 Set-Cookie 数据
         var setCookies = httpResponse.GetSetCookies();
 
-        var cookies = new Dictionary<string, string>();
+        // 支持重复 Key
+        var cookies = new Dictionary<string, string>(new RepeatKeyEqualityComparer());
 
         // 遍历所有 Set-Cookie 键
         foreach (var setCookie in setCookies)
