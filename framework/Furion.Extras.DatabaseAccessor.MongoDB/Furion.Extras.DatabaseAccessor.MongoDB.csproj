@@ -2,7 +2,7 @@
 
 	<PropertyGroup>
 		<TargetFrameworks>net5.0;net6.0;net7.0;net8.0</TargetFrameworks>
-		<Version>4.8.7.41</Version>
+		<Version>4.8.7.42</Version>
 		<Description>Furion 数据库访问器 MongoDB 插件。</Description>
 		<ImplicitUsings>enable</ImplicitUsings>
 	</PropertyGroup>
@@ -24,7 +24,7 @@
 
 	<ItemGroup Condition=" '$(TargetFramework)' == 'net8.0' ">
 		<PackageReference Include="MongoDB.Driver" Version="2.19.1" />
-		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.0-preview.2.23128.3" />
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.0-preview.3.23174.8" />
 	</ItemGroup>
 
 </Project>
