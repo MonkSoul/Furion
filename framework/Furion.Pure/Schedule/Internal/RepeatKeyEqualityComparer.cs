@@ -35,7 +35,7 @@ internal class RepeatKeyEqualityComparer : IEqualityComparer<JobDetail>
     /// <summary>
     /// 获取哈希值
     /// </summary>
-    /// <param name="obj"><see cref="string"/></param>
+    /// <param name="obj"><see cref="JobDetail"/></param>
     /// <returns><see cref="int"/></returns>
     public int GetHashCode([DisallowNull] JobDetail obj)
     {
