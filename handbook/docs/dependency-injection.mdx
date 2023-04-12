@@ -692,7 +692,7 @@ namespace Furion.Application
         }
 
         // 异步无返回值
-        public override async Task InvokeAsync(MethodInfo method, object[] args)
+        public async override Task InvokeAsync(MethodInfo method, object[] args)
         {
             Console.WriteLine("SayHello 方法被调用了");
 
@@ -703,7 +703,7 @@ namespace Furion.Application
         }
 
         // 异步带返回值
-        public override async Task<T> InvokeAsyncT<T>(MethodInfo method, object[] args)
+        public async override Task<T> InvokeAsyncT<T>(MethodInfo method, object[] args)
         {
             Console.WriteLine("SayHello 方法被调用了");
 

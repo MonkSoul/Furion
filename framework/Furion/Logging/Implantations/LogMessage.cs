@@ -121,7 +121,7 @@ public struct LogMessage
     /// 重写默认输出
     /// </summary>
     /// <returns><see cref="string"/></returns>
-    public override string ToString()
+    public readonly override string ToString()
     {
         return Penetrates.OutputStandardMessage(this);
     }
