@@ -3,7 +3,7 @@ import {
   IconCalendarClock,
   IconHelpCircle,
   IconMoon,
-  IconSun
+  IconSun,
 } from "@douyinfe/semi-icons";
 import {
   BackTop,
@@ -11,10 +11,11 @@ import {
   InputNumber,
   Layout,
   Nav,
-  Tooltip
+  Tooltip,
 } from "@douyinfe/semi-ui";
 import { useState } from "react";
 import Jobs from "./components/jobs";
+import apiconfig from "./components/jobs/apiconfig";
 import GlobalContext from "./components/jobs/context";
 
 function App() {
@@ -63,7 +64,7 @@ function App() {
                 <Tooltip content={"配置列表数据请求频率"}>
                   <InputNumber
                     formatter={(value) => `${value}`.replace(/\D/g, "")}
-                    min={300}
+                    min={Number(apiconfig.syncRate)}
                     value={rate}
                     onChange={(v) => setRate(Number(v))}
                     max={Number.MAX_SAFE_INTEGER}

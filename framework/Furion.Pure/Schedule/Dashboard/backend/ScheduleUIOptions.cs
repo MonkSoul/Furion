@@ -36,4 +36,9 @@ public sealed class ScheduleUIOptions
     /// </summary>
     /// <remarks>默认 false</remarks>
     public bool DisableOnProduction { get; set; } = false;
+
+    /// <summary>
+    /// 看板刷新频次（毫秒）
+    /// </summary>
+    public int SyncRate { get; set; } = 300;
 }

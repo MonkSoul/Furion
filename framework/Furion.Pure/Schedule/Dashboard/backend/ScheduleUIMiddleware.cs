@@ -43,14 +43,17 @@ public sealed class ScheduleUIMiddleware
     /// <param name="next">请求委托</param>
     /// <param name="schedulerFactory">作业计划工厂</param>
     /// <param name="requestPath">UI 入口地址</param>
+    /// <param name="syncRate">看板刷新频次（毫秒）</param>
     public ScheduleUIMiddleware(RequestDelegate next
         , ISchedulerFactory schedulerFactory
-        , string requestPath)
+        , string requestPath
+        , int syncRate)
     {
         _next = next;
         _schedulerFactory = schedulerFactory;
         RequestPath = requestPath;
         ApiRequestPath = $"{requestPath}/api";
+        SyncRate = syncRate;
     }
 
     /// <summary>
@@ -62,6 +65,11 @@ public sealed class ScheduleUIMiddleware
     /// API 入口地址
     /// </summary>
     public string ApiRequestPath { get; }
+
+    /// <summary>
+    /// 看板刷新频次（毫秒）
+    /// </summary>
+    public int SyncRate { get; }
 
     /// <summary>
     /// 中间件执行方法
@@ -101,7 +109,8 @@ public sealed class ScheduleUIMiddleware
             {
                 using var streamReader = new StreamReader(stream, new UTF8Encoding(false));
                 content = (await streamReader.ReadToEndAsync())
-                                             .Replace("%(RequestPath)", RequestPath);
+                                             .Replace("%(RequestPath)", RequestPath)
+                                             .Replace("%(SyncRate)", SyncRate.ToString());
             }
 
             // 输出到客户端

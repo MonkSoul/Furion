@@ -13,6 +13,7 @@ import Tag from "@site/src/components/Tag.js";
 
 - **新特性**
 
+  - &nbsp;<Tag>新增</Tag> 定时任务看板支持自定义刷新频率 `SyncRate` 功能 <sup>4.8.7.43</sup> <sup>⏱️2023.04.12</sup>
   - &nbsp;<Tag>新增</Tag> 定时任务看板支持完全自定义 `RequestPath` 入口地址功能 <sup>4.8.7.34</sup> <sup>⏱️2023.04.04</sup> [24736f6](https://gitee.com/dotnetchina/Furion/commit/24736f6421dd5aa90289fbb9bc519e6ef55e667f)
   - &nbsp;<Tag>新增</Tag> **定时任务一系列 `.AlterTo` 修改作业触发器触发时间便捷方法** <sup>4.8.7.31</sup> <sup>⏱️2023.03.31</sup> [0349017](https://gitee.com/dotnetchina/Furion/commit/0349017902835bed91041fb3ea1ee987b0a81bbb)
   - &nbsp;<Tag>新增</Tag> 定时任务看板 `UI` 作业列表 `最近执行时间` 列和优化显示效果 <sup>4.8.7.12</sup> <sup>⏱️2023.03.15</sup> [26462a8](https://gitee.com/dotnetchina/Furion/commit/26462a84e553e39ce4cddd5128833ff732c85f3e) [cb5dd17](https://gitee.com/dotnetchina/Furion/commit/cb5dd17969244987b847fcd96825d28b243a5b9f)
@@ -6067,9 +6068,9 @@ app.UseScheduleUI();
 // 还可以配置生产环境关闭
 app.UseScheduleUI(options =>
 {
-    // 此操作暂提供 URL 重写功能，也就是会自动跳转
     options.RequestPath = "/custom-job";  // Furion 4.8.5.6+ 版本支持，必须以 / 开头且不以 / 结尾
     options.DisableOnProduction = true;
+    options.SyncRate = 300;   // 控制看板刷新频率，默认 300ms，Furion 4.8.7.43+ 支持
 });
 ```
 
@@ -6078,6 +6079,14 @@ app.UseScheduleUI(options =>
 `app.UseScheduleUI()` 必须在 `app.UseStaticFiles()` 之后注册。
 
 :::
+
+### 26.1.16.1 看板配置选项
+
+`app.UseScheduleUI` 提供了可选的 `ScheduleUIOptions` 配置选项，提供以下配置：
+
+- `RequestPath`：配置看板入口地址，`string` 类型，默认 `/schedule`
+- `DisableOnProduction`：是否在生产环境关闭，`bool` 类型，默认 `false`
+- `SyncRate`：控制看板刷新频率，`int` 类型，默认 `300`，单位 `毫秒`，`Furion 4.8.7.43+` 支持
 
 接着打开浏览器并访问 `/schedule` 地址即可：
 
