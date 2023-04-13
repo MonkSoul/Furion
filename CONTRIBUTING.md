@@ -1,4 +1,4 @@
-# CONTRIBUTING
+# 反馈/贡献
 
 ![输入图片说明](https://gitee.com/dotnetchina/Furion/raw/v4/handbook/static/img/tip.png)
 
@@ -6,7 +6,7 @@
 
 ### Furion 版本号
 
-哪个版本号？
+哪个版本号？（升级至最新版后还有问题再反馈）
 
 ---
 
