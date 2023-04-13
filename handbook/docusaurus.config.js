@@ -23,7 +23,7 @@ module.exports = {
     announcementBar: {
       id: "v4.8.7.45",
       content:
-        "🚀 Furion v4.8.7 已正式发布（适配 .NET8），浏览 <a href='/docs/upgrade'>[更新日志]</a> 或查看 <a href='https://gitee.com/dotnetchina/Furion/issues/I6GVN8' target='_blank'>[本期更新]</a>",
+        "🚀 Furion v4.8.8 已正式发布（适配 .NET8），浏览 <a href='/docs/upgrade'>[更新日志]</a> 或查看 <a href='https://gitee.com/dotnetchina/Furion/issues/I6VF8V' target='_blank'>[本期更新]</a>",
       backgroundColor: "#723cff",
       textColor: "yellow",
       isCloseable: true,

@@ -43,8 +43,8 @@ public static class Serve
         host = string.IsNullOrWhiteSpace(host) ? "localhost" : host.Trim();
 
         var port = Native.GetIdlePort();
-        var urls = $"http://${host}:{port}";
-        var ssl_urls = $"https://${host}:{port}";
+        var urls = $"http://{host}:{port}";
+        var ssl_urls = $"https://{host}:{port}";
         return (urls, port, ssl_urls);
     }
 
@@ -474,6 +474,15 @@ public static class Serve
             }
         }
 
+        // 解决部分主机不能正确读取 urls 参数命令问题
+        var startUrls = !string.IsNullOrWhiteSpace(urls) ? urls : builder.Configuration[nameof(urls)];
+
+        // 自定义启动端口（只有静默模式才这样做）
+        if (options.IsSilence && !string.IsNullOrWhiteSpace(startUrls))
+        {
+            builder.WebHost.UseUrls(startUrls);
+        }
+
         // 调用自定义配置服务
         options?.ActionServices?.Invoke(builder.Services);
 
@@ -499,8 +508,6 @@ public static class Serve
         if (!options.IsSilence)
         {
             // 配置启动地址和端口
-            var startUrls = !string.IsNullOrWhiteSpace(urls) ? urls : builder.Configuration[nameof(urls)];
-
             app.Run(string.IsNullOrWhiteSpace(urls) ? null : startUrls);
         }
         else
