@@ -386,6 +386,40 @@ public async Task<IActionResult> attachment(string resourceId)
 
 之后我们就可以通过 `https://localhost/attachment/资源id` 访问文件或图片了。
 
+### 31.6.5 配置上传文件目录
+
+很多时候我们会将文件存储在特定的目录中，如 `uploads` 中，这时候只需要添加以下配置即可：
+
+- 编辑启动层 `YourPoject.Web.Entry.csproj` 项目，添加以下代码：
+
+```xml showLineNumbers {2-3}
+<ItemGroup>
+	<Content Include="uploads\**\*">
+		<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	</Content>
+</ItemGroup>
+```
+
+- 配置文件服务中间件
+
+```cs showLineNumbers {3-5,7-11}
+app.UseStaticFiles();
+
+// 如果目录不存在则创建
+var staticRoot = Path.Combine(AppContext.BaseDirectory, "uploads"); // 注意这里不要添加 /
+if (!Directory.Exists(staticRoot)) Directory.CreateDirectory(staticRoot);
+
+app.UseFileServer(new FileServerOptions
+{
+    RequestPath = "/uploads",   // 配置访问地址，需以 / 开头，通常和目录名称一致，也可以不同
+    FileProvider = new PhysicalFileProvider(staticRoot)
+});
+```
+
+- 通过浏览器访问文件
+
+之后就可以通过浏览器访问 `http://地址:端口/uploads/xxx.png` 了。
+
 ## 31.7 请求大小控制（上传文件大小控制）
 
 在 `Web` 项目中，`Kestrel` 和 `HttpSys` 都强制实施 `30M (~28.6MiB)` 的最大请求正文大小限制，如果请求正文大小超过配置的最大请求正文大小限制，则引发 `Request body too large. The max request body size is xxxxx` 异常，状态码为 `413` 或 `500`。
