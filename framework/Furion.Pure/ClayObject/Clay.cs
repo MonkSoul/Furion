@@ -13,6 +13,7 @@
 // 还是产生于、源于或有关于本软件以及本软件的使用或其它处置。
 
 using Furion.ClayObject.Extensions;
+using Furion.Extensions;
 using Furion.JsonSerialization;
 using System.Diagnostics;
 using System.Dynamic;
@@ -398,6 +399,60 @@ public sealed class Clay : DynamicObject, IEnumerable
         }
 
         return dic;
+    }
+
+    /// <summary>
+    /// 转换成特定对象
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <returns></returns>
+    public IEnumerable<T> ConvertTo<T>()
+        where T : class, new()
+    {
+        // 获取所有公开实例属性
+        var properties = typeof(T).GetProperties(BindingFlags.Public | BindingFlags.Instance)
+            .Where(p => p.CanWrite);
+
+        dynamic clay = this;
+        var list = new List<T>();
+
+        // 处理对象类型
+        if (IsObject)
+        {
+            list.Add(ConvertTo<T>(properties, clay));
+            return list;
+        }
+
+        // 处理数组类型
+        if (IsArray)
+        {
+            var dynamicList = AsEnumerator<dynamic>();
+            foreach (var clayItem in dynamicList)
+            {
+                list.Add(ConvertTo<T>(properties, clayItem));
+            }
+        }
+
+        return list;
+    }
+
+    /// <summary>
+    /// 将粘土对象转换为特定类型
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="properties"></param>
+    /// <param name="clay"></param>
+    /// <returns></returns>
+    private static T ConvertTo<T>(IEnumerable<PropertyInfo> properties, dynamic clay) where T : class, new()
+    {
+        var instance = Activator.CreateInstance<T>();
+        foreach (var property in properties)
+        {
+            object value = clay.IsDefined(property.Name) ? clay[property.Name] : default;
+            property.SetValue(instance, value.ChangeType(property.PropertyType));
+        }
+
+        return instance;
     }
 
     /// <summary>
