@@ -286,6 +286,12 @@ public static class ObjectExtensions
         if (type == null) return obj;
         if (type == typeof(string)) return obj?.ToString();
         if (type == typeof(Guid) && obj != null) return Guid.Parse(obj.ToString());
+        if (type == typeof(bool) && obj != null && obj is not bool)
+        {
+            var objStr = obj.ToString().ToLower();
+            if (objStr == "1" || objStr == "true" || objStr == "yes" || objStr == "on") return true;
+            return false;
+        }
         if (obj == null) return type.IsValueType ? Activator.CreateInstance(type) : null;
 
         var underlyingType = Nullable.GetUnderlyingType(type);
