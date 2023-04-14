@@ -17,7 +17,7 @@ using Microsoft.EntityFrameworkCore;
 namespace Furion.DatabaseAccessor;
 
 /// <summary>
-/// 分部拓展类
+/// 分页拓展类
 /// </summary>
 [SuppressSniffer]
 public static class PagedQueryableExtensions
