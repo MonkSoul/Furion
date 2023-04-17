@@ -441,10 +441,10 @@ var bar = clay.Nest.Bar; // => null
 
 ```cs showLineNumbers {2}
 dynamic clay = Clay.Parse(@"[]");
-IEnumerable<SysMenu> = clay.ConverTo<SysMenu>();
+IEnumerable<SysMenu> = clay.ConvertTo<SysMenu>();
 ```
 
-这种方式区别于 `.Solidify<T>`，`ConverTo<T>` 内部通过反射创建对象并自动适配属性类型。
+这种方式区别于 `.Solidify<T>`，`ConvertTo<T>` 内部通过反射创建对象并自动适配属性类型。
 
 ## 29.4 反馈与建议
 

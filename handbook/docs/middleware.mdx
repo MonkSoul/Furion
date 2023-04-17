@@ -167,7 +167,7 @@ public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
 
 ### 5.5.3.3 配置更多参数
 
-默认情况下，自定义独立类中间件构造函数只有一个 `RequestDelegate` 参数，除此之后，还可以注入服务接口/类（**建议是单例服务**），另外还支持传入任何其他类型。
+默认情况下，自定义独立类中间件构造函数只有一个 `RequestDelegate` 参数，除此之后，还可以注入服务接口/类，另外还支持传入任何其他类型。
 
 - **服务类型参数**
 
@@ -202,7 +202,7 @@ public class RequestCultureMiddleware
 
 - **非服务类型参数**
 
-除此之外，还可以添加 `非服务参数` 参数，**但必须是最后一个参数！！！**
+除此之外，还可以添加 `非服务参数` 参数，**但必须是声明在服务参数后。**
 
 ```cs showLineNumbers {12,13}
 using System.Globalization;
@@ -293,17 +293,11 @@ public class RequestCultureMiddleware
 }
 ```
 
-:::important 特别说明
-
-**通过构造函数的方式建议注入 `单例模式` 的服务**，否则可能存在服务不能释放问题，如需使用瞬时或作用域的服务，可使用下列 `httpContext.RequestServices` 方式
-
-:::
-
 ### 5.5.5.2 `httpContext.RequestServices` 方式
 
-通过这种方式可以使用非单例服务解析：
+`HttpContext` 提供了 `RequestServices` 属性方便解析服务。
 
-```cs showLineNumbers {10-13,21-23}
+```cs showLineNumbers {10-13,21-22}
 using System.Globalization;
 
 namespace Middleware.Example;
@@ -313,7 +307,7 @@ public class RequestCultureMiddleware
     private readonly RequestDelegate _next;
     private readonly ILogger<RequestCultureMiddleware> _logger;
 
-    // 构造函数注册单例
+    // 构造函数注册
     public RequestCultureMiddleware(RequestDelegate next
         , ILogger<RequestCultureMiddleware> logger
         , IHostEnvironment hostEnvironment)
@@ -324,9 +318,8 @@ public class RequestCultureMiddleware
 
     public async Task InvokeAsync(HttpContext context)
     {
-        // 非单例模式
-        using var serviceProvider = context.RequestServices.CreateScope();
-        var repository = serviceProvider.ServiceProvider.GetService<IRepository>();
+        // 通过 context.RequestServices 解析
+        var repository = context.RequestServices.GetService<IRepository>();
 
         // 调用下一个中间件
         await _next(context);
