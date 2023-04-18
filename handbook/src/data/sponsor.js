@@ -6,6 +6,12 @@ const sponsors = [
     top: true,
   },
   {
+    title: "DIY 可视化 UniApp 代码生成器",
+    picture: "img/lk.jpg",
+    url: "https://www.diygw.com?from=furion",
+    top: false,
+  },
+  {
     title: "流之云 - 信息化、数字化服务提供商",
     picture: "img/tpflow.png",
     url: "https://www.gadmin8.com?from=furion",
