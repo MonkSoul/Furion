@@ -35,17 +35,19 @@ import Tag from "@site/src/components/Tag.js";
 
 - **新特性**
 
+  - &nbsp;<Tag>新增</Tag> `System.Text.Json` 和 `Newtonsoft.Json` 对粘土对象 `Clay` 支持 <sup>4.8.8.1</sup> <sup>⏱️2023.04.18</sup> [#I6WKRZ](https://gitee.com/dotnetchina/Furion/issues/I6WKRZ)
   - &nbsp;<Tag>新增</Tag> 粘土对象可反射转换成特定 `IEnumerable<T>` 类型：`clay.ConvertTo<T>()` <sup>4.8.8</sup> <sup>⏱️2023.04.13</sup> [5d54a65](https://gitee.com/dotnetchina/Furion/commit/5d54a6579be3d710649bb199dd985f60acaf9787)
   - &nbsp;<Tag>新增</Tag> `Serve.IdleHost` 支持返回 `http` 和 `https` 协议 `Web` 地址（端口） <sup>4.8.8</sup> <sup>⏱️2023.04.13</sup> [fdf7885](https://gitee.com/dotnetchina/Furion/commit/fdf7885f282057599be6b1b3833373dd153db42a)
 
 - **问题修复**
 
+  - &nbsp;<Tag>修复</Tag> 远程请求 `Body` 参数为粘土对象 `Clay` 类型序列化有误 <sup>4.8.8.1</sup> <sup>⏱️2023.04.18</sup> [#I6WKRZ](https://gitee.com/dotnetchina/Furion/issues/I6WKRZ)
   - &nbsp;<Tag>修复</Tag> `Serve.IdleHost` 获取随机端口的本地地址带 `$` 符号问题 <sup>4.8.8</sup> <sup>⏱️2023.04.13</sup> [ed6f292](https://gitee.com/dotnetchina/Furion/commit/ed6f29263607f58fe0eafdf21dadfc33987309e1)
 
 - **文档**
 
   - &nbsp;<Tag>新增</Tag> 事件总线 `Redis` 集成文档
-  - &nbsp;<Tag>更新</Tag> 粘土对象文档、虚拟文件系统文档
+  - &nbsp;<Tag>更新</Tag> 粘土对象文档、虚拟文件系统文档、序列化文档、事件总线文档
 
 ---
 
@@ -320,7 +322,7 @@ options.AddJob((context, stoppingToken) =>
 - **贡献者**
 
   - 柠檬苏打 ([@lemon_soda](https://gitee.com/lemon_soda)) [!778](https://gitee.com/dotnetchina/Furion/pulls/778)
-  - 拉风的CC ([@LFDCC](https://gitee.com/LFDCC)) [!773](https://gitee.com/dotnetchina/Furion/pulls/773)
+  - 拉风的 CC ([@LFDCC](https://gitee.com/LFDCC)) [!773](https://gitee.com/dotnetchina/Furion/pulls/773)
   - 吴伟烈 ([@wuweilie](https://gitee.com/wuweilie)) [!772](https://gitee.com/dotnetchina/Furion/pulls/772)
   - 缄默 ([@alianyone](https://gitee.com/alianyone)) [!765](https://gitee.com/dotnetchina/Furion/pulls/765)
   - 写意 ([@xjj_0906](https://gitee.com/xjj_0906)) [!756](https://gitee.com/dotnetchina/Furion/pulls/756)
@@ -345,6 +347,7 @@ options.AddJob((context, stoppingToken) =>
 
   - &nbsp;<Tag>新增</Tag> 审计日志 `LoggingMonitor` 支持配置序列化属性命名规则 <sup>4.8.6.12</sup> <sup>⏱️2023.02.21</sup> [#I6GPUP](https://gitee.com/dotnetchina/Furion/issues/I6GPUP)
   - &nbsp;<Tag>新增</Tag> `Swagger` 请求授权失败后自动退出授权状态 <sup>4.8.6.12</sup> <sup>⏱️2023.02.20</sup> [!717](https://gitee.com/dotnetchina/Furion/pulls/717)
+
 - - &nbsp;<Tag>新增</Tag> 粘土对象支持任何字符作为 `JSON/XML` 键 <sup>4.8.6.9</sup> <sup>⏱️2023.02.19</sup> [f99aee8](https://gitee.com/dotnetchina/Furion/commit/f99aee8dafddf3cfd148922166abd3998e8eb087) [#note_16329657](https://gitee.com/dotnetchina/Furion/commit/4961e01486f604db12a8d8d71f9bd563ed7d7d48#note_16329657)
   - &nbsp;<Tag>新增</Tag> **动态 `WebAPI` 自动检查路由是否包含重复参数，如果有自动修正而不是抛异常** <sup>4.8.6.5</sup> <sup>⏱️2023.02.17</sup> [5f15ea1](https://gitee.com/dotnetchina/Furion/commit/5f15ea1edd2e7793d86dd074ffbbecbebf7f683f)
 
