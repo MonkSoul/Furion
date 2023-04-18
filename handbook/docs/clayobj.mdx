@@ -446,7 +446,31 @@ IEnumerable<SysMenu> = clay.ConvertTo<SysMenu>();
 
 这种方式区别于 `.Solidify<T>`，`ConvertTo<T>` 内部通过反射创建对象并自动适配属性类型。
 
-## 29.4 反馈与建议
+
+## 29.4 序列化支持
+
+默认情况下，`Clay` 为动态类型对象，不支持直接通过 `System.Text.Json` 和 `Newtonsoft.Json` 进行序列化和反序列化，这时只需添加以下配置即可。
+
+- `System.Text.Json` 方式
+
+```cs showLineNumbers {2,4}
+services.AddControllersWithViews()
+        .AddJsonOptions(options =>
+        {
+            options.JsonSerializerOptions.Converters.AddClayConverters();
+        });
+```
+
+- `Newtonsoft.Json` 方式
+
+```cs showLineNumbers {3}
+.AddNewtonsoftJson(options =>
+{
+     options.SerializerSettings.Converters.AddClayConverters();
+})
+```
+
+## 29.5 反馈与建议
 
 :::note 与我们交流
 

@@ -1253,6 +1253,17 @@ services.AddControllers()   // .AddControllersWithViews()
         .AddXmlDataContractSerializerFormatters()
 ```
 
+:::warning 异常处理
+
+如果出现 `XmlSerializer` 异常，那么只需要移除 `.AddXmlSerializerFormatters()` 即可，如：
+
+```cs showLineNumbers {2}
+services.AddControllers()   // .AddControllersWithViews()
+        .AddXmlDataContractSerializerFormatters()
+```
+
+:::
+
 2. 定义实体类型
 
 ```cs showLineNumbers

@@ -4,6 +4,21 @@ title: 23. JSON 序列化
 sidebar_label: 23. JSON 序列化
 ---
 
+import Tag from "@site/src/components/Tag.js";
+
+<details>
+  <summary>📝 模块更新日志</summary>
+  <div>
+<div>
+
+- **新特性**
+
+  - &nbsp;<Tag>新增</Tag> `System.Text.Json` 和 `Newtonsoft.Json` 对粘土对象 `Clay` 支持 <sup>4.8.8.1</sup> <sup>⏱️2023.04.18</sup> [#I6WKRZ](https://gitee.com/dotnetchina/Furion/issues/I6WKRZ)
+
+</div>
+  </div>
+</details>
+
 :::important 版本说明
 
 以下内容仅限 `Furion 1.16.0 +` 版本使用。
@@ -611,7 +626,30 @@ services.AddControllersWithViews()
 })
 ```
 
-### 23.5.19 `DateTimeOffset` 反序列化异常
+### 23.5.19 粘土对象 `Clay` 类型序列化支持
+
+默认情况下，`Clay` 为动态类型对象，不支持直接通过 `System.Text.Json` 和 `Newtonsoft.Json` 进行序列化和反序列化，这时只需添加以下配置即可。
+
+- `System.Text.Json` 方式
+
+```cs showLineNumbers {2,4}
+services.AddControllersWithViews()
+        .AddJsonOptions(options =>
+        {
+            options.JsonSerializerOptions.Converters.AddClayConverters();
+        });
+```
+
+- `Newtonsoft.Json` 方式
+
+```cs showLineNumbers {3}
+.AddNewtonsoftJson(options =>
+{
+     options.SerializerSettings.Converters.AddClayConverters();
+})
+```
+
+### 23.5.20 `DateTimeOffset` 反序列化异常
 
 以下处理只针对 `Newtonsoft.Json`，数据为 `0001-01-01 00:00:00` 的情形下反序列化为 `DateTimeOffset` 类型报错：
 
@@ -636,7 +674,7 @@ Could not convert string to DateTimeOffset: 0001-01-01 00:00:00
 });
 ```
 
-### 23.5.20 继承/派生类序列化问题
+### 23.5.21 继承/派生类序列化问题
 
 在 `.NET7` 之前，`System.Text.Json` 默认不支持序列化基类属性，但也提供了解决方法：
 

@@ -54,6 +54,17 @@ public static class SystemTextJsonExtensions
     }
 
     /// <summary>
+    /// 添加 Clay 类型序列化处理
+    /// </summary>
+    /// <remarks></remarks>
+    public static IList<JsonConverter> AddClayConverters(this IList<JsonConverter> converters)
+    {
+        converters.Add(new SystemTextJsonClayJsonConverter());
+
+        return converters;
+    }
+
+    /// <summary>
     /// 添加 DateOnly/DateOnly? 类型序列化处理
     /// </summary>
     /// <param name="converters"></param>

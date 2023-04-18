@@ -215,56 +215,155 @@ await _eventPublisher.PublishAsync(new ToDoEventSource ("ToDo:Create", "我的 T
 
 `Furion` 默认采用 `Channel` 作为事件源 `IEventSource` 存储器，开发者可以使用任何消息队列组件进行替换，如 `Kafka、RabbitMQ、ActiveMQ` 等，也可以使用部分数据库 `Redis、SQL Server、MySql` 实现。
 
-如需自定义，只需实现 `IEventSourceStorer` 接口即可：
+如需自定义，只需实现 `IEventSourceStorer` 接口即可。
 
-```cs showLineNumbers  {1,11,17}
-public class RedisEventSourceStorer : IEventSourceStorer
+### 22.4.1 `Redis` 自定义指南
+
+**1. 安装 `Redis` 拓展包**
+
+```bash showLineNumbers
+Install-Package Microsoft.Extensions.Caching.StackExchangeRedis
+```
+
+也可以直接安装 `StackExchange.Redis` 包。
+
+**2. 创建 `RedisEventSourceStorer` 自定义存储器**
+
+```cs showLineNumbers {11,34,49-59,77-90,101-102,110}
+using Furion.EventBus;
+using StackExchange.Redis;
+using System;
+using System.Text.Json;
+using System.Threading;
+using System.Threading.Channels;
+using System.Threading.Tasks;
+
+namespace Furion.Core;
+
+public sealed class RedisEventSourceStorer : IEventSourceStorer, IDisposable
 {
-    private readonly IRedisClient _redisClient;
+    /// <summary>
+    /// 内存通道事件源存储器
+    /// </summary>
+    private readonly Channel<IEventSource> _channel;
 
-    public RedisEventSourceStorer(IRedisClient redisClient)
+    /// <summary>
+    /// Redis 连接对象
+    /// </summary>
+    private readonly ConnectionMultiplexer _connectionMultiplexer;
+
+    /// <summary>
+    /// 路由键
+    /// </summary>
+    private readonly string _routeKey;
+
+    /// <summary>
+    /// 构造函数
+    /// </summary>
+    /// <param name="connectionMultiplexer">Redis 连接对象</param>
+    /// <param name="routeKey">路由键</param>
+    /// <param name="capacity">存储器最多能够处理多少消息，超过该容量进入等待写入</param>
+    public RedisEventSourceStorer(ConnectionMultiplexer connectionMultiplexer, string routeKey, int capacity)
     {
-        _redisClient = redisClient;
+        // 配置通道，设置超出默认容量后进入等待
+        var boundedChannelOptions = new BoundedChannelOptions(capacity)
+        {
+            FullMode = BoundedChannelFullMode.Wait
+        };
+
+        // 创建有限容量通道
+        _channel = Channel.CreateBounded<IEventSource>(boundedChannelOptions);
+
+        _connectionMultiplexer = connectionMultiplexer;
+        _routeKey = routeKey;
+
+        // 获取一个订阅对象
+        var subscriber = connectionMultiplexer.GetSubscriber();
+
+        // 订阅消息
+        subscriber.Subscribe(routeKey, (channel, data) =>
+        {
+            // 转换为 IEventSource，这里可以选择自己喜欢的序列化工具，如果自定义了 EventSource，注意属性是可读可写
+            var eventSource = JsonSerializer.Deserialize<ChannelEventSource>(data.ToString());
+
+            // 写入内存管道存储器
+            _channel.Writer.WriteAsync(eventSource);
+        });
     }
 
-    // 往 Redis 中写入一条
+    /// <summary>
+    /// 将事件源写入存储器
+    /// </summary>
+    /// <param name="eventSource">事件源对象</param>
+    /// <param name="cancellationToken">取消任务 Token</param>
+    /// <returns><see cref="ValueTask"/></returns>
     public async ValueTask WriteAsync(IEventSource eventSource, CancellationToken cancellationToken)
     {
-        await _redisClient.WriteAsync(...., cancellationToken);
+        // 空检查
+        if (eventSource == default)
+        {
+            throw new ArgumentNullException(nameof(eventSource));
+        }
+
+        // 这里判断是否是 ChannelEventSource 或者 自定义的 EventSource
+        if (eventSource is ChannelEventSource source)
+        {
+            // 序列化，这里可以选择自己喜欢的序列化工具
+            var data = JsonSerializer.Serialize(source);
+
+            // 获取一个订阅对象
+            var subscriber = _connectionMultiplexer.GetSubscriber();
+            await subscriber.PublishAsync(_routeKey, data);
+        }
+        else
+        {
+            // 这里处理动态订阅问题
+            await _channel.Writer.WriteAsync(eventSource, cancellationToken);
+        }
     }
 
-    // 从 Redis 中读取一条
+    /// <summary>
+    /// 从存储器中读取一条事件源
+    /// </summary>
+    /// <param name="cancellationToken">取消任务 Token</param>
+    /// <returns>事件源对象</returns>
     public async ValueTask<IEventSource> ReadAsync(CancellationToken cancellationToken)
     {
-       return await _redisClient.ReadAsync(...., cancellationToken);
+        // 读取一条事件源
+        var eventSource = await _channel.Reader.ReadAsync(cancellationToken);
+        return eventSource;
+    }
+
+    /// <summary>
+    /// 释放非托管资源
+    /// </summary>
+    public void Dispose()
+    {
+        _connectionMultiplexer.Dispose();
     }
 }
 ```
 
-最后，在注册 `EventBus` 服务中替换默认 `IEventSourceStorer`：
+**3. 替换默认事件存储器**
 
-```cs showLineNumbers  {4-8,11,13}
-services.AddEventBus(builder =>
+```cs showLineNumbers {1,4,7,10-13}
+services.AddEventBus(options =>
 {
-    // 替换事件源存储器
-    builder.ReplaceStorer(serviceProvider =>
-    {
-        var redisClient = serviceProvider.GetService<IRedisClient>();
-        return new RedisEventSourceStorer(redisClient);
-    });
+    // 创建 Redis 连接对象
+    var connectionMultiplexer = ConnectionMultiplexer.Connect("localhost");
 
-    // Furion 4.7.6 版本新增 ReplaceStorerOrFallback ，可在自定义事件源存储器初始失败时回退到默认值
-    builder.ReplaceStorerOrFallback(() => new YourEventSourceStorer());
-    // 支持 IServiceProvider 参数
-    builder.ReplaceStorerOrFallback(serviceProvider =>
-    {
-        return new YourEventSourceStorer();
-    });
+    // 创建默认内存通道事件源对象，可自定义队列路由key，比如这里是 eventbus
+    var redisEventSourceStorer = new RedisEventSourceStorer(connectionMultiplexer, "eventbus", 3000);
 
+    // 替换默认事件总线存储器
+    options.ReplaceStorer(serviceProvider =>
+    {
+        return redisEventSourceStorer;
+    });
 });
 ```
 
-### 22.4.1 `RabbitMQ` 自定义指南
+### 22.4.2 `RabbitMQ` 自定义指南
 
 :::important 版本说明
 
@@ -277,7 +376,7 @@ services.AddEventBus(builder =>
 **1. 安装 `RabbitMQ.Client` 拓展包**
 
 ```bash showLineNumbers
-Install-Package RabbitMQ.Client -Version 6.4.0
+Install-Package RabbitMQ.Client
 ```
 
 **2. 创建 `RabbitMQEventSourceStorer` 自定义存储器**
@@ -445,12 +544,12 @@ services.AddEventBus(options =>
 
 <img src={useBaseUrl("img/evs1.png")} />
 
-### 22.4.2 `Kafka` 自定义指南
+### 22.4.3 `Kafka` 自定义指南
 
 **1. 安装 `Confluent.Kafka` 拓展包**
 
 ```bash showLineNumbers
-Install-Package Confluent.Kafka -Version 1.9.3
+Install-Package Confluent.Kafka
 ```
 
 **2. 创建 `EventConsumer` 订阅类**
