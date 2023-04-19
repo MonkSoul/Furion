@@ -1,4 +1,4 @@
-﻿// MIT 许可证
+// MIT 许可证
 //
 // 版权 © 2020-present 百小僧, 百签科技（广东）有限公司 和所有贡献者
 //
@@ -50,7 +50,36 @@ public static class RSAEncryption
         using var rsa = new RSACryptoServiceProvider(keySize);
         rsa.FromXmlString(publicKey);
 
-        var encryptedData = rsa.Encrypt(Encoding.Default.GetBytes(text), false);
+        var originalData = Encoding.Default.GetBytes(text);
+
+        byte[] encryptedData;
+        // 密钥可加密数据长度
+        var bufferSize = (rsa.KeySize / 8) - 11;
+        if (originalData.Length > bufferSize)
+        {
+            //分段加密
+            var buffer = new byte[bufferSize];
+            using MemoryStream input = new(originalData);
+            using MemoryStream output = new();
+            while (true)
+            {
+                var readLine = input.Read(buffer, 0, bufferSize);
+                if (readLine <= 0)
+                {
+                    break;
+                }
+                var temp = new byte[readLine];
+                Array.Copy(buffer, 0, temp, 0, readLine);
+                var encrypt = rsa.Encrypt(temp, false);
+                output.Write(encrypt, 0, encrypt.Length);
+            }
+            encryptedData = output.ToArray();
+        }
+        else
+        {
+            encryptedData = rsa.Encrypt(originalData, false);
+        }
+
         return Convert.ToBase64String(encryptedData);
     }
 
@@ -68,7 +97,37 @@ public static class RSAEncryption
         using var rsa = new RSACryptoServiceProvider(keySize);
         rsa.FromXmlString(privateKey);
 
-        var decryptedData = rsa.Decrypt(Convert.FromBase64String(text), false);
+        var encryptData = Convert.FromBase64String(text);
+
+        byte[] decryptedData;
+
+        // 可解密密文最大长度
+        var bufferSize = rsa.KeySize / 8;
+        if (encryptData.Length > bufferSize)
+        {
+            //分段解密
+            var buffer = new byte[bufferSize];
+            using MemoryStream input = new(encryptData);
+            using MemoryStream output = new();
+            while (true)
+            {
+                var readLine = input.Read(buffer, 0, bufferSize);
+                if (readLine <= 0)
+                {
+                    break;
+                }
+                var temp = new byte[readLine];
+                Array.Copy(buffer, 0, temp, 0, readLine);
+                var decrypt = rsa.Decrypt(temp, false);
+                output.Write(decrypt, 0, decrypt.Length);
+            }
+            decryptedData = output.ToArray();
+        }
+        else
+        {
+            decryptedData = rsa.Decrypt(Convert.FromBase64String(text), false);
+        }
+
         return Encoding.Default.GetString(decryptedData);
     }
 
