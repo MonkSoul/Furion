@@ -498,7 +498,76 @@ function decryptJWT(token) {
 
 :::
 
-## 15.8 关于 `Blazor + WebAPI` 混合授权
+## 15.8 `Jwt` 身份验证过程监听
+
+有时候我们希望能够自定义或者监听 `Jwt` 验证过程，比如验证失败后在 `Response` 中添加 `Headers`，或者对接第三方验证时要求提供 `apikey` 等方式，这时候就用到了自定义功能。
+
+```cs showLineNumbers {1,5,9,14,19,24}
+// 注册 JWT 授权
+services.AddJwt<AuthHandler>(jwtBearerConfigure: options =>
+{
+    // 实现 JWT 身份验证过程控制
+    options.Events = new JwtBearerEvents
+    {
+        // 添加额外 Token 读取处理
+        // 可以在这里实现任何方式的读取 Token，然后设置给 context.Token 即可
+        OnMessageReceived = context =>
+        {
+            return Task.CompletedTask;
+        },
+        // Token 验证通过处理
+        OnTokenValidated = context =>
+        {
+            return Task.CompletedTask;
+        },
+        // Token 验证失败处理
+        OnAuthenticationFailed = context =>
+        {
+            return Task.CompletedTask;
+        },
+        // 客户端未提供 Token 或 Token 格式不正确处理
+        OnChallenge = context =>
+        {
+            return Task.CompletedTask;
+        }
+    };
+});
+```
+
+### 15.8.1 实现 `Url` 参数验证 `Token`
+
+正常情况下，`JWT` 都是通过请求头的 `Authorization` 设置，我们可以通过下列代码实现支持 `Url` 设置 `Token`，如：
+
+```cs showLineNumbers {5,8,13-19}
+// 实现 JWT 身份验证过程控制
+services.AddJwt<AuthHandler>(jwtBearerConfigure: options =>
+{
+    // 实现 JWT 身份验证过程控制
+    options.Events = new JwtBearerEvents
+    {
+        // 添加读取 Token 的方式
+        OnMessageReceived = context =>
+        {
+            var httpContext = context.HttpContext;
+
+            // 判断请求是否包含 Authorization 参数，如果有就设置给 Token
+            if (httpContext.Request.Query.ContainsKey("Authorization"))
+            {
+                var token = httpContext.Request.Query["Authorization"];
+
+                // 设置 Token
+                context.Token = token;
+            }
+
+            return Task.CompletedTask;
+        }
+    };
+});
+```
+
+这样就可以通过：`https://www.xxxx.com?Authorization=你的Token` 访问了。
+
+## 15.9 关于 `Blazor + WebAPI` 混合授权
 
 一些应用使用了 `Blazor` + `WebAPI` 模板后并启用全局授权，可能会遇到 `401/403` 授权失败的提示，这时只需要在启动层 `YourProject.Web.Entry` 下的 `Pages/_Host.cshtml` 顶部添加以下代码即可：
 
@@ -507,7 +576,7 @@ function decryptJWT(token) {
 @attribute [AllowAnonymous]
 ```
 
-## 15.9 反馈与建议
+## 15.10 反馈与建议
 
 :::note 与我们交流
 
