@@ -1,6 +1,6 @@
 import {
   NavbarSecondaryMenuFiller,
-  ThemeClassNames
+  ThemeClassNames,
 } from "@docusaurus/theme-common";
 import { useNavbarMobileSidebar } from "@docusaurus/theme-common/internal";
 import useBaseUrl from "@docusaurus/useBaseUrl";
@@ -88,8 +88,8 @@ function randomNum(minNum, maxNum) {
 }
 
 function Sponsor() {
-  const topIndex = randomNum(0, sponsors.length - 1);
-  const topData = sponsors[topIndex];
+  const topIndex = sponsors.findIndex((u) => u.top);
+  const topData = sponsors.find((u) => u.top);
 
   return (
     <div
@@ -156,7 +156,7 @@ function Sponsor() {
         }}
       >
         <span style={{ fontSize: 12, color: "#ccc" }}>
-          置顶广告采用随机方式
+          合作微信号：ibaiqian
         </span>
         <a
           href="/docs/donate"
@@ -207,7 +207,7 @@ function SponsorItem({ picture, url, last, title, top }) {
           padding: "0 5px",
         }}
       >
-        赞助商
+        铂金赞助商
       </span>
     </a>
   );

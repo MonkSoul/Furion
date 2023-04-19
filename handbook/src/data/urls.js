@@ -179,6 +179,11 @@ const urls = [
     text: "流之云",
     title: "流之云 - 信息化、数字化服务提供商",
   },
+  {
+    url: "https://www.diygw.com",
+    text: "UniApp 可视化源码",
+    title: "DIY 可视化 UniApp 代码生成器",
+  },
 ];
 
 export default urls;

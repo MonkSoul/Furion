@@ -3,7 +3,7 @@ const sponsors = [
     title: "CRMEB 专注开源电商系统研发",
     picture: "img/crmeb.jpg",
     url: "http://github.crmeb.net/u/furion",
-    top: true,
+    top: false,
   },
   {
     title: "流之云 - 信息化、数字化服务提供商",
@@ -51,6 +51,18 @@ const sponsors = [
   //   picture: "img/rust.png",
   //   url: "https://course.rs/",
   // },
+  {
+    title: "DIY 可视化 UniApp 代码生成器",
+    picture: "img/lk.jpg",
+    url: "https://www.diygw.com?from=furion",
+    top: false,
+  },
+  {
+    title: "赞助 Furion 快速提升企业品牌知名度",
+    picture: "img/xxyd.jpeg",
+    url: "https://furion.baiqian.ltd/docs/donate",
+    top: true,
+  },
 ];
 
 export default sponsors;

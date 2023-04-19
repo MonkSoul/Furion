@@ -35,6 +35,7 @@ import Tag from "@site/src/components/Tag.js";
 
 - **新特性**
 
+  - &nbsp;<Tag>新增</Tag> `RSA` 支持对超长字符（超 `245` 位）进行分段加解密 <sup>4.8.8.2</sup> <sup>⏱️2023.04.19</sup> [!788](https://gitee.com/dotnetchina/Furion/pulls/788) 感谢 [@YaChengMu](https://gitee.com/YaChengMu)
   - &nbsp;<Tag>新增</Tag> `System.Text.Json` 和 `Newtonsoft.Json` 对粘土对象 `Clay` 支持 <sup>4.8.8.1</sup> <sup>⏱️2023.04.18</sup> [#I6WKRZ](https://gitee.com/dotnetchina/Furion/issues/I6WKRZ)
   - &nbsp;<Tag>新增</Tag> 粘土对象可反射转换成特定 `IEnumerable<T>` 类型：`clay.ConvertTo<T>()` <sup>4.8.8</sup> <sup>⏱️2023.04.13</sup> [5d54a65](https://gitee.com/dotnetchina/Furion/commit/5d54a6579be3d710649bb199dd985f60acaf9787)
   - &nbsp;<Tag>新增</Tag> `Serve.IdleHost` 支持返回 `http` 和 `https` 协议 `Web` 地址（端口） <sup>4.8.8</sup> <sup>⏱️2023.04.13</sup> [fdf7885](https://gitee.com/dotnetchina/Furion/commit/fdf7885f282057599be6b1b3833373dd153db42a)
@@ -46,8 +47,13 @@ import Tag from "@site/src/components/Tag.js";
 
 - **文档**
 
+  - &nbsp;<Tag>新增</Tag> `Jwt` 身份验证过程监听文档
   - &nbsp;<Tag>新增</Tag> 事件总线 `Redis` 集成文档
-  - &nbsp;<Tag>更新</Tag> 粘土对象文档、虚拟文件系统文档、序列化文档、事件总线文档
+  - &nbsp;<Tag>更新</Tag> 粘土对象文档、虚拟文件系统文档、序列化文档、事件总线文档、远程请求、数据加密文档、安全授权文档
+
+- **贡献者**
+
+  - YaChengMu ([@YaChengMu](https://gitee.com/YaChengMu)) [!788](https://gitee.com/dotnetchina/Furion/pulls/788)
 
 ---
 
