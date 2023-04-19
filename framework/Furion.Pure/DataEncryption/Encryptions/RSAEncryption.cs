@@ -56,6 +56,9 @@ public static class RSAEncryption
         // 密钥可加密数据长度
         var bufferSize = (rsa.KeySize / 8) - 11;
 
+        // RSA 算法规定：https://www.codeprj.com/blog/26663b1.html
+        // 待加密的字节数不能超过密钥的长度值除以 8 再减去 11（即：RSACryptoServiceProvider.KeySize / 8 - 11），
+        // 而加密后得到密文的字节数，正好是密钥的长度值除以 8（即：RSACryptoServiceProvider.KeySize / 8）
         if (originalData.Length > bufferSize)
         {
             // 分段加密
@@ -104,6 +107,9 @@ public static class RSAEncryption
         // 可解密密文最大长度
         var bufferSize = rsa.KeySize / 8;
 
+        // RSA 算法规定：https://www.codeprj.com/blog/26663b1.html
+        // 待加密的字节数不能超过密钥的长度值除以 8 再减去 11（即：RSACryptoServiceProvider.KeySize / 8 - 11），
+        // 而加密后得到密文的字节数，正好是密钥的长度值除以 8（即：RSACryptoServiceProvider.KeySize / 8）
         if (encryptData.Length > bufferSize)
         {
             // 分段解密
