@@ -51,16 +51,18 @@ public static class RSAEncryption
         rsa.FromXmlString(publicKey);
 
         var originalData = Encoding.Default.GetBytes(text);
-
         byte[] encryptedData;
+
         // 密钥可加密数据长度
         var bufferSize = (rsa.KeySize / 8) - 11;
+
         if (originalData.Length > bufferSize)
         {
-            //分段加密
+            // 分段加密
             var buffer = new byte[bufferSize];
-            using MemoryStream input = new(originalData);
-            using MemoryStream output = new();
+            using var input = new MemoryStream(originalData);
+            using var output = new MemoryStream();
+
             while (true)
             {
                 var readLine = input.Read(buffer, 0, bufferSize);
@@ -68,17 +70,16 @@ public static class RSAEncryption
                 {
                     break;
                 }
+
                 var temp = new byte[readLine];
                 Array.Copy(buffer, 0, temp, 0, readLine);
+
                 var encrypt = rsa.Encrypt(temp, false);
                 output.Write(encrypt, 0, encrypt.Length);
             }
             encryptedData = output.ToArray();
         }
-        else
-        {
-            encryptedData = rsa.Encrypt(originalData, false);
-        }
+        else encryptedData = rsa.Encrypt(originalData, false);
 
         return Convert.ToBase64String(encryptedData);
     }
@@ -98,17 +99,18 @@ public static class RSAEncryption
         rsa.FromXmlString(privateKey);
 
         var encryptData = Convert.FromBase64String(text);
-
         byte[] decryptedData;
 
         // 可解密密文最大长度
         var bufferSize = rsa.KeySize / 8;
+
         if (encryptData.Length > bufferSize)
         {
-            //分段解密
+            // 分段解密
             var buffer = new byte[bufferSize];
-            using MemoryStream input = new(encryptData);
-            using MemoryStream output = new();
+            using var input = new MemoryStream(encryptData);
+            using var output = new MemoryStream();
+
             while (true)
             {
                 var readLine = input.Read(buffer, 0, bufferSize);
@@ -116,17 +118,16 @@ public static class RSAEncryption
                 {
                     break;
                 }
+
                 var temp = new byte[readLine];
                 Array.Copy(buffer, 0, temp, 0, readLine);
+
                 var decrypt = rsa.Decrypt(temp, false);
                 output.Write(decrypt, 0, decrypt.Length);
             }
             decryptedData = output.ToArray();
         }
-        else
-        {
-            decryptedData = rsa.Decrypt(Convert.FromBase64String(text), false);
-        }
+        else decryptedData = rsa.Decrypt(encryptData, false);
 
         return Encoding.Default.GetString(decryptedData);
     }
