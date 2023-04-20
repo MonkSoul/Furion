@@ -25,7 +25,7 @@ internal static class Penetrates
     /// <summary>
     /// 分组分隔符
     /// </summary>
-    internal const string GroupSeparator = "@";
+    internal const string GroupSeparator = "##";
 
     /// <summary>
     /// 请求动词映射字典
