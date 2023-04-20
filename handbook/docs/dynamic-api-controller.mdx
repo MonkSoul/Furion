@@ -1944,7 +1944,171 @@ app.Configuration.Get<WebHostBuilder>().ConfigureKestrel(x =>
 });
 ```
 
-## 5.1.13 反馈与建议
+## 5.1.13 获取路由/控制器/`Action` 列表
+
+有时候我们需要获取当前路由信息，或所有控制器、`Action` 列表，而已通过以下代码获取：
+
+- **获取当前路由表信息（简易）**
+
+```cs showLineNumbers {4,11,14}
+public class MetadataService : IDynamicApiController
+{
+    private readonly IHttpContextAccessor _httpContextAccessor;
+    public MetadataService(IHttpContextAccessor httpContextAccessor)
+    {
+        _httpContextAccessor = httpContextAccessor;
+    }
+
+    public RouteValueDictionary Print()
+    {
+        var routeValuesFeature = _httpContextAccessor.HttpContext.Features.Get<IRouteValuesFeature>();
+
+        // 获取路由信息
+        var routeValues = routeValuesFeature.RouteValues;
+
+        return routeValues;
+    }
+}
+```
+
+输出：
+
+```json showLineNumbers
+{
+  "action": "print",
+  "controller": "metadata"
+}
+```
+
+- **获取当前终点路由信息（简易）**
+
+```cs showLineNumbers {4,9,12,14-17,19-21}
+public class MetadataService : IDynamicApiController
+{
+    private readonly IHttpContextAccessor _httpContextAccessor;
+    public MetadataService(IHttpContextAccessor httpContextAccessor)
+    {
+        _httpContextAccessor = httpContextAccessor;
+    }
+
+    [Description("这是一段描述")]
+    public void Print()
+    {
+        var endpointFeature = _httpContextAccessor.HttpContext.Features.Get<IEndpointFeature>();
+
+        // 获取路由终点信息
+        var routeEndpoint = endpointFeature.Endpoint as RouteEndpoint;
+        var displayName = routeEndpoint.DisplayName;    // 路由映射方法 FullName
+        var routePattern = routeEndpoint.RoutePattern; // 路由表达式（路径）
+
+        // 获取路由元数据（特性）
+        var metadata = routeEndpoint.Metadata;
+        var attribute = metadata.GetMetadata<DescriptionAttribute>();   // 获取 [Description] 特性
+    }
+}
+```
+
+- **获取所有控制器列表**
+
+```cs showLineNumbers {4,11-12,15}
+public class MetadataService : IDynamicApiController
+{
+    private readonly ApplicationPartManager _applicationPartManager;
+    public MetadataService(ApplicationPartManager applicationPartManager)
+    {
+        _applicationPartManager = applicationPartManager;
+    }
+
+    public void Print()
+    {
+        var controllerFeature = new ControllerFeature();
+        _applicationPartManager.PopulateFeature(controllerFeature);
+
+        // 获取所有控制器列表
+        IList<TypeInfo> controllers = controllerFeature.Controllers;
+    }
+}
+```
+
+- **获取所有 `Action` 列表（强大）**
+
+```cs showLineNumbers {4,12,16-25}
+public class MetadataService : IDynamicApiController
+{
+    private readonly IActionDescriptorCollectionProvider _actionDescriptorCollectionProvider;
+    public MetadataService(IActionDescriptorCollectionProvider actionDescriptorCollectionProvider)
+    {
+        _actionDescriptorCollectionProvider = actionDescriptorCollectionProvider;
+    }
+
+    public void Print()
+    {
+        // 获取所有 Action 列表
+        var actionDescriptors = _actionDescriptorCollectionProvider.ActionDescriptors.Items;
+
+        foreach (ActionDescriptor actionDescriptor in actionDescriptors)
+        {
+            // 获取请求的方法
+            var method = (actionDescriptor as ControllerActionDescriptor).MethodInfo;
+
+            // 获取路由地址
+            var route = actionDescriptor.AttributeRouteInfo.Template;
+
+            // 获取 HttpMethod
+            var httpMethod = actionDescriptor.ActionConstraints?.OfType<HttpMethodActionConstraint>().FirstOrDefault()?.HttpMethods.First();
+
+            // 任何关于这个路由/方法/控制器/特性的信息都有
+        }
+    }
+}
+```
+
+- **获取所有 `Action` 列表带分组信息（强大）**
+
+```cs showLineNumbers {4,12,17,21-36}
+public class MetadataService : IDynamicApiController
+{
+    private readonly IApiDescriptionGroupCollectionProvider _apiDescriptionGroupCollectionProvider;
+    public MetadataService(IApiDescriptionGroupCollectionProvider apiDescriptionGroupCollectionProvider)
+    {
+        _apiDescriptionGroupCollectionProvider = apiDescriptionGroupCollectionProvider;
+    }
+
+    public void Print()
+    {
+        // 获取所有控制器列表
+        var apiDescriptionGroups = _apiDescriptionGroupCollectionProvider.ApiDescriptionGroups.Items;
+
+        foreach (ApiDescriptionGroup group in apiDescriptionGroups)
+        {
+            // 获取当前分组的所有 Actions
+            var actions = group.Items;
+
+            foreach (ApiDescription action in actions)
+            {
+                // 路由地址
+                var route = action.RelativePath;
+
+                // HttpMethod
+                var httpMethod = action.HttpMethod;
+
+                // 分组名
+                var groupName = action.GroupName;
+
+                // Action 描述器
+                var actionDescriptor = action.ActionDescriptor;
+
+                // 获取请求的方法
+                var method = (actionDescriptor as ControllerActionDescriptor).MethodInfo;
+
+                // 任何关于这个路由/方法/控制器/特性的信息都有
+            }
+        }
+    }
+}
+```
+
+## 5.1.14 反馈与建议
 
 :::note 与我们交流
 
