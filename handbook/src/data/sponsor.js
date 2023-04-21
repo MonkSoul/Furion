@@ -57,10 +57,16 @@ const sponsors = [
     url: "https://www.diygw.com?from=furion",
     top: false,
   },
+  // {
+  //   title: "赞助 Furion 快速提升企业品牌知名度",
+  //   picture: "img/xxyd.jpeg",
+  //   url: "https://furion.baiqian.ltd/docs/donate",
+  //   top: true,
+  // },
   {
-    title: "赞助 Furion 快速提升企业品牌知名度",
-    picture: "img/xxyd.jpeg",
-    url: "https://furion.baiqian.ltd/docs/donate",
+    title: "MaxKey - 业界领先的单点登录产品",
+    picture: "img/maxkey.png",
+    url: "https://gitee.com/dromara/MaxKey?from=furion",
     top: true,
   },
 ];
