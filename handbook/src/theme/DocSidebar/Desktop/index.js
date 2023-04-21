@@ -195,7 +195,7 @@ function SponsorItem({ picture, url, last, title, top }) {
           padding: "0 5px",
         }}
       >
-        铂金赞助商
+        {/* 赞助商 */}
       </span>
     </a>
   );
