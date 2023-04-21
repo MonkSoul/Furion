@@ -45,6 +45,12 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory
     private CancellationTokenSource _sleepCancellationTokenSource;
 
     /// <summary>
+    /// GC 垃圾回收间隔
+    /// </summary>
+    /// <remarks>单位毫秒</remarks>
+    private const int GC_COLLECT_INTERVAL_MILLISECONDS = 3000;
+
+    /// <summary>
     /// 作业计划集合
     /// </summary>
     private readonly ConcurrentDictionary<string, Scheduler> _schedulers = new();
@@ -112,6 +118,11 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory
     private bool PreloadCompleted { get; set; } = false;
 
     /// <summary>
+    /// GC 最近一次回收时间
+    /// </summary>
+    private DateTime? LastGCCollectTime { get; set; }
+
+    /// <summary>
     /// 作业调度器初始化
     /// </summary>
     public void Preload()
@@ -150,7 +161,7 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory
 
         // 释放引用内存并立即回收GC
         _schedulerBuilders.Clear();
-        GC.Collect();
+        GCCollect();
 
         // 输出作业调度器初始化日志
         if (preloadSucceed) _logger.LogWarning("Schedule hosted service preload completed, and a total of <{Count}> schedulers are appended.", _schedulers.Count);
@@ -339,7 +350,7 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory
         if (!_schedulers.Any())
         {
             // 输出作业调度器休眠总时长和唤醒时间日志
-            _logger.LogInformation("Schedule hosted service will sleep until it wakes up.");
+            _logger.LogWarning("Schedule hosted service will sleep until it wakes up.");
 
             return null;
         }
@@ -360,7 +371,7 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory
         var sleepMilliseconds = (earliestTriggerTime - startAt).TotalMilliseconds;
 
         // 输出作业调度器休眠总时长和唤醒时间日志
-        _logger.LogInformation("Schedule hosted service will sleep <{sleepMilliseconds}> milliseconds and be waked up at <{earliestTriggerTime}>.", sleepMilliseconds, earliestTriggerTime.ToUnspecifiedString());
+        _logger.LogDebug("Schedule hosted service will sleep <{sleepMilliseconds}> milliseconds and be waked up at <{earliestTriggerTime}>.", sleepMilliseconds, earliestTriggerTime.ToUnspecifiedString());
 
         return sleepMilliseconds;
     }
@@ -400,13 +411,13 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory
         // 初始化作业调度器休眠 Token
         _sleepCancellationTokenSource = new CancellationTokenSource();
 
-        // 监听休眠被取消
+        // 监听休眠被取消，并通知 GC 垃圾回收器回收
         _sleepCancellationTokenSource.Token.Register(() =>
         {
-            _logger.LogWarning("Schedule hosted service cancels hibernation and GC.Collect().");
+            _logger.LogWarning("Schedule hosted service cancels hibernation.");
 
             // 通知 GC 垃圾回收器立即回收
-            GC.Collect();
+            GCCollect();
         });
     }
 
@@ -446,5 +457,21 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory
 
         scheduler = originScheduler;
         return ScheduleResult.Succeed;
+    }
+
+    /// <summary>
+    /// GC 垃圾回收器回收处理
+    /// </summary>
+    /// <remarks>避免频繁 GC 回收</remarks>
+    private void GCCollect()
+    {
+        var nowTime = DateTime.UtcNow;
+        if ((LastGCCollectTime == null || (nowTime - LastGCCollectTime.Value).TotalMilliseconds > GC_COLLECT_INTERVAL_MILLISECONDS))
+        {
+            LastGCCollectTime = nowTime;
+
+            // 通知 GC 垃圾回收器立即回收
+            GC.Collect();
+        }
     }
 }
