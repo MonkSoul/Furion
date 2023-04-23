@@ -16,6 +16,7 @@ using Furion;
 using Microsoft.Extensions.DependencyInjection;
 using System.Net.NetworkInformation;
 using System.Reflection;
+using System.Security.Cryptography;
 
 namespace System;
 
@@ -75,10 +76,7 @@ public static class Native
             var serviceLifetime = App.GetServiceLifetime(serviceType);
 
             // 如果构造函数不是服务类型，则直接跳出
-            if (serviceLifetime == null)
-            {
-                break;
-            }
+            if (serviceLifetime == null) break;
 
             // 如果是单例，直接从根服务解析
             if (serviceLifetime == ServiceLifetime.Singleton)
@@ -125,12 +123,13 @@ public static class Native
     /// <returns></returns>
     public static int GetIdlePort()
     {
-        var random = new Random();
-        var randomPort = random.Next(10000, 65535);
+        var fromPort = 10000;
+        var toPort = 65535;
+        var randomPort = RandomNumberGenerator.GetInt32(fromPort, toPort);
 
         while (IPGlobalProperties.GetIPGlobalProperties().GetActiveTcpListeners().Any(p => p.Port == randomPort))
         {
-            randomPort = random.Next(10000, 65535);
+            randomPort = RandomNumberGenerator.GetInt32(fromPort, toPort);
         }
 
         return randomPort;

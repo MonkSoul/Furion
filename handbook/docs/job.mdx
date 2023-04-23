@@ -1844,11 +1844,140 @@ info: 2022-12-04 12:38:15.6925578 +08:00 星期日 L YourProject.MyJob[0] #11
 
 :::
 
-### 26.1.4.6 作业调度器被取消处理
+### 26.1.4.6 作业执行异常处理
+
+正常情况下，程序员应该保证作业执行程序总是稳定运行，但有时候会出现一些不可避免的意外导致出现异常，如网络异常等。
+
+下面给出模拟出现异常和常见的处理方式例子：
+
+```cs showLineNumbers {3}
+services.AddSchedule(options =>
+{
+    options.AddJob<MyJob>(Triggers.PeriodSeconds(3));
+});
+```
+
+```cs showLineNumbers {13-16}
+public class MyJob : IJob
+{
+    private readonly ILogger<MyJob> _logger;
+    public MyJob(ILogger<MyJob> logger)
+    {
+        _logger = logger;
+    }
+
+    public Task ExecuteAsync(JobExecutingContext context, CancellationToken stoppingToken)
+    {
+        _logger.LogInformation($"{context}");
+
+        // 模拟异常
+        var num = 10;
+        var n = 0;
+        var c = num / n;
+
+        return Task.CompletedTask;
+    }
+}
+```
+
+输出日志如下：
+
+```bash showLineNumbers {11-13,23-25}
+info: 2023-04-22 22:18:04.2149071 +08:00 星期六 L System.Logging.ScheduleService[0] #1
+      Schedule hosted service is running.
+info: 2023-04-22 22:18:04.2189082 +08:00 星期六 L System.Logging.ScheduleService[0] #1
+      Schedule hosted service is preloading...
+info: 2023-04-22 22:18:04.3216571 +08:00 星期六 L System.Logging.ScheduleService[0] #1
+      The <job1_trigger1> trigger for scheduler of <job1> successfully appended to the schedule.
+info: 2023-04-22 22:18:04.3230110 +08:00 星期六 L System.Logging.ScheduleService[0] #1
+      The scheduler of <job1> successfully appended to the schedule.
+warn: 2023-04-22 22:18:04.3521056 +08:00 星期六 L System.Logging.ScheduleService[0] #1
+      Schedule hosted service preload completed, and a total of <1> schedulers are appended.
+info: 2023-04-22 22:18:07.3782666 +08:00 星期六 L MyJob[0] #17
+      <job1> [C] <job1 job1_trigger1> 3s 1ts 2023-04-22 22:18:07.288 -> 2023-04-22 22:18:10.308
+fail: 2023-04-22 22:18:07.6652239 +08:00 星期六 L System.Logging.ScheduleService[0] #17
+      Error occurred executing <job1> [C] <job1 job1_trigger1> 3s 1ts 2023-04-22 22:18:07.288 -> 2023-04-22 22:18:10.308.
+      ++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+      System.DivideByZeroException: Attempted to divide by zero.
+         at MyJob.ExecuteAsync(JobExecutingContext context, CancellationToken stoppingToken) in C:\Users\MonkSoul\source\repos\ConsoleApp3\Program.cs:line 29
+         at Furion.Schedule.ScheduleHostedService.<>c__DisplayClass24_3.<<BackgroundProcessing>b__3>d.MoveNext() in C:\Workplaces\Furion\framework\Furion\Schedule\HostedServices\ScheduleHostedService.cs:line 233
+      --- End of stack trace from previous location ---
+         at Furion.FriendlyException.Retry.InvokeAsync(Func`1 action, Int32 numRetries, Int32 retryTimeout, Boolean finalThrow, Type[] exceptionTypes, Func`2 fallbackPolicy, Action`2 retryAction) in C:\Workplaces\Furion\framework\Furion\FriendlyException\Retry.cs:line 79
+         at Furion.Schedule.ScheduleHostedService.<>c__DisplayClass24_2.<<BackgroundProcessing>b__2>d.MoveNext() in C:\Workplaces\Furion\framework\Furion\Schedule\HostedServices\ScheduleHostedService.cs:line 231
+      ++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+info: 2023-04-22 22:18:10.3507729 +08:00 星期六 L MyJob[0] #8
+      <job1> [C] <job1 job1_trigger1> 3s 2ts 2023-04-22 22:18:10.308 -> 2023-04-22 22:18:13.318
+fail: 2023-04-22 22:18:10.4292529 +08:00 星期六 L System.Logging.ScheduleService[0] #8
+      Error occurred executing <job1> [C] <job1 job1_trigger1> 3s 2ts 2023-04-22 22:18:10.308 -> 2023-04-22 22:18:13.318.
+      ++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+      System.DivideByZeroException: Attempted to divide by zero.
+         at MyJob.ExecuteAsync(JobExecutingContext context, CancellationToken stoppingToken) in C:\Users\MonkSoul\source\repos\ConsoleApp3\Program.cs:line 29
+         at Furion.Schedule.ScheduleHostedService.<>c__DisplayClass24_3.<<BackgroundProcessing>b__3>d.MoveNext() in C:\Workplaces\Furion\framework\Furion\Schedule\HostedServices\ScheduleHostedService.cs:line 233
+      --- End of stack trace from previous location ---
+         at Furion.FriendlyException.Retry.InvokeAsync(Func`1 action, Int32 numRetries, Int32 retryTimeout, Boolean finalThrow, Type[] exceptionTypes, Func`2 fallbackPolicy, Action`2 retryAction) in C:\Workplaces\Furion\framework\Furion\FriendlyException\Retry.cs:line 79
+         at Furion.Schedule.ScheduleHostedService.<>c__DisplayClass24_2.<<BackgroundProcessing>b__2>d.MoveNext() in C:\Workplaces\Furion\framework\Furion\Schedule\HostedServices\ScheduleHostedService.cs:line 231
+      ++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+```
+
+从上面执行日志可以看出，作业执行出现异常只会影响当前触发时间的执行，但不会影响下一次执行。出现这种情况通常配置 **重试策略** 确保每次作业处理程序可能执行成功，如重试 `3` 次，如：
+
+```cs showLineNumbers {4}
+services.AddSchedule(options =>
+{
+    options.AddJob<MyJob>(Triggers.PeriodSeconds(3)
+                                  .SetNumRetries(3)); // 重试三次
+});
+```
+
+输出日志如下：
+
+```bash showLineNumbers {11-23}
+info: 2023-04-22 22:25:00.7244392 +08:00 星期六 L System.Logging.ScheduleService[0] #1
+      Schedule hosted service is running.
+info: 2023-04-22 22:25:00.7293195 +08:00 星期六 L System.Logging.ScheduleService[0] #1
+      Schedule hosted service is preloading...
+info: 2023-04-22 22:25:00.8796238 +08:00 星期六 L System.Logging.ScheduleService[0] #1
+      The <job1_trigger1> trigger for scheduler of <job1> successfully appended to the schedule.
+info: 2023-04-22 22:25:00.8852651 +08:00 星期六 L System.Logging.ScheduleService[0] #1
+      The scheduler of <job1> successfully appended to the schedule.
+warn: 2023-04-22 22:25:00.9348100 +08:00 星期六 L System.Logging.ScheduleService[0] #1
+      Schedule hosted service preload completed, and a total of <1> schedulers are appended.
+info: 2023-04-22 22:25:03.9357047 +08:00 星期六 L MyJob[0] #12
+      <job1> [C] <job1 job1_trigger1> 3s 1ts 2023-04-22 22:25:03.840 -> 2023-04-22 22:25:06.888
+warn: 2023-04-22 22:25:04.0147234 +08:00 星期六 L System.Logging.ScheduleService[0] #12
+      Retrying 1/3 times for <job1> [C] <job1 job1_trigger1> 3s 1ts 2023-04-22 22:25:03.840 -> 2023-04-22 22:25:06.888
+info: 2023-04-22 22:25:05.0243650 +08:00 星期六 L MyJob[0] #12
+      <job1> [C] <job1 job1_trigger1> 3s 1ts 2023-04-22 22:25:03.840 -> 2023-04-22 22:25:06.888
+warn: 2023-04-22 22:25:05.0963359 +08:00 星期六 L System.Logging.ScheduleService[0] #12
+      Retrying 2/3 times for <job1> [C] <job1 job1_trigger1> 3s 1ts 2023-04-22 22:25:03.840 -> 2023-04-22 22:25:06.888
+info: 2023-04-22 22:25:06.1100662 +08:00 星期六 L MyJob[0] #12
+      <job1> [C] <job1 job1_trigger1> 3s 1ts 2023-04-22 22:25:03.840 -> 2023-04-22 22:25:06.888
+warn: 2023-04-22 22:25:06.1785087 +08:00 星期六 L System.Logging.ScheduleService[0] #12
+      Retrying 3/3 times for <job1> [C] <job1 job1_trigger1> 3s 1ts 2023-04-22 22:25:03.840 -> 2023-04-22 22:25:06.888
+fail: 2023-04-22 22:25:07.3754596 +08:00 星期六 L System.Logging.ScheduleService[0] #16
+      Error occurred executing <job1> [C] <job1 job1_trigger1> 3s 2ts 2023-04-22 22:25:03.840 -> 2023-04-22 22:25:09.884.
+      ++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+      System.DivideByZeroException: Attempted to divide by zero.
+         at MyJob.ExecuteAsync(JobExecutingContext context, CancellationToken stoppingToken) in C:\Users\MonkSoul\source\repos\ConsoleApp3\Program.cs:line 30
+         at Furion.Schedule.ScheduleHostedService.<>c__DisplayClass24_3.<<BackgroundProcessing>b__3>d.MoveNext() in C:\Workplaces\Furion\framework\Furion\Schedule\HostedServices\ScheduleHostedService.cs:line 233
+      --- End of stack trace from previous location ---
+         at Furion.FriendlyException.Retry.InvokeAsync(Func`1 action, Int32 numRetries, Int32 retryTimeout, Boolean finalThrow, Type[] exceptionTypes, Func`2 fallbackPolicy, Action`2 retryAction) in C:\Workplaces\Furion\framework\Furion\FriendlyException\Retry.cs:line 91
+         at Furion.FriendlyException.Retry.InvokeAsync(Func`1 action, Int32 numRetries, Int32 retryTimeout, Boolean finalThrow, Type[] exceptionTypes, Func`2 fallbackPolicy, Action`2 retryAction) in C:\Workplaces\Furion\framework\Furion\FriendlyException\Retry.cs:line 102
+         at Furion.Schedule.ScheduleHostedService.<>c__DisplayClass24_2.<<BackgroundProcessing>b__2>d.MoveNext() in C:\Workplaces\Furion\framework\Furion\Schedule\HostedServices\ScheduleHostedService.cs:line 231
+      ++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+```
+
+:::tip 全局配置**重试策略**
+
+推荐使用 [【26.1.9 作业执行器 `IJobExecutor`】](./job#2619-作业执行器-ijobexecutor) 配置全局异常重试策略。
+
+:::
+
+### 26.1.4.7 作业调度器被取消处理
 
 一般情况下，作业调度器意外关闭或手动关闭，但作业处理程序异步操作还未处理完成，这个时候我们可以选择取消还是继续执行，如果选择取消：
 
-```cs showLineNumbers {15,19,23,30}
+```cs showLineNumbers {15,19,23,31}
 public class MyJob : IJob
 {
     private readonly ILogger<MyJob> _logger;
@@ -1873,6 +2002,7 @@ public class MyJob : IJob
         {
             _logger.LogWarning("作业被取消了~");
         }
+        catch {}
     }
 
     private async Task SomeMethodAsync(CancellationToken stoppingToken)
@@ -1908,7 +2038,7 @@ crit: 2022-12-04 12:49:10.4360088 +08:00 星期日 L System.Logging.ScheduleServ
       Schedule hosted service is stopped.
 ```
 
-### 26.1.4.7 设置本次执行结果
+### 26.1.4.8 设置本次执行结果
 
 :::important 版本说明
 
@@ -1939,7 +2069,7 @@ public class MyJob : IJob
 }
 ```
 
-### 26.1.4.8 `HTTP` 请求作业
+### 26.1.4.9 `HTTP` 请求作业
 
 :::important 版本说明
 
@@ -2130,7 +2260,7 @@ services.AddSchedule(options =>
 });
 ```
 
-### 26.1.4.9 设置本次执行结果
+### 26.1.4.10 设置本次执行结果
 
 :::important 版本说明
 
