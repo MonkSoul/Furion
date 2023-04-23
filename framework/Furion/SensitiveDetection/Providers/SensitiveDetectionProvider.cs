@@ -76,7 +76,9 @@ public class SensitiveDetectionProvider : ISensitiveDetectionProvider
         await _distributedCache.SetStringAsync(DISTRIBUTED_KEY, content);
 
         // 取换行符分割字符串
-        var words = content.Split(new[] { "\r\n", "|" }, StringSplitOptions.RemoveEmptyEntries).Select(u => u.Trim());
+        var words = content.Split(new[] { "\r\n", "|" }, StringSplitOptions.RemoveEmptyEntries)
+                                          .Select(u => u.Trim())
+                                          .Distinct();
 
         return words;
     }
