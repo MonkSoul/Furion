@@ -13,6 +13,7 @@ import Tag from "@site/src/components/Tag.js";
 
 - **新特性**
 
+  - &nbsp;<Tag>新增</Tag> 定时任务支持在非 `IOC/DI` 项目类型中使用 <sup>4.8.8.5</sup> <sup>⏱️2023.04.24</sup> [#I6YJNB](https://gitee.com/dotnetchina/Sundial/issues/I6YJNB)
   - &nbsp;<Tag>新增</Tag> 定时任务看板支持自定义刷新频率 `SyncRate` 功能 <sup>4.8.7.43</sup> <sup>⏱️2023.04.12</sup> [703b465](https://gitee.com/dotnetchina/Furion/commit/703b465f41510d86976d325cd31d7f8eba3a31ec)
   - &nbsp;<Tag>新增</Tag> 定时任务看板支持完全自定义 `RequestPath` 入口地址功能 <sup>4.8.7.34</sup> <sup>⏱️2023.04.04</sup> [24736f6](https://gitee.com/dotnetchina/Furion/commit/24736f6421dd5aa90289fbb9bc519e6ef55e667f)
   - &nbsp;<Tag>新增</Tag> **定时任务一系列 `.AlterTo` 修改作业触发器触发时间便捷方法** <sup>4.8.7.31</sup> <sup>⏱️2023.03.31</sup> [0349017](https://gitee.com/dotnetchina/Furion/commit/0349017902835bed91041fb3ea1ee987b0a81bbb)
@@ -961,6 +962,26 @@ info: 2023-03-21 14:22:39.7171392 +08:00 星期二 L System.Logging.DynamicJob[0
       <job1> [C] <job1 job1_trigger1> 5s 1ts 2023-03-21 14:22:39.575 -> 2023-03-21 14:22:44.623
 info: 2023-03-21 14:22:44.6986483 +08:00 星期二 L System.Logging.DynamicJob[0] #9
       <job1> [C] <job1 job1_trigger1> 5s 2ts 2023-03-21 14:22:44.623 -> 2023-03-21 14:22:49.657
+```
+
+### 26.1.2.9 非 `IOC/DI` 项目中使用
+
+:::important 版本说明
+
+以下内容仅限 `Furion 4.8.8.5 +` 版本使用。
+
+:::
+
+在一些不支持依赖注入的项目类型如 `Console、WinForm、WPF` 中，可以通过以下方式使用：
+
+```cs showLineNumbers {1,2,6-7}
+_ = new ServiceCollection()
+    .AddSchedule(options =>
+    {
+        options.AddJob<MyJob>(Triggers.Period(5000));
+    })
+    .GetScheduleHostedService()
+    .StartAsync(new CancellationTokenSource().Token);
 ```
 
 ## 26.1.3 作业信息 `JobDetail` 及构建器
