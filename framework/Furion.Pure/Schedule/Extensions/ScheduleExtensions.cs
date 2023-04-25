@@ -13,6 +13,7 @@
 // 还是产生于、源于或有关于本软件以及本软件的使用或其它处置。
 
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System.Reflection;
 
@@ -32,6 +33,26 @@ public static class ScheduleExtensions
     public static ILogger GetLogger(this IServiceProvider serviceProvider)
     {
         return serviceProvider.GetRequiredService<ILogger<System.Logging.DynamicJob>>();
+    }
+
+    /// <summary>
+    /// 获取调度主机服务对象
+    /// </summary>
+    /// <param name="services"><see cref="IServiceCollection"/></param>
+    /// <returns><see cref="ScheduleHostedService"/></returns>
+    public static IHostedService GetScheduleHostedService(this IServiceCollection services)
+    {
+        return services.BuildServiceProvider().GetScheduleHostedService();
+    }
+
+    /// <summary>
+    /// 获取调度主机服务对象
+    /// </summary>
+    /// <param name="serviceProvider"><see cref="IServiceProvider"/></param>
+    /// <returns><see cref="ScheduleHostedService"/></returns>
+    public static IHostedService GetScheduleHostedService(this IServiceProvider serviceProvider)
+    {
+        return serviceProvider.GetServices<IHostedService>().Single(t => t.GetType() == typeof(ScheduleHostedService));
     }
 
     /// <summary>

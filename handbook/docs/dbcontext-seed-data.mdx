@@ -1,7 +1,7 @@
 ---
 id: dbcontext-seed-data
-title: 9.21 实体种子数据
-sidebar_label: 9.21 实体种子数据
+title: 9.22 实体种子数据
+sidebar_label: 9.22 实体种子数据
 ---
 
 :::important 特别提醒
@@ -10,17 +10,17 @@ sidebar_label: 9.21 实体种子数据
 
 :::
 
-## 9.21.1 什么是种子数据
+## 9.22.1 什么是种子数据
 
 在 `Furion` 框架中，种子数据通常指的是通过程序为数据库预先设置一些初始化数据，比如我们的数据字典表，我们可能希望在系统构建初期就自动将一些规范化数据保存到数据库中。
 
 如性别：男/女，地区，行业信息等等。
 
-## 9.21.2 如何配置
+## 9.22.2 如何配置
 
 `Furion` 提供非常灵活方便的 `IEntitySeedData<TEntity>` 依赖接口可以快速的构建种子数据，支持任何无参构造函数对象类中使用。如我们需要为 `Person` 表插入初始化数据：
 
-### 9.21.2.1 在实体定义中使用
+### 9.22.2.1 在实体定义中使用
 
 ```cs showLineNumbers  {7,16-23}
 using Furion.DatabaseAccessor;
@@ -56,7 +56,7 @@ namespace Furion.Core
 
 :::
 
-### 9.21.2.2 在任意对象类中使用
+### 9.22.2.2 在任意对象类中使用
 
 ```cs showLineNumbers  {6,9-16}
 using Furion.DatabaseAccessor;
@@ -79,11 +79,11 @@ namespace Furion.Application
 }
 ```
 
-## 9.21.3 导航属性
+## 9.22.3 导航属性
 
 通常我们的实体有 `一对多`，`多对多`等外键关系，那么**我们需要单独为每一个实体添加数据种子，而不是直接写在主表中。**
 
-## 9.21.4 多个数据库种子数据
+## 9.22.4 多个数据库种子数据
 
 `Furion` 提供泛型的方式支持多个数据库种子数据设定，如：
 
@@ -110,7 +110,7 @@ namespace Furion.Application
 
 上面的例子表示同时为 `MySqlDbContext` 和 `SqliteDbContext` 创建种子数据。
 
-## 9.21.5 反馈与建议
+## 9.22.5 反馈与建议
 
 :::note 与我们交流
 

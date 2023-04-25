@@ -1,7 +1,7 @@
 ---
 id: template
-title: 2.2 官方脚手架
-sidebar_label: 2.2 官方脚手架
+title: 2.6 官方脚手架
+sidebar_label: 2.6 官方脚手架
 description: 快速创建生产级项目解决方案
 ---
 
@@ -37,11 +37,11 @@ import Tag from "@site/src/components/Tag.js";
 
 :::
 
-## 2.2.1 脚手架
+## 2.6.1 脚手架
 
 `Furion` 官方提供了多种 `Web` 应用类型的脚手架，方便大家快速创建多层架构项目。目前支持以下应用脚手架：
 
-### 2.2.1.1 `Furion + EFCore`
+### 2.6.1.1 `Furion + EFCore`
 
 |                                                                 模板类型                                                                 | 名称                             | 版本                                                                                                                                                                 | 关键词                 | 描述                   |
 | :--------------------------------------------------------------------------------------------------------------------------------------: | -------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------- | ---------------------- |
@@ -53,7 +53,7 @@ import Tag from "@site/src/components/Tag.js";
 |      [![nuget](https://shields.io/badge/-NuGet-yellow?cacheSeconds=604800)](https://www.nuget.org/packages/Furion.Template.Blazor/)      | Furion.Template.Blazor           | [![nuget](https://img.shields.io/nuget/v/Furion.Template.Blazor.svg?cacheSeconds=10800)](https://www.nuget.org/packages/Furion.Template.Blazor/)                     | 👉 **furionblazor**    | Blazor 模板            |
 | [![nuget](https://shields.io/badge/-NuGet-yellow?cacheSeconds=604800)](https://www.nuget.org/packages/Furion.Template.BlazorWithWebApi/) | Furion.Template.BlazorWithWebApi | [![nuget](https://img.shields.io/nuget/v/Furion.Template.BlazorWithWebApi.svg?cacheSeconds=10800)](https://www.nuget.org/packages/Furion.Template.BlazorWithWebApi/) | 👉 **furionblazorapi** | Blazor/WebApi 模板     |
 
-### 2.2.1.2 `Furion + SqlSugar`
+### 2.6.1.2 `Furion + SqlSugar`
 
 |                                                                     模板类型                                                                      | 名称                                      | 版本                                                                                                                                                                                   | 关键词             | 描述                   |
 | :-----------------------------------------------------------------------------------------------------------------------------------------------: | ----------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------ | ---------------------- |
@@ -65,27 +65,27 @@ import Tag from "@site/src/components/Tag.js";
 |      [![nuget](https://shields.io/badge/-NuGet-yellow?cacheSeconds=604800)](https://www.nuget.org/packages/Furion.SqlSugar.Template.Blazor/)      | Furion.SqlSugar.Template.Blazor           | [![nuget](https://img.shields.io/nuget/v/Furion.SqlSugar.Template.Blazor.svg?cacheSeconds=10800)](https://www.nuget.org/packages/Furion.SqlSugar.Template.Blazor/)                     | 👉 **fsblazor**    | Blazor 模板            |
 | [![nuget](https://shields.io/badge/-NuGet-yellow?cacheSeconds=604800)](https://www.nuget.org/packages/Furion.SqlSugar.Template.BlazorWithWebApi/) | Furion.SqlSugar.Template.BlazorWithWebApi | [![nuget](https://img.shields.io/nuget/v/Furion.SqlSugar.Template.BlazorWithWebApi.svg?cacheSeconds=10800)](https://www.nuget.org/packages/Furion.SqlSugar.Template.BlazorWithWebApi/) | 👉 **fsblazorapi** | Blazor/WebApi 模板     |
 
-## 2.2.2 安装脚手架
+## 2.6.2 安装脚手架
 
 打开 `CMD` 或 `Powershell` 执行模板安装命令（新版本 `--install` 可换成 `install`）：
 
-### 2.2.2.1 `Furion + EFCore` 脚手架安装
+### 2.6.2.1 `Furion + EFCore` 脚手架安装
 
 ```bash showLineNumbers
 # Mvc 模板
-dotnet new --install Furion.Template.Mvc::4.8.8.4
+dotnet new --install Furion.Template.Mvc::4.8.8.5
 # WebApi 模板
-dotnet new --install Furion.Template.Api::4.8.8.4
+dotnet new --install Furion.Template.Api::4.8.8.5
 # Mvc/WebApi 模板
-dotnet new --install Furion.Template.App::4.8.8.4
+dotnet new --install Furion.Template.App::4.8.8.5
 # RazorPages 模板
-dotnet new --install Furion.Template.Razor::4.8.8.4
+dotnet new --install Furion.Template.Razor::4.8.8.5
 # RazorPages/WebApi 模板
-dotnet new --install Furion.Template.RazorWithWebApi::4.8.8.4
+dotnet new --install Furion.Template.RazorWithWebApi::4.8.8.5
 # Blazor 模板
-dotnet new --install Furion.Template.Blazor::4.8.8.4
+dotnet new --install Furion.Template.Blazor::4.8.8.5
 # Blazor/WebApi 模板
-dotnet new --install Furion.Template.BlazorWithWebAPI::4.8.8.4
+dotnet new --install Furion.Template.BlazorWithWebAPI::4.8.8.5
 ```
 
 :::note 最新版安装
@@ -94,23 +94,23 @@ dotnet new --install Furion.Template.BlazorWithWebAPI::4.8.8.4
 
 :::
 
-### 2.2.2.2 `Furion + SqlSugar` 脚手架安装
+### 2.6.2.2 `Furion + SqlSugar` 脚手架安装
 
 ```bash showLineNumbers
 # Mvc 模板
-dotnet new --install Furion.SqlSugar.Template.Mvc::4.8.8.4
+dotnet new --install Furion.SqlSugar.Template.Mvc::4.8.8.5
 # WebApi 模板
-dotnet new --install Furion.SqlSugar.Template.Api::4.8.8.4
+dotnet new --install Furion.SqlSugar.Template.Api::4.8.8.5
 # Mvc/WebApi 模板
-dotnet new --install Furion.SqlSugar.Template.App::4.8.8.4
+dotnet new --install Furion.SqlSugar.Template.App::4.8.8.5
 # RazorPages 模板
-dotnet new --install Furion.SqlSugar.Template.Razor::4.8.8.4
+dotnet new --install Furion.SqlSugar.Template.Razor::4.8.8.5
 # RazorPages/WebApi 模板
-dotnet new --install Furion.SqlSugar.Template.RazorWithWebApi::4.8.8.4
+dotnet new --install Furion.SqlSugar.Template.RazorWithWebApi::4.8.8.5
 # Blazor 模板
-dotnet new --install Furion.SqlSugar.Template.Blazor::4.8.8.4
+dotnet new --install Furion.SqlSugar.Template.Blazor::4.8.8.5
 # Blazor/WebApi 模板
-dotnet new --install Furion.SqlSugar.Template.BlazorWithWebAPI::4.8.8.4
+dotnet new --install Furion.SqlSugar.Template.BlazorWithWebAPI::4.8.8.5
 ```
 
 :::note 最新版安装
@@ -127,7 +127,7 @@ dotnet new --install Furion.SqlSugar.Template.BlazorWithWebAPI::4.8.8.4
 
 :::
 
-## 2.2.3 使用脚手架
+## 2.6.3 使用脚手架
 
 ```bash showLineNumbers {2,5-8,11-14}
 # 命令模板如下
@@ -164,12 +164,12 @@ dotnet new fsapi -n MyProject -f net8
 
 :::
 
-## 2.2.4 脚手架更新
+## 2.6.4 脚手架更新
 
 只需要重新安装最新版替换即可，如：
 
 ```bash showLineNumbers
-dotnet new --install Furion.Template.Api::4.8.8.4
+dotnet new --install Furion.Template.Api::4.8.8.5
 ```
 
 :::note 最新版安装
@@ -178,13 +178,13 @@ dotnet new --install Furion.Template.Api::4.8.8.4
 
 :::
 
-## 2.2.5 `Visual Studio` 集成
+## 2.6.5 `Visual Studio` 集成
 
 通过命令安装脚手架后，升级 `Visual Studio` 到最新版可使用可视化方式创建哦。
 
 <img src={useBaseUrl("img/ksh.png")} />
 
-## 2.2.6 `关于 MVC 添加区域出错问题`
+## 2.6.6 `关于 MVC 添加区域出错问题`
 
 由于 `Furion` 底层依赖了 `Microsoft.CodeAnalysis.CSharp` 包，所以可能通过 `Viusal Studio` 的界面添加 `Area 区域` 时会出错，这时候只需要在 `Web.Entry` 层安装下面几个包即可：
 
@@ -194,7 +194,7 @@ dotnet new --install Furion.Template.Api::4.8.8.4
 - `Microsoft.CodeAnalysis.Workspaces.MSBuild`
 - `Microsoft.VisualStudio.Web.CodeGeneration.Design`
 
-## 2.2.7 搭建脚手架
+## 2.6.7 搭建脚手架
 
 脚手架可以极大的提高我们搭建新项目的速度，推荐两篇文章给大家学习：
 
@@ -206,7 +206,7 @@ dotnet new --install Furion.Template.Api::4.8.8.4
 
 [Furion 脚手架源码](https://gitee.com/dotnetchina/Furion/tree/v4/templates)
 
-## 2.2.8 反馈与建议
+## 2.6.8 反馈与建议
 
 :::note 与我们交流
 

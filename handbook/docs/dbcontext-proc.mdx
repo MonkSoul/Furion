@@ -1,12 +1,12 @@
 ---
 id: dbcontext-proc
-title: 9.13 存储过程操作
-sidebar_label: 9.13 存储过程操作
+title: 9.14 存储过程操作
+sidebar_label: 9.14 存储过程操作
 ---
 
 :::important 温馨提示
 
-推荐使用 《[9.17 Sql 高级代理](dbcontext-sql-proxy.mdx)》代替本章节功能。`Sql 高级代理` 能够提供更容易且更易维护的方式。
+推荐使用 《[9.18 Sql 高级代理](dbcontext-sql-proxy.mdx)》代替本章节功能。`Sql 高级代理` 能够提供更容易且更易维护的方式。
 
 :::
 
@@ -14,7 +14,7 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
 
-## 9.13.1 关于存储过程
+## 9.14.1 关于存储过程
 
 引用百度百科：
 
@@ -26,13 +26,13 @@ import TabItem from "@theme/TabItem";
 
 **这里不讨论存储过程的优缺点。**
 
-### 9.13.2.0 支持存储过程的数据库
+### 9.14.2.0 支持存储过程的数据库
 
 | SqlServer | Sqlite | Cosmos | InMemoryDatabase | MySql | PostgreSQL | Oracle | Firebird | Dm  |
 | --------- | ------ | ------ | ---------------- | ----- | ---------- | ------ | -------- | --- |
 | ✔         |        | ✔      |                  | ✔     | ✔          | ✔      | ✔        | ✔   |
 
-## 9.13.2 存储过程使用
+## 9.14.2 存储过程使用
 
 `Furion` 框架中提供了多种存储过程操作方式：
 
@@ -42,7 +42,7 @@ import TabItem from "@theme/TabItem";
 - 通过字符串拓展方法：`procName.SqlProcedureQuery()`
 - 通过 `repository.Sql().SqlProcedureQuery()` 方式
 
-### 9.13.2.1 初始化方式
+### 9.14.2.1 初始化方式
 
 <Tabs
   defaultValue="one"
@@ -112,14 +112,14 @@ namespace Furion.Application
   </TabItem>
 <TabItem value="three">
 
-```cs showLineNumbers 
+```cs showLineNumbers
 var persons = personRepository.SqlProcedureQuery("proc_GetPersons");
 ```
 
   </TabItem>
   <TabItem value="four">
 
-```cs showLineNumbers 
+```cs showLineNumbers
 var persons = "proc_GetPersons".SqlProcedureQuery();
 ```
 
@@ -127,9 +127,9 @@ var persons = "proc_GetPersons".SqlProcedureQuery();
 
 </Tabs>
 
-### 9.13.2.2 返回 `DataTable`
+### 9.14.2.2 返回 `DataTable`
 
-```cs showLineNumbers 
+```cs showLineNumbers
 // ISqlRepository 方法
 var dataTable = _sqlRepository.SqlProcedureQuery("proc_GetPersons");
 
@@ -152,9 +152,9 @@ var dataTable = "proc_GetPersons".SqlProcedureQuery();
 
 :::
 
-### 9.13.2.3 返回 `DataSet`
+### 9.14.2.3 返回 `DataSet`
 
-```cs showLineNumbers 
+```cs showLineNumbers
 // ISqlRepository 方法
 var dataSet = _sqlRepository.SqlProcedureQueries("proc_GetPersons");
 
@@ -177,9 +177,9 @@ var dataSet = "proc_GetPersons".SqlProcedureQueries();
 
 :::
 
-### 9.13.2.4 返回 `List<T>`
+### 9.14.2.4 返回 `List<T>`
 
-```cs showLineNumbers 
+```cs showLineNumbers
 // ISqlRepository 方法
 var list = _sqlRepository.SqlProcedureQuery<Person>("proc_GetPersons");
 
@@ -202,11 +202,11 @@ var list = "proc_GetPersons".SqlProcedureQuery<Person>();
 
 :::
 
-### 9.13.2.5 返回 `Tuple<T1,...T8>`
+### 9.14.2.5 返回 `Tuple<T1,...T8>`
 
 `Furion` 框架大大利用了 `Tuple` 的特性，将返回多个结果集转成 `Tuple<T1,...T8>` 类型
 
-```cs showLineNumbers 
+```cs showLineNumbers
 // ISqlRepository 方法
 
 // 返回一个结果集
@@ -352,9 +352,9 @@ var (list1, list2, list3, list4, list5, list6, list7, list8) = "proc_GetPersons"
 
 :::
 
-### 9.13.2.6 返回 `单行单列 object`
+### 9.14.2.6 返回 `单行单列 object`
 
-```cs showLineNumbers 
+```cs showLineNumbers
 // ISqlRepository 方法
 var value = _sqlRepository.SqlProcedureScalar("proc_GetName");
 
@@ -377,9 +377,9 @@ var value = "proc_GetName".SqlProcedureScalar();
 
 :::
 
-### 9.13.2.7 返回 `单行单列 <T>`
+### 9.14.2.7 返回 `单行单列 <T>`
 
-```cs showLineNumbers 
+```cs showLineNumbers
 // ISqlRepository 方法
 var value = _sqlRepository.SqlProcedureScalar<string>("proc_GetName");
 
@@ -402,9 +402,9 @@ var value = "proc_GetName".SqlProcedureScalar<string>();
 
 :::
 
-### 9.13.2.8 执行但无返回
+### 9.14.2.8 执行但无返回
 
-```cs showLineNumbers 
+```cs showLineNumbers
 // ISqlRepository 方法
 _sqlRepository.SqlProcedureNonQuery("proc_UpdateData");
 
@@ -427,7 +427,7 @@ _repository.Sql().SqlProcedureNonQuery("proc_UpdateData");
 
 :::
 
-## 9.13.3 执行复杂存储过程
+## 9.14.3 执行复杂存储过程
 
 在存储过程中，有一种例子非常复杂，那就是既有 `INPUT` 参数，又有 `OUTPUT` 参数，还有 `RETURN` 参数，同时还输出 结果集 💥，如：
 
@@ -457,7 +457,7 @@ BEGIN
 END;
 ```
 
-### 9.13.3.1 创建参数模型
+### 9.14.3.1 创建参数模型
 
 ```cs showLineNumbers  {1,10,13,16}
 using Furion.DatabaseAccessor;
@@ -481,11 +481,11 @@ namespace Furion.Application
 }
 ```
 
-### 9.13.3.2 执行复杂存储过程
+### 9.14.3.2 执行复杂存储过程
 
 - ** `DataSet` ** 方式
 
-```cs showLineNumbers 
+```cs showLineNumbers
 // ISqlRepository 方法
 ProcedureOutputResult result = _sqlRepository.SqlProcedureOutput("proc_Complex", new ProcOutputModel{});
 
@@ -502,7 +502,7 @@ ProcedureOutputResult result = _repository.Sql().SqlProcedureOutput("proc_Comple
 ProcedureOutputResult result = "proc_Complex".SqlProcedureOutput(new ProcOutputModel{});
 ```
 
-```cs showLineNumbers 
+```cs showLineNumbers
 // 获取 OUTPUT 参数值
 var outputs = result.OutputValues;
 
@@ -515,7 +515,7 @@ var dataSet = result.Result;
 
 - `Tuple<T1,...T8>` 方式
 
-```cs showLineNumbers 
+```cs showLineNumbers
 // ISqlRepository 方法
 ProcedureOutputResult<(List<Test>, List<Test>)> result = _sqlRepository.SqlProcedureOutput<(List<Test>, List<Test>)>("proc_Complex", new ProcOutputModel{});
 
@@ -532,7 +532,7 @@ ProcedureOutputResult<(List<Test>, List<Test>)> result = _repository.Sql().SqlPr
 ProcedureOutputResult<(List<Test>, List<Test>)> result = "proc_Complex".SqlProcedureOutput<(List<Test>, List<Test>)>(new ProcOutputModel{});
 ```
 
-```cs showLineNumbers 
+```cs showLineNumbers
 // 获取 OUTPUT 参数值
 var outputs = result.OutputValues;
 
@@ -549,7 +549,7 @@ var (list1,list2) = result.Result;
 
 :::
 
-## 9.13.3 关于 `[DbParameter]`
+## 9.14.3 关于 `[DbParameter]`
 
 `[DbParameter]` 特性是用来标注 `Sql`，`函数`，`存储过程` 参数的，可配置属性：
 
@@ -559,7 +559,7 @@ var (list1,list2) = result.Result;
 
 其中 `Direction` 属性是默认构造函数参数。
 
-## 9.13.4 关于 `ProcedureOutputResult`
+## 9.14.4 关于 `ProcedureOutputResult`
 
 `ProcedureOutputResult` 和 `ProcedureOutputResult<TResult>` 是复杂存储过程执行返回模型类，有以下属性：
 
@@ -567,7 +567,7 @@ var (list1,list2) = result.Result;
 - `ReturnValue`：返回值，`object` 类型
 - `Result`：结果集，非泛型版本是 `DataSet`类型，否则是 泛型类型
 
-## 9.13.5 存储过程参数
+## 9.14.5 存储过程参数
 
 所有 `sql` 参数都支持四种方式：
 
@@ -576,7 +576,7 @@ var (list1,list2) = result.Result;
 - `new Class{}`：强类型类型（支持复杂存储过程参数）
 - `Dictionary<string,object>` 类型
 
-## 9.13.6 反馈与建议
+## 9.14.6 反馈与建议
 
 :::note 与我们交流
 

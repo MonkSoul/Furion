@@ -1,26 +1,26 @@
 ---
 id: globalusing
-title: 2.6 GlobalUsing 使用
-sidebar_label: 2.6 GlobalUsing 使用
+title: 2.12 GlobalUsing 使用
+sidebar_label: 2.12 GlobalUsing 使用
 description: 学习如何避免代码头部大量 Using
 ---
 
 import useBaseUrl from "@docusaurus/useBaseUrl";
 
-## 2.6.1 关于 `GlobalUsing`
+## 2.12.1 关于 `GlobalUsing`
 
 在 `.NET6/C#10` 之后，微软新增了 `GlobalUsings` 机制，可以在项目的根目录下创建一个 `GlobalUsings.cs` 文件，把常用的 `using` 放置其中。
 
 这样 `GlobalUsings.cs` 所在的项目 `.cs` 文件就无需重复 `using` 了，大大的提高开发效率，也让代码变的更加简洁。
 
-## 2.6.2 必要配置
+## 2.12.2 必要配置
 
 **启用 `GlobalUsings` 机制需要以下两个步骤：**
 
 1. 在你需要全局 `using` 的项目层根目录创建 `GlobalUsings.cs` 文件，如果多个项目层需要，则每个层都应该有一个 `GlobalUsings.cs`
 2. 编辑项目的 `.csproj` 文件，添加 `<ImplicitUsings>enable</ImplicitUsings>`，注意是在 `<PropertyGroup>` 中添加，通常和 `<TargetFramework>` 同父同级
 
-## 2.6.3 基本使用
+## 2.12.3 基本使用
 
 配置之后，现在就可以把常用的 `using` 放到 `GlobalUsings.cs` 中了，写法如下：
 
@@ -83,7 +83,7 @@ public class DefaultAppService : IDynamicApiController
 
 <img src={useBaseUrl("img/cd2223.png")} />
 
-### 2.6.3.1 默认全局 `using`
+### 2.12.3.1 默认全局 `using`
 
 **实际上微软已经自动把一些常用的 `using` 在编译后的代码中自动补上了**，路径在 `项目/obj/Debug/net6.0/项目.GlobalUsings.cs` 文件中，文件内容如下：
 
@@ -100,7 +100,7 @@ global using global::System.Threading.Tasks;
 
 **也就是以上的 `using` 无需写在你创建的 `GlobalUsings.cs` 中了，微软会在编译时自动合并。**
 
-## 2.6.4 `.NET5` 项目开启支持
+## 2.12.4 `.NET5` 项目开启支持
 
 默认情况下，`.NET5` 采用 `C# 9.0` 编译，而 `GlobalUsing` 是从 `C# 10.0` 开始，这时候只需要编辑项目的 `.csproj` 并添加 `<LangVersion>10.0</LangVersion>` 即可：
 
@@ -114,7 +114,7 @@ global using global::System.Threading.Tasks;
 
 如需使用最新版可配置为 `<LangVersion>latest</LangVersion>`。
 
-## 2.6.5 反馈与建议
+## 2.12.5 反馈与建议
 
 :::note 与我们交流
 

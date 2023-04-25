@@ -84,6 +84,9 @@ public static class ScheduleServiceCollectionExtensions
         // 构建作业调度器配置选项
         var schedulerBuilders = scheduleOptionsBuilder.Build(services);
 
+        // 注册空日志服务
+        services.AddLogging();
+
         // 注册作业调度器日志服务
         services.AddSingleton<IScheduleLogger>(serviceProvider =>
         {

@@ -1,7 +1,7 @@
 ---
 id: dbcontext-delete
-title: 9.8 删除操作
-sidebar_label: 9.8 删除操作
+title: 9.9 删除操作
+sidebar_label: 9.9 删除操作
 ---
 
 :::warning 功能移除声明
@@ -10,9 +10,9 @@ sidebar_label: 9.8 删除操作
 
 :::
 
-## 9.8.1 删除一个实体（不立即提交）
+## 9.9.1 删除一个实体（不立即提交）
 
-```cs showLineNumbers 
+```cs showLineNumbers
 // ==== 同步操作 ====
 
 // 示例一
@@ -36,9 +36,9 @@ await repository.DeleteAsync(user);
 await user.DeleteAsync();
 ```
 
-## 9.8.2 删除一个实体（立即提交）
+## 9.9.2 删除一个实体（立即提交）
 
-```cs showLineNumbers 
+```cs showLineNumbers
 // ==== 同步操作 ====
 
 // 示例一
@@ -56,9 +56,9 @@ await repository.DeleteNowAsync(user);
 await user.DeleteNowAsync();
 ```
 
-## 9.8.3 根据主键删除记录（不立即提交）
+## 9.9.3 根据主键删除记录（不立即提交）
 
-```cs showLineNumbers 
+```cs showLineNumbers
 // ==== 同步操作 ====
 
 // 示例一
@@ -76,9 +76,9 @@ await repository.DeleteAsync(1);
 await user.DeleteAsync(1);
 ```
 
-## 9.8.4 根据主键删除记录（立即提交）
+## 9.9.4 根据主键删除记录（立即提交）
 
-```cs showLineNumbers 
+```cs showLineNumbers
 // ==== 同步操作 ====
 
 // 示例一
@@ -96,9 +96,9 @@ await repository.DeleteNowAsync(1);
 await user.DeleteNowAsync(1);
 ```
 
-## 9.8.5 数据存在才根据主键删除（不立即提交）
+## 9.9.5 数据存在才根据主键删除（不立即提交）
 
-```cs showLineNumbers 
+```cs showLineNumbers
 // ==== 同步操作 ====
 
 // 示例一
@@ -116,9 +116,9 @@ await repository.DeleteExistsAsync(1);
 await user.DeleteExistsAsync(1);
 ```
 
-## 9.8.6 数据存在才根据主键删除（立即提交）
+## 9.9.6 数据存在才根据主键删除（立即提交）
 
-```cs showLineNumbers 
+```cs showLineNumbers
 // ==== 同步操作 ====
 
 // 示例一
@@ -142,7 +142,7 @@ await user.DeleteExistsNowAsync(1);
 
 :::
 
-## 9.8.7 假删除/软删除
+## 9.9.7 假删除/软删除
 
 :::warning 功能移除声明
 
@@ -152,7 +152,7 @@ await user.DeleteExistsNowAsync(1);
 
 `Furion` 框架中可以通过 `[FakeDelete]` 特性标记假删除特性，如：
 
-### 9.8.7.1 添加 `[FakeDelete]` 标记
+### 9.9.7.1 添加 `[FakeDelete]` 标记
 
 ```cs showLineNumbers  {3}
 public class Model: IEntity
@@ -168,9 +168,9 @@ public class Model: IEntity
 
 :::
 
-### 9.8.7.2 假删除使用
+### 9.9.7.2 假删除使用
 
-```cs showLineNumbers 
+```cs showLineNumbers
 // ==== 同步操作 ====
 
 // 示例一
@@ -212,7 +212,7 @@ await entity.FakeDeleteAsync();
 await repository.UpdateIncludeAsync(user, u => u.IsDeleted);
 ```
 
-## 9.8.8 反馈与建议
+## 9.9.8 反馈与建议
 
 :::note 与我们交流
 

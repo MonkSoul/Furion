@@ -1,14 +1,14 @@
 ---
 id: tran
-title: 9.26 事务和工作单元
-sidebar_label: 9.26 事务和工作单元 (UnitOfWork)
+title: 9.27 事务和工作单元
+sidebar_label: 9.27 事务和工作单元 (UnitOfWork)
 ---
 
 import useBaseUrl from "@docusaurus/useBaseUrl";
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
 
-## 9.26.1 事务
+## 9.27.1 事务
 
 事务指作为单个逻辑工作单元执行的一系列操作，要么**完全地执行，要么完全地不执行**。
 
@@ -19,15 +19,15 @@ import TabItem from "@theme/TabItem";
 - `I`：隔离性（Isolation）：一个事务的执行不能被其他事务干扰
 - `D`：持久性（Durability）：一个事务一旦提交，它对数据库中数据的改变就应该是永久性的
 
-## 9.26.2 工作单元
+## 9.27.2 工作单元
 
 简单来说，就是为了保证一次完整的功能操作所产生的一系列提交数据的完整性，起着事务的作用。在计算机领域中，工作单元通常用 `UnitOfWork` 名称表示。
 
 通常我们保证用户的每一次请求都是处于在一个功能单元中，也就是工作单元。
 
-## 9.26.3 如何使用
+## 9.27.3 如何使用
 
-### 9.26.3.1 `[UnitOfWork]` 自动管理
+### 9.27.3.1 `[UnitOfWork]` 自动管理
 
 在 `Furion` 框架中，我们只需要在控制器 Action 中贴 `[UnitOfWork]` 特性即可开启工作单元模式，保证了每一次请求都是一个 `工作单元`，要么同时成功，要么同时失败。
 
@@ -165,7 +165,7 @@ services.AddUnitOfWork<SqlSugarUnitOfWork>();
 
 :::
 
-### 9.26.3.2 `EnsureTransaction()` 方法 ✨
+### 9.27.3.2 `EnsureTransaction()` 方法 ✨
 
 有些时候我们通过静态类或者其他方式不小心创建了新的 `DbContext` 实例，这时候贴了 `[UnitOfWork]` 也不见起效，这时候可以通过以下方法来确认事务是否有效：
 
@@ -177,7 +177,7 @@ repository.EnsureTransaction();
 
 该方法会将当前仓储添加到数据库上下文池中，并确保事务可用。
 
-### 9.26.3.2 手动管理
+### 9.27.3.2 手动管理
 
 <Tabs
   defaultValue="one"
@@ -308,7 +308,7 @@ using (var scope = new TransactionScope(TransactionScopeOption.Required, new Tra
   </TabItem>
 </Tabs>
 
-### 9.26.3.3 `EnableRetryOnFailure` 错误处理
+### 9.27.3.3 `EnableRetryOnFailure` 错误处理
 
 :::caution 特别注意
 
@@ -343,17 +343,17 @@ strategy.Execute(
 
 :::
 
-## 9.26.4 工作单元特性说明
+## 9.27.4 工作单元特性说明
 
-### 9.26.4.1 `[UnitOfWork]` 特性
+### 9.27.4.1 `[UnitOfWork]` 特性
 
 `[UnitOfWork]` 特性只能用于控制器的 `Action` 中，一旦贴了 `[UnitOfWork]` 特性后，那么该请求自动启用工作单元模式，要么成功，要么失败。
 
-### 9.26.4.2 `[ManualCommit]` 特性
+### 9.27.4.2 `[ManualCommit]` 特性
 
 默认情况下，`Furion` 框架会在一次成功请求之后自动调用 `SaveChanges()` 方法，如果选择手动调用 `SaveChanges()` 方法，可以在控制器 `Action` 中贴 `[ManualCommit]` 特性即可。
 
-## 9.26.5 反馈与建议
+## 9.27.5 反馈与建议
 
 :::note 与我们交流
 

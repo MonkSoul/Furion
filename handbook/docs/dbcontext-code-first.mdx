@@ -1,7 +1,7 @@
 ---
 id: dbcontext-code-first
-title: 9.20 模型生成数据库
-sidebar_label: 9.20 模型生成数据库 (Code First)
+title: 9.21 模型生成数据库
+sidebar_label: 9.21 模型生成数据库 (Code First)
 ---
 
 import useBaseUrl from "@docusaurus/useBaseUrl";
@@ -12,7 +12,7 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 :::
 
-## 9.20.1 数据库开发方式
+## 9.21.1 数据库开发方式
 
 `Furion` 提供两种主要方法来 **保持实体模型和数据库架构同步**。
 
@@ -24,7 +24,7 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 本章节是 **正向工程（Code First）** 的相关内容。
 
-## 9.20.2 操作指南
+## 9.21.2 操作指南
 
 :::important 特别注意
 
@@ -45,7 +45,7 @@ Add-Migration v1.0.0 -Context FurionDbContext
 
 :::
 
-### 9.20.2.1 创建实体模型 `Person`
+### 9.21.2.1 创建实体模型 `Person`
 
 ```cs showLineNumbers  {1,6,8}
 using Furion.DatabaseAccessor;
@@ -91,17 +91,17 @@ namespace Furion.Core
 
 :::
 
-### 9.20.2.2 打开 `程序包管理控制台`
+### 9.21.2.2 打开 `程序包管理控制台`
 
 <img src={useBaseUrl("img/dbfirst1.png")} />
 
-### 9.20.2.3 切换默认项目
+### 9.21.2.3 切换默认项目
 
 将 `程序包管理控制台` 默认项目设置为 `Furion.Database.Migrations`
 
 <img src={useBaseUrl("img/codefirst1.png")} />
 
-### 9.20.2.4 创建模型版本
+### 9.21.2.4 创建模型版本
 
 ```shell showLineNumbers
 Add-Migration v1.0.0
@@ -131,7 +131,7 @@ PM>
 
 <img src={useBaseUrl("img/codefirst3.png")} />
 
-### 9.20.2.5 更新到数据库
+### 9.21.2.5 更新到数据库
 
 ```shell showLineNumbers
 Update-Database
@@ -151,7 +151,7 @@ Update-Database v0.0.3
 
 :::
 
-## 9.20.3 更新模型
+## 9.21.3 更新模型
 
 如果模型改变了，重复上面操作即可，如：
 
@@ -163,7 +163,7 @@ Add-Migration v1.0.1
 Update-Database
 ```
 
-## 9.20.4 导出 `Sql`
+## 9.21.4 导出 `Sql`
 
 有些时候，我们没有直接更新数据库的权限，或者怕出问题，我们都会先生成 `Sql` 看看，这时候只需要通过 `Script-Migration` 导出即可，如：
 
@@ -173,15 +173,15 @@ Script-Migration
 
 <img src={useBaseUrl("img/codefirst2.png")} />
 
-## 9.20.5 `VS Code/Rider/任何IDE/操作系统` 方式
+## 9.21.5 `VS Code/Rider/任何IDE/操作系统` 方式
 
-### 9.20.5.1 安装 `dotnet ef`
+### 9.21.5.1 安装 `dotnet ef`
 
 ```shell showLineNumbers
 dotnet tool install --global dotnet-ef --version 5.0.0-rc.2.20475.6
 ```
 
-### 9.20.5.2 `cd` 目录
+### 9.21.5.2 `cd` 目录
 
 通过 `VS Code` 打开 `.sln` 所在的目录，如：`framework`。
 
@@ -191,7 +191,7 @@ dotnet tool install --global dotnet-ef --version 5.0.0-rc.2.20475.6
 cd Furion.Database.Migrations
 ```
 
-### 9.20.5.3 执行命令
+### 9.21.5.3 执行命令
 
 ```shell showLineNumbers
 dotnet ef migrations add v1.0.0 -s "../Furion.Web.Entry"
@@ -201,11 +201,11 @@ dotnet ef migrations add v1.0.0 -s "../Furion.Web.Entry"
 dotnet ef database update -s "../Furion.Web.Entry"
 ```
 
-## 9.20.6 应用启动时自动生成数据库
+## 9.21.6 应用启动时自动生成数据库
 
 `Furion` 框架建议大家使用命令方式操作数据库，**完全不推荐自动化生成数据库**，但是有些特殊情况下，有这个必要，故将此功能写出：
 
-### 9.20.6.1 对已经生成 `Migrations` 文件情况
+### 9.21.6.1 对已经生成 `Migrations` 文件情况
 
 如果已经生成 `Migrations` 文件，那么可以直接在 `Startup.cs` 代码中实现程序启动时自动执行 `update-database` 命令，如：
 
@@ -226,7 +226,7 @@ public void Configure(IApplicationBuilder app, IHostingEnvironment env)
 }
 ```
 
-### 9.20.6.2 如果没有生成过 `Migrations` 文件情况
+### 9.21.6.2 如果没有生成过 `Migrations` 文件情况
 
 ```cs showLineNumbers  {1,4,6,8-9}
 public void Configure(IApplicationBuilder app, IHostingEnvironment env)
@@ -247,7 +247,7 @@ public void Configure(IApplicationBuilder app, IHostingEnvironment env)
 
 **如果需要在创建数据库之前先删除旧的，可先调用 `context.Database.EnsureDeleted();` 代码。慎重！！！！！！！！！！！！**
 
-## 9.20.7 `MySql.EntityFrameworkCore` 在 `.NET 6.0.8+` 问题
+## 9.21.7 `MySql.EntityFrameworkCore` 在 `.NET 6.0.8+` 问题
 
 在 `.NET 6.0.8+` 版本，微软底层修改了 `IDesignTimeServices` 逻辑导致 `MySql.EntityFrameworkCore` 版本没有及时更新导致一下错误：
 
@@ -327,7 +327,7 @@ public class MysqlEntityFrameworkDesignTimeServices : IDesignTimeServices
 
 相关 `Issue` 讨论：[https://gitee.com/dotnetchina/Furion/issues/I5O5ER](https://gitee.com/dotnetchina/Furion/issues/I5O5ER)
 
-## 9.20.8 反馈与建议
+## 9.21.8 反馈与建议
 
 :::note 与我们交流
 

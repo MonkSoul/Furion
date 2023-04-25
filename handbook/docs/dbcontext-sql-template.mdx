@@ -1,10 +1,10 @@
 ---
 id: dbcontext-sql-template
-title: 9.16 Sql 模板
-sidebar_label: 9.16 Sql 模板
+title: 9.17 Sql 模板
+sidebar_label: 9.17 Sql 模板
 ---
 
-## 9.16.1 `Sql` 模板
+## 9.17.1 `Sql` 模板
 
 通常我们程序中执行数据库的 `sql` 语句都写在了程序集中，随程序一起编译，后续需要修改，则重新编译代码。
 
@@ -14,7 +14,7 @@ sidebar_label: 9.16 Sql 模板
 
 - **Json** 方式
 
-```json showLineNumbers 
+```json showLineNumbers
 {
   "Select.User": "select * from User where id > @id"
 }
@@ -29,25 +29,25 @@ sidebar_label: 9.16 Sql 模板
 </configuration>
 ```
 
-## 9.16.2 `Sql` 模板优缺点
+## 9.17.2 `Sql` 模板优缺点
 
-### 9.16.2.1 优点
+### 9.17.2.1 优点
 
 - 支持 `Sql` 动态配置，可在程序运行时动态调配 `Sql` 语句
 - 支持程序 `Sql` 语句加密
 
-### 9.16.2.2 缺点
+### 9.17.2.2 缺点
 
 - 需增加对应配置文件
 - 不容易调试 `Sql` 代码
 
-## 9.16.3 如何使用
+## 9.17.3 如何使用
 
 在执行 `Sql` 的时候，只需要填写指定模板即可。
 
-### 9.16.3.1 常规使用
+### 9.17.3.1 常规使用
 
-```cs showLineNumbers 
+```cs showLineNumbers
 // 仓储方式
 var users = repository.SqlQuery<User>("#(Select.User)", new { id = 1});
 
@@ -59,26 +59,26 @@ var users = "#(Select.User)".SqlQuery<User>(new { id = 1});
 List<User> GetUser(int id);
 ```
 
-### 9.16.3.2 高级嵌套
+### 9.17.3.2 高级嵌套
 
-```cs showLineNumbers 
+```cs showLineNumbers
 var users = repository.SqlQuery<User>(
 @"select * from user u
 left join #(User.Detail) d on u.Id = d.UserId
 where id > @id");
 ```
 
-## 9.16.4 `Sql` 模板配置
+## 9.17.4 `Sql` 模板配置
 
-### 9.16.4.1 普通模式
+### 9.17.4.1 普通模式
 
-```json showLineNumbers 
+```json showLineNumbers
 {
   "Select.User": "select * from User"
 }
 ```
 
-### 9.16.4.2 更多配置
+### 9.17.4.2 更多配置
 
 :::warning 功能移除声明
 
@@ -86,7 +86,7 @@ where id > @id");
 
 :::
 
-```json showLineNumbers 
+```json showLineNumbers
 {
   "Select.User": {
     "Sql": "select * from User where id > @id and Name = @name",
@@ -108,7 +108,7 @@ where id > @id");
 }
 ```
 
-## 9.16.5 反馈与建议
+## 9.17.5 反馈与建议
 
 :::note 与我们交流
 

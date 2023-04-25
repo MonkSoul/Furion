@@ -1,7 +1,7 @@
 ---
 id: dbcontext-db-first
-title: 9.19 数据库生成模型
-sidebar_label: 9.19 数据库生成模型 (Db First)
+title: 9.20 数据库生成模型
+sidebar_label: 9.20 数据库生成模型 (Db First)
 ---
 
 import Tag from "@site/src/components/Tag.js";
@@ -41,7 +41,7 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 :::
 
-## 9.19.1 数据库开发方式
+## 9.20.1 数据库开发方式
 
 `Furion` 提供两种主要方法来 **保持实体模型和数据库架构同步**。
 
@@ -53,7 +53,7 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 本章节是 **反向工程（Database First）** 的相关内容。
 
-## 9.19.2 操作指南
+## 9.20.2 操作指南
 
 :::important 操作之前注意事项
 
@@ -65,19 +65,19 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 :::
 
-### 9.19.2.1 打开 `程序包管理控制台`
+### 9.20.2.1 打开 `程序包管理控制台`
 
 注意：开始之前先把 `Furion.Web.Entry` 设为启动项目。
 
 <img src={useBaseUrl("img/dbfirst1.png")} />
 
-### 9.19.2.2 切换默认项目
+### 9.20.2.2 切换默认项目
 
 将 `程序包管理控制台` 默认项目设置为 `Furion.Core`，如果您是其他名字，则切换对应即可。
 
 <img src={useBaseUrl("img/dbfirst2.png")} />
 
-### 9.19.2.3 输入 `cli.ps1` 命令
+### 9.20.2.3 输入 `cli.ps1` 命令
 
 ```shell showLineNumbers
 PM> Show-Command ../tools/cli.ps1
@@ -134,9 +134,9 @@ Furion Tools v1.0.0 您的输入是:
 
 :::
 
-## 9.19.3 界面操作模式
+## 9.20.3 界面操作模式
 
-### 9.19.3.1 启动界面操作
+### 9.20.3.1 启动界面操作
 
 当我们输入 `G` 时，将打开 `GUI` 界面操作模式，如：
 
@@ -168,13 +168,13 @@ Furion Tools v1.0.0 您的输入是:
 }
 ```
 
-### 9.19.3.2 加载数据库表
+### 9.20.3.2 加载数据库表
 
 选择连接字符串之后，点击 `加载数据库表和视图` 按钮加载。
 
 <img src={useBaseUrl("img/dbfirst5.png")} />
 
-### 9.19.3.3 选择表或视图生成
+### 9.20.3.3 选择表或视图生成
 
 加载表完成后，可以选择您要生成的表或视图，**支持多选**
 
@@ -182,7 +182,7 @@ Furion Tools v1.0.0 您的输入是:
 
 点击底部按钮 `立即生成`
 
-### 9.19.3.4 选择保存目录
+### 9.20.3.4 选择保存目录
 
 点击 `立即生成` 按钮后，会弹出实体保存选择目录资源管理器，默认实体只能保存在 `Furion.Core` 层：
 
@@ -190,7 +190,7 @@ Furion Tools v1.0.0 您的输入是:
 
 点击确定后就可完成所有生成操作。
 
-### 9.19.3.5 生成最终实体代码
+### 9.20.3.5 生成最终实体代码
 
 <img src={useBaseUrl("img/dbfirst8.png")} />
 
@@ -369,7 +369,7 @@ Furion Tools v1.0.0 全部实体生成成功！
 PM>
 ```
 
-## 9.19.4 命令参数配置
+## 9.20.4 命令参数配置
 
 `Furion Tools Cli` 支持多个参数配置，使用方法只需要在命令后面添加即可，如：
 
@@ -399,13 +399,13 @@ PM>
 - `-UseDatabaseNames`：是否保持生成和数据库、表一致的名称
 - `-Namespace`：指定实体命名空间
 
-## 9.19.5 常见问题
+## 9.20.5 常见问题
 
-### 9.19.5.1 数据库未定义 `HasCharset` 或 `IsClustered` 类似问题
+### 9.20.5.1 数据库未定义 `HasCharset` 或 `IsClustered` 类似问题
 
 通常情况下，数据库包应安装在 `YourProject.EntityFramework.Core` 层，但如遇到出现 `未定义` 等类似上述问题可将数据库包安装在 `YourProject.Core` 层。
 
-## 9.19.6 反馈与建议
+## 9.20.6 反馈与建议
 
 :::note 与我们交流
 
