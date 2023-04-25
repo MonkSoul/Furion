@@ -114,7 +114,7 @@ internal sealed class TaskQueueHostedService : BackgroundService
             catch (Exception ex)
             {
                 // 输出异常日志
-                _logger.LogError(ex, "Error occurred executing {TaskHandler}.", taskHandler?.ToString());
+                _logger.LogError(ex, "Error occurred executing in  {TaskHandler}.", taskHandler?.ToString());
 
                 // 捕获 Task 任务异常信息并统计所有异常
                 if (UnobservedTaskException != default)

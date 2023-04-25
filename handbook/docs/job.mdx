@@ -13,6 +13,7 @@ import Tag from "@site/src/components/Tag.js";
 
 - **新特性**
 
+  - &nbsp;<Tag>新增</Tag> 定时任务支持配置 `IJob` 执行异常 `FallbackAsync` 回退策略 <sup>4.8.8.6</sup> <sup>⏱️2023.04.25</sup>
   - &nbsp;<Tag>新增</Tag> 定时任务支持在非 `IOC/DI` 项目类型中使用 <sup>4.8.8.5</sup> <sup>⏱️2023.04.24</sup> [#I6YJNB](https://gitee.com/dotnetchina/Sundial/issues/I6YJNB)
   - &nbsp;<Tag>新增</Tag> 定时任务看板支持自定义刷新频率 `SyncRate` 功能 <sup>4.8.7.43</sup> <sup>⏱️2023.04.12</sup> [703b465](https://gitee.com/dotnetchina/Furion/commit/703b465f41510d86976d325cd31d7f8eba3a31ec)
   - &nbsp;<Tag>新增</Tag> 定时任务看板支持完全自定义 `RequestPath` 入口地址功能 <sup>4.8.7.34</sup> <sup>⏱️2023.04.04</sup> [24736f6](https://gitee.com/dotnetchina/Furion/commit/24736f6421dd5aa90289fbb9bc519e6ef55e667f)
@@ -1994,7 +1995,152 @@ fail: 2023-04-22 22:25:07.3754596 +08:00 星期六 L System.Logging.ScheduleServ
 
 :::
 
-### 26.1.4.7 作业调度器被取消处理
+### 26.1.4.7 作业执行异常回退策略
+
+:::important 版本说明
+
+以下内容仅限 `Furion 4.8.8.6 +` 版本使用。
+
+:::
+
+作业处理程序执行异常除了配置 `重试次数` 或配置 `全局异常重试策略` 以外，还可以实现 `IJob.FallbackAsync` 进行回退配置。
+
+```cs showLineNumbers {13-17,22,24}
+public class TestJob : IJob
+{
+    private readonly ILogger<TestJob> _logger;
+    public TestJob(ILogger<TestJob> logger)
+    {
+        _logger = logger;
+    }
+
+    public async Task ExecuteAsync(JobExecutingContext context, CancellationToken stoppingToken)
+    {
+        _logger.LogWarning($"{context}");
+
+        // 模拟运行第三次出异常
+        if (context.Trigger.NumberOfRuns == 3)
+        {
+            throw new Exception("假装出错");
+        }
+
+        await Task.CompletedTask;
+    }
+
+    public Task FallbackAsync(JobExecutedContext context, CancellationToken stoppingToken)
+    {
+        Console.WriteLine("调用了回退");
+        return Task.CompletedTask;
+    }
+}
+```
+
+输出日志如下：
+
+```bash showLineNumbers {22,30-31}
+info: 2023-04-25 17:19:06.5448438 +08:00 星期二 L System.Logging.ScheduleService[0] #1
+      Schedule hosted service is running.
+info: 2023-04-25 17:19:06.5523770 +08:00 星期二 L System.Logging.ScheduleService[0] #1
+      Schedule hosted service is preloading...
+info: 2023-04-25 17:19:07.1156318 +08:00 星期二 L System.Logging.ScheduleService[0] #1
+      The <job1_trigger1> trigger for scheduler of <job1> successfully appended to the schedule.
+info: 2023-04-25 17:19:07.1293994 +08:00 星期二 L System.Logging.ScheduleService[0] #1
+      The <job1_trigger2> trigger for scheduler of <job1> successfully appended to the schedule.
+info: 2023-04-25 17:19:07.1360332 +08:00 星期二 L System.Logging.ScheduleService[0] #1
+      The scheduler of <job1> successfully appended to the schedule.
+warn: 2023-04-25 17:19:07.1614880 +08:00 星期二 L System.Logging.ScheduleService[0] #1
+      Schedule hosted service preload completed, and a total of <1> schedulers are appended.
+warn: 2023-04-25 17:19:11.1565118 +08:00 星期二 L Furion.Application.TestJob[0] #9
+      <job1> [C] <job1 job1_trigger2> 4s 1ts 2023-04-25 17:19:11.067 -> 2023-04-25 17:19:15.092
+warn: 2023-04-25 17:19:15.1275434 +08:00 星期二 L Furion.Application.TestJob[0] #18
+      <job1> [C] <job1 job1_trigger2> 4s 2ts 2023-04-25 17:19:15.092 -> 2023-04-25 17:19:19.094
+warn: 2023-04-25 17:19:19.1006636 +08:00 星期二 L Furion.Application.TestJob[0] #17
+      <job1> [C] <job1 job1_trigger2> 4s 3ts 2023-04-25 17:19:19.094 -> 2023-04-25 17:19:23.067
+fail: 2023-04-25 17:19:19.2554424 +08:00 星期二 L System.Logging.ScheduleService[0] #17
+      Error occurred executing in  <job1> [C] <job1 job1_trigger2> 4s 3ts 2023-04-25 17:19:19.094 -> 2023-04-25 17:19:23.067.
+      ++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+      System.Exception: 假装出错
+         at Furion.Application.TestJob.ExecuteAsync(JobExecutingContext context, CancellationToken stoppingToken) in D:\Workplaces\OpenSources\Furion\samples\Furion.Application\TestJob.cs:line 22
+         at Furion.Schedule.ScheduleHostedService.<>c__DisplayClass24_3.<<BackgroundProcessing>b__3>d.MoveNext() in D:\Workplaces\OpenSources\Furion\framework\Furion\Schedule\HostedServices\ScheduleHostedService.cs:line 233
+      --- End of stack trace from previous location ---
+         at Furion.FriendlyException.Retry.InvokeAsync(Func`1 action, Int32 numRetries, Int32 retryTimeout, Boolean finalThrow, Type[] exceptionTypes, Func`2 fallbackPolicy, Action`2 retryAction) in D:\Workplaces\OpenSources\Furion\framework\Furion\FriendlyException\Retry.cs:line 79
+         at Furion.Schedule.ScheduleHostedService.<>c__DisplayClass24_2.<<BackgroundProcessing>b__2>d.MoveNext() in D:\Workplaces\OpenSources\Furion\framework\Furion\Schedule\HostedServices\ScheduleHostedService.cs:line 231
+      ++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+info: 2023-04-25 17:19:19.2589045 +08:00 星期二 L System.Logging.ScheduleService[0] #17
+      Fallback called in <job1> [C] <job1 job1_trigger2> 4s 3ts 2023-04-25 17:19:19.094 -> 2023-04-25 17:19:23.067.
+调用了回退
+warn: 2023-04-25 17:19:23.0840895 +08:00 星期二 L Furion.Application.TestJob[0] #14
+      <job1> [C] <job1 job1_trigger2> 4s 4ts 2023-04-25 17:19:23.067 -> 2023-04-25 17:19:27.050
+```
+
+如果 `FallbackAsync` 发生二次异常，如：
+
+```cs showLineNumbers {1,5}
+public Task FallbackAsync(JobExecutedContext context, CancellationToken stoppingToken)
+{
+    Console.WriteLine("调用了回退");
+
+    throw new Exception("回退了我还是出异常~");
+    return Task.CompletedTask;
+}
+```
+
+输出日志将合并前面所有异常并输出：
+
+```bash showLineNumbers {30-31,33,37,45}
+info: 2023-04-25 17:24:46.0348224 +08:00 星期二 L System.Logging.ScheduleService[0] #1
+      Schedule hosted service is running.
+info: 2023-04-25 17:24:46.0392736 +08:00 星期二 L System.Logging.ScheduleService[0] #1
+      Schedule hosted service is preloading...
+info: 2023-04-25 17:24:46.4677115 +08:00 星期二 L System.Logging.ScheduleService[0] #1
+      The <job1_trigger1> trigger for scheduler of <job1> successfully appended to the schedule.
+info: 2023-04-25 17:24:46.4847108 +08:00 星期二 L System.Logging.ScheduleService[0] #1
+      The <job1_trigger2> trigger for scheduler of <job1> successfully appended to the schedule.
+info: 2023-04-25 17:24:46.4936590 +08:00 星期二 L System.Logging.ScheduleService[0] #1
+      The scheduler of <job1> successfully appended to the schedule.
+warn: 2023-04-25 17:24:46.6097957 +08:00 星期二 L System.Logging.ScheduleService[0] #1
+      Schedule hosted service preload completed, and a total of <1> schedulers are appended.
+warn: 2023-04-25 17:24:50.4988840 +08:00 星期二 L Furion.Application.TestJob[0] #17
+      <job1> [C] <job1 job1_trigger2> 4s 1ts 2023-04-25 17:24:50.419 -> 2023-04-25 17:24:54.436
+warn: 2023-04-25 17:24:54.4704187 +08:00 星期二 L Furion.Application.TestJob[0] #15
+      <job1> [C] <job1 job1_trigger2> 4s 2ts 2023-04-25 17:24:54.436 -> 2023-04-25 17:24:58.436
+warn: 2023-04-25 17:24:58.4441477 +08:00 星期二 L Furion.Application.TestJob[0] #15
+      <job1> [C] <job1 job1_trigger2> 4s 3ts 2023-04-25 17:24:58.436 -> 2023-04-25 17:25:02.411
+fail: 2023-04-25 17:24:58.5704807 +08:00 星期二 L System.Logging.ScheduleService[0] #15
+      Error occurred executing in  <job1> [C] <job1 job1_trigger2> 4s 3ts 2023-04-25 17:24:58.436 -> 2023-04-25 17:25:02.411.
+      ++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+      System.Exception: 假装出错
+         at Furion.Application.TestJob.ExecuteAsync(JobExecutingContext context, CancellationToken stoppingToken) in D:\Workplaces\OpenSources\Furion\samples\Furion.Application\TestJob.cs:line 22
+         at Furion.Schedule.ScheduleHostedService.<>c__DisplayClass24_3.<<BackgroundProcessing>b__3>d.MoveNext() in D:\Workplaces\OpenSources\Furion\framework\Furion\Schedule\HostedServices\ScheduleHostedService.cs:line 233
+      --- End of stack trace from previous location ---
+         at Furion.FriendlyException.Retry.InvokeAsync(Func`1 action, Int32 numRetries, Int32 retryTimeout, Boolean finalThrow, Type[] exceptionTypes, Func`2 fallbackPolicy, Action`2 retryAction) in D:\Workplaces\OpenSources\Furion\framework\Furion\FriendlyException\Retry.cs:line 79
+         at Furion.Schedule.ScheduleHostedService.<>c__DisplayClass24_2.<<BackgroundProcessing>b__2>d.MoveNext() in D:\Workplaces\OpenSources\Furion\framework\Furion\Schedule\HostedServices\ScheduleHostedService.cs:line 231
+      ++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+info: 2023-04-25 17:24:58.5737508 +08:00 星期二 L System.Logging.ScheduleService[0] #15
+      Fallback called in <job1> [C] <job1 job1_trigger2> 4s 3ts 2023-04-25 17:24:58.436 -> 2023-04-25 17:25:02.411.
+调用了回退
+fail: 2023-04-25 17:24:58.5929688 +08:00 星期二 L System.Logging.ScheduleService[0] #15
+      Fallback called error in <job1> [C] <job1 job1_trigger2> 4s 3ts 2023-04-25 17:24:58.436 -> 2023-04-25 17:25:02.411.
+      ++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+      System.AggregateException: One or more errors occurred. (Error occurred executing in  <job1> [C] <job1 job1_trigger2> 4s 3ts 2023-04-25 17:24:58.436 -> 2023-04-25 17:25:02.411.) (回退了我还是出异常~)
+       ---> System.InvalidOperationException: Error occurred executing in  <job1> [C] <job1 job1_trigger2> 4s 3ts 2023-04-25 17:24:58.436 -> 2023-04-25 17:25:02.411.
+       ---> System.Exception: 假装出错
+         at Furion.Application.TestJob.ExecuteAsync(JobExecutingContext context, CancellationToken stoppingToken) in D:\Workplaces\OpenSources\Furion\samples\Furion.Application\TestJob.cs:line 22
+         at Furion.Schedule.ScheduleHostedService.<>c__DisplayClass24_3.<<BackgroundProcessing>b__3>d.MoveNext() in D:\Workplaces\OpenSources\Furion\framework\Furion\Schedule\HostedServices\ScheduleHostedService.cs:line 233
+      --- End of stack trace from previous location ---
+         at Furion.FriendlyException.Retry.InvokeAsync(Func`1 action, Int32 numRetries, Int32 retryTimeout, Boolean finalThrow, Type[] exceptionTypes, Func`2 fallbackPolicy, Action`2 retryAction) in D:\Workplaces\OpenSources\Furion\framework\Furion\FriendlyException\Retry.cs:line 79
+         at Furion.Schedule.ScheduleHostedService.<>c__DisplayClass24_2.<<BackgroundProcessing>b__2>d.MoveNext() in D:\Workplaces\OpenSources\Furion\framework\Furion\Schedule\HostedServices\ScheduleHostedService.cs:line 231
+         --- End of inner exception stack trace ---
+         --- End of inner exception stack trace ---
+       ---> (Inner Exception #1) System.Exception: 回退了我还是出异常~
+         at Furion.Application.TestJob.FallbackAsync(JobExecutedContext context, CancellationToken stoppingToken) in D:\Workplaces\OpenSources\Furion\samples\Furion.Application\TestJob.cs:line 32
+         at Furion.Schedule.ScheduleHostedService.<>c__DisplayClass24_2.<<BackgroundProcessing>b__2>d.MoveNext() in D:\Workplaces\OpenSources\Furion\framework\Furion\Schedule\HostedServices\ScheduleHostedService.cs:line 309<---
+      ++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+warn: 2023-04-25 17:25:02.4212180 +08:00 星期二 L Furion.Application.TestJob[0] #15
+      <job1> [C] <job1 job1_trigger2> 4s 4ts 2023-04-25 17:25:02.411 -> 2023-04-25 17:25:06.388
+```
+
+### 26.1.4.8 作业调度器被取消处理
 
 一般情况下，作业调度器意外关闭或手动关闭，但作业处理程序异步操作还未处理完成，这个时候我们可以选择取消还是继续执行，如果选择取消：
 
@@ -2059,7 +2205,7 @@ crit: 2022-12-04 12:49:10.4360088 +08:00 星期日 L System.Logging.ScheduleServ
       Schedule hosted service is stopped.
 ```
 
-### 26.1.4.8 设置本次执行结果
+### 26.1.4.9 设置本次执行结果
 
 :::important 版本说明
 
@@ -2090,7 +2236,7 @@ public class MyJob : IJob
 }
 ```
 
-### 26.1.4.9 `HTTP` 请求作业
+### 26.1.4.10 `HTTP` 请求作业
 
 :::important 版本说明
 
@@ -2281,7 +2427,7 @@ services.AddSchedule(options =>
 });
 ```
 
-### 26.1.4.10 设置本次执行结果
+### 26.1.4.11 设置本次执行结果
 
 :::important 版本说明
 
