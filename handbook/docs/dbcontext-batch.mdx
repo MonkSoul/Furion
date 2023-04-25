@@ -1,14 +1,14 @@
 ---
 id: dbcontext-batch
-title: 9.9 批量操作
-sidebar_label: 9.9 批量操作
+title: 9.10 批量操作
+sidebar_label: 9.10 批量操作
 ---
 
-## 9.9.1 关于批量操作
+## 9.10.1 关于批量操作
 
 `Furion` 框架中，默认只提供小数据（100 条 以内）批量数据操作，如果需要更大的数据批量处理，推荐使用第三方包 [Zack.EFCore.Batch](https://github.com/yangzhongke/Zack.EFCore.Batch)，支持和 `Furion` 无缝衔接。
 
-## 9.9.2 `Zack.EFCore.Batch` 使用
+## 9.10.2 `Zack.EFCore.Batch` 使用
 
 :::important `EFCore` 拦截器说明
 
@@ -16,7 +16,7 @@ sidebar_label: 9.9 批量操作
 
 :::
 
-### 9.9.2.1 安装对应的数据库 `NuGet` 包
+### 9.10.2.1 安装对应的数据库 `NuGet` 包
 
 - `MSSQL`：`Zack.EFCore.Batch.MSSQL`
 - `MySql`：`Zack.EFCore.Batch.MySQL.Pomelo`
@@ -24,7 +24,7 @@ sidebar_label: 9.9 批量操作
 - `Oracle`：`Zack.EFCore.Batch.Oracle`
 - `Sqlite`：`Zack.EFCore.Batch.Sqlite`
 
-### 9.9.2.2 注册并配置服务
+### 9.10.2.2 注册并配置服务
 
 ```cs showLineNumbers  {3,5}
 services.AddDatabaseAccessor(options =>
@@ -36,7 +36,7 @@ services.AddDatabaseAccessor(options =>
 });
 ```
 
-### 9.9.2.3 基本使用
+### 9.10.2.3 基本使用
 
 ```cs showLineNumbers
 // 批量更新
@@ -52,11 +52,11 @@ await repository.Context.BatchUpdate<Book>()
 await repository.Context.DeleteRangeAsync<Book>(b => b.Price > n || b.AuthorName == "zack yang");
 ```
 
-## 9.9.3 `EFCore.BulkExtensions` 使用
+## 9.10.3 `EFCore.BulkExtensions` 使用
 
 通过 `NuGet` 安装 `EFCore.BulkExtensions` 包即可。
 
-### 9.9.3.1 常见批量操作
+### 9.10.3.1 常见批量操作
 
 ```cs showLineNumbers
 // 批量插入
@@ -88,7 +88,7 @@ repository.Context.Truncate<Entity>();
 repository.Context.TruncateAsync<Entity>();
 ```
 
-### 9.9.3.2 查询后批量操作
+### 9.10.3.2 查询后批量操作
 
 ```cs showLineNumbers
 // 根据条件批量删除
@@ -106,7 +106,7 @@ var q = repository.Where(a => a.ItemId <= 500);
 int affected = q.BatchUpdate(new Item { Description = "Updated" }, updateColumns);
 ```
 
-### 9.9.3.3 批量操作性能
+### 9.10.3.3 批量操作性能
 
 | Operations\Rows   |   100,000 EF |   100,000 EFBulk |   1,000,000 EFBulk |
 | ----------------- | -----------: | ---------------: | -----------------: |
@@ -116,7 +116,7 @@ int affected = q.BatchUpdate(new Item { Description = "Updated" }, updateColumns
 | ----------------- | ------------ | ---------------- | ------------------ |
 | **Together**      |      70.70 s |           5.88 s |            56.84 s |
 
-## 9.9.4 `EFCore 7` 内置批量操作
+## 9.10.4 `EFCore 7` 内置批量操作
 
 :::caution 非微软支持数据库适配问题
 
@@ -147,7 +147,7 @@ await repository.Entities
     .ExecuteUpdateAsync(s => s.SetProperty(t => t.Text, t => t.Text + " (old)"));
 ```
 
-## 9.9.5 反馈与建议
+## 9.10.5 反馈与建议
 
 :::note 与我们交流
 

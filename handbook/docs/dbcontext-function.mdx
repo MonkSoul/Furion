@@ -1,18 +1,18 @@
 ---
 id: dbcontext-function
-title: 9.14 函数操作
-sidebar_label: 9.14 函数操作
+title: 9.15 函数操作
+sidebar_label: 9.15 函数操作
 ---
 
 :::important 温馨提示
 
-推荐使用 《[9.17 Sql 高级代理](dbcontext-sql-proxy.mdx)》代替本章节功能。`Sql 高级代理` 能够提供更容易且更易维护的方式。
+推荐使用 《[9.18 Sql 高级代理](dbcontext-sql-proxy.mdx)》代替本章节功能。`Sql 高级代理` 能够提供更容易且更易维护的方式。
 
 :::
 
 import useBaseUrl from "@docusaurus/useBaseUrl";
 
-## 9.14.1 数据库函数
+## 9.15.1 数据库函数
 
 引用百度百科：
 
@@ -20,30 +20,30 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 简单来说，数据库函数就是用于子计算的函数。其计算的结果可以用于构建 `sql` 语句。
 
-### 9.14.1.1 支持标量函数的数据库
+### 9.15.1.1 支持标量函数的数据库
 
 | SqlServer | Sqlite | Cosmos | InMemoryDatabase | MySql | PostgreSQL | Oracle | Firebird | Dm  |
 | --------- | ------ | ------ | ---------------- | ----- | ---------- | ------ | -------- | --- |
 | ✔         |        | ✔      |                  | ✔     | ✔          | ✔      |          |     |
 
-### 9.14.1.2 支持表值函数的数据库
+### 9.15.1.2 支持表值函数的数据库
 
 | SqlServer | Sqlite | Cosmos | InMemoryDatabase | MySql | PostgreSQL | Oracle | Firebird | Dm  |
 | --------- | ------ | ------ | ---------------- | ----- | ---------- | ------ | -------- | --- |
 | ✔         |        | ✔      |                  |       | ✔          | ✔      |          |     |
 
-## 9.14.2 数据库函数类型
+## 9.15.2 数据库函数类型
 
 在关系型数据库中，数据库函数有这两种类型：
 
 - `标量函数`：只能返回单个值
 - `表值函数`：只能返回一个结果集
 
-## 9.14.3 函数的使用
+## 9.15.3 函数的使用
 
-### 9.14.3.1 标量函数返回 `object`
+### 9.15.3.1 标量函数返回 `object`
 
-```cs showLineNumbers 
+```cs showLineNumbers
 // ISqlRepository 方法
 var value = _sqlRepository.SqlFunctionScalar("func_GetValue");
 
@@ -66,9 +66,9 @@ var value = "func_GetValue".SqlFunctionScalar();
 
 :::
 
-### 9.14.3.2 标量函数返回 `T`
+### 9.15.3.2 标量函数返回 `T`
 
-```cs showLineNumbers 
+```cs showLineNumbers
 // ISqlRepository 方法
 var value = _sqlRepository.SqlFunctionScalar<string>("func_GetValue");
 
@@ -91,9 +91,9 @@ var value = "func_GetValue".SqlFunctionScalar<string>();
 
 :::
 
-### 9.14.3.3 表值函数返回 `DataTable`
+### 9.15.3.3 表值函数返回 `DataTable`
 
-```cs showLineNumbers 
+```cs showLineNumbers
 // ISqlRepository 方法
 var value = _sqlRepository.SqlFunctionQuery("func_GetTable");
 
@@ -116,9 +116,9 @@ var value = "func_GetTable".SqlFunctionQuery();
 
 :::
 
-### 9.14.3.4 表值函数返回 `List<T>`
+### 9.15.3.4 表值函数返回 `List<T>`
 
-```cs showLineNumbers 
+```cs showLineNumbers
 // ISqlRepository 方法
 var value = _sqlRepository.SqlFunctionQuery<Person>("func_GetTable");
 
@@ -141,7 +141,7 @@ var value = "func_GetTable".SqlFunctionQuery<Person>();
 
 :::
 
-## 9.14.4 在 `Linq` 中使用 `标量函数`
+## 9.15.4 在 `Linq` 中使用 `标量函数`
 
 `Furion` 框架提供非常灵活的在 `Linq` 中使用标量函数的方法。如果像使用这样的方式，需要满足以下两个条件：
 
@@ -150,9 +150,9 @@ var value = "func_GetTable".SqlFunctionQuery<Person>();
 
 示例如下：
 
-### 9.14.4.1 创建标量函数
+### 9.15.4.1 创建标量函数
 
-```sql showLineNumbers 
+```sql showLineNumbers
 CREATE FUNCTION FN_GetId
 (
     @id INT
@@ -164,7 +164,7 @@ BEGIN
 END;
 ```
 
-### 9.14.4.2 创建静态类和静态方法
+### 9.15.4.2 创建静态类和静态方法
 
 创建静态类，如 `QueryFunctions`，将该 `标量函数` 放在静态类中：
 
@@ -184,13 +184,13 @@ namespace Furion.Application
 }
 ```
 
-### 9.14.4.3 在 `Linq` 中使用
+### 9.15.4.3 在 `Linq` 中使用
 
-```cs showLineNumbers 
+```cs showLineNumbers
 _personRepository.Where(u => u.Id > QueryFunctions.GetId(1)).ToList();
 ```
 
-```sql showLineNumbers 
+```sql showLineNumbers
 SELECT [p].[Id], [p].[Address], [p].[Age], [p].[CreatedTime], [p].[IsDeleted], [p].[Name], [p].[UpdatedTime]
 FROM [Person] AS [p]
 WHERE [p].[Id] > [dbo].[FN_GetId](1)    // 💥 注意这里
@@ -198,15 +198,15 @@ WHERE [p].[Id] > [dbo].[FN_GetId](1)    // 💥 注意这里
 
 <img src={useBaseUrl("img/fn1.png")} />
 
-## 9.14.5 在 `Linq` 中使用 `表值函数`
+## 9.15.5 在 `Linq` 中使用 `表值函数`
 
 `EF Core 5.0` 版本支持在 `Linq` 中操作 `表值函数`，操作有点类似 `视图操作`
 
 示例如下：
 
-### 9.14.5.1 创建表值函数
+### 9.15.5.1 创建表值函数
 
-```sql showLineNumbers 
+```sql showLineNumbers
 CREATE FUNCTION dbo.GetPersons
 (
     @id INT
@@ -224,9 +224,9 @@ RETURN
 );
 ```
 
-### 9.14.5.2 创建表值函数模型
+### 9.15.5.2 创建表值函数模型
 
-```cs showLineNumbers 
+```cs showLineNumbers
 namespace Furion.Core
 {
     public class F_Person
@@ -254,7 +254,7 @@ namespace Furion.Core
 }
 ```
 
-### 9.14.5.3 表值函数配置
+### 9.15.5.3 表值函数配置
 
 在 `DbContext` 类中定义方法：
 
@@ -285,32 +285,32 @@ namespace Furion.EntityFramework.Core
 }
 ```
 
-### 9.14.5.4 在 `Linq` 中使用
+### 9.15.5.4 在 `Linq` 中使用
 
-```cs showLineNumbers 
+```cs showLineNumbers
 IQueryable<F_Person> query = _repository.DynamicDbContext.GetPersons(1);
 var result = query.Where(u => u.Name.Equals("Furion")).ToList();
 ```
 
 最终生成 `Sql`
 
-```sql showLineNumbers 
+```sql showLineNumbers
 SELECT [g].Id, [g].Name, [g].Age, [g].Address
 FROM dbo.GetPersons(1) AS [g]
 WHERE [g].Name == N'Furion';
 ```
 
-## 9.14.6 在 `EF Core` 内置函数
+## 9.15.6 在 `EF Core` 内置函数
 
 `EF Core` 为我们提供了很多常用的内置函数，可以在 `Lambda` 条件中使用，主要是通过 EF.Functions 调用，如：
 
-```cs showLineNumbers 
+```cs showLineNumbers
 _repository.Where(u => EF.Functions.DateDiffHour(u.CreatedDt, DateTime.Now) > 8).FirstOrDefault();
 ```
 
 这个语句使用了 EF.Functions.DateDiffHour 最终生成的 Sql 如下：
 
-```sql showLineNumbers 
+```sql showLineNumbers
 SELECT TOP(1) [a].*
 FROM [dbo].[TEST] AS [a]
 WHERE DATEDIFF(HOUR, [a].[CREATED_DT], GETDATE()) > 8
@@ -318,7 +318,7 @@ WHERE DATEDIFF(HOUR, [a].[CREATED_DT], GETDATE()) > 8
 
 `EF Core` 内置函数就不一一列出了，可以通过 `EF.Functions` 查看更多，如果不能满足自己的需求，那么可以自定义 `Linq` 标量函数
 
-## 9.14.7 反馈与建议
+## 9.15.7 反馈与建议
 
 :::note 与我们交流
 

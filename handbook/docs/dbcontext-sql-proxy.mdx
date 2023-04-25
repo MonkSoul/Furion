@@ -1,7 +1,7 @@
 ---
 id: dbcontext-sql-proxy
-title: 9.17 Sql 高级代理
-sidebar_label: 9.17 Sql 高级代理
+title: 9.18 Sql 高级代理
+sidebar_label: 9.18 Sql 高级代理
 ---
 
 import Tag from "@site/src/components/Tag.js";
@@ -48,13 +48,13 @@ select * from person where id > 0;
   </div>
 </details>
 
-## 9.17.1 关于 `Sql` 代理
+## 9.18.1 关于 `Sql` 代理
 
 `Sql` 代理是 `Furion` 框架中对 `Sql` 操作一个非常重要的概念，通过这种方式可以大大提高 `Sql` 书写效率，而且后期极易维护。
 
 `Sql` 代理属于 `Furion` 框架中一个高级功能。
 
-## 9.17.2 了解 `ISqlDispatchProxy`
+## 9.18.2 了解 `ISqlDispatchProxy`
 
 `ISqlDispatchProxy` 接口是 `Furion` 实现**被代理接口**的唯一依赖，任何公开的接口一旦集成了 `ISqlDispatchProxy` 接口，那么这个接口就是**被托管拦截**的 `Sql` 操作接口。
 
@@ -73,13 +73,13 @@ namespace Furion.Application
 
 一旦这个接口继承了 `ISqlDispatchProxy`，那么它就会**动态创建接口实例，而且支持依赖注入/控制反转获取实例**。
 
-## 9.17.3 开始领略 `Sql` 代理
+## 9.18.3 开始领略 `Sql` 代理
 
 下面我将通过多个例子来演示 `Sql` 代理的用法，为什么推荐这种方式操作 `Sql`。
 
 支持各种方式获取实例：
 
-### 9.17.3.1 构造函数方式
+### 9.18.3.1 构造函数方式
 
 ```cs showLineNumbers  {1-2}
 private readonly ISql _sql;
@@ -89,7 +89,7 @@ public FurionService(ISql sql)
 }
 ```
 
-### 9.17.3.2 方法参数注入
+### 9.18.3.2 方法参数注入
 
 ```cs showLineNumbers  {1}
 public async Task<List<PersonDto>> GetAll([FromServices] ISql, string keyword)
@@ -97,15 +97,15 @@ public async Task<List<PersonDto>> GetAll([FromServices] ISql, string keyword)
 }
 ```
 
-### 9.17.3.3 `Db.GetSqlDispatchProxy<ISql>()`
+### 9.18.3.3 `Db.GetSqlDispatchProxy<ISql>()`
 
 ```cs showLineNumbers
 var sql = Db.GetSqlDispatchProxy<ISql>();
 ```
 
-## 9.17.4 `Sql` 操作
+## 9.18.4 `Sql` 操作
 
-### 9.17.4.1 返回 `DataTable`
+### 9.18.4.1 返回 `DataTable`
 
 ```cs showLineNumbers  {8,12,16,20}
 using Furion.DatabaseAccessor;
@@ -161,7 +161,7 @@ select * from person where id > @id and name = @name;
 
 :::
 
-### 9.17.4.2 返回 `List<T>`
+### 9.18.4.2 返回 `List<T>`
 
 ```cs showLineNumbers  {8,12,16,20}
 using Furion.DatabaseAccessor;
@@ -193,7 +193,7 @@ namespace Furion.Application
 }
 ```
 
-### 9.17.4.3 返回 `DataSet`
+### 9.18.4.3 返回 `DataSet`
 
 ```cs showLineNumbers  {8-10,14-16,20-22,26-28,32-35}
 using Furion.DatabaseAccessor;
@@ -236,7 +236,7 @@ namespace Furion.Application
 }
 ```
 
-### 9.17.4.4 返回 `Tuple<T1,...T8>`
+### 9.18.4.4 返回 `Tuple<T1,...T8>`
 
 ```cs showLineNumbers  {8-10,14-16,20-22,26-28,32-35,38-42}
 using Furion.DatabaseAccessor;
@@ -284,7 +284,7 @@ namespace Furion.Application
 }
 ```
 
-### 9.17.4.5 返回 `单行单列`
+### 9.18.4.5 返回 `单行单列`
 
 ```cs showLineNumbers  {7,10,13}
 using Furion.DatabaseAccessor;
@@ -305,7 +305,7 @@ namespace Furion.Application
 }
 ```
 
-### 9.17.4.6 无返回值
+### 9.18.4.6 无返回值
 
 ```cs showLineNumbers  {7,10,13}
 using Furion.DatabaseAccessor;
@@ -326,7 +326,7 @@ namespace Furion.Application
 }
 ```
 
-### 9.17.4.7 返回单个类类型参数
+### 9.18.4.7 返回单个类类型参数
 
 :::important 版本说明
 
@@ -343,7 +343,7 @@ public interface ISql : ISqlDispatchProxy
 }
 ```
 
-### 9.17.4.8 返回受影响行数
+### 9.18.4.8 返回受影响行数
 
 :::important 版本说明
 
@@ -366,7 +366,7 @@ public interface ISql : ISqlDispatchProxy
 }
 ```
 
-### 9.17.4.9 返回 `IEnumerable` 或 `Array` 类型
+### 9.18.4.9 返回 `IEnumerable` 或 `Array` 类型
 
 :::important 版本说明
 
@@ -394,9 +394,9 @@ select * from person where id > 0;
 }
 ```
 
-## 9.17.5 `存储过程` 操作
+## 9.18.5 `存储过程` 操作
 
-### 9.17.5.1 返回 `DataTable`
+### 9.18.5.1 返回 `DataTable`
 
 ```cs showLineNumbers  {7,10,13}
 using Furion.DatabaseAccessor;
@@ -417,7 +417,7 @@ namespace Furion.Application
 }
 ```
 
-### 9.17.5.2 返回 `List<T>`
+### 9.18.5.2 返回 `List<T>`
 
 ```cs showLineNumbers  {7,10,13}
 using Furion.DatabaseAccessor;
@@ -438,7 +438,7 @@ namespace Furion.Application
 }
 ```
 
-### 9.17.5.3 返回 `DataSet`
+### 9.18.5.3 返回 `DataSet`
 
 ```cs showLineNumbers  {7,10,13}
 using Furion.DatabaseAccessor;
@@ -459,7 +459,7 @@ namespace Furion.Application
 }
 ```
 
-### 9.17.5.4 返回 `Tuple(T1,...T8)`
+### 9.18.5.4 返回 `Tuple(T1,...T8)`
 
 ```cs showLineNumbers  {7,10,13,16-18}
 using Furion.DatabaseAccessor;
@@ -484,7 +484,7 @@ namespace Furion.Application
 }
 ```
 
-### 9.17.5.5 返回 `单行单列`
+### 9.18.5.5 返回 `单行单列`
 
 ```cs showLineNumbers  {7,10,13}
 using Furion.DatabaseAccessor;
@@ -505,7 +505,7 @@ namespace Furion.Application
 }
 ```
 
-### 9.17.5.6 无返回值
+### 9.18.5.6 无返回值
 
 ```cs showLineNumbers  {7,10,13}
 using Furion.DatabaseAccessor;
@@ -526,7 +526,7 @@ namespace Furion.Application
 }
 ```
 
-### 9.17.5.7 带 `OUTPUT/RETURN` 返回
+### 9.18.5.7 带 `OUTPUT/RETURN` 返回
 
 ```cs showLineNumbers  {7,10,13}
 using Furion.DatabaseAccessor;
@@ -547,7 +547,7 @@ namespace Furion.Application
 }
 ```
 
-### 9.17.5.8 返回单个类类型参数
+### 9.18.5.8 返回单个类类型参数
 
 :::important 版本说明
 
@@ -564,7 +564,7 @@ public interface ISql : ISqlDispatchProxy
 }
 ```
 
-### 9.17.5.9 返回 `IEnumerable` 或 `Array` 类型
+### 9.18.5.9 返回 `IEnumerable` 或 `Array` 类型
 
 :::important 版本说明
 
@@ -587,7 +587,7 @@ public interface ISql : ISqlDispatchProxy
 }
 ```
 
-## 9.17.6 `函数` 操作
+## 9.18.6 `函数` 操作
 
 ```cs showLineNumbers  {7,10}
 using Furion.DatabaseAccessor;
@@ -611,7 +611,7 @@ namespace Furion.Application
 
 :::
 
-## 9.17.7 `Sql` 模板替换
+## 9.18.7 `Sql` 模板替换
 
 在最新的 `1.18.3` 版本中提供了模板替换功能，如：
 
@@ -626,11 +626,11 @@ List<Person> GetPerson(int id, string name, User user);
 
 :::
 
-## 9.17.8 切换数据库
+## 9.18.8 切换数据库
 
 `Sql` 代理方式的支持三种切换数据库的方式：
 
-### 9.17.8.1 单个方法方式
+### 9.18.8.1 单个方法方式
 
 主要通过在方法上贴 `[SqlDbContextLocator]` 特性
 
@@ -639,7 +639,7 @@ List<Person> GetPerson(int id, string name, User user);
 List<Person> GetPerson();
 ```
 
-### 9.17.8.2 接口方式
+### 9.18.8.2 接口方式
 
 在接口中贴 `[SqlDbContextLocator]` 特性，此方式下，接口所有方法将采用指定的数据库执行。
 
@@ -655,7 +655,7 @@ public interface ISql : ISqlDispatchProxy
 }
 ```
 
-### 9.17.8.3 运行时 `.Change` 方法切换
+### 9.18.8.3 运行时 `.Change` 方法切换
 
 除了以上两种 `静态` 配置方式，`Furion` 框架还提供 `动态` 方式，如：
 
@@ -681,7 +681,7 @@ _sql.GetPerson();
 
 :::
 
-## 9.17.9 `Sql` 代理拦截
+## 9.18.9 `Sql` 代理拦截
 
 在 `Furion v2.13 +` 版本新增了 `Sql` 代理拦截功能，可以篡改特定方法或所有代理方法实际执行的参数，如 `sql语句、参数、执行对象等等`。
 
@@ -732,7 +732,7 @@ public interface ISql : ISqlDispatchProxy
 }
 ```
 
-## 9.17.10 设置超时时间
+## 9.18.10 设置超时时间
 
 ```cs showLineNumbers
 [Timeout(1000)]
@@ -743,7 +743,7 @@ public interface ISql : ISqlDispatchProxy
 }
 ```
 
-## 9.17.11 反馈与建议
+## 9.18.11 反馈与建议
 
 :::note 与我们交流
 

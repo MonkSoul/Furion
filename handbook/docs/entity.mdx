@@ -1,7 +1,7 @@
 ---
 id: entity
-title: 9.3 数据库实体
-sidebar_label: 9.3 数据库实体
+title: 9.4 数据库实体
+sidebar_label: 9.4 数据库实体
 ---
 
 :::important 特别提醒
@@ -10,7 +10,7 @@ sidebar_label: 9.3 数据库实体
 
 :::
 
-## 9.3.1 数据库实体
+## 9.4.1 数据库实体
 
 在面向对象开发思想中，最重要尤为**对象**二字，在 .NET 开发过去，操作数据库往往采用 `DataTable` 和 `DataSet` 来接收数据库返回结果集，而操作数据库也离不开手写 `sql` 语句。
 
@@ -31,7 +31,7 @@ sidebar_label: 9.3 数据库实体
 
 简单来说，数据库实体就是数据库表的类表现，通过一定的规则使这个类能够一一对应表结构。通常这样的类也称为：`POCO` 贫血模型，也就是只有定义，没有行为。
 
-## 9.3.2 如何定义实体
+## 9.4.2 如何定义实体
 
 `Furion` 框架提供多种定义实体的接口依赖：
 
@@ -47,14 +47,14 @@ sidebar_label: 9.3 数据库实体
 
 :::
 
-### 9.3.2.1 实体继承选用原则
+### 9.4.2.1 实体继承选用原则
 
 - 如果你不需要 `Furion` 为实体添加任何内置特性，选用 `IEntity`，无键实体选用 `IEntityNotKey`
 - 如果你只需要 `Id` 属性，选用 `EntityBase`
 - 如果你需要 `Furion` 为你自动添加常用字段，则选用 `Entity`
 - 如果你需要视图、存储过程、函数可以通过 `DbSet` 操作，则继承 `EntityNotKey`
 
-### 9.3.2.2 `IEntity` 示范：
+### 9.4.2.2 `IEntity` 示范：
 
 ```cs showLineNumbers  {1,5}
 using Furion.DatabaseAccessor;
@@ -76,7 +76,7 @@ namespace Furion.Core
 }
 ```
 
-### 9.3.2.3 `EntityBase` 示范：
+### 9.4.2.3 `EntityBase` 示范：
 
 ```cs showLineNumbers  {1,5}
 using Furion.DatabaseAccessor;
@@ -95,7 +95,7 @@ namespace Furion.Core
 }
 ```
 
-### 9.3.2.4 `Entity` 示范：
+### 9.4.2.4 `Entity` 示范：
 
 ```cs showLineNumbers  {1,5}
 using Furion.DatabaseAccessor;
@@ -115,7 +115,7 @@ namespace Furion.Core
 }
 ```
 
-### 9.3.2.5 `EntityNotKey` 示范：
+### 9.4.2.5 `EntityNotKey` 示范：
 
 ```cs showLineNumbers  {1,5,7-9}
 using Furion.DatabaseAccessor;
@@ -147,7 +147,7 @@ namespace Furion.Core
 
 :::
 
-## 9.3.3 自定义公共实体
+## 9.4.3 自定义公共实体
 
 在实际项目开发中，我们通常每个应用的数据库表都有一些公共的类，比如创建人，创建时间等，这个时候我们就需要自定义公共实体类了。
 
@@ -260,13 +260,13 @@ namespace Your.Namespace
 
 :::
 
-## 9.3.4 数据库实体配置
+## 9.4.4 数据库实体配置
 
 在过去的 `EF Core` 项目开发中，数据库实体配置需要在 `DbContext` 的 `OnModelCreating` 中配置。`Furion` 为了简化配置和提高开发效率，抽象出了 `IEntityTypeBuilder<TEntity>` 接口。
 
 通过 `IEntityTypeBuilder<TEntity>` 接口，我们无需在 `DbContext` 的 `OnModelCreating` 中配置，可在任意地方配置。
 
-### 9.3.4.1 在数据库实体中配置
+### 9.4.4.1 在数据库实体中配置
 
 ```cs showLineNumbers  {1,5,20-25}
 using Furion.DatabaseAccessor;
@@ -298,7 +298,7 @@ namespace Furion.Core
 }
 ```
 
-### 9.3.4.2 在任何实例类中配置
+### 9.4.4.2 在任何实例类中配置
 
 ```cs showLineNumbers  {1,8,10-14}
 using Furion.DatabaseAccessor;
@@ -333,21 +333,21 @@ namespace Furion.Core
 
 :::
 
-## 9.3.5 数据库实体配置说明
+## 9.4.5 数据库实体配置说明
 
 `Furion` 框架会自动扫描所有继承 `IEntity` 接口的类进行 `DbSet<TEntity>` 注册，也就是实现自动配置 `DbContext` 的 `OnModelCreating`。
 
 如果需要跳过自动注册，只需要贴 `[Manual]` 或 `[SuppressSniffer]` 特性即可。一旦贴了此特性，那么就需要手动配置 `DbContext` 的 `OnModelCreating`
 
-## 9.3.6 配置列名及列类型
+## 9.4.6 配置列名及列类型
 
 有时候我们需要手动设置列名或列类型，比如 `decimal(18,2)`，这时候只需要在属性上面贴 `[Column("列名", TypeName="decimal(18,2)")]` 即可。
 
-## 9.3.7 配置数据库表名和 `Schema`
+## 9.4.7 配置数据库表名和 `Schema`
 
 可以通过在实体类型贴 `[Table("表名", Schema = "dbo")]` 配置。
 
-## 9.3.8 反馈与建议
+## 9.4.8 反馈与建议
 
 :::note 与我们交流
 

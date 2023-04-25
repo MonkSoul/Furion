@@ -1,10 +1,10 @@
 ---
 id: efcore-recommend
-title: 9.29 EFCore 最佳实践
-sidebar_label: 9.29 EFCore 最佳实践
+title: 9.30 EFCore 最佳实践
+sidebar_label: 9.30 EFCore 最佳实践
 ---
 
-## 9.29.1 EFCore 高性能
+## 9.30.1 EFCore 高性能
 
 在 `Furion` 框架，默认推荐使用 `EFCore` 操作数据库，但很多朋友对 `EFCore` 使用不当，特意编写此文档说明。
 
@@ -20,7 +20,7 @@ sidebar_label: 9.29 EFCore 最佳实践
 - 使用 ·DbContextPool· 池来管理 DbContext，类似 ADO.NET 的连接池。
 - 手动或显式编译的查询 API，允许应用程序缓存查询转换，使其可仅被计算一次并执行多次。
 
-```cs showLineNumbers 
+```cs showLineNumbers
 // Create an explicitly compiled query
 private static Func<CustomerContext, int, Customer> _customerById =
     EF.CompileQuery((CustomerContext db, int id) =>
@@ -35,7 +35,7 @@ using (var db = new CustomerContext())
 }
 ```
 
-## 9.29.2 反馈与建议
+## 9.30.2 反馈与建议
 
 :::note 与我们交流
 

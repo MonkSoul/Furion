@@ -1,10 +1,10 @@
 ---
 id: dbcontext-start
-title: 9.0 入门简要
-sidebar_label: 9.0 入门简要 ✨
+title: 9.1 入门简要
+sidebar_label: 9.1 入门简要 ✨
 ---
 
-## 9.0.1 入门准备
+## 9.1.1 入门准备
 
 :::note 入门条件
 
@@ -12,7 +12,7 @@ sidebar_label: 9.0 入门简要 ✨
 
 :::
 
-### 9.0.1.1 安装对应数据库包
+### 9.1.1.1 安装对应数据库包
 
 :::tip
 
@@ -40,7 +40,7 @@ sidebar_label: 9.0 入门简要 ✨
 
 :::
 
-### 9.0.1.2 创建数据库上下文
+### 9.1.1.2 创建数据库上下文
 
 ```cs showLineNumbers  {7}
 using Furion.DatabaseAccessor;
@@ -68,7 +68,7 @@ namespace Furion.EntityFramework.Core
 
 想了解更多可查阅 【[数据库上下文定位器](./dbcontext-locator)】 章节。
 
-### 9.0.1.3 配置连接字符串
+### 9.1.1.3 配置连接字符串
 
 `Furion` 框架提供多种方式配置数据库连接字符串：
 
@@ -136,7 +136,7 @@ namespace Furion.EntityFramework.Core
 }
 ```
 
-### 9.0.1.4 各类数据库连接字符串配置示例
+### 9.1.1.4 各类数据库连接字符串配置示例
 
 - `Sqlite`：`Data Source=./Furion.db`
 - `MySql`：`Data Source=localhost;Database=Furion;User ID=root;Password=000000;pooling=true;port=3306;sslmode=none;CharSet=utf8;`
@@ -144,7 +144,7 @@ namespace Furion.EntityFramework.Core
 - `Oracle`：`User Id=orcl;Password=orcl;Data Source=(DESCRIPTION=(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=127.0.0.1)(PORT=1521)))(CONNECT_DATA=(SERVICE_NAME=orcl)))`
 - `PostgreSQL`：`PORT=5432;DATABASE=postgres;HOST=127.0.0.1;PASSWORD=postgres;USER ID=postgres;`
 
-### 9.0.1.5 注册数据库上下文
+### 9.1.1.5 注册数据库上下文
 
 ```cs showLineNumbers  {12-19} title="Furion.EntityFramework.Core\Startup.cs"
 using Furion.DependencyInjection;
@@ -173,11 +173,11 @@ namespace Furion.EntityFramework.Core
 
 :::tip 了解更多数据库数据库注册方式
 
-如需了解各种数据库及版本注册方式可查阅 【[多数据库注册章节](dbcontext-multi-database.mdx)】
+如需了解各种数据库及版本注册方式可查阅 【[9.19 多数据库注册章节](dbcontext-multi-database.mdx)】
 
 :::
 
-### 9.0.1.6 `Code First` 说明
+### 9.1.1.6 `Code First` 说明
 
 :::important 特别注意
 
@@ -198,7 +198,7 @@ Add-Migration v1.0.0 -Context DefaultDbContext
 
 :::
 
-## 9.0.2 反馈与建议
+## 9.1.2 反馈与建议
 
 :::note 与我们交流
 
