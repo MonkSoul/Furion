@@ -267,10 +267,10 @@ internal sealed class ScheduleHostedService : BackgroundService
                             _schedulerFactory.Shorthand(jobDetail, trigger);
 
                             // 输出异常日志
-                            _logger.LogError(ex, "Error occurred executing in  {jobExecutingContext}.", jobExecutingContext);
+                            _logger.LogError(ex, "Error occurred executing in {jobExecutingContext}.", jobExecutingContext);
 
                             // 标记异常
-                            executionException = new InvalidOperationException(string.Format("Error occurred executing in  {0}.", jobExecutingContext), ex);
+                            executionException = new InvalidOperationException(string.Format("Error occurred executing in {0}.", jobExecutingContext), ex);
 
                             // 捕获 Task 任务异常信息并统计所有异常
                             if (UnobservedTaskException != default)

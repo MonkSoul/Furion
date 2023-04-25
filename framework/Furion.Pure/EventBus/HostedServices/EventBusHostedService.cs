@@ -291,10 +291,10 @@ internal sealed class EventBusHostedService : BackgroundService
                 catch (Exception ex)
                 {
                     // 输出异常日志
-                    Log(LogLevel.Error, "Error occurred executing in  {EventId}.", new[] { eventSource.EventId }, ex);
+                    Log(LogLevel.Error, "Error occurred executing in {EventId}.", new[] { eventSource.EventId }, ex);
 
                     // 标记异常
-                    executionException = new InvalidOperationException(string.Format("Error occurred executing in  {0}.", eventSource.EventId), ex);
+                    executionException = new InvalidOperationException(string.Format("Error occurred executing in {0}.", eventSource.EventId), ex);
 
                     // 捕获 Task 任务异常信息并统计所有异常
                     if (UnobservedTaskException != default)

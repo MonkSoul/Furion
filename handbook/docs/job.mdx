@@ -13,7 +13,7 @@ import Tag from "@site/src/components/Tag.js";
 
 - **新特性**
 
-  - &nbsp;<Tag>新增</Tag> 定时任务支持配置 `IJob` 执行异常 `FallbackAsync` 回退策略 <sup>4.8.8.6</sup> <sup>⏱️2023.04.25</sup>
+  - &nbsp;<Tag>新增</Tag> 定时任务支持配置 `IJob` 执行异常 `FallbackAsync` 回退策略 <sup>4.8.8.6</sup> <sup>⏱️2023.04.25</sup> [7671489](https://gitee.com/dotnetchina/Furion/commit/7671489a46ec7c957e92b7fbf9836e27f9077e24)
   - &nbsp;<Tag>新增</Tag> 定时任务支持在非 `IOC/DI` 项目类型中使用 <sup>4.8.8.5</sup> <sup>⏱️2023.04.24</sup> [#I6YJNB](https://gitee.com/dotnetchina/Sundial/issues/I6YJNB)
   - &nbsp;<Tag>新增</Tag> 定时任务看板支持自定义刷新频率 `SyncRate` 功能 <sup>4.8.7.43</sup> <sup>⏱️2023.04.12</sup> [703b465](https://gitee.com/dotnetchina/Furion/commit/703b465f41510d86976d325cd31d7f8eba3a31ec)
   - &nbsp;<Tag>新增</Tag> 定时任务看板支持完全自定义 `RequestPath` 入口地址功能 <sup>4.8.7.34</sup> <sup>⏱️2023.04.04</sup> [24736f6](https://gitee.com/dotnetchina/Furion/commit/24736f6421dd5aa90289fbb9bc519e6ef55e667f)
@@ -2057,7 +2057,7 @@ warn: 2023-04-25 17:19:15.1275434 +08:00 星期二 L Furion.Application.TestJob[
 warn: 2023-04-25 17:19:19.1006636 +08:00 星期二 L Furion.Application.TestJob[0] #17
       <job1> [C] <job1 job1_trigger2> 4s 3ts 2023-04-25 17:19:19.094 -> 2023-04-25 17:19:23.067
 fail: 2023-04-25 17:19:19.2554424 +08:00 星期二 L System.Logging.ScheduleService[0] #17
-      Error occurred executing in  <job1> [C] <job1 job1_trigger2> 4s 3ts 2023-04-25 17:19:19.094 -> 2023-04-25 17:19:23.067.
+      Error occurred executing in <job1> [C] <job1 job1_trigger2> 4s 3ts 2023-04-25 17:19:19.094 -> 2023-04-25 17:19:23.067.
       ++++++++++++++++++++++++++++++++++++++++++++++++++++++++
       System.Exception: 假装出错
          at Furion.Application.TestJob.ExecuteAsync(JobExecutingContext context, CancellationToken stoppingToken) in D:\Workplaces\OpenSources\Furion\samples\Furion.Application\TestJob.cs:line 22
@@ -2107,7 +2107,7 @@ warn: 2023-04-25 17:24:54.4704187 +08:00 星期二 L Furion.Application.TestJob[
 warn: 2023-04-25 17:24:58.4441477 +08:00 星期二 L Furion.Application.TestJob[0] #15
       <job1> [C] <job1 job1_trigger2> 4s 3ts 2023-04-25 17:24:58.436 -> 2023-04-25 17:25:02.411
 fail: 2023-04-25 17:24:58.5704807 +08:00 星期二 L System.Logging.ScheduleService[0] #15
-      Error occurred executing in  <job1> [C] <job1 job1_trigger2> 4s 3ts 2023-04-25 17:24:58.436 -> 2023-04-25 17:25:02.411.
+      Error occurred executing in <job1> [C] <job1 job1_trigger2> 4s 3ts 2023-04-25 17:24:58.436 -> 2023-04-25 17:25:02.411.
       ++++++++++++++++++++++++++++++++++++++++++++++++++++++++
       System.Exception: 假装出错
          at Furion.Application.TestJob.ExecuteAsync(JobExecutingContext context, CancellationToken stoppingToken) in D:\Workplaces\OpenSources\Furion\samples\Furion.Application\TestJob.cs:line 22
