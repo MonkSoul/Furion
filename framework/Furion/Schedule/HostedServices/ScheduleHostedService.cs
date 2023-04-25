@@ -17,6 +17,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System.Diagnostics;
+using System.Reflection;
 
 namespace Furion.Schedule;
 
@@ -300,22 +301,31 @@ internal sealed class ScheduleHostedService : BackgroundService
                                     Result = jobExecutingContext.Result
                                 };
 
-                                // 触发作业执行异常回退逻辑
-                                try
+                                // 是否定义 FallbackAsync 方法
+                                var isDefinedFallbackAsyncMethod = jobHandler.GetType().GetMethod(nameof(IJob.FallbackAsync)
+                                    , BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly
+                                    , null
+                                    , new[] { typeof(JobExecutedContext), typeof(CancellationToken) }
+                                    , null) != null;
+                                if (isDefinedFallbackAsyncMethod)
                                 {
-                                    // 输出作业执行回退日志
-                                    _logger.LogInformation("Fallback called in {jobExecutedContext}.", jobExecutedContext);
+                                    // 触发作业执行异常回退逻辑
+                                    try
+                                    {
+                                        // 输出作业执行回退日志
+                                        _logger.LogInformation("Fallback called in {jobExecutedContext}.", jobExecutedContext);
 
-                                    await jobHandler.FallbackAsync(jobExecutedContext, stoppingToken);
-                                }
-                                // 处理二次异常情况，将异常进行汇总
-                                catch (Exception fallbackEx)
-                                {
-                                    var aggregateException = new AggregateException(executionException, fallbackEx);
-                                    jobExecutedContext.Exception = aggregateException;
+                                        await jobHandler.FallbackAsync(jobExecutedContext, stoppingToken);
+                                    }
+                                    // 处理二次异常情况，将异常进行汇总
+                                    catch (Exception fallbackEx)
+                                    {
+                                        var aggregateException = new AggregateException(executionException, fallbackEx);
+                                        jobExecutedContext.Exception = aggregateException;
 
-                                    // 输出 Fallback 二次异常日志
-                                    _logger.LogError(aggregateException, "Fallback called error in {jobExecutingContext}.", jobExecutingContext);
+                                        // 输出 Fallback 二次异常日志
+                                        _logger.LogError(aggregateException, "Fallback called error in {jobExecutingContext}.", jobExecutingContext);
+                                    }
                                 }
 
                                 // 调用作业执行后监视器
