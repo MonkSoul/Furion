@@ -1,7 +1,7 @@
 ---
 id: serverun
-title: 2.0 入门指南
-sidebar_label: 2.0 入门指南
+title: 2.1 入门指南
+sidebar_label: 2.1 入门指南
 description: 学习 Furion 如何快速入门
 ---
 
@@ -46,11 +46,11 @@ import Tag from "@site/src/components/Tag.js";
 
 `Furion` 官方提供了非常灵活方便的脚手架，可以快速的创建多层架构项目。
 
-推荐使用 《[2.2 官方脚手架](template.mdx)》代替本章节功能。
+推荐使用 《[2.6 官方脚手架](template.mdx)》代替本章节功能。
 
 :::
 
-## 2.0.1 历史背景
+## 2.1.1 历史背景
 
 相信从 `ASP.NET 5` 升级至 `ASP.NET 6` 的开发者都经历过这样变更：
 
@@ -75,7 +75,7 @@ var app = builder.Build();
 
 **所以，为了保证一致的代码体验和后续无缝升级，创造出了 `Serve.Run()`，即使未来创建方式变了，也不用担心，交给框架即可。**
 
-## 2.0.2 创建 `控制台` 项目
+## 2.1.2 创建 `控制台` 项目
 
 - 打开 `Visual Studio 2022` 并创建 `控制台` 项目
 
@@ -98,7 +98,7 @@ dotnet new console -n HelloFurion
 
 :::
 
-## 2.0.3 添加 `Furion` 依赖包
+## 2.1.3 添加 `Furion` 依赖包
 
 <img src={useBaseUrl("img/04.png")} />
 
@@ -113,7 +113,7 @@ dotnet add package Furion
 
 :::
 
-## 2.0.4 一句话搞定
+## 2.1.4 一句话搞定
 
 修改 `Program.cs` 代码为：
 
@@ -129,7 +129,7 @@ Serve.Run();
 
 :::
 
-## 2.0.5 启动浏览器
+## 2.1.5 启动浏览器
 
 启动浏览器查看效果
 
@@ -139,7 +139,7 @@ Serve.Run();
 
 是不是超级超级简单！！！
 
-## 2.0.6 编写第一个 `API`
+## 2.1.6 编写第一个 `API`
 
 ```cs showLineNumbers title="Program.cs" {3,6}
 Serve.Run();
@@ -158,9 +158,9 @@ public class HelloService
 
 <img src={useBaseUrl("img/07.png")} />
 
-## 2.0.7 `Serve.Run()` 更多配置
+## 2.1.7 `Serve.Run()` 更多配置
 
-### 2.0.7.1 配置默认启动地址/端口
+### 2.1.7.1 配置默认启动地址/端口
 
 默认情况下，创建的 `Web` 主机端口为 `5000/5001` 端口，如需自定义配置，可通过第一个参数配置：
 
@@ -271,7 +271,7 @@ var urls = idleHost.Urls;   // => http://furion.baiqian.ltd:44322
 var ssl_urls = idleHost.SSL_Urls;   // => https://furion.baiqian.ltd:44322
 ```
 
-### 2.0.7.2 便捷服务注册
+### 2.1.7.2 便捷服务注册
 
 :::important 版本说明
 
@@ -304,7 +304,7 @@ Serve.RunGeneric(services =>
 });
 ```
 
-### 2.0.7.3 自定义配置
+### 2.1.7.3 自定义配置
 
 传入 `RunOptions` 对象相当于自由定义和控制，也就是除了默认集成了 `Furion` 以外，没有注册任何功能。
 
@@ -355,7 +355,7 @@ public class XXXWebComponent : IWebComponent
 }
 ```
 
-### 2.0.7.4 `Serve.Run` 和 `Startup` 最佳组合
+### 2.1.7.4 `Serve.Run` 和 `Startup` 最佳组合
 
 默认情况下 `Serve.Run()` 内置了 `跨域`，`控制器`，`路由`，`规范化结果`、`静态文件` 服务/中间件。适合快速开始项目和编写测试代码。
 
@@ -413,7 +413,7 @@ public class Startup : AppStartup
 
 :::
 
-### 2.0.7.5 更多配置
+### 2.1.7.5 更多配置
 
 如配置 `WebHost`...
 
@@ -424,11 +424,11 @@ Serve.Run(RunOptions.Default
     }));
 ```
 
-## 2.0.8 支持 `Furion` 所有功能
+## 2.1.8 支持 `Furion` 所有功能
 
 `Serve.Run()` 看似非常简单，实则非常灵活，而且支持 `Furion` 和 `.NET` 所有功能。
 
-### 2.0.8.1 添加 `appsettings.json`
+### 2.1.8.1 添加 `appsettings.json`
 
 创建 `appsettings.json` 文件，并设置 `属性` 为 `如果较新则复制` 和 `内容`（生成操作）
 
@@ -465,7 +465,7 @@ public class HelloService
 
 <img src={useBaseUrl("img/08.png")} />
 
-### 2.0.8.2 添加自定义 `Startup`
+### 2.1.8.2 添加自定义 `Startup`
 
 在 `Furion` 中可以派生自 `AppStartup` 可以实现更多配置，如：
 
@@ -503,7 +503,7 @@ public class MyStartup : AppStartup
 
 <img src={useBaseUrl("img/09.png")} />
 
-### 2.0.8.3 将控制台项目变成 `Web` 项目
+### 2.1.8.3 将控制台项目变成 `Web` 项目
 
 只需要编辑 `.csproj` 文件，将第一行 `Project` 节点的 `Sdk`
 
@@ -519,7 +519,7 @@ public class MyStartup : AppStartup
 
 即可完成转换，实际上只是追加了 `.Web`。
 
-### 2.0.8.4 添加 `args` 启动参数
+### 2.1.8.4 添加 `args` 启动参数
 
 :::important 版本说明
 
@@ -535,11 +535,11 @@ Serve.Run(RunOptions.Default.WithArgs(args));
 Serve.Run(RunOptions.Main(args));
 ```
 
-### 2.0.8.5 还没看够？
+### 2.1.8.5 还没看够？
 
 是不是非常强大啊，`Serve.Run()` 虽然简单，但是 100% 支持 `Furion` 和 `.NET` 所有功能。尽情去体验吧！
 
-## 2.0.9 `RunOptions`，`LegacyRunOptions` 和 `GenericRunOptions`
+## 2.1.9 `RunOptions`，`LegacyRunOptions` 和 `GenericRunOptions`
 
 `Serve.Run` 提供了 `RunOptions`，`LegacyRunOptions` 和 `GenericRunOptions` 重载参数类型，他们的主要区别：
 
@@ -578,11 +578,11 @@ Serve.Run(GenericRunOptions.Default
 
 更多发布命令说明可查阅微软官方文档 [https://docs.microsoft.com/en-us/dotnet/core/tools/dotnet-publish](https://docs.microsoft.com/en-us/dotnet/core/tools/dotnet-publish)
 
-## 2.0.10 在 `WinForm/WPF` 桌面中使用
+## 2.1.10 在 `WinForm/WPF` 桌面中使用
 
 在 `WinForm` 或 `WPF` 中使用，请确保 `Serve.Run()` 在桌面应用程序之前初始化：
 
-### 2.0.10.1 `WinForm` 初始化
+### 2.1.10.1 `WinForm` 初始化
 
 ```cs showLineNumbers {3,8}
 namespace WinFormsApp2;
@@ -620,7 +620,7 @@ Serve.RunNative(urls: Serve.IdleHost.Urls);
 
 :::
 
-### 2.0.10.2 `WPF` 初始化
+### 2.1.10.2 `WPF` 初始化
 
 ```cs showLineNumbers {3,7}
 namespace WpfApp1;
@@ -654,7 +654,7 @@ Serve.RunNative(urls: Serve.IdleHost.Urls);
 
 :::
 
-### 2.0.10.3 注册服务
+### 2.1.10.3 注册服务
 
 如果想注册服务，支持以下两种方式：
 
@@ -692,7 +692,7 @@ public class YourStartup : AppStartup
 }
 ```
 
-## 2.0.11 静默启动
+## 2.1.11 静默启动
 
 默认情况下，`Serve.Run()` 使用阻塞线程方式启动，但有些时候我们不希望阻塞现有的代码，可使用**静默启动**的方式：
 
@@ -716,7 +716,7 @@ Serve.Run(LegacyRunOptions.DefaultSilence);
 Serve.Run(GenericRunOptions.DefaultSilence);
 ```
 
-## 2.0.12 `.NET5` 模式找不到 `Views` 视图路径
+## 2.1.12 `.NET5` 模式找不到 `Views` 视图路径
 
 由于 `.NET5` 必须在使用 `.UseStartup<>` 配置启动项，所以 `Serve.Run()` 模式会提示找不到 `Views` 视图路径，这时候只需要在启动目录创建 `Startup.cs` 文件并通过泛型方式指定即可，如：
 
@@ -745,7 +745,7 @@ namespace YourProject.Web.Entity
 Serve.Run<Startup>(LegacyRunOptions.Default);
 ```
 
-## 2.0.13 反馈与建议
+## 2.1.13 反馈与建议
 
 :::note 与我们交流
 
