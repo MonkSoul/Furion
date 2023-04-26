@@ -13,6 +13,7 @@ import sponsors from "../../../data/sponsor";
 const DocSidebarMobileSecondaryMenu = ({ sidebar, path }) => {
   const mobileSidebar = useNavbarMobileSidebar();
   const [show, setShow] = useState(true);
+  const sponsor = sponsors.find((u) => u.id == 100);
 
   return (
     <>
@@ -64,6 +65,18 @@ const DocSidebarMobileSecondaryMenu = ({ sidebar, path }) => {
           level={1}
         />
       </ul>
+      <div>
+        <SponsorItem
+          key={sponsor.url}
+          title={sponsor.title}
+          url={sponsor.url}
+          picture={"img/xxyd2.jpeg"}
+          top={true}
+          last={false}
+          tag={sponsor.tag}
+          style={{ marginBottom: 0 }}
+        />
+      </div>
     </>
   );
 };
@@ -88,8 +101,8 @@ function randomNum(minNum, maxNum) {
 }
 
 function Sponsor() {
-  const topIndex = sponsors.findIndex((u) => u.top);
-  const topData = sponsors.find((u) => u.top);
+  var tops = sponsors.filter((u) => u.top);
+  var unTops = sponsors.filter((u) => !u.top);
 
   return (
     <div
@@ -101,25 +114,28 @@ function Sponsor() {
         clear: "both",
       }}
     >
-      <SponsorItem
-        title={topData.title}
-        url={topData.url}
-        picture={topData.picture}
-        top={true}
-        last={false}
-      />
+      {tops.map((item) => (
+        <SponsorItem
+          key={item.url}
+          title={item.title}
+          url={item.url}
+          picture={item.picture}
+          top={true}
+          last={false}
+          tag={item.tag}
+        />
+      ))}
 
-      {sponsors
-        .filter((item, i) => i !== topIndex)
-        .map(({ picture, url, title }, i) => (
-          <SponsorItemSmart
-            key={url}
-            title={title}
-            url={url}
-            picture={picture}
-            i={i}
-          />
-        ))}
+      {unTops.map(({ picture, url, title, tag }, i) => (
+        <SponsorItemSmart
+          key={url}
+          title={title}
+          url={url}
+          picture={picture}
+          i={i}
+          tag={tag}
+        />
+      ))}
       {/* <div
         style={{
           display: "flex",
@@ -170,20 +186,21 @@ function Sponsor() {
   );
 }
 
-function SponsorItem({ picture, url, last, title, top }) {
+function SponsorItem({ picture, url, last, title, top, tag, style }) {
+  const inlineStyle = {
+    display: "block",
+    marginBottom: last ? null : "0.5em",
+    position: "relative",
+    alignItems: "center",
+    boxSizing: "border-box",
+    border: top ? "2px solid rgb(255, 176, 46)" : undefined,
+  };
   return (
     <a
       href={url}
       target="_blank"
       title={title}
-      style={{
-        display: "block",
-        marginBottom: last ? null : "0.5em",
-        position: "relative",
-        alignItems: "center",
-        boxSizing: "border-box",
-        border: top ? "2px solid rgb(255, 176, 46)" : undefined,
-      }}
+      style={Object.assign(inlineStyle, style)}
     >
       <img
         src={useBaseUrl(picture)}
@@ -207,13 +224,13 @@ function SponsorItem({ picture, url, last, title, top }) {
           padding: "0 5px",
         }}
       >
-        {/* 赞助商 */}
+        {tag}
       </span>
     </a>
   );
 }
 
-function SponsorItemSmart({ picture, url, title, i }) {
+function SponsorItemSmart({ picture, url, title, tag, i }) {
   return (
     <a
       href={url}

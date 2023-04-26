@@ -1,21 +1,27 @@
 const sponsors = [
   {
+    id: 1,
     title: "CRMEB 专注开源电商系统研发",
     picture: "img/crmeb.jpg",
     url: "http://github.crmeb.net/u/furion",
     top: false,
+    tag: "",
   },
   {
+    id: 2,
     title: "流之云 - 信息化、数字化服务提供商",
     picture: "img/tpflow.png",
     url: "https://www.gadmin8.com?from=furion",
     top: false,
+    tag: "",
   },
   {
+    id: 3,
     title: "CoreShop 移动端/小程序商城系统",
     picture: "img/coreshop.gif",
     url: "https://www.coreshop.cn?from=furion",
     top: false,
+    tag: "",
   },
   // {
   //   title: "FirstUI 跨平台移动端组件库",
@@ -30,16 +36,20 @@ const sponsors = [
   //   top: false,
   // },
   {
+    id: 4,
     title: "Layui-Vue 开源前端 UI 框架",
     picture: "img/layui.png",
     url: "http://www.layui-vue.com?from=furion",
     top: false,
+    tag: "",
   },
   {
+    id: 5,
     title: "工作服定制T恤  一件起订来图定做",
     picture: "img/weishen.jpg",
     url: "https://eshan.tmall.com?from=furion",
     top: false,
+    tag: "",
   },
   // {
   //   title: "ProcessOn：在线流程图思维导图工具",
@@ -52,22 +62,28 @@ const sponsors = [
   //   url: "https://course.rs/",
   // },
   {
+    id: 6,
     title: "DIY 可视化 UniApp 代码生成器",
     picture: "img/lk.jpg",
     url: "https://www.diygw.com?from=furion",
     top: false,
+    tag: "",
   },
-  // {
-  //   title: "赞助 Furion 快速提升企业品牌知名度",
-  //   picture: "img/xxyd.jpeg",
-  //   url: "https://furion.baiqian.ltd/docs/donate",
-  //   top: true,
-  // },
   {
+    id: 7,
     title: "MaxKey - 业界领先的单点登录产品",
     picture: "img/maxkey.png",
     url: "https://gitee.com/dromara/MaxKey?from=furion",
     top: true,
+    tag: "铂金",
+  },
+  {
+    id: 100,
+    title: "赞助 Furion 快速提升企业品牌知名度",
+    picture: "img/xxyd.jpeg",
+    url: "https://furion.baiqian.ltd/docs/donate",
+    top: true,
+    tag: "铂金",
   },
 ];
 
