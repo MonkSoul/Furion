@@ -975,6 +975,8 @@ info: 2023-03-21 14:22:44.6986483 +08:00 星期二 L System.Logging.DynamicJob[0
 
 在一些不支持依赖注入的项目类型如 `Console、WinForm、WPF` 中，可以通过以下方式使用：
 
+- 方式一：无需获取其他服务对象
+
 ```cs showLineNumbers {1,2,6-7}
 _ = new ServiceCollection()
     .AddSchedule(options =>
@@ -984,6 +986,40 @@ _ = new ServiceCollection()
     .GetScheduleHostedService()
     .StartAsync(new CancellationTokenSource().Token);
 ```
+
+- 方式二：需要后续解析服务
+
+```cs showLineNumbers {2,7,10-11,14}
+// 注册服务并构建
+IServiceProvider services = new ServiceCollection()
+    .AddSchedule(options =>
+    {
+        options.AddJob<MyJob>(Triggers.Period(5000));
+    })
+    .BuildServiceProvider();
+
+// 启动作业调度主机服务
+services.GetScheduleHostedService()
+        .StartAsync(new CancellationTokenSource().Token);
+
+// 解析作业计划工厂
+var schedulerFactory =  servces.GetService<ISchedulerFactory>();
+```
+
+:::tip 小知识
+
+只需要将 `servces` 对象用类的静态属性存储起来即可，如：
+
+```cs showLineNumbers {3}
+public class DI
+{
+   public static IServiceProvider Services {get; set;}
+}
+```
+
+之后通过 `DI.Services = services` 即可，后续便可以通过 `DI.Services.GetService<T>()` 解析服务。
+
+:::
 
 ## 26.1.3 作业信息 `JobDetail` 及构建器
 

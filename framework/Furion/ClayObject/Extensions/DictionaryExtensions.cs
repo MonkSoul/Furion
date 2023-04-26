@@ -74,11 +74,14 @@ public static class DictionaryExtensions
 
         var valueType = input.GetType();
 
+        // 判断是否是 struct 结构类型
+        var isStruct = !valueType.IsPrimitive && !valueType.IsEnum && valueType.IsValueType;
+
         // 处理基元类型，集合类型
-        if (valueType.IsRichPrimitive()
+        if (!isStruct && (valueType.IsRichPrimitive()
             || valueType.IsArray
             || (typeof(IEnumerable).IsAssignableFrom(valueType)
-                && valueType.IsGenericType))
+                && valueType.IsGenericType)))
         {
             return new Dictionary<string, object>()
             {
