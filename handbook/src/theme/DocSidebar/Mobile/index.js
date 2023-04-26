@@ -65,18 +65,20 @@ const DocSidebarMobileSecondaryMenu = ({ sidebar, path }) => {
           level={1}
         />
       </ul>
-      <div>
-        <SponsorItem
-          key={sponsor.url}
-          title={sponsor.title}
-          url={sponsor.url}
-          picture={"img/xxyd2.jpeg"}
-          top={true}
-          last={false}
-          tag={sponsor.tag}
-          style={{ marginBottom: 0 }}
-        />
-      </div>
+      {show && (
+        <div>
+          <SponsorItem
+            key={sponsor.url}
+            title={sponsor.title}
+            url={sponsor.url}
+            picture={"img/xxyd2.jpeg"}
+            top={true}
+            last={false}
+            tag={sponsor.tag}
+            style={{ marginBottom: 0 }}
+          />
+        </div>
+      )}
     </>
   );
 };

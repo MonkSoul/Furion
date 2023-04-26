@@ -60,18 +60,20 @@ function DocSidebarDesktop({ path, sidebar, onCollapse, isHidden }) {
         </>
       )}
       <Content path={path} sidebar={sidebar} />
-      <div>
-        <SponsorItem
-          key={sponsor.url}
-          title={sponsor.title}
-          url={sponsor.url}
-          picture={"img/xxyd2.jpeg"}
-          top={true}
-          last={false}
-          tag={sponsor.tag}
-          style={{ marginBottom: 0 }}
-        />
-      </div>
+      {show && (
+        <div>
+          <SponsorItem
+            key={sponsor.url}
+            title={sponsor.title}
+            url={sponsor.url}
+            picture={"img/xxyd2.jpeg"}
+            top={true}
+            last={false}
+            tag={sponsor.tag}
+            style={{ marginBottom: 0 }}
+          />
+        </div>
+      )}
       {hideable && <CollapseButton onClick={onCollapse} />}
     </div>
   );
