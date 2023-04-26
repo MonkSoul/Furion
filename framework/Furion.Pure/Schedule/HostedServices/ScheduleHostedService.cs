@@ -17,6 +17,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System.Diagnostics;
+using System.Reflection;
 
 namespace Furion.Schedule;
 
@@ -267,10 +268,10 @@ internal sealed class ScheduleHostedService : BackgroundService
                             _schedulerFactory.Shorthand(jobDetail, trigger);
 
                             // 输出异常日志
-                            _logger.LogError(ex, "Error occurred executing {jobExecutingContext}.", jobExecutingContext);
+                            _logger.LogError(ex, "Error occurred executing in {jobExecutingContext}.", jobExecutingContext);
 
                             // 标记异常
-                            executionException = new InvalidOperationException(string.Format("Error occurred executing {0}.", jobExecutingContext.ToString()), ex);
+                            executionException = new InvalidOperationException(string.Format("Error occurred executing in {0}.", jobExecutingContext), ex);
 
                             // 捕获 Task 任务异常信息并统计所有异常
                             if (UnobservedTaskException != default)
@@ -289,8 +290,8 @@ internal sealed class ScheduleHostedService : BackgroundService
                                 jobDetail.Blocked = false;
                             }
 
-                            // 调用执行后监视器
-                            if (Monitor != default)
+                            // 调用作业异常回退或作业执行后监视器
+                            if (executionException != null || Monitor != default)
                             {
                                 // 创建作业执行后上下文
                                 var jobExecutedContext = new JobExecutedContext(jobDetail, trigger, occurrenceTime, runId, _serviceProvider)
@@ -300,7 +301,39 @@ internal sealed class ScheduleHostedService : BackgroundService
                                     Result = jobExecutingContext.Result
                                 };
 
-                                await Monitor.OnExecutedAsync(jobExecutedContext, stoppingToken);
+                                // 是否定义 FallbackAsync 方法
+                                var isDefinedFallbackAsyncMethod = jobHandler.GetType().GetMethod(nameof(IJob.FallbackAsync)
+                                    , BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly
+                                    , null
+                                    , new[] { typeof(JobExecutedContext), typeof(CancellationToken) }
+                                    , null) != null;
+                                if (isDefinedFallbackAsyncMethod)
+                                {
+                                    // 触发作业执行异常回退逻辑
+                                    try
+                                    {
+                                        // 输出作业执行回退日志
+                                        _logger.LogInformation("Fallback called in {jobExecutedContext}.", jobExecutedContext);
+
+                                        await jobHandler.FallbackAsync(jobExecutedContext, stoppingToken);
+                                    }
+                                    // 处理二次异常情况，将异常进行汇总
+                                    catch (Exception fallbackEx)
+                                    {
+                                        var aggregateException = new AggregateException(executionException, fallbackEx);
+                                        jobExecutedContext.Exception = aggregateException;
+
+                                        // 输出 Fallback 二次异常日志
+                                        _logger.LogError(aggregateException, "Fallback called error in {jobExecutingContext}.", jobExecutingContext);
+                                    }
+                                }
+
+                                // 调用作业执行后监视器
+                                try
+                                {
+                                    if (Monitor != null) await Monitor.OnExecutedAsync(jobExecutedContext, stoppingToken);
+                                }
+                                catch { }
                             }
 
                             // 将作业信息运行数据写入持久化

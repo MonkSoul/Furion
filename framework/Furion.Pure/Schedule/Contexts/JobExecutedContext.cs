@@ -45,5 +45,5 @@ public sealed class JobExecutedContext : JobExecutionContext
     /// <summary>
     /// 异常信息
     /// </summary>
-    public InvalidOperationException Exception { get; internal set; }
+    public Exception Exception { get; internal set; }
 }
