@@ -1003,12 +1003,12 @@ services.GetScheduleHostedService()
         .StartAsync(new CancellationTokenSource().Token);
 
 // 解析作业计划工厂
-var schedulerFactory =  servces.GetService<ISchedulerFactory>();
+var schedulerFactory =  services.GetService<ISchedulerFactory>();
 ```
 
 :::tip 小知识
 
-只需要将 `servces` 对象用类的静态属性存储起来即可，如：
+只需要将 `services` 对象用类的静态属性存储起来即可，如：
 
 ```cs showLineNumbers {3}
 public class DI
@@ -1017,7 +1017,7 @@ public class DI
 }
 ```
 
-之后通过 `DI.Services = services` 即可，后续便可以通过 `DI.Services.GetService<T>()` 解析服务。
+之后通过 `DI.Services = services;` 即可，后续便可以通过 `DI.Services.GetService<T>()` 解析服务。
 
 :::
 
