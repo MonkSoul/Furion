@@ -41,7 +41,7 @@ const DocSidebarMobileSecondaryMenu = ({ sidebar, path }) => {
           level={1}
         />
       </ul>
-      {show && (
+      {show && sponsor && (
         <div>
           <SponsorItem
             key={sponsor.url}

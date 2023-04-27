@@ -36,7 +36,7 @@ function DocSidebarDesktop({ path, sidebar, onCollapse, isHidden }) {
         </>
       )}
       <Content path={path} sidebar={sidebar} />
-      {show && (
+      {show && sponsor && (
         <div>
           <SponsorItem
             key={sponsor.url}

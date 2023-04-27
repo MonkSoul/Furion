@@ -2,17 +2,6 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 import React from "react";
 import sponsors from "../data/sponsor";
 
-function randomNum(minNum, maxNum) {
-  switch (arguments.length) {
-    case 1:
-      return parseInt(Math.random() * minNum + 1, 10);
-    case 2:
-      return parseInt(Math.random() * (maxNum - minNum + 1) + minNum, 10);
-    default:
-      return 0;
-  }
-}
-
 export function Sponsor() {
   var tops = sponsors.filter((u) => u.top);
   var unTops = sponsors.filter((u) => !u.top);
@@ -49,33 +38,6 @@ export function Sponsor() {
           tag={tag}
         />
       ))}
-      {/* <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-        }}
-      >
-        <a href="https://gitee.com/dotnetchina/Furion/stargazers">
-          <img
-            src="https://gitee.com/dotnetchina/Furion/badge/star.svg?theme=gvp"
-            alt="star"
-          ></img>
-        </a>
-        <a href="https://gitee.com/dotnetchina/Furion">
-          <img
-            src="https://gitee.com/dotnetchina/Furion/widgets/widget_5.svg"
-            alt="Fork me on Gitee"
-            height={20}
-          ></img>
-        </a>
-        <a href="https://gitee.com/dotnetchina/Furion/members">
-          <img
-            src="https://gitee.com/dotnetchina/Furion/badge/fork.svg?theme=gvp"
-            alt="fork"
-          ></img>
-        </a>
-      </div> */}
       <div
         style={{
           display: "flex",
@@ -104,7 +66,6 @@ const sponsorItemStyle = {
   position: "relative",
   alignItems: "center",
   boxSizing: "border-box",
-  border: top ? "2px solid rgb(255, 176, 46)" : undefined,
 };
 
 const sponsorTagStyle = {
@@ -127,6 +88,7 @@ export function SponsorItem({ picture, url, last, title, top, tag, style }) {
       style={{
         ...sponsorItemStyle,
         marginBottom: last ? null : "0.5em",
+        border: top ? "2px solid rgb(255, 176, 46)" : undefined,
         ...style,
       }}
     >
