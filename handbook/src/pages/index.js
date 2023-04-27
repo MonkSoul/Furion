@@ -28,9 +28,7 @@ function Home() {
       <Banner />
       <Gitee />
       <ProccessOn />
-      {/* <Remark /> */}
       <WhoUse />
-      {/* <Contributor /> */}
       <Links /> <Bifa />
     </Layout>
   );
