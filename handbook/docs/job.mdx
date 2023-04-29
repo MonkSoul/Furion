@@ -1806,7 +1806,7 @@ info: 2022-12-04 12:26:33.8531796 +08:00 星期日 L System.Logging.DynamicJob[0
 
 按照程序开发的正常思维，理应先在代码中创建作业处理程序类型，但我们可以借助 `Roslyn` 动态编译 `C#` 代码。
 
-3. **根据字符串创建 `IJob` 类型**
+1. **根据字符串创建 `IJob` 类型**
 
 ```cs showLineNumbers {2,9,11,29}
 // 调用 Schedular 静态类提供的 CompileCSharpClassCode 方法
@@ -1840,7 +1840,7 @@ public class MyJob : IJob
 var jobType = jobAssembly.GetType("YourProject.MyJob");
 ```
 
-4. **注册作业**
+2. **注册作业**
 
 ```cs showLineNumbers {4,9}
 // 可以在启动的时候添加
