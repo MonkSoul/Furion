@@ -12,6 +12,7 @@
 // 在任何情况下，作者或版权持有人都不对任何索赔、损害或其他责任负责，无论这些追责来自合同、侵权或其它行为中，
 // 还是产生于、源于或有关于本软件以及本软件的使用或其它处置。
 
+using System.Reflection;
 using System.Text;
 using System.Text.Encodings.Web;
 using System.Text.Json;
@@ -252,5 +253,16 @@ internal static class Penetrates
         };
 
         return actValue;
+    }
+
+    /// <summary>
+    /// 加载程序集
+    /// </summary>
+    /// <param name="assemblyName">程序集名称</param>
+    /// <returns><see cref="Assembly"/></returns>
+    internal static Assembly LoadAssembly(string assemblyName)
+    {
+        var assembly = AppDomain.CurrentDomain.GetAssemblies().FirstOrDefault(ass => ass.GetName().Name == assemblyName);
+        return assembly ?? Assembly.Load(assemblyName);
     }
 }
