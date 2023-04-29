@@ -28,9 +28,7 @@ function Home() {
       <Banner />
       <Gitee />
       <ProccessOn />
-      {/* <Remark /> */}
       <WhoUse />
-      {/* <Contributor /> */}
       <Links /> <Bifa />
     </Layout>
   );
@@ -195,7 +193,7 @@ function Gitee() {
             className={"furion-log-jiao" + (isDarkTheme ? " dark" : "")}
           ></div>
           <div className="furion-log-number">
-            <div style={{ color: "#1fd898" }}>8,245,908</div>
+            <div style={{ color: "#1fd898" }}>8,252,475</div>
             <span className={isDarkTheme ? " dark" : ""}>Downloads</span>
           </div>
         </div>
@@ -299,7 +297,7 @@ function WhoUse() {
           <h1>他们都在用</h1>
           <p>
             Furion 已在 NuGet
-            平台超824万次下载。从小型企业到企业的解决方案及知名企业。他们在简单软件和复杂管理系统的开发方面都信任我们。
+            平台超825万次下载。从小型企业到企业的解决方案及知名企业。他们在简单软件和复杂管理系统的开发方面都信任我们。
           </p>
           <a
             className="furion-get-start"
