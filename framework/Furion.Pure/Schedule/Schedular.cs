@@ -167,7 +167,7 @@ public static class Schedular
         // 编译失败抛出异常
         if (!emitResult.Success)
         {
-            throw new InvalidOperationException($"Unable to compile template: {string.Join("\n", emitResult.Diagnostics.ToList().Where(w => w.IsWarningAsError || w.Severity == DiagnosticSeverity.Error))}");
+            throw new InvalidOperationException($"Unable to compile class code: {string.Join("\n", emitResult.Diagnostics.ToList().Where(w => w.IsWarningAsError || w.Severity == DiagnosticSeverity.Error))}");
         }
 
         memoryStream.Position = 0;
