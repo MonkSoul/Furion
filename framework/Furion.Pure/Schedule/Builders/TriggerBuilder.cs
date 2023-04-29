@@ -13,7 +13,6 @@
 // 还是产生于、源于或有关于本软件以及本软件的使用或其它处置。
 
 using Furion.TimeCrontab;
-using System.Reflection;
 
 namespace Furion.Schedule;
 
@@ -246,7 +245,7 @@ public sealed partial class TriggerBuilder : Trigger
             && !string.IsNullOrWhiteSpace(triggerTypeFullName))
         {
             // 加载 GAC 全局应用程序缓存中的程序集及类型
-            var triggerType = Assembly.Load(assemblyName)
+            var triggerType = Penetrates.LoadAssembly(assemblyName)
                 .GetType(triggerTypeFullName);
 
             return SetTriggerType(triggerType);

@@ -13,6 +13,7 @@ import Tag from "@site/src/components/Tag.js";
 
 - **新特性**
 
+  - &nbsp;<Tag>新增</Tag> `App.CompileCSharpClassCode(code)` 动态编译类定义代码 <sup>4.8.8.7</sup> <sup>⏱️2023.04.30</sup> [fe1e8a1](https://gitee.com/dotnetchina/Furion/commit/fe1e8a1768c7020477684689b35a2a1349ec2b01)
   - &nbsp;<Tag>新增</Tag> `App.GetServices(type)` 和 `App.GetServices<T>()` 获取服务实例集合 <sup>4.8.7.33</sup> <sup>⏱️2023.04.03</sup> [c3e9957](https://gitee.com/dotnetchina/Furion/commit/c3e9957fd276920b3a8366eda3e347500334458e)
   - &nbsp;<Tag>新增</Tag> `App.GetServiceLifetime(type)` 获取服务注册生命周期类型 <sup>4.8.5.3</sup> <sup>⏱️2023.01.31</sup> [4a573a8](https://gitee.com/dotnetchina/Furion/commit/4a573a8934784b1d7e11f7d1fa3cfa65b5ec2b3a)
   - &nbsp;<Tag>新增</Tag> **`App.GetThreadId()` 和 `App.GetTraceId()` 获取线程 `Id` 和请求 `TraceId`** <sup>4.8.2.4</sup> <sup>⏱️2022.11.29</sup> [910fc1f](https://gitee.com/dotnetchina/Furion/commit/910fc1fbad9e40245c5694f30457cd4d2ca0d630)
@@ -273,4 +274,43 @@ var elapsedMilliseconds = App.GetExecutionTime(() =>
 ```cs showLineNumbers
 var lifetime = App.GetServiceLifetime(typeof(IConfiguration));  // => ServiceLifetime.Singleton
 var license = App.GetServiceLifetime(typeof(IRepository<Person>));  // => ServiceLifetime.Scoped
+```
+
+## 1.28 动态编译类定义代码
+
+:::important 版本说明
+
+以下内容仅限 `Furion 4.8.8.7 +` 版本使用。
+
+:::
+
+```cs showLineNumbers {1,28}
+var jobAssembly = App.CompileCSharpClassCode(@"
+using Furion.Schedule;
+using Microsoft.Extensions.Logging;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
+
+namespace YourProject;
+
+public class MyJob : IJob
+{
+    private readonly ILogger<MyJob> _logger;
+
+    public MyJob(ILogger<MyJob> logger)
+    {
+        _logger = logger;
+    }
+
+    public async Task ExecuteAsync(JobExecutingContext context, CancellationToken stoppingToken)
+    {
+        _logger.LogInformation($""我是 Roslyn 方式创建的：{context}"");
+        await Task.CompletedTask;
+    }
+}
+");
+
+// 生成运行时 MyJob 类型
+var jobType = jobAssembly.GetType("YourProject.MyJob");
 ```
