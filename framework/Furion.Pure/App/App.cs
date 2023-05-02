@@ -620,6 +620,7 @@ public static class App
             {
                 LastGCCollectTime = nowTime;
                 GC.Collect();
+                GC.WaitForPendingFinalizers();
             }
         }
 

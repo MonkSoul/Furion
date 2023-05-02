@@ -472,6 +472,7 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory
 
             // 通知 GC 垃圾回收器立即回收
             GC.Collect();
+            GC.WaitForPendingFinalizers();
         }
     }
 }

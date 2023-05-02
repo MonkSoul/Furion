@@ -326,6 +326,7 @@ internal sealed class EventBusHostedService : BackgroundService
                     {
                         LastGCCollectTime = nowTime;
                         GC.Collect();
+                        GC.WaitForPendingFinalizers();
                     }
                 }
             }, stoppingToken);
