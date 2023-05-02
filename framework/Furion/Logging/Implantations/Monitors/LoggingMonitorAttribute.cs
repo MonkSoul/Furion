@@ -951,7 +951,7 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter, IOr
     {
         if (type == null) return string.Empty;
 
-        var typeName = type.FullName;
+        var typeName = type.FullName ?? type.Name;
 
         // 处理泛型类型问题
         if (type.IsConstructedGenericType)
