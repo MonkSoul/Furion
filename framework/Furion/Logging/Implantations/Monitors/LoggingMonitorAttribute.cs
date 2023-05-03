@@ -951,16 +951,15 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter, IOr
     {
         if (type == null) return string.Empty;
 
-        var typeName = type.FullName ?? type.Name;
+        var typeName = type.FullName ?? (!string.IsNullOrEmpty(type.Namespace) ? type.Namespace + "." : string.Empty) + type.Name;
 
         // 处理泛型类型问题
         if (type.IsConstructedGenericType)
         {
             var prefix = type.GetGenericArguments()
                 .Select(genericArg => HandleGenericType(genericArg))
-                .Aggregate((previous, current) => previous + current);
+                .Aggregate((previous, current) => previous + ", " + current);
 
-            // 通过 _ 拼接多个泛型
             typeName = typeName.Split('`').First() + "<" + prefix + ">";
         }
 
