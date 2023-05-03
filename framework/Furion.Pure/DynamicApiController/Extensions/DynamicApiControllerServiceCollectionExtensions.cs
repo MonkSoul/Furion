@@ -16,6 +16,7 @@ using Furion;
 using Furion.DynamicApiController;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApplicationParts;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 using System.Reflection;
 
 namespace Microsoft.Extensions.DependencyInjection;
@@ -81,6 +82,11 @@ public static class DynamicApiControllerServiceCollectionExtensions
             // 添加应用模型转换器
             options.Conventions.Add(new DynamicApiControllerApplicationModelConvention(services));
         });
+
+        // 添加动态 WebAPI 运行时感知服务
+        services.AddSingleton<MvcActionDescriptorChangeProvider>()
+                .AddSingleton<IActionDescriptorChangeProvider>(provider => provider.GetRequiredService<MvcActionDescriptorChangeProvider>());
+        services.AddSingleton<IDynamicApiRuntimeChangeProvider, DynamicApiRuntimeChangeProvider>();
 
         return services;
     }

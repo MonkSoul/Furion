@@ -15,7 +15,51 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 - **新特性**
 
-  - &nbsp;<Tag>新增</Tag> **动态 `WebAPI` 自动检查路由是否包含重复参数，如果有自动修正而不是抛异常** <sup>4.8.6.5</sup> <sup>⏱️2023.02.17</sup> [5f15ea1](https://gitee.com/dotnetchina/Furion/commit/5f15ea1edd2e7793d86dd074ffbbecbebf7f683f)
+  - &nbsp;<Tag>新增</Tag> **插件化 `IDynamicApiRuntimeChangeProvider` 接口，可在运行时动态添加 `WebAPI/Controller`** <sup>4.8.8.8</sup> <sup>⏱️2023.05.04</sup> [322ea59](https://gitee.com/dotnetchina/Furion/commit/322ea599ed58b1804e9f8ab85d7ed44882b3e5a8)
+
+<details style={{ marginLeft: 50 }}>
+  <summary>查看变化</summary>
+  <div>
+
+在一些特定的需求中，我们需要在运行时**动态编译代码，如动态编写 `WebAPI`**，之后能够在不重启主机服务的情况下即可有效。比如这里动态添加 `SomeClass` 动态 `WebAPI`，然后在 `Swagger/路由系统` 中立即有效：
+
+```cs showLineNumbers {6,13-25,27-28}
+namespace Furion.Application;
+
+public class PluginApiServices : IDynamicApiController
+{
+    private readonly IDynamicApiRuntimeChangeProvider _provider;
+    public PluginApiServices(IDynamicApiRuntimeChangeProvider provider)
+    {
+        _provider = provider;
+    }
+
+    public void AddRuntimeAPI()
+    {
+        var code = @"
+using Furion.DynamicApiController;
+using Furion;
+
+namespace YourProject.Application;
+
+public class SomeClass: IDynamicApiController
+{
+    public string GetName()
+    {
+        return nameof(Furion);
+    }
+}";
+
+        var ass = App.CompileCSharpClassCode(code);	// 编译代码
+        _provider.AddAssembliesWithNotifyChanges(ass); // 通知应用程序刷新
+    }
+}
+```
+
+  </div>
+</details>
+
+- - &nbsp;<Tag>新增</Tag> **动态 `WebAPI` 自动检查路由是否包含重复参数，如果有自动修正而不是抛异常** <sup>4.8.6.5</sup> <sup>⏱️2023.02.17</sup> [5f15ea1](https://gitee.com/dotnetchina/Furion/commit/5f15ea1edd2e7793d86dd074ffbbecbebf7f683f)
 
 <details style={{ marginLeft: 50 }}>
   <summary>查看变化</summary>
@@ -2108,7 +2152,50 @@ public class MetadataService : IDynamicApiController
 }
 ```
 
-## 5.1.14 反馈与建议
+## 5.1.14 插件化 `IDynamicApiRuntimeChangeProvider`
+
+:::important 版本说明
+
+以下内容仅限 `Furion 4.8.8.8 +` 版本使用。
+
+:::
+
+在一些特定的需求中，我们需要在运行时**动态编译代码，如动态编写 `WebAPI`**，之后能够在不重启主机服务的情况下即可有效。比如这里动态添加 `SomeClass` 动态 `WebAPI`，然后在 `Swagger/路由系统` 中立即有效：
+
+```cs showLineNumbers {6,13-25,27-28}
+namespace Furion.Application;
+
+public class PluginApiServices : IDynamicApiController
+{
+    private readonly IDynamicApiRuntimeChangeProvider _provider;
+    public PluginApiServices(IDynamicApiRuntimeChangeProvider provider)
+    {
+        _provider = provider;
+    }
+
+    public void AddRuntimeAPI()
+    {
+        var code = @"
+using Furion.DynamicApiController;
+using Furion;
+
+namespace YourProject.Application;
+
+public class SomeClass: IDynamicApiController
+{
+    public string GetName()
+    {
+        return nameof(Furion);
+    }
+}";
+
+        var ass = App.CompileCSharpClassCode(code);	// 编译代码
+        _provider.AddAssembliesWithNotifyChanges(ass); // 通知应用程序刷新
+    }
+}
+```
+
+## 5.1.15 反馈与建议
 
 :::note 与我们交流
 
