@@ -16,6 +16,7 @@ using Furion;
 using Furion.DynamicApiController;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApplicationParts;
+using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using System.Reflection;
 
@@ -81,6 +82,9 @@ public static class DynamicApiControllerServiceCollectionExtensions
         {
             // 添加应用模型转换器
             options.Conventions.Add(new DynamicApiControllerApplicationModelConvention(services));
+
+            // 添加 text/plain 请求 Body 参数支持
+            options.InputFormatters.Add(new TextPlainMediaTypeFormatter());
         });
 
         // 添加动态 WebAPI 运行时感知服务
