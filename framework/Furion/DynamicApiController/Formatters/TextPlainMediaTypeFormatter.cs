@@ -17,9 +17,9 @@ using System.Text;
 namespace Microsoft.AspNetCore.Mvc.Formatters;
 
 /// <summary>
-/// text/plain 请求参数类型支持
+/// text/plain 请求 Body 参数支持
 /// </summary>
-/// <remarks>让 WebAPI 支持该格式参数</remarks>
+[SuppressSniffer]
 public sealed class TextPlainMediaTypeFormatter : TextInputFormatter
 {
     /// <summary>
@@ -37,7 +37,7 @@ public sealed class TextPlainMediaTypeFormatter : TextInputFormatter
     /// <param name="context"></param>
     /// <param name="encoding"></param>
     /// <returns></returns>
-    public override async Task<InputFormatterResult> ReadRequestBodyAsync(InputFormatterContext context, Encoding encoding)
+    public async override Task<InputFormatterResult> ReadRequestBodyAsync(InputFormatterContext context, Encoding encoding)
     {
         string content;
         using (var reader = context.ReaderFactory(context.HttpContext.Request.Body, encoding))

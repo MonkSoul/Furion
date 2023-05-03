@@ -83,7 +83,7 @@ public static class DynamicApiControllerServiceCollectionExtensions
             // 添加应用模型转换器
             options.Conventions.Add(new DynamicApiControllerApplicationModelConvention(services));
 
-            // 添加 text/plain 格式化支持
+            // 添加 text/plain 请求 Body 参数支持
             options.InputFormatters.Add(new TextPlainMediaTypeFormatter());
         });
 

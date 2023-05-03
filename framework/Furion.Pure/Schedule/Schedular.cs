@@ -12,12 +12,9 @@
 // 在任何情况下，作者或版权持有人都不对任何索赔、损害或其他责任负责，无论这些追责来自合同、侵权或其它行为中，
 // 还是产生于、源于或有关于本软件以及本软件的使用或其它处置。
 
-using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System.Reflection;
-using System.Reflection.Metadata;
 
 namespace Furion.Schedule;
 
@@ -127,58 +124,6 @@ public static class Schedular
     /// <returns><see cref="Assembly"/></returns>
     public static Assembly CompileCSharpClassCode(string csharpCode, string assemblyName = default, params Assembly[] additionalAssemblies)
     {
-        // 空检查
-        if (csharpCode == null) throw new ArgumentNullException(nameof(csharpCode));
-
-        // 合并程序集
-        var domainAssemblies = AppDomain.CurrentDomain.GetAssemblies();
-        var references = assemblyName != null && additionalAssemblies.Length > 0
-            ? domainAssemblies.Concat(additionalAssemblies)
-            : domainAssemblies;
-
-        // 生成语法树
-        var syntaxTree = CSharpSyntaxTree.ParseText(csharpCode);
-
-        // 创建 C# 编译器
-        var compilation = CSharpCompilation.Create(
-          string.IsNullOrWhiteSpace(assemblyName) ? Path.GetRandomFileName() : assemblyName.Trim(),
-          new[]
-          {
-                    syntaxTree
-          },
-          references.Where(ass =>
-          {
-              unsafe
-              {
-                  return ass.TryGetRawMetadata(out var blob, out var length);
-              }
-          }).Select(ass =>
-          {
-              // MetadataReference.CreateFromFile(ass.Location)
-              unsafe
-              {
-                  ass.TryGetRawMetadata(out var blob, out var length);
-                  var moduleMetadata = ModuleMetadata.CreateFromMetadata((IntPtr)blob, length);
-                  var assemblyMetadata = AssemblyMetadata.Create(moduleMetadata);
-                  var metadataReference = assemblyMetadata.GetReference();
-                  return metadataReference;
-              }
-          }),
-          new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary));
-
-        // 编译代码
-        using var memoryStream = new MemoryStream();
-        var emitResult = compilation.Emit(memoryStream);
-
-        // 编译失败抛出异常
-        if (!emitResult.Success)
-        {
-            throw new InvalidOperationException($"Unable to compile class code: {string.Join("\n", emitResult.Diagnostics.ToList().Where(w => w.IsWarningAsError || w.Severity == DiagnosticSeverity.Error))}");
-        }
-
-        memoryStream.Position = 0;
-
-        // 返回编译程序集
-        return Assembly.Load(memoryStream.ToArray());
+        return App.CompileCSharpClassCode(csharpCode, assemblyName, additionalAssemblies);
     }
 }
