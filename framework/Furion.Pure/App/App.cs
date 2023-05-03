@@ -358,9 +358,14 @@ public static class App
           {
                     syntaxTree
           },
-          references.Select(ass =>
+          references.Where(ass =>
           {
-              // MetadataReference.CreateFromFile(ass.Location)
+              unsafe
+              {
+                  return ass.TryGetRawMetadata(out var blob, out var length);
+              }
+          }).Select(ass =>
+          {
               unsafe
               {
                   ass.TryGetRawMetadata(out var blob, out var length);

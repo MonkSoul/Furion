@@ -146,7 +146,13 @@ public static class Schedular
           {
                     syntaxTree
           },
-          references.Select(ass =>
+          references.Where(ass =>
+          {
+              unsafe
+              {
+                  return ass.TryGetRawMetadata(out var blob, out var length);
+              }
+          }).Select(ass =>
           {
               // MetadataReference.CreateFromFile(ass.Location)
               unsafe

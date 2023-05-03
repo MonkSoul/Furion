@@ -35,19 +35,64 @@ import Tag from "@site/src/components/Tag.js";
 
 - **新特性**
 
-  - &nbsp;<Tag>新增</Tag> 定时任务 `Schedular.CompileCSharpClassCode(code)` 支持动态编译作业处理程序代码 <sup>4.8.8.7</sup> <sup>⏱️2023.04.30</sup> [fe1e8a1](https://gitee.com/dotnetchina/Furion/commit/fe1e8a1768c7020477684689b35a2a1349ec2b01)
-  - &nbsp;<Tag>新增</Tag> `App.CompileCSharpClassCode(code)` 动态编译类定义代码 <sup>4.8.8.7</sup> <sup>⏱️2023.04.30</sup> [fe1e8a1](https://gitee.com/dotnetchina/Furion/commit/fe1e8a1768c7020477684689b35a2a1349ec2b01)
-  - &nbsp;<Tag>新增</Tag> 粘土对象支持结构 `struct` 对象类型 <sup>4.8.8.7</sup> <sup>⏱️2023.04.30</sup> [a0fa3aa](https://gitee.com/dotnetchina/Furion/commit/a0fa3aa7ae536e948740401b510d99cf45e251dc)
-  - &nbsp;<Tag>新增</Tag> 定时任务支持配置 `IJob` 执行异常 `FallbackAsync` 回退策略 <sup>4.8.8.6</sup> <sup>⏱️2023.04.25</sup> [7671489](https://gitee.com/dotnetchina/Furion/commit/7671489a46ec7c957e92b7fbf9836e27f9077e24)
-  - &nbsp;<Tag>新增</Tag> 定时任务支持在非 `IOC/DI` 项目类型中使用 <sup>4.8.8.5</sup> <sup>⏱️2023.04.24</sup> [#I6YJNB](https://gitee.com/dotnetchina/Sundial/issues/I6YJNB)
-  - &nbsp;<Tag>新增</Tag> `RSA` 支持对超长字符（超 `245` 位）进行分段加解密 <sup>4.8.8.2</sup> <sup>⏱️2023.04.19</sup> [!788](https://gitee.com/dotnetchina/Furion/pulls/788) 感谢 [@YaChengMu](https://gitee.com/YaChengMu)
-  - &nbsp;<Tag>新增</Tag> `System.Text.Json` 和 `Newtonsoft.Json` 对粘土对象 `Clay` 支持 <sup>4.8.8.1</sup> <sup>⏱️2023.04.18</sup> [#I6WKRZ](https://gitee.com/dotnetchina/Furion/issues/I6WKRZ)
-  - &nbsp;<Tag>新增</Tag> 粘土对象可反射转换成特定 `IEnumerable<T>` 类型：`clay.ConvertTo<T>()` <sup>4.8.8</sup> <sup>⏱️2023.04.13</sup> [5d54a65](https://gitee.com/dotnetchina/Furion/commit/5d54a6579be3d710649bb199dd985f60acaf9787)
-  - &nbsp;<Tag>新增</Tag> `Serve.IdleHost` 支持返回 `http` 和 `https` 协议 `Web` 地址（端口） <sup>4.8.8</sup> <sup>⏱️2023.04.13</sup> [fdf7885](https://gitee.com/dotnetchina/Furion/commit/fdf7885f282057599be6b1b3833373dd153db42a)
+  - &nbsp;<Tag>新增</Tag> **插件化 `IDynamicApiRuntimeChangeProvider` 接口，可在运行时动态添加 `WebAPI/Controller`** <sup>4.8.8.8</sup> <sup>⏱️2023.05.04</sup>
+
+<details style={{ marginLeft: 50 }}>
+  <summary>查看变化</summary>
+  <div>
+
+在一些特定的需求中，我们需要在运行时**动态编译代码，如动态编写 `WebAPI`**，之后能够在不重启主机服务的情况下即可有效。比如这里动态添加 `SomeClass` 动态 `WebAPI`，然后在 `Swagger/路由系统` 中立即有效：
+
+```cs showLineNumbers {6,13-25,27-28}
+namespace Furion.Application;
+
+public class PluginApiServices : IDynamicApiController
+{
+    private readonly IDynamicApiRuntimeChangeProvider _provider;
+    public PluginApiServices(IDynamicApiRuntimeChangeProvider provider)
+    {
+        _provider = provider;
+    }
+
+    public void AddRuntimeAPI()
+    {
+        var code = @"
+using Furion.DynamicApiController;
+using Furion;
+
+namespace YourProject.Application;
+
+public class SomeClass: IDynamicApiController
+{
+    public string GetName()
+    {
+        return nameof(Furion);
+    }
+}";
+
+        var ass = App.CompileCSharpClassCode(code);	// 编译代码
+        _provider.AddAssembliesWithNotifyChanges(ass); // 通知应用程序刷新
+    }
+}
+```
+
+  </div>
+</details>
+
+- - &nbsp;<Tag>新增</Tag> 定时任务 `Schedular.CompileCSharpClassCode(code)` 支持动态编译作业处理程序代码 <sup>4.8.8.7</sup> <sup>⏱️2023.04.30</sup> [fe1e8a1](https://gitee.com/dotnetchina/Furion/commit/fe1e8a1768c7020477684689b35a2a1349ec2b01)
+- - &nbsp;<Tag>新增</Tag> `App.CompileCSharpClassCode(code)` 动态编译类定义代码 <sup>4.8.8.7</sup> <sup>⏱️2023.04.30</sup> [fe1e8a1](https://gitee.com/dotnetchina/Furion/commit/fe1e8a1768c7020477684689b35a2a1349ec2b01)
+- - &nbsp;<Tag>新增</Tag> 粘土对象支持结构 `struct` 对象类型 <sup>4.8.8.7</sup> <sup>⏱️2023.04.30</sup> [a0fa3aa](https://gitee.com/dotnetchina/Furion/commit/a0fa3aa7ae536e948740401b510d99cf45e251dc)
+- - &nbsp;<Tag>新增</Tag> 定时任务支持配置 `IJob` 执行异常 `FallbackAsync` 回退策略 <sup>4.8.8.6</sup> <sup>⏱️2023.04.25</sup> [7671489](https://gitee.com/dotnetchina/Furion/commit/7671489a46ec7c957e92b7fbf9836e27f9077e24)
+- - &nbsp;<Tag>新增</Tag> 定时任务支持在非 `IOC/DI` 项目类型中使用 <sup>4.8.8.5</sup> <sup>⏱️2023.04.24</sup> [#I6YJNB](https://gitee.com/dotnetchina/Sundial/issues/I6YJNB)
+- - &nbsp;<Tag>新增</Tag> `RSA` 支持对超长字符（超 `245` 位）进行分段加解密 <sup>4.8.8.2</sup> <sup>⏱️2023.04.19</sup> [!788](https://gitee.com/dotnetchina/Furion/pulls/788) 感谢 [@YaChengMu](https://gitee.com/YaChengMu)
+- - &nbsp;<Tag>新增</Tag> `System.Text.Json` 和 `Newtonsoft.Json` 对粘土对象 `Clay` 支持 <sup>4.8.8.1</sup> <sup>⏱️2023.04.18</sup> [#I6WKRZ](https://gitee.com/dotnetchina/Furion/issues/I6WKRZ)
+- - &nbsp;<Tag>新增</Tag> 粘土对象可反射转换成特定 `IEnumerable<T>` 类型：`clay.ConvertTo<T>()` <sup>4.8.8</sup> <sup>⏱️2023.04.13</sup> [5d54a65](https://gitee.com/dotnetchina/Furion/commit/5d54a6579be3d710649bb199dd985f60acaf9787)
+- - &nbsp;<Tag>新增</Tag> `Serve.IdleHost` 支持返回 `http` 和 `https` 协议 `Web` 地址（端口） <sup>4.8.8</sup> <sup>⏱️2023.04.13</sup> [fdf7885](https://gitee.com/dotnetchina/Furion/commit/fdf7885f282057599be6b1b3833373dd153db42a)
 
 - **问题修复**
 
-  - &nbsp;<Tag>修复</Tag> `LoggingMonitor` 打印泛型类型如果存在多个泛型参数问题 <sup>4.8.8.8</sup> <sup>⏱️2023.05.03</sup> [8d9cb74](https://gitee.com/dotnetchina/Furion/commit/8d9cb7457c736a91bc428ce61da553df40107960)
+  - &nbsp;<Tag>修复</Tag> `App.CompileCSharpClassCode(code)` 运行时添加匿名程序集编译异常问题 <sup>4.8.8.8</sup> <sup>⏱️2023.05.04</sup>
+  - &nbsp;<Tag>修复</Tag> `LoggingMonitor` 打印泛型类型如果存在多个泛型参数问题 <sup>4.8.8.8</sup> <sup>⏱️2023.05.04</sup> [8d9cb74](https://gitee.com/dotnetchina/Furion/commit/8d9cb7457c736a91bc428ce61da553df40107960)
   - &nbsp;<Tag>修复</Tag> 脱敏处理如果字典存在重复词导致异常问题 <sup>4.8.8.4</sup> <sup>⏱️2023.04.23</sup> [#I6Y19K](https://gitee.com/dotnetchina/Furion/issues/I6Y19K)
   - &nbsp;<Tag>修复</Tag> 远程请求 `Body` 参数为粘土对象 `Clay` 类型序列化有误 <sup>4.8.8.1</sup> <sup>⏱️2023.04.18</sup> [#I6WKRZ](https://gitee.com/dotnetchina/Furion/issues/I6WKRZ)
   - &nbsp;<Tag>修复</Tag> `Serve.IdleHost` 获取随机端口的本地地址带 `$` 符号问题 <sup>4.8.8</sup> <sup>⏱️2023.04.13</sup> [ed6f292](https://gitee.com/dotnetchina/Furion/commit/ed6f29263607f58fe0eafdf21dadfc33987309e1)

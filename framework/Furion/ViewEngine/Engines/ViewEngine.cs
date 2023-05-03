@@ -308,22 +308,28 @@ public class ViewEngine : IViewEngine
             {
                     syntaxTree
             },
-            options.ReferencedAssemblies
-                .Select(ass =>
+            options.ReferencedAssemblies.Where(ass =>
+            {
+                unsafe
                 {
-                    // MetadataReference.CreateFromFile(ass.Location)
+                    return ass.TryGetRawMetadata(out var blob, out var length);
+                }
+            })
+            .Select(ass =>
+            {
+                // MetadataReference.CreateFromFile(ass.Location)
 
-                    unsafe
-                    {
-                        ass.TryGetRawMetadata(out var blob, out var length);
-                        var moduleMetadata = ModuleMetadata.CreateFromMetadata((IntPtr)blob, length);
-                        var assemblyMetadata = AssemblyMetadata.Create(moduleMetadata);
-                        var metadataReference = assemblyMetadata.GetReference();
-                        return metadataReference;
-                    }
-                })
-                .Concat(options.MetadataReferences)
-                .ToList(),
+                unsafe
+                {
+                    ass.TryGetRawMetadata(out var blob, out var length);
+                    var moduleMetadata = ModuleMetadata.CreateFromMetadata((IntPtr)blob, length);
+                    var assemblyMetadata = AssemblyMetadata.Create(moduleMetadata);
+                    var metadataReference = assemblyMetadata.GetReference();
+                    return metadataReference;
+                }
+            })
+            .Concat(options.MetadataReferences)
+            .ToList(),
             new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary));
 
         var memoryStream = new MemoryStream();
