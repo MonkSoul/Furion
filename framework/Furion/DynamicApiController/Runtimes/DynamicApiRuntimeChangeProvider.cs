@@ -85,6 +85,9 @@ internal class DynamicApiRuntimeChangeProvider : IDynamicApiRuntimeChangeProvide
                 var applicationPart = _applicationPartManager.ApplicationParts.FirstOrDefault(p => p.Name == assemblyName);
                 if (applicationPart != null) _applicationPartManager.ApplicationParts.Remove(applicationPart);
             }
+
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
         }
     }
 
