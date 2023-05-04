@@ -44,8 +44,12 @@ import Tag from "@site/src/components/Tag.js";
 
 在一些特定的需求中，我们需要在运行时**动态编译代码，如动态编写 `WebAPI`**，之后能够在不重启主机服务的情况下即可有效。比如这里动态添加 `SomeClass` 动态 `WebAPI`，然后在 `Swagger/路由系统` 中立即有效：
 
-```cs showLineNumbers {6,13-25,27-28}
-namespace Furion.Application;
+```cs showLineNumbers {10,21-30,36-39}
+using Furion;
+using Furion.DynamicApiController;
+using Microsoft.AspNetCore.Mvc;
+
+namespace YourProject.Application;
 
 public class PluginApiServices : IDynamicApiController
 {
@@ -55,27 +59,57 @@ public class PluginApiServices : IDynamicApiController
         _provider = provider;
     }
 
-    public void AddRuntimeAPI()
+    /// <summary>
+    /// 动态添加 WebAPI/Controller
+    /// </summary>
+    /// <param name="csharpCode"></param>
+    /// <param name="assemblyName">可自行指定程序集名称</param>
+    /// <returns></returns>
+    public string Compile([FromBody] string csharpCode, [FromQuery] string assemblyName = default)
     {
-        var code = @"
+        // 编译 C# 代码并返回动态程序集
+        var dynamicAssembly = App.CompileCSharpClassCode(csharpCode, assemblyName);
+
+        // 将程序集添加进动态 WebAPI 应用部件
+        _provider.AddAssembliesWithNotifyChanges(dynamicAssembly);
+
+        // 返回动态程序集名称
+        return dynamicAssembly.GetName().Name;
+    }
+
+    /// <summary>
+    /// 移除动态程序集 WebAPI/Controller
+    /// </summary>
+    public void Remove(string assemblyName)
+    {
+        _provider.RemoveAssembliesWithNotifyChanges(assemblyName);
+    }
+}
+```
+
+这时只需要请求 `api/plugin-api/compile` 接口同时设置请求 `Content-Type` 为 `text/plain`，接下来传入 `C# 代码字符串` 即可，如：
+
+```cs showLineNumbers title="动态C#代码字符串"
 using Furion.DynamicApiController;
-using Furion;
 
 namespace YourProject.Application;
 
-public class SomeClass: IDynamicApiController
+public class SomeClass : IDynamicApiController
 {
     public string GetName()
     {
         return nameof(Furion);
     }
-}";
-
-        var ass = App.CompileCSharpClassCode(code);	// 编译代码
-        _provider.AddAssembliesWithNotifyChanges(ass); // 通知应用程序刷新
-    }
 }
 ```
+
+<img src={useBaseUrl("img/dr1.png")} />
+
+之后刷新浏览器即可看到最新的 `API`：
+
+<img src={useBaseUrl("img/dr2.png")} />
+
+还可以在运行时动态卸载，调用 `api/plugin-api/compile` 即可。
 
   </div>
 </details>
