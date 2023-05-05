@@ -12,6 +12,7 @@
 // 在任何情况下，作者或版权持有人都不对任何索赔、损害或其他责任负责，无论这些追责来自合同、侵权或其它行为中，
 // 还是产生于、源于或有关于本软件以及本软件的使用或其它处置。
 
+using Microsoft.Net.Http.Headers;
 using System.Text;
 
 namespace Microsoft.AspNetCore.Mvc.Formatters;
@@ -27,24 +28,23 @@ public sealed class TextPlainMediaTypeFormatter : TextInputFormatter
     /// </summary>
     public TextPlainMediaTypeFormatter()
     {
-        SupportedMediaTypes.Add("text/plain");
+        SupportedMediaTypes.Add(MediaTypeHeaderValue.Parse("text/plain"));
+
         SupportedEncodings.Add(Encoding.UTF8);
+        SupportedEncodings.Add(Encoding.Unicode);
     }
 
     /// <summary>
-    /// 重写 <see cref="ReadRequestBodyAsync(InputFormatterContext, Encoding)"/> 方法
+    /// 重写 <see cref="ReadRequestBodyAsync(InputFormatterContext, Encoding)"/>
     /// </summary>
     /// <param name="context"></param>
-    /// <param name="encoding"></param>
+    /// <param name="effectiveEncoding"></param>
     /// <returns></returns>
-    public async override Task<InputFormatterResult> ReadRequestBodyAsync(InputFormatterContext context, Encoding encoding)
+    public async override Task<InputFormatterResult> ReadRequestBodyAsync(InputFormatterContext context, Encoding effectiveEncoding)
     {
-        string content;
-        using (var reader = context.ReaderFactory(context.HttpContext.Request.Body, encoding))
-        {
-            content = await reader.ReadToEndAsync();
-        }
+        using var reader = new StreamReader(context.HttpContext.Request.Body, effectiveEncoding);
+        var stringContent = await reader.ReadToEndAsync();
 
-        return await InputFormatterResult.SuccessAsync(content);
+        return await InputFormatterResult.SuccessAsync(stringContent);
     }
 }
