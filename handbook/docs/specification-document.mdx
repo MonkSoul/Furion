@@ -1374,7 +1374,7 @@ app.UseInject(options =>
 {
     options.ConfigureSwaggerUI(ui =>
     {
-        // 添加请求头 framework: Furion
+        // 添加请求头 framework: Furion，注意代码不能换行，否则 Swagger 无法加载 !!!!
         ui.UseRequestInterceptor("function(request) { request.headers['framework']='Furion'; return defaultRequestInterceptor(request); }");
     });
 });

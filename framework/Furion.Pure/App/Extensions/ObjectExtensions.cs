@@ -95,6 +95,33 @@ public static class ObjectExtensions
     /// <param name="stream"></param>
     /// <param name="path"></param>
     /// <returns></returns>
+    public static void CopyToSave(this Stream stream, string path)
+    {
+        // 空检查
+        if (string.IsNullOrWhiteSpace(path)) throw new ArgumentNullException(nameof(path));
+
+        using var fileStream = File.Create(path);
+        stream.CopyTo(fileStream);
+    }
+
+    /// <summary>
+    /// 将字节数组保存到本地磁盘
+    /// </summary>
+    /// <param name="bytes"></param>
+    /// <param name="path"></param>
+    /// <returns></returns>
+    public static void CopyToSave(this byte[] bytes, string path)
+    {
+        using var stream = new MemoryStream(bytes);
+        stream.CopyToSave(path);
+    }
+
+    /// <summary>
+    /// 将流保存到本地磁盘
+    /// </summary>
+    /// <param name="stream"></param>
+    /// <param name="path"></param>
+    /// <returns></returns>
     public static async Task CopyToSaveAsync(this Stream stream, string path)
     {
         // 空检查
@@ -102,6 +129,18 @@ public static class ObjectExtensions
 
         using var fileStream = File.Create(path);
         await stream.CopyToAsync(fileStream);
+    }
+
+    /// <summary>
+    /// 将字节数组保存到本地磁盘
+    /// </summary>
+    /// <param name="bytes"></param>
+    /// <param name="path"></param>
+    /// <returns></returns>
+    public static async Task CopyToSaveAsync(this byte[] bytes, string path)
+    {
+        using var stream = new MemoryStream(bytes);
+        await stream.CopyToSaveAsync(path);
     }
 
     /// <summary>

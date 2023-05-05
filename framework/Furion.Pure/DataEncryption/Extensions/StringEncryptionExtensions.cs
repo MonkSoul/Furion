@@ -93,6 +93,28 @@ public static class StringEncryptionExtensions
     }
 
     /// <summary>
+    /// 字节数组（文件） AES 加密
+    /// </summary>
+    /// <param name="bytes"></param>
+    /// <param name="skey"></param>
+    /// <returns>string</returns>
+    public static byte[] ToAESEncrypt(this byte[] bytes, string skey)
+    {
+        return AESEncryption.Encrypt(bytes, skey);
+    }
+
+    /// <summary>
+    /// 字节数组（文件） AES 解密
+    /// </summary>
+    /// <param name="bytes"></param>
+    /// <param name="skey"></param>
+    /// <returns>string</returns>
+    public static byte[] ToAESDecrypt(this byte[] bytes, string skey)
+    {
+        return AESEncryption.Decrypt(bytes, skey);
+    }
+
+    /// <summary>
     /// 字符串 DESC 加密
     /// </summary>
     /// <param name="text">需要加密的字符串</param>

@@ -35,6 +35,7 @@ import Tag from "@site/src/components/Tag.js";
 
 - **新特性**
 
+  - &nbsp;<Tag>新增</Tag> `AES` 支持对文件（含超大文件）进行加解密 <sup>4.8.8.11</sup> <sup>⏱️2023.05.05</sup> [1d2265b](https://gitee.com/dotnetchina/Furion/commit/1d2265be04cfd7c6c2b9db932a77ebd620ef6054)
   - &nbsp;<Tag>新增</Tag> 动态 `WebAPI` 支持 `text/plain` 格式的 `Body` 参数 <sup>4.8.8.9</sup> <sup>⏱️2023.05.04</sup> [b49fe50](https://gitee.com/dotnetchina/Furion/commit/b49fe5087cdf97b04b7c2c9d90231f1b9d5fc6ee)
   - &nbsp;<Tag>新增</Tag> **插件化 `IDynamicApiRuntimeChangeProvider` 接口，可在运行时动态添加 `WebAPI/Controller`** <sup>4.8.8.8</sup> <sup>⏱️2023.05.04</sup> [322ea59](https://gitee.com/dotnetchina/Furion/commit/322ea599ed58b1804e9f8ab85d7ed44882b3e5a8)
 
@@ -109,7 +110,7 @@ public class SomeClass : IDynamicApiController
 
 <img src={useBaseUrl("img/dr2.png")} />
 
-还可以在运行时动态卸载，调用 `api/plugin-api/compile` 即可。
+还可以在运行时动态卸载，使用 `DELETE` 请求 `api/plugin-api` 即可。
 
   </div>
 </details>
@@ -141,10 +142,11 @@ public class SomeClass : IDynamicApiController
 
   - &nbsp;<Tag>新增</Tag> `Jwt` 身份验证过程监听文档
   - &nbsp;<Tag>新增</Tag> 事件总线 `Redis` 集成文档
-  - &nbsp;<Tag>更新</Tag> 粘土对象文档、虚拟文件系统文档、序列化文档、事件总线文档、远程请求、数据加密文档、安全授权文档、动态 `WebAPI` 文档、定时任务文档、`JSON` 序列化文档
+  - &nbsp;<Tag>更新</Tag> 粘土对象文档、虚拟文件系统文档、序列化文档、事件总线文档、远程请求、数据加密文档、安全授权文档、动态 `WebAPI` 文档、定时任务文档、`JSON` 序列化文档、`App` 静态类文档
 
 - **贡献者**
 
+  - NeoLu ([@neolu](https://gitee.com/neolu)) [!804](https://gitee.com/dotnetchina/Furion/pulls/804)
   - 蓝色天空 ([@lds2013](https://gitee.com/lds2013)) [!796](https://gitee.com/dotnetchina/Furion/pulls/796)
   - YaChengMu ([@YaChengMu](https://gitee.com/YaChengMu)) [!788](https://gitee.com/dotnetchina/Furion/pulls/788)
 
