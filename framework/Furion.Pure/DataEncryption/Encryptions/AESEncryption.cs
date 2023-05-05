@@ -83,4 +83,81 @@ public class AESEncryption
         using var srDecrypt = new StreamReader(csDecrypt);
         return srDecrypt.ReadToEnd();
     }
+
+    /// <summary>
+    /// 加密
+    /// </summary>
+    /// <param name="bytes">源文件 字节数组</param>
+    /// <param name="skey">密钥</param>
+    /// <returns>加密后的字节数组</returns>
+    public static byte[] Encrypt(byte[] bytes, string skey)
+    {
+        var bKey = new byte[32];
+        Array.Copy(Encoding.UTF8.GetBytes(skey.PadRight(bKey.Length)), bKey, bKey.Length);
+
+        var vector = MD5Encryption.Encrypt(skey, is16: true);
+        var bVector = new byte[16];
+        Array.Copy(Encoding.UTF8.GetBytes(vector.PadRight(bVector.Length)), bVector, bVector.Length);
+
+        byte[] cryptograph = null;
+        var Aes = Rijndael.Create();
+
+        try
+        {
+            using var memoryStream = new MemoryStream();
+            using var cryptoStream = new CryptoStream(memoryStream, Aes.CreateEncryptor(bKey, bVector), CryptoStreamMode.Write);
+
+            cryptoStream.Write(bytes, 0, bytes.Length);
+            cryptoStream.FlushFinalBlock();
+            cryptograph = memoryStream.ToArray();
+        }
+        catch
+        {
+            cryptograph = null;
+        }
+
+        return cryptograph;
+    }
+
+    /// <summary>
+    /// 解密
+    /// </summary>
+    /// <param name="bytes">加密后文件 字节数组</param>
+    /// <param name="skey">密钥</param>
+    /// <returns></returns>
+    public static byte[] Decrypt(byte[] bytes, string skey)
+    {
+        var bKey = new byte[32];
+        Array.Copy(Encoding.UTF8.GetBytes(skey.PadRight(bKey.Length)), bKey, bKey.Length);
+
+        var vector = MD5Encryption.Encrypt(skey, is16: true);
+        var bVector = new byte[16];
+        Array.Copy(Encoding.UTF8.GetBytes(vector.PadRight(bVector.Length)), bVector, bVector.Length);
+
+        byte[] original = null;
+        var Aes = Rijndael.Create();
+
+        try
+        {
+            using var memoryStream = new MemoryStream(bytes);
+            using var cryptoStream = new CryptoStream(memoryStream, Aes.CreateDecryptor(bKey, bVector), CryptoStreamMode.Read);
+            using var originalMemoryStream = new MemoryStream();
+
+            var Buffer = new byte[1024];
+            var readBytes = 0;
+
+            while ((readBytes = cryptoStream.Read(Buffer, 0, Buffer.Length)) > 0)
+            {
+                originalMemoryStream.Write(Buffer, 0, readBytes);
+            }
+
+            original = originalMemoryStream.ToArray();
+        }
+        catch
+        {
+            original = null;
+        }
+
+        return original;
+    }
 }

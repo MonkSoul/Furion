@@ -13,6 +13,7 @@ import Tag from "@site/src/components/Tag.js";
 
 - **新特性**
 
+  - &nbsp;<Tag>新增</Tag> `AES` 支持对文件（含超大文件）进行加解密 <sup>4.8.8.11</sup> <sup>⏱️2023.05.05</sup>
   - &nbsp;<Tag>新增</Tag> `RSA` 支持对超长字符（超 `245` 位）进行分段加解密 <sup>4.8.8.2</sup> <sup>⏱️2023.04.19</sup> [!788](https://gitee.com/dotnetchina/Furion/pulls/788) 感谢 [@YaChengMu](https://gitee.com/YaChengMu)
   - &nbsp;<Tag>新增</Tag> `byte[]` 类型 `MD5` 加密/比较重载方法 <sup>4.8.6.3</sup> <sup>⏱️2023.02.15</sup> [#I6F1NT](https://gitee.com/dotnetchina/Furion/issues/I6F1NT)
 
@@ -75,6 +76,26 @@ var key = Guid.NewGuid().ToString("N"); // 密钥，长度必须为24位或32位
 var aesHash = AESEncryption.Encrypt("百小僧", key); // 加密
 var str2 = AESEncryption.Decrypt(aesHash, key); // 解密
 return (aesHash, str2);
+```
+
+:::important 版本说明
+
+以下内容仅限 `Furion 4.8.8.11 +` 版本使用。
+
+:::
+
+对文件（含超大文件）进行加解密：
+
+```cs showLineNumbers {3,8}
+// 加密
+var originBytes = File.ReadAllBytes("xxx.rar"); // 读取源文件内容
+var encryptBytes = AESEncryption.Encrypt(originBytes, "123456");
+// 可以通过 encryptBytes.CopyToSave("xxx.加密.rar");   保存到磁盘
+
+// 解密
+var encryptBytes = File.ReadAllBytes("xxx.加密.rar"); // 读取加密文件内容
+var originBytes = AESEncryption.Decrypt(encryptBytes, "123456");
+// 可以通过 originBytes.CopyToSave("xxx.真实.rar");   保存到磁盘
 ```
 
 ### 20.3.4 `JWT` 加解密
