@@ -104,7 +104,7 @@ public static class StringEncryptionExtensions
     }
 
     /// <summary>
-    /// 字符串 AES 解密
+    /// 字节数组（文件） AES 解密
     /// </summary>
     /// <param name="bytes"></param>
     /// <param name="skey"></param>
