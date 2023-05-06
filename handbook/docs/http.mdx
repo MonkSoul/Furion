@@ -397,7 +397,7 @@ await "https://furion.baiqian.ltd/".OnRequesting((client, req) => {
 ```cs showLineNumbers
 await "https://furion.baiqian.ltd/".OnClientCreating(client => {
     // client 为 HttpClient 对象
-    client.Timeout = 30000; // 设置超时时间
+    client.Timeout = TimeSpan.FromSeconds(30); // 设置超时时间
 });
 ```
 
