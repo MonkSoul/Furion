@@ -126,16 +126,16 @@ public class AESEncryption
         using var aesAlg = Aes.Create();
         using var memoryStream = new MemoryStream(bytes);
         using var cryptoStream = new CryptoStream(memoryStream, aesAlg.CreateDecryptor(bKey, bVector), CryptoStreamMode.Read);
-        using var originalMemoryStream = new MemoryStream();
+        using var originalStream = new MemoryStream();
 
         var buffer = new byte[1024];
         var readBytes = 0;
 
         while ((readBytes = cryptoStream.Read(buffer, 0, buffer.Length)) > 0)
         {
-            originalMemoryStream.Write(buffer, 0, readBytes);
+            originalStream.Write(buffer, 0, readBytes);
         }
 
-        return originalMemoryStream.ToArray();
+        return originalStream.ToArray();
     }
 }
