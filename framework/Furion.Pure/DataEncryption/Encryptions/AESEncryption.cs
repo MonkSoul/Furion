@@ -33,27 +33,25 @@ public class AESEncryption
     /// <returns></returns>
     public static string Encrypt(string text, string skey)
     {
-        var encryptKey = Encoding.UTF8.GetBytes(skey);
+        var bKey = Encoding.UTF8.GetBytes(skey);
 
         using var aesAlg = Aes.Create();
-        using var encryptor = aesAlg.CreateEncryptor(encryptKey, aesAlg.IV);
+        using var encryptor = aesAlg.CreateEncryptor(bKey, aesAlg.IV);
         using var msEncrypt = new MemoryStream();
         using (var csEncrypt = new CryptoStream(msEncrypt, encryptor, CryptoStreamMode.Write, true))
-
         using (var swEncrypt = new StreamWriter(csEncrypt, leaveOpen: true))
         {
             swEncrypt.Write(text);
         }
 
-        var iv = aesAlg.IV;
-        var dataLength = iv.Length + (int)msEncrypt.Length;
+        var bVector = aesAlg.IV;
+        var dataLength = bVector.Length + (int)msEncrypt.Length;
         var decryptedContent = msEncrypt.GetBuffer();
         var base64Length = Base64.GetMaxEncodedToUtf8Length(dataLength);
         var result = new byte[base64Length];
 
-        Unsafe.CopyBlock(ref result[0], ref iv[0], (uint)iv.Length);
-        Unsafe.CopyBlock(ref result[iv.Length], ref decryptedContent[0], (uint)msEncrypt.Length);
-
+        Unsafe.CopyBlock(ref result[0], ref bVector[0], (uint)bVector.Length);
+        Unsafe.CopyBlock(ref result[bVector.Length], ref decryptedContent[0], (uint)msEncrypt.Length);
         Base64.EncodeToUtf8InPlace(result, dataLength, out base64Length);
 
         return Encoding.ASCII.GetString(result.AsSpan()[..base64Length]);
@@ -69,18 +67,19 @@ public class AESEncryption
     {
         var fullCipher = Convert.FromBase64String(hash);
 
-        var iv = new byte[16];
-        var cipher = new byte[fullCipher.Length - iv.Length];
+        var bVector = new byte[16];
+        var cipher = new byte[fullCipher.Length - bVector.Length];
 
-        Unsafe.CopyBlock(ref iv[0], ref fullCipher[0], (uint)iv.Length);
-        Unsafe.CopyBlock(ref cipher[0], ref fullCipher[iv.Length], (uint)(fullCipher.Length - iv.Length));
-        var decryptKey = Encoding.UTF8.GetBytes(skey);
+        Unsafe.CopyBlock(ref bVector[0], ref fullCipher[0], (uint)bVector.Length);
+        Unsafe.CopyBlock(ref cipher[0], ref fullCipher[bVector.Length], (uint)(fullCipher.Length - bVector.Length));
+        var bKey = Encoding.UTF8.GetBytes(skey);
 
         using var aesAlg = Aes.Create();
-        using var decryptor = aesAlg.CreateDecryptor(decryptKey, iv);
+        using var decryptor = aesAlg.CreateDecryptor(bKey, bVector);
         using var msDecrypt = new MemoryStream(cipher);
         using var csDecrypt = new CryptoStream(msDecrypt, decryptor, CryptoStreamMode.Read);
         using var srDecrypt = new StreamReader(csDecrypt);
+
         return srDecrypt.ReadToEnd();
     }
 
@@ -95,28 +94,18 @@ public class AESEncryption
         var bKey = new byte[32];
         Array.Copy(Encoding.UTF8.GetBytes(skey.PadRight(bKey.Length)), bKey, bKey.Length);
 
-        var vector = MD5Encryption.Encrypt(skey, is16: true);
+        var vector = MD5Encryption.Encrypt(skey, false, is16: true);
         var bVector = new byte[16];
         Array.Copy(Encoding.UTF8.GetBytes(vector.PadRight(bVector.Length)), bVector, bVector.Length);
 
-        byte[] cryptograph = null;
-        var Aes = Rijndael.Create();
+        using var aesAlg = Aes.Create();
+        using var memoryStream = new MemoryStream();
+        using var cryptoStream = new CryptoStream(memoryStream, aesAlg.CreateEncryptor(bKey, bVector), CryptoStreamMode.Write);
 
-        try
-        {
-            using var memoryStream = new MemoryStream();
-            using var cryptoStream = new CryptoStream(memoryStream, Aes.CreateEncryptor(bKey, bVector), CryptoStreamMode.Write);
+        cryptoStream.Write(bytes, 0, bytes.Length);
+        cryptoStream.FlushFinalBlock();
 
-            cryptoStream.Write(bytes, 0, bytes.Length);
-            cryptoStream.FlushFinalBlock();
-            cryptograph = memoryStream.ToArray();
-        }
-        catch
-        {
-            cryptograph = null;
-        }
-
-        return cryptograph;
+        return memoryStream.ToArray();
     }
 
     /// <summary>
@@ -130,34 +119,23 @@ public class AESEncryption
         var bKey = new byte[32];
         Array.Copy(Encoding.UTF8.GetBytes(skey.PadRight(bKey.Length)), bKey, bKey.Length);
 
-        var vector = MD5Encryption.Encrypt(skey, is16: true);
+        var vector = MD5Encryption.Encrypt(skey, false, is16: true);
         var bVector = new byte[16];
         Array.Copy(Encoding.UTF8.GetBytes(vector.PadRight(bVector.Length)), bVector, bVector.Length);
 
-        byte[] original = null;
-        var Aes = Rijndael.Create();
+        using var aesAlg = Aes.Create();
+        using var memoryStream = new MemoryStream(bytes);
+        using var cryptoStream = new CryptoStream(memoryStream, aesAlg.CreateDecryptor(bKey, bVector), CryptoStreamMode.Read);
+        using var originalMemoryStream = new MemoryStream();
 
-        try
+        var buffer = new byte[1024];
+        var readBytes = 0;
+
+        while ((readBytes = cryptoStream.Read(buffer, 0, buffer.Length)) > 0)
         {
-            using var memoryStream = new MemoryStream(bytes);
-            using var cryptoStream = new CryptoStream(memoryStream, Aes.CreateDecryptor(bKey, bVector), CryptoStreamMode.Read);
-            using var originalMemoryStream = new MemoryStream();
-
-            var Buffer = new byte[1024];
-            var readBytes = 0;
-
-            while ((readBytes = cryptoStream.Read(Buffer, 0, Buffer.Length)) > 0)
-            {
-                originalMemoryStream.Write(Buffer, 0, readBytes);
-            }
-
-            original = originalMemoryStream.ToArray();
-        }
-        catch
-        {
-            original = null;
+            originalMemoryStream.Write(buffer, 0, readBytes);
         }
 
-        return original;
+        return originalMemoryStream.ToArray();
     }
 }

@@ -21,7 +21,7 @@ namespace Furion.DataEncryption.Extensions;
 public static class StringEncryptionExtensions
 {
     /// <summary>
-    /// 字符串的 MD5
+    /// 字符串的 MD5 加密
     /// </summary>
     /// <param name="text"></param>
     /// <param name="uppercase">是否输出大写加密，默认 false</param>
@@ -33,7 +33,7 @@ public static class StringEncryptionExtensions
     }
 
     /// <summary>
-    /// 字符串的 MD5
+    /// 字符串的 MD5 对比
     /// </summary>
     /// <param name="text"></param>
     /// <param name="hash"></param>
@@ -46,7 +46,7 @@ public static class StringEncryptionExtensions
     }
 
     /// <summary>
-    /// 字节数组的 MD5
+    /// 字节数组的 MD5 加密
     /// </summary>
     /// <param name="bytes"></param>
     /// <param name="uppercase">是否输出大写加密，默认 false</param>
@@ -58,7 +58,7 @@ public static class StringEncryptionExtensions
     }
 
     /// <summary>
-    /// 字节数组的 MD5
+    /// 字节数组的 MD5 对比
     /// </summary>
     /// <param name="bytes"></param>
     /// <param name="hash"></param>
