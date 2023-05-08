@@ -65,4 +65,12 @@ public partial interface ISchedulerFactory
     /// <param name="trigger">作业触发器</param>
     /// <param name="behavior">作业持久化行为</param>
     void Shorthand(JobDetail jobDetail, Trigger trigger, PersistenceBehavior behavior = PersistenceBehavior.Updated);
+
+    /// <summary>
+    /// 创建作业处理程序实例
+    /// </summary>
+    /// <param name="serviceProvider">服务提供器</param>
+    /// <param name="context"><see cref="JobFactoryContext"/> 上下文</param>
+    /// <returns><see cref="IJob"/></returns>
+    IJob CreateJob(IServiceProvider serviceProvider, JobFactoryContext context);
 }

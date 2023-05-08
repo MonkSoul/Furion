@@ -7,7 +7,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System.Text.Json;
-using System.Threading.Tasks;
 
 namespace Furion.Web.Core;
 
@@ -76,6 +75,7 @@ public sealed class Startup : AppStartup
             //}, Triggers.PeriodSeconds(2));
 
             options.AddJob<TestJob>(Triggers.PeriodHours(1).SetMaxNumberOfRuns(2), Triggers.PeriodSeconds(4));
+            //options.AddJobFactory<JobFactory>();
         });
 
         // 新版本任务队列

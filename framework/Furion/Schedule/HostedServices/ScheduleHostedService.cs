@@ -115,7 +115,7 @@ internal sealed class ScheduleHostedService : BackgroundService
     /// </summary>
     /// <param name="stoppingToken">后台主机服务停止时取消任务 Token</param>
     /// <returns><see cref="Task"/> 实例</returns>
-    protected async override Task ExecuteAsync(CancellationToken stoppingToken)
+    protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
         _logger.LogInformation("Schedule hosted service is running.");
 
@@ -169,7 +169,6 @@ internal sealed class ScheduleHostedService : BackgroundService
             // 解构参数
             var jobId = scheduler.JobId;
             var jobDetail = scheduler.JobDetail;
-            var jobHandler = scheduler.JobHandler;
             var jobLogger = scheduler.JobLogger;
             var triggersThatShouldRun = scheduler.Triggers;
 
@@ -214,8 +213,15 @@ internal sealed class ScheduleHostedService : BackgroundService
                         // 执行异常对象
                         InvalidOperationException executionException = default;
 
+                        // 作业处理程序
+                        IJob jobHandler = null;
+                        var serviceScoped = _serviceProvider.CreateScope();
+
                         try
                         {
+                            // 创建作业处理程序实例
+                            jobHandler = _schedulerFactory.CreateJob(serviceScoped.ServiceProvider, new JobFactoryContext(jobId, jobDetail.RuntimeJobType));
+
                             // 调用执行前监视器
                             if (Monitor != default)
                             {
@@ -302,7 +308,7 @@ internal sealed class ScheduleHostedService : BackgroundService
                                 };
 
                                 // 是否定义 FallbackAsync 方法
-                                var isDefinedFallbackAsyncMethod = jobHandler.GetType().GetMethod(nameof(IJob.FallbackAsync)
+                                var isDefinedFallbackAsyncMethod = jobHandler != null && jobHandler.GetType().GetMethod(nameof(IJob.FallbackAsync)
                                     , BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly
                                     , null
                                     , new[] { typeof(JobExecutedContext), typeof(CancellationToken) }
@@ -351,6 +357,9 @@ internal sealed class ScheduleHostedService : BackgroundService
 
                             // 记录作业触发器运行信息
                             trigger.RecordTimeline();
+
+                            // 释放服务作用域
+                            serviceScoped.Dispose();
                         }
                     }, stoppingToken);
                 });

@@ -188,7 +188,6 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory
                  {
                      Factory = s.Factory,
                      Logger = s.Logger,
-                     JobHandler = s.JobHandler,
                      JobLogger = s.JobLogger,
                      UseUtcTimestamp = s.UseUtcTimestamp
                  });
@@ -201,7 +200,6 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory
                 {
                     Factory = s.Factory,
                     Logger = s.Logger,
-                    JobHandler = s.JobHandler,
                     JobLogger = s.JobLogger,
                     UseUtcTimestamp = s.UseUtcTimestamp
                 });
@@ -315,6 +313,27 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory
             catch (InvalidOperationException) { }
             catch { }
         }
+    }
+
+    /// <summary>
+    /// 创建作业处理程序实例
+    /// </summary>
+    /// <param name="serviceProvider">服务提供器</param>
+    /// <param name="context"><see cref="JobFactoryContext"/> 上下文</param>
+    /// <returns><see cref="IJob"/></returns>
+    public IJob CreateJob(IServiceProvider serviceProvider, JobFactoryContext context)
+    {
+        var jobFactory = _serviceProvider.GetService<IJobFactory>();
+
+        // 通过作业处理程序工厂创建
+        var jobHandler = jobFactory?.CreateJob(serviceProvider, context);
+        if (jobHandler != null) return jobHandler;
+
+        var provider = jobFactory == null ? _serviceProvider : serviceProvider;
+        jobHandler = (provider.GetService(context.JobType)
+            ?? ActivatorUtilities.CreateInstance(provider, context.JobType)) as IJob;
+
+        return jobHandler;
     }
 
     /// <summary>
