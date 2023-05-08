@@ -229,7 +229,7 @@ Log.Critical("Critical");
 
 "程序出现异常啦".LogError<HomeController>();
 
-"这是自定义类别日志".SetCategory("类别").LogInformation();
+"这是自定义类别日志".SetCategory<HomeController>().LogInformation();
 ```
 
 通过字符串拓展方式可以在任何时候方便记录日志，专门为懒人提供的。
