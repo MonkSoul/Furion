@@ -55,11 +55,6 @@ internal sealed partial class Scheduler : IScheduler
     internal Dictionary<string, Trigger> Triggers { get; private set; } = new();
 
     /// <summary>
-    /// 作业处理程序实例
-    /// </summary>
-    internal IJob JobHandler { get; set; }
-
-    /// <summary>
     /// 作业计划工厂
     /// </summary>
     internal ISchedulerFactory Factory { get; set; }

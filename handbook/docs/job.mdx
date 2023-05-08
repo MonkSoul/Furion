@@ -13,6 +13,7 @@ import Tag from "@site/src/components/Tag.js";
 
 - **新特性**
 
+  - &nbsp;<Tag>新增</Tag> 定时任务作业处理程序工厂 `IJobFactory` 支持 <sup>4.8.8.13</sup> <sup>⏱️2023.05.08</sup> [ad58dd3](https://gitee.com/dotnetchina/Furion/commit/ad58dd3141ed40e58cd486895ac6c1f21803797c)
   - &nbsp;<Tag>新增</Tag> 定时任务 `Schedular.CompileCSharpClassCode(code)` 支持动态编译作业处理程序代码 <sup>4.8.8.7</sup> <sup>⏱️2023.04.30</sup> [fe1e8a1](https://gitee.com/dotnetchina/Furion/commit/fe1e8a1768c7020477684689b35a2a1349ec2b01)
   - &nbsp;<Tag>新增</Tag> 定时任务支持配置 `IJob` 执行异常 `FallbackAsync` 回退策略 <sup>4.8.8.6</sup> <sup>⏱️2023.04.25</sup> [7671489](https://gitee.com/dotnetchina/Furion/commit/7671489a46ec7c957e92b7fbf9836e27f9077e24)
   - &nbsp;<Tag>新增</Tag> 定时任务支持在非 `IOC/DI` 项目类型中使用 <sup>4.8.8.5</sup> <sup>⏱️2023.04.24</sup> [#I6YJNB](https://gitee.com/dotnetchina/Sundial/issues/I6YJNB)
@@ -1637,7 +1638,59 @@ public class MyJob : IJob
   - `.ConvertToJSON(naming)`：将上下文转换成 `JSON` 字符串
   - `.ToString()`：输出为字符串
 
-### 26.1.4.3 依赖注入
+### 26.1.4.3 作业处理程序实例
+
+:::important 版本说明
+
+以下内容仅限 `Furion 4.8.8.13 +` 版本使用。
+
+:::
+
+默认情况下，作业处理程序会在作业触发器符合触发条件下通过 `ActivatorUtilities.CreateInstance` 动态创建，也就是**每次触发都会创建新的 `IJob` 实例**，如：
+
+```cs showLineNumbers
+var jobHandler = ActivatorUtilities.CreateInstance(_serviceProvider, jobType);
+```
+
+其中 `_serviceProvider` 是**单例服务提供器**，所以 `IJob` 实现类只能通过构造函数注入 `单例服务`。如果没有范围作用域服务的需求，那么可以将 `IJob` 注册为单例服务，**这样就可以避免每次重复创建 `IJob` 实例，对性能和减少内存占用有不小优化。** 如：
+
+```cs showLineNumbers
+services.AddSingleton<YourJob>();
+```
+
+**如果希望能够在构造函数注入范围作用域或瞬时作用域**，可实现 `IJobFactory` 接口，如：
+
+```cs showLineNumbers {6,8-10,12-13}
+using Furion.Schedule;
+using Microsoft.Extensions.DependencyInjection;
+
+namespace Furion.Application;
+
+public class JobFactory : IJobFactory
+{
+    public IJob CreateJob(IServiceProvider serviceProvider, JobFactoryContext context)
+    {
+        return ActivatorUtilities.CreateInstance(serviceProvider, context.JobType) as IJob;
+
+        // 如果通过 services.AddSingleton<YourJob>(); 或 serivces.AddScoped<YourJob>(); 或 services.AddTransient<YourJob> 可通过下列方式
+        // return serviceProvider.GetRequiredService(context.JobType) as IJob;
+    }
+}
+```
+
+之后注册 `JobFactory` 即可，如：
+
+```cs showLineNumbers {4}
+services.AddSchedule(options =>
+{
+      // 添加作业处理程序工厂
+      options.AddJobFactory<JobFactory>();
+});
+```
+
+这样作业就可以注入范围和瞬时服务了。
+
+### 26.1.4.4 依赖注入
 
 实现 `IJob` 的作业处理程序类型默认注册为 `单例`，**那么只要是单例的服务，皆可以通过构造函数注入**，如：`ILogger<>`，`IConfiguration`。
 
@@ -1663,6 +1716,12 @@ public class MyJob : IJob
 ```
 
 - **如果是非 `单例` 的接口，如 `瞬时` 或 `范围` 服务，可通过 `IServiceScopeFactory` 创建**
+
+:::tip 推荐 `IJobFactory` 方式
+
+`Furion 4.8.8.13+` 版本可以通过上一小节 `IJobFactory` 统一实现。**推荐**。
+
+:::
 
 ```cs showLineNumbers {5,9,18-19}
 public class MyJob : IJob
@@ -1692,6 +1751,12 @@ public class MyJob : IJob
 ```
 
 - **针对高频定时任务，比如每秒执行一次，或者更频繁的任务**
+
+:::tip 推荐 `IJobFactory` 方式
+
+`Furion 4.8.8.13+` 版本可以通过上一小节 `IJobFactory` 统一实现。**推荐**。
+
+:::
 
 为了避免频繁创建作用域和销毁作用域，可创建长范围的作用域。
 
@@ -1727,7 +1792,7 @@ public class MyJob : IJob, IDisposable
 }
 ```
 
-### 26.1.4.4 动态作业 `DynamicJob`
+### 26.1.4.5 动态作业 `DynamicJob`
 
 框架提供了便捷的动态作业 `DynamicJob` 类型，可通过 `Func<JobExecutingContext, CancellationToken, Task>` 委托传入，无需创建 `IJob` 实现类型。
 
@@ -1796,7 +1861,7 @@ info: 2022-12-04 12:26:33.8531796 +08:00 星期日 L System.Logging.DynamicJob[0
 
 :::
 
-### 26.1.4.5 使用 `Roslyn` 动态创建
+### 26.1.4.6 使用 `Roslyn` 动态创建
 
 :::important 版本说明
 
@@ -1884,7 +1949,7 @@ info: 2022-12-04 12:38:15.6925578 +08:00 星期日 L YourProject.MyJob[0] #11
 
 :::
 
-### 26.1.4.6 作业执行异常处理
+### 26.1.4.7 作业执行异常处理
 
 正常情况下，程序员应该保证作业执行程序总是稳定运行，但有时候会出现一些不可避免的意外导致出现异常，如网络异常等。
 
@@ -2013,7 +2078,7 @@ fail: 2023-04-22 22:25:07.3754596 +08:00 星期六 L System.Logging.ScheduleServ
 
 :::
 
-### 26.1.4.7 作业执行异常回退策略
+### 26.1.4.8 作业执行异常回退策略
 
 :::important 版本说明
 
@@ -2158,7 +2223,7 @@ warn: 2023-04-25 17:25:02.4212180 +08:00 星期二 L Furion.Application.TestJob[
       <job1> [C] <job1 job1_trigger2> 4s 4ts 2023-04-25 17:25:02.411 -> 2023-04-25 17:25:06.388
 ```
 
-### 26.1.4.8 作业调度器被取消处理
+### 26.1.4.9 作业调度器被取消处理
 
 一般情况下，作业调度器意外关闭或手动关闭，但作业处理程序异步操作还未处理完成，这个时候我们可以选择取消还是继续执行，如果选择取消：
 
@@ -2223,7 +2288,7 @@ crit: 2022-12-04 12:49:10.4360088 +08:00 星期日 L System.Logging.ScheduleServ
       Schedule hosted service is stopped.
 ```
 
-### 26.1.4.9 设置本次执行结果
+### 26.1.4.10 设置本次执行结果
 
 :::important 版本说明
 
@@ -2254,7 +2319,7 @@ public class MyJob : IJob
 }
 ```
 
-### 26.1.4.10 `HTTP` 请求作业
+### 26.1.4.11 `HTTP` 请求作业
 
 :::important 版本说明
 
@@ -2445,7 +2510,7 @@ services.AddSchedule(options =>
 });
 ```
 
-### 26.1.4.11 设置本次执行结果
+### 26.1.4.12 设置本次执行结果
 
 :::important 版本说明
 

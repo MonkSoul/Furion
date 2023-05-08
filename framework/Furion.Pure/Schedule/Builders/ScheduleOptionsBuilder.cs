@@ -49,6 +49,11 @@ public sealed class ScheduleOptionsBuilder
     private Type _jobClusterServer;
 
     /// <summary>
+    /// 作业处理程序工厂
+    /// </summary>
+    private Type _jobFactory;
+
+    /// <summary>
     /// 未察觉任务异常事件处理程序
     /// </summary>
     public EventHandler<UnobservedTaskExceptionEventArgs> UnobservedTaskExceptionHandler { get; set; }
@@ -453,6 +458,18 @@ public sealed class ScheduleOptionsBuilder
     }
 
     /// <summary>
+    /// 注册作业处理程序工厂
+    /// </summary>
+    /// <typeparam name="TJobFactory">实现自 <see cref="IJobFactory"/></typeparam>
+    /// <returns><see cref="ScheduleOptionsBuilder"/> 实例</returns>
+    public ScheduleOptionsBuilder AddJobFactory<TJobFactory>()
+        where TJobFactory : class, IJobFactory
+    {
+        _jobFactory = typeof(TJobFactory);
+        return this;
+    }
+
+    /// <summary>
     /// 构建作业调度器配置选项
     /// </summary>
     /// <param name="services"><see cref="IServiceCollection"/></param>
@@ -486,6 +503,12 @@ public sealed class ScheduleOptionsBuilder
                 : Assembly.GetEntryAssembly()?.GetName()?.Name ?? "cluster1";
 
             services.AddSingleton(typeof(IJobClusterServer), _jobClusterServer);
+        }
+
+        // 注册作业处理程序工厂
+        if (_jobFactory != default)
+        {
+            services.AddSingleton(typeof(IJobFactory), _jobFactory);
         }
 
         return _schedulerBuilders;

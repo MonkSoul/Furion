@@ -12,7 +12,6 @@
 // 在任何情况下，作者或版权持有人都不对任何索赔、损害或其他责任负责，无论这些追责来自合同、侵权或其它行为中，
 // 还是产生于、源于或有关于本软件以及本软件的使用或其它处置。
 
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
 namespace Furion.Schedule;
@@ -36,7 +35,7 @@ internal sealed partial class SchedulerFactory
 
         return !active
             ? jobs
-            : jobs.Where(s => s.JobDetail.RuntimeJobType != null && s.JobHandler != null);
+            : jobs.Where(s => s.JobDetail.RuntimeJobType != null);
     }
 
     /// <summary>
@@ -188,20 +187,13 @@ internal sealed partial class SchedulerFactory
                 ? newScheduler.JobDetail.RuntimeJobType
                 : typeof(DynamicJob);
 
-            if (runtimeJobType != null)
+            // 是否启用作业详细执行日志
+            if (runtimeJobType != null && JobDetailOptions.InternalLogEnabled)
             {
-                newScheduler.JobHandler = null;    // 释放引用
-                newScheduler.JobHandler = (_serviceProvider.GetService(runtimeJobType)
-                    ?? ActivatorUtilities.CreateInstance(_serviceProvider, runtimeJobType)) as IJob;
-
-                // 是否启用作业详细执行日志
-                if (JobDetailOptions.InternalLogEnabled)
-                {
-                    // 初始化作业类型日志对象
-                    newScheduler.JobLogger = null;   // 释放引用
-                    newScheduler.JobLogger = _serviceProvider.GetService(
-                        typeof(ILogger<>).MakeGenericType(runtimeJobType)) as ILogger;
-                }
+                // 初始化作业类型日志对象
+                newScheduler.JobLogger = null;   // 释放引用
+                newScheduler.JobLogger = _serviceProvider.GetService(
+                    typeof(ILogger<>).MakeGenericType(runtimeJobType)) as ILogger;
             }
 
             // 存储标记已被删除的触发器
