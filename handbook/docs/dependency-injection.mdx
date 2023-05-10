@@ -923,6 +923,16 @@ private void button1_Click(object sender, EventArgs e)
 }
 ```
 
+:::tip 获取打开窗口实例
+
+`Native.CreateInstance<>` 每次都会创建新的实例，如果只是想获取打开的窗口的实例可通过以下方式：
+
+```cs showLineNumbers
+var form1 = Application.OpenForms.OfType<Form>().FirstOrDefault(f => f is Form1);
+```
+
+:::
+
 ### 12.14.2 在 `WPF` 中使用
 
 - 修改 `App.xaml` 代码并删除 `StartupUri="MainWindow.xaml"` 属性
@@ -1026,6 +1036,16 @@ private void Button_Click(object sender, RoutedEventArgs e)
     Native.CreateInstance<Window1>("我是其他参数").Show();
 }
 ```
+
+:::tip 获取打开窗口实例
+
+`Native.CreateInstance<>` 每次都会创建新的实例，如果只是想获取打开的窗口的实例可通过以下方式：
+
+```cs showLineNumbers
+var window1 = Application.Current.Windows.OfType<Window>().FirstOrDefault(w => w is MainWindow);
+```
+
+:::
 
 ### 12.14.3 `Native.CreateInstance<T>()` 静态方法
 
