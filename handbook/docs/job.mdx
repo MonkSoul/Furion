@@ -6462,7 +6462,52 @@ app.UseScheduleUI(options =>
 
 :::
 
-### 26.1.16.1 看板配置选项
+### 26.1.16.1 在 `Worker Service` 中注册
+
+默认情况下，`Worker Service` 不提供 `Web` 功能，那么自然而然不能提供 `Web` 看板功能，如果想使其支持，可通过以下步骤：
+
+1. 添加日志配置（`appsettings.json` 和 `appsettings.Development.json`
+
+```json showLineNumbers {6-7}
+{
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft.Hosting.Lifetime": "Information",
+      "Microsoft.AspNetCore": "Warning",
+      "System.Net.Http.HttpClient": "Warning"
+    }
+  }
+}
+```
+
+2. 注册中间件服务
+
+```cs showLineNumbers {8,11-18}
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using WorkerService1;
+
+IHost host = Host.CreateDefaultBuilder(args)
+    .ConfigureServices(services =>
+    {
+        services.AddSchedule();
+        services.AddHostedService<Worker>();
+    })
+    .ConfigureWebHostDefaults(builder =>
+    {
+        builder.Configure(app =>
+        {
+            app.UseStaticFiles();
+            app.UseScheduleUI();
+        });
+    })
+    .Build();
+
+host.Run();
+```
+
+### 26.1.16.2 看板配置选项
 
 `app.UseScheduleUI` 提供了可选的 `ScheduleUIOptions` 配置选项，提供以下配置：
 
