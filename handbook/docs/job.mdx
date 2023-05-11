@@ -6483,7 +6483,7 @@ app.UseScheduleUI(options =>
 
 2. 注册中间件服务
 
-```cs showLineNumbers {8,11-18}
+```cs showLineNumbers {8,11-15}
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using WorkerService1;
@@ -6494,14 +6494,11 @@ IHost host = Host.CreateDefaultBuilder(args)
         services.AddSchedule();
         services.AddHostedService<Worker>();
     })
-    .ConfigureWebHostDefaults(builder =>
+    .ConfigureWebHostDefaults(builder => builder.Configure(app =>
     {
-        builder.Configure(app =>
-        {
-            app.UseStaticFiles();
-            app.UseScheduleUI();
-        });
-    })
+        app.UseStaticFiles();
+        app.UseScheduleUI();
+    }))
     .Build();
 
 host.Run();
