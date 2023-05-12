@@ -662,18 +662,16 @@ public sealed partial class HttpRequestPart
             var statusCode = (int)(response?.StatusCode ?? HttpStatusCode.InternalServerError);
 
             // 打印失败请求
-            App.PrintToMiniProfiler(MiniProfilerCategory, "Failed", $"[StatusCode: {statusCode}] {errors}", true);
+            App.PrintToMiniProfiler(MiniProfilerCategory, "Failed", $"[StatusCode: {statusCode}] {errors}", exception != null);
 
-            // 抛出异常
-            if (ExceptionInterceptors == null || ExceptionInterceptors.Count == 0)
-            {
-                throw new HttpRequestException(errors, null, response?.StatusCode);
-            }
             // 调用异常拦截器
-            else ExceptionInterceptors.ForEach(u =>
+            if (ExceptionInterceptors != null && ExceptionInterceptors.Count > 0) ExceptionInterceptors.ForEach(u =>
             {
                 u?.Invoke(httpClient, response, errors);
             });
+
+            // 抛出请求异常
+            if (exception != null) throw exception;
         }
 
         return response;
