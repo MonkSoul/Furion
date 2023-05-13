@@ -1659,6 +1659,19 @@ var response = await _http.GetAsync();
 var cookies = response.GetCookies();
 ```
 
+:::important 重复 `Key` 处理
+
+**由于 `Cookies` 是支持重复 `Key` 的，所以通过索引方式如 `cookies[key]` 会抛出异常**，这时可以通过 `.Lookup()` 进行分组处理然后返回新的字典集合，如：
+
+```cs showLineNumbers {1-2,4}
+var dicCookies = cookies.ToLookup(u => u.Key, u => u.Value)
+                        .ToDictionary(u => u.Key, u => u.First()); // 取重复第一个 .First();
+
+var cookie1 = dicCookies["key"];
+```
+
+:::
+
 ## 19.14 在 `WinForm/WPF` 中使用
 
 远程请求可在 `WinForm/WPF` 中使用，只需要将方法/事件标记为 `async` 即可。
