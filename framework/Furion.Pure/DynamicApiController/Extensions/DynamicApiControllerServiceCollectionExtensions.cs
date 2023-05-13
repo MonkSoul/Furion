@@ -74,6 +74,11 @@ public static class DynamicApiControllerServiceCollectionExtensions
         // 添加控制器特性提供器
         partManager.FeatureProviders.Add(new DynamicApiControllerFeatureProvider());
 
+        // 添加动态 WebAPI 运行时感知服务
+        services.AddSingleton<MvcActionDescriptorChangeProvider>()
+                .AddSingleton<IActionDescriptorChangeProvider>(provider => provider.GetRequiredService<MvcActionDescriptorChangeProvider>());
+        services.AddSingleton<IDynamicApiRuntimeChangeProvider, DynamicApiRuntimeChangeProvider>();
+
         // 添加配置
         services.AddConfigurableOptions<DynamicApiControllerSettingsOptions>();
 
@@ -86,11 +91,6 @@ public static class DynamicApiControllerServiceCollectionExtensions
             // 添加 text/plain 请求 Body 参数支持
             options.InputFormatters.Add(new TextPlainMediaTypeFormatter());
         });
-
-        // 添加动态 WebAPI 运行时感知服务
-        services.AddSingleton<MvcActionDescriptorChangeProvider>()
-                .AddSingleton<IActionDescriptorChangeProvider>(provider => provider.GetRequiredService<MvcActionDescriptorChangeProvider>());
-        services.AddSingleton<IDynamicApiRuntimeChangeProvider, DynamicApiRuntimeChangeProvider>();
 
         return services;
     }

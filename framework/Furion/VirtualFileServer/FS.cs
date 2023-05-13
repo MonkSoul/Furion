@@ -84,7 +84,6 @@ public static class FS
         fileExtensionProvider.Mappings[".gzip"] = "application/x-gzip";
         fileExtensionProvider.Mappings[".7zip"] = "application/zip";
         fileExtensionProvider.Mappings[".jpg2"] = "image/jp2";
-        fileExtensionProvider.Mappings[".wps"] = "application/kswps";
         fileExtensionProvider.Mappings[".et"] = "application/kset";
         fileExtensionProvider.Mappings[".dps"] = "application/ksdps";
         fileExtensionProvider.Mappings[".cdr"] = "application/x-coreldraw";
@@ -97,7 +96,6 @@ public static class FS
         fileExtensionProvider.Mappings[".bcmap"] = "application/octet-stream";
         fileExtensionProvider.Mappings[".properties"] = "application/octet-stream";
         fileExtensionProvider.Mappings[".m3u8"] = "application/x-mpegURL";
-        fileExtensionProvider.Mappings[".ts"] = "video/MP2T";
         return fileExtensionProvider;
     }
 }
