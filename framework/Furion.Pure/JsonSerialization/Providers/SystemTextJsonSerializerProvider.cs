@@ -68,7 +68,7 @@ public class SystemTextJsonSerializerProvider : IJsonSerializerProvider, ISingle
     /// <param name="returnType"></param>
     /// <param name="jsonSerializerOptions"></param>
     /// <returns></returns>
-    public object Deserialize(string json,Type returnType, object jsonSerializerOptions = null)
+    public object Deserialize(string json, Type returnType, object jsonSerializerOptions = null)
     {
         return JsonSerializer.Deserialize(json, returnType, (jsonSerializerOptions ?? GetSerializerOptions()) as JsonSerializerOptions);
     }
