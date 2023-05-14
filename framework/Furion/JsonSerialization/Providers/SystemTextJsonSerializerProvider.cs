@@ -1,4 +1,4 @@
-﻿// MIT 许可证
+// MIT 许可证
 //
 // 版权 © 2020-present 百小僧, 百签科技（广东）有限公司 和所有贡献者
 //
@@ -59,6 +59,18 @@ public class SystemTextJsonSerializerProvider : IJsonSerializerProvider, ISingle
     public T Deserialize<T>(string json, object jsonSerializerOptions = null)
     {
         return JsonSerializer.Deserialize<T>(json, (jsonSerializerOptions ?? GetSerializerOptions()) as JsonSerializerOptions);
+    }
+
+    /// <summary>
+    /// 反序列化字符串
+    /// </summary>
+    /// <param name="json"></param>
+    /// <param name="returnType"></param>
+    /// <param name="jsonSerializerOptions"></param>
+    /// <returns></returns>
+    public object Deserialize(string json, Type returnType, object jsonSerializerOptions = null)
+    {
+        return JsonSerializer.Deserialize(json, returnType, (jsonSerializerOptions ?? GetSerializerOptions()) as JsonSerializerOptions);
     }
 
     /// <summary>

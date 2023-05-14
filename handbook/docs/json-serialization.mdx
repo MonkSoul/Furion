@@ -15,6 +15,77 @@ import Tag from "@site/src/components/Tag.js";
 
   - &nbsp;<Tag>新增</Tag> `System.Text.Json` 和 `Newtonsoft.Json` 对粘土对象 `Clay` 支持 <sup>4.8.8.1</sup> <sup>⏱️2023.04.18</sup> [#I6WKRZ](https://gitee.com/dotnetchina/Furion/issues/I6WKRZ)
 
+- **突破性变化**
+
+  - &nbsp;<Tag>调整</Tag> `IJsonSerializerProvider` 序列化接口，添加 `Deserialize` 反序列化方法 <sup>4.8.8.15</sup> <sup>⏱️2023.05.14</sup> [!815](https://gitee.com/dotnetchina/Furion/pulls/815) 感谢 [@YaChengMu](https://gitee.com/YaChengMu)
+
+<details style={{ marginLeft: 50 }}>
+  <summary>查看变化</summary>
+  <div>
+
+添加 `25-32行` 接口方法：
+
+```cs showLineNumbers {25-32}
+namespace Furion.JsonSerialization;
+
+/// <summary>
+/// Json 序列化提供器
+/// </summary>
+public interface IJsonSerializerProvider
+{
+    /// <summary>
+    /// 序列化对象
+    /// </summary>
+    /// <param name="value"></param>
+    /// <param name="jsonSerializerOptions"></param>
+    /// <returns></returns>
+    string Serialize(object value, object jsonSerializerOptions = default);
+
+    /// <summary>
+    /// 反序列化字符串
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="json"></param>
+    /// <param name="jsonSerializerOptions"></param>
+    /// <returns></returns>
+    T Deserialize<T>(string json, object jsonSerializerOptions = default);
+
+    /// <summary>
+    /// 反序列化字符串
+    /// </summary>
+    /// <param name="json"></param>
+    /// <param name="returnType"></param>
+    /// <param name="jsonSerializerOptions"></param>
+    /// <returns></returns>
+    object Deserialize(string json, Type returnType, object jsonSerializerOptions = default);
+
+    /// <summary>
+    /// 返回读取全局配置的 JSON 选项
+    /// </summary>
+    /// <returns></returns>
+    object GetSerializerOptions();
+}
+```
+
+如果使用 `Newtonsoft.Json` 则只需添加以下实现即可：
+
+```cs showLineNumbers {8-11}
+/// <summary>
+/// 反序列化字符串
+/// </summary>
+/// <param name="json"></param>
+/// <param name="returnType"></param>
+/// <param name="jsonSerializerOptions"></param>
+/// <returns></returns>
+public object Deserialize(string json, Type returnType, object jsonSerializerOptions = null)
+{
+    return JsonConvert.DeserializeObject(json, returnType, (jsonSerializerOptions ?? GetSerializerOptions()) as JsonSerializerSettings);
+}
+```
+
+  </div>
+</details>
+
 </div>
   </div>
 </details>
@@ -201,49 +272,59 @@ services.AddControllersWithViews()
 
 2. 实现 `IJsonSerializerProvider` 提供器
 
-```cs showLineNumbers  {10}
-using Furion.DependencyInjection;
+```cs showLineNumbers {9}
 using Furion.JsonSerialization;
 using Newtonsoft.Json;
 
-namespace Furion.Core
+namespace Furion.Core;
+
+/// <summary>
+/// Newtonsoft.Json 实现
+/// </summary>
+public class NewtonsoftJsonSerializerProvider : IJsonSerializerProvider, ISingleton
 {
     /// <summary>
-    /// Newtonsoft.Json 实现
+    /// 序列化对象
     /// </summary>
-    public class NewtonsoftJsonSerializerProvider : IJsonSerializerProvider, ISingleton
+    /// <param name="value"></param>
+    /// <param name="jsonSerializerOptions"></param>
+    /// <returns></returns>
+    public string Serialize(object value, object jsonSerializerOptions = null)
     {
-        /// <summary>
-        /// 序列化对象
-        /// </summary>
-        /// <param name="value"></param>
-        /// <param name="jsonSerializerOptions"></param>
-        /// <returns></returns>
-        public string Serialize(object value, object jsonSerializerOptions = null)
-        {
-            return JsonConvert.SerializeObject(value, (jsonSerializerOptions ?? GetSerializerOptions()) as JsonSerializerSettings);
-        }
+        return JsonConvert.SerializeObject(value, (jsonSerializerOptions ?? GetSerializerOptions()) as JsonSerializerSettings);
+    }
 
-        /// <summary>
-        /// 反序列化字符串
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="json"></param>
-        /// <param name="jsonSerializerOptions"></param>
-        /// <returns></returns>
-        public T Deserialize<T>(string json, object jsonSerializerOptions = null)
-        {
-            return JsonConvert.DeserializeObject<T>(json, (jsonSerializerOptions ?? GetSerializerOptions()) as JsonSerializerSettings);
-        }
+    /// <summary>
+    /// 反序列化字符串
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="json"></param>
+    /// <param name="jsonSerializerOptions"></param>
+    /// <returns></returns>
+    public T Deserialize<T>(string json, object jsonSerializerOptions = null)
+    {
+        return JsonConvert.DeserializeObject<T>(json, (jsonSerializerOptions ?? GetSerializerOptions()) as JsonSerializerSettings);
+    }
 
-        /// <summary>
-        /// 返回读取全局配置的 JSON 选项
-        /// </summary>
-        /// <returns></returns>
-        public object GetSerializerOptions()
-        {
-            return App.GetOptions<MvcNewtonsoftJsonOptions>()?.SerializerSettings;
-        }
+    /// <summary>
+    /// 反序列化字符串
+    /// </summary>
+    /// <param name="json"></param>
+    /// <param name="returnType"></param>
+    /// <param name="jsonSerializerOptions"></param>
+    /// <returns></returns>
+    public object Deserialize(string json, Type returnType, object jsonSerializerOptions = null)
+    {
+        return JsonConvert.DeserializeObject(json, returnType, (jsonSerializerOptions ?? GetSerializerOptions()) as JsonSerializerSettings);
+    }
+
+    /// <summary>
+    /// 返回读取全局配置的 JSON 选项
+    /// </summary>
+    /// <returns></returns>
+    public object GetSerializerOptions()
+    {
+        return App.GetOptions<MvcNewtonsoftJsonOptions>()?.SerializerSettings;
     }
 }
 ```

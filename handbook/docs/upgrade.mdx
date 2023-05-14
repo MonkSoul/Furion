@@ -126,6 +126,77 @@ public class SomeClass : IDynamicApiController
 - - &nbsp;<Tag>新增</Tag> 粘土对象可反射转换成特定 `IEnumerable<T>` 类型：`clay.ConvertTo<T>()` <sup>4.8.8</sup> <sup>⏱️2023.04.13</sup> [5d54a65](https://gitee.com/dotnetchina/Furion/commit/5d54a6579be3d710649bb199dd985f60acaf9787)
 - - &nbsp;<Tag>新增</Tag> `Serve.IdleHost` 支持返回 `http` 和 `https` 协议 `Web` 地址（端口） <sup>4.8.8</sup> <sup>⏱️2023.04.13</sup> [fdf7885](https://gitee.com/dotnetchina/Furion/commit/fdf7885f282057599be6b1b3833373dd153db42a)
 
+- **突破性变化**
+
+  - &nbsp;<Tag>调整</Tag> `IJsonSerializerProvider` 序列化接口，添加 `Deserialize` 反序列化方法 <sup>4.8.8.15</sup> <sup>⏱️2023.05.14</sup> [!815](https://gitee.com/dotnetchina/Furion/pulls/815) 感谢 [@YaChengMu](https://gitee.com/YaChengMu)
+
+<details style={{ marginLeft: 50 }}>
+  <summary>查看变化</summary>
+  <div>
+
+添加 `25-32行` 接口方法：
+
+```cs showLineNumbers {25-32}
+namespace Furion.JsonSerialization;
+
+/// <summary>
+/// Json 序列化提供器
+/// </summary>
+public interface IJsonSerializerProvider
+{
+    /// <summary>
+    /// 序列化对象
+    /// </summary>
+    /// <param name="value"></param>
+    /// <param name="jsonSerializerOptions"></param>
+    /// <returns></returns>
+    string Serialize(object value, object jsonSerializerOptions = default);
+
+    /// <summary>
+    /// 反序列化字符串
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="json"></param>
+    /// <param name="jsonSerializerOptions"></param>
+    /// <returns></returns>
+    T Deserialize<T>(string json, object jsonSerializerOptions = default);
+
+    /// <summary>
+    /// 反序列化字符串
+    /// </summary>
+    /// <param name="json"></param>
+    /// <param name="returnType"></param>
+    /// <param name="jsonSerializerOptions"></param>
+    /// <returns></returns>
+    object Deserialize(string json, Type returnType, object jsonSerializerOptions = default);
+
+    /// <summary>
+    /// 返回读取全局配置的 JSON 选项
+    /// </summary>
+    /// <returns></returns>
+    object GetSerializerOptions();
+}
+```
+
+如果使用 `Newtonsoft.Json` 则只需添加以下实现即可：
+
+```cs showLineNumbers {8-11}
+/// <summary>
+/// 反序列化字符串
+/// </summary>
+/// <param name="json"></param>
+/// <param name="returnType"></param>
+/// <param name="jsonSerializerOptions"></param>
+/// <returns></returns>
+public object Deserialize(string json, Type returnType, object jsonSerializerOptions = null)
+{
+    return JsonConvert.DeserializeObject(json, returnType, (jsonSerializerOptions ?? GetSerializerOptions()) as JsonSerializerSettings);
+}
+```
+
+  </div>
+</details>
+
 - **问题修复**
 
   - &nbsp;<Tag>修复</Tag> 远程请求在被请求端返回非 `200` 状态码但实际请求已处理也抛异常问题 <sup>4.8.8.14</sup> <sup>⏱️2023.05.12</sup> [b14a51f](https://gitee.com/dotnetchina/Furion/commit/b14a51fd6f85a905da50729d521a2232b5c9afc1)
@@ -153,7 +224,7 @@ public class SomeClass : IDynamicApiController
   - 蒋状先生 ([@JiangZhuangXianSheng](https://gitee.com/JiangZhuangXianSheng)) [!806](https://gitee.com/dotnetchina/Furion/pulls/806)
   - NeoLu ([@neolu](https://gitee.com/neolu)) [!804](https://gitee.com/dotnetchina/Furion/pulls/804)
   - 蓝色天空 ([@lds2013](https://gitee.com/lds2013)) [!796](https://gitee.com/dotnetchina/Furion/pulls/796)
-  - YaChengMu ([@YaChengMu](https://gitee.com/YaChengMu)) [!788](https://gitee.com/dotnetchina/Furion/pulls/788)
+  - YaChengMu ([@YaChengMu](https://gitee.com/YaChengMu)) [!788](https://gitee.com/dotnetchina/Furion/pulls/788) [!815](https://gitee.com/dotnetchina/Furion/pulls/815)
 
 ---
 
@@ -596,7 +667,6 @@ public class Test3Service : IDynamicApiController
 - **突破性变化**
 
   - &nbsp;<Tag>升级</Tag> 适配 `.NET7.0.3` 和 `.NET6.0.14` <sup>4.8.6.3</sup> <sup>⏱️2023.02.15</sup> [eecbf83](https://gitee.com/dotnetchina/Furion/commit/eecbf83b4e3340ec83d54f675f0fe4f6623b0d11)
-
 - - &nbsp;<Tag>调整</Tag> **动态 `WebAPI` 生成路由 `[HttpMethod(template)]` 规则** <sup>4.8.5.7</sup> <sup>⏱️2023.02.03</sup> [#I6CLPT](https://gitee.com/dotnetchina/Furion/issues/I6CLPT)
 
 <details style={{ marginLeft: 50 }}>
