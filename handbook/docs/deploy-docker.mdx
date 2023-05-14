@@ -37,13 +37,13 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 - 👉 编写 `Dockerfile`
 
 ```bash showLineNumbers 
-FROM mcr.microsoft.com/dotnet/aspnet:5.0.9
+FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS runtime
 WORKDIR /app
 EXPOSE 80
 EXPOSE 443
 
 COPY . .
-ENTRYPOINT ["dotnet", "Furion.Web.Entry.dll"]
+ENTRYPOINT ["dotnet", "xxx.Web.Entry.dll"]
 ```
 
 - 👉 将 `Dockerfile` 文件拷贝到发布根目录
