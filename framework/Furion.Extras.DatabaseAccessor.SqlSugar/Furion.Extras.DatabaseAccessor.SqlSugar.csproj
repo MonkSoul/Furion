@@ -2,28 +2,28 @@
 
 	<PropertyGroup>
 		<TargetFrameworks>net5.0;net6.0;net7.0;net8.0</TargetFrameworks>
-		<Version>4.8.8.15</Version>
+		<Version>4.8.8.16</Version>
 		<Description>Furion 数据库访问器 SqlSugar 插件。</Description>
 		<ImplicitUsings>enable</ImplicitUsings>
 	</PropertyGroup>
 
 	<ItemGroup Condition=" '$(TargetFramework)' == 'net5.0' ">
-		<PackageReference Include="sqlSugarCore" Version="5.1.4.72" />
+		<PackageReference Include="sqlSugarCore" Version="5.1.4.73" />
 		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="5.0.0" />
 	</ItemGroup>
 
 	<ItemGroup Condition=" '$(TargetFramework)' == 'net6.0' ">
-		<PackageReference Include="sqlSugarCore" Version="5.1.4.72" />
+		<PackageReference Include="sqlSugarCore" Version="5.1.4.73" />
 		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.0.0" />
 	</ItemGroup>
 
 	<ItemGroup Condition=" '$(TargetFramework)' == 'net7.0' ">
-		<PackageReference Include="sqlSugarCore" Version="5.1.4.72" />
+		<PackageReference Include="sqlSugarCore" Version="5.1.4.73" />
 		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />
 	</ItemGroup>
 
 	<ItemGroup Condition=" '$(TargetFramework)' == 'net8.0' ">
-		<PackageReference Include="sqlSugarCore" Version="5.1.4.72" />
+		<PackageReference Include="sqlSugarCore" Version="5.1.4.73" />
 		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.0-preview.3.23174.8" />
 	</ItemGroup>
 
