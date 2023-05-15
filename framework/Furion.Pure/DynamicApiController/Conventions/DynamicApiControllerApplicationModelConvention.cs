@@ -48,6 +48,11 @@ internal sealed class DynamicApiControllerApplicationModelConvention : IApplicat
     private readonly IServiceCollection _services;
 
     /// <summary>
+    /// 模板正则表达式
+    /// </summary>
+    private const string commonTemplatePattern = @"\{(?<p>.+?)\}";
+
+    /// <summary>
     /// 构造函数
     /// </summary>
     /// <param name="services">服务集合</param>
@@ -875,18 +880,28 @@ internal sealed class DynamicApiControllerApplicationModelConvention : IApplicat
         var paths = template.Split('/', StringSplitOptions.RemoveEmptyEntries);
         var routeParts = new List<string>();
 
+        // 参数模板
+        var paramTemplates = new List<string>();
         foreach (var part in paths)
         {
-            if (!(part.StartsWith("{") && part.EndsWith("}")))
+            // 不包含 {} 模板的直接添加
+            if (!Regex.IsMatch(part, commonTemplatePattern))
             {
                 routeParts.Add(part);
                 continue;
             }
-
-            if (!routeParts.Any(u => u.Equals(part, StringComparison.OrdinalIgnoreCase)))
+            else
             {
-                routeParts.Add(part);
-                continue;
+                var templates = Regex.Matches(part, commonTemplatePattern).Select(t => t.Value);
+                foreach (var temp in templates)
+                {
+                    if (!paramTemplates.Contains(temp, StringComparer.OrdinalIgnoreCase))
+                    {
+                        routeParts.Add(part);
+                        paramTemplates.Add(temp);
+                        continue;
+                    }
+                }
             }
         }
 
