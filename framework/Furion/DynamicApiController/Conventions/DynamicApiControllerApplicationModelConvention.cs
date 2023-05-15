@@ -895,10 +895,15 @@ internal sealed class DynamicApiControllerApplicationModelConvention : IApplicat
                 var templates = Regex.Matches(part, commonTemplatePattern).Select(t => t.Value);
                 foreach (var temp in templates)
                 {
-                    if (!paramTemplates.Contains(temp, StringComparer.OrdinalIgnoreCase))
+                    // 处理带路由约束的路由参数模板 https://gitee.com/zuohuaijun/Admin.NET/issues/I736XJ
+                    var t = !temp.Contains(":", StringComparison.CurrentCulture)
+                        ? temp
+                        : temp[..temp.IndexOf(":")] + "}";
+
+                    if (!paramTemplates.Contains(t, StringComparer.OrdinalIgnoreCase))
                     {
                         routeParts.Add(part);
-                        paramTemplates.Add(temp);
+                        paramTemplates.Add(t);
                         continue;
                     }
                 }
