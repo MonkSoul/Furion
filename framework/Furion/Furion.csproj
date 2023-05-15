@@ -2,7 +2,7 @@
 
 	<PropertyGroup>
 		<TargetFrameworks>net5.0;net6.0;net7.0;net8.0</TargetFrameworks>
-		<Version>4.8.8.14</Version>
+		<Version>4.8.8.15</Version>
 		<Description>让 .NET 开发更简单，更通用，更流行。</Description>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 		<ImplicitUsings>enable</ImplicitUsings>
@@ -28,7 +28,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Furion.Extras.DependencyModel.CodeAnalysis" Version="4.8.8.14" />
+		<PackageReference Include="Furion.Extras.DependencyModel.CodeAnalysis" Version="4.8.8.15" />
 		<PackageReference Include="MiniProfiler.AspNetCore.Mvc" Version="4.2.22" />
 		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
 	</ItemGroup>
