@@ -35,6 +35,7 @@ import Tag from "@site/src/components/Tag.js";
 
 - **新特性**
 
+  - &nbsp;<Tag>新增</Tag> **监听日志 `LoggingMonitor` 支持 `Razor Pages`** <sup>4.8.8.16</sup> <sup>⏱️2023.05.15</sup> [#I7332C](https://gitee.com/dotnetchina/Furion/issues/I7332C)
   - &nbsp;<Tag>新增</Tag> 定时任务作业处理程序工厂 `IJobFactory` 支持 <sup>4.8.8.13</sup> <sup>⏱️2023.05.08</sup> [ad58dd3](https://gitee.com/dotnetchina/Furion/commit/ad58dd3141ed40e58cd486895ac6c1f21803797c)
   - &nbsp;<Tag>新增</Tag> `AES` 支持对文件（含超大文件）进行加解密 <sup>4.8.8.11</sup> <sup>⏱️2023.05.05</sup> [1d2265b](https://gitee.com/dotnetchina/Furion/commit/1d2265be04cfd7c6c2b9db932a77ebd620ef6054)
   - &nbsp;<Tag>新增</Tag> 动态 `WebAPI` 支持 `text/plain` 格式的 `Body` 参数 <sup>4.8.8.9</sup> <sup>⏱️2023.05.04</sup> [b49fe50](https://gitee.com/dotnetchina/Furion/commit/b49fe5087cdf97b04b7c2c9d90231f1b9d5fc6ee)
@@ -128,6 +129,7 @@ public class SomeClass : IDynamicApiController
 
 - **突破性变化**
 
+  - &nbsp;<Tag>调整</Tag> **监听日志 `WriteFilter` 和 `ConfigureLogger` 的 `ActionExecutingContext` 和 `ActionExecutedContext` 类型为 `FilterContext`** <sup>4.8.8.16</sup> <sup>⏱️2023.05.15</sup> [#I7332C](https://gitee.com/dotnetchina/Furion/issues/I7332C)
   - &nbsp;<Tag>调整</Tag> **`IJsonSerializerProvider` 序列化接口，添加 `Deserialize` 反序列化方法** <sup>4.8.8.15</sup> <sup>⏱️2023.05.15</sup> [!815](https://gitee.com/dotnetchina/Furion/pulls/815) 感谢 [@YaChengMu](https://gitee.com/YaChengMu)
 
 <details style={{ marginLeft: 50 }}>

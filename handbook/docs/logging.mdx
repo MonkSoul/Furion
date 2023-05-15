@@ -13,6 +13,7 @@ import Tag from "@site/src/components/Tag.js";
 
 - **新特性**
 
+  - &nbsp;<Tag>新增</Tag> **监听日志 `LoggingMonitor` 支持 `Razor Pages`** <sup>4.8.8.16</sup> <sup>⏱️2023.05.15</sup> [#I7332C](https://gitee.com/dotnetchina/Furion/issues/I7332C)
   - &nbsp;<Tag>新增</Tag> **日志配置 `WithStackFrame`，可控制是否输出产生日志的程序集，类型和具体方法** <sup>4.8.7.16</sup> <sup>⏱️2023.03.19</sup> [5ad6ae2](https://gitee.com/dotnetchina/Furion/commit/5ad6ae241d1798ad788e42569a15d68686db4fa1)
 
 <details style={{ marginLeft: 50 }}>
@@ -77,6 +78,10 @@ info: 2023-03-17 18:25:18.1917784 +08:00 星期五 L Furion.Application.TestLogg
 - - &nbsp;<Tag>新增</Tag> 审计日志 `LoggingMonitor` 支持配置序列化属性命名规则 <sup>4.8.6.12</sup> <sup>⏱️2023.02.21</sup> [#I6GPUP](https://gitee.com/dotnetchina/Furion/issues/I6GPUP)
 - - &nbsp;<Tag>新增</Tag> 审计日志 `LoggingMonitor` 支持 `[DisplayName]` 特性解析和 `Title` 属性记录 <sup>4.8.5.10</sup> <sup>⏱️2023.02.07</sup> [#I6DHMF](https://gitee.com/dotnetchina/Furion/issues/I6DHMF)
 - - &nbsp;<Tag>新增</Tag> 审计日志 `LoggingMonitor` 记录 `HTTP` 响应状态码 <sup>4.8.5.2</sup> <sup>⏱️2023.01.30</sup> [abb4cbd](https://gitee.com/dotnetchina/Furion/commit/abb4cbdab9f45f53cad8468352d1c14ac8c54b42)
+
+- **突破性变化**
+
+  - &nbsp;<Tag>调整</Tag> **监听日志 `WriteFilter` 和 `ConfigureLogger` 的 `ActionExecutingContext` 和 `ActionExecutedContext` 类型为 `FilterContext`** <sup>4.8.8.16</sup> <sup>⏱️2023.05.15</sup> [#I7332C](https://gitee.com/dotnetchina/Furion/issues/I7332C)
 
 - **问题修复**
 

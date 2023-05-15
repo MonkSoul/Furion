@@ -89,7 +89,7 @@ public sealed class LoggingMonitorSettings
     /// <summary>
     /// 自定义日志筛选器
     /// </summary>
-    public Func<ActionExecutingContext, bool> WriteFilter { get; set; }
+    public Func<FilterContext, bool> WriteFilter { get; set; }
 
     /// <summary>
     /// 是否 Mvc Filter 方式注册
@@ -106,18 +106,18 @@ public sealed class LoggingMonitorSettings
     /// <summary>
     /// 添加日志更多配置
     /// </summary>
-    internal static Action<ILogger, LogContext, ActionExecutedContext> Configure { get; private set; }
+    internal static Action<ILogger, LogContext, FilterContext> Configure { get; private set; }
 
     /// <summary>
     /// 自定义日志筛选器
     /// </summary>
-    internal static Func<ActionExecutingContext, bool> InternalWriteFilter { get; set; }
+    internal static Func<FilterContext, bool> InternalWriteFilter { get; set; }
 
     /// <summary>
     /// 配置日志更多功能
     /// </summary>
     /// <param name="configure"></param>
-    public void ConfigureLogger(Action<ILogger, LogContext, ActionExecutedContext> configure)
+    public void ConfigureLogger(Action<ILogger, LogContext, FilterContext> configure)
     {
         Configure = configure;
     }

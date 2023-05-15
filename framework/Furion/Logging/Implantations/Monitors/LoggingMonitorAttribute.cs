@@ -47,7 +47,7 @@ namespace System;
 /// </summary>
 /// <remarks>主要用于将请求的信息打印出来</remarks>
 [SuppressSniffer, AttributeUsage(AttributeTargets.Method | AttributeTargets.Class, Inherited = true, AllowMultiple = false)]
-public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter, IOrderedFilter
+public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter, IAsyncPageFilter, IOrderedFilter
 {
     /// <summary>
     /// 过滤器排序
@@ -132,335 +132,49 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter, IOr
     /// <returns></returns>
     public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
     {
-        // 排除 WebSocket 请求处理
-        if (context.HttpContext.IsWebSocketRequest())
+        // 获取动作方法描述器
+        var actionMethod = (context.ActionDescriptor as ControllerActionDescriptor)?.MethodInfo;
+
+        // 处理 Blazor Server
+        if (actionMethod == null)
         {
-            _ = await next();
+            _ = await next.Invoke();
             return;
         }
 
-        // 判断是否是 Razor Pages
-        var isPageDescriptor = context.ActionDescriptor is CompiledPageActionDescriptor;
+        await MonitorAsync(actionMethod, context.ActionArguments, context, next);
+    }
 
-        // 抛出不支持 Razor Pages 异常
-        if (isPageDescriptor) throw new InvalidOperationException("The LoggingMonitorAttribute is not support the Razor Pages application.");
+    /// <summary>
+    /// 模型绑定拦截
+    /// </summary>
+    /// <param name="context"></param>
+    /// <returns></returns>
+    public Task OnPageHandlerSelectionAsync(PageHandlerSelectedContext context)
+    {
+        return Task.CompletedTask;
+    }
 
-        // 获取控制器/操作描述器
-        var controllerActionDescriptor = context.ActionDescriptor as ControllerActionDescriptor;
+    /// <summary>
+    /// 拦截请求
+    /// </summary>
+    /// <param name="context"></param>
+    /// <param name="next"></param>
+    /// <returns></returns>
+    /// <exception cref="NotImplementedException"></exception>
+    public async Task OnPageHandlerExecutionAsync(PageHandlerExecutingContext context, PageHandlerExecutionDelegate next)
+    {
+        // 获取动作方法描述器
+        var actionMethod = context.HandlerMethod?.MethodInfo;
 
-        // 获取请求方法
-        var actionMethod = controllerActionDescriptor.MethodInfo;
-
-        // 如果贴了 [SuppressMonitor] 特性则跳过
-        if (actionMethod.IsDefined(typeof(SuppressMonitorAttribute), true)
-            || actionMethod.DeclaringType.IsDefined(typeof(SuppressMonitorAttribute), true))
+        // 处理 Blazor Server
+        if (actionMethod == null)
         {
-            _ = await next();
+            _ = await next.Invoke();
             return;
         }
 
-        // 判断是否自定义了日志筛选器，如果是则检查是否符合条件
-        if (LoggingMonitorSettings.InternalWriteFilter?.Invoke(context) == false)
-        {
-            _ = await next();
-            return;
-        }
-
-        // 获取方法完整名称
-        var methodFullName = controllerActionDescriptor.ControllerTypeInfo.FullName + "." + actionMethod.Name;
-
-        // 只有方法没有贴有 [LoggingMonitor] 特性才判断全局，贴了特性优先级最大
-        var isDefinedScopedAttribute = actionMethod.IsDefined(typeof(LoggingMonitorAttribute), true);
-
-        // 解决局部和全局触发器同时配置触发两次问题
-        if (isDefinedScopedAttribute && Settings.FromGlobalFilter == true)
-        {
-            _ = await next();
-            return;
-        }
-
-        if (!isDefinedScopedAttribute)
-        {
-            // 解决通过 AddMvcFilter 的问题
-            if (!Settings.IsMvcFilterRegister)
-            {
-                // 处理不启用但排除的情况
-                if (!Settings.GlobalEnabled
-                    && !Settings.IncludeOfMethods.Contains(methodFullName, StringComparer.OrdinalIgnoreCase))
-                {
-                    // 查找是否包含匹配，忽略大小写
-                    _ = await next();
-                    return;
-                }
-
-                // 处理启用但排除的情况
-                if (Settings.GlobalEnabled
-                    && Settings.ExcludeOfMethods.Contains(methodFullName, StringComparer.OrdinalIgnoreCase))
-                {
-                    _ = await next();
-                    return;
-                }
-            }
-        }
-
-        // 获取全局 LoggingMonitorMethod 配置
-        var monitorMethod = Settings.MethodsSettings.FirstOrDefault(m => m.FullName.Equals(methodFullName, StringComparison.OrdinalIgnoreCase));
-
-        // 创建 json 写入器
-        using var stream = new MemoryStream();
-        var jsonWriterOptions = Settings.JsonWriterOptions;
-
-        // 配置 JSON 格式化行为，是否美化
-        jsonWriterOptions.Indented = CheckIsSetJsonIndented(monitorMethod);
-
-        // 创建 JSON 写入器
-        using var writer = new Utf8JsonWriter(stream, jsonWriterOptions);
-        writer.WriteStartObject();
-        writer.WriteString("title", Title);
-
-        // 创建日志上下文
-        var logContext = new LogContext();
-
-        // 获取路由表信息
-        var routeData = context.RouteData;
-        var controllerName = routeData.Values["controller"];
-        var actionName = routeData.Values["action"];
-        var areaName = routeData.DataTokens["area"];
-        writer.WriteString(nameof(controllerName), controllerName?.ToString());
-        writer.WriteString("controllerTypeName", controllerActionDescriptor.ControllerTypeInfo.Name);
-        writer.WriteString(nameof(actionName), actionName?.ToString());
-        writer.WriteString("actionTypeName", actionMethod.Name);
-        writer.WriteString("areaName", areaName?.ToString());
-
-        // 调用呈现链名称
-        var displayName = controllerActionDescriptor.DisplayName;
-        writer.WriteString(nameof(displayName), displayName);
-
-        // [DisplayName] 特性
-        var displayNameAttribute = actionMethod.IsDefined(typeof(DisplayNameAttribute), true)
-            ? actionMethod.GetCustomAttribute<DisplayNameAttribute>(true)
-            : default;
-        writer.WriteString("displayTitle", displayNameAttribute?.DisplayName);
-
-        // 获取 HttpContext 和 HttpRequest 对象
-        var httpContext = context.HttpContext;
-        var httpRequest = httpContext.Request;
-
-        // 获取服务端 IPv4 地址
-        var localIPv4 = httpContext.GetLocalIpAddressToIPv4();
-        writer.WriteString(nameof(localIPv4), localIPv4);
-
-        // 获取客户端 IPv4 地址
-        var remoteIPv4 = httpContext.GetRemoteIpAddressToIPv4();
-        writer.WriteString(nameof(remoteIPv4), remoteIPv4);
-
-        // 获取请求方式
-        var httpMethod = httpContext.Request.Method;
-        writer.WriteString(nameof(httpMethod), httpMethod);
-
-        // 客户端连接 ID
-        var traceId = App.GetTraceId();
-        writer.WriteString(nameof(traceId), traceId);
-
-        // 线程 Id
-        var threadId = App.GetThreadId();
-        writer.WriteNumber(nameof(threadId), threadId);
-
-        // 获取请求的 Url 地址
-        var requestUrl = Uri.UnescapeDataString(httpRequest.GetRequestUrlAddress());
-        writer.WriteString(nameof(requestUrl), requestUrl);
-
-        // 获取来源 Url 地址
-        var refererUrl = Uri.UnescapeDataString(httpRequest.GetRefererUrlAddress());
-        writer.WriteString(nameof(refererUrl), refererUrl);
-
-        // 客户端浏览器信息
-        var userAgent = httpRequest.Headers["User-Agent"];
-        writer.WriteString(nameof(userAgent), userAgent);
-
-        // 客户端请求区域语言
-        var acceptLanguage = httpRequest.Headers["accept-language"];
-        writer.WriteString(nameof(acceptLanguage), acceptLanguage);
-
-        // 请求来源（swagger还是其他）
-        var requestFrom = httpRequest.Headers["request-from"].ToString();
-        requestFrom = string.IsNullOrWhiteSpace(requestFrom) ? "client" : requestFrom;
-        writer.WriteString(nameof(requestFrom), requestFrom);
-
-        // 获取方法参数
-        var parameterValues = context.ActionArguments;
-
-        // 获取授权用户
-        var user = httpContext.User;
-
-        // 获取请求 cookies 信息
-        var requestHeaderCookies = Uri.UnescapeDataString(httpRequest.Headers["cookie"].ToString());
-        writer.WriteString(nameof(requestHeaderCookies), requestHeaderCookies);
-
-        // 计算接口执行时间
-        var timeOperation = Stopwatch.StartNew();
-        var resultContext = await next();
-        timeOperation.Stop();
-        writer.WriteNumber("timeOperationElapsedMilliseconds", timeOperation.ElapsedMilliseconds);
-
-        // token 信息
-        // 判断是否是授权访问
-        var isAuth = actionMethod.GetFoundAttribute<AllowAnonymousAttribute>(true) == null
-            && resultContext.HttpContext.User != null
-            && resultContext.HttpContext.User.Identity.IsAuthenticated;
-        // 获取响应头信息
-        var accessToken = resultContext.HttpContext.Response.Headers["access-token"].ToString();
-        var authorization = string.IsNullOrWhiteSpace(accessToken)
-            ? httpRequest.Headers["Authorization"].ToString()
-            : "Bearer " + accessToken;
-        writer.WriteString("accessToken", isAuth ? authorization : default);
-
-        // 获取响应 cookies 信息
-        var responseHeaderCookies = Uri.UnescapeDataString(resultContext.HttpContext.Response.Headers["Set-Cookie"].ToString());
-        writer.WriteString(nameof(responseHeaderCookies), responseHeaderCookies);
-
-        // 获取系统信息
-        var osDescription = RuntimeInformation.OSDescription;
-        var osArchitecture = RuntimeInformation.OSArchitecture.ToString();
-        var frameworkDescription = RuntimeInformation.FrameworkDescription;
-        var basicFrameworkDescription = typeof(App).Assembly.GetName();
-        var basicFramework = basicFrameworkDescription.Name;
-        var basicFrameworkVersion = basicFrameworkDescription.Version?.ToString();
-        writer.WriteString(nameof(osDescription), osDescription);
-        writer.WriteString(nameof(osArchitecture), osArchitecture);
-        writer.WriteString(nameof(frameworkDescription), frameworkDescription);
-        writer.WriteString(nameof(basicFramework), basicFramework);
-        writer.WriteString(nameof(basicFrameworkVersion), basicFrameworkVersion);
-
-        // 获取启动信息
-        var entryAssemblyName = Assembly.GetEntryAssembly().GetName().Name;
-        writer.WriteString(nameof(entryAssemblyName), entryAssemblyName);
-
-        // 获取进程信息
-        var process = Process.GetCurrentProcess();
-        var processName = process.ProcessName;
-        writer.WriteString(nameof(processName), processName);
-
-        // 获取部署程序
-        var deployServer = processName == entryAssemblyName ? "Kestrel" : processName;
-        writer.WriteString(nameof(deployServer), deployServer);
-
-        // 服务器环境
-        var environment = httpContext.RequestServices.GetRequiredService<IWebHostEnvironment>().EnvironmentName;
-        writer.WriteString(nameof(environment), environment);
-
-        // 获取异常对象情况
-        var exception = resultContext.Exception;
-        if (exception == null)
-        {
-            // 解析存储的验证信息
-            var validationFailedKey = nameof(DataValidationFilter) + nameof(ValidationMetadata);
-            var validationMetadata = !httpContext.Items.ContainsKey(validationFailedKey)
-                ? default
-                : httpContext.Items[validationFailedKey] as ValidationMetadata;
-
-            if (validationMetadata != null)
-            {
-                // 创建全局验证友好异常
-                var error = TrySerializeObject(validationMetadata.ValidationResult, monitorMethod, out _);
-                exception = new AppFriendlyException(error, validationMetadata.OriginErrorCode)
-                {
-                    ErrorCode = validationMetadata.ErrorCode,
-                    StatusCode = validationMetadata.StatusCode ?? StatusCodes.Status400BadRequest,
-                    ValidationException = true
-                };
-            }
-        }
-
-        // 判断是否是验证异常
-        var isValidationException = exception is AppFriendlyException friendlyException && friendlyException.ValidationException;
-
-        var monitorItems = new List<string>()
-        {
-            $"##控制器名称## {controllerActionDescriptor.ControllerTypeInfo.Name}"
-            , $"##操作名称## {actionMethod.Name}"
-            , $"##显示名称## {displayNameAttribute?.DisplayName}"
-            , $"##路由信息## [area]: {areaName}; [controller]: {controllerName}; [action]: {actionName}"
-            , $"##请求方式## {httpMethod}"
-            , $"##请求地址## {requestUrl}"
-            , $"##来源地址## {refererUrl}"
-            , $"##请求端源## {requestFrom}"
-            , $"##浏览器标识## {userAgent}"
-            , $"##客户端区域语言## {acceptLanguage}"
-            , $"##客户端 IP 地址## {remoteIPv4}"
-            , $"##服务端 IP 地址## {localIPv4}"
-            , $"##客户端连接 ID## {traceId}"
-            , $"##服务线程 ID## #{threadId}"
-            , $"##执行耗时## {timeOperation.ElapsedMilliseconds}ms"
-            ,"━━━━━━━━━━━━━━━  Cookies ━━━━━━━━━━━━━━━"
-            , $"##请求端## {requestHeaderCookies}"
-            , $"##响应端## {responseHeaderCookies}"
-            ,"━━━━━━━━━━━━━━━  系统信息 ━━━━━━━━━━━━━━━"
-            , $"##系统名称## {osDescription}"
-            , $"##系统架构## {osArchitecture}"
-            , $"##基础框架## {basicFramework} v{basicFrameworkVersion}"
-            , $"##.NET 架构## {frameworkDescription}"
-            ,"━━━━━━━━━━━━━━━  启动信息 ━━━━━━━━━━━━━━━"
-            , $"##运行环境## {environment}"
-            , $"##启动程序集## {entryAssemblyName}"
-            , $"##进程名称## {processName}"
-            , $"##托管程序## {deployServer}"
-        };
-
-        // 如果用户实际授权才打印
-        if (isAuth)
-        {
-            // 添加 JWT 授权信息日志模板
-            monitorItems.AddRange(GenerateAuthorizationTemplate(writer, user, authorization));
-        }
-
-        // 添加请求参数信息日志模板
-        monitorItems.AddRange(GenerateParameterTemplate(writer, parameterValues, actionMethod, httpRequest.Headers["Content-Type"], monitorMethod));
-
-        // 判断是否启用返回值打印
-        if (CheckIsSetWithReturnValue(monitorMethod))
-        {
-            // 添加返回值信息日志模板
-            monitorItems.AddRange(GenerateReturnInfomationTemplate(writer, resultContext, actionMethod, monitorMethod));
-        }
-
-        // 添加异常信息日志模板
-        monitorItems.AddRange(GenerateExcetpionInfomationTemplate(writer, exception, isValidationException));
-
-        // 生成最终模板
-        var monitorMessage = TP.Wrapper(Title, displayName, monitorItems.ToArray());
-
-        // 创建日志记录器
-        var logger = httpContext.RequestServices.GetRequiredService<ILogger<LoggingMonitor>>();
-
-        // 调用外部配置
-        LoggingMonitorSettings.Configure?.Invoke(logger, logContext, resultContext);
-
-        writer.WriteEndObject();
-        writer.Flush();
-
-        // 获取 json 字符串
-        var jsonString = Encoding.UTF8.GetString(stream.ToArray());
-        logContext.Set("loggingMonitor", jsonString);
-
-        // 设置日志上下文
-        using var scope = logger.ScopeContext(logContext);
-
-        // 获取最终写入日志消息格式
-        var finalMessage = GetJsonBehavior(JsonBehavior, monitorMethod) == Furion.Logging.JsonBehavior.OnlyJson ? jsonString : monitorMessage;
-
-        // 写入日志，如果没有异常使用 LogInformation，否则使用 LogError
-        if (exception == null) logger.LogInformation(finalMessage);
-        else
-        {
-            // 如果不是验证异常，写入 Error
-            if (!isValidationException) logger.LogError(exception, finalMessage);
-            else
-            {
-                // 读取配置的日志级别并写入
-                logger.Log(Settings.BahLogLevel, finalMessage);
-            }
-        }
+        await MonitorAsync(actionMethod, context.HandlerArguments, context, next);
     }
 
     /// <summary>
@@ -654,21 +368,22 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter, IOr
     /// <param name="method"></param>
     /// <param name="monitorMethod"></param>
     /// <returns></returns>
-    private List<string> GenerateReturnInfomationTemplate(Utf8JsonWriter writer, ActionExecutedContext resultContext, MethodInfo method, LoggingMonitorMethod monitorMethod)
+    private List<string> GenerateReturnInfomationTemplate(Utf8JsonWriter writer, dynamic resultContext, MethodInfo method, LoggingMonitorMethod monitorMethod)
     {
         var templates = new List<string>();
 
         object returnValue = null;
         Type finalReturnType;
+        var result = resultContext.Result as IActionResult;
 
         // 解析返回值
-        if (UnifyContext.CheckVaildResult(resultContext.Result, out var data))
+        if (UnifyContext.CheckVaildResult(result, out var data))
         {
             returnValue = data;
             finalReturnType = data?.GetType();
         }
         // 处理文件类型
-        else if (resultContext.Result is FileResult fresult)
+        else if (result is FileResult fresult)
         {
             returnValue = new {
                 FileName = fresult.FileDownloadName,
@@ -677,13 +392,10 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter, IOr
             };
             finalReturnType = fresult?.GetType();
         }
-        else finalReturnType = resultContext.Result?.GetType();
+        else finalReturnType = result?.GetType();
 
-        var succeed = true;
         // 获取最终呈现值（字符串类型）
-        var displayValue = method.ReturnType == typeof(void)
-            ? string.Empty
-            : TrySerializeObject(returnValue, monitorMethod, out succeed);
+        var displayValue = TrySerializeObject(returnValue, monitorMethod, out var succeed);
         var originValue = displayValue;
 
         // 获取返回值阈值
@@ -697,7 +409,7 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter, IOr
         var finalReturnTypeName = HandleGenericType(finalReturnType);
 
         // 获取请求返回的响应状态码
-        var httpStatusCode = resultContext.HttpContext.Response.StatusCode;
+        var httpStatusCode = (resultContext as FilterContext).HttpContext.Response.StatusCode;
 
         templates.AddRange(new[]
         {
@@ -964,5 +676,328 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter, IOr
         }
 
         return typeName;
+    }
+
+    private async Task MonitorAsync(MethodInfo actionMethod, IDictionary<string, object> parameterValues, FilterContext context, dynamic next)
+    {
+        // 排除 WebSocket 请求处理
+        if (context.HttpContext.IsWebSocketRequest())
+        {
+            _ = await next();
+            return;
+        }
+
+        // 判断是否是 Razor Pages
+        var isPageDescriptor = context.ActionDescriptor is CompiledPageActionDescriptor;
+
+        // 如果贴了 [SuppressMonitor] 特性则跳过
+        if (actionMethod.IsDefined(typeof(SuppressMonitorAttribute), true)
+            || actionMethod.DeclaringType.IsDefined(typeof(SuppressMonitorAttribute), true))
+        {
+            _ = await next();
+            return;
+        }
+
+        // 判断是否自定义了日志筛选器，如果是则检查是否符合条件
+        if (LoggingMonitorSettings.InternalWriteFilter?.Invoke(context) == false)
+        {
+            _ = await next();
+            return;
+        }
+
+        // 获取方法完整名称
+        var methodFullName = actionMethod.DeclaringType.FullName + "." + actionMethod.Name;
+
+        // 只有方法没有贴有 [LoggingMonitor] 特性才判断全局，贴了特性优先级最大
+        var isDefinedScopedAttribute = actionMethod.IsDefined(typeof(LoggingMonitorAttribute), true);
+
+        // 解决局部和全局触发器同时配置触发两次问题
+        if (isDefinedScopedAttribute && Settings.FromGlobalFilter == true)
+        {
+            _ = await next();
+            return;
+        }
+
+        if (!isDefinedScopedAttribute)
+        {
+            // 解决通过 AddMvcFilter 的问题
+            if (!Settings.IsMvcFilterRegister)
+            {
+                // 处理不启用但排除的情况
+                if (!Settings.GlobalEnabled
+                    && !Settings.IncludeOfMethods.Contains(methodFullName, StringComparer.OrdinalIgnoreCase))
+                {
+                    // 查找是否包含匹配，忽略大小写
+                    _ = await next();
+                    return;
+                }
+
+                // 处理启用但排除的情况
+                if (Settings.GlobalEnabled
+                    && Settings.ExcludeOfMethods.Contains(methodFullName, StringComparer.OrdinalIgnoreCase))
+                {
+                    _ = await next();
+                    return;
+                }
+            }
+        }
+
+        // 获取全局 LoggingMonitorMethod 配置
+        var monitorMethod = Settings.MethodsSettings.FirstOrDefault(m => m.FullName.Equals(methodFullName, StringComparison.OrdinalIgnoreCase));
+
+        // 创建 json 写入器
+        using var stream = new MemoryStream();
+        var jsonWriterOptions = Settings.JsonWriterOptions;
+
+        // 配置 JSON 格式化行为，是否美化
+        jsonWriterOptions.Indented = CheckIsSetJsonIndented(monitorMethod);
+
+        // 创建 JSON 写入器
+        using var writer = new Utf8JsonWriter(stream, jsonWriterOptions);
+        writer.WriteStartObject();
+        writer.WriteString("title", Title);
+
+        // 创建日志上下文
+        var logContext = new LogContext();
+
+        // 获取路由表信息
+        var routeData = context.RouteData;
+        var controllerName = routeData.Values["controller"];
+        var actionName = routeData.Values["action"];
+        var areaName = routeData.DataTokens["area"];
+        writer.WriteString(nameof(controllerName), controllerName?.ToString());
+        writer.WriteString("controllerTypeName", actionMethod.DeclaringType.Name);
+        writer.WriteString(nameof(actionName), actionName?.ToString());
+        writer.WriteString("actionTypeName", actionMethod.Name);
+        writer.WriteString("areaName", areaName?.ToString());
+
+        // 调用呈现链名称
+        var displayName = methodFullName;
+        writer.WriteString(nameof(displayName), displayName);
+
+        // [DisplayName] 特性
+        var displayNameAttribute = actionMethod.IsDefined(typeof(DisplayNameAttribute), true)
+            ? actionMethod.GetCustomAttribute<DisplayNameAttribute>(true)
+            : default;
+        writer.WriteString("displayTitle", displayNameAttribute?.DisplayName);
+
+        // 获取 HttpContext 和 HttpRequest 对象
+        var httpContext = context.HttpContext;
+        var httpRequest = httpContext.Request;
+
+        // 获取服务端 IPv4 地址
+        var localIPv4 = httpContext.GetLocalIpAddressToIPv4();
+        writer.WriteString(nameof(localIPv4), localIPv4);
+
+        // 获取客户端 IPv4 地址
+        var remoteIPv4 = httpContext.GetRemoteIpAddressToIPv4();
+        writer.WriteString(nameof(remoteIPv4), remoteIPv4);
+
+        // 获取请求方式
+        var httpMethod = httpContext.Request.Method;
+        writer.WriteString(nameof(httpMethod), httpMethod);
+
+        // 客户端连接 ID
+        var traceId = App.GetTraceId();
+        writer.WriteString(nameof(traceId), traceId);
+
+        // 线程 Id
+        var threadId = App.GetThreadId();
+        writer.WriteNumber(nameof(threadId), threadId);
+
+        // 获取请求的 Url 地址
+        var requestUrl = Uri.UnescapeDataString(httpRequest.GetRequestUrlAddress());
+        writer.WriteString(nameof(requestUrl), requestUrl);
+
+        // 获取来源 Url 地址
+        var refererUrl = Uri.UnescapeDataString(httpRequest.GetRefererUrlAddress());
+        writer.WriteString(nameof(refererUrl), refererUrl);
+
+        // 客户端浏览器信息
+        var userAgent = httpRequest.Headers["User-Agent"];
+        writer.WriteString(nameof(userAgent), userAgent);
+
+        // 客户端请求区域语言
+        var acceptLanguage = httpRequest.Headers["accept-language"];
+        writer.WriteString(nameof(acceptLanguage), acceptLanguage);
+
+        // 请求来源（swagger还是其他）
+        var requestFrom = httpRequest.Headers["request-from"].ToString();
+        requestFrom = string.IsNullOrWhiteSpace(requestFrom) ? "client" : requestFrom;
+        writer.WriteString(nameof(requestFrom), requestFrom);
+
+        // 获取授权用户
+        var user = httpContext.User;
+
+        // 获取请求 cookies 信息
+        var requestHeaderCookies = Uri.UnescapeDataString(httpRequest.Headers["cookie"].ToString());
+        writer.WriteString(nameof(requestHeaderCookies), requestHeaderCookies);
+
+        // 计算接口执行时间
+        var timeOperation = Stopwatch.StartNew();
+        var resultContext = await next();
+        timeOperation.Stop();
+        writer.WriteNumber("timeOperationElapsedMilliseconds", timeOperation.ElapsedMilliseconds);
+
+        var resultHttpContext = (resultContext as FilterContext).HttpContext;
+
+        // token 信息
+        // 判断是否是授权访问
+        var isAuth = actionMethod.GetFoundAttribute<AllowAnonymousAttribute>(true) == null
+            && resultHttpContext.User != null
+            && resultHttpContext.User.Identity.IsAuthenticated;
+        // 获取响应头信息
+        var accessToken = resultHttpContext.Response.Headers["access-token"].ToString();
+        var authorization = string.IsNullOrWhiteSpace(accessToken)
+            ? httpRequest.Headers["Authorization"].ToString()
+            : "Bearer " + accessToken;
+        writer.WriteString("accessToken", isAuth ? authorization : default);
+
+        // 获取响应 cookies 信息
+        var responseHeaderCookies = Uri.UnescapeDataString(resultHttpContext.Response.Headers["Set-Cookie"].ToString());
+        writer.WriteString(nameof(responseHeaderCookies), responseHeaderCookies);
+
+        // 获取系统信息
+        var osDescription = RuntimeInformation.OSDescription;
+        var osArchitecture = RuntimeInformation.OSArchitecture.ToString();
+        var frameworkDescription = RuntimeInformation.FrameworkDescription;
+        var basicFrameworkDescription = typeof(App).Assembly.GetName();
+        var basicFramework = basicFrameworkDescription.Name;
+        var basicFrameworkVersion = basicFrameworkDescription.Version?.ToString();
+        writer.WriteString(nameof(osDescription), osDescription);
+        writer.WriteString(nameof(osArchitecture), osArchitecture);
+        writer.WriteString(nameof(frameworkDescription), frameworkDescription);
+        writer.WriteString(nameof(basicFramework), basicFramework);
+        writer.WriteString(nameof(basicFrameworkVersion), basicFrameworkVersion);
+
+        // 获取启动信息
+        var entryAssemblyName = Assembly.GetEntryAssembly().GetName().Name;
+        writer.WriteString(nameof(entryAssemblyName), entryAssemblyName);
+
+        // 获取进程信息
+        var process = Process.GetCurrentProcess();
+        var processName = process.ProcessName;
+        writer.WriteString(nameof(processName), processName);
+
+        // 获取部署程序
+        var deployServer = processName == entryAssemblyName ? "Kestrel" : processName;
+        writer.WriteString(nameof(deployServer), deployServer);
+
+        // 服务器环境
+        var environment = httpContext.RequestServices.GetRequiredService<IWebHostEnvironment>().EnvironmentName;
+        writer.WriteString(nameof(environment), environment);
+
+        // 获取异常对象情况
+        Exception exception = resultContext.Exception;
+        if (exception == null)
+        {
+            // 解析存储的验证信息
+            var validationFailedKey = nameof(DataValidationFilter) + nameof(ValidationMetadata);
+            var validationMetadata = !httpContext.Items.ContainsKey(validationFailedKey)
+                ? default
+                : httpContext.Items[validationFailedKey] as ValidationMetadata;
+
+            if (validationMetadata != null)
+            {
+                // 创建全局验证友好异常
+                var error = TrySerializeObject(validationMetadata.ValidationResult, monitorMethod, out _);
+                exception = new AppFriendlyException(error, validationMetadata.OriginErrorCode)
+                {
+                    ErrorCode = validationMetadata.ErrorCode,
+                    StatusCode = validationMetadata.StatusCode ?? StatusCodes.Status400BadRequest,
+                    ValidationException = true
+                };
+            }
+        }
+
+        // 判断是否是验证异常
+        var isValidationException = exception is AppFriendlyException friendlyException && friendlyException.ValidationException;
+
+        var monitorItems = new List<string>()
+        {
+            $"##控制器名称## {actionMethod.DeclaringType.Name}"
+            , $"##操作名称## {actionMethod.Name}"
+            , $"##显示名称## {displayNameAttribute?.DisplayName}"
+            , $"##路由信息## [area]: {areaName}; [controller]: {controllerName}; [action]: {actionName}"
+            , $"##请求方式## {httpMethod}"
+            , $"##请求地址## {requestUrl}"
+            , $"##来源地址## {refererUrl}"
+            , $"##请求端源## {requestFrom}"
+            , $"##浏览器标识## {userAgent}"
+            , $"##客户端区域语言## {acceptLanguage}"
+            , $"##客户端 IP 地址## {remoteIPv4}"
+            , $"##服务端 IP 地址## {localIPv4}"
+            , $"##客户端连接 ID## {traceId}"
+            , $"##服务线程 ID## #{threadId}"
+            , $"##执行耗时## {timeOperation.ElapsedMilliseconds}ms"
+            ,"━━━━━━━━━━━━━━━  Cookies ━━━━━━━━━━━━━━━"
+            , $"##请求端## {requestHeaderCookies}"
+            , $"##响应端## {responseHeaderCookies}"
+            ,"━━━━━━━━━━━━━━━  系统信息 ━━━━━━━━━━━━━━━"
+            , $"##系统名称## {osDescription}"
+            , $"##系统架构## {osArchitecture}"
+            , $"##基础框架## {basicFramework} v{basicFrameworkVersion}"
+            , $"##.NET 架构## {frameworkDescription}"
+            ,"━━━━━━━━━━━━━━━  启动信息 ━━━━━━━━━━━━━━━"
+            , $"##运行环境## {environment}"
+            , $"##启动程序集## {entryAssemblyName}"
+            , $"##进程名称## {processName}"
+            , $"##托管程序## {deployServer}"
+        };
+
+        // 如果用户实际授权才打印
+        if (isAuth)
+        {
+            // 添加 JWT 授权信息日志模板
+            monitorItems.AddRange(GenerateAuthorizationTemplate(writer, user, authorization));
+        }
+
+        // 添加请求参数信息日志模板
+        monitorItems.AddRange(GenerateParameterTemplate(writer, parameterValues, actionMethod, httpRequest.Headers["Content-Type"], monitorMethod));
+
+        // 判断是否启用返回值打印
+        if (CheckIsSetWithReturnValue(monitorMethod))
+        {
+            // 添加返回值信息日志模板
+            monitorItems.AddRange(GenerateReturnInfomationTemplate(writer, resultContext, actionMethod, monitorMethod));
+        }
+
+        // 添加异常信息日志模板
+        monitorItems.AddRange(GenerateExcetpionInfomationTemplate(writer, exception, isValidationException));
+
+        // 生成最终模板
+        var monitorMessage = TP.Wrapper(Title, displayName, monitorItems.ToArray());
+
+        // 创建日志记录器
+        var logger = httpContext.RequestServices.GetRequiredService<ILogger<LoggingMonitor>>();
+
+        // 调用外部配置
+        LoggingMonitorSettings.Configure?.Invoke(logger, logContext, resultContext as FilterContext);
+
+        writer.WriteEndObject();
+        writer.Flush();
+
+        // 获取 json 字符串
+        var jsonString = Encoding.UTF8.GetString(stream.ToArray());
+        logContext.Set("loggingMonitor", jsonString);
+
+        // 设置日志上下文
+        using var scope = logger.ScopeContext(logContext);
+
+        // 获取最终写入日志消息格式
+        var finalMessage = GetJsonBehavior(JsonBehavior, monitorMethod) == Furion.Logging.JsonBehavior.OnlyJson ? jsonString : monitorMessage;
+
+        // 写入日志，如果没有异常使用 LogInformation，否则使用 LogError
+        if (exception == null) logger.LogInformation(finalMessage);
+        else
+        {
+            // 如果不是验证异常，写入 Error
+            if (!isValidationException) logger.LogError(exception, finalMessage);
+            else
+            {
+                // 读取配置的日志级别并写入
+                logger.Log(Settings.BahLogLevel, finalMessage);
+            }
+        }
     }
 }
