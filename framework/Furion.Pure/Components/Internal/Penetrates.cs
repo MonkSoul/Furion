@@ -60,7 +60,7 @@ internal static class Penetrates
     internal static void CreateDependLinkList(Type componentType, ref List<Type> dependLinkList, ref List<ComponentContext> componentContextLinkList)
     {
         // 获取 [DependsOn] 特性
-        var dependsOnAttribute = componentType.GetCustomAttribute<DependsOnAttribute>();
+        var dependsOnAttribute = componentType.GetCustomAttribute<DependsOnAttribute>(true);
 
         // 获取依赖组件列表
         var dependComponents = dependsOnAttribute?.DependComponents?.Distinct()?.ToArray() ?? Array.Empty<Type>();

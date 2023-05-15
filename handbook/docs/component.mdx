@@ -5,6 +5,21 @@ sidebar_label: 3.2 组件化启动
 description: 组件化配置依赖服务或许是最佳实践
 ---
 
+import Tag from "@site/src/components/Tag.js";
+
+<details>
+  <summary>📝 模块更新日志</summary>
+  <div>
+<div>
+
+- **其他更改**
+
+  - &nbsp;<Tag>调整</Tag> 组件 `Component` 模式支持 `[DependsOn]` 支持继承 <sup>4.8.8.16</sup> <sup>⏱️2023.05.15</sup> [#I733RF](https://gitee.com/dotnetchina/Furion/issues/I733RF)
+
+</div>
+  </div>
+</details>
+
 ## 3.2.1 历史背景
 
 在 `.NET Core 2+` 之后，微软创造了 `Startup.cs` 模式，在这样的模式中，需要任何服务或者中间件处理，只需要在 `Startup.cs` 文件的两个方法（`ConfigureServices` 和 `Configure`）中配置即可。
@@ -252,6 +267,7 @@ public interface IWebComponent : IComponent
 ```
 
 需要注册中间件可在 `Load` 方法中注册即可。
+
 ### 3.2.4.3 注册组件
 
 `Furion` 提供了多种注册组件的方式：
