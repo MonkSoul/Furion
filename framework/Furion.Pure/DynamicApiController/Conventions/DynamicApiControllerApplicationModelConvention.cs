@@ -896,9 +896,11 @@ internal sealed class DynamicApiControllerApplicationModelConvention : IApplicat
                 foreach (var temp in templates)
                 {
                     // 处理带路由约束的路由参数模板 https://gitee.com/zuohuaijun/Admin.NET/issues/I736XJ
-                    var t = !temp.Contains(":", StringComparison.CurrentCulture)
-                        ? temp
-                        : temp[..temp.IndexOf(":")] + "}";
+                    var t = !temp.Contains("?", StringComparison.CurrentCulture)
+                        ? (!temp.Contains(":", StringComparison.CurrentCulture)
+                            ? temp
+                            : temp[..temp.IndexOf(":")] + "}")
+                        : temp[..temp.IndexOf("?")] + "}";
 
                     if (!paramTemplates.Contains(t, StringComparer.OrdinalIgnoreCase))
                     {
