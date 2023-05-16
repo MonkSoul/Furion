@@ -2,13 +2,13 @@
 
 	<PropertyGroup>
 		<TargetFrameworks>net5.0;net6.0;net7.0;net8.0</TargetFrameworks>
-		<Version>4.8.8.17</Version>
+		<Version>4.8.8.18</Version>
 		<Description>Furion 纯净版 Xunit 单元测试拓展插件。</Description>
 		<ImplicitUsings>enable</ImplicitUsings>
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Furion.Pure" Version="4.8.8.17" />
+		<PackageReference Include="Furion.Pure" Version="4.8.8.18" />
 		<PackageReference Include="xunit.extensibility.execution" Version="2.4.2" />
 	</ItemGroup>
 
