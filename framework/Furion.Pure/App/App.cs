@@ -331,13 +331,58 @@ public static class App
     }
 
     /// <summary>
-    /// 编译 C# 类定义代码
+    /// 编译 C# 类定义代码返回程序集
     /// </summary>
     /// <param name="csharpCode">字符串代码</param>
     /// <param name="assemblyName">自定义程序集名称</param>
     /// <param name="additionalAssemblies">附加的程序集</param>
     /// <returns><see cref="Assembly"/></returns>
     public static Assembly CompileCSharpClassCode(string csharpCode, string assemblyName = default, params Assembly[] additionalAssemblies)
+    {
+        // 编译代码
+        using var memoryStream = CompileCSharpClassCodeToStream(csharpCode, assemblyName, additionalAssemblies);
+
+        // 返回编译程序集
+        return Assembly.Load(memoryStream.ToArray());
+    }
+
+    /// <summary>
+    /// 编译 C# 类定义代码保存为 dll
+    /// </summary>
+    /// <param name="csharpCode">字符串代码</param>
+    /// <param name="assemblyName">自定义程序集名称</param>
+    /// <param name="additionalAssemblies">附加的程序集</param>
+    /// <returns><see cref="Assembly"/></returns>
+    public static Assembly CompileCSharpClassCodeToDll(string csharpCode, string assemblyName = default, params Assembly[] additionalAssemblies)
+    {
+        var assName = string.IsNullOrWhiteSpace(assemblyName) ? Path.GetRandomFileName() : assemblyName.Trim();
+
+        // 编译代码
+        using var memoryStream = CompileCSharpClassCodeToStream(csharpCode, assName, additionalAssemblies);
+
+        // 保存到 dll 文件
+        using var fileStream = new FileStream(
+            path: Path.Combine(AppContext.BaseDirectory, $"{assName}.dll"),
+            mode: FileMode.OpenOrCreate,
+            access: FileAccess.Write,
+            share: FileShare.None,
+            bufferSize: 8192,
+            useAsync: true);
+
+        memoryStream.CopyTo(fileStream);
+
+        // 返回编译程序集
+        return Assembly.Load(memoryStream.ToArray());
+    }
+
+    /// <summary>
+    /// 编译 C# 类定义代码返回内存流
+    /// </summary>
+    /// <param name="csharpCode">字符串代码</param>
+    /// <param name="assemblyName">自定义程序集名称</param>
+    /// <param name="additionalAssemblies">附加的程序集</param>
+    /// <returns><see cref="Assembly"/></returns>
+    public static MemoryStream CompileCSharpClassCodeToStream(string csharpCode, string assemblyName = default, params Assembly[] additionalAssemblies)
     {
         // 空检查
         if (csharpCode == null) throw new ArgumentNullException(nameof(csharpCode));
@@ -378,7 +423,7 @@ public static class App
           new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary));
 
         // 编译代码
-        using var memoryStream = new MemoryStream();
+        var memoryStream = new MemoryStream();
         var emitResult = compilation.Emit(memoryStream);
 
         // 编译失败抛出异常
@@ -389,8 +434,7 @@ public static class App
 
         memoryStream.Position = 0;
 
-        // 返回编译程序集
-        return Assembly.Load(memoryStream.ToArray());
+        return memoryStream;
     }
 
     /// <summary>
