@@ -347,13 +347,13 @@ public static class App
     }
 
     /// <summary>
-    /// 编译 C# 类定义代码保存为 dll
+    /// 编译 C# 类定义代码保存为 dll 文件
     /// </summary>
     /// <param name="csharpCode">字符串代码</param>
     /// <param name="assemblyName">自定义程序集名称</param>
     /// <param name="additionalAssemblies">附加的程序集</param>
     /// <returns><see cref="Assembly"/></returns>
-    public static Assembly CompileCSharpClassCodeToDll(string csharpCode, string assemblyName = default, params Assembly[] additionalAssemblies)
+    public static Assembly CompileCSharpClassCodeToDllFile(string csharpCode, string assemblyName = default, params Assembly[] additionalAssemblies)
     {
         var assName = string.IsNullOrWhiteSpace(assemblyName) ? Path.GetRandomFileName() : assemblyName.Trim();
 
