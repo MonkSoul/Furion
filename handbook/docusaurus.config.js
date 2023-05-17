@@ -21,7 +21,7 @@ module.exports = {
       config: {},
     },
     announcementBar: {
-      id: "v4.8.8.18",
+      id: "v4.8.8.19",
       content:
         "🚀 Furion v4.8.8 LTS 已发布，浏览 <a href='/docs/upgrade'>[更新日志]</a> 或查看 <a href='https://gitee.com/dotnetchina/Furion/issues/I6VF8V' target='_blank'>[本期更新]</a>",
       backgroundColor: "#723cff",
@@ -75,7 +75,7 @@ module.exports = {
           position: "left",
           items: [
             {
-              label: "📝 查看日志（v4.8.8.18）",
+              label: "📝 查看日志（v4.8.8.19）",
               href: "/docs/upgrade",
             },
             {
