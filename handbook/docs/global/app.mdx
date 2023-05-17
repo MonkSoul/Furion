@@ -318,3 +318,20 @@ public class MyJob : IJob
 // 生成运行时 MyJob 类型
 var jobType = jobAssembly.GetType("YourProject.MyJob");
 ```
+
+- 支持返回 `MemoryStream` 对象
+
+```cs showLineNumbers {2}
+// 返回内存
+var memoryStream = App.CompileCSharpClassCodeToStream("C# 类定义代码");
+
+// 转换成程序集
+var assembly = Assembly.Load(memoryStream.ToArray());
+```
+
+- 支持保存为 `dll` 文件
+
+```cs showLineNumbers {2}
+// 保存为 .dll 文件并返回程序集
+var assembly = App.CompileCSharpClassCodeToDllFile("C# 类定义代码");
+```
