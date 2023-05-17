@@ -93,7 +93,7 @@ function Banner() {
               to={useBaseUrl("docs/category/getstart")}
             >
               入门指南
-              <span className="furion-version">v4.8.8.19</span>
+              <span className="furion-version">v4.8.8.20</span>
             </Link>
             <Link
               className="furion-try-demo"
