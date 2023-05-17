@@ -42,34 +42,26 @@ public sealed class ScheduleUIMiddleware
     /// </summary>
     /// <param name="next">请求委托</param>
     /// <param name="schedulerFactory">作业计划工厂</param>
-    /// <param name="requestPath">UI 入口地址</param>
-    /// <param name="syncRate">看板刷新频次（毫秒）</param>
+    /// <param name="options">UI 配置选项</param>
     public ScheduleUIMiddleware(RequestDelegate next
         , ISchedulerFactory schedulerFactory
-        , string requestPath
-        , int syncRate)
+        , ScheduleUIOptions options)
     {
         _next = next;
         _schedulerFactory = schedulerFactory;
-        RequestPath = requestPath;
-        ApiRequestPath = $"{requestPath}/api";
-        SyncRate = syncRate;
+        Options = options;
+        ApiRequestPath = $"{options.RequestPath}/api";
     }
 
     /// <summary>
-    /// UI 入口地址
+    /// UI 配置选项
     /// </summary>
-    public string RequestPath { get; }
+    public ScheduleUIOptions Options { get; }
 
     /// <summary>
     /// API 入口地址
     /// </summary>
     public string ApiRequestPath { get; }
-
-    /// <summary>
-    /// 看板刷新频次（毫秒）
-    /// </summary>
-    public int SyncRate { get; }
 
     /// <summary>
     /// 中间件执行方法
@@ -78,26 +70,26 @@ public sealed class ScheduleUIMiddleware
     /// <returns><see cref="Task"/></returns>
     public async Task InvokeAsync(HttpContext context)
     {
-        // ================================ 处理静态文件请求 ================================
-
-        // 处理静态资源加载问题
-        if (context.Request.Path.StartsWithSegments(STATIC_FILES_PATH))
+        // 非看板请求跳过
+        if (!context.Request.Path.StartsWithSegments(Options.RequestPath, StringComparison.OrdinalIgnoreCase))
         {
-            var targetPath = context.Request.Path.Value?[STATIC_FILES_PATH.Length..];
+            await _next(context);
+            return;
+        }
 
-            // 如果不是配置文件直接重定向
-            if (!targetPath.EndsWith("apiconfig.js"))
-            {
-                context.Response.Redirect($"{RequestPath}{targetPath}", true);
-                return;
-            }
+        // ================================ 处理静态文件请求 ================================
+        var staticFilePath = Options.RequestPath + "/";
+        if (context.Request.Path.Equals(staticFilePath, StringComparison.OrdinalIgnoreCase) || context.Request.Path.Equals(staticFilePath + "apiconfig.js", StringComparison.OrdinalIgnoreCase))
+        {
+            var targetPath = context.Request.Path.Value?[staticFilePath.Length..];
+            var isIndex = string.IsNullOrEmpty(targetPath);
 
             // 获取当前类型所在程序集和对应嵌入式文件路径
             var currentAssembly = typeof(ScheduleUIExtensions).Assembly;
 
             // 读取配置文件内容
             byte[] buffer;
-            using (var readStream = currentAssembly.GetManifestResourceStream($"{currentAssembly.GetName().Name}.Schedule.Dashboard.frontend.apiconfig.js"))
+            using (var readStream = currentAssembly.GetManifestResourceStream($"{currentAssembly.GetName().Name}.Schedule.Dashboard.frontend.{(isIndex ? "index.html" : targetPath)}"))
             {
                 buffer = new byte[readStream.Length];
                 await readStream.ReadAsync(buffer);
@@ -108,13 +100,15 @@ public sealed class ScheduleUIMiddleware
             using (var stream = new MemoryStream(buffer))
             {
                 using var streamReader = new StreamReader(stream, new UTF8Encoding(false));
-                content = (await streamReader.ReadToEndAsync())
-                                             .Replace("%(RequestPath)", RequestPath)
-                                             .Replace("%(SyncRate)", SyncRate.ToString());
+                content = await streamReader.ReadToEndAsync();
+                content = isIndex
+                    ? content.Replace(STATIC_FILES_PATH, $"{Options.VirtualPath}{Options.RequestPath}")
+                    : content.Replace("%(RequestPath)", $"{Options.VirtualPath}{Options.RequestPath}")
+                             .Replace("%(SyncRate)", Options.SyncRate.ToString());
             }
 
             // 输出到客户端
-            context.Response.ContentType = $"text/javascript; charset=utf-8";
+            context.Response.ContentType = $"text/{(isIndex ? "html" : "javascript")}; charset=utf-8";
             await context.Response.WriteAsync(content);
             return;
         }
@@ -122,7 +116,7 @@ public sealed class ScheduleUIMiddleware
         // ================================ 处理 API 请求 ================================
 
         // 如果不是以 API_REQUEST_PATH 开头，则跳过
-        if (!context.Request.Path.StartsWithSegments(ApiRequestPath))
+        if (!context.Request.Path.StartsWithSegments(ApiRequestPath, StringComparison.OrdinalIgnoreCase))
         {
             await _next(context);
             return;

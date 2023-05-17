@@ -65,7 +65,7 @@ public static class ScheduleUIExtensions
         if (options.SyncRate < 300) throw new InvalidOperationException($"The sync rate cannot be less than 300ms, but the value is <{options.SyncRate}ms>.");
 
         // 注册 Schedule 中间件
-        app.UseMiddleware<ScheduleUIMiddleware>(options.RequestPath, options.SyncRate);
+        app.UseMiddleware<ScheduleUIMiddleware>(options);
 
         // 获取当前类型所在程序集
         var currentAssembly = typeof(ScheduleUIExtensions).Assembly;

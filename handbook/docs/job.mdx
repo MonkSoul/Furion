@@ -13,6 +13,7 @@ import Tag from "@site/src/components/Tag.js";
 
 - **新特性**
 
+  - &nbsp;<Tag>新增</Tag> 定时任务支持二级虚拟目录 `VisualPath` 配置部署 <sup>4.8.8.20</sup> <sup>⏱️2023.05.18</sup> [#I740IA](https://gitee.com/dotnetchina/Sundial/issues/I740IA)
   - &nbsp;<Tag>新增</Tag> 定时任务作业处理程序工厂 `IJobFactory` 支持 <sup>4.8.8.13</sup> <sup>⏱️2023.05.08</sup> [ad58dd3](https://gitee.com/dotnetchina/Furion/commit/ad58dd3141ed40e58cd486895ac6c1f21803797c)
   - &nbsp;<Tag>新增</Tag> 定时任务 `Schedular.CompileCSharpClassCode(code)` 支持动态编译作业处理程序代码 <sup>4.8.8.7</sup> <sup>⏱️2023.04.30</sup> [fe1e8a1](https://gitee.com/dotnetchina/Furion/commit/fe1e8a1768c7020477684689b35a2a1349ec2b01)
   - &nbsp;<Tag>新增</Tag> 定时任务支持配置 `IJob` 执行异常 `FallbackAsync` 回退策略 <sup>4.8.8.6</sup> <sup>⏱️2023.04.25</sup> [7671489](https://gitee.com/dotnetchina/Furion/commit/7671489a46ec7c957e92b7fbf9836e27f9077e24)
@@ -6508,9 +6509,10 @@ host.Run();
 
 `app.UseScheduleUI` 提供了可选的 `ScheduleUIOptions` 配置选项，提供以下配置：
 
-- `RequestPath`：配置看板入口地址，`string` 类型，默认 `/schedule`
+- `RequestPath`：配置看板入口地址，`string` 类型，默认 `/schedule`，需以 `/` 开头，结尾不包含 `/`
 - `DisableOnProduction`：是否在生产环境关闭，`bool` 类型，默认 `false`
 - `SyncRate`：控制看板刷新频率，`int` 类型，默认 `300`，单位 `毫秒`，`Furion 4.8.7.43+` 支持
+- `VisualPath`：二级虚拟目录路径，`string` 类型，需以 `/` 开头，结尾不包含 `/` ，`Furion 4.8.8.20+` 支持
 
 接着打开浏览器并访问 `/schedule` 地址即可：
 

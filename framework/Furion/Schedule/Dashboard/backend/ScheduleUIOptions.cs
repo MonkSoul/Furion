@@ -41,4 +41,10 @@ public sealed class ScheduleUIOptions
     /// 看板刷新频次（毫秒）
     /// </summary>
     public int SyncRate { get; set; } = 300;
+
+    /// <summary>
+    /// 二级虚拟目录
+    /// </summary>
+    /// <remarks>需以 / 开头，结尾不包含 / </remarks>
+    public string VirtualPath { get; set; }
 }
