@@ -41,7 +41,7 @@ public static class DependencyInjectionServiceCollectionExtensions
         services.AddInnerDependencyInjection();
 
         // 注册命名服务
-        services.AddScoped(typeof(INamedServiceProvider<>), typeof(NamedServiceProvider<>));
+        services.AddTransient(typeof(INamedServiceProvider<>), typeof(NamedServiceProvider<>));
 
         return services;
     }
