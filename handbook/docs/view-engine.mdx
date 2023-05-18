@@ -1,7 +1,7 @@
 ---
 id: view-engine
-title: 17. 视图引擎
-sidebar_label: 17. 视图引擎
+title: 17. 视图/模板引擎
+sidebar_label: 17. 视图/模板j引擎
 ---
 
 import Tag from "@site/src/components/Tag.js";
@@ -321,46 +321,9 @@ var result = template.Run(instance =>
 Hello 10, Alex, -=123=-
 ```
 
-## 17.5 `IViewEngine` 接口
+## 17.5 特殊字符处理
 
-`IViewEngine` 提供了简单方便的 `RunCompile` 方法，也提供了最原始化的 `Compile` 和 `Run` 方法。
-
-通过原始的 `Compile` 和 `Run` 方法可以实现很多复杂的逻辑和自定义指令集。
-
-```cs showLineNumbers
-/// <summary>
-/// 编译模板
-/// </summary>
-/// <param name="content"></param>
-/// <param name="builderAction"></param>
-/// <returns></returns>
-IViewEngineTemplate Compile(string content, Action<IViewEngineOptionsBuilder> builderAction = null);
-/// <summary>
-/// 编译模板
-/// </summary>
-/// <param name="content"></param>
-/// <param name="builderAction"></param>
-/// <returns></returns>
-Task<IViewEngineTemplate> CompileAsync(string content, Action<IViewEngineOptionsBuilder> builderAction = null);
-/// <summary>
-/// 编译模板
-/// </summary>
-/// <typeparam name="T"></typeparam>
-/// <param name="content"></param>
-/// <param name="builderAction"></param>
-/// <returns></returns>
-IViewEngineTemplate<T> Compile<T>(string content, Action<IViewEngineOptionsBuilder> builderAction = null)
-    where T : IViewEngineModel;
-/// <summary>
-/// 编译模板
-/// </summary>
-/// <typeparam name="T"></typeparam>
-/// <param name="content"></param>
-/// <param name="builderAction"></param>
-/// <returns></returns>
-Task<IViewEngineTemplate<T>> CompileAsync<T>(string content, Action<IViewEngineOptionsBuilder> builderAction = null)
-    where T : IViewEngineModel;
-```
+如有特殊符号如：`<`，`<>`，`&` 等符号，可通过 `@("<")` 进行原样输出。
 
 ## 17.6 字符串模板替换引擎
 
