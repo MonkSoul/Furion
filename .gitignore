@@ -342,7 +342,7 @@ healthchecksdb
 
 # NodeJS node_modules
 handbook/node_modules
-# handbook/build
+handbook/build
 
 # Ignore project some folders
 framework/**/*.xml
