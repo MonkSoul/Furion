@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunkfurion=self.webpackChunkfurion||[]).push([[3923],{8521:o=>{o.exports=JSON.parse('{"permalink":"/blog/tags/download","page":1,"postsPerPage":10,"totalPages":1,"totalCount":1,"blogDescription":"Blog","blogTitle":"Blog"}')}}]);
