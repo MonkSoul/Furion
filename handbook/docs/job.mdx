@@ -2289,38 +2289,7 @@ crit: 2022-12-04 12:49:10.4360088 +08:00 星期日 L System.Logging.ScheduleServ
       Schedule hosted service is stopped.
 ```
 
-### 26.1.4.10 设置本次执行结果
-
-:::important 版本说明
-
-以下内容仅限 `Furion 4.8.7.7 +` 版本使用。
-
-:::
-
-有时候我们希望能够记录本次作业触发器触发返回结果，可通过 `context.Result` 进行设置。
-
-也可以通过该值来判断作业是否成功执行，如设置了 `Result` 值但实际发现 `trigger.Result` 为 `null`，那么也就是本次执行未成功。
-
-```cs showLineNumbers {13}
-public class MyJob : IJob
-{
-    private readonly ILogger<MyJob> _logger;
-    public MyJob(ILogger<MyJob> logger)
-    {
-        _logger = logger;
-    }
-
-    public async Task ExecuteAsync(JobExecutingContext context, CancellationToken stoppingToken)
-    {
-        _logger.LogInformation($"{context}");
-
-        context.Result = "执行成功并返回 OK";
-        await Task.CompletedTask;
-    }
-}
-```
-
-### 26.1.4.11 `HTTP` 请求作业
+### 26.1.4.10 `HTTP` 请求作业
 
 :::important 版本说明
 
@@ -2511,7 +2480,7 @@ services.AddSchedule(options =>
 });
 ```
 
-### 26.1.4.12 设置本次执行结果
+### 26.1.4.11 设置本次执行结果
 
 :::important 版本说明
 
@@ -2519,7 +2488,9 @@ services.AddSchedule(options =>
 
 :::
 
-在一些特定作业处理程序中，有时候希望输出（记录）本次作业一些返回值，此时可通过 `context.Result` 实现，如：
+有时候我们希望能够记录本次作业触发器触发返回结果，可通过 `context.Result` 进行设置。
+
+也可以通过该值来判断作业是否成功执行，如设置了 `Result` 值但实际发现 `trigger.Result` 为 `null`，那么也就是本次执行未成功。
 
 ```cs showLineNumbers{13}
 public class MyJob : IJob
