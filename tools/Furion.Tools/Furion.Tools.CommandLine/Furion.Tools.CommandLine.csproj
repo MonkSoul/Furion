@@ -1,8 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFrameworks>net5.0;net6.0;net7.0;net8.0</TargetFrameworks>
-		<Version>4.8.8.21</Version>
 		<PackAsTool>false</PackAsTool>
 		<Description>Furion 包管理工具开发库</Description>
 	</PropertyGroup>
