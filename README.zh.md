@@ -38,4 +38,4 @@ public class HelloService
 
 ## 许可证
 
-[Furion](https://gitee.com/dotnetchina/Furion) 采用 [MIT](https://gitee.com/dotnetchina/Furion/blob/v4/LICENSE.zh-CN) 开源许可证。
+[Furion](https://gitee.com/dotnetchina/Furion) 采用 [MIT](https://gitee.com/dotnetchina/Furion/blob/v4/LICENSE.zh) 开源许可证。
