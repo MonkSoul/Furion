@@ -164,19 +164,17 @@ body:
     attributes:
       label: 异常信息
       description: 如果有异常请把详细异常堆栈粘贴上来。
-    validations:
-      required: true
   - type: textarea
     attributes:
       label: 截图或视频
       description: 如果可以的话，上传任何关于 bug 的截图。
-      value: |
-        [在这里上传图片]
+      placeholder: |
+        可直接粘贴截图或视频上传
   - type: input
     id: demo
     attributes:
       label: Demo 地址（Git/网盘/SVN）
       description: 请提供复现错误的 Demo 下载
       placeholder: https://gitee.com/your_id/your_test_project.git
-      validations:
-        required: true
+    validations:
+      required: true
