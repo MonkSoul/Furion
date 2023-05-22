@@ -1,5 +1,5 @@
 blank_issues_enabled: true
 contact_links:
-    - name: Gitee 帮助中心
-    url: https://help.gitee.com/
-    about: 提供 Git 使用指南、教程、Gitee.com 平台基本功能使用、介绍和常见问题解答
+  name: Gitee 帮助中心
+  url: https://help.gitee.com/
+  about: 提供 Git 使用指南、教程、Gitee.com 平台基本功能使用、介绍和常见问题解答
