@@ -1,24 +1,142 @@
-name: Bug 反馈
+name: 问题反馈
 description: 当你中发现了一个 Bug，导致应用崩溃或抛出异常，或者有一个组件存在问题，或者某些地方看起来不对劲。
-title: "[Bug]: "
+title: "🐛："
 labels: ["bug"]
 body:
-  - type: markdown
+  - type: dropdown
+    id: version
     attributes:
-      value: |
-        感谢对项目的支持与关注。在提出问题之前，请确保您已查看相关开发或使用文档：
-        - https://...
+      label: 版本号
+      description: 请选择项目使用的 Furion 版本？
+      options:
+        - 4.8.8.21 (最新)
+        - 4.8.8.20
+        - 4.8.8.19
+        - 4.8.8.18
+        - 4.8.8.17
+        - 4.8.8.16
+        - 4.8.8.15
+        - 4.8.8.14
+        - 4.8.8.13
+        - 4.8.8.12
+        - 4.8.8.11
+        - 4.8.8.10
+        - 4.8.8.9
+        - 4.8.8.8
+        - 4.8.8.7
+        - 4.8.8.6
+        - 4.8.8.5
+        - 4.8.8.4
+        - 4.8.8.3
+        - 4.8.8.2
+        - 4.8.8.1
+        - 4.8.8
+        - 其他版本（请升级）
+    validations:
+      required: true
+  - type: dropdown
+    id: net_sdk
+    attributes:
+      label: .NET SDK
+      description: 请选择项目使用的 .NET SDK 版本？
+      options:
+        - .NET5
+        - .NET6
+        - .NET7
+        - .NET8
+    validations:
+      required: true
+  - type: dropdown
+    id: project_type
+    attributes:
+      label: 项目类型
+      description: 请选择目标项目类型？
+      options:
+        - WebApi
+        - Mvc
+        - Razor Pages
+        - Blazor Server
+        - MinApp
+        - WinForm
+        - WPF
+        - Console
+    validations:
+      required: true
+  - type: dropdown
+    id: os_type
+    attributes:
+      label: 操作系统
+      description: 请选择操作系统类型？
+      options:
+        - Windows 11
+        - Windows 10
+        - Windows 8
+        - Ubuntu
+        - CentOS
+        - Debian
+        - Deepin
+        - Red Hat Linux
+        - 其他 Linux
+        - MacOS
+        - 其他
+    validations:
+      required: true
+  - type: dropdown
+    id: environment
+    attributes:
+      label: 运行环境
+      description: 请选择代码运行环境？
+      options:
+        - 开发环境 (Development)
+        - 生产环境 (Production)
+        - 测试环境 (单元测试/集成测试)
+    validations:
+      required: true
+  - type: dropdown
+    id: dbtype
+    attributes:
+      label: 数据库类型
+      description: 请选择使用的数据库类型？
+      options:
+        - Sqlite
+        - SqlServer 2012+
+        - SqlServer 2012-
+        - MySql 8+
+        - MySql 8-
+        - PostgreSQL
+        - Oracle 11+
+        - Oracle 11-
+        - Firebird
+        - Cosmos
+        - InMemoryDatabase
+    validations:
+      required: true
+  - type: dropdown
+    id: deploy
+    attributes:
+      label: 应用托管程序
+      description: 请选择应用托管程序软件？
+      options:
+        - IIS
+        - Nginx
+        - Docker
+        - PodMan
+        - PM2
+        - Kestrel
+        - 单文件
+    validations:
+      required: true
   - type: checkboxes
     attributes:
       label: 这个问题是否已经存在？
       options:
-        - label: 我已经搜索过现有的问题 (https://gitee.com/../../issues)
+        - label: 我已经搜索过现有的问题 (https://gitee.com/dotnetchina/Furion/issues)
           required: true
   - type: textarea
     attributes:
       label: 如何复现
       description: 请详细告诉我们如何复现你遇到的问题，如涉及代码，可提供一个最小代码示例，并使用反引号```附上它
-      placeholder: | 
+      placeholder: |
         1. ...
         2. ...
         3. ...
@@ -38,17 +156,13 @@ body:
       required: true
   - type: textarea
     attributes:
+      label: 异常信息
+      description: 如果有异常请把详细异常堆栈粘贴上来。
+    validations:
+      required: true
+  - type: textarea
+    attributes:
       label: 截图或视频
       description: 如果可以的话，上传任何关于 bug 的截图。
       value: |
         [在这里上传图片]
-  - type: dropdown
-    id: version
-    attributes:
-      label: 版本
-      description: 你当前正在使用我们软件的哪个版本/分支？
-      options:
-        - 1.0.2 (默认)
-        - 1.0.3 (最新)
-    validations:
-      required: true
