@@ -13,6 +13,7 @@
 - [ ] .NET5
 - [ ] .NET6
 - [ ] .NET7
+- [ ] .NET8
 
 ---
 
@@ -43,6 +44,17 @@
 - [ ] 开发环境（Development）
 - [ ] 生产环境（Production）
 - [ ] 测试环境（Tests/单元测试/集成测试 ）
+
+---
+
+### 托管程序
+
+- [ ] IIS（版本号）
+- [ ] Nginx
+- [ ] Docker
+- [ ] PM2
+- [ ] Kestrel
+- [ ] 单文件
 
 ---
 
