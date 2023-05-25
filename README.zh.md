@@ -1,4 +1,4 @@
-**简体中文** | [English](https://github.com/MonkSoul/Furion) | 商用无需授权，慷慨[赞助](https://furion.baiqian.ltd/docs/donate)
+**中** | [En](https://github.com/MonkSoul/Furion) | 商用无需授权，慷慨[赞助](https://furion.baiqian.ltd/docs/donate)
 
 # 先知
 

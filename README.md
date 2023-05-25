@@ -1,4 +1,4 @@
-[简体中文](https://gitee.com/dotnetchina/Furion) | **English** | Commercial use is allowed, generous [sponsorship](https://furion.baiqian.ltd/docs/donate)
+[中](https://gitee.com/dotnetchina/Furion) | **En** | Commercial use is allowed, generous [sponsorship](https://furion.baiqian.ltd/docs/donate)
 
 # Furion
 
