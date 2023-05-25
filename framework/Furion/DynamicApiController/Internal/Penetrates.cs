@@ -35,14 +35,14 @@ internal static class Penetrates
     /// <summary>
     /// 控制器排序集合
     /// </summary>
-    internal static ConcurrentDictionary<string, (string, int)> ControllerOrderCollection { get; set; }
+    internal static ConcurrentDictionary<string, (string, int, Type)> ControllerOrderCollection { get; set; }
 
     /// <summary>
     /// 构造函数
     /// </summary>
     static Penetrates()
     {
-        ControllerOrderCollection = new ConcurrentDictionary<string, (string, int)>();
+        ControllerOrderCollection = new ConcurrentDictionary<string, (string, int, Type)>();
 
         VerbToHttpMethods = new ConcurrentDictionary<string, string>
         {

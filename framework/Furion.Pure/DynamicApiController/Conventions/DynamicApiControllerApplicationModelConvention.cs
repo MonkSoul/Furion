@@ -84,7 +84,7 @@ internal sealed class DynamicApiControllerApplicationModelConvention : IApplicat
                 if (!_dynamicApiControllerSettings.SupportedMvcController.Value || controller.ApiExplorer?.IsVisible == false)
                 {
                     // 存储排序给 Swagger 使用
-                    Penetrates.ControllerOrderCollection.TryAdd(controller.ControllerName, (controllerApiDescriptionSettings?.Tag ?? controller.ControllerName, controllerApiDescriptionSettings?.Order ?? 0));
+                    Penetrates.ControllerOrderCollection.TryAdd(controller.ControllerName, (controllerApiDescriptionSettings?.Tag ?? controller.ControllerName, controllerApiDescriptionSettings?.Order ?? 0, controller.ControllerType));
 
                     // 控制器默认处理规范化结果
                     if (UnifyContext.EnabledUnifyHandler)
@@ -121,7 +121,7 @@ internal sealed class DynamicApiControllerApplicationModelConvention : IApplicat
         ConfigureControllerRouteAttribute(controller, controllerApiDescriptionSettings);
 
         // 存储排序给 Swagger 使用
-        Penetrates.ControllerOrderCollection.TryAdd(controller.ControllerName, (controllerApiDescriptionSettings?.Tag ?? controller.ControllerName, controllerApiDescriptionSettings?.Order ?? 0));
+        Penetrates.ControllerOrderCollection.TryAdd(controller.ControllerName, (controllerApiDescriptionSettings?.Tag ?? controller.ControllerName, controllerApiDescriptionSettings?.Order ?? 0, controller.ControllerType));
 
         var actions = controller.Actions;
 

@@ -31,7 +31,9 @@ public class TagsOrderDocumentFilter : IDocumentFilter
     /// <param name="context"></param>
     public void Apply(OpenApiDocument swaggerDoc, DocumentFilterContext context)
     {
-        swaggerDoc.Tags = Penetrates.ControllerOrderCollection.OrderByDescending(u => u.Value.Item2)
+        swaggerDoc.Tags = Penetrates.ControllerOrderCollection
+            .Where(u => SpecificationDocumentBuilder.GetControllerGroups(u.Value.Item3).Any(c => c.Group == context.DocumentName))
+            .OrderByDescending(u => u.Value.Item2)
             .ThenBy(u => u.Key)
             .Select(c => new OpenApiTag
             {
