@@ -9,6 +9,21 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
 
+import Tag from "@site/src/components/Tag.js";
+
+<details>
+  <summary>📝 模块更新日志</summary>
+  <div>
+<div>
+
+- **新特性**
+
+  - &nbsp;<Tag>新增</Tag> 配置模块 `IgnoreConfigurationFiles` 支持完整的文件通配符 <sup>4.8.8.22</sup> <sup>⏱️2023.05.25</sup> [#I78ABL](https://gitee.com/dotnetchina/Furion/issues/I78ABL)
+
+</div>
+  </div>
+</details>
+
 :::caution 自定义配置特别注意
 
 如：`xxxx.json`，必须在 `VS Studio` 中右键属性设置 `复制` 输出目录为 `如果较新则复制`，生成操作为：`内容`。
@@ -339,6 +354,20 @@ var smtpServer = _configuration["outlook:smtp:server"]; // => smtp.office365.com
   "IgnoreConfigurationFiles": ["runtime.json"]
 }
 ```
+
+:::tip 通配符支持
+
+`Furion 4.8.8.22+` 版本支持完整的通配符支持，如：
+
+```json showLineNumbers
+{
+  "IgnoreConfigurationFiles": ["seed_*.json"]
+}
+```
+
+额外知识：[文件通配符语法](https://learn.microsoft.com/zh-cn/dotnet/core/extensions/file-globbing)。
+
+:::
 
 ## 4.1.5 不同环境读取
 
