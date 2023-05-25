@@ -769,9 +769,9 @@ var json = JsonSerializer.Serialize(value, value.GetType());
 
 查看详细文档：[https://learn.microsoft.com/zh-cn/dotnet/standard/serialization/system-text-json/polymorphism?pivots=dotnet-6-0](https://learn.microsoft.com/zh-cn/dotnet/standard/serialization/system-text-json/polymorphism?pivots=dotnet-6-0)
 
-## 23.6 `DataTable`、`DataSet`、`Tuple` 、`JArray`，`JObject` 等序列化问题
+## 23.6 `DataTable`、`DataSet`、`Tuple` 、`JArray`，`JObject`，`JToken` 等序列化问题
 
-由于 `Furion` 默认采用 `System.Text.Json` 进行序列化，但是不支持复杂类型，如 `DataTable`、`DataSet`、`Tuple` 、`JArray`，`JObject`等类型，所以需要更换成 `NewtonsoftJson` 即可，见 [JSON 序列化 - 23.5.1 自定义序列化提供器](./json-serialization#2351-自定义序列化提供器)
+由于 `Furion` 默认采用 `System.Text.Json` 进行序列化，但是不支持复杂类型，如 `DataTable`、`DataSet`、`Tuple` 、`JArray`，`JObject`、`JToken` 等类型，所以需要更换成 `NewtonsoftJson` 即可，见 [JSON 序列化 - 23.5.1 自定义序列化提供器](./json-serialization#2351-自定义序列化提供器)
 
 ## 23.7 `System.Text.Json` 和 `Newtonsoft.Json` 完整差异化对比
 

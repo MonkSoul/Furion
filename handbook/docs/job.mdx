@@ -6542,6 +6542,12 @@ var args = Schedular.Deserialize<Dictionary<string, object>>(stringJobData);
 
 在作业处理程序中如需使用到延迟线程操作，推荐使用 `Task.Delay` 而不是 `Thread.Sleep`，原因是后者是同步延迟会阻塞线程，而且不能取消。
 
+### 26.1.17.5 定时任务部署说明
+
+部署定时任务请确保服务器（操作系统）不回进入休眠且长时间运行。
+
+如果在项目中使用了定时任务且部署到 `IIS` 中，那么需要设置 `IIS` 禁止回收，避免事件总线服务进入休眠，[点击查看 `IIS` 回收问题解决方案](./deploy-iis#3415-iis-%E5%9B%9E%E6%94%B6%E9%97%AE%E9%A2%98%E5%92%8C%E9%85%8D%E7%BD%AE)。
+
 ## 26.1.18 反馈与建议
 
 :::note 与我们交流
