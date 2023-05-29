@@ -147,7 +147,40 @@ set ASPNETCORE_ENVIRONMENT=Production
 
 这样即可解决 `IIS` 回收问题。
 
-## 34.1.6 反馈与建议
+## 34.1.6 卷影（无占用）复制发布替换
+
+正常情况下如果我们代码重新发布后替换 `IIS` 中的文件，这时候会出现文件占用无法进行替换，过去运维人员都是先停止站点后替换再启动。但我们也可以配置 `web.config` 文件启用卷影复制模式实现类似**热更新**操作，如：
+
+```xml showLineNumbers {12-18}
+<?xml version="1.0" encoding="utf-8"?>
+<configuration>
+  <!-- To customize the asp.net core module uncomment and edit the following section.
+  For more info see https://go.microsoft.com/fwlink/?linkid=838655 -->
+
+  <system.webServer>
+    <handlers>
+      <remove name="aspNetCore"/>
+      <add name="aspNetCore" path="*" verb="*" modules="AspNetCoreModulev2" resourceType="Unspecified"/>
+    </handlers>
+    <aspNetCore processPath="%LAUNCHER_PATH%" arguments="%LAUNCHER_ARGS%" stdoutLogEnabled="false" stdoutLogFile=".\logs\stdout">
+      <handlerSettings>
+        <handlerSetting name="experimentalEnableShadowCopy" value="true" />
+        <handlerSetting name="shadowCopyDirectory" value="../ShadowCopyDirectory/" />
+        <!-- Only enable handler logging if you encounter issues-->
+        <!--<handlerSetting name="debugFile" value=".\logs\aspnetcore-debug.log" />-->
+        <!--<handlerSetting name="debugLevel" value="FILE,TRACE" />-->
+      </handlerSettings>
+    </aspNetCore>
+  </system.webServer>
+</configuration>
+```
+
+关于卷影复制更多知识可查看以下文档：
+
+- [https://devblogs.microsoft.com/dotnet/asp-net-core-updates-in-net-6-preview-3/#shadow-copying-in-iis](https://devblogs.microsoft.com/dotnet/asp-net-core-updates-in-net-6-preview-3/#shadow-copying-in-iis)
+- [https://learn.microsoft.com/zh-cn/dotnet/framework/app-domains/shadow-copy-assemblies](https://learn.microsoft.com/zh-cn/dotnet/framework/app-domains/shadow-copy-assemblies)
+
+## 34.1.7 反馈与建议
 
 :::note 与我们交流
 
