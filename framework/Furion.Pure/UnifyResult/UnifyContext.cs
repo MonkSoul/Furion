@@ -123,7 +123,13 @@ public static class UnifyContext
                     errors = L.Text == null ? realErrorMessage : L.Text[realErrorMessage];
                 }
             }
-            else errors = exception?.InnerException?.Message ?? exception?.Message;
+            else
+            {
+                var friendlyExceptionSettings = App.GetOptions<FriendlyExceptionSettingsOptions>();
+                errors = !string.IsNullOrWhiteSpace(friendlyExceptionSettings.DefaultErrorMessage)
+                    ? friendlyExceptionSettings.DefaultErrorMessage
+                    : (exception?.InnerException?.Message ?? exception?.Message);
+            }
         }
 
         return new ExceptionMetadata

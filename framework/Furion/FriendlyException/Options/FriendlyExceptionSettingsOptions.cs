@@ -57,7 +57,7 @@ public sealed class FriendlyExceptionSettingsOptions : IConfigurableOptions<Frie
     {
         options.HideErrorCode ??= false;
         options.DefaultErrorCode ??= string.Empty;
-        options.DefaultErrorMessage ??= "Internal Server Error";
+        //options.DefaultErrorMessage ??= "Internal Server Error";
         options.ThrowBah ??= false;
         options.LogError ??= true;
     }

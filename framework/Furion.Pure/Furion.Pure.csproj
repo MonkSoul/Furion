@@ -25,9 +25,16 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Furion.Pure.Extras.DependencyModel.CodeAnalysis" Version="4.8.8.22" />
-		<PackageReference Include="MiniProfiler.AspNetCore.Mvc" Version="4.2.22" />
+		<PackageReference Include="Furion.Pure.Extras.DependencyModel.CodeAnalysis" Version="4.8.8.23" />
 		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+	</ItemGroup>
+
+	<ItemGroup Condition=" '$(TargetFramework)' == 'net5.0' ">
+		<PackageReference Include="MiniProfiler.AspNetCore.Mvc" Version="4.2.22" />
+	</ItemGroup>
+
+	<ItemGroup Condition=" '$(TargetFramework)' != 'net5.0' ">
+		<PackageReference Include="MiniProfiler.AspNetCore.Mvc" Version="4.3.8" />
 	</ItemGroup>
 
 </Project>
