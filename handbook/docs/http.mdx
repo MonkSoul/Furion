@@ -92,22 +92,22 @@ public void ConfigureServices(IServiceCollection services)
 ```cs showLineNumbers  {1,3,6,9,12,15,18}
 public interface IHttp : IHttpDispatchProxy
 {
-    [Get("https://furion.baiqian.ltd/get")]
+    [Get("http://furion.baiqian.ltd/get")]
     Task<Result> GetXXXAsync();
 
-    [Post("https://furion.baiqian.ltd/post")]
+    [Post("http://furion.baiqian.ltd/post")]
     Task<Result> PostXXXAsync();
 
-    [Put("https://furion.baiqian.ltd/put")]
+    [Put("http://furion.baiqian.ltd/put")]
     Task<Result> PutXXXAsync();
 
-    [Delete("https://furion.baiqian.ltd/delete")]
+    [Delete("http://furion.baiqian.ltd/delete")]
     Task<Result> DeleteXXXAsync();
 
-    [Patch("https://furion.baiqian.ltd/patch")]
+    [Patch("http://furion.baiqian.ltd/patch")]
     Task<Result> PatchXXXAsync();
 
-    [Head("https://furion.baiqian.ltd/head")]
+    [Head("http://furion.baiqian.ltd/head")]
     Task<Result> HeadXXXAsync();
 }
 ```
@@ -140,17 +140,17 @@ namespace Furion.Application
   <TabItem value="字符串拓展方式">
 
 ```cs showLineNumbers
-var response = await "https://furion.baiqian.ltd/get".GetAsync();
+var response = await "http://furion.baiqian.ltd/get".GetAsync();
 
-var response = await "https://furion.baiqian.ltd/post".PostAsync();
+var response = await "http://furion.baiqian.ltd/post".PostAsync();
 
-var response = await "https://furion.baiqian.ltd/put".PutAsync();
+var response = await "http://furion.baiqian.ltd/put".PutAsync();
 
-var response = await "https://furion.baiqian.ltd/delete".DeleteAsync();
+var response = await "http://furion.baiqian.ltd/delete".DeleteAsync();
 
-var response = await "https://furion.baiqian.ltd/patch".PatchAsync();
+var response = await "http://furion.baiqian.ltd/patch".PatchAsync();
 
-var response = await "https://furion.baiqian.ltd/head".HeadAsync();
+var response = await "http://furion.baiqian.ltd/head".HeadAsync();
 ```
 
 需引入 `using Furion.RemoteRequest.Extensions` 命名空间。
@@ -170,25 +170,25 @@ var response = await "https://furion.baiqian.ltd/head".HeadAsync();
 
 ```cs showLineNumbers
 // 发送 Get 请求
-var response = await "https://furion.baiqian.ltd/get".GetAsync();
+var response = await "http://furion.baiqian.ltd/get".GetAsync();
 
 // 发送 Post 请求
-var response = await "https://furion.baiqian.ltd/post".PostAsync();
+var response = await "http://furion.baiqian.ltd/post".PostAsync();
 
 // 发送 Put 请求
-var response = await "https://furion.baiqian.ltd/put".PutAsync();
+var response = await "http://furion.baiqian.ltd/put".PutAsync();
 
 // 发送 Delete 请求
-var response = await "https://furion.baiqian.ltd/delete".DeleteAsync();
+var response = await "http://furion.baiqian.ltd/delete".DeleteAsync();
 
 // 发送 Patch 请求
-var response = await "https://furion.baiqian.ltd/patch".PatchAsync();
+var response = await "http://furion.baiqian.ltd/patch".PatchAsync();
 
 // 发送 Head 请求
-var response = await "https://furion.baiqian.ltd/head".HeadAsync();
+var response = await "http://furion.baiqian.ltd/head".HeadAsync();
 
 // 手动指定发送特定请求
-var response = await "https://furion.baiqian.ltd/post".SetHttpMethod(HttpMethod.Post)
+var response = await "http://furion.baiqian.ltd/post".SetHttpMethod(HttpMethod.Post)
                                                   .SendAsync();
 ```
 
@@ -196,27 +196,27 @@ var response = await "https://furion.baiqian.ltd/post".SetHttpMethod(HttpMethod.
 
 ```cs showLineNumbers
 // 该方式在 Furion v3.0.0 已移除，多此一举了
-await "".SetRequestUrl("https://furion.baiqian.ltd/");
+await "".SetRequestUrl("http://furion.baiqian.ltd/");
 ```
 
 ### 19.4.3 设置请求方式
 
 ```cs showLineNumbers
-await "https://furion.baiqian.ltd/post".SetHttpMethod(HttpMethod.Get);
+await "http://furion.baiqian.ltd/post".SetHttpMethod(HttpMethod.Get);
 ```
 
 ### 19.4.4 设置地址模板
 
 ```cs showLineNumbers
 // 字典方式
-await "https://furion.baiqian.ltd/post/{id}?name={name}&id={p.Id}".SetTemplates(new Dictionary<string , object> {
+await "http://furion.baiqian.ltd/post/{id}?name={name}&id={p.Id}".SetTemplates(new Dictionary<string , object> {
     { "id", 1 },
     { "name", "Furion" },
     { "p.Id", new Person { Id = 1 } }
 });
 
 // 对象/匿名对象方式
-await "https://furion.baiqian.ltd/post/{id}?name={name}".SetTemplates(new {
+await "http://furion.baiqian.ltd/post/{id}?name={name}".SetTemplates(new {
     id = 1,
     name = "Furion"
 });
@@ -228,13 +228,13 @@ await "https://furion.baiqian.ltd/post/{id}?name={name}".SetTemplates(new {
 
 ```cs showLineNumbers
 // 字典方式
-await "https://furion.baiqian.ltd/post".SetHeaders(new Dictionary<string , object> {
+await "http://furion.baiqian.ltd/post".SetHeaders(new Dictionary<string , object> {
     { "Authorization", "Bearer 你的token"},
     { "X-Authorization", "Bearer 你的刷新token"}
 });
 
 // 对象/匿名对象方式
-await "https://furion.baiqian.ltd/post".SetHeaders(new {
+await "http://furion.baiqian.ltd/post".SetHeaders(new {
     Authorization = "Bearer 你的token"
 });
 ```
@@ -243,26 +243,26 @@ await "https://furion.baiqian.ltd/post".SetHeaders(new {
 
 ```cs showLineNumbers
 // 字典方式
-await "https://furion.baiqian.ltd/get".SetQueries(new Dictionary<string , object> {
+await "http://furion.baiqian.ltd/get".SetQueries(new Dictionary<string , object> {
     { "id", 1 },
     { "name", "Furion"}
 });
 
 // 对象/匿名对象方式
-await "https://furion.baiqian.ltd/get".SetQueries(new {
+await "http://furion.baiqian.ltd/get".SetQueries(new {
     id = 1,
     name = "Furion"
 });
 
 // Furion 4.7.3+ 新增忽略 null 值重载
-await "https://furion.baiqian.ltd/get".SetQueries(new {
+await "http://furion.baiqian.ltd/get".SetQueries(new {
     id = 1,
     name = "Furion",
     nullValue = default(object)
 }, true);   // 设置 true 则忽略 null 值
 ```
 
-最终输出格式为：`https://furion.baiqian.ltd/get?id=1&name=Furion`。
+最终输出格式为：`http://furion.baiqian.ltd/get?id=1&name=Furion`。
 
 ### 19.4.7 设置请求客户端
 
@@ -294,29 +294,29 @@ await "get".SetClient("github");
 :::
 
 ```cs showLineNumbers
-await "https://furion.baiqian.ltd".SetClient(() => new HttpClient());
+await "http://furion.baiqian.ltd".SetClient(() => new HttpClient());
 ```
 
 ### 19.4.8 设置 `Body` 参数
 
 ```cs showLineNumbers
 // 传入对象
-await "https://furion.baiqian.ltd/api/user/add".SetBody(new User { Id = 1, Name = "Furion" });
+await "http://furion.baiqian.ltd/api/user/add".SetBody(new User { Id = 1, Name = "Furion" });
 
 // 配置 Content-Type
-await "https://furion.baiqian.ltd/api/user/add".SetBody(new { Id = 1, Name = "Furion" }, "application/json");
+await "http://furion.baiqian.ltd/api/user/add".SetBody(new { Id = 1, Name = "Furion" }, "application/json");
 
 // 设置 Encoding 编码
-await  "https://furion.baiqian.ltd/api/user/add".SetBody(new User { Id = 1, Name = "Furion" }, "application/json", Encoding.UTF8);
+await  "http://furion.baiqian.ltd/api/user/add".SetBody(new User { Id = 1, Name = "Furion" }, "application/json", Encoding.UTF8);
 
 // 处理 application/x-www-form-urlencoded 请求
-await "https://furion.baiqian.ltd/api/user/add".SetBody(new Dictionary<string , object> {
+await "http://furion.baiqian.ltd/api/user/add".SetBody(new Dictionary<string , object> {
     { "Id", 1 },
     { "Name", "Furion"}
 }, "application/x-www-form-urlencoded");
 
 // 处理 application/xml、text/xml
-await "https://furion.baiqian.ltd/api/user/add".SetBody("<SomeDto><SomeTag>somevalue</SomeTag></SomeDto>", "application/xml");
+await "http://furion.baiqian.ltd/api/user/add".SetBody("<SomeDto><SomeTag>somevalue</SomeTag></SomeDto>", "application/xml");
 ```
 
 :::important 特别注意
@@ -328,13 +328,13 @@ await "https://furion.baiqian.ltd/api/user/add".SetBody("<SomeDto><SomeTag>somev
 ### 19.4.9 设置 `Content-Type`
 
 ```cs showLineNumbers
-await "https://furion.baiqian.ltd/post".SetContentType("application/json");
+await "http://furion.baiqian.ltd/post".SetContentType("application/json");
 ```
 
 ### 19.4.10 设置内容编码
 
 ```cs showLineNumbers
-await "https://furion.baiqian.ltd/post".SetContentEncoding(Encoding.UTF8);
+await "http://furion.baiqian.ltd/post".SetContentEncoding(Encoding.UTF8);
 ```
 
 ### 19.4.11 设置 `JSON` 序列化提供程序
@@ -343,18 +343,18 @@ await "https://furion.baiqian.ltd/post".SetContentEncoding(Encoding.UTF8);
 
 ```cs showLineNumbers
 // 泛型方式
-await "https://furion.baiqian.ltd/api/user/add".SetJsonSerialization<NewtonsoftJsonSerializerProvider>();
+await "http://furion.baiqian.ltd/api/user/add".SetJsonSerialization<NewtonsoftJsonSerializerProvider>();
 
 // 非泛型方式
-await "https://furion.baiqian.ltd/api/user/add".SetJsonSerialization(typeof(NewtonsoftJsonSerializerProvider));
+await "http://furion.baiqian.ltd/api/user/add".SetJsonSerialization(typeof(NewtonsoftJsonSerializerProvider));
 
 // 添加更多配置
-await "https://furion.baiqian.ltd/api/user/add".SetJsonSerialization<NewtonsoftJsonSerializerProvider>(new JsonSerializerSettings {
+await "http://furion.baiqian.ltd/api/user/add".SetJsonSerialization<NewtonsoftJsonSerializerProvider>(new JsonSerializerSettings {
 
 });
 
 // 比如配置缺省的序列化选项
-await "https://furion.baiqian.ltd".SetJsonSerialization(default, new JsonSerializerOptions
+await "http://furion.baiqian.ltd".SetJsonSerialization(default, new JsonSerializerOptions
     {
         // 中文乱码
         Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping
@@ -371,10 +371,10 @@ await "https://furion.baiqian.ltd".SetJsonSerialization(default, new JsonSeriali
 ### 19.4.12 启用 `Body` 参数验证
 
 ```cs showLineNumbers
-await "https://furion.baiqian.ltd/api/user/add".SetValidationState();
+await "http://furion.baiqian.ltd/api/user/add".SetValidationState();
 
 // 设置不验证 null 值
-await "https://furion.baiqian.ltd/api/user/add".SetValidationState(includeNull: true);
+await "http://furion.baiqian.ltd/api/user/add".SetValidationState(includeNull: true);
 ```
 
 支持类中 `[Required]` 等完整模型验证特性。
@@ -382,7 +382,7 @@ await "https://furion.baiqian.ltd/api/user/add".SetValidationState(includeNull: 
 ### 19.4.13 请求拦截
 
 ```cs showLineNumbers
-await "https://furion.baiqian.ltd/".OnRequesting((client, req) => {
+await "http://furion.baiqian.ltd/".OnRequesting((client, req) => {
     // req 为 HttpRequestMessage 对象
     // 追加更多参数
     req.AppendQueries(new Dictionary<string, object> {
@@ -396,7 +396,7 @@ await "https://furion.baiqian.ltd/".OnRequesting((client, req) => {
 ### 19.4.14 `HttpClient` 拦截
 
 ```cs showLineNumbers
-await "https://furion.baiqian.ltd/".OnClientCreating(client => {
+await "http://furion.baiqian.ltd/".OnClientCreating(client => {
     // client 为 HttpClient 对象
     client.Timeout = TimeSpan.FromSeconds(30); // 设置超时时间
 });
@@ -407,7 +407,7 @@ await "https://furion.baiqian.ltd/".OnClientCreating(client => {
 ### 19.4.15 请求之前拦截
 
 ```cs showLineNumbers
-await "https://furion.baiqian.ltd/".OnRequesting((client, req) => {
+await "http://furion.baiqian.ltd/".OnRequesting((client, req) => {
     // req 为 HttpRequestMessage 对象
 });
 ```
@@ -417,7 +417,7 @@ await "https://furion.baiqian.ltd/".OnRequesting((client, req) => {
 ### 19.4.16 成功请求拦截
 
 ```cs showLineNumbers
-await "https://furion.baiqian.ltd/".OnResponsing((client, res) => {
+await "http://furion.baiqian.ltd/".OnResponsing((client, res) => {
     // res 为 HttpResponseMessage 对象
 });
 ```
@@ -427,7 +427,7 @@ await "https://furion.baiqian.ltd/".OnResponsing((client, res) => {
 ### 19.4.17 请求异常拦截
 
 ```cs showLineNumbers
-await "https://furion.baiqian.ltd/".OnException((client, res, errors) => {
+await "http://furion.baiqian.ltd/".OnException((client, res, errors) => {
     // res 为 HttpResponseMessage 对象
 });
 ```
@@ -448,13 +448,13 @@ await "https://furion.baiqian.ltd/".OnException((client, res, errors) => {
 
 ```cs showLineNumbers
 // HttpResponseMessage
-var res = await "https://furion.baiqian.ltd/".GetAsync();
+var res = await "http://furion.baiqian.ltd/".GetAsync();
 
 // Stream，可用来下载文件
-var (stream, encoding) = await "https://furion.baiqian.ltd/".GetAsStreamAsync();
+var (stream, encoding) = await "http://furion.baiqian.ltd/".GetAsStreamAsync();
 
 // T
-var user = await "https://furion.baiqian.ltd/".GetAsAsync<User>();
+var user = await "http://furion.baiqian.ltd/".GetAsAsync<User>();
 
 // String
 var str = await "https://www.baidu.com".GetAsStringAsync();
@@ -472,19 +472,19 @@ var str = await "https://www.baidu.com".GetAsStringAsync();
 
 ```cs showLineNumbers {3,7,10,15}
 // 支持单文件，bytes 可以通过 File.ReadAllBytes(文件路径) 获取
-var res = await "https://furion.baiqian.ltd/upload".SetContentType("multipart/form-data")
+var res = await "http://furion.baiqian.ltd/upload".SetContentType("multipart/form-data")
                                                .SetBodyBytes(("键", bytes, "文件名")).PostAsync();
 
 // 支持多个文件
-var res = await "https://furion.baiqian.ltd/upload".SetContentType("multipart/form-data")
+var res = await "http://furion.baiqian.ltd/upload".SetContentType("multipart/form-data")
                                                .SetBodyBytes(("键", bytes, "文件名"),("键", bytes, "文件名")).PostAsync();
 
 // 支持单文件，Furion 4.5.8 版本支持 Stream 方式更新
-var res = await "https://furion.baiqian.ltd/upload".SetContentType("multipart/form-data")
+var res = await "http://furion.baiqian.ltd/upload".SetContentType("multipart/form-data")
                                                .SetBodyBytes(("键", fileStream, "文件名")).PostAsync();
 
 // 支持多个文件，Furion 4.5.8 版本支持 Stream 方式更新
-var res = await "https://furion.baiqian.ltd/upload".SetContentType("multipart/form-data")
+var res = await "http://furion.baiqian.ltd/upload".SetContentType("multipart/form-data")
                                                .SetBodyBytes(("键", fileStream, "文件名"),("键", fileStream, "文件名")).PostAsync();
 ```
 
@@ -509,11 +509,11 @@ var result = await $"https://api.weixin.qq.com/wxa/img_sec_check?access_token={t
 
 ```cs showLineNumbers {3,7}
 // bytes 可以通过 File.ReadAllBytes(文件路径) 获取
-var res = await "https://furion.baiqian.ltd/upload".SetContentType("multipart/form-data")
+var res = await "http://furion.baiqian.ltd/upload".SetContentType("multipart/form-data")
                                                .SetFiles(HttpFile.Create("file", bytes, "image.png")).PostAsync();
 
 // 支持多个文件
-var res = await "https://furion.baiqian.ltd/upload".SetContentType("multipart/form-data")
+var res = await "http://furion.baiqian.ltd/upload".SetContentType("multipart/form-data")
                                                .SetFiles(HttpFile.CreateMultiple("files", (bytes, "image1.png"), (bytes, "image2.png"))).PostAsync();
 ```
 
@@ -522,7 +522,7 @@ var res = await "https://furion.baiqian.ltd/upload".SetContentType("multipart/fo
 有时候我们需要构建一个作用域的 `IServiceProvider`，这时只需要设置即可：
 
 ```cs showLineNumbers
-var res = await "https://furion.baiqian.ltd/upload".SetRequestScoped(services);
+var res = await "http://furion.baiqian.ltd/upload".SetRequestScoped(services);
 ```
 
 ### 19.4.21 支持模板配置
@@ -536,7 +536,7 @@ var res = await "#(Furion:Address)/upload".GetAsync();
 ```json showLineNumbers
 {
   "Furion": {
-    "Address": "https://furion.baiqian.ltd"
+    "Address": "http://furion.baiqian.ltd"
   }
 }
 ```
@@ -546,7 +546,7 @@ var res = await "#(Furion:Address)/upload".GetAsync();
 在 `Furion v2.18+` 版本支持配置重试策略，如：
 
 ```cs showLineNumbers
-var res = await "https://furion.baiqian.ltd".SetRetryPolicy(3, 1000).GetAsync();
+var res = await "http://furion.baiqian.ltd".SetRetryPolicy(3, 1000).GetAsync();
 ```
 
 以上代码表示请求失败重试 `3` 次，每次延迟 `1000ms` 。
@@ -556,7 +556,7 @@ var res = await "https://furion.baiqian.ltd".SetRetryPolicy(3, 1000).GetAsync();
 在 `Furion v3.2.0+` 版本支持`GZip` 压缩，如：
 
 ```cs showLineNumbers
-var res = await "https://furion.baiqian.ltd".WithGZip().GetAsync();
+var res = await "http://furion.baiqian.ltd".WithGZip().GetAsync();
 ```
 
 ### 19.4.24 设置 `Url` 转码
@@ -564,7 +564,7 @@ var res = await "https://furion.baiqian.ltd".WithGZip().GetAsync();
 过去版本会对所有的 `Url` 进行 `Uri.EscapeDataString` 转码，在 `Furion v3.8.0+` 版本支持 `Url` 转码设置，如：
 
 ```cs showLineNumbers
-var res = await "https://furion.baiqian.ltd".WithEncodeUrl(false).GetAsync();
+var res = await "http://furion.baiqian.ltd".WithEncodeUrl(false).GetAsync();
 ```
 
 ### 19.4.25 设置 `HTTP` 版本
@@ -572,7 +572,7 @@ var res = await "https://furion.baiqian.ltd".WithEncodeUrl(false).GetAsync();
 可解决一些 `HTTP` 和 `HTTPS` 请求问题。
 
 ```cs showLineNumbers
-var res = await "https://furion.baiqian.ltd".SetHttpVersion("1.0").GetAsync();  // Furion 4.8.5.8+ 支持
+var res = await "http://furion.baiqian.ltd".SetHttpVersion("1.0").GetAsync();  // Furion 4.8.5.8+ 支持
 ```
 
 ### 19.4.26 下载远程文件并保存
@@ -584,8 +584,8 @@ var res = await "https://furion.baiqian.ltd".SetHttpVersion("1.0").GetAsync();  
 :::
 
 ```cs showLineNumbers
-await "https://furion.baiqian.ltd/img/rm1.png".GetToSaveAsync("D:/rm3.png");
-await "https://furion.baiqian.ltd/img/rm1.png".PostToSaveAsync("D:/rm3.png");
+await "http://furion.baiqian.ltd/img/rm1.png".GetToSaveAsync("D:/rm3.png");
+await "http://furion.baiqian.ltd/img/rm1.png".PostToSaveAsync("D:/rm3.png");
 ...
 ```
 
@@ -597,27 +597,27 @@ await "https://furion.baiqian.ltd/img/rm1.png".PostToSaveAsync("D:/rm3.png");
 public interface IHttp : IHttpDispatchProxy
 {
     // 发送 Get 请求
-    [Get("https://furion.baiqian.ltd/get")]
+    [Get("http://furion.baiqian.ltd/get")]
     Task<HttpResponseMessage> GetXXXAsync();
 
     // 发送 Post 请求
-    [Post("https://furion.baiqian.ltd/post")]
+    [Post("http://furion.baiqian.ltd/post")]
     Task<HttpResponseMessage> PostXXXAsync();
 
     // 发送 Put 请求
-    [Put("https://furion.baiqian.ltd/put")]
+    [Put("http://furion.baiqian.ltd/put")]
     Task<HttpResponseMessage> PutXXXAsync();
 
     // 发送 Delete 请求
-    [Delete("https://furion.baiqian.ltd/delete")]
+    [Delete("http://furion.baiqian.ltd/delete")]
     Task<HttpResponseMessage> DeleteXXXAsync();
 
     // 发送 Patch 请求
-    [Patch("https://furion.baiqian.ltd/patch")]
+    [Patch("http://furion.baiqian.ltd/patch")]
     Task<HttpResponseMessage> PatchXXXAsync();
 
     // 发送 Head 请求
-    [Head("https://furion.baiqian.ltd/head")]
+    [Head("http://furion.baiqian.ltd/head")]
     Task<HttpResponseMessage> HeadXXXAsync();
 }
 ```
@@ -627,7 +627,7 @@ public interface IHttp : IHttpDispatchProxy
 ```cs showLineNumbers
 public interface IHttp : IHttpDispatchProxy
 {
-    [Get("https://furion.baiqian.ltd/get/{id}?name={name}&number={p.PersonDetail.PhonNumber}")]
+    [Get("http://furion.baiqian.ltd/get/{id}?name={name}&number={p.PersonDetail.PhonNumber}")]
     Task<HttpResponseMessage> GetXXXAsync(int id, string name, Person p);
 }
 ```
@@ -647,13 +647,13 @@ public interface IHttp : IHttpDispatchProxy
 [Headers("key1","value2")] // 设置多个
 public interface IHttp : IHttpDispatchProxy
 {
-    [Get("https://furion.baiqian.ltd/get/{id}?name={name}"), Headers("key2","value2")]
+    [Get("http://furion.baiqian.ltd/get/{id}?name={name}"), Headers("key2","value2")]
     Task<HttpResponseMessage> GetXXXAsync(int id, string name);
 
-    [Get("https://furion.baiqian.ltd")]
+    [Get("http://furion.baiqian.ltd")]
     Task<HttpResponseMessage> GetXXX2Async(int id, [Headers]string token = default);
 
-    [Get("https://furion.baiqian.ltd")]
+    [Get("http://furion.baiqian.ltd")]
     Task<HttpResponseMessage> GetXXX2Async(int id, string name, [Headers("别名")]string token = default);
 }
 ```
@@ -666,7 +666,7 @@ public interface IHttp : IHttpDispatchProxy
 public interface IHttp : IHttpDispatchProxy
 {
     // 通过参数拦截
-    [Post("https://furion.baiqian.ltd/post")]
+    [Post("http://furion.baiqian.ltd/post")]
     Task<HttpResponseMessage> PostXXXAsync(string name, [Interceptor(InterceptorTypes.Request)] Action<HttpClient, HttpRequestMessage> action = default);
 }
 ```
@@ -698,44 +698,44 @@ _http.PostXXXAsync("百小僧", (client, requestMessage) =>
 ```cs showLineNumbers  {4,7,10,13,17,21,25}
 public interface IHttp : IHttpDispatchProxy
 {
-    [Get("https://furion.baiqian.ltd/get/{id}?name={name}")]
+    [Get("http://furion.baiqian.ltd/get/{id}?name={name}")]
     Task<HttpResponseMessage> GetXXXAsync(int id, string name);
 
-    [Get("https://furion.baiqian.ltd/get/{p.Id}?name={p.Name}")]
+    [Get("http://furion.baiqian.ltd/get/{p.Id}?name={p.Name}")]
     Task<HttpResponseMessage> GetXXXAsync(Person p);
 
-    [Get("https://furion.baiqian.ltd/get")]
+    [Get("http://furion.baiqian.ltd/get")]
     Task<HttpResponseMessage> GetXXXAsync([QueryString]int id, [QueryString]string name);
 
-    [Get("https://furion.baiqian.ltd/get")]
+    [Get("http://furion.baiqian.ltd/get")]
     Task<HttpResponseMessage> GetXXXAsync([QueryString]int id, [QueryString("别名")]string name);
 
     // Furion 4.8.1.4 新增 [QueryString(Format)] 配置时间类型格式化
-    [Get("https://furion.baiqian.ltd/get")]
+    [Get("http://furion.baiqian.ltd/get")]
     Task<HttpResponseMessage> GetXXXAsync([QueryString(Format = "yyyy-MM-dd HH:mm:ss")] DateTime queryStartTime, [QueryString(Format = "yyyy-MM-dd HH:mm:ss")] DateTime queryEndTime);
 
     // Furion 4.8.1.4 新增 [QueryString(Format)] 配置时间类型格式化
-    [Get("https://furion.baiqian.ltd/get")]
+    [Get("http://furion.baiqian.ltd/get")]
     Task<HttpResponseMessage> GetXXXAsync([QueryString(Format = "yyyy-MM-dd HH:mm:ss")] DateTimeOffset queryStartTime, [QueryString(Format = "yyyy-MM-dd HH:mm:ss")] DateTimeOffset queryEndTime);
 
     // Furion 4.7.3 新增 IgnoreNullValueQueries 配置忽略空值
-    [Get("https://furion.baiqian.ltd/get", IgnoreNullValueQueries = true)]
+    [Get("http://furion.baiqian.ltd/get", IgnoreNullValueQueries = true)]
     Task<HttpResponseMessage> GetXXXAsync([QueryString]int id, [QueryString]string name, [QueryString]string nullValue);
 }
 ```
 
-最终输出格式为：`https://furion.baiqian.ltd/get?id=1&name=Furion`。
+最终输出格式为：`http://furion.baiqian.ltd/get?id=1&name=Furion`。
 
 :::tip 关于对象类型直接作为模板参数
 
 在对接某些第三方接口的时候可能遇到一种情况，需要把对象序列化或者进行某种处理后作为 `Url` 参数，如：
 
 ```cs showLineNumbers {1}
-[Get("https://furion.baiqian.ltd/get?json={p}", WithEncodeUrl = false)]    // 这里将 p 作为模板传入
+[Get("http://furion.baiqian.ltd/get?json={p}", WithEncodeUrl = false)]    // 这里将 p 作为模板传入
 Task<HttpResponseMessage> GetXXXAsync(Person p);
 ```
 
-如果 `Person` 类型不做任何处理，那么最终传递的是 `Person` 的命名空间：`https://furion.baiqian.ltd/get?json=YourProject.Person`，但这并非是我们的预期。
+如果 `Person` 类型不做任何处理，那么最终传递的是 `Person` 的命名空间：`http://furion.baiqian.ltd/get?json=YourProject.Person`，但这并非是我们的预期。
 
 这个时候我们只需要重写 `Person` 的 `ToString` 方法即可，如：
 
@@ -809,13 +809,13 @@ public interface IHttp : IHttpDispatchProxy
 ```cs showLineNumbers  {3,6,9}
 public interface IHttp : IHttpDispatchProxy
 {
-    [Post("https://furion.baiqian.ltd/post")]
+    [Post("http://furion.baiqian.ltd/post")]
     Task<HttpResponseMessage> PostXXXAsync([Body]User user);
 
-    [Post("https://furion.baiqian.ltd/post")]
+    [Post("http://furion.baiqian.ltd/post")]
     Task<HttpResponseMessage> PostXXXAsync([Body("application/x-www-form-urlencoded")]User user);
 
-    [Post("https://furion.baiqian.ltd/post")]
+    [Post("http://furion.baiqian.ltd/post")]
     Task<HttpResponseMessage> PostXXXAsync([Body("application/x-www-form-urlencoded", "UTF-8")]User user);
 }
 ```
@@ -827,10 +827,10 @@ public interface IHttp : IHttpDispatchProxy
 ```cs showLineNumbers  {3,6-7}
 public interface IHttp : IHttpDispatchProxy
 {
-    [Post("https://furion.baiqian.ltd/post"), JsonSerialization(typeof(NewtonsoftJsonSerializerProvider))]
+    [Post("http://furion.baiqian.ltd/post"), JsonSerialization(typeof(NewtonsoftJsonSerializerProvider))]
     Task<HttpResponseMessage> PostXXXAsync([Body]User user);
 
-    [Post("https://furion.baiqian.ltd/post"), JsonSerialization(typeof(NewtonsoftJsonSerializerProvider))]
+    [Post("http://furion.baiqian.ltd/post"), JsonSerialization(typeof(NewtonsoftJsonSerializerProvider))]
     Task<HttpResponseMessage> PostXXXAsync([Body]User user, [JsonSerializerOptions]object jsonSerializerOptions = default);
 
     /// <summary>
@@ -862,10 +862,10 @@ public interface IHttp : IHttpDispatchProxy
 ```cs showLineNumbers  {4,7}
 public interface IHttp : IHttpDispatchProxy
 {
-    [Post("https://furion.baiqian.ltd/post")]
+    [Post("http://furion.baiqian.ltd/post")]
     Task<HttpResponseMessage> PostXXXAsync([Range(1,10)]int id, [Required, MaxLength(10)]string name);
 
-    [Post("https://furion.baiqian.ltd/post")]
+    [Post("http://furion.baiqian.ltd/post")]
     Task<HttpResponseMessage> PostXXXAsync([Required]User user);  // 对象类型支持属性配置特性验证
 }
 ```
@@ -881,7 +881,7 @@ public interface IHttp : IHttpDispatchProxy
 public interface IHttp : IHttpDispatchProxy
 {
     // 通过参数拦截
-    [Post("https://furion.baiqian.ltd/post")]
+    [Post("http://furion.baiqian.ltd/post")]
     Task<HttpResponseMessage> PostXXXAsync([Interceptor(InterceptorTypes.Request)] Action<HttpClient, HttpRequestMessage> action = default);
 
     // 全局拦截，类中每一个方法都会触发
@@ -916,7 +916,7 @@ public interface IHttp : IHttpDispatchProxy
 public interface IHttp : IHttpDispatchProxy
 {
     // 通过参数拦截
-    [Post("https://furion.baiqian.ltd/post")]
+    [Post("http://furion.baiqian.ltd/post")]
     Task<HttpResponseMessage> PostXXXAsync([Interceptor(InterceptorTypes.Client)] Action<HttpClient> action = default);
 
     // 全局拦截，类中每一个方法都会触发
@@ -948,7 +948,7 @@ public interface IHttp : IHttpDispatchProxy
 public interface IHttp : IHttpDispatchProxy
 {
     // 通过参数拦截
-    [Post("https://furion.baiqian.ltd/post")]
+    [Post("http://furion.baiqian.ltd/post")]
     Task<HttpResponseMessage> PostXXXAsync([Interceptor(InterceptorTypes.Request)] Action<HttpClient, HttpRequestMessage> action = default);
 
     // 全局拦截，类中每一个方法都会触发
@@ -980,7 +980,7 @@ public interface IHttp : IHttpDispatchProxy
 public interface IHttp : IHttpDispatchProxy
 {
     // 通过参数拦截
-    [Post("https://furion.baiqian.ltd/post")]
+    [Post("http://furion.baiqian.ltd/post")]
     Task<HttpResponseMessage> PostXXXAsync([Interceptor(InterceptorTypes.Response)] Action<HttpClient, HttpResponseMessage> action = default);
 
     // 全局拦截，类中每一个方法都会触发
@@ -1012,7 +1012,7 @@ public interface IHttp : IHttpDispatchProxy
 public interface IHttp : IHttpDispatchProxy
 {
     // 通过参数拦截
-    [Post("https://furion.baiqian.ltd/post")]
+    [Post("http://furion.baiqian.ltd/post")]
     Task<HttpResponseMessage> PostXXXAsync([Interceptor(InterceptorTypes.Exception)] Action<HttpClient, HttpResponseMessage, string> action = default);
 
     // 全局拦截，类中每一个方法都会触发
@@ -1048,19 +1048,19 @@ public interface IHttp : IHttpDispatchProxy
 public interface IHttp : IHttpDispatchProxy
 {
     // HttpResponseMessage
-    [Post("https://furion.baiqian.ltd/post")]
+    [Post("http://furion.baiqian.ltd/post")]
     Task<HttpResponseMessage> PostXXXAsync();
 
     // Stream，可用来下载文件
-    [Post("https://furion.baiqian.ltd/post")]
+    [Post("http://furion.baiqian.ltd/post")]
     Task<Stream> PostXXXAsync();
 
     // T
-    [Post("https://furion.baiqian.ltd/post")]
+    [Post("http://furion.baiqian.ltd/post")]
     Task<User> PostXXXAsync();
 
     // String
-    [Post("https://furion.baiqian.ltd/post")]
+    [Post("http://furion.baiqian.ltd/post")]
     Task<string> PostXXXAsync();
 }
 ```
@@ -1078,11 +1078,11 @@ public interface IHttp : IHttpDispatchProxy
 ```cs showLineNumbers {3,4}
 public interface IHttp : IHttpDispatchProxy
 {
-    [Post("https://furion.baiqian.ltd/upload", ContentType = "multipart/form-data")] // bytes 可以通过 File.ReadAllBytes(文件路径) 获取
+    [Post("http://furion.baiqian.ltd/upload", ContentType = "multipart/form-data")] // bytes 可以通过 File.ReadAllBytes(文件路径) 获取
     Task<HttpResponseMessage> PostXXXAsync([BodyBytes("键","文件名")]Byte[] bytes);
 
     // 支持多个文件
-    [Post("https://furion.baiqian.ltd/upload", ContentType = "multipart/form-data")] // bytes 可以通过 File.ReadAllBytes(文件路径) 获取
+    [Post("http://furion.baiqian.ltd/upload", ContentType = "multipart/form-data")] // bytes 可以通过 File.ReadAllBytes(文件路径) 获取
     Task<HttpResponseMessage> PostXXXAsync([BodyBytes("键","文件名")]Byte[] bytes,[BodyBytes("键","文件名")]Byte[] bytes2);
 }
 ```
@@ -1096,19 +1096,19 @@ public interface IHttp : IHttpDispatchProxy
 ```cs showLineNumbers {3-4,7-8,11-12,15-16}
 public interface IHttp : IHttpDispatchProxy
 {
-    [Post("https://furion.baiqian.ltd/upload", ContentType = "multipart/form-data")]
+    [Post("http://furion.baiqian.ltd/upload", ContentType = "multipart/form-data")]
     Task<HttpResponseMessage> PostXXXAsync(HttpFile file);
 
 
-    [Post("https://furion.baiqian.ltd/upload", ContentType = "multipart/form-data")]
+    [Post("http://furion.baiqian.ltd/upload", ContentType = "multipart/form-data")]
     Task<HttpResponseMessage> PostXXXAsync(HttpFile file, [Body("multipart/form-data")]User user);
 
     // 支持多个文件
-    [Post("https://furion.baiqian.ltd/upload", ContentType = "multipart/form-data")]
+    [Post("http://furion.baiqian.ltd/upload", ContentType = "multipart/form-data")]
     Task<HttpResponseMessage> PostXXXAsync(HttpFile[] files);
 
     // 支持多个文件
-    [Post("https://furion.baiqian.ltd/upload", ContentType = "multipart/form-data")]
+    [Post("http://furion.baiqian.ltd/upload", ContentType = "multipart/form-data")]
     Task<HttpResponseMessage> PostXXXAsync(IList<HttpFile> files);
 }
 ```
@@ -1128,7 +1128,7 @@ public interface IHttp : IHttpDispatchProxy
 ```json showLineNumbers
 {
   "Furion": {
-    "Address": "https://furion.baiqian.ltd"
+    "Address": "http://furion.baiqian.ltd"
   }
 }
 ```
@@ -1143,7 +1143,7 @@ public interface IHttp : IHttpDispatchProxy
 [RetryPolicy(3, 1000)] // 支持全局
 public interface IHttp : IHttpDispatchProxy
 {
-    [Post("https://furion.baiqian.ltd"), RetryPolicy(3, 1000)]    // 支持局部
+    [Post("http://furion.baiqian.ltd"), RetryPolicy(3, 1000)]    // 支持局部
     Task<HttpResponseMessage> PostXXXAsync([Body]User user);
 }
 ```
@@ -1157,7 +1157,7 @@ public interface IHttp : IHttpDispatchProxy
 ```cs showLineNumbers
 public interface IHttp : IHttpDispatchProxy
 {
-    [Post("https://furion.baiqian.ltd", WithGZip = true)]
+    [Post("http://furion.baiqian.ltd", WithGZip = true)]
     Task<HttpResponseMessage> PostXXXAsync([Body]User user);
 }
 ```
@@ -1169,7 +1169,7 @@ public interface IHttp : IHttpDispatchProxy
 ```cs showLineNumbers
 public interface IHttp : IHttpDispatchProxy
 {
-    [Post("https://furion.baiqian.ltd", WithEncodeUrl = false)]
+    [Post("http://furion.baiqian.ltd", WithEncodeUrl = false)]
     Task<HttpResponseMessage> PostXXXAsync([Body]User user);
 }
 ```
@@ -1181,7 +1181,7 @@ public interface IHttp : IHttpDispatchProxy
 ```cs showLineNumbers
 public interface IHttp : IHttpDispatchProxy
 {
-    [Post("https://furion.baiqian.ltd", HttpVersion = "1.1")]
+    [Post("http://furion.baiqian.ltd", HttpVersion = "1.1")]
     Task<HttpResponseMessage> PostXXXAsync([Body]User user);
 }
 ```
@@ -1642,7 +1642,7 @@ info: 2022-10-26 11:39:04(+08:00) 星期三 L System.Net.Http.HttpClient.Default
 - 字符串方式
 
 ```cs showLineNumbers {2}
-var response = await "https://furion.baiqian.ltd/".GetAsync();
+var response = await "http://furion.baiqian.ltd/".GetAsync();
 var cookies = response.GetCookies();
 ```
 
@@ -1651,7 +1651,7 @@ var cookies = response.GetCookies();
 ```cs showLineNumbers {4,8}
 public interface IHttp : IHttpDispatchProxy
 {
-    [Get("https://furion.baiqian.ltd/")]
+    [Get("http://furion.baiqian.ltd/")]
     Task<HttpResponseMessage> GetAsync();
 }
 
@@ -1679,7 +1679,7 @@ var cookie1 = dicCookies["key"];
 ```cs showLineNumbers {1,3}
 private async void button1_Click(object sender, EventArgs e)
 {
-    var result = await "https://furion.baiqian.ltd".GetAsStringAsync();
+    var result = await "http://furion.baiqian.ltd".GetAsStringAsync();
 }
 ```
 

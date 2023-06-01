@@ -81,7 +81,7 @@ const sponsors = [
   //   id: 100,
   //   title: "赞助 Furion 快速提升企业品牌知名度",
   //   picture: "img/xxyd.jpeg",
-  //   url: "https://furion.baiqian.ltd/docs/donate",
+  //   url: "http://furion.baiqian.ltd/docs/donate",
   //   top: true,
   //   tag: "铂金",
   // },

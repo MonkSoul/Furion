@@ -1,7 +1,7 @@
 module.exports = {
   title: "Furion",
   tagline: "让 .NET 开发更简单，更通用，更流行。",
-  url: "https://furion.baiqian.ltd",
+  url: "http://furion.baiqian.ltd",
   baseUrl: "/",
   onBrokenLinks: "throw",
   onBrokenMarkdownLinks: "warn",

@@ -1361,7 +1361,7 @@ options.AddHttpClient("github", c =>
 
 - **突破性变化**
 
-  - &nbsp;<Tag>调整</Tag> **😊 `Furion` 框架文档地址为 [https://furion.baiqian.ltd](https://furion.baiqian.ltd)** <sup>4.5.4</sup> [2e3d80e](https://gitee.com/dotnetchina/Furion/commit/2e3d80ec0be830c33923ef9953ff504528120f06)
+  - &nbsp;<Tag>调整</Tag> **😊 `Furion` 框架文档地址为 [http://furion.baiqian.ltd](http://furion.baiqian.ltd)** <sup>4.5.4</sup> [2e3d80e](https://gitee.com/dotnetchina/Furion/commit/2e3d80ec0be830c33923ef9953ff504528120f06)
   - &nbsp;<Tag>调整</Tag> `LoggingMonitor` 底层逻辑，移除原来的 `.ScopeContext` 存储监听信息设计 <sup>4.5.2</sup> [#I5TWC1](https://gitee.com/dotnetchina/Furion/issues/I5TWC1)
   - &nbsp;<Tag>移除</Tag> ~~**主机未启动时构建服务的操作权限，此操作会导致内存激增，受影响方法： `App.GetOptions` 系列和 `App.GetService` 和 `Scoped.Create`**~~ <sup>4.5.4</sup> [#I5U0A4](https://gitee.com/dotnetchina/Furion/issues/I5U0A4) [8129693](https://gitee.com/dotnetchina/Furion/commit/812969357a60d0b73becf105e6b77b46113b3800)
 
@@ -1749,26 +1749,26 @@ services.AddMonitorLogging(options =>
 ```cs showLineNumbers {3-4,7-8,11-12}
 public interface IHttp : IHttpDispatchProxy
 {
-    [Post("https://furion.baiqian.ltd/upload", ContentType = "multipart/form-data")]
+    [Post("http://furion.baiqian.ltd/upload", ContentType = "multipart/form-data")]
     Task<HttpResponseMessage> PostXXXAsync(HttpFile file);
 
     // 支持多个文件
-    [Post("https://furion.baiqian.ltd/upload", ContentType = "multipart/form-data")]
+    [Post("http://furion.baiqian.ltd/upload", ContentType = "multipart/form-data")]
     Task<HttpResponseMessage> PostXXXAsync(HttpFile[] files);
 
     // 支持多个文件
-    [Post("https://furion.baiqian.ltd/upload", ContentType = "multipart/form-data")]
+    [Post("http://furion.baiqian.ltd/upload", ContentType = "multipart/form-data")]
     Task<HttpResponseMessage> PostXXXAsync(IList<HttpFile> files);
 }
 ```
 
 ```cs showLineNumbers {3,7}
 // bytes 可以通过 File.ReadAllBytes(文件路径) 获取
-var res = await "https://furion.baiqian.ltd/upload".SetContentType("multipart/form-data")
+var res = await "http://furion.baiqian.ltd/upload".SetContentType("multipart/form-data")
                                                .SetFiles(HttpFile.Create("file", bytes, "image.png")).PostAsync();
 
 // 支持多个文件
-var res = await "https://furion.baiqian.ltd/upload".SetContentType("multipart/form-data")
+var res = await "http://furion.baiqian.ltd/upload".SetContentType("multipart/form-data")
                                                .SetFiles(HttpFile.CreateMultiple("files", (bytes, "image1.png"), (bytes, "image2.png"))).PostAsync();
 ```
 
@@ -1824,13 +1824,13 @@ public void ConfigureServices(IServiceCollection services)
 由：
 
 ```cs showLineNumbers
-var stream = await "https://furion.baiqian.ltd/".GetAsStreamAsync();
+var stream = await "http://furion.baiqian.ltd/".GetAsStreamAsync();
 ```
 
 改为：
 
 ```cs showLineNumbers
-var (stream, encoding) = await "https://furion.baiqian.ltd/".GetAsStreamAsync();
+var (stream, encoding) = await "http://furion.baiqian.ltd/".GetAsStreamAsync();
 ```
 
   </div>
@@ -3036,7 +3036,7 @@ public class AppInfoOptions : IConfigurableOptions
 var template = TP.Wrapper("Furion 框架", "让 .NET 开发更简单，更通用，更流行。",
     "[作者] 百小僧",
     "[当前版本] v3.5.3",
-    "[文档地址] https://furion.baiqian.ltd",
+    "[文档地址] http://furion.baiqian.ltd",
     "[Copyright] 百小僧, 百签科技（广东）有限公司");
 Console.WriteLine(template);
 ```
@@ -3049,7 +3049,7 @@ Console.WriteLine(template);
 ┣
 ┣ 作者：        百小僧
 ┣ 当前版本：     v3.5.3
-┣ 文档地址：     https://furion.baiqian.ltd
+┣ 文档地址：     http://furion.baiqian.ltd
 ┣ Copyright：   百小僧, 百签科技（广东）有限公司
 ┗━━━━━━━━━━━  Furion 框架 ━━━━━━━━━━━
 
@@ -3089,8 +3089,8 @@ Console.WriteLine(template);
 
 - **文档**
 
-  - &nbsp;<Tag>新增</Tag> `GlobalUsings` 文档 [文档地址](https://furion.baiqian.ltd/blog/global-usings)
-  - &nbsp;<Tag>新增</Tag> 请求大小/上传大小限制文档 [文档地址](https://furion.baiqian.ltd/docs/file-provider/#317-%E8%AF%B7%E6%B1%82%E5%A4%A7%E5%B0%8F%E6%8E%A7%E5%88%B6%E4%B8%8A%E4%BC%A0%E6%96%87%E4%BB%B6%E5%A4%A7%E5%B0%8F%E6%8E%A7%E5%88%B6)
+  - &nbsp;<Tag>新增</Tag> `GlobalUsings` 文档 [文档地址](http://furion.baiqian.ltd/blog/global-usings)
+  - &nbsp;<Tag>新增</Tag> 请求大小/上传大小限制文档 [文档地址](http://furion.baiqian.ltd/docs/file-provider/#317-%E8%AF%B7%E6%B1%82%E5%A4%A7%E5%B0%8F%E6%8E%A7%E5%88%B6%E4%B8%8A%E4%BC%A0%E6%96%87%E4%BB%B6%E5%A4%A7%E5%B0%8F%E6%8E%A7%E5%88%B6)
   - &nbsp;<Tag>更新</Tag> 规范化文档，`Worker Service` 文档，动态 API 文档
 
 - **本期亮点**
@@ -3418,8 +3418,8 @@ app.UseVirtualPath(app =>
 
 - **文档**
 
-  - &nbsp;<Tag>文档</Tag> 查看 **[.NET6 一分钟入门](https://furion.baiqian.ltd/docs/get-start-net6)**
-  - &nbsp;<Tag>文档</Tag> 查看 **[Furion v2 升级 v3](https://furion.baiqian.ltd/docs/net5-to-net6)**
+  - &nbsp;<Tag>文档</Tag> 查看 **[.NET6 一分钟入门](http://furion.baiqian.ltd/docs/get-start-net6)**
+  - &nbsp;<Tag>文档</Tag> 查看 **[Furion v2 升级 v3](http://furion.baiqian.ltd/docs/net5-to-net6)**
 
 - **特别鸣谢**
 
@@ -4750,7 +4750,7 @@ namespace Furion.UnifyResult
 - **文档变化**
 
   - &nbsp;<Tag>新增</Tag> 视图引擎模板文档 [#I27ZVA](https://gitee.com/dotnetchina/Furion/issues/I27ZVA)
-  - &nbsp;<Tag>新增</Tag> `EFCore` 时态查询文档 [#I28AJ](https://gitee.com/dotnetchina/Furion/issues/I28AJ6), [DOC](https://furion.baiqian.ltd/docs/dbcontext-hight-query/#91111-%E6%97%B6%E6%80%81%E6%9F%A5%E8%AF%A2)
+  - &nbsp;<Tag>新增</Tag> `EFCore` 时态查询文档 [#I28AJ](https://gitee.com/dotnetchina/Furion/issues/I28AJ6), [DOC](http://furion.baiqian.ltd/docs/dbcontext-hight-query/#91111-%E6%97%B6%E6%80%81%E6%9F%A5%E8%AF%A2)
   - &nbsp;<Tag>更新</Tag> 仓储文档书写纰漏 bug [#PR90](https://gitee.com/dotnetchina/Furion/pulls/90)
   - &nbsp;<Tag>更新</Tag> 选项文档错误 bug [#PR86](https://gitee.com/dotnetchina/Furion/pulls/86)
   - &nbsp;<Tag>更新</Tag> `实体数据监听器` 文档书写错误 bug [#PR83](https://gitee.com/dotnetchina/Furion/pulls/83/files)
@@ -4806,7 +4806,7 @@ namespace Furion.UnifyResult
 
 - **文档变化**
 
-  - &nbsp;<Tag>新增</Tag> [实体数据监听器](https://furion.baiqian.ltd/docs/dbcontext-entitytrigger) 文档
+  - &nbsp;<Tag>新增</Tag> [实体数据监听器](http://furion.baiqian.ltd/docs/dbcontext-entitytrigger) 文档
   - &nbsp;<Tag>更新</Tag> 一分钟入门、应用启动、官方脚手架、数据库操作指南、对象映射、规范化文档、异常处理、鉴权授权文档
 
 ---
@@ -4959,7 +4959,7 @@ namespace Furion.UnifyResult
 
 - **其他更改**
 
-  - &nbsp;<Tag>调整</Tag> `Fur` 框架域名为：[https://furion.baiqian.ltd](https://furion.baiqian.ltd)
+  - &nbsp;<Tag>调整</Tag> `Fur` 框架域名为：[http://furion.baiqian.ltd](http://furion.baiqian.ltd)
   - &nbsp;<Tag>调整</Tag> 仓储 `FromSqlRaw` 和 `FromSqlInterpolated` 接口位置
   - &nbsp;<Tag>更新</Tag> 数据加解密性能，[#PR70](https://gitee.com/dotnetchina/Furion/pulls/70)
 

@@ -189,8 +189,8 @@ public class TestModuleServices : IDynamicApiController
             age = 30
         };
 
-        var res = await "https://furion.baiqian.ltd".SetQueries(obj).GetAsync();
-        var res2 = await "https://furion.baiqian.ltd".SetQueries(obj, true).GetAsync();
+        var res = await "http://furion.baiqian.ltd".SetQueries(obj).GetAsync();
+        var res2 = await "http://furion.baiqian.ltd".SetQueries(obj, true).GetAsync();
     }
 
     [HttpGet, LoggingMonitor]
@@ -251,6 +251,6 @@ public class TestModuleServices : IDynamicApiController
 
     public async Task 测试远程请求下载文件()
     {
-        await "https://furion.baiqian.ltd/img/rm1.png".GetToSaveAsync("D:/rm3.png");
+        await "http://furion.baiqian.ltd/img/rm1.png".GetToSaveAsync("D:/rm3.png");
     }
 }

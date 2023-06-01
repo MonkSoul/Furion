@@ -175,7 +175,7 @@ public IActionResult FileDownload()
 [HttpGet, NonUnify]
 public async Task<IActionResult> FileDownload()
 {
-    var (stream, _) = await "https://furion.baiqian.ltd/img/rm1.png".GetAsStreamAsync();
+    var (stream, _) = await "http://furion.baiqian.ltd/img/rm1.png".GetAsStreamAsync();
 
     // 将 stream 转 byte[]
     byte[] bytes = new byte[stream.Length];
