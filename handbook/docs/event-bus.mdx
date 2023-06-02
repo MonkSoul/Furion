@@ -1140,7 +1140,34 @@ public async Task TestError(EventHandlerExecutingContext context)
 
 :::
 
-## 22.13 `EventBusOptionsBuilder` 配置
+## 22.13 自定义事件源存储器不可用时回退
+
+有时候我们自定义了事件源存储器如使用 `Redis`、`RabbitMQ` 等第三方存储介质，但由于一些原因导致启动时不可用如 `Redis` 服务未启动，这时候我们可以配置选择回退到默认事件源存储器（内存）中，如：
+
+```cs showLineNumbers {3,9-12}
+services.AddEventBus(options =>
+{
+    options.ReplaceStorerOrFallback(() => new RedisEventSourceStorer(......));
+});
+
+// 还可以解析服务传入
+services.AddEventBus(options =>
+{
+    options.ReplaceStorerOrFallback(serviceProvider =>    // 提供 IServiceProvider 可解析服务
+    {
+        // var someService = serviceProvider.GetRequiredService<ISomeSerivce>();
+        return new RedisEventSourceStorer(......);
+    });
+});
+```
+
+:::tip 特别说明
+
+目前只支持在应用启动时检查，不支持在运行时实现故障转移切换。
+
+:::
+
+## 22.14 `EventBusOptionsBuilder` 配置
 
 `EventBusOptionsBuilder` 是 `AddEventBus` 构建服务选项，该选项包含以下属性和方法：
 
@@ -1154,10 +1181,11 @@ public async Task TestError(EventHandlerExecutingContext context)
   - `AddSubscriber<TEventSubscriber>`：添加订阅者
   - `ReplacePublisher<TEventPublisher>`：替换发布者
   - `ReplaceStorer(Func<IServiceProvider, IEventSourceStorer>)`：替换存储器
+  - `ReplaceStorerOrFallback(Func<IServiceProvider, IEventSourceStorer>)`：替换存储器如果失败则回滚默认
   - `AddMonitor<TEventHandlerMonitor>`：添加监视器
   - `AddExecutor<TEventHandlerExecutor>`：添加执行器
 
-## 22.14 关于高频消息处理方式
+## 22.15 关于高频消息处理方式
 
 在一些高频发送消息的场景如 `IoT`、日志记录、数据采集，为避免频繁解析服务和创建作用域，可使用 **类全局作用域** 和所有服务都采取单例的方式：
 
@@ -1192,11 +1220,11 @@ public class ToDoEventSubscriber : IEventSubscriber, IDisposable
 }
 ```
 
-## 22.15 IIS 部署回收设置
+## 22.16 IIS 部署回收设置
 
 如果在项目中使用了事件总线且部署到 `IIS` 中，那么需要设置 `IIS` 禁止回收，避免事件总线服务进入休眠，[点击查看 `IIS` 回收问题解决方案](./deploy-iis#3415-iis-%E5%9B%9E%E6%94%B6%E9%97%AE%E9%A2%98%E5%92%8C%E9%85%8D%E7%BD%AE)
 
-## 22.16 使用第三方事件总线 `CAP` 示例
+## 22.17 使用第三方事件总线 `CAP` 示例
 
 ```cs showLineNumbers {1,5}
 builder.Services.AddCap(options =>
@@ -1206,7 +1234,7 @@ builder.Services.AddCap(options =>
 }).AddSubscriberAssembly(App.Assemblies.ToArray());
 ```
 
-## 22.17 在 `WinForm/WPF` 中使用
+## 22.18 在 `WinForm/WPF` 中使用
 
 事件总线支持在 `WinForm/WPF` 中完整的使用。
 
@@ -1247,7 +1275,7 @@ public class UIEventSubscriber : IEventSubscriber
 }
 ```
 
-## 22.18 反馈与建议
+## 22.19 反馈与建议
 
 :::note 与我们交流
 
