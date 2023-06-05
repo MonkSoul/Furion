@@ -262,7 +262,7 @@ public class Worker : BackgroundService
                 await Task.CompletedTask;
             }, stoppingToken);
 
-            await Task.Delay(_crontab.GetSleepMilliseconds(DateTime.Now), stoppingToken);
+            await Task.Delay((int)_crontab.GetSleepMilliseconds(DateTime.Now), stoppingToken);
         }
     }
 }
