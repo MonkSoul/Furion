@@ -361,7 +361,7 @@ public class Worker : BackgroundService
     {
         while (!stoppingToken.IsCancellationRequested)
         {
-            await Task.Delay(_crontab.GetSleepMilliseconds(DateTime.Now), stoppingToken);
+            await Task.Delay(_crontab.GetSleepTimeSpan(DateTime.Now), stoppingToken);
 
             var taskFactory = new TaskFactory(System.Threading.Tasks.TaskScheduler.Current);
             await taskFactory.StartNew(async () =>
@@ -430,7 +430,7 @@ public class Worker : BackgroundService
             await task.ContinueWith(task => _isLock = false);
 
         next:
-            await Task.Delay(_crontab.GetSleepMilliseconds(DateTime.Now), stoppingToken);
+            await Task.Delay(_crontab.GetSleepTimeSpan(DateTime.Now), stoppingToken);
         }
     }
 }
