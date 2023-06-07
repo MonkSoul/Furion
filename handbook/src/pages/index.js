@@ -55,20 +55,22 @@ function Banner() {
           <div className="furion-banner-description">
             让 .NET 开发更简单，更通用，更流行。
           </div>
-          <ul className="furion-banner-spec">
-            <li>MIT 宽松开源协议，商业无需授权</li>
-            <li>支持 .NET5/6/7/8+，没有历史包袱</li>
-            <li>极少依赖，只依赖两个第三方包</li>
-            <li>代码无侵入性，100% 兼容原生写法</li>
-            <li>
-              <a
-                href={useBaseUrl("docs/whyfurion")}
-                style={{ color: "#fff", textDecoration: "underline" }}
-              >
-                了解 「选择 Furion 的十大理由」
-              </a>
-            </li>
-          </ul>
+          <div>
+            <ul className="furion-banner-spec">
+              <li>MIT 宽松开源协议，商业无需授权</li>
+              <li>支持 .NET5/6/7/8+，没有历史包袱</li>
+              <li>极少依赖，只依赖两个第三方包</li>
+              <li>代码无侵入性，100% 兼容原生写法</li>
+              <li>
+                <a
+                  href={useBaseUrl("docs/whyfurion")}
+                  style={{ color: "#fff", textDecoration: "underline" }}
+                >
+                  了解 「选择 Furion 的十大理由」
+                </a>
+              </li>
+            </ul>
+          </div>
           <div className="furion-support-platform">受支持平台：</div>
           <div className="furion-support-icons">
             <span>
