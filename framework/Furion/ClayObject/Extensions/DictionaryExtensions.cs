@@ -14,6 +14,7 @@
 
 using Furion.Extensions;
 using Newtonsoft.Json.Linq;
+using System.Dynamic;
 using System.Reflection;
 using System.Text.Json;
 
@@ -49,9 +50,13 @@ public static class DictionaryExtensions
         // 处理本就是字典类型
         if (input.GetType().HasImplementedRawGeneric(typeof(IDictionary<,>)))
         {
-            var dicInput = ((IDictionary)input);
+            if (input is ExpandoObject expandObject)
+            {
+                return expandObject;
+            }
 
             var dic = new Dictionary<string, object>();
+            var dicInput = ((IDictionary)input);
             foreach (var key in dicInput.Keys)
             {
                 dic.Add(key.ToString(), dicInput[key]);
