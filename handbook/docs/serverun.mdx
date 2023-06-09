@@ -578,9 +578,9 @@ Serve.Run(GenericRunOptions.Default
 
 更多发布命令说明可查阅微软官方文档 [https://docs.microsoft.com/en-us/dotnet/core/tools/dotnet-publish](https://docs.microsoft.com/en-us/dotnet/core/tools/dotnet-publish)
 
-## 2.1.10 在 `WinForm/WPF` 桌面中使用
+## 2.1.10 在 `WinForm/WPF/Console` 中使用
 
-在 `WinForm` 或 `WPF` 中使用，请确保 `Serve.Run()` 在桌面应用程序之前初始化：
+在 `WinForm` 或 `WPF` 或 `Console` 中使用，请确保 `Serve.RunNative()` 在应用程序之前初始化：
 
 ### 2.1.10.1 `WinForm` 初始化
 
@@ -654,7 +654,15 @@ Serve.RunNative(urls: Serve.IdleHost.Urls);
 
 :::
 
-### 2.1.10.3 注册服务
+### 2.1.10.3 `Console` 初始化
+
+```cs showLineNumbers {2}
+Console.WriteLine("Hello World");
+Serve.RunNative();  // Furion 4.8.7.23+
+Console.ReadKey();
+```
+
+### 2.1.10.4 注册服务
 
 如果想注册服务，支持以下两种方式：
 
