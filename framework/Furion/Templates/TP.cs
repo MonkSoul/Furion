@@ -86,6 +86,64 @@ public static class TP
     }
 
     /// <summary>
+    /// 矩形包裹
+    /// </summary>
+    /// <param name="lines">多行消息</param>
+    /// <param name="align">对齐方式，-1/左对齐；0/居中对其；1/右对齐</param>
+    /// <param name="pad">间隙</param>
+    /// <returns><see cref="string"/></returns>
+    public static string WrapperRectangle(string[] lines, int align = 0, int pad = 20)
+    {
+        // 处理不同编码问题
+        Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+
+        // 计算矩形框的宽度，取所有字符串中最长的长度，再乘以 2
+        var width = lines.Max(GetLength) + pad;
+
+        // 创建一个 StringBuilder 对象
+        var stringBuilder = new StringBuilder();
+
+        // 在 StringBuilder 对象中添加矩形框的上边框
+        stringBuilder.AppendLine("+" + new string('-', width - 2) + "+");
+
+        // 遍历每个字符串，并添加到 StringBuilder 对象中
+        var row = 0;
+        foreach (var line in lines)
+        {
+            // 当前字符串的长度
+            var len = GetLength(line);
+            var padding = align switch
+            {
+                -1 => 2,
+                0 => (width - len - 2) / 2,
+                1 => (width - len - 2) - 2,
+                _ => 2
+            };
+
+            // 在 StringBuilder 对象中添加当前字符串前的空格，使得当前字符串在矩形框中居中显示
+            stringBuilder.Append("|" + new string(' ', padding));
+
+            // 在 StringBuilder 对象中添加当前字符串
+            stringBuilder.Append(line);
+
+            // 在 StringBuilder 对象中添加当前字符串后的空格，使得矩形框的宽度保持不变
+            stringBuilder.Append(new string(' ', width - len - 2 - padding) + "|");
+
+            // 在 StringBuilder 对象中添加换行符
+            stringBuilder.AppendLine();
+
+            // 更新当前行数
+            row++;
+        }
+
+        // 在 StringBuilder 对象中添加矩形框的下边框
+        stringBuilder.Append("+" + new string('-', width - 2) + "+");
+
+        // 返回包含矩形框的所有字符串的 StringBuilder 对象的字符串表示形式
+        return stringBuilder.ToString();
+    }
+
+    /// <summary>
     /// 等宽文字对齐
     /// </summary>
     /// <param name="str"></param>
@@ -104,5 +162,16 @@ public static class TP
 
         var w = str.PadRight(totalByteCount - dcount);
         return w;
+    }
+
+    /// <summary>
+    /// 获取字符串长度
+    /// </summary>
+    /// <param name="str">字符串</param>
+    /// <returns>字符串长度</returns>
+    public static int GetLength(string str)
+    {
+        var coding = Encoding.GetEncoding("gbk");
+        return coding.GetByteCount(str);
     }
 }
