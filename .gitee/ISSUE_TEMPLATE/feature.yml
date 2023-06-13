@@ -41,3 +41,9 @@ body:
       options:
         - label: 我有意向参与具体功能的开发实现并将代码贡献回到上游社区
           required: false
+  - type: markdown
+    attributes:
+      value: |
+        关注 Furion 公众号订阅最新资讯
+        
+        ![](http://furion.baiqian.ltd/img/weixin_qrcode.jpg)
