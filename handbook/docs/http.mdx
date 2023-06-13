@@ -1396,6 +1396,14 @@ public class ValuesController : Controller
 }
 ```
 
+### 19.6.6 `HttpClient` 超时问题
+
+有时候会遇到 `HttpClient` 超时问题可尝试在 `Startup.cs` 中添加以下代码：
+
+```cs showLineNumbers
+AppContext.SetSwitch("System.Net.DisableIPv6",true);
+```
+
 ## 19.7 `SSL/https` 证书配置
 
 有时候我们请求远程接口时会遇到 `The SSL connection could not be established, see inner exception.` 这样的错误，原因是证书配置不正确问题，下面有几种解决方法。
