@@ -35,7 +35,7 @@ import Tag from "@site/src/components/Tag.js";
 
 - **新特性**
 
-  - &nbsp;<Tag>新增</Tag> `TP.WrapperRectangle` 绘制矩形日志模板 <sup>4.8.8.25</sup> <sup>⏱️2023.06.12</sup> [60ffd76](https://gitee.com/dotnetchina/Furion/commit/60ffd76783633ac4fc7baaf845e14cb59518b795)
+  - &nbsp;<Tag>新增</Tag> `TP.WrapperRectangle` 绘制矩形日志模板 <sup>4.8.8.25</sup> <sup>⏱️2023.06.14</sup> [60ffd76](https://gitee.com/dotnetchina/Furion/commit/60ffd76783633ac4fc7baaf845e14cb59518b795)
   - &nbsp;<Tag>新增</Tag> `IServiceScope.CreateDefaultHttpContext` 拓展方法 <sup>4.8.8.24</sup> <sup>⏱️2023.06.07</sup> [11a55e1](https://gitee.com/dotnetchina/Furion/commit/11a55e1796acae3318ea2c78cb3e88ba4d53c670)
   - &nbsp;<Tag>新增</Tag> 配置模块 `IgnoreConfigurationFiles` 支持完整的文件通配符 <sup>4.8.8.22</sup> <sup>⏱️2023.05.25</sup> [#I78ABL](https://gitee.com/dotnetchina/Furion/issues/I78ABL)
   - &nbsp;<Tag>新增</Tag> 定时任务支持二级虚拟目录 `VisualPath` 配置部署 <sup>4.8.8.20</sup> <sup>⏱️2023.05.18</sup> [#I740IA](https://gitee.com/dotnetchina/Sundial/issues/I740IA)
@@ -205,7 +205,8 @@ public object Deserialize(string json, Type returnType, object jsonSerializerOpt
 
 - **问题修复**
 
-  - &nbsp;<Tag>修复</Tag> 修复 `ExpandoObject.ToDictionary()` 转换异常 <sup>4.8.8.25</sup> <sup>⏱️2023.06.08</sup> [#I7BY0P](https://gitee.com/dotnetchina/Furion/issues/I7BY0P)
+  - &nbsp;<Tag>修复</Tag> `Cron` 表达式步长解析器错误 <sup>4.8.8.25</sup> <sup>⏱️2023.06.14</sup> [#I7D9XU](https://gitee.com/dotnetchina/TimeCrontab/issues/I7D9XU)
+  - &nbsp;<Tag>修复</Tag> 修复 `ExpandoObject.ToDictionary()` 转换异常 <sup>4.8.8.25</sup> <sup>⏱️2023.06.14</sup> [#I7BY0P](https://gitee.com/dotnetchina/Furion/issues/I7BY0P)
   - &nbsp;<Tag>修复</Tag> 配置友好异常 `FriendlyExceptionSettings:DefaultErrorMessage` 无效问题 <sup>4.8.8.23</sup> <sup>⏱️2023.05.31</sup> [#I79LIG](https://gitee.com/dotnetchina/Furion/issues/I79LIG)
   - &nbsp;<Tag>修复</Tag> `Swagger` 进行分组后 `Tags` 不能进行分组过滤问题 <sup>4.8.8.22</sup> <sup>⏱️2023.05.25</sup> [#I78A55](https://gitee.com/dotnetchina/Furion/issues/I78A55)
   - &nbsp;<Tag>修复</Tag> 因 [9d8cb82](https://gitee.com/dotnetchina/Furion/commit/9d8cb82e4ce983839cf13c3c74640b08f258c325) 代码提交导致命名服务解析异常问题 <sup>4.8.8.21</sup> <sup>⏱️2023.05.18</sup> [#I76JZR](https://gitee.com/dotnetchina/Furion/issues/I76JZR)

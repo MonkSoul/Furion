@@ -21,7 +21,7 @@
 
 	<ItemGroup Condition=" '$(TargetFramework)' == 'net8.0' ">
 		<PackageReference Include="sqlSugarCore" Version="5.1.4.83" />
-		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.0-preview.4.23259.5" />
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.0-preview.5.23280.8" />
 	</ItemGroup>
 
 </Project>

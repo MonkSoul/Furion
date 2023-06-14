@@ -197,6 +197,6 @@ internal sealed class StepParser : ICronParser, ITimeParser
     /// <returns><see cref="bool"/></returns>
     private bool IsMatch(int evalValue)
     {
-        return (evalValue - Start) % Steps == 0;
+        return evalValue >= Start && (evalValue - Start) % Steps == 0;
     }
 }
