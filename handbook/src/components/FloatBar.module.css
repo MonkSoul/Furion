@@ -10,7 +10,7 @@
   flex-direction: column;
   font-size: 14px;
   align-items: flex-start;
-  animation: shake 5s infinite;
+  animation: shake 5s;
 }
 
 .title {
