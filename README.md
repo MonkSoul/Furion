@@ -36,6 +36,12 @@ The main purpose of this repository is to continue evolving [Furion](https://git
 
 Read [contribution documents](http://furion.baiqian.ltd/docs/contribute) to learn how you can take part in improving [Furion](https://gitee.com/dotnetchina/Furion).
 
+## Subscribe
+
+Open WeChat and scan the QR code to follow the Furion official account and subscribe to the latest information.
+
+![微信公众号](https://gitee.com/dotnetchina/Furion/raw/v4/handbook/static/img/weixin_qrcode.jpg)
+
 ## License
 
 [Furion](https://gitee.com/dotnetchina/Furion) uses the [MIT](https://gitee.com/dotnetchina/Furion/blob/v4/LICENSE) open source license.
