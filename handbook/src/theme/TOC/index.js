@@ -35,27 +35,6 @@ function DotNETChina() {
           style={{ display: "block", width: "90%", margin: "0 auto" }}
         />
       </a>
-      <div style={{ position: "relative" }}>
-        <img
-          title="微信扫描关注 Furion 官方公众号"
-          src={useBaseUrl("img/weixin_qrcode.jpg")}
-          style={{ display: "block", margin: "0 auto" }}
-        />
-        <div
-          style={{
-            textAlign: "center",
-            color: "#c9c9c9",
-            position: "absolute",
-            width: "100%",
-            bottom: -8,
-            fontSize: 12,
-            left: 0,
-            whiteSpace: "nowrap",
-          }}
-        >
-          关注 Furion 公众号订阅最新资讯
-        </div>
-      </div>
     </>
   );
 }
