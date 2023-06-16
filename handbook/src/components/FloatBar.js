@@ -25,7 +25,7 @@ export default function FloatBar() {
           <Item
             title="问题反馈"
             description="到 Furion 开源仓库反馈"
-            url="https://gitee.com/dotnetchina/Furion/issues/new/choose"
+            url="https://gitee.com/dotnetchina/Furion/issues"
           />
           <Item
             title="成为赞助商"
