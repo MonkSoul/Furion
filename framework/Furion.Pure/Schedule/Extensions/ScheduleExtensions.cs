@@ -56,7 +56,7 @@ public static class ScheduleExtensions
     }
 
     /// <summary>
-    /// 判断类型是否时 IJob 实现类型
+    /// 判断类型是否是 IJob 实现类型
     /// </summary>
     /// <param name="jobType">类型</param>
     /// <returns><see cref="bool"/></returns>
