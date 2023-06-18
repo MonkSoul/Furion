@@ -7,7 +7,7 @@ export default function FloatBar() {
     <div className={styles.floatbar}>
       <div className={styles.qrcode}>
         <img
-          title="微信扫描关注 Furion 官方公众号"
+          title="微信扫码关注 Furion 官方公众号"
           src={useBaseUrl("img/weixin_qrcode.jpg")}
           style={{ display: "block" }}
         />
