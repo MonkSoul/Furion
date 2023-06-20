@@ -19,6 +19,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.AspNetCore.Mvc.Controllers;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Swagger;
@@ -174,7 +175,39 @@ public static class SpecificationDocumentBuilder
                 groupInfo = new SpecificationOpenApiInfo { Group = group, RouteTemplate = template };
             }
 
+            // 处理外部定义
+            var groupKey = "[openapi:{0}]";
+            if (App.Configuration.Exists(string.Format(groupKey, group)))
+            {
+                SetProperty<int>(group, nameof(SpecificationOpenApiInfo.Order), value => groupInfo.Order = value);
+                SetProperty<bool>(group, nameof(SpecificationOpenApiInfo.Visible), value => groupInfo.Visible = value);
+                SetProperty<string>(group, nameof(SpecificationOpenApiInfo.RouteTemplate), value => groupInfo.RouteTemplate = value);
+                SetProperty<string>(group, nameof(SpecificationOpenApiInfo.Title), value => groupInfo.Title = value);
+                SetProperty<string>(group, nameof(SpecificationOpenApiInfo.Description), value => groupInfo.Description = value);
+                SetProperty<string>(group, nameof(SpecificationOpenApiInfo.Version), value => groupInfo.Version = value);
+                SetProperty<Uri>(group, nameof(SpecificationOpenApiInfo.TermsOfService), value => groupInfo.TermsOfService = value);
+                SetProperty<OpenApiContact>(group, nameof(SpecificationOpenApiInfo.Contact), value => groupInfo.Contact = value);
+                SetProperty<OpenApiLicense>(group, nameof(SpecificationOpenApiInfo.License), value => groupInfo.License = value);
+            }
+
             return groupInfo;
+        }
+    }
+
+    /// <summary>
+    /// 设置额外配置的值
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="group"></param>
+    /// <param name="propertyName"></param>
+    /// <param name="action"></param>
+    private static void SetProperty<T>(string group, string propertyName, Action<T> action)
+    {
+        var propertyKey = string.Format("[openapi:{0}]:{1}", group, propertyName);
+        if (App.Configuration.Exists(propertyKey))
+        {
+            var value = App.GetConfig<T>(propertyKey);
+            action?.Invoke(value);
         }
     }
 
