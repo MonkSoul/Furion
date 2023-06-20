@@ -15,7 +15,8 @@ body:
       label: 版本号
       description: 请选择项目使用的 Furion 版本？
       options:
-        - 4.8.8.25 (最新)
+        - 4.8.8.26 (最新)
+        - 4.8.8.25
         - 4.8.8.24
         - 4.8.8.23
         - 4.8.8.22
@@ -192,5 +193,5 @@ body:
     attributes:
       value: |
         关注 Furion 公众号订阅最新资讯
-        
+
         ![](https://gitee.com/dotnetchina/Furion/raw/v4/handbook/static/img/weixin_qrcode.jpg)
