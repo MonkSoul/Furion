@@ -237,12 +237,19 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory
         var sleepMilliseconds = GetSleepMilliseconds(startAt);
         var delay = sleepMilliseconds != null
             ? sleepMilliseconds.Value
-            : -1;   // -1 标识无穷值休眠
+            : int.MaxValue;   // 约 24.8 天
 
         try
         {
             // 进入休眠状态
-            await Task.Delay(TimeSpan.FromMilliseconds(delay), _sleepCancellationTokenSource.Token);
+            var delayTasks = new List<Task>();
+            while (delay > 0)
+            {
+                delayTasks.Add(Task.Delay(TimeSpan.FromMilliseconds(Math.Min(int.MaxValue, delay)), _sleepCancellationTokenSource.Token));
+                delay -= int.MaxValue;
+            }
+
+            await Task.WhenAll(delayTasks);
         }
         catch
         {
