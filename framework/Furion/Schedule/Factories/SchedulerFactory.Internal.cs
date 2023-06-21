@@ -69,7 +69,7 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory
     /// 不受控的作业 Id 集合
     /// </summary>
     /// <remarks>用于实现 立即执行 的作业</remarks>
-    private readonly IList<string> _manualRunJobIds;
+    private readonly List<string> _manualRunJobIds;
 
     /// <summary>
     /// 构造函数
