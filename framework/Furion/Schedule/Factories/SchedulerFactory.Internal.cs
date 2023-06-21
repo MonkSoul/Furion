@@ -250,6 +250,7 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory
             }
 
             await Task.WhenAll(delayTasks);
+            delayTasks.Clear();
         }
         catch
         {
