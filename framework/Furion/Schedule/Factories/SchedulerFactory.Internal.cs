@@ -242,18 +242,20 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory
         try
         {
             // 进入休眠状态
-            var delayTasks = new List<Task>();
             while (delay > 0)
             {
-                delayTasks.Add(Task.Delay(TimeSpan.FromMilliseconds(Math.Min(int.MaxValue, delay)), _sleepCancellationTokenSource.Token));
+                await Task.Delay(TimeSpan.FromMilliseconds(Math.Min(int.MaxValue, delay)), _sleepCancellationTokenSource.Token);
                 delay -= int.MaxValue;
             }
-
-            await Task.WhenAll(delayTasks);
-            delayTasks.Clear();
         }
-        catch
+        catch (Exception ex)
         {
+            // 输出非任务取消异常日志
+            if (!(ex is TaskCanceledException || (ex is AggregateException aggEx && aggEx.InnerExceptions.Count == 1 && aggEx.InnerExceptions[0] is TaskCanceledException)))
+            {
+                _logger.LogError(ex, ex.Message);
+            }
+
             // 重新初始化作业调度器取消休眠 Token
             CreateCancellationTokenSource();
         }
@@ -269,8 +271,14 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory
             // 取消休眠，如果存在错误立即抛出
             _sleepCancellationTokenSource.Cancel(true);
         }
-        catch
+        catch (Exception ex)
         {
+            // 输出非任务取消异常日志
+            if (!(ex is TaskCanceledException || (ex is AggregateException aggEx && aggEx.InnerExceptions.Count == 1 && aggEx.InnerExceptions[0] is TaskCanceledException)))
+            {
+                _logger.LogError(ex, ex.Message);
+            }
+
             // 重新初始化作业调度器取消休眠 Token
             CreateCancellationTokenSource();
         }
@@ -318,8 +326,10 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory
                 _persistenceMessageQueue.Add(context);
                 return;
             }
-            catch (InvalidOperationException) { }
-            catch { }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+            }
         }
     }
 
