@@ -134,6 +134,8 @@ public class SomeClass : IDynamicApiController
 
 - **突破性变化**
 
+  - &nbsp;<Tag>新增</Tag> 定时任务作业计划 `OnChanged` 事件处理 <sup>4.8.8.29</sup> <sup>⏱️2023.06.25</sup>
+  - &nbsp;<Tag>移除</Tag> **定时任务看板 `SyncRate` 配置，前后端采用最新的 `SSE` 推送技术替代** <sup>4.8.8.29</sup> <sup>⏱️2023.06.25</sup>
   - &nbsp;<Tag>调整</Tag> **监听日志 `WriteFilter` 和 `ConfigureLogger` 的 `ActionExecutingContext` 和 `ActionExecutedContext` 类型为 `FilterContext`** <sup>4.8.8.16</sup> <sup>⏱️2023.05.15</sup> [#I7332C](https://gitee.com/dotnetchina/Furion/issues/I7332C)
   - &nbsp;<Tag>调整</Tag> **`IJsonSerializerProvider` 序列化接口，添加 `Deserialize` 反序列化方法** <sup>4.8.8.15</sup> <sup>⏱️2023.05.15</sup> [!815](https://gitee.com/dotnetchina/Furion/pulls/815) 感谢 [@YaChengMu](https://gitee.com/YaChengMu)
 

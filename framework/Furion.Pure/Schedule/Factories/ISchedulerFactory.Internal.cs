@@ -20,6 +20,11 @@ namespace Furion.Schedule;
 public partial interface ISchedulerFactory
 {
     /// <summary>
+    /// 作业计划变更通知
+    /// </summary>
+    event EventHandler<SchedulerEventArgs> OnChanged;
+
+    /// <summary>
     /// 作业调度器初始化
     /// </summary>
     void Preload();

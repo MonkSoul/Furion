@@ -14,6 +14,7 @@
 
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
+using System.Collections.Concurrent;
 using System.Text;
 using System.Text.Json;
 
@@ -38,6 +39,11 @@ public sealed class ScheduleUIMiddleware
     private readonly ISchedulerFactory _schedulerFactory;
 
     /// <summary>
+    /// 作业计划变更队列
+    /// </summary>
+    private readonly BlockingCollection<JobDetail> _queue;
+
+    /// <summary>
     /// 构造函数
     /// </summary>
     /// <param name="next">请求委托</param>
@@ -48,6 +54,7 @@ public sealed class ScheduleUIMiddleware
         , ScheduleUIOptions options)
     {
         _next = next;
+        _queue = new();
         _schedulerFactory = schedulerFactory;
         Options = options;
         ApiRequestPath = $"{options.RequestPath}/api";
@@ -103,8 +110,7 @@ public sealed class ScheduleUIMiddleware
                 content = await streamReader.ReadToEndAsync();
                 content = isIndex
                     ? content.Replace(STATIC_FILES_PATH, $"{Options.VirtualPath}{Options.RequestPath}")
-                    : content.Replace("%(RequestPath)", $"{Options.VirtualPath}{Options.RequestPath}")
-                             .Replace("%(SyncRate)", Options.SyncRate.ToString());
+                    : content.Replace("%(RequestPath)", $"{Options.VirtualPath}{Options.RequestPath}");
             }
 
             // 输出到客户端
@@ -255,6 +261,35 @@ public sealed class ScheduleUIMiddleware
                     ok = true
                 }));
 
+                break;
+
+            case "/check-change":
+                // 检查请求类型，是否为 text/event-stream 格式
+                if (!context.WebSockets.IsWebSocketRequest && context.Request.Headers["Accept"].ToString().Contains("text/event-stream"))
+                {
+                    // 设置响应头的 content-type 为 text/event-stream
+                    context.Response.ContentType = "text/event-stream";
+
+                    // 监听作业计划变化
+                    void Subscribe(object sender, SchedulerEventArgs args)
+                    {
+                        if (!_queue.IsAddingCompleted)
+                        {
+                            _queue.Add(args.JobDetail);
+                        }
+                    }
+                    _schedulerFactory.OnChanged += Subscribe;
+
+                    // 持续发送 SSE 协议数据
+                    foreach (var jobDetail in _queue.GetConsumingEnumerable())
+                    {
+                        var message = "data: " + SerializeToJson(jobDetail) + "\n\n";
+                        await context.Response.WriteAsync(message);
+                        await context.Response.Body.FlushAsync();
+                    }
+
+                    _schedulerFactory.OnChanged -= Subscribe;
+                }
                 break;
         }
     }

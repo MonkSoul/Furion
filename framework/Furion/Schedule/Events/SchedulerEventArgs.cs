@@ -15,31 +15,21 @@
 namespace Furion.Schedule;
 
 /// <summary>
-/// Schedule UI 配置选项
+/// 作业计划事件参数
 /// </summary>
-[SuppressSniffer]
-public sealed class ScheduleUIOptions
+public sealed class SchedulerEventArgs : EventArgs
 {
     /// <summary>
-    /// UI 入口地址
+    /// 构造函数
     /// </summary>
-    /// <remarks>需以 / 开头，结尾不包含 / </remarks>
-    public string RequestPath { get; set; } = "/schedule";
+    /// <param name="jobDetail">作业信息</param>
+    public SchedulerEventArgs(JobDetail jobDetail)
+    {
+        JobDetail = jobDetail;
+    }
 
     /// <summary>
-    /// 启用目录浏览
+    /// 作业信息
     /// </summary>
-    public bool EnableDirectoryBrowsing { get; set; } = false;
-
-    /// <summary>
-    /// 生产环境关闭
-    /// </summary>
-    /// <remarks>默认 false</remarks>
-    public bool DisableOnProduction { get; set; } = false;
-
-    /// <summary>
-    /// 二级虚拟目录
-    /// </summary>
-    /// <remarks>需以 / 开头，结尾不包含 / </remarks>
-    public string VirtualPath { get; set; }
+    public JobDetail JobDetail { get; }
 }

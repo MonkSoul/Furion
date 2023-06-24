@@ -18,12 +18,11 @@ import {
   ExpandedRowRender,
   OnRow,
 } from "@douyinfe/semi-ui/lib/es/table/interface";
-import { useCallback, useContext, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import useFetch from "use-http/dist/cjs/useFetch";
 import { JobDetail, Scheduler } from "../../types";
 import apiconfig from "./apiconfig";
 import columns from "./columns";
-import GlobalContext from "./context";
 import RenderValue from "./render-value";
 
 const style = {
@@ -40,15 +39,11 @@ export default function Jobs() {
    * 作业状态
    */
   const [jobs, setJobs] = useState<Scheduler[]>([]);
-  const { rate } = useContext(GlobalContext);
 
   /**
    * 初始化请求配置
    */
-  const { post, response, loading } = useFetch(
-    apiconfig.hostAddress,
-    apiconfig.options
-  );
+  const { post, response } = useFetch(apiconfig.hostAddress, apiconfig.options);
 
   /**
    * 获取内存中所有作业
@@ -66,7 +61,7 @@ export default function Jobs() {
     triggerid: string,
     action: string
   ) => {
-    const data = await post(
+    await post(
       "/operate-trigger?jobid=" +
         jobid +
         "&triggerid=" +
@@ -105,18 +100,19 @@ export default function Jobs() {
     return jobDetails;
   }, [jobs]);
 
-  /**
-   * 初始化
-   */
   useEffect(() => {
-    const timer = setInterval(() => {
+    loadJobs();
+
+    var eventSource = new EventSource(apiconfig.hostAddress + "/check-change");
+
+    eventSource.onmessage = function (e) {
       loadJobs();
-    }, rate);
+    };
 
     return () => {
-      clearInterval(timer);
+      eventSource.close();
     };
-  }, [rate]);
+  }, []);
 
   /**
    * 展开行渲染

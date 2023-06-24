@@ -110,6 +110,8 @@ scheduler.UpdateTrigger("triggerId", triggerBuilder =>
 
 - **突破性变化**
 
+  - &nbsp;<Tag>新增</Tag> 定时任务作业计划 `OnChanged` 事件处理 <sup>4.8.8.29</sup> <sup>⏱️2023.06.25</sup>
+  - &nbsp;<Tag>移除</Tag> **定时任务看板 `SyncRate` 配置，前后端采用最新的 `SSE` 推送技术替代** <sup>4.8.8.29</sup> <sup>⏱️2023.06.25</sup>
   - &nbsp;<Tag>调整</Tag> **定时任务动态作业 `DynamicJob` 委托/方法签名** <sup>4.8.7.10</sup> <sup>⏱️2023.03.14</sup> [6d56b53](https://gitee.com/dotnetchina/Furion/commit/6d56b531f34c9d616202a6f53c31a10974065d56)
 
 <details style={{ marginLeft: 50 }}>
@@ -6425,7 +6427,7 @@ app.UseScheduleUI(options =>
 {
     options.RequestPath = "/custom-job";  // Furion 4.8.5.6+ 版本支持，必须以 / 开头且不以 / 结尾
     options.DisableOnProduction = true;
-    options.SyncRate = 300;   // 控制看板刷新频率，默认 300ms，Furion 4.8.7.43+ 支持
+    options.SyncRate = 300;   // 控制看板刷新频率，默认 300ms，Furion 4.8.7.43+ 支持，`Furion 4.8.8.29+` 已移除
 });
 ```
 
@@ -6483,7 +6485,7 @@ host.Run();
 
 - `RequestPath`：配置看板入口地址，`string` 类型，默认 `/schedule`，需以 `/` 开头，结尾不包含 `/`
 - `DisableOnProduction`：是否在生产环境关闭，`bool` 类型，默认 `false`
-- `SyncRate`：控制看板刷新频率，`int` 类型，默认 `300`，单位 `毫秒`，`Furion 4.8.7.43+` 支持
+- ~~`SyncRate`：控制看板刷新频率，`int` 类型，默认 `300`，单位 `毫秒`，`Furion 4.8.7.43+` 支持，**`Furion 4.8.8.29+` 已移除**~~
 - `VisualPath`：二级虚拟目录路径，`string` 类型，需以 `/` 开头，结尾不包含 `/` ，`Furion 4.8.8.20+` 支持
 
 接着打开浏览器并访问 `/schedule` 地址即可：

@@ -5,7 +5,7 @@ import {
   Tag,
   Timeline,
   Tooltip,
-  Typography
+  Typography,
 } from "@douyinfe/semi-ui";
 import Paragraph from "@douyinfe/semi-ui/lib/es/typography/paragraph";
 import dayjs from "dayjs";
@@ -215,10 +215,7 @@ function LogPanel(props: {
   /**
    * 初始化请求配置
    */
-  const { post, response, loading } = useFetch(
-    apiconfig.hostAddress,
-    apiconfig.options
-  );
+  const { post, response } = useFetch(apiconfig.hostAddress, apiconfig.options);
 
   /**
    * 操作作业触发器
@@ -239,8 +236,10 @@ function LogPanel(props: {
    * 初始化
    */
   useEffect(() => {
-    getTimelines(trigger.jobId!, trigger.triggerId!);
-  }, [trigger]);
+    if (visible) {
+      getTimelines(trigger.jobId!, trigger.triggerId!);
+    }
+  }, [visible, trigger.updatedTime]);
 
   return (
     <Modal

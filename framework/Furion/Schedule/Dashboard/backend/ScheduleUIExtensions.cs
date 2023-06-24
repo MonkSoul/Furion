@@ -61,9 +61,6 @@ public static class ScheduleUIExtensions
         // 如果路由为空，或者不以 / 开头，或者以 / 结尾，不启动看板
         if (string.IsNullOrWhiteSpace(options.RequestPath) || !options.RequestPath.StartsWith("/") || options.RequestPath.EndsWith("/")) return app;
 
-        // 验证看板刷新频次（毫秒），至少大于 300ms
-        if (options.SyncRate < 300) throw new InvalidOperationException($"The sync rate cannot be less than 300ms, but the value is <{options.SyncRate}ms>.");
-
         // 注册 Schedule 中间件
         app.UseMiddleware<ScheduleUIMiddleware>(options);
 

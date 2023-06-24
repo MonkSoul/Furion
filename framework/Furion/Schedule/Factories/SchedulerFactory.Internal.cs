@@ -23,6 +23,11 @@ namespace Furion.Schedule;
 internal sealed partial class SchedulerFactory : ISchedulerFactory
 {
     /// <summary>
+    /// 作业计划变更通知
+    /// </summary>
+    public event EventHandler<SchedulerEventArgs> OnChanged;
+
+    /// <summary>
     /// 服务提供器
     /// </summary>
     private readonly IServiceProvider _serviceProvider;
@@ -292,6 +297,9 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory
     public void Shorthand(JobDetail jobDetail, PersistenceBehavior behavior = PersistenceBehavior.Updated)
     {
         Shorthand(jobDetail, null, behavior);
+
+        // 调用事件委托
+        OnChanged?.Invoke(this, new(jobDetail));
     }
 
     /// <summary>
