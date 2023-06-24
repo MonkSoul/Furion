@@ -27,7 +27,7 @@
 		<PackageReference Include="Microsoft.AspNetCore.Razor.Language" Version="6.0.19" />
 		<PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.6.0" />
 		<PackageReference Include="Microsoft.Extensions.DependencyModel" Version="7.0.0" />
-		<PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="7.0.7" />
+		<PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="7.0.8" />
 		<PackageReference Include="System.Text.Json" Version="7.0.3" />
 	</ItemGroup>
 
