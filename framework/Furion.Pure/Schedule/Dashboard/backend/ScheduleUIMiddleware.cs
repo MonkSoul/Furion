@@ -287,10 +287,7 @@ public sealed class ScheduleUIMiddleware
                             await context.Response.WriteAsync(message);
                             await context.Response.Body.FlushAsync();
                         }
-                        else
-                        {
-                            break;
-                        }
+                        else break;
                     }
 
                     queue.CompleteAdding();
