@@ -39,11 +39,6 @@ public sealed class ScheduleUIMiddleware
     private readonly ISchedulerFactory _schedulerFactory;
 
     /// <summary>
-    /// 作业计划变更队列
-    /// </summary>
-    private readonly BlockingCollection<JobDetail> _queue;
-
-    /// <summary>
     /// 构造函数
     /// </summary>
     /// <param name="next">请求委托</param>
@@ -54,7 +49,6 @@ public sealed class ScheduleUIMiddleware
         , ScheduleUIOptions options)
     {
         _next = next;
-        _queue = new();
         _schedulerFactory = schedulerFactory;
         Options = options;
         ApiRequestPath = $"{options.RequestPath}/api";
@@ -263,6 +257,7 @@ public sealed class ScheduleUIMiddleware
 
                 break;
 
+            // 推送更新
             case "/check-change":
                 // 检查请求类型，是否为 text/event-stream 格式
                 if (!context.WebSockets.IsWebSocketRequest && context.Request.Headers["Accept"].ToString().Contains("text/event-stream"))
@@ -270,24 +265,35 @@ public sealed class ScheduleUIMiddleware
                     // 设置响应头的 content-type 为 text/event-stream
                     context.Response.ContentType = "text/event-stream";
 
+                    var queue = new BlockingCollection<JobDetail>();
+
                     // 监听作业计划变化
                     void Subscribe(object sender, SchedulerEventArgs args)
                     {
-                        if (!_queue.IsAddingCompleted)
+                        if (!queue.IsAddingCompleted)
                         {
-                            _queue.Add(args.JobDetail);
+                            queue.Add(args.JobDetail);
                         }
                     }
                     _schedulerFactory.OnChanged += Subscribe;
 
                     // 持续发送 SSE 协议数据
-                    foreach (var jobDetail in _queue.GetConsumingEnumerable())
+                    foreach (var jobDetail in queue.GetConsumingEnumerable())
                     {
-                        var message = "data: " + SerializeToJson(jobDetail) + "\n\n";
-                        await context.Response.WriteAsync(message);
-                        await context.Response.Body.FlushAsync();
+                        // 如果请求已终止则停止推送
+                        if (!context.RequestAborted.IsCancellationRequested)
+                        {
+                            var message = "data: " + SerializeToJson(jobDetail) + "\n\n";
+                            await context.Response.WriteAsync(message);
+                            await context.Response.Body.FlushAsync();
+                        }
+                        else
+                        {
+                            break;
+                        }
                     }
 
+                    queue.CompleteAdding();
                     _schedulerFactory.OnChanged -= Subscribe;
                 }
                 break;
