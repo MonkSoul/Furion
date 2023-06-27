@@ -93,7 +93,7 @@ public sealed partial class TriggerBuilder
     /// </summary>
     /// <param name="interval">间隔（毫秒）</param>
     /// <returns><see cref="TriggerBuilder"/></returns>
-    public TriggerBuilder AlterToPeriod(int interval)
+    public TriggerBuilder AlterToPeriod(long interval)
     {
         return SetTriggerType<PeriodTrigger>().SetArgs(interval);
     }
@@ -103,7 +103,7 @@ public sealed partial class TriggerBuilder
     /// </summary>
     /// <param name="interval">间隔（秒）</param>
     /// <returns><see cref="TriggerBuilder"/></returns>
-    public TriggerBuilder AlterToPeriodSeconds(int interval)
+    public TriggerBuilder AlterToPeriodSeconds(long interval)
     {
         return AlterToPeriod(interval * 1000);
     }
@@ -113,7 +113,7 @@ public sealed partial class TriggerBuilder
     /// </summary>
     /// <param name="interval">间隔（分钟）</param>
     /// <returns><see cref="TriggerBuilder"/></returns>
-    public TriggerBuilder AlterToPeriodMinutes(int interval)
+    public TriggerBuilder AlterToPeriodMinutes(long interval)
     {
         return AlterToPeriod(interval * 1000 * 60);
     }
@@ -123,7 +123,7 @@ public sealed partial class TriggerBuilder
     /// </summary>
     /// <param name="interval">间隔（小时）</param>
     /// <returns><see cref="TriggerBuilder"/></returns>
-    public TriggerBuilder AlterToPeriodHours(int interval)
+    public TriggerBuilder AlterToPeriodHours(long interval)
     {
         return AlterToPeriod(interval * 1000 * 60 * 60);
     }

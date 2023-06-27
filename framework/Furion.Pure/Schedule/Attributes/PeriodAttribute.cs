@@ -24,7 +24,7 @@ public class PeriodAttribute : TriggerAttribute
     /// 构造函数
     /// </summary>
     /// <param name="interval">间隔（毫秒）</param>
-    public PeriodAttribute(int interval)
+    public PeriodAttribute(long interval)
         : base(typeof(PeriodTrigger)
             , interval)
     {

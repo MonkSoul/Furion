@@ -24,7 +24,7 @@ public sealed class PeriodMinutesAttribute : PeriodAttribute
     /// 构造函数
     /// </summary>
     /// <param name="interval">间隔（分钟）</param>
-    public PeriodMinutesAttribute(int interval)
+    public PeriodMinutesAttribute(long interval)
         : base(interval * 1000 * 60)
     {
     }

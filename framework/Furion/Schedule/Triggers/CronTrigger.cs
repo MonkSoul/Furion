@@ -29,10 +29,10 @@ public class CronTrigger : Trigger
     /// <param name="args">动态参数类型，支持 <see cref="int"/>，<see cref="CronStringFormat"/> 和 object[]</param>
     public CronTrigger(string schedule, object args)
     {
-        // 处理 int 转 CronStringFormat
-        if (args is int formatValue)
+        // 处理 int/long 转 CronStringFormat
+        if (args is int or long)
         {
-            Crontab = Crontab.Parse(schedule, (CronStringFormat)formatValue);
+            Crontab = Crontab.Parse(schedule, (CronStringFormat)int.Parse(args.ToString()));
         }
         // 处理 CronStringFormat
         else if (args is CronStringFormat format)

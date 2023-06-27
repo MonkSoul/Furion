@@ -248,8 +248,8 @@ internal static class Penetrates
             JsonValueKind.True => true,
             JsonValueKind.False => false,
             JsonValueKind.Null => default,
-            JsonValueKind.Number => ele.GetInt32(),
-            _ => throw new ArgumentException("Only int, string, boolean and null types or array types constructed by them are supported.")
+            JsonValueKind.Number => ele.TryGetInt32(out var num) ? num : ele.GetInt64(),
+            _ => throw new ArgumentException("Only int, long, string, boolean and null types or array types constructed by them are supported.")
         };
 
         return actValue;

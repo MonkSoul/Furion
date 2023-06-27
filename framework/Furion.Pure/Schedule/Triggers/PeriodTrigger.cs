@@ -24,7 +24,7 @@ public class PeriodTrigger : Trigger
     /// 构造函数
     /// </summary>
     /// <param name="interval">间隔（毫秒）</param>
-    public PeriodTrigger(int interval)
+    public PeriodTrigger(long interval)
     {
         // 最低运行毫秒数为 100ms
         if (interval < 100) throw new InvalidOperationException($"The interval cannot be less than 100ms, but the value is <{interval}ms>.");
@@ -35,7 +35,7 @@ public class PeriodTrigger : Trigger
     /// <summary>
     /// 间隔（毫秒）
     /// </summary>
-    protected int Interval { get; }
+    protected long Interval { get; }
 
     /// <summary>
     /// 计算下一个触发时间

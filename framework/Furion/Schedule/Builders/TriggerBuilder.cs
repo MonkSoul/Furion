@@ -34,7 +34,7 @@ public sealed partial class TriggerBuilder : Trigger
     /// </summary>
     /// <param name="interval">间隔（毫秒）</param>
     /// <returns><see cref="TriggerBuilder"/></returns>
-    public static TriggerBuilder Period(int interval)
+    public static TriggerBuilder Period(long interval)
     {
         return Create<PeriodTrigger>(interval);
     }
