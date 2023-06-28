@@ -13,7 +13,7 @@ body:
       label: 你的功能建议是否和某个问题相关？
       description: 清晰并简洁地描述问题是什么，例如，当我...时，我总是感到困扰。
     validations:
-      required: false
+      required: true
   - type: textarea
     id: desired-solution
     attributes:
