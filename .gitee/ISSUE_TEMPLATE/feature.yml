@@ -27,20 +27,20 @@ body:
       label: 你考虑过哪些替代方案？
       description: 清晰并简洁地描述你考虑过的任何替代解决方案或功能。
     validations:
-      required: false
+      required: true
   - type: textarea
     id: additional-context
     attributes:
       label: 你有其他上下文或截图吗？
       description: 在此处添加有关功能请求的任何其他上下文或截图。
     validations:
-      required: false
+      required: true
   - type: checkboxes
     attributes:
       label: 意向参与贡献
       options:
         - label: 我有意向参与具体功能的开发实现并将代码贡献回到上游社区
-          required: false
+          required: true
   - type: markdown
     attributes:
       value: |
