@@ -147,6 +147,7 @@ options.AddJob((context, stoppingToken) =>
 
 - **问题修复**
 
+  - &nbsp;<Tag>修复</Tag> 定时任务因上一版本修改 [4e2615b](https://gitee.com/dotnetchina/Furion/commit/4e2615b00da0b2db756e4084be882c0362c442f5) 导致 `Cron` 解析异常问题 <sup>4.8.8.32</sup> <sup>⏱️2023.06.28</sup> [#I7GQ5I](https://gitee.com/dotnetchina/Furion/issues/I7GQ5I)
   - &nbsp;<Tag>修复</Tag> 定时任务设置额外数据不支持 `long/int64` 类型参数问题 <sup>4.8.8.31</sup> <sup>⏱️2023.06.28</sup> [4e2615b](https://gitee.com/dotnetchina/Furion/commit/4e2615b00da0b2db756e4084be882c0362c442f5)
   - &nbsp;<Tag>修复</Tag> 定时任务休眠毫秒数大于 `int.MaxValue` 时出现 `ArgumentOutOfRangeException` <sup>4.8.8.27</sup> <sup>⏱️2023.06.21</sup> [#I7F6ZT](https://gitee.com/dotnetchina/Furion/issues/I7F6ZT)
   - &nbsp;<Tag>修复</Tag> 定时任务通过作业 `Id` 删除作业不能删除作业触发器问题 <sup>4.8.7.35</sup> <sup>⏱️2023.04.05</sup> [312ca35](https://gitee.com/dotnetchina/Furion/commit/312ca357cca1e59e1b6cc67ec499bf512f79dd0a)

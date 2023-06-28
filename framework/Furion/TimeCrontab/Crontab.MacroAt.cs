@@ -120,8 +120,8 @@ public sealed partial class Crontab
         // 空检查
         if (fields == null || fields.Length == 0) throw new ArgumentNullException(nameof(fields));
 
-        // 检查 fields 只能是 int，string 和非 null 类型
-        if (fields.Any(f => f == null || (f.GetType() != typeof(int) && f.GetType() != typeof(string)))) throw new InvalidOperationException("Invalid Cron expression.");
+        // 检查 fields 只能是 int, long，string 和非 null 类型
+        if (fields.Any(f => f == null || (f.GetType() != typeof(int) && f.GetType() != typeof(long) && f.GetType() != typeof(string)))) throw new InvalidOperationException("Invalid Cron expression.");
     }
 
     /// <summary>
