@@ -49,5 +49,8 @@ export declare interface JobDetail {
    */
   triggers?: Trigger[] | null;
 
+  /**
+   * 刷新时间
+   */
   refreshDate?: Date | null;
 }

@@ -3,7 +3,7 @@ import {
   IconMore,
   IconPlayCircle,
   IconStop,
-  IconVigoLogo
+  IconVigoLogo,
 } from "@douyinfe/semi-icons";
 import {
   Descriptions,
@@ -14,7 +14,7 @@ import {
   Tag,
   Toast,
   Tooltip,
-  Typography
+  Typography,
 } from "@douyinfe/semi-ui";
 import { Data } from "@douyinfe/semi-ui/lib/es/descriptions";
 import { ColumnProps } from "@douyinfe/semi-ui/lib/es/table/interface";
