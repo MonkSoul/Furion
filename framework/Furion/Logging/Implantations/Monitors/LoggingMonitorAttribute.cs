@@ -550,7 +550,10 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter, IAs
             jsonSerializerSettings.Converters.AddLongTypeConverters();
 
             // 解决 DateTimeOffset 序列化/反序列化问题
-            jsonSerializerSettings.Converters.Add(new IsoDateTimeConverter { DateTimeStyles = Globalization.DateTimeStyles.AssumeUniversal });
+            if (obj is DateTimeOffset)
+            {
+                jsonSerializerSettings.Converters.Add(new IsoDateTimeConverter { DateTimeStyles = Globalization.DateTimeStyles.AssumeUniversal });
+            }
 
             var result = Newtonsoft.Json.JsonConvert.SerializeObject(obj, jsonSerializerSettings);
 

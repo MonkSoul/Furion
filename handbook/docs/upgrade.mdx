@@ -208,6 +208,7 @@ public object Deserialize(string json, Type returnType, object jsonSerializerOpt
 
 - **问题修复**
 
+  - &nbsp;<Tag>修复</Tag> 审计日志解析 `DateTime` 类型参数不是本地时间问题 <sup>4.8.8.33</sup> <sup>⏱️2023.06.29</sup> [#I7GW32](https://gitee.com/dotnetchina/Furion/issues/I7GW32)
   - &nbsp;<Tag>修复</Tag> 定时任务因上一版本修改 [4e2615b](https://gitee.com/dotnetchina/Furion/commit/4e2615b00da0b2db756e4084be882c0362c442f5) 导致 `Cron` 解析异常问题 <sup>4.8.8.32</sup> <sup>⏱️2023.06.28</sup> [#I7GQ5I](https://gitee.com/dotnetchina/Furion/issues/I7GQ5I)
   - &nbsp;<Tag>修复</Tag> 定时任务设置额外数据不支持 `long/int64` 类型参数问题 <sup>4.8.8.31</sup> <sup>⏱️2023.06.28</sup> [4e2615b](https://gitee.com/dotnetchina/Furion/commit/4e2615b00da0b2db756e4084be882c0362c442f5)
   - &nbsp;<Tag>修复</Tag> 定时任务休眠毫秒数大于 `int.MaxValue` 时出现 `ArgumentOutOfRangeException` <sup>4.8.8.27</sup> <sup>⏱️2023.06.21</sup> [#I7F6ZT](https://gitee.com/dotnetchina/Furion/issues/I7F6ZT)
