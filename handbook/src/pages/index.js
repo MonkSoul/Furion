@@ -18,8 +18,6 @@ function Home() {
   const context = useDocusaurusContext();
   const { siteConfig = {} } = context;
 
-  React.useEffect(() => {}, []);
-
   return (
     <Layout
       title={`让 .NET 开发更简单，更通用，更流行。 ${siteConfig.title}`}
@@ -195,7 +193,7 @@ function Gitee() {
             className={"furion-log-jiao" + (isDarkTheme ? " dark" : "")}
           ></div>
           <div className="furion-log-number">
-            <div style={{ color: "#1fd898" }}>9,093,674</div>
+            <div style={{ color: "#1fd898" }}>9,096,261</div>
             <span className={isDarkTheme ? " dark" : ""}>Downloads</span>
           </div>
         </div>
