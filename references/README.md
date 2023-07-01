@@ -1,5 +1,9 @@
 文档基于 [https://dotnet.github.io/docfx/index.html](https://dotnet.github.io/docfx/index.html) 构建。
 
+### 编译项目
+
+打开 `framework/Furion.sln` 项目并切换为 `Release` 模式进行编译。
+
 ### 本地运行
 
 ```bash
