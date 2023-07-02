@@ -84,6 +84,11 @@ module.exports = {
             },
           ],
         },
+        {
+          label: "✨ API",
+          position: "left",
+          href: "http://furion.baiqian.ltd/api/api",
+        },
         // {
         //   to: "docs/net6-to-net7",
         //   activeBasePath: "docs/net6-to-net7",
