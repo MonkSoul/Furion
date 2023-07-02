@@ -13,6 +13,7 @@
 // 还是产生于、源于或有关于本软件以及本软件的使用或其它处置。
 
 using Furion.Extensions;
+using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System.ComponentModel;
@@ -54,11 +55,13 @@ public class EnumSchemaFilter : ISchemaFilter
                 // 获取枚举成员特性
                 var fieldinfo = type.GetField(Enum.GetName(type, value));
                 var descriptionAttribute = fieldinfo.GetCustomAttribute<DescriptionAttribute>(true);
-                model.Enum.Add(OpenApiAnyFactory.CreateFromJson($"{numValue}"));
+                model.Enum.Add(new OpenApiString(value.ToString()));
 
                 stringBuilder.Append($"&nbsp;{descriptionAttribute?.Description} {value} = {numValue}<br />");
             }
             model.Description = stringBuilder.ToString();
+            model.Type = "string";
+            model.Format = null;
         }
     }
 }
