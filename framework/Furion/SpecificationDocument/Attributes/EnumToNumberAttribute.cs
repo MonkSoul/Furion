@@ -24,6 +24,7 @@ public sealed class EnumToNumberAttribute : Attribute
     /// 构造函数
     /// </summary>
     public EnumToNumberAttribute()
+        : this(true)
     {
     }
 
