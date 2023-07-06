@@ -53,10 +53,23 @@ public class EnumSchemaFilter : ISchemaFilter
 
             var enumValues = Enum.GetValues(type);
 
-            // 是否定义 [EnumToNumber] 特性或包含中文
-            var convertToNumber = type.IsDefined(typeof(EnumToNumberAttribute), false)
-                || Enum.GetNames(type).Any(v => Regex.IsMatch(v, CHINESE_PATTERN))
-                || App.Configuration.GetValue("SpecificationDocumentSettings:EnumToNumber", false);
+            bool convertToNumber;
+            // 定义 [EnumToNumber] 特性情况
+            if (type.IsDefined(typeof(EnumToNumberAttribute), false))
+            {
+                var enumToNumberAttribute = type.GetCustomAttribute<EnumToNumberAttribute>(false);
+                convertToNumber = enumToNumberAttribute.Enabled;
+            }
+            else
+            {
+                convertToNumber = App.Configuration.GetValue("SpecificationDocumentSettings:EnumToNumber", false);
+            }
+
+            // 包含中文情况
+            if (Enum.GetNames(type).Any(v => Regex.IsMatch(v, CHINESE_PATTERN)))
+            {
+                convertToNumber = false;
+            }
 
             // 获取枚举实际值类型
             var enumValueType = type.GetField("value__").FieldType;
