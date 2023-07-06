@@ -252,6 +252,13 @@ internal static class Penetrates
             _ => throw new ArgumentException("Only int, long, string, boolean and null types or array types constructed by them are supported.")
         };
 
+        // 处理 long 类型问题
+        if (actValue is long longValue
+            && longValue <= int.MaxValue)
+        {
+            actValue = (int)longValue;
+        }
+
         return actValue;
     }
 
