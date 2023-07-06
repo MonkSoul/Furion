@@ -254,6 +254,7 @@ internal static class Penetrates
 
         // 处理 long 类型问题
         if (actValue is long longValue
+            && longValue >= int.MinValue
             && longValue <= int.MaxValue)
         {
             actValue = (int)longValue;
