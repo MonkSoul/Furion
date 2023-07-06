@@ -13,12 +13,14 @@
 // 还是产生于、源于或有关于本软件以及本软件的使用或其它处置。
 
 using Furion.Extensions;
+using Microsoft.Extensions.Configuration;
 using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System.ComponentModel;
 using System.Reflection;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace Furion.SpecificationDocument;
 
@@ -28,6 +30,11 @@ namespace Furion.SpecificationDocument;
 [SuppressSniffer]
 public class EnumSchemaFilter : ISchemaFilter
 {
+    /// <summary>
+    /// 中文正则表达式
+    /// </summary>
+    private const string CHINESE_PATTERN = @"[\u4e00-\u9fa5]";
+
     /// <summary>
     /// 实现过滤器方法
     /// </summary>
@@ -45,6 +52,12 @@ public class EnumSchemaFilter : ISchemaFilter
             stringBuilder.Append($"{model.Description}<br />");
 
             var enumValues = Enum.GetValues(type);
+
+            // 是否定义 [EnumToNumber] 特性或包含中文
+            var convertToNumber = type.IsDefined(typeof(EnumToNumberAttribute), false)
+                || Enum.GetNames(type).Any(v => Regex.IsMatch(v, CHINESE_PATTERN))
+                || App.Configuration.GetValue("SpecificationDocumentSettings:EnumToNumber", false);
+
             // 获取枚举实际值类型
             var enumValueType = type.GetField("value__").FieldType;
 
@@ -55,13 +68,19 @@ public class EnumSchemaFilter : ISchemaFilter
                 // 获取枚举成员特性
                 var fieldinfo = type.GetField(Enum.GetName(type, value));
                 var descriptionAttribute = fieldinfo.GetCustomAttribute<DescriptionAttribute>(true);
-                model.Enum.Add(new OpenApiString(value.ToString()));
+                model.Enum.Add(!convertToNumber
+                    ? new OpenApiString(value.ToString())
+                    : OpenApiAnyFactory.CreateFromJson($"{numValue}"));
 
                 stringBuilder.Append($"&nbsp;{descriptionAttribute?.Description} {value} = {numValue}<br />");
             }
             model.Description = stringBuilder.ToString();
-            model.Type = "string";
-            model.Format = null;
+
+            if (!convertToNumber)
+            {
+                model.Type = "string";
+                model.Format = null;
+            }
         }
     }
 }

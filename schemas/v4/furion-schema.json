@@ -2174,7 +2174,7 @@
         "DocExpansionState": {
           "type": "string",
           "description": "文档展开设置",
-          "enum": ["List", "Full", "None"]
+          "enum": [ "List", "Full", "None" ]
         },
         "XmlComments": {
           "type": "array",
@@ -2273,7 +2273,7 @@
                     "properties": {
                       "Type": {
                         "type": "string",
-                        "enum": ["ApiKey", "Http", "OAuth2", "OpenIdConnect"]
+                        "enum": [ "ApiKey", "Http", "OAuth2", "OpenIdConnect" ]
                       },
                       "Description": {
                         "type": "string"
@@ -2283,7 +2283,7 @@
                       },
                       "In": {
                         "type": "string",
-                        "enum": ["Query", "Header", "Path", "Cookie"]
+                        "enum": [ "Query", "Header", "Path", "Cookie" ]
                       },
                       "Scheme": {
                         "type": "string"
@@ -2397,7 +2397,7 @@
               },
               "Type": {
                 "type": "string",
-                "enum": ["ApiKey", "Http", "OAuth2", "OpenIdConnect"]
+                "enum": [ "ApiKey", "Http", "OAuth2", "OpenIdConnect" ]
               },
               "Description": {
                 "type": "string"
@@ -2407,7 +2407,7 @@
               },
               "In": {
                 "type": "string",
-                "enum": ["Query", "Header", "Path", "Cookie"]
+                "enum": [ "Query", "Header", "Path", "Cookie" ]
               },
               "Scheme": {
                 "type": "string"
@@ -2591,6 +2591,11 @@
         "EnableAllGroups": {
           "type": "boolean",
           "description": "启用 All Groups 功能",
+          "default": false
+        },
+        "EnumToNumber": {
+          "type": "boolean",
+          "description": "枚举类型生成值类型",
           "default": false
         }
       }

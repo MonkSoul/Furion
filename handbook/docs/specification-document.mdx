@@ -13,6 +13,7 @@ import Tag from "@site/src/components/Tag.js";
 
 - **新特性**
 
+  - &nbsp;<Tag>新增</Tag> 规范化文档枚举支持 `[EnumToNumber]` 特性配置生成前端枚举定义代码是字符串值还是整数值类型，默认为字符串值 <sup>4.8.8.35</sup> <sup>⏱️2023.07.06</sup> [#I7IZ7S](https://gitee.com/dotnetchina/Furion/issues/I7IZ7S)
   - &nbsp;<Tag>新增</Tag> `Swagger` 分组信息可在任意配置文件中通过 `[openapi:分组名]` 进行配置 <sup>4.8.8.26</sup> <sup>⏱️2023.06.20</sup> [a70eed3](https://gitee.com/dotnetchina/Furion/commit/a70eed3ec5f3081fbdc08312fdb4770f39f27cc0)
   - &nbsp;<Tag>新增</Tag> `Swagger` 请求授权失败后自动退出授权状态 <sup>4.8.6.12</sup> <sup>⏱️2023.02.20</sup> [!717](https://gitee.com/dotnetchina/Furion/pulls/717)
   - &nbsp;<Tag>新增</Tag> `Swagger` 启用登录后配置 `CheckUrl` 可获取本地存储的 `Authorization` 请求报文头 <sup>4.8.6.2</sup> <sup>⏱️2023.02.10</sup> [#I6E3LB](https://gitee.com/dotnetchina/Furion/issues/I6E3LB)
@@ -1420,6 +1421,84 @@ app.UseInject(options =>
 });
 ```
 
+### 6.5.41 枚举类型值
+
+:::important 版本说明
+
+以下内容仅限 `Furion 4.8.8.35 +` 版本使用。
+
+:::
+
+默认情况下，枚举类型值会生成字符串类型，如需生成值类型则添加 `[EnumToNumber]` 特性，但还有一种情况，那就是**如果枚举项存在中文，会强制生成为值类型**。
+
+- 缺省情况
+
+```cs showLineNumbers
+public enum NoticeTypeEnum
+{
+    NOTICE = 1,
+    ANNOUNCEMENT = 2,
+}
+```
+
+默认生成 `TypeScript` 代码：
+
+```ts showLineNumbers {2-3}
+export enum NoticeTypeEnum {
+  NOTICE = "NOTICE",
+  ANNOUNCEMENT = "ANNOUNCEMENT",
+}
+```
+
+- 配置情况
+
+```cs showLineNumbers {1}
+[EnumToNumber]
+public enum NoticeTypeEnum
+{
+    NOTICE = 1,
+    ANNOUNCEMENT = 2,
+}
+```
+
+```ts showLineNumbers {2-3}
+export enum NoticeTypeEnum {
+  NUMBER_1 = 1,
+  NUMBER_2 = 2,
+}
+```
+
+**这种的 `NUMBER_` 规则 `Furion` 无法控制，这是 `Swagger` 生成的。**
+
+- 存在中文情况
+
+```cs showLineNumbers {5}
+public enum NoticeTypeEnum
+{
+    NOTICE = 1,
+    ANNOUNCEMENT = 2,
+    中文
+}
+```
+
+```ts showLineNumbers {2-4}
+export enum NoticeTypeEnum {
+  NUMBER_1 = 1,
+  NUMBER_2 = 2,
+  NUMBER_3 = 3,
+}
+```
+
+- 除了上面独立配置以外还支持全局配置：
+
+```json showLineNumbers {2-3}
+{
+  "SpecificationDocumentSettings": {
+    "EnumToNumber": true
+  }
+}
+```
+
 ## 6.6 `SpecificationDocumentSettings` 配置
 
 除了上述例子外，`Furion` 提供了一些配置选项，如：
@@ -1448,6 +1527,7 @@ app.UseInject(options =>
   - `CheckUrl`：检查登录状态的 `Url` 地址，**该地址必须是 `POST` 请求**，已授权返回 `200`，否则返回 `401`
   - `SubmitUrl`：提交登录的 `Url` 地址，**该地址必须是 `POST` 请求且只有一个 `SpecificationAuth` 类型参数**，成功登录返回 `200`，否则返回 `401`，支持相对地址，以 `/` 开头
 - `EnableAllGroups`：启用 `Swagger` 总分组功能，自动将所有分组的接口合并到 `All Groups` 中，`bool` 类型，默认 `false`，**仅在 Furion v3.3.4+` 有效**
+- `EnumToNumber`：枚举类型生成值类型，`bool` 类型，默认 `false`，**仅在 Furion v4.8.8.35+` 有效**
 
 另外 `SpecificationOpenApiInfo` 内置配置如下：
 

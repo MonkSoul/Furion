@@ -128,7 +128,7 @@
         },
         "strategy": {
           "description": "Selects one of the predefined service worker types.",
-          "enum": ["cacheFirst", "cacheFirstSafe", "minimal", "networkFirst"],
+          "enum": [ "cacheFirst", "cacheFirstSafe", "minimal", "networkFirst" ],
           "default": "cacheFirstSafe"
         }
       }
@@ -166,7 +166,7 @@
           "pattern": "^[0-9a-f]{32}$"
         }
       },
-      "required": ["ApiKey", "LogId"]
+      "required": [ "ApiKey", "LogId" ]
     },
     "protocols": {
       "description": "The protocols enabled on the endpoint.",
@@ -208,7 +208,7 @@
         "Location": {
           "description": "The certificate store location. Defaults to 'CurrentUser'.",
           "type": "string",
-          "enum": ["LocalMachine", "CurrentUser"],
+          "enum": [ "LocalMachine", "CurrentUser" ],
           "default": "CurrentUser"
         },
         "AllowInvalid": {
@@ -223,14 +223,14 @@
       "type": "array",
       "items": {
         "type": "string",
-        "enum": ["None", "Tls", "Tls11", "Tls12", "Tls13"],
+        "enum": [ "None", "Tls", "Tls11", "Tls12", "Tls13" ],
         "default": "None"
       }
     },
     "clientCertificateMode": {
       "description": "Specifies the client certificate requirements for a HTTPS connection. Defaults to 'NoCertificate'. Available in .NET 5 and later.",
       "type": "string",
-      "enum": ["NoCertificate", "AllowCertificate", "RequireCertificate"],
+      "enum": [ "NoCertificate", "AllowCertificate", "RequireCertificate" ],
       "default": "NoCertificate"
     },
     "kestrel": {
@@ -284,7 +284,7 @@
                 }
               }
             },
-            "required": ["Url"]
+            "required": [ "Url" ]
           }
         },
         "EndpointDefaults": {
@@ -577,7 +577,7 @@
               "description": "配置 LoggingMonitor Json 输出行为",
               "type": "string",
               "default": "None",
-              "enum": ["None", "OnlyJson", "All"]
+              "enum": [ "None", "OnlyJson", "All" ]
             },
             "JsonIndented": {
               "description": "配置是否格式化 JSON，默认 false",
@@ -588,7 +588,7 @@
               "description": "配置 Json 属性命名规则（返回值）",
               "type": "string",
               "default": "CamelCase",
-              "enum": ["CamelCase", "Default"]
+              "enum": [ "CamelCase", "Default" ]
             },
             "MethodsSettings": {
               "description": "配置监听方法更多信息",
@@ -616,7 +616,7 @@
                     "description": "配置 LoggingMonitor Json 输出行为",
                     "type": "string",
                     "default": "None",
-                    "enum": ["None", "OnlyJson", "All"]
+                    "enum": [ "None", "OnlyJson", "All" ]
                   },
                   "JsonIndented": {
                     "description": "配置是否格式化 JSON，默认 false",
@@ -627,7 +627,7 @@
                     "description": "配置 Json 属性命名规则（返回值）",
                     "type": "string",
                     "default": "CamelCase",
-                    "enum": ["CamelCase", "Default"]
+                    "enum": [ "CamelCase", "Default" ]
                   }
                 }
               }
@@ -668,7 +668,7 @@
           "default": false
         },
         "throwConfigExceptions": {
-          "type": ["boolean", "null"],
+          "type": [ "boolean", "null" ],
           "description": "Throws an exception when there is a config error? If not set, then throwExceptions will be used for this setting.",
           "default": false
         },
@@ -680,7 +680,7 @@
         "internalLogLevel": {
           "type": "string",
           "description": "The minimal log level for the internal logger.",
-          "enum": ["Trace", "Debug", "Info", "Warn", "Error", "Fatal", "Off"],
+          "enum": [ "Trace", "Debug", "Info", "Warn", "Error", "Fatal", "Off" ],
           "default": "Off"
         },
         "internalLogFile": {
@@ -700,7 +700,7 @@
         "globalThreshold": {
           "type": "string",
           "description": "Log events below this threshold are not logged.",
-          "enum": ["Trace", "Debug", "Info", "Warn", "Error", "Fatal", "Off"],
+          "enum": [ "Trace", "Debug", "Info", "Warn", "Error", "Fatal", "Off" ],
           "default": "Off"
         },
         "autoShutdown": {
@@ -742,7 +742,7 @@
           },
           "patternProperties": {
             ".*": {
-              "type": ["number", "string", "boolean"]
+              "type": [ "number", "string", "boolean" ]
             }
           }
         },
@@ -750,7 +750,7 @@
           "type": "object",
           "description": "Wrap all defined targets with this custom target wrapper.",
           "default": {},
-          "required": ["type"],
+          "required": [ "type" ],
           "properties": {
             "type": {
               "type": "string",
@@ -798,7 +798,7 @@
       "type": "object",
       "description": "Redirect LogEvents from matching Logger objects to specified targets",
       "default": {},
-      "required": ["logger"],
+      "required": [ "logger" ],
       "properties": {
         "logger": {
           "type": "string",
@@ -813,7 +813,7 @@
             {
               "type": "string",
               "description": "",
-              "enum": ["Trace", "Debug", "Info", "Warn", "Error", "Fatal"]
+              "enum": [ "Trace", "Debug", "Info", "Warn", "Error", "Fatal" ]
             },
             {
               "type": "string"
@@ -829,7 +829,7 @@
             {
               "type": "string",
               "description": "",
-              "enum": ["Trace", "Debug", "Info", "Warn", "Error", "Fatal"]
+              "enum": [ "Trace", "Debug", "Info", "Warn", "Error", "Fatal" ]
             },
             {
               "type": "string"
@@ -841,7 +841,7 @@
             {
               "type": "string",
               "description": "",
-              "enum": ["Trace", "Debug", "Info", "Warn", "Error", "Fatal"]
+              "enum": [ "Trace", "Debug", "Info", "Warn", "Error", "Fatal" ]
             },
             {
               "type": "string"
@@ -853,7 +853,7 @@
             {
               "type": "string",
               "description": "",
-              "enum": ["Trace", "Debug", "Info", "Warn", "Error", "Fatal"]
+              "enum": [ "Trace", "Debug", "Info", "Warn", "Error", "Fatal" ]
             },
             {
               "type": "string"
@@ -884,7 +884,7 @@
                 "type": "object",
                 "description": "",
                 "default": {},
-                "required": ["type"],
+                "required": [ "type" ],
                 "properties": {
                   "type": {
                     "type": "string",
@@ -915,7 +915,7 @@
         "filterDefaultAction": {
           "type": "string",
           "description": "Default action if none of the filters match.",
-          "enum": ["Neutral", "Log", "Ignore", "LogFinal", "IgnoreFinal"],
+          "enum": [ "Neutral", "Log", "Ignore", "LogFinal", "IgnoreFinal" ],
           "default": "Ignore"
         }
       }
@@ -990,7 +990,7 @@
               "properties": {
                 "BrowsableFileExtensions": {
                   "description": "Allowed file extensions (including the period .) that should be accessible from the browser",
-                  "type": ["string"]
+                  "type": [ "string" ]
                 }
               }
             },
@@ -1044,7 +1044,7 @@
           }
         }
       },
-      "required": ["CMS"]
+      "required": [ "CMS" ]
     },
     "umbracoActiveDirectory": {
       "description": "Configuration of Active Directory for Umbraco CMS",
@@ -1059,11 +1059,11 @@
       "properties": {
         "AllowedUploadFiles": {
           "description": "Collection of file extensions without . that are allowed for upload",
-          "type": ["string"]
+          "type": [ "string" ]
         },
         "DisallowedUploadFiles": {
           "description": "Collection of file extensions without . that are disallowed for upload",
-          "type": ["string"]
+          "type": [ "string" ]
         },
         "Error404Collection": {
           "type": "array",
@@ -1095,7 +1095,7 @@
             },
             "ImageFileTypes": {
               "description": "Collection of accepted image file extensions",
-              "type": ["string"]
+              "type": [ "string" ]
             }
           }
         },
@@ -1111,7 +1111,7 @@
         },
         "MacroErrors": {
           "description": "Macro error behaviour",
-          "enum": ["Inline", "Silent", "Throw", "Content"]
+          "enum": [ "Inline", "Silent", "Throw", "Content" ]
         },
         "Notifications": {
           "properties": {
@@ -1372,7 +1372,7 @@
                   },
                   "Verbosity": {
                     "description": "The health check notifications reporting verbosity",
-                    "enum": ["Summary", "Detailed"],
+                    "enum": [ "Summary", "Detailed" ],
                     "default": "Summary"
                   },
                   "FailureOnly": {
@@ -1418,7 +1418,7 @@
         "LocalTempStorageLocation": {
           "description": "The location of temporary files",
           "default": "Default",
-          "enum": ["Default", "EnvironmentTemp"]
+          "enum": [ "Default", "EnvironmentTemp" ]
         }
       }
     },
@@ -1489,7 +1489,7 @@
         },
         "Plugins": {
           "description": "An array of TinyMCE Plugins to load such as 'paste', 'table'",
-          "type": ["string"]
+          "type": [ "string" ]
         },
         "CustomConfig": {
           "description": "Custom configuration for TinyMCE and its plugins",
@@ -1517,7 +1517,7 @@
         },
         "Mode": {
           "description": "Set how the Richtext Editor Command can be used. Such as when a selection is made",
-          "enum": ["Insert", "Selection", "All"]
+          "enum": [ "Insert", "Selection", "All" ]
         }
       }
     },
@@ -1537,13 +1537,13 @@
         },
         "ConvertUrlsToAscii": {
           "description": "Indicating whether to convert URLs to ASCII (valid values: true, try or false)",
-          "enum": ["try", "true", "false"],
+          "enum": [ "try", "true", "false" ],
           "default": "try"
         }
       }
     },
     "umbracoCharCollection": {
-      "required": ["Char", "Replacement"],
+      "required": [ "Char", "Replacement" ],
       "properties": {
         "Char": {
           "type": "string",
@@ -1563,7 +1563,7 @@
         },
         "CacheBuster": {
           "description": "Cache buster type to use",
-          "enum": ["Version", "AppDomain", "Timestamp"],
+          "enum": [ "Version", "AppDomain", "Timestamp" ],
           "default": "Version"
         }
       }
@@ -1709,7 +1709,7 @@
           "default": false
         },
         "UrlProviderMode": {
-          "enum": ["Default", "Relative", "Absolute", "Auto"],
+          "enum": [ "Default", "Relative", "Absolute", "Auto" ],
           "default": "Auto"
         },
         "UmbracoApplicationUrl": {
@@ -1948,12 +1948,12 @@
               "RegisterType": {
                 "type": "string",
                 "description": "注册类型",
-                "enum": ["Transient", "Scoped", "Singleton"]
+                "enum": [ "Transient", "Scoped", "Singleton" ]
               },
               "Action": {
                 "type": "string",
                 "description": "添加服务方式，存在不添加，或继续添加",
-                "enum": ["Add", "TryAdd"]
+                "enum": [ "Add", "TryAdd" ]
               },
               "Pattern": {
                 "type": "string",
@@ -1996,7 +1996,7 @@
         "DefaultHttpMethod": {
           "type": "string",
           "description": "默认请求谓词",
-          "enum": ["GET", "POST", "PUT", "DELETE", "PATCH", "HEAD"],
+          "enum": [ "GET", "POST", "PUT", "DELETE", "PATCH", "HEAD" ],
           "default": "POST"
         },
         "DefaultModule": {
@@ -2066,7 +2066,7 @@
         "AbandonActionAffixes": {
           "type": "array",
           "description": "被舍弃的行为名称前后缀",
-          "default": ["Async"],
+          "default": [ "Async" ],
           "items": {
             "type": "string"
           }
@@ -2174,7 +2174,7 @@
         "DocExpansionState": {
           "type": "string",
           "description": "文档展开设置",
-          "enum": ["List", "Full", "None"]
+          "enum": [ "List", "Full", "None" ]
         },
         "XmlComments": {
           "type": "array",
@@ -2273,7 +2273,7 @@
                     "properties": {
                       "Type": {
                         "type": "string",
-                        "enum": ["ApiKey", "Http", "OAuth2", "OpenIdConnect"]
+                        "enum": [ "ApiKey", "Http", "OAuth2", "OpenIdConnect" ]
                       },
                       "Description": {
                         "type": "string"
@@ -2283,7 +2283,7 @@
                       },
                       "In": {
                         "type": "string",
-                        "enum": ["Query", "Header", "Path", "Cookie"]
+                        "enum": [ "Query", "Header", "Path", "Cookie" ]
                       },
                       "Scheme": {
                         "type": "string"
@@ -2397,7 +2397,7 @@
               },
               "Type": {
                 "type": "string",
-                "enum": ["ApiKey", "Http", "OAuth2", "OpenIdConnect"]
+                "enum": [ "ApiKey", "Http", "OAuth2", "OpenIdConnect" ]
               },
               "Description": {
                 "type": "string"
@@ -2407,7 +2407,7 @@
               },
               "In": {
                 "type": "string",
-                "enum": ["Query", "Header", "Path", "Cookie"]
+                "enum": [ "Query", "Header", "Path", "Cookie" ]
               },
               "Scheme": {
                 "type": "string"
@@ -2591,6 +2591,11 @@
         "EnableAllGroups": {
           "type": "boolean",
           "description": "启用 All Groups 功能",
+          "default": false
+        },
+        "EnumToNumber": {
+          "type": "boolean",
+          "description": "枚举类型生成值类型",
           "default": false
         }
       }
@@ -2910,7 +2915,7 @@
         "Return200StatusCodes": {
           "type": "array",
           "description": "设置返回 200 状态码列表",
-          "default": [401, 403],
+          "default": [ 401, 403 ],
           "items": {
             "type": "number"
           }

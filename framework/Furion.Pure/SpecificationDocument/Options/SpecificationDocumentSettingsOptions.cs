@@ -116,6 +116,11 @@ public sealed class SpecificationDocumentSettingsOptions : IConfigurableOptions<
     public bool? EnableAllGroups { get; set; }
 
     /// <summary>
+    /// 枚举类型生成值类型
+    /// </summary>
+    public bool? EnumToNumber { get; set; }
+
+    /// <summary>
     /// 后期配置
     /// </summary>
     /// <param name="options"></param>
@@ -179,5 +184,6 @@ public sealed class SpecificationDocumentSettingsOptions : IConfigurableOptions<
         EnableEnumSchemaFilter ??= true;
         EnableTagsOrderDocumentFilter ??= true;
         EnableAllGroups ??= false;
+        EnumToNumber ??= false;
     }
 }
