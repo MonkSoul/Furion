@@ -68,7 +68,7 @@ public class EnumSchemaFilter : ISchemaFilter
             // 包含中文情况
             if (Enum.GetNames(type).Any(v => Regex.IsMatch(v, CHINESE_PATTERN)))
             {
-                convertToNumber = false;
+                convertToNumber = true;
             }
 
             // 获取枚举实际值类型
