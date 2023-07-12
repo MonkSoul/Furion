@@ -196,7 +196,7 @@ public static class Oops
         var methodIfException = GetEndPointExceptionMethod();
 
         // 获取当前状态码匹配异常特性
-        var ifExceptionAttribute = methodIfException.IfExceptionAttributes.FirstOrDefault(u => u.ErrorCode != null && HandleEnumErrorCode(u.ErrorCode).ToString().Equals(errorCode.ToString()));
+        var ifExceptionAttribute = methodIfException?.IfExceptionAttributes?.FirstOrDefault(u => u.ErrorCode != null && HandleEnumErrorCode(u.ErrorCode).ToString().Equals(errorCode.ToString()));
 
         // 获取错误码消息
         var errorCodeMessage = ifExceptionAttribute == null || string.IsNullOrWhiteSpace(ifExceptionAttribute.ErrorMessage)
@@ -206,7 +206,7 @@ public static class Oops
         // 如果所有错误码都获取不到，则找全局 [IfException] 错误
         if (string.IsNullOrWhiteSpace(errorCodeMessage))
         {
-            errorCodeMessage = methodIfException.IfExceptionAttributes.FirstOrDefault(u => u.ErrorCode == null && !string.IsNullOrWhiteSpace(u.ErrorMessage))?.ErrorMessage;
+            errorCodeMessage = methodIfException?.IfExceptionAttributes?.FirstOrDefault(u => u.ErrorCode == null && !string.IsNullOrWhiteSpace(u.ErrorMessage))?.ErrorMessage;
         }
 
         // 字符串格式化
@@ -305,36 +305,43 @@ public static class Oops
     /// <returns></returns>
     private static MethodIfException GetEndPointExceptionMethod()
     {
-        // 获取调用堆栈信息
-        var stackTrace = EnhancedStackTrace.Current();
-
-        // 获取出错的堆栈信息，在 web 请求中获取控制器或动态API的方法，除外获取第一个出错的方法
-        var stackFrame = stackTrace.FirstOrDefault(u => typeof(ControllerBase).IsAssignableFrom(u.MethodInfo.DeclaringType) || typeof(IDynamicApiController).IsAssignableFrom(u.MethodInfo.DeclaringType))
-            ?? stackTrace.FirstOrDefault(u => u.GetMethod().DeclaringType.Namespace != typeof(Oops).Namespace);
-
-        // 获取出错的方法
-        var errorMethod = stackFrame.MethodInfo.MethodBase;
-
-        // 判断是否已经缓存过该方法，避免重复解析
-        var isCached = ErrorMethods.TryGetValue(errorMethod, out var methodIfException);
-        if (isCached) return methodIfException;
-
-        // 获取堆栈中所有的 [IfException] 特性
-        var ifExceptionAttributes = stackTrace
-            .Where(u => u.MethodInfo.MethodBase != null && u.MethodInfo.MethodBase.IsDefined(typeof(IfExceptionAttribute), true))
-            .SelectMany(u => u.MethodInfo.MethodBase.GetCustomAttributes<IfExceptionAttribute>(true));
-
-        // 组装方法异常对象
-        methodIfException = new MethodIfException
+        try
         {
-            ErrorMethod = errorMethod,
-            IfExceptionAttributes = ifExceptionAttributes
-        };
+            // 获取调用堆栈信息
+            var stackTrace = EnhancedStackTrace.Current();
 
-        // 存入缓存
-        ErrorMethods.TryAdd(errorMethod, methodIfException);
+            // 获取出错的堆栈信息，在 web 请求中获取控制器或动态API的方法，除外获取第一个出错的方法
+            var stackFrame = stackTrace.FirstOrDefault(u => typeof(ControllerBase).IsAssignableFrom(u.MethodInfo.DeclaringType) || typeof(IDynamicApiController).IsAssignableFrom(u.MethodInfo.DeclaringType))
+                ?? stackTrace.FirstOrDefault(u => u.GetMethod().DeclaringType.Namespace != typeof(Oops).Namespace);
 
-        return methodIfException;
+            // 获取出错的方法
+            var errorMethod = stackFrame.MethodInfo.MethodBase;
+
+            // 判断是否已经缓存过该方法，避免重复解析
+            var isCached = ErrorMethods.TryGetValue(errorMethod, out var methodIfException);
+            if (isCached) return methodIfException;
+
+            // 获取堆栈中所有的 [IfException] 特性
+            var ifExceptionAttributes = stackTrace
+                .Where(u => u.MethodInfo.MethodBase != null && u.MethodInfo.MethodBase.IsDefined(typeof(IfExceptionAttribute), true))
+                .SelectMany(u => u.MethodInfo.MethodBase.GetCustomAttributes<IfExceptionAttribute>(true));
+
+            // 组装方法异常对象
+            methodIfException = new MethodIfException
+            {
+                ErrorMethod = errorMethod,
+                IfExceptionAttributes = ifExceptionAttributes
+            };
+
+            // 存入缓存
+            ErrorMethods.TryAdd(errorMethod, methodIfException);
+
+            return methodIfException;
+        }
+        catch
+        {
+            return null;
+        }
     }
 
     /// <summary>
