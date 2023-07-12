@@ -1220,32 +1220,43 @@ services.AddDatabaseLogging<DatabaseLoggingWriter>(options =>
 
 `Furion` 也提供了运行时动态添加日志提供器并写入：
 
-```cs showLineNumbers  {8-11}
-public class ContactModel : PageModel
+```cs showLineNumbers  {1,3-4,8-12,23-26}
+public class SomeController : IDynamicApiController, IDisposable
 {
+    private readonly ILoggerFactory _loggerFactory;
     private readonly ILogger _logger;
 
-    public ContactModel()
+    public SomeController()
     {
-        // 支持所有 AddLoggingFile 和 AddDatabaseFile 配置
-        _logger = LoggerFactory.Create(builder =>
+        _loggerFactory = LoggerFactory.Create(builder =>
         {
-            builder.AddFile(...);
-        }).CreateLogger("MyCategory");
+            builder.AddFile("application.log");
+        });
+        _logger = _loggerFactory.CreateLogger("MyCategory");
 
-        // 可以多个重复...
-        // _logger2 = LoggerFactory.Create(builder =>
-        // {
-        //     builder.AddFile(...);
-        // }).CreateLogger("MyCategory");
+        // 可以多个重复上面代码
     }
 
-    public void OnGet()
+    [HttpGet]
+    public void SomeAction()
     {
-        _logger.LogInformation("GET Pages.ContactModel called.");
+        _logger.LogInformation("some log...");
+    }
+
+    public void Dispose()
+    {
+        _loggerFactory.Dispose();
     }
 }
 ```
+
+:::warning 特别注意
+
+通过运行时的方式需要自行释放 `ILoggerFactory` 对象，也就是需要实现 `IDisposable` 接口，然后进行 `_loggerFactory` 释放。
+
+可查看相关 `Issue`：[https://gitee.com/dotnetchina/Furion/issues/I7KJ5H](https://gitee.com/dotnetchina/Furion/issues/I7KJ5H)
+
+:::
 
 ### 18.8.2 `ILoggingBuilder` 方式
 
