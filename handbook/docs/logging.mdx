@@ -1216,19 +1216,28 @@ services.AddDatabaseLogging<DatabaseLoggingWriter>(options =>
 
 框架提供了多种添加日志提供器方式，可在应用启动或运行时。
 
-### 18.8.1 `ILoggerFactory` 方式
+### 18.8.1 `LoggerFactory` 方式
 
 `Furion` 也提供了运行时动态添加日志提供器并写入：
 
-```cs showLineNumbers  {5,7-8}
+```cs showLineNumbers  {8-11}
 public class ContactModel : PageModel
 {
     private readonly ILogger _logger;
 
-    public ContactModel(ILoggerFactory logger)
+    public ContactModel()
     {
         // 支持所有 AddLoggingFile 和 AddDatabaseFile 配置
-        _logger = logger.AddFile(....).CreateLogger("MyCategory");
+        _logger = LoggerFactory.Create(builder =>
+        {
+            builder.AddFile(...);
+        }).CreateLogger("MyCategory");
+
+        // 可以多个重复...
+        // _logger2 = LoggerFactory.Create(builder =>
+        // {
+        //     builder.AddFile(...);
+        // }).CreateLogger("MyCategory");
     }
 
     public void OnGet()
