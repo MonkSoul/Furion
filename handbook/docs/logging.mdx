@@ -1177,7 +1177,7 @@ public class DatabaseLoggingWriter : IDatabaseLoggingWriter, IDisposable
     public DatabaseLoggingWriter(IServiceScopeFactory scopeFactory)
     {
         _serviceScope = scopeFactory.CreateScope();
-        _logRepository = _serviceScope.ServiceProvider.GetRequestService<IRepository<LogTable>>();
+        _logRepository = _serviceScope.ServiceProvider.GetRequiredService<IRepository<LogTable>>();
     }
 
     public void Write(LogMessage logMsg, bool flush)
