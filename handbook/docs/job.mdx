@@ -6550,7 +6550,7 @@ var args = Schedular.Deserialize<Dictionary<string, object>>(stringJobData);
 
 ### 26.1.17.5 定时任务部署说明
 
-部署定时任务请确保服务器（操作系统）不回进入休眠且长时间运行。
+部署定时任务请确保服务器（操作系统）不会进入休眠且长时间运行。
 
 如果在项目中使用了定时任务且部署到 `IIS` 中，那么需要设置 `IIS` 禁止回收，避免事件总线服务进入休眠，[点击查看 `IIS` 回收问题解决方案](./deploy-iis#3415-iis-%E5%9B%9E%E6%94%B6%E9%97%AE%E9%A2%98%E5%92%8C%E9%85%8D%E7%BD%AE)。
 
