@@ -683,8 +683,8 @@ public sealed partial class HttpRequestPart
     /// <param name="request"></param>
     private void SetHttpContent(HttpRequestMessage request)
     {
-        // GET/HEAD 请求不支持设置 Body 请求
-        if (Method == HttpMethod.Get || Method == HttpMethod.Head) return;
+        // GET/HEAD 请求不支持设置 Body 请求（2023.08.02 移除此判断，原因是部分编程语言支持 GET 设置 Body）
+        // if (Method == HttpMethod.Get || Method == HttpMethod.Head) return;
 
         HttpContent httpContent = null;
 

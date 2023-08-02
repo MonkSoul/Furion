@@ -126,9 +126,7 @@ public static class UnifyContext
             else
             {
                 var friendlyExceptionSettings = App.GetOptions<FriendlyExceptionSettingsOptions>();
-                errors = !string.IsNullOrWhiteSpace(friendlyExceptionSettings.DefaultErrorMessage)
-                    ? friendlyExceptionSettings.DefaultErrorMessage
-                    : (exception?.InnerException?.Message ?? exception?.Message);
+                errors = exception?.InnerException?.Message ?? exception?.Message ?? friendlyExceptionSettings.DefaultErrorMessage;
             }
         }
 
