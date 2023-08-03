@@ -405,8 +405,9 @@ public sealed class Clay : DynamicObject, IEnumerable
     /// 转换成特定对象
     /// </summary>
     /// <typeparam name="T"></typeparam>
+    /// <param name="valueProvider">值提供器</param>
     /// <returns></returns>
-    public IEnumerable<T> ConvertTo<T>()
+    public IEnumerable<T> ConvertTo<T>(Func<PropertyInfo, object, object> valueProvider = null)
         where T : class, new()
     {
         // 获取所有公开实例属性
@@ -419,7 +420,7 @@ public sealed class Clay : DynamicObject, IEnumerable
         // 处理对象类型
         if (IsObject)
         {
-            list.Add(ConvertTo<T>(properties, clay));
+            list.Add(ConvertTo<T>(properties, clay, valueProvider));
             return list;
         }
 
@@ -429,7 +430,7 @@ public sealed class Clay : DynamicObject, IEnumerable
             var dynamicList = AsEnumerator<dynamic>();
             foreach (var clayItem in dynamicList)
             {
-                list.Add(ConvertTo<T>(properties, clayItem));
+                list.Add(ConvertTo<T>(properties, clayItem, valueProvider));
             }
         }
 
@@ -442,13 +443,20 @@ public sealed class Clay : DynamicObject, IEnumerable
     /// <typeparam name="T"></typeparam>
     /// <param name="properties"></param>
     /// <param name="clay"></param>
+    /// <param name="valueProvider">值提供器</param>
     /// <returns></returns>
-    private static T ConvertTo<T>(IEnumerable<PropertyInfo> properties, dynamic clay) where T : class, new()
+    private static T ConvertTo<T>(IEnumerable<PropertyInfo> properties, dynamic clay, Func<PropertyInfo, object, object> valueProvider = null)
+        where T : class, new()
     {
         var instance = Activator.CreateInstance<T>();
         foreach (var property in properties)
         {
             object value = clay.IsDefined(property.Name) ? clay[property.Name] : default;
+            if (valueProvider != null)
+            {
+                value = valueProvider(property, value);
+            }
+
             property.SetValue(instance, value.ChangeType(property.PropertyType));
         }
 
