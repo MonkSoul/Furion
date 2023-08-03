@@ -25,7 +25,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Furion.Pure.Extras.DependencyModel.CodeAnalysis" Version="4.8.8.39" />
+		<PackageReference Include="Furion.Pure.Extras.DependencyModel.CodeAnalysis" Version="4.8.8.40" />
 		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
 	</ItemGroup>
 
