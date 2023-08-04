@@ -158,4 +158,24 @@ public static class L
     {
         return Text.GetString(propertyExpression);
     }
+
+    /// <summary>
+    /// 获取指定区域的翻译
+    /// </summary>
+    /// <param name="name"></param>
+    /// <param name="culture"></param>
+    /// <returns></returns>
+    public static LocalizedString GetString(string name, string culture)
+    {
+        // 获取当前的区域
+        var currentCulture = GetSelectCulture();
+
+        // 临时设置区域
+        CultureInfo.CurrentUICulture = new CultureInfo(culture);
+        var cultureString = Text[name];
+
+        // 还原区域
+        CultureInfo.CurrentUICulture = currentCulture.Culture;
+        return cultureString;
+    }
 }
