@@ -1620,7 +1620,7 @@ services.AddMonitorLogging(options =>
         // 获取控制器/操作描述器
         var controllerActionDescriptor = context.ActionDescriptor as ControllerActionDescriptor;
 
-        // 你的逻辑....，不需要拦截返回 false，否则 true
+        // 你的逻辑....，需要拦截返回 false，否则 true
 
         return true;
     };
