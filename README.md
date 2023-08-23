@@ -1,4 +1,4 @@
-[![一起 v5](./assets/v5-04-01.jpeg)](https://gitee.com/dotnetchina/Furion/tree/v5-dev)
+[![一起 v5](./assets/v5-06.jpeg)](https://gitee.com/dotnetchina/Furion/tree/v5-dev)
 
 [中](https://gitee.com/dotnetchina/Furion) | **En** | Commercial use is allowed, generous [sponsorship](http://furion.baiqian.ltd/docs/donate)
 
