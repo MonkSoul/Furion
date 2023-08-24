@@ -527,10 +527,12 @@ public sealed class Clay : DynamicObject, IEnumerable
     /// <returns></returns>
     private static object CreateJsonNode(object obj)
     {
+        var isEnum = obj?.GetType().IsEnum == true;
+
         var type = GetJsonType(obj);
         return type switch
         {
-            JsonType.@string or JsonType.number => obj,
+            JsonType.@string or JsonType.number => isEnum ? (int)obj : obj,
             JsonType.boolean => obj.ToString().ToLower(),
             JsonType.@object => CreateXObject(obj),
             JsonType.array => CreateXArray(obj as IEnumerable),
