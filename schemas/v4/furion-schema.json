@@ -549,6 +549,20 @@
               },
               "default": []
             },
+            "LogLevel": {
+              "description": "默认日志消息级别",
+              "type": "string",
+              "default": "Information",
+              "enum": [
+                "Trace",
+                "Debug",
+                "Information",
+                "Warning",
+                "Error",
+                "Critical",
+                "None"
+              ]
+            },
             "BahLogLevel": {
               "description": "业务日志消息级别，控制 Oops.Oh 和 Oops.Bah 输出日志级别",
               "type": "string",
@@ -577,7 +591,7 @@
               "description": "配置 LoggingMonitor Json 输出行为",
               "type": "string",
               "default": "None",
-              "enum": ["None", "OnlyJson", "All"]
+              "enum": [ "None", "OnlyJson", "All" ]
             },
             "JsonIndented": {
               "description": "配置是否格式化 JSON，默认 false",
@@ -588,7 +602,7 @@
               "description": "配置 Json 属性命名规则（返回值）",
               "type": "string",
               "default": "CamelCase",
-              "enum": ["CamelCase", "Default"]
+              "enum": [ "CamelCase", "Default" ]
             },
             "MethodsSettings": {
               "description": "配置监听方法更多信息",
@@ -616,7 +630,7 @@
                     "description": "配置 LoggingMonitor Json 输出行为",
                     "type": "string",
                     "default": "None",
-                    "enum": ["None", "OnlyJson", "All"]
+                    "enum": [ "None", "OnlyJson", "All" ]
                   },
                   "JsonIndented": {
                     "description": "配置是否格式化 JSON，默认 false",
@@ -627,7 +641,7 @@
                     "description": "配置 Json 属性命名规则（返回值）",
                     "type": "string",
                     "default": "CamelCase",
-                    "enum": ["CamelCase", "Default"]
+                    "enum": [ "CamelCase", "Default" ]
                   }
                 }
               }

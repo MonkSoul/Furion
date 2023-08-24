@@ -55,6 +55,11 @@ public sealed class LoggingMonitorSettings
     public LogLevel BahLogLevel { get; set; } = LogLevel.Information;
 
     /// <summary>
+    /// 默认输出日志级别
+    /// </summary>
+    public LogLevel LogLevel { get; set; } = LogLevel.Information;
+
+    /// <summary>
     /// 是否记录返回值
     /// </summary>
     /// <remarks>bool 类型，默认输出</remarks>

@@ -549,6 +549,20 @@
               },
               "default": []
             },
+            "LogLevel": {
+              "description": "默认日志消息级别",
+              "type": "string",
+              "default": "Information",
+              "enum": [
+                "Trace",
+                "Debug",
+                "Information",
+                "Warning",
+                "Error",
+                "Critical",
+                "None"
+              ]
+            },
             "BahLogLevel": {
               "description": "业务日志消息级别，控制 Oops.Oh 和 Oops.Bah 输出日志级别",
               "type": "string",

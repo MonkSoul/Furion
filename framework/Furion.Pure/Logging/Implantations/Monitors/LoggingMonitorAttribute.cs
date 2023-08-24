@@ -990,8 +990,11 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter, IAs
         // 获取最终写入日志消息格式
         var finalMessage = GetJsonBehavior(JsonBehavior, monitorMethod) == Furion.Logging.JsonBehavior.OnlyJson ? jsonString : monitorMessage;
 
-        // 写入日志，如果没有异常使用 LogInformation，否则使用 LogError
-        if (exception == null) logger.LogInformation(finalMessage);
+        // 写入日志，如果没有异常默认使用 LogInformation，否则使用 LogError
+        if (exception == null)
+        {
+            logger.Log(Settings.LogLevel, finalMessage);
+        }
         else
         {
             // 如果不是验证异常，写入 Error

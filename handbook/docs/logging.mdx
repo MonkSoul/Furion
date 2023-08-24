@@ -13,6 +13,7 @@ import Tag from "@site/src/components/Tag.js";
 
 - **新特性**
 
+  - &nbsp;<Tag>新增</Tag> 监听日志 `LoggingMonitor` 支持配置日志输出级别 <sup>4.8.8.41</sup> <sup>⏱️2023.08.25</sup> [#I7SRTP](https://gitee.com/dotnetchina/Furion/issues/I7SRTP)
   - &nbsp;<Tag>新增</Tag> **监听日志 `LoggingMonitor` 支持 `Razor Pages`** <sup>4.8.8.16</sup> <sup>⏱️2023.05.15</sup> [#I7332C](https://gitee.com/dotnetchina/Furion/issues/I7332C)
   - &nbsp;<Tag>新增</Tag> **日志配置 `WithStackFrame`，可控制是否输出产生日志的程序集，类型和具体方法** <sup>4.8.7.16</sup> <sup>⏱️2023.03.19</sup> [5ad6ae2](https://gitee.com/dotnetchina/Furion/commit/5ad6ae241d1798ad788e42569a15d68686db4fa1)
 
@@ -1391,6 +1392,7 @@ services.AddMonitorLogging();   // 默认读取 Logging:Monitor 下配置，支�
       "GlobalEnabled": false, // 是否启用全局拦截，默认 `false`
       "IncludeOfMethods": [], // 是否指定拦截特定方法，当 GlobalEnabled: false 有效
       "ExcludeOfMethods": [], // 是否指定排除特定方法，当 GlobalEnabled: true 有效
+      "LogLevel": "Information", // 配置监听日志输出级别，默认 Information
       "BahLogLevel": "Information", // 配置 Oops.Oh 和 Oops.Bah 业务日志输出级别，默认 Information
       "WithReturnValue": true, // 配置是否包含返回值，默认 `true`，Furion 4.3.9+ 有效
       "ReturnValueThreshold": 0, // 配置返回值字符串阈值，默认 0，全量输出，Furion 4.3.9+ 有效
