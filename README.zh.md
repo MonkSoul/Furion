@@ -1,5 +1,3 @@
-[![一起 v5](./assets/v5-06.jpeg)](https://gitee.com/dotnetchina/Furion/tree/v5-dev)
-
 **中** | [En](https://github.com/MonkSoul/Furion) | 允许商用，慷慨[赞助](http://furion.baiqian.ltd/docs/donate)
 
 # 先知
