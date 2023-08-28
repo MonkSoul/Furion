@@ -40,6 +40,11 @@ namespace Furion.DataEncryption;
 public class JWTEncryption
 {
     /// <summary>
+    /// 刷新 Token 身份标识
+    /// </summary>
+    private static readonly string[] _refreshTokenClaims = new[] { "f", "e", "s", "l", "k" };
+
+    /// <summary>
     /// 生成 Token
     /// </summary>
     /// <param name="payload"></param>
@@ -197,7 +202,16 @@ public class JWTEncryption
     public static bool AutoRefreshToken(AuthorizationHandlerContext context, DefaultHttpContext httpContext, long? expiredTime = null, int refreshTokenExpiredTime = 43200, string tokenPrefix = "Bearer ", long clockSkew = 5)
     {
         // 如果验证有效，则跳过刷新
-        if (context.User.Identity.IsAuthenticated) return true;
+        if (context.User.Identity.IsAuthenticated)
+        {
+            // 禁止使用刷新 Token 进行单独校验
+            if (_refreshTokenClaims.All(k => context.User.Claims.Any(c => c.Type == k)))
+            {
+                return false;
+            }
+
+            return true;
+        }
 
         // 判断是否含有匿名特性
         if (httpContext.GetEndpoint()?.Metadata?.GetMetadata<AllowAnonymousAttribute>() != null) return true;

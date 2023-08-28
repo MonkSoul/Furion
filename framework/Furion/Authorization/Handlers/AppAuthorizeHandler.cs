@@ -24,6 +24,11 @@ namespace Furion.Authorization;
 public abstract class AppAuthorizeHandler : IAuthorizationHandler
 {
     /// <summary>
+    /// 刷新 Token 身份标识
+    /// </summary>
+    private readonly string[] _refreshTokenClaims = new[] { "f", "e", "s", "l", "k" };
+
+    /// <summary>
     /// 授权验证核心方法
     /// </summary>
     /// <param name="context"></param>
@@ -34,6 +39,13 @@ public abstract class AppAuthorizeHandler : IAuthorizationHandler
         var isAuthenticated = context.User.Identity.IsAuthenticated;
         if (isAuthenticated)
         {
+            // 禁止使用刷新 Token 进行单独校验
+            if (_refreshTokenClaims.All(k => context.User.Claims.Any(c => c.Type == k)))
+            {
+                context.Fail();
+                return;
+            }
+
             await AuthorizeHandleAsync(context);
         }
         else context.GetCurrentHttpContext()?.SignoutToSwagger();    // 退出Swagger登录
