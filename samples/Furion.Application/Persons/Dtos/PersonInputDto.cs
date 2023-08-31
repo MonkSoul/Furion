@@ -27,7 +27,8 @@ public class PersonInputDto
     /// <summary>
     /// 电话号码
     /// </summary>
-    [DataValidation(ValidationTypes.PhoneNumber)]
+    [Display(Name = "手机号码")]
+    [DataValidation(ValidationTypes.PhoneNumber, ErrorMessage = "不是一个正确的{0}")]
     public string PhoneNumber { get; set; }
 
     /// <summary>

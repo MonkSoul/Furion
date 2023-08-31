@@ -13,6 +13,7 @@ import Tag from "@site/src/components/Tag.js";
 
 - **新特性**
 
+  - &nbsp;<Tag>新增</Tag> 验证特性 `[DataValidation]` 支持 `[Display]` 和 `[DisplayName]` 特性设置 `{0}` <sup>4.8.8.42</sup> <sup>⏱️2023.09.01</sup> [#I7XB3T](https://gitee.com/dotnetchina/Furion/issues/I7XB3T)
   - &nbsp;<Tag>新增</Tag> `ValidationTypes` 更多常见验证格式（`手机机身码类型`，`统一社会信用代码`，`GUID/UUID`，`base64`） <sup>4.8.3.6</sup> <sup>⏱️2022.12.13</sup> [3680d7a](https://gitee.com/dotnetchina/Furion/commit/3680d7a7a53515dfb78625f2c6a393a788025685)
 
 - **问题修复**
@@ -540,6 +541,15 @@ namespace Furion.Application
 - `ValidationPattern`：验证逻辑，`ValidationPattern` 类型，可选 `AllOfThem（全部验证通过）` 和 `AtleastOne（至少一个验证通过）`
 - `AllowNullValue`：是否允许空值，`bool` 类型，默认 `false`
 - `AllowEmptyStrings`：是否允许空字符串，`bool` 类型，默认 `false`
+
+在 `Furion 4.8.8.42+` 版本，`[DataValidation]` 的 `ErrorMessage` 支持 `[Display]` 和 `[DisplayName]` 特性指定格式化 `{0}` 信息，如：
+
+```cs showLineNumbers {1-3}
+[Display(Name = "手机号码")]
+// [DisplayName("手机号码")]
+[DataValidation(ValidationTypes.PhoneNumber, ErrorMessage = "不是一个正确的{0}")]
+public string PhoneNumber { get; set; }
+```
 
 ### 8.6.5 `[ModelBinder]` 特性
 

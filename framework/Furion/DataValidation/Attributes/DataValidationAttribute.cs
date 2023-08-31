@@ -60,7 +60,7 @@ public class DataValidationAttribute : ValidationAttribute
 
         // 执行值验证
         var dataValidationResult = value.TryValidate(ValidationPattern, ValidationTypes);
-        dataValidationResult.MemberOrValue = validationContext.MemberName;
+        dataValidationResult.MemberOrValue = validationContext.DisplayName ?? validationContext.MemberName;
 
         // 验证失败
         if (!dataValidationResult.IsValid)
@@ -70,7 +70,7 @@ public class DataValidationAttribute : ValidationAttribute
             // 进行多语言处理
             var errorMessage = !string.IsNullOrWhiteSpace(ErrorMessage) ? ErrorMessage : resultMessage;
 
-            return new ValidationResult(string.Format(L.Text == null ? errorMessage : L.Text[errorMessage], validationContext.MemberName));
+            return new ValidationResult(string.Format(L.Text == null ? errorMessage : L.Text[errorMessage], validationContext.DisplayName ?? validationContext.MemberName));
         }
 
         // 验证成功
