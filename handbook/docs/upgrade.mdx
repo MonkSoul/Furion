@@ -236,6 +236,7 @@ public object Deserialize(string json, Type returnType, object jsonSerializerOpt
 
 - **其他更改**
 
+  - &nbsp;<Tag>调整</Tag> `[UnitofWork]` 支持在 `Class` 中指定，解决 `Pages` 应用警告问题 <sup>4.8.8.42</sup> <sup>⏱️2023.09.01</sup> [#I7X51E](https://gitee.com/dotnetchina/Furion/issues/I7X51E)
   - &nbsp;<Tag>调整</Tag> 取消远程请求 `GET/HEAD` 不能传递 `Body` 的限制 <sup>4.8.8.39</sup> <sup>⏱️2023.08.02</sup> [8113460](https://gitee.com/dotnetchina/Furion/commit/8113460ab8b23cbf392c49b79fe4eb77a89c8010)
   - &nbsp;<Tag>调整</Tag> 规范化文档枚举生成 `json` 格式，由 `int32` 改为 `string` <sup>4.8.8.34</sup> <sup>⏱️2023.07.02</sup> [#I7HOPR](https://gitee.com/dotnetchina/Furion/issues/I7HOPR)
   - &nbsp;<Tag>调整</Tag> 规范化文档默认 `Title` 解析规则，不再自动添加空格 <sup>4.8.8.26</sup> <sup>⏱️2023.06.20</sup> [24b7a47](https://gitee.com/dotnetchina/Furion/commit/24b7a4768471d312cbdff6a31739a0d9d4918c83)
