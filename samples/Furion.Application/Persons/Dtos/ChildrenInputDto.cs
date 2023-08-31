@@ -1,4 +1,6 @@
-﻿namespace Furion.Application.Persons;
+﻿using System.Text.Json.Serialization;
+
+namespace Furion.Application.Persons;
 
 public class ChildrenInputDto
 {
@@ -16,6 +18,6 @@ public class ChildrenInputDto
     /// <summary>
     /// 性别
     /// </summary>
-    [Required]
+    [Required, JsonConverter(typeof(JsonStringEnumConverter))]
     public Gender Gender { get; set; }
 }

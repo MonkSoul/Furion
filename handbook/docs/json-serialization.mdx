@@ -769,6 +769,27 @@ var json = JsonSerializer.Serialize(value, value.GetType());
 
 查看详细文档：[https://learn.microsoft.com/zh-cn/dotnet/standard/serialization/system-text-json/polymorphism?pivots=dotnet-6-0](https://learn.microsoft.com/zh-cn/dotnet/standard/serialization/system-text-json/polymorphism?pivots=dotnet-6-0)
 
+### 23.5.22 枚举和字符串互转问题
+
+默认情况下，只能将枚举转换为数字或将数字转换为枚举对象，我们也可以通过局部或全局配置实现字符串互转，如：
+
+- 局部
+
+```cs showLineNumbers {1}
+[JsonConverter(typeof(JsonStringEnumConverter))]
+public Gender Gender { get; set; }
+```
+
+- 全局
+
+```cs showLineNumbers {2-4}
+services.AddControllersWithViews()
+        .AddJsonOptions(options =>
+        {
+            options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+        });
+```
+
 ## 23.6 `DataTable`、`DataSet`、`Tuple` 、`JArray`，`JObject`，`JToken` 等序列化问题
 
 由于 `Furion` 默认采用 `System.Text.Json` 进行序列化，但是不支持复杂类型，如 `DataTable`、`DataSet`、`Tuple` 、`JArray`，`JObject`、`JToken` 等类型，所以需要更换成 `NewtonsoftJson` 即可，见 [JSON 序列化 - 23.5.1 自定义序列化提供器](./json-serialization#2351-自定义序列化提供器)
