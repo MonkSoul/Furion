@@ -125,7 +125,7 @@ public class JwtHandler : AppAuthorizeHandler
 {
   "JWTSettings": {
     "ValidateIssuerSigningKey": true, // 是否验证密钥，bool 类型，默认true
-    "IssuerSigningKey": "你的密钥", // 密钥，string 类型，必须是复杂密钥，长度大于16
+    "IssuerSigningKey": "你的密钥", // 密钥，string 类型，必须是复杂密钥，长度大于16，.NET8+ 长度需大于 32
     "ValidateIssuer": true, // 是否验证签发方，bool 类型，默认true
     "ValidIssuer": "签发方", // 签发方，string 类型
     "ValidateAudience": true, // 是否验证签收方，bool 类型，默认true
