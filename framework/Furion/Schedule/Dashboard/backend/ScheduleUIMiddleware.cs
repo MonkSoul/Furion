@@ -142,7 +142,7 @@ public sealed class ScheduleUIMiddleware
         {
             // 获取所有作业
             case "/get-jobs":
-                var jobs = _schedulerFactory.GetJobsOfModels();
+                var jobs = _schedulerFactory.GetJobsOfModels().OrderBy(u => u.JobDetail.GroupName);
 
                 // 输出 JSON
                 await context.Response.WriteAsync(SerializeToJson(jobs));
