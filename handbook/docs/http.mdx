@@ -1547,7 +1547,7 @@ services.AddRemoteRequest(options =>
 //请求并且序列化请求结果
 var result = await "https://api.facebook.com/"
     //如果不加OnException，则会直接截断
-    .OnException((res,errors)=> {
+    .OnException((res,errors,statusCodeInfo)=> {
         //激活异步拦截 此处可以做记录日志操作 也可保持现状
     })
     .PostAsAsync<T>();
