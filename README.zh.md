@@ -1,5 +1,4 @@
-**中** | [En](https://github.com/MonkSoul/Furion) | 允许商用，慷慨[赞助](http://furion.baiqian.ltd/docs/donate)
-
+**中** | [En](https://github.com/MonkSoul/Furion) | [v5-dev](https://gitee.com/dotnetchina/Furion)
 # 先知
 
 一个应用程序框架，您可以将它集成到任何 .NET/C# 应用程序中。

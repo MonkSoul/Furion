@@ -1,5 +1,4 @@
-[中](https://gitee.com/dotnetchina/Furion) | **En** | Commercial use is allowed, generous [sponsorship](http://furion.baiqian.ltd/docs/donate)
-
+[中](https://gitee.com/dotnetchina/Furion) | **En** | [v5-dev](https://gitee.com/dotnetchina/Furion)
 # Furion
 
 An application framework that you can integrate into any .NET/C# application.

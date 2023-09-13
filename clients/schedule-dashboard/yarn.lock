@@ -1028,7 +1028,7 @@
     "@babel/helper-validator-option" "^7.18.6"
     "@babel/plugin-transform-typescript" "^7.18.6"
 
-"@babel/runtime-corejs3@^7.10.2", "@babel/runtime-corejs3@^7.15.4":
+"@babel/runtime-corejs3@^7.10.2":
   version "7.20.7"
   resolved "https://registry.yarnpkg.com/@babel/runtime-corejs3/-/runtime-corejs3-7.20.7.tgz#a1e5ea3d758ba6beb715210142912e3f29981d84"
   integrity sha512-jr9lCZ4RbRQmCR28Q8U8Fu49zvFqLxTY9AMOUz+iyMohMoAgpEcVxY+wJNay99oXOpOcCTODkk70NDN2aaJEeg==
@@ -1036,7 +1036,7 @@
     core-js-pure "^3.25.1"
     regenerator-runtime "^0.13.11"
 
-"@babel/runtime@^7.0.0", "@babel/runtime@^7.10.2", "@babel/runtime@^7.11.2", "@babel/runtime@^7.12.5", "@babel/runtime@^7.16.3", "@babel/runtime@^7.18.9", "@babel/runtime@^7.2.0", "@babel/runtime@^7.8.4", "@babel/runtime@^7.9.2":
+"@babel/runtime@^7.0.0", "@babel/runtime@^7.10.2", "@babel/runtime@^7.11.2", "@babel/runtime@^7.12.5", "@babel/runtime@^7.16.3", "@babel/runtime@^7.18.9", "@babel/runtime@^7.8.4", "@babel/runtime@^7.9.2":
   version "7.20.7"
   resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.20.7.tgz#fcb41a5a70550e04a7b708037c7c32f7f356d8fd"
   integrity sha512-UF0tvkUtxwAgZ5W/KrkHf0Rn0fdnLDU9ScxBrEVNUprE/MzirjK4MJUX1/BVDv00Sv8cljtukVK1aky++X1SjQ==
@@ -1193,41 +1193,64 @@
   resolved "https://registry.yarnpkg.com/@csstools/selector-specificity/-/selector-specificity-2.0.2.tgz#1bfafe4b7ed0f3e4105837e056e0a89b108ebe36"
   integrity sha512-IkpVW/ehM1hWKln4fCA3NzJU8KwD+kIOvPZA4cqxoJHtE21CCzjyp+Kxbu0i5I4tBNOlXPL9mjwnWlL0VEG4Fg==
 
-"@douyinfe/semi-animation-react@2.37.0":
-  version "2.37.0"
-  resolved "https://registry.yarnpkg.com/@douyinfe/semi-animation-react/-/semi-animation-react-2.37.0.tgz#b2137b8f10b96930d7513552ad918bc671dee410"
-  integrity sha512-EHarPrCGQ1wqBslaw6SJjRC+woOQ4QYYDsils872e1zGEp9KrZC8bJI0ZgxUulCn99YVrzMhuN6xkyS3DvUQDQ==
+"@dnd-kit/accessibility@^3.0.0":
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/@dnd-kit/accessibility/-/accessibility-3.0.1.tgz#3ccbefdfca595b0a23a5dc57d3de96bc6935641c"
+  integrity sha512-HXRrwS9YUYQO9lFRc/49uO/VICbM+O+ZRpFDe9Pd1rwVv2PCNkRiTZRdxrDgng/UkvdC3Re9r2vwPpXXrWeFzg==
   dependencies:
-    "@douyinfe/semi-animation" "2.12.0"
-    "@douyinfe/semi-animation-styled" "2.23.2"
+    tslib "^2.0.0"
+
+"@dnd-kit/core@^6.0.8":
+  version "6.0.8"
+  resolved "https://registry.yarnpkg.com/@dnd-kit/core/-/core-6.0.8.tgz#040ae13fea9787ee078e5f0361f3b49b07f3f005"
+  integrity sha512-lYaoP8yHTQSLlZe6Rr9qogouGUz9oRUj4AHhDQGQzq/hqaJRpFo65X+JKsdHf8oUFBzx5A+SJPUvxAwTF2OabA==
+  dependencies:
+    "@dnd-kit/accessibility" "^3.0.0"
+    "@dnd-kit/utilities" "^3.2.1"
+    tslib "^2.0.0"
+
+"@dnd-kit/sortable@^7.0.2":
+  version "7.0.2"
+  resolved "https://registry.yarnpkg.com/@dnd-kit/sortable/-/sortable-7.0.2.tgz#791d550872457f3f3c843e00d159b640f982011c"
+  integrity sha512-wDkBHHf9iCi1veM834Gbk1429bd4lHX4RpAwT0y2cHLf246GAvU2sVw/oxWNpPKQNQRQaeGXhAVgrOl1IT+iyA==
+  dependencies:
+    "@dnd-kit/utilities" "^3.2.0"
+    tslib "^2.0.0"
+
+"@dnd-kit/utilities@^3.2.0", "@dnd-kit/utilities@^3.2.1":
+  version "3.2.1"
+  resolved "https://registry.yarnpkg.com/@dnd-kit/utilities/-/utilities-3.2.1.tgz#53f9e2016fd2506ec49e404c289392cfff30332a"
+  integrity sha512-OOXqISfvBw/1REtkSK2N3Fi2EQiLMlWUlqnOK/UpOISqBZPWpE6TqL+jcPtMOkE8TqYGiURvRdPSI9hltNUjEA==
+  dependencies:
+    tslib "^2.0.0"
+
+"@douyinfe/semi-animation-react@2.43.1":
+  version "2.43.1"
+  resolved "https://registry.yarnpkg.com/@douyinfe/semi-animation-react/-/semi-animation-react-2.43.1.tgz#c9a904e2de9104a4eec2f7802d3900d1ea7948a1"
+  integrity sha512-2jcgdbQkdjFhaizfjVQGde4ccU3Bzr9VfXBVbo1PLU9OjwiPKLfRTwwkTYRsloZGNP4ALiOHl4aKwok6o8nNww==
+  dependencies:
+    "@douyinfe/semi-animation" "2.43.1"
+    "@douyinfe/semi-animation-styled" "2.43.1"
     classnames "^2.2.6"
 
-"@douyinfe/semi-animation-styled@2.23.2":
-  version "2.23.2"
-  resolved "https://registry.yarnpkg.com/@douyinfe/semi-animation-styled/-/semi-animation-styled-2.23.2.tgz#f18bc074515441c297cc636ed98521e249d093c9"
-  integrity sha512-cKaA1yGHPF76Rx7EZDZicj+1oX1su2wnqb/UGFOTquAwqWmkTfgQ+EKxCd/N704WH+RtmGf4xbrJKpBvvcEdSQ==
+"@douyinfe/semi-animation-styled@2.43.1":
+  version "2.43.1"
+  resolved "https://registry.yarnpkg.com/@douyinfe/semi-animation-styled/-/semi-animation-styled-2.43.1.tgz#e88a3f3da29d8273300c2eaafdc9c3d655526a19"
+  integrity sha512-KgBncXwXHzdqJ+omdRRMV21xwe6Z930h8T2KcOYE417vdwNuLIBBMuJhyHdsFFLfRkxsI7Pnmo1VRvBcV5EDcg==
 
-"@douyinfe/semi-animation@2.12.0":
-  version "2.12.0"
-  resolved "https://registry.yarnpkg.com/@douyinfe/semi-animation/-/semi-animation-2.12.0.tgz#51fe52d3911c2591a80a6e9fe96e6809c1511f13"
-  integrity sha512-OAfL9Nk38ZPqfdKm9k4cvVXXzm16ALI4LxGNZ0qfe2RCLLnYGB/hNzTctoTDjYD35dFv0yroh3qsXtZuP2xNdg==
-  dependencies:
-    "@babel/runtime-corejs3" "^7.15.4"
-    bezier-easing "^2.1.0"
-
-"@douyinfe/semi-animation@2.37.0":
-  version "2.37.0"
-  resolved "https://registry.yarnpkg.com/@douyinfe/semi-animation/-/semi-animation-2.37.0.tgz#f96a142d099771c7bdb0676391486673e1aec7b7"
-  integrity sha512-XbSCfPtT+sPdNsuo4c8p6HqDBd9F0Pdb5Wk3F02DVf7RG0pIHMZ8jE8LTHZL1OSlCo0lifYSmA1eo9HJq20xKA==
+"@douyinfe/semi-animation@2.43.1":
+  version "2.43.1"
+  resolved "https://registry.yarnpkg.com/@douyinfe/semi-animation/-/semi-animation-2.43.1.tgz#221461498cdaea66e1db546ef46999f25a29ccaa"
+  integrity sha512-KeQUPMTWG1TwvD/y9Qju/7EXDTT2QjUWCLTDlauDbxbA3b90Ap2P6XaDVoKeGip13zPLuf5sv18fVAn9LTTaPA==
   dependencies:
     bezier-easing "^2.1.0"
 
-"@douyinfe/semi-foundation@2.37.0":
-  version "2.37.0"
-  resolved "https://registry.yarnpkg.com/@douyinfe/semi-foundation/-/semi-foundation-2.37.0.tgz#e2918e22800509b50074c04739f97afb43956dc7"
-  integrity sha512-+2vBoMYe1o9ePrp917UmDxUQ225GhhFUtTaL/ssPUjHznLKEh9M+r1DZ+bYBLPwP0xBiKvSCIjIMLmpBaWt5YA==
+"@douyinfe/semi-foundation@2.43.1":
+  version "2.43.1"
+  resolved "https://registry.yarnpkg.com/@douyinfe/semi-foundation/-/semi-foundation-2.43.1.tgz#157efa3971ec11e1c9cf12d57cbf18e9db24cefc"
+  integrity sha512-VvVe7d3ZpBxahvxj71yp7oP4ZWFavUuD7pqhAtllInKr4eBR2hu8dQ/6wHl8RvPimZAhZYKwy91Q6B4yqM+ZZQ==
   dependencies:
-    "@douyinfe/semi-animation" "2.12.0"
+    "@douyinfe/semi-animation" "2.43.1"
     async-validator "^3.5.0"
     classnames "^2.2.6"
     date-fns "^2.29.3"
@@ -1236,36 +1259,39 @@
     memoize-one "^5.2.1"
     scroll-into-view-if-needed "^2.2.24"
 
-"@douyinfe/semi-icons@2.37.0":
-  version "2.37.0"
-  resolved "https://registry.yarnpkg.com/@douyinfe/semi-icons/-/semi-icons-2.37.0.tgz#cc8a41b31b7dca4c7a651718dbf4f7fbb5e8499c"
-  integrity sha512-hfZmwE1/igvOx9rUdM8yKrF25yhap3QUC2w5ElkB3MfK6B6O64NWofTb/bezh9qFxpXbfbvzZnYE3vbMlebudQ==
+"@douyinfe/semi-icons@2.43.1":
+  version "2.43.1"
+  resolved "https://registry.yarnpkg.com/@douyinfe/semi-icons/-/semi-icons-2.43.1.tgz#a950c6454f3de9f9c54fffd92caf0bf57954f638"
+  integrity sha512-oN5/OkVJh4ooVxVo9bC+MhUHdR7j4By8cNKgIUZ2N1k8DiTBCmrT9PK3DBXAKaSfVNXAEjVk5TLzP1pE2zORNA==
   dependencies:
     classnames "^2.2.6"
 
-"@douyinfe/semi-illustrations@2.37.0":
-  version "2.37.0"
-  resolved "https://registry.yarnpkg.com/@douyinfe/semi-illustrations/-/semi-illustrations-2.37.0.tgz#fb6d332111153ff5f54737442b03806fa5fca0d9"
-  integrity sha512-1VlU8oQqdCNJQlwEkKWFtlhU27Ugh+tBL428lZZZYyybTfk2uDrzuooX+/Iufo7fX894HBf9gWwyj5/WZ/QfaQ==
+"@douyinfe/semi-illustrations@2.43.1":
+  version "2.43.1"
+  resolved "https://registry.yarnpkg.com/@douyinfe/semi-illustrations/-/semi-illustrations-2.43.1.tgz#f7d2e314ba72c72b582168f8b69593b4a0a543e1"
+  integrity sha512-01LUK6RrZzPG4miMYgULnj9kW7LrdasIODI8A74eL9RQzT59WDbD45NvZ4z5VmzFxdr6LJM12zJ8AlMPwEDW6w==
 
-"@douyinfe/semi-theme-default@2.37.0":
-  version "2.37.0"
-  resolved "https://registry.yarnpkg.com/@douyinfe/semi-theme-default/-/semi-theme-default-2.37.0.tgz#3c5e8da65d0e7f32c1343f387dd5b06a0439fb20"
-  integrity sha512-gmGlpHbsSd+bOwSz6JG2FBAksPIQa/kT2woVtqftIs2+bzuM0KSPfaLdkXwNBwCddnJH/pNzFefFth5tN00SEQ==
+"@douyinfe/semi-theme-default@2.43.1":
+  version "2.43.1"
+  resolved "https://registry.yarnpkg.com/@douyinfe/semi-theme-default/-/semi-theme-default-2.43.1.tgz#d28ca2b8ee3e17cd335f800d1470021556583d4e"
+  integrity sha512-QECAPK+51Q2Y+Mlt+xOAaLJj1yPt97zE0Ppb4q8znIddygo84BRVUn2D8Q8d1RJvdHpGf/lQA48Gu0iHCLIahA==
   dependencies:
     glob "^7.1.6"
 
-"@douyinfe/semi-ui@^2.37.0":
-  version "2.37.0"
-  resolved "https://registry.yarnpkg.com/@douyinfe/semi-ui/-/semi-ui-2.37.0.tgz#3ab9325cc0bd45bb4e7c2046e3cc538f59a33d2b"
-  integrity sha512-BtmuQfUHSq/dGzYwA/Mp3yMRVjPhahjRR3Eq4GW6bvGIP0miFussmoJOL6szQipf4oqVkVB/rcluUD7azvv4nA==
+"@douyinfe/semi-ui@^2.43.1":
+  version "2.43.1"
+  resolved "https://registry.yarnpkg.com/@douyinfe/semi-ui/-/semi-ui-2.43.1.tgz#db8bd3725bc596bef4df43e1e97ee27e851a0899"
+  integrity sha512-TyBSL40VJID0hKAq+HAsRm8RnJEPBVsyH65n1iJTpo7czVqHPBqDl6jXgQNVsJMi3u0Q9oIv2vCu55s7UTBE5w==
   dependencies:
-    "@douyinfe/semi-animation" "2.37.0"
-    "@douyinfe/semi-animation-react" "2.37.0"
-    "@douyinfe/semi-foundation" "2.37.0"
-    "@douyinfe/semi-icons" "2.37.0"
-    "@douyinfe/semi-illustrations" "2.37.0"
-    "@douyinfe/semi-theme-default" "2.37.0"
+    "@dnd-kit/core" "^6.0.8"
+    "@dnd-kit/sortable" "^7.0.2"
+    "@dnd-kit/utilities" "^3.2.1"
+    "@douyinfe/semi-animation" "2.43.1"
+    "@douyinfe/semi-animation-react" "2.43.1"
+    "@douyinfe/semi-foundation" "2.43.1"
+    "@douyinfe/semi-icons" "2.43.1"
+    "@douyinfe/semi-illustrations" "2.43.1"
+    "@douyinfe/semi-theme-default" "2.43.1"
     async-validator "^3.5.0"
     classnames "^2.2.6"
     copy-text-to-clipboard "^2.1.1"
@@ -1273,8 +1299,7 @@
     date-fns-tz "^1.3.8"
     lodash "^4.17.21"
     prop-types "^15.7.2"
-    react-resizable "^1.8.0"
-    react-sortable-hoc "^2.0.0"
+    react-resizable "^3.0.5"
     react-window "^1.8.2"
     resize-observer-polyfill "^1.5.1"
     scroll-into-view-if-needed "^2.2.24"
@@ -3645,10 +3670,10 @@ date-fns@^2.29.3:
   resolved "https://registry.yarnpkg.com/date-fns/-/date-fns-2.29.3.tgz#27402d2fc67eb442b511b70bbdf98e6411cd68a8"
   integrity sha512-dDCnyH2WnnKusqvZZ6+jA1O51Ibt8ZMRNkDZdyAyK4YfbDwa/cEmuztzG5pk6hqlp9aSBPYcjOlktquahGwGeA==
 
-dayjs@^1.11.8:
-  version "1.11.8"
-  resolved "https://registry.yarnpkg.com/dayjs/-/dayjs-1.11.8.tgz#4282f139c8c19dd6d0c7bd571e30c2d0ba7698ea"
-  integrity sha512-LcgxzFoWMEPO7ggRv1Y2N31hUf2R0Vj7fuy/m+Bg1K8rr+KAs1AEy4y9jd5DXe8pbHgX+srkHNS7TH6Q6ZhYeQ==
+dayjs@^1.11.9:
+  version "1.11.9"
+  resolved "https://registry.yarnpkg.com/dayjs/-/dayjs-1.11.9.tgz#9ca491933fadd0a60a2c19f6c237c03517d71d1a"
+  integrity sha512-QvzAURSbQ0pKdIye2txOzNaHmxtUBXerpY0FJsFXUMKbIZeFm5ht1LS/jFsrncjnmtv8HsG0W2g6c0zUjZWmpA==
 
 debug@2.6.9, debug@^2.6.0, debug@^2.6.9:
   version "2.6.9"
@@ -5142,13 +5167,6 @@ internal-slot@^1.0.3:
     has "^1.0.3"
     side-channel "^1.0.4"
 
-invariant@^2.2.4:
-  version "2.2.4"
-  resolved "https://registry.yarnpkg.com/invariant/-/invariant-2.2.4.tgz#610f3c92c9359ce1db616e538008d23ff35158e6"
-  integrity sha512-phJfQVBuaJM5raOpJjSfkiD6BpbCE4Ns//LaXl6wGYtUBY83nWS6Rf9tXm2e8VaK60JEjYldbPif/A2B1C2gNA==
-  dependencies:
-    loose-envify "^1.0.0"
-
 ipaddr.js@1.9.1:
   version "1.9.1"
   resolved "https://registry.yarnpkg.com/ipaddr.js/-/ipaddr.js-1.9.1.tgz#bff38543eeb8984825079ff3a2a8e6cbd46781b3"
@@ -6236,7 +6254,7 @@ lodash@^4.17.15, lodash@^4.17.20, lodash@^4.17.21, lodash@^4.7.0:
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.21.tgz#679591c564c3bffaae8454cf0b3df370c3d6911c"
   integrity sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==
 
-loose-envify@^1.0.0, loose-envify@^1.1.0, loose-envify@^1.4.0:
+loose-envify@^1.1.0, loose-envify@^1.4.0:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/loose-envify/-/loose-envify-1.4.0.tgz#71ee51fa7be4caec1a63839f7e682d8132d30caf"
   integrity sha512-lyuxPGr/Wfhrlem2CL/UcnUc1zcqKAImBDzukY7Y5F/yQiNdko6+fRLevlw1HgMySw7f611UIY408EtxRSoK3Q==
@@ -7462,7 +7480,7 @@ prompts@^2.0.1, prompts@^2.4.2:
     kleur "^3.0.3"
     sisteransi "^1.0.5"
 
-prop-types@15.x, prop-types@^15.5.7, prop-types@^15.7.2, prop-types@^15.8.1:
+prop-types@15.x, prop-types@^15.7.2, prop-types@^15.8.1:
   version "15.8.1"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.8.1.tgz#67d87bf1a694f48435cf332c24af10214a3140b5"
   integrity sha512-oj87CgZICdulUohogVAR7AjlC0327U4el4L6eAvOqCeudMDVU0NThNaV+b9Df4dXgSP1gXMTnPdhfe/2qDH5cg==
@@ -7628,10 +7646,10 @@ react-refresh@^0.11.0:
   resolved "https://registry.yarnpkg.com/react-refresh/-/react-refresh-0.11.0.tgz#77198b944733f0f1f1a90e791de4541f9f074046"
   integrity sha512-F27qZr8uUqwhWZboondsPx8tnC3Ct3SxZA3V5WyEvujRyyNv0VYPhoBg1gZ8/MV5tubQp76Trw8lTv9hzRBa+A==
 
-react-resizable@^1.8.0:
-  version "1.11.1"
-  resolved "https://registry.yarnpkg.com/react-resizable/-/react-resizable-1.11.1.tgz#02ca6850afa7a22c1b3e623e64aef71ee252af69"
-  integrity sha512-S70gbLaAYqjuAd49utRHibtHLrHXInh7GuOR+6OO6RO6uleQfuBnWmZjRABfqNEx3C3Z6VPLg0/0uOYFrkfu9Q==
+react-resizable@^3.0.5:
+  version "3.0.5"
+  resolved "https://registry.yarnpkg.com/react-resizable/-/react-resizable-3.0.5.tgz#362721f2efbd094976f1780ae13f1ad7739786c1"
+  integrity sha512-vKpeHhI5OZvYn82kXOs1bC8aOXktGU5AmKAgaZS4F5JPburCtbmDPqE7Pzp+1kN4+Wb81LlF33VpGwWwtXem+w==
   dependencies:
     prop-types "15.x"
     react-draggable "^4.0.3"
@@ -7705,15 +7723,6 @@ react-scripts@5.0.1:
     workbox-webpack-plugin "^6.4.1"
   optionalDependencies:
     fsevents "^2.3.2"
-
-react-sortable-hoc@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/react-sortable-hoc/-/react-sortable-hoc-2.0.0.tgz#f6780d8aa4b922a21f3e754af542f032677078b7"
-  integrity sha512-JZUw7hBsAHXK7PTyErJyI7SopSBFRcFHDjWW5SWjcugY0i6iH7f+eJkY8cJmGMlZ1C9xz1J3Vjz0plFpavVeRg==
-  dependencies:
-    "@babel/runtime" "^7.2.0"
-    invariant "^2.2.4"
-    prop-types "^15.5.7"
 
 react-window@^1.8.2:
   version "1.8.8"
@@ -8717,6 +8726,11 @@ tslib@^1.8.1:
   version "1.14.1"
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-1.14.1.tgz#cf2d38bdc34a134bcaf1091c41f6619e2f672d00"
   integrity sha512-Xni35NKzjgMrwevysHTCArtLDpPvye8zV/0E4EyYn43P7/7qvQwPh9BGkHewbMulVntbigmcT7rdX3BNo9wRJg==
+
+tslib@^2.0.0:
+  version "2.6.2"
+  resolved "https://registry.yarnpkg.com/tslib/-/tslib-2.6.2.tgz#703ac29425e7b37cd6fd456e92404d46d1f3e4ae"
+  integrity sha512-AEYxH93jGFPn/a2iVAwW87VuUIkR1FVUKB77NwMF7nBTDkDrrT/Hpt/IrCJ0QXhW27jTBDcf5ZY7w6RiqTMw2Q==
 
 tslib@^2.0.3:
   version "2.4.1"

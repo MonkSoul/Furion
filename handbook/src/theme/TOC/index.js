@@ -2,6 +2,7 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 import TOCItems from "@theme/TOCItems";
 import clsx from "clsx";
 import React from "react";
+import { SponsorToc } from "../../components/SponsorToc";
 import styles from "./styles.module.css";
 
 // Using a custom className
@@ -24,6 +25,7 @@ export default function TOC({ className, ...props }) {
 function DotNETChina() {
   return (
     <>
+      <SponsorToc />
       <a
         href="https://gitee.com/dotnetchina"
         target="_blank"
