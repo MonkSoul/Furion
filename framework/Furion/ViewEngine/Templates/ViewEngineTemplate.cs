@@ -299,7 +299,7 @@ public class ViewEngineTemplate<T> : IViewEngineTemplate<T>
             path: Penetrates.GetTemplateFileName(fileName),
             mode: FileMode.Open,
             access: FileAccess.Read,
-            share: FileShare.None,
+            share: FileShare.Read,
             bufferSize: 8192,
             useAsync: true))
         {
