@@ -1,4 +1,4 @@
-**中** | [En](https://github.com/MonkSoul/Furion) | [v5-dev](https://gitee.com/dotnetchina/Furion)
+**中** | [En](https://github.com/MonkSoul/Furion) | [v5-dev](https://gitee.com/dotnetchina/Furion/tree/v5-dev/)
 # 先知
 
 一个应用程序框架，您可以将它集成到任何 .NET/C# 应用程序中。
