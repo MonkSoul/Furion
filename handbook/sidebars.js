@@ -18,6 +18,7 @@ module.exports = {
         "target",
         "position",
         "whyfurion",
+        "subscribe",
       ],
     },
     {

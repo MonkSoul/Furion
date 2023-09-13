@@ -55,7 +55,7 @@ function Banner() {
           </div>
           <div>
             <ul className="furion-banner-spec">
-              <li>MIT 宽松开源协议，商业无需授权</li>
+              <li>MIT 宽松开源协议，商用项目首选</li>
               <li>支持 .NET5/6/7/8+，没有历史包袱</li>
               <li>极少依赖，只依赖两个第三方包</li>
               <li>代码无侵入性，100% 兼容原生写法</li>
@@ -97,10 +97,11 @@ function Banner() {
             </Link>
             <Link
               className="furion-try-demo"
-              to="https://gitee.com/dotnetchina/Furion"
-              title="Gitee 查看"
+              to={useBaseUrl("docs/subscribe")}
+              title="企业服务"
             >
-              Gitee 查看
+              企业服务
+              <span className="furion-version">快速响应</span>
             </Link>
           </div>
         </div>
@@ -155,7 +156,7 @@ function Gitee() {
   return (
     <div className="furion-content">
       <p className={"furion-small-title" + (isDarkTheme ? " dark" : "")}>
-        开源免费/商业无需授权
+        MIT 宽松开源协议/商用项目首选
       </p>
       <h1 className={"furion-big-title" + (isDarkTheme ? " dark" : "")}>
         ⭐️ MIT 开源协议，代码在 Gitee/GitHub 平台托管 ⭐️
@@ -296,12 +297,12 @@ function WhoUse() {
           <div></div>
           <h1>他们都在用</h1>
           <p>
-            Furion 已在 NuGet 平台超 1020
+            Furion 已在 NuGet 平台超 1030
             万次下载。从小型企业到企业的解决方案及知名企业。他们在简单软件和复杂管理系统的开发方面都信任我们。
           </p>
           <a
             className="furion-get-start"
-            href="https://github.com/MonkSoul/Furion/issues/154"
+            href="mailto:monksoul@outlook.com"
             target="_blank"
           >
             立即添加您的公司
