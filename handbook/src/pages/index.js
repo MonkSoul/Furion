@@ -58,7 +58,7 @@ function Banner() {
               <li>MIT 宽松开源协议，商用项目首选</li>
               <li>支持 .NET5/6/7/8+，没有历史包袱</li>
               <li>极少依赖，只依赖两个第三方包</li>
-              <li>代码无侵入性，100% 兼容原生写法</li>
+              <li>代码无侵入性，兼容原生写法</li>
               <li>
                 <a
                   href={useBaseUrl("docs/whyfurion")}
@@ -182,7 +182,7 @@ function Gitee() {
             className={"furion-log-jiao" + (isDarkTheme ? " dark" : "")}
           ></div>
           <div className="furion-log-number">
-            <div style={{ color: "#3fbbfe" }}>4100 +</div>
+            <div style={{ color: "#3fbbfe" }}>4200 +</div>
             <span className={isDarkTheme ? " dark" : ""}>Forks</span>
           </div>
         </div>
@@ -194,7 +194,7 @@ function Gitee() {
             className={"furion-log-jiao" + (isDarkTheme ? " dark" : "")}
           ></div>
           <div className="furion-log-number">
-            <div style={{ color: "#1fd898" }}>10,309,393</div>
+            <div style={{ color: "#1fd898" }}>10,334,334</div>
             <span className={isDarkTheme ? " dark" : ""}>Downloads</span>
           </div>
         </div>
