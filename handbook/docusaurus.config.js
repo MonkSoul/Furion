@@ -23,7 +23,7 @@ module.exports = {
     announcementBar: {
       id: "v4.8.8.43",
       content:
-        "🚀 我们正在研发面向 .NET 8 的 Furion 下一版本 v5.0.0 <a target='_blank' href='https://gitee.com/dotnetchina/Furion/tree/v5-dev/'>[了解更多]</a>",
+        "🚀 我们正在研发面向 .NET 8 的 Furion 下一版本 v5.0.0 <a target='_blank' href='https://mp.weixin.qq.com/s/eq1o4JGGvvKZ5gRBGhFdZQ'>[赞助我们]</a>",
       backgroundColor: "#723cff",
       textColor: "yellow",
       isCloseable: true,
