@@ -49,16 +49,29 @@ public static partial class Scoped
         // 创建作用域
         var (scoped, serviceProvider) = CreateScope(ref scopeFactory);
 
+        IDbContextPool dbContextPool = null;
+
         try
         {
             // 创建一个数据库上下文池
-            var dbContextPool = scoped.ServiceProvider.GetService<IDbContextPool>();
+            dbContextPool = scoped.ServiceProvider.GetService<IDbContextPool>();
+
+            // 开启事务
+            dbContextPool.BeginTransaction(true);
 
             // 执行方法
             await handler(scopeFactory, scoped);
 
             // 提交工作单元
             dbContextPool.SavePoolNow();
+
+            // 提交事务
+            dbContextPool.CommitTransaction(true);
+        }
+        catch
+        {
+            // 回滚事务
+            dbContextPool?.RollbackTransaction(true);
         }
         finally
         {
