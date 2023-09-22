@@ -133,7 +133,7 @@ internal static class Reflect
     /// <returns></returns>
     internal static Type GetStringType(string str)
     {
-        var typeDefinitions = str.Split(";");
+        var typeDefinitions = str.Split(';');
         return GetType(typeDefinitions[0], typeDefinitions[1]);
     }
 }

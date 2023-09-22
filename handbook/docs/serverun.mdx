@@ -73,7 +73,7 @@ var app = builder.Build();
 
 试问，`ASP.NET 7`，`ASP.NET 8` ... `ASP.NET N` 呢？会不会每一个版本都有不同的创建方式，那后续项目如何无缝升级？
 
-**所以，为了保证一致的代码体验和后续无缝升级，创造出了 `Serve.Run()`，即使未来创建方式变了，也不用担心，交给框架即可。**
+**所以，为了保证一致的代码体验和后续无缝升级，推出了 `Serve.Run()`，即使未来创建方式变了，也不用担心，交给框架即可。**
 
 ## 2.1.2 创建 `控制台` 项目
 
@@ -592,7 +592,7 @@ internal static class Program
     [STAThread]
     static void Main()
     {
-        Serve.RunNative();  // v4.8.8.43+
+        Serve.RunNative();  // v4.8.8.44+
 
         ApplicationConfiguration.Initialize();
         Application.Run(new Form1());

@@ -21,9 +21,9 @@ module.exports = {
       config: {},
     },
     announcementBar: {
-      id: "v4.8.8.43",
+      id: "v4.8.8.44",
       content:
-        "🚀 我们正在研发面向 .NET 8 的 Furion 下一版本 v5.0.0 <a target='_blank' href='https://mp.weixin.qq.com/s/eq1o4JGGvvKZ5gRBGhFdZQ'>[赞助我们]</a>",
+        "🚀 我们正在研发面向 .NET 8 的 Furion 下一版本 v5.0.0 <a target='_blank' href='https://mp.weixin.qq.com/s/eq1o4JGGvvKZ5gRBGhFdZQ'>[考虑支持我们]</a>",
       backgroundColor: "#723cff",
       textColor: "yellow",
       isCloseable: true,
@@ -75,7 +75,7 @@ module.exports = {
           position: "left",
           items: [
             {
-              label: "📝 查看日志（v4.8.8.43）",
+              label: "📝 查看日志（v4.8.8.44）",
               href: "/docs/upgrade",
             },
             {

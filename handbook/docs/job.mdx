@@ -1072,7 +1072,7 @@ var jobBuilder = JobBuilder.Create("YourProject", "YourProject.MyJob");
 // 根据 Type 类型创建
 var jobBuilder = JobBuilder.Create(typeof(MyJob));
 
-// 通过委托创造动态作业
+// 通过委托创建动态作业
 var jobBuilder = JobBuilder.Create((context, stoppingToken) =>
 {
       context.ServiceProvider.GetLogger().LogInformation($"{context}");
