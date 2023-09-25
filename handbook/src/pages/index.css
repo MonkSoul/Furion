@@ -91,7 +91,6 @@
   text-decoration: none;
   display: inline-block;
   white-space: nowrap;
-
 }
 
 .furion-try-demo {
@@ -118,10 +117,12 @@
 }
 
 .system-top-bar {
-  background-image: linear-gradient(to right,
-      rgba(136, 89, 255, 0.2),
-      rgba(63, 196, 254, 0.2) 90%,
-      rgba(66, 255, 172, 0.2));
+  background-image: linear-gradient(
+    to right,
+    rgba(136, 89, 255, 0.2),
+    rgba(63, 196, 254, 0.2) 90%,
+    rgba(66, 255, 172, 0.2)
+  );
   padding: 0.25em 1em;
 }
 
@@ -222,7 +223,7 @@
 }
 
 .furion-log-jiao.dark {
-  background: #18191a;
+  background: rgb(27, 27, 29);
 }
 
 .furion-log-item:last-child {

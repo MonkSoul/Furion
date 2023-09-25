@@ -1,4 +1,5 @@
-[中](https://gitee.com/dotnetchina/Furion) | **En** | [v5-dev](https://gitee.com/dotnetchina/Furion/tree/v5-dev/)
+[中](https://gitee.com/dotnetchina/Furion) | **En**
+
 # Furion
 
 An application framework that you can integrate into any .NET/C# application.

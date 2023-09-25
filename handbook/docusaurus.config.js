@@ -23,7 +23,7 @@ module.exports = {
     announcementBar: {
       id: "v4.8.8.44",
       content:
-        "🚀 我们正在研发面向 .NET 8 的 Furion 下一版本 v5.0.0 <a target='_blank' href='https://mp.weixin.qq.com/s/eq1o4JGGvvKZ5gRBGhFdZQ'>[考虑支持我们]</a>",
+        "🚀 我们正在研发面向 .NET 8 的全新 Furion 版本 v5.0.0，计划将于 2023 年 11 月 14 日正式发布。",
       backgroundColor: "#723cff",
       textColor: "yellow",
       isCloseable: true,
@@ -85,7 +85,7 @@ module.exports = {
           ],
         },
         {
-          label: "✨ API",
+          label: "API",
           position: "left",
           href: "http://furion.baiqian.ltd/api/api",
         },

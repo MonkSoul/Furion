@@ -101,7 +101,7 @@ function Banner() {
               title="企业服务"
             >
               企业服务
-              <span className="furion-version">快速响应</span>
+              <span className="furion-version">专业团队</span>
             </Link>
           </div>
         </div>
@@ -194,7 +194,7 @@ function Gitee() {
             className={"furion-log-jiao" + (isDarkTheme ? " dark" : "")}
           ></div>
           <div className="furion-log-number">
-            <div style={{ color: "#1fd898" }}>10,527,686</div>
+            <div style={{ color: "#1fd898" }}>10,536,027</div>
             <span className={isDarkTheme ? " dark" : ""}>Downloads</span>
           </div>
         </div>
@@ -322,7 +322,7 @@ function Links() {
         友情链接
       </p>
       <h1 className={"furion-big-title" + (isDarkTheme ? " dark" : "")}>
-        她们一样是优秀的项目/网站
+        更多优秀的项目/网站
       </h1>
       <div className="furion-links-content">
         {urls.map((item, i) => (
