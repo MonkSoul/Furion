@@ -18,7 +18,7 @@ sidebar_label: 13. 对象数据映射 (Mapper)
 
 在过去，我们需要将一个对象的值转换到另一个对象中，我们需要这样做，如：
 
-```cs showLineNumbers
+```cs showLineNumbers {4-9}
 var entity = repository.Find(1);
 
 var dto = new Dto();
@@ -46,7 +46,7 @@ dto.IdCard = entity.IdCard.Replace("1234", "****");
 
 ### 13.3.1 快速入门
 
-```cs showLineNumbers
+```cs showLineNumbers {2}
 var entity = repository.Find(1);
 var dto = entity.Adapt<Dto>();
 ```
@@ -83,10 +83,10 @@ namespace Furion.Application
 
 `Mapster` 除了提供 `Adapt` 拓展方法以外，同时还提供依赖注入的方式。
 
-```cs showLineNumbers
-public  Person(IMapper mapper)
+```cs showLineNumbers {1}
+public Person(IMapper mapper)
 {
-  var dto =  _mapper.Map<Dto>(entity);
+    var dto =  _mapper.Map<Dto>(entity);
 }
 ```
 
@@ -96,21 +96,23 @@ public  Person(IMapper mapper)
 
 正常的操作：
 
-```cs showLineNumbers
+```cs showLineNumbers {2-7}
 var destinations = context.Sources
-        .Select(p => new Destination {
-            Id = p.Id,
-            Name = p.Name,
-            Surname = p.Surname,
-            ....
-        })
-        .ToList();
+    .Select(p => new Destination {
+        Id = p.Id,
+        Name = p.Name,
+        Surname = p.Surname,
+        ....
+    })
+    .ToList();
 ```
 
 使用 `Mapster` 之后：
 
-```cs showLineNumbers
- var destinations = context.Sources.ProjectToType<Destination>().ToList();
+```cs showLineNumbers {2}
+ var destinations = context.Sources
+    .ProjectToType<Destination>()
+    .ToList();
 ```
 
 ## 13.4 全局默认配置
