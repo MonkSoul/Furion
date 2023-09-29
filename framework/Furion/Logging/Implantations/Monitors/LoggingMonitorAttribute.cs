@@ -549,6 +549,9 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter, IAs
             // 解决 long 精度问题
             jsonSerializerSettings.Converters.AddLongTypeConverters();
 
+            // 解决 JsonElement 序列化问题
+            jsonSerializerSettings.Converters.Add(new JsonElementConverter());
+
             // 解决 DateTimeOffset 序列化/反序列化问题
             if (obj is DateTimeOffset)
             {
