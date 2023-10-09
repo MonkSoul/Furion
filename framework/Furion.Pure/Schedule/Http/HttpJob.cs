@@ -84,7 +84,7 @@ public class HttpJob : IJob
         }
 
         // 添加请求头
-        if (httpJobMessage.Headers == null && httpJobMessage.Headers.Count > 0)
+        if (httpJobMessage.Headers != null && httpJobMessage.Headers.Count > 0)
         {
             foreach (var (name, value) in httpJobMessage.Headers)
             {
