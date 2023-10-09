@@ -428,13 +428,16 @@ app.UseFileServer(new FileServerOptions
 
 可通过 `[RequestSizeLimit]` 特性进行特定限制
 
-```cs showLineNumbers {2}
+```cs showLineNumbers {2,3}
 [HttpPost]
-[RequestSizeLimit(100_000_000)]
+[RequestSizeLimit(100_000_000)] // 通常设置为 [RequestSizeLimit(long.MaxValue)]
+[RequestFormLimits(MultipartBodyLengthLimit = long.MaxValue)]
 public IActionResult MyAction([FromBody] MyViewModel data)
 {
 }
 ```
+
+相关 `Issue`：[https://gitee.com/dotnetchina/Furion/issues/I8669C](https://gitee.com/dotnetchina/Furion/issues/I8669C)
 
 ### 31.7.2 对特定接口取消限制
 
