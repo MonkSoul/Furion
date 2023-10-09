@@ -12,6 +12,8 @@
 // 在任何情况下，作者或版权持有人都不对任何索赔、损害或其他责任负责，无论这些追责来自合同、侵权或其它行为中，
 // 还是产生于、源于或有关于本软件以及本软件的使用或其它处置。
 
+using System.Text.Json.Serialization;
+
 namespace Furion.Schedule;
 
 /// <summary>
@@ -31,6 +33,11 @@ public sealed class HttpJobMessage
     public HttpMethod HttpMethod { get; set; } = HttpMethod.Get;
 
     /// <summary>
+    /// 请求头
+    /// </summary>
+    public Dictionary<string, string> Headers { get; set; } = new(StringComparer.OrdinalIgnoreCase);
+
+    /// <summary>
     /// 请求报文体
     /// </summary>
     public string Body { get; set; }
@@ -44,4 +51,16 @@ public sealed class HttpJobMessage
     /// 确保请求成功，否则抛异常
     /// </summary>
     public bool EnsureSuccessStatusCode { get; set; } = true;
+
+    /// <summary>
+    /// 作业组名称
+    /// </summary>
+    [JsonIgnore]
+    public string GroupName { get; set; }
+
+    /// <summary>
+    /// 描述信息
+    /// </summary>
+    [JsonIgnore]
+    public string Description { get; set; }
 }

@@ -403,6 +403,9 @@ public sealed class ScheduleOptionsBuilder
         var httpJobMessage = new HttpJobMessage();
         buildMessage?.Invoke(httpJobMessage);
 
+        // 设置作业组名称和描述
+        schedulerBuilder.JobBuilder.SetGroupName(httpJobMessage.GroupName).SetDescription(httpJobMessage.Description);
+
         // 将 HTTP 作业消息序列化并存储起来
         schedulerBuilder.JobBuilder.AddOrUpdateProperty(nameof(HttpJob), Penetrates.Serialize(httpJobMessage));
 

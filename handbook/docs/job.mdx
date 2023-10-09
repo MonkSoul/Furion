@@ -13,6 +13,7 @@ import Tag from "@site/src/components/Tag.js";
 
 - **新特性**
 
+  - &nbsp;<Tag>新增</Tag> 定时任务 `Http` 作业请求头 `Headers` 和作业分组 `Group` 和描述 `Description` 支持 <sup>4.8.8.46</sup> <sup>⏱️2023.10.09</sup> [#I85Z7S](https://gitee.com/dotnetchina/Furion/issues/I85Z7S)
   - &nbsp;<Tag>新增</Tag> 定时任务看板列表支持作业分组名排序 <sup>4.8.8.43</sup> <sup>⏱️2023.09.14</sup> [#I7YQ9V](https://gitee.com/dotnetchina/Furion/issues/I7YQ9V)
   - &nbsp;<Tag>新增</Tag> 定时任务作业计划 `OnChanged` 事件处理 <sup>4.8.8.29</sup> <sup>⏱️2023.06.25</sup> [e4c4cf1](https://gitee.com/dotnetchina/Furion/commit/e4c4cf1d418f3cc2291eca7d7dd1c8b62d17b0e9)
   - &nbsp;<Tag>新增</Tag> 定时任务支持二级虚拟目录 `VisualPath` 配置部署 <sup>4.8.8.20</sup> <sup>⏱️2023.05.18</sup> [#I740IA](https://gitee.com/dotnetchina/Sundial/issues/I740IA)
@@ -898,6 +899,9 @@ services.AddSchedule(options =>
             request.RequestUri = "https://www.chinadot.net";
             request.HttpMethod = HttpMethod.Get;
             // request.Body = "{}"; // 设置请求报文体
+            // request.Headers.Add("framework", "Furion"); // Furion 4.8.8.46+ 支持
+            // request.GroupName = "group"; // Furion 4.8.8.46+ 支持
+            // request.Description = "作业请求描述"; // Furion 4.8.8.46+ 支持
       }, Triggers.PeriodSeconds(5));
 });
 ```
@@ -2314,6 +2318,9 @@ services.AddSchedule(options =>
             request.RequestUri = "https://www.chinadot.net";
             request.HttpMethod = HttpMethod.Get;
             // request.Body = "{}"; // 设置请求报文体
+            // request.Headers.Add("framework", "Furion"); // Furion 4.8.8.46+ 支持
+            // request.GroupName = "group"; // Furion 4.8.8.46+ 支持
+            // request.Description = "作业请求描述"; // Furion 4.8.8.46+ 支持
       }, Triggers.PeriodSeconds(5));
 });
 ```

@@ -83,6 +83,15 @@ public class HttpJob : IJob
             httpRequestMessage.Content = stringContent;
         }
 
+        // 添加请求头
+        if (httpJobMessage.Headers == null && httpJobMessage.Headers.Count > 0)
+        {
+            foreach (var (name, value) in httpJobMessage.Headers)
+            {
+                httpRequestMessage.Headers.TryAddWithoutValidation(name, value);
+            }
+        }
+
         // 发送请求
         var httpResponseMessage = await httpClient.SendAsync(httpRequestMessage, stoppingToken);
 

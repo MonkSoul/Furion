@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using System.Net.Http;
 using System.Text.Json;
 
 namespace Furion.Web.Core;
@@ -65,7 +66,10 @@ public sealed class Startup : AppStartup
             //options.AddHttpJob(request =>
             //{
             //    request.RequestUri = "https://www.chinadot.net";
-            //    request.HttpMedhod = HttpMethod.Get;
+            //    request.HttpMethod = HttpMethod.Get;
+            //    request.Headers.Add("framework", "Furion");
+            //    request.GroupName = "group";
+            //    request.Description = "作业请求描述";
             //}, Triggers.PeriodSeconds(5));
 
             //options.AddJob((context, stoppingToken) =>
