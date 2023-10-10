@@ -5,22 +5,22 @@
 	</PropertyGroup>
 
 	<ItemGroup Condition=" '$(TargetFramework)' == 'net5.0' ">
-		<PackageReference Include="MongoDB.Driver" Version="2.21.0" />
+		<PackageReference Include="MongoDB.Driver" Version="2.22.0" />
 		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="5.0.0" />
 	</ItemGroup>
 
 	<ItemGroup Condition=" '$(TargetFramework)' == 'net6.0' ">
-		<PackageReference Include="MongoDB.Driver" Version="2.21.0" />
+		<PackageReference Include="MongoDB.Driver" Version="2.22.0" />
 		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.0.0" />
 	</ItemGroup>
 
 	<ItemGroup Condition=" '$(TargetFramework)' == 'net7.0' ">
-		<PackageReference Include="MongoDB.Driver" Version="2.21.0" />
+		<PackageReference Include="MongoDB.Driver" Version="2.22.0" />
 		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />
 	</ItemGroup>
 
 	<ItemGroup Condition=" '$(TargetFramework)' == 'net8.0' ">
-		<PackageReference Include="MongoDB.Driver" Version="2.21.0" />
+		<PackageReference Include="MongoDB.Driver" Version="2.22.0" />
 		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.0-rc.1.23419.4" />
 	</ItemGroup>
 

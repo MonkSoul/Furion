@@ -521,6 +521,12 @@ public static class ObjectExtensions
                 var _tempStr = !string.IsNullOrWhiteSpace(tempStr) ? tempStr : str;
                 tempStr = _tempStr[..^affix.Length];
                 endCleared = true;
+
+                if (string.IsNullOrWhiteSpace(tempStr))
+                {
+                    tempStr = null;
+                    endCleared = false;
+                }
             }
             if (startCleared && endCleared) break;
         }
