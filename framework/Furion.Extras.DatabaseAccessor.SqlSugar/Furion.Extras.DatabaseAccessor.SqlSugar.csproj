@@ -5,23 +5,23 @@
 	</PropertyGroup>
 
 	<ItemGroup Condition=" '$(TargetFramework)' == 'net5.0' ">
-		<PackageReference Include="sqlSugarCore" Version="5.1.4.109" />
+		<PackageReference Include="sqlSugarCore" Version="5.1.4.110" />
 		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="5.0.0" />
 	</ItemGroup>
 
 	<ItemGroup Condition=" '$(TargetFramework)' == 'net6.0' ">
-		<PackageReference Include="sqlSugarCore" Version="5.1.4.109" />
+		<PackageReference Include="sqlSugarCore" Version="5.1.4.110" />
 		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.0.0" />
 	</ItemGroup>
 
 	<ItemGroup Condition=" '$(TargetFramework)' == 'net7.0' ">
-		<PackageReference Include="sqlSugarCore" Version="5.1.4.109" />
+		<PackageReference Include="sqlSugarCore" Version="5.1.4.110" />
 		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />
 	</ItemGroup>
 
 	<ItemGroup Condition=" '$(TargetFramework)' == 'net8.0' ">
-		<PackageReference Include="sqlSugarCore" Version="5.1.4.109" />
-		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.0-rc.1.23419.4" />
+		<PackageReference Include="sqlSugarCore" Version="5.1.4.110" />
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.0-rc.2.23479.6" />
 	</ItemGroup>
 
 </Project>
