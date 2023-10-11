@@ -117,12 +117,12 @@ public class BadPageResult : StatusCodeResult
     /// <param name="context"></param>
     public override void ExecuteResult(ActionContext context)
     {
-        base.ExecuteResult(context);
-
         var httpContext = context.HttpContext;
 
         // 如果 Response 已经完成输出或 WebSocket 请求，则禁止写入
         if (httpContext.IsWebSocketRequest() || httpContext.Response.HasStarted) return;
+
+        base.ExecuteResult(context);
         httpContext.Response.Body.WriteAsync(ToByteArray());
     }
 
