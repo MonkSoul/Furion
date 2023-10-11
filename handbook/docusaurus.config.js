@@ -21,7 +21,7 @@ module.exports = {
       config: {},
     },
     // announcementBar: {
-    //   id: "v4.8.8.47",
+    //   id: "v4.8.8.48",
     //   content:
     //     "🚀 我们正在研发面向 .NET 8 的全新 Furion 版本 v5.0.0，计划将于 2023 年 11 月 14 日正式发布。",
     //   backgroundColor: "#723cff",
@@ -75,7 +75,7 @@ module.exports = {
           position: "left",
           items: [
             {
-              label: "📝 查看日志（v4.8.8.47）",
+              label: "📝 查看日志（v4.8.8.48）",
               href: "/docs/upgrade",
             },
             {
