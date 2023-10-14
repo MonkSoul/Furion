@@ -20,14 +20,14 @@ module.exports = {
       // options you can specify via https://github.com/francoischalifour/medium-zoom#usage
       config: {},
     },
-    // announcementBar: {
-    //   id: "v4.8.8.48",
-    //   content:
-    //     "🚀 我们正在研发面向 .NET 8 的全新 Furion 版本 v5.0.0，计划将于 2023 年 11 月 14 日正式发布。",
-    //   backgroundColor: "#723cff",
-    //   textColor: "yellow",
-    //   isCloseable: true,
-    // },
+    announcementBar: {
+      id: "future",
+      content:
+        "🚀 前车之鉴、展望未来、精益求精、敢于革新，面向 Furion 下一版本 [<a href='http://furion.baiqian.ltd/docs/target'>设计指导</a>] | [<a href='http://furion.baiqian.ltd/docs/position'>框架定位</a>]",
+      backgroundColor: "#723cff",
+      textColor: "yellow",
+      isCloseable: true,
+    },
     docs: {
       sidebar: {
         hideable: true,
