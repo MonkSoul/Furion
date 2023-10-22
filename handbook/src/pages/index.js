@@ -4,7 +4,8 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
 import Layout from "@theme/Layout";
 import components from "@theme/MDXComponents";
-import React from "react";
+import Modal from "@uiw/react-modal";
+import React, { useState } from "react";
 import urls from "../data/urls";
 import DockerIcon from "./docker.svg";
 import "./index.css";
@@ -27,7 +28,9 @@ function Home() {
       <Gitee />
       <ProccessOn />
       <WhoUse />
-      <Links /> <Bifa />
+      <Links />
+      <Bifa />
+      <DDos />
     </Layout>
   );
 }
@@ -438,6 +441,75 @@ function Bifa() {
 
 function Wzi(props) {
   return <div className="furion-wzi">{props.children}</div>;
+}
+
+function DDos() {
+  const [visible, setVisible] = useState(() => {
+    var currentDate = new Date();
+    var lastDate = new Date("2023-10-26 00:00:00");
+    return currentDate < lastDate;
+  });
+
+  const onClosed = () => {
+    setVisible(false);
+  };
+
+  return (
+    <div>
+      <Modal
+        title="关于 DDoS 攻击"
+        isOpen={visible}
+        confirmText="知道啦"
+        icon="reddit"
+        type="primary"
+        onClosed={onClosed}
+      >
+        <i>好吧，官网被 DDoS 攻击了</i>。
+        <br />
+        <br />
+        事情是这样的，早在 <u>2023年10月10日</u>，官网迎来了首次 DDoS
+        攻击，云服务器因 CDN 超量和全站加速损失了1000
+        多元。当时没太放在心上，简单的把对应的 IP
+        添加到了黑名单规则中，于是攻击消停了，舒舒服服地过完风平浪静且没有任何波澜的一周。🫠
+        <br />
+        <br />
+        就在前天 <u>2023年10月21日</u>，很平常的周末， DDoS
+        攻击来了个二次进宫。这套路我老熟了 {"->"} 添加 IP
+        到黑名单列表。没错，当时这样做确实是解决了（机智如我~）😁
+        <br />
+        <br />
+        于是，来到昨天 <u>2023年10月22日</u>
+        晚，
+        <u>
+          还是很平常的一天，无聊中静待着命运的惊喜（原来是惊吓！）。果不其然！DDoS
+          攻击它~它它~又来了
+        </u>
+        ，这一次云服务器直接损失了4000 多元。🤣😂
+        <br />
+        <br />
+        <u>此情此景，我的内心只有一句独白：“好嗨哦！感觉人生已经达到了高潮~”</u>
+        。
+        {/* <img src={useBaseUrl("img/support.png")} style={{ maxWidth: "100%" }} /> */}
+        <br />
+        <br />
+        于是，本着 ⌈事不过三⌋ 的处理原则，我妥协了：
+        <br />
+        <br />
+        <b>
+          搞 DDoS 攻击的爷啊~，Furion 是基于 MIT 开源协议的项目，
+          <u>真的是不赚钱（严格来说是亏钱的）</u>，
+          三年来完全是用爱发电，牺牲了不知多少私人时间，投入了不少成本，如今有这等规模真不容易。再者
+          Furion
+          每年投入的云服务器还有其他杂七杂八（域名、CDN、全站加速、OSS...）费用大概在
+          8000 多元，这些都是我们团队自个掏钱维持的。
+          <u>所以，高抬贵手~，别盯着它，别折腾它啦。</u>🤞
+        </b>
+        <br />
+        <br />
+        <i>注：此弹窗保留三天，三天后不再显示，多多理解~</i>（2023.10.23）
+      </Modal>
+    </div>
+  );
 }
 
 export default Home;

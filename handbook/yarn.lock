@@ -1152,6 +1152,13 @@
   dependencies:
     regenerator-runtime "^0.13.11"
 
+"@babel/runtime@^7.5.5", "@babel/runtime@^7.8.7":
+  version "7.23.2"
+  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.23.2.tgz#062b0ac103261d68a966c4c7baf2ae3e62ec3885"
+  integrity sha512-mM8eg4yl5D6i3lu2QKPuPH4FArvJ8KhTofbE7jwMUv9KX5mBvwPAqnV3MlyBNqdp9RyRKP6Yck8TrfYrPvX3bg==
+  dependencies:
+    regenerator-runtime "^0.14.0"
+
 "@babel/template@^7.12.7", "@babel/template@^7.18.10", "@babel/template@^7.20.7":
   version "7.20.7"
   resolved "https://registry.yarnpkg.com/@babel/template/-/template-7.20.7.tgz#a15090c2839a83b02aa996c0b4994005841fd5a8"
@@ -2519,6 +2526,55 @@
   dependencies:
     "@types/yargs-parser" "*"
 
+"@uiw/icons@~2.6.0":
+  version "2.6.10"
+  resolved "https://registry.yarnpkg.com/@uiw/icons/-/icons-2.6.10.tgz#d7fc9580f227032d100e2c7b7259d5c9b08a1560"
+  integrity sha512-+tDpgrbJWjy5dnR3CTqItnc7yQuB2spDU8OmQCUUTaMEJ/v9nTZfZ8rDro4P//SN+QYPQQ0lmJbTj8/KOWeV5Q==
+
+"@uiw/react-button@^4.22.0":
+  version "4.22.0"
+  resolved "https://registry.yarnpkg.com/@uiw/react-button/-/react-button-4.22.0.tgz#1af2de634e8c7f95255f7d6296f42c439e509bbf"
+  integrity sha512-pMz97e42hz/h0cY0/1+f6Zv3OuEoh7cl9iQQ871sPXOjnI5l0djn4TJyu5wBXV7LV0LxxzjMnjqqPBzHVlvChA==
+  dependencies:
+    "@uiw/react-icon" "^4.22.0"
+    "@uiw/utils" "^4.22.0"
+
+"@uiw/react-icon@^4.22.0":
+  version "4.22.0"
+  resolved "https://registry.yarnpkg.com/@uiw/react-icon/-/react-icon-4.22.0.tgz#3ab39c06e17dbb5db59024a612033bf09f41cc0c"
+  integrity sha512-IFi09toDJYoJ9VnHTljlV5323TjwE0+1roxCZx1qvYfR0g83YwhjCAGu93Z1uYIA348jJwE0w9un5Jc/AFjWfw==
+  dependencies:
+    "@uiw/icons" "~2.6.0"
+
+"@uiw/react-modal@^4.22.0":
+  version "4.22.0"
+  resolved "https://registry.yarnpkg.com/@uiw/react-modal/-/react-modal-4.22.0.tgz#8119f2be7772bffe60b1b6585358f1215657ca18"
+  integrity sha512-TQiJhbPs8IS4X5DyS+9BDsKvDvckUXPj8MV0UkypvYR3pB2x/68KejD93rgmEwWd14r8Z/MLTVTcNiyTCb9MuQ==
+  dependencies:
+    "@uiw/react-button" "^4.22.0"
+    "@uiw/react-icon" "^4.22.0"
+    "@uiw/react-overlay" "^4.22.0"
+    "@uiw/utils" "^4.22.0"
+
+"@uiw/react-overlay@^4.22.0":
+  version "4.22.0"
+  resolved "https://registry.yarnpkg.com/@uiw/react-overlay/-/react-overlay-4.22.0.tgz#539ffb1d4a0b680d5a07f6ca7ce246d80ed67857"
+  integrity sha512-K29rsYkBgbm4GFwWyOBJHKynVj+gNmb6whiZFgkLhRAmFGSdk7y8TnK9Yvf8V7lmum/SUT0YYkSzKyqmWFYuog==
+  dependencies:
+    "@uiw/react-portal" "^4.22.0"
+    "@uiw/utils" "^4.22.0"
+    react-transition-group "~4.4.2"
+
+"@uiw/react-portal@^4.22.0":
+  version "4.22.0"
+  resolved "https://registry.yarnpkg.com/@uiw/react-portal/-/react-portal-4.22.0.tgz#2f2d2088f2067df2eb48cb955f4ffe5ea4ca5d07"
+  integrity sha512-7Ebw0CG3qaIaZqdPXa29Q+sdAZdk1jpqH0C13k1o3/dEEOjLV0Cj6MnBSCUphqHuK0C/lD1A5pmb3VIIB3fmkA==
+
+"@uiw/utils@^4.22.0":
+  version "4.22.0"
+  resolved "https://registry.yarnpkg.com/@uiw/utils/-/utils-4.22.0.tgz#2a44bc8357872514f56867ee99d8e5f1e2b36f57"
+  integrity sha512-GPTrzkzuoemQOmTE3JUGa6WDaQpwJ3atVTLopAHM84++NmtVYwlSJImd/NPgxBPymVMihKIA+hou8IeAIcHhnQ==
+
 "@webassemblyjs/ast@1.11.1":
   version "1.11.1"
   resolved "https://registry.yarnpkg.com/@webassemblyjs/ast/-/ast-1.11.1.tgz#2bfd767eae1a6996f432ff7e8d7fc75679c0b6a7"
@@ -3805,6 +3861,14 @@ dom-converter@^0.2.0:
   integrity sha512-gd3ypIPfOMr9h5jIKq8E3sHOTCjeirnl0WK5ZdS1AW0Odt0b1PaWaHdJ4Qk4klv+YB9aJBS7mESXjFoDQPu6DA==
   dependencies:
     utila "~0.4"
+
+dom-helpers@^5.0.1:
+  version "5.2.1"
+  resolved "https://registry.yarnpkg.com/dom-helpers/-/dom-helpers-5.2.1.tgz#d9400536b2bf8225ad98fe052e029451ac40e902"
+  integrity sha512-nRCa7CK3VTrM2NmGkIy4cbK7IZlgBE/PYMn55rrXefr5xXDP0LdtfPnblFDoVdcAfslJ7or6iqAUnx0CCGIWQA==
+  dependencies:
+    "@babel/runtime" "^7.8.7"
+    csstype "^3.0.2"
 
 dom-serializer@^1.0.1:
   version "1.4.1"
@@ -6563,6 +6627,16 @@ react-textarea-autosize@^8.3.2:
     use-composed-ref "^1.3.0"
     use-latest "^1.2.1"
 
+react-transition-group@~4.4.2:
+  version "4.4.5"
+  resolved "https://registry.yarnpkg.com/react-transition-group/-/react-transition-group-4.4.5.tgz#e53d4e3f3344da8521489fbef8f2581d42becdd1"
+  integrity sha512-pZcd1MCJoiKiBR2NRxeCRg13uCXbydPnmB4EOeRrY7480qNWO8IIgQG6zlDkm6uRMsURXPuKq0GWtiM59a5Q6g==
+  dependencies:
+    "@babel/runtime" "^7.5.5"
+    dom-helpers "^5.0.1"
+    loose-envify "^1.4.0"
+    prop-types "^15.6.2"
+
 react@^17.0.2:
   version "17.0.2"
   resolved "https://registry.yarnpkg.com/react/-/react-17.0.2.tgz#d0b5cc516d29eb3eee383f75b62864cfb6800037"
@@ -6635,6 +6709,11 @@ regenerator-runtime@^0.13.11:
   version "0.13.11"
   resolved "https://registry.yarnpkg.com/regenerator-runtime/-/regenerator-runtime-0.13.11.tgz#f6dca3e7ceec20590d07ada785636a90cdca17f9"
   integrity sha512-kY1AZVr2Ra+t+piVaJ4gxaFaReZVH40AKNo7UCX6W+dEwBo/2oZJzqfuN1qLq1oL45o56cPaTXELwrTh8Fpggg==
+
+regenerator-runtime@^0.14.0:
+  version "0.14.0"
+  resolved "https://registry.yarnpkg.com/regenerator-runtime/-/regenerator-runtime-0.14.0.tgz#5e19d68eb12d486f797e15a3c6a918f7cec5eb45"
+  integrity sha512-srw17NI0TUWHuGa5CFGGmhfNIeja30WMBfbslPNhf6JrqQlLN5gcrvig1oqPxiVaXb0oW0XRKtH6Nngs5lKCIA==
 
 regenerator-transform@^0.15.1:
   version "0.15.1"
