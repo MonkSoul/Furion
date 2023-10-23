@@ -2,7 +2,7 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 import Modal from "@uiw/react-modal";
 import React, { useState } from "react";
 
-export default function Donate() {
+export default function Donate({ style }) {
   const [visible, setVisible] = useState(false);
 
   const onClosed = () => {
@@ -19,7 +19,9 @@ export default function Donate() {
           backgroundColor: "#f4f8fa",
           height: 80,
           borderRadius: 5,
+          ...(style || {}),
         }}
+        title="您的支持是我们坚持完善下去的动力！"
       >
         <div
           style={{ position: "relative", marginRight: 10, cursor: "pointer" }}
@@ -64,9 +66,14 @@ export default function Donate() {
             style={{
               fontWeight: 500,
               fontSize: 18,
-              letterSpacing: 1.6,
-              color: "#0e1011",
+              letterSpacing: 1.5,
+              // color: "#0e1011",
               margin: "4px 0 0 0 ",
+              textAlign: "left",
+              background: "linear-gradient(to right, red, blue)",
+              backgroundClip: "text",
+              WebkitBackgroundClip: "text",
+              color: "transparent",
             }}
           >
             微信扫码赞助 Furion
@@ -82,7 +89,12 @@ export default function Donate() {
             </span>
             <a
               href="/docs/donate"
-              style={{ color: "#723cff", fontSize: 13, fontWeight: "bold" }}
+              style={{
+                color: "#723cff",
+                fontSize: 13,
+                fontWeight: "bold",
+                marginRight: 5,
+              }}
               title="monksoul@outlook.com"
             >
               成为赞助商

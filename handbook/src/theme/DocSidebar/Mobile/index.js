@@ -6,6 +6,7 @@ import { useNavbarMobileSidebar } from "@docusaurus/theme-common/internal";
 import DocSidebarItems from "@theme/DocSidebarItems";
 import clsx from "clsx";
 import React, { useState } from "react";
+import Donate from "../../../components/Donate";
 import { Sponsor, SponsorItem, closeStyle } from "../../../components/Sponsor";
 import sponsors from "../../../data/sponsor";
 
@@ -17,13 +18,15 @@ const DocSidebarMobileSecondaryMenu = ({ sidebar, path }) => {
 
   return (
     <>
-      {show && (
+      {show ? (
         <>
           <Sponsor />
           <span style={closeStyle} onClick={() => setShow((s) => !s)}>
             收
           </span>
         </>
+      ) : (
+        <Donate style={{ margin: "0.5em" }} />
       )}
       <ul className={clsx(ThemeClassNames.docs.docSidebarMenu, "menu__list")}>
         <DocSidebarItems
