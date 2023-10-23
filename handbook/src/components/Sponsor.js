@@ -1,6 +1,7 @@
 import useBaseUrl from "@docusaurus/useBaseUrl";
 import React from "react";
 import sponsors from "../data/sponsor";
+import Donate from "./Donate";
 
 export function Sponsor() {
   var tops = sponsors.filter((u) => u.top);
@@ -38,25 +39,7 @@ export function Sponsor() {
           tag={tag}
         />
       ))}
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          padding: "5px 0",
-        }}
-      >
-        <span style={{ fontSize: 12, color: "#ccc" }}>
-          合作微信号：ibaiqian
-        </span>
-        <a
-          href="/docs/donate"
-          style={{ color: "#723cff", fontSize: 13, fontWeight: "bold" }}
-          title="monksoul@outlook.com"
-        >
-          成为赞助商
-        </a>
-      </div>
+      <Donate />
     </div>
   );
 }
