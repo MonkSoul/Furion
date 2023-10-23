@@ -64,7 +64,7 @@ export default function Donate() {
             style={{
               fontWeight: 500,
               fontSize: 18,
-              letterSpacing: 1.8,
+              letterSpacing: 1.6,
               color: "#0e1011",
               margin: "4px 0 0 0 ",
             }}
