@@ -36,6 +36,8 @@ public class HelloService
 
 阅读 [贡献指南](http://furion.baiqian.ltd/docs/contribute) 内容，了解如何参与改进 [Furion](https://gitee.com/dotnetchina/Furion)。
 
+![](https://contrib.rocks/image?repo=MonkSoul/Furion&max=1000&columns=30&anon=1)
+
 ## 协议
 
 [Furion](https://gitee.com/dotnetchina/Furion) 采用 [MIT](https://gitee.com/dotnetchina/Furion/blob/v4/LICENSE.zh) 开源协议。
