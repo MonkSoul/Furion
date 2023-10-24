@@ -5,6 +5,7 @@ import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
 import Layout from "@theme/Layout";
 import components from "@theme/MDXComponents";
 import React from "react";
+import Donate from "../components/Donate";
 import urls from "../data/urls";
 import DockerIcon from "./docker.svg";
 import "./index.css";
@@ -195,7 +196,7 @@ function Gitee() {
             className={"furion-log-jiao" + (isDarkTheme ? " dark" : "")}
           ></div>
           <div className="furion-log-number">
-            <div style={{ color: "#1fd898" }}>11,077,129</div>
+            <div style={{ color: "#1fd898" }}>11,099,688</div>
             <span className={isDarkTheme ? " dark" : ""}>Downloads</span>
           </div>
         </div>
@@ -251,6 +252,9 @@ function WhoUse() {
             />
           </a>
         </div>
+        {/* <div className="furion-custom-img">
+          <Donate />
+        </div> */}
         <div className="furion-custom-img">
           <a href="http://www.dilon.vip/" target="_blank">
             <img
@@ -283,6 +287,7 @@ function WhoUse() {
             />
           </a>
         </div>
+
         <div className="furion-custom-img">
           <a href="http://www.ketaisoft.com/" target="_blank">
             <img
@@ -301,6 +306,8 @@ function WhoUse() {
             Furion 已在 NuGet 平台超 1100
             万次下载。从小型企业到企业的解决方案及知名企业。他们在简单软件和复杂管理系统的开发方面都信任我们。
           </p>
+          <br />
+          <Donate />
           <a
             className="furion-get-start"
             href="mailto:monksoul@outlook.com"

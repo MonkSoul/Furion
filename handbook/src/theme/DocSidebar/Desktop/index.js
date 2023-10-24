@@ -36,7 +36,7 @@ function DocSidebarDesktop({ path, sidebar, onCollapse, isHidden }) {
           </span>
         </>
       ) : (
-        <Donate style={{ margin: "0.5em" }} />
+        <Donate style={{ margin: "0.5em", border: "2px solid #ffb02e" }} />
       )}
       <Content path={path} sidebar={sidebar} />
       {show && sponsor && (

@@ -19,20 +19,20 @@ export default function Donate({ style }) {
           backgroundColor: "#f4f8fa",
           height: 80,
           borderRadius: 5,
+          cursor: "pointer",
           ...(style || {}),
         }}
         title="您的支持是我们坚持完善下去的动力！"
+        onClick={() => setVisible(true)}
       >
-        <div
-          style={{ position: "relative", marginRight: 10, cursor: "pointer" }}
-          onClick={() => setVisible(true)}
-        >
+        <div style={{ position: "relative", marginRight: 9 }}>
           <img
             src={useBaseUrl("img/donateme.png")}
             style={{
               height: "100%",
               maxHeight: "100%",
               display: "block",
+              minWidth: 70,
             }}
             alt="赞助 Furion"
           />
@@ -65,8 +65,7 @@ export default function Donate({ style }) {
           <h3
             style={{
               fontWeight: 500,
-              fontSize: 18,
-              letterSpacing: 1.5,
+              fontSize: 17,
               // color: "#0e1011",
               margin: "4px 0 0 0 ",
               textAlign: "left",
@@ -74,9 +73,11 @@ export default function Donate({ style }) {
               backgroundClip: "text",
               WebkitBackgroundClip: "text",
               color: "transparent",
+              whiteSpace: "nowrap",
+              cursor: "pointer",
             }}
           >
-            微信扫码赞助 Furion
+            谢谢您对 Furion 的认可！
           </h3>
           <div
             style={{
@@ -88,12 +89,11 @@ export default function Donate({ style }) {
               微信号：ibaiqian
             </span>
             <a
-              href="/docs/donate"
+              href="javascript:void(0)"
               style={{
                 color: "#723cff",
                 fontSize: 13,
-                fontWeight: "bold",
-                marginRight: 5,
+                marginRight: 10,
               }}
               title="monksoul@outlook.com"
             >
@@ -114,6 +114,17 @@ export default function Donate({ style }) {
       >
         如果 Furion 对您有所帮助，并且您希望 Furion
         能够继续发展下去，请考虑赞助我们。
+        <a
+          href="/docs/donate"
+          style={{
+            color: "#723cff",
+            fontSize: 13,
+            marginRight: 10,
+          }}
+          title="monksoul@outlook.com"
+        >
+          ⌈了解更多⌋
+        </a>
         <br />
         <br />
         <img src={useBaseUrl("img/support.png")} style={{ width: "100%" }} />

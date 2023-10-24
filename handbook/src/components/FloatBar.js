@@ -1,6 +1,6 @@
+import useBaseUrl from "@docusaurus/useBaseUrl";
 import React from "react";
 import styles from "./FloatBar.module.css";
-import useBaseUrl from "@docusaurus/useBaseUrl";
 
 export default function FloatBar() {
   return (

@@ -34,7 +34,7 @@ function EditMetaRow({
       <div className={clsx("col", styles.lastUpdated)}>
         {(lastUpdatedAt || lastUpdatedBy) && (
           <>
-            <Donate style={{ marginBottom: 10 }} />
+            <Donate style={{ marginBottom: 10, border: "2px solid #ffb02e" }} />
             <LastUpdated
               lastUpdatedAt={lastUpdatedAt}
               formattedLastUpdatedAt={formattedLastUpdatedAt}
