@@ -18,9 +18,9 @@
 		<PackageReference Include="Ben.Demystifier" Version="0.4.1" />
 		<PackageReference Include="Microsoft.AspNetCore.Razor.Language" Version="6.0.24" />
 		<PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.7.0" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="6.0.23" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="6.0.24" />
 		<PackageReference Include="Microsoft.Extensions.DependencyModel" Version="6.0.0" />
-		<PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.23" />
+		<PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.24" />
 		<PackageReference Include="System.Text.Json" Version="6.0.8" />
 	</ItemGroup>
 
@@ -28,9 +28,9 @@
 		<PackageReference Include="Ben.Demystifier" Version="0.4.1" />
 		<PackageReference Include="Microsoft.AspNetCore.Razor.Language" Version="6.0.24" />
 		<PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.7.0" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="7.0.12" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="7.0.13" />
 		<PackageReference Include="Microsoft.Extensions.DependencyModel" Version="7.0.0" />
-		<PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="7.0.12" />
+		<PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="7.0.13" />
 		<PackageReference Include="System.Text.Json" Version="7.0.3" />
 	</ItemGroup>
 

@@ -37,14 +37,14 @@
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(net6)' == 'True' ">
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.23">
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.24">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(net7)' == 'True' ">
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.12">
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.13">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
