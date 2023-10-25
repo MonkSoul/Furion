@@ -178,4 +178,18 @@ public static class L
         CultureInfo.CurrentUICulture = currentCulture.Culture;
         return cultureString;
     }
+
+    /// <summary>
+    /// 获取系统默认语言
+    /// </summary>
+    /// <returns></returns>
+    public static string GetDefaultCulture()
+    {
+        var localizationSettings = App.GetRequiredService<IOptions<LocalizationSettingsOptions>>().Value;
+        var defaultLanguage = string.IsNullOrWhiteSpace(localizationSettings.DefaultCulture)
+                         ? (localizationSettings.SupportedCultures != null && localizationSettings.SupportedCultures.Length > 0 ? localizationSettings.SupportedCultures[0] : localizationSettings.DefaultCulture)
+                         : localizationSettings.DefaultCulture;
+
+        return defaultLanguage;
+    }
 }
