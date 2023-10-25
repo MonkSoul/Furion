@@ -180,16 +180,17 @@ public static class L
     }
 
     /// <summary>
-    /// 获取系统默认语言
+    /// 获取本地配置默认语言
     /// </summary>
     /// <returns></returns>
-    public static string GetDefaultCulture()
+    public static CultureInfo GetDefaultCulture()
     {
-        var localizationSettings = App.GetRequiredService<IOptions<LocalizationSettingsOptions>>().Value;
-        var defaultLanguage = string.IsNullOrWhiteSpace(localizationSettings.DefaultCulture)
-                         ? (localizationSettings.SupportedCultures != null && localizationSettings.SupportedCultures.Length > 0 ? localizationSettings.SupportedCultures[0] : localizationSettings.DefaultCulture)
-                         : localizationSettings.DefaultCulture;
+        // 获取本地多语言配置
+        var localizationSettings = App.GetOptions<LocalizationSettingsOptions>();
+        var defaultCulture = localizationSettings?.DefaultCulture ?? localizationSettings?.SupportedCultures.FirstOrDefault();
 
-        return defaultLanguage;
+        return !string.IsNullOrWhiteSpace(defaultCulture)
+            ? new CultureInfo(defaultCulture)
+            : CultureInfo.DefaultThreadCurrentUICulture;
     }
 }
