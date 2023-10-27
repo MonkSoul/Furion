@@ -228,6 +228,40 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter, IAs
     }
 
     /// <summary>
+    /// 生成请求头日志模板
+    /// </summary>
+    /// <param name="writer"></param>
+    /// <param name="headers"></param>
+    /// <returns></returns>
+    private List<string> GenerateRequestHeadersTemplate(Utf8JsonWriter writer, IHeaderDictionary headers)
+    {
+        var templates = new List<string>();
+
+        if (!headers.Any()) return templates;
+
+        templates.AddRange(new[]
+        {
+            $"━━━━━━━━━━━━━━━  请求头信息 ━━━━━━━━━━━━━━━"
+            , $""
+        });
+
+        // 遍历请求头列表
+        writer.WritePropertyName("requestHeaders");
+        writer.WriteStartArray();
+        foreach (var (key, value) in headers)
+        {
+            writer.WriteStartObject();
+            templates.Add($"##{key}## {value}");
+            writer.WriteString("key", key);
+            writer.WriteString("value", value);
+            writer.WriteEndObject();
+        }
+        writer.WriteEndArray();
+
+        return templates;
+    }
+
+    /// <summary>
     /// 生成请求参数信息日志模板
     /// </summary>
     /// <param name="writer"></param>
@@ -957,6 +991,9 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter, IAs
             // 添加 JWT 授权信息日志模板
             monitorItems.AddRange(GenerateAuthorizationTemplate(writer, user, authorization));
         }
+
+        // 生成请求头日志模板
+        monitorItems.AddRange(GenerateRequestHeadersTemplate(writer, httpRequest.Headers));
 
         // 添加请求参数信息日志模板
         monitorItems.AddRange(GenerateParameterTemplate(writer, parameterValues, actionMethod, httpRequest.Headers["Content-Type"], monitorMethod));
