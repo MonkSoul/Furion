@@ -6,6 +6,50 @@ sidebar_label: 22. 事件总线 (EventBus)
 
 import useBaseUrl from "@docusaurus/useBaseUrl";
 
+import Tag from "@site/src/components/Tag.js";
+
+<details>
+  <summary>📝 模块更新日志</summary>
+  <div>
+<div>
+
+- **新特性**
+
+  - &nbsp;<Tag>新增</Tag> 事件总线支持简单的 `Order` 编排规则 <sup>4.8.0</sup> [833c0d4](https://gitee.com/dotnetchina/Furion/commit/833c0d4d069bca5f5304aa21cb32c7f902c20c69)
+  - &nbsp;<Tag>新增</Tag> 事件总线 `.ReplaceStorerOrFallback` 自定义事件源存储器方法，可在自定义初始失败时回退到默认值 <sup>4.7.6</sup> [#I602NU](https://gitee.com/dotnetchina/Furion/issues/I602NU)
+  - &nbsp;<Tag>新增</Tag> 事件总线模块重试失败后支持回调 <sup>4.6.1</sup> [#I5UVMV](https://gitee.com/dotnetchina/Furion/issues/I5UVMV)
+  - &nbsp;<Tag>新增</Tag> 事件总线 `LogEnabled` 配置，可控制是否输出服务日志 [#I5QLY5](https://gitee.com/dotnetchina/Furion/issues/I5QLY5)
+  - &nbsp;<Tag>新增</Tag> **事件总线 `MessageCenter` 静态类，解决从 `Fur v1.x` 版本升级问题 [a29fc7c](https://gitee.com/dotnetchina/Furion/commit/a29fc7cf63a3ea41b1617a6ad98a701a243e24f8)**
+  - &nbsp;<Tag>新增</Tag> **事件总线工厂，支持运行时动态添加订阅程序和移除订阅程序** [#I5NNQX](https://gitee.com/dotnetchina/Furion/issues/I5NNQX)
+  - &nbsp;<Tag>新增</Tag> **事件总线 `[EventSubscribe]` 事件 `Id` 支持正则表达式匹配** [#I5NNQX](https://gitee.com/dotnetchina/Furion/issues/I5NNQX)
+  - &nbsp;<Tag>新增</Tag> **事件总线 `[EventSubscribe]` 支持局部失败重试配置** [#I5NNQX](https://gitee.com/dotnetchina/Furion/issues/I5NNQX)
+  - &nbsp;<Tag>新增</Tag> 事件总线 `options.AddSubscriber(Type)` 重载 [42446078](https://gitee.com/dotnetchina/Furion/blob/424460780b630e1c71de4db84ad8fd14e33a09f5/framework/Furion.Pure/EventBus/Builders/EventBusOptionsBuilder.cs)
+  - &nbsp;<Tag>新增</Tag> 事件总线 `UseUtcTimestamp` 选项配置，可选择使用 `DateTime.UtcNow` 还是 `DateTime.Now`，默认是 `DateTime.Now` [#I5JSEU](https://gitee.com/dotnetchina/Furion/issues/I5JSEU)
+  - &nbsp;<Tag>新增</Tag> 事件总线模块事件 `Id` 支持枚举类型 [2f328aa](https://gitee.com/dotnetchina/Furion/commit/2f328aa8213c8efe7a8480116985573cc6b7fce6)
+  - &nbsp;<Tag>新增</Tag> 事件总线模块发布者 `PublishAsync` 和 `PublishDelayAsync` 重载 [2f328aa](https://gitee.com/dotnetchina/Furion/commit/2f328aa8213c8efe7a8480116985573cc6b7fce6)
+  - &nbsp;<Tag>新增</Tag> 事件总线模块拓展方法：`Enum.ParseToString()` 和 `String.ParseToEnum()` [2f328aa](https://gitee.com/dotnetchina/Furion/commit/2f328aa8213c8efe7a8480116985573cc6b7fce6)
+
+- **突破性变化**
+
+  - &nbsp;<Tag>调整</Tag> **事件总线触发处理程序的逻辑，由过去的 `foreach` 改为 `Parallel.ForEach`，吞吐量提升近 4 倍** <sup>4.6.4</sup> [7384c9c](https://gitee.com/dotnetchina/Furion/commit/7384c9c3efb94883421379828565e61870f1640c)
+  - &nbsp;<Tag>调整</Tag> **事件总线 `IEventBusFactory` 事件工厂方法 `AddSubscriber -> Subscribe`，`RemoveSubscriber -> Unsubscribe` [a29fc7c](https://gitee.com/dotnetchina/Furion/commit/a29fc7cf63a3ea41b1617a6ad98a701a243e24f8)**
+
+- **问题修复**
+
+  - &nbsp;<Tag>修复</Tag> 超高频率下发送事件总线消息，但是 `GC` 来不及回收导致内存和 `CPU` 爆掉问题 <sup>4.6.8</sup> [dbc7935](https://gitee.com/dotnetchina/Furion/commit/dbc7935618ff60d7f41d82c0d49042cd189e58b9)
+  - &nbsp;<Tag>修复</Tag> 基于 `Redis` 重写事件存储器序列化 `IEventSource` 实例异常问题 <sup>4.4.7</sup> [3e45020](https://gitee.com/dotnetchina/Furion/commit/3e45020eca5948d18d5cb405a665aae44088fd20)
+  - &nbsp;<Tag>修复</Tag> 事件总线默认 `Channel` 管道初始化时机过晚问题，解决部分第三方依赖使用问题 [#I5MM3O](https://gitee.com/dotnetchina/Furion/issues/I5MM3O)
+  - &nbsp;<Tag>修复</Tag> 事件总线默认开启模糊匹配（正则表达式）导致不必要的订阅 [#I5NVOP](https://gitee.com/dotnetchina/Furion/issues/I5NVOP)
+
+- **其他调整**
+
+  - &nbsp;<Tag>调整</Tag> 事件总线默认日志类名为 `System.Logging.EventBusService` [#I5QLY5](https://gitee.com/dotnetchina/Furion/issues/I5QLY5)
+  - &nbsp;<Tag>调整</Tag> 事件总线默认 `Channel` 管道初始化时机，解决部分第三方依赖使用问题 [#I5MM3O](https://gitee.com/dotnetchina/Furion/issues/I5MM3O)
+
+</div>
+  </div>
+</details>
+
 :::warning v2.20 以下版本说明
 
 **在 `Furion v2.20+` 版本采用 [Jaina](https://gitee.com/dotnetchina/Jaina) 事件总线替换原有的 `EventBus`**，[查看旧文档](/docs/event-bus-old)
