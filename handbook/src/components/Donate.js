@@ -104,30 +104,77 @@ export default function Donate({ style }) {
       </div>
 
       <Modal
-        title="微信扫码赞助 Furion"
+        title="赞助 Furion"
         isOpen={visible}
         useButton={false}
         icon="pay"
         type="primary"
         onClosed={onClosed}
-        width={360}
+        maxWidth={620}
+        minWidth={620}
       >
-        如果 Furion 对您有所帮助，并且您希望 Furion
-        能够继续发展下去，请考虑赞助我们。
+        如果 Furion 对您有所帮助，并且您希望 Furion 能够继续发展下去，请考虑{" "}
         <a
           href="/docs/donate"
           style={{
             color: "#723cff",
             fontSize: 13,
-            marginRight: 10,
           }}
           title="monksoul@outlook.com"
         >
-          ⌈了解更多⌋
-        </a>
-        <br />
-        <br />
-        <img src={useBaseUrl("img/support.png")} style={{ width: "100%" }} />
+          ⌈赞助⌋
+        </a>{" "}
+        我们。
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            marginTop: 15,
+            whiteSpace: "nowrap",
+            lineHeight: "30px",
+          }}
+        >
+          <div style={{ flex: 1 }}>
+            <h3 style={{ textAlign: "center" }}>个人微信扫码赞助</h3>
+            <img
+              src={useBaseUrl("img/support.png")}
+              style={{ width: "100%" }}
+            />
+          </div>
+          <div style={{ flex: 1 }}>
+            <h3 style={{ textAlign: "center" }}>品牌商友情赞助</h3>
+            <div style={{ padding: "20px 10px 0 15px" }}>
+              <div>
+                <h4>特别赞助</h4>
+                <ul>
+                  <li>10,000/年 5,000/半年</li>
+                  <li>Gitee/Github 仓库 README.md 展示</li>
+                  <li>文档页目录导航顶部 ⌈大图⌋ 展示</li>
+                </ul>
+              </div>
+              <div>
+                <h4>铂金赞助</h4>
+                <ul>
+                  <li>5,000/年 2,500/半年</li>
+                  <li>文档页目录导航顶部 ⌈大图⌋ 展示</li>
+                </ul>
+              </div>
+              <div>
+                <h4>金牌赞助</h4>
+                <ul>
+                  <li>2,500/年</li>
+                  <li>文档页目录导航顶部 ⌈小图⌋ 展示</li>
+                </ul>
+              </div>
+              <div>
+                <hr />
+                <div style={{ textAlign: "right", color: "gray" }}>
+                  微信号：ibaiqian
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </Modal>
     </>
   );
