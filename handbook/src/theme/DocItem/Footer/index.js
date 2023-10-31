@@ -1,3 +1,4 @@
+import BrowserOnly from "@docusaurus/BrowserOnly";
 import { ThemeClassNames } from "@docusaurus/theme-common";
 import { useDoc } from "@docusaurus/theme-common/internal";
 import EditThisPage from "@theme/EditThisPage";
@@ -6,7 +7,9 @@ import TagsListInline from "@theme/TagsListInline";
 import clsx from "clsx";
 import React from "react";
 import Donate from "../../../components/Donate";
+import SpecDonate from "../../../components/SpecDonate";
 import styles from "./styles.module.css";
+
 function TagsRow(props) {
   return (
     <div
@@ -34,7 +37,13 @@ function EditMetaRow({
       <div className={clsx("col", styles.lastUpdated)}>
         {(lastUpdatedAt || lastUpdatedBy) && (
           <>
-            <Donate style={{ marginBottom: 10, border: "2px solid #ffb02e" }} />
+            <BrowserOnly>
+              {() => (
+                <Donate
+                  style={{ marginBottom: 10, border: "2px solid #ffb02e" }}
+                />
+              )}
+            </BrowserOnly>
             <LastUpdated
               lastUpdatedAt={lastUpdatedAt}
               formattedLastUpdatedAt={formattedLastUpdatedAt}
@@ -65,6 +74,7 @@ export default function DocItemFooter() {
     <footer
       className={clsx(ThemeClassNames.docs.docFooter, "docusaurus-mt-lg")}
     >
+      <SpecDonate />
       {canDisplayTagsRow && <TagsRow tags={tags} />}
       {canDisplayEditMetaRow && (
         <EditMetaRow

@@ -273,12 +273,23 @@
   width: 60%;
   box-sizing: border-box;
   padding: 6rem;
-  justify-content: flex-end;
-  align-items: center;
+  justify-content: center;
   color: #723cff;
-  text-align: right;
+  text-align: center;
   display: flex;
   flex-wrap: wrap;
+  flex-direction: column;
+}
+
+.furion-donate-wrap {
+  box-sizing: border-box;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  display: flex;
+  flex-wrap: wrap;
+  padding: 25px 0;
+  margin-bottom: 20px;
 }
 
 .furion-custom-img {

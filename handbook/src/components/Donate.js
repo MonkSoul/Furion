@@ -3,10 +3,16 @@ import Modal from "@uiw/react-modal";
 import React, { useState } from "react";
 
 export default function Donate({ style }) {
-  const [visible, setVisible] = useState(false);
+  const [visible, setVisible] = useState(() => {
+    var params = new URLSearchParams(window.location.search);
+    var paramValue = params.get("donate");
+    return Number(paramValue) === 1;
+  });
 
   const onClosed = () => {
+    var params = new URLSearchParams(window.location.search);
     setVisible(false);
+    params.delete("donate");
   };
 
   return (
@@ -110,8 +116,8 @@ export default function Donate({ style }) {
         icon="pay"
         type="primary"
         onClosed={onClosed}
-        maxWidth={620}
-        minWidth={620}
+        maxWidth={700}
+        minWidth={700}
       >
         如果 Furion 对您有所帮助，并且您希望 Furion 能够继续发展下去，请考虑{" "}
         <a
@@ -129,9 +135,9 @@ export default function Donate({ style }) {
           style={{
             display: "flex",
             flexDirection: "row",
-            marginTop: 15,
+            marginTop: 25,
             whiteSpace: "nowrap",
-            lineHeight: "30px",
+            lineHeight: "26px",
           }}
         >
           <div style={{ flex: 1 }}>
@@ -143,26 +149,34 @@ export default function Donate({ style }) {
           </div>
           <div style={{ flex: 1 }}>
             <h3 style={{ textAlign: "center" }}>品牌商友情赞助</h3>
-            <div style={{ padding: "20px 10px 0 15px" }}>
+            <div style={{ padding: "20px 10px 0 25px" }}>
               <div>
                 <h4>特别赞助</h4>
                 <ul>
-                  <li>10,000/年 5,000/半年</li>
-                  <li>Gitee/Github 仓库 README.md 展示</li>
+                  <li>15,000/年 10,000/半年</li>
+                  <li style={{ color: "red" }}>
+                    Gitee/Github 仓库 README.md 展示
+                  </li>
+                  <li style={{ color: "red" }}>
+                    文档页顶部和底部 ⌈大横幅⌋ 展示
+                  </li>
+                  <li>官网首页 ⌈特别赞助⌋ 展示</li>
                   <li>文档页目录导航顶部 ⌈大图⌋ 展示</li>
                 </ul>
               </div>
               <div>
                 <h4>铂金赞助</h4>
                 <ul>
-                  <li>5,000/年 2,500/半年</li>
+                  <li>7,500/年 5,000/半年</li>
+                  <li>官网首页 ⌈铂金赞助⌋ 展示</li>
                   <li>文档页目录导航顶部 ⌈大图⌋ 展示</li>
                 </ul>
               </div>
               <div>
                 <h4>金牌赞助</h4>
                 <ul>
-                  <li>2,500/年</li>
+                  <li>5,000/年</li>
+                  <li>官网首页 ⌈金牌赞助⌋ 展示</li>
                   <li>文档页目录导航顶部 ⌈小图⌋ 展示</li>
                 </ul>
               </div>

@@ -1,3 +1,4 @@
+import BrowserOnly from "@docusaurus/BrowserOnly";
 import useBaseUrl from "@docusaurus/useBaseUrl";
 import React from "react";
 import sponsors from "../data/sponsor";
@@ -39,7 +40,7 @@ export function Sponsor() {
           tag={tag}
         />
       ))}
-      <Donate />
+      <BrowserOnly>{() => <Donate />}</BrowserOnly>
     </div>
   );
 }

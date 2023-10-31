@@ -1,3 +1,4 @@
+import BrowserOnly from "@docusaurus/BrowserOnly";
 import Link from "@docusaurus/Link";
 import { useColorMode } from "@docusaurus/theme-common";
 import useBaseUrl from "@docusaurus/useBaseUrl";
@@ -209,111 +210,112 @@ function WhoUse() {
   return (
     <div className="furion-whouse">
       <div className="furion-who-custom">
-        {/* <h1>等待下一个幸运儿，会是你吗？</h1> */}
-        <div className="furion-custom-img">
-          <a href="https://gitee.com/dotnetchina" target="_blank">
-            <img src={useBaseUrl("img/chinadotnet.png")} id="dotnet-china" />
-          </a>
+        <h1>特别赞助</h1>
+        <div className="furion-donate-wrap">
+          <div className="furion-custom-img">
+            <a
+              href="/?donate=1"
+              style={{
+                width: 600,
+                height: 120,
+                backgroundColor: "#f0f0f0",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                borderRadius: 8,
+                marginBottom: 20,
+                textDecoration: "none",
+              }}
+            >
+              <h3
+                style={{
+                  fontWeight: 500,
+                  fontSize: 30,
+                  margin: "4px 0 0 0 ",
+                  textAlign: "left",
+                  background: "linear-gradient(to right, red, blue)",
+                  backgroundClip: "text",
+                  WebkitBackgroundClip: "text",
+                  color: "transparent",
+                  whiteSpace: "nowrap",
+                  cursor: "pointer",
+                }}
+              >
+                虚席以待
+              </h3>
+            </a>
+          </div>
         </div>
-        <div className="furion-custom-img">
-          <img
-            src={useBaseUrl("img/custom1.png")}
-            height="100"
-            style={{ height: 100, maxWidth: "100%" }}
-          />
+        <h2>铂金赞助</h2>
+        <div className="furion-donate-wrap">
+          <div className="furion-custom-img">
+            <a href="http://github.crmeb.net/u/furion" target="_blank">
+              <img
+                src={useBaseUrl("img/crmeb.jpg")}
+                height="100"
+                style={{ height: 80, maxWidth: "100%" }}
+              />
+            </a>
+          </div>
+          <div className="furion-custom-img">
+            <a
+              href="https://gitee.com/dromara/MaxKey?from=furion"
+              target="_blank"
+            >
+              <img
+                src={useBaseUrl("img/maxkey.png")}
+                height="100"
+                style={{ height: 80, maxWidth: "100%" }}
+              />
+            </a>
+          </div>
         </div>
-        <div className="furion-custom-img">
-          <img
-            src={useBaseUrl("img/custom2.png")}
-            height="100"
-            style={{ height: 100, maxWidth: "100%" }}
-          />
-        </div>
-        <div className="furion-custom-img">
-          <img
-            src={useBaseUrl("img/custom3.png")}
-            height="100"
-            style={{ height: 100, maxWidth: "100%" }}
-          />
-        </div>
-        <div className="furion-custom-img">
-          <img
-            src={useBaseUrl("img/custom4.jpg")}
-            height="100"
-            style={{ height: 100, maxWidth: "100%" }}
-          />
-        </div>
-        <div className="furion-custom-img">
-          <a href="http://www.hezongsoft.net" target="_blank">
-            <img
-              src={useBaseUrl("img/custom5.png")}
-              height="100"
-              style={{ height: 100, maxWidth: "100%" }}
-            />
-          </a>
-        </div>
-        {/* <div className="furion-custom-img">
-          <Donate />
-        </div> */}
-        <div className="furion-custom-img">
-          <a href="http://www.dilon.vip/" target="_blank">
-            <img
-              src={useBaseUrl("img/custom6.png")}
-              height="100"
-              style={{ height: 100, maxWidth: "100%" }}
-            />
-          </a>
-        </div>
-        <div className="furion-custom-img">
-          <img
-            src={useBaseUrl("img/c10.jpg")}
-            height="100"
-            style={{ height: 100, maxWidth: "100%" }}
-          />
-        </div>
-        <div className="furion-custom-img">
-          <img
-            src={useBaseUrl("img/jjd.png")}
-            height="100"
-            style={{ height: 100, maxWidth: "100%" }}
-          />
-        </div>
-        <div className="furion-custom-img">
-          <a href="http://www.samfeng.cn/" target="_blank">
-            <img
-              src={useBaseUrl("img/custom10.png")}
-              height="100"
-              style={{ height: 100, maxWidth: "100%" }}
-            />
-          </a>
-        </div>
-
-        <div className="furion-custom-img">
-          <a href="http://www.ketaisoft.com/" target="_blank">
-            <img
-              src={useBaseUrl("img/custom11.png")}
-              height="100"
-              style={{ height: 100, maxWidth: "100%" }}
-            />
-          </a>
+        <h3>金牌赞助</h3>
+        <div className="furion-donate-wrap">
+          <div className="furion-custom-img">
+            <a href="https://www.gadmin8.com?from=furion" target="_blank">
+              <img
+                src={useBaseUrl("img/tpflow.png")}
+                height="100"
+                style={{ height: 50, maxWidth: "100%" }}
+              />
+            </a>
+          </div>
+          <div className="furion-custom-img">
+            <a href="https://www.coreshop.cn?from=furion" target="_blank">
+              <img
+                src={useBaseUrl("img/coreshop.gif")}
+                height="100"
+                style={{ height: 50, maxWidth: "100%" }}
+              />
+            </a>
+          </div>
+          <div className="furion-custom-img">
+            <a href="https://www.diygw.com?from=furion" target="_blank">
+              <img
+                src={useBaseUrl("img/lk.jpg")}
+                height="100"
+                style={{ height: 50, maxWidth: "100%" }}
+              />
+            </a>
+          </div>
         </div>
       </div>
       <div className="furion-who-des">
         <div style={{ maxWidth: 350 }}>
           <div></div>
-          <h1>他们都在用</h1>
+          <h1>请考虑赞助 Furion</h1>
           <p>
-            Furion 已在 NuGet 平台超 1110
-            万次下载。从小型企业到企业的解决方案及知名企业。他们在简单软件和复杂管理系统的开发方面都信任我们。
+            Furion 是一个 MIT 许可的开源项目，在 NuGet 平台获得超 1110
+            万次下载。持续开发完全得益于这些令人敬畏的支持者的支持。
+            <br />
+            <br />
+            如果您想加入他们，请考虑赞助 Furion 的开发。
           </p>
           <br />
-          <Donate />
-          <a
-            className="furion-get-start"
-            href="mailto:monksoul@outlook.com"
-            target="_blank"
-          >
-            立即添加您的公司
+          <BrowserOnly>{() => <Donate />}</BrowserOnly>
+          <a className="furion-get-start" href="/?donate=1">
+            立即成为赞助商
           </a>
         </div>
       </div>
