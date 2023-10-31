@@ -42,6 +42,6 @@ public class HelloService
 
 ## 赞助
 
-Furion 是一个 MIT 许可的开源项目，其持续开发完全得益于这些令人敬畏的支持者的支持。如果您想加入他们，请考虑赞助 Furion 的开发。
+Furion 是一个 MIT 许可的开源项目，如果 Furion 对您有所帮助，并且您希望 Furion 能够继续发展下去，请考虑 ⌈赞助⌋ 我们。
 
 [![](./assets/spec-donate.png)](http://furion.baiqian.ltd?donate=1)

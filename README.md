@@ -42,6 +42,6 @@ Read [contribution documents](http://furion.baiqian.ltd/docs/contribute) to lear
 
 ## Donate
 
-Furion is an MIT-licensed open source project with its ongoing development made possible entirely by the support of these awesome backers. If you'd like to join them, please consider sponsoring Furion's development.
+Furion is an MIT licensed open-source project. If Furion has been helpful to you and you would like to see Furion continue to grow, please consider sponsoring us.
 
 [![](./assets/spec-donate.png)](http://furion.baiqian.ltd?donate=1)
