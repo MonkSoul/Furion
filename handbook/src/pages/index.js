@@ -211,12 +211,13 @@ function WhoUse() {
     <div className="furion-whouse">
       <div className="furion-who-custom">
         <h1>特别赞助</h1>
-        <div className="furion-donate-wrap">
-          <div className="furion-custom-img">
+        <div className="furion-donate-wrap" style={{ width: "100%" }}>
+          <div className="furion-custom-img" style={{ width: "100%" }}>
             <a
               href="/?donate=1"
               style={{
-                width: 600,
+                width: "100%",
+                maxWidth: "100%",
                 height: 120,
                 backgroundColor: "#f0f0f0",
                 display: "flex",
