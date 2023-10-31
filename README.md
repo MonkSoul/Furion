@@ -40,7 +40,7 @@ Read [contribution documents](http://furion.baiqian.ltd/docs/contribute) to lear
 
 [Furion](https://gitee.com/dotnetchina/Furion) uses the [MIT](https://gitee.com/dotnetchina/Furion/blob/v4/LICENSE) open source license.
 
-## Sponsors
+## Donate
 
 Furion is an MIT-licensed open source project with its ongoing development made possible entirely by the support of these awesome backers. If you'd like to join them, please consider sponsoring Furion's development.
 
