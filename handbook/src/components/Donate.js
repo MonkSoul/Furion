@@ -94,8 +94,7 @@ export default function Donate({ style }) {
             <span style={{ fontSize: 12, color: "#ccc" }}>
               微信号：ibaiqian
             </span>
-            <a
-              href="javascript:void(0)"
+            <span
               style={{
                 color: "#723cff",
                 fontSize: 13,
@@ -104,7 +103,7 @@ export default function Donate({ style }) {
               title="monksoul@outlook.com"
             >
               成为赞助商
-            </a>
+            </span>
           </div>
         </div>
       </div>
