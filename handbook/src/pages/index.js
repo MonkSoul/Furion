@@ -7,6 +7,7 @@ import Layout from "@theme/Layout";
 import components from "@theme/MDXComponents";
 import React from "react";
 import Donate from "../components/Donate";
+import SpecDonate from "../components/SpecDonate";
 import urls from "../data/urls";
 import DockerIcon from "./docker.svg";
 import "./index.css";
@@ -197,7 +198,7 @@ function Gitee() {
             className={"furion-log-jiao" + (isDarkTheme ? " dark" : "")}
           ></div>
           <div className="furion-log-number">
-            <div style={{ color: "#1fd898" }}>11,204,639</div>
+            <div style={{ color: "#1fd898" }}>11,252,881</div>
             <span className={isDarkTheme ? " dark" : ""}>Downloads</span>
           </div>
         </div>
@@ -213,38 +214,7 @@ function WhoUse() {
         <h1>特别赞助</h1>
         <div className="furion-donate-wrap" style={{ width: "100%" }}>
           <div className="furion-custom-img" style={{ width: "100%" }}>
-            <a
-              href="/?donate=1"
-              style={{
-                width: "100%",
-                maxWidth: "100%",
-                height: 120,
-                backgroundColor: "#f0f0f0",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                borderRadius: 8,
-                marginBottom: 20,
-                textDecoration: "none",
-              }}
-            >
-              <h3
-                style={{
-                  fontWeight: 500,
-                  fontSize: 30,
-                  margin: "4px 0 0 0 ",
-                  textAlign: "left",
-                  background: "linear-gradient(to right, red, blue)",
-                  backgroundClip: "text",
-                  WebkitBackgroundClip: "text",
-                  color: "transparent",
-                  whiteSpace: "nowrap",
-                  cursor: "pointer",
-                }}
-              >
-                虚席以待
-              </h3>
-            </a>
+            <SpecDonate />
           </div>
         </div>
         <h2>铂金赞助</h2>

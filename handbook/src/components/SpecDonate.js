@@ -5,14 +5,18 @@ export default function SpecDonate({ style }) {
     <a
       href="/?donate=1"
       style={{
-        height: 120,
+        minHeight: 120,
         backgroundColor: "#f0f0f0",
         display: "flex",
+        flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
         borderRadius: 8,
         marginBottom: 20,
-        textDecoration:"none"
+        textDecoration: "none",
+        boxSizing: "border-box",
+        padding: 20,
+        userSelect:"none"
       }}
     >
       <h3
@@ -27,10 +31,15 @@ export default function SpecDonate({ style }) {
           color: "transparent",
           whiteSpace: "nowrap",
           cursor: "pointer",
+          marginBottom: 5,
         }}
       >
         特别赞助（虚席以待）
       </h3>
+      <div>
+        如果 Furion 对您有所帮助，并且您希望 Furion 能够继续发展下去，请考虑
+        ⌈赞助⌋ 我们。
+      </div>
     </a>
   );
 }
