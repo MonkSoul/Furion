@@ -128,7 +128,7 @@ function BrowserRoot({ children }) {
               textDecoration: "underline",
             }}
           >
-            仅需 449元/年享有 VIP 服务
+            仅需 499元/年享有 VIP 服务
           </a>
         </div>
       </Modal>
