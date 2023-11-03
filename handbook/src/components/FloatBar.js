@@ -23,11 +23,9 @@ export default function FloatBar() {
         <div className={styles.title}>🫠 遇到问题</div>
         <div className={styles.extend}>
           <Item
-            title="VIP 服务"
+            title="👍 VIP 服务"
             description="享受服务仅需 499元/年"
-            onClick={() =>
-              window.open("/docs/subscribe", "_blank")
-            }
+            onClick={() => window.open("/docs/subscribe", "_blank")}
           />
           <Item
             title="问题反馈"
