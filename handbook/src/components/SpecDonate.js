@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useContext } from "react";
+import GlobalContext from "./GlobalContext";
 
 export default function SpecDonate({ style }) {
+  const { setDonate } = useContext(GlobalContext);
+
   return (
     <a
-      href="/?donate=1"
       style={{
         minHeight: 120,
         backgroundColor: "#f0f0f0",
@@ -16,8 +18,10 @@ export default function SpecDonate({ style }) {
         textDecoration: "none",
         boxSizing: "border-box",
         padding: 20,
-        userSelect:"none"
+        userSelect: "none",
+        cursor: "pointer",
       }}
+      onClick={() => setDonate(true)}
     >
       <h3
         style={{

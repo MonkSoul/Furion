@@ -5,8 +5,9 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
 import Layout from "@theme/Layout";
 import components from "@theme/MDXComponents";
-import React from "react";
+import React, { useContext } from "react";
 import Donate from "../components/Donate";
+import GlobalContext from "../components/GlobalContext";
 import SpecDonate from "../components/SpecDonate";
 import urls from "../data/urls";
 import DockerIcon from "./docker.svg";
@@ -102,10 +103,10 @@ function Banner() {
             <Link
               className="furion-try-demo"
               to={useBaseUrl("docs/subscribe")}
-              title="企业服务"
+              title="VIP 服务"
             >
-              企业服务
-              {/* <span className="furion-version">专业团队</span> */}
+              VIP 服务
+              <span className="furion-version">499元/年</span>
             </Link>
           </div>
         </div>
@@ -198,7 +199,7 @@ function Gitee() {
             className={"furion-log-jiao" + (isDarkTheme ? " dark" : "")}
           ></div>
           <div className="furion-log-number">
-            <div style={{ color: "#1fd898" }}>11,252,881</div>
+            <div style={{ color: "#1fd898" }}>11,277,761</div>
             <span className={isDarkTheme ? " dark" : ""}>Downloads</span>
           </div>
         </div>
@@ -208,6 +209,8 @@ function Gitee() {
 }
 
 function WhoUse() {
+  const { setDonate } = useContext(GlobalContext);
+
   return (
     <div className="furion-whouse">
       <div className="furion-who-custom">
@@ -286,8 +289,12 @@ function WhoUse() {
           </p>
           <br />
           <BrowserOnly>{() => <Donate />}</BrowserOnly>
-          <a className="furion-get-start" href="/?donate=1">
-            立即成为赞助商
+          <a
+            className="furion-get-start"
+            style={{ cursor: "pointer" }}
+            onClick={() => setDonate(true)}
+          >
+            成为赞助商
           </a>
         </div>
       </div>

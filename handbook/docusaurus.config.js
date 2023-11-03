@@ -21,12 +21,12 @@ module.exports = {
       config: {},
     },
     announcementBar: {
-      id: "future",
+      id: "vip",
       content:
-        "🚀 前车之鉴、展望未来、精益求精、敢于革新，面向 Furion 下一版本 [<a href='http://furion.baiqian.ltd/docs/target'>设计指导</a>] | [<a href='http://furion.baiqian.ltd/docs/position'>框架定位</a>]",
+        "🚀 Furion 官方推出 VIP 服务，仅需 499元/年，享有专业团队的优先支持 [<a href='http://furion.baiqian.ltd/docs/target'>了解更多</a>]",
       backgroundColor: "#723cff",
       textColor: "yellow",
-      isCloseable: true,
+      isCloseable: false,
     },
     docs: {
       sidebar: {

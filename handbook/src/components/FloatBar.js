@@ -23,14 +23,21 @@ export default function FloatBar() {
         <div className={styles.title}>🫠 遇到问题</div>
         <div className={styles.extend}>
           <Item
-            title="问题反馈"
-            description="到 Furion 开源仓库反馈"
-            url="https://gitee.com/dotnetchina/Furion/issues"
+            title="VIP 服务"
+            description="享受服务仅需 449元/年"
+            onClick={() =>
+              window.open("http://furion.baiqian.ltd/docs/subscribe", "_blank")
+            }
           />
           <Item
-            title="成为赞助商"
-            description="支持 Furion 的开源事业"
-            url="http://furion.baiqian.ltd/docs/donate"
+            title="问题反馈"
+            description="到 Furion 开源仓库反馈"
+            onClick={() =>
+              window.open(
+                "https://gitee.com/dotnetchina/Furion/issues",
+                "_blank"
+              )
+            }
           />
         </div>
       </div>
@@ -38,9 +45,9 @@ export default function FloatBar() {
   );
 }
 
-function Item({ title, description, url }) {
+function Item({ title, description, onClick }) {
   return (
-    <div className={styles.item} onClick={() => window.open(url, "_blank")}>
+    <div className={styles.item} onClick={onClick}>
       <div style={{ flex: 1 }}>
         <div className={styles.itemTitle}>{title}</div>
         <div className={styles.itemDesc}>{description}</div>
