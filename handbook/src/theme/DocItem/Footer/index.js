@@ -77,12 +77,35 @@ export default function DocItemFooter() {
       <SpecDonate />
       {canDisplayTagsRow && <TagsRow tags={tags} />}
       {canDisplayEditMetaRow && (
-        <EditMetaRow
-          editUrl={editUrl}
-          lastUpdatedAt={lastUpdatedAt}
-          lastUpdatedBy={lastUpdatedBy}
-          formattedLastUpdatedAt={formattedLastUpdatedAt}
-        />
+        <>
+          <EditMetaRow
+            editUrl={editUrl}
+            lastUpdatedAt={lastUpdatedAt}
+            lastUpdatedBy={lastUpdatedBy}
+            formattedLastUpdatedAt={formattedLastUpdatedAt}
+          />
+
+          <div
+            style={{
+              marginTop: 20,
+              textAlign: "center",
+              fontSize: 18,
+            }}
+          >
+            👍{" "}
+            <a
+              href="/docs/subscribe"
+              target="_blank"
+              style={{
+                color: "red",
+                fontWeight: "bold",
+                textDecoration: "underline",
+              }}
+            >
+              仅需 499元/年享有 VIP 服务
+            </a>
+          </div>
+        </>
       )}
     </footer>
   );

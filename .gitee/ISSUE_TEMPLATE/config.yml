@@ -8,7 +8,7 @@ contact_links:
     url: http://furion.baiqian.ltd/docs/subscribe
     about: 仅需 499元/年，享有专业团队的优先支持
   - name: 慷慨赞助
-    url: http://furion.baiqian.ltd?donate=1
+    url: http://furion.baiqian.ltd/docs/donate
     about: 允许商用，慷慨赞助
   - name: ❤️ 微信公众号
     url: https://gitee.com/dotnetchina/Furion/raw/v4/handbook/static/img/weixin_qrcode.jpg

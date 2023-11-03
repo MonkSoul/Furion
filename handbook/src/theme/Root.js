@@ -108,8 +108,9 @@ function Root({ children }) {
             fontSize: 18,
           }}
         >
+          👍{" "}
           <a
-            href="http://furion.baiqian.ltd/docs/subscribe"
+            href="/docs/subscribe"
             target="_blank"
             style={{
               color: "red",
