@@ -24,7 +24,7 @@ export default function FloatBar() {
         <div className={styles.extend}>
           <Item
             title="VIP 服务"
-            description="享受服务仅需 449元/年"
+            description="享受服务仅需 499元/年"
             onClick={() =>
               window.open("http://furion.baiqian.ltd/docs/subscribe", "_blank")
             }
