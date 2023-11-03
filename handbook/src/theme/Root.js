@@ -1,4 +1,3 @@
-import BrowserOnly from "@docusaurus/BrowserOnly";
 import useBaseUrl from "@docusaurus/useBaseUrl";
 import Modal from "@uiw/react-modal";
 import React, { useState } from "react";
@@ -6,17 +5,7 @@ import FloatBar from "../components/FloatBar";
 import GlobalContext from "../components/GlobalContext";
 
 function Root({ children }) {
-  return (
-    <BrowserOnly>{() => <BrowserRoot>{children}</BrowserRoot>}</BrowserOnly>
-  );
-}
-
-function BrowserRoot({ children }) {
-  const [donate, setDonate] = useState(() => {
-    var params = new URLSearchParams(window.location.search);
-    var paramValue = params.get("donate");
-    return Number(paramValue) === 1;
-  });
+  const [donate, setDonate] = useState(false);
 
   const onClosed = () => {
     setDonate(false);
