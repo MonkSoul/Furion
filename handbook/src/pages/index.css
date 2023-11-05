@@ -265,6 +265,7 @@
   color: #fff;
   display: flex;
   padding: 5rem 0;
+  overflow: hidden;
 }
 
 .furion-who-custom {
