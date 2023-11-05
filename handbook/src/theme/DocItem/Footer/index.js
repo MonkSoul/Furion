@@ -1,4 +1,3 @@
-import BrowserOnly from "@docusaurus/BrowserOnly";
 import { ThemeClassNames } from "@docusaurus/theme-common";
 import { useDoc } from "@docusaurus/theme-common/internal";
 import EditThisPage from "@theme/EditThisPage";
@@ -37,13 +36,7 @@ function EditMetaRow({
       <div className={clsx("col", styles.lastUpdated)}>
         {(lastUpdatedAt || lastUpdatedBy) && (
           <>
-            <BrowserOnly>
-              {() => (
-                <Donate
-                  style={{ marginBottom: 10, border: "2px solid #ffb02e" }}
-                />
-              )}
-            </BrowserOnly>
+            <Donate style={{ marginBottom: 10, border: "2px solid #ffb02e" }} />
             <LastUpdated
               lastUpdatedAt={lastUpdatedAt}
               formattedLastUpdatedAt={formattedLastUpdatedAt}
@@ -102,7 +95,7 @@ export default function DocItemFooter() {
                 textDecoration: "underline",
               }}
             >
-              仅需 499元/年享有 VIP 服务
+              2023 年 12 月 01 日前仅需 499元/年享有 VIP 服务
             </a>
           </div>
         </>

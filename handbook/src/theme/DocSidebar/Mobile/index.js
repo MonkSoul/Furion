@@ -1,4 +1,3 @@
-import BrowserOnly from "@docusaurus/BrowserOnly";
 import {
   NavbarSecondaryMenuFiller,
   ThemeClassNames,
@@ -27,11 +26,7 @@ const DocSidebarMobileSecondaryMenu = ({ sidebar, path }) => {
           </span>
         </>
       ) : (
-        <BrowserOnly>
-          {() => (
-            <Donate style={{ margin: "0.5em", border: "2px solid #ffb02e" }} />
-          )}
-        </BrowserOnly>
+        <Donate style={{ margin: "0.5em", border: "2px solid #ffb02e" }} />
       )}
       <ul className={clsx(ThemeClassNames.docs.docSidebarMenu, "menu__list")}>
         <DocSidebarItems

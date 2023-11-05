@@ -1,4 +1,3 @@
-import BrowserOnly from "@docusaurus/BrowserOnly";
 import Link from "@docusaurus/Link";
 import { useColorMode } from "@docusaurus/theme-common";
 import useBaseUrl from "@docusaurus/useBaseUrl";
@@ -199,7 +198,7 @@ function Gitee() {
             className={"furion-log-jiao" + (isDarkTheme ? " dark" : "")}
           ></div>
           <div className="furion-log-number">
-            <div style={{ color: "#1fd898" }}>11,290,958</div>
+            <div style={{ color: "#1fd898" }}>11,295,535</div>
             <span className={isDarkTheme ? " dark" : ""}>Downloads</span>
           </div>
         </div>
@@ -280,7 +279,7 @@ function WhoUse() {
           <div></div>
           <h1>请考虑赞助 Furion</h1>
           <p>
-            Furion 是一个 MIT 许可的开源项目，在 NuGet 平台获得超 1120
+            Furion 是一个 MIT 许可的开源项目，在 NuGet 平台获得超 1130
             万次下载。从小型企业到企业的解决方案及知名企业，他们在简单软件和复杂管理系统的开发方面都信任我们。
             <br />
             <br />
@@ -288,7 +287,7 @@ function WhoUse() {
             ⌈赞助⌋ 我们。
           </p>
           <br />
-          <BrowserOnly>{() => <Donate />}</BrowserOnly>
+          <Donate />
           <a
             className="furion-get-start"
             style={{ cursor: "pointer" }}

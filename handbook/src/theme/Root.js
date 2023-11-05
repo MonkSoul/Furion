@@ -3,9 +3,11 @@ import Modal from "@uiw/react-modal";
 import React, { useState } from "react";
 import FloatBar from "../components/FloatBar";
 import GlobalContext from "../components/GlobalContext";
+import Vip from "../components/Vip";
 
 function Root({ children }) {
   const [donate, setDonate] = useState(false);
+  const [showVip, setVip] = useState(true);
 
   const onClosed = () => {
     setDonate(false);
@@ -16,8 +18,10 @@ function Root({ children }) {
       value={{
         donate,
         setDonate,
+        setVip,
       }}
     >
+      {showVip && <Vip />}
       <FloatBar />
       {children}
 
@@ -118,7 +122,7 @@ function Root({ children }) {
               textDecoration: "underline",
             }}
           >
-            仅需 499元/年享有 VIP 服务
+            2023 年 12 月 01 日前仅需 499元/年享有 VIP 服务
           </a>
         </div>
       </Modal>

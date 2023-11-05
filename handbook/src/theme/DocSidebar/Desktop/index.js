@@ -1,4 +1,3 @@
-import BrowserOnly from "@docusaurus/BrowserOnly";
 import { useThemeConfig } from "@docusaurus/theme-common";
 import CollapseButton from "@theme/DocSidebar/Desktop/CollapseButton";
 import Content from "@theme/DocSidebar/Desktop/Content";
@@ -37,11 +36,7 @@ function DocSidebarDesktop({ path, sidebar, onCollapse, isHidden }) {
           </span>
         </>
       ) : (
-        <BrowserOnly>
-          {() => (
-            <Donate style={{ margin: "0.5em", border: "2px solid #ffb02e" }} />
-          )}
-        </BrowserOnly>
+        <Donate style={{ margin: "0.5em", border: "2px solid #ffb02e" }} />
       )}
       <Content path={path} sidebar={sidebar} />
       {show && sponsor && (
