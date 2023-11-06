@@ -68,7 +68,7 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory
     /// <summary>
     /// 作业持久化记录消息队列（线程安全）
     /// </summary>
-    private readonly BlockingCollection<PersistenceContext> _persistenceMessageQueue = new(1024);
+    private readonly BlockingCollection<PersistenceContext> _persistenceMessageQueue = new(3000);
 
     /// <summary>
     /// 不受控的作业 Id 集合

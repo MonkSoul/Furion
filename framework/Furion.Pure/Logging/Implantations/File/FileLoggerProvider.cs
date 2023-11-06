@@ -32,7 +32,7 @@ public sealed class FileLoggerProvider : ILoggerProvider, ISupportExternalScope
     /// <summary>
     /// 日志消息队列（线程安全）
     /// </summary>
-    private readonly BlockingCollection<LogMessage> _logMessageQueue = new(1024);
+    private readonly BlockingCollection<LogMessage> _logMessageQueue = new(3000);
 
     /// <summary>
     /// 日志作用域提供器

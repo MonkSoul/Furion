@@ -149,6 +149,7 @@ options.AddJob((context, stoppingToken) =>
 
 - **问题修复**
 
+  - &nbsp;<Tag>修复</Tag> 定时任务高频作业下持久化操作出现阻塞卡问题 <sup>4.8.8.51</sup> <sup>⏱️2023.11.06</sup>
   - &nbsp;<Tag>修复</Tag> 定时任务看板中间件 `SSE` 请求不是长连接导致连接频繁初始化销毁 <sup>4.8.8.49</sup> <sup>⏱️2023.10.26</sup> [1997f1b](https://gitee.com/dotnetchina/Furion/commit/1997f1b99043eb80accac4e6a0c60c4e33d77183)
   - &nbsp;<Tag>修复</Tag> 定时任务因上一版本修改 [4e2615b](https://gitee.com/dotnetchina/Furion/commit/4e2615b00da0b2db756e4084be882c0362c442f5) 导致自定义作业触发器异常问题 <sup>4.8.8.36</sup> <sup>⏱️2023.07.06</sup> [#I7J59D](https://gitee.com/dotnetchina/Furion/issues/I7J59D)
   - &nbsp;<Tag>修复</Tag> 定时任务因上一版本修改 [4e2615b](https://gitee.com/dotnetchina/Furion/commit/4e2615b00da0b2db756e4084be882c0362c442f5) 导致 `Cron` 解析异常问题 <sup>4.8.8.32</sup> <sup>⏱️2023.06.28</sup> [#I7GQ5I](https://gitee.com/dotnetchina/Furion/issues/I7GQ5I)
@@ -2538,31 +2539,31 @@ public class MyJob : IJob
 
 框架提供了 `Trigger` 类型来描述作业具体的触发时间，`Trigger` 类型提供以下**只读属性**：
 
-| 属性名              | 属性类型        | 默认值  | 说明                                                                 |
-| ------------------- | --------------- | ------- | -------------------------------------------------------------------- |
-| `TriggerId`         | `string`        |         | 作业触发器 `Id`                                                      |
-| `JobId`             | `string`        |         | 作业 `Id`                                                            |
-| `TriggerType`       | `string`        |         | 作业触发器类型，存储的是类型的 `FullName`                            |
-| `AssemblyName`      | `string`        |         | 作业触发器类型所在程序集，存储的是程序集 `Name`                      |
+| 属性名              | 属性类型        | 默认值  | 说明                                                                       |
+| ------------------- | --------------- | ------- | -------------------------------------------------------------------------- |
+| `TriggerId`         | `string`        |         | 作业触发器 `Id`                                                            |
+| `JobId`             | `string`        |         | 作业 `Id`                                                                  |
+| `TriggerType`       | `string`        |         | 作业触发器类型，存储的是类型的 `FullName`                                  |
+| `AssemblyName`      | `string`        |         | 作业触发器类型所在程序集，存储的是程序集 `Name`                            |
 | `Args`              | `string`        |         | 作业触发器初始化参数，运行时将反序列化为 `object[]` 类型并作为构造函数参数 |
-| `Description`       | `string`        |         | 描述信息                                                             |
-| `Status`            | `TriggerStatus` | `Ready` | 作业触发器状态                                                       |
-| `StartTime`         | `DateTime?`     |         | 起始时间                                                             |
-| `EndTime`           | `DateTime?`     |         | 结束时间                                                             |
-| `LastRunTime`       | `DateTime?`     |         | 最近运行时间                                                         |
-| `NextRunTime`       | `DateTime?`     |         | 下一次运行时间                                                       |
-| `NumberOfRuns`      | `long`          | `0`     | 触发次数                                                             |
-| `MaxNumberOfRuns`   | `long`          | `0`     | 最大触发次数，`0`：不限制，`n`：N 次                                 |
-| `NumberOfErrors`    | `long`          | `0`     | 出错次数                                                             |
-| `MaxNumberOfErrors` | `long`          | `0`     | 最大出错次数，`0`：不限制，`n`：N 次                                 |
-| `NumRetries`        | `int`           | `0`     | 重试次数                                                             |
-| `RetryTimeout`      | `int`           | `1000`  | 重试间隔时间，毫秒单位                                               |
-| `StartNow`          | `bool`          | `true`  | 是否立即启动                                                         |
-| `RunOnStart`        | `bool`          | `false` | 是否启动时执行一次                                                   |
-| `ResetOnlyOnce`     | `bool`          | `true`  | 是否在启动时重置最大触发次数等于一次的作业                           |
-| `Result`            | `string`        |         | 本次执行返回结果，`Furion 4.8.7.7+`                                  |
-| `ElapsedTime`       | `long`          | `0`     | 本次执行耗时，单位 `ms`，`Furion 4.8.7.7+`                           |
-| `UpdatedTime`       | `DateTime?`     |         | 作业触发器更新时间                                                   |
+| `Description`       | `string`        |         | 描述信息                                                                   |
+| `Status`            | `TriggerStatus` | `Ready` | 作业触发器状态                                                             |
+| `StartTime`         | `DateTime?`     |         | 起始时间                                                                   |
+| `EndTime`           | `DateTime?`     |         | 结束时间                                                                   |
+| `LastRunTime`       | `DateTime?`     |         | 最近运行时间                                                               |
+| `NextRunTime`       | `DateTime?`     |         | 下一次运行时间                                                             |
+| `NumberOfRuns`      | `long`          | `0`     | 触发次数                                                                   |
+| `MaxNumberOfRuns`   | `long`          | `0`     | 最大触发次数，`0`：不限制，`n`：N 次                                       |
+| `NumberOfErrors`    | `long`          | `0`     | 出错次数                                                                   |
+| `MaxNumberOfErrors` | `long`          | `0`     | 最大出错次数，`0`：不限制，`n`：N 次                                       |
+| `NumRetries`        | `int`           | `0`     | 重试次数                                                                   |
+| `RetryTimeout`      | `int`           | `1000`  | 重试间隔时间，毫秒单位                                                     |
+| `StartNow`          | `bool`          | `true`  | 是否立即启动                                                               |
+| `RunOnStart`        | `bool`          | `false` | 是否启动时执行一次                                                         |
+| `ResetOnlyOnce`     | `bool`          | `true`  | 是否在启动时重置最大触发次数等于一次的作业                                 |
+| `Result`            | `string`        |         | 本次执行返回结果，`Furion 4.8.7.7+`                                        |
+| `ElapsedTime`       | `long`          | `0`     | 本次执行耗时，单位 `ms`，`Furion 4.8.7.7+`                                 |
+| `UpdatedTime`       | `DateTime?`     |         | 作业触发器更新时间                                                         |
 
 ### 26.1.5.2 作业触发器状态
 
