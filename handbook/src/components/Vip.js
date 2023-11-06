@@ -46,7 +46,7 @@ export default function Vip({}) {
         title="👍 2023年12月01日前仅需 499元/年享有 VIP 服务"
       >
         <img
-          src={useBaseUrl("img/cmp-vip.png")}
+          src={useBaseUrl("img/cmp-vip.jpeg")}
           style={{ display: "block", width: 200, height: 200 }}
         />
       </Link>
