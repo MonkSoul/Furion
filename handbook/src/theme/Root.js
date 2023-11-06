@@ -101,7 +101,7 @@ function Root({ children }) {
               <div>
                 <hr />
                 <div style={{ textAlign: "right", color: "gray" }}>
-                  微信号：ibaiqian
+                  微信：ibaiqian
                 </div>
               </div>
             </div>

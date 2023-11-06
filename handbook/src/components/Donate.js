@@ -79,21 +79,21 @@ export default function Donate({ style }) {
             style={{
               display: "flex",
               justifyContent: "space-between",
+              whiteSpace: "nowrap",
+              marginTop: 10,
             }}
           >
-            <span style={{ fontSize: 12, color: "#ccc" }}>
-              微信号：ibaiqian
-            </span>
-            <span
-              style={{
-                color: "#723cff",
-                fontSize: 13,
-                marginRight: 10,
-              }}
-              title="monksoul@outlook.com"
+            <span style={{ fontSize: 12, color: "#ccc" }}>微信：ibaiqian</span>
+            <a
+              href="https://gitee.com/dotnetchina/Furion"
+              style={{ marginRight: 6 }}
+              target="_blank"
             >
-              成为赞助商
-            </span>
+              <img
+                src="https://gitee.com/dotnetchina/Furion/badge/star.svg?theme=white"
+                alt="star"
+              ></img>
+            </a>
           </div>
         </div>
       </div>

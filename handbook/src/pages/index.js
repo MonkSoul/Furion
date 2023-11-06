@@ -199,7 +199,7 @@ function Gitee() {
             className={"furion-log-jiao" + (isDarkTheme ? " dark" : "")}
           ></div>
           <div className="furion-log-number">
-            <div style={{ color: "#1fd898" }}>11,300,964</div>
+            <div style={{ color: "#1fd898" }}>11,301,957</div>
             <span className={isDarkTheme ? " dark" : ""}>Downloads</span>
           </div>
         </div>
@@ -469,7 +469,7 @@ function FuChi() {
           服务收到的一部分资金用来赞助那些为 Furion 框架贡献的人。
           <br />
           <a className="furion-get-start" style={{ cursor: "pointer" }}>
-            敬请期待
+            即将到来...
           </a>
         </div>
         <img src={useBaseUrl("img/cmp-support.jpg")} />

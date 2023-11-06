@@ -21,7 +21,7 @@ export default function FloatBar() {
           alignItems: "flex-start",
         }}
       >
-        <div className={styles.title}>🫠 遇到问题</div>
+        <div className={styles.title}>🫠 遇到问题了</div>
         <div className={styles.extend}>
           <Link className={styles.item} to={useBaseUrl("docs/subscribe")}>
             <div style={{ flex: 1 }}>
