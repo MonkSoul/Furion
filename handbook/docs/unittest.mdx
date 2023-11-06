@@ -689,6 +689,33 @@ public class UnitTest1 : IClassFixture<WebApplicationFactory<WebApplication1.Fak
 }
 ```
 
+:::note 主机更多配置说明
+
+如需添加更多配置，如环境变量设置，可通过以下方式：
+
+```cs showLineNumbers {11-14}
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc.Testing;
+
+namespace TestProject2;
+
+public class UnitTest1 : IClassFixture<WebApplicationFactory<WebApplication1.FakeStartup>>
+{
+    private readonly WebApplicationFactory<WebApplication1.FakeStartup> _factory;
+    public UnitTest1(WebApplicationFactory<WebApplication1.FakeStartup> factory)
+    {
+        _factory = factory.WithWebHostBuilder(builder =>
+        {
+            builder.UseEnvironment("Stage");   // 设置环境
+        });
+    }
+
+    // ....
+}
+```
+
+:::
+
 :::tip `.NET6+` 泛型参数
 
 如果是 `.NET6+(含)`，只需要将 `WebApplicationFactory<WebApplication1.FakeStartup>` 泛型参数改为：`WebApplicationFactory<Program>` 即可。
