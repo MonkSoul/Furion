@@ -22,9 +22,17 @@ export default function Vip({}) {
         style={{
           position: "absolute",
           zIndex: 2,
-          right: 10,
-          top: 10,
+          right: 5,
+          top: 5,
           cursor: "pointer",
+          borderRadius: "50%",
+          backgroundColor: "rgba(0,0,0,0.4)",
+          color: "#f1f1f1",
+          width: 20,
+          height: 20,
+          textAlign: "center",
+          lineHeight: "20px",
+          fontSize: 12,
         }}
         title="关闭"
         onClick={() => setVip(false)}
@@ -35,7 +43,7 @@ export default function Vip({}) {
         href="/docs/subscribe"
         target="_blank"
         style={{ display: "block" }}
-        title="👍 2023 年 12 月 01 日前仅需 499元/年享有 VIP 服务"
+        title="👍 2023年12月01日前仅需 499元/年享有 VIP 服务"
       >
         <img
           src={useBaseUrl("img/cmp-vip.png")}

@@ -30,6 +30,7 @@ function Home() {
       <Gitee />
       <ProccessOn />
       <WhoUse />
+      <FuChi />
       <Links />
       <Bifa />
     </Layout>
@@ -198,7 +199,7 @@ function Gitee() {
             className={"furion-log-jiao" + (isDarkTheme ? " dark" : "")}
           ></div>
           <div className="furion-log-number">
-            <div style={{ color: "#1fd898" }}>11,295,535</div>
+            <div style={{ color: "#1fd898" }}>11,300,964</div>
             <span className={isDarkTheme ? " dark" : ""}>Downloads</span>
           </div>
         </div>
@@ -426,6 +427,55 @@ function Bifa() {
 
 function Wzi(props) {
   return <div className="furion-wzi">{props.children}</div>;
+}
+
+function FuChi() {
+  const { colorMode, setLightTheme, setDarkTheme } = useColorMode();
+  const isDarkTheme = colorMode === "dark";
+  return (
+    <div className="furion-links furion-fuchi-wrap">
+      <p className={"furion-small-title" + (isDarkTheme ? " dark" : "")}>
+        开发者扶持计划
+      </p>
+      <h1 className={"furion-big-title" + (isDarkTheme ? " dark" : "")}>
+        如果 C# 不能成就我们，那我们就成就 C#。
+      </h1>
+      <div
+        className="furion-fuchi"
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          overflow: "hidden",
+        }}
+      >
+        <div
+          className="furion-fuchi-content"
+          style={{
+            fontFamily: "Muli",
+            fontSize: "1em",
+            lineHeight: 1.75,
+            textAlign: "left",
+            color: "#444444",
+          }}
+        >
+          为了回馈那些为 Furion
+          提供问题解决、拉取请求以及开源案例的开发者，Furion 将推出全新的
+          "开发者扶持计划"。该计划将使用从 VIP
+          服务中获得的一部分资金来资助这些开发者。
+          <br />
+          <br />
+          我们由衷感谢各位的支持。我们团队愿意将 VIP
+          服务收到的一部分资金用来赞助那些为 Furion 框架贡献的人。
+          <br />
+          <a className="furion-get-start" style={{ cursor: "pointer" }}>
+            敬请期待
+          </a>
+        </div>
+        <img src={useBaseUrl("img/cmp-support.jpg")} />
+      </div>
+    </div>
+  );
 }
 
 export default Home;

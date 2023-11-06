@@ -122,7 +122,7 @@ function Root({ children }) {
               textDecoration: "underline",
             }}
           >
-            2023 年 12 月 01 日前仅需 499元/年享有 VIP 服务
+            2023年12月01日前仅需 499元/年享有 VIP 服务
           </a>
         </div>
       </Modal>

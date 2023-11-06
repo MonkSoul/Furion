@@ -313,6 +313,18 @@
   opacity: 0.8;
 }
 
+.furion-links.furion-fuchi-wrap {
+  margin: 4em 4em 0 4em;
+}
+
+.furion-fuchi {
+  flex-direction: row;
+}
+
+.furion-fuchi-content {
+  padding: 0 5rem;
+}
+
 .footer {
   background-color: #211b50 !important;
 }
@@ -415,6 +427,24 @@
     width: 100%;
     text-align: center;
     padding: 2rem;
+  }
+
+  .furion-links {
+    margin: 4em 2em;
+    text-align: center;
+  }
+
+  .furion-links.furion-fuchi-wrap {
+    margin: 4em 2em 0 2em;
+  }
+
+  .furion-fuchi {
+    flex-direction: column-reverse;
+  }
+
+  .furion-fuchi-content {
+    padding: 0;
+    margin-top: 3em;
   }
 }
 
