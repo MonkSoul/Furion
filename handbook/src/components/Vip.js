@@ -1,3 +1,4 @@
+import Link from "@docusaurus/Link";
 import useBaseUrl from "@docusaurus/useBaseUrl";
 import { useContext } from "react";
 import GlobalContext from "./GlobalContext";
@@ -39,9 +40,8 @@ export default function Vip({}) {
       >
         X
       </div>
-      <a
-        href="/docs/subscribe"
-        target="_blank"
+      <Link
+        to={useBaseUrl("docs/subscribe")}
         style={{ display: "block" }}
         title="👍 2023年12月01日前仅需 499元/年享有 VIP 服务"
       >
@@ -49,7 +49,7 @@ export default function Vip({}) {
           src={useBaseUrl("img/cmp-vip.png")}
           style={{ display: "block", width: 200, height: 200 }}
         />
-      </a>
+      </Link>
     </div>
   );
 }

@@ -4,6 +4,21 @@ title: 11. Scoped 静态类
 sidebar_label: 11. Scoped 静态类
 ---
 
+import Tag from "@site/src/components/Tag.js";
+
+<details>
+  <summary>📝 模块更新日志</summary>
+  <div>
+<div>
+
+- **问题修复**
+
+  - &nbsp;<Tag>修复</Tag> `Scoped.CreateUowAsync` 作用域工作单元异常无法回滚问题 <sup>4.8.8.44</sup> <sup>⏱️2023.09.23</sup> [#I833I9](https://gitee.com/dotnetchina/Furion/issues/I833I9)
+
+</div>
+  </div>
+</details>
+
 ## 11.1 创建一个依赖注入作用域范围
 
 ```cs showLineNumbers
@@ -28,7 +43,7 @@ await Scoped.CreateAsync(async (factory, scope) => {
 
 ## 11.2 创建一个带工作单元的作用域
 
-```cs showLineNumbers 
+```cs showLineNumbers
 // 同步
 Scoped.CreateUow((factory, scope) => {
      var services = scope.ServiceProvider;
@@ -67,7 +82,7 @@ var obj = Scoped.CreateRef<string>((factory, scope) => {
 
 :::
 
-```cs showLineNumbers 
+```cs showLineNumbers
 var obj = Scoped.CreateUowRef<string>((factory, scope) => {
      var services = scope.ServiceProvider;
      return "返回值";

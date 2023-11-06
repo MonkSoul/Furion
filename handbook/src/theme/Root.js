@@ -1,3 +1,4 @@
+import Link from "@docusaurus/Link";
 import useBaseUrl from "@docusaurus/useBaseUrl";
 import Modal from "@uiw/react-modal";
 import React, { useState } from "react";
@@ -26,7 +27,7 @@ function Root({ children }) {
       {children}
 
       <Modal
-        title="赞助 Furion"
+        title="开源不易，请考虑赞助 Furion"
         isOpen={donate}
         useButton={false}
         icon="pay"
@@ -36,16 +37,17 @@ function Root({ children }) {
         minWidth={700}
       >
         如果 Furion 对您有所帮助，并且您希望 Furion 能够继续发展下去，请考虑{" "}
-        <a
-          href="/docs/donate"
+        <Link
+          to={useBaseUrl("docs/donate")}
           style={{
             color: "#723cff",
             fontSize: 13,
           }}
           title="monksoul@outlook.com"
+          onClick={() => setDonate(false)}
         >
           ⌈赞助⌋
-        </a>{" "}
+        </Link>{" "}
         我们。
         <div
           style={{
@@ -113,17 +115,17 @@ function Root({ children }) {
           }}
         >
           👍{" "}
-          <a
-            href="/docs/subscribe"
-            target="_blank"
+          <Link
+            to={useBaseUrl("docs/subscribe")}
             style={{
               color: "red",
               fontWeight: "bold",
               textDecoration: "underline",
             }}
+            onClick={() => setDonate(false)}
           >
             2023年12月01日前仅需 499元/年享有 VIP 服务
-          </a>
+          </Link>
         </div>
       </Modal>
     </GlobalContext.Provider>

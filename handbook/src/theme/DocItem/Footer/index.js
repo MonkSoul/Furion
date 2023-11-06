@@ -1,5 +1,7 @@
+import Link from "@docusaurus/Link";
 import { ThemeClassNames } from "@docusaurus/theme-common";
 import { useDoc } from "@docusaurus/theme-common/internal";
+import useBaseUrl from "@docusaurus/useBaseUrl";
 import EditThisPage from "@theme/EditThisPage";
 import LastUpdated from "@theme/LastUpdated";
 import TagsListInline from "@theme/TagsListInline";
@@ -86,9 +88,8 @@ export default function DocItemFooter() {
             }}
           >
             👍{" "}
-            <a
-              href="/docs/subscribe"
-              target="_blank"
+            <Link
+              to={useBaseUrl("docs/subscribe")}
               style={{
                 color: "red",
                 fontWeight: "bold",
@@ -96,7 +97,7 @@ export default function DocItemFooter() {
               }}
             >
               2023年12月01日前仅需 499元/年享有 VIP 服务
-            </a>
+            </Link>
           </div>
         </>
       )}

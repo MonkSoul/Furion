@@ -1,3 +1,4 @@
+import Link from "@docusaurus/Link";
 import useBaseUrl from "@docusaurus/useBaseUrl";
 import React from "react";
 import styles from "./FloatBar.module.css";
@@ -22,11 +23,15 @@ export default function FloatBar() {
       >
         <div className={styles.title}>🫠 遇到问题</div>
         <div className={styles.extend}>
-          <Item
-            title="👍 VIP 服务"
-            description="2023年12月01日前享受服务仅需 499元/年"
-            onClick={() => window.open("/docs/subscribe", "_blank")}
-          />
+          <Link className={styles.item} to={useBaseUrl("docs/subscribe")}>
+            <div style={{ flex: 1 }}>
+              <div className={styles.itemTitle}>👍 VIP 服务</div>
+              <div className={styles.itemDesc}>
+                2023年12月01日前享受服务仅需 499元/年
+              </div>
+            </div>
+            <div className={styles.jiantou}></div>
+          </Link>
           <Item
             title="问题反馈"
             description="到 Furion 开源仓库反馈"

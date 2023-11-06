@@ -70,6 +70,8 @@
   flex-direction: row;
   cursor: pointer;
   align-items: flex-start;
+  text-decoration: none;
+  color: #fff;
 }
 
 .itemDesc {
@@ -79,6 +81,8 @@
 
 .item:hover {
   background-color: #723cff;
+  text-decoration: none;
+  color: #fff;
 }
 
 .item:hover .itemTitle {
