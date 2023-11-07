@@ -709,9 +709,9 @@ public sealed partial class HttpRequestPart
                         byteArrayContent.Headers.TryAddWithoutValidation("Content-Type", contentType ?? "application/octet-stream");
 
                         if (string.IsNullOrWhiteSpace(httpFile.FileName))
-                            multipartFormDataContent.Add(byteArrayContent, $"\"{httpFile.Name}\"");
+                            multipartFormDataContent.Add(byteArrayContent, Uri.EscapeDataString(httpFile.Name));
                         else
-                            multipartFormDataContent.Add(byteArrayContent, $"\"{httpFile.Name}\"", $"\"{httpFile.FileName}\"");
+                            multipartFormDataContent.Add(byteArrayContent, Uri.EscapeDataString(httpFile.Name), Uri.EscapeDataString(httpFile.FileName));
                     }
 
                     // 处理 Stream 文件
@@ -721,9 +721,9 @@ public sealed partial class HttpRequestPart
                         streamContent.Headers.TryAddWithoutValidation("Content-Type", contentType ?? "application/octet-stream");
 
                         if (string.IsNullOrWhiteSpace(httpFile.FileName))
-                            multipartFormDataContent.Add(streamContent, $"\"{httpFile.Name}\"");
+                            multipartFormDataContent.Add(streamContent, Uri.EscapeDataString(httpFile.Name));
                         else
-                            multipartFormDataContent.Add(streamContent, $"\"{httpFile.Name}\"", $"\"{httpFile.FileName}\"");
+                            multipartFormDataContent.Add(streamContent, Uri.EscapeDataString(httpFile.Name), Uri.EscapeDataString(httpFile.FileName));
                     }
                 }
 
