@@ -13,6 +13,7 @@ import Tag from "@site/src/components/Tag.js";
 
 - **新特性**
 
+  - &nbsp;<Tag>新增</Tag> 控制台日志 `AddConsoleFormatter` 服务支持 `WriteFilter` 属性过滤 <sup>4.8.8.52</sup> <sup>⏱️2023.11.07</sup>
   - &nbsp;<Tag>新增</Tag> 监听日志 `LoggingMonitor` 支持打印输出 `requestHeaders` 请求头信息 <sup>4.8.8.50</sup> <sup>⏱️2023.10.27</sup> [#I8BHM3](https://gitee.com/dotnetchina/Furion/issues/I8BHM3)
   - &nbsp;<Tag>新增</Tag> 监听日志 `LoggingMonitor` 支持配置日志输出级别 <sup>4.8.8.41</sup> <sup>⏱️2023.08.25</sup> [#I7SRTP](https://gitee.com/dotnetchina/Furion/issues/I7SRTP)
   - &nbsp;<Tag>新增</Tag> **监听日志 `LoggingMonitor` 支持 `Razor Pages`** <sup>4.8.8.16</sup> <sup>⏱️2023.05.15</sup> [#I7332C](https://gitee.com/dotnetchina/Furion/issues/I7332C)
@@ -264,76 +265,27 @@ info: Microsoft.Hosting.Lifetime[0]
 
 ### 18.5.1 日志过滤/筛选
 
-如果希望不输出某些日志类别的日志可以添加以下过滤：
+通过日志筛选器可以对日志进行归类写入。
 
-`.NET5` 版本：
-
-```cs showLineNumbers {1,2,4}
-Host.CreateDefaultBuilder(args)
-    .ConfigureLogging(logging =>
-    {
-        logging.AddFilter((provider, category, logLevel) =>
-        {
-            return !new[] { "Microsoft.Hosting", "Microsoft.AspNetCore" }.Any(u => category.StartsWith(u))
-                && logLevel >= LogLevel.Information;
-        });
-    })
-```
-
-`.NET6+` 版本：
-
-```cs showLineNumbers {1,3}
-var builder = WebApplication.CreateBuilder(args);
-
-builder.Logging.AddFilter((provider, category, logLevel) =>
+```cs showLineNumbers {2,4,11,13}
+// 例子一：根据日志级别输出
+services.AddConsoleFormatter(options =>
 {
-    return !new[] { "Microsoft.Hosting", "Microsoft.AspNetCore" }.Any(u => category.StartsWith(u))
-        && logLevel >= LogLevel.Information;
+    options.WriteFilter = (logMsg) =>   // Furion 4.8.8.52+ 版本支持
+    {
+        return logMsg.LogLevel == LogLevel.Information;
+    };
+});
+
+// 例子二，根据任何规则，比如特定的类名
+services.AddConsoleFormatter(options => // Furion 4.8.8.52+ 版本支持
+{
+    options.WriteFilter = (logMsg) =>
+    {
+        return logMsg.LogName == "System.Logging.LoggingMonitor";
+    };
 });
 ```
-
-或者 `Serve.Run` 方式
-
-```cs showLineNumbers {1,3,7-10}
-Serve.Run(RunOptions.Default.AddWebComponent<WebComponent>());
-
-public class WebComponent : IWebComponent
-{
-    public void Load(WebApplicationBuilder builder, ComponentContext componentContext)
-    {
-        builder.Logging.AddFilter((provider, category, logLevel) =>
-        {
-            return !new[] { "Microsoft.Hosting", "Microsoft.AspNetCore" }.Any(u => category.StartsWith(u))
-                && logLevel >= LogLevel.Information;
-        });
-    }
-}
-```
-
-:::warning 日志过滤无效情况
-
-假如使用上述代码过滤无效（不能过滤默认的主机日志），那么请确认 `appsettings.json` 和 `appsettings.Development.json` 的 `Logging:Level` 是否如下：
-
-```json showLineNumbers {4-5}
-{
-  "Logging": {
-    "LogLevel": {
-      "Default": "Information",
-      "Microsoft.AspNetCore": "Warning",
-      "Microsoft.EntityFrameworkCore": "Information"
-    }
-  }
-}
-```
-
-如果配置了以下配置，**请删除**：
-
-```json
-"Microsoft": "Warning",
-"Microsoft.Hosting.Lifetime": "Information",
-```
-
-:::
 
 ### 18.5.2 日志标准化（美化）模板
 
@@ -1995,7 +1947,86 @@ public TestAppService: ITestAppService, IDisposable
 
 小提醒：过滤 `.NET Core` 底层日志最低日志级别通常设置为 `Warning`。
 
-## 18.17 反馈与建议
+## 18.17 全局日志过滤/筛选
+
+在一些特定的情况下，我们希望能够对所有日志输出介质中的日志进行过滤，可以通过以下方式进行全局配置。
+
+:::caution 特别注意
+
+此方式会影响所有的日志介质输出，如控制台、文件、数据库等其他输出介质。
+
+:::
+
+`.NET5` 版本：
+
+```cs showLineNumbers {1,2,4}
+Host.CreateDefaultBuilder(args)
+    .ConfigureLogging(logging =>
+    {
+        logging.AddFilter((provider, category, logLevel) =>
+        {
+            return !new[] { "Microsoft.Hosting", "Microsoft.AspNetCore" }.Any(u => category.StartsWith(u))
+                && logLevel >= LogLevel.Information;
+        });
+    })
+```
+
+`.NET6+` 版本：
+
+```cs showLineNumbers {1,3}
+var builder = WebApplication.CreateBuilder(args);
+
+builder.Logging.AddFilter((provider, category, logLevel) =>
+{
+    return !new[] { "Microsoft.Hosting", "Microsoft.AspNetCore" }.Any(u => category.StartsWith(u))
+        && logLevel >= LogLevel.Information;
+});
+```
+
+或者 `Serve.Run` 方式
+
+```cs showLineNumbers {1,3,7-10}
+Serve.Run(RunOptions.Default.AddWebComponent<WebComponent>());
+
+public class WebComponent : IWebComponent
+{
+    public void Load(WebApplicationBuilder builder, ComponentContext componentContext)
+    {
+        builder.Logging.AddFilter((provider, category, logLevel) =>
+        {
+            return !new[] { "Microsoft.Hosting", "Microsoft.AspNetCore" }.Any(u => category.StartsWith(u))
+                && logLevel >= LogLevel.Information;
+        });
+    }
+}
+```
+
+:::warning 日志过滤无效情况
+
+假如使用上述代码过滤无效（不能过滤默认的主机日志），那么请确认 `appsettings.json` 和 `appsettings.Development.json` 的 `Logging:Level` 是否如下：
+
+```json showLineNumbers {4-5}
+{
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft.AspNetCore": "Warning",
+      "Microsoft.EntityFrameworkCore": "Information"
+    }
+  }
+}
+```
+
+如果配置了以下配置，**请删除**：
+
+```json
+"Microsoft": "Warning",
+"Microsoft.Hosting.Lifetime": "Information",
+```
+
+:::
+
+## 18.18 反馈与建议
 
 :::note 与我们交流
 

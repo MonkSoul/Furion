@@ -49,6 +49,11 @@ public sealed class ConsoleFormatterExtendOptions : ConsoleFormatterOptions
     public string DateFormat { get; set; } = "yyyy-MM-dd HH:mm:ss.fffffff zzz dddd";
 
     /// <summary>
+    /// 自定义日志筛选器
+    /// </summary>
+    public Func<LogMessage, bool> WriteFilter { get; set; }
+
+    /// <summary>
     /// 自定义格式化日志处理程序
     /// </summary>
     public Action<LogMessage, IExternalScopeProvider, TextWriter, string, ConsoleFormatterExtendOptions> WriteHandler { get; set; }

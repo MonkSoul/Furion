@@ -89,6 +89,9 @@ public sealed class ConsoleFormatterExtend : ConsoleFormatter, IDisposable
                , _formatterOptions.WithStackFrame);
         }
 
+        // 判断是否自定义了日志筛选器，如果是则检查是否符合条件
+        if (_formatterOptions.WriteFilter?.Invoke(logMsg) == false) return;
+
         // 空检查
         if (message is null) return;
 
