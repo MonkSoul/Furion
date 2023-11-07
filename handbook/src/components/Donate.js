@@ -11,6 +11,7 @@ export default function Donate({ style }) {
         style={{
           display: "flex",
           padding: "5px",
+          position:"relative",
           boxSizing: "border-box",
           backgroundColor: "#f4f8fa",
           height: 80,

@@ -125,7 +125,8 @@ function Root({ children }) {
             onClick={() => setDonate(false)}
           >
             2023年12月01日前仅需 499元/年享有 VIP 服务
-          </Link>
+          </Link>{" "}
+          👍
         </div>
       </Modal>
     </GlobalContext.Provider>

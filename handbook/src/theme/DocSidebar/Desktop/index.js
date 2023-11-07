@@ -4,6 +4,7 @@ import Content from "@theme/DocSidebar/Desktop/Content";
 import Logo from "@theme/Logo";
 import clsx from "clsx";
 import React, { useState } from "react";
+import Assistance from "../../../components/Assistance";
 import Donate from "../../../components/Donate";
 import { Sponsor, SponsorItem, closeStyle } from "../../../components/Sponsor";
 import sponsors from "../../../data/sponsor";
@@ -28,6 +29,7 @@ function DocSidebarDesktop({ path, sidebar, onCollapse, isHidden }) {
       )}
     >
       {hideOnScroll && <Logo tabIndex={-1} className={styles.sidebarLogo} />}
+      <Assistance />
       {show ? (
         <>
           <Sponsor />
@@ -38,6 +40,7 @@ function DocSidebarDesktop({ path, sidebar, onCollapse, isHidden }) {
       ) : (
         <Donate style={{ margin: "0.5em", border: "2px solid #ffb02e" }} />
       )}
+
       <Content path={path} sidebar={sidebar} />
       {show && sponsor && (
         <div>

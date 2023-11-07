@@ -5,6 +5,7 @@ import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
 import Layout from "@theme/Layout";
 import components from "@theme/MDXComponents";
 import React, { useContext } from "react";
+import Assistance from "../components/Assistance";
 import Donate from "../components/Donate";
 import GlobalContext from "../components/GlobalContext";
 import SpecDonate from "../components/SpecDonate";
@@ -92,6 +93,7 @@ function Banner() {
               <KubernetesIcon height="39" width="39" />
             </span>
           </div>
+
           <div className="furion-get-start-btn">
             <Link
               className="furion-get-start"
@@ -199,7 +201,7 @@ function Gitee() {
             className={"furion-log-jiao" + (isDarkTheme ? " dark" : "")}
           ></div>
           <div className="furion-log-number">
-            <div style={{ color: "#1fd898" }}>11,301,957</div>
+            <div style={{ color: "#1fd898" }}>11,350,444</div>
             <span className={isDarkTheme ? " dark" : ""}>Downloads</span>
           </div>
         </div>
@@ -287,6 +289,8 @@ function WhoUse() {
             如果 Furion 对您有所帮助，并且您希望 Furion 能够继续发展下去，请考虑
             ⌈赞助⌋ 我们。
           </p>
+          <br />
+          <Assistance style={{ margin: 0 }} />
           <br />
           <Donate />
           <a
@@ -468,6 +472,8 @@ function FuChi() {
           我们由衷感谢各位的支持。我们团队愿意将 VIP
           服务收到的一部分资金用来赞助那些为 Furion 框架贡献的人。
           <br />
+          <br />
+          <Assistance style={{ margin: 0 }} />
           <a className="furion-get-start" style={{ cursor: "pointer" }}>
             即将到来...
           </a>

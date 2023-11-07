@@ -7,6 +7,7 @@ import LastUpdated from "@theme/LastUpdated";
 import TagsListInline from "@theme/TagsListInline";
 import clsx from "clsx";
 import React from "react";
+import Assistance from "../../../components/Assistance";
 import Donate from "../../../components/Donate";
 import SpecDonate from "../../../components/SpecDonate";
 import styles from "./styles.module.css";
@@ -33,12 +34,26 @@ function EditMetaRow({
 }) {
   return (
     <div className={clsx(ThemeClassNames.docs.docFooterEditMetaRow, "row")}>
-      <div className="col">{editUrl && <EditThisPage editUrl={editUrl} />}</div>
+      <div className="col">
+        {editUrl && (
+          <>
+            <Assistance style={{ margin: 0, marginBottom: 10 }} />
+            <EditThisPage editUrl={editUrl} />
+          </>
+        )}
+      </div>
 
       <div className={clsx("col", styles.lastUpdated)}>
         {(lastUpdatedAt || lastUpdatedBy) && (
           <>
-            <Donate style={{ marginBottom: 10, border: "2px solid #ffb02e" }} />
+            <Donate
+              style={{
+                margin: 0,
+                marginBottom: 10,
+                border: "2px solid #ffb02e",
+                marginTop: -4,
+              }}
+            />
             <LastUpdated
               lastUpdatedAt={lastUpdatedAt}
               formattedLastUpdatedAt={formattedLastUpdatedAt}
@@ -97,7 +112,8 @@ export default function DocItemFooter() {
               }}
             >
               2023年12月01日前仅需 499元/年享有 VIP 服务
-            </Link>
+            </Link>{" "}
+            👍
           </div>
         </>
       )}
