@@ -44,4 +44,4 @@ Read [contribution documents](http://furion.baiqian.ltd/docs/contribute) to lear
 
 Furion is an MIT licensed open-source project. If Furion has been helpful to you and you would like to see Furion continue to grow, please consider sponsoring us.
 
-[![](./assets/spec-donate.png)](http://furion.baiqian.ltd?donate=1)
+[![](./handbook/static/img/crmeb-spec.jpg)](http://github.crmeb.net/u/furion)

@@ -44,4 +44,4 @@ public class HelloService
 
 Furion 是一个 MIT 许可的开源项目，如果 Furion 对您有所帮助，并且您希望 Furion 能够继续发展下去，请考虑 ⌈赞助⌋ 我们。
 
-[![](./assets/spec-donate.png)](http://furion.baiqian.ltd?donate=1)
+[![](./handbook/static/img/crmeb-spec.jpg)](http://github.crmeb.net/u/furion)
