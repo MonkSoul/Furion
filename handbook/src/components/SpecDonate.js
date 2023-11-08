@@ -70,7 +70,7 @@ export default function SpecDonate({ style }) {
     >
       <img
         src={useBaseUrl("img/crmeb-spec.jpg")}
-        style={{ display: "block", pointerEvents: "none" }}
+        style={{ display: "block", pointerEvents: "none", maxWidth: "100%" }}
       />
       <span style={sponsorTagStyle}>特别赞助</span>
     </a>
