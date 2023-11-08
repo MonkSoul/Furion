@@ -2,6 +2,17 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 import React, { useContext } from "react";
 import GlobalContext from "./GlobalContext";
 
+const sponsorTagStyle = {
+  position: "absolute",
+  display: "block",
+  right: 0,
+  bottom: 0,
+  zIndex: 10,
+  fontSize: 12,
+  backgroundColor: "rgba(0,0,0,0.8)",
+  padding: "0 5px",
+};
+
 export default function SpecDonate({ style }) {
   const { setDonate } = useContext(GlobalContext);
 
@@ -53,6 +64,7 @@ export default function SpecDonate({ style }) {
         display: "block",
         marginBottom: 20,
         textDecoration: "none",
+        position: "relative",
       }}
       title="CRMEB 专注开源电商系统研发"
     >
@@ -60,6 +72,7 @@ export default function SpecDonate({ style }) {
         src={useBaseUrl("img/crmeb-spec.jpg")}
         style={{ display: "block", pointerEvents: "none" }}
       />
+      <span style={sponsorTagStyle}>特别赞助</span>
     </a>
   );
 }
