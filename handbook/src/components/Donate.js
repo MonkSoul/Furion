@@ -1,5 +1,6 @@
 import useBaseUrl from "@docusaurus/useBaseUrl";
 import React, { useContext } from "react";
+import classes from "./Donate.module.css";
 import GlobalContext from "./GlobalContext";
 
 export default function Donate({ style }) {
@@ -8,15 +9,8 @@ export default function Donate({ style }) {
   return (
     <>
       <div
+        className={classes.donate}
         style={{
-          display: "flex",
-          padding: "5px",
-          position:"relative",
-          boxSizing: "border-box",
-          backgroundColor: "#f4f8fa",
-          height: 80,
-          borderRadius: 5,
-          cursor: "pointer",
           ...(style || {}),
         }}
         title="您的支持是我们坚持完善下去的动力！"

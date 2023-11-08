@@ -65,6 +65,8 @@ export default function SpecDonate({ style }) {
         marginBottom: 20,
         textDecoration: "none",
         position: "relative",
+        borderRadius: 5,
+        overflow: "hidden",
       }}
       title="CRMEB 专注开源电商系统研发"
     >

@@ -1,0 +1,15 @@
+.donate {
+  display: flex;
+  padding: 5px;
+  position: relative;
+  box-sizing: border-box;
+  background-color: #f4f8fa;
+  height: 80px;
+  border-radius: 5px;
+  cursor: pointer;
+  position: relative;
+}
+
+.donate:hover {
+  opacity: 0.85;
+}

@@ -11,6 +11,7 @@ export default function Assistance({ style = {} }) {
       className={classes.ass}
       to={useBaseUrl("docs/subscribe")}
       style={{ ...style }}
+      title={"已有 " + count + " 个 VIP 用户"}
     >
       <div className={classes.title}>开通 VIP 服务助力 Furion v5 发布</div>
       <div className={classes.progress}>
