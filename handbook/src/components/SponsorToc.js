@@ -21,7 +21,8 @@ export function SponsorToc() {
           title={item.title}
           // url={item.url}
           url="https://www.crmeb.com/?from=furion"
-          picture={item.picture}
+          // picture={item.picture}
+          picture={useBaseUrl("img/crmeb-right.jpg")}
           top={true}
           last={false}
           tag={item.tag}

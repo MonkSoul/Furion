@@ -4,7 +4,7 @@ import React from "react";
 import classes from "./Assistance.module.css";
 
 export default function Assistance({ style = {} }) {
-  const count = 295;
+  const count = 296;
 
   return (
     <Link
