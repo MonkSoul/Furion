@@ -1,7 +1,8 @@
 import useBaseUrl from "@docusaurus/useBaseUrl";
 import TOCItems from "@theme/TOCItems";
 import clsx from "clsx";
-import React from "react";
+import React, { useContext } from "react";
+import GlobalContext from "../../components/GlobalContext";
 import { SponsorToc } from "../../components/SponsorToc";
 import styles from "./styles.module.css";
 
@@ -10,9 +11,11 @@ import styles from "./styles.module.css";
 const LINK_CLASS_NAME = "table-of-contents__link toc-highlight";
 const LINK_ACTIVE_CLASS_NAME = "table-of-contents__link--active";
 export default function TOC({ className, ...props }) {
+  const { adv } = useContext(GlobalContext);
+
   return (
     <div className={clsx(styles.tableOfContents, "thin-scrollbar", className)}>
-      <DotNETChina />
+      {adv && <DotNETChina />}
       <TOCItems
         {...props}
         linkClassName={LINK_CLASS_NAME}

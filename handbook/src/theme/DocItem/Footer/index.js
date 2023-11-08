@@ -6,9 +6,10 @@ import EditThisPage from "@theme/EditThisPage";
 import LastUpdated from "@theme/LastUpdated";
 import TagsListInline from "@theme/TagsListInline";
 import clsx from "clsx";
-import React from "react";
+import React, { useContext } from "react";
 import Assistance from "../../../components/Assistance";
 import Donate from "../../../components/Donate";
+import GlobalContext from "../../../components/GlobalContext";
 import SpecDonate from "../../../components/SpecDonate";
 import styles from "./styles.module.css";
 
@@ -32,12 +33,16 @@ function EditMetaRow({
   lastUpdatedBy,
   formattedLastUpdatedAt,
 }) {
+  const { adv } = useContext(GlobalContext);
+
   return (
     <div className={clsx(ThemeClassNames.docs.docFooterEditMetaRow, "row")}>
       <div className="col">
         {editUrl && (
           <>
-            <Assistance style={{ margin: 0, marginBottom: 10 }} />
+            {adv && (
+              <Assistance style={{ margin: 0, marginBottom: 10, height: 80 }} />
+            )}
             <EditThisPage editUrl={editUrl} />
           </>
         )}
@@ -46,14 +51,16 @@ function EditMetaRow({
       <div className={clsx("col", styles.lastUpdated)}>
         {(lastUpdatedAt || lastUpdatedBy) && (
           <>
-            <Donate
-              style={{
-                margin: 0,
-                marginBottom: 10,
-                border: "2px solid #ffb02e",
-                marginTop: -4,
-              }}
-            />
+            {adv && (
+              <Donate
+                style={{
+                  margin: 0,
+                  marginBottom: 10,
+                  border: "2px solid #ffb02e",
+                  marginTop: -4,
+                }}
+              />
+            )}
             <LastUpdated
               lastUpdatedAt={lastUpdatedAt}
               formattedLastUpdatedAt={formattedLastUpdatedAt}
@@ -77,6 +84,8 @@ export default function DocItemFooter() {
   const canDisplayTagsRow = tags.length > 0;
   const canDisplayEditMetaRow = !!(editUrl || lastUpdatedAt || lastUpdatedBy);
   const canDisplayFooter = canDisplayTagsRow || canDisplayEditMetaRow;
+  const { adv } = useContext(GlobalContext);
+
   if (!canDisplayFooter) {
     return null;
   }
@@ -84,7 +93,7 @@ export default function DocItemFooter() {
     <footer
       className={clsx(ThemeClassNames.docs.docFooter, "docusaurus-mt-lg")}
     >
-      <SpecDonate />
+      {adv && <SpecDonate />}
       {canDisplayTagsRow && <TagsRow tags={tags} />}
       {canDisplayEditMetaRow && (
         <>
@@ -95,26 +104,28 @@ export default function DocItemFooter() {
             formattedLastUpdatedAt={formattedLastUpdatedAt}
           />
 
-          <div
-            style={{
-              marginTop: 20,
-              textAlign: "center",
-              fontSize: 18,
-            }}
-          >
-            👍{" "}
-            <Link
-              to={useBaseUrl("docs/subscribe")}
+          {adv && (
+            <div
               style={{
-                color: "red",
-                fontWeight: "bold",
-                textDecoration: "underline",
+                marginTop: 20,
+                textAlign: "center",
+                fontSize: 18,
               }}
             >
-              2023年12月01日前仅需 499元/年享有 VIP 服务
-            </Link>{" "}
-            👍
-          </div>
+              👍{" "}
+              <Link
+                to={useBaseUrl("docs/subscribe")}
+                style={{
+                  color: "red",
+                  fontWeight: "bold",
+                  textDecoration: "underline",
+                }}
+              >
+                2023年12月01日前开通 VIP 服务仅需 499元/年
+              </Link>{" "}
+              👍
+            </div>
+          )}
         </>
       )}
     </footer>

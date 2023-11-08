@@ -5,25 +5,30 @@ import {
 import { useNavbarMobileSidebar } from "@docusaurus/theme-common/internal";
 import DocSidebarItems from "@theme/DocSidebarItems";
 import clsx from "clsx";
-import React, { useState } from "react";
+import React, { useContext } from "react";
 import Assistance from "../../../components/Assistance";
 import Donate from "../../../components/Donate";
+import GlobalContext from "../../../components/GlobalContext";
 import { Sponsor, SponsorItem, closeStyle } from "../../../components/Sponsor";
 import sponsors from "../../../data/sponsor";
 
 // eslint-disable-next-line react/function-component-definition
 const DocSidebarMobileSecondaryMenu = ({ sidebar, path }) => {
   const mobileSidebar = useNavbarMobileSidebar();
-  const [show, setShow] = useState(true);
+  const { adv, setAdv } = useContext(GlobalContext);
   const sponsor = sponsors.find((u) => u.id == 100);
 
   return (
     <>
       <Assistance />
-      {show ? (
+      {adv ? (
         <>
           <Sponsor />
-          <span style={closeStyle} onClick={() => setShow((s) => !s)}>
+          <span
+            style={closeStyle}
+            onClick={() => setAdv((s) => !s)}
+            title="关闭所有赞助商广告"
+          >
             收
           </span>
         </>
@@ -46,7 +51,7 @@ const DocSidebarMobileSecondaryMenu = ({ sidebar, path }) => {
           level={1}
         />
       </ul>
-      {show && sponsor && (
+      {adv && sponsor && (
         <div>
           <SponsorItem
             key={sponsor.url}

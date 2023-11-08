@@ -9,6 +9,7 @@ import Vip from "../components/Vip";
 function Root({ children }) {
   const [donate, setDonate] = useState(false);
   const [showVip, setVip] = useState(true);
+  const [adv, setAdv] = useState(true);
 
   const onClosed = () => {
     setDonate(false);
@@ -20,6 +21,8 @@ function Root({ children }) {
         donate,
         setDonate,
         setVip,
+        adv,
+        setAdv,
       }}
     >
       {showVip && <Vip />}
@@ -124,7 +127,7 @@ function Root({ children }) {
             }}
             onClick={() => setDonate(false)}
           >
-            2023年12月01日前仅需 499元/年享有 VIP 服务
+            2023年12月01日前开通 VIP 服务仅需 499元/年
           </Link>{" "}
           👍
         </div>

@@ -3,9 +3,10 @@ import CollapseButton from "@theme/DocSidebar/Desktop/CollapseButton";
 import Content from "@theme/DocSidebar/Desktop/Content";
 import Logo from "@theme/Logo";
 import clsx from "clsx";
-import React, { useState } from "react";
+import React, { useContext } from "react";
 import Assistance from "../../../components/Assistance";
 import Donate from "../../../components/Donate";
+import GlobalContext from "../../../components/GlobalContext";
 import { Sponsor, SponsorItem, closeStyle } from "../../../components/Sponsor";
 import sponsors from "../../../data/sponsor";
 import styles from "./styles.module.css";
@@ -17,7 +18,7 @@ function DocSidebarDesktop({ path, sidebar, onCollapse, isHidden }) {
       sidebar: { hideable },
     },
   } = useThemeConfig();
-  const [show, setShow] = useState(true);
+  const { adv, setAdv } = useContext(GlobalContext);
   const sponsor = sponsors.find((u) => u.id == 100);
 
   return (
@@ -30,10 +31,14 @@ function DocSidebarDesktop({ path, sidebar, onCollapse, isHidden }) {
     >
       {hideOnScroll && <Logo tabIndex={-1} className={styles.sidebarLogo} />}
       <Assistance />
-      {show ? (
+      {adv ? (
         <>
           <Sponsor />
-          <span style={closeStyle} onClick={() => setShow((s) => !s)}>
+          <span
+            style={closeStyle}
+            onClick={() => setAdv((s) => !s)}
+            title="关闭所有赞助商广告"
+          >
             收
           </span>
         </>
@@ -42,7 +47,7 @@ function DocSidebarDesktop({ path, sidebar, onCollapse, isHidden }) {
       )}
 
       <Content path={path} sidebar={sidebar} />
-      {show && sponsor && (
+      {adv && sponsor && (
         <div>
           <SponsorItem
             key={sponsor.url}

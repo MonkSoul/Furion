@@ -23,7 +23,7 @@ module.exports = {
     announcementBar: {
       id: "vip",
       content:
-        "👍 Furion 官方推出 VIP 服务，2023年12月01日前仅需 499元/年，享有专业团队的优先支持。 [<a href='/docs/subscribe'>了解更多</a>] 👍",
+        "👍 2023年12月01日前开通 <a href='/docs/subscribe'>VIP 服务</a> 仅需 499元/年，享有专业团队的优先支持 👍",
       backgroundColor: "#723cff",
       textColor: "yellow",
       isCloseable: false,

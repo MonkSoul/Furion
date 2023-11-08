@@ -3,8 +3,10 @@ import { useDoc } from "@docusaurus/theme-common/internal";
 import Heading from "@theme/Heading";
 import MDXContent from "@theme/MDXContent";
 import clsx from "clsx";
-import React from "react";
+import React, { useContext } from "react";
+import GlobalContext from "../../../components/GlobalContext";
 import SpecDonate from "../../../components/SpecDonate";
+
 /**
  Title can be declared inside md content or declared through
  front matter and added manually. To make both cases consistent,
@@ -26,9 +28,11 @@ function useSyntheticTitle() {
 }
 export default function DocItemContent({ children }) {
   const syntheticTitle = useSyntheticTitle();
+  const { adv } = useContext(GlobalContext);
+
   return (
     <div className={clsx(ThemeClassNames.docs.docMarkdown, "markdown")}>
-      <SpecDonate />
+      {adv && <SpecDonate />}
       {syntheticTitle && (
         <header>
           <Heading as="h1">{syntheticTitle}</Heading>
