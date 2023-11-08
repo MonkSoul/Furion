@@ -19,7 +19,8 @@ export function SponsorToc() {
         <SponsorItem
           key={item.url}
           title={item.title}
-          url={item.url}
+          // url={item.url}
+          url="https://www.crmeb.com/?from=furion"
           picture={item.picture}
           top={true}
           last={false}
