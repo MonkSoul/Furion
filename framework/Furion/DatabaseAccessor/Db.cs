@@ -166,6 +166,18 @@ public static class Db
     /// <summary>
     /// 获取特定数据库上下文
     /// </summary>
+    /// <typeparam name="TDbContextLocator">数据库上下文定位器</typeparam>
+    /// <param name="serviceProvider"></param>
+    /// <returns></returns>
+    public static DbContext GetDbContext<TDbContextLocator>(IServiceProvider serviceProvider = default)
+        where TDbContextLocator : class, IDbContextLocator
+    {
+        return GetDbContext(typeof(TDbContextLocator), serviceProvider);
+    }
+
+    /// <summary>
+    /// 获取特定数据库上下文
+    /// </summary>
     /// <param name="dbContextLocator">数据库上下文定位器</param>
     /// <param name="serviceProvider"></param>
     /// <returns></returns>
@@ -179,14 +191,54 @@ public static class Db
     }
 
     /// <summary>
-    /// 获取特定数据库上下文
+    /// 获取新的默认数据库上下文（手动 using 释放）
+    /// </summary>
+    /// <param name="serviceProvider"></param>
+    /// <param name="contextOptions"></param>
+    /// <returns></returns>
+    public static DbContext GetNewDbContext(IServiceProvider serviceProvider = default, DbContextOptions contextOptions = null)
+    {
+        return GetNewDbContext(typeof(MasterDbContextLocator), serviceProvider, contextOptions);
+    }
+
+    /// <summary>
+    /// 获取新的特定数据库上下文（手动 using 释放）
     /// </summary>
     /// <typeparam name="TDbContextLocator">数据库上下文定位器</typeparam>
     /// <param name="serviceProvider"></param>
+    /// <param name="contextOptions"></param>
     /// <returns></returns>
-    public static DbContext GetDbContext<TDbContextLocator>(IServiceProvider serviceProvider = default)
+    public static DbContext GetNewDbContext<TDbContextLocator>(IServiceProvider serviceProvider = default, DbContextOptions contextOptions = null)
         where TDbContextLocator : class, IDbContextLocator
     {
-        return GetDbContext(typeof(TDbContextLocator), serviceProvider);
+        return GetNewDbContext(typeof(TDbContextLocator), serviceProvider, contextOptions);
+    }
+
+    /// <summary>
+    /// 获取新的特定数据库上下文（手动 using 释放）
+    /// </summary>
+    /// <param name="dbContextLocator">数据库上下文定位器</param>
+    /// <param name="serviceProvider"></param>
+    /// <param name="contextOptions"></param>
+    /// <returns></returns>
+    public static DbContext GetNewDbContext(Type dbContextLocator, IServiceProvider serviceProvider = default, DbContextOptions contextOptions = null)
+    {
+        // 判断数据库上下文定位器是否绑定
+        Penetrates.CheckDbContextLocator(dbContextLocator, out var dbContextType);
+
+        // 解析 DbContextOptions<DbContext> 构造函数参数
+        contextOptions ??= App.GetService(typeof(DbContextOptions<>).MakeGenericType(dbContextType), serviceProvider) as DbContextOptions;
+
+        // 创建新实例
+        var dbContext = (DbContext)Activator.CreateInstance(dbContextType, new object[] { contextOptions });
+
+        // 实现动态数据库上下文功能，刷新 OnModelCreating
+        var dbContextAttribute = DbProvider.GetAppDbContextAttribute(dbContextType);
+        if (dbContextAttribute?.Mode == DbContextMode.Dynamic)
+        {
+            DynamicModelCacheKeyFactory.RebuildModels();
+        }
+
+        return dbContext;
     }
 }

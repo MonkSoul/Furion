@@ -253,4 +253,27 @@ public class TestModuleServices : IDynamicApiController
     {
         await "http://furion.baiqian.ltd/img/rm1.png".GetToSaveAsync("D:/rm3.png");
     }
+
+    public void 测试创建新的数据库上下文()
+    {
+        var dbcontext1 = Db.GetDbContext(typeof(MasterDbContextLocator));
+        var dbcontext2 = Db.GetDbContext(typeof(MasterDbContextLocator));
+
+        var c = dbcontext1 == dbcontext2;
+
+        var dbcontext3 = Db.GetNewDbContext(typeof(MasterDbContextLocator));
+        var dbcontext4 = Db.GetNewDbContext(typeof(MasterDbContextLocator));
+
+        var d = dbcontext1 != dbcontext3;
+        var e = dbcontext2 != dbcontext3;
+        var f = dbcontext3 != dbcontext4;
+
+        Task.Run(() =>
+        {
+            var dbcontext5 = Db.GetNewDbContext(typeof(MasterDbContextLocator));
+            var dbcontext6 = Db.GetNewDbContext(typeof(MasterDbContextLocator));
+
+            var f = dbcontext5 != dbcontext6;
+        });
+    }
 }

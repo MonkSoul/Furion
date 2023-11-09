@@ -4,6 +4,21 @@ title: 2. Db 静态类
 sidebar_label: 2. Db 静态类
 ---
 
+import Tag from "@site/src/components/Tag.js";
+
+<details>
+  <summary>📝 模块更新日志</summary>
+  <div>
+<div>
+
+- **新特性**
+
+  - &nbsp;<Tag>新增</Tag> `Db.GetNewDbContext()` 多个重载方法，实现类似 `new DbContext()` 操作 <sup>4.8.8.55</sup> <sup>⏱️2023.11.09</sup>
+
+</div>
+  </div>
+</details>
+
 ## 2.1 获取非泛型仓储
 
 ```cs showLineNumbers 
@@ -56,14 +71,14 @@ var locatorDbContext2 = Db.GetDbContext(typeof(TDbContextLocator));
 ## 2.9 创建新的默认数据库上下文
 
 ```cs showLineNumbers 
-var dbContext = Db.GetNewDbContext();
+using var dbContext = Db.GetNewDbContext(); // 别忘记 using，Furion 4.8.8.55+ 版本有效
 ```
 
 ## 2.10 创建新的定位器数据库上下文
 
 ```cs showLineNumbers 
-var locatorDbContext = Db.GetNewDbContext<TDbContextLocator>();
-var locatorDbContext2 = Db.GetNewDbContext(typeof(TDbContextLocator));
+using var locatorDbContext = Db.GetNewDbContext<TDbContextLocator>(); // 别忘记 using，Furion 4.8.8.55+ 版本有效
+using var locatorDbContext2 = Db.GetNewDbContext(typeof(TDbContextLocator)); // 别忘记 using，Furion 4.8.8.55+ 版本有效
 ```
 
 ## 2.11 根据定位器类型获取仓储

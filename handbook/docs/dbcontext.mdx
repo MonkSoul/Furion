@@ -4,6 +4,21 @@ title: 9.2 数据库上下文
 sidebar_label: 9.2 数据库上下文
 ---
 
+import Tag from "@site/src/components/Tag.js";
+
+<details>
+  <summary>📝 模块更新日志</summary>
+  <div>
+<div>
+
+- **新特性**
+
+  - &nbsp;<Tag>新增</Tag> `Db.GetNewDbContext()` 多个重载方法，实现类似 `new DbContext()` 操作 <sup>4.8.8.55</sup> <sup>⏱️2023.11.09</sup>
+
+</div>
+  </div>
+</details>
+
 :::warning 连接字符串配置注意事项
 
 如果连接字符串是配置在自定义的 `.json` 文件中，那么必须在 `Visual Studio` 中配置 `.json` 右键属性，设置 `复制` 输出目录为 `如果较新则复制`，生成操作为：`内容`。
@@ -332,7 +347,7 @@ var users = repository.DynamicContext.Users;
 
 由于 `DbContext` 默认注册为 `Scoped` 生存周期，所以在后台任务中使用 `IServiceScopeFactory` 获取所有服务，如：
 
-```cs showLineNumbers
+```cs showLineNumbers {8-9,19,21,24}
 public class JobService : BackgroundService
 {
     // 日志对象
@@ -426,7 +441,35 @@ namespace Furion.EntityFramework.Core
 
 :::
 
-## 9.2.13 反馈与建议
+## 9.2.13 `Db` 静态类获取上下文
+
+`Db` 静态类提供了多种获取 `DbContext` 上下文的方法，如：
+
+```cs showLineNumbers {2,5-6,9,12-13}
+// 获取默认数据库上下文
+var dbContext = Db.GetDbContext();
+
+// 获取定位器数据库上下文
+var locatorDbContext = Db.GetDbContext<TDbContextLocator>();
+var locatorDbContext2 = Db.GetDbContext(typeof(TDbContextLocator));
+
+// 创建新的默认数据库上下文（相当于 new YourDbContext）
+using var dbContext = Db.GetNewDbContext(); // 别忘记 using，Furion 4.8.8.55+ 版本有效
+
+// 创建新的定位器数据库上下文（相当于 new YourDbContext）
+using var locatorDbContext = Db.GetNewDbContext<TDbContextLocator>(); // 别忘记 using，Furion 4.8.8.55+ 版本有效
+using var locatorDbContext2 = Db.GetNewDbContext(typeof(TDbContextLocator)); // 别忘记 using，Furion 4.8.8.55+ 版本有效
+```
+
+:::caution 特别注意
+
+默认情况下 `Db.GetDbContext(...)` 创建数据库上下文的作用域和 `Web` 相同，**如果您在后台线程或多线程中使用，那么必须传入第二个 `serviceProvider` 参数。**
+
+**也可以通过 `Db.GetNewDbContext(...)` 的方式获取一个新的数据库上下文，但是需要手动 `using` 释放。**
+
+:::
+
+## 9.2.14 反馈与建议
 
 :::note 与我们交流
 
