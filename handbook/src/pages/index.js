@@ -105,7 +105,7 @@ function Banner() {
             </Link>
             <Tooltip
               content="已有 298 位用户开通 VIP 服务"
-              placement="right"
+              placement="bottomRight"
               isOpen
             >
               <Link
