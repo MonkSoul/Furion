@@ -4,7 +4,7 @@ import React from "react";
 import classes from "./Assistance.module.css";
 
 export default function Assistance({ style = {} }) {
-  const count = 297;
+  const count = 298;
 
   return (
     <Link
@@ -14,6 +14,7 @@ export default function Assistance({ style = {} }) {
       title={"已有 " + count + " 个 VIP 用户"}
     >
       <div className={classes.title}>开通 VIP 服务助力 Furion v5 发布</div>
+
       <div className={classes.progress}>
         <div className={classes.number}>{count}</div>
         <div className={classes.percent}>

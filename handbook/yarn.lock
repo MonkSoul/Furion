@@ -2857,6 +2857,14 @@
     "@uiw/react-overlay" "^4.22.0"
     "@uiw/utils" "^4.22.0"
 
+"@uiw/react-overlay-trigger@^4.22.2":
+  version "4.22.2"
+  resolved "https://registry.yarnpkg.com/@uiw/react-overlay-trigger/-/react-overlay-trigger-4.22.2.tgz#48a57ca343ad5c93e3cfe18548d301d9ed64198f"
+  integrity sha512-EdHMi8w7VfiNId8j5xm1M0TDSL8wSvERUY44XpQKPk4h0WGZA2TPSmmQnFQipqM5TUEJ4KUk5oWDlsPoexsEwA==
+  dependencies:
+    "@uiw/react-overlay" "^4.22.2"
+    "@uiw/utils" "^4.22.2"
+
 "@uiw/react-overlay@^4.22.0":
   version "4.22.0"
   resolved "https://registry.yarnpkg.com/@uiw/react-overlay/-/react-overlay-4.22.0.tgz#539ffb1d4a0b680d5a07f6ca7ce246d80ed67857"
@@ -2866,15 +2874,42 @@
     "@uiw/utils" "^4.22.0"
     react-transition-group "~4.4.2"
 
+"@uiw/react-overlay@^4.22.2":
+  version "4.22.2"
+  resolved "https://registry.yarnpkg.com/@uiw/react-overlay/-/react-overlay-4.22.2.tgz#5e71fb79de590c0c8c07adec65f21c9d3317a14e"
+  integrity sha512-xHxaUT1Jfhl5CobrZmUNaC6HwYGi1eNVFOCN8WB/p9/sVmytet0ivN7io8gTRkaOirs/B6apktBTxPrFau/ziQ==
+  dependencies:
+    "@uiw/react-portal" "^4.22.2"
+    "@uiw/utils" "^4.22.2"
+    react-transition-group "~4.4.2"
+
 "@uiw/react-portal@^4.22.0":
   version "4.22.0"
   resolved "https://registry.yarnpkg.com/@uiw/react-portal/-/react-portal-4.22.0.tgz#2f2d2088f2067df2eb48cb955f4ffe5ea4ca5d07"
   integrity sha512-7Ebw0CG3qaIaZqdPXa29Q+sdAZdk1jpqH0C13k1o3/dEEOjLV0Cj6MnBSCUphqHuK0C/lD1A5pmb3VIIB3fmkA==
 
+"@uiw/react-portal@^4.22.2":
+  version "4.22.2"
+  resolved "https://registry.yarnpkg.com/@uiw/react-portal/-/react-portal-4.22.2.tgz#8b06bb0bb95b44839fe8b1fbbe28db39d2c6e1cd"
+  integrity sha512-qmLOIRYwRwmLjd1G9Aha2A6XdtMdyPrkNBBfGhCY9JqTa9IoYddFkcVpJYyGIpPcNeB5a+mvyx/qfnC3DmnxHg==
+
+"@uiw/react-tooltip@^4.22.2":
+  version "4.22.2"
+  resolved "https://registry.yarnpkg.com/@uiw/react-tooltip/-/react-tooltip-4.22.2.tgz#c3e30fbce902052a7410fbdf37431d84e574e283"
+  integrity sha512-YEDAK9g46QqpFZzUcBrRIoqVj61HzAZHg0MiIbAR4KudXlhgxh/VnfpUezEURA01QjxdvUYX3bRzmWcW1+IVwQ==
+  dependencies:
+    "@uiw/react-overlay-trigger" "^4.22.2"
+    "@uiw/utils" "^4.22.2"
+
 "@uiw/utils@^4.22.0":
   version "4.22.0"
   resolved "https://registry.yarnpkg.com/@uiw/utils/-/utils-4.22.0.tgz#2a44bc8357872514f56867ee99d8e5f1e2b36f57"
   integrity sha512-GPTrzkzuoemQOmTE3JUGa6WDaQpwJ3atVTLopAHM84++NmtVYwlSJImd/NPgxBPymVMihKIA+hou8IeAIcHhnQ==
+
+"@uiw/utils@^4.22.2":
+  version "4.22.2"
+  resolved "https://registry.yarnpkg.com/@uiw/utils/-/utils-4.22.2.tgz#579fe11d3674abb5209575869dc06d17f4bd2922"
+  integrity sha512-FwbJPvUKTMGOXZZcKvvYwNoGT/vql3T+TWgjIi21GqlkVEoAcmO/2zrfRzOQzs3SNwlMmv5B7b0ZrAfEDzjDcg==
 
 "@ungap/structured-clone@^1.0.0":
   version "1.2.0"

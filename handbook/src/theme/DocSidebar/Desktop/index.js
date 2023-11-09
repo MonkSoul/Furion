@@ -2,6 +2,7 @@ import { useThemeConfig } from "@docusaurus/theme-common";
 import CollapseButton from "@theme/DocSidebar/Desktop/CollapseButton";
 import Content from "@theme/DocSidebar/Desktop/Content";
 import Logo from "@theme/Logo";
+import Tooltip from "@uiw/react-tooltip";
 import clsx from "clsx";
 import React, { useContext } from "react";
 import Assistance from "../../../components/Assistance";
@@ -34,13 +35,15 @@ function DocSidebarDesktop({ path, sidebar, onCollapse, isHidden }) {
       {adv ? (
         <>
           <Sponsor />
-          <span
-            style={closeStyle}
-            onClick={() => setAdv((s) => !s)}
-            title="关闭所有赞助商广告"
-          >
-            收
-          </span>
+          <Tooltip content="切换 ⌈干净布局⌋" isOpen>
+            <span
+              style={closeStyle}
+              onClick={() => setAdv((s) => !s)}
+              title="关闭所有赞助商广告"
+            >
+              收
+            </span>
+          </Tooltip>
         </>
       ) : (
         <Donate style={{ margin: "0.5em", border: "2px solid #ffb02e" }} />
