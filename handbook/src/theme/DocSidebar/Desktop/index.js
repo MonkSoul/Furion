@@ -35,12 +35,8 @@ function DocSidebarDesktop({ path, sidebar, onCollapse, isHidden }) {
       {adv ? (
         <>
           <Sponsor />
-          <Tooltip content="切换 ⌈干净布局⌋" isOpen>
-            <span
-              style={closeStyle}
-              onClick={() => setAdv((s) => !s)}
-              title="关闭所有赞助商广告"
-            >
+          <Tooltip content="切换 ⌈干净布局⌋" isOpen placement="bottom">
+            <span style={closeStyle} onClick={() => setAdv((s) => !s)}>
               收
             </span>
           </Tooltip>

@@ -4,6 +4,7 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
 import Layout from "@theme/Layout";
 import components from "@theme/MDXComponents";
+import Tooltip from "@uiw/react-tooltip";
 import React, { useContext } from "react";
 import Assistance from "../components/Assistance";
 import Donate from "../components/Donate";
@@ -102,14 +103,20 @@ function Banner() {
               入门指南
               <span className="furion-version">v4.8.8.55</span>
             </Link>
-            <Link
-              className="furion-try-demo"
-              to={useBaseUrl("docs/subscribe")}
-              title="VIP 服务"
+            <Tooltip
+              content="已有 298 位用户开通 VIP 服务"
+              placement="right"
+              isOpen
             >
-              VIP 服务
-              <span className="furion-version">499元/年</span>
-            </Link>
+              <Link
+                className="furion-try-demo"
+                to={useBaseUrl("docs/subscribe")}
+                title="VIP 服务"
+              >
+                VIP 服务
+                <span className="furion-version">499元/年</span>
+              </Link>
+            </Tooltip>
           </div>
         </div>
         <div className="furion-banner-item">
@@ -201,7 +208,7 @@ function Gitee() {
             className={"furion-log-jiao" + (isDarkTheme ? " dark" : "")}
           ></div>
           <div className="furion-log-number">
-            <div style={{ color: "#1fd898" }}>11,392,084</div>
+            <div style={{ color: "#1fd898" }}>11,399,184</div>
             <span className={isDarkTheme ? " dark" : ""}>Downloads</span>
           </div>
         </div>

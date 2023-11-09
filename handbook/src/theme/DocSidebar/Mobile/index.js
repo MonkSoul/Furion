@@ -24,11 +24,7 @@ const DocSidebarMobileSecondaryMenu = ({ sidebar, path }) => {
       {adv ? (
         <>
           <Sponsor />
-          <span
-            style={closeStyle}
-            onClick={() => setAdv((s) => !s)}
-            title="关闭所有赞助商广告"
-          >
+          <span style={closeStyle} onClick={() => setAdv((s) => !s)}>
             收
           </span>
         </>
