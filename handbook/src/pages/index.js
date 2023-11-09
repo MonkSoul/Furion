@@ -100,7 +100,7 @@ function Banner() {
               to={useBaseUrl("docs/category/getstart")}
             >
               入门指南
-              <span className="furion-version">v4.8.8.54</span>
+              <span className="furion-version">v4.8.8.55</span>
             </Link>
             <Link
               className="furion-try-demo"
@@ -282,7 +282,7 @@ function WhoUse() {
           <div></div>
           <h1>请考虑赞助 Furion</h1>
           <p>
-            Furion 是一个 MIT 许可的开源项目，在 NuGet 平台获得超 1130
+            Furion 是一个 MIT 许可的开源项目，在 NuGet 平台获得超 1140
             万次下载。从小型企业到企业的解决方案及知名企业，他们在简单软件和复杂管理系统的开发方面都信任我们。
             <br />
             <br />
