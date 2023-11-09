@@ -252,7 +252,7 @@ module.exports = {
         "virtual-deploy",
         "singlefile",
         "pm2",
-        "bs-to-cs"
+        "bs-to-cs",
       ],
     },
     {
@@ -280,6 +280,10 @@ module.exports = {
     {
       type: "doc",
       id: "contribute",
+    },
+    {
+      type: "doc",
+      id: "bug-report",
     },
   ],
   settings: [
