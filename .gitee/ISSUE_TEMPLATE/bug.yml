@@ -9,6 +9,12 @@ body:
         <img src="https://gitee.com/dotnetchina/Furion/raw/v4/handbook/static/img/tip.png" width="100%" />
 
         ## 💢 特别说明：如果 Issue 没有严格按照模板编写且未提供测试源码下载或 Git 测试仓库地址，则视为无效 `Issue`，将无法得到答复。
+  - type: markdown
+    attributes:
+      value: |
+        关注 Furion 公众号订阅最新资讯
+
+        ![](https://gitee.com/dotnetchina/Furion/raw/v4/handbook/static/img/weixin_qrcode.jpg)
   - type: dropdown
     id: version
     attributes:
@@ -223,12 +229,4 @@ body:
   - type: markdown
     attributes:
       value: |
-        关注 Furion 公众号订阅最新资讯
-
-        ![](https://gitee.com/dotnetchina/Furion/raw/v4/handbook/static/img/weixin_qrcode.jpg)
-  - type: markdown
-    attributes:
-      value: |
-        **👍 仅需 499元/年即刻享有百小僧一对一技术指导 VIP 服务 👍**
-
         [![](https://gitee.com/dotnetchina/Furion/raw/v4/handbook/static/img/cmp-vip.jpeg)](http://furion.baiqian.ltd/docs/subscribe)
