@@ -19,7 +19,7 @@ import LinuxIcon from "./linux.svg";
 import MacOSIcon from "./macos.svg";
 import WindowIcon from "./windows.svg";
 
-const count = "已有 300 位用户开通 VIP 服务";
+const count = "已有 301 位用户开通 VIP 服务";
 
 function Home() {
   const context = useDocusaurusContext();
@@ -206,7 +206,7 @@ function Gitee() {
             className={"furion-log-jiao" + (isDarkTheme ? " dark" : "")}
           ></div>
           <div className="furion-log-number">
-            <div style={{ color: "#1fd898" }}>11,405,531</div>
+            <div style={{ color: "#1fd898" }}>11,406,223</div>
             <span className={isDarkTheme ? " dark" : ""}>Downloads</span>
           </div>
         </div>

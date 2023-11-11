@@ -5,7 +5,7 @@ import React from "react";
 import classes from "./Assistance.module.css";
 
 export default function Assistance({ style = {}, onClick }) {
-  const count = 300;
+  const count = 301;
   const tip = "已有 " + count + " 位用户开通 VIP 服务";
 
   return (
