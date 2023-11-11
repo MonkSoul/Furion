@@ -133,7 +133,7 @@ function Root({ children }) {
             }}
             onClick={() => setDonate(false)}
           >
-            2023年12月01日前开通 VIP 服务仅需 499元/年
+            2023 年 12 月 01 日前开通 VIP 服务仅需 499元/年
           </Link>{" "}
           👍
         </div>
@@ -157,6 +157,13 @@ function VipShow() {
       onClosed={() => showDrawer(false)}
       bodyStyle={{ fontSize: 15 }}
     >
+      <div>
+        <img
+          src={useBaseUrl("img/cmp-vip.jpeg")}
+          style={{ borderRadius: 5, display: "block" }}
+        />
+      </div>
+      <br />
       <VipDesc />
       <Assistance style={{ margin: 0 }} onClick={() => showDrawer(false)} />
     </Modal>

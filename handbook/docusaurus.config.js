@@ -23,7 +23,7 @@ module.exports = {
     announcementBar: {
       id: "vip",
       content:
-        "👍 2023年12月01日前开通 <a href='/docs/subscribe'>VIP 服务</a> 仅需 499元/年，享有专业团队的优先支持 👍",
+        "👍 2023 年 12 月 01 日前开通 <a href='/docs/subscribe'>VIP 服务</a> 仅需 499元/年，享有专业团队的优先支持 👍",
       backgroundColor: "#723cff",
       textColor: "yellow",
       isCloseable: false,
