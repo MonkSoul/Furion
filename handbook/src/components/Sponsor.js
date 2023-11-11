@@ -60,6 +60,7 @@ const sponsorTagStyle = {
   fontSize: 12,
   backgroundColor: "rgba(0,0,0,0.8)",
   padding: "0 5px",
+  color: "#25c2a0",
 };
 
 export function SponsorItem({ picture, url, last, title, top, tag, style }) {

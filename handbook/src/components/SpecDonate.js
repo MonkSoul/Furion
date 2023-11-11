@@ -67,6 +67,7 @@ export default function SpecDonate({ style }) {
         position: "relative",
         borderRadius: 5,
         overflow: "hidden",
+        color: "#25c2a0",
       }}
       title="CRMEB 专注开源电商系统研发"
     >

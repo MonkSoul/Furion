@@ -11,9 +11,10 @@ import VipDesc from "../components/VipDesc.mdx";
 
 function Root({ children }) {
   const [donate, setDonate] = useState(false);
-  const [showVip, setVip] = useState(true);
+  const [showVip, setVip] = useState(false);
   const [adv, setAdv] = useState(true);
   const [drawer, showDrawer] = useState(true);
+  const [rightVip, setRightVip] = useState(false);
 
   const onClosed = () => {
     setDonate(false);
@@ -29,6 +30,8 @@ function Root({ children }) {
         setAdv,
         drawer,
         showDrawer,
+        rightVip,
+        setRightVip,
       }}
     >
       {showVip && <Vip />}
@@ -145,16 +148,19 @@ function Root({ children }) {
 }
 
 function VipShow() {
-  const { drawer, showDrawer } = useContext(GlobalContext);
+  const { drawer, showDrawer, setVip } = useContext(GlobalContext);
 
   return (
     <Modal
-      title="Furion 官方 VIP 服务"
+      title="Furion 官方 VIP 服务 🤜🤛"
       isOpen={drawer}
       useButton={false}
       icon="pay"
       type="primary"
-      onClosed={() => showDrawer(false)}
+      onClosed={() => {
+        showDrawer(false);
+        setVip(true);
+      }}
       bodyStyle={{ fontSize: 15 }}
     >
       <div>

@@ -3,8 +3,8 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 import { useContext } from "react";
 import GlobalContext from "./GlobalContext";
 
-export default function Vip({}) {
-  const { setVip } = useContext(GlobalContext);
+export default function Vip({ style, closable = true }) {
+  const { setVip, setRightVip } = useContext(GlobalContext);
 
   return (
     <div
@@ -17,29 +17,35 @@ export default function Vip({}) {
         right: 0,
         borderRadius: 5,
         overflow: "hidden",
+        ...style,
       }}
     >
-      <div
-        style={{
-          position: "absolute",
-          zIndex: 2,
-          right: 5,
-          top: 5,
-          cursor: "pointer",
-          borderRadius: "50%",
-          backgroundColor: "rgba(0,0,0,0.4)",
-          color: "#f1f1f1",
-          width: 20,
-          height: 20,
-          textAlign: "center",
-          lineHeight: "20px",
-          fontSize: 12,
-        }}
-        title="关闭"
-        onClick={() => setVip(false)}
-      >
-        X
-      </div>
+      {closable && (
+        <div
+          style={{
+            position: "absolute",
+            zIndex: 2,
+            right: 5,
+            top: 5,
+            cursor: "pointer",
+            borderRadius: "50%",
+            backgroundColor: "rgba(0,0,0,0.4)",
+            color: "#f1f1f1",
+            width: 20,
+            height: 20,
+            textAlign: "center",
+            lineHeight: "20px",
+            fontSize: 12,
+          }}
+          title="关闭"
+          onClick={() => {
+            setVip(false);
+            setRightVip(true);
+          }}
+        >
+          X
+        </div>
+      )}
       <Link
         to={useBaseUrl("docs/subscribe")}
         style={{ display: "block" }}
@@ -47,7 +53,7 @@ export default function Vip({}) {
       >
         <img
           src={useBaseUrl("img/cmp-vip.jpeg")}
-          style={{ display: "block", width: 200, height: 200 }}
+          style={{ display: "block", width: "100%" }}
         />
       </Link>
     </div>
