@@ -49,7 +49,7 @@ export default function Vip({ style, closable = true }) {
       <Link
         to={useBaseUrl("docs/subscribe")}
         style={{ display: "block" }}
-        title="👍 2023 年 12 月 01 日前开通 VIP 服务仅需 499元/年 👍"
+        title="👍 开通 VIP 服务仅需 799 元，尊享 365 天项目无忧 👍"
       >
         <img
           src={useBaseUrl("img/cmp-vip.jpeg")}

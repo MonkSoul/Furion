@@ -1882,7 +1882,7 @@ var (stream, encoding) = await "http://furion.baiqian.ltd/".GetAsStreamAsync();
   </div>
 </details>
 
-- - &nbsp;<Tag>新增</Tag> <Tag>调整</Tag> ** `.Inject()` 支持配置更多参数，开放底层更多权限** <sup>4.4.9</sup> [1182283](https://gitee.com/dotnetchina/Furion/commit/1182283f6303b2d73ae4c82cdbc8b5b705d90030)
+- - &nbsp;<Tag>新增</Tag> <Tag>调整</Tag> **`.Inject()` 支持配置更多参数，开放底层更多权限** <sup>4.4.9</sup> [1182283](https://gitee.com/dotnetchina/Furion/commit/1182283f6303b2d73ae4c82cdbc8b5b705d90030)
 
 <details style={{ marginLeft: 50 }}>
   <summary>查看变化</summary>
@@ -2163,7 +2163,7 @@ public interface IUnitOfWork
 - **突破性变化**
 
   - &nbsp;<Tag>新增</Tag> `Furion.Xunit` 拓展包，正式实现 `Xunit` 单元测试完整支持 `Furion` [063a034e](https://gitee.com/dotnetchina/Furion/commit/063a034edd089e88d501af4c09251611476fd238)
-  - &nbsp;<Tag>移除</Tag> ~~`Furion.Extras.DatabaseAccessor.SqlSugar` 拓展插件中的 `[SqlSugarUnitOfWork]` 工作单元特性，将使用通用工作单元替换\*\*~~ [查看最新实现文档](./tran.mdx#92631-自动管理)\*\*
+  - &nbsp;<Tag>移除</Tag> ~~`Furion.Extras.DatabaseAccessor.SqlSugar` 拓展插件中的 `[SqlSugarUnitOfWork]` 工作单元特性，将使用通用工作单元替换~~ **[查看最新实现文档](./tran.mdx#92631-自动管理)**
   - &nbsp;<Tag>移除</Tag> ~~`Inject.Create()` 方法，再也不需要了，框架提供了无敌强大的 `Serve.Run()` 静默启动方式~~ [200848e](https://gitee.com/dotnetchina/Furion/commit/200848eda8c2e419c0b5be83f7768a257f3c88bd)
   - &nbsp;<Tag>调整</Tag> `Serve.Run` 的 `ConfigureConfiguration` 方法参数，由 `configuration => {}` 改为 `(environment, configuration) => {}` [83c97bb](https://gitee.com/dotnetchina/Furion/commit/83c97bb5a19d6fc4e51cfe05f635675d26067d45)
 

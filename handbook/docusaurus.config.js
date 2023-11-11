@@ -23,7 +23,7 @@ module.exports = {
     announcementBar: {
       id: "vip",
       content:
-        "👍 2023 年 12 月 01 日前开通 <a href='/docs/subscribe'>VIP 服务</a> 仅需 499元/年，享有专业团队的优先支持 👍",
+        "👍 开通 <a href='/docs/subscribe'>VIP 服务</a> 仅需 799 元，尊享 365 天项目无忧 👍",
       backgroundColor: "#723cff",
       textColor: "yellow",
       isCloseable: false,
@@ -175,7 +175,7 @@ module.exports = {
           ],
         },
       ],
-      copyright: `版权 © 2020-present 百小僧, 百签科技（广东）有限公司 和所有贡献者`,
+      copyright: `版权 © 2020-present 百小僧, 百签科技（广东）有限公司`,
       logo: {
         src: "img/chinadotnet.png",
         href: "https://gitee.com/dotnetchina",

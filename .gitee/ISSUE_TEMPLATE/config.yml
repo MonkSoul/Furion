@@ -4,12 +4,12 @@ contact_links:
   - name: 使用文档
     url: http://furion.baiqian.ltd/
     about: 让 .NET 开发更简单，更通用，更流行。
-  - name: VIP 服务
+  - name: VIP 服务 🤜🤛
     url: http://furion.baiqian.ltd/docs/subscribe
-    about: 仅需 499元/年，享有专业团队的优先支持
+    about: 开通 VIP 服务仅需 799 元，尊享 365 天项目无忧
   - name: 慷慨赞助
     url: http://furion.baiqian.ltd/docs/donate
     about: 允许商用，慷慨赞助
-  - name: ❤️ 微信公众号
+  - name: 微信公众号
     url: https://gitee.com/dotnetchina/Furion/raw/v4/handbook/static/img/weixin_qrcode.jpg
     about: 关注 Furion 公众号订阅最新资讯

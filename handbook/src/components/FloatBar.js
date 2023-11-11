@@ -27,7 +27,7 @@ export default function FloatBar() {
             <div style={{ flex: 1 }}>
               <div className={styles.itemTitle}>👍 VIP 服务</div>
               <div className={styles.itemDesc}>
-                2023 年 12 月 01 日前开通 VIP 服务仅需 499元/年
+                仅需 799 元，尊享 365 天项目无忧
               </div>
             </div>
             <div className={styles.jiantou}></div>

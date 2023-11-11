@@ -136,7 +136,7 @@ function Root({ children }) {
             }}
             onClick={() => setDonate(false)}
           >
-            2023 年 12 月 01 日前开通 VIP 服务仅需 499元/年
+            开通 VIP 服务仅需 799 元，尊享 365 天项目无忧
           </Link>{" "}
           👍
         </div>
@@ -152,7 +152,7 @@ function VipShow() {
 
   return (
     <Modal
-      title="Furion 官方 VIP 服务 🤜🤛"
+      title="VIP 服务 🤜🤛"
       isOpen={drawer}
       useButton={false}
       icon="pay"
