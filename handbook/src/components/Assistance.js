@@ -4,8 +4,8 @@ import Tooltip from "@uiw/react-tooltip";
 import React from "react";
 import classes from "./Assistance.module.css";
 
-export default function Assistance({ style = {} }) {
-  const count = 298;
+export default function Assistance({ style = {}, onClick }) {
+  const count = 300;
   const tip = "已有 " + count + " 位用户开通 VIP 服务";
 
   return (
@@ -14,6 +14,7 @@ export default function Assistance({ style = {} }) {
         className={classes.ass}
         to={useBaseUrl("docs/subscribe")}
         style={{ ...style }}
+        onClick={onClick}
       >
         <div className={classes.title}>开通 VIP 服务助力 Furion v5 发布</div>
         <div className={classes.progress}>

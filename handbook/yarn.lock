@@ -2832,6 +2832,14 @@
   resolved "https://registry.yarnpkg.com/@uiw/icons/-/icons-2.6.10.tgz#d7fc9580f227032d100e2c7b7259d5c9b08a1560"
   integrity sha512-+tDpgrbJWjy5dnR3CTqItnc7yQuB2spDU8OmQCUUTaMEJ/v9nTZfZ8rDro4P//SN+QYPQQ0lmJbTj8/KOWeV5Q==
 
+"@uiw/react-alert@^4.22.2":
+  version "4.22.2"
+  resolved "https://registry.yarnpkg.com/@uiw/react-alert/-/react-alert-4.22.2.tgz#a12805672f6970df27e4a056d593a785769e9611"
+  integrity sha512-wQyc29cXOR8ojXRFhnLo/mg0psdlcThCpmcB8maTZH/LF+q6XHrIqcqKy+Jzpm89FyTf+aknNwUADQEpWxIfBQ==
+  dependencies:
+    "@uiw/react-modal" "^4.22.2"
+    "@uiw/utils" "^4.22.2"
+
 "@uiw/react-button@^4.22.0":
   version "4.22.0"
   resolved "https://registry.yarnpkg.com/@uiw/react-button/-/react-button-4.22.0.tgz#1af2de634e8c7f95255f7d6296f42c439e509bbf"
@@ -2840,10 +2848,35 @@
     "@uiw/react-icon" "^4.22.0"
     "@uiw/utils" "^4.22.0"
 
+"@uiw/react-button@^4.22.2":
+  version "4.22.2"
+  resolved "https://registry.yarnpkg.com/@uiw/react-button/-/react-button-4.22.2.tgz#6bc69ecf57b4af44cd3e40bff811d2724049bafa"
+  integrity sha512-qBDEwdmMBBJRWSI3qfm+bZltk2qYeC8J74cLgEL4J7HKBvvQaQGvvWcQ5h1UmGQCiSDUY58THSM2vzsoJq0Weg==
+  dependencies:
+    "@uiw/react-icon" "^4.22.2"
+    "@uiw/utils" "^4.22.2"
+
+"@uiw/react-drawer@^4.22.2":
+  version "4.22.2"
+  resolved "https://registry.yarnpkg.com/@uiw/react-drawer/-/react-drawer-4.22.2.tgz#31d0180306ae0a013c2fb2d5b0edcfc269903f9b"
+  integrity sha512-UGiDimo0F1YNiBCmwiKnmN/aADwX7sCp4mGz8OuwK752YSOkdGzjNb7ZvZG3YhbyQs8QmUhMvjC3A3IgwEDBoQ==
+  dependencies:
+    "@uiw/react-button" "^4.22.2"
+    "@uiw/react-icon" "^4.22.2"
+    "@uiw/react-overlay" "^4.22.2"
+    "@uiw/utils" "^4.22.2"
+
 "@uiw/react-icon@^4.22.0":
   version "4.22.0"
   resolved "https://registry.yarnpkg.com/@uiw/react-icon/-/react-icon-4.22.0.tgz#3ab39c06e17dbb5db59024a612033bf09f41cc0c"
   integrity sha512-IFi09toDJYoJ9VnHTljlV5323TjwE0+1roxCZx1qvYfR0g83YwhjCAGu93Z1uYIA348jJwE0w9un5Jc/AFjWfw==
+  dependencies:
+    "@uiw/icons" "~2.6.0"
+
+"@uiw/react-icon@^4.22.2":
+  version "4.22.2"
+  resolved "https://registry.yarnpkg.com/@uiw/react-icon/-/react-icon-4.22.2.tgz#5dba79d195e72b598a3913cdd952f676a79cf09e"
+  integrity sha512-Bi+SLPbWw83YJWnEJ6US/kl/OBDxnugEzm+W7FSRH2nJ3W8RPy9gsydTZi6bB4Ily6sGGqLoymmKceeL0wRZTw==
   dependencies:
     "@uiw/icons" "~2.6.0"
 
@@ -2856,6 +2889,26 @@
     "@uiw/react-icon" "^4.22.0"
     "@uiw/react-overlay" "^4.22.0"
     "@uiw/utils" "^4.22.0"
+
+"@uiw/react-modal@^4.22.2":
+  version "4.22.2"
+  resolved "https://registry.yarnpkg.com/@uiw/react-modal/-/react-modal-4.22.2.tgz#fca0f0eb203df25d92bf973cf015d41dc111cf0e"
+  integrity sha512-UmU8uTrw2dA+626OvN80kQ+WmUJ9jd1hMpA86YME5HyuOCLJQ5bXozkv7KL3b6Lhqo/XZ9e8/EdZPr5GV4nQag==
+  dependencies:
+    "@uiw/react-button" "^4.22.2"
+    "@uiw/react-icon" "^4.22.2"
+    "@uiw/react-overlay" "^4.22.2"
+    "@uiw/utils" "^4.22.2"
+
+"@uiw/react-notify@^4.22.2":
+  version "4.22.2"
+  resolved "https://registry.yarnpkg.com/@uiw/react-notify/-/react-notify-4.22.2.tgz#32043e7d03246ea1e2df83fbdc73732637b1839e"
+  integrity sha512-ONjmC0rHr2idvgBwCCar8pd3IVwDL6s1+BukOpgmUYJ0xz6J9TYp8HLRykz6UJKq82kpDnX5NHRipiiIEpx5Yw==
+  dependencies:
+    "@uiw/react-alert" "^4.22.2"
+    "@uiw/react-button" "^4.22.2"
+    "@uiw/react-icon" "^4.22.2"
+    "@uiw/utils" "^4.22.2"
 
 "@uiw/react-overlay-trigger@^4.22.2":
   version "4.22.2"

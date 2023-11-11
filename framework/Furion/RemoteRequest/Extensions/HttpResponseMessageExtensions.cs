@@ -48,14 +48,18 @@ public static class HttpResponseMessageExtensions
         // 遍历所有 Set-Cookie 键
         foreach (var setCookie in setCookies)
         {
+            if (string.IsNullOrWhiteSpace(setCookie)) continue;
+
             // 根据 ; 切割
             var cookieParts = setCookie.Split(';', StringSplitOptions.RemoveEmptyEntries);
             if (cookieParts.Length > 0)
             {
                 // 根据第一个 = 切割
                 var cookieString = cookieParts[0];
-                var cookieKey = cookieString[..cookieString.IndexOf('=')];
-                var cookieValue = Uri.UnescapeDataString(cookieString[(cookieString.IndexOf('=') + 1)..]);
+                var index = cookieString.IndexOf('=');
+
+                var cookieKey = cookieString[..index];
+                var cookieValue = Uri.UnescapeDataString(cookieString[(index + 1)..]);
 
                 cookies.Add(cookieKey, cookieValue);
             }

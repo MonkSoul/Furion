@@ -1,15 +1,19 @@
+import BrowserOnly from "@docusaurus/BrowserOnly";
 import Link from "@docusaurus/Link";
 import useBaseUrl from "@docusaurus/useBaseUrl";
 import Modal from "@uiw/react-modal";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
+import Assistance from "../components/Assistance";
 import FloatBar from "../components/FloatBar";
 import GlobalContext from "../components/GlobalContext";
 import Vip from "../components/Vip";
+import VipDesc from "../components/VipDesc.mdx";
 
 function Root({ children }) {
   const [donate, setDonate] = useState(false);
   const [showVip, setVip] = useState(true);
   const [adv, setAdv] = useState(true);
+  const [drawer, showDrawer] = useState(true);
 
   const onClosed = () => {
     setDonate(false);
@@ -23,6 +27,8 @@ function Root({ children }) {
         setVip,
         adv,
         setAdv,
+        drawer,
+        showDrawer,
       }}
     >
       {showVip && <Vip />}
@@ -132,7 +138,28 @@ function Root({ children }) {
           👍
         </div>
       </Modal>
+
+      <BrowserOnly children={() => <VipShow />} />
     </GlobalContext.Provider>
+  );
+}
+
+function VipShow() {
+  const { drawer, showDrawer } = useContext(GlobalContext);
+
+  return (
+    <Modal
+      title="Furion 官方 VIP 服务"
+      isOpen={drawer}
+      useButton={false}
+      icon="pay"
+      type="primary"
+      onClosed={() => showDrawer(false)}
+      bodyStyle={{ fontSize: 15 }}
+    >
+      <VipDesc />
+      <Assistance style={{ margin: 0 }} onClick={() => showDrawer(false)} />
+    </Modal>
   );
 }
 

@@ -19,6 +19,8 @@ import LinuxIcon from "./linux.svg";
 import MacOSIcon from "./macos.svg";
 import WindowIcon from "./windows.svg";
 
+const count = "已有 300 位用户开通 VIP 服务";
+
 function Home() {
   const context = useDocusaurusContext();
   const { siteConfig = {} } = context;
@@ -103,11 +105,7 @@ function Banner() {
               入门指南
               <span className="furion-version">v4.8.8.55</span>
             </Link>
-            <Tooltip
-              content="已有 298 位用户开通 VIP 服务"
-              placement="bottomRight"
-              isOpen
-            >
+            <Tooltip content={count} placement="bottomRight" isOpen>
               <Link
                 className="furion-try-demo"
                 to={useBaseUrl("docs/subscribe")}
@@ -208,7 +206,7 @@ function Gitee() {
             className={"furion-log-jiao" + (isDarkTheme ? " dark" : "")}
           ></div>
           <div className="furion-log-number">
-            <div style={{ color: "#1fd898" }}>11,399,184</div>
+            <div style={{ color: "#1fd898" }}>11,405,531</div>
             <span className={isDarkTheme ? " dark" : ""}>Downloads</span>
           </div>
         </div>
