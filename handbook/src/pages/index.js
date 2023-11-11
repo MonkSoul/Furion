@@ -112,7 +112,7 @@ function Banner() {
                 title="VIP 服务"
               >
                 VIP 服务
-                <span className="furion-version">499元/年</span>
+                <span className="furion-version">799元/年</span>
               </Link>
             </Tooltip>
           </div>
