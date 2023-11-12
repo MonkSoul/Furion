@@ -13,7 +13,7 @@ function Root({ children }) {
   const [donate, setDonate] = useState(false);
   const [showVip, setVip] = useState(false);
   const [adv, setAdv] = useState(true);
-  const [drawer, showDrawer] = useState(true);
+  const [drawer, showDrawer] = useState(true);  // 弹窗
   const [rightVip, setRightVip] = useState(false);
 
   const onClosed = () => {
