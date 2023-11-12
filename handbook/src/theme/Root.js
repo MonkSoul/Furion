@@ -36,6 +36,7 @@ function Root({ children }) {
     >
       {showVip && <Vip />}
       <FloatBar />
+      {/* <TopBanner /> */}
       {children}
 
       <Modal

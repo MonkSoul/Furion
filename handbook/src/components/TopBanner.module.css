@@ -1,0 +1,19 @@
+.container {
+  animation: scaleIn 1s forwards;
+  transform-origin: center;
+  background-color: lightblue;
+  box-sizing: border-box;
+}
+
+@keyframes scaleIn {
+  0% {
+    width: 0;
+    height: 0;
+    transform: scale(0.1);
+  }
+  100% {
+    width: 100%;
+    height: 300px;
+    transform: scale(1);
+  }
+}
