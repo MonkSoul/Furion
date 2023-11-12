@@ -153,7 +153,7 @@ function VipShow() {
 
   return (
     <Modal
-      title="VIP 服务 🤜🤛"
+      title="开通 VIP 服务 🤜🤛"
       isOpen={drawer}
       useButton={false}
       icon="pay"
