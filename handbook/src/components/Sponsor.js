@@ -49,6 +49,7 @@ const sponsorItemStyle = {
   position: "relative",
   alignItems: "center",
   boxSizing: "border-box",
+  backgroundColor: "#fff",
 };
 
 const sponsorTagStyle = {
@@ -97,6 +98,7 @@ const sponsorSmartStyle = {
   width: "48.5%",
   position: "relative",
   boxSizing: "border-box",
+  backgroundColor: "#fff",
 };
 
 export function SponsorItemSmart({ picture, url, title, tag, i }) {

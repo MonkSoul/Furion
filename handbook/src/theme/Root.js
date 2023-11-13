@@ -13,7 +13,7 @@ function Root({ children }) {
   const [donate, setDonate] = useState(false);
   const [showVip, setVip] = useState(false);
   const [adv, setAdv] = useState(true);
-  const [drawer, showDrawer] = useState(true);  // 弹窗
+  const [drawer, showDrawer] = useState(true); // 弹窗
   const [rightVip, setRightVip] = useState(false);
 
   const onClosed = () => {
@@ -48,6 +48,10 @@ function Root({ children }) {
         onClosed={onClosed}
         maxWidth={700}
         minWidth={700}
+        style={{
+          color: "#1c1e21",
+        }}
+        bodyStyle={{ fontSize: 15, color: "#1c1e21" }}
       >
         如果 Furion 对您有所帮助，并且您希望 Furion 能够继续发展下去，请考虑{" "}
         <Link
@@ -162,7 +166,10 @@ function VipShow() {
         showDrawer(false);
         setVip(true);
       }}
-      bodyStyle={{ fontSize: 15 }}
+      style={{
+        color: "#1c1e21",
+      }}
+      bodyStyle={{ fontSize: 15, color: "#1c1e21" }}
     >
       <div>
         <img

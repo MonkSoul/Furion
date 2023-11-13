@@ -19,7 +19,7 @@ import LinuxIcon from "./linux.svg";
 import MacOSIcon from "./macos.svg";
 import WindowIcon from "./windows.svg";
 
-const count = "已有 304 位用户开通 VIP 服务";
+const count = "已有 305 位用户开通 VIP 服务";
 
 function Home() {
   const context = useDocusaurusContext();
