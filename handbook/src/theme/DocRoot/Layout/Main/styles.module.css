@@ -42,7 +42,7 @@
   margin-right: 5px;
 }
 
-.caseDark {
+.cases.caseDark {
   background-color: rgb(27, 27, 29);
   color: #e3e3e3;
   border-bottom: 1px solid #444950;
@@ -64,7 +64,7 @@
   z-index: 10;
 }
 
-.noticeDark {
+.notice.noticeDark {
   background-color: rgb(27, 27, 29);
   color: #e3e3e3;
   border-bottom: 1px solid #444950;
