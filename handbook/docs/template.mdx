@@ -67,25 +67,25 @@ import Tag from "@site/src/components/Tag.js";
 
 ## 2.6.2 安装脚手架
 
-打开 `CMD` 或 `Powershell` 执行模板安装命令（新版本 `--install` 可换成 `install`）：
+打开 `CMD` 或 `Powershell` 执行模板安装命令（旧版本 `install` 可换成 `--install`）：
 
 ### 2.6.2.1 `Furion + EFCore` 脚手架安装
 
 ```bash showLineNumbers
 # Mvc 模板
-dotnet new --install Furion.Template.Mvc::4.8.8.55
+dotnet new install Furion.Template.Mvc::4.9.1
 # WebApi 模板
-dotnet new --install Furion.Template.Api::4.8.8.55
+dotnet new install Furion.Template.Api::4.9.1
 # Mvc/WebApi 模板
-dotnet new --install Furion.Template.App::4.8.8.55
+dotnet new install Furion.Template.App::4.9.1
 # RazorPages 模板
-dotnet new --install Furion.Template.Razor::4.8.8.55
+dotnet new install Furion.Template.Razor::4.9.1
 # RazorPages/WebApi 模板
-dotnet new --install Furion.Template.RazorWithWebApi::4.8.8.55
+dotnet new install Furion.Template.RazorWithWebApi::4.9.1
 # Blazor 模板
-dotnet new --install Furion.Template.Blazor::4.8.8.55
+dotnet new install Furion.Template.Blazor::4.9.1
 # Blazor/WebApi 模板
-dotnet new --install Furion.Template.BlazorWithWebAPI::4.8.8.55
+dotnet new install Furion.Template.BlazorWithWebAPI::4.9.1
 ```
 
 :::note 最新版安装
@@ -98,19 +98,19 @@ dotnet new --install Furion.Template.BlazorWithWebAPI::4.8.8.55
 
 ```bash showLineNumbers
 # Mvc 模板
-dotnet new --install Furion.SqlSugar.Template.Mvc::4.8.8.55
+dotnet new install Furion.SqlSugar.Template.Mvc::4.9.1
 # WebApi 模板
-dotnet new --install Furion.SqlSugar.Template.Api::4.8.8.55
+dotnet new install Furion.SqlSugar.Template.Api::4.9.1
 # Mvc/WebApi 模板
-dotnet new --install Furion.SqlSugar.Template.App::4.8.8.55
+dotnet new install Furion.SqlSugar.Template.App::4.9.1
 # RazorPages 模板
-dotnet new --install Furion.SqlSugar.Template.Razor::4.8.8.55
+dotnet new install Furion.SqlSugar.Template.Razor::4.9.1
 # RazorPages/WebApi 模板
-dotnet new --install Furion.SqlSugar.Template.RazorWithWebApi::4.8.8.55
+dotnet new install Furion.SqlSugar.Template.RazorWithWebApi::4.9.1
 # Blazor 模板
-dotnet new --install Furion.SqlSugar.Template.Blazor::4.8.8.55
+dotnet new install Furion.SqlSugar.Template.Blazor::4.9.1
 # Blazor/WebApi 模板
-dotnet new --install Furion.SqlSugar.Template.BlazorWithWebAPI::4.8.8.55
+dotnet new install Furion.SqlSugar.Template.BlazorWithWebAPI::4.9.1
 ```
 
 :::note 最新版安装
@@ -152,7 +152,7 @@ dotnet new fsapi -n MyProject -f net8
 
 通过脚手架生成的项目名称不能包含 `短横线` 等特殊字符，如有该需求，可在生成之后通过 `Visual Studio` 进行手动修改。
 
-`-f` 版本参数所有选项：`net5`，`net6`，`net7`，`net8`，默认是 `net7`。
+`-f` 版本参数所有选项：`net5`，`net6`，`net7`，`net8`，默认是 `net8`。
 
 :::
 
@@ -169,7 +169,7 @@ dotnet new fsapi -n MyProject -f net8
 只需要重新安装最新版替换即可，如：
 
 ```bash showLineNumbers
-dotnet new --install Furion.Template.Api::4.8.8.55
+dotnet new install Furion.Template.Api::4.9.1
 ```
 
 :::note 最新版安装

@@ -37,7 +37,7 @@
           "description": ".NET8 脚手架"
         }
       ],
-      "defaultValue": "net7",
+      "defaultValue": "net8",
       "description": "选择要创建的 .NET5-8 脚手架"
     },
     "net5": {
