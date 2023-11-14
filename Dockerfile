@@ -2,7 +2,7 @@
 # Update:2023.02.28
 # .NET7 SDK Docker
 # https://hub.docker.com/_/microsoft-dotnet-sdk
-FROM mcr.microsoft.com/dotnet/sdk:7.0-alpine AS build
+FROM mcr.microsoft.com/dotnet/sdk:8.0-alpine AS build
 WORKDIR /source
 
 # Download source
@@ -22,7 +22,7 @@ RUN dotnet publish -c release -o /app --no-restore
 # Run Furion
 # ASP.NET 7 Docker
 # https://hub.docker.com/_/microsoft-dotnet-aspnet/
-FROM mcr.microsoft.com/dotnet/aspnet:7.0-alpine
+FROM mcr.microsoft.com/dotnet/aspnet:8.0-alpine
 WORKDIR /app
 COPY --from=build /app ./
 EXPOSE 80
