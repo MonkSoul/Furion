@@ -3,6 +3,17 @@
   align-items: center;
   background-color: #211b50;
   color: #fff;
+  overflow: hidden;
+}
+
+.furioin-index-gif {
+  position: absolute;
+  /* top: -20px;
+  left: 280px; */
+  top: 128px;
+  left: 128px;
+  height: 80px;
+  z-index: 1;
 }
 
 .furion-banner-container {
@@ -10,10 +21,12 @@
   justify-content: space-between;
   max-width: 1140px;
   margin: 0 auto;
+  position: relative;
 }
 
 .furion-banner-item {
   flex: 1;
+  position: relative;
 }
 
 .furion-banner-project {
@@ -91,6 +104,7 @@
   text-decoration: none;
   display: inline-block;
   white-space: nowrap;
+  z-index: 2;
 }
 
 .furion-try-demo {

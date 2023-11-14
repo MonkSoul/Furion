@@ -17,6 +17,7 @@ import "./index.own.css";
 import KubernetesIcon from "./kubernetes.svg";
 import LinuxIcon from "./linux.svg";
 import MacOSIcon from "./macos.svg";
+import NetConf from "./netconf-bot.svg";
 import WindowIcon from "./windows.svg";
 
 const count = "已有 308 位用户开通 VIP 服务";
@@ -45,8 +46,18 @@ function Banner() {
   return (
     <div className="furion-banner">
       <div className="furion-banner-container">
+        <img
+          src={useBaseUrl("img/netconf-drone.gif")}
+          className="furioin-index-gif"
+        />
         <div className="furion-banner-item">
-          <div className="furion-banner-project">
+          <NetConf
+            style={{ position: "absolute", zIndex: 1, top: 200, left: 130 }}
+          />
+          <div
+            className="furion-banner-project"
+            style={{ position: "relative", zIndex: 2 }}
+          >
             Furion{" "}
             <span
               style={{ fontSize: 14, fontWeight: "normal", color: "#8759ff" }}
@@ -56,13 +67,23 @@ function Banner() {
               <sup style={{ opacity: 0.6 }}>美</sup>
             </span>
           </div>
-          <div style={{ color: "#82aaff", position: "relative", fontSize: 14 }}>
+          <div
+            style={{
+              color: "#82aaff",
+              position: "relative",
+              fontSize: 14,
+              zIndex: 2,
+            }}
+          >
             您的痛点，Furion 已阅已历；Furion 的惊喜，您且慢慢享受。
           </div>
-          <div className="furion-banner-description">
+          <div
+            className="furion-banner-description"
+            style={{ position: "relative", zIndex: 2 }}
+          >
             让 .NET 开发更简单，更通用，更流行。
           </div>
-          <div>
+          <div style={{ position: "relative", zIndex: 2 }}>
             <ul className="furion-banner-spec">
               <li>MIT 宽松开源协议，商用项目首选</li>
               <li>支持 .NET5/6/7/8+，没有历史包袱</li>
