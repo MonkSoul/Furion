@@ -10,10 +10,10 @@
   position: absolute;
   /* top: -20px;
   left: 280px; */
-  top: 128px;
-  left: 128px;
-  height: 80px;
-  z-index: 1;
+  top: 135px;
+  left: 120px;
+  height: 60px;
+  z-index: 3;
 }
 
 .furion-banner-container {
