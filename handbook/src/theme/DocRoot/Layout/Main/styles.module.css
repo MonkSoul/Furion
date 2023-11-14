@@ -84,6 +84,11 @@
   display: inline-block;
 }
 
+.tip:hover {
+  text-decoration: none;
+  color: #fff;
+}
+
 @media (min-width: 997px) {
   .docMainContainer {
     flex-grow: 1;

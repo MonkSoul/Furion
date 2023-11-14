@@ -65,11 +65,12 @@ function Notice() {
 
   return (
     <div className={clsx(styles.notice, isDarkTheme && styles.noticeDark)}>
-      🚀 开通 VIP 服务仅需 <s>799 元</s>(<b>限时特价 499 元</b>)，尊享 365
+      ⭐️ 开通 VIP 服务仅需 <s>799 元</s>(<b>限时特价 499 元</b>)，尊享 365
       天项目无忧{" "}
       <Link to={useBaseUrl("/docs/subscribe")} className={styles.tip}>
         立即开通
-      </Link>
+      </Link>{" "}
+      ⭐️
     </div>
   );
 }

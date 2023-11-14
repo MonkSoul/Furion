@@ -112,7 +112,7 @@ export default function DocItemFooter() {
                 fontSize: 18,
               }}
             >
-              👍{" "}
+              ⭐️{" "}
               <Link
                 to={useBaseUrl("docs/subscribe")}
                 style={{
@@ -123,7 +123,7 @@ export default function DocItemFooter() {
               >
                 开通 VIP 服务仅需 799 元，尊享 365 天项目无忧
               </Link>{" "}
-              👍
+              ⭐️
             </div>
           )}
         </>

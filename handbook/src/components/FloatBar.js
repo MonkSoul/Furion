@@ -25,7 +25,7 @@ export default function FloatBar() {
         <div className={styles.extend}>
           <Link className={styles.item} to={useBaseUrl("docs/subscribe")}>
             <div style={{ flex: 1 }}>
-              <div className={styles.itemTitle}>👍 VIP 服务</div>
+              <div className={styles.itemTitle}>⭐️ VIP 服务 ⭐️</div>
               <div className={styles.itemDesc}>
                 仅需 799 元，尊享 365 天项目无忧
               </div>
