@@ -43,4 +43,10 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 ### 2.11.1.5 升级失败解决方案
 
+1. `Microsoft.EntityFrameworkCore.Tools` 版本冲突
+
 若升级过程中出现 `Microsoft.EntityFrameworkCore.Tools` 版本冲突，**只需卸载后重新安装即可。**
+
+2. `Microsoft.EntityFrameworkCore` 提示 `Method not found: ` 错误
+
+请确保使用的数据库驱动包有对应的 `8.0.0` 版本。
