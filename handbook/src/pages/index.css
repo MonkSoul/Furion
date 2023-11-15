@@ -1,7 +1,9 @@
 .furion-banner {
   padding: 4rem 2rem;
   align-items: center;
-  background-color: #211b50;
+  /* background-color: #4623d9; */
+  background: #4623d9 url("/img/csharp-certification.png");
+  background-size: cover;
   color: #fff;
   overflow: hidden;
 }
@@ -184,7 +186,7 @@
 }
 
 .furion-small-title {
-  color: #412a94;
+  color: #4623d9;
   font-family: Muli;
   font-size: 1em;
   font-weight: 600;
@@ -197,7 +199,7 @@
 }
 
 .furion-big-title {
-  color: #412a94;
+  color: #4623d9;
   font-family: Poppins;
   font-size: 2em;
   font-weight: 700;
@@ -275,7 +277,7 @@
 
 .furion-whouse {
   align-items: center;
-  background-color: #412a94 !important;
+  background-color: #4623d9 !important;
   color: #fff;
   display: flex;
   padding: 5rem 0;
@@ -340,7 +342,7 @@
 }
 
 .footer {
-  background-color: #211b50 !important;
+  background-color: #4623d9 !important;
 }
 
 .furion-links {
