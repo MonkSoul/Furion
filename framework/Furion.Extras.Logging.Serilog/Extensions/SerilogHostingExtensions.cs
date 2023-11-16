@@ -44,6 +44,7 @@ public static class SerilogHostingExtensions
         // 判断是否是单文件环境
         var isSingleFileEnvironment = string.IsNullOrWhiteSpace(Assembly.GetEntryAssembly().Location);
 
+#if !NET8_0
         hostBuilder.UseSerilog((context, configuration) =>
         {
             // 加载配置文件
@@ -63,6 +64,7 @@ public static class SerilogHostingExtensions
                 }
             }
         });
+#endif
 
         return hostBuilder;
     }

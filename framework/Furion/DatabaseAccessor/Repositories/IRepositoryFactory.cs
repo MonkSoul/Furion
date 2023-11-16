@@ -30,7 +30,7 @@ public interface IRepositoryFactory<TEntity, TDbContextLocator>
     where TDbContextLocator : class, IDbContextLocator
 {
     /// <summary>
-    /// 创建实体仓储
+    /// 创建实体仓储（需要手动 using）
     /// </summary>
     /// <returns></returns>
     IRepository<TEntity, TDbContextLocator> CreateRepository();

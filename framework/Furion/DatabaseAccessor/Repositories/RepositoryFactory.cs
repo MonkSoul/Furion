@@ -44,7 +44,10 @@ internal class RepositoryFactory<TEntity, TDbContextLocator> : IRepositoryFactor
     /// <returns></returns>
     public IRepository<TEntity, TDbContextLocator> CreateRepository()
     {
+        // 初始化新的数据库上下文
         var dbContext = Db.CreateDbContext<TDbContextLocator>();
+
+        // 创建 EFCore 仓储
         var efcoreRepository = new EFCoreRepository<TEntity, TDbContextLocator>(dbContext.GetService<IServiceProvider>())
         {
             UndisposedContext = true,
