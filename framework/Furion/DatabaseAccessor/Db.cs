@@ -241,4 +241,40 @@ public static class Db
 
         return dbContext;
     }
+
+    /// <summary>
+    /// 获取新的默认数据库上下文（手动 using 释放）
+    /// </summary>
+    /// <param name="serviceProvider"></param>
+    /// <param name="contextOptions"></param>
+    /// <returns></returns>
+    public static DbContext CreateDbContext(IServiceProvider serviceProvider = default, DbContextOptions contextOptions = null)
+    {
+        return GetNewDbContext(typeof(MasterDbContextLocator), serviceProvider, contextOptions);
+    }
+
+    /// <summary>
+    /// 获取新的特定数据库上下文（手动 using 释放）
+    /// </summary>
+    /// <typeparam name="TDbContextLocator">数据库上下文定位器</typeparam>
+    /// <param name="serviceProvider"></param>
+    /// <param name="contextOptions"></param>
+    /// <returns></returns>
+    public static DbContext CreateDbContext<TDbContextLocator>(IServiceProvider serviceProvider = default, DbContextOptions contextOptions = null)
+        where TDbContextLocator : class, IDbContextLocator
+    {
+        return GetNewDbContext(typeof(TDbContextLocator), serviceProvider, contextOptions);
+    }
+
+    /// <summary>
+    /// 获取新的特定数据库上下文（手动 using 释放）
+    /// </summary>
+    /// <param name="dbContextLocator">数据库上下文定位器</param>
+    /// <param name="serviceProvider"></param>
+    /// <param name="contextOptions"></param>
+    /// <returns></returns>
+    public static DbContext CreateDbContext(Type dbContextLocator, IServiceProvider serviceProvider = default, DbContextOptions contextOptions = null)
+    {
+        return GetNewDbContext(dbContextLocator, serviceProvider, contextOptions);
+    }
 }

@@ -4,6 +4,21 @@ title: 9.5 仓储模式
 sidebar_label: 9.5 仓储模式 (Repository)
 ---
 
+import Tag from "@site/src/components/Tag.js";
+
+<details>
+  <summary>📝 模块更新日志</summary>
+  <div>
+<div>
+
+- **新特性**
+
+  - &nbsp;<Tag>新增</Tag> `IRepositoryFactory<TEntity, TDbContextLocator>` 仓储功能，解决在 `Blazor` 中使用 `EFCore` 问题 <sup>4.9.1.1</sup> <sup>⏱️2023.11.16</sup> [文档说明](https://learn.microsoft.com/zh-cn/aspnet/core/blazor/blazor-ef-core?view=aspnetcore-7.0)
+
+</div>
+  </div>
+</details>
+
 ## 9.5.1 什么是仓储
 
 > 在领域层和数据映射层的中介,使用类似集合的接口来存取领域对象，实际上，仓储被用于领域对象在数据库上的操作（实体 Entity 和值对象 Value types）。一般来说,我们针对不同的实体(或聚合根 Aggregate Root)会创建相对应的仓储。
@@ -119,6 +134,11 @@ var readRepository = rep.Constraint<IReadableRepository<TEntity>>();
 ### 9.5.2.15 定位器仓储
 
 - `IDbRepository<TDbContextLocator>`：初始化特定数据库仓储
+
+### 9.5.2.15 仓储工厂
+
+- `IRepositoryFactory<TEntity>`：创建新的未释放的 `IRepository<TEntity>` 仓储，`Furion 4.9.1.1+` 支持
+- `IRepositoryFactory<TEntity, TDbContextLocator>`：创建新的未释放的 `IRepository<TEntity, TDbContextLocator>` 仓储，`Furion 4.9.1.1+` 支持
 
 ## 9.5.3 仓储使用
 
@@ -371,7 +391,56 @@ public class MyRepository<TEntity> : MyRepository<TEntity, MasterDbContextLocato
 }
 ```
 
-## 9.5.8 反馈与建议
+## 9.5.8 仓储工厂 `IRepositoryFactory<TEntity>`
+
+:::important 版本说明
+
+以下内容仅限 `Furion 4.9.1.1 +` 版本使用。
+
+:::
+
+有时候我们希望可以通过类型 `new` 的方式创建一个 `IRepository<TEntity>` 实例，然后通过 `using` 实现手动释放，如：
+
+```cs showLineNumbers {5,12,15}
+public class YourAppServices : IDynamicApiController
+{
+    private readonly IRepositoryFactory<Person> _repositoryFactory;
+
+    public YourAppServices(IRepositoryFactory<Person> repositoryFactory)
+    {
+        _repositoryFactory = repositoryFactory;
+    }
+
+    public void Create()
+    {
+        using var repository = _repositoryFactory.CreateRepository();
+        var persons = repository.DetachedEntities.ToList();
+
+        using (var repository2 = _repositoryFactory.CreateRepository())
+        {
+            var persons2 = repository.DetachedEntities.ToList();
+        }
+
+        var persons3 = repository.DetachedEntities.ToList();
+    }
+}
+```
+
+这样的功能非常适用于多线程或者 `Blazor` 项目中（[相关文档](https://learn.microsoft.com/zh-cn/aspnet/core/blazor/blazor-ef-core?view=aspnetcore-7.0)），如：
+
+```cs showLineNumbers {1,5-6}
+@inject IRepositoryFactory<Person> Factory; // 可以注入多个
+
+private async Task GetListAsync()
+{
+    // 别忘记 using
+    using var repository = Factory.CreateRepository();  // 也可以通过 using var dbContext = Db.CreateDbContext() 获取新的 DbContext
+
+    var list = await respository.DetachedEntities.ToListAsync();
+}
+```
+
+## 9.5.9 反馈与建议
 
 :::note 与我们交流
 

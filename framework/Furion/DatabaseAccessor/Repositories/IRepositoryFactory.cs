@@ -15,8 +15,23 @@
 namespace Furion.DatabaseAccessor;
 
 /// <summary>
-/// 仓储依赖空接口
+/// 仓储工厂接口
 /// </summary>
-public interface IPrivateRootRepository : IDisposable
+public interface IRepositoryFactory<TEntity> : IRepositoryFactory<TEntity, MasterDbContextLocator>
+    where TEntity : class, IPrivateEntity, new()
 {
+}
+
+/// <summary>
+/// 仓储工厂接口
+/// </summary>
+public interface IRepositoryFactory<TEntity, TDbContextLocator>
+    where TEntity : class, IPrivateEntity, new()
+    where TDbContextLocator : class, IDbContextLocator
+{
+    /// <summary>
+    /// 创建实体仓储
+    /// </summary>
+    /// <returns></returns>
+    IRepository<TEntity, TDbContextLocator> CreateRepository();
 }

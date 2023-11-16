@@ -211,20 +211,20 @@ public partial class PrivateRepository<TEntity> : PrivateSqlRepository, IPrivate
         ServiceProvider = serviceProvider;
 
         // 设置提供器名称
-        ProviderName = Database.ProviderName;
+        ProviderName = Database?.ProviderName;
 
         // 只有关系型数据库才有连接信息
-        if (Database.IsRelational()) DbConnection = Database.GetDbConnection();
-        ChangeTracker = Context.ChangeTracker;
-        Model = Context.Model;
+        if (Database?.IsRelational() == true) DbConnection = Database?.GetDbConnection();
+        ChangeTracker = Context?.ChangeTracker;
+        Model = Context?.Model;
 
         // 内置多租户
-        Tenant = DynamicContext.Tenant;
+        Tenant = DynamicContext?.Tenant;
 
         //初始化实体
-        Entities = Context.Set<TEntity>();
-        DetachedEntities = Entities.AsNoTracking();
-        EntityType = Entities.EntityType;
+        Entities = Context?.Set<TEntity>();
+        DetachedEntities = Entities?.AsNoTracking();
+        EntityType = Entities?.EntityType;
 
         // 初始化数据上下文池
         _dbContextPool = serviceProvider.GetService<IDbContextPool>();
@@ -236,52 +236,52 @@ public partial class PrivateRepository<TEntity> : PrivateSqlRepository, IPrivate
     /// <summary>
     /// 实体集合
     /// </summary>
-    public virtual DbSet<TEntity> Entities { get; }
+    public virtual DbSet<TEntity> Entities { get; internal set; }
 
     /// <summary>
     /// 不跟踪的（脱轨）实体
     /// </summary>
-    public virtual IQueryable<TEntity> DetachedEntities { get; }
+    public virtual IQueryable<TEntity> DetachedEntities { get; internal set; }
 
     /// <summary>
     /// 查看实体类型
     /// </summary>
-    public virtual IEntityType EntityType { get; }
+    public virtual IEntityType EntityType { get; internal set; }
 
     /// <summary>
     /// 数据库连接对象
     /// </summary>
-    public virtual DbConnection DbConnection { get; }
+    public virtual DbConnection DbConnection { get; internal set; }
 
     /// <summary>
     /// 实体追综器
     /// </summary>
-    public virtual ChangeTracker ChangeTracker { get; }
+    public virtual ChangeTracker ChangeTracker { get; internal set; }
 
     /// <summary>
     /// 实体模型
     /// </summary>
-    public virtual IModel Model { get; }
+    public virtual IModel Model { get; internal set; }
 
     /// <summary>
     /// 租户信息
     /// </summary>
-    public virtual Tenant Tenant { get; }
+    public virtual Tenant Tenant { get; internal set; }
 
     /// <summary>
     /// 数据库提供器名
     /// </summary>
-    public virtual string ProviderName { get; }
+    public virtual string ProviderName { get; internal set; }
 
     /// <summary>
     /// 服务提供器
     /// </summary>
-    public virtual IServiceProvider ServiceProvider { get; }
+    public virtual IServiceProvider ServiceProvider { get; internal set; }
 
     /// <summary>
     /// 租户Id
     /// </summary>
-    public virtual Guid? TenantId { get; }
+    public virtual Guid? TenantId { get; internal set; }
 
     /// <summary>
     /// 判断上下文是否更改

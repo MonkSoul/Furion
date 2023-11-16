@@ -70,27 +70,32 @@ public partial class PrivateSqlRepository : IPrivateSqlRepository
 
         // 解析数据库上下文
         var dbContextResolve = serviceProvider.GetService<Func<Type, IScoped, DbContext>>();
-        var dbContext = dbContextResolve(dbContextLocator, default);
+        var dbContext = dbContextResolve?.Invoke(dbContextLocator, default);
         DynamicContext = Context = dbContext;
 
         // 初始化数据库相关数据
-        Database = Context.Database;
+        Database = Context?.Database;
     }
 
     /// <summary>
     /// 数据库上下文
     /// </summary>
-    public virtual DbContext Context { get; }
+    public virtual DbContext Context { get; internal set; }
 
     /// <summary>
     /// 动态数据库上下文
     /// </summary>
-    public virtual dynamic DynamicContext { get; }
+    public virtual dynamic DynamicContext { get; internal set; }
 
     /// <summary>
     /// 数据库操作对象
     /// </summary>
-    public virtual DatabaseFacade Database { get; }
+    public virtual DatabaseFacade Database { get; internal set; }
+
+    /// <summary>
+    /// 标记是否是未释放的上下文
+    /// </summary>
+    internal bool UndisposedContext { get; set; } = false;
 
     /// <summary>
     /// 切换仓储
@@ -160,5 +165,16 @@ public partial class PrivateSqlRepository : IPrivateSqlRepository
         dbContextPool.AddToPool(Context);
         // 开启事务
         dbContextPool.BeginTransaction();
+    }
+
+    /// <summary>
+    /// 释放上下文
+    /// </summary>
+    public void Dispose()
+    {
+        if (UndisposedContext)
+        {
+            Context?.Dispose();
+        }
     }
 }

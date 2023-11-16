@@ -68,6 +68,10 @@ public static class DatabaseAccessorServiceCollectionExtensions
         // 注册非泛型仓储
         services.TryAddScoped<IRepository, EFCoreRepository>();
 
+        // 注册工厂仓储
+        services.TryAddSingleton(typeof(IRepositoryFactory<>), typeof(RepositoryFactory<>));
+        services.TryAddSingleton(typeof(IRepositoryFactory<,>), typeof(RepositoryFactory<,>));
+
         // 注册多数据库仓储
         services.TryAddScoped(typeof(IDbRepository<>), typeof(DbRepository<>));
 
