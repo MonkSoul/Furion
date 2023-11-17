@@ -74,6 +74,26 @@ public static class ObjectExtensions
     }
 
     /// <summary>
+    /// 将时间戳转换为 DateTime
+    /// </summary>
+    /// <param name="timestamp"></param>
+    /// <returns></returns>
+    internal static DateTime ConvertToDateTime(this long timestamp)
+    {
+        var timeStampDateTime = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+        var digitCount = (int)Math.Floor(Math.Log10(timestamp) + 1);
+
+        if (digitCount != 13 && digitCount != 10)
+        {
+            throw new ArgumentException("Data is not a valid timestamp format.");
+        }
+
+        return (digitCount == 13
+            ? timeStampDateTime.AddMilliseconds(timestamp)  // 13 位时间戳
+            : timeStampDateTime.AddSeconds(timestamp)).ToLocalTime();   // 10 位时间戳
+    }
+
+    /// <summary>
     /// 将 IFormFile 转换成 byte[]
     /// </summary>
     /// <param name="formFile"></param>

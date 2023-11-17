@@ -28,4 +28,16 @@ public class TestDateTime : IDynamicApiController
     {
         return datetime;
     }
+
+    public Model2 测试时间戳(Model2 model)   // 1699459200000
+    {
+        return model;
+    }
+}
+
+public class Model2
+{
+    public string Name { get; set; }
+
+    public DateTime? StartTime { get; set; }
 }
