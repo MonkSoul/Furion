@@ -13,6 +13,8 @@
 // 还是产生于、源于或有关于本软件以及本软件的使用或其它处置。
 
 using Furion.Extensions;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System.Text.Json;
 
 namespace Furion.JsonSerialization;
@@ -36,6 +38,29 @@ internal static class Penetrates
         };
 
         var stringValue = reader.GetString();
+
+        // 处理时间戳自动转换
+        if (long.TryParse(stringValue, out var longValue2))
+        {
+            return longValue2.ConvertToDateTime();
+        }
+
+        return Convert.ToDateTime(stringValue);
+    }
+
+    /// <summary>
+    /// 转换
+    /// </summary>
+    /// <param name="reader"></param>
+    /// <returns></returns>
+    internal static DateTime ConvertToDateTime(ref JsonReader reader)
+    {
+        if (reader.TokenType == JsonToken.Integer)
+        {
+            return JValue.ReadFrom(reader).Value<long>().ConvertToDateTime();
+        }
+
+        var stringValue = JValue.ReadFrom(reader).Value<string>();
 
         // 处理时间戳自动转换
         if (long.TryParse(stringValue, out var longValue2))

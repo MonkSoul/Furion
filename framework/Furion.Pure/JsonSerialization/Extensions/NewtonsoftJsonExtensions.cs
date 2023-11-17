@@ -23,6 +23,24 @@ namespace Newtonsoft.Json;
 public static class NewtonsoftJsonExtensions
 {
     /// <summary>
+    /// 添加 DateTime/DateTime?/DateTimeOffset/DateTimeOffset? 类型序列化处理
+    /// </summary>
+    /// <param name="converters"></param>
+    /// <param name="outputFormat"></param>
+    /// <param name="localized">自动转换 DateTimeOffset 为当地时间</param>
+    /// <returns></returns>
+    public static IList<JsonConverter> AddDateTimeTypeConverters(this IList<JsonConverter> converters, string outputFormat = default, bool localized = false)
+    {
+        converters.Add(new NewtonsoftJsonDateTimeJsonConverter(outputFormat));
+        converters.Add(new NewtonsoftNullableJsonDateTimeJsonConverter(outputFormat));
+
+        converters.Add(new NewtonsoftJsonDateTimeOffsetJsonConverter(outputFormat, localized));
+        converters.Add(new NewtonsoftJsonNullableDateTimeOffsetJsonConverter(outputFormat, localized));
+
+        return converters;
+    }
+
+    /// <summary>
     /// 添加 long/long? 类型序列化处理
     /// </summary>
     /// <remarks></remarks>

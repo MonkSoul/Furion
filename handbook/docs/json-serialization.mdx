@@ -13,6 +13,7 @@ import Tag from "@site/src/components/Tag.js";
 
 - **新特性**
 
+  - &nbsp;<Tag>新增</Tag> `Newtonsoft.Json` 自动将时间戳转换为 `DateTime/DateTimeOffset` 类型 <sup>4.9.1.3</sup> <sup>⏱️2023.11.17</sup>
   - &nbsp;<Tag>新增</Tag> `System.Text.Json` 自动将时间戳转换为 `DateTime/DateTimeOffset` 类型 <sup>4.9.1.2</sup> <sup>⏱️2023.11.17</sup> [abd5196](https://gitee.com/dotnetchina/Furion/commit/abd5196f5c5160a5df96dad80c7c5aa51b96d5b9)
   - &nbsp;<Tag>新增</Tag> `System.Text.Json` 和 `Newtonsoft.Json` 对粘土对象 `Clay` 支持 <sup>4.8.8.1</sup> <sup>⏱️2023.04.18</sup> [#I6WKRZ](https://gitee.com/dotnetchina/Furion/issues/I6WKRZ)
 
@@ -378,6 +379,8 @@ services.AddControllersWithViews()
 
 - `System.Text.Json` 方式
 
+需引用 `System.Text.Json` 命名空间。
+
 ```cs showLineNumbers {2,5}
 services.AddControllersWithViews()
         .AddJsonOptions(options =>
@@ -395,15 +398,19 @@ services.AddControllersWithViews()
 
 :::
 
-需引用 `System.Text.Json` 命名空间。
 
 - `Newtonsoft.Json` 方式
 
-```cs showLineNumbers {2,4}
+需引用 `Newtonsoft.Json` 命名空间。
+
+```cs showLineNumbers {2,4,6-7}
 services.AddControllersWithViews()
         .AddNewtonsoftJson(options =>
         {
             options.SerializerSettings.DateFormatString = "yyyy-MM-dd HH:mm:ss";
+
+            // 在 Furion 4.9.1.3+ 支持
+            // options.SerializerSettings.Converters.AddDateTimeTypeConverters();
         });
 ```
 
