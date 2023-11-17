@@ -54,7 +54,7 @@ public class SystemTextJsonDateTimeJsonConverter : JsonConverter<DateTime>
     /// <returns></returns>
     public override DateTime Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
-        return Convert.ToDateTime(reader.GetString());
+        return Penetrates.ConvertToDateTime(ref reader);
     }
 
     /// <summary>
@@ -106,7 +106,7 @@ public class SystemTextJsonNullableDateTimeJsonConverter : JsonConverter<DateTim
     /// <returns></returns>
     public override DateTime? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
-        return Convert.ToDateTime(reader.GetString());
+        return Penetrates.ConvertToDateTime(ref reader);
     }
 
     /// <summary>
