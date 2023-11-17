@@ -9,7 +9,7 @@ export default function Assistance({ style = {}, onClick }) {
   const tip = "已有 " + count + " 位用户开通 VIP 服务";
 
   return (
-    <Tooltip content={tip} placement="top">
+    <Tooltip content={tip} placement="top" autoAdjustOverflow>
       <Link
         className={classes.ass}
         to={useBaseUrl("docs/subscribe")}

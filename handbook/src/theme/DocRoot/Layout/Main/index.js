@@ -2,8 +2,10 @@ import Link from "@docusaurus/Link";
 import { useColorMode } from "@docusaurus/theme-common";
 import { useDocsSidebar } from "@docusaurus/theme-common/internal";
 import useBaseUrl from "@docusaurus/useBaseUrl";
+import Popover from "@uiw/react-popover";
 import clsx from "clsx";
 import React from "react";
+import { PayContent } from "../../../../components/PayContent";
 import styles from "./styles.module.css";
 
 export default function DocRootLayoutMain({
@@ -65,10 +67,24 @@ function Notice() {
 
   return (
     <div className={clsx(styles.notice, isDarkTheme && styles.noticeDark)}>
+      <div style={{ marginBottom: 5 }}>
+        <Link to={useBaseUrl("/docs/upgrade")}>
+          🚀 Furion v4.9.1.3 版本已发布。
+        </Link>
+      </div>
       ⭐️ 开通 VIP 服务仅需 <s>899 元</s>(<b>限时特价 599 元</b>)，尊享 365
       天项目无忧{" "}
       <Link to={useBaseUrl("/docs/subscribe")} className={styles.tip}>
-        立即开通
+        <Popover
+          trigger="hover"
+          placement="bottom"
+          content={<PayContent />}
+          autoAdjustOverflow
+        >
+          <span style={{ display: "block", width: "100%", height: "100%" }}>
+            立即开通
+          </span>
+        </Popover>
       </Link>{" "}
       ⭐️
     </div>

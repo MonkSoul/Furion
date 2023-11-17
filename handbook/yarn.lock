@@ -2936,6 +2936,15 @@
     "@uiw/utils" "^4.22.2"
     react-transition-group "~4.4.2"
 
+"@uiw/react-popover@^4.22.2":
+  version "4.22.2"
+  resolved "https://registry.yarnpkg.com/@uiw/react-popover/-/react-popover-4.22.2.tgz#b656971282bce12178ea05d788c188870a6218b9"
+  integrity sha512-Md9q8kUK9oeubkZw1lrxU+kFfIk5vR8hbDmdqPQc0FVdKYbELVMjat+FRHNvd8nzbweiva1oDjAoaePkOdvWhA==
+  dependencies:
+    "@uiw/react-button" "^4.22.2"
+    "@uiw/react-icon" "^4.22.2"
+    "@uiw/react-overlay-trigger" "^4.22.2"
+
 "@uiw/react-portal@^4.22.0":
   version "4.22.0"
   resolved "https://registry.yarnpkg.com/@uiw/react-portal/-/react-portal-4.22.0.tgz#2f2d2088f2067df2eb48cb955f4ffe5ea4ca5d07"
