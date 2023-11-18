@@ -57,7 +57,7 @@ const sponsorTagStyle = {
   display: "block",
   right: 0,
   bottom: 0,
-  zIndex: 10,
+  zIndex: 5,
   fontSize: 12,
   backgroundColor: "rgba(0,0,0,0.8)",
   padding: "0 5px",

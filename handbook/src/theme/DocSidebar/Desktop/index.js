@@ -35,7 +35,7 @@ function DocSidebarDesktop({ path, sidebar, onCollapse, isHidden }) {
       {adv ? (
         <>
           <Sponsor />
-          <Tooltip content="切换 ⌈干净布局⌋" isOpen placement="bottom">
+          <Tooltip content="切换 ⌈干净布局⌋" isOpen placement="bottom" autoAdjustOverflow>
             <span style={closeStyle} onClick={() => setAdv((s) => !s)}>
               收
             </span>
