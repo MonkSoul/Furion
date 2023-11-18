@@ -141,7 +141,7 @@ function Root({ children }) {
             }}
             onClick={() => setDonate(false)}
           >
-            开通 VIP 服务仅需 899 元，尊享 365 天项目无忧
+            开通 VIP 服务仅需 999 元，尊享 365 天项目无忧
           </Link>{" "}
           ⭐️
         </div>

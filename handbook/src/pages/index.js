@@ -20,7 +20,7 @@ import MacOSIcon from "./macos.svg";
 import NetConf from "./netconf-bot.svg";
 import WindowIcon from "./windows.svg";
 
-const count = "已有 315 位用户开通 VIP 服务";
+const count = "已有 316 位用户开通 VIP 服务";
 
 function Home() {
   const context = useDocusaurusContext();
@@ -133,7 +133,7 @@ function Banner() {
                 title="VIP 服务"
               >
                 VIP 服务
-                <span className="furion-version">899元/年</span>
+                <span className="furion-version">999元/年</span>
               </Link>
             </Tooltip>
           </div>

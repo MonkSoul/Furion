@@ -23,7 +23,7 @@ module.exports = {
     announcementBar: {
       id: "vip",
       content:
-        "⭐️ 开通 VIP 服务仅需 <s>899 元</s>(<b>限时特价 599 元</b>)，尊享 365 天项目无忧 <a href='/docs/subscribe' style='background-color:rgb(199, 29, 36);color:#ffffff;padding:1px 10px;border-radius:3px;text-decoration:none;display:inline-block;margin:0 5px;font-size:12px;cursor:pointer;'>立即开通</a>⭐️",
+        "⭐️ 开通 VIP 服务仅需 <s>999 元</s>(<b>限时特价 699 元</b>)，尊享 365 天项目无忧 <a href='/docs/subscribe' style='background-color:rgb(199, 29, 36);color:#ffffff;padding:1px 10px;border-radius:3px;text-decoration:none;display:inline-block;margin:0 5px;font-size:12px;cursor:pointer;'>立即开通</a>⭐️",
       backgroundColor: "#4623d9",
       textColor: "yellow",
       isCloseable: false,
