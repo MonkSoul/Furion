@@ -276,4 +276,9 @@ public class TestModuleServices : IDynamicApiController
             var f = dbcontext5 != dbcontext6;
         });
     }
+
+    public void 测试JWTSettings()
+    {
+        var settings = JWTEncryption.GetJWTSettings();
+    }
 }

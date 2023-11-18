@@ -364,6 +364,9 @@ public class JWTEncryption
     /// <returns></returns>
     public static JWTSettingsOptions GetJWTSettings()
     {
+        // 获取框架上下文
+        _ = GetFrameworkContext(Assembly.GetCallingAssembly());
+
         if (FrameworkApp == null)
         {
             Debug.WriteLine("No register the code `services.AddJwt()` on Startup.cs.");
