@@ -72,8 +72,7 @@ function Notice() {
           🚀 Furion v4.9.1.4 版本已发布。
         </Link>
       </div>
-      ⭐️ 开通 VIP 服务仅需 <s>999 元</s>(<b>限时特价 699 元</b>)，尊享 365
-      天项目无忧{" "}
+      ⭐️ 开通 VIP 服务仅需 499 元，尊享 365 天项目无忧{" "}
       <Link to={useBaseUrl("/docs/subscribe")} className={styles.tip}>
         <Popover
           trigger="hover"

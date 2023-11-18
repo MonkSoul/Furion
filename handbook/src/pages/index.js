@@ -133,7 +133,7 @@ function Banner() {
                 title="VIP 服务"
               >
                 VIP 服务
-                <span className="furion-version">999元/年</span>
+                <span className="furion-version">499元/年</span>
               </Link>
             </Tooltip>
           </div>
@@ -227,7 +227,7 @@ function Gitee() {
             className={"furion-log-jiao" + (isDarkTheme ? " dark" : "")}
           ></div>
           <div className="furion-log-number">
-            <div style={{ color: "#1fd898" }}>11,470,422</div>
+            <div style={{ color: "#1fd898" }}>11,472,731</div>
             <span className={isDarkTheme ? " dark" : ""}>Downloads</span>
           </div>
         </div>

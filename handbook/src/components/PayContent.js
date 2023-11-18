@@ -13,7 +13,7 @@ export function PayContent() {
           fontWeight: 500,
         }}
       >
-        限时特价 699 元/年
+        开通 VIP 服务仅需 499 元/年
       </div>
       <img
         src={useBaseUrl("img/cmp-donate.jpg")}
