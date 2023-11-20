@@ -85,4 +85,9 @@ public class AppDbContextAttribute : Attribute
     /// 指定从库定位器
     /// </summary>
     public Type[] SlaveDbContextLocators { get; set; }
+
+    /// <summary>
+    /// 表名使用蛇形命名
+    /// </summary>
+    public bool UseSnakeCaseNaming { get; set; }
 }

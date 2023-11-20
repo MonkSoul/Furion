@@ -18,6 +18,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System.Collections.Concurrent;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Reflection;
+using System.Text.RegularExpressions;
 
 namespace Furion.DatabaseAccessor;
 
@@ -178,6 +179,12 @@ internal static class AppDbContextBuilder
         // 获取表名最终前后缀
         var tablePrefix = (tableFixsAttribute?.Prefix ?? appDbContextAttribute?.TablePrefix)?.Trim();
         var tableSuffix = (tableFixsAttribute?.Suffix ?? appDbContextAttribute?.TableSuffix)?.Trim();
+
+        //表名使用蛇形命名
+        if (appDbContextAttribute?.UseSnakeCaseNaming == true)
+        {
+            tableName = string.Join("_", Regex.Split(tableName, @"(?=\p{Lu}\p{Ll})|(?<=\p{Ll})(?=\p{Lu})").Where(u => u.Length > 0).ToArray());
+        }
 
         // 如果没有定义 Table 特性且没有定义 TableFixs 特性，且没有实现 IMultiTenantOnSchema 接口且 AppDbContextAttribute 没有配置前后缀
         // 满足以上条件则不配置表名
