@@ -13,6 +13,7 @@ import Tag from "@site/src/components/Tag.js";
 
 - **新特性**
 
+  - &nbsp;<Tag>新增</Tag> `[AppDbContext]` 特性支持 `UseSnakeCaseNaming` 属性配置表名使用蛇形命名 <sup>4.9.1.5</sup> <sup>⏱️2023.11.20</sup> [!863](https://gitee.com/dotnetchina/Furion/pulls/863)
   - &nbsp;<Tag>新增</Tag> `Db.GetNewDbContext()` 多个重载方法，实现类似 `new DbContext()` 操作 <sup>4.8.8.55</sup> <sup>⏱️2023.11.09</sup> [4157629](https://gitee.com/dotnetchina/Furion/commit/41576295473fefc47f6961154909a690d7c5ed58)
 
 </div>
@@ -199,6 +200,7 @@ namespace Furion.EntityFramework.Core
   - `Cached`：缓存模型数据库上下文，默认值
   - `Dynamic`：动态模型数据库上下文
 - `SlaveDbContextLocators`：主从库配置，设置多个从库定位器，`Type[]` 类型
+- `UseSnakeCaseNaming`：表名使用蛇形命名，`bool` 类型，默认 `false`，`Furion 4.9.1.5+` 版本支持
 
 ### 9.2.5.3 `OnConfiguring` 方式配置
 
