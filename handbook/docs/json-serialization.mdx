@@ -13,6 +13,7 @@ import Tag from "@site/src/components/Tag.js";
 
 - **新特性**
 
+  - &nbsp;<Tag>新增</Tag> 时间戳模型绑定器将时间戳转换为 `DateTime/DateTimeOffset` 类型 <sup>4.9.1.5</sup> <sup>⏱️2023.11.20</sup>
   - &nbsp;<Tag>新增</Tag> `Newtonsoft.Json` 自动将时间戳转换为 `DateTime/DateTimeOffset` 类型 <sup>4.9.1.3</sup> <sup>⏱️2023.11.17</sup> [78a589d](https://gitee.com/dotnetchina/Furion/commit/78a589d99eb5985b576e4c96acd6e4890391d6ff)
   - &nbsp;<Tag>新增</Tag> `System.Text.Json` 自动将时间戳转换为 `DateTime/DateTimeOffset` 类型 <sup>4.9.1.2</sup> <sup>⏱️2023.11.17</sup> [abd5196](https://gitee.com/dotnetchina/Furion/commit/abd5196f5c5160a5df96dad80c7c5aa51b96d5b9)
   - &nbsp;<Tag>新增</Tag> `System.Text.Json` 和 `Newtonsoft.Json` 对粘土对象 `Clay` 支持 <sup>4.8.8.1</sup> <sup>⏱️2023.04.18</sup> [#I6WKRZ](https://gitee.com/dotnetchina/Furion/issues/I6WKRZ)
@@ -419,6 +420,8 @@ services.AddControllersWithViews()
 在 `Furion 4.9.1.3+` 版本中，该操作还支持自动将 `13/10` 位时间戳数值或字符串转换成 `DateTime/DateTime?/DateTimeOffset/DateTimeOffset?` 类型。
 
 如将 `1699459200000` 时间戳转换为 `DateTime` 类型。
+
+针对 `GET/HEAD` 请求可通过贴 `[ModelBinder(BinderType = typeof(TimestampToDateTimeModelBinder))]` 特性处理。
 
 :::
 
