@@ -20,7 +20,7 @@ import MacOSIcon from "./macos.svg";
 import NetConf from "./netconf-bot.svg";
 import WindowIcon from "./windows.svg";
 
-const count = "已有 317 位用户开通 VIP 服务";
+const count = "已有 318 位用户开通 VIP 服务";
 
 function Home() {
   const context = useDocusaurusContext();
@@ -124,7 +124,7 @@ function Banner() {
               to={useBaseUrl("docs/category/getstart")}
             >
               入门指南
-              <span className="furion-version">v4.9.1.4</span>
+              <span className="furion-version">v4.9.1.5</span>
             </Link>
             <Tooltip content={count} placement="bottomRight" isOpen>
               <Link
