@@ -2,12 +2,14 @@ import BrowserOnly from "@docusaurus/BrowserOnly";
 import Link from "@docusaurus/Link";
 import useBaseUrl from "@docusaurus/useBaseUrl";
 import Modal from "@uiw/react-modal";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Assistance from "../components/Assistance";
 import FloatBar from "../components/FloatBar";
 import GlobalContext from "../components/GlobalContext";
+import TopBanner from "../components/TopBanner";
 import Vip from "../components/Vip";
 import VipDesc from "../components/VipDesc.mdx";
+import VipImageList from "../components/VipImageList";
 
 function Root({ children }) {
   const [donate, setDonate] = useState(false);
@@ -15,10 +17,19 @@ function Root({ children }) {
   const [adv, setAdv] = useState(true);
   const [drawer, showDrawer] = useState(true); // 弹窗
   const [rightVip, setRightVip] = useState(false);
+  const [topVip, setTopVip] = useState(true);
 
   const onClosed = () => {
     setDonate(false);
   };
+
+  useEffect(() => {
+    if (!drawer) {
+      setTimeout(() => {
+        setTopVip(false);
+      }, 5000);
+    }
+  }, [drawer]);
 
   return (
     <GlobalContext.Provider
@@ -32,11 +43,13 @@ function Root({ children }) {
         showDrawer,
         rightVip,
         setRightVip,
+        topVip,
+        setTopVip,
       }}
     >
       {showVip && <Vip />}
       <FloatBar />
-      {/* <TopBanner /> */}
+      {!drawer && topVip && <TopBanner />}
       {children}
 
       <Modal
@@ -124,7 +137,8 @@ function Root({ children }) {
             </div>
           </div>
         </div>
-        <div
+        <VipImageList padding={10} />
+        {/* <div
           style={{
             marginTop: 20,
             textAlign: "center",
@@ -144,7 +158,7 @@ function Root({ children }) {
             开通 VIP 服务仅需 499 元，尊享 365 天项目无忧
           </Link>{" "}
           ⭐️
-        </div>
+        </div> */}
       </Modal>
 
       <BrowserOnly children={() => <VipShow />} />
@@ -153,7 +167,7 @@ function Root({ children }) {
 }
 
 function VipShow() {
-  const { drawer, showDrawer, setVip } = useContext(GlobalContext);
+  const { drawer, showDrawer, setVip, setTopVip } = useContext(GlobalContext);
 
   return (
     <Modal
@@ -170,6 +184,8 @@ function VipShow() {
         color: "#1c1e21",
       }}
       bodyStyle={{ fontSize: 15, color: "#1c1e21" }}
+      // isCloseButtonShown={false}
+      maskClosable={false}
     >
       <div>
         <img
@@ -179,7 +195,13 @@ function VipShow() {
       </div>
       <br />
       <VipDesc />
-      <Assistance style={{ margin: 0 }} onClick={() => showDrawer(false)} />
+      <Assistance
+        style={{ margin: 0 }}
+        onClick={() => {
+          setTopVip(false);
+          showDrawer(false);
+        }}
+      />
     </Modal>
   );
 }

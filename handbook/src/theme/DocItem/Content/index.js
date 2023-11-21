@@ -32,7 +32,11 @@ export default function DocItemContent({ children }) {
 
   return (
     <div className={clsx(ThemeClassNames.docs.docMarkdown, "markdown")}>
-      {adv && <SpecDonate />}
+      {adv && (
+        <>
+          <SpecDonate />
+        </>
+      )}
       {syntheticTitle && (
         <header>
           <Heading as="h1">{syntheticTitle}</Heading>

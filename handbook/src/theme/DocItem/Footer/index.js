@@ -1,7 +1,5 @@
-import Link from "@docusaurus/Link";
 import { ThemeClassNames } from "@docusaurus/theme-common";
 import { useDoc } from "@docusaurus/theme-common/internal";
-import useBaseUrl from "@docusaurus/useBaseUrl";
 import EditThisPage from "@theme/EditThisPage";
 import LastUpdated from "@theme/LastUpdated";
 import TagsListInline from "@theme/TagsListInline";
@@ -11,6 +9,7 @@ import Assistance from "../../../components/Assistance";
 import Donate from "../../../components/Donate";
 import GlobalContext from "../../../components/GlobalContext";
 import SpecDonate from "../../../components/SpecDonate";
+import VipImageList from "../../../components/VipImageList";
 import styles from "./styles.module.css";
 
 function TagsRow(props) {
@@ -93,7 +92,11 @@ export default function DocItemFooter() {
     <footer
       className={clsx(ThemeClassNames.docs.docFooter, "docusaurus-mt-lg")}
     >
-      {adv && <SpecDonate />}
+      {adv && (
+        <>
+          <SpecDonate />
+        </>
+      )}
       {canDisplayTagsRow && <TagsRow tags={tags} />}
       {canDisplayEditMetaRow && (
         <>
@@ -105,26 +108,27 @@ export default function DocItemFooter() {
           />
 
           {adv && (
-            <div
-              style={{
-                marginTop: 20,
-                textAlign: "center",
-                fontSize: 18,
-              }}
-            >
-              ⭐️{" "}
-              <Link
-                to={useBaseUrl("docs/subscribe")}
-                style={{
-                  color: "red",
-                  fontWeight: "bold",
-                  textDecoration: "underline",
-                }}
-              >
-                开通 VIP 服务仅需 499 元，尊享 365 天项目无忧
-              </Link>{" "}
-              ⭐️
-            </div>
+            <VipImageList />
+            // <div
+            //   style={{
+            //     marginTop: 20,
+            //     textAlign: "center",
+            //     fontSize: 18,
+            //   }}
+            // >
+            //   ⭐️{" "}
+            //   <Link
+            //     to={useBaseUrl("docs/subscribe")}
+            //     style={{
+            //       color: "red",
+            //       fontWeight: "bold",
+            //       textDecoration: "underline",
+            //     }}
+            //   >
+            //     开通 VIP 服务仅需 499 元，尊享 365 天项目无忧
+            //   </Link>{" "}
+            //   ⭐️
+            // </div>
           )}
         </>
       )}

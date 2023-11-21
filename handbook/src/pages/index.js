@@ -227,7 +227,7 @@ function Gitee() {
             className={"furion-log-jiao" + (isDarkTheme ? " dark" : "")}
           ></div>
           <div className="furion-log-number">
-            <div style={{ color: "#1fd898" }}>11,489,520</div>
+            <div style={{ color: "#1fd898" }}>11,606,207</div>
             <span className={isDarkTheme ? " dark" : ""}>Downloads</span>
           </div>
         </div>
@@ -308,7 +308,7 @@ function WhoUse() {
           <div></div>
           <h1>请考虑赞助 Furion</h1>
           <p>
-            Furion 是一个 MIT 许可的开源项目，在 NuGet 平台获得超 1140
+            Furion 是一个 MIT 许可的开源项目，在 NuGet 平台获得超 1160
             万次下载。从小型企业到企业的解决方案及知名企业，他们在简单软件和复杂管理系统的开发方面都信任我们。
             <br />
             <br />
