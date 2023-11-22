@@ -17,6 +17,15 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 </PropertyGroup>
 ```
 
+若无需生成 `.pdb` 文件，可以继续添加：
+
+```cs showLineNumbers {2-3}
+<PropertyGroup>
+  <DebugType>none</DebugType>
+  <DebugSymbols>false</DebugSymbols>
+</PropertyGroup>
+```
+
 :::
 
 ## 34.1.1 发布网站

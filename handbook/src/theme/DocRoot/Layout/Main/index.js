@@ -69,7 +69,7 @@ function Notice() {
     <div className={clsx(styles.notice, isDarkTheme && styles.noticeDark)}>
       <div style={{ marginBottom: 1 }}>
         <Link to={useBaseUrl("/docs/upgrade")}>
-          🚀 Furion v4.9.1.5 版本已发布。
+          🚀 Furion v4.9.1.6 版本已发布。
         </Link>
       </div>
       ⭐️ 开通 VIP 服务仅需 499 元，尊享 365 天项目无忧{" "}
