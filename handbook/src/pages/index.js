@@ -20,7 +20,7 @@ import MacOSIcon from "./macos.svg";
 import NetConf from "./netconf-bot.svg";
 import WindowIcon from "./windows.svg";
 
-const count = "已有 318 位用户开通 VIP 服务";
+const count = "已有 319 位用户开通 VIP 服务";
 
 function Home() {
   const context = useDocusaurusContext();
