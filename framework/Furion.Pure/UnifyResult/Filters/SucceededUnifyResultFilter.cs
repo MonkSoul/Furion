@@ -88,8 +88,9 @@ public class SucceededUnifyResultFilter : IAsyncActionFilter, IOrderedFilter
         // 获取控制器信息
         var actionDescriptor = context.ActionDescriptor as ControllerActionDescriptor;
 
-        // 判断是否支持 MVC 规范化处理
-        if (!UnifyContext.CheckSupportMvcController(context.HttpContext, actionDescriptor, out _)) return;
+        // 判断是否支持 MVC 规范化处理或特定检查
+        if (!UnifyContext.CheckSupportMvcController(context.HttpContext, actionDescriptor, out _)
+            || UnifyContext.CheckHttpContextNonUnify(context.HttpContext)) return;
 
         // 判断是否跳过规范化处理
         if (UnifyContext.CheckSucceededNonUnify(actionDescriptor.MethodInfo, out var unifyResult)) return;

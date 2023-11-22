@@ -290,7 +290,8 @@ public static class UnifyContext
                 || context.GetMetadata<NonUnifyAttribute>() != null
                 || endpointFeature?.Endpoint?.Metadata?.GetMetadata<NonUnifyAttribute>() != null
                 || context.Request.Headers["accept"].ToString().Contains("odata.metadata=", StringComparison.OrdinalIgnoreCase)
-                || context.Request.Headers["accept"].ToString().Contains("odata.streaming=", StringComparison.OrdinalIgnoreCase);
+                || context.Request.Headers["accept"].ToString().Contains("odata.streaming=", StringComparison.OrdinalIgnoreCase)
+                || ResponseContentTypesOfNonUnify.Any(u => context.Response.Headers["content-type"].ToString().Contains(u, StringComparison.OrdinalIgnoreCase));
 
         if (isSkip == true) unifyResult = null;
         else
@@ -321,6 +322,33 @@ public static class UnifyContext
         if (unifyResultSettings?.SupportMvcController == false && typeof(Controller).IsAssignableFrom(actionDescriptor.ControllerTypeInfo)) return false;
 
         return true;
+    }
+
+    /// <summary>
+    /// 跳过规范化处理的 Response Content-Type
+    /// </summary>
+    internal static string[] ResponseContentTypesOfNonUnify = new[]
+    {
+        "text/event-stream",
+        "application/pdf",
+        "application/octet-stream",
+        "image/"
+    };
+
+    /// <summary>
+    /// 检查 HttpContext 是否进行规范化处理
+    /// </summary>
+    /// <param name="httpContext"></param>
+    /// <returns>返回 true 跳过处理，否则进行规范化处理</returns>
+    internal static bool CheckHttpContextNonUnify(HttpContext httpContext)
+    {
+        var contentType = httpContext.Response.Headers["content-type"].ToString();
+        if (ResponseContentTypesOfNonUnify.Any(u => contentType.Contains(u, StringComparison.OrdinalIgnoreCase)))
+        {
+            return true;
+        }
+
+        return false;
     }
 
     /// <summary>

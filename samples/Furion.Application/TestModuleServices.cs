@@ -281,4 +281,22 @@ public class TestModuleServices : IDynamicApiController
     {
         var settings = JWTEncryption.GetJWTSettings();
     }
+
+    [HttpPost("api/sse"), AllowAnonymous]
+    public async Task CreateSseDemo([FromServices] IHttpContextAccessor accessor)
+    {
+        // 设置响应头，指定 SSE 的内容类型
+        accessor.HttpContext.Response.Headers.Append("Content-Type", "text/event-stream");
+
+        // 写入 SSE 消息到响应流
+        for (int i = 0; i < 10; i++)
+        {
+            var message = $"消息{i}";
+            await accessor.HttpContext.Response.WriteAsync(message);
+            await accessor.HttpContext.Response.Body.FlushAsync();
+            await Console.Out.WriteLineAsync(message);
+            Task.Delay(1000).Wait();
+        }
+        await accessor.HttpContext.Response.CompleteAsync();
+    }
 }

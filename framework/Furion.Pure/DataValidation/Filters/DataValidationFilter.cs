@@ -186,7 +186,8 @@ public sealed class DataValidationFilter : IAsyncActionFilter, IOrderedFilter
         else
         {
             // 判断是否支持 MVC 规范化处理，一旦启用，则自动调用规范化提供器进行操作，这里返回 false 表示没有处理结果
-            if (!UnifyContext.CheckSupportMvcController(context.HttpContext, actionDescriptor, out _)) return false;
+            if (!UnifyContext.CheckSupportMvcController(context.HttpContext, actionDescriptor, out _)
+                || UnifyContext.CheckHttpContextNonUnify(context.HttpContext)) return false;
 
             finalContext.Result = unifyResult.OnValidateFailed(context, validationMetadata);
         }
