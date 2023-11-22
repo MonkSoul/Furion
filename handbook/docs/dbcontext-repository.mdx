@@ -189,6 +189,7 @@ var sqlRepository = Db.GetSqlRepository();
 
 ```cs showLineNumbers
 var userRepository = personRepository.Change<User>();
+var userRepository = personRepository.Change<User, MasterDbContextLocator>();   // 还可以基于定位器切换
 ```
 
 ### 9.5.4.2 动态切换仓储类型
