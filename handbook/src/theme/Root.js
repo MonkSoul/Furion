@@ -154,7 +154,7 @@ function Root({ children }) {
             }}
             onClick={() => setDonate(false)}
           >
-            开通 VIP 服务仅需 499 元，尊享 365 天项目无忧
+            开通 VIP 服务仅需 499 元/年，尊享 365 天项目无忧
           </Link>{" "}
           ⭐️
         </div> */}
@@ -170,7 +170,7 @@ function VipShow() {
 
   return (
     <Modal
-      title="⭐️ 开通 VIP 服务 ⭐️"
+      title="⭐️ 开通 VIP 服务仅需 499 元/年 ⭐️"
       isOpen={drawer}
       useButton={false}
       icon="pay"

@@ -125,7 +125,7 @@ export default function DocItemFooter() {
             //       textDecoration: "underline",
             //     }}
             //   >
-            //     开通 VIP 服务仅需 499 元，尊享 365 天项目无忧
+            //     开通 VIP 服务仅需 499 元/年，尊享 365 天项目无忧
             //   </Link>{" "}
             //   ⭐️
             // </div>

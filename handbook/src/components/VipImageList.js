@@ -17,7 +17,7 @@ export default function VipImageList({ padding = 5 }) {
         justifyContent: "space-between",
         paddingLeft: padding,
       }}
-      title="⭐️ 开通 VIP 服务仅需 499 元，尊享 365 天项目无忧 ⭐️"
+      title="⭐️ 开通 VIP 服务仅需 499 元/年，尊享 365 天项目无忧 ⭐️"
       onClick={() => setDonate(false)}
     >
       {Array.from({ length: 10 }, (_, i) => (

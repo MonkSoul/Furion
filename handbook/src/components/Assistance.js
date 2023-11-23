@@ -16,7 +16,7 @@ export default function Assistance({ style = {}, onClick }) {
         style={{ ...style }}
         onClick={onClick}
       >
-        <div className={classes.title}>开通 VIP 服务助力 Furion v5 发布</div>
+        <div className={classes.title}>开通 VIP 服务尊享一对一技术指导</div>
         <div className={classes.progress}>
           <div className={classes.number}>{count}</div>
           <div className={classes.percent}>

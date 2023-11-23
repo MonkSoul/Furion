@@ -27,7 +27,7 @@ export default function FloatBar() {
             <div style={{ flex: 1 }}>
               <div className={styles.itemTitle}>⭐️ VIP 服务 ⭐️</div>
               <div className={styles.itemDesc}>
-                仅需 499 元，尊享 365 天项目无忧
+                仅需 499 元/年，尊享 365 天项目无忧
               </div>
             </div>
             <div className={styles.jiantou}></div>
