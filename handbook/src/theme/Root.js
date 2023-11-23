@@ -6,7 +6,6 @@ import React, { useContext, useEffect, useState } from "react";
 import Assistance from "../components/Assistance";
 import FloatBar from "../components/FloatBar";
 import GlobalContext from "../components/GlobalContext";
-import TopBanner from "../components/TopBanner";
 import Vip from "../components/Vip";
 import VipDesc from "../components/VipDesc.mdx";
 import VipImageList from "../components/VipImageList";
@@ -49,7 +48,7 @@ function Root({ children }) {
     >
       {showVip && <Vip />}
       <FloatBar />
-      {!drawer && topVip && <TopBanner />}
+      {/* {!drawer && topVip && <TopBanner />} */}
       {children}
 
       <Modal
@@ -185,7 +184,7 @@ function VipShow() {
       }}
       bodyStyle={{ fontSize: 15, color: "#1c1e21" }}
       // isCloseButtonShown={false}
-      maskClosable={false}
+      // maskClosable={false}
     >
       <div>
         <img

@@ -238,6 +238,12 @@ await user.UpdateExcludeNowAsync(new[] {nameof(User.Name), nameof(User.Age)}, tr
 
 ## 9.7.7 数据存在才更新所有列（不立即提交）
 
+:::caution 功能移除声明
+
+以下内容已在 `Furion 2.6.0 +` 版本移除。
+
+:::
+
 ```cs showLineNumbers
 // ==== 同步操作 ====
 
@@ -252,6 +258,12 @@ await repository.UpdateExistsAsync(user);
 
 ## 9.7.8 数据存在才更新所有列（立即提交）
 
+:::caution 功能移除声明
+
+以下内容已在 `Furion 2.6.0 +` 版本移除。
+
+:::
+
 ```cs showLineNumbers
 // ==== 同步操作 ====
 
@@ -265,6 +277,12 @@ await repository.UpdateExistsNowAsync(user);
 ```
 
 ## 9.7.9 数据存在才更新部分列（不立即提交）
+
+:::caution 功能移除声明
+
+以下内容已在 `Furion 2.6.0 +` 版本移除。
+
+:::
 
 ```cs showLineNumbers
 // ==== 同步操作 ====
@@ -292,6 +310,12 @@ await repository.UpdateIncludeExistsAsync(user, new[] {nameof(User.Name), nameof
 
 ## 9.7.10 数据存在才更新部分列（立即提交）
 
+:::caution 功能移除声明
+
+以下内容已在 `Furion 2.6.0 +` 版本移除。
+
+:::
+
 ```cs showLineNumbers
 // ==== 同步操作 ====
 
@@ -318,6 +342,12 @@ await repository.UpdateIncludeExistsNowAsync(user, new[] {nameof(User.Name), nam
 
 ## 9.7.11 数据存在才排除特定部分列更新（不立即提交）
 
+:::caution 功能移除声明
+
+以下内容已在 `Furion 2.6.0 +` 版本移除。
+
+:::
+
 ```cs showLineNumbers
 // ==== 同步操作 ====
 
@@ -343,6 +373,12 @@ await repository.UpdateExcludeExistsAsync(user, new[] {nameof(User.Name), nameof
 ```
 
 ## 9.7.12 数据存在才排除特定部分列更新（立即提交）
+
+:::caution 功能移除声明
+
+以下内容已在 `Furion 2.6.0 +` 版本移除。
+
+:::
 
 ```cs showLineNumbers
 // ==== 同步操作 ====
