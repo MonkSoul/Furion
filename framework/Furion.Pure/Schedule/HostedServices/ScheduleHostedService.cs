@@ -273,6 +273,9 @@ internal sealed class ScheduleHostedService : BackgroundService
                             // 将作业触发器运行数据写入持久化
                             _schedulerFactory.Shorthand(jobDetail, trigger);
 
+                            // 重置 Result
+                            trigger.Result = null;
+
                             // 输出异常日志
                             _logger.LogError(ex, "Error occurred executing in {jobExecutingContext}.", jobExecutingContext);
 

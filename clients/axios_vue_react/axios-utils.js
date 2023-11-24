@@ -47,6 +47,7 @@ export const throwError = (message) => {
 export const axiosInstance = globalAxios;
 
 // 这里可以配置 axios 更多选项 =========================================
+axiosInstance.defaults.timeout = 1000 * 60 * 10; // 设置超时，默认 60s
 
 // axios 请求拦截
 axiosInstance.interceptors.request.use(

@@ -7,7 +7,7 @@
 
 import globalAxios, { AxiosInstance } from "axios";
 import { Configuration } from "./api-services";
-import { BaseAPI, BASE_PATH } from "./api-services/base";
+import { BASE_PATH, BaseAPI } from "./api-services/base";
 
 // 如果是 Angular 项目，则取消下面注释即可
 // import { environment } from './environments/environment';
@@ -47,7 +47,7 @@ export const throwError = (message: string) => {
 export const axiosInstance: AxiosInstance = globalAxios;
 
 // 这里可以配置 axios 更多选项 =========================================
-axiosInstance.defaults.timeout = 1000 * 60 * 10; // 设置超时，默认60s
+axiosInstance.defaults.timeout = 1000 * 60 * 10; // 设置超时，默认 60s
 
 // axios 请求拦截
 axiosInstance.interceptors.request.use(
