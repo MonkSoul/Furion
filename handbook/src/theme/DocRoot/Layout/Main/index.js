@@ -69,7 +69,7 @@ function Notice() {
     <div className={clsx(styles.notice, isDarkTheme && styles.noticeDark)}>
       <div style={{ marginBottom: 1 }}>
         <Link to={useBaseUrl("/docs/upgrade")}>
-          🚀 Furion v4.9.1.6 版本已发布。
+          🚀 Furion v4.9.1.7 版本已发布。
         </Link>
       </div>
       <div style={{ fontWeight: 600 }}>
