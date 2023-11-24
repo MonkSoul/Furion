@@ -49,6 +49,7 @@ function Banner() {
         <img
           src={useBaseUrl("img/netconf-drone.gif")}
           className="furioin-index-gif"
+          style={{ pointerEvents: "none" }}
         />
         <div className="furion-banner-item">
           <NetConf
@@ -227,7 +228,7 @@ function Gitee() {
             className={"furion-log-jiao" + (isDarkTheme ? " dark" : "")}
           ></div>
           <div className="furion-log-number">
-            <div style={{ color: "#1fd898" }}>11,645,848</div>
+            <div style={{ color: "#1fd898" }}>11,648,355</div>
             <span className={isDarkTheme ? " dark" : ""}>Downloads</span>
           </div>
         </div>
@@ -244,7 +245,10 @@ function WhoUse() {
       <div className="furion-who-custom">
         <h1>特别赞助</h1>
         <div className="furion-donate-wrap" style={{ width: "100%" }}>
-          <div className="furion-custom-img" style={{ width: "100%" }}>
+          <div
+            className="furion-custom-img"
+            style={{ width: "100%", maxWidth: 958 }}
+          >
             <SpecDonate />
           </div>
         </div>
@@ -304,7 +308,7 @@ function WhoUse() {
         </div>
       </div>
       <div className="furion-who-des">
-        <div style={{ maxWidth: 350 }}>
+        <div className="furion-who-des-text">
           <div></div>
           <h1>请考虑赞助 Furion</h1>
           <p>
@@ -487,6 +491,7 @@ function FuChi() {
             lineHeight: 1.75,
             textAlign: "left",
             color: "#444444",
+            flex: 1,
           }}
         >
           为了回馈那些为 Furion
@@ -504,7 +509,12 @@ function FuChi() {
             即将到来...
           </a>
         </div>
-        <img src={useBaseUrl("img/cmp-support.jpg")} />
+        <div style={{ flex: 1 }}>
+          <img
+            src={useBaseUrl("img/cmp-support.jpg")}
+            style={{ width: "100%" }}
+          />
+        </div>
       </div>
     </div>
   );

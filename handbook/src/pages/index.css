@@ -298,6 +298,10 @@
   flex-direction: column;
 }
 
+.furion-who-des-text {
+  max-width: 350px;
+}
+
 .furion-donate-wrap {
   box-sizing: border-box;
   justify-content: center;
@@ -469,6 +473,11 @@
     right: 0;
     bottom: 0;
     top: 0;
+  }
+
+  .furion-who-des-text {
+    padding: 2em 0;
+    max-width: 100%;
   }
 }
 

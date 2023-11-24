@@ -5,6 +5,7 @@ import React, { useContext } from "react";
 import GlobalContext from "../../components/GlobalContext";
 import { SponsorToc } from "../../components/SponsorToc";
 import Vip from "../../components/Vip";
+import VipImageList from "../../components/VipImageList";
 import styles from "./styles.module.css";
 
 // Using a custom className
@@ -16,6 +17,13 @@ export default function TOC({ className, ...props }) {
 
   return (
     <div className={clsx(styles.tableOfContents, "thin-scrollbar", className)}>
+      <div
+        style={{
+          margin: "0.5em",
+        }}
+      >
+        <VipImageList padding={1} />
+      </div>
       {adv && <DotNETChina />}
       <TOCItems
         {...props}

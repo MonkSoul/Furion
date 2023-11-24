@@ -25,7 +25,7 @@ export default function Vip({ style, closable = true }) {
           style={{
             position: "absolute",
             zIndex: 2,
-            right: 5,
+            left: 5,
             top: 5,
             cursor: "pointer",
             borderRadius: "50%",
