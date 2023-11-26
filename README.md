@@ -44,4 +44,4 @@ Read [contribution documents](http://furion.baiqian.ltd/docs/contribute) to lear
 
 If Furion has been helpful to you and you would like to see Furion continue to grow, please consider [sponsoring](http://furion.baiqian.ltd/docs/donate) us.
 
-[![](./handbook/static/img/crmeb-spec.jpg)](http://github.crmeb.net/u/furion)
+[![](./assets/crmeb-spec.jpg)](http://github.crmeb.net/u/furion)
