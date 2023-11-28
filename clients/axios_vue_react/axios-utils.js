@@ -1,5 +1,5 @@
 /**
- * 当前版本：v1.1.0
+ * 当前版本：v1.2.0
  * 使用描述：https://editor.swagger.io 代码生成 typescript-axios 辅组工具库
  * 依赖说明：适配 axios 版本：v0.21.4
  * 视频教程：https://www.bilibili.com/video/BV1EW4y1C71D
@@ -171,20 +171,21 @@ export function checkAndStoreAuthentication(res) {
  * @param errorExt 自定义错误信息（拓展）
  * @returns [Error, any]
  */
-export function feature(
-  promise,
-  errorExt
-) {
-  return promise
-    .then<[null, T]>((data) => [null, data])
-    .catch<[U, undefined]>((err) => {
+export function feature(promise, errorExt) {
+  return (
+    promise.then <
+    [null, T] >
+    ((data) => [null, data]).catch <
+    [U, undefined] >
+    ((err) => {
       if (errorExt) {
         const parsedError = Object.assign({}, err, errorExt);
         return [parsedError, undefined];
       }
 
       return [err, undefined];
-    });
+    })
+  );
 }
 
 /**
@@ -223,4 +224,23 @@ export function decryptJWT(token) {
  */
 export function getJWTDate(timestamp) {
   return new Date(timestamp * 1000);
+}
+
+/**
+ * 解析 token 授权信息
+ * @returns 解密后的 token 对象
+ */
+export function getAccessInfo() {
+  const accessToken = window.localStorage.getItem(accessTokenKey);
+
+  if (!accessToken) {
+    return null;
+  }
+
+  try {
+    const accessInfo = decryptJWT(accessToken);
+    return accessInfo;
+  } catch {
+    return null;
+  }
 }
