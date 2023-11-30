@@ -72,6 +72,8 @@ public static partial class Scoped
         {
             // 回滚事务
             dbContextPool?.RollbackTransaction(true);
+
+            throw;
         }
         finally
         {

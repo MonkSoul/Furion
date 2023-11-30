@@ -299,4 +299,21 @@ public class TestModuleServices : IDynamicApiController
         }
         await accessor.HttpContext.Response.CompleteAsync();
     }
+
+    public async Task 测试事务是否回滚和捕获异常()
+    {
+        try
+        {
+            await Scoped.CreateUowAsync(async (_, f) =>
+            {
+                throw Oops.Oh("抛出异常");
+
+                await Task.CompletedTask;
+            });
+        }
+        catch (Exception)
+        {
+
+        }
+    }
 }
