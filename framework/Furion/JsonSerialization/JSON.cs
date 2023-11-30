@@ -12,7 +12,6 @@
 // 在任何情况下，作者或版权持有人都不对任何索赔、损害或其他责任负责，无论这些追责来自合同、侵权或其它行为中，
 // 还是产生于、源于或有关于本软件以及本软件的使用或其它处置。
 
-using Newtonsoft.Json;
 using System.Text.Json;
 
 namespace Furion.JsonSerialization;
@@ -80,7 +79,7 @@ public static class JSON
             using var document = JsonDocument.Parse(jsonString);
             return true;
         }
-        catch (JsonReaderException)
+        catch (JsonException)
         {
             return false;
         }
