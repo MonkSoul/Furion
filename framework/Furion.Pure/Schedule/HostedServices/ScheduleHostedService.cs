@@ -47,22 +47,30 @@ internal sealed class ScheduleHostedService : BackgroundService
     private readonly IServiceProvider _serviceProvider;
 
     /// <summary>
+    /// 取消作业执行 Token 器  
+    /// </summary>
+    private readonly IJobCancellationToken _jobCancellationToken;
+
+    /// <summary>
     /// 构造函数
     /// </summary>
     /// <param name="serviceProvider">服务提供器</param>
     /// <param name="logger">作业调度器日志服务</param>
     /// <param name="schedulerFactory">作业计划工厂服务</param>
+    /// <param name="jobCancellationToken">取消作业执行 Token 器</param>
     /// <param name="useUtcTimestamp">是否使用 Utc 时间</param>
     /// <param name="clusterId">作业集群 Id</param>
     public ScheduleHostedService(IServiceProvider serviceProvider
         , IScheduleLogger logger
         , ISchedulerFactory schedulerFactory
+        , IJobCancellationToken jobCancellationToken
         , bool useUtcTimestamp
         , string clusterId)
     {
         _serviceProvider = serviceProvider;
         _logger = logger;
         _schedulerFactory = schedulerFactory;
+        _jobCancellationToken = jobCancellationToken;
 
         Monitor = serviceProvider.GetService<IJobMonitor>();
         Executor = serviceProvider.GetService<IJobExecutor>();
@@ -217,6 +225,10 @@ internal sealed class ScheduleHostedService : BackgroundService
                         IJob jobHandler = null;
                         var serviceScoped = _serviceProvider.CreateScope();
 
+
+                        // 创建取消作业执行 Token
+                        var jobCancellationTokenSource = _jobCancellationToken.GetOrCreate(jobId, runId, stoppingToken);
+
                         try
                         {
                             // 创建作业处理程序实例
@@ -225,7 +237,7 @@ internal sealed class ScheduleHostedService : BackgroundService
                             // 调用执行前监视器
                             if (Monitor != default)
                             {
-                                await Monitor.OnExecutingAsync(jobExecutingContext, stoppingToken);
+                                await Monitor.OnExecutingAsync(jobExecutingContext, jobCancellationTokenSource.Token);
                             }
 
                             // 计时
@@ -237,7 +249,7 @@ internal sealed class ScheduleHostedService : BackgroundService
                                 // 调用作业处理程序并配置出错执行重试
                                 await Retry.InvokeAsync(async () =>
                                 {
-                                    await jobHandler.ExecuteAsync(jobExecutingContext, stoppingToken);
+                                    await jobHandler.ExecuteAsync(jobExecutingContext, jobCancellationTokenSource.Token);
                                 }
                                 , trigger.NumRetries
                                 , trigger.RetryTimeout
@@ -249,7 +261,7 @@ internal sealed class ScheduleHostedService : BackgroundService
                             }
                             else
                             {
-                                await Executor.ExecuteAsync(jobExecutingContext, jobHandler, stoppingToken);
+                                await Executor.ExecuteAsync(jobExecutingContext, jobHandler, jobCancellationTokenSource.Token);
                             }
 
                             // 计时结束
@@ -324,7 +336,7 @@ internal sealed class ScheduleHostedService : BackgroundService
                                         // 输出作业执行回退日志
                                         _logger.LogInformation("Fallback called in {jobExecutedContext}.", jobExecutedContext);
 
-                                        await jobHandler.FallbackAsync(jobExecutedContext, stoppingToken);
+                                        await jobHandler.FallbackAsync(jobExecutedContext, jobCancellationTokenSource.Token);
                                     }
                                     // 处理二次异常情况，将异常进行汇总
                                     catch (Exception fallbackEx)
@@ -340,7 +352,7 @@ internal sealed class ScheduleHostedService : BackgroundService
                                 // 调用作业执行后监视器
                                 try
                                 {
-                                    if (Monitor != null) await Monitor.OnExecutedAsync(jobExecutedContext, stoppingToken);
+                                    if (Monitor != null) await Monitor.OnExecutedAsync(jobExecutedContext, jobCancellationTokenSource.Token);
                                 }
                                 catch { }
                             }
@@ -363,6 +375,9 @@ internal sealed class ScheduleHostedService : BackgroundService
 
                             // 释放服务作用域
                             serviceScoped.Dispose();
+
+                            // 释放取消作业执行 Token
+                            _jobCancellationToken.Cancel(jobId, runId);
                         }
                     }, stoppingToken);
                 });

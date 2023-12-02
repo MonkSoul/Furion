@@ -1144,4 +1144,13 @@ internal sealed partial class SchedulerFactory
     {
         _ = TryRunJob(jobId);
     }
+
+    /// <summary>
+    /// 取消正在执行的作业
+    /// </summary>
+    /// <param name="jobId">作业 Id</param>
+    public void CancelJob(string jobId)
+    {
+        _jobCancellationToken.Cancel(jobId);
+    }
 }

@@ -256,4 +256,9 @@ public interface IScheduler
     /// 立即执行作业
     /// </summary>
     void Run();
+
+    /// <summary>
+    /// 取消正在执行的作业
+    /// </summary>
+    void Cancel();
 }

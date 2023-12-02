@@ -38,6 +38,11 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory
     private readonly IScheduleLogger _logger;
 
     /// <summary>
+    /// 取消作业执行 Token 器  
+    /// </summary>
+    private readonly IJobCancellationToken _jobCancellationToken;
+
+    /// <summary>
     /// 长时间运行的后台任务
     /// </summary>
     /// <remarks>实现作业运行消息持久化</remarks>
@@ -81,15 +86,18 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory
     /// </summary>
     /// <param name="serviceProvider">服务提供器</param>
     /// <param name="logger">作业调度器日志服务</param>
+    /// <param name="jobCancellationToken">取消作业执行 Token 器</param>
     /// <param name="schedulerBuilders">初始作业计划构建集合</param>
     /// <param name="useUtcTimestamp">是否使用 UTC 时间</param>
     public SchedulerFactory(IServiceProvider serviceProvider
         , IScheduleLogger logger
+        , IJobCancellationToken jobCancellationToken
         , IList<SchedulerBuilder> schedulerBuilders
         , bool useUtcTimestamp)
     {
         _serviceProvider = serviceProvider;
         _logger = logger;
+        _jobCancellationToken = jobCancellationToken;
         _schedulerBuilders = schedulerBuilders;
         _manualRunJobIds = new List<string>();
 

@@ -80,6 +80,7 @@ public sealed class Startup : AppStartup
 
             options.AddJob<TestJob>(Triggers.PeriodHours(1).SetMaxNumberOfRuns(2), Triggers.PeriodSeconds(4));
             //options.AddJobFactory<JobFactory>();
+            options.AddJob<TestCancelJob>("cancelJob", Triggers.PeriodSeconds(30));
         });
 
         // 新版本任务队列

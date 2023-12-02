@@ -106,6 +106,9 @@ public static class ScheduleServiceCollectionExtensions
             return schedulerFactory;
         });
 
+        // 注册取消作业执行 Token 器
+        services.AddSingleton<IJobCancellationToken, JobCancellationToken>();
+
         return services;
     }
 }

@@ -580,6 +580,14 @@ internal sealed partial class Scheduler
     }
 
     /// <summary>
+    /// 立即执行作业
+    /// </summary>
+    public void Cancel()
+    {
+        Factory?.CancelJob(JobId);
+    }
+
+    /// <summary>
     /// 内部获取作业触发器
     /// </summary>
     /// <param name="triggerId">作业触发器 Id</param>

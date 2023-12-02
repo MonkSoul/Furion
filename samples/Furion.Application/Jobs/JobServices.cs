@@ -46,4 +46,9 @@ public class JobServices : IDynamicApiController
     {
         _ = _schedulerFactory.TryRemoveJob(jobId, out var _);
     }
+
+    public void CancelJob([FromQuery] string jobId)
+    {
+        _schedulerFactory.CancelJob(jobId);
+    }
 }

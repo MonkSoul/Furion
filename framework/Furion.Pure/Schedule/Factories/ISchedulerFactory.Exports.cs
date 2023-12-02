@@ -619,4 +619,10 @@ public partial interface ISchedulerFactory : IDisposable
     /// </summary>
     /// <param name="jobId">作业 Id</param>
     void RunJob(string jobId);
+
+    /// <summary>
+    /// 取消正在执行的作业
+    /// </summary>
+    /// <param name="jobId">作业 Id</param>
+    void CancelJob(string jobId);
 }

@@ -1,0 +1,23 @@
+﻿using Furion.Schedule;
+using Microsoft.Extensions.Logging;
+
+namespace Furion.Application;
+
+//[Period(10000)]
+public class TestCancelJob : IJob
+{
+    private readonly ILogger<TestCancelJob> _logger;
+    public TestCancelJob(ILogger<TestCancelJob> logger)
+    {
+        _logger = logger;
+    }
+
+    public async Task ExecuteAsync(JobExecutingContext context, CancellationToken stoppingToken)
+    {
+        _logger.LogWarning($"{context}");
+
+        await Task.Delay(10000, stoppingToken);
+
+        await Task.CompletedTask;
+    }
+}
