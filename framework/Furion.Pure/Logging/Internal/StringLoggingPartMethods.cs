@@ -154,9 +154,27 @@ public sealed partial class StringLoggingPart
     /// <returns></returns>
     private static ILoggerFactory CreateDisposeLoggerFactory()
     {
+        var consoleFormatterExtendOptions = App.GetOptions<ConsoleFormatterExtendOptions>();
+
+        Action<ConsoleFormatterExtendOptions> configure = consoleFormatterExtendOptions is not null
+            ? (opt =>
+            {
+                opt.IncludeScopes = consoleFormatterExtendOptions.IncludeScopes;
+                opt.TimestampFormat = consoleFormatterExtendOptions.TimestampFormat;
+                opt.UseUtcTimestamp = consoleFormatterExtendOptions.UseUtcTimestamp;
+                opt.ColorBehavior = consoleFormatterExtendOptions.ColorBehavior;
+                opt.MessageFormat = consoleFormatterExtendOptions.MessageFormat;
+                opt.DateFormat = consoleFormatterExtendOptions.DateFormat;
+                opt.WriteFilter = consoleFormatterExtendOptions.WriteFilter;
+                opt.WriteHandler = consoleFormatterExtendOptions.WriteHandler;
+                opt.WithTraceId = consoleFormatterExtendOptions.WithTraceId;
+                opt.WithStackFrame = consoleFormatterExtendOptions.WithStackFrame;
+            })
+        : null;
+
         return LoggerFactory.Create(builder =>
         {
-            builder.AddConsoleFormatter();
+            builder.AddConsoleFormatter(configure);
         });
     }
 }
