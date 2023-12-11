@@ -395,7 +395,14 @@ public sealed class Clay : DynamicObject, IEnumerable
         var dic = new Dictionary<string, object>();
         foreach (KeyValuePair<string, dynamic> item in this)
         {
-            dic[item.Key] = item.Value;
+            if (item.Value is Clay clay && clay.IsObject)
+            {
+                dic[item.Key] = clay.ToDictionary();
+            }
+            else
+            {
+                dic[item.Key] = item.Value;
+            }
         }
 
         return dic;
