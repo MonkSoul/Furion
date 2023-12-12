@@ -1,5 +1,3 @@
-[![](./assets/499.jpeg)](http://furion.baiqian.ltd/docs/subscribe)
-
 **中** | [En](https://github.com/MonkSoul/Furion)
 
 # 先知
