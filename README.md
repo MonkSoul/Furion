@@ -1,4 +1,4 @@
-[![](./assets/499.jpeg)](http://furion.baiqian.ltd/docs/subscribe)
+[![](./assets/499.jpeg)](http://furion.net/docs/subscribe)
 
 [中](https://gitee.com/dotnetchina/Furion) | **En**
 
@@ -14,7 +14,7 @@ dotnet add package Furion
 
 ## Examples
 
-We have several examples [on the website](http://furion.baiqian.ltd). Here is the first one to get you started:
+We have several examples [on the website](http://furion.net). Here is the first one to get you started:
 
 ```cs
 Serve.Run();
@@ -30,13 +30,13 @@ Open browser access `http://localhost:5000`.
 
 ## Documentation
 
-You can find the [Furion](https://gitee.com/dotnetchina/Furion) documentation [on the website](http://furion.baiqian.ltd).
+You can find the [Furion](https://gitee.com/dotnetchina/Furion) documentation [on the website](http://furion.net).
 
 ## Contributing
 
 The main purpose of this repository is to continue evolving [Furion](https://gitee.com/dotnetchina/Furion) core, making it faster and easier to use. Development of [Furion](https://gitee.com/dotnetchina/Furion) happens in the open on [Gitee](https://gitee.com/dotnetchina/Furion), and we are grateful to the community for contributing bugfixes and improvements.
 
-Read [contribution documents](http://furion.baiqian.ltd/docs/contribute) to learn how you can take part in improving [Furion](https://gitee.com/dotnetchina/Furion).
+Read [contribution documents](http://furion.net/docs/contribute) to learn how you can take part in improving [Furion](https://gitee.com/dotnetchina/Furion).
 
 ## License
 
@@ -44,6 +44,6 @@ Read [contribution documents](http://furion.baiqian.ltd/docs/contribute) to lear
 
 ## Sponsor
 
-If Furion has been helpful to you and you would like to see Furion continue to grow, please consider [sponsoring](http://furion.baiqian.ltd/docs/donate) us.
+If Furion has been helpful to you and you would like to see Furion continue to grow, please consider [sponsoring](http://furion.net/docs/donate) us.
 
 [![](./assets/crmeb-spec.jpg)](http://github.crmeb.net/u/furion)

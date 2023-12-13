@@ -17,7 +17,7 @@ export const serveConfig = new Configuration({
   basePath:
     process.env.NODE_ENV !== "production"
       ? "https://localhost:44342" // 开发环境服务器接口地址
-      : "http://furion.baiqian.ltd", // 生产环境服务器接口地址
+      : "http://furion.net", // 生产环境服务器接口地址
 });
 
 // token 键定义

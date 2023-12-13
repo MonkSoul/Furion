@@ -13,7 +13,7 @@
 		<RepositoryType>Gitee</RepositoryType>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
-		<PackageProjectUrl>http://furion.baiqian.ltd</PackageProjectUrl>
+		<PackageProjectUrl>http://furion.net</PackageProjectUrl>
 		<PackAsTool>true</PackAsTool>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<PackageIcon>icon.png</PackageIcon>
