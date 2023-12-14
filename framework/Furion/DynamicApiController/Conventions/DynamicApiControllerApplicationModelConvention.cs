@@ -648,7 +648,12 @@ internal sealed class DynamicApiControllerApplicationModelConvention : IApplicat
         }
 
         // 拼接名称和版本号
-        var newName = $"{tempName}{(string.IsNullOrWhiteSpace(apiVersion) ? null : $"{_dynamicApiControllerSettings.VersionSeparator}{apiVersion}")}";
+        var versionString = string.IsNullOrWhiteSpace(apiVersion) ? null : $"{_dynamicApiControllerSettings.VersionSeparator}{apiVersion}/";
+
+        // 处理版本号前后问题
+        var newName = _dynamicApiControllerSettings.VersionInFront == true
+            ? $"{versionString}{tempName}"
+            : $"{tempName}{versionString}";
 
         var isLowercaseRoute = CheckIsLowercaseRoute(controllerApiDescriptionSettings == null ? null : apiDescriptionSettings, controllerApiDescriptionSettings ?? apiDescriptionSettings);
         var isLowerCamelCase = CheckIsLowerCamelCase(controllerApiDescriptionSettings == null ? null : apiDescriptionSettings, controllerApiDescriptionSettings ?? apiDescriptionSettings);

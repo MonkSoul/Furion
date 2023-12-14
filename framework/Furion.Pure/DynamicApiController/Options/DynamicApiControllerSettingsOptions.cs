@@ -71,6 +71,11 @@ public sealed class DynamicApiControllerSettingsOptions : IConfigurableOptions<D
     public string VersionSeparator { get; set; }
 
     /// <summary>
+    /// 版本号在前面
+    /// </summary>
+    public bool? VersionInFront { get; set; }
+
+    /// <summary>
     /// 模型转查询参数（只有GET、HEAD请求有效）
     /// </summary>
     public bool? ModelToQuery { get; set; }
@@ -124,7 +129,8 @@ public sealed class DynamicApiControllerSettingsOptions : IConfigurableOptions<D
         options.KeepVerb ??= false;
         options.KeepName ??= false;
         options.CamelCaseSeparator ??= "-";
-        options.VersionSeparator ??= "@";
+        options.VersionSeparator ??= "v";
+        options.VersionInFront ??= true;
         options.ModelToQuery ??= false;
         options.SupportedMvcController ??= false;
         options.ForceWithRoutePrefix ??= false;
