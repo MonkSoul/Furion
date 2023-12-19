@@ -1,4 +1,4 @@
-[![](./assets/499.jpeg)](http://furion.net/docs/subscribe)
+[![](http://furion.net/img/499.jpeg)](http://furion.net/docs/subscribe)
 
 **中** | [En](https://github.com/MonkSoul/Furion)
 
