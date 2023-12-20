@@ -650,15 +650,18 @@ internal sealed class DynamicApiControllerApplicationModelConvention : IApplicat
         // 拼接名称和版本号
         var versionString = string.IsNullOrWhiteSpace(apiVersion) ? null : $"{_dynamicApiControllerSettings.VersionSeparator}{apiVersion}/";
 
+        var isLowercaseRoute = CheckIsLowercaseRoute(controllerApiDescriptionSettings == null ? null : apiDescriptionSettings, controllerApiDescriptionSettings ?? apiDescriptionSettings);
+        var isLowerCamelCase = CheckIsLowerCamelCase(controllerApiDescriptionSettings == null ? null : apiDescriptionSettings, controllerApiDescriptionSettings ?? apiDescriptionSettings);
+
+        tempName = isLowerCamelCase ? tempName.ToLowerCamelCase() : tempName;
+
         // 处理版本号前后问题
         var newName = _dynamicApiControllerSettings.VersionInFront == true
             ? $"{versionString}{tempName}"
             : $"{tempName}{versionString}";
 
-        var isLowercaseRoute = CheckIsLowercaseRoute(controllerApiDescriptionSettings == null ? null : apiDescriptionSettings, controllerApiDescriptionSettings ?? apiDescriptionSettings);
-        var isLowerCamelCase = CheckIsLowerCamelCase(controllerApiDescriptionSettings == null ? null : apiDescriptionSettings, controllerApiDescriptionSettings ?? apiDescriptionSettings);
-
-        return (isLowercaseRoute ? newName.ToLower() : isLowerCamelCase ? newName.ToLowerCamelCase() : newName, isLowercaseRoute, isKeepName, isLowerCamelCase);
+        return (isLowercaseRoute ? newName.ToLower() : newName
+         , isLowercaseRoute, isKeepName, isLowerCamelCase);
     }
 
     /// <summary>
