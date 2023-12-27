@@ -300,7 +300,7 @@ public class ViewEngine : IViewEngine
 
         var razorCSharpDocument = codeDocument.GetCSharpDocument();
 
-        var syntaxTree = CSharpSyntaxTree.ParseText(razorCSharpDocument.GeneratedCode);
+        var syntaxTree = CSharpSyntaxTree.ParseText(razorCSharpDocument.GeneratedCode); // 第二个参数可以指定 C# 版本
 
         var compilation = CSharpCompilation.Create(
             fileName,
@@ -330,7 +330,9 @@ public class ViewEngine : IViewEngine
             })
             .Concat(options.MetadataReferences)
             .ToList(),
-            new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary));
+            new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary)
+                    .WithOptimizationLevel(OptimizationLevel.Release)
+                    .WithOverflowChecks(true));
 
         var memoryStream = new MemoryStream();
 
