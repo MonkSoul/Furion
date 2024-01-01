@@ -1,5 +1,6 @@
 ﻿using Furion.Schedule;
 using Microsoft.Extensions.Logging;
+using System.Text.Json;
 
 namespace Furion.Application;
 
@@ -28,5 +29,10 @@ public class TestJobPersistence : IJobPersistence
 
     public void OnTriggerChanged(PersistenceTriggerContext context)
     {
+    }
+
+    public void OnExecutionRecord(TriggerTimeline timeline)
+    {
+        Console.WriteLine(JsonSerializer.Serialize(timeline));
     }
 }

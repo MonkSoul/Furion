@@ -420,7 +420,7 @@ internal sealed partial class Scheduler
         if (succeed)
         {
             // 记录作业触发器运行信息
-            trigger.RecordTimeline();
+            trigger.RecordTimeline(Factory, JobId);
 
             // 输出日志
             Logger.LogInformation("The <{triggerId}> trigger for scheduler of <{JobId}> successfully paused to the schedule.", triggerId, JobId);

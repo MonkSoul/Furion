@@ -371,7 +371,7 @@ internal sealed class ScheduleHostedService : BackgroundService
                             }
 
                             // 记录作业触发器运行信息
-                            trigger.RecordTimeline();
+                            trigger.RecordTimeline(_schedulerFactory, jobId);
 
                             // 释放服务作用域
                             serviceScoped.Dispose();

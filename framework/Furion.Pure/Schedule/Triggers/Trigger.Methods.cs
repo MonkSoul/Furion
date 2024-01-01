@@ -316,15 +316,19 @@ public partial class Trigger
     /// <summary>
     /// 记录作业触发器运行信息
     /// </summary>
-    internal void RecordTimeline()
+    /// <param name="schedulerFactory">作业计划工厂</param>
+    /// <param name="jobId">作业 Id</param>
+    internal void RecordTimeline(ISchedulerFactory schedulerFactory, string jobId)
     {
         Timelines ??= new();
 
         // 只保留 5 条记录
         if (Timelines.Count >= 5) Timelines.Dequeue();
 
-        Timelines.Enqueue(new TriggerTimeline
+        var timeline = new TriggerTimeline
         {
+            JobId = jobId,
+            TriggerId = TriggerId,
             LastRunTime = LastRunTime,
             NumberOfRuns = NumberOfRuns,
             NextRunTime = NextRunTime,
@@ -332,7 +336,12 @@ public partial class Trigger
             Result = Result,
             ElapsedTime = ElapsedTime,
             CreatedTime = DateTime.Now
-        });
+        };
+
+        Timelines.Enqueue(timeline);
+
+        // 调用事件委托（记录作业触发器运行信息）
+        (schedulerFactory as SchedulerFactory)?.RecordTimeline(timeline);
     }
 
     /// <summary>

@@ -43,4 +43,10 @@ public interface IJobPersistence
     /// </summary>
     /// <param name="context">作业触发器持久化上下文</param>
     void OnTriggerChanged(PersistenceTriggerContext context);
+
+    /// <summary>
+    /// 作业触发记录通知
+    /// </summary>
+    /// <param name="timeline">作业触发器运行记录</param>
+    void OnExecutionRecord(TriggerTimeline timeline);
 }

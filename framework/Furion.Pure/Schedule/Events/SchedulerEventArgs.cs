@@ -17,6 +17,7 @@ namespace Furion.Schedule;
 /// <summary>
 /// 作业计划事件参数
 /// </summary>
+[SuppressSniffer]
 public sealed class SchedulerEventArgs : EventArgs
 {
     /// <summary>

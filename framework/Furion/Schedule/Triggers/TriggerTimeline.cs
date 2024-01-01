@@ -23,6 +23,18 @@ namespace Furion.Schedule;
 public sealed class TriggerTimeline
 {
     /// <summary>
+    /// 作业 Id
+    /// </summary>
+    [JsonInclude]
+    public string JobId { get; internal set; }
+
+    /// <summary>
+    /// 作业触发器 Id
+    /// </summary>
+    [JsonInclude]
+    public string TriggerId { get; internal set; }
+
+    /// <summary>
     /// 当前运行次数
     /// </summary>
     [JsonInclude]
@@ -61,5 +73,6 @@ public sealed class TriggerTimeline
     /// <summary>
     /// 新增时间
     /// </summary>
-    internal DateTime CreatedTime { get; set; }
+    [JsonInclude]
+    public DateTime CreatedTime { get; internal set; }
 }

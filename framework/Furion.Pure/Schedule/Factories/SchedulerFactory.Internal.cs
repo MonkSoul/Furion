@@ -28,6 +28,11 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory
     public event EventHandler<SchedulerEventArgs> OnChanged;
 
     /// <summary>
+    /// 作业触发记录通知
+    /// </summary>
+    public event EventHandler<JobExecutionRecordEventArgs> OnExecutionRecord;
+
+    /// <summary>
     /// 服务提供器
     /// </summary>
     private readonly IServiceProvider _serviceProvider;
@@ -38,7 +43,7 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory
     private readonly IScheduleLogger _logger;
 
     /// <summary>
-    /// 取消作业执行 Token 器  
+    /// 取消作业执行 Token 器
     /// </summary>
     private readonly IJobCancellationToken _jobCancellationToken;
 
@@ -390,6 +395,19 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory
         catch (TaskCanceledException) { }
         catch (AggregateException ex) when (ex.InnerExceptions.Count == 1 && ex.InnerExceptions[0] is TaskCanceledException) { }
         catch { }
+    }
+
+    /// <summary>
+    /// 记录作业触发器运行信息
+    /// </summary>
+    /// <param name="timeline">作业触发器运行记录</param>
+    internal void RecordTimeline(TriggerTimeline timeline)
+    {
+        // 作业触发记录通知
+        Persistence?.OnExecutionRecord(timeline);
+
+        // 调用事件委托
+        OnExecutionRecord?.Invoke(this, new(timeline));
     }
 
     /// <summary>
