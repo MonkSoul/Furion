@@ -463,7 +463,7 @@ public static class SpecificationDocumentBuilder
 
                 foreach (var memberElement in memberNotInheritdocElementList)
                 {
-                    members.Add(memberElement.Attribute("name").Value, memberElement);
+                    members.TryAdd(memberElement.Attribute("name").Value, memberElement);
                 }
 
                 // 查找所有 member[name] 含有 <inheritdoc /> 节点的注释
