@@ -39,9 +39,3 @@ Read [contribution documents](http://furion.net/docs/contribute) to learn how yo
 ## License
 
 [Furion](https://gitee.com/dotnetchina/Furion) uses the [MIT](https://gitee.com/dotnetchina/Furion/blob/v4/LICENSE) open source license.
-
-## Sponsor
-
-If Furion has been helpful to you and you would like to see Furion continue to grow, please consider [sponsoring](http://furion.net/docs/donate) us.
-
-[![](./assets/crmeb-spec.jpg)](http://github.crmeb.net/u/furion)
