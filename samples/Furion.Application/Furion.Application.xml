@@ -533,6 +533,11 @@
             <param name="dto"></param>
             <returns></returns>
         </member>
+        <member name="T:Furion.Application.TestException">
+            <summary>
+            测试异常
+            </summary>
+        </member>
         <member name="T:Furion.Application.TestInheritdoc">
             <inheritdoc cref="T:Furion.Application.ITestInheritdoc" />
         </member>

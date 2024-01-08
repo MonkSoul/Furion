@@ -24,17 +24,17 @@ public static class Oops
     /// <summary>
     /// 方法错误异常特性
     /// </summary>
-    private static readonly ConcurrentDictionary<MethodBase, MethodIfException> ErrorMethods;
+    private static readonly ConcurrentDictionary<MethodBase, MethodIfException> _errorMethods;
 
     /// <summary>
     /// 错误代码类型
     /// </summary>
-    private static readonly IEnumerable<Type> ErrorCodeTypes;
+    private static readonly IEnumerable<Type> _errorCodeTypes;
 
     /// <summary>
     /// 错误消息字典
     /// </summary>
-    private static readonly ConcurrentDictionary<string, string> ErrorCodeMessages;
+    private static readonly ConcurrentDictionary<string, string> _errorCodeMessages;
 
     /// <summary>
     /// 友好异常设置
@@ -46,10 +46,10 @@ public static class Oops
     /// </summary>
     static Oops()
     {
-        ErrorMethods = new ConcurrentDictionary<MethodBase, MethodIfException>();
+        _errorMethods = new ConcurrentDictionary<MethodBase, MethodIfException>();
         _friendlyExceptionSettings = App.GetConfig<FriendlyExceptionSettingsOptions>("FriendlyExceptionSettings", true);
-        ErrorCodeTypes = GetErrorCodeTypes();
-        ErrorCodeMessages = GetErrorCodeMessages();
+        _errorCodeTypes = GetErrorCodeTypes();
+        _errorCodeMessages = GetErrorCodeMessages();
     }
 
     /// <summary>
@@ -86,7 +86,7 @@ public static class Oops
     /// <returns>异常实例</returns>
     public static AppFriendlyException Oh(string errorMessage, params object[] args)
     {
-        var friendlyException = new AppFriendlyException(MontageErrorMessage(errorMessage, default, args), default);
+        var friendlyException = new AppFriendlyException(MontageErrorMessage(errorMessage, default, null, args), default);
 
         // 处理默认配置为业务异常问题
         if (_friendlyExceptionSettings.ThrowBah == true)
@@ -106,7 +106,7 @@ public static class Oops
     /// <returns>异常实例</returns>
     public static AppFriendlyException Oh(string errorMessage, Type exceptionType, params object[] args)
     {
-        var exceptionMessage = MontageErrorMessage(errorMessage, default, args);
+        var exceptionMessage = MontageErrorMessage(errorMessage, default, null, args);
         return new AppFriendlyException(exceptionMessage, default,
             Activator.CreateInstance(exceptionType, new object[] { exceptionMessage }) as Exception);
     }
@@ -132,7 +132,7 @@ public static class Oops
     /// <returns>异常实例</returns>
     public static AppFriendlyException Oh(object errorCode, params object[] args)
     {
-        var (ErrorCode, Message) = GetErrorCodeMessage(errorCode, args);
+        var (ErrorCode, Message) = GetErrorCodeMessage(errorCode, null, args);
         var friendlyException = new AppFriendlyException(Message, errorCode) { ErrorCode = ErrorCode };
 
         // 处理默认配置为业务异常问题
@@ -153,7 +153,7 @@ public static class Oops
     /// <returns>异常实例</returns>
     public static AppFriendlyException Oh(object errorCode, Type exceptionType, params object[] args)
     {
-        var (ErrorCode, Message) = GetErrorCodeMessage(errorCode, args);
+        var (ErrorCode, Message) = GetErrorCodeMessage(errorCode, null, args);
         return new AppFriendlyException(Message, errorCode,
             Activator.CreateInstance(exceptionType, new object[] { Message }) as Exception)
         { ErrorCode = ErrorCode };
@@ -173,12 +173,26 @@ public static class Oops
     }
 
     /// <summary>
+    /// 获取错误码错误消息
+    /// </summary>
+    /// <param name="errorCode"></param>
+    /// <param name="hideErrorCode"></param>
+    /// <param name="args"></param>
+    /// <returns></returns>
+    public static string Text(object errorCode, bool? hideErrorCode = null, params object[] args)
+    {
+        var (_, Message) = GetErrorCodeMessage(errorCode, hideErrorCode, args);
+        return Message;
+    }
+
+    /// <summary>
     /// 获取错误码消息
     /// </summary>
     /// <param name="errorCode"></param>
+    /// <param name="hideErrorCode"></param>
     /// <param name="args"></param>
     /// <returns></returns>
-    private static (object ErrorCode, string Message) GetErrorCodeMessage(object errorCode, params object[] args)
+    private static (object ErrorCode, string Message) GetErrorCodeMessage(object errorCode, bool? hideErrorCode, params object[] args)
     {
         errorCode = HandleEnumErrorCode(errorCode);
 
@@ -190,7 +204,7 @@ public static class Oops
 
         // 获取错误码消息
         var errorCodeMessage = ifExceptionAttribute == null || string.IsNullOrWhiteSpace(ifExceptionAttribute.ErrorMessage)
-            ? (ErrorCodeMessages.GetValueOrDefault(errorCode.ToString()) ?? _friendlyExceptionSettings.DefaultErrorMessage)
+            ? (_errorCodeMessages.GetValueOrDefault(errorCode.ToString()) ?? _friendlyExceptionSettings.DefaultErrorMessage)
             : ifExceptionAttribute.ErrorMessage;
 
         // 如果所有错误码都获取不到，则找全局 [IfException] 错误
@@ -200,7 +214,7 @@ public static class Oops
         }
 
         // 字符串格式化
-        return (errorCode, MontageErrorMessage(errorCodeMessage, errorCode.ToString()
+        return (errorCode, MontageErrorMessage(errorCodeMessage, errorCode.ToString(), hideErrorCode
             , args != null && args.Length > 0 ? args : ifExceptionAttribute?.Args));
     }
 
@@ -215,7 +229,7 @@ public static class Oops
         var errorType = errorCode.GetType();
 
         // 判断是否是内置枚举类型，如果是解析特性
-        if (ErrorCodeTypes.Any(u => u == errorType))
+        if (_errorCodeTypes.Any(u => u == errorType))
         {
             var fieldinfo = errorType.GetField(Enum.GetName(errorType, errorCode));
             if (fieldinfo.IsDefined(typeof(ErrorCodeItemMetadataAttribute), true))
@@ -253,7 +267,7 @@ public static class Oops
         var defaultErrorCodeMessages = new ConcurrentDictionary<string, string>();
 
         // 查找所有 [ErrorCodeType] 类型中的 [ErrorCodeMetadata] 元数据定义
-        var errorCodeMessages = ErrorCodeTypes.SelectMany(u => u.GetFields().Where(u => u.IsDefined(typeof(ErrorCodeItemMetadataAttribute))))
+        var errorCodeMessages = _errorCodeTypes.SelectMany(u => u.GetFields().Where(u => u.IsDefined(typeof(ErrorCodeItemMetadataAttribute))))
             .Select(u => GetErrorCodeItemInformation(u))
            .ToDictionary(u => u.Key.ToString(), u => u.Value);
 
@@ -308,7 +322,7 @@ public static class Oops
             var errorMethod = stackFrame.MethodInfo.MethodBase;
 
             // 判断是否已经缓存过该方法，避免重复解析
-            var isCached = ErrorMethods.TryGetValue(errorMethod, out var methodIfException);
+            var isCached = _errorMethods.TryGetValue(errorMethod, out var methodIfException);
             if (isCached) return methodIfException;
 
             // 获取堆栈中所有的 [IfException] 特性
@@ -324,7 +338,7 @@ public static class Oops
             };
 
             // 存入缓存
-            ErrorMethods.TryAdd(errorMethod, methodIfException);
+            _errorMethods.TryAdd(errorMethod, methodIfException);
 
             return methodIfException;
         }
@@ -350,9 +364,10 @@ public static class Oops
     /// </summary>
     /// <param name="errorMessage"></param>
     /// <param name="errorCode"></param>
+    /// <param name="hideErrorCode">隐藏错误码</param>
     /// <param name="args"></param>
     /// <returns></returns>
-    private static string MontageErrorMessage(string errorMessage, string errorCode, params object[] args)
+    private static string MontageErrorMessage(string errorMessage, string errorCode, bool? hideErrorCode, params object[] args)
     {
         // 支持读取配置渲染
         var realErrorMessage = errorMessage.Render();
@@ -361,7 +376,7 @@ public static class Oops
         realErrorMessage = L.Text == null ? realErrorMessage : L.Text[realErrorMessage];
 
         // 判断是否隐藏错误码
-        var msg = (_friendlyExceptionSettings.HideErrorCode == true || string.IsNullOrWhiteSpace(errorCode)
+        var msg = (hideErrorCode == true || _friendlyExceptionSettings.HideErrorCode == true || string.IsNullOrWhiteSpace(errorCode)
             ? string.Empty
             : $"[{errorCode}] ") + realErrorMessage;
 
