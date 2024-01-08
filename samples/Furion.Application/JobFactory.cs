@@ -7,7 +7,7 @@ public class JobFactory : IJobFactory
 {
     public IJob CreateJob(IServiceProvider serviceProvider, JobFactoryContext context)
     {
-        return ActivatorUtilities.CreateInstance(serviceProvider, context.JobType) as IJob;
+        return ActivatorUtilities.GetServiceOrCreateInstance(serviceProvider, context.JobType) as IJob;
 
         // 如果通过 services.AddSingleton<YourJob>(); 或 serivces.AddScoped<YourJob>();
         //return serviceProvider.GetRequiredService(context.JobType) as IJob;

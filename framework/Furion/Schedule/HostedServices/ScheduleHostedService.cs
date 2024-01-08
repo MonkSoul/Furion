@@ -215,7 +215,6 @@ internal sealed class ScheduleHostedService : BackgroundService
                         IJob jobHandler = null;
                         var serviceScoped = _serviceProvider.CreateScope();
 
-
                         // 创建取消作业执行 Token
                         var jobCancellationTokenSource = _jobCancellationToken.GetOrCreate(jobId, runId, stoppingToken);
 
@@ -364,6 +363,7 @@ internal sealed class ScheduleHostedService : BackgroundService
                             trigger.RecordTimeline(_schedulerFactory, jobId);
 
                             // 释放服务作用域
+                            jobHandler = null;
                             serviceScoped.Dispose();
 
                             // 释放取消作业执行 Token
