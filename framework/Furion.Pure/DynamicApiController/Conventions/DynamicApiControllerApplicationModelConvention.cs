@@ -105,10 +105,10 @@ internal sealed class DynamicApiControllerApplicationModelConvention : IApplicat
         ConfigureControllerArea(controller, controllerApiDescriptionSettings);
 
         // 配置控制器名称
-        ConfigureControllerName(controller, controllerApiDescriptionSettings);
+        var isLowercaseRoute = ConfigureControllerName(controller, controllerApiDescriptionSettings);
 
         // 配置控制器路由特性
-        ConfigureControllerRouteAttribute(controller, controllerApiDescriptionSettings);
+        ConfigureControllerRouteAttribute(controller, controllerApiDescriptionSettings, isLowercaseRoute);
 
         // 存储排序给 Swagger 使用
         Penetrates.ControllerOrderCollection.TryAdd(controller.ControllerName, (controllerApiDescriptionSettings?.Tag ?? controller.ControllerName, controllerApiDescriptionSettings?.Order ?? 0, controller.ControllerType));
@@ -161,10 +161,12 @@ internal sealed class DynamicApiControllerApplicationModelConvention : IApplicat
     /// </summary>
     /// <param name="controller">控制器模型</param>
     /// <param name="controllerApiDescriptionSettings">接口描述配置</param>
-    private void ConfigureControllerName(ControllerModel controller, ApiDescriptionSettingsAttribute controllerApiDescriptionSettings)
+    /// <returns></returns>
+    private bool ConfigureControllerName(ControllerModel controller, ApiDescriptionSettingsAttribute controllerApiDescriptionSettings)
     {
-        var (Name, _, _, _) = ConfigureControllerAndActionName(controllerApiDescriptionSettings, controller.ControllerType.Name, _dynamicApiControllerSettings.AbandonControllerAffixes, _ => _);
+        var (Name, IsLowercaseRoute, _, _) = ConfigureControllerAndActionName(controllerApiDescriptionSettings, controller.ControllerType.Name, _dynamicApiControllerSettings.AbandonControllerAffixes, _ => _);
         controller.ControllerName = Name;
+        return IsLowercaseRoute;
     }
 
     /// <summary>
@@ -178,7 +180,8 @@ internal sealed class DynamicApiControllerApplicationModelConvention : IApplicat
     /// </summary>
     /// <param name="controller"></param>
     /// <param name="controllerApiDescriptionSettings"></param>
-    private void ConfigureControllerRouteAttribute(ControllerModel controller, ApiDescriptionSettingsAttribute controllerApiDescriptionSettings)
+    /// <param name="isLowercaseRoute"></param>
+    private void ConfigureControllerRouteAttribute(ControllerModel controller, ApiDescriptionSettingsAttribute controllerApiDescriptionSettings, bool isLowercaseRoute)
     {
         // 解决 Gitee 该 Issue：https://gitee.com/dotnetchina/Furion/issues/I59B74
         if (CheckIsForceWithDefaultRoute(controllerApiDescriptionSettings)
@@ -187,7 +190,11 @@ internal sealed class DynamicApiControllerApplicationModelConvention : IApplicat
             && controller.Selectors[0].AttributeRouteModel != null
             && !ForceWithDefaultPrefixRouteControllerTypes.Contains(controller.ControllerType))
         {
-            controller.Selectors[0].AttributeRouteModel = AttributeRouteModel.CombineAttributeRouteModel(new AttributeRouteModel(new RouteAttribute(_dynamicApiControllerSettings.DefaultRoutePrefix))
+            // 读取模块
+            var module = controllerApiDescriptionSettings?.Module ?? _dynamicApiControllerSettings.DefaultModule;
+            var template = $"{_dynamicApiControllerSettings.DefaultRoutePrefix}/{module}";
+
+            controller.Selectors[0].AttributeRouteModel = AttributeRouteModel.CombineAttributeRouteModel(new AttributeRouteModel(new RouteAttribute(isLowercaseRoute ? template?.ToLower() : template))
                 , controller.Selectors[0].AttributeRouteModel);
             ForceWithDefaultPrefixRouteControllerTypes.Add(controller.ControllerType);
         }
@@ -376,6 +383,9 @@ internal sealed class DynamicApiControllerApplicationModelConvention : IApplicat
     {
         foreach (var selectorModel in action.Selectors)
         {
+            // 读取模块
+            var module = apiDescriptionSettings?.Module ?? _dynamicApiControllerSettings.DefaultModule;
+
             // 跳过已配置路由特性的配置
             if (selectorModel.AttributeRouteModel != null)
             {
@@ -389,15 +399,15 @@ internal sealed class DynamicApiControllerApplicationModelConvention : IApplicat
                         selectorModel.AttributeRouteModel.Template = selectorModel.AttributeRouteModel.Name;
                     }
 
+                    var newTemplate = $"{(selectorModel.AttributeRouteModel.Template?.StartsWith("/") == true ? "/" : null)}{(string.IsNullOrWhiteSpace(module) ? null : $"{module}/")}{selectorModel.AttributeRouteModel.Template}";
+                    selectorModel.AttributeRouteModel.Template = isLowercaseRoute ? newTemplate?.ToLower() : newTemplate;
+
                     continue;
                 }
 
                 // 2. 如果方法自定义路由模板且以 `/` 开头，则跳过
                 if (!string.IsNullOrWhiteSpace(selectorModel.AttributeRouteModel.Template) && selectorModel.AttributeRouteModel.Template.StartsWith("/")) continue;
             }
-
-            // 读取模块
-            var module = apiDescriptionSettings?.Module;
 
             string template;
             string controllerRouteTemplate = null;
@@ -432,8 +442,8 @@ internal sealed class DynamicApiControllerApplicationModelConvention : IApplicat
                 }
 
                 template = string.IsNullOrWhiteSpace(controllerRouteTemplate)
-                     ? $"{(string.IsNullOrWhiteSpace(module) ? "/" : $"{module}/")}{ActionStartTemplate}/{actionRouteTemplate}/{ActionEndTemplate}"
-                     : $"{controllerRouteTemplate}/{(string.IsNullOrWhiteSpace(module) ? null : $"{module}/")}{ActionStartTemplate}/{actionRouteTemplate}/{ActionEndTemplate}";
+                     ? $"{(string.IsNullOrWhiteSpace(module) ? "/" : $"/{module}/")}{ActionStartTemplate}/{actionRouteTemplate}/{ActionEndTemplate}"
+                     : $"{controllerRouteTemplate}/{(string.IsNullOrWhiteSpace(module) ? null : $"/{module}/")}{ActionStartTemplate}/{actionRouteTemplate}/{ActionEndTemplate}";
             }
 
             AttributeRouteModel actionAttributeRouteModel = null;
@@ -476,12 +486,12 @@ internal sealed class DynamicApiControllerApplicationModelConvention : IApplicat
         // 生成路由模板
         // 如果参数路由模板为空或不包含任何控制器参数模板，则返回正常的模板
         if (parameterRouteTemplate == null || (parameterRouteTemplate.ControllerStartTemplates.Count == 0 && parameterRouteTemplate.ControllerEndTemplates.Count == 0))
-            return $"{(string.IsNullOrWhiteSpace(routePrefix) ? null : $"{routePrefix}/")}{(string.IsNullOrWhiteSpace(module) ? null : $"{module}/")}[controller]";
+            return $"{(string.IsNullOrWhiteSpace(routePrefix) ? null : $"{routePrefix}/")}{(string.IsNullOrWhiteSpace(module) ? null : $"/{module}/")}[controller]";
 
         // 拼接控制器路由模板
         var controllerStartTemplate = parameterRouteTemplate.ControllerStartTemplates.Count == 0 ? null : string.Join("/", parameterRouteTemplate.ControllerStartTemplates);
         var controllerEndTemplate = parameterRouteTemplate.ControllerEndTemplates.Count == 0 ? null : string.Join("/", parameterRouteTemplate.ControllerEndTemplates);
-        var template = $"{(string.IsNullOrWhiteSpace(routePrefix) ? null : $"{routePrefix}/")}{(string.IsNullOrWhiteSpace(module) ? null : $"{module}/")}{controllerStartTemplate}/[controller]/{controllerEndTemplate}";
+        var template = $"{(string.IsNullOrWhiteSpace(routePrefix) ? null : $"{routePrefix}/")}{(string.IsNullOrWhiteSpace(module) ? null : $"/{module}/")}{controllerStartTemplate}/[controller]/{controllerEndTemplate}";
 
         return template;
     }
