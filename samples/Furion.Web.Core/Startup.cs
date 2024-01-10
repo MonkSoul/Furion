@@ -87,6 +87,8 @@ public sealed class Startup : AppStartup
 
         // 新版本任务队列
         services.AddTaskQueue();
+
+        services.AddViewEngine();
     }
 
 

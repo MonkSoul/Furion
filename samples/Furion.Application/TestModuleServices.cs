@@ -4,6 +4,7 @@ using Furion.Logging;
 using Furion.RemoteRequest;
 using Furion.RemoteRequest.Extensions;
 using Furion.UnifyResult;
+using Furion.ViewEngine;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.Data;
@@ -315,5 +316,26 @@ public class TestModuleServices : IDynamicApiController
         {
 
         }
+    }
+
+    public async Task<string> 测试模板引擎模式匹配([FromServices] IViewEngine viewEngine)
+    {
+        var template = """
+             @{
+                 var ss = new { QueryType="like"};
+                 string result = "";
+                 switch (ss)
+                 {
+                     case {QueryType:"like"}:
+                         result = "显示此处内容";
+                         break;
+                 }
+                 @:@result
+             }
+             """;
+
+        var str = await viewEngine.RunCompileAsync(template);
+
+        return str;
     }
 }
