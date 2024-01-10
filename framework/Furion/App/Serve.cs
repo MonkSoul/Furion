@@ -692,6 +692,7 @@ public static class Serve
     /// <summary>
     /// 构建 IHost 对象
     /// </summary>
+    /// <typeparam name="TStartup">启动 Startup 类</typeparam>
     /// <param name="options">配置选项</param>
     /// <param name="urls">默认 5000/5001 端口</param>
     /// <param name="app"><see cref="IHost"/></param>
