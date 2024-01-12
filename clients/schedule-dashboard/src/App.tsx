@@ -78,7 +78,7 @@ function App() {
                     marginRight: "12px",
                   }}
                   onClick={() =>
-                    window.open("http://furion.net/docs/job")
+                    window.open("https://furion.net/docs/job")
                   }
                 />
               </Tooltip>

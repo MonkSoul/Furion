@@ -2,14 +2,14 @@ blank_issues_enabled: false
 
 contact_links:
   - name: 使用文档
-    url: http://furion.net/
+    url: https://furion.net/
     about: 让 .NET 开发更简单，更通用，更流行。
   - name: ⭐️ VIP 服务 ⭐️
-    url: http://furion.net/docs/subscribe
+    url: https://furion.net/docs/subscribe
     about: 开通 VIP 服务仅需 999 元/年，尊享 365 天项目无忧
   - name: 慷慨赞助
-    url: http://furion.net/docs/donate
+    url: https://furion.net/docs/donate
     about: 允许商用，慷慨赞助
   - name: 微信公众号
-    url: http://furion.net/img/weixin_qrcode.jpg
+    url: https://furion.net/img/weixin_qrcode.jpg
     about: 关注 Furion 公众号订阅最新资讯

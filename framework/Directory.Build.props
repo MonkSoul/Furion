@@ -16,7 +16,7 @@
 		<IncludeSymbols>true</IncludeSymbols>
 		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
-		<PackageProjectUrl>http://furion.net</PackageProjectUrl>
+		<PackageProjectUrl>https://furion.net</PackageProjectUrl>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<PackageIcon>icon.png</PackageIcon>
 		<PackageTags>Furion;Fur;百小僧;Monk;MonkSoul;ASP.NET;ASP.NET Core;.NET;.NET Core;.NET5;.NET6;Framework;dotNET;dotNET China;Web;Cross Platform</PackageTags>
