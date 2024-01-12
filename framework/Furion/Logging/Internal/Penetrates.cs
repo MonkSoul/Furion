@@ -147,12 +147,14 @@ internal static class Penetrates
             var pos = isConsole ? 6 : 5;
             if (stackTraces.FrameCount > pos)
             {
-                var targetMethod = stackTraces.Where((u, i) => i == pos).First().MethodInfo;
-                var declaringType = targetMethod.DeclaringType;
-                var targetAssembly = declaringType.Assembly;
+                var targetMethod = stackTraces.Where((u, i) => i == pos).FirstOrDefault()?.MethodInfo;
+                var targetAssembly = targetMethod?.DeclaringType?.Assembly;
 
-                formatString.Append(PadLeftAlign($"[{targetAssembly.GetName().Name}.dll] {targetMethod}"));
-                formatString.AppendLine();
+                if (targetAssembly != null)
+                {
+                    formatString.Append(PadLeftAlign($"[{targetAssembly.GetName().Name}.dll] {targetMethod}"));
+                    formatString.AppendLine();
+                }
             }
         }
 
