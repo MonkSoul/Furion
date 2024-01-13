@@ -45,7 +45,8 @@ public static class TaskQueueServiceCollectionExtensions
         services.AddHostedService(serviceProvider =>
         {
             // 创建任务队列后台主机对象
-            var taskQueueHostedService = ActivatorUtilities.CreateInstance<TaskQueueHostedService>(serviceProvider);
+            var taskQueueHostedService = ActivatorUtilities.CreateInstance<TaskQueueHostedService>(serviceProvider
+                , taskQueueOptionsBuilder.Concurrent);
 
             // 订阅未察觉任务异常事件
             var unobservedTaskExceptionHandler = taskQueueOptionsBuilder.UnobservedTaskExceptionHandler;

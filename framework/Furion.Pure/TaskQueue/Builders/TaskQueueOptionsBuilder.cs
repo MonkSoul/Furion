@@ -22,6 +22,11 @@ public sealed class TaskQueueOptionsBuilder
     public EventHandler<UnobservedTaskExceptionEventArgs> UnobservedTaskExceptionHandler { get; set; }
 
     /// <summary>
+    /// 是否采用并行执行
+    /// </summary>
+    public bool Concurrent { get; set; } = true;
+
+    /// <summary>
     /// 构建任务配置选项
     /// </summary>
     internal void Build()

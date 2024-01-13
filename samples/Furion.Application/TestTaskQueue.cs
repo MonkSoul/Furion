@@ -1,4 +1,5 @@
-﻿using Furion.TaskQueue;
+﻿using Furion.Logging;
+using Furion.TaskQueue;
 
 namespace Furion.Application;
 
@@ -62,5 +63,22 @@ public class TestTaskQueue : IDynamicApiController
         {
             throw new Exception("我出错了");
         });
+    }
+
+    public async Task 测试任务队列依次出队()
+    {
+        for (var i = 0; i < 2; i++)
+        {
+            var s = i;
+            await TaskQueued.EnqueueAsync(async (_, _) =>
+            {
+                Log.Information($"这是{s}开始时间：" + DateTime.Now);
+                if (s == 0)
+                {
+                    await Task.Delay(5000);
+                }
+                Log.Information($"这是{s}结束时间：" + DateTime.Now);
+            });
+        }
     }
 }

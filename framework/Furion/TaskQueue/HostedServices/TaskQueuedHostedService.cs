@@ -36,18 +36,26 @@ internal sealed class TaskQueueHostedService : BackgroundService
     private readonly ITaskQueue _taskQueue;
 
     /// <summary>
+    /// 是否采用并行执行
+    /// </summary>
+    private readonly bool _concurrent;
+
+    /// <summary>
     /// 构造函数
     /// </summary>
     /// <param name="logger">日志对象</param>
     /// <param name="serviceProvider">服务提供器</param>
     /// <param name="taskQueue">后台任务队列</param>
+    /// <param name="concurrent">是否采用并行执行</param>
     public TaskQueueHostedService(ILogger<TaskQueueService> logger
         , IServiceProvider serviceProvider
-        , ITaskQueue taskQueue)
+        , ITaskQueue taskQueue
+        , bool concurrent)
     {
         _logger = logger;
         _serviceProvider = serviceProvider;
         _taskQueue = taskQueue;
+        _concurrent = concurrent;
     }
 
     /// <summary>
@@ -55,7 +63,7 @@ internal sealed class TaskQueueHostedService : BackgroundService
     /// </summary>
     /// <param name="stoppingToken">后台主机服务停止时取消任务 Token</param>
     /// <returns>Task</returns>
-    protected async override Task ExecuteAsync(CancellationToken stoppingToken)
+    protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
         _logger.LogInformation("TaskQueue hosted service is running.");
 
@@ -83,38 +91,58 @@ internal sealed class TaskQueueHostedService : BackgroundService
         // 出队
         var taskHandler = await _taskQueue.DequeueAsync(stoppingToken);
 
-        Parallel.For(0, 1, async _ =>
+        // 并行执行
+        if (_concurrent)
         {
-            try
+            Parallel.For(0, 1, async _ =>
             {
-                // 调用任务处理程序并配置出错执行重试
-                await Retry.InvokeAsync(async () =>
-                {
-                    // 调用任务处理委托
-                    await taskHandler(_serviceProvider, stoppingToken);
-                }
-                , 3
-                , 1000
-                , retryAction: (total, times) =>
-                {
-                    // 输出重试日志
-                    _logger.LogWarning("Retrying {times}/{total} times for {TaskHandler}", times, total, taskHandler?.ToString());
-                });
-            }
-            catch (Exception ex)
+                await DequeueHandleAsync(taskHandler, stoppingToken);
+            });
+        }
+        // 依次出队执行：https://gitee.com/dotnetchina/Furion/issues/I8VXFV
+        else
+        {
+            await DequeueHandleAsync(taskHandler, stoppingToken);
+        }
+    }
+
+    /// <summary>
+    /// 出队调用处理程序
+    /// </summary>
+    /// <param name="taskHandler">任务处理程序</param>
+    /// <param name="stoppingToken">后台主机服务停止时取消任务 Token</param>
+    /// <returns><see cref="Task"/></returns>
+    private async Task DequeueHandleAsync(Func<IServiceProvider, CancellationToken, ValueTask> taskHandler, CancellationToken stoppingToken)
+    {
+        try
+        {
+            // 调用任务处理程序并配置出错执行重试
+            await Retry.InvokeAsync(async () =>
             {
-                // 输出异常日志
-                _logger.LogError(ex, "Error occurred executing in {TaskHandler}.", taskHandler?.ToString());
-
-                // 捕获 Task 任务异常信息并统计所有异常
-                if (UnobservedTaskException != default)
-                {
-                    var args = new UnobservedTaskExceptionEventArgs(
-                        ex as AggregateException ?? new AggregateException(ex));
-
-                    UnobservedTaskException.Invoke(this, args);
-                }
+                // 调用任务处理委托
+                await taskHandler(_serviceProvider, stoppingToken);
             }
-        });
+            , 3
+            , 1000
+            , retryAction: (total, times) =>
+            {
+                // 输出重试日志
+                _logger.LogWarning("Retrying {times}/{total} times for {TaskHandler}", times, total, taskHandler?.ToString());
+            });
+        }
+        catch (Exception ex)
+        {
+            // 输出异常日志
+            _logger.LogError(ex, "Error occurred executing in {TaskHandler}.", taskHandler?.ToString());
+
+            // 捕获 Task 任务异常信息并统计所有异常
+            if (UnobservedTaskException != default)
+            {
+                var args = new UnobservedTaskExceptionEventArgs(
+                    ex as AggregateException ?? new AggregateException(ex));
+
+                UnobservedTaskException.Invoke(this, args);
+            }
+        }
     }
 }
