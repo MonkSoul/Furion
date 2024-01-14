@@ -43,6 +43,9 @@ public class StartupFilter : IStartupFilter
                     // 输出当前环境标识
                     context.Response.Headers["environment"] = envName;
 
+                    // 输出框架版本
+                    context.Response.Headers[nameof(Furion)] = $"{GetType().Assembly.GetName().Version}";
+
                     // 执行下一个中间件
                     await next.Invoke();
 
