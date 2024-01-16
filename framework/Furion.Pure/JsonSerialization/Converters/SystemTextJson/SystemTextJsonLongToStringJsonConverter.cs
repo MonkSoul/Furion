@@ -14,6 +14,27 @@ namespace Furion.JsonSerialization;
 public class SystemTextJsonLongToStringJsonConverter : JsonConverter<long>
 {
     /// <summary>
+    /// 构造函数
+    /// </summary>
+    public SystemTextJsonLongToStringJsonConverter()
+    {
+    }
+
+    /// <summary>
+    /// 构造函数
+    /// </summary>
+    /// <param name="overMaxLengthOf17"></param>
+    public SystemTextJsonLongToStringJsonConverter(bool overMaxLengthOf17 = false)
+    {
+        OverMaxLengthOf17 = overMaxLengthOf17;
+    }
+
+    /// <summary>
+    /// 是否超过最大长度 17 再处理
+    /// </summary>
+    public bool OverMaxLengthOf17 { get; set; }
+
+    /// <summary>
     /// 反序列化
     /// </summary>
     /// <param name="reader"></param>
@@ -35,7 +56,12 @@ public class SystemTextJsonLongToStringJsonConverter : JsonConverter<long>
     /// <param name="options"></param>
     public override void Write(Utf8JsonWriter writer, long value, JsonSerializerOptions options)
     {
-        writer.WriteStringValue($"{value}");
+        if (OverMaxLengthOf17)
+        {
+            if (value.ToString().Length <= 17) writer.WriteNumberValue(value);
+            else writer.WriteStringValue(value.ToString());
+        }
+        else writer.WriteStringValue(value.ToString());
     }
 }
 
@@ -45,6 +71,27 @@ public class SystemTextJsonLongToStringJsonConverter : JsonConverter<long>
 [SuppressSniffer]
 public class SystemTextJsonNullableLongToStringJsonConverter : JsonConverter<long?>
 {
+    /// <summary>
+    /// 构造函数
+    /// </summary>
+    public SystemTextJsonNullableLongToStringJsonConverter()
+    {
+    }
+
+    /// <summary>
+    /// 构造函数
+    /// </summary>
+    /// <param name="overMaxLengthOf17"></param>
+    public SystemTextJsonNullableLongToStringJsonConverter(bool overMaxLengthOf17 = false)
+    {
+        OverMaxLengthOf17 = overMaxLengthOf17;
+    }
+
+    /// <summary>
+    /// 是否超过最大长度 17 再处理
+    /// </summary>
+    public bool OverMaxLengthOf17 { get; set; }
+
     /// <summary>
     /// 反序列化
     /// </summary>
@@ -68,6 +115,15 @@ public class SystemTextJsonNullableLongToStringJsonConverter : JsonConverter<lon
     public override void Write(Utf8JsonWriter writer, long? value, JsonSerializerOptions options)
     {
         if (value == null) writer.WriteNullValue();
-        else writer.WriteStringValue($"{value}");
+        else
+        {
+            var newValue = value.Value;
+            if (OverMaxLengthOf17)
+            {
+                if (newValue.ToString().Length <= 17) writer.WriteNumberValue(newValue);
+                else writer.WriteStringValue(newValue.ToString());
+            }
+            else writer.WriteStringValue(newValue.ToString());
+        }
     }
 }

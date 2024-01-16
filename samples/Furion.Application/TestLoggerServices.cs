@@ -195,4 +195,20 @@ public class TestLoggerServices : IDynamicApiController
     {
 
     }
+
+    [LoggingMonitor]
+    public WithLong 测试Long类型日志监听()
+    {
+        return new WithLong()
+        {
+            In = 1024 * 1024 * 2,
+            Out = 1024 * 1024 * 2
+        };
+    }
+}
+
+public class WithLong
+{
+    public Int64 In { get; set; }
+    public Int64 Out { get; set; }
 }

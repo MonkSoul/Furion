@@ -105,6 +105,12 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter, IAs
     public object JsonIndented { get; set; } = null;
 
     /// <summary>
+    /// 是否处理 Long 转 String
+    /// </summary>
+    /// <remarks>bool 类型，默认 false</remarks>
+    public object LongTypeConverter { get; set; } = null;
+
+    /// <summary>
     /// 序列化属性命名规则（返回值）
     /// </summary>
     public object ContractResolver { get; set; } = null;
@@ -570,8 +576,11 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter, IAs
                 DateParseHandling = DateParseHandling.None,
             };
 
-            // 解决 long 精度问题
-            jsonSerializerSettings.Converters.AddLongTypeConverters();
+            if (CheckIsSetLongTypeConverter(monitorMethod))
+            {
+                // 解决 long 精度问题
+                jsonSerializerSettings.Converters.AddLongTypeConverters();
+            }
 
             // 解决 JsonElement 序列化问题
             jsonSerializerSettings.Converters.Add(new JsonElementConverter());
@@ -616,6 +625,18 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter, IAs
         return JsonIndented == null
             ? (monitorMethod?.JsonIndented ?? Settings.JsonIndented)
             : Convert.ToBoolean(JsonIndented);
+    }
+
+    /// <summary>
+    /// 检查是否开启 long 转 string
+    /// </summary>
+    /// <param name="monitorMethod"></param>
+    /// <returns></returns>
+    private bool CheckIsSetLongTypeConverter(LoggingMonitorMethod monitorMethod)
+    {
+        return LongTypeConverter == null
+            ? (monitorMethod?.LongTypeConverter ?? Settings.LongTypeConverter)
+            : Convert.ToBoolean(LongTypeConverter);
     }
 
     /// <summary>

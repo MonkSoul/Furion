@@ -598,6 +598,11 @@
               "type": "boolean",
               "default": false
             },
+            "LongTypeConverter": {
+              "description": "配置是否是否处理 Long 转 String",
+              "type": "boolean",
+              "default": false
+            },
             "ContractResolver": {
               "description": "配置 Json 属性命名规则（返回值）",
               "type": "string",
@@ -634,6 +639,11 @@
                   },
                   "JsonIndented": {
                     "description": "配置是否格式化 JSON，默认 false",
+                    "type": "boolean",
+                    "default": false
+                  },
+                  "LongTypeConverter": {
+                    "description": "配置是否是否处理 Long 转 String",
                     "type": "boolean",
                     "default": false
                   },

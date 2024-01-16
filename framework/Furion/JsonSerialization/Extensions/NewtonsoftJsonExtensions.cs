@@ -33,11 +33,13 @@ public static class NewtonsoftJsonExtensions
     /// <summary>
     /// 添加 long/long? 类型序列化处理
     /// </summary>
+    /// <param name="converters"></param>
+    /// <param name="overMaxLengthOf17">是否超过最大长度 17 再处理</param>
     /// <remarks></remarks>
-    public static IList<JsonConverter> AddLongTypeConverters(this IList<JsonConverter> converters)
+    public static IList<JsonConverter> AddLongTypeConverters(this IList<JsonConverter> converters, bool overMaxLengthOf17 = false)
     {
-        converters.Add(new NewtonsoftJsonLongToStringJsonConverter());
-        converters.Add(new NewtonsoftJsonNullableLongToStringJsonConverter());
+        converters.Add(new NewtonsoftJsonLongToStringJsonConverter(overMaxLengthOf17));
+        converters.Add(new NewtonsoftJsonNullableLongToStringJsonConverter(overMaxLengthOf17));
 
         return converters;
     }

@@ -123,6 +123,11 @@ public sealed class LoggingMonitorSettings
     public bool JsonIndented { get; set; } = false;
 
     /// <summary>
+    /// 是否处理 Long 转 String
+    /// </summary>
+    public bool LongTypeConverter { get; set; } = false;
+
+    /// <summary>
     /// 配置 Json 写入选项
     /// </summary>
     public JsonWriterOptions JsonWriterOptions { get; set; } = new JsonWriterOptions

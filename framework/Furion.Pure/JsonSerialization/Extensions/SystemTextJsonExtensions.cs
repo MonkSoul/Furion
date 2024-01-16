@@ -34,11 +34,13 @@ public static class SystemTextJsonExtensions
     /// <summary>
     /// 添加 long/long? 类型序列化处理
     /// </summary>
+    /// <param name="converters"></param>
+    /// <param name="overMaxLengthOf17">是否超过最大长度 17 再处理</param>
     /// <remarks></remarks>
-    public static IList<JsonConverter> AddLongTypeConverters(this IList<JsonConverter> converters)
+    public static IList<JsonConverter> AddLongTypeConverters(this IList<JsonConverter> converters, bool overMaxLengthOf17 = false)
     {
-        converters.Add(new SystemTextJsonLongToStringJsonConverter());
-        converters.Add(new SystemTextJsonNullableLongToStringJsonConverter());
+        converters.Add(new SystemTextJsonLongToStringJsonConverter(overMaxLengthOf17));
+        converters.Add(new SystemTextJsonNullableLongToStringJsonConverter(overMaxLengthOf17));
 
         return converters;
     }

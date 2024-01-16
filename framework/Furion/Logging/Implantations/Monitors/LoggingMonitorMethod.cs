@@ -49,6 +49,11 @@ public sealed class LoggingMonitorMethod
     public bool JsonIndented { get; set; } = false;
 
     /// <summary>
+    /// 是否处理 Long 转 String
+    /// </summary>
+    public bool LongTypeConverter { get; set; } = false;
+
+    /// <summary>
     /// 序列化属性命名规则（返回值）
     /// </summary>
     public ContractResolverTypes ContractResolver { get; set; } = ContractResolverTypes.CamelCase;
