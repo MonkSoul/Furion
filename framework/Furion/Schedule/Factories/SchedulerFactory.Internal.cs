@@ -365,6 +365,23 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory
     }
 
     /// <summary>
+    /// GC 垃圾回收器回收处理
+    /// </summary>
+    /// <remarks>避免频繁 GC 回收</remarks>
+    public void GCCollect()
+    {
+        var nowTime = DateTime.UtcNow;
+        if ((LastGCCollectTime == null || (nowTime - LastGCCollectTime.Value).TotalMilliseconds > GC_COLLECT_INTERVAL_MILLISECONDS))
+        {
+            LastGCCollectTime = nowTime;
+
+            // 通知 GC 垃圾回收器立即回收
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
+        }
+    }
+
+    /// <summary>
     /// 释放非托管资源
     /// </summary>
     public void Dispose()
@@ -517,22 +534,5 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory
 
         scheduler = originScheduler;
         return ScheduleResult.Succeed;
-    }
-
-    /// <summary>
-    /// GC 垃圾回收器回收处理
-    /// </summary>
-    /// <remarks>避免频繁 GC 回收</remarks>
-    private void GCCollect()
-    {
-        var nowTime = DateTime.UtcNow;
-        if ((LastGCCollectTime == null || (nowTime - LastGCCollectTime.Value).TotalMilliseconds > GC_COLLECT_INTERVAL_MILLISECONDS))
-        {
-            LastGCCollectTime = nowTime;
-
-            // 通知 GC 垃圾回收器立即回收
-            GC.Collect();
-            GC.WaitForPendingFinalizers();
-        }
     }
 }

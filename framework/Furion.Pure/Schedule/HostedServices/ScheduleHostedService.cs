@@ -368,6 +368,9 @@ internal sealed class ScheduleHostedService : BackgroundService
 
                             // 释放取消作业执行 Token
                             _jobCancellationToken.Cancel(jobId, runId);
+
+                            // 通知 GC 垃圾回收器回收
+                            _schedulerFactory.GCCollect();
                         }
                     }, stoppingToken);
                 });
