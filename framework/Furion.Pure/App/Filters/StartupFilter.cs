@@ -32,6 +32,7 @@ public class StartupFilter : IStartupFilter
 
             // 环境名
             var envName = App.HostEnvironment?.EnvironmentName ?? "Unknown";
+            var version = $"{GetType().Assembly.GetName().Version}";
 
             // 设置响应报文头信息
             app.Use(async (context, next) =>
@@ -44,7 +45,7 @@ public class StartupFilter : IStartupFilter
                     context.Response.Headers["environment"] = envName;
 
                     // 输出框架版本
-                    context.Response.Headers[nameof(Furion)] = $"{GetType().Assembly.GetName().Version}";
+                    context.Response.Headers[nameof(Furion)] = version;
 
                     // 执行下一个中间件
                     await next.Invoke();
