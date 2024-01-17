@@ -1,3 +1,5 @@
+[![](./assets/999.jpeg)](https://furion.net/docs/subscribe)
+
 [中](https://gitee.com/dotnetchina/Furion) | **En**
 
 # Furion
