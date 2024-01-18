@@ -41,21 +41,37 @@ internal sealed class TaskQueueHostedService : BackgroundService
     private readonly bool _concurrent;
 
     /// <summary>
+    /// 重试次数
+    /// </summary>
+    private readonly int _numRetries;
+
+    /// <summary>
+    /// 重试间隔
+    /// </summary>
+    private readonly int _retryTimeout;
+
+    /// <summary>
     /// 构造函数
     /// </summary>
     /// <param name="logger">日志对象</param>
     /// <param name="serviceProvider">服务提供器</param>
     /// <param name="taskQueue">后台任务队列</param>
     /// <param name="concurrent">是否采用并行执行</param>
+    /// <param name="numRetries">重试次数</param>
+    /// <param name="retryTimeout">重试间隔</param>
     public TaskQueueHostedService(ILogger<TaskQueueService> logger
         , IServiceProvider serviceProvider
         , ITaskQueue taskQueue
-        , bool concurrent)
+        , bool concurrent
+        , int numRetries
+        , int retryTimeout)
     {
         _logger = logger;
         _serviceProvider = serviceProvider;
         _taskQueue = taskQueue;
         _concurrent = concurrent;
+        _numRetries = numRetries;
+        _retryTimeout = retryTimeout;
     }
 
     /// <summary>
@@ -122,8 +138,8 @@ internal sealed class TaskQueueHostedService : BackgroundService
                 // 调用任务处理委托
                 await taskHandler(_serviceProvider, stoppingToken);
             }
-            , 3
-            , 1000
+            , _numRetries
+            , _retryTimeout
             , retryAction: (total, times) =>
             {
                 // 输出重试日志

@@ -65,6 +65,14 @@ public class TestTaskQueue : IDynamicApiController
         });
     }
 
+    public async Task 测试异常2()
+    {
+        await _taskQueue.EnqueueAsync(async (_, _) =>
+         {
+             throw Oops.Oh("xx");
+         });
+    }
+
     public async Task 测试任务队列依次出队()
     {
         for (var i = 0; i < 2; i++)

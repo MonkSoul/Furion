@@ -27,6 +27,16 @@ public sealed class TaskQueueOptionsBuilder
     public bool Concurrent { get; set; } = true;
 
     /// <summary>
+    /// 重试次数（默认 3 次）
+    /// </summary>
+    public int NumRetries { get; set; } = 3;
+
+    /// <summary>
+    /// 重试间隔（默认 1000ms）
+    /// </summary>
+    public int RetryTimeout { get; set; } = 1000;
+
+    /// <summary>
     /// 构建任务配置选项
     /// </summary>
     internal void Build()
