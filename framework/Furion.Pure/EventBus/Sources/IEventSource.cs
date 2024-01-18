@@ -29,4 +29,9 @@ public interface IEventSource
     /// </summary>
     /// <remarks>用于取消本次消息处理</remarks>
     CancellationToken CancellationToken { get; }
+
+    /// <summary>
+    /// 消息是否只消费一次
+    /// </summary>
+    bool IsConsumOnce { get; }
 }

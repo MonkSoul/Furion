@@ -9,6 +9,7 @@ using Microsoft.Extensions.Logging;
 using System.Collections.Concurrent;
 using System.Logging;
 using System.Reflection;
+using System.Security.Cryptography;
 using System.Text.RegularExpressions;
 
 namespace Furion.EventBus;
@@ -210,6 +211,13 @@ internal sealed class EventBusHostedService : BackgroundService
             Log(LogLevel.Warning, "Subscriber with event ID <{EventId}> was not found.", new[] { eventSource.EventId });
 
             return;
+        }
+
+        // 检查是否配置只消费一次
+        if (eventSource.IsConsumOnce)
+        {
+            var randomId = RandomNumberGenerator.GetInt32(0, eventHandlersThatShouldRun.Count());
+            eventHandlersThatShouldRun = [eventHandlersThatShouldRun.ElementAt(randomId)];
         }
 
         // 创建一个任务工厂并保证执行任务都使用当前的计划程序

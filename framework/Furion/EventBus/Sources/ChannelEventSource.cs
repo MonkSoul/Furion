@@ -97,6 +97,11 @@ public sealed class ChannelEventSource : IEventSource
     public DateTime CreatedTime { get; set; } = DateTime.UtcNow;
 
     /// <summary>
+    /// 消息是否只消费一次
+    /// </summary>
+    public bool IsConsumOnce { get; set; }
+
+    /// <summary>
     /// 取消任务 Token
     /// </summary>
     /// <remarks>用于取消本次消息处理</remarks>
