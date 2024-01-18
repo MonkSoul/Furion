@@ -22,6 +22,9 @@ public static class ILocalizerExtensions
     /// <returns></returns>
     public static LocalizedString GetString<TResource>(this IStringLocalizer stringLocalizer, Expression<Func<TResource, string>> propertyExpression)
     {
-        return stringLocalizer[(propertyExpression.Body as MemberExpression).Member.Name];
+        var localKey = (propertyExpression.Body as MemberExpression).Member.Name;
+        return stringLocalizer == null
+            ? new(localKey, localKey, true)
+            : stringLocalizer[localKey];
     }
 }
