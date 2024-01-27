@@ -2020,7 +2020,7 @@
         "DefaultHttpMethod": {
           "type": "string",
           "description": "默认请求谓词",
-          "enum": ["GET", "POST", "PUT", "DELETE", "PATCH", "HEAD"],
+          "enum": [ "GET", "POST", "PUT", "DELETE", "PATCH", "HEAD" ],
           "default": "POST"
         },
         "DefaultModule": {
@@ -2055,7 +2055,12 @@
         "VersionSeparator": {
           "type": "string",
           "description": "版本号分隔符",
-          "default": "@"
+          "default": "v"
+        },
+        "VersionInFront": {
+          "type": "boolean",
+          "description": "版本号是否在前面",
+          "default": true
         },
         "ModelToQuery": {
           "type": "boolean",
@@ -2090,7 +2095,7 @@
         "AbandonActionAffixes": {
           "type": "array",
           "description": "被舍弃的行为名称前后缀",
-          "default": ["Async"],
+          "default": [ "Async" ],
           "items": {
             "type": "string"
           }

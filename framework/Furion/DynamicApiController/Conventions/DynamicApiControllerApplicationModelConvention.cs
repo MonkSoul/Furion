@@ -400,6 +400,8 @@ internal sealed class DynamicApiControllerApplicationModelConvention : IApplicat
                     }
 
                     var newTemplate = $"{(selectorModel.AttributeRouteModel.Template?.StartsWith("/") == true ? "/" : null)}{(string.IsNullOrWhiteSpace(module) ? null : $"{module}/")}{selectorModel.AttributeRouteModel.Template}";
+                    // 处理可能存在多斜杠问题
+                    newTemplate = Regex.Replace(newTemplate, @"\/{2,}", "/");
                     selectorModel.AttributeRouteModel.Template = isLowercaseRoute ? newTemplate?.ToLower() : newTemplate;
 
                     continue;
@@ -450,8 +452,9 @@ internal sealed class DynamicApiControllerApplicationModelConvention : IApplicat
             if (!string.IsNullOrWhiteSpace(template))
             {
                 // 处理多个斜杆问题
-                template = Regex.Replace(isLowercaseRoute ? template.ToLower() : isLowerCamelCase ? template.ToLowerCamelCase() : template, @"\/{2,}", "/");
+                template = isLowercaseRoute ? template.ToLower() : isLowerCamelCase ? template.ToLowerCamelCase() : template;
                 template = HandleRouteTemplateRepeat(template);
+                template = Regex.Replace(template, @"\/{2,}", "/");
 
                 // 生成路由
                 actionAttributeRouteModel = string.IsNullOrWhiteSpace(template) ? null : new AttributeRouteModel(new RouteAttribute(template));

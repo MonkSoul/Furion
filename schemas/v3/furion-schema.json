@@ -2055,7 +2055,12 @@
         "VersionSeparator": {
           "type": "string",
           "description": "版本号分隔符",
-          "default": "@"
+          "default": "v"
+        },
+        "VersionInFront": {
+          "type": "boolean",
+          "description": "版本号是否在前面",
+          "default": true
         },
         "ModelToQuery": {
           "type": "boolean",
