@@ -663,6 +663,8 @@ internal sealed class DynamicApiControllerApplicationModelConvention : IApplicat
             ? $"{versionString}{tempName}"
             : $"{tempName}{versionString}";
 
+        newName = newName.TrimEnd('/');
+
         return (isLowercaseRoute ? newName.ToLower() : newName
          , isLowercaseRoute, isKeepName, isLowerCamelCase);
     }
