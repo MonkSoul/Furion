@@ -630,6 +630,34 @@ public sealed partial class HttpRequestPart
             exception = ex;
         }
 
+        // 检查响应状态码是否为 301,302 或带 Location 的 Header
+        if (response?.StatusCode == HttpStatusCode.MovedPermanently || response?.StatusCode == HttpStatusCode.Found)
+        {
+            // 获取 Location 头部中的新URL  
+            var redirectUrl = response.Headers.Location.AbsoluteUri;
+
+            try
+            {
+                if (RetryPolicy == null) response = await httpClient.GetAsync(redirectUrl, cancellationToken);
+                else
+                {
+                    // 失败重试
+                    await Retry.InvokeAsync(async () =>
+                    {
+                        // 重新发送请求到新的 URL  
+                        response = await httpClient.GetAsync(redirectUrl, cancellationToken);
+                    }, RetryPolicy.Value.NumRetries, RetryPolicy.Value.RetryTimeout);
+                }
+            }
+            catch (Exception ex)
+            {
+                // 触发自定义事件
+                if (response != null && OnRequestFailded != null) OnRequestFailded(this, new HttpRequestFaildedEventArgs(request, response, ex));
+
+                exception = ex;
+            }
+        }
+
         // 请求成功
         if (response?.IsSuccessStatusCode == true && exception == default)
         {
