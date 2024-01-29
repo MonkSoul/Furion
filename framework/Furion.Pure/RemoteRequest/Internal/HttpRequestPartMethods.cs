@@ -630,7 +630,7 @@ public sealed partial class HttpRequestPart
             exception = ex;
         }
 
-        // 检查响应状态码是否为 301,302 或带 Location 的 Header
+        // 检查响应状态码是否为 301,302 或响应头带 Location
         if (response?.StatusCode == HttpStatusCode.MovedPermanently || response?.StatusCode == HttpStatusCode.Found)
         {
             // 获取 Location 头部中的新URL  
