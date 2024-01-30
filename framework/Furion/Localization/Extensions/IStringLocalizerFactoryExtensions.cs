@@ -21,6 +21,14 @@ public static class IStringLocalizerFactoryExtensions
     public static IStringLocalizer Create(this IStringLocalizerFactory stringLocalizerFactory)
     {
         var localizationSettings = App.GetOptions<LocalizationSettingsOptions>();
-        return stringLocalizerFactory.Create(localizationSettings.LanguageFilePrefix, localizationSettings.AssemblyName);
+
+        // 处理空配置问题
+        if (!string.IsNullOrWhiteSpace(localizationSettings.LanguageFilePrefix)
+            && !string.IsNullOrWhiteSpace(localizationSettings.AssemblyName))
+        {
+            return stringLocalizerFactory.Create(localizationSettings.LanguageFilePrefix, localizationSettings.AssemblyName);
+        }
+
+        return null;
     }
 }
