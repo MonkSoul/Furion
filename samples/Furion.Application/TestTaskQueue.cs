@@ -3,12 +3,20 @@ using Furion.TaskQueue;
 
 namespace Furion.Application;
 
-public class TestTaskQueue : IDynamicApiController
+public class TestTaskQueue : IDynamicApiController, IDisposable
 {
     private readonly ITaskQueue _taskQueue;
     public TestTaskQueue(ITaskQueue taskQueue)
     {
         _taskQueue = taskQueue;
+
+        _taskQueue.OnExecuted += Subscribe;
+    }
+
+
+    void Subscribe(object sender, TaskHandlerEventArgs args)
+    {
+        Console.WriteLine($"任务 {args.TaskId} 管道 {args.Channel}，执行结果：{args.Status}，异常：{args.Exception}");
     }
 
     /// <summary>
@@ -88,5 +96,19 @@ public class TestTaskQueue : IDynamicApiController
                 Log.Information($"这是{s}结束时间：" + DateTime.Now);
             });
         }
+    }
+
+    public async Task 测试Channel()
+    {
+        await _taskQueue.EnqueueAsync(async (provider, token) =>
+        {
+            Console.WriteLine("我是异步的");
+            await ValueTask.CompletedTask;
+        }, channel: "abc");
+    }
+
+    public void Dispose()
+    {
+        _taskQueue.OnExecuted -= Subscribe;
     }
 }

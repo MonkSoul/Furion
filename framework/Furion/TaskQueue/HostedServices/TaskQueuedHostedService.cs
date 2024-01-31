@@ -105,30 +105,30 @@ internal sealed class TaskQueueHostedService : BackgroundService
     private async Task BackgroundProcessing(CancellationToken stoppingToken)
     {
         // 出队
-        var taskHandler = await _taskQueue.DequeueAsync(stoppingToken);
+        var taskWrapper = await _taskQueue.DequeueAsync(stoppingToken);
 
         // 并行执行
         if (_concurrent)
         {
             Parallel.For(0, 1, async _ =>
             {
-                await DequeueHandleAsync(taskHandler, stoppingToken);
+                await DequeueHandleAsync(taskWrapper, stoppingToken);
             });
         }
         // 依次出队执行：https://gitee.com/dotnetchina/Furion/issues/I8VXFV
         else
         {
-            await DequeueHandleAsync(taskHandler, stoppingToken);
+            await DequeueHandleAsync(taskWrapper, stoppingToken);
         }
     }
 
     /// <summary>
     /// 出队调用处理程序
     /// </summary>
-    /// <param name="taskHandler">任务处理程序</param>
+    /// <param name="taskWrapper">任务包装器</param>
     /// <param name="stoppingToken">后台主机服务停止时取消任务 Token</param>
     /// <returns><see cref="Task"/></returns>
-    private async Task DequeueHandleAsync(Func<IServiceProvider, CancellationToken, ValueTask> taskHandler, CancellationToken stoppingToken)
+    private async Task DequeueHandleAsync(TaskWrapper taskWrapper, CancellationToken stoppingToken)
     {
         try
         {
@@ -136,20 +136,23 @@ internal sealed class TaskQueueHostedService : BackgroundService
             await Retry.InvokeAsync(async () =>
             {
                 // 调用任务处理委托
-                await taskHandler(_serviceProvider, stoppingToken);
+                await taskWrapper.Handler(_serviceProvider, stoppingToken);
             }
             , _numRetries
             , _retryTimeout
             , retryAction: (total, times) =>
             {
                 // 输出重试日志
-                _logger.LogWarning("Retrying {times}/{total} times for {TaskHandler}", times, total, taskHandler?.ToString());
+                _logger.LogWarning("Retrying {times}/{total} times for {TaskHandler}", times, total, taskWrapper.Handler?.ToString());
             });
+
+            // 触发任务队列事件
+            _taskQueue.InvokeEvents(new(taskWrapper.TaskId, taskWrapper.Channel, true));
         }
         catch (Exception ex)
         {
             // 输出异常日志
-            _logger.LogError(ex, "Error occurred executing in {TaskHandler}.", taskHandler?.ToString());
+            _logger.LogError(ex, "Error occurred executing in {TaskHandler}.", taskWrapper.Handler?.ToString());
 
             // 捕获 Task 任务异常信息并统计所有异常
             if (UnobservedTaskException != default)
@@ -159,6 +162,16 @@ internal sealed class TaskQueueHostedService : BackgroundService
 
                 UnobservedTaskException.Invoke(this, args);
             }
+
+            // 触发任务队列事件
+            _taskQueue.InvokeEvents(new(taskWrapper.TaskId, taskWrapper.Channel, false)
+            {
+                Exception = ex
+            });
+        }
+        finally
+        {
+            taskWrapper = null;
         }
     }
 }
