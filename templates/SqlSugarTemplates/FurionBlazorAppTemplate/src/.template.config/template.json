@@ -1,0 +1,14 @@
+{
+  "$schema": "http://json.schemastore.org/template",
+  "author": "百小僧",
+  "classifications": ["Furion", "Blazor", "BlazorApp", "SqlSugar"],
+  "name": "Furion Blazor App (SqlSugar)",
+  "identity": "Furion.SqlSugar.Template.Blazor.App",
+  "shortName": "fsblazorapp",
+  "tags": {
+    "language": "C#",
+    "type": "project"
+  },
+  "sourceName": "FurionBlazorApp",
+  "preferNameDirectory": true
+}

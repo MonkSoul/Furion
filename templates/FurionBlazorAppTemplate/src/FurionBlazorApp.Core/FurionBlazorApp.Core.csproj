@@ -1,0 +1,13 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net8.0</TargetFramework>
+		<NoWarn>1701;1702;1591</NoWarn>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Furion" Version="4.9.1.28" />
+		<PackageReference Include="Furion.Extras.ObjectMapper.Mapster" Version="4.9.1.28" />
+	</ItemGroup>
+
+</Project>
