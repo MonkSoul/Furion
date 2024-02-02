@@ -8,8 +8,14 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\FurionBlazorApp.Application\FurionBlazorApp.Application.csproj" />
+    <ProjectReference Include="..\..\FurionBlazorApp.Database.Migrations\FurionBlazorApp.Database.Migrations.csproj" />
     <ProjectReference Include="..\FurionBlazorApp.Client\FurionBlazorApp.Client.csproj" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="8.0.1" />
+
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.1">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
   </ItemGroup>
 
 </Project>
