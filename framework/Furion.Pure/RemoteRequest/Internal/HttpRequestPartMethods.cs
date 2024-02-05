@@ -633,7 +633,7 @@ public sealed partial class HttpRequestPart
         // 检查响应状态码是否为 301,302 或响应头带 Location
         if (response?.StatusCode == HttpStatusCode.MovedPermanently || response?.StatusCode == HttpStatusCode.Found)
         {
-            // 获取 Location 头部中的新URL  
+            // 获取 Location 头部中的新URL
             var redirectUrl = response.Headers.Location.AbsoluteUri;
 
             try
@@ -644,7 +644,7 @@ public sealed partial class HttpRequestPart
                     // 失败重试
                     await Retry.InvokeAsync(async () =>
                     {
-                        // 重新发送请求到新的 URL  
+                        // 重新发送请求到新的 URL
                         response = await httpClient.GetAsync(redirectUrl, cancellationToken);
                     }, RetryPolicy.Value.NumRetries, RetryPolicy.Value.RetryTimeout);
                 }
@@ -877,6 +877,22 @@ public sealed partial class HttpRequestPart
         else charset = "charset=UTF-8";
 
         var encoding = charset.Split('=', StringSplitOptions.RemoveEmptyEntries).LastOrDefault() ?? "UTF-8";
-        return Encoding.GetEncoding(encoding);
+
+        // 标准化 charset 名称
+        var encodingName = encoding.Equals("utf8", StringComparison.OrdinalIgnoreCase) ? "UTF-8" :
+                           encoding.Equals("utf16", StringComparison.OrdinalIgnoreCase) ? "UTF-16" :
+                           encoding.Equals("utf32", StringComparison.OrdinalIgnoreCase) ? "UTF-32" :
+                           encoding;
+
+        // 获取 Encoding
+        try
+        {
+            return Encoding.GetEncoding(encodingName);
+        }
+        catch (ArgumentException)
+        {
+            // 如果无法识别 encodingName，则返回默认的 UTF-8 编码
+            return Encoding.UTF8;
+        }
     }
 }
