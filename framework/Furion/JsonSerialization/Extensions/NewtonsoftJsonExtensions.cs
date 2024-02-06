@@ -19,7 +19,7 @@ public static class NewtonsoftJsonExtensions
     /// <param name="outputFormat"></param>
     /// <param name="localized">自动转换 DateTimeOffset 为当地时间</param>
     /// <returns></returns>
-    public static IList<JsonConverter> AddDateTimeTypeConverters(this IList<JsonConverter> converters, string outputFormat = default, bool localized = false)
+    public static IList<JsonConverter> AddDateTimeTypeConverters(this IList<JsonConverter> converters, string outputFormat = "yyyy-MM-dd HH:mm:ss", bool localized = false)
     {
         converters.Add(new NewtonsoftJsonDateTimeJsonConverter(outputFormat));
         converters.Add(new NewtonsoftNullableJsonDateTimeJsonConverter(outputFormat));
