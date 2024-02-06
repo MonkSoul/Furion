@@ -1,4 +1,4 @@
-﻿// 版权归百小僧及百签科技（广东）有限公司所有。
+// 版权归百小僧及百签科技（广东）有限公司所有。
 //
 // 此源代码遵循位于源代码树根目录中的 LICENSE 文件的许可证。
 
@@ -8,7 +8,7 @@ using Newtonsoft.Json;
 namespace Furion.JsonSerialization;
 
 /// <summary>
-/// DateTime 类型序列化
+/// DateTimeOffset 类型序列化
 /// </summary>
 [SuppressSniffer]
 public class NewtonsoftJsonDateTimeOffsetJsonConverter : JsonConverter<DateTimeOffset>
@@ -82,7 +82,7 @@ public class NewtonsoftJsonDateTimeOffsetJsonConverter : JsonConverter<DateTimeO
 }
 
 /// <summary>
-/// DateTime 类型序列化
+/// DateTimeOffset 类型序列化
 /// </summary>
 [SuppressSniffer]
 public class NewtonsoftJsonNullableDateTimeOffsetJsonConverter : JsonConverter<DateTimeOffset?>
