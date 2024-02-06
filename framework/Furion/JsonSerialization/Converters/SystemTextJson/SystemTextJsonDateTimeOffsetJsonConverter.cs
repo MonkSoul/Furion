@@ -18,15 +18,15 @@ public class SystemTextJsonDateTimeOffsetJsonConverter : JsonConverter<DateTimeO
     /// 构造函数
     /// </summary>
     public SystemTextJsonDateTimeOffsetJsonConverter()
+        : this(default)
     {
-        Format ??= "yyyy-MM-dd HH:mm:ss";
     }
 
     /// <summary>
     /// 构造函数
     /// </summary>
     /// <param name="format"></param>
-    public SystemTextJsonDateTimeOffsetJsonConverter(string format)
+    public SystemTextJsonDateTimeOffsetJsonConverter(string format = "yyyy-MM-dd HH:mm:ss")
     {
         Format = format;
     }
@@ -36,9 +36,9 @@ public class SystemTextJsonDateTimeOffsetJsonConverter : JsonConverter<DateTimeO
     /// </summary>
     /// <param name="format"></param>
     /// <param name="outputToLocalDateTime"></param>
-    public SystemTextJsonDateTimeOffsetJsonConverter(string format, bool outputToLocalDateTime)
+    public SystemTextJsonDateTimeOffsetJsonConverter(string format = "yyyy-MM-dd HH:mm:ss", bool outputToLocalDateTime = false)
+        : this(format)
     {
-        Format = format;
         Localized = outputToLocalDateTime;
     }
 
@@ -88,15 +88,15 @@ public class SystemTextJsonNullableDateTimeOffsetJsonConverter : JsonConverter<D
     /// 构造函数
     /// </summary>
     public SystemTextJsonNullableDateTimeOffsetJsonConverter()
+        : this(default)
     {
-        Format ??= "yyyy-MM-dd HH:mm:ss";
     }
 
     /// <summary>
     /// 构造函数
     /// </summary>
     /// <param name="format"></param>
-    public SystemTextJsonNullableDateTimeOffsetJsonConverter(string format)
+    public SystemTextJsonNullableDateTimeOffsetJsonConverter(string format = "yyyy-MM-dd HH:mm:ss")
     {
         Format = format;
     }
@@ -106,9 +106,9 @@ public class SystemTextJsonNullableDateTimeOffsetJsonConverter : JsonConverter<D
     /// </summary>
     /// <param name="format"></param>
     /// <param name="outputToLocalDateTime"></param>
-    public SystemTextJsonNullableDateTimeOffsetJsonConverter(string format, bool outputToLocalDateTime)
+    public SystemTextJsonNullableDateTimeOffsetJsonConverter(string format = "yyyy-MM-dd HH:mm:ss", bool outputToLocalDateTime = false)
+        : this(format)
     {
-        Format = format;
         Localized = outputToLocalDateTime;
     }
 

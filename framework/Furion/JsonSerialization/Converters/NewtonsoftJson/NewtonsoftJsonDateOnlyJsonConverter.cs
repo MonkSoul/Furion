@@ -18,15 +18,15 @@ public class NewtonsoftJsonDateOnlyJsonConverter : JsonConverter<DateOnly>
     /// 构造函数
     /// </summary>
     public NewtonsoftJsonDateOnlyJsonConverter()
+        : this(default)
     {
-        Format ??= "yyyy-MM-dd";
     }
 
     /// <summary>
     /// 构造函数
     /// </summary>
     /// <param name="format"></param>
-    public NewtonsoftJsonDateOnlyJsonConverter(string format)
+    public NewtonsoftJsonDateOnlyJsonConverter(string format = "yyyy-MM-dd")
     {
         Format = format;
     }
@@ -73,15 +73,15 @@ public class NewtonsoftJsonNullableDateOnlyJsonConverter : JsonConverter<DateOnl
     /// 构造函数
     /// </summary>
     public NewtonsoftJsonNullableDateOnlyJsonConverter()
+        : this(default)
     {
-        Format ??= "yyyy-MM-dd";
     }
 
     /// <summary>
     /// 构造函数
     /// </summary>
     /// <param name="format"></param>
-    public NewtonsoftJsonNullableDateOnlyJsonConverter(string format)
+    public NewtonsoftJsonNullableDateOnlyJsonConverter(string format = "yyyy-MM-dd")
     {
         Format = format;
     }

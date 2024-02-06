@@ -17,15 +17,15 @@ public class SystemTextJsonDateTimeJsonConverter : JsonConverter<DateTime>
     /// 默认构造函数
     /// </summary>
     public SystemTextJsonDateTimeJsonConverter()
+        : this(default)
     {
-        Format ??= "yyyy-MM-dd HH:mm:ss";
     }
 
     /// <summary>
     /// 构造函数
     /// </summary>
     /// <param name="format"></param>
-    public SystemTextJsonDateTimeJsonConverter(string format)
+    public SystemTextJsonDateTimeJsonConverter(string format = "yyyy-MM-dd HH:mm:ss")
     {
         Format = format;
     }
@@ -69,15 +69,15 @@ public class SystemTextJsonNullableDateTimeJsonConverter : JsonConverter<DateTim
     /// 默认构造函数
     /// </summary>
     public SystemTextJsonNullableDateTimeJsonConverter()
+        : this(default)
     {
-        Format ??= "yyyy-MM-dd HH:mm:ss";
     }
 
     /// <summary>
     /// 构造函数
     /// </summary>
     /// <param name="format"></param>
-    public SystemTextJsonNullableDateTimeJsonConverter(string format)
+    public SystemTextJsonNullableDateTimeJsonConverter(string format = "yyyy-MM-dd HH:mm:ss")
     {
         Format = format;
     }

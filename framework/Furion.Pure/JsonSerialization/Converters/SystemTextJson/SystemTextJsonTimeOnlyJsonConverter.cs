@@ -18,15 +18,15 @@ public class SystemTextJsonTimeOnlyJsonConverter : JsonConverter<TimeOnly>
     /// 构造函数
     /// </summary>
     public SystemTextJsonTimeOnlyJsonConverter()
+        : this(default)
     {
-        Format ??= "HH:mm:ss";
     }
 
     /// <summary>
     /// 构造函数
     /// </summary>
     /// <param name="format"></param>
-    public SystemTextJsonTimeOnlyJsonConverter(string format)
+    public SystemTextJsonTimeOnlyJsonConverter(string format = "HH:mm:ss")
     {
         Format = format;
     }
@@ -70,15 +70,15 @@ public class SystemTextJsonNullableTimeOnlyJsonConverter : JsonConverter<TimeOnl
     /// 默认构造函数
     /// </summary>
     public SystemTextJsonNullableTimeOnlyJsonConverter()
+        : this(default)
     {
-        Format ??= "HH:mm:ss";
     }
 
     /// <summary>
     /// 构造函数
     /// </summary>
     /// <param name="format"></param>
-    public SystemTextJsonNullableTimeOnlyJsonConverter(string format)
+    public SystemTextJsonNullableTimeOnlyJsonConverter(string format = "HH:mm:ss")
     {
         Format = format;
     }
@@ -97,7 +97,7 @@ public class SystemTextJsonNullableTimeOnlyJsonConverter : JsonConverter<TimeOnl
     /// <returns></returns>
     public override TimeOnly? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
-        return TimeOnly.TryParse(reader.GetString(), out TimeOnly time) ? time : null;
+        return TimeOnly.TryParse(reader.GetString(), out var time) ? time : null;
     }
 
     /// <summary>

@@ -18,15 +18,15 @@ public class SystemTextJsonDateOnlyJsonConverter : JsonConverter<DateOnly>
     /// 构造函数
     /// </summary>
     public SystemTextJsonDateOnlyJsonConverter()
+        : this(default)
     {
-        Format ??= "yyyy-MM-dd";
     }
 
     /// <summary>
     /// 构造函数
     /// </summary>
     /// <param name="format"></param>
-    public SystemTextJsonDateOnlyJsonConverter(string format)
+    public SystemTextJsonDateOnlyJsonConverter(string format = "yyyy-MM-dd")
     {
         Format = format;
     }
@@ -70,15 +70,15 @@ public class SystemTextJsonNullableDateOnlyJsonConverter : JsonConverter<DateOnl
     /// 构造函数
     /// </summary>
     public SystemTextJsonNullableDateOnlyJsonConverter()
+        : this(default)
     {
-        Format ??= "yyyy-MM-dd";
     }
 
     /// <summary>
     /// 构造函数
     /// </summary>
     /// <param name="format"></param>
-    public SystemTextJsonNullableDateOnlyJsonConverter(string format)
+    public SystemTextJsonNullableDateOnlyJsonConverter(string format = "yyyy-MM-dd")
     {
         Format = format;
     }
@@ -97,7 +97,7 @@ public class SystemTextJsonNullableDateOnlyJsonConverter : JsonConverter<DateOnl
     /// <returns></returns>
     public override DateOnly? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
-        return DateOnly.TryParse(reader.GetString(), out DateOnly date) ? date : null;
+        return DateOnly.TryParse(reader.GetString(), out var date) ? date : null;
     }
 
     /// <summary>

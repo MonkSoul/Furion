@@ -16,15 +16,15 @@ public class NewtonsoftJsonDateTimeJsonConverter : JsonConverter<DateTime>
     /// 默认构造函数
     /// </summary>
     public NewtonsoftJsonDateTimeJsonConverter()
+        : this(default)
     {
-        Format ??= "yyyy-MM-dd HH:mm:ss";
     }
 
     /// <summary>
     /// 构造函数
     /// </summary>
     /// <param name="format"></param>
-    public NewtonsoftJsonDateTimeJsonConverter(string format)
+    public NewtonsoftJsonDateTimeJsonConverter(string format = "yyyy-MM-dd HH:mm:ss")
     {
         Format = format;
     }
@@ -72,15 +72,15 @@ public class NewtonsoftNullableJsonDateTimeJsonConverter : JsonConverter<DateTim
     /// 默认构造函数
     /// </summary>
     public NewtonsoftNullableJsonDateTimeJsonConverter()
+        : this(default)
     {
-        Format ??= "yyyy-MM-dd HH:mm:ss";
     }
 
     /// <summary>
     /// 构造函数
     /// </summary>
     /// <param name="format"></param>
-    public NewtonsoftNullableJsonDateTimeJsonConverter(string format)
+    public NewtonsoftNullableJsonDateTimeJsonConverter(string format = "yyyy-MM-dd HH:mm:ss")
     {
         Format = format;
     }

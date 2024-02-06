@@ -18,15 +18,15 @@ public class NewtonsoftJsonTimeOnlyJsonConverter : JsonConverter<TimeOnly>
     /// 构造函数
     /// </summary>
     public NewtonsoftJsonTimeOnlyJsonConverter()
+        : this(default)
     {
-        Format ??= "HH:mm:ss";
     }
 
     /// <summary>
     /// 构造函数
     /// </summary>
     /// <param name="format"></param>
-    public NewtonsoftJsonTimeOnlyJsonConverter(string format)
+    public NewtonsoftJsonTimeOnlyJsonConverter(string format = "HH:mm:ss")
     {
         Format = format;
     }
@@ -73,15 +73,15 @@ public class NewtonsoftJsonNullableTimeOnlyJsonConverter : JsonConverter<TimeOnl
     /// 构造函数
     /// </summary>
     public NewtonsoftJsonNullableTimeOnlyJsonConverter()
+        : this(default)
     {
-        Format ??= "HH:mm:ss";
     }
 
     /// <summary>
     /// 构造函数
     /// </summary>
     /// <param name="format"></param>
-    public NewtonsoftJsonNullableTimeOnlyJsonConverter(string format)
+    public NewtonsoftJsonNullableTimeOnlyJsonConverter(string format = "HH:mm:ss")
     {
         Format = format;
     }
