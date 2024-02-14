@@ -20,6 +20,10 @@
 		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.0" />
 	</ItemGroup>
 
+	<ItemGroup Condition=" '$(TargetFramework)' == 'net9.0' ">
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.0-preview.1.24080.9" />
+	</ItemGroup>
+
 	<ItemGroup>
 		<PackageReference Include="Dapper.Contrib" Version="2.0.78" />
 	</ItemGroup>

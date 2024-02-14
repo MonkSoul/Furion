@@ -1,6 +1,6 @@
 <Project>
 	<PropertyGroup>
-		<TargetFrameworks>net5.0;net6.0;net7.0;net8.0</TargetFrameworks>
+		<TargetFrameworks>net5.0;net6.0;net7.0;net8.0;net9.0</TargetFrameworks>
 		<Version>4.9.1.30</Version>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Authors>百小僧</Authors>
