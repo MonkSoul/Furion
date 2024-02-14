@@ -1,12 +1,7 @@
 {
   "$schema": "http://json.schemastore.org/template",
   "author": "百小僧",
-  "classifications": [
-    "Furion",
-    "Blazor",
-    "WebApi",
-    "Api"
-  ],
+  "classifications": ["Furion", "Blazor", "WebApi", "Api"],
   "name": "Furion Blazor With WebApi",
   "identity": "Furion.Template.BlazorWithWebApi",
   "shortName": "furionblazorapi",
@@ -36,10 +31,14 @@
         {
           "choice": "net8",
           "description": ".NET8 脚手架"
+        },
+        {
+          "choice": "net9",
+          "description": ".NET9 脚手架"
         }
       ],
       "defaultValue": "net8",
-      "description": "选择要创建的 .NET5-8 脚手架"
+      "description": "选择要创建的 .NET5-9 脚手架"
     },
     "net5": {
       "type": "computed",
@@ -56,6 +55,10 @@
     "net8": {
       "type": "computed",
       "value": "(framework == \"net8\")"
+    },
+    "net9": {
+      "type": "computed",
+      "value": "(framework == \"net9\")"
     }
   },
   "sources": [
@@ -63,9 +66,7 @@
       "modifiers": [
         {
           "condition": "(framework != \"net5\")",
-          "exclude": [
-            "FurionBlazorApi.Web.Entry/Startup.cs"
-          ]
+          "exclude": ["FurionBlazorApi.Web.Entry/Startup.cs"]
         }
       ]
     }

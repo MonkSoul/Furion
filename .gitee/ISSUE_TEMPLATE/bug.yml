@@ -13,7 +13,8 @@ body:
       label: 版本号
       description: 请选择项目使用的 Furion 版本？
       options:
-        - 4.9.1.30 (最新)
+        - 4.9.1.31 (最新)
+        - 4.9.1.30
         - 4.9.1.29
         - 4.9.1.28
         - 4.9.1.27
@@ -57,6 +58,7 @@ body:
         - .NET6
         - .NET7
         - .NET8
+        - .NET9
     validations:
       required: true
   - type: dropdown
@@ -69,6 +71,7 @@ body:
         - Mvc
         - Razor Pages
         - Blazor Server
+        - Blazor Auto
         - MinApp
         - WinForm
         - WPF
@@ -137,6 +140,7 @@ body:
         - PM2
         - Kestrel
         - 单文件
+        - Windows Service
     validations:
       required: true
   - type: checkboxes

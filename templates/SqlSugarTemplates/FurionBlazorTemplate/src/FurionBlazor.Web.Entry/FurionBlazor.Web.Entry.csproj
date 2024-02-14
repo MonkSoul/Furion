@@ -29,6 +29,13 @@
 		<PublishReadyToRunComposite>true</PublishReadyToRunComposite>
 	</PropertyGroup>
 
+	<PropertyGroup Condition="'$(net9)' == 'True' ">
+		<TargetFramework>net9.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<SatelliteResourceLanguages>en-US</SatelliteResourceLanguages>
+		<PublishReadyToRunComposite>true</PublishReadyToRunComposite>
+	</PropertyGroup>
+
 	<ItemGroup>
 		<ProjectReference Include="..\FurionBlazor.Web.Core\FurionBlazor.Web.Core.csproj" />
 	</ItemGroup>

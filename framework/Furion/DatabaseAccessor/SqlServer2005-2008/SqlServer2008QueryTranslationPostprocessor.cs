@@ -11,6 +11,7 @@ namespace Microsoft.EntityFrameworkCore.Query;
 /// </summary>
 internal class SqlServer2008QueryTranslationPostprocessor : RelationalQueryTranslationPostprocessor
 {
+#if !NET9_0
     /// <summary>
     /// 构造函数
     /// </summary>
@@ -21,6 +22,18 @@ internal class SqlServer2008QueryTranslationPostprocessor : RelationalQueryTrans
         : base(dependencies, relationalDependencies, queryCompilationContext)
     {
     }
+#else
+    /// <summary>
+    /// 构造函数
+    /// </summary>
+    /// <param name="dependencies"></param>
+    /// <param name="relationalDependencies"></param>
+    /// <param name="queryCompilationContext"></param>
+    public SqlServer2008QueryTranslationPostprocessor(QueryTranslationPostprocessorDependencies dependencies, RelationalQueryTranslationPostprocessorDependencies relationalDependencies, QueryCompilationContext queryCompilationContext)
+        : base(dependencies, relationalDependencies, (RelationalQueryCompilationContext)queryCompilationContext)
+    {
+    }
+#endif
 
     /// <summary>
     /// 替换分页语句

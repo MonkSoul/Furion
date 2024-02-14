@@ -1,14 +1,19 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-	<PropertyGroup>
+	<PropertyGroup Condition="'$(net8)' == 'True' ">
 		<TargetFramework>net8.0</TargetFramework>
 		<NoWarn>1701;1702;1591</NoWarn>
 	</PropertyGroup>
 
+	<PropertyGroup Condition="'$(net9)' == 'True' ">
+		<TargetFramework>net9.0</TargetFramework>
+		<NoWarn>1701;1702;1591</NoWarn>
+	</PropertyGroup>
+
 	<ItemGroup>
-		<PackageReference Include="Furion.Pure" Version="4.9.1.30" />
+		<PackageReference Include="Furion.Pure" Version="4.9.1.31" />
 		<PackageReference Include="SqlSugarCore" Version="5.1.4.141" />
-		<PackageReference Include="Furion.Extras.ObjectMapper.Mapster" Version="4.9.1.30" />
+		<PackageReference Include="Furion.Extras.ObjectMapper.Mapster" Version="4.9.1.31" />
 	</ItemGroup>
 
 </Project>

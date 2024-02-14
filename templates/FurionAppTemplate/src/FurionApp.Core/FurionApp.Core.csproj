@@ -25,14 +25,20 @@
 		<DocumentationFile>FurionApp.Core.xml</DocumentationFile>
 	</PropertyGroup>
 
+	<PropertyGroup Condition="'$(net9)' == 'True' ">
+		<TargetFramework>net9.0</TargetFramework>
+		<NoWarn>1701;1702;1591</NoWarn>
+		<DocumentationFile>FurionApp.Core.xml</DocumentationFile>
+	</PropertyGroup>
+
 	<ItemGroup>
 		<None Remove="FurionApp.Core.xml" />
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Furion" Version="4.9.1.30" />
-		<PackageReference Include="Furion.Extras.Authentication.JwtBearer" Version="4.9.1.30" />
-		<PackageReference Include="Furion.Extras.ObjectMapper.Mapster" Version="4.9.1.30" />
+		<PackageReference Include="Furion" Version="4.9.1.31" />
+		<PackageReference Include="Furion.Extras.Authentication.JwtBearer" Version="4.9.1.31" />
+		<PackageReference Include="Furion.Extras.ObjectMapper.Mapster" Version="4.9.1.31" />
 	</ItemGroup>
 
 </Project>
