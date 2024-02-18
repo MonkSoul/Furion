@@ -18,7 +18,8 @@ internal static class Penetrates
     private static readonly string[] _defaultExposedHeaders = new[]
     {
         "access-token",
-        "x-access-token"
+        "x-access-token",
+        "Content-Disposition"
     };
 
     /// <summary>
