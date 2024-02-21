@@ -4,6 +4,8 @@
 
 using Furion.DataValidation;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.Extensions.Options;
 
 namespace Microsoft.Extensions.DependencyInjection;
 
@@ -43,7 +45,7 @@ public static class DataValidationServiceCollectionExtensions
         services.AddDataValidation(configure);
 
         // 单例注册验证消息提供器
-        services.AddSingleton<IValidationMessageTypeProvider, TValidationMessageTypeProvider>();
+        services.TryAddSingleton<IValidationMessageTypeProvider, TValidationMessageTypeProvider>();
 
         return services;
     }
@@ -69,6 +71,12 @@ public static class DataValidationServiceCollectionExtensions
     /// <returns></returns>
     public static IServiceCollection AddDataValidation(this IServiceCollection services, Action<DataValidationOptions> configure = null)
     {
+        // 解决服务重复注册问题
+        if (services.Any(u => u.ServiceType == typeof(IConfigureOptions<ValidationTypeMessageSettingsOptions>)))
+        {
+            return services;
+        }
+
         // 添加验证配置文件支持
         services.AddConfigurableOptions<ValidationTypeMessageSettingsOptions>();
 

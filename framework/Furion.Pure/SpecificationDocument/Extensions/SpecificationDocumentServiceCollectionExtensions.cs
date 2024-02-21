@@ -4,6 +4,7 @@
 
 using Furion;
 using Furion.SpecificationDocument;
+using Microsoft.Extensions.Options;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace Microsoft.Extensions.DependencyInjection;
@@ -35,6 +36,12 @@ public static class SpecificationDocumentServiceCollectionExtensions
     /// <returns>服务集合</returns>
     public static IServiceCollection AddSpecificationDocuments(this IServiceCollection services, Action<SwaggerGenOptions> configure = default)
     {
+        // 解决服务重复注册问题
+        if (services.Any(u => u.ServiceType == typeof(IConfigureOptions<SchemaGeneratorOptions>)))
+        {
+            return services;
+        }
+
         // 判断是否启用规范化文档
         if (App.Settings.InjectSpecificationDocument != true) return services;
 

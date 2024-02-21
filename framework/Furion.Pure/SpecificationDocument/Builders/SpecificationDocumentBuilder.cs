@@ -319,6 +319,8 @@ public static class SpecificationDocumentBuilder
     {
         foreach (var group in DocumentGroups)
         {
+            if (swaggerGenOptions.SwaggerGeneratorOptions.SwaggerDocs.ContainsKey(group)) continue;
+
             var groupOpenApiInfo = GetGroupOpenApiInfo(group) as OpenApiInfo;
             swaggerGenOptions.SwaggerDoc(group, groupOpenApiInfo);
         }
@@ -547,7 +549,8 @@ public static class SpecificationDocumentBuilder
         foreach (var securityDefinition in _specificationDocumentSettings.SecurityDefinitions)
         {
             // Id 必须定义
-            if (string.IsNullOrWhiteSpace(securityDefinition.Id)) continue;
+            if (string.IsNullOrWhiteSpace(securityDefinition.Id)
+                || swaggerGenOptions.SwaggerGeneratorOptions.SecuritySchemes.ContainsKey(securityDefinition.Id)) continue;
 
             // 添加安全定义
             var openApiSecurityScheme = securityDefinition as OpenApiSecurityScheme;

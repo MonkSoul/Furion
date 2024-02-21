@@ -5,6 +5,7 @@
 using Furion;
 using Furion.CorsAccessor;
 using Microsoft.AspNetCore.Cors.Infrastructure;
+using Microsoft.Extensions.Options;
 
 namespace Microsoft.Extensions.DependencyInjection;
 
@@ -23,6 +24,12 @@ public static class CorsAccessorServiceCollectionExtensions
     /// <returns>服务集合</returns>
     public static IServiceCollection AddCorsAccessor(this IServiceCollection services, Action<CorsOptions> corsOptionsHandler = default, Action<CorsPolicyBuilder> corsPolicyBuilderHandler = default)
     {
+        // 解决服务重复注册问题
+        if (services.Any(u => u.ServiceType == typeof(IConfigureOptions<CorsAccessorSettingsOptions>)))
+        {
+            return services;
+        }
+
         // 添加跨域配置选项
         services.AddConfigurableOptions<CorsAccessorSettingsOptions>();
 

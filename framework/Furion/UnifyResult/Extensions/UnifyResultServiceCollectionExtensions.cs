@@ -4,6 +4,7 @@
 
 using Furion.UnifyResult;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.Extensions.Options;
 using System.Reflection;
 
 namespace Microsoft.Extensions.DependencyInjection;
@@ -61,6 +62,12 @@ public static class UnifyResultServiceCollectionExtensions
     public static IServiceCollection AddUnifyResult<TUnifyResultProvider>(this IServiceCollection services)
         where TUnifyResultProvider : class, IUnifyResultProvider
     {
+        // 解决服务重复注册问题
+        if (services.Any(u => u.ServiceType == typeof(IConfigureOptions<UnifyResultSettingsOptions>)))
+        {
+            return services;
+        }
+
         // 添加配置
         services.AddConfigurableOptions<UnifyResultSettingsOptions>();
 

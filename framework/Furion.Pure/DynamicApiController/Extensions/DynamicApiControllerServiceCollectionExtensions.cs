@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApplicationParts;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
+using Microsoft.Extensions.Options;
+using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Reflection;
 
 namespace Microsoft.Extensions.DependencyInjection;
@@ -37,6 +39,12 @@ public static class DynamicApiControllerServiceCollectionExtensions
     /// <returns></returns>
     public static IServiceCollection AddDynamicApiControllers(this IServiceCollection services)
     {
+        // 解决服务重复注册问题
+        if (services.Any(u => u.ServiceType == typeof(MvcActionDescriptorChangeProvider)))
+        {
+            return services;
+        }
+
         var partManager = services.FirstOrDefault(s => s.ServiceType == typeof(ApplicationPartManager))?.ImplementationInstance as ApplicationPartManager
             ?? throw new InvalidOperationException($"`{nameof(AddDynamicApiControllers)}` must be invoked after `{nameof(MvcServiceCollectionExtensions.AddControllers)}`.");
 

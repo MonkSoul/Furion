@@ -4,6 +4,8 @@
 
 using Furion.FriendlyException;
 using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.Extensions.Options;
 
 namespace Microsoft.Extensions.DependencyInjection;
 
@@ -42,7 +44,7 @@ public static class FriendlyExceptionServiceCollectionExtensions
         services.AddFriendlyException(configure);
 
         // 单例注册异常状态码提供器
-        services.AddSingleton<IErrorCodeTypeProvider, TErrorCodeTypeProvider>();
+        services.TryAddSingleton<IErrorCodeTypeProvider, TErrorCodeTypeProvider>();
 
         return services;
     }
@@ -68,6 +70,12 @@ public static class FriendlyExceptionServiceCollectionExtensions
     /// <returns></returns>
     public static IServiceCollection AddFriendlyException(this IServiceCollection services, Action<FriendlyExceptionOptions> configure = null)
     {
+        // 解决服务重复注册问题
+        if (services.Any(u => u.ServiceType == typeof(IConfigureOptions<FriendlyExceptionSettingsOptions>)))
+        {
+            return services;
+        }
+
         // 添加友好异常配置文件支持
         services.AddConfigurableOptions<FriendlyExceptionSettingsOptions>();
 
