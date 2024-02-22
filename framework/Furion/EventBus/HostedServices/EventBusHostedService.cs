@@ -197,13 +197,15 @@ internal sealed class EventBusHostedService : BackgroundService
         // 空检查
         if (string.IsNullOrWhiteSpace(eventSource?.EventId))
         {
-            Log(LogLevel.Warning, "Invalid EventId, EventId cannot be <null> or an empty string.");
+            Log(LogLevel.Warning, $"Invalid EventId, EventId cannot be <null> or an empty string.");
 
             return;
         }
 
         // 查找事件 Id 匹配的事件处理程序
-        var eventHandlersThatShouldRun = _eventHandlers.Where(t => t.Key.ShouldRun(eventSource.EventId)).OrderByDescending(u => u.Value.Order).Select(u => u.Key);
+        var eventHandlersThatShouldRun = _eventHandlers.Where(t => t.Key.ShouldRun(eventSource.EventId)).OrderByDescending(u => u.Value.Order)
+            .Select(u => u.Key)
+            .ToList();
 
         // 空订阅
         if (!eventHandlersThatShouldRun.Any())
@@ -216,12 +218,12 @@ internal sealed class EventBusHostedService : BackgroundService
         // 检查是否配置只消费一次
         if (eventSource.IsConsumOnce)
         {
-            var randomId = RandomNumberGenerator.GetInt32(0, eventHandlersThatShouldRun.Count());
+            var randomId = RandomNumberGenerator.GetInt32(0, eventHandlersThatShouldRun.Count);
             eventHandlersThatShouldRun = [eventHandlersThatShouldRun.ElementAt(randomId)];
         }
 
         // 创建一个任务工厂并保证执行任务都使用当前的计划程序
-        var taskFactory = new TaskFactory(System.Threading.Tasks.TaskScheduler.Current);
+        var taskFactory = new TaskFactory(TaskScheduler.Current);
 
         // 创建共享上下文数据对象
         var properties = new Dictionary<object, object>();
@@ -247,10 +249,7 @@ internal sealed class EventBusHostedService : BackgroundService
                 try
                 {
                     // 处理任务取消
-                    if (eventSource.CancellationToken.IsCancellationRequested)
-                    {
-                        throw new OperationCanceledException();
-                    }
+                    eventSource.CancellationToken.ThrowIfCancellationRequested();
 
                     // 调用执行前监视器
                     if (Monitor != default)
