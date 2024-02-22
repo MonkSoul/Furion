@@ -23,7 +23,7 @@
 		<PackageOutputPath>../nupkgs</PackageOutputPath>
 		<SignAssembly>True</SignAssembly>
 		<DelaySign>False</DelaySign>
-		<AssemblyOriginatorKeyFile>..\..\snks\Furion.snk</AssemblyOriginatorKeyFile>
+		<AssemblyOriginatorKeyFile>$(SolutionDir)..\snks\Furion.snk</AssemblyOriginatorKeyFile>
 	</PropertyGroup>
 
 	<PropertyGroup>
