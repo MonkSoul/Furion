@@ -197,7 +197,7 @@ internal sealed class EventBusHostedService : BackgroundService
         // 空检查
         if (string.IsNullOrWhiteSpace(eventSource?.EventId))
         {
-            Log(LogLevel.Warning, $"Invalid EventId, EventId cannot be <null> or an empty string.");
+            Log(LogLevel.Warning, "Invalid EventId, EventId cannot be <null> or an empty string.");
 
             return;
         }
