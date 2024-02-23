@@ -50,8 +50,9 @@ console.log("api request completed.");
 
 ```json
 "compilerOptions": {
-    "importsNotUsedAsValues": "remove",
-    "preserveValueImports": false
+   "importsNotUsedAsValues": "remove", // TypeScript 5.0 - 使用
+    "preserveValueImports": false,    // TypeScript 5.0 - 使用
+    // "verbatimModuleSyntax": false  // TypeScript 5.0 + 使用
   }
 ```
 
