@@ -72,7 +72,7 @@ body:
         - Mvc
         - Razor Pages
         - Blazor Server
-        - Blazor Auto
+        - Blazor App (Auto)
         - MinApp
         - WinForm
         - WPF
