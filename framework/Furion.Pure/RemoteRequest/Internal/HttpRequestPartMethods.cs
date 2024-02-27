@@ -625,7 +625,7 @@ public sealed partial class HttpRequestPart
         catch (Exception ex)
         {
             // 触发自定义事件
-            if (response != null && OnRequestFailded != null) OnRequestFailded(this, new HttpRequestFaildedEventArgs(request, response, ex));
+            if (response != null) InvokeEvents(new HttpRequestFaildedEventArgs(request, response, ex));
 
             exception = ex;
         }
@@ -652,7 +652,7 @@ public sealed partial class HttpRequestPart
             catch (Exception ex)
             {
                 // 触发自定义事件
-                if (response != null && OnRequestFailded != null) OnRequestFailded(this, new HttpRequestFaildedEventArgs(request, response, ex));
+                if (response != null) InvokeEvents(new HttpRequestFaildedEventArgs(request, response, ex));
 
                 exception = ex;
             }
@@ -893,6 +893,21 @@ public sealed partial class HttpRequestPart
         {
             // 如果无法识别 encodingName，则返回默认的 UTF-8 编码
             return Encoding.UTF8;
+        }
+    }
+
+    /// <summary>
+    /// 触发请求失败事件
+    /// </summary>
+    /// <param name="args"></param>
+    private void InvokeEvents(HttpRequestFaildedEventArgs args)
+    {
+        try
+        {
+            OnRequestFailded?.Invoke(this, args);
+        }
+        catch
+        {
         }
     }
 }

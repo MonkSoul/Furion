@@ -148,6 +148,10 @@ internal sealed partial class TaskQueue : ITaskQueue
     /// <param name="args">事件参数</param>
     public void InvokeEvents(TaskHandlerEventArgs args)
     {
-        OnExecuted?.Invoke(this, args);
+        try
+        {
+            OnExecuted?.Invoke(this, args);
+        }
+        catch { }
     }
 }

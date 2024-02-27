@@ -301,8 +301,14 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory
     {
         Shorthand(jobDetail, null, behavior);
 
-        // 调用事件委托
-        OnChanged?.Invoke(this, new(jobDetail));
+        try
+        {
+            // 调用事件委托
+            OnChanged?.Invoke(this, new(jobDetail));
+        }
+        catch
+        {
+        }
     }
 
     /// <summary>
@@ -412,8 +418,14 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory
         // 作业触发记录通知
         Persistence?.OnExecutionRecord(timeline);
 
-        // 调用事件委托
-        OnExecutionRecord?.Invoke(this, new(timeline));
+        try
+        {
+            // 调用事件委托
+            OnExecutionRecord?.Invoke(this, new(timeline));
+        }
+        catch
+        {
+        }
     }
 
     /// <summary>
