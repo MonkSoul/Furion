@@ -11,12 +11,14 @@ using Furion.Templates;
 using Furion.UnifyResult;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Hosting.Server;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Primitives;
 using Newtonsoft.Json;
@@ -934,6 +936,11 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter, IAs
         var deployServer = processName == entryAssemblyName ? "Kestrel" : processName;
         writer.WriteString(nameof(deployServer), deployServer);
 
+        // 获取主机启动地址
+        var iServer = httpContext.RequestServices.GetRequiredService<IServer>();
+        var startUrls = string.Join(";", iServer.GetServerAddresses());
+        writer.WriteString(nameof(startUrls), startUrls);
+
         // 服务器环境
         var environment = httpContext.RequestServices.GetRequiredService<IWebHostEnvironment>().EnvironmentName;
         writer.WriteString(nameof(environment), environment);
@@ -990,6 +997,7 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter, IAs
             , $"##基础框架## {basicFramework} v{basicFrameworkVersion}"
             , $"##.NET 架构## {frameworkDescription}"
             ,"━━━━━━━━━━━━━━━  启动信息 ━━━━━━━━━━━━━━━"
+            , $"##Web 启动地址## {startUrls}"
             , $"##运行环境## {environment}"
             , $"##启动程序集## {entryAssemblyName}"
             , $"##进程名称## {processName}"
