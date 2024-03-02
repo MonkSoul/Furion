@@ -842,6 +842,10 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter, IAs
         var localIPv4 = httpContext.GetLocalIpAddressToIPv4();
         writer.WriteString(nameof(localIPv4), localIPv4);
 
+        // 获取服务端源端口
+        var localPort = httpContext.Connection.LocalPort;
+        writer.WriteNumber(nameof(localPort), localPort);
+
         // 获取客户端 IPv4 地址
         var remoteIPv4 = httpContext.GetRemoteIpAddressToIPv4();
         writer.WriteString(nameof(remoteIPv4), remoteIPv4);
@@ -990,6 +994,7 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter, IAs
             , $"##客户端 IP 地址## {remoteIPv4}"
             , $"##客户端源端口## {remotePort}"
             , $"##服务端 IP 地址## {localIPv4}"
+            , $"##服务端源端口## {localPort}"
             , $"##客户端连接 ID## {traceId}"
             , $"##服务线程 ID## #{threadId}"
             , $"##执行耗时## {timeOperation.ElapsedMilliseconds}ms"
