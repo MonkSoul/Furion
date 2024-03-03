@@ -75,6 +75,9 @@ internal static class InternalApp
             // 存储服务提供器
             InternalServices = services;
 
+            // 存储根服务（解决 Web 主机还未启动时在 HostedService 中使用 App.GetService 问题
+            services.AddHostedService<GenericHostLifetimeEventsHostedService>();
+
             // 注册 Startup 过滤器
             services.AddTransient<IStartupFilter, StartupFilter>();
 
