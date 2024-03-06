@@ -5,7 +5,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Furion.Pure" Version="4.9.1.37" />
+		<PackageReference Include="Furion.Pure" Version="4.9.1.38" />
 		<PackageReference Include="xunit.extensibility.execution" Version="2.7.0" />
 	</ItemGroup>
 
