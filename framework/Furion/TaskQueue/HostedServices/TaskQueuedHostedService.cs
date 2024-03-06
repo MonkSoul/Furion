@@ -5,6 +5,7 @@
 using Furion.FriendlyException;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using System.Collections.Concurrent;
 using System.Logging;
 
 namespace Furion.TaskQueue;
@@ -51,6 +52,17 @@ internal sealed class TaskQueueHostedService : BackgroundService
     private readonly int _retryTimeout;
 
     /// <summary>
+    /// 长时间运行的后台任务
+    /// </summary>
+    /// <remarks>解决局部设置执行策略问题</remarks>
+    private Task _processQueueTask;
+
+    /// <summary>
+    /// 同步任务队列（线程安全）
+    /// </summary>
+    private readonly BlockingCollection<TaskWrapper> _syncTaskWrapperQueue = new(3000);
+
+    /// <summary>
     /// 构造函数
     /// </summary>
     /// <param name="logger">日志对象</param>
@@ -72,6 +84,15 @@ internal sealed class TaskQueueHostedService : BackgroundService
         _concurrent = concurrent;
         _numRetries = numRetries;
         _retryTimeout = retryTimeout;
+    }
+
+    public override Task StartAsync(CancellationToken cancellationToken)
+    {
+        // 创建长时间运行的后台任务，并将同步任务队列中任务进行遍历消费
+        _processQueueTask = Task.Factory.StartNew(async state => await ((TaskQueueHostedService)state).ProcessQueueAsync(cancellationToken)
+            , this, TaskCreationOptions.LongRunning);
+
+        return base.StartAsync(cancellationToken);
     }
 
     /// <summary>
@@ -122,6 +143,28 @@ internal sealed class TaskQueueHostedService : BackgroundService
         }
         // 依次出队执行：https://gitee.com/dotnetchina/Furion/issues/I8VXFV
         else
+        {
+            // 只有队列可持续入队才写入
+            if (!_syncTaskWrapperQueue.IsAddingCompleted)
+            {
+                try
+                {
+                    _syncTaskWrapperQueue.Add(taskWrapper, stoppingToken);
+                }
+                catch (InvalidOperationException) { }
+                catch { }
+            }
+        }
+    }
+
+    /// <summary>
+    /// 同步队列出队
+    /// </summary>
+    /// <param name="stoppingToken">后台主机服务停止时取消任务 Token</param>
+    /// <returns><see cref="Task"/></returns>
+    private async Task ProcessQueueAsync(CancellationToken stoppingToken)
+    {
+        foreach (var taskWrapper in _syncTaskWrapperQueue.GetConsumingEnumerable(stoppingToken))
         {
             await DequeueHandleAsync(taskWrapper, stoppingToken);
         }
@@ -178,5 +221,23 @@ internal sealed class TaskQueueHostedService : BackgroundService
         {
             taskWrapper = null;
         }
+    }
+
+    /// <inheritdoc/>
+    public override void Dispose()
+    {
+        base.Dispose();
+
+        // 标记同步任务队列停止写入
+        _syncTaskWrapperQueue.CompleteAdding();
+
+        try
+        {
+            // 设置 1.5秒的缓冲时间，避免还有同步任务队列没有完成消费
+            _processQueueTask?.Wait(1500);
+        }
+        catch (TaskCanceledException) { }
+        catch (AggregateException ex) when (ex.InnerExceptions.Count == 1 && ex.InnerExceptions[0] is TaskCanceledException) { }
+        catch { }
     }
 }

@@ -5,8 +5,11 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Furion" Version="4.9.1.38" />
 		<PackageReference Include="xunit.extensibility.execution" Version="2.7.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Furion\Furion.csproj" />
 	</ItemGroup>
 
 </Project>

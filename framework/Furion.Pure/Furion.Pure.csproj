@@ -33,8 +33,11 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Furion.Pure.Extras.DependencyModel.CodeAnalysis" Version="4.9.1.38" />
 		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Furion.Pure.Extras.DependencyModel.CodeAnalysis\Furion.Pure.Extras.DependencyModel.CodeAnalysis.csproj" />
 	</ItemGroup>
 
 </Project>
