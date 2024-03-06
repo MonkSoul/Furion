@@ -107,8 +107,13 @@ internal sealed class TaskQueueHostedService : BackgroundService
         // 出队
         var taskWrapper = await _taskQueue.DequeueAsync(stoppingToken);
 
+        // 获取任务执行策略
+        var concurrent = taskWrapper.Concurrent == null
+            ? _concurrent
+            : (bool)taskWrapper.Concurrent;
+
         // 并行执行
-        if (_concurrent)
+        if (concurrent)
         {
             Parallel.For(0, 1, async _ =>
             {

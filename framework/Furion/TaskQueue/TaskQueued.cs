@@ -18,11 +18,13 @@ public static class TaskQueued
     /// <param name="taskHandler">任务处理委托</param>
     /// <param name="delay">延迟时间（毫秒）</param>
     /// <param name="channel">任务通道</param>
-    /// <returns><see cref="Guid"/></returns>
-    public static Guid Enqueue(Action<IServiceProvider> taskHandler, int delay = 0, string channel = null)
+    /// <param name="taskId">任务 Id</param>
+    /// <param name="concurrent">是否采用并行执行，仅支持 null,true,fale</param>
+    /// <returns><see cref="object"/></returns>
+    public static object Enqueue(Action<IServiceProvider> taskHandler, int delay = 0, string channel = null, object taskId = null, object concurrent = null)
     {
         var taskQueue = App.GetRequiredService<ITaskQueue>(App.RootServices);
-        return taskQueue.Enqueue(taskHandler, delay, channel);
+        return taskQueue.Enqueue(taskHandler, delay, channel, taskId, concurrent);
     }
 
     /// <summary>
@@ -31,25 +33,13 @@ public static class TaskQueued
     /// <param name="taskHandler">任务处理委托</param>
     /// <param name="delay">延迟时间（毫秒）</param>
     /// <param name="channel">任务通道</param>
+    /// <param name="taskId">任务 Id</param>
+    /// <param name="concurrent">是否采用并行执行，仅支持 null,true,fale</param>
     /// <returns><see cref="ValueTask"/></returns>
-    public static async ValueTask<Guid> EnqueueAsync(Func<IServiceProvider, CancellationToken, ValueTask> taskHandler, int delay = 0, string channel = null)
+    public static async ValueTask<object> EnqueueAsync(Func<IServiceProvider, CancellationToken, ValueTask> taskHandler, int delay = 0, string channel = null, object taskId = null, object concurrent = null)
     {
         var taskQueue = App.GetRequiredService<ITaskQueue>(App.RootServices);
-        return await taskQueue.EnqueueAsync(taskHandler, delay, channel);
-    }
-
-    /// <summary>
-    /// 任务项入队
-    /// </summary>
-    /// <param name="taskHandler">任务处理委托</param>
-    /// <param name="cronExpression">Cron 表达式</param>
-    /// <param name="channel">任务通道</param>
-    /// <param name="format"><see cref="CronStringFormat"/></param>
-    /// <returns><see cref="Guid"/></returns>
-    public static Guid Enqueue(Action<IServiceProvider> taskHandler, string cronExpression, CronStringFormat format = CronStringFormat.Default, string channel = null)
-    {
-        var taskQueue = App.GetRequiredService<ITaskQueue>(App.RootServices);
-        return taskQueue.Enqueue(taskHandler, cronExpression, format, channel);
+        return await taskQueue.EnqueueAsync(taskHandler, delay, channel, taskId, concurrent);
     }
 
     /// <summary>
@@ -59,10 +49,28 @@ public static class TaskQueued
     /// <param name="cronExpression">Cron 表达式</param>
     /// <param name="format"><see cref="CronStringFormat"/></param>
     /// <param name="channel">任务通道</param>
-    /// <returns><see cref="ValueTask"/></returns>
-    public static async ValueTask<Guid> EnqueueAsync(Func<IServiceProvider, CancellationToken, ValueTask> taskHandler, string cronExpression, CronStringFormat format = CronStringFormat.Default, string channel = null)
+    /// <param name="taskId">任务 Id</param>
+    /// <param name="concurrent">是否采用并行执行，仅支持 null,true,fale</param>
+    /// <returns><see cref="object"/></returns>
+    public static object Enqueue(Action<IServiceProvider> taskHandler, string cronExpression, CronStringFormat format = CronStringFormat.Default, string channel = null, object taskId = null, object concurrent = null)
     {
         var taskQueue = App.GetRequiredService<ITaskQueue>(App.RootServices);
-        return await taskQueue.EnqueueAsync(taskHandler, cronExpression, format, channel);
+        return taskQueue.Enqueue(taskHandler, cronExpression, format, channel, taskId, concurrent);
+    }
+
+    /// <summary>
+    /// 任务项入队
+    /// </summary>
+    /// <param name="taskHandler">任务处理委托</param>
+    /// <param name="cronExpression">Cron 表达式</param>
+    /// <param name="format"><see cref="CronStringFormat"/></param>
+    /// <param name="channel">任务通道</param>
+    /// <param name="taskId">任务 Id</param>
+    /// <param name="concurrent">是否采用并行执行，仅支持 null,true,fale</param>
+    /// <returns><see cref="ValueTask"/></returns>
+    public static async ValueTask<object> EnqueueAsync(Func<IServiceProvider, CancellationToken, ValueTask> taskHandler, string cronExpression, CronStringFormat format = CronStringFormat.Default, string channel = null, object taskId = null, object concurrent = null)
+    {
+        var taskQueue = App.GetRequiredService<ITaskQueue>(App.RootServices);
+        return await taskQueue.EnqueueAsync(taskHandler, cronExpression, format, channel, taskId, concurrent);
     }
 }

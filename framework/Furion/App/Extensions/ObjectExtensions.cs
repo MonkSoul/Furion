@@ -130,12 +130,21 @@ public static class ObjectExtensions
     /// 将流保存到本地磁盘
     /// </summary>
     /// <param name="stream"></param>
-    /// <param name="path"></param>
+    /// <param name="path">需包含文件名完整路径</param>
     /// <returns></returns>
     public static async Task CopyToSaveAsync(this Stream stream, string path)
     {
         // 空检查
-        if (string.IsNullOrWhiteSpace(path)) throw new ArgumentNullException(nameof(path));
+        if (string.IsNullOrWhiteSpace(path))
+        {
+            throw new ArgumentNullException(nameof(path));
+        }
+
+        // 文件名判断
+        if (string.IsNullOrWhiteSpace(Path.GetFileName(path)))
+        {
+            throw new ArgumentException("The parameter of <path> parameter must include the complete file name.");
+        }
 
         using var fileStream = File.Create(path);
         await stream.CopyToAsync(fileStream);

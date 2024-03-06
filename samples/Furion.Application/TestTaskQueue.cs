@@ -94,7 +94,7 @@ public class TestTaskQueue : IDynamicApiController, IDisposable
                     await Task.Delay(5000);
                 }
                 Log.Information($"这是{s}结束时间：" + DateTime.Now);
-            });
+            }, concurrent: false);
         }
     }
 

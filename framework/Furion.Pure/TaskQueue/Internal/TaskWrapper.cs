@@ -18,10 +18,15 @@ public sealed class TaskWrapper
     /// <summary>
     /// 任务 ID
     /// </summary>
-    public Guid TaskId { get; internal set; }
+    public object TaskId { get; internal set; }
 
     /// <summary>
     /// 任务处理委托
     /// </summary>
     public Func<IServiceProvider, CancellationToken, ValueTask> Handler { get; internal set; }
+
+    /// <summary>
+    /// 是否采用并行执行
+    /// </summary>
+    public object Concurrent { get; internal set; } = null;
 }

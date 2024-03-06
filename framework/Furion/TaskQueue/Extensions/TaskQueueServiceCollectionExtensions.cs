@@ -3,6 +3,7 @@
 // 此源代码遵循位于源代码树根目录中的 LICENSE 文件的许可证。
 
 using Furion.TaskQueue;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace Microsoft.Extensions.DependencyInjection;
 
@@ -75,7 +76,7 @@ public static class TaskQueueServiceCollectionExtensions
         taskQueueOptionsBuilder.Build();
 
         // 注册后台任务队列接口/实例为单例，采用工厂方式创建
-        services.AddSingleton<ITaskQueue>(_ =>
+        services.TryAddSingleton<ITaskQueue>(_ =>
         {
             // 创建后台队列实例
             return new TaskQueue(taskQueueOptionsBuilder.ChannelCapacity);

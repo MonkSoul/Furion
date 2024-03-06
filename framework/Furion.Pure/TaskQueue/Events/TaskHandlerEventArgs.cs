@@ -16,7 +16,7 @@ public sealed class TaskHandlerEventArgs : EventArgs
     /// <param name="taskId">任务 Id</param>
     /// <param name="channel">任务通道</param>
     /// <param name="success">任务处理委托调用结果</param>
-    public TaskHandlerEventArgs(Guid taskId, string channel, bool success)
+    public TaskHandlerEventArgs(object taskId, string channel, bool success)
     {
         TaskId = taskId;
         Channel = channel;
@@ -26,7 +26,7 @@ public sealed class TaskHandlerEventArgs : EventArgs
     /// <summary>
     /// 任务 Id
     /// </summary>
-    public Guid TaskId { get; }
+    public object TaskId { get; }
 
     /// <summary>
     /// 任务通道
