@@ -34,11 +34,17 @@ public class PeriodTrigger : Trigger
     /// <returns><see cref="DateTime"/></returns>
     public override DateTime GetNextOccurrence(DateTime startAt)
     {
-        // 获取间隔触发器周期计算基准时间
+        // 获取当前时间
         var nowTime = Penetrates.GetNowTime(ScheduleOptionsBuilder.UseUtcTimestampProperty);
-        var baseTime = StartTime == null
-            ? nowTime
-            : StartTime.Value;
+
+        // 处理作业触发器积压状态
+        if (startAt >= nowTime)
+        {
+            return startAt.AddMilliseconds(Interval);
+        }
+
+        // 获取间隔触发器周期计算基准时间
+        var baseTime = StartTime == null ? nowTime : StartTime.Value;
 
         // 获取从起始时间开始到现在经过了多少个完整周期
         var elapsedMilliseconds = (nowTime - baseTime).Ticks / TimeSpan.TicksPerMillisecond;
