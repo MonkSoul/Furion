@@ -51,7 +51,14 @@ public sealed class ScheduleOptionsBuilder
     /// <summary>
     /// 是否使用 UTC 时间，默认 false
     /// </summary>
-    public bool UseUtcTimestamp { get; set; } = false;
+    public bool UseUtcTimestamp
+    {
+        get => UseUtcTimestampProperty;
+        set
+        {
+            UseUtcTimestampProperty = value;
+        }
+    }
 
     /// <summary>
     /// 是否启用日志记录
@@ -72,6 +79,11 @@ public sealed class ScheduleOptionsBuilder
     /// 作业触发器配置选项
     /// </summary>
     public TriggerOptions Trigger { get; } = new();
+
+    /// <summary>
+    /// <see cref="UseUtcTimestamp"/> 公开配置
+    /// </summary>
+    public static bool UseUtcTimestampProperty { get; private set; } = false;
 
     /// <summary>
     /// 生成 SQL 的类型

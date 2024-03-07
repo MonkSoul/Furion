@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using System.Net.Http;
+using System;
 using System.Text.Json;
 
 namespace Furion.Web.Core;
@@ -83,6 +83,10 @@ public sealed class Startup : AppStartup
             options.AddJob<TestJob>(Triggers.PeriodHours(1).SetMaxNumberOfRuns(2), Triggers.PeriodSeconds(4));
             //options.AddJobFactory<JobFactory>();
             options.AddJob<TestCancelJob>("cancelJob", Triggers.PeriodSeconds(30));
+            options.AddJob<TestJob>(
+                Triggers.PeriodHours(24)
+                .SetStartTime(Convert.ToDateTime("2024-03-07"))
+                .SetRunOnStart(true));
         });
 
         // 新版本任务队列

@@ -385,7 +385,7 @@ public partial class Trigger
     /// <summary>
     /// 获取触发器初始化时间
     /// </summary>
-    /// <param name="startAt"></param>
+    /// <param name="startAt">起始时间</param>
     /// <returns><see cref="DateTime"/> 或者 null</returns>
     private DateTime? GetStartAt(DateTime startAt)
     {

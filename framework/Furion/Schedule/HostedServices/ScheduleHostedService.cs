@@ -37,7 +37,7 @@ internal sealed class ScheduleHostedService : BackgroundService
     private readonly IServiceProvider _serviceProvider;
 
     /// <summary>
-    /// 取消作业执行 Token 器  
+    /// 取消作业执行 Token 器
     /// </summary>
     private readonly IJobCancellationToken _jobCancellationToken;
 
@@ -48,13 +48,11 @@ internal sealed class ScheduleHostedService : BackgroundService
     /// <param name="logger">作业调度器日志服务</param>
     /// <param name="schedulerFactory">作业计划工厂服务</param>
     /// <param name="jobCancellationToken">取消作业执行 Token 器</param>
-    /// <param name="useUtcTimestamp">是否使用 Utc 时间</param>
     /// <param name="clusterId">作业集群 Id</param>
     public ScheduleHostedService(IServiceProvider serviceProvider
         , IScheduleLogger logger
         , ISchedulerFactory schedulerFactory
         , IJobCancellationToken jobCancellationToken
-        , bool useUtcTimestamp
         , string clusterId)
     {
         _serviceProvider = serviceProvider;
@@ -66,7 +64,6 @@ internal sealed class ScheduleHostedService : BackgroundService
         Executor = serviceProvider.GetService<IJobExecutor>();
         ClusterServer = serviceProvider.GetService<IJobClusterServer>();
 
-        UseUtcTimestamp = useUtcTimestamp;
         ClusterId = clusterId;
     }
 
@@ -84,11 +81,6 @@ internal sealed class ScheduleHostedService : BackgroundService
     /// 作业集群服务
     /// </summary>
     private IJobClusterServer ClusterServer { get; }
-
-    /// <summary>
-    /// 是否使用 UTC 时间
-    /// </summary>
-    private bool UseUtcTimestamp { get; }
 
     /// <summary>
     /// 作业集群 Id
@@ -150,7 +142,7 @@ internal sealed class ScheduleHostedService : BackgroundService
     private async Task BackgroundProcessing(CancellationToken stoppingToken)
     {
         // 获取当前时间作为检查时间
-        var startAt = Penetrates.GetNowTime(UseUtcTimestamp);
+        var startAt = Penetrates.GetNowTime(ScheduleOptionsBuilder.UseUtcTimestampProperty);
 
         // 查找所有符合触发的作业
         var currentRunJobs = _schedulerFactory.GetCurrentRunJobs(startAt).Cast<Scheduler>().ToList();
@@ -205,7 +197,7 @@ internal sealed class ScheduleHostedService : BackgroundService
                         // 创建作业执行前上下文
                         var jobExecutingContext = new JobExecutingContext(jobDetail, trigger, occurrenceTime, runId, _serviceProvider)
                         {
-                            ExecutingTime = Penetrates.GetNowTime(UseUtcTimestamp)
+                            ExecutingTime = Penetrates.GetNowTime(ScheduleOptionsBuilder.UseUtcTimestampProperty)
                         };
 
                         // 执行异常对象
@@ -306,7 +298,7 @@ internal sealed class ScheduleHostedService : BackgroundService
                                 // 创建作业执行后上下文
                                 var jobExecutedContext = new JobExecutedContext(jobDetail, trigger, occurrenceTime, runId, _serviceProvider)
                                 {
-                                    ExecutedTime = Penetrates.GetNowTime(UseUtcTimestamp),
+                                    ExecutedTime = Penetrates.GetNowTime(ScheduleOptionsBuilder.UseUtcTimestampProperty),
                                     Exception = executionException,
                                     Result = jobExecutingContext.Result
                                 };

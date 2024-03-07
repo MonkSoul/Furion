@@ -83,12 +83,10 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory
     /// <param name="logger">作业调度器日志服务</param>
     /// <param name="jobCancellationToken">取消作业执行 Token 器</param>
     /// <param name="schedulerBuilders">初始作业计划构建集合</param>
-    /// <param name="useUtcTimestamp">是否使用 UTC 时间</param>
     public SchedulerFactory(IServiceProvider serviceProvider
         , IScheduleLogger logger
         , IJobCancellationToken jobCancellationToken
-        , IList<SchedulerBuilder> schedulerBuilders
-        , bool useUtcTimestamp)
+        , IList<SchedulerBuilder> schedulerBuilders)
     {
         _serviceProvider = serviceProvider;
         _logger = logger;
@@ -97,7 +95,6 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory
         _manualRunJobIds = new List<string>();
 
         Persistence = _serviceProvider.GetService<IJobPersistence>();
-        UseUtcTimestamp = useUtcTimestamp;
 
         // 初始化作业调度器取消休眠 Token
         CreateCancellationTokenSource();
@@ -109,11 +106,6 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory
                 , this, TaskCreationOptions.LongRunning);
         }
     }
-
-    /// <summary>
-    /// 是否使用 UTC 时间
-    /// </summary>
-    internal bool UseUtcTimestamp { get; }
 
     /// <summary>
     /// 作业调度持久化服务
@@ -197,7 +189,6 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory
                      Factory = s.Factory,
                      Logger = s.Logger,
                      JobLogger = s.JobLogger,
-                     UseUtcTimestamp = s.UseUtcTimestamp
                  });
 
         // 查看 立即执行 的作业
@@ -209,7 +200,6 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory
                     Factory = s.Factory,
                     Logger = s.Logger,
                     JobLogger = s.JobLogger,
-                    UseUtcTimestamp = s.UseUtcTimestamp
                 });
 
         // 合并即将执行的作业
@@ -323,7 +313,7 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory
         if (jobDetail.DynamicExecuteAsync != null) return;
 
         // 设置更新时间
-        var nowTime = Penetrates.GetNowTime(UseUtcTimestamp);
+        var nowTime = Penetrates.GetNowTime(ScheduleOptionsBuilder.UseUtcTimestampProperty);
         jobDetail.UpdatedTime = nowTime;
         if (trigger != null) trigger.UpdatedTime = nowTime;
 

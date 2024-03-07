@@ -162,7 +162,7 @@ internal sealed partial class SchedulerFactory
         if (isAppended || isUpdated)
         {
             // 获取当前时间用来计算触发器下一次触发时间
-            var nowTime = Penetrates.GetNowTime(UseUtcTimestamp);
+            var nowTime = Penetrates.GetNowTime(ScheduleOptionsBuilder.UseUtcTimestampProperty);
 
             // 初始化作业内部信息
             newScheduler.JobDetail.Blocked = false;
@@ -170,7 +170,6 @@ internal sealed partial class SchedulerFactory
 
             newScheduler.Factory = this;
             newScheduler.Logger = _logger;
-            newScheduler.UseUtcTimestamp = UseUtcTimestamp;
 
             // 实例化作业处理程序，如果设置了动态委托作业，优先使用
             var runtimeJobType = newScheduler.JobDetail.DynamicExecuteAsync == null
