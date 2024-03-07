@@ -466,7 +466,7 @@ public sealed partial class HttpRequestPart
     /// <returns></returns>
     public async Task<(Stream Stream, Encoding Encoding)> SendAsStreamAsync(CancellationToken cancellationToken = default)
     {
-        var response = await SendAsync(cancellationToken);
+        using var response = await SendAsync(cancellationToken);
         if (response == null || response.Content == null) return default;
 
         // 获取 charset 编码
@@ -498,7 +498,7 @@ public sealed partial class HttpRequestPart
     /// <returns></returns>
     public async Task<string> SendAsStringAsync(CancellationToken cancellationToken = default)
     {
-        var response = await SendAsync(cancellationToken);
+        using var response = await SendAsync(cancellationToken);
         if (response == null || response.Content == null) return default;
 
         // 获取 charset 编码
@@ -518,7 +518,7 @@ public sealed partial class HttpRequestPart
     /// <returns></returns>
     public async Task<byte[]> SendAsByteArrayAsync(CancellationToken cancellationToken = default)
     {
-        var response = await SendAsync(cancellationToken);
+        using var response = await SendAsync(cancellationToken);
         if (response == null || response.Content == null) return default;
 
         // 读取响应报文
@@ -583,6 +583,7 @@ public sealed partial class HttpRequestPart
         {
             if (RetryPolicy == null)
             {
+                request?.Dispose();
                 request = CreateHttpRequestMessage(httpClient, httpClientOriginalString);
                 response = await httpClient.SendAsync(request, cancellationToken);
             }
@@ -592,6 +593,7 @@ public sealed partial class HttpRequestPart
                 await Retry.InvokeAsync(async () =>
                 {
                     // 发送请求
+                    request?.Dispose();
                     request = CreateHttpRequestMessage(httpClient, httpClientOriginalString);
                     response = await httpClient.SendAsync(request, cancellationToken);
                 }, RetryPolicy.Value.NumRetries, RetryPolicy.Value.RetryTimeout);
@@ -620,6 +622,7 @@ public sealed partial class HttpRequestPart
                     await Retry.InvokeAsync(async () =>
                     {
                         // 重新发送请求到新的 URL
+                        response?.Dispose();
                         response = await httpClient.GetAsync(redirectUrl, cancellationToken);
                     }, RetryPolicy.Value.NumRetries, RetryPolicy.Value.RetryTimeout);
                 }
@@ -664,9 +667,15 @@ public sealed partial class HttpRequestPart
             });
 
             // 抛出请求异常
-            if (exception != null) throw exception;
+            if (exception != null)
+            {
+                request?.Dispose();
+                response?.Dispose();
+                throw exception;
+            }
         }
 
+        request?.Dispose();
         return response;
     }
 
