@@ -573,51 +573,26 @@ public sealed partial class HttpRequestPart
         // 处理模板问题
         RequestUrl = RequestUrl.Render(Templates, EncodeUrl);
 
-        // 构建请求对象
-        var request = new HttpRequestMessage(Method, RequestUrl)
-        {
-            Version = new Version(HttpVersion)
-        };
-        request.AppendQueries(Queries, EncodeUrl, IgnoreNullValueQueries);
-
-        // 设置请求报文头
-        request.AppendHeaders(Headers);
-
-        // 验证模型参数（只作用于 body 类型）
-        if (ValidationState.Enabled)
-        {
-            // 判断是否启用 Null 验证且 body 值为 null
-            if (ValidationState.IncludeNull && Body == null) throw new InvalidOperationException($"The `{nameof(Body)}` can not be null.");
-
-            // 验证模型
-            Body?.Validate();
-        }
-
-        // 设置 HttpContent
-        SetHttpContent(request);
-
-        // 配置请求拦截
-        RequestInterceptors.ForEach(u =>
-        {
-            u?.Invoke(httpClient, request);
-        });
-
-        // 打印发送请求
-        App.PrintToMiniProfiler(MiniProfilerCategory, "Sending", $"[{Method}] {httpClientOriginalString}{request.RequestUri?.OriginalString}");
-
         // 捕获异常
         Exception exception = default;
         HttpResponseMessage response = default;
 
+        HttpRequestMessage request = null;
+
         try
         {
-            if (RetryPolicy == null) response = await httpClient.SendAsync(request, cancellationToken);
+            if (RetryPolicy == null)
+            {
+                request = CreateHttpRequestMessage(httpClient, httpClientOriginalString);
+                response = await httpClient.SendAsync(request, cancellationToken);
+            }
             else
             {
                 // 失败重试
                 await Retry.InvokeAsync(async () =>
                 {
                     // 发送请求
+                    request = CreateHttpRequestMessage(httpClient, httpClientOriginalString);
                     response = await httpClient.SendAsync(request, cancellationToken);
                 }, RetryPolicy.Value.NumRetries, RetryPolicy.Value.RetryTimeout);
             }
@@ -909,5 +884,49 @@ public sealed partial class HttpRequestPart
         catch
         {
         }
+    }
+
+    /// <summary>
+    /// 创建 <see cref="HttpRequestMessage"/> 对象
+    /// </summary>
+    /// <remarks>解决重试出现的异常：The request message was already sent. Cannot send the same request message multiple times.</remarks>
+    /// <param name="httpClient"></param>
+    /// <param name="httpClientOriginalString"></param>
+    /// <returns></returns>
+    private HttpRequestMessage CreateHttpRequestMessage(HttpClient httpClient, string httpClientOriginalString)
+    {
+        // 构建请求对象
+        var request = new HttpRequestMessage(Method, RequestUrl)
+        {
+            Version = new Version(HttpVersion)
+        };
+        request.AppendQueries(Queries, EncodeUrl, IgnoreNullValueQueries);
+
+        // 设置请求报文头
+        request.AppendHeaders(Headers);
+
+        // 验证模型参数（只作用于 body 类型）
+        if (ValidationState.Enabled)
+        {
+            // 判断是否启用 Null 验证且 body 值为 null
+            if (ValidationState.IncludeNull && Body == null) throw new InvalidOperationException($"The `{nameof(Body)}` can not be null.");
+
+            // 验证模型
+            Body?.Validate();
+        }
+
+        // 设置 HttpContent
+        SetHttpContent(request);
+
+        // 配置请求拦截
+        RequestInterceptors.ForEach(u =>
+        {
+            u?.Invoke(httpClient, request);
+        });
+
+        // 打印发送请求
+        App.PrintToMiniProfiler(MiniProfilerCategory, "Sending", $"[{Method}] {httpClientOriginalString}{request.RequestUri?.OriginalString}");
+
+        return request;
     }
 }
