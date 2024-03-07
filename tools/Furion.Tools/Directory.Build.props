@@ -1,7 +1,7 @@
 ﻿<Project>
 	<PropertyGroup>
 		<TargetFrameworks>net5.0;net6.0;net7.0;net8.0;net9.0</TargetFrameworks>
-		<Version>4.9.1.41</Version>
+		<Version>4.9.1.42</Version>
 		<Authors>百小僧</Authors>
 		<Company>百签科技（广东）有限公司</Company>
 		<Product>Furion</Product>
