@@ -48,7 +48,7 @@ public sealed partial class HttpRequestPart
     /// </summary>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<(Stream Stream, Encoding Encoding)> GetAsStreamAsync(CancellationToken cancellationToken = default)
+    public Task<(Stream Stream, Encoding Encoding, HttpResponseMessage Response)> GetAsStreamAsync(CancellationToken cancellationToken = default)
     {
         return SetHttpMethod(HttpMethod.Get).SendAsStreamAsync(cancellationToken);
     }
@@ -110,7 +110,7 @@ public sealed partial class HttpRequestPart
     /// </summary>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<(Stream Stream, Encoding Encoding)> PostAsStreamAsync(CancellationToken cancellationToken = default)
+    public Task<(Stream Stream, Encoding Encoding, HttpResponseMessage Response)> PostAsStreamAsync(CancellationToken cancellationToken = default)
     {
         return SetHttpMethod(HttpMethod.Post).SendAsStreamAsync(cancellationToken);
     }
@@ -172,7 +172,7 @@ public sealed partial class HttpRequestPart
     /// </summary>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<(Stream Stream, Encoding Encoding)> PutAsStreamAsync(CancellationToken cancellationToken = default)
+    public Task<(Stream Stream, Encoding Encoding, HttpResponseMessage Response)> PutAsStreamAsync(CancellationToken cancellationToken = default)
     {
         return SetHttpMethod(HttpMethod.Put).SendAsStreamAsync(cancellationToken);
     }
@@ -234,7 +234,7 @@ public sealed partial class HttpRequestPart
     /// </summary>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<(Stream Stream, Encoding Encoding)> DeleteAsStreamAsync(CancellationToken cancellationToken = default)
+    public Task<(Stream Stream, Encoding Encoding, HttpResponseMessage Response)> DeleteAsStreamAsync(CancellationToken cancellationToken = default)
     {
         return SetHttpMethod(HttpMethod.Delete).SendAsStreamAsync(cancellationToken);
     }
@@ -296,7 +296,7 @@ public sealed partial class HttpRequestPart
     /// </summary>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<(Stream Stream, Encoding Encoding)> PatchAsStreamAsync(CancellationToken cancellationToken = default)
+    public Task<(Stream Stream, Encoding Encoding, HttpResponseMessage Response)> PatchAsStreamAsync(CancellationToken cancellationToken = default)
     {
         return SetHttpMethod(HttpMethod.Patch).SendAsStreamAsync(cancellationToken);
     }
@@ -358,7 +358,7 @@ public sealed partial class HttpRequestPart
     /// </summary>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<(Stream Stream, Encoding Encoding)> HeadAsStreamAsync(CancellationToken cancellationToken = default)
+    public Task<(Stream Stream, Encoding Encoding, HttpResponseMessage Response)> HeadAsStreamAsync(CancellationToken cancellationToken = default)
     {
         return SetHttpMethod(HttpMethod.Head).SendAsStreamAsync(cancellationToken);
     }
@@ -432,7 +432,7 @@ public sealed partial class HttpRequestPart
         }
 
         // 读取流内容
-        var (stream, encoding) = await SendAsStreamAsync(cancellationToken);
+        var (stream, encoding, response) = await SendAsStreamAsync(cancellationToken);
         if (stream == null) return default;
 
         // 如果 T 是 Stream 类型，则返回
@@ -447,6 +447,7 @@ public sealed partial class HttpRequestPart
         var text = await streamReader.ReadToEndAsync();
         // 释放流
         await stream.DisposeAsync();
+        response?.Dispose();
 
         // 如果字符串为空，则返回默认值
         if (string.IsNullOrWhiteSpace(text)) return default;
@@ -464,9 +465,9 @@ public sealed partial class HttpRequestPart
     /// </summary>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public async Task<(Stream Stream, Encoding Encoding)> SendAsStreamAsync(CancellationToken cancellationToken = default)
+    public async Task<(Stream Stream, Encoding Encoding, HttpResponseMessage Response)> SendAsStreamAsync(CancellationToken cancellationToken = default)
     {
-        using var response = await SendAsync(cancellationToken);
+        var response = await SendAsync(cancellationToken);
         if (response == null || response.Content == null) return default;
 
         // 获取 charset 编码
@@ -476,7 +477,7 @@ public sealed partial class HttpRequestPart
         var stream = await response.Content.ReadAsStreamAsync(cancellationToken);
         stream.Position = 0;
 
-        return (stream, encoding);
+        return (stream, encoding, response);
     }
 
     /// <summary>
@@ -487,8 +488,12 @@ public sealed partial class HttpRequestPart
     /// <returns></returns>
     public async Task SendToSaveAsync(string path, CancellationToken cancellationToken = default)
     {
-        var (stream, _) = await SendAsStreamAsync(cancellationToken);
+        var (stream, _, response) = await SendAsStreamAsync(cancellationToken);
         await stream.CopyToSaveAsync(path);
+
+        // 释放流
+        await stream.DisposeAsync();
+        response?.Dispose();
     }
 
     /// <summary>

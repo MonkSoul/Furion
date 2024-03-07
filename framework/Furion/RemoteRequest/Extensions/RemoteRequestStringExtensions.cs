@@ -315,7 +315,7 @@ public static class RemoteRequestStringExtensions
     /// <param name="requestUrl"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public static Task<(Stream Stream, Encoding Encoding)> GetAsStreamAsync(this string requestUrl, CancellationToken cancellationToken = default)
+    public static Task<(Stream Stream, Encoding Encoding, HttpResponseMessage Response)> GetAsStreamAsync(this string requestUrl, CancellationToken cancellationToken = default)
     {
         return HttpRequestPart.Default().SetRequestUrl(requestUrl).GetAsStreamAsync(cancellationToken);
     }
@@ -383,7 +383,7 @@ public static class RemoteRequestStringExtensions
     /// <param name="requestUrl"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public static Task<(Stream Stream, Encoding Encoding)> PostAsStreamAsync(this string requestUrl, CancellationToken cancellationToken = default)
+    public static Task<(Stream Stream, Encoding Encoding, HttpResponseMessage Response)> PostAsStreamAsync(this string requestUrl, CancellationToken cancellationToken = default)
     {
         return HttpRequestPart.Default().SetRequestUrl(requestUrl).PostAsStreamAsync(cancellationToken);
     }
@@ -451,7 +451,7 @@ public static class RemoteRequestStringExtensions
     /// <param name="requestUrl"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public static Task<(Stream Stream, Encoding Encoding)> PutAsStreamAsync(this string requestUrl, CancellationToken cancellationToken = default)
+    public static Task<(Stream Stream, Encoding Encoding, HttpResponseMessage Response)> PutAsStreamAsync(this string requestUrl, CancellationToken cancellationToken = default)
     {
         return HttpRequestPart.Default().SetRequestUrl(requestUrl).PutAsStreamAsync(cancellationToken);
     }
@@ -519,7 +519,7 @@ public static class RemoteRequestStringExtensions
     /// <param name="requestUrl"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public static Task<(Stream Stream, Encoding Encoding)> DeleteAsStreamAsync(this string requestUrl, CancellationToken cancellationToken = default)
+    public static Task<(Stream Stream, Encoding Encoding, HttpResponseMessage Response)> DeleteAsStreamAsync(this string requestUrl, CancellationToken cancellationToken = default)
     {
         return HttpRequestPart.Default().SetRequestUrl(requestUrl).DeleteAsStreamAsync(cancellationToken);
     }
@@ -587,7 +587,7 @@ public static class RemoteRequestStringExtensions
     /// <param name="requestUrl"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public static Task<(Stream Stream, Encoding Encoding)> PatchAsStreamAsync(this string requestUrl, CancellationToken cancellationToken = default)
+    public static Task<(Stream Stream, Encoding Encoding, HttpResponseMessage Response)> PatchAsStreamAsync(this string requestUrl, CancellationToken cancellationToken = default)
     {
         return HttpRequestPart.Default().SetRequestUrl(requestUrl).PatchAsStreamAsync(cancellationToken);
     }
@@ -655,7 +655,7 @@ public static class RemoteRequestStringExtensions
     /// <param name="requestUrl"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public static Task<(Stream Stream, Encoding Encoding)> HeadAsStreamAsync(this string requestUrl, CancellationToken cancellationToken = default)
+    public static Task<(Stream Stream, Encoding Encoding, HttpResponseMessage Response)> HeadAsStreamAsync(this string requestUrl, CancellationToken cancellationToken = default)
     {
         return HttpRequestPart.Default().SetRequestUrl(requestUrl).HeadAsStreamAsync(cancellationToken);
     }
@@ -723,7 +723,7 @@ public static class RemoteRequestStringExtensions
     /// <param name="requestUrl"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public static Task<(Stream Stream, Encoding Encoding)> SendAsStreamAsync(this string requestUrl, CancellationToken cancellationToken = default)
+    public static Task<(Stream Stream, Encoding Encoding, HttpResponseMessage Response)> SendAsStreamAsync(this string requestUrl, CancellationToken cancellationToken = default)
     {
         return HttpRequestPart.Default().SetRequestUrl(requestUrl).SendAsStreamAsync(cancellationToken);
     }

@@ -338,4 +338,10 @@ public class TestModuleServices : IDynamicApiController
 
         return str;
     }
+
+
+    public async Task 测试下载互联网图片()
+    {
+        await "https://img-s-msn-com.akamaized.net/tenant/amp/entityid/BB1jrXtM.img?w=760&h=559&m=6&x=328&y=121&s=109&d=109".GetToSaveAsync(Path.Combine(Directory.GetCurrentDirectory(), "xxx.png"));
+    }
 }
