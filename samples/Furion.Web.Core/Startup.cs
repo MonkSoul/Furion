@@ -85,7 +85,8 @@ public sealed class Startup : AppStartup
             options.AddJob<TestCancelJob>("cancelJob", Triggers.PeriodSeconds(30));
             options.AddJob<TestJob>(
                 Triggers.PeriodHours(1)
-                .SetStartTime(Convert.ToDateTime("2024-03-07 01:15:00")));
+                .SetStartTime(Convert.ToDateTime("2024-03-07 01:15:00"))
+                .SetRunOnStart(true));
         });
 
         // 新版本任务队列

@@ -154,9 +154,17 @@ public partial class Trigger
     /// <returns><see cref="DateTime"/></returns>
     internal DateTime? CheckRunOnStartAndReturnNextRunTime(DateTime startAt)
     {
-        return !(StartNow && RunOnStart)
-              ? GetNextRunTime(startAt)
-              : startAt.AddSeconds(-1);
+        // 检查是否启动时需要执行
+        if (!(StartNow && RunOnStart))
+        {
+            return GetNextRunTime(startAt);
+        }
+        else
+        {
+            return (StartTime == null || StartTime.Value <= startAt)
+                ? startAt.AddSeconds(-1)
+                : StartTime;
+        }
     }
 
     /// <summary>
