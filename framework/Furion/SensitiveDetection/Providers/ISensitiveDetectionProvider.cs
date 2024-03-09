@@ -29,4 +29,11 @@ public interface ISensitiveDetectionProvider
     /// <param name="transfer"></param>
     /// <returns></returns>
     Task<string> ReplaceAsync(string text, char transfer = '*');
+
+    /// <summary>
+    /// 查找脱敏词汇
+    /// </summary>
+    /// <param name="text"></param>
+    /// <returns></returns>
+    Task<Dictionary<string, List<int>>> FoundSensitiveWordsAsync(string text);
 }

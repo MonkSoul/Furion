@@ -4,6 +4,7 @@
 
 using Furion.SensitiveDetection;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace Microsoft.Extensions.DependencyInjection;
 
@@ -18,11 +19,12 @@ public static class SensitiveDetectionServiceCollectionExtensions
     /// <para>需要在入口程序集目录下创建 sensitive-words.txt</para>
     /// </summary>
     /// <param name="mvcBuilder"></param>
+    /// <param name="configureOptionsBuilder"></param>
     /// <returns></returns>
-    public static IMvcBuilder AddSensitiveDetection(this IMvcBuilder mvcBuilder)
+    public static IMvcBuilder AddSensitiveDetection(this IMvcBuilder mvcBuilder, Action<SensitiveDetectionBuilder> configureOptionsBuilder = default)
     {
         var services = mvcBuilder.Services;
-        services.AddSensitiveDetection();
+        services.AddSensitiveDetection(configureOptionsBuilder);
 
         return mvcBuilder;
     }
@@ -32,15 +34,15 @@ public static class SensitiveDetectionServiceCollectionExtensions
     /// </summary>
     /// <typeparam name="TSensitiveDetectionProvider"></typeparam>
     /// <param name="mvcBuilder"></param>
-    /// <param name="handle"></param>
+    /// <param name="configureOptionsBuilder"></param>
     /// <returns></returns>
-    public static IMvcBuilder AddSensitiveDetection<TSensitiveDetectionProvider>(this IMvcBuilder mvcBuilder, Action<IServiceCollection> handle = default)
+    public static IMvcBuilder AddSensitiveDetection<TSensitiveDetectionProvider>(this IMvcBuilder mvcBuilder, Action<SensitiveDetectionBuilder> configureOptionsBuilder = default)
         where TSensitiveDetectionProvider : class, ISensitiveDetectionProvider
     {
         var services = mvcBuilder.Services;
 
         // 注册脱敏词汇服务
-        services.AddSensitiveDetection<TSensitiveDetectionProvider>(handle);
+        services.AddSensitiveDetection<TSensitiveDetectionProvider>(configureOptionsBuilder);
 
         return mvcBuilder;
     }
@@ -50,10 +52,11 @@ public static class SensitiveDetectionServiceCollectionExtensions
     /// <para>需要在入口程序集目录下创建 sensitive-words.txt</para>
     /// </summary>
     /// <param name="services"></param>
+    /// <param name="configureOptionsBuilder">configureOptionsBuilder</param>
     /// <returns></returns>
-    public static IServiceCollection AddSensitiveDetection(this IServiceCollection services)
+    public static IServiceCollection AddSensitiveDetection(this IServiceCollection services, Action<SensitiveDetectionBuilder> configureOptionsBuilder = default)
     {
-        return services.AddSensitiveDetection<SensitiveDetectionProvider>();
+        return services.AddSensitiveDetection<SensitiveDetectionProvider>(configureOptionsBuilder);
     }
 
     /// <summary>
@@ -61,13 +64,22 @@ public static class SensitiveDetectionServiceCollectionExtensions
     /// </summary>
     /// <typeparam name="TSensitiveDetectionProvider"></typeparam>
     /// <param name="services"></param>
-    /// <param name="handle"></param>
+    /// <param name="configureOptionsBuilder"></param>
     /// <returns></returns>
-    public static IServiceCollection AddSensitiveDetection<TSensitiveDetectionProvider>(this IServiceCollection services, Action<IServiceCollection> handle = default)
+    public static IServiceCollection AddSensitiveDetection<TSensitiveDetectionProvider>(this IServiceCollection services, Action<SensitiveDetectionBuilder> configureOptionsBuilder = default)
         where TSensitiveDetectionProvider : class, ISensitiveDetectionProvider
     {
+        // 初始化脱敏词汇构建器
+        var sensitiveDetectionBuilder = new SensitiveDetectionBuilder();
+
+        // 调用自定义委托
+        configureOptionsBuilder?.Invoke(sensitiveDetectionBuilder);
+
         // 注册脱敏词汇服务
-        services.AddSingleton<ISensitiveDetectionProvider, TSensitiveDetectionProvider>();
+        services.TryAddSingleton<ISensitiveDetectionProvider>(provider =>
+        {
+            return ActivatorUtilities.CreateInstance<TSensitiveDetectionProvider>(provider, sensitiveDetectionBuilder.EmbedFileName);
+        });
 
         // 配置 Mvc 选项
         services.Configure<MvcOptions>(options =>
@@ -75,9 +87,6 @@ public static class SensitiveDetectionServiceCollectionExtensions
             // 添加模型绑定器
             options.ModelBinderProviders.Insert(0, new SensitiveDetectionBinderProvider());
         });
-
-        // 自定义配置
-        handle?.Invoke(services);
 
         return services;
     }

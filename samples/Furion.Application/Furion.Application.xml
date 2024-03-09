@@ -641,6 +641,33 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:Furion.Application.TestSensitiveDetection.GetWordsAsync">
+            <summary>
+            获取所有脱敏词汇
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Furion.Application.TestSensitiveDetection.VaildedAsync(System.String)">
+            <summary>
+            判断是否是正常的词汇
+            </summary>
+            <param name="text"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Furion.Application.TestSensitiveDetection.ReplaceAsync(System.String)">
+            <summary>
+            替换非正常词汇
+            </summary>
+            <param name="text"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Furion.Application.TestSensitiveDetection.FoundSensitiveWordsAsync(System.String)">
+            <summary>
+            返回敏感的词汇
+            </summary>
+            <param name="text"></param>
+            <returns></returns>
+        </member>
         <member name="M:Furion.Application.TestTaskQueue.SyncTask">
             <summary>
             同步入队

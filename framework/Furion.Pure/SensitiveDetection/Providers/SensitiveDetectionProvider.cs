@@ -21,12 +21,20 @@ public class SensitiveDetectionProvider : ISensitiveDetectionProvider
     private readonly IDistributedCache _distributedCache;
 
     /// <summary>
+    /// 脱敏词汇数据文件名
+    /// </summary>
+    private readonly string _embedFileName;
+
+    /// <summary>
     /// 构造函数
     /// </summary>
     /// <param name="distributedCache"></param>
-    public SensitiveDetectionProvider(IDistributedCache distributedCache)
+    /// <param name="embedFileName"></param>
+    public SensitiveDetectionProvider(IDistributedCache distributedCache
+        , string embedFileName)
     {
         _distributedCache = distributedCache;
+        _embedFileName = embedFileName;
     }
 
     /// <summary>
@@ -42,14 +50,25 @@ public class SensitiveDetectionProvider : ISensitiveDetectionProvider
     {
         // 读取缓存数据
         var wordsCached = await _distributedCache.GetStringAsync(DISTRIBUTED_KEY);
-        if (wordsCached != null) return wordsCached.Split(new[] { "\r\n", "|" }, StringSplitOptions.RemoveEmptyEntries).Select(u => u.Trim());
+        if (wordsCached != null)
+        {
+            return wordsCached.Split(new[] { "\r\n", "|" }, StringSplitOptions.RemoveEmptyEntries)
+                .Select(u => u.Trim())
+                .Distinct();
+        }
 
         var entryAssembly = Reflect.GetEntryAssembly();
+        var embedFileNameOfResource = $"{Reflect.GetAssemblyName(entryAssembly)}.{_embedFileName}";
 
         // 解析嵌入式文件流
         byte[] buffer;
-        using (var readStream = entryAssembly.GetManifestResourceStream($"{Reflect.GetAssemblyName(entryAssembly)}.sensitive-words.txt"))
+        using (var readStream = entryAssembly.GetManifestResourceStream(embedFileNameOfResource))
         {
+            if (readStream == null)
+            {
+                throw new InvalidOperationException($"The embedded file of path <{embedFileNameOfResource}> is not found.");
+            }
+
             buffer = new byte[readStream.Length];
             await readStream.ReadAsync(buffer.AsMemory(0, buffer.Length));
         }
@@ -129,12 +148,12 @@ public class SensitiveDetectionProvider : ISensitiveDetectionProvider
     /// 查找脱敏词汇
     /// </summary>
     /// <param name="text"></param>
-    private async Task<Dictionary<string, List<int>>> FoundSensitiveWordsAsync(string text)
+    public async Task<Dictionary<string, List<int>>> FoundSensitiveWordsAsync(string text)
     {
         // 支持读取配置渲染
         var realText = text.Render();
 
-        // 获取词库
+        // 获取脱敏词库
         var sensitiveWords = await GetWordsAsync();
 
         var stringBuilder = new StringBuilder(realText);
@@ -156,7 +175,7 @@ public class SensitiveDetectionProvider : ISensitiveDetectionProvider
             {
                 if (foundSets.ContainsKey(sensitiveWord) == false)
                 {
-                    foundSets.Add(sensitiveWord, new List<int>());
+                    foundSets.Add(sensitiveWord, new());
                 }
 
                 findIndex = tempStringBuilder.ToString().IndexOf(sensitiveWord);

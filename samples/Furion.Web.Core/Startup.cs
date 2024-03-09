@@ -96,8 +96,12 @@ public sealed class Startup : AppStartup
         });
 
         services.AddViewEngine();
-    }
 
+        services.AddSensitiveDetection(options =>
+        {
+            //options.EmbedFileName = "custom-world.txt";
+        });
+    }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
     {
