@@ -1,4 +1,5 @@
 ﻿using Furion.SensitiveDetection;
+using Microsoft.Extensions.Caching.Distributed;
 
 namespace Furion.Application;
 
@@ -41,7 +42,7 @@ public class TestSensitiveDetection : IDynamicApiController
     }
 
     /// <summary>
-    /// 返回敏感的词汇
+    /// 返回敏感的词汇和位置
     /// </summary>
     /// <param name="text"></param>
     /// <returns></returns>

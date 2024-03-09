@@ -663,7 +663,7 @@
         </member>
         <member name="M:Furion.Application.TestSensitiveDetection.FoundSensitiveWordsAsync(System.String)">
             <summary>
-            返回敏感的词汇
+            返回敏感的词汇和位置
             </summary>
             <param name="text"></param>
             <returns></returns>

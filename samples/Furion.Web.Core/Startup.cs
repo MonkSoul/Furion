@@ -99,7 +99,7 @@ public sealed class Startup : AppStartup
 
         services.AddSensitiveDetection(options =>
         {
-            //options.EmbedFileName = "custom-world.txt";
+            //options.EmbedFileName = "custom-words.txt";
         });
     }
 
