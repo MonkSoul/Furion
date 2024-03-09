@@ -49,45 +49,40 @@ public class SensitiveDetectionProvider : ISensitiveDetectionProvider
     public async Task<IEnumerable<string>> GetWordsAsync()
     {
         // 读取缓存数据
-        var wordsCached = await _distributedCache.GetStringAsync(DISTRIBUTED_KEY);
-        if (wordsCached != null)
+        var wordsOfCached = await _distributedCache.GetStringAsync(DISTRIBUTED_KEY);
+        if (wordsOfCached == null)
         {
-            return wordsCached.Split(new[] { "\r\n", "|" }, StringSplitOptions.RemoveEmptyEntries)
-                .Select(u => u.Trim())
-                .Distinct();
-        }
+            var entryAssembly = Reflect.GetEntryAssembly();
+            var embedFileNameOfResource = $"{Reflect.GetAssemblyName(entryAssembly)}.{_embedFileName}";
 
-        var entryAssembly = Reflect.GetEntryAssembly();
-        var embedFileNameOfResource = $"{Reflect.GetAssemblyName(entryAssembly)}.{_embedFileName}";
-
-        // 解析嵌入式文件流
-        byte[] buffer;
-        using (var readStream = entryAssembly.GetManifestResourceStream(embedFileNameOfResource))
-        {
-            if (readStream == null)
+            // 解析嵌入式文件流
+            byte[] buffer;
+            using (var readStream = entryAssembly.GetManifestResourceStream(embedFileNameOfResource))
             {
-                throw new InvalidOperationException($"The embedded file of path <{embedFileNameOfResource}> is not found.");
+                if (readStream == null)
+                {
+                    throw new InvalidOperationException($"The embedded file of path <{embedFileNameOfResource}> is not found.");
+                }
+
+                buffer = new byte[readStream.Length];
+                await readStream.ReadAsync(buffer.AsMemory(0, buffer.Length));
             }
 
-            buffer = new byte[readStream.Length];
-            await readStream.ReadAsync(buffer.AsMemory(0, buffer.Length));
-        }
+            // 同时兼容 UTF-8 BOM，UTF-8
+            using (var stream = new MemoryStream(buffer))
+            {
+                using var streamReader = new StreamReader(stream, new UTF8Encoding(false));
+                wordsOfCached = await streamReader.ReadToEndAsync();
+            }
 
-        // 同时兼容 UTF-8 BOM，UTF-8
-        string content;
-        using (var stream = new MemoryStream(buffer))
-        {
-            using var streamReader = new StreamReader(stream, new UTF8Encoding(false));
-            content = streamReader.ReadToEnd();
+            // 缓存数据
+            await _distributedCache.SetStringAsync(DISTRIBUTED_KEY, wordsOfCached);
         }
-
-        // 缓存数据
-        await _distributedCache.SetStringAsync(DISTRIBUTED_KEY, content);
 
         // 取换行符分割字符串
-        var words = content.Split(new[] { "\r\n", "|" }, StringSplitOptions.RemoveEmptyEntries)
-                                          .Select(u => u.Trim())
-                                          .Distinct();
+        var words = wordsOfCached.Split(new[] { "\r\n", "|" }, StringSplitOptions.RemoveEmptyEntries)
+            .Select(u => u.Trim())
+            .Distinct();
 
         return words;
     }
