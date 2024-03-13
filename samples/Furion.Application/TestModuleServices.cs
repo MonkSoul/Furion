@@ -344,4 +344,14 @@ public class TestModuleServices : IDynamicApiController
     {
         await "https://img-s-msn-com.akamaized.net/tenant/amp/entityid/BB1jrXtM.img?w=760&h=559&m=6&x=328&y=121&s=109&d=109".GetToSaveAsync(Path.Combine(Directory.GetCurrentDirectory(), "xxx.png"));
     }
+
+    public TestLong TestLong2(TestLong test)
+    {
+        return test;
+    }
+}
+
+public class TestLong
+{
+    public long? Property { get; set; } = 10;
 }

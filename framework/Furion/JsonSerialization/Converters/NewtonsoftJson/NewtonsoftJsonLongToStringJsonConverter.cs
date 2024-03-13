@@ -46,7 +46,10 @@ public class NewtonsoftJsonLongToStringJsonConverter : JsonConverter<long>
     public override long ReadJson(JsonReader reader, Type objectType, long existingValue, bool hasExistingValue, JsonSerializer serializer)
     {
         var jt = JValue.ReadFrom(reader);
-        return jt.Value<long>();
+
+        return jt.Type == JTokenType.Null   // 处理 public long? Property { get; set;} = 0; 情况，也就是类型是 long? 但是也给了默认值
+            ? existingValue
+            : jt.Value<long>();
     }
 
     /// <summary>
