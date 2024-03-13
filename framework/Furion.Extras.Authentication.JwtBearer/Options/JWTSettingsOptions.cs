@@ -58,4 +58,9 @@ public sealed class JWTSettingsOptions
     /// 加密算法
     /// </summary>
     public string Algorithm { get; set; }
+
+    /// <summary>
+    /// 验证过期时间，设置 false 永不过期
+    /// </summary>
+    public bool RequireExpirationTime { get; set; } = true;
 }

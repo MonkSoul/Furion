@@ -23,7 +23,7 @@
 		<PackageOutputPath>../nupkgs</PackageOutputPath>
 		<SignAssembly>True</SignAssembly>
 		<DelaySign>False</DelaySign>
-		<AssemblyOriginatorKeyFile>$(SolutionDir)..\snks\Furion.snk</AssemblyOriginatorKeyFile>
+		<AssemblyOriginatorKeyFile>..\..\snks\Furion.snk</AssemblyOriginatorKeyFile>
 	</PropertyGroup>
 
 	<PropertyGroup>
@@ -42,7 +42,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<None Include="$(SolutionDir)..\README.md" Pack="true" PackagePath="\"/>
+		<None Include="..\..\README.md" Pack="true" PackagePath="\"/>
 	</ItemGroup>
 
 </Project>

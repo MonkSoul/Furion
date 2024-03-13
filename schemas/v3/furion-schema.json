@@ -2878,7 +2878,8 @@
       "properties": {
         "ValidateIssuerSigningKey": {
           "type": "boolean",
-          "description": "验证签发方密钥"
+          "description": "验证签发方密钥",
+          "default": true
         },
         "IssuerSigningKey": {
           "type": "string",
@@ -2886,7 +2887,8 @@
         },
         "ValidateIssuer": {
           "type": "boolean",
-          "description": "验证签发方"
+          "description": "验证签发方",
+          "default": true
         },
         "ValidIssuer": {
           "type": "string",
@@ -2894,7 +2896,8 @@
         },
         "ValidateAudience": {
           "type": "boolean",
-          "description": "验证签收方"
+          "description": "验证签收方",
+          "default": true
         },
         "ValidAudience": {
           "type": "string",
@@ -2902,7 +2905,8 @@
         },
         "ValidateLifetime": {
           "type": "boolean",
-          "description": "验证生存期"
+          "description": "验证生存期",
+          "default": true
         },
         "ClockSkew": {
           "type": "number",
@@ -2911,7 +2915,7 @@
         },
         "ExpiredTime": {
           "type": "number",
-          "description": "过期时间（分钟）",
+          "description": "过期时间（分钟），最大支持 13 年",
           "default": 20
         },
         "Algorithm": {
@@ -2934,6 +2938,11 @@
             "ES512",
             "EdDSA"
           ]
+        },
+        "RequireExpirationTime": {
+          "type": "boolean",
+          "description": "验证过期时间，设置 false 将永不过期",
+          "default": true
         }
       }
     },

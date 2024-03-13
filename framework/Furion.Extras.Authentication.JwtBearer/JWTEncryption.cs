@@ -38,7 +38,7 @@ public class JWTEncryption
     /// 生成 Token
     /// </summary>
     /// <param name="payload"></param>
-    /// <param name="expiredTime">过期时间（分钟）</param>
+    /// <param name="expiredTime">过期时间（分钟），最大支持 13 年</param>
     /// <returns></returns>
     public static string Encrypt(IDictionary<string, object> payload, long? expiredTime = null)
     {
@@ -88,7 +88,7 @@ public class JWTEncryption
     /// 生成刷新 Token
     /// </summary>
     /// <param name="accessToken"></param>
-    /// <param name="expiredTime">刷新 Token 有效期（分钟）</param>
+    /// <param name="expiredTime">刷新 Token 有效期（分钟），最大支持 13 年</param>
     /// <returns></returns>
     public static string GenerateRefreshToken(string accessToken, int expiredTime = 43200)
     {
@@ -115,7 +115,7 @@ public class JWTEncryption
     /// </summary>
     /// <param name="expiredToken"></param>
     /// <param name="refreshToken"></param>
-    /// <param name="expiredTime">过期时间（分钟）</param>
+    /// <param name="expiredTime">过期时间（分钟），最大支持 13 年</param>
     /// <param name="clockSkew">刷新token容差值，秒做单位</param>
     /// <returns></returns>
     public static string Exchange(string expiredToken, string refreshToken, long? expiredTime = null, long clockSkew = 5)
@@ -184,7 +184,7 @@ public class JWTEncryption
     /// </summary>
     /// <param name="context"></param>
     /// <param name="httpContext"></param>
-    /// <param name="expiredTime">新 Token 过期时间（分钟）</param>
+    /// <param name="expiredTime">新 Token 过期时间（分钟），最大支持 13 年</param>
     /// <param name="refreshTokenExpiredTime">新刷新 Token 有效期（分钟）</param>
     /// <param name="tokenPrefix"></param>
     /// <param name="clockSkew"></param>
@@ -394,6 +394,8 @@ public class JWTEncryption
             ValidateLifetime = jwtSettings.ValidateLifetime.Value,
             // 过期时间容错值
             ClockSkew = TimeSpan.FromSeconds(jwtSettings.ClockSkew.Value),
+            // 验证过期时间，设置 false 永不过期
+            RequireExpirationTime = jwtSettings.RequireExpirationTime
         };
     }
 
@@ -401,7 +403,7 @@ public class JWTEncryption
     /// 组合 Claims 负荷
     /// </summary>
     /// <param name="payload"></param>
-    /// <param name="expiredTime">过期时间，单位：分钟</param>
+    /// <param name="expiredTime">过期时间，单位：分钟，最大支持 13 年</param>
     /// <returns></returns>
     private static (IDictionary<string, object> Payload, JWTSettingsOptions JWTSettings) CombinePayload(IDictionary<string, object> payload, long? expiredTime = null)
     {
