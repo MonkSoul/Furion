@@ -322,11 +322,11 @@ public class TestModuleServices : IDynamicApiController
     {
         var template = """
              @{
-                 var ss = new { QueryType="like"};
+                 var ss = new { QueryType = "like"};
                  string result = "";
                  switch (ss)
                  {
-                     case {QueryType:"like"}:
+                     case {QueryType: "like"}:
                          result = "显示此处内容";
                          break;
                  }
