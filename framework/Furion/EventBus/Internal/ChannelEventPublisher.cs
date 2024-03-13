@@ -10,6 +10,11 @@ namespace Furion.EventBus;
 internal sealed partial class ChannelEventPublisher : IEventPublisher
 {
     /// <summary>
+    /// 事件处理程序事件
+    /// </summary>
+    public event EventHandler<EventHandlerEventArgs> OnExecuted;
+
+    /// <summary>
     /// 事件源存储器
     /// </summary>
     private readonly IEventSourceStorer _eventSourceStorer;
@@ -101,5 +106,18 @@ internal sealed partial class ChannelEventPublisher : IEventPublisher
     public async Task PublishDelayAsync(Enum eventId, long delay, object payload = default, CancellationToken cancellationToken = default)
     {
         await PublishDelayAsync(new ChannelEventSource(eventId, payload, cancellationToken), delay);
+    }
+
+    /// <summary>
+    /// 触发事件处理程序事件
+    /// </summary>
+    /// <param name="args">事件参数</param>
+    public void InvokeEvents(EventHandlerEventArgs args)
+    {
+        try
+        {
+            OnExecuted?.Invoke(this, args);
+        }
+        catch { }
     }
 }

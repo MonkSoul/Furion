@@ -45,6 +45,11 @@ internal sealed class EventBusHostedService : BackgroundService
     private readonly IEventSourceStorer _eventSourceStorer;
 
     /// <summary>
+    /// 事件发布服务
+    /// </summary>
+    private readonly IEventPublisher _eventPublisher;
+
+    /// <summary>
     /// 事件处理程序集合
     /// </summary>
     private readonly ConcurrentDictionary<EventHandlerWrapper, EventHandlerWrapper> _eventHandlers = new();
@@ -55,6 +60,7 @@ internal sealed class EventBusHostedService : BackgroundService
     /// <param name="logger">日志对象</param>
     /// <param name="serviceProvider">服务提供器</param>
     /// <param name="eventSourceStorer">事件源存储器</param>
+    /// <param name="eventPublisher">事件发布服务</param>
     /// <param name="eventSubscribers">事件订阅者集合</param>
     /// <param name="useUtcTimestamp">是否使用 Utc 时间</param>
     /// <param name="fuzzyMatch">是否启用模糊匹配事件消息</param>
@@ -63,6 +69,7 @@ internal sealed class EventBusHostedService : BackgroundService
     public EventBusHostedService(ILogger<EventBusService> logger
         , IServiceProvider serviceProvider
         , IEventSourceStorer eventSourceStorer
+        , IEventPublisher eventPublisher
         , IEnumerable<IEventSubscriber> eventSubscribers
         , bool useUtcTimestamp
         , bool fuzzyMatch
@@ -71,7 +78,9 @@ internal sealed class EventBusHostedService : BackgroundService
     {
         _logger = logger;
         _serviceProvider = serviceProvider;
+        _eventPublisher = eventPublisher;
         _eventSourceStorer = eventSourceStorer;
+
         Monitor = serviceProvider.GetService<IEventHandlerMonitor>();
         Executor = serviceProvider.GetService<IEventHandlerExecutor>();
         UseUtcTimestamp = useUtcTimestamp;
@@ -158,7 +167,7 @@ internal sealed class EventBusHostedService : BackgroundService
     /// </summary>
     /// <param name="stoppingToken">后台主机服务停止时取消任务 Token</param>
     /// <returns><see cref="Task"/> 实例</returns>
-    protected async override Task ExecuteAsync(CancellationToken stoppingToken)
+    protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
         Log(LogLevel.Information, "EventBus hosted service is running.");
 
@@ -284,6 +293,9 @@ internal sealed class EventBusHostedService : BackgroundService
                     {
                         await Executor.ExecuteAsync(eventHandlerExecutingContext, eventHandlerThatShouldRun.Handler!);
                     }
+
+                    // 触发事件处理程序事件
+                    _eventPublisher.InvokeEvents(new(eventSource, true));
                 }
                 catch (Exception ex)
                 {
@@ -301,6 +313,12 @@ internal sealed class EventBusHostedService : BackgroundService
 
                         UnobservedTaskException.Invoke(this, args);
                     }
+
+                    // 触发事件处理程序事件
+                    _eventPublisher.InvokeEvents(new(eventSource, false)
+                    {
+                        Exception = ex
+                    });
                 }
                 finally
                 {

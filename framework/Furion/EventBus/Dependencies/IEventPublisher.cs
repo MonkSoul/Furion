@@ -10,6 +10,11 @@ namespace Furion.EventBus;
 public interface IEventPublisher
 {
     /// <summary>
+    /// 事件处理程序事件
+    /// </summary>
+    event EventHandler<EventHandlerEventArgs> OnExecuted;
+
+    /// <summary>
     /// 发布一条消息
     /// </summary>
     /// <param name="eventSource">事件源</param>
@@ -61,4 +66,10 @@ public interface IEventPublisher
     /// <param name="cancellationToken"> 取消任务 Token</param>
     /// <returns><see cref="Task"/> 实例</returns>
     Task PublishDelayAsync(Enum eventId, long delay, object payload = default, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// 触发事件处理程序事件
+    /// </summary>
+    /// <param name="args">事件参数</param>
+    void InvokeEvents(EventHandlerEventArgs args);
 }

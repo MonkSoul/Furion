@@ -4,7 +4,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Furion.Application;
 
-public class TestEventBus : IDynamicApiController
+public class TestEventBus : IDynamicApiController, IDisposable
 {
     private readonly IEventPublisher _eventPublisher;
     private readonly IEventBusFactory _eventBusFactory;
@@ -12,6 +12,13 @@ public class TestEventBus : IDynamicApiController
     {
         _eventPublisher = eventPublisher;
         _eventBusFactory = eventBusFactory;
+
+        _eventPublisher.OnExecuted += Subscribe;
+    }
+
+    void Subscribe(object sender, EventHandlerEventArgs args)
+    {
+        Console.WriteLine($"事件 {args.Source.EventId} 执行结果：{args.Status}，异常：{args.Exception}");
     }
 
     // 发布 ToDo:Create 消息
@@ -65,6 +72,11 @@ public class TestEventBus : IDynamicApiController
         {
             _eventPublisher.PublishAsync("ToDo:Create");
         });
+    }
+
+    public void Dispose()
+    {
+        _eventPublisher.OnExecuted -= Subscribe;
     }
 }
 
