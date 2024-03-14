@@ -384,7 +384,7 @@ internal sealed class DynamicApiControllerApplicationModelConvention : IApplicat
         foreach (var selectorModel in action.Selectors)
         {
             // 读取模块
-            var module = apiDescriptionSettings?.Module ?? _dynamicApiControllerSettings.DefaultModule;
+            var module = apiDescriptionSettings?.Module;
 
             // 跳过已配置路由特性的配置
             if (selectorModel.AttributeRouteModel != null)
