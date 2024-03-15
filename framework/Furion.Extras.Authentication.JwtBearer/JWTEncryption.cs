@@ -360,13 +360,14 @@ public class JWTEncryption
         if (FrameworkApp == null)
         {
             Debug.WriteLine("No register the code `services.AddJwt()` on Startup.cs.");
-
-            var jwtSettings = new JWTSettingsOptions();
-            SetDefaultJwtSettings(jwtSettings);
-            return jwtSettings;
         }
 
-        return FrameworkApp.GetMethod("GetOptions").MakeGenericMethod(typeof(JWTSettingsOptions)).Invoke(null, new object[] { null }) as JWTSettingsOptions ?? SetDefaultJwtSettings(new JWTSettingsOptions());
+        var jwtSettingsOptions = FrameworkApp.GetMethod("GetOptions").MakeGenericMethod(typeof(JWTSettingsOptions)).Invoke(null, new object[] { null }) as JWTSettingsOptions;
+        if (jwtSettingsOptions.Algorithm == null && jwtSettingsOptions.ExpiredTime == null)
+        {
+            SetDefaultJwtSettings(jwtSettingsOptions);
+        }
+        return jwtSettingsOptions;
     }
 
     /// <summary>
@@ -505,7 +506,7 @@ public class JWTEncryption
             : callAssembly;
 
         // 获取 Furion 程序集名称
-        var furionAssemblyName = callAssembly.GetReferencedAssemblies()
+        var furionAssemblyName = executeAssembly.GetReferencedAssemblies()
             .FirstOrDefault(u => u.Name == "Furion" || u.Name == "Furion.Pure")
             ?? throw new InvalidOperationException("No `Furion` assembly installed in the current project was detected.");
 
