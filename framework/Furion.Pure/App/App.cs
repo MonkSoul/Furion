@@ -68,12 +68,12 @@ public static class App
     /// <summary>
     /// 应用有效程序集
     /// </summary>
-    public static readonly IEnumerable<Assembly> Assemblies;
+    public static readonly List<Assembly> Assemblies;
 
     /// <summary>
     /// 有效程序集类型
     /// </summary>
-    public static readonly IEnumerable<Type> EffectiveTypes;
+    public static readonly List<Type> EffectiveTypes;
 
     /// <summary>
     /// 获取请求上下文
@@ -457,11 +457,11 @@ public static class App
 
         // 加载程序集
         var assObject = GetAssemblies();
-        Assemblies = assObject.Assemblies;
+        Assemblies = assObject.Assemblies.ToList();
         ExternalAssemblies = assObject.ExternalAssemblies;
 
         // 获取有效的类型集合
-        EffectiveTypes = Assemblies.SelectMany(GetTypes);
+        EffectiveTypes = Assemblies.SelectMany(GetTypes).ToList();
 
         AppStartups = new ConcurrentBag<AppStartup>();
     }

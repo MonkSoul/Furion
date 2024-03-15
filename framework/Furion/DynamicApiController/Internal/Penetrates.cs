@@ -79,6 +79,9 @@ internal static class Penetrates
         // 本地静态方法
         static bool Function(Type type)
         {
+            // 解决 ASP.NET Core 启动时自动载入 NuGet 包导致模块化配置 SupportPackageNamePrefixs 出现非预期的结果
+            if (!App.EffectiveTypes.Any(t => t == type)) return false;
+
             // 排除 OData 控制器
             if (type.Assembly.GetName().Name.StartsWith("Microsoft.AspNetCore.OData")) return false;
 
