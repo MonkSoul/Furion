@@ -79,9 +79,6 @@ internal static class Penetrates
         // 本地静态方法
         static bool Function(Type type)
         {
-            // 解决 ASP.NET Core 启动时自动载入 NuGet 包导致模块化配置 SupportPackageNamePrefixs 出现非预期的结果
-            if (!App.EffectiveTypes.Any(t => t == type)) return false;
-
             // 排除 OData 控制器
             if (type.Assembly.GetName().Name.StartsWith("Microsoft.AspNetCore.OData")) return false;
 
@@ -89,7 +86,16 @@ internal static class Penetrates
             if (!type.IsPublic || type.IsPrimitive || type.IsValueType || type.IsAbstract || type.IsInterface || type.IsGenericType) return false;
 
             // 继承 ControllerBase 或 实现 IDynamicApiController 的类型 或 贴了 [DynamicApiController] 特性
-            if ((!typeof(Controller).IsAssignableFrom(type) && typeof(ControllerBase).IsAssignableFrom(type)) || typeof(IDynamicApiController).IsAssignableFrom(type) || type.IsDefined(typeof(DynamicApiControllerAttribute), true)) return true;
+            if ((!typeof(Controller).IsAssignableFrom(type) && typeof(ControllerBase).IsAssignableFrom(type)) || typeof(IDynamicApiController).IsAssignableFrom(type) || type.IsDefined(typeof(DynamicApiControllerAttribute), true))
+            {
+                // 处理运行时动态生成程序集问题
+                if (type.Assembly?.ManifestModule?.Name == "<Unknown>") return true;
+
+                // 解决 ASP.NET Core 启动时自动载入 NuGet 包导致模块化配置 SupportPackageNamePrefixs 出现非预期的结果
+                if (!App.EffectiveTypes.Any(t => t == type)) return false;
+
+                return true;
+            }
 
             return false;
         }
