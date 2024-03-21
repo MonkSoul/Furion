@@ -1,6 +1,4 @@
-# [Furion 文档侵权企业和个人（部分）公示](https://gitee.com/dotnetchina/Furion/issues/I996V4)
-
----
+[![](./assets/999-01.jpg)](https://furion.net/docs/subscribe)
 
 **中** | [En](https://github.com/MonkSoul/Furion)
 
