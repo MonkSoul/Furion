@@ -46,8 +46,9 @@ internal sealed partial class TaskQueue : ITaskQueue
     /// <param name="channel">任务通道</param>
     /// <param name="taskId">任务 Id</param>
     /// <param name="concurrent">是否采用并行执行，仅支持 null,true,fale</param>
+    /// <param name="runOnceIfDelaySet">配置是否设置了延迟执行后立即执行一次</param>
     /// <returns><see cref="object"/></returns>
-    public object Enqueue(Action<IServiceProvider> taskHandler, int delay = 0, string channel = null, object taskId = null, object concurrent = null)
+    public object Enqueue(Action<IServiceProvider> taskHandler, int delay = 0, string channel = null, object taskId = null, object concurrent = null, bool runOnceIfDelaySet = false)
     {
         // 空检查
         if (taskHandler == default)
@@ -59,7 +60,7 @@ internal sealed partial class TaskQueue : ITaskQueue
         {
             taskHandler(serviceProvider);
             return ValueTask.CompletedTask;
-        }, delay, channel, taskId, concurrent)
+        }, delay, channel, taskId, concurrent, runOnceIfDelaySet)
         .AsTask().GetAwaiter().GetResult();
     }
 
@@ -71,8 +72,9 @@ internal sealed partial class TaskQueue : ITaskQueue
     /// <param name="channel">任务通道</param>
     /// <param name="taskId">任务 Id</param>
     /// <param name="concurrent">是否采用并行执行，仅支持 null,true,fale</param>
+    /// <param name="runOnceIfDelaySet">配置是否设置了延迟执行后立即执行一次</param>
     /// <returns><see cref="ValueTask"/></returns>
-    public async ValueTask<object> EnqueueAsync(Func<IServiceProvider, CancellationToken, ValueTask> taskHandler, int delay = 0, string channel = null, object taskId = null, object concurrent = null)
+    public async ValueTask<object> EnqueueAsync(Func<IServiceProvider, CancellationToken, ValueTask> taskHandler, int delay = 0, string channel = null, object taskId = null, object concurrent = null, bool runOnceIfDelaySet = false)
     {
         // 空检查
         if (taskHandler == default)
@@ -98,6 +100,12 @@ internal sealed partial class TaskQueue : ITaskQueue
             {
                 if (delay > 0)
                 {
+                    // 配置是否设置了延迟执行后立即执行一次
+                    if (runOnceIfDelaySet)
+                    {
+                        await taskHandler(serviceProvider, cancellationToken);
+                    }
+
                     await Task.Delay(delay, cancellationToken);
                 }
 
@@ -118,13 +126,14 @@ internal sealed partial class TaskQueue : ITaskQueue
     /// <param name="format"><see cref="CronStringFormat"/></param>
     /// <param name="taskId">任务 Id</param>
     /// <param name="concurrent">是否采用并行执行，仅支持 null,true,fale</param>
+    /// <param name="runOnceIfDelaySet">配置是否设置了延迟执行后立即执行一次</param>
     /// <returns><see cref="object"/></returns>
-    public object Enqueue(Action<IServiceProvider> taskHandler, string cronExpression, CronStringFormat format = CronStringFormat.Default, string channel = null, object taskId = null, object concurrent = null)
+    public object Enqueue(Action<IServiceProvider> taskHandler, string cronExpression, CronStringFormat format = CronStringFormat.Default, string channel = null, object taskId = null, object concurrent = null, bool runOnceIfDelaySet = false)
     {
         var totalMilliseconds = Crontab.Parse(cronExpression, format)
                                             .GetSleepMilliseconds(DateTime.Now);
 
-        return Enqueue(taskHandler, (int)totalMilliseconds, channel, taskId, concurrent);
+        return Enqueue(taskHandler, (int)totalMilliseconds, channel, taskId, concurrent, runOnceIfDelaySet);
     }
 
     /// <summary>
@@ -136,13 +145,14 @@ internal sealed partial class TaskQueue : ITaskQueue
     /// <param name="channel">任务通道</param>
     /// <param name="taskId">任务 Id</param>
     /// <param name="concurrent">是否采用并行执行，仅支持 null,true,fale</param>
+    /// <param name="runOnceIfDelaySet">配置是否设置了延迟执行后立即执行一次</param>
     /// <returns><see cref="ValueTask"/></returns>
-    public ValueTask<object> EnqueueAsync(Func<IServiceProvider, CancellationToken, ValueTask> taskHandler, string cronExpression, CronStringFormat format = CronStringFormat.Default, string channel = null, object taskId = null, object concurrent = null)
+    public ValueTask<object> EnqueueAsync(Func<IServiceProvider, CancellationToken, ValueTask> taskHandler, string cronExpression, CronStringFormat format = CronStringFormat.Default, string channel = null, object taskId = null, object concurrent = null, bool runOnceIfDelaySet = false)
     {
         var totalMilliseconds = Crontab.Parse(cronExpression, format)
                                             .GetSleepMilliseconds(DateTime.Now);
 
-        return EnqueueAsync(taskHandler, (int)totalMilliseconds, channel, taskId, concurrent);
+        return EnqueueAsync(taskHandler, (int)totalMilliseconds, channel, taskId, concurrent, runOnceIfDelaySet);
     }
 
     /// <summary>

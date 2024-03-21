@@ -42,6 +42,17 @@ public class TestTaskQueue : IDynamicApiController, IDisposable
     }
 
     /// <summary>
+    /// 同步入队，延迟 3 秒触发，并立即执行一次
+    /// </summary>
+    public void SyncTask3()
+    {
+        _taskQueue.Enqueue(provider =>
+        {
+            Console.WriteLine("我是同步的，但我延迟了 3 秒");
+        }, 3000, runOnceIfDelaySet: true);
+    }
+
+    /// <summary>
     /// 异步入队
     /// </summary>
     public async Task AsyncTask()
@@ -54,7 +65,7 @@ public class TestTaskQueue : IDynamicApiController, IDisposable
     }
 
     /// <summary>
-    /// 异步入队
+    /// 异步入队，延迟 3 秒触发
     /// </summary>
     public async Task AsyncTask2()
     {
@@ -63,6 +74,18 @@ public class TestTaskQueue : IDynamicApiController, IDisposable
             Console.WriteLine("我是异步的，但我延迟了 3 秒");
             await ValueTask.CompletedTask;
         }, 3000);
+    }
+
+    /// <summary>
+    /// 异步入队，延迟 3 秒触发，并立即执行一次
+    /// </summary>
+    public async Task AsyncTask3()
+    {
+        await _taskQueue.EnqueueAsync(async (_, _) =>
+        {
+            Console.WriteLine("我是异步的，但我延迟了 3 秒");
+            await ValueTask.CompletedTask;
+        }, 3000, runOnceIfDelaySet: true);
     }
 
     public void 测试异常()

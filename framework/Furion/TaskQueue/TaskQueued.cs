@@ -20,11 +20,12 @@ public static class TaskQueued
     /// <param name="channel">任务通道</param>
     /// <param name="taskId">任务 Id</param>
     /// <param name="concurrent">是否采用并行执行，仅支持 null,true,fale</param>
+    /// <param name="runOnceIfDelaySet">配置是否设置了延迟执行后立即执行一次</param>
     /// <returns><see cref="object"/></returns>
-    public static object Enqueue(Action<IServiceProvider> taskHandler, int delay = 0, string channel = null, object taskId = null, object concurrent = null)
+    public static object Enqueue(Action<IServiceProvider> taskHandler, int delay = 0, string channel = null, object taskId = null, object concurrent = null, bool runOnceIfDelaySet = false)
     {
         var taskQueue = App.GetRequiredService<ITaskQueue>(App.RootServices);
-        return taskQueue.Enqueue(taskHandler, delay, channel, taskId, concurrent);
+        return taskQueue.Enqueue(taskHandler, delay, channel, taskId, concurrent, runOnceIfDelaySet);
     }
 
     /// <summary>
@@ -35,11 +36,12 @@ public static class TaskQueued
     /// <param name="channel">任务通道</param>
     /// <param name="taskId">任务 Id</param>
     /// <param name="concurrent">是否采用并行执行，仅支持 null,true,fale</param>
+    /// <param name="runOnceIfDelaySet">配置是否设置了延迟执行后立即执行一次</param>
     /// <returns><see cref="ValueTask"/></returns>
-    public static async ValueTask<object> EnqueueAsync(Func<IServiceProvider, CancellationToken, ValueTask> taskHandler, int delay = 0, string channel = null, object taskId = null, object concurrent = null)
+    public static async ValueTask<object> EnqueueAsync(Func<IServiceProvider, CancellationToken, ValueTask> taskHandler, int delay = 0, string channel = null, object taskId = null, object concurrent = null, bool runOnceIfDelaySet = false)
     {
         var taskQueue = App.GetRequiredService<ITaskQueue>(App.RootServices);
-        return await taskQueue.EnqueueAsync(taskHandler, delay, channel, taskId, concurrent);
+        return await taskQueue.EnqueueAsync(taskHandler, delay, channel, taskId, concurrent, runOnceIfDelaySet);
     }
 
     /// <summary>
@@ -51,11 +53,12 @@ public static class TaskQueued
     /// <param name="channel">任务通道</param>
     /// <param name="taskId">任务 Id</param>
     /// <param name="concurrent">是否采用并行执行，仅支持 null,true,fale</param>
+    /// <param name="runOnceIfDelaySet">配置是否设置了延迟执行后立即执行一次</param>
     /// <returns><see cref="object"/></returns>
-    public static object Enqueue(Action<IServiceProvider> taskHandler, string cronExpression, CronStringFormat format = CronStringFormat.Default, string channel = null, object taskId = null, object concurrent = null)
+    public static object Enqueue(Action<IServiceProvider> taskHandler, string cronExpression, CronStringFormat format = CronStringFormat.Default, string channel = null, object taskId = null, object concurrent = null, bool runOnceIfDelaySet = false)
     {
         var taskQueue = App.GetRequiredService<ITaskQueue>(App.RootServices);
-        return taskQueue.Enqueue(taskHandler, cronExpression, format, channel, taskId, concurrent);
+        return taskQueue.Enqueue(taskHandler, cronExpression, format, channel, taskId, concurrent, runOnceIfDelaySet);
     }
 
     /// <summary>
@@ -67,10 +70,11 @@ public static class TaskQueued
     /// <param name="channel">任务通道</param>
     /// <param name="taskId">任务 Id</param>
     /// <param name="concurrent">是否采用并行执行，仅支持 null,true,fale</param>
+    /// <param name="runOnceIfDelaySet">配置是否设置了延迟执行后立即执行一次</param>
     /// <returns><see cref="ValueTask"/></returns>
-    public static async ValueTask<object> EnqueueAsync(Func<IServiceProvider, CancellationToken, ValueTask> taskHandler, string cronExpression, CronStringFormat format = CronStringFormat.Default, string channel = null, object taskId = null, object concurrent = null)
+    public static async ValueTask<object> EnqueueAsync(Func<IServiceProvider, CancellationToken, ValueTask> taskHandler, string cronExpression, CronStringFormat format = CronStringFormat.Default, string channel = null, object taskId = null, object concurrent = null, bool runOnceIfDelaySet = false)
     {
         var taskQueue = App.GetRequiredService<ITaskQueue>(App.RootServices);
-        return await taskQueue.EnqueueAsync(taskHandler, cronExpression, format, channel, taskId, concurrent);
+        return await taskQueue.EnqueueAsync(taskHandler, cronExpression, format, channel, taskId, concurrent, runOnceIfDelaySet);
     }
 }
