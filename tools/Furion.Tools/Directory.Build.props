@@ -37,6 +37,7 @@
 
 	<ItemGroup>
 		<None Include="..\..\..\README.md" Pack="true" PackagePath="\"/>
+		<None Include="..\Directory.Build.props" Pack="true" PackagePath="\"/>
 	</ItemGroup>
 
 </Project>
