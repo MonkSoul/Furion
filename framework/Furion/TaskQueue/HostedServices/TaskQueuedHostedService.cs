@@ -131,7 +131,7 @@ internal sealed class TaskQueueHostedService : BackgroundService
         // 获取任务执行策略
         var concurrent = taskWrapper.Concurrent == null
             ? _concurrent
-            : (bool)taskWrapper.Concurrent;
+            : taskWrapper.Concurrent.Value;
 
         // 并行执行
         if (concurrent)

@@ -28,5 +28,5 @@ public sealed class TaskWrapper
     /// <summary>
     /// 是否采用并行执行
     /// </summary>
-    public object Concurrent { get; internal set; } = null;
+    public bool? Concurrent { get; internal set; }
 }
