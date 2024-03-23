@@ -34,7 +34,7 @@ public class HelloService
 
 该存储库的主要目的是继续发展 [Furion](https://gitee.com/dotnetchina/Furion) 核心，使其更快、更易于使用。 [Furion](https://gitee.com/dotnetchina/Furion) 的开发在 [Gitee](https://gitee.com/dotnetchina/Furion) 上公开进行，我们感谢社区贡献错误修复和改进。
 
-阅读 [贡献指南](https://furion.net/docs/contribute) 内容，了解如何参与改进 [Furion](https://gitee.com/dotnetchina/Furion)。
+阅读 [贡献指南](https://gitee.com/dotnetchina/Furion/blob/v4/CONTRIBUTING.md) 内容，了解如何参与改进 [Furion](https://gitee.com/dotnetchina/Furion)。
 
 ## 协议
 

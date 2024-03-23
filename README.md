@@ -34,7 +34,7 @@ You can find the [Furion](https://gitee.com/dotnetchina/Furion) documentation [o
 
 The main purpose of this repository is to continue evolving [Furion](https://gitee.com/dotnetchina/Furion) core, making it faster and easier to use. Development of [Furion](https://gitee.com/dotnetchina/Furion) happens in the open on [Gitee](https://gitee.com/dotnetchina/Furion), and we are grateful to the community for contributing bugfixes and improvements.
 
-Read [contribution documents](https://furion.net/docs/contribute) to learn how you can take part in improving [Furion](https://gitee.com/dotnetchina/Furion).
+Read [contribution documents](https://gitee.com/dotnetchina/Furion/blob/v4/CONTRIBUTING.md) to learn how you can take part in improving [Furion](https://gitee.com/dotnetchina/Furion).
 
 ## License
 
