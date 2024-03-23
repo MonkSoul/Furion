@@ -47,8 +47,8 @@ public sealed class EventBusOptionsBuilder
     /// <summary>
     /// 默认内置事件源存储器内存通道容量
     /// </summary>
-    /// <remarks>超过 n 条待处理消息，第 n+1 条将进入等待，默认为 3000</remarks>
-    public int ChannelCapacity { get; set; } = 3000;
+    /// <remarks>超过 n 条待处理消息，第 n+1 条将进入等待，默认为 12000</remarks>
+    public int ChannelCapacity { get; set; } = 12000;
 
     /// <summary>
     /// 是否使用 UTC 时间戳，默认 false

@@ -205,6 +205,14 @@ public class TestLoggerServices : IDynamicApiController
             Out = 1024 * 1024 * 2
         };
     }
+
+    public void 测试高频日志插入()
+    {
+        Parallel.For(0, 100000, i =>
+        {
+            _logger.LogInformation($"这是绿色 {i}", i);
+        });
+    }
 }
 
 public class WithLong

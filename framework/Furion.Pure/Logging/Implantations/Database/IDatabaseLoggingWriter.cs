@@ -14,5 +14,6 @@ public interface IDatabaseLoggingWriter
     /// </summary>
     /// <param name="logMsg">结构化日志消息</param>
     /// <param name="flush">清除缓冲区</param>
-    void Write(LogMessage logMsg, bool flush);
+    /// <returns><see cref="Task"/></returns>
+    Task WriteAsync(LogMessage logMsg, bool flush);
 }

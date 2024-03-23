@@ -22,7 +22,7 @@ public sealed class FileLoggerProvider : ILoggerProvider, ISupportExternalScope
     /// <summary>
     /// 日志消息队列（线程安全）
     /// </summary>
-    private readonly BlockingCollection<LogMessage> _logMessageQueue = new(3000);
+    private readonly BlockingCollection<LogMessage> _logMessageQueue = new(12000);
 
     /// <summary>
     /// 日志作用域提供器
@@ -80,7 +80,7 @@ public sealed class FileLoggerProvider : ILoggerProvider, ISupportExternalScope
         _fileLoggingWriter = new FileLoggingWriter(this);
 
         // 创建长时间运行的后台任务，并将日志消息队列中数据写入文件中
-        _processQueueTask = Task.Factory.StartNew(state => ((FileLoggerProvider)state).ProcessQueue()
+        _processQueueTask = Task.Factory.StartNew(async state => await ((FileLoggerProvider)state).ProcessQueueAsync()
             , this, TaskCreationOptions.LongRunning);
     }
 
@@ -175,11 +175,12 @@ public sealed class FileLoggerProvider : ILoggerProvider, ISupportExternalScope
     /// <summary>
     /// 将日志消息写入文件中
     /// </summary>
-    private void ProcessQueue()
+    /// <returns></returns>
+    private async Task ProcessQueueAsync()
     {
         foreach (var logMsg in _logMessageQueue.GetConsumingEnumerable())
         {
-            _fileLoggingWriter.Write(logMsg, _logMessageQueue.Count == 0);
+            await _fileLoggingWriter.WriteAsync(logMsg, _logMessageQueue.Count == 0);
         }
     }
 }
