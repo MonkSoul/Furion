@@ -25,7 +25,7 @@
 
 ## 开发环境搭建与测试运行
 
-从 `git clone https://gitee.com/dotnetchina/Furion.git` 开始，参照我们的 [开发环境配置文档](./DEVELOPMENT_SETUP.md) 设置 IDE 和其他相关环境。运行测试时，请按照 [测试指南](./TESTING_GUIDE.md) 操作。
+从 `git clone https://gitee.com/dotnetchina/Furion.git` 开始，参照我们的 [开发环境配置](./DEVELOPMENT_SETUP.md) 设置 IDE 和其他相关环境。运行测试时，请按照 [测试指南](./TESTING_GUIDE.md) 操作。
 
 ## 变更日志撰写规则
 
@@ -39,7 +39,7 @@
 
 ## 分支管理约定
 
-我们采用 [GitFlow](https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow) 分支管理模式进行开发，详细规定见 [分支管理文档](./BRANCH_MANAGEMENT.md)。
+我们采用 [GitFlow](https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow) 分支管理模式进行开发，详细规定见 [分支管理](./BRANCH_MANAGEMENT.md)。
 
 ## 合并 Pull Request 的流程
 
