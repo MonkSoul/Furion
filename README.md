@@ -1,5 +1,3 @@
-[![](./assets/999-01.jpg)](https://furion.net/docs/subscribe)
-
 [中](https://gitee.com/dotnetchina/Furion) | **En**
 
 # Furion
@@ -40,4 +38,6 @@ Read [contribution documents](https://furion.net/docs/contribute) to learn how y
 
 ## License
 
-[Furion](https://gitee.com/dotnetchina/Furion) uses the [MIT](https://gitee.com/dotnetchina/Furion/blob/v4/LICENSE) open source license.
+[Furion](https://gitee.com/dotnetchina/Furion) is primarily distributed under the terms of both the MIT license and the Apache License (Version 2.0).
+
+See [LICENSE-APACHE](https://gitee.com/dotnetchina/Furion/blob/v4/LICENSE-APACHE), [LICENSE-MIT](https://gitee.com/dotnetchina/Furion/blob/v4/LICENSE-MIT), and [COPYRIGHT](https://gitee.com/dotnetchina/Furion/blob/v4/COPYRIGHT) for details.
