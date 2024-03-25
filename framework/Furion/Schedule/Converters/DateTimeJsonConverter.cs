@@ -21,7 +21,7 @@ internal sealed class DateTimeJsonConverter : JsonConverter<DateTime>
     /// <returns><see cref="DateTime"/></returns>
     public override DateTime Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
-        return DateTime.Parse(reader.GetString() ?? string.Empty);
+        return Convert.ToDateTime(reader.GetString());
     }
 
     /// <summary>
