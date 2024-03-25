@@ -78,7 +78,7 @@ public sealed class Startup : AppStartup
             //    return Task.CompletedTask;
             //}, Triggers.PeriodSeconds(2));
 
-            // options.AddPersistence<TestJobPersistence>();
+            //options.AddPersistence<TestJobPersistence>();
 
             options.AddJob<TestJob>(Triggers.PeriodHours(1).SetMaxNumberOfRuns(2), Triggers.PeriodSeconds(4));
             //options.AddJobFactory<JobFactory>();

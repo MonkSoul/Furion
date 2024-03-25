@@ -1,6 +1,5 @@
 ﻿using Furion.Schedule;
 using Microsoft.Extensions.Logging;
-using System.Text.Json;
 
 namespace Furion.Application;
 
@@ -13,26 +12,29 @@ public class TestJobPersistence : IJobPersistence
         _logger = logger;
     }
 
-    public IEnumerable<SchedulerBuilder> Preload()
+    public Task<IEnumerable<SchedulerBuilder>> PreloadAsync(CancellationToken stoppingToken)
     {
-        return Array.Empty<SchedulerBuilder>();
+        return Task.FromResult(Enumerable.Empty<SchedulerBuilder>());
     }
 
-    public SchedulerBuilder OnLoading(SchedulerBuilder builder)
+    public Task<SchedulerBuilder> OnLoadingAsync(SchedulerBuilder builder, CancellationToken stoppingToken)
     {
-        return builder;
+        return Task.FromResult(builder);
     }
 
-    public void OnChanged(PersistenceContext context)
+    public Task OnChangedAsync(PersistenceContext context)
     {
+        return Task.CompletedTask;
     }
 
-    public void OnTriggerChanged(PersistenceTriggerContext context)
+    public Task OnTriggerChangedAsync(PersistenceTriggerContext context)
     {
+        return Task.CompletedTask;
     }
 
-    public void OnExecutionRecord(TriggerTimeline timeline)
+    public Task OnExecutionRecordAsync(TriggerTimeline timeline)
     {
-        Console.WriteLine(JsonSerializer.Serialize(timeline));
+        //Console.WriteLine(JsonSerializer.Serialize(timeline));
+        return Task.CompletedTask;
     }
 }

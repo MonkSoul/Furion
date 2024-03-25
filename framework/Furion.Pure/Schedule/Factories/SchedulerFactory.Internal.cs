@@ -99,10 +99,10 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory
         // 初始化作业调度器取消休眠 Token
         CreateCancellationTokenSource();
 
-        if (Persistence != null)
+        if (Persistence is not null)
         {
             // 创建长时间运行的后台任务，并将作业运行消息写入持久化中
-            _processQueueTask = Task.Factory.StartNew(state => ((SchedulerFactory)state).ProcessQueue()
+            _processQueueTask = Task.Factory.StartNew(async state => await ((SchedulerFactory)state).ProcessQueueAsync()
                 , this, TaskCreationOptions.LongRunning);
         }
     }
@@ -125,7 +125,9 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory
     /// <summary>
     /// 作业调度器初始化
     /// </summary>
-    public void Preload()
+    /// <param name="stoppingToken">取消任务 Token</param>
+    /// <returns><see cref="Task"/></returns>
+    public async Task PreloadAsync(CancellationToken stoppingToken)
     {
         // 输出作业调度度初始化日志
         _logger.LogInformation("Schedule hosted service is preloading...");
@@ -133,20 +135,34 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory
         // 标记是否初始化成功
         var preloadSucceed = true;
 
+        // 标记是否启用作业持久化
+        var isSetPersistence = Persistence is not null;
+
         try
         {
+            // 获取持久化预设的作业计划
+            IEnumerable<SchedulerBuilder> preloadSchedulerBuilders = null;
+            if (isSetPersistence)
+            {
+                preloadSchedulerBuilders = await Persistence.PreloadAsync(stoppingToken);
+            }
+
             // 装载初始作业计划
-            var initialSchedulerBuilders = _schedulerBuilders.Concat(Persistence?.Preload() ?? Array.Empty<SchedulerBuilder>());
+            var initialSchedulerBuilders = _schedulerBuilders.Concat(preloadSchedulerBuilders ?? Enumerable.Empty<SchedulerBuilder>());
 
             // 如果作业调度器中包含作业计划构建器
             if (initialSchedulerBuilders.Any())
             {
-                // 逐条遍历并新增到内存中
+                // 逐条遍历并加载到内存中
                 foreach (var schedulerBuilder in initialSchedulerBuilders)
                 {
-                    _ = TrySaveJob(Persistence?.OnLoading(schedulerBuilder) ?? schedulerBuilder
-                        , out _
-                        , false);
+                    SchedulerBuilder schedulerBuilderObj = null;
+                    if (isSetPersistence)
+                    {
+                        schedulerBuilderObj = await Persistence.OnLoadingAsync(schedulerBuilder, stoppingToken);
+                    }
+
+                    _ = TrySaveJob(schedulerBuilderObj ?? schedulerBuilder, out _, false);
                 }
             }
         }
@@ -403,10 +419,14 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory
     /// 记录作业触发器运行信息
     /// </summary>
     /// <param name="timeline">作业触发器运行记录</param>
-    internal void RecordTimeline(TriggerTimeline timeline)
+    /// <returns><see cref="Task"/></returns>
+    internal async Task RecordTimelineAsync(TriggerTimeline timeline)
     {
         // 作业触发记录通知
-        Persistence?.OnExecutionRecord(timeline);
+        if (Persistence is not null)
+        {
+            await Persistence.OnExecutionRecordAsync(timeline);
+        }
 
         try
         {
@@ -458,7 +478,8 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory
     /// <summary>
     /// 监听作业计划变更并调用持久化方法
     /// </summary>
-    private void ProcessQueue()
+    /// <returns><see cref="Task"/></returns>
+    private async Task ProcessQueueAsync()
     {
         foreach (var context in _persistenceMessageQueue.GetConsumingEnumerable())
         {
@@ -467,10 +488,13 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory
                 // 作业触发器更改通知
                 if (context is PersistenceTriggerContext triggerContext)
                 {
-                    Persistence.OnTriggerChanged(triggerContext);
+                    await Persistence.OnTriggerChangedAsync(triggerContext);
                 }
                 // 作业信息更改通知
-                else Persistence.OnChanged(context);
+                else
+                {
+                    await Persistence.OnChangedAsync(context);
+                }
             }
             catch (Exception ex)
             {

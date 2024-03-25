@@ -314,7 +314,8 @@ public partial class Trigger
     /// </summary>
     /// <param name="schedulerFactory">作业计划工厂</param>
     /// <param name="jobId">作业 Id</param>
-    internal void RecordTimeline(ISchedulerFactory schedulerFactory, string jobId)
+    /// <returns><see cref="Task"/></returns>
+    internal async Task RecordTimelineAsync(ISchedulerFactory schedulerFactory, string jobId)
     {
         Timelines ??= new();
 
@@ -337,7 +338,10 @@ public partial class Trigger
         Timelines.Enqueue(timeline);
 
         // 调用事件委托（记录作业触发器运行信息）
-        (schedulerFactory as SchedulerFactory)?.RecordTimeline(timeline);
+        if (schedulerFactory is SchedulerFactory schedulerFactoryObj)
+        {
+            await schedulerFactoryObj.RecordTimelineAsync(timeline);
+        }
     }
 
     /// <summary>

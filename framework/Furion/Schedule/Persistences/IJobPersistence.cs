@@ -12,31 +12,36 @@ public interface IJobPersistence
     /// <summary>
     /// 作业调度器预加载服务
     /// </summary>
-    /// <returns><see cref="IEnumerable{SchedulerBuilder}"/></returns>
-    IEnumerable<SchedulerBuilder> Preload();
+    /// <param name="stoppingToken">取消任务 Token</param>
+    /// <returns><see cref="Task"/></returns>
+    Task<IEnumerable<SchedulerBuilder>> PreloadAsync(CancellationToken stoppingToken);
 
     /// <summary>
     /// 作业计划初始化通知
     /// </summary>
     /// <param name="builder">作业计划构建器</param>
-    /// <returns><see cref="SchedulerBuilder"/></returns>
-    SchedulerBuilder OnLoading(SchedulerBuilder builder);
+    /// <param name="stoppingToken">取消任务 Token</param>
+    /// <returns><see cref="Task"/></returns>
+    Task<SchedulerBuilder> OnLoadingAsync(SchedulerBuilder builder, CancellationToken stoppingToken);
 
     /// <summary>
     /// 作业信息更改通知
     /// </summary>
     /// <param name="context">作业信息持久化上下文</param>
-    void OnChanged(PersistenceContext context);
+    /// <returns><see cref="Task"/></returns>
+    Task OnChangedAsync(PersistenceContext context);
 
     /// <summary>
     /// 作业触发器更改通知
     /// </summary>
     /// <param name="context">作业触发器持久化上下文</param>
-    void OnTriggerChanged(PersistenceTriggerContext context);
+    /// <returns><see cref="Task"/></returns>
+    Task OnTriggerChangedAsync(PersistenceTriggerContext context);
 
     /// <summary>
     /// 作业触发记录通知
     /// </summary>
     /// <param name="timeline">作业触发器运行记录</param>
-    void OnExecutionRecord(TriggerTimeline timeline);
+    /// <returns><see cref="Task"/></returns>
+    Task OnExecutionRecordAsync(TriggerTimeline timeline);
 }

@@ -17,7 +17,9 @@ public partial interface ISchedulerFactory
     /// <summary>
     /// 作业调度器初始化
     /// </summary>
-    void Preload();
+    /// <param name="stoppingToken">取消任务 Token</param>
+    /// <returns><see cref="Task"/></returns>
+    Task PreloadAsync(CancellationToken stoppingToken);
 
     /// <summary>
     /// 查找即将触发的作业

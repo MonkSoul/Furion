@@ -101,6 +101,7 @@ public class TestTaskQueue : IDynamicApiController, IDisposable
         await _taskQueue.EnqueueAsync(async (_, _) =>
          {
              throw Oops.Oh("xx");
+             await Task.CompletedTask;
          });
     }
 

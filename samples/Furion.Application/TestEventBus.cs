@@ -116,6 +116,7 @@ public class ToDoEventSubscriber : IEventSubscriber, ISingleton
     {
         Console.WriteLine("我执行啦~~");
         throw new NotImplementedException();
+        await Task.CompletedTask;
     }
 }
 
