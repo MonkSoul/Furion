@@ -422,14 +422,14 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory
     /// <returns><see cref="Task"/></returns>
     internal async Task RecordTimelineAsync(TriggerTimeline timeline)
     {
-        // 作业触发记录通知
-        if (Persistence is not null)
-        {
-            await Persistence.OnExecutionRecordAsync(timeline);
-        }
-
         try
         {
+            // 作业触发记录通知
+            if (Persistence is not null)
+            {
+                await Persistence.OnExecutionRecordAsync(timeline);
+            }
+
             // 调用事件委托
             OnExecutionRecord?.Invoke(this, new(timeline));
         }

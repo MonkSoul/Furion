@@ -409,8 +409,12 @@ internal sealed partial class Scheduler
         var succeed = TrySaveTrigger(triggerBuilder?.Updated(), out var trigger, immediately) == ScheduleResult.Succeed;
         if (succeed)
         {
-            // 记录作业触发器运行信息
-            trigger.RecordTimelineAsync(Factory, JobId).GetAwaiter().GetResult();
+            // 在另一个线程上启动异步操作，不阻塞当前线程 
+            Task.Run(async () =>
+            {
+                // 记录作业触发器运行信息
+                await trigger.RecordTimelineAsync(Factory, JobId);
+            });
 
             // 输出日志
             Logger.LogInformation("The <{triggerId}> trigger for scheduler of <{JobId}> successfully paused to the schedule.", triggerId, JobId);
