@@ -1,4 +1,4 @@
-﻿# 定义参数
+# 定义参数
 Param(
     # 需要生成的表，不填则生成所有表
     [string[]] $Tables,
@@ -442,7 +442,7 @@ Write-Output "$FurTools 开始生成实体文件......";
 
 # 获取 DbContext 生成的配置内容
 $dbContextContent = Get-Content "$TempOutputDir\$Context.cs" -raw;
-$entityConfigures = [regex]::Matches($dbContextContent, "modelBuilder.Entity\<(?<table>\w+)\>\(entity\s=\>\n*[\s\S]*?\{(?<content>[\s\S]*?)\s*\n+\s*\}\);");
+$entityConfigures = [regex]::Matches($dbContextContent, "modelBuilder.Entity\<(?<table>\w+)\>\(entity\s=\>\n*[\s\S]*?\{(?<content>(?:[^{}]|(?<open>{)|(?<-open>}))+(?(open)(?!)))\}\);");
 
 # 定义字典集合
 $dic = New-Object -TypeName 'System.Collections.Generic.Dictionary[System.String, System.String]';
@@ -451,7 +451,7 @@ $dic = New-Object -TypeName 'System.Collections.Generic.Dictionary[System.String
 for ($i = 0; $i -le $entityConfigures.Count - 1; $i++){
     $groups = $entityConfigures[$i].Groups;
     $tableName = $groups.Value[1];
-    $configure = $groups.Value[2].Replace("entity.", "entityBuilder.");
+    $configure = $groups.Value[2] -replace '(?ms)(entity\s*\.\s*)', 'entityBuilder.'
 
     $dic.Add($tableName, $configure);
 }
