@@ -402,7 +402,7 @@ internal sealed class DynamicApiControllerApplicationModelConvention : IApplicat
                     var newTemplate = $"{(selectorModel.AttributeRouteModel.Template?.StartsWith("/") == true ? "/" : null)}{(string.IsNullOrWhiteSpace(module) ? null : $"{module}/")}{selectorModel.AttributeRouteModel.Template}";
                     // 处理可能存在多斜杠问题
                     newTemplate = Regex.Replace(newTemplate, @"\/{2,}", "/");
-                    selectorModel.AttributeRouteModel.Template = isLowercaseRoute ? newTemplate?.ToLower() : newTemplate;
+                    selectorModel.AttributeRouteModel.Template = isLowercaseRoute ? ConvertToLowerCaseExceptBrackets(newTemplate) : newTemplate;
 
                     continue;
                 }
@@ -927,5 +927,33 @@ internal sealed class DynamicApiControllerApplicationModelConvention : IApplicat
 
         var tmp = string.Join('/', routeParts);
         return isStartDiagonal ? "/" + tmp : tmp;
+    }
+
+    /// <summary>
+    /// 排查自定义参数模板并进行路由小写
+    /// </summary>
+    /// <param name="input"></param>
+    /// <returns></returns>
+    private static string ConvertToLowerCaseExceptBrackets(string input)
+    {
+        if (string.IsNullOrWhiteSpace(input)) return input;
+
+        // 将整个字符串转为小写
+        var lowerCaseInput = input.ToLower();
+
+        // 匹配花括号内的内容
+        var regex = new Regex(@"\{.*?\}");
+
+        // 找到花括号内容并替换回原始大写形式
+        var matches = regex.Matches(input);
+        foreach (Match match in matches)
+        {
+            var startIndex = match.Index;
+            var length = match.Length;
+            var originalPart = input.Substring(startIndex, length);
+            lowerCaseInput = lowerCaseInput.Remove(startIndex, length).Insert(startIndex, originalPart);
+        }
+
+        return lowerCaseInput;
     }
 }
