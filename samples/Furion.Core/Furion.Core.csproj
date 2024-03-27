@@ -1,22 +1,22 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
-    <NoWarn>1701;1702;1591</NoWarn>
-    <DocumentationFile>Furion.Core.xml</DocumentationFile>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net8.0</TargetFramework>
+		<NoWarn>1701;1702;1591</NoWarn>
+		<DocumentationFile>Furion.Core.xml</DocumentationFile>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <None Remove="Furion.Core.xml" />
-  </ItemGroup>
+	<ItemGroup>
+		<None Remove="Furion.Core.xml" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Furion.Extras.Authentication.JwtBearer" Version="4.9.1.60" />
-    <PackageReference Include="Furion.Extras.ObjectMapper.Mapster" Version="4.9.1.60" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Furion.Extras.Authentication.JwtBearer" Version="4.9.1.61" />
+		<PackageReference Include="Furion.Extras.ObjectMapper.Mapster" Version="4.9.1.61" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\..\framework\Furion\Furion.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\..\framework\Furion\Furion.csproj" />
+	</ItemGroup>
 
 </Project>

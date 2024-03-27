@@ -930,7 +930,7 @@ internal sealed class DynamicApiControllerApplicationModelConvention : IApplicat
     }
 
     /// <summary>
-    /// 排查自定义参数模板并进行路由小写
+    /// 排除自定义参数模板并进行路由小写
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
