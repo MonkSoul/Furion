@@ -1156,7 +1156,7 @@ internal sealed partial class SchedulerFactory
         // 作业触发器还未临近结束时间，但状态显示已归档
         if (trigger.Status == TriggerStatus.Archived
             && trigger.EndTime != null
-            && trigger.EndTime.Value > nowTime)
+            && trigger.EndTime.Value >= nowTime)
         {
             _logger.LogWarning("The <{TriggerId}> trigger for scheduler of <{JobId}> has not yet reached its end time, but the status indicates that it has been archived.", trigger.TriggerId, trigger.JobId);
         }
