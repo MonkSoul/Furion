@@ -13,7 +13,8 @@ body:
       label: 版本号
       description: 请选择项目使用的 Furion 版本？
       options:
-        - 4.9.1.61 (最新)
+        - 4.9.2 (最新)
+        - 4.9.1.61
         - 4.9.1.60
         - 4.9.1.59
         - 4.9.1.58
@@ -227,7 +228,3 @@ body:
       options:
         - label: 我承诺将本着相互尊重、理解和友善的态度进行交流，共同维护好 Furion 来之不易的良好的社区氛围。
           required: true
-  - type: markdown
-    attributes:
-      value: |
-        [![](https://gitee.com/dotnetchina/Furion/raw/v4/assets/bug-vip.jpeg)](https://furion.net/docs/subscribe)
