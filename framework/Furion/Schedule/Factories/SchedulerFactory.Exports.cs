@@ -158,12 +158,12 @@ internal sealed partial class SchedulerFactory
         var newScheduler = schedulerBuilder.Build(_schedulers.Count);
         jobId = newScheduler.JobId;
 
+        // 获取当前时间用来计算触发器下一次触发时间
+        var nowTime = Penetrates.GetNowTime(ScheduleOptionsBuilder.UseUtcTimestampProperty);
+
         // 处理新增作业和更新作业的情况
         if (isAppended || isUpdated)
         {
-            // 获取当前时间用来计算触发器下一次触发时间
-            var nowTime = Penetrates.GetNowTime(ScheduleOptionsBuilder.UseUtcTimestampProperty);
-
             // 初始化作业内部信息
             newScheduler.JobDetail.Blocked = false;
             newScheduler.JobDetail.UpdatedTime = nowTime;
@@ -294,6 +294,9 @@ internal sealed partial class SchedulerFactory
             }
 
             _logger.LogInformation("The <{triggerId}> trigger for scheduler of <{jobId}> successfully {triggerOperation} to the schedule.", triggerId, jobId, triggerOperation);
+
+            // 确保作业触发器合法性
+            EnsureLegalOfTrigger(trigger, nowTime);
         }
 
         // 取消作业调度器休眠状态（强制唤醒）
@@ -1141,5 +1144,21 @@ internal sealed partial class SchedulerFactory
     public void CancelJob(string jobId)
     {
         _jobCancellationToken.Cancel(jobId);
+    }
+
+    /// <summary>
+    /// 确保作业触发器合法性
+    /// </summary>
+    /// <param name="trigger">作业触发器</param>
+    /// <param name="nowTime">当前时间</param>
+    private void EnsureLegalOfTrigger(Trigger trigger, DateTime nowTime)
+    {
+        // 作业触发器还未临近结束时间，但状态显示已归档
+        if (trigger.Status == TriggerStatus.Archived
+            && trigger.EndTime != null
+            && trigger.EndTime.Value > nowTime)
+        {
+            _logger.LogWarning("The <{TriggerId}> trigger for scheduler of <{JobId}> has not yet reached its end time, but the status indicates that it has been archived.", trigger.TriggerId, trigger.JobId);
+        }
     }
 }
