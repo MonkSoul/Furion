@@ -5,6 +5,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
+using System.ComponentModel;
 using System.Reflection;
 
 namespace Furion.SpecificationDocument;
@@ -33,6 +34,16 @@ public class ApiActionFilter : IOperationFilter
             if (!string.IsNullOrWhiteSpace(apiDescriptionSettings.Description))
             {
                 operation.Description += apiDescriptionSettings.Description;
+            }
+        }
+
+        // 将 [DisplayName] 特性内容直接覆盖 Swagger 注释
+        if (method.IsDefined(typeof(DisplayNameAttribute), true))
+        {
+            var displayName = method.GetCustomAttribute<DisplayNameAttribute>(true);
+            if (!string.IsNullOrWhiteSpace(displayName.DisplayName))
+            {
+                operation.Summary = displayName.DisplayName;
             }
         }
 

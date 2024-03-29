@@ -403,6 +403,11 @@
              - `Furion`：内部依赖 `Furion.Core` 且无第三方依赖，**聚焦 `Web` 应用**，采用共享框架 `<FrameworkReference Include="Microsoft.AspNetCore.App" />` 模式
               </remarks>
         </member>
+        <member name="M:Furion.Application.PersonService.我是DisplayName">
+            <summary>
+            哈哈哈哈
+            </summary>
+        </member>
         <member name="T:Furion.Application.LoginInput">
             <summary>
             登录输入参数

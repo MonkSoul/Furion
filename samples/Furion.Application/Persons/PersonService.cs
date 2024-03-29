@@ -2,6 +2,7 @@
 using Furion.Application.Services;
 using Furion.DatabaseAccessor.Extensions;
 using Furion.Localization;
+using System.ComponentModel;
 
 namespace Furion.Application;
 
@@ -324,5 +325,14 @@ public class PersonService : IDynamicApiController
     {
         await _personRepository.DeleteNowAsync(id);
         var d = await _personRepository.SqlQueriesAsync("select * from persion2 d");
+    }
+
+    /// <summary>
+    /// 哈哈哈哈
+    /// </summary>
+    [DisplayName("你妹啊~")]
+    public void 我是DisplayName()
+    {
+
     }
 }
