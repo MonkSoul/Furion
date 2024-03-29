@@ -36,7 +36,7 @@ public class SystemTextJsonSerializerProvider : IJsonSerializerProvider, ISingle
     /// <returns></returns>
     public string Serialize(object value, object jsonSerializerOptions = null)
     {
-        return JsonSerializer.Serialize(value, (jsonSerializerOptions ?? GetSerializerOptions()) as JsonSerializerOptions);
+        return JsonSerializer.Serialize(value, GetJsonSerializerOptions(jsonSerializerOptions));
     }
 
     /// <summary>
@@ -48,7 +48,7 @@ public class SystemTextJsonSerializerProvider : IJsonSerializerProvider, ISingle
     /// <returns></returns>
     public T Deserialize<T>(string json, object jsonSerializerOptions = null)
     {
-        return JsonSerializer.Deserialize<T>(json, (jsonSerializerOptions ?? GetSerializerOptions()) as JsonSerializerOptions);
+        return JsonSerializer.Deserialize<T>(json, GetJsonSerializerOptions(jsonSerializerOptions));
     }
 
     /// <summary>
@@ -60,7 +60,7 @@ public class SystemTextJsonSerializerProvider : IJsonSerializerProvider, ISingle
     /// <returns></returns>
     public object Deserialize(string json, Type returnType, object jsonSerializerOptions = null)
     {
-        return JsonSerializer.Deserialize(json, returnType, (jsonSerializerOptions ?? GetSerializerOptions()) as JsonSerializerOptions);
+        return JsonSerializer.Deserialize(json, returnType, GetJsonSerializerOptions(jsonSerializerOptions));
     }
 
     /// <summary>
@@ -70,5 +70,18 @@ public class SystemTextJsonSerializerProvider : IJsonSerializerProvider, ISingle
     public object GetSerializerOptions()
     {
         return _jsonOptions?.JsonSerializerOptions;
+    }
+
+    /// <summary>
+    /// 获取默认的序列化配置
+    /// </summary>
+    /// <param name="jsonSerializerOptions"></param>
+    /// <returns></returns>
+    private JsonSerializerOptions GetJsonSerializerOptions(object jsonSerializerOptions = null)
+    {
+        var jsonSerializerOptionsValue = (jsonSerializerOptions ?? GetSerializerOptions() ?? new JsonSerializerOptions()) as JsonSerializerOptions;
+        // 默认不区分大小写匹配
+        jsonSerializerOptionsValue.PropertyNameCaseInsensitive = true;
+        return jsonSerializerOptionsValue;
     }
 }
