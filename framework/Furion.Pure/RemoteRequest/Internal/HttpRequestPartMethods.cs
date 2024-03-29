@@ -10,7 +10,9 @@ using Furion.FriendlyException;
 using Furion.JsonSerialization;
 using Furion.Templates.Extensions;
 using Furion.VirtualFileServer;
+using Microsoft.Extensions.Logging;
 using System.IO.Compression;
+using System.Logging;
 using System.Net;
 using System.Net.Http.Headers;
 using System.Text;
@@ -583,6 +585,7 @@ public sealed partial class HttpRequestPart
         HttpResponseMessage response = default;
 
         HttpRequestMessage request = null;
+        var logger = App.GetService<ILogger<RemoteRequestService>>();
 
         try
         {
@@ -601,7 +604,16 @@ public sealed partial class HttpRequestPart
                     request?.Dispose();
                     request = CreateHttpRequestMessage(httpClient, httpClientOriginalString);
                     response = await httpClient.SendAsync(request, cancellationToken);
-                }, RetryPolicy.Value.NumRetries, RetryPolicy.Value.RetryTimeout);
+
+                    // 状态码检查（确保异常正确抛出）
+                    response.EnsureSuccessStatusCode();
+                }, RetryPolicy.Value.NumRetries
+                , RetryPolicy.Value.RetryTimeout
+                , retryAction: (total, times) =>
+                {
+                    // 输出重试日志
+                    logger.LogWarning("Retrying {times}/{total} times for HTTP request {Method} {RequestUrl}", times, total, Method, RequestUrl);
+                });
             }
         }
         catch (Exception ex)
@@ -629,7 +641,16 @@ public sealed partial class HttpRequestPart
                         // 重新发送请求到新的 URL
                         response?.Dispose();
                         response = await httpClient.GetAsync(redirectUrl, cancellationToken);
-                    }, RetryPolicy.Value.NumRetries, RetryPolicy.Value.RetryTimeout);
+
+                        // 状态码检查（确保异常正确抛出）
+                        response.EnsureSuccessStatusCode();
+                    }, RetryPolicy.Value.NumRetries
+                    , RetryPolicy.Value.RetryTimeout
+                    , retryAction: (total, times) =>
+                    {
+                        // 输出重试日志
+                        logger.LogWarning("Retrying {times}/{total} times for HTTP request {Method} {redirectUrl}", times, total, HttpMethod.Get, redirectUrl);
+                    });
                 }
             }
             catch (Exception ex)
