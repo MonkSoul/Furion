@@ -80,8 +80,18 @@ public class SystemTextJsonSerializerProvider : IJsonSerializerProvider, ISingle
     private JsonSerializerOptions GetJsonSerializerOptions(object jsonSerializerOptions = null)
     {
         var jsonSerializerOptionsValue = (jsonSerializerOptions ?? GetSerializerOptions() ?? new JsonSerializerOptions()) as JsonSerializerOptions;
+
+#if !NET5_0 && !NET6_0 && !NET7_0
+        if (!jsonSerializerOptionsValue.IsReadOnly)
+        {
+            // 默认不区分大小写匹配
+            jsonSerializerOptionsValue.PropertyNameCaseInsensitive = true;
+        }
+#else
         // 默认不区分大小写匹配
         jsonSerializerOptionsValue.PropertyNameCaseInsensitive = true;
+#endif
+
         return jsonSerializerOptionsValue;
     }
 }
