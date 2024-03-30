@@ -38,7 +38,7 @@
 
 ## 监督
 
-辱骂、骚扰或其他不可接受的行为可通过 [open@chinadot.net](mailto:open@chinadot.net) 向负责监督的社区领袖报告。
+辱骂、骚扰或其他不可接受的行为可通过 [support@furion.net](mailto:support@furion.net) 向负责监督的社区领袖报告。
 所有投诉都将得到及时和公平的审查和调查。
 
 所有社区领袖都有义务尊重任何事件报告者的隐私和安全。
