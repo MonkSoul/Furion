@@ -40,4 +40,4 @@ Read [contribution documents](https://gitee.com/dotnetchina/Furion/blob/v4/CONTR
 
 [Furion](https://gitee.com/dotnetchina/Furion) is primarily distributed under the terms of both the MIT license and the Apache License (Version 2.0).
 
-See [LICENSE-APACHE](https://gitee.com/dotnetchina/Furion/blob/v4/LICENSE-APACHE), [LICENSE-MIT](https://gitee.com/dotnetchina/Furion/blob/v4/LICENSE-MIT), and [COPYRIGHT](https://gitee.com/dotnetchina/Furion/blob/v4/COPYRIGHT) for details.
+See [LICENSE-APACHE](https://gitee.com/dotnetchina/Furion/blob/v4/LICENSE-APACHE), [LICENSE-MIT](https://gitee.com/dotnetchina/Furion/blob/v4/LICENSE-MIT), and [COPYRIGHT](https://gitee.com/dotnetchina/Furion/blob/v4/COPYRIGHT.md) for details.
