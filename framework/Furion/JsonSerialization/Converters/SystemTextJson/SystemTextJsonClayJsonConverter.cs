@@ -41,6 +41,6 @@ public class SystemTextJsonClayJsonConverter : JsonConverter<Clay>
     /// <param name="options"></param>
     public override void Write(Utf8JsonWriter writer, Clay value, JsonSerializerOptions options)
     {
-        writer.WriteStringValue(value.ToString());
+        writer.WriteRawValue(value.ToString());
     }
 }

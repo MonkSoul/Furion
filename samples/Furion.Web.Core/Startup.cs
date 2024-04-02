@@ -29,6 +29,7 @@ public sealed class Startup : AppStartup
                 .AddJsonOptions(options =>
                 {
                     options.JsonSerializerOptions.Converters.AddDateTimeTypeConverters();
+                    options.JsonSerializerOptions.Converters.AddClayConverters();
                 })
                 .AddInjectWithUnifyResult()
                 .AddUnifyJsonOptions("special", new JsonSerializerOptions

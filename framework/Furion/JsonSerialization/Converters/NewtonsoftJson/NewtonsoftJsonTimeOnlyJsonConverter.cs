@@ -59,7 +59,7 @@ public class NewtonsoftJsonTimeOnlyJsonConverter : JsonConverter<TimeOnly>
     /// <param name="serializer"></param>
     public override void WriteJson(JsonWriter writer, TimeOnly value, JsonSerializer serializer)
     {
-        serializer.Serialize(writer, value.ToString(Format));
+        writer.WriteValue(value.ToString(Format));
     }
 }
 
@@ -115,7 +115,7 @@ public class NewtonsoftJsonNullableTimeOnlyJsonConverter : JsonConverter<TimeOnl
     public override void WriteJson(JsonWriter writer, TimeOnly? value, JsonSerializer serializer)
     {
         if (value == null) writer.WriteNull();
-        else serializer.Serialize(writer, value.Value.ToString(Format));
+        else writer.WriteValue(value.Value.ToString(Format));
     }
 }
 #endif

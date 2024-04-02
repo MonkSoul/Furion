@@ -37,6 +37,6 @@ public class NewtonsoftJsonClayJsonConverter : JsonConverter<Clay>
     /// <param name="serializer"></param>
     public override void WriteJson(JsonWriter writer, Clay value, JsonSerializer serializer)
     {
-        serializer.Serialize(writer, value.ToString());
+        writer.WriteRawValue(value.ToString());
     }
 }

@@ -77,7 +77,7 @@ public class NewtonsoftJsonDateTimeOffsetJsonConverter : JsonConverter<DateTimeO
     {
         // 判断是否序列化成当地时间
         var formatDateTime = Localized ? value.ConvertToDateTime() : value;
-        serializer.Serialize(writer, formatDateTime.ToString(Format));
+        writer.WriteValue(formatDateTime.ToString(Format));
     }
 }
 
@@ -154,7 +154,7 @@ public class NewtonsoftJsonNullableDateTimeOffsetJsonConverter : JsonConverter<D
         {
             // 判断是否序列化成当地时间
             var formatDateTime = Localized ? value.ConvertToDateTime() : value;
-            serializer.Serialize(writer, formatDateTime.Value.ToString(Format));
+            writer.WriteValue(formatDateTime.Value.ToString(Format));
         }
     }
 }

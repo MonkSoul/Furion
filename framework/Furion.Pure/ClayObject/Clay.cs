@@ -489,6 +489,11 @@ public sealed class Clay : DynamicObject, IEnumerable
     {
         if (obj == null) return JsonType.@null;
 
+        if (obj is Clay clay)
+        {
+            return clay.jsonType;
+        }
+
         var objType = obj.GetType();
 
         // 将特别类型转换成 string

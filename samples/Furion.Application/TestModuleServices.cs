@@ -1,4 +1,5 @@
 ﻿using Furion.Application.Persons;
+using Furion.ClayObject;
 using Furion.DatabaseAccessor.Extensions;
 using Furion.Logging;
 using Furion.RemoteRequest;
@@ -349,9 +350,41 @@ public class TestModuleServices : IDynamicApiController
     {
         return test;
     }
-}
 
-public class TestLong
-{
-    public long? Property { get; set; } = 10;
+    public dynamic 测试嵌套Clay和序列化()
+    {
+        dynamic a1 = Clay.Object(new
+        {
+            Name = "我是第一层"
+        });
+
+        dynamic a2 = Clay.Object(new
+        {
+            Name = "我是第二层"
+        });
+
+        dynamic a3 = Clay.Object(new object[] { });
+
+        a3[0] = new
+        {
+            Name = "明细1"
+        };
+
+        a3[1] = new
+        {
+            Name = "明细2"
+        };
+
+        a1.Child = a2;
+        a1.Entry = a3;
+
+        var str = a1.ToString();
+
+        return a1;
+    }
+
+    public class TestLong
+    {
+        public long? Property { get; set; } = 10;
+    }
 }
