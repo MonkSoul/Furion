@@ -669,14 +669,10 @@ public sealed class Clay : DynamicObject, IEnumerable
         var e = XmlElement.Elements().ElementAtOrDefault(index);
         if (e == null)
         {
-            if (value is Clay clay)
-            {
-                XmlElement.Add(new XElement("item", CreateTypeAttr(type), clay.XmlElement.Elements()));
-            }
-            else
-            {
-                XmlElement.Add(new XElement("item", CreateTypeAttr(type), CreateJsonNode(value)));
-            }
+            XmlElement.Add(new XElement("item", CreateTypeAttr(type),
+                value is Clay clay
+                ? clay.XmlElement.Elements()
+                : CreateJsonNode(value)));
         }
         else
         {
