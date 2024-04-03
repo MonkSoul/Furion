@@ -380,6 +380,47 @@ public class TestModuleServices : IDynamicApiController
 
         var str = a1.ToString();
 
+        foreach (var item in a1)
+        {
+            var key = item.Key;
+            var value = item.Value;
+
+            if (value is Clay clay)
+            {
+                if (clay.IsObject)
+                {
+                    a1[key] = "df21";
+                }
+
+                if (clay.IsArray)
+                {
+                    var currentArr = Clay.Object(new dynamic[] { });
+                    for (int i = 0; i < value.Length; i++)
+                    {
+                        var sss = a1[key][i].ToString();
+                        var vs = $"我是 {key}{i} {sss}";
+
+                        if (i == 0)
+                        {
+                            // 这里是成功的
+                            currentArr[i] = vs;
+                        }
+                        else
+                        {
+                            // 这里是成功的
+                            currentArr[i] = Clay.Object(new
+                            {
+                                Name = vs
+                            });
+                        }
+                    }
+
+                    // 这种写法不行
+                    a1[key] = currentArr;
+                }
+            }
+        }
+
         return a1;
     }
 

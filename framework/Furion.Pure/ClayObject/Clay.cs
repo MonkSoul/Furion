@@ -620,38 +620,30 @@ public sealed class Clay : DynamicObject, IEnumerable
     private bool TrySet(string name, object value)
     {
         var type = GetJsonType(value);
-
-        // 处理循环 Clay 类型
-        if (value is Clay clay)
-        {
-            if (clay.IsObject) value = value.ToExpandoObject();
-            else if (clay.IsArray)
-            {
-                var list = new List<object>();
-                foreach (var item in (dynamic)clay)
-                {
-                    list.Add(item is Clay c ? c.ToExpandoObject() : item);
-                }
-                value = list;
-            }
-        }
-
         var element = FindXElement(name, out var isValid);
+
+        var newValue = value is Clay clay
+            ? clay.XmlElement.Elements()
+            : CreateJsonNode(value);
+
         if (element == null)
         {
-            if (isValid) XmlElement.Add(new XElement(name, CreateTypeAttr(type), CreateJsonNode(value)));
+            if (isValid)
+            {
+                XmlElement.Add(new XElement(name, CreateTypeAttr(type), newValue));
+            }
             else
             {
                 var xmlString = $"<a:item xmlns:a=\"item\" item=\"{name}\" type=\"{type}\"></a:item>";
                 var xEle = XElement.Parse(xmlString);
-                xEle.ReplaceNodes(CreateJsonNode(value));
+                xEle.ReplaceNodes(newValue);
                 XmlElement.Add(xEle);
             }
         }
         else
         {
             element.Attribute("type").Value = type.ToString();
-            element.ReplaceNodes(CreateJsonNode(value));
+            element.ReplaceNodes(newValue);
         }
 
         return true;
@@ -666,18 +658,21 @@ public sealed class Clay : DynamicObject, IEnumerable
     private bool TrySet(int index, object value)
     {
         var type = GetJsonType(value);
-        var e = XmlElement.Elements().ElementAtOrDefault(index);
-        if (e == null)
+        var element = XmlElement.Elements().ElementAtOrDefault(index);
+
+        var newValue = value is Clay clay
+            ? clay.XmlElement.Elements()
+            : CreateJsonNode(value);
+
+        if (element == null)
         {
             XmlElement.Add(new XElement("item", CreateTypeAttr(type),
-                value is Clay clay
-                ? clay.XmlElement.Elements()
-                : CreateJsonNode(value)));
+                newValue));
         }
         else
         {
-            e.Attribute("type").Value = type.ToString();
-            e.ReplaceNodes(CreateJsonNode(value));
+            element.Attribute("type").Value = type.ToString();
+            element.ReplaceNodes(newValue);
         }
 
         return true;
