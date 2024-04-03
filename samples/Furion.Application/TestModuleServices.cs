@@ -383,6 +383,25 @@ public class TestModuleServices : IDynamicApiController
         return a1;
     }
 
+    public dynamic 测试嵌套Clay和序列化2()
+    {
+        // 这里是另外一个Arr 子集
+        dynamic a3 = Clay.Object(new object[] { });
+
+        // 创建粘土
+        dynamic a1 = Clay.Object(new
+        {
+            Name = "我是第一层粘土"
+        });
+
+        // 把值些进
+        a3[0] = a1;
+
+        var str = a3.ToString();
+
+        return a3;
+    }
+
     public class TestLong
     {
         public long? Property { get; set; } = 10;
