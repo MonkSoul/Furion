@@ -359,7 +359,7 @@ public static class ObjectExtensions
             if (underlyingType != null && string.IsNullOrWhiteSpace(obj.ToString())) return null;
             else return Enum.Parse(underlyingType ?? type, obj.ToString());
         }
-        // 处理DateTime -> DateTimeOffset 类型
+        // 处理 DateTime -> DateTimeOffset 类型
         else if (obj.GetType().Equals(typeof(DateTime)) && (underlyingType ?? type).Equals(typeof(DateTimeOffset)))
         {
             return ((DateTime)obj).ConvertToDateTimeOffset();
@@ -369,6 +369,18 @@ public static class ObjectExtensions
         {
             return ((DateTimeOffset)obj).ConvertToDateTime();
         }
+#if !NET5_0
+        // 处理 DateTime -> DateOnly 类型
+        else if (obj.GetType().Equals(typeof(DateTime)) && (underlyingType ?? type).Equals(typeof(DateOnly)))
+        {
+            return DateOnly.FromDateTime(((DateTime)obj));
+        }
+        // 处理 DateTime -> TimeOnly 类型
+        else if (obj.GetType().Equals(typeof(DateTime)) && (underlyingType ?? type).Equals(typeof(TimeOnly)))
+        {
+            return TimeOnly.FromDateTime(((DateTime)obj));
+        }
+#endif
         else if (typeof(IConvertible).IsAssignableFrom(underlyingType ?? type))
         {
             try
@@ -403,6 +415,7 @@ public static class ObjectExtensions
                 return o;
             }
         }
+
         return obj;
     }
 
