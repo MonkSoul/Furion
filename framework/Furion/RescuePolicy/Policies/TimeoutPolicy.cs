@@ -142,7 +142,7 @@ public class TimeoutPolicy<TResult> : PolicyBase<TResult>
             var operationTask = operation();
 
             // 获取提前完成的任务
-            var completedTask = await Task.WhenAny(operationTask, Task.Delay(Timeout, cancellationTokenSource.Token));
+            var completedTask = await Task.WhenAny(operationTask, Task.Delay(System.Threading.Timeout.InfiniteTimeSpan, cancellationTokenSource.Token));
 
             // 检查是否存在取消请求
             cancellationToken.ThrowIfCancellationRequested();
