@@ -345,7 +345,7 @@ public class JWTEncryption
         if (string.IsNullOrWhiteSpace(bearerToken)) return default;
 
         var prefixLenght = tokenPrefix.Length;
-        return bearerToken.StartsWith(tokenPrefix, true, null) && bearerToken.Length > prefixLenght ? bearerToken[prefixLenght..] : default;
+        return bearerToken.StartsWith(tokenPrefix, true, null) && bearerToken.Length > prefixLenght ? bearerToken[prefixLenght..].Trim() : default;
     }
 
     /// <summary>
