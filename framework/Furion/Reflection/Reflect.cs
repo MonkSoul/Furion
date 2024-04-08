@@ -117,13 +117,20 @@ internal static class Reflect
     }
 
     /// <summary>
-    /// 加载程序集类型，支持格式：程序集;网站类型命名空间
+    /// 加载程序集类型，支持格式：程序集;完全限定的类型名称
     /// </summary>
     /// <param name="str"></param>
     /// <returns></returns>
     internal static Type GetStringType(string str)
     {
         var typeDefinitions = str.Split(';');
+
+        // 类型格式必须以分号作为分隔程序集名称和完全限定的类型名称
+        if (typeDefinitions.Length != 2)
+        {
+            throw new InvalidOperationException("The type format must use a semicolon as the separator between the assembly name and the fully qualified type name.");
+        }
+
         return GetType(typeDefinitions[0], typeDefinitions[1]);
     }
 }
