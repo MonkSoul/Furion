@@ -639,14 +639,15 @@ public static class Log
     {
         // 获取日志实例
         var (logger, loggerFactory, hasException) = loggingPart.GetLogger();
+        var scope = logger.ScopeContext(loggingPart.LogContext);
         if (hasException)
         {
+            scope?.Dispose();
             loggerFactory?.Dispose();
 
             throw new InvalidOperationException("Unable to set log context data.");
         }
 
-        var scope = logger.ScopeContext(loggingPart.LogContext);
         return (logger, scope);
     }
 }
