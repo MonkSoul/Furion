@@ -33,6 +33,11 @@ public static class UnifyContext
     internal static bool EnabledUnifyHandler = false;
 
     /// <summary>
+    /// 是否启用状态码拦截中间件
+    /// </summary>
+    internal static bool EnabledStatusCodesMiddleware = false;
+
+    /// <summary>
     /// 规范化结果额外数据键
     /// </summary>
     internal static string UnifyResultExtrasKey = "UNIFY_RESULT_EXTRAS";

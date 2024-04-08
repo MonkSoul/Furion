@@ -20,6 +20,7 @@ public static class UnifyResultMiddlewareExtensions
     public static IApplicationBuilder UseUnifyResultStatusCodes(this IApplicationBuilder builder)
     {
         // 注册中间件
+        UnifyContext.EnabledStatusCodesMiddleware = true;   // 设置标识
         builder.UseMiddleware<UnifyResultStatusCodesMiddleware>();
 
         return builder;
