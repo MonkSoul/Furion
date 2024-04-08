@@ -66,7 +66,7 @@ public class SucceededUnifyResultFilter : IAsyncActionFilter, IOrderedFilter
                     // 如果 Response 已经完成输出，则禁止写入
                     if (httpContext.Response.HasStarted) return;
 
-                    // 检查是否添加状态码拦截中间件
+                    // 检查是否启用状态码拦截中间件
                     if (UnifyContext.EnabledStatusCodesMiddleware)
                     {
                         await unifyRes.OnResponseStatusCodes(httpContext, statusCode, httpContext.RequestServices.GetService<IOptions<UnifyResultSettingsOptions>>()?.Value);
