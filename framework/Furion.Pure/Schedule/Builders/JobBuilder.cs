@@ -365,6 +365,12 @@ public sealed class JobBuilder : JobDetail
         // 空检查
         if (string.IsNullOrWhiteSpace(JobId)) throw new ArgumentNullException(nameof(JobId));
 
+        // 二次检查委托方式作业类型
+        if (DynamicExecuteAsync != null && RuntimeJobType != typeof(DynamicJob))
+        {
+            SetJobType<DynamicJob>();
+        }
+
         // 避免类型还未初始化，强制检查一次
         SetJobType(AssemblyName, JobType);
         SetProperties(Properties);
