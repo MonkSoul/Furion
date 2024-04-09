@@ -81,13 +81,21 @@ public sealed class Startup : AppStartup
 
             //options.AddPersistence<TestJobPersistence>();
 
-            options.AddJob<TestJob>(Triggers.PeriodHours(1).SetMaxNumberOfRuns(2), Triggers.PeriodSeconds(4));
-            //options.AddJobFactory<JobFactory>();
-            options.AddJob<TestCancelJob>("cancelJob", Triggers.PeriodSeconds(30));
-            options.AddJob<TestJob>(
-                Triggers.PeriodHours(1)
-                .SetStartTime(Convert.ToDateTime("2024-03-07 01:15:00"))
-                .SetRunOnStart(true));
+            options.GroupSet("group1", () =>
+            {
+                options.AddJob<TestJob>(Triggers.PeriodHours(1).SetMaxNumberOfRuns(2), Triggers.PeriodSeconds(4));
+                //options.AddJobFactory<JobFactory>();
+                options.AddJob<TestCancelJob>("cancelJob", Triggers.PeriodSeconds(30));
+            });
+
+            options.GroupSet("group2", () =>
+            {
+                options.AddJob<TestJob>(Triggers.PeriodHours(1)
+                    .SetStartTime(Convert.ToDateTime("2024-03-07 01:15:00"))
+                    .SetRunOnStart(true));
+            });
+
+            options.AddJob<TestJob>(Triggers.PeriodHours(2));
         });
 
         // 新版本任务队列

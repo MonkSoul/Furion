@@ -44,6 +44,11 @@ public sealed class ScheduleOptionsBuilder
     private Type _jobFactory;
 
     /// <summary>
+    /// 当前作业组名称
+    /// </summary>
+    internal string _groupSet;
+
+    /// <summary>
     /// 未察觉任务异常事件处理程序
     /// </summary>
     public EventHandler<UnobservedTaskExceptionEventArgs> UnobservedTaskExceptionHandler { get; set; }
@@ -106,6 +111,29 @@ public sealed class ScheduleOptionsBuilder
     internal static SqlTypes InternalBuildSqlType { get; private set; } = SqlTypes.Standard;
 
     /// <summary>
+    /// 添加作业组作业
+    /// </summary>
+    /// <param name="groupSet">作业组名称</param>
+    /// <param name="setAction"><see cref="Action"/></param>
+    /// <returns><see cref="ScheduleOptionsBuilder"/></returns>
+    public ScheduleOptionsBuilder GroupSet(string groupSet, Action setAction)
+    {
+        // 空检查
+        if (setAction is null) throw new ArgumentNullException(nameof(setAction));
+
+        // 设置当前作业组名称（理应不存在并发问题，若有添加 lock）
+        _groupSet = groupSet;
+
+        // 调用设置
+        setAction();
+
+        // 清空当前作业组名称
+        _groupSet = null;
+
+        return this;
+    }
+
+    /// <summary>
     /// 添加作业
     /// </summary>
     /// <param name="schedulerBuilders">作业调度程序构建器集合</param>
@@ -118,6 +146,10 @@ public sealed class ScheduleOptionsBuilder
         // 逐条将作业计划构建器添加到集合中
         foreach (var schedulerBuilder in schedulerBuilders)
         {
+            // 设置作业组名称
+            var jobBuilder = schedulerBuilder.JobBuilder;
+            jobBuilder.SetGroupName(_groupSet);
+
             _schedulerBuilders.Add(schedulerBuilder);
         }
 

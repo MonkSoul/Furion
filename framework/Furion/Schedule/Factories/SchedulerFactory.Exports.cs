@@ -12,6 +12,11 @@ namespace Furion.Schedule;
 internal sealed partial class SchedulerFactory
 {
     /// <summary>
+    /// 当前作业组名称
+    /// </summary>
+    internal string _groupSet;
+
+    /// <summary>
     /// 查找所有作业
     /// </summary>
     /// <param name="group">作业组名称</param>
@@ -332,6 +337,26 @@ internal sealed partial class SchedulerFactory
     }
 
     /// <summary>
+    /// 添加作业组作业
+    /// </summary>
+    /// <param name="groupSet">作业组名称</param>
+    /// <param name="setAction"><see cref="Action"/></param>
+    public void GroupSet(string groupSet, Action setAction)
+    {
+        // 空检查
+        if (setAction is null) throw new ArgumentNullException(nameof(setAction));
+
+        // 设置当前作业组名称（理应不存在并发问题，若有添加 lock）
+        _groupSet = groupSet;
+
+        // 调用设置
+        setAction();
+
+        // 清空当前作业组名称
+        _groupSet = null;
+    }
+
+    /// <summary>
     /// 添加作业
     /// </summary>
     /// <param name="schedulerBuilder">作业计划构建器</param>
@@ -340,6 +365,10 @@ internal sealed partial class SchedulerFactory
     /// <returns><see cref="ScheduleResult"/></returns>
     public ScheduleResult TryAddJob(SchedulerBuilder schedulerBuilder, out IScheduler scheduler, bool immediately = true)
     {
+        // 设置作业组名称
+        var jobBuilder = schedulerBuilder?.JobBuilder;
+        jobBuilder?.SetGroupName(_groupSet);
+
         return TrySaveJob(schedulerBuilder?.Appended(), out scheduler, immediately);
     }
 

@@ -72,6 +72,13 @@ public partial interface ISchedulerFactory : IDisposable
     void SaveJob(params SchedulerBuilder[] schedulerBuilders);
 
     /// <summary>
+    /// 添加作业组作业
+    /// </summary>
+    /// <param name="groupSet">作业组名称</param>
+    /// <param name="setAction"><see cref="Action"/></param>
+    void GroupSet(string groupSet, Action setAction);
+
+    /// <summary>
     /// 添加作业
     /// </summary>
     /// <param name="schedulerBuilder">作业计划构建器</param>
