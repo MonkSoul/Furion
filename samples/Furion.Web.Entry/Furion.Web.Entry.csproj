@@ -11,11 +11,11 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <None Remove="sensitive-words.txt" />
+		<None Remove="sensitive-words.txt" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <EmbeddedResource Include="sensitive-words.txt" />
+		<EmbeddedResource Include="sensitive-words.txt" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -33,6 +33,15 @@
 		<None Update="Furion.db">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
+		<None Update="plugins\**\**">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Update="plugins\ClassLibrary1.dll">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
 	</ItemGroup>
 
 	<ProjectExtensions>

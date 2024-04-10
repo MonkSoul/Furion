@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>ClassLibrary2</name>
+    </assembly>
+    <members>
+        <member name="T:ClassLibrary2.ClassLibrary2_Class2">
+            <summary>
+            插件2注释
+            </summary>
+        </member>
+        <member name="M:ClassLibrary2.ClassLibrary2_Class2.插件2">
+            <summary>
+            插件2注释
+            </summary>
+        </member>
+    </members>
+</doc>

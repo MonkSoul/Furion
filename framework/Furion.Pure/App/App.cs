@@ -18,6 +18,7 @@ using Microsoft.Extensions.Options;
 using StackExchange.Profiling;
 using System.Collections.Concurrent;
 using System.Diagnostics;
+using System.Linq;
 using System.Reflection;
 using System.Reflection.Metadata;
 using System.Security.Claims;
@@ -459,6 +460,7 @@ public static class App
         var assObject = GetAssemblies();
         Assemblies = assObject.Assemblies.ToList();
         ExternalAssemblies = assObject.ExternalAssemblies;
+        PathOfExternalAssemblies = assObject.PathOfExternalAssemblies;
 
         // 获取有效的类型集合
         EffectiveTypes = Assemblies.SelectMany(GetTypes).ToList();
@@ -477,10 +479,15 @@ public static class App
     internal static IEnumerable<Assembly> ExternalAssemblies;
 
     /// <summary>
+    /// 外部程序集文件路径
+    /// </summary>
+    internal static IEnumerable<string> PathOfExternalAssemblies;
+
+    /// <summary>
     /// 获取应用有效程序集
     /// </summary>
     /// <returns>IEnumerable</returns>
-    private static (IEnumerable<Assembly> Assemblies, IEnumerable<Assembly> ExternalAssemblies) GetAssemblies()
+    private static (IEnumerable<Assembly> Assemblies, IEnumerable<Assembly> ExternalAssemblies, IEnumerable<string> PathOfExternalAssemblies) GetAssemblies()
     {
         // 需排除的程序集后缀
         var excludeAssemblyNames = new string[] {
@@ -563,24 +570,54 @@ public static class App
         }
 
         IEnumerable<Assembly> externalAssemblies = Array.Empty<Assembly>();
+        IEnumerable<string> pathOfExternalAssemblies = Array.Empty<string>();
 
         // 加载 `appsetting.json` 配置的外部程序集
         if (Settings.ExternalAssemblies != null && Settings.ExternalAssemblies.Any())
         {
-            foreach (var externalAssembly in Settings.ExternalAssemblies)
+            var externalDlls = new List<string>();
+            foreach (var item in Settings.ExternalAssemblies)
             {
-                // 加载外部程序集
-                var assemblyFileFullPath = Path.Combine(AppContext.BaseDirectory
-                    , externalAssembly.EndsWith(".dll") ? externalAssembly : $"{externalAssembly}.dll");
+                if (string.IsNullOrWhiteSpace(item)) continue;
 
+                var path = Path.Combine(AppContext.BaseDirectory, item);
+
+                // 若以 .dll 结尾则认为是一个文件
+                if (item.EndsWith(".dll"))
+                {
+                    if (File.Exists(path)) externalDlls.Add(path);
+                }
+                // 否则作为目录查找或拼接 .dll 后缀作为文件名查找
+                else
+                {
+                    // 作为目录查找所有 .dll 文件
+                    if (Directory.Exists(path))
+                    {
+                        externalDlls.AddRange(Directory.EnumerateFiles(path, "*.dll", SearchOption.AllDirectories));
+                    }
+                    // 拼接 .dll 后缀查找
+                    else
+                    {
+                        var pathDll = path + ".dll";
+                        if (File.Exists(pathDll)) externalDlls.Add(pathDll);
+                    }
+                }
+            }
+
+            // 加载外部程序集
+            foreach (var assemblyFileFullPath in externalDlls)
+            {
                 // 根据路径加载程序集
                 var loadedAssembly = Reflect.LoadAssembly(assemblyFileFullPath);
                 if (loadedAssembly == default) continue;
                 var assembly = new[] { loadedAssembly };
 
+                if (scanAssemblies.Any(u => u == loadedAssembly)) continue;
+
                 // 合并程序集
                 scanAssemblies = scanAssemblies.Concat(assembly);
                 externalAssemblies = externalAssemblies.Concat(assembly);
+                pathOfExternalAssemblies = pathOfExternalAssemblies.Concat(new[] { assemblyFileFullPath });
             }
         }
 
@@ -590,7 +627,7 @@ public static class App
             scanAssemblies = scanAssemblies.Where(ass => !Settings.ExcludeAssemblies.Contains(ass.GetName().Name, StringComparer.OrdinalIgnoreCase));
         }
 
-        return (scanAssemblies, externalAssemblies);
+        return (scanAssemblies, externalAssemblies, pathOfExternalAssemblies);
     }
 
     /// <summary>
