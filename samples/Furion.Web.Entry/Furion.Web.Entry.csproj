@@ -38,12 +38,6 @@
 		</None>
 	</ItemGroup>
 
-	<ItemGroup>
-	  <None Update="plugins\ClassLibrary1.dll">
-	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </None>
-	</ItemGroup>
-
 	<ProjectExtensions>
 		<VisualStudio>
 			<UserProperties appsettings_1json__JsonSchema="" />
