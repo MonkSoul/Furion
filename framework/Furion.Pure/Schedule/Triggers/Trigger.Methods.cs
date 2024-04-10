@@ -452,30 +452,30 @@ public partial class Trigger
         // 不使用反射生成，为了使顺序可控，生成 SQL 可控，性能损耗最小
         var columnNames = ColumnNames(naming);
 
-        return $@"INSERT INTO {tableName}(
-    {columnNames[0]},
-    {columnNames[1]},
-    {columnNames[2]},
-    {columnNames[3]},
-    {columnNames[4]},
-    {columnNames[5]},
-    {columnNames[6]},
-    {columnNames[7]},
-    {columnNames[8]},
-    {columnNames[9]},
-    {columnNames[10]},
-    {columnNames[11]},
-    {columnNames[12]},
-    {columnNames[13]},
-    {columnNames[14]},
-    {columnNames[15]},
-    {columnNames[16]},
-    {columnNames[17]},
-    {columnNames[18]},
-    {columnNames[19]},
-    {columnNames[20]},
-    {columnNames[21]},
-    {columnNames[22]}
+        return $@"INSERT INTO {Penetrates.WrapDatabaseFieldName(tableName)}(
+    {Penetrates.WrapDatabaseFieldName(columnNames[0])},
+    {Penetrates.WrapDatabaseFieldName(columnNames[1])},
+    {Penetrates.WrapDatabaseFieldName(columnNames[2])},
+    {Penetrates.WrapDatabaseFieldName(columnNames[3])},
+    {Penetrates.WrapDatabaseFieldName(columnNames[4])},
+    {Penetrates.WrapDatabaseFieldName(columnNames[5])},
+    {Penetrates.WrapDatabaseFieldName(columnNames[6])},
+    {Penetrates.WrapDatabaseFieldName(columnNames[7])},
+    {Penetrates.WrapDatabaseFieldName(columnNames[8])},
+    {Penetrates.WrapDatabaseFieldName(columnNames[9])},
+    {Penetrates.WrapDatabaseFieldName(columnNames[10])},
+    {Penetrates.WrapDatabaseFieldName(columnNames[11])},
+    {Penetrates.WrapDatabaseFieldName(columnNames[12])},
+    {Penetrates.WrapDatabaseFieldName(columnNames[13])},
+    {Penetrates.WrapDatabaseFieldName(columnNames[14])},
+    {Penetrates.WrapDatabaseFieldName(columnNames[15])},
+    {Penetrates.WrapDatabaseFieldName(columnNames[16])},
+    {Penetrates.WrapDatabaseFieldName(columnNames[17])},
+    {Penetrates.WrapDatabaseFieldName(columnNames[18])},
+    {Penetrates.WrapDatabaseFieldName(columnNames[19])},
+    {Penetrates.WrapDatabaseFieldName(columnNames[20])},
+    {Penetrates.WrapDatabaseFieldName(columnNames[21])},
+    {Penetrates.WrapDatabaseFieldName(columnNames[22])}
 )
 VALUES(
     {Penetrates.GetNoNumberSqlValueOrNull(TriggerId)},
@@ -515,32 +515,32 @@ VALUES(
         // 不使用反射生成，为了使顺序可控，生成 SQL 可控，性能损耗最小
         var columnNames = ColumnNames(naming);
 
-        return $@"UPDATE {tableName}
+        return $@"UPDATE {Penetrates.WrapDatabaseFieldName(tableName)}
 SET
-    {columnNames[0]} = {Penetrates.GetNoNumberSqlValueOrNull(TriggerId)},
-    {columnNames[1]} = {Penetrates.GetNoNumberSqlValueOrNull(JobId)},
-    {columnNames[2]} = {Penetrates.GetNoNumberSqlValueOrNull(TriggerType)},
-    {columnNames[3]} = {Penetrates.GetNoNumberSqlValueOrNull(AssemblyName)},
-    {columnNames[4]} = {Penetrates.GetNoNumberSqlValueOrNull(Args)},
-    {columnNames[5]} = {Penetrates.GetNoNumberSqlValueOrNull(Description)},
-    {columnNames[6]} = {((int)Status)},
-    {columnNames[7]} = {Penetrates.GetNoNumberSqlValueOrNull(StartTime.ToUnspecifiedString())},
-    {columnNames[8]} = {Penetrates.GetNoNumberSqlValueOrNull(EndTime.ToUnspecifiedString())},
-    {columnNames[9]} = {Penetrates.GetNoNumberSqlValueOrNull(LastRunTime.ToUnspecifiedString())},
-    {columnNames[10]} = {Penetrates.GetNoNumberSqlValueOrNull(NextRunTime.ToUnspecifiedString())},
-    {columnNames[11]} = {NumberOfRuns},
-    {columnNames[12]} = {MaxNumberOfRuns},
-    {columnNames[13]} = {NumberOfErrors},
-    {columnNames[14]} = {MaxNumberOfErrors},
-    {columnNames[15]} = {NumRetries},
-    {columnNames[16]} = {RetryTimeout},
-    {columnNames[17]} = {Penetrates.GetBooleanSqlValue(StartNow)},
-    {columnNames[18]} = {Penetrates.GetBooleanSqlValue(RunOnStart)},
-    {columnNames[19]} = {Penetrates.GetBooleanSqlValue(ResetOnlyOnce)},
-    {columnNames[20]} = {Penetrates.GetNoNumberSqlValueOrNull(Result)},
-    {columnNames[21]} = {ElapsedTime},
-    {columnNames[22]} = {Penetrates.GetNoNumberSqlValueOrNull(UpdatedTime.ToUnspecifiedString())}
-WHERE {columnNames[0]} = {Penetrates.GetNoNumberSqlValueOrNull(TriggerId)} AND {columnNames[1]} = {Penetrates.GetNoNumberSqlValueOrNull(JobId)};";
+    {Penetrates.WrapDatabaseFieldName(columnNames[0])} = {Penetrates.GetNoNumberSqlValueOrNull(TriggerId)},
+    {Penetrates.WrapDatabaseFieldName(columnNames[1])} = {Penetrates.GetNoNumberSqlValueOrNull(JobId)},
+    {Penetrates.WrapDatabaseFieldName(columnNames[2])} = {Penetrates.GetNoNumberSqlValueOrNull(TriggerType)},
+    {Penetrates.WrapDatabaseFieldName(columnNames[3])} = {Penetrates.GetNoNumberSqlValueOrNull(AssemblyName)},
+    {Penetrates.WrapDatabaseFieldName(columnNames[4])} = {Penetrates.GetNoNumberSqlValueOrNull(Args)},
+    {Penetrates.WrapDatabaseFieldName(columnNames[5])} = {Penetrates.GetNoNumberSqlValueOrNull(Description)},
+    {Penetrates.WrapDatabaseFieldName(columnNames[6])} = {((int)Status)},
+    {Penetrates.WrapDatabaseFieldName(columnNames[7])} = {Penetrates.GetNoNumberSqlValueOrNull(StartTime.ToUnspecifiedString())},
+    {Penetrates.WrapDatabaseFieldName(columnNames[8])} = {Penetrates.GetNoNumberSqlValueOrNull(EndTime.ToUnspecifiedString())},
+    {Penetrates.WrapDatabaseFieldName(columnNames[9])} = {Penetrates.GetNoNumberSqlValueOrNull(LastRunTime.ToUnspecifiedString())},
+    {Penetrates.WrapDatabaseFieldName(columnNames[10])} = {Penetrates.GetNoNumberSqlValueOrNull(NextRunTime.ToUnspecifiedString())},
+    {Penetrates.WrapDatabaseFieldName(columnNames[11])} = {NumberOfRuns},
+    {Penetrates.WrapDatabaseFieldName(columnNames[12])} = {MaxNumberOfRuns},
+    {Penetrates.WrapDatabaseFieldName(columnNames[13])} = {NumberOfErrors},
+    {Penetrates.WrapDatabaseFieldName(columnNames[14])} = {MaxNumberOfErrors},
+    {Penetrates.WrapDatabaseFieldName(columnNames[15])} = {NumRetries},
+    {Penetrates.WrapDatabaseFieldName(columnNames[16])} = {RetryTimeout},
+    {Penetrates.WrapDatabaseFieldName(columnNames[17])} = {Penetrates.GetBooleanSqlValue(StartNow)},
+    {Penetrates.WrapDatabaseFieldName(columnNames[18])} = {Penetrates.GetBooleanSqlValue(RunOnStart)},
+    {Penetrates.WrapDatabaseFieldName(columnNames[19])} = {Penetrates.GetBooleanSqlValue(ResetOnlyOnce)},
+    {Penetrates.WrapDatabaseFieldName(columnNames[20])} = {Penetrates.GetNoNumberSqlValueOrNull(Result)},
+    {Penetrates.WrapDatabaseFieldName(columnNames[21])} = {ElapsedTime},
+    {Penetrates.WrapDatabaseFieldName(columnNames[22])} = {Penetrates.GetNoNumberSqlValueOrNull(UpdatedTime.ToUnspecifiedString())}
+WHERE {Penetrates.WrapDatabaseFieldName(columnNames[0])} = {Penetrates.GetNoNumberSqlValueOrNull(TriggerId)} AND {Penetrates.WrapDatabaseFieldName(columnNames[1])} = {Penetrates.GetNoNumberSqlValueOrNull(JobId)};";
     }
 
     /// <summary>
@@ -554,8 +554,8 @@ WHERE {columnNames[0]} = {Penetrates.GetNoNumberSqlValueOrNull(TriggerId)} AND {
         // 不使用反射生成，为了使顺序可控，生成 SQL 可控，性能损耗最小
         var columnNames = ColumnNames(naming);
 
-        return $@"DELETE FROM {tableName}
-WHERE {columnNames[0]} = {Penetrates.GetNoNumberSqlValueOrNull(TriggerId)} AND {columnNames[1]} = {Penetrates.GetNoNumberSqlValueOrNull(JobId)};";
+        return $@"DELETE FROM {Penetrates.WrapDatabaseFieldName(tableName)}
+WHERE {Penetrates.WrapDatabaseFieldName(columnNames[0])} = {Penetrates.GetNoNumberSqlValueOrNull(TriggerId)} AND {Penetrates.WrapDatabaseFieldName(columnNames[1])} = {Penetrates.GetNoNumberSqlValueOrNull(JobId)};";
     }
 
     /// <summary>

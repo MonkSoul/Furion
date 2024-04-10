@@ -220,16 +220,16 @@ public partial class JobDetail
         // 不使用反射生成，为了使顺序可控，生成 SQL 可控，性能损耗最小
         var columnNames = ColumnNames(naming);
 
-        return $@"INSERT INTO {tableName}(
-    {columnNames[0]},
-    {columnNames[1]},
-    {columnNames[2]},
-    {columnNames[3]},
-    {columnNames[4]},
-    {columnNames[5]},
-    {columnNames[6]},
-    {columnNames[7]},
-    {columnNames[8]}
+        return $@"INSERT INTO {Penetrates.WrapDatabaseFieldName(tableName)}(
+    {Penetrates.WrapDatabaseFieldName(columnNames[0])},
+    {Penetrates.WrapDatabaseFieldName(columnNames[1])},
+    {Penetrates.WrapDatabaseFieldName(columnNames[2])},
+    {Penetrates.WrapDatabaseFieldName(columnNames[3])},
+    {Penetrates.WrapDatabaseFieldName(columnNames[4])},
+    {Penetrates.WrapDatabaseFieldName(columnNames[5])},
+    {Penetrates.WrapDatabaseFieldName(columnNames[6])},
+    {Penetrates.WrapDatabaseFieldName(columnNames[7])},
+    {Penetrates.WrapDatabaseFieldName(columnNames[8])}
 )
 VALUES(
     {Penetrates.GetNoNumberSqlValueOrNull(JobId)},
@@ -255,18 +255,18 @@ VALUES(
         // 不使用反射生成，为了使顺序可控，生成 SQL 可控，性能损耗最小
         var columnNames = ColumnNames(naming);
 
-        return $@"UPDATE {tableName}
+        return $@"UPDATE {Penetrates.WrapDatabaseFieldName(tableName)}
 SET
-    {columnNames[0]} = {Penetrates.GetNoNumberSqlValueOrNull(JobId)},
-    {columnNames[1]} = {Penetrates.GetNoNumberSqlValueOrNull(GroupName)},
-    {columnNames[2]} = {Penetrates.GetNoNumberSqlValueOrNull(JobType)},
-    {columnNames[3]} = {Penetrates.GetNoNumberSqlValueOrNull(AssemblyName)},
-    {columnNames[4]} = {Penetrates.GetNoNumberSqlValueOrNull(Description)},
-    {columnNames[5]} = {Penetrates.GetBooleanSqlValue(Concurrent)},
-    {columnNames[6]} = {Penetrates.GetBooleanSqlValue(IncludeAnnotations)},
-    {columnNames[7]} = {Penetrates.GetNoNumberSqlValueOrNull(Properties)},
-    {columnNames[8]} = {Penetrates.GetNoNumberSqlValueOrNull(UpdatedTime.ToUnspecifiedString())}
-WHERE {columnNames[0]} = {Penetrates.GetNoNumberSqlValueOrNull(JobId)};";
+    {Penetrates.WrapDatabaseFieldName(columnNames[0])} = {Penetrates.GetNoNumberSqlValueOrNull(JobId)},
+    {Penetrates.WrapDatabaseFieldName(columnNames[1])} = {Penetrates.GetNoNumberSqlValueOrNull(GroupName)},
+    {Penetrates.WrapDatabaseFieldName(columnNames[2])} = {Penetrates.GetNoNumberSqlValueOrNull(JobType)},
+    {Penetrates.WrapDatabaseFieldName(columnNames[3])} = {Penetrates.GetNoNumberSqlValueOrNull(AssemblyName)},
+    {Penetrates.WrapDatabaseFieldName(columnNames[4])} = {Penetrates.GetNoNumberSqlValueOrNull(Description)},
+    {Penetrates.WrapDatabaseFieldName(columnNames[5])} = {Penetrates.GetBooleanSqlValue(Concurrent)},
+    {Penetrates.WrapDatabaseFieldName(columnNames[6])} = {Penetrates.GetBooleanSqlValue(IncludeAnnotations)},
+    {Penetrates.WrapDatabaseFieldName(columnNames[7])} = {Penetrates.GetNoNumberSqlValueOrNull(Properties)},
+    {Penetrates.WrapDatabaseFieldName(columnNames[8])} = {Penetrates.GetNoNumberSqlValueOrNull(UpdatedTime.ToUnspecifiedString())}
+WHERE {Penetrates.WrapDatabaseFieldName(columnNames[0])} = {Penetrates.GetNoNumberSqlValueOrNull(JobId)};";
     }
 
     /// <summary>
@@ -280,8 +280,8 @@ WHERE {columnNames[0]} = {Penetrates.GetNoNumberSqlValueOrNull(JobId)};";
         // 不使用反射生成，为了使顺序可控，生成 SQL 可控，性能损耗最小
         var columnNames = ColumnNames(naming);
 
-        return $@"DELETE FROM {tableName}
-WHERE {columnNames[0]} = {Penetrates.GetNoNumberSqlValueOrNull(JobId)};";
+        return $@"DELETE FROM {Penetrates.WrapDatabaseFieldName(tableName)}
+WHERE {Penetrates.WrapDatabaseFieldName(columnNames[0])} = {Penetrates.GetNoNumberSqlValueOrNull(JobId)};";
     }
 
     /// <summary>

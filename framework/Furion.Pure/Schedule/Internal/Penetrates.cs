@@ -183,6 +183,17 @@ internal static class Penetrates
     }
 
     /// <summary>
+    /// 包裹数据库字段名
+    /// </summary>
+    /// <remarks>如 PostgreSQL 表名和列名添加双引号</remarks>
+    /// <param name="field">数据库字段名</param>
+    /// <returns><see cref="string"/></returns>
+    internal static string WrapDatabaseFieldName(string field)
+    {
+        return ScheduleOptionsBuilder.InternalBuildSqlType == SqlTypes.PostgresSQL ? $"\"{field}\"" : field;
+    }
+
+    /// <summary>
     /// 高性能创建 JSON 字符串
     /// </summary>
     /// <param name="writeAction"><see cref="Utf8JsonWriter"/></param>
