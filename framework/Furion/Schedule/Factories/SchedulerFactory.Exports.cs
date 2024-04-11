@@ -344,6 +344,7 @@ internal sealed partial class SchedulerFactory
     public void GroupSet(string groupSet, Action setAction)
     {
         // 空检查
+        if (string.IsNullOrWhiteSpace(groupSet)) throw new ArgumentNullException(nameof(groupSet));
         if (setAction is null) throw new ArgumentNullException(nameof(setAction));
 
         // 设置当前作业组名称（理应不存在并发问题，若有添加 lock）
@@ -367,7 +368,7 @@ internal sealed partial class SchedulerFactory
     {
         // 设置作业组名称
         var jobBuilder = schedulerBuilder?.JobBuilder;
-        jobBuilder?.SetGroupName(_groupSet);
+        if (!string.IsNullOrWhiteSpace(_groupSet)) jobBuilder?.SetGroupName(_groupSet);
 
         return TrySaveJob(schedulerBuilder?.Appended(), out scheduler, immediately);
     }
