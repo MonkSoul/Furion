@@ -21,11 +21,11 @@
 	</ItemGroup>
 
 	<ItemGroup Condition=" '$(TargetFramework)' == 'net9.0' ">
-		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.0-preview.2.24128.5" />
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.0-preview.3.24172.9" />
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="sqlSugarCore" Version="5.1.4.151" />
+		<PackageReference Include="sqlSugarCore" Version="5.1.4.152" />
 	</ItemGroup>
 
 </Project>
