@@ -27,12 +27,12 @@ internal sealed partial class Scheduler : IScheduler
     /// <summary>
     /// 作业 Id
     /// </summary>
-    internal string JobId { get; private set; }
+    public string JobId { get; private set; }
 
     /// <summary>
     /// 作业组名称
     /// </summary>
-    internal string GroupName { get; private set; }
+    public string GroupName { get; private set; }
 
     /// <summary>
     /// 作业信息

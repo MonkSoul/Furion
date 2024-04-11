@@ -837,7 +837,7 @@ internal sealed class DynamicApiControllerApplicationModelConvention : IApplicat
     private static void ConfigureActionUnifyResultAttribute(ActionModel action)
     {
         // 判断是否手动添加了标注或跳过规范化处理
-        if (UnifyContext.CheckSucceededNonUnify(action.ActionMethod, out var _, false)) return;
+        if (UnifyContext.CheckSucceededNonUnify(action.ActionMethod, out _, false)) return;
 
         // 获取真实类型
         var returnType = action.ActionMethod.GetRealReturnType();

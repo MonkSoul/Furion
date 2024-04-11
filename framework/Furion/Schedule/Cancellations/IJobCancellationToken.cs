@@ -28,6 +28,6 @@ public interface IJobCancellationToken
     /// <summary>
     /// 取消（完成）所有作业执行
     /// </summary>
-    /// <param name="jobId"></param>
+    /// <param name="jobId">作业 Id</param>
     void Cancel(string jobId);
 }

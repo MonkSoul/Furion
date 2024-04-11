@@ -10,6 +10,16 @@ namespace Furion.Schedule;
 public interface IScheduler
 {
     /// <summary>
+    /// 作业 Id
+    /// </summary>
+    string JobId { get; }
+
+    /// <summary>
+    /// 作业组名称
+    /// </summary>
+    string GroupName { get; }
+
+    /// <summary>
     /// 返回可公开访问的作业计划模型
     /// </summary>
     /// <remarks>常用于接口返回或序列化操作</remarks>

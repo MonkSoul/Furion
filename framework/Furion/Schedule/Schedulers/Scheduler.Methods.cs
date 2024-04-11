@@ -181,7 +181,7 @@ internal sealed partial class Scheduler
         // 逐条将作业触发器构建器保存到作业计划中
         foreach (var triggerBuilder in triggerBuilders)
         {
-            _ = TrySaveTrigger(triggerBuilder, out var _);
+            _ = TrySaveTrigger(triggerBuilder, out _);
         }
     }
 
@@ -409,7 +409,7 @@ internal sealed partial class Scheduler
         var succeed = TrySaveTrigger(triggerBuilder?.Updated(), out var trigger, immediately) == ScheduleResult.Succeed;
         if (succeed)
         {
-            // 在另一个线程上启动异步操作，不阻塞当前线程 
+            // 在另一个线程上启动异步操作，不阻塞当前线程
             Task.Run(async () =>
             {
                 // 记录作业触发器运行信息

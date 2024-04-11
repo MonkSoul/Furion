@@ -119,7 +119,7 @@ public partial interface ISchedulerFactory : IDisposable
     /// <param name="immediately">是否立即通知作业调度器重新载入</param>
     /// <remarks><see cref="ScheduleResult"/></remarks>
     ScheduleResult TryAddJob<TJob>(TriggerBuilder[] triggerBuilders, out IScheduler scheduler, bool immediately = true)
-        where TJob : class, IJob;
+         where TJob : class, IJob;
 
     /// <summary>
     /// 添加作业
@@ -147,7 +147,7 @@ public partial interface ISchedulerFactory : IDisposable
     /// <typeparam name="TJob"><see cref="IJob"/> 实现类型</typeparam>
     /// <param name="triggerBuilders">作业触发器构建器集合</param>
     void AddJob<TJob>(params TriggerBuilder[] triggerBuilders)
-        where TJob : class, IJob;
+         where TJob : class, IJob;
 
     /// <summary>
     /// 添加作业
@@ -173,7 +173,7 @@ public partial interface ISchedulerFactory : IDisposable
     /// <param name="immediately">是否立即通知作业调度器重新载入</param>
     /// <returns><see cref="ScheduleResult"/></returns>
     ScheduleResult TryAddJob<TJob>(string jobId, TriggerBuilder[] triggerBuilders, out IScheduler scheduler, bool immediately = true)
-        where TJob : class, IJob;
+         where TJob : class, IJob;
 
     /// <summary>
     /// 添加作业
@@ -204,7 +204,7 @@ public partial interface ISchedulerFactory : IDisposable
     /// <param name="jobId">作业 Id</param>
     /// <param name="triggerBuilders">作业触发器构建器集合</param>
     void AddJob<TJob>(string jobId, params TriggerBuilder[] triggerBuilders)
-        where TJob : class, IJob;
+         where TJob : class, IJob;
 
     /// <summary>
     /// 添加作业
@@ -233,7 +233,7 @@ public partial interface ISchedulerFactory : IDisposable
     /// <param name="immediately">是否立即通知作业调度器重新载入</param>
     /// <returns><see cref="ScheduleResult"/></returns>
     ScheduleResult TryAddJob<TJob>(string jobId, bool concurrent, TriggerBuilder[] triggerBuilders, out IScheduler scheduler, bool immediately = true)
-        where TJob : class, IJob;
+         where TJob : class, IJob;
 
     /// <summary>
     /// 添加作业
@@ -267,7 +267,7 @@ public partial interface ISchedulerFactory : IDisposable
     /// <param name="concurrent">是否采用并发执行</param>
     /// <param name="triggerBuilders">作业触发器构建器集合</param>
     void AddJob<TJob>(string jobId, bool concurrent, params TriggerBuilder[] triggerBuilders)
-        where TJob : class, IJob;
+         where TJob : class, IJob;
 
     /// <summary>
     /// 添加作业
@@ -297,7 +297,7 @@ public partial interface ISchedulerFactory : IDisposable
     /// <param name="immediately">是否立即通知作业调度器重新载入</param>
     /// <returns><see cref="ScheduleResult"/></returns>
     ScheduleResult TryAddJob<TJob>(bool concurrent, TriggerBuilder[] triggerBuilders, out IScheduler scheduler, bool immediately = true)
-        where TJob : class, IJob;
+         where TJob : class, IJob;
 
     /// <summary>
     /// 添加作业
@@ -328,7 +328,7 @@ public partial interface ISchedulerFactory : IDisposable
     /// <param name="concurrent">是否采用并发执行</param>
     /// <param name="triggerBuilders">作业触发器构建器集合</param>
     void AddJob<TJob>(bool concurrent, params TriggerBuilder[] triggerBuilders)
-        where TJob : class, IJob;
+         where TJob : class, IJob;
 
     /// <summary>
     /// 添加作业
@@ -372,7 +372,7 @@ public partial interface ISchedulerFactory : IDisposable
     /// <param name="triggerBuilders">作业触发器构建器集合</param>
     /// <returns><see cref="ScheduleOptionsBuilder"/></returns>
     void AddHttpJob<TJob>(Action<HttpJobMessage> buildMessage, params TriggerBuilder[] triggerBuilders)
-       where TJob : class, IJob;
+        where TJob : class, IJob;
 
     /// <summary>
     /// 添加 HTTP 作业
@@ -384,7 +384,7 @@ public partial interface ISchedulerFactory : IDisposable
     /// <param name="immediately">是否立即通知作业调度器重新载入</param>
     /// <returns><see cref="ScheduleResult"/></returns>
     ScheduleResult TryAddHttpJob<TJob>(Action<HttpJobMessage> buildMessage, TriggerBuilder[] triggerBuilders, out IScheduler scheduler, bool immediately = true)
-       where TJob : class, IJob;
+        where TJob : class, IJob;
 
     /// <summary>
     /// 添加 HTTP 作业
@@ -415,7 +415,7 @@ public partial interface ISchedulerFactory : IDisposable
     /// <param name="triggerBuilders">作业触发器构建器集合</param>
     /// <returns><see cref="ScheduleOptionsBuilder"/></returns>
     void AddHttpJob<TJob>(Action<HttpJobMessage> buildMessage, string jobId, params TriggerBuilder[] triggerBuilders)
-       where TJob : class, IJob;
+        where TJob : class, IJob;
 
     /// <summary>
     /// 添加 HTTP 作业
@@ -428,7 +428,7 @@ public partial interface ISchedulerFactory : IDisposable
     /// <param name="immediately">是否立即通知作业调度器重新载入</param>
     /// <returns><see cref="ScheduleResult"/></returns>
     ScheduleResult TryAddHttpJob<TJob>(Action<HttpJobMessage> buildMessage, string jobId, TriggerBuilder[] triggerBuilders, out IScheduler scheduler, bool immediately = true)
-       where TJob : class, IJob;
+        where TJob : class, IJob;
 
     /// <summary>
     /// 添加 HTTP 作业
@@ -462,7 +462,7 @@ public partial interface ISchedulerFactory : IDisposable
     /// <param name="triggerBuilders">作业触发器构建器集合</param>
     /// <returns><see cref="ScheduleOptionsBuilder"/></returns>
     void AddHttpJob<TJob>(Action<HttpJobMessage> buildMessage, string jobId, bool concurrent, params TriggerBuilder[] triggerBuilders)
-       where TJob : class, IJob;
+        where TJob : class, IJob;
 
     /// <summary>
     /// 添加 HTTP 作业
@@ -476,7 +476,7 @@ public partial interface ISchedulerFactory : IDisposable
     /// <param name="immediately">是否立即通知作业调度器重新载入</param>
     /// <returns><see cref="ScheduleResult"/></returns>
     ScheduleResult TryAddHttpJob<TJob>(Action<HttpJobMessage> buildMessage, string jobId, bool concurrent, TriggerBuilder[] triggerBuilders, out IScheduler scheduler, bool immediately = true)
-       where TJob : class, IJob;
+        where TJob : class, IJob;
 
     /// <summary>
     /// 添加 HTTP 作业
@@ -507,7 +507,7 @@ public partial interface ISchedulerFactory : IDisposable
     /// <param name="triggerBuilders">作业触发器构建器集合</param>
     /// <returns><see cref="ScheduleOptionsBuilder"/></returns>
     void AddHttpJob<TJob>(Action<HttpJobMessage> buildMessage, bool concurrent, params TriggerBuilder[] triggerBuilders)
-       where TJob : class, IJob;
+        where TJob : class, IJob;
 
     /// <summary>
     /// 添加 HTTP 作业
@@ -520,7 +520,7 @@ public partial interface ISchedulerFactory : IDisposable
     /// <param name="immediately">是否立即通知作业调度器重新载入</param>
     /// <returns><see cref="ScheduleResult"/></returns>
     ScheduleResult TryAddHttpJob<TJob>(Action<HttpJobMessage> buildMessage, bool concurrent, TriggerBuilder[] triggerBuilders, out IScheduler scheduler, bool immediately = true)
-       where TJob : class, IJob;
+        where TJob : class, IJob;
 
     /// <summary>
     /// 更新作业
@@ -608,18 +608,107 @@ public partial interface ISchedulerFactory : IDisposable
     /// 立即执行作业
     /// </summary>
     /// <param name="jobId">作业 Id</param>
+    /// <param name="scheduler">作业计划</param>
     /// <returns><see cref="ScheduleResult"/></returns>
-    ScheduleResult TryRunJob(string jobId);
+    ScheduleResult TryRunJob(string jobId, out IScheduler scheduler);
 
     /// <summary>
     /// 立即执行作业
     /// </summary>
-    /// <param name="jobId">作业 Id</param>
-    void RunJob(string jobId);
+    /// <param name="jobIds">作业 Id 集合</param>
+    void RunJob(params string[] jobIds);
+
+    /// <summary>
+    /// 立即执行作业
+    /// </summary>
+    /// <param name="scheduler">作业计划</param>
+    /// <returns><see cref="ScheduleResult"/></returns>
+    ScheduleResult TryRunJob(IScheduler scheduler);
+
+    /// <summary>
+    /// 立即执行作业
+    /// </summary>
+    /// <param name="schedulers">作业计划集合</param>
+    void RunJob(params IScheduler[] schedulers);
 
     /// <summary>
     /// 取消正在执行的作业
     /// </summary>
     /// <param name="jobId">作业 Id</param>
-    void CancelJob(string jobId);
+    /// <param name="scheduler">作业计划</param>
+    /// <returns><see cref="ScheduleResult"/></returns>
+    ScheduleResult TryCancelJob(string jobId, out IScheduler scheduler);
+
+    /// <summary>
+    /// 取消正在执行的作业
+    /// </summary>
+    /// <param name="jobIds">作业 Id 集合</param>
+    void CancelJob(params string[] jobIds);
+
+    /// <summary>
+    /// 取消正在执行的作业
+    /// </summary>
+    /// <param name="scheduler">作业计划</param>
+    /// <returns><see cref="ScheduleResult"/></returns>
+    ScheduleResult TryCancelJob(IScheduler scheduler);
+
+    /// <summary>
+    /// 取消正在执行的作业
+    /// </summary>
+    /// <param name="schedulers">作业计划集合</param>
+    void CancelJob(params IScheduler[] schedulers);
+
+    /// <summary>
+    /// 启动作业
+    /// </summary>
+    /// <param name="jobId">作业 Id</param>
+    /// <param name="scheduler">作业计划</param>
+    /// <returns><see cref="ScheduleResult"/></returns>
+    ScheduleResult TryStartJob(string jobId, out IScheduler scheduler);
+
+    /// <summary>
+    /// 启动作业
+    /// </summary>
+    /// <param name="jobIds">作业 Id 集合</param>
+    void StartJob(params string[] jobIds);
+
+    /// <summary>
+    /// 启动作业
+    /// </summary>
+    /// <param name="scheduler">作业计划</param>
+    /// <returns><see cref="ScheduleResult"/></returns>
+    ScheduleResult TryStartJob(IScheduler scheduler);
+
+    /// <summary>
+    /// 启动作业
+    /// </summary>
+    /// <param name="schedulers">作业计划集合</param>
+    void StartJob(params IScheduler[] schedulers);
+
+    /// <summary>
+    /// 暂停作业
+    /// </summary>
+    /// <param name="jobId">作业 Id</param>
+    /// <param name="scheduler">作业计划</param>
+    /// <returns><see cref="ScheduleResult"/></returns>
+    ScheduleResult TryPauseJob(string jobId, out IScheduler scheduler);
+
+    /// <summary>
+    /// 暂停作业
+    /// </summary>
+    /// <param name="jobIds">作业 Id 集合</param>
+    void PauseJob(params string[] jobIds);
+
+    /// <summary>
+    /// 暂停作业
+    /// </summary>
+    /// <param name="scheduler">作业计划</param>
+    /// <returns><see cref="ScheduleResult"/></returns>
+    ScheduleResult TryPauseJob(IScheduler scheduler);
+
+    /// <summary>
+    /// 暂停作业
+    /// </summary>
+    /// <param name="schedulers">作业计划集合</param>
+    void PauseJob(params IScheduler[] schedulers);
 }

@@ -15,14 +15,18 @@ public class JobServices : IDynamicApiController
     }
     public void StartJob(string jobId)
     {
-        _ = _schedulerFactory.TryGetJob(jobId, out var scheduler);
-        scheduler?.Start();
+        //_ = _schedulerFactory.TryGetJob(jobId, out var scheduler);
+        //scheduler?.Start();
+
+        _schedulerFactory.TryStartJob(jobId, out _);
     }
 
     public void PauseJob(string jobId)
     {
-        _ = _schedulerFactory.TryGetJob(jobId, out var scheduler);
-        scheduler?.Pause();
+        //_ = _schedulerFactory.TryGetJob(jobId, out var scheduler);
+        //scheduler?.Pause();
+
+        _schedulerFactory.TryPauseJob(jobId, out _);
     }
 
     public void AddJob([FromQuery] string jobId)
@@ -39,16 +43,18 @@ public class JobServices : IDynamicApiController
 
     public void RunJob([FromQuery] string jobId)
     {
-        _schedulerFactory.RunJob(jobId);
+        //_schedulerFactory.RunJob(jobId);
+        _schedulerFactory.TryRunJob(jobId, out _);
     }
 
     public void RemoveJob(string jobId)
     {
-        _ = _schedulerFactory.TryRemoveJob(jobId, out var _);
+        _ = _schedulerFactory.TryRemoveJob(jobId, out _);
     }
 
     public void CancelJob([FromQuery] string jobId)
     {
-        _schedulerFactory.CancelJob(jobId);
+        //_schedulerFactory.CancelJob(jobId);
+        _schedulerFactory.TryCancelJob(jobId, out _);
     }
 }

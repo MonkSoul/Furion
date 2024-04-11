@@ -17,10 +17,17 @@ internal sealed class JobCancellationToken : IJobCancellationToken
     private readonly ConcurrentDictionary<string, CancellationTokenSource> _cancellationTokenSources;
 
     /// <summary>
+    /// 作业调度器日志服务
+    /// </summary>
+    private readonly IScheduleLogger _logger;
+
+    /// <summary>
     /// 构造函数
     /// </summary>
-    public JobCancellationToken()
+    /// <param name="logger">作业调度器日志服务</param>
+    public JobCancellationToken(IScheduleLogger logger)
     {
+        _logger = logger;
         _cancellationTokenSources = new();
     }
 
@@ -60,20 +67,29 @@ internal sealed class JobCancellationToken : IJobCancellationToken
     /// <summary>
     /// 取消（完成）所有作业执行
     /// </summary>
-    /// <param name="jobId"></param>
+    /// <param name="jobId">作业 Id</param>
     public void Cancel(string jobId)
     {
+        // 获取所有以作业 Id 开头的作业 TokenKey
         var allJobKeys = _cancellationTokenSources.Keys
             .Where(u => u.StartsWith($"{jobId}__"));
 
-        foreach (var key in allJobKeys)
+        foreach (var tokenKey in allJobKeys)
         {
             try
             {
-                if (_cancellationTokenSources.TryRemove(key, out var cancellationTokenSource))
+                if (_cancellationTokenSources.TryRemove(tokenKey, out var cancellationTokenSource))
                 {
                     if (!cancellationTokenSource.IsCancellationRequested) cancellationTokenSource.Cancel();
                     cancellationTokenSource.Dispose();
+
+                    // 输出日志
+                    _logger.LogWarning("The scheduler of <{JobId}> cancellation request has been sent to stop its execution.", jobId);
+                }
+                else
+                {
+                    // 输出日志
+                    _logger.LogWarning(message: "The scheduler of <{jobId}> is not found.", jobId);
                 }
             }
             catch (TaskCanceledException) { }
