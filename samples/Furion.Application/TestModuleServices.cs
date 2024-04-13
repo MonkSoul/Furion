@@ -4,10 +4,15 @@ using Furion.DatabaseAccessor.Extensions;
 using Furion.Logging;
 using Furion.RemoteRequest;
 using Furion.RemoteRequest.Extensions;
+using Furion.SpecificationDocument;
 using Furion.UnifyResult;
 using Furion.ViewEngine;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
+using Swashbuckle.AspNetCore.Swagger;
+using Swashbuckle.AspNetCore.SwaggerGen;
+using Swashbuckle.AspNetCore.SwaggerUI;
 using System.Data;
 using System.Text.Json;
 
@@ -446,5 +451,15 @@ public class TestModuleServices : IDynamicApiController
     public class TestLong
     {
         public long? Property { get; set; } = 10;
+    }
+
+    public void 修改Swagger标题描述([FromServices] ISwaggerProvider swaggerProvider)
+    {
+        // 通过依赖注入 ISwaggerProvider 接口
+        var openApiDocument = swaggerProvider.GetSwagger("Default"); // 获取 Default 分组名文档
+
+        // 直接修改即可
+        openApiDocument.Info.Title = "我是新标题";
+        openApiDocument.Info.Description = "我是新描述";
     }
 }
