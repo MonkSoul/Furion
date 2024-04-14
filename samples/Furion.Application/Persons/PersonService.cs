@@ -327,10 +327,15 @@ public class PersonService : IDynamicApiController
         var d = await _personRepository.SqlQueriesAsync("select * from persion2 d");
     }
 
+    [DisplayName("生成注释")]
+    public void 测试DsiplayName特性()
+    {
+    }
+
     /// <summary>
-    /// 哈哈哈哈
+    /// 如果同时存在显示这个
     /// </summary>
-    [DisplayName("你妹啊~")]
+    [DisplayName("生成注释")]
     public void 我是DisplayName()
     {
 

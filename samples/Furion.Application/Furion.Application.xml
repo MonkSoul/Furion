@@ -405,7 +405,7 @@
         </member>
         <member name="M:Furion.Application.PersonService.我是DisplayName">
             <summary>
-            哈哈哈哈
+            如果同时存在显示这个
             </summary>
         </member>
         <member name="T:Furion.Application.LoginInput">
