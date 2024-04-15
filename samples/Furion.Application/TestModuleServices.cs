@@ -1,6 +1,7 @@
 ﻿using Furion.Application.Persons;
 using Furion.ClayObject;
 using Furion.DatabaseAccessor.Extensions;
+using Furion.Extensions;
 using Furion.Logging;
 using Furion.RemoteRequest;
 using Furion.RemoteRequest.Extensions;
@@ -457,5 +458,26 @@ public class TestModuleServices : IDynamicApiController
         // 直接修改即可
         openApiDocument.Info.Title = "我是新标题";
         openApiDocument.Info.Description = "我是新描述";
+    }
+
+    public void 测试AES加解密()
+    {
+        // 测试 AES 加解密
+        var key = "7a23b8b759fe43b494c3b456d41383b0"; // 密钥，长度必须为24位或32位
+        var xx = "+t282cXHBrhdCUaLo0g0ktR+g9QOfhwuOYH7x6k9ReY=";
+        var cd = AESEncryption.Decrypt(xx, key);
+
+        var aesHash = AESEncryption.Encrypt("百小僧", key); // 加密  
+        var str2 = AESEncryption.Decrypt(aesHash, key); // 解密
+
+        // 加密
+        var originBytes = File.ReadAllBytes("image.png"); // 读取源文件内容
+        var encryptBytes = AESEncryption.Encrypt(originBytes, "123456");
+        encryptBytes.CopyToSave("image.加密.png");
+
+        // 解密
+        var encryptBytes2 = File.ReadAllBytes("image.加密.png"); // 读取加密文件内容
+        var originBytes2 = AESEncryption.Decrypt(encryptBytes2, "123456");
+        originBytes2.CopyToSave("image.真实.png");
     }
 }

@@ -2,6 +2,8 @@
 //
 // 此源代码遵循位于源代码树根目录中的 LICENSE 文件的许可证。
 
+using System.Security.Cryptography;
+
 namespace Furion.DataEncryption.Extensions;
 
 /// <summary>
@@ -63,45 +65,57 @@ public static class StringEncryptionExtensions
     /// <summary>
     /// 字符串 AES 加密
     /// </summary>
-    /// <param name="text">需要加密的字符串</param>
-    /// <param name="skey"></param>
+    /// <param name="text">加密文本</param>
+    /// <param name="skey">密钥</param>
+    /// <param name="iv">偏移量</param>
+    /// <param name="mode">模式</param>
+    /// <param name="padding">填充</param>
     /// <returns>string</returns>
-    public static string ToAESEncrypt(this string text, string skey)
+    public static string ToAESEncrypt(this string text, string skey, byte[] iv = null, CipherMode mode = CipherMode.CBC, PaddingMode padding = PaddingMode.PKCS7)
     {
-        return AESEncryption.Encrypt(text, skey);
+        return AESEncryption.Encrypt(text, skey, iv, mode, padding);
     }
 
     /// <summary>
     /// 字符串 AES 解密
     /// </summary>
-    /// <param name="text"></param>
-    /// <param name="skey"></param>
+    /// <param name="text">加密文本</param>
+    /// <param name="skey">密钥</param>
+    /// <param name="iv">偏移量</param>
+    /// <param name="mode">模式</param>
+    /// <param name="padding">填充</param>
     /// <returns>string</returns>
-    public static string ToAESDecrypt(this string text, string skey)
+    public static string ToAESDecrypt(this string text, string skey, byte[] iv = null, CipherMode mode = CipherMode.CBC, PaddingMode padding = PaddingMode.PKCS7)
     {
-        return AESEncryption.Decrypt(text, skey);
+        return AESEncryption.Decrypt(text, skey, iv, mode, padding);
     }
 
     /// <summary>
     /// 字节数组（文件） AES 加密
     /// </summary>
-    /// <param name="bytes"></param>
-    /// <param name="skey"></param>
+    /// <param name="bytes">源文件 字节数组</param>
+    /// <param name="skey">密钥</param>
+    /// <param name="iv">偏移量</param>
+    /// <param name="mode">模式</param>
+    /// <param name="padding">填充</param>
     /// <returns>string</returns>
-    public static byte[] ToAESEncrypt(this byte[] bytes, string skey)
+    public static byte[] ToAESEncrypt(this byte[] bytes, string skey, byte[] iv = null, CipherMode mode = CipherMode.CBC, PaddingMode padding = PaddingMode.PKCS7)
     {
-        return AESEncryption.Encrypt(bytes, skey);
+        return AESEncryption.Encrypt(bytes, skey, iv, mode, padding);
     }
 
     /// <summary>
     /// 字节数组（文件） AES 解密
     /// </summary>
-    /// <param name="bytes"></param>
-    /// <param name="skey"></param>
+    /// <param name="bytes">加密后文件 字节数组</param>
+    /// <param name="skey">密钥</param>
+    /// <param name="iv">偏移量</param>
+    /// <param name="mode">模式</param>
+    /// <param name="padding">填充</param>
     /// <returns>string</returns>
-    public static byte[] ToAESDecrypt(this byte[] bytes, string skey)
+    public static byte[] ToAESDecrypt(this byte[] bytes, string skey, byte[] iv = null, CipherMode mode = CipherMode.CBC, PaddingMode padding = PaddingMode.PKCS7)
     {
-        return AESEncryption.Decrypt(bytes, skey);
+        return AESEncryption.Decrypt(bytes, skey, iv, mode, padding);
     }
 
     /// <summary>
