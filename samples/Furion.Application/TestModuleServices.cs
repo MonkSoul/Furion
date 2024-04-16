@@ -486,4 +486,48 @@ public class TestModuleServices : IDynamicApiController
     {
 
     }
+
+    public dynamic 测试匿名类嵌套Clay()
+    {
+        var package = Clay.Object(new
+        {
+            Name = "我是第一层"
+        });
+
+        var a3 = Clay.Object(new object[] { });
+
+        a3[0] = new
+        {
+            Name = "明细1"
+        };
+
+        a3[1] = new
+        {
+            Name = "明细2"
+        };
+
+        a3[2] = package;
+
+        a3[3] = new
+        {
+            package
+        };
+
+        var policy = Clay.Object(new
+        {
+            search = new
+            {
+                hotel_id = 10,
+                check_in_date = DateTime.Now
+            },
+            package,
+            package1 = new
+            {
+                package,
+                a3
+            }
+        });
+
+        return policy;
+    }
 }

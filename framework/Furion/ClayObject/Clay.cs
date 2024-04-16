@@ -571,6 +571,11 @@ public sealed class Clay : DynamicObject, IEnumerable
     /// <returns></returns>
     private static IEnumerable<XStreamingElement> CreateXArray<T>(T obj) where T : IEnumerable
     {
+        if (obj is Clay clay)
+        {
+            return clay.XmlElement.Elements().Select(xElement => new XStreamingElement(xElement.Name, xElement.Attributes(), xElement.Nodes()));
+        }
+
         return obj.Cast<object>()
             .Select(o => new XStreamingElement("item", CreateTypeAttr(GetJsonType(o)), CreateJsonNode(o)));
     }
@@ -582,6 +587,15 @@ public sealed class Clay : DynamicObject, IEnumerable
     /// <returns></returns>
     private static IEnumerable<XStreamingElement> CreateXObject(object obj)
     {
+        if (obj is Clay clay)
+        {
+            var rootElement = clay.XmlElement.Elements().First();
+            return new[]
+            {
+                new XStreamingElement(rootElement.Name, rootElement.Attributes(), rootElement.Nodes())
+            };
+        }
+
         if (obj is ExpandoObject expando)
         {
             var dict = (IDictionary<string, object>)expando;
