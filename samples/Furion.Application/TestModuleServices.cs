@@ -480,4 +480,10 @@ public class TestModuleServices : IDynamicApiController
         var originBytes2 = AESEncryption.Decrypt(encryptBytes2, "123456");
         originBytes2.CopyToSave("image.真实.png");
     }
+
+    [HttpGet]
+    public void 测试CancellationToken参数(CancellationToken cancellationToken)
+    {
+
+    }
 }
