@@ -535,4 +535,59 @@ public class TestModuleServices : IDynamicApiController
 
         return policy;
     }
+
+    public dynamic 测试粘土对象空值()
+    {
+        var json = """
+                        {
+            	"hotel_id": "usg1",
+            	"room_details": {
+            		"room_code": "100",
+            		"rate_plan_code": "27eefeb01331",
+            		"rate_plan_description": null,
+            		"description": "Standard Room",
+            		"food": 7,
+            		"non_refundable": false,
+            		"room_type": "double",
+            		"room_view": "",
+            		"beds": {
+            			"double": 1
+            		},
+            		"supplier_description": "Standard - 1 Queen Bed",
+            		"non_smoking": null,
+            		"room_gender": null,
+            		"benefits": null,
+            		"floor": null,
+            		"amenitites": null
+            	},
+            	"booking_key": "0c1f51b6",
+            	"room_rate": 1.03,
+            	"room_rate_currency": "USD",
+            	"client_commission": 0,
+            	"client_commission_currency": "USD",
+            	"chargeable_rate": 1.03,
+            	"chargeable_rate_currency": "USD",
+            	"cancellation_policy": {
+            		"remarks": "Swimming pool will be closed from June 9 to June 20",
+            		"cancellation_policies": [{
+            			"penalty_percentage": 0,
+            			"date_from": "2024-04-16T00:00:00Z",
+            			"date_to": "2024-04-20T00:00:00Z"
+            		},
+            		{
+            			"penalty_percentage": 100,
+            			"date_from": "2024-04-20T00:00:00Z",
+            			"date_to": "2024-04-21T00:00:00Z"
+            		}]
+            	},
+            	"rate_type": "net",
+            	"daily_number_of_units": null,
+            	"created_at": "2024-04-16T07:23:20.976215805Z"
+            }
+            """;
+
+        var clay = Clay.Parse(json);
+
+        return clay;
+    }
 }
