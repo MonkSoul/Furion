@@ -538,15 +538,15 @@ public class TestModuleServices : IDynamicApiController
 
     public dynamic 测试粘土对象空值()
     {
-        var json = """
-                        {
+        var package = Clay.Parse("""
+            {
             	"hotel_id": "usg1",
             	"room_details": {
             		"room_code": "100",
-            		"rate_plan_code": "27eefeb01331",
+            		"rate_plan_code": "25d967dae0fc",
             		"rate_plan_description": null,
             		"description": "Standard Room",
-            		"food": 7,
+            		"food": 3,
             		"non_refundable": false,
             		"room_type": "double",
             		"room_view": "",
@@ -560,7 +560,7 @@ public class TestModuleServices : IDynamicApiController
             		"floor": null,
             		"amenitites": null
             	},
-            	"booking_key": "0c1f51b6",
+            	"booking_key": "91fefa5f",
             	"room_rate": 1.03,
             	"room_rate_currency": "USD",
             	"client_commission": 0,
@@ -582,11 +582,25 @@ public class TestModuleServices : IDynamicApiController
             	},
             	"rate_type": "net",
             	"daily_number_of_units": null,
-            	"created_at": "2024-04-16T07:23:20.976215805Z"
+            	"created_at": "2024-04-16T10:54:35.30403424Z"
             }
-            """;
+            """);
 
-        var clay = Clay.Parse(json);
+        var obj = new
+        {
+            search = new
+            {
+                hotel_id = "usg1",
+                check_in_date = "2024-04-20",
+                check_out_date = "2024-04-21",
+                room_count = 1,
+                adult_count = 1
+            },
+            package = package,
+        };
+
+        var clay = Clay.Object(obj);
+        var res1 = clay.ToString();
 
         return clay;
     }

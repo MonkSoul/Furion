@@ -305,12 +305,21 @@ public sealed class Clay : DynamicObject, IEnumerable
     /// <returns></returns>
     public override string ToString()
     {
-        // 处理类型为 null 且为双闭合标签
+        // 清除 null 节点
+        ClearNullNodes();
+
+        return CreateJsonString(new XStreamingElement("root", CreateTypeAttr(jsonType), XmlElement.Elements()));
+    }
+
+    /// <summary>
+    /// 清除 null 节点
+    /// </summary>
+    private void ClearNullNodes()
+    {
         foreach (var elem in XmlElement.Descendants().Where(x => x.Attribute("type").Value == "null"))
         {
             elem.RemoveNodes();
         }
-        return CreateJsonString(new XStreamingElement("root", CreateTypeAttr(jsonType), XmlElement.Elements()));
     }
 
     /// <summary>
@@ -573,6 +582,7 @@ public sealed class Clay : DynamicObject, IEnumerable
     {
         if (obj is Clay clay)
         {
+            clay.ClearNullNodes();
             return clay.XmlElement.Elements().Select(xElement => new XStreamingElement(xElement.Name, xElement.Attributes(), xElement.Nodes()));
         }
 
@@ -589,6 +599,7 @@ public sealed class Clay : DynamicObject, IEnumerable
     {
         if (obj is Clay clay)
         {
+            clay.ClearNullNodes();
             return clay.XmlElement.Elements().Select(xElement => new XStreamingElement(xElement.Name, xElement.Attributes(), xElement.Nodes()));
         }
 
