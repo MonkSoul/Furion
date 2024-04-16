@@ -589,11 +589,7 @@ public sealed class Clay : DynamicObject, IEnumerable
     {
         if (obj is Clay clay)
         {
-            var rootElement = clay.XmlElement.Elements().First();
-            return new[]
-            {
-                new XStreamingElement(rootElement.Name, rootElement.Attributes(), rootElement.Nodes())
-            };
+            return clay.XmlElement.Elements().Select(xElement => new XStreamingElement(xElement.Name, xElement.Attributes(), xElement.Nodes()));
         }
 
         if (obj is ExpandoObject expando)

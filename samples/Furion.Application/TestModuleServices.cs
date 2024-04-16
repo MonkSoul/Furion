@@ -491,7 +491,12 @@ public class TestModuleServices : IDynamicApiController
     {
         var package = Clay.Object(new
         {
-            Name = "我是第一层"
+            Name = "我是第一层",
+            Age = 20,
+            More = new
+            {
+                Address = "广东省中山市"
+            }
         });
 
         var a3 = Clay.Object(new object[] { });
