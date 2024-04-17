@@ -600,7 +600,8 @@ public class TestModuleServices : IDynamicApiController
         };
 
         var clay = Clay.Object(obj);
-        var res1 = clay.ToString();
+        var c = clay.ToString();
+        var res1 = clay.Solidify<dynamic>();
 
         return clay;
     }
