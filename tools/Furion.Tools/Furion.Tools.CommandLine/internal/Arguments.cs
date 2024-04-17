@@ -23,13 +23,10 @@
 // 请访问 https://gitee.com/dotnetchina/Furion 获取更多关于 Furion 项目的许可证和版权信息。
 // ------------------------------------------------------------------------
 
-using System;
 using System.Collections;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
-using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
@@ -219,8 +216,10 @@ internal class Arguments
     /// </summary>
     /// <param name="index">The index for which the value is to be retrieved.</param>
     /// <returns>The argument value corresponding to the specified index.</returns>
-    public object this[int index] {
-        get {
+    public object this[int index]
+    {
+        get
+        {
             return ArgumentList[index].Value;
         }
     }
@@ -231,8 +230,10 @@ internal class Arguments
     /// </summary>
     /// <param name="key">The key for which the value is to be retrieved.</param>
     /// <returns>The argument value corresponding to the specified key.</returns>
-    public object this[string key] {
-        get {
+    public object this[string key]
+    {
+        get
+        {
             return ArgumentDictionary[key];
         }
     }

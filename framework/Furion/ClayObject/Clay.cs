@@ -47,13 +47,11 @@ public sealed class Clay : DynamicObject, IEnumerable
     /// 构造函数
     /// </summary>
     /// <param name="throwOnUndefined">如果设置 false，则读取不存在的值返回 null，默认 true</param>
-    /// <param name="serializerOptions">序列化配置</param>
-    public Clay(bool throwOnUndefined = true, JsonSerializerOptions serializerOptions = default)
+    public Clay(bool throwOnUndefined = true)
     {
         XmlElement = new XElement("root", CreateTypeAttr(JsonType.@object));
         jsonType = JsonType.@object;
         ThrowOnUndefined = throwOnUndefined;
-        if (serializerOptions != null) SerializerOptions = serializerOptions;
     }
 
     /// <summary>
@@ -62,8 +60,7 @@ public sealed class Clay : DynamicObject, IEnumerable
     /// <param name="element"><see cref="XElement"/></param>
     /// <param name="type">JSON 类型</param>
     /// <param name="throwOnUndefined">如果设置 false，则读取不存在的值返回 null，默认 true</param>
-    /// <param name="serializerOptions">序列化配置</param>
-    private Clay(XElement element, JsonType type, bool throwOnUndefined = true, JsonSerializerOptions serializerOptions = default)
+    private Clay(XElement element, JsonType type, bool throwOnUndefined = true)
     {
         // 只允许 object 和 array 类型
         Debug.Assert(type == JsonType.array || type == JsonType.@object);
@@ -71,7 +68,6 @@ public sealed class Clay : DynamicObject, IEnumerable
         XmlElement = element;
         jsonType = type;
         ThrowOnUndefined = throwOnUndefined;
-        if (serializerOptions != null) SerializerOptions = serializerOptions;
     }
 
     /// <summary>
@@ -109,23 +105,13 @@ public sealed class Clay : DynamicObject, IEnumerable
     public bool ThrowOnUndefined { get; set; } = true;
 
     /// <summary>
-    /// 固化粘土（序列化）配置
-    /// </summary>
-    public JsonSerializerOptions SerializerOptions { get; set; } = new JsonSerializerOptions
-    {
-        // 默认不区分大小写匹配
-        PropertyNameCaseInsensitive = true,
-    };
-
-    /// <summary>
     /// 创建空的粘土对象
     /// </summary>
     /// <param name="throwOnUndefined">如果设置 false，则读取不存在的值返回 null，默认 true</param>
-    /// <param name="serializerOptions">序列化配置</param>
     /// <returns><see cref="Clay"/></returns>
-    public static dynamic Object(bool throwOnUndefined = true, JsonSerializerOptions serializerOptions = default)
+    public static dynamic Object(bool throwOnUndefined = true)
     {
-        return new Clay(throwOnUndefined, serializerOptions);
+        return new Clay(throwOnUndefined);
     }
 
     /// <summary>
@@ -133,15 +119,14 @@ public sealed class Clay : DynamicObject, IEnumerable
     /// </summary>
     /// <param name="obj">对象</param>
     /// <param name="throwOnUndefined">如果设置 false，则读取不存在的值返回 null，默认 true</param>
-    /// <param name="serializerOptions">序列化配置</param>
     /// <returns><see cref="Clay"/></returns>
-    public static dynamic Object(object obj, bool throwOnUndefined = true, JsonSerializerOptions serializerOptions = default)
+    public static dynamic Object(object obj, bool throwOnUndefined = true)
     {
         // 空检查
         if (obj == null) throw new ArgumentNullException(nameof(obj));
 
         var json = CreateJsonString(new XStreamingElement("root", CreateTypeAttr(GetJsonType(obj)), CreateJsonNode(obj)));
-        return Parse(json, throwOnUndefined, serializerOptions);
+        return Parse(json, throwOnUndefined);
     }
 
     /// <summary>
@@ -149,11 +134,10 @@ public sealed class Clay : DynamicObject, IEnumerable
     /// </summary>
     /// <param name="json">JSON 字符串</param>
     /// <param name="throwOnUndefined">如果设置 false，则读取不存在的值返回 null，默认 true</param>
-    /// <param name="serializerOptions">序列化配置</param>
     /// <returns><see cref="Clay"/></returns>
-    public static dynamic Parse(string json, bool throwOnUndefined = true, JsonSerializerOptions serializerOptions = default)
+    public static dynamic Parse(string json, bool throwOnUndefined = true)
     {
-        return Parse(json, Encoding.UTF8, throwOnUndefined, serializerOptions);
+        return Parse(json, Encoding.UTF8, throwOnUndefined);
     }
 
     /// <summary>
@@ -162,12 +146,11 @@ public sealed class Clay : DynamicObject, IEnumerable
     /// <param name="json">JSON 字符串</param>
     /// <param name="encoding">编码类型</param>
     /// <param name="throwOnUndefined">如果设置 false，则读取不存在的值返回 null，默认 true</param>
-    /// <param name="serializerOptions">序列化配置</param>
     /// <returns><see cref="Clay"/></returns>
-    public static dynamic Parse(string json, Encoding encoding, bool throwOnUndefined = true, JsonSerializerOptions serializerOptions = default)
+    public static dynamic Parse(string json, Encoding encoding, bool throwOnUndefined = true)
     {
         using var reader = JsonReaderWriterFactory.CreateJsonReader(encoding.GetBytes(json), XmlDictionaryReaderQuotas.Max);
-        return ToValue(XElement.Load(reader), throwOnUndefined, serializerOptions);
+        return ToValue(XElement.Load(reader), throwOnUndefined);
     }
 
     /// <summary>
@@ -175,12 +158,11 @@ public sealed class Clay : DynamicObject, IEnumerable
     /// </summary>
     /// <param name="stream"><see cref="Stream"/></param>
     /// <param name="throwOnUndefined">如果设置 false，则读取不存在的值返回 null，默认 true</param>
-    /// <param name="serializerOptions">序列化配置</param>
     /// <returns><see cref="Clay"/></returns>
-    public static dynamic Parse(Stream stream, bool throwOnUndefined = true, JsonSerializerOptions serializerOptions = default)
+    public static dynamic Parse(Stream stream, bool throwOnUndefined = true)
     {
         using var reader = JsonReaderWriterFactory.CreateJsonReader(stream, XmlDictionaryReaderQuotas.Max);
-        return ToValue(XElement.Load(reader), throwOnUndefined, serializerOptions);
+        return ToValue(XElement.Load(reader), throwOnUndefined);
     }
 
     /// <summary>
@@ -189,12 +171,11 @@ public sealed class Clay : DynamicObject, IEnumerable
     /// <param name="stream"><see cref="Stream"/></param>
     /// <param name="encoding">编码类型</param>
     /// <param name="throwOnUndefined">如果设置 false，则读取不存在的值返回 null，默认 true</param>
-    /// <param name="serializerOptions">序列化配置</param>
     /// <returns><see cref="Clay"/></returns>
-    public static dynamic Parse(Stream stream, Encoding encoding, bool throwOnUndefined = true, JsonSerializerOptions serializerOptions = default)
+    public static dynamic Parse(Stream stream, Encoding encoding, bool throwOnUndefined = true)
     {
         using var reader = JsonReaderWriterFactory.CreateJsonReader(stream, encoding, XmlDictionaryReaderQuotas.Max, _ => { });
-        return ToValue(XElement.Load(reader), throwOnUndefined, serializerOptions);
+        return ToValue(XElement.Load(reader), throwOnUndefined);
     }
 
     /// <summary>
@@ -242,8 +223,8 @@ public sealed class Clay : DynamicObject, IEnumerable
         if (binder.Type == typeof(IEnumerable) || binder.Type == typeof(object[]))
         {
             var ie = (IsArray)
-                ? XmlElement.Elements().Select(x => ToValue(x, ThrowOnUndefined, SerializerOptions))
-                : XmlElement.Elements().Select(x => (dynamic)new KeyValuePair<string, object>(x.Name == "{item}item" ? x.Attribute("item").Value : x.Name.LocalName, ToValue(x, ThrowOnUndefined, SerializerOptions)));
+                ? XmlElement.Elements().Select(x => ToValue(x, ThrowOnUndefined))
+                : XmlElement.Elements().Select(x => (dynamic)new KeyValuePair<string, object>(x.Name == "{item}item" ? x.Attribute("item").Value : x.Name.LocalName, ToValue(x, ThrowOnUndefined)));
             result = (binder.Type == typeof(object[])) ? ie.ToArray() : ie;
         }
         else
@@ -406,20 +387,25 @@ public sealed class Clay : DynamicObject, IEnumerable
     /// <summary>
     /// 将粘土对象转换为 object 类型
     /// </summary>
+    /// <param name="serializerOptions"></param>
     /// <returns></returns>
-    public object Solidify()
+    public object Solidify(JsonSerializerOptions serializerOptions = null)
     {
-        return Solidify<object>();
+        return Solidify<object>(serializerOptions);
     }
 
     /// <summary>
     /// 将粘土对象转换为特定类型
     /// </summary>
     /// <typeparam name="T"></typeparam>
+    /// <param name="serializerOptions"></param>
     /// <returns></returns>
-    public T Solidify<T>()
+    public T Solidify<T>(JsonSerializerOptions serializerOptions = null)
     {
-        return JsonSerializer.Deserialize<T>(ToString(), SerializerOptions);
+        return JsonSerializer.Deserialize<T>(ToString(), serializerOptions ?? new JsonSerializerOptions
+        {
+            PropertyNameCaseInsensitive = true
+        });
     }
 
     /// <summary>
@@ -514,9 +500,8 @@ public sealed class Clay : DynamicObject, IEnumerable
     /// </summary>
     /// <param name="element"></param>
     /// <param name="throwOnUndefined">如果设置 false，则读取不存在的值返回 null，默认 true</param>
-    /// <param name="serializerOptions">序列化配置</param>
     /// <returns></returns>
-    private static dynamic ToValue(XElement element, bool throwOnUndefined = true, JsonSerializerOptions serializerOptions = default)
+    private static dynamic ToValue(XElement element, bool throwOnUndefined = true)
     {
         var type = (JsonType)Enum.Parse(typeof(JsonType), element.Attribute("type").Value);
         return type switch
@@ -525,7 +510,7 @@ public sealed class Clay : DynamicObject, IEnumerable
             JsonType.number when element.Value.Contains('.') => (double)element,
             JsonType.number => (long)element,
             JsonType.@string => (string)element,
-            JsonType.@object or JsonType.array => new Clay(element, type, throwOnUndefined, serializerOptions),
+            JsonType.@object or JsonType.array => new Clay(element, type, throwOnUndefined),
             _ => null,
         };
     }
@@ -660,9 +645,8 @@ public sealed class Clay : DynamicObject, IEnumerable
     /// <param name="element"></param>
     /// <param name="result"></param>
     /// <param name="throwOnUndefined"></param>
-    /// <param name="serializerOptions"></param>
     /// <returns></returns>
-    private static bool TryGet(XElement element, out object result, bool throwOnUndefined = true, JsonSerializerOptions serializerOptions = default)
+    private static bool TryGet(XElement element, out object result, bool throwOnUndefined = true)
     {
         if (element == null)
         {
@@ -670,7 +654,7 @@ public sealed class Clay : DynamicObject, IEnumerable
             return !throwOnUndefined;   // 如果这里返回 true，那么不存在的 Key 不会报错
         }
 
-        result = ToValue(element, throwOnUndefined, serializerOptions);
+        result = ToValue(element, throwOnUndefined);
         return true;
     }
 
@@ -783,11 +767,10 @@ public sealed class Clay : DynamicObject, IEnumerable
     /// <param name="element"></param>
     /// <param name="elementType"></param>
     /// <param name="throwOnUndefined">如果设置 false，则读取不存在的值返回 null，默认 true</param>
-    /// <param name="serializerOptions">序列化配置</param>
     /// <returns></returns>
-    private static dynamic DeserializeValue(XElement element, Type elementType, bool throwOnUndefined = true, JsonSerializerOptions serializerOptions = default)
+    private static dynamic DeserializeValue(XElement element, Type elementType, bool throwOnUndefined = true)
     {
-        var value = ToValue(element, throwOnUndefined, serializerOptions);
+        var value = ToValue(element, throwOnUndefined);
 
         if (value is Clay clay)
         {
@@ -882,8 +865,7 @@ public sealed class Clay : DynamicObject, IEnumerable
     /// <summary>
     /// 将被转换成字符串的类型
     /// </summary>
-    private static readonly Type[] ToBeConvertStringTypes = new[]
-    {
-        typeof(DateTimeOffset)
-    };
+    private static readonly Type[] ToBeConvertStringTypes = new[] {
+            typeof(DateTimeOffset)
+        };
 }
