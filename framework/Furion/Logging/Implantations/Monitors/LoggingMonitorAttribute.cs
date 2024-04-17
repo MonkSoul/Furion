@@ -608,6 +608,9 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter, IAs
             // 解决 JsonElement 序列化问题
             jsonSerializerSettings.Converters.Add(new JsonElementConverter());
 
+            // 解决粘土对象 序列化问题
+            jsonSerializerSettings.Converters.AddClayConverters();
+
             // 解决 DateTimeOffset 序列化/反序列化问题
             if (obj is DateTimeOffset)
             {

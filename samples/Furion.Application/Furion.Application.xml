@@ -646,6 +646,12 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:Furion.Application.TestModuleServices.TestClayMonitor">
+            <summary>
+            测试粘土对象日志监听
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:Furion.Application.TestSensitiveDetection.GetWordsAsync">
             <summary>
             获取所有脱敏词汇

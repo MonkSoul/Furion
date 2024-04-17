@@ -25,12 +25,12 @@
 
 using Furion.ClayObject.Extensions;
 using Furion.Extensions;
+using Furion.JsonSerialization;
 using System.Diagnostics;
 using System.Dynamic;
 using System.Reflection;
 using System.Runtime.Serialization.Json;
 using System.Text;
-using System.Text.Json;
 using System.Xml;
 using System.Xml.Linq;
 
@@ -123,10 +123,13 @@ public sealed class Clay : DynamicObject, IEnumerable
     public static dynamic Object(object obj, bool throwOnUndefined = true)
     {
         // 空检查
-        if (obj == null) throw new ArgumentNullException(nameof(obj));
+        if (obj != null)
+        {
+            var json = CreateJsonString(new XStreamingElement("root", CreateTypeAttr(GetJsonType(obj)), CreateJsonNode(obj)));
+            return Parse(json, throwOnUndefined);
+        }
 
-        var json = CreateJsonString(new XStreamingElement("root", CreateTypeAttr(GetJsonType(obj)), CreateJsonNode(obj)));
-        return Parse(json, throwOnUndefined);
+        throw new ArgumentNullException(nameof(obj));
     }
 
     /// <summary>
@@ -209,6 +212,7 @@ public sealed class Clay : DynamicObject, IEnumerable
         }
 
         result = IsDefined(binder.Name);
+
         return true;
     }
 
@@ -231,6 +235,7 @@ public sealed class Clay : DynamicObject, IEnumerable
         {
             result = Deserialize(binder.Type);
         }
+
         return true;
     }
 
@@ -387,50 +392,35 @@ public sealed class Clay : DynamicObject, IEnumerable
     /// <summary>
     /// 将粘土对象转换为 object 类型
     /// </summary>
-    /// <param name="serializerOptions"></param>
+    /// <param name="jsonSerializerOptions"></param>
     /// <returns></returns>
-    public object Solidify(JsonSerializerOptions serializerOptions = null)
+    public object Solidify(object jsonSerializerOptions = null)
     {
-        return Solidify<object>(serializerOptions);
+        return Solidify<object>(jsonSerializerOptions);
     }
 
     /// <summary>
     /// 将粘土对象转换为特定类型
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    /// <param name="serializerOptions"></param>
+    /// <param name="jsonSerializerOptions"></param>
     /// <returns></returns>
-    public T Solidify<T>(JsonSerializerOptions serializerOptions = null)
+    public T Solidify<T>(object jsonSerializerOptions = null)
     {
-        return JsonSerializer.Deserialize<T>(ToString(), serializerOptions ?? new JsonSerializerOptions
-        {
-            PropertyNameCaseInsensitive = true
-        });
+        return JSON.Deserialize<T>(ToString(), jsonSerializerOptions);
     }
 
     /// <summary>
     /// 将粘土对象转换为字典类型
     /// </summary>
+    /// <param name="jsonSerializerOptions"></param>
     /// <returns></returns>
-    public IDictionary<string, object> ToDictionary()
+    public IDictionary<string, object> ToDictionary(object jsonSerializerOptions = null)
     {
         // 数组类型不支持转换成字典
         if (IsArray) throw new InvalidOperationException("Cannot convert a clay object with JsonType as an array to a dictionary object.");
 
-        var dic = new Dictionary<string, object>();
-        foreach (KeyValuePair<string, dynamic> item in this)
-        {
-            if (item.Value is Clay clay && clay.IsObject)
-            {
-                dic[item.Key] = clay.ToDictionary();
-            }
-            else
-            {
-                dic[item.Key] = item.Value;
-            }
-        }
-
-        return dic;
+        return Solidify<Dictionary<string, object>>(jsonSerializerOptions);
     }
 
     /// <summary>
@@ -777,7 +767,7 @@ public sealed class Clay : DynamicObject, IEnumerable
             value = clay.Deserialize(elementType);
         }
 
-        return Furion.Extensions.ObjectExtensions.ChangeType(value, elementType);
+        return ObjectExtensions.ChangeType(value, elementType);
     }
 
     /// <summary>
@@ -865,7 +855,8 @@ public sealed class Clay : DynamicObject, IEnumerable
     /// <summary>
     /// 将被转换成字符串的类型
     /// </summary>
-    private static readonly Type[] ToBeConvertStringTypes = new[] {
-            typeof(DateTimeOffset)
-        };
+    private static readonly Type[] ToBeConvertStringTypes = new[]
+    {
+        typeof(DateTimeOffset)
+    };
 }

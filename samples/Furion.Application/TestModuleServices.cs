@@ -116,7 +116,6 @@ public class TestModuleServices : IDynamicApiController
         return resultStr;
     }
 
-
     public void 测试高频远程请求()
     {
         Parallel.For(0, 5000, (i) =>
@@ -317,7 +316,6 @@ public class TestModuleServices : IDynamicApiController
         }
         catch (Exception)
         {
-
         }
     }
 
@@ -341,7 +339,6 @@ public class TestModuleServices : IDynamicApiController
 
         return str;
     }
-
 
     public async Task 测试下载互联网图片()
     {
@@ -467,7 +464,7 @@ public class TestModuleServices : IDynamicApiController
         var xx = "+t282cXHBrhdCUaLo0g0ktR+g9QOfhwuOYH7x6k9ReY=";
         var cd = AESEncryption.Decrypt(xx, key);
 
-        var aesHash = AESEncryption.Encrypt("百小僧", key); // 加密  
+        var aesHash = AESEncryption.Encrypt("百小僧", key); // 加密
         var str2 = AESEncryption.Decrypt(aesHash, key); // 解密
 
         // 加密
@@ -484,7 +481,6 @@ public class TestModuleServices : IDynamicApiController
     [HttpGet]
     public void 测试CancellationToken参数(CancellationToken cancellationToken)
     {
-
     }
 
     public dynamic 测试匿名类嵌套Clay()
@@ -536,7 +532,7 @@ public class TestModuleServices : IDynamicApiController
         return policy;
     }
 
-    public dynamic 测试粘土对象空值()
+    public Dictionary<string, object> 测试粘土对象空值()
     {
         var package = Clay.Parse("""
             {
@@ -600,8 +596,34 @@ public class TestModuleServices : IDynamicApiController
         };
 
         var clay = Clay.Object(obj);
-        var c = clay.ToString();
+        var str = clay.ToString();
         var res1 = clay.Solidify<dynamic>();
+        Dictionary<string, object> dic = clay.ToDictionary();
+
+        return dic;
+    }
+
+    /// <summary>
+    /// 测试粘土对象日志监听
+    /// </summary>
+    /// <returns></returns>
+    [LoggingMonitor]
+    public dynamic TestClayMonitor()
+    {
+        var clay = Clay.Parse("""
+            {
+            	"name": "Furion",
+            	"age": 4,
+            	"products": [{
+            		"name": "Furion",
+            		"author": "百小僧"
+            	},
+            	{
+            		"name": "Layx",
+            		"author": "百小僧"
+            	}],
+            }
+            """);
 
         return clay;
     }
