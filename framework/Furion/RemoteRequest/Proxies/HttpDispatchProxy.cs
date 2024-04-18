@@ -66,7 +66,7 @@ public class HttpDispatchProxy : AspectDispatchProxy, IDispatchProxy
     /// <param name="method"></param>
     /// <param name="args"></param>
     /// <returns></returns>
-    public async override Task InvokeAsync(MethodInfo method, object[] args)
+    public override async Task InvokeAsync(MethodInfo method, object[] args)
     {
         var httpRequestPart = BuildHttpRequestPart(method, args);
         using var _ = await httpRequestPart.SendAsync();
@@ -123,6 +123,10 @@ public class HttpDispatchProxy : AspectDispatchProxy, IDispatchProxy
         // 设置请求客户端
         var clientAttribute = method.GetFoundAttribute<ClientAttribute>(true);
         if (clientAttribute != null) httpRequestPart.SetClient(clientAttribute.Name);
+
+        // 设置客户端 BaseAddress
+        var baseAddressAttribute = method.GetFoundAttribute<BaseAddressAttribute>(true);
+        if (baseAddressAttribute != null) httpRequestPart.SetBaseAddress(baseAddressAttribute.BaseAddress);
 
         // 设置请求报文头
         SetHeaders(method, parameters, httpRequestPart);

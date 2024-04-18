@@ -136,6 +136,17 @@ public static class RemoteRequestStringExtensions
     }
 
     /// <summary>
+    /// 设置客户端 BaseAddress
+    /// </summary>
+    /// <param name="requestUrl"></param>
+    /// <param name="baseAddress"></param>
+    /// <returns></returns>
+    public static HttpRequestPart SetBaseAddress(this string requestUrl, string baseAddress)
+    {
+        return HttpRequestPart.Default().SetRequestUrl(requestUrl).SetBaseAddress(baseAddress);
+    }
+
+    /// <summary>
     /// 设置 Body 内容
     /// </summary>
     /// <param name="requestUrl"></param>

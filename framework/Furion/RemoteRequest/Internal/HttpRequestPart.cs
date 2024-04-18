@@ -77,6 +77,11 @@ public sealed partial class HttpRequestPart
     public string ClientName { get; private set; }
 
     /// <summary>
+    /// 客户端 BaseAddress
+    /// </summary>
+    public string BaseAddress { get; private set; }
+
+    /// <summary>
     /// 客户端提供者
     /// </summary>
     public Func<HttpClient> ClientProvider { get; private set; }

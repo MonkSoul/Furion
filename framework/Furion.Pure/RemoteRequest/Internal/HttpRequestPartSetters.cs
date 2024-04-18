@@ -152,6 +152,17 @@ public sealed partial class HttpRequestPart
     }
 
     /// <summary>
+    /// 设置客户端 BaseAddress
+    /// </summary>
+    /// <param name="baseAddress"></param>
+    /// <returns></returns>
+    public HttpRequestPart SetBaseAddress(string baseAddress)
+    {
+        if (!string.IsNullOrWhiteSpace(baseAddress)) BaseAddress = baseAddress;
+        return this;
+    }
+
+    /// <summary>
     /// 设置内容类型
     /// </summary>
     /// <param name="contentType"></param>
