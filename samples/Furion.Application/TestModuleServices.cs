@@ -7,6 +7,7 @@ using Furion.RemoteRequest;
 using Furion.RemoteRequest.Extensions;
 using Furion.UnifyResult;
 using Furion.ViewEngine;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Swashbuckle.AspNetCore.Swagger;
@@ -627,4 +628,18 @@ public class TestModuleServices : IDynamicApiController
 
         return clay;
     }
+
+    public void 测试忽略路由参数绑定([BindNever] string never, int id)
+    {
+    }
+
+    public void 测试忽略Body参数绑定([BindNever] BindNeverModel model, string id)
+    {
+
+    }
+}
+
+public class BindNeverModel
+{
+    public int Name { get; set; }
 }

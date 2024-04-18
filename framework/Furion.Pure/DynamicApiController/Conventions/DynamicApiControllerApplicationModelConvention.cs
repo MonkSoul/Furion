@@ -533,7 +533,8 @@ internal sealed class DynamicApiControllerApplicationModelConvention : IApplicat
         if (action.Parameters.Count == 0) return default;
 
         var parameterRouteTemplate = new ParameterRouteTemplate();
-        var parameters = action.Parameters.Where(u => !(u.BindingInfo is { BindingSource.DisplayName: "Special" }));
+        var parameters = action.Parameters
+            .Where(u => !(u.BindingInfo is { BindingSource.DisplayName: "Special" } || u.Attributes.Any(c => c.GetType() == typeof(BindNeverAttribute))));
 
         // 判断是否贴有 [QueryParameters] 特性
         var isQueryParametersAction = action.Attributes.Any(u => u is QueryParametersAttribute);
