@@ -391,8 +391,7 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory
         var jobHandler = jobFactory?.CreateJob(serviceProvider, context);
         if (jobHandler != null) return jobHandler;
 
-        var provider = jobFactory == null ? _serviceProvider : serviceProvider;
-        jobHandler = ActivatorUtilities.GetServiceOrCreateInstance(provider, context.JobType) as IJob;
+        jobHandler = ActivatorUtilities.GetServiceOrCreateInstance(serviceProvider, context.JobType) as IJob;
 
         return jobHandler;
     }
