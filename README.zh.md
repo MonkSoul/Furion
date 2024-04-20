@@ -41,3 +41,7 @@ public class HelloService
 [Furion](https://gitee.com/dotnetchina/Furion) 主要根据 MIT 许可证和 Apache 许可证（版本 2.0）。
 
 有关详细信息，请参阅 [LICENSE-APACHE](https://gitee.com/dotnetchina/Furion/blob/v4/LICENSE-APACHE)、[LICENSE-MIT](https://gitee.com/dotnetchina/Furion/blob/v4/LICENSE-MIT)、[COPYRIGHT](https://gitee.com/dotnetchina/Furion/blob/v4/COPYRIGHT.md) 和 [DISCLAIMER](https://gitee.com/dotnetchina/Furion/blob/v4/DISCLAIMER.md)。
+
+## 公司
+
+[![](./assets/company.png)](https://baiqian.com)
