@@ -329,12 +329,24 @@ internal class FileLoggingWriter
     {
         if (_textWriter == null) return;
 
-        CheckForNewLogFile();
-        await _textWriter.WriteLineAsync(logMsg.Message);
-
-        if (flush)
+        try
         {
-            await _textWriter.FlushAsync();
+            CheckForNewLogFile();
+            await _textWriter.WriteLineAsync(logMsg.Message);
+
+            if (flush)
+            {
+                await _textWriter.FlushAsync();
+            }
+        }
+        catch (Exception ex)
+        {
+            // 处理文件写入错误
+            if (_options.HandleWriteError != null)
+            {
+                var fileWriteError = new FileWriteError(_fileName, ex);
+                _options.HandleWriteError(fileWriteError);
+            }
         }
     }
 
