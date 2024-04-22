@@ -160,12 +160,7 @@ public partial class Trigger
         if (baseTime == null) return null;
 
         // 获取下一次执行时间
-        var nextRunTime = GetNextOccurrence(baseTime.Value);
-
-        // 控制误差在 30ms 以内
-        return nextRunTime.Millisecond > 30
-            ? nextRunTime.AddMilliseconds(-30)
-            : nextRunTime;
+        return GetNextOccurrence(baseTime.Value);
     }
 
     /// <summary>
