@@ -48,12 +48,12 @@ internal class FileLoggingWriter
     /// <summary>
     /// 文件流
     /// </summary>
-    private Stream _fileStream;
+    private FileStream _fileStream;
 
     /// <summary>
     /// 文本写入器
     /// </summary>
-    private TextWriter _textWriter;
+    private StreamWriter _textWriter;
 
     /// <summary>
     /// 缓存上次返回的基本日志文件名，避免重复解析
@@ -78,8 +78,8 @@ internal class FileLoggingWriter
         // 解析当前写入日志的文件名
         GetCurrentFileName();
 
-        // 打开文件并持续写入
-        OpenFile(_options.Append);
+        // 打开文件并持续写入，调用 .Wait() 确保文件流创建完毕
+        Task.Run(async () => await OpenFileAsync(_options.Append)).Wait();
     }
 
     /// <summary>
@@ -185,7 +185,8 @@ internal class FileLoggingWriter
     /// 打开文件
     /// </summary>
     /// <param name="append"></param>
-    private void OpenFile(bool append)
+    /// <returns><see cref="Task"/></returns>
+    private Task OpenFileAsync(bool append)
     {
         try
         {
@@ -234,12 +235,15 @@ internal class FileLoggingWriter
             if (append) _fileStream.Seek(0, SeekOrigin.End);
             else _fileStream.SetLength(0);
         }
+
+        return Task.CompletedTask;
     }
 
     /// <summary>
     /// 判断是否需要创建新文件写入
     /// </summary>
-    private void CheckForNewLogFile()
+    /// <returns><see cref="Task"/></returns>
+    private async Task CheckForNewLogFileAsync()
     {
         var openNewFile = false;
         if (isMaxFileSizeThresholdReached() || isBaseFileNameChanged())
@@ -248,13 +252,13 @@ internal class FileLoggingWriter
         // 重新创建新文件并写入
         if (openNewFile)
         {
-            Close();
+            await CloseAsync();
 
             // 计算新文件名
             _fileName = GetNextFileName();
 
             // 打开新文件并写入
-            OpenFile(false);
+            await OpenFileAsync(false);
         }
 
         // 是否超出限制的最大大小
@@ -324,14 +328,14 @@ internal class FileLoggingWriter
     /// </summary>
     /// <param name="logMsg">日志消息</param>
     /// <param name="flush"></param>
-    /// <returns></returns>
+    /// <returns><see cref="Task"/></returns>
     internal async Task WriteAsync(LogMessage logMsg, bool flush)
     {
         if (_textWriter == null) return;
 
         try
         {
-            CheckForNewLogFile();
+            await CheckForNewLogFileAsync();
             await _textWriter.WriteLineAsync(logMsg.Message);
 
             if (flush)
@@ -353,15 +357,16 @@ internal class FileLoggingWriter
     /// <summary>
     /// 关闭文本写入器并释放
     /// </summary>
-    internal void Close()
+    /// <returns><see cref="Task"/></returns>
+    internal async Task CloseAsync()
     {
         if (_textWriter == null) return;
 
         var textloWriter = _textWriter;
         _textWriter = null;
 
-        textloWriter.Dispose();
-        _fileStream.Dispose();
+        await textloWriter.DisposeAsync();
+        await _fileStream.DisposeAsync();
 
         _fileStream = null;
     }
