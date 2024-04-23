@@ -73,7 +73,9 @@ public partial interface IPrivateUpdateableRepository<TEntity> : IPrivateRootRep
     /// 更新多条记录
     /// </summary>
     /// <param name="entities">多个实体</param>
-    void Update(IEnumerable<TEntity> entities);
+    /// <param name="includePropertyNames">包含属性</param>
+    /// <param name="excludePropertyNames">排除属性</param>
+    void Update(IEnumerable<TEntity> entities, string[] includePropertyNames = null, string[] excludePropertyNames = null);
 
     /// <summary>
     /// 更新一条记录
@@ -94,8 +96,10 @@ public partial interface IPrivateUpdateableRepository<TEntity> : IPrivateRootRep
     /// 更新多条记录
     /// </summary>
     /// <param name="entities">多个实体</param>
+    /// <param name="includePropertyNames">包含属性</param>
+    /// <param name="excludePropertyNames">排除属性</param>
     /// <returns>Task</returns>
-    Task UpdateAsync(IEnumerable<TEntity> entities);
+    Task UpdateAsync(IEnumerable<TEntity> entities, string[] includePropertyNames = null, string[] excludePropertyNames = null);
 
     /// <summary>
     /// 更新一条记录并立即提交
@@ -125,20 +129,26 @@ public partial interface IPrivateUpdateableRepository<TEntity> : IPrivateRootRep
     /// </summary>
     /// <param name="entities">多个实体</param>
     /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
-    void UpdateNow(TEntity[] entities, bool acceptAllChangesOnSuccess);
+    /// <param name="includePropertyNames">包含属性</param>
+    /// <param name="excludePropertyNames">排除属性</param>
+    void UpdateNow(TEntity[] entities, bool acceptAllChangesOnSuccess, string[] includePropertyNames = null, string[] excludePropertyNames = null);
 
     /// <summary>
     /// 更新多条记录并立即提交
     /// </summary>
     /// <param name="entities">多个实体</param>
-    void UpdateNow(IEnumerable<TEntity> entities);
+    /// <param name="includePropertyNames">包含属性</param>
+    /// <param name="excludePropertyNames">排除属性</param>
+    void UpdateNow(IEnumerable<TEntity> entities, string[] includePropertyNames = null, string[] excludePropertyNames = null);
 
     /// <summary>
     /// 更新多条记录并立即提交
     /// </summary>
     /// <param name="entities">多个实体</param>
     /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
-    void UpdateNow(IEnumerable<TEntity> entities, bool acceptAllChangesOnSuccess);
+    /// <param name="includePropertyNames">包含属性</param>
+    /// <param name="excludePropertyNames">排除属性</param>
+    void UpdateNow(IEnumerable<TEntity> entities, bool acceptAllChangesOnSuccess, string[] includePropertyNames = null, string[] excludePropertyNames = null);
 
     /// <summary>
     /// 更新一条记录并立即提交
@@ -171,8 +181,10 @@ public partial interface IPrivateUpdateableRepository<TEntity> : IPrivateRootRep
     /// </summary>
     /// <param name="entities">多个实体</param>
     /// <param name="cancellationToken">取消异步令牌</param>
+    /// <param name="includePropertyNames">包含属性</param>
+    /// <param name="excludePropertyNames">排除属性</param>
     /// <returns></returns>
-    Task UpdateNowAsync(TEntity[] entities, CancellationToken cancellationToken = default);
+    Task UpdateNowAsync(TEntity[] entities, CancellationToken cancellationToken = default, string[] includePropertyNames = null, string[] excludePropertyNames = null);
 
     /// <summary>
     /// 更新多条记录并立即提交
@@ -180,16 +192,20 @@ public partial interface IPrivateUpdateableRepository<TEntity> : IPrivateRootRep
     /// <param name="entities">多个实体</param>
     /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
     /// <param name="cancellationToken">取消异步令牌</param>
+    /// <param name="includePropertyNames">包含属性</param>
+    /// <param name="excludePropertyNames">排除属性</param>
     /// <returns>Task</returns>
-    Task UpdateNowAsync(TEntity[] entities, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default);
+    Task UpdateNowAsync(TEntity[] entities, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default, string[] includePropertyNames = null, string[] excludePropertyNames = null);
 
     /// <summary>
     /// 更新多条记录并立即提交
     /// </summary>
     /// <param name="entities">多个实体</param>
     /// <param name="cancellationToken">取消异步令牌</param>
+    /// <param name="includePropertyNames">包含属性</param>
+    /// <param name="excludePropertyNames">排除属性</param>
     /// <returns>Task</returns>
-    Task UpdateNowAsync(IEnumerable<TEntity> entities, CancellationToken cancellationToken = default);
+    Task UpdateNowAsync(IEnumerable<TEntity> entities, CancellationToken cancellationToken = default, string[] includePropertyNames = null, string[] excludePropertyNames = null);
 
     /// <summary>
     /// 更新多条记录并立即提交
@@ -197,8 +213,10 @@ public partial interface IPrivateUpdateableRepository<TEntity> : IPrivateRootRep
     /// <param name="entities">多个实体</param>
     /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
     /// <param name="cancellationToken">取消异步令牌</param>
+    /// <param name="includePropertyNames">包含属性</param>
+    /// <param name="excludePropertyNames">排除属性</param>
     /// <returns>Task</returns>
-    Task UpdateNowAsync(IEnumerable<TEntity> entities, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default);
+    Task UpdateNowAsync(IEnumerable<TEntity> entities, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default, string[] includePropertyNames = null, string[] excludePropertyNames = null);
 
     /// <summary>
     /// 更新一条记录中特定属性

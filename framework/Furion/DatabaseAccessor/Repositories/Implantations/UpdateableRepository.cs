@@ -64,9 +64,51 @@ public partial class PrivateRepository<TEntity>
     /// 更新多条记录
     /// </summary>
     /// <param name="entities">多个实体</param>
-    public virtual void Update(IEnumerable<TEntity> entities)
+    /// <param name="includePropertyNames">包含属性</param>
+    /// <param name="excludePropertyNames">排除属性</param>
+    public virtual void Update(IEnumerable<TEntity> entities, string[] includePropertyNames = null, string[] excludePropertyNames = null)
     {
+        // 包含和互斥参数不能同时存在
+        if (includePropertyNames is { Length: > 0 } && excludePropertyNames is { Length: > 0 })
+        {
+            throw new ArgumentException($"The parameters `{nameof(includePropertyNames)}` and `{nameof(excludePropertyNames)}` cannot coexist.");
+        }
+
         Entities.UpdateRange(entities);
+
+        // 处理包含或排除属性
+        foreach (var entry in Context.ChangeTracker.Entries<TEntity>())
+        {
+            if (entry.State == EntityState.Modified)
+            {
+                // 处理包含的属性
+                if (includePropertyNames is { Length: > 0 })
+                {
+                    foreach (var propEntry in entry.Properties)
+                    {
+                        if (!includePropertyNames.Contains(propEntry.Metadata.Name))
+                        {
+                            propEntry.IsModified = false;
+                        }
+                        else
+                        {
+                            propEntry.IsModified = true;
+                        }
+                    }
+                }
+                // 处理排除的属性
+                else if (excludePropertyNames is { Length: > 0 })
+                {
+                    foreach (var propEntry in entry.Properties)
+                    {
+                        if (excludePropertyNames.Contains(propEntry.Metadata.Name))
+                        {
+                            propEntry.IsModified = false;
+                        }
+                    }
+                }
+            }
+        }
     }
 
     /// <summary>
@@ -95,10 +137,12 @@ public partial class PrivateRepository<TEntity>
     /// 更新多条记录
     /// </summary>
     /// <param name="entities">多个实体</param>
+    /// <param name="includePropertyNames">包含属性</param>
+    /// <param name="excludePropertyNames">排除属性</param>
     /// <returns>Task</returns>
-    public virtual Task UpdateAsync(IEnumerable<TEntity> entities)
+    public virtual Task UpdateAsync(IEnumerable<TEntity> entities, string[] includePropertyNames = null, string[] excludePropertyNames = null)
     {
-        Update(entities);
+        Update(entities, includePropertyNames, excludePropertyNames);
         return Task.CompletedTask;
     }
 
@@ -144,9 +188,11 @@ public partial class PrivateRepository<TEntity>
     /// </summary>
     /// <param name="entities">多个实体</param>
     /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
-    public virtual void UpdateNow(TEntity[] entities, bool acceptAllChangesOnSuccess)
+    /// <param name="includePropertyNames">包含属性</param>
+    /// <param name="excludePropertyNames">排除属性</param>
+    public virtual void UpdateNow(TEntity[] entities, bool acceptAllChangesOnSuccess, string[] includePropertyNames = null, string[] excludePropertyNames = null)
     {
-        Update(entities);
+        Update(entities, includePropertyNames, excludePropertyNames);
         SaveNow(acceptAllChangesOnSuccess);
     }
 
@@ -154,9 +200,11 @@ public partial class PrivateRepository<TEntity>
     /// 更新多条记录并立即提交
     /// </summary>
     /// <param name="entities">多个实体</param>
-    public virtual void UpdateNow(IEnumerable<TEntity> entities)
+    /// <param name="includePropertyNames">包含属性</param>
+    /// <param name="excludePropertyNames">排除属性</param>
+    public virtual void UpdateNow(IEnumerable<TEntity> entities, string[] includePropertyNames = null, string[] excludePropertyNames = null)
     {
-        Update(entities);
+        Update(entities, includePropertyNames, excludePropertyNames);
         SaveNow();
     }
 
@@ -165,9 +213,11 @@ public partial class PrivateRepository<TEntity>
     /// </summary>
     /// <param name="entities">多个实体</param>
     /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
-    public virtual void UpdateNow(IEnumerable<TEntity> entities, bool acceptAllChangesOnSuccess)
+    /// <param name="includePropertyNames">包含属性</param>
+    /// <param name="excludePropertyNames">排除属性</param>
+    public virtual void UpdateNow(IEnumerable<TEntity> entities, bool acceptAllChangesOnSuccess, string[] includePropertyNames = null, string[] excludePropertyNames = null)
     {
-        Update(entities);
+        Update(entities, includePropertyNames, excludePropertyNames);
         SaveNow(acceptAllChangesOnSuccess);
     }
 
@@ -216,10 +266,12 @@ public partial class PrivateRepository<TEntity>
     /// </summary>
     /// <param name="entities">多个实体</param>
     /// <param name="cancellationToken">取消异步令牌</param>
+    /// <param name="includePropertyNames">包含属性</param>
+    /// <param name="excludePropertyNames">排除属性</param>
     /// <returns></returns>
-    public virtual async Task UpdateNowAsync(TEntity[] entities, CancellationToken cancellationToken = default)
+    public virtual async Task UpdateNowAsync(TEntity[] entities, CancellationToken cancellationToken = default, string[] includePropertyNames = null, string[] excludePropertyNames = null)
     {
-        await UpdateAsync(entities);
+        await UpdateAsync(entities, includePropertyNames, excludePropertyNames);
         await SaveNowAsync(cancellationToken);
     }
 
@@ -229,10 +281,12 @@ public partial class PrivateRepository<TEntity>
     /// <param name="entities">多个实体</param>
     /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
     /// <param name="cancellationToken">取消异步令牌</param>
+    /// <param name="includePropertyNames">包含属性</param>
+    /// <param name="excludePropertyNames">排除属性</param>
     /// <returns>Task</returns>
-    public virtual async Task UpdateNowAsync(TEntity[] entities, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
+    public virtual async Task UpdateNowAsync(TEntity[] entities, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default, string[] includePropertyNames = null, string[] excludePropertyNames = null)
     {
-        await UpdateAsync(entities);
+        await UpdateAsync(entities, includePropertyNames, excludePropertyNames);
         await SaveNowAsync(acceptAllChangesOnSuccess, cancellationToken);
     }
 
@@ -241,10 +295,12 @@ public partial class PrivateRepository<TEntity>
     /// </summary>
     /// <param name="entities">多个实体</param>
     /// <param name="cancellationToken">取消异步令牌</param>
+    /// <param name="includePropertyNames">包含属性</param>
+    /// <param name="excludePropertyNames">排除属性</param>
     /// <returns>Task</returns>
-    public virtual async Task UpdateNowAsync(IEnumerable<TEntity> entities, CancellationToken cancellationToken = default)
+    public virtual async Task UpdateNowAsync(IEnumerable<TEntity> entities, CancellationToken cancellationToken = default, string[] includePropertyNames = null, string[] excludePropertyNames = null)
     {
-        await UpdateAsync(entities);
+        await UpdateAsync(entities, includePropertyNames, excludePropertyNames);
         await SaveNowAsync(cancellationToken);
     }
 
@@ -254,10 +310,12 @@ public partial class PrivateRepository<TEntity>
     /// <param name="entities">多个实体</param>
     /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
     /// <param name="cancellationToken">取消异步令牌</param>
+    /// <param name="includePropertyNames">包含属性</param>
+    /// <param name="excludePropertyNames">排除属性</param>
     /// <returns>Task</returns>
-    public virtual async Task UpdateNowAsync(IEnumerable<TEntity> entities, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
+    public virtual async Task UpdateNowAsync(IEnumerable<TEntity> entities, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default, string[] includePropertyNames = null, string[] excludePropertyNames = null)
     {
-        await UpdateAsync(entities);
+        await UpdateAsync(entities, includePropertyNames, excludePropertyNames);
         await SaveNowAsync(acceptAllChangesOnSuccess, cancellationToken);
     }
 
