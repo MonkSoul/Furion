@@ -153,7 +153,9 @@ export default function RenderValue(props: {
     /**
      * 处理触发器类型
      */
-    preview = <span>{value?.toString() || ""}</span>;
+    preview = (
+      <span style={{ wordBreak: "break-word" }}>{value?.toString() || ""}</span>
+    );
   } else if (prop === "result") {
     /**
      * 处理返回结果
@@ -183,7 +185,10 @@ export default function RenderValue(props: {
         </Tag>
       </>
     );
-  } else preview = <span>{value?.toString() || ""}</span>;
+  } else
+    preview = (
+      <span style={{ wordBreak: "break-word" }}>{value?.toString() || ""}</span>
+    );
 
   return (
     <>
