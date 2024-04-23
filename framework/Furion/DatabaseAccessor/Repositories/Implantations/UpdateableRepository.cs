@@ -68,7 +68,7 @@ public partial class PrivateRepository<TEntity>
     /// <param name="excludePropertyNames">排除属性</param>
     public virtual void Update(IEnumerable<TEntity> entities, string[] includePropertyNames = null, string[] excludePropertyNames = null)
     {
-        // 包含和互斥参数不能同时存在
+        // 包含和排除参数不能同时设置
         if (includePropertyNames is { Length: > 0 } && excludePropertyNames is { Length: > 0 })
         {
             throw new ArgumentException($"The parameters `{nameof(includePropertyNames)}` and `{nameof(excludePropertyNames)}` cannot coexist.");
