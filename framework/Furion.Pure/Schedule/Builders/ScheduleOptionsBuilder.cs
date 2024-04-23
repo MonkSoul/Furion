@@ -132,6 +132,26 @@ public sealed class ScheduleOptionsBuilder
     internal static SqlTypes InternalBuildSqlType { get; private set; } = SqlTypes.Standard;
 
     /// <summary>
+    /// 配置 RunOnStart 提供程序
+    /// </summary>
+    public Func<Trigger, DateTime, DateTime?> RunOnStartProvider
+    {
+        get
+        {
+            return InternalRunOnStartProvider;
+        }
+        set
+        {
+            InternalRunOnStartProvider = value;
+        }
+    }
+
+    /// <summary>
+    /// 内部配置 RunOnStart 提供程序
+    /// </summary>
+    internal static Func<Trigger, DateTime, DateTime?> InternalRunOnStartProvider { get; private set; }
+
+    /// <summary>
     /// 添加作业组作业
     /// </summary>
     /// <param name="groupSet">作业组名称</param>

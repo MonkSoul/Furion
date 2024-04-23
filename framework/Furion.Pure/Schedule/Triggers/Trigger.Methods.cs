@@ -177,9 +177,15 @@ public partial class Trigger
         }
         else
         {
-            return (StartTime == null || StartTime.Value <= startAt)
-                ? startAt.AddSeconds(-1)
-                : StartTime;
+            // 检查是否设置了 RunOnStartProvider 配置
+            if (ScheduleOptionsBuilder.InternalRunOnStartProvider is null)
+            {
+                return (StartTime == null || StartTime.Value <= startAt)
+                    ? startAt.AddSeconds(-1)
+                    : StartTime;
+            }
+
+            return ScheduleOptionsBuilder.InternalRunOnStartProvider(this, startAt);
         }
     }
 
