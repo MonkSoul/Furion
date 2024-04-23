@@ -58,6 +58,12 @@ public class PeriodTrigger : Trigger
         // 获取间隔触发器周期计算基准时间
         var baseTime = StartTime == null ? startAt : StartTime.Value;
 
+        // 处理基准时间大于当前时间
+        if (baseTime > startAt)
+        {
+            return baseTime;
+        }
+
         // 获取从基准时间开始到现在经过了多少个完整周期
         var elapsedMilliseconds = (startAt - baseTime).Ticks / TimeSpan.TicksPerMillisecond;
         var fullPeriods = elapsedMilliseconds / Interval;
