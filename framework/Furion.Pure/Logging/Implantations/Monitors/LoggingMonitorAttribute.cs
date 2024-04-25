@@ -532,7 +532,7 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter, IAs
             writer.WriteStartObject();
             writer.WriteString("type", exceptionTypeName);
             writer.WriteString("message", exception.Message);
-            writer.WriteString("stackTrace", exception.StackTrace.ToString());
+            writer.WriteString("stackTrace", exception.StackTrace?.ToString());
             writer.WriteEndObject();
 
             writer.WritePropertyName("validation");
