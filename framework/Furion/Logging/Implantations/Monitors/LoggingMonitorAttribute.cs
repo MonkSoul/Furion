@@ -544,9 +544,9 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter, IAs
             templates.AddRange(new[]
             {
                 $"━━━━━━━━━━━━━━━  业务异常 ━━━━━━━━━━━━━━━"
-                , $"##业务码## {friendlyException.ErrorCode}"
-                , $"##业务码（原）## {friendlyException.OriginErrorCode}"
-                , $"##业务消息## {friendlyException.ErrorMessage}"
+                , $"##业务码## {friendlyException?.ErrorCode}"
+                , $"##业务码（原）## {friendlyException?.OriginErrorCode}"
+                , $"##业务消息## {friendlyException?.ErrorMessage}"
             });
 
             writer.WritePropertyName("exception");
@@ -554,9 +554,9 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter, IAs
 
             writer.WritePropertyName("validation");
             writer.WriteStartObject();
-            writer.WriteString("errorCode", friendlyException.ErrorCode?.ToString());
-            writer.WriteString("originErrorCode", friendlyException.OriginErrorCode?.ToString());
-            writer.WriteString("message", friendlyException.Message);
+            writer.WriteString("errorCode", friendlyException?.ErrorCode?.ToString());
+            writer.WriteString("originErrorCode", friendlyException?.OriginErrorCode?.ToString());
+            writer.WriteString("message", friendlyException?.Message);
             writer.WriteEndObject();
         }
 
