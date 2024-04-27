@@ -107,6 +107,12 @@ public sealed class FileLogger : ILogger
         // 获取格式化后的消息
         var message = formatter(state, exception);
 
+        // 日志消息内容转换（如脱敏处理）
+        if (_options.MessageProcess != null)
+        {
+            message = _options.MessageProcess(message);
+        }
+
         var logDateTime = _options.UseUtcTimestamp ? DateTime.UtcNow : DateTime.Now;
         var logMsg = new LogMessage(_logName, logLevel, eventId, message, exception, null, state, logDateTime, Environment.CurrentManagedThreadId, _options.UseUtcTimestamp, App.GetTraceId());
 

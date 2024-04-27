@@ -74,6 +74,12 @@ public sealed class ConsoleFormatterExtend : ConsoleFormatter, IDisposable
         // 获取格式化后的消息
         var message = logEntry.Formatter?.Invoke(logEntry.State, logEntry.Exception);
 
+        // 日志消息内容转换（如脱敏处理）
+        if (_formatterOptions.MessageProcess != null)
+        {
+            message = _formatterOptions.MessageProcess(message);
+        }
+
         // 创建日志消息
         var logDateTime = _formatterOptions.UseUtcTimestamp ? DateTime.UtcNow : DateTime.Now;
         var logMsg = new LogMessage(logEntry.Category, logEntry.LogLevel, logEntry.EventId, message, logEntry.Exception, null, logEntry.State, logDateTime, Environment.CurrentManagedThreadId, _formatterOptions.UseUtcTimestamp, App.GetTraceId());

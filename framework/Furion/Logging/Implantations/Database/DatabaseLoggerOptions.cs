@@ -89,4 +89,9 @@ public sealed class DatabaseLoggerOptions
     /// 显示堆栈框架（程序集和方法签名）
     /// </summary>
     public bool WithStackFrame { get; set; } = false;
+
+    /// <summary>
+    /// 日志消息内容转换（如脱敏处理）
+    /// </summary>
+    public Func<string, string> MessageProcess { get; set; }
 }
