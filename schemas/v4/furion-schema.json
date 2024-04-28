@@ -2120,6 +2120,15 @@
           "type": "boolean",
           "description": "强制携带路由前缀，即使使用 [Route] 重写",
           "default": false
+        },
+        "DefaultBindingInfo": {
+          "description": "默认基元参数绑定方式",
+          "type": "string",
+          "default": "route",
+          "enum": [
+            "route",
+            "query"
+          ]
         }
       }
     },

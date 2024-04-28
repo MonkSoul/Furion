@@ -577,6 +577,12 @@ internal sealed class DynamicApiControllerApplicationModelConvention : IApplicat
             // https://docs.microsoft.com/en-US/aspnet/core/web-api/?view=aspnetcore-5.0#binding-source-parameter-inference
             if (!hasFormAttribute && hasApiControllerAttribute) continue;
 
+            // 处理默认基元参数绑定方式，若是 query（[FromQuery]）则跳过
+            if (_dynamicApiControllerSettings?.DefaultBindingInfo?.ToLower() == "query")
+            {
+                continue;
+            }
+
             // 判断是否可以为null
             var canBeNull = parameterType.IsGenericType && parameterType.GetGenericTypeDefinition() == typeof(Nullable<>);
 

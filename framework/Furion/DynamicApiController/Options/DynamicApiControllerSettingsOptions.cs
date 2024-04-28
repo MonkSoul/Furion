@@ -127,6 +127,11 @@ public sealed class DynamicApiControllerSettingsOptions : IConfigurableOptions<D
     public bool? ForceWithRoutePrefix { get; set; }
 
     /// <summary>
+    /// 默认基元参数绑定方式
+    /// </summary>
+    public string DefaultBindingInfo { get; set; }
+
+    /// <summary>
     /// 选项后期配置
     /// </summary>
     /// <param name="options"></param>
@@ -158,5 +163,6 @@ public sealed class DynamicApiControllerSettingsOptions : IConfigurableOptions<D
         {
                 "Async"
         };
+        DefaultBindingInfo ??= "route";
     }
 }
