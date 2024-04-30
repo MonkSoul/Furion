@@ -12,6 +12,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Swashbuckle.AspNetCore.Swagger;
 using System.Data;
+using System.IO.Compression;
+using System.IO;
+using System.Text;
 using System.Text.Json;
 
 namespace Furion.Application;
@@ -647,14 +650,21 @@ public class TestModuleServices : IDynamicApiController
     {
         var bytes = File.ReadAllBytes("image.png");
 
-        var result0 = await "https://localhost:44316/api/test-module/upload-file"
-            .SetContentType("multipart/form-data")
-            .SetFiles(HttpFile.Create("file", bytes, "image.png"))
-            .PostAsAsync<HttpResponseModel<string>>();
-        var fileName0 = result0.Result;
+        using var httpResponseModel1 = await "https://localhost:44316/api/test-module/upload-file"
+             .SetContentType("multipart/form-data")
+             .SetFiles(HttpFile.Create("file", bytes, "image.png"))
+             .PostAsAsync<HttpResponseModel<RESTfulResult<string>>>();
 
-        var result = await _http.TestHttpResponseModel(HttpFile.Create("file", bytes, "image.png"));
-        var fileName = await result.Response.Content.ReadAsStringAsync();
+
+        var stream = await httpResponseModel1.Response.Content.ReadAsStreamAsync();
+        using var streamReader = new StreamReader(stream, httpResponseModel1.Encoding);
+
+        var text2 = await streamReader.ReadToEndAsync();
+
+        var fileName0 = httpResponseModel1.Result;
+
+        using var httpResponseModel2 = await _http.TestHttpResponseModel(HttpFile.Create("file", bytes, "image.png"));
+        var fileName = await httpResponseModel2.Response.Content.ReadAsStringAsync();
 
         return fileName;
     }

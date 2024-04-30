@@ -32,7 +32,7 @@ namespace Furion.RemoteRequest;
 /// </summary>
 /// <typeparam name="T">返回类型</typeparam>
 [SuppressSniffer]
-public class HttpResponseModel<T>
+public class HttpResponseModel<T> : IDisposable
 {
     /// <summary>
     /// <see cref="HttpResponseMessage"/>
@@ -48,4 +48,11 @@ public class HttpResponseModel<T>
     /// 返回结果
     /// </summary>
     public T Result { get; set; }
+
+    ///<inheritdoc/>
+    public void Dispose()
+    {
+        Response?.Content?.Dispose();
+        Response?.Dispose();
+    }
 }

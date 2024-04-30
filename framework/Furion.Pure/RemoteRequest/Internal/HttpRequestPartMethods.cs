@@ -572,6 +572,11 @@ public sealed partial class HttpRequestPart
                 }
                 else
                 {
+                    // 复制流，实现 HttpResponse 可以重复读
+                    var newStream = await CopyStreamAsync(stream);
+                    response.Content = new StreamContent(newStream);
+                    stream.Position = 0;
+
                     // 判断是否启用 Gzip
                     using var streamReader = new StreamReader(
                         !SupportGZip
@@ -579,7 +584,8 @@ public sealed partial class HttpRequestPart
                         : new GZipStream(stream, CompressionMode.Decompress), encoding);
 
                     var text = await streamReader.ReadToEndAsync();
-                    // 释放流
+
+                    // 释放原始流
                     await stream.DisposeAsync();
 
                     // 如果字符串为空，则返回默认值
@@ -1109,5 +1115,33 @@ public sealed partial class HttpRequestPart
         App.PrintToMiniProfiler(MiniProfilerCategory, "Sending", $"[{Method}] {httpClientOriginalString}{request.RequestUri?.OriginalString}");
 
         return request;
+    }
+
+    /// <summary>
+    /// 复制响应流
+    /// </summary>
+    /// <param name="originalStream"></param>
+    /// <returns></returns>
+    private static async Task<MemoryStream> CopyStreamAsync(Stream originalStream)
+    {
+        // 创建一个新的内存流来存储复制的数据
+        var memoryStream = new MemoryStream();
+
+        // 创建一个缓冲区来读取和写入数据
+        var buffer = new byte[4096]; // 可以根据需要调整缓冲区大小
+        int bytesRead;
+
+        // 读取原始流中的数据，直到没有更多数据可读
+        while ((bytesRead = await originalStream.ReadAsync(buffer)) != 0)
+        {
+            // 将读取的数据写入到内存流中
+            await memoryStream.WriteAsync(buffer.AsMemory(0, bytesRead));
+        }
+
+        // 将内存流的位置重置到开始处，以便可以从中读取数据
+        memoryStream.Position = 0;
+
+        // 返回包含复制数据的内存流
+        return memoryStream;
     }
 }
