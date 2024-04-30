@@ -437,6 +437,7 @@ public sealed partial class HttpRequestPart
     {
         if (typeof(T).IsGenericType && typeof(T).GetGenericTypeDefinition() == typeof(HttpResponseModel<>))
         {
+            // 反射调用
             var typeOfTArg = typeof(T).GetGenericArguments()[0];
             var genericMethod = GetType().GetMethod(nameof(SendAsHttpResponseModelAsync)).MakeGenericMethod(typeOfTArg);
             var task = genericMethod.Invoke(this, new object[] { cancellationToken }) as Task;
@@ -540,7 +541,7 @@ public sealed partial class HttpRequestPart
         if (response.Content != null)
         {
             // 获取 charset 编码
-            var encoding = GetCharsetEncoding(response);
+            var encoding = httpResponseModel.Encoding = GetCharsetEncoding(response);
 
             // 处理字符串类型
             if (typeof(T) == typeof(string))
