@@ -361,10 +361,16 @@ internal sealed partial class Scheduler
     /// <summary>
     /// 删除作业触发器
     /// </summary>
-    /// <param name="triggerId">作业触发器 Id</param>
-    public void RemoveTrigger(string triggerId)
+    /// <param name="triggerIds">作业触发器 Id 集合</param>
+    public void RemoveTrigger(params string[] triggerIds)
     {
-        _ = TryRemoveTrigger(triggerId, out _);
+        // 空检查
+        if (triggerIds == null || triggerIds.Length == 0) throw new ArgumentNullException(nameof(triggerIds));
+
+        foreach (var triggerId in triggerIds)
+        {
+            _ = TryRemoveTrigger(triggerId, out _);
+        }
     }
 
     /// <summary>

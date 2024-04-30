@@ -197,8 +197,8 @@ public interface IScheduler
     /// <summary>
     /// 删除作业触发器
     /// </summary>
-    /// <param name="triggerId">作业触发器 Id</param>
-    void RemoveTrigger(string triggerId);
+    /// <param name="triggerIds">作业触发器 Id 集合</param>
+    void RemoveTrigger(params string[] triggerIds);
 
     /// <summary>
     /// 将当前作业计划从调度器中删除
