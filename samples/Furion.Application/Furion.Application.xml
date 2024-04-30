@@ -652,6 +652,12 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:Furion.Application.TestModuleServices.TestHttpResponseModel">
+            <summary>
+            测试单文件上传
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:Furion.Application.TestSensitiveDetection.GetWordsAsync">
             <summary>
             获取所有脱敏词汇

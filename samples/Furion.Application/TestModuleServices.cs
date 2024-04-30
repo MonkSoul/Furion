@@ -637,6 +637,27 @@ public class TestModuleServices : IDynamicApiController
     {
 
     }
+
+
+    /// <summary>
+    /// 测试单文件上传
+    /// </summary>
+    /// <returns></returns>
+    public async Task<string> TestHttpResponseModel()
+    {
+        var bytes = File.ReadAllBytes("image.png");
+
+        var result0 = await "https://localhost:44316/api/test-module/upload-file"
+            .SetContentType("multipart/form-data")
+            .SetFiles(HttpFile.Create("file", bytes, "image.png"))
+            .PostAsAsync<HttpResponseModel<string>>();
+        var fileName0 = result0.Result;
+
+        var result = await _http.TestHttpResponseModel(HttpFile.Create("file", bytes, "image.png"));
+        var fileName = await result.Response.Content.ReadAsStringAsync();
+
+        return fileName;
+    }
 }
 
 public class BindNeverModel

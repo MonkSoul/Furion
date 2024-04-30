@@ -435,6 +435,36 @@ public sealed partial class HttpRequestPart
     /// <returns></returns>
     public async Task<T> SendAsAsync<T>(CancellationToken cancellationToken = default)
     {
+        if (typeof(T).IsGenericType && typeof(T).GetGenericTypeDefinition() == typeof(HttpResponseModel<>))
+        {
+            var typeOfTArg = typeof(T).GetGenericArguments()[0];
+            var genericMethod = GetType().GetMethod(nameof(SendAsHttpResponseModelAsync)).MakeGenericMethod(typeOfTArg);
+            var task = genericMethod.Invoke(this, new object[] { cancellationToken }) as Task;
+
+            var taskCompletionSource = new TaskCompletionSource<object>();
+            _ = task.ContinueWith(t =>
+            {
+                // 异步执行失败处理
+                if (t.IsFaulted)
+                {
+                    taskCompletionSource.TrySetException(t.Exception);
+                }
+                // 异步被取消处理
+                else if (t.IsCanceled)
+                {
+                    taskCompletionSource.TrySetCanceled();
+                }
+                // 异步成功返回处理
+                else
+                {
+                    taskCompletionSource.TrySetResult(((dynamic)t).Result);
+                }
+            }, cancellationToken);
+
+            var httpResposeModel = await taskCompletionSource.Task;
+            return (T)httpResposeModel;
+        }
+
         // 如果 T 是 HttpResponseMessage 类型，则返回
         if (typeof(T) == typeof(HttpResponseMessage))
         {
@@ -458,7 +488,7 @@ public sealed partial class HttpRequestPart
         var (stream, encoding, response) = await SendAsStreamAsync(cancellationToken);
         if (stream == null) return default;
 
-        // 如果 T 是 Stream 类型，则返回
+        // 处理 Stream 类型
         if (typeof(T) == typeof(Stream)) return (T)(object)stream;
 
         // 判断是否启用 Gzip
@@ -484,6 +514,90 @@ public sealed partial class HttpRequestPart
     }
 
     /// <summary>
+    /// 发送请求返回 HttpResponseModel{T} 对象
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    /// <exception cref="InvalidOperationException"></exception>
+    public async Task<HttpResponseModel<T>> SendAsHttpResponseModelAsync<T>(CancellationToken cancellationToken = default)
+    {
+        // 类型 T 不能是自身类型
+        if ((typeof(T).IsGenericType && typeof(T).GetGenericTypeDefinition() == typeof(HttpResponseModel<>)) || typeof(T) == typeof(HttpResponseMessage))
+        {
+            throw new InvalidOperationException("Type T cannot be of type HttpResponseModel<> and HttpResponseMessage.");
+        }
+
+        var response = await SendAsync(cancellationToken);
+        if (response == null) return default;
+
+        // 初始化HTTP 响应模型
+        var httpResponseModel = new HttpResponseModel<T>
+        {
+            Response = response,
+        };
+
+        if (response.Content != null)
+        {
+            // 获取 charset 编码
+            var encoding = GetCharsetEncoding(response);
+
+            // 处理字符串类型
+            if (typeof(T) == typeof(string))
+            {
+                // 读取内容字节流
+                var byteArray = await response.Content.ReadAsByteArrayAsync(cancellationToken);
+
+                // 通过指定编码解码
+                var str = (encoding.GetString(byteArray));
+                httpResponseModel.Result = (T)(object)str;
+            }
+            // 处理 byte[] 数组
+            else if (typeof(T) == typeof(byte[]))
+            {
+                // 读取响应报文
+                var byteArray = await response.Content.ReadAsByteArrayAsync(cancellationToken);
+                httpResponseModel.Result = (T)(object)byteArray;
+            }
+            else
+            {
+                // 读取响应流
+                var stream = await response.Content.ReadAsStreamAsync(cancellationToken);
+                stream.Position = 0;
+
+                if (typeof(T) == typeof(Stream))
+                {
+                    httpResponseModel.Result = (T)(object)stream;
+                }
+                else
+                {
+                    // 判断是否启用 Gzip
+                    using var streamReader = new StreamReader(
+                        !SupportGZip
+                        ? stream
+                        : new GZipStream(stream, CompressionMode.Decompress), encoding);
+
+                    var text = await streamReader.ReadToEndAsync();
+                    // 释放流
+                    await stream.DisposeAsync();
+
+                    // 如果字符串为空，则返回默认值
+                    if (string.IsNullOrWhiteSpace(text)) return default;
+
+                    // 解析 Json 序列化提供器
+                    var jsonSerializer = App.GetService(JsonSerializerProvider, RequestScoped ?? App.RootServices) as IJsonSerializerProvider;
+
+                    // 反序列化流
+                    var result = jsonSerializer.Deserialize<T>(text, JsonSerializerOptions);
+                    httpResponseModel.Result = (T)(object)result;
+                }
+            }
+        }
+
+        return httpResponseModel;
+    }
+
+    /// <summary>
     /// 发送请求返回 Stream
     /// </summary>
     /// <param name="cancellationToken"></param>
@@ -491,7 +605,7 @@ public sealed partial class HttpRequestPart
     public async Task<(Stream Stream, Encoding Encoding, HttpResponseMessage Response)> SendAsStreamAsync(CancellationToken cancellationToken = default)
     {
         var response = await SendAsync(cancellationToken);
-        if (response == null || response.Content == null) return default;
+        if (response == null || response.Content == null) return (null, null, response);
 
         // 获取 charset 编码
         var encoding = GetCharsetEncoding(response);
@@ -512,10 +626,14 @@ public sealed partial class HttpRequestPart
     public async Task SendToSaveAsync(string path, CancellationToken cancellationToken = default)
     {
         var (stream, _, response) = await SendAsStreamAsync(cancellationToken);
-        await stream.CopyToSaveAsync(path);
 
-        // 释放流
-        await stream.DisposeAsync();
+        if (stream != null)
+        {
+            await stream.CopyToSaveAsync(path);
+            // 释放流
+            await stream.DisposeAsync();
+        }
+
         response?.Dispose();
     }
 
