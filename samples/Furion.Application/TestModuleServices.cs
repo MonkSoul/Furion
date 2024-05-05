@@ -7,14 +7,12 @@ using Furion.RemoteRequest;
 using Furion.RemoteRequest.Extensions;
 using Furion.UnifyResult;
 using Furion.ViewEngine;
+using Furion.ViewEngine.Extensions;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Swashbuckle.AspNetCore.Swagger;
 using System.Data;
-using System.IO.Compression;
-using System.IO;
-using System.Text;
 using System.Text.Json;
 
 namespace Furion.Application;
@@ -668,9 +666,68 @@ public class TestModuleServices : IDynamicApiController
 
         return fileName;
     }
+
+
+    public async Task<string> 测试粘土对象和模板引擎([FromServices] IViewEngine viewEngine)
+    {
+        var sql = @"
+@foreach(var item in Model)
+{
+    @:insert into table(member_id, site_id) values(@item.member_id, @item.site_id);
+
+    @foreach(var subItem in item.goods_list)
+    {
+        @:insert into table(order_id, goods_id) values(@subItem.order_id, @subItem.goods_id);
+    }
+}";
+
+        object clay = Clay.Parse("""
+                    [{
+                        "member_id": 69697,
+                        "site_id": 1,
+                        "remark": "",
+                        "order_id": 344,
+                        "order_no": "1202405051550696970001",
+                        "order_status": 3,
+                        "name": "百签科技（广东）有限公司",
+                        "mobile": "13800138000",
+                        "telephone": "",
+                        "address": "广东省中山市",
+                        "full_address": "广东省中山市西区",
+                        "create_time": 1714895456,
+                        "pay_money": "148.20",
+                        "buyer_message": "",
+                        "drug_code": null,
+                        "goods_list": [
+                            {
+                                "order_id": 344,
+                                "goods_id": 816503,
+                                "num": 60,
+                                "price": "2.60",
+                                "real_goods_money": "148.20",
+                                "refund_real_money": "0.00",
+                                "country_code": "ZHONGSHAN",
+                                "goods_code": "YPJN0000776",
+                                "third_id": "SPH00008614"
+                            }
+                        ]
+                    }]
+                    """);
+
+        //var result = await viewEngine.RunCompileAsync(sql, clay);
+        var result = await sql.RunCompileAsync(clay);
+        return result;
+    }
+
 }
 
 public class BindNeverModel
 {
     public int Name { get; set; }
+}
+
+public class TestModel
+{
+    public string Name { get; set; }
+    public int[] Items { get; set; }
 }

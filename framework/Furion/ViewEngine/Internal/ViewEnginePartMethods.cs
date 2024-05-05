@@ -23,7 +23,9 @@
 // 请访问 https://gitee.com/dotnetchina/Furion 获取更多关于 Furion 项目的许可证和版权信息。
 // ------------------------------------------------------------------------
 
+using Furion.ClayObject;
 using Furion.Extensions;
+using System.Dynamic;
 using System.Reflection;
 
 namespace Furion.ViewEngine;
@@ -77,7 +79,7 @@ public sealed partial class ViewEnginePart
         var viewEngineType = viewEngine.GetType();
 
         // 反射获取视图引擎方法
-        var runCompileMethod = TemplateModel.Type.IsAnonymous() || TemplateModel.Type == typeof(object)
+        var runCompileMethod = TemplateModel.Type.IsAnonymous() || TemplateModel.Type == typeof(object) || TemplateModel.Type == typeof(Clay) || typeof(DynamicObject).IsAssignableFrom(TemplateModel.Type)
             ? viewEngineType.GetMethods(BindingFlags.Public | BindingFlags.Instance)
                        .First(m => m.Name == methodName && !m.IsGenericMethod)
             : viewEngineType.GetMethods(BindingFlags.Public | BindingFlags.Instance)
