@@ -180,6 +180,7 @@ public sealed partial class StringLoggingPart
                 opt.WriteHandler = consoleFormatterExtendOptions.WriteHandler;
                 opt.WithTraceId = consoleFormatterExtendOptions.WithTraceId;
                 opt.WithStackFrame = consoleFormatterExtendOptions.WithStackFrame;
+                opt.MessageProcess = consoleFormatterExtendOptions.MessageProcess;
             })
         : null;
 

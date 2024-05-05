@@ -1128,7 +1128,7 @@ public sealed partial class HttpRequestPart
         var memoryStream = new MemoryStream();
 
         // 创建一个缓冲区来读取和写入数据
-        var buffer = new byte[4096]; // 可以根据需要调整缓冲区大小
+        var buffer = new byte[4096];
         int bytesRead;
 
         // 读取原始流中的数据，直到没有更多数据可读
