@@ -671,6 +671,23 @@ public class TestModuleServices : IDynamicApiController
     public async Task<string> 测试粘土对象和模板引擎([FromServices] IViewEngine viewEngine)
     {
         var sql = @"
+@{
+    IEnumerable<dynamic> data = Model.AsEnumerable();
+    var names = data.Select(u=> u.name);
+
+    foreach(var name in names)
+    {
+        @:update table set isSync = 1 where name = '@name';
+    }
+}
+
+@{
+    IEnumerable<dynamic> data2 = Model.AsEnumerable();
+    var nameStrings = string.Join(""', '"", data2.Select(u=> u.name));
+
+    @:update table set isSync = 1 where name in ('@nameStrings');
+}
+
 @foreach(var item in Model)
 {
     @:insert into table(member_id, site_id) values(@item.member_id, @item.site_id);
@@ -681,7 +698,7 @@ public class TestModuleServices : IDynamicApiController
     }
 }";
 
-        object clay = Clay.Parse("""
+        dynamic clay = Clay.Parse("""
                     [{
                         "member_id": 69697,
                         "site_id": 1,
@@ -711,11 +728,45 @@ public class TestModuleServices : IDynamicApiController
                                 "third_id": "SPH00008614"
                             }
                         ]
+                    },
+                    {
+                        "member_id": 69698,
+                        "site_id": 1,
+                        "remark": "",
+                        "order_id": 344,
+                        "order_no": "1202405051550696970002",
+                        "order_status": 3,
+                        "name": "百签科技（广东）有限公司",
+                        "mobile": "13800138000",
+                        "telephone": "",
+                        "address": "广东省中山市",
+                        "full_address": "广东省中山市西区",
+                        "create_time": 1714895456,
+                        "pay_money": "148.20",
+                        "buyer_message": "",
+                        "drug_code": null,
+                        "goods_list": [
+                            {
+                                "order_id": 344,
+                                "goods_id": 816503,
+                                "num": 60,
+                                "price": "2.60",
+                                "real_goods_money": "148.20",
+                                "refund_real_money": "0.00",
+                                "country_code": "ZHONGSHAN",
+                                "goods_code": "YPJN0000776",
+                                "third_id": "SPH00008614"
+                            }
+                        ]
                     }]
                     """);
 
+        IEnumerable<dynamic> query = clay.AsEnumerable();
+
+        var order_nos = query.Select(u => u.order_no).ToList();
+
         //var result = await viewEngine.RunCompileAsync(sql, clay);
-        var result = await sql.RunCompileAsync(clay);
+        var result = await sql.RunCompileAsync((object)clay);
         return result;
     }
 

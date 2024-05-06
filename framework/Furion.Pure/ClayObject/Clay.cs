@@ -844,6 +844,15 @@ public sealed class Clay : DynamicObject, IEnumerable
     }
 
     /// <summary>
+    /// 转换为枚举对象
+    /// </summary>
+    /// <returns></returns>
+    public IEnumerable<dynamic> AsEnumerable()
+    {
+        return AsEnumerator<dynamic>();
+    }
+
+    /// <summary>
     /// 内部粘土对象枚举器
     /// </summary>
     /// <returns></returns>
