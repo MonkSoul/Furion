@@ -668,7 +668,7 @@ public class TestModuleServices : IDynamicApiController
     }
 
 
-    public async Task<string> 测试粘土对象和模板引擎([FromServices] IViewEngine viewEngine)
+    public async Task<string> 测试粘土对象和模板引擎()
     {
         var sql = @"
 @{
