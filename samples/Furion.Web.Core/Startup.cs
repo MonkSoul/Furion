@@ -138,7 +138,9 @@ public sealed class Startup : AppStartup
         {
             ContentTypeProvider = FS.GetFileExtensionContentTypeProvider()
         });
-        app.UseScheduleUI();
+        app.UseScheduleUI(options =>
+        {
+        });
 
         app.UseRouting();
 
