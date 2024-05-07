@@ -45,7 +45,9 @@ export default function RenderValue(props: {
   /**
    * 构建预览节点
    */
-  let preview = <span>{value?.toString() || ""}</span>;
+  let preview = (
+    <span style={{ wordBreak: "break-all" }}>{value?.toString() || ""}</span>
+  );
 
   /**
    * 处理下一次运行时间
@@ -124,7 +126,12 @@ export default function RenderValue(props: {
      * 处理触发器和作业 Id
      */
     preview = (
-      <Paragraph copyable underline strong style={{ display: "inline-block" }}>
+      <Paragraph
+        copyable
+        underline
+        strong
+        style={{ display: "inline-block", wordBreak: "break-all" }}
+      >
         {value?.toString() || ""}
       </Paragraph>
     );
@@ -133,7 +140,11 @@ export default function RenderValue(props: {
      * 处理参数类型
      */
     preview = value ? (
-      <Paragraph copyable mark style={{ display: "inline-block" }}>
+      <Paragraph
+        copyable
+        mark
+        style={{ display: "inline-block", wordBreak: "break-all" }}
+      >
         {value?.toString() || ""}
       </Paragraph>
     ) : (
@@ -154,7 +165,7 @@ export default function RenderValue(props: {
      * 处理触发器类型
      */
     preview = (
-      <span style={{ wordBreak: "break-word" }}>{value?.toString() || ""}</span>
+      <span style={{ wordBreak: "break-all" }}>{value?.toString() || ""}</span>
     );
   } else if (prop === "result") {
     /**
@@ -168,7 +179,7 @@ export default function RenderValue(props: {
           collapsible: true,
           collapseText: "折叠",
         }}
-        style={{ width: 200 }}
+        style={{ width: 200, wordBreak: "break-all" }}
         copyable
       >
         {value?.toString() || ""}
@@ -187,7 +198,7 @@ export default function RenderValue(props: {
     );
   } else
     preview = (
-      <span style={{ wordBreak: "break-word" }}>{value?.toString() || ""}</span>
+      <span style={{ wordBreak: "break-all" }}>{value?.toString() || ""}</span>
     );
 
   return (

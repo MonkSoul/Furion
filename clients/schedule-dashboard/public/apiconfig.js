@@ -7,4 +7,6 @@ window.apiconfig = {
     },
     cachePolicy: "no-cache",
   },
+  displayEmptyTriggerJobs: "true",
+  displayHead: "true",
 };

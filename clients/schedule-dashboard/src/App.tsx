@@ -8,6 +8,7 @@ import {
 import { BackTop, Button, Layout, Nav, Tooltip } from "@douyinfe/semi-ui";
 import { useState } from "react";
 import Jobs from "./components/jobs";
+import apiconfig from "./components/jobs/apiconfig";
 
 function App() {
   const { Header, Content } = Layout;
@@ -31,61 +32,64 @@ function App() {
         height: "100vh",
       }}
     >
-      <Header style={{ backgroundColor: "var(--semi-color-bg-1)" }}>
-        <div>
-          <Nav
-            mode="horizontal"
-            defaultSelectedKeys={["Home"]}
-            header={{
-              text: "Schedule Dashboard",
-              logo: (
-                <IconCalendarClock
-                  style={{
-                    height: "36px",
-                    fontSize: 36,
-                    color: mode === "light" ? "black" : "white",
-                  }}
-                />
-              ),
-            }}
-          >
-            <Nav.Footer>
-              <Tooltip
-                content={mode === "light" ? "切换到暗色模式" : "切换到亮色模式"}
-              >
-                <Button
-                  theme="borderless"
-                  icon={
-                    mode === "light" ? (
-                      <IconMoon size="large" />
-                    ) : (
-                      <IconSun size="large" />
-                    )
+      {apiconfig.displayHead === "true" && (
+        <Header style={{ backgroundColor: "var(--semi-color-bg-1)" }}>
+          <div>
+            <Nav
+              mode="horizontal"
+              defaultSelectedKeys={["Home"]}
+              header={{
+                text: "Schedule Dashboard",
+                logo: (
+                  <IconCalendarClock
+                    style={{
+                      height: "36px",
+                      fontSize: 36,
+                      color: mode === "light" ? "black" : "white",
+                    }}
+                  />
+                ),
+              }}
+            >
+              <Nav.Footer>
+                <Tooltip
+                  content={
+                    mode === "light" ? "切换到暗色模式" : "切换到亮色模式"
                   }
-                  style={{
-                    color: "var(--semi-color-text-2)",
-                    marginRight: "12px",
-                  }}
-                  onClick={() => switchMode()}
-                />
-              </Tooltip>
-              <Tooltip content={"查看文档"}>
-                <Button
-                  theme="borderless"
-                  icon={<IconHelpCircle size="large" />}
-                  style={{
-                    color: "var(--semi-color-text-2)",
-                    marginRight: "12px",
-                  }}
-                  onClick={() =>
-                    window.open("https://furion.net/docs/job")
-                  }
-                />
-              </Tooltip>
-            </Nav.Footer>
-          </Nav>
-        </div>
-      </Header>
+                >
+                  <Button
+                    theme="borderless"
+                    icon={
+                      mode === "light" ? (
+                        <IconMoon size="large" />
+                      ) : (
+                        <IconSun size="large" />
+                      )
+                    }
+                    style={{
+                      color: "var(--semi-color-text-2)",
+                      marginRight: "12px",
+                    }}
+                    onClick={() => switchMode()}
+                  />
+                </Tooltip>
+                <Tooltip content={"查看文档"}>
+                  <Button
+                    theme="borderless"
+                    icon={<IconHelpCircle size="large" />}
+                    style={{
+                      color: "var(--semi-color-text-2)",
+                      marginRight: "12px",
+                    }}
+                    onClick={() => window.open("https://furion.net/docs/job")}
+                  />
+                </Tooltip>
+              </Nav.Footer>
+            </Nav>
+          </div>
+        </Header>
+      )}
+
       <Content
         style={{
           padding: "24px",

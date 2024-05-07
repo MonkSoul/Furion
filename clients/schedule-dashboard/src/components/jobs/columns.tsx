@@ -70,13 +70,15 @@ const columns: ColumnProps<JobDetail>[] = [
   {
     title: "JobId",
     dataIndex: "jobId",
-    width: 200,
+    width: 300,
+    fixed: true,
     render: (text, jobDetail, index) => {
       return (
         <>
           <Popover
             content={
               <div style={style}>
+                {(jobDetail.triggers?.length || 0) === 0 && "暂无作业触发器"}
                 {jobDetail.triggers?.map((t, i) => (
                   <div key={t.triggerId}>
                     <Descriptions data={getData(t)} />
@@ -268,7 +270,12 @@ const columns: ColumnProps<JobDetail>[] = [
     dataIndex: "operate",
     width: 50,
     fixed: "right",
-    render: (text, jobDetail, index) => <Operation jobid={jobDetail.jobId} />,
+    render: (text, jobDetail, index) => (
+      <Operation
+        jobid={jobDetail.jobId}
+        hasTrigger={(jobDetail.triggers?.length || 0) > 0}
+      />
+    ),
   },
 ];
 
@@ -277,8 +284,8 @@ const columns: ColumnProps<JobDetail>[] = [
  * @param props
  * @returns
  */
-function Operation(props: { jobid?: string | null }) {
-  const { jobid } = props;
+function Operation(props: { jobid?: string | null; hasTrigger: boolean }) {
+  const { jobid, hasTrigger } = props;
 
   /**
    * 初始化请求配置
@@ -312,10 +319,16 @@ function Operation(props: { jobid?: string | null }) {
     <Dropdown
       render={
         <Dropdown.Menu>
-          <Dropdown.Item onClick={() => callAction("start")}>
+          <Dropdown.Item
+            onClick={() => callAction("start")}
+            disabled={!hasTrigger}
+          >
             <IconPlayCircle size="extra-large" /> 启动
           </Dropdown.Item>
-          <Dropdown.Item onClick={() => callAction("pause")}>
+          <Dropdown.Item
+            onClick={() => callAction("pause")}
+            disabled={!hasTrigger}
+          >
             <IconStop size="extra-large" /> 暂停
           </Dropdown.Item>
           <Dropdown.Item>
@@ -327,7 +340,11 @@ function Operation(props: { jobid?: string | null }) {
               <IconDelete size="small" /> &nbsp;删除
             </Popconfirm>
           </Dropdown.Item>
-          <Dropdown.Item onClick={() => callAction("run")}>
+
+          <Dropdown.Item
+            onClick={() => callAction("run")}
+            disabled={!hasTrigger}
+          >
             <IconVigoLogo size="extra-large" /> 立即执行
           </Dropdown.Item>
         </Dropdown.Menu>

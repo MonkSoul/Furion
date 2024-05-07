@@ -53,4 +53,14 @@ public sealed class ScheduleUIOptions
     /// </summary>
     /// <remarks>需以 / 开头，结尾不包含 / </remarks>
     public string VirtualPath { get; set; }
+
+    /// <summary>
+    /// 是否显示空触发器的作业信息
+    /// </summary>
+    public bool DisplayEmptyTriggerJobs { get; set; } = true;
+
+    /// <summary>
+    /// 是否显示页头
+    /// </summary>
+    public bool DisplayHead { get; set; } = true;
 }

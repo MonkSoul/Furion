@@ -94,6 +94,14 @@ export default function Jobs() {
       let jobDetail = scheduler.jobDetail!;
       jobDetail.triggers = scheduler.triggers;
       jobDetail.refreshDate = new Date();
+
+      if (
+        apiconfig.displayEmptyTriggerJobs === "false" &&
+        scheduler.triggers?.length === 0
+      ) {
+        continue;
+      }
+
       jobDetails.push(jobDetail);
     }
 
@@ -264,6 +272,7 @@ export default function Jobs() {
       onRow={handleRow}
       expandedRowRender={expandRowRender}
       pagination={false}
+      expandRowByClick
       rowExpandable={(jobDetail) =>
         !!(
           jobDetail?.jobId &&
