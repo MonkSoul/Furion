@@ -63,4 +63,9 @@ public sealed class ScheduleUIOptions
     /// 是否显示页头
     /// </summary>
     public bool DisplayHead { get; set; } = true;
+
+    /// <summary>
+    /// 是否默认展开所有作业
+    /// </summary>
+    public bool DefaultExpandAllJobs { get; set; } = false;
 }

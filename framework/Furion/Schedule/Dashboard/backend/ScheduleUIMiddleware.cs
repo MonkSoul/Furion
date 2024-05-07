@@ -117,7 +117,8 @@ public sealed class ScheduleUIMiddleware
                     ? content.Replace(STATIC_FILES_PATH, $"{Options.VirtualPath}{Options.RequestPath}")
                     : content.Replace("%(RequestPath)", $"{Options.VirtualPath}{Options.RequestPath}")
                              .Replace("%(DisplayEmptyTriggerJobs)", Options.DisplayEmptyTriggerJobs ? "true" : "false")
-                             .Replace("%(DisplayHead)", Options.DisplayHead ? "true" : "false");
+                             .Replace("%(DisplayHead)", Options.DisplayHead ? "true" : "false")
+                             .Replace("%(DefaultExpandAllJobs)", Options.DefaultExpandAllJobs ? "true" : "false");
             }
 
             // 输出到客户端

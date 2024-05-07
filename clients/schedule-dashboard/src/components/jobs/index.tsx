@@ -273,6 +273,7 @@ export default function Jobs() {
       expandedRowRender={expandRowRender}
       pagination={false}
       expandRowByClick
+      expandAllRows={apiconfig.defaultExpandAllJobs === "true"}
       rowExpandable={(jobDetail) =>
         !!(
           jobDetail?.jobId &&

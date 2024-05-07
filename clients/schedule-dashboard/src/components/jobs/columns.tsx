@@ -276,6 +276,13 @@ const columns: ColumnProps<JobDetail>[] = [
         hasTrigger={(jobDetail.triggers?.length || 0) > 0}
       />
     ),
+    onCell: (jobDetail, index) => {
+      return {
+        onClick: (e) => {
+          e.stopPropagation();
+        },
+      };
+    },
   },
 ];
 

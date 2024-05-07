@@ -9,4 +9,5 @@ window.apiconfig = {
   },
   displayEmptyTriggerJobs: "true",
   displayHead: "true",
+  defaultExpandAllJobs: "false",
 };
