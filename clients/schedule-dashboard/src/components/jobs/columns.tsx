@@ -195,6 +195,9 @@ const columns: ColumnProps<JobDetail>[] = [
             expandable: true,
             collapsible: true,
             collapseText: "折叠",
+            onExpand: (expand, e) => {
+              e.stopPropagation();
+            },
           }}
           style={{ width: 200 }}
           copyable
