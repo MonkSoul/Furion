@@ -224,7 +224,7 @@ internal sealed class ScheduleHostedService : BackgroundService
                     taskFactory.StartNew(async () =>
                     {
                         // 创建唯一的作业运行标识
-                        var runId = Guid.NewGuid();
+                        var runId = $"{triggerId}___{Guid.NewGuid()}";
 
                         // 创建服务作用域
                         var serviceScoped = _serviceProvider.CreateScope();
@@ -394,7 +394,7 @@ internal sealed class ScheduleHostedService : BackgroundService
                             serviceScoped.Dispose();
 
                             // 释放取消作业执行 Token
-                            _jobCancellationToken.Cancel(jobId, runId);
+                            _jobCancellationToken.Cancel(jobId, triggerId, false);
 
                             // 通知 GC 垃圾回收器回收
                             _schedulerFactory.GCCollect();

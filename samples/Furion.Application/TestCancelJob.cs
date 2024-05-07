@@ -18,6 +18,8 @@ public class TestCancelJob : IJob
 
         await Task.Delay(10000, stoppingToken);
 
+        _logger.LogWarning("超时作业已执行完成");
+
         await Task.CompletedTask;
     }
 }

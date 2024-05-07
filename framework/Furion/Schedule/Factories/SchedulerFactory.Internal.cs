@@ -549,16 +549,16 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory
     /// </summary>
     /// <param name="jobId">作业 Id</param>
     /// <param name="scheduler">作业计划</param>
-    /// <param name="showLog">是否显示日志</param>
+    /// <param name="outputLog">是否显示日志</param>
     /// <param name="group">作业组名称</param>
     /// <returns><see cref="ScheduleResult"/></returns>
-    private ScheduleResult InternalTryGetJob(string jobId, out Scheduler scheduler, bool showLog = false, string group = default)
+    private ScheduleResult InternalTryGetJob(string jobId, out Scheduler scheduler, bool outputLog = false, string group = default)
     {
         // 空检查
         if (string.IsNullOrWhiteSpace(jobId))
         {
             // 输出日志
-            if (showLog) _logger.LogWarning("Empty identity scheduler.");
+            if (outputLog) _logger.LogWarning("Empty identity scheduler.");
 
             scheduler = default;
             return ScheduleResult.NotIdentify;
@@ -572,7 +572,7 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory
             || (!string.IsNullOrWhiteSpace(group) && originScheduler.JobDetail.GroupName != group))
         {
             // 输出日志
-            if (showLog) _logger.LogWarning(message: "The scheduler of <{jobId}> is not found.", jobId);
+            if (outputLog) _logger.LogWarning(message: "The scheduler of <{jobId}> is not found.", jobId);
 
             scheduler = default;
             return ScheduleResult.NotFound;

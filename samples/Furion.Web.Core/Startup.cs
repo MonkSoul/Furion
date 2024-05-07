@@ -96,6 +96,9 @@ public sealed class Startup : AppStartup
             });
 
             options.AddJob<TestJob>(Triggers.PeriodHours(2));
+
+            options.AddJob<TestCancelJob>(Triggers.PeriodHours(2)
+               , Triggers.PeriodHours(2));
         });
 
         // 新版本任务队列

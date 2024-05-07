@@ -241,7 +241,7 @@ public static class DataValidator
 
             // 判断是否配置验证正则表达式
             if (!ValidationItemMetadatas.ContainsKey(validationName))
-                throw new InvalidOperationException($"No ${validationName} validation type metadata exists.");
+                throw new InvalidOperationException($"No {validationName} validation type metadata exists.");
 
             // 获取对应的验证选项
             var validationItemMetadataAttribute = ValidationItemMetadatas[validationName];

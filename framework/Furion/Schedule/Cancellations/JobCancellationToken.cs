@@ -56,44 +56,30 @@ internal sealed class JobCancellationToken : IJobCancellationToken
     /// 获取或创建取消作业执行 Token
     /// </summary>
     /// <param name="jobId">作业 Id</param>
-    /// <param name="runId">作业运行唯一标识</param>
+    /// <param name="runId">作业触发器触发的唯一标识</param>
     /// <param name="stoppingToken">后台主机服务停止时取消任务 Token</param>
     /// <returns><see cref="CancellationToken"/></returns>
-    public CancellationTokenSource GetOrCreate(string jobId, Guid runId, CancellationToken stoppingToken)
+    public CancellationTokenSource GetOrCreate(string jobId, string runId, CancellationToken stoppingToken)
     {
         return _cancellationTokenSources.GetOrAdd(GetTokenKey(jobId, runId)
             , _ => CancellationTokenSource.CreateLinkedTokenSource(stoppingToken));
     }
 
     /// <summary>
-    /// 取消（完成）本次作业执行
+    /// 取消（完成）正在执行的执行
     /// </summary>
     /// <param name="jobId">作业 Id</param>
-    /// <param name="runId">作业运行唯一标识</param>
-    public void Cancel(string jobId, Guid runId)
+    /// <param name="triggerId">作业触发器 Id</param>
+    /// <param name="outputLog">是否显示日志</param>
+    public void Cancel(string jobId, string triggerId = null, bool outputLog = true)
     {
-        try
-        {
-            if (_cancellationTokenSources.TryRemove(GetTokenKey(jobId, runId), out var cancellationTokenSource))
-            {
-                if (!cancellationTokenSource.IsCancellationRequested) cancellationTokenSource.Cancel();
-                cancellationTokenSource.Dispose();
-            }
-        }
-        catch (TaskCanceledException) { }
-        catch (AggregateException ex) when (ex.InnerExceptions.Count == 1 && ex.InnerExceptions[0] is TaskCanceledException) { }
-        catch { }
-    }
+        var containsTriggerId = !string.IsNullOrWhiteSpace(triggerId);
 
-    /// <summary>
-    /// 取消（完成）所有作业执行
-    /// </summary>
-    /// <param name="jobId">作业 Id</param>
-    public void Cancel(string jobId)
-    {
-        // 获取所有以作业 Id 开头的作业 TokenKey
+        // 获取所有以作业 Id 或作业 Id + 作业触发器 Id 开头的作业 TokenKey
         var allJobKeys = _cancellationTokenSources.Keys
-            .Where(u => u.StartsWith($"{jobId}__"));
+            .Where(u => u.StartsWith(!containsTriggerId
+                ? $"{jobId}__"
+                : $"{jobId}__{triggerId}___"));
 
         foreach (var tokenKey in allJobKeys)
         {
@@ -105,12 +91,20 @@ internal sealed class JobCancellationToken : IJobCancellationToken
                     cancellationTokenSource.Dispose();
 
                     // 输出日志
-                    _logger.LogWarning("The scheduler of <{JobId}> cancellation request has been sent to stop its execution.", jobId);
+                    if (outputLog)
+                    {
+                        if (!containsTriggerId) _logger.LogWarning("The scheduler of <{JobId}> cancellation request has been sent to stop its execution.", jobId);
+                        else _logger.LogWarning("The <{triggerId}> trigger for scheduler of <{jobId}> cancellation request has been sent to stop its execution.", triggerId, jobId);
+                    }
                 }
                 else
                 {
                     // 输出日志
-                    _logger.LogWarning(message: "The scheduler of <{jobId}> is not found.", jobId);
+                    if (outputLog)
+                    {
+                        if (!containsTriggerId) _logger.LogWarning(message: "The scheduler of <{jobId}> is not found.", jobId);
+                        else _logger.LogWarning(message: "The <{triggerId}> trigger for scheduler of <{jobId}> is not found.", triggerId, jobId);
+                    }
                 }
             }
             catch (TaskCanceledException) { }
@@ -123,9 +117,9 @@ internal sealed class JobCancellationToken : IJobCancellationToken
     /// 获取取消作业执行 Token 键
     /// </summary>
     /// <param name="jobId">作业 Id</param>
-    /// <param name="runId">作业运行唯一标识</param>
+    /// <param name="runId">作业触发器触发的唯一标识</param>
     /// <returns><see cref="string"/></returns>
-    private static string GetTokenKey(string jobId, Guid runId)
+    private static string GetTokenKey(string jobId, string runId)
     {
         return $"{jobId}__{runId}";
     }

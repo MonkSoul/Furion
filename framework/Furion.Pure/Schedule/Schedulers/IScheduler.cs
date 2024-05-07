@@ -281,5 +281,6 @@ public interface IScheduler
     /// <summary>
     /// 取消正在执行的作业
     /// </summary>
-    void Cancel();
+    /// <param name="triggerId">作业触发器 Id</param>
+    void Cancel(string triggerId = null);
 }

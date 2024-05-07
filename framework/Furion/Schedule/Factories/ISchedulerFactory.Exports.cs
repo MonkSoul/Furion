@@ -657,8 +657,9 @@ public partial interface ISchedulerFactory : IDisposable
     /// </summary>
     /// <param name="jobId">作业 Id</param>
     /// <param name="scheduler">作业计划</param>
+    /// <param name="triggerId">作业触发器 Id</param>
     /// <returns><see cref="ScheduleResult"/></returns>
-    ScheduleResult TryCancelJob(string jobId, out IScheduler scheduler);
+    ScheduleResult TryCancelJob(string jobId, out IScheduler scheduler, string triggerId = null);
 
     /// <summary>
     /// 取消正在执行的作业
@@ -670,8 +671,9 @@ public partial interface ISchedulerFactory : IDisposable
     /// 取消正在执行的作业
     /// </summary>
     /// <param name="scheduler">作业计划</param>
+    /// <param name="triggerId">作业触发器 Id</param>
     /// <returns><see cref="ScheduleResult"/></returns>
-    ScheduleResult TryCancelJob(IScheduler scheduler);
+    ScheduleResult TryCancelJob(IScheduler scheduler, string triggerId = null);
 
     /// <summary>
     /// 取消正在执行的作业
