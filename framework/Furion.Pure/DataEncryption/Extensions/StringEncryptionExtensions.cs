@@ -195,4 +195,39 @@ public static class StringEncryptionExtensions
     {
         return SHA1Encryption.Encrypt(text, uppercase);
     }
+
+    /// <summary>
+    /// 字节数组的 SHA1 加密
+    /// </summary>
+    /// <param name="bytes">字节数组</param>
+    /// <param name="uppercase">是否输出大写加密，默认 false</param>
+    /// <returns></returns>
+    public static string ToSHA1Encrypt(this byte[] bytes, bool uppercase = false)
+    {
+        return SHA1Encryption.Encrypt(bytes, uppercase);
+    }
+
+    /// <summary>
+    /// 字符串的 SHA1 对比
+    /// </summary>
+    /// <param name="text"></param>
+    /// <param name="hash"></param>
+    /// <param name="uppercase">是否输出大写加密，默认 false</param>
+    /// <returns>string</returns>
+    public static bool ToSHA1Compare(this string text, string hash, bool uppercase = false)
+    {
+        return SHA1Encryption.Compare(text, hash, uppercase);
+    }
+
+    /// <summary>
+    /// 字节数组的 SHA1 对比
+    /// </summary>
+    /// <param name="bytes"></param>
+    /// <param name="hash"></param>
+    /// <param name="uppercase">是否输出大写加密，默认 false</param>
+    /// <returns>string</returns>
+    public static bool ToSHA1Compare(this byte[] bytes, string hash, bool uppercase = false)
+    {
+        return SHA1Encryption.Compare(bytes, hash, uppercase);
+    }
 }
