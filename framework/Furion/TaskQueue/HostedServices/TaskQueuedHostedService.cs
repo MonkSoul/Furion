@@ -149,6 +149,9 @@ internal sealed class TaskQueueHostedService : BackgroundService
         // 出队
         var taskWrapper = await _taskQueue.DequeueAsync(stoppingToken);
 
+        // 创建一个任务工厂并保证执行任务都使用当前的计划程序
+        var taskFactory = new TaskFactory(TaskScheduler.Current);
+
         // 获取任务执行策略
         var concurrent = taskWrapper.Concurrent == null
             ? _concurrent
@@ -157,9 +160,13 @@ internal sealed class TaskQueueHostedService : BackgroundService
         // 并行执行
         if (concurrent)
         {
-            Parallel.For(0, 1, async _ =>
+            Parallel.For(0, 1, _ =>
             {
-                await DequeueHandleAsync(taskWrapper, stoppingToken);
+                // 创建新的线程执行
+                taskFactory.StartNew(async () =>
+                {
+                    await DequeueHandleAsync(taskWrapper, stoppingToken);
+                }, stoppingToken);
             });
         }
         // 依次出队执行：https://gitee.com/dotnetchina/Furion/issues/I8VXFV
