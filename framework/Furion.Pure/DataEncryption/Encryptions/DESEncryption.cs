@@ -29,10 +29,10 @@ using System.Text;
 namespace Furion.DataEncryption;
 
 /// <summary>
-/// DESC 加解密
+/// DES 加解密
 /// </summary>
 [SuppressSniffer]
-public class DESCEncryption
+public class DESEncryption
 {
     /// <summary>
     /// 加密

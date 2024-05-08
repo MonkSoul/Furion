@@ -140,27 +140,27 @@ public static class StringEncryptionExtensions
     }
 
     /// <summary>
-    /// 字符串 DESC 加密
+    /// 字符串 DES 加密
     /// </summary>
     /// <param name="text">需要加密的字符串</param>
     /// <param name="skey">密钥</param>
     /// <param name="uppercase">是否输出大写加密，默认 false</param>
     /// <returns>string</returns>
-    public static string ToDESCEncrypt(this string text, string skey, bool uppercase = false)
+    public static string ToDESEncrypt(this string text, string skey, bool uppercase = false)
     {
-        return DESCEncryption.Encrypt(text, skey, uppercase);
+        return DESEncryption.Encrypt(text, skey, uppercase);
     }
 
     /// <summary>
-    /// 字符串 DESC 解密
+    /// 字符串 DES 解密
     /// </summary>
     /// <param name="text"></param>
     /// <param name="skey">密钥</param>
     /// <param name="uppercase">是否输出大写加密，默认 false</param>
     /// <returns>string</returns>
-    public static string ToDESCDecrypt(this string text, string skey, bool uppercase = false)
+    public static string ToDESDecrypt(this string text, string skey, bool uppercase = false)
     {
-        return DESCEncryption.Decrypt(text, skey, uppercase);
+        return DESEncryption.Decrypt(text, skey, uppercase);
     }
 
     /// <summary>
