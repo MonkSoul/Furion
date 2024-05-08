@@ -149,9 +149,6 @@ internal sealed class TaskQueueHostedService : BackgroundService
         // 出队
         var taskWrapper = await _taskQueue.DequeueAsync(stoppingToken);
 
-        // 创建一个任务工厂并保证执行任务都使用当前的计划程序
-        var taskFactory = new TaskFactory(TaskScheduler.Current);
-
         // 获取任务执行策略
         var concurrent = taskWrapper.Concurrent == null
             ? _concurrent
@@ -160,6 +157,9 @@ internal sealed class TaskQueueHostedService : BackgroundService
         // 并行执行
         if (concurrent)
         {
+            // 创建一个任务工厂并保证执行任务都使用当前的计划程序
+            var taskFactory = new TaskFactory(TaskScheduler.Current);
+
             Parallel.For(0, 1, _ =>
             {
                 // 创建新的线程执行
