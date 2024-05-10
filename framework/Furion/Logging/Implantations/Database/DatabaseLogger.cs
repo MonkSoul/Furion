@@ -70,7 +70,7 @@ public sealed class DatabaseLogger : ILogger
     /// <returns><see cref="IDisposable"/></returns>
     public IDisposable BeginScope<TState>(TState state)
     {
-        return _databaseLoggerProvider.ScopeProvider.Push(state);
+        return _databaseLoggerProvider.ScopeProvider?.Push(state);
     }
 
     /// <summary>
@@ -115,13 +115,18 @@ public sealed class DatabaseLogger : ILogger
         }
 
         var logDateTime = _options.UseUtcTimestamp ? DateTime.UtcNow : DateTime.Now;
-        var logMsg = new LogMessage(_logName, logLevel, eventId, message, exception, null, state, logDateTime, Environment.CurrentManagedThreadId, _options.UseUtcTimestamp, App.GetTraceId());
-
-        // 设置日志上下文
-        logMsg = Penetrates.SetLogContext(_databaseLoggerProvider.ScopeProvider, logMsg, _options.IncludeScopes);
+        var logMsg = new LogMessage(_logName, logLevel, eventId, message, exception, null, state, logDateTime, Environment.CurrentManagedThreadId, _options.UseUtcTimestamp, App.GetTraceId())
+        {
+            // 设置日志上下文
+            Context = Penetrates.SetLogContext(_databaseLoggerProvider.ScopeProvider, _options.IncludeScopes)
+        };
 
         // 判断是否自定义了日志筛选器，如果是则检查是否符合条件
-        if (_options.WriteFilter?.Invoke(logMsg) == false) return;
+        if (_options.WriteFilter?.Invoke(logMsg) == false)
+        {
+            logMsg.Context?.Dispose();
+            return;
+        }
 
         // 设置日志消息模板
         logMsg.Message = _options.MessageFormat != null
@@ -129,13 +134,21 @@ public sealed class DatabaseLogger : ILogger
             : Penetrates.OutputStandardMessage(logMsg, _options.DateFormat, withTraceId: _options.WithTraceId, withStackFrame: _options.WithStackFrame);
 
         // 空检查
-        if (logMsg.Message is null) return;
+        if (logMsg.Message is null)
+        {
+            logMsg.Context?.Dispose();
+            return;
+        }
 
         // 判断是否忽略循环输出日志，解决数据库日志提供程序中也输出日志导致写入递归问题
         if (_options.IgnoreReferenceLoop)
         {
             var stackTrace = new StackTrace();
-            if (stackTrace.GetFrames().Any(u => u.HasMethod() && typeof(IDatabaseLoggingWriter).IsAssignableFrom(u.GetMethod().DeclaringType))) return;
+            if (stackTrace.GetFrames().Any(u => u.HasMethod() && typeof(IDatabaseLoggingWriter).IsAssignableFrom(u.GetMethod().DeclaringType)))
+            {
+                logMsg.Context?.Dispose();
+                return;
+            }
         }
 
         // 写入日志队列

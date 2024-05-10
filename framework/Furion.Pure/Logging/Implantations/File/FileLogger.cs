@@ -69,7 +69,7 @@ public sealed class FileLogger : ILogger
     /// <returns><see cref="IDisposable"/></returns>
     public IDisposable BeginScope<TState>(TState state)
     {
-        return _fileLoggerProvider.ScopeProvider.Push(state);
+        return _fileLoggerProvider.ScopeProvider?.Push(state);
     }
 
     /// <summary>
@@ -114,13 +114,18 @@ public sealed class FileLogger : ILogger
         }
 
         var logDateTime = _options.UseUtcTimestamp ? DateTime.UtcNow : DateTime.Now;
-        var logMsg = new LogMessage(_logName, logLevel, eventId, message, exception, null, state, logDateTime, Environment.CurrentManagedThreadId, _options.UseUtcTimestamp, App.GetTraceId());
-
-        // 设置日志上下文
-        logMsg = Penetrates.SetLogContext(_fileLoggerProvider.ScopeProvider, logMsg, _options.IncludeScopes);
+        var logMsg = new LogMessage(_logName, logLevel, eventId, message, exception, null, state, logDateTime, Environment.CurrentManagedThreadId, _options.UseUtcTimestamp, App.GetTraceId())
+        {
+            // 设置日志上下文
+            Context = Penetrates.SetLogContext(_fileLoggerProvider.ScopeProvider, _options.IncludeScopes)
+        };
 
         // 判断是否自定义了日志筛选器，如果是则检查是否符合条件
-        if (_options.WriteFilter?.Invoke(logMsg) == false) return;
+        if (_options.WriteFilter?.Invoke(logMsg) == false)
+        {
+            logMsg.Context?.Dispose();
+            return;
+        }
 
         // 设置日志消息模板
         logMsg.Message = _options.MessageFormat != null
@@ -128,7 +133,11 @@ public sealed class FileLogger : ILogger
             : Penetrates.OutputStandardMessage(logMsg, _options.DateFormat, withTraceId: _options.WithTraceId, withStackFrame: _options.WithStackFrame);
 
         // 空检查
-        if (logMsg.Message is null) return;
+        if (logMsg.Message is null)
+        {
+            logMsg.Context?.Dispose();
+            return;
+        }
 
         // 写入日志队列
         _fileLoggerProvider.WriteToQueue(logMsg);

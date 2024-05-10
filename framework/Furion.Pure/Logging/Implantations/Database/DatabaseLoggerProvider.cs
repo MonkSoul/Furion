@@ -84,14 +84,7 @@ public sealed class DatabaseLoggerProvider : ILoggerProvider, ISupportExternalSc
     /// <summary>
     /// 日志作用域提供器
     /// </summary>
-    internal IExternalScopeProvider ScopeProvider
-    {
-        get
-        {
-            _scopeProvider ??= new LoggerExternalScopeProvider();
-            return _scopeProvider;
-        }
-    }
+    internal IExternalScopeProvider ScopeProvider => _scopeProvider;
 
     /// <summary>
     /// 创建数据库日志记录器
@@ -201,7 +194,10 @@ public sealed class DatabaseLoggerProvider : ILoggerProvider, ISupportExternalSc
                 // 这里不抛出异常，避免中断日志写入
                 else { }
             }
-            finally { }
+            finally
+            {
+                logMsg.Context?.Dispose();
+            }
         }
     }
 }

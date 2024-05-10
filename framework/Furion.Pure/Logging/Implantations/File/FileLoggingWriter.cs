@@ -352,6 +352,10 @@ internal class FileLoggingWriter
                 _options.HandleWriteError(fileWriteError);
             }
         }
+        finally
+        {
+            logMsg.Context?.Dispose();
+        }
     }
 
     /// <summary>

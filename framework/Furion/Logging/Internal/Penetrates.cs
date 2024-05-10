@@ -228,29 +228,40 @@ internal static class Penetrates
     }
 
     /// <summary>
-    /// 设置日志上下文
+    /// 获取日志上下文
     /// </summary>
     /// <param name="scopeProvider"></param>
-    /// <param name="logMsg"></param>
     /// <param name="includeScopes"></param>
     /// <returns></returns>
-    internal static LogMessage SetLogContext(IExternalScopeProvider scopeProvider, LogMessage logMsg, bool includeScopes)
+    internal static LogContext SetLogContext(IExternalScopeProvider scopeProvider, bool includeScopes)
     {
-        // 设置日志上下文
-        if (includeScopes && scopeProvider != null)
-        {
-            // 解析日志上下文数据
-            scopeProvider.ForEachScope<object>((scope, ctx) =>
-            {
-                if (scope != null && scope is LogContext context)
-                {
-                    if (logMsg.Context == null) logMsg.Context = context;
-                    else logMsg.Context = logMsg.Context.SetRange(context.Properties);
-                }
-            }, null);
-        }
+        // 空检查
+        if (!includeScopes || scopeProvider == null) return null;
 
-        return logMsg;
+        var contexts = new List<LogContext>();
+        var scopes = new List<object>();
+
+        // 解析日志上下文数据
+        scopeProvider.ForEachScope<object>((scope, ctx) =>
+        {
+            if (scope != null)
+            {
+                if (scope is LogContext context) contexts.Add(context);
+                else scopes.Add(scope);
+            }
+        }, null);
+
+        if (contexts.Count == 0 && scopes.Count == 0) return null;
+
+        // 构建日志上下文
+        var logConext = new LogContext
+        {
+            Properties = contexts.SelectMany(p => p.Properties)
+                .ToDictionary(u => u.Key, u => u.Value),
+            Scopes = scopes
+        };
+
+        return logConext;
     }
 
     /// <summary>

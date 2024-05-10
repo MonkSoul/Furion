@@ -82,16 +82,17 @@ public sealed class ConsoleFormatterExtend : ConsoleFormatter, IDisposable
 
         // 创建日志消息
         var logDateTime = _formatterOptions.UseUtcTimestamp ? DateTime.UtcNow : DateTime.Now;
-        var logMsg = new LogMessage(logEntry.Category, logEntry.LogLevel, logEntry.EventId, message, logEntry.Exception, null, logEntry.State, logDateTime, Environment.CurrentManagedThreadId, _formatterOptions.UseUtcTimestamp, App.GetTraceId());
+        var logMsg = new LogMessage(logEntry.Category, logEntry.LogLevel, logEntry.EventId, message, logEntry.Exception, null, logEntry.State, logDateTime, Environment.CurrentManagedThreadId, _formatterOptions.UseUtcTimestamp, App.GetTraceId())
+        {
+            // 设置日志上下文
+            Context = Penetrates.SetLogContext(scopeProvider, _formatterOptions.IncludeScopes)
+        };
 
         string standardMessage;
 
         // 是否自定义了自定义日志格式化程序，如果是则使用
         if (_formatterOptions.MessageFormat != null)
         {
-            // 设置日志上下文
-            logMsg = Penetrates.SetLogContext(scopeProvider, logMsg, _formatterOptions.IncludeScopes);
-
             // 设置日志消息模板
             standardMessage = _formatterOptions.MessageFormat(logMsg);
         }
@@ -107,10 +108,18 @@ public sealed class ConsoleFormatterExtend : ConsoleFormatter, IDisposable
         }
 
         // 判断是否自定义了日志筛选器，如果是则检查是否符合条件
-        if (_formatterOptions.WriteFilter?.Invoke(logMsg) == false) return;
+        if (_formatterOptions.WriteFilter?.Invoke(logMsg) == false)
+        {
+            logMsg.Context?.Dispose();
+            return;
+        }
 
         // 空检查
-        if (message is null) return;
+        if (message is null)
+        {
+            logMsg.Context?.Dispose();
+            return;
+        }
 
         // 判断是否自定义了日志格式化程序
         if (_formatterOptions.WriteHandler != null)
@@ -122,6 +131,8 @@ public sealed class ConsoleFormatterExtend : ConsoleFormatter, IDisposable
             // 写入控制台
             textWriter.WriteLine(standardMessage);
         }
+
+        logMsg.Context?.Dispose();
     }
 
     /// <summary>

@@ -118,14 +118,7 @@ public sealed class FileLoggerProvider : ILoggerProvider, ISupportExternalScope
     /// <summary>
     /// 日志作用域提供器
     /// </summary>
-    internal IExternalScopeProvider ScopeProvider
-    {
-        get
-        {
-            _scopeProvider ??= new LoggerExternalScopeProvider();
-            return _scopeProvider;
-        }
-    }
+    internal IExternalScopeProvider ScopeProvider => _scopeProvider;
 
     /// <summary>
     /// 创建文件日志记录器
