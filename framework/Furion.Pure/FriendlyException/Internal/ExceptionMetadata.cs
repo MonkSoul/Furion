@@ -55,4 +55,9 @@ public sealed class ExceptionMetadata
     /// 额外数据
     /// </summary>
     public object Data { get; internal set; }
+
+    /// <summary>
+    /// 异常对象
+    /// </summary>
+    public Exception Exception { get; internal set; }
 }

@@ -42,9 +42,8 @@ public class RESTfulResultProvider : IUnifyResultProvider
     /// </summary>
     /// <param name="context"></param>
     /// <param name="metadata"></param>
-    /// <param name="exception"></param>
     /// <returns></returns>
-    public IActionResult OnAuthorizeException(DefaultHttpContext context, ExceptionMetadata metadata, Exception exception)
+    public IActionResult OnAuthorizeException(DefaultHttpContext context, ExceptionMetadata metadata)
     {
         return new JsonResult(RESTfulResult(metadata.StatusCode, data: metadata.Data, errors: metadata.Errors)
             , UnifyContext.GetSerializerSettings(context));

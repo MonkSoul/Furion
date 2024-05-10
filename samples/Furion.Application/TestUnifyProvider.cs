@@ -26,7 +26,7 @@ public class TestUnifyProvider : IDynamicApiController
 [UnifyModel(typeof(MyResult<>))]
 public class SpeciallyResultProvider : IUnifyResultProvider
 {
-    public IActionResult OnAuthorizeException(DefaultHttpContext httpContext, ExceptionMetadata metadata, Exception exception)
+    public IActionResult OnAuthorizeException(DefaultHttpContext httpContext, ExceptionMetadata metadata)
     {
         return new ContentResult() { Content = "授权异常啦" };
     }

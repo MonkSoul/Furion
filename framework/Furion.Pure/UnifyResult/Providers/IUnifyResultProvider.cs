@@ -41,9 +41,8 @@ public interface IUnifyResultProvider
     /// </summary>
     /// <param name="context"></param>
     /// <param name="metadata"></param>
-    /// <param name="exception"></param>
     /// <returns></returns>
-    IActionResult OnAuthorizeException(DefaultHttpContext context, ExceptionMetadata metadata, Exception exception);
+    IActionResult OnAuthorizeException(DefaultHttpContext context, ExceptionMetadata metadata);
 
     /// <summary>
     /// 异常返回值

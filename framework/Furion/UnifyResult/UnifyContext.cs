@@ -152,7 +152,8 @@ public static class UnifyContext
             ErrorCode = errorCode,
             OriginErrorCode = originErrorCode,
             Errors = errors,
-            Data = data
+            Data = data,
+            Exception = exception
         };
     }
 

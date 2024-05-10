@@ -162,7 +162,8 @@ public abstract class AppAuthorizeHandler : IAuthorizationHandler
                 Data = friendlyException?.Data,
                 ErrorCode = friendlyException?.ErrorCode,
                 OriginErrorCode = friendlyException?.OriginErrorCode,
-            }, exception), out var data);
+                Exception = exception
+            }), out var data);
 
             // 终止返回
             httpContext.Response.StatusCode = StatusCodes.Status500InternalServerError;
