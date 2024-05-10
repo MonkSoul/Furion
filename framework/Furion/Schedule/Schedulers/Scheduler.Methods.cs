@@ -595,9 +595,10 @@ internal sealed partial class Scheduler
     /// <summary>
     /// 立即执行作业
     /// </summary>
-    public void Run()
+    /// <param name="triggerId">作业触发器 Id</param>
+    public void Run(string triggerId = null)
     {
-        Factory?.RunJob(JobId);
+        Factory?.TryRunJob(JobId, out _, triggerId);
     }
 
     /// <summary>
@@ -606,7 +607,7 @@ internal sealed partial class Scheduler
     /// <param name="triggerId">作业触发器 Id</param>
     public void Cancel(string triggerId = null)
     {
-        Factory?.CancelJob(JobId, triggerId);
+        Factory?.TryCancelJob(JobId, out _, triggerId);
     }
 
     /// <summary>

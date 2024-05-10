@@ -253,6 +253,10 @@ public sealed class ScheduleUIMiddleware
                     case "remove":
                         scheduler1?.RemoveTrigger(triggerId);
                         break;
+                    // 立即执行
+                    case "run":
+                        scheduler1?.Run(triggerId);
+                        break;
                     // 获取作业触发器最近运行时间
                     case "timelines":
                         var trigger = scheduler1?.GetTrigger(triggerId);

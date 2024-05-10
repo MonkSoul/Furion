@@ -3,6 +3,7 @@ import {
   IconMore,
   IconPlayCircle,
   IconStop,
+  IconVigoLogo,
 } from "@douyinfe/semi-icons";
 import {
   Descriptions,
@@ -233,6 +234,17 @@ export default function Jobs() {
                         >
                           <IconDelete size="small" /> &nbsp;删除
                         </Popconfirm>
+                      </Dropdown.Item>
+                      <Dropdown.Item
+                        onClick={() =>
+                          callAction(
+                            (expandData[1] as any).ovalue!.toString(),
+                            (expandData[0] as any).ovalue!.toString(),
+                            "run"
+                          )
+                        }
+                      >
+                        <IconVigoLogo size="extra-large" /> 立即执行
                       </Dropdown.Item>
                     </Dropdown.Menu>
                   }

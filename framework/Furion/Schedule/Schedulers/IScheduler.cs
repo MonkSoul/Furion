@@ -276,7 +276,8 @@ public interface IScheduler
     /// <summary>
     /// 立即执行作业
     /// </summary>
-    void Run();
+    /// <param name="triggerId">作业触发器 Id</param>
+    void Run(string triggerId = null);
 
     /// <summary>
     /// 取消正在执行的作业

@@ -1166,8 +1166,9 @@ internal sealed partial class SchedulerFactory
     /// </summary>
     /// <param name="jobId">作业 Id</param>
     /// <param name="scheduler">作业计划</param>
+    /// <param name="triggerId">作业触发器 Id</param>
     /// <returns><see cref="ScheduleResult"/></returns>
-    public ScheduleResult TryRunJob(string jobId, out IScheduler scheduler)
+    public ScheduleResult TryRunJob(string jobId, out IScheduler scheduler, string triggerId = null)
     {
         // 查找作业
         var scheduleResult = InternalTryGetJob(jobId, out var originScheduler, true);
@@ -1178,7 +1179,7 @@ internal sealed partial class SchedulerFactory
         }
 
         // 添加到待执行集合中
-        _manualRunJobIds.Add(jobId);
+        _manualRunJobIds.Add((jobId, triggerId));
 
         // 取消作业调度器休眠状态（强制唤醒）
         CancelSleep();
@@ -1206,10 +1207,11 @@ internal sealed partial class SchedulerFactory
     /// 立即执行作业
     /// </summary>
     /// <param name="scheduler">作业计划</param>
+    /// <param name="triggerId">作业触发器 Id</param>
     /// <returns><see cref="ScheduleResult"/></returns>
-    public ScheduleResult TryRunJob(IScheduler scheduler)
+    public ScheduleResult TryRunJob(IScheduler scheduler, string triggerId = null)
     {
-        return TryRunJob(scheduler?.JobId, out _);
+        return TryRunJob(scheduler?.JobId, out _, triggerId);
     }
 
     /// <summary>
