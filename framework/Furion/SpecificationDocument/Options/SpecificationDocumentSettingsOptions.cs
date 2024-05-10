@@ -72,7 +72,7 @@ public sealed class SpecificationDocumentSettingsOptions : IConfigurableOptions<
     public string[] XmlComments { get; set; }
 
     /// <summary>
-    /// 是否显示已经加载的注释
+    /// 是否自动加载 Xml 注释文件
     /// </summary>
     public bool? EnableXmlComments { get; set; }
 

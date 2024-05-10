@@ -2635,6 +2635,11 @@
           "type": "boolean",
           "description": "枚举类型生成值类型",
           "default": false
+        },
+        "EnableXmlComments ": {
+          "type": "boolean",
+          "description": "是否自动加载 Xml 注释文件",
+          "default": true
         }
       }
     },
