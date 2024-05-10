@@ -280,8 +280,11 @@ public static class SpecificationDocumentBuilder
         // 配置 Action 排序
         ConfigureActionSequence(swaggerGenOptions);
 
-        // 加载注释描述文件
-        LoadXmlComments(swaggerGenOptions);
+        if (_specificationDocumentSettings.EnableXmlComments == true)
+        {
+            // 加载注释描述文件
+            LoadXmlComments(swaggerGenOptions);
+        }
 
         // 配置授权
         ConfigureSecurities(swaggerGenOptions);
@@ -453,7 +456,7 @@ public static class SpecificationDocumentBuilder
     /// <param name="swaggerGenOptions">Swagger 生成器配置</param>
     private static void LoadXmlComments(SwaggerGenOptions swaggerGenOptions)
     {
-        var xmlComments = _specificationDocumentSettings.XmlComments;
+        var xmlComments = _specificationDocumentSettings.XmlComments ?? Array.Empty<string>();
         var members = new Dictionary<string, XElement>();
 
         // 显式继承的注释
