@@ -71,7 +71,7 @@ public class SucceededUnifyResultFilter : IAsyncActionFilter, IOrderedFilter
             if (statusCodeResult.StatusCode.Value < 200 || statusCodeResult.StatusCode.Value > 299)
             {
                 // 处理规范化结果
-                if (!UnifyContext.CheckStatusCodeNonUnify(context.HttpContext, out var unifyRes))
+                if (!UnifyContext.CheckExceptionHttpContextNonUnify(context.HttpContext, out var unifyRes))
                 {
                     var httpContext = context.HttpContext;
                     var statusCode = statusCodeResult.StatusCode.Value;

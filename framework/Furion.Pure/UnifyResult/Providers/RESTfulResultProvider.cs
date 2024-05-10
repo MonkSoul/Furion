@@ -38,6 +38,19 @@ namespace Furion.UnifyResult;
 public class RESTfulResultProvider : IUnifyResultProvider
 {
     /// <summary>
+    /// JWT 授权异常返回值
+    /// </summary>
+    /// <param name="context"></param>
+    /// <param name="metadata"></param>
+    /// <param name="exception"></param>
+    /// <returns></returns>
+    public IActionResult OnAuthorizeException(DefaultHttpContext context, ExceptionMetadata metadata, Exception exception)
+    {
+        return new JsonResult(RESTfulResult(metadata.StatusCode, data: metadata.Data, errors: metadata.Errors)
+            , UnifyContext.GetSerializerSettings(context));
+    }
+
+    /// <summary>
     /// 异常返回值
     /// </summary>
     /// <param name="context"></param>

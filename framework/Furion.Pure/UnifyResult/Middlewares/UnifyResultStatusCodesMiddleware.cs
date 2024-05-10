@@ -64,7 +64,7 @@ public class UnifyResultStatusCodesMiddleware
             || context.Response.StatusCode == 404) return;
 
         // 处理规范化结果
-        if (!UnifyContext.CheckStatusCodeNonUnify(context, out var unifyResult))
+        if (!UnifyContext.CheckExceptionHttpContextNonUnify(context, out var unifyResult))
         {
             // 解决刷新 Token 时间和 Token 时间相近问题
             if (context.Response.StatusCode == StatusCodes.Status401Unauthorized

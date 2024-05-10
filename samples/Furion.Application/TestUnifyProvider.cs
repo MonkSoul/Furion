@@ -26,6 +26,11 @@ public class TestUnifyProvider : IDynamicApiController
 [UnifyModel(typeof(MyResult<>))]
 public class SpeciallyResultProvider : IUnifyResultProvider
 {
+    public IActionResult OnAuthorizeException(DefaultHttpContext httpContext, ExceptionMetadata metadata, Exception exception)
+    {
+        return new ContentResult() { Content = "授权异常啦" };
+    }
+
     public IActionResult OnException(ExceptionContext context, ExceptionMetadata metadata)
     {
         return new ContentResult() { Content = "异常啦" };
@@ -45,6 +50,7 @@ public class SpeciallyResultProvider : IUnifyResultProvider
     {
         await Task.CompletedTask;
     }
+
 }
 
 public class MyResult<T>
