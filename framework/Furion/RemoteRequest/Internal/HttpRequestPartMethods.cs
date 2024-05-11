@@ -938,6 +938,9 @@ public sealed partial class HttpRequestPart
             case "application/json":
             case "text/json":
             case "application/*+json":
+            case "application/json-patch+json":
+            case "application/ld+json":
+            case var _ when ContentType.Contains("+json"):
                 if (Body != null)
                 {
                     httpContent = new StringContent(SerializerObject(Body), ContentEncoding);
@@ -970,6 +973,7 @@ public sealed partial class HttpRequestPart
             case "text/xml":
             case "text/html":
             case "text/plain":
+            case var _ when ContentType.StartsWith("text/"):
                 if (Body != null) httpContent = new StringContent(Body.ToString(), ContentEncoding, ContentType);
                 break;
 
