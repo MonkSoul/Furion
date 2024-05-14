@@ -374,7 +374,10 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory
                 // 创建作业信息/触发器持久化上下文
                 var context = trigger == null ?
                     new PersistenceContext(jobDetail, behavior)
-                    : new PersistenceTriggerContext(jobDetail, trigger, behavior);
+                    : new PersistenceTriggerContext(jobDetail, trigger, behavior)
+                    {
+                        Mode = trigger.Mode
+                    };
 
                 _persistenceMessageQueue.Add(context);
                 return;

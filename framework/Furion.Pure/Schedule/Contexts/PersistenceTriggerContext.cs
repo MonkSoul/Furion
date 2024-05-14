@@ -57,6 +57,12 @@ public sealed class PersistenceTriggerContext : PersistenceContext
     public Trigger Trigger { get; }
 
     /// <summary>
+    /// 触发模式
+    /// </summary>
+    /// <remarks>默认为定时触发</remarks>
+    public int Mode { get; internal set; }
+
+    /// <summary>
     /// 转换成 Sql 语句
     /// </summary>
     /// <param name="tableName">数据库表名</param>
