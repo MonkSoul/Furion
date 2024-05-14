@@ -204,4 +204,10 @@ public partial class Trigger
     /// </summary>
     /// <remarks>默认只保存 10 条</remarks>
     internal Queue<TriggerTimeline> Timelines { get; set; } = new();
+
+    /// <summary>
+    /// 触发模式
+    /// </summary>
+    /// <remarks>默认为定时触发</remarks>
+    internal int Mode { get; set; }
 }

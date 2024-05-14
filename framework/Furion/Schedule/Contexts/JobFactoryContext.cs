@@ -51,4 +51,10 @@ public sealed class JobFactoryContext
     /// 作业 Id
     /// </summary>
     public string JobId { get; }
+
+    /// <summary>
+    /// 触发模式
+    /// </summary>
+    /// <remarks>默认为定时触发</remarks>
+    public int Mode { get; internal set; }
 }

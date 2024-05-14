@@ -94,6 +94,12 @@ public abstract class JobExecutionContext
     public string Result { get; set; }
 
     /// <summary>
+    /// 触发模式
+    /// </summary>
+    /// <remarks>默认为定时触发</remarks>
+    public int Mode { get; internal set; }
+
+    /// <summary>
     /// 转换成 JSON 字符串
     /// </summary>
     /// <param name="naming">命名法</param>

@@ -234,7 +234,14 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory
                                   join runJob in runJobIds on job.JobId equals runJob.JobId into newRunJobs
                                   from runJob in newRunJobs.DefaultIfEmpty()
                                   where job.JobId == runJob.JobId
-                                  select new Scheduler(job.JobDetail, job.Triggers.Values.Where(t => string.IsNullOrWhiteSpace(runJob.TriggerId) || (t.JobId == runJob.JobId && t.TriggerId == runJob.TriggerId)).ToDictionary(t => t.TriggerId, t => t))
+                                  select new Scheduler(job.JobDetail, job.Triggers.Values
+                                    .Where(t => string.IsNullOrWhiteSpace(runJob.TriggerId) || (t.JobId == runJob.JobId && t.TriggerId == runJob.TriggerId))
+                                    .Select(t =>
+                                    {
+                                        t.Mode = 1;
+                                        return t;
+                                    })
+                                    .ToDictionary(t => t.TriggerId, t => t))
                                   {
                                       Factory = job.Factory,
                                       Logger = job.Logger,

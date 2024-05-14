@@ -36,4 +36,9 @@ export declare interface TriggerTimeline {
    * 执行耗时
    */
   elapsedTime?: number | null;
+
+  /**
+   * 触发方式
+   */
+  mode?:number|null;
 }

@@ -335,6 +335,12 @@ function LogPanel(props: {
             次运行，耗时{" "}
             <Tag color="lime" type="light">
               {timeline.elapsedTime}ms
+            </Tag>{" "}
+            <Tag
+              color={timeline.mode === 0 ? undefined : "yellow"}
+              type={timeline.mode === 0 ? undefined : "solid"}
+            >
+              {timeline.mode === 0 ? "定时" : "手动"}
             </Tag>
           </Timeline.Item>
         ))}

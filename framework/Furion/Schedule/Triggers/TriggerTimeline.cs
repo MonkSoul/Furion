@@ -86,4 +86,11 @@ public sealed class TriggerTimeline
     /// </summary>
     [JsonInclude]
     public DateTime CreatedTime { get; internal set; }
+
+    /// <summary>
+    /// 触发模式
+    /// </summary>
+    /// <remarks>默认为定时触发</remarks>
+    [JsonInclude]
+    public int Mode { get; internal set; }
 }
