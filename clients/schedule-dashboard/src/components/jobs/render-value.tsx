@@ -336,12 +336,11 @@ function LogPanel(props: {
             <Tag color="lime" type="light">
               {timeline.elapsedTime}ms
             </Tag>{" "}
-            <Tag
-              color={timeline.mode === 0 ? undefined : "yellow"}
-              type={timeline.mode === 0 ? undefined : "solid"}
-            >
-              {timeline.mode === 0 ? "定时" : "手动"}
-            </Tag>
+            {timeline.mode === 1 && (
+              <Tag color="yellow" type="solid">
+                手动
+              </Tag>
+            )}
           </Timeline.Item>
         ))}
       </Timeline>
