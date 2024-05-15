@@ -43,8 +43,13 @@ public static class SpecificationDocumentApplicationBuilderExtensions
     /// <param name="routePrefix"></param>
     /// <param name="configureSwagger"></param>
     /// <param name="configureSwaggerUI"></param>
+    /// <param name="withProxy">解决 Swagger 被代理问题</param>
     /// <returns></returns>
-    public static IApplicationBuilder UseSpecificationDocuments(this IApplicationBuilder app, string routePrefix = default, Action<SwaggerOptions> configureSwagger = default, Action<SwaggerUIOptions> configureSwaggerUI = default)
+    public static IApplicationBuilder UseSpecificationDocuments(this IApplicationBuilder app
+        , string routePrefix = default
+        , Action<SwaggerOptions> configureSwagger = default
+        , Action<SwaggerUIOptions> configureSwaggerUI = default
+        , bool withProxy = false)
     {
         // 判断是否启用规范化文档
         if (App.Settings.InjectSpecificationDocument != true) return app;
@@ -53,7 +58,7 @@ public static class SpecificationDocumentApplicationBuilderExtensions
         app.UseSwagger(options => SpecificationDocumentBuilder.Build(options, configureSwagger));
 
         // 配置 Swagger UI 参数
-        app.UseSwaggerUI(options => SpecificationDocumentBuilder.BuildUI(options, routePrefix, configureSwaggerUI));
+        app.UseSwaggerUI(options => SpecificationDocumentBuilder.BuildUI(options, routePrefix, configureSwaggerUI, withProxy));
 
         // 启用 MiniProfiler组件
         if (App.Settings.InjectMiniProfiler == true) app.UseMiniProfiler();

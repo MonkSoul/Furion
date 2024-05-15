@@ -40,14 +40,15 @@ public static class AppApplicationBuilderExtensions
     /// <param name="app"></param>
     /// <param name="routePrefix">空字符串将为首页</param>
     /// <param name="configure"></param>
+    /// <param name="withProxy">解决 Swagger 被代理问题</param>
     /// <returns></returns>
-    public static IApplicationBuilder UseInject(this IApplicationBuilder app, string routePrefix = default, Action<UseInjectOptions> configure = null)
+    public static IApplicationBuilder UseInject(this IApplicationBuilder app, string routePrefix = default, Action<UseInjectOptions> configure = null, bool withProxy = false)
     {
         // 载入中间件配置选项
         var configureOptions = new UseInjectOptions();
         configure?.Invoke(configureOptions);
 
-        app.UseSpecificationDocuments(routePrefix, UseInjectOptions.SwaggerConfigure, UseInjectOptions.SwaggerUIConfigure);
+        app.UseSpecificationDocuments(routePrefix, UseInjectOptions.SwaggerConfigure, UseInjectOptions.SwaggerUIConfigure, withProxy);
 
         return app;
     }
@@ -57,10 +58,11 @@ public static class AppApplicationBuilderExtensions
     /// </summary>
     /// <param name="app"></param>
     /// <param name="configure"></param>
+    /// <param name="withProxy">解决 Swagger 被代理问题</param>
     /// <returns></returns>
-    public static IApplicationBuilder UseInject(this IApplicationBuilder app, Action<UseInjectOptions> configure)
+    public static IApplicationBuilder UseInject(this IApplicationBuilder app, Action<UseInjectOptions> configure, bool withProxy = false)
     {
-        return app.UseInject(default, configure: configure);
+        return app.UseInject(default, configure: configure, withProxy: withProxy);
     }
 
     /// <summary>

@@ -37,6 +37,7 @@ using Swashbuckle.AspNetCore.Swagger;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using Swashbuckle.AspNetCore.SwaggerUI;
 using System.Collections.Concurrent;
+using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -311,10 +312,11 @@ public static class SpecificationDocumentBuilder
     /// <param name="swaggerUIOptions"></param>
     /// <param name="routePrefix"></param>
     /// <param name="configure"></param>
-    internal static void BuildUI(SwaggerUIOptions swaggerUIOptions, string routePrefix = default, Action<SwaggerUIOptions> configure = null)
+    /// <param name="withProxy">解决 Swagger 被代理问题</param>
+    internal static void BuildUI(SwaggerUIOptions swaggerUIOptions, string routePrefix = default, Action<SwaggerUIOptions> configure = null, bool withProxy = false)
     {
         // 配置分组终点路由
-        CreateGroupEndpoint(swaggerUIOptions);
+        CreateGroupEndpoint(swaggerUIOptions, routePrefix, withProxy);
 
         // 配置文档标题
         swaggerUIOptions.DocumentTitle = _specificationDocumentSettings.DocumentTitle;
@@ -602,13 +604,18 @@ public static class SpecificationDocumentBuilder
     /// 配置分组终点路由
     /// </summary>
     /// <param name="swaggerUIOptions"></param>
-    private static void CreateGroupEndpoint(SwaggerUIOptions swaggerUIOptions)
+    /// <param name="routePrefix"></param>
+    /// <param name="withProxy">解决 Swagger 被代理问题</param>
+    private static void CreateGroupEndpoint(SwaggerUIOptions swaggerUIOptions, string routePrefix = default, bool withProxy = false)
     {
+        var routePrefixArrs = (routePrefix ?? swaggerUIOptions.RoutePrefix).Split('/', StringSplitOptions.RemoveEmptyEntries);
+        var routePrefixList = routePrefixArrs.Length == 0 ? routePrefixArrs.Concat(new[] { string.Empty }) : routePrefixArrs;
+
         foreach (var group in DocumentGroups)
         {
             var groupOpenApiInfo = GetGroupOpenApiInfo(group);
 
-            swaggerUIOptions.SwaggerEndpoint(groupOpenApiInfo.RouteTemplate, groupOpenApiInfo?.Title ?? group);
+            swaggerUIOptions.SwaggerEndpoint((withProxy ? string.Join(string.Empty, routePrefixList.Select(c => "../")) : "/") + groupOpenApiInfo.RouteTemplate.TrimStart('/'), groupOpenApiInfo?.Title ?? group);
         }
     }
 
