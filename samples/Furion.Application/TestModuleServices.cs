@@ -11,6 +11,7 @@ using Furion.ViewEngine.Extensions;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Swashbuckle.AspNetCore.Annotations;
 using Swashbuckle.AspNetCore.Swagger;
 using System.Data;
 using System.Text.Json;
@@ -770,6 +771,14 @@ public class TestModuleServices : IDynamicApiController
         return result;
     }
 
+    [SwaggerIgnore]
+    public void 测试Swagger忽略()
+    {
+    }
+
+    public void 测试Swagger忽略2(TestSwaggerIgnore model)
+    {
+    }
 }
 
 public class BindNeverModel
@@ -780,5 +789,13 @@ public class BindNeverModel
 public class TestModel
 {
     public string Name { get; set; }
+    public int[] Items { get; set; }
+}
+
+public class TestSwaggerIgnore
+{
+    public string Name { get; set; }
+
+    [SwaggerIgnore]
     public int[] Items { get; set; }
 }
