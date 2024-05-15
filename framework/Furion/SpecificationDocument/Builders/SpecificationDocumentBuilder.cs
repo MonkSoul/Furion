@@ -661,7 +661,17 @@ public static class SpecificationDocumentBuilder
         var additionals = _specificationDocumentSettings.LoginInfo;
         if (additionals != null)
         {
-            swaggerUIOptions.ConfigObject.AdditionalItems.Add(nameof(_specificationDocumentSettings.LoginInfo), additionals);
+            // 修复因 Swagger 6.6.1 版本因支持 AOT 导致的异常
+            //swaggerUIOptions.ConfigObject.AdditionalItems.Add(nameof(_specificationDocumentSettings.LoginInfo), additionals);
+            var loginDic = new Dictionary<string, string>
+            {
+                { $":{nameof(additionals.Enabled)}", additionals.Enabled ? "1" : "0" },
+                { $":{nameof(additionals.CheckUrl)}", additionals.CheckUrl },
+                { $":{nameof(additionals.SubmitUrl)}", additionals.SubmitUrl },
+            };
+
+            var oldAdditionalQueryStringParams = swaggerUIOptions.OAuthConfigObject.AdditionalQueryStringParams ?? new();
+            swaggerUIOptions.OAuthConfigObject.AdditionalQueryStringParams = oldAdditionalQueryStringParams.AddOrUpdate(loginDic);
         }
     }
 

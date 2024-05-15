@@ -391,7 +391,13 @@
             var configObject = JSON.parse('%(ConfigObject)');
             var oauthConfigObject = JSON.parse('%(OAuthConfigObject)');
 
-            var loginObject = configObject.LoginInfo;
+            var additionals = oauthConfigObject.additionalQueryStringParams;
+            var loginObject = additionals && additionals[":Enabled"] ? {
+                enabled: Boolean(Number(additionals[":Enabled"])),
+                checkUrl: additionals[":CheckUrl"],
+                submitUrl: additionals[":SubmitUrl"]
+            } : null;
+
             if (loginObject && loginObject.enabled === true) {
                 var loginForm = document.getElementById("login-form");
                 var userName = document.getElementById("userName");
