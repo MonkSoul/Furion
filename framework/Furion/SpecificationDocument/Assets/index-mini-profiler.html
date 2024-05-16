@@ -371,10 +371,10 @@
 
             // Parse and add interceptor functions
             var interceptors = JSON.parse('%(Interceptors)');
-            if (interceptors.RequestInterceptorFunction)
-                configObject.requestInterceptor = parseFunction(interceptors.RequestInterceptorFunction);
-            if (interceptors.ResponseInterceptorFunction)
-                configObject.responseInterceptor = parseFunction(interceptors.ResponseInterceptorFunction);
+            if (interceptors.requestInterceptorFunction)
+                configObject.requestInterceptor = parseFunction(interceptors.requestInterceptorFunction);
+            if (interceptors.responseInterceptorFunction)
+                configObject.responseInterceptor = parseFunction(interceptors.responseInterceptorFunction);
 
             // Begin Swagger UI call region
 

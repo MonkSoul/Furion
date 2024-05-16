@@ -40,6 +40,9 @@ using System.Collections.Concurrent;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Text.Encodings.Web;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
 using System.Xml.Linq;
 using System.Xml.XPath;
@@ -315,6 +318,8 @@ public static class SpecificationDocumentBuilder
     /// <param name="withProxy">解决 Swagger 被代理问题</param>
     internal static void BuildUI(SwaggerUIOptions swaggerUIOptions, string routePrefix = default, Action<SwaggerUIOptions> configure = null, bool withProxy = false)
     {
+        swaggerUIOptions.EnablePersistAuthorization();
+
         // 配置分组终点路由
         CreateGroupEndpoint(swaggerUIOptions, routePrefix, withProxy);
 
@@ -682,8 +687,11 @@ public static class SpecificationDocumentBuilder
     private static void AddDefaultInterceptor(SwaggerUIOptions swaggerUIOptions)
     {
         // 配置多语言和自动登录token
-        swaggerUIOptions.UseRequestInterceptor("function(request) { return defaultRequestInterceptor(request); }");
-        swaggerUIOptions.UseResponseInterceptor("function(response) { return defaultResponseInterceptor(response); }");
+        swaggerUIOptions.Interceptors.RequestInterceptorFunction = "function(request) { return defaultRequestInterceptor(request); }";
+        swaggerUIOptions.Interceptors.ResponseInterceptorFunction = "function(response) { return defaultResponseInterceptor(response); }";
+
+        //swaggerUIOptions.UseRequestInterceptor("function(request) { return defaultRequestInterceptor(request); }");
+        //swaggerUIOptions.UseResponseInterceptor("function(response) { return defaultResponseInterceptor(response); }");
     }
 
     /// <summary>
