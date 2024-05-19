@@ -24,7 +24,6 @@
 // ------------------------------------------------------------------------
 
 using Furion.Extensions;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace Furion.AspNetCore;
@@ -32,16 +31,19 @@ namespace Furion.AspNetCore;
 /// <summary>
 /// 数组 URL 地址参数模型绑定
 /// </summary>
-public class FromQueryArray<T> : IModelBinder
+internal class FlexibleArrayModelBinder<T> : IModelBinder
 {
     /// <inheritdoc />
     public Task BindModelAsync(ModelBindingContext bindingContext)
     {
-        if (bindingContext == null)
-            throw new ArgumentNullException(nameof(bindingContext));
+        // 空检查
+        if (bindingContext == null) throw new ArgumentNullException(nameof(bindingContext));
 
+        // 获取模型名和类型
         var modelName = bindingContext.ModelName;
         var modelType = bindingContext.ModelType;
+
+        // 获取 URL 参数集合
         var queryCollection = bindingContext.HttpContext.Request.Query;
 
         // 尝试从 status[] 获取值
@@ -49,6 +51,7 @@ public class FromQueryArray<T> : IModelBinder
         {
             var values = ConvertValues(queryCollection[modelName + "[]"], modelType);
             bindingContext.Result = ModelBindingResult.Success(values);
+
             return Task.CompletedTask;
         }
 
@@ -58,15 +61,17 @@ public class FromQueryArray<T> : IModelBinder
         {
             var values = ConvertValues(commaSeparatedValue.ToString().Split(',').Where(s => !string.IsNullOrWhiteSpace(s)), modelType);
             bindingContext.Result = ModelBindingResult.Success(values);
+
             return Task.CompletedTask;
         }
 
         // 如果以上两种情况都不满足，尝试将多个 status 参数合并
         var individualValues = queryCollection[modelName];
-        if (individualValues.Any())
+        if (individualValues.Count > 0)
         {
             var values = ConvertValues(individualValues, modelType);
             bindingContext.Result = ModelBindingResult.Success(values);
+
             return Task.CompletedTask;
         }
 
@@ -74,7 +79,7 @@ public class FromQueryArray<T> : IModelBinder
     }
 
     /// <summary>
-    /// 转换类型
+    /// 转换集合类型值为模型类型值
     /// </summary>
     /// <param name="values"></param>
     /// <param name="modelType"></param>
@@ -94,18 +99,5 @@ public class FromQueryArray<T> : IModelBinder
 
         // IEnumerable<T> 类型
         return values.Select(u => u.ChangeType<T>());
-    }
-}
-
-/// <summary>
-/// 数组 URL 地址参数模型绑定特性
-/// </summary>
-public class FromQueryArrayAttribute<T> : ModelBinderAttribute
-{
-    /// <summary>
-    /// 构造函数
-    /// </summary>
-    public FromQueryArrayAttribute() : base(typeof(FromQueryArray<T>))
-    {
     }
 }

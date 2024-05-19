@@ -782,7 +782,7 @@ public class TestModuleServices : IDynamicApiController
     }
 
     [HttpGet]
-    public List<string> 测试URL数组参数([FromQuery][FromQueryArray<string>] List<string> status)
+    public List<string> 测试URL数组参数([FromQuery][FlexibleArray<string>] List<string> status)
     {
         return status;
     }
