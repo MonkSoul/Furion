@@ -41,12 +41,28 @@ public class UnifyResultStatusCodesMiddleware
     private readonly RequestDelegate _next;
 
     /// <summary>
+    /// 授权头
+    /// </summary>
+    private readonly string[] _authorizedHeaders;
+
+    /// <summary>
+    /// 是否携带授权头判断
+    /// </summary>
+    private readonly bool _withAuthorizationHeaderCheck;
+
+    /// <summary>
     /// 构造函数
     /// </summary>
     /// <param name="next"></param>
-    public UnifyResultStatusCodesMiddleware(RequestDelegate next)
+    /// <param name="authorizedHeaders"></param>
+    /// <param name="withAuthorizationHeaderCheck"></param>
+    public UnifyResultStatusCodesMiddleware(RequestDelegate next
+        , string[] authorizedHeaders
+        , bool withAuthorizationHeaderCheck)
     {
         _next = next;
+        _authorizedHeaders = authorizedHeaders;
+        _withAuthorizationHeaderCheck = withAuthorizationHeaderCheck;
     }
 
     /// <summary>
@@ -62,6 +78,14 @@ public class UnifyResultStatusCodesMiddleware
         if (context.IsWebSocketRequest()
             || context.Response.StatusCode < 400
             || context.Response.StatusCode == 404) return;
+
+        // 仅针对特定的头进行处理
+        if (_withAuthorizationHeaderCheck
+            && context.Response.StatusCode == StatusCodes.Status401Unauthorized
+            && !context.Response.Headers.Any(h => _authorizedHeaders.Contains(h.Key, StringComparer.OrdinalIgnoreCase)))
+        {
+            return;
+        }
 
         // 处理规范化结果
         if (!UnifyContext.CheckExceptionHttpContextNonUnify(context, out var unifyResult))
