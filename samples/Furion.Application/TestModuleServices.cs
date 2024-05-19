@@ -1,4 +1,5 @@
 ﻿using Furion.Application.Persons;
+using Furion.AspNetCore;
 using Furion.ClayObject;
 using Furion.DatabaseAccessor.Extensions;
 using Furion.Extensions;
@@ -778,6 +779,12 @@ public class TestModuleServices : IDynamicApiController
 
     public void 测试Swagger忽略2(TestSwaggerIgnore model)
     {
+    }
+
+    [HttpGet]
+    public List<string> 测试URL数组参数([FromQuery][FromQueryArray<string>] List<string> status)
+    {
+        return status;
     }
 }
 
