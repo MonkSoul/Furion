@@ -36,6 +36,21 @@ namespace Furion.RemoteRequest;
 public sealed partial class HttpRequestPart
 {
     /// <summary>
+    /// 请求内容报文头列表
+    /// </summary>
+    internal readonly string[] _contentHeaders = new string[]
+    {
+        "Content-Disposition",
+        "Content-Length",
+        "Content-Location",
+        "Content-MD5",
+        "Content-Range",
+        "Content-Type",
+        "Expires",
+        "Last-Modified"
+    };
+
+    /// <summary>
     /// 设置请求地址
     /// </summary>
     /// <param name="requestUrl"></param>
@@ -91,7 +106,15 @@ public sealed partial class HttpRequestPart
     /// <returns></returns>
     public HttpRequestPart SetHeaders(IDictionary<string, object> headers)
     {
-        if (headers != null) Headers = headers;
+        if (headers != null)
+        {
+            Headers = headers.Where(d => !_contentHeaders.Contains(d.Key, StringComparer.OrdinalIgnoreCase))
+                .ToDictionary(u => u.Key, u => u.Value, StringComparer.OrdinalIgnoreCase);
+
+            ContentHeaders = headers.Where(d => _contentHeaders.Contains(d.Key, StringComparer.OrdinalIgnoreCase))
+               .ToDictionary(u => u.Key, u => u.Value, StringComparer.OrdinalIgnoreCase);
+        }
+
         return this;
     }
 

@@ -983,7 +983,75 @@ public sealed partial class HttpRequestPart
         }
 
         // 设置 HttpContent
-        if (httpContent != null) request.Content = httpContent;
+        if (httpContent != null)
+        {
+            request.Content = httpContent;
+
+            // 设置请求内容头
+            SetContentHeaders(request);
+        }
+    }
+
+    /// <summary>
+    /// 设置请求内容头
+    /// </summary>
+    /// <param name="request"></param>
+    private void SetContentHeaders(HttpRequestMessage request)
+    {
+        if (ContentHeaders != null && ContentHeaders.Count > 0)
+        {
+            // 处理 Content-Disposition
+            if (ContentHeaders.ContainsKey("Content-Disposition") && ContentHeaders["Content-Disposition"] != null)
+            {
+                request.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue(ContentHeaders["Content-Disposition"].ToString());
+            }
+
+            // 处理 Content-Length
+            if (ContentHeaders.ContainsKey("Content-Length") && ContentHeaders["Content-Length"] != null)
+            {
+                request.Content.Headers.ContentLength = (long)ContentHeaders["Content-Length"];
+            }
+
+            // 处理 Content-Location
+            if (ContentHeaders.ContainsKey("Content-Location") && ContentHeaders["Content-Location"] != null)
+            {
+                request.Content.Headers.ContentLocation = ContentHeaders["Content-Location"] is string str
+                    ? new Uri(str)
+                    : (Uri)ContentHeaders["Content-Location"];
+            }
+
+            // 处理 Content-MD5
+            if (ContentHeaders.ContainsKey("Content-MD5") && ContentHeaders["Content-MD5"] != null)
+            {
+                request.Content.Headers.ContentMD5 = ContentHeaders["Content-MD5"] is string str
+                    ? Convert.FromBase64String(str)
+                    : (byte[])ContentHeaders["Content-MD5"];
+            }
+
+            // 处理 Content-Range
+            if (ContentHeaders.ContainsKey("Content-Range") && ContentHeaders["Content-Range"] != null)
+            {
+                request.Content.Headers.ContentRange = new ContentRangeHeaderValue((long)ContentHeaders["Content-Range"]);
+            }
+
+            // 处理 Content-Type
+            if (ContentHeaders.ContainsKey("Content-Type") && ContentHeaders["Content-Type"] != null)
+            {
+                request.Content.Headers.ContentType = new MediaTypeHeaderValue(ContentHeaders["Content-Type"].ToString());
+            }
+
+            // 处理 Expires
+            if (ContentHeaders.ContainsKey("Expires") && ContentHeaders["Expires"] != null)
+            {
+                request.Content.Headers.Expires = ContentHeaders["Expires"].ChangeType<DateTimeOffset>();
+            }
+
+            // 处理 LastModified
+            if (ContentHeaders.ContainsKey("LastModified") && ContentHeaders["LastModified"] != null)
+            {
+                request.Content.Headers.LastModified = ContentHeaders["LastModified"].ChangeType<DateTimeOffset>();
+            }
+        }
     }
 
     /// <summary>

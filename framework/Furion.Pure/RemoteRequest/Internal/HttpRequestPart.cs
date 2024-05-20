@@ -62,6 +62,11 @@ public sealed partial class HttpRequestPart
     public IDictionary<string, object> Headers { get; private set; }
 
     /// <summary>
+    /// 请求内容报文头
+    /// </summary>
+    internal IDictionary<string, object> ContentHeaders { get; private set; }
+
+    /// <summary>
     /// 查询参数
     /// </summary>
     public IDictionary<string, object> Queries { get; private set; }

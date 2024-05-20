@@ -786,6 +786,19 @@ public class TestModuleServices : IDynamicApiController
     {
         return status;
     }
+
+    public async Task 测试远程MD5()
+    {
+        var md5 = MD5Encryption.Encrypt("monksoul");
+
+        var response = await "https://furion.net".SetHeaders(new Dictionary<string, object>
+        {
+            {"Content-MD5", md5 }
+        }).SetBody(new
+        {
+            Name = "Furion"
+        }).PostAsync();
+    }
 }
 
 public class BindNeverModel
