@@ -353,5 +353,14 @@ public enum ValidationTypes
     /// base64 格式
     /// </summary>
     [Description("base64 格式"), ValidationItemMetadata(@"^\s*data:(?:[a-z]+\/[a-z0-9-+.]+(?:;[a-z-]+=[a-z0-9-]+)?)?(?:;base64)?,([a-z0-9!$&',()*+;=\-._~:@/?%\s]*?)\s*$", "The value is not a base64 type.")]
-    Base64
+    Base64,
+
+    /// <summary>
+    /// 用户名
+    /// <para>
+    /// 表达式：^[a-zA-Z][a-zA-Z0-9_]{2,19}[a-zA-Z0-9]$
+    /// </para>
+    /// </summary>
+    [Description("用户名"), ValidationItemMetadata(@"^[a-zA-Z][a-zA-Z0-9_]{2,19}[a-zA-Z0-9]$", "The value is not a username type.")]
+    Username,
 }
