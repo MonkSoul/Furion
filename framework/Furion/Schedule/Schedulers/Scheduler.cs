@@ -56,6 +56,11 @@ internal sealed partial class Scheduler : IScheduler
     public string GroupName { get; private set; }
 
     /// <summary>
+    /// 作业触发器数量
+    /// </summary>
+    public int TriggerCount => Triggers.Count;
+
+    /// <summary>
     /// 作业信息
     /// </summary>
     internal JobDetail JobDetail { get; private set; }

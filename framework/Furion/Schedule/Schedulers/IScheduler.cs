@@ -41,6 +41,11 @@ public interface IScheduler
     string GroupName { get; }
 
     /// <summary>
+    /// 作业触发器数量
+    /// </summary>
+    int TriggerCount { get; }
+
+    /// <summary>
     /// 返回可公开访问的作业计划模型
     /// </summary>
     /// <remarks>常用于接口返回或序列化操作</remarks>

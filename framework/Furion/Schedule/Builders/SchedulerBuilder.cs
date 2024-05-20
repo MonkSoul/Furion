@@ -69,6 +69,11 @@ public sealed class SchedulerBuilder
     internal List<TriggerBuilder> TriggerBuilders { get; private set; } = new();
 
     /// <summary>
+    /// 作业触发器数量
+    /// </summary>
+    public int TriggerCount => TriggerBuilders.Count;
+
+    /// <summary>
     /// 创建作业计划构建器
     /// </summary>
     /// <param name="jobId">作业 Id</param>
