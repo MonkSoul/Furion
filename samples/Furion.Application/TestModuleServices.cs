@@ -802,7 +802,7 @@ public class TestModuleServices : IDynamicApiController
 
     public bool 测试PBKDF2加密比较()
     {
-        // 测试 PBKDF2 加解密
+        // 测试 PBKDF2 加密，比较
         var pbkdf2Hash = PBKDF2Encryption.Encrypt("百小僧");  // 加密
         var isEqual = PBKDF2Encryption.Compare("百小僧", pbkdf2Hash); // 比较
         return isEqual;
