@@ -787,7 +787,7 @@ public class TestModuleServices : IDynamicApiController
         return status;
     }
 
-    public async Task 测试远程MD5()
+    public async Task 测试远程请求Content_MD5()
     {
         var md5 = MD5Encryption.Encrypt("monksoul");
 
@@ -798,6 +798,14 @@ public class TestModuleServices : IDynamicApiController
         {
             Name = "Furion"
         }).PostAsync();
+    }
+
+    public bool 测试PBKDF2加密比较()
+    {
+        // 测试 PBKDF2 加解密
+        var pbkdf2Hash = PBKDF2Encryption.Encrypt("百小僧");  // 加密
+        var isEqual = PBKDF2Encryption.Compare("百小僧", pbkdf2Hash); // 比较
+        return isEqual;
     }
 }
 

@@ -230,4 +230,31 @@ public static class StringEncryptionExtensions
     {
         return SHA1Encryption.Compare(bytes, hash, uppercase);
     }
+
+    /// <summary>
+    /// 字符串的 PBKDF2 加密
+    /// </summary>
+    /// <param name="text">加密文本</param>
+    /// <param name="saltSize">随机 salt 大小</param>
+    /// <param name="iterationCount">迭代次数</param>
+    /// <param name="derivedKeyLength">密钥长度</param>
+    /// <returns></returns>
+    public static string ToPBKDF2Encrypt(this string text, int saltSize = 16, int iterationCount = 10000, int derivedKeyLength = 32)
+    {
+        return PBKDF2Encryption.Encrypt(text, saltSize, iterationCount, derivedKeyLength);
+    }
+
+    /// <summary>
+    /// 字符串的 PBKDF2 比较
+    /// </summary>
+    /// <param name="text">加密文本</param>
+    /// <param name="hash">PBKDF2 字符串</param>
+    /// <param name="saltSize">随机 salt 大小</param>
+    /// <param name="iterationCount">迭代次数</param>
+    /// <param name="derivedKeyLength">密钥长度</param>
+    /// <returns></returns>
+    public static bool ToPBKDF2Compare(this string text, string hash, int saltSize = 16, int iterationCount = 10000, int derivedKeyLength = 32)
+    {
+        return PBKDF2Encryption.Compare(text, hash, saltSize, iterationCount, derivedKeyLength);
+    }
 }
