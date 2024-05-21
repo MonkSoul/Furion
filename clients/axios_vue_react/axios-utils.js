@@ -244,3 +244,12 @@ export function getAccessInfo() {
     return null;
   }
 }
+
+/**
+ * 实现异步延迟
+ * @param delay 延迟时间（毫秒）
+ * @returns
+ */
+export function sleep(delay) {
+  return new Promise((resolve) => setTimeout(resolve, delay));
+}
