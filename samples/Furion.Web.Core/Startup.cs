@@ -30,6 +30,9 @@ public sealed class Startup : AppStartup
                 {
                     options.JsonSerializerOptions.Converters.AddDateTimeTypeConverters();
                     options.JsonSerializerOptions.Converters.AddClayConverters();
+
+                    options.JsonSerializerOptions.Converters.AddDateOnlyConverters("yyyy-MM-dd");
+                    options.JsonSerializerOptions.Converters.AddTimeOnlyConverters("HH:mm:ss");
                 })
                 .AddInjectWithUnifyResult()
                 .AddUnifyJsonOptions("special", new JsonSerializerOptions

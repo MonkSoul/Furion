@@ -807,6 +807,16 @@ public class TestModuleServices : IDynamicApiController
         var isEqual = PBKDF2Encryption.Compare("百小僧", pbkdf2Hash); // 比较
         return isEqual;
     }
+
+    public DateOnly 测试DateOnly格式化()
+    {
+        return DateOnly.FromDateTime(DateTime.Now);
+    }
+
+    public TimeOnly 测试TimeOnly格式化()
+    {
+        return TimeOnly.FromDateTime(DateTime.Now);
+    }
 }
 
 public class BindNeverModel
