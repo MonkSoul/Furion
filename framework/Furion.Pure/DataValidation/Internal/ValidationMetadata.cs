@@ -77,4 +77,9 @@ public sealed class ValidationMetadata
     /// 额外数据
     /// </summary>
     public object Data { get; internal set; }
+
+    /// <summary>
+    /// 默认只显示验证错误的首个消息
+    /// </summary>
+    public bool SingleValidationErrorDisplay { get; set; }
 }

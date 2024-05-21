@@ -47,12 +47,20 @@ public sealed class DataValidationFilter : IAsyncActionFilter, IOrderedFilter
     private readonly ApiBehaviorOptions _apiBehaviorOptions;
 
     /// <summary>
+    /// 规范化配置选项
+    /// </summary>
+    private readonly UnifyResultSettingsOptions _unifyResultSettingsOptions;
+
+    /// <summary>
     /// 构造函数
     /// </summary>
     /// <param name="options"></param>
-    public DataValidationFilter(IOptions<ApiBehaviorOptions> options)
+    /// <param name="unifyResultSettingsOptions"></param>
+    public DataValidationFilter(IOptions<ApiBehaviorOptions> options
+        , IOptions<UnifyResultSettingsOptions> unifyResultSettingsOptions)
     {
         _apiBehaviorOptions = options.Value;
+        _unifyResultSettingsOptions = unifyResultSettingsOptions.Value;
     }
 
     /// <summary>
@@ -161,6 +169,7 @@ public sealed class DataValidationFilter : IAsyncActionFilter, IOrderedFilter
         validationMetadata.OriginErrorCode = friendlyException?.OriginErrorCode;
         validationMetadata.StatusCode = friendlyException?.StatusCode;
         validationMetadata.Data = friendlyException?.Data;
+        validationMetadata.SingleValidationErrorDisplay = _unifyResultSettingsOptions.SingleValidationErrorDisplay.Value;
 
         // 存储验证信息
         context.HttpContext.Items[nameof(DataValidationFilter) + nameof(ValidationMetadata)] = validationMetadata;

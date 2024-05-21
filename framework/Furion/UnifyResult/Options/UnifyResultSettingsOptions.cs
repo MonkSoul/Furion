@@ -50,6 +50,11 @@ public sealed class UnifyResultSettingsOptions : IConfigurableOptions<UnifyResul
     public bool? SupportMvcController { get; set; }
 
     /// <summary>
+    /// 默认只显示验证错误的首个消息
+    /// </summary>
+    public bool? SingleValidationErrorDisplay { get; set; }
+
+    /// <summary>
     /// 选项后期配置
     /// </summary>
     /// <param name="options"></param>
@@ -58,5 +63,6 @@ public sealed class UnifyResultSettingsOptions : IConfigurableOptions<UnifyResul
     {
         options.Return200StatusCodes ??= new[] { 401, 403 };
         options.SupportMvcController ??= false;
+        options.SingleValidationErrorDisplay ??= false;
     }
 }

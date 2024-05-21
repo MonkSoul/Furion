@@ -2987,6 +2987,11 @@
           "type": "boolean",
           "description": "是否支持 MVC 控制台规范化处理",
           "default": false
+        },
+        "SingleValidationErrorDisplay": {
+          "type": "boolean",
+          "description": "默认只显示验证错误的首个消息",
+          "default": false
         }
       }
     }
