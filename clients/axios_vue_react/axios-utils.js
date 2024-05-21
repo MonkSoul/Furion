@@ -1,5 +1,5 @@
 /**
- * 当前版本：v1.3.1
+ * 当前版本：v1.3.2
  * 使用描述：https://editor.swagger.io 代码生成 typescript-axios 辅组工具库
  * 依赖说明：适配 axios 版本：v0.21.4
  * 视频教程：https://www.bilibili.com/video/BV1EW4y1C71D
