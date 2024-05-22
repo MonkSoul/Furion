@@ -358,9 +358,9 @@ public enum ValidationTypes
     /// <summary>
     /// 用户名
     /// <para>
-    /// 表达式：^[a-zA-Z][a-zA-Z0-9_]{2,19}[a-zA-Z0-9]$
+    /// 表达式：^[a-zA-Z][a-zA-Z0-9_]{3,18}[a-zA-Z0-9]$
     /// </para>
     /// </summary>
-    [Description("用户名"), ValidationItemMetadata(@"^[a-zA-Z][a-zA-Z0-9_]{2,19}[a-zA-Z0-9]$", "The value is not a username type.")]
+    [Description("用户名"), ValidationItemMetadata(@"^[a-zA-Z][a-zA-Z0-9_]{3,18}[a-zA-Z0-9]$", "The value is not a username type.")]
     Username,
 }
