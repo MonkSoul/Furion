@@ -31,7 +31,14 @@
         "Title": "定时任务",
         "Order": 2
       }
-    ]
+    ],
+    "LoginInfo": {
+      "Enabled": false,
+      "CheckUrl": "/Home/CheckUrl", // 可以写任何自定义检查地址
+      "SubmitUrl": "/Home/SubmitUrl", // 可以写任何 自定义检查地址
+      "UserName": "admin",
+      "Password": "admin"
+    }
   },
   "LocalizationSettings": {
     "SupportedCultures": [

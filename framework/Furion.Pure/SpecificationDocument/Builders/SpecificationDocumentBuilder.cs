@@ -37,12 +37,9 @@ using Swashbuckle.AspNetCore.Swagger;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using Swashbuckle.AspNetCore.SwaggerUI;
 using System.Collections.Concurrent;
-using System.Linq;
 using System.Reflection;
 using System.Text;
-using System.Text.Encodings.Web;
-using System.Text.Json;
-using System.Text.Json.Serialization;
+using System.Text.Json.Nodes;
 using System.Text.RegularExpressions;
 using System.Xml.Linq;
 using System.Xml.XPath;
@@ -666,17 +663,12 @@ public static class SpecificationDocumentBuilder
         var additionals = _specificationDocumentSettings.LoginInfo;
         if (additionals != null)
         {
-            // 修复因 Swagger 6.6.1 版本因支持 AOT 导致的异常
-            //swaggerUIOptions.ConfigObject.AdditionalItems.Add(nameof(_specificationDocumentSettings.LoginInfo), additionals);
-            var loginDic = new Dictionary<string, string>
+            swaggerUIOptions.ConfigObject.AdditionalItems.Add(nameof(_specificationDocumentSettings.LoginInfo), new JsonObject
             {
-                { $":{nameof(additionals.Enabled)}", additionals.Enabled ? "1" : "0" },
-                { $":{nameof(additionals.CheckUrl)}", additionals.CheckUrl },
-                { $":{nameof(additionals.SubmitUrl)}", additionals.SubmitUrl },
-            };
-
-            var oldAdditionalQueryStringParams = swaggerUIOptions.OAuthConfigObject.AdditionalQueryStringParams ?? new();
-            swaggerUIOptions.OAuthConfigObject.AdditionalQueryStringParams = oldAdditionalQueryStringParams.AddOrUpdate(loginDic);
+                [nameof(SpecificationLoginInfo.Enabled)] = additionals.Enabled,
+                [nameof(SpecificationLoginInfo.CheckUrl)] = additionals.CheckUrl,
+                [nameof(SpecificationLoginInfo.SubmitUrl)] = additionals.SubmitUrl
+            });
         }
     }
 
@@ -687,11 +679,8 @@ public static class SpecificationDocumentBuilder
     private static void AddDefaultInterceptor(SwaggerUIOptions swaggerUIOptions)
     {
         // 配置多语言和自动登录token
-        swaggerUIOptions.Interceptors.RequestInterceptorFunction = "function(request) { return defaultRequestInterceptor(request); }";
-        swaggerUIOptions.Interceptors.ResponseInterceptorFunction = "function(response) { return defaultResponseInterceptor(response); }";
-
-        //swaggerUIOptions.UseRequestInterceptor("function(request) { return defaultRequestInterceptor(request); }");
-        //swaggerUIOptions.UseResponseInterceptor("function(response) { return defaultResponseInterceptor(response); }");
+        swaggerUIOptions.UseRequestInterceptor("function(request) { return defaultRequestInterceptor(request); }");
+        swaggerUIOptions.UseResponseInterceptor("function(response) { return defaultResponseInterceptor(response); }");
     }
 
     /// <summary>

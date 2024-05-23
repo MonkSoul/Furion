@@ -14,6 +14,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Swashbuckle.AspNetCore.Annotations;
 using Swashbuckle.AspNetCore.Swagger;
+using System.ComponentModel;
 using System.Data;
 using System.Text.Json;
 
@@ -817,6 +818,11 @@ public class TestModuleServices : IDynamicApiController
     {
         return TimeOnly.FromDateTime(DateTime.Now);
     }
+
+    public void 测试DefaultValue(TestDefaultValue value)
+    {
+
+    }
 }
 
 public class BindNeverModel
@@ -836,4 +842,19 @@ public class TestSwaggerIgnore
 
     [SwaggerIgnore]
     public int[] Items { get; set; }
+}
+
+public class TestDefaultValue
+{
+    [DefaultValue(true)]
+    public bool Bool1 { get; set; }
+
+    [DefaultValue(typeof(bool), "true")]
+    public bool Bool2 { get; set; }
+
+    ///<example>null</example>
+    public bool? Bool3 { get; set; }
+
+    ///<example>"[]"</example>
+    public List<string> List1 { get; set; }
 }

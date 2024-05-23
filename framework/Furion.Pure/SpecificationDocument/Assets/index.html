@@ -370,10 +370,10 @@
 
             // Parse and add interceptor functions
             var interceptors = JSON.parse('%(Interceptors)');
-            if (interceptors.requestInterceptorFunction)
-                configObject.requestInterceptor = parseFunction(interceptors.requestInterceptorFunction);
-            if (interceptors.responseInterceptorFunction)
-                configObject.responseInterceptor = parseFunction(interceptors.responseInterceptorFunction);
+            if (interceptors.RequestInterceptorFunction)
+                configObject.requestInterceptor = parseFunction(interceptors.RequestInterceptorFunction);
+            if (interceptors.ResponseInterceptorFunction)
+                configObject.responseInterceptor = parseFunction(interceptors.ResponseInterceptorFunction);
 
             // Begin Swagger UI call region
 
@@ -390,14 +390,8 @@
             var configObject = JSON.parse('%(ConfigObject)');
             var oauthConfigObject = JSON.parse('%(OAuthConfigObject)');
 
-            var additionals = oauthConfigObject.additionalQueryStringParams;
-            var loginObject = additionals && additionals[":Enabled"] ? {
-                enabled: Boolean(Number(additionals[":Enabled"])),
-                checkUrl: additionals[":CheckUrl"],
-                submitUrl: additionals[":SubmitUrl"]
-            } : null;
-
-            if (loginObject && loginObject.enabled === true) {
+            var loginObject = configObject.LoginInfo;
+            if (loginObject && loginObject.Enabled === true) {
                 var loginForm = document.getElementById("login-form");
                 var userName = document.getElementById("userName");
                 var password = document.getElementById("password");
@@ -407,7 +401,7 @@
 
                 sendRequest({
                     method: "POST",
-                    url: loginObject.checkUrl,
+                    url: loginObject.CheckUrl,
                     success: function (res, headerMap) {
                         if (res.toString() === "200") {
                             loginForm.style.display = "none";
@@ -430,7 +424,7 @@
 
                                 sendRequest({
                                     method: "POST",
-                                    url: loginObject.submitUrl,
+                                    url: loginObject.SubmitUrl,
                                     data: {
                                         userName: userName.value.trim(),
                                         password: password.value.trim()
@@ -447,10 +441,10 @@
                                     },
                                     error: function (xhr) {
                                         if (xhr.status === 404) {
-                                            loginError.innerHTML = "Not Found: " + loginObject.submitUrl;
+                                            loginError.innerHTML = "Not Found: " + loginObject.SubmitUrl;
                                         }
                                         else {
-                                            loginError.innerHTML = "Internal ServerError: " + loginObject.submitUrl;
+                                            loginError.innerHTML = "Internal ServerError: " + loginObject.SubmitUrl;
                                         }
                                     }
                                 });
@@ -459,10 +453,10 @@
                     },
                     error: function (xhr) {
                         if (xhr.status === 404) {
-                            loginError.innerHTML = "Not Found: " + loginObject.checkUrl;
+                            loginError.innerHTML = "Not Found: " + loginObject.CheckUrl;
                         }
                         else {
-                            loginError.innerHTML = "Internal ServerError: " + loginObject.checkUrl;
+                            loginError.innerHTML = "Internal ServerError: " + loginObject.CheckUrl;
                         }
                     }
                 });

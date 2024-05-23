@@ -658,6 +658,12 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="P:Furion.Application.TestDefaultValue.Bool3">
+            <example>null</example>
+        </member>
+        <member name="P:Furion.Application.TestDefaultValue.List1">
+            <example>"[]"</example>
+        </member>
         <member name="M:Furion.Application.TestSensitiveDetection.GetWordsAsync">
             <summary>
             获取所有脱敏词汇
