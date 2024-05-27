@@ -64,6 +64,11 @@ public sealed class HttpJobMessage
     public bool EnsureSuccessStatusCode { get; set; } = true;
 
     /// <summary>
+    /// 超时时间（毫秒）
+    /// </summary>
+    public int? Timeout { get; set; }
+
+    /// <summary>
     /// 作业组名称
     /// </summary>
     [JsonIgnore]
