@@ -117,7 +117,7 @@ public class SucceededUnifyResultFilter : IAsyncActionFilter, IOrderedFilter
             // 解析验证消息
             var validationMetadata = ValidatorContext.GetValidationMetadata(badRequestObjectResult.Value);
             var unifyResultSettingsOptions = context.HttpContext.RequestServices.GetService<IOptions<UnifyResultSettingsOptions>>()?.Value;
-            validationMetadata.SingleValidationErrorDisplay = unifyResultSettingsOptions.SingleValidationErrorDisplay.Value;
+            validationMetadata.SingleValidationErrorDisplay = unifyResultSettingsOptions.SingleValidationErrorDisplay ?? false;
 
             var result = unifyResult.OnValidateFailed(context, validationMetadata);
             if (result != null) actionExecutedContext.Result = result;

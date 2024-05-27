@@ -4,6 +4,7 @@ using Furion.ClayObject;
 using Furion.DatabaseAccessor.Extensions;
 using Furion.Extensions;
 using Furion.Logging;
+using Furion.Reflection;
 using Furion.RemoteRequest;
 using Furion.RemoteRequest.Extensions;
 using Furion.UnifyResult;
@@ -16,6 +17,7 @@ using Swashbuckle.AspNetCore.Annotations;
 using Swashbuckle.AspNetCore.Swagger;
 using System.ComponentModel;
 using System.Data;
+using System.Reflection;
 using System.Text.Json;
 
 namespace Furion.Application;
@@ -823,7 +825,83 @@ public class TestModuleServices : IDynamicApiController
     {
 
     }
+
+    public void 测试AOP([FromServices] ITestService2 service)
+    {
+        service.SayHello("ddd");
+    }
 }
+
+
+public interface ITestService2
+{
+    string SayHello(string word);
+}
+
+[Injection(Proxy = typeof(LogDispatchProxy))]
+public class TestService2 : ITestService2, ITransient
+{
+    public string SayHello(string word)
+    {
+        return $"Hello {word}";
+    }
+}
+
+
+public class LogDispatchProxy : AspectDispatchProxy, IDispatchProxy
+{
+    /// <summary>
+    /// 当前服务实例
+    /// </summary>
+    public object Target { get; set; }
+
+    /// <summary>
+    /// 服务提供器，可以用来解析服务，如：Services.GetService()
+    /// </summary>
+    public IServiceProvider Services { get; set; }
+
+    /// <summary>
+    /// 拦截方法
+    /// </summary>
+    /// <param name="method"></param>
+    /// <param name="args"></param>
+    /// <returns></returns>
+    public override object Invoke(MethodInfo method, object[] args)
+    {
+        Console.WriteLine("SayHello 方法被调用了");
+
+        var result = method.Invoke(Target, args);
+
+        Console.WriteLine("SayHello 方法返回值：" + result);
+
+        return result;
+    }
+
+    // 异步无返回值
+    public async override Task InvokeAsync(MethodInfo method, object[] args)
+    {
+        Console.WriteLine("SayHello 方法被调用了");
+
+        var task = method.Invoke(Target, args) as Task;
+        await task;
+
+        Console.WriteLine("SayHello 方法调用完成");
+    }
+
+    // 异步带返回值
+    public async override Task<T> InvokeAsyncT<T>(MethodInfo method, object[] args)
+    {
+        Console.WriteLine("SayHello 方法被调用了");
+
+        var taskT = method.Invoke(Target, args) as Task<T>;
+        var result = await taskT;
+
+        Console.WriteLine("SayHello 方法返回值：" + result);
+
+        return result;
+    }
+}
+
 
 public class BindNeverModel
 {

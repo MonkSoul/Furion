@@ -169,7 +169,7 @@ public sealed class DataValidationFilter : IAsyncActionFilter, IOrderedFilter
         validationMetadata.OriginErrorCode = friendlyException?.OriginErrorCode;
         validationMetadata.StatusCode = friendlyException?.StatusCode;
         validationMetadata.Data = friendlyException?.Data;
-        validationMetadata.SingleValidationErrorDisplay = _unifyResultSettingsOptions.SingleValidationErrorDisplay.Value;
+        validationMetadata.SingleValidationErrorDisplay = _unifyResultSettingsOptions.SingleValidationErrorDisplay ?? false;
 
         // 存储验证信息
         context.HttpContext.Items[nameof(DataValidationFilter) + nameof(ValidationMetadata)] = validationMetadata;

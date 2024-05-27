@@ -658,6 +658,24 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="P:Furion.Application.LogDispatchProxy.Target">
+            <summary>
+            当前服务实例
+            </summary>
+        </member>
+        <member name="P:Furion.Application.LogDispatchProxy.Services">
+            <summary>
+            服务提供器，可以用来解析服务，如：Services.GetService()
+            </summary>
+        </member>
+        <member name="M:Furion.Application.LogDispatchProxy.Invoke(System.Reflection.MethodInfo,System.Object[])">
+            <summary>
+            拦截方法
+            </summary>
+            <param name="method"></param>
+            <param name="args"></param>
+            <returns></returns>
+        </member>
         <member name="P:Furion.Application.TestDefaultValue.Bool3">
             <example>null</example>
         </member>
