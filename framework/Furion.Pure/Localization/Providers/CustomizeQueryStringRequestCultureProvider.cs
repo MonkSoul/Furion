@@ -41,7 +41,7 @@ public class CustomizeQueryStringRequestCultureProvider : QueryStringRequestCult
     public CustomizeQueryStringRequestCultureProvider(string queryStringKey, string uiQueryStringKey = null)
     {
         // 空检查
-        if (string.IsNullOrEmpty(queryStringKey)) throw new ArgumentNullException(nameof(queryStringKey));
+        if (string.IsNullOrWhiteSpace(queryStringKey)) throw new ArgumentNullException(nameof(queryStringKey));
 
         QueryStringKey = queryStringKey;
         UIQueryStringKey = string.IsNullOrWhiteSpace(uiQueryStringKey) ? $"ui-{queryStringKey}" : uiQueryStringKey;
