@@ -1,4 +1,5 @@
 ﻿using Furion.Application;
+using Furion.Localization;
 using Furion.Schedule;
 using Furion.VirtualFileServer;
 using Microsoft.AspNetCore.Builder;
@@ -135,7 +136,10 @@ public sealed class Startup : AppStartup
         app.UseHttpsRedirection();
 
         // 配置多语言，必须在 路由注册之前
-        app.UseAppLocalization();
+        app.UseAppLocalization(options =>
+        {
+            // options.AddInitialRequestCultureProvider(new CustomizeQueryStringRequestCultureProvider("my-culture"));
+        });
 
         app.UseStaticFiles(new StaticFileOptions
         {
