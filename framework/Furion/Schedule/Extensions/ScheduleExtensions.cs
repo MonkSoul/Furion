@@ -187,7 +187,7 @@ public static class ScheduleExtensions
         target ??= constructors.Length == 0 ? Activator.CreateInstance<TTarget>() : constructors[0].Invoke(null);
 
         // 获取目标类型所有属性
-        var targetProperties = targetType.GetProperties(bindFlags);
+        var targetProperties = targetType.GetProperties(bindFlags).Where(u => u.CanWrite);
 
         // 支持对象和 Dictionary<string, object> 类型
         var sourcePropertyValues = source is Dictionary<string, object> sourceDic
