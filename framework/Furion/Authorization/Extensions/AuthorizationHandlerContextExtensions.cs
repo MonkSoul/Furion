@@ -34,6 +34,8 @@ namespace Microsoft.AspNetCore.Authorization;
 [SuppressSniffer]
 public static class AuthorizationHandlerContextExtensions
 {
+    internal const string FAIL_STATUSCODE_KEY = $"{nameof(AuthorizationHandlerContext)}_Fail_StatusCode";
+
     /// <summary>
     /// 获取当前 HttpContext 上下文
     /// </summary>
@@ -49,5 +51,21 @@ public static class AuthorizationHandlerContextExtensions
         else httpContext = null;
 
         return httpContext;
+    }
+
+    /// <summary>
+    /// 标记授权失败并设置状态码
+    /// </summary>
+    /// <param name="context"></param>
+    /// <param name="statusCode"></param>
+    public static void Fail(this AuthorizationHandlerContext context, int statusCode)
+    {
+        var httpContext = context.GetCurrentHttpContext();
+
+        context.Fail();
+        if (httpContext != null)
+        {
+            httpContext.Items[FAIL_STATUSCODE_KEY] = statusCode;
+        }
     }
 }

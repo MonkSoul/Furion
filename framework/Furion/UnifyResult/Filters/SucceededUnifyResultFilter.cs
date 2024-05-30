@@ -24,6 +24,7 @@
 // ------------------------------------------------------------------------
 
 using Furion.DataValidation;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Controllers;
@@ -90,6 +91,13 @@ public class SucceededUnifyResultFilter : IAsyncActionFilter, IOrderedFilter
                     // 检查是否启用状态码拦截中间件
                     if (UnifyContext.EnabledStatusCodesMiddleware)
                     {
+                        // 获取授权失败设置的状态码
+                        var authorizationFailStatusCode = httpContext.Items[AuthorizationHandlerContextExtensions.FAIL_STATUSCODE_KEY];
+                        if (authorizationFailStatusCode != null)
+                        {
+                            statusCode = Convert.ToInt32(authorizationFailStatusCode);
+                        }
+
                         await unifyRes.OnResponseStatusCodes(httpContext, statusCode, httpContext.RequestServices.GetService<IOptions<UnifyResultSettingsOptions>>()?.Value);
                     }
                 }

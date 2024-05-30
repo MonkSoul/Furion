@@ -23,6 +23,7 @@
 // 请访问 https://gitee.com/dotnetchina/Furion 获取更多关于 Furion 项目的许可证和版权信息。
 // ------------------------------------------------------------------------
 
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
@@ -100,7 +101,17 @@ public class UnifyResultStatusCodesMiddleware
 
             // 如果 Response 已经完成输出，则禁止写入
             if (context.Response.HasStarted) return;
-            await unifyResult.OnResponseStatusCodes(context, context.Response.StatusCode, context.RequestServices.GetService<IOptions<UnifyResultSettingsOptions>>()?.Value);
+
+            var statusCode = context.Response.StatusCode;
+
+            // 获取授权失败设置的状态码
+            var authorizationFailStatusCode = context.Items[AuthorizationHandlerContextExtensions.FAIL_STATUSCODE_KEY];
+            if (authorizationFailStatusCode != null)
+            {
+                statusCode = Convert.ToInt32(authorizationFailStatusCode);
+            }
+
+            await unifyResult.OnResponseStatusCodes(context, statusCode, context.RequestServices.GetService<IOptions<UnifyResultSettingsOptions>>()?.Value);
         }
     }
 }
