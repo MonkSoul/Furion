@@ -18,7 +18,7 @@
   </ItemGroup>
 
   <ItemGroup Condition="'$(net8)' == 'True' ">
-    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="8.0.5" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="8.0.6" />
 	</ItemGroup>
 
   <ItemGroup Condition="'$(net9)' == 'True' ">
