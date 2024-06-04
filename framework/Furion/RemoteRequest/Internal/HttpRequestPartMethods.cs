@@ -980,20 +980,28 @@ public sealed partial class HttpRequestPart
                 break;
 
             case "application/x-www-form-urlencoded":
-                // 解析字典
-                var keyValues = ConvertBodyToDictionary();
-
-                if (keyValues == null || keyValues.Count == 0) return;
-
-                // 设置内容类型
-                if (EncodeUrl)
+                // 如果 Body 是字符串类型，直接传入
+                if (Body is string stringBody)
                 {
-                    httpContent = new FormUrlEncodedContent(keyValues);
+                    httpContent = new StringContent(stringBody, ContentEncoding, ContentType);
                 }
                 else
                 {
-                    var formData = string.Join('&', keyValues.Select(kv => $"{kv.Key}={kv.Value}"));
-                    httpContent = new StringContent(formData, ContentEncoding, ContentType);
+                    // 解析字典
+                    var keyValues = ConvertBodyToDictionary();
+
+                    if (keyValues == null || keyValues.Count == 0) return;
+
+                    // 设置内容类型
+                    if (EncodeUrl)
+                    {
+                        httpContent = new FormUrlEncodedContent(keyValues);
+                    }
+                    else
+                    {
+                        var formData = string.Join('&', keyValues.Select(kv => $"{kv.Key}={kv.Value}"));
+                        httpContent = new StringContent(formData, ContentEncoding, ContentType);
+                    }
                 }
 
                 break;
