@@ -23,6 +23,8 @@
 // 请访问 https://gitee.com/dotnetchina/Furion 获取更多关于 Furion 项目的许可证和版权信息。
 // ------------------------------------------------------------------------
 
+using Furion.Extensions;
+
 namespace Furion.Logging;
 
 /// <summary>
@@ -92,9 +94,9 @@ public static class LogContextExtensions
     /// <param name="logContext"></param>
     /// <param name="key">键</param>
     /// <returns></returns>
-    public static object Get<T>(this LogContext logContext, object key)
+    public static T Get<T>(this LogContext logContext, object key)
     {
         var value = logContext.Get(key);
-        return (T)value;
+        return value.ChangeType<T>();
     }
 }
