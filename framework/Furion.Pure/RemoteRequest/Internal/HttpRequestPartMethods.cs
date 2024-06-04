@@ -833,28 +833,57 @@ public sealed partial class HttpRequestPart
             var errors = exception != null
                 ? exception?.Message
                 : response?.ReasonPhrase;
-            var statusCode = (int)(response?.StatusCode ?? HttpStatusCode.InternalServerError);
+
+            var statusCode = response != null ? (int)response.StatusCode : ParseExceptionMessage(errors);
 
             // 打印失败请求
             App.PrintToMiniProfiler(MiniProfilerCategory, "Failed", $"[StatusCode: {statusCode}] {errors}", exception != null);
 
             // 调用异常拦截器
-            if (ExceptionInterceptors != null && ExceptionInterceptors.Count > 0) ExceptionInterceptors.ForEach(u =>
+            if (ExceptionInterceptors != null && ExceptionInterceptors.Count > 0)
             {
-                u?.Invoke(httpClient, response, errors);
-            });
+                response ??= new HttpResponseMessage
+                {
+                    RequestMessage = request,
+                    ReasonPhrase = exception.Message,
+                    StatusCode = (HttpStatusCode)statusCode
+                };
+
+                ExceptionInterceptors.ForEach(u =>
+                {
+                    u?.Invoke(httpClient, response, errors);
+                });
+            }
 
             // 抛出请求异常
             if (exception != null)
             {
                 request?.Dispose();
                 response?.Dispose();
+                request = null;
+                response = null;
+
                 throw exception;
             }
         }
 
         request?.Dispose();
         return response;
+    }
+
+    /// <summary>
+    /// 解析常规错误码
+    /// </summary>
+    /// <param name="errors"></param>
+    /// <returns></returns>
+    private static int ParseExceptionMessage(string errors)
+    {
+        if (errors.Contains("HttpClient.Timeout"))
+        {
+            return 408;
+        }
+
+        return 500;
     }
 
     /// <summary>
