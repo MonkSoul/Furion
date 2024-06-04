@@ -464,9 +464,9 @@ public static class SpecificationDocumentBuilder
         var members = new Dictionary<string, XElement>();
 
         // 显式继承的注释
-        var regex = new Regex(@"[A-Z]:[a-zA-Z_@\.]+");
+        var regex = new Regex(@"[A-Z]:[a-zA-Z0-9_@\.]+");
         // 隐式继承的注释
-        var regex2 = new Regex(@"[A-Z]:[a-zA-Z_@\.]+\.");
+        var regex2 = new Regex(@"[A-Z]:[a-zA-Z0-9_@\.]+\.");
 
         // 支持注释完整特性，包括 inheritdoc 注释语法
         foreach (var xmlComment in xmlComments)
@@ -501,7 +501,7 @@ public static class SpecificationDocumentBuilder
 
                         // 处理隐式实现接口的注释
                         // 注释格式：M:Furion.Application.TestInheritdoc.Furion#Application#ITestInheritdoc#Abc(System.String)
-                        // 匹配格式：[A-Z]:[a-zA-Z_@\.]+\.
+                        // 匹配格式：[A-Z]:[a-zA-Z0-9_@\.]+\.
                         // 处理逻辑：直接替换匹配为空，然后讲 # 替换为 . 查找即可
                         if (memberName.Contains('#'))
                         {
@@ -509,7 +509,7 @@ public static class SpecificationDocumentBuilder
                         }
                         // 处理带参数的注释
                         // 注释格式：M:Furion.Application.TestInheritdoc.WithParams(System.String)
-                        // 匹配格式：[A-Z]:[a-zA-Z_@\.]+
+                        // 匹配格式：[A-Z]:[a-zA-Z0-9_@\.]+
                         // 处理逻辑：匹配出不带参数的部分，然后获取类型命名空间，最后调用 GenerateInheritdocCref 进行生成
                         else if (memberName.Contains('('))
                         {
