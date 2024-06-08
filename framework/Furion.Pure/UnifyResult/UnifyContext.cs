@@ -319,7 +319,7 @@ public static class UnifyContext
     internal static bool CheckExceptionHttpContextNonUnify(HttpContext context, out IUnifyResultProvider unifyResult)
     {
         // 获取终点路由特性
-        var endpointFeature = context.Features.Get<IEndpointFeature>();
+        var endpointFeature = context.Features?.Get<IEndpointFeature>();
         if (endpointFeature == null) return (unifyResult = null) == null;
 
         // 判断是否跳过规范化处理
@@ -337,7 +337,9 @@ public static class UnifyContext
             var unifyProviderAttribute = endpointFeature?.Endpoint?.Metadata?.GetMetadata<UnifyProviderAttribute>();
             UnifyProviders.TryGetValue(unifyProviderAttribute?.Name ?? string.Empty, out var unityMetadata);
 
-            unifyResult = context.RequestServices.GetService(unityMetadata.ProviderType) as IUnifyResultProvider;
+            unifyResult = unityMetadata?.ProviderType == null
+                ? null
+                : context.RequestServices.GetService(unityMetadata.ProviderType) as IUnifyResultProvider;
         }
 
         return unifyResult == null || isSkip;
