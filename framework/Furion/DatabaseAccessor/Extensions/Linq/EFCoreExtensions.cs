@@ -55,10 +55,10 @@ public static class EFCoreExtensions
     /// <param name="sources">集合对象</param>
     /// <param name="keySelector">表达式</param>
     /// <returns>新的集合对象</returns>
-    public static IQueryable<TSource> FlexOrderBy<TSource, TKey>(this IQueryable<TSource> sources, Expression<Func<TSource, TKey>> keySelector)
+    public static IOrderedQueryable<TSource> FlexOrderBy<TSource, TKey>(this IQueryable<TSource> sources, Expression<Func<TSource, TKey>> keySelector)
     {
-        return sources is IOrderedQueryable<TSource> orderQueryable
-               ? orderQueryable.ThenBy(keySelector)
+        return sources.Expression.Type.GetGenericTypeDefinition() == typeof(IOrderedQueryable<>)
+               ? ((IOrderedQueryable<TSource>)sources).ThenBy(keySelector)
                : sources.OrderBy(keySelector);
     }
 
@@ -70,11 +70,11 @@ public static class EFCoreExtensions
     /// <param name="sources">集合对象</param>
     /// <param name="keySelector">表达式</param>
     /// <returns>新的集合对象</returns>
-    public static IQueryable<TSource> FlexOrderByDescending<TSource, TKey>(this IQueryable<TSource> sources, Expression<Func<TSource, TKey>> keySelector)
+    public static IOrderedQueryable<TSource> FlexOrderByDescending<TSource, TKey>(this IQueryable<TSource> sources, Expression<Func<TSource, TKey>> keySelector)
     {
-        return sources is IOrderedQueryable<TSource> orderQueryable
-                ? orderQueryable.ThenByDescending(keySelector)
-                : sources.OrderByDescending(keySelector);
+        return sources.Expression.Type.GetGenericTypeDefinition() == typeof(IOrderedQueryable<>)
+               ? ((IOrderedQueryable<TSource>)sources).ThenByDescending(keySelector)
+               : sources.OrderByDescending(keySelector);
     }
 
     /// <summary>
