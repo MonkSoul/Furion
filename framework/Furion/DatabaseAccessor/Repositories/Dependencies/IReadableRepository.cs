@@ -440,7 +440,7 @@ public interface IPrivateReadableRepository<TEntity> : IPrivateRootRepository
     /// <param name="tracking">是否跟踪实体</param>
     /// <param name="ignoreQueryFilters">是否忽略查询过滤器</param>
     /// <returns>数据库中的多个实体</returns>
-    IIncludableQueryable<TEntity, TProperty> Include<TProperty>(bool condition, Expression<Func<TEntity, TProperty>> predicate, bool? tracking = null, bool ignoreQueryFilters = false);
+    IQueryable<TEntity> Include<TProperty>(bool condition, Expression<Func<TEntity, TProperty>> predicate, bool? tracking = null, bool ignoreQueryFilters = false);
 
     /// <summary>
     /// 判断记录是否存在

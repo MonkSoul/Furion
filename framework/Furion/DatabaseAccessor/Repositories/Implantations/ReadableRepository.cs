@@ -570,7 +570,7 @@ public partial class PrivateRepository<TEntity>
     /// <param name="tracking">是否跟踪实体</param>
     /// <param name="ignoreQueryFilters">是否忽略查询过滤器</param>
     /// <returns>数据库中的多个实体</returns>
-    public virtual IIncludableQueryable<TEntity, TProperty> Include<TProperty>(bool condition, Expression<Func<TEntity, TProperty>> predicate, bool? tracking = null, bool ignoreQueryFilters = false)
+    public virtual IQueryable<TEntity> Include<TProperty>(bool condition, Expression<Func<TEntity, TProperty>> predicate, bool? tracking = null, bool ignoreQueryFilters = false)
     {
         return AsQueryable(default(Expression<Func<TEntity, bool>>), tracking, ignoreQueryFilters).Include(condition, predicate);
     }
