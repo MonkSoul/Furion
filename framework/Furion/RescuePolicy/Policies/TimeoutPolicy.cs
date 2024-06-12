@@ -151,7 +151,7 @@ public class TimeoutPolicy<TResult> : PolicyBase<TResult>
             return await operation();
         }
 
-        // 创建关键的取消标记
+        // 创建关联的取消标记
         using var cancellationTokenSource = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
 
         // 设置超时时间
