@@ -90,7 +90,7 @@ public class HttpJob : IJob
         httpClient.DefaultRequestHeaders.Add("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.5112.81 Safari/537.36 Edg/104.0.1293.47");
 
         // 创建请求对象
-        var httpRequestMessage = new HttpRequestMessage(httpJobMessage.HttpMethod, httpJobMessage.RequestUri);
+        using var httpRequestMessage = new HttpRequestMessage(httpJobMessage.HttpMethod, httpJobMessage.RequestUri);
 
         // 添加请求报文体，默认只支持发送 application/json 类型
         if (httpJobMessage.HttpMethod != HttpMethod.Get
@@ -131,5 +131,8 @@ public class HttpJob : IJob
             httpResponseMessage.StatusCode,
             Body = bodyString
         });
+
+        // 释放响应报文对象
+        httpResponseMessage?.Dispose();
     }
 }
