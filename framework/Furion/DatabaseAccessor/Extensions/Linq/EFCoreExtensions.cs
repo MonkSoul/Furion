@@ -106,7 +106,7 @@ public static class EFCoreExtensions
     }
 
     /// <summary>
-    /// 根据条件成立再构建 OrderBy 查询
+    /// 根据条件成立再构建 ThenBy 查询
     /// </summary>
     /// <typeparam name="TSource">泛型类型</typeparam>
     /// <typeparam name="TKey"></typeparam>
@@ -120,7 +120,7 @@ public static class EFCoreExtensions
     }
 
     /// <summary>
-    /// 根据条件成立再构建 OrderByDescending 查询
+    /// 根据条件成立再构建 ThenByDescending 查询
     /// </summary>
     /// <typeparam name="TSource">泛型类型</typeparam>
     /// <typeparam name="TKey"></typeparam>
