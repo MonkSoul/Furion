@@ -37,14 +37,16 @@ public sealed class HttpFile
     /// <param name="name"></param>
     /// <param name="bytes"></param>
     /// <param name="fileName"></param>
+    /// <param name="escape"></param>
     /// <returns></returns>
-    public static HttpFile Create(string name, byte[] bytes, string fileName = default)
+    public static HttpFile Create(string name, byte[] bytes, string fileName = default, bool escape = true)
     {
         return new HttpFile
         {
             Name = name,
             Bytes = bytes,
-            FileName = fileName
+            FileName = fileName,
+            Escape = escape
         };
     }
 
@@ -54,14 +56,16 @@ public sealed class HttpFile
     /// <param name="name"></param>
     /// <param name="fileStream"></param>
     /// <param name="fileName"></param>
+    /// <param name="escape"></param>
     /// <returns></returns>
-    public static HttpFile Create(string name, Stream fileStream, string fileName = default)
+    public static HttpFile Create(string name, Stream fileStream, string fileName = default, bool escape = true)
     {
         return new HttpFile
         {
             Name = name,
             FileStream = fileStream,
-            FileName = fileName
+            FileName = fileName,
+            Escape = escape
         };
     }
 
@@ -122,4 +126,10 @@ public sealed class HttpFile
     /// 文件流
     /// </summary>
     public Stream FileStream { get; set; }
+
+    /// <summary>
+    /// 是否对表单名/文件名进行转义
+    /// </summary>
+    /// <remarks>默认 true</remarks>
+    public bool Escape { get; set; } = true;
 }
