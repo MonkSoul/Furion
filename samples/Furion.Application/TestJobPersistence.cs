@@ -33,9 +33,9 @@ public class TestJobPersistence : IJobPersistence
         return Task.CompletedTask;
     }
 
-    public Task OnExecutionRecordAsync(TriggerTimeline timeline)
+    public Task OnExecutionRecordAsync(PersistenceExecutionRecordContext context)
     {
-        //Console.WriteLine(JsonSerializer.Serialize(timeline));
+        Console.WriteLine(context.ToString());
         return Task.CompletedTask;
     }
 }

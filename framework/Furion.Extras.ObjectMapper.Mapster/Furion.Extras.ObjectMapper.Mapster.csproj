@@ -31,7 +31,7 @@
 	<ItemGroup Condition=" '$(TargetFramework)' == 'net9.0' ">
 		<PackageReference Include="Mapster" Version="7.4.0" />
 		<PackageReference Include="Mapster.DependencyInjection" Version="1.0.1" />
-		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.0-preview.4.24266.19" />
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.0-preview.5.24306.7" />
 	</ItemGroup>
 
 </Project>

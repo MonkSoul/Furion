@@ -41,7 +41,7 @@ public sealed class JobExecutionRecordEventArgs : EventArgs
     }
 
     /// <summary>
-    /// 作业触发器运行记录
+    /// 作业执行记录持久上下文
     /// </summary>
     public PersistenceExecutionRecordContext Context { get; }
 }

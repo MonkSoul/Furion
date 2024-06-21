@@ -22,7 +22,7 @@
 	</ItemGroup>
 
   <ItemGroup Condition="'$(net9)' == 'True' ">
-    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="9.0.0-preview.4.24267.6" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="9.0.0-preview.5.24306.11" />
 	</ItemGroup>
 
 </Project>
