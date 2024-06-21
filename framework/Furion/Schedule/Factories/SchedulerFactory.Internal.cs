@@ -450,20 +450,20 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory
     /// <summary>
     /// 记录作业触发器运行信息
     /// </summary>
-    /// <param name="timeline">作业触发器运行记录</param>
+    /// <param name="context">作业执行记录持久上下文</param>
     /// <returns><see cref="Task"/></returns>
-    internal async Task RecordTimelineAsync(TriggerTimeline timeline)
+    internal async Task RecordTimelineAsync(PersistenceExecutionRecordContext context)
     {
         try
         {
             // 作业触发记录通知
             if (Persistence is not null)
             {
-                await Persistence.OnExecutionRecordAsync(timeline);
+                await Persistence.OnExecutionRecordAsync(context);
             }
 
             // 调用事件委托
-            OnExecutionRecord?.Invoke(this, new(timeline));
+            OnExecutionRecord?.Invoke(this, new(context));
         }
         catch
         {

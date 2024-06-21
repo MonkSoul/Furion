@@ -62,7 +62,7 @@ public interface IJobPersistence
     /// <summary>
     /// 作业触发记录通知
     /// </summary>
-    /// <param name="timeline">作业触发器运行记录</param>
+    /// <param name="context">作业执行记录持久上下文</param>
     /// <returns><see cref="Task"/></returns>
-    Task OnExecutionRecordAsync(TriggerTimeline timeline);
+    Task OnExecutionRecordAsync(PersistenceExecutionRecordContext context);
 }

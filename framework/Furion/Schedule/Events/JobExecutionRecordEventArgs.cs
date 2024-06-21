@@ -34,14 +34,14 @@ public sealed class JobExecutionRecordEventArgs : EventArgs
     /// <summary>
     /// 构造函数
     /// </summary>
-    /// <param name="timeline">作业触发器运行记录</param>
-    public JobExecutionRecordEventArgs(TriggerTimeline timeline)
+    /// <param name="context">作业执行记录持久上下文</param>
+    public JobExecutionRecordEventArgs(PersistenceExecutionRecordContext context)
     {
-        Timeline = timeline;
+        Context = context;
     }
 
     /// <summary>
     /// 作业触发器运行记录
     /// </summary>
-    public TriggerTimeline Timeline { get; }
+    public PersistenceExecutionRecordContext Context { get; }
 }

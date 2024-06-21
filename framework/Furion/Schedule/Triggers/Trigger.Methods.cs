@@ -361,9 +361,16 @@ public partial class Trigger
         Timelines.Enqueue(timeline);
 
         // 调用事件委托（记录作业触发器运行信息）
-        if (schedulerFactory is SchedulerFactory schedulerFactoryObj)
+        if (schedulerFactory is SchedulerFactory schedulerFactoryInstance)
         {
-            await schedulerFactoryObj.RecordTimelineAsync(timeline);
+            // 初始化作业执行记录持久上下文
+            var context = new PersistenceExecutionRecordContext(
+                schedulerFactoryInstance.GetJob(jobId).GetJobDetail()
+                , this
+                , timeline.Mode
+                , timeline);
+
+            await schedulerFactoryInstance.RecordTimelineAsync(context);
         }
     }
 
