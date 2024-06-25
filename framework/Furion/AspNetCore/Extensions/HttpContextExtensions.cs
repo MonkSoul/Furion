@@ -116,10 +116,19 @@ public static class HttpContextExtensions
     /// 获取远程 IPv4地址
     /// </summary>
     /// <param name="context"></param>
+    /// <param name="xff">是否优先取 X-Forwarded-For</param>
     /// <returns></returns>
-    public static string GetRemoteIpAddressToIPv4(this HttpContext context)
+    public static string GetRemoteIpAddressToIPv4(this HttpContext context, bool xff = false)
     {
-        return context.Connection.RemoteIpAddress?.MapToIPv4()?.ToString();
+        var ipv4 = context.Connection.RemoteIpAddress?.MapToIPv4()?.ToString();
+
+        if (xff)
+        {
+            var xForwardedFor = context.Request.Headers["X-Forwarded-For"];
+            return !string.IsNullOrWhiteSpace(xForwardedFor) ? xForwardedFor : ipv4;
+        }
+
+        return ipv4;
     }
 
     /// <summary>
