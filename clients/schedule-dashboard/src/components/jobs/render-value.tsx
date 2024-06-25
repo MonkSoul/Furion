@@ -1,8 +1,14 @@
-import { IconActivity, IconCalendarClock } from "@douyinfe/semi-icons";
+import {
+  IconActivity,
+  IconCalendarClock,
+  IconUploadError,
+} from "@douyinfe/semi-icons";
 import {
   Button,
   Modal,
+  Popover,
   Tag,
+  TextArea,
   Timeline,
   Tooltip,
   Typography,
@@ -107,7 +113,7 @@ export default function RenderValue(props: {
     /**
      * 处理状态
      */
-    preview = <StatusText value={Number(value)} />;
+    preview = <StatusText value={Number(value)} showError />;
   } else if (
     prop === "startNow" ||
     prop === "runOnStart" ||
@@ -340,6 +346,34 @@ function LogPanel(props: {
               <Tag color="yellow" type="solid">
                 手动
               </Tag>
+            )}
+            {timeline.exception && (
+              <Popover
+                showArrow
+                content={
+                  <div
+                    className="exception-box"
+                    style={{
+                      padding: 10,
+                      width: 400,
+                    }}
+                  >
+                    <TextArea value={timeline.exception} rows={10} />
+                  </div>
+                }
+                trigger="click"
+                zIndex={10000000002}
+              >
+                <IconUploadError
+                  style={{
+                    position: "relative",
+                    color: "red",
+                    top: 4,
+                    cursor: "pointer",
+                    marginLeft: 5,
+                  }}
+                />
+              </Popover>
             )}
           </Timeline.Item>
         ))}

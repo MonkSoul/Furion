@@ -1224,33 +1224,33 @@
   dependencies:
     tslib "^2.0.0"
 
-"@douyinfe/semi-animation-react@2.58.0":
-  version "2.58.0"
-  resolved "https://registry.yarnpkg.com/@douyinfe/semi-animation-react/-/semi-animation-react-2.58.0.tgz#648acbfac88c6a323d598833bc471ddb483b0a50"
-  integrity sha512-0dJD5+cRCrwIqxVK4Ywj/Wt1tmkslX6QNd9vODZO8MKQcgQh1MD+dFi14WKZxjzJhR8FZIMY08DmRBDtyXY3jQ==
+"@douyinfe/semi-animation-react@2.61.0":
+  version "2.61.0"
+  resolved "https://registry.yarnpkg.com/@douyinfe/semi-animation-react/-/semi-animation-react-2.61.0.tgz#a5dd9e6368b07628a4548b9eb1c66b1eeb509c71"
+  integrity sha512-KgiBOog7TRQ23wRaV6UU0zEG+5OHafWHEqVIGgfliNrR/A30RhINSWSwa8wWljxHHVIaJDBmz+7EbzAluKrhLQ==
   dependencies:
-    "@douyinfe/semi-animation" "2.58.0"
-    "@douyinfe/semi-animation-styled" "2.58.0"
+    "@douyinfe/semi-animation" "2.61.0"
+    "@douyinfe/semi-animation-styled" "2.61.0"
     classnames "^2.2.6"
 
-"@douyinfe/semi-animation-styled@2.58.0":
-  version "2.58.0"
-  resolved "https://registry.yarnpkg.com/@douyinfe/semi-animation-styled/-/semi-animation-styled-2.58.0.tgz#b7d9a7dc77d73e9de1030eb69d845278922d7d87"
-  integrity sha512-PqWUfRn4q0BDkPt5hxYYDEZwokiIpNa4S+7F5mP4nYyVJppkkylnpJcktSDy25YMfSdkXYcF7wrPAIsGfoZQ8g==
+"@douyinfe/semi-animation-styled@2.61.0":
+  version "2.61.0"
+  resolved "https://registry.yarnpkg.com/@douyinfe/semi-animation-styled/-/semi-animation-styled-2.61.0.tgz#400f3329d65ee6a7080780dfe4a02564cef2bc20"
+  integrity sha512-kzI6uFphJFd+4FhRLJc6b3LNR1wzf5dby0CPnI9E7phmqxpv5/I/AVpJ/h/7JKW7tdsy8EqsvuCYvyHSAtPU4A==
 
-"@douyinfe/semi-animation@2.58.0":
-  version "2.58.0"
-  resolved "https://registry.yarnpkg.com/@douyinfe/semi-animation/-/semi-animation-2.58.0.tgz#bda6376b0b3cb11b076fa9cbd33abd0171e0b71d"
-  integrity sha512-ks1v8xqTV/YkXO/9HKr7yooWgtvfKvAWJ0nhsZOUi9xL04PbTjjvbD80FMOvemHFY320PZpurIXwIPrx72xtUQ==
+"@douyinfe/semi-animation@2.61.0":
+  version "2.61.0"
+  resolved "https://registry.yarnpkg.com/@douyinfe/semi-animation/-/semi-animation-2.61.0.tgz#42043e44e6d414d816e560c3c448f68418234baf"
+  integrity sha512-Yr8IAtn1NZXbCK8bJD1wnj6ktiI4mSwA8Kf4hLse0YhUeWfvIY529gQ5PUb30HiceE1RdteYxJEQwJ9IBaiCpw==
   dependencies:
     bezier-easing "^2.1.0"
 
-"@douyinfe/semi-foundation@2.58.0":
-  version "2.58.0"
-  resolved "https://registry.yarnpkg.com/@douyinfe/semi-foundation/-/semi-foundation-2.58.0.tgz#fdb5ff7f1ee1e8ba2883278486fc4cbb2912daa7"
-  integrity sha512-jMmaTuGHG/MUW5d1CvEmWuxMI+vdLUElM2ol1B4pglDx0lOHBCyGRk9j78H1rZg15fxXXxByOD/CZmNNv1l7Cg==
+"@douyinfe/semi-foundation@2.61.0":
+  version "2.61.0"
+  resolved "https://registry.yarnpkg.com/@douyinfe/semi-foundation/-/semi-foundation-2.61.0.tgz#244ba2278de5071fef9b2f3e5b3435f9c68aa809"
+  integrity sha512-8FmVTGcerLv1GCNk4kVvYIOI4PcR+QN7/Rx/tULjwcANd47kLfLEgTSO8WwqtnJSQqXBFuZCZ4bjyG98jOeMpA==
   dependencies:
-    "@douyinfe/semi-animation" "2.58.0"
+    "@douyinfe/semi-animation" "2.61.0"
     async-validator "^3.5.0"
     classnames "^2.2.6"
     date-fns "^2.29.3"
@@ -1260,39 +1260,37 @@
     memoize-one "^5.2.1"
     scroll-into-view-if-needed "^2.2.24"
 
-"@douyinfe/semi-icons@2.58.0":
-  version "2.58.0"
-  resolved "https://registry.yarnpkg.com/@douyinfe/semi-icons/-/semi-icons-2.58.0.tgz#b3b63b781d449db367c306fc955e4e3b751c950c"
-  integrity sha512-DV9hhAbvTahwx5XsTiLrW5TBW8c3TDnrHIDr79Pe83am+0RFVm+PkugwqtRrA1ETVcbrSu6VBpNMGaBrz5IVDg==
+"@douyinfe/semi-icons@2.61.0", "@douyinfe/semi-icons@^2.61.0":
+  version "2.61.0"
+  resolved "https://registry.yarnpkg.com/@douyinfe/semi-icons/-/semi-icons-2.61.0.tgz#0cb8ae4cd77bd335b59e057c3b89d9bbf11c1698"
+  integrity sha512-5yulqGUDvlOvZ0TMwMCyj+2c6eJScHOcgX3Xoh/5qXyajRJG6AdzjX4vjWHR8Kf5gXHw5BqmYYQy6p8OyzIRhA==
   dependencies:
     classnames "^2.2.6"
 
-"@douyinfe/semi-illustrations@2.58.0":
-  version "2.58.0"
-  resolved "https://registry.yarnpkg.com/@douyinfe/semi-illustrations/-/semi-illustrations-2.58.0.tgz#39dd5243f9efcdcd588895eb8609e61b9148b5b2"
-  integrity sha512-WMicSSvcW7VXxMVu+XqEdZ0W3jcWPZPCHslV2yM6PUao7wr6dGvdmwsH8HIBTzvh/iE886hEx60MFW5IUwaN9A==
+"@douyinfe/semi-illustrations@2.61.0":
+  version "2.61.0"
+  resolved "https://registry.yarnpkg.com/@douyinfe/semi-illustrations/-/semi-illustrations-2.61.0.tgz#6748eeeb97886f3c4079e55c86be166c6867d6af"
+  integrity sha512-iELVP0x0iwD84EAfOtot+c31+Cm/jBLbIEg/q2WTtQHMuFN414mkgmLz/tvj9+BKc+CmkdLvyu3I4rKp0iYrLA==
 
-"@douyinfe/semi-theme-default@2.58.0":
-  version "2.58.0"
-  resolved "https://registry.yarnpkg.com/@douyinfe/semi-theme-default/-/semi-theme-default-2.58.0.tgz#598ce75c93e0f32ee4558d6e00787108359dc91f"
-  integrity sha512-YDVJCa/VupAA2rAwbLKiUeMy46W8W0ZVqWWydoA2Rv8XB+65RkWY/w7D3Yg2FG0+Eg4f9/DwazD9IFUWPeIhCA==
-  dependencies:
-    glob "^7.1.6"
+"@douyinfe/semi-theme-default@2.61.0":
+  version "2.61.0"
+  resolved "https://registry.yarnpkg.com/@douyinfe/semi-theme-default/-/semi-theme-default-2.61.0.tgz#a7e9bf9534721c12af1d0eeb5d5a2de615896a23"
+  integrity sha512-obn/DOw4vZyKFAlWvZxHTpBLAK9FO9kygTSm2GROgvi+UDB2PPU6l20cuUCsdGUNWJRSqYlTTVZ1tNYIyFZ5Sg==
 
-"@douyinfe/semi-ui@^2.58.0":
-  version "2.58.0"
-  resolved "https://registry.yarnpkg.com/@douyinfe/semi-ui/-/semi-ui-2.58.0.tgz#efc9113bde06675b64ae09b111241f02c9352cda"
-  integrity sha512-UGwOlVmuZuK8n3N65R3lhhk3qcDGgw3iEyZTBb5C26NC+W56oF6mT7r+DGdLN6ui6cZJbB8dJKMiSAghb4BBXw==
+"@douyinfe/semi-ui@^2.61.0":
+  version "2.61.0"
+  resolved "https://registry.yarnpkg.com/@douyinfe/semi-ui/-/semi-ui-2.61.0.tgz#231a0b4cf9a2b5b96f2258c6934a2b4fef84aee4"
+  integrity sha512-PkvifyIDKxs61bPXMjuPJkLYYoiS9ljCk7OGeMueKnsZQBJhtmRgIHBxgtu9mkNuMC7kVBA2/fUwGfPnosq3dA==
   dependencies:
     "@dnd-kit/core" "^6.0.8"
     "@dnd-kit/sortable" "^7.0.2"
     "@dnd-kit/utilities" "^3.2.1"
-    "@douyinfe/semi-animation" "2.58.0"
-    "@douyinfe/semi-animation-react" "2.58.0"
-    "@douyinfe/semi-foundation" "2.58.0"
-    "@douyinfe/semi-icons" "2.58.0"
-    "@douyinfe/semi-illustrations" "2.58.0"
-    "@douyinfe/semi-theme-default" "2.58.0"
+    "@douyinfe/semi-animation" "2.61.0"
+    "@douyinfe/semi-animation-react" "2.61.0"
+    "@douyinfe/semi-foundation" "2.61.0"
+    "@douyinfe/semi-icons" "2.61.0"
+    "@douyinfe/semi-illustrations" "2.61.0"
+    "@douyinfe/semi-theme-default" "2.61.0"
     async-validator "^3.5.0"
     classnames "^2.2.6"
     copy-text-to-clipboard "^2.1.1"

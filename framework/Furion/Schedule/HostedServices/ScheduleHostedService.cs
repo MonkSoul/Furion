@@ -391,7 +391,7 @@ internal sealed class ScheduleHostedService : BackgroundService
                             }
 
                             // 记录作业触发器运行信息
-                            await trigger.RecordTimelineAsync(_schedulerFactory, jobId);
+                            await trigger.RecordTimelineAsync(_schedulerFactory, jobId, executionException?.ToString());
 
                             // 重置触发模式
                             trigger.Mode = 0;

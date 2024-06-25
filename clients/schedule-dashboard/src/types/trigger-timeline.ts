@@ -40,5 +40,10 @@ export declare interface TriggerTimeline {
   /**
    * 触发方式
    */
-  mode?:number|null;
+  mode?: number | null;
+
+  /**
+   * 异常信息
+   */
+  exception?: string | null;
 }

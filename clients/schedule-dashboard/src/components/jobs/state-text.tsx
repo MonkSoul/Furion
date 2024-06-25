@@ -1,4 +1,5 @@
-import { Popover, Space, Tag } from "@douyinfe/semi-ui";
+import { IconUploadError } from "@douyinfe/semi-icons";
+import { Popover, Space, Tag, Tooltip } from "@douyinfe/semi-ui";
 import { ReactNode } from "react";
 
 const status = {
@@ -22,7 +23,10 @@ const status = {
  * @param props
  * @returns
  */
-export default function StatusText(props: { value: number }) {
+export default function StatusText(props: {
+  value: number;
+  showError?: boolean;
+}) {
   const { value } = props;
 
   const createTagStatus = () => {
@@ -59,12 +63,19 @@ export default function StatusText(props: { value: number }) {
       showArrow
       zIndex={10000000001}
     >
-      <Tag
-        color={value === 3 ? "red" : "light-blue"}
-        type={value === 3 ? "solid" : "light"}
-      >
-        {(status as any)[value.toString()]}
-      </Tag>
+      <Space>
+        <Tag
+          color={value === 3 ? "red" : "light-blue"}
+          type={value === 3 ? "solid" : "light"}
+        >
+          {(status as any)[value.toString()]}
+        </Tag>
+        {props.showError === true && value === 5 && (
+          <Tooltip content="有异常">
+            <IconUploadError style={{ color: "red" }} />
+          </Tooltip>
+        )}
+      </Space>
     </Popover>
   );
 }
