@@ -113,7 +113,9 @@ export default function RenderValue(props: {
     /**
      * 处理状态
      */
-    preview = <StatusText value={Number(value)} showError />;
+    preview = (
+      <StatusText value={Number(value)} showError onErrorClick={showDialog} />
+    );
   } else if (
     prop === "startNow" ||
     prop === "runOnStart" ||

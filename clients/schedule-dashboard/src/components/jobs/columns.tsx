@@ -1,5 +1,6 @@
 import {
   IconDelete,
+  IconLink,
   IconMore,
   IconPlayCircle,
   IconStop,
@@ -108,6 +109,19 @@ const columns: ColumnProps<JobDetail>[] = [
                 <StatusText value={3} />
               </span>
             )}
+          {(jobDetail.jobType === "Furion.Schedule.HttpJob" ||
+            jobDetail.jobType === "Furion.Pure.Schedule.HttpJob") && (
+            <Tooltip content="HTTP 作业">
+              <IconLink
+                style={{
+                  marginLeft: 5,
+                  position: "relative",
+                  top: 4,
+                  color: "#999",
+                }}
+              />
+            </Tooltip>
+          )}
         </>
       );
     },

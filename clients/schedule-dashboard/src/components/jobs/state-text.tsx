@@ -26,6 +26,7 @@ const status = {
 export default function StatusText(props: {
   value: number;
   showError?: boolean;
+  onErrorClick?: VoidFunction;
 }) {
   const { value } = props;
 
@@ -53,30 +54,33 @@ export default function StatusText(props: {
   };
 
   return (
-    <Popover
-      content={
-        <div>
-          <Space vertical>{createTagStatus()}</Space>
-        </div>
-      }
-      position="right"
-      showArrow
-      zIndex={10000000001}
-    >
-      <Space>
+    <Space>
+      <Popover
+        content={
+          <div>
+            <Space vertical>{createTagStatus()}</Space>
+          </div>
+        }
+        position="right"
+        showArrow
+        zIndex={10000000001}
+      >
         <Tag
           color={value === 3 ? "red" : "light-blue"}
           type={value === 3 ? "solid" : "light"}
         >
           {(status as any)[value.toString()]}
         </Tag>
-        {props.showError === true && value === 5 && (
-          <Tooltip content="有异常">
-            <IconUploadError style={{ color: "red" }} />
-          </Tooltip>
-        )}
-      </Space>
-    </Popover>
+      </Popover>
+      {props.showError === true && value === 5 && (
+        <Tooltip content="有异常">
+          <IconUploadError
+            style={{ color: "red", cursor: "pointer" }}
+            onClick={props.onErrorClick}
+          />
+        </Tooltip>
+      )}
+    </Space>
   );
 }
 
