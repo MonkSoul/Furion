@@ -48,6 +48,47 @@ public static class IEnumerableExtensions
     }
 
     /// <summary>
+    /// 根据条件构建 Where 查询
+    /// </summary>
+    /// <typeparam name="TSource">泛型类型</typeparam>
+    /// <param name="sources">集合对象</param>
+    /// <param name="condition">布尔条件</param>
+    /// <param name="trueExpression">条件为 true 的表达式</param>
+    /// <param name="falseExpression">条件为 false 的表达式</param>
+    /// <returns>新的集合对象</returns>
+    public static IQueryable<TSource> WhereCase<TSource>(this IQueryable<TSource> sources, bool condition
+        , Expression<Func<TSource, bool>> trueExpression
+        , Expression<Func<TSource, bool>> falseExpression)
+    {
+        return condition
+            ? Queryable.Where(sources, trueExpression)
+            : Queryable.Where(sources, falseExpression);
+    }
+
+    /// <summary>
+    /// 根据条件构建 Where 查询
+    /// </summary>
+    /// <typeparam name="TSource">泛型类型</typeparam>
+    /// <param name="sources">集合对象</param>
+    /// <param name="condition">布尔条件</param>
+    /// <param name="trueExpression">条件为 true 的表达式</param>
+    /// <param name="falseExpression">条件为 false 的表达式</param>
+    /// <param name="nullExpression">条件为 null 的表达式</param>
+    /// <returns>新的集合对象</returns>
+    public static IQueryable<TSource> WhereCase<TSource>(this IQueryable<TSource> sources, bool? condition
+        , Expression<Func<TSource, bool>> trueExpression
+        , Expression<Func<TSource, bool>> falseExpression
+        , Expression<Func<TSource, bool>> nullExpression)
+    {
+        if (condition == null)
+        {
+            return Queryable.Where(sources, nullExpression);
+        }
+
+        return sources.WhereCase(condition.Value, trueExpression, falseExpression);
+    }
+
+    /// <summary>
     /// 根据条件成立再构建 Where 查询，支持索引器
     /// </summary>
     /// <typeparam name="TSource">泛型类型</typeparam>
