@@ -235,13 +235,13 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory
                                   from runJob in newRunJobs.DefaultIfEmpty()
                                   where job.JobId == runJob.JobId
                                   select new Scheduler(job.JobDetail, job.Triggers.Values
-                                    .Where(t => string.IsNullOrWhiteSpace(runJob.TriggerId) || (t.JobId == runJob.JobId && t.TriggerId == runJob.TriggerId))
-                                    .Select(t =>
-                                    {
-                                        t.Mode = 1;
-                                        return t;
-                                    })
-                                    .ToDictionary(t => t.TriggerId, t => t))
+                                  .Where(t => string.IsNullOrWhiteSpace(runJob.TriggerId) || (t.JobId == runJob.JobId && t.TriggerId == runJob.TriggerId))
+                                  .Select(t =>
+                                  {
+                                      t.Mode = 1;
+                                      return t;
+                                  })
+                                  .ToDictionary(t => t.TriggerId, t => t))
                                   {
                                       Factory = job.Factory,
                                       Logger = job.Logger,
@@ -342,9 +342,7 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory
             // 调用事件委托
             OnChanged?.Invoke(this, new(jobDetail));
         }
-        catch
-        {
-        }
+        catch { }
     }
 
     /// <summary>
@@ -465,9 +463,7 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory
             // 调用事件委托
             OnExecutionRecord?.Invoke(this, new(context));
         }
-        catch
-        {
-        }
+        catch { }
     }
 
     /// <summary>

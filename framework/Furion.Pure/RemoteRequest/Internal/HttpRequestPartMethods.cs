@@ -955,6 +955,7 @@ public sealed partial class HttpRequestPart
                 break;
 
             case "application/octet-stream":
+            case "application/pdf":
                 if (Files.Count > 0 && Files[0].Bytes.Length > 0)
                 {
                     httpContent = new ByteArrayContent(Files[0].Bytes);

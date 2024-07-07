@@ -35,6 +35,16 @@ namespace Furion.Schedule;
 public class HttpJob : IJob
 {
     /// <summary>
+    /// 无效 HTTP 请求错误消息
+    /// </summary>
+    private const string INVALID_HTTP_ERROR_MESSAGE = "Invalid HTTP job request. (Parameter 'RequestUri')";
+
+    /// <summary>
+    /// 默认请求 User-Agent
+    /// </summary>
+    private const string DEFAULT_HTTP_USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.5112.81 Safari/537.36 Edg/104.0.1293.47";
+
+    /// <summary>
     /// <see cref="HttpClient"/> 创建工厂
     /// </summary>
     private readonly IHttpClientFactory _httpClientFactory;
@@ -72,8 +82,8 @@ public class HttpJob : IJob
         // 空检查
         if (httpJobMessage == null || string.IsNullOrWhiteSpace(httpJobMessage.RequestUri))
         {
-            _logger.LogWarning("Invalid HTTP job request. (Parameter 'RequestUri')");
-            context.Result = "Invalid HTTP job request. (Parameter 'RequestUri')";
+            _logger.LogWarning(INVALID_HTTP_ERROR_MESSAGE);
+            context.Result = INVALID_HTTP_ERROR_MESSAGE;
 
             return;
         }
@@ -88,7 +98,7 @@ public class HttpJob : IJob
         }
 
         // 添加请求报文头 User-Agent
-        httpClient.DefaultRequestHeaders.Add("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.5112.81 Safari/537.36 Edg/104.0.1293.47");
+        httpClient.DefaultRequestHeaders.Add("User-Agent", DEFAULT_HTTP_USER_AGENT);
 
         // 创建请求对象
         using var httpRequestMessage = new HttpRequestMessage(httpJobMessage.HttpMethod, httpJobMessage.RequestUri);
@@ -100,6 +110,7 @@ public class HttpJob : IJob
         {
             var stringContent = new StringContent(httpJobMessage.Body, Encoding.UTF8);
             stringContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+
             httpRequestMessage.Content = stringContent;
         }
 
@@ -121,16 +132,22 @@ public class HttpJob : IJob
             httpResponseMessage = httpResponseMessage.EnsureSuccessStatusCode();
         }
 
-        // 解析返回值
-        var bodyString = await httpResponseMessage.Content.ReadAsStringAsync(stoppingToken);
+        // 是否解析返回值并打印
+        string responseContent;
+        if (httpJobMessage.PrintResponseContent)
+        {
+            // 解析返回值
+            responseContent = await httpResponseMessage.Content.ReadAsStringAsync(stoppingToken);
 
-        // 输出日志
-        _logger.LogInformation($"Received HTTP response body with a length of <{bodyString.Length}> output as follows - {(int)httpResponseMessage.StatusCode}{Environment.NewLine}{bodyString}");
+            // 输出日志
+            _logger.LogInformation($"Received HTTP response body with a length of <{responseContent.Length}> output as follows - {(int)httpResponseMessage.StatusCode}{Environment.NewLine}{responseContent}");
+        }
+        else responseContent = "OK";
 
         // 设置本次执行结果
         context.Result = Penetrates.Serialize(new {
             httpResponseMessage.StatusCode,
-            Body = bodyString
+            Body = responseContent
         });
 
         // 释放响应报文对象

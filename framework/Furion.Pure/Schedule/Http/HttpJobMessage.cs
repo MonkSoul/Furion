@@ -69,6 +69,12 @@ public sealed class HttpJobMessage
     public int? Timeout { get; set; }
 
     /// <summary>
+    /// 是否打印 HTTP 响应内容
+    /// </summary>
+    /// <remarks>默认 true（打印）</remarks>
+    public bool PrintResponseContent { get; set; } = true;
+
+    /// <summary>
     /// 作业组名称
     /// </summary>
     [JsonIgnore]
