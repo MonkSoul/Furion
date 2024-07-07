@@ -142,7 +142,7 @@ public class HttpJob : IJob
             // 输出日志
             _logger.LogInformation($"Received HTTP response body with a length of <{responseContent.Length}> output as follows - {(int)httpResponseMessage.StatusCode}{Environment.NewLine}{responseContent}");
         }
-        else responseContent = "OK";
+        else responseContent = "COMPLETED";
 
         // 设置本次执行结果
         context.Result = Penetrates.Serialize(new {
