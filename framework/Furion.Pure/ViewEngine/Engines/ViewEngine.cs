@@ -47,7 +47,7 @@ public class ViewEngine : IViewEngine
     /// <returns></returns>
     public string RunCompile(string content, object model = null, Action<IViewEngineOptionsBuilder> builderAction = null)
     {
-        var template = Compile(content, builderAction);
+        using var template = Compile(content, builderAction);
         var result = template.Run(model);
         return result;
     }
@@ -61,7 +61,7 @@ public class ViewEngine : IViewEngine
     /// <returns></returns>
     public async Task<string> RunCompileAsync(string content, object model = null, Action<IViewEngineOptionsBuilder> builderAction = null)
     {
-        var template = await CompileAsync(content, builderAction);
+        using var template = await CompileAsync(content, builderAction);
         var result = await template.RunAsync(model);
         return result;
     }
@@ -77,7 +77,7 @@ public class ViewEngine : IViewEngine
     public string RunCompile<T>(string content, T model, Action<IViewEngineOptionsBuilder> builderAction = null)
         where T : class, new()
     {
-        var template = Compile<ViewEngineModel<T>>(content, builderAction);
+        using var template = Compile<ViewEngineModel<T>>(content, builderAction);
         var result = template.Run(u =>
         {
             u.Model = model;
@@ -96,7 +96,7 @@ public class ViewEngine : IViewEngine
     public async Task<string> RunCompileAsync<T>(string content, T model, Action<IViewEngineOptionsBuilder> builderAction = null)
         where T : class, new()
     {
-        var template = await CompileAsync<ViewEngineModel<T>>(content, builderAction);
+        using var template = await CompileAsync<ViewEngineModel<T>>(content, builderAction);
         var result = await template.RunAsync(u =>
         {
             u.Model = model;
@@ -116,18 +116,29 @@ public class ViewEngine : IViewEngine
     {
         var fileName = cacheFileName ?? MD5Encryption.Encrypt(content);
 
-        IViewEngineTemplate template;
+        IViewEngineTemplate template = null;
 
-        if (File.Exists(Penetrates.GetTemplateFileName(fileName)))
-            template = ViewEngineTemplate.LoadFromFile(fileName);
-        else
+        try
         {
-            template = Compile(content, builderAction);
-            template.SaveToFile(fileName);
-        }
+            if (File.Exists(Penetrates.GetTemplateFileName(fileName)))
+                template = ViewEngineTemplate.LoadFromFile(fileName);
+            else
+            {
+                template = Compile(content, builderAction);
+                template.SaveToFile(fileName);
+            }
 
-        var result = template.Run(model);
-        return result;
+            var result = template.Run(model);
+            return result;
+        }
+        catch (Exception)
+        {
+            throw;
+        }
+        finally
+        {
+            template?.Dispose();
+        }
     }
 
     /// <summary>
@@ -142,18 +153,29 @@ public class ViewEngine : IViewEngine
     {
         var fileName = cacheFileName ?? MD5Encryption.Encrypt(content);
 
-        IViewEngineTemplate template;
+        IViewEngineTemplate template = null;
 
-        if (File.Exists(Penetrates.GetTemplateFileName(fileName)))
-            template = await ViewEngineTemplate.LoadFromFileAsync(fileName);
-        else
+        try
         {
-            template = await CompileAsync(content, builderAction);
-            await template.SaveToFileAsync(fileName);
-        }
+            if (File.Exists(Penetrates.GetTemplateFileName(fileName)))
+                template = await ViewEngineTemplate.LoadFromFileAsync(fileName);
+            else
+            {
+                template = await CompileAsync(content, builderAction);
+                await template.SaveToFileAsync(fileName);
+            }
 
-        var result = await template.RunAsync(model);
-        return result;
+            var result = await template.RunAsync(model);
+            return result;
+        }
+        catch (Exception)
+        {
+            throw;
+        }
+        finally
+        {
+            template?.Dispose();
+        }
     }
 
     /// <summary>
@@ -170,21 +192,32 @@ public class ViewEngine : IViewEngine
     {
         var fileName = cacheFileName ?? MD5Encryption.Encrypt(content);
 
-        IViewEngineTemplate<ViewEngineModel<T>> template;
+        IViewEngineTemplate<ViewEngineModel<T>> template = null;
 
-        if (File.Exists(Penetrates.GetTemplateFileName(fileName)))
-            template = ViewEngineTemplate<ViewEngineModel<T>>.LoadFromFile(fileName);
-        else
+        try
         {
-            template = Compile<ViewEngineModel<T>>(content, builderAction);
-            template.SaveToFile(fileName);
+            if (File.Exists(Penetrates.GetTemplateFileName(fileName)))
+                template = ViewEngineTemplate<ViewEngineModel<T>>.LoadFromFile(fileName);
+            else
+            {
+                template = Compile<ViewEngineModel<T>>(content, builderAction);
+                template.SaveToFile(fileName);
+            }
+
+            var result = template.Run(u =>
+            {
+                u.Model = model;
+            });
+            return result;
         }
-
-        var result = template.Run(u =>
+        catch (Exception)
         {
-            u.Model = model;
-        });
-        return result;
+            throw;
+        }
+        finally
+        {
+            template?.Dispose();
+        }
     }
 
     /// <summary>
@@ -200,21 +233,32 @@ public class ViewEngine : IViewEngine
     {
         var fileName = cacheFileName ?? MD5Encryption.Encrypt(content);
 
-        IViewEngineTemplate<ViewEngineModel<T>> template;
+        IViewEngineTemplate<ViewEngineModel<T>> template = null;
 
-        if (File.Exists(Penetrates.GetTemplateFileName(fileName)))
-            template = await ViewEngineTemplate<ViewEngineModel<T>>.LoadFromFileAsync(fileName);
-        else
+        try
         {
-            template = await CompileAsync<ViewEngineModel<T>>(content, builderAction);
-            await template.SaveToFileAsync(fileName);
+            if (File.Exists(Penetrates.GetTemplateFileName(fileName)))
+                template = await ViewEngineTemplate<ViewEngineModel<T>>.LoadFromFileAsync(fileName);
+            else
+            {
+                template = await CompileAsync<ViewEngineModel<T>>(content, builderAction);
+                await template.SaveToFileAsync(fileName);
+            }
+
+            var result = await template.RunAsync(u =>
+            {
+                u.Model = model;
+            });
+            return result;
         }
-
-        var result = await template.RunAsync(u =>
+        catch (Exception)
         {
-            u.Model = model;
-        });
-        return result;
+            throw;
+        }
+        finally
+        {
+            template?.Dispose();
+        }
     }
 
     /// <summary>
