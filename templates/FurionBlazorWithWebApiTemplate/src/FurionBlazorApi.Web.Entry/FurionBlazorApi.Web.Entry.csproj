@@ -44,7 +44,7 @@
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(net6)' == 'True' ">
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.31">
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.32">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
@@ -58,14 +58,14 @@
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(net8)' == 'True' ">
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.6">
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.7">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(net9)' == 'True' ">
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.0-preview.5.24306.3">
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.0-preview.6.24327.4">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>

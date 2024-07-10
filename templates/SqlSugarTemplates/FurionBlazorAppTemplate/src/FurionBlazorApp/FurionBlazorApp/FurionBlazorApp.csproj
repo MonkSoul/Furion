@@ -18,11 +18,11 @@
   </ItemGroup>
 
   <ItemGroup Condition="'$(net8)' == 'True' ">
-    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="8.0.6" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="8.0.7" />
 	</ItemGroup>
 
   <ItemGroup Condition="'$(net9)' == 'True' ">
-    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="9.0.0-preview.5.24306.11" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="9.0.0-preview.6.24328.4" />
 	</ItemGroup>
 
 </Project>
