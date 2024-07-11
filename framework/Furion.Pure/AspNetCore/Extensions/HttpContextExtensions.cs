@@ -151,7 +151,7 @@ public static class HttpContextExtensions
         return new StringBuilder()
                 .Append(request.Scheme)
                 .Append("://")
-                .Append(request.Host)
+                .Append(request.Host.Value)
                 .Append(request.PathBase)
                 .Append(request.Path)
                 .Append(request.QueryString)
