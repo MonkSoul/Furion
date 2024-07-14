@@ -164,6 +164,11 @@ public static class UnifyContext
     public static void Fill(object extras)
     {
         var items = App.HttpContext?.Items;
+        if (items == null)
+        {
+            return;
+        }
+
         if (items.ContainsKey(UnifyResultExtrasKey)) items.Remove(UnifyResultExtrasKey);
         items.Add(UnifyResultExtrasKey, extras);
     }

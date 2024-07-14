@@ -213,6 +213,17 @@ public class TestLoggerServices : IDynamicApiController
             _logger.LogInformation($"这是绿色 {i}", i);
         });
     }
+
+    [LoggingMonitor]
+    public void 测试日志监听附加信息()
+    {
+        LoggingMonitorContext.Append((items, httpContext) =>
+        {
+            items.Add("框架作者", "百小僧");
+            items.Add("框架名称", "Furion");
+            items.Add("User-Agent", httpContext.Request.Headers.UserAgent); // 支持解析 HttpContext
+        });
+    }
 }
 
 public class WithLong
