@@ -598,6 +598,9 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter, IAs
         }
         writer.WriteEndObject();
 
+        // 移除内存占用
+        httpContext.Items.Remove(LoggingMonitorContext.KEY);
+
         return templates;
     }
 
