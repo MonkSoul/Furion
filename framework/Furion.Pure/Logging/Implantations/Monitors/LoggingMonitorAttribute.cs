@@ -894,6 +894,10 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter, IAs
         var requestUrl = Uri.UnescapeDataString(httpRequest.GetRequestUrlAddress());
         writer.WriteString(nameof(requestUrl), requestUrl);
 
+        // 获取请求 HTTP 协议
+        var protocol = Uri.UnescapeDataString(httpRequest.Protocol);
+        writer.WriteString(nameof(protocol), protocol);
+
         // 获取来源 Url 地址
         var refererUrl = Uri.UnescapeDataString(httpRequest.GetRefererUrlAddress());
         writer.WriteString(nameof(refererUrl), refererUrl);
@@ -1011,6 +1015,7 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter, IAs
             , $"##路由信息## [area]: {areaName}; [controller]: {controllerName}; [action]: {actionName}"
             , $"##请求方式## {httpMethod}"
             , $"##请求地址## {requestUrl}"
+            , $"##HTTP 协议## {protocol}"
             , $"##来源地址## {refererUrl}"
             , $"##请求端源## {requestFrom}"
             , $"##浏览器标识## {userAgent}"
