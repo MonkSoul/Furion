@@ -52,9 +52,25 @@ public class SystemTextJsonDateTimeJsonConverter : JsonConverter<DateTime>
     }
 
     /// <summary>
+    /// 构造函数
+    /// </summary>
+    /// <param name="format"></param>
+    /// <param name="outputToLocalDateTime"></param>
+    public SystemTextJsonDateTimeJsonConverter(string format = "yyyy-MM-dd HH:mm:ss", bool outputToLocalDateTime = false)
+        : this(format)
+    {
+        Localized = outputToLocalDateTime;
+    }
+
+    /// <summary>
     /// 时间格式化格式
     /// </summary>
     public string Format { get; private set; }
+
+    /// <summary>
+    /// 是否输出为为当地时间
+    /// </summary>
+    public bool Localized { get; private set; } = false;
 
     /// <summary>
     /// 反序列化
@@ -76,7 +92,9 @@ public class SystemTextJsonDateTimeJsonConverter : JsonConverter<DateTime>
     /// <param name="options"></param>
     public override void Write(Utf8JsonWriter writer, DateTime value, JsonSerializerOptions options)
     {
-        writer.WriteStringValue(value.ToString(Format));
+        // 判断是否序列化成当地时间
+        var formatDateTime = Localized ? value.ToLocalTime() : value;
+        writer.WriteStringValue(formatDateTime.ToString(Format));
     }
 }
 
@@ -104,9 +122,25 @@ public class SystemTextJsonNullableDateTimeJsonConverter : JsonConverter<DateTim
     }
 
     /// <summary>
+    /// 构造函数
+    /// </summary>
+    /// <param name="format"></param>
+    /// <param name="outputToLocalDateTime"></param>
+    public SystemTextJsonNullableDateTimeJsonConverter(string format = "yyyy-MM-dd HH:mm:ss", bool outputToLocalDateTime = false)
+        : this(format)
+    {
+        Localized = outputToLocalDateTime;
+    }
+
+    /// <summary>
     /// 时间格式化格式
     /// </summary>
     public string Format { get; private set; }
+
+    /// <summary>
+    /// 是否输出为为当地时间
+    /// </summary>
+    public bool Localized { get; private set; } = false;
 
     /// <summary>
     /// 反序列化
@@ -129,6 +163,11 @@ public class SystemTextJsonNullableDateTimeJsonConverter : JsonConverter<DateTim
     public override void Write(Utf8JsonWriter writer, DateTime? value, JsonSerializerOptions options)
     {
         if (value == null) writer.WriteNullValue();
-        else writer.WriteStringValue(value.Value.ToString(Format));
+        else
+        {
+            // 判断是否序列化成当地时间
+            var formatDateTime = Localized ? value.Value.ToLocalTime() : value.Value;
+            writer.WriteStringValue(formatDateTime.ToString(Format));
+        }
     }
 }

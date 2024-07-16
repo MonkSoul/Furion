@@ -29,7 +29,7 @@ public sealed class Startup : AppStartup
                 .AddAppLocalization()
                 .AddJsonOptions(options =>
                 {
-                    options.JsonSerializerOptions.Converters.AddDateTimeTypeConverters();
+                    options.JsonSerializerOptions.Converters.AddDateTimeTypeConverters(localized: true);
                     options.JsonSerializerOptions.Converters.AddClayConverters();
 
                     options.JsonSerializerOptions.Converters.AddDateOnlyConverters("yyyy-MM-dd");

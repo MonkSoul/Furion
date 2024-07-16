@@ -39,12 +39,12 @@ public static class SystemTextJsonExtensions
     /// </summary>
     /// <param name="converters"></param>
     /// <param name="outputFormat"></param>
-    /// <param name="localized">自动转换 DateTimeOffset 为当地时间</param>
+    /// <param name="localized">自动转换 DateTime/DateTimeOffset 为当地时间</param>
     /// <returns></returns>
     public static IList<JsonConverter> AddDateTimeTypeConverters(this IList<JsonConverter> converters, string outputFormat = "yyyy-MM-dd HH:mm:ss", bool localized = false)
     {
-        converters.Add(new SystemTextJsonDateTimeJsonConverter(outputFormat));
-        converters.Add(new SystemTextJsonNullableDateTimeJsonConverter(outputFormat));
+        converters.Add(new SystemTextJsonDateTimeJsonConverter(outputFormat, localized));
+        converters.Add(new SystemTextJsonNullableDateTimeJsonConverter(outputFormat, localized));
 
         converters.Add(new SystemTextJsonDateTimeOffsetJsonConverter(outputFormat, localized));
         converters.Add(new SystemTextJsonNullableDateTimeOffsetJsonConverter(outputFormat, localized));

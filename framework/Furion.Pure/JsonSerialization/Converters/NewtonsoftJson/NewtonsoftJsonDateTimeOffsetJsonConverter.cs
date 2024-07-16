@@ -23,7 +23,6 @@
 // 请访问 https://gitee.com/dotnetchina/Furion 获取更多关于 Furion 项目的许可证和版权信息。
 // ------------------------------------------------------------------------
 
-using Furion.Extensions;
 using Newtonsoft.Json;
 
 namespace Furion.JsonSerialization;
@@ -97,7 +96,7 @@ public class NewtonsoftJsonDateTimeOffsetJsonConverter : JsonConverter<DateTimeO
     public override void WriteJson(JsonWriter writer, DateTimeOffset value, JsonSerializer serializer)
     {
         // 判断是否序列化成当地时间
-        var formatDateTime = Localized ? value.ConvertToDateTime() : value;
+        var formatDateTime = Localized ? value.ToLocalTime() : value;
         writer.WriteValue(formatDateTime.ToString(Format));
     }
 }
@@ -174,8 +173,8 @@ public class NewtonsoftJsonNullableDateTimeOffsetJsonConverter : JsonConverter<D
         else
         {
             // 判断是否序列化成当地时间
-            var formatDateTime = Localized ? value.ConvertToDateTime() : value;
-            writer.WriteValue(formatDateTime.Value.ToString(Format));
+            var formatDateTime = Localized ? value.Value.ToLocalTime() : value.Value;
+            writer.WriteValue(formatDateTime.ToString(Format));
         }
     }
 }
