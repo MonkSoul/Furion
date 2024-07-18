@@ -200,6 +200,21 @@ export default function RenderValue(props: {
         </Tag>
       </>
     );
+  } else if (
+    prop === "updatedTime" ||
+    prop === "startTime" ||
+    prop === "endTime"
+  ) {
+    /**
+     * 处理其他时间
+     */
+    preview = value ? (
+      <>
+        {dayTime(value).format("YYYY/MM/DD HH:mm:ss")} ({dayFromNow(value)})
+      </>
+    ) : (
+      <span></span>
+    );
   } else
     preview = (
       <span style={{ wordBreak: "break-all" }}>{value?.toString() || ""}</span>

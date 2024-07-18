@@ -96,7 +96,7 @@ public sealed class Startup : AppStartup
             options.GroupSet("group2", () =>
             {
                 options.AddJob<TestJob>(Triggers.PeriodHours(1)
-                    .SetStartTime(Convert.ToDateTime("2024-03-07 01:15:00"))
+                    .SetStartTime(DateTime.Now.AddMonths(-2))
                     .SetRunOnStart(true));
             });
 

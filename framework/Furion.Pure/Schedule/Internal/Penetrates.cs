@@ -83,11 +83,10 @@ internal static class Penetrates
     /// <summary>
     /// 获取当前时间
     /// </summary>
-    /// <param name="useUtcTimestamp">是否使用 UTC 时间</param>
     /// <returns><see cref="DateTime"/></returns>
-    internal static DateTime GetNowTime(bool useUtcTimestamp)
+    internal static DateTime GetNowTime()
     {
-        return GetUnspecifiedTime(useUtcTimestamp ? DateTime.UtcNow : DateTime.Now);
+        return GetUnspecifiedTime(!ScheduleOptionsBuilder.UseUtcTimestampProperty ? DateTime.Now : DateTime.UtcNow);
     }
 
     /// <summary>
@@ -99,12 +98,13 @@ internal static class Penetrates
     {
         // 采用 DateTimeKind.Unspecified 转换当前时间并忽略毫秒之后部分（用于减少误差）
         return new DateTime(dateTime.Year
-            , dateTime.Month
-            , dateTime.Day
-            , dateTime.Hour
-            , dateTime.Minute
-            , dateTime.Second
-            , dateTime.Millisecond);
+                , dateTime.Month
+                , dateTime.Day
+                , dateTime.Hour
+                , dateTime.Minute
+                , dateTime.Second
+                , dateTime.Millisecond
+                , !ScheduleOptionsBuilder.UseUtcTimestampProperty ? DateTimeKind.Local : DateTimeKind.Utc);
     }
 
     /// <summary>
@@ -298,16 +298,5 @@ internal static class Penetrates
     {
         var assembly = AppDomain.CurrentDomain.GetAssemblies().FirstOrDefault(ass => ass.GetName().Name == assemblyName);
         return assembly ?? Assembly.Load(assemblyName);
-    }
-
-    /// <summary>
-    /// 获取本地时间和 UTC 时间相差小时
-    /// </summary>
-    /// <returns>相差小时数</returns>
-    internal static string GetDateTimeOffsetHours()
-    {
-        var offset = TimeZoneInfo.Local.GetUtcOffset(DateTime.Now);
-        var offsetString = ((int)offset.TotalHours).ToString();
-        return $"+{offsetString.PadLeft(2, '0')}";
     }
 }

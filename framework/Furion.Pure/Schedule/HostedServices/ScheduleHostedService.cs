@@ -174,7 +174,7 @@ internal sealed class ScheduleHostedService : BackgroundService
     private async Task BackgroundProcessing(CancellationToken stoppingToken)
     {
         // 获取当前时间作为检查时间
-        var startAt = Penetrates.GetNowTime(ScheduleOptionsBuilder.UseUtcTimestampProperty);
+        var startAt = Penetrates.GetNowTime();
 
         // 查找所有符合触发的作业
         var currentRunJobs = _schedulerFactory.GetCurrentRunJobs(startAt).Cast<Scheduler>().ToList();
@@ -232,7 +232,7 @@ internal sealed class ScheduleHostedService : BackgroundService
                         // 创建作业执行前上下文
                         var jobExecutingContext = new JobExecutingContext(jobDetail, trigger, occurrenceTime, runId, serviceScoped.ServiceProvider)
                         {
-                            ExecutingTime = Penetrates.GetNowTime(ScheduleOptionsBuilder.UseUtcTimestampProperty),
+                            ExecutingTime = Penetrates.GetNowTime(),
                             Mode = trigger.Mode
                         };
 
@@ -336,7 +336,7 @@ internal sealed class ScheduleHostedService : BackgroundService
                                 // 创建作业执行后上下文
                                 var jobExecutedContext = new JobExecutedContext(jobDetail, trigger, occurrenceTime, runId, serviceScoped.ServiceProvider)
                                 {
-                                    ExecutedTime = Penetrates.GetNowTime(ScheduleOptionsBuilder.UseUtcTimestampProperty),
+                                    ExecutedTime = Penetrates.GetNowTime(),
                                     Exception = executionException,
                                     Result = jobExecutingContext.Result,
                                     Mode = trigger.Mode

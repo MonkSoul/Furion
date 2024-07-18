@@ -357,7 +357,7 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory
         if (jobDetail.DynamicExecuteAsync != null) return;
 
         // 设置更新时间
-        var nowTime = Penetrates.GetNowTime(ScheduleOptionsBuilder.UseUtcTimestampProperty);
+        var nowTime = Penetrates.GetNowTime();
         jobDetail.UpdatedTime = nowTime;
         if (trigger != null) trigger.UpdatedTime = nowTime;
 

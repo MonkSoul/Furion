@@ -185,7 +185,7 @@ internal sealed partial class SchedulerFactory
         jobId = newScheduler.JobId;
 
         // 获取当前时间用来计算触发器下一次触发时间
-        var nowTime = Penetrates.GetNowTime(ScheduleOptionsBuilder.UseUtcTimestampProperty);
+        var nowTime = Penetrates.GetNowTime();
 
         // 处理新增作业和更新作业的情况
         if (isAppended || isUpdated)

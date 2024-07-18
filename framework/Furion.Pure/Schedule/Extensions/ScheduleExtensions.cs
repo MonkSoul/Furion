@@ -240,8 +240,7 @@ public static class ScheduleExtensions
     /// <returns><see cref="string"/></returns>
     internal static string ToUnspecifiedString(this DateTime dateTime)
     {
-        var fromDate = dateTime.ToString("yyyy-MM-dd HH:mm:ss.fff");
-        return !ScheduleOptionsBuilder.UseUtcTimestampProperty ? $"{fromDate}{Penetrates.GetDateTimeOffsetHours()}" : fromDate;
+        return dateTime.ToString("yyyy-MM-dd HH:mm:ss.fff zzz");
     }
 
     /// <summary>

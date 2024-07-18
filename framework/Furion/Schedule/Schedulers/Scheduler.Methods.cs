@@ -474,7 +474,7 @@ internal sealed partial class Scheduler
     public void Start()
     {
         // 获取当前时间用来计算触发器下一次触发时间
-        var nowTime = Penetrates.GetNowTime(ScheduleOptionsBuilder.UseUtcTimestampProperty);
+        var nowTime = Penetrates.GetNowTime();
 
         // 逐条启用所有作业触发器
         foreach (var (_, trigger) in Triggers)

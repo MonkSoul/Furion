@@ -24,27 +24,31 @@ export function dayFromNow(date: dayjs.ConfigType) {
   return dayTime(date).fromNow();
 }
 
-export function findMaxUtcTimeString(utcTimeStrings: string[]) {
+export function findMinUtcTimeString(utcTimeStrings: string[]) {
   if (utcTimeStrings.length === 0) {
     throw new Error("数组不能为空");
   }
 
-  let maxDate = null;
-  let maxTimeString = "";
+  let minDate = new Date(utcTimeStrings[0]);
+  let minTimeString = utcTimeStrings[0];
 
-  for (let i = 0; i < utcTimeStrings.length; i++) {
+  if (isNaN(minDate.getTime())) {
+    throw new Error(`无效的UTC时间字符串: ${utcTimeStrings[0]}`);
+  }
+
+  for (let i = 1; i < utcTimeStrings.length; i++) {
     const timeString = utcTimeStrings[i];
     const date = new Date(timeString);
 
     if (isNaN(date.getTime())) {
-      throw new Error(`无效的 UTC 时间字符串: ${timeString}`);
+      throw new Error(`无效的UTC时间字符串: ${timeString}`);
     }
 
-    if (maxDate === null || date > maxDate) {
-      maxDate = date;
-      maxTimeString = timeString;
+    if (date < minDate) {
+      minDate = date;
+      minTimeString = timeString;
     }
   }
 
-  return maxTimeString;
+  return minTimeString;
 }
