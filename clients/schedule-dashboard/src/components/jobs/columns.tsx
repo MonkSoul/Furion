@@ -20,16 +20,16 @@ import {
 import { Data } from "@douyinfe/semi-ui/lib/es/descriptions";
 import { ColumnProps } from "@douyinfe/semi-ui/lib/es/table/interface";
 import Paragraph from "@douyinfe/semi-ui/lib/es/typography/paragraph";
-import dayjs from "dayjs";
-import "dayjs/locale/zh-cn";
-import relativeTime from "dayjs/plugin/relativeTime";
 import useFetch from "use-http";
 import { JobDetail, Trigger } from "../../types";
+import {
+  dayFromNow,
+  dayTime,
+  findMaxUtcTimeString
+} from "../../utils";
 import apiconfig from "./apiconfig";
 import RenderValue from "./render-value";
 import StatusText from "./state-text";
-dayjs.extend(relativeTime);
-dayjs.locale("zh-cn");
 
 const style = {
   padding: "10px",
@@ -235,17 +235,15 @@ const columns: ColumnProps<JobDetail>[] = [
       var lastRunTimes =
         jobDetail.triggers
           ?.filter((u) => !!u.lastRunTime)
-          ?.map((u) => new Date(u.lastRunTime!)) || [];
+          ?.map((u) => u.lastRunTime!) || [];
 
-      var lastRunTime =
-        lastRunTimes.length === 0
-          ? null
-          : new Date(Math.max.apply(null, lastRunTimes as any));
+      const lastRunTime =
+        lastRunTimes.length === 0 ? null : findMaxUtcTimeString(lastRunTimes);
 
       return lastRunTime ? (
         <Tag color="grey" type="light" style={{ verticalAlign: "middle" }}>
-          {dayjs(lastRunTime).format("YYYY/MM/DD HH:mm:ss")} (
-          {dayjs(lastRunTime).fromNow()})
+          {dayTime(lastRunTime).format("YYYY/MM/DD HH:mm:ss")} (
+          {dayFromNow(lastRunTime)})
         </Tag>
       ) : (
         <></>
@@ -261,12 +259,10 @@ const columns: ColumnProps<JobDetail>[] = [
       var nextRunTimes =
         jobDetail.triggers
           ?.filter((u) => !!u.nextRunTime)
-          ?.map((u) => new Date(u.nextRunTime!)) || [];
+          ?.map((u) => u.nextRunTime!) || [];
 
       var nextRunTime =
-        nextRunTimes.length === 0
-          ? null
-          : new Date(Math.min.apply(null, nextRunTimes as any));
+        nextRunTimes.length === 0 ? null : findMaxUtcTimeString(nextRunTimes);
 
       return nextRunTime ? (
         <Tag
@@ -274,8 +270,8 @@ const columns: ColumnProps<JobDetail>[] = [
           type="solid"
           style={{ verticalAlign: "middle" }}
         >
-          {dayjs(nextRunTime).format("YYYY/MM/DD HH:mm:ss")} (
-          {dayjs(nextRunTime).fromNow()})
+          {dayTime(nextRunTime).format("YYYY/MM/DD HH:mm:ss")} (
+          {dayFromNow(nextRunTime)})
         </Tag>
       ) : (
         <></>

@@ -1,11 +1,12 @@
 import {
   IconArrowUp,
   IconCalendarClock,
+  IconClock,
   IconHelpCircle,
   IconMoon,
   IconSun,
 } from "@douyinfe/semi-icons";
-import { BackTop, Button, Layout, Nav, Tooltip } from "@douyinfe/semi-ui";
+import { BackTop, Button, Layout, Nav, Tag, Tooltip } from "@douyinfe/semi-ui";
 import { useState } from "react";
 import Jobs from "./components/jobs";
 import apiconfig from "./components/jobs/apiconfig";
@@ -52,6 +53,22 @@ function App() {
               }}
             >
               <Nav.Footer>
+                {apiconfig.useUtcTimestamp === "true" && (
+                  <Tooltip content="当前时间标准为 UTC 时间">
+                    <Tag
+                      color="light-blue"
+                      prefixIcon={<IconClock />}
+                      size="large"
+                      shape="circle"
+                      style={{
+                        marginRight: "12px",
+                      }}
+                    >
+                      UTC 时间
+                    </Tag>
+                  </Tooltip>
+                )}
+
                 <Tooltip
                   content={
                     mode === "light" ? "切换到暗色模式" : "切换到亮色模式"

@@ -10,4 +10,5 @@ window.apiconfig = {
   displayEmptyTriggerJobs: "true",
   displayHead: "true",
   defaultExpandAllJobs: "false",
+  useUtcTimestamp: "false",
 };

@@ -14,16 +14,12 @@ import {
   Typography,
 } from "@douyinfe/semi-ui";
 import Paragraph from "@douyinfe/semi-ui/lib/es/typography/paragraph";
-import dayjs from "dayjs";
-import "dayjs/locale/zh-cn";
-import relativeTime from "dayjs/plugin/relativeTime";
 import { useEffect, useState } from "react";
 import useFetch from "use-http/dist/cjs/useFetch";
 import { Trigger, TriggerTimeline } from "../../types";
+import { dayFromNow, dayTime } from "../../utils";
 import apiconfig from "./apiconfig";
 import StatusText from "./state-text";
-dayjs.extend(relativeTime);
-dayjs.locale("zh-cn");
 
 /**
  * 渲染触发器属性值
@@ -61,7 +57,7 @@ export default function RenderValue(props: {
   if (prop === "nextRunTime") {
     preview = value ? (
       <Tag color="light-green" type="solid">
-        {value} ({dayjs(value).fromNow()})
+        {dayTime(value).format("YYYY/MM/DD HH:mm:ss")} ({dayFromNow(value)})
       </Tag>
     ) : (
       <span></span>
@@ -73,7 +69,7 @@ export default function RenderValue(props: {
     preview = value ? (
       <>
         <Tag color="grey" type="light" style={{ verticalAlign: "middle" }}>
-          {value} ({dayjs(value).fromNow()})
+          {dayTime(value).format("YYYY/MM/DD HH:mm:ss")} ({dayFromNow(value)})
         </Tag>
         <div>
           <Button
@@ -280,7 +276,7 @@ function LogPanel(props: {
       onCancel={handleCancel}
       closeOnEsc={true}
       zIndex={10000000000}
-      width={640}
+      width={850}
     >
       <Timeline mode="center">
         {timelines.map((timeline, i) => (
@@ -289,23 +285,31 @@ function LogPanel(props: {
             time={
               <div style={{ display: "inline-flex" }}>
                 {timeline.nextRunTime ? (
-                  <Tooltip content={"NextRunTime"} zIndex={10000000002}>
+                  <div style={{ display: "inline-block" }}>
                     <Tag
                       color={"light-green"}
                       type={i === 0 ? "solid" : "light"}
                     >
-                      {timeline.nextRunTime}
+                      {dayTime(timeline.nextRunTime).format(
+                        "YYYY/MM/DD HH:mm:ss"
+                      )}
+                      ({dayFromNow(timeline.nextRunTime)})
                     </Tag>
-                  </Tooltip>
+                    <div>NextRunTime</div>
+                  </div>
                 ) : (
                   <StatusText value={Number(timeline.status)} />
                 )}
                 <span style={{ padding: "0 3px" }}>{"<"}-</span>
-                <Tooltip content={"LastRunTime"} zIndex={10000000002}>
+                <div style={{ display: "inline-block" }}>
                   <Tag color="grey" type="light">
-                    {timeline.lastRunTime}
+                    {dayTime(timeline.lastRunTime).format(
+                      "YYYY/MM/DD HH:mm:ss"
+                    )}
+                    ({dayFromNow(timeline.lastRunTime)})
                   </Tag>
-                </Tooltip>
+                  <div>LastRunTime</div>
+                </div>
               </div>
             }
             dot={

@@ -64,6 +64,7 @@ public sealed class Startup : AppStartup
         // 新版本定时任务测试
         services.AddSchedule(options =>
         {
+            //options.UseUtcTimestamp = true;
             //options.AddJob(JobBuilder.Create<TestJob>().SetDescription("这是定时任务包含多个作业触发器")
             //    , Triggers.Minutely(), Triggers.Period(5000).SetDescription("这是作业触发器，间隔 5 秒"));
             //options.AddJob<TestJob>(Triggers.Hourly());

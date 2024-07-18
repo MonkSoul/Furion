@@ -52,7 +52,10 @@ internal static class Penetrates
         };
 
         // 处理时间类型
-        jsonSerializerOptions.Converters.Add(new DateTimeJsonConverter());
+        if (!ScheduleOptionsBuilder.UseUtcTimestampProperty)
+        {
+            jsonSerializerOptions.Converters.Add(new DateTimeJsonConverter());
+        }
 
         return jsonSerializerOptions;
     }
@@ -295,5 +298,16 @@ internal static class Penetrates
     {
         var assembly = AppDomain.CurrentDomain.GetAssemblies().FirstOrDefault(ass => ass.GetName().Name == assemblyName);
         return assembly ?? Assembly.Load(assemblyName);
+    }
+
+    /// <summary>
+    /// 获取本地时间和 UTC 时间相差小时
+    /// </summary>
+    /// <returns>相差小时数</returns>
+    internal static string GetDateTimeOffsetHours()
+    {
+        var offset = TimeZoneInfo.Local.GetUtcOffset(DateTime.Now);
+        var offsetString = ((int)offset.TotalHours).ToString();
+        return $"+{offsetString.PadLeft(2, '0')}";
     }
 }

@@ -118,7 +118,8 @@ public sealed class ScheduleUIMiddleware
                     : content.Replace("%(RequestPath)", $"{Options.VirtualPath}{Options.RequestPath}")
                              .Replace("%(DisplayEmptyTriggerJobs)", Options.DisplayEmptyTriggerJobs ? "true" : "false")
                              .Replace("%(DisplayHead)", Options.DisplayHead ? "true" : "false")
-                             .Replace("%(DefaultExpandAllJobs)", Options.DefaultExpandAllJobs ? "true" : "false");
+                             .Replace("%(DefaultExpandAllJobs)", Options.DefaultExpandAllJobs ? "true" : "false")
+                             .Replace("%(UseUtcTimestamp)", ScheduleOptionsBuilder.UseUtcTimestampProperty ? "true" : "false");
             }
 
             // 输出到客户端
