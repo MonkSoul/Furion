@@ -25,7 +25,8 @@ import { JobDetail, Trigger } from "../../types";
 import {
   dayFromNow,
   dayTime,
-  findMinUtcTimeString
+  findMaxUtcTimeString,
+  findMinUtcTimeString,
 } from "../../utils";
 import apiconfig from "./apiconfig";
 import RenderValue from "./render-value";
@@ -238,7 +239,7 @@ const columns: ColumnProps<JobDetail>[] = [
           ?.map((u) => u.lastRunTime!) || [];
 
       const lastRunTime =
-        lastRunTimes.length === 0 ? null : findMinUtcTimeString(lastRunTimes);
+        lastRunTimes.length === 0 ? null : findMaxUtcTimeString(lastRunTimes);
 
       return lastRunTime ? (
         <Tag color="grey" type="light" style={{ verticalAlign: "middle" }}>
