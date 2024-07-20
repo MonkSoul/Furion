@@ -111,13 +111,11 @@ public static class TP
         // 计算矩形框的宽度，取所有字符串中最长的长度，再乘以 2
         var width = lines.Max(GetLength) + pad;
 
-        // 创建一个 StringBuilder 对象
         var stringBuilder = new StringBuilder();
 
-        // 在 StringBuilder 对象中添加矩形框的上边框
+        // 添加矩形框的上边框
         stringBuilder.AppendLine("+" + new string('-', width - 2) + "+");
 
-        // 遍历每个字符串，并添加到 StringBuilder 对象中
         var row = 0;
         foreach (var line in lines)
         {
@@ -131,26 +129,25 @@ public static class TP
                 _ => 2
             };
 
-            // 在 StringBuilder 对象中添加当前字符串前的空格，使得当前字符串在矩形框中居中显示
+            // 添加当前字符串前的空格，实现居中显示
             stringBuilder.Append("|" + new string(' ', padding));
 
-            // 在 StringBuilder 对象中添加当前字符串
+            // 添加当前字符串
             stringBuilder.Append(line);
 
-            // 在 StringBuilder 对象中添加当前字符串后的空格，使得矩形框的宽度保持不变
+            // 添加当前字符串后的空格，实现等宽
             stringBuilder.Append(new string(' ', width - len - 2 - padding) + "|");
 
-            // 在 StringBuilder 对象中添加换行符
+            // 添加换行符
             stringBuilder.AppendLine();
 
             // 更新当前行数
             row++;
         }
 
-        // 在 StringBuilder 对象中添加矩形框的下边框
+        // 添加矩形框的下边框
         stringBuilder.Append("+" + new string('-', width - 2) + "+");
 
-        // 返回包含矩形框的所有字符串的 StringBuilder 对象的字符串表示形式
         return stringBuilder.ToString();
     }
 
