@@ -79,16 +79,17 @@ public static class JSON
     /// <summary>
     /// 检查 JSON 字符串是否有效
     /// </summary>
-    /// <param name="jsonString"></param>
+    /// <param name="jsonString">JSON 字符串</param>
+    /// <param name="standard">标准 JSON</param>
     /// <returns></returns>
-    public static bool IsValid(string jsonString)
+    public static bool IsValid(string jsonString, bool standard = false)
     {
         if (string.IsNullOrWhiteSpace(jsonString)) return false;
 
         try
         {
             using var document = JsonDocument.Parse(jsonString);
-            return true;
+            return !standard || document.RootElement.ValueKind == JsonValueKind.Object || document.RootElement.ValueKind == JsonValueKind.Array;
         }
         catch (JsonException)
         {
