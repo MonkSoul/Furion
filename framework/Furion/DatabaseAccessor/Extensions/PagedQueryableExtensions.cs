@@ -40,12 +40,16 @@ public static class PagedQueryableExtensions
     /// <param name="entities"></param>
     /// <param name="pageIndex">页码，必须大于0</param>
     /// <param name="pageSize"></param>
+    /// <param name="totalComputed">总数计算方式</param>
     /// <returns></returns>
-    public static PagedList<TEntity> ToPagedList<TEntity>(this IQueryable<TEntity> entities, int pageIndex = 1, int pageSize = 20)
+    public static PagedList<TEntity> ToPagedList<TEntity>(this IQueryable<TEntity> entities, int pageIndex = 1, int pageSize = 20, Func<int> totalComputed = null)
     {
         if (pageIndex <= 0) throw new InvalidOperationException($"{nameof(pageIndex)} must be a positive integer greater than 0.");
 
-        var totalCount = entities.Count();
+        var totalCount = totalComputed == null
+            ? entities.Count()
+            : totalComputed();
+
         var items = entities.Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();
         var totalPages = (int)Math.Ceiling(totalCount / (double)pageSize);
 
@@ -69,12 +73,16 @@ public static class PagedQueryableExtensions
     /// <param name="pageIndex">页码，必须大于0</param>
     /// <param name="pageSize"></param>
     /// <param name="cancellationToken"></param>
+    /// <param name="totalComputed">总数计算方式</param>
     /// <returns></returns>
-    public static async Task<PagedList<TEntity>> ToPagedListAsync<TEntity>(this IQueryable<TEntity> entities, int pageIndex = 1, int pageSize = 20, CancellationToken cancellationToken = default)
+    public static async Task<PagedList<TEntity>> ToPagedListAsync<TEntity>(this IQueryable<TEntity> entities, int pageIndex = 1, int pageSize = 20, CancellationToken cancellationToken = default, Func<int> totalComputed = null)
     {
         if (pageIndex <= 0) throw new InvalidOperationException($"{nameof(pageIndex)} must be a positive integer greater than 0.");
 
-        var totalCount = await entities.CountAsync(cancellationToken);
+        var totalCount = totalComputed == null
+            ? (await entities.CountAsync(cancellationToken))
+            : totalComputed();
+
         var items = await entities.Skip((pageIndex - 1) * pageSize).Take(pageSize).ToListAsync(cancellationToken);
         var totalPages = (int)Math.Ceiling(totalCount / (double)pageSize);
 
