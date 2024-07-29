@@ -39,7 +39,7 @@ internal class GenericHostLifetimeEventsHostedService : IHostedService
     public GenericHostLifetimeEventsHostedService(IHost host)
     {
         // 存储根服务
-        InternalApp.RootServices = host.Services;
+        InternalApp.RootServices ??= host.Services;
     }
 
     /// <summary>

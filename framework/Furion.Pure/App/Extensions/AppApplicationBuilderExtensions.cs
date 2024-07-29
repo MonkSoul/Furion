@@ -34,6 +34,24 @@ namespace Microsoft.AspNetCore.Builder;
 [SuppressSniffer]
 public static class AppApplicationBuilderExtensions
 {
+#if !NET5_0
+    /// <summary>
+    /// 设置默认服务存储器
+    /// </summary>
+    /// <param name="app"><see cref="WebApplication"/></param>
+    /// <remarks>
+    /// <para>解决在主机启动前解析服务问题</para>
+    /// <para>使用：<code>var app = builder.Build().UseDefaultServiceProvider();</code></para>
+    /// </remarks>
+    /// <returns><see cref="WebApplication"/></returns>
+    public static WebApplication UseDefaultServiceProvider(this WebApplication app)
+    {
+        InternalApp.RootServices ??= app.Services;
+
+        return app;
+    }
+#endif
+
     /// <summary>
     /// 注入基础中间件（带Swagger）
     /// </summary>
@@ -41,7 +59,7 @@ public static class AppApplicationBuilderExtensions
     /// <param name="routePrefix">空字符串将为首页</param>
     /// <param name="configure"></param>
     /// <param name="withProxy">解决 Swagger 被代理问题</param>
-    /// <returns></returns>
+    /// <returns><see cref="IApplicationBuilder"/></returns>
     public static IApplicationBuilder UseInject(this IApplicationBuilder app, string routePrefix = default, Action<UseInjectOptions> configure = null, bool withProxy = false)
     {
         // 载入中间件配置选项
@@ -59,7 +77,7 @@ public static class AppApplicationBuilderExtensions
     /// <param name="app"></param>
     /// <param name="configure"></param>
     /// <param name="withProxy">解决 Swagger 被代理问题</param>
-    /// <returns></returns>
+    /// <returns><see cref="IApplicationBuilder"/></returns>
     public static IApplicationBuilder UseInject(this IApplicationBuilder app, Action<UseInjectOptions> configure, bool withProxy = false)
     {
         return app.UseInject(default, configure: configure, withProxy: withProxy);
@@ -79,7 +97,7 @@ public static class AppApplicationBuilderExtensions
     /// 解决 .NET6 WebApplication 模式下二级虚拟目录错误问题
     /// </summary>
     /// <param name="app"></param>
-    /// <returns></returns>
+    /// <returns><see cref="IApplicationBuilder"/></returns>
     public static IApplicationBuilder MapRouteControllers(this IApplicationBuilder app)
     {
         app.UseRouting();
@@ -96,7 +114,7 @@ public static class AppApplicationBuilderExtensions
     /// </summary>
     /// <remarks>须在 app.UseRouting() 之前注册</remarks>
     /// <param name="app"></param>
-    /// <returns></returns>
+    /// <returns><see cref="IApplicationBuilder"/></returns>
     public static IApplicationBuilder EnableBuffering(this IApplicationBuilder app)
     {
         return app.Use(next => context =>
@@ -111,7 +129,7 @@ public static class AppApplicationBuilderExtensions
     /// </summary>
     /// <param name="app">应用构建器</param>
     /// <param name="configure">应用配置</param>
-    /// <returns>应用构建器</returns>
+    /// <returns><see cref="IApplicationBuilder"/></returns>
     internal static IApplicationBuilder UseApp(this IApplicationBuilder app, Action<IApplicationBuilder> configure = null)
     {
         // 调用自定义服务
