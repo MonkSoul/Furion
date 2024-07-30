@@ -192,7 +192,16 @@ public sealed partial class HttpRequestPart
     /// <returns></returns>
     public HttpRequestPart SetContentType(string contentType)
     {
-        if (!string.IsNullOrWhiteSpace(contentType)) ContentType = contentType;
+        if (!string.IsNullOrWhiteSpace(contentType))
+        {
+            // 处理 application/json;charset=utf-8，携带 charset 并非标准格式
+            if (contentType.Contains("charset", StringComparison.OrdinalIgnoreCase))
+            {
+                var parts = contentType.Split(';', StringSplitOptions.RemoveEmptyEntries);
+                if (parts.Length > 0) ContentType = parts[0];
+            }
+            else ContentType = contentType;
+        }
         return this;
     }
 

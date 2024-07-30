@@ -961,7 +961,10 @@ public sealed partial class HttpRequestPart
                     httpContent = new ByteArrayContent(Files[0].Bytes);
 
                     // 设置内容类型
-                    httpContent.Headers.ContentType = new MediaTypeHeaderValue(ContentType);
+                    httpContent.Headers.ContentType = new MediaTypeHeaderValue(ContentType)
+                    {
+                        CharSet = ContentEncoding.BodyName
+                    };
                 }
                 break;
 
@@ -976,7 +979,10 @@ public sealed partial class HttpRequestPart
                     httpContent = new StringContent(SerializerObject(Body), ContentEncoding);
 
                     // 设置内容类型
-                    httpContent.Headers.ContentType = new MediaTypeHeaderValue(ContentType);
+                    httpContent.Headers.ContentType = new MediaTypeHeaderValue(ContentType)
+                    {
+                        CharSet = ContentEncoding.BodyName
+                    };
                 }
                 break;
 
