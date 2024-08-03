@@ -87,26 +87,25 @@ if($args.Contains("-UseDatabaseNames")){
     $UseDatabaseNames = $true;
 }
 
-# 输出工具广告
+# 输出工具版权声明
 $copyright;
 
 Write-Output "$FurTools 启动中......";
 Write-Output "$FurTools 启动成功！";
 
-# 获取程序包设置的默认项目
-$DefaultProject = Project;
-
-# 获取程序员包设置的默认项目名
-$ProjectName = $DefaultProject.ProjectName;
-
-# 判断项目是否设置为 Furion.Core
-if ($ProjectName -ne $CoreProject){
-    Write-Warning "$FurTools 请将默认项目设置为：$CoreProject";
-    return;
-}
-
 # 定义临时目录
 $TempOutputDir = "$rootPath\$CoreProject\TempEntities";
+
+# 临时目录不存在则创建
+if (-not (Test-Path -Path $TempOutputDir)) {  
+    New-Item -ItemType Directory -Path $TempOutputDir;
+}
+
+# 如果 dotnet ef dbcontext scaffold 命令不存在则提示安装
+
+Write-Output "-----------------------------------------------------------------------------";
+Write-Warning "请确保 dotnet tool install --global dotnet-ef 已经执行安装操作（没有则执行）";
+Write-Output "-----------------------------------------------------------------------------";
 
 Write-Warning "$FurTools 请键入操作类型：[G] 界面操作，[任意字符] 命令行操作";
 $options = Read-Host "$FurTools 您的输入是";
@@ -411,30 +410,42 @@ if($ConnectionName -eq "NonConfigureConnectionString")
     return;
 }
 
-# 执行 Scaffold-DbContext 命令
+# 执行 dotnet ef dbcontext scaffold 命令
 
 Write-Output "$FurTools 正在编译解决方案代码......";
 
-if ($Tables.Count -eq 0){
+# 声明完整的命令字符串
+$CommandString = "";
+
+# 处理数据库所有表生成情况
+if ($Tables.Count -eq 0)
+{
+    $CommandString = "dotnet ef dbcontext scaffold Name=ConnectionStrings:$ConnectionName $DbProvider --project $EntryProject --output-dir $TempOutputDir --context $Context --namespace $Namespace --no-onconfiguring --no-pluralize";
     if($UseDatabaseNames)
     {
-        Scaffold-DbContext Name=$ConnectionName -Provider $DbProvider -Context $Context -Namespace $Namespace -OutputDir $TempOutputDir -NoOnConfiguring -NoPluralize -UseDatabaseNames -Force;
+        $CommandString += " --use-database-names";
     }
-    else{
-        Scaffold-DbContext Name=$ConnectionName -Provider $DbProvider -Context $Context -Namespace $Namespace -OutputDir $TempOutputDir -NoOnConfiguring -NoPluralize -Force;
-    }
+    $CommandString += " --force";
 }
+# 处理特定表生成情况
 else
 {
+    # 将配置的数据库表分割成数组
+    $TableArray = $Tables.Split(',') | Where-Object { $_ -ne '' };
+    
+    # 构建 --table 参数的字符串  
+    $TableParams = $TableArray | ForEach-Object { "--table $_" };
+    
+    $CommandString = "dotnet ef dbcontext scaffold Name=ConnectionStrings:$ConnectionName $DbProvider --project $EntryProject --output-dir $TempOutputDir --context $Context --namespace $Namespace $($TableParams -join ' ') --no-onconfiguring --no-pluralize";
     if($UseDatabaseNames)
     {
-        Scaffold-DbContext Name=$ConnectionName -Provider $DbProvider -Context $Context -Tables $Tables -Namespace $Namespace -OutputDir $TempOutputDir -NoOnConfiguring -NoPluralize -UseDatabaseNames -Force;
+        $CommandString += " --use-database-names";
     }
-    else
-    {
-        Scaffold-DbContext Name=$ConnectionName -Provider $DbProvider -Context $Context -Tables $Tables -Namespace $Namespace -OutputDir $TempOutputDir -NoOnConfiguring -NoPluralize -Force;
-    }
+    $CommandString += " --force";
 }
+
+# 执行命令字符串  
+Invoke-Expression $CommandString;
 
 Write-Output "$FurTools 编译成功！";
 
