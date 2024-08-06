@@ -498,7 +498,7 @@ internal sealed partial class SchedulerFactory : ISchedulerFactory
         var sleepMilliseconds = (earliestTriggerTime - startAt).TotalMilliseconds;
 
         // 输出作业调度器休眠总时长和唤醒时间日志
-        _logger.LogDebug("Schedule hosted service will sleep <{sleepMilliseconds}> milliseconds and be waked up at <{earliestTriggerTime}>.", sleepMilliseconds, earliestTriggerTime.ToUnspecifiedString());
+        _logger.LogDebug("Schedule hosted service will sleep <{sleepMilliseconds}> milliseconds and be waked up at <{earliestTriggerTime}>.", sleepMilliseconds, earliestTriggerTime.ToFormatString());
 
         return sleepMilliseconds;
     }

@@ -83,20 +83,24 @@ internal static class Penetrates
     /// <summary>
     /// 获取当前时间
     /// </summary>
+    /// <remarks>忽略毫秒之后的部分</remarks>
     /// <returns><see cref="DateTime"/></returns>
     internal static DateTime GetNowTime()
     {
-        return GetUnspecifiedTime(!ScheduleOptionsBuilder.UseUtcTimestampProperty ? DateTime.Now : DateTime.UtcNow);
+        return GetStandardDateTime(!ScheduleOptionsBuilder.UseUtcTimestampProperty
+            ? DateTime.Now
+            : DateTime.UtcNow);
     }
 
     /// <summary>
-    /// 转换时间为 Unspecified 格式
+    /// 获取标准计算时间
     /// </summary>
+    /// <remarks>忽略毫秒之后的部分</remarks>
     /// <param name="dateTime"><see cref="DateTime"/></param>
     /// <returns><see cref="DateTime"/></returns>
-    internal static DateTime GetUnspecifiedTime(DateTime dateTime)
+    internal static DateTime GetStandardDateTime(DateTime dateTime)
     {
-        // 采用 DateTimeKind.Unspecified 转换当前时间并忽略毫秒之后部分（用于减少误差）
+        // 忽略毫秒之后部分并重新返回新的时间，主要用于减少时间计算误差
         return new DateTime(dateTime.Year
                 , dateTime.Month
                 , dateTime.Day
@@ -104,7 +108,9 @@ internal static class Penetrates
                 , dateTime.Minute
                 , dateTime.Second
                 , dateTime.Millisecond
-                , !ScheduleOptionsBuilder.UseUtcTimestampProperty ? DateTimeKind.Local : DateTimeKind.Utc);
+                , !ScheduleOptionsBuilder.UseUtcTimestampProperty
+                    ? DateTimeKind.Local
+                    : DateTimeKind.Utc);
     }
 
     /// <summary>

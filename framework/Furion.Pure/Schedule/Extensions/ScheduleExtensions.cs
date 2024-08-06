@@ -234,23 +234,23 @@ public static class ScheduleExtensions
     }
 
     /// <summary>
-    /// 将时间输出 Unspecified 格式字符串
+    /// 将时间格式化输出字符串
     /// </summary>
     /// <param name="dateTime"><see cref="DateTime"/></param>
     /// <returns><see cref="string"/></returns>
-    internal static string ToUnspecifiedString(this DateTime dateTime)
+    internal static string ToFormatString(this DateTime dateTime)
     {
         return dateTime.ToString("yyyy-MM-dd HH:mm:ss.fff zzz");
     }
 
     /// <summary>
-    /// 将时间输出 Unspecified 格式字符串
+    /// 将时间格式化输出字符串
     /// </summary>
     /// <param name="dateTime"><see cref="DateTime"/></param>
     /// <returns><see cref="string"/></returns>
-    internal static string ToUnspecifiedString(this DateTime? dateTime)
+    internal static string ToFormatString(this DateTime? dateTime)
     {
-        return dateTime?.ToUnspecifiedString();
+        return dateTime?.ToFormatString();
     }
 
     /// <summary>

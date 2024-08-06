@@ -73,12 +73,12 @@ internal sealed partial class SchedulerFactory
     /// <returns><see cref="IEnumerable{IScheduler}"/></returns>
     public IEnumerable<IScheduler> GetNextRunJobs(DateTime startAt, string group = default)
     {
-        // 转换时间为 Unspecified 格式
-        var unspecifiedStartAt = Penetrates.GetUnspecifiedTime(startAt);
+        // 获取标准计算时间
+        var startAtOfStandardDateTime = Penetrates.GetStandardDateTime(startAt);
 
         // 查找所有下一批执行的作业计划
         var nextRunSchedulers = (GetJobs(group, true) as IEnumerable<Scheduler>)
-            .Where(s => s.Triggers.Values.Any(t => t.NextShouldRun(unspecifiedStartAt)));
+            .Where(s => s.Triggers.Values.Any(t => t.NextShouldRun(startAtOfStandardDateTime)));
 
         return nextRunSchedulers;
     }

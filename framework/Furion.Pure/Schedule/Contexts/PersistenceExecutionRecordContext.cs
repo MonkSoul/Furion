@@ -89,6 +89,6 @@ public sealed class PersistenceExecutionRecordContext
     /// <returns><see cref="String"/></returns>
     public override string ToString()
     {
-        return $"{JobDetail} {Trigger}{(Mode == 1 ? " Manual" : string.Empty)} {Timeline.LastRunTime.ToUnspecifiedString()}{(Timeline.NextRunTime == null ? $" [{Timeline.Status}]" : $" -> {Timeline.NextRunTime.ToUnspecifiedString()}")} {Timeline.ElapsedTime}ms";
+        return $"{JobDetail} {Trigger}{(Mode == 1 ? " Manual" : string.Empty)} {Timeline.LastRunTime.ToFormatString()}{(Timeline.NextRunTime == null ? $" [{Timeline.Status}]" : $" -> {Timeline.NextRunTime.ToFormatString()}")} {Timeline.ElapsedTime}ms";
     }
 }
