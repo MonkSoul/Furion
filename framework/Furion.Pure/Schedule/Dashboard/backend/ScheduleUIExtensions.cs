@@ -69,8 +69,11 @@ public static class ScheduleUIExtensions
         if (options.DisableOnProduction
             && app.ApplicationServices.GetRequiredService<IWebHostEnvironment>().IsProduction()) return app;
 
-        // 如果路由为空，或者不以 / 开头，或者以 / 结尾，不启动看板
-        if (string.IsNullOrWhiteSpace(options.RequestPath) || !options.RequestPath.StartsWith("/") || options.RequestPath.EndsWith("/")) return app;
+        // 如果入口地址为空则不启动看板
+        if (string.IsNullOrWhiteSpace(options.RequestPath)) return app;
+
+        // 修复无效的入口地址
+        options.RequestPath = $"/{options.RequestPath.TrimStart('/').TrimEnd('/')}";
 
         // 注册 Schedule 中间件
         app.UseMiddleware<ScheduleUIMiddleware>(options);
