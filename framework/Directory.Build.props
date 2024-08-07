@@ -1,6 +1,6 @@
 <Project>
 	<PropertyGroup>
-		<TargetFrameworks>net5.0;net6.0;net7.0;net8.0;net9.0</TargetFrameworks>
+		<TargetFrameworks>net6.0;net7.0;net8.0;net9.0</TargetFrameworks>
 		<Version>4.9.4.11</Version>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Authors>百小僧</Authors>
@@ -19,7 +19,7 @@
 		<PackageProjectUrl>https://furion.net</PackageProjectUrl>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<PackageIcon>icon.png</PackageIcon>
-		<PackageTags>Furion;Fur;百小僧;Monk;MonkSoul;ASP.NET;ASP.NET Core;.NET;.NET Core;.NET5;.NET6;Framework;dotNET;dotNET China;Web;Cross Platform</PackageTags>
+		<PackageTags>Furion;Fur;百小僧;Monk;MonkSoul;ASP.NET;ASP.NET Core;.NET;.NET Core;Framework;dotNET;dotNET China;Web;Cross Platform</PackageTags>
 		<PackageOutputPath>../nupkgs</PackageOutputPath>
 		<SignAssembly>True</SignAssembly>
 		<DelaySign>False</DelaySign>

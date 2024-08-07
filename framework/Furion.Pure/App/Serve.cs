@@ -292,20 +292,12 @@ public static class Serve
     public static IHost Run(IRunOptions options, string urls = default)
     {
         IHost host;
-#if !NET5_0
         // .NET6+ 主机
         if (options is RunOptions runOptions)
         {
             host = Run(runOptions, urls);
         }
-#else
-        // .NET5 主机
-        if (options is LegacyRunOptions runOptions)
-        {
-            host = Run(runOptions, urls);
-        }
-#endif
-        // .NET5 主机
+        // .NET6- 主机
         else if (options is LegacyRunOptions legacyRunOptions)
         {
             host = Run(legacyRunOptions, urls);
@@ -331,20 +323,12 @@ public static class Serve
     public static async Task<IHost> RunAsync(IRunOptions options, string urls = default, CancellationToken cancellationToken = default)
     {
         IHost host;
-#if !NET5_0
         // .NET6+ 主机
         if (options is RunOptions runOptions)
         {
             host = await RunAsync(runOptions, urls, cancellationToken);
         }
-#else
-        // .NET5 主机
-        if (options is LegacyRunOptions runOptions)
-        {
-            host = await RunAsync(runOptions, urls, cancellationToken);
-        }
-#endif
-        // .NET5 主机
+        // .NET6- 主机
         else if (options is LegacyRunOptions legacyRunOptions)
         {
             host = await RunAsync(legacyRunOptions, urls, cancellationToken);
@@ -574,7 +558,6 @@ public static class Serve
         return app;
     }
 
-#if !NET5_0
     /// <summary>
     /// 启动 WebApplication 主机
     /// </summary>
@@ -708,7 +691,6 @@ public static class Serve
         // 调用自定义配置
         options?.ActionConfigure?.Invoke(app);
     }
-#endif
 
     /// <summary>
     /// 构建 IHost 对象

@@ -1,13 +1,5 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-	<PropertyGroup Condition="'$(net5)' == 'True' ">
-		<TargetFramework>net5.0</TargetFramework>
-		<LangVersion>10.0</LangVersion>
-		<NoWarn>1701;1702;1591</NoWarn>
-		<DocumentationFile>FurionApi.Application.xml</DocumentationFile>
-		<ImplicitUsings>enable</ImplicitUsings>
-	</PropertyGroup>
-
 	<PropertyGroup Condition="'$(net6)' == 'True' ">
 		<TargetFramework>net6.0</TargetFramework>
 		<NoWarn>1701;1702;1591</NoWarn>

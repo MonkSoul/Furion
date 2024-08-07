@@ -23,7 +23,6 @@
 // 请访问 https://gitee.com/dotnetchina/Furion 获取更多关于 Furion 项目的许可证和版权信息。
 // ------------------------------------------------------------------------
 
-#if !NET5_0
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -139,4 +138,3 @@ public class NewtonsoftJsonNullableDateOnlyJsonConverter : JsonConverter<DateOnl
         else writer.WriteValue(value.Value.ToString(Format));
     }
 }
-#endif

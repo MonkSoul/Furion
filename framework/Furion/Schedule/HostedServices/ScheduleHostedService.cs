@@ -57,12 +57,10 @@ internal sealed class ScheduleHostedService : BackgroundService
     /// </summary>
     private readonly IServiceProvider _serviceProvider;
 
-#if !NET5_0
     /// <summary>
     /// 服务检测器
     /// </summary>
     private readonly IServiceProviderIsService _serviceProviderIsService;
-#endif
 
     /// <summary>
     /// 取消作业执行 Token 器
@@ -92,9 +90,7 @@ internal sealed class ScheduleHostedService : BackgroundService
         Executor = serviceProvider.GetService<IJobExecutor>();
         ClusterServer = serviceProvider.GetService<IJobClusterServer>();
 
-#if !NET5_0
         _serviceProviderIsService = serviceProvider.GetService<IServiceProviderIsService>();
-#endif
 
         ClusterId = clusterId;
     }
@@ -508,12 +504,7 @@ internal sealed class ScheduleHostedService : BackgroundService
     /// <returns><see cref="Task"/></returns>
     private async Task ReleaseJobHandlerAsync(IJob jobHandler)
     {
-        var isService = false;
-
-#if !NET5_0
-        isService = _serviceProviderIsService.IsService(jobHandler.GetType());
-#endif
-
+        var isService = _serviceProviderIsService.IsService(jobHandler.GetType());
         if (isService) return;
 
         // 手动释放

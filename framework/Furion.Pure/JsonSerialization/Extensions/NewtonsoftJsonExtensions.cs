@@ -84,10 +84,9 @@ public static class NewtonsoftJsonExtensions
     /// <returns></returns>
     public static IList<JsonConverter> AddDateOnlyConverters(this IList<JsonConverter> converters, string outputFormat = "yyyy-MM-dd")
     {
-#if !NET5_0
         converters.Add(new NewtonsoftJsonDateOnlyJsonConverter(outputFormat));
         converters.Add(new NewtonsoftJsonNullableDateOnlyJsonConverter(outputFormat));
-#endif
+
         return converters;
     }
 
@@ -99,10 +98,9 @@ public static class NewtonsoftJsonExtensions
     /// <returns></returns>
     public static IList<JsonConverter> AddTimeOnlyConverters(this IList<JsonConverter> converters, string outputFormat = "HH:mm:ss")
     {
-#if !NET5_0
         converters.Add(new NewtonsoftJsonTimeOnlyJsonConverter(outputFormat));
         converters.Add(new NewtonsoftJsonNullableTimeOnlyJsonConverter(outputFormat));
-#endif
+
         return converters;
     }
 }

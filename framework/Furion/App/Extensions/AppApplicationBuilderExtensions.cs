@@ -34,7 +34,7 @@ namespace Microsoft.AspNetCore.Builder;
 [SuppressSniffer]
 public static class AppApplicationBuilderExtensions
 {
-#if !NET5_0
+
     /// <summary>
     /// 设置默认服务存储器
     /// </summary>
@@ -50,7 +50,6 @@ public static class AppApplicationBuilderExtensions
 
         return app;
     }
-#endif
 
     /// <summary>
     /// 注入基础中间件（带Swagger）

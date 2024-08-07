@@ -4,10 +4,6 @@
 		<Description>Furion Jwt 授权验证拓展插件。</Description>
 	</PropertyGroup>
 
-	<ItemGroup Condition=" '$(TargetFramework)' == 'net5.0' ">
-		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.17" />
-	</ItemGroup>
-
 	<ItemGroup Condition=" '$(TargetFramework)' == 'net6.0' ">
 		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.32" />
 	</ItemGroup>

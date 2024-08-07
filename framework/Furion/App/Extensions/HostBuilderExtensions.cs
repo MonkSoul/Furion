@@ -120,22 +120,6 @@ public static class HostBuilderExtensions
     /// <returns><see cref="IWebHostBuilder"/></returns>
     public static IWebHostBuilder AddWebComponent(this IWebHostBuilder hostBuilder, Type componentType, object options = default)
     {
-#if NET5_0
-        // 创建组件依赖链
-        var componentContextLinkList = Penetrates.CreateDependLinkList(componentType, options);
-
-        // 逐条创建组件实例并调用
-        foreach (var context in componentContextLinkList)
-        {
-            // 创建组件实例
-            var component = Activator.CreateInstance(context.ComponentType) as IWebComponent;
-
-            // 调用
-            component.Load(hostBuilder, context);
-        }
-
-#endif
-
         return hostBuilder;
     }
 }

@@ -23,31 +23,18 @@
 // 请访问 https://gitee.com/dotnetchina/Furion 获取更多关于 Furion 项目的许可证和版权信息。
 // ------------------------------------------------------------------------
 
-#if !NET5_0
+
 using Furion;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-#else
-
-using Microsoft.AspNetCore.Hosting;
-
-#endif
 
 namespace System;
 
-#if !NET5_0
 /// <summary>
 /// <see cref="WebApplication"/> 方式配置选项
 /// </summary>
-#else
-/// <summary>
-/// <see cref="IWebHostBuilder"/> 方式配置选项
-/// </summary>
-#endif
-
 [SuppressSniffer]
 public sealed class RunOptions : IRunOptions
 {
@@ -58,7 +45,7 @@ public sealed class RunOptions : IRunOptions
     {
     }
 
-#if !NET5_0
+
     /// <summary>
     /// 默认配置
     /// </summary>
@@ -84,37 +71,7 @@ public sealed class RunOptions : IRunOptions
     {
         return DefaultSilence.WithArgs(args);
     }
-#else
 
-    /// <summary>
-    /// 默认配置
-    /// </summary>
-    public static LegacyRunOptions Default { get; } = new LegacyRunOptions();
-
-    /// <summary>
-    /// 默认配置（带启动参数）
-    /// </summary>
-    public static LegacyRunOptions Main(string[] args)
-    {
-        return Default.WithArgs(args);
-    }
-
-    /// <summary>
-    /// 默认配置（静默启动）
-    /// </summary>
-    public static LegacyRunOptions DefaultSilence { get; } = new LegacyRunOptions().Silence();
-
-    /// <summary>
-    /// 默认配置（静默启动 + 启动参数）
-    /// </summary>
-    public static LegacyRunOptions MainSilence(string[] args)
-    {
-        return DefaultSilence.WithArgs(args);
-    }
-
-#endif
-
-#if !NET5_0
     /// <summary>
     /// 配置 <see cref="WebApplicationOptions"/>
     /// </summary>
@@ -380,5 +337,4 @@ public sealed class RunOptions : IRunOptions
     /// 命令行参数
     /// </summary>
     internal string[] Args { get; set; }
-#endif
 }

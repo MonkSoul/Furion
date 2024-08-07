@@ -102,7 +102,7 @@ public class SystemTextJsonSerializerProvider : IJsonSerializerProvider, ISingle
     {
         var jsonSerializerOptionsValue = (jsonSerializerOptions ?? GetSerializerOptions() ?? new JsonSerializerOptions()) as JsonSerializerOptions;
 
-#if !NET5_0 && !NET6_0 && !NET7_0
+#if !NET6_0 && !NET7_0
         if (!jsonSerializerOptionsValue.IsReadOnly && !jsonSerializerOptionsValue.PropertyNameCaseInsensitive)
         {
             // 默认不区分大小写匹配

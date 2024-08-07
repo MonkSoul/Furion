@@ -68,10 +68,7 @@ public static class SpecificationDocumentServiceCollectionExtensions
 
         // 添加配置
         services.AddConfigurableOptions<SpecificationDocumentSettingsOptions>();
-
-#if !NET5_0
         services.AddEndpointsApiExplorer();
-#endif
 
         // 添加Swagger生成器服务
         services.AddSwaggerGen(options => SpecificationDocumentBuilder.BuildGen(options, configure));

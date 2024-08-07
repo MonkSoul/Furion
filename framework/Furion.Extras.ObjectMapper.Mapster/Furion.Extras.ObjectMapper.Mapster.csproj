@@ -4,12 +4,6 @@
 		<Description>Furion 对象映射 Mapster 插件。</Description>
 	</PropertyGroup>
 
-	<ItemGroup Condition=" '$(TargetFramework)' == 'net5.0' ">
-		<PackageReference Include="Mapster" Version="7.3.0" />
-		<PackageReference Include="Mapster.DependencyInjection" Version="1.0.0" />
-		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="5.0.0" />
-	</ItemGroup>
-
 	<ItemGroup Condition=" '$(TargetFramework)' == 'net6.0' ">
 		<PackageReference Include="Mapster" Version="7.4.0" />
 		<PackageReference Include="Mapster.DependencyInjection" Version="1.0.1" />

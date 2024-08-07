@@ -24,10 +24,6 @@
       "datatype": "choice",
       "choices": [
         {
-          "choice": "net5",
-          "description": ".NET5 脚手架"
-        },
-        {
           "choice": "net6",
           "description": ".NET6 脚手架"
         },
@@ -45,11 +41,7 @@
         }
       ],
       "defaultValue": "net8",
-      "description": "选择要创建的 .NET5-9 脚手架"
-    },
-    "net5": {
-      "type": "computed",
-      "value": "(framework == \"net5\")"
+      "description": "选择要创建的 .NET6-9 脚手架"
     },
     "net6": {
       "type": "computed",
@@ -67,15 +59,5 @@
       "type": "computed",
       "value": "(framework == \"net9\")"
     }
-  },
-  "sources": [
-    {
-      "modifiers": [
-        {
-          "condition": "(framework != \"net5\")",
-          "exclude": ["FurionApi.Web.Entry/Startup.cs"]
-        }
-      ]
-    }
-  ]
+  }
 }

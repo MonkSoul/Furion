@@ -390,7 +390,6 @@ public static class ObjectExtensions
         {
             return ((DateTimeOffset)obj).ConvertToDateTime();
         }
-#if !NET5_0
         // 处理 DateTime -> DateOnly 类型
         else if (obj.GetType().Equals(typeof(DateTime)) && (underlyingType ?? type).Equals(typeof(DateOnly)))
         {
@@ -401,7 +400,6 @@ public static class ObjectExtensions
         {
             return TimeOnly.FromDateTime(((DateTime)obj));
         }
-#endif
         else if (typeof(IConvertible).IsAssignableFrom(underlyingType ?? type))
         {
             try

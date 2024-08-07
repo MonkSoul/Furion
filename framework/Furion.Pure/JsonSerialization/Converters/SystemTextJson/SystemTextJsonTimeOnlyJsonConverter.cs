@@ -23,7 +23,6 @@
 // 请访问 https://gitee.com/dotnetchina/Furion 获取更多关于 Furion 项目的许可证和版权信息。
 // ------------------------------------------------------------------------
 
-#if !NET5_0
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -133,4 +132,3 @@ public class SystemTextJsonNullableTimeOnlyJsonConverter : JsonConverter<TimeOnl
         else writer.WriteStringValue(value.Value.ToString(Format));
     }
 }
-#endif

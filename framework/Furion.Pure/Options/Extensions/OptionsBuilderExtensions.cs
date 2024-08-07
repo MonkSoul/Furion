@@ -163,9 +163,7 @@ public static class OptionsBuilderExtensions
         // 绑定配置
         optionsBuilder.Bind(configurationSection, binderOptions =>
         {
-#if !NET5_0
             binderOptions.ErrorOnUnknownConfiguration = optionsBuilderAttribute?.ErrorOnUnknownConfiguration ?? false;
-#endif
             binderOptions.BindNonPublicProperties = optionsBuilderAttribute?.BindNonPublicProperties ?? false;
         });
 
