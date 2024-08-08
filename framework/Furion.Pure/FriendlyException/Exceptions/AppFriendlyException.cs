@@ -24,7 +24,6 @@
 // ------------------------------------------------------------------------
 
 using Microsoft.AspNetCore.Http;
-using System.Runtime.Serialization;
 
 namespace Furion.FriendlyException;
 
@@ -62,15 +61,6 @@ public class AppFriendlyException : Exception
     {
         ErrorMessage = message;
         ErrorCode = OriginErrorCode = errorCode;
-    }
-
-    /// <summary>
-    /// 构造函数
-    /// </summary>
-    /// <param name="info"></param>
-    /// <param name="context"></param>
-    public AppFriendlyException(SerializationInfo info, StreamingContext context) : base(info, context)
-    {
     }
 
     /// <summary>

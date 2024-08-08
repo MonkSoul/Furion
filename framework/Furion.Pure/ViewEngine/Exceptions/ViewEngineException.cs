@@ -23,8 +23,6 @@
 // 请访问 https://gitee.com/dotnetchina/Furion 获取更多关于 Furion 项目的许可证和版权信息。
 // ------------------------------------------------------------------------
 
-using System.Runtime.Serialization;
-
 namespace Furion.ViewEngine;
 
 /// <summary>
@@ -37,15 +35,6 @@ public class ViewEngineException : Exception
     /// 构造函数
     /// </summary>
     public ViewEngineException()
-    {
-    }
-
-    /// <summary>
-    /// 构造函数
-    /// </summary>
-    /// <param name="info"></param>
-    /// <param name="context"></param>
-    protected ViewEngineException(SerializationInfo info, StreamingContext context) : base(info, context)
     {
     }
 

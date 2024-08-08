@@ -155,7 +155,7 @@ public class BadPageResult : StatusCodeResult
         using (var readStream = thisAssembly.GetManifestResourceStream(errorhtml))
         {
             buffer = new byte[readStream.Length];
-            readStream.Read(buffer, 0, buffer.Length);
+            _ = readStream.Read(buffer, 0, buffer.Length);
         }
 
         // 读取内容并替换

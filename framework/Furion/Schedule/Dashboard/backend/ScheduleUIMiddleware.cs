@@ -104,7 +104,7 @@ public sealed class ScheduleUIMiddleware
             using (var readStream = currentAssembly.GetManifestResourceStream($"{currentAssembly.GetName().Name}.Schedule.Dashboard.frontend.{(isIndex ? "index.html" : targetPath)}"))
             {
                 buffer = new byte[readStream.Length];
-                await readStream.ReadAsync(buffer);
+                _ = await readStream.ReadAsync(buffer);
             }
 
             // 替换配置占位符
@@ -285,8 +285,8 @@ public sealed class ScheduleUIMiddleware
                     context.Response.ContentType = "text/event-stream";
 
                     // 设置响应头，启用响应发送保持活动性
-                    context.Response.Headers.Add("Cache-Control", "no-cache");
-                    context.Response.Headers.Add("Connection", "keep-alive");
+                    context.Response.Headers.CacheControl = "no-cache";
+                    context.Response.Headers.Connection = "keep-alive";
 
                     var queue = new BlockingCollection<JobDetail>();
 

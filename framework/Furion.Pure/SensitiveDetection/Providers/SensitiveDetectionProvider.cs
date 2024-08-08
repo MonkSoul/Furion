@@ -86,7 +86,7 @@ public class SensitiveDetectionProvider : ISensitiveDetectionProvider
                 }
 
                 buffer = new byte[readStream.Length];
-                await readStream.ReadAsync(buffer.AsMemory(0, buffer.Length));
+                _ = await readStream.ReadAsync(buffer.AsMemory(0, buffer.Length));
             }
 
             // 同时兼容 UTF-8 BOM，UTF-8

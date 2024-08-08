@@ -24,7 +24,6 @@
 // ------------------------------------------------------------------------
 
 using Microsoft.CodeAnalysis;
-using System.Runtime.Serialization;
 
 namespace Furion.ViewEngine;
 
@@ -38,15 +37,6 @@ public class ViewEngineTemplateException : ViewEngineException
     /// 构造函数
     /// </summary>
     public ViewEngineTemplateException()
-    {
-    }
-
-    /// <summary>
-    /// 构造函数
-    /// </summary>
-    /// <param name="info"></param>
-    /// <param name="context"></param>
-    protected ViewEngineTemplateException(SerializationInfo info, StreamingContext context) : base(info, context)
     {
     }
 
