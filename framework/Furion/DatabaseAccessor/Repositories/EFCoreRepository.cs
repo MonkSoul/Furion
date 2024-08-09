@@ -32,6 +32,7 @@ using System.Collections.Concurrent;
 using System.Data;
 using System.Data.Common;
 using System.Linq.Expressions;
+using System.Text;
 
 namespace Furion.DatabaseAccessor;
 
@@ -293,6 +294,54 @@ public partial class PrivateRepository<TEntity> : PrivateSqlRepository, IPrivate
     /// 租户Id
     /// </summary>
     public virtual Guid? TenantId { get; internal set; }
+
+    /// <summary>
+    /// 获取完整的数据库表名
+    /// </summary>
+    /// <returns></returns>
+    public virtual string GetFullTableName()
+    {
+        var schema = EntityType?.GetSchema();
+        var tableName = EntityType?.GetTableName();
+
+        return $"{schema}{(string.IsNullOrWhiteSpace(schema) ? string.Empty : ".")}{tableName}";
+    }
+
+    /// <summary>
+    /// 从分部表中构建查询对象
+    /// </summary>
+    /// <param name="tableNamesAction"></param>
+    /// <param name="tracking">是否跟踪实体</param>
+    /// <param name="ignoreQueryFilters">是否忽略查询过滤器</param>
+    /// <returns></returns>
+    /// <exception cref="ArgumentNullException"></exception>
+    public virtual IQueryable<TEntity> FromSegments(Func<string, IEnumerable<string>> tableNamesAction, bool? tracking = null, bool ignoreQueryFilters = false)
+    {
+        if (tableNamesAction != null)
+        {
+            // 原始表
+            var originTableName = GetFullTableName();
+
+            // 获取分布表名称
+            var returnTableNames = tableNamesAction(originTableName)?.ToArray();
+            var tableSegments = ((returnTableNames == null || returnTableNames.Length == 0) ? [originTableName] : returnTableNames)
+                .Distinct()
+                .Select(u => string.IsNullOrWhiteSpace(u) ? originTableName : FormatTableName(u));
+
+            var sb = new StringBuilder();
+            sb.Append("SELECT * FROM ");
+            sb.Append(string.Join(" \r\nUNION ALL \r\nSELECT * FROM ", tableSegments));
+
+            var queryable = Entities.FromSqlRaw(sb.ToString());
+
+            if (!(tracking ?? DynamicContext.EnabledEntityStateTracked)) queryable = queryable.AsNoTracking();
+            if (ignoreQueryFilters) queryable = queryable.IgnoreQueryFilters();
+
+            return queryable;
+        }
+
+        throw new ArgumentNullException(nameof(tableNamesAction));
+    }
 
     /// <summary>
     /// 判断上下文是否更改
@@ -793,5 +842,26 @@ public partial class PrivateRepository<TEntity> : PrivateSqlRepository, IPrivate
         where TChangeDbContextLocator : class, IDbContextLocator
     {
         return _repository.BuildChange<TChangeEntity, TChangeDbContextLocator>();
+    }
+
+    /// <summary>
+    /// 格式化数据库表名
+    /// </summary>
+    /// <param name="tableName"></param>
+    /// <returns></returns>
+    private string FormatTableName(string tableName)
+    {
+        if (IsNpgsql())
+        {
+            return $"\"{tableName.Replace("\"", "\"\"")}\"";
+        }
+        else if (IsSqlServer())
+        {
+            return $"[{tableName.Replace("]", "]]")}]";
+        }
+        else
+        {
+            return tableName;
+        }
     }
 }

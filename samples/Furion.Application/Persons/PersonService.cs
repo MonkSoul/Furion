@@ -340,4 +340,16 @@ public class PersonService : IDynamicApiController
     {
 
     }
+
+    public async Task<List<PersonDto>> 测试分表联合查询()
+    {
+        var persons = _personRepository
+            .FromSegments(table => [table, $"{table}_202408"])
+            .Include(u => u.Posts)
+            .Where(u => u.Id == 1)
+            .Take(5)
+            .ProjectToType<PersonDto>();
+
+        return await persons.ToListAsync();
+    }
 }

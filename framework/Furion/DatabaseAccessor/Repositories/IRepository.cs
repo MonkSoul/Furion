@@ -191,6 +191,22 @@ public interface IPrivateRepository<TEntity>
     Guid? TenantId { get; }
 
     /// <summary>
+    /// 获取完整的数据库表名
+    /// </summary>
+    /// <returns></returns>
+    string GetFullTableName();
+
+    /// <summary>
+    /// 从分部表中构建查询对象
+    /// </summary>
+    /// <param name="tableNamesAction"></param>
+    /// <param name="tracking">是否跟踪实体</param>
+    /// <param name="ignoreQueryFilters">是否忽略查询过滤器</param>
+    /// <returns></returns>
+    /// <exception cref="ArgumentNullException"></exception>
+    IQueryable<TEntity> FromSegments(Func<string, IEnumerable<string>> tableNamesAction, bool? tracking = null, bool ignoreQueryFilters = false);
+
+    /// <summary>
     /// 判断上下文是否更改
     /// </summary>
     /// <returns>bool</returns>
