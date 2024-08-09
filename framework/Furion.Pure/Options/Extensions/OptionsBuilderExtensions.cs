@@ -170,7 +170,8 @@ public static class OptionsBuilderExtensions
         // 注册验证特性支持
         if (optionsBuilderAttribute?.ValidateDataAnnotations == true)
         {
-            optionsBuilder.ValidateDataAnnotations();
+            optionsBuilder.ValidateDataAnnotations()
+                .ValidateOnStart();
         }
 
         // 注册复杂验证类型

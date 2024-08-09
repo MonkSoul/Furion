@@ -77,7 +77,8 @@ public static class ConfigurableOptionsServiceCollectionExtensions
               {
                   options.BindNonPublicProperties = true; // 绑定私有变量
               })
-              .ValidateDataAnnotations();
+              .ValidateDataAnnotations()
+              .ValidateOnStart();
 
         // 实现 Key 映射
         services.PostConfigureAll<TOptions>(options =>
