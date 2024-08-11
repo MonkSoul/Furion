@@ -115,14 +115,14 @@ public static class Native
             var propertyType = ownerProperty.PropertyType;
 
             // 监听窗口关闭事件
-            void closedHandler(object s, EventArgs e)
+            void ClosedHandler(object s, EventArgs e)
             {
                 // 释放作用域
                 serviceScope.Dispose();
             }
 
             var closedEventInfo = windowType.GetEvent("Closed", BindingFlags.Instance | BindingFlags.Public);
-            closedEventInfo.AddEventHandler(windowInstance, new EventHandler((Action<object, EventArgs>)closedHandler));
+            closedEventInfo.AddEventHandler(windowInstance, new EventHandler((Action<object, EventArgs>)ClosedHandler));
         }
 
         return windowInstance;

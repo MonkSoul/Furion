@@ -592,7 +592,7 @@ public static class App
         IEnumerable<Assembly> externalAssemblies = Array.Empty<Assembly>();
         IEnumerable<string> pathOfExternalAssemblies = Array.Empty<string>();
 
-        // 加载 `appsetting.json` 配置的外部程序集
+        // 加载 appsettings.json 配置的外部程序集
         if (Settings.ExternalAssemblies != null && Settings.ExternalAssemblies.Any())
         {
             var externalDlls = new List<string>();
