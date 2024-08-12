@@ -43,8 +43,31 @@ $copyright = @"
 $pwd = pwd;
 $rootPath = $pwd.Path;
 
-# 初始化默认值
+# 获取当前操作系统
+function GetSystemType {  
+    # 检查PowerShell版本和特性  
+    if ($PSVersionTable.PSEdition -eq "Core") {  
+        # PowerShell Core（现在称为PowerShell 7+），支持跨平台  
+        $runtimeOS = [Runtime.InteropServices.RuntimeInformation]::OSDescription  
+          
+        if ($runtimeOS.Contains("Linux")) {  
+            return "Linux"  
+        } elseif ($runtimeOS.Contains("Microsoft Windows")) {  
+            return "Windows"  
+        } elseif ($runtimeOS.Contains("macOS") -or $runtimeOS.Contains("Darwin")) {  
+            return "macOS"  
+        } else {  
+            return "Unknown OS (PowerShell Core)"  
+        }  
+    } else {  
+        # PowerShell Desktop 版本，主要运行在 Windows 上  
+        return "Windows"  
+    }  
+}
 
+$runtimeOS = GetSystemType;
+
+# 初始化默认值
 if ($Product -eq $null -or $Product -eq ""){
     $Product = "Furion";
 }
@@ -74,7 +97,7 @@ if ($DbContextLocators -eq $null -or $DbContextLocators -eq ""){
 }
 
 if ($OutputDir -eq $null -or $OutputDir -eq ""){
-    $OutputDir = "$rootPath\$CoreProject\Entities";
+    $OutputDir = "$rootPath/$CoreProject/Entities";
 }
 
 if ($Namespace -eq $null -or $Namespace -eq ""){
@@ -94,7 +117,7 @@ Write-Output "$FurTools 启动中......";
 Write-Output "$FurTools 启动成功！";
 
 # 定义临时目录
-$TempOutputDir = "$rootPath\$CoreProject\TempEntities";
+$TempOutputDir = "$rootPath/$CoreProject/TempEntities";
 
 # 临时目录不存在则创建
 if (-not (Test-Path -Path $TempOutputDir)) {  
@@ -123,7 +146,7 @@ if($options -eq "G")
         $connStr = $comboBox.SelectedItem;
         if ($connStr -eq $null -or $connStr -eq ""){
             [System.Windows.Forms.MessageBox]::Show("请选择数据库连接字符串后再操作");
-            return;
+            exit;
         }
 
         # 打开数据库读取所有数据库表和视图
@@ -182,7 +205,7 @@ if($options -eq "G")
         {
             # Write-Warning "$FurTools 未找到 $settingsPath 中定义的数据库连接字符串！";
             # Write-Warning "$FurTools 程序终止！";
-            return;
+            exit;
         }
 
         # 获取连接字符串所有定义
@@ -368,7 +391,7 @@ if($options -eq "G")
 
         # 选择保存目录
         $app = New-Object -com Shell.Application;
-        $selectFolder = $app.BrowseForFolder(0, "选择 $CoreProject 项目层目录", 0, "$rootPath\$CoreProject");
+        $selectFolder = $app.BrowseForFolder(0, "选择 $CoreProject 项目层目录", 0, "$rootPath/$CoreProject");
 
         # 赋值给保存文件夹
         $OutputDir = $selectFolder.Self.Path;
@@ -377,12 +400,12 @@ if($options -eq "G")
         if($OutputDir -eq $null -and $OutputDir -eq "")
         {
             Write-Warning "$FurTools 用户取消操作，程序终止！";
-            return;
+            exit;
         }
     }
     else{
         Write-Warning "$FurTools 用户取消操作，程序终止！";
-        return;
+        exit;
     }
 
     # -----------------------------------------------------------------------------
@@ -391,8 +414,40 @@ if($options -eq "G")
 }
 else{
     # 选择保存目录
-    $app = New-Object -com Shell.Application;
-    $selectFolder = $app.BrowseForFolder(0, "选择 $CoreProject 项目层目录", 0, "$rootPath\$CoreProject");
+    $selectFolder = "";
+    if($runtimeOS -eq "Windows")
+    {
+        $app = New-Object -com Shell.Application;
+        $selectFolder = $app.BrowseForFolder(0, "选择 $CoreProject 项目层目录", 0, "$rootPath\$CoreProject");
+    }
+    elseif($runtimeOS -eq "macOS")
+    {
+        $script = 'tell application "Finder"
+            activate
+            try
+                set selectedFolder to (choose folder with prompt "Please select a folder:") as text
+            on error
+                set selectedFolder to ""
+            end try
+        end tell
+        return selectedFolder'
+        $selectFolder = & osascript -e $script;
+    }
+    elseif($runtimeOS -eq "Linux")
+    {
+        $selectFolder = & /usr/bin/zenity --file-selection --directory;
+    }
+    else
+    {
+        Write-Warning "$FurTools 未知操作系统类型！";
+        exit;
+    }
+    
+    if ([string]::IsNullOrEmpty($selectFolder))
+    {
+        Write-Warning "$FurTools 用户取消操作，程序终止！";
+        exit;
+    }
 
     # 赋值给保存文件夹
     $OutputDir = $selectFolder.Self.Path;
@@ -400,14 +455,14 @@ else{
     if($OutputDir -eq $null -and $OutputDir -eq "")
     {
         Write-Warning "$FurTools 用户取消操作，程序终止！";
-        return;
+        exit;
     }
 }
 
 if($ConnectionName -eq "NonConfigureConnectionString")
 {
     Write-Warning "$FurTools 未找到连接字符串，程序终止！";
-    return;
+    exit;
 }
 
 # 执行 dotnet ef dbcontext scaffold 命令
@@ -547,11 +602,11 @@ public partial class $fileName$extents
     $finalClass;
 
 # 移动文件
-    Move-Item $filePath "$OutputDir\$fileName.cs" -force
+    Move-Item $filePath "$OutputDir/$fileName.cs" -force
  }
 
 # 删除临时数据库上下文
-Remove-Item "$TempOutputDir\$Context.cs";
+Remove-Item "$TempOutputDir/$Context.cs";
 
 # 删除临时实体文件夹
 Remove-Item $TempOutputDir -force;
