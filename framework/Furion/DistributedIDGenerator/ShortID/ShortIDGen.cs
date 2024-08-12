@@ -48,7 +48,7 @@ public static class ShortIDGen
     /// <summary>
     /// 线程安全锁
     /// </summary>
-    private static readonly object ThreadLock = new();
+    private static readonly Lock ThreadLock = new();
 
     /// <summary>
     /// 生成目前比较主流的短 ID
