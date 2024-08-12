@@ -127,7 +127,7 @@ if (-not (Test-Path -Path $TempOutputDir)) {
 # 如果 dotnet ef dbcontext scaffold 命令不存在则提示安装
 
 Write-Output "-----------------------------------------------------------------------------";
-Write-Warning "请确保 dotnet tool install --global dotnet-ef 已经执行安装操作（没有则执行）";
+Write-Warning "请确保 dotnet tool install --global dotnet-ef --version 版本号 已经执行安装操作（没有则执行）";
 Write-Output "-----------------------------------------------------------------------------";
 
 Write-Warning "$FurTools 请键入操作类型：[G] 界面操作，[任意字符] 命令行操作";
@@ -422,16 +422,19 @@ else{
     }
     elseif($runtimeOS -eq "macOS")
     {
-        $script = 'tell application "Finder"
-            activate
-            try
-                set selectedFolder to (choose folder with prompt "Please select a folder:") as text
-            on error
-                set selectedFolder to ""
-            end try
-        end tell
-        return selectedFolder'
-        $selectFolder = & osascript -e $script;
+        $script = @'  
+tell application "Finder"  
+    activate  
+    try  
+        set selectedFolder to choose folder with prompt "Please select a folder:"  
+        set folderPath to POSIX path of selectedFolder  
+    on error  
+        set folderPath to ""  
+    end try  
+    return folderPath  
+end tell  
+'@
+        $selectFolder = osascript -e $script;
     }
     elseif($runtimeOS -eq "Linux")
     {
@@ -450,7 +453,14 @@ else{
     }
 
     # 赋值给保存文件夹
-    $OutputDir = $selectFolder.Self.Path;
+    if($runtimeOS -eq "macOS")
+    {
+        $OutputDir = $selectFolder;
+    }
+    else
+    {
+        $OutputDir = $selectFolder.Self.Path;
+    }
 
     if($OutputDir -eq $null -and $OutputDir -eq "")
     {
