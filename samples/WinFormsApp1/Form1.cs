@@ -6,20 +6,20 @@ namespace WinFormsApp1;
 
 public partial class Form1 : Form
 {
-    public Form1(IServer server)    // ×¢Èë IServer ·þÎñ£¬»ñÈ¡ Web Æô¶¯µØÖ·/¶Ë¿Ú
+    public Form1(IServer server) // æ³¨å…¥ IServer æœåŠ¡ï¼ŒèŽ·å– Web å¯åŠ¨åœ°å€/ç«¯å£
     {
         InitializeComponent();
 
         webview.Dock = DockStyle.Fill;
         webview.Source = new Uri(server.GetServerAddress());
 
-        // Ìí¼Ó WebView ÓÒ¼ü²Ëµ¥£ºÔÚä¯ÀÀÆ÷ÖÐ´ò¿ª
+        // æ·»åŠ  WebView å³é”®èœå•ï¼šåœ¨æµè§ˆå™¨ä¸­æ‰“å¼€
         webview.CoreWebView2InitializationCompleted += (a, c) =>
         {
             webview.CoreWebView2.ContextMenuRequested += (sender, args) =>
             {
                 var newItem = webview.CoreWebView2.Environment.CreateContextMenuItem(
-                    "ÔÚä¯ÀÀÆ÷ÖÐ´ò¿ª", null, CoreWebView2ContextMenuItemKind.Command);
+                    "åœ¨æµè§ˆå™¨ä¸­æ‰“å¼€", null, CoreWebView2ContextMenuItemKind.Command);
 
                 newItem.CustomItemSelected += (send, ex) =>
                 {

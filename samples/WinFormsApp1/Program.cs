@@ -5,8 +5,8 @@ internal static class Program
     [STAThread]
     private static void Main()
     {
-        // Serve.RunNative(RunOptions.Default);    // Ä¬ÈÏ 5000 ¶Ë¿Ú£¬Èç¹û³öÏÖÕ¼ÓÃ£¬ÍÆ¼öÊ¹ÓÃÏÂÃæµÄ·½Ê½
-        Serve.RunNative(RunOptions.Default, Serve.IdleHost.Urls);   // Ëæ»ú¶Ë¿Ú
+        // Serve.RunNative(RunOptions.Default);    // é»˜è®¤ 5000 ç«¯å£ï¼Œå¦‚æœå‡ºç°å ç”¨ï¼Œæ¨èä½¿ç”¨ä¸‹é¢çš„æ–¹å¼
+        Serve.RunNative(RunOptions.Default, Serve.IdleHost.Urls); // éšæœºç«¯å£
 
         ApplicationConfiguration.Initialize();
         Application.Run(Native.CreateInstance<Form1>());
