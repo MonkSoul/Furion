@@ -44,12 +44,27 @@ public interface IExceptionPolicy<TResult>
     void Execute(Action operation, CancellationToken cancellationToken = default);
 
     /// <summary>
+    /// 执行同步操作方法
+    /// </summary>
+    /// <param name="operation">操作方法</param>
+    /// <param name="cancellationToken"><see cref="CancellationToken"/></param>
+    void Execute(Action<CancellationToken> operation, CancellationToken cancellationToken = default);
+
+    /// <summary>
     /// 执行异步操作方法
     /// </summary>
     /// <param name="operation">操作方法</param>
     /// <param name="cancellationToken"><see cref="CancellationToken"/></param>
     /// <returns><see cref="Task{TResult}"/></returns>
     Task ExecuteAsync(Func<Task> operation, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// 执行异步操作方法
+    /// </summary>
+    /// <param name="operation">操作方法</param>
+    /// <param name="cancellationToken"><see cref="CancellationToken"/></param>
+    /// <returns><see cref="Task{TResult}"/></returns>
+    Task ExecuteAsync(Func<CancellationToken, Task> operation, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// 执行同步操作方法
@@ -60,10 +75,27 @@ public interface IExceptionPolicy<TResult>
     TResult Execute(Func<TResult> operation, CancellationToken cancellationToken = default);
 
     /// <summary>
+    /// 执行同步操作方法
+    /// </summary>
+    /// <param name="operation">操作方法</param>
+    /// <param name="cancellationToken"><see cref="CancellationToken"/></param>
+    /// <returns><typeparamref name="TResult"/></returns>
+    TResult Execute(Func<CancellationToken, TResult> operation, CancellationToken cancellationToken = default);
+
+    /// <summary>
     /// 执行异步操作方法
     /// </summary>
     /// <param name="operation">操作方法</param>
     /// <param name="cancellationToken"><see cref="CancellationToken"/></param>
     /// <returns><see cref="Task{TResult}"/></returns>
     Task<TResult> ExecuteAsync(Func<Task<TResult>> operation, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// 执行异步操作方法
+    /// </summary>
+    /// <param name="operation">操作方法</param>
+    /// <param name="cancellationToken"><see cref="CancellationToken"/></param>
+    /// <returns><see cref="Task{TResult}"/></returns>
+    Task<TResult> ExecuteAsync(Func<CancellationToken, Task<TResult>> operation,
+        CancellationToken cancellationToken = default);
 }

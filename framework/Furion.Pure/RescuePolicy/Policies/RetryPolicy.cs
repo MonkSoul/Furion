@@ -131,7 +131,7 @@ public class RetryPolicy<TResult> : PolicyBase<TResult>
         where TException : System.Exception
     {
         // 空检查
-        if (exceptionCondition is null) throw new ArgumentNullException(nameof(exceptionCondition));
+        ArgumentNullException.ThrowIfNull(exceptionCondition);
 
         // 添加捕获异常类型和条件
         Handle<TException>();
@@ -187,11 +187,12 @@ public class RetryPolicy<TResult> : PolicyBase<TResult>
         where TException : System.Exception
     {
         // 空检查
-        if (exceptionCondition is null) throw new ArgumentNullException(nameof(exceptionCondition));
+        ArgumentNullException.ThrowIfNull(exceptionCondition);
 
         // 添加捕获内部异常类型和条件
         HandleInner<TException>();
-        HandleResult(context => context.Exception?.InnerException is TException exception && exceptionCondition(exception));
+        HandleResult(context =>
+            context.Exception?.InnerException is TException exception && exceptionCondition(exception));
 
         return this;
     }
@@ -227,7 +228,7 @@ public class RetryPolicy<TResult> : PolicyBase<TResult>
     public RetryPolicy<TResult> HandleResult(Func<RetryPolicyContext<TResult>, bool> resultCondition)
     {
         // 空检查
-        if (resultCondition is null) throw new ArgumentNullException(nameof(resultCondition));
+        ArgumentNullException.ThrowIfNull(resultCondition);
 
         ResultConditions ??= [];
         ResultConditions.Add(resultCondition);
@@ -253,7 +254,7 @@ public class RetryPolicy<TResult> : PolicyBase<TResult>
     public RetryPolicy<TResult> WaitAndRetry(params TimeSpan[] retryIntervals)
     {
         // 空检查
-        if (retryIntervals is null) throw new ArgumentNullException(nameof(retryIntervals));
+        ArgumentNullException.ThrowIfNull(retryIntervals);
 
         RetryIntervals = retryIntervals;
 
@@ -290,7 +291,7 @@ public class RetryPolicy<TResult> : PolicyBase<TResult>
     public RetryPolicy<TResult> OnWaitRetry(Action<RetryPolicyContext<TResult>, TimeSpan> waitRetryAction)
     {
         // 空检查
-        if (waitRetryAction is null) throw new ArgumentNullException(nameof(waitRetryAction));
+        ArgumentNullException.ThrowIfNull(waitRetryAction);
 
         WaitRetryAction = waitRetryAction;
 
@@ -305,7 +306,7 @@ public class RetryPolicy<TResult> : PolicyBase<TResult>
     public RetryPolicy<TResult> OnRetrying(Action<RetryPolicyContext<TResult>> retryingAction)
     {
         // 空检查
-        if (retryingAction is null) throw new ArgumentNullException(nameof(retryingAction));
+        ArgumentNullException.ThrowIfNull(retryingAction);
 
         RetryingAction = retryingAction;
 
@@ -320,7 +321,7 @@ public class RetryPolicy<TResult> : PolicyBase<TResult>
     internal bool ShouldHandle(RetryPolicyContext<TResult> context)
     {
         // 空检查
-        if (context is null) throw new ArgumentNullException(nameof(context));
+        ArgumentNullException.ThrowIfNull(context);
 
         // 检查最大重试次数是否大于等于 0
         if (MaxRetryCount <= 0)
@@ -342,25 +343,18 @@ public class RetryPolicy<TResult> : PolicyBase<TResult>
         }
 
         // 检查是否满足操作结果条件
-        if (ResultConditions is { Count: > 0 })
-        {
-            return ResultConditions.Any(condition => condition(context));
-        }
-
-        return false;
+        return ResultConditions is { Count: > 0 } && ResultConditions.Any(condition => condition(context));
     }
 
     /// <inheritdoc />
-    public async override Task<TResult> ExecuteAsync(Func<Task<TResult>> operation, CancellationToken cancellationToken = default)
+    public override async Task<TResult> ExecuteAsync(Func<CancellationToken, Task<TResult>> operation,
+        CancellationToken cancellationToken = default)
     {
         // 空检查
-        if (operation is null) throw new ArgumentNullException(nameof(operation));
+        ArgumentNullException.ThrowIfNull(operation);
 
         // 初始化重试策略上下文
-        var context = new RetryPolicyContext<TResult>
-        {
-            PolicyName = PolicyName
-        };
+        var context = new RetryPolicyContext<TResult> { PolicyName = PolicyName };
 
         // 无限循环直到满足条件退出
         while (true)
@@ -368,7 +362,7 @@ public class RetryPolicy<TResult> : PolicyBase<TResult>
             try
             {
                 // 获取操作方法执行结果
-                context.Result = await operation();
+                context.Result = await operation(cancellationToken);
             }
             catch (System.Exception exception)
             {
@@ -380,32 +374,32 @@ public class RetryPolicy<TResult> : PolicyBase<TResult>
             cancellationToken.ThrowIfCancellationRequested();
 
             // 检查是否满足捕获异常的条件
-            if (ShouldHandle(context))
+            if (!ShouldHandle(context))
             {
-                // 递增上下文数据
-                context.Increment();
-
-                // 检查是否配置了重试时间
-                if (RetryIntervals is { Length: > 0 })
-                {
-                    // 解析延迟时间戳
-                    var delay = RetryIntervals[context.RetryCount % RetryIntervals.Length];
-
-                    // 调用等待重试时操作方法
-                    WaitRetryAction?.Invoke(context, delay);
-
-                    // 延迟指定时间再操作
-                    await Task.Delay(delay, cancellationToken);
-                }
-
-                // 调用重试时操作方法
-                RetryingAction?.Invoke(context);
-
-                continue;
+                // 返回结果或抛出异常
+                return ReturnOrThrowIfException(context);
             }
 
-            // 返回结果或抛出异常
-            return ReturnOrThrowIfException(context);
+            // 递增上下文数据
+            context.Increment();
+
+            // 检查是否配置了重试时间
+            if (RetryIntervals is { Length: > 0 })
+            {
+                // 解析延迟时间戳
+                var delay = RetryIntervals[context.RetryCount % RetryIntervals.Length];
+
+                // 调用等待重试时操作方法
+                WaitRetryAction?.Invoke(context, delay);
+
+                // 延迟指定时间再操作
+                await Task.Delay(delay, cancellationToken);
+            }
+
+            // 调用重试时操作方法
+            RetryingAction?.Invoke(context);
+
+            continue;
         }
     }
 
@@ -421,7 +415,7 @@ public class RetryPolicy<TResult> : PolicyBase<TResult>
         , System.Exception exception)
     {
         // 空检查
-        if (context is null) throw new ArgumentNullException(nameof(context));
+        ArgumentNullException.ThrowIfNull(context);
 
         // 空检查
         if (exception is null)
@@ -430,19 +424,14 @@ public class RetryPolicy<TResult> : PolicyBase<TResult>
         }
 
         // 检查是否满足捕获异常的条件
-        if (exceptionTypes is null or { Count: 0 }
-            || exceptionTypes.Any(ex => ex.IsInstanceOfType(exception)))
+        if (exceptionTypes is not (null or { Count: 0 })
+            && !exceptionTypes.Any(ex => ex.IsInstanceOfType(exception)))
         {
-            // 检查是否满足操作结果条件
-            if (ResultConditions is { Count: > 0 })
-            {
-                return ResultConditions.Any(condition => condition(context));
-            }
-
-            return true;
+            return false;
         }
 
-        return false;
+        // 检查是否满足操作结果条件
+        return ResultConditions is not { Count: > 0 } || ResultConditions.Any(condition => condition(context));
     }
 
     /// <summary>
@@ -453,7 +442,7 @@ public class RetryPolicy<TResult> : PolicyBase<TResult>
     internal static TResult ReturnOrThrowIfException(RetryPolicyContext<TResult> context)
     {
         // 空检查
-        if (context is null) throw new ArgumentNullException(nameof(context));
+        ArgumentNullException.ThrowIfNull(context);
 
         // 空检查
         if (context.Exception is not null)

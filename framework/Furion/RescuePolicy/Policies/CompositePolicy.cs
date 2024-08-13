@@ -136,7 +136,7 @@ public class CompositePolicy<TResult> : PolicyBase<TResult>
     public CompositePolicy<TResult> OnExecutionFailure(Action<CompositePolicyContext<TResult>> executionFailureAction)
     {
         // 空检查
-        if (executionFailureAction is null) throw new ArgumentNullException(nameof(executionFailureAction));
+        ArgumentNullException.ThrowIfNull(executionFailureAction);
 
         ExecutionFailureAction = executionFailureAction;
 
@@ -144,10 +144,11 @@ public class CompositePolicy<TResult> : PolicyBase<TResult>
     }
 
     /// <inheritdoc />
-    public async override Task<TResult> ExecuteAsync(Func<Task<TResult>> operation, CancellationToken cancellationToken = default)
+    public override async Task<TResult> ExecuteAsync(Func<CancellationToken, Task<TResult>> operation,
+        CancellationToken cancellationToken = default)
     {
         // 空检查
-        if (operation is null) throw new ArgumentNullException(nameof(operation));
+        ArgumentNullException.ThrowIfNull(operation);
 
         // 检查策略集合合法性
         EnsureLegalData(Policies);
@@ -155,12 +156,13 @@ public class CompositePolicy<TResult> : PolicyBase<TResult>
         // 检查是否配置了策略集合
         if (Policies is { Count: 0 })
         {
-            return await operation();
+            return await operation(cancellationToken);
         }
 
         // 生成异步操作方法级联委托
         var cascadeExecuteAsync = Policies
-            .Select(p => new Func<Func<Task<TResult>>, CancellationToken, Task<TResult>>(p.ExecuteAsync))
+            .Select(p =>
+                new Func<Func<CancellationToken, Task<TResult>>, CancellationToken, Task<TResult>>(p.ExecuteAsync))
             .Aggregate(ExecutePolicyChain);
 
         // 调用异步操作方法级联委托
@@ -173,9 +175,9 @@ public class CompositePolicy<TResult> : PolicyBase<TResult>
     /// <param name="previous"><see cref="Func{T1, T2, TResult}"/></param>
     /// <param name="current"><see cref="Func{T1, T2, TResult}"/></param>
     /// <returns><see cref="Func{T1, T2, TResult}"/></returns>
-    internal Func<Func<Task<TResult>>, CancellationToken, Task<TResult>> ExecutePolicyChain(
-        Func<Func<Task<TResult>>, CancellationToken, Task<TResult>> previous
-        , Func<Func<Task<TResult>>, CancellationToken, Task<TResult>> current)
+    internal Func<Func<CancellationToken, Task<TResult>>, CancellationToken, Task<TResult>> ExecutePolicyChain(
+        Func<Func<CancellationToken, Task<TResult>>, CancellationToken, Task<TResult>> previous
+        , Func<Func<CancellationToken, Task<TResult>>, CancellationToken, Task<TResult>> current)
     {
         return async (opt, token) =>
         {
@@ -183,12 +185,12 @@ public class CompositePolicy<TResult> : PolicyBase<TResult>
             try
             {
                 // 执行前一个策略
-                return await previous(async () =>
+                return await previous(async (outerToken) =>
                 {
                     try
                     {
                         // 执行当前策略
-                        return await current(opt, token);
+                        return await current(opt, outerToken);
                     }
                     // 检查内部策略是否已被取消
                     catch (OperationCanceledException)
@@ -234,7 +236,7 @@ public class CompositePolicy<TResult> : PolicyBase<TResult>
     internal static void EnsureLegalData(IEnumerable<PolicyBase<TResult>> policies)
     {
         // 空检查
-        if (policies is null) throw new ArgumentNullException(nameof(policies));
+        ArgumentNullException.ThrowIfNull(policies);
 
         // 子项空检查
         if (policies.Any(policy => policy is null))

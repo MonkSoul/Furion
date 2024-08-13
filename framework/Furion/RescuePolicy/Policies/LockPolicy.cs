@@ -44,7 +44,6 @@ public sealed class LockPolicy : LockPolicy<object>
 /// 并发锁策略
 /// </summary>
 /// <typeparam name="TResult">操作返回值类型</typeparam>
-[SuppressSniffer]
 public class LockPolicy<TResult> : PolicyBase<TResult>
 {
     /// <summary>
@@ -65,10 +64,11 @@ public class LockPolicy<TResult> : PolicyBase<TResult>
     }
 
     /// <inheritdoc />
-    public override TResult Execute(Func<TResult> operation, CancellationToken cancellationToken = default)
+    public override TResult Execute(Func<TResult> operation,
+        CancellationToken cancellationToken = default)
     {
         // 空检查
-        if (operation is null) throw new ArgumentNullException(nameof(operation));
+        ArgumentNullException.ThrowIfNull(operation);
 
         // 对同步锁对象进行加锁，确保同一时间只有一个线程可以进入同步代码块
         lock (_syncLock)
@@ -79,10 +79,26 @@ public class LockPolicy<TResult> : PolicyBase<TResult>
     }
 
     /// <inheritdoc />
-    public async override Task<TResult> ExecuteAsync(Func<Task<TResult>> operation, CancellationToken cancellationToken = default)
+    public override TResult Execute(Func<CancellationToken, TResult> operation,
+        CancellationToken cancellationToken = default)
     {
         // 空检查
-        if (operation is null) throw new ArgumentNullException(nameof(operation));
+        ArgumentNullException.ThrowIfNull(operation);
+
+        // 对同步锁对象进行加锁，确保同一时间只有一个线程可以进入同步代码块
+        lock (_syncLock)
+        {
+            // 执行操作方法并返回
+            return operation(cancellationToken);
+        }
+    }
+
+    /// <inheritdoc />
+    public override async Task<TResult> ExecuteAsync(Func<CancellationToken, Task<TResult>> operation,
+        CancellationToken cancellationToken = default)
+    {
+        // 空检查
+        ArgumentNullException.ThrowIfNull(operation);
 
         // 获取异步锁，确保同一时间只有一个异步操作可以进入异步代码块
         await _asyncLock.WaitAsync(cancellationToken);
@@ -90,7 +106,7 @@ public class LockPolicy<TResult> : PolicyBase<TResult>
         try
         {
             // 执行操作方法并返回
-            return await operation();
+            return await operation(cancellationToken);
         }
         finally
         {

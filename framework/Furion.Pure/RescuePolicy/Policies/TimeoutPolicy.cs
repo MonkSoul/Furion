@@ -23,8 +23,6 @@
 // 请访问 https://gitee.com/dotnetchina/Furion 获取更多关于 Furion 项目的许可证和版权信息。
 // ------------------------------------------------------------------------
 
-using System.Diagnostics.CodeAnalysis;
-
 namespace Furion.RescuePolicy;
 
 /// <summary>
@@ -121,7 +119,7 @@ public class TimeoutPolicy<TResult> : PolicyBase<TResult>
     public TimeoutPolicy<TResult> OnTimeout(Action<TimeoutPolicyContext<TResult>> timeoutAction)
     {
         // 空检查
-        if (timeoutAction is null) throw new ArgumentNullException(nameof(timeoutAction));
+        ArgumentNullException.ThrowIfNull(timeoutAction);
 
         TimeoutAction = timeoutAction;
 
@@ -129,29 +127,43 @@ public class TimeoutPolicy<TResult> : PolicyBase<TResult>
     }
 
     /// <inheritdoc />
-    public override TResult Execute(Func<TResult> operation, CancellationToken cancellationToken = default)
+    public override TResult Execute(Func<TResult> operation,
+        CancellationToken cancellationToken = default)
     {
         // 空检查
-        if (operation is null) throw new ArgumentNullException(nameof(operation));
+        ArgumentNullException.ThrowIfNull(operation);
 
-        return ExecuteAsync(() => Task.Run(() => operation()), cancellationToken)
+        return ExecuteAsync(() => Task.Run(operation, cancellationToken), cancellationToken)
             .GetAwaiter()
             .GetResult();
     }
 
     /// <inheritdoc />
-    public async override Task<TResult> ExecuteAsync(Func<Task<TResult>> operation, CancellationToken cancellationToken = default)
+    public override TResult Execute(Func<CancellationToken, TResult> operation,
+        CancellationToken cancellationToken = default)
     {
         // 空检查
-        if (operation is null) throw new ArgumentNullException(nameof(operation));
+        ArgumentNullException.ThrowIfNull(operation);
+
+        return ExecuteAsync(() => Task.Run(() => operation(cancellationToken), cancellationToken), cancellationToken)
+            .GetAwaiter()
+            .GetResult();
+    }
+
+    /// <inheritdoc />
+    public override async Task<TResult> ExecuteAsync(Func<CancellationToken, Task<TResult>> operation,
+        CancellationToken cancellationToken = default)
+    {
+        // 空检查
+        ArgumentNullException.ThrowIfNull(operation);
 
         // 检查是否配置了超时时间
         if (Timeout == TimeSpan.Zero)
         {
-            return await operation();
+            return await operation(cancellationToken);
         }
 
-        // 创建关联的取消标记
+        // 创建关键的取消标记
         using var cancellationTokenSource = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
 
         // 设置超时时间
@@ -160,10 +172,11 @@ public class TimeoutPolicy<TResult> : PolicyBase<TResult>
         try
         {
             // 获取操作方法任务
-            var operationTask = operation();
+            var operationTask = operation(cancellationToken);
 
             // 获取提前完成的任务
-            var completedTask = await Task.WhenAny(operationTask, Task.Delay(System.Threading.Timeout.InfiniteTimeSpan, cancellationTokenSource.Token));
+            var completedTask = await Task.WhenAny(operationTask,
+                Task.Delay(System.Threading.Timeout.InfiniteTimeSpan, cancellationTokenSource.Token));
 
             // 检查是否存在取消请求
             cancellationToken.ThrowIfCancellationRequested();
@@ -193,14 +206,10 @@ public class TimeoutPolicy<TResult> : PolicyBase<TResult>
     /// 抛出超时异常
     /// </summary>
     /// <exception cref="TimeoutException"></exception>
-    [DoesNotReturn]
     internal void ThrowTimeoutException()
     {
         // 调用重试时操作方法
-        TimeoutAction?.Invoke(new()
-        {
-            PolicyName = PolicyName
-        });
+        TimeoutAction?.Invoke(new() { PolicyName = PolicyName });
 
         // 抛出超时异常
         throw new TimeoutException(TIMEOUT_MESSAGE);

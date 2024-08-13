@@ -39,7 +39,7 @@ public abstract class PolicyBase<TResult> : IExceptionPolicy<TResult>
     public virtual void Execute(Action operation, CancellationToken cancellationToken = default)
     {
         // 空检查
-        if (operation is null) throw new ArgumentNullException(nameof(operation));
+        ArgumentNullException.ThrowIfNull(operation);
 
         // 执行同步操作方法
         Execute(() =>
@@ -51,10 +51,25 @@ public abstract class PolicyBase<TResult> : IExceptionPolicy<TResult>
     }
 
     /// <inheritdoc />
+    public virtual void Execute(Action<CancellationToken> operation, CancellationToken cancellationToken = default)
+    {
+        // 空检查
+        ArgumentNullException.ThrowIfNull(operation);
+
+        // 执行同步操作方法
+        Execute((token) =>
+        {
+            operation(token);
+
+            return default;
+        }, cancellationToken);
+    }
+
+    /// <inheritdoc />
     public virtual async Task ExecuteAsync(Func<Task> operation, CancellationToken cancellationToken = default)
     {
         // 空检查
-        if (operation is null) throw new ArgumentNullException(nameof(operation));
+        ArgumentNullException.ThrowIfNull(operation);
 
         // 执行异步操作方法
         await ExecuteAsync(async () =>
@@ -66,10 +81,26 @@ public abstract class PolicyBase<TResult> : IExceptionPolicy<TResult>
     }
 
     /// <inheritdoc />
+    public virtual async Task ExecuteAsync(Func<CancellationToken, Task> operation,
+        CancellationToken cancellationToken = default)
+    {
+        // 空检查
+        ArgumentNullException.ThrowIfNull(operation);
+
+        // 执行异步操作方法
+        await ExecuteAsync(async (token) =>
+        {
+            await operation(token);
+
+            return default;
+        }, cancellationToken);
+    }
+
+    /// <inheritdoc />
     public virtual TResult Execute(Func<TResult> operation, CancellationToken cancellationToken = default)
     {
         // 空检查
-        if (operation is null) throw new ArgumentNullException(nameof(operation));
+        ArgumentNullException.ThrowIfNull(operation);
 
         return ExecuteAsync(() => Task.FromResult(operation()), cancellationToken)
             .GetAwaiter()
@@ -77,5 +108,29 @@ public abstract class PolicyBase<TResult> : IExceptionPolicy<TResult>
     }
 
     /// <inheritdoc />
-    public abstract Task<TResult> ExecuteAsync(Func<Task<TResult>> operation, CancellationToken cancellationToken = default);
+    public virtual TResult Execute(Func<CancellationToken, TResult> operation,
+        CancellationToken cancellationToken = default)
+    {
+        // 空检查
+        ArgumentNullException.ThrowIfNull(operation);
+
+        return ExecuteAsync(token => Task.FromResult(operation(token)), cancellationToken)
+            .GetAwaiter()
+            .GetResult();
+    }
+
+    /// <inheritdoc />
+    public virtual async Task<TResult> ExecuteAsync(Func<Task<TResult>> operation,
+        CancellationToken cancellationToken = default)
+    {
+        // 空检查
+        ArgumentNullException.ThrowIfNull(operation);
+
+        // 执行异步操作方法
+        return await ExecuteAsync(async (_) => await operation(), cancellationToken);
+    }
+
+    /// <inheritdoc />
+    public abstract Task<TResult> ExecuteAsync(Func<CancellationToken, Task<TResult>> operation,
+        CancellationToken cancellationToken = default);
 }

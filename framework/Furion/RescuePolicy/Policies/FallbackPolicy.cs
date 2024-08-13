@@ -130,7 +130,7 @@ public class FallbackPolicy<TResult> : PolicyBase<TResult>
         where TException : System.Exception
     {
         // 空检查
-        if (exceptionCondition is null) throw new ArgumentNullException(nameof(exceptionCondition));
+        ArgumentNullException.ThrowIfNull(exceptionCondition);
 
         // 添加捕获异常类型和条件
         Handle<TException>();
@@ -186,11 +186,12 @@ public class FallbackPolicy<TResult> : PolicyBase<TResult>
         where TException : System.Exception
     {
         // 空检查
-        if (exceptionCondition is null) throw new ArgumentNullException(nameof(exceptionCondition));
+        ArgumentNullException.ThrowIfNull(exceptionCondition);
 
         // 添加捕获内部异常类型和条件
         HandleInner<TException>();
-        HandleResult(context => context.Exception?.InnerException is TException exception && exceptionCondition(exception));
+        HandleResult(context =>
+            context.Exception?.InnerException is TException exception && exceptionCondition(exception));
 
         return this;
     }
@@ -226,7 +227,7 @@ public class FallbackPolicy<TResult> : PolicyBase<TResult>
     public FallbackPolicy<TResult> HandleResult(Func<FallbackPolicyContext<TResult>, bool> resultCondition)
     {
         // 空检查
-        if (resultCondition is null) throw new ArgumentNullException(nameof(resultCondition));
+        ArgumentNullException.ThrowIfNull(resultCondition);
 
         ResultConditions ??= [];
         ResultConditions.Add(resultCondition);
@@ -252,7 +253,7 @@ public class FallbackPolicy<TResult> : PolicyBase<TResult>
     public FallbackPolicy<TResult> OnFallback(Func<FallbackPolicyContext<TResult>, TResult> fallbackAction)
     {
         // 空检查
-        if (fallbackAction is null) throw new ArgumentNullException(nameof(fallbackAction));
+        ArgumentNullException.ThrowIfNull(fallbackAction);
 
         FallbackAction = fallbackAction;
 
@@ -267,7 +268,7 @@ public class FallbackPolicy<TResult> : PolicyBase<TResult>
     public FallbackPolicy<TResult> OnFallback(Action<FallbackPolicyContext<TResult>> fallbackAction)
     {
         // 空检查
-        if (fallbackAction is null) throw new ArgumentNullException(nameof(fallbackAction));
+        ArgumentNullException.ThrowIfNull(fallbackAction);
 
         return OnFallback(context =>
         {
@@ -285,7 +286,7 @@ public class FallbackPolicy<TResult> : PolicyBase<TResult>
     internal bool ShouldHandle(FallbackPolicyContext<TResult> context)
     {
         // 空检查
-        if (context is null) throw new ArgumentNullException(nameof(context));
+        ArgumentNullException.ThrowIfNull(context);
 
         // 检查是否满足捕获异常的条件
         if (CanHandleException(context, HandleExceptions, context.Exception)
@@ -295,30 +296,23 @@ public class FallbackPolicy<TResult> : PolicyBase<TResult>
         }
 
         // 检查是否满足操作结果条件
-        if (ResultConditions is { Count: > 0 })
-        {
-            return ResultConditions.Any(condition => condition(context));
-        }
-
-        return false;
+        return ResultConditions is { Count: > 0 } && ResultConditions.Any(condition => condition(context));
     }
 
     /// <inheritdoc />
-    public async override Task<TResult> ExecuteAsync(Func<Task<TResult>> operation, CancellationToken cancellationToken = default)
+    public override async Task<TResult> ExecuteAsync(Func<CancellationToken, Task<TResult>> operation,
+        CancellationToken cancellationToken = default)
     {
         // 空检查
-        if (operation is null) throw new ArgumentNullException(nameof(operation));
+        ArgumentNullException.ThrowIfNull(operation);
 
         // 初始化后备策略上下文
-        var context = new FallbackPolicyContext<TResult>
-        {
-            PolicyName = PolicyName
-        };
+        var context = new FallbackPolicyContext<TResult> { PolicyName = PolicyName };
 
         try
         {
             // 获取操作方法执行结果
-            context.Result = await operation();
+            context.Result = await operation(cancellationToken);
         }
         catch (System.Exception exception)
         {
@@ -330,17 +324,17 @@ public class FallbackPolicy<TResult> : PolicyBase<TResult>
         cancellationToken.ThrowIfCancellationRequested();
 
         // 检查是否满足捕获异常的条件
-        if (ShouldHandle(context))
+        if (!ShouldHandle(context))
         {
-            // 调用后备操作方法
-            if (FallbackAction is not null)
-            {
-                return FallbackAction(context);
-            }
+            return ReturnOrThrowIfException(context);
         }
 
-        // 返回结果或抛出异常
-        return ReturnOrThrowIfException(context);
+        // 调用后备操作方法
+        return FallbackAction is not null
+            ? FallbackAction(context)
+            :
+            // 返回结果或抛出异常
+            ReturnOrThrowIfException(context);
     }
 
     /// <summary>
@@ -355,7 +349,7 @@ public class FallbackPolicy<TResult> : PolicyBase<TResult>
         , System.Exception exception)
     {
         // 空检查
-        if (context is null) throw new ArgumentNullException(nameof(context));
+        ArgumentNullException.ThrowIfNull(context);
 
         // 空检查
         if (exception is null)
@@ -364,19 +358,14 @@ public class FallbackPolicy<TResult> : PolicyBase<TResult>
         }
 
         // 检查是否满足捕获异常的条件
-        if (exceptionTypes is null or { Count: 0 }
-            || exceptionTypes.Any(ex => ex.IsInstanceOfType(exception)))
+        if (exceptionTypes is not (null or { Count: 0 })
+            && !exceptionTypes.Any(ex => ex.IsInstanceOfType(exception)))
         {
-            // 检查是否满足操作结果条件
-            if (ResultConditions is { Count: > 0 })
-            {
-                return ResultConditions.Any(condition => condition(context));
-            }
-
-            return true;
+            return false;
         }
 
-        return false;
+        // 检查是否满足操作结果条件
+        return ResultConditions is not { Count: > 0 } || ResultConditions.Any(condition => condition(context));
     }
 
     /// <summary>
@@ -387,7 +376,7 @@ public class FallbackPolicy<TResult> : PolicyBase<TResult>
     internal static TResult ReturnOrThrowIfException(FallbackPolicyContext<TResult> context)
     {
         // 空检查
-        if (context is null) throw new ArgumentNullException(nameof(context));
+        ArgumentNullException.ThrowIfNull(context);
 
         // 空检查
         if (context.Exception is not null)

@@ -39,7 +39,7 @@ public sealed class CompositePolicyContext<TResult> : PolicyContextBase
     internal CompositePolicyContext(PolicyBase<TResult> policy)
     {
         // 空检查
-        if (policy is null) throw new ArgumentNullException(nameof(policy));
+        ArgumentNullException.ThrowIfNull(policy);
 
         Policy = policy;
     }
