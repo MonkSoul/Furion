@@ -44,6 +44,7 @@ public sealed class LockPolicy : LockPolicy<object>
 /// 并发锁策略
 /// </summary>
 /// <typeparam name="TResult">操作返回值类型</typeparam>
+[SuppressSniffer]
 public class LockPolicy<TResult> : PolicyBase<TResult>
 {
     /// <summary>

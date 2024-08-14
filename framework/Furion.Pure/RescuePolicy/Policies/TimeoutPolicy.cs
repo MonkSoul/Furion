@@ -38,7 +38,6 @@ public sealed class TimeoutPolicy : TimeoutPolicy<object>
     /// <inheritdoc cref="TimeoutPolicy"/>
     /// </summary>
     public TimeoutPolicy()
-        : base()
     {
     }
 
@@ -163,8 +162,9 @@ public class TimeoutPolicy<TResult> : PolicyBase<TResult>
             return await operation(cancellationToken);
         }
 
-        // 创建关键的取消标记
+        // 创建关联的取消标记
         using var cancellationTokenSource = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
+        var stoppingToken = cancellationTokenSource.Token;
 
         // 设置超时时间
         cancellationTokenSource.CancelAfter(Timeout);
@@ -172,11 +172,11 @@ public class TimeoutPolicy<TResult> : PolicyBase<TResult>
         try
         {
             // 获取操作方法任务
-            var operationTask = operation(cancellationToken);
+            var operationTask = operation(stoppingToken);
 
             // 获取提前完成的任务
             var completedTask = await Task.WhenAny(operationTask,
-                Task.Delay(System.Threading.Timeout.InfiniteTimeSpan, cancellationTokenSource.Token));
+                Task.Delay(System.Threading.Timeout.InfiniteTimeSpan, stoppingToken));
 
             // 检查是否存在取消请求
             cancellationToken.ThrowIfCancellationRequested();
@@ -193,7 +193,7 @@ public class TimeoutPolicy<TResult> : PolicyBase<TResult>
                 ThrowTimeoutException();
             }
         }
-        catch (OperationCanceledException exception) when (exception.CancellationToken == cancellationTokenSource.Token)
+        catch (OperationCanceledException exception) when (exception.CancellationToken == stoppingToken)
         {
             // 抛出超时异常
             ThrowTimeoutException();
