@@ -46,7 +46,7 @@ public static class LogContextExtensions
 
         logContext.Properties ??= new Dictionary<object, object>();
 
-        if (logContext.Properties.ContainsKey(key)) logContext.Properties.Remove(key);
+        logContext.Properties.Remove(key);
         logContext.Properties.Add(key, value);
         return logContext;
     }
