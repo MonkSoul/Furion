@@ -257,7 +257,8 @@ internal static class Penetrates
         var logConext = new LogContext
         {
             Properties = contexts.SelectMany(p => p.Properties)
-                .ToDictionary(u => u.Key, u => u.Value),
+                .GroupBy(p => p.Key)
+                .ToDictionary(u => u.Key, u => u.FirstOrDefault().Value),
             Scopes = scopes
         };
 
