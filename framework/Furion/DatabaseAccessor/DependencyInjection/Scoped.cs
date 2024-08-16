@@ -38,7 +38,8 @@ public static partial class Scoped
     /// </summary>
     /// <param name="handler"></param>
     /// <param name="scopeFactory"></param>
-    public static void CreateUow(Action<IServiceScopeFactory, IServiceScope> handler, IServiceScopeFactory scopeFactory = default)
+    public static void CreateUow(Action<IServiceScopeFactory, IServiceScope> handler,
+        IServiceScopeFactory scopeFactory = default)
     {
         CreateUowAsync(async (fac, scope) =>
         {
@@ -52,7 +53,8 @@ public static partial class Scoped
     /// </summary>
     /// <param name="handler"></param>
     /// <param name="scopeFactory"></param>
-    public static async Task CreateUowAsync(Func<IServiceScopeFactory, IServiceScope, Task> handler, IServiceScopeFactory scopeFactory = default)
+    public static async Task CreateUowAsync(Func<IServiceScopeFactory, IServiceScope, Task> handler,
+        IServiceScopeFactory scopeFactory = default)
     {
         // 禁止空调用
         if (handler == null) throw new ArgumentNullException(nameof(handler));
@@ -68,16 +70,13 @@ public static partial class Scoped
             dbContextPool = scoped.ServiceProvider.GetService<IDbContextPool>();
 
             // 开启事务
-            dbContextPool.BeginTransaction(true);
+            dbContextPool?.BeginTransaction(true);
 
             // 执行方法
             await handler(scopeFactory, scoped);
 
-            // 提交工作单元
-            dbContextPool.SavePoolNow();
-
             // 提交事务
-            dbContextPool.CommitTransaction(true);
+            dbContextPool?.CommitTransaction(true);
         }
         catch
         {
@@ -88,6 +87,9 @@ public static partial class Scoped
         }
         finally
         {
+            // 关闭连接
+            dbContextPool?.CloseAll();
+
             // 释放
             scoped.Dispose();
             if (serviceProvider != null) await serviceProvider.DisposeAsync();
