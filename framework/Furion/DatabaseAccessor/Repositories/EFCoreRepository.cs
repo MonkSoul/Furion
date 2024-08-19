@@ -322,7 +322,7 @@ public partial class PrivateRepository<TEntity> : PrivateSqlRepository, IPrivate
             // 原始表
             var originTableName = GetFullTableName();
 
-            // 获取分布表名称
+            // 获取分表名称集合
             var returnTableNames = tableNamesAction(originTableName)?.ToArray();
             var tableSegments = ((returnTableNames == null || returnTableNames.Length == 0) ? [originTableName] : returnTableNames)
                 .Distinct()
@@ -851,7 +851,7 @@ public partial class PrivateRepository<TEntity> : PrivateSqlRepository, IPrivate
     /// <returns></returns>
     private string FormatTableName(string tableName)
     {
-        if (IsNpgsql())
+        if (IsNpgsql() || IsSqlite())
         {
             return $"\"{tableName.Replace("\"", "\"\"")}\"";
         }
