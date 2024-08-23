@@ -24,6 +24,78 @@ Param(
     #[string]$UseDatabaseNames
 )
 
+# 匹配数据库表代码注释
+function ExtractTableHasComment($inputString) {
+    $pattern = 'HasComment\("([^"]*)"\)'
+
+    if ($inputString -match $pattern) {
+        $matches = $Matches[1]
+        if ($matches) {
+            return $matches;
+        }
+    } else {
+        return $null;
+    }
+}
+
+# 匹配数据库列代码注释
+function ParseCommentsFromCode($code) {
+    $commentsDictionary = @{}
+
+    $lines = $code.Split([Environment]::NewLine)
+
+    $currentPropertyBlock = ''
+
+    foreach ($line in $lines) {
+        if ($line -match '(?s)entityBuilder\.Property\(e => e\.(?<propertyName>\w+)\)') {
+            $currentPropertyBlock = $line
+            $currentPropertyName = $Matches['propertyName']
+        }
+        elseif ($currentPropertyBlock -ne '' -and $line -match ';') {
+            $currentPropertyBlock += $line
+            $propertyBlock = [System.Text.RegularExpressions.Regex]::Escape($currentPropertyBlock)
+            if ($currentPropertyBlock -match '(?s)\.HasComment\("(?<comment>[^"]*)"\)') {
+                $commentsDictionary[$currentPropertyName] = $Matches['comment']
+            } else {
+                $commentsDictionary[$currentPropertyName] = $null
+            }
+            $currentPropertyBlock = ''
+        }
+        elseif ($currentPropertyBlock -ne '') {
+            $currentPropertyBlock += $line
+        }
+    }
+
+    return $commentsDictionary
+}
+
+# 生成属性注释
+function AddXmlCommentsToProperties($content, $commentsDictionary) {
+    $lines = $content.Split([Environment]::NewLine)
+
+    $modifiedLines = @()
+
+    foreach ($line in $lines) {
+        if ($line.Trim() -match '^\s*public\s+(\S+)\s+(\w+)\s+\{.*') {
+            $propertyName = $Matches[2]
+            $propertyType = $Matches[1]
+
+            if ($commentsDictionary.ContainsKey($propertyName)) {
+                $modifiedLines += @"
+/// <summary>
+/// {$($commentsDictionary[$propertyName])}
+/// </summary>
+"@
+            }
+        }
+        $modifiedLines += $line
+    }
+
+    $modifiedContent = $modifiedLines -join [Environment]::NewLine
+
+    return $modifiedContent
+}
+
 $FurTools = "Furion Tools v4.9.5.4";
 
 # 输出信息
@@ -323,12 +395,12 @@ if($options -eq "G")
         # 保存数据库上下文定位器
         $DbContextLocators = $locatorTextBox.Text;
 
-        Try{
+        try{
             Write-Warning "$FurTools 正在加载数据库表和视图......"
             loadDbTable;
             Write-Warning "$FurTools 加载成功！"
         }
-        Catch{
+        catch{
             Write-Warning "$FurTools 加载数据库表和视图出错，请重试！";
         }
     }
@@ -482,42 +554,51 @@ Write-Output "$FurTools 正在编译解决方案代码......";
 # 声明完整的命令字符串
 $CommandString = "";
 
-# 处理数据库所有表生成情况
-if ($Tables.Count -eq 0)
+try 
 {
-    $CommandString = "dotnet ef dbcontext scaffold Name=ConnectionStrings:$ConnectionName $DbProvider --project $EntryProject --output-dir $TempOutputDir --context $Context --namespace $Namespace --no-onconfiguring --no-pluralize";
-    if($UseDatabaseNames)
+    # 处理数据库所有表生成情况
+    if ($Tables.Count -eq 0)
     {
-        $CommandString += " --use-database-names";
+        $CommandString = "dotnet ef dbcontext scaffold Name=ConnectionStrings:$ConnectionName $DbProvider --project $EntryProject --output-dir $TempOutputDir --context $Context --namespace $Namespace --no-onconfiguring --no-pluralize";
+        if($UseDatabaseNames)
+        {
+            $CommandString += " --use-database-names";
+        }
+        $CommandString += " --force";
     }
-    $CommandString += " --force";
+    # 处理特定表生成情况
+    else
+    {
+        # 将配置的数据库表分割成数组
+        $TableArray = $Tables.Split(',') | Where-Object { $_ -ne '' };
+    
+        # 构建 --table 参数的字符串  
+        $TableParams = $TableArray | ForEach-Object { "--table $_" };
+    
+        $CommandString = "dotnet ef dbcontext scaffold Name=ConnectionStrings:$ConnectionName $DbProvider --project $EntryProject --output-dir $TempOutputDir --context $Context --namespace $Namespace $($TableParams -join ' ') --no-onconfiguring --no-pluralize";
+        if($UseDatabaseNames)
+        {
+            $CommandString += " --use-database-names";
+        }
+        $CommandString += " --force";
+    }
+
+    # 执行命令字符串  
+    Invoke-Expression $CommandString;
+
+    Write-Output "$FurTools 编译成功！";
+
+    Write-Output "$FurTools 开始生成实体文件......";
+
+    # 获取 DbContext 生成的配置内容
+     $dbContextContent = Get-Content "$TempOutputDir\$Context.cs" -raw;
 }
-# 处理特定表生成情况
-else
+catch
 {
-    # 将配置的数据库表分割成数组
-    $TableArray = $Tables.Split(',') | Where-Object { $_ -ne '' };
-    
-    # 构建 --table 参数的字符串  
-    $TableParams = $TableArray | ForEach-Object { "--table $_" };
-    
-    $CommandString = "dotnet ef dbcontext scaffold Name=ConnectionStrings:$ConnectionName $DbProvider --project $EntryProject --output-dir $TempOutputDir --context $Context --namespace $Namespace $($TableParams -join ' ') --no-onconfiguring --no-pluralize";
-    if($UseDatabaseNames)
-    {
-        $CommandString += " --use-database-names";
-    }
-    $CommandString += " --force";
+    Write-Warning "$FurTools 生成失败：$_.Message";
+    exit;
 }
 
-# 执行命令字符串  
-Invoke-Expression $CommandString;
-
-Write-Output "$FurTools 编译成功！";
-
-Write-Output "$FurTools 开始生成实体文件......";
-
-# 获取 DbContext 生成的配置内容
-$dbContextContent = Get-Content "$TempOutputDir\$Context.cs" -raw;
 $entityConfigures = [regex]::Matches($dbContextContent, "modelBuilder.Entity\<(?<table>\w+)\>\(entity\s=\>\n*[\s\S]*?\{(?<content>(?:[^{}]|(?<open>{)|(?<-open>}))+(?(open)(?!)))\}\);");
 
 # 定义字典集合
@@ -585,6 +666,10 @@ for ($i = 0; $i -le $files.Count - 1; $i++){
     # 获取类属性定义
     $propsContent = [regex]::Match($entityContent, $propRegex).Groups["content"].value;
 
+    # 生成属性设置
+    $commentsDictionary = ParseCommentsFromCode -code $propsContent;
+    $modifiedContent = AddXmlCommentsToProperties -content $propsContent -commentsDictionary $commentsDictionary;
+
     $extents = " : IEntity<$DbContextLocators>";
     $newPropsContent = $propsContent;
 # 判断模型配置中是否包含配置
@@ -595,11 +680,22 @@ for ($i = 0; $i -le $files.Count - 1; $i++){
         $newPropsContent = $propsContent + ($entityConfigure.Replace("#Table#",$fileName).Replace("#Code#",$dic[$fileName]));
     }
 
-    # 生成继承关系和文件头
-    $finalClass = $fileHeader +  @"
+# 生成数据库表名注释
+$tableDescription = ExtractTableHasComment -inputString $newPropsContent;
+if($tableDescription -ne $null -and $tableDescription -ne ''){
+    $tableDescription = @"
+
+/// <summary>
+/// $tableDescription
+/// </summary>
+"@;
+}
+
+# 生成继承关系和文件头
+$finalClass = $fileHeader +  @"
 
 namespace $Namespace;
-
+$tableDescription
 public partial class $fileName$extents
 {$newPropsContent}
 "@;
