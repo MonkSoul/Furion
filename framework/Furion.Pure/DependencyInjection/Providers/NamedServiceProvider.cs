@@ -23,6 +23,7 @@
 // 请访问 https://gitee.com/dotnetchina/Furion 获取更多关于 Furion 项目的许可证和版权信息。
 // ------------------------------------------------------------------------
 
+using Furion.Reflection;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 
@@ -56,10 +57,16 @@ internal class NamedServiceProvider<TService> : INamedServiceProvider<TService>
     /// <returns></returns>
     public TService GetService(string serviceName)
     {
-        // 解析所有实现
-        return _serviceProvider.GetServices<TService>()
-            .Where(u => ResovleServiceName(u.GetType()) == serviceName)
-            .FirstOrDefault();
+        var services = _serviceProvider.GetServices<TService>();
+
+        if (services
+            .OfType<AspectDispatchProxy>()
+            .FirstOrDefault(u => ResovleServiceName(((dynamic)u).Target.GetType()) == serviceName) is not TService service)
+        {
+            service = services.FirstOrDefault(u => ResovleServiceName(u.GetType()) == serviceName);
+        }
+
+        return service;
     }
 
     /// <summary>
@@ -83,9 +90,14 @@ internal class NamedServiceProvider<TService> : INamedServiceProvider<TService>
     public TService GetRequiredService(string serviceName)
     {
         // 解析所有实现
-        var service = _serviceProvider.GetServices<TService>()
-            .Where(u => ResovleServiceName(u.GetType()) == serviceName)
-            .FirstOrDefault();
+        var services = _serviceProvider.GetServices<TService>();
+
+        if (services
+            .OfType<AspectDispatchProxy>()
+            .FirstOrDefault(u => ResovleServiceName(((dynamic)u).Target.GetType()) == serviceName) is not TService service)
+        {
+            service = services.FirstOrDefault(u => ResovleServiceName(u.GetType()) == serviceName);
+        }
 
         // 如果服务不存在，抛出异常
         return service ?? throw new InvalidOperationException($"Named service `{serviceName}` is not registered in container.");

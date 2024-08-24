@@ -265,6 +265,8 @@ public static class DependencyInjectionServiceCollectionExtensions
             object ResolveService(string named, TDependency _)
             {
                 var isRegister = TypeNamedCollection.TryGetValue(named, out var serviceType);
+
+                // 暂不支持 AOP
                 return isRegister ? provider.GetService(serviceType) : null;
             }
             return (Func<string, TDependency, object>)ResolveService;
