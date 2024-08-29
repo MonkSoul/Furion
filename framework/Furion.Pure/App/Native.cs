@@ -128,21 +128,35 @@ public static class Native
         return windowInstance;
     }
 
+    private static readonly object PortLock = new();
+
     /// <summary>
     /// 获取一个空闲端口
     /// </summary>
     /// <returns></returns>
     public static int GetIdlePort()
     {
-        var fromPort = 10000;
-        var toPort = 65535;
-        var randomPort = RandomNumberGenerator.GetInt32(fromPort, toPort);
+        const int fromPort = 10000;
+        const int toPort = 65535;
 
-        while (IPGlobalProperties.GetIPGlobalProperties().GetActiveTcpListeners().Any(p => p.Port == randomPort))
+        do
         {
-            randomPort = RandomNumberGenerator.GetInt32(fromPort, toPort);
-        }
+            lock (PortLock)
+            {
+                var randomPort = RandomNumberGenerator.GetInt32(fromPort, toPort + 1);
+                if (!IsPortInUse(randomPort))
+                {
+                    return randomPort;
+                }
+            }
 
-        return randomPort;
+            // 减少CPU资源消耗
+            Thread.Sleep(10);
+        } while (true);
+    }
+
+    private static bool IsPortInUse(int port)
+    {
+        return IPGlobalProperties.GetIPGlobalProperties().GetActiveTcpListeners().Any(p => p.Port == port);
     }
 }
