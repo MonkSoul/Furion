@@ -26,6 +26,7 @@
 using Furion.ClayObject.Extensions;
 using Furion.JsonSerialization;
 using Furion.Templates.Extensions;
+using System.Net.Http.Headers;
 using System.Text;
 
 namespace Furion.RemoteRequest;
@@ -194,13 +195,7 @@ public sealed partial class HttpRequestPart
     {
         if (!string.IsNullOrWhiteSpace(contentType))
         {
-            // 处理 application/json;charset=utf-8，携带 charset 并非标准格式
-            if (contentType.Contains("charset", StringComparison.OrdinalIgnoreCase))
-            {
-                var parts = contentType.Split(';', StringSplitOptions.RemoveEmptyEntries);
-                if (parts.Length > 0) ContentType = parts[0];
-            }
-            else ContentType = contentType;
+            ContentType = MediaTypeHeaderValue.Parse(contentType).MediaType;
         }
         return this;
     }
