@@ -23,7 +23,10 @@
 // 请访问 https://gitee.com/dotnetchina/Furion 获取更多关于 Furion 项目的许可证和版权信息。
 // ------------------------------------------------------------------------
 
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
+using Microsoft.EntityFrameworkCore.Metadata;
+using System.Text;
 
 namespace Furion.DatabaseAccessor;
 
@@ -33,6 +36,38 @@ namespace Furion.DatabaseAccessor;
 public partial class PrivateRepository<TEntity>
     where TEntity : class, IPrivateEntity, new()
 {
+    /// <summary>
+    /// 分表插入一条记录
+    /// </summary>
+    /// <param name="tableNamesAction"></param>
+    /// <param name="entity"></param>
+    /// <returns></returns>
+    public virtual EntityEntry<TEntity> InsertFromSegments(Func<string, IEnumerable<string>> tableNamesAction, TEntity entity)
+    {
+        GenerateInsertSQL(tableNamesAction, entity, out var stringBuilder, out var parameters);
+
+        // 这里怎么根据将 stringBuilder 和 entity 关联起来
+        Database.ExecuteSqlRaw(stringBuilder.ToString(), parameters.ToArray());
+
+        return Context.Entry(entity);
+    }
+
+    /// <summary>
+    /// 分表插入一条记录
+    /// </summary>
+    /// <param name="tableNamesAction"></param>
+    /// <param name="entity"></param>
+    /// <returns></returns>
+    public virtual async Task<EntityEntry<TEntity>> InsertFromSegmentsAsync(Func<string, IEnumerable<string>> tableNamesAction, TEntity entity)
+    {
+        GenerateInsertSQL(tableNamesAction, entity, out var stringBuilder, out var parameters);
+
+        // 这里怎么根据将 stringBuilder 和 entity 关联起来
+        await Database.ExecuteSqlRawAsync(stringBuilder.ToString(), parameters.ToArray());
+
+        return Context.Entry(entity);
+    }
+
     /// <summary>
     /// 新增一条记录
     /// </summary>
@@ -263,4 +298,49 @@ public partial class PrivateRepository<TEntity>
         await InsertAsync(entities, cancellationToken);
         await SaveNowAsync(acceptAllChangesOnSuccess, cancellationToken);
     }
+
+    private void GenerateInsertSQL(Func<string, IEnumerable<string>> tableNamesAction, TEntity entity, out StringBuilder stringBuilder, out List<object> parameters)
+    {
+        if (tableNamesAction == null)
+        {
+            throw new ArgumentNullException(nameof(tableNamesAction));
+        }
+
+        // 原始表
+        var originTableName = GetFullTableName();
+
+        // 获取分表名称集合
+        var returnTableNames = tableNamesAction(originTableName)?.ToArray();
+        var tableSegments = ((returnTableNames == null || returnTableNames.Length == 0) ? [originTableName] : returnTableNames)
+            .Distinct()
+        .Select(u => string.IsNullOrWhiteSpace(u) ? originTableName : FormatDbElement(u));
+
+        // 查询主键列名
+        var keyColumn = FormatDbElement(EntityType.FindPrimaryKey().Properties
+            .FirstOrDefault()
+            ?.GetColumnName(StoreObjectIdentifier.Table(EntityType?.GetTableName(), EntityType?.GetSchema())));
+
+        // 获取列名
+        var columnNames = EntityType.GetProperties()
+            .ToDictionary(p => p.Name, p => FormatDbElement(p.GetColumnName(StoreObjectIdentifier.Table(EntityType?.GetTableName(), EntityType?.GetSchema()))))
+            .Where(u => !u.Value.Equals(keyColumn, StringComparison.OrdinalIgnoreCase))
+            .ToDictionary(p => p.Key, p => p.Value);
+
+        var columnList = string.Join(", ", columnNames.Values);
+        var parameterValues = string.Join(", ", columnNames.Keys.Select((p, i) => $"{{{i}}}"));
+
+        stringBuilder = new StringBuilder();
+        parameters = new List<object>();
+        foreach (var propName in columnNames.Keys)
+        {
+            var propertyValue = Entry(entity).Property(propName).CurrentValue;
+            parameters.Add(propertyValue);
+        }
+
+        foreach (var tableName in returnTableNames)
+        {
+            stringBuilder.AppendLine($"INSERT INTO {tableName} ({columnList}) VALUES ({parameterValues});");
+        }
+    }
+
 }

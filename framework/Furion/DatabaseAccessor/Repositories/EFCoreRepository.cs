@@ -326,7 +326,7 @@ public partial class PrivateRepository<TEntity> : PrivateSqlRepository, IPrivate
             var returnTableNames = tableNamesAction(originTableName)?.ToArray();
             var tableSegments = ((returnTableNames == null || returnTableNames.Length == 0) ? [originTableName] : returnTableNames)
                 .Distinct()
-                .Select(u => string.IsNullOrWhiteSpace(u) ? originTableName : FormatTableName(u));
+                .Select(u => string.IsNullOrWhiteSpace(u) ? originTableName : FormatDbElement(u));
 
             var sb = new StringBuilder();
             sb.Append("SELECT * FROM ");
@@ -845,23 +845,23 @@ public partial class PrivateRepository<TEntity> : PrivateSqlRepository, IPrivate
     }
 
     /// <summary>
-    /// 格式化数据库表名
+    /// 格式化数据元素
     /// </summary>
-    /// <param name="tableName"></param>
+    /// <param name="element"></param>
     /// <returns></returns>
-    private string FormatTableName(string tableName)
+    private string FormatDbElement(string element)
     {
         if (IsNpgsql() || IsSqlite())
         {
-            return $"\"{tableName.Replace("\"", "\"\"")}\"";
+            return $"\"{element.Replace("\"", "\"\"")}\"";
         }
         else if (IsSqlServer())
         {
-            return $"[{tableName.Replace("]", "]]")}]";
+            return $"[{element.Replace("]", "]]")}]";
         }
         else
         {
-            return tableName;
+            return element;
         }
     }
 }
