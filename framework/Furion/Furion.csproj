@@ -30,7 +30,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\Furion.Extras.DependencyModel.CodeAnalysis\Furion.Extras.DependencyModel.CodeAnalysis.csproj" />
+		<ProjectReference Include="$(ProjectDir)..\Furion.Extras.DependencyModel.CodeAnalysis\Furion.Extras.DependencyModel.CodeAnalysis.csproj" />
 	</ItemGroup>
 
 </Project>
