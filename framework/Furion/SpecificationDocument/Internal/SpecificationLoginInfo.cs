@@ -45,4 +45,9 @@ public sealed class SpecificationLoginInfo
     /// 提交登录地址
     /// </summary>
     public string SubmitUrl { get; set; }
+
+    /// <summary>
+    /// 生产环境自动开启
+    /// </summary>
+    public bool EnableOnProduction { get; set; }
 }

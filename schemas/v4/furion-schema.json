@@ -2623,6 +2623,11 @@
             "Password": {
               "type": "string",
               "description": "密码"
+            },
+            "EnableOnProduction": {
+              "type": "boolean",
+              "description": "是否生产环境自动开启",
+              "default": false
             }
           }
         },

@@ -32,6 +32,7 @@ using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Swagger;
 using Swashbuckle.AspNetCore.SwaggerGen;
@@ -663,7 +664,7 @@ public static class SpecificationDocumentBuilder
         {
             swaggerUIOptions.ConfigObject.AdditionalItems.Add(nameof(_specificationDocumentSettings.LoginInfo), new JsonObject
             {
-                [nameof(SpecificationLoginInfo.Enabled)] = additionals.Enabled,
+                [nameof(SpecificationLoginInfo.Enabled)] = additionals.Enabled || (App.HostEnvironment.IsProduction() && additionals.EnableOnProduction),
                 [nameof(SpecificationLoginInfo.CheckUrl)] = additionals.CheckUrl,
                 [nameof(SpecificationLoginInfo.SubmitUrl)] = additionals.SubmitUrl
             });
