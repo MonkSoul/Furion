@@ -46,13 +46,16 @@ public partial class PrivateRepository<TEntity>
         if (Entities.Local.All(e => e != entity))
         {
             Entities.Attach(entity);
+
             var entityEntry = Entities.Update(entity);
+
             // 忽略空值
             IgnoreNullValues(ref entity, ignoreNullValues);
+
             return entityEntry;
         }
 
-        return Entities.Entry(entity);
+        return Entry(entity);
     }
 
     /// <summary>
