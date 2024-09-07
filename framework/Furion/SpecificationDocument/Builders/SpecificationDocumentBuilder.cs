@@ -297,14 +297,14 @@ public static class SpecificationDocumentBuilder
         // 修复 editor.swagger.io 生成不能正常处理 C# object 类型问题
         swaggerGenOptions.SchemaFilter<AnySchemaFilter>();
 
-        // 支持控制器排序操作
-        if (_specificationDocumentSettings.EnableTagsOrderDocumentFilter == true) swaggerGenOptions.DocumentFilter<TagsOrderDocumentFilter>();
-
         // 添加 Action 操作过滤器
         swaggerGenOptions.OperationFilter<ApiActionFilter>();
 
         // 自定义配置
         configure?.Invoke(swaggerGenOptions);
+
+        // 支持控制器排序操作
+        if (_specificationDocumentSettings.EnableTagsOrderDocumentFilter == true) swaggerGenOptions.DocumentFilter<TagsOrderDocumentFilter>();
     }
 
     /// <summary>
