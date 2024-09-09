@@ -218,7 +218,7 @@ if($options -eq "G")
         $connStr = $comboBox.SelectedItem;
         if ($connStr -eq $null -or $connStr -eq ""){
             [System.Windows.Forms.MessageBox]::Show("请选择数据库连接字符串后再操作");
-            exit;
+            return;
         }
 
         # 打开数据库读取所有数据库表和视图
@@ -277,7 +277,7 @@ if($options -eq "G")
         {
             # Write-Warning "$FurTools 未找到 $settingsPath 中定义的数据库连接字符串！";
             # Write-Warning "$FurTools 程序终止！";
-            exit;
+            return;
         }
 
         # 获取连接字符串所有定义
@@ -472,12 +472,12 @@ if($options -eq "G")
         if($OutputDir -eq $null -and $OutputDir -eq "")
         {
             Write-Warning "$FurTools 用户取消操作，程序终止！";
-            exit;
+            return;
         }
     }
     else{
         Write-Warning "$FurTools 用户取消操作，程序终止！";
-        exit;
+        return;
     }
 
     # -----------------------------------------------------------------------------
@@ -515,13 +515,13 @@ end tell
     else
     {
         Write-Warning "$FurTools 未知操作系统类型！";
-        exit;
+        return;
     }
     
     if ([string]::IsNullOrEmpty($selectFolder))
     {
         Write-Warning "$FurTools 用户取消操作，程序终止！";
-        exit;
+        return;
     }
 
     # 赋值给保存文件夹
@@ -537,14 +537,14 @@ end tell
     if($OutputDir -eq $null -and $OutputDir -eq "")
     {
         Write-Warning "$FurTools 用户取消操作，程序终止！";
-        exit;
+        return;
     }
 }
 
 if($ConnectionName -eq "NonConfigureConnectionString")
 {
     Write-Warning "$FurTools 未找到连接字符串，程序终止！";
-    exit;
+    return;
 }
 
 # 执行 dotnet ef dbcontext scaffold 命令
@@ -596,7 +596,7 @@ try
 catch
 {
     Write-Warning "$FurTools 生成失败：$_.Message";
-    exit;
+    return;
 }
 
 $entityConfigures = [regex]::Matches($dbContextContent, "modelBuilder.Entity\<(?<table>\w+)\>\(entity\s=\>\n*[\s\S]*?\{(?<content>(?:[^{}]|(?<open>{)|(?<-open>}))+(?(open)(?!)))\}\);");
