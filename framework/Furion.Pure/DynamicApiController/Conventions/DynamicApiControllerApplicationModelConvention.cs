@@ -156,6 +156,14 @@ internal sealed class DynamicApiControllerApplicationModelConvention : IApplicat
 
             var actionMethod = action.ActionMethod;
             var actionApiDescriptionSettings = actionMethod.IsDefined(typeof(ApiDescriptionSettingsAttribute), true) ? actionMethod.GetCustomAttribute<ApiDescriptionSettingsAttribute>(true) : default;
+
+            // 检查当前方法是否是继承而来
+            if (controller.ControllerType.IsSubclassOf(actionMethod.DeclaringType) && actionApiDescriptionSettings?.DisableInherite == true)
+            {
+                action.ApiExplorer.IsVisible = false;
+                continue;
+            }
+
             ConfigureAction(action, actionApiDescriptionSettings, controllerApiDescriptionSettings, hasApiControllerAttribute);
         }
     }

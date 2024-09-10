@@ -131,4 +131,9 @@ public sealed class ApiDescriptionSettingsAttribute : ApiExplorerSettingsAttribu
     /// 强制携带路由前缀，即使使用 [Route] 重写，仅对 Class/Controller 有效
     /// </summary>
     public object ForceWithRoutePrefix { get; set; }
+
+    /// <summary>
+    /// 禁止子类继承
+    /// </summary>
+    public bool DisableInherite { get; set; } = false;
 }
