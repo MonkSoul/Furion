@@ -23,9 +23,9 @@
 	</ItemGroup>
 
 	<ItemGroup Condition=" '$(TargetFramework)' == 'net9.0' ">
-		<PackageReference Include="Microsoft.Extensions.DependencyModel" Version="9.0.0-preview.7.24405.7" />
-		<PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="9.0.0-preview.7.24406.2" />
-		<PackageReference Include="System.Text.Json" Version="9.0.0-preview.7.24405.7" />
+		<PackageReference Include="Microsoft.Extensions.DependencyModel" Version="9.0.0-rc.1.24431.7" />
+		<PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="9.0.0-rc.1.24452.1" />
+		<PackageReference Include="System.Text.Json" Version="9.0.0-rc.1.24431.7" />
 	</ItemGroup>
 
 	<ItemGroup>
