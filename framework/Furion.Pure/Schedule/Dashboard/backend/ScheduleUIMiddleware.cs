@@ -288,6 +288,9 @@ public sealed class ScheduleUIMiddleware
                     context.Response.Headers.CacheControl = "no-cache";
                     context.Response.Headers.Connection = "keep-alive";
 
+                    // 防止 Nginx 缓存 Server-Sent Events
+                    context.Response.Headers["X-Accel-Buffering"] = "no";
+
                     var queue = new BlockingCollection<JobDetail>();
 
                     // 监听作业计划变化
@@ -307,7 +310,7 @@ public sealed class ScheduleUIMiddleware
                         if (!context.RequestAborted.IsCancellationRequested)
                         {
                             var message = "data: " + SerializeToJson(jobDetail) + "\n\n";
-                            await context.Response.WriteAsync(message);
+                            await context.Response.WriteAsync(message, context.RequestAborted);
                             //await context.Response.Body.FlushAsync();
                         }
                         else break;
