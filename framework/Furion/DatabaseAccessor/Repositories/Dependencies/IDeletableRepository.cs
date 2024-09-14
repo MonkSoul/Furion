@@ -113,27 +113,27 @@ public interface IPrivateDeletableRepository<TEntity> : IPrivateRootRepository
     /// 删除多条记录并立即提交
     /// </summary>
     /// <param name="entities">多个实体</param>
-    void DeleteNow(params TEntity[] entities);
+    int DeleteNow(params TEntity[] entities);
 
     /// <summary>
     /// 删除多条记录并立即提交
     /// </summary>
     /// <param name="entities">多个实体</param>
     /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
-    void DeleteNow(TEntity[] entities, bool acceptAllChangesOnSuccess);
+    int DeleteNow(TEntity[] entities, bool acceptAllChangesOnSuccess);
 
     /// <summary>
     /// 删除多条记录并立即提交
     /// </summary>
     /// <param name="entities">多个实体</param>
-    void DeleteNow(IEnumerable<TEntity> entities);
+    int DeleteNow(IEnumerable<TEntity> entities);
 
     /// <summary>
     /// 删除多条记录并立即提交
     /// </summary>
     /// <param name="entities">多个实体</param>
     /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
-    void DeleteNow(IEnumerable<TEntity> entities, bool acceptAllChangesOnSuccess);
+    int DeleteNow(IEnumerable<TEntity> entities, bool acceptAllChangesOnSuccess);
 
     /// <summary>
     /// 删除一条记录并立即提交
@@ -157,7 +157,7 @@ public interface IPrivateDeletableRepository<TEntity> : IPrivateRootRepository
     /// </summary>
     /// <param name="entities">多个实体</param>
     /// <returns>Task</returns>
-    Task DeleteNowAsync(params TEntity[] entities);
+    Task<int> DeleteNowAsync(params TEntity[] entities);
 
     /// <summary>
     /// 删除多条记录并立即提交
@@ -165,24 +165,7 @@ public interface IPrivateDeletableRepository<TEntity> : IPrivateRootRepository
     /// <param name="entities">多个实体</param>
     /// <param name="cancellationToken">取消异步令牌</param>
     /// <returns>Task</returns>
-    Task DeleteNowAsync(TEntity[] entities, CancellationToken cancellationToken = default);
-
-    /// <summary>
-    /// 删除多条记录并立即提交
-    /// </summary>
-    /// <param name="entities">多个实体</param>
-    /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
-    /// <param name="cancellationToken">取消异步令牌</param>
-    /// <returns>Task</returns>
-    Task DeleteNowAsync(TEntity[] entities, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default);
-
-    /// <summary>
-    /// 删除多条记录并立即提交
-    /// </summary>
-    /// <param name="entities">多个实体</param>
-    /// <param name="cancellationToken">取消异步令牌</param>
-    /// <returns>Task</returns>
-    Task DeleteNowAsync(IEnumerable<TEntity> entities, CancellationToken cancellationToken = default);
+    Task<int> DeleteNowAsync(TEntity[] entities, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// 删除多条记录并立即提交
@@ -191,7 +174,24 @@ public interface IPrivateDeletableRepository<TEntity> : IPrivateRootRepository
     /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
     /// <param name="cancellationToken">取消异步令牌</param>
     /// <returns>Task</returns>
-    Task DeleteNowAsync(IEnumerable<TEntity> entities, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default);
+    Task<int> DeleteNowAsync(TEntity[] entities, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// 删除多条记录并立即提交
+    /// </summary>
+    /// <param name="entities">多个实体</param>
+    /// <param name="cancellationToken">取消异步令牌</param>
+    /// <returns>Task</returns>
+    Task<int> DeleteNowAsync(IEnumerable<TEntity> entities, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// 删除多条记录并立即提交
+    /// </summary>
+    /// <param name="entities">多个实体</param>
+    /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
+    /// <param name="cancellationToken">取消异步令牌</param>
+    /// <returns>Task</returns>
+    Task<int> DeleteNowAsync(IEnumerable<TEntity> entities, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// 根据主键删除一条记录
@@ -211,14 +211,14 @@ public interface IPrivateDeletableRepository<TEntity> : IPrivateRootRepository
     /// 根据主键删除一条记录并立即提交
     /// </summary>
     /// <param name="key">主键</param>
-    void DeleteNow(object key);
+    int DeleteNow(object key);
 
     /// <summary>
     /// 根据主键删除一条记录并立即提交
     /// </summary>
     /// <param name="key">主键</param>
     /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
-    void DeleteNow(object key, bool acceptAllChangesOnSuccess);
+    int DeleteNow(object key, bool acceptAllChangesOnSuccess);
 
     /// <summary>
     /// 根据主键删除一条记录并立即提交
@@ -226,7 +226,7 @@ public interface IPrivateDeletableRepository<TEntity> : IPrivateRootRepository
     /// <param name="key">主键</param>
     /// <param name="cancellationToken">异步取消令牌</param>
     /// <returns></returns>
-    Task DeleteNowAsync(object key, CancellationToken cancellationToken = default);
+    Task<int> DeleteNowAsync(object key, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// 根据主键删除一条记录并立即提交
@@ -235,5 +235,5 @@ public interface IPrivateDeletableRepository<TEntity> : IPrivateRootRepository
     /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
     /// <param name="cancellationToken">异步取消令牌</param>
     /// <returns></returns>
-    Task DeleteNowAsync(object key, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default);
+    Task<int> DeleteNowAsync(object key, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default);
 }

@@ -171,10 +171,10 @@ public partial class PrivateRepository<TEntity>
     /// 新增多条记录
     /// </summary>
     /// <param name="entities">多个实体</param>
-    public virtual void InsertNow(params TEntity[] entities)
+    public virtual int InsertNow(params TEntity[] entities)
     {
         Insert(entities);
-        SaveNow();
+        return SaveNow();
     }
 
     /// <summary>
@@ -182,20 +182,20 @@ public partial class PrivateRepository<TEntity>
     /// </summary>
     /// <param name="entities">多个实体</param>
     /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
-    public virtual void InsertNow(TEntity[] entities, bool acceptAllChangesOnSuccess)
+    public virtual int InsertNow(TEntity[] entities, bool acceptAllChangesOnSuccess)
     {
         Insert(entities);
-        SaveNow(acceptAllChangesOnSuccess);
+        return SaveNow(acceptAllChangesOnSuccess);
     }
 
     /// <summary>
     /// 新增多条记录
     /// </summary>
     /// <param name="entities">多个实体</param>
-    public virtual void InsertNow(IEnumerable<TEntity> entities)
+    public virtual int InsertNow(IEnumerable<TEntity> entities)
     {
         Insert(entities);
-        SaveNow();
+        return SaveNow();
     }
 
     /// <summary>
@@ -203,10 +203,10 @@ public partial class PrivateRepository<TEntity>
     /// </summary>
     /// <param name="entities">多个实体</param>
     /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
-    public virtual void InsertNow(IEnumerable<TEntity> entities, bool acceptAllChangesOnSuccess)
+    public virtual int InsertNow(IEnumerable<TEntity> entities, bool acceptAllChangesOnSuccess)
     {
         Insert(entities);
-        SaveNow(acceptAllChangesOnSuccess);
+        return SaveNow(acceptAllChangesOnSuccess);
     }
 
     /// <summary>
@@ -243,10 +243,10 @@ public partial class PrivateRepository<TEntity>
     /// </summary>
     /// <param name="entities">多个实体</param>
     /// <returns>Task</returns>
-    public virtual async Task InsertNowAsync(params TEntity[] entities)
+    public virtual async Task<int> InsertNowAsync(params TEntity[] entities)
     {
         await InsertAsync(entities);
-        await SaveNowAsync();
+        return await SaveNowAsync();
     }
 
     /// <summary>
@@ -255,10 +255,10 @@ public partial class PrivateRepository<TEntity>
     /// <param name="entities">多个实体</param>
     /// <param name="cancellationToken">取消异步令牌</param>
     /// <returns>Task</returns>
-    public virtual async Task InsertNowAsync(TEntity[] entities, CancellationToken cancellationToken = default)
+    public virtual async Task<int> InsertNowAsync(TEntity[] entities, CancellationToken cancellationToken = default)
     {
         await InsertAsync(entities);
-        await SaveNowAsync(cancellationToken);
+        return await SaveNowAsync(cancellationToken);
     }
 
     /// <summary>
@@ -268,10 +268,10 @@ public partial class PrivateRepository<TEntity>
     /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
     /// <param name="cancellationToken">取消异步令牌</param>
     /// <returns>Task</returns>
-    public virtual async Task InsertNowAsync(TEntity[] entities, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
+    public virtual async Task<int> InsertNowAsync(TEntity[] entities, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
     {
         await InsertAsync(entities);
-        await SaveNowAsync(acceptAllChangesOnSuccess, cancellationToken);
+        return await SaveNowAsync(acceptAllChangesOnSuccess, cancellationToken);
     }
 
     /// <summary>
@@ -280,10 +280,10 @@ public partial class PrivateRepository<TEntity>
     /// <param name="entities">多个实体</param>
     /// <param name="cancellationToken">取消异步令牌</param>
     /// <returns>Task</returns>
-    public virtual async Task InsertNowAsync(IEnumerable<TEntity> entities, CancellationToken cancellationToken = default)
+    public virtual async Task<int> InsertNowAsync(IEnumerable<TEntity> entities, CancellationToken cancellationToken = default)
     {
         await InsertAsync(entities, cancellationToken);
-        await SaveNowAsync(cancellationToken);
+        return await SaveNowAsync(cancellationToken);
     }
 
     /// <summary>
@@ -293,10 +293,10 @@ public partial class PrivateRepository<TEntity>
     /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
     /// <param name="cancellationToken">取消异步令牌</param>
     /// <returns>Task</returns>
-    public virtual async Task InsertNowAsync(IEnumerable<TEntity> entities, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
+    public virtual async Task<int> InsertNowAsync(IEnumerable<TEntity> entities, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
     {
         await InsertAsync(entities, cancellationToken);
-        await SaveNowAsync(acceptAllChangesOnSuccess, cancellationToken);
+        return await SaveNowAsync(acceptAllChangesOnSuccess, cancellationToken);
     }
 
     private void GenerateInsertSQL(Func<string, IEnumerable<string>> tableNamesAction, TEntity entity, out StringBuilder stringBuilder, out List<object> parameters)
@@ -342,5 +342,4 @@ public partial class PrivateRepository<TEntity>
             stringBuilder.AppendLine($"INSERT INTO {tableName} ({columnList}) VALUES ({parameterValues});");
         }
     }
-
 }

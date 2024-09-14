@@ -123,10 +123,10 @@ public partial class PrivateRepository<TEntity>
     /// 删除多条记录并立即提交
     /// </summary>
     /// <param name="entities">多个实体</param>
-    public virtual void DeleteNow(params TEntity[] entities)
+    public virtual int DeleteNow(params TEntity[] entities)
     {
         Delete(entities);
-        SaveNow();
+        return SaveNow();
     }
 
     /// <summary>
@@ -134,20 +134,20 @@ public partial class PrivateRepository<TEntity>
     /// </summary>
     /// <param name="entities">多个实体</param>
     /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
-    public virtual void DeleteNow(TEntity[] entities, bool acceptAllChangesOnSuccess)
+    public virtual int DeleteNow(TEntity[] entities, bool acceptAllChangesOnSuccess)
     {
         Delete(entities);
-        SaveNow(acceptAllChangesOnSuccess);
+        return SaveNow(acceptAllChangesOnSuccess);
     }
 
     /// <summary>
     /// 删除多条记录并立即提交
     /// </summary>
     /// <param name="entities">多个实体</param>
-    public virtual void DeleteNow(IEnumerable<TEntity> entities)
+    public virtual int DeleteNow(IEnumerable<TEntity> entities)
     {
         Delete(entities);
-        SaveNow();
+        return SaveNow();
     }
 
     /// <summary>
@@ -155,10 +155,10 @@ public partial class PrivateRepository<TEntity>
     /// </summary>
     /// <param name="entities">多个实体</param>
     /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
-    public virtual void DeleteNow(IEnumerable<TEntity> entities, bool acceptAllChangesOnSuccess)
+    public virtual int DeleteNow(IEnumerable<TEntity> entities, bool acceptAllChangesOnSuccess)
     {
         Delete(entities);
-        SaveNow(acceptAllChangesOnSuccess);
+        return SaveNow(acceptAllChangesOnSuccess);
     }
 
     /// <summary>
@@ -193,10 +193,10 @@ public partial class PrivateRepository<TEntity>
     /// </summary>
     /// <param name="entities">多个实体</param>
     /// <returns>Task</returns>
-    public virtual async Task DeleteNowAsync(params TEntity[] entities)
+    public virtual async Task<int> DeleteNowAsync(params TEntity[] entities)
     {
         await DeleteAsync(entities);
-        await SaveNowAsync();
+        return await SaveNowAsync();
     }
 
     /// <summary>
@@ -205,35 +205,10 @@ public partial class PrivateRepository<TEntity>
     /// <param name="entities">多个实体</param>
     /// <param name="cancellationToken">取消异步令牌</param>
     /// <returns>Task</returns>
-    public virtual async Task DeleteNowAsync(TEntity[] entities, CancellationToken cancellationToken = default)
+    public virtual async Task<int> DeleteNowAsync(TEntity[] entities, CancellationToken cancellationToken = default)
     {
         await DeleteAsync(entities);
-        await SaveNowAsync(cancellationToken);
-    }
-
-    /// <summary>
-    /// 删除多条记录并立即提交
-    /// </summary>
-    /// <param name="entities">多个实体</param>
-    /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
-    /// <param name="cancellationToken">取消异步令牌</param>
-    /// <returns>Task</returns>
-    public virtual async Task DeleteNowAsync(TEntity[] entities, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
-    {
-        await DeleteAsync(entities);
-        await SaveNowAsync(acceptAllChangesOnSuccess, cancellationToken);
-    }
-
-    /// <summary>
-    /// 删除多条记录并立即提交
-    /// </summary>
-    /// <param name="entities">多个实体</param>
-    /// <param name="cancellationToken">取消异步令牌</param>
-    /// <returns>Task</returns>
-    public virtual async Task DeleteNowAsync(IEnumerable<TEntity> entities, CancellationToken cancellationToken = default)
-    {
-        await DeleteAsync(entities);
-        await SaveNowAsync(cancellationToken);
+        return await SaveNowAsync(cancellationToken);
     }
 
     /// <summary>
@@ -243,10 +218,35 @@ public partial class PrivateRepository<TEntity>
     /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
     /// <param name="cancellationToken">取消异步令牌</param>
     /// <returns>Task</returns>
-    public virtual async Task DeleteNowAsync(IEnumerable<TEntity> entities, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
+    public virtual async Task<int> DeleteNowAsync(TEntity[] entities, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
     {
         await DeleteAsync(entities);
-        await SaveNowAsync(acceptAllChangesOnSuccess, cancellationToken);
+        return await SaveNowAsync(acceptAllChangesOnSuccess, cancellationToken);
+    }
+
+    /// <summary>
+    /// 删除多条记录并立即提交
+    /// </summary>
+    /// <param name="entities">多个实体</param>
+    /// <param name="cancellationToken">取消异步令牌</param>
+    /// <returns>Task</returns>
+    public virtual async Task<int> DeleteNowAsync(IEnumerable<TEntity> entities, CancellationToken cancellationToken = default)
+    {
+        await DeleteAsync(entities);
+        return await SaveNowAsync(cancellationToken);
+    }
+
+    /// <summary>
+    /// 删除多条记录并立即提交
+    /// </summary>
+    /// <param name="entities">多个实体</param>
+    /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
+    /// <param name="cancellationToken">取消异步令牌</param>
+    /// <returns>Task</returns>
+    public virtual async Task<int> DeleteNowAsync(IEnumerable<TEntity> entities, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
+    {
+        await DeleteAsync(entities);
+        return await SaveNowAsync(acceptAllChangesOnSuccess, cancellationToken);
     }
 
     /// <summary>
@@ -283,10 +283,10 @@ public partial class PrivateRepository<TEntity>
     /// 根据主键删除一条记录并立即提交
     /// </summary>
     /// <param name="key">主键</param>
-    public virtual void DeleteNow(object key)
+    public virtual int DeleteNow(object key)
     {
         Delete(key);
-        SaveNow();
+        return SaveNow();
     }
 
     /// <summary>
@@ -294,10 +294,10 @@ public partial class PrivateRepository<TEntity>
     /// </summary>
     /// <param name="key">主键</param>
     /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
-    public virtual void DeleteNow(object key, bool acceptAllChangesOnSuccess)
+    public virtual int DeleteNow(object key, bool acceptAllChangesOnSuccess)
     {
         Delete(key);
-        SaveNow(acceptAllChangesOnSuccess);
+        return SaveNow(acceptAllChangesOnSuccess);
     }
 
     /// <summary>
@@ -306,10 +306,10 @@ public partial class PrivateRepository<TEntity>
     /// <param name="key">主键</param>
     /// <param name="cancellationToken">异步取消令牌</param>
     /// <returns></returns>
-    public virtual async Task DeleteNowAsync(object key, CancellationToken cancellationToken = default)
+    public virtual async Task<int> DeleteNowAsync(object key, CancellationToken cancellationToken = default)
     {
         await DeleteAsync(key, cancellationToken);
-        await SaveNowAsync(cancellationToken);
+        return await SaveNowAsync(cancellationToken);
     }
 
     /// <summary>
@@ -319,10 +319,10 @@ public partial class PrivateRepository<TEntity>
     /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
     /// <param name="cancellationToken">异步取消令牌</param>
     /// <returns></returns>
-    public virtual async Task DeleteNowAsync(object key, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
+    public virtual async Task<int> DeleteNowAsync(object key, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
     {
         await DeleteAsync(key, cancellationToken);
-        await SaveNowAsync(acceptAllChangesOnSuccess, cancellationToken);
+        return await SaveNowAsync(acceptAllChangesOnSuccess, cancellationToken);
     }
 
     /// <summary>
