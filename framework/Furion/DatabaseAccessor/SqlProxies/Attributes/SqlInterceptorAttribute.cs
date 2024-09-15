@@ -30,12 +30,12 @@ namespace Furion.DatabaseAccessor;
 /// </summary>
 /// <remarks>如果贴在静态方法中且 InterceptorId/MethodName 为空，则为全局拦截</remarks>
 [SuppressSniffer, AttributeUsage(AttributeTargets.Method)]
-public class InterceptorAttribute : Attribute
+public class SqlInterceptorAttribute : Attribute
 {
     /// <summary>
     /// 构造函数
     /// </summary>
-    public InterceptorAttribute()
+    public SqlInterceptorAttribute()
     {
     }
 
@@ -43,7 +43,7 @@ public class InterceptorAttribute : Attribute
     /// 构造函数
     /// </summary>
     /// <param name="interceptorIds"></param>
-    public InterceptorAttribute(params string[] interceptorIds)
+    public SqlInterceptorAttribute(params string[] interceptorIds)
     {
         InterceptorIds = interceptorIds;
     }

@@ -485,13 +485,13 @@ public class SqlDispatchProxy : AspectDispatchProxy, IDispatchProxy
     /// <param name="sqlProxyMethod"></param>
     private static void CallMethodInterceptors(Type declaringType, SqlProxyMethod sqlProxyMethod)
     {
-        // 获取所有静态方法且贴有 [Interceptor] 特性
+        // 获取所有静态方法且贴有 [SqlInterceptor] 特性
         var interceptorMethods = declaringType.GetMethods()
-                                                                .Where(u => u.IsDefined(typeof(InterceptorAttribute), true));
+                                                                .Where(u => u.IsDefined(typeof(SqlInterceptorAttribute), true));
 
         foreach (var method in interceptorMethods)
         {
-            var interceptorAttribute = method.GetCustomAttribute<InterceptorAttribute>(true);
+            var interceptorAttribute = method.GetCustomAttribute<SqlInterceptorAttribute>(true);
 
             var interceptorIds = interceptorAttribute.InterceptorIds;
 
