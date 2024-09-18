@@ -25,6 +25,7 @@
 
 using Furion.Reflection;
 using Microsoft.CodeAnalysis;
+using System.Data;
 using System.Reflection;
 
 namespace Furion.ViewEngine;
@@ -46,11 +47,13 @@ public class ViewEngineOptions
             typeof(ViewEngineModel).Assembly,
             typeof(System.Collections.IList).Assembly,
             typeof(IEnumerable<>).Assembly,
+            typeof(DataTable).Assembly,
             Reflect.GetAssembly("Microsoft.CSharp"),
             Reflect.GetAssembly("System.Runtime"),
             Reflect.GetAssembly("System.Linq"),
             Reflect.GetAssembly("System.Linq.Expressions"),
-            Reflect.GetAssembly("System.Collections")
+            Reflect.GetAssembly("System.Collections"),
+            Reflect.GetAssembly("netstandard"),
         };
     }
 
