@@ -840,6 +840,35 @@ public class TestModuleServices : IDynamicApiController
     {
         return DateTimeOffset.UtcNow;
     }
+
+    public KSortSignature 生成签名数据()
+    {
+        // 应用标识/密钥
+        var appId = "ca36cb2858ce3517df772ec34ce92f21";
+        var appKey = "95e4a4f651c2d62679c4c150f2e39f4a";
+
+        // 本次提交命令（标识符）
+        var command = "add.user";
+
+        // 序列化需要签名的数据
+        var data = JsonSerializer.Serialize(new { id = 1, name = "Furion" });
+
+        return KSortEncryption.Encrypt(appId, appKey, command, data);
+    }
+
+    [Consumes("text/plain")]
+    public bool 比较签名数据([FromBody] string body)
+    {
+        var kSortSignature = JsonSerializer.Deserialize<KSortSignature>(body);
+
+        return KSortEncryption.Compare(kSortSignature);
+    }
+
+    [Consumes("text/plain")]
+    public bool 比较签名数据2([FromBody] string body)
+    {
+        return KSortEncryption.Compare(body);
+    }
 }
 
 
