@@ -41,10 +41,11 @@ public partial class PrivateRepository<TEntity>
     /// </summary>
     /// <param name="tableNamesAction"></param>
     /// <param name="entity"></param>
+    /// <param name="keySet"></param>
     /// <returns></returns>
-    public virtual EntityEntry<TEntity> InsertFromSegments(Func<string, IEnumerable<string>> tableNamesAction, TEntity entity)
+    public virtual EntityEntry<TEntity> InsertFromSegments(Func<string, IEnumerable<string>> tableNamesAction, TEntity entity, object keySet = null)
     {
-        GenerateInsertSQL(tableNamesAction, entity, out var stringBuilder, out var parameters);
+        GenerateInsertSQL(tableNamesAction, entity, out var stringBuilder, out var parameters, keySet);
 
         // 这里怎么根据将 stringBuilder 和 entity 关联起来
         Database.ExecuteSqlRaw(stringBuilder.ToString(), parameters.ToArray());
@@ -57,10 +58,11 @@ public partial class PrivateRepository<TEntity>
     /// </summary>
     /// <param name="tableNamesAction"></param>
     /// <param name="entity"></param>
+    /// <param name="keySet"></param>
     /// <returns></returns>
-    public virtual async Task<EntityEntry<TEntity>> InsertFromSegmentsAsync(Func<string, IEnumerable<string>> tableNamesAction, TEntity entity)
+    public virtual async Task<EntityEntry<TEntity>> InsertFromSegmentsAsync(Func<string, IEnumerable<string>> tableNamesAction, TEntity entity, object keySet = null)
     {
-        GenerateInsertSQL(tableNamesAction, entity, out var stringBuilder, out var parameters);
+        GenerateInsertSQL(tableNamesAction, entity, out var stringBuilder, out var parameters, keySet);
 
         // 这里怎么根据将 stringBuilder 和 entity 关联起来
         await Database.ExecuteSqlRawAsync(stringBuilder.ToString(), parameters.ToArray());
@@ -299,7 +301,7 @@ public partial class PrivateRepository<TEntity>
         return await SaveNowAsync(acceptAllChangesOnSuccess, cancellationToken);
     }
 
-    private void GenerateInsertSQL(Func<string, IEnumerable<string>> tableNamesAction, TEntity entity, out StringBuilder stringBuilder, out List<object> parameters)
+    private void GenerateInsertSQL(Func<string, IEnumerable<string>> tableNamesAction, TEntity entity, out StringBuilder stringBuilder, out List<object> parameters, object keySet = null)
     {
         if (tableNamesAction == null)
         {
@@ -315,15 +317,25 @@ public partial class PrivateRepository<TEntity>
             .Distinct()
         .Select(u => string.IsNullOrWhiteSpace(u) ? originTableName : FormatDbElement(u));
 
+        // 获取主键属性
+        var columnProperty = EntityType.FindPrimaryKey().Properties
+            .FirstOrDefault();
+        var columnPropertyValue = Entry(entity).Property(columnProperty.Name).CurrentValue;
+
+        // 获取主键的值
+        var keyValue = keySet ?? (
+            columnProperty.ClrType == typeof(Guid)
+                ? ((columnPropertyValue == null || columnPropertyValue == (object)Guid.Empty) ? Guid.NewGuid() : columnPropertyValue)
+                : null
+        );
+
         // 查询主键列名
-        var keyColumn = FormatDbElement(EntityType.FindPrimaryKey().Properties
-            .FirstOrDefault()
-            ?.GetColumnName(StoreObjectIdentifier.Table(EntityType?.GetTableName(), EntityType?.GetSchema())));
+        var keyColumn = FormatDbElement(columnProperty?.GetColumnName(StoreObjectIdentifier.Table(EntityType?.GetTableName(), EntityType?.GetSchema())));
 
         // 获取列名
         var columnNames = EntityType.GetProperties()
             .ToDictionary(p => p.Name, p => FormatDbElement(p.GetColumnName(StoreObjectIdentifier.Table(EntityType?.GetTableName(), EntityType?.GetSchema()))))
-            .Where(u => !u.Value.Equals(keyColumn, StringComparison.OrdinalIgnoreCase))
+            .Where(keyValue == null, u => !u.Value.Equals(keyColumn, StringComparison.OrdinalIgnoreCase))
             .ToDictionary(p => p.Key, p => p.Value);
 
         var columnList = string.Join(", ", columnNames.Values);
