@@ -286,7 +286,7 @@ public sealed class EventBusOptionsBuilder
         // 注册事件订阅者
         foreach (var eventSubscriber in _eventSubscribers)
         {
-            services.AddSingleton(typeof(IEventSubscriber), eventSubscriber);
+            services.TryAddEnumerable(ServiceDescriptor.Singleton(typeof(IEventSubscriber), eventSubscriber));
         }
 
         // 替换事件发布者
