@@ -58,12 +58,6 @@ public static class Native
     /// <returns></returns>
     public static object CreateInstance(Type windowType, params object[] parameters)
     {
-        // 解决特定案例：控件本身也是事件处理程序：https://gitee.com/dotnetchina/Furion/issues/IAT1JG
-        if (typeof(IEventSubscriber).IsAssignableFrom(windowType))
-        {
-            return App.RootServices.GetServices(typeof(IEventSubscriber)).FirstOrDefault(s => s.GetType() == windowType);
-        }
-
         // 获取构造函数
         var constructors = windowType.GetConstructors(BindingFlags.Public | BindingFlags.Instance);
 
