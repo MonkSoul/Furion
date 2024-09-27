@@ -25,6 +25,7 @@
 
 using Furion;
 using Furion.ConfigurableOptions;
+using Furion.Extensions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Options;
@@ -64,11 +65,11 @@ public static class ConfigurableOptionsServiceCollectionExtensions
             if (onListenerMethod != null)
             {
                 // 监听全局配置改变，目前该方式存在触发两次的 bug：https://github.com/dotnet/aspnetcore/issues/2542
-                ChangeToken.OnChange(() => configurationRoot.GetReloadToken(), () =>
+                ChangeToken.OnChange(() => configurationRoot.GetReloadToken(), ((Action)(() =>
                 {
                     var options = optionsConfiguration.Get<TOptions>();
                     if (options != null) onListenerMethod.Invoke(options, new object[] { options, optionsConfiguration });
-                });
+                })).Debounce());
             }
         }
 

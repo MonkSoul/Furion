@@ -184,6 +184,49 @@ public static class ObjectExtensions
     }
 
     /// <summary>
+    /// 添加防抖操作
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="func"></param>
+    /// <param name="milliseconds"></param>
+    /// <returns></returns>
+    public static Action<T> Debounce<T>(this Action<T> func, int milliseconds = 300)
+    {
+        var last = 0;
+
+        return arg =>
+        {
+            var current = Interlocked.Increment(ref last);
+            Task.Delay(milliseconds).ContinueWith(task =>
+            {
+                if (current == last) func(arg);
+                task.Dispose();
+            });
+        };
+    }
+
+    /// <summary>
+    /// 添加防抖操作
+    /// </summary>
+    /// <param name="func"></param>
+    /// <param name="milliseconds"></param>
+    /// <returns></returns>
+    public static Action Debounce(this Action func, int milliseconds = 300)
+    {
+        var last = 0;
+
+        return () =>
+        {
+            var current = Interlocked.Increment(ref last);
+            Task.Delay(milliseconds).ContinueWith(task =>
+            {
+                if (current == last) func();
+                task.Dispose();
+            });
+        };
+    }
+
+    /// <summary>
     /// 判断是否是富基元类型
     /// </summary>
     /// <param name="type">类型</param>
