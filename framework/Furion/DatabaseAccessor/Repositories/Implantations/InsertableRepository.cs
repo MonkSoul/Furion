@@ -301,7 +301,19 @@ public partial class PrivateRepository<TEntity>
         return await SaveNowAsync(acceptAllChangesOnSuccess, cancellationToken);
     }
 
-    private void GenerateInsertSQL(Func<string, IEnumerable<string>> tableNamesAction, TEntity entity, out StringBuilder stringBuilder, out List<object> parameters, object keySet = null)
+    /// <summary>
+    /// 生成 INSERT 语句
+    /// </summary>
+    /// <param name="tableNamesAction"></param>
+    /// <param name="entity"></param>
+    /// <param name="stringBuilder"></param>
+    /// <param name="parameters"></param>
+    /// <param name="keySet"></param>
+    /// <exception cref="ArgumentNullException"></exception>
+    private void GenerateInsertSQL(Func<string, IEnumerable<string>> tableNamesAction
+        , TEntity entity
+        , out StringBuilder stringBuilder
+        , out List<object> parameters, object keySet = null)
     {
         if (tableNamesAction == null)
         {
