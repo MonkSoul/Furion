@@ -354,13 +354,16 @@ public partial class PrivateRepository<TEntity>
         var parameterValues = string.Join(", ", columnNames.Keys.Select((p, i) => $"{{{i}}}"));
 
         stringBuilder = new StringBuilder();
-        parameters = new List<object>();
+        parameters = new();
+
+        // 获取每个属性的值
         foreach (var propName in columnNames.Keys)
         {
             var propertyValue = Entry(entity).Property(propName).CurrentValue;
             parameters.Add(propertyValue);
         }
 
+        // 生成插入语句
         foreach (var tableName in returnTableNames)
         {
             stringBuilder.AppendLine($"INSERT INTO {tableName} ({columnList}) VALUES ({parameterValues});");
