@@ -114,10 +114,10 @@ internal static class Penetrates
                 || (type.IsDefined(typeof(RouteAttribute), true)))
             {
                 // 处理运行时动态生成程序集问题
-                if (type.Assembly?.ManifestModule?.Name == "<Unknown>") return true;
+                // if (type.Assembly?.ManifestModule?.Name == "<Unknown>") return true;
 
                 // 解决 ASP.NET Core 启动时自动载入 NuGet 包导致模块化配置 SupportPackageNamePrefixs 出现非预期的结果
-                if (!App.EffectiveTypes.Any(t => t == type)) return false;
+                //  if (!App.EffectiveTypes.Any(t => t == type)) return false;
 
                 return true;
             }
