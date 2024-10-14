@@ -1,4 +1,4 @@
-using Furion.RemoteRequest.Extensions;
+using Furion.HttpRemote;
 using Microsoft.Extensions.Configuration;
 using System.Threading.Tasks;
 using Xunit;
@@ -15,14 +15,17 @@ public class SampleTests
 
     private readonly ISystemService _sysService;
     private readonly IConfiguration _configuration;
+    private readonly IHttpRemoteService _httpRemoteService;
 
     public SampleTests(ITestOutputHelper tempOutput
         , ISystemService sysService
-        , IConfiguration configuration)
+        , IConfiguration configuration
+        , IHttpRemoteService httpRemoteService)
     {
         Output = tempOutput;
         _sysService = sysService;
         _configuration = configuration;
+        _httpRemoteService = httpRemoteService;
     }
 
     [Fact]
@@ -61,7 +64,7 @@ public class SampleTests
     [Fact]
     public async Task TestBaidu()
     {
-        var res = await "https://www.baidu.com".GetAsync();
+        var res = await _httpRemoteService.GetAsync("https://www.baidu.com");
         Assert.True(res.IsSuccessStatusCode);
     }
 }

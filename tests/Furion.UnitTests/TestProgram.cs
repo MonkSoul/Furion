@@ -14,7 +14,7 @@ public class TestProgram : TestStartup
     {
         Serve.RunNative(services =>
         {
-            services.AddRemoteRequest();
+            services.AddHttpRemote();
         });
     }
 }

@@ -37,7 +37,7 @@ namespace Furion.Extensions;
 /// 对象拓展类
 /// </summary>
 [SuppressSniffer]
-public static class ObjectExtensions
+public static class ObsoleteObjectExtensions
 {
     /// <summary>
     /// 将 DateTimeOffset 转换成本地 DateTime

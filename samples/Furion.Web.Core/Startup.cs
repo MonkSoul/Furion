@@ -43,7 +43,7 @@ public sealed class Startup : AppStartup
 
         services.AddUnifyProvider<SpeciallyResultProvider>("specially");
 
-        services.AddRemoteRequest();
+        services.AddHttpRemote();
 
         services.AddEventBus(options =>
         {

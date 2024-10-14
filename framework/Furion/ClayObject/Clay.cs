@@ -767,7 +767,7 @@ public sealed class Clay : DynamicObject, IEnumerable
             value = clay.Deserialize(elementType);
         }
 
-        return ObjectExtensions.ChangeType(value, elementType);
+        return ObsoleteObjectExtensions.ChangeType(value, elementType);
     }
 
     /// <summary>
