@@ -129,7 +129,7 @@ public static class Native
         return windowInstance;
     }
 
-    private static readonly object PortLock = new();
+    private static readonly object _portLock = new();
 
     /// <summary>
     /// 获取一个空闲端口
@@ -142,7 +142,7 @@ public static class Native
 
         do
         {
-            lock (PortLock)
+            lock (_portLock)
             {
                 var randomPort = RandomNumberGenerator.GetInt32(fromPort, toPort + 1);
                 if (!IsPortInUse(randomPort))
@@ -151,11 +151,16 @@ public static class Native
                 }
             }
 
-            // 减少CPU资源消耗
+            // 减少 CPU 资源消耗
             Thread.Sleep(10);
         } while (true);
     }
 
+    /// <summary>
+    /// 检查端口是否被占用
+    /// </summary>
+    /// <param name="port"></param>
+    /// <returns></returns>
     private static bool IsPortInUse(int port)
     {
         return IPGlobalProperties.GetIPGlobalProperties().GetActiveTcpListeners().Any(p => p.Port == port);
