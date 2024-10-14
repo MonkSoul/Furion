@@ -1,17 +1,5 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-	<PropertyGroup Condition="'$(net6)' == 'True' ">
-		<TargetFramework>net6.0</TargetFramework>
-		<NoWarn>1701;1702;1591</NoWarn>
-		<DocumentationFile>FurionApp.Core.xml</DocumentationFile>
-	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(net7)' == 'True' ">
-		<TargetFramework>net7.0</TargetFramework>
-		<NoWarn>1701;1702;1591</NoWarn>
-		<DocumentationFile>FurionApp.Core.xml</DocumentationFile>
-	</PropertyGroup>
-
 	<PropertyGroup Condition="'$(net8)' == 'True' ">
 		<TargetFramework>net8.0</TargetFramework>
 		<NoWarn>1701;1702;1591</NoWarn>
