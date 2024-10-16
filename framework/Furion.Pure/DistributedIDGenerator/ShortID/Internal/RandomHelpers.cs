@@ -38,7 +38,7 @@ internal static class RandomHelpers
     /// <summary>
     /// 线程锁
     /// </summary>
-    private static readonly object ThreadLock = new();
+    private static readonly Lock ThreadLock = new();
 
     /// <summary>
     /// 生成线程安全的范围内随机数
