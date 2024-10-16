@@ -96,7 +96,7 @@ internal sealed partial class HttpRemoteService : IHttpRemoteService
         CancellationToken cancellationToken = default)
     {
         // 发送 HTTP 远程请求
-        var (httpResponseMessage, _) = SendAsyncCore(httpRequestBuilder, completionOption, default,
+        var (httpResponseMessage, _) = SendCoreAsync(httpRequestBuilder, completionOption, default,
             (httpClient, httpRequestMessage, option, token) =>
                 httpClient.Send(httpRequestMessage, option, token), cancellationToken).GetAwaiter().GetResult();
 
@@ -114,7 +114,7 @@ internal sealed partial class HttpRemoteService : IHttpRemoteService
         CancellationToken cancellationToken = default)
     {
         // 发送 HTTP 远程请求
-        var (httpResponseMessage, _) = await SendAsyncCore(httpRequestBuilder, completionOption,
+        var (httpResponseMessage, _) = await SendCoreAsync(httpRequestBuilder, completionOption,
             (httpClient, httpRequestMessage, option, token) =>
                 httpClient.SendAsync(httpRequestMessage, option, token), default, cancellationToken);
 
@@ -168,7 +168,7 @@ internal sealed partial class HttpRemoteService : IHttpRemoteService
         HttpCompletionOption completionOption, CancellationToken cancellationToken = default)
     {
         // 发送 HTTP 远程请求
-        var (httpResponseMessage, requestDuration) = SendAsyncCore(httpRequestBuilder, completionOption, default,
+        var (httpResponseMessage, requestDuration) = SendCoreAsync(httpRequestBuilder, completionOption, default,
             (httpClient, httpRequestMessage, option, token) =>
                 httpClient.Send(httpRequestMessage, option, token), cancellationToken).GetAwaiter().GetResult();
 
@@ -196,7 +196,7 @@ internal sealed partial class HttpRemoteService : IHttpRemoteService
         CancellationToken cancellationToken = default)
     {
         // 发送 HTTP 远程请求
-        var (httpResponseMessage, requestDuration) = await SendAsyncCore(httpRequestBuilder, completionOption,
+        var (httpResponseMessage, requestDuration) = await SendCoreAsync(httpRequestBuilder, completionOption,
             (httpClient, httpRequestMessage, option, token) =>
                 httpClient.SendAsync(httpRequestMessage, option, token), default, cancellationToken);
 
@@ -230,7 +230,7 @@ internal sealed partial class HttpRemoteService : IHttpRemoteService
     /// <returns>
     ///     <see cref="Tuple{T1, T2}" />
     /// </returns>
-    internal async Task<(HttpResponseMessage ResponseMessage, long RequestDuration)> SendAsyncCore(
+    internal async Task<(HttpResponseMessage ResponseMessage, long RequestDuration)> SendCoreAsync(
         HttpRequestBuilder httpRequestBuilder, HttpCompletionOption completionOption,
         Func<HttpClient, HttpRequestMessage, HttpCompletionOption, CancellationToken, Task<HttpResponseMessage>>?
             sendAsyncMethod,
@@ -287,6 +287,18 @@ internal sealed partial class HttpRemoteService : IHttpRemoteService
             // 获取请求耗时
             var requestDuration = stopwatch.ElapsedMilliseconds;
 
+            // 调用状态码处理程序
+            if (sendAsyncMethod is not null)
+            {
+                await InvokeStatusCodeHandlersAsync(httpRequestBuilder, httpResponseMessage,
+                    cancellationTokenSource.Token);
+            }
+            else
+            {
+                // ReSharper disable once MethodHasAsyncOverload
+                InvokeStatusCodeHandlers(httpRequestBuilder, httpResponseMessage, cancellationTokenSource.Token);
+            }
+
             // 如果 HTTP 响应的 IsSuccessStatusCode 属性是 false，则引发异常
             if (httpRequestBuilder.EnsureSuccessStatusCodeEnabled)
             {
@@ -310,14 +322,11 @@ internal sealed partial class HttpRemoteService : IHttpRemoteService
             // 处理发送请求之后
             HandlePostSendRequest(httpRequestBuilder, requestEventHandler, httpResponseMessage);
 
-            // 释放 HttpClient 实例管理器
+            // 释放资源集合
             if (!httpRequestBuilder.HttpClientPoolingEnabled)
             {
-                httpRequestBuilder.ReleaseHttpClientPooling();
+                httpRequestBuilder.ReleaseResources();
             }
-
-            // 处理需要释放的对象集合
-            HandleDisposables(httpRequestBuilder);
         }
     }
 
@@ -400,33 +409,6 @@ internal sealed partial class HttpRemoteService : IHttpRemoteService
         }
 
         httpRequestBuilder.OnSendRequestFailed.TryInvoke(e, httpResponseMessage);
-    }
-
-    /// <summary>
-    ///     处理需要释放的对象集合
-    /// </summary>
-    /// <param name="httpRequestBuilder">
-    ///     <see cref="HttpRequestBuilder" />
-    /// </param>
-    internal static void HandleDisposables(HttpRequestBuilder httpRequestBuilder)
-    {
-        // 空检查
-        ArgumentNullException.ThrowIfNull(httpRequestBuilder);
-
-        // 空检查
-        if (httpRequestBuilder.Disposables.IsNullOrEmpty())
-        {
-            return;
-        }
-
-        // 逐条遍历进行释放
-        foreach (var disposable in httpRequestBuilder.Disposables)
-        {
-            disposable.Dispose();
-        }
-
-        // 清空集合
-        httpRequestBuilder.Disposables.Clear();
     }
 
     /// <summary>
@@ -517,5 +499,73 @@ internal sealed partial class HttpRemoteService : IHttpRemoteService
         httpClient.DefaultRequestHeaders.UserAgent.Add(typeof(HttpRemoteService).Assembly.ConvertTo(ass =>
             new ProductInfoHeaderValue(ass.GetName().Name!,
                 ass.GetVersion()?.ToString() ?? Constants.UNKNOWN_USER_AGENT_VERSION)));
+    }
+
+    /// <summary>
+    ///     调用状态码处理程序
+    /// </summary>
+    /// <param name="httpRequestBuilder">
+    ///     <see cref="HttpRequestBuilder" />
+    /// </param>
+    /// <param name="httpResponseMessage">
+    ///     <see cref="HttpResponseMessage" />
+    /// </param>
+    /// <param name="cancellationToken">
+    ///     <see cref="CancellationToken" />
+    /// </param>
+    internal static void InvokeStatusCodeHandlers(HttpRequestBuilder httpRequestBuilder,
+        HttpResponseMessage httpResponseMessage, CancellationToken cancellationToken = default)
+    {
+        // 空检查
+        ArgumentNullException.ThrowIfNull(httpRequestBuilder);
+        ArgumentNullException.ThrowIfNull(httpResponseMessage);
+
+        // 后台线程中启动异步任务
+        Task.Run(
+            async () => await InvokeStatusCodeHandlersAsync(httpRequestBuilder, httpResponseMessage, cancellationToken),
+            cancellationToken);
+    }
+
+    /// <summary>
+    ///     调用状态码处理程序
+    /// </summary>
+    /// <param name="httpRequestBuilder">
+    ///     <see cref="HttpRequestBuilder" />
+    /// </param>
+    /// <param name="httpResponseMessage">
+    ///     <see cref="HttpResponseMessage" />
+    /// </param>
+    /// <param name="cancellationToken">
+    ///     <see cref="CancellationToken" />
+    /// </param>
+    internal static async Task InvokeStatusCodeHandlersAsync(HttpRequestBuilder httpRequestBuilder,
+        HttpResponseMessage httpResponseMessage, CancellationToken cancellationToken = default)
+    {
+        // 空检查
+        ArgumentNullException.ThrowIfNull(httpRequestBuilder);
+        ArgumentNullException.ThrowIfNull(httpResponseMessage);
+
+        // 空检查
+        if (httpRequestBuilder.StatusCodeHandlers.IsNullOrEmpty())
+        {
+            return;
+        }
+
+        // 获取响应状态码
+        var statusCode = (int)httpResponseMessage.StatusCode;
+
+        // 查找响应状态码所有处理程序
+        var statusCodeHandlers = httpRequestBuilder.StatusCodeHandlers.Where(u => u.Key.Contains(statusCode))
+            .Select(u => u.Value).ToList();
+
+        // 空检查
+        if (statusCodeHandlers.Count == 0)
+        {
+            return;
+        }
+
+        // 并行执行所有的处理程序，并等待所有任务完成
+        await Task.WhenAll(statusCodeHandlers.Select(handler =>
+            handler.TryInvokeAsync(httpResponseMessage, cancellationToken)));
     }
 }

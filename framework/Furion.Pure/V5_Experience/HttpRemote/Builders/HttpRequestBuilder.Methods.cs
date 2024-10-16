@@ -24,10 +24,12 @@
 // ------------------------------------------------------------------------
 
 using Furion.Extensions;
+using Microsoft.Net.Http.Headers;
 using System.Globalization;
 using System.Net.Http.Headers;
 using System.Net.Mime;
 using System.Text;
+using MediaTypeHeaderValue = System.Net.Http.Headers.MediaTypeHeaderValue;
 
 namespace Furion.HttpRemote;
 
@@ -291,7 +293,7 @@ public sealed partial class HttpRequestBuilder
         // 存在则合并否则添加
         Headers.AddOrUpdate(headers.ToDictionary(u => u.Key,
             u => u.Value?.ToCultureString(culture ?? CultureInfo.InvariantCulture)?.EscapeDataString(escape),
-            comparer));
+            comparer), false);
 
         return this;
     }
@@ -323,7 +325,7 @@ public sealed partial class HttpRequestBuilder
         Headers.AddOrUpdate(headerSource.ObjectToDictionary()!
             .ToDictionary(u => u.Key.ToCultureString(culture ?? CultureInfo.InvariantCulture)!,
                 u => u.Value?.ToCultureString(culture ?? CultureInfo.InvariantCulture)?.EscapeDataString(escape),
-                comparer));
+                comparer), false);
 
         return this;
     }
@@ -901,19 +903,77 @@ public sealed partial class HttpRequestBuilder
     }
 
     /// <summary>
-    ///     手动释放 <see cref="HttpClient" /> 实例管理器
+    ///     模拟浏览器环境
     /// </summary>
-    public void ReleaseHttpClientPooling()
+    /// <remarks>设置此配置后，将在单次请求标头中添加主流浏览器的 <c>User-Agent</c> 值。</remarks>
+    /// <returns>
+    ///     <see cref="HttpRequestBuilder" />
+    /// </returns>
+    public HttpRequestBuilder SimulateBrowser() =>
+        WithHeaders(new Dictionary<string, object?> { { HeaderNames.UserAgent, Constants.USER_AGENT_OF_BROWSER } });
+
+    /// <summary>
+    ///     释放资源集合
+    /// </summary>
+    /// <remarks>包含自定义 <see cref="HttpClient" /> 实例和其他可释放对象集合。</remarks>
+    public void ReleaseResources()
     {
         // 空检查
-        if (HttpClientPooling is null)
+        if (HttpClientPooling is not null)
         {
-            return;
+            HttpClientPooling.Release?.Invoke(HttpClientPooling.Instance);
+            HttpClientPooling = null;
         }
 
-        HttpClientPooling.Release?.Invoke(HttpClientPooling.Instance);
-        HttpClientPooling = null;
+        // 释放可释放的对象集合
+        ReleaseDisposables();
     }
+
+    /// <summary>
+    ///     添加状态码处理程序
+    /// </summary>
+    /// <remarks>支持多次调用。</remarks>
+    /// <param name="statusCodes">HTTP 状态码集合</param>
+    /// <param name="handler">自定义处理程序</param>
+    /// <returns>
+    ///     <see cref="HttpRequestBuilder" />
+    /// </returns>
+    public HttpRequestBuilder WithStatusCodeHandler(IEnumerable<int> statusCodes,
+        Func<HttpResponseMessage, CancellationToken, Task> handler)
+    {
+        // 空检查
+        ArgumentNullException.ThrowIfNull(statusCodes);
+
+        // 检查数量是否为空
+        if (statusCodes.TryGetCount(out var count) && count == 0)
+        {
+            throw new ArgumentException(
+                "The status codes array cannot be empty. At least one status code must be provided.",
+                nameof(statusCodes));
+        }
+
+        // 空检查
+        ArgumentNullException.ThrowIfNull(handler);
+
+        StatusCodeHandlers ??= new Dictionary<IEnumerable<int>, Func<HttpResponseMessage, CancellationToken, Task>>();
+
+        StatusCodeHandlers[statusCodes] = handler;
+
+        return this;
+    }
+
+    /// <summary>
+    ///     添加状态码处理程序
+    /// </summary>
+    /// <remarks>支持多次调用。</remarks>
+    /// <param name="statusCode">HTTP 状态码</param>
+    /// <param name="handler">自定义处理程序</param>
+    /// <returns>
+    ///     <see cref="HttpRequestBuilder" />
+    /// </returns>
+    public HttpRequestBuilder WithStatusCodeHandler(int statusCode,
+        Func<HttpResponseMessage, CancellationToken, Task> handler) =>
+        WithStatusCodeHandler([statusCode], handler);
 
     /// <summary>
     ///     添加请求结束时需要释放的对象
@@ -933,5 +993,26 @@ public sealed partial class HttpRequestBuilder
         Disposables.Add(disposable);
 
         return this;
+    }
+
+    /// <summary>
+    ///     释放可释放的对象集合
+    /// </summary>
+    internal void ReleaseDisposables()
+    {
+        // 空检查
+        if (Disposables.IsNullOrEmpty())
+        {
+            return;
+        }
+
+        // 逐条遍历进行释放
+        foreach (var disposable in Disposables)
+        {
+            disposable.Dispose();
+        }
+
+        // 清空集合
+        Disposables.Clear();
     }
 }

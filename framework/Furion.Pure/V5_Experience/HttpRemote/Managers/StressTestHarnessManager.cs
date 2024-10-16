@@ -193,8 +193,8 @@ internal sealed class StressTestHarnessManager
         // 获取请求总用时（秒）
         var totalTimeInSeconds = totalTime.TotalSeconds;
 
-        // 释放 HttpClient 实例管理器
-        RequestBuilder.ReleaseHttpClientPooling();
+        // 释放资源集合
+        RequestBuilder.ReleaseResources();
 
         return new StressTestHarnessResult(
             numberOfRequests * numberOfRounds,

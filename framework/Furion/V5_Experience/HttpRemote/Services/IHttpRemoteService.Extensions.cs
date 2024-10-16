@@ -35,17 +35,18 @@ public partial interface IHttpRemoteService
     /// </summary>
     /// <param name="requestUri">请求地址</param>
     /// <param name="destinationPath">文件保存的目标路径</param>
-    /// <param name="configure">自定义配置委托</param>
     /// <param name="onProgressChanged">用于传输进度发生变化时执行的委托</param>
     /// <param name="fileExistsBehavior">
     ///     <see cref="FileExistsBehavior" />
     /// </param>
+    /// <param name="configure">自定义配置委托</param>
     /// <param name="cancellationToken">
     ///     <see cref="CancellationToken" />
     /// </param>
-    void DownloadFile(string? requestUri, string? destinationPath, Action<HttpRequestBuilder>? configure = null,
+    void DownloadFile(string? requestUri, string? destinationPath,
         Func<FileTransferProgress, Task>? onProgressChanged = null,
         FileExistsBehavior fileExistsBehavior = FileExistsBehavior.CreateNew,
+        Action<HttpRequestBuilder>? configure = null,
         CancellationToken cancellationToken = default);
 
     /// <summary>
@@ -53,20 +54,21 @@ public partial interface IHttpRemoteService
     /// </summary>
     /// <param name="requestUri">请求地址</param>
     /// <param name="destinationPath">文件保存的目标路径</param>
-    /// <param name="configure">自定义配置委托</param>
     /// <param name="onProgressChanged">用于传输进度发生变化时执行的委托</param>
     /// <param name="fileExistsBehavior">
     ///     <see cref="FileExistsBehavior" />
     /// </param>
+    /// <param name="configure">自定义配置委托</param>
     /// <param name="cancellationToken">
     ///     <see cref="CancellationToken" />
     /// </param>
     /// <returns>
     ///     <see cref="Task" />
     /// </returns>
-    Task DownloadFileAsync(string? requestUri, string? destinationPath, Action<HttpRequestBuilder>? configure = null,
+    Task DownloadFileAsync(string? requestUri, string? destinationPath,
         Func<FileTransferProgress, Task>? onProgressChanged = null,
         FileExistsBehavior fileExistsBehavior = FileExistsBehavior.CreateNew,
+        Action<HttpRequestBuilder>? configure = null,
         CancellationToken cancellationToken = default);
 
     /// <summary>
@@ -104,8 +106,8 @@ public partial interface IHttpRemoteService
     /// <param name="requestUri">请求地址</param>
     /// <param name="fileFullName">文件完整路径</param>
     /// <param name="name">表单名称；默认值为 <c>file</c>。</param>
-    /// <param name="configure">自定义配置委托</param>
     /// <param name="onProgressChanged">用于传输进度发生变化时执行的委托</param>
+    /// <param name="configure">自定义配置委托</param>
     /// <param name="cancellationToken">
     ///     <see cref="CancellationToken" />
     /// </param>
@@ -113,7 +115,8 @@ public partial interface IHttpRemoteService
     ///     <see cref="HttpResponseMessage" />
     /// </returns>
     HttpResponseMessage UploadFile(string? requestUri, string fileFullName, string name = "file",
-        Action<HttpRequestBuilder>? configure = null, Func<FileTransferProgress, Task>? onProgressChanged = null,
+        Func<FileTransferProgress, Task>? onProgressChanged = null,
+        Action<HttpRequestBuilder>? configure = null,
         CancellationToken cancellationToken = default);
 
     /// <summary>
@@ -122,8 +125,8 @@ public partial interface IHttpRemoteService
     /// <param name="requestUri">请求地址</param>
     /// <param name="fileFullName">文件完整路径</param>
     /// <param name="name">表单名称；默认值为 <c>file</c>。</param>
-    /// <param name="configure">自定义配置委托</param>
     /// <param name="onProgressChanged">用于传输进度发生变化时执行的委托</param>
+    /// <param name="configure">自定义配置委托</param>
     /// <param name="cancellationToken">
     ///     <see cref="CancellationToken" />
     /// </param>
@@ -131,7 +134,8 @@ public partial interface IHttpRemoteService
     ///     <see cref="Task{TResult}" />
     /// </returns>
     Task<HttpResponseMessage> UploadFileAsync(string? requestUri, string fileFullName, string name = "file",
-        Action<HttpRequestBuilder>? configure = null, Func<FileTransferProgress, Task>? onProgressChanged = null,
+        Func<FileTransferProgress, Task>? onProgressChanged = null,
+        Action<HttpRequestBuilder>? configure = null,
         CancellationToken cancellationToken = default);
 
     /// <summary>

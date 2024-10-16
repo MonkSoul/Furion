@@ -320,14 +320,19 @@ public sealed partial class HttpRequestBuilder
     /// <param name="requestUri">请求地址</param>
     /// <param name="destinationPath">文件保存的目标路径</param>
     /// <param name="onProgressChanged">用于传输进度发生变化时执行的委托</param>
+    /// <param name="fileExistsBehavior">
+    ///     <see cref="FileExistsBehavior" />
+    /// </param>
     /// <returns>
     ///     <see cref="HttpFileDownloadBuilder" />
     /// </returns>
     public static HttpFileDownloadBuilder DownloadFile(HttpMethod httpMethod, Uri? requestUri, string? destinationPath,
-        Func<FileTransferProgress, Task>? onProgressChanged = null)
+        Func<FileTransferProgress, Task>? onProgressChanged = null,
+        FileExistsBehavior fileExistsBehavior = FileExistsBehavior.CreateNew)
     {
         var httpFileDownloadBuilder =
-            new HttpFileDownloadBuilder(httpMethod, requestUri).SetDestinationPath(destinationPath);
+            new HttpFileDownloadBuilder(httpMethod, requestUri).SetDestinationPath(destinationPath)
+                .SetFileExistsBehavior(fileExistsBehavior);
 
         // 空检查
         if (onProgressChanged is not null)
@@ -344,12 +349,16 @@ public sealed partial class HttpRequestBuilder
     /// <param name="requestUri">请求地址</param>
     /// <param name="destinationPath">文件保存的目标路径</param>
     /// <param name="onProgressChanged">用于传输进度发生变化时执行的委托</param>
+    /// <param name="fileExistsBehavior">
+    ///     <see cref="FileExistsBehavior" />
+    /// </param>
     /// <returns>
     ///     <see cref="HttpFileDownloadBuilder" />
     /// </returns>
     public static HttpFileDownloadBuilder DownloadFile(Uri? requestUri, string? destinationPath,
-        Func<FileTransferProgress, Task>? onProgressChanged = null) =>
-        DownloadFile(HttpMethod.Get, requestUri, destinationPath, onProgressChanged);
+        Func<FileTransferProgress, Task>? onProgressChanged = null,
+        FileExistsBehavior fileExistsBehavior = FileExistsBehavior.CreateNew) =>
+        DownloadFile(HttpMethod.Get, requestUri, destinationPath, onProgressChanged, fileExistsBehavior);
 
     /// <summary>
     ///     创建 <see cref="HttpFileDownloadBuilder" /> 构建器
@@ -357,14 +366,18 @@ public sealed partial class HttpRequestBuilder
     /// <param name="requestUri">请求地址</param>
     /// <param name="destinationPath">文件保存的目标路径</param>
     /// <param name="onProgressChanged">用于传输进度发生变化时执行的委托</param>
+    /// <param name="fileExistsBehavior">
+    ///     <see cref="FileExistsBehavior" />
+    /// </param>
     /// <returns>
     ///     <see cref="HttpFileDownloadBuilder" />
     /// </returns>
     public static HttpFileDownloadBuilder DownloadFile(string? requestUri, string? destinationPath,
-        Func<FileTransferProgress, Task>? onProgressChanged = null) =>
+        Func<FileTransferProgress, Task>? onProgressChanged = null,
+        FileExistsBehavior fileExistsBehavior = FileExistsBehavior.CreateNew) =>
         DownloadFile(HttpMethod.Get,
             string.IsNullOrWhiteSpace(requestUri) ? null : new Uri(requestUri, UriKind.RelativeOrAbsolute),
-            destinationPath, onProgressChanged);
+            destinationPath, onProgressChanged, fileExistsBehavior);
 
     /// <summary>
     ///     创建 <see cref="HttpFileUploadBuilder" /> 构建器

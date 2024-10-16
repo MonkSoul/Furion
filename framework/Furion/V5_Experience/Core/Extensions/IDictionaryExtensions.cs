@@ -105,8 +105,9 @@ internal static class IDictionaryExtensions
     /// <param name="concatDictionary">
     ///     <see cref="IDictionary{TKey, TValue}" />
     /// </param>
+    /// <param name="allowDuplicates">是否允许重复添加。默认值为：<c>true</c>。</param>
     internal static void AddOrUpdate<TKey, TValue>(this IDictionary<TKey, List<TValue>> dictionary,
-        IDictionary<TKey, TValue> concatDictionary)
+        IDictionary<TKey, TValue> concatDictionary, bool allowDuplicates = true)
         where TKey : notnull
     {
         // 空检查
@@ -122,7 +123,10 @@ internal static class IDictionaryExtensions
                 dictionary.Add(key, values);
             }
 
-            values.Add(newValue);
+            if (allowDuplicates || !values.Contains(newValue))
+            {
+                values.Add(newValue);
+            }
         }
     }
 

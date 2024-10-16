@@ -86,4 +86,10 @@ internal static class Constants
     ///     压力测试标头值
     /// </summary>
     internal const string X_STRESS_TEST_VALUE = "Harness";
+
+    /// <summary>
+    ///     浏览器的 <c>User-Agent</c> 标头值
+    /// </summary>
+    internal const string USER_AGENT_OF_BROWSER =
+        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36 Edg/129.0.0.0";
 }

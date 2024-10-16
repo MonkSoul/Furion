@@ -31,23 +31,23 @@ namespace Furion.HttpRemote;
 internal sealed partial class HttpRemoteService
 {
     /// <inheritdoc />
-    public void DownloadFile(string? requestUri, string? destinationPath, Action<HttpRequestBuilder>? configure = null,
+    public void DownloadFile(string? requestUri, string? destinationPath,
         Func<FileTransferProgress, Task>? onProgressChanged = null,
         FileExistsBehavior fileExistsBehavior = FileExistsBehavior.CreateNew,
-        CancellationToken cancellationToken = default) =>
+        Action<HttpRequestBuilder>? configure = null, CancellationToken cancellationToken = default) =>
         Send(
-            HttpRequestBuilder.DownloadFile(requestUri, destinationPath, onProgressChanged)
-                .SetFileExistsBehavior(fileExistsBehavior), configure, cancellationToken);
+            HttpRequestBuilder.DownloadFile(requestUri, destinationPath, onProgressChanged, fileExistsBehavior),
+            configure, cancellationToken);
 
     /// <inheritdoc />
     public Task DownloadFileAsync(string? requestUri, string? destinationPath,
-        Action<HttpRequestBuilder>? configure = null, Func<FileTransferProgress, Task>? onProgressChanged = null,
+        Func<FileTransferProgress, Task>? onProgressChanged = null,
         FileExistsBehavior fileExistsBehavior = FileExistsBehavior.CreateNew,
+        Action<HttpRequestBuilder>? configure = null,
         CancellationToken cancellationToken = default) =>
         SendAsync(
-            HttpRequestBuilder.DownloadFile(requestUri, destinationPath, onProgressChanged)
-                .SetFileExistsBehavior(fileExistsBehavior), configure,
-            cancellationToken);
+            HttpRequestBuilder.DownloadFile(requestUri, destinationPath, onProgressChanged, fileExistsBehavior),
+            configure, cancellationToken);
 
     /// <inheritdoc />
     public void Send(HttpFileDownloadBuilder httpFileDownloadBuilder, Action<HttpRequestBuilder>? configure = null,
@@ -61,14 +61,16 @@ internal sealed partial class HttpRemoteService
 
     /// <inheritdoc />
     public HttpResponseMessage UploadFile(string? requestUri, string fileFullName, string name = "file",
-        Action<HttpRequestBuilder>? configure = null, Func<FileTransferProgress, Task>? onProgressChanged = null,
+        Func<FileTransferProgress, Task>? onProgressChanged = null,
+        Action<HttpRequestBuilder>? configure = null,
         CancellationToken cancellationToken = default) =>
         Send(HttpRequestBuilder.UploadFile(requestUri, fileFullName, name, onProgressChanged), configure,
             cancellationToken);
 
     /// <inheritdoc />
     public Task<HttpResponseMessage> UploadFileAsync(string? requestUri, string fileFullName, string name = "file",
-        Action<HttpRequestBuilder>? configure = null, Func<FileTransferProgress, Task>? onProgressChanged = null,
+        Func<FileTransferProgress, Task>? onProgressChanged = null,
+        Action<HttpRequestBuilder>? configure = null,
         CancellationToken cancellationToken = default) =>
         SendAsync(HttpRequestBuilder.UploadFile(requestUri, fileFullName, name, onProgressChanged), configure,
             cancellationToken);

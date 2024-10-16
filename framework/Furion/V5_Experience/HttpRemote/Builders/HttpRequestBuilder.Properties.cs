@@ -173,7 +173,7 @@ public sealed partial class HttpRequestBuilder
     ///     如果 HTTP 响应的 <c>IsSuccessStatusCode</c> 属性是 <c>false</c>，则引发异常。
     /// </summary>
     /// <remarks>默认值为 <c>false</c>。</remarks>
-    internal bool EnsureSuccessStatusCodeEnabled { get; set; }
+    internal bool EnsureSuccessStatusCodeEnabled { get; private set; }
 
     /// <summary>
     ///     是否禁用 HTTP 缓存
@@ -200,4 +200,13 @@ public sealed partial class HttpRequestBuilder
     ///     是否启用 <see cref="HttpClient" /> 的池化管理
     /// </summary>
     internal bool HttpClientPoolingEnabled { get; private set; }
+
+    /// <summary>
+    ///     状态码处理程序
+    /// </summary>
+    internal IDictionary<IEnumerable<int>, Func<HttpResponseMessage, CancellationToken, Task>>? StatusCodeHandlers
+    {
+        get;
+        private set;
+    }
 }
