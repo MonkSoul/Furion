@@ -202,6 +202,11 @@ public sealed partial class HttpRequestBuilder
     internal bool HttpClientPoolingEnabled { get; private set; }
 
     /// <summary>
+    ///     是否启用请求分析工具
+    /// </summary>
+    internal bool ProfilerEnabled { get; private set; }
+
+    /// <summary>
     ///     状态码处理程序
     /// </summary>
     internal IDictionary<IEnumerable<int>, Func<HttpResponseMessage, CancellationToken, Task>>? StatusCodeHandlers

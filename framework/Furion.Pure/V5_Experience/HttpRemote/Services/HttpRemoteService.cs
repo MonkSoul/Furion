@@ -24,6 +24,8 @@
 // ------------------------------------------------------------------------
 
 using Furion.Extensions;
+using Furion.HttpRemote.Extensions;
+using Microsoft.Extensions.Logging;
 using System.Diagnostics;
 using System.Net.Http.Headers;
 
@@ -43,11 +45,17 @@ internal sealed partial class HttpRemoteService : IHttpRemoteService
     /// <inheritdoc cref="IHttpContentProcessorFactory" />
     internal readonly IHttpContentProcessorFactory _httpContentProcessorFactory;
 
+    /// <inheritdoc cref="ILogger{T}" />
+    internal readonly ILogger<Logging> _logger;
+
     /// <summary>
     ///     <inheritdoc cref="HttpRemoteService" />
     /// </summary>
     /// <param name="serviceProvider">
     ///     <see cref="IServiceProvider" />
+    /// </param>
+    /// <param name="logger">
+    ///     <see cref="Logger{T}" />
     /// </param>
     /// <param name="httpClientFactory">
     ///     <see cref="IHttpClientFactory" />
@@ -61,12 +69,14 @@ internal sealed partial class HttpRemoteService : IHttpRemoteService
     /// <param name="httpRemoteOptions">
     ///     <see cref="HttpRemoteOptions" />
     /// </param>
-    public HttpRemoteService(IServiceProvider serviceProvider, IHttpClientFactory httpClientFactory,
+    public HttpRemoteService(IServiceProvider serviceProvider, ILogger<Logging> logger,
+        IHttpClientFactory httpClientFactory,
         IHttpContentProcessorFactory httpContentProcessorFactory,
         IHttpContentConverterFactory httpContentConverterFactory, HttpRemoteOptions httpRemoteOptions)
     {
         // 空检查
         ArgumentNullException.ThrowIfNull(serviceProvider);
+        ArgumentNullException.ThrowIfNull(logger);
         ArgumentNullException.ThrowIfNull(httpClientFactory);
         ArgumentNullException.ThrowIfNull(httpContentProcessorFactory);
         ArgumentNullException.ThrowIfNull(httpContentConverterFactory);
@@ -75,6 +85,7 @@ internal sealed partial class HttpRemoteService : IHttpRemoteService
         ServiceProvider = serviceProvider;
         RemoteOptions = httpRemoteOptions;
 
+        _logger = logger;
         _httpClientFactory = httpClientFactory;
         _httpContentProcessorFactory = httpContentProcessorFactory;
         _httpContentConverterFactory = httpContentConverterFactory;
@@ -179,7 +190,8 @@ internal sealed partial class HttpRemoteService : IHttpRemoteService
         // 初始化 HttpRemoteResult 实例
         var httpRemoteResult = new HttpRemoteResult<TResult>(httpResponseMessage)
         {
-            Result = result, RequestDuration = requestDuration
+            Result = result,
+            RequestDuration = requestDuration
         };
 
         return httpRemoteResult;
@@ -207,7 +219,8 @@ internal sealed partial class HttpRemoteService : IHttpRemoteService
         // 初始化 HttpRemoteResult 实例
         var httpRemoteResult = new HttpRemoteResult<TResult>(httpResponseMessage)
         {
-            Result = result, RequestDuration = requestDuration
+            Result = result,
+            RequestDuration = requestDuration
         };
 
         return httpRemoteResult;
@@ -263,6 +276,12 @@ internal sealed partial class HttpRemoteService : IHttpRemoteService
         // 处理发送请求之前
         HandlePreSendRequest(httpRequestBuilder, requestEventHandler, httpRequestMessage);
 
+        // 检查是否启用请求分析工具
+        if (httpRequestBuilder.ProfilerEnabled)
+        {
+            _logger.LogInformation("{message}", httpRequestMessage.ProfilerHeaders());
+        }
+
         // 创建关联的超时 Token 标识
         using var cancellationTokenSource = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
 
@@ -297,6 +316,17 @@ internal sealed partial class HttpRemoteService : IHttpRemoteService
             {
                 // ReSharper disable once MethodHasAsyncOverload
                 InvokeStatusCodeHandlers(httpRequestBuilder, httpResponseMessage, cancellationTokenSource.Token);
+            }
+
+            // 检查是否启用请求分析工具
+            if (httpRequestBuilder.ProfilerEnabled)
+            {
+                _logger.LogInformation("{message}", httpResponseMessage.ProfilerGeneralAndHeaders(
+                    generalCustomKeyValues:
+                    [
+                        new KeyValuePair<string, IEnumerable<string>>("Request Duration (ms)",
+                            [$"{requestDuration:N2}"])
+                    ]));
             }
 
             // 如果 HTTP 响应的 IsSuccessStatusCode 属性是 false，则引发异常

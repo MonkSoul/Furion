@@ -976,6 +976,19 @@ public sealed partial class HttpRequestBuilder
         WithStatusCodeHandler([statusCode], handler);
 
     /// <summary>
+    ///     设置是否启用请求分析工具
+    /// </summary>
+    /// <returns>
+    ///     <see cref="HttpRequestBuilder" />
+    /// </returns>
+    public HttpRequestBuilder Profiler()
+    {
+        ProfilerEnabled = true;
+
+        return this;
+    }
+
+    /// <summary>
     ///     添加请求结束时需要释放的对象
     /// </summary>
     /// <param name="disposable">
