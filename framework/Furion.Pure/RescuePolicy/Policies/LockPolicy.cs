@@ -50,7 +50,7 @@ public class LockPolicy<TResult> : PolicyBase<TResult>
     /// <summary>
     /// 同步锁对象
     /// </summary>
-    internal readonly object _syncLock = new();
+    internal readonly Lock _syncLock = new();
 
     /// <summary>
     /// 异步锁对象
