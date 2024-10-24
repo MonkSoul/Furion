@@ -227,7 +227,7 @@ public sealed class HttpFileUploadBuilder
     /// <returns>
     ///     <see cref="HttpFileUploadBuilder" />
     /// </returns>
-    /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="ArgumentException"></exception>
     public HttpFileUploadBuilder SetEventHandler(Type fileTransferEventHandlerType)
     {
         // 空检查
@@ -236,8 +236,9 @@ public sealed class HttpFileUploadBuilder
         // 检查类型是否实现了 IHttpFileTransferEventHandler 接口
         if (!typeof(IHttpFileTransferEventHandler).IsAssignableFrom(fileTransferEventHandlerType))
         {
-            throw new InvalidOperationException(
-                $"`{fileTransferEventHandlerType}` type is not assignable from `{typeof(IHttpFileTransferEventHandler)}`.");
+            throw new ArgumentException(
+                $"`{fileTransferEventHandlerType}` type is not assignable from `{typeof(IHttpFileTransferEventHandler)}`.",
+                nameof(fileTransferEventHandlerType));
         }
 
         FileTransferEventHandlerType = fileTransferEventHandlerType;

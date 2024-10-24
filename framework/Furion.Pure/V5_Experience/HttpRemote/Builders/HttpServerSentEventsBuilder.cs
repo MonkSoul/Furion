@@ -179,7 +179,7 @@ public sealed class HttpServerSentEventsBuilder
     /// <returns>
     ///     <see cref="HttpServerSentEventsBuilder" />
     /// </returns>
-    /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="ArgumentException"></exception>
     public HttpServerSentEventsBuilder SetEventHandler(Type serverSentEventsEventHandlerType)
     {
         // 空检查
@@ -188,8 +188,9 @@ public sealed class HttpServerSentEventsBuilder
         // 检查类型是否实现了 IHttpServerSentEventsEventHandler 接口
         if (!typeof(IHttpServerSentEventsEventHandler).IsAssignableFrom(serverSentEventsEventHandlerType))
         {
-            throw new InvalidOperationException(
-                $"`{serverSentEventsEventHandlerType}` type is not assignable from `{typeof(IHttpServerSentEventsEventHandler)}`.");
+            throw new ArgumentException(
+                $"`{serverSentEventsEventHandlerType}` type is not assignable from `{typeof(IHttpServerSentEventsEventHandler)}`.",
+                nameof(serverSentEventsEventHandlerType));
         }
 
         ServerSentEventsEventHandlerType = serverSentEventsEventHandlerType;

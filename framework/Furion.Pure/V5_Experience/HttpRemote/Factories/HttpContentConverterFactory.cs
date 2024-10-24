@@ -87,9 +87,40 @@ internal sealed class HttpContentConverterFactory : IHttpContentConverterFactory
             return typeConverter;
         }
 
-        // 如果未找到，则统一使用 ObjectContentConverter 转换器进行处理
+        // 如果未找到，则统一使用 ObjectContentConverter<TResult> 转换器进行处理
         return _serviceProvider.GetService<IObjectContentConverterFactory>()?.GetConverter<TResult>() ??
                new ObjectContentConverter<TResult>();
+    }
+
+    /// <inheritdoc />
+    public IHttpContentConverter GetConverter(Type resultType, params IHttpContentConverter[]? converters)
+    {
+        // 检查类型是否是 HttpResponseMessage 类型
+        if (resultType == typeof(HttpResponseMessage))
+        {
+            throw new InvalidOperationException(
+                $"`{nameof(HttpResponseMessage)}` type cannot be directly processed as result type.");
+        }
+
+        // 初始化新的 IHttpContentConverter 字典集合
+        var unionProcessors = new Dictionary<Type, IHttpContentConverter>(_converters);
+
+        // 添加自定义 IHttpContentConverter 数组
+        unionProcessors.TryAdd(converters, value => value.GetType());
+
+        // 查找可以处理目标类型的响应内容转换器
+        var typeConverter = unionProcessors.Values.OfType(typeof(IHttpContentConverter<>).MakeGenericType(resultType))
+            .Cast<IHttpContentConverter>().LastOrDefault();
+
+        // 空检查
+        if (typeConverter is not null)
+        {
+            return typeConverter;
+        }
+
+        // 如果未找到，则统一使用 ObjectContentConverter 转换器进行处理
+        return _serviceProvider.GetService<IObjectContentConverterFactory>()?.GetConverter(resultType) ??
+               new ObjectContentConverter();
     }
 
     /// <inheritdoc />
@@ -106,6 +137,15 @@ internal sealed class HttpContentConverterFactory : IHttpContentConverterFactory
     }
 
     /// <inheritdoc />
+    public object? Read(Type resultType, HttpResponseMessage httpResponseMessage,
+        IHttpContentConverter[]? converters = null,
+        CancellationToken cancellationToken = default) =>
+        // 检查类型是否是 HttpResponseMessage 类型，如果是直接返回
+        resultType == typeof(HttpResponseMessage)
+            ? httpResponseMessage
+            : GetConverter(resultType, converters).Read(resultType, httpResponseMessage, cancellationToken);
+
+    /// <inheritdoc />
     public async Task<TResult?> ReadAsync<TResult>(HttpResponseMessage httpResponseMessage,
         IHttpContentConverter[]? converters = null,
         CancellationToken cancellationToken = default)
@@ -117,5 +157,19 @@ internal sealed class HttpContentConverterFactory : IHttpContentConverterFactory
         }
 
         return await GetConverter<TResult>(converters).ReadAsync(httpResponseMessage, cancellationToken);
+    }
+
+    /// <inheritdoc />
+    public async Task<object?> ReadAsync(Type resultType, HttpResponseMessage httpResponseMessage,
+        IHttpContentConverter[]? converters = null,
+        CancellationToken cancellationToken = default)
+    {
+        // 检查类型是否是 HttpResponseMessage 类型，如果是直接返回
+        if (resultType == typeof(HttpResponseMessage))
+        {
+            return httpResponseMessage;
+        }
+
+        return await GetConverter(resultType, converters).ReadAsync(resultType, httpResponseMessage, cancellationToken);
     }
 }

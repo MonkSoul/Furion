@@ -39,4 +39,14 @@ public class ByteArrayContentConverter : IHttpContentConverter<byte[]>
     public virtual async Task<byte[]?> ReadAsync(HttpResponseMessage httpResponseMessage,
         CancellationToken cancellationToken = default) =>
         await httpResponseMessage.Content.ReadAsByteArrayAsync(cancellationToken);
+
+    /// <inheritdoc />
+    public virtual object? Read(Type resultType, HttpResponseMessage httpResponseMessage,
+        CancellationToken cancellationToken = default) =>
+        Read(httpResponseMessage, cancellationToken);
+
+    /// <inheritdoc />
+    public virtual async Task<object?> ReadAsync(Type resultType, HttpResponseMessage httpResponseMessage,
+        CancellationToken cancellationToken = default) =>
+        await ReadAsync(httpResponseMessage, cancellationToken);
 }

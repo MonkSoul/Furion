@@ -39,4 +39,14 @@ public class StringContentConverter : IHttpContentConverter<string>
     public virtual async Task<string?> ReadAsync(HttpResponseMessage httpResponseMessage,
         CancellationToken cancellationToken = default) =>
         await httpResponseMessage.Content.ReadAsStringAsync(cancellationToken);
+
+    /// <inheritdoc />
+    public virtual object? Read(Type resultType, HttpResponseMessage httpResponseMessage,
+        CancellationToken cancellationToken = default) =>
+        Read(httpResponseMessage, cancellationToken);
+
+    /// <inheritdoc />
+    public virtual async Task<object?> ReadAsync(Type resultType, HttpResponseMessage httpResponseMessage,
+        CancellationToken cancellationToken = default) =>
+        await ReadAsync(httpResponseMessage, cancellationToken);
 }

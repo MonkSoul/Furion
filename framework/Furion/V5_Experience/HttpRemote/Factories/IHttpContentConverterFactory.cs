@@ -41,11 +41,23 @@ public interface IHttpContentConverterFactory
     IHttpContentConverter<TResult> GetConverter<TResult>(params IHttpContentConverter[]? converters);
 
     /// <summary>
+    ///     获取 <see cref="IHttpContentConverter" /> 实例
+    /// </summary>
+    /// <param name="resultType">转换的目标类型</param>
+    /// <param name="converters"><see cref="IHttpContentConverter{TResult}" /> 数组</param>
+    /// <returns>
+    ///     <see cref="IHttpContentConverter" />
+    /// </returns>
+    IHttpContentConverter GetConverter(Type resultType, params IHttpContentConverter[]? converters);
+
+    /// <summary>
     ///     将 <see cref="HttpResponseMessage" /> 转换为
     ///     <typeparamref name="TResult" />
     ///     实例
     /// </summary>
-    /// <param name="httpResponseMessage"></param>
+    /// <param name="httpResponseMessage">
+    ///     <see cref="HttpResponseMessage" />
+    /// </param>
     /// <param name="converters"><see cref="IHttpContentConverter{TResult}" /> 数组</param>
     /// <param name="cancellationToken">
     ///     <see cref="CancellationToken" />
@@ -58,11 +70,30 @@ public interface IHttpContentConverterFactory
         IHttpContentConverter[]? converters = null, CancellationToken cancellationToken = default);
 
     /// <summary>
+    ///     将 <see cref="HttpResponseMessage" /> 转换为 <see cref="object" /> 实例
+    /// </summary>
+    /// <param name="resultType">转换的目标类型</param>
+    /// <param name="httpResponseMessage">
+    ///     <see cref="HttpResponseMessage" />
+    /// </param>
+    /// <param name="converters"><see cref="IHttpContentConverter{TResult}" /> 数组</param>
+    /// <param name="cancellationToken">
+    ///     <see cref="CancellationToken" />
+    /// </param>
+    /// <returns>
+    ///     <see cref="object" />
+    /// </returns>
+    object? Read(Type resultType, HttpResponseMessage httpResponseMessage,
+        IHttpContentConverter[]? converters = null, CancellationToken cancellationToken = default);
+
+    /// <summary>
     ///     将 <see cref="HttpResponseMessage" /> 转换为
     ///     <typeparamref name="TResult" />
     ///     实例
     /// </summary>
-    /// <param name="httpResponseMessage"></param>
+    /// <param name="httpResponseMessage">
+    ///     <see cref="HttpResponseMessage" />
+    /// </param>
     /// <param name="converters"><see cref="IHttpContentConverter{TResult}" /> 数组</param>
     /// <param name="cancellationToken">
     ///     <see cref="CancellationToken" />
@@ -72,5 +103,22 @@ public interface IHttpContentConverterFactory
     ///     <typeparamref name="TResult" />
     /// </returns>
     Task<TResult?> ReadAsync<TResult>(HttpResponseMessage httpResponseMessage,
+        IHttpContentConverter[]? converters = null, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    ///     将 <see cref="HttpResponseMessage" /> 转换为 <see cref="object" /> 实例
+    /// </summary>
+    /// <param name="resultType">转换的目标类型</param>
+    /// <param name="httpResponseMessage">
+    ///     <see cref="HttpResponseMessage" />
+    /// </param>
+    /// <param name="converters"><see cref="IHttpContentConverter{TResult}" /> 数组</param>
+    /// <param name="cancellationToken">
+    ///     <see cref="CancellationToken" />
+    /// </param>
+    /// <returns>
+    ///     <see cref="object" />
+    /// </returns>
+    Task<object?> ReadAsync(Type resultType, HttpResponseMessage httpResponseMessage,
         IHttpContentConverter[]? converters = null, CancellationToken cancellationToken = default);
 }

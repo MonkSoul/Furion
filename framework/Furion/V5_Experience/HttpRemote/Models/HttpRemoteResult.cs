@@ -43,7 +43,7 @@ public sealed class HttpRemoteResult<TResult>
     /// <param name="httpResponseMessage">
     ///     <see cref="HttpResponseMessage" />
     /// </param>
-    internal HttpRemoteResult(HttpResponseMessage httpResponseMessage)
+    public HttpRemoteResult(HttpResponseMessage httpResponseMessage)
     {
         ResponseMessage = httpResponseMessage;
 

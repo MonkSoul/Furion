@@ -28,7 +28,40 @@ namespace Furion.HttpRemote;
 /// <summary>
 ///     <see cref="IHttpContentConverter{TResult}" /> 默认实现接口
 /// </summary>
-public interface IHttpContentConverter;
+public interface IHttpContentConverter
+{
+    /// <summary>
+    ///     从 <see cref="HttpResponseMessage" /> 中同步读取数据并转换为 <see cref="object" /> 实例
+    /// </summary>
+    /// <param name="resultType">转换的目标类型</param>
+    /// <param name="httpResponseMessage">
+    ///     <see cref="HttpResponseMessage" />
+    /// </param>
+    /// <param name="cancellationToken">
+    ///     <see cref="CancellationToken" />
+    /// </param>
+    /// <returns>
+    ///     <see cref="object" />
+    /// </returns>
+    object? Read(Type resultType, HttpResponseMessage httpResponseMessage,
+        CancellationToken cancellationToken = default);
+
+    /// <summary>
+    ///     从 <see cref="HttpResponseMessage" /> 中异步读取数据并转换为 <see cref="object" /> 实例
+    /// </summary>
+    /// <param name="resultType">转换的目标类型</param>
+    /// <param name="httpResponseMessage">
+    ///     <see cref="HttpResponseMessage" />
+    /// </param>
+    /// <param name="cancellationToken">
+    ///     <see cref="CancellationToken" />
+    /// </param>
+    /// <returns>
+    ///     <see cref="object" />
+    /// </returns>
+    Task<object?> ReadAsync(Type resultType, HttpResponseMessage httpResponseMessage,
+        CancellationToken cancellationToken = default);
+}
 
 /// <summary>
 ///     <see cref="HttpResponseMessage" /> 转换器

@@ -23,30 +23,27 @@
 // 请访问 https://gitee.com/dotnetchina/Furion 获取更多关于 Furion 项目的许可证和版权信息。
 // ------------------------------------------------------------------------
 
-namespace Furion.HttpRemote;
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
 
-/// <summary>
-///     流内容转换器
-/// </summary>
-public class StreamContentConverter : IHttpContentConverter<Stream>
+#pragma warning disable
+
+using static System.Reflection.AsyncDispatchProxyGenerator;
+
+namespace System.Reflection;
+
+public abstract class DispatchProxyAsync
 {
-    /// <inheritdoc />
-    public virtual Stream? Read(HttpResponseMessage httpResponseMessage,
-        CancellationToken cancellationToken = default) =>
-        httpResponseMessage.Content.ReadAsStream(cancellationToken);
+    public static T Create<T, TProxy>() where TProxy : DispatchProxyAsync =>
+        (T)CreateProxyInstance(typeof(TProxy), typeof(T));
 
-    /// <inheritdoc />
-    public virtual async Task<Stream?> ReadAsync(HttpResponseMessage httpResponseMessage,
-        CancellationToken cancellationToken = default) =>
-        await httpResponseMessage.Content.ReadAsStreamAsync(cancellationToken);
+    public static object Create(Type type, Type proxyType) =>
+        CreateProxyInstance(proxyType, type);
 
-    /// <inheritdoc />
-    public virtual object? Read(Type resultType, HttpResponseMessage httpResponseMessage,
-        CancellationToken cancellationToken = default) =>
-        Read(httpResponseMessage, cancellationToken);
+    public abstract object Invoke(MethodInfo method, object[] args);
 
-    /// <inheritdoc />
-    public virtual async Task<object?> ReadAsync(Type resultType, HttpResponseMessage httpResponseMessage,
-        CancellationToken cancellationToken = default) =>
-        await ReadAsync(httpResponseMessage, cancellationToken);
+    public abstract Task InvokeAsync(MethodInfo method, object[] args);
+
+    public abstract Task<T> InvokeAsyncT<T>(MethodInfo method, object[] args);
 }

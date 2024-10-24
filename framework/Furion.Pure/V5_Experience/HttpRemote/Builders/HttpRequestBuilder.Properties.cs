@@ -75,6 +75,11 @@ public sealed partial class HttpRequestBuilder
     public IDictionary<string, List<string?>>? Headers { get; private set; }
 
     /// <summary>
+    ///     需要从请求中移除的标头集合
+    /// </summary>
+    public HashSet<string>? HeadersToRemove { get; private set; }
+
+    /// <summary>
     ///     片段标识符
     /// </summary>
     /// <remarks>请求地址中的 <c>#</c> 符号后面的部分。</remarks>
@@ -95,8 +100,14 @@ public sealed partial class HttpRequestBuilder
     /// <summary>
     ///     路径参数集合
     /// </summary>
-    /// <remarks>用于替换请求地址中符合 <c>{\w+}</c> 正则表达式匹配的数据。</remarks>
+    /// <remarks>用于替换请求地址中符合 <c>\{\s*(\w+\s*(\.\s*\w+\s*)*)\s*\}</c> 正则表达式匹配的数据。</remarks>
     public IDictionary<string, string?>? PathParameters { get; private set; }
+
+    /// <summary>
+    ///     路径参数集合
+    /// </summary>
+    /// <remarks>支持自定义类类型。用于替换请求地址中符合 <c>\{\s*(\w+\s*(\.\s*\w+\s*)*)\s*\}</c> 正则表达式匹配的数据。</remarks>
+    public IDictionary<string, object>? ObjectPathParameters { get; private set; }
 
     /// <summary>
     ///     Cookies 集合

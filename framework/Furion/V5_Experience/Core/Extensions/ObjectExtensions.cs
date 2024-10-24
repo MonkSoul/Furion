@@ -235,8 +235,11 @@ internal static class ObjectExtensions
 
         try
         {
+            // 初始化反射搜索成员方式
+            const BindingFlags bindingFlags = BindingFlags.Instance | BindingFlags.Public;
+
             // 尝试查找对象类型的所有公开且可读的实例属性集合并转换为字典类型并返回
-            return objType.GetProperties(BindingFlags.Public | BindingFlags.Instance)
+            return objType.GetProperties(bindingFlags)
                 .Where(property => property.CanRead)
                 .ToDictionary(object (property) => property.Name, property => property.GetValue(obj));
         }
@@ -245,5 +248,79 @@ internal static class ObjectExtensions
             throw new AggregateException(
                 new NotSupportedException(notSupportedExceptionMessage), e);
         }
+    }
+
+    /// <summary>
+    ///     根据模板路径从对象中获取属性值
+    /// </summary>
+    /// <param name="obj">
+    ///     <see cref="object" />
+    /// </param>
+    /// <param name="path">模板路径。支持 <c>{Key}</c> 或 <c>{Key.Property}</c> 或 {Key.Property.NestProperty} 语法格式。</param>
+    /// <param name="modelName">模板字符串中对象名；默认值为：<c>model</c>。</param>
+    /// <param name="isMatch">用于检查是否以 <c>modelName.</c> 开头</param>
+    /// <param name="bindingFlags">
+    ///     <see cref="BindingFlags" />
+    /// </param>
+    /// <returns>
+    ///     <see cref="object" />
+    /// </returns>
+    internal static object? GetPropertyValueFromPath(this object obj, string path, out bool isMatch,
+        string modelName = "model",
+        BindingFlags bindingFlags = BindingFlags.Instance | BindingFlags.Public)
+    {
+        // 空检查
+        ArgumentNullException.ThrowIfNull(obj);
+        ArgumentException.ThrowIfNullOrWhiteSpace(path);
+        ArgumentException.ThrowIfNullOrWhiteSpace(modelName);
+
+        // 初始化 isMatch 返回值
+        isMatch = false;
+
+        // 移除前后空格
+        var modelNameTrim = modelName.Trim();
+
+        // 如果 templatePath 与 modelName 相等则直接返回 obj
+        if (path.Trim() == modelNameTrim)
+        {
+            return obj;
+        }
+
+        // 根据 . 将路径分割成多个部分
+        var parts = path.Split('.', StringSplitOptions.RemoveEmptyEntries).Select(u => u.Trim()).ToArray();
+
+        // 检查首个元素是否等于 modelName 的值，如果是则跳过首元素
+        if (parts.Length > 0 && parts[0] == modelNameTrim)
+        {
+            isMatch = true;
+            parts = parts.Skip(1).ToArray();
+        }
+
+        // 初始化当前对象作为传入的模型对象
+        var current = obj;
+
+        // 遍历路径中的每一部分
+        foreach (var part in parts)
+        {
+            // 获取当前对象类型中指定名称的属性信息
+            var property = current.GetType().GetProperty(part, bindingFlags);
+
+            // 空检查
+            if (property is null || !property.CanRead)
+            {
+                return null;
+            }
+
+            // 获取属性的实际值并作为下一个部分的模型对象
+            current = property.GetValue(current);
+
+            // 空检查
+            if (current is null)
+            {
+                return null;
+            }
+        }
+
+        return current;
     }
 }

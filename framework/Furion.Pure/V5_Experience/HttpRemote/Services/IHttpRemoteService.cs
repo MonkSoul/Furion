@@ -179,6 +179,77 @@ public partial interface IHttpRemoteService
     /// <summary>
     ///     发送 HTTP 远程请求
     /// </summary>
+    /// <param name="resultType">转换的目标类型</param>
+    /// <param name="httpRequestBuilder">
+    ///     <see cref="HttpRequestBuilder" />
+    /// </param>
+    /// <param name="cancellationToken">
+    ///     <see cref="CancellationToken" />
+    /// </param>
+    /// <returns>
+    ///     <see cref="object" />
+    /// </returns>
+    object? SendAs(Type resultType, HttpRequestBuilder httpRequestBuilder,
+        CancellationToken cancellationToken = default);
+
+    /// <summary>
+    ///     发送 HTTP 远程请求
+    /// </summary>
+    /// <param name="resultType">转换的目标类型</param>
+    /// <param name="httpRequestBuilder">
+    ///     <see cref="HttpRequestBuilder" />
+    /// </param>
+    /// <param name="completionOption">
+    ///     <see cref="HttpCompletionOption" />
+    /// </param>
+    /// <param name="cancellationToken">
+    ///     <see cref="CancellationToken" />
+    /// </param>
+    /// <returns>
+    ///     <see cref="object" />
+    /// </returns>
+    object? SendAs(Type resultType, HttpRequestBuilder httpRequestBuilder, HttpCompletionOption completionOption,
+        CancellationToken cancellationToken = default);
+
+    /// <summary>
+    ///     发送 HTTP 远程请求
+    /// </summary>
+    /// <param name="resultType">转换的目标类型</param>
+    /// <param name="httpRequestBuilder">
+    ///     <see cref="HttpRequestBuilder" />
+    /// </param>
+    /// <param name="cancellationToken">
+    ///     <see cref="CancellationToken" />
+    /// </param>
+    /// <returns>
+    ///     <see cref="object" />
+    /// </returns>
+    Task<object?> SendAsAsync(Type resultType, HttpRequestBuilder httpRequestBuilder,
+        CancellationToken cancellationToken = default);
+
+    /// <summary>
+    ///     发送 HTTP 远程请求
+    /// </summary>
+    /// <param name="resultType">转换的目标类型</param>
+    /// <param name="httpRequestBuilder">
+    ///     <see cref="HttpRequestBuilder" />
+    /// </param>
+    /// <param name="completionOption">
+    ///     <see cref="HttpCompletionOption" />
+    /// </param>
+    /// <param name="cancellationToken">
+    ///     <see cref="CancellationToken" />
+    /// </param>
+    /// <returns>
+    ///     <see cref="object" />
+    /// </returns>
+    Task<object?> SendAsAsync(Type resultType, HttpRequestBuilder httpRequestBuilder,
+        HttpCompletionOption completionOption,
+        CancellationToken cancellationToken = default);
+
+    /// <summary>
+    ///     发送 HTTP 远程请求
+    /// </summary>
     /// <param name="httpRequestBuilder">
     ///     <see cref="HttpRequestBuilder" />
     /// </param>

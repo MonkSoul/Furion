@@ -38,4 +38,13 @@ public interface IObjectContentConverterFactory
     ///     <see cref="ObjectContentConverter{TResult}" />
     /// </returns>
     ObjectContentConverter<TResult> GetConverter<TResult>();
+
+    /// <summary>
+    ///     获取 <see cref="ObjectContentConverter" /> 实例
+    /// </summary>
+    /// <param name="resultType">转换的目标类型</param>
+    /// <returns>
+    ///     <see cref="ObjectContentConverter" />
+    /// </returns>
+    ObjectContentConverter GetConverter(Type resultType);
 }

@@ -331,6 +331,39 @@ public sealed partial class HttpRequestBuilder
     }
 
     /// <summary>
+    ///     设置需要从请求中移除的标头
+    /// </summary>
+    /// <remarks>支持多次调用。</remarks>
+    /// <param name="headerNames">请求标头名集合</param>
+    /// <returns>
+    ///     <see cref="HttpRequestBuilder" />
+    /// </returns>
+    public HttpRequestBuilder RemoveHeaders(params string[] headerNames)
+    {
+        // 空检查
+        ArgumentNullException.ThrowIfNull(headerNames);
+
+        // 检查是否为空元素数组
+        if (headerNames.Length == 0)
+        {
+            return this;
+        }
+
+        HeadersToRemove ??= new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+
+        // 逐条添加到集合中
+        foreach (var headerName in headerNames)
+        {
+            if (!string.IsNullOrWhiteSpace(headerName))
+            {
+                HeadersToRemove.Add(headerName);
+            }
+        }
+
+        return this;
+    }
+
+    /// <summary>
     ///     设置片段标识符
     /// </summary>
     /// <param name="fragment">片段标识符</param>
@@ -510,6 +543,32 @@ public sealed partial class HttpRequestBuilder
             .ToDictionary(u => u.Key.ToCultureString(culture ?? CultureInfo.InvariantCulture)!,
                 u => u.Value?.ToCultureString(culture ?? CultureInfo.InvariantCulture)?.EscapeDataString(escape),
                 comparer));
+
+        return this;
+    }
+
+    /// <summary>
+    ///     设置路径参数集合
+    /// </summary>
+    /// <remarks>
+    ///     支持多次调用。区别于 <c>WithPathParameters</c> 方法，<c>WithObjectPathParameter</c> 主要用于对象路径方式。如：
+    ///     <c>{model.Prop.SubProp}</c>。
+    /// </remarks>
+    /// <param name="parameterSource">路径参数源对象</param>
+    /// <param name="modelName">模板字符串中对象名</param>
+    /// <returns>
+    ///     <see cref="HttpRequestBuilder" />
+    /// </returns>
+    public HttpRequestBuilder WithObjectPathParameter(object parameterSource, string modelName)
+    {
+        // 空检查
+        ArgumentNullException.ThrowIfNull(parameterSource);
+        ArgumentException.ThrowIfNullOrWhiteSpace(modelName);
+
+        ObjectPathParameters ??= new Dictionary<string, object>();
+
+        // 存在则更新否则添加
+        ObjectPathParameters[modelName] = parameterSource;
 
         return this;
     }
@@ -857,7 +916,7 @@ public sealed partial class HttpRequestBuilder
     /// <returns>
     ///     <see cref="HttpRequestBuilder" />
     /// </returns>
-    /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="ArgumentException"></exception>
     public HttpRequestBuilder SetEventHandler(Type requestEventHandlerType)
     {
         // 空检查
@@ -866,8 +925,9 @@ public sealed partial class HttpRequestBuilder
         // 检查类型是否实现了 IHttpRequestEventHandler 接口
         if (!typeof(IHttpRequestEventHandler).IsAssignableFrom(requestEventHandlerType))
         {
-            throw new InvalidOperationException(
-                $"`{requestEventHandlerType}` type is not assignable from `{typeof(IHttpRequestEventHandler)}`.");
+            throw new ArgumentException(
+                $"`{requestEventHandlerType}` type is not assignable from `{typeof(IHttpRequestEventHandler)}`.",
+                nameof(requestEventHandlerType));
         }
 
         RequestEventHandlerType = requestEventHandlerType;
