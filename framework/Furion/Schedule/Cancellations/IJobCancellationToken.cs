@@ -46,4 +46,12 @@ public interface IJobCancellationToken
     /// <param name="triggerId">作业触发器 Id</param>
     /// <param name="outputLog">是否显示日志</param>
     void Cancel(string jobId, string triggerId = null, bool outputLog = true);
+
+    /// <summary>
+    /// 取消（完成）当前这一轮执行
+    /// </summary>
+    /// <param name="jobId">作业 Id</param>
+    /// <param name="runId">作业触发器触发的唯一标识</param>
+    /// <param name="outputLog">是否显示日志</param>
+    void CancelByRunId(string jobId, string runId, bool outputLog = true);
 }

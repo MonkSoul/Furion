@@ -126,6 +126,55 @@ internal sealed class JobCancellationToken : IJobCancellationToken
     }
 
     /// <summary>
+    /// 取消（完成）当前这一轮执行
+    /// </summary>
+    /// <param name="jobId">作业 Id</param>
+    /// <param name="runId">作业触发器触发的唯一标识</param>
+    /// <param name="outputLog">是否显示日志</param>
+    public void CancelByRunId(string jobId, string runId, bool outputLog = true)
+    {
+        // 获取取消作业执行 Token 键
+        var tokenKey = GetTokenKey(jobId, runId);
+
+        try
+        {
+            if (_cancellationTokenSources.TryRemove(tokenKey, out var cancellationTokenSource))
+            {
+                try
+                {
+                    if (!cancellationTokenSource.IsCancellationRequested) cancellationTokenSource.Cancel();
+                }
+                finally
+                {
+                    cancellationTokenSource.Dispose();
+                }
+
+                // 输出日志
+                if (outputLog)
+                {
+                    _logger.LogWarning("The <{RunId}> run for scheduler of <{JobId}> cancellation request has been sent to stop its execution.", runId, jobId);
+                }
+            }
+            else
+            {
+                // 输出日志
+                if (outputLog)
+                {
+                    _logger.LogWarning("The <{RunId}> run for scheduler of <{JobId}> is not found.", runId, jobId);
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            // 输出非任务取消异常日志
+            if (!(ex is OperationCanceledException || (ex is AggregateException aggEx && aggEx.InnerExceptions.Count == 1 && aggEx.InnerExceptions[0] is TaskCanceledException)))
+            {
+                _logger.LogError(ex, "Error while canceling token for key {TokenKey}.", tokenKey);
+            }
+        }
+    }
+
+    /// <summary>
     /// 获取取消作业执行 Token 键
     /// </summary>
     /// <param name="jobId">作业 Id</param>

@@ -430,8 +430,8 @@ internal sealed class ScheduleHostedService : BackgroundService
             await ReleaseJobHandlerAsync(jobHandler);
             jobHandler = null;
 
-            // 释放取消作业执行 Token
-            _jobCancellationToken.Cancel(jobId, triggerId, false);
+            // 取消（完成）当前这一轮作业执行
+            _jobCancellationToken.CancelByRunId(jobId, runId, false);
         }
     }
 
