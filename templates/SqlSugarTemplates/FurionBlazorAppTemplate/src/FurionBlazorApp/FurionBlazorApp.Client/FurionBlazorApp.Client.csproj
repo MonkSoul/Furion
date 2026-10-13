@@ -10,13 +10,16 @@
   </PropertyGroup>
 
   <ItemGroup Condition="'$(net8)' == 'True' ">
-		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="8.0.30" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="8.0.31" />
 	</ItemGroup>
   <ItemGroup Condition="'$(net9)' == 'True' ">
 		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="9.0.0" />
 	</ItemGroup>
   <ItemGroup Condition="'$(net10)' == 'True' ">
 		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="10.0.0" />
+	</ItemGroup>
+  <ItemGroup Condition="'$(net11)' == 'True' ">
+		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="11.0.0-rc.1.26425.128" />
 	</ItemGroup>
 
 </Project>

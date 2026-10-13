@@ -39,11 +39,16 @@
           "choice": "net10.0",
           "displayName": ".NET 10",
           "description": ".NET10 脚手架"
+        },
+        {
+          "choice": "net11.0",
+          "displayName": ".NET 11",
+          "description": ".NET11 脚手架"
         }
       ],
       "replaces": "$(framework)",
       "defaultValue": "net10.0",
-      "description": "选择要创建的 .NET8-10 脚手架"
+      "description": "选择要创建的 .NET8-11 脚手架"
     },
     "net8": {
       "type": "computed",
@@ -56,6 +61,10 @@
     "net10": {
       "type": "computed",
       "value": "(framework == \"net10.0\")"
+    },
+    "net11": {
+      "type": "computed",
+      "value": "(framework == \"net11.0\")"
     }
   }
 }
