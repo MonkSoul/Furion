@@ -125,7 +125,7 @@ public static class StringRenderExtensions
     /// <param name="template"></param>
     /// <param name="templateData"></param>
     /// <returns></returns>
-    private static object MatchTemplateValue(string template, IDictionary<string, object> templateData)
+    internal static object MatchTemplateValue(string template, IDictionary<string, object> templateData)
     {
         string tmpl;
         if (!template.Contains('.', StringComparison.CurrentCulture)) tmpl = template;

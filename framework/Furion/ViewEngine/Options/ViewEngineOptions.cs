@@ -76,6 +76,7 @@ public class ViewEngineOptions
         CodeContextLines = other.CodeContextLines;
         CacheSlidingExpiration = other.CacheSlidingExpiration;
         CacheDirectory = other.CacheDirectory;
+        EnableSecurityValidation = other.EnableSecurityValidation;
     }
 
     /// <summary>
@@ -129,6 +130,12 @@ public class ViewEngineOptions
     /// 模板编译缓存文件存储目录
     /// </summary>
     public string CacheDirectory { get; set; } = Path.Combine(AppContext.BaseDirectory, "templates");
+
+    /// <summary>
+    /// 是否启用模板安全校验
+    /// </summary>
+    /// <remarks>默认启用。启用后禁止模板调用文件、进程、反射等危险操作。</remarks>
+    public bool EnableSecurityValidation { get; set; } = true;
 }
 
 /// <summary>

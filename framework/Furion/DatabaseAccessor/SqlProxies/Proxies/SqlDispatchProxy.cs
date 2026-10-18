@@ -30,6 +30,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Data;
 using System.Reflection;
 using System.Runtime.CompilerServices;
+using System.Text.RegularExpressions;
 
 namespace Furion.DatabaseAccessor;
 
@@ -398,6 +399,7 @@ public class SqlDispatchProxy : DispatchProxyAsync, IDispatchProxy
         string finalSql;
         var commandType = CommandType.Text;
         var rowEffects = false;
+        SqlExecuteAttribute sqlExecuteAttribute = null;
 
         // 如果是存储过程类型
         if (sqlProxyAttribute is SqlProcedureAttribute sqlProduceAttribute)
@@ -414,11 +416,12 @@ public class SqlDispatchProxy : DispatchProxyAsync, IDispatchProxy
                 parameters);
         }
         // 如果是纯Sql类型
-        else if (sqlProxyAttribute is SqlExecuteAttribute sqlExecuteAttribute)
+        else if (sqlProxyAttribute is SqlExecuteAttribute sqlExecute)
         {
-            finalSql = sqlExecuteAttribute.Sql;
-            commandType = sqlExecuteAttribute.CommandType;
-            rowEffects = sqlExecuteAttribute.RowEffects;
+            sqlExecuteAttribute = sqlExecute;
+            finalSql = sqlExecute.Sql;
+            commandType = sqlExecute.CommandType;
+            rowEffects = sqlExecute.RowEffects;
         }
         else throw new NotSupportedException($"{sqlProxyAttribute.GetType().FullName} is an invalid annotation.");
 
@@ -428,10 +431,12 @@ public class SqlDispatchProxy : DispatchProxyAsync, IDispatchProxy
             Parameter = u,
             Name = u.Name,
             Value = args[i]
-        });
+        }).ToDictionary(u => u.Name, u => u.Value);
 
-        // 渲染模板
-        finalSql = finalSql.Render(methodParameterInfos.ToDictionary(u => u.Name, u => u.Value));
+        // 渲染模板并对 Sql 进行转义，防止 Sql 注入
+        finalSql = sqlExecuteAttribute != null && commandType == CommandType.Text
+            ? RenderSql(finalSql, methodParameterInfos, dbContext.Database.ProviderName)
+            : finalSql.Render(methodParameterInfos);
 
         // 返回
         var sqlProxyMethod = new SqlProxyMethod
@@ -452,6 +457,38 @@ public class SqlDispatchProxy : DispatchProxyAsync, IDispatchProxy
         CallMethodInterceptors(declaringType, sqlProxyMethod);
 
         return sqlProxyMethod;
+    }
+
+    /// <summary>
+    /// 渲染 Sql 模板
+    /// </summary>
+    /// <param name="sql"></param>
+    /// <param name="parameters"></param>
+    /// <param name="providerName"></param>
+    /// <returns></returns>
+    private static string RenderSql(string sql, IDictionary<string, object> parameters, string providerName)
+    {
+        return Regex.Replace(sql, @"\{(?<p>.+?)\}", match =>
+            EscapeSqlValue(StringRenderExtensions.MatchTemplateValue(match.Groups["p"].Value, parameters), providerName));
+    }
+
+    /// <summary>
+    /// 转义 Sql 模板参数值
+    /// </summary>
+    /// <param name="value"></param>
+    /// <param name="providerName"></param>
+    /// <returns></returns>
+    private static string EscapeSqlValue(object value, string providerName)
+    {
+        if (value == null) return default;
+
+        var text = value.ToString();
+        if (value is not string and not char) return text;
+
+        // MySql 反斜杠也是转义符
+        if (providerName != null && providerName.Contains("MySql", StringComparison.OrdinalIgnoreCase)) text = text.Replace("\\", "\\\\");
+
+        return text.Replace("'", "''");
     }
 
     /// <summary>

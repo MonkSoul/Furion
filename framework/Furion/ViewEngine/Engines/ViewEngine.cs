@@ -31,6 +31,7 @@ using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.Extensions.Caching.Memory;
 using System.Collections.Concurrent;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace Furion.ViewEngine;
 
@@ -74,6 +75,19 @@ internal sealed class ViewEngine : IViewEngine
     /// 文件锁字典
     /// </summary>
     private readonly ConcurrentDictionary<string, object> _fileLocks = new(StringComparer.OrdinalIgnoreCase);
+
+    /// <summary>
+    /// 危险代码正则表达式
+    /// </summary>
+    private const string unsafeCodePattern =
+        @"System\.IO\.(File|Directory|FileInfo|DirectoryInfo|FileStream|StreamReader|StreamWriter)"
+        + @"|(File|Directory)\.(ReadAll|WriteAll|Open|Create|Delete|Move|Copy|Exists|Get|Set|Append)"
+        + @"|System\.Diagnostics\.Process|ProcessStartInfo|Process\.Start"
+        + @"|System\.Reflection|Assembly\.(Load|Get)|\.Assembly\b"
+        + @"|System\.Runtime\.InteropServices|DllImport|Marshal\."
+        + @"|System\.Net\.(Http|Sockets|Mail|WebClient|WebRequest)|HttpClient|WebClient"
+        + @"|System\.Environment\.(Exit|FailFast|GetEnvironmentVariable|SetEnvironmentVariable)"
+        + @"|System\.Type\b|Activator\.|AppDomain";
 
     /// <summary>
     /// 编译缓存条目
@@ -408,6 +422,7 @@ internal sealed class ViewEngine : IViewEngine
             .Concat(sortedUsings)
             .Append(inheritName)
             .Append(namespaceName)
+            .Append(options.EnableSecurityValidation ? "security:on" : "security:off")
             .Concat(metadataRefs));
 
         var hashOptions = MD5Encryption.Encrypt(combined);
@@ -457,6 +472,9 @@ internal sealed class ViewEngine : IViewEngine
         var document = RazorSourceDocument.Create(templateSource, fileName);
         var codeDocument = engine.Process(document, null, new List<RazorSourceDocument>(), new List<TagHelperDescriptor>());
         var razorCSharpDocument = codeDocument.GetCSharpDocument();
+
+        // 防止模板注入执行危险代码
+        ValidateTemplateSecurity(razorCSharpDocument.GeneratedCode, options);
 
         var syntaxTree = CSharpSyntaxTree.ParseText(
             razorCSharpDocument.GeneratedCode,
@@ -513,6 +531,29 @@ internal sealed class ViewEngine : IViewEngine
         memoryStream.Position = 0;
 
         return memoryStream;
+    }
+
+    /// <summary>
+    /// 校验模板安全性
+    /// </summary>
+    /// <param name="code"></param>
+    /// <param name="options"></param>
+    /// <exception cref="ViewEngineException"></exception>
+    private static void ValidateTemplateSecurity(string code, ViewEngineOptions options)
+    {
+        // 检查是否启用安全校验
+        if (!options.EnableSecurityValidation) return;
+
+        // 移除字符串字面量、注释并规范化点号和还原 Unicode 转义
+        code = Regex.Replace(code, @"""(?:[^""\\]|\\.)*""", "\"\"");
+        code = Regex.Replace(code, @"/\*.*?\*/|//[^\n]*", string.Empty, RegexOptions.Singleline);
+        code = Regex.Replace(code, @"\s*\.\s*", ".");
+        code = Regex.Replace(code, @"\\u([0-9a-fA-F]{4})", match => ((char)Convert.ToInt32(match.Groups[1].Value, 16)).ToString());
+
+        // 检查是否包含危险代码
+        if (!Regex.IsMatch(code, unsafeCodePattern)) return;
+
+        throw new ViewEngineException("The template contains forbidden code. ViewEngine compiles templates into executable code, so template content must be fully trusted. If the template content is fully trusted, set ViewEngineOptions.EnableSecurityValidation = false.");
     }
 
     /// <summary>
