@@ -332,6 +332,9 @@ public static class SpecificationDocumentBuilder
         // 添加 Action 操作过滤器
         swaggerGenOptions.OperationFilter<ApiActionFilter>();
 
+        // 应用自定义多套序列化配置的 Schema
+        swaggerGenOptions.OperationFilter<UnifySerializerSchemaFilter>();
+
         // 解决 DataTable 生成文档报错
         swaggerGenOptions.MapType<DataTable>(() => new OpenApiSchema
         {
